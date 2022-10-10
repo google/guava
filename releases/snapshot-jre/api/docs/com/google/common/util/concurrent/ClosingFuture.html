@@ -693,7 +693,7 @@ public static&nbsp;&lt;C extends <a href="https://checkerframework.org/api/org/c
 </div>
 <div class="block">Starts a <a href="ClosingFuture.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture</code></a> pipeline with a <a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a>.
 
- <p>If <code>future</code> succeeds, its value will be closed (using <code>closingExecutor)</code> when
+ <p>If <code>future</code> succeeds, its value will be closed (using <code>closingExecutor)</code>) when
  the pipeline is done, even if the pipeline is canceled or fails.
 
  <p>Cancelling the pipeline will not cancel <code>future</code>, so that the pipeline can access its

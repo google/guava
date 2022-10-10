@@ -292,151 +292,153 @@
 <span class="sourceLineNo">283</span><a id="line.283">   *</a>
 <span class="sourceLineNo">284</span><a id="line.284">   * &lt;p&gt;In an undirected network, this is equal to {@code edgesConnecting(nodeV, nodeU)}.</a>
 <span class="sourceLineNo">285</span><a id="line.285">   *</a>
-<span class="sourceLineNo">286</span><a id="line.286">   * &lt;p&gt;The resulting set of edges will be parallel (i.e. have equal {@link #incidentNodes(Object)}.</a>
-<span class="sourceLineNo">287</span><a id="line.287">   * If this network does not {@link #allowsParallelEdges() allow parallel edges}, the resulting set</a>
-<span class="sourceLineNo">288</span><a id="line.288">   * will contain at most one edge (equivalent to {@code edgeConnecting(nodeU, nodeV).asSet()}).</a>
-<span class="sourceLineNo">289</span><a id="line.289">   *</a>
-<span class="sourceLineNo">290</span><a id="line.290">   * @throws IllegalArgumentException if {@code nodeU} or {@code nodeV} is not an element of this</a>
-<span class="sourceLineNo">291</span><a id="line.291">   *     network</a>
-<span class="sourceLineNo">292</span><a id="line.292">   */</a>
-<span class="sourceLineNo">293</span><a id="line.293">  Set&lt;E&gt; edgesConnecting(N nodeU, N nodeV);</a>
-<span class="sourceLineNo">294</span><a id="line.294"></a>
-<span class="sourceLineNo">295</span><a id="line.295">  /**</a>
-<span class="sourceLineNo">296</span><a id="line.296">   * Returns the set of edges that each directly connect {@code endpoints} (in the order, if any,</a>
-<span class="sourceLineNo">297</span><a id="line.297">   * specified by {@code endpoints}).</a>
-<span class="sourceLineNo">298</span><a id="line.298">   *</a>
-<span class="sourceLineNo">299</span><a id="line.299">   * &lt;p&gt;The resulting set of edges will be parallel (i.e. have equal {@link #incidentNodes(Object)}.</a>
-<span class="sourceLineNo">300</span><a id="line.300">   * If this network does not {@link #allowsParallelEdges() allow parallel edges}, the resulting set</a>
-<span class="sourceLineNo">301</span><a id="line.301">   * will contain at most one edge (equivalent to {@code edgeConnecting(endpoints).asSet()}).</a>
-<span class="sourceLineNo">302</span><a id="line.302">   *</a>
-<span class="sourceLineNo">303</span><a id="line.303">   * &lt;p&gt;If this network is directed, {@code endpoints} must be ordered.</a>
+<span class="sourceLineNo">286</span><a id="line.286">   * &lt;p&gt;The resulting set of edges will be parallel (i.e. have equal {@link</a>
+<span class="sourceLineNo">287</span><a id="line.287">   * #incidentNodes(Object)}). If this network does not {@link #allowsParallelEdges() allow parallel</a>
+<span class="sourceLineNo">288</span><a id="line.288">   * edges}, the resulting set will contain at most one edge (equivalent to {@code</a>
+<span class="sourceLineNo">289</span><a id="line.289">   * edgeConnecting(nodeU, nodeV).asSet()}).</a>
+<span class="sourceLineNo">290</span><a id="line.290">   *</a>
+<span class="sourceLineNo">291</span><a id="line.291">   * @throws IllegalArgumentException if {@code nodeU} or {@code nodeV} is not an element of this</a>
+<span class="sourceLineNo">292</span><a id="line.292">   *     network</a>
+<span class="sourceLineNo">293</span><a id="line.293">   */</a>
+<span class="sourceLineNo">294</span><a id="line.294">  Set&lt;E&gt; edgesConnecting(N nodeU, N nodeV);</a>
+<span class="sourceLineNo">295</span><a id="line.295"></a>
+<span class="sourceLineNo">296</span><a id="line.296">  /**</a>
+<span class="sourceLineNo">297</span><a id="line.297">   * Returns the set of edges that each directly connect {@code endpoints} (in the order, if any,</a>
+<span class="sourceLineNo">298</span><a id="line.298">   * specified by {@code endpoints}).</a>
+<span class="sourceLineNo">299</span><a id="line.299">   *</a>
+<span class="sourceLineNo">300</span><a id="line.300">   * &lt;p&gt;The resulting set of edges will be parallel (i.e. have equal {@link</a>
+<span class="sourceLineNo">301</span><a id="line.301">   * #incidentNodes(Object)}). If this network does not {@link #allowsParallelEdges() allow parallel</a>
+<span class="sourceLineNo">302</span><a id="line.302">   * edges}, the resulting set will contain at most one edge (equivalent to {@code</a>
+<span class="sourceLineNo">303</span><a id="line.303">   * edgeConnecting(endpoints).asSet()}).</a>
 <span class="sourceLineNo">304</span><a id="line.304">   *</a>
-<span class="sourceLineNo">305</span><a id="line.305">   * @throws IllegalArgumentException if either endpoint is not an element of this network</a>
-<span class="sourceLineNo">306</span><a id="line.306">   * @throws IllegalArgumentException if the endpoints are unordered and the graph is directed</a>
-<span class="sourceLineNo">307</span><a id="line.307">   * @since 27.1</a>
-<span class="sourceLineNo">308</span><a id="line.308">   */</a>
-<span class="sourceLineNo">309</span><a id="line.309">  Set&lt;E&gt; edgesConnecting(EndpointPair&lt;N&gt; endpoints);</a>
-<span class="sourceLineNo">310</span><a id="line.310"></a>
-<span class="sourceLineNo">311</span><a id="line.311">  /**</a>
-<span class="sourceLineNo">312</span><a id="line.312">   * Returns the single edge that directly connects {@code nodeU} to {@code nodeV}, if one is</a>
-<span class="sourceLineNo">313</span><a id="line.313">   * present, or {@code Optional.empty()} if no such edge exists.</a>
-<span class="sourceLineNo">314</span><a id="line.314">   *</a>
-<span class="sourceLineNo">315</span><a id="line.315">   * &lt;p&gt;In an undirected network, this is equal to {@code edgeConnecting(nodeV, nodeU)}.</a>
+<span class="sourceLineNo">305</span><a id="line.305">   * &lt;p&gt;If this network is directed, {@code endpoints} must be ordered.</a>
+<span class="sourceLineNo">306</span><a id="line.306">   *</a>
+<span class="sourceLineNo">307</span><a id="line.307">   * @throws IllegalArgumentException if either endpoint is not an element of this network</a>
+<span class="sourceLineNo">308</span><a id="line.308">   * @throws IllegalArgumentException if the endpoints are unordered and the graph is directed</a>
+<span class="sourceLineNo">309</span><a id="line.309">   * @since 27.1</a>
+<span class="sourceLineNo">310</span><a id="line.310">   */</a>
+<span class="sourceLineNo">311</span><a id="line.311">  Set&lt;E&gt; edgesConnecting(EndpointPair&lt;N&gt; endpoints);</a>
+<span class="sourceLineNo">312</span><a id="line.312"></a>
+<span class="sourceLineNo">313</span><a id="line.313">  /**</a>
+<span class="sourceLineNo">314</span><a id="line.314">   * Returns the single edge that directly connects {@code nodeU} to {@code nodeV}, if one is</a>
+<span class="sourceLineNo">315</span><a id="line.315">   * present, or {@code Optional.empty()} if no such edge exists.</a>
 <span class="sourceLineNo">316</span><a id="line.316">   *</a>
-<span class="sourceLineNo">317</span><a id="line.317">   * @throws IllegalArgumentException if there are multiple parallel edges connecting {@code nodeU}</a>
-<span class="sourceLineNo">318</span><a id="line.318">   *     to {@code nodeV}</a>
-<span class="sourceLineNo">319</span><a id="line.319">   * @throws IllegalArgumentException if {@code nodeU} or {@code nodeV} is not an element of this</a>
-<span class="sourceLineNo">320</span><a id="line.320">   *     network</a>
-<span class="sourceLineNo">321</span><a id="line.321">   * @since 23.0</a>
-<span class="sourceLineNo">322</span><a id="line.322">   */</a>
-<span class="sourceLineNo">323</span><a id="line.323">  Optional&lt;E&gt; edgeConnecting(N nodeU, N nodeV);</a>
-<span class="sourceLineNo">324</span><a id="line.324"></a>
-<span class="sourceLineNo">325</span><a id="line.325">  /**</a>
-<span class="sourceLineNo">326</span><a id="line.326">   * Returns the single edge that directly connects {@code endpoints} (in the order, if any,</a>
-<span class="sourceLineNo">327</span><a id="line.327">   * specified by {@code endpoints}), if one is present, or {@code Optional.empty()} if no such edge</a>
-<span class="sourceLineNo">328</span><a id="line.328">   * exists.</a>
-<span class="sourceLineNo">329</span><a id="line.329">   *</a>
-<span class="sourceLineNo">330</span><a id="line.330">   * &lt;p&gt;If this graph is directed, the endpoints must be ordered.</a>
+<span class="sourceLineNo">317</span><a id="line.317">   * &lt;p&gt;In an undirected network, this is equal to {@code edgeConnecting(nodeV, nodeU)}.</a>
+<span class="sourceLineNo">318</span><a id="line.318">   *</a>
+<span class="sourceLineNo">319</span><a id="line.319">   * @throws IllegalArgumentException if there are multiple parallel edges connecting {@code nodeU}</a>
+<span class="sourceLineNo">320</span><a id="line.320">   *     to {@code nodeV}</a>
+<span class="sourceLineNo">321</span><a id="line.321">   * @throws IllegalArgumentException if {@code nodeU} or {@code nodeV} is not an element of this</a>
+<span class="sourceLineNo">322</span><a id="line.322">   *     network</a>
+<span class="sourceLineNo">323</span><a id="line.323">   * @since 23.0</a>
+<span class="sourceLineNo">324</span><a id="line.324">   */</a>
+<span class="sourceLineNo">325</span><a id="line.325">  Optional&lt;E&gt; edgeConnecting(N nodeU, N nodeV);</a>
+<span class="sourceLineNo">326</span><a id="line.326"></a>
+<span class="sourceLineNo">327</span><a id="line.327">  /**</a>
+<span class="sourceLineNo">328</span><a id="line.328">   * Returns the single edge that directly connects {@code endpoints} (in the order, if any,</a>
+<span class="sourceLineNo">329</span><a id="line.329">   * specified by {@code endpoints}), if one is present, or {@code Optional.empty()} if no such edge</a>
+<span class="sourceLineNo">330</span><a id="line.330">   * exists.</a>
 <span class="sourceLineNo">331</span><a id="line.331">   *</a>
-<span class="sourceLineNo">332</span><a id="line.332">   * @throws IllegalArgumentException if there are multiple parallel edges connecting {@code nodeU}</a>
-<span class="sourceLineNo">333</span><a id="line.333">   *     to {@code nodeV}</a>
-<span class="sourceLineNo">334</span><a id="line.334">   * @throws IllegalArgumentException if either endpoint is not an element of this network</a>
-<span class="sourceLineNo">335</span><a id="line.335">   * @throws IllegalArgumentException if the endpoints are unordered and the graph is directed</a>
-<span class="sourceLineNo">336</span><a id="line.336">   * @since 27.1</a>
-<span class="sourceLineNo">337</span><a id="line.337">   */</a>
-<span class="sourceLineNo">338</span><a id="line.338">  Optional&lt;E&gt; edgeConnecting(EndpointPair&lt;N&gt; endpoints);</a>
-<span class="sourceLineNo">339</span><a id="line.339"></a>
-<span class="sourceLineNo">340</span><a id="line.340">  /**</a>
-<span class="sourceLineNo">341</span><a id="line.341">   * Returns the single edge that directly connects {@code nodeU} to {@code nodeV}, if one is</a>
-<span class="sourceLineNo">342</span><a id="line.342">   * present, or {@code null} if no such edge exists.</a>
-<span class="sourceLineNo">343</span><a id="line.343">   *</a>
-<span class="sourceLineNo">344</span><a id="line.344">   * &lt;p&gt;In an undirected network, this is equal to {@code edgeConnectingOrNull(nodeV, nodeU)}.</a>
+<span class="sourceLineNo">332</span><a id="line.332">   * &lt;p&gt;If this graph is directed, the endpoints must be ordered.</a>
+<span class="sourceLineNo">333</span><a id="line.333">   *</a>
+<span class="sourceLineNo">334</span><a id="line.334">   * @throws IllegalArgumentException if there are multiple parallel edges connecting {@code nodeU}</a>
+<span class="sourceLineNo">335</span><a id="line.335">   *     to {@code nodeV}</a>
+<span class="sourceLineNo">336</span><a id="line.336">   * @throws IllegalArgumentException if either endpoint is not an element of this network</a>
+<span class="sourceLineNo">337</span><a id="line.337">   * @throws IllegalArgumentException if the endpoints are unordered and the graph is directed</a>
+<span class="sourceLineNo">338</span><a id="line.338">   * @since 27.1</a>
+<span class="sourceLineNo">339</span><a id="line.339">   */</a>
+<span class="sourceLineNo">340</span><a id="line.340">  Optional&lt;E&gt; edgeConnecting(EndpointPair&lt;N&gt; endpoints);</a>
+<span class="sourceLineNo">341</span><a id="line.341"></a>
+<span class="sourceLineNo">342</span><a id="line.342">  /**</a>
+<span class="sourceLineNo">343</span><a id="line.343">   * Returns the single edge that directly connects {@code nodeU} to {@code nodeV}, if one is</a>
+<span class="sourceLineNo">344</span><a id="line.344">   * present, or {@code null} if no such edge exists.</a>
 <span class="sourceLineNo">345</span><a id="line.345">   *</a>
-<span class="sourceLineNo">346</span><a id="line.346">   * @throws IllegalArgumentException if there are multiple parallel edges connecting {@code nodeU}</a>
-<span class="sourceLineNo">347</span><a id="line.347">   *     to {@code nodeV}</a>
-<span class="sourceLineNo">348</span><a id="line.348">   * @throws IllegalArgumentException if {@code nodeU} or {@code nodeV} is not an element of this</a>
-<span class="sourceLineNo">349</span><a id="line.349">   *     network</a>
-<span class="sourceLineNo">350</span><a id="line.350">   * @since 23.0</a>
-<span class="sourceLineNo">351</span><a id="line.351">   */</a>
-<span class="sourceLineNo">352</span><a id="line.352">  @CheckForNull</a>
-<span class="sourceLineNo">353</span><a id="line.353">  E edgeConnectingOrNull(N nodeU, N nodeV);</a>
-<span class="sourceLineNo">354</span><a id="line.354"></a>
-<span class="sourceLineNo">355</span><a id="line.355">  /**</a>
-<span class="sourceLineNo">356</span><a id="line.356">   * Returns the single edge that directly connects {@code endpoints} (in the order, if any,</a>
-<span class="sourceLineNo">357</span><a id="line.357">   * specified by {@code endpoints}), if one is present, or {@code null} if no such edge exists.</a>
-<span class="sourceLineNo">358</span><a id="line.358">   *</a>
-<span class="sourceLineNo">359</span><a id="line.359">   * &lt;p&gt;If this graph is directed, the endpoints must be ordered.</a>
+<span class="sourceLineNo">346</span><a id="line.346">   * &lt;p&gt;In an undirected network, this is equal to {@code edgeConnectingOrNull(nodeV, nodeU)}.</a>
+<span class="sourceLineNo">347</span><a id="line.347">   *</a>
+<span class="sourceLineNo">348</span><a id="line.348">   * @throws IllegalArgumentException if there are multiple parallel edges connecting {@code nodeU}</a>
+<span class="sourceLineNo">349</span><a id="line.349">   *     to {@code nodeV}</a>
+<span class="sourceLineNo">350</span><a id="line.350">   * @throws IllegalArgumentException if {@code nodeU} or {@code nodeV} is not an element of this</a>
+<span class="sourceLineNo">351</span><a id="line.351">   *     network</a>
+<span class="sourceLineNo">352</span><a id="line.352">   * @since 23.0</a>
+<span class="sourceLineNo">353</span><a id="line.353">   */</a>
+<span class="sourceLineNo">354</span><a id="line.354">  @CheckForNull</a>
+<span class="sourceLineNo">355</span><a id="line.355">  E edgeConnectingOrNull(N nodeU, N nodeV);</a>
+<span class="sourceLineNo">356</span><a id="line.356"></a>
+<span class="sourceLineNo">357</span><a id="line.357">  /**</a>
+<span class="sourceLineNo">358</span><a id="line.358">   * Returns the single edge that directly connects {@code endpoints} (in the order, if any,</a>
+<span class="sourceLineNo">359</span><a id="line.359">   * specified by {@code endpoints}), if one is present, or {@code null} if no such edge exists.</a>
 <span class="sourceLineNo">360</span><a id="line.360">   *</a>
-<span class="sourceLineNo">361</span><a id="line.361">   * @throws IllegalArgumentException if there are multiple parallel edges connecting {@code nodeU}</a>
-<span class="sourceLineNo">362</span><a id="line.362">   *     to {@code nodeV}</a>
-<span class="sourceLineNo">363</span><a id="line.363">   * @throws IllegalArgumentException if either endpoint is not an element of this network</a>
-<span class="sourceLineNo">364</span><a id="line.364">   * @throws IllegalArgumentException if the endpoints are unordered and the graph is directed</a>
-<span class="sourceLineNo">365</span><a id="line.365">   * @since 27.1</a>
-<span class="sourceLineNo">366</span><a id="line.366">   */</a>
-<span class="sourceLineNo">367</span><a id="line.367">  @CheckForNull</a>
-<span class="sourceLineNo">368</span><a id="line.368">  E edgeConnectingOrNull(EndpointPair&lt;N&gt; endpoints);</a>
-<span class="sourceLineNo">369</span><a id="line.369"></a>
-<span class="sourceLineNo">370</span><a id="line.370">  /**</a>
-<span class="sourceLineNo">371</span><a id="line.371">   * Returns true if there is an edge that directly connects {@code nodeU} to {@code nodeV}. This is</a>
-<span class="sourceLineNo">372</span><a id="line.372">   * equivalent to {@code nodes().contains(nodeU) &amp;&amp; successors(nodeU).contains(nodeV)}, and to</a>
-<span class="sourceLineNo">373</span><a id="line.373">   * {@code edgeConnectingOrNull(nodeU, nodeV) != null}.</a>
-<span class="sourceLineNo">374</span><a id="line.374">   *</a>
-<span class="sourceLineNo">375</span><a id="line.375">   * &lt;p&gt;In an undirected graph, this is equal to {@code hasEdgeConnecting(nodeV, nodeU)}.</a>
+<span class="sourceLineNo">361</span><a id="line.361">   * &lt;p&gt;If this graph is directed, the endpoints must be ordered.</a>
+<span class="sourceLineNo">362</span><a id="line.362">   *</a>
+<span class="sourceLineNo">363</span><a id="line.363">   * @throws IllegalArgumentException if there are multiple parallel edges connecting {@code nodeU}</a>
+<span class="sourceLineNo">364</span><a id="line.364">   *     to {@code nodeV}</a>
+<span class="sourceLineNo">365</span><a id="line.365">   * @throws IllegalArgumentException if either endpoint is not an element of this network</a>
+<span class="sourceLineNo">366</span><a id="line.366">   * @throws IllegalArgumentException if the endpoints are unordered and the graph is directed</a>
+<span class="sourceLineNo">367</span><a id="line.367">   * @since 27.1</a>
+<span class="sourceLineNo">368</span><a id="line.368">   */</a>
+<span class="sourceLineNo">369</span><a id="line.369">  @CheckForNull</a>
+<span class="sourceLineNo">370</span><a id="line.370">  E edgeConnectingOrNull(EndpointPair&lt;N&gt; endpoints);</a>
+<span class="sourceLineNo">371</span><a id="line.371"></a>
+<span class="sourceLineNo">372</span><a id="line.372">  /**</a>
+<span class="sourceLineNo">373</span><a id="line.373">   * Returns true if there is an edge that directly connects {@code nodeU} to {@code nodeV}. This is</a>
+<span class="sourceLineNo">374</span><a id="line.374">   * equivalent to {@code nodes().contains(nodeU) &amp;&amp; successors(nodeU).contains(nodeV)}, and to</a>
+<span class="sourceLineNo">375</span><a id="line.375">   * {@code edgeConnectingOrNull(nodeU, nodeV) != null}.</a>
 <span class="sourceLineNo">376</span><a id="line.376">   *</a>
-<span class="sourceLineNo">377</span><a id="line.377">   * @since 23.0</a>
-<span class="sourceLineNo">378</span><a id="line.378">   */</a>
-<span class="sourceLineNo">379</span><a id="line.379">  boolean hasEdgeConnecting(N nodeU, N nodeV);</a>
-<span class="sourceLineNo">380</span><a id="line.380"></a>
-<span class="sourceLineNo">381</span><a id="line.381">  /**</a>
-<span class="sourceLineNo">382</span><a id="line.382">   * Returns true if there is an edge that directly connects {@code endpoints} (in the order, if</a>
-<span class="sourceLineNo">383</span><a id="line.383">   * any, specified by {@code endpoints}).</a>
-<span class="sourceLineNo">384</span><a id="line.384">   *</a>
-<span class="sourceLineNo">385</span><a id="line.385">   * &lt;p&gt;Unlike the other {@code EndpointPair}-accepting methods, this method does not throw if the</a>
-<span class="sourceLineNo">386</span><a id="line.386">   * endpoints are unordered and the graph is directed; it simply returns {@code false}. This is for</a>
-<span class="sourceLineNo">387</span><a id="line.387">   * consistency with {@link Graph#hasEdgeConnecting(EndpointPair)} and {@link</a>
-<span class="sourceLineNo">388</span><a id="line.388">   * ValueGraph#hasEdgeConnecting(EndpointPair)}.</a>
-<span class="sourceLineNo">389</span><a id="line.389">   *</a>
-<span class="sourceLineNo">390</span><a id="line.390">   * @since 27.1</a>
-<span class="sourceLineNo">391</span><a id="line.391">   */</a>
-<span class="sourceLineNo">392</span><a id="line.392">  boolean hasEdgeConnecting(EndpointPair&lt;N&gt; endpoints);</a>
-<span class="sourceLineNo">393</span><a id="line.393"></a>
-<span class="sourceLineNo">394</span><a id="line.394">  //</a>
-<span class="sourceLineNo">395</span><a id="line.395">  // Network identity</a>
+<span class="sourceLineNo">377</span><a id="line.377">   * &lt;p&gt;In an undirected graph, this is equal to {@code hasEdgeConnecting(nodeV, nodeU)}.</a>
+<span class="sourceLineNo">378</span><a id="line.378">   *</a>
+<span class="sourceLineNo">379</span><a id="line.379">   * @since 23.0</a>
+<span class="sourceLineNo">380</span><a id="line.380">   */</a>
+<span class="sourceLineNo">381</span><a id="line.381">  boolean hasEdgeConnecting(N nodeU, N nodeV);</a>
+<span class="sourceLineNo">382</span><a id="line.382"></a>
+<span class="sourceLineNo">383</span><a id="line.383">  /**</a>
+<span class="sourceLineNo">384</span><a id="line.384">   * Returns true if there is an edge that directly connects {@code endpoints} (in the order, if</a>
+<span class="sourceLineNo">385</span><a id="line.385">   * any, specified by {@code endpoints}).</a>
+<span class="sourceLineNo">386</span><a id="line.386">   *</a>
+<span class="sourceLineNo">387</span><a id="line.387">   * &lt;p&gt;Unlike the other {@code EndpointPair}-accepting methods, this method does not throw if the</a>
+<span class="sourceLineNo">388</span><a id="line.388">   * endpoints are unordered and the graph is directed; it simply returns {@code false}. This is for</a>
+<span class="sourceLineNo">389</span><a id="line.389">   * consistency with {@link Graph#hasEdgeConnecting(EndpointPair)} and {@link</a>
+<span class="sourceLineNo">390</span><a id="line.390">   * ValueGraph#hasEdgeConnecting(EndpointPair)}.</a>
+<span class="sourceLineNo">391</span><a id="line.391">   *</a>
+<span class="sourceLineNo">392</span><a id="line.392">   * @since 27.1</a>
+<span class="sourceLineNo">393</span><a id="line.393">   */</a>
+<span class="sourceLineNo">394</span><a id="line.394">  boolean hasEdgeConnecting(EndpointPair&lt;N&gt; endpoints);</a>
+<span class="sourceLineNo">395</span><a id="line.395"></a>
 <span class="sourceLineNo">396</span><a id="line.396">  //</a>
-<span class="sourceLineNo">397</span><a id="line.397"></a>
-<span class="sourceLineNo">398</span><a id="line.398">  /**</a>
-<span class="sourceLineNo">399</span><a id="line.399">   * Returns {@code true} iff {@code object} is a {@link Network} that has the same elements and the</a>
-<span class="sourceLineNo">400</span><a id="line.400">   * same structural relationships as those in this network.</a>
-<span class="sourceLineNo">401</span><a id="line.401">   *</a>
-<span class="sourceLineNo">402</span><a id="line.402">   * &lt;p&gt;Thus, two networks A and B are equal if &lt;b&gt;all&lt;/b&gt; of the following are true:</a>
+<span class="sourceLineNo">397</span><a id="line.397">  // Network identity</a>
+<span class="sourceLineNo">398</span><a id="line.398">  //</a>
+<span class="sourceLineNo">399</span><a id="line.399"></a>
+<span class="sourceLineNo">400</span><a id="line.400">  /**</a>
+<span class="sourceLineNo">401</span><a id="line.401">   * Returns {@code true} iff {@code object} is a {@link Network} that has the same elements and the</a>
+<span class="sourceLineNo">402</span><a id="line.402">   * same structural relationships as those in this network.</a>
 <span class="sourceLineNo">403</span><a id="line.403">   *</a>
-<span class="sourceLineNo">404</span><a id="line.404">   * &lt;ul&gt;</a>
-<span class="sourceLineNo">405</span><a id="line.405">   *   &lt;li&gt;A and B have equal {@link #isDirected() directedness}.</a>
-<span class="sourceLineNo">406</span><a id="line.406">   *   &lt;li&gt;A and B have equal {@link #nodes() node sets}.</a>
-<span class="sourceLineNo">407</span><a id="line.407">   *   &lt;li&gt;A and B have equal {@link #edges() edge sets}.</a>
-<span class="sourceLineNo">408</span><a id="line.408">   *   &lt;li&gt;Every edge in A and B connects the same nodes in the same direction (if any).</a>
-<span class="sourceLineNo">409</span><a id="line.409">   * &lt;/ul&gt;</a>
-<span class="sourceLineNo">410</span><a id="line.410">   *</a>
-<span class="sourceLineNo">411</span><a id="line.411">   * &lt;p&gt;Network properties besides {@link #isDirected() directedness} do &lt;b&gt;not&lt;/b&gt; affect equality.</a>
-<span class="sourceLineNo">412</span><a id="line.412">   * For example, two networks may be considered equal even if one allows parallel edges and the</a>
-<span class="sourceLineNo">413</span><a id="line.413">   * other doesn't. Additionally, the order in which nodes or edges are added to the network, and</a>
-<span class="sourceLineNo">414</span><a id="line.414">   * the order in which they are iterated over, are irrelevant.</a>
-<span class="sourceLineNo">415</span><a id="line.415">   *</a>
-<span class="sourceLineNo">416</span><a id="line.416">   * &lt;p&gt;A reference implementation of this is provided by {@link AbstractNetwork#equals(Object)}.</a>
-<span class="sourceLineNo">417</span><a id="line.417">   */</a>
-<span class="sourceLineNo">418</span><a id="line.418">  @Override</a>
-<span class="sourceLineNo">419</span><a id="line.419">  boolean equals(@CheckForNull Object object);</a>
-<span class="sourceLineNo">420</span><a id="line.420"></a>
-<span class="sourceLineNo">421</span><a id="line.421">  /**</a>
-<span class="sourceLineNo">422</span><a id="line.422">   * Returns the hash code for this network. The hash code of a network is defined as the hash code</a>
-<span class="sourceLineNo">423</span><a id="line.423">   * of a map from each of its {@link #edges() edges} to their {@link #incidentNodes(Object)</a>
-<span class="sourceLineNo">424</span><a id="line.424">   * incident nodes}.</a>
-<span class="sourceLineNo">425</span><a id="line.425">   *</a>
-<span class="sourceLineNo">426</span><a id="line.426">   * &lt;p&gt;A reference implementation of this is provided by {@link AbstractNetwork#hashCode()}.</a>
-<span class="sourceLineNo">427</span><a id="line.427">   */</a>
-<span class="sourceLineNo">428</span><a id="line.428">  @Override</a>
-<span class="sourceLineNo">429</span><a id="line.429">  int hashCode();</a>
-<span class="sourceLineNo">430</span><a id="line.430">}</a>
+<span class="sourceLineNo">404</span><a id="line.404">   * &lt;p&gt;Thus, two networks A and B are equal if &lt;b&gt;all&lt;/b&gt; of the following are true:</a>
+<span class="sourceLineNo">405</span><a id="line.405">   *</a>
+<span class="sourceLineNo">406</span><a id="line.406">   * &lt;ul&gt;</a>
+<span class="sourceLineNo">407</span><a id="line.407">   *   &lt;li&gt;A and B have equal {@link #isDirected() directedness}.</a>
+<span class="sourceLineNo">408</span><a id="line.408">   *   &lt;li&gt;A and B have equal {@link #nodes() node sets}.</a>
+<span class="sourceLineNo">409</span><a id="line.409">   *   &lt;li&gt;A and B have equal {@link #edges() edge sets}.</a>
+<span class="sourceLineNo">410</span><a id="line.410">   *   &lt;li&gt;Every edge in A and B connects the same nodes in the same direction (if any).</a>
+<span class="sourceLineNo">411</span><a id="line.411">   * &lt;/ul&gt;</a>
+<span class="sourceLineNo">412</span><a id="line.412">   *</a>
+<span class="sourceLineNo">413</span><a id="line.413">   * &lt;p&gt;Network properties besides {@link #isDirected() directedness} do &lt;b&gt;not&lt;/b&gt; affect equality.</a>
+<span class="sourceLineNo">414</span><a id="line.414">   * For example, two networks may be considered equal even if one allows parallel edges and the</a>
+<span class="sourceLineNo">415</span><a id="line.415">   * other doesn't. Additionally, the order in which nodes or edges are added to the network, and</a>
+<span class="sourceLineNo">416</span><a id="line.416">   * the order in which they are iterated over, are irrelevant.</a>
+<span class="sourceLineNo">417</span><a id="line.417">   *</a>
+<span class="sourceLineNo">418</span><a id="line.418">   * &lt;p&gt;A reference implementation of this is provided by {@link AbstractNetwork#equals(Object)}.</a>
+<span class="sourceLineNo">419</span><a id="line.419">   */</a>
+<span class="sourceLineNo">420</span><a id="line.420">  @Override</a>
+<span class="sourceLineNo">421</span><a id="line.421">  boolean equals(@CheckForNull Object object);</a>
+<span class="sourceLineNo">422</span><a id="line.422"></a>
+<span class="sourceLineNo">423</span><a id="line.423">  /**</a>
+<span class="sourceLineNo">424</span><a id="line.424">   * Returns the hash code for this network. The hash code of a network is defined as the hash code</a>
+<span class="sourceLineNo">425</span><a id="line.425">   * of a map from each of its {@link #edges() edges} to their {@link #incidentNodes(Object)</a>
+<span class="sourceLineNo">426</span><a id="line.426">   * incident nodes}.</a>
+<span class="sourceLineNo">427</span><a id="line.427">   *</a>
+<span class="sourceLineNo">428</span><a id="line.428">   * &lt;p&gt;A reference implementation of this is provided by {@link AbstractNetwork#hashCode()}.</a>
+<span class="sourceLineNo">429</span><a id="line.429">   */</a>
+<span class="sourceLineNo">430</span><a id="line.430">  @Override</a>
+<span class="sourceLineNo">431</span><a id="line.431">  int hashCode();</a>
+<span class="sourceLineNo">432</span><a id="line.432">}</a>
 
 
 

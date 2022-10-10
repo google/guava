@@ -181,7 +181,7 @@
 <span class="sourceLineNo">172</span><a id="line.172">        // If no OpenOptions were passed, delegate to Files.lines, which could have performance</a>
 <span class="sourceLineNo">173</span><a id="line.173">        // advantages. (If OpenOptions were passed we can't, because Files.lines doesn't have an</a>
 <span class="sourceLineNo">174</span><a id="line.174">        // overload taking OpenOptions, meaning we can't guarantee the same behavior w.r.t. things</a>
-<span class="sourceLineNo">175</span><a id="line.175">        // like following/not following symlinks.</a>
+<span class="sourceLineNo">175</span><a id="line.175">        // like following/not following symlinks.)</a>
 <span class="sourceLineNo">176</span><a id="line.176">        return new AsCharSource(charset) {</a>
 <span class="sourceLineNo">177</span><a id="line.177">          @SuppressWarnings("FilesLinesLeak") // the user needs to close it in this case</a>
 <span class="sourceLineNo">178</span><a id="line.178">          @Override</a>

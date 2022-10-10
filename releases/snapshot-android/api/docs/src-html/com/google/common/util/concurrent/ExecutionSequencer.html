@@ -63,7 +63,7 @@
 <span class="sourceLineNo">054</span><a id="line.54"> *       (However, cancellation can prevent an &lt;i&gt;unstarted&lt;/i&gt; task from running.) Therefore, the</a>
 <span class="sourceLineNo">055</span><a id="line.55"> *       next task will wait for any running callable (or pending {@code Future} returned by an</a>
 <span class="sourceLineNo">056</span><a id="line.56"> *       {@code AsyncCallable}) to complete, without interrupting it (and without calling {@code</a>
-<span class="sourceLineNo">057</span><a id="line.57"> *       cancel} on the {@code Future}). So beware: &lt;i&gt;Even if you cancel every precededing {@code</a>
+<span class="sourceLineNo">057</span><a id="line.57"> *       cancel} on the {@code Future}). So beware: &lt;i&gt;Even if you cancel every preceding {@code</a>
 <span class="sourceLineNo">058</span><a id="line.58"> *       Future} returned by this class, the next task may still have to wait.&lt;/i&gt;.</a>
 <span class="sourceLineNo">059</span><a id="line.59"> *   &lt;li&gt;Once an {@code AsyncCallable} returns a {@code Future}, this class considers that task to</a>
 <span class="sourceLineNo">060</span><a id="line.60"> *       be "done" as soon as &lt;i&gt;that&lt;/i&gt; {@code Future} completes in any way. Notably, a {@code</a>
@@ -259,7 +259,7 @@
 <span class="sourceLineNo">250</span><a id="line.250">            taskFuture.cancel(false);</a>
 <span class="sourceLineNo">251</span><a id="line.251">          }</a>
 <span class="sourceLineNo">252</span><a id="line.252">        };</a>
-<span class="sourceLineNo">253</span><a id="line.253">    // Adding the listener to both futures guarantees that newFuture will aways be set. Adding to</a>
+<span class="sourceLineNo">253</span><a id="line.253">    // Adding the listener to both futures guarantees that newFuture will always be set. Adding to</a>
 <span class="sourceLineNo">254</span><a id="line.254">    // taskFuture guarantees completion if the callable is invoked, and adding to outputFuture</a>
 <span class="sourceLineNo">255</span><a id="line.255">    // propagates cancellation if the callable has not yet been invoked.</a>
 <span class="sourceLineNo">256</span><a id="line.256">    outputFuture.addListener(listener, directExecutor());</a>

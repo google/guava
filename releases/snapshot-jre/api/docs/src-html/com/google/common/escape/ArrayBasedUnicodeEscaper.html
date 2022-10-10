@@ -137,7 +137,7 @@
 <span class="sourceLineNo">128</span><a id="line.128">      this.safeMinChar = Character.MAX_VALUE;</a>
 <span class="sourceLineNo">129</span><a id="line.129">      this.safeMaxChar = 0;</a>
 <span class="sourceLineNo">130</span><a id="line.130">    } else {</a>
-<span class="sourceLineNo">131</span><a id="line.131">      // The safe range is non empty and contains values below the surrogate</a>
+<span class="sourceLineNo">131</span><a id="line.131">      // The safe range is non-empty and contains values below the surrogate</a>
 <span class="sourceLineNo">132</span><a id="line.132">      // range but may extend above it. We may need to clip the maximum value.</a>
 <span class="sourceLineNo">133</span><a id="line.133">      this.safeMinChar = (char) safeMin;</a>
 <span class="sourceLineNo">134</span><a id="line.134">      this.safeMaxChar = (char) Math.min(safeMax, Character.MIN_HIGH_SURROGATE - 1);</a>

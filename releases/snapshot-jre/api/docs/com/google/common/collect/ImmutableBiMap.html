@@ -530,10 +530,8 @@ implements <a href="BiMap.html" title="interface in com.google.common.collect">B
  and values are the result of applying the provided mapping functions to the input elements.
  Entries appear in the result <code>ImmutableBiMap</code> in encounter order.
 
- <p>If the mapped keys or values contain duplicates (according to <code>Object.equals(Object)</code>,
- an <code>IllegalArgumentException</code> is thrown when the collection operation is performed. (This
- differs from the <code>Collector</code> returned by <code>Collectors.toMap(Function, Function)</code>,
- which throws an <code>IllegalStateException</code>.)</div>
+ <p>If the mapped keys or values contain duplicates (according to <code>Object.equals(Object)</code>), an <code>IllegalArgumentException</code> is thrown when the collection
+ operation is performed. (This differs from the <code>Collector</code> returned by <code>Collectors.toMap(Function, Function)</code>, which throws an <code>IllegalStateException</code>.)</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>21.0</dd>

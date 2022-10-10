@@ -138,7 +138,7 @@ extends java.lang.Object</pre>
 
  <p>Note that usually type mappings are already implied by the static type hierarchy (for example,
  the <code>E</code> type variable declared by class <code>List</code> naturally maps to <code>String</code> in
- the context of <code>class MyStringList implements List&lt;String&gt;</code>. In such case, prefer to use
+ the context of <code>class MyStringList implements List&lt;String&gt;</code>). In such case, prefer to use
  <a href="TypeToken.html#resolveType(java.lang.reflect.Type)"><code>TypeToken.resolveType(java.lang.reflect.Type)</code></a> since it's simpler and more type safe. This class should only be
  used when the type mapping isn't implied by the static type hierarchy, but provided through other
  means such as an annotation or external configuration file.</div>

@@ -113,7 +113,7 @@
 <span class="sourceLineNo">104</span><a id="line.104">  //    (hypothetical) unsafe read by our caller. Note: adding 'volatile' does not fix this issue,</a>
 <span class="sourceLineNo">105</span><a id="line.105">  //    it would just add an edge such that if done() observed non-null, then it would also</a>
 <span class="sourceLineNo">106</span><a id="line.106">  //    definitely observe all earlier writes, but we still have no guarantee that done() would see</a>
-<span class="sourceLineNo">107</span><a id="line.107">  //    the inital write (just stronger guarantees if it does).</a>
+<span class="sourceLineNo">107</span><a id="line.107">  //    the initial write (just stronger guarantees if it does).</a>
 <span class="sourceLineNo">108</span><a id="line.108">  //</a>
 <span class="sourceLineNo">109</span><a id="line.109">  // See: http://cs.oswego.edu/pipermail/concurrency-interest/2015-January/013800.html</a>
 <span class="sourceLineNo">110</span><a id="line.110">  // For a (long) discussion about this specific issue and the general futility of life.</a>

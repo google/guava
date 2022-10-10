@@ -51,7 +51,7 @@
 <span class="sourceLineNo">042</span><a id="line.42"> *</a>
 <span class="sourceLineNo">043</span><a id="line.43"> * &lt;p&gt;Note that usually type mappings are already implied by the static type hierarchy (for example,</a>
 <span class="sourceLineNo">044</span><a id="line.44"> * the {@code E} type variable declared by class {@code List} naturally maps to {@code String} in</a>
-<span class="sourceLineNo">045</span><a id="line.45"> * the context of {@code class MyStringList implements List&lt;String&gt;}. In such case, prefer to use</a>
+<span class="sourceLineNo">045</span><a id="line.45"> * the context of {@code class MyStringList implements List&lt;String&gt;}). In such case, prefer to use</a>
 <span class="sourceLineNo">046</span><a id="line.46"> * {@link TypeToken#resolveType} since it's simpler and more type safe. This class should only be</a>
 <span class="sourceLineNo">047</span><a id="line.47"> * used when the type mapping isn't implied by the static type hierarchy, but provided through other</a>
 <span class="sourceLineNo">048</span><a id="line.48"> * means such as an annotation or external configuration file.</a>
@@ -435,7 +435,7 @@
 <span class="sourceLineNo">426</span><a id="line.426">        if (var.equalsType(t)) {</a>
 <span class="sourceLineNo">427</span><a id="line.427">          // cycle detected, remove the entire cycle from the mapping so that</a>
 <span class="sourceLineNo">428</span><a id="line.428">          // each type variable resolves deterministically to itself.</a>
-<span class="sourceLineNo">429</span><a id="line.429">          // Otherwise, a F -&gt; T cycle will end up resolving both F and T</a>
+<span class="sourceLineNo">429</span><a id="line.429">          // Otherwise, an F -&gt; T cycle will end up resolving both F and T</a>
 <span class="sourceLineNo">430</span><a id="line.430">          // nondeterministically to either F or T.</a>
 <span class="sourceLineNo">431</span><a id="line.431">          for (Type x = arg; x != null; x = mappings.remove(TypeVariableKey.forLookup(x))) {}</a>
 <span class="sourceLineNo">432</span><a id="line.432">          return;</a>

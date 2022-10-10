@@ -135,9 +135,9 @@
 <span class="sourceLineNo">126</span><a id="line.126">   * @param values a series of values</a>
 <span class="sourceLineNo">127</span><a id="line.127">   */</a>
 <span class="sourceLineNo">128</span><a id="line.128">  public static Stats of(double... values) {</a>
-<span class="sourceLineNo">129</span><a id="line.129">    StatsAccumulator acummulator = new StatsAccumulator();</a>
-<span class="sourceLineNo">130</span><a id="line.130">    acummulator.addAll(values);</a>
-<span class="sourceLineNo">131</span><a id="line.131">    return acummulator.snapshot();</a>
+<span class="sourceLineNo">129</span><a id="line.129">    StatsAccumulator accumulator = new StatsAccumulator();</a>
+<span class="sourceLineNo">130</span><a id="line.130">    accumulator.addAll(values);</a>
+<span class="sourceLineNo">131</span><a id="line.131">    return accumulator.snapshot();</a>
 <span class="sourceLineNo">132</span><a id="line.132">  }</a>
 <span class="sourceLineNo">133</span><a id="line.133"></a>
 <span class="sourceLineNo">134</span><a id="line.134">  /**</a>
@@ -146,9 +146,9 @@
 <span class="sourceLineNo">137</span><a id="line.137">   * @param values a series of values</a>
 <span class="sourceLineNo">138</span><a id="line.138">   */</a>
 <span class="sourceLineNo">139</span><a id="line.139">  public static Stats of(int... values) {</a>
-<span class="sourceLineNo">140</span><a id="line.140">    StatsAccumulator acummulator = new StatsAccumulator();</a>
-<span class="sourceLineNo">141</span><a id="line.141">    acummulator.addAll(values);</a>
-<span class="sourceLineNo">142</span><a id="line.142">    return acummulator.snapshot();</a>
+<span class="sourceLineNo">140</span><a id="line.140">    StatsAccumulator accumulator = new StatsAccumulator();</a>
+<span class="sourceLineNo">141</span><a id="line.141">    accumulator.addAll(values);</a>
+<span class="sourceLineNo">142</span><a id="line.142">    return accumulator.snapshot();</a>
 <span class="sourceLineNo">143</span><a id="line.143">  }</a>
 <span class="sourceLineNo">144</span><a id="line.144"></a>
 <span class="sourceLineNo">145</span><a id="line.145">  /**</a>
@@ -158,9 +158,9 @@
 <span class="sourceLineNo">149</span><a id="line.149">   *     cause loss of precision for longs of magnitude over 2^53 (slightly over 9e15))</a>
 <span class="sourceLineNo">150</span><a id="line.150">   */</a>
 <span class="sourceLineNo">151</span><a id="line.151">  public static Stats of(long... values) {</a>
-<span class="sourceLineNo">152</span><a id="line.152">    StatsAccumulator acummulator = new StatsAccumulator();</a>
-<span class="sourceLineNo">153</span><a id="line.153">    acummulator.addAll(values);</a>
-<span class="sourceLineNo">154</span><a id="line.154">    return acummulator.snapshot();</a>
+<span class="sourceLineNo">152</span><a id="line.152">    StatsAccumulator accumulator = new StatsAccumulator();</a>
+<span class="sourceLineNo">153</span><a id="line.153">    accumulator.addAll(values);</a>
+<span class="sourceLineNo">154</span><a id="line.154">    return accumulator.snapshot();</a>
 <span class="sourceLineNo">155</span><a id="line.155">  }</a>
 <span class="sourceLineNo">156</span><a id="line.156"></a>
 <span class="sourceLineNo">157</span><a id="line.157">  /**</a>

@@ -789,15 +789,15 @@ extends <a href="SuccessorsFunction.html" title="interface in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>edgesConnecting</h4>
-<pre class="methodSignature">java.util.Set&lt;<a href="Network.html" title="type parameter in Network">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.293">edgesConnecting</a>&#8203;(<a href="Network.html" title="type parameter in Network">N</a>&nbsp;nodeU,
+<pre class="methodSignature">java.util.Set&lt;<a href="Network.html" title="type parameter in Network">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.294">edgesConnecting</a>&#8203;(<a href="Network.html" title="type parameter in Network">N</a>&nbsp;nodeU,
                                  <a href="Network.html" title="type parameter in Network">N</a>&nbsp;nodeV)</pre>
 <div class="block">Returns the set of edges that each directly connect <code>nodeU</code> to <code>nodeV</code>.
 
  <p>In an undirected network, this is equal to <code>edgesConnecting(nodeV, nodeU)</code>.
 
- <p>The resulting set of edges will be parallel (i.e. have equal <a href="#incidentNodes(E)"><code>incidentNodes(Object)</code></a>.
- If this network does not <a href="#allowsParallelEdges()"><code>allow parallel edges</code></a>, the resulting set
- will contain at most one edge (equivalent to <code>edgeConnecting(nodeU, nodeV).asSet()</code>).</div>
+ <p>The resulting set of edges will be parallel (i.e. have equal <a href="#incidentNodes(E)"><code>incidentNodes(Object)</code></a>). If this network does not <a href="#allowsParallelEdges()"><code>allow parallel
+ edges</code></a>, the resulting set will contain at most one edge (equivalent to <code>
+ edgeConnecting(nodeU, nodeV).asSet()</code>).</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.IllegalArgumentException</code> - if <code>nodeU</code> or <code>nodeV</code> is not an element of this
@@ -811,13 +811,13 @@ extends <a href="SuccessorsFunction.html" title="interface in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>edgesConnecting</h4>
-<pre class="methodSignature">java.util.Set&lt;<a href="Network.html" title="type parameter in Network">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.309">edgesConnecting</a>&#8203;(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="Network.html" title="type parameter in Network">N</a>&gt;&nbsp;endpoints)</pre>
+<pre class="methodSignature">java.util.Set&lt;<a href="Network.html" title="type parameter in Network">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.311">edgesConnecting</a>&#8203;(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="Network.html" title="type parameter in Network">N</a>&gt;&nbsp;endpoints)</pre>
 <div class="block">Returns the set of edges that each directly connect <code>endpoints</code> (in the order, if any,
  specified by <code>endpoints</code>).
 
- <p>The resulting set of edges will be parallel (i.e. have equal <a href="#incidentNodes(E)"><code>incidentNodes(Object)</code></a>.
- If this network does not <a href="#allowsParallelEdges()"><code>allow parallel edges</code></a>, the resulting set
- will contain at most one edge (equivalent to <code>edgeConnecting(endpoints).asSet()</code>).
+ <p>The resulting set of edges will be parallel (i.e. have equal <a href="#incidentNodes(E)"><code>incidentNodes(Object)</code></a>). If this network does not <a href="#allowsParallelEdges()"><code>allow parallel
+ edges</code></a>, the resulting set will contain at most one edge (equivalent to <code>
+ edgeConnecting(endpoints).asSet()</code>).
 
  <p>If this network is directed, <code>endpoints</code> must be ordered.</div>
 <dl>
@@ -837,7 +837,7 @@ extends <a href="SuccessorsFunction.html" title="interface in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>edgeConnecting</h4>
-<pre class="methodSignature">java.util.Optional&lt;<a href="Network.html" title="type parameter in Network">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.323">edgeConnecting</a>&#8203;(<a href="Network.html" title="type parameter in Network">N</a>&nbsp;nodeU,
+<pre class="methodSignature">java.util.Optional&lt;<a href="Network.html" title="type parameter in Network">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.325">edgeConnecting</a>&#8203;(<a href="Network.html" title="type parameter in Network">N</a>&nbsp;nodeU,
                                      <a href="Network.html" title="type parameter in Network">N</a>&nbsp;nodeV)</pre>
 <div class="block">Returns the single edge that directly connects <code>nodeU</code> to <code>nodeV</code>, if one is
  present, or <code>Optional.empty()</code> if no such edge exists.
@@ -860,7 +860,7 @@ extends <a href="SuccessorsFunction.html" title="interface in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>edgeConnecting</h4>
-<pre class="methodSignature">java.util.Optional&lt;<a href="Network.html" title="type parameter in Network">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.338">edgeConnecting</a>&#8203;(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="Network.html" title="type parameter in Network">N</a>&gt;&nbsp;endpoints)</pre>
+<pre class="methodSignature">java.util.Optional&lt;<a href="Network.html" title="type parameter in Network">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.340">edgeConnecting</a>&#8203;(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="Network.html" title="type parameter in Network">N</a>&gt;&nbsp;endpoints)</pre>
 <div class="block">Returns the single edge that directly connects <code>endpoints</code> (in the order, if any,
  specified by <code>endpoints</code>), if one is present, or <code>Optional.empty()</code> if no such edge
  exists.
@@ -886,7 +886,7 @@ extends <a href="SuccessorsFunction.html" title="interface in com.google.common.
 <li class="blockList">
 <h4>edgeConnectingOrNull</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-<a href="Network.html" title="type parameter in Network">E</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.352">edgeConnectingOrNull</a>&#8203;(<a href="Network.html" title="type parameter in Network">N</a>&nbsp;nodeU,
+<a href="Network.html" title="type parameter in Network">E</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.354">edgeConnectingOrNull</a>&#8203;(<a href="Network.html" title="type parameter in Network">N</a>&nbsp;nodeU,
                        <a href="Network.html" title="type parameter in Network">N</a>&nbsp;nodeV)</pre>
 <div class="block">Returns the single edge that directly connects <code>nodeU</code> to <code>nodeV</code>, if one is
  present, or <code>null</code> if no such edge exists.
@@ -910,7 +910,7 @@ extends <a href="SuccessorsFunction.html" title="interface in com.google.common.
 <li class="blockList">
 <h4>edgeConnectingOrNull</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-<a href="Network.html" title="type parameter in Network">E</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.367">edgeConnectingOrNull</a>&#8203;(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="Network.html" title="type parameter in Network">N</a>&gt;&nbsp;endpoints)</pre>
+<a href="Network.html" title="type parameter in Network">E</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.369">edgeConnectingOrNull</a>&#8203;(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="Network.html" title="type parameter in Network">N</a>&gt;&nbsp;endpoints)</pre>
 <div class="block">Returns the single edge that directly connects <code>endpoints</code> (in the order, if any,
  specified by <code>endpoints</code>), if one is present, or <code>null</code> if no such edge exists.
 
@@ -934,7 +934,7 @@ extends <a href="SuccessorsFunction.html" title="interface in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>hasEdgeConnecting</h4>
-<pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.379">hasEdgeConnecting</a>&#8203;(<a href="Network.html" title="type parameter in Network">N</a>&nbsp;nodeU,
+<pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.381">hasEdgeConnecting</a>&#8203;(<a href="Network.html" title="type parameter in Network">N</a>&nbsp;nodeU,
                           <a href="Network.html" title="type parameter in Network">N</a>&nbsp;nodeV)</pre>
 <div class="block">Returns true if there is an edge that directly connects <code>nodeU</code> to <code>nodeV</code>. This is
  equivalent to <code>nodes().contains(nodeU) &amp;&amp; successors(nodeU).contains(nodeV)</code>, and to
@@ -953,7 +953,7 @@ extends <a href="SuccessorsFunction.html" title="interface in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>hasEdgeConnecting</h4>
-<pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.392">hasEdgeConnecting</a>&#8203;(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="Network.html" title="type parameter in Network">N</a>&gt;&nbsp;endpoints)</pre>
+<pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.394">hasEdgeConnecting</a>&#8203;(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="Network.html" title="type parameter in Network">N</a>&gt;&nbsp;endpoints)</pre>
 <div class="block">Returns true if there is an edge that directly connects <code>endpoints</code> (in the order, if
  any, specified by <code>endpoints</code>).
 
@@ -972,7 +972,7 @@ extends <a href="SuccessorsFunction.html" title="interface in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.418">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+<pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.420">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                java.lang.Object&nbsp;object)</pre>
 <div class="block">Returns <code>true</code> iff <code>object</code> is a <a href="Network.html" title="interface in com.google.common.graph"><code>Network</code></a> that has the same elements and the
  same structural relationships as those in this network.
@@ -1012,7 +1012,7 @@ extends <a href="SuccessorsFunction.html" title="interface in com.google.common.
 <ul class="blockListLast">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre class="methodSignature">int&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.428">hashCode</a>()</pre>
+<pre class="methodSignature">int&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.430">hashCode</a>()</pre>
 <div class="block">Returns the hash code for this network. The hash code of a network is defined as the hash code
  of a map from each of its <a href="#edges()"><code>edges</code></a> to their <a href="#incidentNodes(E)"><code>incident nodes</code></a>.
 

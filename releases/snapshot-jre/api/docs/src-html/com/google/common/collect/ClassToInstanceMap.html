@@ -48,7 +48,7 @@
 <span class="sourceLineNo">039</span><a id="line.39"> * implementation and this interface specify otherwise. Thus, if you use a nullness checker, you can</a>
 <span class="sourceLineNo">040</span><a id="line.40"> * safely suppress any warnings it produces when you write null values into a {@code</a>
 <span class="sourceLineNo">041</span><a id="line.41"> * MutableClassToInstanceMap}. Just be sure to be prepared for null values when reading from it,</a>
-<span class="sourceLineNo">042</span><a id="line.42"> * since nullness checkers will assume that vaules are non-null then, too.</a>
+<span class="sourceLineNo">042</span><a id="line.42"> * since nullness checkers will assume that values are non-null then, too.</a>
 <span class="sourceLineNo">043</span><a id="line.43"> *</a>
 <span class="sourceLineNo">044</span><a id="line.44"> * &lt;p&gt;See the Guava User Guide article on &lt;a href=</a>
 <span class="sourceLineNo">045</span><a id="line.45"> * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#classtoinstancemap"&gt;{@code</a>
@@ -64,7 +64,7 @@
 <span class="sourceLineNo">055</span><a id="line.55">@DoNotMock("Use ImmutableClassToInstanceMap or MutableClassToInstanceMap")</a>
 <span class="sourceLineNo">056</span><a id="line.56">@GwtCompatible</a>
 <span class="sourceLineNo">057</span><a id="line.57">@ElementTypesAreNonnullByDefault</a>
-<span class="sourceLineNo">058</span><a id="line.58">// If we ever support non-null projections (https://github.com/jspecify/jspecify/issues/86), we</a>
+<span class="sourceLineNo">058</span><a id="line.58">// If we ever support non-null projections (https://github.com/jspecify/jspecify/issues/86),</a>
 <span class="sourceLineNo">059</span><a id="line.59">// we might annotate this as...</a>
 <span class="sourceLineNo">060</span><a id="line.60">// ClassToInstanceMap&lt;B extends @Nullable Object&gt; extends Map&lt;Class&lt;? extends @Nonnull B&gt;, B&gt;</a>
 <span class="sourceLineNo">061</span><a id="line.61">// ...and change its methods similarly (&lt;T extends @Nonnull B&gt; or Class&lt;@Nonnull T&gt;).</a>

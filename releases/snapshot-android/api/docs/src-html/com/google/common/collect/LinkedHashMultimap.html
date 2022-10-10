@@ -177,8 +177,8 @@
 <span class="sourceLineNo">168</span><a id="line.168">     * always call succeedsIn*() to initialize them immediately thereafter.</a>
 <span class="sourceLineNo">169</span><a id="line.169">     *</a>
 <span class="sourceLineNo">170</span><a id="line.170">     * The exception is the *InValueSet fields of multimapHeaderEntry, which are never set. (That</a>
-<span class="sourceLineNo">171</span><a id="line.171">     * works out fine as long as we continue to be careful not to try delete them or iterate past</a>
-<span class="sourceLineNo">172</span><a id="line.172">     * them.)</a>
+<span class="sourceLineNo">171</span><a id="line.171">     * works out fine as long as we continue to be careful not to try to delete them or iterate</a>
+<span class="sourceLineNo">172</span><a id="line.172">     * past them.)</a>
 <span class="sourceLineNo">173</span><a id="line.173">     *</a>
 <span class="sourceLineNo">174</span><a id="line.174">     * We could consider "lying" and omitting @CheckNotNull from all these fields. Normally, I'm not</a>
 <span class="sourceLineNo">175</span><a id="line.175">     * a fan of that: What if we someday implement (presumably to be enabled during tests only)</a>
@@ -192,7 +192,7 @@
 <span class="sourceLineNo">183</span><a id="line.183">     * hopefully could avoid implementing Entry or ValueSetLink at all. (But note that that approach</a>
 <span class="sourceLineNo">184</span><a id="line.184">     * requires us to define extra classes -- unfortunate under Android.) *Then* we could consider</a>
 <span class="sourceLineNo">185</span><a id="line.185">     * lying about the fields below on the grounds that we always initialize them just after the</a>
-<span class="sourceLineNo">186</span><a id="line.186">     * constructor -- an example of the kind of lying that our hypotheticaly bytecode rewriter would</a>
+<span class="sourceLineNo">186</span><a id="line.186">     * constructor -- an example of the kind of lying that our hypothetical bytecode rewriter would</a>
 <span class="sourceLineNo">187</span><a id="line.187">     * already have to deal with, thanks to DI frameworks that perform field and method injection,</a>
 <span class="sourceLineNo">188</span><a id="line.188">     * frameworks like Android that define post-construct hooks like Activity.onCreate, etc.</a>
 <span class="sourceLineNo">189</span><a id="line.189">     */</a>

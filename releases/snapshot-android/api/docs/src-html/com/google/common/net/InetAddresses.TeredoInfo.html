@@ -531,7 +531,7 @@
 <span class="sourceLineNo">522</span><a id="line.522">   * want to accept ASCII digits only, you can use something like {@code</a>
 <span class="sourceLineNo">523</span><a id="line.523">   * CharMatcher.ascii().matchesAllOf(ipString)}.</a>
 <span class="sourceLineNo">524</span><a id="line.524">   *</a>
-<span class="sourceLineNo">525</span><a id="line.525">   * @param hostAddr A RFC 3986 section 3.2.2 encoded IPv4 or IPv6 address</a>
+<span class="sourceLineNo">525</span><a id="line.525">   * @param hostAddr an RFC 3986 section 3.2.2 encoded IPv4 or IPv6 address</a>
 <span class="sourceLineNo">526</span><a id="line.526">   * @return an InetAddress representing the address in {@code hostAddr}</a>
 <span class="sourceLineNo">527</span><a id="line.527">   * @throws IllegalArgumentException if {@code hostAddr} is not a valid IPv4 address, or IPv6</a>
 <span class="sourceLineNo">528</span><a id="line.528">   *     address surrounded by square brackets</a>
@@ -1035,7 +1035,7 @@
 <span class="sourceLineNo">1026</span><a id="line.1026"></a>
 <span class="sourceLineNo">1027</span><a id="line.1027">  /**</a>
 <span class="sourceLineNo">1028</span><a id="line.1028">   * Converts a BigInteger to either an IPv4 or IPv6 address. If the IP is IPv4, it must be</a>
-<span class="sourceLineNo">1029</span><a id="line.1029">   * constrainted to 32 bits, otherwise it is constrained to 128 bits.</a>
+<span class="sourceLineNo">1029</span><a id="line.1029">   * constrained to 32 bits, otherwise it is constrained to 128 bits.</a>
 <span class="sourceLineNo">1030</span><a id="line.1030">   *</a>
 <span class="sourceLineNo">1031</span><a id="line.1031">   * @param address the address represented as a big integer</a>
 <span class="sourceLineNo">1032</span><a id="line.1032">   * @param isIpv6 whether the created address should be IPv4 or IPv6</a>

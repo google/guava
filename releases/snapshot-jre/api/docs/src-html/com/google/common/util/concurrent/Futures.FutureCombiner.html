@@ -115,7 +115,7 @@
 <span class="sourceLineNo">106</span><a id="line.106">  //    (hypothetical) unsafe read by our caller. Note: adding 'volatile' does not fix this issue,</a>
 <span class="sourceLineNo">107</span><a id="line.107">  //    it would just add an edge such that if done() observed non-null, then it would also</a>
 <span class="sourceLineNo">108</span><a id="line.108">  //    definitely observe all earlier writes, but we still have no guarantee that done() would see</a>
-<span class="sourceLineNo">109</span><a id="line.109">  //    the inital write (just stronger guarantees if it does).</a>
+<span class="sourceLineNo">109</span><a id="line.109">  //    the initial write (just stronger guarantees if it does).</a>
 <span class="sourceLineNo">110</span><a id="line.110">  //</a>
 <span class="sourceLineNo">111</span><a id="line.111">  // See: http://cs.oswego.edu/pipermail/concurrency-interest/2015-January/013800.html</a>
 <span class="sourceLineNo">112</span><a id="line.112">  // For a (long) discussion about this specific issue and the general futility of life.</a>
@@ -387,7 +387,7 @@
 <span class="sourceLineNo">378</span><a id="line.378">   * &lt;p&gt;The delegate future is interrupted and cancelled if it times out.</a>
 <span class="sourceLineNo">379</span><a id="line.379">   *</a>
 <span class="sourceLineNo">380</span><a id="line.380">   * @param delegate The future to delegate to.</a>
-<span class="sourceLineNo">381</span><a id="line.381">   * @param time when to timeout the future</a>
+<span class="sourceLineNo">381</span><a id="line.381">   * @param time when to time out the future</a>
 <span class="sourceLineNo">382</span><a id="line.382">   * @param scheduledExecutor The executor service to enforce the timeout.</a>
 <span class="sourceLineNo">383</span><a id="line.383">   * @since 28.0</a>
 <span class="sourceLineNo">384</span><a id="line.384">   */</a>
@@ -405,7 +405,7 @@
 <span class="sourceLineNo">396</span><a id="line.396">   * &lt;p&gt;The delegate future is interrupted and cancelled if it times out.</a>
 <span class="sourceLineNo">397</span><a id="line.397">   *</a>
 <span class="sourceLineNo">398</span><a id="line.398">   * @param delegate The future to delegate to.</a>
-<span class="sourceLineNo">399</span><a id="line.399">   * @param time when to timeout the future</a>
+<span class="sourceLineNo">399</span><a id="line.399">   * @param time when to time out the future</a>
 <span class="sourceLineNo">400</span><a id="line.400">   * @param unit the time unit of the time parameter</a>
 <span class="sourceLineNo">401</span><a id="line.401">   * @param scheduledExecutor The executor service to enforce the timeout.</a>
 <span class="sourceLineNo">402</span><a id="line.402">   * @since 19.0</a>

@@ -335,7 +335,7 @@
 <span class="sourceLineNo">326</span><a id="line.326">        monitor.leave();</a>
 <span class="sourceLineNo">327</span><a id="line.327">      }</a>
 <span class="sourceLineNo">328</span><a id="line.328">    } else {</a>
-<span class="sourceLineNo">329</span><a id="line.329">      // It is possible due to races the we are currently in the expected state even though we</a>
+<span class="sourceLineNo">329</span><a id="line.329">      // It is possible due to races that we are currently in the expected state even though we</a>
 <span class="sourceLineNo">330</span><a id="line.330">      // timed out. e.g. if we weren't event able to grab the lock within the timeout we would never</a>
 <span class="sourceLineNo">331</span><a id="line.331">      // even check the guard. I don't think we care too much about this use case but it could lead</a>
 <span class="sourceLineNo">332</span><a id="line.332">      // to a confusing error message.</a>
@@ -368,7 +368,7 @@
 <span class="sourceLineNo">359</span><a id="line.359">        monitor.leave();</a>
 <span class="sourceLineNo">360</span><a id="line.360">      }</a>
 <span class="sourceLineNo">361</span><a id="line.361">    } else {</a>
-<span class="sourceLineNo">362</span><a id="line.362">      // It is possible due to races the we are currently in the expected state even though we</a>
+<span class="sourceLineNo">362</span><a id="line.362">      // It is possible due to races that we are currently in the expected state even though we</a>
 <span class="sourceLineNo">363</span><a id="line.363">      // timed out. e.g. if we weren't event able to grab the lock within the timeout we would never</a>
 <span class="sourceLineNo">364</span><a id="line.364">      // even check the guard. I don't think we care too much about this use case but it could lead</a>
 <span class="sourceLineNo">365</span><a id="line.365">      // to a confusing error message.</a>

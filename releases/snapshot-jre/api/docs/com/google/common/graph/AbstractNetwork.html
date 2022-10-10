@@ -508,9 +508,9 @@ implements <a href="Network.html" title="interface in com.google.common.graph">N
 
  <p>In an undirected network, this is equal to <code>edgesConnecting(nodeV, nodeU)</code>.
 
- <p>The resulting set of edges will be parallel (i.e. have equal <a href="Network.html#incidentNodes(E)"><code>Network.incidentNodes(Object)</code></a>.
- If this network does not <a href="Network.html#allowsParallelEdges()"><code>allow parallel edges</code></a>, the resulting set
- will contain at most one edge (equivalent to <code>edgeConnecting(nodeU, nodeV).asSet()</code>).</div>
+ <p>The resulting set of edges will be parallel (i.e. have equal <a href="Network.html#incidentNodes(E)"><code>Network.incidentNodes(Object)</code></a>). If this network does not <a href="Network.html#allowsParallelEdges()"><code>allow parallel
+ edges</code></a>, the resulting set will contain at most one edge (equivalent to <code>
+ edgeConnecting(nodeU, nodeV).asSet()</code>).</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="Network.html#edgesConnecting(N,N)">edgesConnecting</a></code>&nbsp;in interface&nbsp;<code><a href="Network.html" title="interface in com.google.common.graph">Network</a>&lt;<a href="AbstractNetwork.html" title="type parameter in AbstractNetwork">N</a>,&#8203;<a href="AbstractNetwork.html" title="type parameter in AbstractNetwork">E</a>&gt;</code></dd>
@@ -528,9 +528,9 @@ implements <a href="Network.html" title="interface in com.google.common.graph">N
 <div class="block">Returns the set of edges that each directly connect <code>endpoints</code> (in the order, if any,
  specified by <code>endpoints</code>).
 
- <p>The resulting set of edges will be parallel (i.e. have equal <a href="Network.html#incidentNodes(E)"><code>Network.incidentNodes(Object)</code></a>.
- If this network does not <a href="Network.html#allowsParallelEdges()"><code>allow parallel edges</code></a>, the resulting set
- will contain at most one edge (equivalent to <code>edgeConnecting(endpoints).asSet()</code>).
+ <p>The resulting set of edges will be parallel (i.e. have equal <a href="Network.html#incidentNodes(E)"><code>Network.incidentNodes(Object)</code></a>). If this network does not <a href="Network.html#allowsParallelEdges()"><code>allow parallel
+ edges</code></a>, the resulting set will contain at most one edge (equivalent to <code>
+ edgeConnecting(endpoints).asSet()</code>).
 
  <p>If this network is directed, <code>endpoints</code> must be ordered.</div>
 <dl>

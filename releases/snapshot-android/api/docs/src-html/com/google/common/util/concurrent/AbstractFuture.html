@@ -409,7 +409,7 @@
 <span class="sourceLineNo">400</span><a id="line.400">  // Timed Get</a>
 <span class="sourceLineNo">401</span><a id="line.401">  // There are a few design constraints to consider</a>
 <span class="sourceLineNo">402</span><a id="line.402">  // * We want to be responsive to small timeouts, unpark() has non trivial latency overheads (I</a>
-<span class="sourceLineNo">403</span><a id="line.403">  //   have observed 12 micros on 64 bit linux systems to wake up a parked thread). So if the</a>
+<span class="sourceLineNo">403</span><a id="line.403">  //   have observed 12 micros on 64-bit linux systems to wake up a parked thread). So if the</a>
 <span class="sourceLineNo">404</span><a id="line.404">  //   timeout is small we shouldn't park(). This needs to be traded off with the cpu overhead of</a>
 <span class="sourceLineNo">405</span><a id="line.405">  //   spinning, so we use SPIN_THRESHOLD_NANOS which is what AbstractQueuedSynchronizer uses for</a>
 <span class="sourceLineNo">406</span><a id="line.406">  //   similar purposes.</a>
@@ -1037,7 +1037,7 @@
 <span class="sourceLineNo">1028</span><a id="line.1028">              continue outer;</a>
 <span class="sourceLineNo">1029</span><a id="line.1029">            }</a>
 <span class="sourceLineNo">1030</span><a id="line.1030">          }</a>
-<span class="sourceLineNo">1031</span><a id="line.1031">          // other wise the future we were trying to set is already done.</a>
+<span class="sourceLineNo">1031</span><a id="line.1031">          // otherwise the future we were trying to set is already done.</a>
 <span class="sourceLineNo">1032</span><a id="line.1032">        } else {</a>
 <span class="sourceLineNo">1033</span><a id="line.1033">          /*</a>
 <span class="sourceLineNo">1034</span><a id="line.1034">           * requireNonNull is safe because the listener stack never contains TOMBSTONE until after</a>
@@ -1128,7 +1128,7 @@
 <span class="sourceLineNo">1119</span><a id="line.1119">  @CheckForNull</a>
 <span class="sourceLineNo">1120</span><a id="line.1120">  private Listener clearListeners(@CheckForNull Listener onto) {</a>
 <span class="sourceLineNo">1121</span><a id="line.1121">    // We need to</a>
-<span class="sourceLineNo">1122</span><a id="line.1122">    // 1. atomically swap the listeners with TOMBSTONE, this is because addListener uses that to</a>
+<span class="sourceLineNo">1122</span><a id="line.1122">    // 1. atomically swap the listeners with TOMBSTONE, this is because addListener uses that</a>
 <span class="sourceLineNo">1123</span><a id="line.1123">    //    to synchronize with us</a>
 <span class="sourceLineNo">1124</span><a id="line.1124">    // 2. reverse the linked list, because despite our rather clear contract, people depend on us</a>
 <span class="sourceLineNo">1125</span><a id="line.1125">    //    executing listeners in the order they were added</a>
@@ -1160,7 +1160,7 @@
 <span class="sourceLineNo">1151</span><a id="line.1151">    } else if (isDone()) {</a>
 <span class="sourceLineNo">1152</span><a id="line.1152">      addDoneString(builder);</a>
 <span class="sourceLineNo">1153</span><a id="line.1153">    } else {</a>
-<span class="sourceLineNo">1154</span><a id="line.1154">      addPendingString(builder); // delegates to addDoneString if future completes mid-way</a>
+<span class="sourceLineNo">1154</span><a id="line.1154">      addPendingString(builder); // delegates to addDoneString if future completes midway</a>
 <span class="sourceLineNo">1155</span><a id="line.1155">    }</a>
 <span class="sourceLineNo">1156</span><a id="line.1156">    return builder.append("]").toString();</a>
 <span class="sourceLineNo">1157</span><a id="line.1157">  }</a>
@@ -1288,10 +1288,10 @@
 <span class="sourceLineNo">1279</span><a id="line.1279">  }</a>
 <span class="sourceLineNo">1280</span><a id="line.1280"></a>
 <span class="sourceLineNo">1281</span><a id="line.1281">  private abstract static class AtomicHelper {</a>
-<span class="sourceLineNo">1282</span><a id="line.1282">    /** Non volatile write of the thread to the {@link Waiter#thread} field. */</a>
+<span class="sourceLineNo">1282</span><a id="line.1282">    /** Non-volatile write of the thread to the {@link Waiter#thread} field. */</a>
 <span class="sourceLineNo">1283</span><a id="line.1283">    abstract void putThread(Waiter waiter, Thread newValue);</a>
 <span class="sourceLineNo">1284</span><a id="line.1284"></a>
-<span class="sourceLineNo">1285</span><a id="line.1285">    /** Non volatile write of the waiter to the {@link Waiter#next} field. */</a>
+<span class="sourceLineNo">1285</span><a id="line.1285">    /** Non-volatile write of the waiter to the {@link Waiter#next} field. */</a>
 <span class="sourceLineNo">1286</span><a id="line.1286">    abstract void putNext(Waiter waiter, @CheckForNull Waiter newValue);</a>
 <span class="sourceLineNo">1287</span><a id="line.1287"></a>
 <span class="sourceLineNo">1288</span><a id="line.1288">    /** Performs a CAS operation on the {@link #waiters} field. */</a>

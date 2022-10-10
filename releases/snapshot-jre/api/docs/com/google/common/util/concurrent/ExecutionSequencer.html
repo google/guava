@@ -155,7 +155,7 @@ extends java.lang.Object</pre>
        (However, cancellation can prevent an <i>unstarted</i> task from running.) Therefore, the
        next task will wait for any running callable (or pending <code>Future</code> returned by an
        <code>AsyncCallable</code>) to complete, without interrupting it (and without calling <code>
-       cancel</code> on the <code>Future</code>). So beware: <i>Even if you cancel every precededing <code>
+       cancel</code> on the <code>Future</code>). So beware: <i>Even if you cancel every preceding <code>
        Future</code> returned by this class, the next task may still have to wait.</i>.
    <li>Once an <code>AsyncCallable</code> returns a <code>Future</code>, this class considers that task to
        be "done" as soon as <i>that</i> <code>Future</code> completes in any way. Notably, a <code>

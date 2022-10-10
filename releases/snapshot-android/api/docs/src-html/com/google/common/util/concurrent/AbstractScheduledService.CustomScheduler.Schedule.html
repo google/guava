@@ -361,7 +361,7 @@
 <span class="sourceLineNo">352</span><a id="line.352">    }</a>
 <span class="sourceLineNo">353</span><a id="line.353">    final ScheduledExecutorService executor =</a>
 <span class="sourceLineNo">354</span><a id="line.354">        Executors.newSingleThreadScheduledExecutor(new ThreadFactoryImpl());</a>
-<span class="sourceLineNo">355</span><a id="line.355">    // Add a listener to shutdown the executor after the service is stopped. This ensures that the</a>
+<span class="sourceLineNo">355</span><a id="line.355">    // Add a listener to shut down the executor after the service is stopped. This ensures that the</a>
 <span class="sourceLineNo">356</span><a id="line.356">    // JVM shutdown will not be prevented from exiting after this service has stopped or failed.</a>
 <span class="sourceLineNo">357</span><a id="line.357">    // Technically this listener is added after start() was called so it is a little gross, but it</a>
 <span class="sourceLineNo">358</span><a id="line.358">    // is called within doStart() so we know that the service cannot terminate or fail concurrently</a>
