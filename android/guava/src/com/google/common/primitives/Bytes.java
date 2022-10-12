@@ -89,6 +89,19 @@ public final class Bytes {
     return indexOf(array, target, 0, array.length);
   }
 
+  /**
+   * Returns the index of the first appearance of the value {@code target} in {@code array}.
+   *
+   * @param array an array of {@code byte} values, possibly empty
+   * @param target a primitive {@code byte} value
+   * @param fromIndex an index from which the searching occurs
+   * @return the least index {@code i} after {@code fromIndex} for which {@code array[i] == target}, or {@code -1} if no
+   *     such index exists.
+   */
+  public static int indexOf(byte[] array, byte target, int fromIndex) {
+    return indexOf(array, target, fromIndex, array.length);
+  }
+
   // TODO(kevinb): consider making this public
   private static int indexOf(byte[] array, byte target, int start, int end) {
     for (int i = start; i < end; i++) {
@@ -127,6 +140,34 @@ public final class Bytes {
     }
     return -1;
   }
+
+  /**
+   * Returns the start position of the first occurrence of the specified {@code target} within
+   * {@code array} from the index {@code fromIndex}, or {@code -1} if there is no such occurrence.
+   *
+   * @param array the array to search for the sequence {@code target}
+   * @param target the array to search for as a sub-sequence of {@code array}
+   * @param fromIndex the index from which to search from
+   */
+  public static int indexOf(byte[] array, byte[] target, int fromIndex) {
+    checkNotNull(array, "array");
+    checkNotNull(target, "target");
+    if (target.length == 0) {
+      return 0;
+    }
+
+    outer:
+    for (int i = fromIndex; i < array.length - target.length + 1; i++) {
+      for (int j = 0; j < target.length; j++) {
+        if (array[i + j] != target[j]) {
+          continue outer;
+        }
+      }
+      return i;
+    }
+    return -1;
+  }
+
 
   /**
    * Returns the index of the last appearance of the value {@code target} in {@code array}.
