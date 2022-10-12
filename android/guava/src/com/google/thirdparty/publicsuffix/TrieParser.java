@@ -14,28 +14,40 @@
 
 package com.google.thirdparty.publicsuffix;
 
+import static com.google.common.collect.Queues.newArrayDeque;
+
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Queues;
 import java.util.Deque;
 
 /** Parser for a map of reversed domain names stored as a serialized radix tree. */
 @GwtCompatible
 final class TrieParser {
-  private static final Joiner PREFIX_JOINER = Joiner.on("");
+
+  private static final Joiner DIRECT_JOINER = Joiner.on("");
 
   /**
    * Parses a serialized trie representation of a map of reversed public suffixes into an immutable
-   * map of public suffixes.
+   * map of public suffixes. The encoded trie string may be broken into multiple chunks to avoid the
+   * 64k limit on string literal size. In-memory strings can be much larger (2G).
    */
-  static ImmutableMap<String, PublicSuffixType> parseTrie(CharSequence encoded) {
+  static ImmutableMap<String, PublicSuffixType> parseTrie(CharSequence... encodedChunks) {
+    String encoded = DIRECT_JOINER.join(encodedChunks);
+    return parseFullString(encoded);
+  }
+
+  @VisibleForTesting
+  static ImmutableMap<String, PublicSuffixType> parseFullString(String encoded) {
     ImmutableMap.Builder<String, PublicSuffixType> builder = ImmutableMap.builder();
     int encodedLen = encoded.length();
     int idx = 0;
+
     while (idx < encodedLen) {
-      idx += doParseTrieToBuilder(Queues.<CharSequence>newArrayDeque(), encoded, idx, builder);
+      idx += doParseTrieToBuilder(newArrayDeque(), encoded, idx, builder);
     }
+
     return builder.buildOrThrow();
   }
 
@@ -59,9 +71,10 @@ final class TrieParser {
     int idx = start;
     char c = '\0';
 
-    // Read all of the characters for this node.
+    // Read all the characters for this node.
     for (; idx < encodedLen; idx++) {
       c = encoded.charAt(idx);
+
       if (c == '&' || c == '?' || c == '!' || c == ':' || c == ',') {
         break;
       }
@@ -74,17 +87,20 @@ final class TrieParser {
       // '?' represents a leaf node, which represents a REGISTRY entry in map.
       // ':' represents an interior node that represents a private entry in the map
       // ',' represents a leaf node, which represents a private entry in the map.
-      String domain = PREFIX_JOINER.join(stack);
+      String domain = DIRECT_JOINER.join(stack);
+
       if (domain.length() > 0) {
         builder.put(domain, PublicSuffixType.fromCode(c));
       }
     }
+
     idx++;
 
     if (c != '?' && c != ',') {
       while (idx < encodedLen) {
         // Read all the children
         idx += doParseTrieToBuilder(stack, encoded, idx, builder);
+
         if (encoded.charAt(idx) == '?' || encoded.charAt(idx) == ',') {
           // An extra '?' or ',' after a child node indicates the end of all children of this node.
           idx++;
@@ -92,6 +108,7 @@ final class TrieParser {
         }
       }
     }
+
     stack.pop();
     return idx - start;
   }
