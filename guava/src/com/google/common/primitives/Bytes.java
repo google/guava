@@ -102,6 +102,30 @@ public final class Bytes {
     return indexOf(array, target, fromIndex, array.length);
   }
 
+  /**
+   * Return the index of the last appearance of the vale {@code target} in {@code array}
+   *
+   * @param array an array of {@code byte} values, possibly empty
+   * @param target a primitive {@code byte} value
+   * @param fromIndex an index from which the searching occurs
+   * @return the highest index {@code i} after {@code fromIndex} for which {@code array[i] == target}, or {@code -1} if no
+   *    such index exists.
+   */
+  //TODO: Ryan
+  public static int lastIndexOf(byte[] array, byte target, int fromIndex){
+    // check if fromIndex exceed the range
+    if(fromIndex< array.length){
+      return -1;
+    }
+
+    for (int i = array.length-1; i > fromIndex; i--) {
+      if (array[i] == target) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
   // TODO(kevinb): consider making this public
   private static int indexOf(byte[] array, byte target, int start, int end) {
     for (int i = start; i < end; i++) {
@@ -168,7 +192,11 @@ public final class Bytes {
     return -1;
   }
 
+  //TODO: Ryan
+  public static int lastIndexOf(byte[] array, byte[] target, int fromIndex){
 
+    return 0;
+  }
   /**
    * Returns the index of the last appearance of the value {@code target} in {@code array}.
    *
