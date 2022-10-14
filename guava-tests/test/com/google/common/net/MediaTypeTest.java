@@ -586,6 +586,12 @@ public class MediaTypeTest extends TestCase {
                 .withParameters(ImmutableListMultimap.of("a", "2", "a", "1")))
         .addEqualityGroup(MediaType.create("text", "csv"))
         .addEqualityGroup(MediaType.create("application", "atom+xml"))
+        .addEqualityGroup( //case for issue https://github.com/google/guava/issues/6176
+            MediaType.parse("application/pdf; \rname=\"foo\rbar.pdf\""),
+            MediaType.parse("application/pdf; \rname=\"foo\r\n\tbar.pdf\""),
+            MediaType.parse("application/pdf; name=\"foobar.pdf\r\""),
+            MediaType.parse("application/pdf; name=\"foobar.pdf\r\n\t\""),
+            MediaType.parse("application/pdf; name=\"foobar.pdf\""))
         .testEquals();
   }
 

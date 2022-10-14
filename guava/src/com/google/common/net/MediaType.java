@@ -1070,7 +1070,9 @@ public final class MediaType {
               tokenizer.consumeCharacter('\\');
               valueBuilder.append(tokenizer.consumeCharacter(ascii()));
             } else {
+              tokenizer.consumeTokenIfPresent(LINEAR_WHITE_SPACE);
               valueBuilder.append(tokenizer.consumeToken(QUOTED_TEXT_MATCHER));
+              tokenizer.consumeTokenIfPresent(LINEAR_WHITE_SPACE);
             }
           }
           value = valueBuilder.toString();
