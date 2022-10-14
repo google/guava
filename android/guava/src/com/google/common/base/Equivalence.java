@@ -20,6 +20,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.ForOverride;
 import java.io.Serializable;
 import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -153,41 +154,6 @@ public abstract class Equivalence<T> {
    * @since 10.0
    */
   public final <S extends @Nullable T> Wrapper<S> wrap(@ParametricNullness S reference) {
-    /*
-     * I'm pretty sure that this warning "makes sense" but doesn't indicate a real problem.
-     *
-     * Why it "makes sense": If we pass a `@Nullable Foo`, then we should also pass an
-     * `Equivalence<? super @Nullable Foo>`. And there's no such thing because Equivalence doesn't
-     * permit nullable type arguments.
-     *
-     * Why there's no real problem: Every Equivalence can handle null.
-     *
-     * We could work around this by giving Wrapper 2 type parameters. In the terms of this method,
-     * that would be both the T parameter (from the class) and the S parameter (from this method).
-     * However, such a change would be source-incompatible. (Plus, there's no reason for the S
-     * parameter from the user's perspective, so it would be a wart.)
-     *
-     * We could probably also work around this by making Wrapper non-final and putting the
-     * implementation into a subclass with those 2 type parameters. But we like `final`, if only to
-     * deter users from using mocking frameworks to construct instances. (And could also complicate
-     * serialization, which is discussed more in the next paragraph.)
-     *
-     * We could probably also work around this by having Wrapper accept an instance of a new
-     * WrapperGuts class, which would then be the class that would declare the 2 type parameters.
-     * But that would break deserialization of previously serialized Wrapper instances. And while we
-     * specifically say not to rely on serialization across Guava versions, users sometimes do. So
-     * we'd rather not break them without a good enough reason.
-     *
-     * (We could work around the serialization problem by writing custom serialization code. But
-     * even that helps only the case of serializing with an old version and deserializing with a
-     * new, not vice versa -- unless we introduce WrapperGuts and the logic to handle it today, wait
-     * until "everyone" has picked up a version of Guava with that code, and *then* change to use
-     * WrapperGuts.)
-     *
-     * Anyway, a suppression isn't really a big deal. But I have tried to do some due diligence on
-     * avoiding it :)
-     */
-    @SuppressWarnings("nullness")
     Wrapper<S> w = new Wrapper<>(this, reference);
     return w;
   }
@@ -213,10 +179,19 @@ public abstract class Equivalence<T> {
    * @since 10.0
    */
   public static final class Wrapper<T extends @Nullable Object> implements Serializable {
-    private final Equivalence<? super T> equivalence;
+    /*
+     * Equivalence's type argument is always non-nullable: Equivalence<Number>, never
+     * Equivalence<@Nullable Number>. That can still produce wrappers of various types --
+     * Wrapper<Number>, Wrapper<Integer>, Wrapper<@Nullable Integer>, etc. If we used just
+     * Equivalence<? super T> below, no type could satisfy both that bound and T's own
+     * bound. With this type, they have some overlap: in our example, Equivalence<Number>
+     * and Equivalence<Object>.
+     */
+    private final Equivalence<? super @NonNull T> equivalence;
+
     @ParametricNullness private final T reference;
 
-    private Wrapper(Equivalence<? super T> equivalence, @ParametricNullness T reference) {
+    private Wrapper(Equivalence<? super @NonNull T> equivalence, @ParametricNullness T reference) {
       this.equivalence = checkNotNull(equivalence);
       this.reference = reference;
     }
