@@ -51,6 +51,12 @@ import java.util.concurrent.TimeUnit;
  *       performance reasons, without affecting most of your code.
  * </ul>
  *
+ * <p>The one downside of {@code Stopwatch} relative to {@link System#nanoTime()} is that {@code
+ * Stopwatch} requires object allocation and additional method calls, which can reduce the accuracy
+ * of the elapsed times reported. {@code Stopwatch} is still suitable for logging and metrics where
+ * reasonably accurate values are sufficient. If the uncommon case that you need to maximize
+ * accuracy, use {@code System.nanoTime()} directly instead.
+ *
  * <p>Basic usage:
  *
  * <pre>{@code
