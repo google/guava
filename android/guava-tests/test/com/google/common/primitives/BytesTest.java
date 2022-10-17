@@ -201,6 +201,28 @@ public class BytesTest extends TestCase {
         .isEqualTo(3);
   }
 
+  public void testLastIndexOf_fromIndex() {
+    // empty case
+    assertThat(Bytes.indexOf(EMPTY, EMPTY, 1)).isEqualTo(-1);
+    assertThat(Bytes.indexOf(EMPTY, ARRAY234, 1)).isEqualTo(-1);
+    assertThat(Bytes.indexOf(EMPTY, (byte) 1, 2)).isEqualTo(-1);
+    assertThat(Bytes.indexOf(ARRAY234, EMPTY, 3)).isEqualTo(-1);
+    assertThat(Bytes.indexOf(ARRAY234, EMPTY, -1)).isEqualTo(0);
+    assertThat(Bytes.indexOf(ARRAY234, EMPTY, 1)).isEqualTo(1);
+
+    // normal byte case
+    assertThat(Bytes.indexOf(ARRAY34, (byte) 4, 0)).isEqualTo(1);
+    assertThat(Bytes.indexOf(ARRAY1, (byte) 1, 2)).isEqualTo(-1);
+    assertThat(Bytes.indexOf(ARRAY234, (byte) 3, 1)).isEqualTo(1);
+    assertThat(Bytes.indexOf(ARRAY234234, (byte) 4, 1)).isEqualTo(5);
+
+    // byte list case
+    assertThat(Bytes.indexOf(ARRAY234234, ARRAY1, 0)).isEqualTo(-1);
+    assertThat(Bytes.indexOf(ARRAY234234, ARRAY23, 0)).isEqualTo(3);
+    assertThat(Bytes.indexOf(ARRAY234234, ARRAY234, 1)).isEqualTo(3);
+    assertThat(Bytes.indexOf(ARRAY234234, ARRAY234, 4)).isEqualTo(-1);
+  }
+
   public void testConcat() {
     assertThat(Bytes.concat()).isEqualTo(EMPTY);
     assertThat(Bytes.concat(EMPTY)).isEqualTo(EMPTY);
