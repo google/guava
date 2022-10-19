@@ -282,7 +282,7 @@ public final class Strings {
     int templateStart = 0;
     int i = 0;
     while (i < args.length) {
-      int placeholderStart = template.indexOf("%s", templateStart);
+      int placeholderStart = template.indexOf("%", templateStart);
       if (placeholderStart == -1) {
         break;
       }
