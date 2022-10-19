@@ -231,6 +231,7 @@ public class StringsTest extends TestCase {
     assertEquals("null [5, 6]", Strings.lenientFormat(null, 5, 6));
     assertEquals("null", Strings.lenientFormat("%s", (Object) null));
     assertEquals("(Object[])null", Strings.lenientFormat("%s", (Object[]) null));
+    assertEquals("Port 8080 of Data must be a positive number", Strings.lenientFormat("Port %d of %s must be a positive number", 8080, "Data"));
   }
 
   @GwtIncompatible // GWT reflection includes less data
