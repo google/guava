@@ -443,27 +443,27 @@ table tr td dl, table tr td dl dt, table tr td dl dd {
     margin:0px;
     white-space:pre;
 }
+.constantsSummary caption a:link, .constantsSummary caption a:visited,
+.useSummary caption a:link, .useSummary caption a:visited {
+    color:#1f389c;
+}
 .overviewSummary caption a:link, .memberSummary caption a:link, .typeSummary caption a:link,
-.constantsSummary caption a:link, .deprecatedSummary caption a:link,
+.deprecatedSummary caption a:link,
 .requiresSummary caption a:link, .packagesSummary caption a:link, .providesSummary caption a:link,
 .usesSummary caption a:link,
 .overviewSummary caption a:hover, .memberSummary caption a:hover, .typeSummary caption a:hover,
-.constantsSummary caption a:hover, .deprecatedSummary caption a:hover,
+.useSummary caption a:hover, .constantsSummary caption a:hover, .deprecatedSummary caption a:hover,
 .requiresSummary caption a:hover, .packagesSummary caption a:hover, .providesSummary caption a:hover,
 .usesSummary caption a:hover,
 .overviewSummary caption a:active, .memberSummary caption a:active, .typeSummary caption a:active,
-.constantsSummary caption a:active, .deprecatedSummary caption a:active,
+.useSummary caption a:active, .constantsSummary caption a:active, .deprecatedSummary caption a:active,
 .requiresSummary caption a:active, .packagesSummary caption a:active, .providesSummary caption a:active,
 .usesSummary caption a:active,
 .overviewSummary caption a:visited, .memberSummary caption a:visited, .typeSummary caption a:visited,
-.constantsSummary caption a:visited, .deprecatedSummary caption a:visited,
+.deprecatedSummary caption a:visited,
 .requiresSummary caption a:visited, .packagesSummary caption a:visited, .providesSummary caption a:visited,
 .usesSummary caption a:visited {
     color:#FFFFFF;
-}
-.useSummary caption a:link, .useSummary caption a:hover, .useSummary caption a:active,
-.useSummary caption a:visited {
-    color:#1f389c;
 }
 .overviewSummary caption span, .memberSummary caption span, .typeSummary caption span,
 .useSummary caption span, .constantsSummary caption span, .deprecatedSummary caption span,
@@ -767,6 +767,7 @@ main, nav, header, footer, section {
 ul.ui-autocomplete {
     position:fixed;
     z-index:999999;
+    background-color: #FFFFFF;
 }
 ul.ui-autocomplete  li {
     float:left;
@@ -775,6 +776,9 @@ ul.ui-autocomplete  li {
 }
 .resultHighlight {
     font-weight:bold;
+}
+.ui-autocomplete .result-item {
+    font-size: inherit;
 }
 #search {
     background-image:url('resources/glass.png');

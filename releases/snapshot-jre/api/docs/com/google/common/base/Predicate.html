@@ -6,15 +6,16 @@
 <title>Predicate (Guava: Google Core Libraries for Java HEAD-jre-SNAPSHOT API)</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" type="text/css" href="../../../../stylesheet.css" title="Style">
-<link rel="stylesheet" type="text/css" href="../../../../jquery/jquery-ui.css" title="Style">
+<link rel="stylesheet" type="text/css" href="../../../../jquery/jquery-ui.min.css" title="Style">
+<link rel="stylesheet" type="text/css" href="../../../../jquery-ui.overrides.css" title="Style">
 <script type="text/javascript" src="../../../../script.js"></script>
 <script type="text/javascript" src="../../../../jquery/jszip/dist/jszip.min.js"></script>
 <script type="text/javascript" src="../../../../jquery/jszip-utils/dist/jszip-utils.min.js"></script>
 <!--[if IE]>
 <script type="text/javascript" src="../../../../jquery/jszip-utils/dist/jszip-utils-ie.min.js"></script>
 <![endif]-->
-<script type="text/javascript" src="../../../../jquery/jquery-3.5.1.js"></script>
-<script type="text/javascript" src="../../../../jquery/jquery-ui.js"></script>
+<script type="text/javascript" src="../../../../jquery/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" src="../../../../jquery/jquery-ui.min.js"></script>
 </head>
 <body>
 <script type="text/javascript"><!--
@@ -137,7 +138,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <hr>
 <pre>@FunctionalInterface
 <a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public interface <a href="../../../../src-html/com/google/common/base/Predicate.html#line.44">Predicate</a>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;
+public interface <a href="../../../../src-html/com/google/common/base/Predicate.html#line.43">Predicate</a>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;
 extends java.util.function.Predicate&lt;T&gt;</pre>
 <div class="block">Legacy version of <code>java.util.function.Predicate</code>. Determines a
  true or false value for a given input.
@@ -168,7 +169,7 @@ extends java.util.function.Predicate&lt;T&gt;</pre>
 <ul class="blockList">
 <li class="blockList">
 <!-- ========== METHOD SUMMARY =========== -->
-<section role="region">
+<section>
 <ul class="blockList">
 <li class="blockList"><a id="method.summary">
 <!--   -->
@@ -221,7 +222,7 @@ extends java.util.function.Predicate&lt;T&gt;</pre>
 <ul class="blockList">
 <li class="blockList">
 <!-- ============ METHOD DETAIL ========== -->
-<section role="region">
+<section>
 <ul class="blockList">
 <li class="blockList"><a id="method.detail">
 <!--   -->
@@ -235,8 +236,7 @@ extends java.util.function.Predicate&lt;T&gt;</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>apply</h4>
-<pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Predicate.html#line.63">apply</a>&#8203;(<a href="Predicate.html" title="type parameter in Predicate">T</a>&nbsp;input)</pre>
+<pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Predicate.html#line.62">apply</a>&#8203;(<a href="Predicate.html" title="type parameter in Predicate">T</a>&nbsp;input)</pre>
 <div class="block">Returns the result of applying this predicate to <code>input</code> (Java 8 users, see notes in the
  class documentation above). This method is <i>generally expected</i>, but not absolutely
  required, to have the following properties:
@@ -259,7 +259,7 @@ boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Predicate.html
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Predicate.html#line.76">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+<pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Predicate.html#line.74">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                java.lang.Object&nbsp;object)</pre>
 <div class="block">Indicates whether another object is equal to this predicate.
 
@@ -291,7 +291,7 @@ boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Predicate.html
 <ul class="blockListLast">
 <li class="blockList">
 <h4>test</h4>
-<pre class="methodSignature">default&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Predicate.html#line.79">test</a>&#8203;(<a href="Predicate.html" title="type parameter in Predicate">T</a>&nbsp;input)</pre>
+<pre class="methodSignature">default&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Predicate.html#line.77">test</a>&#8203;(<a href="Predicate.html" title="type parameter in Predicate">T</a>&nbsp;input)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.function.Predicate</code></span></div>
 <div class="block">Evaluates this predicate on the given argument.</div>
 <dl>
