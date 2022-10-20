@@ -356,7 +356,13 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
       }
       Object valueToSet = getFutureValue(future);
       if (ATOMIC_HELPER.casValue(owner, this, valueToSet)) {
-        complete(owner);
+        complete(
+            owner,
+            /*
+             * Interruption doesn't propagate through a SetFuture chain (see getFutureValue), so
+             * don't invoke interruptTask.
+             */
+            false);
       }
     }
   }
@@ -656,12 +662,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
       while (true) {
         if (ATOMIC_HELPER.casValue(abstractFuture, localValue, valueToSet)) {
           rValue = true;
-          // We call interruptTask before calling complete(), which is consistent with
-          // FutureTask
-          if (mayInterruptIfRunning) {
-            abstractFuture.interruptTask();
-          }
-          complete(abstractFuture);
+          complete(abstractFuture, mayInterruptIfRunning);
           if (localValue instanceof SetFuture) {
             // propagate cancellation to the future set in setfuture, this is racy, and we don't
             // care if we are successful or not.
@@ -779,7 +780,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
   protected boolean set(@ParametricNullness V value) {
     Object valueToSet = value == null ? NULL : value;
     if (ATOMIC_HELPER.casValue(this, null, valueToSet)) {
-      complete(this);
+      complete(this, /*callInterruptTask=*/ false);
       return true;
     }
     return false;
@@ -804,7 +805,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
   protected boolean setException(Throwable throwable) {
     Object valueToSet = new Failure(checkNotNull(throwable));
     if (ATOMIC_HELPER.casValue(this, null, valueToSet)) {
-      complete(this);
+      complete(this, /*callInterruptTask=*/ false);
       return true;
     }
     return false;
@@ -847,7 +848,13 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
       if (future.isDone()) {
         Object value = getFutureValue(future);
         if (ATOMIC_HELPER.casValue(this, null, value)) {
-          complete(this);
+          complete(
+              this,
+              /*
+               * Interruption doesn't propagate through a SetFuture chain (see getFutureValue), so
+               * don't invoke interruptTask.
+               */
+              false);
           return true;
         }
         return false;
@@ -989,7 +996,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
   }
 
   /** Unblocks all threads and runs all listeners. */
-  private static void complete(AbstractFuture<?> param) {
+  private static void complete(AbstractFuture<?> param, boolean callInterruptTask) {
     // Declare a "true" local variable so that the Checker Framework will infer nullness.
     AbstractFuture<?> future = param;
 
@@ -997,6 +1004,18 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
     outer:
     while (true) {
       future.releaseWaiters();
+      /*
+       * We call interruptTask() immediately before afterDone() so that migrating between the two
+       * can be a no-op.
+       */
+      if (callInterruptTask) {
+        future.interruptTask();
+        /*
+         * Interruption doesn't propagate through a SetFuture chain (see getFutureValue), so don't
+         * invoke interruptTask on any subsequent futures.
+         */
+        callInterruptTask = false;
+      }
       // We call this before the listeners in order to avoid needing to manage a separate stack data
       // structure for them.  Also, some implementations rely on this running prior to listeners
       // so that the cleanup work is visible to listeners.
