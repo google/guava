@@ -355,7 +355,7 @@ implements <a href="ListenableFuture.html" title="interface in com.google.common
 <ul class="blockListLast">
 <li class="blockList">
 <h4>AbstractFuture</h4>
-<pre>protected&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line.390">AbstractFuture</a>()</pre>
+<pre>protected&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line.396">AbstractFuture</a>()</pre>
 <div class="block">Constructor for use by subclasses.</div>
 </li>
 </ul>
@@ -376,7 +376,7 @@ implements <a href="ListenableFuture.html" title="interface in com.google.common
 <li class="blockList">
 <h4>get</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="AbstractFuture.html" title="type parameter in AbstractFuture">V</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line.424">get</a>&#8203;(long&nbsp;timeout,
+public&nbsp;<a href="AbstractFuture.html" title="type parameter in AbstractFuture">V</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line.430">get</a>&#8203;(long&nbsp;timeout,
              java.util.concurrent.TimeUnit&nbsp;unit)
       throws java.lang.InterruptedException,
              java.util.concurrent.TimeoutException,
@@ -411,7 +411,7 @@ public&nbsp;<a href="AbstractFuture.html" title="type parameter in AbstractFutur
 <li class="blockList">
 <h4>get</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="AbstractFuture.html" title="type parameter in AbstractFuture">V</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line.537">get</a>()
+public&nbsp;<a href="AbstractFuture.html" title="type parameter in AbstractFuture">V</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line.543">get</a>()
       throws java.lang.InterruptedException,
              java.util.concurrent.ExecutionException</pre>
 <div class="block">Waits if necessary for the computation to complete, and then
@@ -439,7 +439,7 @@ public&nbsp;<a href="AbstractFuture.html" title="type parameter in AbstractFutur
 <ul class="blockList">
 <li class="blockList">
 <h4>isDone</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line.601">isDone</a>()</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line.607">isDone</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.concurrent.Future</code></span></div>
 <div class="block">Returns <code>true</code> if this task completed.
 
@@ -460,7 +460,7 @@ public&nbsp;<a href="AbstractFuture.html" title="type parameter in AbstractFutur
 <ul class="blockList">
 <li class="blockList">
 <h4>isCancelled</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line.607">isCancelled</a>()</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line.613">isCancelled</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.concurrent.Future</code></span></div>
 <div class="block">Returns <code>true</code> if this task was cancelled before it completed
  normally.</div>
@@ -479,7 +479,7 @@ public&nbsp;<a href="AbstractFuture.html" title="type parameter in AbstractFutur
 <li class="blockList">
 <h4>cancel</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line.629">cancel</a>&#8203;(boolean&nbsp;mayInterruptIfRunning)</pre>
+public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line.635">cancel</a>&#8203;(boolean&nbsp;mayInterruptIfRunning)</pre>
 <div class="block">Attempts to cancel execution of this task.  This attempt will
  fail if the task has already completed, has already been cancelled,
  or could not be cancelled for some other reason. If successful,
@@ -523,7 +523,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util
 <ul class="blockList">
 <li class="blockList">
 <h4>interruptTask</h4>
-<pre class="methodSignature">protected&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line.714">interruptTask</a>()</pre>
+<pre class="methodSignature">protected&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line.715">interruptTask</a>()</pre>
 <div class="block">Subclasses can override this method to implement interruption of the future's computation. The
  method is invoked automatically by a successful call to <a href="#cancel(boolean)"><code>cancel(true)</code></a>.
 
@@ -543,7 +543,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util
 <ul class="blockList">
 <li class="blockList">
 <h4>wasInterrupted</h4>
-<pre class="methodSignature">protected final&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line.722">wasInterrupted</a>()</pre>
+<pre class="methodSignature">protected final&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line.723">wasInterrupted</a>()</pre>
 <div class="block">Returns true if this future was cancelled with <code>mayInterruptIfRunning</code> set to <code>
  true</code>.</div>
 <dl>
@@ -558,7 +558,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util
 <ul class="blockList">
 <li class="blockList">
 <h4>addListener</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line.732">addListener</a>&#8203;(java.lang.Runnable&nbsp;listener,
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line.733">addListener</a>&#8203;(java.lang.Runnable&nbsp;listener,
                         java.util.concurrent.Executor&nbsp;executor)</pre>
 <div class="block">Registers a listener to be run on the given executor.
  The listener will run when the <code>Future</code>'s computation is complete or, if the computation is already complete, immediately.
@@ -603,7 +603,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util
 <li class="blockList">
 <h4>set</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-protected&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line.778">set</a>&#8203;(<a href="AbstractFuture.html" title="type parameter in AbstractFuture">V</a>&nbsp;value)</pre>
+protected&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line.779">set</a>&#8203;(<a href="AbstractFuture.html" title="type parameter in AbstractFuture">V</a>&nbsp;value)</pre>
 <div class="block">Sets the result of this <code>Future</code> unless this <code>Future</code> has already been cancelled or
  set (including <a href="#setFuture(com.google.common.util.concurrent.ListenableFuture)">set asynchronously</a>). When a call to this method returns,
  the <code>Future</code> is guaranteed to be <a href="#isDone()">done</a> <b>only if</b> the call was
@@ -629,7 +629,7 @@ protected&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/u
 <li class="blockList">
 <h4>setException</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-protected&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line.803">setException</a>&#8203;(java.lang.Throwable&nbsp;throwable)</pre>
+protected&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line.804">setException</a>&#8203;(java.lang.Throwable&nbsp;throwable)</pre>
 <div class="block">Sets the failed result of this <code>Future</code> unless this <code>Future</code> has already been
  cancelled or set (including <a href="#setFuture(com.google.common.util.concurrent.ListenableFuture)">set asynchronously</a>). When a call to this
  method returns, the <code>Future</code> is guaranteed to be <a href="#isDone()">done</a> <b>only if</b>
@@ -655,7 +655,7 @@ protected&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/u
 <li class="blockList">
 <h4>setFuture</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-protected&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line.842">setFuture</a>&#8203;(<a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;? extends <a href="AbstractFuture.html" title="type parameter in AbstractFuture">V</a>&gt;&nbsp;future)</pre>
+protected&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line.843">setFuture</a>&#8203;(<a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;? extends <a href="AbstractFuture.html" title="type parameter in AbstractFuture">V</a>&gt;&nbsp;future)</pre>
 <div class="block">Sets the result of this <code>Future</code> to match the supplied input <code>Future</code> once the
  supplied <code>Future</code> is done, unless this <code>Future</code> has already been cancelled or set
  (including "set asynchronously," defined below).
@@ -697,7 +697,7 @@ protected&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/u
 <h4>afterDone</h4>
 <pre class="methodSignature"><a href="../../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
 <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/ForOverride.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@ForOverride</a>
-protected&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line.1055">afterDone</a>()</pre>
+protected&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line.1074">afterDone</a>()</pre>
 <div class="block">Callback method that is called exactly once after the future is completed.
 
  <p>If <a href="#interruptTask()"><code>interruptTask()</code></a> is also run during completion, <a href="#afterDone()"><code>afterDone()</code></a> runs after it.
@@ -718,7 +718,7 @@ protected&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util
 <li class="blockList">
 <h4>tryInternalFastPathGetFailure</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-protected final&nbsp;java.lang.Throwable&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line.1080">tryInternalFastPathGetFailure</a>()</pre>
+protected final&nbsp;java.lang.Throwable&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line.1099">tryInternalFastPathGetFailure</a>()</pre>
 <div class="block">Usually returns <code>null</code> but, if this <code>Future</code> has failed, may <i>optionally</i>
  return the cause of the failure. "Failure" means specifically "completed with an exception"; it
  does not include "was cancelled." To be explicit: If this method returns a non-null value,
@@ -748,7 +748,7 @@ protected final&nbsp;java.lang.Throwable&nbsp;<a href="../../../../../src-html/c
 <ul class="blockList">
 <li class="blockList">
 <h4>toString</h4>
-<pre class="methodSignature">public&nbsp;java.lang.String&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line.1139">toString</a>()</pre>
+<pre class="methodSignature">public&nbsp;java.lang.String&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line.1158">toString</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code>java.lang.Object</code></span></div>
 <div class="block">Returns a string representation of the object. In general, the
  <code>toString</code> method returns a string that
@@ -782,7 +782,7 @@ protected final&nbsp;java.lang.Throwable&nbsp;<a href="../../../../../src-html/c
 <li class="blockList">
 <h4>pendingToString</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-protected&nbsp;java.lang.String&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line.1165">pendingToString</a>()</pre>
+protected&nbsp;java.lang.String&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line.1184">pendingToString</a>()</pre>
 <div class="block">Provide a human-readable explanation of why this future has not yet completed.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
