@@ -124,4 +124,11 @@ public class MapPutIfAbsentTester<K, V> extends AbstractMapTester<K, V> {
     expectNullValueMissingWhenNullValuesUnsupported(
         "Should not contain null after unsupported putIfAbsent(present, null)");
   }
+
+  @MapFeature.Require({SUPPORTS_PUT, ALLOWS_NULL_VALUES})
+  public void testPut_nullValueSupported() {
+    Map.Entry<K,V> nullValueEntry = entry(k3(), null);
+    assertNull("put(key, null) should return null", getMap().put(nullValueEntry.getKey(), nullValueEntry.getValue()));
+    expectAdded(nullValueEntry);
+  }
 }
