@@ -85,6 +85,12 @@ public class ImmutableDoubleArrayTest extends TestCase {
         .inOrder();
   }
 
+  public void testOfReverse(){
+    assertThat(ImmutableDoubleArray.reverse(ImmutableDoubleArray.of(1,2,3)).asList())
+            .containsExactly(3.0,2.0,1.0)
+            .inOrder();
+  }
+
   public void testCopyOf_array_empty() {
     /*
      * We don't guarantee the same-as property, so we aren't obligated to test it. However, it's
