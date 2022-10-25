@@ -146,8 +146,8 @@ public class ImmutableLongArrayTest extends TestCase {
   }
 
   public void testOfReverse(){
-    assertThat(ImmutableLongArray.reverse(ImmutableLongArray.of(1,2,3)).asList())
-            .containsExactly(3L,2L,1L)
+    assertThat(ImmutableLongArray.reverse(ImmutableLongArray.of(1, 2, 3)).asList())
+            .containsExactly(3L, 2L, 1L)
             .inOrder();
   }
 

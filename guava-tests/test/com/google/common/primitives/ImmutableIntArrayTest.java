@@ -144,8 +144,8 @@ public class ImmutableIntArrayTest extends TestCase {
   }
 
   public void testOfReverse(){
-    assertThat(ImmutableIntArray.reverse(ImmutableIntArray.of(1,2,3)).asList())
-            .containsExactly(3,2,1)
+    assertThat(ImmutableIntArray.reverse(ImmutableIntArray.of(1, 2, 3)).asList())
+            .containsExactly(3, 2, 1)
             .inOrder();
   }
 

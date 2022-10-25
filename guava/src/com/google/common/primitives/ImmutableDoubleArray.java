@@ -181,9 +181,11 @@ public final class ImmutableDoubleArray implements Serializable {
   /** Returns an immutable array containing the given values, in reverse order  */
   public static ImmutableDoubleArray reverse(ImmutableDoubleArray values){
     double[] array = new double[values.length()];
+    // Add values into array initialised
     for (int i = 0; i < values.length(); i ++){
       array[i] = values.get(i);
     }
+    // Reverse the order of the elements in the array
     Doubles.reverse(array);
     return new ImmutableDoubleArray(array);
   }

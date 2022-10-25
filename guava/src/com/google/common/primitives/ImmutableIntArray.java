@@ -178,9 +178,11 @@ public final class ImmutableIntArray implements Serializable {
   /** Returns an immutable array containing the given values, in reverse order  */
   public static ImmutableIntArray reverse(ImmutableIntArray values){
     int[] intArray = new int[values.length()];
+    // Add values into array initialized
     for (int i = 0; i < values.length(); i ++){
       intArray[i] = values.get(i);
     }
+    // Reverse the order of the elements in the array
     Ints.reverse(intArray);
     return new ImmutableIntArray(intArray);
   }
