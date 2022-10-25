@@ -160,6 +160,7 @@ public final class Range<C extends Comparable> extends RangeGwtSerializationDepe
     return new Range<>(lowerBound, upperBound);
   }
 
+
   /**
    * Returns a range that contains all values strictly greater than {@code lower} and strictly less
    * than {@code upper}.
@@ -183,6 +184,18 @@ public final class Range<C extends Comparable> extends RangeGwtSerializationDepe
    */
   public static <C extends Comparable<?>> Range<C> closed(C lower, C upper) {
     return create(Cut.belowValue(lower), Cut.aboveValue(upper));
+  }
+
+  /**
+   * Return the closest number that fits within the range by being greater than or equal to {@code lower} and less than
+   * or equal to {@code upper}.
+   */
+  public C constrain(C value) {
+      if (!lowerBound.isLessThan(value))
+        return lowerBound.endpoint();
+      if (upperBound.isLessThan(value))
+        return upperBound.endpoint();
+      return value;
   }
 
   /**
