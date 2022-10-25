@@ -162,16 +162,6 @@ public final class ImmutableLongArray implements Serializable {
     return builder().addAll(values).build();
   }
 
-  /** Returns an immutable array containing the given values, in reverse order  */
-  public static ImmutableLongArray reverse(ImmutableLongArray values){
-    long[] longArray = new long[values.length()];
-    for (int i = 0; i < values.length(); i ++){
-      longArray[i] = values.get(i);
-    }
-    Longs.reverse(longArray);
-    return new ImmutableLongArray(longArray);
-  }
-
   /**
    * Returns a new, empty builder for {@link ImmutableLongArray} instances, sized to hold up to
    * {@code initialCapacity} values without resizing. The returned builder is not thread-safe.

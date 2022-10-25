@@ -143,6 +143,12 @@ public class ImmutableIntArrayTest extends TestCase {
         .inOrder();
   }
 
+  public void testOfReverse(){
+    assertThat(ImmutableIntArray.reverse(ImmutableIntArray.of(1,2,3)).asList())
+            .containsExactly(3,2,1)
+            .inOrder();
+  }
+
   public void testBuilder_presize_zero() {
     ImmutableIntArray.Builder builder = ImmutableIntArray.builder(0);
     builder.add(5);

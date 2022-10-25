@@ -83,12 +83,6 @@ public class ImmutableIntArrayTest extends TestCase {
         .inOrder();
   }
 
-  public void testOfReverse(){
-    assertThat(ImmutableIntArray.reverse(ImmutableIntArray.of(1,2,3)).asList())
-            .containsExactly(3,2,1)
-            .inOrder();
-  }
-
   public void testCopyOf_array_empty() {
     /*
      * We don't guarantee the same-as property, so we aren't obligated to test it. However, it's

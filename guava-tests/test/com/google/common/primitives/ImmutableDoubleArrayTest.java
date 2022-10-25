@@ -146,6 +146,12 @@ public class ImmutableDoubleArrayTest extends TestCase {
         .inOrder();
   }
 
+  public void testOfReverse(){
+    assertThat(ImmutableDoubleArray.reverse(ImmutableDoubleArray.of(1,2,3)).asList())
+            .containsExactly(3.0,2.0,1.0)
+            .inOrder();
+  }
+
   public void testBuilder_presize_zero() {
     ImmutableDoubleArray.Builder builder = ImmutableDoubleArray.builder(0);
     builder.add(5.0);
