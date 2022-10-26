@@ -21,6 +21,8 @@ import static com.google.common.base.Preconditions.checkPositionIndexes;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.base.Converter;
+
 import java.io.Serializable;
 import java.util.AbstractList;
 import java.util.Arrays;
@@ -601,4 +603,46 @@ public final class Booleans {
     reverse(array, newFirstIndex, toIndex);
     reverse(array, fromIndex, toIndex);
   }
+  private static final class BooleanConverter extends Converter<String, Boolean>
+          implements Serializable {
+    static final BooleanConverter INSTANCE = new BooleanConverter();
+
+    @Override
+    protected Boolean doForward(String value) {
+      String lowerCaseValue = value.toLowerCase();
+      if(lowerCaseValue.equals("true") || lowerCaseValue.equals("yes")){
+        return true;
+      }else if(lowerCaseValue.equals("false") || lowerCaseValue.equals("no")){
+        return false;
+      }else{
+        throw new NullPointerException("Illegal Boolean format");
+      }
+    }
+    @Override
+    protected String doBackward(Boolean aBoolean) {
+      String booleanString;
+      if(aBoolean){
+        booleanString = "true";
+      }else{
+        booleanString = "false";
+      }
+      return booleanString;
+    }
+
+    @Override
+    public String toString() {
+      return "Boolean.stringConverter()";
+    }
+
+    private Object readResolve() {
+      return INSTANCE;
+    }
+
+    private static final long serialVersionUID = 1;
+  }
+  @Beta
+  public static Converter<String, Boolean> stringConverter() {
+    return BooleanConverter.INSTANCE;
+  }
+
 }
