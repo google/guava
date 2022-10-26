@@ -15,7 +15,6 @@
 package com.google.common.base;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -60,7 +59,6 @@ public interface Predicate<T extends @Nullable Object> extends java.util.functio
    * @throws NullPointerException if {@code input} is null and this predicate does not accept null
    *     arguments
    */
-  @CanIgnoreReturnValue
   boolean apply(@ParametricNullness T input);
 
   /**

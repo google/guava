@@ -305,6 +305,12 @@
                     <include name="guava-test-gwt-sources/**/*.java"/>
                   </fileset>
                 </replace>
+                <replace token="@NonNull" value="">
+                  <fileset dir="${project.build.directory}">
+                    <include name="guava-gwt-sources/**/*.java"/>
+                    <include name="guava-test-gwt-sources/**/*.java"/>
+                  </fileset>
+                </replace>
               </target>
             </configuration>
           </execution>

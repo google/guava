@@ -292,7 +292,7 @@ public class UnsignedIntsTest extends TestCase {
       assertThat(UnsignedInts.parseUnsignedInt(maxAsString, radix)).isEqualTo(-1);
 
       try {
-        // tests that we get exception whre an overflow would occur.
+        // tests that we get exception where an overflow would occur.
         long overflow = 1L << 32;
         String overflowAsString = Long.toString(overflow, radix);
         UnsignedInts.parseUnsignedInt(overflowAsString, radix);

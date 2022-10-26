@@ -295,7 +295,7 @@ public class AbstractIteratorTest extends TestCase {
   // hasNext/next/peek), but we'll cop out for now, knowing that peek() and
   // next() both start by invoking hasNext() anyway.
 
-  /** Throws a undeclared checked exception. */
+  /** Throws an undeclared checked exception. */
   private static void sneakyThrow(Throwable t) {
     class SneakyThrower<T extends Throwable> {
       @SuppressWarnings("unchecked") // not really safe, but that's the point

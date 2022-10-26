@@ -518,7 +518,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
   }
 
   /**
-   * Each instance of MinMaxPriortyQueue encapsulates two instances of Heap: a min-heap and a
+   * Each instance of MinMaxPriorityQueue encapsulates two instances of Heap: a min-heap and a
    * max-heap. Conceptually, these might each have their own array for storage, but for efficiency's
    * sake they are stored interleaved on alternate heap levels in the same array (MMPQ.queue).
    */

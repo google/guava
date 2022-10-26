@@ -580,7 +580,7 @@ public abstract class FluentIterable<E extends @Nullable Object> implements Iter
    * iterable skips all of its elements.
    *
    * <p>Modifications to this fluent iterable before a call to {@code iterator()} are reflected in
-   * the returned fluent iterable. That is, the its iterator skips the first {@code numberToSkip}
+   * the returned fluent iterable. That is, the iterator skips the first {@code numberToSkip}
    * elements that exist when the iterator is created, not when {@code skip()} is called.
    *
    * <p>The returned fluent iterable's iterator supports {@code remove()} if the {@code Iterator} of

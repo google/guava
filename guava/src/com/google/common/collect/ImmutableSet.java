@@ -864,7 +864,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
 
     /**
      * We attempt to detect deliberate hash flooding attempts. If one is detected, we fall back to a
-     * wrapper around j.u.HashSet, which has built in flooding protection. MAX_RUN_MULTIPLIER was
+     * wrapper around j.u.HashSet, which has built-in flooding protection. MAX_RUN_MULTIPLIER was
      * determined experimentally to match our desired probability of false positives.
      */
     // NB: yes, this is surprisingly high, but that's what the experiments said was necessary

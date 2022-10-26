@@ -40,9 +40,9 @@ import junit.framework.TestSuite;
  * </ul>
  *
  * To force selection of our fallback strategies we load {@link AggregateFutureState} (and all of
- * {@code com.google.common.util.concurrent} in degenerate class loaders which make certain platform
- * classes unavailable. Then we construct a test suite so we can run the normal FuturesTest test
- * methods in these degenerate classloaders.
+ * {@code com.google.common.util.concurrent}) in degenerate class loaders which make certain
+ * platform classes unavailable. Then we construct a test suite so we can run the normal FuturesTest
+ * test methods in these degenerate classloaders.
  */
 
 public class AggregateFutureStateFallbackAtomicHelperTest extends TestCase {

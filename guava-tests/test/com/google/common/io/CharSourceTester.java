@@ -36,7 +36,7 @@ import junit.framework.TestSuite;
 
 /**
  * A generator of {@code TestSuite} instances for testing {@code CharSource} implementations.
- * Generates tests of a all methods on a {@code CharSource} given various inputs the source is
+ * Generates tests of all methods on a {@code CharSource} given various inputs the source is
  * expected to contain.
  *
  * @author Colin Decker

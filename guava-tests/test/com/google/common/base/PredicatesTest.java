@@ -764,7 +764,7 @@ public class PredicatesTest extends TestCase {
   }
 
   @SuppressWarnings("unchecked") // varargs
-  @GwtIncompatible // SerializbleTester
+  @GwtIncompatible // SerializableTester
   public void testCascadingSerialization() throws Exception {
     // Eclipse says Predicate<Integer>; javac says Predicate<Object>.
     Predicate<? super Integer> nasty =

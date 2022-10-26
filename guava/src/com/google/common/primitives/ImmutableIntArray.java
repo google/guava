@@ -175,6 +175,18 @@ public final class ImmutableIntArray implements Serializable {
     return (array.length == 0) ? EMPTY : new ImmutableIntArray(array);
   }
 
+  /** Returns an immutable array containing the given values, in reverse order  */
+  public static ImmutableIntArray reverse(ImmutableIntArray values){
+    int[] intArray = new int[values.length()];
+    // Add values into array initialized
+    for (int i = 0; i < values.length(); i ++){
+      intArray[i] = values.get(i);
+    }
+    // Reverse the order of the elements in the array
+    Ints.reverse(intArray);
+    return new ImmutableIntArray(intArray);
+  }
+
   /**
    * Returns a new, empty builder for {@link ImmutableIntArray} instances, sized to hold up to
    * {@code initialCapacity} values without resizing. The returned builder is not thread-safe.

@@ -1023,7 +1023,7 @@ public class ImmutableMapTest extends TestCase {
   @GwtIncompatible // SerializableTester
   @SuppressWarnings("unchecked")
   public void ignore_testSerializationNoDuplication_regularImmutableMap() throws Exception {
-    // Tests that searializing a map, its keySet, and values only writes the underlying data once.
+    // Tests that serializing a map, its keySet, and values only writes the underlying data once.
 
     Entry<Integer, Integer>[] entries = (Entry<Integer, Integer>[]) new Entry<?, ?>[1000];
     for (int i = 0; i < 1000; i++) {
@@ -1053,7 +1053,7 @@ public class ImmutableMapTest extends TestCase {
   @GwtIncompatible // SerializableTester
   @SuppressWarnings("unchecked")
   public void ignore_testSerializationNoDuplication_jdkBackedImmutableMap() throws Exception {
-    // Tests that searializing a map, its keySet, and values only writes
+    // Tests that serializing a map, its keySet, and values only writes
     // the underlying data once.
 
     Entry<Integer, Integer>[] entries = (Entry<Integer, Integer>[]) new Entry<?, ?>[1000];

@@ -53,10 +53,10 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableBiMapFauxverideShim<
    * and values are the result of applying the provided mapping functions to the input elements.
    * Entries appear in the result {@code ImmutableBiMap} in encounter order.
    *
-   * <p>If the mapped keys or values contain duplicates (according to {@link Object#equals(Object)},
-   * an {@code IllegalArgumentException} is thrown when the collection operation is performed. (This
-   * differs from the {@code Collector} returned by {@link Collectors#toMap(Function, Function)},
-   * which throws an {@code IllegalStateException}.)
+   * <p>If the mapped keys or values contain duplicates (according to {@link
+   * Object#equals(Object)}), an {@code IllegalArgumentException} is thrown when the collection
+   * operation is performed. (This differs from the {@code Collector} returned by {@link
+   * Collectors#toMap(Function, Function)}, which throws an {@code IllegalStateException}.)
    *
    * @since 21.0
    */

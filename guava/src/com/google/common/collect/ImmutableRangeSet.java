@@ -519,7 +519,7 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
    * such a set can be performed efficiently, but others (such as {@link Set#hashCode} or {@link
    * Collections#frequency}) can cause major performance problems.
    *
-   * <p>The returned set's {@link Object#toString} method returns a short-hand form of the set's
+   * <p>The returned set's {@link Object#toString} method returns a shorthand form of the set's
    * contents, such as {@code "[1..100]}"}.
    *
    * @throws IllegalArgumentException if neither this range nor the domain has a lower bound, or if

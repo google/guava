@@ -954,7 +954,7 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
     assertEquals(list, copy);
   }
 
-  public void testAsListInconsistentComprator() {
+  public void testAsListInconsistentComparator() {
     ImmutableSet<String> set =
         ImmutableSortedSet.orderedBy(STRING_LENGTH)
             .add("in", "the", "quick", "jumped", "over", "a")

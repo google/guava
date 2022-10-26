@@ -89,7 +89,7 @@ public class FutureCallbackTest extends TestCase {
     addCallback(f, callback, directExecutor());
   }
 
-  public void testRuntimeExeceptionFromGet() {
+  public void testRuntimeExceptionFromGet() {
     RuntimeException e = new IllegalArgumentException("foo not found");
     ListenableFuture<String> f = UncheckedThrowingFuture.throwingRuntimeException(e);
     MockCallback callback = new MockCallback(e);

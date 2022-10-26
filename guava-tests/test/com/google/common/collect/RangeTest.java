@@ -130,6 +130,20 @@ public class RangeTest extends TestCase {
     assertFalse(Range.closed(3, 5).isConnected(Range.closedOpen(7, 7)));
   }
 
+  public void testConstrain() {
+    Range<Integer> rangeOne = Range.closed(5, 7);
+    assertEquals(5, (int) rangeOne.constrain(1));
+    assertEquals(7, (int) rangeOne.constrain(9));
+    assertEquals(6, (int) rangeOne.constrain(6));
+    Range<Integer> rangeTwo = Range.closed(-50, -7);
+    assertEquals(-7, (int) rangeTwo.constrain(0));
+    assertEquals(-50, (int) rangeTwo.constrain(-100));
+    Range<Integer> rangeThree = Range.lessThan(7);
+    assertEquals(7, (int) rangeThree.constrain(10));
+    Range<Integer> rangeFour = Range.atMost(10);
+    assertEquals(10, (int) rangeFour.constrain(15));
+  }
+
   private static void checkContains(Range<Integer> range) {
     assertFalse(range.contains(4));
     assertTrue(range.contains(5));

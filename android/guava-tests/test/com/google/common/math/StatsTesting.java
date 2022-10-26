@@ -63,7 +63,7 @@ class StatsTesting {
           + (-56.78 - TWO_VALUES_MEAN) * (-789.012 - OTHER_TWO_VALUES_MEAN);
 
   /**
-   * Helper class for testing with non-finite values. {@link #ALL_MANY_VALUES} gives a number
+   * Helper class for testing with non-finite values. {@link #ALL_MANY_VALUES} gives a number of
    * instances with many combinations of finite and non-finite values. All have {@link
    * #MANY_VALUES_COUNT} values. If all the values are finite then the mean is {@link
    * #MANY_VALUES_MEAN} and the sum-of-squares-of-deltas is {@link
@@ -367,7 +367,7 @@ class StatsTesting {
   }
 
   /**
-   * Asserts that {@code transformation} is diagonal (i.e. neither horizontal or vertical) and
+   * Asserts that {@code transformation} is diagonal (i.e. neither horizontal nor vertical) and
    * passes through both {@code (x1, y1)} and {@code (x1 + xDelta, y1 + yDelta)}. Includes
    * assertions about all the public instance methods of {@link LinearTransformation} (on both
    * {@code transformation} and its inverse). Since the transformation is expected to be diagonal,

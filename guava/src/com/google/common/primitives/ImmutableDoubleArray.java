@@ -178,6 +178,18 @@ public final class ImmutableDoubleArray implements Serializable {
     return (array.length == 0) ? EMPTY : new ImmutableDoubleArray(array);
   }
 
+  /** Returns an immutable array containing the given values, in reverse order  */
+  public static ImmutableDoubleArray reverse(ImmutableDoubleArray values){
+    double[] array = new double[values.length()];
+    // Add values into array initialised
+    for (int i = 0; i < values.length(); i ++){
+      array[i] = values.get(i);
+    }
+    // Reverse the order of the elements in the array
+    Doubles.reverse(array);
+    return new ImmutableDoubleArray(array);
+  }
+
   /**
    * Returns a new, empty builder for {@link ImmutableDoubleArray} instances, sized to hold up to
    * {@code initialCapacity} values without resizing. The returned builder is not thread-safe.
