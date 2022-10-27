@@ -136,16 +136,22 @@
               <arg>doesnotexist</arg>
               <!-- https://errorprone.info/docs/installation#maven -->
               <arg>-XDcompilePolicy=simple</arg>
-              <arg>-Xplugin:ErrorProne</arg>
+              <!-- -Xplugin:ErrorProne is set conditionally by a profile. -->
             </compilerArgs>
             <annotationProcessorPaths>
               <path>
                 <groupId>com.google.errorprone</groupId>
                 <artifactId>error_prone_core</artifactId>
-                <!-- https://errorprone.info/docs/installation#jdk-8 -->
-                <version>2.10.0</version>
+                <version>2.16</version>
               </path>
             </annotationProcessorPaths>
+            <!-- Fork:
+
+                 - for JDK8 because we use a javac9 bootclasspath
+
+                 - for JDK9+ because we need args like add-exports
+                 -->
+            <fork>true</fork>
           </configuration>
         </plugin>
         <plugin>
@@ -446,9 +452,8 @@
         </test.add.opens>
       </properties>
     </profile>
-    <!-- https://github.com/google/error-prone/blob/f8e33bc460be82ab22256a7ef8b979d7a2cacaba/docs/installation.md#jdk-8 -->
     <profile>
-      <id>jdk8</id>
+      <id>javac9-for-jdk8</id>
       <activation>
         <jdk>1.8</jdk>
       </activation>
@@ -458,9 +463,71 @@
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-compiler-plugin</artifactId>
             <configuration>
-              <fork>true</fork>
+              <!-- Under JDK8, we continue to use errorprone's javac9 (even
+                   though we don't run Error Prone itself, which no longer
+                   supports JDK8!).
+
+                   Why? At some point, presumably after
+                   https://github.com/google/guava/commit/e06a8cec65815599e510d7f9c1ea9d2a8eaa438a,
+                   builds with JDK8 began failing animal-sniffer with the error:
+
+                   Failed to check signatures: Bad class file .../CollectionFuture$ListFuture.class
+
+                   One way of dealing with that would be to disable
+                   animal-sniffer. And that would be fine for our -jre builds:
+                   If we're building with JDK8, then clearly we're sticking to
+                   JDK8 APIs. However, I assume (but did not confirm) that we'd
+                   have the same issue with our -android builds, which need
+                   animal-sniffer so that they can check that we're sticking to
+                   JDK6-like APIs.
+
+                   So instead, we use javac9, which doesn't lead to this error.
+              -->
               <compilerArgs combine.children="append">
                 <arg>-J-Xbootclasspath/p:${settings.localRepository}/com/google/errorprone/javac/${javac.version}/javac-${javac.version}.jar</arg>
+              </compilerArgs>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>new-enough-for-error-prone</id>
+      <activation>
+        <jdk>[9,)</jdk>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <configuration>
+              <compilerArgs combine.children="append">
+                <!-- https://errorprone.info/docs/installation#maven -->
+                <!-- TODO(cpovirk): Enable NullArgumentForNonNullParameter for
+                     prod code. It's disabled automatically for "test code"
+                     (which is good: our tests have intentional violations), but
+                     Error Prone doesn't know it's building test code unless we
+                     pass -XepCompilingTestOnlyCode, and that argument needs to
+                     be passed as part of the same <arg> as -Xplugin:ErrorProne,
+                     and I gave up trying to figure out how to do that for test
+                     compilation only. -->
+                <arg>-Xplugin:ErrorProne -Xep:NullArgumentForNonNullParameter:OFF</arg>
+                <!-- https://github.com/google/error-prone/blob/f8e33bc460be82ab22256a7ef8b979d7a2cacaba/docs/installation.md#jdk-16 -->
+                <!-- TODO(cpovirk): Use .mvn/jvm.config instead (per
+                     https://errorprone.info/docs/installation#maven) if it can
+                     be made not to interfere with JDK8 or if we stop building
+                     with JDK8. -->
+                <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED</arg>
+                <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED</arg>
+                <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.main=ALL-UNNAMED</arg>
+                <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.model=ALL-UNNAMED</arg>
+                <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED</arg>
+                <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.processing=ALL-UNNAMED</arg>
+                <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED</arg>
+                <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED</arg>
+                <arg>-J--add-opens=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED</arg>
+                <arg>-J--add-opens=jdk.compiler/com.sun.tools.javac.comp=ALL-UNNAMED</arg>
               </compilerArgs>
             </configuration>
           </plugin>
