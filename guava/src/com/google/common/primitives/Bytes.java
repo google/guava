@@ -116,9 +116,6 @@ public final class Bytes {
    *     such index exists.
    */
   public static int lastIndexOf(byte[] array, byte target, int fromIndex){
-    checkNotNull(array, "array");
-    checkNotNull(target, "target");
-    checkNotNull(fromIndex,"fromIndex");
     // check if fromIndex exceed the range
     if(fromIndex > array.length-1 || fromIndex < 0){
       return -1;
@@ -204,9 +201,6 @@ public final class Bytes {
    *     such index exists.
    */
   public static int lastIndexOf(byte[] array, byte[] target, int fromIndex){
-    checkNotNull(array, "array");
-    checkNotNull(target, "target");
-    checkNotNull(fromIndex,"fromIndex");
 
     if (target.length == 0) {
       return array.length - 1;
