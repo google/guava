@@ -34,19 +34,8 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import java.util.ArrayDeque;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Deque;
-import java.util.Enumeration;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.NoSuchElementException;
-import java.util.PriorityQueue;
-import java.util.Queue;
+
+import java.util.*;
 import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -1300,8 +1289,9 @@ public final class Iterators {
     checkNotNull(iterators, "iterators");
     checkNotNull(comparator, "comparator");
 
-    return new MergingIterator<>(iterators, comparator);
+    return new MergingIterator<T>((List<Iterator<T>>) iterators, comparator);
   }
+
 
   /**
    * An iterator that performs a lazy N-way merge, calculating the next value each time the iterator
@@ -1315,10 +1305,63 @@ public final class Iterators {
   private static class MergingIterator<T extends @Nullable Object> extends UnmodifiableIterator<T> {
     final Queue<PeekingIterator<T>> queue;
 
+
+    /**
+     * custom constructor of a tuple consisting of (iterator, index).
+     * used to track iterators original position in arraylist.
+     *
+     */
+    // create tuple for (Iterator, index)
+    class IteratorWithIndex{
+      final Iterator<T> iterator;
+      final Integer index;
+
+      //Constructor for class
+      IteratorWithIndex(Iterator<T> iterator, Integer index) {
+        this.iterator = iterator;
+        this.index = index;
+      }
+
+      // get iterator method
+      public Iterator<T> getIterator(){
+        return iterator;
+      }
+
+      // get index method
+      public Integer getIndex(){
+        return index;
+      }
+
+
+    }
+
+    /**
+     * employs mergeSort algorithm to sort an array list of iterators.
+     * Creates a new list of (iterator, index) tuples.
+     * This is used to compare indexes when iterators are identical.
+     * MergingIterator is therefore, stable.
+     */
     public MergingIterator(
-        Iterable<? extends Iterator<? extends T>> iterators, Comparator<? super T> itemComparator) {
+            List<Iterator<T>> iterators, Comparator<? super T> itemComparator) {
       // A comparator that's used by the heap, allowing the heap
       // to be sorted based on the top of each iterator.
+
+      // create new iterators with index (i.e., to compare index when iterators are equal)
+      List<IteratorWithIndex> indexedIterator = new ArrayList<>();
+
+      for(int i = 0; i < iterators.size(); i++){
+        indexedIterator.add(new IteratorWithIndex(iterators.get(i), i));
+      }
+
+      // apply merge sort algorithm to the IndexedIterator
+      sort(indexedIterator, 0, iterators.size()-1, (Comparator<Iterator<T>>) itemComparator);
+
+      // convert the now stable sorted indexedIterator back into iterator
+      // (iterator, index)  -> iterator
+      for(int i = 0; i < iterators.size(); i++){
+        iterators.set(i, indexedIterator.get(i).iterator);
+      }
+
       Comparator<PeekingIterator<T>> heapComparator =
           (PeekingIterator<T> o1, PeekingIterator<T> o2) ->
               itemComparator.compare(o1.peek(), o2.peek());
@@ -1330,7 +1373,89 @@ public final class Iterators {
           queue.add(Iterators.peekingIterator(iterator));
         }
       }
+
     }
+
+    /**
+     * mergeSort algorithm which sorts an arraylist of IndexedIterator in nlog(n) time.
+     * if iterators being compared are identical, then comparison is based off there original index.
+     * mergeSort algorithm is thus, stable.
+     */
+    void sort(List<IteratorWithIndex> IndexedIterator, int leftIndex, int rightIndex, Comparator<Iterator<T>> itemComparator){
+      if (leftIndex < rightIndex){
+        int midPoint = leftIndex + (rightIndex - leftIndex) / 2;
+
+        // sort both halves
+        sort(IndexedIterator, leftIndex, midPoint,  itemComparator);
+        sort(IndexedIterator, midPoint+1, rightIndex, itemComparator);
+
+        // merge halves
+        merge(IndexedIterator, leftIndex, midPoint, rightIndex, itemComparator);
+      }
+    }
+    void merge(List<IteratorWithIndex> IndexedIterator, int leftIndex, int midpoint, int rightIndex, Comparator<Iterator<T>> itemComparator) {
+
+      // sizes of sub arrays
+      int s1 = midpoint - leftIndex + 1;
+      int s2 = rightIndex - midpoint;
+
+      // create subArrays
+      List<IteratorWithIndex> subArray1 = IndexedIterator.subList(leftIndex, s1);
+      List<IteratorWithIndex> subArray2 = IndexedIterator.subList(midpoint + 1, s2);
+
+      int i = 0;
+      int j = 0;
+      int p = leftIndex; // index for original array list
+
+      while (i < s1 && j < s2) {
+        // if iterators are the same, compare using index.
+        if (subArray1.get(i).getIterator() == subArray2.get(j).getIterator()) {
+          if (subArray1.get(i).getIndex() < subArray2.get(j).getIndex()){
+            IndexedIterator.set(p, subArray1.get(i));
+            i = i + 1;
+          }
+          else {
+            IndexedIterator.set(p, subArray2.get(i));
+            j = j + 1;
+          }
+        }
+
+
+        // else if iterator are different, compare using iterator
+        else if (compareIterators(subArray1.get(i).getIterator(), subArray2.get(j).getIterator(), itemComparator)) {
+          IndexedIterator.set(p, subArray1.get(i));
+          i = i + 1;
+        }
+        else {
+          IndexedIterator.set(p, subArray2.get(i));
+          j = j + 1;
+        }
+        p = p + 1;
+      }
+
+      // set remaining elements
+      while (i < s1){
+        IndexedIterator.set(p, subArray1.get(i));
+        i =i+1;
+        p =p+1;
+      }
+      while (j < s2){
+        IndexedIterator.set(p, subArray1.get(j));
+        j =j+1;
+        p =p+1;
+      }
+
+    }
+
+
+    /**
+     * Returns a boolean with respect to the comparator.
+     * Input comparator is used to compare the two iterators.
+     */
+    public boolean compareIterators(Iterator<T> iterator1, Iterator<T> iterator2, Comparator<Iterator<T>> itemComparator){
+      return (itemComparator.compare(iterator1, iterator2) > 0);
+    }
+
 
     @Override
     public boolean hasNext() {
@@ -1348,6 +1473,7 @@ public final class Iterators {
       return next;
     }
   }
+
 
   private static class ConcatenatedIterator<T extends @Nullable Object> implements Iterator<T> {
     /* The last iterator to return an element.  Calls to remove() go to this iterator. */
