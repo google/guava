@@ -95,6 +95,7 @@ public final class LongMath {
    * <p>This differs from {@code Long.bitCount(x) == 1}, because {@code
    * Long.bitCount(Long.MIN_VALUE) == 1}, but {@link Long#MIN_VALUE} is not a power of two.
    */
+  @SuppressWarnings("ShortCircuitBoolean")
   public static boolean isPowerOfTwo(long x) {
     return x > 0 & (x & (x - 1)) == 0;
   }
@@ -142,10 +143,8 @@ public final class LongMath {
         // floor(2^(logFloor + 0.5))
         int logFloor = (Long.SIZE - 1) - leadingZeros;
         return logFloor + lessThanBranchFree(cmp, x);
-
-      default:
-        throw new AssertionError("impossible");
     }
+    throw new AssertionError("impossible");
   }
 
   /** The biggest half power of two that fits into an unsigned long */
@@ -180,9 +179,8 @@ public final class LongMath {
       case HALF_EVEN:
         // sqrt(10) is irrational, so log10(x)-logFloor is never exactly 0.5
         return logFloor + lessThanBranchFree(halfPowersOf10[logFloor], x);
-      default:
-        throw new AssertionError();
     }
+    throw new AssertionError();
   }
 
   @GwtIncompatible // TODO
@@ -310,7 +308,6 @@ public final class LongMath {
    *     sqrt(x)} is not an integer
    */
   @GwtIncompatible // TODO
-  @SuppressWarnings("fallthrough")
   public static long sqrt(long x, RoundingMode mode) {
     checkNonNegative("x", x);
     if (fitsInInt(x)) {
@@ -331,7 +328,7 @@ public final class LongMath {
      *          since (long) Math.sqrt(k * k) == k, as checked exhaustively in
      *          {@link LongMathTest#testSqrtOfPerfectSquareAsDoubleIsPerfect}
      */
-    long guess = (long) Math.sqrt(x);
+    long guess = (long) Math.sqrt((double) x);
     // Note: guess is always <= FLOOR_SQRT_MAX_LONG.
     long guessSquared = guess * guess;
     // Note (2013-2-26): benchmarks indicate that, inscrutably enough, using if statements is
@@ -369,9 +366,8 @@ public final class LongMath {
          * signed long, so lessThanBranchFree is safe for use.
          */
         return sqrtFloor + lessThanBranchFree(halfSquare, x);
-      default:
-        throw new AssertionError();
     }
+    throw new AssertionError();
   }
 
   /**
@@ -543,6 +539,7 @@ public final class LongMath {
    *
    * @throws ArithmeticException if {@code a + b} overflows in signed {@code long} arithmetic
    */
+  @SuppressWarnings("ShortCircuitBoolean")
   public static long checkedAdd(long a, long b) {
     long result = a + b;
     checkNoOverflow((a ^ b) < 0 | (a ^ result) >= 0, "checkedAdd", a, b);
@@ -555,6 +552,7 @@ public final class LongMath {
    * @throws ArithmeticException if {@code a - b} overflows in signed {@code long} arithmetic
    */
   @GwtIncompatible // TODO
+  @SuppressWarnings("ShortCircuitBoolean")
   public static long checkedSubtract(long a, long b) {
     long result = a - b;
     checkNoOverflow((a ^ b) >= 0 | (a ^ result) >= 0, "checkedSubtract", a, b);
@@ -566,6 +564,7 @@ public final class LongMath {
    *
    * @throws ArithmeticException if {@code a * b} overflows in signed {@code long} arithmetic
    */
+  @SuppressWarnings("ShortCircuitBoolean")
   public static long checkedMultiply(long a, long b) {
     // Hacker's Delight, Section 2-12
     int leadingZeros =
@@ -600,6 +599,7 @@ public final class LongMath {
    *     long} arithmetic
    */
   @GwtIncompatible // TODO
+  @SuppressWarnings("ShortCircuitBoolean")
   public static long checkedPow(long b, int k) {
     checkNonNegative("exponent", k);
     if (b >= -2 & b <= 2) {
@@ -648,6 +648,7 @@ public final class LongMath {
    * @since 20.0
    */
   @Beta
+  @SuppressWarnings("ShortCircuitBoolean")
   public static long saturatedAdd(long a, long b) {
     long naiveSum = a + b;
     if ((a ^ b) < 0 | (a ^ naiveSum) >= 0) {
@@ -666,6 +667,7 @@ public final class LongMath {
    * @since 20.0
    */
   @Beta
+  @SuppressWarnings("ShortCircuitBoolean")
   public static long saturatedSubtract(long a, long b) {
     long naiveDifference = a - b;
     if ((a ^ b) >= 0 | (a ^ naiveDifference) >= 0) {
@@ -684,6 +686,7 @@ public final class LongMath {
    * @since 20.0
    */
   @Beta
+  @SuppressWarnings("ShortCircuitBoolean")
   public static long saturatedMultiply(long a, long b) {
     // see checkedMultiply for explanation
     int leadingZeros =
@@ -714,6 +717,7 @@ public final class LongMath {
    * @since 20.0
    */
   @Beta
+  @SuppressWarnings("ShortCircuitBoolean")
   public static long saturatedPow(long b, int k) {
     checkNonNegative("exponent", k);
     if (b >= -2 & b <= 2) {
@@ -740,7 +744,7 @@ public final class LongMath {
     }
     long accum = 1;
     // if b is negative and k is odd then the limit is MIN otherwise the limit is MAX
-    long limit = Long.MAX_VALUE + ((b >>> Long.SIZE - 1) & (k & 1));
+    long limit = Long.MAX_VALUE + ((b >>> (Long.SIZE - 1)) & (k & 1));
     while (true) {
       switch (k) {
         case 0:
@@ -1115,7 +1119,7 @@ public final class LongMath {
       private long times2ToThe32Mod(long a, long m) {
         int remainingPowersOf2 = 32;
         do {
-          int shift = Math.min(remainingPowersOf2, Long.numberOfLeadingZeros(a));
+          int shift = min(remainingPowersOf2, Long.numberOfLeadingZeros(a));
           // shift is either the number of powers of 2 left to multiply a by, or the biggest shift
           // possible while keeping a in an unsigned long.
           a = UnsignedLongs.remainder(a << shift, m);
