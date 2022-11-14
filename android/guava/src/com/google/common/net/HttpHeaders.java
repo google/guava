@@ -317,6 +317,13 @@ public final class HttpHeaders {
    */
   public static final String KEEP_ALIVE = "Keep-Alive";
   /**
+   * The HTTP <a href="https://github.com/WICG/nav-speculation/blob/main/no-vary-search.md">{@code
+   * No-Vary-Seearch}</a> header field name.
+   *
+   * @since NEXT
+   */
+  public static final String NO_VARY_SEARCH = "No-Vary-Search";
+  /**
    * The HTTP <a href="https://googlechrome.github.io/OriginTrials/#header">{@code Origin-Trial}</a>
    * header field name.
    *
