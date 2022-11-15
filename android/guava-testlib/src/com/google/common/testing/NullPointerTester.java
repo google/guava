@@ -53,7 +53,7 @@ import junit.framework.AssertionFailedError;
  * A test utility that verifies that your methods and constructors throw {@link
  * NullPointerException} or {@link UnsupportedOperationException} whenever null is passed to a
  * parameter that isn't annotated with an annotation with the simple name {@code Nullable}, {@code
- * CheckForNull}, {@link NullableType}, or {@link NullableDecl}.
+ * CheckForNull}, {@code NullableType}, or {@code NullableDecl}.
  *
  * <p>The tested methods and constructors are invoked -- each time with one parameter being null and
  * the rest not null -- and the test fails if no expected exception is thrown. {@code

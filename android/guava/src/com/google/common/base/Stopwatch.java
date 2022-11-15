@@ -33,12 +33,11 @@ import java.util.concurrent.TimeUnit;
  * successive readings of "now" in the same process.
  *
  * <p>In contrast, <i>wall time</i> is a reading of "now" as given by a method like
- * {@link System#currentTimeMillis()}, best represented as an {@link Instant}. Such values
- *
- * <p><i>can</i> be subtracted to obtain a {@code Duration} (such as by {@code Duration.between}),
- * but doing so does <i>not</i> give a reliable measurement of elapsed time, because wall time
- * readings are inherently approximate, routinely affected by periodic clock corrections. Because
- * this class (by default) uses {@link System#nanoTime}, it is unaffected by these changes.
+ * {@link System#currentTimeMillis()}, best represented as an {@link java.time.Instant}. Such values
+ * <i>can</i> be subtracted to obtain a {@code Duration} (such as by {@code Duration.between}), but
+ * doing so does <i>not</i> give a reliable measurement of elapsed time, because wall time readings
+ * are inherently approximate, routinely affected by periodic clock corrections. Because this class
+ * (by default) uses {@link System#nanoTime}, it is unaffected by these changes.
  *
  * <p>Use this class instead of direct calls to {@link System#nanoTime} for two reasons:
  *

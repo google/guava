@@ -29,6 +29,7 @@ import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
 import java.lang.reflect.Method;
+import java.util.Hashtable;
 import java.util.Map;
 import junit.framework.AssertionFailedError;
 import org.junit.Ignore;
