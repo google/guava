@@ -35,7 +35,8 @@ import javax.annotation.CheckForNull;
  * and a primitive type and its corresponding wrapper type may map to different values.
  *
  * <p>This class's support for {@code null} requires some explanation. For details, see {@link
- * ClassToInstanceMap}. Its explanation applies equally well to {@code TypeToInstanceMap}.
+ * com.google.common.collect.ClassToInstanceMap}. Its explanation applies equally well to {@code
+ * TypeToInstanceMap}.
  *
  * @param <B> the common supertype that all entries must share; often this is simply {@link Object}
  * @author Ben Yu
