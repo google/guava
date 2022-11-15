@@ -178,7 +178,7 @@ public class MultisetNavigationTester<E> extends AbstractMultisetTester<E> {
   @CollectionFeature.Require(absent = SUPPORTS_REMOVE)
   public void testPollFirstUnsupported() {
     try {
-      sortedMultiset.pollFirstEntry();
+      Entry<E> unused = sortedMultiset.pollFirstEntry();
       fail();
     } catch (UnsupportedOperationException e) {
     }
@@ -234,7 +234,7 @@ public class MultisetNavigationTester<E> extends AbstractMultisetTester<E> {
   @CollectionSize.Require(SEVERAL)
   public void testPollLastUnsupported() {
     try {
-      sortedMultiset.pollLastEntry();
+      Entry<E> unused = sortedMultiset.pollLastEntry();
       fail();
     } catch (UnsupportedOperationException e) {
     }

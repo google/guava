@@ -82,7 +82,7 @@ public class MultimapContainsKeyTester<K, V> extends AbstractMultimapTester<K, V
   @MapFeature.Require(absent = ALLOWS_NULL_KEY_QUERIES)
   public void testContainsKeyNullDisallowed() {
     try {
-      multimap().containsKey(null);
+      boolean unused = multimap().containsKey(null);
       fail("Expected NullPointerException");
     } catch (NullPointerException expected) {
       // success
