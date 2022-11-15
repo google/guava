@@ -328,7 +328,7 @@ extends java.lang.Object</pre>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>callAsync</h4>
-<pre class="methodSignature">public&nbsp;&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;V&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.Combiner.html#line.1356">callAsync</a>&#8203;(<a href="ClosingFuture.Combiner.AsyncCombiningCallable.html" title="interface in com.google.common.util.concurrent">ClosingFuture.Combiner.AsyncCombiningCallable</a>&lt;V&gt;&nbsp;combiningCallable,
+<pre class="methodSignature">public&nbsp;&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;V&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.Combiner.html#line.1355">callAsync</a>&#8203;(<a href="ClosingFuture.Combiner.AsyncCombiningCallable.html" title="interface in com.google.common.util.concurrent">ClosingFuture.Combiner.AsyncCombiningCallable</a>&lt;V&gt;&nbsp;combiningCallable,
                                                                          java.util.concurrent.Executor&nbsp;executor)</pre>
 <div class="block">Returns a new <code>ClosingFuture</code> pipeline step derived from the inputs by applying a
  <code>ClosingFuture</code>-returning function to their values. The function can use a <a href="ClosingFuture.DeferredCloser.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture.DeferredCloser</code></a> to capture objects to be closed when the pipeline is done (other than those
@@ -355,8 +355,8 @@ extends java.lang.Object</pre>
    <li>Use this method only when calling an API that returns a <a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a> or a
        <code>ClosingFuture</code>. If possible, prefer calling <a href="#call(com.google.common.util.concurrent.ClosingFuture.Combiner.CombiningCallable,java.util.concurrent.Executor)"><code>call(CombiningCallable,
        Executor)</code></a> instead, with a function that returns the next value directly.
-   <li>Call <code>closer.eventuallyClose()</code> for every closeable object this step creates in order to
-       capture it for later closing.
+   <li>Call <a href="ClosingFuture.DeferredCloser.html#eventuallyClose(C,java.util.concurrent.Executor)"><code>closer.eventuallyClose()</code></a>
+       for every closeable object this step creates in order to capture it for later closing.
    <li>Return a <code>ClosingFuture</code>. To turn a <a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a> into a <code>
        ClosingFuture</code> call <a href="ClosingFuture.html#from(com.google.common.util.concurrent.ListenableFuture)"><code>ClosingFuture.from(ListenableFuture)</code></a>.
  </ul>

@@ -195,9 +195,9 @@ public static interface <a href="../../../../../src-html/com/google/common/util/
 throws java.lang.Exception</pre>
 <div class="block">Computes a result, or throws an exception if unable to do so.
 
- <p>Any objects that are passed to <code>closer.eventuallyClose()</code> will be closed when the <a href="ClosingFuture.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture</code></a> pipeline
- is done (but not before this method completes), even if this method throws or the pipeline
- is cancelled.</div>
+ <p>Any objects that are passed to <a href="ClosingFuture.DeferredCloser.html#eventuallyClose(C,java.util.concurrent.Executor)"><code>closer.eventuallyClose()</code></a> will be closed when the <a href="ClosingFuture.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture</code></a> pipeline is done
+ (but not before this method completes), even if this method throws or the pipeline is
+ cancelled.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>peeker</code> - used to get the value of any of the input futures</dd>

@@ -702,8 +702,8 @@ public static&nbsp;&lt;C extends <a href="https://checkerframework.org/api/org/c
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>future</code> - the future to create the <code>ClosingFuture</code> from. For discussion of the
-     future's result type <code>C</code>, see <code>DeferredCloser#eventuallyClose(Closeable,
-     Executor)</code>.</dd>
+     future's result type <code>C</code>, see <a href="ClosingFuture.DeferredCloser.html#eventuallyClose(C,java.util.concurrent.Executor)"><code>ClosingFuture.DeferredCloser.eventuallyClose(Object,
+     Executor)</code></a>.</dd>
 <dd><code>closingExecutor</code> - the future's result will be closed on this executor</dd>
 </dl>
 </li>
@@ -953,7 +953,7 @@ public static&nbsp;&lt;C extends <a href="https://checkerframework.org/api/org/c
    <li>Use this method only when calling an API that returns a <a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a> or a
        <code>ClosingFuture</code>. If possible, prefer calling <a href="#transform(com.google.common.util.concurrent.ClosingFuture.ClosingFunction,java.util.concurrent.Executor)"><code>transform(ClosingFunction,
        Executor)</code></a> instead, with a function that returns the next value directly.
-   <li>Call <code>closer.eventuallyClose()</code>
+   <li>Call <a href="ClosingFuture.DeferredCloser.html#eventuallyClose(C,java.util.concurrent.Executor)"><code>closer.eventuallyClose()</code></a>
        for every closeable object this step creates in order to capture it for later closing.
    <li>Return a <code>ClosingFuture</code>. To turn a <a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a> into a <code>
        ClosingFuture</code> call <a href="#from(com.google.common.util.concurrent.ListenableFuture)"><code>from(ListenableFuture)</code></a>.
@@ -1024,7 +1024,7 @@ public static&nbsp;&lt;C extends <a href="https://checkerframework.org/api/org/c
  meets these conditions:
 
  <ul>
-   <li>It does not need to capture any <code>Closeable</code> objects by calling <code>DeferredCloser#eventuallyClose(Closeable, Executor)</code>.
+   <li>It does not need to capture any <code>Closeable</code> objects by calling <a href="ClosingFuture.DeferredCloser.html#eventuallyClose(C,java.util.concurrent.Executor)"><code>ClosingFuture.DeferredCloser.eventuallyClose(Object, Executor)</code></a>.
    <li>It returns a <a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a>.
  </ul>
 
@@ -1124,7 +1124,7 @@ public static&nbsp;&lt;C extends <a href="https://checkerframework.org/api/org/c
        <code>ClosingFuture</code>. If possible, prefer calling <a href="#catching(java.lang.Class,com.google.common.util.concurrent.ClosingFuture.ClosingFunction,java.util.concurrent.Executor)"><code>catching(Class,
        ClosingFunction, Executor)</code></a> instead, with a function that returns the next value
        directly.
-   <li>Call <code>closer.eventuallyClose()</code>
+   <li>Call <a href="ClosingFuture.DeferredCloser.html#eventuallyClose(C,java.util.concurrent.Executor)"><code>closer.eventuallyClose()</code></a>
        for every closeable object this step creates in order to capture it for later closing.
    <li>Return a <code>ClosingFuture</code>. To turn a <a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a> into a <code>
        ClosingFuture</code> call <a href="#from(com.google.common.util.concurrent.ListenableFuture)"><code>from(ListenableFuture)</code></a>.
@@ -1247,7 +1247,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util
 <ul class="blockList">
 <li class="blockList">
 <h4>toString</h4>
-<pre class="methodSignature">public&nbsp;java.lang.String&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.html#line.2147">toString</a>()</pre>
+<pre class="methodSignature">public&nbsp;java.lang.String&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.html#line.2142">toString</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code>java.lang.Object</code></span></div>
 <div class="block">Returns a string representation of the object. In general, the
  <code>toString</code> method returns a string that
@@ -1280,7 +1280,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util
 <ul class="blockListLast">
 <li class="blockList">
 <h4>finalize</h4>
-<pre class="methodSignature">protected&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.html#line.2153">finalize</a>()</pre>
+<pre class="methodSignature">protected&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.html#line.2148">finalize</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code>java.lang.Object</code></span></div>
 <div class="block">Called by the garbage collector on an object when garbage collection
  determines that there are no more references to the object.

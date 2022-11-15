@@ -137,7 +137,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <hr>
 <pre><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/DoNotMock.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@DoNotMock</a>("Use ImmutableTypeToInstanceMap or MutableTypeToInstanceMap")
-public interface <a href="../../../../src-html/com/google/common/reflect/TypeToInstanceMap.html#line.44">TypeToInstanceMap</a>&lt;B&gt;
+public interface <a href="../../../../src-html/com/google/common/reflect/TypeToInstanceMap.html#line.45">TypeToInstanceMap</a>&lt;B&gt;
 extends java.util.Map&lt;<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;? extends B&gt;,&#8203;B&gt;</pre>
 <div class="block">A map, each entry of which maps a <a href="TypeToken.html" title="class in com.google.common.reflect"><code>TypeToken</code></a> to an instance of that type. In addition to
  implementing <code>Map</code>, the additional type-safe operations <a href="#putInstance(java.lang.Class,T)"><code>putInstance(java.lang.Class&lt;T&gt;, T)</code></a> and <a href="#getInstance(java.lang.Class)"><code>getInstance(java.lang.Class&lt;T&gt;)</code></a> are available.
@@ -152,7 +152,8 @@ extends java.util.Map&lt;<a href="TypeToken.html" title="class in com.google.com
  <p>Like any other <code>Map&lt;Class, Object&gt;</code>, this map may contain entries for primitive types,
  and a primitive type and its corresponding wrapper type may map to different values.
 
- <p>This class's support for <code>null</code> requires some explanation. For details, see <code>ClassToInstanceMap</code>. Its explanation applies equally well to <code>TypeToInstanceMap</code>.</div>
+ <p>This class's support for <code>null</code> requires some explanation. For details, see <a href="../collect/ClassToInstanceMap.html" title="interface in com.google.common.collect"><code>ClassToInstanceMap</code></a>. Its explanation applies equally well to <code>
+ TypeToInstanceMap</code>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>13.0</dd>
@@ -259,7 +260,7 @@ extends java.util.Map&lt;<a href="TypeToken.html" title="class in com.google.com
 <li class="blockList">
 <h4>getInstance</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-&lt;T extends <a href="TypeToInstanceMap.html" title="type parameter in TypeToInstanceMap">B</a>&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToInstanceMap.html#line.56">getInstance</a>&#8203;(java.lang.Class&lt;T&gt;&nbsp;type)</pre>
+&lt;T extends <a href="TypeToInstanceMap.html" title="type parameter in TypeToInstanceMap">B</a>&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToInstanceMap.html#line.57">getInstance</a>&#8203;(java.lang.Class&lt;T&gt;&nbsp;type)</pre>
 <div class="block">Returns the value the specified class is mapped to, or <code>null</code> if no entry for this class
  is present. This will only return a value that was bound to this specific class, not a value
  that may have been bound to a subtype.
@@ -275,7 +276,7 @@ extends java.util.Map&lt;<a href="TypeToken.html" title="class in com.google.com
 <li class="blockList">
 <h4>getInstance</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-&lt;T extends <a href="TypeToInstanceMap.html" title="type parameter in TypeToInstanceMap">B</a>&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToInstanceMap.html#line.64">getInstance</a>&#8203;(<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;T&gt;&nbsp;type)</pre>
+&lt;T extends <a href="TypeToInstanceMap.html" title="type parameter in TypeToInstanceMap">B</a>&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToInstanceMap.html#line.65">getInstance</a>&#8203;(<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;T&gt;&nbsp;type)</pre>
 <div class="block">Returns the value the specified type is mapped to, or <code>null</code> if no entry for this type is
  present. This will only return a value that was bound to this specific type, not a value that
  may have been bound to a subtype.</div>
@@ -291,7 +292,7 @@ extends java.util.Map&lt;<a href="TypeToken.html" title="class in com.google.com
 <h4>putInstance</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-&lt;T extends <a href="TypeToInstanceMap.html" title="type parameter in TypeToInstanceMap">B</a>&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToInstanceMap.html#line.77">putInstance</a>&#8203;(java.lang.Class&lt;T&gt;&nbsp;type,
+&lt;T extends <a href="TypeToInstanceMap.html" title="type parameter in TypeToInstanceMap">B</a>&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToInstanceMap.html#line.78">putInstance</a>&#8203;(java.lang.Class&lt;T&gt;&nbsp;type,
                             T&nbsp;value)</pre>
 <div class="block">Maps the specified class to the specified value. Does <i>not</i> associate this value with any
  of the class's supertypes.
@@ -315,7 +316,7 @@ extends java.util.Map&lt;<a href="TypeToken.html" title="class in com.google.com
 <h4>putInstance</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-&lt;T extends <a href="TypeToInstanceMap.html" title="type parameter in TypeToInstanceMap">B</a>&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToInstanceMap.html#line.88">putInstance</a>&#8203;(<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;T&gt;&nbsp;type,
+&lt;T extends <a href="TypeToInstanceMap.html" title="type parameter in TypeToInstanceMap">B</a>&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToInstanceMap.html#line.89">putInstance</a>&#8203;(<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;T&gt;&nbsp;type,
                             T&nbsp;value)</pre>
 <div class="block">Maps the specified type to the specified value. Does <i>not</i> associate this value with any
  of the type's supertypes.</div>

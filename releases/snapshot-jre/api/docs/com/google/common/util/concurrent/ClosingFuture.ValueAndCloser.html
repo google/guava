@@ -176,7 +176,7 @@ extends java.lang.Object</pre>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#closeAsync()">closeAsync</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Starts closing all closeable objects captured during the <a href="ClosingFuture.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture</code></a>'s asynchronous
- operation on the <code>Executor</code>s specified by calls to <code>DeferredCloser#eventuallyClose(Closeable, Executor)</code>.</div>
+ operation on the <code>Executor</code>s specified by calls to <a href="ClosingFuture.DeferredCloser.html#eventuallyClose(C,java.util.concurrent.Executor)"><code>ClosingFuture.DeferredCloser.eventuallyClose(Object, Executor)</code></a>.</div>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
@@ -239,7 +239,7 @@ extends java.lang.Object</pre>
 <h4>closeAsync</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.ValueAndCloser.html#line.363">closeAsync</a>()</pre>
 <div class="block">Starts closing all closeable objects captured during the <a href="ClosingFuture.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture</code></a>'s asynchronous
- operation on the <code>Executor</code>s specified by calls to <code>DeferredCloser#eventuallyClose(Closeable, Executor)</code>.
+ operation on the <code>Executor</code>s specified by calls to <a href="ClosingFuture.DeferredCloser.html#eventuallyClose(C,java.util.concurrent.Executor)"><code>ClosingFuture.DeferredCloser.eventuallyClose(Object, Executor)</code></a>.
 
  <p>If any such calls specified <a href="MoreExecutors.html#directExecutor()"><code>MoreExecutors.directExecutor()</code></a>, those objects will be
  closed synchronously.

@@ -45,7 +45,7 @@
 <span class="sourceLineNo">036</span><a id="line.36"> * successive readings of "now" in the same process.</a>
 <span class="sourceLineNo">037</span><a id="line.37"> *</a>
 <span class="sourceLineNo">038</span><a id="line.38"> * &lt;p&gt;In contrast, &lt;i&gt;wall time&lt;/i&gt; is a reading of "now" as given by a method like</a>
-<span class="sourceLineNo">039</span><a id="line.39"> * {@link System#currentTimeMillis()}, best represented as an {@link Instant}. Such values</a>
+<span class="sourceLineNo">039</span><a id="line.39"> * {@link System#currentTimeMillis()}, best represented as an {@link java.time.Instant}. Such values</a>
 <span class="sourceLineNo">040</span><a id="line.40"> * &lt;i&gt;can&lt;/i&gt; be subtracted to obtain a {@code Duration} (such as by {@code Duration.between}), but</a>
 <span class="sourceLineNo">041</span><a id="line.41"> * doing so does &lt;i&gt;not&lt;/i&gt; give a reliable measurement of elapsed time, because wall time readings</a>
 <span class="sourceLineNo">042</span><a id="line.42"> * are inherently approximate, routinely affected by periodic clock corrections. Because this class</a>
