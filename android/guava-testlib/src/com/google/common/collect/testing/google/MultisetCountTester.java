@@ -64,7 +64,7 @@ public class MultisetCountTester<E> extends AbstractMultisetTester<E> {
   @CollectionFeature.Require(absent = ALLOWS_NULL_QUERIES)
   public void testCount_null_forbidden() {
     try {
-      int unused = getMultiset().count(null);
+      getMultiset().count(null);
       fail("Expected NullPointerException");
     } catch (NullPointerException expected) {
     }

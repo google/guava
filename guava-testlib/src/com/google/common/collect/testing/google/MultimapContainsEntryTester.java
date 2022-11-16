@@ -69,7 +69,7 @@ public class MultimapContainsEntryTester<K, V>
   @MapFeature.Require(absent = ALLOWS_NULL_KEY_QUERIES)
   public void testContainsEntryNullDisallowedBecauseKeyQueriesDisallowed() {
     try {
-      boolean unused = multimap().containsEntry(null, v3());
+      multimap().containsEntry(null, v3());
       fail("Expected NullPointerException");
     } catch (NullPointerException expected) {
       // success
@@ -79,7 +79,7 @@ public class MultimapContainsEntryTester<K, V>
   @MapFeature.Require(absent = ALLOWS_NULL_VALUE_QUERIES)
   public void testContainsEntryNullDisallowedBecauseValueQueriesDisallowed() {
     try {
-      boolean unused = multimap().containsEntry(k3(), null);
+      multimap().containsEntry(k3(), null);
       fail("Expected NullPointerException");
     } catch (NullPointerException expected) {
       // success

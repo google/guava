@@ -59,7 +59,7 @@ public class MultimapContainsValueTester<K, V>
   @MapFeature.Require(absent = ALLOWS_NULL_VALUE_QUERIES)
   public void testContainsNullValueFails() {
     try {
-      boolean unused = multimap().containsValue(null);
+      multimap().containsValue(null);
       fail("Expected NullPointerException");
     } catch (NullPointerException expected) {
       // success

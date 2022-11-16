@@ -142,7 +142,7 @@ public class MultimapGetTester<K, V> extends AbstractMultimapTester<K, V, Multim
   @MapFeature.Require(absent = ALLOWS_NULL_KEY_QUERIES)
   public void testGetNullForbidden() {
     try {
-      Collection<V> unused = multimap().get(null);
+      multimap().get(null);
       fail("Expected NullPointerException");
     } catch (NullPointerException expected) {
       // success
