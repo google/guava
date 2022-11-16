@@ -113,6 +113,9 @@
       <plugin>
         <artifactId>maven-javadoc-plugin</artifactId>
         <version>${maven-javadoc-plugin.version}</version>
+        <configuration>
+          <source>${java.specification.version}</source>
+        </configuration>
       </plugin>
     </plugins>
     <pluginManagement>
@@ -408,17 +411,17 @@
     </profile>
     <profile>
       <!--
-          Passes JDK 9-12-specific `no-module-directories` flag to Javadoc tool,
+          Passes JDK 11-12-specific `no-module-directories` flag to Javadoc tool,
           which is required to make symbol search work correctly in the generated
           pages.
 
-          This flag does not exist on 8 and 13+ (https://bugs.openjdk.java.net/browse/JDK-8215582).
+          This flag does not exist on 9-10 and 13+ (https://bugs.openjdk.java.net/browse/JDK-8215582).
 
           Consider removing it once our release and test scripts are migrated to a recent JDK (17+).
        -->
-      <id>javadocs-jdk9-12</id>
+      <id>javadocs-jdk11-12</id>
       <activation>
-        <jdk>[9,13)</jdk>
+        <jdk>[11,13)</jdk>
       </activation>
       <properties>
         <maven-javadoc-plugin.additionalJOptions>--no-module-directories</maven-javadoc-plugin.additionalJOptions>
@@ -485,9 +488,13 @@
       </build>
     </profile>
     <profile>
-      <id>new-enough-for-error-prone</id>
+      <id>run-error-prone</id>
       <activation>
-        <jdk>[9,)</jdk>
+        <!-- 
+        Error Prone requires 11+: https://errorprone.info/docs/installation
+        We skip 12-15 because of https://github.com/google/error-prone/issues/3540.
+        -->
+        <jdk>[11,12),[16,)</jdk>
       </activation>
       <build>
         <plugins>

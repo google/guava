@@ -19,7 +19,7 @@ jobs:
     name: "${{ matrix.root-pom }} on JDK ${{ matrix.java }}"
     strategy:
       matrix:
-        java: [ 8, 11 ]
+        java: [ 8, 11, 17 ]
         root-pom: [ 'pom.xml', 'android/pom.xml' ]
     runs-on: ubuntu-latest
     env:
