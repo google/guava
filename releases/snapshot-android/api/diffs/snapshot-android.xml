@@ -49764,6 +49764,17 @@
  @since 31.0]]>
       </doc>
     </field>
+    <field name="NO_VARY_SEARCH" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[The HTTP <a href="https://github.com/WICG/nav-speculation/blob/main/no-vary-search.md">{@code
+ No-Vary-Seearch}</a> header field name.
+
+ @since NEXT]]>
+      </doc>
+    </field>
     <field name="ORIGIN_TRIAL" type="java.lang.String"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
