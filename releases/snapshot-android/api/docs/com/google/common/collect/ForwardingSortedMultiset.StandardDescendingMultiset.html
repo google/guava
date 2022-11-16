@@ -292,9 +292,6 @@ extends <a href="ForwardingMultiset.html" title="class in com.google.common.coll
 <tr id="i7" class="rowColor">
 <td class="colFirst"><code>java.util.Iterator&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#iterator()">iterator</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Returns an iterator over the elements in this collection.</div>
-</td>
 </tr>
 <tr id="i8" class="altColor">
 <td class="colFirst"><code><a href="Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;E&gt;</code></td>
@@ -343,17 +340,12 @@ extends <a href="ForwardingMultiset.html" title="class in com.google.common.coll
 <tr id="i13" class="rowColor">
 <td class="colFirst"><code><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object[]</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toArray()">toArray</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Returns an array containing all of the elements in this collection.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i14" class="altColor">
 <td class="colFirst"><code>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>T[]</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toArray(T%5B%5D)">toArray</a></span>&#8203;(T[]&nbsp;array)</code></th>
-<td class="colLast">
-<div class="block">Returns an array containing all of the elements in this collection;
- the runtime type of the returned array is that of the specified array.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i15" class="rowColor">
 <td class="colFirst"><code>java.lang.String</code></td>
@@ -705,11 +697,14 @@ public&nbsp;<a href="Multiset.Entry.html" title="interface in com.google.common.
 <li class="blockList">
 <h4>iterator</h4>
 <pre class="methodSignature">public&nbsp;java.util.Iterator&lt;E&gt;&nbsp;iterator()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.Collection</code></span></div>
-<div class="block">Returns an iterator over the elements in this collection.  There are no
- guarantees concerning the order in which the elements are returned
- (unless this collection is an instance of some class that provides a
- guarantee).</div>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="SortedMultiset.html#iterator()">SortedMultiset</a></code></span></div>
+<div class="block">
+
+ <p>Elements that occur multiple times in the multiset will appear multiple times in this
+ iterator, though not necessarily sequentially.
+
+ <p>The iterator returns the elements in ascending order according to this multiset's
+ comparator.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>iterator</code>&nbsp;in interface&nbsp;<code>java.util.Collection&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
@@ -721,8 +716,6 @@ public&nbsp;<a href="Multiset.Entry.html" title="interface in com.google.common.
 <dd><code><a href="SortedMultiset.html#iterator()">iterator</a></code>&nbsp;in interface&nbsp;<code><a href="SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="ForwardingCollection.html#iterator()">iterator</a></code>&nbsp;in class&nbsp;<code><a href="ForwardingCollection.html" title="class in com.google.common.collect">ForwardingCollection</a>&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>an <code>Iterator</code> over the elements in this collection</dd>
 </dl>
 </li>
 </ul>
@@ -733,24 +726,11 @@ public&nbsp;<a href="Multiset.Entry.html" title="interface in com.google.common.
 <li class="blockList">
 <h4>toArray</h4>
 <pre class="methodSignature">public&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object[]&nbsp;toArray()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.Collection</code></span></div>
-<div class="block">Returns an array containing all of the elements in this collection.
- If this collection makes any guarantees as to what order its elements
- are returned by its iterator, this method must return the elements in
- the same order. The returned array's runtime component type is <code>Object</code>.
-
- <p>The returned array will be "safe" in that no references to it are
- maintained by this collection.  (In other words, this method must
- allocate a new array even if this collection is backed by an array).
- The caller is thus free to modify the returned array.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>toArray</code>&nbsp;in interface&nbsp;<code>java.util.Collection&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="ForwardingCollection.html#toArray()">toArray</a></code>&nbsp;in class&nbsp;<code><a href="ForwardingCollection.html" title="class in com.google.common.collect">ForwardingCollection</a>&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>an array, whose runtime component
- type is <code>Object</code>, containing all of the elements in this collection</dd>
 </dl>
 </li>
 </ul>
@@ -763,36 +743,11 @@ public&nbsp;<a href="Multiset.Entry.html" title="interface in com.google.common.
 <li class="blockList">
 <h4>toArray</h4>
 <pre class="methodSignature">public&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;T[]&nbsp;toArray&#8203;(T[]&nbsp;array)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.Collection</code></span></div>
-<div class="block">Returns an array containing all of the elements in this collection;
- the runtime type of the returned array is that of the specified array.
- If the collection fits in the specified array, it is returned therein.
- Otherwise, a new array is allocated with the runtime type of the
- specified array and the size of this collection.
-
- <p>If this collection fits in the specified array with room to spare
- (i.e., the array has more elements than this collection), the element
- in the array immediately following the end of the collection is set to
- <code>null</code>.  (This is useful in determining the length of this
- collection <i>only</i> if the caller knows that this collection does
- not contain any <code>null</code> elements.)
-
- <p>If this collection makes any guarantees as to what order its elements
- are returned by its iterator, this method must return the elements in
- the same order.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>toArray</code>&nbsp;in interface&nbsp;<code>java.util.Collection&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="ForwardingCollection.html#toArray(T%5B%5D)">toArray</a></code>&nbsp;in class&nbsp;<code><a href="ForwardingCollection.html" title="class in com.google.common.collect">ForwardingCollection</a>&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>T</code> - the component type of the array to contain the collection</dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>array</code> - the array into which the elements of this collection are to be
-        stored, if it is big enough; otherwise, a new array of the same
-        runtime type is allocated for this purpose.</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>an array containing all of the elements in this collection</dd>
 </dl>
 </li>
 </ul>
@@ -810,8 +765,6 @@ public&nbsp;<a href="Multiset.Entry.html" title="interface in com.google.common.
 <dd><code><a href="Multiset.html#toString()">toString</a></code>&nbsp;in interface&nbsp;<code><a href="Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="ForwardingObject.html#toString()">toString</a></code>&nbsp;in class&nbsp;<code><a href="ForwardingObject.html" title="class in com.google.common.collect">ForwardingObject</a></code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a string representation of the object.</dd>
 </dl>
 </li>
 </ul>

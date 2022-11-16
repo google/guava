@@ -225,36 +225,24 @@ implements java.io.DataOutput</pre>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#close()">close</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Closes this output stream and releases any system resources
- associated with the stream.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#write(byte%5B%5D,int,int)">write</a></span>&#8203;(byte[]&nbsp;b,
      int&nbsp;off,
      int&nbsp;len)</code></th>
-<td class="colLast">
-<div class="block">Writes <code>len</code> bytes from the specified
- <code>byte</code> array starting at offset <code>off</code> to
- this output stream.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#writeBoolean(boolean)">writeBoolean</a></span>&#8203;(boolean&nbsp;v)</code></th>
-<td class="colLast">
-<div class="block">Writes a <code>boolean</code> value to this output stream.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#writeByte(int)">writeByte</a></span>&#8203;(int&nbsp;v)</code></th>
-<td class="colLast">
-<div class="block">Writes to the output stream the eight low-
- order bits of the argument <code>v</code>.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code>void</code></td>
@@ -324,14 +312,7 @@ implements java.io.DataOutput</pre>
 <tr id="i12" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#writeUTF(java.lang.String)">writeUTF</a></span>&#8203;(java.lang.String&nbsp;str)</code></th>
-<td class="colLast">
-<div class="block">Writes two bytes of length information
- to the output stream, followed
- by the
- <a href="DataInput.html#modified-utf-8">modified UTF-8</a>
- representation
- of  every character in the string <code>s</code>.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -412,32 +393,13 @@ implements java.io.DataOutput</pre>
                   int&nbsp;off,
                   int&nbsp;len)
            throws java.io.IOException</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code>java.io.FilterOutputStream</code></span></div>
-<div class="block">Writes <code>len</code> bytes from the specified
- <code>byte</code> array starting at offset <code>off</code> to
- this output stream.
- <p>
- The <code>write</code> method of <code>FilterOutputStream</code>
- calls the <code>write</code> method of one argument on each
- <code>byte</code> to output.
- <p>
- Note that this method does not call the <code>write</code> method
- of its underlying output stream with the same arguments. Subclasses
- of <code>FilterOutputStream</code> should provide a more efficient
- implementation of this method.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>write</code>&nbsp;in interface&nbsp;<code>java.io.DataOutput</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code>write</code>&nbsp;in class&nbsp;<code>java.io.FilterOutputStream</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>b</code> - the data.</dd>
-<dd><code>off</code> - the start offset in the data.</dd>
-<dd><code>len</code> - the number of bytes to write.</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.io.IOException</code> - if an I/O error occurs.</dd>
-<dt><span class="seeLabel">See Also:</span></dt>
-<dd><code>FilterOutputStream.write(int)</code></dd>
+<dd><code>java.io.IOException</code></dd>
 </dl>
 </li>
 </ul>
@@ -449,24 +411,11 @@ implements java.io.DataOutput</pre>
 <h4>writeBoolean</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataOutputStream.html#line.58">writeBoolean</a>&#8203;(boolean&nbsp;v)
                   throws java.io.IOException</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.io.DataOutput</code></span></div>
-<div class="block">Writes a <code>boolean</code> value to this output stream.
- If the argument <code>v</code>
- is <code>true</code>, the value <code>(byte)1</code>
- is written; if <code>v</code> is <code>false</code>,
- the  value <code>(byte)0</code> is written.
- The byte written by this method may
- be read by the <code>readBoolean</code>
- method of interface <code>DataInput</code>,
- which will then return a <code>boolean</code>
- equal to <code>v</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>writeBoolean</code>&nbsp;in interface&nbsp;<code>java.io.DataOutput</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>v</code> - the boolean to be written.</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.io.IOException</code> - if an I/O error occurs.</dd>
+<dd><code>java.io.IOException</code></dd>
 </dl>
 </li>
 </ul>
@@ -478,24 +427,11 @@ implements java.io.DataOutput</pre>
 <h4>writeByte</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataOutputStream.html#line.63">writeByte</a>&#8203;(int&nbsp;v)
                throws java.io.IOException</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.io.DataOutput</code></span></div>
-<div class="block">Writes to the output stream the eight low-
- order bits of the argument <code>v</code>.
- The 24 high-order bits of <code>v</code>
- are ignored. (This means  that <code>writeByte</code>
- does exactly the same thing as <code>write</code>
- for an integer argument.) The byte written
- by this method may be read by the <code>readByte</code>
- method of interface <code>DataInput</code>,
- which will then return a <code>byte</code>
- equal to <code>(byte)v</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>writeByte</code>&nbsp;in interface&nbsp;<code>java.io.DataOutput</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>v</code> - the byte value to be written.</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.io.IOException</code> - if an I/O error occurs.</dd>
+<dd><code>java.io.IOException</code></dd>
 </dl>
 </li>
 </ul>
@@ -512,29 +448,11 @@ public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleE
 <div class="deprecationComment">The semantics of <code>writeBytes(String s)</code> are considered dangerous. Please use
      <a href="#writeUTF(java.lang.String)"><code>writeUTF(String s)</code></a>, <a href="#writeChars(java.lang.String)"><code>writeChars(String s)</code></a> or another write method instead.</div>
 </div>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.io.DataOutput</code></span></div>
-<div class="block">Writes a string to the output stream.
- For every character in the string
- <code>s</code>,  taken in order, one byte
- is written to the output stream.  If
- <code>s</code> is <code>null</code>, a <code>NullPointerException</code>
- is thrown.<p>  If <code>s.length</code>
- is zero, then no bytes are written. Otherwise,
- the character <code>s[0]</code> is written
- first, then <code>s[1]</code>, and so on;
- the last character written is <code>s[s.length-1]</code>.
- For each character, one byte is written,
- the low-order byte, in exactly the manner
- of the <code>writeByte</code> method . The
- high-order eight bits of each character
- in the string are ignored.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>writeBytes</code>&nbsp;in interface&nbsp;<code>java.io.DataOutput</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>s</code> - the string of bytes to be written.</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.io.IOException</code> - if an I/O error occurs.</dd>
+<dd><code>java.io.IOException</code></dd>
 </dl>
 </li>
 </ul>
@@ -551,8 +469,6 @@ public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleE
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>writeChar</code>&nbsp;in interface&nbsp;<code>java.io.DataOutput</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>v</code> - the <code>char</code> value to be written.</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.io.IOException</code> - if an I/O error occurs</dd>
 </dl>
@@ -571,8 +487,6 @@ public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleE
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>writeChars</code>&nbsp;in interface&nbsp;<code>java.io.DataOutput</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>s</code> - the string value to be written.</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.io.IOException</code> - if an I/O error occurs</dd>
 </dl>
@@ -591,8 +505,6 @@ public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleE
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>writeDouble</code>&nbsp;in interface&nbsp;<code>java.io.DataOutput</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>v</code> - the <code>double</code> value to be written.</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.io.IOException</code> - if an I/O error occurs</dd>
 </dl>
@@ -611,8 +523,6 @@ public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleE
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>writeFloat</code>&nbsp;in interface&nbsp;<code>java.io.DataOutput</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>v</code> - the <code>float</code> value to be written.</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.io.IOException</code> - if an I/O error occurs</dd>
 </dl>
@@ -631,8 +541,6 @@ public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleE
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>writeInt</code>&nbsp;in interface&nbsp;<code>java.io.DataOutput</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>v</code> - the <code>int</code> value to be written.</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.io.IOException</code> - if an I/O error occurs</dd>
 </dl>
@@ -651,8 +559,6 @@ public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleE
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>writeLong</code>&nbsp;in interface&nbsp;<code>java.io.DataOutput</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>v</code> - the <code>long</code> value to be written.</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.io.IOException</code> - if an I/O error occurs</dd>
 </dl>
@@ -671,8 +577,6 @@ public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleE
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>writeShort</code>&nbsp;in interface&nbsp;<code>java.io.DataOutput</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>v</code> - the <code>short</code> value to be written.</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.io.IOException</code> - if an I/O error occurs</dd>
 </dl>
@@ -686,61 +590,11 @@ public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleE
 <h4>writeUTF</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataOutputStream.html#line.162">writeUTF</a>&#8203;(java.lang.String&nbsp;str)
               throws java.io.IOException</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.io.DataOutput</code></span></div>
-<div class="block">Writes two bytes of length information
- to the output stream, followed
- by the
- <a href="DataInput.html#modified-utf-8">modified UTF-8</a>
- representation
- of  every character in the string <code>s</code>.
- If <code>s</code> is <code>null</code>,
- a <code>NullPointerException</code> is thrown.
- Each character in the string <code>s</code>
- is converted to a group of one, two, or
- three bytes, depending on the value of the
- character.<p>
- If a character <code>c</code>
- is in the range <code>&#92;u0001</code> through
- <code>&#92;u007f</code>, it is represented
- by one byte:
- <pre>(byte)c </pre>  <p>
- If a character <code>c</code> is <code>&#92;u0000</code>
- or is in the range <code>&#92;u0080</code>
- through <code>&#92;u07ff</code>, then it is
- represented by two bytes, to be written
- in the order shown: <pre><code>
- (byte)(0xc0 | (0x1f &amp; (c &gt;&gt; 6)))
- (byte)(0x80 | (0x3f &amp; c))
- </code></pre> <p> If a character
- <code>c</code> is in the range <code>&#92;u0800</code>
- through <code>uffff</code>, then it is
- represented by three bytes, to be written
- in the order shown: <pre><code>
- (byte)(0xe0 | (0x0f &amp; (c &gt;&gt; 12)))
- (byte)(0x80 | (0x3f &amp; (c &gt;&gt;  6)))
- (byte)(0x80 | (0x3f &amp; c))
- </code></pre>  <p> First,
- the total number of bytes needed to represent
- all the characters of <code>s</code> is
- calculated. If this number is larger than
- <code>65535</code>, then a <code>UTFDataFormatException</code>
- is thrown. Otherwise, this length is written
- to the output stream in exactly the manner
- of the <code>writeShort</code> method;
- after this, the one-, two-, or three-byte
- representation of each character in the
- string <code>s</code> is written.<p>  The
- bytes written by this method may be read
- by the <code>readUTF</code> method of interface
- <code>DataInput</code> , which will then
- return a <code>String</code> equal to <code>s</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>writeUTF</code>&nbsp;in interface&nbsp;<code>java.io.DataOutput</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>str</code> - the string value to be written.</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.io.IOException</code> - if an I/O error occurs.</dd>
+<dd><code>java.io.IOException</code></dd>
 </dl>
 </li>
 </ul>
@@ -752,13 +606,6 @@ public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleE
 <h4>close</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataOutputStream.html#line.170">close</a>()
            throws java.io.IOException</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code>java.io.FilterOutputStream</code></span></div>
-<div class="block">Closes this output stream and releases any system resources
- associated with the stream.
- <p>
- When not already closed, the <code>close</code> method of <code>
- FilterOutputStream</code> calls its <code>flush</code> method, and then
- calls the <code>close</code> method of its underlying output stream.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>close</code>&nbsp;in interface&nbsp;<code>java.lang.AutoCloseable</code></dd>
@@ -767,10 +614,7 @@ public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleE
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code>close</code>&nbsp;in class&nbsp;<code>java.io.FilterOutputStream</code></dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.io.IOException</code> - if an I/O error occurs.</dd>
-<dt><span class="seeLabel">See Also:</span></dt>
-<dd><code>FilterOutputStream.flush()</code>, 
-<code>FilterOutputStream.out</code></dd>
+<dd><code>java.io.IOException</code></dd>
 </dl>
 </li>
 </ul>

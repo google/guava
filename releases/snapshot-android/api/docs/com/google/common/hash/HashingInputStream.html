@@ -340,13 +340,8 @@ public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashin
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code>read</code>&nbsp;in class&nbsp;<code>java.io.FilterInputStream</code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>the next byte of data, or <code>-1</code> if the end of the
-             stream is reached.</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.io.IOException</code> - if an I/O error occurs.</dd>
-<dt><span class="seeLabel">See Also:</span></dt>
-<dd><code>FilterInputStream.in</code></dd>
+<dd><code>java.io.IOException</code></dd>
 </dl>
 </li>
 </ul>
@@ -366,18 +361,8 @@ public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashin
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code>read</code>&nbsp;in class&nbsp;<code>java.io.FilterInputStream</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>bytes</code> - the buffer into which the data is read.</dd>
-<dd><code>off</code> - the start offset in the destination array <code>b</code></dd>
-<dd><code>len</code> - the maximum number of bytes read.</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>the total number of bytes read into the buffer, or
-             <code>-1</code> if there is no more data because the end of
-             the stream has been reached.</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.io.IOException</code> - if an I/O error occurs.</dd>
-<dt><span class="seeLabel">See Also:</span></dt>
-<dd><code>FilterInputStream.in</code></dd>
+<dd><code>java.io.IOException</code></dd>
 </dl>
 </li>
 </ul>
@@ -394,10 +379,6 @@ public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashin
 <dd><code>markSupported</code>&nbsp;in class&nbsp;<code>java.io.FilterInputStream</code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd><code>false</code> always</dd>
-<dt><span class="seeLabel">See Also:</span></dt>
-<dd><code>FilterInputStream.in</code>, 
-<code>InputStream.mark(int)</code>, 
-<code>InputStream.reset()</code></dd>
 </dl>
 </li>
 </ul>
@@ -412,12 +393,6 @@ public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashin
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code>mark</code>&nbsp;in class&nbsp;<code>java.io.FilterInputStream</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>readlimit</code> - the maximum limit of bytes that can be read before
-                      the mark position becomes invalid.</dd>
-<dt><span class="seeLabel">See Also:</span></dt>
-<dd><code>FilterInputStream.in</code>, 
-<code>FilterInputStream.reset()</code></dd>
 </dl>
 </li>
 </ul>
@@ -435,9 +410,6 @@ public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashin
 <dd><code>reset</code>&nbsp;in class&nbsp;<code>java.io.FilterInputStream</code></dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.io.IOException</code> - this operation is not supported</dd>
-<dt><span class="seeLabel">See Also:</span></dt>
-<dd><code>FilterInputStream.in</code>, 
-<code>FilterInputStream.mark(int)</code></dd>
 </dl>
 </li>
 </ul>

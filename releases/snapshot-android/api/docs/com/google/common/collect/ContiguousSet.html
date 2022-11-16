@@ -294,19 +294,12 @@ extends <a href="ImmutableSortedSet.html" title="class in com.google.common.coll
 <tr id="i8" class="altColor">
 <td class="colFirst"><code><a href="ContiguousSet.html" title="class in com.google.common.collect">ContiguousSet</a>&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#headSet(C)">headSet</a></span>&#8203;(<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a>&nbsp;toElement)</code></th>
-<td class="colLast">
-<div class="block">Returns a view of the portion of this set whose elements are
- strictly less than <code>toElement</code>.</div>
-</td>
 </tr>
 <tr id="i9" class="rowColor">
 <td class="colFirst"><code><a href="ContiguousSet.html" title="class in com.google.common.collect">ContiguousSet</a>&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#headSet(C,boolean)">headSet</a></span>&#8203;(<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a>&nbsp;toElement,
        boolean&nbsp;inclusive)</code></th>
-<td class="colLast">
-<div class="block">Returns a view of the portion of this set whose elements are less than
- (or equal to, if <code>inclusive</code> is true) <code>toElement</code>.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i10" class="altColor">
 <td class="colFirst"><code>abstract <a href="ContiguousSet.html" title="class in com.google.common.collect">ContiguousSet</a>&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a>&gt;</code></td>
@@ -409,37 +402,22 @@ extends <a href="ImmutableSortedSet.html" title="class in com.google.common.coll
       boolean&nbsp;fromInclusive,
       <a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a>&nbsp;toElement,
       boolean&nbsp;toInclusive)</code></th>
-<td class="colLast">
-<div class="block">Returns a view of the portion of this set whose elements range from
- <code>fromElement</code> to <code>toElement</code>.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i20" class="altColor">
 <td class="colFirst"><code><a href="ContiguousSet.html" title="class in com.google.common.collect">ContiguousSet</a>&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#subSet(C,C)">subSet</a></span>&#8203;(<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a>&nbsp;fromElement,
       <a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a>&nbsp;toElement)</code></th>
-<td class="colLast">
-<div class="block">Returns a view of the portion of this set whose elements range
- from <code>fromElement</code>, inclusive, to <code>toElement</code>,
- exclusive.</div>
-</td>
 </tr>
 <tr id="i21" class="rowColor">
 <td class="colFirst"><code><a href="ContiguousSet.html" title="class in com.google.common.collect">ContiguousSet</a>&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#tailSet(C)">tailSet</a></span>&#8203;(<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a>&nbsp;fromElement)</code></th>
-<td class="colLast">
-<div class="block">Returns a view of the portion of this set whose elements are
- greater than or equal to <code>fromElement</code>.</div>
-</td>
 </tr>
 <tr id="i22" class="altColor">
 <td class="colFirst"><code><a href="ContiguousSet.html" title="class in com.google.common.collect">ContiguousSet</a>&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#tailSet(C,boolean)">tailSet</a></span>&#8203;(<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a>&nbsp;fromElement,
        boolean&nbsp;inclusive)</code></th>
-<td class="colLast">
-<div class="block">Returns a view of the portion of this set whose elements are greater
- than (or equal to, if <code>inclusive</code> is true) <code>fromElement</code>.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i23" class="rowColor">
 <td class="colFirst"><code>java.lang.String</code></td>
@@ -636,16 +614,7 @@ public static&nbsp;<a href="ContiguousSet.html" title="class in com.google.commo
 <h4>headSet</h4>
 <pre class="methodSignature">public&nbsp;<a href="ContiguousSet.html" title="class in com.google.common.collect">ContiguousSet</a>&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ContiguousSet.html#line.157">headSet</a>&#8203;(<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a>&nbsp;toElement)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="ImmutableSortedSet.html#headSet(E)">ImmutableSortedSet</a></code></span></div>
-<div class="block">Returns a view of the portion of this set whose elements are
- strictly less than <code>toElement</code>.  The returned set is
- backed by this set, so changes in the returned set are
- reflected in this set, and vice-versa.  The returned set
- supports all optional set operations that this set supports.
-
- <p>The returned set will throw an <code>IllegalArgumentException</code>
- on an attempt to insert an element outside its range.
-
- <p>Equivalent to <code>headSet(toElement, false)</code>.
+<div class="block">
 
  <p>This method returns a serializable <code>ImmutableSortedSet</code>.
 
@@ -660,11 +629,6 @@ public static&nbsp;<a href="ContiguousSet.html" title="class in com.google.commo
 <dd><code>headSet</code>&nbsp;in interface&nbsp;<code>java.util.SortedSet&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a> extends java.lang.Comparable&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="ImmutableSortedSet.html#headSet(E)">headSet</a></code>&nbsp;in class&nbsp;<code><a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a> extends java.lang.Comparable&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>toElement</code> - high endpoint (exclusive) of the returned set</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a view of the portion of this set whose elements are strictly
-         less than <code>toElement</code></dd>
 </dl>
 </li>
 </ul>
@@ -679,27 +643,11 @@ public static&nbsp;<a href="ContiguousSet.html" title="class in com.google.commo
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 public&nbsp;<a href="ContiguousSet.html" title="class in com.google.common.collect">ContiguousSet</a>&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ContiguousSet.html#line.163">headSet</a>&#8203;(<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a>&nbsp;toElement,
                                 boolean&nbsp;inclusive)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.NavigableSet</code></span></div>
-<div class="block">Returns a view of the portion of this set whose elements are less than
- (or equal to, if <code>inclusive</code> is true) <code>toElement</code>.  The
- returned set is backed by this set, so changes in the returned set are
- reflected in this set, and vice-versa.  The returned set supports all
- optional set operations that this set supports.
-
- <p>The returned set will throw an <code>IllegalArgumentException</code>
- on an attempt to insert an element outside its range.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>headSet</code>&nbsp;in interface&nbsp;<code>java.util.NavigableSet&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a> extends java.lang.Comparable&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="ImmutableSortedSet.html#headSet(E,boolean)">headSet</a></code>&nbsp;in class&nbsp;<code><a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a> extends java.lang.Comparable&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>toElement</code> - high endpoint of the returned set</dd>
-<dd><code>inclusive</code> - <code>true</code> if the high endpoint
-        is to be included in the returned view</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a view of the portion of this set whose elements are less than
-         (or equal to, if <code>inclusive</code> is true) <code>toElement</code></dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>12.0</dd>
 </dl>
@@ -716,18 +664,7 @@ public&nbsp;<a href="ContiguousSet.html" title="class in com.google.common.colle
 <pre class="methodSignature">public&nbsp;<a href="ContiguousSet.html" title="class in com.google.common.collect">ContiguousSet</a>&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ContiguousSet.html#line.169">subSet</a>&#8203;(<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a>&nbsp;fromElement,
                                <a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a>&nbsp;toElement)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="ImmutableSortedSet.html#subSet(E,E)">ImmutableSortedSet</a></code></span></div>
-<div class="block">Returns a view of the portion of this set whose elements range
- from <code>fromElement</code>, inclusive, to <code>toElement</code>,
- exclusive.  (If <code>fromElement</code> and <code>toElement</code> are
- equal, the returned set is empty.)  The returned set is backed
- by this set, so changes in the returned set are reflected in
- this set, and vice-versa.  The returned set supports all
- optional set operations that this set supports.
-
- <p>The returned set will throw an <code>IllegalArgumentException</code>
- on an attempt to insert an element outside its range.
-
- <p>Equivalent to <code>subSet(fromElement, true, toElement, false)</code>.
+<div class="block">
 
  <p>This method returns a serializable <code>ImmutableSortedSet</code>.
 
@@ -743,12 +680,6 @@ public&nbsp;<a href="ContiguousSet.html" title="class in com.google.common.colle
 <dd><code>subSet</code>&nbsp;in interface&nbsp;<code>java.util.SortedSet&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a> extends java.lang.Comparable&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="ImmutableSortedSet.html#subSet(E,E)">subSet</a></code>&nbsp;in class&nbsp;<code><a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a> extends java.lang.Comparable&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>fromElement</code> - low endpoint (inclusive) of the returned set</dd>
-<dd><code>toElement</code> - high endpoint (exclusive) of the returned set</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a view of the portion of this set whose elements range from
-         <code>fromElement</code>, inclusive, to <code>toElement</code>, exclusive</dd>
 </dl>
 </li>
 </ul>
@@ -765,32 +696,11 @@ public&nbsp;<a href="ContiguousSet.html" title="class in com.google.common.colle
                                boolean&nbsp;fromInclusive,
                                <a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a>&nbsp;toElement,
                                boolean&nbsp;toInclusive)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.NavigableSet</code></span></div>
-<div class="block">Returns a view of the portion of this set whose elements range from
- <code>fromElement</code> to <code>toElement</code>.  If <code>fromElement</code> and
- <code>toElement</code> are equal, the returned set is empty unless <code>
- fromInclusive</code> and <code>toInclusive</code> are both true.  The returned set
- is backed by this set, so changes in the returned set are reflected in
- this set, and vice-versa.  The returned set supports all optional set
- operations that this set supports.
-
- <p>The returned set will throw an <code>IllegalArgumentException</code>
- on an attempt to insert an element outside its range.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>subSet</code>&nbsp;in interface&nbsp;<code>java.util.NavigableSet&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a> extends java.lang.Comparable&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="ImmutableSortedSet.html#subSet(E,boolean,E,boolean)">subSet</a></code>&nbsp;in class&nbsp;<code><a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a> extends java.lang.Comparable&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>fromElement</code> - low endpoint of the returned set</dd>
-<dd><code>fromInclusive</code> - <code>true</code> if the low endpoint
-        is to be included in the returned view</dd>
-<dd><code>toElement</code> - high endpoint of the returned set</dd>
-<dd><code>toInclusive</code> - <code>true</code> if the high endpoint
-        is to be included in the returned view</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a view of the portion of this set whose elements range from
-         <code>fromElement</code>, inclusive, to <code>toElement</code>, exclusive</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>12.0</dd>
 </dl>
@@ -806,16 +716,7 @@ public&nbsp;<a href="ContiguousSet.html" title="class in com.google.common.colle
 <h4>tailSet</h4>
 <pre class="methodSignature">public&nbsp;<a href="ContiguousSet.html" title="class in com.google.common.collect">ContiguousSet</a>&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ContiguousSet.html#line.188">tailSet</a>&#8203;(<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a>&nbsp;fromElement)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="ImmutableSortedSet.html#tailSet(E)">ImmutableSortedSet</a></code></span></div>
-<div class="block">Returns a view of the portion of this set whose elements are
- greater than or equal to <code>fromElement</code>.  The returned
- set is backed by this set, so changes in the returned set are
- reflected in this set, and vice-versa.  The returned set
- supports all optional set operations that this set supports.
-
- <p>The returned set will throw an <code>IllegalArgumentException</code>
- on an attempt to insert an element outside its range.
-
- <p>Equivalent to <code>tailSet(fromElement, true)</code>.
+<div class="block">
 
  <p>This method returns a serializable <code>ImmutableSortedSet</code>.
 
@@ -830,11 +731,6 @@ public&nbsp;<a href="ContiguousSet.html" title="class in com.google.common.colle
 <dd><code>tailSet</code>&nbsp;in interface&nbsp;<code>java.util.SortedSet&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a> extends java.lang.Comparable&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="ImmutableSortedSet.html#tailSet(E)">tailSet</a></code>&nbsp;in class&nbsp;<code><a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a> extends java.lang.Comparable&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>fromElement</code> - low endpoint (inclusive) of the returned set</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a view of the portion of this set whose elements are greater
-         than or equal to <code>fromElement</code></dd>
 </dl>
 </li>
 </ul>
@@ -849,27 +745,11 @@ public&nbsp;<a href="ContiguousSet.html" title="class in com.google.common.colle
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 public&nbsp;<a href="ContiguousSet.html" title="class in com.google.common.collect">ContiguousSet</a>&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ContiguousSet.html#line.194">tailSet</a>&#8203;(<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a>&nbsp;fromElement,
                                 boolean&nbsp;inclusive)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.NavigableSet</code></span></div>
-<div class="block">Returns a view of the portion of this set whose elements are greater
- than (or equal to, if <code>inclusive</code> is true) <code>fromElement</code>.
- The returned set is backed by this set, so changes in the returned set
- are reflected in this set, and vice-versa.  The returned set supports
- all optional set operations that this set supports.
-
- <p>The returned set will throw an <code>IllegalArgumentException</code>
- on an attempt to insert an element outside its range.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>tailSet</code>&nbsp;in interface&nbsp;<code>java.util.NavigableSet&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a> extends java.lang.Comparable&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="ImmutableSortedSet.html#tailSet(E,boolean)">tailSet</a></code>&nbsp;in class&nbsp;<code><a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a> extends java.lang.Comparable&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>fromElement</code> - low endpoint of the returned set</dd>
-<dd><code>inclusive</code> - <code>true</code> if the low endpoint
-        is to be included in the returned view</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a view of the portion of this set whose elements are greater
-         than or equal to <code>fromElement</code></dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>12.0</dd>
 </dl>
@@ -934,8 +814,6 @@ public&nbsp;<a href="ContiguousSet.html" title="class in com.google.common.colle
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code>toString</code>&nbsp;in class&nbsp;<code>java.util.AbstractCollection&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a> extends java.lang.Comparable&gt;</code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a string representation of this collection</dd>
 </dl>
 </li>
 </ul>
@@ -995,12 +873,6 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class
  element.</b> Proper calls will resolve to the version in <code>ImmutableSortedSet</code>, not this
  dummy version.</div>
 <dl>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>E</code> - the <code>Set</code>'s element type</dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>element</code> - the single element</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a <code>Set</code> containing the specified element</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.UnsupportedOperationException</code> - always</dd>
 </dl>
@@ -1024,13 +896,6 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class
  element.</b> Proper calls will resolve to the version in <code>ImmutableSortedSet</code>, not this
  dummy version.</div>
 <dl>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>E</code> - the <code>Set</code>'s element type</dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>e1</code> - the first element</dd>
-<dd><code>e2</code> - the second element</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a <code>Set</code> containing the specified elements</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.UnsupportedOperationException</code> - always</dd>
 </dl>
@@ -1055,14 +920,6 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class
  element.</b> Proper calls will resolve to the version in <code>ImmutableSortedSet</code>, not this
  dummy version.</div>
 <dl>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>E</code> - the <code>Set</code>'s element type</dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>e1</code> - the first element</dd>
-<dd><code>e2</code> - the second element</dd>
-<dd><code>e3</code> - the third element</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a <code>Set</code> containing the specified elements</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.UnsupportedOperationException</code> - always</dd>
 </dl>
@@ -1088,15 +945,6 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class
  element.</b> Proper calls will resolve to the version in <code>ImmutableSortedSet</code>, not this
  dummy version.</div>
 <dl>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>E</code> - the <code>Set</code>'s element type</dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>e1</code> - the first element</dd>
-<dd><code>e2</code> - the second element</dd>
-<dd><code>e3</code> - the third element</dd>
-<dd><code>e4</code> - the fourth element</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a <code>Set</code> containing the specified elements</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.UnsupportedOperationException</code> - always</dd>
 </dl>
@@ -1123,16 +971,6 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class
  element.</b> Proper calls will resolve to the version in <code>ImmutableSortedSet</code>, not this
  dummy version.</div>
 <dl>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>E</code> - the <code>Set</code>'s element type</dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>e1</code> - the first element</dd>
-<dd><code>e2</code> - the second element</dd>
-<dd><code>e3</code> - the third element</dd>
-<dd><code>e4</code> - the fourth element</dd>
-<dd><code>e5</code> - the fifth element</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a <code>Set</code> containing the specified elements</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.UnsupportedOperationException</code> - always</dd>
 </dl>
@@ -1162,18 +1000,6 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class
  element.</b> Proper calls will resolve to the version in <code>ImmutableSortedSet</code>, not this
  dummy version.</div>
 <dl>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>E</code> - the <code>Set</code>'s element type</dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>e1</code> - the first element</dd>
-<dd><code>e2</code> - the second element</dd>
-<dd><code>e3</code> - the third element</dd>
-<dd><code>e4</code> - the fourth element</dd>
-<dd><code>e5</code> - the fifth element</dd>
-<dd><code>e6</code> - the sixth element</dd>
-<dd><code>remaining</code> - the seventh element</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a <code>Set</code> containing the specified elements</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.UnsupportedOperationException</code> - always</dd>
 </dl>

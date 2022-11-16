@@ -219,10 +219,7 @@ extends java.io.FilterOutputStream</pre>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#close()">close</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Closes this output stream and releases any system resources
- associated with the stream.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>long</code></td>
@@ -236,18 +233,12 @@ extends java.io.FilterOutputStream</pre>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#write(byte%5B%5D,int,int)">write</a></span>&#8203;(byte[]&nbsp;b,
      int&nbsp;off,
      int&nbsp;len)</code></th>
-<td class="colLast">
-<div class="block">Writes <code>len</code> bytes from the specified
- <code>byte</code> array starting at offset <code>off</code> to
- this output stream.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#write(int)">write</a></span>&#8203;(int&nbsp;b)</code></th>
-<td class="colLast">
-<div class="block">Writes the specified <code>byte</code> to this output stream.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -331,30 +322,11 @@ extends java.io.FilterOutputStream</pre>
                   int&nbsp;off,
                   int&nbsp;len)
            throws java.io.IOException</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code>java.io.FilterOutputStream</code></span></div>
-<div class="block">Writes <code>len</code> bytes from the specified
- <code>byte</code> array starting at offset <code>off</code> to
- this output stream.
- <p>
- The <code>write</code> method of <code>FilterOutputStream</code>
- calls the <code>write</code> method of one argument on each
- <code>byte</code> to output.
- <p>
- Note that this method does not call the <code>write</code> method
- of its underlying output stream with the same arguments. Subclasses
- of <code>FilterOutputStream</code> should provide a more efficient
- implementation of this method.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code>write</code>&nbsp;in class&nbsp;<code>java.io.FilterOutputStream</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>b</code> - the data.</dd>
-<dd><code>off</code> - the start offset in the data.</dd>
-<dd><code>len</code> - the number of bytes to write.</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.io.IOException</code> - if an I/O error occurs.</dd>
-<dt><span class="seeLabel">See Also:</span></dt>
-<dd><code>FilterOutputStream.write(int)</code></dd>
+<dd><code>java.io.IOException</code></dd>
 </dl>
 </li>
 </ul>
@@ -366,21 +338,11 @@ extends java.io.FilterOutputStream</pre>
 <h4>write</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/CountingOutputStream.html#line.56">write</a>&#8203;(int&nbsp;b)
            throws java.io.IOException</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code>java.io.FilterOutputStream</code></span></div>
-<div class="block">Writes the specified <code>byte</code> to this output stream.
- <p>
- The <code>write</code> method of <code>FilterOutputStream</code>
- calls the <code>write</code> method of its underlying output stream,
- that is, it performs <code>out.write(b)</code>.
- <p>
- Implements the abstract <code>write</code> method of <code>OutputStream</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code>write</code>&nbsp;in class&nbsp;<code>java.io.FilterOutputStream</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>b</code> - the <code>byte</code>.</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.io.IOException</code> - if an I/O error occurs.</dd>
+<dd><code>java.io.IOException</code></dd>
 </dl>
 </li>
 </ul>
@@ -392,13 +354,6 @@ extends java.io.FilterOutputStream</pre>
 <h4>close</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/CountingOutputStream.html#line.65">close</a>()
            throws java.io.IOException</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code>java.io.FilterOutputStream</code></span></div>
-<div class="block">Closes this output stream and releases any system resources
- associated with the stream.
- <p>
- When not already closed, the <code>close</code> method of <code>
- FilterOutputStream</code> calls its <code>flush</code> method, and then
- calls the <code>close</code> method of its underlying output stream.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>close</code>&nbsp;in interface&nbsp;<code>java.lang.AutoCloseable</code></dd>
@@ -407,10 +362,7 @@ extends java.io.FilterOutputStream</pre>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code>close</code>&nbsp;in class&nbsp;<code>java.io.FilterOutputStream</code></dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.io.IOException</code> - if an I/O error occurs.</dd>
-<dt><span class="seeLabel">See Also:</span></dt>
-<dd><code>FilterOutputStream.flush()</code>, 
-<code>FilterOutputStream.out</code></dd>
+<dd><code>java.io.IOException</code></dd>
 </dl>
 </li>
 </ul>

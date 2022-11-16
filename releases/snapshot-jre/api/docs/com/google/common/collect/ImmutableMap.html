@@ -192,7 +192,7 @@ implements java.util.Map&lt;K,&#8203;V&gt;, java.io.Serializable</pre>
 <!--   -->
 </a>
 <h3>Nested classes/interfaces inherited from interface&nbsp;java.util.Map</h3>
-<code>java.util.Map.Entry&lt;K,&#8203;V&gt;</code></li>
+<code>java.util.Map.Entry&lt;K extends java.lang.Object,&#8203;V extends java.lang.Object&gt;</code></li>
 </ul>
 </li>
 </ul>
@@ -274,18 +274,12 @@ implements java.util.Map&lt;K,&#8203;V&gt;, java.io.Serializable</pre>
 <tr id="i7" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#containsKey(java.lang.Object)">containsKey</a></span>&#8203;(java.lang.Object&nbsp;key)</code></th>
-<td class="colLast">
-<div class="block">Returns <code>true</code> if this map contains a mapping for the specified
- key.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i8" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#containsValue(java.lang.Object)">containsValue</a></span>&#8203;(java.lang.Object&nbsp;value)</code></th>
-<td class="colLast">
-<div class="block">Returns <code>true</code> if this map maps one or more keys to the
- specified value.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i9" class="rowColor">
 <td class="colFirst"><code>static &lt;K,&#8203;V&gt;<br><a href="ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;K,&#8203;V&gt;</code></td>
@@ -311,40 +305,28 @@ implements java.util.Map&lt;K,&#8203;V&gt;, java.io.Serializable</pre>
 <tr id="i12" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#equals(java.lang.Object)">equals</a></span>&#8203;(java.lang.Object&nbsp;object)</code></th>
-<td class="colLast">
-<div class="block">Indicates whether some other object is "equal to" this one.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i13" class="rowColor">
 <td class="colFirst"><code>abstract <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#get(java.lang.Object)">get</a></span>&#8203;(java.lang.Object&nbsp;key)</code></th>
-<td class="colLast">
-<div class="block">Returns the value to which the specified key is mapped,
- or <code>null</code> if this map contains no mapping for the key.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i14" class="altColor">
 <td class="colFirst"><code><a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getOrDefault(java.lang.Object,V)">getOrDefault</a></span>&#8203;(java.lang.Object&nbsp;key,
             <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&nbsp;defaultValue)</code></th>
-<td class="colLast">
-<div class="block">Returns the value to which the specified key is mapped, or
- <code>defaultValue</code> if this map contains no mapping for the key.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i15" class="rowColor">
 <td class="colFirst"><code>int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#hashCode()">hashCode</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Returns a hash code value for the object.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i16" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isEmpty()">isEmpty</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Returns <code>true</code> if this map contains no key-value mappings.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i17" class="rowColor">
 <td class="colFirst"><code><a href="ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>&gt;</code></td>
@@ -648,9 +630,7 @@ implements java.util.Map&lt;K,&#8203;V&gt;, java.io.Serializable</pre>
 <tr id="i41" class="rowColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toString()">toString</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Returns a string representation of the object.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i42" class="altColor">
 <td class="colFirst"><code><a href="ImmutableCollection.html" title="class in com.google.common.collect">ImmutableCollection</a>&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;</code></td>
@@ -745,13 +725,6 @@ implements java.util.Map&lt;K,&#8203;V&gt;, java.io.Serializable</pre>
  code.
 
  <p><b>Performance note:</b> the instance returned is a singleton.</div>
-<dl>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>K</code> - the <code>Map</code>'s key type</dd>
-<dd><code>V</code> - the <code>Map</code>'s value type</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>an empty <code>Map</code></dd>
-</dl>
 </li>
 </ul>
 <a id="of(java.lang.Object,java.lang.Object)">
@@ -767,16 +740,6 @@ implements java.util.Map&lt;K,&#8203;V&gt;, java.io.Serializable</pre>
 <div class="block">Returns an immutable map containing a single entry. This map behaves and performs comparably to
  <code>Collections.singletonMap(K, V)</code> but will not accept a null key or value. It is preferable
  mainly for consistency and maintainability of your code.</div>
-<dl>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>K</code> - the <code>Map</code>'s key type</dd>
-<dd><code>V</code> - the <code>Map</code>'s value type</dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>k1</code> - the mapping's key</dd>
-<dd><code>v1</code> - the mapping's value</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a <code>Map</code> containing the specified mapping</dd>
-</dl>
 </li>
 </ul>
 <a id="of(java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object)">
@@ -793,16 +756,6 @@ implements java.util.Map&lt;K,&#8203;V&gt;, java.io.Serializable</pre>
                                                      V&nbsp;v2)</pre>
 <div class="block">Returns an immutable map containing the given entries, in order.</div>
 <dl>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>K</code> - the <code>Map</code>'s key type</dd>
-<dd><code>V</code> - the <code>Map</code>'s value type</dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>k1</code> - the first mapping's key</dd>
-<dd><code>v1</code> - the first mapping's value</dd>
-<dd><code>k2</code> - the second mapping's key</dd>
-<dd><code>v2</code> - the second mapping's value</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a <code>Map</code> containing the specified mappings</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.IllegalArgumentException</code> - if duplicate keys are provided</dd>
 </dl>
@@ -824,18 +777,6 @@ implements java.util.Map&lt;K,&#8203;V&gt;, java.io.Serializable</pre>
                                                      V&nbsp;v3)</pre>
 <div class="block">Returns an immutable map containing the given entries, in order.</div>
 <dl>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>K</code> - the <code>Map</code>'s key type</dd>
-<dd><code>V</code> - the <code>Map</code>'s value type</dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>k1</code> - the first mapping's key</dd>
-<dd><code>v1</code> - the first mapping's value</dd>
-<dd><code>k2</code> - the second mapping's key</dd>
-<dd><code>v2</code> - the second mapping's value</dd>
-<dd><code>k3</code> - the third mapping's key</dd>
-<dd><code>v3</code> - the third mapping's value</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a <code>Map</code> containing the specified mappings</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.IllegalArgumentException</code> - if duplicate keys are provided</dd>
 </dl>
@@ -859,20 +800,6 @@ implements java.util.Map&lt;K,&#8203;V&gt;, java.io.Serializable</pre>
                                                      V&nbsp;v4)</pre>
 <div class="block">Returns an immutable map containing the given entries, in order.</div>
 <dl>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>K</code> - the <code>Map</code>'s key type</dd>
-<dd><code>V</code> - the <code>Map</code>'s value type</dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>k1</code> - the first mapping's key</dd>
-<dd><code>v1</code> - the first mapping's value</dd>
-<dd><code>k2</code> - the second mapping's key</dd>
-<dd><code>v2</code> - the second mapping's value</dd>
-<dd><code>k3</code> - the third mapping's key</dd>
-<dd><code>v3</code> - the third mapping's value</dd>
-<dd><code>k4</code> - the fourth mapping's key</dd>
-<dd><code>v4</code> - the fourth mapping's value</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a <code>Map</code> containing the specified mappings</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.IllegalArgumentException</code> - if duplicate keys are provided</dd>
 </dl>
@@ -898,22 +825,6 @@ implements java.util.Map&lt;K,&#8203;V&gt;, java.io.Serializable</pre>
                                                      V&nbsp;v5)</pre>
 <div class="block">Returns an immutable map containing the given entries, in order.</div>
 <dl>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>K</code> - the <code>Map</code>'s key type</dd>
-<dd><code>V</code> - the <code>Map</code>'s value type</dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>k1</code> - the first mapping's key</dd>
-<dd><code>v1</code> - the first mapping's value</dd>
-<dd><code>k2</code> - the second mapping's key</dd>
-<dd><code>v2</code> - the second mapping's value</dd>
-<dd><code>k3</code> - the third mapping's key</dd>
-<dd><code>v3</code> - the third mapping's value</dd>
-<dd><code>k4</code> - the fourth mapping's key</dd>
-<dd><code>v4</code> - the fourth mapping's value</dd>
-<dd><code>k5</code> - the fifth mapping's key</dd>
-<dd><code>v5</code> - the fifth mapping's value</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a <code>Map</code> containing the specified mappings</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.IllegalArgumentException</code> - if duplicate keys are provided</dd>
 </dl>
@@ -941,24 +852,6 @@ implements java.util.Map&lt;K,&#8203;V&gt;, java.io.Serializable</pre>
                                                      V&nbsp;v6)</pre>
 <div class="block">Returns an immutable map containing the given entries, in order.</div>
 <dl>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>K</code> - the <code>Map</code>'s key type</dd>
-<dd><code>V</code> - the <code>Map</code>'s value type</dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>k1</code> - the first mapping's key</dd>
-<dd><code>v1</code> - the first mapping's value</dd>
-<dd><code>k2</code> - the second mapping's key</dd>
-<dd><code>v2</code> - the second mapping's value</dd>
-<dd><code>k3</code> - the third mapping's key</dd>
-<dd><code>v3</code> - the third mapping's value</dd>
-<dd><code>k4</code> - the fourth mapping's key</dd>
-<dd><code>v4</code> - the fourth mapping's value</dd>
-<dd><code>k5</code> - the fifth mapping's key</dd>
-<dd><code>v5</code> - the fifth mapping's value</dd>
-<dd><code>k6</code> - the sixth mapping's key</dd>
-<dd><code>v6</code> - the sixth mapping's value</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a <code>Map</code> containing the specified mappings</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.IllegalArgumentException</code> - if duplicate keys are provided</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -990,26 +883,6 @@ implements java.util.Map&lt;K,&#8203;V&gt;, java.io.Serializable</pre>
                                                      V&nbsp;v7)</pre>
 <div class="block">Returns an immutable map containing the given entries, in order.</div>
 <dl>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>K</code> - the <code>Map</code>'s key type</dd>
-<dd><code>V</code> - the <code>Map</code>'s value type</dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>k1</code> - the first mapping's key</dd>
-<dd><code>v1</code> - the first mapping's value</dd>
-<dd><code>k2</code> - the second mapping's key</dd>
-<dd><code>v2</code> - the second mapping's value</dd>
-<dd><code>k3</code> - the third mapping's key</dd>
-<dd><code>v3</code> - the third mapping's value</dd>
-<dd><code>k4</code> - the fourth mapping's key</dd>
-<dd><code>v4</code> - the fourth mapping's value</dd>
-<dd><code>k5</code> - the fifth mapping's key</dd>
-<dd><code>v5</code> - the fifth mapping's value</dd>
-<dd><code>k6</code> - the sixth mapping's key</dd>
-<dd><code>v6</code> - the sixth mapping's value</dd>
-<dd><code>k7</code> - the seventh mapping's key</dd>
-<dd><code>v7</code> - the seventh mapping's value</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a <code>Map</code> containing the specified mappings</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.IllegalArgumentException</code> - if duplicate keys are provided</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -1043,28 +916,6 @@ implements java.util.Map&lt;K,&#8203;V&gt;, java.io.Serializable</pre>
                                                      V&nbsp;v8)</pre>
 <div class="block">Returns an immutable map containing the given entries, in order.</div>
 <dl>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>K</code> - the <code>Map</code>'s key type</dd>
-<dd><code>V</code> - the <code>Map</code>'s value type</dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>k1</code> - the first mapping's key</dd>
-<dd><code>v1</code> - the first mapping's value</dd>
-<dd><code>k2</code> - the second mapping's key</dd>
-<dd><code>v2</code> - the second mapping's value</dd>
-<dd><code>k3</code> - the third mapping's key</dd>
-<dd><code>v3</code> - the third mapping's value</dd>
-<dd><code>k4</code> - the fourth mapping's key</dd>
-<dd><code>v4</code> - the fourth mapping's value</dd>
-<dd><code>k5</code> - the fifth mapping's key</dd>
-<dd><code>v5</code> - the fifth mapping's value</dd>
-<dd><code>k6</code> - the sixth mapping's key</dd>
-<dd><code>v6</code> - the sixth mapping's value</dd>
-<dd><code>k7</code> - the seventh mapping's key</dd>
-<dd><code>v7</code> - the seventh mapping's value</dd>
-<dd><code>k8</code> - the eighth mapping's key</dd>
-<dd><code>v8</code> - the eighth mapping's value</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a <code>Map</code> containing the specified mappings</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.IllegalArgumentException</code> - if duplicate keys are provided</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -1100,30 +951,6 @@ implements java.util.Map&lt;K,&#8203;V&gt;, java.io.Serializable</pre>
                                                      V&nbsp;v9)</pre>
 <div class="block">Returns an immutable map containing the given entries, in order.</div>
 <dl>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>K</code> - the <code>Map</code>'s key type</dd>
-<dd><code>V</code> - the <code>Map</code>'s value type</dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>k1</code> - the first mapping's key</dd>
-<dd><code>v1</code> - the first mapping's value</dd>
-<dd><code>k2</code> - the second mapping's key</dd>
-<dd><code>v2</code> - the second mapping's value</dd>
-<dd><code>k3</code> - the third mapping's key</dd>
-<dd><code>v3</code> - the third mapping's value</dd>
-<dd><code>k4</code> - the fourth mapping's key</dd>
-<dd><code>v4</code> - the fourth mapping's value</dd>
-<dd><code>k5</code> - the fifth mapping's key</dd>
-<dd><code>v5</code> - the fifth mapping's value</dd>
-<dd><code>k6</code> - the sixth mapping's key</dd>
-<dd><code>v6</code> - the sixth mapping's value</dd>
-<dd><code>k7</code> - the seventh mapping's key</dd>
-<dd><code>v7</code> - the seventh mapping's value</dd>
-<dd><code>k8</code> - the eighth mapping's key</dd>
-<dd><code>v8</code> - the eighth mapping's value</dd>
-<dd><code>k9</code> - the ninth mapping's key</dd>
-<dd><code>v9</code> - the ninth mapping's value</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a <code>Map</code> containing the specified mappings</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.IllegalArgumentException</code> - if duplicate keys are provided</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -1161,32 +988,6 @@ implements java.util.Map&lt;K,&#8203;V&gt;, java.io.Serializable</pre>
                                                      V&nbsp;v10)</pre>
 <div class="block">Returns an immutable map containing the given entries, in order.</div>
 <dl>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>K</code> - the <code>Map</code>'s key type</dd>
-<dd><code>V</code> - the <code>Map</code>'s value type</dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>k1</code> - the first mapping's key</dd>
-<dd><code>v1</code> - the first mapping's value</dd>
-<dd><code>k2</code> - the second mapping's key</dd>
-<dd><code>v2</code> - the second mapping's value</dd>
-<dd><code>k3</code> - the third mapping's key</dd>
-<dd><code>v3</code> - the third mapping's value</dd>
-<dd><code>k4</code> - the fourth mapping's key</dd>
-<dd><code>v4</code> - the fourth mapping's value</dd>
-<dd><code>k5</code> - the fifth mapping's key</dd>
-<dd><code>v5</code> - the fifth mapping's value</dd>
-<dd><code>k6</code> - the sixth mapping's key</dd>
-<dd><code>v6</code> - the sixth mapping's value</dd>
-<dd><code>k7</code> - the seventh mapping's key</dd>
-<dd><code>v7</code> - the seventh mapping's value</dd>
-<dd><code>k8</code> - the eighth mapping's key</dd>
-<dd><code>v8</code> - the eighth mapping's value</dd>
-<dd><code>k9</code> - the ninth mapping's key</dd>
-<dd><code>v9</code> - the ninth mapping's value</dd>
-<dd><code>k10</code> - the tenth mapping's key</dd>
-<dd><code>v10</code> - the tenth mapping's value</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a <code>Map</code> containing the specified mappings</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.IllegalArgumentException</code> - if duplicate keys are provided</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -1204,19 +1005,10 @@ implements java.util.Map&lt;K,&#8203;V&gt;, java.io.Serializable</pre>
 public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.326">ofEntries</a>&#8203;(java.util.Map.Entry&lt;? extends K,&#8203;? extends V&gt;...&nbsp;entries)</pre>
 <div class="block">Returns an immutable map containing the given entries, in order.</div>
 <dl>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>K</code> - the <code>Map</code>'s key type</dd>
-<dd><code>V</code> - the <code>Map</code>'s value type</dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>entries</code> - <code>Map.Entry</code>s containing the keys and values from which the map is populated</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a <code>Map</code> containing the specified mappings</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.IllegalArgumentException</code> - if duplicate keys are provided</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>31.0</dd>
-<dt><span class="seeLabel">See Also:</span></dt>
-<dd><code>Map.entry()</code></dd>
 </dl>
 </li>
 </ul>
@@ -1266,13 +1058,6 @@ public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableMap.Builder.html" t
  safe to do so. The exact circumstances under which a copy will or will not be performed are
  undocumented and subject to change.</div>
 <dl>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>K</code> - the <code>Map</code>'s key type</dd>
-<dd><code>V</code> - the <code>Map</code>'s value type</dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>map</code> - a <code>Map</code> from which entries are drawn, must be non-null</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a <code>Map</code> containing the entries of the given <code>Map</code></dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.NullPointerException</code> - if any key or value in <code>map</code> is null</dd>
 </dl>
@@ -1317,15 +1102,6 @@ public final&nbsp;<a href="ImmutableMap.html" title="type parameter in Immutable
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>put</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>k</code> - key with which the specified value is to be associated</dd>
-<dd><code>v</code> - value to be associated with the specified key</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>the previous value associated with <code>key</code>, or
-         <code>null</code> if there was no mapping for <code>key</code>.
-         (A <code>null</code> return can also indicate that the map
-         previously associated <code>null</code> with <code>key</code>,
-         if the implementation supports <code>null</code> values.)</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.UnsupportedOperationException</code> - always</dd>
 </dl>
@@ -1351,15 +1127,6 @@ public final&nbsp;<a href="ImmutableMap.html" title="type parameter in Immutable
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>putIfAbsent</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>key</code> - key with which the specified value is to be associated</dd>
-<dd><code>value</code> - value to be associated with the specified key</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>the previous value associated with the specified key, or
-         <code>null</code> if there was no mapping for the key.
-         (A <code>null</code> return can also indicate that the map
-         previously associated <code>null</code> with the key,
-         if the implementation supports null values.)</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.UnsupportedOperationException</code> - always</dd>
 </dl>
@@ -1384,12 +1151,6 @@ public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/c
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>replace</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>key</code> - key with which the specified value is associated</dd>
-<dd><code>oldValue</code> - value expected to be associated with the specified key</dd>
-<dd><code>newValue</code> - value to be associated with the specified key</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd><code>true</code> if the value was replaced</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.UnsupportedOperationException</code> - always</dd>
 </dl>
@@ -1414,15 +1175,6 @@ public final&nbsp;<a href="ImmutableMap.html" title="type parameter in Immutable
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>replace</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>key</code> - key with which the specified value is associated</dd>
-<dd><code>value</code> - value to be associated with the specified key</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>the previous value associated with the specified key, or
-         <code>null</code> if there was no mapping for the key.
-         (A <code>null</code> return can also indicate that the map
-         previously associated <code>null</code> with the key,
-         if the implementation supports null values.)</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.UnsupportedOperationException</code> - always</dd>
 </dl>
@@ -1446,12 +1198,6 @@ public final&nbsp;<a href="ImmutableMap.html" title="type parameter in Immutable
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>computeIfAbsent</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>key</code> - key with which the specified value is to be associated</dd>
-<dd><code>mappingFunction</code> - the mapping function to compute a value</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>the current (existing or computed) value associated with
-         the specified key, or null if the computed value is null</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.UnsupportedOperationException</code> - always</dd>
 </dl>
@@ -1475,11 +1221,6 @@ public final&nbsp;<a href="ImmutableMap.html" title="type parameter in Immutable
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>computeIfPresent</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>key</code> - key with which the specified value is to be associated</dd>
-<dd><code>remappingFunction</code> - the remapping function to compute a value</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>the new value associated with the specified key, or null if none</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.UnsupportedOperationException</code> - always</dd>
 </dl>
@@ -1503,11 +1244,6 @@ public final&nbsp;<a href="ImmutableMap.html" title="type parameter in Immutable
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>compute</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>key</code> - key with which the specified value is to be associated</dd>
-<dd><code>remappingFunction</code> - the remapping function to compute a value</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>the new value associated with the specified key, or null if none</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.UnsupportedOperationException</code> - always</dd>
 </dl>
@@ -1532,16 +1268,6 @@ public final&nbsp;<a href="ImmutableMap.html" title="type parameter in Immutable
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>merge</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>key</code> - key with which the resulting value is to be associated</dd>
-<dd><code>value</code> - the non-null value to be merged with the existing value
-        associated with the key or, if no existing value or a null value
-        is associated with the key, to be associated with the key</dd>
-<dd><code>remappingFunction</code> - the remapping function to recompute a value if
-        present</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>the new value associated with the specified key, or null if no
-         value is associated with the key</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.UnsupportedOperationException</code> - always</dd>
 </dl>
@@ -1562,8 +1288,6 @@ public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/coll
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>putAll</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>map</code> - mappings to be stored in this map</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.UnsupportedOperationException</code> - always</dd>
 </dl>
@@ -1584,8 +1308,6 @@ public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/coll
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>replaceAll</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>function</code> - the function to apply to each entry</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.UnsupportedOperationException</code> - always</dd>
 </dl>
@@ -1608,11 +1330,6 @@ public final&nbsp;<a href="ImmutableMap.html" title="type parameter in Immutable
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>remove</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>o</code> - key whose mapping is to be removed from the map</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>the previous value associated with <code>key</code>, or
-         <code>null</code> if there was no mapping for <code>key</code>.</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.UnsupportedOperationException</code> - always</dd>
 </dl>
@@ -1636,11 +1353,6 @@ public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/c
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>remove</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>key</code> - key with which the specified value is associated</dd>
-<dd><code>value</code> - value expected to be associated with the specified key</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd><code>true</code> if the value was removed</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.UnsupportedOperationException</code> - always</dd>
 </dl>
@@ -1673,13 +1385,9 @@ public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/coll
 <li class="blockList">
 <h4>isEmpty</h4>
 <pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.948">isEmpty</a>()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.Map</code></span></div>
-<div class="block">Returns <code>true</code> if this map contains no key-value mappings.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>isEmpty</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;</code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd><code>true</code> if this map contains no key-value mappings</dd>
 </dl>
 </li>
 </ul>
@@ -1691,20 +1399,9 @@ public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/coll
 <h4>containsKey</h4>
 <pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.953">containsKey</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                            java.lang.Object&nbsp;key)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.Map</code></span></div>
-<div class="block">Returns <code>true</code> if this map contains a mapping for the specified
- key.  More formally, returns <code>true</code> if and only if
- this map contains a mapping for a key <code>k</code> such that
- <code>Objects.equals(key, k)</code>.  (There can be
- at most one such mapping.)</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>containsKey</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>key</code> - key whose presence in this map is to be tested</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd><code>true</code> if this map contains a mapping for the specified
-         key</dd>
 </dl>
 </li>
 </ul>
@@ -1716,21 +1413,9 @@ public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/coll
 <h4>containsValue</h4>
 <pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.958">containsValue</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                              java.lang.Object&nbsp;value)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.Map</code></span></div>
-<div class="block">Returns <code>true</code> if this map maps one or more keys to the
- specified value.  More formally, returns <code>true</code> if and only if
- this map contains at least one mapping to a value <code>v</code> such that
- <code>Objects.equals(value, v)</code>.  This operation
- will probably require time linear in the map size for most
- implementations of the <code>Map</code> interface.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>containsValue</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>value</code> - value whose presence in this map is to be tested</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd><code>true</code> if this map maps one or more keys to the
-         specified value</dd>
 </dl>
 </li>
 </ul>
@@ -1743,28 +1428,9 @@ public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/coll
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
 public abstract&nbsp;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.964">get</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                       java.lang.Object&nbsp;key)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.Map</code></span></div>
-<div class="block">Returns the value to which the specified key is mapped,
- or <code>null</code> if this map contains no mapping for the key.
-
- <p>More formally, if this map contains a mapping from a key
- <code>k</code> to a value <code>v</code> such that
- <code>Objects.equals(key, k)</code>,
- then this method returns <code>v</code>; otherwise
- it returns <code>null</code>.  (There can be at most one such mapping.)
-
- <p>If this map permits null values, then a return value of
- <code>null</code> does not <i>necessarily</i> indicate that the map
- contains no mapping for the key; it's also possible that the map
- explicitly maps the key to <code>null</code>.  The <code>containsKey</code> operation may be used to distinguish these two cases.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>get</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>key</code> - the key whose associated value is to be returned</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>the value to which the specified key is mapped, or
-         <code>null</code> if this map contains no mapping for the key</dd>
 </dl>
 </li>
 </ul>
@@ -1781,18 +1447,9 @@ public final&nbsp;<a href="ImmutableMap.html" title="type parameter in Immutable
                             java.lang.Object&nbsp;key,
                             <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                             <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&nbsp;defaultValue)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.Map</code></span></div>
-<div class="block">Returns the value to which the specified key is mapped, or
- <code>defaultValue</code> if this map contains no mapping for the key.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>getOrDefault</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>key</code> - the key whose associated value is to be returned</dd>
-<dd><code>defaultValue</code> - the default mapping of the key</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>the value to which the specified key is mapped, or
- <code>defaultValue</code> if this map contains no mapping for the key</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>21.0 (but only since 23.5 in the Android <a href="https://github.com/google/guava#guava-google-core-libraries-for-java">flavor</a>).
      Note, however, that Java 8 users can call this method with any version and flavor of Guava.</dd>
@@ -1811,8 +1468,6 @@ public final&nbsp;<a href="ImmutableMap.html" title="type parameter in Immutable
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>entrySet</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;</code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a set view of the mappings contained in this map</dd>
 </dl>
 </li>
 </ul>
@@ -1827,8 +1482,6 @@ public final&nbsp;<a href="ImmutableMap.html" title="type parameter in Immutable
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>keySet</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;</code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a set view of the keys contained in this map</dd>
 </dl>
 </li>
 </ul>
@@ -1844,8 +1497,6 @@ public final&nbsp;<a href="ImmutableMap.html" title="type parameter in Immutable
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>values</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;</code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a collection view of the values contained in this map</dd>
 </dl>
 </li>
 </ul>
@@ -1871,58 +1522,11 @@ public final&nbsp;<a href="ImmutableMap.html" title="type parameter in Immutable
 <h4>equals</h4>
 <pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.1170">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                       java.lang.Object&nbsp;object)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code>java.lang.Object</code></span></div>
-<div class="block">Indicates whether some other object is "equal to" this one.
- <p>
- The <code>equals</code> method implements an equivalence relation
- on non-null object references:
- <ul>
- <li>It is <i>reflexive</i>: for any non-null reference value
-     <code>x</code>, <code>x.equals(x)</code> should return
-     <code>true</code>.
- <li>It is <i>symmetric</i>: for any non-null reference values
-     <code>x</code> and <code>y</code>, <code>x.equals(y)</code>
-     should return <code>true</code> if and only if
-     <code>y.equals(x)</code> returns <code>true</code>.
- <li>It is <i>transitive</i>: for any non-null reference values
-     <code>x</code>, <code>y</code>, and <code>z</code>, if
-     <code>x.equals(y)</code> returns <code>true</code> and
-     <code>y.equals(z)</code> returns <code>true</code>, then
-     <code>x.equals(z)</code> should return <code>true</code>.
- <li>It is <i>consistent</i>: for any non-null reference values
-     <code>x</code> and <code>y</code>, multiple invocations of
-     <code>x.equals(y)</code> consistently return <code>true</code>
-     or consistently return <code>false</code>, provided no
-     information used in <code>equals</code> comparisons on the
-     objects is modified.
- <li>For any non-null reference value <code>x</code>,
-     <code>x.equals(null)</code> should return <code>false</code>.
- </ul>
- <p>
- The <code>equals</code> method for class <code>Object</code> implements
- the most discriminating possible equivalence relation on objects;
- that is, for any non-null reference values <code>x</code> and
- <code>y</code>, this method returns <code>true</code> if and only
- if <code>x</code> and <code>y</code> refer to the same object
- (<code>x == y</code> has the value <code>true</code>).
- <p>
- Note that it is generally necessary to override the <code>hashCode</code>
- method whenever this method is overridden, so as to maintain the
- general contract for the <code>hashCode</code> method, which states
- that equal objects must have equal hash codes.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>equals</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code>equals</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>object</code> - the reference object with which to compare.</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd><code>true</code> if this object is the same as the obj
-          argument; <code>false</code> otherwise.</dd>
-<dt><span class="seeLabel">See Also:</span></dt>
-<dd><code>Object.hashCode()</code>, 
-<code>HashMap</code></dd>
 </dl>
 </li>
 </ul>
@@ -1933,45 +1537,11 @@ public final&nbsp;<a href="ImmutableMap.html" title="type parameter in Immutable
 <li class="blockList">
 <h4>hashCode</h4>
 <pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.1177">hashCode</a>()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code>java.lang.Object</code></span></div>
-<div class="block">Returns a hash code value for the object. This method is
- supported for the benefit of hash tables such as those provided by
- <code>HashMap</code>.
- <p>
- The general contract of <code>hashCode</code> is:
- <ul>
- <li>Whenever it is invoked on the same object more than once during
-     an execution of a Java application, the <code>hashCode</code> method
-     must consistently return the same integer, provided no information
-     used in <code>equals</code> comparisons on the object is modified.
-     This integer need not remain consistent from one execution of an
-     application to another execution of the same application.
- <li>If two objects are equal according to the <code>equals(Object)</code>
-     method, then calling the <code>hashCode</code> method on each of
-     the two objects must produce the same integer result.
- <li>It is <em>not</em> required that if two objects are unequal
-     according to the <code>Object.equals(java.lang.Object)</code>
-     method, then calling the <code>hashCode</code> method on each of the
-     two objects must produce distinct integer results.  However, the
-     programmer should be aware that producing distinct integer results
-     for unequal objects may improve the performance of hash tables.
- </ul>
- <p>
- As much as is reasonably practical, the hashCode method defined
- by class <code>Object</code> does return distinct integers for
- distinct objects. (The hashCode may or may not be implemented
- as some function of an object's memory address at some point
- in time.)</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>hashCode</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code>hashCode</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a hash code value for this object.</dd>
-<dt><span class="seeLabel">See Also:</span></dt>
-<dd><code>Object.equals(java.lang.Object)</code>, 
-<code>System.identityHashCode(java.lang.Object)</code></dd>
 </dl>
 </li>
 </ul>
@@ -1982,29 +1552,9 @@ public final&nbsp;<a href="ImmutableMap.html" title="type parameter in Immutable
 <li class="blockList">
 <h4>toString</h4>
 <pre class="methodSignature">public&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.1186">toString</a>()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code>java.lang.Object</code></span></div>
-<div class="block">Returns a string representation of the object. In general, the
- <code>toString</code> method returns a string that
- "textually represents" this object. The result should
- be a concise but informative representation that is easy for a
- person to read.
- It is recommended that all subclasses override this method.
- <p>
- The <code>toString</code> method for class <code>Object</code>
- returns a string consisting of the name of the class of which the
- object is an instance, the at-sign character `<code>@</code>', and
- the unsigned hexadecimal representation of the hash code of the
- object. In other words, this method returns a string equal to the
- value of:
- <blockquote>
- <pre>
- getClass().getName() + '@' + Integer.toHexString(hashCode())
- </pre></blockquote></div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code>toString</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a string representation of the object.</dd>
 </dl>
 </li>
 </ul>

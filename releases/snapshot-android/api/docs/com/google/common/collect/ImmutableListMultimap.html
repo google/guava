@@ -238,7 +238,7 @@ implements <a href="ListMultimap.html" title="interface in com.google.common.col
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#equals(java.lang.Object)">equals</a></span>&#8203;(java.lang.Object&nbsp;object)</code></th>
 <td class="colLast">
-<div class="block">Indicates whether some other object is "equal to" this one.</div>
+<div class="block">Compares the specified object with this multimap for equality.</div>
 </td>
 </tr>
 <tr id="i5" class="rowColor">
@@ -701,58 +701,23 @@ public final&nbsp;<a href="ImmutableList.html" title="class in com.google.common
 <h4>equals</h4>
 <pre class="methodSignature">public&nbsp;boolean&nbsp;equals&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                       java.lang.Object&nbsp;object)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code>java.lang.Object</code></span></div>
-<div class="block">Indicates whether some other object is "equal to" this one.
- <p>
- The <code>equals</code> method implements an equivalence relation
- on non-null object references:
- <ul>
- <li>It is <i>reflexive</i>: for any non-null reference value
-     <code>x</code>, <code>x.equals(x)</code> should return
-     <code>true</code>.
- <li>It is <i>symmetric</i>: for any non-null reference values
-     <code>x</code> and <code>y</code>, <code>x.equals(y)</code>
-     should return <code>true</code> if and only if
-     <code>y.equals(x)</code> returns <code>true</code>.
- <li>It is <i>transitive</i>: for any non-null reference values
-     <code>x</code>, <code>y</code>, and <code>z</code>, if
-     <code>x.equals(y)</code> returns <code>true</code> and
-     <code>y.equals(z)</code> returns <code>true</code>, then
-     <code>x.equals(z)</code> should return <code>true</code>.
- <li>It is <i>consistent</i>: for any non-null reference values
-     <code>x</code> and <code>y</code>, multiple invocations of
-     <code>x.equals(y)</code> consistently return <code>true</code>
-     or consistently return <code>false</code>, provided no
-     information used in <code>equals</code> comparisons on the
-     objects is modified.
- <li>For any non-null reference value <code>x</code>,
-     <code>x.equals(null)</code> should return <code>false</code>.
- </ul>
- <p>
- The <code>equals</code> method for class <code>Object</code> implements
- the most discriminating possible equivalence relation on objects;
- that is, for any non-null reference values <code>x</code> and
- <code>y</code>, this method returns <code>true</code> if and only
- if <code>x</code> and <code>y</code> refer to the same object
- (<code>x == y</code> has the value <code>true</code>).
- <p>
- Note that it is generally necessary to override the <code>hashCode</code>
- method whenever this method is overridden, so as to maintain the
- general contract for the <code>hashCode</code> method, which states
- that equal objects must have equal hash codes.</div>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Multimap.html#equals(java.lang.Object)">Multimap</a></code></span></div>
+<div class="block">Compares the specified object with this multimap for equality. Two multimaps are equal when
+ their map views, as returned by <a href="Multimap.html#asMap()"><code>Multimap.asMap()</code></a>, are also equal.
+
+ <p>In general, two multimaps with identical key-value mappings may or may not be equal,
+ depending on the implementation. For example, two <a href="SetMultimap.html" title="interface in com.google.common.collect"><code>SetMultimap</code></a> instances with the same
+ key-value mappings are equal, but equality of two <a href="ListMultimap.html" title="interface in com.google.common.collect"><code>ListMultimap</code></a> instances depends on the
+ ordering of the values for each key.
+
+ <p>A non-empty <a href="SetMultimap.html" title="interface in com.google.common.collect"><code>SetMultimap</code></a> cannot be equal to a non-empty <a href="ListMultimap.html" title="interface in com.google.common.collect"><code>ListMultimap</code></a>, since
+ their <a href="Multimap.html#asMap()"><code>Multimap.asMap()</code></a> views contain unequal collections as values. However, any two empty
+ multimaps are equal, because they both have empty <a href="Multimap.html#asMap()"><code>Multimap.asMap()</code></a> views.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="Multimap.html#equals(java.lang.Object)">equals</a></code>&nbsp;in interface&nbsp;<code><a href="Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;K extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code>equals</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>object</code> - the reference object with which to compare.</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd><code>true</code> if this object is the same as the obj
-          argument; <code>false</code> otherwise.</dd>
-<dt><span class="seeLabel">See Also:</span></dt>
-<dd><code>Object.hashCode()</code>, 
-<code>HashMap</code></dd>
 </dl>
 </li>
 </ul>
@@ -772,8 +737,6 @@ public final&nbsp;<a href="ImmutableList.html" title="class in com.google.common
 <dd><code><a href="Multimap.html#hashCode()">hashCode</a></code>&nbsp;in interface&nbsp;<code><a href="Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;K extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code>hashCode</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a hash code value for this object.</dd>
 <dt><span class="seeLabel">See Also:</span></dt>
 <dd><code>Map.hashCode()</code></dd>
 </dl>

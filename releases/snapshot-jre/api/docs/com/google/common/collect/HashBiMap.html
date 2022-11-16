@@ -177,14 +177,14 @@ implements <a href="BiMap.html" title="interface in com.google.common.collect">B
 <!--   -->
 </a>
 <h3>Nested classes/interfaces inherited from class&nbsp;java.util.AbstractMap</h3>
-<code>java.util.AbstractMap.SimpleEntry&lt;K,&#8203;V&gt;, java.util.AbstractMap.SimpleImmutableEntry&lt;K,&#8203;V&gt;</code></li>
+<code>java.util.AbstractMap.SimpleEntry&lt;K extends java.lang.Object,&#8203;V extends java.lang.Object&gt;, java.util.AbstractMap.SimpleImmutableEntry&lt;K extends java.lang.Object,&#8203;V extends java.lang.Object&gt;</code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a id="nested.classes.inherited.from.class.java.util.Map">
 <!--   -->
 </a>
 <h3>Nested classes/interfaces inherited from interface&nbsp;java.util.Map</h3>
-<code>java.util.Map.Entry&lt;K,&#8203;V&gt;</code></li>
+<code>java.util.Map.Entry&lt;K extends java.lang.Object,&#8203;V extends java.lang.Object&gt;</code></li>
 </ul>
 </li>
 </ul>
@@ -206,17 +206,12 @@ implements <a href="BiMap.html" title="interface in com.google.common.collect">B
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#clear()">clear</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Removes all of the mappings from this map (optional operation).</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#containsKey(java.lang.Object)">containsKey</a></span>&#8203;(java.lang.Object&nbsp;key)</code></th>
-<td class="colLast">
-<div class="block">Returns <code>true</code> if this map contains a mapping for the specified
- key.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
@@ -250,9 +245,7 @@ implements <a href="BiMap.html" title="interface in com.google.common.collect">B
 <tr id="i6" class="altColor">
 <td class="colFirst"><code>java.util.Set&lt;java.util.Map.Entry&lt;K,&#8203;V&gt;&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#entrySet()">entrySet</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Returns a <code>Set</code> view of the mappings contained in this map.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i7" class="rowColor">
 <td class="colFirst"><code><a href="HashBiMap.html" title="type parameter in HashBiMap">V</a></code></td>
@@ -266,18 +259,12 @@ implements <a href="BiMap.html" title="interface in com.google.common.collect">B
 <tr id="i8" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#forEach(java.util.function.BiConsumer)">forEach</a></span>&#8203;(java.util.function.BiConsumer&lt;? super <a href="HashBiMap.html" title="type parameter in HashBiMap">K</a>,&#8203;? super <a href="HashBiMap.html" title="type parameter in HashBiMap">V</a>&gt;&nbsp;action)</code></th>
-<td class="colLast">
-<div class="block">Performs the given action for each entry in this map until all entries
- have been processed or the action throws an exception.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i9" class="rowColor">
 <td class="colFirst"><code><a href="HashBiMap.html" title="type parameter in HashBiMap">V</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#get(java.lang.Object)">get</a></span>&#8203;(java.lang.Object&nbsp;key)</code></th>
-<td class="colLast">
-<div class="block">Returns the value to which the specified key is mapped,
- or <code>null</code> if this map contains no mapping for the key.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i10" class="altColor">
 <td class="colFirst"><code><a href="BiMap.html" title="interface in com.google.common.collect">BiMap</a>&lt;<a href="HashBiMap.html" title="type parameter in HashBiMap">V</a>,&#8203;<a href="HashBiMap.html" title="type parameter in HashBiMap">K</a>&gt;</code></td>
@@ -290,49 +277,31 @@ implements <a href="BiMap.html" title="interface in com.google.common.collect">B
 <tr id="i11" class="rowColor">
 <td class="colFirst"><code>java.util.Set&lt;<a href="HashBiMap.html" title="type parameter in HashBiMap">K</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#keySet()">keySet</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Returns a <code>Set</code> view of the keys contained in this map.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i12" class="altColor">
 <td class="colFirst"><code><a href="HashBiMap.html" title="type parameter in HashBiMap">V</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#put(K,V)">put</a></span>&#8203;(<a href="HashBiMap.html" title="type parameter in HashBiMap">K</a>&nbsp;key,
    <a href="HashBiMap.html" title="type parameter in HashBiMap">V</a>&nbsp;value)</code></th>
-<td class="colLast">
-<div class="block">Associates the specified value with the specified key in this map
- (optional operation).</div>
-</td>
 </tr>
 <tr id="i13" class="rowColor">
 <td class="colFirst"><code><a href="HashBiMap.html" title="type parameter in HashBiMap">V</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#remove(java.lang.Object)">remove</a></span>&#8203;(java.lang.Object&nbsp;key)</code></th>
-<td class="colLast">
-<div class="block">Removes the mapping for a key from this map if it is present
- (optional operation).</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i14" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#replaceAll(java.util.function.BiFunction)">replaceAll</a></span>&#8203;(java.util.function.BiFunction&lt;? super <a href="HashBiMap.html" title="type parameter in HashBiMap">K</a>,&#8203;? super <a href="HashBiMap.html" title="type parameter in HashBiMap">V</a>,&#8203;? extends <a href="HashBiMap.html" title="type parameter in HashBiMap">V</a>&gt;&nbsp;function)</code></th>
-<td class="colLast">
-<div class="block">Replaces each entry's value with the result of invoking the given
- function on that entry until all entries have been processed or the
- function throws an exception.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i15" class="rowColor">
 <td class="colFirst"><code>int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#size()">size</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Returns the number of key-value mappings in this map.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i16" class="altColor">
 <td class="colFirst"><code>java.util.Set&lt;<a href="HashBiMap.html" title="type parameter in HashBiMap">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#values()">values</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Returns a <code>Collection</code> view of the values contained in this map.</div>
-</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -424,22 +393,11 @@ implements <a href="BiMap.html" title="interface in com.google.common.collect">B
 <h4>containsKey</h4>
 <pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/HashBiMap.html#line.261">containsKey</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                            java.lang.Object&nbsp;key)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code>java.util.AbstractMap</code></span></div>
-<div class="block">Returns <code>true</code> if this map contains a mapping for the specified
- key.  More formally, returns <code>true</code> if and only if
- this map contains a mapping for a key <code>k</code> such that
- <code>Objects.equals(key, k)</code>.  (There can be
- at most one such mapping.)</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>containsKey</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="HashBiMap.html" title="type parameter in HashBiMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="HashBiMap.html" title="type parameter in HashBiMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code>containsKey</code>&nbsp;in class&nbsp;<code>java.util.AbstractMap&lt;<a href="HashBiMap.html" title="type parameter in HashBiMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="HashBiMap.html" title="type parameter in HashBiMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>key</code> - key whose presence in this map is to be tested</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd><code>true</code> if this map contains a mapping for the specified
-         key</dd>
 </dl>
 </li>
 </ul>
@@ -477,30 +435,11 @@ implements <a href="BiMap.html" title="interface in com.google.common.collect">B
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
 public&nbsp;<a href="HashBiMap.html" title="type parameter in HashBiMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/HashBiMap.html#line.281">get</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
              java.lang.Object&nbsp;key)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code>java.util.AbstractMap</code></span></div>
-<div class="block">Returns the value to which the specified key is mapped,
- or <code>null</code> if this map contains no mapping for the key.
-
- <p>More formally, if this map contains a mapping from a key
- <code>k</code> to a value <code>v</code> such that
- <code>Objects.equals(key, k)</code>,
- then this method returns <code>v</code>; otherwise
- it returns <code>null</code>.  (There can be at most one such mapping.)
-
- <p>If this map permits null values, then a return value of
- <code>null</code> does not <i>necessarily</i> indicate that the map
- contains no mapping for the key; it's also possible that the map
- explicitly maps the key to <code>null</code>.  The <code>containsKey</code> operation may be used to distinguish these two cases.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>get</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="HashBiMap.html" title="type parameter in HashBiMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="HashBiMap.html" title="type parameter in HashBiMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code>get</code>&nbsp;in class&nbsp;<code>java.util.AbstractMap&lt;<a href="HashBiMap.html" title="type parameter in HashBiMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="HashBiMap.html" title="type parameter in HashBiMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>key</code> - the key whose associated value is to be returned</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>the value to which the specified key is mapped, or
-         <code>null</code> if this map contains no mapping for the key</dd>
 </dl>
 </li>
 </ul>
@@ -516,13 +455,7 @@ public&nbsp;<a href="HashBiMap.html" title="type parameter in HashBiMap">V</a>&n
 <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
 public&nbsp;<a href="HashBiMap.html" title="type parameter in HashBiMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/HashBiMap.html#line.287">put</a>&#8203;(<a href="HashBiMap.html" title="type parameter in HashBiMap">K</a>&nbsp;key,
              <a href="HashBiMap.html" title="type parameter in HashBiMap">V</a>&nbsp;value)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code>java.util.AbstractMap</code></span></div>
-<div class="block">Associates the specified value with the specified key in this map
- (optional operation).  If the map previously contained a mapping for
- the key, the old value is replaced by the specified value.  (A map
- <code>m</code> is said to contain a mapping for a key <code>k</code> if and only
- if <code>m.containsKey(k)</code> would return
- <code>true</code>.)</div>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="BiMap.html#put(K,V)">BiMap</a></code></span></div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="BiMap.html#put(K,V)">put</a></code>&nbsp;in interface&nbsp;<code><a href="BiMap.html" title="interface in com.google.common.collect">BiMap</a>&lt;<a href="HashBiMap.html" title="type parameter in HashBiMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="HashBiMap.html" title="type parameter in HashBiMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
@@ -530,15 +463,6 @@ public&nbsp;<a href="HashBiMap.html" title="type parameter in HashBiMap">V</a>&n
 <dd><code>put</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="HashBiMap.html" title="type parameter in HashBiMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="HashBiMap.html" title="type parameter in HashBiMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code>put</code>&nbsp;in class&nbsp;<code>java.util.AbstractMap&lt;<a href="HashBiMap.html" title="type parameter in HashBiMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="HashBiMap.html" title="type parameter in HashBiMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>key</code> - key with which the specified value is to be associated</dd>
-<dd><code>value</code> - value to be associated with the specified key</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>the previous value associated with <code>key</code>, or
-         <code>null</code> if there was no mapping for <code>key</code>.
-         (A <code>null</code> return can also indicate that the map
-         previously associated <code>null</code> with <code>key</code>,
-         if the implementation supports <code>null</code> values.)</dd>
 </dl>
 </li>
 </ul>
@@ -588,33 +512,11 @@ public&nbsp;<a href="HashBiMap.html" title="type parameter in HashBiMap">V</a>&n
 <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
 public&nbsp;<a href="HashBiMap.html" title="type parameter in HashBiMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/HashBiMap.html#line.406">remove</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                 java.lang.Object&nbsp;key)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code>java.util.AbstractMap</code></span></div>
-<div class="block">Removes the mapping for a key from this map if it is present
- (optional operation).   More formally, if this map contains a mapping
- from key <code>k</code> to value <code>v</code> such that
- <code>Objects.equals(key, k)</code>, that mapping
- is removed.  (The map can contain at most one such mapping.)
-
- <p>Returns the value to which this map previously associated the key,
- or <code>null</code> if the map contained no mapping for the key.
-
- <p>If this map permits null values, then a return value of
- <code>null</code> does not <i>necessarily</i> indicate that the map
- contained no mapping for the key; it's also possible that the map
- explicitly mapped the key to <code>null</code>.
-
- <p>The map will not contain a mapping for the specified key once the
- call returns.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>remove</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="HashBiMap.html" title="type parameter in HashBiMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="HashBiMap.html" title="type parameter in HashBiMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code>remove</code>&nbsp;in class&nbsp;<code>java.util.AbstractMap&lt;<a href="HashBiMap.html" title="type parameter in HashBiMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="HashBiMap.html" title="type parameter in HashBiMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>key</code> - key whose mapping is to be removed from the map</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>the previous value associated with <code>key</code>, or
-         <code>null</code> if there was no mapping for <code>key</code>.</dd>
 </dl>
 </li>
 </ul>
@@ -625,9 +527,6 @@ public&nbsp;<a href="HashBiMap.html" title="type parameter in HashBiMap">V</a>&n
 <li class="blockList">
 <h4>clear</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/HashBiMap.html#line.421">clear</a>()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code>java.util.AbstractMap</code></span></div>
-<div class="block">Removes all of the mappings from this map (optional operation).
- The map will be empty after this call returns.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>clear</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="HashBiMap.html" title="type parameter in HashBiMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="HashBiMap.html" title="type parameter in HashBiMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
@@ -641,15 +540,9 @@ public&nbsp;<a href="HashBiMap.html" title="type parameter in HashBiMap">V</a>&n
 <li class="blockList">
 <h4>size</h4>
 <pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/HashBiMap.html#line.431">size</a>()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code>java.util.AbstractMap</code></span></div>
-<div class="block">Returns the number of key-value mappings in this map.  If the
- map contains more than <code>Integer.MAX_VALUE</code> elements, returns
- <code>Integer.MAX_VALUE</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>size</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="HashBiMap.html" title="type parameter in HashBiMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="HashBiMap.html" title="type parameter in HashBiMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>the number of key-value mappings in this map</dd>
 </dl>
 </li>
 </ul>
@@ -660,25 +553,11 @@ public&nbsp;<a href="HashBiMap.html" title="type parameter in HashBiMap">V</a>&n
 <li class="blockList">
 <h4>keySet</h4>
 <pre class="methodSignature">public&nbsp;java.util.Set&lt;<a href="HashBiMap.html" title="type parameter in HashBiMap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/HashBiMap.html#line.480">keySet</a>()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code>java.util.AbstractMap</code></span></div>
-<div class="block">Returns a <code>Set</code> view of the keys contained in this map.
- The set is backed by the map, so changes to the map are
- reflected in the set, and vice-versa.  If the map is modified
- while an iteration over the set is in progress (except through
- the iterator's own <code>remove</code> operation), the results of
- the iteration are undefined.  The set supports element removal,
- which removes the corresponding mapping from the map, via the
- <code>Iterator.remove</code>, <code>Set.remove</code>,
- <code>removeAll</code>, <code>retainAll</code>, and <code>clear</code>
- operations.  It does not support the <code>add</code> or <code>addAll</code>
- operations.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>keySet</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="HashBiMap.html" title="type parameter in HashBiMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="HashBiMap.html" title="type parameter in HashBiMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code>keySet</code>&nbsp;in class&nbsp;<code>java.util.AbstractMap&lt;<a href="HashBiMap.html" title="type parameter in HashBiMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="HashBiMap.html" title="type parameter in HashBiMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a set view of the keys contained in this map</dd>
 </dl>
 </li>
 </ul>
@@ -689,18 +568,10 @@ public&nbsp;<a href="HashBiMap.html" title="type parameter in HashBiMap">V</a>&n
 <li class="blockList">
 <h4>values</h4>
 <pre class="methodSignature">public&nbsp;java.util.Set&lt;<a href="HashBiMap.html" title="type parameter in HashBiMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/HashBiMap.html#line.515">values</a>()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code>java.util.AbstractMap</code></span></div>
-<div class="block">Returns a <code>Collection</code> view of the values contained in this map.
- The collection is backed by the map, so changes to the map are
- reflected in the collection, and vice-versa.  If the map is
- modified while an iteration over the collection is in progress
- (except through the iterator's own <code>remove</code> operation),
- the results of the iteration are undefined.  The collection
- supports element removal, which removes the corresponding
- mapping from the map, via the <code>Iterator.remove</code>,
- <code>Collection.remove</code>, <code>removeAll</code>,
- <code>retainAll</code> and <code>clear</code> operations.  It does not
- support the <code>add</code> or <code>addAll</code> operations.</div>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="BiMap.html#values()">BiMap</a></code></span></div>
+<div class="block">
+
+ <p>Because a bimap has unique values, this method returns a <code>Set</code>, instead of the <code>Collection</code> specified in the <code>Map</code> interface.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="BiMap.html#values()">values</a></code>&nbsp;in interface&nbsp;<code><a href="BiMap.html" title="interface in com.google.common.collect">BiMap</a>&lt;<a href="HashBiMap.html" title="type parameter in HashBiMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="HashBiMap.html" title="type parameter in HashBiMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
@@ -708,8 +579,6 @@ public&nbsp;<a href="HashBiMap.html" title="type parameter in HashBiMap">V</a>&n
 <dd><code>values</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="HashBiMap.html" title="type parameter in HashBiMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="HashBiMap.html" title="type parameter in HashBiMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code>values</code>&nbsp;in class&nbsp;<code>java.util.AbstractMap&lt;<a href="HashBiMap.html" title="type parameter in HashBiMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="HashBiMap.html" title="type parameter in HashBiMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a collection view of the values contained in this map</dd>
 </dl>
 </li>
 </ul>
@@ -720,17 +589,9 @@ public&nbsp;<a href="HashBiMap.html" title="type parameter in HashBiMap">V</a>&n
 <li class="blockList">
 <h4>forEach</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/HashBiMap.html#line.572">forEach</a>&#8203;(java.util.function.BiConsumer&lt;? super <a href="HashBiMap.html" title="type parameter in HashBiMap">K</a>,&#8203;? super <a href="HashBiMap.html" title="type parameter in HashBiMap">V</a>&gt;&nbsp;action)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.Map</code></span></div>
-<div class="block">Performs the given action for each entry in this map until all entries
- have been processed or the action throws an exception.   Unless
- otherwise specified by the implementing class, actions are performed in
- the order of entry set iteration (if an iteration order is specified.)
- Exceptions thrown by the action are relayed to the caller.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>forEach</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="HashBiMap.html" title="type parameter in HashBiMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="HashBiMap.html" title="type parameter in HashBiMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>action</code> - The action to be performed for each entry</dd>
 </dl>
 </li>
 </ul>
@@ -741,16 +602,9 @@ public&nbsp;<a href="HashBiMap.html" title="type parameter in HashBiMap">V</a>&n
 <li class="blockList">
 <h4>replaceAll</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/HashBiMap.html#line.582">replaceAll</a>&#8203;(java.util.function.BiFunction&lt;? super <a href="HashBiMap.html" title="type parameter in HashBiMap">K</a>,&#8203;? super <a href="HashBiMap.html" title="type parameter in HashBiMap">V</a>,&#8203;? extends <a href="HashBiMap.html" title="type parameter in HashBiMap">V</a>&gt;&nbsp;function)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.Map</code></span></div>
-<div class="block">Replaces each entry's value with the result of invoking the given
- function on that entry until all entries have been processed or the
- function throws an exception.  Exceptions thrown by the function are
- relayed to the caller.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>replaceAll</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="HashBiMap.html" title="type parameter in HashBiMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="HashBiMap.html" title="type parameter in HashBiMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>function</code> - the function to apply to each entry</dd>
 </dl>
 </li>
 </ul>
@@ -783,26 +637,11 @@ public&nbsp;<a href="HashBiMap.html" title="type parameter in HashBiMap">V</a>&n
 <li class="blockList">
 <h4>entrySet</h4>
 <pre class="methodSignature">public&nbsp;java.util.Set&lt;java.util.Map.Entry&lt;K,&#8203;V&gt;&gt;&nbsp;entrySet()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.Map</code></span></div>
-<div class="block">Returns a <code>Set</code> view of the mappings contained in this map.
- The set is backed by the map, so changes to the map are
- reflected in the set, and vice-versa.  If the map is modified
- while an iteration over the set is in progress (except through
- the iterator's own <code>remove</code> operation, or through the
- <code>setValue</code> operation on a map entry returned by the
- iterator) the results of the iteration are undefined.  The set
- supports element removal, which removes the corresponding
- mapping from the map, via the <code>Iterator.remove</code>,
- <code>Set.remove</code>, <code>removeAll</code>, <code>retainAll</code> and
- <code>clear</code> operations.  It does not support the
- <code>add</code> or <code>addAll</code> operations.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>entrySet</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;K extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>entrySet</code>&nbsp;in class&nbsp;<code>java.util.AbstractMap&lt;K extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a set view of the mappings contained in this map</dd>
 </dl>
 </li>
 </ul>

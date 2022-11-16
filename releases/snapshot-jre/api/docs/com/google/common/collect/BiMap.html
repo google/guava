@@ -164,7 +164,7 @@ extends java.util.Map&lt;K,&#8203;V&gt;</pre>
 <!--   -->
 </a>
 <h3>Nested classes/interfaces inherited from interface&nbsp;java.util.Map</h3>
-<code>java.util.Map.Entry&lt;K,&#8203;V&gt;</code></li>
+<code>java.util.Map.Entry&lt;K extends java.lang.Object,&#8203;V extends java.lang.Object&gt;</code></li>
 </ul>
 </li>
 </ul>
@@ -204,25 +204,14 @@ extends java.util.Map&lt;K,&#8203;V&gt;</pre>
 <td class="colFirst"><code><a href="BiMap.html" title="type parameter in BiMap">V</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#put(K,V)">put</a></span>&#8203;(<a href="BiMap.html" title="type parameter in BiMap">K</a>&nbsp;key,
    <a href="BiMap.html" title="type parameter in BiMap">V</a>&nbsp;value)</code></th>
-<td class="colLast">
-<div class="block">Associates the specified value with the specified key in this map
- (optional operation).</div>
-</td>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#putAll(java.util.Map)">putAll</a></span>&#8203;(java.util.Map&lt;? extends <a href="BiMap.html" title="type parameter in BiMap">K</a>,&#8203;? extends <a href="BiMap.html" title="type parameter in BiMap">V</a>&gt;&nbsp;map)</code></th>
-<td class="colLast">
-<div class="block">Copies all of the mappings from the specified map to this map
- (optional operation).</div>
-</td>
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code>java.util.Set&lt;<a href="BiMap.html" title="type parameter in BiMap">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#values()">values</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Returns a <code>Collection</code> view of the values contained in this map.</div>
-</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -260,24 +249,9 @@ extends java.util.Map&lt;K,&#8203;V&gt;</pre>
 <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
 <a href="BiMap.html" title="type parameter in BiMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/BiMap.html#line.49">put</a>&#8203;(<a href="BiMap.html" title="type parameter in BiMap">K</a>&nbsp;key,
       <a href="BiMap.html" title="type parameter in BiMap">V</a>&nbsp;value)</pre>
-<div class="block">Associates the specified value with the specified key in this map
- (optional operation).  If the map previously contained a mapping for
- the key, the old value is replaced by the specified value.  (A map
- <code>m</code> is said to contain a mapping for a key <code>k</code> if and only
- if <code>m.containsKey(k)</code> would return
- <code>true</code>.)</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>put</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="BiMap.html" title="type parameter in BiMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="BiMap.html" title="type parameter in BiMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>key</code> - key with which the specified value is to be associated</dd>
-<dd><code>value</code> - value to be associated with the specified key</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>the previous value associated with <code>key</code>, or
-         <code>null</code> if there was no mapping for <code>key</code>.
-         (A <code>null</code> return can also indicate that the map
-         previously associated <code>null</code> with <code>key</code>,
-         if the implementation supports <code>null</code> values.)</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.IllegalArgumentException</code> - if the given value is already bound to a different key in this
      bimap. The bimap will remain unmodified in this event. To avoid this exception, call <a href="#forcePut(K,V)"><code>forcePut(K, V)</code></a> instead.</dd>
@@ -324,20 +298,13 @@ extends java.util.Map&lt;K,&#8203;V&gt;</pre>
 <li class="blockList">
 <h4>putAll</h4>
 <pre class="methodSignature">void&nbsp;<a href="../../../../src-html/com/google/common/collect/BiMap.html#line.87">putAll</a>&#8203;(java.util.Map&lt;? extends <a href="BiMap.html" title="type parameter in BiMap">K</a>,&#8203;? extends <a href="BiMap.html" title="type parameter in BiMap">V</a>&gt;&nbsp;map)</pre>
-<div class="block">Copies all of the mappings from the specified map to this map
- (optional operation).  The effect of this call is equivalent to that
- of calling <code>put(k, v)</code> on this map once
- for each mapping from key <code>k</code> to value <code>v</code> in the
- specified map.  The behavior of this operation is undefined if the
- specified map is modified while the operation is in progress.
+<div class="block">
 
  <p><b>Warning:</b> the results of calling this method may vary depending on the iteration order
  of <code>map</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>putAll</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="BiMap.html" title="type parameter in BiMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="BiMap.html" title="type parameter in BiMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>map</code> - mappings to be stored in this map</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.IllegalArgumentException</code> - if an attempt to <code>put</code> any entry fails. Note that some
      map entries may have been added to the bimap before the exception was thrown.</dd>
@@ -351,24 +318,12 @@ extends java.util.Map&lt;K,&#8203;V&gt;</pre>
 <li class="blockList">
 <h4>values</h4>
 <pre class="methodSignature">java.util.Set&lt;<a href="BiMap.html" title="type parameter in BiMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/BiMap.html#line.98">values</a>()</pre>
-<div class="block">Returns a <code>Collection</code> view of the values contained in this map.
- The collection is backed by the map, so changes to the map are
- reflected in the collection, and vice-versa.  If the map is
- modified while an iteration over the collection is in progress
- (except through the iterator's own <code>remove</code> operation),
- the results of the iteration are undefined.  The collection
- supports element removal, which removes the corresponding
- mapping from the map, via the <code>Iterator.remove</code>,
- <code>Collection.remove</code>, <code>removeAll</code>,
- <code>retainAll</code> and <code>clear</code> operations.  It does not
- support the <code>add</code> or <code>addAll</code> operations.
+<div class="block">
 
  <p>Because a bimap has unique values, this method returns a <code>Set</code>, instead of the <code>Collection</code> specified in the <code>Map</code> interface.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>values</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="BiMap.html" title="type parameter in BiMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="BiMap.html" title="type parameter in BiMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a collection view of the values contained in this map</dd>
 </dl>
 </li>
 </ul>

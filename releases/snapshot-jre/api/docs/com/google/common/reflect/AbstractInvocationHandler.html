@@ -228,8 +228,17 @@ implements java.lang.reflect.InvocationHandler</pre>
       java.lang.reflect.Method&nbsp;method,
       <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object[]&nbsp;args)</code></th>
 <td class="colLast">
-<div class="block">Processes a method invocation on a proxy instance and returns
- the result.</div>
+<div class="block">
+
+ 
+   <code>proxy.hashCode()</code> delegates to <a href="#hashCode()"><code>hashCode()</code></a>
+   <code>proxy.toString()</code> delegates to <a href="#toString()"><code>toString()</code></a>
+   <code>proxy.equals(argument)</code> returns true if:
+       
+         <code>proxy</code> and <code>argument</code> are of the same type
+         and <a href="#equals(java.lang.Object)"><code>equals(java.lang.Object)</code></a> returns true for the <code>InvocationHandler</code> of <code>argument</code>
+       
+   other method calls are dispatched to <a href="#handleInvocation(java.lang.Object,java.lang.reflect.Method,java.lang.Object%5B%5D)"><code>handleInvocation(java.lang.Object, java.lang.reflect.Method, java.lang.Object[])</code></a>.</div>
 </td>
 </tr>
 <tr id="i4" class="altColor">
@@ -294,10 +303,7 @@ public final&nbsp;java.lang.Object&nbsp;<a href="../../../../src-html/com/google
                                      <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                                      <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object[]&nbsp;args)
                               throws java.lang.Throwable</pre>
-<div class="block">Processes a method invocation on a proxy instance and returns
- the result.  This method will be invoked on an invocation handler
- when a method is invoked on a proxy instance that it is
- associated with.
+<div class="block">
 
  <ul>
    <li><code>proxy.hashCode()</code> delegates to <a href="#hashCode()"><code>hashCode()</code></a>
@@ -312,48 +318,8 @@ public final&nbsp;java.lang.Object&nbsp;<a href="../../../../src-html/com/google
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>invoke</code>&nbsp;in interface&nbsp;<code>java.lang.reflect.InvocationHandler</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>proxy</code> - the proxy instance that the method was invoked on</dd>
-<dd><code>method</code> - the <code>Method</code> instance corresponding to
- the interface method invoked on the proxy instance.  The declaring
- class of the <code>Method</code> object will be the interface that
- the method was declared in, which may be a superinterface of the
- proxy interface that the proxy class inherits the method through.</dd>
-<dd><code>args</code> - an array of objects containing the values of the
- arguments passed in the method invocation on the proxy instance,
- or <code>null</code> if interface method takes no arguments.
- Arguments of primitive types are wrapped in instances of the
- appropriate primitive wrapper class, such as
- <code>java.lang.Integer</code> or <code>java.lang.Boolean</code>.</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>the value to return from the method invocation on the
- proxy instance.  If the declared return type of the interface
- method is a primitive type, then the value returned by
- this method must be an instance of the corresponding primitive
- wrapper class; otherwise, it must be a type assignable to the
- declared return type.  If the value returned by this method is
- <code>null</code> and the interface method's return type is
- primitive, then a <code>NullPointerException</code> will be
- thrown by the method invocation on the proxy instance.  If the
- value returned by this method is otherwise not compatible with
- the interface method's declared return type as described above,
- a <code>ClassCastException</code> will be thrown by the method
- invocation on the proxy instance.</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.Throwable</code> - the exception to throw from the method
- invocation on the proxy instance.  The exception's type must be
- assignable either to any of the exception types declared in the
- <code>throws</code> clause of the interface method or to the
- unchecked exception types <code>java.lang.RuntimeException</code>
- or <code>java.lang.Error</code>.  If a checked exception is
- thrown by this method that is not assignable to any of the
- exception types declared in the <code>throws</code> clause of
- the interface method, then an
- <code>UndeclaredThrowableException</code> containing the
- exception that was thrown by this method will be thrown by the
- method invocation on the proxy instance.</dd>
-<dt><span class="seeLabel">See Also:</span></dt>
-<dd><code>UndeclaredThrowableException</code></dd>
+<dd><code>java.lang.Throwable</code></dd>
 </dl>
 </li>
 </ul>
@@ -400,14 +366,6 @@ protected abstract&nbsp;java.lang.Object&nbsp;<a href="../../../../src-html/com/
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code>equals</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>obj</code> - the reference object with which to compare.</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd><code>true</code> if this object is the same as the obj
-          argument; <code>false</code> otherwise.</dd>
-<dt><span class="seeLabel">See Also:</span></dt>
-<dd><code>Object.hashCode()</code>, 
-<code>HashMap</code></dd>
 </dl>
 </li>
 </ul>
@@ -423,11 +381,6 @@ protected abstract&nbsp;java.lang.Object&nbsp;<a href="../../../../src-html/com/
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code>hashCode</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a hash code value for this object.</dd>
-<dt><span class="seeLabel">See Also:</span></dt>
-<dd><code>Object.equals(java.lang.Object)</code>, 
-<code>System.identityHashCode(java.lang.Object)</code></dd>
 </dl>
 </li>
 </ul>
@@ -444,8 +397,6 @@ protected abstract&nbsp;java.lang.Object&nbsp;<a href="../../../../src-html/com/
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code>toString</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a string representation of the object.</dd>
 </dl>
 </li>
 </ul>

@@ -207,11 +207,7 @@ implements java.util.concurrent.ExecutorService</pre>
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#awaitTermination(long,java.util.concurrent.TimeUnit)">awaitTermination</a></span>&#8203;(long&nbsp;timeout,
                 java.util.concurrent.TimeUnit&nbsp;unit)</code></th>
-<td class="colLast">
-<div class="block">Blocks until all tasks have completed execution after a shutdown
- request, or the timeout occurs, or the current thread is
- interrupted, whichever happens first.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>protected abstract java.util.concurrent.ExecutorService</code></td>
@@ -223,104 +219,67 @@ implements java.util.concurrent.ExecutorService</pre>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#execute(java.lang.Runnable)">execute</a></span>&#8203;(java.lang.Runnable&nbsp;command)</code></th>
-<td class="colLast">
-<div class="block">Executes the given command at some time in the future.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>java.util.List&lt;java.util.concurrent.Future&lt;T&gt;&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#invokeAll(java.util.Collection)">invokeAll</a></span>&#8203;(java.util.Collection&lt;? extends java.util.concurrent.Callable&lt;T&gt;&gt;&nbsp;tasks)</code></th>
-<td class="colLast">
-<div class="block">Executes the given tasks, returning a list of Futures holding
- their status and results when all complete.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>java.util.List&lt;java.util.concurrent.Future&lt;T&gt;&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#invokeAll(java.util.Collection,long,java.util.concurrent.TimeUnit)">invokeAll</a></span>&#8203;(java.util.Collection&lt;? extends java.util.concurrent.Callable&lt;T&gt;&gt;&nbsp;tasks,
          long&nbsp;timeout,
          java.util.concurrent.TimeUnit&nbsp;unit)</code></th>
-<td class="colLast">
-<div class="block">Executes the given tasks, returning a list of Futures holding
- their status and results
- when all complete or the timeout expires, whichever happens first.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i5" class="rowColor">
 <td class="colFirst"><code>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>T</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#invokeAny(java.util.Collection)">invokeAny</a></span>&#8203;(java.util.Collection&lt;? extends java.util.concurrent.Callable&lt;T&gt;&gt;&nbsp;tasks)</code></th>
-<td class="colLast">
-<div class="block">Executes the given tasks, returning the result
- of one that has completed successfully (i.e., without throwing
- an exception), if any do.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i6" class="altColor">
 <td class="colFirst"><code>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>T</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#invokeAny(java.util.Collection,long,java.util.concurrent.TimeUnit)">invokeAny</a></span>&#8203;(java.util.Collection&lt;? extends java.util.concurrent.Callable&lt;T&gt;&gt;&nbsp;tasks,
          long&nbsp;timeout,
          java.util.concurrent.TimeUnit&nbsp;unit)</code></th>
-<td class="colLast">
-<div class="block">Executes the given tasks, returning the result
- of one that has completed successfully (i.e., without throwing
- an exception), if any do before the given timeout elapses.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i7" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isShutdown()">isShutdown</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Returns <code>true</code> if this executor has been shut down.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i8" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isTerminated()">isTerminated</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Returns <code>true</code> if all tasks have completed following shut down.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i9" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#shutdown()">shutdown</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Initiates an orderly shutdown in which previously submitted
- tasks are executed, but no new tasks will be accepted.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i10" class="altColor">
 <td class="colFirst"><code>java.util.List&lt;java.lang.Runnable&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#shutdownNow()">shutdownNow</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Attempts to stop all actively executing tasks, halts the
- processing of waiting tasks, and returns a list of the tasks
- that were awaiting execution.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i11" class="rowColor">
 <td class="colFirst"><code>java.util.concurrent.Future&lt;?&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#submit(java.lang.Runnable)">submit</a></span>&#8203;(java.lang.Runnable&nbsp;task)</code></th>
-<td class="colLast">
-<div class="block">Submits a Runnable task for execution and returns a Future
- representing that task.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i12" class="altColor">
 <td class="colFirst"><code>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>java.util.concurrent.Future&lt;T&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#submit(java.lang.Runnable,T)">submit</a></span>&#8203;(java.lang.Runnable&nbsp;task,
       T&nbsp;result)</code></th>
-<td class="colLast">
-<div class="block">Submits a Runnable task for execution and returns a Future
- representing that task.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i13" class="rowColor">
 <td class="colFirst"><code>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>java.util.concurrent.Future&lt;T&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#submit(java.util.concurrent.Callable)">submit</a></span>&#8203;(java.util.concurrent.Callable&lt;T&gt;&nbsp;task)</code></th>
-<td class="colLast">
-<div class="block">Submits a value-returning task for execution and returns a
- Future representing the pending results of the task.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -401,21 +360,11 @@ implements java.util.concurrent.ExecutorService</pre>
 public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingExecutorService.html#line.49">awaitTermination</a>&#8203;(long&nbsp;timeout,
                                 java.util.concurrent.TimeUnit&nbsp;unit)
                          throws java.lang.InterruptedException</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.concurrent.ExecutorService</code></span></div>
-<div class="block">Blocks until all tasks have completed execution after a shutdown
- request, or the timeout occurs, or the current thread is
- interrupted, whichever happens first.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>awaitTermination</code>&nbsp;in interface&nbsp;<code>java.util.concurrent.ExecutorService</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>timeout</code> - the maximum time to wait</dd>
-<dd><code>unit</code> - the time unit of the timeout argument</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd><code>true</code> if this executor terminated and
-         <code>false</code> if the timeout elapsed before termination</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.InterruptedException</code> - if interrupted while waiting</dd>
+<dd><code>java.lang.InterruptedException</code></dd>
 </dl>
 </li>
 </ul>
@@ -427,29 +376,11 @@ public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util
 <h4>invokeAll</h4>
 <pre class="methodSignature">public&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.util.List&lt;java.util.concurrent.Future&lt;T&gt;&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingExecutorService.html#line.55">invokeAll</a>&#8203;(java.util.Collection&lt;? extends java.util.concurrent.Callable&lt;T&gt;&gt;&nbsp;tasks)
                                                                                                 throws java.lang.InterruptedException</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.concurrent.ExecutorService</code></span></div>
-<div class="block">Executes the given tasks, returning a list of Futures holding
- their status and results when all complete.
- <code>Future.isDone()</code> is <code>true</code> for each
- element of the returned list.
- Note that a <em>completed</em> task could have
- terminated either normally or by throwing an exception.
- The results of this method are undefined if the given
- collection is modified while this operation is in progress.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>invokeAll</code>&nbsp;in interface&nbsp;<code>java.util.concurrent.ExecutorService</code></dd>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>T</code> - the type of the values returned from the tasks</dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>tasks</code> - the collection of tasks</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a list of Futures representing the tasks, in the same
-         sequential order as produced by the iterator for the
-         given task list, each of which has completed</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.InterruptedException</code> - if interrupted while waiting, in
-         which case unfinished tasks are cancelled</dd>
+<dd><code>java.lang.InterruptedException</code></dd>
 </dl>
 </li>
 </ul>
@@ -463,35 +394,11 @@ public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util
                                                                                                        long&nbsp;timeout,
                                                                                                        java.util.concurrent.TimeUnit&nbsp;unit)
                                                                                                 throws java.lang.InterruptedException</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.concurrent.ExecutorService</code></span></div>
-<div class="block">Executes the given tasks, returning a list of Futures holding
- their status and results
- when all complete or the timeout expires, whichever happens first.
- <code>Future.isDone()</code> is <code>true</code> for each
- element of the returned list.
- Upon return, tasks that have not completed are cancelled.
- Note that a <em>completed</em> task could have
- terminated either normally or by throwing an exception.
- The results of this method are undefined if the given
- collection is modified while this operation is in progress.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>invokeAll</code>&nbsp;in interface&nbsp;<code>java.util.concurrent.ExecutorService</code></dd>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>T</code> - the type of the values returned from the tasks</dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>tasks</code> - the collection of tasks</dd>
-<dd><code>timeout</code> - the maximum time to wait</dd>
-<dd><code>unit</code> - the time unit of the timeout argument</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a list of Futures representing the tasks, in the same
-         sequential order as produced by the iterator for the
-         given task list. If the operation did not time out,
-         each task will have completed. If it did time out, some
-         of these tasks will not have completed.</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.InterruptedException</code> - if interrupted while waiting, in
-         which case unfinished tasks are cancelled</dd>
+<dd><code>java.lang.InterruptedException</code></dd>
 </dl>
 </li>
 </ul>
@@ -504,25 +411,12 @@ public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util
 <pre class="methodSignature">public&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;T&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingExecutorService.html#line.68">invokeAny</a>&#8203;(java.util.Collection&lt;? extends java.util.concurrent.Callable&lt;T&gt;&gt;&nbsp;tasks)
                                                    throws java.lang.InterruptedException,
                                                           java.util.concurrent.ExecutionException</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.concurrent.ExecutorService</code></span></div>
-<div class="block">Executes the given tasks, returning the result
- of one that has completed successfully (i.e., without throwing
- an exception), if any do. Upon normal or exceptional return,
- tasks that have not completed are cancelled.
- The results of this method are undefined if the given
- collection is modified while this operation is in progress.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>invokeAny</code>&nbsp;in interface&nbsp;<code>java.util.concurrent.ExecutorService</code></dd>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>T</code> - the type of the values returned from the tasks</dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>tasks</code> - the collection of tasks</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>the result returned by one of the tasks</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.InterruptedException</code> - if interrupted while waiting</dd>
-<dd><code>java.util.concurrent.ExecutionException</code> - if no task successfully completes</dd>
+<dd><code>java.lang.InterruptedException</code></dd>
+<dd><code>java.util.concurrent.ExecutionException</code></dd>
 </dl>
 </li>
 </ul>
@@ -538,30 +432,13 @@ public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util
                                                    throws java.lang.InterruptedException,
                                                           java.util.concurrent.ExecutionException,
                                                           java.util.concurrent.TimeoutException</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.concurrent.ExecutorService</code></span></div>
-<div class="block">Executes the given tasks, returning the result
- of one that has completed successfully (i.e., without throwing
- an exception), if any do before the given timeout elapses.
- Upon normal or exceptional return, tasks that have not
- completed are cancelled.
- The results of this method are undefined if the given
- collection is modified while this operation is in progress.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>invokeAny</code>&nbsp;in interface&nbsp;<code>java.util.concurrent.ExecutorService</code></dd>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>T</code> - the type of the values returned from the tasks</dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>tasks</code> - the collection of tasks</dd>
-<dd><code>timeout</code> - the maximum time to wait</dd>
-<dd><code>unit</code> - the time unit of the timeout argument</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>the result returned by one of the tasks</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.InterruptedException</code> - if interrupted while waiting</dd>
-<dd><code>java.util.concurrent.ExecutionException</code> - if no task successfully completes</dd>
-<dd><code>java.util.concurrent.TimeoutException</code> - if the given timeout elapses before
-         any task successfully completes</dd>
+<dd><code>java.lang.InterruptedException</code></dd>
+<dd><code>java.util.concurrent.ExecutionException</code></dd>
+<dd><code>java.util.concurrent.TimeoutException</code></dd>
 </dl>
 </li>
 </ul>
@@ -572,13 +449,9 @@ public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util
 <li class="blockList">
 <h4>isShutdown</h4>
 <pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingExecutorService.html#line.81">isShutdown</a>()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.concurrent.ExecutorService</code></span></div>
-<div class="block">Returns <code>true</code> if this executor has been shut down.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>isShutdown</code>&nbsp;in interface&nbsp;<code>java.util.concurrent.ExecutorService</code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd><code>true</code> if this executor has been shut down</dd>
 </dl>
 </li>
 </ul>
@@ -589,15 +462,9 @@ public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util
 <li class="blockList">
 <h4>isTerminated</h4>
 <pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingExecutorService.html#line.86">isTerminated</a>()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.concurrent.ExecutorService</code></span></div>
-<div class="block">Returns <code>true</code> if all tasks have completed following shut down.
- Note that <code>isTerminated</code> is never <code>true</code> unless
- either <code>shutdown</code> or <code>shutdownNow</code> was called first.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>isTerminated</code>&nbsp;in interface&nbsp;<code>java.util.concurrent.ExecutorService</code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd><code>true</code> if all tasks have completed following shut down</dd>
 </dl>
 </li>
 </ul>
@@ -608,14 +475,6 @@ public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util
 <li class="blockList">
 <h4>shutdown</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingExecutorService.html#line.91">shutdown</a>()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.concurrent.ExecutorService</code></span></div>
-<div class="block">Initiates an orderly shutdown in which previously submitted
- tasks are executed, but no new tasks will be accepted.
- Invocation has no additional effect if already shut down.
-
- <p>This method does not wait for previously submitted tasks to
- complete execution.  Use <code>awaitTermination</code>
- to do that.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>shutdown</code>&nbsp;in interface&nbsp;<code>java.util.concurrent.ExecutorService</code></dd>
@@ -630,24 +489,9 @@ public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util
 <h4>shutdownNow</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 public&nbsp;java.util.List&lt;java.lang.Runnable&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingExecutorService.html#line.96">shutdownNow</a>()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.concurrent.ExecutorService</code></span></div>
-<div class="block">Attempts to stop all actively executing tasks, halts the
- processing of waiting tasks, and returns a list of the tasks
- that were awaiting execution.
-
- <p>This method does not wait for actively executing tasks to
- terminate.  Use <code>awaitTermination</code> to
- do that.
-
- <p>There are no guarantees beyond best-effort attempts to stop
- processing actively executing tasks.  For example, typical
- implementations will cancel via <code>Thread.interrupt()</code>, so any
- task that fails to respond to interrupts may never terminate.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>shutdownNow</code>&nbsp;in interface&nbsp;<code>java.util.concurrent.ExecutorService</code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>list of tasks that never commenced execution</dd>
 </dl>
 </li>
 </ul>
@@ -658,15 +502,9 @@ public&nbsp;java.util.List&lt;java.lang.Runnable&gt;&nbsp;<a href="../../../../.
 <li class="blockList">
 <h4>execute</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingExecutorService.html#line.102">execute</a>&#8203;(java.lang.Runnable&nbsp;command)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.concurrent.Executor</code></span></div>
-<div class="block">Executes the given command at some time in the future.  The command
- may execute in a new thread, in a pooled thread, or in the calling
- thread, at the discretion of the <code>Executor</code> implementation.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>execute</code>&nbsp;in interface&nbsp;<code>java.util.concurrent.Executor</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>command</code> - the runnable task</dd>
 </dl>
 </li>
 </ul>
@@ -677,30 +515,9 @@ public&nbsp;java.util.List&lt;java.lang.Runnable&gt;&nbsp;<a href="../../../../.
 <li class="blockList">
 <h4>submit</h4>
 <pre class="methodSignature">public&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.util.concurrent.Future&lt;T&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingExecutorService.html#line.107">submit</a>&#8203;(java.util.concurrent.Callable&lt;T&gt;&nbsp;task)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.concurrent.ExecutorService</code></span></div>
-<div class="block">Submits a value-returning task for execution and returns a
- Future representing the pending results of the task. The
- Future's <code>get</code> method will return the task's result upon
- successful completion.
-
- <p>
- If you would like to immediately block waiting
- for a task, you can use constructions of the form
- <code>result = exec.submit(aCallable).get();</code>
-
- <p>Note: The <code>Executors</code> class includes a set of methods
- that can convert some other common closure-like objects,
- for example, <code>PrivilegedAction</code> to
- <code>Callable</code> form so they can be submitted.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>submit</code>&nbsp;in interface&nbsp;<code>java.util.concurrent.ExecutorService</code></dd>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>T</code> - the type of the task's result</dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>task</code> - the task to submit</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a Future representing pending completion of the task</dd>
 </dl>
 </li>
 </ul>
@@ -711,17 +528,9 @@ public&nbsp;java.util.List&lt;java.lang.Runnable&gt;&nbsp;<a href="../../../../.
 <li class="blockList">
 <h4>submit</h4>
 <pre class="methodSignature">public&nbsp;java.util.concurrent.Future&lt;?&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingExecutorService.html#line.112">submit</a>&#8203;(java.lang.Runnable&nbsp;task)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.concurrent.ExecutorService</code></span></div>
-<div class="block">Submits a Runnable task for execution and returns a Future
- representing that task. The Future's <code>get</code> method will
- return <code>null</code> upon <em>successful</em> completion.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>submit</code>&nbsp;in interface&nbsp;<code>java.util.concurrent.ExecutorService</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>task</code> - the task to submit</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a Future representing pending completion of the task</dd>
 </dl>
 </li>
 </ul>
@@ -735,20 +544,9 @@ public&nbsp;java.util.List&lt;java.lang.Runnable&gt;&nbsp;<a href="../../../../.
 <h4>submit</h4>
 <pre class="methodSignature">public&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.util.concurrent.Future&lt;T&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingExecutorService.html#line.117">submit</a>&#8203;(java.lang.Runnable&nbsp;task,
                                                                                     T&nbsp;result)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.concurrent.ExecutorService</code></span></div>
-<div class="block">Submits a Runnable task for execution and returns a Future
- representing that task. The Future's <code>get</code> method will
- return the given result upon successful completion.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>submit</code>&nbsp;in interface&nbsp;<code>java.util.concurrent.ExecutorService</code></dd>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>T</code> - the type of the result</dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>task</code> - the task to submit</dd>
-<dd><code>result</code> - the result to return</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a Future representing pending completion of the task</dd>
 </dl>
 </li>
 </ul>

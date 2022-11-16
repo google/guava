@@ -224,7 +224,7 @@ implements java.util.Map&lt;K,&#8203;V&gt;</pre>
 <!--   -->
 </a>
 <h3>Nested classes/interfaces inherited from interface&nbsp;java.util.Map</h3>
-<code>java.util.Map.Entry&lt;K,&#8203;V&gt;</code></li>
+<code>java.util.Map.Entry&lt;K extends java.lang.Object,&#8203;V extends java.lang.Object&gt;</code></li>
 </ul>
 </li>
 </ul>
@@ -271,25 +271,17 @@ implements java.util.Map&lt;K,&#8203;V&gt;</pre>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#clear()">clear</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Removes all of the mappings from this map (optional operation).</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#containsKey(java.lang.Object)">containsKey</a></span>&#8203;(java.lang.Object&nbsp;key)</code></th>
-<td class="colLast">
-<div class="block">Returns <code>true</code> if this map contains a mapping for the specified
- key.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#containsValue(java.lang.Object)">containsValue</a></span>&#8203;(java.lang.Object&nbsp;value)</code></th>
-<td class="colLast">
-<div class="block">Returns <code>true</code> if this map maps one or more keys to the
- specified value.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>protected abstract java.util.Map&lt;<a href="ForwardingMap.html" title="type parameter in ForwardingMap">K</a>,&#8203;<a href="ForwardingMap.html" title="type parameter in ForwardingMap">V</a>&gt;</code></td>
@@ -301,77 +293,53 @@ implements java.util.Map&lt;K,&#8203;V&gt;</pre>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code>java.util.Set&lt;java.util.Map.Entry&lt;<a href="ForwardingMap.html" title="type parameter in ForwardingMap">K</a>,&#8203;<a href="ForwardingMap.html" title="type parameter in ForwardingMap">V</a>&gt;&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#entrySet()">entrySet</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Returns a <code>Set</code> view of the mappings contained in this map.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i5" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#equals(java.lang.Object)">equals</a></span>&#8203;(java.lang.Object&nbsp;object)</code></th>
-<td class="colLast">
-<div class="block">Indicates whether some other object is "equal to" this one.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i6" class="altColor">
 <td class="colFirst"><code><a href="ForwardingMap.html" title="type parameter in ForwardingMap">V</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#get(java.lang.Object)">get</a></span>&#8203;(java.lang.Object&nbsp;key)</code></th>
-<td class="colLast">
-<div class="block">Returns the value to which the specified key is mapped,
- or <code>null</code> if this map contains no mapping for the key.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i7" class="rowColor">
 <td class="colFirst"><code>int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#hashCode()">hashCode</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Returns a hash code value for the object.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i8" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isEmpty()">isEmpty</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Returns <code>true</code> if this map contains no key-value mappings.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i9" class="rowColor">
 <td class="colFirst"><code>java.util.Set&lt;<a href="ForwardingMap.html" title="type parameter in ForwardingMap">K</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#keySet()">keySet</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Returns a <code>Set</code> view of the keys contained in this map.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i10" class="altColor">
 <td class="colFirst"><code><a href="ForwardingMap.html" title="type parameter in ForwardingMap">V</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#put(K,V)">put</a></span>&#8203;(<a href="ForwardingMap.html" title="type parameter in ForwardingMap">K</a>&nbsp;key,
    <a href="ForwardingMap.html" title="type parameter in ForwardingMap">V</a>&nbsp;value)</code></th>
-<td class="colLast">
-<div class="block">Associates the specified value with the specified key in this map
- (optional operation).</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i11" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#putAll(java.util.Map)">putAll</a></span>&#8203;(java.util.Map&lt;? extends <a href="ForwardingMap.html" title="type parameter in ForwardingMap">K</a>,&#8203;? extends <a href="ForwardingMap.html" title="type parameter in ForwardingMap">V</a>&gt;&nbsp;map)</code></th>
-<td class="colLast">
-<div class="block">Copies all of the mappings from the specified map to this map
- (optional operation).</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i12" class="altColor">
 <td class="colFirst"><code><a href="ForwardingMap.html" title="type parameter in ForwardingMap">V</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#remove(java.lang.Object)">remove</a></span>&#8203;(java.lang.Object&nbsp;key)</code></th>
-<td class="colLast">
-<div class="block">Removes the mapping for a key from this map if it is present
- (optional operation).</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i13" class="rowColor">
 <td class="colFirst"><code>int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#size()">size</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Returns the number of key-value mappings in this map.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i14" class="altColor">
 <td class="colFirst"><code>protected void</code></td>
@@ -442,9 +410,7 @@ implements java.util.Map&lt;K,&#8203;V&gt;</pre>
 <tr id="i23" class="rowColor">
 <td class="colFirst"><code>java.util.Collection&lt;<a href="ForwardingMap.html" title="type parameter in ForwardingMap">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#values()">values</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Returns a <code>Collection</code> view of the values contained in this map.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -529,15 +495,9 @@ implements java.util.Map&lt;K,&#8203;V&gt;</pre>
 <li class="blockList">
 <h4>size</h4>
 <pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.70">size</a>()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.Map</code></span></div>
-<div class="block">Returns the number of key-value mappings in this map.  If the
- map contains more than <code>Integer.MAX_VALUE</code> elements, returns
- <code>Integer.MAX_VALUE</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>size</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="ForwardingMap.html" title="type parameter in ForwardingMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="ForwardingMap.html" title="type parameter in ForwardingMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>the number of key-value mappings in this map</dd>
 </dl>
 </li>
 </ul>
@@ -548,13 +508,9 @@ implements java.util.Map&lt;K,&#8203;V&gt;</pre>
 <li class="blockList">
 <h4>isEmpty</h4>
 <pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.75">isEmpty</a>()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.Map</code></span></div>
-<div class="block">Returns <code>true</code> if this map contains no key-value mappings.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>isEmpty</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="ForwardingMap.html" title="type parameter in ForwardingMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="ForwardingMap.html" title="type parameter in ForwardingMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd><code>true</code> if this map contains no key-value mappings</dd>
 </dl>
 </li>
 </ul>
@@ -568,31 +524,9 @@ implements java.util.Map&lt;K,&#8203;V&gt;</pre>
 <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
 public&nbsp;<a href="ForwardingMap.html" title="type parameter in ForwardingMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.80">remove</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                 java.lang.Object&nbsp;key)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.Map</code></span></div>
-<div class="block">Removes the mapping for a key from this map if it is present
- (optional operation).   More formally, if this map contains a mapping
- from key <code>k</code> to value <code>v</code> such that
- <code>Objects.equals(key, k)</code>, that mapping
- is removed.  (The map can contain at most one such mapping.)
-
- <p>Returns the value to which this map previously associated the key,
- or <code>null</code> if the map contained no mapping for the key.
-
- <p>If this map permits null values, then a return value of
- <code>null</code> does not <i>necessarily</i> indicate that the map
- contained no mapping for the key; it's also possible that the map
- explicitly mapped the key to <code>null</code>.
-
- <p>The map will not contain a mapping for the specified key once the
- call returns.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>remove</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="ForwardingMap.html" title="type parameter in ForwardingMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="ForwardingMap.html" title="type parameter in ForwardingMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>key</code> - key whose mapping is to be removed from the map</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>the previous value associated with <code>key</code>, or
-         <code>null</code> if there was no mapping for <code>key</code>.</dd>
 </dl>
 </li>
 </ul>
@@ -603,9 +537,6 @@ public&nbsp;<a href="ForwardingMap.html" title="type parameter in ForwardingMap"
 <li class="blockList">
 <h4>clear</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.87">clear</a>()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.Map</code></span></div>
-<div class="block">Removes all of the mappings from this map (optional operation).
- The map will be empty after this call returns.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>clear</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="ForwardingMap.html" title="type parameter in ForwardingMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="ForwardingMap.html" title="type parameter in ForwardingMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
@@ -620,20 +551,9 @@ public&nbsp;<a href="ForwardingMap.html" title="type parameter in ForwardingMap"
 <h4>containsKey</h4>
 <pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.92">containsKey</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                            java.lang.Object&nbsp;key)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.Map</code></span></div>
-<div class="block">Returns <code>true</code> if this map contains a mapping for the specified
- key.  More formally, returns <code>true</code> if and only if
- this map contains a mapping for a key <code>k</code> such that
- <code>Objects.equals(key, k)</code>.  (There can be
- at most one such mapping.)</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>containsKey</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="ForwardingMap.html" title="type parameter in ForwardingMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="ForwardingMap.html" title="type parameter in ForwardingMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>key</code> - key whose presence in this map is to be tested</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd><code>true</code> if this map contains a mapping for the specified
-         key</dd>
 </dl>
 </li>
 </ul>
@@ -645,21 +565,9 @@ public&nbsp;<a href="ForwardingMap.html" title="type parameter in ForwardingMap"
 <h4>containsValue</h4>
 <pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.97">containsValue</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                              java.lang.Object&nbsp;value)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.Map</code></span></div>
-<div class="block">Returns <code>true</code> if this map maps one or more keys to the
- specified value.  More formally, returns <code>true</code> if and only if
- this map contains at least one mapping to a value <code>v</code> such that
- <code>Objects.equals(value, v)</code>.  This operation
- will probably require time linear in the map size for most
- implementations of the <code>Map</code> interface.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>containsValue</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="ForwardingMap.html" title="type parameter in ForwardingMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="ForwardingMap.html" title="type parameter in ForwardingMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>value</code> - value whose presence in this map is to be tested</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd><code>true</code> if this map maps one or more keys to the
-         specified value</dd>
 </dl>
 </li>
 </ul>
@@ -672,28 +580,9 @@ public&nbsp;<a href="ForwardingMap.html" title="type parameter in ForwardingMap"
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
 public&nbsp;<a href="ForwardingMap.html" title="type parameter in ForwardingMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.102">get</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
              java.lang.Object&nbsp;key)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.Map</code></span></div>
-<div class="block">Returns the value to which the specified key is mapped,
- or <code>null</code> if this map contains no mapping for the key.
-
- <p>More formally, if this map contains a mapping from a key
- <code>k</code> to a value <code>v</code> such that
- <code>Objects.equals(key, k)</code>,
- then this method returns <code>v</code>; otherwise
- it returns <code>null</code>.  (There can be at most one such mapping.)
-
- <p>If this map permits null values, then a return value of
- <code>null</code> does not <i>necessarily</i> indicate that the map
- contains no mapping for the key; it's also possible that the map
- explicitly maps the key to <code>null</code>.  The <code>containsKey</code> operation may be used to distinguish these two cases.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>get</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="ForwardingMap.html" title="type parameter in ForwardingMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="ForwardingMap.html" title="type parameter in ForwardingMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>key</code> - the key whose associated value is to be returned</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>the value to which the specified key is mapped, or
-         <code>null</code> if this map contains no mapping for the key</dd>
 </dl>
 </li>
 </ul>
@@ -709,25 +598,9 @@ public&nbsp;<a href="ForwardingMap.html" title="type parameter in ForwardingMap"
 <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
 public&nbsp;<a href="ForwardingMap.html" title="type parameter in ForwardingMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.108">put</a>&#8203;(<a href="ForwardingMap.html" title="type parameter in ForwardingMap">K</a>&nbsp;key,
              <a href="ForwardingMap.html" title="type parameter in ForwardingMap">V</a>&nbsp;value)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.Map</code></span></div>
-<div class="block">Associates the specified value with the specified key in this map
- (optional operation).  If the map previously contained a mapping for
- the key, the old value is replaced by the specified value.  (A map
- <code>m</code> is said to contain a mapping for a key <code>k</code> if and only
- if <code>m.containsKey(k)</code> would return
- <code>true</code>.)</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>put</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="ForwardingMap.html" title="type parameter in ForwardingMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="ForwardingMap.html" title="type parameter in ForwardingMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>key</code> - key with which the specified value is to be associated</dd>
-<dd><code>value</code> - value to be associated with the specified key</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>the previous value associated with <code>key</code>, or
-         <code>null</code> if there was no mapping for <code>key</code>.
-         (A <code>null</code> return can also indicate that the map
-         previously associated <code>null</code> with <code>key</code>,
-         if the implementation supports <code>null</code> values.)</dd>
 </dl>
 </li>
 </ul>
@@ -738,18 +611,9 @@ public&nbsp;<a href="ForwardingMap.html" title="type parameter in ForwardingMap"
 <li class="blockList">
 <h4>putAll</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.115">putAll</a>&#8203;(java.util.Map&lt;? extends <a href="ForwardingMap.html" title="type parameter in ForwardingMap">K</a>,&#8203;? extends <a href="ForwardingMap.html" title="type parameter in ForwardingMap">V</a>&gt;&nbsp;map)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.Map</code></span></div>
-<div class="block">Copies all of the mappings from the specified map to this map
- (optional operation).  The effect of this call is equivalent to that
- of calling <code>put(k, v)</code> on this map once
- for each mapping from key <code>k</code> to value <code>v</code> in the
- specified map.  The behavior of this operation is undefined if the
- specified map is modified while the operation is in progress.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>putAll</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="ForwardingMap.html" title="type parameter in ForwardingMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="ForwardingMap.html" title="type parameter in ForwardingMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>map</code> - mappings to be stored in this map</dd>
 </dl>
 </li>
 </ul>
@@ -760,23 +624,9 @@ public&nbsp;<a href="ForwardingMap.html" title="type parameter in ForwardingMap"
 <li class="blockList">
 <h4>keySet</h4>
 <pre class="methodSignature">public&nbsp;java.util.Set&lt;<a href="ForwardingMap.html" title="type parameter in ForwardingMap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.120">keySet</a>()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.Map</code></span></div>
-<div class="block">Returns a <code>Set</code> view of the keys contained in this map.
- The set is backed by the map, so changes to the map are
- reflected in the set, and vice-versa.  If the map is modified
- while an iteration over the set is in progress (except through
- the iterator's own <code>remove</code> operation), the results of
- the iteration are undefined.  The set supports element removal,
- which removes the corresponding mapping from the map, via the
- <code>Iterator.remove</code>, <code>Set.remove</code>,
- <code>removeAll</code>, <code>retainAll</code>, and <code>clear</code>
- operations.  It does not support the <code>add</code> or <code>addAll</code>
- operations.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>keySet</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="ForwardingMap.html" title="type parameter in ForwardingMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="ForwardingMap.html" title="type parameter in ForwardingMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a set view of the keys contained in this map</dd>
 </dl>
 </li>
 </ul>
@@ -787,23 +637,9 @@ public&nbsp;<a href="ForwardingMap.html" title="type parameter in ForwardingMap"
 <li class="blockList">
 <h4>values</h4>
 <pre class="methodSignature">public&nbsp;java.util.Collection&lt;<a href="ForwardingMap.html" title="type parameter in ForwardingMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.125">values</a>()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.Map</code></span></div>
-<div class="block">Returns a <code>Collection</code> view of the values contained in this map.
- The collection is backed by the map, so changes to the map are
- reflected in the collection, and vice-versa.  If the map is
- modified while an iteration over the collection is in progress
- (except through the iterator's own <code>remove</code> operation),
- the results of the iteration are undefined.  The collection
- supports element removal, which removes the corresponding
- mapping from the map, via the <code>Iterator.remove</code>,
- <code>Collection.remove</code>, <code>removeAll</code>,
- <code>retainAll</code> and <code>clear</code> operations.  It does not
- support the <code>add</code> or <code>addAll</code> operations.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>values</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="ForwardingMap.html" title="type parameter in ForwardingMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="ForwardingMap.html" title="type parameter in ForwardingMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a collection view of the values contained in this map</dd>
 </dl>
 </li>
 </ul>
@@ -814,24 +650,9 @@ public&nbsp;<a href="ForwardingMap.html" title="type parameter in ForwardingMap"
 <li class="blockList">
 <h4>entrySet</h4>
 <pre class="methodSignature">public&nbsp;java.util.Set&lt;java.util.Map.Entry&lt;<a href="ForwardingMap.html" title="type parameter in ForwardingMap">K</a>,&#8203;<a href="ForwardingMap.html" title="type parameter in ForwardingMap">V</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.130">entrySet</a>()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.Map</code></span></div>
-<div class="block">Returns a <code>Set</code> view of the mappings contained in this map.
- The set is backed by the map, so changes to the map are
- reflected in the set, and vice-versa.  If the map is modified
- while an iteration over the set is in progress (except through
- the iterator's own <code>remove</code> operation, or through the
- <code>setValue</code> operation on a map entry returned by the
- iterator) the results of the iteration are undefined.  The set
- supports element removal, which removes the corresponding
- mapping from the map, via the <code>Iterator.remove</code>,
- <code>Set.remove</code>, <code>removeAll</code>, <code>retainAll</code> and
- <code>clear</code> operations.  It does not support the
- <code>add</code> or <code>addAll</code> operations.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>entrySet</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="ForwardingMap.html" title="type parameter in ForwardingMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="ForwardingMap.html" title="type parameter in ForwardingMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a set view of the mappings contained in this map</dd>
 </dl>
 </li>
 </ul>
@@ -843,58 +664,11 @@ public&nbsp;<a href="ForwardingMap.html" title="type parameter in ForwardingMap"
 <h4>equals</h4>
 <pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.135">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                       java.lang.Object&nbsp;object)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code>java.lang.Object</code></span></div>
-<div class="block">Indicates whether some other object is "equal to" this one.
- <p>
- The <code>equals</code> method implements an equivalence relation
- on non-null object references:
- <ul>
- <li>It is <i>reflexive</i>: for any non-null reference value
-     <code>x</code>, <code>x.equals(x)</code> should return
-     <code>true</code>.
- <li>It is <i>symmetric</i>: for any non-null reference values
-     <code>x</code> and <code>y</code>, <code>x.equals(y)</code>
-     should return <code>true</code> if and only if
-     <code>y.equals(x)</code> returns <code>true</code>.
- <li>It is <i>transitive</i>: for any non-null reference values
-     <code>x</code>, <code>y</code>, and <code>z</code>, if
-     <code>x.equals(y)</code> returns <code>true</code> and
-     <code>y.equals(z)</code> returns <code>true</code>, then
-     <code>x.equals(z)</code> should return <code>true</code>.
- <li>It is <i>consistent</i>: for any non-null reference values
-     <code>x</code> and <code>y</code>, multiple invocations of
-     <code>x.equals(y)</code> consistently return <code>true</code>
-     or consistently return <code>false</code>, provided no
-     information used in <code>equals</code> comparisons on the
-     objects is modified.
- <li>For any non-null reference value <code>x</code>,
-     <code>x.equals(null)</code> should return <code>false</code>.
- </ul>
- <p>
- The <code>equals</code> method for class <code>Object</code> implements
- the most discriminating possible equivalence relation on objects;
- that is, for any non-null reference values <code>x</code> and
- <code>y</code>, this method returns <code>true</code> if and only
- if <code>x</code> and <code>y</code> refer to the same object
- (<code>x == y</code> has the value <code>true</code>).
- <p>
- Note that it is generally necessary to override the <code>hashCode</code>
- method whenever this method is overridden, so as to maintain the
- general contract for the <code>hashCode</code> method, which states
- that equal objects must have equal hash codes.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>equals</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="ForwardingMap.html" title="type parameter in ForwardingMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="ForwardingMap.html" title="type parameter in ForwardingMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code>equals</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>object</code> - the reference object with which to compare.</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd><code>true</code> if this object is the same as the obj
-          argument; <code>false</code> otherwise.</dd>
-<dt><span class="seeLabel">See Also:</span></dt>
-<dd><code>Object.hashCode()</code>, 
-<code>HashMap</code></dd>
 </dl>
 </li>
 </ul>
@@ -905,45 +679,11 @@ public&nbsp;<a href="ForwardingMap.html" title="type parameter in ForwardingMap"
 <li class="blockList">
 <h4>hashCode</h4>
 <pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.140">hashCode</a>()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code>java.lang.Object</code></span></div>
-<div class="block">Returns a hash code value for the object. This method is
- supported for the benefit of hash tables such as those provided by
- <code>HashMap</code>.
- <p>
- The general contract of <code>hashCode</code> is:
- <ul>
- <li>Whenever it is invoked on the same object more than once during
-     an execution of a Java application, the <code>hashCode</code> method
-     must consistently return the same integer, provided no information
-     used in <code>equals</code> comparisons on the object is modified.
-     This integer need not remain consistent from one execution of an
-     application to another execution of the same application.
- <li>If two objects are equal according to the <code>equals(Object)</code>
-     method, then calling the <code>hashCode</code> method on each of
-     the two objects must produce the same integer result.
- <li>It is <em>not</em> required that if two objects are unequal
-     according to the <code>Object.equals(java.lang.Object)</code>
-     method, then calling the <code>hashCode</code> method on each of the
-     two objects must produce distinct integer results.  However, the
-     programmer should be aware that producing distinct integer results
-     for unequal objects may improve the performance of hash tables.
- </ul>
- <p>
- As much as is reasonably practical, the hashCode method defined
- by class <code>Object</code> does return distinct integers for
- distinct objects. (The hashCode may or may not be implemented
- as some function of an object's memory address at some point
- in time.)</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>hashCode</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="ForwardingMap.html" title="type parameter in ForwardingMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="ForwardingMap.html" title="type parameter in ForwardingMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code>hashCode</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a hash code value for this object.</dd>
-<dt><span class="seeLabel">See Also:</span></dt>
-<dd><code>Object.equals(java.lang.Object)</code>, 
-<code>System.identityHashCode(java.lang.Object)</code></dd>
 </dl>
 </li>
 </ul>

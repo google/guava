@@ -318,9 +318,7 @@ implements java.util.Comparator&lt;T&gt;</pre>
 <td class="colFirst"><code>abstract int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#compare(T,T)">compare</a></span>&#8203;(<a href="Ordering.html" title="type parameter in Ordering">T</a>&nbsp;left,
        <a href="Ordering.html" title="type parameter in Ordering">T</a>&nbsp;right)</code></th>
-<td class="colLast">
-<div class="block">Compares its two arguments for order.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;T&gt;</code></td>
@@ -949,45 +947,9 @@ public&nbsp;&lt;S extends <a href="Ordering.html" title="type parameter in Order
 <h4>compare</h4>
 <pre class="methodSignature">public abstract&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.532">compare</a>&#8203;(<a href="Ordering.html" title="type parameter in Ordering">T</a>&nbsp;left,
                             <a href="Ordering.html" title="type parameter in Ordering">T</a>&nbsp;right)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.Comparator</code></span></div>
-<div class="block">Compares its two arguments for order.  Returns a negative integer,
- zero, or a positive integer as the first argument is less than, equal
- to, or greater than the second.<p>
-
- The implementor must ensure that <code>sgn(compare(x, y)) ==
- -sgn(compare(y, x))</code> for all <code>x</code> and <code>y</code>.  (This
- implies that <code>compare(x, y)</code> must throw an exception if and only
- if <code>compare(y, x)</code> throws an exception.)<p>
-
- The implementor must also ensure that the relation is transitive:
- <code>((compare(x, y)&gt;0) &amp;&amp; (compare(y, z)&gt;0))</code> implies
- <code>compare(x, z)&gt;0</code>.<p>
-
- Finally, the implementor must ensure that <code>compare(x, y)==0</code>
- implies that <code>sgn(compare(x, z))==sgn(compare(y, z))</code> for all
- <code>z</code>.<p>
-
- It is generally the case, but <i>not</i> strictly required that
- <code>(compare(x, y)==0) == (x.equals(y))</code>.  Generally speaking,
- any comparator that violates this condition should clearly indicate
- this fact.  The recommended language is "Note: this comparator
- imposes orderings that are inconsistent with equals."<p>
-
- In the foregoing description, the notation
- <code>sgn(</code><i>expression</i><code>)</code> designates the mathematical
- <i>signum</i> function, which is defined to return one of <code>-1</code>,
- <code>0</code>, or <code>1</code> according to whether the value of
- <i>expression</i> is negative, zero, or positive, respectively.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>compare</code>&nbsp;in interface&nbsp;<code>java.util.Comparator&lt;<a href="Ordering.html" title="type parameter in Ordering">T</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>left</code> - the first object to be compared.</dd>
-<dd><code>right</code> - the second object to be compared.</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a negative integer, zero, or a positive integer as the
-         first argument is less than, equal to, or greater than the
-         second.</dd>
 </dl>
 </li>
 </ul>

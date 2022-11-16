@@ -212,9 +212,7 @@ implements java.util.ListIterator&lt;E&gt;</pre>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#add(E)">add</a></span>&#8203;(<a href="ForwardingListIterator.html" title="type parameter in ForwardingListIterator">E</a>&nbsp;element)</code></th>
-<td class="colLast">
-<div class="block">Inserts the specified element into the list (optional operation).</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>protected abstract java.util.ListIterator&lt;<a href="ForwardingListIterator.html" title="type parameter in ForwardingListIterator">E</a>&gt;</code></td>
@@ -226,42 +224,27 @@ implements java.util.ListIterator&lt;E&gt;</pre>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#hasPrevious()">hasPrevious</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Returns <code>true</code> if this list iterator has more elements when
- traversing the list in the reverse direction.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#nextIndex()">nextIndex</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Returns the index of the element that would be returned by a
- subsequent call to <code>ListIterator.next()</code>.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code><a href="ForwardingListIterator.html" title="type parameter in ForwardingListIterator">E</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#previous()">previous</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Returns the previous element in the list and moves the cursor
- position backwards.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i5" class="rowColor">
 <td class="colFirst"><code>int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#previousIndex()">previousIndex</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Returns the index of the element that would be returned by a
- subsequent call to <code>ListIterator.previous()</code>.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i6" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#set(E)">set</a></span>&#8203;(<a href="ForwardingListIterator.html" title="type parameter in ForwardingListIterator">E</a>&nbsp;element)</code></th>
-<td class="colLast">
-<div class="block">Replaces the last element returned by <code>ListIterator.next()</code> or
- <code>ListIterator.previous()</code> with the specified element (optional operation).</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -362,22 +345,9 @@ implements java.util.ListIterator&lt;E&gt;</pre>
 <li class="blockList">
 <h4>add</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingListIterator.html#line.50">add</a>&#8203;(<a href="ForwardingListIterator.html" title="type parameter in ForwardingListIterator">E</a>&nbsp;element)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.ListIterator</code></span></div>
-<div class="block">Inserts the specified element into the list (optional operation).
- The element is inserted immediately before the element that
- would be returned by <code>ListIterator.next()</code>, if any, and after the element
- that would be returned by <code>ListIterator.previous()</code>, if any.  (If the
- list contains no elements, the new element becomes the sole element
- on the list.)  The new element is inserted before the implicit
- cursor: a subsequent call to <code>next</code> would be unaffected, and a
- subsequent call to <code>previous</code> would return the new element.
- (This call increases by one the value that would be returned by a
- call to <code>nextIndex</code> or <code>previousIndex</code>.)</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>add</code>&nbsp;in interface&nbsp;<code>java.util.ListIterator&lt;<a href="ForwardingListIterator.html" title="type parameter in ForwardingListIterator">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>element</code> - the element to insert</dd>
 </dl>
 </li>
 </ul>
@@ -388,17 +358,9 @@ implements java.util.ListIterator&lt;E&gt;</pre>
 <li class="blockList">
 <h4>hasPrevious</h4>
 <pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingListIterator.html#line.55">hasPrevious</a>()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.ListIterator</code></span></div>
-<div class="block">Returns <code>true</code> if this list iterator has more elements when
- traversing the list in the reverse direction.  (In other words,
- returns <code>true</code> if <code>ListIterator.previous()</code> would return an element
- rather than throwing an exception.)</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>hasPrevious</code>&nbsp;in interface&nbsp;<code>java.util.ListIterator&lt;<a href="ForwardingListIterator.html" title="type parameter in ForwardingListIterator">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd><code>true</code> if the list iterator has more elements when
-         traversing the list in the reverse direction</dd>
 </dl>
 </li>
 </ul>
@@ -409,17 +371,9 @@ implements java.util.ListIterator&lt;E&gt;</pre>
 <li class="blockList">
 <h4>nextIndex</h4>
 <pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingListIterator.html#line.60">nextIndex</a>()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.ListIterator</code></span></div>
-<div class="block">Returns the index of the element that would be returned by a
- subsequent call to <code>ListIterator.next()</code>. (Returns list size if the list
- iterator is at the end of the list.)</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>nextIndex</code>&nbsp;in interface&nbsp;<code>java.util.ListIterator&lt;<a href="ForwardingListIterator.html" title="type parameter in ForwardingListIterator">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>the index of the element that would be returned by a
-         subsequent call to <code>next</code>, or list size if the list
-         iterator is at the end of the list</dd>
 </dl>
 </li>
 </ul>
@@ -431,18 +385,9 @@ implements java.util.ListIterator&lt;E&gt;</pre>
 <h4>previous</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 public&nbsp;<a href="ForwardingListIterator.html" title="type parameter in ForwardingListIterator">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingListIterator.html#line.65">previous</a>()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.ListIterator</code></span></div>
-<div class="block">Returns the previous element in the list and moves the cursor
- position backwards.  This method may be called repeatedly to
- iterate through the list backwards, or intermixed with calls to
- <code>ListIterator.next()</code> to go back and forth.  (Note that alternating calls
- to <code>next</code> and <code>previous</code> will return the same
- element repeatedly.)</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>previous</code>&nbsp;in interface&nbsp;<code>java.util.ListIterator&lt;<a href="ForwardingListIterator.html" title="type parameter in ForwardingListIterator">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>the previous element in the list</dd>
 </dl>
 </li>
 </ul>
@@ -453,17 +398,9 @@ public&nbsp;<a href="ForwardingListIterator.html" title="type parameter in Forwa
 <li class="blockList">
 <h4>previousIndex</h4>
 <pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingListIterator.html#line.72">previousIndex</a>()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.ListIterator</code></span></div>
-<div class="block">Returns the index of the element that would be returned by a
- subsequent call to <code>ListIterator.previous()</code>. (Returns -1 if the list
- iterator is at the beginning of the list.)</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>previousIndex</code>&nbsp;in interface&nbsp;<code>java.util.ListIterator&lt;<a href="ForwardingListIterator.html" title="type parameter in ForwardingListIterator">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>the index of the element that would be returned by a
-         subsequent call to <code>previous</code>, or -1 if the list
-         iterator is at the beginning of the list</dd>
 </dl>
 </li>
 </ul>
@@ -476,17 +413,9 @@ public&nbsp;<a href="ForwardingListIterator.html" title="type parameter in Forwa
 <li class="blockList">
 <h4>set</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingListIterator.html#line.77">set</a>&#8203;(<a href="ForwardingListIterator.html" title="type parameter in ForwardingListIterator">E</a>&nbsp;element)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.ListIterator</code></span></div>
-<div class="block">Replaces the last element returned by <code>ListIterator.next()</code> or
- <code>ListIterator.previous()</code> with the specified element (optional operation).
- This call can be made only if neither <code>ListIterator.remove()</code> nor <code>ListIterator.add(E)</code> have been called after the last call to <code>next</code> or
- <code>previous</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>set</code>&nbsp;in interface&nbsp;<code>java.util.ListIterator&lt;<a href="ForwardingListIterator.html" title="type parameter in ForwardingListIterator">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>element</code> - the element with which to replace the last element returned by
-          <code>next</code> or <code>previous</code></dd>
 </dl>
 </li>
 </ul>

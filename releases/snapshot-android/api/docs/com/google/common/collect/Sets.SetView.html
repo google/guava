@@ -371,11 +371,6 @@ public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/c
 <dd><code>add</code>&nbsp;in interface&nbsp;<code>java.util.Set&lt;<a href="Sets.SetView.html" title="type parameter in Sets.SetView">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code>add</code>&nbsp;in class&nbsp;<code>java.util.AbstractCollection&lt;<a href="Sets.SetView.html" title="type parameter in Sets.SetView">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>e</code> - element whose presence in this collection is to be ensured</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd><code>true</code> if this collection changed as a result of the
-         call</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.UnsupportedOperationException</code> - always</dd>
 </dl>
@@ -402,10 +397,6 @@ public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/c
 <dd><code>remove</code>&nbsp;in interface&nbsp;<code>java.util.Set&lt;<a href="Sets.SetView.html" title="type parameter in Sets.SetView">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code>remove</code>&nbsp;in class&nbsp;<code>java.util.AbstractCollection&lt;<a href="Sets.SetView.html" title="type parameter in Sets.SetView">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>object</code> - element to be removed from this collection, if present</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd><code>true</code> if an element was removed as a result of this call</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.UnsupportedOperationException</code> - always</dd>
 </dl>
@@ -431,14 +422,8 @@ public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/c
 <dd><code>addAll</code>&nbsp;in interface&nbsp;<code>java.util.Set&lt;<a href="Sets.SetView.html" title="type parameter in Sets.SetView">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code>addAll</code>&nbsp;in class&nbsp;<code>java.util.AbstractCollection&lt;<a href="Sets.SetView.html" title="type parameter in Sets.SetView">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>newElements</code> - collection containing elements to be added to this collection</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd><code>true</code> if this collection changed as a result of the call</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.UnsupportedOperationException</code> - always</dd>
-<dt><span class="seeLabel">See Also:</span></dt>
-<dd><code>AbstractCollection.add(Object)</code></dd>
 </dl>
 </li>
 </ul>
@@ -462,15 +447,8 @@ public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/c
 <dd><code>removeAll</code>&nbsp;in interface&nbsp;<code>java.util.Set&lt;<a href="Sets.SetView.html" title="type parameter in Sets.SetView">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code>removeAll</code>&nbsp;in class&nbsp;<code>java.util.AbstractSet&lt;<a href="Sets.SetView.html" title="type parameter in Sets.SetView">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>oldElements</code> - collection containing elements to be removed from this set</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd><code>true</code> if this set changed as a result of the call</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.UnsupportedOperationException</code> - always</dd>
-<dt><span class="seeLabel">See Also:</span></dt>
-<dd><code>AbstractCollection.remove(Object)</code>, 
-<code>AbstractCollection.contains(Object)</code></dd>
 </dl>
 </li>
 </ul>
@@ -494,15 +472,8 @@ public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/c
 <dd><code>retainAll</code>&nbsp;in interface&nbsp;<code>java.util.Set&lt;<a href="Sets.SetView.html" title="type parameter in Sets.SetView">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code>retainAll</code>&nbsp;in class&nbsp;<code>java.util.AbstractCollection&lt;<a href="Sets.SetView.html" title="type parameter in Sets.SetView">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>elementsToKeep</code> - collection containing elements to be retained in this collection</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd><code>true</code> if this collection changed as a result of the call</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.UnsupportedOperationException</code> - always</dd>
-<dt><span class="seeLabel">See Also:</span></dt>
-<dd><code>AbstractCollection.remove(Object)</code>, 
-<code>AbstractCollection.contains(Object)</code></dd>
 </dl>
 </li>
 </ul>
@@ -547,8 +518,6 @@ public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/coll
 <dd><code>iterator</code>&nbsp;in interface&nbsp;<code>java.util.Set&lt;<a href="Sets.SetView.html" title="type parameter in Sets.SetView">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>iterator</code>&nbsp;in class&nbsp;<code>java.util.AbstractCollection&lt;<a href="Sets.SetView.html" title="type parameter in Sets.SetView">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>an iterator over the elements contained in this collection</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>20.0 (present with return type <code>Iterator</code> since 2.0)</dd>
 </dl>

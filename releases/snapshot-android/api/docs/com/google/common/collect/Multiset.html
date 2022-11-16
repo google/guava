@@ -304,9 +304,6 @@ extends java.util.Collection&lt;E&gt;</pre>
 <tr id="i9" class="rowColor">
 <td class="colFirst"><code>java.util.Iterator&lt;<a href="Multiset.html" title="type parameter in Multiset">E</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#iterator()">iterator</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Returns an iterator over the elements in this collection.</div>
-</td>
 </tr>
 <tr id="i10" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
@@ -326,18 +323,10 @@ extends java.util.Collection&lt;E&gt;</pre>
 <tr id="i12" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#removeAll(java.util.Collection)">removeAll</a></span>&#8203;(java.util.Collection&lt;?&gt;&nbsp;c)</code></th>
-<td class="colLast">
-<div class="block">Removes all of this collection's elements that are also contained in the
- specified collection (optional operation).</div>
-</td>
 </tr>
 <tr id="i13" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#retainAll(java.util.Collection)">retainAll</a></span>&#8203;(java.util.Collection&lt;?&gt;&nbsp;c)</code></th>
-<td class="colLast">
-<div class="block">Retains only the elements in this collection that are contained in the
- specified collection (optional operation).</div>
-</td>
 </tr>
 <tr id="i14" class="altColor">
 <td class="colFirst"><code>int</code></td>
@@ -367,9 +356,6 @@ extends java.util.Collection&lt;E&gt;</pre>
 <tr id="i17" class="rowColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toString()">toString</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Returns a string representation of the object.</div>
-</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -416,8 +402,6 @@ extends java.util.Collection&lt;E&gt;</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>size</code>&nbsp;in interface&nbsp;<code>java.util.Collection&lt;<a href="Multiset.html" title="type parameter in Multiset">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>the number of elements in this collection</dd>
 </dl>
 </li>
 </ul>
@@ -686,14 +670,6 @@ boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.ht
 <dd><code>equals</code>&nbsp;in interface&nbsp;<code>java.util.Collection&lt;<a href="Multiset.html" title="type parameter in Multiset">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code>equals</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>object</code> - the reference object with which to compare.</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd><code>true</code> if this object is the same as the obj
-          argument; <code>false</code> otherwise.</dd>
-<dt><span class="seeLabel">See Also:</span></dt>
-<dd><code>Object.hashCode()</code>, 
-<code>HashMap</code></dd>
 </dl>
 </li>
 </ul>
@@ -717,11 +693,6 @@ boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.ht
 <dd><code>hashCode</code>&nbsp;in interface&nbsp;<code>java.util.Collection&lt;<a href="Multiset.html" title="type parameter in Multiset">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code>hashCode</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a hash code value for this object.</dd>
-<dt><span class="seeLabel">See Also:</span></dt>
-<dd><code>Object.equals(java.lang.Object)</code>, 
-<code>System.identityHashCode(java.lang.Object)</code></dd>
 </dl>
 </li>
 </ul>
@@ -732,23 +703,7 @@ boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.ht
 <li class="blockList">
 <h4>toString</h4>
 <pre class="methodSignature">java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.html#line.359">toString</a>()</pre>
-<div class="block">Returns a string representation of the object. In general, the
- <code>toString</code> method returns a string that
- "textually represents" this object. The result should
- be a concise but informative representation that is easy for a
- person to read.
- It is recommended that all subclasses override this method.
- <p>
- The <code>toString</code> method for class <code>Object</code>
- returns a string consisting of the name of the class of which the
- object is an instance, the at-sign character `<code>@</code>', and
- the unsigned hexadecimal representation of the hash code of the
- object. In other words, this method returns a string equal to the
- value of:
- <blockquote>
- <pre>
- getClass().getName() + '@' + Integer.toHexString(hashCode())
- </pre></blockquote>
+<div class="block">
 
  <p>It is recommended, though not mandatory, that this method return the result of invoking
  <a href="#toString()"><code>toString()</code></a> on the <a href="#entrySet()"><code>entrySet()</code></a>, yielding a result such as <code>[a x 3, c, d x 2,
@@ -756,8 +711,6 @@ boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.ht
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code>toString</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a string representation of the object.</dd>
 </dl>
 </li>
 </ul>
@@ -768,10 +721,7 @@ boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.ht
 <li class="blockList">
 <h4>iterator</h4>
 <pre class="methodSignature">java.util.Iterator&lt;<a href="Multiset.html" title="type parameter in Multiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.html#line.370">iterator</a>()</pre>
-<div class="block">Returns an iterator over the elements in this collection.  There are no
- guarantees concerning the order in which the elements are returned
- (unless this collection is an instance of some class that provides a
- guarantee).
+<div class="block">
 
  <p>Elements that occur multiple times in the multiset will appear multiple times in this
  iterator, though not necessarily sequentially.</div>
@@ -780,8 +730,6 @@ boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.ht
 <dd><code>iterator</code>&nbsp;in interface&nbsp;<code>java.util.Collection&lt;<a href="Multiset.html" title="type parameter in Multiset">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>iterator</code>&nbsp;in interface&nbsp;<code>java.lang.Iterable&lt;<a href="Multiset.html" title="type parameter in Multiset">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>an <code>Iterator</code> over the elements in this collection</dd>
 </dl>
 </li>
 </ul>
@@ -834,8 +782,6 @@ boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.ht
      contained in <code>elements</code></dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.NullPointerException</code> - if <code>elements</code> is null</dd>
-<dt><span class="seeLabel">See Also:</span></dt>
-<dd><code>Collection.contains(Object)</code></dd>
 </dl>
 </li>
 </ul>
@@ -847,10 +793,7 @@ boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.ht
 <h4>removeAll</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.html#line.416">removeAll</a>&#8203;(java.util.Collection&lt;?&gt;&nbsp;c)</pre>
-<div class="block">Removes all of this collection's elements that are also contained in the
- specified collection (optional operation).  After this call returns,
- this collection will contain no elements in common with the specified
- collection.
+<div class="block">
 
  <p><b>Note:</b> This method ignores how often any element might appear in <code>c</code>, and only
  cares whether or not an element appears at all. If you wish to remove one occurrence in this
@@ -862,14 +805,6 @@ boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.ht
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>removeAll</code>&nbsp;in interface&nbsp;<code>java.util.Collection&lt;<a href="Multiset.html" title="type parameter in Multiset">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>c</code> - collection containing elements to be removed from this collection</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd><code>true</code> if this collection changed as a result of the
-         call</dd>
-<dt><span class="seeLabel">See Also:</span></dt>
-<dd><code>Collection.remove(Object)</code>, 
-<code>Collection.contains(Object)</code></dd>
 </dl>
 </li>
 </ul>
@@ -881,10 +816,7 @@ boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.ht
 <h4>retainAll</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.html#line.433">retainAll</a>&#8203;(java.util.Collection&lt;?&gt;&nbsp;c)</pre>
-<div class="block">Retains only the elements in this collection that are contained in the
- specified collection (optional operation).  In other words, removes from
- this collection all of its elements that are not contained in the
- specified collection.
+<div class="block">
 
  <p><b>Note:</b> This method ignores how often any element might appear in <code>c</code>, and only
  cares whether or not an element appears at all. If you wish to remove one occurrence in this
@@ -896,10 +828,6 @@ boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.ht
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>retainAll</code>&nbsp;in interface&nbsp;<code>java.util.Collection&lt;<a href="Multiset.html" title="type parameter in Multiset">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>c</code> - collection containing elements to be retained in this collection</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd><code>true</code> if this collection changed as a result of the call</dd>
 <dt><span class="seeLabel">See Also:</span></dt>
 <dd><a href="Multisets.html#retainOccurrences(com.google.common.collect.Multiset,com.google.common.collect.Multiset)"><code>Multisets.retainOccurrences(Multiset, Multiset)</code></a></dd>
 </dl>

@@ -201,7 +201,7 @@ implements <a href="ClassToInstanceMap.html" title="interface in com.google.comm
 <!--   -->
 </a>
 <h3>Nested classes/interfaces inherited from interface&nbsp;java.util.Map</h3>
-<code>java.util.Map.Entry&lt;K,&#8203;V&gt;</code></li>
+<code>java.util.Map.Entry&lt;K extends java.lang.Object,&#8203;V extends java.lang.Object&gt;</code></li>
 </ul>
 </li>
 </ul>
@@ -330,10 +330,6 @@ implements <a href="ClassToInstanceMap.html" title="interface in com.google.comm
 
  <p><b>Performance note:</b> the instance returned is a singleton.</div>
 <dl>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>B</code> - the <code>Map</code>'s key type</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>an empty <code>Map</code></dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>19.0</dd>
 </dl>
@@ -351,14 +347,6 @@ implements <a href="ClassToInstanceMap.html" title="interface in com.google.comm
                                                                       T&nbsp;value)</pre>
 <div class="block">Returns an <code>ImmutableClassToInstanceMap</code> containing a single entry.</div>
 <dl>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>B</code> - the <code>Map</code>'s key type</dd>
-<dd><code>T</code> - the <code>Map</code>'s value type</dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>type</code> - the mapping's key</dd>
-<dd><code>value</code> - the mapping's value</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a <code>Map</code> containing the specified mapping</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>19.0</dd>
 </dl>
@@ -388,13 +376,6 @@ implements <a href="ClassToInstanceMap.html" title="interface in com.google.comm
  <p><b>Note:</b> Despite what the method name suggests, if <code>map</code> is an <code>
  ImmutableClassToInstanceMap</code>, no copy will actually be performed.</div>
 <dl>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>B</code> - the <code>Map</code>'s key type</dd>
-<dd><code>S</code> - the <code>Map</code>'s value type</dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>map</code> - a <code>Map</code> from which entries are drawn, must be non-null</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a <code>Map</code> containing the entries of the given <code>Map</code></dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.NullPointerException</code> - if any key or value in <code>map</code> is null</dd>
 <dd><code>java.lang.ClassCastException</code> - if any value is not an instance of the type specified by its key</dd>

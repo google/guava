@@ -250,7 +250,8 @@ implements <a href="ValueGraph.html" title="interface in com.google.common.graph
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#equals(java.lang.Object)">equals</a></span>&#8203;(java.lang.Object&nbsp;obj)</code></th>
 <td class="colLast">
-<div class="block">Indicates whether some other object is "equal to" this one.</div>
+<div class="block">Returns <code>true</code> iff <code>object</code> is a <a href="ValueGraph.html" title="interface in com.google.common.graph"><code>ValueGraph</code></a> that has the same elements and
+ the same structural relationships as those in this graph.</div>
 </td>
 </tr>
 <tr id="i7" class="rowColor">
@@ -268,7 +269,7 @@ implements <a href="ValueGraph.html" title="interface in com.google.common.graph
 <td class="colFirst"><code>int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#hashCode()">hashCode</a></span>()</code></th>
 <td class="colLast">
-<div class="block">Returns a hash code value for the object.</div>
+<div class="block">Returns the hash code for this graph.</div>
 </td>
 </tr>
 <tr id="i10" class="altColor">
@@ -426,58 +427,30 @@ implements <a href="ValueGraph.html" title="interface in com.google.common.graph
 <h4>equals</h4>
 <pre class="methodSignature">public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractValueGraph.html#line.121">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                             java.lang.Object&nbsp;obj)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code>java.lang.Object</code></span></div>
-<div class="block">Indicates whether some other object is "equal to" this one.
- <p>
- The <code>equals</code> method implements an equivalence relation
- on non-null object references:
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="ValueGraph.html#equals(java.lang.Object)">ValueGraph</a></code></span></div>
+<div class="block">Returns <code>true</code> iff <code>object</code> is a <a href="ValueGraph.html" title="interface in com.google.common.graph"><code>ValueGraph</code></a> that has the same elements and
+ the same structural relationships as those in this graph.
+
+ <p>Thus, two value graphs A and B are equal if <b>all</b> of the following are true:
+
  <ul>
- <li>It is <i>reflexive</i>: for any non-null reference value
-     <code>x</code>, <code>x.equals(x)</code> should return
-     <code>true</code>.
- <li>It is <i>symmetric</i>: for any non-null reference values
-     <code>x</code> and <code>y</code>, <code>x.equals(y)</code>
-     should return <code>true</code> if and only if
-     <code>y.equals(x)</code> returns <code>true</code>.
- <li>It is <i>transitive</i>: for any non-null reference values
-     <code>x</code>, <code>y</code>, and <code>z</code>, if
-     <code>x.equals(y)</code> returns <code>true</code> and
-     <code>y.equals(z)</code> returns <code>true</code>, then
-     <code>x.equals(z)</code> should return <code>true</code>.
- <li>It is <i>consistent</i>: for any non-null reference values
-     <code>x</code> and <code>y</code>, multiple invocations of
-     <code>x.equals(y)</code> consistently return <code>true</code>
-     or consistently return <code>false</code>, provided no
-     information used in <code>equals</code> comparisons on the
-     objects is modified.
- <li>For any non-null reference value <code>x</code>,
-     <code>x.equals(null)</code> should return <code>false</code>.
+   <li>A and B have equal <a href="ValueGraph.html#isDirected()"><code>directedness</code></a>.
+   <li>A and B have equal <a href="ValueGraph.html#nodes()"><code>node sets</code></a>.
+   <li>A and B have equal <a href="ValueGraph.html#edges()"><code>edge sets</code></a>.
+   <li>The <a href="ValueGraph.html#edgeValue(N,N)"><code>value</code></a> of a given edge is the same in both A and B.
  </ul>
- <p>
- The <code>equals</code> method for class <code>Object</code> implements
- the most discriminating possible equivalence relation on objects;
- that is, for any non-null reference values <code>x</code> and
- <code>y</code>, this method returns <code>true</code> if and only
- if <code>x</code> and <code>y</code> refer to the same object
- (<code>x == y</code> has the value <code>true</code>).
- <p>
- Note that it is generally necessary to override the <code>hashCode</code>
- method whenever this method is overridden, so as to maintain the
- general contract for the <code>hashCode</code> method, which states
- that equal objects must have equal hash codes.</div>
+
+ <p>Graph properties besides <a href="ValueGraph.html#isDirected()"><code>directedness</code></a> do <b>not</b> affect equality.
+ For example, two graphs may be considered equal even if one allows self-loops and the other
+ doesn't. Additionally, the order in which nodes or edges are added to the graph, and the order
+ in which they are iterated over, are irrelevant.
+
+ <p>A reference implementation of this is provided by <a href="#equals(java.lang.Object)"><code>equals(Object)</code></a>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="ValueGraph.html#equals(java.lang.Object)">equals</a></code>&nbsp;in interface&nbsp;<code><a href="ValueGraph.html" title="interface in com.google.common.graph">ValueGraph</a>&lt;<a href="AbstractValueGraph.html" title="type parameter in AbstractValueGraph">N</a>,&#8203;<a href="AbstractValueGraph.html" title="type parameter in AbstractValueGraph">V</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code>equals</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>obj</code> - the reference object with which to compare.</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd><code>true</code> if this object is the same as the obj
-          argument; <code>false</code> otherwise.</dd>
-<dt><span class="seeLabel">See Also:</span></dt>
-<dd><code>Object.hashCode()</code>, 
-<code>HashMap</code></dd>
 </dl>
 </li>
 </ul>
@@ -488,45 +461,16 @@ implements <a href="ValueGraph.html" title="interface in com.google.common.graph
 <li class="blockList">
 <h4>hashCode</h4>
 <pre class="methodSignature">public final&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractValueGraph.html#line.136">hashCode</a>()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code>java.lang.Object</code></span></div>
-<div class="block">Returns a hash code value for the object. This method is
- supported for the benefit of hash tables such as those provided by
- <code>HashMap</code>.
- <p>
- The general contract of <code>hashCode</code> is:
- <ul>
- <li>Whenever it is invoked on the same object more than once during
-     an execution of a Java application, the <code>hashCode</code> method
-     must consistently return the same integer, provided no information
-     used in <code>equals</code> comparisons on the object is modified.
-     This integer need not remain consistent from one execution of an
-     application to another execution of the same application.
- <li>If two objects are equal according to the <code>equals(Object)</code>
-     method, then calling the <code>hashCode</code> method on each of
-     the two objects must produce the same integer result.
- <li>It is <em>not</em> required that if two objects are unequal
-     according to the <code>Object.equals(java.lang.Object)</code>
-     method, then calling the <code>hashCode</code> method on each of the
-     two objects must produce distinct integer results.  However, the
-     programmer should be aware that producing distinct integer results
-     for unequal objects may improve the performance of hash tables.
- </ul>
- <p>
- As much as is reasonably practical, the hashCode method defined
- by class <code>Object</code> does return distinct integers for
- distinct objects. (The hashCode may or may not be implemented
- as some function of an object's memory address at some point
- in time.)</div>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="ValueGraph.html#hashCode()">ValueGraph</a></code></span></div>
+<div class="block">Returns the hash code for this graph. The hash code of a graph is defined as the hash code of a
+ map from each of its <a href="ValueGraph.html#edges()"><code>edges</code></a> to the associated <a href="ValueGraph.html#edgeValue(N,N)"><code>edge value</code></a>.
+
+ <p>A reference implementation of this is provided by <a href="#hashCode()"><code>hashCode()</code></a>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="ValueGraph.html#hashCode()">hashCode</a></code>&nbsp;in interface&nbsp;<code><a href="ValueGraph.html" title="interface in com.google.common.graph">ValueGraph</a>&lt;<a href="AbstractValueGraph.html" title="type parameter in AbstractValueGraph">N</a>,&#8203;<a href="AbstractValueGraph.html" title="type parameter in AbstractValueGraph">V</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code>hashCode</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a hash code value for this object.</dd>
-<dt><span class="seeLabel">See Also:</span></dt>
-<dd><code>Object.equals(java.lang.Object)</code>, 
-<code>System.identityHashCode(java.lang.Object)</code></dd>
 </dl>
 </li>
 </ul>
@@ -541,8 +485,6 @@ implements <a href="ValueGraph.html" title="interface in com.google.common.graph
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code>toString</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a string representation of the object.</dd>
 </dl>
 </li>
 </ul>

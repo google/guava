@@ -233,9 +233,7 @@ implements java.util.concurrent.Future&lt;V&gt;</pre>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#cancel(boolean)">cancel</a></span>&#8203;(boolean&nbsp;mayInterruptIfRunning)</code></th>
-<td class="colLast">
-<div class="block">Attempts to cancel execution of this task.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>protected abstract java.util.concurrent.Future&lt;? extends <a href="ForwardingFuture.html" title="type parameter in ForwardingFuture">V</a>&gt;</code></td>
@@ -247,34 +245,23 @@ implements java.util.concurrent.Future&lt;V&gt;</pre>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code><a href="ForwardingFuture.html" title="type parameter in ForwardingFuture">V</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#get()">get</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Waits if necessary for the computation to complete, and then
- retrieves its result.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code><a href="ForwardingFuture.html" title="type parameter in ForwardingFuture">V</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#get(long,java.util.concurrent.TimeUnit)">get</a></span>&#8203;(long&nbsp;timeout,
    java.util.concurrent.TimeUnit&nbsp;unit)</code></th>
-<td class="colLast">
-<div class="block">Waits if necessary for at most the given time for the computation
- to complete, and then retrieves its result, if available.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isCancelled()">isCancelled</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Returns <code>true</code> if this task was cancelled before it completed
- normally.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i5" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isDone()">isDone</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Returns <code>true</code> if this task completed.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -353,30 +340,9 @@ implements java.util.concurrent.Future&lt;V&gt;</pre>
 <h4>cancel</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingFuture.html#line.47">cancel</a>&#8203;(boolean&nbsp;mayInterruptIfRunning)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.concurrent.Future</code></span></div>
-<div class="block">Attempts to cancel execution of this task.  This attempt will
- fail if the task has already completed, has already been cancelled,
- or could not be cancelled for some other reason. If successful,
- and this task has not started when <code>cancel</code> is called,
- this task should never run.  If the task has already started,
- then the <code>mayInterruptIfRunning</code> parameter determines
- whether the thread executing this task should be interrupted in
- an attempt to stop the task.
-
- <p>After this method returns, subsequent calls to <code>Future.isDone()</code> will
- always return <code>true</code>.  Subsequent calls to <code>Future.isCancelled()</code>
- will always return <code>true</code> if this method returned <code>true</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>cancel</code>&nbsp;in interface&nbsp;<code>java.util.concurrent.Future&lt;<a href="ForwardingFuture.html" title="type parameter in ForwardingFuture">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>mayInterruptIfRunning</code> - <code>true</code> if the thread executing this
- task should be interrupted; otherwise, in-progress tasks are allowed
- to complete</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd><code>false</code> if the task could not be cancelled,
- typically because it has already completed normally;
- <code>true</code> otherwise</dd>
 </dl>
 </li>
 </ul>
@@ -387,14 +353,9 @@ public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util
 <li class="blockList">
 <h4>isCancelled</h4>
 <pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingFuture.html#line.53">isCancelled</a>()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.concurrent.Future</code></span></div>
-<div class="block">Returns <code>true</code> if this task was cancelled before it completed
- normally.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>isCancelled</code>&nbsp;in interface&nbsp;<code>java.util.concurrent.Future&lt;<a href="ForwardingFuture.html" title="type parameter in ForwardingFuture">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd><code>true</code> if this task was cancelled before it completed</dd>
 </dl>
 </li>
 </ul>
@@ -405,17 +366,9 @@ public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util
 <li class="blockList">
 <h4>isDone</h4>
 <pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingFuture.html#line.58">isDone</a>()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.concurrent.Future</code></span></div>
-<div class="block">Returns <code>true</code> if this task completed.
-
- Completion may be due to normal termination, an exception, or
- cancellation -- in all of these cases, this method will return
- <code>true</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>isDone</code>&nbsp;in interface&nbsp;<code>java.util.concurrent.Future&lt;<a href="ForwardingFuture.html" title="type parameter in ForwardingFuture">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd><code>true</code> if this task completed</dd>
 </dl>
 </li>
 </ul>
@@ -429,19 +382,12 @@ public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util
 public&nbsp;<a href="ForwardingFuture.html" title="type parameter in ForwardingFuture">V</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingFuture.html#line.63">get</a>()
       throws java.lang.InterruptedException,
              java.util.concurrent.ExecutionException</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.concurrent.Future</code></span></div>
-<div class="block">Waits if necessary for the computation to complete, and then
- retrieves its result.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>get</code>&nbsp;in interface&nbsp;<code>java.util.concurrent.Future&lt;<a href="ForwardingFuture.html" title="type parameter in ForwardingFuture">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>the computed result</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.InterruptedException</code> - if the current thread was interrupted
- while waiting</dd>
-<dd><code>java.util.concurrent.ExecutionException</code> - if the computation threw an
- exception</dd>
+<dd><code>java.lang.InterruptedException</code></dd>
+<dd><code>java.util.concurrent.ExecutionException</code></dd>
 </dl>
 </li>
 </ul>
@@ -457,23 +403,13 @@ public&nbsp;<a href="ForwardingFuture.html" title="type parameter in ForwardingF
       throws java.lang.InterruptedException,
              java.util.concurrent.ExecutionException,
              java.util.concurrent.TimeoutException</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.concurrent.Future</code></span></div>
-<div class="block">Waits if necessary for at most the given time for the computation
- to complete, and then retrieves its result, if available.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>get</code>&nbsp;in interface&nbsp;<code>java.util.concurrent.Future&lt;<a href="ForwardingFuture.html" title="type parameter in ForwardingFuture">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>timeout</code> - the maximum time to wait</dd>
-<dd><code>unit</code> - the time unit of the timeout argument</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>the computed result</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.InterruptedException</code> - if the current thread was interrupted
- while waiting</dd>
-<dd><code>java.util.concurrent.ExecutionException</code> - if the computation threw an
- exception</dd>
-<dd><code>java.util.concurrent.TimeoutException</code> - if the wait timed out</dd>
+<dd><code>java.lang.InterruptedException</code></dd>
+<dd><code>java.util.concurrent.ExecutionException</code></dd>
+<dd><code>java.util.concurrent.TimeoutException</code></dd>
 </dl>
 </li>
 </ul>

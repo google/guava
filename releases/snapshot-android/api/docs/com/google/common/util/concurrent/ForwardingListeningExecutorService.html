@@ -214,27 +214,18 @@ implements <a href="ListeningExecutorService.html" title="interface in com.googl
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code><a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;?&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#submit(java.lang.Runnable)">submit</a></span>&#8203;(java.lang.Runnable&nbsp;task)</code></th>
-<td class="colLast">
-<div class="block">Submits a Runnable task for execution and returns a Future
- representing that task.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;T&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#submit(java.lang.Runnable,T)">submit</a></span>&#8203;(java.lang.Runnable&nbsp;task,
       T&nbsp;result)</code></th>
-<td class="colLast">
-<div class="block">Submits a Runnable task for execution and returns a Future
- representing that task.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;T&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#submit(java.util.concurrent.Callable)">submit</a></span>&#8203;(java.util.concurrent.Callable&lt;T&gt;&nbsp;task)</code></th>
-<td class="colLast">
-<div class="block">Submits a value-returning task for execution and returns a
- Future representing the pending results of the task.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -340,21 +331,6 @@ implements <a href="ListeningExecutorService.html" title="interface in com.googl
 <li class="blockList">
 <h4>submit</h4>
 <pre class="methodSignature">public&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;T&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingListeningExecutorService.html#line.40">submit</a>&#8203;(java.util.concurrent.Callable&lt;T&gt;&nbsp;task)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.concurrent.ExecutorService</code></span></div>
-<div class="block">Submits a value-returning task for execution and returns a
- Future representing the pending results of the task. The
- Future's <code>get</code> method will return the task's result upon
- successful completion.
-
- <p>
- If you would like to immediately block waiting
- for a task, you can use constructions of the form
- <code>result = exec.submit(aCallable).get();</code>
-
- <p>Note: The <code>Executors</code> class includes a set of methods
- that can convert some other common closure-like objects,
- for example, <code>PrivilegedAction</code> to
- <code>Callable</code> form so they can be submitted.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>submit</code>&nbsp;in interface&nbsp;<code>java.util.concurrent.ExecutorService</code></dd>
@@ -362,12 +338,8 @@ implements <a href="ListeningExecutorService.html" title="interface in com.googl
 <dd><code><a href="ListeningExecutorService.html#submit(java.util.concurrent.Callable)">submit</a></code>&nbsp;in interface&nbsp;<code><a href="ListeningExecutorService.html" title="interface in com.google.common.util.concurrent">ListeningExecutorService</a></code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="ForwardingExecutorService.html#submit(java.util.concurrent.Callable)">submit</a></code>&nbsp;in class&nbsp;<code><a href="ForwardingExecutorService.html" title="class in com.google.common.util.concurrent">ForwardingExecutorService</a></code></dd>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>T</code> - the type of the task's result</dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>task</code> - the task to submit</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>a Future representing pending completion of the task</dd>
+<dd>a <code>ListenableFuture</code> representing pending completion of the task</dd>
 </dl>
 </li>
 </ul>
@@ -378,10 +350,6 @@ implements <a href="ListeningExecutorService.html" title="interface in com.googl
 <li class="blockList">
 <h4>submit</h4>
 <pre class="methodSignature">public&nbsp;<a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;?&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingListeningExecutorService.html#line.45">submit</a>&#8203;(java.lang.Runnable&nbsp;task)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.concurrent.ExecutorService</code></span></div>
-<div class="block">Submits a Runnable task for execution and returns a Future
- representing that task. The Future's <code>get</code> method will
- return <code>null</code> upon <em>successful</em> completion.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>submit</code>&nbsp;in interface&nbsp;<code>java.util.concurrent.ExecutorService</code></dd>
@@ -389,10 +357,8 @@ implements <a href="ListeningExecutorService.html" title="interface in com.googl
 <dd><code><a href="ListeningExecutorService.html#submit(java.lang.Runnable)">submit</a></code>&nbsp;in interface&nbsp;<code><a href="ListeningExecutorService.html" title="interface in com.google.common.util.concurrent">ListeningExecutorService</a></code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="ForwardingExecutorService.html#submit(java.lang.Runnable)">submit</a></code>&nbsp;in class&nbsp;<code><a href="ForwardingExecutorService.html" title="class in com.google.common.util.concurrent">ForwardingExecutorService</a></code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>task</code> - the task to submit</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>a Future representing pending completion of the task</dd>
+<dd>a <code>ListenableFuture</code> representing pending completion of the task</dd>
 </dl>
 </li>
 </ul>
@@ -406,10 +372,6 @@ implements <a href="ListeningExecutorService.html" title="interface in com.googl
 <h4>submit</h4>
 <pre class="methodSignature">public&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;T&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingListeningExecutorService.html#line.50">submit</a>&#8203;(java.lang.Runnable&nbsp;task,
                                                                          T&nbsp;result)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.concurrent.ExecutorService</code></span></div>
-<div class="block">Submits a Runnable task for execution and returns a Future
- representing that task. The Future's <code>get</code> method will
- return the given result upon successful completion.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>submit</code>&nbsp;in interface&nbsp;<code>java.util.concurrent.ExecutorService</code></dd>
@@ -417,13 +379,8 @@ implements <a href="ListeningExecutorService.html" title="interface in com.googl
 <dd><code><a href="ListeningExecutorService.html#submit(java.lang.Runnable,T)">submit</a></code>&nbsp;in interface&nbsp;<code><a href="ListeningExecutorService.html" title="interface in com.google.common.util.concurrent">ListeningExecutorService</a></code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="ForwardingExecutorService.html#submit(java.lang.Runnable,T)">submit</a></code>&nbsp;in class&nbsp;<code><a href="ForwardingExecutorService.html" title="class in com.google.common.util.concurrent">ForwardingExecutorService</a></code></dd>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>T</code> - the type of the result</dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>task</code> - the task to submit</dd>
-<dd><code>result</code> - the result to return</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>a Future representing pending completion of the task</dd>
+<dd>a <code>ListenableFuture</code> representing pending completion of the task</dd>
 </dl>
 </li>
 </ul>

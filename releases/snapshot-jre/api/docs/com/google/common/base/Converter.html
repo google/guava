@@ -516,17 +516,11 @@ public final&nbsp;<a href="Converter.html" title="type parameter in Converter">B
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Provided to satisfy the <code>Function</code> interface; use <a href="#convert(A)"><code>convert(A)</code></a> instead.</div>
 </div>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.function.Function</code></span></div>
-<div class="block">Applies this function to the given argument.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="Function.html#apply(F)">apply</a></code>&nbsp;in interface&nbsp;<code><a href="Function.html" title="interface in com.google.common.base">Function</a>&lt;<a href="Converter.html" title="type parameter in Converter">A</a>,&#8203;<a href="Converter.html" title="type parameter in Converter">B</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>apply</code>&nbsp;in interface&nbsp;<code>java.util.function.Function&lt;<a href="Converter.html" title="type parameter in Converter">A</a>,&#8203;<a href="Converter.html" title="type parameter in Converter">B</a>&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>a</code> - the function argument</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>the function result</dd>
 </dl>
 </li>
 </ul>
@@ -552,14 +546,6 @@ public final&nbsp;<a href="Converter.html" title="type parameter in Converter">B
 <dd><code><a href="Function.html#equals(java.lang.Object)">equals</a></code>&nbsp;in interface&nbsp;<code><a href="Function.html" title="interface in com.google.common.base">Function</a>&lt;<a href="Converter.html" title="type parameter in Converter">A</a>,&#8203;<a href="Converter.html" title="type parameter in Converter">B</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code>equals</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>object</code> - the reference object with which to compare.</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd><code>true</code> if this object is the same as the obj
-          argument; <code>false</code> otherwise.</dd>
-<dt><span class="seeLabel">See Also:</span></dt>
-<dd><code>Object.hashCode()</code>, 
-<code>HashMap</code></dd>
 </dl>
 </li>
 </ul>
@@ -595,12 +581,6 @@ public final&nbsp;<a href="Converter.html" title="type parameter in Converter">B
 <h4>identity</h4>
 <pre class="methodSignature">public static&nbsp;&lt;T&gt;&nbsp;<a href="Converter.html" title="class in com.google.common.base">Converter</a>&lt;T,&#8203;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Converter.html#line.580">identity</a>()</pre>
 <div class="block">Returns a serializable converter that always converts or reverses an object to itself.</div>
-<dl>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>T</code> - the type of the input and output objects to the function</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a function that always returns its input argument</dd>
-</dl>
 </li>
 </ul>
 </li>

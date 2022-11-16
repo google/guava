@@ -220,7 +220,7 @@ implements java.util.SortedMap&lt;K,&#8203;V&gt;</pre>
 <!--   -->
 </a>
 <h3>Nested classes/interfaces inherited from interface&nbsp;java.util.Map</h3>
-<code>java.util.Map.Entry&lt;K,&#8203;V&gt;</code></li>
+<code>java.util.Map.Entry&lt;K extends java.lang.Object,&#8203;V extends java.lang.Object&gt;</code></li>
 </ul>
 </li>
 </ul>
@@ -267,10 +267,7 @@ implements java.util.SortedMap&lt;K,&#8203;V&gt;</pre>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>java.util.Comparator&lt;? super <a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#comparator()">comparator</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Returns the comparator used to order the keys in this map, or
- <code>null</code> if this map uses the natural ordering of its keys.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>protected abstract java.util.SortedMap&lt;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>,&#8203;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">V</a>&gt;</code></td>
@@ -282,24 +279,17 @@ implements java.util.SortedMap&lt;K,&#8203;V&gt;</pre>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code><a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#firstKey()">firstKey</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Returns the first (lowest) key currently in this map.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>java.util.SortedMap&lt;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>,&#8203;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#headMap(K)">headMap</a></span>&#8203;(<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>&nbsp;toKey)</code></th>
-<td class="colLast">
-<div class="block">Returns a view of the portion of this map whose keys are
- strictly less than <code>toKey</code>.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code><a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#lastKey()">lastKey</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Returns the last (highest) key currently in this map.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i5" class="rowColor">
 <td class="colFirst"><code>protected boolean</code></td>
@@ -321,18 +311,12 @@ implements java.util.SortedMap&lt;K,&#8203;V&gt;</pre>
 <td class="colFirst"><code>java.util.SortedMap&lt;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>,&#8203;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#subMap(K,K)">subMap</a></span>&#8203;(<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>&nbsp;fromKey,
       <a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>&nbsp;toKey)</code></th>
-<td class="colLast">
-<div class="block">Returns a view of the portion of this map whose keys range from
- <code>fromKey</code>, inclusive, to <code>toKey</code>, exclusive.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i8" class="altColor">
 <td class="colFirst"><code>java.util.SortedMap&lt;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>,&#8203;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#tailMap(K)">tailMap</a></span>&#8203;(<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>&nbsp;fromKey)</code></th>
-<td class="colLast">
-<div class="block">Returns a view of the portion of this map whose keys are
- greater than or equal to <code>fromKey</code>.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -432,16 +416,9 @@ implements java.util.SortedMap&lt;K,&#8203;V&gt;</pre>
 <h4>comparator</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
 public&nbsp;java.util.Comparator&lt;? super <a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMap.html#line.66">comparator</a>()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.SortedMap</code></span></div>
-<div class="block">Returns the comparator used to order the keys in this map, or
- <code>null</code> if this map uses the natural ordering of its keys.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>comparator</code>&nbsp;in interface&nbsp;<code>java.util.SortedMap&lt;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>the comparator used to order the keys in this map,
-         or <code>null</code> if this map uses the natural ordering
-         of its keys</dd>
 </dl>
 </li>
 </ul>
@@ -452,13 +429,9 @@ public&nbsp;java.util.Comparator&lt;? super <a href="ForwardingSortedMap.html" t
 <li class="blockList">
 <h4>firstKey</h4>
 <pre class="methodSignature">public&nbsp;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMap.html#line.72">firstKey</a>()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.SortedMap</code></span></div>
-<div class="block">Returns the first (lowest) key currently in this map.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>firstKey</code>&nbsp;in interface&nbsp;<code>java.util.SortedMap&lt;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>the first (lowest) key currently in this map</dd>
 </dl>
 </li>
 </ul>
@@ -471,23 +444,9 @@ public&nbsp;java.util.Comparator&lt;? super <a href="ForwardingSortedMap.html" t
 <li class="blockList">
 <h4>headMap</h4>
 <pre class="methodSignature">public&nbsp;java.util.SortedMap&lt;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>,&#8203;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMap.html#line.78">headMap</a>&#8203;(<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>&nbsp;toKey)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.SortedMap</code></span></div>
-<div class="block">Returns a view of the portion of this map whose keys are
- strictly less than <code>toKey</code>.  The returned map is backed
- by this map, so changes in the returned map are reflected in
- this map, and vice-versa.  The returned map supports all
- optional map operations that this map supports.
-
- <p>The returned map will throw an <code>IllegalArgumentException</code>
- on an attempt to insert a key outside its range.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>headMap</code>&nbsp;in interface&nbsp;<code>java.util.SortedMap&lt;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>toKey</code> - high endpoint (exclusive) of the keys in the returned map</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a view of the portion of this map whose keys are strictly
-         less than <code>toKey</code></dd>
 </dl>
 </li>
 </ul>
@@ -498,13 +457,9 @@ public&nbsp;java.util.Comparator&lt;? super <a href="ForwardingSortedMap.html" t
 <li class="blockList">
 <h4>lastKey</h4>
 <pre class="methodSignature">public&nbsp;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMap.html#line.83">lastKey</a>()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.SortedMap</code></span></div>
-<div class="block">Returns the last (highest) key currently in this map.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>lastKey</code>&nbsp;in interface&nbsp;<code>java.util.SortedMap&lt;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>the last (highest) key currently in this map</dd>
 </dl>
 </li>
 </ul>
@@ -518,26 +473,9 @@ public&nbsp;java.util.Comparator&lt;? super <a href="ForwardingSortedMap.html" t
 <h4>subMap</h4>
 <pre class="methodSignature">public&nbsp;java.util.SortedMap&lt;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>,&#8203;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMap.html#line.89">subMap</a>&#8203;(<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>&nbsp;fromKey,
                                              <a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>&nbsp;toKey)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.SortedMap</code></span></div>
-<div class="block">Returns a view of the portion of this map whose keys range from
- <code>fromKey</code>, inclusive, to <code>toKey</code>, exclusive.  (If
- <code>fromKey</code> and <code>toKey</code> are equal, the returned map
- is empty.)  The returned map is backed by this map, so changes
- in the returned map are reflected in this map, and vice-versa.
- The returned map supports all optional map operations that this
- map supports.
-
- <p>The returned map will throw an <code>IllegalArgumentException</code>
- on an attempt to insert a key outside its range.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>subMap</code>&nbsp;in interface&nbsp;<code>java.util.SortedMap&lt;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>fromKey</code> - low endpoint (inclusive) of the keys in the returned map</dd>
-<dd><code>toKey</code> - high endpoint (exclusive) of the keys in the returned map</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a view of the portion of this map whose keys range from
-         <code>fromKey</code>, inclusive, to <code>toKey</code>, exclusive</dd>
 </dl>
 </li>
 </ul>
@@ -550,23 +488,9 @@ public&nbsp;java.util.Comparator&lt;? super <a href="ForwardingSortedMap.html" t
 <li class="blockList">
 <h4>tailMap</h4>
 <pre class="methodSignature">public&nbsp;java.util.SortedMap&lt;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>,&#8203;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMap.html#line.94">tailMap</a>&#8203;(<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>&nbsp;fromKey)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.SortedMap</code></span></div>
-<div class="block">Returns a view of the portion of this map whose keys are
- greater than or equal to <code>fromKey</code>.  The returned map is
- backed by this map, so changes in the returned map are
- reflected in this map, and vice-versa.  The returned map
- supports all optional map operations that this map supports.
-
- <p>The returned map will throw an <code>IllegalArgumentException</code>
- on an attempt to insert a key outside its range.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>tailMap</code>&nbsp;in interface&nbsp;<code>java.util.SortedMap&lt;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>fromKey</code> - low endpoint (inclusive) of the keys in the returned map</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a view of the portion of this map whose keys are greater
-         than or equal to <code>fromKey</code></dd>
 </dl>
 </li>
 </ul>

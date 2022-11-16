@@ -257,16 +257,12 @@ implements java.util.Set&lt;E&gt;</pre>
 <tr id="i6" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#equals(java.lang.Object)">equals</a></span>&#8203;(java.lang.Object&nbsp;object)</code></th>
-<td class="colLast">
-<div class="block">Indicates whether some other object is "equal to" this one.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i7" class="rowColor">
 <td class="colFirst"><code>int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#hashCode()">hashCode</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Returns a hash code value for the object.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i8" class="altColor">
 <td class="colFirst"><code>abstract <a href="UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;<a href="ImmutableSet.html" title="type parameter in ImmutableSet">E</a>&gt;</code></td>
@@ -440,12 +436,6 @@ implements java.util.Set&lt;E&gt;</pre>
  consistency, and because the return type conveys the immutability guarantee.
 
  <p><b>Performance note:</b> the instance returned is a singleton.</div>
-<dl>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>E</code> - the <code>Set</code>'s element type</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>an empty <code>Set</code></dd>
-</dl>
 </li>
 </ul>
 <a id="of(java.lang.Object)">
@@ -459,14 +449,6 @@ implements java.util.Set&lt;E&gt;</pre>
 <pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSet.html#line.90">of</a>&#8203;(E&nbsp;element)</pre>
 <div class="block">Returns an immutable set containing <code>element</code>. Preferred over <code>Collections.singleton(T)</code> for code consistency, <code>null</code> rejection, and because the return
  type conveys the immutability guarantee.</div>
-<dl>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>E</code> - the <code>Set</code>'s element type</dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>element</code> - the single element</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a <code>Set</code> containing the specified element</dd>
-</dl>
 </li>
 </ul>
 <a id="of(java.lang.Object,java.lang.Object)">
@@ -482,15 +464,6 @@ implements java.util.Set&lt;E&gt;</pre>
 <div class="block">Returns an immutable set containing the given elements, minus duplicates, in the order each was
  first specified. That is, if multiple elements are equal, all except
  the first are ignored.</div>
-<dl>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>E</code> - the <code>Set</code>'s element type</dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>e1</code> - the first element</dd>
-<dd><code>e2</code> - the second element</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a <code>Set</code> containing the specified elements</dd>
-</dl>
 </li>
 </ul>
 <a id="of(java.lang.Object,java.lang.Object,java.lang.Object)">
@@ -507,16 +480,6 @@ implements java.util.Set&lt;E&gt;</pre>
 <div class="block">Returns an immutable set containing the given elements, minus duplicates, in the order each was
  first specified. That is, if multiple elements are equal, all except
  the first are ignored.</div>
-<dl>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>E</code> - the <code>Set</code>'s element type</dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>e1</code> - the first element</dd>
-<dd><code>e2</code> - the second element</dd>
-<dd><code>e3</code> - the third element</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a <code>Set</code> containing the specified elements</dd>
-</dl>
 </li>
 </ul>
 <a id="of(java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object)">
@@ -534,17 +497,6 @@ implements java.util.Set&lt;E&gt;</pre>
 <div class="block">Returns an immutable set containing the given elements, minus duplicates, in the order each was
  first specified. That is, if multiple elements are equal, all except
  the first are ignored.</div>
-<dl>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>E</code> - the <code>Set</code>'s element type</dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>e1</code> - the first element</dd>
-<dd><code>e2</code> - the second element</dd>
-<dd><code>e3</code> - the third element</dd>
-<dd><code>e4</code> - the fourth element</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a <code>Set</code> containing the specified elements</dd>
-</dl>
 </li>
 </ul>
 <a id="of(java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object)">
@@ -563,18 +515,6 @@ implements java.util.Set&lt;E&gt;</pre>
 <div class="block">Returns an immutable set containing the given elements, minus duplicates, in the order each was
  first specified. That is, if multiple elements are equal, all except
  the first are ignored.</div>
-<dl>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>E</code> - the <code>Set</code>'s element type</dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>e1</code> - the first element</dd>
-<dd><code>e2</code> - the second element</dd>
-<dd><code>e3</code> - the third element</dd>
-<dd><code>e4</code> - the fourth element</dd>
-<dd><code>e5</code> - the fifth element</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a <code>Set</code> containing the specified elements</dd>
-</dl>
 </li>
 </ul>
 <a id="of(java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object[])">
@@ -599,18 +539,6 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSet.html" title="class in co
 
  <p>The array <code>others</code> must not be longer than <code>Integer.MAX_VALUE - 6</code>.</div>
 <dl>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>E</code> - the <code>Set</code>'s element type</dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>e1</code> - the first element</dd>
-<dd><code>e2</code> - the second element</dd>
-<dd><code>e3</code> - the third element</dd>
-<dd><code>e4</code> - the fourth element</dd>
-<dd><code>e5</code> - the fifth element</dd>
-<dd><code>e6</code> - the sixth element</dd>
-<dd><code>others</code> - the seventh element</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a <code>Set</code> containing the specified elements</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>3.0 (source-compatible since 2.0)</dd>
 </dl>
@@ -631,12 +559,6 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSet.html" title="class in co
  This reduces the expense of habitually making defensive copies at API boundaries. However, the
  precise conditions for skipping the copy operation are undefined.</div>
 <dl>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>E</code> - the <code>Set</code>'s element type</dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>elements</code> - a <code>Collection</code> from which elements are drawn, must be non-null</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a <code>Set</code> containing the elements of the given <code>Collection</code></dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.NullPointerException</code> - if any of <code>elements</code> is null</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -707,45 +629,6 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSet.html" title="class in co
 <h4>equals</h4>
 <pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSet.html#line.316">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                       java.lang.Object&nbsp;object)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code>java.lang.Object</code></span></div>
-<div class="block">Indicates whether some other object is "equal to" this one.
- <p>
- The <code>equals</code> method implements an equivalence relation
- on non-null object references:
- <ul>
- <li>It is <i>reflexive</i>: for any non-null reference value
-     <code>x</code>, <code>x.equals(x)</code> should return
-     <code>true</code>.
- <li>It is <i>symmetric</i>: for any non-null reference values
-     <code>x</code> and <code>y</code>, <code>x.equals(y)</code>
-     should return <code>true</code> if and only if
-     <code>y.equals(x)</code> returns <code>true</code>.
- <li>It is <i>transitive</i>: for any non-null reference values
-     <code>x</code>, <code>y</code>, and <code>z</code>, if
-     <code>x.equals(y)</code> returns <code>true</code> and
-     <code>y.equals(z)</code> returns <code>true</code>, then
-     <code>x.equals(z)</code> should return <code>true</code>.
- <li>It is <i>consistent</i>: for any non-null reference values
-     <code>x</code> and <code>y</code>, multiple invocations of
-     <code>x.equals(y)</code> consistently return <code>true</code>
-     or consistently return <code>false</code>, provided no
-     information used in <code>equals</code> comparisons on the
-     objects is modified.
- <li>For any non-null reference value <code>x</code>,
-     <code>x.equals(null)</code> should return <code>false</code>.
- </ul>
- <p>
- The <code>equals</code> method for class <code>Object</code> implements
- the most discriminating possible equivalence relation on objects;
- that is, for any non-null reference values <code>x</code> and
- <code>y</code>, this method returns <code>true</code> if and only
- if <code>x</code> and <code>y</code> refer to the same object
- (<code>x == y</code> has the value <code>true</code>).
- <p>
- Note that it is generally necessary to override the <code>hashCode</code>
- method whenever this method is overridden, so as to maintain the
- general contract for the <code>hashCode</code> method, which states
- that equal objects must have equal hash codes.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>equals</code>&nbsp;in interface&nbsp;<code>java.util.Collection&lt;<a href="ImmutableSet.html" title="type parameter in ImmutableSet">E</a>&gt;</code></dd>
@@ -753,14 +636,6 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSet.html" title="class in co
 <dd><code>equals</code>&nbsp;in interface&nbsp;<code>java.util.Set&lt;<a href="ImmutableSet.html" title="type parameter in ImmutableSet">E</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code>equals</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>object</code> - the reference object with which to compare.</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd><code>true</code> if this object is the same as the obj
-          argument; <code>false</code> otherwise.</dd>
-<dt><span class="seeLabel">See Also:</span></dt>
-<dd><code>Object.hashCode()</code>, 
-<code>HashMap</code></dd>
 </dl>
 </li>
 </ul>
@@ -771,35 +646,6 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSet.html" title="class in co
 <li class="blockList">
 <h4>hashCode</h4>
 <pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSet.html#line.330">hashCode</a>()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code>java.lang.Object</code></span></div>
-<div class="block">Returns a hash code value for the object. This method is
- supported for the benefit of hash tables such as those provided by
- <code>HashMap</code>.
- <p>
- The general contract of <code>hashCode</code> is:
- <ul>
- <li>Whenever it is invoked on the same object more than once during
-     an execution of a Java application, the <code>hashCode</code> method
-     must consistently return the same integer, provided no information
-     used in <code>equals</code> comparisons on the object is modified.
-     This integer need not remain consistent from one execution of an
-     application to another execution of the same application.
- <li>If two objects are equal according to the <code>equals(Object)</code>
-     method, then calling the <code>hashCode</code> method on each of
-     the two objects must produce the same integer result.
- <li>It is <em>not</em> required that if two objects are unequal
-     according to the <code>Object.equals(java.lang.Object)</code>
-     method, then calling the <code>hashCode</code> method on each of the
-     two objects must produce distinct integer results.  However, the
-     programmer should be aware that producing distinct integer results
-     for unequal objects may improve the performance of hash tables.
- </ul>
- <p>
- As much as is reasonably practical, the hashCode method defined
- by class <code>Object</code> does return distinct integers for
- distinct objects. (The hashCode may or may not be implemented
- as some function of an object's memory address at some point
- in time.)</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>hashCode</code>&nbsp;in interface&nbsp;<code>java.util.Collection&lt;<a href="ImmutableSet.html" title="type parameter in ImmutableSet">E</a>&gt;</code></dd>
@@ -807,11 +653,6 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSet.html" title="class in co
 <dd><code>hashCode</code>&nbsp;in interface&nbsp;<code>java.util.Set&lt;<a href="ImmutableSet.html" title="type parameter in ImmutableSet">E</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code>hashCode</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a hash code value for this object.</dd>
-<dt><span class="seeLabel">See Also:</span></dt>
-<dd><code>Object.equals(java.lang.Object)</code>, 
-<code>System.identityHashCode(java.lang.Object)</code></dd>
 </dl>
 </li>
 </ul>
@@ -833,8 +674,6 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSet.html" title="class in co
 <dd><code>iterator</code>&nbsp;in interface&nbsp;<code>java.util.Set&lt;<a href="ImmutableSet.html" title="type parameter in ImmutableSet">E</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="ImmutableCollection.html#iterator()">iterator</a></code>&nbsp;in class&nbsp;<code><a href="ImmutableCollection.html" title="class in com.google.common.collect">ImmutableCollection</a>&lt;<a href="ImmutableSet.html" title="type parameter in ImmutableSet">E</a>&gt;</code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>an iterator over the elements contained in this collection</dd>
 </dl>
 </li>
 </ul>

@@ -171,46 +171,28 @@ extends java.util.concurrent.ExecutorService</pre>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>java.util.List&lt;java.util.concurrent.Future&lt;T&gt;&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#invokeAll(java.util.Collection)">invokeAll</a></span>&#8203;(java.util.Collection&lt;? extends java.util.concurrent.Callable&lt;T&gt;&gt;&nbsp;tasks)</code></th>
-<td class="colLast">
-<div class="block">Executes the given tasks, returning a list of Futures holding
- their status and results when all complete.</div>
-</td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>java.util.List&lt;java.util.concurrent.Future&lt;T&gt;&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#invokeAll(java.util.Collection,long,java.util.concurrent.TimeUnit)">invokeAll</a></span>&#8203;(java.util.Collection&lt;? extends java.util.concurrent.Callable&lt;T&gt;&gt;&nbsp;tasks,
          long&nbsp;timeout,
          java.util.concurrent.TimeUnit&nbsp;unit)</code></th>
-<td class="colLast">
-<div class="block">Executes the given tasks, returning a list of Futures holding
- their status and results
- when all complete or the timeout expires, whichever happens first.</div>
-</td>
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code><a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;?&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#submit(java.lang.Runnable)">submit</a></span>&#8203;(java.lang.Runnable&nbsp;task)</code></th>
-<td class="colLast">
-<div class="block">Submits a Runnable task for execution and returns a Future
- representing that task.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;T&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#submit(java.lang.Runnable,T)">submit</a></span>&#8203;(java.lang.Runnable&nbsp;task,
       T&nbsp;result)</code></th>
-<td class="colLast">
-<div class="block">Submits a Runnable task for execution and returns a Future
- representing that task.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;T&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#submit(java.util.concurrent.Callable)">submit</a></span>&#8203;(java.util.concurrent.Callable&lt;T&gt;&nbsp;task)</code></th>
-<td class="colLast">
-<div class="block">Submits a value-returning task for execution and returns a
- Future representing the pending results of the task.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -250,33 +232,13 @@ extends java.util.concurrent.ExecutorService</pre>
 <li class="blockList">
 <h4>submit</h4>
 <pre class="methodSignature">&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;T&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListeningExecutorService.html#line.46">submit</a>&#8203;(java.util.concurrent.Callable&lt;T&gt;&nbsp;task)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.concurrent.ExecutorService</code></span></div>
-<div class="block">Submits a value-returning task for execution and returns a
- Future representing the pending results of the task. The
- Future's <code>get</code> method will return the task's result upon
- successful completion.
-
- <p>
- If you would like to immediately block waiting
- for a task, you can use constructions of the form
- <code>result = exec.submit(aCallable).get();</code>
-
- <p>Note: The <code>Executors</code> class includes a set of methods
- that can convert some other common closure-like objects,
- for example, <code>PrivilegedAction</code> to
- <code>Callable</code> form so they can be submitted.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>submit</code>&nbsp;in interface&nbsp;<code>java.util.concurrent.ExecutorService</code></dd>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>T</code> - the type of the task's result</dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>task</code> - the task to submit</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a <code>ListenableFuture</code> representing pending completion of the task</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.util.concurrent.RejectedExecutionException</code> - if the task cannot be
-         scheduled for execution</dd>
+<dd><code>java.util.concurrent.RejectedExecutionException</code></dd>
 </dl>
 </li>
 </ul>
@@ -287,20 +249,13 @@ extends java.util.concurrent.ExecutorService</pre>
 <li class="blockList">
 <h4>submit</h4>
 <pre class="methodSignature"><a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;?&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListeningExecutorService.html#line.53">submit</a>&#8203;(java.lang.Runnable&nbsp;task)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.concurrent.ExecutorService</code></span></div>
-<div class="block">Submits a Runnable task for execution and returns a Future
- representing that task. The Future's <code>get</code> method will
- return <code>null</code> upon <em>successful</em> completion.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>submit</code>&nbsp;in interface&nbsp;<code>java.util.concurrent.ExecutorService</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>task</code> - the task to submit</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a <code>ListenableFuture</code> representing pending completion of the task</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.util.concurrent.RejectedExecutionException</code> - if the task cannot be
-         scheduled for execution</dd>
+<dd><code>java.util.concurrent.RejectedExecutionException</code></dd>
 </dl>
 </li>
 </ul>
@@ -314,23 +269,13 @@ extends java.util.concurrent.ExecutorService</pre>
 <h4>submit</h4>
 <pre class="methodSignature">&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;T&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListeningExecutorService.html#line.60">submit</a>&#8203;(java.lang.Runnable&nbsp;task,
                                                                   T&nbsp;result)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.concurrent.ExecutorService</code></span></div>
-<div class="block">Submits a Runnable task for execution and returns a Future
- representing that task. The Future's <code>get</code> method will
- return the given result upon successful completion.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>submit</code>&nbsp;in interface&nbsp;<code>java.util.concurrent.ExecutorService</code></dd>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>T</code> - the type of the result</dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>task</code> - the task to submit</dd>
-<dd><code>result</code> - the result to return</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a <code>ListenableFuture</code> representing pending completion of the task</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.util.concurrent.RejectedExecutionException</code> - if the task cannot be
-         scheduled for execution</dd>
+<dd><code>java.util.concurrent.RejectedExecutionException</code></dd>
 </dl>
 </li>
 </ul>
@@ -342,14 +287,7 @@ extends java.util.concurrent.ExecutorService</pre>
 <h4>invokeAll</h4>
 <pre class="methodSignature">&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.util.List&lt;java.util.concurrent.Future&lt;T&gt;&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListeningExecutorService.html#line.82">invokeAll</a>&#8203;(java.util.Collection&lt;? extends java.util.concurrent.Callable&lt;T&gt;&gt;&nbsp;tasks)
                                                                                          throws java.lang.InterruptedException</pre>
-<div class="block">Executes the given tasks, returning a list of Futures holding
- their status and results when all complete.
- <code>Future.isDone()</code> is <code>true</code> for each
- element of the returned list.
- Note that a <em>completed</em> task could have
- terminated either normally or by throwing an exception.
- The results of this method are undefined if the given
- collection is modified while this operation is in progress.
+<div class="block">
 
  <p>All elements in the returned list must be <a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a> instances. The easiest
  way to obtain a <code>List&lt;ListenableFuture&lt;T&gt;&gt;</code> from this method is an unchecked (but safe)
@@ -362,20 +300,14 @@ extends java.util.concurrent.ExecutorService</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>invokeAll</code>&nbsp;in interface&nbsp;<code>java.util.concurrent.ExecutorService</code></dd>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>T</code> - the type of the values returned from the tasks</dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>tasks</code> - the collection of tasks</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>A list of <code>ListenableFuture</code> instances representing the tasks, in the same
      sequential order as produced by the iterator for the given task list, each of which has
      completed.</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.util.concurrent.RejectedExecutionException</code> - if any task cannot be
-         scheduled for execution</dd>
+<dd><code>java.util.concurrent.RejectedExecutionException</code></dd>
 <dd><code>java.lang.NullPointerException</code> - if any task is null</dd>
-<dd><code>java.lang.InterruptedException</code> - if interrupted while waiting, in
-         which case unfinished tasks are cancelled</dd>
+<dd><code>java.lang.InterruptedException</code></dd>
 </dl>
 </li>
 </ul>
@@ -389,16 +321,7 @@ extends java.util.concurrent.ExecutorService</pre>
                                                                                                 long&nbsp;timeout,
                                                                                                 java.util.concurrent.TimeUnit&nbsp;unit)
                                                                                          throws java.lang.InterruptedException</pre>
-<div class="block">Executes the given tasks, returning a list of Futures holding
- their status and results
- when all complete or the timeout expires, whichever happens first.
- <code>Future.isDone()</code> is <code>true</code> for each
- element of the returned list.
- Upon return, tasks that have not completed are cancelled.
- Note that a <em>completed</em> task could have
- terminated either normally or by throwing an exception.
- The results of this method are undefined if the given
- collection is modified while this operation is in progress.
+<div class="block">
 
  <p>All elements in the returned list must be <a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a> instances. The easiest
  way to obtain a <code>List&lt;ListenableFuture&lt;T&gt;&gt;</code> from this method is an unchecked (but safe)
@@ -411,23 +334,15 @@ extends java.util.concurrent.ExecutorService</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>invokeAll</code>&nbsp;in interface&nbsp;<code>java.util.concurrent.ExecutorService</code></dd>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>T</code> - the type of the values returned from the tasks</dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>tasks</code> - the collection of tasks</dd>
-<dd><code>timeout</code> - the maximum time to wait</dd>
-<dd><code>unit</code> - the time unit of the timeout argument</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a list of <code>ListenableFuture</code> instances representing the tasks, in the same
      sequential order as produced by the iterator for the given task list. If the operation did
      not time out, each task will have completed. If it did time out, some of these tasks will
      not have completed.</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.util.concurrent.RejectedExecutionException</code> - if any task cannot be scheduled
-         for execution</dd>
+<dd><code>java.util.concurrent.RejectedExecutionException</code></dd>
 <dd><code>java.lang.NullPointerException</code> - if any task is null</dd>
-<dd><code>java.lang.InterruptedException</code> - if interrupted while waiting, in
-         which case unfinished tasks are cancelled</dd>
+<dd><code>java.lang.InterruptedException</code></dd>
 </dl>
 </li>
 </ul>

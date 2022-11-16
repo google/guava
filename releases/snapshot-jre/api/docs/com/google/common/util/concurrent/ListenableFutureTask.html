@@ -212,10 +212,7 @@ implements <a href="ListenableFuture.html" title="interface in com.google.common
 <td class="colFirst"><code><a href="ListenableFutureTask.html" title="type parameter in ListenableFutureTask">V</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#get(long,java.util.concurrent.TimeUnit)">get</a></span>&#8203;(long&nbsp;timeout,
    java.util.concurrent.TimeUnit&nbsp;unit)</code></th>
-<td class="colLast">
-<div class="block">Waits if necessary for at most the given time for the computation
- to complete, and then retrieves its result, if available.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -348,25 +345,15 @@ public&nbsp;<a href="ListenableFutureTask.html" title="type parameter in Listena
       throws java.util.concurrent.TimeoutException,
              java.lang.InterruptedException,
              java.util.concurrent.ExecutionException</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.concurrent.Future</code></span></div>
-<div class="block">Waits if necessary for at most the given time for the computation
- to complete, and then retrieves its result, if available.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>get</code>&nbsp;in interface&nbsp;<code>java.util.concurrent.Future&lt;<a href="ListenableFutureTask.html" title="type parameter in ListenableFutureTask">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code>get</code>&nbsp;in class&nbsp;<code>java.util.concurrent.FutureTask&lt;<a href="ListenableFutureTask.html" title="type parameter in ListenableFutureTask">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>timeout</code> - the maximum time to wait</dd>
-<dd><code>unit</code> - the time unit of the timeout argument</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>the computed result</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.util.concurrent.TimeoutException</code> - if the wait timed out</dd>
-<dd><code>java.lang.InterruptedException</code> - if the current thread was interrupted
- while waiting</dd>
-<dd><code>java.util.concurrent.ExecutionException</code> - if the computation threw an
- exception</dd>
+<dd><code>java.util.concurrent.TimeoutException</code></dd>
+<dd><code>java.lang.InterruptedException</code></dd>
+<dd><code>java.util.concurrent.ExecutionException</code></dd>
 </dl>
 </li>
 </ul>

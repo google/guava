@@ -190,7 +190,7 @@ implements <a href="BiMap.html" title="interface in com.google.common.collect">B
 <!--   -->
 </a>
 <h3>Nested classes/interfaces inherited from interface&nbsp;java.util.Map</h3>
-<code>java.util.Map.Entry&lt;K,&#8203;V&gt;</code></li>
+<code>java.util.Map.Entry&lt;K extends java.lang.Object,&#8203;V extends java.lang.Object&gt;</code></li>
 </ul>
 </li>
 </ul>
@@ -549,13 +549,6 @@ implements <a href="BiMap.html" title="interface in com.google.common.collect">B
 <div class="block">Returns the empty bimap.
 
  <p><b>Performance note:</b> the instance returned is a singleton.</div>
-<dl>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>K</code> - the <code>Map</code>'s key type</dd>
-<dd><code>V</code> - the <code>Map</code>'s value type</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>an empty <code>Map</code></dd>
-</dl>
 </li>
 </ul>
 <a id="of(java.lang.Object,java.lang.Object)">
@@ -569,16 +562,6 @@ implements <a href="BiMap.html" title="interface in com.google.common.collect">B
 <pre class="methodSignature">public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableBiMap.html" title="class in com.google.common.collect">ImmutableBiMap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableBiMap.html#line.82">of</a>&#8203;(K&nbsp;k1,
                                                        V&nbsp;v1)</pre>
 <div class="block">Returns an immutable bimap containing a single entry.</div>
-<dl>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>K</code> - the <code>Map</code>'s key type</dd>
-<dd><code>V</code> - the <code>Map</code>'s value type</dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>k1</code> - the mapping's key</dd>
-<dd><code>v1</code> - the mapping's value</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a <code>Map</code> containing the specified mapping</dd>
-</dl>
 </li>
 </ul>
 <a id="of(java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object)">
@@ -595,16 +578,6 @@ implements <a href="BiMap.html" title="interface in com.google.common.collect">B
                                                        V&nbsp;v2)</pre>
 <div class="block">Returns an immutable map containing the given entries, in order.</div>
 <dl>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>K</code> - the <code>Map</code>'s key type</dd>
-<dd><code>V</code> - the <code>Map</code>'s value type</dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>k1</code> - the first mapping's key</dd>
-<dd><code>v1</code> - the first mapping's value</dd>
-<dd><code>k2</code> - the second mapping's key</dd>
-<dd><code>v2</code> - the second mapping's value</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a <code>Map</code> containing the specified mappings</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.IllegalArgumentException</code> - if duplicate keys or values are added</dd>
 </dl>
@@ -626,18 +599,6 @@ implements <a href="BiMap.html" title="interface in com.google.common.collect">B
                                                        V&nbsp;v3)</pre>
 <div class="block">Returns an immutable map containing the given entries, in order.</div>
 <dl>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>K</code> - the <code>Map</code>'s key type</dd>
-<dd><code>V</code> - the <code>Map</code>'s value type</dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>k1</code> - the first mapping's key</dd>
-<dd><code>v1</code> - the first mapping's value</dd>
-<dd><code>k2</code> - the second mapping's key</dd>
-<dd><code>v2</code> - the second mapping's value</dd>
-<dd><code>k3</code> - the third mapping's key</dd>
-<dd><code>v3</code> - the third mapping's value</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a <code>Map</code> containing the specified mappings</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.IllegalArgumentException</code> - if duplicate keys or values are added</dd>
 </dl>
@@ -661,20 +622,6 @@ implements <a href="BiMap.html" title="interface in com.google.common.collect">B
                                                        V&nbsp;v4)</pre>
 <div class="block">Returns an immutable map containing the given entries, in order.</div>
 <dl>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>K</code> - the <code>Map</code>'s key type</dd>
-<dd><code>V</code> - the <code>Map</code>'s value type</dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>k1</code> - the first mapping's key</dd>
-<dd><code>v1</code> - the first mapping's value</dd>
-<dd><code>k2</code> - the second mapping's key</dd>
-<dd><code>v2</code> - the second mapping's value</dd>
-<dd><code>k3</code> - the third mapping's key</dd>
-<dd><code>v3</code> - the third mapping's value</dd>
-<dd><code>k4</code> - the fourth mapping's key</dd>
-<dd><code>v4</code> - the fourth mapping's value</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a <code>Map</code> containing the specified mappings</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.IllegalArgumentException</code> - if duplicate keys or values are added</dd>
 </dl>
@@ -700,22 +647,6 @@ implements <a href="BiMap.html" title="interface in com.google.common.collect">B
                                                        V&nbsp;v5)</pre>
 <div class="block">Returns an immutable map containing the given entries, in order.</div>
 <dl>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>K</code> - the <code>Map</code>'s key type</dd>
-<dd><code>V</code> - the <code>Map</code>'s value type</dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>k1</code> - the first mapping's key</dd>
-<dd><code>v1</code> - the first mapping's value</dd>
-<dd><code>k2</code> - the second mapping's key</dd>
-<dd><code>v2</code> - the second mapping's value</dd>
-<dd><code>k3</code> - the third mapping's key</dd>
-<dd><code>v3</code> - the third mapping's value</dd>
-<dd><code>k4</code> - the fourth mapping's key</dd>
-<dd><code>v4</code> - the fourth mapping's value</dd>
-<dd><code>k5</code> - the fifth mapping's key</dd>
-<dd><code>v5</code> - the fifth mapping's value</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a <code>Map</code> containing the specified mappings</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.IllegalArgumentException</code> - if duplicate keys or values are added</dd>
 </dl>
@@ -743,24 +674,6 @@ implements <a href="BiMap.html" title="interface in com.google.common.collect">B
                                                        V&nbsp;v6)</pre>
 <div class="block">Returns an immutable map containing the given entries, in order.</div>
 <dl>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>K</code> - the <code>Map</code>'s key type</dd>
-<dd><code>V</code> - the <code>Map</code>'s value type</dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>k1</code> - the first mapping's key</dd>
-<dd><code>v1</code> - the first mapping's value</dd>
-<dd><code>k2</code> - the second mapping's key</dd>
-<dd><code>v2</code> - the second mapping's value</dd>
-<dd><code>k3</code> - the third mapping's key</dd>
-<dd><code>v3</code> - the third mapping's value</dd>
-<dd><code>k4</code> - the fourth mapping's key</dd>
-<dd><code>v4</code> - the fourth mapping's value</dd>
-<dd><code>k5</code> - the fifth mapping's key</dd>
-<dd><code>v5</code> - the fifth mapping's value</dd>
-<dd><code>k6</code> - the sixth mapping's key</dd>
-<dd><code>v6</code> - the sixth mapping's value</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a <code>Map</code> containing the specified mappings</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.IllegalArgumentException</code> - if duplicate keys or values are added</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -792,26 +705,6 @@ implements <a href="BiMap.html" title="interface in com.google.common.collect">B
                                                        V&nbsp;v7)</pre>
 <div class="block">Returns an immutable map containing the given entries, in order.</div>
 <dl>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>K</code> - the <code>Map</code>'s key type</dd>
-<dd><code>V</code> - the <code>Map</code>'s value type</dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>k1</code> - the first mapping's key</dd>
-<dd><code>v1</code> - the first mapping's value</dd>
-<dd><code>k2</code> - the second mapping's key</dd>
-<dd><code>v2</code> - the second mapping's value</dd>
-<dd><code>k3</code> - the third mapping's key</dd>
-<dd><code>v3</code> - the third mapping's value</dd>
-<dd><code>k4</code> - the fourth mapping's key</dd>
-<dd><code>v4</code> - the fourth mapping's value</dd>
-<dd><code>k5</code> - the fifth mapping's key</dd>
-<dd><code>v5</code> - the fifth mapping's value</dd>
-<dd><code>k6</code> - the sixth mapping's key</dd>
-<dd><code>v6</code> - the sixth mapping's value</dd>
-<dd><code>k7</code> - the seventh mapping's key</dd>
-<dd><code>v7</code> - the seventh mapping's value</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a <code>Map</code> containing the specified mappings</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.IllegalArgumentException</code> - if duplicate keys or values are added</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -845,28 +738,6 @@ implements <a href="BiMap.html" title="interface in com.google.common.collect">B
                                                        V&nbsp;v8)</pre>
 <div class="block">Returns an immutable map containing the given entries, in order.</div>
 <dl>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>K</code> - the <code>Map</code>'s key type</dd>
-<dd><code>V</code> - the <code>Map</code>'s value type</dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>k1</code> - the first mapping's key</dd>
-<dd><code>v1</code> - the first mapping's value</dd>
-<dd><code>k2</code> - the second mapping's key</dd>
-<dd><code>v2</code> - the second mapping's value</dd>
-<dd><code>k3</code> - the third mapping's key</dd>
-<dd><code>v3</code> - the third mapping's value</dd>
-<dd><code>k4</code> - the fourth mapping's key</dd>
-<dd><code>v4</code> - the fourth mapping's value</dd>
-<dd><code>k5</code> - the fifth mapping's key</dd>
-<dd><code>v5</code> - the fifth mapping's value</dd>
-<dd><code>k6</code> - the sixth mapping's key</dd>
-<dd><code>v6</code> - the sixth mapping's value</dd>
-<dd><code>k7</code> - the seventh mapping's key</dd>
-<dd><code>v7</code> - the seventh mapping's value</dd>
-<dd><code>k8</code> - the eighth mapping's key</dd>
-<dd><code>v8</code> - the eighth mapping's value</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a <code>Map</code> containing the specified mappings</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.IllegalArgumentException</code> - if duplicate keys or values are added</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -902,30 +773,6 @@ implements <a href="BiMap.html" title="interface in com.google.common.collect">B
                                                        V&nbsp;v9)</pre>
 <div class="block">Returns an immutable map containing the given entries, in order.</div>
 <dl>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>K</code> - the <code>Map</code>'s key type</dd>
-<dd><code>V</code> - the <code>Map</code>'s value type</dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>k1</code> - the first mapping's key</dd>
-<dd><code>v1</code> - the first mapping's value</dd>
-<dd><code>k2</code> - the second mapping's key</dd>
-<dd><code>v2</code> - the second mapping's value</dd>
-<dd><code>k3</code> - the third mapping's key</dd>
-<dd><code>v3</code> - the third mapping's value</dd>
-<dd><code>k4</code> - the fourth mapping's key</dd>
-<dd><code>v4</code> - the fourth mapping's value</dd>
-<dd><code>k5</code> - the fifth mapping's key</dd>
-<dd><code>v5</code> - the fifth mapping's value</dd>
-<dd><code>k6</code> - the sixth mapping's key</dd>
-<dd><code>v6</code> - the sixth mapping's value</dd>
-<dd><code>k7</code> - the seventh mapping's key</dd>
-<dd><code>v7</code> - the seventh mapping's value</dd>
-<dd><code>k8</code> - the eighth mapping's key</dd>
-<dd><code>v8</code> - the eighth mapping's value</dd>
-<dd><code>k9</code> - the ninth mapping's key</dd>
-<dd><code>v9</code> - the ninth mapping's value</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a <code>Map</code> containing the specified mappings</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.IllegalArgumentException</code> - if duplicate keys or values are added</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -963,32 +810,6 @@ implements <a href="BiMap.html" title="interface in com.google.common.collect">B
                                                        V&nbsp;v10)</pre>
 <div class="block">Returns an immutable map containing the given entries, in order.</div>
 <dl>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>K</code> - the <code>Map</code>'s key type</dd>
-<dd><code>V</code> - the <code>Map</code>'s value type</dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>k1</code> - the first mapping's key</dd>
-<dd><code>v1</code> - the first mapping's value</dd>
-<dd><code>k2</code> - the second mapping's key</dd>
-<dd><code>v2</code> - the second mapping's value</dd>
-<dd><code>k3</code> - the third mapping's key</dd>
-<dd><code>v3</code> - the third mapping's value</dd>
-<dd><code>k4</code> - the fourth mapping's key</dd>
-<dd><code>v4</code> - the fourth mapping's value</dd>
-<dd><code>k5</code> - the fifth mapping's key</dd>
-<dd><code>v5</code> - the fifth mapping's value</dd>
-<dd><code>k6</code> - the sixth mapping's key</dd>
-<dd><code>v6</code> - the sixth mapping's value</dd>
-<dd><code>k7</code> - the seventh mapping's key</dd>
-<dd><code>v7</code> - the seventh mapping's value</dd>
-<dd><code>k8</code> - the eighth mapping's key</dd>
-<dd><code>v8</code> - the eighth mapping's value</dd>
-<dd><code>k9</code> - the ninth mapping's key</dd>
-<dd><code>v9</code> - the ninth mapping's value</dd>
-<dd><code>k10</code> - the tenth mapping's key</dd>
-<dd><code>v10</code> - the tenth mapping's value</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a <code>Map</code> containing the specified mappings</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.IllegalArgumentException</code> - if duplicate keys or values are added</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -1006,19 +827,10 @@ implements <a href="BiMap.html" title="interface in com.google.common.collect">B
 public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableBiMap.html" title="class in com.google.common.collect">ImmutableBiMap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableBiMap.html#line.278">ofEntries</a>&#8203;(java.util.Map.Entry&lt;? extends K,&#8203;? extends V&gt;...&nbsp;entries)</pre>
 <div class="block">Returns an immutable map containing the given entries, in order.</div>
 <dl>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>K</code> - the <code>Map</code>'s key type</dd>
-<dd><code>V</code> - the <code>Map</code>'s value type</dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>entries</code> - <code>Map.Entry</code>s containing the keys and values from which the map is populated</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a <code>Map</code> containing the specified mappings</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.IllegalArgumentException</code> - if duplicate keys or values are provided</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>31.0</dd>
-<dt><span class="seeLabel">See Also:</span></dt>
-<dd><code>Map.entry()</code></dd>
 </dl>
 </li>
 </ul>
@@ -1070,13 +882,6 @@ public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableBiMap.Builder.html"
  safe to do so. The exact circumstances under which a copy will or will not be performed are
  undocumented and subject to change.</div>
 <dl>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>K</code> - the <code>Map</code>'s key type</dd>
-<dd><code>V</code> - the <code>Map</code>'s value type</dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>map</code> - a <code>Map</code> from which entries are drawn, must be non-null</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a <code>Map</code> containing the entries of the given <code>Map</code></dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.IllegalArgumentException</code> - if two keys have the same value or two values have the same
      key</dd>
@@ -1142,8 +947,6 @@ public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableBiMap.html" title="
 <dd><code>values</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="ImmutableBiMap.html" title="type parameter in ImmutableBiMap">K</a>,&#8203;<a href="ImmutableBiMap.html" title="type parameter in ImmutableBiMap">V</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="ImmutableMap.html#values()">values</a></code>&nbsp;in class&nbsp;<code><a href="ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;<a href="ImmutableBiMap.html" title="type parameter in ImmutableBiMap">K</a>,&#8203;<a href="ImmutableBiMap.html" title="type parameter in ImmutableBiMap">V</a>&gt;</code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a collection view of the values contained in this map</dd>
 </dl>
 </li>
 </ul>

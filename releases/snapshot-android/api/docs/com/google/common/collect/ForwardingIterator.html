@@ -218,24 +218,17 @@ implements java.util.Iterator&lt;T&gt;</pre>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#hasNext()">hasNext</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Returns <code>true</code> if the iteration has more elements.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code><a href="ForwardingIterator.html" title="type parameter in ForwardingIterator">T</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#next()">next</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Returns the next element in the iteration.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#remove()">remove</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Removes from the underlying collection the last element returned
- by this iterator (optional operation).</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -320,15 +313,9 @@ implements java.util.Iterator&lt;T&gt;</pre>
 <li class="blockList">
 <h4>hasNext</h4>
 <pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingIterator.html#line.50">hasNext</a>()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.Iterator</code></span></div>
-<div class="block">Returns <code>true</code> if the iteration has more elements.
- (In other words, returns <code>true</code> if <code>Iterator.next()</code> would
- return an element rather than throwing an exception.)</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>hasNext</code>&nbsp;in interface&nbsp;<code>java.util.Iterator&lt;<a href="ForwardingIterator.html" title="type parameter in ForwardingIterator">T</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd><code>true</code> if the iteration has more elements</dd>
 </dl>
 </li>
 </ul>
@@ -340,13 +327,9 @@ implements java.util.Iterator&lt;T&gt;</pre>
 <h4>next</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 public&nbsp;<a href="ForwardingIterator.html" title="type parameter in ForwardingIterator">T</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingIterator.html#line.55">next</a>()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.Iterator</code></span></div>
-<div class="block">Returns the next element in the iteration.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>next</code>&nbsp;in interface&nbsp;<code>java.util.Iterator&lt;<a href="ForwardingIterator.html" title="type parameter in ForwardingIterator">T</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>the next element in the iteration</dd>
 </dl>
 </li>
 </ul>
@@ -357,18 +340,6 @@ public&nbsp;<a href="ForwardingIterator.html" title="type parameter in Forwardin
 <li class="blockList">
 <h4>remove</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingIterator.html#line.62">remove</a>()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.Iterator</code></span></div>
-<div class="block">Removes from the underlying collection the last element returned
- by this iterator (optional operation).  This method can be called
- only once per call to <code>Iterator.next()</code>.
- <p>
- The behavior of an iterator is unspecified if the underlying collection
- is modified while the iteration is in progress in any way other than by
- calling this method, unless an overriding class has specified a
- concurrent modification policy.
- <p>
- The behavior of an iterator is unspecified if this method is called
- after a call to the <code>forEachRemaining</code> method.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>remove</code>&nbsp;in interface&nbsp;<code>java.util.Iterator&lt;<a href="ForwardingIterator.html" title="type parameter in ForwardingIterator">T</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>

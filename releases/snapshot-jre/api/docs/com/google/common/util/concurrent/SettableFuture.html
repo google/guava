@@ -193,9 +193,6 @@ extends <a href="AbstractFuture.html" title="class in com.google.common.util.con
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#cancel(boolean)">cancel</a></span>&#8203;(boolean&nbsp;mayInterruptIfRunning)</code></th>
-<td class="colLast">
-<div class="block">Attempts to cancel execution of this task.</div>
-</td>
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>static &lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="SettableFuture.html" title="class in com.google.common.util.concurrent">SettableFuture</a>&lt;V&gt;</code></td>
@@ -207,34 +204,21 @@ extends <a href="AbstractFuture.html" title="class in com.google.common.util.con
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>V</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#get()">get</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Waits if necessary for the computation to complete, and then
- retrieves its result.</div>
-</td>
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code>V</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#get(long,java.util.concurrent.TimeUnit)">get</a></span>&#8203;(long&nbsp;timeout,
    java.util.concurrent.TimeUnit&nbsp;unit)</code></th>
-<td class="colLast">
-<div class="block">Waits if necessary for at most the given time for the computation
- to complete, and then retrieves its result, if available.</div>
-</td>
 </tr>
 <tr id="i5" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isCancelled()">isCancelled</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Returns <code>true</code> if this task was cancelled before it completed
- normally.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i6" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isDone()">isDone</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Returns <code>true</code> if this task completed.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i7" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
@@ -415,8 +399,7 @@ public final&nbsp;V&nbsp;get()
             throws java.lang.InterruptedException,
                    java.util.concurrent.ExecutionException</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="AbstractFuture.html#get()">AbstractFuture</a></code></span></div>
-<div class="block">Waits if necessary for the computation to complete, and then
- retrieves its result.
+<div class="block">
 
  <p>The default <a href="AbstractFuture.html" title="class in com.google.common.util.concurrent"><code>AbstractFuture</code></a> implementation throws <code>InterruptedException</code> if the
  current thread is interrupted during the call, even if the value is already available.</div>
@@ -425,13 +408,9 @@ public final&nbsp;V&nbsp;get()
 <dd><code>get</code>&nbsp;in interface&nbsp;<code>java.util.concurrent.Future&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="AbstractFuture.html#get()">get</a></code>&nbsp;in class&nbsp;<code><a href="AbstractFuture.html" title="class in com.google.common.util.concurrent">AbstractFuture</a>&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>the computed result</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.InterruptedException</code> - if the current thread was interrupted
- while waiting</dd>
-<dd><code>java.util.concurrent.ExecutionException</code> - if the computation threw an
- exception</dd>
+<dd><code>java.lang.InterruptedException</code></dd>
+<dd><code>java.util.concurrent.ExecutionException</code></dd>
 </dl>
 </li>
 </ul>
@@ -448,8 +427,7 @@ public final&nbsp;V&nbsp;get&#8203;(long&nbsp;timeout,
                    java.util.concurrent.ExecutionException,
                    java.util.concurrent.TimeoutException</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="AbstractFuture.html#get(long,java.util.concurrent.TimeUnit)">AbstractFuture</a></code></span></div>
-<div class="block">Waits if necessary for at most the given time for the computation
- to complete, and then retrieves its result, if available.
+<div class="block">
 
  <p>The default <a href="AbstractFuture.html" title="class in com.google.common.util.concurrent"><code>AbstractFuture</code></a> implementation throws <code>InterruptedException</code> if the
  current thread is interrupted during the call, even if the value is already available.</div>
@@ -458,17 +436,10 @@ public final&nbsp;V&nbsp;get&#8203;(long&nbsp;timeout,
 <dd><code>get</code>&nbsp;in interface&nbsp;<code>java.util.concurrent.Future&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="AbstractFuture.html#get(long,java.util.concurrent.TimeUnit)">get</a></code>&nbsp;in class&nbsp;<code><a href="AbstractFuture.html" title="class in com.google.common.util.concurrent">AbstractFuture</a>&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>timeout</code> - the maximum time to wait</dd>
-<dd><code>unit</code> - the time unit of the timeout argument</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>the computed result</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.InterruptedException</code> - if the current thread was interrupted
- while waiting</dd>
-<dd><code>java.util.concurrent.ExecutionException</code> - if the computation threw an
- exception</dd>
-<dd><code>java.util.concurrent.TimeoutException</code> - if the wait timed out</dd>
+<dd><code>java.lang.InterruptedException</code></dd>
+<dd><code>java.util.concurrent.ExecutionException</code></dd>
+<dd><code>java.util.concurrent.TimeoutException</code></dd>
 </dl>
 </li>
 </ul>
@@ -479,19 +450,11 @@ public final&nbsp;V&nbsp;get&#8203;(long&nbsp;timeout,
 <li class="blockList">
 <h4>isDone</h4>
 <pre class="methodSignature">public final&nbsp;boolean&nbsp;isDone()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.concurrent.Future</code></span></div>
-<div class="block">Returns <code>true</code> if this task completed.
-
- Completion may be due to normal termination, an exception, or
- cancellation -- in all of these cases, this method will return
- <code>true</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>isDone</code>&nbsp;in interface&nbsp;<code>java.util.concurrent.Future&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="AbstractFuture.html#isDone()">isDone</a></code>&nbsp;in class&nbsp;<code><a href="AbstractFuture.html" title="class in com.google.common.util.concurrent">AbstractFuture</a>&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd><code>true</code> if this task completed</dd>
 </dl>
 </li>
 </ul>
@@ -502,16 +465,11 @@ public final&nbsp;V&nbsp;get&#8203;(long&nbsp;timeout,
 <li class="blockList">
 <h4>isCancelled</h4>
 <pre class="methodSignature">public final&nbsp;boolean&nbsp;isCancelled()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.concurrent.Future</code></span></div>
-<div class="block">Returns <code>true</code> if this task was cancelled before it completed
- normally.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>isCancelled</code>&nbsp;in interface&nbsp;<code>java.util.concurrent.Future&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="AbstractFuture.html#isCancelled()">isCancelled</a></code>&nbsp;in class&nbsp;<code><a href="AbstractFuture.html" title="class in com.google.common.util.concurrent">AbstractFuture</a>&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd><code>true</code> if this task was cancelled before it completed</dd>
 </dl>
 </li>
 </ul>
@@ -567,18 +525,7 @@ public final&nbsp;V&nbsp;get&#8203;(long&nbsp;timeout,
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 public final&nbsp;boolean&nbsp;cancel&#8203;(boolean&nbsp;mayInterruptIfRunning)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="AbstractFuture.html#cancel(boolean)">AbstractFuture</a></code></span></div>
-<div class="block">Attempts to cancel execution of this task.  This attempt will
- fail if the task has already completed, has already been cancelled,
- or could not be cancelled for some other reason. If successful,
- and this task has not started when <code>cancel</code> is called,
- this task should never run.  If the task has already started,
- then the <code>mayInterruptIfRunning</code> parameter determines
- whether the thread executing this task should be interrupted in
- an attempt to stop the task.
-
- <p>After this method returns, subsequent calls to <code>Future.isDone()</code> will
- always return <code>true</code>.  Subsequent calls to <code>Future.isCancelled()</code>
- will always return <code>true</code> if this method returned <code>true</code>.
+<div class="block">
 
  <p>If a cancellation attempt succeeds on a <code>Future</code> that had previously been <a href="AbstractFuture.html#setFuture(com.google.common.util.concurrent.ListenableFuture)">set asynchronously</a>, then the cancellation will also be propagated to the delegate
  <code>Future</code> that was supplied in the <code>setFuture</code> call.
@@ -595,14 +542,6 @@ public final&nbsp;boolean&nbsp;cancel&#8203;(boolean&nbsp;mayInterruptIfRunning)
 <dd><code>cancel</code>&nbsp;in interface&nbsp;<code>java.util.concurrent.Future&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="AbstractFuture.html#cancel(boolean)">cancel</a></code>&nbsp;in class&nbsp;<code><a href="AbstractFuture.html" title="class in com.google.common.util.concurrent">AbstractFuture</a>&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>mayInterruptIfRunning</code> - <code>true</code> if the thread executing this
- task should be interrupted; otherwise, in-progress tasks are allowed
- to complete</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd><code>false</code> if the task could not be cancelled,
- typically because it has already completed normally;
- <code>true</code> otherwise</dd>
 </dl>
 </li>
 </ul>

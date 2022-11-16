@@ -202,8 +202,7 @@ implements java.io.Serializable</pre>
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#add(E)">add</a></span>&#8203;(E&nbsp;element)</code></th>
 <td class="colLast">
-<div class="block">Ensures that this collection contains the specified element (optional
- operation).</div>
+<div class="block">Adds a single occurrence of the specified element to this multiset.</div>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
@@ -217,17 +216,11 @@ implements java.io.Serializable</pre>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#addAll(java.util.Collection)">addAll</a></span>&#8203;(java.util.Collection&lt;? extends E&gt;&nbsp;elementsToAdd)</code></th>
-<td class="colLast">
-<div class="block">Adds all of the elements in the specified collection to this collection
- (optional operation).</div>
-</td>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#clear()">clear</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Removes all of the elements from this collection (optional operation).</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code>java.util.Comparator&lt;? super E&gt;</code></td>
@@ -241,7 +234,7 @@ implements java.io.Serializable</pre>
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#contains(java.lang.Object)">contains</a></span>&#8203;(java.lang.Object&nbsp;element)</code></th>
 <td class="colLast">
-<div class="block">Returns <code>true</code> if this collection contains the specified element.</div>
+<div class="block">Determines whether this multiset contains the specified element.</div>
 </td>
 </tr>
 <tr id="i6" class="altColor">
@@ -300,7 +293,7 @@ implements java.io.Serializable</pre>
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#equals(java.lang.Object)">equals</a></span>&#8203;(java.lang.Object&nbsp;object)</code></th>
 <td class="colLast">
-<div class="block">Indicates whether some other object is "equal to" this one.</div>
+<div class="block">Compares the specified object with this multiset for equality.</div>
 </td>
 </tr>
 <tr id="i14" class="altColor">
@@ -315,7 +308,7 @@ implements java.io.Serializable</pre>
 <td class="colFirst"><code>int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#hashCode()">hashCode</a></span>()</code></th>
 <td class="colLast">
-<div class="block">Returns a hash code value for the object.</div>
+<div class="block">Returns the hash code for this multiset.</div>
 </td>
 </tr>
 <tr id="i16" class="altColor">
@@ -330,16 +323,11 @@ implements java.io.Serializable</pre>
 <tr id="i17" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isEmpty()">isEmpty</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Returns <code>true</code> if this collection contains no elements.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i18" class="altColor">
 <td class="colFirst"><code>java.util.Iterator&lt;<a href="TreeMultiset.html" title="type parameter in TreeMultiset">E</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#iterator()">iterator</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Returns an iterator over the elements contained in this collection.</div>
-</td>
 </tr>
 <tr id="i19" class="rowColor">
 <td class="colFirst"><code><a href="Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;E&gt;</code></td>
@@ -369,8 +357,7 @@ implements java.io.Serializable</pre>
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#remove(java.lang.Object)">remove</a></span>&#8203;(java.lang.Object&nbsp;element)</code></th>
 <td class="colLast">
-<div class="block">Removes a single instance of the specified element from this
- collection, if it is present (optional operation).</div>
+<div class="block">Removes a <i>single</i> occurrence of the specified element from this multiset, if present.</div>
 </td>
 </tr>
 <tr id="i23" class="rowColor">
@@ -384,18 +371,10 @@ implements java.io.Serializable</pre>
 <tr id="i24" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#removeAll(java.util.Collection)">removeAll</a></span>&#8203;(java.util.Collection&lt;?&gt;&nbsp;elementsToRemove)</code></th>
-<td class="colLast">
-<div class="block">Removes all of this collection's elements that are also contained in the
- specified collection (optional operation).</div>
-</td>
 </tr>
 <tr id="i25" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#retainAll(java.util.Collection)">retainAll</a></span>&#8203;(java.util.Collection&lt;?&gt;&nbsp;elementsToRetain)</code></th>
-<td class="colLast">
-<div class="block">Retains only the elements in this collection that are contained in the
- specified collection (optional operation).</div>
-</td>
 </tr>
 <tr id="i26" class="altColor">
 <td class="colFirst"><code>int</code></td>
@@ -419,7 +398,7 @@ implements java.io.Serializable</pre>
 <td class="colFirst"><code>int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#size()">size</a></span>()</code></th>
 <td class="colLast">
-<div class="block">Returns the number of elements in this collection.</div>
+<div class="block">Returns the total number of all occurrences of all elements in this multiset.</div>
 </td>
 </tr>
 <tr id="i29" class="rowColor">
@@ -445,9 +424,6 @@ implements java.io.Serializable</pre>
 <tr id="i31" class="rowColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toString()">toString</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Returns a string representation of this collection.</div>
-</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -571,10 +547,11 @@ implements java.io.Serializable</pre>
 <li class="blockList">
 <h4>size</h4>
 <pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.226">size</a>()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.Collection</code></span></div>
-<div class="block">Returns the number of elements in this collection.  If this collection
- contains more than <code>Integer.MAX_VALUE</code> elements, returns
- <code>Integer.MAX_VALUE</code>.</div>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Multiset.html#size()">Multiset</a></code></span></div>
+<div class="block">Returns the total number of all occurrences of all elements in this multiset.
+
+ <p><b>Note:</b> this method does not return the number of <i>distinct elements</i> in the
+ multiset, which is given by <code>entrySet().size()</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>size</code>&nbsp;in interface&nbsp;<code>java.util.Collection&lt;<a href="TreeMultiset.html" title="type parameter in TreeMultiset">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
@@ -582,8 +559,6 @@ implements java.io.Serializable</pre>
 <dd><code><a href="Multiset.html#size()">size</a></code>&nbsp;in interface&nbsp;<code><a href="Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;<a href="TreeMultiset.html" title="type parameter in TreeMultiset">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>size</code>&nbsp;in class&nbsp;<code>java.util.AbstractCollection&lt;<a href="TreeMultiset.html" title="type parameter in TreeMultiset">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>the number of elements in this collection</dd>
 </dl>
 </li>
 </ul>
@@ -733,9 +708,6 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <li class="blockList">
 <h4>clear</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.347">clear</a>()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code>java.util.AbstractCollection</code></span></div>
-<div class="block">Removes all of the elements from this collection (optional operation).
- The collection will be empty after this method returns.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>clear</code>&nbsp;in interface&nbsp;<code>java.util.Collection&lt;<a href="TreeMultiset.html" title="type parameter in TreeMultiset">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
@@ -749,8 +721,14 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <li class="blockList">
 <h4>iterator</h4>
 <pre class="methodSignature">public&nbsp;java.util.Iterator&lt;<a href="TreeMultiset.html" title="type parameter in TreeMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.532">iterator</a>()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code>java.util.AbstractCollection</code></span></div>
-<div class="block">Returns an iterator over the elements contained in this collection.</div>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="SortedMultiset.html#iterator()">SortedMultiset</a></code></span></div>
+<div class="block">
+
+ <p>Elements that occur multiple times in the multiset will appear multiple times in this
+ iterator, though not necessarily sequentially.
+
+ <p>The iterator returns the elements in ascending order according to this multiset's
+ comparator.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>iterator</code>&nbsp;in interface&nbsp;<code>java.util.Collection&lt;<a href="TreeMultiset.html" title="type parameter in TreeMultiset">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
@@ -762,8 +740,6 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <dd><code><a href="SortedMultiset.html#iterator()">iterator</a></code>&nbsp;in interface&nbsp;<code><a href="SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;<a href="TreeMultiset.html" title="type parameter in TreeMultiset">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>iterator</code>&nbsp;in class&nbsp;<code>java.util.AbstractCollection&lt;<a href="TreeMultiset.html" title="type parameter in TreeMultiset">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>an iterator over the elements contained in this collection</dd>
 </dl>
 </li>
 </ul>
@@ -979,15 +955,11 @@ public&nbsp;<a href="Multiset.Entry.html" title="interface in com.google.common.
 <li class="blockList">
 <h4>isEmpty</h4>
 <pre class="methodSignature">public&nbsp;boolean&nbsp;isEmpty()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code>java.util.AbstractCollection</code></span></div>
-<div class="block">Returns <code>true</code> if this collection contains no elements.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>isEmpty</code>&nbsp;in interface&nbsp;<code>java.util.Collection&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code>isEmpty</code>&nbsp;in class&nbsp;<code>java.util.AbstractCollection&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd><code>true</code> if this collection contains no elements</dd>
 </dl>
 </li>
 </ul>
@@ -999,11 +971,11 @@ public&nbsp;<a href="Multiset.Entry.html" title="interface in com.google.common.
 <h4>contains</h4>
 <pre class="methodSignature">public&nbsp;boolean&nbsp;contains&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                         java.lang.Object&nbsp;element)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code>java.util.AbstractCollection</code></span></div>
-<div class="block">Returns <code>true</code> if this collection contains the specified element.
- More formally, returns <code>true</code> if and only if this collection
- contains at least one element <code>e</code> such that
- <code>Objects.equals(o, e)</code>.</div>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Multiset.html#contains(java.lang.Object)">Multiset</a></code></span></div>
+<div class="block">Determines whether this multiset contains the specified element.
+
+ <p>This method refines <code>Collection.contains(java.lang.Object)</code> to further specify that it <b>may not</b>
+ throw an exception in response to <code>element</code> being null or of the wrong type.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>contains</code>&nbsp;in interface&nbsp;<code>java.util.Collection&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
@@ -1012,10 +984,9 @@ public&nbsp;<a href="Multiset.Entry.html" title="interface in com.google.common.
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code>contains</code>&nbsp;in class&nbsp;<code>java.util.AbstractCollection&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>element</code> - element whose presence in this collection is to be tested</dd>
+<dd><code>element</code> - the element to check for</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd><code>true</code> if this collection contains the specified
-         element</dd>
+<dd><code>true</code> if this multiset contains at least one occurrence of the element</dd>
 </dl>
 </li>
 </ul>
@@ -1029,24 +1000,14 @@ public&nbsp;<a href="Multiset.Entry.html" title="interface in com.google.common.
 <h4>add</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 public final&nbsp;boolean&nbsp;add&#8203;(E&nbsp;element)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code>java.util.AbstractCollection</code></span></div>
-<div class="block">Ensures that this collection contains the specified element (optional
- operation).  Returns <code>true</code> if this collection changed as a
- result of the call.  (Returns <code>false</code> if this collection does
- not permit duplicates and already contains the specified element.)<p>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Multiset.html#add(E)">Multiset</a></code></span></div>
+<div class="block">Adds a single occurrence of the specified element to this multiset.
 
- Collections that support this operation may place limitations on what
- elements may be added to this collection.  In particular, some
- collections will refuse to add <code>null</code> elements, and others will
- impose restrictions on the type of elements that may be added.
- Collection classes should clearly specify in their documentation any
- restrictions on what elements may be added.<p>
+ <p>This method refines <code>Collection.add(E)</code>, which only <i>ensures</i> the presence of the
+ element, to further specify that a successful call must always increment the count of the
+ element, and the overall size of the collection, by one.
 
- If a collection refuses to add a particular element for any reason
- other than that it already contains the element, it <i>must</i> throw
- an exception (rather than returning <code>false</code>).  This preserves
- the invariant that a collection always contains the specified element
- after this call returns.</div>
+ <p>To both add the element and obtain the previous count of that element, use <a href="Multiset.html#add(E,int)"><code>add</code></a><code>(element, 1)</code> instead.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>add</code>&nbsp;in interface&nbsp;<code>java.util.Collection&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
@@ -1055,10 +1016,11 @@ public final&nbsp;boolean&nbsp;add&#8203;(E&nbsp;element)</pre>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code>add</code>&nbsp;in class&nbsp;<code>java.util.AbstractCollection&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>element</code> - element whose presence in this collection is to be ensured</dd>
+<dd><code>element</code> - the element to add one occurrence of; may be null only if explicitly allowed by
+     the implementation</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd><code>true</code> if this collection changed as a result of the
-         call</dd>
+<dd><code>true</code> always, since this call is required to modify the multiset, unlike other
+     <code>Collection</code> types</dd>
 </dl>
 </li>
 </ul>
@@ -1071,14 +1033,13 @@ public final&nbsp;boolean&nbsp;add&#8203;(E&nbsp;element)</pre>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 public final&nbsp;boolean&nbsp;remove&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                             java.lang.Object&nbsp;element)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code>java.util.AbstractCollection</code></span></div>
-<div class="block">Removes a single instance of the specified element from this
- collection, if it is present (optional operation).  More formally,
- removes an element <code>e</code> such that
- <code>Objects.equals(o, e)</code>, if
- this collection contains one or more such elements.  Returns
- <code>true</code> if this collection contained the specified element (or
- equivalently, if this collection changed as a result of the call).</div>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Multiset.html#remove(java.lang.Object)">Multiset</a></code></span></div>
+<div class="block">Removes a <i>single</i> occurrence of the specified element from this multiset, if present.
+
+ <p>This method refines <code>Collection.remove(java.lang.Object)</code> to further specify that it <b>may not</b>
+ throw an exception in response to <code>element</code> being null or of the wrong type.
+
+ <p>To both remove the element and obtain the previous count of that element, use <a href="Multiset.html#remove(java.lang.Object,int)"><code>remove</code></a><code>(element, 1)</code> instead.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>remove</code>&nbsp;in interface&nbsp;<code>java.util.Collection&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
@@ -1087,9 +1048,9 @@ public final&nbsp;boolean&nbsp;remove&#8203;(<a href="https://checkerframework.o
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code>remove</code>&nbsp;in class&nbsp;<code>java.util.AbstractCollection&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>element</code> - element to be removed from this collection, if present</dd>
+<dd><code>element</code> - the element to remove one occurrence of</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd><code>true</code> if an element was removed as a result of this call</dd>
+<dd><code>true</code> if an occurrence was found and removed</dd>
 </dl>
 </li>
 </ul>
@@ -1101,12 +1062,7 @@ public final&nbsp;boolean&nbsp;remove&#8203;(<a href="https://checkerframework.o
 <h4>addAll</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 public final&nbsp;boolean&nbsp;addAll&#8203;(java.util.Collection&lt;? extends E&gt;&nbsp;elementsToAdd)</pre>
-<div class="block">Adds all of the elements in the specified collection to this collection
- (optional operation).  The behavior of this operation is undefined if
- the specified collection is modified while the operation is in progress.
- (This implies that the behavior of this call is undefined if the
- specified collection is this collection, and this collection is
- nonempty.)
+<div class="block">
 
  <p>This implementation is highly efficient when <code>elementsToAdd</code> is itself a <a href="Multiset.html" title="interface in com.google.common.collect"><code>Multiset</code></a>.</div>
 <dl>
@@ -1114,12 +1070,6 @@ public final&nbsp;boolean&nbsp;addAll&#8203;(java.util.Collection&lt;? extends E
 <dd><code>addAll</code>&nbsp;in interface&nbsp;<code>java.util.Collection&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code>addAll</code>&nbsp;in class&nbsp;<code>java.util.AbstractCollection&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>elementsToAdd</code> - collection containing elements to be added to this collection</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd><code>true</code> if this collection changed as a result of the call</dd>
-<dt><span class="seeLabel">See Also:</span></dt>
-<dd><code>AbstractCollection.add(Object)</code></dd>
 </dl>
 </li>
 </ul>
@@ -1131,11 +1081,16 @@ public final&nbsp;boolean&nbsp;addAll&#8203;(java.util.Collection&lt;? extends E
 <h4>removeAll</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 public final&nbsp;boolean&nbsp;removeAll&#8203;(java.util.Collection&lt;?&gt;&nbsp;elementsToRemove)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code>java.util.AbstractCollection</code></span></div>
-<div class="block">Removes all of this collection's elements that are also contained in the
- specified collection (optional operation).  After this call returns,
- this collection will contain no elements in common with the specified
- collection.</div>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Multiset.html#removeAll(java.util.Collection)">Multiset</a></code></span></div>
+<div class="block">
+
+ <p><b>Note:</b> This method ignores how often any element might appear in <code>c</code>, and only
+ cares whether or not an element appears at all. If you wish to remove one occurrence in this
+ multiset for every occurrence in <code>c</code>, see <a href="Multisets.html#removeOccurrences(com.google.common.collect.Multiset,com.google.common.collect.Multiset)"><code>Multisets.removeOccurrences(Multiset,
+ Multiset)</code></a>.
+
+ <p>This method refines <code>Collection.removeAll(java.util.Collection&lt;?&gt;)</code> to further specify that it <b>may not</b>
+ throw an exception in response to any of <code>elements</code> being null or of the wrong type.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>removeAll</code>&nbsp;in interface&nbsp;<code>java.util.Collection&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
@@ -1143,14 +1098,6 @@ public final&nbsp;boolean&nbsp;removeAll&#8203;(java.util.Collection&lt;?&gt;&nb
 <dd><code><a href="Multiset.html#removeAll(java.util.Collection)">removeAll</a></code>&nbsp;in interface&nbsp;<code><a href="Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code>removeAll</code>&nbsp;in class&nbsp;<code>java.util.AbstractCollection&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>elementsToRemove</code> - collection containing elements to be removed from this collection</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd><code>true</code> if this collection changed as a result of the
-         call</dd>
-<dt><span class="seeLabel">See Also:</span></dt>
-<dd><code>AbstractCollection.remove(Object)</code>, 
-<code>AbstractCollection.contains(Object)</code></dd>
 </dl>
 </li>
 </ul>
@@ -1162,11 +1109,16 @@ public final&nbsp;boolean&nbsp;removeAll&#8203;(java.util.Collection&lt;?&gt;&nb
 <h4>retainAll</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 public final&nbsp;boolean&nbsp;retainAll&#8203;(java.util.Collection&lt;?&gt;&nbsp;elementsToRetain)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code>java.util.AbstractCollection</code></span></div>
-<div class="block">Retains only the elements in this collection that are contained in the
- specified collection (optional operation).  In other words, removes from
- this collection all of its elements that are not contained in the
- specified collection.</div>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Multiset.html#retainAll(java.util.Collection)">Multiset</a></code></span></div>
+<div class="block">
+
+ <p><b>Note:</b> This method ignores how often any element might appear in <code>c</code>, and only
+ cares whether or not an element appears at all. If you wish to remove one occurrence in this
+ multiset for every occurrence in <code>c</code>, see <a href="Multisets.html#retainOccurrences(com.google.common.collect.Multiset,com.google.common.collect.Multiset)"><code>Multisets.retainOccurrences(Multiset,
+ Multiset)</code></a>.
+
+ <p>This method refines <code>Collection.retainAll(java.util.Collection&lt;?&gt;)</code> to further specify that it <b>may not</b>
+ throw an exception in response to any of <code>elements</code> being null or of the wrong type.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>retainAll</code>&nbsp;in interface&nbsp;<code>java.util.Collection&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
@@ -1174,13 +1126,8 @@ public final&nbsp;boolean&nbsp;retainAll&#8203;(java.util.Collection&lt;?&gt;&nb
 <dd><code><a href="Multiset.html#retainAll(java.util.Collection)">retainAll</a></code>&nbsp;in interface&nbsp;<code><a href="Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code>retainAll</code>&nbsp;in class&nbsp;<code>java.util.AbstractCollection&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>elementsToRetain</code> - collection containing elements to be retained in this collection</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd><code>true</code> if this collection changed as a result of the call</dd>
 <dt><span class="seeLabel">See Also:</span></dt>
-<dd><code>AbstractCollection.remove(Object)</code>, 
-<code>AbstractCollection.contains(Object)</code></dd>
+<dd><a href="Multisets.html#retainOccurrences(com.google.common.collect.Multiset,com.google.common.collect.Multiset)"><code>Multisets.retainOccurrences(Multiset, Multiset)</code></a></dd>
 </dl>
 </li>
 </ul>
@@ -1220,44 +1167,9 @@ public final&nbsp;boolean&nbsp;retainAll&#8203;(java.util.Collection&lt;?&gt;&nb
 <h4>equals</h4>
 <pre class="methodSignature">public final&nbsp;boolean&nbsp;equals&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                             java.lang.Object&nbsp;object)</pre>
-<div class="block">Indicates whether some other object is "equal to" this one.
- <p>
- The <code>equals</code> method implements an equivalence relation
- on non-null object references:
- <ul>
- <li>It is <i>reflexive</i>: for any non-null reference value
-     <code>x</code>, <code>x.equals(x)</code> should return
-     <code>true</code>.
- <li>It is <i>symmetric</i>: for any non-null reference values
-     <code>x</code> and <code>y</code>, <code>x.equals(y)</code>
-     should return <code>true</code> if and only if
-     <code>y.equals(x)</code> returns <code>true</code>.
- <li>It is <i>transitive</i>: for any non-null reference values
-     <code>x</code>, <code>y</code>, and <code>z</code>, if
-     <code>x.equals(y)</code> returns <code>true</code> and
-     <code>y.equals(z)</code> returns <code>true</code>, then
-     <code>x.equals(z)</code> should return <code>true</code>.
- <li>It is <i>consistent</i>: for any non-null reference values
-     <code>x</code> and <code>y</code>, multiple invocations of
-     <code>x.equals(y)</code> consistently return <code>true</code>
-     or consistently return <code>false</code>, provided no
-     information used in <code>equals</code> comparisons on the
-     objects is modified.
- <li>For any non-null reference value <code>x</code>,
-     <code>x.equals(null)</code> should return <code>false</code>.
- </ul>
- <p>
- The <code>equals</code> method for class <code>Object</code> implements
- the most discriminating possible equivalence relation on objects;
- that is, for any non-null reference values <code>x</code> and
- <code>y</code>, this method returns <code>true</code> if and only
- if <code>x</code> and <code>y</code> refer to the same object
- (<code>x == y</code> has the value <code>true</code>).
- <p>
- Note that it is generally necessary to override the <code>hashCode</code>
- method whenever this method is overridden, so as to maintain the
- general contract for the <code>hashCode</code> method, which states
- that equal objects must have equal hash codes.
+<div class="block">Compares the specified object with this multiset for equality. Returns <code>true</code> if the
+ given object is also a multiset and contains equal elements with equal counts, regardless of
+ order.
 
  <p>This implementation returns <code>true</code> if <code>object</code> is a multiset of the same size
  and if, for each element, the two multisets have the same count.</div>
@@ -1268,14 +1180,6 @@ public final&nbsp;boolean&nbsp;retainAll&#8203;(java.util.Collection&lt;?&gt;&nb
 <dd><code><a href="Multiset.html#equals(java.lang.Object)">equals</a></code>&nbsp;in interface&nbsp;<code><a href="Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code>equals</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>object</code> - the reference object with which to compare.</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd><code>true</code> if this object is the same as the obj
-          argument; <code>false</code> otherwise.</dd>
-<dt><span class="seeLabel">See Also:</span></dt>
-<dd><code>Object.hashCode()</code>, 
-<code>HashMap</code></dd>
 </dl>
 </li>
 </ul>
@@ -1286,34 +1190,14 @@ public final&nbsp;boolean&nbsp;retainAll&#8203;(java.util.Collection&lt;?&gt;&nb
 <li class="blockList">
 <h4>hashCode</h4>
 <pre class="methodSignature">public final&nbsp;int&nbsp;hashCode()</pre>
-<div class="block">Returns a hash code value for the object. This method is
- supported for the benefit of hash tables such as those provided by
- <code>HashMap</code>.
- <p>
- The general contract of <code>hashCode</code> is:
- <ul>
- <li>Whenever it is invoked on the same object more than once during
-     an execution of a Java application, the <code>hashCode</code> method
-     must consistently return the same integer, provided no information
-     used in <code>equals</code> comparisons on the object is modified.
-     This integer need not remain consistent from one execution of an
-     application to another execution of the same application.
- <li>If two objects are equal according to the <code>equals(Object)</code>
-     method, then calling the <code>hashCode</code> method on each of
-     the two objects must produce the same integer result.
- <li>It is <em>not</em> required that if two objects are unequal
-     according to the <code>Object.equals(java.lang.Object)</code>
-     method, then calling the <code>hashCode</code> method on each of the
-     two objects must produce distinct integer results.  However, the
-     programmer should be aware that producing distinct integer results
-     for unequal objects may improve the performance of hash tables.
- </ul>
- <p>
- As much as is reasonably practical, the hashCode method defined
- by class <code>Object</code> does return distinct integers for
- distinct objects. (The hashCode may or may not be implemented
- as some function of an object's memory address at some point
- in time.)
+<div class="block">Returns the hash code for this multiset. This is defined as the sum of
+
+ <pre><code>
+ ((element == null) ? 0 : element.hashCode()) ^ count(element)
+ </code></pre>
+
+ <p>over all distinct elements in the multiset. It follows that a multiset and its entry set
+ always have the same hash code.
 
  <p>This implementation returns the hash code of <a href="Multiset.html#entrySet()"><code>Multiset.entrySet()</code></a>.</div>
 <dl>
@@ -1323,11 +1207,6 @@ public final&nbsp;boolean&nbsp;retainAll&#8203;(java.util.Collection&lt;?&gt;&nb
 <dd><code><a href="Multiset.html#hashCode()">hashCode</a></code>&nbsp;in interface&nbsp;<code><a href="Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code>hashCode</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a hash code value for this object.</dd>
-<dt><span class="seeLabel">See Also:</span></dt>
-<dd><code>Object.equals(java.lang.Object)</code>, 
-<code>System.identityHashCode(java.lang.Object)</code></dd>
 </dl>
 </li>
 </ul>
@@ -1338,12 +1217,11 @@ public final&nbsp;boolean&nbsp;retainAll&#8203;(java.util.Collection&lt;?&gt;&nb
 <li class="blockList">
 <h4>toString</h4>
 <pre class="methodSignature">public final&nbsp;java.lang.String&nbsp;toString()</pre>
-<div class="block">Returns a string representation of this collection.  The string
- representation consists of a list of the collection's elements in the
- order they are returned by its iterator, enclosed in square brackets
- (<code>"[]"</code>).  Adjacent elements are separated by the characters
- <code>", "</code> (comma and space).  Elements are converted to strings as
- by <code>String.valueOf(Object)</code>.
+<div class="block">
+
+ <p>It is recommended, though not mandatory, that this method return the result of invoking
+ <a href="Multiset.html#toString()"><code>Multiset.toString()</code></a> on the <a href="Multiset.html#entrySet()"><code>Multiset.entrySet()</code></a>, yielding a result such as <code>[a x 3, c, d x 2,
+ e]</code>.
 
  <p>This implementation returns the result of invoking <code>toString</code> on <a href="Multiset.html#entrySet()"><code>Multiset.entrySet()</code></a>.</div>
 <dl>
@@ -1351,8 +1229,6 @@ public final&nbsp;boolean&nbsp;retainAll&#8203;(java.util.Collection&lt;?&gt;&nb
 <dd><code><a href="Multiset.html#toString()">toString</a></code>&nbsp;in interface&nbsp;<code><a href="Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code>toString</code>&nbsp;in class&nbsp;<code>java.util.AbstractCollection&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a string representation of this collection</dd>
 </dl>
 </li>
 </ul>

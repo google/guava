@@ -196,7 +196,7 @@ implements <a href="TypeToInstanceMap.html" title="interface in com.google.commo
 <!--   -->
 </a>
 <h3>Nested classes/interfaces inherited from interface&nbsp;java.util.Map</h3>
-<code>java.util.Map.Entry&lt;K,&#8203;V&gt;</code></li>
+<code>java.util.Map.Entry&lt;K extends java.lang.Object,&#8203;V extends java.lang.Object&gt;</code></li>
 </ul>
 </li>
 </ul>
@@ -344,12 +344,6 @@ implements <a href="TypeToInstanceMap.html" title="interface in com.google.commo
 <h4>of</h4>
 <pre class="methodSignature">public static&nbsp;&lt;B&gt;&nbsp;<a href="ImmutableTypeToInstanceMap.html" title="class in com.google.common.reflect">ImmutableTypeToInstanceMap</a>&lt;B&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/ImmutableTypeToInstanceMap.html#line.36">of</a>()</pre>
 <div class="block">Returns an empty type to instance map.</div>
-<dl>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>B</code> - the <code>Map</code>'s key type</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>an empty <code>Map</code></dd>
-</dl>
 </li>
 </ul>
 <a id="builder()">
@@ -479,15 +473,6 @@ public&nbsp;<a href="ImmutableTypeToInstanceMap.html" title="type parameter in I
 <dd><code>put</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;? extends <a href="ImmutableTypeToInstanceMap.html" title="type parameter in ImmutableTypeToInstanceMap">B</a>&gt;,&#8203;<a href="ImmutableTypeToInstanceMap.html" title="type parameter in ImmutableTypeToInstanceMap">B</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="../collect/ForwardingMap.html#put(K,V)">put</a></code>&nbsp;in class&nbsp;<code><a href="../collect/ForwardingMap.html" title="class in com.google.common.collect">ForwardingMap</a>&lt;<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;? extends <a href="ImmutableTypeToInstanceMap.html" title="type parameter in ImmutableTypeToInstanceMap">B</a>&gt;,&#8203;<a href="ImmutableTypeToInstanceMap.html" title="type parameter in ImmutableTypeToInstanceMap">B</a>&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>key</code> - key with which the specified value is to be associated</dd>
-<dd><code>value</code> - value to be associated with the specified key</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>the previous value associated with <code>key</code>, or
-         <code>null</code> if there was no mapping for <code>key</code>.
-         (A <code>null</code> return can also indicate that the map
-         previously associated <code>null</code> with <code>key</code>,
-         if the implementation supports <code>null</code> values.)</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.UnsupportedOperationException</code> - always</dd>
 </dl>
@@ -510,8 +495,6 @@ public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/reflect/Im
 <dd><code>putAll</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;? extends <a href="ImmutableTypeToInstanceMap.html" title="type parameter in ImmutableTypeToInstanceMap">B</a>&gt;,&#8203;<a href="ImmutableTypeToInstanceMap.html" title="type parameter in ImmutableTypeToInstanceMap">B</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="../collect/ForwardingMap.html#putAll(java.util.Map)">putAll</a></code>&nbsp;in class&nbsp;<code><a href="../collect/ForwardingMap.html" title="class in com.google.common.collect">ForwardingMap</a>&lt;<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;? extends <a href="ImmutableTypeToInstanceMap.html" title="type parameter in ImmutableTypeToInstanceMap">B</a>&gt;,&#8203;<a href="ImmutableTypeToInstanceMap.html" title="type parameter in ImmutableTypeToInstanceMap">B</a>&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>map</code> - mappings to be stored in this map</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.UnsupportedOperationException</code> - always</dd>
 </dl>

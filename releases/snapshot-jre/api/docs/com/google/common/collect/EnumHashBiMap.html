@@ -187,7 +187,7 @@ extends <a href="ForwardingMap.html" title="class in com.google.common.collect">
 <!--   -->
 </a>
 <h3>Nested classes/interfaces inherited from interface&nbsp;java.util.Map</h3>
-<code>java.util.Map.Entry&lt;K,&#8203;V&gt;</code></li>
+<code>java.util.Map.Entry&lt;K extends java.lang.Object,&#8203;V extends java.lang.Object&gt;</code></li>
 </ul>
 </li>
 </ul>
@@ -209,17 +209,12 @@ extends <a href="ForwardingMap.html" title="class in com.google.common.collect">
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#clear()">clear</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Removes all of the mappings from this map (optional operation).</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#containsValue(java.lang.Object)">containsValue</a></span>&#8203;(java.lang.Object&nbsp;value)</code></th>
-<td class="colLast">
-<div class="block">Returns <code>true</code> if this map maps one or more keys to the
- specified value.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>static &lt;K extends java.lang.Enum&lt;K&gt;,&#8203;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="EnumHashBiMap.html" title="class in com.google.common.collect">EnumHashBiMap</a>&lt;K,&#8203;V&gt;</code></td>
@@ -245,9 +240,7 @@ extends <a href="ForwardingMap.html" title="class in com.google.common.collect">
 <tr id="i5" class="rowColor">
 <td class="colFirst"><code>java.util.Set&lt;java.util.Map.Entry&lt;K,&#8203;V&gt;&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#entrySet()">entrySet</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Returns a <code>Set</code> view of the mappings contained in this map.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i6" class="altColor">
 <td class="colFirst"><code><a href="EnumHashBiMap.html" title="type parameter in EnumHashBiMap">V</a></code></td>
@@ -269,9 +262,7 @@ extends <a href="ForwardingMap.html" title="class in com.google.common.collect">
 <tr id="i8" class="altColor">
 <td class="colFirst"><code>java.util.Set&lt;K&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#keySet()">keySet</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Returns a <code>Set</code> view of the keys contained in this map.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i9" class="rowColor">
 <td class="colFirst"><code>java.lang.Class&lt;<a href="EnumHashBiMap.html" title="type parameter in EnumHashBiMap">K</a>&gt;</code></td>
@@ -284,42 +275,24 @@ extends <a href="ForwardingMap.html" title="class in com.google.common.collect">
 <td class="colFirst"><code><a href="EnumHashBiMap.html" title="type parameter in EnumHashBiMap">V</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#put(K,V)">put</a></span>&#8203;(<a href="EnumHashBiMap.html" title="type parameter in EnumHashBiMap">K</a>&nbsp;key,
    <a href="EnumHashBiMap.html" title="type parameter in EnumHashBiMap">V</a>&nbsp;value)</code></th>
-<td class="colLast">
-<div class="block">Associates the specified value with the specified key in this map
- (optional operation).</div>
-</td>
 </tr>
 <tr id="i11" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#putAll(java.util.Map)">putAll</a></span>&#8203;(java.util.Map&lt;? extends K,&#8203;? extends V&gt;&nbsp;map)</code></th>
-<td class="colLast">
-<div class="block">Copies all of the mappings from the specified map to this map
- (optional operation).</div>
-</td>
 </tr>
 <tr id="i12" class="altColor">
 <td class="colFirst"><code>V</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#remove(java.lang.Object)">remove</a></span>&#8203;(java.lang.Object&nbsp;key)</code></th>
-<td class="colLast">
-<div class="block">Removes the mapping for a key from this map if it is present
- (optional operation).</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i13" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#replaceAll(java.util.function.BiFunction)">replaceAll</a></span>&#8203;(java.util.function.BiFunction&lt;? super K,&#8203;? super V,&#8203;? extends V&gt;&nbsp;function)</code></th>
-<td class="colLast">
-<div class="block">Replaces each entry's value with the result of invoking the given
- function on that entry until all entries have been processed or the
- function throws an exception.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i14" class="altColor">
 <td class="colFirst"><code>java.util.Set&lt;V&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#values()">values</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Returns a <code>Collection</code> view of the values contained in this map.</div>
-</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -412,27 +385,12 @@ extends <a href="ForwardingMap.html" title="class in com.google.common.collect">
 <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
 public&nbsp;<a href="EnumHashBiMap.html" title="type parameter in EnumHashBiMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/EnumHashBiMap.html#line.91">put</a>&#8203;(<a href="EnumHashBiMap.html" title="type parameter in EnumHashBiMap">K</a>&nbsp;key,
              <a href="EnumHashBiMap.html" title="type parameter in EnumHashBiMap">V</a>&nbsp;value)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.Map</code></span></div>
-<div class="block">Associates the specified value with the specified key in this map
- (optional operation).  If the map previously contained a mapping for
- the key, the old value is replaced by the specified value.  (A map
- <code>m</code> is said to contain a mapping for a key <code>k</code> if and only
- if <code>m.containsKey(k)</code> would return
- <code>true</code>.)</div>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="BiMap.html#put(K,V)">BiMap</a></code></span></div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="BiMap.html#put(K,V)">put</a></code>&nbsp;in interface&nbsp;<code><a href="BiMap.html" title="interface in com.google.common.collect">BiMap</a>&lt;<a href="EnumHashBiMap.html" title="type parameter in EnumHashBiMap">K</a> extends java.lang.Enum&lt;<a href="EnumHashBiMap.html" title="type parameter in EnumHashBiMap">K</a>&gt;,&#8203;<a href="EnumHashBiMap.html" title="type parameter in EnumHashBiMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>put</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="EnumHashBiMap.html" title="type parameter in EnumHashBiMap">K</a> extends java.lang.Enum&lt;<a href="EnumHashBiMap.html" title="type parameter in EnumHashBiMap">K</a>&gt;,&#8203;<a href="EnumHashBiMap.html" title="type parameter in EnumHashBiMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>key</code> - key with which the specified value is to be associated</dd>
-<dd><code>value</code> - value to be associated with the specified key</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>the previous value associated with <code>key</code>, or
-         <code>null</code> if there was no mapping for <code>key</code>.
-         (A <code>null</code> return can also indicate that the map
-         previously associated <code>null</code> with <code>key</code>,
-         if the implementation supports <code>null</code> values.)</dd>
 </dl>
 </li>
 </ul>
@@ -508,23 +466,11 @@ public&nbsp;<a href="EnumHashBiMap.html" title="type parameter in EnumHashBiMap"
 <h4>containsValue</h4>
 <pre class="methodSignature">public&nbsp;boolean&nbsp;containsValue&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                              java.lang.Object&nbsp;value)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.Map</code></span></div>
-<div class="block">Returns <code>true</code> if this map maps one or more keys to the
- specified value.  More formally, returns <code>true</code> if and only if
- this map contains at least one mapping to a value <code>v</code> such that
- <code>Objects.equals(value, v)</code>.  This operation
- will probably require time linear in the map size for most
- implementations of the <code>Map</code> interface.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>containsValue</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;K extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="ForwardingMap.html#containsValue(java.lang.Object)">containsValue</a></code>&nbsp;in class&nbsp;<code><a href="ForwardingMap.html" title="class in com.google.common.collect">ForwardingMap</a>&lt;K extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>value</code> - value whose presence in this map is to be tested</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd><code>true</code> if this map maps one or more keys to the
-         specified value</dd>
 </dl>
 </li>
 </ul>
@@ -538,33 +484,11 @@ public&nbsp;<a href="EnumHashBiMap.html" title="type parameter in EnumHashBiMap"
 <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
 public&nbsp;V&nbsp;remove&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                 java.lang.Object&nbsp;key)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.Map</code></span></div>
-<div class="block">Removes the mapping for a key from this map if it is present
- (optional operation).   More formally, if this map contains a mapping
- from key <code>k</code> to value <code>v</code> such that
- <code>Objects.equals(key, k)</code>, that mapping
- is removed.  (The map can contain at most one such mapping.)
-
- <p>Returns the value to which this map previously associated the key,
- or <code>null</code> if the map contained no mapping for the key.
-
- <p>If this map permits null values, then a return value of
- <code>null</code> does not <i>necessarily</i> indicate that the map
- contained no mapping for the key; it's also possible that the map
- explicitly mapped the key to <code>null</code>.
-
- <p>The map will not contain a mapping for the specified key once the
- call returns.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>remove</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;K extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="ForwardingMap.html#remove(java.lang.Object)">remove</a></code>&nbsp;in class&nbsp;<code><a href="ForwardingMap.html" title="class in com.google.common.collect">ForwardingMap</a>&lt;K extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>key</code> - key whose mapping is to be removed from the map</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>the previous value associated with <code>key</code>, or
-         <code>null</code> if there was no mapping for <code>key</code>.</dd>
 </dl>
 </li>
 </ul>
@@ -575,13 +499,11 @@ public&nbsp;V&nbsp;remove&#8203;(<a href="https://checkerframework.org/api/javax
 <li class="blockList">
 <h4>putAll</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;putAll&#8203;(java.util.Map&lt;? extends K,&#8203;? extends V&gt;&nbsp;map)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.Map</code></span></div>
-<div class="block">Copies all of the mappings from the specified map to this map
- (optional operation).  The effect of this call is equivalent to that
- of calling <code>put(k, v)</code> on this map once
- for each mapping from key <code>k</code> to value <code>v</code> in the
- specified map.  The behavior of this operation is undefined if the
- specified map is modified while the operation is in progress.</div>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="BiMap.html#putAll(java.util.Map)">BiMap</a></code></span></div>
+<div class="block">
+
+ <p><b>Warning:</b> the results of calling this method may vary depending on the iteration order
+ of <code>map</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="BiMap.html#putAll(java.util.Map)">putAll</a></code>&nbsp;in interface&nbsp;<code><a href="BiMap.html" title="interface in com.google.common.collect">BiMap</a>&lt;K extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
@@ -589,8 +511,6 @@ public&nbsp;V&nbsp;remove&#8203;(<a href="https://checkerframework.org/api/javax
 <dd><code>putAll</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;K extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="ForwardingMap.html#putAll(java.util.Map)">putAll</a></code>&nbsp;in class&nbsp;<code><a href="ForwardingMap.html" title="class in com.google.common.collect">ForwardingMap</a>&lt;K extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>map</code> - mappings to be stored in this map</dd>
 </dl>
 </li>
 </ul>
@@ -601,16 +521,9 @@ public&nbsp;V&nbsp;remove&#8203;(<a href="https://checkerframework.org/api/javax
 <li class="blockList">
 <h4>replaceAll</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;replaceAll&#8203;(java.util.function.BiFunction&lt;? super K,&#8203;? super V,&#8203;? extends V&gt;&nbsp;function)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.Map</code></span></div>
-<div class="block">Replaces each entry's value with the result of invoking the given
- function on that entry until all entries have been processed or the
- function throws an exception.  Exceptions thrown by the function are
- relayed to the caller.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>replaceAll</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;K extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>function</code> - the function to apply to each entry</dd>
 </dl>
 </li>
 </ul>
@@ -621,9 +534,6 @@ public&nbsp;V&nbsp;remove&#8203;(<a href="https://checkerframework.org/api/javax
 <li class="blockList">
 <h4>clear</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;clear()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.Map</code></span></div>
-<div class="block">Removes all of the mappings from this map (optional operation).
- The map will be empty after this call returns.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>clear</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;K extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
@@ -661,25 +571,11 @@ public&nbsp;V&nbsp;remove&#8203;(<a href="https://checkerframework.org/api/javax
 <li class="blockList">
 <h4>keySet</h4>
 <pre class="methodSignature">public&nbsp;java.util.Set&lt;K&gt;&nbsp;keySet()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.Map</code></span></div>
-<div class="block">Returns a <code>Set</code> view of the keys contained in this map.
- The set is backed by the map, so changes to the map are
- reflected in the set, and vice-versa.  If the map is modified
- while an iteration over the set is in progress (except through
- the iterator's own <code>remove</code> operation), the results of
- the iteration are undefined.  The set supports element removal,
- which removes the corresponding mapping from the map, via the
- <code>Iterator.remove</code>, <code>Set.remove</code>,
- <code>removeAll</code>, <code>retainAll</code>, and <code>clear</code>
- operations.  It does not support the <code>add</code> or <code>addAll</code>
- operations.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>keySet</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;K extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="ForwardingMap.html#keySet()">keySet</a></code>&nbsp;in class&nbsp;<code><a href="ForwardingMap.html" title="class in com.google.common.collect">ForwardingMap</a>&lt;K extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a set view of the keys contained in this map</dd>
 </dl>
 </li>
 </ul>
@@ -690,18 +586,10 @@ public&nbsp;V&nbsp;remove&#8203;(<a href="https://checkerframework.org/api/javax
 <li class="blockList">
 <h4>values</h4>
 <pre class="methodSignature">public&nbsp;java.util.Set&lt;V&gt;&nbsp;values()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.Map</code></span></div>
-<div class="block">Returns a <code>Collection</code> view of the values contained in this map.
- The collection is backed by the map, so changes to the map are
- reflected in the collection, and vice-versa.  If the map is
- modified while an iteration over the collection is in progress
- (except through the iterator's own <code>remove</code> operation),
- the results of the iteration are undefined.  The collection
- supports element removal, which removes the corresponding
- mapping from the map, via the <code>Iterator.remove</code>,
- <code>Collection.remove</code>, <code>removeAll</code>,
- <code>retainAll</code> and <code>clear</code> operations.  It does not
- support the <code>add</code> or <code>addAll</code> operations.</div>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="BiMap.html#values()">BiMap</a></code></span></div>
+<div class="block">
+
+ <p>Because a bimap has unique values, this method returns a <code>Set</code>, instead of the <code>Collection</code> specified in the <code>Map</code> interface.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="BiMap.html#values()">values</a></code>&nbsp;in interface&nbsp;<code><a href="BiMap.html" title="interface in com.google.common.collect">BiMap</a>&lt;K extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
@@ -709,8 +597,6 @@ public&nbsp;V&nbsp;remove&#8203;(<a href="https://checkerframework.org/api/javax
 <dd><code>values</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;K extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="ForwardingMap.html#values()">values</a></code>&nbsp;in class&nbsp;<code><a href="ForwardingMap.html" title="class in com.google.common.collect">ForwardingMap</a>&lt;K extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a collection view of the values contained in this map</dd>
 </dl>
 </li>
 </ul>
@@ -721,26 +607,11 @@ public&nbsp;V&nbsp;remove&#8203;(<a href="https://checkerframework.org/api/javax
 <li class="blockList">
 <h4>entrySet</h4>
 <pre class="methodSignature">public&nbsp;java.util.Set&lt;java.util.Map.Entry&lt;K,&#8203;V&gt;&gt;&nbsp;entrySet()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.Map</code></span></div>
-<div class="block">Returns a <code>Set</code> view of the mappings contained in this map.
- The set is backed by the map, so changes to the map are
- reflected in the set, and vice-versa.  If the map is modified
- while an iteration over the set is in progress (except through
- the iterator's own <code>remove</code> operation, or through the
- <code>setValue</code> operation on a map entry returned by the
- iterator) the results of the iteration are undefined.  The set
- supports element removal, which removes the corresponding
- mapping from the map, via the <code>Iterator.remove</code>,
- <code>Set.remove</code>, <code>removeAll</code>, <code>retainAll</code> and
- <code>clear</code> operations.  It does not support the
- <code>add</code> or <code>addAll</code> operations.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>entrySet</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;K extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="ForwardingMap.html#entrySet()">entrySet</a></code>&nbsp;in class&nbsp;<code><a href="ForwardingMap.html" title="class in com.google.common.collect">ForwardingMap</a>&lt;K extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a set view of the mappings contained in this map</dd>
 </dl>
 </li>
 </ul>

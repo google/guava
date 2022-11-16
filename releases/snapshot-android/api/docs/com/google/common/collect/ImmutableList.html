@@ -257,9 +257,7 @@ implements java.util.List&lt;E&gt;, java.util.RandomAccess</pre>
 <tr id="i5" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#contains(java.lang.Object)">contains</a></span>&#8203;(java.lang.Object&nbsp;object)</code></th>
-<td class="colLast">
-<div class="block">Returns <code>true</code> if this collection contains the specified element.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i6" class="altColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;</code></td>
@@ -292,24 +290,17 @@ implements java.util.List&lt;E&gt;, java.util.RandomAccess</pre>
 <tr id="i10" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#equals(java.lang.Object)">equals</a></span>&#8203;(java.lang.Object&nbsp;obj)</code></th>
-<td class="colLast">
-<div class="block">Indicates whether some other object is "equal to" this one.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i11" class="rowColor">
 <td class="colFirst"><code>int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#hashCode()">hashCode</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Returns a hash code value for the object.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i12" class="altColor">
 <td class="colFirst"><code>int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#indexOf(java.lang.Object)">indexOf</a></span>&#8203;(java.lang.Object&nbsp;object)</code></th>
-<td class="colLast">
-<div class="block">Returns the index of the first occurrence of the specified element
- in this list, or -1 if this list does not contain the element.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i13" class="rowColor">
 <td class="colFirst"><code><a href="UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;</code></td>
@@ -321,26 +312,17 @@ implements java.util.List&lt;E&gt;, java.util.RandomAccess</pre>
 <tr id="i14" class="altColor">
 <td class="colFirst"><code>int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#lastIndexOf(java.lang.Object)">lastIndexOf</a></span>&#8203;(java.lang.Object&nbsp;object)</code></th>
-<td class="colLast">
-<div class="block">Returns the index of the last occurrence of the specified element
- in this list, or -1 if this list does not contain the element.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i15" class="rowColor">
 <td class="colFirst"><code><a href="UnmodifiableListIterator.html" title="class in com.google.common.collect">UnmodifiableListIterator</a>&lt;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#listIterator()">listIterator</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Returns a list iterator over the elements in this list (in proper
- sequence).</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i16" class="altColor">
 <td class="colFirst"><code><a href="UnmodifiableListIterator.html" title="class in com.google.common.collect">UnmodifiableListIterator</a>&lt;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#listIterator(int)">listIterator</a></span>&#8203;(int&nbsp;index)</code></th>
-<td class="colLast">
-<div class="block">Returns a list iterator over the elements in this list (in proper
- sequence), starting at the specified position in the list.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i17" class="rowColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;</code></td>
@@ -622,12 +604,6 @@ implements java.util.List&lt;E&gt;, java.util.RandomAccess</pre>
  code.
 
  <p><b>Performance note:</b> the instance returned is a singleton.</div>
-<dl>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>E</code> - the <code>List</code>'s element type</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>an empty <code>List</code></dd>
-</dl>
 </li>
 </ul>
 <a id="of(java.lang.Object)">
@@ -643,12 +619,6 @@ implements java.util.List&lt;E&gt;, java.util.RandomAccess</pre>
  comparably to <code>Collections.singletonList(T)</code>, but will not accept a null element. It is
  preferable mainly for consistency and maintainability of your code.</div>
 <dl>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>E</code> - the <code>List</code>'s element type</dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>element</code> - the single element</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a <code>List</code> containing the specified element</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.NullPointerException</code> - if <code>element</code> is null</dd>
 </dl>
@@ -666,13 +636,6 @@ implements java.util.List&lt;E&gt;, java.util.RandomAccess</pre>
                                       E&nbsp;e2)</pre>
 <div class="block">Returns an immutable list containing the given elements, in order.</div>
 <dl>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>E</code> - the <code>List</code>'s element type</dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>e1</code> - the first element</dd>
-<dd><code>e2</code> - the second element</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a <code>List</code> containing the specified elements</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.NullPointerException</code> - if any element is null</dd>
 </dl>
@@ -691,14 +654,6 @@ implements java.util.List&lt;E&gt;, java.util.RandomAccess</pre>
                                       E&nbsp;e3)</pre>
 <div class="block">Returns an immutable list containing the given elements, in order.</div>
 <dl>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>E</code> - the <code>List</code>'s element type</dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>e1</code> - the first element</dd>
-<dd><code>e2</code> - the second element</dd>
-<dd><code>e3</code> - the third element</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a <code>List</code> containing the specified elements</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.NullPointerException</code> - if any element is null</dd>
 </dl>
@@ -718,15 +673,6 @@ implements java.util.List&lt;E&gt;, java.util.RandomAccess</pre>
                                       E&nbsp;e4)</pre>
 <div class="block">Returns an immutable list containing the given elements, in order.</div>
 <dl>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>E</code> - the <code>List</code>'s element type</dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>e1</code> - the first element</dd>
-<dd><code>e2</code> - the second element</dd>
-<dd><code>e3</code> - the third element</dd>
-<dd><code>e4</code> - the fourth element</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a <code>List</code> containing the specified elements</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.NullPointerException</code> - if any element is null</dd>
 </dl>
@@ -747,16 +693,6 @@ implements java.util.List&lt;E&gt;, java.util.RandomAccess</pre>
                                       E&nbsp;e5)</pre>
 <div class="block">Returns an immutable list containing the given elements, in order.</div>
 <dl>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>E</code> - the <code>List</code>'s element type</dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>e1</code> - the first element</dd>
-<dd><code>e2</code> - the second element</dd>
-<dd><code>e3</code> - the third element</dd>
-<dd><code>e4</code> - the fourth element</dd>
-<dd><code>e5</code> - the fifth element</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a <code>List</code> containing the specified elements</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.NullPointerException</code> - if any element is null</dd>
 </dl>
@@ -778,17 +714,6 @@ implements java.util.List&lt;E&gt;, java.util.RandomAccess</pre>
                                       E&nbsp;e6)</pre>
 <div class="block">Returns an immutable list containing the given elements, in order.</div>
 <dl>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>E</code> - the <code>List</code>'s element type</dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>e1</code> - the first element</dd>
-<dd><code>e2</code> - the second element</dd>
-<dd><code>e3</code> - the third element</dd>
-<dd><code>e4</code> - the fourth element</dd>
-<dd><code>e5</code> - the fifth element</dd>
-<dd><code>e6</code> - the sixth element</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a <code>List</code> containing the specified elements</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.NullPointerException</code> - if any element is null</dd>
 </dl>
@@ -811,18 +736,6 @@ implements java.util.List&lt;E&gt;, java.util.RandomAccess</pre>
                                       E&nbsp;e7)</pre>
 <div class="block">Returns an immutable list containing the given elements, in order.</div>
 <dl>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>E</code> - the <code>List</code>'s element type</dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>e1</code> - the first element</dd>
-<dd><code>e2</code> - the second element</dd>
-<dd><code>e3</code> - the third element</dd>
-<dd><code>e4</code> - the fourth element</dd>
-<dd><code>e5</code> - the fifth element</dd>
-<dd><code>e6</code> - the sixth element</dd>
-<dd><code>e7</code> - the seventh element</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a <code>List</code> containing the specified elements</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.NullPointerException</code> - if any element is null</dd>
 </dl>
@@ -846,19 +759,6 @@ implements java.util.List&lt;E&gt;, java.util.RandomAccess</pre>
                                       E&nbsp;e8)</pre>
 <div class="block">Returns an immutable list containing the given elements, in order.</div>
 <dl>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>E</code> - the <code>List</code>'s element type</dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>e1</code> - the first element</dd>
-<dd><code>e2</code> - the second element</dd>
-<dd><code>e3</code> - the third element</dd>
-<dd><code>e4</code> - the fourth element</dd>
-<dd><code>e5</code> - the fifth element</dd>
-<dd><code>e6</code> - the sixth element</dd>
-<dd><code>e7</code> - the seventh element</dd>
-<dd><code>e8</code> - the eighth element</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a <code>List</code> containing the specified elements</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.NullPointerException</code> - if any element is null</dd>
 </dl>
@@ -883,20 +783,6 @@ implements java.util.List&lt;E&gt;, java.util.RandomAccess</pre>
                                       E&nbsp;e9)</pre>
 <div class="block">Returns an immutable list containing the given elements, in order.</div>
 <dl>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>E</code> - the <code>List</code>'s element type</dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>e1</code> - the first element</dd>
-<dd><code>e2</code> - the second element</dd>
-<dd><code>e3</code> - the third element</dd>
-<dd><code>e4</code> - the fourth element</dd>
-<dd><code>e5</code> - the fifth element</dd>
-<dd><code>e6</code> - the sixth element</dd>
-<dd><code>e7</code> - the seventh element</dd>
-<dd><code>e8</code> - the eighth element</dd>
-<dd><code>e9</code> - the ninth element</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a <code>List</code> containing the specified elements</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.NullPointerException</code> - if any element is null</dd>
 </dl>
@@ -922,21 +808,6 @@ implements java.util.List&lt;E&gt;, java.util.RandomAccess</pre>
                                       E&nbsp;e10)</pre>
 <div class="block">Returns an immutable list containing the given elements, in order.</div>
 <dl>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>E</code> - the <code>List</code>'s element type</dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>e1</code> - the first element</dd>
-<dd><code>e2</code> - the second element</dd>
-<dd><code>e3</code> - the third element</dd>
-<dd><code>e4</code> - the fourth element</dd>
-<dd><code>e5</code> - the fifth element</dd>
-<dd><code>e6</code> - the sixth element</dd>
-<dd><code>e7</code> - the seventh element</dd>
-<dd><code>e8</code> - the eighth element</dd>
-<dd><code>e9</code> - the ninth element</dd>
-<dd><code>e10</code> - the tenth element</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a <code>List</code> containing the specified elements</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.NullPointerException</code> - if any element is null</dd>
 </dl>
@@ -1038,12 +909,6 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableList.html" title="class in c
  <p>This method is safe to use even when <code>elements</code> is a synchronized or concurrent
  collection that is currently being modified by another thread.</div>
 <dl>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>E</code> - the <code>List</code>'s element type</dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>elements</code> - a <code>Collection</code> from which elements are drawn, must be non-null</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a <code>List</code> containing the elements of the given <code>Collection</code></dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.NullPointerException</code> - if <code>elements</code> contains a null element</dd>
 </dl>
@@ -1150,8 +1015,6 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableList.html" title="class in c
 <dd><code>iterator</code>&nbsp;in interface&nbsp;<code>java.util.List&lt;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="ImmutableCollection.html#iterator()">iterator</a></code>&nbsp;in class&nbsp;<code><a href="ImmutableCollection.html" title="class in com.google.common.collect">ImmutableCollection</a>&lt;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;</code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>an iterator over the elements contained in this collection</dd>
 </dl>
 </li>
 </ul>
@@ -1162,15 +1025,9 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableList.html" title="class in c
 <li class="blockList">
 <h4>listIterator</h4>
 <pre class="methodSignature">public&nbsp;<a href="UnmodifiableListIterator.html" title="class in com.google.common.collect">UnmodifiableListIterator</a>&lt;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.361">listIterator</a>()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.List</code></span></div>
-<div class="block">Returns a list iterator over the elements in this list (in proper
- sequence).</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>listIterator</code>&nbsp;in interface&nbsp;<code>java.util.List&lt;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;</code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a list iterator over the elements in this list (in proper
-         sequence)</dd>
 </dl>
 </li>
 </ul>
@@ -1181,22 +1038,9 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableList.html" title="class in c
 <li class="blockList">
 <h4>listIterator</h4>
 <pre class="methodSignature">public&nbsp;<a href="UnmodifiableListIterator.html" title="class in com.google.common.collect">UnmodifiableListIterator</a>&lt;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.366">listIterator</a>&#8203;(int&nbsp;index)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.List</code></span></div>
-<div class="block">Returns a list iterator over the elements in this list (in proper
- sequence), starting at the specified position in the list.
- The specified index indicates the first element that would be
- returned by an initial call to <code>next</code>.
- An initial call to <code>previous</code> would
- return the element with the specified index minus one.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>listIterator</code>&nbsp;in interface&nbsp;<code>java.util.List&lt;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>index</code> - index of the first element to be returned from the
-        list iterator (by a call to <code>next</code>)</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a list iterator over the elements in this list (in proper
-         sequence), starting at the specified position in the list</dd>
 </dl>
 </li>
 </ul>
@@ -1208,20 +1052,9 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableList.html" title="class in c
 <h4>indexOf</h4>
 <pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.395">indexOf</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                    java.lang.Object&nbsp;object)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.List</code></span></div>
-<div class="block">Returns the index of the first occurrence of the specified element
- in this list, or -1 if this list does not contain the element.
- More formally, returns the lowest index <code>i</code> such that
- <code>Objects.equals(o, get(i))</code>,
- or -1 if there is no such index.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>indexOf</code>&nbsp;in interface&nbsp;<code>java.util.List&lt;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>object</code> - element to search for</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>the index of the first occurrence of the specified element in
-         this list, or -1 if this list does not contain the element</dd>
 </dl>
 </li>
 </ul>
@@ -1233,20 +1066,9 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableList.html" title="class in c
 <h4>lastIndexOf</h4>
 <pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.400">lastIndexOf</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                        java.lang.Object&nbsp;object)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.List</code></span></div>
-<div class="block">Returns the index of the last occurrence of the specified element
- in this list, or -1 if this list does not contain the element.
- More formally, returns the highest index <code>i</code> such that
- <code>Objects.equals(o, get(i))</code>,
- or -1 if there is no such index.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>lastIndexOf</code>&nbsp;in interface&nbsp;<code>java.util.List&lt;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>object</code> - element to search for</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>the index of the last occurrence of the specified element in
-         this list, or -1 if this list does not contain the element</dd>
 </dl>
 </li>
 </ul>
@@ -1258,11 +1080,6 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableList.html" title="class in c
 <h4>contains</h4>
 <pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.405">contains</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                         java.lang.Object&nbsp;object)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code>java.util.AbstractCollection</code></span></div>
-<div class="block">Returns <code>true</code> if this collection contains the specified element.
- More formally, returns <code>true</code> if and only if this collection
- contains at least one element <code>e</code> such that
- <code>Objects.equals(o, e)</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>contains</code>&nbsp;in interface&nbsp;<code>java.util.Collection&lt;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;</code></dd>
@@ -1270,11 +1087,6 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableList.html" title="class in c
 <dd><code>contains</code>&nbsp;in interface&nbsp;<code>java.util.List&lt;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="ImmutableCollection.html#contains(java.lang.Object)">contains</a></code>&nbsp;in class&nbsp;<code><a href="ImmutableCollection.html" title="class in com.google.common.collect">ImmutableCollection</a>&lt;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>object</code> - element whose presence in this collection is to be tested</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd><code>true</code> if this collection contains the specified
-         element</dd>
 </dl>
 </li>
 </ul>
@@ -1292,11 +1104,6 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableList.html" title="class in c
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>subList</code>&nbsp;in interface&nbsp;<code>java.util.List&lt;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>fromIndex</code> - low endpoint (inclusive) of the subList</dd>
-<dd><code>toIndex</code> - high endpoint (exclusive) of the subList</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a view of the specified range within this list</dd>
 </dl>
 </li>
 </ul>
@@ -1317,12 +1124,6 @@ public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/c
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>addAll</code>&nbsp;in interface&nbsp;<code>java.util.List&lt;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>index</code> - index at which to insert the first element from the
-              specified collection</dd>
-<dd><code>newElements</code> - collection containing elements to be added to this list</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd><code>true</code> if this list changed as a result of the call</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.UnsupportedOperationException</code> - always</dd>
 </dl>
@@ -1347,11 +1148,6 @@ public final&nbsp;<a href="ImmutableList.html" title="type parameter in Immutabl
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>set</code>&nbsp;in interface&nbsp;<code>java.util.List&lt;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>index</code> - index of the element to replace</dd>
-<dd><code>element</code> - element to be stored at the specified position</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>the element previously at the specified position</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.UnsupportedOperationException</code> - always</dd>
 </dl>
@@ -1375,9 +1171,6 @@ public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/coll
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>add</code>&nbsp;in interface&nbsp;<code>java.util.List&lt;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>index</code> - index at which the specified element is to be inserted</dd>
-<dd><code>element</code> - element to be inserted</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.UnsupportedOperationException</code> - always</dd>
 </dl>
@@ -1399,10 +1192,6 @@ public final&nbsp;<a href="ImmutableList.html" title="type parameter in Immutabl
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>remove</code>&nbsp;in interface&nbsp;<code>java.util.List&lt;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>index</code> - the index of the element to be removed</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>the element previously at the specified position</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.UnsupportedOperationException</code> - always</dd>
 </dl>
@@ -1454,45 +1243,6 @@ public final&nbsp;<a href="ImmutableList.html" title="class in com.google.common
 <h4>equals</h4>
 <pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.636">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                       java.lang.Object&nbsp;obj)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code>java.lang.Object</code></span></div>
-<div class="block">Indicates whether some other object is "equal to" this one.
- <p>
- The <code>equals</code> method implements an equivalence relation
- on non-null object references:
- <ul>
- <li>It is <i>reflexive</i>: for any non-null reference value
-     <code>x</code>, <code>x.equals(x)</code> should return
-     <code>true</code>.
- <li>It is <i>symmetric</i>: for any non-null reference values
-     <code>x</code> and <code>y</code>, <code>x.equals(y)</code>
-     should return <code>true</code> if and only if
-     <code>y.equals(x)</code> returns <code>true</code>.
- <li>It is <i>transitive</i>: for any non-null reference values
-     <code>x</code>, <code>y</code>, and <code>z</code>, if
-     <code>x.equals(y)</code> returns <code>true</code> and
-     <code>y.equals(z)</code> returns <code>true</code>, then
-     <code>x.equals(z)</code> should return <code>true</code>.
- <li>It is <i>consistent</i>: for any non-null reference values
-     <code>x</code> and <code>y</code>, multiple invocations of
-     <code>x.equals(y)</code> consistently return <code>true</code>
-     or consistently return <code>false</code>, provided no
-     information used in <code>equals</code> comparisons on the
-     objects is modified.
- <li>For any non-null reference value <code>x</code>,
-     <code>x.equals(null)</code> should return <code>false</code>.
- </ul>
- <p>
- The <code>equals</code> method for class <code>Object</code> implements
- the most discriminating possible equivalence relation on objects;
- that is, for any non-null reference values <code>x</code> and
- <code>y</code>, this method returns <code>true</code> if and only
- if <code>x</code> and <code>y</code> refer to the same object
- (<code>x == y</code> has the value <code>true</code>).
- <p>
- Note that it is generally necessary to override the <code>hashCode</code>
- method whenever this method is overridden, so as to maintain the
- general contract for the <code>hashCode</code> method, which states
- that equal objects must have equal hash codes.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>equals</code>&nbsp;in interface&nbsp;<code>java.util.Collection&lt;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;</code></dd>
@@ -1500,14 +1250,6 @@ public final&nbsp;<a href="ImmutableList.html" title="class in com.google.common
 <dd><code>equals</code>&nbsp;in interface&nbsp;<code>java.util.List&lt;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code>equals</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>obj</code> - the reference object with which to compare.</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd><code>true</code> if this object is the same as the obj
-          argument; <code>false</code> otherwise.</dd>
-<dt><span class="seeLabel">See Also:</span></dt>
-<dd><code>Object.hashCode()</code>, 
-<code>HashMap</code></dd>
 </dl>
 </li>
 </ul>
@@ -1518,35 +1260,6 @@ public final&nbsp;<a href="ImmutableList.html" title="class in com.google.common
 <li class="blockList">
 <h4>hashCode</h4>
 <pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.641">hashCode</a>()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code>java.lang.Object</code></span></div>
-<div class="block">Returns a hash code value for the object. This method is
- supported for the benefit of hash tables such as those provided by
- <code>HashMap</code>.
- <p>
- The general contract of <code>hashCode</code> is:
- <ul>
- <li>Whenever it is invoked on the same object more than once during
-     an execution of a Java application, the <code>hashCode</code> method
-     must consistently return the same integer, provided no information
-     used in <code>equals</code> comparisons on the object is modified.
-     This integer need not remain consistent from one execution of an
-     application to another execution of the same application.
- <li>If two objects are equal according to the <code>equals(Object)</code>
-     method, then calling the <code>hashCode</code> method on each of
-     the two objects must produce the same integer result.
- <li>It is <em>not</em> required that if two objects are unequal
-     according to the <code>Object.equals(java.lang.Object)</code>
-     method, then calling the <code>hashCode</code> method on each of the
-     two objects must produce distinct integer results.  However, the
-     programmer should be aware that producing distinct integer results
-     for unequal objects may improve the performance of hash tables.
- </ul>
- <p>
- As much as is reasonably practical, the hashCode method defined
- by class <code>Object</code> does return distinct integers for
- distinct objects. (The hashCode may or may not be implemented
- as some function of an object's memory address at some point
- in time.)</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>hashCode</code>&nbsp;in interface&nbsp;<code>java.util.Collection&lt;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;</code></dd>
@@ -1554,11 +1267,6 @@ public final&nbsp;<a href="ImmutableList.html" title="class in com.google.common
 <dd><code>hashCode</code>&nbsp;in interface&nbsp;<code>java.util.List&lt;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code>hashCode</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a hash code value for this object.</dd>
-<dt><span class="seeLabel">See Also:</span></dt>
-<dd><code>Object.equals(java.lang.Object)</code>, 
-<code>System.identityHashCode(java.lang.Object)</code></dd>
 </dl>
 </li>
 </ul>

@@ -189,7 +189,7 @@ implements java.util.concurrent.ConcurrentMap&lt;K,&#8203;V&gt;</pre>
 <!--   -->
 </a>
 <h3>Nested classes/interfaces inherited from interface&nbsp;java.util.Map</h3>
-<code>java.util.Map.Entry&lt;K,&#8203;V&gt;</code></li>
+<code>java.util.Map.Entry&lt;K extends java.lang.Object,&#8203;V extends java.lang.Object&gt;</code></li>
 </ul>
 </li>
 </ul>
@@ -244,35 +244,26 @@ implements java.util.concurrent.ConcurrentMap&lt;K,&#8203;V&gt;</pre>
 <td class="colFirst"><code><a href="ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">V</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#putIfAbsent(K,V)">putIfAbsent</a></span>&#8203;(<a href="ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">K</a>&nbsp;key,
            <a href="ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">V</a>&nbsp;value)</code></th>
-<td class="colLast">
-<div class="block">If the specified key is not already associated
- with a value, associates it with the given value.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#remove(java.lang.Object,java.lang.Object)">remove</a></span>&#8203;(java.lang.Object&nbsp;key,
       java.lang.Object&nbsp;value)</code></th>
-<td class="colLast">
-<div class="block">Removes the entry for a key only if currently mapped to a given value.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code><a href="ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">V</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#replace(K,V)">replace</a></span>&#8203;(<a href="ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">K</a>&nbsp;key,
        <a href="ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">V</a>&nbsp;value)</code></th>
-<td class="colLast">
-<div class="block">Replaces the entry for a key only if currently mapped to some value.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#replace(K,V,V)">replace</a></span>&#8203;(<a href="ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">K</a>&nbsp;key,
        <a href="ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">V</a>&nbsp;oldValue,
        <a href="ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">V</a>&nbsp;newValue)</code></th>
-<td class="colLast">
-<div class="block">Replaces the entry for a key only if currently mapped to a given value.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -376,31 +367,11 @@ implements java.util.concurrent.ConcurrentMap&lt;K,&#8203;V&gt;</pre>
 <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
 public&nbsp;<a href="ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingConcurrentMap.html#line.50">putIfAbsent</a>&#8203;(<a href="ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">K</a>&nbsp;key,
                      <a href="ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">V</a>&nbsp;value)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.concurrent.ConcurrentMap</code></span></div>
-<div class="block">If the specified key is not already associated
- with a value, associates it with the given value.
- This is equivalent to, for this <code>map</code>:
- <pre> <code>
- if (!map.containsKey(key))
-   return map.put(key, value);
- else
-   return map.get(key);</code></pre>
-
- except that the action is performed atomically.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>putIfAbsent</code>&nbsp;in interface&nbsp;<code>java.util.concurrent.ConcurrentMap&lt;<a href="ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">K</a>,&#8203;<a href="ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">V</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>putIfAbsent</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">K</a>,&#8203;<a href="ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">V</a>&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>key</code> - key with which the specified value is to be associated</dd>
-<dd><code>value</code> - value to be associated with the specified key</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>the previous value associated with the specified key, or
-         <code>null</code> if there was no mapping for the key.
-         (A <code>null</code> return can also indicate that the map
-         previously associated <code>null</code> with the key,
-         if the implementation supports null values.)</dd>
 </dl>
 </li>
 </ul>
@@ -415,29 +386,11 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
                       java.lang.Object&nbsp;key,
                       <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                       java.lang.Object&nbsp;value)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.concurrent.ConcurrentMap</code></span></div>
-<div class="block">Removes the entry for a key only if currently mapped to a given value.
- This is equivalent to, for this <code>map</code>:
- <pre> <code>
- if (map.containsKey(key)
-     &amp;&amp; Objects.equals(map.get(key), value)) {
-   map.remove(key);
-   return true;
- } else {
-   return false;
- }</code></pre>
-
- except that the action is performed atomically.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>remove</code>&nbsp;in interface&nbsp;<code>java.util.concurrent.ConcurrentMap&lt;<a href="ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">K</a>,&#8203;<a href="ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">V</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>remove</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">K</a>,&#8203;<a href="ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">V</a>&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>key</code> - key with which the specified value is associated</dd>
-<dd><code>value</code> - value expected to be associated with the specified key</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd><code>true</code> if the value was removed</dd>
 </dl>
 </li>
 </ul>
@@ -453,30 +406,11 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
 public&nbsp;<a href="ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingConcurrentMap.html#line.63">replace</a>&#8203;(<a href="ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">K</a>&nbsp;key,
                  <a href="ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">V</a>&nbsp;value)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.concurrent.ConcurrentMap</code></span></div>
-<div class="block">Replaces the entry for a key only if currently mapped to some value.
- This is equivalent to, for this <code>map</code>:
- <pre> <code>
- if (map.containsKey(key))
-   return map.put(key, value);
- else
-   return null;</code></pre>
-
- except that the action is performed atomically.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>replace</code>&nbsp;in interface&nbsp;<code>java.util.concurrent.ConcurrentMap&lt;<a href="ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">K</a>,&#8203;<a href="ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">V</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>replace</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">K</a>,&#8203;<a href="ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">V</a>&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>key</code> - key with which the specified value is associated</dd>
-<dd><code>value</code> - value to be associated with the specified key</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>the previous value associated with the specified key, or
-         <code>null</code> if there was no mapping for the key.
-         (A <code>null</code> return can also indicate that the map
-         previously associated <code>null</code> with the key,
-         if the implementation supports null values.)</dd>
 </dl>
 </li>
 </ul>
@@ -492,30 +426,11 @@ public&nbsp;<a href="ForwardingConcurrentMap.html" title="type parameter in Forw
 public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingConcurrentMap.html#line.70">replace</a>&#8203;(<a href="ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">K</a>&nbsp;key,
                        <a href="ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">V</a>&nbsp;oldValue,
                        <a href="ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">V</a>&nbsp;newValue)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.concurrent.ConcurrentMap</code></span></div>
-<div class="block">Replaces the entry for a key only if currently mapped to a given value.
- This is equivalent to, for this <code>map</code>:
- <pre> <code>
- if (map.containsKey(key)
-     &amp;&amp; Objects.equals(map.get(key), oldValue)) {
-   map.put(key, newValue);
-   return true;
- } else {
-   return false;
- }</code></pre>
-
- except that the action is performed atomically.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>replace</code>&nbsp;in interface&nbsp;<code>java.util.concurrent.ConcurrentMap&lt;<a href="ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">K</a>,&#8203;<a href="ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">V</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>replace</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">K</a>,&#8203;<a href="ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">V</a>&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>key</code> - key with which the specified value is associated</dd>
-<dd><code>oldValue</code> - value expected to be associated with the specified key</dd>
-<dd><code>newValue</code> - value to be associated with the specified key</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd><code>true</code> if the value was replaced</dd>
 </dl>
 </li>
 </ul>
