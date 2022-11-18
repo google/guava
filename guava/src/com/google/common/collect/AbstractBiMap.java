@@ -427,15 +427,8 @@ abstract class AbstractBiMap<K extends @Nullable Object, V extends @Nullable Obj
     // See java.util.Collections.CheckedEntrySet for details on attacks.
 
     @Override
-    public Object[] toArray() {
-      /*
-       * standardToArray returns `@Nullable Object[]` rather than `Object[]` but only because it can
-       * be used with collections that may contain null. This collection never contains nulls, so we
-       * can treat it as a plain `Object[]`.
-       */
-      @SuppressWarnings("nullness")
-      Object[] result = standardToArray();
-      return result;
+    public @Nullable Object[] toArray() {
+      return standardToArray();
     }
 
     @Override

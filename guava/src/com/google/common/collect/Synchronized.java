@@ -989,16 +989,15 @@ final class Synchronized {
     // See Collections.CheckedMap.CheckedEntrySet for details on attacks.
 
     @Override
-    public Object[] toArray() {
+    public @Nullable Object[] toArray() {
       synchronized (mutex) {
         /*
          * toArrayImpl returns `@Nullable Object[]` rather than `Object[]` but only because it can
          * be used with collections that may contain null. This collection never contains nulls, so
-         * we can treat it as a plain `Object[]`.
+         * we could return `Object[]`. But this class is private and J2KT cannot change return types
+         * in overrides, so we declare `@Nullable Object[]` as the return type.
          */
-        @SuppressWarnings("nullness")
-        Object[] result = (Object[]) ObjectArrays.toArrayImpl(delegate());
-        return result;
+        return ObjectArrays.toArrayImpl(delegate());
       }
     }
 
