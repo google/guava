@@ -152,42 +152,6 @@ public class MapMakerInternalMapTest extends TestCase {
     }
   }
 
-  public void testSetMaximumSize() {
-    // vary maximumSize wrt concurrencyLevel
-
-    for (int maxSize = 1; maxSize < 8; maxSize++) {
-      checkMaximumSize(1, 8, maxSize);
-      checkMaximumSize(2, 8, maxSize);
-      checkMaximumSize(4, 8, maxSize);
-      checkMaximumSize(8, 8, maxSize);
-    }
-
-    checkMaximumSize(1, 8, Integer.MAX_VALUE);
-    checkMaximumSize(2, 8, Integer.MAX_VALUE);
-    checkMaximumSize(4, 8, Integer.MAX_VALUE);
-    checkMaximumSize(8, 8, Integer.MAX_VALUE);
-
-    // vary initial capacity wrt maximumSize
-
-    for (int capacity = 0; capacity < 8; capacity++) {
-      checkMaximumSize(1, capacity, 4);
-      checkMaximumSize(2, capacity, 4);
-      checkMaximumSize(4, capacity, 4);
-      checkMaximumSize(8, capacity, 4);
-    }
-  }
-
-  private static void checkMaximumSize(int concurrencyLevel, int initialCapacity, int maxSize) {
-    MapMakerInternalMap<Object, Object, ?, ?> map =
-        makeMap(
-            createMapMaker().concurrencyLevel(concurrencyLevel).initialCapacity(initialCapacity));
-    int totalCapacity = 0;
-    for (int i = 0; i < map.segments.length; i++) {
-      totalCapacity += map.segments[i].maxSegmentSize;
-    }
-    assertTrue("totalCapacity=" + totalCapacity + ", maxSize=" + maxSize, totalCapacity <= maxSize);
-  }
-
   public void testSetWeakKeys() {
     MapMakerInternalMap<Object, Object, ?, ?> map = makeMap(createMapMaker().weakKeys());
     checkStrength(map, Strength.WEAK, Strength.STRONG);
