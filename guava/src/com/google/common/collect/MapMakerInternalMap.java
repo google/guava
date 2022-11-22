@@ -131,8 +131,6 @@ class MapMakerInternalMap<
   // TODO(fry): empirically optimize this
   static final int DRAIN_MAX = 16;
 
-  static final long CLEANUP_EXECUTOR_DELAY_SECS = 60;
-
   // Fields
 
   /**
@@ -194,7 +192,7 @@ class MapMakerInternalMap<
     }
 
     for (int i = 0; i < this.segments.length; ++i) {
-      this.segments[i] = createSegment(segmentSize, MapMaker.UNSET_INT);
+      this.segments[i] = createSegment(segmentSize);
     }
   }
 
@@ -291,7 +289,7 @@ class MapMakerInternalMap<
     Strength valueStrength();
 
     /** Returns a freshly created segment, typed at the {@code S} type. */
-    S newSegment(MapMakerInternalMap<K, V, E, S> map, int initialCapacity, int maxSegmentSize);
+    S newSegment(MapMakerInternalMap<K, V, E, S> map, int initialCapacity);
 
     /**
      * Returns a freshly created entry, typed at the {@code E} type, for the given {@code segment}.
@@ -440,9 +438,8 @@ class MapMakerInternalMap<
           MapMakerInternalMap<
                   K, V, StrongKeyStrongValueEntry<K, V>, StrongKeyStrongValueSegment<K, V>>
               map,
-          int initialCapacity,
-          int maxSegmentSize) {
-        return new StrongKeyStrongValueSegment<>(map, initialCapacity, maxSegmentSize);
+          int initialCapacity) {
+        return new StrongKeyStrongValueSegment<>(map, initialCapacity);
       }
 
       @Override
@@ -538,9 +535,8 @@ class MapMakerInternalMap<
       public StrongKeyWeakValueSegment<K, V> newSegment(
           MapMakerInternalMap<K, V, StrongKeyWeakValueEntry<K, V>, StrongKeyWeakValueSegment<K, V>>
               map,
-          int initialCapacity,
-          int maxSegmentSize) {
-        return new StrongKeyWeakValueSegment<>(map, initialCapacity, maxSegmentSize);
+          int initialCapacity) {
+        return new StrongKeyWeakValueSegment<>(map, initialCapacity);
       }
 
       @Override
@@ -635,9 +631,8 @@ class MapMakerInternalMap<
       public StrongKeyDummyValueSegment<K> newSegment(
           MapMakerInternalMap<K, Dummy, StrongKeyDummyValueEntry<K>, StrongKeyDummyValueSegment<K>>
               map,
-          int initialCapacity,
-          int maxSegmentSize) {
-        return new StrongKeyDummyValueSegment<K>(map, initialCapacity, maxSegmentSize);
+          int initialCapacity) {
+        return new StrongKeyDummyValueSegment<K>(map, initialCapacity);
       }
 
       @Override
@@ -748,9 +743,8 @@ class MapMakerInternalMap<
       @Override
       public WeakKeyDummyValueSegment<K> newSegment(
           MapMakerInternalMap<K, Dummy, WeakKeyDummyValueEntry<K>, WeakKeyDummyValueSegment<K>> map,
-          int initialCapacity,
-          int maxSegmentSize) {
-        return new WeakKeyDummyValueSegment<>(map, initialCapacity, maxSegmentSize);
+          int initialCapacity) {
+        return new WeakKeyDummyValueSegment<>(map, initialCapacity);
       }
 
       @Override
@@ -841,9 +835,8 @@ class MapMakerInternalMap<
       public WeakKeyStrongValueSegment<K, V> newSegment(
           MapMakerInternalMap<K, V, WeakKeyStrongValueEntry<K, V>, WeakKeyStrongValueSegment<K, V>>
               map,
-          int initialCapacity,
-          int maxSegmentSize) {
-        return new WeakKeyStrongValueSegment<>(map, initialCapacity, maxSegmentSize);
+          int initialCapacity) {
+        return new WeakKeyStrongValueSegment<>(map, initialCapacity);
       }
 
       @Override
@@ -942,9 +935,8 @@ class MapMakerInternalMap<
       @Override
       public WeakKeyWeakValueSegment<K, V> newSegment(
           MapMakerInternalMap<K, V, WeakKeyWeakValueEntry<K, V>, WeakKeyWeakValueSegment<K, V>> map,
-          int initialCapacity,
-          int maxSegmentSize) {
-        return new WeakKeyWeakValueSegment<>(map, initialCapacity, maxSegmentSize);
+          int initialCapacity) {
+        return new WeakKeyWeakValueSegment<>(map, initialCapacity);
       }
 
       @Override
@@ -1155,8 +1147,8 @@ class MapMakerInternalMap<
     return segments[(hash >>> segmentShift) & segmentMask];
   }
 
-  Segment<K, V, E, S> createSegment(int initialCapacity, int maxSegmentSize) {
-    return entryHelper.newSegment(this, initialCapacity, maxSegmentSize);
+  Segment<K, V, E, S> createSegment(int initialCapacity) {
+    return entryHelper.newSegment(this, initialCapacity);
   }
 
   /**
@@ -1239,18 +1231,14 @@ class MapMakerInternalMap<
     /** The per-segment table. */
     @CheckForNull volatile AtomicReferenceArray<E> table;
 
-    /** The maximum size of this map. MapMaker.UNSET_INT if there is no maximum. */
-    final int maxSegmentSize;
-
     /**
      * A counter of the number of reads since the last write, used to drain queues on a small
      * fraction of read operations.
      */
     final AtomicInteger readCount = new AtomicInteger();
 
-    Segment(MapMakerInternalMap<K, V, E, S> map, int initialCapacity, int maxSegmentSize) {
+    Segment(MapMakerInternalMap<K, V, E, S> map, int initialCapacity) {
       this.map = map;
-      this.maxSegmentSize = maxSegmentSize;
       initTable(newEntryArray(initialCapacity));
     }
 
@@ -1285,10 +1273,6 @@ class MapMakerInternalMap<
 
     void initTable(AtomicReferenceArray<E> newTable) {
       this.threshold = newTable.length() * 3 / 4; // 0.75
-      if (this.threshold == maxSegmentSize) {
-        // prevent spurious expansion before eviction
-        this.threshold++;
-      }
       this.table = newTable;
     }
 
@@ -2046,9 +2030,8 @@ class MapMakerInternalMap<
         MapMakerInternalMap<
                 K, V, StrongKeyStrongValueEntry<K, V>, StrongKeyStrongValueSegment<K, V>>
             map,
-        int initialCapacity,
-        int maxSegmentSize) {
-      super(map, initialCapacity, maxSegmentSize);
+        int initialCapacity) {
+      super(map, initialCapacity);
     }
 
     @Override
@@ -2071,9 +2054,8 @@ class MapMakerInternalMap<
     StrongKeyWeakValueSegment(
         MapMakerInternalMap<K, V, StrongKeyWeakValueEntry<K, V>, StrongKeyWeakValueSegment<K, V>>
             map,
-        int initialCapacity,
-        int maxSegmentSize) {
-      super(map, initialCapacity, maxSegmentSize);
+        int initialCapacity) {
+      super(map, initialCapacity);
     }
 
     @Override
@@ -2134,9 +2116,8 @@ class MapMakerInternalMap<
     StrongKeyDummyValueSegment(
         MapMakerInternalMap<K, Dummy, StrongKeyDummyValueEntry<K>, StrongKeyDummyValueSegment<K>>
             map,
-        int initialCapacity,
-        int maxSegmentSize) {
-      super(map, initialCapacity, maxSegmentSize);
+        int initialCapacity) {
+      super(map, initialCapacity);
     }
 
     @Override
@@ -2159,9 +2140,8 @@ class MapMakerInternalMap<
     WeakKeyStrongValueSegment(
         MapMakerInternalMap<K, V, WeakKeyStrongValueEntry<K, V>, WeakKeyStrongValueSegment<K, V>>
             map,
-        int initialCapacity,
-        int maxSegmentSize) {
-      super(map, initialCapacity, maxSegmentSize);
+        int initialCapacity) {
+      super(map, initialCapacity);
     }
 
     @Override
@@ -2199,9 +2179,8 @@ class MapMakerInternalMap<
 
     WeakKeyWeakValueSegment(
         MapMakerInternalMap<K, V, WeakKeyWeakValueEntry<K, V>, WeakKeyWeakValueSegment<K, V>> map,
-        int initialCapacity,
-        int maxSegmentSize) {
-      super(map, initialCapacity, maxSegmentSize);
+        int initialCapacity) {
+      super(map, initialCapacity);
     }
 
     @Override
@@ -2269,9 +2248,8 @@ class MapMakerInternalMap<
 
     WeakKeyDummyValueSegment(
         MapMakerInternalMap<K, Dummy, WeakKeyDummyValueEntry<K>, WeakKeyDummyValueSegment<K>> map,
-        int initialCapacity,
-        int maxSegmentSize) {
-      super(map, initialCapacity, maxSegmentSize);
+        int initialCapacity) {
+      super(map, initialCapacity);
     }
 
     @Override
