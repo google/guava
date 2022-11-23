@@ -122,12 +122,14 @@ final class GeneralRange<T extends @Nullable Object> implements Serializable {
      * whenever they pass `true` for the matching `has*Bound` parameter.
      */
     if (hasLowerBound) {
-      comparator.compare(
-          uncheckedCastNullableTToT(lowerEndpoint), uncheckedCastNullableTToT(lowerEndpoint));
+      int unused =
+          comparator.compare(
+              uncheckedCastNullableTToT(lowerEndpoint), uncheckedCastNullableTToT(lowerEndpoint));
     }
     if (hasUpperBound) {
-      comparator.compare(
-          uncheckedCastNullableTToT(upperEndpoint), uncheckedCastNullableTToT(upperEndpoint));
+      int unused =
+          comparator.compare(
+              uncheckedCastNullableTToT(upperEndpoint), uncheckedCastNullableTToT(upperEndpoint));
     }
 
     if (hasLowerBound && hasUpperBound) {

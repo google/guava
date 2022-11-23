@@ -234,7 +234,7 @@ public final class SafeTreeSet<E> implements Serializable, NavigableSet<E> {
     // a ClassCastException is what's supposed to happen!
     @SuppressWarnings("unchecked")
     E e = (E) t;
-    comparator().compare(e, e);
+    int unused = comparator().compare(e, e);
     return t;
   }
 
