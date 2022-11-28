@@ -306,7 +306,7 @@ public final class SafeTreeMap<K, V> implements Serializable, NavigableMap<K, V>
     // a ClassCastException is what's supposed to happen!
     @SuppressWarnings("unchecked")
     K k = (K) t;
-    comparator().compare(k, k);
+    int unused = comparator().compare(k, k);
     return t;
   }
 

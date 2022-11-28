@@ -264,7 +264,7 @@ public final class TreeMultiset<E extends @Nullable Object> extends AbstractSort
     checkArgument(range.contains(element));
     AvlNode<E> root = rootReference.get();
     if (root == null) {
-      comparator().compare(element, element);
+      int unused = comparator().compare(element, element);
       AvlNode<E> newRoot = new AvlNode<E>(element, occurrences);
       successor(header, newRoot, header);
       rootReference.checkAndSet(root, newRoot);
