@@ -150,7 +150,7 @@
 <span class="sourceLineNo">141</span><a id="line.141">  @Override</a>
 <span class="sourceLineNo">142</span><a id="line.142">  Collection&lt;V&gt; createCollection(@ParametricNullness K key) {</a>
 <span class="sourceLineNo">143</span><a id="line.143">    if (key == null) {</a>
-<span class="sourceLineNo">144</span><a id="line.144">      keyComparator().compare(key, key);</a>
+<span class="sourceLineNo">144</span><a id="line.144">      int unused = keyComparator().compare(key, key);</a>
 <span class="sourceLineNo">145</span><a id="line.145">    }</a>
 <span class="sourceLineNo">146</span><a id="line.146">    return super.createCollection(key);</a>
 <span class="sourceLineNo">147</span><a id="line.147">  }</a>
