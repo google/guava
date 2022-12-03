@@ -89,7 +89,7 @@ import javax.annotation.CheckForNull;
  *
  * <p>{@code TypeToken} is serializable when no type variable is contained in the type.
  *
- * <p>Note to Guice users: {@code} TypeToken is similar to Guice's {@code TypeLiteral} class except
+ * <p>Note to Guice users: {@code TypeToken} is similar to Guice's {@code TypeLiteral} class except
  * that it is serializable and offers numerous additional utility methods.
  *
  * @author Bob Lee
