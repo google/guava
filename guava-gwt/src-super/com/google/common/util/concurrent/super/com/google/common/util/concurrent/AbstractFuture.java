@@ -38,7 +38,8 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** Emulation for AbstractFuture in GWT. */
 @SuppressWarnings("nullness") // TODO(b/147136275): Remove once our checker understands & and |.
-public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
+@ElementTypesAreNonnullByDefault
+public abstract class AbstractFuture<V extends @Nullable Object> extends InternalFutureFailureAccess
     implements ListenableFuture<V> {
 
   static final boolean GENERATE_CANCELLATION_CAUSES = false;
@@ -48,9 +49,10 @@ public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
    * of this interface must also be an AbstractFuture and must not override or expose for overriding
    * any of the public methods of ListenableFuture.
    */
-  interface Trusted<V> extends ListenableFuture<V> {}
+  interface Trusted<V extends @Nullable Object> extends ListenableFuture<V> {}
 
-  abstract static class TrustedFuture<V> extends AbstractFuture<V> implements Trusted<V> {
+  abstract static class TrustedFuture<V extends @Nullable Object> extends AbstractFuture<V>
+      implements Trusted<V> {
     @CanIgnoreReturnValue
     @Override
     public final V get() throws InterruptedException, ExecutionException {
@@ -90,8 +92,8 @@ public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
 
   private State state;
   private V value;
-  private Future<? extends V> delegate;
-  private Throwable throwable;
+  private @Nullable Future<? extends V> delegate;
+  private @Nullable Throwable throwable;
   private boolean mayInterruptIfRunning;
   private List<Listener> listeners;
 

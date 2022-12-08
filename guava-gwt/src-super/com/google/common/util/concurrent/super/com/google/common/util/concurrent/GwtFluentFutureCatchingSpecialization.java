@@ -16,13 +16,16 @@ package com.google.common.util.concurrent;
 
 import com.google.common.base.Function;
 import java.util.concurrent.Executor;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Hidden superclass of {@link FluentFuture} that provides us a place to declare special GWT
  * versions of the {@link FluentFuture#catching(Class, com.google.common.base.Function)
  * FluentFuture.catching} family of methods. Those versions have slightly different signatures.
  */
-abstract class GwtFluentFutureCatchingSpecialization<V> extends AbstractFuture<V> {
+@ElementTypesAreNonnullByDefault
+abstract class GwtFluentFutureCatchingSpecialization<V extends @Nullable Object>
+    extends AbstractFuture<V> {
   /*
    * In the GWT versions of the methods (below), every exceptionType parameter is required to be
    * Class<Throwable>. To handle only certain kinds of exceptions under GWT, you'll need to write

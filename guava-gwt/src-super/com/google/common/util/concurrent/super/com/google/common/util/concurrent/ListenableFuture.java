@@ -21,18 +21,20 @@ import jsinterop.annotations.JsMethod;
 import jsinterop.annotations.JsOptional;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsType;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Java super source for ListenableFuture, implementing a structural thenable via a default method.
  * For restrictions, please refer to the documentation of the then() method.
  */
-public interface ListenableFuture<V> extends Future<V>, IThenable<V> {
+@ElementTypesAreNonnullByDefault
+public interface ListenableFuture<V extends @Nullable Object> extends Future<V>, IThenable<V> {
   void addListener(Runnable listener, Executor executor);
 
   /** Note that this method is not expected to be overridden. */
   @JsMethod
   @Override
-  default <R> IThenable<R> then(
+  default <R extends @Nullable Object> IThenable<R> then(
       @JsOptional IThenOnFulfilledCallbackFn<? super V, ? extends R> onFulfilled,
       @JsOptional IThenOnRejectedCallbackFn<? extends R> onRejected) {
     return new Promise<V>(
@@ -61,30 +63,30 @@ public interface ListenableFuture<V> extends Future<V>, IThenable<V> {
  * us to implement it using a default implementation in J2cl ListenableFuture.
  */
 @JsType(isNative = true, namespace = JsPackage.GLOBAL, name = "IThenable")
-interface IThenable<T> {
-  <V> IThenable<V> then(
+interface IThenable<T extends @Nullable Object> {
+  <V extends @Nullable Object> IThenable<V> then(
       @JsOptional IThenOnFulfilledCallbackFn<? super T, ? extends V> onFulfilled,
       @JsOptional IThenOnRejectedCallbackFn<? extends V> onRejected);
 
   @JsFunction
-  interface IThenOnFulfilledCallbackFn<T, V> {
+  interface IThenOnFulfilledCallbackFn<T extends @Nullable Object, V extends @Nullable Object> {
     V onInvoke(T p0);
   }
 
   @JsFunction
-  interface IThenOnRejectedCallbackFn<V> {
+  interface IThenOnRejectedCallbackFn<V extends @Nullable Object> {
     V onInvoke(Object p0);
   }
 }
 
 /** Subset of the elemental2 Promise API. */
 @JsType(isNative = true, namespace = JsPackage.GLOBAL, name = "Promise")
-class Promise<T> implements IThenable<T> {
+class Promise<T extends @Nullable Object> implements IThenable<T> {
 
   @JsFunction
-  interface PromiseExecutorCallbackFn<T> {
+  interface PromiseExecutorCallbackFn<T extends @Nullable Object> {
     @JsFunction
-    interface ResolveCallbackFn<T> {
+    interface ResolveCallbackFn<T extends @Nullable Object> {
       void onInvoke(T value);
     }
 
@@ -99,7 +101,7 @@ class Promise<T> implements IThenable<T> {
   public Promise(PromiseExecutorCallbackFn<T> executor) {}
 
   @Override
-  public native <V> Promise<V> then(
+  public native <V extends @Nullable Object> Promise<V> then(
       @JsOptional IThenOnFulfilledCallbackFn<? super T, ? extends V> onFulfilled,
       @JsOptional IThenOnRejectedCallbackFn<? extends V> onRejected);
 }
