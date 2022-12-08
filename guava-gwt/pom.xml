@@ -294,11 +294,16 @@
                     <include name="**/InternalFutureFailureAccess.java" />
                   </fileset>
                 </copy>
+                <!-- Any manually written supersource should take priority over the original guava source, so we set overwrite=true. -->
+                <copy toDir="${project.build.directory}/guava-gwt-sources" overwrite="true">
+                  <fileset dir="src-super" />
+                </copy>
                 <copy toDir="${project.build.directory}/guava-test-gwt-sources">
                   <fileset dir="${project.build.directory}/guava-test-sources">
                     <contains text="@GwtCompatible"/>
                   </fileset>
                 </copy>
+                <!-- TODO(cpovirk): If we continue stripping these once we use @ElementTypesAreNonnullByDefault, then we should strip @ElementTypesAreNonnullByDefault, too, to reflect that the classes are *not* fully annotated. But hopefully we can stop stripping them, as https://github.com/jspecify/jspecify/issues/184 should make possible. -->
                 <replace token="@Nullable" value="">
                   <fileset dir="${project.build.directory}">
                     <include name="guava-gwt-sources/**/*.java"/>
@@ -402,9 +407,8 @@
       <resource>
         <directory>src</directory>
       </resource>
-      <resource>
-        <directory>src-super</directory>
-      </resource>
+      <!-- src-super is copied to guava-gwt-sources (so that we can strip its @Nullable annotations), so we don't need to list it here. We may want to arrange something similar for test-super someday. -->
+      <!-- TODO(cpovirk): Why do we have separate src and src-super directories, anyway? -->
       <resource>
         <directory>${project.build.directory}/guava-gwt-sources</directory>
       </resource>
