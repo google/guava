@@ -733,7 +733,7 @@
 <span class="sourceLineNo">724</span><a id="line.724">   */</a>
 <span class="sourceLineNo">725</span><a id="line.725">  private static final class RegularSetBuilderImpl&lt;E&gt; extends SetBuilderImpl&lt;E&gt; {</a>
 <span class="sourceLineNo">726</span><a id="line.726">    // null until at least two elements are present</a>
-<span class="sourceLineNo">727</span><a id="line.727">    private @Nullable Object @Nullable [] hashTable;</a>
+<span class="sourceLineNo">727</span><a id="line.727">    @CheckForNull private @Nullable Object[] hashTable;</a>
 <span class="sourceLineNo">728</span><a id="line.728">    private int maxRunBeforeFallback;</a>
 <span class="sourceLineNo">729</span><a id="line.729">    private int expandTableThreshold;</a>
 <span class="sourceLineNo">730</span><a id="line.730">    private int hashCode;</a>

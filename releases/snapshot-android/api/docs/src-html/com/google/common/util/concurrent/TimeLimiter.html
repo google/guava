@@ -108,72 +108,74 @@
 <span class="sourceLineNo">099</span><a id="line.99">   * @since 22.0</a>
 <span class="sourceLineNo">100</span><a id="line.100">   */</a>
 <span class="sourceLineNo">101</span><a id="line.101">  @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">102</span><a id="line.102">  &lt;T extends @Nullable Object&gt; T callWithTimeout(</a>
-<span class="sourceLineNo">103</span><a id="line.103">      Callable&lt;T&gt; callable, long timeoutDuration, TimeUnit timeoutUnit)</a>
-<span class="sourceLineNo">104</span><a id="line.104">      throws TimeoutException, InterruptedException, ExecutionException;</a>
-<span class="sourceLineNo">105</span><a id="line.105"></a>
-<span class="sourceLineNo">106</span><a id="line.106">  /**</a>
-<span class="sourceLineNo">107</span><a id="line.107">   * Invokes a specified Callable, timing out after the specified time limit. If the target method</a>
-<span class="sourceLineNo">108</span><a id="line.108">   * call finishes before the limit is reached, the return value or a wrapped exception is</a>
-<span class="sourceLineNo">109</span><a id="line.109">   * propagated. If, on the other hand, the time limit is reached, we attempt to abort the call to</a>
-<span class="sourceLineNo">110</span><a id="line.110">   * the target, and throw a {@link TimeoutException} to the caller.</a>
-<span class="sourceLineNo">111</span><a id="line.111">   *</a>
-<span class="sourceLineNo">112</span><a id="line.112">   * &lt;p&gt;The difference with {@link #callWithTimeout(Callable, long, TimeUnit)} is that this method</a>
-<span class="sourceLineNo">113</span><a id="line.113">   * will ignore interrupts on the current thread.</a>
-<span class="sourceLineNo">114</span><a id="line.114">   *</a>
-<span class="sourceLineNo">115</span><a id="line.115">   * @param callable the Callable to execute</a>
-<span class="sourceLineNo">116</span><a id="line.116">   * @param timeoutDuration with timeoutUnit, the maximum length of time to wait</a>
-<span class="sourceLineNo">117</span><a id="line.117">   * @param timeoutUnit with timeoutDuration, the maximum length of time to wait</a>
-<span class="sourceLineNo">118</span><a id="line.118">   * @return the result returned by the Callable</a>
-<span class="sourceLineNo">119</span><a id="line.119">   * @throws TimeoutException if the time limit is reached</a>
-<span class="sourceLineNo">120</span><a id="line.120">   * @throws ExecutionException if {@code callable} throws a checked exception</a>
-<span class="sourceLineNo">121</span><a id="line.121">   * @throws UncheckedExecutionException if {@code callable} throws a {@code RuntimeException}</a>
-<span class="sourceLineNo">122</span><a id="line.122">   * @throws ExecutionError if {@code callable} throws an {@code Error}</a>
-<span class="sourceLineNo">123</span><a id="line.123">   * @since 22.0</a>
-<span class="sourceLineNo">124</span><a id="line.124">   */</a>
-<span class="sourceLineNo">125</span><a id="line.125">  @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">126</span><a id="line.126">  &lt;T extends @Nullable Object&gt; T callUninterruptiblyWithTimeout(</a>
-<span class="sourceLineNo">127</span><a id="line.127">      Callable&lt;T&gt; callable, long timeoutDuration, TimeUnit timeoutUnit)</a>
-<span class="sourceLineNo">128</span><a id="line.128">      throws TimeoutException, ExecutionException;</a>
-<span class="sourceLineNo">129</span><a id="line.129"></a>
-<span class="sourceLineNo">130</span><a id="line.130">  /**</a>
-<span class="sourceLineNo">131</span><a id="line.131">   * Invokes a specified Runnable, timing out after the specified time limit. If the target method</a>
-<span class="sourceLineNo">132</span><a id="line.132">   * run finishes before the limit is reached, this method returns or a wrapped exception is</a>
-<span class="sourceLineNo">133</span><a id="line.133">   * propagated. If, on the other hand, the time limit is reached, we attempt to abort the run, and</a>
-<span class="sourceLineNo">134</span><a id="line.134">   * throw a {@link TimeoutException} to the caller.</a>
-<span class="sourceLineNo">135</span><a id="line.135">   *</a>
-<span class="sourceLineNo">136</span><a id="line.136">   * @param runnable the Runnable to execute</a>
-<span class="sourceLineNo">137</span><a id="line.137">   * @param timeoutDuration with timeoutUnit, the maximum length of time to wait</a>
-<span class="sourceLineNo">138</span><a id="line.138">   * @param timeoutUnit with timeoutDuration, the maximum length of time to wait</a>
-<span class="sourceLineNo">139</span><a id="line.139">   * @throws TimeoutException if the time limit is reached</a>
-<span class="sourceLineNo">140</span><a id="line.140">   * @throws InterruptedException if the current thread was interrupted during execution</a>
-<span class="sourceLineNo">141</span><a id="line.141">   * @throws UncheckedExecutionException if {@code runnable} throws a {@code RuntimeException}</a>
-<span class="sourceLineNo">142</span><a id="line.142">   * @throws ExecutionError if {@code runnable} throws an {@code Error}</a>
-<span class="sourceLineNo">143</span><a id="line.143">   * @since 22.0</a>
-<span class="sourceLineNo">144</span><a id="line.144">   */</a>
-<span class="sourceLineNo">145</span><a id="line.145">  void runWithTimeout(Runnable runnable, long timeoutDuration, TimeUnit timeoutUnit)</a>
-<span class="sourceLineNo">146</span><a id="line.146">      throws TimeoutException, InterruptedException;</a>
-<span class="sourceLineNo">147</span><a id="line.147"></a>
-<span class="sourceLineNo">148</span><a id="line.148">  /**</a>
-<span class="sourceLineNo">149</span><a id="line.149">   * Invokes a specified Runnable, timing out after the specified time limit. If the target method</a>
-<span class="sourceLineNo">150</span><a id="line.150">   * run finishes before the limit is reached, this method returns or a wrapped exception is</a>
-<span class="sourceLineNo">151</span><a id="line.151">   * propagated. If, on the other hand, the time limit is reached, we attempt to abort the run, and</a>
-<span class="sourceLineNo">152</span><a id="line.152">   * throw a {@link TimeoutException} to the caller.</a>
-<span class="sourceLineNo">153</span><a id="line.153">   *</a>
-<span class="sourceLineNo">154</span><a id="line.154">   * &lt;p&gt;The difference with {@link #runWithTimeout(Runnable, long, TimeUnit)} is that this method</a>
-<span class="sourceLineNo">155</span><a id="line.155">   * will ignore interrupts on the current thread.</a>
-<span class="sourceLineNo">156</span><a id="line.156">   *</a>
-<span class="sourceLineNo">157</span><a id="line.157">   * @param runnable the Runnable to execute</a>
-<span class="sourceLineNo">158</span><a id="line.158">   * @param timeoutDuration with timeoutUnit, the maximum length of time to wait</a>
-<span class="sourceLineNo">159</span><a id="line.159">   * @param timeoutUnit with timeoutDuration, the maximum length of time to wait</a>
-<span class="sourceLineNo">160</span><a id="line.160">   * @throws TimeoutException if the time limit is reached</a>
-<span class="sourceLineNo">161</span><a id="line.161">   * @throws UncheckedExecutionException if {@code runnable} throws a {@code RuntimeException}</a>
-<span class="sourceLineNo">162</span><a id="line.162">   * @throws ExecutionError if {@code runnable} throws an {@code Error}</a>
-<span class="sourceLineNo">163</span><a id="line.163">   * @since 22.0</a>
-<span class="sourceLineNo">164</span><a id="line.164">   */</a>
-<span class="sourceLineNo">165</span><a id="line.165">  void runUninterruptiblyWithTimeout(Runnable runnable, long timeoutDuration, TimeUnit timeoutUnit)</a>
-<span class="sourceLineNo">166</span><a id="line.166">      throws TimeoutException;</a>
-<span class="sourceLineNo">167</span><a id="line.167">}</a>
+<span class="sourceLineNo">102</span><a id="line.102">  @ParametricNullness</a>
+<span class="sourceLineNo">103</span><a id="line.103">  &lt;T extends @Nullable Object&gt; T callWithTimeout(</a>
+<span class="sourceLineNo">104</span><a id="line.104">      Callable&lt;T&gt; callable, long timeoutDuration, TimeUnit timeoutUnit)</a>
+<span class="sourceLineNo">105</span><a id="line.105">      throws TimeoutException, InterruptedException, ExecutionException;</a>
+<span class="sourceLineNo">106</span><a id="line.106"></a>
+<span class="sourceLineNo">107</span><a id="line.107">  /**</a>
+<span class="sourceLineNo">108</span><a id="line.108">   * Invokes a specified Callable, timing out after the specified time limit. If the target method</a>
+<span class="sourceLineNo">109</span><a id="line.109">   * call finishes before the limit is reached, the return value or a wrapped exception is</a>
+<span class="sourceLineNo">110</span><a id="line.110">   * propagated. If, on the other hand, the time limit is reached, we attempt to abort the call to</a>
+<span class="sourceLineNo">111</span><a id="line.111">   * the target, and throw a {@link TimeoutException} to the caller.</a>
+<span class="sourceLineNo">112</span><a id="line.112">   *</a>
+<span class="sourceLineNo">113</span><a id="line.113">   * &lt;p&gt;The difference with {@link #callWithTimeout(Callable, long, TimeUnit)} is that this method</a>
+<span class="sourceLineNo">114</span><a id="line.114">   * will ignore interrupts on the current thread.</a>
+<span class="sourceLineNo">115</span><a id="line.115">   *</a>
+<span class="sourceLineNo">116</span><a id="line.116">   * @param callable the Callable to execute</a>
+<span class="sourceLineNo">117</span><a id="line.117">   * @param timeoutDuration with timeoutUnit, the maximum length of time to wait</a>
+<span class="sourceLineNo">118</span><a id="line.118">   * @param timeoutUnit with timeoutDuration, the maximum length of time to wait</a>
+<span class="sourceLineNo">119</span><a id="line.119">   * @return the result returned by the Callable</a>
+<span class="sourceLineNo">120</span><a id="line.120">   * @throws TimeoutException if the time limit is reached</a>
+<span class="sourceLineNo">121</span><a id="line.121">   * @throws ExecutionException if {@code callable} throws a checked exception</a>
+<span class="sourceLineNo">122</span><a id="line.122">   * @throws UncheckedExecutionException if {@code callable} throws a {@code RuntimeException}</a>
+<span class="sourceLineNo">123</span><a id="line.123">   * @throws ExecutionError if {@code callable} throws an {@code Error}</a>
+<span class="sourceLineNo">124</span><a id="line.124">   * @since 22.0</a>
+<span class="sourceLineNo">125</span><a id="line.125">   */</a>
+<span class="sourceLineNo">126</span><a id="line.126">  @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">127</span><a id="line.127">  @ParametricNullness</a>
+<span class="sourceLineNo">128</span><a id="line.128">  &lt;T extends @Nullable Object&gt; T callUninterruptiblyWithTimeout(</a>
+<span class="sourceLineNo">129</span><a id="line.129">      Callable&lt;T&gt; callable, long timeoutDuration, TimeUnit timeoutUnit)</a>
+<span class="sourceLineNo">130</span><a id="line.130">      throws TimeoutException, ExecutionException;</a>
+<span class="sourceLineNo">131</span><a id="line.131"></a>
+<span class="sourceLineNo">132</span><a id="line.132">  /**</a>
+<span class="sourceLineNo">133</span><a id="line.133">   * Invokes a specified Runnable, timing out after the specified time limit. If the target method</a>
+<span class="sourceLineNo">134</span><a id="line.134">   * run finishes before the limit is reached, this method returns or a wrapped exception is</a>
+<span class="sourceLineNo">135</span><a id="line.135">   * propagated. If, on the other hand, the time limit is reached, we attempt to abort the run, and</a>
+<span class="sourceLineNo">136</span><a id="line.136">   * throw a {@link TimeoutException} to the caller.</a>
+<span class="sourceLineNo">137</span><a id="line.137">   *</a>
+<span class="sourceLineNo">138</span><a id="line.138">   * @param runnable the Runnable to execute</a>
+<span class="sourceLineNo">139</span><a id="line.139">   * @param timeoutDuration with timeoutUnit, the maximum length of time to wait</a>
+<span class="sourceLineNo">140</span><a id="line.140">   * @param timeoutUnit with timeoutDuration, the maximum length of time to wait</a>
+<span class="sourceLineNo">141</span><a id="line.141">   * @throws TimeoutException if the time limit is reached</a>
+<span class="sourceLineNo">142</span><a id="line.142">   * @throws InterruptedException if the current thread was interrupted during execution</a>
+<span class="sourceLineNo">143</span><a id="line.143">   * @throws UncheckedExecutionException if {@code runnable} throws a {@code RuntimeException}</a>
+<span class="sourceLineNo">144</span><a id="line.144">   * @throws ExecutionError if {@code runnable} throws an {@code Error}</a>
+<span class="sourceLineNo">145</span><a id="line.145">   * @since 22.0</a>
+<span class="sourceLineNo">146</span><a id="line.146">   */</a>
+<span class="sourceLineNo">147</span><a id="line.147">  void runWithTimeout(Runnable runnable, long timeoutDuration, TimeUnit timeoutUnit)</a>
+<span class="sourceLineNo">148</span><a id="line.148">      throws TimeoutException, InterruptedException;</a>
+<span class="sourceLineNo">149</span><a id="line.149"></a>
+<span class="sourceLineNo">150</span><a id="line.150">  /**</a>
+<span class="sourceLineNo">151</span><a id="line.151">   * Invokes a specified Runnable, timing out after the specified time limit. If the target method</a>
+<span class="sourceLineNo">152</span><a id="line.152">   * run finishes before the limit is reached, this method returns or a wrapped exception is</a>
+<span class="sourceLineNo">153</span><a id="line.153">   * propagated. If, on the other hand, the time limit is reached, we attempt to abort the run, and</a>
+<span class="sourceLineNo">154</span><a id="line.154">   * throw a {@link TimeoutException} to the caller.</a>
+<span class="sourceLineNo">155</span><a id="line.155">   *</a>
+<span class="sourceLineNo">156</span><a id="line.156">   * &lt;p&gt;The difference with {@link #runWithTimeout(Runnable, long, TimeUnit)} is that this method</a>
+<span class="sourceLineNo">157</span><a id="line.157">   * will ignore interrupts on the current thread.</a>
+<span class="sourceLineNo">158</span><a id="line.158">   *</a>
+<span class="sourceLineNo">159</span><a id="line.159">   * @param runnable the Runnable to execute</a>
+<span class="sourceLineNo">160</span><a id="line.160">   * @param timeoutDuration with timeoutUnit, the maximum length of time to wait</a>
+<span class="sourceLineNo">161</span><a id="line.161">   * @param timeoutUnit with timeoutDuration, the maximum length of time to wait</a>
+<span class="sourceLineNo">162</span><a id="line.162">   * @throws TimeoutException if the time limit is reached</a>
+<span class="sourceLineNo">163</span><a id="line.163">   * @throws UncheckedExecutionException if {@code runnable} throws a {@code RuntimeException}</a>
+<span class="sourceLineNo">164</span><a id="line.164">   * @throws ExecutionError if {@code runnable} throws an {@code Error}</a>
+<span class="sourceLineNo">165</span><a id="line.165">   * @since 22.0</a>
+<span class="sourceLineNo">166</span><a id="line.166">   */</a>
+<span class="sourceLineNo">167</span><a id="line.167">  void runUninterruptiblyWithTimeout(Runnable runnable, long timeoutDuration, TimeUnit timeoutUnit)</a>
+<span class="sourceLineNo">168</span><a id="line.168">      throws TimeoutException;</a>
+<span class="sourceLineNo">169</span><a id="line.169">}</a>
 
 
 

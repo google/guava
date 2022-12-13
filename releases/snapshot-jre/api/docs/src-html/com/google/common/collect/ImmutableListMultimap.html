@@ -365,7 +365,7 @@
 <span class="sourceLineNo">356</span><a id="line.356">  /** Creates an ImmutableListMultimap from an asMap.entrySet. */</a>
 <span class="sourceLineNo">357</span><a id="line.357">  static &lt;K, V&gt; ImmutableListMultimap&lt;K, V&gt; fromMapEntries(</a>
 <span class="sourceLineNo">358</span><a id="line.358">      Collection&lt;? extends Map.Entry&lt;? extends K, ? extends Collection&lt;? extends V&gt;&gt;&gt; mapEntries,</a>
-<span class="sourceLineNo">359</span><a id="line.359">      @Nullable Comparator&lt;? super V&gt; valueComparator) {</a>
+<span class="sourceLineNo">359</span><a id="line.359">      @CheckForNull Comparator&lt;? super V&gt; valueComparator) {</a>
 <span class="sourceLineNo">360</span><a id="line.360">    if (mapEntries.isEmpty()) {</a>
 <span class="sourceLineNo">361</span><a id="line.361">      return of();</a>
 <span class="sourceLineNo">362</span><a id="line.362">    }</a>

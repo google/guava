@@ -49,7 +49,7 @@
 <span class="sourceLineNo">040</span><a id="line.40">import java.util.concurrent.TimeUnit;</a>
 <span class="sourceLineNo">041</span><a id="line.41">import java.util.logging.Level;</a>
 <span class="sourceLineNo">042</span><a id="line.42">import java.util.logging.Logger;</a>
-<span class="sourceLineNo">043</span><a id="line.43">import org.checkerframework.checker.nullness.qual.Nullable;</a>
+<span class="sourceLineNo">043</span><a id="line.43">import javax.annotation.CheckForNull;</a>
 <span class="sourceLineNo">044</span><a id="line.44"></a>
 <span class="sourceLineNo">045</span><a id="line.45">/**</a>
 <span class="sourceLineNo">046</span><a id="line.46"> * A builder of {@link LoadingCache} and {@link Cache} instances.</a>
@@ -286,10 +286,10 @@
 <span class="sourceLineNo">277</span><a id="line.277">  int concurrencyLevel = UNSET_INT;</a>
 <span class="sourceLineNo">278</span><a id="line.278">  long maximumSize = UNSET_INT;</a>
 <span class="sourceLineNo">279</span><a id="line.279">  long maximumWeight = UNSET_INT;</a>
-<span class="sourceLineNo">280</span><a id="line.280">  @Nullable Weigher&lt;? super K, ? super V&gt; weigher;</a>
+<span class="sourceLineNo">280</span><a id="line.280">  @CheckForNull Weigher&lt;? super K, ? super V&gt; weigher;</a>
 <span class="sourceLineNo">281</span><a id="line.281"></a>
-<span class="sourceLineNo">282</span><a id="line.282">  @Nullable Strength keyStrength;</a>
-<span class="sourceLineNo">283</span><a id="line.283">  @Nullable Strength valueStrength;</a>
+<span class="sourceLineNo">282</span><a id="line.282">  @CheckForNull Strength keyStrength;</a>
+<span class="sourceLineNo">283</span><a id="line.283">  @CheckForNull Strength valueStrength;</a>
 <span class="sourceLineNo">284</span><a id="line.284"></a>
 <span class="sourceLineNo">285</span><a id="line.285">  @SuppressWarnings("GoodTime") // should be a java.time.Duration</a>
 <span class="sourceLineNo">286</span><a id="line.286">  long expireAfterWriteNanos = UNSET_INT;</a>
@@ -300,11 +300,11 @@
 <span class="sourceLineNo">291</span><a id="line.291">  @SuppressWarnings("GoodTime") // should be a java.time.Duration</a>
 <span class="sourceLineNo">292</span><a id="line.292">  long refreshNanos = UNSET_INT;</a>
 <span class="sourceLineNo">293</span><a id="line.293"></a>
-<span class="sourceLineNo">294</span><a id="line.294">  @Nullable Equivalence&lt;Object&gt; keyEquivalence;</a>
-<span class="sourceLineNo">295</span><a id="line.295">  @Nullable Equivalence&lt;Object&gt; valueEquivalence;</a>
+<span class="sourceLineNo">294</span><a id="line.294">  @CheckForNull Equivalence&lt;Object&gt; keyEquivalence;</a>
+<span class="sourceLineNo">295</span><a id="line.295">  @CheckForNull Equivalence&lt;Object&gt; valueEquivalence;</a>
 <span class="sourceLineNo">296</span><a id="line.296"></a>
-<span class="sourceLineNo">297</span><a id="line.297">  @Nullable RemovalListener&lt;? super K, ? super V&gt; removalListener;</a>
-<span class="sourceLineNo">298</span><a id="line.298">  @Nullable Ticker ticker;</a>
+<span class="sourceLineNo">297</span><a id="line.297">  @CheckForNull RemovalListener&lt;? super K, ? super V&gt; removalListener;</a>
+<span class="sourceLineNo">298</span><a id="line.298">  @CheckForNull Ticker ticker;</a>
 <span class="sourceLineNo">299</span><a id="line.299"></a>
 <span class="sourceLineNo">300</span><a id="line.300">  Supplier&lt;? extends StatsCounter&gt; statsCounterSupplier = NULL_STATS_COUNTER;</a>
 <span class="sourceLineNo">301</span><a id="line.301"></a>
