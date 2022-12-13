@@ -356,7 +356,7 @@ public class ImmutableListMultimap<K, V> extends ImmutableMultimap<K, V>
   /** Creates an ImmutableListMultimap from an asMap.entrySet. */
   static <K, V> ImmutableListMultimap<K, V> fromMapEntries(
       Collection<? extends Map.Entry<? extends K, ? extends Collection<? extends V>>> mapEntries,
-      @Nullable Comparator<? super V> valueComparator) {
+      @CheckForNull Comparator<? super V> valueComparator) {
     if (mapEntries.isEmpty()) {
       return of();
     }

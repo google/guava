@@ -111,6 +111,7 @@ public final class SimpleTimeLimiter implements TimeLimiter {
     return interfaceType.cast(object);
   }
 
+  @ParametricNullness
   private <T extends @Nullable Object> T callWithTimeout(
       Callable<T> callable, long timeoutDuration, TimeUnit timeoutUnit, boolean amInterruptible)
       throws Exception {
@@ -141,6 +142,7 @@ public final class SimpleTimeLimiter implements TimeLimiter {
 
   @CanIgnoreReturnValue
   @Override
+  @ParametricNullness
   public <T extends @Nullable Object> T callWithTimeout(
       Callable<T> callable, long timeoutDuration, TimeUnit timeoutUnit)
       throws TimeoutException, InterruptedException, ExecutionException {
@@ -163,6 +165,7 @@ public final class SimpleTimeLimiter implements TimeLimiter {
 
   @CanIgnoreReturnValue
   @Override
+  @ParametricNullness
   public <T extends @Nullable Object> T callUninterruptiblyWithTimeout(
       Callable<T> callable, long timeoutDuration, TimeUnit timeoutUnit)
       throws TimeoutException, ExecutionException {

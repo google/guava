@@ -724,7 +724,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    */
   private static final class RegularSetBuilderImpl<E> extends SetBuilderImpl<E> {
     // null until at least two elements are present
-    private @Nullable Object @Nullable [] hashTable;
+    @CheckForNull private @Nullable Object[] hashTable;
     private int maxRunBeforeFallback;
     private int expandTableThreshold;
     private int hashCode;

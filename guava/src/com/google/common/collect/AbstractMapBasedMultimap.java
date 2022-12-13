@@ -1188,6 +1188,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
     }
 
     @Override
+    @ParametricNullness
     public T next() {
       if (!valueIterator.hasNext()) {
         Entry<K, Collection<V>> mapEntry = keyIterator.next();

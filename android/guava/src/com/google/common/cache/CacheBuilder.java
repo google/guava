@@ -39,7 +39,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import javax.annotation.CheckForNull;
 
 /**
  * A builder of {@link LoadingCache} and {@link Cache} instances.
@@ -276,10 +276,10 @@ public final class CacheBuilder<K, V> {
   int concurrencyLevel = UNSET_INT;
   long maximumSize = UNSET_INT;
   long maximumWeight = UNSET_INT;
-  @Nullable Weigher<? super K, ? super V> weigher;
+  @CheckForNull Weigher<? super K, ? super V> weigher;
 
-  @Nullable Strength keyStrength;
-  @Nullable Strength valueStrength;
+  @CheckForNull Strength keyStrength;
+  @CheckForNull Strength valueStrength;
 
   @SuppressWarnings("GoodTime") // should be a java.time.Duration
   long expireAfterWriteNanos = UNSET_INT;
@@ -290,11 +290,11 @@ public final class CacheBuilder<K, V> {
   @SuppressWarnings("GoodTime") // should be a java.time.Duration
   long refreshNanos = UNSET_INT;
 
-  @Nullable Equivalence<Object> keyEquivalence;
-  @Nullable Equivalence<Object> valueEquivalence;
+  @CheckForNull Equivalence<Object> keyEquivalence;
+  @CheckForNull Equivalence<Object> valueEquivalence;
 
-  @Nullable RemovalListener<? super K, ? super V> removalListener;
-  @Nullable Ticker ticker;
+  @CheckForNull RemovalListener<? super K, ? super V> removalListener;
+  @CheckForNull Ticker ticker;
 
   Supplier<? extends StatsCounter> statsCounterSupplier = NULL_STATS_COUNTER;
 

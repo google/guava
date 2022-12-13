@@ -1993,6 +1993,7 @@ public final class Maps {
      * @throws NullPointerException if the key or value is null and this transformer does not accept
      *     null arguments
      */
+    @ParametricNullness
     V2 transformEntry(@ParametricNullness K key, @ParametricNullness V1 value);
   }
 

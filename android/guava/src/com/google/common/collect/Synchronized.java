@@ -459,7 +459,7 @@ final class Synchronized {
     }
 
     @Override
-    public int add(E e, int n) {
+    public int add(@ParametricNullness E e, int n) {
       synchronized (mutex) {
         return delegate().add(e, n);
       }
@@ -473,14 +473,14 @@ final class Synchronized {
     }
 
     @Override
-    public int setCount(E element, int count) {
+    public int setCount(@ParametricNullness E element, int count) {
       synchronized (mutex) {
         return delegate().setCount(element, count);
       }
     }
 
     @Override
-    public boolean setCount(E element, int oldCount, int newCount) {
+    public boolean setCount(@ParametricNullness E element, int oldCount, int newCount) {
       synchronized (mutex) {
         return delegate().setCount(element, oldCount, newCount);
       }
@@ -588,21 +588,21 @@ final class Synchronized {
     }
 
     @Override
-    public Collection<V> get(K key) {
+    public Collection<V> get(@ParametricNullness K key) {
       synchronized (mutex) {
         return typePreservingCollection(delegate().get(key), mutex);
       }
     }
 
     @Override
-    public boolean put(K key, V value) {
+    public boolean put(@ParametricNullness K key, @ParametricNullness V value) {
       synchronized (mutex) {
         return delegate().put(key, value);
       }
     }
 
     @Override
-    public boolean putAll(K key, Iterable<? extends V> values) {
+    public boolean putAll(@ParametricNullness K key, Iterable<? extends V> values) {
       synchronized (mutex) {
         return delegate().putAll(key, values);
       }
@@ -616,7 +616,7 @@ final class Synchronized {
     }
 
     @Override
-    public Collection<V> replaceValues(K key, Iterable<? extends V> values) {
+    public Collection<V> replaceValues(@ParametricNullness K key, Iterable<? extends V> values) {
       synchronized (mutex) {
         return delegate().replaceValues(key, values); // copy not synchronized
       }
@@ -1229,7 +1229,7 @@ final class Synchronized {
 
     @Override
     @CheckForNull
-    public V forcePut(K key, V value) {
+    public V forcePut(@ParametricNullness K key, @ParametricNullness V value) {
       synchronized (mutex) {
         return delegate().forcePut(key, value);
       }
@@ -1989,7 +1989,10 @@ final class Synchronized {
 
     @Override
     @CheckForNull
-    public V put(R rowKey, C columnKey, V value) {
+    public V put(
+        @ParametricNullness R rowKey,
+        @ParametricNullness C columnKey,
+        @ParametricNullness V value) {
       synchronized (mutex) {
         return delegate().put(rowKey, columnKey, value);
       }
@@ -2011,14 +2014,14 @@ final class Synchronized {
     }
 
     @Override
-    public Map<C, V> row(R rowKey) {
+    public Map<C, V> row(@ParametricNullness R rowKey) {
       synchronized (mutex) {
         return map(delegate().row(rowKey), mutex);
       }
     }
 
     @Override
-    public Map<R, V> column(C columnKey) {
+    public Map<R, V> column(@ParametricNullness C columnKey) {
       synchronized (mutex) {
         return map(delegate().column(columnKey), mutex);
       }

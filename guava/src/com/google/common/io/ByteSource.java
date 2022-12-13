@@ -316,6 +316,7 @@ public abstract class ByteSource {
    */
   @Beta
   @CanIgnoreReturnValue // some processors won't return a useful result
+  @ParametricNullness
   public <T extends @Nullable Object> T read(ByteProcessor<T> processor) throws IOException {
     checkNotNull(processor);
 
