@@ -60,8 +60,9 @@ final class NullsFirstOrdering<T extends @Nullable Object> extends Ordering<@Nul
   }
 
   @Override
+  @SuppressWarnings("nullness") // probably a bug in our checker?
   public <S extends @Nullable T> Ordering<@Nullable S> nullsLast() {
-    return ordering.<S>nullsLast();
+    return ordering.nullsLast();
   }
 
   @Override
