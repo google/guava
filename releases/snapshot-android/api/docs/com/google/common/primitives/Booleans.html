@@ -622,13 +622,12 @@ public static&nbsp;java.util.Comparator&lt;java.lang.Boolean&gt;&nbsp;<a href=".
 <ul class="blockList">
 <li class="blockList">
 <h4>asList</h4>
-<pre class="methodSignature">public static&nbsp;java.util.List&lt;java.lang.Boolean&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/Booleans.html#line.371">asList</a>&#8203;(boolean...&nbsp;backingArray)</pre>
+<pre class="methodSignature">public static&nbsp;java.util.List&lt;java.lang.Boolean&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/Booleans.html#line.370">asList</a>&#8203;(boolean...&nbsp;backingArray)</pre>
 <div class="block">Returns a fixed-size list backed by the specified array, similar to <code>Arrays.asList(Object[])</code>. The list supports <code>List.set(int, Object)</code>, but any attempt to
  set a value to <code>null</code> will result in a <code>NullPointerException</code>.
 
- <p>The returned list maintains the values, but not the identities, of <code>Boolean</code> objects
- written to or read from it. For example, whether <code>list.get(0) == list.get(0)</code> is true for
- the returned list is unspecified.</div>
+ <p>There are at most two distinct objects in this list, <code>(Boolean) true</code> and <code>
+ (Boolean) false</code>. Java guarantees that those are always represented by the same objects.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>backingArray</code> - the array to back the list</dd>
@@ -644,7 +643,7 @@ public static&nbsp;java.util.Comparator&lt;java.lang.Boolean&gt;&nbsp;<a href=".
 <li class="blockList">
 <h4>countTrue</h4>
 <pre class="methodSignature"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/Booleans.html#line.513">countTrue</a>&#8203;(boolean...&nbsp;values)</pre>
+public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/Booleans.html#line.512">countTrue</a>&#8203;(boolean...&nbsp;values)</pre>
 <div class="block">Returns the number of <code>values</code> that are <code>true</code>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -658,7 +657,7 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/prim
 <ul class="blockList">
 <li class="blockList">
 <h4>reverse</h4>
-<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/Booleans.html#line.530">reverse</a>&#8203;(boolean[]&nbsp;array)</pre>
+<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/Booleans.html#line.529">reverse</a>&#8203;(boolean[]&nbsp;array)</pre>
 <div class="block">Reverses the elements of <code>array</code>. This is equivalent to <code>
  Collections.reverse(Booleans.asList(array))</code>, but is likely to be more efficient.</div>
 <dl>
@@ -673,7 +672,7 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/prim
 <ul class="blockList">
 <li class="blockList">
 <h4>reverse</h4>
-<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/Booleans.html#line.545">reverse</a>&#8203;(boolean[]&nbsp;array,
+<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/Booleans.html#line.544">reverse</a>&#8203;(boolean[]&nbsp;array,
                            int&nbsp;fromIndex,
                            int&nbsp;toIndex)</pre>
 <div class="block">Reverses the elements of <code>array</code> between <code>fromIndex</code> inclusive and <code>toIndex</code>
@@ -695,7 +694,7 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/prim
 <ul class="blockList">
 <li class="blockList">
 <h4>rotate</h4>
-<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/Booleans.html#line.565">rotate</a>&#8203;(boolean[]&nbsp;array,
+<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/Booleans.html#line.564">rotate</a>&#8203;(boolean[]&nbsp;array,
                           int&nbsp;distance)</pre>
 <div class="block">Performs a right rotation of <code>array</code> of "distance" places, so that the first element is
  moved to index "distance", and the element at index <code>i</code> ends up at index <code>(distance
@@ -715,7 +714,7 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/prim
 <ul class="blockListLast">
 <li class="blockList">
 <h4>rotate</h4>
-<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/Booleans.html#line.581">rotate</a>&#8203;(boolean[]&nbsp;array,
+<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/Booleans.html#line.580">rotate</a>&#8203;(boolean[]&nbsp;array,
                           int&nbsp;distance,
                           int&nbsp;fromIndex,
                           int&nbsp;toIndex)</pre>
