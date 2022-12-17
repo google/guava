@@ -361,9 +361,8 @@ public final class Booleans {
    * Arrays#asList(Object[])}. The list supports {@link List#set(int, Object)}, but any attempt to
    * set a value to {@code null} will result in a {@link NullPointerException}.
    *
-   * <p>The returned list maintains the values, but not the identities, of {@code Boolean} objects
-   * written to or read from it. For example, whether {@code list.get(0) == list.get(0)} is true for
-   * the returned list is unspecified.
+   * <p>There are at most two distinct objects in this list, {@code (Boolean) true} and {@code
+   * (Boolean) false}. Java guarantees that those are always represented by the same objects.
    *
    * @param backingArray the array to back the list
    * @return a list view of the array
