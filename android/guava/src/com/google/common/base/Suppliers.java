@@ -96,7 +96,7 @@ public final class Suppliers {
    * <p>The returned supplier is thread-safe. The delegate's {@code get()} method will be invoked at
    * most once unless the underlying {@code get()} throws an exception. The supplier's serialized
    * form does not contain the cached value, which will be recalculated when {@code get()} is called
-   * on the reserialized instance.
+   * on the deserialized instance.
    *
    * <p>When the underlying delegate throws an exception then this memoizing supplier will keep
    * delegating calls until it returns valid data.

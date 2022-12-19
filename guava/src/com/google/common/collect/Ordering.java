@@ -171,6 +171,8 @@ public abstract class Ordering<T extends @Nullable Object> implements Comparator
    * to pass it in here. Instead, simply subclass {@code Ordering} and implement its {@code compare}
    * method directly.
    *
+   * <p>The returned object is serializable if {@code comparator} is serializable.
+   *
    * <p><b>Java 8 users:</b> this class is now obsolete as explained in the class documentation, so
    * there is no need to use this method.
    *
@@ -410,6 +412,8 @@ public abstract class Ordering<T extends @Nullable Object> implements Comparator
    * Returns an ordering that treats {@code null} as less than all other values and uses {@code
    * this} to compare non-null values.
    *
+   * <p>The returned object is serializable if this object is serializable.
+   *
    * <p><b>Java 8 users:</b> Use {@code Comparator.nullsFirst(thisComparator)} instead.
    */
   // type parameter <S> lets us avoid the extra <String> in statements like:
@@ -422,6 +426,8 @@ public abstract class Ordering<T extends @Nullable Object> implements Comparator
   /**
    * Returns an ordering that treats {@code null} as greater than all other values and uses this
    * ordering to compare non-null values.
+   *
+   * <p>The returned object is serializable if this object is serializable.
    *
    * <p><b>Java 8 users:</b> Use {@code Comparator.nullsLast(thisComparator)} instead.
    */
@@ -463,6 +469,9 @@ public abstract class Ordering<T extends @Nullable Object> implements Comparator
    * <p>An ordering produced by this method, or a chain of calls to this method, is equivalent to
    * one created using {@link Ordering#compound(Iterable)} on the same component comparators.
    *
+   * <p>The returned object is serializable if this object and {@code secondaryComparator} are both
+   * serializable.
+   *
    * <p><b>Java 8 users:</b> Use {@code thisComparator.thenComparing(secondaryComparator)} instead.
    * Depending on what {@code secondaryComparator} is, one of the other overloads of {@code
    * thenComparing} may be even more useful.
@@ -480,6 +489,8 @@ public abstract class Ordering<T extends @Nullable Object> implements Comparator
    *
    * <p>The returned ordering is equivalent to that produced using {@code
    * Ordering.from(comp1).compound(comp2).compound(comp3) . . .}.
+   *
+   * <p>The returned object is serializable if each of the {@code comparators} is serializable.
    *
    * <p><b>Warning:</b> Supplying an argument with undefined iteration order, such as a {@link
    * HashSet}, will produce non-deterministic results.

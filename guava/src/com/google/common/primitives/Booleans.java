@@ -364,6 +364,8 @@ public final class Booleans {
    * <p>There are at most two distinct objects in this list, {@code (Boolean) true} and {@code
    * (Boolean) false}. Java guarantees that those are always represented by the same objects.
    *
+   * <p>The returned list is serializable.
+   *
    * @param backingArray the array to back the list
    * @return a list view of the array
    */

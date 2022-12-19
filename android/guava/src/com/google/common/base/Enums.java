@@ -98,10 +98,10 @@ public final class Enums {
   }
 
   /**
-   * Returns a converter that converts between strings and {@code enum} values of type {@code
-   * enumClass} using {@link Enum#valueOf(Class, String)} and {@link Enum#name()}. The converter
-   * will throw an {@code IllegalArgumentException} if the argument is not the name of any enum
-   * constant in the specified enum.
+   * Returns a serializable converter that converts between strings and {@code enum} values of type
+   * {@code enumClass} using {@link Enum#valueOf(Class, String)} and {@link Enum#name()}. The
+   * converter will throw an {@code IllegalArgumentException} if the argument is not the name of any
+   * enum constant in the specified enum.
    *
    * @since 16.0
    */

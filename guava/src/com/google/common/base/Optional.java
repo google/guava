@@ -52,6 +52,9 @@ import javax.annotation.CheckForNull;
  * <p>This class is not intended as a direct analogue of any existing "option" or "maybe" construct
  * from other programming environments, though it may bear some similarities.
  *
+ * <p>An instance of this class is serializable if its reference is absent or is a serializable
+ * object.
+ *
  * <p><b>Comparison to {@code java.util.Optional} (JDK 8 and higher):</b> A new {@code Optional}
  * class was added for Java 8. The two classes are extremely similar, but incompatible (they cannot
  * share a common supertype). <i>All</i> known differences are listed either here or with the
