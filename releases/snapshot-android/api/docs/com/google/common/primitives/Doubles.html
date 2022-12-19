@@ -901,7 +901,7 @@ public static&nbsp;<a href="../base/Converter.html" title="class in com.google.c
 <ul class="blockList">
 <li class="blockList">
 <h4>asList</h4>
-<pre class="methodSignature">public static&nbsp;java.util.List&lt;java.lang.Double&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/Doubles.html#line.566">asList</a>&#8203;(double...&nbsp;backingArray)</pre>
+<pre class="methodSignature">public static&nbsp;java.util.List&lt;java.lang.Double&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/Doubles.html#line.568">asList</a>&#8203;(double...&nbsp;backingArray)</pre>
 <div class="block">Returns a fixed-size list backed by the specified array, similar to <code>Arrays.asList(Object[])</code>. The list supports <code>List.set(int, Object)</code>, but any attempt to
  set a value to <code>null</code> will result in a <code>NullPointerException</code>.
 
@@ -911,6 +911,8 @@ public static&nbsp;<a href="../base/Converter.html" title="class in com.google.c
 
  <p>The returned list may have unexpected behavior if it contains <code>NaN</code>, or if <code>NaN</code>
  is used as a parameter to any of its methods.
+
+ <p>The returned list is serializable.
 
  <p><b>Note:</b> when possible, you should represent your data as an <a href="ImmutableDoubleArray.html" title="class in com.google.common.primitives"><code>ImmutableDoubleArray</code></a> instead, which has an <a href="ImmutableDoubleArray.html#asList()"><code>asList</code></a> view.</div>
 <dl>
@@ -930,7 +932,7 @@ public static&nbsp;<a href="../base/Converter.html" title="class in com.google.c
 <pre class="methodSignature"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
 <a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public static&nbsp;java.lang.Double&nbsp;<a href="../../../../src-html/com/google/common/primitives/Doubles.html#line.754">tryParse</a>&#8203;(java.lang.String&nbsp;string)</pre>
+public static&nbsp;java.lang.Double&nbsp;<a href="../../../../src-html/com/google/common/primitives/Doubles.html#line.756">tryParse</a>&#8203;(java.lang.String&nbsp;string)</pre>
 <div class="block">Parses the specified string as a double-precision floating point value. The ASCII character
  <code>'-'</code> (<code>'&#92;u002D'</code>) is recognized as the minus sign.
 

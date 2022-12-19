@@ -1019,13 +1019,15 @@ public static&nbsp;<a href="../base/Converter.html" title="class in com.google.c
 <ul class="blockList">
 <li class="blockList">
 <h4>asList</h4>
-<pre class="methodSignature">public static&nbsp;java.util.List&lt;java.lang.Integer&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/Ints.html#line.634">asList</a>&#8203;(int...&nbsp;backingArray)</pre>
+<pre class="methodSignature">public static&nbsp;java.util.List&lt;java.lang.Integer&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/Ints.html#line.636">asList</a>&#8203;(int...&nbsp;backingArray)</pre>
 <div class="block">Returns a fixed-size list backed by the specified array, similar to <code>Arrays.asList(Object[])</code>. The list supports <code>List.set(int, Object)</code>, but any attempt to
  set a value to <code>null</code> will result in a <code>NullPointerException</code>.
 
  <p>The returned list maintains the values, but not the identities, of <code>Integer</code> objects
  written to or read from it. For example, whether <code>list.get(0) == list.get(0)</code> is true for
  the returned list is unspecified.
+
+ <p>The returned list is serializable.
 
  <p><b>Note:</b> when possible, you should represent your data as an <a href="ImmutableIntArray.html" title="class in com.google.common.primitives"><code>ImmutableIntArray</code></a>
  instead, which has an <a href="ImmutableIntArray.html#asList()"><code>asList</code></a> view.</div>
@@ -1045,7 +1047,7 @@ public static&nbsp;<a href="../base/Converter.html" title="class in com.google.c
 <h4>tryParse</h4>
 <pre class="methodSignature"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
 <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public static&nbsp;java.lang.Integer&nbsp;<a href="../../../../src-html/com/google/common/primitives/Ints.html#line.792">tryParse</a>&#8203;(java.lang.String&nbsp;string)</pre>
+public static&nbsp;java.lang.Integer&nbsp;<a href="../../../../src-html/com/google/common/primitives/Ints.html#line.794">tryParse</a>&#8203;(java.lang.String&nbsp;string)</pre>
 <div class="block">Parses the specified string as a signed decimal integer value. The ASCII character <code>'-'</code>
  (<code>'&#92;u002D'</code>) is recognized as the minus sign.
 
@@ -1076,7 +1078,7 @@ public static&nbsp;java.lang.Integer&nbsp;<a href="../../../../src-html/com/goog
 <h4>tryParse</h4>
 <pre class="methodSignature"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
 <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public static&nbsp;java.lang.Integer&nbsp;<a href="../../../../src-html/com/google/common/primitives/Ints.html#line.818">tryParse</a>&#8203;(java.lang.String&nbsp;string,
+public static&nbsp;java.lang.Integer&nbsp;<a href="../../../../src-html/com/google/common/primitives/Ints.html#line.820">tryParse</a>&#8203;(java.lang.String&nbsp;string,
                                          int&nbsp;radix)</pre>
 <div class="block">Parses the specified string as a signed integer value using the specified radix. The ASCII
  character <code>'-'</code> (<code>'&#92;u002D'</code>) is recognized as the minus sign.

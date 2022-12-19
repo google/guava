@@ -472,9 +472,12 @@ protected abstract&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common
 <ul class="blockList">
 <li class="blockList">
 <h4>wrap</h4>
-<pre class="methodSignature">public final&nbsp;&lt;S extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&gt;&nbsp;<a href="Equivalence.Wrapper.html" title="class in com.google.common.base">Equivalence.Wrapper</a>&lt;S&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Equivalence.html#line.156">wrap</a>&#8203;(S&nbsp;reference)</pre>
+<pre class="methodSignature">public final&nbsp;&lt;S extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&gt;&nbsp;<a href="Equivalence.Wrapper.html" title="class in com.google.common.base">Equivalence.Wrapper</a>&lt;S&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Equivalence.html#line.159">wrap</a>&#8203;(S&nbsp;reference)</pre>
 <div class="block">Returns a wrapper of <code>reference</code> that implements <a href="Equivalence.Wrapper.html#equals(java.lang.Object)"><code>Object.equals()</code></a> such that <code>wrap(a).equals(wrap(b))</code> if and only if <code>equivalent(a,
- b)</code>.</div>
+ b)</code>.
+
+ <p>The returned object is serializable if both this <code>Equivalence</code> and <code>reference</code>
+ are serializable (including when <code>reference</code> is null).</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>10.0</dd>
@@ -488,13 +491,15 @@ protected abstract&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common
 <li class="blockList">
 <h4>pairwise</h4>
 <pre class="methodSignature"><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../annotations/GwtCompatible.html#serializable()">serializable</a>=true)
-public final&nbsp;&lt;S extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&gt;&nbsp;<a href="Equivalence.html" title="class in com.google.common.base">Equivalence</a>&lt;java.lang.Iterable&lt;S&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Equivalence.html#line.260">pairwise</a>()</pre>
+public final&nbsp;&lt;S extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&gt;&nbsp;<a href="Equivalence.html" title="class in com.google.common.base">Equivalence</a>&lt;java.lang.Iterable&lt;S&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Equivalence.html#line.265">pairwise</a>()</pre>
 <div class="block">Returns an equivalence over iterables based on the equivalence of their elements. More
  specifically, two iterables are considered equivalent if they both contain the same number of
  elements, and each pair of corresponding elements is equivalent according to <code>this</code>. Null
  iterables are equivalent to one another.
 
- <p>Note that this method performs a similar function for equivalences as <a href="../collect/Ordering.html#lexicographical()"><code>Ordering.lexicographical()</code></a> does for orderings.</div>
+ <p>Note that this method performs a similar function for equivalences as <a href="../collect/Ordering.html#lexicographical()"><code>Ordering.lexicographical()</code></a> does for orderings.
+
+ <p>The returned object is serializable if this object is serializable.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>10.0</dd>
@@ -509,7 +514,7 @@ public final&nbsp;&lt;S extends <a href="https://checkerframework.org/api/org/ch
 <ul class="blockList">
 <li class="blockList">
 <h4>equivalentTo</h4>
-<pre class="methodSignature">public final&nbsp;<a href="Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Equivalence.html#line.273">equivalentTo</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+<pre class="methodSignature">public final&nbsp;<a href="Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Equivalence.html#line.278">equivalentTo</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                                                  <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&nbsp;target)</pre>
 <div class="block">Returns a predicate that evaluates to true if and only if the input is equivalent to <code>
  target</code> according to this equivalence relation.</div>
@@ -525,7 +530,7 @@ public final&nbsp;&lt;S extends <a href="https://checkerframework.org/api/org/ch
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre class="methodSignature">public static&nbsp;<a href="Equivalence.html" title="class in com.google.common.base">Equivalence</a>&lt;java.lang.Object&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Equivalence.html#line.328">equals</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="Equivalence.html" title="class in com.google.common.base">Equivalence</a>&lt;java.lang.Object&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Equivalence.html#line.333">equals</a>()</pre>
 <div class="block">Returns an equivalence that delegates to <code>Object.equals(java.lang.Object)</code> and <code>Object.hashCode()</code>.
  <a href="#equivalent(T,T)"><code>equivalent(T, T)</code></a> returns <code>true</code> if both values are null, or if neither
  value is null and <code>Object.equals(java.lang.Object)</code> returns <code>true</code>. <a href="#hash(T)"><code>hash(T)</code></a> returns
@@ -542,7 +547,7 @@ public final&nbsp;&lt;S extends <a href="https://checkerframework.org/api/org/ch
 <ul class="blockListLast">
 <li class="blockList">
 <h4>identity</h4>
-<pre class="methodSignature">public static&nbsp;<a href="Equivalence.html" title="class in com.google.common.base">Equivalence</a>&lt;java.lang.Object&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Equivalence.html#line.340">identity</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="Equivalence.html" title="class in com.google.common.base">Equivalence</a>&lt;java.lang.Object&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Equivalence.html#line.345">identity</a>()</pre>
 <div class="block">Returns an equivalence that uses <code>==</code> to compare values and <code>System.identityHashCode(Object)</code> to compute the hash code. <a href="#equivalent(T,T)"><code>equivalent(T, T)</code></a>
  returns <code>true</code> if <code>a == b</code>, including in the case that a and b are both null.</div>
 <dl>

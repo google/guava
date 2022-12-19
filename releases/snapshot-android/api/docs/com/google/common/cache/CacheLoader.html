@@ -429,10 +429,12 @@ public&nbsp;<a href="../util/concurrent/ListenableFuture.html" title="interface 
 <ul class="blockList">
 <li class="blockList">
 <h4>from</h4>
-<pre class="methodSignature">public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="CacheLoader.html" title="class in com.google.common.cache">CacheLoader</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheLoader.html#line.139">from</a>&#8203;(<a href="../base/Function.html" title="interface in com.google.common.base">Function</a>&lt;K,&#8203;V&gt;&nbsp;function)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="CacheLoader.html" title="class in com.google.common.cache">CacheLoader</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheLoader.html#line.141">from</a>&#8203;(<a href="../base/Function.html" title="interface in com.google.common.base">Function</a>&lt;K,&#8203;V&gt;&nbsp;function)</pre>
 <div class="block">Returns a cache loader that uses <code>function</code> to load keys, and without supporting either
  reloading or bulk loading. This is most useful when you can pass a lambda expression. Otherwise
- it is useful mostly when you already have an existing function instance.</div>
+ it is useful mostly when you already have an existing function instance.
+
+ <p>The returned object is serializable if <code>function</code> is serializable.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>function</code> - the function to be used for loading values; must never return <code>null</code></dd>
@@ -447,10 +449,12 @@ public&nbsp;<a href="../util/concurrent/ListenableFuture.html" title="interface 
 <ul class="blockList">
 <li class="blockList">
 <h4>from</h4>
-<pre class="methodSignature">public static&nbsp;&lt;V&gt;&nbsp;<a href="CacheLoader.html" title="class in com.google.common.cache">CacheLoader</a>&lt;java.lang.Object,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheLoader.html#line.152">from</a>&#8203;(<a href="../base/Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;V&gt;&nbsp;supplier)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;V&gt;&nbsp;<a href="CacheLoader.html" title="class in com.google.common.cache">CacheLoader</a>&lt;java.lang.Object,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheLoader.html#line.156">from</a>&#8203;(<a href="../base/Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;V&gt;&nbsp;supplier)</pre>
 <div class="block">Returns a cache loader based on an <i>existing</i> supplier instance. Note that there's no need
  to create a <i>new</i> supplier just to pass it in here; just subclass <code>CacheLoader</code> and
- implement <a href="#load(K)"><code>load</code></a> instead.</div>
+ implement <a href="#load(K)"><code>load</code></a> instead.
+
+ <p>The returned object is serializable if <code>supplier</code> is serializable.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>supplier</code> - the supplier to be used for loading values; must never return <code>null</code></dd>
@@ -467,7 +471,7 @@ public&nbsp;<a href="../util/concurrent/ListenableFuture.html" title="interface 
 <li class="blockList">
 <h4>asyncReloading</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="CacheLoader.html" title="class in com.google.common.cache">CacheLoader</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheLoader.html#line.181">asyncReloading</a>&#8203;(<a href="CacheLoader.html" title="class in com.google.common.cache">CacheLoader</a>&lt;K,&#8203;V&gt;&nbsp;loader,
+public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="CacheLoader.html" title="class in com.google.common.cache">CacheLoader</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheLoader.html#line.185">asyncReloading</a>&#8203;(<a href="CacheLoader.html" title="class in com.google.common.cache">CacheLoader</a>&lt;K,&#8203;V&gt;&nbsp;loader,
                                                                 java.util.concurrent.Executor&nbsp;executor)</pre>
 <div class="block">Returns a <code>CacheLoader</code> which wraps <code>loader</code>, executing calls to <a href="#reload(K,V)"><code>reload(K, V)</code></a> using <code>executor</code>.
 

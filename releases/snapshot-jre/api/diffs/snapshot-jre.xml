@@ -802,7 +802,8 @@
       deprecated="not deprecated">
       <param name="targetFormat" type="com.google.common.base.CaseFormat"/>
       <doc>
-      <![CDATA[Returns a {@code Converter} that converts strings from this format to {@code targetFormat}.
+      <![CDATA[Returns a serializable {@code Converter} that converts strings from this format to {@code
+ targetFormat}.
 
  @since 16.0]]>
       </doc>
@@ -1869,10 +1870,10 @@
       deprecated="not deprecated">
       <param name="enumClass" type="java.lang.Class&lt;T&gt;"/>
       <doc>
-      <![CDATA[Returns a converter that converts between strings and {@code enum} values of type {@code
- enumClass} using {@link Enum#valueOf(Class, String)} and {@link Enum#name()}. The converter
- will throw an {@code IllegalArgumentException} if the argument is not the name of any enum
- constant in the specified enum.
+      <![CDATA[Returns a serializable converter that converts between strings and {@code enum} values of type
+ {@code enumClass} using {@link Enum#valueOf(Class, String)} and {@link Enum#name()}. The
+ converter will throw an {@code IllegalArgumentException} if the argument is not the name of any
+ enum constant in the specified enum.
 
  @since 16.0]]>
       </doc>
@@ -2028,6 +2029,9 @@
  Object.equals()} such that {@code wrap(a).equals(wrap(b))} if and only if {@code equivalent(a,
  b)}.
 
+ <p>The returned object is serializable if both this {@code Equivalence} and {@code reference}
+ are serializable (including when {@code reference} is null).
+
  @since 10.0]]>
       </doc>
     </method>
@@ -2043,6 +2047,8 @@
 
  <p>Note that this method performs a similar function for equivalences as {@link
  com.google.common.collect.Ordering#lexicographical} does for orderings.
+
+ <p>The returned object is serializable if this object is serializable.
 
  @since 10.0]]>
       </doc>
@@ -3674,6 +3680,9 @@
 
  <p>This class is not intended as a direct analogue of any existing "option" or "maybe" construct
  from other programming environments, though it may bear some similarities.
+
+ <p>An instance of this class is serializable if its reference is absent or is a serializable
+ object.
 
  <p><b>Comparison to {@code java.util.Optional} (JDK 8 and higher):</b> A new {@code Optional}
  class was added for Java 8. The two classes are extremely similar, but incompatible (they cannot
@@ -6334,7 +6343,7 @@
  <p>The returned supplier is thread-safe. The delegate's {@code get()} method will be invoked at
  most once unless the underlying {@code get()} throws an exception. The supplier's serialized
  form does not contain the cached value, which will be recalculated when {@code get()} is called
- on the reserialized instance.
+ on the deserialized instance.
 
  <p>When the underlying delegate throws an exception then this memoizing supplier will keep
  delegating calls until it returns valid data.
@@ -8852,6 +8861,8 @@
       <![CDATA[Returns a cache loader that uses {@code function} to load keys, without supporting either
  reloading or bulk loading. This allows creating a cache loader using a lambda expression.
 
+ <p>The returned object is serializable if {@code function} is serializable.
+
  @param function the function to be used for loading values; must never return {@code null}
  @return a cache loader that loads values by passing each key to {@code function}]]>
       </doc>
@@ -8865,6 +8876,8 @@
       <![CDATA[Returns a cache loader based on an <i>existing</i> supplier instance. Note that there's no need
  to create a <i>new</i> supplier just to pass it in here; just subclass {@code CacheLoader} and
  implement {@link #load load} instead.
+
+ <p>The returned object is serializable if {@code supplier} is serializable.
 
  @param supplier the supplier to be used for loading values; must never return {@code null}
  @return a cache loader that loads values by calling {@link Supplier#get}, irrespective of the
@@ -11686,6 +11699,9 @@
       <doc>
       <![CDATA[Returns the discrete domain for values of type {@code Integer}.
 
+ <p>This method always returns the same object. That object is serializable; deserializing it
+ results in the same object too.
+
  @since 14.0 (since 10.0 as {@code DiscreteDomains.integers()})]]>
       </doc>
     </method>
@@ -11696,6 +11712,9 @@
       <doc>
       <![CDATA[Returns the discrete domain for values of type {@code Long}.
 
+ <p>This method always returns the same object. That object is serializable; deserializing it
+ results in the same object too.
+
  @since 14.0 (since 10.0 as {@code DiscreteDomains.longs()})]]>
       </doc>
     </method>
@@ -11705,6 +11724,9 @@
       deprecated="not deprecated">
       <doc>
       <![CDATA[Returns the discrete domain for values of type {@code BigInteger}.
+
+ <p>This method always returns the same object. That object is serializable; deserializing it
+ results in the same object too.
 
  @since 15.0]]>
       </doc>
@@ -31612,6 +31634,8 @@
  to pass it in here. Instead, simply subclass {@code Ordering} and implement its {@code compare}
  method directly.
 
+ <p>The returned object is serializable if {@code comparator} is serializable.
+
  <p><b>Java 8 users:</b> this class is now obsolete as explained in the class documentation, so
  there is no need to use this method.
 
@@ -31768,6 +31792,8 @@
       <![CDATA[Returns an ordering that treats {@code null} as less than all other values and uses {@code
  this} to compare non-null values.
 
+ <p>The returned object is serializable if this object is serializable.
+
  <p><b>Java 8 users:</b> Use {@code Comparator.nullsFirst(thisComparator)} instead.]]>
       </doc>
     </method>
@@ -31778,6 +31804,8 @@
       <doc>
       <![CDATA[Returns an ordering that treats {@code null} as greater than all other values and uses this
  ordering to compare non-null values.
+
+ <p>The returned object is serializable if this object is serializable.
 
  <p><b>Java 8 users:</b> Use {@code Comparator.nullsLast(thisComparator)} instead.]]>
       </doc>
@@ -31815,6 +31843,9 @@
  <p>An ordering produced by this method, or a chain of calls to this method, is equivalent to
  one created using {@link Ordering#compound(Iterable)} on the same component comparators.
 
+ <p>The returned object is serializable if this object and {@code secondaryComparator} are both
+ serializable.
+
  <p><b>Java 8 users:</b> Use {@code thisComparator.thenComparing(secondaryComparator)} instead.
  Depending on what {@code secondaryComparator} is, one of the other overloads of {@code
  thenComparing} may be even more useful.]]>
@@ -31833,6 +31864,8 @@
 
  <p>The returned ordering is equivalent to that produced using {@code
  Ordering.from(comp1).compound(comp2).compound(comp3) . . .}.
+
+ <p>The returned object is serializable if each of the {@code comparators} is serializable.
 
  <p><b>Warning:</b> Supplying an argument with undefined iteration order, such as a {@link
  HashSet}, will produce non-deterministic results.
@@ -33294,6 +33327,7 @@
        <i>P</i> if, for all ranges {@code b} also having property <i>P</i>, {@code a.encloses(b)}.
        Likewise, {@code a} is <i>minimal</i> when {@code b.encloses(a)} for all {@code b} having
        property <i>P</i>. See, for example, the definition of {@link #intersection intersection}.
+   <li>A {@code Range} is serializable if it has no bounds, or if each bound is serializable.
  </ul>
 
  <h3>Further reading</h3>
@@ -55819,6 +55853,8 @@
  <p>There are at most two distinct objects in this list, {@code (Boolean) true} and {@code
  (Boolean) false}. Java guarantees that those are always represented by the same objects.
 
+ <p>The returned list is serializable.
+
  @param backingArray the array to back the list
  @return a list view of the array]]>
       </doc>
@@ -56061,6 +56097,8 @@
  <p>The returned list maintains the values, but not the identities, of {@code Byte} objects
  written to or read from it. For example, whether {@code list.get(0) == list.get(0)} is true for
  the returned list is unspecified.
+
+ <p>The returned list is serializable.
 
  @param backingArray the array to back the list
  @return a list view of the array]]>
@@ -56562,6 +56600,8 @@
  written to or read from it. For example, whether {@code list.get(0) == list.get(0)} is true for
  the returned list is unspecified.
 
+ <p>The returned list is serializable.
+
  @param backingArray the array to back the list
  @return a list view of the array]]>
       </doc>
@@ -56980,6 +57020,8 @@
 
  <p>The returned list may have unexpected behavior if it contains {@code NaN}, or if {@code NaN}
  is used as a parameter to any of its methods.
+
+ <p>The returned list is serializable.
 
  <p><b>Note:</b> when possible, you should represent your data as an {@link
  ImmutableDoubleArray} instead, which has an {@link ImmutableDoubleArray#asList asList} view.
@@ -57423,6 +57465,8 @@
 
  <p>The returned list may have unexpected behavior if it contains {@code NaN}, or if {@code NaN}
  is used as a parameter to any of its methods.
+
+ <p>The returned list is serializable.
 
  @param backingArray the array to back the list
  @return a list view of the array]]>
@@ -59250,6 +59294,8 @@
  written to or read from it. For example, whether {@code list.get(0) == list.get(0)} is true for
  the returned list is unspecified.
 
+ <p>The returned list is serializable.
+
  <p><b>Note:</b> when possible, you should represent your data as an {@link ImmutableIntArray}
  instead, which has an {@link ImmutableIntArray#asList asList} view.
 
@@ -59803,6 +59849,8 @@
  written to or read from it. For example, whether {@code list.get(0) == list.get(0)} is true for
  the returned list is unspecified.
 
+ <p>The returned list is serializable.
+
  <p><b>Note:</b> when possible, you should represent your data as an {@link ImmutableLongArray}
  instead, which has an {@link ImmutableLongArray#asList asList} view.
 
@@ -60352,6 +60400,8 @@
  <p>The returned list maintains the values, but not the identities, of {@code Short} objects
  written to or read from it. For example, whether {@code list.get(0) == list.get(0)} is true for
  the returned list is unspecified.
+
+ <p>The returned list is serializable.
 
  @param backingArray the array to back the list
  @return a list view of the array]]>
@@ -65847,6 +65897,8 @@
 
  <p>Instances of this class may be used by multiple threads concurrently. All operations are
  atomic unless otherwise noted.
+
+ <p>Instances of this class are serializable if the keys are serializable.
 
  <p><b>Note:</b> If your values are always positive and less than 2^31, you may wish to use a
  {@link com.google.common.collect.Multiset} such as {@link

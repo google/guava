@@ -634,207 +634,209 @@
 <span class="sourceLineNo">625</span><a id="line.625">   * written to or read from it. For example, whether {@code list.get(0) == list.get(0)} is true for</a>
 <span class="sourceLineNo">626</span><a id="line.626">   * the returned list is unspecified.</a>
 <span class="sourceLineNo">627</span><a id="line.627">   *</a>
-<span class="sourceLineNo">628</span><a id="line.628">   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; when possible, you should represent your data as an {@link ImmutableIntArray}</a>
-<span class="sourceLineNo">629</span><a id="line.629">   * instead, which has an {@link ImmutableIntArray#asList asList} view.</a>
-<span class="sourceLineNo">630</span><a id="line.630">   *</a>
-<span class="sourceLineNo">631</span><a id="line.631">   * @param backingArray the array to back the list</a>
-<span class="sourceLineNo">632</span><a id="line.632">   * @return a list view of the array</a>
-<span class="sourceLineNo">633</span><a id="line.633">   */</a>
-<span class="sourceLineNo">634</span><a id="line.634">  public static List&lt;Integer&gt; asList(int... backingArray) {</a>
-<span class="sourceLineNo">635</span><a id="line.635">    if (backingArray.length == 0) {</a>
-<span class="sourceLineNo">636</span><a id="line.636">      return Collections.emptyList();</a>
-<span class="sourceLineNo">637</span><a id="line.637">    }</a>
-<span class="sourceLineNo">638</span><a id="line.638">    return new IntArrayAsList(backingArray);</a>
-<span class="sourceLineNo">639</span><a id="line.639">  }</a>
-<span class="sourceLineNo">640</span><a id="line.640"></a>
-<span class="sourceLineNo">641</span><a id="line.641">  @GwtCompatible</a>
-<span class="sourceLineNo">642</span><a id="line.642">  private static class IntArrayAsList extends AbstractList&lt;Integer&gt;</a>
-<span class="sourceLineNo">643</span><a id="line.643">      implements RandomAccess, Serializable {</a>
-<span class="sourceLineNo">644</span><a id="line.644">    final int[] array;</a>
-<span class="sourceLineNo">645</span><a id="line.645">    final int start;</a>
-<span class="sourceLineNo">646</span><a id="line.646">    final int end;</a>
-<span class="sourceLineNo">647</span><a id="line.647"></a>
-<span class="sourceLineNo">648</span><a id="line.648">    IntArrayAsList(int[] array) {</a>
-<span class="sourceLineNo">649</span><a id="line.649">      this(array, 0, array.length);</a>
-<span class="sourceLineNo">650</span><a id="line.650">    }</a>
-<span class="sourceLineNo">651</span><a id="line.651"></a>
-<span class="sourceLineNo">652</span><a id="line.652">    IntArrayAsList(int[] array, int start, int end) {</a>
-<span class="sourceLineNo">653</span><a id="line.653">      this.array = array;</a>
-<span class="sourceLineNo">654</span><a id="line.654">      this.start = start;</a>
-<span class="sourceLineNo">655</span><a id="line.655">      this.end = end;</a>
-<span class="sourceLineNo">656</span><a id="line.656">    }</a>
-<span class="sourceLineNo">657</span><a id="line.657"></a>
-<span class="sourceLineNo">658</span><a id="line.658">    @Override</a>
-<span class="sourceLineNo">659</span><a id="line.659">    public int size() {</a>
-<span class="sourceLineNo">660</span><a id="line.660">      return end - start;</a>
-<span class="sourceLineNo">661</span><a id="line.661">    }</a>
-<span class="sourceLineNo">662</span><a id="line.662"></a>
-<span class="sourceLineNo">663</span><a id="line.663">    @Override</a>
-<span class="sourceLineNo">664</span><a id="line.664">    public boolean isEmpty() {</a>
-<span class="sourceLineNo">665</span><a id="line.665">      return false;</a>
-<span class="sourceLineNo">666</span><a id="line.666">    }</a>
-<span class="sourceLineNo">667</span><a id="line.667"></a>
-<span class="sourceLineNo">668</span><a id="line.668">    @Override</a>
-<span class="sourceLineNo">669</span><a id="line.669">    public Integer get(int index) {</a>
-<span class="sourceLineNo">670</span><a id="line.670">      checkElementIndex(index, size());</a>
-<span class="sourceLineNo">671</span><a id="line.671">      return array[start + index];</a>
-<span class="sourceLineNo">672</span><a id="line.672">    }</a>
-<span class="sourceLineNo">673</span><a id="line.673"></a>
-<span class="sourceLineNo">674</span><a id="line.674">    @Override</a>
-<span class="sourceLineNo">675</span><a id="line.675">    public Spliterator.OfInt spliterator() {</a>
-<span class="sourceLineNo">676</span><a id="line.676">      return Spliterators.spliterator(array, start, end, 0);</a>
-<span class="sourceLineNo">677</span><a id="line.677">    }</a>
-<span class="sourceLineNo">678</span><a id="line.678"></a>
-<span class="sourceLineNo">679</span><a id="line.679">    @Override</a>
-<span class="sourceLineNo">680</span><a id="line.680">    public boolean contains(@CheckForNull Object target) {</a>
-<span class="sourceLineNo">681</span><a id="line.681">      // Overridden to prevent a ton of boxing</a>
-<span class="sourceLineNo">682</span><a id="line.682">      return (target instanceof Integer) &amp;&amp; Ints.indexOf(array, (Integer) target, start, end) != -1;</a>
-<span class="sourceLineNo">683</span><a id="line.683">    }</a>
-<span class="sourceLineNo">684</span><a id="line.684"></a>
-<span class="sourceLineNo">685</span><a id="line.685">    @Override</a>
-<span class="sourceLineNo">686</span><a id="line.686">    public int indexOf(@CheckForNull Object target) {</a>
-<span class="sourceLineNo">687</span><a id="line.687">      // Overridden to prevent a ton of boxing</a>
-<span class="sourceLineNo">688</span><a id="line.688">      if (target instanceof Integer) {</a>
-<span class="sourceLineNo">689</span><a id="line.689">        int i = Ints.indexOf(array, (Integer) target, start, end);</a>
-<span class="sourceLineNo">690</span><a id="line.690">        if (i &gt;= 0) {</a>
-<span class="sourceLineNo">691</span><a id="line.691">          return i - start;</a>
-<span class="sourceLineNo">692</span><a id="line.692">        }</a>
-<span class="sourceLineNo">693</span><a id="line.693">      }</a>
-<span class="sourceLineNo">694</span><a id="line.694">      return -1;</a>
-<span class="sourceLineNo">695</span><a id="line.695">    }</a>
-<span class="sourceLineNo">696</span><a id="line.696"></a>
-<span class="sourceLineNo">697</span><a id="line.697">    @Override</a>
-<span class="sourceLineNo">698</span><a id="line.698">    public int lastIndexOf(@CheckForNull Object target) {</a>
-<span class="sourceLineNo">699</span><a id="line.699">      // Overridden to prevent a ton of boxing</a>
-<span class="sourceLineNo">700</span><a id="line.700">      if (target instanceof Integer) {</a>
-<span class="sourceLineNo">701</span><a id="line.701">        int i = Ints.lastIndexOf(array, (Integer) target, start, end);</a>
-<span class="sourceLineNo">702</span><a id="line.702">        if (i &gt;= 0) {</a>
-<span class="sourceLineNo">703</span><a id="line.703">          return i - start;</a>
-<span class="sourceLineNo">704</span><a id="line.704">        }</a>
-<span class="sourceLineNo">705</span><a id="line.705">      }</a>
-<span class="sourceLineNo">706</span><a id="line.706">      return -1;</a>
-<span class="sourceLineNo">707</span><a id="line.707">    }</a>
-<span class="sourceLineNo">708</span><a id="line.708"></a>
-<span class="sourceLineNo">709</span><a id="line.709">    @Override</a>
-<span class="sourceLineNo">710</span><a id="line.710">    public Integer set(int index, Integer element) {</a>
-<span class="sourceLineNo">711</span><a id="line.711">      checkElementIndex(index, size());</a>
-<span class="sourceLineNo">712</span><a id="line.712">      int oldValue = array[start + index];</a>
-<span class="sourceLineNo">713</span><a id="line.713">      // checkNotNull for GWT (do not optimize)</a>
-<span class="sourceLineNo">714</span><a id="line.714">      array[start + index] = checkNotNull(element);</a>
-<span class="sourceLineNo">715</span><a id="line.715">      return oldValue;</a>
-<span class="sourceLineNo">716</span><a id="line.716">    }</a>
-<span class="sourceLineNo">717</span><a id="line.717"></a>
-<span class="sourceLineNo">718</span><a id="line.718">    @Override</a>
-<span class="sourceLineNo">719</span><a id="line.719">    public List&lt;Integer&gt; subList(int fromIndex, int toIndex) {</a>
-<span class="sourceLineNo">720</span><a id="line.720">      int size = size();</a>
-<span class="sourceLineNo">721</span><a id="line.721">      checkPositionIndexes(fromIndex, toIndex, size);</a>
-<span class="sourceLineNo">722</span><a id="line.722">      if (fromIndex == toIndex) {</a>
-<span class="sourceLineNo">723</span><a id="line.723">        return Collections.emptyList();</a>
-<span class="sourceLineNo">724</span><a id="line.724">      }</a>
-<span class="sourceLineNo">725</span><a id="line.725">      return new IntArrayAsList(array, start + fromIndex, start + toIndex);</a>
-<span class="sourceLineNo">726</span><a id="line.726">    }</a>
-<span class="sourceLineNo">727</span><a id="line.727"></a>
-<span class="sourceLineNo">728</span><a id="line.728">    @Override</a>
-<span class="sourceLineNo">729</span><a id="line.729">    public boolean equals(@CheckForNull Object object) {</a>
-<span class="sourceLineNo">730</span><a id="line.730">      if (object == this) {</a>
-<span class="sourceLineNo">731</span><a id="line.731">        return true;</a>
-<span class="sourceLineNo">732</span><a id="line.732">      }</a>
-<span class="sourceLineNo">733</span><a id="line.733">      if (object instanceof IntArrayAsList) {</a>
-<span class="sourceLineNo">734</span><a id="line.734">        IntArrayAsList that = (IntArrayAsList) object;</a>
-<span class="sourceLineNo">735</span><a id="line.735">        int size = size();</a>
-<span class="sourceLineNo">736</span><a id="line.736">        if (that.size() != size) {</a>
-<span class="sourceLineNo">737</span><a id="line.737">          return false;</a>
-<span class="sourceLineNo">738</span><a id="line.738">        }</a>
-<span class="sourceLineNo">739</span><a id="line.739">        for (int i = 0; i &lt; size; i++) {</a>
-<span class="sourceLineNo">740</span><a id="line.740">          if (array[start + i] != that.array[that.start + i]) {</a>
-<span class="sourceLineNo">741</span><a id="line.741">            return false;</a>
-<span class="sourceLineNo">742</span><a id="line.742">          }</a>
-<span class="sourceLineNo">743</span><a id="line.743">        }</a>
-<span class="sourceLineNo">744</span><a id="line.744">        return true;</a>
-<span class="sourceLineNo">745</span><a id="line.745">      }</a>
-<span class="sourceLineNo">746</span><a id="line.746">      return super.equals(object);</a>
-<span class="sourceLineNo">747</span><a id="line.747">    }</a>
-<span class="sourceLineNo">748</span><a id="line.748"></a>
-<span class="sourceLineNo">749</span><a id="line.749">    @Override</a>
-<span class="sourceLineNo">750</span><a id="line.750">    public int hashCode() {</a>
-<span class="sourceLineNo">751</span><a id="line.751">      int result = 1;</a>
-<span class="sourceLineNo">752</span><a id="line.752">      for (int i = start; i &lt; end; i++) {</a>
-<span class="sourceLineNo">753</span><a id="line.753">        result = 31 * result + Ints.hashCode(array[i]);</a>
-<span class="sourceLineNo">754</span><a id="line.754">      }</a>
-<span class="sourceLineNo">755</span><a id="line.755">      return result;</a>
-<span class="sourceLineNo">756</span><a id="line.756">    }</a>
-<span class="sourceLineNo">757</span><a id="line.757"></a>
-<span class="sourceLineNo">758</span><a id="line.758">    @Override</a>
-<span class="sourceLineNo">759</span><a id="line.759">    public String toString() {</a>
-<span class="sourceLineNo">760</span><a id="line.760">      StringBuilder builder = new StringBuilder(size() * 5);</a>
-<span class="sourceLineNo">761</span><a id="line.761">      builder.append('[').append(array[start]);</a>
-<span class="sourceLineNo">762</span><a id="line.762">      for (int i = start + 1; i &lt; end; i++) {</a>
-<span class="sourceLineNo">763</span><a id="line.763">        builder.append(", ").append(array[i]);</a>
-<span class="sourceLineNo">764</span><a id="line.764">      }</a>
-<span class="sourceLineNo">765</span><a id="line.765">      return builder.append(']').toString();</a>
-<span class="sourceLineNo">766</span><a id="line.766">    }</a>
-<span class="sourceLineNo">767</span><a id="line.767"></a>
-<span class="sourceLineNo">768</span><a id="line.768">    int[] toIntArray() {</a>
-<span class="sourceLineNo">769</span><a id="line.769">      return Arrays.copyOfRange(array, start, end);</a>
-<span class="sourceLineNo">770</span><a id="line.770">    }</a>
-<span class="sourceLineNo">771</span><a id="line.771"></a>
-<span class="sourceLineNo">772</span><a id="line.772">    private static final long serialVersionUID = 0;</a>
-<span class="sourceLineNo">773</span><a id="line.773">  }</a>
-<span class="sourceLineNo">774</span><a id="line.774"></a>
-<span class="sourceLineNo">775</span><a id="line.775">  /**</a>
-<span class="sourceLineNo">776</span><a id="line.776">   * Parses the specified string as a signed decimal integer value. The ASCII character {@code '-'}</a>
-<span class="sourceLineNo">777</span><a id="line.777">   * (&lt;code&gt;'&amp;#92;u002D'&lt;/code&gt;) is recognized as the minus sign.</a>
-<span class="sourceLineNo">778</span><a id="line.778">   *</a>
-<span class="sourceLineNo">779</span><a id="line.779">   * &lt;p&gt;Unlike {@link Integer#parseInt(String)}, this method returns {@code null} instead of</a>
-<span class="sourceLineNo">780</span><a id="line.780">   * throwing an exception if parsing fails. Additionally, this method only accepts ASCII digits,</a>
-<span class="sourceLineNo">781</span><a id="line.781">   * and returns {@code null} if non-ASCII digits are present in the string.</a>
-<span class="sourceLineNo">782</span><a id="line.782">   *</a>
-<span class="sourceLineNo">783</span><a id="line.783">   * &lt;p&gt;Note that strings prefixed with ASCII {@code '+'} are rejected, even under JDK 7, despite</a>
-<span class="sourceLineNo">784</span><a id="line.784">   * the change to {@link Integer#parseInt(String)} for that version.</a>
-<span class="sourceLineNo">785</span><a id="line.785">   *</a>
-<span class="sourceLineNo">786</span><a id="line.786">   * @param string the string representation of an integer value</a>
-<span class="sourceLineNo">787</span><a id="line.787">   * @return the integer value represented by {@code string}, or {@code null} if {@code string} has</a>
-<span class="sourceLineNo">788</span><a id="line.788">   *     a length of zero or cannot be parsed as an integer value</a>
-<span class="sourceLineNo">789</span><a id="line.789">   * @throws NullPointerException if {@code string} is {@code null}</a>
-<span class="sourceLineNo">790</span><a id="line.790">   * @since 11.0</a>
-<span class="sourceLineNo">791</span><a id="line.791">   */</a>
-<span class="sourceLineNo">792</span><a id="line.792">  @Beta</a>
-<span class="sourceLineNo">793</span><a id="line.793">  @CheckForNull</a>
-<span class="sourceLineNo">794</span><a id="line.794">  public static Integer tryParse(String string) {</a>
-<span class="sourceLineNo">795</span><a id="line.795">    return tryParse(string, 10);</a>
-<span class="sourceLineNo">796</span><a id="line.796">  }</a>
-<span class="sourceLineNo">797</span><a id="line.797"></a>
-<span class="sourceLineNo">798</span><a id="line.798">  /**</a>
-<span class="sourceLineNo">799</span><a id="line.799">   * Parses the specified string as a signed integer value using the specified radix. The ASCII</a>
-<span class="sourceLineNo">800</span><a id="line.800">   * character {@code '-'} (&lt;code&gt;'&amp;#92;u002D'&lt;/code&gt;) is recognized as the minus sign.</a>
-<span class="sourceLineNo">801</span><a id="line.801">   *</a>
-<span class="sourceLineNo">802</span><a id="line.802">   * &lt;p&gt;Unlike {@link Integer#parseInt(String, int)}, this method returns {@code null} instead of</a>
-<span class="sourceLineNo">803</span><a id="line.803">   * throwing an exception if parsing fails. Additionally, this method only accepts ASCII digits,</a>
-<span class="sourceLineNo">804</span><a id="line.804">   * and returns {@code null} if non-ASCII digits are present in the string.</a>
-<span class="sourceLineNo">805</span><a id="line.805">   *</a>
-<span class="sourceLineNo">806</span><a id="line.806">   * &lt;p&gt;Note that strings prefixed with ASCII {@code '+'} are rejected, even under JDK 7, despite</a>
-<span class="sourceLineNo">807</span><a id="line.807">   * the change to {@link Integer#parseInt(String, int)} for that version.</a>
-<span class="sourceLineNo">808</span><a id="line.808">   *</a>
-<span class="sourceLineNo">809</span><a id="line.809">   * @param string the string representation of an integer value</a>
-<span class="sourceLineNo">810</span><a id="line.810">   * @param radix the radix to use when parsing</a>
-<span class="sourceLineNo">811</span><a id="line.811">   * @return the integer value represented by {@code string} using {@code radix}, or {@code null} if</a>
-<span class="sourceLineNo">812</span><a id="line.812">   *     {@code string} has a length of zero or cannot be parsed as an integer value</a>
-<span class="sourceLineNo">813</span><a id="line.813">   * @throws IllegalArgumentException if {@code radix &lt; Character.MIN_RADIX} or {@code radix &gt;</a>
-<span class="sourceLineNo">814</span><a id="line.814">   *     Character.MAX_RADIX}</a>
-<span class="sourceLineNo">815</span><a id="line.815">   * @throws NullPointerException if {@code string} is {@code null}</a>
-<span class="sourceLineNo">816</span><a id="line.816">   * @since 19.0</a>
-<span class="sourceLineNo">817</span><a id="line.817">   */</a>
-<span class="sourceLineNo">818</span><a id="line.818">  @Beta</a>
-<span class="sourceLineNo">819</span><a id="line.819">  @CheckForNull</a>
-<span class="sourceLineNo">820</span><a id="line.820">  public static Integer tryParse(String string, int radix) {</a>
-<span class="sourceLineNo">821</span><a id="line.821">    Long result = Longs.tryParse(string, radix);</a>
-<span class="sourceLineNo">822</span><a id="line.822">    if (result == null || result.longValue() != result.intValue()) {</a>
-<span class="sourceLineNo">823</span><a id="line.823">      return null;</a>
-<span class="sourceLineNo">824</span><a id="line.824">    } else {</a>
-<span class="sourceLineNo">825</span><a id="line.825">      return result.intValue();</a>
-<span class="sourceLineNo">826</span><a id="line.826">    }</a>
-<span class="sourceLineNo">827</span><a id="line.827">  }</a>
-<span class="sourceLineNo">828</span><a id="line.828">}</a>
+<span class="sourceLineNo">628</span><a id="line.628">   * &lt;p&gt;The returned list is serializable.</a>
+<span class="sourceLineNo">629</span><a id="line.629">   *</a>
+<span class="sourceLineNo">630</span><a id="line.630">   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; when possible, you should represent your data as an {@link ImmutableIntArray}</a>
+<span class="sourceLineNo">631</span><a id="line.631">   * instead, which has an {@link ImmutableIntArray#asList asList} view.</a>
+<span class="sourceLineNo">632</span><a id="line.632">   *</a>
+<span class="sourceLineNo">633</span><a id="line.633">   * @param backingArray the array to back the list</a>
+<span class="sourceLineNo">634</span><a id="line.634">   * @return a list view of the array</a>
+<span class="sourceLineNo">635</span><a id="line.635">   */</a>
+<span class="sourceLineNo">636</span><a id="line.636">  public static List&lt;Integer&gt; asList(int... backingArray) {</a>
+<span class="sourceLineNo">637</span><a id="line.637">    if (backingArray.length == 0) {</a>
+<span class="sourceLineNo">638</span><a id="line.638">      return Collections.emptyList();</a>
+<span class="sourceLineNo">639</span><a id="line.639">    }</a>
+<span class="sourceLineNo">640</span><a id="line.640">    return new IntArrayAsList(backingArray);</a>
+<span class="sourceLineNo">641</span><a id="line.641">  }</a>
+<span class="sourceLineNo">642</span><a id="line.642"></a>
+<span class="sourceLineNo">643</span><a id="line.643">  @GwtCompatible</a>
+<span class="sourceLineNo">644</span><a id="line.644">  private static class IntArrayAsList extends AbstractList&lt;Integer&gt;</a>
+<span class="sourceLineNo">645</span><a id="line.645">      implements RandomAccess, Serializable {</a>
+<span class="sourceLineNo">646</span><a id="line.646">    final int[] array;</a>
+<span class="sourceLineNo">647</span><a id="line.647">    final int start;</a>
+<span class="sourceLineNo">648</span><a id="line.648">    final int end;</a>
+<span class="sourceLineNo">649</span><a id="line.649"></a>
+<span class="sourceLineNo">650</span><a id="line.650">    IntArrayAsList(int[] array) {</a>
+<span class="sourceLineNo">651</span><a id="line.651">      this(array, 0, array.length);</a>
+<span class="sourceLineNo">652</span><a id="line.652">    }</a>
+<span class="sourceLineNo">653</span><a id="line.653"></a>
+<span class="sourceLineNo">654</span><a id="line.654">    IntArrayAsList(int[] array, int start, int end) {</a>
+<span class="sourceLineNo">655</span><a id="line.655">      this.array = array;</a>
+<span class="sourceLineNo">656</span><a id="line.656">      this.start = start;</a>
+<span class="sourceLineNo">657</span><a id="line.657">      this.end = end;</a>
+<span class="sourceLineNo">658</span><a id="line.658">    }</a>
+<span class="sourceLineNo">659</span><a id="line.659"></a>
+<span class="sourceLineNo">660</span><a id="line.660">    @Override</a>
+<span class="sourceLineNo">661</span><a id="line.661">    public int size() {</a>
+<span class="sourceLineNo">662</span><a id="line.662">      return end - start;</a>
+<span class="sourceLineNo">663</span><a id="line.663">    }</a>
+<span class="sourceLineNo">664</span><a id="line.664"></a>
+<span class="sourceLineNo">665</span><a id="line.665">    @Override</a>
+<span class="sourceLineNo">666</span><a id="line.666">    public boolean isEmpty() {</a>
+<span class="sourceLineNo">667</span><a id="line.667">      return false;</a>
+<span class="sourceLineNo">668</span><a id="line.668">    }</a>
+<span class="sourceLineNo">669</span><a id="line.669"></a>
+<span class="sourceLineNo">670</span><a id="line.670">    @Override</a>
+<span class="sourceLineNo">671</span><a id="line.671">    public Integer get(int index) {</a>
+<span class="sourceLineNo">672</span><a id="line.672">      checkElementIndex(index, size());</a>
+<span class="sourceLineNo">673</span><a id="line.673">      return array[start + index];</a>
+<span class="sourceLineNo">674</span><a id="line.674">    }</a>
+<span class="sourceLineNo">675</span><a id="line.675"></a>
+<span class="sourceLineNo">676</span><a id="line.676">    @Override</a>
+<span class="sourceLineNo">677</span><a id="line.677">    public Spliterator.OfInt spliterator() {</a>
+<span class="sourceLineNo">678</span><a id="line.678">      return Spliterators.spliterator(array, start, end, 0);</a>
+<span class="sourceLineNo">679</span><a id="line.679">    }</a>
+<span class="sourceLineNo">680</span><a id="line.680"></a>
+<span class="sourceLineNo">681</span><a id="line.681">    @Override</a>
+<span class="sourceLineNo">682</span><a id="line.682">    public boolean contains(@CheckForNull Object target) {</a>
+<span class="sourceLineNo">683</span><a id="line.683">      // Overridden to prevent a ton of boxing</a>
+<span class="sourceLineNo">684</span><a id="line.684">      return (target instanceof Integer) &amp;&amp; Ints.indexOf(array, (Integer) target, start, end) != -1;</a>
+<span class="sourceLineNo">685</span><a id="line.685">    }</a>
+<span class="sourceLineNo">686</span><a id="line.686"></a>
+<span class="sourceLineNo">687</span><a id="line.687">    @Override</a>
+<span class="sourceLineNo">688</span><a id="line.688">    public int indexOf(@CheckForNull Object target) {</a>
+<span class="sourceLineNo">689</span><a id="line.689">      // Overridden to prevent a ton of boxing</a>
+<span class="sourceLineNo">690</span><a id="line.690">      if (target instanceof Integer) {</a>
+<span class="sourceLineNo">691</span><a id="line.691">        int i = Ints.indexOf(array, (Integer) target, start, end);</a>
+<span class="sourceLineNo">692</span><a id="line.692">        if (i &gt;= 0) {</a>
+<span class="sourceLineNo">693</span><a id="line.693">          return i - start;</a>
+<span class="sourceLineNo">694</span><a id="line.694">        }</a>
+<span class="sourceLineNo">695</span><a id="line.695">      }</a>
+<span class="sourceLineNo">696</span><a id="line.696">      return -1;</a>
+<span class="sourceLineNo">697</span><a id="line.697">    }</a>
+<span class="sourceLineNo">698</span><a id="line.698"></a>
+<span class="sourceLineNo">699</span><a id="line.699">    @Override</a>
+<span class="sourceLineNo">700</span><a id="line.700">    public int lastIndexOf(@CheckForNull Object target) {</a>
+<span class="sourceLineNo">701</span><a id="line.701">      // Overridden to prevent a ton of boxing</a>
+<span class="sourceLineNo">702</span><a id="line.702">      if (target instanceof Integer) {</a>
+<span class="sourceLineNo">703</span><a id="line.703">        int i = Ints.lastIndexOf(array, (Integer) target, start, end);</a>
+<span class="sourceLineNo">704</span><a id="line.704">        if (i &gt;= 0) {</a>
+<span class="sourceLineNo">705</span><a id="line.705">          return i - start;</a>
+<span class="sourceLineNo">706</span><a id="line.706">        }</a>
+<span class="sourceLineNo">707</span><a id="line.707">      }</a>
+<span class="sourceLineNo">708</span><a id="line.708">      return -1;</a>
+<span class="sourceLineNo">709</span><a id="line.709">    }</a>
+<span class="sourceLineNo">710</span><a id="line.710"></a>
+<span class="sourceLineNo">711</span><a id="line.711">    @Override</a>
+<span class="sourceLineNo">712</span><a id="line.712">    public Integer set(int index, Integer element) {</a>
+<span class="sourceLineNo">713</span><a id="line.713">      checkElementIndex(index, size());</a>
+<span class="sourceLineNo">714</span><a id="line.714">      int oldValue = array[start + index];</a>
+<span class="sourceLineNo">715</span><a id="line.715">      // checkNotNull for GWT (do not optimize)</a>
+<span class="sourceLineNo">716</span><a id="line.716">      array[start + index] = checkNotNull(element);</a>
+<span class="sourceLineNo">717</span><a id="line.717">      return oldValue;</a>
+<span class="sourceLineNo">718</span><a id="line.718">    }</a>
+<span class="sourceLineNo">719</span><a id="line.719"></a>
+<span class="sourceLineNo">720</span><a id="line.720">    @Override</a>
+<span class="sourceLineNo">721</span><a id="line.721">    public List&lt;Integer&gt; subList(int fromIndex, int toIndex) {</a>
+<span class="sourceLineNo">722</span><a id="line.722">      int size = size();</a>
+<span class="sourceLineNo">723</span><a id="line.723">      checkPositionIndexes(fromIndex, toIndex, size);</a>
+<span class="sourceLineNo">724</span><a id="line.724">      if (fromIndex == toIndex) {</a>
+<span class="sourceLineNo">725</span><a id="line.725">        return Collections.emptyList();</a>
+<span class="sourceLineNo">726</span><a id="line.726">      }</a>
+<span class="sourceLineNo">727</span><a id="line.727">      return new IntArrayAsList(array, start + fromIndex, start + toIndex);</a>
+<span class="sourceLineNo">728</span><a id="line.728">    }</a>
+<span class="sourceLineNo">729</span><a id="line.729"></a>
+<span class="sourceLineNo">730</span><a id="line.730">    @Override</a>
+<span class="sourceLineNo">731</span><a id="line.731">    public boolean equals(@CheckForNull Object object) {</a>
+<span class="sourceLineNo">732</span><a id="line.732">      if (object == this) {</a>
+<span class="sourceLineNo">733</span><a id="line.733">        return true;</a>
+<span class="sourceLineNo">734</span><a id="line.734">      }</a>
+<span class="sourceLineNo">735</span><a id="line.735">      if (object instanceof IntArrayAsList) {</a>
+<span class="sourceLineNo">736</span><a id="line.736">        IntArrayAsList that = (IntArrayAsList) object;</a>
+<span class="sourceLineNo">737</span><a id="line.737">        int size = size();</a>
+<span class="sourceLineNo">738</span><a id="line.738">        if (that.size() != size) {</a>
+<span class="sourceLineNo">739</span><a id="line.739">          return false;</a>
+<span class="sourceLineNo">740</span><a id="line.740">        }</a>
+<span class="sourceLineNo">741</span><a id="line.741">        for (int i = 0; i &lt; size; i++) {</a>
+<span class="sourceLineNo">742</span><a id="line.742">          if (array[start + i] != that.array[that.start + i]) {</a>
+<span class="sourceLineNo">743</span><a id="line.743">            return false;</a>
+<span class="sourceLineNo">744</span><a id="line.744">          }</a>
+<span class="sourceLineNo">745</span><a id="line.745">        }</a>
+<span class="sourceLineNo">746</span><a id="line.746">        return true;</a>
+<span class="sourceLineNo">747</span><a id="line.747">      }</a>
+<span class="sourceLineNo">748</span><a id="line.748">      return super.equals(object);</a>
+<span class="sourceLineNo">749</span><a id="line.749">    }</a>
+<span class="sourceLineNo">750</span><a id="line.750"></a>
+<span class="sourceLineNo">751</span><a id="line.751">    @Override</a>
+<span class="sourceLineNo">752</span><a id="line.752">    public int hashCode() {</a>
+<span class="sourceLineNo">753</span><a id="line.753">      int result = 1;</a>
+<span class="sourceLineNo">754</span><a id="line.754">      for (int i = start; i &lt; end; i++) {</a>
+<span class="sourceLineNo">755</span><a id="line.755">        result = 31 * result + Ints.hashCode(array[i]);</a>
+<span class="sourceLineNo">756</span><a id="line.756">      }</a>
+<span class="sourceLineNo">757</span><a id="line.757">      return result;</a>
+<span class="sourceLineNo">758</span><a id="line.758">    }</a>
+<span class="sourceLineNo">759</span><a id="line.759"></a>
+<span class="sourceLineNo">760</span><a id="line.760">    @Override</a>
+<span class="sourceLineNo">761</span><a id="line.761">    public String toString() {</a>
+<span class="sourceLineNo">762</span><a id="line.762">      StringBuilder builder = new StringBuilder(size() * 5);</a>
+<span class="sourceLineNo">763</span><a id="line.763">      builder.append('[').append(array[start]);</a>
+<span class="sourceLineNo">764</span><a id="line.764">      for (int i = start + 1; i &lt; end; i++) {</a>
+<span class="sourceLineNo">765</span><a id="line.765">        builder.append(", ").append(array[i]);</a>
+<span class="sourceLineNo">766</span><a id="line.766">      }</a>
+<span class="sourceLineNo">767</span><a id="line.767">      return builder.append(']').toString();</a>
+<span class="sourceLineNo">768</span><a id="line.768">    }</a>
+<span class="sourceLineNo">769</span><a id="line.769"></a>
+<span class="sourceLineNo">770</span><a id="line.770">    int[] toIntArray() {</a>
+<span class="sourceLineNo">771</span><a id="line.771">      return Arrays.copyOfRange(array, start, end);</a>
+<span class="sourceLineNo">772</span><a id="line.772">    }</a>
+<span class="sourceLineNo">773</span><a id="line.773"></a>
+<span class="sourceLineNo">774</span><a id="line.774">    private static final long serialVersionUID = 0;</a>
+<span class="sourceLineNo">775</span><a id="line.775">  }</a>
+<span class="sourceLineNo">776</span><a id="line.776"></a>
+<span class="sourceLineNo">777</span><a id="line.777">  /**</a>
+<span class="sourceLineNo">778</span><a id="line.778">   * Parses the specified string as a signed decimal integer value. The ASCII character {@code '-'}</a>
+<span class="sourceLineNo">779</span><a id="line.779">   * (&lt;code&gt;'&amp;#92;u002D'&lt;/code&gt;) is recognized as the minus sign.</a>
+<span class="sourceLineNo">780</span><a id="line.780">   *</a>
+<span class="sourceLineNo">781</span><a id="line.781">   * &lt;p&gt;Unlike {@link Integer#parseInt(String)}, this method returns {@code null} instead of</a>
+<span class="sourceLineNo">782</span><a id="line.782">   * throwing an exception if parsing fails. Additionally, this method only accepts ASCII digits,</a>
+<span class="sourceLineNo">783</span><a id="line.783">   * and returns {@code null} if non-ASCII digits are present in the string.</a>
+<span class="sourceLineNo">784</span><a id="line.784">   *</a>
+<span class="sourceLineNo">785</span><a id="line.785">   * &lt;p&gt;Note that strings prefixed with ASCII {@code '+'} are rejected, even under JDK 7, despite</a>
+<span class="sourceLineNo">786</span><a id="line.786">   * the change to {@link Integer#parseInt(String)} for that version.</a>
+<span class="sourceLineNo">787</span><a id="line.787">   *</a>
+<span class="sourceLineNo">788</span><a id="line.788">   * @param string the string representation of an integer value</a>
+<span class="sourceLineNo">789</span><a id="line.789">   * @return the integer value represented by {@code string}, or {@code null} if {@code string} has</a>
+<span class="sourceLineNo">790</span><a id="line.790">   *     a length of zero or cannot be parsed as an integer value</a>
+<span class="sourceLineNo">791</span><a id="line.791">   * @throws NullPointerException if {@code string} is {@code null}</a>
+<span class="sourceLineNo">792</span><a id="line.792">   * @since 11.0</a>
+<span class="sourceLineNo">793</span><a id="line.793">   */</a>
+<span class="sourceLineNo">794</span><a id="line.794">  @Beta</a>
+<span class="sourceLineNo">795</span><a id="line.795">  @CheckForNull</a>
+<span class="sourceLineNo">796</span><a id="line.796">  public static Integer tryParse(String string) {</a>
+<span class="sourceLineNo">797</span><a id="line.797">    return tryParse(string, 10);</a>
+<span class="sourceLineNo">798</span><a id="line.798">  }</a>
+<span class="sourceLineNo">799</span><a id="line.799"></a>
+<span class="sourceLineNo">800</span><a id="line.800">  /**</a>
+<span class="sourceLineNo">801</span><a id="line.801">   * Parses the specified string as a signed integer value using the specified radix. The ASCII</a>
+<span class="sourceLineNo">802</span><a id="line.802">   * character {@code '-'} (&lt;code&gt;'&amp;#92;u002D'&lt;/code&gt;) is recognized as the minus sign.</a>
+<span class="sourceLineNo">803</span><a id="line.803">   *</a>
+<span class="sourceLineNo">804</span><a id="line.804">   * &lt;p&gt;Unlike {@link Integer#parseInt(String, int)}, this method returns {@code null} instead of</a>
+<span class="sourceLineNo">805</span><a id="line.805">   * throwing an exception if parsing fails. Additionally, this method only accepts ASCII digits,</a>
+<span class="sourceLineNo">806</span><a id="line.806">   * and returns {@code null} if non-ASCII digits are present in the string.</a>
+<span class="sourceLineNo">807</span><a id="line.807">   *</a>
+<span class="sourceLineNo">808</span><a id="line.808">   * &lt;p&gt;Note that strings prefixed with ASCII {@code '+'} are rejected, even under JDK 7, despite</a>
+<span class="sourceLineNo">809</span><a id="line.809">   * the change to {@link Integer#parseInt(String, int)} for that version.</a>
+<span class="sourceLineNo">810</span><a id="line.810">   *</a>
+<span class="sourceLineNo">811</span><a id="line.811">   * @param string the string representation of an integer value</a>
+<span class="sourceLineNo">812</span><a id="line.812">   * @param radix the radix to use when parsing</a>
+<span class="sourceLineNo">813</span><a id="line.813">   * @return the integer value represented by {@code string} using {@code radix}, or {@code null} if</a>
+<span class="sourceLineNo">814</span><a id="line.814">   *     {@code string} has a length of zero or cannot be parsed as an integer value</a>
+<span class="sourceLineNo">815</span><a id="line.815">   * @throws IllegalArgumentException if {@code radix &lt; Character.MIN_RADIX} or {@code radix &gt;</a>
+<span class="sourceLineNo">816</span><a id="line.816">   *     Character.MAX_RADIX}</a>
+<span class="sourceLineNo">817</span><a id="line.817">   * @throws NullPointerException if {@code string} is {@code null}</a>
+<span class="sourceLineNo">818</span><a id="line.818">   * @since 19.0</a>
+<span class="sourceLineNo">819</span><a id="line.819">   */</a>
+<span class="sourceLineNo">820</span><a id="line.820">  @Beta</a>
+<span class="sourceLineNo">821</span><a id="line.821">  @CheckForNull</a>
+<span class="sourceLineNo">822</span><a id="line.822">  public static Integer tryParse(String string, int radix) {</a>
+<span class="sourceLineNo">823</span><a id="line.823">    Long result = Longs.tryParse(string, radix);</a>
+<span class="sourceLineNo">824</span><a id="line.824">    if (result == null || result.longValue() != result.intValue()) {</a>
+<span class="sourceLineNo">825</span><a id="line.825">      return null;</a>
+<span class="sourceLineNo">826</span><a id="line.826">    } else {</a>
+<span class="sourceLineNo">827</span><a id="line.827">      return result.intValue();</a>
+<span class="sourceLineNo">828</span><a id="line.828">    }</a>
+<span class="sourceLineNo">829</span><a id="line.829">  }</a>
+<span class="sourceLineNo">830</span><a id="line.830">}</a>
 
 
 

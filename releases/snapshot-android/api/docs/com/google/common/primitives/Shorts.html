@@ -1004,13 +1004,15 @@ public static&nbsp;<a href="../base/Converter.html" title="class in com.google.c
 <ul class="blockListLast">
 <li class="blockList">
 <h4>asList</h4>
-<pre class="methodSignature">public static&nbsp;java.util.List&lt;java.lang.Short&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/Shorts.html#line.605">asList</a>&#8203;(short...&nbsp;backingArray)</pre>
+<pre class="methodSignature">public static&nbsp;java.util.List&lt;java.lang.Short&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/Shorts.html#line.607">asList</a>&#8203;(short...&nbsp;backingArray)</pre>
 <div class="block">Returns a fixed-size list backed by the specified array, similar to <code>Arrays.asList(Object[])</code>. The list supports <code>List.set(int, Object)</code>, but any attempt to
  set a value to <code>null</code> will result in a <code>NullPointerException</code>.
 
  <p>The returned list maintains the values, but not the identities, of <code>Short</code> objects
  written to or read from it. For example, whether <code>list.get(0) == list.get(0)</code> is true for
- the returned list is unspecified.</div>
+ the returned list is unspecified.
+
+ <p>The returned list is serializable.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>backingArray</code> - the array to back the list</dd>

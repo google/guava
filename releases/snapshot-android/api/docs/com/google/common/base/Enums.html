@@ -181,8 +181,8 @@ extends java.lang.Object</pre>
 <td class="colFirst"><code>static &lt;T extends java.lang.Enum&lt;T&gt;&gt;<br><a href="Converter.html" title="class in com.google.common.base">Converter</a>&lt;java.lang.String,&#8203;T&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#stringConverter(java.lang.Class)">stringConverter</a></span>&#8203;(java.lang.Class&lt;T&gt;&nbsp;enumClass)</code></th>
 <td class="colLast">
-<div class="block">Returns a converter that converts between strings and <code>enum</code> values of type <code>
- enumClass</code> using <code>Enum.valueOf(Class, String)</code> and <code>Enum.name()</code>.</div>
+<div class="block">Returns a serializable converter that converts between strings and <code>enum</code> values of type
+ <code>enumClass</code> using <code>Enum.valueOf(Class, String)</code> and <code>Enum.name()</code>.</div>
 </td>
 </tr>
 </table>
@@ -251,10 +251,10 @@ public static&nbsp;java.lang.reflect.Field&nbsp;<a href="../../../../src-html/co
 <li class="blockList">
 <h4>stringConverter</h4>
 <pre class="methodSignature">public static&nbsp;&lt;T extends java.lang.Enum&lt;T&gt;&gt;&nbsp;<a href="Converter.html" title="class in com.google.common.base">Converter</a>&lt;java.lang.String,&#8203;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Enums.html#line.108">stringConverter</a>&#8203;(java.lang.Class&lt;T&gt;&nbsp;enumClass)</pre>
-<div class="block">Returns a converter that converts between strings and <code>enum</code> values of type <code>
- enumClass</code> using <code>Enum.valueOf(Class, String)</code> and <code>Enum.name()</code>. The converter
- will throw an <code>IllegalArgumentException</code> if the argument is not the name of any enum
- constant in the specified enum.</div>
+<div class="block">Returns a serializable converter that converts between strings and <code>enum</code> values of type
+ <code>enumClass</code> using <code>Enum.valueOf(Class, String)</code> and <code>Enum.name()</code>. The
+ converter will throw an <code>IllegalArgumentException</code> if the argument is not the name of any
+ enum constant in the specified enum.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>16.0</dd>

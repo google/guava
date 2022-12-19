@@ -704,153 +704,155 @@
 <span class="sourceLineNo">695</span><a id="line.695">   * written to or read from it. For example, whether {@code list.get(0) == list.get(0)} is true for</a>
 <span class="sourceLineNo">696</span><a id="line.696">   * the returned list is unspecified.</a>
 <span class="sourceLineNo">697</span><a id="line.697">   *</a>
-<span class="sourceLineNo">698</span><a id="line.698">   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; when possible, you should represent your data as an {@link ImmutableLongArray}</a>
-<span class="sourceLineNo">699</span><a id="line.699">   * instead, which has an {@link ImmutableLongArray#asList asList} view.</a>
-<span class="sourceLineNo">700</span><a id="line.700">   *</a>
-<span class="sourceLineNo">701</span><a id="line.701">   * @param backingArray the array to back the list</a>
-<span class="sourceLineNo">702</span><a id="line.702">   * @return a list view of the array</a>
-<span class="sourceLineNo">703</span><a id="line.703">   */</a>
-<span class="sourceLineNo">704</span><a id="line.704">  public static List&lt;Long&gt; asList(long... backingArray) {</a>
-<span class="sourceLineNo">705</span><a id="line.705">    if (backingArray.length == 0) {</a>
-<span class="sourceLineNo">706</span><a id="line.706">      return Collections.emptyList();</a>
-<span class="sourceLineNo">707</span><a id="line.707">    }</a>
-<span class="sourceLineNo">708</span><a id="line.708">    return new LongArrayAsList(backingArray);</a>
-<span class="sourceLineNo">709</span><a id="line.709">  }</a>
-<span class="sourceLineNo">710</span><a id="line.710"></a>
-<span class="sourceLineNo">711</span><a id="line.711">  @GwtCompatible</a>
-<span class="sourceLineNo">712</span><a id="line.712">  private static class LongArrayAsList extends AbstractList&lt;Long&gt;</a>
-<span class="sourceLineNo">713</span><a id="line.713">      implements RandomAccess, Serializable {</a>
-<span class="sourceLineNo">714</span><a id="line.714">    final long[] array;</a>
-<span class="sourceLineNo">715</span><a id="line.715">    final int start;</a>
-<span class="sourceLineNo">716</span><a id="line.716">    final int end;</a>
-<span class="sourceLineNo">717</span><a id="line.717"></a>
-<span class="sourceLineNo">718</span><a id="line.718">    LongArrayAsList(long[] array) {</a>
-<span class="sourceLineNo">719</span><a id="line.719">      this(array, 0, array.length);</a>
-<span class="sourceLineNo">720</span><a id="line.720">    }</a>
-<span class="sourceLineNo">721</span><a id="line.721"></a>
-<span class="sourceLineNo">722</span><a id="line.722">    LongArrayAsList(long[] array, int start, int end) {</a>
-<span class="sourceLineNo">723</span><a id="line.723">      this.array = array;</a>
-<span class="sourceLineNo">724</span><a id="line.724">      this.start = start;</a>
-<span class="sourceLineNo">725</span><a id="line.725">      this.end = end;</a>
-<span class="sourceLineNo">726</span><a id="line.726">    }</a>
-<span class="sourceLineNo">727</span><a id="line.727"></a>
-<span class="sourceLineNo">728</span><a id="line.728">    @Override</a>
-<span class="sourceLineNo">729</span><a id="line.729">    public int size() {</a>
-<span class="sourceLineNo">730</span><a id="line.730">      return end - start;</a>
-<span class="sourceLineNo">731</span><a id="line.731">    }</a>
-<span class="sourceLineNo">732</span><a id="line.732"></a>
-<span class="sourceLineNo">733</span><a id="line.733">    @Override</a>
-<span class="sourceLineNo">734</span><a id="line.734">    public boolean isEmpty() {</a>
-<span class="sourceLineNo">735</span><a id="line.735">      return false;</a>
-<span class="sourceLineNo">736</span><a id="line.736">    }</a>
-<span class="sourceLineNo">737</span><a id="line.737"></a>
-<span class="sourceLineNo">738</span><a id="line.738">    @Override</a>
-<span class="sourceLineNo">739</span><a id="line.739">    public Long get(int index) {</a>
-<span class="sourceLineNo">740</span><a id="line.740">      checkElementIndex(index, size());</a>
-<span class="sourceLineNo">741</span><a id="line.741">      return array[start + index];</a>
-<span class="sourceLineNo">742</span><a id="line.742">    }</a>
-<span class="sourceLineNo">743</span><a id="line.743"></a>
-<span class="sourceLineNo">744</span><a id="line.744">    @Override</a>
-<span class="sourceLineNo">745</span><a id="line.745">    public Spliterator.OfLong spliterator() {</a>
-<span class="sourceLineNo">746</span><a id="line.746">      return Spliterators.spliterator(array, start, end, 0);</a>
-<span class="sourceLineNo">747</span><a id="line.747">    }</a>
-<span class="sourceLineNo">748</span><a id="line.748"></a>
-<span class="sourceLineNo">749</span><a id="line.749">    @Override</a>
-<span class="sourceLineNo">750</span><a id="line.750">    public boolean contains(@CheckForNull Object target) {</a>
-<span class="sourceLineNo">751</span><a id="line.751">      // Overridden to prevent a ton of boxing</a>
-<span class="sourceLineNo">752</span><a id="line.752">      return (target instanceof Long) &amp;&amp; Longs.indexOf(array, (Long) target, start, end) != -1;</a>
-<span class="sourceLineNo">753</span><a id="line.753">    }</a>
-<span class="sourceLineNo">754</span><a id="line.754"></a>
-<span class="sourceLineNo">755</span><a id="line.755">    @Override</a>
-<span class="sourceLineNo">756</span><a id="line.756">    public int indexOf(@CheckForNull Object target) {</a>
-<span class="sourceLineNo">757</span><a id="line.757">      // Overridden to prevent a ton of boxing</a>
-<span class="sourceLineNo">758</span><a id="line.758">      if (target instanceof Long) {</a>
-<span class="sourceLineNo">759</span><a id="line.759">        int i = Longs.indexOf(array, (Long) target, start, end);</a>
-<span class="sourceLineNo">760</span><a id="line.760">        if (i &gt;= 0) {</a>
-<span class="sourceLineNo">761</span><a id="line.761">          return i - start;</a>
-<span class="sourceLineNo">762</span><a id="line.762">        }</a>
-<span class="sourceLineNo">763</span><a id="line.763">      }</a>
-<span class="sourceLineNo">764</span><a id="line.764">      return -1;</a>
-<span class="sourceLineNo">765</span><a id="line.765">    }</a>
-<span class="sourceLineNo">766</span><a id="line.766"></a>
-<span class="sourceLineNo">767</span><a id="line.767">    @Override</a>
-<span class="sourceLineNo">768</span><a id="line.768">    public int lastIndexOf(@CheckForNull Object target) {</a>
-<span class="sourceLineNo">769</span><a id="line.769">      // Overridden to prevent a ton of boxing</a>
-<span class="sourceLineNo">770</span><a id="line.770">      if (target instanceof Long) {</a>
-<span class="sourceLineNo">771</span><a id="line.771">        int i = Longs.lastIndexOf(array, (Long) target, start, end);</a>
-<span class="sourceLineNo">772</span><a id="line.772">        if (i &gt;= 0) {</a>
-<span class="sourceLineNo">773</span><a id="line.773">          return i - start;</a>
-<span class="sourceLineNo">774</span><a id="line.774">        }</a>
-<span class="sourceLineNo">775</span><a id="line.775">      }</a>
-<span class="sourceLineNo">776</span><a id="line.776">      return -1;</a>
-<span class="sourceLineNo">777</span><a id="line.777">    }</a>
-<span class="sourceLineNo">778</span><a id="line.778"></a>
-<span class="sourceLineNo">779</span><a id="line.779">    @Override</a>
-<span class="sourceLineNo">780</span><a id="line.780">    public Long set(int index, Long element) {</a>
-<span class="sourceLineNo">781</span><a id="line.781">      checkElementIndex(index, size());</a>
-<span class="sourceLineNo">782</span><a id="line.782">      long oldValue = array[start + index];</a>
-<span class="sourceLineNo">783</span><a id="line.783">      // checkNotNull for GWT (do not optimize)</a>
-<span class="sourceLineNo">784</span><a id="line.784">      array[start + index] = checkNotNull(element);</a>
-<span class="sourceLineNo">785</span><a id="line.785">      return oldValue;</a>
-<span class="sourceLineNo">786</span><a id="line.786">    }</a>
-<span class="sourceLineNo">787</span><a id="line.787"></a>
-<span class="sourceLineNo">788</span><a id="line.788">    @Override</a>
-<span class="sourceLineNo">789</span><a id="line.789">    public List&lt;Long&gt; subList(int fromIndex, int toIndex) {</a>
-<span class="sourceLineNo">790</span><a id="line.790">      int size = size();</a>
-<span class="sourceLineNo">791</span><a id="line.791">      checkPositionIndexes(fromIndex, toIndex, size);</a>
-<span class="sourceLineNo">792</span><a id="line.792">      if (fromIndex == toIndex) {</a>
-<span class="sourceLineNo">793</span><a id="line.793">        return Collections.emptyList();</a>
-<span class="sourceLineNo">794</span><a id="line.794">      }</a>
-<span class="sourceLineNo">795</span><a id="line.795">      return new LongArrayAsList(array, start + fromIndex, start + toIndex);</a>
-<span class="sourceLineNo">796</span><a id="line.796">    }</a>
-<span class="sourceLineNo">797</span><a id="line.797"></a>
-<span class="sourceLineNo">798</span><a id="line.798">    @Override</a>
-<span class="sourceLineNo">799</span><a id="line.799">    public boolean equals(@CheckForNull Object object) {</a>
-<span class="sourceLineNo">800</span><a id="line.800">      if (object == this) {</a>
-<span class="sourceLineNo">801</span><a id="line.801">        return true;</a>
-<span class="sourceLineNo">802</span><a id="line.802">      }</a>
-<span class="sourceLineNo">803</span><a id="line.803">      if (object instanceof LongArrayAsList) {</a>
-<span class="sourceLineNo">804</span><a id="line.804">        LongArrayAsList that = (LongArrayAsList) object;</a>
-<span class="sourceLineNo">805</span><a id="line.805">        int size = size();</a>
-<span class="sourceLineNo">806</span><a id="line.806">        if (that.size() != size) {</a>
-<span class="sourceLineNo">807</span><a id="line.807">          return false;</a>
-<span class="sourceLineNo">808</span><a id="line.808">        }</a>
-<span class="sourceLineNo">809</span><a id="line.809">        for (int i = 0; i &lt; size; i++) {</a>
-<span class="sourceLineNo">810</span><a id="line.810">          if (array[start + i] != that.array[that.start + i]) {</a>
-<span class="sourceLineNo">811</span><a id="line.811">            return false;</a>
-<span class="sourceLineNo">812</span><a id="line.812">          }</a>
-<span class="sourceLineNo">813</span><a id="line.813">        }</a>
-<span class="sourceLineNo">814</span><a id="line.814">        return true;</a>
-<span class="sourceLineNo">815</span><a id="line.815">      }</a>
-<span class="sourceLineNo">816</span><a id="line.816">      return super.equals(object);</a>
-<span class="sourceLineNo">817</span><a id="line.817">    }</a>
-<span class="sourceLineNo">818</span><a id="line.818"></a>
-<span class="sourceLineNo">819</span><a id="line.819">    @Override</a>
-<span class="sourceLineNo">820</span><a id="line.820">    public int hashCode() {</a>
-<span class="sourceLineNo">821</span><a id="line.821">      int result = 1;</a>
-<span class="sourceLineNo">822</span><a id="line.822">      for (int i = start; i &lt; end; i++) {</a>
-<span class="sourceLineNo">823</span><a id="line.823">        result = 31 * result + Longs.hashCode(array[i]);</a>
-<span class="sourceLineNo">824</span><a id="line.824">      }</a>
-<span class="sourceLineNo">825</span><a id="line.825">      return result;</a>
-<span class="sourceLineNo">826</span><a id="line.826">    }</a>
-<span class="sourceLineNo">827</span><a id="line.827"></a>
-<span class="sourceLineNo">828</span><a id="line.828">    @Override</a>
-<span class="sourceLineNo">829</span><a id="line.829">    public String toString() {</a>
-<span class="sourceLineNo">830</span><a id="line.830">      StringBuilder builder = new StringBuilder(size() * 10);</a>
-<span class="sourceLineNo">831</span><a id="line.831">      builder.append('[').append(array[start]);</a>
-<span class="sourceLineNo">832</span><a id="line.832">      for (int i = start + 1; i &lt; end; i++) {</a>
-<span class="sourceLineNo">833</span><a id="line.833">        builder.append(", ").append(array[i]);</a>
-<span class="sourceLineNo">834</span><a id="line.834">      }</a>
-<span class="sourceLineNo">835</span><a id="line.835">      return builder.append(']').toString();</a>
-<span class="sourceLineNo">836</span><a id="line.836">    }</a>
-<span class="sourceLineNo">837</span><a id="line.837"></a>
-<span class="sourceLineNo">838</span><a id="line.838">    long[] toLongArray() {</a>
-<span class="sourceLineNo">839</span><a id="line.839">      return Arrays.copyOfRange(array, start, end);</a>
-<span class="sourceLineNo">840</span><a id="line.840">    }</a>
-<span class="sourceLineNo">841</span><a id="line.841"></a>
-<span class="sourceLineNo">842</span><a id="line.842">    private static final long serialVersionUID = 0;</a>
-<span class="sourceLineNo">843</span><a id="line.843">  }</a>
-<span class="sourceLineNo">844</span><a id="line.844">}</a>
+<span class="sourceLineNo">698</span><a id="line.698">   * &lt;p&gt;The returned list is serializable.</a>
+<span class="sourceLineNo">699</span><a id="line.699">   *</a>
+<span class="sourceLineNo">700</span><a id="line.700">   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; when possible, you should represent your data as an {@link ImmutableLongArray}</a>
+<span class="sourceLineNo">701</span><a id="line.701">   * instead, which has an {@link ImmutableLongArray#asList asList} view.</a>
+<span class="sourceLineNo">702</span><a id="line.702">   *</a>
+<span class="sourceLineNo">703</span><a id="line.703">   * @param backingArray the array to back the list</a>
+<span class="sourceLineNo">704</span><a id="line.704">   * @return a list view of the array</a>
+<span class="sourceLineNo">705</span><a id="line.705">   */</a>
+<span class="sourceLineNo">706</span><a id="line.706">  public static List&lt;Long&gt; asList(long... backingArray) {</a>
+<span class="sourceLineNo">707</span><a id="line.707">    if (backingArray.length == 0) {</a>
+<span class="sourceLineNo">708</span><a id="line.708">      return Collections.emptyList();</a>
+<span class="sourceLineNo">709</span><a id="line.709">    }</a>
+<span class="sourceLineNo">710</span><a id="line.710">    return new LongArrayAsList(backingArray);</a>
+<span class="sourceLineNo">711</span><a id="line.711">  }</a>
+<span class="sourceLineNo">712</span><a id="line.712"></a>
+<span class="sourceLineNo">713</span><a id="line.713">  @GwtCompatible</a>
+<span class="sourceLineNo">714</span><a id="line.714">  private static class LongArrayAsList extends AbstractList&lt;Long&gt;</a>
+<span class="sourceLineNo">715</span><a id="line.715">      implements RandomAccess, Serializable {</a>
+<span class="sourceLineNo">716</span><a id="line.716">    final long[] array;</a>
+<span class="sourceLineNo">717</span><a id="line.717">    final int start;</a>
+<span class="sourceLineNo">718</span><a id="line.718">    final int end;</a>
+<span class="sourceLineNo">719</span><a id="line.719"></a>
+<span class="sourceLineNo">720</span><a id="line.720">    LongArrayAsList(long[] array) {</a>
+<span class="sourceLineNo">721</span><a id="line.721">      this(array, 0, array.length);</a>
+<span class="sourceLineNo">722</span><a id="line.722">    }</a>
+<span class="sourceLineNo">723</span><a id="line.723"></a>
+<span class="sourceLineNo">724</span><a id="line.724">    LongArrayAsList(long[] array, int start, int end) {</a>
+<span class="sourceLineNo">725</span><a id="line.725">      this.array = array;</a>
+<span class="sourceLineNo">726</span><a id="line.726">      this.start = start;</a>
+<span class="sourceLineNo">727</span><a id="line.727">      this.end = end;</a>
+<span class="sourceLineNo">728</span><a id="line.728">    }</a>
+<span class="sourceLineNo">729</span><a id="line.729"></a>
+<span class="sourceLineNo">730</span><a id="line.730">    @Override</a>
+<span class="sourceLineNo">731</span><a id="line.731">    public int size() {</a>
+<span class="sourceLineNo">732</span><a id="line.732">      return end - start;</a>
+<span class="sourceLineNo">733</span><a id="line.733">    }</a>
+<span class="sourceLineNo">734</span><a id="line.734"></a>
+<span class="sourceLineNo">735</span><a id="line.735">    @Override</a>
+<span class="sourceLineNo">736</span><a id="line.736">    public boolean isEmpty() {</a>
+<span class="sourceLineNo">737</span><a id="line.737">      return false;</a>
+<span class="sourceLineNo">738</span><a id="line.738">    }</a>
+<span class="sourceLineNo">739</span><a id="line.739"></a>
+<span class="sourceLineNo">740</span><a id="line.740">    @Override</a>
+<span class="sourceLineNo">741</span><a id="line.741">    public Long get(int index) {</a>
+<span class="sourceLineNo">742</span><a id="line.742">      checkElementIndex(index, size());</a>
+<span class="sourceLineNo">743</span><a id="line.743">      return array[start + index];</a>
+<span class="sourceLineNo">744</span><a id="line.744">    }</a>
+<span class="sourceLineNo">745</span><a id="line.745"></a>
+<span class="sourceLineNo">746</span><a id="line.746">    @Override</a>
+<span class="sourceLineNo">747</span><a id="line.747">    public Spliterator.OfLong spliterator() {</a>
+<span class="sourceLineNo">748</span><a id="line.748">      return Spliterators.spliterator(array, start, end, 0);</a>
+<span class="sourceLineNo">749</span><a id="line.749">    }</a>
+<span class="sourceLineNo">750</span><a id="line.750"></a>
+<span class="sourceLineNo">751</span><a id="line.751">    @Override</a>
+<span class="sourceLineNo">752</span><a id="line.752">    public boolean contains(@CheckForNull Object target) {</a>
+<span class="sourceLineNo">753</span><a id="line.753">      // Overridden to prevent a ton of boxing</a>
+<span class="sourceLineNo">754</span><a id="line.754">      return (target instanceof Long) &amp;&amp; Longs.indexOf(array, (Long) target, start, end) != -1;</a>
+<span class="sourceLineNo">755</span><a id="line.755">    }</a>
+<span class="sourceLineNo">756</span><a id="line.756"></a>
+<span class="sourceLineNo">757</span><a id="line.757">    @Override</a>
+<span class="sourceLineNo">758</span><a id="line.758">    public int indexOf(@CheckForNull Object target) {</a>
+<span class="sourceLineNo">759</span><a id="line.759">      // Overridden to prevent a ton of boxing</a>
+<span class="sourceLineNo">760</span><a id="line.760">      if (target instanceof Long) {</a>
+<span class="sourceLineNo">761</span><a id="line.761">        int i = Longs.indexOf(array, (Long) target, start, end);</a>
+<span class="sourceLineNo">762</span><a id="line.762">        if (i &gt;= 0) {</a>
+<span class="sourceLineNo">763</span><a id="line.763">          return i - start;</a>
+<span class="sourceLineNo">764</span><a id="line.764">        }</a>
+<span class="sourceLineNo">765</span><a id="line.765">      }</a>
+<span class="sourceLineNo">766</span><a id="line.766">      return -1;</a>
+<span class="sourceLineNo">767</span><a id="line.767">    }</a>
+<span class="sourceLineNo">768</span><a id="line.768"></a>
+<span class="sourceLineNo">769</span><a id="line.769">    @Override</a>
+<span class="sourceLineNo">770</span><a id="line.770">    public int lastIndexOf(@CheckForNull Object target) {</a>
+<span class="sourceLineNo">771</span><a id="line.771">      // Overridden to prevent a ton of boxing</a>
+<span class="sourceLineNo">772</span><a id="line.772">      if (target instanceof Long) {</a>
+<span class="sourceLineNo">773</span><a id="line.773">        int i = Longs.lastIndexOf(array, (Long) target, start, end);</a>
+<span class="sourceLineNo">774</span><a id="line.774">        if (i &gt;= 0) {</a>
+<span class="sourceLineNo">775</span><a id="line.775">          return i - start;</a>
+<span class="sourceLineNo">776</span><a id="line.776">        }</a>
+<span class="sourceLineNo">777</span><a id="line.777">      }</a>
+<span class="sourceLineNo">778</span><a id="line.778">      return -1;</a>
+<span class="sourceLineNo">779</span><a id="line.779">    }</a>
+<span class="sourceLineNo">780</span><a id="line.780"></a>
+<span class="sourceLineNo">781</span><a id="line.781">    @Override</a>
+<span class="sourceLineNo">782</span><a id="line.782">    public Long set(int index, Long element) {</a>
+<span class="sourceLineNo">783</span><a id="line.783">      checkElementIndex(index, size());</a>
+<span class="sourceLineNo">784</span><a id="line.784">      long oldValue = array[start + index];</a>
+<span class="sourceLineNo">785</span><a id="line.785">      // checkNotNull for GWT (do not optimize)</a>
+<span class="sourceLineNo">786</span><a id="line.786">      array[start + index] = checkNotNull(element);</a>
+<span class="sourceLineNo">787</span><a id="line.787">      return oldValue;</a>
+<span class="sourceLineNo">788</span><a id="line.788">    }</a>
+<span class="sourceLineNo">789</span><a id="line.789"></a>
+<span class="sourceLineNo">790</span><a id="line.790">    @Override</a>
+<span class="sourceLineNo">791</span><a id="line.791">    public List&lt;Long&gt; subList(int fromIndex, int toIndex) {</a>
+<span class="sourceLineNo">792</span><a id="line.792">      int size = size();</a>
+<span class="sourceLineNo">793</span><a id="line.793">      checkPositionIndexes(fromIndex, toIndex, size);</a>
+<span class="sourceLineNo">794</span><a id="line.794">      if (fromIndex == toIndex) {</a>
+<span class="sourceLineNo">795</span><a id="line.795">        return Collections.emptyList();</a>
+<span class="sourceLineNo">796</span><a id="line.796">      }</a>
+<span class="sourceLineNo">797</span><a id="line.797">      return new LongArrayAsList(array, start + fromIndex, start + toIndex);</a>
+<span class="sourceLineNo">798</span><a id="line.798">    }</a>
+<span class="sourceLineNo">799</span><a id="line.799"></a>
+<span class="sourceLineNo">800</span><a id="line.800">    @Override</a>
+<span class="sourceLineNo">801</span><a id="line.801">    public boolean equals(@CheckForNull Object object) {</a>
+<span class="sourceLineNo">802</span><a id="line.802">      if (object == this) {</a>
+<span class="sourceLineNo">803</span><a id="line.803">        return true;</a>
+<span class="sourceLineNo">804</span><a id="line.804">      }</a>
+<span class="sourceLineNo">805</span><a id="line.805">      if (object instanceof LongArrayAsList) {</a>
+<span class="sourceLineNo">806</span><a id="line.806">        LongArrayAsList that = (LongArrayAsList) object;</a>
+<span class="sourceLineNo">807</span><a id="line.807">        int size = size();</a>
+<span class="sourceLineNo">808</span><a id="line.808">        if (that.size() != size) {</a>
+<span class="sourceLineNo">809</span><a id="line.809">          return false;</a>
+<span class="sourceLineNo">810</span><a id="line.810">        }</a>
+<span class="sourceLineNo">811</span><a id="line.811">        for (int i = 0; i &lt; size; i++) {</a>
+<span class="sourceLineNo">812</span><a id="line.812">          if (array[start + i] != that.array[that.start + i]) {</a>
+<span class="sourceLineNo">813</span><a id="line.813">            return false;</a>
+<span class="sourceLineNo">814</span><a id="line.814">          }</a>
+<span class="sourceLineNo">815</span><a id="line.815">        }</a>
+<span class="sourceLineNo">816</span><a id="line.816">        return true;</a>
+<span class="sourceLineNo">817</span><a id="line.817">      }</a>
+<span class="sourceLineNo">818</span><a id="line.818">      return super.equals(object);</a>
+<span class="sourceLineNo">819</span><a id="line.819">    }</a>
+<span class="sourceLineNo">820</span><a id="line.820"></a>
+<span class="sourceLineNo">821</span><a id="line.821">    @Override</a>
+<span class="sourceLineNo">822</span><a id="line.822">    public int hashCode() {</a>
+<span class="sourceLineNo">823</span><a id="line.823">      int result = 1;</a>
+<span class="sourceLineNo">824</span><a id="line.824">      for (int i = start; i &lt; end; i++) {</a>
+<span class="sourceLineNo">825</span><a id="line.825">        result = 31 * result + Longs.hashCode(array[i]);</a>
+<span class="sourceLineNo">826</span><a id="line.826">      }</a>
+<span class="sourceLineNo">827</span><a id="line.827">      return result;</a>
+<span class="sourceLineNo">828</span><a id="line.828">    }</a>
+<span class="sourceLineNo">829</span><a id="line.829"></a>
+<span class="sourceLineNo">830</span><a id="line.830">    @Override</a>
+<span class="sourceLineNo">831</span><a id="line.831">    public String toString() {</a>
+<span class="sourceLineNo">832</span><a id="line.832">      StringBuilder builder = new StringBuilder(size() * 10);</a>
+<span class="sourceLineNo">833</span><a id="line.833">      builder.append('[').append(array[start]);</a>
+<span class="sourceLineNo">834</span><a id="line.834">      for (int i = start + 1; i &lt; end; i++) {</a>
+<span class="sourceLineNo">835</span><a id="line.835">        builder.append(", ").append(array[i]);</a>
+<span class="sourceLineNo">836</span><a id="line.836">      }</a>
+<span class="sourceLineNo">837</span><a id="line.837">      return builder.append(']').toString();</a>
+<span class="sourceLineNo">838</span><a id="line.838">    }</a>
+<span class="sourceLineNo">839</span><a id="line.839"></a>
+<span class="sourceLineNo">840</span><a id="line.840">    long[] toLongArray() {</a>
+<span class="sourceLineNo">841</span><a id="line.841">      return Arrays.copyOfRange(array, start, end);</a>
+<span class="sourceLineNo">842</span><a id="line.842">    }</a>
+<span class="sourceLineNo">843</span><a id="line.843"></a>
+<span class="sourceLineNo">844</span><a id="line.844">    private static final long serialVersionUID = 0;</a>
+<span class="sourceLineNo">845</span><a id="line.845">  }</a>
+<span class="sourceLineNo">846</span><a id="line.846">}</a>
 
 
 

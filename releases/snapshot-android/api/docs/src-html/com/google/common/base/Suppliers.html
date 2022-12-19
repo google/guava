@@ -105,7 +105,7 @@
 <span class="sourceLineNo">096</span><a id="line.96">   * &lt;p&gt;The returned supplier is thread-safe. The delegate's {@code get()} method will be invoked at</a>
 <span class="sourceLineNo">097</span><a id="line.97">   * most once unless the underlying {@code get()} throws an exception. The supplier's serialized</a>
 <span class="sourceLineNo">098</span><a id="line.98">   * form does not contain the cached value, which will be recalculated when {@code get()} is called</a>
-<span class="sourceLineNo">099</span><a id="line.99">   * on the reserialized instance.</a>
+<span class="sourceLineNo">099</span><a id="line.99">   * on the deserialized instance.</a>
 <span class="sourceLineNo">100</span><a id="line.100">   *</a>
 <span class="sourceLineNo">101</span><a id="line.101">   * &lt;p&gt;When the underlying delegate throws an exception then this memoizing supplier will keep</a>
 <span class="sourceLineNo">102</span><a id="line.102">   * delegating calls until it returns valid data.</a>

@@ -141,117 +141,121 @@
 <span class="sourceLineNo">132</span><a id="line.132">   * Returns a cache loader that uses {@code function} to load keys, without supporting either</a>
 <span class="sourceLineNo">133</span><a id="line.133">   * reloading or bulk loading. This allows creating a cache loader using a lambda expression.</a>
 <span class="sourceLineNo">134</span><a id="line.134">   *</a>
-<span class="sourceLineNo">135</span><a id="line.135">   * @param function the function to be used for loading values; must never return {@code null}</a>
-<span class="sourceLineNo">136</span><a id="line.136">   * @return a cache loader that loads values by passing each key to {@code function}</a>
-<span class="sourceLineNo">137</span><a id="line.137">   */</a>
-<span class="sourceLineNo">138</span><a id="line.138">  public static &lt;K, V&gt; CacheLoader&lt;K, V&gt; from(Function&lt;K, V&gt; function) {</a>
-<span class="sourceLineNo">139</span><a id="line.139">    return new FunctionToCacheLoader&lt;&gt;(function);</a>
-<span class="sourceLineNo">140</span><a id="line.140">  }</a>
-<span class="sourceLineNo">141</span><a id="line.141"></a>
-<span class="sourceLineNo">142</span><a id="line.142">  /**</a>
-<span class="sourceLineNo">143</span><a id="line.143">   * Returns a cache loader based on an &lt;i&gt;existing&lt;/i&gt; supplier instance. Note that there's no need</a>
-<span class="sourceLineNo">144</span><a id="line.144">   * to create a &lt;i&gt;new&lt;/i&gt; supplier just to pass it in here; just subclass {@code CacheLoader} and</a>
-<span class="sourceLineNo">145</span><a id="line.145">   * implement {@link #load load} instead.</a>
-<span class="sourceLineNo">146</span><a id="line.146">   *</a>
-<span class="sourceLineNo">147</span><a id="line.147">   * @param supplier the supplier to be used for loading values; must never return {@code null}</a>
-<span class="sourceLineNo">148</span><a id="line.148">   * @return a cache loader that loads values by calling {@link Supplier#get}, irrespective of the</a>
-<span class="sourceLineNo">149</span><a id="line.149">   *     key</a>
-<span class="sourceLineNo">150</span><a id="line.150">   */</a>
-<span class="sourceLineNo">151</span><a id="line.151">  public static &lt;V&gt; CacheLoader&lt;Object, V&gt; from(Supplier&lt;V&gt; supplier) {</a>
-<span class="sourceLineNo">152</span><a id="line.152">    return new SupplierToCacheLoader&lt;&gt;(supplier);</a>
-<span class="sourceLineNo">153</span><a id="line.153">  }</a>
-<span class="sourceLineNo">154</span><a id="line.154"></a>
-<span class="sourceLineNo">155</span><a id="line.155">  private static final class FunctionToCacheLoader&lt;K, V&gt; extends CacheLoader&lt;K, V&gt;</a>
-<span class="sourceLineNo">156</span><a id="line.156">      implements Serializable {</a>
-<span class="sourceLineNo">157</span><a id="line.157">    private final Function&lt;K, V&gt; computingFunction;</a>
+<span class="sourceLineNo">135</span><a id="line.135">   * &lt;p&gt;The returned object is serializable if {@code function} is serializable.</a>
+<span class="sourceLineNo">136</span><a id="line.136">   *</a>
+<span class="sourceLineNo">137</span><a id="line.137">   * @param function the function to be used for loading values; must never return {@code null}</a>
+<span class="sourceLineNo">138</span><a id="line.138">   * @return a cache loader that loads values by passing each key to {@code function}</a>
+<span class="sourceLineNo">139</span><a id="line.139">   */</a>
+<span class="sourceLineNo">140</span><a id="line.140">  public static &lt;K, V&gt; CacheLoader&lt;K, V&gt; from(Function&lt;K, V&gt; function) {</a>
+<span class="sourceLineNo">141</span><a id="line.141">    return new FunctionToCacheLoader&lt;&gt;(function);</a>
+<span class="sourceLineNo">142</span><a id="line.142">  }</a>
+<span class="sourceLineNo">143</span><a id="line.143"></a>
+<span class="sourceLineNo">144</span><a id="line.144">  /**</a>
+<span class="sourceLineNo">145</span><a id="line.145">   * Returns a cache loader based on an &lt;i&gt;existing&lt;/i&gt; supplier instance. Note that there's no need</a>
+<span class="sourceLineNo">146</span><a id="line.146">   * to create a &lt;i&gt;new&lt;/i&gt; supplier just to pass it in here; just subclass {@code CacheLoader} and</a>
+<span class="sourceLineNo">147</span><a id="line.147">   * implement {@link #load load} instead.</a>
+<span class="sourceLineNo">148</span><a id="line.148">   *</a>
+<span class="sourceLineNo">149</span><a id="line.149">   * &lt;p&gt;The returned object is serializable if {@code supplier} is serializable.</a>
+<span class="sourceLineNo">150</span><a id="line.150">   *</a>
+<span class="sourceLineNo">151</span><a id="line.151">   * @param supplier the supplier to be used for loading values; must never return {@code null}</a>
+<span class="sourceLineNo">152</span><a id="line.152">   * @return a cache loader that loads values by calling {@link Supplier#get}, irrespective of the</a>
+<span class="sourceLineNo">153</span><a id="line.153">   *     key</a>
+<span class="sourceLineNo">154</span><a id="line.154">   */</a>
+<span class="sourceLineNo">155</span><a id="line.155">  public static &lt;V&gt; CacheLoader&lt;Object, V&gt; from(Supplier&lt;V&gt; supplier) {</a>
+<span class="sourceLineNo">156</span><a id="line.156">    return new SupplierToCacheLoader&lt;&gt;(supplier);</a>
+<span class="sourceLineNo">157</span><a id="line.157">  }</a>
 <span class="sourceLineNo">158</span><a id="line.158"></a>
-<span class="sourceLineNo">159</span><a id="line.159">    public FunctionToCacheLoader(Function&lt;K, V&gt; computingFunction) {</a>
-<span class="sourceLineNo">160</span><a id="line.160">      this.computingFunction = checkNotNull(computingFunction);</a>
-<span class="sourceLineNo">161</span><a id="line.161">    }</a>
+<span class="sourceLineNo">159</span><a id="line.159">  private static final class FunctionToCacheLoader&lt;K, V&gt; extends CacheLoader&lt;K, V&gt;</a>
+<span class="sourceLineNo">160</span><a id="line.160">      implements Serializable {</a>
+<span class="sourceLineNo">161</span><a id="line.161">    private final Function&lt;K, V&gt; computingFunction;</a>
 <span class="sourceLineNo">162</span><a id="line.162"></a>
-<span class="sourceLineNo">163</span><a id="line.163">    @Override</a>
-<span class="sourceLineNo">164</span><a id="line.164">    public V load(K key) {</a>
-<span class="sourceLineNo">165</span><a id="line.165">      return computingFunction.apply(checkNotNull(key));</a>
-<span class="sourceLineNo">166</span><a id="line.166">    }</a>
-<span class="sourceLineNo">167</span><a id="line.167"></a>
-<span class="sourceLineNo">168</span><a id="line.168">    private static final long serialVersionUID = 0;</a>
-<span class="sourceLineNo">169</span><a id="line.169">  }</a>
-<span class="sourceLineNo">170</span><a id="line.170"></a>
-<span class="sourceLineNo">171</span><a id="line.171">  /**</a>
-<span class="sourceLineNo">172</span><a id="line.172">   * Returns a {@code CacheLoader} which wraps {@code loader}, executing calls to {@link</a>
-<span class="sourceLineNo">173</span><a id="line.173">   * CacheLoader#reload} using {@code executor}.</a>
-<span class="sourceLineNo">174</span><a id="line.174">   *</a>
-<span class="sourceLineNo">175</span><a id="line.175">   * &lt;p&gt;This method is useful only when {@code loader.reload} has a synchronous implementation, such</a>
-<span class="sourceLineNo">176</span><a id="line.176">   * as {@linkplain #reload the default implementation}.</a>
-<span class="sourceLineNo">177</span><a id="line.177">   *</a>
-<span class="sourceLineNo">178</span><a id="line.178">   * @since 17.0</a>
-<span class="sourceLineNo">179</span><a id="line.179">   */</a>
-<span class="sourceLineNo">180</span><a id="line.180">  @GwtIncompatible // Executor + Futures</a>
-<span class="sourceLineNo">181</span><a id="line.181">  public static &lt;K, V&gt; CacheLoader&lt;K, V&gt; asyncReloading(</a>
-<span class="sourceLineNo">182</span><a id="line.182">      final CacheLoader&lt;K, V&gt; loader, final Executor executor) {</a>
-<span class="sourceLineNo">183</span><a id="line.183">    checkNotNull(loader);</a>
-<span class="sourceLineNo">184</span><a id="line.184">    checkNotNull(executor);</a>
-<span class="sourceLineNo">185</span><a id="line.185">    return new CacheLoader&lt;K, V&gt;() {</a>
-<span class="sourceLineNo">186</span><a id="line.186">      @Override</a>
-<span class="sourceLineNo">187</span><a id="line.187">      public V load(K key) throws Exception {</a>
-<span class="sourceLineNo">188</span><a id="line.188">        return loader.load(key);</a>
-<span class="sourceLineNo">189</span><a id="line.189">      }</a>
-<span class="sourceLineNo">190</span><a id="line.190"></a>
-<span class="sourceLineNo">191</span><a id="line.191">      @Override</a>
-<span class="sourceLineNo">192</span><a id="line.192">      public ListenableFuture&lt;V&gt; reload(final K key, final V oldValue) {</a>
-<span class="sourceLineNo">193</span><a id="line.193">        ListenableFutureTask&lt;V&gt; task =</a>
-<span class="sourceLineNo">194</span><a id="line.194">            ListenableFutureTask.create(() -&gt; loader.reload(key, oldValue).get());</a>
-<span class="sourceLineNo">195</span><a id="line.195">        executor.execute(task);</a>
-<span class="sourceLineNo">196</span><a id="line.196">        return task;</a>
-<span class="sourceLineNo">197</span><a id="line.197">      }</a>
-<span class="sourceLineNo">198</span><a id="line.198"></a>
-<span class="sourceLineNo">199</span><a id="line.199">      @Override</a>
-<span class="sourceLineNo">200</span><a id="line.200">      public Map&lt;K, V&gt; loadAll(Iterable&lt;? extends K&gt; keys) throws Exception {</a>
-<span class="sourceLineNo">201</span><a id="line.201">        return loader.loadAll(keys);</a>
-<span class="sourceLineNo">202</span><a id="line.202">      }</a>
-<span class="sourceLineNo">203</span><a id="line.203">    };</a>
-<span class="sourceLineNo">204</span><a id="line.204">  }</a>
-<span class="sourceLineNo">205</span><a id="line.205"></a>
-<span class="sourceLineNo">206</span><a id="line.206">  private static final class SupplierToCacheLoader&lt;V&gt; extends CacheLoader&lt;Object, V&gt;</a>
-<span class="sourceLineNo">207</span><a id="line.207">      implements Serializable {</a>
-<span class="sourceLineNo">208</span><a id="line.208">    private final Supplier&lt;V&gt; computingSupplier;</a>
+<span class="sourceLineNo">163</span><a id="line.163">    public FunctionToCacheLoader(Function&lt;K, V&gt; computingFunction) {</a>
+<span class="sourceLineNo">164</span><a id="line.164">      this.computingFunction = checkNotNull(computingFunction);</a>
+<span class="sourceLineNo">165</span><a id="line.165">    }</a>
+<span class="sourceLineNo">166</span><a id="line.166"></a>
+<span class="sourceLineNo">167</span><a id="line.167">    @Override</a>
+<span class="sourceLineNo">168</span><a id="line.168">    public V load(K key) {</a>
+<span class="sourceLineNo">169</span><a id="line.169">      return computingFunction.apply(checkNotNull(key));</a>
+<span class="sourceLineNo">170</span><a id="line.170">    }</a>
+<span class="sourceLineNo">171</span><a id="line.171"></a>
+<span class="sourceLineNo">172</span><a id="line.172">    private static final long serialVersionUID = 0;</a>
+<span class="sourceLineNo">173</span><a id="line.173">  }</a>
+<span class="sourceLineNo">174</span><a id="line.174"></a>
+<span class="sourceLineNo">175</span><a id="line.175">  /**</a>
+<span class="sourceLineNo">176</span><a id="line.176">   * Returns a {@code CacheLoader} which wraps {@code loader}, executing calls to {@link</a>
+<span class="sourceLineNo">177</span><a id="line.177">   * CacheLoader#reload} using {@code executor}.</a>
+<span class="sourceLineNo">178</span><a id="line.178">   *</a>
+<span class="sourceLineNo">179</span><a id="line.179">   * &lt;p&gt;This method is useful only when {@code loader.reload} has a synchronous implementation, such</a>
+<span class="sourceLineNo">180</span><a id="line.180">   * as {@linkplain #reload the default implementation}.</a>
+<span class="sourceLineNo">181</span><a id="line.181">   *</a>
+<span class="sourceLineNo">182</span><a id="line.182">   * @since 17.0</a>
+<span class="sourceLineNo">183</span><a id="line.183">   */</a>
+<span class="sourceLineNo">184</span><a id="line.184">  @GwtIncompatible // Executor + Futures</a>
+<span class="sourceLineNo">185</span><a id="line.185">  public static &lt;K, V&gt; CacheLoader&lt;K, V&gt; asyncReloading(</a>
+<span class="sourceLineNo">186</span><a id="line.186">      final CacheLoader&lt;K, V&gt; loader, final Executor executor) {</a>
+<span class="sourceLineNo">187</span><a id="line.187">    checkNotNull(loader);</a>
+<span class="sourceLineNo">188</span><a id="line.188">    checkNotNull(executor);</a>
+<span class="sourceLineNo">189</span><a id="line.189">    return new CacheLoader&lt;K, V&gt;() {</a>
+<span class="sourceLineNo">190</span><a id="line.190">      @Override</a>
+<span class="sourceLineNo">191</span><a id="line.191">      public V load(K key) throws Exception {</a>
+<span class="sourceLineNo">192</span><a id="line.192">        return loader.load(key);</a>
+<span class="sourceLineNo">193</span><a id="line.193">      }</a>
+<span class="sourceLineNo">194</span><a id="line.194"></a>
+<span class="sourceLineNo">195</span><a id="line.195">      @Override</a>
+<span class="sourceLineNo">196</span><a id="line.196">      public ListenableFuture&lt;V&gt; reload(final K key, final V oldValue) {</a>
+<span class="sourceLineNo">197</span><a id="line.197">        ListenableFutureTask&lt;V&gt; task =</a>
+<span class="sourceLineNo">198</span><a id="line.198">            ListenableFutureTask.create(() -&gt; loader.reload(key, oldValue).get());</a>
+<span class="sourceLineNo">199</span><a id="line.199">        executor.execute(task);</a>
+<span class="sourceLineNo">200</span><a id="line.200">        return task;</a>
+<span class="sourceLineNo">201</span><a id="line.201">      }</a>
+<span class="sourceLineNo">202</span><a id="line.202"></a>
+<span class="sourceLineNo">203</span><a id="line.203">      @Override</a>
+<span class="sourceLineNo">204</span><a id="line.204">      public Map&lt;K, V&gt; loadAll(Iterable&lt;? extends K&gt; keys) throws Exception {</a>
+<span class="sourceLineNo">205</span><a id="line.205">        return loader.loadAll(keys);</a>
+<span class="sourceLineNo">206</span><a id="line.206">      }</a>
+<span class="sourceLineNo">207</span><a id="line.207">    };</a>
+<span class="sourceLineNo">208</span><a id="line.208">  }</a>
 <span class="sourceLineNo">209</span><a id="line.209"></a>
-<span class="sourceLineNo">210</span><a id="line.210">    public SupplierToCacheLoader(Supplier&lt;V&gt; computingSupplier) {</a>
-<span class="sourceLineNo">211</span><a id="line.211">      this.computingSupplier = checkNotNull(computingSupplier);</a>
-<span class="sourceLineNo">212</span><a id="line.212">    }</a>
+<span class="sourceLineNo">210</span><a id="line.210">  private static final class SupplierToCacheLoader&lt;V&gt; extends CacheLoader&lt;Object, V&gt;</a>
+<span class="sourceLineNo">211</span><a id="line.211">      implements Serializable {</a>
+<span class="sourceLineNo">212</span><a id="line.212">    private final Supplier&lt;V&gt; computingSupplier;</a>
 <span class="sourceLineNo">213</span><a id="line.213"></a>
-<span class="sourceLineNo">214</span><a id="line.214">    @Override</a>
-<span class="sourceLineNo">215</span><a id="line.215">    public V load(Object key) {</a>
-<span class="sourceLineNo">216</span><a id="line.216">      checkNotNull(key);</a>
-<span class="sourceLineNo">217</span><a id="line.217">      return computingSupplier.get();</a>
-<span class="sourceLineNo">218</span><a id="line.218">    }</a>
-<span class="sourceLineNo">219</span><a id="line.219"></a>
-<span class="sourceLineNo">220</span><a id="line.220">    private static final long serialVersionUID = 0;</a>
-<span class="sourceLineNo">221</span><a id="line.221">  }</a>
-<span class="sourceLineNo">222</span><a id="line.222"></a>
-<span class="sourceLineNo">223</span><a id="line.223">  /**</a>
-<span class="sourceLineNo">224</span><a id="line.224">   * Exception thrown by {@code loadAll()} to indicate that it is not supported.</a>
-<span class="sourceLineNo">225</span><a id="line.225">   *</a>
-<span class="sourceLineNo">226</span><a id="line.226">   * @since 19.0</a>
-<span class="sourceLineNo">227</span><a id="line.227">   */</a>
-<span class="sourceLineNo">228</span><a id="line.228">  public static final class UnsupportedLoadingOperationException</a>
-<span class="sourceLineNo">229</span><a id="line.229">      extends UnsupportedOperationException {</a>
-<span class="sourceLineNo">230</span><a id="line.230">    // Package-private because this should only be thrown by loadAll() when it is not overridden.</a>
-<span class="sourceLineNo">231</span><a id="line.231">    // Cache implementors may want to catch it but should not need to be able to throw it.</a>
-<span class="sourceLineNo">232</span><a id="line.232">    UnsupportedLoadingOperationException() {}</a>
-<span class="sourceLineNo">233</span><a id="line.233">  }</a>
-<span class="sourceLineNo">234</span><a id="line.234"></a>
-<span class="sourceLineNo">235</span><a id="line.235">  /**</a>
-<span class="sourceLineNo">236</span><a id="line.236">   * Thrown to indicate that an invalid response was returned from a call to {@link CacheLoader}.</a>
-<span class="sourceLineNo">237</span><a id="line.237">   *</a>
-<span class="sourceLineNo">238</span><a id="line.238">   * @since 11.0</a>
-<span class="sourceLineNo">239</span><a id="line.239">   */</a>
-<span class="sourceLineNo">240</span><a id="line.240">  public static final class InvalidCacheLoadException extends RuntimeException {</a>
-<span class="sourceLineNo">241</span><a id="line.241">    public InvalidCacheLoadException(String message) {</a>
-<span class="sourceLineNo">242</span><a id="line.242">      super(message);</a>
-<span class="sourceLineNo">243</span><a id="line.243">    }</a>
-<span class="sourceLineNo">244</span><a id="line.244">  }</a>
-<span class="sourceLineNo">245</span><a id="line.245">}</a>
+<span class="sourceLineNo">214</span><a id="line.214">    public SupplierToCacheLoader(Supplier&lt;V&gt; computingSupplier) {</a>
+<span class="sourceLineNo">215</span><a id="line.215">      this.computingSupplier = checkNotNull(computingSupplier);</a>
+<span class="sourceLineNo">216</span><a id="line.216">    }</a>
+<span class="sourceLineNo">217</span><a id="line.217"></a>
+<span class="sourceLineNo">218</span><a id="line.218">    @Override</a>
+<span class="sourceLineNo">219</span><a id="line.219">    public V load(Object key) {</a>
+<span class="sourceLineNo">220</span><a id="line.220">      checkNotNull(key);</a>
+<span class="sourceLineNo">221</span><a id="line.221">      return computingSupplier.get();</a>
+<span class="sourceLineNo">222</span><a id="line.222">    }</a>
+<span class="sourceLineNo">223</span><a id="line.223"></a>
+<span class="sourceLineNo">224</span><a id="line.224">    private static final long serialVersionUID = 0;</a>
+<span class="sourceLineNo">225</span><a id="line.225">  }</a>
+<span class="sourceLineNo">226</span><a id="line.226"></a>
+<span class="sourceLineNo">227</span><a id="line.227">  /**</a>
+<span class="sourceLineNo">228</span><a id="line.228">   * Exception thrown by {@code loadAll()} to indicate that it is not supported.</a>
+<span class="sourceLineNo">229</span><a id="line.229">   *</a>
+<span class="sourceLineNo">230</span><a id="line.230">   * @since 19.0</a>
+<span class="sourceLineNo">231</span><a id="line.231">   */</a>
+<span class="sourceLineNo">232</span><a id="line.232">  public static final class UnsupportedLoadingOperationException</a>
+<span class="sourceLineNo">233</span><a id="line.233">      extends UnsupportedOperationException {</a>
+<span class="sourceLineNo">234</span><a id="line.234">    // Package-private because this should only be thrown by loadAll() when it is not overridden.</a>
+<span class="sourceLineNo">235</span><a id="line.235">    // Cache implementors may want to catch it but should not need to be able to throw it.</a>
+<span class="sourceLineNo">236</span><a id="line.236">    UnsupportedLoadingOperationException() {}</a>
+<span class="sourceLineNo">237</span><a id="line.237">  }</a>
+<span class="sourceLineNo">238</span><a id="line.238"></a>
+<span class="sourceLineNo">239</span><a id="line.239">  /**</a>
+<span class="sourceLineNo">240</span><a id="line.240">   * Thrown to indicate that an invalid response was returned from a call to {@link CacheLoader}.</a>
+<span class="sourceLineNo">241</span><a id="line.241">   *</a>
+<span class="sourceLineNo">242</span><a id="line.242">   * @since 11.0</a>
+<span class="sourceLineNo">243</span><a id="line.243">   */</a>
+<span class="sourceLineNo">244</span><a id="line.244">  public static final class InvalidCacheLoadException extends RuntimeException {</a>
+<span class="sourceLineNo">245</span><a id="line.245">    public InvalidCacheLoadException(String message) {</a>
+<span class="sourceLineNo">246</span><a id="line.246">      super(message);</a>
+<span class="sourceLineNo">247</span><a id="line.247">    }</a>
+<span class="sourceLineNo">248</span><a id="line.248">  }</a>
+<span class="sourceLineNo">249</span><a id="line.249">}</a>
 
 
 

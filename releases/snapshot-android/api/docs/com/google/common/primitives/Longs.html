@@ -1045,13 +1045,15 @@ public static&nbsp;<a href="../base/Converter.html" title="class in com.google.c
 <ul class="blockListLast">
 <li class="blockList">
 <h4>asList</h4>
-<pre class="methodSignature">public static&nbsp;java.util.List&lt;java.lang.Long&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/Longs.html#line.702">asList</a>&#8203;(long...&nbsp;backingArray)</pre>
+<pre class="methodSignature">public static&nbsp;java.util.List&lt;java.lang.Long&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/Longs.html#line.704">asList</a>&#8203;(long...&nbsp;backingArray)</pre>
 <div class="block">Returns a fixed-size list backed by the specified array, similar to <code>Arrays.asList(Object[])</code>. The list supports <code>List.set(int, Object)</code>, but any attempt to
  set a value to <code>null</code> will result in a <code>NullPointerException</code>.
 
  <p>The returned list maintains the values, but not the identities, of <code>Long</code> objects
  written to or read from it. For example, whether <code>list.get(0) == list.get(0)</code> is true for
  the returned list is unspecified.
+
+ <p>The returned list is serializable.
 
  <p><b>Note:</b> when possible, you should represent your data as an <a href="ImmutableLongArray.html" title="class in com.google.common.primitives"><code>ImmutableLongArray</code></a>
  instead, which has an <a href="ImmutableLongArray.html#asList()"><code>asList</code></a> view.</div>

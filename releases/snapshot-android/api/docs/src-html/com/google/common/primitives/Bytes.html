@@ -236,226 +236,228 @@
 <span class="sourceLineNo">227</span><a id="line.227">   * written to or read from it. For example, whether {@code list.get(0) == list.get(0)} is true for</a>
 <span class="sourceLineNo">228</span><a id="line.228">   * the returned list is unspecified.</a>
 <span class="sourceLineNo">229</span><a id="line.229">   *</a>
-<span class="sourceLineNo">230</span><a id="line.230">   * @param backingArray the array to back the list</a>
-<span class="sourceLineNo">231</span><a id="line.231">   * @return a list view of the array</a>
-<span class="sourceLineNo">232</span><a id="line.232">   */</a>
-<span class="sourceLineNo">233</span><a id="line.233">  public static List&lt;Byte&gt; asList(byte... backingArray) {</a>
-<span class="sourceLineNo">234</span><a id="line.234">    if (backingArray.length == 0) {</a>
-<span class="sourceLineNo">235</span><a id="line.235">      return Collections.emptyList();</a>
-<span class="sourceLineNo">236</span><a id="line.236">    }</a>
-<span class="sourceLineNo">237</span><a id="line.237">    return new ByteArrayAsList(backingArray);</a>
-<span class="sourceLineNo">238</span><a id="line.238">  }</a>
-<span class="sourceLineNo">239</span><a id="line.239"></a>
-<span class="sourceLineNo">240</span><a id="line.240">  @GwtCompatible</a>
-<span class="sourceLineNo">241</span><a id="line.241">  private static class ByteArrayAsList extends AbstractList&lt;Byte&gt;</a>
-<span class="sourceLineNo">242</span><a id="line.242">      implements RandomAccess, Serializable {</a>
-<span class="sourceLineNo">243</span><a id="line.243">    final byte[] array;</a>
-<span class="sourceLineNo">244</span><a id="line.244">    final int start;</a>
-<span class="sourceLineNo">245</span><a id="line.245">    final int end;</a>
-<span class="sourceLineNo">246</span><a id="line.246"></a>
-<span class="sourceLineNo">247</span><a id="line.247">    ByteArrayAsList(byte[] array) {</a>
-<span class="sourceLineNo">248</span><a id="line.248">      this(array, 0, array.length);</a>
-<span class="sourceLineNo">249</span><a id="line.249">    }</a>
-<span class="sourceLineNo">250</span><a id="line.250"></a>
-<span class="sourceLineNo">251</span><a id="line.251">    ByteArrayAsList(byte[] array, int start, int end) {</a>
-<span class="sourceLineNo">252</span><a id="line.252">      this.array = array;</a>
-<span class="sourceLineNo">253</span><a id="line.253">      this.start = start;</a>
-<span class="sourceLineNo">254</span><a id="line.254">      this.end = end;</a>
-<span class="sourceLineNo">255</span><a id="line.255">    }</a>
-<span class="sourceLineNo">256</span><a id="line.256"></a>
-<span class="sourceLineNo">257</span><a id="line.257">    @Override</a>
-<span class="sourceLineNo">258</span><a id="line.258">    public int size() {</a>
-<span class="sourceLineNo">259</span><a id="line.259">      return end - start;</a>
-<span class="sourceLineNo">260</span><a id="line.260">    }</a>
-<span class="sourceLineNo">261</span><a id="line.261"></a>
-<span class="sourceLineNo">262</span><a id="line.262">    @Override</a>
-<span class="sourceLineNo">263</span><a id="line.263">    public boolean isEmpty() {</a>
-<span class="sourceLineNo">264</span><a id="line.264">      return false;</a>
-<span class="sourceLineNo">265</span><a id="line.265">    }</a>
-<span class="sourceLineNo">266</span><a id="line.266"></a>
-<span class="sourceLineNo">267</span><a id="line.267">    @Override</a>
-<span class="sourceLineNo">268</span><a id="line.268">    public Byte get(int index) {</a>
-<span class="sourceLineNo">269</span><a id="line.269">      checkElementIndex(index, size());</a>
-<span class="sourceLineNo">270</span><a id="line.270">      return array[start + index];</a>
-<span class="sourceLineNo">271</span><a id="line.271">    }</a>
-<span class="sourceLineNo">272</span><a id="line.272"></a>
-<span class="sourceLineNo">273</span><a id="line.273">    @Override</a>
-<span class="sourceLineNo">274</span><a id="line.274">    public boolean contains(@CheckForNull Object target) {</a>
-<span class="sourceLineNo">275</span><a id="line.275">      // Overridden to prevent a ton of boxing</a>
-<span class="sourceLineNo">276</span><a id="line.276">      return (target instanceof Byte) &amp;&amp; Bytes.indexOf(array, (Byte) target, start, end) != -1;</a>
-<span class="sourceLineNo">277</span><a id="line.277">    }</a>
-<span class="sourceLineNo">278</span><a id="line.278"></a>
-<span class="sourceLineNo">279</span><a id="line.279">    @Override</a>
-<span class="sourceLineNo">280</span><a id="line.280">    public int indexOf(@CheckForNull Object target) {</a>
-<span class="sourceLineNo">281</span><a id="line.281">      // Overridden to prevent a ton of boxing</a>
-<span class="sourceLineNo">282</span><a id="line.282">      if (target instanceof Byte) {</a>
-<span class="sourceLineNo">283</span><a id="line.283">        int i = Bytes.indexOf(array, (Byte) target, start, end);</a>
-<span class="sourceLineNo">284</span><a id="line.284">        if (i &gt;= 0) {</a>
-<span class="sourceLineNo">285</span><a id="line.285">          return i - start;</a>
-<span class="sourceLineNo">286</span><a id="line.286">        }</a>
-<span class="sourceLineNo">287</span><a id="line.287">      }</a>
-<span class="sourceLineNo">288</span><a id="line.288">      return -1;</a>
-<span class="sourceLineNo">289</span><a id="line.289">    }</a>
-<span class="sourceLineNo">290</span><a id="line.290"></a>
-<span class="sourceLineNo">291</span><a id="line.291">    @Override</a>
-<span class="sourceLineNo">292</span><a id="line.292">    public int lastIndexOf(@CheckForNull Object target) {</a>
-<span class="sourceLineNo">293</span><a id="line.293">      // Overridden to prevent a ton of boxing</a>
-<span class="sourceLineNo">294</span><a id="line.294">      if (target instanceof Byte) {</a>
-<span class="sourceLineNo">295</span><a id="line.295">        int i = Bytes.lastIndexOf(array, (Byte) target, start, end);</a>
-<span class="sourceLineNo">296</span><a id="line.296">        if (i &gt;= 0) {</a>
-<span class="sourceLineNo">297</span><a id="line.297">          return i - start;</a>
-<span class="sourceLineNo">298</span><a id="line.298">        }</a>
-<span class="sourceLineNo">299</span><a id="line.299">      }</a>
-<span class="sourceLineNo">300</span><a id="line.300">      return -1;</a>
-<span class="sourceLineNo">301</span><a id="line.301">    }</a>
-<span class="sourceLineNo">302</span><a id="line.302"></a>
-<span class="sourceLineNo">303</span><a id="line.303">    @Override</a>
-<span class="sourceLineNo">304</span><a id="line.304">    public Byte set(int index, Byte element) {</a>
-<span class="sourceLineNo">305</span><a id="line.305">      checkElementIndex(index, size());</a>
-<span class="sourceLineNo">306</span><a id="line.306">      byte oldValue = array[start + index];</a>
-<span class="sourceLineNo">307</span><a id="line.307">      // checkNotNull for GWT (do not optimize)</a>
-<span class="sourceLineNo">308</span><a id="line.308">      array[start + index] = checkNotNull(element);</a>
-<span class="sourceLineNo">309</span><a id="line.309">      return oldValue;</a>
-<span class="sourceLineNo">310</span><a id="line.310">    }</a>
-<span class="sourceLineNo">311</span><a id="line.311"></a>
-<span class="sourceLineNo">312</span><a id="line.312">    @Override</a>
-<span class="sourceLineNo">313</span><a id="line.313">    public List&lt;Byte&gt; subList(int fromIndex, int toIndex) {</a>
-<span class="sourceLineNo">314</span><a id="line.314">      int size = size();</a>
-<span class="sourceLineNo">315</span><a id="line.315">      checkPositionIndexes(fromIndex, toIndex, size);</a>
-<span class="sourceLineNo">316</span><a id="line.316">      if (fromIndex == toIndex) {</a>
-<span class="sourceLineNo">317</span><a id="line.317">        return Collections.emptyList();</a>
-<span class="sourceLineNo">318</span><a id="line.318">      }</a>
-<span class="sourceLineNo">319</span><a id="line.319">      return new ByteArrayAsList(array, start + fromIndex, start + toIndex);</a>
-<span class="sourceLineNo">320</span><a id="line.320">    }</a>
-<span class="sourceLineNo">321</span><a id="line.321"></a>
-<span class="sourceLineNo">322</span><a id="line.322">    @Override</a>
-<span class="sourceLineNo">323</span><a id="line.323">    public boolean equals(@CheckForNull Object object) {</a>
-<span class="sourceLineNo">324</span><a id="line.324">      if (object == this) {</a>
-<span class="sourceLineNo">325</span><a id="line.325">        return true;</a>
-<span class="sourceLineNo">326</span><a id="line.326">      }</a>
-<span class="sourceLineNo">327</span><a id="line.327">      if (object instanceof ByteArrayAsList) {</a>
-<span class="sourceLineNo">328</span><a id="line.328">        ByteArrayAsList that = (ByteArrayAsList) object;</a>
-<span class="sourceLineNo">329</span><a id="line.329">        int size = size();</a>
-<span class="sourceLineNo">330</span><a id="line.330">        if (that.size() != size) {</a>
-<span class="sourceLineNo">331</span><a id="line.331">          return false;</a>
-<span class="sourceLineNo">332</span><a id="line.332">        }</a>
-<span class="sourceLineNo">333</span><a id="line.333">        for (int i = 0; i &lt; size; i++) {</a>
-<span class="sourceLineNo">334</span><a id="line.334">          if (array[start + i] != that.array[that.start + i]) {</a>
-<span class="sourceLineNo">335</span><a id="line.335">            return false;</a>
-<span class="sourceLineNo">336</span><a id="line.336">          }</a>
-<span class="sourceLineNo">337</span><a id="line.337">        }</a>
-<span class="sourceLineNo">338</span><a id="line.338">        return true;</a>
-<span class="sourceLineNo">339</span><a id="line.339">      }</a>
-<span class="sourceLineNo">340</span><a id="line.340">      return super.equals(object);</a>
-<span class="sourceLineNo">341</span><a id="line.341">    }</a>
-<span class="sourceLineNo">342</span><a id="line.342"></a>
-<span class="sourceLineNo">343</span><a id="line.343">    @Override</a>
-<span class="sourceLineNo">344</span><a id="line.344">    public int hashCode() {</a>
-<span class="sourceLineNo">345</span><a id="line.345">      int result = 1;</a>
-<span class="sourceLineNo">346</span><a id="line.346">      for (int i = start; i &lt; end; i++) {</a>
-<span class="sourceLineNo">347</span><a id="line.347">        result = 31 * result + Bytes.hashCode(array[i]);</a>
-<span class="sourceLineNo">348</span><a id="line.348">      }</a>
-<span class="sourceLineNo">349</span><a id="line.349">      return result;</a>
-<span class="sourceLineNo">350</span><a id="line.350">    }</a>
-<span class="sourceLineNo">351</span><a id="line.351"></a>
-<span class="sourceLineNo">352</span><a id="line.352">    @Override</a>
-<span class="sourceLineNo">353</span><a id="line.353">    public String toString() {</a>
-<span class="sourceLineNo">354</span><a id="line.354">      StringBuilder builder = new StringBuilder(size() * 5);</a>
-<span class="sourceLineNo">355</span><a id="line.355">      builder.append('[').append(array[start]);</a>
-<span class="sourceLineNo">356</span><a id="line.356">      for (int i = start + 1; i &lt; end; i++) {</a>
-<span class="sourceLineNo">357</span><a id="line.357">        builder.append(", ").append(array[i]);</a>
-<span class="sourceLineNo">358</span><a id="line.358">      }</a>
-<span class="sourceLineNo">359</span><a id="line.359">      return builder.append(']').toString();</a>
-<span class="sourceLineNo">360</span><a id="line.360">    }</a>
-<span class="sourceLineNo">361</span><a id="line.361"></a>
-<span class="sourceLineNo">362</span><a id="line.362">    byte[] toByteArray() {</a>
-<span class="sourceLineNo">363</span><a id="line.363">      return Arrays.copyOfRange(array, start, end);</a>
-<span class="sourceLineNo">364</span><a id="line.364">    }</a>
-<span class="sourceLineNo">365</span><a id="line.365"></a>
-<span class="sourceLineNo">366</span><a id="line.366">    private static final long serialVersionUID = 0;</a>
-<span class="sourceLineNo">367</span><a id="line.367">  }</a>
-<span class="sourceLineNo">368</span><a id="line.368"></a>
-<span class="sourceLineNo">369</span><a id="line.369">  /**</a>
-<span class="sourceLineNo">370</span><a id="line.370">   * Reverses the elements of {@code array}. This is equivalent to {@code</a>
-<span class="sourceLineNo">371</span><a id="line.371">   * Collections.reverse(Bytes.asList(array))}, but is likely to be more efficient.</a>
-<span class="sourceLineNo">372</span><a id="line.372">   *</a>
-<span class="sourceLineNo">373</span><a id="line.373">   * @since 23.1</a>
-<span class="sourceLineNo">374</span><a id="line.374">   */</a>
-<span class="sourceLineNo">375</span><a id="line.375">  public static void reverse(byte[] array) {</a>
-<span class="sourceLineNo">376</span><a id="line.376">    checkNotNull(array);</a>
-<span class="sourceLineNo">377</span><a id="line.377">    reverse(array, 0, array.length);</a>
-<span class="sourceLineNo">378</span><a id="line.378">  }</a>
-<span class="sourceLineNo">379</span><a id="line.379"></a>
-<span class="sourceLineNo">380</span><a id="line.380">  /**</a>
-<span class="sourceLineNo">381</span><a id="line.381">   * Reverses the elements of {@code array} between {@code fromIndex} inclusive and {@code toIndex}</a>
-<span class="sourceLineNo">382</span><a id="line.382">   * exclusive. This is equivalent to {@code</a>
-<span class="sourceLineNo">383</span><a id="line.383">   * Collections.reverse(Bytes.asList(array).subList(fromIndex, toIndex))}, but is likely to be more</a>
-<span class="sourceLineNo">384</span><a id="line.384">   * efficient.</a>
-<span class="sourceLineNo">385</span><a id="line.385">   *</a>
-<span class="sourceLineNo">386</span><a id="line.386">   * @throws IndexOutOfBoundsException if {@code fromIndex &lt; 0}, {@code toIndex &gt; array.length}, or</a>
-<span class="sourceLineNo">387</span><a id="line.387">   *     {@code toIndex &gt; fromIndex}</a>
-<span class="sourceLineNo">388</span><a id="line.388">   * @since 23.1</a>
-<span class="sourceLineNo">389</span><a id="line.389">   */</a>
-<span class="sourceLineNo">390</span><a id="line.390">  public static void reverse(byte[] array, int fromIndex, int toIndex) {</a>
-<span class="sourceLineNo">391</span><a id="line.391">    checkNotNull(array);</a>
-<span class="sourceLineNo">392</span><a id="line.392">    checkPositionIndexes(fromIndex, toIndex, array.length);</a>
-<span class="sourceLineNo">393</span><a id="line.393">    for (int i = fromIndex, j = toIndex - 1; i &lt; j; i++, j--) {</a>
-<span class="sourceLineNo">394</span><a id="line.394">      byte tmp = array[i];</a>
-<span class="sourceLineNo">395</span><a id="line.395">      array[i] = array[j];</a>
-<span class="sourceLineNo">396</span><a id="line.396">      array[j] = tmp;</a>
-<span class="sourceLineNo">397</span><a id="line.397">    }</a>
-<span class="sourceLineNo">398</span><a id="line.398">  }</a>
-<span class="sourceLineNo">399</span><a id="line.399"></a>
-<span class="sourceLineNo">400</span><a id="line.400">  /**</a>
-<span class="sourceLineNo">401</span><a id="line.401">   * Performs a right rotation of {@code array} of "distance" places, so that the first element is</a>
-<span class="sourceLineNo">402</span><a id="line.402">   * moved to index "distance", and the element at index {@code i} ends up at index {@code (distance</a>
-<span class="sourceLineNo">403</span><a id="line.403">   * + i) mod array.length}. This is equivalent to {@code Collections.rotate(Bytes.asList(array),</a>
-<span class="sourceLineNo">404</span><a id="line.404">   * distance)}, but is somewhat faster.</a>
-<span class="sourceLineNo">405</span><a id="line.405">   *</a>
-<span class="sourceLineNo">406</span><a id="line.406">   * &lt;p&gt;The provided "distance" may be negative, which will rotate left.</a>
+<span class="sourceLineNo">230</span><a id="line.230">   * &lt;p&gt;The returned list is serializable.</a>
+<span class="sourceLineNo">231</span><a id="line.231">   *</a>
+<span class="sourceLineNo">232</span><a id="line.232">   * @param backingArray the array to back the list</a>
+<span class="sourceLineNo">233</span><a id="line.233">   * @return a list view of the array</a>
+<span class="sourceLineNo">234</span><a id="line.234">   */</a>
+<span class="sourceLineNo">235</span><a id="line.235">  public static List&lt;Byte&gt; asList(byte... backingArray) {</a>
+<span class="sourceLineNo">236</span><a id="line.236">    if (backingArray.length == 0) {</a>
+<span class="sourceLineNo">237</span><a id="line.237">      return Collections.emptyList();</a>
+<span class="sourceLineNo">238</span><a id="line.238">    }</a>
+<span class="sourceLineNo">239</span><a id="line.239">    return new ByteArrayAsList(backingArray);</a>
+<span class="sourceLineNo">240</span><a id="line.240">  }</a>
+<span class="sourceLineNo">241</span><a id="line.241"></a>
+<span class="sourceLineNo">242</span><a id="line.242">  @GwtCompatible</a>
+<span class="sourceLineNo">243</span><a id="line.243">  private static class ByteArrayAsList extends AbstractList&lt;Byte&gt;</a>
+<span class="sourceLineNo">244</span><a id="line.244">      implements RandomAccess, Serializable {</a>
+<span class="sourceLineNo">245</span><a id="line.245">    final byte[] array;</a>
+<span class="sourceLineNo">246</span><a id="line.246">    final int start;</a>
+<span class="sourceLineNo">247</span><a id="line.247">    final int end;</a>
+<span class="sourceLineNo">248</span><a id="line.248"></a>
+<span class="sourceLineNo">249</span><a id="line.249">    ByteArrayAsList(byte[] array) {</a>
+<span class="sourceLineNo">250</span><a id="line.250">      this(array, 0, array.length);</a>
+<span class="sourceLineNo">251</span><a id="line.251">    }</a>
+<span class="sourceLineNo">252</span><a id="line.252"></a>
+<span class="sourceLineNo">253</span><a id="line.253">    ByteArrayAsList(byte[] array, int start, int end) {</a>
+<span class="sourceLineNo">254</span><a id="line.254">      this.array = array;</a>
+<span class="sourceLineNo">255</span><a id="line.255">      this.start = start;</a>
+<span class="sourceLineNo">256</span><a id="line.256">      this.end = end;</a>
+<span class="sourceLineNo">257</span><a id="line.257">    }</a>
+<span class="sourceLineNo">258</span><a id="line.258"></a>
+<span class="sourceLineNo">259</span><a id="line.259">    @Override</a>
+<span class="sourceLineNo">260</span><a id="line.260">    public int size() {</a>
+<span class="sourceLineNo">261</span><a id="line.261">      return end - start;</a>
+<span class="sourceLineNo">262</span><a id="line.262">    }</a>
+<span class="sourceLineNo">263</span><a id="line.263"></a>
+<span class="sourceLineNo">264</span><a id="line.264">    @Override</a>
+<span class="sourceLineNo">265</span><a id="line.265">    public boolean isEmpty() {</a>
+<span class="sourceLineNo">266</span><a id="line.266">      return false;</a>
+<span class="sourceLineNo">267</span><a id="line.267">    }</a>
+<span class="sourceLineNo">268</span><a id="line.268"></a>
+<span class="sourceLineNo">269</span><a id="line.269">    @Override</a>
+<span class="sourceLineNo">270</span><a id="line.270">    public Byte get(int index) {</a>
+<span class="sourceLineNo">271</span><a id="line.271">      checkElementIndex(index, size());</a>
+<span class="sourceLineNo">272</span><a id="line.272">      return array[start + index];</a>
+<span class="sourceLineNo">273</span><a id="line.273">    }</a>
+<span class="sourceLineNo">274</span><a id="line.274"></a>
+<span class="sourceLineNo">275</span><a id="line.275">    @Override</a>
+<span class="sourceLineNo">276</span><a id="line.276">    public boolean contains(@CheckForNull Object target) {</a>
+<span class="sourceLineNo">277</span><a id="line.277">      // Overridden to prevent a ton of boxing</a>
+<span class="sourceLineNo">278</span><a id="line.278">      return (target instanceof Byte) &amp;&amp; Bytes.indexOf(array, (Byte) target, start, end) != -1;</a>
+<span class="sourceLineNo">279</span><a id="line.279">    }</a>
+<span class="sourceLineNo">280</span><a id="line.280"></a>
+<span class="sourceLineNo">281</span><a id="line.281">    @Override</a>
+<span class="sourceLineNo">282</span><a id="line.282">    public int indexOf(@CheckForNull Object target) {</a>
+<span class="sourceLineNo">283</span><a id="line.283">      // Overridden to prevent a ton of boxing</a>
+<span class="sourceLineNo">284</span><a id="line.284">      if (target instanceof Byte) {</a>
+<span class="sourceLineNo">285</span><a id="line.285">        int i = Bytes.indexOf(array, (Byte) target, start, end);</a>
+<span class="sourceLineNo">286</span><a id="line.286">        if (i &gt;= 0) {</a>
+<span class="sourceLineNo">287</span><a id="line.287">          return i - start;</a>
+<span class="sourceLineNo">288</span><a id="line.288">        }</a>
+<span class="sourceLineNo">289</span><a id="line.289">      }</a>
+<span class="sourceLineNo">290</span><a id="line.290">      return -1;</a>
+<span class="sourceLineNo">291</span><a id="line.291">    }</a>
+<span class="sourceLineNo">292</span><a id="line.292"></a>
+<span class="sourceLineNo">293</span><a id="line.293">    @Override</a>
+<span class="sourceLineNo">294</span><a id="line.294">    public int lastIndexOf(@CheckForNull Object target) {</a>
+<span class="sourceLineNo">295</span><a id="line.295">      // Overridden to prevent a ton of boxing</a>
+<span class="sourceLineNo">296</span><a id="line.296">      if (target instanceof Byte) {</a>
+<span class="sourceLineNo">297</span><a id="line.297">        int i = Bytes.lastIndexOf(array, (Byte) target, start, end);</a>
+<span class="sourceLineNo">298</span><a id="line.298">        if (i &gt;= 0) {</a>
+<span class="sourceLineNo">299</span><a id="line.299">          return i - start;</a>
+<span class="sourceLineNo">300</span><a id="line.300">        }</a>
+<span class="sourceLineNo">301</span><a id="line.301">      }</a>
+<span class="sourceLineNo">302</span><a id="line.302">      return -1;</a>
+<span class="sourceLineNo">303</span><a id="line.303">    }</a>
+<span class="sourceLineNo">304</span><a id="line.304"></a>
+<span class="sourceLineNo">305</span><a id="line.305">    @Override</a>
+<span class="sourceLineNo">306</span><a id="line.306">    public Byte set(int index, Byte element) {</a>
+<span class="sourceLineNo">307</span><a id="line.307">      checkElementIndex(index, size());</a>
+<span class="sourceLineNo">308</span><a id="line.308">      byte oldValue = array[start + index];</a>
+<span class="sourceLineNo">309</span><a id="line.309">      // checkNotNull for GWT (do not optimize)</a>
+<span class="sourceLineNo">310</span><a id="line.310">      array[start + index] = checkNotNull(element);</a>
+<span class="sourceLineNo">311</span><a id="line.311">      return oldValue;</a>
+<span class="sourceLineNo">312</span><a id="line.312">    }</a>
+<span class="sourceLineNo">313</span><a id="line.313"></a>
+<span class="sourceLineNo">314</span><a id="line.314">    @Override</a>
+<span class="sourceLineNo">315</span><a id="line.315">    public List&lt;Byte&gt; subList(int fromIndex, int toIndex) {</a>
+<span class="sourceLineNo">316</span><a id="line.316">      int size = size();</a>
+<span class="sourceLineNo">317</span><a id="line.317">      checkPositionIndexes(fromIndex, toIndex, size);</a>
+<span class="sourceLineNo">318</span><a id="line.318">      if (fromIndex == toIndex) {</a>
+<span class="sourceLineNo">319</span><a id="line.319">        return Collections.emptyList();</a>
+<span class="sourceLineNo">320</span><a id="line.320">      }</a>
+<span class="sourceLineNo">321</span><a id="line.321">      return new ByteArrayAsList(array, start + fromIndex, start + toIndex);</a>
+<span class="sourceLineNo">322</span><a id="line.322">    }</a>
+<span class="sourceLineNo">323</span><a id="line.323"></a>
+<span class="sourceLineNo">324</span><a id="line.324">    @Override</a>
+<span class="sourceLineNo">325</span><a id="line.325">    public boolean equals(@CheckForNull Object object) {</a>
+<span class="sourceLineNo">326</span><a id="line.326">      if (object == this) {</a>
+<span class="sourceLineNo">327</span><a id="line.327">        return true;</a>
+<span class="sourceLineNo">328</span><a id="line.328">      }</a>
+<span class="sourceLineNo">329</span><a id="line.329">      if (object instanceof ByteArrayAsList) {</a>
+<span class="sourceLineNo">330</span><a id="line.330">        ByteArrayAsList that = (ByteArrayAsList) object;</a>
+<span class="sourceLineNo">331</span><a id="line.331">        int size = size();</a>
+<span class="sourceLineNo">332</span><a id="line.332">        if (that.size() != size) {</a>
+<span class="sourceLineNo">333</span><a id="line.333">          return false;</a>
+<span class="sourceLineNo">334</span><a id="line.334">        }</a>
+<span class="sourceLineNo">335</span><a id="line.335">        for (int i = 0; i &lt; size; i++) {</a>
+<span class="sourceLineNo">336</span><a id="line.336">          if (array[start + i] != that.array[that.start + i]) {</a>
+<span class="sourceLineNo">337</span><a id="line.337">            return false;</a>
+<span class="sourceLineNo">338</span><a id="line.338">          }</a>
+<span class="sourceLineNo">339</span><a id="line.339">        }</a>
+<span class="sourceLineNo">340</span><a id="line.340">        return true;</a>
+<span class="sourceLineNo">341</span><a id="line.341">      }</a>
+<span class="sourceLineNo">342</span><a id="line.342">      return super.equals(object);</a>
+<span class="sourceLineNo">343</span><a id="line.343">    }</a>
+<span class="sourceLineNo">344</span><a id="line.344"></a>
+<span class="sourceLineNo">345</span><a id="line.345">    @Override</a>
+<span class="sourceLineNo">346</span><a id="line.346">    public int hashCode() {</a>
+<span class="sourceLineNo">347</span><a id="line.347">      int result = 1;</a>
+<span class="sourceLineNo">348</span><a id="line.348">      for (int i = start; i &lt; end; i++) {</a>
+<span class="sourceLineNo">349</span><a id="line.349">        result = 31 * result + Bytes.hashCode(array[i]);</a>
+<span class="sourceLineNo">350</span><a id="line.350">      }</a>
+<span class="sourceLineNo">351</span><a id="line.351">      return result;</a>
+<span class="sourceLineNo">352</span><a id="line.352">    }</a>
+<span class="sourceLineNo">353</span><a id="line.353"></a>
+<span class="sourceLineNo">354</span><a id="line.354">    @Override</a>
+<span class="sourceLineNo">355</span><a id="line.355">    public String toString() {</a>
+<span class="sourceLineNo">356</span><a id="line.356">      StringBuilder builder = new StringBuilder(size() * 5);</a>
+<span class="sourceLineNo">357</span><a id="line.357">      builder.append('[').append(array[start]);</a>
+<span class="sourceLineNo">358</span><a id="line.358">      for (int i = start + 1; i &lt; end; i++) {</a>
+<span class="sourceLineNo">359</span><a id="line.359">        builder.append(", ").append(array[i]);</a>
+<span class="sourceLineNo">360</span><a id="line.360">      }</a>
+<span class="sourceLineNo">361</span><a id="line.361">      return builder.append(']').toString();</a>
+<span class="sourceLineNo">362</span><a id="line.362">    }</a>
+<span class="sourceLineNo">363</span><a id="line.363"></a>
+<span class="sourceLineNo">364</span><a id="line.364">    byte[] toByteArray() {</a>
+<span class="sourceLineNo">365</span><a id="line.365">      return Arrays.copyOfRange(array, start, end);</a>
+<span class="sourceLineNo">366</span><a id="line.366">    }</a>
+<span class="sourceLineNo">367</span><a id="line.367"></a>
+<span class="sourceLineNo">368</span><a id="line.368">    private static final long serialVersionUID = 0;</a>
+<span class="sourceLineNo">369</span><a id="line.369">  }</a>
+<span class="sourceLineNo">370</span><a id="line.370"></a>
+<span class="sourceLineNo">371</span><a id="line.371">  /**</a>
+<span class="sourceLineNo">372</span><a id="line.372">   * Reverses the elements of {@code array}. This is equivalent to {@code</a>
+<span class="sourceLineNo">373</span><a id="line.373">   * Collections.reverse(Bytes.asList(array))}, but is likely to be more efficient.</a>
+<span class="sourceLineNo">374</span><a id="line.374">   *</a>
+<span class="sourceLineNo">375</span><a id="line.375">   * @since 23.1</a>
+<span class="sourceLineNo">376</span><a id="line.376">   */</a>
+<span class="sourceLineNo">377</span><a id="line.377">  public static void reverse(byte[] array) {</a>
+<span class="sourceLineNo">378</span><a id="line.378">    checkNotNull(array);</a>
+<span class="sourceLineNo">379</span><a id="line.379">    reverse(array, 0, array.length);</a>
+<span class="sourceLineNo">380</span><a id="line.380">  }</a>
+<span class="sourceLineNo">381</span><a id="line.381"></a>
+<span class="sourceLineNo">382</span><a id="line.382">  /**</a>
+<span class="sourceLineNo">383</span><a id="line.383">   * Reverses the elements of {@code array} between {@code fromIndex} inclusive and {@code toIndex}</a>
+<span class="sourceLineNo">384</span><a id="line.384">   * exclusive. This is equivalent to {@code</a>
+<span class="sourceLineNo">385</span><a id="line.385">   * Collections.reverse(Bytes.asList(array).subList(fromIndex, toIndex))}, but is likely to be more</a>
+<span class="sourceLineNo">386</span><a id="line.386">   * efficient.</a>
+<span class="sourceLineNo">387</span><a id="line.387">   *</a>
+<span class="sourceLineNo">388</span><a id="line.388">   * @throws IndexOutOfBoundsException if {@code fromIndex &lt; 0}, {@code toIndex &gt; array.length}, or</a>
+<span class="sourceLineNo">389</span><a id="line.389">   *     {@code toIndex &gt; fromIndex}</a>
+<span class="sourceLineNo">390</span><a id="line.390">   * @since 23.1</a>
+<span class="sourceLineNo">391</span><a id="line.391">   */</a>
+<span class="sourceLineNo">392</span><a id="line.392">  public static void reverse(byte[] array, int fromIndex, int toIndex) {</a>
+<span class="sourceLineNo">393</span><a id="line.393">    checkNotNull(array);</a>
+<span class="sourceLineNo">394</span><a id="line.394">    checkPositionIndexes(fromIndex, toIndex, array.length);</a>
+<span class="sourceLineNo">395</span><a id="line.395">    for (int i = fromIndex, j = toIndex - 1; i &lt; j; i++, j--) {</a>
+<span class="sourceLineNo">396</span><a id="line.396">      byte tmp = array[i];</a>
+<span class="sourceLineNo">397</span><a id="line.397">      array[i] = array[j];</a>
+<span class="sourceLineNo">398</span><a id="line.398">      array[j] = tmp;</a>
+<span class="sourceLineNo">399</span><a id="line.399">    }</a>
+<span class="sourceLineNo">400</span><a id="line.400">  }</a>
+<span class="sourceLineNo">401</span><a id="line.401"></a>
+<span class="sourceLineNo">402</span><a id="line.402">  /**</a>
+<span class="sourceLineNo">403</span><a id="line.403">   * Performs a right rotation of {@code array} of "distance" places, so that the first element is</a>
+<span class="sourceLineNo">404</span><a id="line.404">   * moved to index "distance", and the element at index {@code i} ends up at index {@code (distance</a>
+<span class="sourceLineNo">405</span><a id="line.405">   * + i) mod array.length}. This is equivalent to {@code Collections.rotate(Bytes.asList(array),</a>
+<span class="sourceLineNo">406</span><a id="line.406">   * distance)}, but is somewhat faster.</a>
 <span class="sourceLineNo">407</span><a id="line.407">   *</a>
-<span class="sourceLineNo">408</span><a id="line.408">   * @since NEXT</a>
-<span class="sourceLineNo">409</span><a id="line.409">   */</a>
-<span class="sourceLineNo">410</span><a id="line.410">  public static void rotate(byte[] array, int distance) {</a>
-<span class="sourceLineNo">411</span><a id="line.411">    rotate(array, distance, 0, array.length);</a>
-<span class="sourceLineNo">412</span><a id="line.412">  }</a>
-<span class="sourceLineNo">413</span><a id="line.413"></a>
-<span class="sourceLineNo">414</span><a id="line.414">  /**</a>
-<span class="sourceLineNo">415</span><a id="line.415">   * Performs a right rotation of {@code array} between {@code fromIndex} inclusive and {@code</a>
-<span class="sourceLineNo">416</span><a id="line.416">   * toIndex} exclusive. This is equivalent to {@code</a>
-<span class="sourceLineNo">417</span><a id="line.417">   * Collections.rotate(Bytes.asList(array).subList(fromIndex, toIndex), distance)}, but is somewhat</a>
-<span class="sourceLineNo">418</span><a id="line.418">   * faster.</a>
-<span class="sourceLineNo">419</span><a id="line.419">   *</a>
-<span class="sourceLineNo">420</span><a id="line.420">   * &lt;p&gt;The provided "distance" may be negative, which will rotate left.</a>
+<span class="sourceLineNo">408</span><a id="line.408">   * &lt;p&gt;The provided "distance" may be negative, which will rotate left.</a>
+<span class="sourceLineNo">409</span><a id="line.409">   *</a>
+<span class="sourceLineNo">410</span><a id="line.410">   * @since NEXT</a>
+<span class="sourceLineNo">411</span><a id="line.411">   */</a>
+<span class="sourceLineNo">412</span><a id="line.412">  public static void rotate(byte[] array, int distance) {</a>
+<span class="sourceLineNo">413</span><a id="line.413">    rotate(array, distance, 0, array.length);</a>
+<span class="sourceLineNo">414</span><a id="line.414">  }</a>
+<span class="sourceLineNo">415</span><a id="line.415"></a>
+<span class="sourceLineNo">416</span><a id="line.416">  /**</a>
+<span class="sourceLineNo">417</span><a id="line.417">   * Performs a right rotation of {@code array} between {@code fromIndex} inclusive and {@code</a>
+<span class="sourceLineNo">418</span><a id="line.418">   * toIndex} exclusive. This is equivalent to {@code</a>
+<span class="sourceLineNo">419</span><a id="line.419">   * Collections.rotate(Bytes.asList(array).subList(fromIndex, toIndex), distance)}, but is somewhat</a>
+<span class="sourceLineNo">420</span><a id="line.420">   * faster.</a>
 <span class="sourceLineNo">421</span><a id="line.421">   *</a>
-<span class="sourceLineNo">422</span><a id="line.422">   * @throws IndexOutOfBoundsException if {@code fromIndex &lt; 0}, {@code toIndex &gt; array.length}, or</a>
-<span class="sourceLineNo">423</span><a id="line.423">   *     {@code toIndex &gt; fromIndex}</a>
-<span class="sourceLineNo">424</span><a id="line.424">   * @since NEXT</a>
-<span class="sourceLineNo">425</span><a id="line.425">   */</a>
-<span class="sourceLineNo">426</span><a id="line.426">  public static void rotate(byte[] array, int distance, int fromIndex, int toIndex) {</a>
-<span class="sourceLineNo">427</span><a id="line.427">    // See Ints.rotate for more details about possible algorithms here.</a>
-<span class="sourceLineNo">428</span><a id="line.428">    checkNotNull(array);</a>
-<span class="sourceLineNo">429</span><a id="line.429">    checkPositionIndexes(fromIndex, toIndex, array.length);</a>
-<span class="sourceLineNo">430</span><a id="line.430">    if (array.length &lt;= 1) {</a>
-<span class="sourceLineNo">431</span><a id="line.431">      return;</a>
-<span class="sourceLineNo">432</span><a id="line.432">    }</a>
-<span class="sourceLineNo">433</span><a id="line.433"></a>
-<span class="sourceLineNo">434</span><a id="line.434">    int length = toIndex - fromIndex;</a>
-<span class="sourceLineNo">435</span><a id="line.435">    // Obtain m = (-distance mod length), a non-negative value less than "length". This is how many</a>
-<span class="sourceLineNo">436</span><a id="line.436">    // places left to rotate.</a>
-<span class="sourceLineNo">437</span><a id="line.437">    int m = -distance % length;</a>
-<span class="sourceLineNo">438</span><a id="line.438">    m = (m &lt; 0) ? m + length : m;</a>
-<span class="sourceLineNo">439</span><a id="line.439">    // The current index of what will become the first element of the rotated section.</a>
-<span class="sourceLineNo">440</span><a id="line.440">    int newFirstIndex = m + fromIndex;</a>
-<span class="sourceLineNo">441</span><a id="line.441">    if (newFirstIndex == fromIndex) {</a>
-<span class="sourceLineNo">442</span><a id="line.442">      return;</a>
-<span class="sourceLineNo">443</span><a id="line.443">    }</a>
-<span class="sourceLineNo">444</span><a id="line.444"></a>
-<span class="sourceLineNo">445</span><a id="line.445">    reverse(array, fromIndex, newFirstIndex);</a>
-<span class="sourceLineNo">446</span><a id="line.446">    reverse(array, newFirstIndex, toIndex);</a>
-<span class="sourceLineNo">447</span><a id="line.447">    reverse(array, fromIndex, toIndex);</a>
-<span class="sourceLineNo">448</span><a id="line.448">  }</a>
-<span class="sourceLineNo">449</span><a id="line.449">}</a>
+<span class="sourceLineNo">422</span><a id="line.422">   * &lt;p&gt;The provided "distance" may be negative, which will rotate left.</a>
+<span class="sourceLineNo">423</span><a id="line.423">   *</a>
+<span class="sourceLineNo">424</span><a id="line.424">   * @throws IndexOutOfBoundsException if {@code fromIndex &lt; 0}, {@code toIndex &gt; array.length}, or</a>
+<span class="sourceLineNo">425</span><a id="line.425">   *     {@code toIndex &gt; fromIndex}</a>
+<span class="sourceLineNo">426</span><a id="line.426">   * @since NEXT</a>
+<span class="sourceLineNo">427</span><a id="line.427">   */</a>
+<span class="sourceLineNo">428</span><a id="line.428">  public static void rotate(byte[] array, int distance, int fromIndex, int toIndex) {</a>
+<span class="sourceLineNo">429</span><a id="line.429">    // See Ints.rotate for more details about possible algorithms here.</a>
+<span class="sourceLineNo">430</span><a id="line.430">    checkNotNull(array);</a>
+<span class="sourceLineNo">431</span><a id="line.431">    checkPositionIndexes(fromIndex, toIndex, array.length);</a>
+<span class="sourceLineNo">432</span><a id="line.432">    if (array.length &lt;= 1) {</a>
+<span class="sourceLineNo">433</span><a id="line.433">      return;</a>
+<span class="sourceLineNo">434</span><a id="line.434">    }</a>
+<span class="sourceLineNo">435</span><a id="line.435"></a>
+<span class="sourceLineNo">436</span><a id="line.436">    int length = toIndex - fromIndex;</a>
+<span class="sourceLineNo">437</span><a id="line.437">    // Obtain m = (-distance mod length), a non-negative value less than "length". This is how many</a>
+<span class="sourceLineNo">438</span><a id="line.438">    // places left to rotate.</a>
+<span class="sourceLineNo">439</span><a id="line.439">    int m = -distance % length;</a>
+<span class="sourceLineNo">440</span><a id="line.440">    m = (m &lt; 0) ? m + length : m;</a>
+<span class="sourceLineNo">441</span><a id="line.441">    // The current index of what will become the first element of the rotated section.</a>
+<span class="sourceLineNo">442</span><a id="line.442">    int newFirstIndex = m + fromIndex;</a>
+<span class="sourceLineNo">443</span><a id="line.443">    if (newFirstIndex == fromIndex) {</a>
+<span class="sourceLineNo">444</span><a id="line.444">      return;</a>
+<span class="sourceLineNo">445</span><a id="line.445">    }</a>
+<span class="sourceLineNo">446</span><a id="line.446"></a>
+<span class="sourceLineNo">447</span><a id="line.447">    reverse(array, fromIndex, newFirstIndex);</a>
+<span class="sourceLineNo">448</span><a id="line.448">    reverse(array, newFirstIndex, toIndex);</a>
+<span class="sourceLineNo">449</span><a id="line.449">    reverse(array, fromIndex, toIndex);</a>
+<span class="sourceLineNo">450</span><a id="line.450">  }</a>
+<span class="sourceLineNo">451</span><a id="line.451">}</a>
 
 
 

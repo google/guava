@@ -160,69 +160,70 @@
 <span class="sourceLineNo">151</span><a id="line.151">  }</a>
 <span class="sourceLineNo">152</span><a id="line.152"></a>
 <span class="sourceLineNo">153</span><a id="line.153">  /**</a>
-<span class="sourceLineNo">154</span><a id="line.154">   * Returns a {@code Converter} that converts strings from this format to {@code targetFormat}.</a>
-<span class="sourceLineNo">155</span><a id="line.155">   *</a>
-<span class="sourceLineNo">156</span><a id="line.156">   * @since 16.0</a>
-<span class="sourceLineNo">157</span><a id="line.157">   */</a>
-<span class="sourceLineNo">158</span><a id="line.158">  public Converter&lt;String, String&gt; converterTo(CaseFormat targetFormat) {</a>
-<span class="sourceLineNo">159</span><a id="line.159">    return new StringConverter(this, targetFormat);</a>
-<span class="sourceLineNo">160</span><a id="line.160">  }</a>
-<span class="sourceLineNo">161</span><a id="line.161"></a>
-<span class="sourceLineNo">162</span><a id="line.162">  private static final class StringConverter extends Converter&lt;String, String&gt;</a>
-<span class="sourceLineNo">163</span><a id="line.163">      implements Serializable {</a>
-<span class="sourceLineNo">164</span><a id="line.164"></a>
-<span class="sourceLineNo">165</span><a id="line.165">    private final CaseFormat sourceFormat;</a>
-<span class="sourceLineNo">166</span><a id="line.166">    private final CaseFormat targetFormat;</a>
-<span class="sourceLineNo">167</span><a id="line.167"></a>
-<span class="sourceLineNo">168</span><a id="line.168">    StringConverter(CaseFormat sourceFormat, CaseFormat targetFormat) {</a>
-<span class="sourceLineNo">169</span><a id="line.169">      this.sourceFormat = checkNotNull(sourceFormat);</a>
-<span class="sourceLineNo">170</span><a id="line.170">      this.targetFormat = checkNotNull(targetFormat);</a>
-<span class="sourceLineNo">171</span><a id="line.171">    }</a>
-<span class="sourceLineNo">172</span><a id="line.172"></a>
-<span class="sourceLineNo">173</span><a id="line.173">    @Override</a>
-<span class="sourceLineNo">174</span><a id="line.174">    protected String doForward(String s) {</a>
-<span class="sourceLineNo">175</span><a id="line.175">      return sourceFormat.to(targetFormat, s);</a>
-<span class="sourceLineNo">176</span><a id="line.176">    }</a>
-<span class="sourceLineNo">177</span><a id="line.177"></a>
-<span class="sourceLineNo">178</span><a id="line.178">    @Override</a>
-<span class="sourceLineNo">179</span><a id="line.179">    protected String doBackward(String s) {</a>
-<span class="sourceLineNo">180</span><a id="line.180">      return targetFormat.to(sourceFormat, s);</a>
-<span class="sourceLineNo">181</span><a id="line.181">    }</a>
-<span class="sourceLineNo">182</span><a id="line.182"></a>
-<span class="sourceLineNo">183</span><a id="line.183">    @Override</a>
-<span class="sourceLineNo">184</span><a id="line.184">    public boolean equals(@CheckForNull Object object) {</a>
-<span class="sourceLineNo">185</span><a id="line.185">      if (object instanceof StringConverter) {</a>
-<span class="sourceLineNo">186</span><a id="line.186">        StringConverter that = (StringConverter) object;</a>
-<span class="sourceLineNo">187</span><a id="line.187">        return sourceFormat.equals(that.sourceFormat) &amp;&amp; targetFormat.equals(that.targetFormat);</a>
-<span class="sourceLineNo">188</span><a id="line.188">      }</a>
-<span class="sourceLineNo">189</span><a id="line.189">      return false;</a>
-<span class="sourceLineNo">190</span><a id="line.190">    }</a>
-<span class="sourceLineNo">191</span><a id="line.191"></a>
-<span class="sourceLineNo">192</span><a id="line.192">    @Override</a>
-<span class="sourceLineNo">193</span><a id="line.193">    public int hashCode() {</a>
-<span class="sourceLineNo">194</span><a id="line.194">      return sourceFormat.hashCode() ^ targetFormat.hashCode();</a>
-<span class="sourceLineNo">195</span><a id="line.195">    }</a>
-<span class="sourceLineNo">196</span><a id="line.196"></a>
-<span class="sourceLineNo">197</span><a id="line.197">    @Override</a>
-<span class="sourceLineNo">198</span><a id="line.198">    public String toString() {</a>
-<span class="sourceLineNo">199</span><a id="line.199">      return sourceFormat + ".converterTo(" + targetFormat + ")";</a>
-<span class="sourceLineNo">200</span><a id="line.200">    }</a>
-<span class="sourceLineNo">201</span><a id="line.201"></a>
-<span class="sourceLineNo">202</span><a id="line.202">    private static final long serialVersionUID = 0L;</a>
-<span class="sourceLineNo">203</span><a id="line.203">  }</a>
-<span class="sourceLineNo">204</span><a id="line.204"></a>
-<span class="sourceLineNo">205</span><a id="line.205">  abstract String normalizeWord(String word);</a>
-<span class="sourceLineNo">206</span><a id="line.206"></a>
-<span class="sourceLineNo">207</span><a id="line.207">  String normalizeFirstWord(String word) {</a>
-<span class="sourceLineNo">208</span><a id="line.208">    return normalizeWord(word);</a>
-<span class="sourceLineNo">209</span><a id="line.209">  }</a>
-<span class="sourceLineNo">210</span><a id="line.210"></a>
-<span class="sourceLineNo">211</span><a id="line.211">  private static String firstCharOnlyToUpper(String word) {</a>
-<span class="sourceLineNo">212</span><a id="line.212">    return word.isEmpty()</a>
-<span class="sourceLineNo">213</span><a id="line.213">        ? word</a>
-<span class="sourceLineNo">214</span><a id="line.214">        : Ascii.toUpperCase(word.charAt(0)) + Ascii.toLowerCase(word.substring(1));</a>
-<span class="sourceLineNo">215</span><a id="line.215">  }</a>
-<span class="sourceLineNo">216</span><a id="line.216">}</a>
+<span class="sourceLineNo">154</span><a id="line.154">   * Returns a serializable {@code Converter} that converts strings from this format to {@code</a>
+<span class="sourceLineNo">155</span><a id="line.155">   * targetFormat}.</a>
+<span class="sourceLineNo">156</span><a id="line.156">   *</a>
+<span class="sourceLineNo">157</span><a id="line.157">   * @since 16.0</a>
+<span class="sourceLineNo">158</span><a id="line.158">   */</a>
+<span class="sourceLineNo">159</span><a id="line.159">  public Converter&lt;String, String&gt; converterTo(CaseFormat targetFormat) {</a>
+<span class="sourceLineNo">160</span><a id="line.160">    return new StringConverter(this, targetFormat);</a>
+<span class="sourceLineNo">161</span><a id="line.161">  }</a>
+<span class="sourceLineNo">162</span><a id="line.162"></a>
+<span class="sourceLineNo">163</span><a id="line.163">  private static final class StringConverter extends Converter&lt;String, String&gt;</a>
+<span class="sourceLineNo">164</span><a id="line.164">      implements Serializable {</a>
+<span class="sourceLineNo">165</span><a id="line.165"></a>
+<span class="sourceLineNo">166</span><a id="line.166">    private final CaseFormat sourceFormat;</a>
+<span class="sourceLineNo">167</span><a id="line.167">    private final CaseFormat targetFormat;</a>
+<span class="sourceLineNo">168</span><a id="line.168"></a>
+<span class="sourceLineNo">169</span><a id="line.169">    StringConverter(CaseFormat sourceFormat, CaseFormat targetFormat) {</a>
+<span class="sourceLineNo">170</span><a id="line.170">      this.sourceFormat = checkNotNull(sourceFormat);</a>
+<span class="sourceLineNo">171</span><a id="line.171">      this.targetFormat = checkNotNull(targetFormat);</a>
+<span class="sourceLineNo">172</span><a id="line.172">    }</a>
+<span class="sourceLineNo">173</span><a id="line.173"></a>
+<span class="sourceLineNo">174</span><a id="line.174">    @Override</a>
+<span class="sourceLineNo">175</span><a id="line.175">    protected String doForward(String s) {</a>
+<span class="sourceLineNo">176</span><a id="line.176">      return sourceFormat.to(targetFormat, s);</a>
+<span class="sourceLineNo">177</span><a id="line.177">    }</a>
+<span class="sourceLineNo">178</span><a id="line.178"></a>
+<span class="sourceLineNo">179</span><a id="line.179">    @Override</a>
+<span class="sourceLineNo">180</span><a id="line.180">    protected String doBackward(String s) {</a>
+<span class="sourceLineNo">181</span><a id="line.181">      return targetFormat.to(sourceFormat, s);</a>
+<span class="sourceLineNo">182</span><a id="line.182">    }</a>
+<span class="sourceLineNo">183</span><a id="line.183"></a>
+<span class="sourceLineNo">184</span><a id="line.184">    @Override</a>
+<span class="sourceLineNo">185</span><a id="line.185">    public boolean equals(@CheckForNull Object object) {</a>
+<span class="sourceLineNo">186</span><a id="line.186">      if (object instanceof StringConverter) {</a>
+<span class="sourceLineNo">187</span><a id="line.187">        StringConverter that = (StringConverter) object;</a>
+<span class="sourceLineNo">188</span><a id="line.188">        return sourceFormat.equals(that.sourceFormat) &amp;&amp; targetFormat.equals(that.targetFormat);</a>
+<span class="sourceLineNo">189</span><a id="line.189">      }</a>
+<span class="sourceLineNo">190</span><a id="line.190">      return false;</a>
+<span class="sourceLineNo">191</span><a id="line.191">    }</a>
+<span class="sourceLineNo">192</span><a id="line.192"></a>
+<span class="sourceLineNo">193</span><a id="line.193">    @Override</a>
+<span class="sourceLineNo">194</span><a id="line.194">    public int hashCode() {</a>
+<span class="sourceLineNo">195</span><a id="line.195">      return sourceFormat.hashCode() ^ targetFormat.hashCode();</a>
+<span class="sourceLineNo">196</span><a id="line.196">    }</a>
+<span class="sourceLineNo">197</span><a id="line.197"></a>
+<span class="sourceLineNo">198</span><a id="line.198">    @Override</a>
+<span class="sourceLineNo">199</span><a id="line.199">    public String toString() {</a>
+<span class="sourceLineNo">200</span><a id="line.200">      return sourceFormat + ".converterTo(" + targetFormat + ")";</a>
+<span class="sourceLineNo">201</span><a id="line.201">    }</a>
+<span class="sourceLineNo">202</span><a id="line.202"></a>
+<span class="sourceLineNo">203</span><a id="line.203">    private static final long serialVersionUID = 0L;</a>
+<span class="sourceLineNo">204</span><a id="line.204">  }</a>
+<span class="sourceLineNo">205</span><a id="line.205"></a>
+<span class="sourceLineNo">206</span><a id="line.206">  abstract String normalizeWord(String word);</a>
+<span class="sourceLineNo">207</span><a id="line.207"></a>
+<span class="sourceLineNo">208</span><a id="line.208">  String normalizeFirstWord(String word) {</a>
+<span class="sourceLineNo">209</span><a id="line.209">    return normalizeWord(word);</a>
+<span class="sourceLineNo">210</span><a id="line.210">  }</a>
+<span class="sourceLineNo">211</span><a id="line.211"></a>
+<span class="sourceLineNo">212</span><a id="line.212">  private static String firstCharOnlyToUpper(String word) {</a>
+<span class="sourceLineNo">213</span><a id="line.213">    return word.isEmpty()</a>
+<span class="sourceLineNo">214</span><a id="line.214">        ? word</a>
+<span class="sourceLineNo">215</span><a id="line.215">        : Ascii.toUpperCase(word.charAt(0)) + Ascii.toLowerCase(word.substring(1));</a>
+<span class="sourceLineNo">216</span><a id="line.216">  }</a>
+<span class="sourceLineNo">217</span><a id="line.217">}</a>
 
 
 
