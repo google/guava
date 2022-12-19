@@ -151,6 +151,9 @@ public abstract class Equivalence<T> {
    * Object.equals()} such that {@code wrap(a).equals(wrap(b))} if and only if {@code equivalent(a,
    * b)}.
    *
+   * <p>The returned object is serializable if both this {@code Equivalence} and {@code reference}
+   * are serializable (including when {@code reference} is null).
+   *
    * @since 10.0
    */
   public final <S extends @Nullable T> Wrapper<S> wrap(@ParametricNullness S reference) {
@@ -254,6 +257,8 @@ public abstract class Equivalence<T> {
    *
    * <p>Note that this method performs a similar function for equivalences as {@link
    * com.google.common.collect.Ordering#lexicographical} does for orderings.
+   *
+   * <p>The returned object is serializable if this object is serializable.
    *
    * @since 10.0
    */

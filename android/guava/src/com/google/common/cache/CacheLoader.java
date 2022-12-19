@@ -133,6 +133,8 @@ public abstract class CacheLoader<K, V> {
    * reloading or bulk loading. This is most useful when you can pass a lambda expression. Otherwise
    * it is useful mostly when you already have an existing function instance.
    *
+   * <p>The returned object is serializable if {@code function} is serializable.
+   *
    * @param function the function to be used for loading values; must never return {@code null}
    * @return a cache loader that loads values by passing each key to {@code function}
    */
@@ -144,6 +146,8 @@ public abstract class CacheLoader<K, V> {
    * Returns a cache loader based on an <i>existing</i> supplier instance. Note that there's no need
    * to create a <i>new</i> supplier just to pass it in here; just subclass {@code CacheLoader} and
    * implement {@link #load load} instead.
+   *
+   * <p>The returned object is serializable if {@code supplier} is serializable.
    *
    * @param supplier the supplier to be used for loading values; must never return {@code null}
    * @return a cache loader that loads values by calling {@link Supplier#get}, irrespective of the

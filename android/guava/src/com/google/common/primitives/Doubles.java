@@ -557,6 +557,8 @@ public final class Doubles extends DoublesMethodsForWeb {
    * <p>The returned list may have unexpected behavior if it contains {@code NaN}, or if {@code NaN}
    * is used as a parameter to any of its methods.
    *
+   * <p>The returned list is serializable.
+   *
    * <p><b>Note:</b> when possible, you should represent your data as an {@link
    * ImmutableDoubleArray} instead, which has an {@link ImmutableDoubleArray#asList asList} view.
    *

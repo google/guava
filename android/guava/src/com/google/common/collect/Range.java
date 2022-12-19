@@ -106,6 +106,7 @@ import javax.annotation.CheckForNull;
  *       <i>P</i> if, for all ranges {@code b} also having property <i>P</i>, {@code a.encloses(b)}.
  *       Likewise, {@code a} is <i>minimal</i> when {@code b.encloses(a)} for all {@code b} having
  *       property <i>P</i>. See, for example, the definition of {@link #intersection intersection}.
+ *   <li>A {@code Range} is serializable if it has no bounds, or if each bound is serializable.
  * </ul>
  *
  * <h3>Further reading</h3>

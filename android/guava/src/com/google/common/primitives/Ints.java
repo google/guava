@@ -623,6 +623,8 @@ public final class Ints extends IntsMethodsForWeb {
    * written to or read from it. For example, whether {@code list.get(0) == list.get(0)} is true for
    * the returned list is unspecified.
    *
+   * <p>The returned list is serializable.
+   *
    * <p><b>Note:</b> when possible, you should represent your data as an {@link ImmutableIntArray}
    * instead, which has an {@link ImmutableIntArray#asList asList} view.
    *

@@ -554,6 +554,8 @@ public final class Floats extends FloatsMethodsForWeb {
    * <p>The returned list may have unexpected behavior if it contains {@code NaN}, or if {@code NaN}
    * is used as a parameter to any of its methods.
    *
+   * <p>The returned list is serializable.
+   *
    * @param backingArray the array to back the list
    * @return a list view of the array
    */
