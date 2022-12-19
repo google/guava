@@ -145,34 +145,33 @@ import javax.annotation.CheckForNull;
  * Likewise, if {@link #weakValues} or {@link #softValues} was specified, the cache uses identity
  * comparisons for values.
  *
- * <p>Entries are automatically evicted from the cache when any of {@linkplain #maximumSize(long)
- * maximumSize}, {@linkplain #maximumWeight(long) maximumWeight}, {@linkplain #expireAfterWrite
- * expireAfterWrite}, {@linkplain #expireAfterAccess expireAfterAccess}, {@linkplain #weakKeys
- * weakKeys}, {@linkplain #weakValues weakValues}, or {@linkplain #softValues softValues} are
- * requested.
+ * <p>Entries are automatically evicted from the cache when any of {@link #maximumSize(long)
+ * maximumSize}, {@link #maximumWeight(long) maximumWeight}, {@link #expireAfterWrite
+ * expireAfterWrite}, {@link #expireAfterAccess expireAfterAccess}, {@link #weakKeys weakKeys},
+ * {@link #weakValues weakValues}, or {@link #softValues softValues} are requested.
  *
- * <p>If {@linkplain #maximumSize(long) maximumSize} or {@linkplain #maximumWeight(long)
- * maximumWeight} is requested entries may be evicted on each cache modification.
+ * <p>If {@link #maximumSize(long) maximumSize} or {@link #maximumWeight(long) maximumWeight} is
+ * requested entries may be evicted on each cache modification.
  *
- * <p>If {@linkplain #expireAfterWrite expireAfterWrite} or {@linkplain #expireAfterAccess
- * expireAfterAccess} is requested entries may be evicted on each cache modification, on occasional
- * cache accesses, or on calls to {@link Cache#cleanUp}. Expired entries may be counted by {@link
- * Cache#size}, but will never be visible to read or write operations.
+ * <p>If {@link #expireAfterWrite expireAfterWrite} or {@link #expireAfterAccess expireAfterAccess}
+ * is requested entries may be evicted on each cache modification, on occasional cache accesses, or
+ * on calls to {@link Cache#cleanUp}. Expired entries may be counted by {@link Cache#size}, but will
+ * never be visible to read or write operations.
  *
- * <p>If {@linkplain #weakKeys weakKeys}, {@linkplain #weakValues weakValues}, or {@linkplain
- * #softValues softValues} are requested, it is possible for a key or value present in the cache to
- * be reclaimed by the garbage collector. Entries with reclaimed keys or values may be removed from
- * the cache on each cache modification, on occasional cache accesses, or on calls to {@link
- * Cache#cleanUp}; such entries may be counted in {@link Cache#size}, but will never be visible to
- * read or write operations.
+ * <p>If {@link #weakKeys weakKeys}, {@link #weakValues weakValues}, or {@link #softValues
+ * softValues} are requested, it is possible for a key or value present in the cache to be reclaimed
+ * by the garbage collector. Entries with reclaimed keys or values may be removed from the cache on
+ * each cache modification, on occasional cache accesses, or on calls to {@link Cache#cleanUp}; such
+ * entries may be counted in {@link Cache#size}, but will never be visible to read or write
+ * operations.
  *
  * <p>Certain cache configurations will result in the accrual of periodic maintenance tasks which
  * will be performed during write operations, or during occasional read operations in the absence of
  * writes. The {@link Cache#cleanUp} method of the returned cache will also perform maintenance, but
- * calling it should not be necessary with a high throughput cache. Only caches built with
- * {@linkplain #removalListener removalListener}, {@linkplain #expireAfterWrite expireAfterWrite},
- * {@linkplain #expireAfterAccess expireAfterAccess}, {@linkplain #weakKeys weakKeys}, {@linkplain
- * #weakValues weakValues}, or {@linkplain #softValues softValues} perform periodic maintenance.
+ * calling it should not be necessary with a high throughput cache. Only caches built with {@link
+ * #removalListener removalListener}, {@link #expireAfterWrite expireAfterWrite}, {@link
+ * #expireAfterAccess expireAfterAccess}, {@link #weakKeys weakKeys}, {@link #weakValues
+ * weakValues}, or {@link #softValues softValues} perform periodic maintenance.
  *
  * <p>The caches produced by {@code CacheBuilder} are serializable, and the deserialized caches
  * retain all the configuration properties of the original cache. Note that the serialized form does
