@@ -127,6 +127,7 @@
             <source>1.8</source>
             <target>1.8</target>
             <encoding>UTF-8</encoding>
+            <parameters>true</parameters>
             <compilerArgs>
               <!--
                    Make includes/excludes fully work:
