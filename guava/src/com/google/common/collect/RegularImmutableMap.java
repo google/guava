@@ -228,7 +228,8 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
    *     flooding attack
    */
   @CanIgnoreReturnValue
-  static <K, V> @Nullable ImmutableMapEntry<K, V> checkNoConflictInKeyBucket(
+  @CheckForNull
+  static <K, V> ImmutableMapEntry<K, V> checkNoConflictInKeyBucket(
       Object key,
       Object newValue,
       @CheckForNull ImmutableMapEntry<K, V> keyBucketHead,
