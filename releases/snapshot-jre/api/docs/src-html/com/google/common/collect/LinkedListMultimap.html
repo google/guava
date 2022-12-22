@@ -687,7 +687,7 @@
 <span class="sourceLineNo">678</span><a id="line.678">   */</a>
 <span class="sourceLineNo">679</span><a id="line.679">  @CanIgnoreReturnValue</a>
 <span class="sourceLineNo">680</span><a id="line.680">  @Override</a>
-<span class="sourceLineNo">681</span><a id="line.681">  public List&lt;V&gt; removeAll(@Nullable Object key) {</a>
+<span class="sourceLineNo">681</span><a id="line.681">  public List&lt;V&gt; removeAll(@CheckForNull Object key) {</a>
 <span class="sourceLineNo">682</span><a id="line.682">    /*</a>
 <span class="sourceLineNo">683</span><a id="line.683">     * Safe because all we do is remove values for the key, not add them. (If we wanted to make sure</a>
 <span class="sourceLineNo">684</span><a id="line.684">     * to call getCopy and removeAllNodes only with a true K, then we could check containsKey first.</a>
