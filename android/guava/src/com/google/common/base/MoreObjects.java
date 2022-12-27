@@ -408,12 +408,14 @@ public final class MoreObjects {
       return valueHolder;
     }
 
+    @CanIgnoreReturnValue
     private ToStringHelper addHolder(@CheckForNull Object value) {
       ValueHolder valueHolder = addHolder();
       valueHolder.value = value;
       return this;
     }
 
+    @CanIgnoreReturnValue
     private ToStringHelper addHolder(String name, @CheckForNull Object value) {
       ValueHolder valueHolder = addHolder();
       valueHolder.value = value;
@@ -427,12 +429,14 @@ public final class MoreObjects {
       return valueHolder;
     }
 
+    @CanIgnoreReturnValue
     private ToStringHelper addUnconditionalHolder(Object value) {
       UnconditionalValueHolder valueHolder = addUnconditionalHolder();
       valueHolder.value = value;
       return this;
     }
 
+    @CanIgnoreReturnValue
     private ToStringHelper addUnconditionalHolder(String name, Object value) {
       UnconditionalValueHolder valueHolder = addUnconditionalHolder();
       valueHolder.value = value;
