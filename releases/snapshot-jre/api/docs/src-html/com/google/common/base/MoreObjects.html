@@ -428,55 +428,59 @@
 <span class="sourceLineNo">419</span><a id="line.419">      return valueHolder;</a>
 <span class="sourceLineNo">420</span><a id="line.420">    }</a>
 <span class="sourceLineNo">421</span><a id="line.421"></a>
-<span class="sourceLineNo">422</span><a id="line.422">    private ToStringHelper addHolder(@CheckForNull Object value) {</a>
-<span class="sourceLineNo">423</span><a id="line.423">      ValueHolder valueHolder = addHolder();</a>
-<span class="sourceLineNo">424</span><a id="line.424">      valueHolder.value = value;</a>
-<span class="sourceLineNo">425</span><a id="line.425">      return this;</a>
-<span class="sourceLineNo">426</span><a id="line.426">    }</a>
-<span class="sourceLineNo">427</span><a id="line.427"></a>
-<span class="sourceLineNo">428</span><a id="line.428">    private ToStringHelper addHolder(String name, @CheckForNull Object value) {</a>
-<span class="sourceLineNo">429</span><a id="line.429">      ValueHolder valueHolder = addHolder();</a>
-<span class="sourceLineNo">430</span><a id="line.430">      valueHolder.value = value;</a>
-<span class="sourceLineNo">431</span><a id="line.431">      valueHolder.name = checkNotNull(name);</a>
-<span class="sourceLineNo">432</span><a id="line.432">      return this;</a>
-<span class="sourceLineNo">433</span><a id="line.433">    }</a>
-<span class="sourceLineNo">434</span><a id="line.434"></a>
-<span class="sourceLineNo">435</span><a id="line.435">    private UnconditionalValueHolder addUnconditionalHolder() {</a>
-<span class="sourceLineNo">436</span><a id="line.436">      UnconditionalValueHolder valueHolder = new UnconditionalValueHolder();</a>
-<span class="sourceLineNo">437</span><a id="line.437">      holderTail = holderTail.next = valueHolder;</a>
-<span class="sourceLineNo">438</span><a id="line.438">      return valueHolder;</a>
-<span class="sourceLineNo">439</span><a id="line.439">    }</a>
-<span class="sourceLineNo">440</span><a id="line.440"></a>
-<span class="sourceLineNo">441</span><a id="line.441">    private ToStringHelper addUnconditionalHolder(Object value) {</a>
-<span class="sourceLineNo">442</span><a id="line.442">      UnconditionalValueHolder valueHolder = addUnconditionalHolder();</a>
-<span class="sourceLineNo">443</span><a id="line.443">      valueHolder.value = value;</a>
-<span class="sourceLineNo">444</span><a id="line.444">      return this;</a>
-<span class="sourceLineNo">445</span><a id="line.445">    }</a>
-<span class="sourceLineNo">446</span><a id="line.446"></a>
-<span class="sourceLineNo">447</span><a id="line.447">    private ToStringHelper addUnconditionalHolder(String name, Object value) {</a>
-<span class="sourceLineNo">448</span><a id="line.448">      UnconditionalValueHolder valueHolder = addUnconditionalHolder();</a>
-<span class="sourceLineNo">449</span><a id="line.449">      valueHolder.value = value;</a>
-<span class="sourceLineNo">450</span><a id="line.450">      valueHolder.name = checkNotNull(name);</a>
-<span class="sourceLineNo">451</span><a id="line.451">      return this;</a>
-<span class="sourceLineNo">452</span><a id="line.452">    }</a>
-<span class="sourceLineNo">453</span><a id="line.453"></a>
-<span class="sourceLineNo">454</span><a id="line.454">    // Holder object for values that might be null and/or empty.</a>
-<span class="sourceLineNo">455</span><a id="line.455">    private static class ValueHolder {</a>
-<span class="sourceLineNo">456</span><a id="line.456">      @CheckForNull String name;</a>
-<span class="sourceLineNo">457</span><a id="line.457">      @CheckForNull Object value;</a>
-<span class="sourceLineNo">458</span><a id="line.458">      @CheckForNull ValueHolder next;</a>
-<span class="sourceLineNo">459</span><a id="line.459">    }</a>
-<span class="sourceLineNo">460</span><a id="line.460"></a>
-<span class="sourceLineNo">461</span><a id="line.461">    /**</a>
-<span class="sourceLineNo">462</span><a id="line.462">     * Holder object for values that cannot be null or empty (will be printed unconditionally). This</a>
-<span class="sourceLineNo">463</span><a id="line.463">     * helps to shortcut most calls to isEmpty(), which is important because the check for emptiness</a>
-<span class="sourceLineNo">464</span><a id="line.464">     * is relatively expensive. Use a subtype so this also doesn't need any extra storage.</a>
-<span class="sourceLineNo">465</span><a id="line.465">     */</a>
-<span class="sourceLineNo">466</span><a id="line.466">    private static final class UnconditionalValueHolder extends ValueHolder {}</a>
-<span class="sourceLineNo">467</span><a id="line.467">  }</a>
-<span class="sourceLineNo">468</span><a id="line.468"></a>
-<span class="sourceLineNo">469</span><a id="line.469">  private MoreObjects() {}</a>
-<span class="sourceLineNo">470</span><a id="line.470">}</a>
+<span class="sourceLineNo">422</span><a id="line.422">    @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">423</span><a id="line.423">    private ToStringHelper addHolder(@CheckForNull Object value) {</a>
+<span class="sourceLineNo">424</span><a id="line.424">      ValueHolder valueHolder = addHolder();</a>
+<span class="sourceLineNo">425</span><a id="line.425">      valueHolder.value = value;</a>
+<span class="sourceLineNo">426</span><a id="line.426">      return this;</a>
+<span class="sourceLineNo">427</span><a id="line.427">    }</a>
+<span class="sourceLineNo">428</span><a id="line.428"></a>
+<span class="sourceLineNo">429</span><a id="line.429">    @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">430</span><a id="line.430">    private ToStringHelper addHolder(String name, @CheckForNull Object value) {</a>
+<span class="sourceLineNo">431</span><a id="line.431">      ValueHolder valueHolder = addHolder();</a>
+<span class="sourceLineNo">432</span><a id="line.432">      valueHolder.value = value;</a>
+<span class="sourceLineNo">433</span><a id="line.433">      valueHolder.name = checkNotNull(name);</a>
+<span class="sourceLineNo">434</span><a id="line.434">      return this;</a>
+<span class="sourceLineNo">435</span><a id="line.435">    }</a>
+<span class="sourceLineNo">436</span><a id="line.436"></a>
+<span class="sourceLineNo">437</span><a id="line.437">    private UnconditionalValueHolder addUnconditionalHolder() {</a>
+<span class="sourceLineNo">438</span><a id="line.438">      UnconditionalValueHolder valueHolder = new UnconditionalValueHolder();</a>
+<span class="sourceLineNo">439</span><a id="line.439">      holderTail = holderTail.next = valueHolder;</a>
+<span class="sourceLineNo">440</span><a id="line.440">      return valueHolder;</a>
+<span class="sourceLineNo">441</span><a id="line.441">    }</a>
+<span class="sourceLineNo">442</span><a id="line.442"></a>
+<span class="sourceLineNo">443</span><a id="line.443">    @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">444</span><a id="line.444">    private ToStringHelper addUnconditionalHolder(Object value) {</a>
+<span class="sourceLineNo">445</span><a id="line.445">      UnconditionalValueHolder valueHolder = addUnconditionalHolder();</a>
+<span class="sourceLineNo">446</span><a id="line.446">      valueHolder.value = value;</a>
+<span class="sourceLineNo">447</span><a id="line.447">      return this;</a>
+<span class="sourceLineNo">448</span><a id="line.448">    }</a>
+<span class="sourceLineNo">449</span><a id="line.449"></a>
+<span class="sourceLineNo">450</span><a id="line.450">    @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">451</span><a id="line.451">    private ToStringHelper addUnconditionalHolder(String name, Object value) {</a>
+<span class="sourceLineNo">452</span><a id="line.452">      UnconditionalValueHolder valueHolder = addUnconditionalHolder();</a>
+<span class="sourceLineNo">453</span><a id="line.453">      valueHolder.value = value;</a>
+<span class="sourceLineNo">454</span><a id="line.454">      valueHolder.name = checkNotNull(name);</a>
+<span class="sourceLineNo">455</span><a id="line.455">      return this;</a>
+<span class="sourceLineNo">456</span><a id="line.456">    }</a>
+<span class="sourceLineNo">457</span><a id="line.457"></a>
+<span class="sourceLineNo">458</span><a id="line.458">    // Holder object for values that might be null and/or empty.</a>
+<span class="sourceLineNo">459</span><a id="line.459">    private static class ValueHolder {</a>
+<span class="sourceLineNo">460</span><a id="line.460">      @CheckForNull String name;</a>
+<span class="sourceLineNo">461</span><a id="line.461">      @CheckForNull Object value;</a>
+<span class="sourceLineNo">462</span><a id="line.462">      @CheckForNull ValueHolder next;</a>
+<span class="sourceLineNo">463</span><a id="line.463">    }</a>
+<span class="sourceLineNo">464</span><a id="line.464"></a>
+<span class="sourceLineNo">465</span><a id="line.465">    /**</a>
+<span class="sourceLineNo">466</span><a id="line.466">     * Holder object for values that cannot be null or empty (will be printed unconditionally). This</a>
+<span class="sourceLineNo">467</span><a id="line.467">     * helps to shortcut most calls to isEmpty(), which is important because the check for emptiness</a>
+<span class="sourceLineNo">468</span><a id="line.468">     * is relatively expensive. Use a subtype so this also doesn't need any extra storage.</a>
+<span class="sourceLineNo">469</span><a id="line.469">     */</a>
+<span class="sourceLineNo">470</span><a id="line.470">    private static final class UnconditionalValueHolder extends ValueHolder {}</a>
+<span class="sourceLineNo">471</span><a id="line.471">  }</a>
+<span class="sourceLineNo">472</span><a id="line.472"></a>
+<span class="sourceLineNo">473</span><a id="line.473">  private MoreObjects() {}</a>
+<span class="sourceLineNo">474</span><a id="line.474">}</a>
 
 
 
