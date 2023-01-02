@@ -22,9 +22,11 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.IOException;
 import java.io.Reader;
+import java.io.UncheckedIOException;
 import java.nio.CharBuffer;
-import java.util.ArrayDeque;
-import java.util.Queue;
+import java.util.*;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 import javax.annotation.CheckForNull;
 
 /**
@@ -33,6 +35,7 @@ import javax.annotation.CheckForNull;
  * {@link Reader}.
  *
  * @author Chris Nokleberg
+ * @author Max Mielchen
  * @since 1.0
  */
 @Beta
@@ -83,5 +86,44 @@ public final class LineReader {
       lineBuf.add(buf, 0, read);
     }
     return lines.poll();
+  }
+  
+  /**
+   * Returns a {@code Stream}, the elements of which are lines read from
+   * this {@code Line}.
+   *
+   * @return a {@code Stream<String>} providing the lines of text
+   *         described by this {@code LineReader}
+   */
+  public Stream<String> lines()
+  {
+    Iterator<String> iter = new Iterator<String>() {
+      String nextLine = "";
+      @Override
+      public boolean hasNext() {
+        if (! nextLine.equals("")) {
+          return true;
+        } else {
+          try {
+            nextLine = readLine();
+            return (nextLine != null);
+          } catch (IOException e) {
+            throw new UncheckedIOException(e);
+          }
+        }
+      }
+      @Override
+      public String next() {
+        if (! nextLine.equals("") || hasNext()) {
+          String line = nextLine;
+          nextLine = "";
+          return line;
+        } else {
+          throw new NoSuchElementException();
+        }
+      }
+    };
+    return StreamSupport.stream(Spliterators.spliteratorUnknownSize(
+            iter, Spliterator.ORDERED | Spliterator.NONNULL), false);
   }
 }
