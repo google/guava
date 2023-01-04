@@ -128,7 +128,12 @@ final class CollectCollectors {
     }
 
     ImmutableSet<E> toImmutableSet() {
-      return (set == null) ? ImmutableSet.<E>of() : ImmutableEnumSet.asImmutable(set);
+      if (set == null) {
+        return ImmutableSet.of();
+      }
+      ImmutableSet<E> ret = ImmutableEnumSet.asImmutable(set);
+      set = null; // subsequent manual manipulation of the accumulator mustn't affect ret
+      return ret;
     }
   }
 

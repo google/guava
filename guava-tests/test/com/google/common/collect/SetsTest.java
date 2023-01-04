@@ -73,6 +73,8 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.function.BiConsumer;
+import java.util.stream.Collector;
 import java.util.stream.Stream;
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -352,6 +354,23 @@ public class SetsTest extends TestCase {
   public void testToImmutableEnumSetEmpty() {
     Set<SomeEnum> units = Stream.<SomeEnum>empty().collect(Sets.toImmutableEnumSet());
     assertThat(units).isEmpty();
+  }
+
+  public <A> void testToImmutableEnumSetReused() {
+    // An unchecked cast lets us refer to the accumulator as an A and invoke the callbacks manually
+    @SuppressWarnings("unchecked")
+    Collector<SomeEnum, A, ImmutableSet<SomeEnum>> collector =
+        (Collector) Sets.<SomeEnum>toImmutableEnumSet();
+    A accumulator = collector.supplier().get();
+    BiConsumer<A, SomeEnum> adder = collector.accumulator();
+    adder.accept(accumulator, SomeEnum.A);
+    adder.accept(accumulator, SomeEnum.B);
+    ImmutableSet<SomeEnum> set = collector.finisher().apply(accumulator);
+    assertThat(set).containsExactly(SomeEnum.A, SomeEnum.B);
+
+    // Subsequent manual manipulation of the accumulator must not affect the state of the built set
+    adder.accept(accumulator, SomeEnum.C);
+    assertThat(set).containsExactly(SomeEnum.A, SomeEnum.B);
   }
 
   @GwtIncompatible // SerializableTester
