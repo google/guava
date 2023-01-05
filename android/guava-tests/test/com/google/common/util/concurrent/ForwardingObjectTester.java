@@ -28,7 +28,7 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 
 /**
- * Tester for typical subclass of {@link ForwardingObject} by using EasyMock partial mocks.
+ * Tester for typical subclass of {@link ForwardingObject} by using Mockito.
  *
  * @author Ben Yu
  */
