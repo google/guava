@@ -35,7 +35,6 @@ import java.util.Locale;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import junit.framework.TestCase;
-import org.easymock.EasyMock;
 import org.mockito.Mockito;
 
 /**
@@ -571,17 +570,6 @@ public class RateLimiterTest extends TestCase {
    */
   public void testMockingMockito() throws Exception {
     RateLimiter mock = Mockito.mock(RateLimiter.class);
-    doTestMocking(mock);
-  }
-
-  @AndroidIncompatible // EasyMock Class Extension doesn't appear to work on Android.
-  public void testMockingEasyMock() throws Exception {
-    RateLimiter mock = EasyMock.createNiceMock(RateLimiter.class);
-    EasyMock.replay(mock);
-    doTestMocking(mock);
-  }
-
-  private static void doTestMocking(RateLimiter mock) throws Exception {
     for (Method method : RateLimiter.class.getMethods()) {
       if (!isStatic(method.getModifiers())
           && !NOT_WORKING_ON_MOCKS.contains(method.getName())
