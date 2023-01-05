@@ -35,7 +35,6 @@ import java.lang.ref.WeakReference;
 import java.util.ConcurrentModificationException;
 import java.util.IdentityHashMap;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -131,13 +130,11 @@ import javax.annotation.CheckForNull;
  *         });
  * }</pre>
  *
- * <p>The returned cache is implemented as a hash table with similar performance characteristics to
- * {@link ConcurrentHashMap}. It implements all optional operations of the {@link LoadingCache} and
- * {@link Cache} interfaces. The {@code asMap} view (and its collection views) have <i>weakly
- * consistent iterators</i>. This means that they are safe for concurrent use, but if other threads
- * modify the cache after the iterator is created, it is undefined which of these changes, if any,
- * are reflected in that iterator. These iterators never throw {@link
- * ConcurrentModificationException}.
+ * <p>The returned cache implements all optional operations of the {@link LoadingCache} and {@link
+ * Cache} interfaces. The {@code asMap} view (and its collection views) have <i>weakly consistent
+ * iterators</i>. This means that they are safe for concurrent use, but if other threads modify the
+ * cache after the iterator is created, it is undefined which of these changes, if any, are
+ * reflected in that iterator. These iterators never throw {@link ConcurrentModificationException}.
  *
  * <p><b>Note:</b> by default, the returned cache uses equality comparisons (the {@link
  * Object#equals equals} method) to determine equality for keys or values. However, if {@link
