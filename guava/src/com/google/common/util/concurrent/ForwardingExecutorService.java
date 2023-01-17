@@ -33,6 +33,10 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * should override one or more methods to modify the behavior of the backing executor service as
  * desired per the <a href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
  *
+ * <p><b>{@code default} method warning:</b> This class does <i>not</i> forward calls to {@code
+ * default} methods. Instead, it inherits their default implementations. When those implementations
+ * invoke methods, they invoke methods on the {@code ForwardingExecutorService}.
+ *
  * @author Kurt Alfred Kluever
  * @since 10.0
  */
