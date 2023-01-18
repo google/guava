@@ -147,12 +147,16 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <hr>
 <pre><a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public abstract class <a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingListeningExecutorService.html#line.30">ForwardingListeningExecutorService</a>
+public abstract class <a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingListeningExecutorService.html#line.34">ForwardingListeningExecutorService</a>
 extends <a href="ForwardingExecutorService.html" title="class in com.google.common.util.concurrent">ForwardingExecutorService</a>
 implements <a href="ListeningExecutorService.html" title="interface in com.google.common.util.concurrent">ListeningExecutorService</a></pre>
 <div class="block">A listening executor service which forwards all its method calls to another listening executor
  service. Subclasses should override one or more methods to modify the behavior of the backing
- executor service as desired per the <a href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.</div>
+ executor service as desired per the <a href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
+
+ <p><b><code>default</code> method warning:</b> This class does <i>not</i> forward calls to <code>
+ default</code> methods. Instead, it inherits their default implementations. When those implementations
+ invoke methods, they invoke methods on the <code>ForwardingListeningExecutorService</code>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>10.0</dd>
@@ -292,7 +296,7 @@ implements <a href="ListeningExecutorService.html" title="interface in com.googl
 <ul class="blockListLast">
 <li class="blockList">
 <h4>ForwardingListeningExecutorService</h4>
-<pre>protected&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingListeningExecutorService.html#line.35">ForwardingListeningExecutorService</a>()</pre>
+<pre>protected&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingListeningExecutorService.html#line.39">ForwardingListeningExecutorService</a>()</pre>
 <div class="block">Constructor for use by subclasses.</div>
 </li>
 </ul>
@@ -312,7 +316,7 @@ implements <a href="ListeningExecutorService.html" title="interface in com.googl
 <ul class="blockList">
 <li class="blockList">
 <h4>delegate</h4>
-<pre class="methodSignature">protected abstract&nbsp;<a href="ListeningExecutorService.html" title="interface in com.google.common.util.concurrent">ListeningExecutorService</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingListeningExecutorService.html#line.37">delegate</a>()</pre>
+<pre class="methodSignature">protected abstract&nbsp;<a href="ListeningExecutorService.html" title="interface in com.google.common.util.concurrent">ListeningExecutorService</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingListeningExecutorService.html#line.41">delegate</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="../../collect/ForwardingObject.html#delegate()">ForwardingObject</a></code></span></div>
 <div class="block">Returns the backing delegate instance that methods are forwarded to. Abstract subclasses
  generally override this method with an abstract method that has a more specific return type,
@@ -330,7 +334,7 @@ implements <a href="ListeningExecutorService.html" title="interface in com.googl
 <ul class="blockList">
 <li class="blockList">
 <h4>submit</h4>
-<pre class="methodSignature">public&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;T&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingListeningExecutorService.html#line.40">submit</a>&#8203;(java.util.concurrent.Callable&lt;T&gt;&nbsp;task)</pre>
+<pre class="methodSignature">public&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;T&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingListeningExecutorService.html#line.44">submit</a>&#8203;(java.util.concurrent.Callable&lt;T&gt;&nbsp;task)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>submit</code>&nbsp;in interface&nbsp;<code>java.util.concurrent.ExecutorService</code></dd>
@@ -349,7 +353,7 @@ implements <a href="ListeningExecutorService.html" title="interface in com.googl
 <ul class="blockList">
 <li class="blockList">
 <h4>submit</h4>
-<pre class="methodSignature">public&nbsp;<a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;?&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingListeningExecutorService.html#line.45">submit</a>&#8203;(java.lang.Runnable&nbsp;task)</pre>
+<pre class="methodSignature">public&nbsp;<a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;?&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingListeningExecutorService.html#line.49">submit</a>&#8203;(java.lang.Runnable&nbsp;task)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>submit</code>&nbsp;in interface&nbsp;<code>java.util.concurrent.ExecutorService</code></dd>
@@ -370,7 +374,7 @@ implements <a href="ListeningExecutorService.html" title="interface in com.googl
 <ul class="blockListLast">
 <li class="blockList">
 <h4>submit</h4>
-<pre class="methodSignature">public&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;T&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingListeningExecutorService.html#line.50">submit</a>&#8203;(java.lang.Runnable&nbsp;task,
+<pre class="methodSignature">public&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;T&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingListeningExecutorService.html#line.54">submit</a>&#8203;(java.lang.Runnable&nbsp;task,
                                                                          T&nbsp;result)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
