@@ -1338,13 +1338,25 @@ public final class Maps {
    * ...
    * ImmutableSet<Color> allColors = ImmutableSet.of(red, green, blue);
    *
-   * Map<String, Color> colorForName =
-   *     uniqueIndex(allColors, toStringFunction());
+   * ImmutableMap<String, Color> colorForName =
+   *     uniqueIndex(allColors, c -> c.toString());
    * assertThat(colorForName).containsEntry("red", red);
    * }</pre>
    *
    * <p>If your index may associate multiple values with each key, use {@link
    * Multimaps#index(Iterable, Function) Multimaps.index}.
+   *
+   * <p><b>Note:</b> on Java 8 and later, it is usually better to use streams. For example:
+   *
+   * <pre>{@code
+   * import static com.google.common.collect.ImmutableMap.toImmutableMap;
+   * ...
+   * ImmutableMap<String, Color> colorForName =
+   *     allColors.stream().collect(toImmutableMap(c -> c.toString(), c -> c));
+   * }</pre>
+   *
+   * <p>Streams provide a more standard and flexible API and the lambdas make it clear what the keys
+   * and values in the map are.
    *
    * @param values the values to use when constructing the {@code Map}
    * @param keyFunction the function used to produce the key for each value
@@ -1540,7 +1552,9 @@ public final class Maps {
     };
   }
 
-  /** @see Multimaps#unmodifiableEntries */
+  /**
+   * @see Multimaps#unmodifiableEntries
+   */
   static class UnmodifiableEntries<K extends @Nullable Object, V extends @Nullable Object>
       extends ForwardingCollection<Entry<K, V>> {
     private final Collection<Entry<K, V>> entries;
@@ -1580,7 +1594,9 @@ public final class Maps {
     }
   }
 
-  /** @see Maps#unmodifiableEntrySet(Set) */
+  /**
+   * @see Maps#unmodifiableEntrySet(Set)
+   */
   static class UnmodifiableEntrySet<K extends @Nullable Object, V extends @Nullable Object>
       extends UnmodifiableEntries<K, V> implements Set<Entry<K, V>> {
     UnmodifiableEntrySet(Set<Entry<K, V>> entries) {
@@ -1710,7 +1726,9 @@ public final class Maps {
     return new UnmodifiableBiMap<>(bimap, null);
   }
 
-  /** @see Maps#unmodifiableBiMap(BiMap) */
+  /**
+   * @see Maps#unmodifiableBiMap(BiMap)
+   */
   private static class UnmodifiableBiMap<K extends @Nullable Object, V extends @Nullable Object>
       extends ForwardingMap<K, V> implements BiMap<K, V>, Serializable {
     final Map<K, V> unmodifiableMap;
