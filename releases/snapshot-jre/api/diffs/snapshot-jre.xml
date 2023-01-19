@@ -27472,13 +27472,25 @@
  ...
  ImmutableSet<Color> allColors = ImmutableSet.of(red, green, blue);
 
- Map<String, Color> colorForName =
-     uniqueIndex(allColors, toStringFunction());
+ ImmutableMap<String, Color> colorForName =
+     uniqueIndex(allColors, c -> c.toString());
  assertThat(colorForName).containsEntry("red", red);
  }</pre>
 
  <p>If your index may associate multiple values with each key, use {@link
  Multimaps#index(Iterable, Function) Multimaps.index}.
+
+ <p><b>Note:</b> on Java 8 and later, it is usually better to use streams. For example:
+
+ <pre>{@code
+ import static com.google.common.collect.ImmutableMap.toImmutableMap;
+ ...
+ ImmutableMap<String, Color> colorForName =
+     allColors.stream().collect(toImmutableMap(c -> c.toString(), c -> c));
+ }</pre>
+
+ <p>Streams provide a more standard and flexible API and the lambdas make it clear what the keys
+ and values in the map are.
 
  @param values the values to use when constructing the {@code Map}
  @param keyFunction the function used to produce the key for each value
