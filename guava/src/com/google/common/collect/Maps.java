@@ -1552,9 +1552,7 @@ public final class Maps {
     };
   }
 
-  /**
-   * @see Multimaps#unmodifiableEntries
-   */
+  /** The implementation of {@link Multimaps#unmodifiableEntries}. */
   static class UnmodifiableEntries<K extends @Nullable Object, V extends @Nullable Object>
       extends ForwardingCollection<Entry<K, V>> {
     private final Collection<Entry<K, V>> entries;
@@ -1594,9 +1592,7 @@ public final class Maps {
     }
   }
 
-  /**
-   * @see Maps#unmodifiableEntrySet(Set)
-   */
+  /** The implementation of {@link Maps#unmodifiableEntrySet(Set)}. */
   static class UnmodifiableEntrySet<K extends @Nullable Object, V extends @Nullable Object>
       extends UnmodifiableEntries<K, V> implements Set<Entry<K, V>> {
     UnmodifiableEntrySet(Set<Entry<K, V>> entries) {

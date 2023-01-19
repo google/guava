@@ -325,7 +325,7 @@ public abstract class AbstractPackageSanityTests extends TestCase {
 
   /**
    * Finds the classes not ending with a test suffix and not covered by an explicit test whose name
-   * is {@code explicitTestName}.
+   * is {@code explicitTestNames}.
    */
   @VisibleForTesting
   List<Class<?>> findClassesToTest(
