@@ -27,6 +27,7 @@ import java.util.logging.Logger;
 
 /**
  * Dispatches events to listeners, and provides ways for listeners to register themselves.
+
  *
  * <h2>Avoid EventBus</h2>
  *
@@ -81,6 +82,8 @@ import java.util.logging.Logger;
  *   <li>With the introduction of lambdas in Java 8, EventBus went from less verbose than listeners
  *       to <a href="https://github.com/google/guava/issues/3311">more verbose</a>.
  * </ul>
+ *
+ -->
  *
  * <h2>EventBus Summary</h2>
  *
