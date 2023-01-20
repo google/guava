@@ -136,9 +136,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><code><a href="AsyncEventBus.html" title="class in com.google.common.eventbus">AsyncEventBus</a></code></dd>
 </dl>
 <hr>
-<pre>public class <a href="../../../../src-html/com/google/common/eventbus/EventBus.html#line.150">EventBus</a>
+<pre>public class <a href="../../../../src-html/com/google/common/eventbus/EventBus.html#line.153">EventBus</a>
 extends java.lang.Object</pre>
 <div class="block">Dispatches events to listeners, and provides ways for listeners to register themselves.
+
 
  <h2>Avoid EventBus</h2>
 
@@ -183,6 +184,8 @@ extends java.lang.Object</pre>
    <li>With the introduction of lambdas in Java 8, EventBus went from less verbose than listeners
        to <a href="https://github.com/google/guava/issues/3311">more verbose</a>.
  </ul>
+
+ -->
 
  <h2>EventBus Summary</h2>
 
@@ -367,7 +370,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>EventBus</h4>
-<pre>public&nbsp;<a href="../../../../src-html/com/google/common/eventbus/EventBus.html#line.163">EventBus</a>()</pre>
+<pre>public&nbsp;<a href="../../../../src-html/com/google/common/eventbus/EventBus.html#line.166">EventBus</a>()</pre>
 <div class="block">Creates a new EventBus named "default".</div>
 </li>
 </ul>
@@ -377,7 +380,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>EventBus</h4>
-<pre>public&nbsp;<a href="../../../../src-html/com/google/common/eventbus/EventBus.html#line.173">EventBus</a>&#8203;(java.lang.String&nbsp;identifier)</pre>
+<pre>public&nbsp;<a href="../../../../src-html/com/google/common/eventbus/EventBus.html#line.176">EventBus</a>&#8203;(java.lang.String&nbsp;identifier)</pre>
 <div class="block">Creates a new EventBus with the given <code>identifier</code>.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -392,7 +395,7 @@ extends java.lang.Object</pre>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>EventBus</h4>
-<pre>public&nbsp;<a href="../../../../src-html/com/google/common/eventbus/EventBus.html#line.187">EventBus</a>&#8203;(<a href="SubscriberExceptionHandler.html" title="interface in com.google.common.eventbus">SubscriberExceptionHandler</a>&nbsp;exceptionHandler)</pre>
+<pre>public&nbsp;<a href="../../../../src-html/com/google/common/eventbus/EventBus.html#line.190">EventBus</a>&#8203;(<a href="SubscriberExceptionHandler.html" title="interface in com.google.common.eventbus">SubscriberExceptionHandler</a>&nbsp;exceptionHandler)</pre>
 <div class="block">Creates a new EventBus with the given <a href="SubscriberExceptionHandler.html" title="interface in com.google.common.eventbus"><code>SubscriberExceptionHandler</code></a>.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -418,7 +421,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>identifier</h4>
-<pre class="methodSignature">public final&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/eventbus/EventBus.html#line.211">identifier</a>()</pre>
+<pre class="methodSignature">public final&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/eventbus/EventBus.html#line.214">identifier</a>()</pre>
 <div class="block">Returns the identifier for this event bus.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -432,7 +435,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>register</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/eventbus/EventBus.html#line.240">register</a>&#8203;(java.lang.Object&nbsp;object)</pre>
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/eventbus/EventBus.html#line.243">register</a>&#8203;(java.lang.Object&nbsp;object)</pre>
 <div class="block">Registers all subscriber methods on <code>object</code> to receive events.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -446,7 +449,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>unregister</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/eventbus/EventBus.html#line.250">unregister</a>&#8203;(java.lang.Object&nbsp;object)</pre>
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/eventbus/EventBus.html#line.253">unregister</a>&#8203;(java.lang.Object&nbsp;object)</pre>
 <div class="block">Unregisters all subscriber methods on a registered <code>object</code>.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -462,7 +465,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>post</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/eventbus/EventBus.html#line.264">post</a>&#8203;(java.lang.Object&nbsp;event)</pre>
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/eventbus/EventBus.html#line.267">post</a>&#8203;(java.lang.Object&nbsp;event)</pre>
 <div class="block">Posts an event to all registered subscribers. This method will return successfully after the
  event has been posted to all subscribers, and regardless of any exceptions thrown by
  subscribers.
@@ -481,7 +484,7 @@ extends java.lang.Object</pre>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>toString</h4>
-<pre class="methodSignature">public&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/eventbus/EventBus.html#line.274">toString</a>()</pre>
+<pre class="methodSignature">public&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/eventbus/EventBus.html#line.277">toString</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code>toString</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
