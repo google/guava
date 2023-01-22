@@ -26,6 +26,8 @@ import java.io.StringReader;
 import java.nio.CharBuffer;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Unit tests for {@link LineBuffer} and {@link LineReader}.
@@ -74,6 +76,10 @@ public class LineBufferTest extends IoTestCase {
       assertEquals(expectRead, readUsingJava(input, chunk));
       assertEquals(expectRead, readUsingReader(input, chunk, true));
       assertEquals(expectRead, readUsingReader(input, chunk, false));
+      assertTrue(expectRead.containsAll(readUsingReaderGetLines(input, chunk, true)
+          .collect(Collectors.toList())));
+      assertTrue(expectRead.containsAll(readUsingReaderGetLines(input, chunk, false)
+          .collect(Collectors.toList())));
     }
   }
 
@@ -120,6 +126,13 @@ public class LineBufferTest extends IoTestCase {
     }
     return lines;
   }
+
+  private static Stream<String> readUsingReaderGetLines(String input, int chunk, boolean asReader) {
+      Readable readable =
+          asReader ? getChunkedReader(input, chunk) : getChunkedReadable(input, chunk);
+      LineReader r = new LineReader(readable);
+      return r.lines();
+    }
 
   // Returns a Readable that is *not* a Reader.
   private static Readable getChunkedReadable(String input, int chunk) {

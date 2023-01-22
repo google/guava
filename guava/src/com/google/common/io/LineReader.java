@@ -14,18 +14,28 @@
 
 package com.google.common.io;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.io.CharStreams.createBuffer;
+import java.io.IOException;
+import java.io.Reader;
+import java.io.UncheckedIOException;
+import java.nio.CharBuffer;
+import java.util.ArrayDeque;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+import java.util.Optional;
+import java.util.Queue;
+import java.util.Spliterator;
+import java.util.Spliterators;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
+
+import javax.annotation.CheckForNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import java.io.IOException;
-import java.io.Reader;
-import java.nio.CharBuffer;
-import java.util.ArrayDeque;
-import java.util.Queue;
-import javax.annotation.CheckForNull;
+
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.io.CharStreams.createBuffer;
 
 /**
  * A class for reading lines of text. Provides the same functionality as {@link
@@ -84,4 +94,43 @@ public final class LineReader {
     }
     return lines.poll();
   }
+
+    /**
+     * Returns a {@code Stream}, the elements of which are lines read from
+     * this {@code LineReader}.
+     *
+     * @return a {@code Stream<String>} providing the lines of text
+     *         described by this {@code LineReader}
+     */
+    public Stream<String> lines()
+    {
+        Iterator<String> iterator = new Iterator<String>() {
+            String nextLine = "";
+            @Override
+            public boolean hasNext() {
+                if (!nextLine.equals("")) {
+                    return true;
+                } else {
+                    try {
+                        nextLine = Optional.ofNullable(readLine()).orElse("");
+                        return (!nextLine.equals(""));
+                    } catch (IOException e) {
+                        throw new UncheckedIOException(e);
+                    }
+                }
+            }
+            @Override
+            public String next() {
+                if (!nextLine.equals("") || hasNext()) {
+                    String line = nextLine;
+                    nextLine = "";
+                    return line;
+                } else {
+                    throw new NoSuchElementException();
+                }
+            }
+        };
+        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(
+            iterator, Spliterator.ORDERED | Spliterator.NONNULL), false);
+    }
 }
