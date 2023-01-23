@@ -988,7 +988,8 @@ public final class Iterators {
    * {@code iterator} as it is returned.
    *
    * <p>The provided iterator must support {@link Iterator#remove()} or else the returned iterator
-   * will fail on the first call to {@code next}.
+   * will fail on the first call to {@code next}. The returned {@link Iterator} is also not
+   * thread-safe.
    *
    * @param iterator the iterator to remove and return elements from
    * @return an iterator that removes and returns elements from the supplied iterator
