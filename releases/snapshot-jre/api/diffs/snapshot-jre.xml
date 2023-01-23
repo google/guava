@@ -24886,10 +24886,13 @@
       <![CDATA[Returns a view of the supplied iterable that wraps each generated {@link Iterator} through
  {@link Iterators#consumingIterator(Iterator)}.
 
- <p>Note: If {@code iterable} is a {@link Queue}, the returned iterable will get entries from
- {@link Queue#remove()} since {@link Queue}'s iteration order is undefined. Calling {@link
- Iterator#hasNext()} on a generated iterator from the returned iterable may cause an item to be
- immediately dequeued for return on a subsequent call to {@link Iterator#next()}.
+ <p>Note: If {@code iterable} is a {@link Queue}, the returned iterable will instead use {@link
+ Queue#isEmpty} and {@link Queue#remove()}, since {@link Queue}'s iteration order is undefined.
+ Calling {@link Iterator#hasNext()} on a generated iterator from the returned iterable may cause
+ an item to be immediately dequeued for return on a subsequent call to {@link Iterator#next()}.
+
+ <p>Whether the input {@code iterable} is a {@link Queue} or not, the returned {@code Iterable}
+ is not thread-safe.
 
  @param iterable the iterable to wrap
  @return a view of the supplied iterable that wraps each generated iterator through {@link
@@ -25557,7 +25560,8 @@
  {@code iterator} as it is returned.
 
  <p>The provided iterator must support {@link Iterator#remove()} or else the returned iterator
- will fail on the first call to {@code next}.
+ will fail on the first call to {@code next}. The returned {@link Iterator} is also not
+ thread-safe.
 
  @param iterator the iterator to remove and return elements from
  @return an iterator that removes and returns elements from the supplied iterator

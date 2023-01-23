@@ -1367,13 +1367,16 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>consumingIterable</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.lang.Iterable&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.1012">consumingIterable</a>&#8203;(java.lang.Iterable&lt;T&gt;&nbsp;iterable)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.lang.Iterable&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.1015">consumingIterable</a>&#8203;(java.lang.Iterable&lt;T&gt;&nbsp;iterable)</pre>
 <div class="block">Returns a view of the supplied iterable that wraps each generated <code>Iterator</code> through
  <a href="Iterators.html#consumingIterator(java.util.Iterator)"><code>Iterators.consumingIterator(Iterator)</code></a>.
 
- <p>Note: If <code>iterable</code> is a <code>Queue</code>, the returned iterable will get entries from
- <code>Queue.remove()</code> since <code>Queue</code>'s iteration order is undefined. Calling <code>Iterator.hasNext()</code> on a generated iterator from the returned iterable may cause an item to be
- immediately dequeued for return on a subsequent call to <code>Iterator.next()</code>.</div>
+ <p>Note: If <code>iterable</code> is a <code>Queue</code>, the returned iterable will instead use <code>Collection.isEmpty()</code> and <code>Queue.remove()</code>, since <code>Queue</code>'s iteration order is undefined.
+ Calling <code>Iterator.hasNext()</code> on a generated iterator from the returned iterable may cause
+ an item to be immediately dequeued for return on a subsequent call to <code>Iterator.next()</code>.
+
+ <p>Whether the input <code>iterable</code> is a <code>Queue</code> or not, the returned <code>Iterable</code>
+ is not thread-safe.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>iterable</code> - the iterable to wrap</dd>
@@ -1393,7 +1396,7 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>isEmpty</h4>
-<pre class="methodSignature">public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.1044">isEmpty</a>&#8203;(java.lang.Iterable&lt;?&gt;&nbsp;iterable)</pre>
+<pre class="methodSignature">public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.1047">isEmpty</a>&#8203;(java.lang.Iterable&lt;?&gt;&nbsp;iterable)</pre>
 <div class="block">Determines if the given iterable contains no elements.
 
  <p>There is no precise <code>Iterator</code> equivalent to this method, since one can only ask an
@@ -1413,7 +1416,7 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <li class="blockList">
 <h4>mergeSorted</h4>
 <pre class="methodSignature"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.lang.Iterable&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.1063">mergeSorted</a>&#8203;(java.lang.Iterable&lt;? extends java.lang.Iterable&lt;? extends T&gt;&gt;&nbsp;iterables,
+public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.lang.Iterable&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.1066">mergeSorted</a>&#8203;(java.lang.Iterable&lt;? extends java.lang.Iterable&lt;? extends T&gt;&gt;&nbsp;iterables,
                                                                                        java.util.Comparator&lt;? super T&gt;&nbsp;comparator)</pre>
 <div class="block">Returns an iterable over the merged contents of all given <code>iterables</code>. Equivalent entries
  will not be de-duplicated.

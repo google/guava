@@ -996,98 +996,101 @@
 <span class="sourceLineNo">987</span><a id="line.987">   * Returns a view of the supplied iterable that wraps each generated {@link Iterator} through</a>
 <span class="sourceLineNo">988</span><a id="line.988">   * {@link Iterators#consumingIterator(Iterator)}.</a>
 <span class="sourceLineNo">989</span><a id="line.989">   *</a>
-<span class="sourceLineNo">990</span><a id="line.990">   * &lt;p&gt;Note: If {@code iterable} is a {@link Queue}, the returned iterable will get entries from</a>
-<span class="sourceLineNo">991</span><a id="line.991">   * {@link Queue#remove()} since {@link Queue}'s iteration order is undefined. Calling {@link</a>
-<span class="sourceLineNo">992</span><a id="line.992">   * Iterator#hasNext()} on a generated iterator from the returned iterable may cause an item to be</a>
-<span class="sourceLineNo">993</span><a id="line.993">   * immediately dequeued for return on a subsequent call to {@link Iterator#next()}.</a>
+<span class="sourceLineNo">990</span><a id="line.990">   * &lt;p&gt;Note: If {@code iterable} is a {@link Queue}, the returned iterable will instead use {@link</a>
+<span class="sourceLineNo">991</span><a id="line.991">   * Queue#isEmpty} and {@link Queue#remove()}, since {@link Queue}'s iteration order is undefined.</a>
+<span class="sourceLineNo">992</span><a id="line.992">   * Calling {@link Iterator#hasNext()} on a generated iterator from the returned iterable may cause</a>
+<span class="sourceLineNo">993</span><a id="line.993">   * an item to be immediately dequeued for return on a subsequent call to {@link Iterator#next()}.</a>
 <span class="sourceLineNo">994</span><a id="line.994">   *</a>
-<span class="sourceLineNo">995</span><a id="line.995">   * @param iterable the iterable to wrap</a>
-<span class="sourceLineNo">996</span><a id="line.996">   * @return a view of the supplied iterable that wraps each generated iterator through {@link</a>
-<span class="sourceLineNo">997</span><a id="line.997">   *     Iterators#consumingIterator(Iterator)}; for queues, an iterable that generates iterators</a>
-<span class="sourceLineNo">998</span><a id="line.998">   *     that return and consume the queue's elements in queue order</a>
-<span class="sourceLineNo">999</span><a id="line.999">   * @see Iterators#consumingIterator(Iterator)</a>
-<span class="sourceLineNo">1000</span><a id="line.1000">   * @since 2.0</a>
-<span class="sourceLineNo">1001</span><a id="line.1001">   */</a>
-<span class="sourceLineNo">1002</span><a id="line.1002">  public static &lt;T extends @Nullable Object&gt; Iterable&lt;T&gt; consumingIterable(</a>
-<span class="sourceLineNo">1003</span><a id="line.1003">      final Iterable&lt;T&gt; iterable) {</a>
-<span class="sourceLineNo">1004</span><a id="line.1004">    checkNotNull(iterable);</a>
-<span class="sourceLineNo">1005</span><a id="line.1005"></a>
-<span class="sourceLineNo">1006</span><a id="line.1006">    return new FluentIterable&lt;T&gt;() {</a>
-<span class="sourceLineNo">1007</span><a id="line.1007">      @Override</a>
-<span class="sourceLineNo">1008</span><a id="line.1008">      public Iterator&lt;T&gt; iterator() {</a>
-<span class="sourceLineNo">1009</span><a id="line.1009">        return (iterable instanceof Queue)</a>
-<span class="sourceLineNo">1010</span><a id="line.1010">            ? new ConsumingQueueIterator&lt;&gt;((Queue&lt;T&gt;) iterable)</a>
-<span class="sourceLineNo">1011</span><a id="line.1011">            : Iterators.consumingIterator(iterable.iterator());</a>
-<span class="sourceLineNo">1012</span><a id="line.1012">      }</a>
-<span class="sourceLineNo">1013</span><a id="line.1013"></a>
-<span class="sourceLineNo">1014</span><a id="line.1014">      @Override</a>
-<span class="sourceLineNo">1015</span><a id="line.1015">      public String toString() {</a>
-<span class="sourceLineNo">1016</span><a id="line.1016">        return "Iterables.consumingIterable(...)";</a>
-<span class="sourceLineNo">1017</span><a id="line.1017">      }</a>
-<span class="sourceLineNo">1018</span><a id="line.1018">    };</a>
-<span class="sourceLineNo">1019</span><a id="line.1019">  }</a>
-<span class="sourceLineNo">1020</span><a id="line.1020"></a>
-<span class="sourceLineNo">1021</span><a id="line.1021">  // Methods only in Iterables, not in Iterators</a>
-<span class="sourceLineNo">1022</span><a id="line.1022"></a>
-<span class="sourceLineNo">1023</span><a id="line.1023">  /**</a>
-<span class="sourceLineNo">1024</span><a id="line.1024">   * Determines if the given iterable contains no elements.</a>
-<span class="sourceLineNo">1025</span><a id="line.1025">   *</a>
-<span class="sourceLineNo">1026</span><a id="line.1026">   * &lt;p&gt;There is no precise {@link Iterator} equivalent to this method, since one can only ask an</a>
-<span class="sourceLineNo">1027</span><a id="line.1027">   * iterator whether it has any elements &lt;i&gt;remaining&lt;/i&gt; (which one does using {@link</a>
-<span class="sourceLineNo">1028</span><a id="line.1028">   * Iterator#hasNext}).</a>
-<span class="sourceLineNo">1029</span><a id="line.1029">   *</a>
-<span class="sourceLineNo">1030</span><a id="line.1030">   * &lt;p&gt;&lt;b&gt;{@code Stream} equivalent:&lt;/b&gt; {@code !stream.findAny().isPresent()}</a>
-<span class="sourceLineNo">1031</span><a id="line.1031">   *</a>
-<span class="sourceLineNo">1032</span><a id="line.1032">   * @return {@code true} if the iterable contains no elements</a>
-<span class="sourceLineNo">1033</span><a id="line.1033">   */</a>
-<span class="sourceLineNo">1034</span><a id="line.1034">  public static boolean isEmpty(Iterable&lt;?&gt; iterable) {</a>
-<span class="sourceLineNo">1035</span><a id="line.1035">    if (iterable instanceof Collection) {</a>
-<span class="sourceLineNo">1036</span><a id="line.1036">      return ((Collection&lt;?&gt;) iterable).isEmpty();</a>
-<span class="sourceLineNo">1037</span><a id="line.1037">    }</a>
-<span class="sourceLineNo">1038</span><a id="line.1038">    return !iterable.iterator().hasNext();</a>
-<span class="sourceLineNo">1039</span><a id="line.1039">  }</a>
-<span class="sourceLineNo">1040</span><a id="line.1040"></a>
-<span class="sourceLineNo">1041</span><a id="line.1041">  /**</a>
-<span class="sourceLineNo">1042</span><a id="line.1042">   * Returns an iterable over the merged contents of all given {@code iterables}. Equivalent entries</a>
-<span class="sourceLineNo">1043</span><a id="line.1043">   * will not be de-duplicated.</a>
-<span class="sourceLineNo">1044</span><a id="line.1044">   *</a>
-<span class="sourceLineNo">1045</span><a id="line.1045">   * &lt;p&gt;Callers must ensure that the source {@code iterables} are in non-descending order as this</a>
-<span class="sourceLineNo">1046</span><a id="line.1046">   * method does not sort its input.</a>
+<span class="sourceLineNo">995</span><a id="line.995">   * &lt;p&gt;Whether the input {@code iterable} is a {@link Queue} or not, the returned {@code Iterable}</a>
+<span class="sourceLineNo">996</span><a id="line.996">   * is not thread-safe.</a>
+<span class="sourceLineNo">997</span><a id="line.997">   *</a>
+<span class="sourceLineNo">998</span><a id="line.998">   * @param iterable the iterable to wrap</a>
+<span class="sourceLineNo">999</span><a id="line.999">   * @return a view of the supplied iterable that wraps each generated iterator through {@link</a>
+<span class="sourceLineNo">1000</span><a id="line.1000">   *     Iterators#consumingIterator(Iterator)}; for queues, an iterable that generates iterators</a>
+<span class="sourceLineNo">1001</span><a id="line.1001">   *     that return and consume the queue's elements in queue order</a>
+<span class="sourceLineNo">1002</span><a id="line.1002">   * @see Iterators#consumingIterator(Iterator)</a>
+<span class="sourceLineNo">1003</span><a id="line.1003">   * @since 2.0</a>
+<span class="sourceLineNo">1004</span><a id="line.1004">   */</a>
+<span class="sourceLineNo">1005</span><a id="line.1005">  public static &lt;T extends @Nullable Object&gt; Iterable&lt;T&gt; consumingIterable(</a>
+<span class="sourceLineNo">1006</span><a id="line.1006">      final Iterable&lt;T&gt; iterable) {</a>
+<span class="sourceLineNo">1007</span><a id="line.1007">    checkNotNull(iterable);</a>
+<span class="sourceLineNo">1008</span><a id="line.1008"></a>
+<span class="sourceLineNo">1009</span><a id="line.1009">    return new FluentIterable&lt;T&gt;() {</a>
+<span class="sourceLineNo">1010</span><a id="line.1010">      @Override</a>
+<span class="sourceLineNo">1011</span><a id="line.1011">      public Iterator&lt;T&gt; iterator() {</a>
+<span class="sourceLineNo">1012</span><a id="line.1012">        return (iterable instanceof Queue)</a>
+<span class="sourceLineNo">1013</span><a id="line.1013">            ? new ConsumingQueueIterator&lt;&gt;((Queue&lt;T&gt;) iterable)</a>
+<span class="sourceLineNo">1014</span><a id="line.1014">            : Iterators.consumingIterator(iterable.iterator());</a>
+<span class="sourceLineNo">1015</span><a id="line.1015">      }</a>
+<span class="sourceLineNo">1016</span><a id="line.1016"></a>
+<span class="sourceLineNo">1017</span><a id="line.1017">      @Override</a>
+<span class="sourceLineNo">1018</span><a id="line.1018">      public String toString() {</a>
+<span class="sourceLineNo">1019</span><a id="line.1019">        return "Iterables.consumingIterable(...)";</a>
+<span class="sourceLineNo">1020</span><a id="line.1020">      }</a>
+<span class="sourceLineNo">1021</span><a id="line.1021">    };</a>
+<span class="sourceLineNo">1022</span><a id="line.1022">  }</a>
+<span class="sourceLineNo">1023</span><a id="line.1023"></a>
+<span class="sourceLineNo">1024</span><a id="line.1024">  // Methods only in Iterables, not in Iterators</a>
+<span class="sourceLineNo">1025</span><a id="line.1025"></a>
+<span class="sourceLineNo">1026</span><a id="line.1026">  /**</a>
+<span class="sourceLineNo">1027</span><a id="line.1027">   * Determines if the given iterable contains no elements.</a>
+<span class="sourceLineNo">1028</span><a id="line.1028">   *</a>
+<span class="sourceLineNo">1029</span><a id="line.1029">   * &lt;p&gt;There is no precise {@link Iterator} equivalent to this method, since one can only ask an</a>
+<span class="sourceLineNo">1030</span><a id="line.1030">   * iterator whether it has any elements &lt;i&gt;remaining&lt;/i&gt; (which one does using {@link</a>
+<span class="sourceLineNo">1031</span><a id="line.1031">   * Iterator#hasNext}).</a>
+<span class="sourceLineNo">1032</span><a id="line.1032">   *</a>
+<span class="sourceLineNo">1033</span><a id="line.1033">   * &lt;p&gt;&lt;b&gt;{@code Stream} equivalent:&lt;/b&gt; {@code !stream.findAny().isPresent()}</a>
+<span class="sourceLineNo">1034</span><a id="line.1034">   *</a>
+<span class="sourceLineNo">1035</span><a id="line.1035">   * @return {@code true} if the iterable contains no elements</a>
+<span class="sourceLineNo">1036</span><a id="line.1036">   */</a>
+<span class="sourceLineNo">1037</span><a id="line.1037">  public static boolean isEmpty(Iterable&lt;?&gt; iterable) {</a>
+<span class="sourceLineNo">1038</span><a id="line.1038">    if (iterable instanceof Collection) {</a>
+<span class="sourceLineNo">1039</span><a id="line.1039">      return ((Collection&lt;?&gt;) iterable).isEmpty();</a>
+<span class="sourceLineNo">1040</span><a id="line.1040">    }</a>
+<span class="sourceLineNo">1041</span><a id="line.1041">    return !iterable.iterator().hasNext();</a>
+<span class="sourceLineNo">1042</span><a id="line.1042">  }</a>
+<span class="sourceLineNo">1043</span><a id="line.1043"></a>
+<span class="sourceLineNo">1044</span><a id="line.1044">  /**</a>
+<span class="sourceLineNo">1045</span><a id="line.1045">   * Returns an iterable over the merged contents of all given {@code iterables}. Equivalent entries</a>
+<span class="sourceLineNo">1046</span><a id="line.1046">   * will not be de-duplicated.</a>
 <span class="sourceLineNo">1047</span><a id="line.1047">   *</a>
-<span class="sourceLineNo">1048</span><a id="line.1048">   * &lt;p&gt;For any equivalent elements across all {@code iterables}, it is undefined which element is</a>
-<span class="sourceLineNo">1049</span><a id="line.1049">   * returned first.</a>
+<span class="sourceLineNo">1048</span><a id="line.1048">   * &lt;p&gt;Callers must ensure that the source {@code iterables} are in non-descending order as this</a>
+<span class="sourceLineNo">1049</span><a id="line.1049">   * method does not sort its input.</a>
 <span class="sourceLineNo">1050</span><a id="line.1050">   *</a>
-<span class="sourceLineNo">1051</span><a id="line.1051">   * @since 11.0</a>
-<span class="sourceLineNo">1052</span><a id="line.1052">   */</a>
-<span class="sourceLineNo">1053</span><a id="line.1053">  @Beta</a>
-<span class="sourceLineNo">1054</span><a id="line.1054">  public static &lt;T extends @Nullable Object&gt; Iterable&lt;T&gt; mergeSorted(</a>
-<span class="sourceLineNo">1055</span><a id="line.1055">      final Iterable&lt;? extends Iterable&lt;? extends T&gt;&gt; iterables,</a>
-<span class="sourceLineNo">1056</span><a id="line.1056">      final Comparator&lt;? super T&gt; comparator) {</a>
-<span class="sourceLineNo">1057</span><a id="line.1057">    checkNotNull(iterables, "iterables");</a>
-<span class="sourceLineNo">1058</span><a id="line.1058">    checkNotNull(comparator, "comparator");</a>
-<span class="sourceLineNo">1059</span><a id="line.1059">    Iterable&lt;T&gt; iterable =</a>
-<span class="sourceLineNo">1060</span><a id="line.1060">        new FluentIterable&lt;T&gt;() {</a>
-<span class="sourceLineNo">1061</span><a id="line.1061">          @Override</a>
-<span class="sourceLineNo">1062</span><a id="line.1062">          public Iterator&lt;T&gt; iterator() {</a>
-<span class="sourceLineNo">1063</span><a id="line.1063">            return Iterators.mergeSorted(</a>
-<span class="sourceLineNo">1064</span><a id="line.1064">                Iterables.transform(iterables, Iterables.&lt;T&gt;toIterator()), comparator);</a>
-<span class="sourceLineNo">1065</span><a id="line.1065">          }</a>
-<span class="sourceLineNo">1066</span><a id="line.1066">        };</a>
-<span class="sourceLineNo">1067</span><a id="line.1067">    return new UnmodifiableIterable&lt;&gt;(iterable);</a>
-<span class="sourceLineNo">1068</span><a id="line.1068">  }</a>
-<span class="sourceLineNo">1069</span><a id="line.1069"></a>
-<span class="sourceLineNo">1070</span><a id="line.1070">  // TODO(user): Is this the best place for this? Move to fluent functions?</a>
-<span class="sourceLineNo">1071</span><a id="line.1071">  // Useful as a public method?</a>
-<span class="sourceLineNo">1072</span><a id="line.1072">  static &lt;T extends @Nullable Object&gt;</a>
-<span class="sourceLineNo">1073</span><a id="line.1073">      Function&lt;Iterable&lt;? extends T&gt;, Iterator&lt;? extends T&gt;&gt; toIterator() {</a>
-<span class="sourceLineNo">1074</span><a id="line.1074">    return new Function&lt;Iterable&lt;? extends T&gt;, Iterator&lt;? extends T&gt;&gt;() {</a>
-<span class="sourceLineNo">1075</span><a id="line.1075">      @Override</a>
-<span class="sourceLineNo">1076</span><a id="line.1076">      public Iterator&lt;? extends T&gt; apply(Iterable&lt;? extends T&gt; iterable) {</a>
-<span class="sourceLineNo">1077</span><a id="line.1077">        return iterable.iterator();</a>
-<span class="sourceLineNo">1078</span><a id="line.1078">      }</a>
-<span class="sourceLineNo">1079</span><a id="line.1079">    };</a>
-<span class="sourceLineNo">1080</span><a id="line.1080">  }</a>
-<span class="sourceLineNo">1081</span><a id="line.1081">}</a>
+<span class="sourceLineNo">1051</span><a id="line.1051">   * &lt;p&gt;For any equivalent elements across all {@code iterables}, it is undefined which element is</a>
+<span class="sourceLineNo">1052</span><a id="line.1052">   * returned first.</a>
+<span class="sourceLineNo">1053</span><a id="line.1053">   *</a>
+<span class="sourceLineNo">1054</span><a id="line.1054">   * @since 11.0</a>
+<span class="sourceLineNo">1055</span><a id="line.1055">   */</a>
+<span class="sourceLineNo">1056</span><a id="line.1056">  @Beta</a>
+<span class="sourceLineNo">1057</span><a id="line.1057">  public static &lt;T extends @Nullable Object&gt; Iterable&lt;T&gt; mergeSorted(</a>
+<span class="sourceLineNo">1058</span><a id="line.1058">      final Iterable&lt;? extends Iterable&lt;? extends T&gt;&gt; iterables,</a>
+<span class="sourceLineNo">1059</span><a id="line.1059">      final Comparator&lt;? super T&gt; comparator) {</a>
+<span class="sourceLineNo">1060</span><a id="line.1060">    checkNotNull(iterables, "iterables");</a>
+<span class="sourceLineNo">1061</span><a id="line.1061">    checkNotNull(comparator, "comparator");</a>
+<span class="sourceLineNo">1062</span><a id="line.1062">    Iterable&lt;T&gt; iterable =</a>
+<span class="sourceLineNo">1063</span><a id="line.1063">        new FluentIterable&lt;T&gt;() {</a>
+<span class="sourceLineNo">1064</span><a id="line.1064">          @Override</a>
+<span class="sourceLineNo">1065</span><a id="line.1065">          public Iterator&lt;T&gt; iterator() {</a>
+<span class="sourceLineNo">1066</span><a id="line.1066">            return Iterators.mergeSorted(</a>
+<span class="sourceLineNo">1067</span><a id="line.1067">                Iterables.transform(iterables, Iterables.&lt;T&gt;toIterator()), comparator);</a>
+<span class="sourceLineNo">1068</span><a id="line.1068">          }</a>
+<span class="sourceLineNo">1069</span><a id="line.1069">        };</a>
+<span class="sourceLineNo">1070</span><a id="line.1070">    return new UnmodifiableIterable&lt;&gt;(iterable);</a>
+<span class="sourceLineNo">1071</span><a id="line.1071">  }</a>
+<span class="sourceLineNo">1072</span><a id="line.1072"></a>
+<span class="sourceLineNo">1073</span><a id="line.1073">  // TODO(user): Is this the best place for this? Move to fluent functions?</a>
+<span class="sourceLineNo">1074</span><a id="line.1074">  // Useful as a public method?</a>
+<span class="sourceLineNo">1075</span><a id="line.1075">  static &lt;T extends @Nullable Object&gt;</a>
+<span class="sourceLineNo">1076</span><a id="line.1076">      Function&lt;Iterable&lt;? extends T&gt;, Iterator&lt;? extends T&gt;&gt; toIterator() {</a>
+<span class="sourceLineNo">1077</span><a id="line.1077">    return new Function&lt;Iterable&lt;? extends T&gt;, Iterator&lt;? extends T&gt;&gt;() {</a>
+<span class="sourceLineNo">1078</span><a id="line.1078">      @Override</a>
+<span class="sourceLineNo">1079</span><a id="line.1079">      public Iterator&lt;? extends T&gt; apply(Iterable&lt;? extends T&gt; iterable) {</a>
+<span class="sourceLineNo">1080</span><a id="line.1080">        return iterable.iterator();</a>
+<span class="sourceLineNo">1081</span><a id="line.1081">      }</a>
+<span class="sourceLineNo">1082</span><a id="line.1082">    };</a>
+<span class="sourceLineNo">1083</span><a id="line.1083">  }</a>
+<span class="sourceLineNo">1084</span><a id="line.1084">}</a>
 
 
 
