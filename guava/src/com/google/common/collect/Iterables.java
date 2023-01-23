@@ -997,10 +997,13 @@ public final class Iterables {
    * Returns a view of the supplied iterable that wraps each generated {@link Iterator} through
    * {@link Iterators#consumingIterator(Iterator)}.
    *
-   * <p>Note: If {@code iterable} is a {@link Queue}, the returned iterable will get entries from
-   * {@link Queue#remove()} since {@link Queue}'s iteration order is undefined. Calling {@link
-   * Iterator#hasNext()} on a generated iterator from the returned iterable may cause an item to be
-   * immediately dequeued for return on a subsequent call to {@link Iterator#next()}.
+   * <p>Note: If {@code iterable} is a {@link Queue}, the returned iterable will instead use {@link
+   * Queue#isEmpty} and {@link Queue#remove()}, since {@link Queue}'s iteration order is undefined.
+   * Calling {@link Iterator#hasNext()} on a generated iterator from the returned iterable may cause
+   * an item to be immediately dequeued for return on a subsequent call to {@link Iterator#next()}.
+   *
+   * <p>Whether the input {@code iterable} is a {@link Queue} or not, the returned {@code Iterable}
+   * is not thread-safe.
    *
    * @param iterable the iterable to wrap
    * @return a view of the supplied iterable that wraps each generated iterator through {@link
