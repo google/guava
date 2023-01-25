@@ -42,7 +42,7 @@ To add a dependency using Gradle:
 
 ```gradle
 dependencies {
-  compile 'com.google.guava:guava:{{ site.latest_release }}-jre'
+  implementation 'com.google.guava:guava:{{ site.latest_release }}-jre'
   // or, for Android:
   api 'com.google.guava:guava:{{ site.latest_release }}-android'
 }
