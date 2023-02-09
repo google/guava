@@ -22,6 +22,7 @@
     <!-- Empty for all JDKs but 9-12 -->
     <maven-javadoc-plugin.additionalJOptions></maven-javadoc-plugin.additionalJOptions>
     <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
+    <project.build.outputTimestamp>1980-02-01T00:00:00Z</project.build.outputTimestamp>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <test.add.opens></test.add.opens>
   </properties>
@@ -485,7 +486,7 @@
     <profile>
       <id>run-error-prone</id>
       <activation>
-        <!-- 
+        <!--
         Error Prone requires 11+: https://errorprone.info/docs/installation
         We skip 12-15 because of https://github.com/google/error-prone/issues/3540.
         -->
