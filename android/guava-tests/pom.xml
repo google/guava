@@ -72,13 +72,6 @@
         <artifactId>maven-jar-plugin</artifactId>
         <executions>
           <execution>
-            <id>default-jar</id>
-            <goals><goal>jar</goal></goals>
-            <configuration>
-              <skipIfEmpty>true</skipIfEmpty>
-            </configuration>
-          </execution>
-          <execution>
             <id>create-test-jar</id>
             <goals><goal>test-jar</goal></goals>
           </execution>
