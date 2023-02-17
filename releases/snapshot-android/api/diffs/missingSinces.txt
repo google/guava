@@ -1,3 +1,4 @@
+OK: com.google.common.annotations.J2ktIncompatible Class
 MISSING @SINCE TAG: com.google.common.io.BaseEncoding Method ignoreCase()
 OK: com.google.common.primitives.Booleans Method rotate(boolean[], int)
 OK: com.google.common.primitives.Booleans Method rotate(boolean[], int, int, int)

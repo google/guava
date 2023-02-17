@@ -90,6 +90,19 @@
     </doc>
   </class>
   <!-- end class com.google.common.annotations.GwtIncompatible -->
+  <!-- start class com.google.common.annotations.J2ktIncompatible -->
+  <class name="J2ktIncompatible"    abstract="true"
+    static="false" final="false" visibility="public"
+    deprecated="not deprecated">
+    <implements name="java.lang.annotation.Annotation"/>
+    <doc>
+    <![CDATA[The presence of this annotation on an API indicates that the method may <em>not</em> be used with
+ J2kt.
+
+ @since NEXT]]>
+    </doc>
+  </class>
+  <!-- end class com.google.common.annotations.J2ktIncompatible -->
   <!-- start class com.google.common.annotations.VisibleForTesting -->
   <class name="VisibleForTesting"    abstract="true"
     static="false" final="false" visibility="public"
