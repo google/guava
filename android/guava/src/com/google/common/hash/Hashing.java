@@ -57,7 +57,8 @@ public final class Hashing {
    * <p>Repeated calls to this method on the same loaded {@code Hashing} class, using the same value
    * for {@code minimumBits}, will return identically-behaving {@link HashFunction} instances.
    *
-   * @param minimumBits a positive integer (can be arbitrarily large)
+   * @param minimumBits a positive integer. This can be arbitrarily large. The returned {@link
+   *     HashFunction} instance may use memory proportional to this integer.
    * @return a hash function, described above, that produces hash codes of length {@code
    *     minimumBits} or greater
    */
