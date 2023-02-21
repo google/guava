@@ -54,7 +54,7 @@ public final class Uninterruptibles {
   /** Invokes {@code latch.}{@link CountDownLatch#await() await()} uninterruptibly. */
   @GwtIncompatible // concurrency
   public static void awaitUninterruptibly(CountDownLatch latch) {
-    boolean interrupted = false;
+    boolean interrupted = Thread.interrupted();
     try {
       while (true) {
         try {
@@ -89,7 +89,7 @@ public final class Uninterruptibles {
   @GwtIncompatible // concurrency
   @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public static boolean awaitUninterruptibly(CountDownLatch latch, long timeout, TimeUnit unit) {
-    boolean interrupted = false;
+    boolean interrupted = Thread.interrupted();
     try {
       long remainingNanos = unit.toNanos(timeout);
       long end = System.nanoTime() + remainingNanos;
@@ -130,7 +130,7 @@ public final class Uninterruptibles {
   @GwtIncompatible // concurrency
   @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public static boolean awaitUninterruptibly(Condition condition, long timeout, TimeUnit unit) {
-    boolean interrupted = false;
+    boolean interrupted = Thread.interrupted();
     try {
       long remainingNanos = unit.toNanos(timeout);
       long end = System.nanoTime() + remainingNanos;
@@ -153,7 +153,7 @@ public final class Uninterruptibles {
   /** Invokes {@code toJoin.}{@link Thread#join() join()} uninterruptibly. */
   @GwtIncompatible // concurrency
   public static void joinUninterruptibly(Thread toJoin) {
-    boolean interrupted = false;
+    boolean interrupted = Thread.interrupted();
     try {
       while (true) {
         try {
@@ -189,7 +189,7 @@ public final class Uninterruptibles {
   @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public static void joinUninterruptibly(Thread toJoin, long timeout, TimeUnit unit) {
     Preconditions.checkNotNull(toJoin);
-    boolean interrupted = false;
+    boolean interrupted = Thread.interrupted();
     try {
       long remainingNanos = unit.toNanos(timeout);
       long end = System.nanoTime() + remainingNanos;
@@ -231,7 +231,7 @@ public final class Uninterruptibles {
   @ParametricNullness
   public static <V extends @Nullable Object> V getUninterruptibly(Future<V> future)
       throws ExecutionException {
-    boolean interrupted = false;
+    boolean interrupted = Thread.interrupted();
     try {
       while (true) {
         try {
@@ -298,7 +298,7 @@ public final class Uninterruptibles {
   @ParametricNullness
   public static <V extends @Nullable Object> V getUninterruptibly(
       Future<V> future, long timeout, TimeUnit unit) throws ExecutionException, TimeoutException {
-    boolean interrupted = false;
+    boolean interrupted = Thread.interrupted();
     try {
       long remainingNanos = unit.toNanos(timeout);
       long end = System.nanoTime() + remainingNanos;
@@ -322,7 +322,7 @@ public final class Uninterruptibles {
   /** Invokes {@code queue.}{@link BlockingQueue#take() take()} uninterruptibly. */
   @GwtIncompatible // concurrency
   public static <E> E takeUninterruptibly(BlockingQueue<E> queue) {
-    boolean interrupted = false;
+    boolean interrupted = Thread.interrupted();
     try {
       while (true) {
         try {
@@ -348,7 +348,7 @@ public final class Uninterruptibles {
    */
   @GwtIncompatible // concurrency
   public static <E> void putUninterruptibly(BlockingQueue<E> queue, E element) {
-    boolean interrupted = false;
+    boolean interrupted = Thread.interrupted();
     try {
       while (true) {
         try {
@@ -381,7 +381,7 @@ public final class Uninterruptibles {
   @GwtIncompatible // concurrency
   @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public static void sleepUninterruptibly(long sleepFor, TimeUnit unit) {
-    boolean interrupted = false;
+    boolean interrupted = Thread.interrupted();
     try {
       long remainingNanos = unit.toNanos(sleepFor);
       long end = System.nanoTime() + remainingNanos;
@@ -449,7 +449,7 @@ public final class Uninterruptibles {
   @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public static boolean tryAcquireUninterruptibly(
       Semaphore semaphore, int permits, long timeout, TimeUnit unit) {
-    boolean interrupted = false;
+    boolean interrupted = Thread.interrupted();
     try {
       long remainingNanos = unit.toNanos(timeout);
       long end = System.nanoTime() + remainingNanos;
@@ -490,7 +490,7 @@ public final class Uninterruptibles {
   @GwtIncompatible // concurrency
   @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public static boolean tryLockUninterruptibly(Lock lock, long timeout, TimeUnit unit) {
-    boolean interrupted = false;
+    boolean interrupted = Thread.interrupted();
     try {
       long remainingNanos = unit.toNanos(timeout);
       long end = System.nanoTime() + remainingNanos;
@@ -544,7 +544,7 @@ public final class Uninterruptibles {
   @SuppressWarnings("GoodTime")
   public static boolean awaitTerminationUninterruptibly(
       ExecutorService executor, long timeout, TimeUnit unit) {
-    boolean interrupted = false;
+    boolean interrupted = Thread.interrupted();
     try {
       long remainingNanos = unit.toNanos(timeout);
       long end = System.nanoTime() + remainingNanos;
