@@ -15,12 +15,14 @@
 package com.google.common.base;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 
 /**
  * Pluggable interface for compiling a regex pattern. By default this package uses the {@code
  * java.util.regex} library, but an alternate implementation can be supplied using the {@link
  * java.util.ServiceLoader} mechanism.
  */
+@J2ktIncompatible
 @GwtIncompatible
 @ElementTypesAreNonnullByDefault
 interface PatternCompiler {

@@ -21,7 +21,6 @@ import com.google.errorprone.annotations.ForOverride;
 import java.io.Serializable;
 import java.util.function.BiPredicate;
 import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -169,7 +168,8 @@ public abstract class Equivalence<T> implements BiPredicate<@Nullable T, @Nullab
    * @since 10.0
    */
   public final <S extends @Nullable T> Wrapper<S> wrap(@ParametricNullness S reference) {
-    Wrapper<S> w = new Wrapper<>(this, reference);
+    @SuppressWarnings({"nullness", "unchecked"})
+    Wrapper<S> w = (Wrapper<S>) new Wrapper<T>(this, reference);
     return w;
   }
 
@@ -199,14 +199,13 @@ public abstract class Equivalence<T> implements BiPredicate<@Nullable T, @Nullab
      * Equivalence<@Nullable Number>. That can still produce wrappers of various types --
      * Wrapper<Number>, Wrapper<Integer>, Wrapper<@Nullable Integer>, etc. If we used just
      * Equivalence<? super T> below, no type could satisfy both that bound and T's own
-     * bound. With this type, they have some overlap: in our example, Equivalence<Number>
-     * and Equivalence<Object>.
+     * bound.
      */
-    private final Equivalence<? super @NonNull T> equivalence;
+    private final Equivalence<?> equivalence;
 
     @ParametricNullness private final T reference;
 
-    private Wrapper(Equivalence<? super @NonNull T> equivalence, @ParametricNullness T reference) {
+    private Wrapper(Equivalence<?> equivalence, @ParametricNullness T reference) {
       this.equivalence = checkNotNull(equivalence);
       this.reference = reference;
     }
@@ -246,6 +245,8 @@ public abstract class Equivalence<T> implements BiPredicate<@Nullable T, @Nullab
     /** Returns the result of {@link Equivalence#hash(Object)} applied to the wrapped reference. */
     @Override
     public int hashCode() {
+      @SuppressWarnings("unchecked") // This is really Equivalence<T & @NonNull Object>
+      Equivalence<Object> equivalence = (Equivalence<Object>) this.equivalence;
       return equivalence.hash(reference);
     }
 
