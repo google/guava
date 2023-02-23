@@ -96,7 +96,297 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="header">
 <h2 title="Uses of Class com.google.common.annotations.J2ktIncompatible" class="title">Uses of Class<br>com.google.common.annotations.J2ktIncompatible</h2>
 </div>
-<div class="classUseContainer">No usage of com.google.common.annotations.J2ktIncompatible</div>
+<div class="classUseContainer">
+<ul class="blockList">
+<li class="blockList">
+<table class="useSummary">
+<caption><span>Packages that use <a href="../J2ktIncompatible.html" title="annotation in com.google.common.annotations">J2ktIncompatible</a></span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colFirst" scope="col">Package</th>
+<th class="colLast" scope="col">Description</th>
+</tr>
+<tbody>
+<tr class="altColor">
+<th class="colFirst" scope="row"><a href="#com.google.common.base">com.google.common.base</a></th>
+<td class="colLast">
+<div class="block">Basic utility libraries and interfaces.</div>
+</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li class="blockList">
+<ul class="blockList">
+<li class="blockList">
+<section><a id="com.google.common.base">
+<!--   -->
+</a>
+<h3>Uses of <a href="../J2ktIncompatible.html" title="annotation in com.google.common.annotations">J2ktIncompatible</a> in <a href="../../base/package-summary.html">com.google.common.base</a></h3>
+<table class="useSummary">
+<caption><span>Classes in <a href="../../base/package-summary.html">com.google.common.base</a> with annotations of type <a href="../J2ktIncompatible.html" title="annotation in com.google.common.annotations">J2ktIncompatible</a></span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colFirst" scope="col">Modifier and Type</th>
+<th class="colSecond" scope="col">Class</th>
+<th class="colLast" scope="col">Description</th>
+</tr>
+<tbody>
+<tr class="altColor">
+<td class="colFirst"><code>class&nbsp;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../base/Converter.html" title="class in com.google.common.base">Converter</a>&lt;A,&#8203;B&gt;</span></code></th>
+<td class="colLast">
+<div class="block">A function from <code>A</code> to <code>B</code> with an associated <i>reverse</i> function from <code>B</code>
+ to <code>A</code>; used for converting back and forth between <i>different representations of the same
+ information</i>.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>class&nbsp;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../base/Defaults.html" title="class in com.google.common.base">Defaults</a></span></code></th>
+<td class="colLast">
+<div class="block">This class provides default values for all Java types, as defined by the JLS.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>class&nbsp;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../base/Enums.html" title="class in com.google.common.base">Enums</a></span></code></th>
+<td class="colLast">
+<div class="block">Utility methods for working with <code>Enum</code> instances.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>class&nbsp;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../base/FinalizablePhantomReference.html" title="class in com.google.common.base">FinalizablePhantomReference</a>&lt;T&gt;</span></code></th>
+<td class="colLast">
+<div class="block">Phantom reference with a <code>finalizeReferent()</code> method which a background thread invokes
+ after the garbage collector reclaims the referent.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>interface&nbsp;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../base/FinalizableReference.html" title="interface in com.google.common.base">FinalizableReference</a></span></code></th>
+<td class="colLast">
+<div class="block">Implemented by references that have code to run after garbage collection of their referents.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>class&nbsp;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../base/FinalizableReferenceQueue.html" title="class in com.google.common.base">FinalizableReferenceQueue</a></span></code></th>
+<td class="colLast">
+<div class="block">A reference queue with an associated background thread that dequeues references and invokes
+ <a href="../../base/FinalizableReference.html#finalizeReferent()"><code>FinalizableReference.finalizeReferent()</code></a> on them.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>class&nbsp;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../base/FinalizableSoftReference.html" title="class in com.google.common.base">FinalizableSoftReference</a>&lt;T&gt;</span></code></th>
+<td class="colLast">
+<div class="block">Soft reference with a <code>finalizeReferent()</code> method which a background thread invokes after
+ the garbage collector reclaims the referent.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>class&nbsp;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../base/FinalizableWeakReference.html" title="class in com.google.common.base">FinalizableWeakReference</a>&lt;T&gt;</span></code></th>
+<td class="colLast">
+<div class="block">Weak reference with a <code>finalizeReferent()</code> method which a background thread invokes after
+ the garbage collector reclaims the referent.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>class&nbsp;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../base/StandardSystemProperty.html" title="enum in com.google.common.base">StandardSystemProperty</a></span></code></th>
+<td class="colLast">
+<div class="block">Represents a standard system property.</div>
+</td>
+</tr>
+</tbody>
+</table>
+<table class="useSummary">
+<caption><span>Fields in <a href="../../base/package-summary.html">com.google.common.base</a> with annotations of type <a href="../J2ktIncompatible.html" title="annotation in com.google.common.annotations">J2ktIncompatible</a></span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colFirst" scope="col">Modifier and Type</th>
+<th class="colSecond" scope="col">Field</th>
+<th class="colLast" scope="col">Description</th>
+</tr>
+<tbody>
+<tr class="altColor">
+<td class="colFirst"><code>static java.nio.charset.Charset</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Charsets.</span><code><span class="memberNameLink"><a href="../../base/Charsets.html#US_ASCII">US_ASCII</a></span></code></th>
+<td class="colLast">
+<div class="block">US-ASCII: seven-bit ASCII, the Basic Latin block of the Unicode character set (ISO646-US).</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static java.nio.charset.Charset</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Charsets.</span><code><span class="memberNameLink"><a href="../../base/Charsets.html#UTF_16">UTF_16</a></span></code></th>
+<td class="colLast">
+<div class="block">UTF-16: sixteen-bit UCS Transformation Format, byte order identified by an optional byte-order
+ mark.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static java.nio.charset.Charset</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Charsets.</span><code><span class="memberNameLink"><a href="../../base/Charsets.html#UTF_16BE">UTF_16BE</a></span></code></th>
+<td class="colLast">
+<div class="block">UTF-16BE: sixteen-bit UCS Transformation Format, big-endian byte order.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static java.nio.charset.Charset</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Charsets.</span><code><span class="memberNameLink"><a href="../../base/Charsets.html#UTF_16LE">UTF_16LE</a></span></code></th>
+<td class="colLast">
+<div class="block">UTF-16LE: sixteen-bit UCS Transformation Format, little-endian byte order.</div>
+</td>
+</tr>
+</tbody>
+</table>
+<table class="useSummary">
+<caption><span>Methods in <a href="../../base/package-summary.html">com.google.common.base</a> with annotations of type <a href="../J2ktIncompatible.html" title="annotation in com.google.common.annotations">J2ktIncompatible</a></span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colFirst" scope="col">Modifier and Type</th>
+<th class="colSecond" scope="col">Method</th>
+<th class="colLast" scope="col">Description</th>
+</tr>
+<tbody>
+<tr class="altColor">
+<td class="colFirst"><code>static <a href="../../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;java.lang.CharSequence&gt;</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Predicates.</span><code><span class="memberNameLink"><a href="../../base/Predicates.html#contains(java.util.regex.Pattern)">contains</a></span>&#8203;(java.util.regex.Pattern&nbsp;pattern)</code></th>
+<td class="colLast">
+<div class="block">Returns a predicate that evaluates to <code>true</code> if the <code>CharSequence</code> being tested
+ contains any match for the given regular expression pattern.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static <a href="../../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;java.lang.CharSequence&gt;</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Predicates.</span><code><span class="memberNameLink"><a href="../../base/Predicates.html#containsPattern(java.lang.String)">containsPattern</a></span>&#8203;(java.lang.String&nbsp;pattern)</code></th>
+<td class="colLast">
+<div class="block">Returns a predicate that evaluates to <code>true</code> if the <code>CharSequence</code> being tested
+ contains any match for the given regular expression pattern.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static &lt;X extends java.lang.Throwable&gt;<br>X</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Throwables.</span><code><span class="memberNameLink"><a href="../../base/Throwables.html#getCauseAs(java.lang.Throwable,java.lang.Class)">getCauseAs</a></span>&#8203;(java.lang.Throwable&nbsp;throwable,
+          java.lang.Class&lt;X&gt;&nbsp;expectedCauseType)</code></th>
+<td class="colLast">
+<div class="block">Returns <code>throwable</code>'s cause, cast to <code>expectedCauseType</code>.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="../../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;T&gt;</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Predicates.</span><code><span class="memberNameLink"><a href="../../base/Predicates.html#instanceOf(java.lang.Class)">instanceOf</a></span>&#8203;(java.lang.Class&lt;?&gt;&nbsp;clazz)</code></th>
+<td class="colLast">
+<div class="block">Returns a predicate that evaluates to <code>true</code> if the object being tested is an instance of
+ the given class.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static java.util.List&lt;java.lang.StackTraceElement&gt;</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Throwables.</span><code><span class="memberNameLink"><a href="../../base/Throwables.html#lazyStackTrace(java.lang.Throwable)">lazyStackTrace</a></span>&#8203;(java.lang.Throwable&nbsp;throwable)</code></th>
+<td class="colLast">
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>
+<div class="deprecationComment">This method is equivalent to <code>Throwable.getStackTrace()</code> on JDK versions past
+     JDK 8 and on all Android versions.</div>
+</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static boolean</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Throwables.</span><code><span class="memberNameLink"><a href="../../base/Throwables.html#lazyStackTraceIsLazy()">lazyStackTraceIsLazy</a></span>()</code></th>
+<td class="colLast">
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>
+<div class="deprecationComment">This method always returns false on JDK versions past JDK 8 and on all Android
+     versions.</div>
+</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static <a href="../../base/Splitter.html" title="class in com.google.common.base">Splitter</a></code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Splitter.</span><code><span class="memberNameLink"><a href="../../base/Splitter.html#on(java.util.regex.Pattern)">on</a></span>&#8203;(java.util.regex.Pattern&nbsp;separatorPattern)</code></th>
+<td class="colLast">
+<div class="block">Returns a splitter that considers any subsequence matching <code>pattern</code> to be a separator.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static <a href="../../base/Splitter.html" title="class in com.google.common.base">Splitter</a></code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Splitter.</span><code><span class="memberNameLink"><a href="../../base/Splitter.html#onPattern(java.lang.String)">onPattern</a></span>&#8203;(java.lang.String&nbsp;separatorPattern)</code></th>
+<td class="colLast">
+<div class="block">Returns a splitter that considers any subsequence matching a given pattern (regular expression)
+ to be a separator.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static java.lang.RuntimeException</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Throwables.</span><code><span class="memberNameLink"><a href="../../base/Throwables.html#propagate(java.lang.Throwable)">propagate</a></span>&#8203;(java.lang.Throwable&nbsp;throwable)</code></th>
+<td class="colLast">
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>
+<div class="deprecationComment">Use <code>throw e</code> or <code>throw new RuntimeException(e)</code> directly, or use a
+     combination of <a href="../../base/Throwables.html#throwIfUnchecked(java.lang.Throwable)"><code>Throwables.throwIfUnchecked(java.lang.Throwable)</code></a> and <code>throw new RuntimeException(e)</code>.</div>
+</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static &lt;X extends java.lang.Throwable&gt;<br>void</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Throwables.</span><code><span class="memberNameLink"><a href="../../base/Throwables.html#propagateIfInstanceOf(java.lang.Throwable,java.lang.Class)">propagateIfInstanceOf</a></span>&#8203;(java.lang.Throwable&nbsp;throwable,
+                     java.lang.Class&lt;X&gt;&nbsp;declaredType)</code></th>
+<td class="colLast">
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>
+<div class="deprecationComment">Use <a href="../../base/Throwables.html#throwIfInstanceOf(java.lang.Throwable,java.lang.Class)"><code>Throwables.throwIfInstanceOf(java.lang.Throwable, java.lang.Class&lt;X&gt;)</code></a>, which has the same behavior but rejects <code>
+     null</code>.</div>
+</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static void</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Throwables.</span><code><span class="memberNameLink"><a href="../../base/Throwables.html#propagateIfPossible(java.lang.Throwable)">propagateIfPossible</a></span>&#8203;(java.lang.Throwable&nbsp;throwable)</code></th>
+<td class="colLast">
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>
+<div class="deprecationComment">Use <a href="../../base/Throwables.html#throwIfUnchecked(java.lang.Throwable)"><code>Throwables.throwIfUnchecked(java.lang.Throwable)</code></a>, which has the same behavior but rejects <code>
+     null</code>.</div>
+</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static &lt;X extends java.lang.Throwable&gt;<br>void</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Throwables.</span><code><span class="memberNameLink"><a href="../../base/Throwables.html#propagateIfPossible(java.lang.Throwable,java.lang.Class)">propagateIfPossible</a></span>&#8203;(java.lang.Throwable&nbsp;throwable,
+                   java.lang.Class&lt;X&gt;&nbsp;declaredType)</code></th>
+<td class="colLast">
+<div class="block">Propagates <code>throwable</code> exactly as-is, if and only if it is an instance of <code>RuntimeException</code>, <code>Error</code>, or <code>declaredType</code>.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static &lt;X1 extends java.lang.Throwable,&#8203;X2 extends java.lang.Throwable&gt;<br>void</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Throwables.</span><code><span class="memberNameLink"><a href="../../base/Throwables.html#propagateIfPossible(java.lang.Throwable,java.lang.Class,java.lang.Class)">propagateIfPossible</a></span>&#8203;(java.lang.Throwable&nbsp;throwable,
+                   java.lang.Class&lt;X1&gt;&nbsp;declaredType1,
+                   java.lang.Class&lt;X2&gt;&nbsp;declaredType2)</code></th>
+<td class="colLast">
+<div class="block">Propagates <code>throwable</code> exactly as-is, if and only if it is an instance of <code>RuntimeException</code>, <code>Error</code>, <code>declaredType1</code>, or <code>declaredType2</code>.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static <a href="../../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;java.lang.Class&lt;?&gt;&gt;</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Predicates.</span><code><span class="memberNameLink"><a href="../../base/Predicates.html#subtypeOf(java.lang.Class)">subtypeOf</a></span>&#8203;(java.lang.Class&lt;?&gt;&nbsp;clazz)</code></th>
+<td class="colLast">
+<div class="block">Returns a predicate that evaluates to <code>true</code> if the class being tested is assignable to
+ (is a subtype of) <code>clazz</code>.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static &lt;X extends java.lang.Throwable&gt;<br>void</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Throwables.</span><code><span class="memberNameLink"><a href="../../base/Throwables.html#throwIfInstanceOf(java.lang.Throwable,java.lang.Class)">throwIfInstanceOf</a></span>&#8203;(java.lang.Throwable&nbsp;throwable,
+                 java.lang.Class&lt;X&gt;&nbsp;declaredType)</code></th>
+<td class="colLast">
+<div class="block">Throws <code>throwable</code> if it is an instance of <code>declaredType</code>.</div>
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+</li>
+</ul>
+</li>
+</ul>
+</div>
 </main>
 <footer role="contentinfo">
 <nav role="navigation">

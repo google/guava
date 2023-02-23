@@ -24,26 +24,28 @@
 <span class="sourceLineNo">015</span><a id="line.15">package com.google.common.base;</a>
 <span class="sourceLineNo">016</span><a id="line.16"></a>
 <span class="sourceLineNo">017</span><a id="line.17">import com.google.common.annotations.GwtIncompatible;</a>
-<span class="sourceLineNo">018</span><a id="line.18">import com.google.errorprone.annotations.DoNotMock;</a>
-<span class="sourceLineNo">019</span><a id="line.19"></a>
-<span class="sourceLineNo">020</span><a id="line.20">/**</a>
-<span class="sourceLineNo">021</span><a id="line.21"> * Implemented by references that have code to run after garbage collection of their referents.</a>
-<span class="sourceLineNo">022</span><a id="line.22"> *</a>
-<span class="sourceLineNo">023</span><a id="line.23"> * @see FinalizableReferenceQueue</a>
-<span class="sourceLineNo">024</span><a id="line.24"> * @author Bob Lee</a>
-<span class="sourceLineNo">025</span><a id="line.25"> * @since 2.0</a>
-<span class="sourceLineNo">026</span><a id="line.26"> */</a>
-<span class="sourceLineNo">027</span><a id="line.27">@DoNotMock("Use an instance of one of the Finalizable*Reference classes")</a>
-<span class="sourceLineNo">028</span><a id="line.28">@GwtIncompatible</a>
-<span class="sourceLineNo">029</span><a id="line.29">@ElementTypesAreNonnullByDefault</a>
-<span class="sourceLineNo">030</span><a id="line.30">public interface FinalizableReference {</a>
-<span class="sourceLineNo">031</span><a id="line.31">  /**</a>
-<span class="sourceLineNo">032</span><a id="line.32">   * Invoked on a background thread after the referent has been garbage collected unless security</a>
-<span class="sourceLineNo">033</span><a id="line.33">   * restrictions prevented starting a background thread, in which case this method is invoked when</a>
-<span class="sourceLineNo">034</span><a id="line.34">   * new references are created.</a>
-<span class="sourceLineNo">035</span><a id="line.35">   */</a>
-<span class="sourceLineNo">036</span><a id="line.36">  void finalizeReferent();</a>
-<span class="sourceLineNo">037</span><a id="line.37">}</a>
+<span class="sourceLineNo">018</span><a id="line.18">import com.google.common.annotations.J2ktIncompatible;</a>
+<span class="sourceLineNo">019</span><a id="line.19">import com.google.errorprone.annotations.DoNotMock;</a>
+<span class="sourceLineNo">020</span><a id="line.20"></a>
+<span class="sourceLineNo">021</span><a id="line.21">/**</a>
+<span class="sourceLineNo">022</span><a id="line.22"> * Implemented by references that have code to run after garbage collection of their referents.</a>
+<span class="sourceLineNo">023</span><a id="line.23"> *</a>
+<span class="sourceLineNo">024</span><a id="line.24"> * @see FinalizableReferenceQueue</a>
+<span class="sourceLineNo">025</span><a id="line.25"> * @author Bob Lee</a>
+<span class="sourceLineNo">026</span><a id="line.26"> * @since 2.0</a>
+<span class="sourceLineNo">027</span><a id="line.27"> */</a>
+<span class="sourceLineNo">028</span><a id="line.28">@DoNotMock("Use an instance of one of the Finalizable*Reference classes")</a>
+<span class="sourceLineNo">029</span><a id="line.29">@J2ktIncompatible</a>
+<span class="sourceLineNo">030</span><a id="line.30">@GwtIncompatible</a>
+<span class="sourceLineNo">031</span><a id="line.31">@ElementTypesAreNonnullByDefault</a>
+<span class="sourceLineNo">032</span><a id="line.32">public interface FinalizableReference {</a>
+<span class="sourceLineNo">033</span><a id="line.33">  /**</a>
+<span class="sourceLineNo">034</span><a id="line.34">   * Invoked on a background thread after the referent has been garbage collected unless security</a>
+<span class="sourceLineNo">035</span><a id="line.35">   * restrictions prevented starting a background thread, in which case this method is invoked when</a>
+<span class="sourceLineNo">036</span><a id="line.36">   * new references are created.</a>
+<span class="sourceLineNo">037</span><a id="line.37">   */</a>
+<span class="sourceLineNo">038</span><a id="line.38">  void finalizeReferent();</a>
+<span class="sourceLineNo">039</span><a id="line.39">}</a>
 
 
 
