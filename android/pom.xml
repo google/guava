@@ -508,7 +508,7 @@
                      be passed as part of the same <arg> as -Xplugin:ErrorProne,
                      and I gave up trying to figure out how to do that for test
                      compilation only. -->
-                <arg>-Xplugin:ErrorProne -Xep:NullArgumentForNonNullParameter:OFF</arg>
+                <arg>-Xplugin:ErrorProne -Xep:NullArgumentForNonNullParameter:OFF -Xep:Java8ApiChecker:ERROR</arg>
                 <!-- https://github.com/google/error-prone/blob/f8e33bc460be82ab22256a7ef8b979d7a2cacaba/docs/installation.md#jdk-16 -->
                 <!-- TODO(cpovirk): Use .mvn/jvm.config instead (per
                      https://errorprone.info/docs/installation#maven) if it can
