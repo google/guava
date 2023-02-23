@@ -63,7 +63,7 @@ public class ChecksumBenchmark {
     byte result = 0x01;
     for (int i = 0; i < reps; i++) {
       CRC32 checksum = new CRC32();
-      checksum.update(testBytes);
+      checksum.update(testBytes, 0, testBytes.length);
       result = (byte) (result ^ checksum.getValue());
     }
     return result;
@@ -81,7 +81,7 @@ public class ChecksumBenchmark {
     byte result = 0x01;
     for (int i = 0; i < reps; i++) {
       Adler32 checksum = new Adler32();
-      checksum.update(testBytes);
+      checksum.update(testBytes, 0, testBytes.length);
       result = (byte) (result ^ checksum.getValue());
     }
     return result;
