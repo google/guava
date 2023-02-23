@@ -1,7 +1,7 @@
 How to contribute
 =================
 
-Thank you so much for wanting to contribute to Guava! Here are a few important
+Thank you so much for wanting to contribute to Google Guava! Here are a few important
 things you should know about contributing:
 
   1. API changes require discussion, use cases, etc. Code comes later.
@@ -44,7 +44,7 @@ Guidelines for any code contributions:
   1. Any significant changes should be accompanied by tests. The project already
      has good test coverage, so look at some existing tests if you're unsure
      how to go about it.
-  2. All contributions must be licensed Apache 2.0 and all files must have a
+  2. All contributions must be licensed with the **Apache 2.0 license** and all files must have a
      copy of the boilerplate license comment (can be copied from an existing
      file).
   3. Files should be formatted according to Google's [Java style guide][].
@@ -55,7 +55,7 @@ Guidelines for any code contributions:
 [Java style guide]: https://google.github.io/styleguide/javaguide.html
 [well-formed commit message]: http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html
 
-#### Merging pull requests ####
+#### Merging pull requests 
 
 Due to Guava's nature as a subset of Google's internal codebase which is
 automatically synced to the public GitHub repository, we are unable to merge
@@ -67,20 +67,20 @@ commit.
 Contributor License Agreement
 -----------------------------
 
-Contributions to any Google project must be accompanied by a Contributor
-License Agreement. This is not a copyright _assignment_; it simply gives
+Contributions to any Google project must be accompanied by a **Contributor
+License Agreement (CLA)**. This is not a copyright _assignment_; it simply gives
 Google permission to use and redistribute your contributions as part of the
 project.
 
   - If you are an individual writing original source code and you're sure you
-    own the intellectual property, then you'll need to sign an [individual
+    own the intellectual property, then you'll need to sign an [Individual
     CLA][]. Please include your GitHub username.
   - If you work for a company that wants to allow you to contribute your work,
-    then you'll need to sign a [corporate CLA][].
+    then you'll need to sign a [Corporate CLA][].
 
 You generally only need to submit a CLA once, so if you've already submitted
-one (even if it was for a different project), you probably don't need to do it
+one (even if it was for a different project), you probably won't need to do it
 again.
 
-[individual CLA]: https://cla.developers.google.com/about/google-individual
-[corporate CLA]: https://developers.google.com/open-source/cla/corporate
+[Individual CLA]: https://cla.developers.google.com/about/google-individual
+[Corporate CLA]: https://developers.google.com/open-source/cla/corporate
