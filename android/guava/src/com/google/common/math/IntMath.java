@@ -28,6 +28,7 @@ import static java.math.RoundingMode.HALF_UP;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.primitives.Ints;
 import java.math.BigInteger;
@@ -155,6 +156,7 @@ public final class IntMath {
    * @throws ArithmeticException if {@code mode} is {@link RoundingMode#UNNECESSARY} and {@code x}
    *     is not a power of ten
    */
+  @J2ktIncompatible
   @GwtIncompatible // need BigIntegerMath to adequately test
   @SuppressWarnings("fallthrough")
   public static int log10(int x, RoundingMode mode) {
@@ -224,6 +226,7 @@ public final class IntMath {
    *
    * @throws IllegalArgumentException if {@code k < 0}
    */
+  @J2ktIncompatible
   @GwtIncompatible // failing tests
   public static int pow(int b, int k) {
     checkNonNegative("exponent", k);
@@ -719,6 +722,7 @@ public final class IntMath {
    * @throws IllegalArgumentException if {@code n} is negative
    * @since 20.0
    */
+  @J2ktIncompatible
   @GwtIncompatible // TODO
   @Beta
   public static boolean isPrime(int n) {

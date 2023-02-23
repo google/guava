@@ -23,6 +23,7 @@ import static java.lang.Double.isNaN;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import java.io.Serializable;
@@ -38,6 +39,7 @@ import javax.annotation.CheckForNull;
  * @since 20.0
  */
 @Beta
+@J2ktIncompatible
 @GwtIncompatible
 @ElementTypesAreNonnullByDefault
 public final class PairedStats implements Serializable {
