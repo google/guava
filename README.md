@@ -71,7 +71,7 @@ flavor.
 -   Snapshot API Docs: [guava][guava-snapshot-api-docs]
 -   Snapshot API Diffs: [guava][guava-snapshot-api-diffs]
 
-## Learn about Guava
+## Learn about Guava on:
 
 -   Our users' guide, [Guava Explained]
 -   [A nice collection](http://www.tfnico.com/presentations/google-guava) of
@@ -85,38 +85,38 @@ flavor.
 -   [guava-announce: Announcements of releases and upcoming significant changes](http://groups.google.com/group/guava-announce)
 -   [guava-discuss: For open-ended questions and discussion](http://groups.google.com/group/guava-discuss)
 
-## IMPORTANT WARNINGS
+# **IMPORTANT WARNINGS**
 
-1.  APIs marked with the `@Beta` annotation at the class or method level are
+1.  **APIs marked with the `@Beta` annotation at the class or method level are
     subject to change. They can be modified in any way, or even removed, at any
     time. If your code is a library itself (i.e., it is used on the CLASSPATH of
     users outside your own control), you should not use beta APIs unless you
-    [repackage] them. **If your code is a library, we strongly recommend using
+    [repackage] them. If your code is a library, we strongly recommend using
     the [Guava Beta Checker] to ensure that you do not use any `@Beta` APIs!**
 
-2.  APIs without `@Beta` will remain binary-compatible for the indefinite
+2.  **APIs without `@Beta` will remain binary-compatible for the indefinite
     future. (Previously, we sometimes removed such APIs after a deprecation
     period. The last release to remove non-`@Beta` APIs was Guava 21.0.) Even
     `@Deprecated` APIs will remain (again, unless they are `@Beta`). We have no
     plans to start removing things again, but officially, we're leaving our
-    options open in case of surprises (like, say, a serious security problem).
+    options open in case of surprises (like, say, a serious security problem).**
 
-3.  Guava has one dependency that is needed for linkage at runtime:
+3.  **Guava has one dependency that is needed for linkage at runtime:
     `com.google.guava:failureaccess:1.0.1`. It also has
     [some annotation-only dependencies][guava-deps], which we discuss in more
-    detail at that link.
+    detail at that link.**
 
-4.  Serialized forms of ALL objects are subject to change unless noted
+4.  **Serialized forms of ALL objects are subject to change unless noted
     otherwise. Do not persist these and assume they can be read by a future
-    version of the library.
+    version of the library.**
 
-5.  Our classes are not designed to protect against a malicious caller. You
-    should not use them for communication between trusted and untrusted code.
+5.  **Our classes are not designed to protect against a malicious caller. You
+    should not use them for communication between trusted and untrusted code.**
 
-6.  For the mainline flavor, we test the libraries using only OpenJDK 8 and
+6.  **For the mainline flavor, we test the libraries using only OpenJDK 8 and
     OpenJDK 11 on Linux. Some features, especially in `com.google.common.io`,
     may not work correctly in other environments. For the Android flavor, our
-    unit tests also run on API level 15 (Ice Cream Sandwich).
+    unit tests also run on API level 15 (Ice Cream Sandwich).**
 
 [guava-snapshot-api-docs]: https://guava.dev/releases/snapshot-jre/api/docs/
 [guava-snapshot-api-diffs]: https://guava.dev/releases/snapshot-jre/api/diffs/
