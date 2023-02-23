@@ -21,6 +21,7 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.nio.ByteOrder;
@@ -43,6 +44,7 @@ import sun.misc.Unsafe;
  * @author Louis Wasserman
  * @since 1.0
  */
+@J2ktIncompatible
 @GwtIncompatible
 @ElementTypesAreNonnullByDefault
 public final class UnsignedBytes {
