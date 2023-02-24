@@ -18,7 +18,6 @@ import static com.google.common.base.NullnessCasts.uncheckedCastNullableTToT;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.CheckReturnValue;
 import com.google.errorprone.annotations.ForOverride;
 import com.google.errorprone.annotations.InlineMe;
@@ -115,7 +114,6 @@ import javax.annotation.CheckForNull;
  * @author Gregory Kick
  * @since 16.0
  */
-@J2ktIncompatible
 @GwtCompatible
 @ElementTypesAreNonnullByDefault
 /*
