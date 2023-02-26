@@ -19,12 +19,22 @@ import static com.google.common.io.CharStreams.createBuffer;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.collect.AbstractIterator;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.MustBeClosed;
+
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.io.UncheckedIOException;
 import java.nio.CharBuffer;
 import java.util.ArrayDeque;
 import java.util.Queue;
+import java.util.Spliterator;
+import java.util.Spliterators;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
+
 import javax.annotation.CheckForNull;
 
 /**
@@ -83,5 +93,51 @@ public final class LineReader {
       lineBuf.add(buf, 0, read);
     }
     return lines.poll();
+  }
+
+  /**
+   * Returns a {@code Stream}, the elements of which are lines read from this {@code LineReader}.
+   *
+   * <p>The returned stream is lazy and only reads from the source in the terminal operation. If an
+   * I/O error occurs while the stream is reading from the source or when the stream is closed, an
+   * {@link UncheckedIOException} is thrown.
+   *
+   * <p>Like {@link LineReader#readLine()}, this method reads a line of text. A line is
+   * considered to be terminated by any one of a line feed ({@code '\n'}), a carriage return
+   * ({@code '\r'}), or a carriage return followed immediately by a linefeed ({@code "\r\n"}).
+   *
+   * <p>The caller is responsible for ensuring that the returned stream is closed. For example:
+   *
+   * <pre>{@code
+   * try (Stream<String> lines = source.lines()) {
+   *   lines.map(...)
+   *      .filter(...)
+   *      .forEach(...);
+   * }
+   * }</pre>
+   *
+   * @return a {@code Stream<String>} providing the lines of text
+   *     described by this {@code LineReader}
+   * @throws UncheckedIOException if an I/O error occurs.
+   */
+  @MustBeClosed
+  public Stream<String> lines() {
+    AbstractIterator<String> iterator = new AbstractIterator<String>() {
+      @CheckForNull
+      @Override
+      protected String computeNext() {
+        try {
+          String next = readLine();
+          if (next != null) {
+            return next;
+          }
+          return endOfData();
+        } catch (IOException exception) {
+          throw new UncheckedIOException(exception);
+        }
+      }
+    };
+    return StreamSupport.stream(Spliterators.spliteratorUnknownSize(
+      iterator, Spliterator.ORDERED | Spliterator.NONNULL), false);
   }
 }

@@ -16,6 +16,8 @@
 
 package com.google.common.io;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
+
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import java.io.BufferedReader;
@@ -26,6 +28,7 @@ import java.io.StringReader;
 import java.nio.CharBuffer;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * Unit tests for {@link LineBuffer} and {@link LineReader}.
@@ -74,6 +77,13 @@ public class LineBufferTest extends IoTestCase {
       assertEquals(expectRead, readUsingJava(input, chunk));
       assertEquals(expectRead, readUsingReader(input, chunk, true));
       assertEquals(expectRead, readUsingReader(input, chunk, false));
+      try (Stream<String> linesStream = readUsingReaderGetLineReader(input, chunk, true).lines()) {
+        assertTrue(expectRead.containsAll(linesStream.collect(toImmutableList())));
+      }
+
+      try (Stream<String> linesStream = readUsingReaderGetLineReader(input, chunk, false).lines()) {
+        assertTrue(expectRead.containsAll(linesStream.collect(toImmutableList())));
+      }
     }
   }
 
@@ -120,6 +130,12 @@ public class LineBufferTest extends IoTestCase {
     }
     return lines;
   }
+
+  private static LineReader readUsingReaderGetLineReader(String input, int chunk, boolean asReader) {
+      Readable readable =
+          asReader ? getChunkedReader(input, chunk) : getChunkedReadable(input, chunk);
+      return new LineReader(readable);
+    }
 
   // Returns a Readable that is *not* a Reader.
   private static Readable getChunkedReadable(String input, int chunk) {
