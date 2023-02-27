@@ -285,8 +285,6 @@ public abstract class Converter<A, B> implements Function<A, B> {
           }
 
           @Override
-          @SuppressWarnings("nullness") // See code comments on convertAll and Converter.apply.
-          @CheckForNull
           public B next() {
             return convert(fromIterator.next());
           }
@@ -460,40 +458,26 @@ public abstract class Converter<A, B> implements Function<A, B> {
    */
   @Deprecated
   @Override
-  /*
-   * Even though we implement `Function<A, B>` instead of `Function<@Nullable A, @Nullable B>` (as
-   * discussed in a code comment at the top of the class), we declare our override of Function.apply
-   * to accept and return null. This requires a suppression, but it's safe:
-   *
-   * - Callers who use Converter as a Function<A, B> will neither pass null nor have it returned to
-   *   them. (Or, if they're not using nullness checking, they might be able to pass null and thus
-   *   have null returned to them. But our signature isn't making their existing nullness type error
-   *   any worse.)
-   * - In the relatively unlikely event that anyone calls Converter.apply directly, that caller is
-   *   allowed to pass null but is also forced to deal with a potentially null return.
-   * - Perhaps more important than actual *callers* of this method are various tools that look at
-   *   bytecode. Notably, NullPointerTester expects a method to throw NPE when passed null unless it
-   *   is annotated in a way that identifies its parameter type as potentially including null. (And
-   *   this method does not throw NPE -- nor do we want to enact a dangerous change to make it begin
-   *   doing so.) We can even imagine tools that rewrite bytecode to insert null checks before and
-   *   after calling methods with allegedly non-nullable parameters[*]. If we didn't annotate the
-   *   parameter and return type here, then anyone who used such a tool (and managed to pass null to
-   *   this method, presumably because that user doesn't run a normal nullness checker) could see
-   *   NullPointerException.
-   *
-   * [*] Granted, such tools could conceivably be smart enough to recognize that the apply() method
-   * on a Function<Foo, Bar> should never allow null inputs and never produce null outputs even if
-   * this specific subclass claims otherwise. Such tools might still produce NPE for calls to this
-   * method. And that is one reason that we should be nervous about "lying" by extending Function<A,
-   * B> in the first place. But for now, we're giving it a try, since extending Function<@Nullable
-   * A, @Nullable B> will cause issues *today*, whereas extending Function<A, B> causes problems in
-   * various hypothetical futures. (Plus, a tool that were that smart would likely already introduce
-   * problems with LegacyConverter.)
-   */
-  @SuppressWarnings("nullness")
-  @CheckForNull
   @InlineMe(replacement = "this.convert(a)")
-  public final B apply(@CheckForNull A a) {
+  public final B apply(A a) {
+    /*
+     * Given that we declare this method as accepting and returning non-nullable values (because we
+     * implement Function<A, B>, as discussed in a class-level comment), it would make some sense to
+     * perform runtime null checks on the input and output. (That would also make NullPointerTester
+     * happy!) However, since we didn't do that for many years, we're not about to start now.
+     * (Runtime checks could be particularly bad for users of LegacyConverter.)
+     *
+     * Luckily, our nullness checker is smart enough to realize that `convert` has @PolyNull-like
+     * behavior, so it knows that `convert(a)` returns a non-nullable value, and we don't need to
+     * perform even a cast, much less a runtime check.
+     *
+     * All that said, don't forget that everyone should call converter.convert() instead of
+     * converter.apply(), anyway. If clients use only converter.convert(), then their nullness
+     * checkers are unlikely to ever look at the annotations on this declaration.
+     *
+     * Historical note: At one point, we'd declared this method as accepting and returning nullable
+     * values. For details on that, see earlier revisions of this file.
+     */
     return convert(a);
   }
 
