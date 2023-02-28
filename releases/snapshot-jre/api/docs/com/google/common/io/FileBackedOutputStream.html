@@ -143,7 +143,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <hr>
 <pre><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
 <a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public final class <a href="../../../../src-html/com/google/common/io/FileBackedOutputStream.html#line.53">FileBackedOutputStream</a>
+public final class <a href="../../../../src-html/com/google/common/io/FileBackedOutputStream.html#line.54">FileBackedOutputStream</a>
 extends java.io.OutputStream</pre>
 <div class="block">An <code>OutputStream</code> that starts buffering to a byte array, but switches to file buffering
  once the data reaches a configurable size.
@@ -295,7 +295,7 @@ extends java.io.OutputStream</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>FileBackedOutputStream</h4>
-<pre>public&nbsp;<a href="../../../../src-html/com/google/common/io/FileBackedOutputStream.html#line.97">FileBackedOutputStream</a>&#8203;(int&nbsp;fileThreshold)</pre>
+<pre>public&nbsp;<a href="../../../../src-html/com/google/common/io/FileBackedOutputStream.html#line.99">FileBackedOutputStream</a>&#8203;(int&nbsp;fileThreshold)</pre>
 <div class="block">Creates a new instance that uses the given file threshold, and does not reset the data when the
  <a href="ByteSource.html" title="class in com.google.common.io"><code>ByteSource</code></a> returned by <a href="#asByteSource()"><code>asByteSource()</code></a> is finalized.</div>
 <dl>
@@ -310,7 +310,7 @@ extends java.io.OutputStream</pre>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>FileBackedOutputStream</h4>
-<pre>public&nbsp;<a href="../../../../src-html/com/google/common/io/FileBackedOutputStream.html#line.109">FileBackedOutputStream</a>&#8203;(int&nbsp;fileThreshold,
+<pre>public&nbsp;<a href="../../../../src-html/com/google/common/io/FileBackedOutputStream.html#line.111">FileBackedOutputStream</a>&#8203;(int&nbsp;fileThreshold,
                               boolean&nbsp;resetOnFinalize)</pre>
 <div class="block">Creates a new instance that uses the given file threshold, and optionally resets the data when
  the <a href="ByteSource.html" title="class in com.google.common.io"><code>ByteSource</code></a> returned by <a href="#asByteSource()"><code>asByteSource()</code></a> is finalized.</div>
@@ -337,7 +337,7 @@ extends java.io.OutputStream</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>asByteSource</h4>
-<pre class="methodSignature">public&nbsp;<a href="ByteSource.html" title="class in com.google.common.io">ByteSource</a>&nbsp;<a href="../../../../src-html/com/google/common/io/FileBackedOutputStream.html#line.154">asByteSource</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="ByteSource.html" title="class in com.google.common.io">ByteSource</a>&nbsp;<a href="../../../../src-html/com/google/common/io/FileBackedOutputStream.html#line.156">asByteSource</a>()</pre>
 <div class="block">Returns a readable <a href="ByteSource.html" title="class in com.google.common.io"><code>ByteSource</code></a> view of the data that has been written to this stream.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -351,7 +351,7 @@ extends java.io.OutputStream</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>reset</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/FileBackedOutputStream.html#line.174">reset</a>()
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/FileBackedOutputStream.html#line.176">reset</a>()
            throws java.io.IOException</pre>
 <div class="block">Calls <a href="#close()"><code>close()</code></a> if not already closed, and then resets this object back to its initial
  state, for reuse. If data was buffered to a file, it will be deleted.</div>
@@ -367,7 +367,7 @@ extends java.io.OutputStream</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>write</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/FileBackedOutputStream.html#line.194">write</a>&#8203;(int&nbsp;b)
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/FileBackedOutputStream.html#line.196">write</a>&#8203;(int&nbsp;b)
            throws java.io.IOException</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
@@ -383,7 +383,7 @@ extends java.io.OutputStream</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>write</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/FileBackedOutputStream.html#line.200">write</a>&#8203;(byte[]&nbsp;b)
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/FileBackedOutputStream.html#line.202">write</a>&#8203;(byte[]&nbsp;b)
            throws java.io.IOException</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
@@ -399,7 +399,7 @@ extends java.io.OutputStream</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>write</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/FileBackedOutputStream.html#line.205">write</a>&#8203;(byte[]&nbsp;b,
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/FileBackedOutputStream.html#line.207">write</a>&#8203;(byte[]&nbsp;b,
                   int&nbsp;off,
                   int&nbsp;len)
            throws java.io.IOException</pre>
@@ -417,7 +417,7 @@ extends java.io.OutputStream</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>close</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/FileBackedOutputStream.html#line.211">close</a>()
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/FileBackedOutputStream.html#line.213">close</a>()
            throws java.io.IOException</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
@@ -437,7 +437,7 @@ extends java.io.OutputStream</pre>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>flush</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/FileBackedOutputStream.html#line.216">flush</a>()
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/FileBackedOutputStream.html#line.218">flush</a>()
            throws java.io.IOException</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>

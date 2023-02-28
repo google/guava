@@ -133,7 +133,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <hr>
 <pre><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public abstract class <a href="../../../../src-html/com/google/common/io/CharSource.html#line.79">CharSource</a>
+public abstract class <a href="../../../../src-html/com/google/common/io/CharSource.html#line.80">CharSource</a>
 extends java.lang.Object</pre>
 <div class="block">A readable source of characters, such as a text file. Unlike a <code>Reader</code>, a <code>
  CharSource</code> is not an open, stateful stream of characters that can be read and closed. Instead,
@@ -372,7 +372,7 @@ extends java.lang.Object</pre>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>CharSource</h4>
-<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/io/CharSource.html#line.84">CharSource</a>()</pre>
+<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/io/CharSource.html#line.86">CharSource</a>()</pre>
 <div class="block">Constructor for use by subclasses.</div>
 </li>
 </ul>
@@ -393,7 +393,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>asByteSource</h4>
 <pre class="methodSignature"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public&nbsp;<a href="ByteSource.html" title="class in com.google.common.io">ByteSource</a>&nbsp;<a href="../../../../src-html/com/google/common/io/CharSource.html#line.97">asByteSource</a>&#8203;(java.nio.charset.Charset&nbsp;charset)</pre>
+public&nbsp;<a href="ByteSource.html" title="class in com.google.common.io">ByteSource</a>&nbsp;<a href="../../../../src-html/com/google/common/io/CharSource.html#line.99">asByteSource</a>&#8203;(java.nio.charset.Charset&nbsp;charset)</pre>
 <div class="block">Returns a <a href="ByteSource.html" title="class in com.google.common.io"><code>ByteSource</code></a> view of this char source that encodes chars read from this source
  as bytes using the given <code>Charset</code>.
 
@@ -413,7 +413,7 @@ public&nbsp;<a href="ByteSource.html" title="class in com.google.common.io">Byte
 <ul class="blockList">
 <li class="blockList">
 <h4>openStream</h4>
-<pre class="methodSignature">public abstract&nbsp;java.io.Reader&nbsp;<a href="../../../../src-html/com/google/common/io/CharSource.html#line.110">openStream</a>()
+<pre class="methodSignature">public abstract&nbsp;java.io.Reader&nbsp;<a href="../../../../src-html/com/google/common/io/CharSource.html#line.112">openStream</a>()
                                    throws java.io.IOException</pre>
 <div class="block">Opens a new <code>Reader</code> for reading from this source. This method returns a new, independent
  reader each time it is called.
@@ -431,7 +431,7 @@ public&nbsp;<a href="ByteSource.html" title="class in com.google.common.io">Byte
 <ul class="blockList">
 <li class="blockList">
 <h4>openBufferedStream</h4>
-<pre class="methodSignature">public&nbsp;java.io.BufferedReader&nbsp;<a href="../../../../src-html/com/google/common/io/CharSource.html#line.120">openBufferedStream</a>()
+<pre class="methodSignature">public&nbsp;java.io.BufferedReader&nbsp;<a href="../../../../src-html/com/google/common/io/CharSource.html#line.122">openBufferedStream</a>()
                                           throws java.io.IOException</pre>
 <div class="block">Opens a new <code>BufferedReader</code> for reading from this source. This method returns a new,
  independent reader each time it is called.
@@ -450,7 +450,7 @@ public&nbsp;<a href="ByteSource.html" title="class in com.google.common.io">Byte
 <li class="blockList">
 <h4>lengthIfKnown</h4>
 <pre class="methodSignature"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public&nbsp;<a href="../base/Optional.html" title="class in com.google.common.base">Optional</a>&lt;java.lang.Long&gt;&nbsp;<a href="../../../../src-html/com/google/common/io/CharSource.html#line.141">lengthIfKnown</a>()</pre>
+public&nbsp;<a href="../base/Optional.html" title="class in com.google.common.base">Optional</a>&lt;java.lang.Long&gt;&nbsp;<a href="../../../../src-html/com/google/common/io/CharSource.html#line.143">lengthIfKnown</a>()</pre>
 <div class="block">Returns the size of this source in chars, if the size can be easily determined without actually
  opening the data stream.
 
@@ -474,7 +474,7 @@ public&nbsp;<a href="../base/Optional.html" title="class in com.google.common.ba
 <li class="blockList">
 <h4>length</h4>
 <pre class="methodSignature"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/io/CharSource.html#line.165">length</a>()
+public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/io/CharSource.html#line.167">length</a>()
             throws java.io.IOException</pre>
 <div class="block">Returns the length of this source in chars, even if doing so requires opening and traversing an
  entire stream. To avoid a potentially expensive operation, see <a href="#lengthIfKnown()"><code>lengthIfKnown()</code></a>.
@@ -504,7 +504,7 @@ public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/io/CharSou
 <li class="blockList">
 <h4>copyTo</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/io/CharSource.html#line.200">copyTo</a>&#8203;(java.lang.Appendable&nbsp;appendable)
+public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/io/CharSource.html#line.202">copyTo</a>&#8203;(java.lang.Appendable&nbsp;appendable)
             throws java.io.IOException</pre>
 <div class="block">Appends the contents of this source to the given <code>Appendable</code> (such as a <code>Writer</code>).
  Does not close <code>appendable</code> if it is <code>Closeable</code>.</div>
@@ -524,7 +524,7 @@ public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/io/CharSou
 <li class="blockList">
 <h4>copyTo</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/io/CharSource.html#line.222">copyTo</a>&#8203;(<a href="CharSink.html" title="class in com.google.common.io">CharSink</a>&nbsp;sink)
+public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/io/CharSource.html#line.224">copyTo</a>&#8203;(<a href="CharSink.html" title="class in com.google.common.io">CharSink</a>&nbsp;sink)
             throws java.io.IOException</pre>
 <div class="block">Copies the contents of this source to the given sink.</div>
 <dl>
@@ -542,7 +542,7 @@ public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/io/CharSou
 <ul class="blockList">
 <li class="blockList">
 <h4>read</h4>
-<pre class="methodSignature">public&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/io/CharSource.html#line.243">read</a>()
+<pre class="methodSignature">public&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/io/CharSource.html#line.245">read</a>()
                       throws java.io.IOException</pre>
 <div class="block">Reads the contents of this source as a string.</div>
 <dl>
@@ -558,7 +558,7 @@ public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/io/CharSou
 <li class="blockList">
 <h4>readFirstLine</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/io/CharSource.html#line.265">readFirstLine</a>()
+public&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/io/CharSource.html#line.267">readFirstLine</a>()
                                throws java.io.IOException</pre>
 <div class="block">Reads the first line of this source as a string. Returns <code>null</code> if this source is empty.
 
@@ -578,7 +578,7 @@ public&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/commo
 <ul class="blockList">
 <li class="blockList">
 <h4>readLines</h4>
-<pre class="methodSignature">public&nbsp;<a href="../collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;java.lang.String&gt;&nbsp;<a href="../../../../src-html/com/google/common/io/CharSource.html#line.289">readLines</a>()
+<pre class="methodSignature">public&nbsp;<a href="../collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;java.lang.String&gt;&nbsp;<a href="../../../../src-html/com/google/common/io/CharSource.html#line.291">readLines</a>()
                                           throws java.io.IOException</pre>
 <div class="block">Reads all the lines of this source as a list of strings. The returned list will be empty if
  this source is empty.
@@ -601,7 +601,7 @@ public&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/commo
 <h4>readLines</h4>
 <pre class="methodSignature"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
 <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/io/CharSource.html#line.320">readLines</a>&#8203;(<a href="LineProcessor.html" title="interface in com.google.common.io">LineProcessor</a>&lt;T&gt;&nbsp;processor)
+public&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/io/CharSource.html#line.322">readLines</a>&#8203;(<a href="LineProcessor.html" title="interface in com.google.common.io">LineProcessor</a>&lt;T&gt;&nbsp;processor)
                                                    throws java.io.IOException</pre>
 <div class="block">Reads lines of text from this source, processing each line as it is read using the given <a href="LineProcessor.html" title="interface in com.google.common.io"><code>processor</code></a>. Stops when all lines have been processed or the processor returns
  <code>false</code> and returns the result produced by the processor.
@@ -625,7 +625,7 @@ public&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerf
 <ul class="blockList">
 <li class="blockList">
 <h4>isEmpty</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/io/CharSource.html#line.349">isEmpty</a>()
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/io/CharSource.html#line.351">isEmpty</a>()
                 throws java.io.IOException</pre>
 <div class="block">Returns whether the source has zero chars. The default implementation first checks <a href="#lengthIfKnown()"><code>lengthIfKnown()</code></a>, returning true if it's known to be zero and false if it's known to be
  non-zero. If the length is not known, it falls back to opening a stream and checking for EOF.
@@ -647,7 +647,7 @@ public&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerf
 <ul class="blockList">
 <li class="blockList">
 <h4>concat</h4>
-<pre class="methodSignature">public static&nbsp;<a href="CharSource.html" title="class in com.google.common.io">CharSource</a>&nbsp;<a href="../../../../src-html/com/google/common/io/CharSource.html#line.376">concat</a>&#8203;(java.lang.Iterable&lt;? extends <a href="CharSource.html" title="class in com.google.common.io">CharSource</a>&gt;&nbsp;sources)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="CharSource.html" title="class in com.google.common.io">CharSource</a>&nbsp;<a href="../../../../src-html/com/google/common/io/CharSource.html#line.378">concat</a>&#8203;(java.lang.Iterable&lt;? extends <a href="CharSource.html" title="class in com.google.common.io">CharSource</a>&gt;&nbsp;sources)</pre>
 <div class="block">Concatenates multiple <a href="CharSource.html" title="class in com.google.common.io"><code>CharSource</code></a> instances into a single source. Streams returned from
  the source will contain the concatenated data from the streams of the underlying sources.
 
@@ -669,7 +669,7 @@ public&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerf
 <ul class="blockList">
 <li class="blockList">
 <h4>concat</h4>
-<pre class="methodSignature">public static&nbsp;<a href="CharSource.html" title="class in com.google.common.io">CharSource</a>&nbsp;<a href="../../../../src-html/com/google/common/io/CharSource.html#line.398">concat</a>&#8203;(java.util.Iterator&lt;? extends <a href="CharSource.html" title="class in com.google.common.io">CharSource</a>&gt;&nbsp;sources)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="CharSource.html" title="class in com.google.common.io">CharSource</a>&nbsp;<a href="../../../../src-html/com/google/common/io/CharSource.html#line.400">concat</a>&#8203;(java.util.Iterator&lt;? extends <a href="CharSource.html" title="class in com.google.common.io">CharSource</a>&gt;&nbsp;sources)</pre>
 <div class="block">Concatenates multiple <a href="CharSource.html" title="class in com.google.common.io"><code>CharSource</code></a> instances into a single source. Streams returned from
  the source will contain the concatenated data from the streams of the underlying sources.
 
@@ -699,7 +699,7 @@ public&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerf
 <ul class="blockList">
 <li class="blockList">
 <h4>concat</h4>
-<pre class="methodSignature">public static&nbsp;<a href="CharSource.html" title="class in com.google.common.io">CharSource</a>&nbsp;<a href="../../../../src-html/com/google/common/io/CharSource.html#line.414">concat</a>&#8203;(<a href="CharSource.html" title="class in com.google.common.io">CharSource</a>...&nbsp;sources)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="CharSource.html" title="class in com.google.common.io">CharSource</a>&nbsp;<a href="../../../../src-html/com/google/common/io/CharSource.html#line.416">concat</a>&#8203;(<a href="CharSource.html" title="class in com.google.common.io">CharSource</a>...&nbsp;sources)</pre>
 <div class="block">Concatenates multiple <a href="CharSource.html" title="class in com.google.common.io"><code>CharSource</code></a> instances into a single source. Streams returned from
  the source will contain the concatenated data from the streams of the underlying sources.
 
@@ -723,7 +723,7 @@ public&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerf
 <ul class="blockList">
 <li class="blockList">
 <h4>wrap</h4>
-<pre class="methodSignature">public static&nbsp;<a href="CharSource.html" title="class in com.google.common.io">CharSource</a>&nbsp;<a href="../../../../src-html/com/google/common/io/CharSource.html#line.425">wrap</a>&#8203;(java.lang.CharSequence&nbsp;charSequence)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="CharSource.html" title="class in com.google.common.io">CharSource</a>&nbsp;<a href="../../../../src-html/com/google/common/io/CharSource.html#line.427">wrap</a>&#8203;(java.lang.CharSequence&nbsp;charSequence)</pre>
 <div class="block">Returns a view of the given character sequence as a <a href="CharSource.html" title="class in com.google.common.io"><code>CharSource</code></a>. The behavior of the
  returned <code>CharSource</code> and any <code>Reader</code> instances created by it is unspecified if
  the <code>charSequence</code> is mutated while it is being read, so don't do that.</div>
@@ -739,7 +739,7 @@ public&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerf
 <ul class="blockListLast">
 <li class="blockList">
 <h4>empty</h4>
-<pre class="methodSignature">public static&nbsp;<a href="CharSource.html" title="class in com.google.common.io">CharSource</a>&nbsp;<a href="../../../../src-html/com/google/common/io/CharSource.html#line.436">empty</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="CharSource.html" title="class in com.google.common.io">CharSource</a>&nbsp;<a href="../../../../src-html/com/google/common/io/CharSource.html#line.438">empty</a>()</pre>
 <div class="block">Returns an immutable <a href="CharSource.html" title="class in com.google.common.io"><code>CharSource</code></a> that contains no characters.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>

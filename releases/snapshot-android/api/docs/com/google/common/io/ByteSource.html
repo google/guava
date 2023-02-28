@@ -133,7 +133,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <hr>
 <pre><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public abstract class <a href="../../../../src-html/com/google/common/io/ByteSource.html#line.76">ByteSource</a>
+public abstract class <a href="../../../../src-html/com/google/common/io/ByteSource.html#line.77">ByteSource</a>
 extends java.lang.Object</pre>
 <div class="block">A readable source of bytes, such as a file. Unlike an <code>InputStream</code>, a <code>ByteSource</code>
  is not an open, stateful stream for input that can be read and closed. Instead, it is an
@@ -375,7 +375,7 @@ extends java.lang.Object</pre>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>ByteSource</h4>
-<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSource.html#line.81">ByteSource</a>()</pre>
+<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSource.html#line.83">ByteSource</a>()</pre>
 <div class="block">Constructor for use by subclasses.</div>
 </li>
 </ul>
@@ -395,7 +395,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>asCharSource</h4>
-<pre class="methodSignature">public&nbsp;<a href="CharSource.html" title="class in com.google.common.io">CharSource</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSource.html#line.92">asCharSource</a>&#8203;(java.nio.charset.Charset&nbsp;charset)</pre>
+<pre class="methodSignature">public&nbsp;<a href="CharSource.html" title="class in com.google.common.io">CharSource</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSource.html#line.94">asCharSource</a>&#8203;(java.nio.charset.Charset&nbsp;charset)</pre>
 <div class="block">Returns a <a href="CharSource.html" title="class in com.google.common.io"><code>CharSource</code></a> view of this byte source that decodes bytes read from this source
  as characters using the given <code>Charset</code>.
 
@@ -411,7 +411,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>openStream</h4>
-<pre class="methodSignature">public abstract&nbsp;java.io.InputStream&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSource.html#line.104">openStream</a>()
+<pre class="methodSignature">public abstract&nbsp;java.io.InputStream&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSource.html#line.106">openStream</a>()
                                         throws java.io.IOException</pre>
 <div class="block">Opens a new <code>InputStream</code> for reading from this source. This method returns a new,
  independent stream each time it is called.
@@ -429,7 +429,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>openBufferedStream</h4>
-<pre class="methodSignature">public&nbsp;java.io.InputStream&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSource.html#line.118">openBufferedStream</a>()
+<pre class="methodSignature">public&nbsp;java.io.InputStream&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSource.html#line.120">openBufferedStream</a>()
                                        throws java.io.IOException</pre>
 <div class="block">Opens a new buffered <code>InputStream</code> for reading from this source. The returned stream is
  not required to be a <code>BufferedInputStream</code> in order to allow implementations to simply
@@ -452,7 +452,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>slice</h4>
-<pre class="methodSignature">public&nbsp;<a href="ByteSource.html" title="class in com.google.common.io">ByteSource</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSource.html#line.134">slice</a>&#8203;(long&nbsp;offset,
+<pre class="methodSignature">public&nbsp;<a href="ByteSource.html" title="class in com.google.common.io">ByteSource</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSource.html#line.136">slice</a>&#8203;(long&nbsp;offset,
                         long&nbsp;length)</pre>
 <div class="block">Returns a view of a slice of this byte source that is at most <code>length</code> bytes long
  starting at the given <code>offset</code>. If <code>offset</code> is greater than the size of this
@@ -471,7 +471,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>isEmpty</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSource.html#line.151">isEmpty</a>()
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSource.html#line.153">isEmpty</a>()
                 throws java.io.IOException</pre>
 <div class="block">Returns whether the source has zero bytes. The default implementation first checks <a href="#sizeIfKnown()"><code>sizeIfKnown()</code></a>, returning true if it's known to be zero and false if it's known to be non-zero.
  If the size is not known, it falls back to opening a stream and checking for EOF.
@@ -495,7 +495,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>sizeIfKnown</h4>
 <pre class="methodSignature"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public&nbsp;<a href="../base/Optional.html" title="class in com.google.common.base">Optional</a>&lt;java.lang.Long&gt;&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSource.html#line.181">sizeIfKnown</a>()</pre>
+public&nbsp;<a href="../base/Optional.html" title="class in com.google.common.base">Optional</a>&lt;java.lang.Long&gt;&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSource.html#line.183">sizeIfKnown</a>()</pre>
 <div class="block">Returns the size of this source in bytes, if the size can be easily determined without actually
  opening the data stream.
 
@@ -518,7 +518,7 @@ public&nbsp;<a href="../base/Optional.html" title="class in com.google.common.ba
 <ul class="blockList">
 <li class="blockList">
 <h4>size</h4>
-<pre class="methodSignature">public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSource.html#line.205">size</a>()
+<pre class="methodSignature">public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSource.html#line.207">size</a>()
           throws java.io.IOException</pre>
 <div class="block">Returns the size of this source in bytes, even if doing so requires opening and traversing an
  entire stream. To avoid a potentially expensive operation, see <a href="#sizeIfKnown()"><code>sizeIfKnown()</code></a>.
@@ -547,7 +547,7 @@ public&nbsp;<a href="../base/Optional.html" title="class in com.google.common.ba
 <li class="blockList">
 <h4>copyTo</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSource.html#line.250">copyTo</a>&#8203;(java.io.OutputStream&nbsp;output)
+public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSource.html#line.252">copyTo</a>&#8203;(java.io.OutputStream&nbsp;output)
             throws java.io.IOException</pre>
 <div class="block">Copies the contents of this byte source to the given <code>OutputStream</code>. Does not close
  <code>output</code>.</div>
@@ -567,7 +567,7 @@ public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSou
 <li class="blockList">
 <h4>copyTo</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSource.html#line.272">copyTo</a>&#8203;(<a href="ByteSink.html" title="class in com.google.common.io">ByteSink</a>&nbsp;sink)
+public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSource.html#line.274">copyTo</a>&#8203;(<a href="ByteSink.html" title="class in com.google.common.io">ByteSink</a>&nbsp;sink)
             throws java.io.IOException</pre>
 <div class="block">Copies the contents of this byte source to the given <code>ByteSink</code>.</div>
 <dl>
@@ -585,7 +585,7 @@ public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSou
 <ul class="blockList">
 <li class="blockList">
 <h4>read</h4>
-<pre class="methodSignature">public&nbsp;byte[]&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSource.html#line.293">read</a>()
+<pre class="methodSignature">public&nbsp;byte[]&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSource.html#line.295">read</a>()
             throws java.io.IOException</pre>
 <div class="block">Reads the full contents of this byte source as a byte array.</div>
 <dl>
@@ -602,7 +602,7 @@ public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSou
 <h4>read</h4>
 <pre class="methodSignature"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
 <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSource.html#line.317">read</a>&#8203;(<a href="ByteProcessor.html" title="interface in com.google.common.io">ByteProcessor</a>&lt;T&gt;&nbsp;processor)
+public&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSource.html#line.319">read</a>&#8203;(<a href="ByteProcessor.html" title="interface in com.google.common.io">ByteProcessor</a>&lt;T&gt;&nbsp;processor)
                                               throws java.io.IOException</pre>
 <div class="block">Reads the contents of this byte source using the given <code>processor</code> to process bytes as
  they are read. Stops when all bytes have been read or the consumer returns <code>false</code>.
@@ -622,7 +622,7 @@ public&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerf
 <ul class="blockList">
 <li class="blockList">
 <h4>hash</h4>
-<pre class="methodSignature">public&nbsp;<a href="../hash/HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSource.html#line.339">hash</a>&#8203;(<a href="../hash/HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;hashFunction)
+<pre class="methodSignature">public&nbsp;<a href="../hash/HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSource.html#line.341">hash</a>&#8203;(<a href="../hash/HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;hashFunction)
               throws java.io.IOException</pre>
 <div class="block">Hashes the contents of this byte source using the given hash function.</div>
 <dl>
@@ -637,7 +637,7 @@ public&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerf
 <ul class="blockList">
 <li class="blockList">
 <h4>contentEquals</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSource.html#line.351">contentEquals</a>&#8203;(<a href="ByteSource.html" title="class in com.google.common.io">ByteSource</a>&nbsp;other)
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSource.html#line.353">contentEquals</a>&#8203;(<a href="ByteSource.html" title="class in com.google.common.io">ByteSource</a>&nbsp;other)
                       throws java.io.IOException</pre>
 <div class="block">Checks that the contents of this byte source are equal to the contents of the given byte
  source.</div>
@@ -653,7 +653,7 @@ public&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerf
 <ul class="blockList">
 <li class="blockList">
 <h4>concat</h4>
-<pre class="methodSignature">public static&nbsp;<a href="ByteSource.html" title="class in com.google.common.io">ByteSource</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSource.html#line.388">concat</a>&#8203;(java.lang.Iterable&lt;? extends <a href="ByteSource.html" title="class in com.google.common.io">ByteSource</a>&gt;&nbsp;sources)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="ByteSource.html" title="class in com.google.common.io">ByteSource</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSource.html#line.390">concat</a>&#8203;(java.lang.Iterable&lt;? extends <a href="ByteSource.html" title="class in com.google.common.io">ByteSource</a>&gt;&nbsp;sources)</pre>
 <div class="block">Concatenates multiple <a href="ByteSource.html" title="class in com.google.common.io"><code>ByteSource</code></a> instances into a single source. Streams returned from
  the source will contain the concatenated data from the streams of the underlying sources.
 
@@ -675,7 +675,7 @@ public&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerf
 <ul class="blockList">
 <li class="blockList">
 <h4>concat</h4>
-<pre class="methodSignature">public static&nbsp;<a href="ByteSource.html" title="class in com.google.common.io">ByteSource</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSource.html#line.410">concat</a>&#8203;(java.util.Iterator&lt;? extends <a href="ByteSource.html" title="class in com.google.common.io">ByteSource</a>&gt;&nbsp;sources)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="ByteSource.html" title="class in com.google.common.io">ByteSource</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSource.html#line.412">concat</a>&#8203;(java.util.Iterator&lt;? extends <a href="ByteSource.html" title="class in com.google.common.io">ByteSource</a>&gt;&nbsp;sources)</pre>
 <div class="block">Concatenates multiple <a href="ByteSource.html" title="class in com.google.common.io"><code>ByteSource</code></a> instances into a single source. Streams returned from
  the source will contain the concatenated data from the streams of the underlying sources.
 
@@ -705,7 +705,7 @@ public&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerf
 <ul class="blockList">
 <li class="blockList">
 <h4>concat</h4>
-<pre class="methodSignature">public static&nbsp;<a href="ByteSource.html" title="class in com.google.common.io">ByteSource</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSource.html#line.426">concat</a>&#8203;(<a href="ByteSource.html" title="class in com.google.common.io">ByteSource</a>...&nbsp;sources)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="ByteSource.html" title="class in com.google.common.io">ByteSource</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSource.html#line.428">concat</a>&#8203;(<a href="ByteSource.html" title="class in com.google.common.io">ByteSource</a>...&nbsp;sources)</pre>
 <div class="block">Concatenates multiple <a href="ByteSource.html" title="class in com.google.common.io"><code>ByteSource</code></a> instances into a single source. Streams returned from
  the source will contain the concatenated data from the streams of the underlying sources.
 
@@ -729,7 +729,7 @@ public&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerf
 <ul class="blockList">
 <li class="blockList">
 <h4>wrap</h4>
-<pre class="methodSignature">public static&nbsp;<a href="ByteSource.html" title="class in com.google.common.io">ByteSource</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSource.html#line.441">wrap</a>&#8203;(byte[]&nbsp;b)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="ByteSource.html" title="class in com.google.common.io">ByteSource</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSource.html#line.443">wrap</a>&#8203;(byte[]&nbsp;b)</pre>
 <div class="block">Returns a view of the given byte array as a <a href="ByteSource.html" title="class in com.google.common.io"><code>ByteSource</code></a>. To view only a specific range
  in the array, use <code>ByteSource.wrap(b).slice(offset, length)</code>.
 
@@ -749,7 +749,7 @@ public&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerf
 <ul class="blockListLast">
 <li class="blockList">
 <h4>empty</h4>
-<pre class="methodSignature">public static&nbsp;<a href="ByteSource.html" title="class in com.google.common.io">ByteSource</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSource.html#line.450">empty</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="ByteSource.html" title="class in com.google.common.io">ByteSource</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSource.html#line.452">empty</a>()</pre>
 <div class="block">Returns an immutable <a href="ByteSource.html" title="class in com.google.common.io"><code>ByteSource</code></a> that contains no bytes.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>

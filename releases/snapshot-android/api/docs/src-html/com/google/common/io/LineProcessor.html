@@ -25,37 +25,39 @@
 <span class="sourceLineNo">016</span><a id="line.16"></a>
 <span class="sourceLineNo">017</span><a id="line.17">import com.google.common.annotations.Beta;</a>
 <span class="sourceLineNo">018</span><a id="line.18">import com.google.common.annotations.GwtIncompatible;</a>
-<span class="sourceLineNo">019</span><a id="line.19">import com.google.errorprone.annotations.CanIgnoreReturnValue;</a>
-<span class="sourceLineNo">020</span><a id="line.20">import java.io.IOException;</a>
-<span class="sourceLineNo">021</span><a id="line.21">import org.checkerframework.checker.nullness.qual.Nullable;</a>
-<span class="sourceLineNo">022</span><a id="line.22"></a>
-<span class="sourceLineNo">023</span><a id="line.23">/**</a>
-<span class="sourceLineNo">024</span><a id="line.24"> * A callback to be used with the streaming {@code readLines} methods.</a>
-<span class="sourceLineNo">025</span><a id="line.25"> *</a>
-<span class="sourceLineNo">026</span><a id="line.26"> * &lt;p&gt;{@link #processLine} will be called for each line that is read, and should return {@code</a>
-<span class="sourceLineNo">027</span><a id="line.27"> * false} when you want to stop processing.</a>
-<span class="sourceLineNo">028</span><a id="line.28"> *</a>
-<span class="sourceLineNo">029</span><a id="line.29"> * @author Miles Barr</a>
-<span class="sourceLineNo">030</span><a id="line.30"> * @since 1.0</a>
-<span class="sourceLineNo">031</span><a id="line.31"> */</a>
-<span class="sourceLineNo">032</span><a id="line.32">@Beta</a>
-<span class="sourceLineNo">033</span><a id="line.33">@GwtIncompatible</a>
-<span class="sourceLineNo">034</span><a id="line.34">@ElementTypesAreNonnullByDefault</a>
-<span class="sourceLineNo">035</span><a id="line.35">public interface LineProcessor&lt;T extends @Nullable Object&gt; {</a>
-<span class="sourceLineNo">036</span><a id="line.36"></a>
-<span class="sourceLineNo">037</span><a id="line.37">  /**</a>
-<span class="sourceLineNo">038</span><a id="line.38">   * This method will be called once for each line.</a>
-<span class="sourceLineNo">039</span><a id="line.39">   *</a>
-<span class="sourceLineNo">040</span><a id="line.40">   * @param line the line read from the input, without delimiter</a>
-<span class="sourceLineNo">041</span><a id="line.41">   * @return true to continue processing, false to stop</a>
-<span class="sourceLineNo">042</span><a id="line.42">   */</a>
-<span class="sourceLineNo">043</span><a id="line.43">  @CanIgnoreReturnValue // some uses know that their processor never returns false</a>
-<span class="sourceLineNo">044</span><a id="line.44">  boolean processLine(String line) throws IOException;</a>
-<span class="sourceLineNo">045</span><a id="line.45"></a>
-<span class="sourceLineNo">046</span><a id="line.46">  /** Return the result of processing all the lines. */</a>
-<span class="sourceLineNo">047</span><a id="line.47">  @ParametricNullness</a>
-<span class="sourceLineNo">048</span><a id="line.48">  T getResult();</a>
-<span class="sourceLineNo">049</span><a id="line.49">}</a>
+<span class="sourceLineNo">019</span><a id="line.19">import com.google.common.annotations.J2ktIncompatible;</a>
+<span class="sourceLineNo">020</span><a id="line.20">import com.google.errorprone.annotations.CanIgnoreReturnValue;</a>
+<span class="sourceLineNo">021</span><a id="line.21">import java.io.IOException;</a>
+<span class="sourceLineNo">022</span><a id="line.22">import org.checkerframework.checker.nullness.qual.Nullable;</a>
+<span class="sourceLineNo">023</span><a id="line.23"></a>
+<span class="sourceLineNo">024</span><a id="line.24">/**</a>
+<span class="sourceLineNo">025</span><a id="line.25"> * A callback to be used with the streaming {@code readLines} methods.</a>
+<span class="sourceLineNo">026</span><a id="line.26"> *</a>
+<span class="sourceLineNo">027</span><a id="line.27"> * &lt;p&gt;{@link #processLine} will be called for each line that is read, and should return {@code</a>
+<span class="sourceLineNo">028</span><a id="line.28"> * false} when you want to stop processing.</a>
+<span class="sourceLineNo">029</span><a id="line.29"> *</a>
+<span class="sourceLineNo">030</span><a id="line.30"> * @author Miles Barr</a>
+<span class="sourceLineNo">031</span><a id="line.31"> * @since 1.0</a>
+<span class="sourceLineNo">032</span><a id="line.32"> */</a>
+<span class="sourceLineNo">033</span><a id="line.33">@Beta</a>
+<span class="sourceLineNo">034</span><a id="line.34">@J2ktIncompatible</a>
+<span class="sourceLineNo">035</span><a id="line.35">@GwtIncompatible</a>
+<span class="sourceLineNo">036</span><a id="line.36">@ElementTypesAreNonnullByDefault</a>
+<span class="sourceLineNo">037</span><a id="line.37">public interface LineProcessor&lt;T extends @Nullable Object&gt; {</a>
+<span class="sourceLineNo">038</span><a id="line.38"></a>
+<span class="sourceLineNo">039</span><a id="line.39">  /**</a>
+<span class="sourceLineNo">040</span><a id="line.40">   * This method will be called once for each line.</a>
+<span class="sourceLineNo">041</span><a id="line.41">   *</a>
+<span class="sourceLineNo">042</span><a id="line.42">   * @param line the line read from the input, without delimiter</a>
+<span class="sourceLineNo">043</span><a id="line.43">   * @return true to continue processing, false to stop</a>
+<span class="sourceLineNo">044</span><a id="line.44">   */</a>
+<span class="sourceLineNo">045</span><a id="line.45">  @CanIgnoreReturnValue // some uses know that their processor never returns false</a>
+<span class="sourceLineNo">046</span><a id="line.46">  boolean processLine(String line) throws IOException;</a>
+<span class="sourceLineNo">047</span><a id="line.47"></a>
+<span class="sourceLineNo">048</span><a id="line.48">  /** Return the result of processing all the lines. */</a>
+<span class="sourceLineNo">049</span><a id="line.49">  @ParametricNullness</a>
+<span class="sourceLineNo">050</span><a id="line.50">  T getResult();</a>
+<span class="sourceLineNo">051</span><a id="line.51">}</a>
 
 
 

@@ -133,7 +133,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <hr>
 <pre><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public abstract class <a href="../../../../src-html/com/google/common/io/ByteSink.html#line.48">ByteSink</a>
+public abstract class <a href="../../../../src-html/com/google/common/io/ByteSink.html#line.49">ByteSink</a>
 extends java.lang.Object</pre>
 <div class="block">A destination to which bytes can be written, such as a file. Unlike an <code>OutputStream</code>, a
  <code>ByteSink</code> is not an open, stateful stream that can be written to and closed. Instead, it
@@ -266,7 +266,7 @@ extends java.lang.Object</pre>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>ByteSink</h4>
-<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSink.html#line.53">ByteSink</a>()</pre>
+<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSink.html#line.55">ByteSink</a>()</pre>
 <div class="block">Constructor for use by subclasses.</div>
 </li>
 </ul>
@@ -286,7 +286,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>asCharSink</h4>
-<pre class="methodSignature">public&nbsp;<a href="CharSink.html" title="class in com.google.common.io">CharSink</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSink.html#line.59">asCharSink</a>&#8203;(java.nio.charset.Charset&nbsp;charset)</pre>
+<pre class="methodSignature">public&nbsp;<a href="CharSink.html" title="class in com.google.common.io">CharSink</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSink.html#line.61">asCharSink</a>&#8203;(java.nio.charset.Charset&nbsp;charset)</pre>
 <div class="block">Returns a <a href="CharSink.html" title="class in com.google.common.io"><code>CharSink</code></a> view of this <code>ByteSink</code> that writes characters to this sink as
  bytes encoded with the given <code>charset</code>.</div>
 </li>
@@ -297,7 +297,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>openStream</h4>
-<pre class="methodSignature">public abstract&nbsp;java.io.OutputStream&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSink.html#line.71">openStream</a>()
+<pre class="methodSignature">public abstract&nbsp;java.io.OutputStream&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSink.html#line.73">openStream</a>()
                                          throws java.io.IOException</pre>
 <div class="block">Opens a new <code>OutputStream</code> for writing to this sink. This method returns a new,
  independent stream each time it is called.
@@ -315,7 +315,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>openBufferedStream</h4>
-<pre class="methodSignature">public&nbsp;java.io.OutputStream&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSink.html#line.85">openBufferedStream</a>()
+<pre class="methodSignature">public&nbsp;java.io.OutputStream&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSink.html#line.87">openBufferedStream</a>()
                                         throws java.io.IOException</pre>
 <div class="block">Opens a new buffered <code>OutputStream</code> for writing to this sink. The returned stream is not
  required to be a <code>BufferedOutputStream</code> in order to allow implementations to simply
@@ -338,7 +338,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>write</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSink.html#line.97">write</a>&#8203;(byte[]&nbsp;bytes)
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSink.html#line.99">write</a>&#8203;(byte[]&nbsp;bytes)
            throws java.io.IOException</pre>
 <div class="block">Writes all the given bytes to this sink.</div>
 <dl>
@@ -354,7 +354,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>writeFrom</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSink.html#line.119">writeFrom</a>&#8203;(java.io.InputStream&nbsp;input)
+public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSink.html#line.121">writeFrom</a>&#8203;(java.io.InputStream&nbsp;input)
                throws java.io.IOException</pre>
 <div class="block">Writes all the bytes from the given <code>InputStream</code> to this sink. Does not close <code>
  input</code>.</div>

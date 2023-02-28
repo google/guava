@@ -133,7 +133,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <hr>
 <pre><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../annotations/GwtCompatible.html#emulated()">emulated</a>=true)
-public abstract class <a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.124">BaseEncoding</a>
+public abstract class <a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.125">BaseEncoding</a>
 extends java.lang.Object</pre>
 <div class="block">A binary encoding scheme for reversibly translating between byte sequences and printable ASCII
  strings. This class includes several constants for encoding schemes specified by <a href="http://tools.ietf.org/html/rfc4648">RFC 4648</a>. For example, the expression:
@@ -447,7 +447,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>encode</h4>
-<pre class="methodSignature">public&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.148">encode</a>&#8203;(byte[]&nbsp;bytes)</pre>
+<pre class="methodSignature">public&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.149">encode</a>&#8203;(byte[]&nbsp;bytes)</pre>
 <div class="block">Encodes the specified byte array, and returns the encoded <code>String</code>.</div>
 </li>
 </ul>
@@ -457,7 +457,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>encode</h4>
-<pre class="methodSignature">public final&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.156">encode</a>&#8203;(byte[]&nbsp;bytes,
+<pre class="methodSignature">public final&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.157">encode</a>&#8203;(byte[]&nbsp;bytes,
                                      int&nbsp;off,
                                      int&nbsp;len)</pre>
 <div class="block">Encodes the specified range of the specified byte array, and returns the encoded <code>
@@ -471,7 +471,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>encodingStream</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public abstract&nbsp;java.io.OutputStream&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.172">encodingStream</a>&#8203;(java.io.Writer&nbsp;writer)</pre>
+public abstract&nbsp;java.io.OutputStream&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.173">encodingStream</a>&#8203;(java.io.Writer&nbsp;writer)</pre>
 <div class="block">Returns an <code>OutputStream</code> that encodes bytes using this encoding into the specified
  <code>Writer</code>. When the returned <code>OutputStream</code> is closed, so is the backing <code>
  Writer</code>.</div>
@@ -484,7 +484,7 @@ public abstract&nbsp;java.io.OutputStream&nbsp;<a href="../../../../src-html/com
 <li class="blockList">
 <h4>encodingSink</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public final&nbsp;<a href="ByteSink.html" title="class in com.google.common.io">ByteSink</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.178">encodingSink</a>&#8203;(<a href="CharSink.html" title="class in com.google.common.io">CharSink</a>&nbsp;encodedSink)</pre>
+public final&nbsp;<a href="ByteSink.html" title="class in com.google.common.io">ByteSink</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.180">encodingSink</a>&#8203;(<a href="CharSink.html" title="class in com.google.common.io">CharSink</a>&nbsp;encodedSink)</pre>
 <div class="block">Returns a <code>ByteSink</code> that writes base-encoded bytes to the specified <code>CharSink</code>.</div>
 </li>
 </ul>
@@ -494,7 +494,7 @@ public final&nbsp;<a href="ByteSink.html" title="class in com.google.common.io">
 <ul class="blockList">
 <li class="blockList">
 <h4>canDecode</h4>
-<pre class="methodSignature">public abstract&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.206">canDecode</a>&#8203;(java.lang.CharSequence&nbsp;chars)</pre>
+<pre class="methodSignature">public abstract&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.209">canDecode</a>&#8203;(java.lang.CharSequence&nbsp;chars)</pre>
 <div class="block">Determines whether the specified character sequence is a valid encoded string according to this
  encoding.</div>
 <dl>
@@ -509,7 +509,7 @@ public final&nbsp;<a href="ByteSink.html" title="class in com.google.common.io">
 <ul class="blockList">
 <li class="blockList">
 <h4>decode</h4>
-<pre class="methodSignature">public final&nbsp;byte[]&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.215">decode</a>&#8203;(java.lang.CharSequence&nbsp;chars)</pre>
+<pre class="methodSignature">public final&nbsp;byte[]&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.218">decode</a>&#8203;(java.lang.CharSequence&nbsp;chars)</pre>
 <div class="block">Decodes the specified character sequence, and returns the resulting <code>byte[]</code>. This is the
  inverse operation to <a href="#encode(byte%5B%5D)"><code>encode(byte[])</code></a>.</div>
 <dl>
@@ -526,7 +526,7 @@ public final&nbsp;<a href="ByteSink.html" title="class in com.google.common.io">
 <li class="blockList">
 <h4>decodingStream</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public abstract&nbsp;java.io.InputStream&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.242">decodingStream</a>&#8203;(java.io.Reader&nbsp;reader)</pre>
+public abstract&nbsp;java.io.InputStream&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.245">decodingStream</a>&#8203;(java.io.Reader&nbsp;reader)</pre>
 <div class="block">Returns an <code>InputStream</code> that decodes base-encoded input from the specified <code>
  Reader</code>. The returned stream throws a <a href="BaseEncoding.DecodingException.html" title="class in com.google.common.io"><code>BaseEncoding.DecodingException</code></a> upon decoding-specific errors.</div>
 </li>
@@ -538,7 +538,7 @@ public abstract&nbsp;java.io.InputStream&nbsp;<a href="../../../../src-html/com/
 <li class="blockList">
 <h4>decodingSource</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public final&nbsp;<a href="ByteSource.html" title="class in com.google.common.io">ByteSource</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.249">decodingSource</a>&#8203;(<a href="CharSource.html" title="class in com.google.common.io">CharSource</a>&nbsp;encodedSource)</pre>
+public final&nbsp;<a href="ByteSource.html" title="class in com.google.common.io">ByteSource</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.253">decodingSource</a>&#8203;(<a href="CharSource.html" title="class in com.google.common.io">CharSource</a>&nbsp;encodedSource)</pre>
 <div class="block">Returns a <code>ByteSource</code> that reads base-encoded bytes from the specified <code>
  CharSource</code>.</div>
 </li>
@@ -549,7 +549,7 @@ public final&nbsp;<a href="ByteSource.html" title="class in com.google.common.io
 <ul class="blockList">
 <li class="blockList">
 <h4>omitPadding</h4>
-<pre class="methodSignature">public abstract&nbsp;<a href="BaseEncoding.html" title="class in com.google.common.io">BaseEncoding</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.281">omitPadding</a>()</pre>
+<pre class="methodSignature">public abstract&nbsp;<a href="BaseEncoding.html" title="class in com.google.common.io">BaseEncoding</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.286">omitPadding</a>()</pre>
 <div class="block">Returns an encoding that behaves equivalently to this encoding, but omits any padding
  characters as specified by <a href="http://tools.ietf.org/html/rfc4648#section-3.2">RFC 4648
  section 3.2</a>, Padding of Encoded Data.</div>
@@ -561,7 +561,7 @@ public final&nbsp;<a href="ByteSource.html" title="class in com.google.common.io
 <ul class="blockList">
 <li class="blockList">
 <h4>withPadChar</h4>
-<pre class="methodSignature">public abstract&nbsp;<a href="BaseEncoding.html" title="class in com.google.common.io">BaseEncoding</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.290">withPadChar</a>&#8203;(char&nbsp;padChar)</pre>
+<pre class="methodSignature">public abstract&nbsp;<a href="BaseEncoding.html" title="class in com.google.common.io">BaseEncoding</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.295">withPadChar</a>&#8203;(char&nbsp;padChar)</pre>
 <div class="block">Returns an encoding that behaves equivalently to this encoding, but uses an alternate character
  for padding.</div>
 <dl>
@@ -577,7 +577,7 @@ public final&nbsp;<a href="ByteSource.html" title="class in com.google.common.io
 <ul class="blockList">
 <li class="blockList">
 <h4>withSeparator</h4>
-<pre class="methodSignature">public abstract&nbsp;<a href="BaseEncoding.html" title="class in com.google.common.io">BaseEncoding</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.301">withSeparator</a>&#8203;(java.lang.String&nbsp;separator,
+<pre class="methodSignature">public abstract&nbsp;<a href="BaseEncoding.html" title="class in com.google.common.io">BaseEncoding</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.306">withSeparator</a>&#8203;(java.lang.String&nbsp;separator,
                                            int&nbsp;n)</pre>
 <div class="block">Returns an encoding that behaves equivalently to this encoding, but adds a separator string
  after every <code>n</code> characters. Any occurrences of any characters that occur in the separator
@@ -596,7 +596,7 @@ public final&nbsp;<a href="ByteSource.html" title="class in com.google.common.io
 <ul class="blockList">
 <li class="blockList">
 <h4>upperCase</h4>
-<pre class="methodSignature">public abstract&nbsp;<a href="BaseEncoding.html" title="class in com.google.common.io">BaseEncoding</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.310">upperCase</a>()</pre>
+<pre class="methodSignature">public abstract&nbsp;<a href="BaseEncoding.html" title="class in com.google.common.io">BaseEncoding</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.315">upperCase</a>()</pre>
 <div class="block">Returns an encoding that behaves equivalently to this encoding, but encodes and decodes with
  uppercase letters. Padding and separator characters remain in their original case.</div>
 <dl>
@@ -612,7 +612,7 @@ public final&nbsp;<a href="ByteSource.html" title="class in com.google.common.io
 <ul class="blockList">
 <li class="blockList">
 <h4>lowerCase</h4>
-<pre class="methodSignature">public abstract&nbsp;<a href="BaseEncoding.html" title="class in com.google.common.io">BaseEncoding</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.319">lowerCase</a>()</pre>
+<pre class="methodSignature">public abstract&nbsp;<a href="BaseEncoding.html" title="class in com.google.common.io">BaseEncoding</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.324">lowerCase</a>()</pre>
 <div class="block">Returns an encoding that behaves equivalently to this encoding, but encodes and decodes with
  lowercase letters. Padding and separator characters remain in their original case.</div>
 <dl>
@@ -628,7 +628,7 @@ public final&nbsp;<a href="ByteSource.html" title="class in com.google.common.io
 <ul class="blockList">
 <li class="blockList">
 <h4>ignoreCase</h4>
-<pre class="methodSignature">public abstract&nbsp;<a href="BaseEncoding.html" title="class in com.google.common.io">BaseEncoding</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.328">ignoreCase</a>()</pre>
+<pre class="methodSignature">public abstract&nbsp;<a href="BaseEncoding.html" title="class in com.google.common.io">BaseEncoding</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.333">ignoreCase</a>()</pre>
 <div class="block">Returns an encoding that behaves equivalently to this encoding, but decodes letters without
  regard to case.</div>
 <dl>
@@ -644,7 +644,7 @@ public final&nbsp;<a href="ByteSource.html" title="class in com.google.common.io
 <ul class="blockList">
 <li class="blockList">
 <h4>base64</h4>
-<pre class="methodSignature">public static&nbsp;<a href="BaseEncoding.html" title="class in com.google.common.io">BaseEncoding</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.347">base64</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="BaseEncoding.html" title="class in com.google.common.io">BaseEncoding</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.352">base64</a>()</pre>
 <div class="block">The "base64" base encoding specified by <a href="http://tools.ietf.org/html/rfc4648#section-4">RFC 4648 section 4</a>, Base 64 Encoding.
  (This is the same as the base 64 encoding from <a href="http://tools.ietf.org/html/rfc3548#section-3">RFC 3548</a>.)
 
@@ -660,7 +660,7 @@ public final&nbsp;<a href="ByteSource.html" title="class in com.google.common.io
 <ul class="blockList">
 <li class="blockList">
 <h4>base64Url</h4>
-<pre class="methodSignature">public static&nbsp;<a href="BaseEncoding.html" title="class in com.google.common.io">BaseEncoding</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.369">base64Url</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="BaseEncoding.html" title="class in com.google.common.io">BaseEncoding</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.374">base64Url</a>()</pre>
 <div class="block">The "base64url" encoding specified by <a href="http://tools.ietf.org/html/rfc4648#section-5">RFC 4648 section 5</a>, Base 64 Encoding
  with URL and Filename Safe Alphabet, also sometimes referred to as the "web safe Base64." (This
  is the same as the base 64 encoding with URL and filename safe alphabet from <a href="http://tools.ietf.org/html/rfc3548#section-4">RFC 3548</a>.)
@@ -677,7 +677,7 @@ public final&nbsp;<a href="ByteSource.html" title="class in com.google.common.io
 <ul class="blockList">
 <li class="blockList">
 <h4>base32</h4>
-<pre class="methodSignature">public static&nbsp;<a href="BaseEncoding.html" title="class in com.google.common.io">BaseEncoding</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.388">base32</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="BaseEncoding.html" title="class in com.google.common.io">BaseEncoding</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.393">base32</a>()</pre>
 <div class="block">The "base32" encoding specified by <a href="http://tools.ietf.org/html/rfc4648#section-6">RFC
  4648 section 6</a>, Base 32 Encoding. (This is the same as the base 32 encoding from <a href="http://tools.ietf.org/html/rfc3548#section-5">RFC 3548</a>.)
 
@@ -693,7 +693,7 @@ public final&nbsp;<a href="ByteSource.html" title="class in com.google.common.io
 <ul class="blockList">
 <li class="blockList">
 <h4>base32Hex</h4>
-<pre class="methodSignature">public static&nbsp;<a href="BaseEncoding.html" title="class in com.google.common.io">BaseEncoding</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.407">base32Hex</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="BaseEncoding.html" title="class in com.google.common.io">BaseEncoding</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.412">base32Hex</a>()</pre>
 <div class="block">The "base32hex" encoding specified by <a href="http://tools.ietf.org/html/rfc4648#section-7">RFC 4648 section 7</a>, Base 32 Encoding
  with Extended Hex Alphabet. There is no corresponding encoding in RFC 3548.
 
@@ -709,7 +709,7 @@ public final&nbsp;<a href="ByteSource.html" title="class in com.google.common.io
 <ul class="blockListLast">
 <li class="blockList">
 <h4>base16</h4>
-<pre class="methodSignature">public static&nbsp;<a href="BaseEncoding.html" title="class in com.google.common.io">BaseEncoding</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.426">base16</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="BaseEncoding.html" title="class in com.google.common.io">BaseEncoding</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.431">base16</a>()</pre>
 <div class="block">The "base16" encoding specified by <a href="http://tools.ietf.org/html/rfc4648#section-8">RFC
  4648 section 8</a>, Base 16 Encoding. (This is the same as the base 16 encoding from <a href="http://tools.ietf.org/html/rfc3548#section-6">RFC 3548</a>.) This is commonly known as
  "hexadecimal" format.

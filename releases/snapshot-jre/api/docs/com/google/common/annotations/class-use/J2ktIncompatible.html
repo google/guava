@@ -113,12 +113,19 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </td>
 </tr>
 <tr class="rowColor">
+<th class="colFirst" scope="row"><a href="#com.google.common.io">com.google.common.io</a></th>
+<td class="colLast">
+<div class="block">This package contains utility methods and classes for working with Java I/O; for example input
+ streams, output streams, readers, writers, and files.</div>
+</td>
+</tr>
+<tr class="altColor">
 <th class="colFirst" scope="row"><a href="#com.google.common.math">com.google.common.math</a></th>
 <td class="colLast">
 <div class="block">Arithmetic functions operating on primitive values and <code>BigInteger</code> instances.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <th class="colFirst" scope="row"><a href="#com.google.common.primitives">com.google.common.primitives</a></th>
 <td class="colLast">
 <div class="block">Static utilities for working with the eight primitive types and <code>void</code>, and value types for
@@ -388,6 +395,254 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
                  java.lang.Class&lt;X&gt;&nbsp;declaredType)</code></th>
 <td class="colLast">
 <div class="block">Throws <code>throwable</code> if it is an instance of <code>declaredType</code>.</div>
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+</li>
+<li class="blockList">
+<section><a id="com.google.common.io">
+<!--   -->
+</a>
+<h3>Uses of <a href="../J2ktIncompatible.html" title="annotation in com.google.common.annotations">J2ktIncompatible</a> in <a href="../../io/package-summary.html">com.google.common.io</a></h3>
+<table class="useSummary">
+<caption><span>Classes in <a href="../../io/package-summary.html">com.google.common.io</a> with annotations of type <a href="../J2ktIncompatible.html" title="annotation in com.google.common.annotations">J2ktIncompatible</a></span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colFirst" scope="col">Modifier and Type</th>
+<th class="colSecond" scope="col">Interface</th>
+<th class="colLast" scope="col">Description</th>
+</tr>
+<tbody>
+<tr class="altColor">
+<td class="colFirst"><code>interface&nbsp;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../io/ByteArrayDataInput.html" title="interface in com.google.common.io">ByteArrayDataInput</a></span></code></th>
+<td class="colLast">
+<div class="block">An extension of <code>DataInput</code> for reading from in-memory byte arrays; its methods offer
+ identical functionality but do not throw <code>IOException</code>.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>interface&nbsp;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../io/ByteArrayDataOutput.html" title="interface in com.google.common.io">ByteArrayDataOutput</a></span></code></th>
+<td class="colLast">
+<div class="block">An extension of <code>DataOutput</code> for writing to in-memory byte arrays; its methods offer
+ identical functionality but do not throw <code>IOException</code>.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>interface&nbsp;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../io/ByteProcessor.html" title="interface in com.google.common.io">ByteProcessor</a>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</span></code></th>
+<td class="colLast">
+<div class="block">A callback interface to process bytes from a stream.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>class&nbsp;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../io/ByteSink.html" title="class in com.google.common.io">ByteSink</a></span></code></th>
+<td class="colLast">
+<div class="block">A destination to which bytes can be written, such as a file.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>class&nbsp;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../io/ByteSource.html" title="class in com.google.common.io">ByteSource</a></span></code></th>
+<td class="colLast">
+<div class="block">A readable source of bytes, such as a file.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>class&nbsp;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../io/ByteStreams.html" title="class in com.google.common.io">ByteStreams</a></span></code></th>
+<td class="colLast">
+<div class="block">Provides utility methods for working with byte arrays and I/O streams.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>class&nbsp;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../io/CharSink.html" title="class in com.google.common.io">CharSink</a></span></code></th>
+<td class="colLast">
+<div class="block">A destination to which characters can be written, such as a text file.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>class&nbsp;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../io/CharSource.html" title="class in com.google.common.io">CharSource</a></span></code></th>
+<td class="colLast">
+<div class="block">A readable source of characters, such as a text file.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>class&nbsp;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../io/CharStreams.html" title="class in com.google.common.io">CharStreams</a></span></code></th>
+<td class="colLast">
+<div class="block">Provides utility methods for working with character streams.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>class&nbsp;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../io/Closeables.html" title="class in com.google.common.io">Closeables</a></span></code></th>
+<td class="colLast">
+<div class="block">Utility methods for working with <code>Closeable</code> objects.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>class&nbsp;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../io/Closer.html" title="class in com.google.common.io">Closer</a></span></code></th>
+<td class="colLast">
+<div class="block">A <code>Closeable</code> that collects <code>Closeable</code> resources and closes them all when it is
+ <a href="../../io/Closer.html#close()">closed</a>.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>class&nbsp;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../io/CountingInputStream.html" title="class in com.google.common.io">CountingInputStream</a></span></code></th>
+<td class="colLast">
+<div class="block">An <code>InputStream</code> that counts the number of bytes read.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>class&nbsp;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../io/CountingOutputStream.html" title="class in com.google.common.io">CountingOutputStream</a></span></code></th>
+<td class="colLast">
+<div class="block">An OutputStream that counts the number of bytes written.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>class&nbsp;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../io/FileBackedOutputStream.html" title="class in com.google.common.io">FileBackedOutputStream</a></span></code></th>
+<td class="colLast">
+<div class="block">An <code>OutputStream</code> that starts buffering to a byte array, but switches to file buffering
+ once the data reaches a configurable size.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>class&nbsp;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../io/Files.html" title="class in com.google.common.io">Files</a></span></code></th>
+<td class="colLast">
+<div class="block">Provides utility methods for working with files.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>class&nbsp;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../io/FileWriteMode.html" title="enum in com.google.common.io">FileWriteMode</a></span></code></th>
+<td class="colLast">
+<div class="block">Modes for opening a file for writing.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>class&nbsp;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../io/Flushables.html" title="class in com.google.common.io">Flushables</a></span></code></th>
+<td class="colLast">
+<div class="block">Utility methods for working with <code>Flushable</code> objects.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>class&nbsp;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../io/InsecureRecursiveDeleteException.html" title="class in com.google.common.io">InsecureRecursiveDeleteException</a></span></code></th>
+<td class="colLast">
+<div class="block">Exception indicating that a recursive delete can't be performed because the file system does not
+ have the support necessary to guarantee that it is not vulnerable to race conditions that would
+ allow it to delete files and directories outside of the directory being deleted (i.e., <code>SecureDirectoryStream</code> is not supported).</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>interface&nbsp;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../io/LineProcessor.html" title="interface in com.google.common.io">LineProcessor</a>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</span></code></th>
+<td class="colLast">
+<div class="block">A callback to be used with the streaming <code>readLines</code> methods.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>class&nbsp;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../io/LineReader.html" title="class in com.google.common.io">LineReader</a></span></code></th>
+<td class="colLast">
+<div class="block">A class for reading lines of text.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>class&nbsp;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../io/LittleEndianDataInputStream.html" title="class in com.google.common.io">LittleEndianDataInputStream</a></span></code></th>
+<td class="colLast">
+<div class="block">An implementation of <code>DataInput</code> that uses little-endian byte ordering for reading <code>
+ short</code>, <code>int</code>, <code>float</code>, <code>double</code>, and <code>long</code> values.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>class&nbsp;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../io/LittleEndianDataOutputStream.html" title="class in com.google.common.io">LittleEndianDataOutputStream</a></span></code></th>
+<td class="colLast">
+<div class="block">An implementation of <code>DataOutput</code> that uses little-endian byte ordering for writing <code>
+ char</code>, <code>short</code>, <code>int</code>, <code>float</code>, <code>double</code>, and <code>long</code> values.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>class&nbsp;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../io/MoreFiles.html" title="class in com.google.common.io">MoreFiles</a></span></code></th>
+<td class="colLast">
+<div class="block">Static utilities for use with <code>Path</code> instances, intended to complement <code>Files</code>.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>class&nbsp;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../io/PatternFilenameFilter.html" title="class in com.google.common.io">PatternFilenameFilter</a></span></code></th>
+<td class="colLast">
+<div class="block">File name filter that only accepts files matching a regular expression.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>class&nbsp;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../io/RecursiveDeleteOption.html" title="enum in com.google.common.io">RecursiveDeleteOption</a></span></code></th>
+<td class="colLast">
+<div class="block">Options for use with recursive delete methods (<a href="../../io/MoreFiles.html#deleteRecursively(java.nio.file.Path,com.google.common.io.RecursiveDeleteOption...)"><code>MoreFiles.deleteRecursively(java.nio.file.Path, com.google.common.io.RecursiveDeleteOption...)</code></a> and <a href="../../io/MoreFiles.html#deleteDirectoryContents(java.nio.file.Path,com.google.common.io.RecursiveDeleteOption...)"><code>MoreFiles.deleteDirectoryContents(java.nio.file.Path, com.google.common.io.RecursiveDeleteOption...)</code></a>).</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>class&nbsp;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../io/Resources.html" title="class in com.google.common.io">Resources</a></span></code></th>
+<td class="colLast">
+<div class="block">Provides utility methods for working with resources in the classpath.</div>
+</td>
+</tr>
+</tbody>
+</table>
+<table class="useSummary">
+<caption><span>Methods in <a href="../../io/package-summary.html">com.google.common.io</a> with annotations of type <a href="../J2ktIncompatible.html" title="annotation in com.google.common.annotations">J2ktIncompatible</a></span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colFirst" scope="col">Modifier and Type</th>
+<th class="colSecond" scope="col">Method</th>
+<th class="colLast" scope="col">Description</th>
+</tr>
+<tbody>
+<tr class="altColor">
+<td class="colFirst"><code><a href="../../io/ByteSource.html" title="class in com.google.common.io">ByteSource</a></code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">BaseEncoding.</span><code><span class="memberNameLink"><a href="../../io/BaseEncoding.html#decodingSource(com.google.common.io.CharSource)">decodingSource</a></span>&#8203;(<a href="../../io/CharSource.html" title="class in com.google.common.io">CharSource</a>&nbsp;encodedSource)</code></th>
+<td class="colLast">
+<div class="block">Returns a <code>ByteSource</code> that reads base-encoded bytes from the specified <code>
+ CharSource</code>.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>abstract java.io.InputStream</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">BaseEncoding.</span><code><span class="memberNameLink"><a href="../../io/BaseEncoding.html#decodingStream(java.io.Reader)">decodingStream</a></span>&#8203;(java.io.Reader&nbsp;reader)</code></th>
+<td class="colLast">
+<div class="block">Returns an <code>InputStream</code> that decodes base-encoded input from the specified <code>
+ Reader</code>.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="../../io/ByteSink.html" title="class in com.google.common.io">ByteSink</a></code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">BaseEncoding.</span><code><span class="memberNameLink"><a href="../../io/BaseEncoding.html#encodingSink(com.google.common.io.CharSink)">encodingSink</a></span>&#8203;(<a href="../../io/CharSink.html" title="class in com.google.common.io">CharSink</a>&nbsp;encodedSink)</code></th>
+<td class="colLast">
+<div class="block">Returns a <code>ByteSink</code> that writes base-encoded bytes to the specified <code>CharSink</code>.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>abstract java.io.OutputStream</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">BaseEncoding.</span><code><span class="memberNameLink"><a href="../../io/BaseEncoding.html#encodingStream(java.io.Writer)">encodingStream</a></span>&#8203;(java.io.Writer&nbsp;writer)</code></th>
+<td class="colLast">
+<div class="block">Returns an <code>OutputStream</code> that encodes bytes using this encoding into the specified
+ <code>Writer</code>.</div>
 </td>
 </tr>
 </tbody>
