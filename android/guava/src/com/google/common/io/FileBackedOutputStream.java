@@ -18,6 +18,7 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.errorprone.annotations.concurrent.GuardedBy;
 import java.io.ByteArrayInputStream;
@@ -51,6 +52,7 @@ import javax.annotation.CheckForNull;
  * @since 1.0
  */
 @Beta
+@J2ktIncompatible
 @GwtIncompatible
 @ElementTypesAreNonnullByDefault
 public final class FileBackedOutputStream extends OutputStream {

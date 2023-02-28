@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Charsets;
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.Lists;
@@ -40,6 +41,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Colin Decker
  * @since 1.0
  */
+@J2ktIncompatible
 @GwtIncompatible
 @ElementTypesAreNonnullByDefault
 public final class Resources {
