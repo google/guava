@@ -25,6 +25,7 @@ import static java.util.Objects.requireNonNull;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
@@ -270,8 +271,11 @@ public final class Multimaps {
     // can't use Serialization writeMultimap and populateMultimap methods since
     // there's no way to generate the empty backing map.
 
-    /** @serialData the factory and the backing map */
+    /**
+     * @serialData the factory and the backing map
+     */
     @GwtIncompatible // java.io.ObjectOutputStream
+    @J2ktIncompatible
     private void writeObject(ObjectOutputStream stream) throws IOException {
       stream.defaultWriteObject();
       stream.writeObject(factory);
@@ -279,6 +283,7 @@ public final class Multimaps {
     }
 
     @GwtIncompatible // java.io.ObjectInputStream
+    @J2ktIncompatible
     @SuppressWarnings("unchecked") // reading data stored by writeObject
     private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
       stream.defaultReadObject();
@@ -288,6 +293,7 @@ public final class Multimaps {
     }
 
     @GwtIncompatible // java serialization not supported
+    @J2ktIncompatible
     private static final long serialVersionUID = 0;
   }
 
@@ -351,8 +357,11 @@ public final class Multimaps {
       return factory.get();
     }
 
-    /** @serialData the factory and the backing map */
+    /**
+     * @serialData the factory and the backing map
+     */
     @GwtIncompatible // java.io.ObjectOutputStream
+    @J2ktIncompatible
     private void writeObject(ObjectOutputStream stream) throws IOException {
       stream.defaultWriteObject();
       stream.writeObject(factory);
@@ -360,6 +369,7 @@ public final class Multimaps {
     }
 
     @GwtIncompatible // java.io.ObjectInputStream
+    @J2ktIncompatible
     @SuppressWarnings("unchecked") // reading data stored by writeObject
     private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
       stream.defaultReadObject();
@@ -369,6 +379,7 @@ public final class Multimaps {
     }
 
     @GwtIncompatible // java serialization not supported
+    @J2ktIncompatible
     private static final long serialVersionUID = 0;
   }
 
@@ -454,8 +465,11 @@ public final class Multimaps {
       }
     }
 
-    /** @serialData the factory and the backing map */
+    /**
+     * @serialData the factory and the backing map
+     */
     @GwtIncompatible // java.io.ObjectOutputStream
+    @J2ktIncompatible
     private void writeObject(ObjectOutputStream stream) throws IOException {
       stream.defaultWriteObject();
       stream.writeObject(factory);
@@ -463,6 +477,7 @@ public final class Multimaps {
     }
 
     @GwtIncompatible // java.io.ObjectInputStream
+    @J2ktIncompatible
     @SuppressWarnings("unchecked") // reading data stored by writeObject
     private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
       stream.defaultReadObject();
@@ -472,6 +487,7 @@ public final class Multimaps {
     }
 
     @GwtIncompatible // not needed in emulated source
+    @J2ktIncompatible
     private static final long serialVersionUID = 0;
   }
 
@@ -543,8 +559,11 @@ public final class Multimaps {
       return valueComparator;
     }
 
-    /** @serialData the factory and the backing map */
+    /**
+     * @serialData the factory and the backing map
+     */
     @GwtIncompatible // java.io.ObjectOutputStream
+    @J2ktIncompatible
     private void writeObject(ObjectOutputStream stream) throws IOException {
       stream.defaultWriteObject();
       stream.writeObject(factory);
@@ -552,6 +571,7 @@ public final class Multimaps {
     }
 
     @GwtIncompatible // java.io.ObjectInputStream
+    @J2ktIncompatible
     @SuppressWarnings("unchecked") // reading data stored by writeObject
     private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
       stream.defaultReadObject();
@@ -562,6 +582,7 @@ public final class Multimaps {
     }
 
     @GwtIncompatible // not needed in emulated source
+    @J2ktIncompatible
     private static final long serialVersionUID = 0;
   }
 

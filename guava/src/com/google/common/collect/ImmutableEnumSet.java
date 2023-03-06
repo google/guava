@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
@@ -136,10 +137,12 @@ final class ImmutableEnumSet<E extends Enum<E>> extends ImmutableSet<E> {
 
   // All callers of the constructor are restricted to <E extends Enum<E>>.
   @Override
+  @J2ktIncompatible // serialization
   Object writeReplace() {
     return new EnumSerializedForm<E>(delegate);
   }
 
+  @J2ktIncompatible // serialization
   private void readObject(ObjectInputStream stream) throws InvalidObjectException {
     throw new InvalidObjectException("Use SerializedForm");
   }
@@ -147,6 +150,7 @@ final class ImmutableEnumSet<E extends Enum<E>> extends ImmutableSet<E> {
   /*
    * This class is used to serialize ImmutableEnumSet instances.
    */
+  @J2ktIncompatible // serialization
   private static class EnumSerializedForm<E extends Enum<E>> implements Serializable {
     final EnumSet<E> delegate;
 

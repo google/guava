@@ -22,6 +22,7 @@ import static com.google.common.collect.NullnessCasts.uncheckedCastNullableTToT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Objects;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.j2objc.annotations.RetainedWith;
@@ -464,14 +465,18 @@ abstract class AbstractBiMap<K extends @Nullable Object, V extends @Nullable Obj
       return inverse.checkKey(value);
     }
 
-    /** @serialData the forward bimap */
+    /**
+     * @serialData the forward bimap
+     */
     @GwtIncompatible // java.io.ObjectOutputStream
+    @J2ktIncompatible
     private void writeObject(ObjectOutputStream stream) throws IOException {
       stream.defaultWriteObject();
       stream.writeObject(inverse());
     }
 
     @GwtIncompatible // java.io.ObjectInputStream
+    @J2ktIncompatible
     @SuppressWarnings("unchecked") // reading data stored by writeObject
     private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
       stream.defaultReadObject();
@@ -479,14 +484,17 @@ abstract class AbstractBiMap<K extends @Nullable Object, V extends @Nullable Obj
     }
 
     @GwtIncompatible // Not needed in the emulated source.
+    @J2ktIncompatible
     Object readResolve() {
       return inverse().inverse();
     }
 
     @GwtIncompatible // Not needed in emulated source.
+    @J2ktIncompatible
     private static final long serialVersionUID = 0;
   }
 
   @GwtIncompatible // Not needed in emulated source.
+  @J2ktIncompatible
   private static final long serialVersionUID = 0;
 }

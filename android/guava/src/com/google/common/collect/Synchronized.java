@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.j2objc.annotations.RetainedWith;
 import java.io.IOException;
@@ -96,6 +97,7 @@ final class Synchronized {
     // following writeObject() handles the SynchronizedObject members.
 
     @GwtIncompatible // java.io.ObjectOutputStream
+    @J2ktIncompatible
     private void writeObject(ObjectOutputStream stream) throws IOException {
       synchronized (mutex) {
         stream.defaultWriteObject();
@@ -103,6 +105,7 @@ final class Synchronized {
     }
 
     @GwtIncompatible // not needed in emulated source
+    @J2ktIncompatible
     private static final long serialVersionUID = 0;
   }
 

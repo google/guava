@@ -24,6 +24,7 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableMapEntry.NonTerminalImmutableMapEntry;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -344,6 +345,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
 
     // No longer used for new writes, but kept so that old data can still be read.
     @GwtIncompatible // serialization
+    @J2ktIncompatible
     @SuppressWarnings("unused")
     private static class SerializedForm<K> implements Serializable {
       final ImmutableMap<K, ?> map;
@@ -356,6 +358,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
         return map.keySet();
       }
 
+      @J2ktIncompatible // serialization
       private static final long serialVersionUID = 0;
     }
   }
@@ -390,6 +393,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
 
     // No longer used for new writes, but kept so that old data can still be read.
     @GwtIncompatible // serialization
+    @J2ktIncompatible
     @SuppressWarnings("unused")
     private static class SerializedForm<V> implements Serializable {
       final ImmutableMap<?, V> map;
@@ -402,11 +406,13 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
         return map.values();
       }
 
+      @J2ktIncompatible // serialization
       private static final long serialVersionUID = 0;
     }
   }
 
   // This class is never actually serialized directly, but we have to make the
   // warning go away (and suppressing would suppress for all nested classes too)
+  @J2ktIncompatible // serialization
   private static final long serialVersionUID = 0;
 }

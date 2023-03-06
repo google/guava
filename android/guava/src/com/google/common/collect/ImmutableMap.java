@@ -24,6 +24,7 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.DoNotCall;
 import com.google.errorprone.annotations.DoNotMock;
@@ -1131,6 +1132,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     return new SerializedForm<>(this);
   }
 
+  @J2ktIncompatible // java.io.ObjectInputStream
   private void readObject(ObjectInputStream stream) throws InvalidObjectException {
     throw new InvalidObjectException("Use SerializedForm");
   }
