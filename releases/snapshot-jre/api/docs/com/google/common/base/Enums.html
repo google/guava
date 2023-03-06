@@ -232,7 +232,7 @@ public static&nbsp;java.lang.reflect.Field&nbsp;<a href="../../../../src-html/co
 <ul class="blockList">
 <li class="blockList">
 <h4>getIfPresent</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends java.lang.Enum&lt;T&gt;&gt;&nbsp;<a href="Optional.html" title="class in com.google.common.base">Optional</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Enums.html#line.69">getIfPresent</a>&#8203;(java.lang.Class&lt;T&gt;&nbsp;enumClass,
+<pre class="methodSignature">public static&nbsp;&lt;T extends java.lang.Enum&lt;T&gt;&gt;&nbsp;<a href="Optional.html" title="class in com.google.common.base">Optional</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Enums.html#line.70">getIfPresent</a>&#8203;(java.lang.Class&lt;T&gt;&nbsp;enumClass,
                                                                      java.lang.String&nbsp;value)</pre>
 <div class="block">Returns an optional enum constant for the given type, using <code>Enum.valueOf(java.lang.Class&lt;T&gt;, java.lang.String)</code>. If the
  constant does not exist, <a href="Optional.html#absent()"><code>Optional.absent()</code></a> is returned. A common use case is for parsing
@@ -250,7 +250,7 @@ public static&nbsp;java.lang.reflect.Field&nbsp;<a href="../../../../src-html/co
 <ul class="blockListLast">
 <li class="blockList">
 <h4>stringConverter</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends java.lang.Enum&lt;T&gt;&gt;&nbsp;<a href="Converter.html" title="class in com.google.common.base">Converter</a>&lt;java.lang.String,&#8203;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Enums.html#line.110">stringConverter</a>&#8203;(java.lang.Class&lt;T&gt;&nbsp;enumClass)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;T extends java.lang.Enum&lt;T&gt;&gt;&nbsp;<a href="Converter.html" title="class in com.google.common.base">Converter</a>&lt;java.lang.String,&#8203;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Enums.html#line.111">stringConverter</a>&#8203;(java.lang.Class&lt;T&gt;&nbsp;enumClass)</pre>
 <div class="block">Returns a serializable converter that converts between strings and <code>enum</code> values of type
  <code>enumClass</code> using <code>Enum.valueOf(Class, String)</code> and <code>Enum.name()</code>. The
  converter will throw an <code>IllegalArgumentException</code> if the argument is not the name of any
