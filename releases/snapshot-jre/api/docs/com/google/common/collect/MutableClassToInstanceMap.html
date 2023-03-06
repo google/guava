@@ -147,7 +147,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <hr>
 <pre><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public final class <a href="../../../../src-html/com/google/common/collect/MutableClassToInstanceMap.html#line.50">MutableClassToInstanceMap</a>&lt;B&gt;
+public final class <a href="../../../../src-html/com/google/common/collect/MutableClassToInstanceMap.html#line.51">MutableClassToInstanceMap</a>&lt;B&gt;
 extends <a href="ForwardingMap.html" title="class in com.google.common.collect">ForwardingMap</a>&lt;java.lang.Class&lt;? extends B&gt;,&#8203;B&gt;
 implements <a href="ClassToInstanceMap.html" title="interface in com.google.common.collect">ClassToInstanceMap</a>&lt;B&gt;, java.io.Serializable</pre>
 <div class="block">A mutable class-to-instance map backed by an arbitrary user-provided map. See also <a href="ImmutableClassToInstanceMap.html" title="class in com.google.common.collect"><code>ImmutableClassToInstanceMap</code></a>.
@@ -315,7 +315,7 @@ implements <a href="ClassToInstanceMap.html" title="interface in com.google.comm
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre class="methodSignature">public static&nbsp;&lt;B&gt;&nbsp;<a href="MutableClassToInstanceMap.html" title="class in com.google.common.collect">MutableClassToInstanceMap</a>&lt;B&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/MutableClassToInstanceMap.html#line.60">create</a>()</pre>
+<pre class="methodSignature">public static&nbsp;&lt;B&gt;&nbsp;<a href="MutableClassToInstanceMap.html" title="class in com.google.common.collect">MutableClassToInstanceMap</a>&lt;B&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/MutableClassToInstanceMap.html#line.62">create</a>()</pre>
 <div class="block">Returns a new <code>MutableClassToInstanceMap</code> instance backed by a <code>HashMap</code> using the
  default initial capacity and load factor.</div>
 </li>
@@ -326,7 +326,7 @@ implements <a href="ClassToInstanceMap.html" title="interface in com.google.comm
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre class="methodSignature">public static&nbsp;&lt;B&gt;&nbsp;<a href="MutableClassToInstanceMap.html" title="class in com.google.common.collect">MutableClassToInstanceMap</a>&lt;B&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/MutableClassToInstanceMap.html#line.69">create</a>&#8203;(java.util.Map&lt;java.lang.Class&lt;? extends B&gt;,&#8203;B&gt;&nbsp;backingMap)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;B&gt;&nbsp;<a href="MutableClassToInstanceMap.html" title="class in com.google.common.collect">MutableClassToInstanceMap</a>&lt;B&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/MutableClassToInstanceMap.html#line.71">create</a>&#8203;(java.util.Map&lt;java.lang.Class&lt;? extends B&gt;,&#8203;B&gt;&nbsp;backingMap)</pre>
 <div class="block">Returns a new <code>MutableClassToInstanceMap</code> instance backed by a given empty <code>
  backingMap</code>. The caller surrenders control of the backing map, and thus should not allow any
  direct references to it to remain accessible.</div>
@@ -338,7 +338,7 @@ implements <a href="ClassToInstanceMap.html" title="interface in com.google.comm
 <ul class="blockList">
 <li class="blockList">
 <h4>delegate</h4>
-<pre class="methodSignature">protected&nbsp;java.util.Map&lt;java.lang.Class&lt;? extends <a href="MutableClassToInstanceMap.html" title="type parameter in MutableClassToInstanceMap">B</a>&gt;,&#8203;<a href="MutableClassToInstanceMap.html" title="type parameter in MutableClassToInstanceMap">B</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/MutableClassToInstanceMap.html#line.79">delegate</a>()</pre>
+<pre class="methodSignature">protected&nbsp;java.util.Map&lt;java.lang.Class&lt;? extends <a href="MutableClassToInstanceMap.html" title="type parameter in MutableClassToInstanceMap">B</a>&gt;,&#8203;<a href="MutableClassToInstanceMap.html" title="type parameter in MutableClassToInstanceMap">B</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/MutableClassToInstanceMap.html#line.81">delegate</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="ForwardingObject.html#delegate()">ForwardingObject</a></code></span></div>
 <div class="block">Returns the backing delegate instance that methods are forwarded to. Abstract subclasses
  generally override this method with an abstract method that has a more specific return type,
@@ -356,7 +356,7 @@ implements <a href="ClassToInstanceMap.html" title="interface in com.google.comm
 <ul class="blockList">
 <li class="blockList">
 <h4>entrySet</h4>
-<pre class="methodSignature">public&nbsp;java.util.Set&lt;java.util.Map.Entry&lt;java.lang.Class&lt;? extends <a href="MutableClassToInstanceMap.html" title="type parameter in MutableClassToInstanceMap">B</a>&gt;,&#8203;<a href="MutableClassToInstanceMap.html" title="type parameter in MutableClassToInstanceMap">B</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/MutableClassToInstanceMap.html#line.102">entrySet</a>()</pre>
+<pre class="methodSignature">public&nbsp;java.util.Set&lt;java.util.Map.Entry&lt;java.lang.Class&lt;? extends <a href="MutableClassToInstanceMap.html" title="type parameter in MutableClassToInstanceMap">B</a>&gt;,&#8203;<a href="MutableClassToInstanceMap.html" title="type parameter in MutableClassToInstanceMap">B</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/MutableClassToInstanceMap.html#line.104">entrySet</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>entrySet</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;java.lang.Class&lt;? extends <a href="MutableClassToInstanceMap.html" title="type parameter in MutableClassToInstanceMap">B</a>&gt;,&#8203;<a href="MutableClassToInstanceMap.html" title="type parameter in MutableClassToInstanceMap">B</a>&gt;</code></dd>
@@ -375,7 +375,7 @@ implements <a href="ClassToInstanceMap.html" title="interface in com.google.comm
 <h4>put</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;<a href="MutableClassToInstanceMap.html" title="type parameter in MutableClassToInstanceMap">B</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/MutableClassToInstanceMap.html#line.149">put</a>&#8203;(java.lang.Class&lt;? extends <a href="MutableClassToInstanceMap.html" title="type parameter in MutableClassToInstanceMap">B</a>&gt;&nbsp;key,
+public&nbsp;<a href="MutableClassToInstanceMap.html" title="type parameter in MutableClassToInstanceMap">B</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/MutableClassToInstanceMap.html#line.151">put</a>&#8203;(java.lang.Class&lt;? extends <a href="MutableClassToInstanceMap.html" title="type parameter in MutableClassToInstanceMap">B</a>&gt;&nbsp;key,
              <a href="MutableClassToInstanceMap.html" title="type parameter in MutableClassToInstanceMap">B</a>&nbsp;value)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
@@ -391,7 +391,7 @@ public&nbsp;<a href="MutableClassToInstanceMap.html" title="type parameter in Mu
 <ul class="blockList">
 <li class="blockList">
 <h4>putAll</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/MutableClassToInstanceMap.html#line.156">putAll</a>&#8203;(java.util.Map&lt;? extends java.lang.Class&lt;? extends <a href="MutableClassToInstanceMap.html" title="type parameter in MutableClassToInstanceMap">B</a>&gt;,&#8203;? extends <a href="MutableClassToInstanceMap.html" title="type parameter in MutableClassToInstanceMap">B</a>&gt;&nbsp;map)</pre>
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/MutableClassToInstanceMap.html#line.158">putAll</a>&#8203;(java.util.Map&lt;? extends java.lang.Class&lt;? extends <a href="MutableClassToInstanceMap.html" title="type parameter in MutableClassToInstanceMap">B</a>&gt;,&#8203;? extends <a href="MutableClassToInstanceMap.html" title="type parameter in MutableClassToInstanceMap">B</a>&gt;&nbsp;map)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>putAll</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;java.lang.Class&lt;? extends <a href="MutableClassToInstanceMap.html" title="type parameter in MutableClassToInstanceMap">B</a>&gt;,&#8203;<a href="MutableClassToInstanceMap.html" title="type parameter in MutableClassToInstanceMap">B</a>&gt;</code></dd>
@@ -410,7 +410,7 @@ public&nbsp;<a href="MutableClassToInstanceMap.html" title="type parameter in Mu
 <h4>putInstance</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;&lt;T extends <a href="MutableClassToInstanceMap.html" title="type parameter in MutableClassToInstanceMap">B</a>&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/MutableClassToInstanceMap.html#line.165">putInstance</a>&#8203;(java.lang.Class&lt;T&gt;&nbsp;type,
+public&nbsp;&lt;T extends <a href="MutableClassToInstanceMap.html" title="type parameter in MutableClassToInstanceMap">B</a>&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/MutableClassToInstanceMap.html#line.167">putInstance</a>&#8203;(java.lang.Class&lt;T&gt;&nbsp;type,
                                    T&nbsp;value)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="ClassToInstanceMap.html#putInstance(java.lang.Class,T)">ClassToInstanceMap</a></code></span></div>
 <div class="block">Maps the specified class to the specified value. Does <i>not</i> associate this value with any
@@ -431,7 +431,7 @@ public&nbsp;&lt;T extends <a href="MutableClassToInstanceMap.html" title="type p
 <li class="blockList">
 <h4>getInstance</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;&lt;T extends <a href="MutableClassToInstanceMap.html" title="type parameter in MutableClassToInstanceMap">B</a>&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/MutableClassToInstanceMap.html#line.172">getInstance</a>&#8203;(java.lang.Class&lt;T&gt;&nbsp;type)</pre>
+public&nbsp;&lt;T extends <a href="MutableClassToInstanceMap.html" title="type parameter in MutableClassToInstanceMap">B</a>&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/MutableClassToInstanceMap.html#line.174">getInstance</a>&#8203;(java.lang.Class&lt;T&gt;&nbsp;type)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="ClassToInstanceMap.html#getInstance(java.lang.Class)">ClassToInstanceMap</a></code></span></div>
 <div class="block">Returns the value the specified class is mapped to, or <code>null</code> if no entry for this class
  is present. This will only return a value that was bound to this specific class, not a value
