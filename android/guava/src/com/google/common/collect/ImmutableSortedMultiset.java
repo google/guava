@@ -641,6 +641,7 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
     }
   }
 
+  @J2ktIncompatible // serialization
   private static final class SerializedForm<E> implements Serializable {
     final Comparator<? super E> comparator;
     final E[] elements;
@@ -671,6 +672,7 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
   }
 
   @Override
+  @J2ktIncompatible // serialization
   Object writeReplace() {
     return new SerializedForm<E>(this);
   }

@@ -27,6 +27,7 @@ import static java.util.Objects.requireNonNull;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Converter;
 import com.google.common.base.Equivalence;
 import com.google.common.base.Function;
@@ -146,6 +147,7 @@ public final class Maps {
    * @since 14.0
    */
   @GwtCompatible(serializable = true)
+  @J2ktIncompatible
   public static <K extends Enum<K>, V> ImmutableMap<K, V> immutableEnumMap(
       Map<K, ? extends V> map) {
     if (map instanceof ImmutableEnumMap) {
@@ -1364,6 +1366,7 @@ public final class Maps {
    * @throws ClassCastException if any key in {@code properties} is not a {@code String}
    * @throws NullPointerException if any key or value in {@code properties} is null
    */
+  @J2ktIncompatible
   @GwtIncompatible // java.util.Properties
   public static ImmutableMap<String, String> fromProperties(Properties properties) {
     ImmutableMap.Builder<String, String> builder = ImmutableMap.builder();

@@ -66,6 +66,7 @@ import javax.annotation.CheckForNull;
  * @author Doug Lea ({@code ConcurrentHashMap})
  */
 // TODO(kak): Consider removing @CanIgnoreReturnValue from this class.
+@J2ktIncompatible
 @GwtIncompatible
 @SuppressWarnings({
   "GuardedBy", // TODO(b/35466881): Fix or suppress.
