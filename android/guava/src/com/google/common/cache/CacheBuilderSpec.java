@@ -449,7 +449,7 @@ public final class CacheBuilderSpec {
         parseDuration(spec, duration, timeUnit);
       } catch (NumberFormatException e) {
         throw new IllegalArgumentException(
-            format("key %s value set to %s, must be integer", key, value));
+            format("key %s value set to %s, must be integer", key, value), e);
       }
     }
   }
