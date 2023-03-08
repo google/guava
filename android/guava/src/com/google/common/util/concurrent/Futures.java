@@ -23,6 +23,7 @@ import static java.util.Objects.requireNonNull;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Function;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Preconditions;
@@ -223,6 +224,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * @throws RejectedExecutionException if the task cannot be scheduled for execution
    * @since 23.0
    */
+  @J2ktIncompatible
   @GwtIncompatible // java.util.concurrent.ScheduledExecutorService
   @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   // TODO(cpovirk): Return ListenableScheduledFuture?
@@ -282,6 +284,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * @since 19.0
    */
   @Beta
+  @J2ktIncompatible
   @Partially.GwtIncompatible("AVAILABLE but requires exceptionType to be Throwable.class")
   public static <V extends @Nullable Object, X extends Throwable> ListenableFuture<V> catching(
       ListenableFuture<? extends V> input,
@@ -347,6 +350,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * @since 19.0 (similar functionality in 14.0 as {@code withFallback})
    */
   @Beta
+  @J2ktIncompatible
   @Partially.GwtIncompatible("AVAILABLE but requires exceptionType to be Throwable.class")
   public static <V extends @Nullable Object, X extends Throwable> ListenableFuture<V> catchingAsync(
       ListenableFuture<? extends V> input,
@@ -363,12 +367,12 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * <p>The delegate future is interrupted and cancelled if it times out.
    *
    * @param delegate The future to delegate to.
-   * @param time when to timeout the future
    * @param unit the time unit of the time parameter
    * @param scheduledExecutor The executor service to enforce the timeout.
    * @since 19.0
    */
   @Beta
+  @J2ktIncompatible
   @GwtIncompatible // java.util.concurrent.ScheduledExecutorService
   @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public static <V extends @Nullable Object> ListenableFuture<V> withTimeout(
@@ -480,6 +484,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * @since 10.0
    */
   @Beta
+  @J2ktIncompatible
   @GwtIncompatible // TODO
   public static <I extends @Nullable Object, O extends @Nullable Object> Future<O> lazyTransform(
       final Future<I> input, final Function<? super I, ? extends O> function) {
@@ -1207,6 +1212,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    */
   @Beta
   @CanIgnoreReturnValue
+  @J2ktIncompatible
   @GwtIncompatible // reflection
   @ParametricNullness
   public static <V extends @Nullable Object, X extends Exception> V getChecked(
@@ -1259,6 +1265,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    */
   @Beta
   @CanIgnoreReturnValue
+  @J2ktIncompatible
   @GwtIncompatible // reflection
   @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   @ParametricNullness

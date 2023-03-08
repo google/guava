@@ -17,6 +17,7 @@ package com.google.common.util.concurrent;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Preconditions;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -34,6 +35,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * in an {@link ExecutionException}) if the specified duration expires. The delegate future is
  * interrupted and cancelled if it times out.
  */
+@J2ktIncompatible
 @GwtIncompatible
 @ElementTypesAreNonnullByDefault
 final class TimeoutFuture<V extends @Nullable Object> extends FluentFuture.TrustedFuture<V> {

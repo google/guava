@@ -20,6 +20,7 @@ import static com.google.common.util.concurrent.Internal.toNanosSaturated;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Function;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.DoNotMock;
@@ -184,6 +185,7 @@ public abstract class FluentFuture<V extends @Nullable Object>
    *     {@code get()} throws a different kind of exception, that exception itself.
    * @param executor the executor that runs {@code fallback} if the input fails
    */
+  @J2ktIncompatible
   @Partially.GwtIncompatible("AVAILABLE but requires exceptionType to be Throwable.class")
   @Beta
   public final <X extends Throwable> FluentFuture<V> catching(
@@ -249,6 +251,7 @@ public abstract class FluentFuture<V extends @Nullable Object>
    *     {@code get()} throws a different kind of exception, that exception itself.
    * @param executor the executor that runs {@code fallback} if the input fails
    */
+  @J2ktIncompatible
   @Partially.GwtIncompatible("AVAILABLE but requires exceptionType to be Throwable.class")
   @Beta
   public final <X extends Throwable> FluentFuture<V> catchingAsync(
@@ -266,6 +269,7 @@ public abstract class FluentFuture<V extends @Nullable Object>
    * @param scheduledExecutor The executor service to enforce the timeout.
    * @since 28.0
    */
+  @J2ktIncompatible
   @GwtIncompatible // ScheduledExecutorService
   @Beta
   public final FluentFuture<V> withTimeout(
@@ -283,6 +287,7 @@ public abstract class FluentFuture<V extends @Nullable Object>
    * @param unit the time unit of the time parameter
    * @param scheduledExecutor The executor service to enforce the timeout.
    */
+  @J2ktIncompatible
   @GwtIncompatible // ScheduledExecutorService
   @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   @Beta

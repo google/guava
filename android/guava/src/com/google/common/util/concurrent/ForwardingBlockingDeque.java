@@ -17,6 +17,7 @@
 package com.google.common.util.concurrent;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.ForwardingDeque;
 import java.util.Collection;
 import java.util.concurrent.BlockingDeque;
@@ -44,6 +45,7 @@ import javax.annotation.CheckForNull;
  * @author Emily Soldal
  * @since 21.0 (since 14.0 as {@link com.google.common.collect.ForwardingBlockingDeque})
  */
+@J2ktIncompatible
 @GwtIncompatible
 @ElementTypesAreNonnullByDefault
 public abstract class ForwardingBlockingDeque<E> extends ForwardingDeque<E>

@@ -17,6 +17,7 @@ package com.google.common.util.concurrent;
 import static com.google.common.util.concurrent.Internal.toNanosSaturated;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.DoNotMock;
 import java.time.Duration;
@@ -55,6 +56,7 @@ import java.util.concurrent.TimeoutException;
  * @since 9.0 (in 1.0 as {@code com.google.common.base.Service})
  */
 @DoNotMock("Create an AbstractIdleService")
+@J2ktIncompatible
 @GwtIncompatible
 @ElementTypesAreNonnullByDefault
 public interface Service {
