@@ -56,6 +56,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author mike nonemacher
  * @since 2.0
  */
+@J2ktIncompatible
 @GwtIncompatible
 @ElementTypesAreNonnullByDefault
 public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> implements Serializable {

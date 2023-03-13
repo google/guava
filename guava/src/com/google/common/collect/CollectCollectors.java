@@ -21,6 +21,7 @@ import static java.util.stream.Collectors.collectingAndThen;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Preconditions;
 import java.util.Collection;
 import java.util.Comparator;
@@ -254,6 +255,7 @@ final class CollectCollectors {
         new Collector.Characteristics[0]);
   }
 
+  @J2ktIncompatible
   static <T extends @Nullable Object, K extends Enum<K>, V>
       Collector<T, ?, ImmutableMap<K, V>> toImmutableEnumMap(
           Function<? super T, ? extends K> keyFunction,
@@ -282,6 +284,7 @@ final class CollectCollectors {
         Collector.Characteristics.UNORDERED);
   }
 
+  @J2ktIncompatible
   static <T extends @Nullable Object, K extends Enum<K>, V>
       Collector<T, ?, ImmutableMap<K, V>> toImmutableEnumMap(
           Function<? super T, ? extends K> keyFunction,
@@ -308,6 +311,7 @@ final class CollectCollectors {
         EnumMapAccumulator::toImmutableMap);
   }
 
+  @J2ktIncompatible
   private static class EnumMapAccumulator<K extends Enum<K>, V> {
     private final BinaryOperator<V> mergeFunction;
     @CheckForNull private EnumMap<K, V> map = null;

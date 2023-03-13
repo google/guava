@@ -699,6 +699,7 @@ class CompactHashSet<E extends @Nullable Object> extends AbstractSet<E> implemen
     }
   }
 
+  @J2ktIncompatible
   private void writeObject(ObjectOutputStream stream) throws IOException {
     stream.defaultWriteObject();
     stream.writeInt(size());

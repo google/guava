@@ -177,7 +177,6 @@ public final class Predicates {
    * example, {@code instanceOf(ArrayList.class)} will yield different results for the two equal
    * instances {@code Lists.newArrayList(1)} and {@code Arrays.asList(1)}.
    */
-  @J2ktIncompatible
   @GwtIncompatible // Class.isInstance
   public static <T extends @Nullable Object> Predicate<T> instanceOf(Class<?> clazz) {
     return new InstanceOfPredicate<>(clazz);
@@ -494,7 +493,6 @@ public final class Predicates {
   /**
    * @see Predicates#instanceOf(Class)
    */
-  @J2ktIncompatible
   @GwtIncompatible // Class.isInstance
   private static class InstanceOfPredicate<T extends @Nullable Object>
       implements Predicate<T>, Serializable {
@@ -528,7 +526,7 @@ public final class Predicates {
       return "Predicates.instanceOf(" + clazz.getName() + ")";
     }
 
-    private static final long serialVersionUID = 0;
+    @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   /**

@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Function;
 import java.util.ArrayList;
@@ -314,14 +315,17 @@ public abstract class Ordering<T extends @Nullable Object> implements Comparator
    * @since 2.0
    */
   // TODO(kevinb): copy to Comparators, etc.
+  @J2ktIncompatible // MapMaker
   public static Ordering<@Nullable Object> arbitrary() {
     return ArbitraryOrderingHolder.ARBITRARY_ORDERING;
   }
 
+  @J2ktIncompatible // MapMaker
   private static class ArbitraryOrderingHolder {
     static final Ordering<@Nullable Object> ARBITRARY_ORDERING = new ArbitraryOrdering();
   }
 
+  @J2ktIncompatible // MapMaker
   @VisibleForTesting
   static class ArbitraryOrdering extends Ordering<@Nullable Object> {
 
