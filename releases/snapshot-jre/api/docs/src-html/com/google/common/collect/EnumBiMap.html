@@ -30,124 +30,126 @@
 <span class="sourceLineNo">021</span><a id="line.21"></a>
 <span class="sourceLineNo">022</span><a id="line.22">import com.google.common.annotations.GwtCompatible;</a>
 <span class="sourceLineNo">023</span><a id="line.23">import com.google.common.annotations.GwtIncompatible;</a>
-<span class="sourceLineNo">024</span><a id="line.24">import java.io.IOException;</a>
-<span class="sourceLineNo">025</span><a id="line.25">import java.io.ObjectInputStream;</a>
-<span class="sourceLineNo">026</span><a id="line.26">import java.io.ObjectOutputStream;</a>
-<span class="sourceLineNo">027</span><a id="line.27">import java.util.EnumMap;</a>
-<span class="sourceLineNo">028</span><a id="line.28">import java.util.Map;</a>
-<span class="sourceLineNo">029</span><a id="line.29"></a>
-<span class="sourceLineNo">030</span><a id="line.30">/**</a>
-<span class="sourceLineNo">031</span><a id="line.31"> * A {@code BiMap} backed by two {@code EnumMap} instances. Null keys and values are not permitted.</a>
-<span class="sourceLineNo">032</span><a id="line.32"> * An {@code EnumBiMap} and its inverse are both serializable.</a>
-<span class="sourceLineNo">033</span><a id="line.33"> *</a>
-<span class="sourceLineNo">034</span><a id="line.34"> * &lt;p&gt;See the Guava User Guide article on &lt;a href=</a>
-<span class="sourceLineNo">035</span><a id="line.35"> * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#bimap"&gt;{@code BiMap}&lt;/a&gt;.</a>
-<span class="sourceLineNo">036</span><a id="line.36"> *</a>
-<span class="sourceLineNo">037</span><a id="line.37"> * @author Mike Bostock</a>
-<span class="sourceLineNo">038</span><a id="line.38"> * @since 2.0</a>
-<span class="sourceLineNo">039</span><a id="line.39"> */</a>
-<span class="sourceLineNo">040</span><a id="line.40">@GwtCompatible(emulated = true)</a>
-<span class="sourceLineNo">041</span><a id="line.41">@ElementTypesAreNonnullByDefault</a>
-<span class="sourceLineNo">042</span><a id="line.42">public final class EnumBiMap&lt;K extends Enum&lt;K&gt;, V extends Enum&lt;V&gt;&gt; extends AbstractBiMap&lt;K, V&gt; {</a>
-<span class="sourceLineNo">043</span><a id="line.43">  private transient Class&lt;K&gt; keyType;</a>
-<span class="sourceLineNo">044</span><a id="line.44">  private transient Class&lt;V&gt; valueType;</a>
-<span class="sourceLineNo">045</span><a id="line.45"></a>
-<span class="sourceLineNo">046</span><a id="line.46">  /**</a>
-<span class="sourceLineNo">047</span><a id="line.47">   * Returns a new, empty {@code EnumBiMap} using the specified key and value types.</a>
-<span class="sourceLineNo">048</span><a id="line.48">   *</a>
-<span class="sourceLineNo">049</span><a id="line.49">   * @param keyType the key type</a>
-<span class="sourceLineNo">050</span><a id="line.50">   * @param valueType the value type</a>
-<span class="sourceLineNo">051</span><a id="line.51">   */</a>
-<span class="sourceLineNo">052</span><a id="line.52">  public static &lt;K extends Enum&lt;K&gt;, V extends Enum&lt;V&gt;&gt; EnumBiMap&lt;K, V&gt; create(</a>
-<span class="sourceLineNo">053</span><a id="line.53">      Class&lt;K&gt; keyType, Class&lt;V&gt; valueType) {</a>
-<span class="sourceLineNo">054</span><a id="line.54">    return new EnumBiMap&lt;&gt;(keyType, valueType);</a>
-<span class="sourceLineNo">055</span><a id="line.55">  }</a>
-<span class="sourceLineNo">056</span><a id="line.56"></a>
-<span class="sourceLineNo">057</span><a id="line.57">  /**</a>
-<span class="sourceLineNo">058</span><a id="line.58">   * Returns a new bimap with the same mappings as the specified map. If the specified map is an</a>
-<span class="sourceLineNo">059</span><a id="line.59">   * {@code EnumBiMap}, the new bimap has the same types as the provided map. Otherwise, the</a>
-<span class="sourceLineNo">060</span><a id="line.60">   * specified map must contain at least one mapping, in order to determine the key and value types.</a>
-<span class="sourceLineNo">061</span><a id="line.61">   *</a>
-<span class="sourceLineNo">062</span><a id="line.62">   * @param map the map whose mappings are to be placed in this map</a>
-<span class="sourceLineNo">063</span><a id="line.63">   * @throws IllegalArgumentException if map is not an {@code EnumBiMap} instance and contains no</a>
-<span class="sourceLineNo">064</span><a id="line.64">   *     mappings</a>
-<span class="sourceLineNo">065</span><a id="line.65">   */</a>
-<span class="sourceLineNo">066</span><a id="line.66">  public static &lt;K extends Enum&lt;K&gt;, V extends Enum&lt;V&gt;&gt; EnumBiMap&lt;K, V&gt; create(Map&lt;K, V&gt; map) {</a>
-<span class="sourceLineNo">067</span><a id="line.67">    EnumBiMap&lt;K, V&gt; bimap = create(inferKeyType(map), inferValueType(map));</a>
-<span class="sourceLineNo">068</span><a id="line.68">    bimap.putAll(map);</a>
-<span class="sourceLineNo">069</span><a id="line.69">    return bimap;</a>
-<span class="sourceLineNo">070</span><a id="line.70">  }</a>
-<span class="sourceLineNo">071</span><a id="line.71"></a>
-<span class="sourceLineNo">072</span><a id="line.72">  private EnumBiMap(Class&lt;K&gt; keyType, Class&lt;V&gt; valueType) {</a>
-<span class="sourceLineNo">073</span><a id="line.73">    super(new EnumMap&lt;K, V&gt;(keyType), new EnumMap&lt;V, K&gt;(valueType));</a>
-<span class="sourceLineNo">074</span><a id="line.74">    this.keyType = keyType;</a>
-<span class="sourceLineNo">075</span><a id="line.75">    this.valueType = valueType;</a>
-<span class="sourceLineNo">076</span><a id="line.76">  }</a>
-<span class="sourceLineNo">077</span><a id="line.77"></a>
-<span class="sourceLineNo">078</span><a id="line.78">  static &lt;K extends Enum&lt;K&gt;&gt; Class&lt;K&gt; inferKeyType(Map&lt;K, ?&gt; map) {</a>
-<span class="sourceLineNo">079</span><a id="line.79">    if (map instanceof EnumBiMap) {</a>
-<span class="sourceLineNo">080</span><a id="line.80">      return ((EnumBiMap&lt;K, ?&gt;) map).keyType();</a>
-<span class="sourceLineNo">081</span><a id="line.81">    }</a>
-<span class="sourceLineNo">082</span><a id="line.82">    if (map instanceof EnumHashBiMap) {</a>
-<span class="sourceLineNo">083</span><a id="line.83">      return ((EnumHashBiMap&lt;K, ?&gt;) map).keyType();</a>
-<span class="sourceLineNo">084</span><a id="line.84">    }</a>
-<span class="sourceLineNo">085</span><a id="line.85">    checkArgument(!map.isEmpty());</a>
-<span class="sourceLineNo">086</span><a id="line.86">    return map.keySet().iterator().next().getDeclaringClass();</a>
-<span class="sourceLineNo">087</span><a id="line.87">  }</a>
-<span class="sourceLineNo">088</span><a id="line.88"></a>
-<span class="sourceLineNo">089</span><a id="line.89">  private static &lt;V extends Enum&lt;V&gt;&gt; Class&lt;V&gt; inferValueType(Map&lt;?, V&gt; map) {</a>
-<span class="sourceLineNo">090</span><a id="line.90">    if (map instanceof EnumBiMap) {</a>
-<span class="sourceLineNo">091</span><a id="line.91">      return ((EnumBiMap&lt;?, V&gt;) map).valueType;</a>
-<span class="sourceLineNo">092</span><a id="line.92">    }</a>
-<span class="sourceLineNo">093</span><a id="line.93">    checkArgument(!map.isEmpty());</a>
-<span class="sourceLineNo">094</span><a id="line.94">    return map.values().iterator().next().getDeclaringClass();</a>
-<span class="sourceLineNo">095</span><a id="line.95">  }</a>
-<span class="sourceLineNo">096</span><a id="line.96"></a>
-<span class="sourceLineNo">097</span><a id="line.97">  /** Returns the associated key type. */</a>
-<span class="sourceLineNo">098</span><a id="line.98">  public Class&lt;K&gt; keyType() {</a>
-<span class="sourceLineNo">099</span><a id="line.99">    return keyType;</a>
-<span class="sourceLineNo">100</span><a id="line.100">  }</a>
-<span class="sourceLineNo">101</span><a id="line.101"></a>
-<span class="sourceLineNo">102</span><a id="line.102">  /** Returns the associated value type. */</a>
-<span class="sourceLineNo">103</span><a id="line.103">  public Class&lt;V&gt; valueType() {</a>
-<span class="sourceLineNo">104</span><a id="line.104">    return valueType;</a>
-<span class="sourceLineNo">105</span><a id="line.105">  }</a>
-<span class="sourceLineNo">106</span><a id="line.106"></a>
-<span class="sourceLineNo">107</span><a id="line.107">  @Override</a>
-<span class="sourceLineNo">108</span><a id="line.108">  K checkKey(K key) {</a>
-<span class="sourceLineNo">109</span><a id="line.109">    return checkNotNull(key);</a>
-<span class="sourceLineNo">110</span><a id="line.110">  }</a>
-<span class="sourceLineNo">111</span><a id="line.111"></a>
-<span class="sourceLineNo">112</span><a id="line.112">  @Override</a>
-<span class="sourceLineNo">113</span><a id="line.113">  V checkValue(V value) {</a>
-<span class="sourceLineNo">114</span><a id="line.114">    return checkNotNull(value);</a>
-<span class="sourceLineNo">115</span><a id="line.115">  }</a>
-<span class="sourceLineNo">116</span><a id="line.116"></a>
-<span class="sourceLineNo">117</span><a id="line.117">  /**</a>
-<span class="sourceLineNo">118</span><a id="line.118">   * @serialData the key class, value class, number of entries, first key, first value, second key,</a>
-<span class="sourceLineNo">119</span><a id="line.119">   *     second value, and so on.</a>
-<span class="sourceLineNo">120</span><a id="line.120">   */</a>
-<span class="sourceLineNo">121</span><a id="line.121">  @GwtIncompatible // java.io.ObjectOutputStream</a>
-<span class="sourceLineNo">122</span><a id="line.122">  private void writeObject(ObjectOutputStream stream) throws IOException {</a>
-<span class="sourceLineNo">123</span><a id="line.123">    stream.defaultWriteObject();</a>
-<span class="sourceLineNo">124</span><a id="line.124">    stream.writeObject(keyType);</a>
-<span class="sourceLineNo">125</span><a id="line.125">    stream.writeObject(valueType);</a>
-<span class="sourceLineNo">126</span><a id="line.126">    Serialization.writeMap(this, stream);</a>
-<span class="sourceLineNo">127</span><a id="line.127">  }</a>
-<span class="sourceLineNo">128</span><a id="line.128"></a>
-<span class="sourceLineNo">129</span><a id="line.129">  @SuppressWarnings("unchecked") // reading fields populated by writeObject</a>
-<span class="sourceLineNo">130</span><a id="line.130">  @GwtIncompatible // java.io.ObjectInputStream</a>
-<span class="sourceLineNo">131</span><a id="line.131">  private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {</a>
-<span class="sourceLineNo">132</span><a id="line.132">    stream.defaultReadObject();</a>
-<span class="sourceLineNo">133</span><a id="line.133">    keyType = (Class&lt;K&gt;) stream.readObject();</a>
-<span class="sourceLineNo">134</span><a id="line.134">    valueType = (Class&lt;V&gt;) stream.readObject();</a>
-<span class="sourceLineNo">135</span><a id="line.135">    setDelegates(new EnumMap&lt;K, V&gt;(keyType), new EnumMap&lt;V, K&gt;(valueType));</a>
-<span class="sourceLineNo">136</span><a id="line.136">    Serialization.populateMap(this, stream);</a>
-<span class="sourceLineNo">137</span><a id="line.137">  }</a>
-<span class="sourceLineNo">138</span><a id="line.138"></a>
-<span class="sourceLineNo">139</span><a id="line.139">  @GwtIncompatible // not needed in emulated source.</a>
-<span class="sourceLineNo">140</span><a id="line.140">  private static final long serialVersionUID = 0;</a>
-<span class="sourceLineNo">141</span><a id="line.141">}</a>
+<span class="sourceLineNo">024</span><a id="line.24">import com.google.common.annotations.J2ktIncompatible;</a>
+<span class="sourceLineNo">025</span><a id="line.25">import java.io.IOException;</a>
+<span class="sourceLineNo">026</span><a id="line.26">import java.io.ObjectInputStream;</a>
+<span class="sourceLineNo">027</span><a id="line.27">import java.io.ObjectOutputStream;</a>
+<span class="sourceLineNo">028</span><a id="line.28">import java.util.EnumMap;</a>
+<span class="sourceLineNo">029</span><a id="line.29">import java.util.Map;</a>
+<span class="sourceLineNo">030</span><a id="line.30"></a>
+<span class="sourceLineNo">031</span><a id="line.31">/**</a>
+<span class="sourceLineNo">032</span><a id="line.32"> * A {@code BiMap} backed by two {@code EnumMap} instances. Null keys and values are not permitted.</a>
+<span class="sourceLineNo">033</span><a id="line.33"> * An {@code EnumBiMap} and its inverse are both serializable.</a>
+<span class="sourceLineNo">034</span><a id="line.34"> *</a>
+<span class="sourceLineNo">035</span><a id="line.35"> * &lt;p&gt;See the Guava User Guide article on &lt;a href=</a>
+<span class="sourceLineNo">036</span><a id="line.36"> * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#bimap"&gt;{@code BiMap}&lt;/a&gt;.</a>
+<span class="sourceLineNo">037</span><a id="line.37"> *</a>
+<span class="sourceLineNo">038</span><a id="line.38"> * @author Mike Bostock</a>
+<span class="sourceLineNo">039</span><a id="line.39"> * @since 2.0</a>
+<span class="sourceLineNo">040</span><a id="line.40"> */</a>
+<span class="sourceLineNo">041</span><a id="line.41">@GwtCompatible(emulated = true)</a>
+<span class="sourceLineNo">042</span><a id="line.42">@J2ktIncompatible</a>
+<span class="sourceLineNo">043</span><a id="line.43">@ElementTypesAreNonnullByDefault</a>
+<span class="sourceLineNo">044</span><a id="line.44">public final class EnumBiMap&lt;K extends Enum&lt;K&gt;, V extends Enum&lt;V&gt;&gt; extends AbstractBiMap&lt;K, V&gt; {</a>
+<span class="sourceLineNo">045</span><a id="line.45">  private transient Class&lt;K&gt; keyType;</a>
+<span class="sourceLineNo">046</span><a id="line.46">  private transient Class&lt;V&gt; valueType;</a>
+<span class="sourceLineNo">047</span><a id="line.47"></a>
+<span class="sourceLineNo">048</span><a id="line.48">  /**</a>
+<span class="sourceLineNo">049</span><a id="line.49">   * Returns a new, empty {@code EnumBiMap} using the specified key and value types.</a>
+<span class="sourceLineNo">050</span><a id="line.50">   *</a>
+<span class="sourceLineNo">051</span><a id="line.51">   * @param keyType the key type</a>
+<span class="sourceLineNo">052</span><a id="line.52">   * @param valueType the value type</a>
+<span class="sourceLineNo">053</span><a id="line.53">   */</a>
+<span class="sourceLineNo">054</span><a id="line.54">  public static &lt;K extends Enum&lt;K&gt;, V extends Enum&lt;V&gt;&gt; EnumBiMap&lt;K, V&gt; create(</a>
+<span class="sourceLineNo">055</span><a id="line.55">      Class&lt;K&gt; keyType, Class&lt;V&gt; valueType) {</a>
+<span class="sourceLineNo">056</span><a id="line.56">    return new EnumBiMap&lt;&gt;(keyType, valueType);</a>
+<span class="sourceLineNo">057</span><a id="line.57">  }</a>
+<span class="sourceLineNo">058</span><a id="line.58"></a>
+<span class="sourceLineNo">059</span><a id="line.59">  /**</a>
+<span class="sourceLineNo">060</span><a id="line.60">   * Returns a new bimap with the same mappings as the specified map. If the specified map is an</a>
+<span class="sourceLineNo">061</span><a id="line.61">   * {@code EnumBiMap}, the new bimap has the same types as the provided map. Otherwise, the</a>
+<span class="sourceLineNo">062</span><a id="line.62">   * specified map must contain at least one mapping, in order to determine the key and value types.</a>
+<span class="sourceLineNo">063</span><a id="line.63">   *</a>
+<span class="sourceLineNo">064</span><a id="line.64">   * @param map the map whose mappings are to be placed in this map</a>
+<span class="sourceLineNo">065</span><a id="line.65">   * @throws IllegalArgumentException if map is not an {@code EnumBiMap} instance and contains no</a>
+<span class="sourceLineNo">066</span><a id="line.66">   *     mappings</a>
+<span class="sourceLineNo">067</span><a id="line.67">   */</a>
+<span class="sourceLineNo">068</span><a id="line.68">  public static &lt;K extends Enum&lt;K&gt;, V extends Enum&lt;V&gt;&gt; EnumBiMap&lt;K, V&gt; create(Map&lt;K, V&gt; map) {</a>
+<span class="sourceLineNo">069</span><a id="line.69">    EnumBiMap&lt;K, V&gt; bimap = create(inferKeyType(map), inferValueType(map));</a>
+<span class="sourceLineNo">070</span><a id="line.70">    bimap.putAll(map);</a>
+<span class="sourceLineNo">071</span><a id="line.71">    return bimap;</a>
+<span class="sourceLineNo">072</span><a id="line.72">  }</a>
+<span class="sourceLineNo">073</span><a id="line.73"></a>
+<span class="sourceLineNo">074</span><a id="line.74">  private EnumBiMap(Class&lt;K&gt; keyType, Class&lt;V&gt; valueType) {</a>
+<span class="sourceLineNo">075</span><a id="line.75">    super(new EnumMap&lt;K, V&gt;(keyType), new EnumMap&lt;V, K&gt;(valueType));</a>
+<span class="sourceLineNo">076</span><a id="line.76">    this.keyType = keyType;</a>
+<span class="sourceLineNo">077</span><a id="line.77">    this.valueType = valueType;</a>
+<span class="sourceLineNo">078</span><a id="line.78">  }</a>
+<span class="sourceLineNo">079</span><a id="line.79"></a>
+<span class="sourceLineNo">080</span><a id="line.80">  static &lt;K extends Enum&lt;K&gt;&gt; Class&lt;K&gt; inferKeyType(Map&lt;K, ?&gt; map) {</a>
+<span class="sourceLineNo">081</span><a id="line.81">    if (map instanceof EnumBiMap) {</a>
+<span class="sourceLineNo">082</span><a id="line.82">      return ((EnumBiMap&lt;K, ?&gt;) map).keyType();</a>
+<span class="sourceLineNo">083</span><a id="line.83">    }</a>
+<span class="sourceLineNo">084</span><a id="line.84">    if (map instanceof EnumHashBiMap) {</a>
+<span class="sourceLineNo">085</span><a id="line.85">      return ((EnumHashBiMap&lt;K, ?&gt;) map).keyType();</a>
+<span class="sourceLineNo">086</span><a id="line.86">    }</a>
+<span class="sourceLineNo">087</span><a id="line.87">    checkArgument(!map.isEmpty());</a>
+<span class="sourceLineNo">088</span><a id="line.88">    return map.keySet().iterator().next().getDeclaringClass();</a>
+<span class="sourceLineNo">089</span><a id="line.89">  }</a>
+<span class="sourceLineNo">090</span><a id="line.90"></a>
+<span class="sourceLineNo">091</span><a id="line.91">  private static &lt;V extends Enum&lt;V&gt;&gt; Class&lt;V&gt; inferValueType(Map&lt;?, V&gt; map) {</a>
+<span class="sourceLineNo">092</span><a id="line.92">    if (map instanceof EnumBiMap) {</a>
+<span class="sourceLineNo">093</span><a id="line.93">      return ((EnumBiMap&lt;?, V&gt;) map).valueType;</a>
+<span class="sourceLineNo">094</span><a id="line.94">    }</a>
+<span class="sourceLineNo">095</span><a id="line.95">    checkArgument(!map.isEmpty());</a>
+<span class="sourceLineNo">096</span><a id="line.96">    return map.values().iterator().next().getDeclaringClass();</a>
+<span class="sourceLineNo">097</span><a id="line.97">  }</a>
+<span class="sourceLineNo">098</span><a id="line.98"></a>
+<span class="sourceLineNo">099</span><a id="line.99">  /** Returns the associated key type. */</a>
+<span class="sourceLineNo">100</span><a id="line.100">  public Class&lt;K&gt; keyType() {</a>
+<span class="sourceLineNo">101</span><a id="line.101">    return keyType;</a>
+<span class="sourceLineNo">102</span><a id="line.102">  }</a>
+<span class="sourceLineNo">103</span><a id="line.103"></a>
+<span class="sourceLineNo">104</span><a id="line.104">  /** Returns the associated value type. */</a>
+<span class="sourceLineNo">105</span><a id="line.105">  public Class&lt;V&gt; valueType() {</a>
+<span class="sourceLineNo">106</span><a id="line.106">    return valueType;</a>
+<span class="sourceLineNo">107</span><a id="line.107">  }</a>
+<span class="sourceLineNo">108</span><a id="line.108"></a>
+<span class="sourceLineNo">109</span><a id="line.109">  @Override</a>
+<span class="sourceLineNo">110</span><a id="line.110">  K checkKey(K key) {</a>
+<span class="sourceLineNo">111</span><a id="line.111">    return checkNotNull(key);</a>
+<span class="sourceLineNo">112</span><a id="line.112">  }</a>
+<span class="sourceLineNo">113</span><a id="line.113"></a>
+<span class="sourceLineNo">114</span><a id="line.114">  @Override</a>
+<span class="sourceLineNo">115</span><a id="line.115">  V checkValue(V value) {</a>
+<span class="sourceLineNo">116</span><a id="line.116">    return checkNotNull(value);</a>
+<span class="sourceLineNo">117</span><a id="line.117">  }</a>
+<span class="sourceLineNo">118</span><a id="line.118"></a>
+<span class="sourceLineNo">119</span><a id="line.119">  /**</a>
+<span class="sourceLineNo">120</span><a id="line.120">   * @serialData the key class, value class, number of entries, first key, first value, second key,</a>
+<span class="sourceLineNo">121</span><a id="line.121">   *     second value, and so on.</a>
+<span class="sourceLineNo">122</span><a id="line.122">   */</a>
+<span class="sourceLineNo">123</span><a id="line.123">  @GwtIncompatible // java.io.ObjectOutputStream</a>
+<span class="sourceLineNo">124</span><a id="line.124">  private void writeObject(ObjectOutputStream stream) throws IOException {</a>
+<span class="sourceLineNo">125</span><a id="line.125">    stream.defaultWriteObject();</a>
+<span class="sourceLineNo">126</span><a id="line.126">    stream.writeObject(keyType);</a>
+<span class="sourceLineNo">127</span><a id="line.127">    stream.writeObject(valueType);</a>
+<span class="sourceLineNo">128</span><a id="line.128">    Serialization.writeMap(this, stream);</a>
+<span class="sourceLineNo">129</span><a id="line.129">  }</a>
+<span class="sourceLineNo">130</span><a id="line.130"></a>
+<span class="sourceLineNo">131</span><a id="line.131">  @SuppressWarnings("unchecked") // reading fields populated by writeObject</a>
+<span class="sourceLineNo">132</span><a id="line.132">  @GwtIncompatible // java.io.ObjectInputStream</a>
+<span class="sourceLineNo">133</span><a id="line.133">  private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {</a>
+<span class="sourceLineNo">134</span><a id="line.134">    stream.defaultReadObject();</a>
+<span class="sourceLineNo">135</span><a id="line.135">    keyType = (Class&lt;K&gt;) stream.readObject();</a>
+<span class="sourceLineNo">136</span><a id="line.136">    valueType = (Class&lt;V&gt;) stream.readObject();</a>
+<span class="sourceLineNo">137</span><a id="line.137">    setDelegates(new EnumMap&lt;K, V&gt;(keyType), new EnumMap&lt;V, K&gt;(valueType));</a>
+<span class="sourceLineNo">138</span><a id="line.138">    Serialization.populateMap(this, stream);</a>
+<span class="sourceLineNo">139</span><a id="line.139">  }</a>
+<span class="sourceLineNo">140</span><a id="line.140"></a>
+<span class="sourceLineNo">141</span><a id="line.141">  @GwtIncompatible // not needed in emulated source.</a>
+<span class="sourceLineNo">142</span><a id="line.142">  private static final long serialVersionUID = 0;</a>
+<span class="sourceLineNo">143</span><a id="line.143">}</a>
 
 
 

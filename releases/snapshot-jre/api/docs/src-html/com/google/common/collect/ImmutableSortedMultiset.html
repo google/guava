@@ -575,45 +575,47 @@
 <span class="sourceLineNo">566</span><a id="line.566">    }</a>
 <span class="sourceLineNo">567</span><a id="line.567">  }</a>
 <span class="sourceLineNo">568</span><a id="line.568"></a>
-<span class="sourceLineNo">569</span><a id="line.569">  private static final class SerializedForm&lt;E&gt; implements Serializable {</a>
-<span class="sourceLineNo">570</span><a id="line.570">    final Comparator&lt;? super E&gt; comparator;</a>
-<span class="sourceLineNo">571</span><a id="line.571">    final E[] elements;</a>
-<span class="sourceLineNo">572</span><a id="line.572">    final int[] counts;</a>
-<span class="sourceLineNo">573</span><a id="line.573"></a>
-<span class="sourceLineNo">574</span><a id="line.574">    @SuppressWarnings("unchecked")</a>
-<span class="sourceLineNo">575</span><a id="line.575">    SerializedForm(SortedMultiset&lt;E&gt; multiset) {</a>
-<span class="sourceLineNo">576</span><a id="line.576">      this.comparator = multiset.comparator();</a>
-<span class="sourceLineNo">577</span><a id="line.577">      int n = multiset.entrySet().size();</a>
-<span class="sourceLineNo">578</span><a id="line.578">      elements = (E[]) new Object[n];</a>
-<span class="sourceLineNo">579</span><a id="line.579">      counts = new int[n];</a>
-<span class="sourceLineNo">580</span><a id="line.580">      int i = 0;</a>
-<span class="sourceLineNo">581</span><a id="line.581">      for (Entry&lt;E&gt; entry : multiset.entrySet()) {</a>
-<span class="sourceLineNo">582</span><a id="line.582">        elements[i] = entry.getElement();</a>
-<span class="sourceLineNo">583</span><a id="line.583">        counts[i] = entry.getCount();</a>
-<span class="sourceLineNo">584</span><a id="line.584">        i++;</a>
-<span class="sourceLineNo">585</span><a id="line.585">      }</a>
-<span class="sourceLineNo">586</span><a id="line.586">    }</a>
-<span class="sourceLineNo">587</span><a id="line.587"></a>
-<span class="sourceLineNo">588</span><a id="line.588">    Object readResolve() {</a>
-<span class="sourceLineNo">589</span><a id="line.589">      int n = elements.length;</a>
-<span class="sourceLineNo">590</span><a id="line.590">      Builder&lt;E&gt; builder = new Builder&lt;&gt;(comparator);</a>
-<span class="sourceLineNo">591</span><a id="line.591">      for (int i = 0; i &lt; n; i++) {</a>
-<span class="sourceLineNo">592</span><a id="line.592">        builder.addCopies(elements[i], counts[i]);</a>
-<span class="sourceLineNo">593</span><a id="line.593">      }</a>
-<span class="sourceLineNo">594</span><a id="line.594">      return builder.build();</a>
-<span class="sourceLineNo">595</span><a id="line.595">    }</a>
-<span class="sourceLineNo">596</span><a id="line.596">  }</a>
-<span class="sourceLineNo">597</span><a id="line.597"></a>
-<span class="sourceLineNo">598</span><a id="line.598">  @Override</a>
-<span class="sourceLineNo">599</span><a id="line.599">  Object writeReplace() {</a>
-<span class="sourceLineNo">600</span><a id="line.600">    return new SerializedForm&lt;E&gt;(this);</a>
-<span class="sourceLineNo">601</span><a id="line.601">  }</a>
-<span class="sourceLineNo">602</span><a id="line.602"></a>
-<span class="sourceLineNo">603</span><a id="line.603">  @J2ktIncompatible // java.io.ObjectInputStream</a>
-<span class="sourceLineNo">604</span><a id="line.604">  private void readObject(ObjectInputStream stream) throws InvalidObjectException {</a>
-<span class="sourceLineNo">605</span><a id="line.605">    throw new InvalidObjectException("Use SerializedForm");</a>
-<span class="sourceLineNo">606</span><a id="line.606">  }</a>
-<span class="sourceLineNo">607</span><a id="line.607">}</a>
+<span class="sourceLineNo">569</span><a id="line.569">  @J2ktIncompatible // serialization</a>
+<span class="sourceLineNo">570</span><a id="line.570">  private static final class SerializedForm&lt;E&gt; implements Serializable {</a>
+<span class="sourceLineNo">571</span><a id="line.571">    final Comparator&lt;? super E&gt; comparator;</a>
+<span class="sourceLineNo">572</span><a id="line.572">    final E[] elements;</a>
+<span class="sourceLineNo">573</span><a id="line.573">    final int[] counts;</a>
+<span class="sourceLineNo">574</span><a id="line.574"></a>
+<span class="sourceLineNo">575</span><a id="line.575">    @SuppressWarnings("unchecked")</a>
+<span class="sourceLineNo">576</span><a id="line.576">    SerializedForm(SortedMultiset&lt;E&gt; multiset) {</a>
+<span class="sourceLineNo">577</span><a id="line.577">      this.comparator = multiset.comparator();</a>
+<span class="sourceLineNo">578</span><a id="line.578">      int n = multiset.entrySet().size();</a>
+<span class="sourceLineNo">579</span><a id="line.579">      elements = (E[]) new Object[n];</a>
+<span class="sourceLineNo">580</span><a id="line.580">      counts = new int[n];</a>
+<span class="sourceLineNo">581</span><a id="line.581">      int i = 0;</a>
+<span class="sourceLineNo">582</span><a id="line.582">      for (Entry&lt;E&gt; entry : multiset.entrySet()) {</a>
+<span class="sourceLineNo">583</span><a id="line.583">        elements[i] = entry.getElement();</a>
+<span class="sourceLineNo">584</span><a id="line.584">        counts[i] = entry.getCount();</a>
+<span class="sourceLineNo">585</span><a id="line.585">        i++;</a>
+<span class="sourceLineNo">586</span><a id="line.586">      }</a>
+<span class="sourceLineNo">587</span><a id="line.587">    }</a>
+<span class="sourceLineNo">588</span><a id="line.588"></a>
+<span class="sourceLineNo">589</span><a id="line.589">    Object readResolve() {</a>
+<span class="sourceLineNo">590</span><a id="line.590">      int n = elements.length;</a>
+<span class="sourceLineNo">591</span><a id="line.591">      Builder&lt;E&gt; builder = new Builder&lt;&gt;(comparator);</a>
+<span class="sourceLineNo">592</span><a id="line.592">      for (int i = 0; i &lt; n; i++) {</a>
+<span class="sourceLineNo">593</span><a id="line.593">        builder.addCopies(elements[i], counts[i]);</a>
+<span class="sourceLineNo">594</span><a id="line.594">      }</a>
+<span class="sourceLineNo">595</span><a id="line.595">      return builder.build();</a>
+<span class="sourceLineNo">596</span><a id="line.596">    }</a>
+<span class="sourceLineNo">597</span><a id="line.597">  }</a>
+<span class="sourceLineNo">598</span><a id="line.598"></a>
+<span class="sourceLineNo">599</span><a id="line.599">  @Override</a>
+<span class="sourceLineNo">600</span><a id="line.600">  @J2ktIncompatible // serialization</a>
+<span class="sourceLineNo">601</span><a id="line.601">  Object writeReplace() {</a>
+<span class="sourceLineNo">602</span><a id="line.602">    return new SerializedForm&lt;E&gt;(this);</a>
+<span class="sourceLineNo">603</span><a id="line.603">  }</a>
+<span class="sourceLineNo">604</span><a id="line.604"></a>
+<span class="sourceLineNo">605</span><a id="line.605">  @J2ktIncompatible // java.io.ObjectInputStream</a>
+<span class="sourceLineNo">606</span><a id="line.606">  private void readObject(ObjectInputStream stream) throws InvalidObjectException {</a>
+<span class="sourceLineNo">607</span><a id="line.607">    throw new InvalidObjectException("Use SerializedForm");</a>
+<span class="sourceLineNo">608</span><a id="line.608">  }</a>
+<span class="sourceLineNo">609</span><a id="line.609">}</a>
 
 
 

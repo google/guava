@@ -156,7 +156,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <hr>
 <pre><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public abstract class <a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.43">ForwardingDeque</a>&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;
+public abstract class <a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.44">ForwardingDeque</a>&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;
 extends <a href="ForwardingQueue.html" title="class in com.google.common.collect">ForwardingQueue</a>&lt;E&gt;
 implements java.util.Deque&lt;E&gt;</pre>
 <div class="block">A deque which forwards all its method calls to another deque. Subclasses should override one or
@@ -385,7 +385,7 @@ implements java.util.Deque&lt;E&gt;</pre>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>ForwardingDeque</h4>
-<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.49">ForwardingDeque</a>()</pre>
+<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.51">ForwardingDeque</a>()</pre>
 <div class="block">Constructor for use by subclasses.</div>
 </li>
 </ul>
@@ -405,7 +405,7 @@ implements java.util.Deque&lt;E&gt;</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>delegate</h4>
-<pre class="methodSignature">protected abstract&nbsp;java.util.Deque&lt;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.51">delegate</a>()</pre>
+<pre class="methodSignature">protected abstract&nbsp;java.util.Deque&lt;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.53">delegate</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="ForwardingObject.html#delegate()">ForwardingObject</a></code></span></div>
 <div class="block">Returns the backing delegate instance that methods are forwarded to. Abstract subclasses
  generally override this method with an abstract method that has a more specific return type,
@@ -425,7 +425,7 @@ implements java.util.Deque&lt;E&gt;</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>addFirst</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.54">addFirst</a>&#8203;(<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&nbsp;e)</pre>
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.56">addFirst</a>&#8203;(<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&nbsp;e)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>addFirst</code>&nbsp;in interface&nbsp;<code>java.util.Deque&lt;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
@@ -440,7 +440,7 @@ implements java.util.Deque&lt;E&gt;</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>addLast</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.59">addLast</a>&#8203;(<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&nbsp;e)</pre>
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.61">addLast</a>&#8203;(<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&nbsp;e)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>addLast</code>&nbsp;in interface&nbsp;<code>java.util.Deque&lt;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
@@ -453,7 +453,7 @@ implements java.util.Deque&lt;E&gt;</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>descendingIterator</h4>
-<pre class="methodSignature">public&nbsp;java.util.Iterator&lt;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.64">descendingIterator</a>()</pre>
+<pre class="methodSignature">public&nbsp;java.util.Iterator&lt;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.66">descendingIterator</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>descendingIterator</code>&nbsp;in interface&nbsp;<code>java.util.Deque&lt;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
@@ -466,7 +466,7 @@ implements java.util.Deque&lt;E&gt;</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>getFirst</h4>
-<pre class="methodSignature">public&nbsp;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.69">getFirst</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.71">getFirst</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>getFirst</code>&nbsp;in interface&nbsp;<code>java.util.Deque&lt;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
@@ -479,7 +479,7 @@ implements java.util.Deque&lt;E&gt;</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>getLast</h4>
-<pre class="methodSignature">public&nbsp;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.75">getLast</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.77">getLast</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>getLast</code>&nbsp;in interface&nbsp;<code>java.util.Deque&lt;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
@@ -495,7 +495,7 @@ implements java.util.Deque&lt;E&gt;</pre>
 <li class="blockList">
 <h4>offerFirst</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.81">offerFirst</a>&#8203;(<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&nbsp;e)</pre>
+public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.83">offerFirst</a>&#8203;(<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&nbsp;e)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>offerFirst</code>&nbsp;in interface&nbsp;<code>java.util.Deque&lt;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
@@ -511,7 +511,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <li class="blockList">
 <h4>offerLast</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.87">offerLast</a>&#8203;(<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&nbsp;e)</pre>
+public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.89">offerLast</a>&#8203;(<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&nbsp;e)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>offerLast</code>&nbsp;in interface&nbsp;<code>java.util.Deque&lt;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
@@ -525,7 +525,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <li class="blockList">
 <h4>peekFirst</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.93">peekFirst</a>()</pre>
+public&nbsp;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.95">peekFirst</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>peekFirst</code>&nbsp;in interface&nbsp;<code>java.util.Deque&lt;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
@@ -539,7 +539,7 @@ public&nbsp;<a href="ForwardingDeque.html" title="type parameter in ForwardingDe
 <li class="blockList">
 <h4>peekLast</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.99">peekLast</a>()</pre>
+public&nbsp;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.101">peekLast</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>peekLast</code>&nbsp;in interface&nbsp;<code>java.util.Deque&lt;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
@@ -554,7 +554,7 @@ public&nbsp;<a href="ForwardingDeque.html" title="type parameter in ForwardingDe
 <h4>pollFirst</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.105">pollFirst</a>()</pre>
+public&nbsp;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.107">pollFirst</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>pollFirst</code>&nbsp;in interface&nbsp;<code>java.util.Deque&lt;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
@@ -569,7 +569,7 @@ public&nbsp;<a href="ForwardingDeque.html" title="type parameter in ForwardingDe
 <h4>pollLast</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.112">pollLast</a>()</pre>
+public&nbsp;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.114">pollLast</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>pollLast</code>&nbsp;in interface&nbsp;<code>java.util.Deque&lt;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
@@ -583,7 +583,7 @@ public&nbsp;<a href="ForwardingDeque.html" title="type parameter in ForwardingDe
 <li class="blockList">
 <h4>pop</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.119">pop</a>()</pre>
+public&nbsp;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.121">pop</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>pop</code>&nbsp;in interface&nbsp;<code>java.util.Deque&lt;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
@@ -598,7 +598,7 @@ public&nbsp;<a href="ForwardingDeque.html" title="type parameter in ForwardingDe
 <ul class="blockList">
 <li class="blockList">
 <h4>push</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.126">push</a>&#8203;(<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&nbsp;e)</pre>
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.128">push</a>&#8203;(<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&nbsp;e)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>push</code>&nbsp;in interface&nbsp;<code>java.util.Deque&lt;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
@@ -612,7 +612,7 @@ public&nbsp;<a href="ForwardingDeque.html" title="type parameter in ForwardingDe
 <li class="blockList">
 <h4>removeFirst</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.131">removeFirst</a>()</pre>
+public&nbsp;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.133">removeFirst</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>removeFirst</code>&nbsp;in interface&nbsp;<code>java.util.Deque&lt;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
@@ -626,7 +626,7 @@ public&nbsp;<a href="ForwardingDeque.html" title="type parameter in ForwardingDe
 <li class="blockList">
 <h4>removeLast</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.138">removeLast</a>()</pre>
+public&nbsp;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.140">removeLast</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>removeLast</code>&nbsp;in interface&nbsp;<code>java.util.Deque&lt;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
@@ -640,7 +640,7 @@ public&nbsp;<a href="ForwardingDeque.html" title="type parameter in ForwardingDe
 <li class="blockList">
 <h4>removeFirstOccurrence</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.145">removeFirstOccurrence</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.147">removeFirstOccurrence</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                                      java.lang.Object&nbsp;o)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
@@ -655,7 +655,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <li class="blockList">
 <h4>removeLastOccurrence</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.151">removeLastOccurrence</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.153">removeLastOccurrence</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                                     java.lang.Object&nbsp;o)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>

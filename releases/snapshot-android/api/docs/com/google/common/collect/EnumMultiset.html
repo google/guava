@@ -142,7 +142,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <hr>
 <pre><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../annotations/GwtCompatible.html#emulated()">emulated</a>=true)
-public final class <a href="../../../../src-html/com/google/common/collect/EnumMultiset.html#line.45">EnumMultiset</a>&lt;E extends java.lang.Enum&lt;E&gt;&gt;
+public final class <a href="../../../../src-html/com/google/common/collect/EnumMultiset.html#line.46">EnumMultiset</a>&lt;E extends java.lang.Enum&lt;E&gt;&gt;
 extends java.util.AbstractCollection&lt;E&gt;
 implements java.io.Serializable</pre>
 <div class="block">Multiset implementation specialized for enum elements, supporting all single-element operations
@@ -403,7 +403,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E extends java.lang.Enum&lt;E&gt;&gt;&nbsp;<a href="EnumMultiset.html" title="class in com.google.common.collect">EnumMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/EnumMultiset.html#line.50">create</a>&#8203;(java.lang.Class&lt;E&gt;&nbsp;type)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E extends java.lang.Enum&lt;E&gt;&gt;&nbsp;<a href="EnumMultiset.html" title="class in com.google.common.collect">EnumMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/EnumMultiset.html#line.52">create</a>&#8203;(java.lang.Class&lt;E&gt;&nbsp;type)</pre>
 <div class="block">Creates an empty <code>EnumMultiset</code>.</div>
 </li>
 </ul>
@@ -413,7 +413,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E extends java.lang.Enum&lt;E&gt;&gt;&nbsp;<a href="EnumMultiset.html" title="class in com.google.common.collect">EnumMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/EnumMultiset.html#line.62">create</a>&#8203;(java.lang.Iterable&lt;E&gt;&nbsp;elements)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E extends java.lang.Enum&lt;E&gt;&gt;&nbsp;<a href="EnumMultiset.html" title="class in com.google.common.collect">EnumMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/EnumMultiset.html#line.64">create</a>&#8203;(java.lang.Iterable&lt;E&gt;&nbsp;elements)</pre>
 <div class="block">Creates a new <code>EnumMultiset</code> containing the specified elements.
 
  <p>This implementation is highly efficient when <code>elements</code> is itself a <a href="Multiset.html" title="interface in com.google.common.collect"><code>Multiset</code></a>.</div>
@@ -431,7 +431,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E extends java.lang.Enum&lt;E&gt;&gt;&nbsp;<a href="EnumMultiset.html" title="class in com.google.common.collect">EnumMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/EnumMultiset.html#line.76">create</a>&#8203;(java.lang.Iterable&lt;E&gt;&nbsp;elements,
+<pre class="methodSignature">public static&nbsp;&lt;E extends java.lang.Enum&lt;E&gt;&gt;&nbsp;<a href="EnumMultiset.html" title="class in com.google.common.collect">EnumMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/EnumMultiset.html#line.78">create</a>&#8203;(java.lang.Iterable&lt;E&gt;&nbsp;elements,
                                                                    java.lang.Class&lt;E&gt;&nbsp;type)</pre>
 <div class="block">Returns a new <code>EnumMultiset</code> instance containing the given elements. Unlike <a href="#create(java.lang.Iterable)"><code>create(Iterable)</code></a>, this method does not produce an exception on an empty iterable.</div>
 <dl>
@@ -446,7 +446,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>size</h4>
-<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/EnumMultiset.html#line.121">size</a>()</pre>
+<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/EnumMultiset.html#line.123">size</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Multiset.html#size()">Multiset</a></code></span></div>
 <div class="block">Returns the total number of all occurrences of all elements in this multiset.
 
@@ -468,7 +468,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>count</h4>
-<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/EnumMultiset.html#line.126">count</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/EnumMultiset.html#line.128">count</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                  java.lang.Object&nbsp;element)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Multiset.html#count(java.lang.Object)">Multiset</a></code></span></div>
 <div class="block">Returns the number of occurrences of an element in this multiset (the <i>count</i> of the
@@ -498,7 +498,7 @@ implements java.io.Serializable</pre>
 <li class="blockList">
 <h4>add</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/EnumMultiset.html#line.137">add</a>&#8203;(<a href="EnumMultiset.html" title="type parameter in EnumMultiset">E</a>&nbsp;element,
+public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/EnumMultiset.html#line.139">add</a>&#8203;(<a href="EnumMultiset.html" title="type parameter in EnumMultiset">E</a>&nbsp;element,
                int&nbsp;occurrences)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Multiset.html#add(E,int)">Multiset</a></code></span></div>
 <div class="block">Adds a number of occurrences of an element to this multiset. Note that if <code>occurrences ==
@@ -526,7 +526,7 @@ public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/Enu
 <li class="blockList">
 <h4>remove</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/EnumMultiset.html#line.158">remove</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/EnumMultiset.html#line.160">remove</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                   java.lang.Object&nbsp;element,
                   int&nbsp;occurrences)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Multiset.html#remove(java.lang.Object,int)">Multiset</a></code></span></div>
@@ -555,7 +555,7 @@ public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/Enu
 <li class="blockList">
 <h4>setCount</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/EnumMultiset.html#line.186">setCount</a>&#8203;(<a href="EnumMultiset.html" title="type parameter in EnumMultiset">E</a>&nbsp;element,
+public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/EnumMultiset.html#line.188">setCount</a>&#8203;(<a href="EnumMultiset.html" title="type parameter in EnumMultiset">E</a>&nbsp;element,
                     int&nbsp;count)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Multiset.html#setCount(E,int)">Multiset</a></code></span></div>
 <div class="block">Adds or removes the necessary occurrences of an element such that the element attains the
@@ -578,7 +578,7 @@ public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/Enu
 <ul class="blockList">
 <li class="blockList">
 <h4>clear</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/EnumMultiset.html#line.203">clear</a>()</pre>
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/EnumMultiset.html#line.205">clear</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>clear</code>&nbsp;in interface&nbsp;<code>java.util.Collection&lt;<a href="EnumMultiset.html" title="type parameter in EnumMultiset">E</a> extends java.lang.Enum&lt;<a href="EnumMultiset.html" title="type parameter in EnumMultiset">E</a>&gt;&gt;</code></dd>
@@ -591,7 +591,7 @@ public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/Enu
 <ul class="blockList">
 <li class="blockList">
 <h4>iterator</h4>
-<pre class="methodSignature">public&nbsp;java.util.Iterator&lt;<a href="EnumMultiset.html" title="type parameter in EnumMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/EnumMultiset.html#line.279">iterator</a>()</pre>
+<pre class="methodSignature">public&nbsp;java.util.Iterator&lt;<a href="EnumMultiset.html" title="type parameter in EnumMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/EnumMultiset.html#line.281">iterator</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Multiset.html#iterator()">Multiset</a></code></span></div>
 <div class="block">
 

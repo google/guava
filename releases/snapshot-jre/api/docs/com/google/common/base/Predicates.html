@@ -516,7 +516,7 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <h4>subtypeOf</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 <a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;<a href="Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;java.lang.Class&lt;?&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Predicates.html#line.200">subtypeOf</a>&#8203;(java.lang.Class&lt;?&gt;&nbsp;clazz)</pre>
+public static&nbsp;<a href="Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;java.lang.Class&lt;?&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Predicates.html#line.199">subtypeOf</a>&#8203;(java.lang.Class&lt;?&gt;&nbsp;clazz)</pre>
 <div class="block">Returns a predicate that evaluates to <code>true</code> if the class being tested is assignable to
  (is a subtype of) <code>clazz</code>. Example:
 
@@ -539,7 +539,7 @@ public static&nbsp;<a href="Predicate.html" title="interface in com.google.commo
 <ul class="blockList">
 <li class="blockList">
 <h4>in</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Predicates.html#line.218">in</a>&#8203;(java.util.Collection&lt;? extends T&gt;&nbsp;target)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Predicates.html#line.217">in</a>&#8203;(java.util.Collection&lt;? extends T&gt;&nbsp;target)</pre>
 <div class="block">Returns a predicate that evaluates to <code>true</code> if the object reference being tested is a
  member of the given collection. It does not defensively copy the collection passed in, so
  future changes to it will alter the behavior of the predicate.
@@ -559,7 +559,7 @@ public static&nbsp;<a href="Predicate.html" title="interface in com.google.commo
 <ul class="blockList">
 <li class="blockList">
 <h4>compose</h4>
-<pre class="methodSignature">public static&nbsp;&lt;A extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;B extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;A&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Predicates.html#line.228">compose</a>&#8203;(<a href="Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;B&gt;&nbsp;predicate,
+<pre class="methodSignature">public static&nbsp;&lt;A extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;B extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;A&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Predicates.html#line.227">compose</a>&#8203;(<a href="Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;B&gt;&nbsp;predicate,
                                                                                                                      <a href="Function.html" title="interface in com.google.common.base">Function</a>&lt;A,&#8203;? extends B&gt;&nbsp;function)</pre>
 <div class="block">Returns the composition of a function and a predicate. For every <code>x</code>, the generated
  predicate returns <code>predicate(function(x))</code>.</div>
@@ -576,7 +576,7 @@ public static&nbsp;<a href="Predicate.html" title="interface in com.google.commo
 <li class="blockList">
 <h4>containsPattern</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;<a href="Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;java.lang.CharSequence&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Predicates.html#line.241">containsPattern</a>&#8203;(java.lang.String&nbsp;pattern)</pre>
+public static&nbsp;<a href="Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;java.lang.CharSequence&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Predicates.html#line.240">containsPattern</a>&#8203;(java.lang.String&nbsp;pattern)</pre>
 <div class="block">Returns a predicate that evaluates to <code>true</code> if the <code>CharSequence</code> being tested
  contains any match for the given regular expression pattern. The test used is equivalent to
  <code>Pattern.compile(pattern).matcher(arg).find()</code></div>
@@ -595,7 +595,7 @@ public static&nbsp;<a href="Predicate.html" title="interface in com.google.commo
 <li class="blockList">
 <h4>contains</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>("java.util.regex.Pattern")
-public static&nbsp;<a href="Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;java.lang.CharSequence&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Predicates.html#line.254">contains</a>&#8203;(java.util.regex.Pattern&nbsp;pattern)</pre>
+public static&nbsp;<a href="Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;java.lang.CharSequence&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Predicates.html#line.253">contains</a>&#8203;(java.util.regex.Pattern&nbsp;pattern)</pre>
 <div class="block">Returns a predicate that evaluates to <code>true</code> if the <code>CharSequence</code> being tested
  contains any match for the given regular expression pattern. The test used is equivalent to
  <code>pattern.matcher(arg).find()</code></div>
