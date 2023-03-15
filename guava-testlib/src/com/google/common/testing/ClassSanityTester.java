@@ -338,7 +338,9 @@ public final class ClassSanityTester {
    *     or factory method to be constructed.
    */
   <T> @Nullable T instantiate(Class<T> cls)
-      throws ParameterNotInstantiableException, IllegalAccessException, InvocationTargetException,
+      throws ParameterNotInstantiableException,
+          IllegalAccessException,
+          InvocationTargetException,
           FactoryMethodReturnsNullException {
     if (cls.isEnum()) {
       T[] constants = cls.getEnumConstants();
