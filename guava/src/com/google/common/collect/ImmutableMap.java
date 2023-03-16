@@ -683,7 +683,10 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
       }
     } else if (map instanceof EnumMap) {
       @SuppressWarnings("unchecked") // safe since map is not writable
-      ImmutableMap<K, V> kvMap = (ImmutableMap<K, V>) copyOfEnumMap((EnumMap<?, ?>) map);
+      ImmutableMap<K, V> kvMap =
+          (ImmutableMap<K, V>)
+              copyOfEnumMap(
+                  (EnumMap<?, ? extends V>) map); // hide K (violates bounds) from J2KT, preserve V.
       return kvMap;
     }
     return copyOf(map.entrySet());
@@ -718,9 +721,9 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     }
   }
 
-  private static <K extends Enum<K>, V> ImmutableMap<K, V> copyOfEnumMap(
-      EnumMap<K, ? extends V> original) {
-    EnumMap<K, V> copy = new EnumMap<>(original);
+  private static <K extends Enum<K>, V> ImmutableMap<K, ? extends V> copyOfEnumMap(
+      EnumMap<?, ? extends V> original) {
+    EnumMap<K, V> copy = new EnumMap<>((EnumMap<K, ? extends V>) original);
     for (Entry<K, V> entry : copy.entrySet()) {
       checkEntryNotNull(entry.getKey(), entry.getValue());
     }

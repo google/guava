@@ -96,16 +96,20 @@ final class CollectCollectors {
     return (Collector) EnumSetAccumulator.TO_IMMUTABLE_ENUM_SET;
   }
 
+  private static <E extends Enum<E>>
+      Collector<E, EnumSetAccumulator<E>, ImmutableSet<E>> toImmutableEnumSetGeneric() {
+    return Collector.of(
+        EnumSetAccumulator::new,
+        EnumSetAccumulator::add,
+        EnumSetAccumulator::combine,
+        EnumSetAccumulator::toImmutableSet,
+        Collector.Characteristics.UNORDERED);
+  }
+
   private static final class EnumSetAccumulator<E extends Enum<E>> {
     @SuppressWarnings({"rawtypes", "unchecked"})
     static final Collector<Enum<?>, ?, ImmutableSet<? extends Enum<?>>> TO_IMMUTABLE_ENUM_SET =
-        (Collector)
-            Collector.<Enum, EnumSetAccumulator, ImmutableSet<?>>of(
-                EnumSetAccumulator::new,
-                EnumSetAccumulator::add,
-                EnumSetAccumulator::combine,
-                EnumSetAccumulator::toImmutableSet,
-                Collector.Characteristics.UNORDERED);
+        (Collector) toImmutableEnumSetGeneric();
 
     @CheckForNull private EnumSet<E> set;
 
