@@ -43,8 +43,7 @@ final class AllEqualOrdering extends Ordering<@Nullable Object> implements Seria
   }
 
   @Override
-  @SuppressWarnings("nullness") // unsafe: see supertype
-  public <E extends @Nullable Object> ImmutableList<E> immutableSortedCopy(Iterable<E> iterable) {
+  public <E> ImmutableList<E> immutableSortedCopy(Iterable<E> iterable) {
     return ImmutableList.copyOf(iterable);
   }
 

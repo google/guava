@@ -19,6 +19,7 @@ package com.google.common.collect;
 import com.google.common.annotations.GwtCompatible;
 import java.io.Serializable;
 import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** An ordering that treats {@code null} as greater than all other values. */
@@ -50,13 +51,12 @@ final class NullsLastOrdering<T extends @Nullable Object> extends Ordering<@Null
   @SuppressWarnings("nullness") // should be safe, but not sure if we can avoid the warning
   public <S extends @Nullable T> Ordering<S> reverse() {
     // ordering.reverse() might be optimized, so let it do its thing
-    return ordering.reverse().nullsFirst();
+    return ordering.<T>reverse().<@NonNull S>nullsFirst();
   }
 
   @Override
-  @SuppressWarnings("nullness") // probably a bug in our checker?
   public <S extends @Nullable T> Ordering<@Nullable S> nullsFirst() {
-    return ordering.nullsFirst();
+    return ordering.<@NonNull S>nullsFirst();
   }
 
   @SuppressWarnings("unchecked") // still need the right way to explain this
