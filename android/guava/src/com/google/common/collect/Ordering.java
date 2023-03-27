@@ -39,6 +39,7 @@ import java.util.TreeSet;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -884,8 +885,7 @@ public abstract class Ordering<T extends @Nullable Object> implements Comparator
    * @since 3.0
    */
   // TODO(kevinb): rerun benchmarks including new options
-  @SuppressWarnings("nullness") // unsafe, but there's not much we can do about it now
-  public <E extends T> ImmutableList<E> immutableSortedCopy(Iterable<E> elements) {
+  public <E extends @NonNull T> ImmutableList<E> immutableSortedCopy(Iterable<E> elements) {
     return ImmutableList.sortedCopyOf(this, elements);
   }
 

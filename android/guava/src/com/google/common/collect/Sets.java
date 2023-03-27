@@ -51,6 +51,7 @@ import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
 import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -555,8 +556,8 @@ public final class Sets {
      * that is inconsistent with {@link Object#equals(Object)}.
      */
     @SuppressWarnings("nullness") // Unsafe, but we can't fix it now.
-    public ImmutableSet<E> immutableCopy() {
-      return ImmutableSet.copyOf(this);
+    public ImmutableSet<@NonNull E> immutableCopy() {
+      return ImmutableSet.copyOf((SetView<@NonNull E>) this);
     }
 
     /**
@@ -734,9 +735,13 @@ public final class Sets {
       }
 
       @Override
-      @SuppressWarnings("nullness") // see supertype
-      public ImmutableSet<E> immutableCopy() {
-        return new ImmutableSet.Builder<E>().addAll(set1).addAll(set2).build();
+      @SuppressWarnings({"nullness", "unchecked"}) // see supertype
+      public ImmutableSet<@NonNull E> immutableCopy() {
+        ImmutableSet.Builder<@NonNull E> builder =
+            new ImmutableSet.Builder<@NonNull E>()
+                .addAll((Iterable<@NonNull E>) set1)
+                .addAll((Iterable<@NonNull E>) set2);
+        return (ImmutableSet<@NonNull E>) builder.build();
       }
     };
   }
