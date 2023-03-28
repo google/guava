@@ -550,7 +550,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
    * their natural ordering.
    */
   public static <K extends Comparable<?>, V> Builder<K, V> reverseOrder() {
-    return new Builder<>(Ordering.natural().reverse());
+    return new Builder<>(Ordering.<K>natural().reverse());
   }
 
   /**

@@ -184,8 +184,8 @@ final class RegularContiguousSet<C extends Comparable> extends ContiguousSet<C> 
     if (other.isEmpty()) {
       return other;
     } else {
-      C lowerEndpoint = Ordering.natural().max(this.first(), other.first());
-      C upperEndpoint = Ordering.natural().min(this.last(), other.last());
+      C lowerEndpoint = Ordering.<C>natural().max(this.first(), other.first());
+      C upperEndpoint = Ordering.<C>natural().min(this.last(), other.last());
       return (lowerEndpoint.compareTo(upperEndpoint) <= 0)
           ? ContiguousSet.create(Range.closed(lowerEndpoint, upperEndpoint), domain)
           : new EmptyContiguousSet<C>(domain);

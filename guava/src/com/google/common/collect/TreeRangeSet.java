@@ -802,7 +802,7 @@ public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C>
                 .iterator();
       }
       Cut<Cut<C>> upperBoundOnLowerBounds =
-          Ordering.natural()
+          Ordering.<Cut<Cut<C>>>natural()
               .min(lowerBoundWindow.upperBound, Cut.belowValue(restriction.upperBound));
       return new AbstractIterator<Entry<Cut<C>, Range<C>>>() {
         @Override
@@ -828,7 +828,7 @@ public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C>
         return Iterators.emptyIterator();
       }
       Cut<Cut<C>> upperBoundOnLowerBounds =
-          Ordering.natural()
+          Ordering.<Cut<Cut<C>>>natural()
               .min(lowerBoundWindow.upperBound, Cut.belowValue(restriction.upperBound));
       Iterator<Range<C>> completeRangeItr =
           rangesByLowerBound

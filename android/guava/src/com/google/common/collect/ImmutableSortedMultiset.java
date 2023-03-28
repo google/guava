@@ -372,7 +372,7 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
    * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6468354">bug 6468354</a>.
    */
   public static <E extends Comparable<?>> Builder<E> reverseOrder() {
-    return new Builder<E>(Ordering.natural().reverse());
+    return new Builder<E>(Ordering.<E>natural().reverse());
   }
 
   /**

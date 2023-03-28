@@ -108,7 +108,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
    * initial contents, and an initial expected size of 11.
    */
   public static <E extends Comparable<E>> MinMaxPriorityQueue<E> create() {
-    return new Builder<Comparable>(Ordering.natural()).create();
+    return new Builder<Comparable<E>>(Ordering.natural()).create();
   }
 
   /**

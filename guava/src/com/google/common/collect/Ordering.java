@@ -823,7 +823,7 @@ public abstract class Ordering<T extends @Nullable Object> implements Comparator
   public <E extends T> List<E> greatestOf(Iterable<E> iterable, int k) {
     // TODO(kevinb): see if delegation is hurting performance noticeably
     // TODO(kevinb): if we change this implementation, add full unit tests.
-    return reverse().leastOf(iterable, k);
+    return this.<E>reverse().leastOf(iterable, k);
   }
 
   /**
@@ -843,7 +843,7 @@ public abstract class Ordering<T extends @Nullable Object> implements Comparator
    * @since 14.0
    */
   public <E extends T> List<E> greatestOf(Iterator<E> iterator, int k) {
-    return reverse().leastOf(iterator, k);
+    return this.<E>reverse().leastOf(iterator, k);
   }
 
   /**
