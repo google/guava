@@ -1091,7 +1091,7 @@ public final class Lists {
               return backingList.listIterator(index);
             }
 
-            private static final long serialVersionUID = 0;
+            @J2ktIncompatible private static final long serialVersionUID = 0;
           };
     } else {
       wrapper =
@@ -1101,7 +1101,7 @@ public final class Lists {
               return backingList.listIterator(index);
             }
 
-            private static final long serialVersionUID = 0;
+            @J2ktIncompatible private static final long serialVersionUID = 0;
           };
     }
     return wrapper.subList(fromIndex, toIndex);

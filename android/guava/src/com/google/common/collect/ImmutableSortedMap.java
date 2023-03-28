@@ -1121,6 +1121,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
    * are reconstructed using public factory methods. This ensures that the implementation types
    * remain as implementation details.
    */
+  @J2ktIncompatible // serialization
   private static class SerializedForm<K, V> extends ImmutableMap.SerializedForm<K, V> {
     private final Comparator<? super K> comparator;
 
@@ -1138,6 +1139,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
   }
 
   @Override
+  @J2ktIncompatible // serialization
   Object writeReplace() {
     return new SerializedForm<>(this);
   }

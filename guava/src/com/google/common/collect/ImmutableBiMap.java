@@ -623,6 +623,7 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableBiMapFauxverideShim<
    * <p>Since the bimap is immutable, ImmutableBiMap doesn't require special logic for keeping the
    * bimap and its inverse in sync during serialization, the way AbstractBiMap does.
    */
+  @J2ktIncompatible // serialization
   private static class SerializedForm<K, V> extends ImmutableMap.SerializedForm<K, V> {
     SerializedForm(ImmutableBiMap<K, V> bimap) {
       super(bimap);
@@ -637,6 +638,7 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableBiMapFauxverideShim<
   }
 
   @Override
+  @J2ktIncompatible // serialization
   Object writeReplace() {
     return new SerializedForm<>(this);
   }
