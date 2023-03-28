@@ -559,7 +559,7 @@
 <span class="sourceLineNo">550</span><a id="line.550">   * their natural ordering.</a>
 <span class="sourceLineNo">551</span><a id="line.551">   */</a>
 <span class="sourceLineNo">552</span><a id="line.552">  public static &lt;K extends Comparable&lt;?&gt;, V&gt; Builder&lt;K, V&gt; reverseOrder() {</a>
-<span class="sourceLineNo">553</span><a id="line.553">    return new Builder&lt;&gt;(Ordering.natural().reverse());</a>
+<span class="sourceLineNo">553</span><a id="line.553">    return new Builder&lt;&gt;(Ordering.&lt;K&gt;natural().reverse());</a>
 <span class="sourceLineNo">554</span><a id="line.554">  }</a>
 <span class="sourceLineNo">555</span><a id="line.555"></a>
 <span class="sourceLineNo">556</span><a id="line.556">  /**</a>

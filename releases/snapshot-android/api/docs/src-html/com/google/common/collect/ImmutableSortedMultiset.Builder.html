@@ -381,7 +381,7 @@
 <span class="sourceLineNo">372</span><a id="line.372">   * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6468354"&gt;bug 6468354&lt;/a&gt;.</a>
 <span class="sourceLineNo">373</span><a id="line.373">   */</a>
 <span class="sourceLineNo">374</span><a id="line.374">  public static &lt;E extends Comparable&lt;?&gt;&gt; Builder&lt;E&gt; reverseOrder() {</a>
-<span class="sourceLineNo">375</span><a id="line.375">    return new Builder&lt;E&gt;(Ordering.natural().reverse());</a>
+<span class="sourceLineNo">375</span><a id="line.375">    return new Builder&lt;E&gt;(Ordering.&lt;E&gt;natural().reverse());</a>
 <span class="sourceLineNo">376</span><a id="line.376">  }</a>
 <span class="sourceLineNo">377</span><a id="line.377"></a>
 <span class="sourceLineNo">378</span><a id="line.378">  /**</a>

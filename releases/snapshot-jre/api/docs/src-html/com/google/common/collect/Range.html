@@ -345,7 +345,7 @@
 <span class="sourceLineNo">336</span><a id="line.336">    if (values instanceof SortedSet) {</a>
 <span class="sourceLineNo">337</span><a id="line.337">      SortedSet&lt;C&gt; set = (SortedSet&lt;C&gt;) values;</a>
 <span class="sourceLineNo">338</span><a id="line.338">      Comparator&lt;?&gt; comparator = set.comparator();</a>
-<span class="sourceLineNo">339</span><a id="line.339">      if (Ordering.natural().equals(comparator) || comparator == null) {</a>
+<span class="sourceLineNo">339</span><a id="line.339">      if (Ordering.&lt;C&gt;natural().equals(comparator) || comparator == null) {</a>
 <span class="sourceLineNo">340</span><a id="line.340">        return closed(set.first(), set.last());</a>
 <span class="sourceLineNo">341</span><a id="line.341">      }</a>
 <span class="sourceLineNo">342</span><a id="line.342">    }</a>
@@ -354,8 +354,8 @@
 <span class="sourceLineNo">345</span><a id="line.345">    C max = min;</a>
 <span class="sourceLineNo">346</span><a id="line.346">    while (valueIterator.hasNext()) {</a>
 <span class="sourceLineNo">347</span><a id="line.347">      C value = checkNotNull(valueIterator.next());</a>
-<span class="sourceLineNo">348</span><a id="line.348">      min = Ordering.natural().min(min, value);</a>
-<span class="sourceLineNo">349</span><a id="line.349">      max = Ordering.natural().max(max, value);</a>
+<span class="sourceLineNo">348</span><a id="line.348">      min = Ordering.&lt;C&gt;natural().min(min, value);</a>
+<span class="sourceLineNo">349</span><a id="line.349">      max = Ordering.&lt;C&gt;natural().max(max, value);</a>
 <span class="sourceLineNo">350</span><a id="line.350">    }</a>
 <span class="sourceLineNo">351</span><a id="line.351">    return closed(min, max);</a>
 <span class="sourceLineNo">352</span><a id="line.352">  }</a>

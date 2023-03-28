@@ -832,7 +832,7 @@
 <span class="sourceLineNo">823</span><a id="line.823">  public &lt;E extends T&gt; List&lt;E&gt; greatestOf(Iterable&lt;E&gt; iterable, int k) {</a>
 <span class="sourceLineNo">824</span><a id="line.824">    // TODO(kevinb): see if delegation is hurting performance noticeably</a>
 <span class="sourceLineNo">825</span><a id="line.825">    // TODO(kevinb): if we change this implementation, add full unit tests.</a>
-<span class="sourceLineNo">826</span><a id="line.826">    return reverse().leastOf(iterable, k);</a>
+<span class="sourceLineNo">826</span><a id="line.826">    return this.&lt;E&gt;reverse().leastOf(iterable, k);</a>
 <span class="sourceLineNo">827</span><a id="line.827">  }</a>
 <span class="sourceLineNo">828</span><a id="line.828"></a>
 <span class="sourceLineNo">829</span><a id="line.829">  /**</a>
@@ -852,7 +852,7 @@
 <span class="sourceLineNo">843</span><a id="line.843">   * @since 14.0</a>
 <span class="sourceLineNo">844</span><a id="line.844">   */</a>
 <span class="sourceLineNo">845</span><a id="line.845">  public &lt;E extends T&gt; List&lt;E&gt; greatestOf(Iterator&lt;E&gt; iterator, int k) {</a>
-<span class="sourceLineNo">846</span><a id="line.846">    return reverse().leastOf(iterator, k);</a>
+<span class="sourceLineNo">846</span><a id="line.846">    return this.&lt;E&gt;reverse().leastOf(iterator, k);</a>
 <span class="sourceLineNo">847</span><a id="line.847">  }</a>
 <span class="sourceLineNo">848</span><a id="line.848"></a>
 <span class="sourceLineNo">849</span><a id="line.849">  /**</a>

@@ -811,7 +811,7 @@
 <span class="sourceLineNo">802</span><a id="line.802">                .iterator();</a>
 <span class="sourceLineNo">803</span><a id="line.803">      }</a>
 <span class="sourceLineNo">804</span><a id="line.804">      Cut&lt;Cut&lt;C&gt;&gt; upperBoundOnLowerBounds =</a>
-<span class="sourceLineNo">805</span><a id="line.805">          Ordering.natural()</a>
+<span class="sourceLineNo">805</span><a id="line.805">          Ordering.&lt;Cut&lt;Cut&lt;C&gt;&gt;&gt;natural()</a>
 <span class="sourceLineNo">806</span><a id="line.806">              .min(lowerBoundWindow.upperBound, Cut.belowValue(restriction.upperBound));</a>
 <span class="sourceLineNo">807</span><a id="line.807">      return new AbstractIterator&lt;Entry&lt;Cut&lt;C&gt;, Range&lt;C&gt;&gt;&gt;() {</a>
 <span class="sourceLineNo">808</span><a id="line.808">        @Override</a>
@@ -837,7 +837,7 @@
 <span class="sourceLineNo">828</span><a id="line.828">        return Iterators.emptyIterator();</a>
 <span class="sourceLineNo">829</span><a id="line.829">      }</a>
 <span class="sourceLineNo">830</span><a id="line.830">      Cut&lt;Cut&lt;C&gt;&gt; upperBoundOnLowerBounds =</a>
-<span class="sourceLineNo">831</span><a id="line.831">          Ordering.natural()</a>
+<span class="sourceLineNo">831</span><a id="line.831">          Ordering.&lt;Cut&lt;Cut&lt;C&gt;&gt;&gt;natural()</a>
 <span class="sourceLineNo">832</span><a id="line.832">              .min(lowerBoundWindow.upperBound, Cut.belowValue(restriction.upperBound));</a>
 <span class="sourceLineNo">833</span><a id="line.833">      Iterator&lt;Range&lt;C&gt;&gt; completeRangeItr =</a>
 <span class="sourceLineNo">834</span><a id="line.834">          rangesByLowerBound</a>

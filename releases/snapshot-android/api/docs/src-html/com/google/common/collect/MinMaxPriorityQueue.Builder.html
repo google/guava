@@ -117,7 +117,7 @@
 <span class="sourceLineNo">108</span><a id="line.108">   * initial contents, and an initial expected size of 11.</a>
 <span class="sourceLineNo">109</span><a id="line.109">   */</a>
 <span class="sourceLineNo">110</span><a id="line.110">  public static &lt;E extends Comparable&lt;E&gt;&gt; MinMaxPriorityQueue&lt;E&gt; create() {</a>
-<span class="sourceLineNo">111</span><a id="line.111">    return new Builder&lt;Comparable&gt;(Ordering.natural()).create();</a>
+<span class="sourceLineNo">111</span><a id="line.111">    return new Builder&lt;Comparable&lt;E&gt;&gt;(Ordering.natural()).create();</a>
 <span class="sourceLineNo">112</span><a id="line.112">  }</a>
 <span class="sourceLineNo">113</span><a id="line.113"></a>
 <span class="sourceLineNo">114</span><a id="line.114">  /**</a>
