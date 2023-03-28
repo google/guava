@@ -1058,94 +1058,96 @@
 <span class="sourceLineNo">1049</span><a id="line.1049">   * reconstructed using public factory methods. This ensures that the implementation types remain</a>
 <span class="sourceLineNo">1050</span><a id="line.1050">   * as implementation details.</a>
 <span class="sourceLineNo">1051</span><a id="line.1051">   */</a>
-<span class="sourceLineNo">1052</span><a id="line.1052">  static class SerializedForm&lt;K, V&gt; implements Serializable {</a>
-<span class="sourceLineNo">1053</span><a id="line.1053">    // This object retains references to collections returned by keySet() and value(). This saves</a>
-<span class="sourceLineNo">1054</span><a id="line.1054">    // bytes when the both the map and its keySet or value collection are written to the same</a>
-<span class="sourceLineNo">1055</span><a id="line.1055">    // instance of ObjectOutputStream.</a>
-<span class="sourceLineNo">1056</span><a id="line.1056"></a>
-<span class="sourceLineNo">1057</span><a id="line.1057">    // TODO(b/160980469): remove support for the old serialization format after some time</a>
-<span class="sourceLineNo">1058</span><a id="line.1058">    private static final boolean USE_LEGACY_SERIALIZATION = true;</a>
-<span class="sourceLineNo">1059</span><a id="line.1059"></a>
-<span class="sourceLineNo">1060</span><a id="line.1060">    private final Object keys;</a>
-<span class="sourceLineNo">1061</span><a id="line.1061">    private final Object values;</a>
-<span class="sourceLineNo">1062</span><a id="line.1062"></a>
-<span class="sourceLineNo">1063</span><a id="line.1063">    SerializedForm(ImmutableMap&lt;K, V&gt; map) {</a>
-<span class="sourceLineNo">1064</span><a id="line.1064">      if (USE_LEGACY_SERIALIZATION) {</a>
-<span class="sourceLineNo">1065</span><a id="line.1065">        Object[] keys = new Object[map.size()];</a>
-<span class="sourceLineNo">1066</span><a id="line.1066">        Object[] values = new Object[map.size()];</a>
-<span class="sourceLineNo">1067</span><a id="line.1067">        int i = 0;</a>
-<span class="sourceLineNo">1068</span><a id="line.1068">        // "extends Object" works around https://github.com/typetools/checker-framework/issues/3013</a>
-<span class="sourceLineNo">1069</span><a id="line.1069">        for (Entry&lt;? extends Object, ? extends Object&gt; entry : map.entrySet()) {</a>
-<span class="sourceLineNo">1070</span><a id="line.1070">          keys[i] = entry.getKey();</a>
-<span class="sourceLineNo">1071</span><a id="line.1071">          values[i] = entry.getValue();</a>
-<span class="sourceLineNo">1072</span><a id="line.1072">          i++;</a>
-<span class="sourceLineNo">1073</span><a id="line.1073">        }</a>
-<span class="sourceLineNo">1074</span><a id="line.1074">        this.keys = keys;</a>
-<span class="sourceLineNo">1075</span><a id="line.1075">        this.values = values;</a>
-<span class="sourceLineNo">1076</span><a id="line.1076">        return;</a>
-<span class="sourceLineNo">1077</span><a id="line.1077">      }</a>
-<span class="sourceLineNo">1078</span><a id="line.1078">      this.keys = map.keySet();</a>
-<span class="sourceLineNo">1079</span><a id="line.1079">      this.values = map.values();</a>
-<span class="sourceLineNo">1080</span><a id="line.1080">    }</a>
-<span class="sourceLineNo">1081</span><a id="line.1081"></a>
-<span class="sourceLineNo">1082</span><a id="line.1082">    @SuppressWarnings("unchecked")</a>
-<span class="sourceLineNo">1083</span><a id="line.1083">    final Object readResolve() {</a>
-<span class="sourceLineNo">1084</span><a id="line.1084">      if (!(this.keys instanceof ImmutableSet)) {</a>
-<span class="sourceLineNo">1085</span><a id="line.1085">        return legacyReadResolve();</a>
-<span class="sourceLineNo">1086</span><a id="line.1086">      }</a>
-<span class="sourceLineNo">1087</span><a id="line.1087"></a>
-<span class="sourceLineNo">1088</span><a id="line.1088">      ImmutableSet&lt;K&gt; keySet = (ImmutableSet&lt;K&gt;) this.keys;</a>
-<span class="sourceLineNo">1089</span><a id="line.1089">      ImmutableCollection&lt;V&gt; values = (ImmutableCollection&lt;V&gt;) this.values;</a>
-<span class="sourceLineNo">1090</span><a id="line.1090"></a>
-<span class="sourceLineNo">1091</span><a id="line.1091">      Builder&lt;K, V&gt; builder = makeBuilder(keySet.size());</a>
-<span class="sourceLineNo">1092</span><a id="line.1092"></a>
-<span class="sourceLineNo">1093</span><a id="line.1093">      UnmodifiableIterator&lt;K&gt; keyIter = keySet.iterator();</a>
-<span class="sourceLineNo">1094</span><a id="line.1094">      UnmodifiableIterator&lt;V&gt; valueIter = values.iterator();</a>
-<span class="sourceLineNo">1095</span><a id="line.1095"></a>
-<span class="sourceLineNo">1096</span><a id="line.1096">      while (keyIter.hasNext()) {</a>
-<span class="sourceLineNo">1097</span><a id="line.1097">        builder.put(keyIter.next(), valueIter.next());</a>
-<span class="sourceLineNo">1098</span><a id="line.1098">      }</a>
-<span class="sourceLineNo">1099</span><a id="line.1099"></a>
-<span class="sourceLineNo">1100</span><a id="line.1100">      return builder.buildOrThrow();</a>
-<span class="sourceLineNo">1101</span><a id="line.1101">    }</a>
-<span class="sourceLineNo">1102</span><a id="line.1102"></a>
-<span class="sourceLineNo">1103</span><a id="line.1103">    @SuppressWarnings("unchecked")</a>
-<span class="sourceLineNo">1104</span><a id="line.1104">    final Object legacyReadResolve() {</a>
-<span class="sourceLineNo">1105</span><a id="line.1105">      K[] keys = (K[]) this.keys;</a>
-<span class="sourceLineNo">1106</span><a id="line.1106">      V[] values = (V[]) this.values;</a>
-<span class="sourceLineNo">1107</span><a id="line.1107"></a>
-<span class="sourceLineNo">1108</span><a id="line.1108">      Builder&lt;K, V&gt; builder = makeBuilder(keys.length);</a>
-<span class="sourceLineNo">1109</span><a id="line.1109"></a>
-<span class="sourceLineNo">1110</span><a id="line.1110">      for (int i = 0; i &lt; keys.length; i++) {</a>
-<span class="sourceLineNo">1111</span><a id="line.1111">        builder.put(keys[i], values[i]);</a>
-<span class="sourceLineNo">1112</span><a id="line.1112">      }</a>
-<span class="sourceLineNo">1113</span><a id="line.1113">      return builder.buildOrThrow();</a>
-<span class="sourceLineNo">1114</span><a id="line.1114">    }</a>
-<span class="sourceLineNo">1115</span><a id="line.1115"></a>
-<span class="sourceLineNo">1116</span><a id="line.1116">    /**</a>
-<span class="sourceLineNo">1117</span><a id="line.1117">     * Returns a builder that builds the unserialized type. Subclasses should override this method.</a>
-<span class="sourceLineNo">1118</span><a id="line.1118">     */</a>
-<span class="sourceLineNo">1119</span><a id="line.1119">    Builder&lt;K, V&gt; makeBuilder(int size) {</a>
-<span class="sourceLineNo">1120</span><a id="line.1120">      return new Builder&lt;&gt;(size);</a>
-<span class="sourceLineNo">1121</span><a id="line.1121">    }</a>
-<span class="sourceLineNo">1122</span><a id="line.1122"></a>
-<span class="sourceLineNo">1123</span><a id="line.1123">    private static final long serialVersionUID = 0;</a>
-<span class="sourceLineNo">1124</span><a id="line.1124">  }</a>
-<span class="sourceLineNo">1125</span><a id="line.1125"></a>
-<span class="sourceLineNo">1126</span><a id="line.1126">  /**</a>
-<span class="sourceLineNo">1127</span><a id="line.1127">   * Returns a serializable form of this object. Non-public subclasses should not override this</a>
-<span class="sourceLineNo">1128</span><a id="line.1128">   * method. Publicly-accessible subclasses must override this method and should return a subclass</a>
-<span class="sourceLineNo">1129</span><a id="line.1129">   * of SerializedForm whose readResolve() method returns objects of the subclass type.</a>
-<span class="sourceLineNo">1130</span><a id="line.1130">   */</a>
-<span class="sourceLineNo">1131</span><a id="line.1131">  Object writeReplace() {</a>
-<span class="sourceLineNo">1132</span><a id="line.1132">    return new SerializedForm&lt;&gt;(this);</a>
-<span class="sourceLineNo">1133</span><a id="line.1133">  }</a>
-<span class="sourceLineNo">1134</span><a id="line.1134"></a>
-<span class="sourceLineNo">1135</span><a id="line.1135">  @J2ktIncompatible // java.io.ObjectInputStream</a>
-<span class="sourceLineNo">1136</span><a id="line.1136">  private void readObject(ObjectInputStream stream) throws InvalidObjectException {</a>
-<span class="sourceLineNo">1137</span><a id="line.1137">    throw new InvalidObjectException("Use SerializedForm");</a>
-<span class="sourceLineNo">1138</span><a id="line.1138">  }</a>
-<span class="sourceLineNo">1139</span><a id="line.1139">}</a>
+<span class="sourceLineNo">1052</span><a id="line.1052">  @J2ktIncompatible // serialization</a>
+<span class="sourceLineNo">1053</span><a id="line.1053">  static class SerializedForm&lt;K, V&gt; implements Serializable {</a>
+<span class="sourceLineNo">1054</span><a id="line.1054">    // This object retains references to collections returned by keySet() and value(). This saves</a>
+<span class="sourceLineNo">1055</span><a id="line.1055">    // bytes when the both the map and its keySet or value collection are written to the same</a>
+<span class="sourceLineNo">1056</span><a id="line.1056">    // instance of ObjectOutputStream.</a>
+<span class="sourceLineNo">1057</span><a id="line.1057"></a>
+<span class="sourceLineNo">1058</span><a id="line.1058">    // TODO(b/160980469): remove support for the old serialization format after some time</a>
+<span class="sourceLineNo">1059</span><a id="line.1059">    private static final boolean USE_LEGACY_SERIALIZATION = true;</a>
+<span class="sourceLineNo">1060</span><a id="line.1060"></a>
+<span class="sourceLineNo">1061</span><a id="line.1061">    private final Object keys;</a>
+<span class="sourceLineNo">1062</span><a id="line.1062">    private final Object values;</a>
+<span class="sourceLineNo">1063</span><a id="line.1063"></a>
+<span class="sourceLineNo">1064</span><a id="line.1064">    SerializedForm(ImmutableMap&lt;K, V&gt; map) {</a>
+<span class="sourceLineNo">1065</span><a id="line.1065">      if (USE_LEGACY_SERIALIZATION) {</a>
+<span class="sourceLineNo">1066</span><a id="line.1066">        Object[] keys = new Object[map.size()];</a>
+<span class="sourceLineNo">1067</span><a id="line.1067">        Object[] values = new Object[map.size()];</a>
+<span class="sourceLineNo">1068</span><a id="line.1068">        int i = 0;</a>
+<span class="sourceLineNo">1069</span><a id="line.1069">        // "extends Object" works around https://github.com/typetools/checker-framework/issues/3013</a>
+<span class="sourceLineNo">1070</span><a id="line.1070">        for (Entry&lt;? extends Object, ? extends Object&gt; entry : map.entrySet()) {</a>
+<span class="sourceLineNo">1071</span><a id="line.1071">          keys[i] = entry.getKey();</a>
+<span class="sourceLineNo">1072</span><a id="line.1072">          values[i] = entry.getValue();</a>
+<span class="sourceLineNo">1073</span><a id="line.1073">          i++;</a>
+<span class="sourceLineNo">1074</span><a id="line.1074">        }</a>
+<span class="sourceLineNo">1075</span><a id="line.1075">        this.keys = keys;</a>
+<span class="sourceLineNo">1076</span><a id="line.1076">        this.values = values;</a>
+<span class="sourceLineNo">1077</span><a id="line.1077">        return;</a>
+<span class="sourceLineNo">1078</span><a id="line.1078">      }</a>
+<span class="sourceLineNo">1079</span><a id="line.1079">      this.keys = map.keySet();</a>
+<span class="sourceLineNo">1080</span><a id="line.1080">      this.values = map.values();</a>
+<span class="sourceLineNo">1081</span><a id="line.1081">    }</a>
+<span class="sourceLineNo">1082</span><a id="line.1082"></a>
+<span class="sourceLineNo">1083</span><a id="line.1083">    @SuppressWarnings("unchecked")</a>
+<span class="sourceLineNo">1084</span><a id="line.1084">    final Object readResolve() {</a>
+<span class="sourceLineNo">1085</span><a id="line.1085">      if (!(this.keys instanceof ImmutableSet)) {</a>
+<span class="sourceLineNo">1086</span><a id="line.1086">        return legacyReadResolve();</a>
+<span class="sourceLineNo">1087</span><a id="line.1087">      }</a>
+<span class="sourceLineNo">1088</span><a id="line.1088"></a>
+<span class="sourceLineNo">1089</span><a id="line.1089">      ImmutableSet&lt;K&gt; keySet = (ImmutableSet&lt;K&gt;) this.keys;</a>
+<span class="sourceLineNo">1090</span><a id="line.1090">      ImmutableCollection&lt;V&gt; values = (ImmutableCollection&lt;V&gt;) this.values;</a>
+<span class="sourceLineNo">1091</span><a id="line.1091"></a>
+<span class="sourceLineNo">1092</span><a id="line.1092">      Builder&lt;K, V&gt; builder = makeBuilder(keySet.size());</a>
+<span class="sourceLineNo">1093</span><a id="line.1093"></a>
+<span class="sourceLineNo">1094</span><a id="line.1094">      UnmodifiableIterator&lt;K&gt; keyIter = keySet.iterator();</a>
+<span class="sourceLineNo">1095</span><a id="line.1095">      UnmodifiableIterator&lt;V&gt; valueIter = values.iterator();</a>
+<span class="sourceLineNo">1096</span><a id="line.1096"></a>
+<span class="sourceLineNo">1097</span><a id="line.1097">      while (keyIter.hasNext()) {</a>
+<span class="sourceLineNo">1098</span><a id="line.1098">        builder.put(keyIter.next(), valueIter.next());</a>
+<span class="sourceLineNo">1099</span><a id="line.1099">      }</a>
+<span class="sourceLineNo">1100</span><a id="line.1100"></a>
+<span class="sourceLineNo">1101</span><a id="line.1101">      return builder.buildOrThrow();</a>
+<span class="sourceLineNo">1102</span><a id="line.1102">    }</a>
+<span class="sourceLineNo">1103</span><a id="line.1103"></a>
+<span class="sourceLineNo">1104</span><a id="line.1104">    @SuppressWarnings("unchecked")</a>
+<span class="sourceLineNo">1105</span><a id="line.1105">    final Object legacyReadResolve() {</a>
+<span class="sourceLineNo">1106</span><a id="line.1106">      K[] keys = (K[]) this.keys;</a>
+<span class="sourceLineNo">1107</span><a id="line.1107">      V[] values = (V[]) this.values;</a>
+<span class="sourceLineNo">1108</span><a id="line.1108"></a>
+<span class="sourceLineNo">1109</span><a id="line.1109">      Builder&lt;K, V&gt; builder = makeBuilder(keys.length);</a>
+<span class="sourceLineNo">1110</span><a id="line.1110"></a>
+<span class="sourceLineNo">1111</span><a id="line.1111">      for (int i = 0; i &lt; keys.length; i++) {</a>
+<span class="sourceLineNo">1112</span><a id="line.1112">        builder.put(keys[i], values[i]);</a>
+<span class="sourceLineNo">1113</span><a id="line.1113">      }</a>
+<span class="sourceLineNo">1114</span><a id="line.1114">      return builder.buildOrThrow();</a>
+<span class="sourceLineNo">1115</span><a id="line.1115">    }</a>
+<span class="sourceLineNo">1116</span><a id="line.1116"></a>
+<span class="sourceLineNo">1117</span><a id="line.1117">    /**</a>
+<span class="sourceLineNo">1118</span><a id="line.1118">     * Returns a builder that builds the unserialized type. Subclasses should override this method.</a>
+<span class="sourceLineNo">1119</span><a id="line.1119">     */</a>
+<span class="sourceLineNo">1120</span><a id="line.1120">    Builder&lt;K, V&gt; makeBuilder(int size) {</a>
+<span class="sourceLineNo">1121</span><a id="line.1121">      return new Builder&lt;&gt;(size);</a>
+<span class="sourceLineNo">1122</span><a id="line.1122">    }</a>
+<span class="sourceLineNo">1123</span><a id="line.1123"></a>
+<span class="sourceLineNo">1124</span><a id="line.1124">    private static final long serialVersionUID = 0;</a>
+<span class="sourceLineNo">1125</span><a id="line.1125">  }</a>
+<span class="sourceLineNo">1126</span><a id="line.1126"></a>
+<span class="sourceLineNo">1127</span><a id="line.1127">  /**</a>
+<span class="sourceLineNo">1128</span><a id="line.1128">   * Returns a serializable form of this object. Non-public subclasses should not override this</a>
+<span class="sourceLineNo">1129</span><a id="line.1129">   * method. Publicly-accessible subclasses must override this method and should return a subclass</a>
+<span class="sourceLineNo">1130</span><a id="line.1130">   * of SerializedForm whose readResolve() method returns objects of the subclass type.</a>
+<span class="sourceLineNo">1131</span><a id="line.1131">   */</a>
+<span class="sourceLineNo">1132</span><a id="line.1132">  @J2ktIncompatible // serialization</a>
+<span class="sourceLineNo">1133</span><a id="line.1133">  Object writeReplace() {</a>
+<span class="sourceLineNo">1134</span><a id="line.1134">    return new SerializedForm&lt;&gt;(this);</a>
+<span class="sourceLineNo">1135</span><a id="line.1135">  }</a>
+<span class="sourceLineNo">1136</span><a id="line.1136"></a>
+<span class="sourceLineNo">1137</span><a id="line.1137">  @J2ktIncompatible // java.io.ObjectInputStream</a>
+<span class="sourceLineNo">1138</span><a id="line.1138">  private void readObject(ObjectInputStream stream) throws InvalidObjectException {</a>
+<span class="sourceLineNo">1139</span><a id="line.1139">    throw new InvalidObjectException("Use SerializedForm");</a>
+<span class="sourceLineNo">1140</span><a id="line.1140">  }</a>
+<span class="sourceLineNo">1141</span><a id="line.1141">}</a>
 
 
 

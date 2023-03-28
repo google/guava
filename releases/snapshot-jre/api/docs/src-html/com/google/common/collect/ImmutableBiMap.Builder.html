@@ -632,29 +632,31 @@
 <span class="sourceLineNo">623</span><a id="line.623">   * &lt;p&gt;Since the bimap is immutable, ImmutableBiMap doesn't require special logic for keeping the</a>
 <span class="sourceLineNo">624</span><a id="line.624">   * bimap and its inverse in sync during serialization, the way AbstractBiMap does.</a>
 <span class="sourceLineNo">625</span><a id="line.625">   */</a>
-<span class="sourceLineNo">626</span><a id="line.626">  private static class SerializedForm&lt;K, V&gt; extends ImmutableMap.SerializedForm&lt;K, V&gt; {</a>
-<span class="sourceLineNo">627</span><a id="line.627">    SerializedForm(ImmutableBiMap&lt;K, V&gt; bimap) {</a>
-<span class="sourceLineNo">628</span><a id="line.628">      super(bimap);</a>
-<span class="sourceLineNo">629</span><a id="line.629">    }</a>
-<span class="sourceLineNo">630</span><a id="line.630"></a>
-<span class="sourceLineNo">631</span><a id="line.631">    @Override</a>
-<span class="sourceLineNo">632</span><a id="line.632">    Builder&lt;K, V&gt; makeBuilder(int size) {</a>
-<span class="sourceLineNo">633</span><a id="line.633">      return new Builder&lt;&gt;(size);</a>
-<span class="sourceLineNo">634</span><a id="line.634">    }</a>
-<span class="sourceLineNo">635</span><a id="line.635"></a>
-<span class="sourceLineNo">636</span><a id="line.636">    private static final long serialVersionUID = 0;</a>
-<span class="sourceLineNo">637</span><a id="line.637">  }</a>
-<span class="sourceLineNo">638</span><a id="line.638"></a>
-<span class="sourceLineNo">639</span><a id="line.639">  @Override</a>
-<span class="sourceLineNo">640</span><a id="line.640">  Object writeReplace() {</a>
-<span class="sourceLineNo">641</span><a id="line.641">    return new SerializedForm&lt;&gt;(this);</a>
-<span class="sourceLineNo">642</span><a id="line.642">  }</a>
-<span class="sourceLineNo">643</span><a id="line.643"></a>
-<span class="sourceLineNo">644</span><a id="line.644">  @J2ktIncompatible // serialization</a>
-<span class="sourceLineNo">645</span><a id="line.645">  private void readObject(ObjectInputStream stream) throws InvalidObjectException {</a>
-<span class="sourceLineNo">646</span><a id="line.646">    throw new InvalidObjectException("Use SerializedForm");</a>
-<span class="sourceLineNo">647</span><a id="line.647">  }</a>
-<span class="sourceLineNo">648</span><a id="line.648">}</a>
+<span class="sourceLineNo">626</span><a id="line.626">  @J2ktIncompatible // serialization</a>
+<span class="sourceLineNo">627</span><a id="line.627">  private static class SerializedForm&lt;K, V&gt; extends ImmutableMap.SerializedForm&lt;K, V&gt; {</a>
+<span class="sourceLineNo">628</span><a id="line.628">    SerializedForm(ImmutableBiMap&lt;K, V&gt; bimap) {</a>
+<span class="sourceLineNo">629</span><a id="line.629">      super(bimap);</a>
+<span class="sourceLineNo">630</span><a id="line.630">    }</a>
+<span class="sourceLineNo">631</span><a id="line.631"></a>
+<span class="sourceLineNo">632</span><a id="line.632">    @Override</a>
+<span class="sourceLineNo">633</span><a id="line.633">    Builder&lt;K, V&gt; makeBuilder(int size) {</a>
+<span class="sourceLineNo">634</span><a id="line.634">      return new Builder&lt;&gt;(size);</a>
+<span class="sourceLineNo">635</span><a id="line.635">    }</a>
+<span class="sourceLineNo">636</span><a id="line.636"></a>
+<span class="sourceLineNo">637</span><a id="line.637">    private static final long serialVersionUID = 0;</a>
+<span class="sourceLineNo">638</span><a id="line.638">  }</a>
+<span class="sourceLineNo">639</span><a id="line.639"></a>
+<span class="sourceLineNo">640</span><a id="line.640">  @Override</a>
+<span class="sourceLineNo">641</span><a id="line.641">  @J2ktIncompatible // serialization</a>
+<span class="sourceLineNo">642</span><a id="line.642">  Object writeReplace() {</a>
+<span class="sourceLineNo">643</span><a id="line.643">    return new SerializedForm&lt;&gt;(this);</a>
+<span class="sourceLineNo">644</span><a id="line.644">  }</a>
+<span class="sourceLineNo">645</span><a id="line.645"></a>
+<span class="sourceLineNo">646</span><a id="line.646">  @J2ktIncompatible // serialization</a>
+<span class="sourceLineNo">647</span><a id="line.647">  private void readObject(ObjectInputStream stream) throws InvalidObjectException {</a>
+<span class="sourceLineNo">648</span><a id="line.648">    throw new InvalidObjectException("Use SerializedForm");</a>
+<span class="sourceLineNo">649</span><a id="line.649">  }</a>
+<span class="sourceLineNo">650</span><a id="line.650">}</a>
 
 
 

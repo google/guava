@@ -1130,36 +1130,38 @@
 <span class="sourceLineNo">1121</span><a id="line.1121">   * are reconstructed using public factory methods. This ensures that the implementation types</a>
 <span class="sourceLineNo">1122</span><a id="line.1122">   * remain as implementation details.</a>
 <span class="sourceLineNo">1123</span><a id="line.1123">   */</a>
-<span class="sourceLineNo">1124</span><a id="line.1124">  private static class SerializedForm&lt;K, V&gt; extends ImmutableMap.SerializedForm&lt;K, V&gt; {</a>
-<span class="sourceLineNo">1125</span><a id="line.1125">    private final Comparator&lt;? super K&gt; comparator;</a>
-<span class="sourceLineNo">1126</span><a id="line.1126"></a>
-<span class="sourceLineNo">1127</span><a id="line.1127">    SerializedForm(ImmutableSortedMap&lt;K, V&gt; sortedMap) {</a>
-<span class="sourceLineNo">1128</span><a id="line.1128">      super(sortedMap);</a>
-<span class="sourceLineNo">1129</span><a id="line.1129">      comparator = sortedMap.comparator();</a>
-<span class="sourceLineNo">1130</span><a id="line.1130">    }</a>
-<span class="sourceLineNo">1131</span><a id="line.1131"></a>
-<span class="sourceLineNo">1132</span><a id="line.1132">    @Override</a>
-<span class="sourceLineNo">1133</span><a id="line.1133">    Builder&lt;K, V&gt; makeBuilder(int size) {</a>
-<span class="sourceLineNo">1134</span><a id="line.1134">      return new Builder&lt;&gt;(comparator);</a>
-<span class="sourceLineNo">1135</span><a id="line.1135">    }</a>
-<span class="sourceLineNo">1136</span><a id="line.1136"></a>
-<span class="sourceLineNo">1137</span><a id="line.1137">    private static final long serialVersionUID = 0;</a>
-<span class="sourceLineNo">1138</span><a id="line.1138">  }</a>
-<span class="sourceLineNo">1139</span><a id="line.1139"></a>
-<span class="sourceLineNo">1140</span><a id="line.1140">  @Override</a>
-<span class="sourceLineNo">1141</span><a id="line.1141">  Object writeReplace() {</a>
-<span class="sourceLineNo">1142</span><a id="line.1142">    return new SerializedForm&lt;&gt;(this);</a>
-<span class="sourceLineNo">1143</span><a id="line.1143">  }</a>
-<span class="sourceLineNo">1144</span><a id="line.1144"></a>
-<span class="sourceLineNo">1145</span><a id="line.1145">  @J2ktIncompatible // java.io.ObjectInputStream</a>
-<span class="sourceLineNo">1146</span><a id="line.1146">  private void readObject(ObjectInputStream stream) throws InvalidObjectException {</a>
-<span class="sourceLineNo">1147</span><a id="line.1147">    throw new InvalidObjectException("Use SerializedForm");</a>
-<span class="sourceLineNo">1148</span><a id="line.1148">  }</a>
-<span class="sourceLineNo">1149</span><a id="line.1149"></a>
-<span class="sourceLineNo">1150</span><a id="line.1150">  // This class is never actually serialized directly, but we have to make the</a>
-<span class="sourceLineNo">1151</span><a id="line.1151">  // warning go away (and suppressing would suppress for all nested classes too)</a>
-<span class="sourceLineNo">1152</span><a id="line.1152">  private static final long serialVersionUID = 0;</a>
-<span class="sourceLineNo">1153</span><a id="line.1153">}</a>
+<span class="sourceLineNo">1124</span><a id="line.1124">  @J2ktIncompatible // serialization</a>
+<span class="sourceLineNo">1125</span><a id="line.1125">  private static class SerializedForm&lt;K, V&gt; extends ImmutableMap.SerializedForm&lt;K, V&gt; {</a>
+<span class="sourceLineNo">1126</span><a id="line.1126">    private final Comparator&lt;? super K&gt; comparator;</a>
+<span class="sourceLineNo">1127</span><a id="line.1127"></a>
+<span class="sourceLineNo">1128</span><a id="line.1128">    SerializedForm(ImmutableSortedMap&lt;K, V&gt; sortedMap) {</a>
+<span class="sourceLineNo">1129</span><a id="line.1129">      super(sortedMap);</a>
+<span class="sourceLineNo">1130</span><a id="line.1130">      comparator = sortedMap.comparator();</a>
+<span class="sourceLineNo">1131</span><a id="line.1131">    }</a>
+<span class="sourceLineNo">1132</span><a id="line.1132"></a>
+<span class="sourceLineNo">1133</span><a id="line.1133">    @Override</a>
+<span class="sourceLineNo">1134</span><a id="line.1134">    Builder&lt;K, V&gt; makeBuilder(int size) {</a>
+<span class="sourceLineNo">1135</span><a id="line.1135">      return new Builder&lt;&gt;(comparator);</a>
+<span class="sourceLineNo">1136</span><a id="line.1136">    }</a>
+<span class="sourceLineNo">1137</span><a id="line.1137"></a>
+<span class="sourceLineNo">1138</span><a id="line.1138">    private static final long serialVersionUID = 0;</a>
+<span class="sourceLineNo">1139</span><a id="line.1139">  }</a>
+<span class="sourceLineNo">1140</span><a id="line.1140"></a>
+<span class="sourceLineNo">1141</span><a id="line.1141">  @Override</a>
+<span class="sourceLineNo">1142</span><a id="line.1142">  @J2ktIncompatible // serialization</a>
+<span class="sourceLineNo">1143</span><a id="line.1143">  Object writeReplace() {</a>
+<span class="sourceLineNo">1144</span><a id="line.1144">    return new SerializedForm&lt;&gt;(this);</a>
+<span class="sourceLineNo">1145</span><a id="line.1145">  }</a>
+<span class="sourceLineNo">1146</span><a id="line.1146"></a>
+<span class="sourceLineNo">1147</span><a id="line.1147">  @J2ktIncompatible // java.io.ObjectInputStream</a>
+<span class="sourceLineNo">1148</span><a id="line.1148">  private void readObject(ObjectInputStream stream) throws InvalidObjectException {</a>
+<span class="sourceLineNo">1149</span><a id="line.1149">    throw new InvalidObjectException("Use SerializedForm");</a>
+<span class="sourceLineNo">1150</span><a id="line.1150">  }</a>
+<span class="sourceLineNo">1151</span><a id="line.1151"></a>
+<span class="sourceLineNo">1152</span><a id="line.1152">  // This class is never actually serialized directly, but we have to make the</a>
+<span class="sourceLineNo">1153</span><a id="line.1153">  // warning go away (and suppressing would suppress for all nested classes too)</a>
+<span class="sourceLineNo">1154</span><a id="line.1154">  private static final long serialVersionUID = 0;</a>
+<span class="sourceLineNo">1155</span><a id="line.1155">}</a>
 
 
 
