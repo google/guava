@@ -295,6 +295,7 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
     }
 
     @Override
+    @J2ktIncompatible // serialization
     Object writeReplace() {
       return new InverseSerializedForm<>(RegularImmutableBiMap.this);
     }
@@ -305,6 +306,7 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
     }
   }
 
+  @J2ktIncompatible // serialization
   private static class InverseSerializedForm<K, V> implements Serializable {
     private final ImmutableBiMap<K, V> forward;
 
