@@ -153,7 +153,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <hr>
 <pre><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
 <a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public final class <a href="../../../../src-html/com/google/common/collect/EvictingQueue.html#line.46">EvictingQueue</a>&lt;E&gt;
+public final class <a href="../../../../src-html/com/google/common/collect/EvictingQueue.html#line.47">EvictingQueue</a>&lt;E&gt;
 extends <a href="ForwardingQueue.html" title="class in com.google.common.collect">ForwardingQueue</a>&lt;E&gt;
 implements java.io.Serializable</pre>
 <div class="block">A non-blocking queue which automatically evicts elements from the head of the queue when
@@ -305,7 +305,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="EvictingQueue.html" title="class in com.google.common.collect">EvictingQueue</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/EvictingQueue.html#line.67">create</a>&#8203;(int&nbsp;maxSize)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="EvictingQueue.html" title="class in com.google.common.collect">EvictingQueue</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/EvictingQueue.html#line.68">create</a>&#8203;(int&nbsp;maxSize)</pre>
 <div class="block">Creates and returns a new evicting queue that will hold up to <code>maxSize</code> elements.
 
  <p>When <code>maxSize</code> is zero, elements will be evicted immediately after being added to the
@@ -318,7 +318,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>remainingCapacity</h4>
-<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/EvictingQueue.html#line.77">remainingCapacity</a>()</pre>
+<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/EvictingQueue.html#line.78">remainingCapacity</a>()</pre>
 <div class="block">Returns the number of additional elements that this queue can accept without evicting; zero if
  the queue is currently full.</div>
 <dl>
@@ -333,7 +333,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>delegate</h4>
-<pre class="methodSignature">protected&nbsp;java.util.Queue&lt;<a href="EvictingQueue.html" title="type parameter in EvictingQueue">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/EvictingQueue.html#line.81">delegate</a>()</pre>
+<pre class="methodSignature">protected&nbsp;java.util.Queue&lt;<a href="EvictingQueue.html" title="type parameter in EvictingQueue">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/EvictingQueue.html#line.82">delegate</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="ForwardingObject.html#delegate()">ForwardingObject</a></code></span></div>
 <div class="block">Returns the backing delegate instance that methods are forwarded to. Abstract subclasses
  generally override this method with an abstract method that has a more specific return type,
@@ -354,7 +354,7 @@ implements java.io.Serializable</pre>
 <li class="blockList">
 <h4>offer</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/EvictingQueue.html#line.92">offer</a>&#8203;(<a href="EvictingQueue.html" title="type parameter in EvictingQueue">E</a>&nbsp;e)</pre>
+public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/EvictingQueue.html#line.93">offer</a>&#8203;(<a href="EvictingQueue.html" title="type parameter in EvictingQueue">E</a>&nbsp;e)</pre>
 <div class="block">Adds the given element to this queue. If the queue is currently full, the element at the head
  of the queue is evicted to make room.</div>
 <dl>
@@ -376,7 +376,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <li class="blockList">
 <h4>add</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/EvictingQueue.html#line.104">add</a>&#8203;(<a href="EvictingQueue.html" title="type parameter in EvictingQueue">E</a>&nbsp;e)</pre>
+public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/EvictingQueue.html#line.105">add</a>&#8203;(<a href="EvictingQueue.html" title="type parameter in EvictingQueue">E</a>&nbsp;e)</pre>
 <div class="block">Adds the given element to this queue. If the queue is currently full, the element at the head
  of the queue is evicted to make room.</div>
 <dl>
@@ -398,7 +398,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <li class="blockList">
 <h4>addAll</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/EvictingQueue.html#line.118">addAll</a>&#8203;(java.util.Collection&lt;? extends <a href="EvictingQueue.html" title="type parameter in EvictingQueue">E</a>&gt;&nbsp;collection)</pre>
+public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/EvictingQueue.html#line.119">addAll</a>&#8203;(java.util.Collection&lt;? extends <a href="EvictingQueue.html" title="type parameter in EvictingQueue">E</a>&gt;&nbsp;collection)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>addAll</code>&nbsp;in interface&nbsp;<code>java.util.Collection&lt;<a href="EvictingQueue.html" title="type parameter in EvictingQueue">E</a>&gt;</code></dd>
@@ -413,7 +413,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <ul class="blockListLast">
 <li class="blockList">
 <h4>toArray</h4>
-<pre class="methodSignature">public&nbsp;java.lang.Object[]&nbsp;<a href="../../../../src-html/com/google/common/collect/EvictingQueue.html#line.129">toArray</a>()</pre>
+<pre class="methodSignature">public&nbsp;java.lang.Object[]&nbsp;<a href="../../../../src-html/com/google/common/collect/EvictingQueue.html#line.130">toArray</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>toArray</code>&nbsp;in interface&nbsp;<code>java.util.Collection&lt;<a href="EvictingQueue.html" title="type parameter in EvictingQueue">E</a>&gt;</code></dd>
