@@ -121,8 +121,12 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
    * they are not initialized inline in the constructor, they are initialized from init(), which the
    * constructor calls (as does readObject()).
    */
+  @SuppressWarnings("nullness:initialization.field.uninitialized") // For J2KT (see above)
   private transient @Nullable BiEntry<K, V>[] hashTableKToV;
+
+  @SuppressWarnings("nullness:initialization.field.uninitialized") // For J2KT (see above)
   private transient @Nullable BiEntry<K, V>[] hashTableVToK;
+
   @Weak @CheckForNull private transient BiEntry<K, V> firstInKeyInsertionOrder;
   @Weak @CheckForNull private transient BiEntry<K, V> lastInKeyInsertionOrder;
   private transient int size;
