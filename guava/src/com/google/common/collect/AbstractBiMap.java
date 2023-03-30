@@ -53,8 +53,12 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 abstract class AbstractBiMap<K extends @Nullable Object, V extends @Nullable Object>
     extends ForwardingMap<K, V> implements BiMap<K, V>, Serializable {
 
+  @SuppressWarnings("nullness:initialization.field.uninitialized") // For J2KT (lateinit)
   private transient Map<K, V> delegate;
-  @RetainedWith transient AbstractBiMap<V, K> inverse;
+
+  @SuppressWarnings("nullness:initialization.field.uninitialized") // For J2KT (lateinit)
+  @RetainedWith
+  transient AbstractBiMap<V, K> inverse;
 
   /** Package-private constructor for creating a map-backed bimap. */
   AbstractBiMap(Map<K, V> forward, Map<V, K> backward) {

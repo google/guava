@@ -525,7 +525,10 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
   @WeakOuter
   private class Heap {
     final Ordering<E> ordering;
-    @Weak Heap otherHeap; // always initialized immediately after construction
+
+    @SuppressWarnings("nullness:initialization.field.uninitialized")
+    @Weak
+    Heap otherHeap; // always initialized immediately after construction
 
     Heap(Ordering<E> ordering) {
       this.ordering = ordering;
