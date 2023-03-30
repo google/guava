@@ -557,20 +557,20 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
         if (entriesUsed) {
           entries = Arrays.copyOf(entries, size);
         }
-        localEntries = entries;
+        @SuppressWarnings("nullness") // entries 0..localSize-1 are non-null
+        Entry<K, V>[] nonNullEntries = (Entry<K, V>[]) entries;
         if (!throwIfDuplicateKeys) {
           // We want to retain only the last-put value for any given key, before sorting.
           // This could be improved, but orderEntriesByValue is rather rarely used anyway.
-          @SuppressWarnings("nullness") // entries 0..size-1 are non-null
-          Entry<K, V>[] nonNullEntries = (Entry<K, V>[]) localEntries;
-          localEntries = lastEntryForEachKey(nonNullEntries, size);
-          localSize = localEntries.length;
+          nonNullEntries = lastEntryForEachKey(nonNullEntries, size);
+          localSize = nonNullEntries.length;
         }
         Arrays.sort(
-            localEntries,
+            nonNullEntries,
             0,
             localSize,
             Ordering.from(valueComparator).onResultOf(Maps.<V>valueFunction()));
+        localEntries = (@Nullable Entry<K, V>[]) nonNullEntries;
       }
       entriesUsed = true;
       return RegularImmutableMap.fromEntryArray(localSize, localEntries, throwIfDuplicateKeys);
