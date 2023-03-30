@@ -273,7 +273,9 @@ final class TopKSelector<
       bufferSize = k;
       threshold = buffer[k - 1];
     }
+    // Up to bufferSize, all elements of buffer are real Ts (not null unless T includes null)
+    T[] topK = Arrays.copyOf(castBuffer, bufferSize);
     // we have to support null elements, so no ImmutableList for us
-    return Collections.unmodifiableList(Arrays.asList(Arrays.copyOf(buffer, bufferSize)));
+    return Collections.unmodifiableList(Arrays.asList(topK));
   }
 }

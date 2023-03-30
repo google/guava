@@ -1530,15 +1530,14 @@ public final class Maps {
     // See java.util.Collections.UnmodifiableEntrySet for details on attacks.
 
     @Override
-    public Object[] toArray() {
+    public @Nullable Object[] toArray() {
       /*
-       * standardToArray returns `@Nullable Object[]` rather than `Object[]` but only because it can
+       * standardToArray returns `@Nullable Object[]` rather than `Object[]` but because it can
        * be used with collections that may contain null. This collection never contains nulls, so we
-       * can treat it as a plain `Object[]`.
+       * could return `Object[]`. But this class is private and J2KT cannot change return types in
+       * overrides, so we declare `@Nullable Object[]` as the return type.
        */
-      @SuppressWarnings("nullness")
-      Object[] result = standardToArray();
-      return result;
+      return standardToArray();
     }
 
     @Override

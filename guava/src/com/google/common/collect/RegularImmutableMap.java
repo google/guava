@@ -150,7 +150,10 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
         // Make sure we are not overwriting the original entries array, in case we later do
         // buildOrThrow(). We would want an exception to include two values for the duplicate key.
         if (entries == entryArray) {
-          entries = entries.clone();
+          // Temporary variable is necessary to defeat bad smartcast (entries adopting the type of
+          // entryArray) in the Kotlin translation.
+          Entry<K, V>[] originalEntries = entries;
+          entries = originalEntries.clone();
         }
       }
       entries[entryIndex] = effectiveEntry;

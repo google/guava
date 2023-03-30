@@ -473,7 +473,10 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableBiMapFauxverideShim<
               entries = Arrays.copyOf(entries, size);
             }
             Arrays.sort(
-                entries, 0, size, Ordering.from(valueComparator).onResultOf(Maps.valueFunction()));
+                (Entry<K, V>[]) entries, // Entries up to size are not null
+                0,
+                size,
+                Ordering.from(valueComparator).onResultOf(Maps.valueFunction()));
           }
           entriesUsed = true;
           return RegularImmutableBiMap.fromEntryArray(size, entries);
