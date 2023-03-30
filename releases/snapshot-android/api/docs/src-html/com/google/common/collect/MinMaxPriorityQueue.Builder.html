@@ -534,462 +534,465 @@
 <span class="sourceLineNo">525</span><a id="line.525">  @WeakOuter</a>
 <span class="sourceLineNo">526</span><a id="line.526">  private class Heap {</a>
 <span class="sourceLineNo">527</span><a id="line.527">    final Ordering&lt;E&gt; ordering;</a>
-<span class="sourceLineNo">528</span><a id="line.528">    @Weak Heap otherHeap; // always initialized immediately after construction</a>
-<span class="sourceLineNo">529</span><a id="line.529"></a>
-<span class="sourceLineNo">530</span><a id="line.530">    Heap(Ordering&lt;E&gt; ordering) {</a>
-<span class="sourceLineNo">531</span><a id="line.531">      this.ordering = ordering;</a>
-<span class="sourceLineNo">532</span><a id="line.532">    }</a>
-<span class="sourceLineNo">533</span><a id="line.533"></a>
-<span class="sourceLineNo">534</span><a id="line.534">    int compareElements(int a, int b) {</a>
-<span class="sourceLineNo">535</span><a id="line.535">      return ordering.compare(elementData(a), elementData(b));</a>
-<span class="sourceLineNo">536</span><a id="line.536">    }</a>
-<span class="sourceLineNo">537</span><a id="line.537"></a>
-<span class="sourceLineNo">538</span><a id="line.538">    /**</a>
-<span class="sourceLineNo">539</span><a id="line.539">     * Tries to move {@code toTrickle} from a min to a max level and bubble up there. If it moved</a>
-<span class="sourceLineNo">540</span><a id="line.540">     * before {@code removeIndex} this method returns a pair as described in {@link #removeAt}.</a>
-<span class="sourceLineNo">541</span><a id="line.541">     */</a>
-<span class="sourceLineNo">542</span><a id="line.542">    @CheckForNull</a>
-<span class="sourceLineNo">543</span><a id="line.543">    MoveDesc&lt;E&gt; tryCrossOverAndBubbleUp(int removeIndex, int vacated, E toTrickle) {</a>
-<span class="sourceLineNo">544</span><a id="line.544">      int crossOver = crossOver(vacated, toTrickle);</a>
-<span class="sourceLineNo">545</span><a id="line.545">      if (crossOver == vacated) {</a>
-<span class="sourceLineNo">546</span><a id="line.546">        return null;</a>
-<span class="sourceLineNo">547</span><a id="line.547">      }</a>
-<span class="sourceLineNo">548</span><a id="line.548">      // Successfully crossed over from min to max.</a>
-<span class="sourceLineNo">549</span><a id="line.549">      // Bubble up max levels.</a>
-<span class="sourceLineNo">550</span><a id="line.550">      E parent;</a>
-<span class="sourceLineNo">551</span><a id="line.551">      // If toTrickle is moved up to a parent of removeIndex, the parent is</a>
-<span class="sourceLineNo">552</span><a id="line.552">      // placed in removeIndex position. We must return that to the iterator so</a>
-<span class="sourceLineNo">553</span><a id="line.553">      // that it knows to skip it.</a>
-<span class="sourceLineNo">554</span><a id="line.554">      if (crossOver &lt; removeIndex) {</a>
-<span class="sourceLineNo">555</span><a id="line.555">        // We crossed over to the parent level in crossOver, so the parent</a>
-<span class="sourceLineNo">556</span><a id="line.556">        // has already been moved.</a>
-<span class="sourceLineNo">557</span><a id="line.557">        parent = elementData(removeIndex);</a>
-<span class="sourceLineNo">558</span><a id="line.558">      } else {</a>
-<span class="sourceLineNo">559</span><a id="line.559">        parent = elementData(getParentIndex(removeIndex));</a>
-<span class="sourceLineNo">560</span><a id="line.560">      }</a>
-<span class="sourceLineNo">561</span><a id="line.561">      // bubble it up the opposite heap</a>
-<span class="sourceLineNo">562</span><a id="line.562">      if (otherHeap.bubbleUpAlternatingLevels(crossOver, toTrickle) &lt; removeIndex) {</a>
-<span class="sourceLineNo">563</span><a id="line.563">        return new MoveDesc&lt;&gt;(toTrickle, parent);</a>
-<span class="sourceLineNo">564</span><a id="line.564">      } else {</a>
-<span class="sourceLineNo">565</span><a id="line.565">        return null;</a>
-<span class="sourceLineNo">566</span><a id="line.566">      }</a>
-<span class="sourceLineNo">567</span><a id="line.567">    }</a>
-<span class="sourceLineNo">568</span><a id="line.568"></a>
-<span class="sourceLineNo">569</span><a id="line.569">    /** Bubbles a value from {@code index} up the appropriate heap if required. */</a>
-<span class="sourceLineNo">570</span><a id="line.570">    void bubbleUp(int index, E x) {</a>
-<span class="sourceLineNo">571</span><a id="line.571">      int crossOver = crossOverUp(index, x);</a>
-<span class="sourceLineNo">572</span><a id="line.572"></a>
-<span class="sourceLineNo">573</span><a id="line.573">      Heap heap;</a>
-<span class="sourceLineNo">574</span><a id="line.574">      if (crossOver == index) {</a>
-<span class="sourceLineNo">575</span><a id="line.575">        heap = this;</a>
-<span class="sourceLineNo">576</span><a id="line.576">      } else {</a>
-<span class="sourceLineNo">577</span><a id="line.577">        index = crossOver;</a>
-<span class="sourceLineNo">578</span><a id="line.578">        heap = otherHeap;</a>
-<span class="sourceLineNo">579</span><a id="line.579">      }</a>
-<span class="sourceLineNo">580</span><a id="line.580">      heap.bubbleUpAlternatingLevels(index, x);</a>
-<span class="sourceLineNo">581</span><a id="line.581">    }</a>
-<span class="sourceLineNo">582</span><a id="line.582"></a>
-<span class="sourceLineNo">583</span><a id="line.583">    /**</a>
-<span class="sourceLineNo">584</span><a id="line.584">     * Bubbles a value from {@code index} up the levels of this heap, and returns the index the</a>
-<span class="sourceLineNo">585</span><a id="line.585">     * element ended up at.</a>
-<span class="sourceLineNo">586</span><a id="line.586">     */</a>
-<span class="sourceLineNo">587</span><a id="line.587">    @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">588</span><a id="line.588">    int bubbleUpAlternatingLevels(int index, E x) {</a>
-<span class="sourceLineNo">589</span><a id="line.589">      while (index &gt; 2) {</a>
-<span class="sourceLineNo">590</span><a id="line.590">        int grandParentIndex = getGrandparentIndex(index);</a>
-<span class="sourceLineNo">591</span><a id="line.591">        E e = elementData(grandParentIndex);</a>
-<span class="sourceLineNo">592</span><a id="line.592">        if (ordering.compare(e, x) &lt;= 0) {</a>
-<span class="sourceLineNo">593</span><a id="line.593">          break;</a>
-<span class="sourceLineNo">594</span><a id="line.594">        }</a>
-<span class="sourceLineNo">595</span><a id="line.595">        queue[index] = e;</a>
-<span class="sourceLineNo">596</span><a id="line.596">        index = grandParentIndex;</a>
-<span class="sourceLineNo">597</span><a id="line.597">      }</a>
-<span class="sourceLineNo">598</span><a id="line.598">      queue[index] = x;</a>
-<span class="sourceLineNo">599</span><a id="line.599">      return index;</a>
-<span class="sourceLineNo">600</span><a id="line.600">    }</a>
-<span class="sourceLineNo">601</span><a id="line.601"></a>
-<span class="sourceLineNo">602</span><a id="line.602">    /**</a>
-<span class="sourceLineNo">603</span><a id="line.603">     * Returns the index of minimum value between {@code index} and {@code index + len}, or {@code</a>
-<span class="sourceLineNo">604</span><a id="line.604">     * -1} if {@code index} is greater than {@code size}.</a>
-<span class="sourceLineNo">605</span><a id="line.605">     */</a>
-<span class="sourceLineNo">606</span><a id="line.606">    int findMin(int index, int len) {</a>
-<span class="sourceLineNo">607</span><a id="line.607">      if (index &gt;= size) {</a>
-<span class="sourceLineNo">608</span><a id="line.608">        return -1;</a>
-<span class="sourceLineNo">609</span><a id="line.609">      }</a>
-<span class="sourceLineNo">610</span><a id="line.610">      checkState(index &gt; 0);</a>
-<span class="sourceLineNo">611</span><a id="line.611">      int limit = Math.min(index, size - len) + len;</a>
-<span class="sourceLineNo">612</span><a id="line.612">      int minIndex = index;</a>
-<span class="sourceLineNo">613</span><a id="line.613">      for (int i = index + 1; i &lt; limit; i++) {</a>
-<span class="sourceLineNo">614</span><a id="line.614">        if (compareElements(i, minIndex) &lt; 0) {</a>
-<span class="sourceLineNo">615</span><a id="line.615">          minIndex = i;</a>
-<span class="sourceLineNo">616</span><a id="line.616">        }</a>
-<span class="sourceLineNo">617</span><a id="line.617">      }</a>
-<span class="sourceLineNo">618</span><a id="line.618">      return minIndex;</a>
-<span class="sourceLineNo">619</span><a id="line.619">    }</a>
-<span class="sourceLineNo">620</span><a id="line.620"></a>
-<span class="sourceLineNo">621</span><a id="line.621">    /** Returns the minimum child or {@code -1} if no child exists. */</a>
-<span class="sourceLineNo">622</span><a id="line.622">    int findMinChild(int index) {</a>
-<span class="sourceLineNo">623</span><a id="line.623">      return findMin(getLeftChildIndex(index), 2);</a>
-<span class="sourceLineNo">624</span><a id="line.624">    }</a>
-<span class="sourceLineNo">625</span><a id="line.625"></a>
-<span class="sourceLineNo">626</span><a id="line.626">    /** Returns the minimum grand child or -1 if no grand child exists. */</a>
-<span class="sourceLineNo">627</span><a id="line.627">    int findMinGrandChild(int index) {</a>
-<span class="sourceLineNo">628</span><a id="line.628">      int leftChildIndex = getLeftChildIndex(index);</a>
-<span class="sourceLineNo">629</span><a id="line.629">      if (leftChildIndex &lt; 0) {</a>
-<span class="sourceLineNo">630</span><a id="line.630">        return -1;</a>
-<span class="sourceLineNo">631</span><a id="line.631">      }</a>
-<span class="sourceLineNo">632</span><a id="line.632">      return findMin(getLeftChildIndex(leftChildIndex), 4);</a>
-<span class="sourceLineNo">633</span><a id="line.633">    }</a>
-<span class="sourceLineNo">634</span><a id="line.634"></a>
-<span class="sourceLineNo">635</span><a id="line.635">    /**</a>
-<span class="sourceLineNo">636</span><a id="line.636">     * Moves an element one level up from a min level to a max level (or vice versa). Returns the</a>
-<span class="sourceLineNo">637</span><a id="line.637">     * new position of the element.</a>
-<span class="sourceLineNo">638</span><a id="line.638">     */</a>
-<span class="sourceLineNo">639</span><a id="line.639">    int crossOverUp(int index, E x) {</a>
-<span class="sourceLineNo">640</span><a id="line.640">      if (index == 0) {</a>
-<span class="sourceLineNo">641</span><a id="line.641">        queue[0] = x;</a>
-<span class="sourceLineNo">642</span><a id="line.642">        return 0;</a>
-<span class="sourceLineNo">643</span><a id="line.643">      }</a>
-<span class="sourceLineNo">644</span><a id="line.644">      int parentIndex = getParentIndex(index);</a>
-<span class="sourceLineNo">645</span><a id="line.645">      E parentElement = elementData(parentIndex);</a>
-<span class="sourceLineNo">646</span><a id="line.646">      if (parentIndex != 0) {</a>
-<span class="sourceLineNo">647</span><a id="line.647">        /*</a>
-<span class="sourceLineNo">648</span><a id="line.648">         * This is a guard for the case of the childless aunt node. Since the end of the array is</a>
-<span class="sourceLineNo">649</span><a id="line.649">         * actually the middle of the heap, a smaller childless aunt node can become a child of x</a>
-<span class="sourceLineNo">650</span><a id="line.650">         * when we bubble up alternate levels, violating the invariant.</a>
-<span class="sourceLineNo">651</span><a id="line.651">         */</a>
-<span class="sourceLineNo">652</span><a id="line.652">        int grandparentIndex = getParentIndex(parentIndex);</a>
-<span class="sourceLineNo">653</span><a id="line.653">        int auntIndex = getRightChildIndex(grandparentIndex);</a>
-<span class="sourceLineNo">654</span><a id="line.654">        if (auntIndex != parentIndex &amp;&amp; getLeftChildIndex(auntIndex) &gt;= size) {</a>
-<span class="sourceLineNo">655</span><a id="line.655">          E auntElement = elementData(auntIndex);</a>
-<span class="sourceLineNo">656</span><a id="line.656">          if (ordering.compare(auntElement, parentElement) &lt; 0) {</a>
-<span class="sourceLineNo">657</span><a id="line.657">            parentIndex = auntIndex;</a>
-<span class="sourceLineNo">658</span><a id="line.658">            parentElement = auntElement;</a>
-<span class="sourceLineNo">659</span><a id="line.659">          }</a>
-<span class="sourceLineNo">660</span><a id="line.660">        }</a>
-<span class="sourceLineNo">661</span><a id="line.661">      }</a>
-<span class="sourceLineNo">662</span><a id="line.662">      if (ordering.compare(parentElement, x) &lt; 0) {</a>
-<span class="sourceLineNo">663</span><a id="line.663">        queue[index] = parentElement;</a>
-<span class="sourceLineNo">664</span><a id="line.664">        queue[parentIndex] = x;</a>
-<span class="sourceLineNo">665</span><a id="line.665">        return parentIndex;</a>
-<span class="sourceLineNo">666</span><a id="line.666">      }</a>
-<span class="sourceLineNo">667</span><a id="line.667">      queue[index] = x;</a>
-<span class="sourceLineNo">668</span><a id="line.668">      return index;</a>
-<span class="sourceLineNo">669</span><a id="line.669">    }</a>
-<span class="sourceLineNo">670</span><a id="line.670"></a>
-<span class="sourceLineNo">671</span><a id="line.671">    // About the term "aunt node": it's better to leave gender out of it, but for this the English</a>
-<span class="sourceLineNo">672</span><a id="line.672">    // language has nothing for us. Except for the whimsical neologism "pibling" (!) which we</a>
-<span class="sourceLineNo">673</span><a id="line.673">    // obviously could not expect to increase anyone's understanding of the code.</a>
-<span class="sourceLineNo">674</span><a id="line.674"></a>
-<span class="sourceLineNo">675</span><a id="line.675">    /**</a>
-<span class="sourceLineNo">676</span><a id="line.676">     * Swap {@code actualLastElement} with the conceptually correct last element of the heap.</a>
-<span class="sourceLineNo">677</span><a id="line.677">     * Returns the index that {@code actualLastElement} now resides in.</a>
-<span class="sourceLineNo">678</span><a id="line.678">     *</a>
-<span class="sourceLineNo">679</span><a id="line.679">     * &lt;p&gt;Since the last element of the array is actually in the middle of the sorted structure, a</a>
-<span class="sourceLineNo">680</span><a id="line.680">     * childless aunt node could be smaller, which would corrupt the invariant if this element</a>
-<span class="sourceLineNo">681</span><a id="line.681">     * becomes the new parent of the aunt node. In that case, we first switch the last element with</a>
-<span class="sourceLineNo">682</span><a id="line.682">     * its aunt node, before returning.</a>
-<span class="sourceLineNo">683</span><a id="line.683">     */</a>
-<span class="sourceLineNo">684</span><a id="line.684">    int swapWithConceptuallyLastElement(E actualLastElement) {</a>
-<span class="sourceLineNo">685</span><a id="line.685">      int parentIndex = getParentIndex(size);</a>
-<span class="sourceLineNo">686</span><a id="line.686">      if (parentIndex != 0) {</a>
-<span class="sourceLineNo">687</span><a id="line.687">        int grandparentIndex = getParentIndex(parentIndex);</a>
-<span class="sourceLineNo">688</span><a id="line.688">        int auntIndex = getRightChildIndex(grandparentIndex);</a>
-<span class="sourceLineNo">689</span><a id="line.689">        if (auntIndex != parentIndex &amp;&amp; getLeftChildIndex(auntIndex) &gt;= size) {</a>
-<span class="sourceLineNo">690</span><a id="line.690">          E auntElement = elementData(auntIndex);</a>
-<span class="sourceLineNo">691</span><a id="line.691">          if (ordering.compare(auntElement, actualLastElement) &lt; 0) {</a>
-<span class="sourceLineNo">692</span><a id="line.692">            queue[auntIndex] = actualLastElement;</a>
-<span class="sourceLineNo">693</span><a id="line.693">            queue[size] = auntElement;</a>
-<span class="sourceLineNo">694</span><a id="line.694">            return auntIndex;</a>
-<span class="sourceLineNo">695</span><a id="line.695">          }</a>
-<span class="sourceLineNo">696</span><a id="line.696">        }</a>
-<span class="sourceLineNo">697</span><a id="line.697">      }</a>
-<span class="sourceLineNo">698</span><a id="line.698">      return size;</a>
-<span class="sourceLineNo">699</span><a id="line.699">    }</a>
-<span class="sourceLineNo">700</span><a id="line.700"></a>
-<span class="sourceLineNo">701</span><a id="line.701">    /**</a>
-<span class="sourceLineNo">702</span><a id="line.702">     * Crosses an element over to the opposite heap by moving it one level down (or up if there are</a>
-<span class="sourceLineNo">703</span><a id="line.703">     * no elements below it).</a>
-<span class="sourceLineNo">704</span><a id="line.704">     *</a>
-<span class="sourceLineNo">705</span><a id="line.705">     * &lt;p&gt;Returns the new position of the element.</a>
-<span class="sourceLineNo">706</span><a id="line.706">     */</a>
-<span class="sourceLineNo">707</span><a id="line.707">    int crossOver(int index, E x) {</a>
-<span class="sourceLineNo">708</span><a id="line.708">      int minChildIndex = findMinChild(index);</a>
-<span class="sourceLineNo">709</span><a id="line.709">      // TODO(kevinb): split the &amp;&amp; into two if's and move crossOverUp so it's</a>
-<span class="sourceLineNo">710</span><a id="line.710">      // only called when there's no child.</a>
-<span class="sourceLineNo">711</span><a id="line.711">      if ((minChildIndex &gt; 0) &amp;&amp; (ordering.compare(elementData(minChildIndex), x) &lt; 0)) {</a>
-<span class="sourceLineNo">712</span><a id="line.712">        queue[index] = elementData(minChildIndex);</a>
-<span class="sourceLineNo">713</span><a id="line.713">        queue[minChildIndex] = x;</a>
-<span class="sourceLineNo">714</span><a id="line.714">        return minChildIndex;</a>
-<span class="sourceLineNo">715</span><a id="line.715">      }</a>
-<span class="sourceLineNo">716</span><a id="line.716">      return crossOverUp(index, x);</a>
-<span class="sourceLineNo">717</span><a id="line.717">    }</a>
-<span class="sourceLineNo">718</span><a id="line.718"></a>
-<span class="sourceLineNo">719</span><a id="line.719">    /**</a>
-<span class="sourceLineNo">720</span><a id="line.720">     * Fills the hole at {@code index} by moving in the least of its grandchildren to this position,</a>
-<span class="sourceLineNo">721</span><a id="line.721">     * then recursively filling the new hole created.</a>
-<span class="sourceLineNo">722</span><a id="line.722">     *</a>
-<span class="sourceLineNo">723</span><a id="line.723">     * @return the position of the new hole (where the lowest grandchild moved from, that had no</a>
-<span class="sourceLineNo">724</span><a id="line.724">     *     grandchild to replace it)</a>
-<span class="sourceLineNo">725</span><a id="line.725">     */</a>
-<span class="sourceLineNo">726</span><a id="line.726">    int fillHoleAt(int index) {</a>
-<span class="sourceLineNo">727</span><a id="line.727">      int minGrandchildIndex;</a>
-<span class="sourceLineNo">728</span><a id="line.728">      while ((minGrandchildIndex = findMinGrandChild(index)) &gt; 0) {</a>
-<span class="sourceLineNo">729</span><a id="line.729">        queue[index] = elementData(minGrandchildIndex);</a>
-<span class="sourceLineNo">730</span><a id="line.730">        index = minGrandchildIndex;</a>
-<span class="sourceLineNo">731</span><a id="line.731">      }</a>
-<span class="sourceLineNo">732</span><a id="line.732">      return index;</a>
-<span class="sourceLineNo">733</span><a id="line.733">    }</a>
-<span class="sourceLineNo">734</span><a id="line.734"></a>
-<span class="sourceLineNo">735</span><a id="line.735">    private boolean verifyIndex(int i) {</a>
-<span class="sourceLineNo">736</span><a id="line.736">      if ((getLeftChildIndex(i) &lt; size) &amp;&amp; (compareElements(i, getLeftChildIndex(i)) &gt; 0)) {</a>
-<span class="sourceLineNo">737</span><a id="line.737">        return false;</a>
-<span class="sourceLineNo">738</span><a id="line.738">      }</a>
-<span class="sourceLineNo">739</span><a id="line.739">      if ((getRightChildIndex(i) &lt; size) &amp;&amp; (compareElements(i, getRightChildIndex(i)) &gt; 0)) {</a>
+<span class="sourceLineNo">528</span><a id="line.528"></a>
+<span class="sourceLineNo">529</span><a id="line.529">    @SuppressWarnings("nullness:initialization.field.uninitialized")</a>
+<span class="sourceLineNo">530</span><a id="line.530">    @Weak</a>
+<span class="sourceLineNo">531</span><a id="line.531">    Heap otherHeap; // always initialized immediately after construction</a>
+<span class="sourceLineNo">532</span><a id="line.532"></a>
+<span class="sourceLineNo">533</span><a id="line.533">    Heap(Ordering&lt;E&gt; ordering) {</a>
+<span class="sourceLineNo">534</span><a id="line.534">      this.ordering = ordering;</a>
+<span class="sourceLineNo">535</span><a id="line.535">    }</a>
+<span class="sourceLineNo">536</span><a id="line.536"></a>
+<span class="sourceLineNo">537</span><a id="line.537">    int compareElements(int a, int b) {</a>
+<span class="sourceLineNo">538</span><a id="line.538">      return ordering.compare(elementData(a), elementData(b));</a>
+<span class="sourceLineNo">539</span><a id="line.539">    }</a>
+<span class="sourceLineNo">540</span><a id="line.540"></a>
+<span class="sourceLineNo">541</span><a id="line.541">    /**</a>
+<span class="sourceLineNo">542</span><a id="line.542">     * Tries to move {@code toTrickle} from a min to a max level and bubble up there. If it moved</a>
+<span class="sourceLineNo">543</span><a id="line.543">     * before {@code removeIndex} this method returns a pair as described in {@link #removeAt}.</a>
+<span class="sourceLineNo">544</span><a id="line.544">     */</a>
+<span class="sourceLineNo">545</span><a id="line.545">    @CheckForNull</a>
+<span class="sourceLineNo">546</span><a id="line.546">    MoveDesc&lt;E&gt; tryCrossOverAndBubbleUp(int removeIndex, int vacated, E toTrickle) {</a>
+<span class="sourceLineNo">547</span><a id="line.547">      int crossOver = crossOver(vacated, toTrickle);</a>
+<span class="sourceLineNo">548</span><a id="line.548">      if (crossOver == vacated) {</a>
+<span class="sourceLineNo">549</span><a id="line.549">        return null;</a>
+<span class="sourceLineNo">550</span><a id="line.550">      }</a>
+<span class="sourceLineNo">551</span><a id="line.551">      // Successfully crossed over from min to max.</a>
+<span class="sourceLineNo">552</span><a id="line.552">      // Bubble up max levels.</a>
+<span class="sourceLineNo">553</span><a id="line.553">      E parent;</a>
+<span class="sourceLineNo">554</span><a id="line.554">      // If toTrickle is moved up to a parent of removeIndex, the parent is</a>
+<span class="sourceLineNo">555</span><a id="line.555">      // placed in removeIndex position. We must return that to the iterator so</a>
+<span class="sourceLineNo">556</span><a id="line.556">      // that it knows to skip it.</a>
+<span class="sourceLineNo">557</span><a id="line.557">      if (crossOver &lt; removeIndex) {</a>
+<span class="sourceLineNo">558</span><a id="line.558">        // We crossed over to the parent level in crossOver, so the parent</a>
+<span class="sourceLineNo">559</span><a id="line.559">        // has already been moved.</a>
+<span class="sourceLineNo">560</span><a id="line.560">        parent = elementData(removeIndex);</a>
+<span class="sourceLineNo">561</span><a id="line.561">      } else {</a>
+<span class="sourceLineNo">562</span><a id="line.562">        parent = elementData(getParentIndex(removeIndex));</a>
+<span class="sourceLineNo">563</span><a id="line.563">      }</a>
+<span class="sourceLineNo">564</span><a id="line.564">      // bubble it up the opposite heap</a>
+<span class="sourceLineNo">565</span><a id="line.565">      if (otherHeap.bubbleUpAlternatingLevels(crossOver, toTrickle) &lt; removeIndex) {</a>
+<span class="sourceLineNo">566</span><a id="line.566">        return new MoveDesc&lt;&gt;(toTrickle, parent);</a>
+<span class="sourceLineNo">567</span><a id="line.567">      } else {</a>
+<span class="sourceLineNo">568</span><a id="line.568">        return null;</a>
+<span class="sourceLineNo">569</span><a id="line.569">      }</a>
+<span class="sourceLineNo">570</span><a id="line.570">    }</a>
+<span class="sourceLineNo">571</span><a id="line.571"></a>
+<span class="sourceLineNo">572</span><a id="line.572">    /** Bubbles a value from {@code index} up the appropriate heap if required. */</a>
+<span class="sourceLineNo">573</span><a id="line.573">    void bubbleUp(int index, E x) {</a>
+<span class="sourceLineNo">574</span><a id="line.574">      int crossOver = crossOverUp(index, x);</a>
+<span class="sourceLineNo">575</span><a id="line.575"></a>
+<span class="sourceLineNo">576</span><a id="line.576">      Heap heap;</a>
+<span class="sourceLineNo">577</span><a id="line.577">      if (crossOver == index) {</a>
+<span class="sourceLineNo">578</span><a id="line.578">        heap = this;</a>
+<span class="sourceLineNo">579</span><a id="line.579">      } else {</a>
+<span class="sourceLineNo">580</span><a id="line.580">        index = crossOver;</a>
+<span class="sourceLineNo">581</span><a id="line.581">        heap = otherHeap;</a>
+<span class="sourceLineNo">582</span><a id="line.582">      }</a>
+<span class="sourceLineNo">583</span><a id="line.583">      heap.bubbleUpAlternatingLevels(index, x);</a>
+<span class="sourceLineNo">584</span><a id="line.584">    }</a>
+<span class="sourceLineNo">585</span><a id="line.585"></a>
+<span class="sourceLineNo">586</span><a id="line.586">    /**</a>
+<span class="sourceLineNo">587</span><a id="line.587">     * Bubbles a value from {@code index} up the levels of this heap, and returns the index the</a>
+<span class="sourceLineNo">588</span><a id="line.588">     * element ended up at.</a>
+<span class="sourceLineNo">589</span><a id="line.589">     */</a>
+<span class="sourceLineNo">590</span><a id="line.590">    @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">591</span><a id="line.591">    int bubbleUpAlternatingLevels(int index, E x) {</a>
+<span class="sourceLineNo">592</span><a id="line.592">      while (index &gt; 2) {</a>
+<span class="sourceLineNo">593</span><a id="line.593">        int grandParentIndex = getGrandparentIndex(index);</a>
+<span class="sourceLineNo">594</span><a id="line.594">        E e = elementData(grandParentIndex);</a>
+<span class="sourceLineNo">595</span><a id="line.595">        if (ordering.compare(e, x) &lt;= 0) {</a>
+<span class="sourceLineNo">596</span><a id="line.596">          break;</a>
+<span class="sourceLineNo">597</span><a id="line.597">        }</a>
+<span class="sourceLineNo">598</span><a id="line.598">        queue[index] = e;</a>
+<span class="sourceLineNo">599</span><a id="line.599">        index = grandParentIndex;</a>
+<span class="sourceLineNo">600</span><a id="line.600">      }</a>
+<span class="sourceLineNo">601</span><a id="line.601">      queue[index] = x;</a>
+<span class="sourceLineNo">602</span><a id="line.602">      return index;</a>
+<span class="sourceLineNo">603</span><a id="line.603">    }</a>
+<span class="sourceLineNo">604</span><a id="line.604"></a>
+<span class="sourceLineNo">605</span><a id="line.605">    /**</a>
+<span class="sourceLineNo">606</span><a id="line.606">     * Returns the index of minimum value between {@code index} and {@code index + len}, or {@code</a>
+<span class="sourceLineNo">607</span><a id="line.607">     * -1} if {@code index} is greater than {@code size}.</a>
+<span class="sourceLineNo">608</span><a id="line.608">     */</a>
+<span class="sourceLineNo">609</span><a id="line.609">    int findMin(int index, int len) {</a>
+<span class="sourceLineNo">610</span><a id="line.610">      if (index &gt;= size) {</a>
+<span class="sourceLineNo">611</span><a id="line.611">        return -1;</a>
+<span class="sourceLineNo">612</span><a id="line.612">      }</a>
+<span class="sourceLineNo">613</span><a id="line.613">      checkState(index &gt; 0);</a>
+<span class="sourceLineNo">614</span><a id="line.614">      int limit = Math.min(index, size - len) + len;</a>
+<span class="sourceLineNo">615</span><a id="line.615">      int minIndex = index;</a>
+<span class="sourceLineNo">616</span><a id="line.616">      for (int i = index + 1; i &lt; limit; i++) {</a>
+<span class="sourceLineNo">617</span><a id="line.617">        if (compareElements(i, minIndex) &lt; 0) {</a>
+<span class="sourceLineNo">618</span><a id="line.618">          minIndex = i;</a>
+<span class="sourceLineNo">619</span><a id="line.619">        }</a>
+<span class="sourceLineNo">620</span><a id="line.620">      }</a>
+<span class="sourceLineNo">621</span><a id="line.621">      return minIndex;</a>
+<span class="sourceLineNo">622</span><a id="line.622">    }</a>
+<span class="sourceLineNo">623</span><a id="line.623"></a>
+<span class="sourceLineNo">624</span><a id="line.624">    /** Returns the minimum child or {@code -1} if no child exists. */</a>
+<span class="sourceLineNo">625</span><a id="line.625">    int findMinChild(int index) {</a>
+<span class="sourceLineNo">626</span><a id="line.626">      return findMin(getLeftChildIndex(index), 2);</a>
+<span class="sourceLineNo">627</span><a id="line.627">    }</a>
+<span class="sourceLineNo">628</span><a id="line.628"></a>
+<span class="sourceLineNo">629</span><a id="line.629">    /** Returns the minimum grand child or -1 if no grand child exists. */</a>
+<span class="sourceLineNo">630</span><a id="line.630">    int findMinGrandChild(int index) {</a>
+<span class="sourceLineNo">631</span><a id="line.631">      int leftChildIndex = getLeftChildIndex(index);</a>
+<span class="sourceLineNo">632</span><a id="line.632">      if (leftChildIndex &lt; 0) {</a>
+<span class="sourceLineNo">633</span><a id="line.633">        return -1;</a>
+<span class="sourceLineNo">634</span><a id="line.634">      }</a>
+<span class="sourceLineNo">635</span><a id="line.635">      return findMin(getLeftChildIndex(leftChildIndex), 4);</a>
+<span class="sourceLineNo">636</span><a id="line.636">    }</a>
+<span class="sourceLineNo">637</span><a id="line.637"></a>
+<span class="sourceLineNo">638</span><a id="line.638">    /**</a>
+<span class="sourceLineNo">639</span><a id="line.639">     * Moves an element one level up from a min level to a max level (or vice versa). Returns the</a>
+<span class="sourceLineNo">640</span><a id="line.640">     * new position of the element.</a>
+<span class="sourceLineNo">641</span><a id="line.641">     */</a>
+<span class="sourceLineNo">642</span><a id="line.642">    int crossOverUp(int index, E x) {</a>
+<span class="sourceLineNo">643</span><a id="line.643">      if (index == 0) {</a>
+<span class="sourceLineNo">644</span><a id="line.644">        queue[0] = x;</a>
+<span class="sourceLineNo">645</span><a id="line.645">        return 0;</a>
+<span class="sourceLineNo">646</span><a id="line.646">      }</a>
+<span class="sourceLineNo">647</span><a id="line.647">      int parentIndex = getParentIndex(index);</a>
+<span class="sourceLineNo">648</span><a id="line.648">      E parentElement = elementData(parentIndex);</a>
+<span class="sourceLineNo">649</span><a id="line.649">      if (parentIndex != 0) {</a>
+<span class="sourceLineNo">650</span><a id="line.650">        /*</a>
+<span class="sourceLineNo">651</span><a id="line.651">         * This is a guard for the case of the childless aunt node. Since the end of the array is</a>
+<span class="sourceLineNo">652</span><a id="line.652">         * actually the middle of the heap, a smaller childless aunt node can become a child of x</a>
+<span class="sourceLineNo">653</span><a id="line.653">         * when we bubble up alternate levels, violating the invariant.</a>
+<span class="sourceLineNo">654</span><a id="line.654">         */</a>
+<span class="sourceLineNo">655</span><a id="line.655">        int grandparentIndex = getParentIndex(parentIndex);</a>
+<span class="sourceLineNo">656</span><a id="line.656">        int auntIndex = getRightChildIndex(grandparentIndex);</a>
+<span class="sourceLineNo">657</span><a id="line.657">        if (auntIndex != parentIndex &amp;&amp; getLeftChildIndex(auntIndex) &gt;= size) {</a>
+<span class="sourceLineNo">658</span><a id="line.658">          E auntElement = elementData(auntIndex);</a>
+<span class="sourceLineNo">659</span><a id="line.659">          if (ordering.compare(auntElement, parentElement) &lt; 0) {</a>
+<span class="sourceLineNo">660</span><a id="line.660">            parentIndex = auntIndex;</a>
+<span class="sourceLineNo">661</span><a id="line.661">            parentElement = auntElement;</a>
+<span class="sourceLineNo">662</span><a id="line.662">          }</a>
+<span class="sourceLineNo">663</span><a id="line.663">        }</a>
+<span class="sourceLineNo">664</span><a id="line.664">      }</a>
+<span class="sourceLineNo">665</span><a id="line.665">      if (ordering.compare(parentElement, x) &lt; 0) {</a>
+<span class="sourceLineNo">666</span><a id="line.666">        queue[index] = parentElement;</a>
+<span class="sourceLineNo">667</span><a id="line.667">        queue[parentIndex] = x;</a>
+<span class="sourceLineNo">668</span><a id="line.668">        return parentIndex;</a>
+<span class="sourceLineNo">669</span><a id="line.669">      }</a>
+<span class="sourceLineNo">670</span><a id="line.670">      queue[index] = x;</a>
+<span class="sourceLineNo">671</span><a id="line.671">      return index;</a>
+<span class="sourceLineNo">672</span><a id="line.672">    }</a>
+<span class="sourceLineNo">673</span><a id="line.673"></a>
+<span class="sourceLineNo">674</span><a id="line.674">    // About the term "aunt node": it's better to leave gender out of it, but for this the English</a>
+<span class="sourceLineNo">675</span><a id="line.675">    // language has nothing for us. Except for the whimsical neologism "pibling" (!) which we</a>
+<span class="sourceLineNo">676</span><a id="line.676">    // obviously could not expect to increase anyone's understanding of the code.</a>
+<span class="sourceLineNo">677</span><a id="line.677"></a>
+<span class="sourceLineNo">678</span><a id="line.678">    /**</a>
+<span class="sourceLineNo">679</span><a id="line.679">     * Swap {@code actualLastElement} with the conceptually correct last element of the heap.</a>
+<span class="sourceLineNo">680</span><a id="line.680">     * Returns the index that {@code actualLastElement} now resides in.</a>
+<span class="sourceLineNo">681</span><a id="line.681">     *</a>
+<span class="sourceLineNo">682</span><a id="line.682">     * &lt;p&gt;Since the last element of the array is actually in the middle of the sorted structure, a</a>
+<span class="sourceLineNo">683</span><a id="line.683">     * childless aunt node could be smaller, which would corrupt the invariant if this element</a>
+<span class="sourceLineNo">684</span><a id="line.684">     * becomes the new parent of the aunt node. In that case, we first switch the last element with</a>
+<span class="sourceLineNo">685</span><a id="line.685">     * its aunt node, before returning.</a>
+<span class="sourceLineNo">686</span><a id="line.686">     */</a>
+<span class="sourceLineNo">687</span><a id="line.687">    int swapWithConceptuallyLastElement(E actualLastElement) {</a>
+<span class="sourceLineNo">688</span><a id="line.688">      int parentIndex = getParentIndex(size);</a>
+<span class="sourceLineNo">689</span><a id="line.689">      if (parentIndex != 0) {</a>
+<span class="sourceLineNo">690</span><a id="line.690">        int grandparentIndex = getParentIndex(parentIndex);</a>
+<span class="sourceLineNo">691</span><a id="line.691">        int auntIndex = getRightChildIndex(grandparentIndex);</a>
+<span class="sourceLineNo">692</span><a id="line.692">        if (auntIndex != parentIndex &amp;&amp; getLeftChildIndex(auntIndex) &gt;= size) {</a>
+<span class="sourceLineNo">693</span><a id="line.693">          E auntElement = elementData(auntIndex);</a>
+<span class="sourceLineNo">694</span><a id="line.694">          if (ordering.compare(auntElement, actualLastElement) &lt; 0) {</a>
+<span class="sourceLineNo">695</span><a id="line.695">            queue[auntIndex] = actualLastElement;</a>
+<span class="sourceLineNo">696</span><a id="line.696">            queue[size] = auntElement;</a>
+<span class="sourceLineNo">697</span><a id="line.697">            return auntIndex;</a>
+<span class="sourceLineNo">698</span><a id="line.698">          }</a>
+<span class="sourceLineNo">699</span><a id="line.699">        }</a>
+<span class="sourceLineNo">700</span><a id="line.700">      }</a>
+<span class="sourceLineNo">701</span><a id="line.701">      return size;</a>
+<span class="sourceLineNo">702</span><a id="line.702">    }</a>
+<span class="sourceLineNo">703</span><a id="line.703"></a>
+<span class="sourceLineNo">704</span><a id="line.704">    /**</a>
+<span class="sourceLineNo">705</span><a id="line.705">     * Crosses an element over to the opposite heap by moving it one level down (or up if there are</a>
+<span class="sourceLineNo">706</span><a id="line.706">     * no elements below it).</a>
+<span class="sourceLineNo">707</span><a id="line.707">     *</a>
+<span class="sourceLineNo">708</span><a id="line.708">     * &lt;p&gt;Returns the new position of the element.</a>
+<span class="sourceLineNo">709</span><a id="line.709">     */</a>
+<span class="sourceLineNo">710</span><a id="line.710">    int crossOver(int index, E x) {</a>
+<span class="sourceLineNo">711</span><a id="line.711">      int minChildIndex = findMinChild(index);</a>
+<span class="sourceLineNo">712</span><a id="line.712">      // TODO(kevinb): split the &amp;&amp; into two if's and move crossOverUp so it's</a>
+<span class="sourceLineNo">713</span><a id="line.713">      // only called when there's no child.</a>
+<span class="sourceLineNo">714</span><a id="line.714">      if ((minChildIndex &gt; 0) &amp;&amp; (ordering.compare(elementData(minChildIndex), x) &lt; 0)) {</a>
+<span class="sourceLineNo">715</span><a id="line.715">        queue[index] = elementData(minChildIndex);</a>
+<span class="sourceLineNo">716</span><a id="line.716">        queue[minChildIndex] = x;</a>
+<span class="sourceLineNo">717</span><a id="line.717">        return minChildIndex;</a>
+<span class="sourceLineNo">718</span><a id="line.718">      }</a>
+<span class="sourceLineNo">719</span><a id="line.719">      return crossOverUp(index, x);</a>
+<span class="sourceLineNo">720</span><a id="line.720">    }</a>
+<span class="sourceLineNo">721</span><a id="line.721"></a>
+<span class="sourceLineNo">722</span><a id="line.722">    /**</a>
+<span class="sourceLineNo">723</span><a id="line.723">     * Fills the hole at {@code index} by moving in the least of its grandchildren to this position,</a>
+<span class="sourceLineNo">724</span><a id="line.724">     * then recursively filling the new hole created.</a>
+<span class="sourceLineNo">725</span><a id="line.725">     *</a>
+<span class="sourceLineNo">726</span><a id="line.726">     * @return the position of the new hole (where the lowest grandchild moved from, that had no</a>
+<span class="sourceLineNo">727</span><a id="line.727">     *     grandchild to replace it)</a>
+<span class="sourceLineNo">728</span><a id="line.728">     */</a>
+<span class="sourceLineNo">729</span><a id="line.729">    int fillHoleAt(int index) {</a>
+<span class="sourceLineNo">730</span><a id="line.730">      int minGrandchildIndex;</a>
+<span class="sourceLineNo">731</span><a id="line.731">      while ((minGrandchildIndex = findMinGrandChild(index)) &gt; 0) {</a>
+<span class="sourceLineNo">732</span><a id="line.732">        queue[index] = elementData(minGrandchildIndex);</a>
+<span class="sourceLineNo">733</span><a id="line.733">        index = minGrandchildIndex;</a>
+<span class="sourceLineNo">734</span><a id="line.734">      }</a>
+<span class="sourceLineNo">735</span><a id="line.735">      return index;</a>
+<span class="sourceLineNo">736</span><a id="line.736">    }</a>
+<span class="sourceLineNo">737</span><a id="line.737"></a>
+<span class="sourceLineNo">738</span><a id="line.738">    private boolean verifyIndex(int i) {</a>
+<span class="sourceLineNo">739</span><a id="line.739">      if ((getLeftChildIndex(i) &lt; size) &amp;&amp; (compareElements(i, getLeftChildIndex(i)) &gt; 0)) {</a>
 <span class="sourceLineNo">740</span><a id="line.740">        return false;</a>
 <span class="sourceLineNo">741</span><a id="line.741">      }</a>
-<span class="sourceLineNo">742</span><a id="line.742">      if ((i &gt; 0) &amp;&amp; (compareElements(i, getParentIndex(i)) &gt; 0)) {</a>
+<span class="sourceLineNo">742</span><a id="line.742">      if ((getRightChildIndex(i) &lt; size) &amp;&amp; (compareElements(i, getRightChildIndex(i)) &gt; 0)) {</a>
 <span class="sourceLineNo">743</span><a id="line.743">        return false;</a>
 <span class="sourceLineNo">744</span><a id="line.744">      }</a>
-<span class="sourceLineNo">745</span><a id="line.745">      if ((i &gt; 2) &amp;&amp; (compareElements(getGrandparentIndex(i), i) &gt; 0)) {</a>
+<span class="sourceLineNo">745</span><a id="line.745">      if ((i &gt; 0) &amp;&amp; (compareElements(i, getParentIndex(i)) &gt; 0)) {</a>
 <span class="sourceLineNo">746</span><a id="line.746">        return false;</a>
 <span class="sourceLineNo">747</span><a id="line.747">      }</a>
-<span class="sourceLineNo">748</span><a id="line.748">      return true;</a>
-<span class="sourceLineNo">749</span><a id="line.749">    }</a>
-<span class="sourceLineNo">750</span><a id="line.750"></a>
-<span class="sourceLineNo">751</span><a id="line.751">    // These would be static if inner classes could have static members.</a>
-<span class="sourceLineNo">752</span><a id="line.752"></a>
-<span class="sourceLineNo">753</span><a id="line.753">    private int getLeftChildIndex(int i) {</a>
-<span class="sourceLineNo">754</span><a id="line.754">      return i * 2 + 1;</a>
-<span class="sourceLineNo">755</span><a id="line.755">    }</a>
-<span class="sourceLineNo">756</span><a id="line.756"></a>
-<span class="sourceLineNo">757</span><a id="line.757">    private int getRightChildIndex(int i) {</a>
-<span class="sourceLineNo">758</span><a id="line.758">      return i * 2 + 2;</a>
-<span class="sourceLineNo">759</span><a id="line.759">    }</a>
-<span class="sourceLineNo">760</span><a id="line.760"></a>
-<span class="sourceLineNo">761</span><a id="line.761">    private int getParentIndex(int i) {</a>
-<span class="sourceLineNo">762</span><a id="line.762">      return (i - 1) / 2;</a>
-<span class="sourceLineNo">763</span><a id="line.763">    }</a>
-<span class="sourceLineNo">764</span><a id="line.764"></a>
-<span class="sourceLineNo">765</span><a id="line.765">    private int getGrandparentIndex(int i) {</a>
-<span class="sourceLineNo">766</span><a id="line.766">      return getParentIndex(getParentIndex(i)); // (i - 3) / 4</a>
-<span class="sourceLineNo">767</span><a id="line.767">    }</a>
-<span class="sourceLineNo">768</span><a id="line.768">  }</a>
-<span class="sourceLineNo">769</span><a id="line.769"></a>
-<span class="sourceLineNo">770</span><a id="line.770">  /**</a>
-<span class="sourceLineNo">771</span><a id="line.771">   * Iterates the elements of the queue in no particular order.</a>
-<span class="sourceLineNo">772</span><a id="line.772">   *</a>
-<span class="sourceLineNo">773</span><a id="line.773">   * &lt;p&gt;If the underlying queue is modified during iteration an exception will be thrown.</a>
-<span class="sourceLineNo">774</span><a id="line.774">   */</a>
-<span class="sourceLineNo">775</span><a id="line.775">  private class QueueIterator implements Iterator&lt;E&gt; {</a>
-<span class="sourceLineNo">776</span><a id="line.776">    private int cursor = -1;</a>
-<span class="sourceLineNo">777</span><a id="line.777">    private int nextCursor = -1;</a>
-<span class="sourceLineNo">778</span><a id="line.778">    private int expectedModCount = modCount;</a>
-<span class="sourceLineNo">779</span><a id="line.779">    // The same element is not allowed in both forgetMeNot and skipMe, but duplicates are allowed in</a>
-<span class="sourceLineNo">780</span><a id="line.780">    // either of them, up to the same multiplicity as the queue.</a>
-<span class="sourceLineNo">781</span><a id="line.781">    @CheckForNull private Queue&lt;E&gt; forgetMeNot;</a>
-<span class="sourceLineNo">782</span><a id="line.782">    @CheckForNull private List&lt;E&gt; skipMe;</a>
-<span class="sourceLineNo">783</span><a id="line.783">    @CheckForNull private E lastFromForgetMeNot;</a>
-<span class="sourceLineNo">784</span><a id="line.784">    private boolean canRemove;</a>
-<span class="sourceLineNo">785</span><a id="line.785"></a>
-<span class="sourceLineNo">786</span><a id="line.786">    @Override</a>
-<span class="sourceLineNo">787</span><a id="line.787">    public boolean hasNext() {</a>
-<span class="sourceLineNo">788</span><a id="line.788">      checkModCount();</a>
-<span class="sourceLineNo">789</span><a id="line.789">      nextNotInSkipMe(cursor + 1);</a>
-<span class="sourceLineNo">790</span><a id="line.790">      return (nextCursor &lt; size()) || ((forgetMeNot != null) &amp;&amp; !forgetMeNot.isEmpty());</a>
-<span class="sourceLineNo">791</span><a id="line.791">    }</a>
-<span class="sourceLineNo">792</span><a id="line.792"></a>
-<span class="sourceLineNo">793</span><a id="line.793">    @Override</a>
-<span class="sourceLineNo">794</span><a id="line.794">    public E next() {</a>
-<span class="sourceLineNo">795</span><a id="line.795">      checkModCount();</a>
-<span class="sourceLineNo">796</span><a id="line.796">      nextNotInSkipMe(cursor + 1);</a>
-<span class="sourceLineNo">797</span><a id="line.797">      if (nextCursor &lt; size()) {</a>
-<span class="sourceLineNo">798</span><a id="line.798">        cursor = nextCursor;</a>
-<span class="sourceLineNo">799</span><a id="line.799">        canRemove = true;</a>
-<span class="sourceLineNo">800</span><a id="line.800">        return elementData(cursor);</a>
-<span class="sourceLineNo">801</span><a id="line.801">      } else if (forgetMeNot != null) {</a>
-<span class="sourceLineNo">802</span><a id="line.802">        cursor = size();</a>
-<span class="sourceLineNo">803</span><a id="line.803">        lastFromForgetMeNot = forgetMeNot.poll();</a>
-<span class="sourceLineNo">804</span><a id="line.804">        if (lastFromForgetMeNot != null) {</a>
-<span class="sourceLineNo">805</span><a id="line.805">          canRemove = true;</a>
-<span class="sourceLineNo">806</span><a id="line.806">          return lastFromForgetMeNot;</a>
-<span class="sourceLineNo">807</span><a id="line.807">        }</a>
-<span class="sourceLineNo">808</span><a id="line.808">      }</a>
-<span class="sourceLineNo">809</span><a id="line.809">      throw new NoSuchElementException("iterator moved past last element in queue.");</a>
-<span class="sourceLineNo">810</span><a id="line.810">    }</a>
-<span class="sourceLineNo">811</span><a id="line.811"></a>
-<span class="sourceLineNo">812</span><a id="line.812">    @Override</a>
-<span class="sourceLineNo">813</span><a id="line.813">    public void remove() {</a>
-<span class="sourceLineNo">814</span><a id="line.814">      checkRemove(canRemove);</a>
-<span class="sourceLineNo">815</span><a id="line.815">      checkModCount();</a>
-<span class="sourceLineNo">816</span><a id="line.816">      canRemove = false;</a>
-<span class="sourceLineNo">817</span><a id="line.817">      expectedModCount++;</a>
-<span class="sourceLineNo">818</span><a id="line.818">      if (cursor &lt; size()) {</a>
-<span class="sourceLineNo">819</span><a id="line.819">        MoveDesc&lt;E&gt; moved = removeAt(cursor);</a>
-<span class="sourceLineNo">820</span><a id="line.820">        if (moved != null) {</a>
-<span class="sourceLineNo">821</span><a id="line.821">          // Either both are null or neither is, but we check both to satisfy the nullness checker.</a>
-<span class="sourceLineNo">822</span><a id="line.822">          if (forgetMeNot == null || skipMe == null) {</a>
-<span class="sourceLineNo">823</span><a id="line.823">            forgetMeNot = new ArrayDeque&lt;&gt;();</a>
-<span class="sourceLineNo">824</span><a id="line.824">            skipMe = new ArrayList&lt;&gt;(3);</a>
-<span class="sourceLineNo">825</span><a id="line.825">          }</a>
-<span class="sourceLineNo">826</span><a id="line.826">          if (!foundAndRemovedExactReference(skipMe, moved.toTrickle)) {</a>
-<span class="sourceLineNo">827</span><a id="line.827">            forgetMeNot.add(moved.toTrickle);</a>
+<span class="sourceLineNo">748</span><a id="line.748">      if ((i &gt; 2) &amp;&amp; (compareElements(getGrandparentIndex(i), i) &gt; 0)) {</a>
+<span class="sourceLineNo">749</span><a id="line.749">        return false;</a>
+<span class="sourceLineNo">750</span><a id="line.750">      }</a>
+<span class="sourceLineNo">751</span><a id="line.751">      return true;</a>
+<span class="sourceLineNo">752</span><a id="line.752">    }</a>
+<span class="sourceLineNo">753</span><a id="line.753"></a>
+<span class="sourceLineNo">754</span><a id="line.754">    // These would be static if inner classes could have static members.</a>
+<span class="sourceLineNo">755</span><a id="line.755"></a>
+<span class="sourceLineNo">756</span><a id="line.756">    private int getLeftChildIndex(int i) {</a>
+<span class="sourceLineNo">757</span><a id="line.757">      return i * 2 + 1;</a>
+<span class="sourceLineNo">758</span><a id="line.758">    }</a>
+<span class="sourceLineNo">759</span><a id="line.759"></a>
+<span class="sourceLineNo">760</span><a id="line.760">    private int getRightChildIndex(int i) {</a>
+<span class="sourceLineNo">761</span><a id="line.761">      return i * 2 + 2;</a>
+<span class="sourceLineNo">762</span><a id="line.762">    }</a>
+<span class="sourceLineNo">763</span><a id="line.763"></a>
+<span class="sourceLineNo">764</span><a id="line.764">    private int getParentIndex(int i) {</a>
+<span class="sourceLineNo">765</span><a id="line.765">      return (i - 1) / 2;</a>
+<span class="sourceLineNo">766</span><a id="line.766">    }</a>
+<span class="sourceLineNo">767</span><a id="line.767"></a>
+<span class="sourceLineNo">768</span><a id="line.768">    private int getGrandparentIndex(int i) {</a>
+<span class="sourceLineNo">769</span><a id="line.769">      return getParentIndex(getParentIndex(i)); // (i - 3) / 4</a>
+<span class="sourceLineNo">770</span><a id="line.770">    }</a>
+<span class="sourceLineNo">771</span><a id="line.771">  }</a>
+<span class="sourceLineNo">772</span><a id="line.772"></a>
+<span class="sourceLineNo">773</span><a id="line.773">  /**</a>
+<span class="sourceLineNo">774</span><a id="line.774">   * Iterates the elements of the queue in no particular order.</a>
+<span class="sourceLineNo">775</span><a id="line.775">   *</a>
+<span class="sourceLineNo">776</span><a id="line.776">   * &lt;p&gt;If the underlying queue is modified during iteration an exception will be thrown.</a>
+<span class="sourceLineNo">777</span><a id="line.777">   */</a>
+<span class="sourceLineNo">778</span><a id="line.778">  private class QueueIterator implements Iterator&lt;E&gt; {</a>
+<span class="sourceLineNo">779</span><a id="line.779">    private int cursor = -1;</a>
+<span class="sourceLineNo">780</span><a id="line.780">    private int nextCursor = -1;</a>
+<span class="sourceLineNo">781</span><a id="line.781">    private int expectedModCount = modCount;</a>
+<span class="sourceLineNo">782</span><a id="line.782">    // The same element is not allowed in both forgetMeNot and skipMe, but duplicates are allowed in</a>
+<span class="sourceLineNo">783</span><a id="line.783">    // either of them, up to the same multiplicity as the queue.</a>
+<span class="sourceLineNo">784</span><a id="line.784">    @CheckForNull private Queue&lt;E&gt; forgetMeNot;</a>
+<span class="sourceLineNo">785</span><a id="line.785">    @CheckForNull private List&lt;E&gt; skipMe;</a>
+<span class="sourceLineNo">786</span><a id="line.786">    @CheckForNull private E lastFromForgetMeNot;</a>
+<span class="sourceLineNo">787</span><a id="line.787">    private boolean canRemove;</a>
+<span class="sourceLineNo">788</span><a id="line.788"></a>
+<span class="sourceLineNo">789</span><a id="line.789">    @Override</a>
+<span class="sourceLineNo">790</span><a id="line.790">    public boolean hasNext() {</a>
+<span class="sourceLineNo">791</span><a id="line.791">      checkModCount();</a>
+<span class="sourceLineNo">792</span><a id="line.792">      nextNotInSkipMe(cursor + 1);</a>
+<span class="sourceLineNo">793</span><a id="line.793">      return (nextCursor &lt; size()) || ((forgetMeNot != null) &amp;&amp; !forgetMeNot.isEmpty());</a>
+<span class="sourceLineNo">794</span><a id="line.794">    }</a>
+<span class="sourceLineNo">795</span><a id="line.795"></a>
+<span class="sourceLineNo">796</span><a id="line.796">    @Override</a>
+<span class="sourceLineNo">797</span><a id="line.797">    public E next() {</a>
+<span class="sourceLineNo">798</span><a id="line.798">      checkModCount();</a>
+<span class="sourceLineNo">799</span><a id="line.799">      nextNotInSkipMe(cursor + 1);</a>
+<span class="sourceLineNo">800</span><a id="line.800">      if (nextCursor &lt; size()) {</a>
+<span class="sourceLineNo">801</span><a id="line.801">        cursor = nextCursor;</a>
+<span class="sourceLineNo">802</span><a id="line.802">        canRemove = true;</a>
+<span class="sourceLineNo">803</span><a id="line.803">        return elementData(cursor);</a>
+<span class="sourceLineNo">804</span><a id="line.804">      } else if (forgetMeNot != null) {</a>
+<span class="sourceLineNo">805</span><a id="line.805">        cursor = size();</a>
+<span class="sourceLineNo">806</span><a id="line.806">        lastFromForgetMeNot = forgetMeNot.poll();</a>
+<span class="sourceLineNo">807</span><a id="line.807">        if (lastFromForgetMeNot != null) {</a>
+<span class="sourceLineNo">808</span><a id="line.808">          canRemove = true;</a>
+<span class="sourceLineNo">809</span><a id="line.809">          return lastFromForgetMeNot;</a>
+<span class="sourceLineNo">810</span><a id="line.810">        }</a>
+<span class="sourceLineNo">811</span><a id="line.811">      }</a>
+<span class="sourceLineNo">812</span><a id="line.812">      throw new NoSuchElementException("iterator moved past last element in queue.");</a>
+<span class="sourceLineNo">813</span><a id="line.813">    }</a>
+<span class="sourceLineNo">814</span><a id="line.814"></a>
+<span class="sourceLineNo">815</span><a id="line.815">    @Override</a>
+<span class="sourceLineNo">816</span><a id="line.816">    public void remove() {</a>
+<span class="sourceLineNo">817</span><a id="line.817">      checkRemove(canRemove);</a>
+<span class="sourceLineNo">818</span><a id="line.818">      checkModCount();</a>
+<span class="sourceLineNo">819</span><a id="line.819">      canRemove = false;</a>
+<span class="sourceLineNo">820</span><a id="line.820">      expectedModCount++;</a>
+<span class="sourceLineNo">821</span><a id="line.821">      if (cursor &lt; size()) {</a>
+<span class="sourceLineNo">822</span><a id="line.822">        MoveDesc&lt;E&gt; moved = removeAt(cursor);</a>
+<span class="sourceLineNo">823</span><a id="line.823">        if (moved != null) {</a>
+<span class="sourceLineNo">824</span><a id="line.824">          // Either both are null or neither is, but we check both to satisfy the nullness checker.</a>
+<span class="sourceLineNo">825</span><a id="line.825">          if (forgetMeNot == null || skipMe == null) {</a>
+<span class="sourceLineNo">826</span><a id="line.826">            forgetMeNot = new ArrayDeque&lt;&gt;();</a>
+<span class="sourceLineNo">827</span><a id="line.827">            skipMe = new ArrayList&lt;&gt;(3);</a>
 <span class="sourceLineNo">828</span><a id="line.828">          }</a>
-<span class="sourceLineNo">829</span><a id="line.829">          if (!foundAndRemovedExactReference(forgetMeNot, moved.replaced)) {</a>
-<span class="sourceLineNo">830</span><a id="line.830">            skipMe.add(moved.replaced);</a>
+<span class="sourceLineNo">829</span><a id="line.829">          if (!foundAndRemovedExactReference(skipMe, moved.toTrickle)) {</a>
+<span class="sourceLineNo">830</span><a id="line.830">            forgetMeNot.add(moved.toTrickle);</a>
 <span class="sourceLineNo">831</span><a id="line.831">          }</a>
-<span class="sourceLineNo">832</span><a id="line.832">        }</a>
-<span class="sourceLineNo">833</span><a id="line.833">        cursor--;</a>
-<span class="sourceLineNo">834</span><a id="line.834">        nextCursor--;</a>
-<span class="sourceLineNo">835</span><a id="line.835">      } else { // we must have set lastFromForgetMeNot in next()</a>
-<span class="sourceLineNo">836</span><a id="line.836">        checkState(removeExact(requireNonNull(lastFromForgetMeNot)));</a>
-<span class="sourceLineNo">837</span><a id="line.837">        lastFromForgetMeNot = null;</a>
-<span class="sourceLineNo">838</span><a id="line.838">      }</a>
-<span class="sourceLineNo">839</span><a id="line.839">    }</a>
-<span class="sourceLineNo">840</span><a id="line.840"></a>
-<span class="sourceLineNo">841</span><a id="line.841">    /** Returns true if an exact reference (==) was found and removed from the supplied iterable. */</a>
-<span class="sourceLineNo">842</span><a id="line.842">    private boolean foundAndRemovedExactReference(Iterable&lt;E&gt; elements, E target) {</a>
-<span class="sourceLineNo">843</span><a id="line.843">      for (Iterator&lt;E&gt; it = elements.iterator(); it.hasNext(); ) {</a>
-<span class="sourceLineNo">844</span><a id="line.844">        E element = it.next();</a>
-<span class="sourceLineNo">845</span><a id="line.845">        if (element == target) {</a>
-<span class="sourceLineNo">846</span><a id="line.846">          it.remove();</a>
-<span class="sourceLineNo">847</span><a id="line.847">          return true;</a>
-<span class="sourceLineNo">848</span><a id="line.848">        }</a>
-<span class="sourceLineNo">849</span><a id="line.849">      }</a>
-<span class="sourceLineNo">850</span><a id="line.850">      return false;</a>
-<span class="sourceLineNo">851</span><a id="line.851">    }</a>
-<span class="sourceLineNo">852</span><a id="line.852"></a>
-<span class="sourceLineNo">853</span><a id="line.853">    /** Removes only this exact instance, not others that are equals() */</a>
-<span class="sourceLineNo">854</span><a id="line.854">    private boolean removeExact(Object target) {</a>
-<span class="sourceLineNo">855</span><a id="line.855">      for (int i = 0; i &lt; size; i++) {</a>
-<span class="sourceLineNo">856</span><a id="line.856">        if (queue[i] == target) {</a>
-<span class="sourceLineNo">857</span><a id="line.857">          removeAt(i);</a>
-<span class="sourceLineNo">858</span><a id="line.858">          return true;</a>
-<span class="sourceLineNo">859</span><a id="line.859">        }</a>
-<span class="sourceLineNo">860</span><a id="line.860">      }</a>
-<span class="sourceLineNo">861</span><a id="line.861">      return false;</a>
-<span class="sourceLineNo">862</span><a id="line.862">    }</a>
-<span class="sourceLineNo">863</span><a id="line.863"></a>
-<span class="sourceLineNo">864</span><a id="line.864">    private void checkModCount() {</a>
-<span class="sourceLineNo">865</span><a id="line.865">      if (modCount != expectedModCount) {</a>
-<span class="sourceLineNo">866</span><a id="line.866">        throw new ConcurrentModificationException();</a>
-<span class="sourceLineNo">867</span><a id="line.867">      }</a>
-<span class="sourceLineNo">868</span><a id="line.868">    }</a>
-<span class="sourceLineNo">869</span><a id="line.869"></a>
-<span class="sourceLineNo">870</span><a id="line.870">    /**</a>
-<span class="sourceLineNo">871</span><a id="line.871">     * Advances nextCursor to the index of the first element after {@code c} that is not in {@code</a>
-<span class="sourceLineNo">872</span><a id="line.872">     * skipMe} and returns {@code size()} if there is no such element.</a>
-<span class="sourceLineNo">873</span><a id="line.873">     */</a>
-<span class="sourceLineNo">874</span><a id="line.874">    private void nextNotInSkipMe(int c) {</a>
-<span class="sourceLineNo">875</span><a id="line.875">      if (nextCursor &lt; c) {</a>
-<span class="sourceLineNo">876</span><a id="line.876">        if (skipMe != null) {</a>
-<span class="sourceLineNo">877</span><a id="line.877">          while (c &lt; size() &amp;&amp; foundAndRemovedExactReference(skipMe, elementData(c))) {</a>
-<span class="sourceLineNo">878</span><a id="line.878">            c++;</a>
-<span class="sourceLineNo">879</span><a id="line.879">          }</a>
-<span class="sourceLineNo">880</span><a id="line.880">        }</a>
-<span class="sourceLineNo">881</span><a id="line.881">        nextCursor = c;</a>
-<span class="sourceLineNo">882</span><a id="line.882">      }</a>
-<span class="sourceLineNo">883</span><a id="line.883">    }</a>
-<span class="sourceLineNo">884</span><a id="line.884">  }</a>
-<span class="sourceLineNo">885</span><a id="line.885"></a>
-<span class="sourceLineNo">886</span><a id="line.886">  /**</a>
-<span class="sourceLineNo">887</span><a id="line.887">   * Returns an iterator over the elements contained in this collection, &lt;i&gt;in no particular</a>
-<span class="sourceLineNo">888</span><a id="line.888">   * order&lt;/i&gt;.</a>
-<span class="sourceLineNo">889</span><a id="line.889">   *</a>
-<span class="sourceLineNo">890</span><a id="line.890">   * &lt;p&gt;The iterator is &lt;i&gt;fail-fast&lt;/i&gt;: If the MinMaxPriorityQueue is modified at any time after</a>
-<span class="sourceLineNo">891</span><a id="line.891">   * the iterator is created, in any way except through the iterator's own remove method, the</a>
-<span class="sourceLineNo">892</span><a id="line.892">   * iterator will generally throw a {@link ConcurrentModificationException}. Thus, in the face of</a>
-<span class="sourceLineNo">893</span><a id="line.893">   * concurrent modification, the iterator fails quickly and cleanly, rather than risking arbitrary,</a>
-<span class="sourceLineNo">894</span><a id="line.894">   * non-deterministic behavior at an undetermined time in the future.</a>
-<span class="sourceLineNo">895</span><a id="line.895">   *</a>
-<span class="sourceLineNo">896</span><a id="line.896">   * &lt;p&gt;Note that the fail-fast behavior of an iterator cannot be guaranteed as it is, generally</a>
-<span class="sourceLineNo">897</span><a id="line.897">   * speaking, impossible to make any hard guarantees in the presence of unsynchronized concurrent</a>
-<span class="sourceLineNo">898</span><a id="line.898">   * modification. Fail-fast iterators throw {@code ConcurrentModificationException} on a</a>
-<span class="sourceLineNo">899</span><a id="line.899">   * best-effort basis. Therefore, it would be wrong to write a program that depended on this</a>
-<span class="sourceLineNo">900</span><a id="line.900">   * exception for its correctness: &lt;i&gt;the fail-fast behavior of iterators should be used only to</a>
-<span class="sourceLineNo">901</span><a id="line.901">   * detect bugs.&lt;/i&gt;</a>
-<span class="sourceLineNo">902</span><a id="line.902">   *</a>
-<span class="sourceLineNo">903</span><a id="line.903">   * @return an iterator over the elements contained in this collection</a>
-<span class="sourceLineNo">904</span><a id="line.904">   */</a>
-<span class="sourceLineNo">905</span><a id="line.905">  @Override</a>
-<span class="sourceLineNo">906</span><a id="line.906">  public Iterator&lt;E&gt; iterator() {</a>
-<span class="sourceLineNo">907</span><a id="line.907">    return new QueueIterator();</a>
-<span class="sourceLineNo">908</span><a id="line.908">  }</a>
-<span class="sourceLineNo">909</span><a id="line.909"></a>
-<span class="sourceLineNo">910</span><a id="line.910">  @Override</a>
-<span class="sourceLineNo">911</span><a id="line.911">  public void clear() {</a>
-<span class="sourceLineNo">912</span><a id="line.912">    for (int i = 0; i &lt; size; i++) {</a>
-<span class="sourceLineNo">913</span><a id="line.913">      queue[i] = null;</a>
-<span class="sourceLineNo">914</span><a id="line.914">    }</a>
-<span class="sourceLineNo">915</span><a id="line.915">    size = 0;</a>
-<span class="sourceLineNo">916</span><a id="line.916">  }</a>
-<span class="sourceLineNo">917</span><a id="line.917"></a>
-<span class="sourceLineNo">918</span><a id="line.918">  @Override</a>
-<span class="sourceLineNo">919</span><a id="line.919">  public Object[] toArray() {</a>
-<span class="sourceLineNo">920</span><a id="line.920">    Object[] copyTo = new Object[size];</a>
-<span class="sourceLineNo">921</span><a id="line.921">    System.arraycopy(queue, 0, copyTo, 0, size);</a>
-<span class="sourceLineNo">922</span><a id="line.922">    return copyTo;</a>
-<span class="sourceLineNo">923</span><a id="line.923">  }</a>
-<span class="sourceLineNo">924</span><a id="line.924"></a>
-<span class="sourceLineNo">925</span><a id="line.925">  /**</a>
-<span class="sourceLineNo">926</span><a id="line.926">   * Returns the comparator used to order the elements in this queue. Obeys the general contract of</a>
-<span class="sourceLineNo">927</span><a id="line.927">   * {@link PriorityQueue#comparator}, but returns {@link Ordering#natural} instead of {@code null}</a>
-<span class="sourceLineNo">928</span><a id="line.928">   * to indicate natural ordering.</a>
-<span class="sourceLineNo">929</span><a id="line.929">   */</a>
-<span class="sourceLineNo">930</span><a id="line.930">  public Comparator&lt;? super E&gt; comparator() {</a>
-<span class="sourceLineNo">931</span><a id="line.931">    return minHeap.ordering;</a>
-<span class="sourceLineNo">932</span><a id="line.932">  }</a>
-<span class="sourceLineNo">933</span><a id="line.933"></a>
-<span class="sourceLineNo">934</span><a id="line.934">  @VisibleForTesting</a>
-<span class="sourceLineNo">935</span><a id="line.935">  int capacity() {</a>
-<span class="sourceLineNo">936</span><a id="line.936">    return queue.length;</a>
-<span class="sourceLineNo">937</span><a id="line.937">  }</a>
-<span class="sourceLineNo">938</span><a id="line.938"></a>
-<span class="sourceLineNo">939</span><a id="line.939">  // Size/capacity-related methods</a>
-<span class="sourceLineNo">940</span><a id="line.940"></a>
-<span class="sourceLineNo">941</span><a id="line.941">  private static final int DEFAULT_CAPACITY = 11;</a>
-<span class="sourceLineNo">942</span><a id="line.942"></a>
-<span class="sourceLineNo">943</span><a id="line.943">  @VisibleForTesting</a>
-<span class="sourceLineNo">944</span><a id="line.944">  static int initialQueueSize(</a>
-<span class="sourceLineNo">945</span><a id="line.945">      int configuredExpectedSize, int maximumSize, Iterable&lt;?&gt; initialContents) {</a>
-<span class="sourceLineNo">946</span><a id="line.946">    // Start with what they said, if they said it, otherwise DEFAULT_CAPACITY</a>
-<span class="sourceLineNo">947</span><a id="line.947">    int result =</a>
-<span class="sourceLineNo">948</span><a id="line.948">        (configuredExpectedSize == Builder.UNSET_EXPECTED_SIZE)</a>
-<span class="sourceLineNo">949</span><a id="line.949">            ? DEFAULT_CAPACITY</a>
-<span class="sourceLineNo">950</span><a id="line.950">            : configuredExpectedSize;</a>
-<span class="sourceLineNo">951</span><a id="line.951"></a>
-<span class="sourceLineNo">952</span><a id="line.952">    // Enlarge to contain initial contents</a>
-<span class="sourceLineNo">953</span><a id="line.953">    if (initialContents instanceof Collection) {</a>
-<span class="sourceLineNo">954</span><a id="line.954">      int initialSize = ((Collection&lt;?&gt;) initialContents).size();</a>
-<span class="sourceLineNo">955</span><a id="line.955">      result = Math.max(result, initialSize);</a>
-<span class="sourceLineNo">956</span><a id="line.956">    }</a>
-<span class="sourceLineNo">957</span><a id="line.957"></a>
-<span class="sourceLineNo">958</span><a id="line.958">    // Now cap it at maxSize + 1</a>
-<span class="sourceLineNo">959</span><a id="line.959">    return capAtMaximumSize(result, maximumSize);</a>
-<span class="sourceLineNo">960</span><a id="line.960">  }</a>
-<span class="sourceLineNo">961</span><a id="line.961"></a>
-<span class="sourceLineNo">962</span><a id="line.962">  private void growIfNeeded() {</a>
-<span class="sourceLineNo">963</span><a id="line.963">    if (size &gt; queue.length) {</a>
-<span class="sourceLineNo">964</span><a id="line.964">      int newCapacity = calculateNewCapacity();</a>
-<span class="sourceLineNo">965</span><a id="line.965">      Object[] newQueue = new Object[newCapacity];</a>
-<span class="sourceLineNo">966</span><a id="line.966">      System.arraycopy(queue, 0, newQueue, 0, queue.length);</a>
-<span class="sourceLineNo">967</span><a id="line.967">      queue = newQueue;</a>
-<span class="sourceLineNo">968</span><a id="line.968">    }</a>
-<span class="sourceLineNo">969</span><a id="line.969">  }</a>
-<span class="sourceLineNo">970</span><a id="line.970"></a>
-<span class="sourceLineNo">971</span><a id="line.971">  /** Returns ~2x the old capacity if small; ~1.5x otherwise. */</a>
-<span class="sourceLineNo">972</span><a id="line.972">  private int calculateNewCapacity() {</a>
-<span class="sourceLineNo">973</span><a id="line.973">    int oldCapacity = queue.length;</a>
-<span class="sourceLineNo">974</span><a id="line.974">    int newCapacity =</a>
-<span class="sourceLineNo">975</span><a id="line.975">        (oldCapacity &lt; 64) ? (oldCapacity + 1) * 2 : IntMath.checkedMultiply(oldCapacity / 2, 3);</a>
-<span class="sourceLineNo">976</span><a id="line.976">    return capAtMaximumSize(newCapacity, maximumSize);</a>
-<span class="sourceLineNo">977</span><a id="line.977">  }</a>
-<span class="sourceLineNo">978</span><a id="line.978"></a>
-<span class="sourceLineNo">979</span><a id="line.979">  /** There's no reason for the queueSize to ever be more than maxSize + 1 */</a>
-<span class="sourceLineNo">980</span><a id="line.980">  private static int capAtMaximumSize(int queueSize, int maximumSize) {</a>
-<span class="sourceLineNo">981</span><a id="line.981">    return Math.min(queueSize - 1, maximumSize) + 1; // don't overflow</a>
-<span class="sourceLineNo">982</span><a id="line.982">  }</a>
-<span class="sourceLineNo">983</span><a id="line.983">}</a>
+<span class="sourceLineNo">832</span><a id="line.832">          if (!foundAndRemovedExactReference(forgetMeNot, moved.replaced)) {</a>
+<span class="sourceLineNo">833</span><a id="line.833">            skipMe.add(moved.replaced);</a>
+<span class="sourceLineNo">834</span><a id="line.834">          }</a>
+<span class="sourceLineNo">835</span><a id="line.835">        }</a>
+<span class="sourceLineNo">836</span><a id="line.836">        cursor--;</a>
+<span class="sourceLineNo">837</span><a id="line.837">        nextCursor--;</a>
+<span class="sourceLineNo">838</span><a id="line.838">      } else { // we must have set lastFromForgetMeNot in next()</a>
+<span class="sourceLineNo">839</span><a id="line.839">        checkState(removeExact(requireNonNull(lastFromForgetMeNot)));</a>
+<span class="sourceLineNo">840</span><a id="line.840">        lastFromForgetMeNot = null;</a>
+<span class="sourceLineNo">841</span><a id="line.841">      }</a>
+<span class="sourceLineNo">842</span><a id="line.842">    }</a>
+<span class="sourceLineNo">843</span><a id="line.843"></a>
+<span class="sourceLineNo">844</span><a id="line.844">    /** Returns true if an exact reference (==) was found and removed from the supplied iterable. */</a>
+<span class="sourceLineNo">845</span><a id="line.845">    private boolean foundAndRemovedExactReference(Iterable&lt;E&gt; elements, E target) {</a>
+<span class="sourceLineNo">846</span><a id="line.846">      for (Iterator&lt;E&gt; it = elements.iterator(); it.hasNext(); ) {</a>
+<span class="sourceLineNo">847</span><a id="line.847">        E element = it.next();</a>
+<span class="sourceLineNo">848</span><a id="line.848">        if (element == target) {</a>
+<span class="sourceLineNo">849</span><a id="line.849">          it.remove();</a>
+<span class="sourceLineNo">850</span><a id="line.850">          return true;</a>
+<span class="sourceLineNo">851</span><a id="line.851">        }</a>
+<span class="sourceLineNo">852</span><a id="line.852">      }</a>
+<span class="sourceLineNo">853</span><a id="line.853">      return false;</a>
+<span class="sourceLineNo">854</span><a id="line.854">    }</a>
+<span class="sourceLineNo">855</span><a id="line.855"></a>
+<span class="sourceLineNo">856</span><a id="line.856">    /** Removes only this exact instance, not others that are equals() */</a>
+<span class="sourceLineNo">857</span><a id="line.857">    private boolean removeExact(Object target) {</a>
+<span class="sourceLineNo">858</span><a id="line.858">      for (int i = 0; i &lt; size; i++) {</a>
+<span class="sourceLineNo">859</span><a id="line.859">        if (queue[i] == target) {</a>
+<span class="sourceLineNo">860</span><a id="line.860">          removeAt(i);</a>
+<span class="sourceLineNo">861</span><a id="line.861">          return true;</a>
+<span class="sourceLineNo">862</span><a id="line.862">        }</a>
+<span class="sourceLineNo">863</span><a id="line.863">      }</a>
+<span class="sourceLineNo">864</span><a id="line.864">      return false;</a>
+<span class="sourceLineNo">865</span><a id="line.865">    }</a>
+<span class="sourceLineNo">866</span><a id="line.866"></a>
+<span class="sourceLineNo">867</span><a id="line.867">    private void checkModCount() {</a>
+<span class="sourceLineNo">868</span><a id="line.868">      if (modCount != expectedModCount) {</a>
+<span class="sourceLineNo">869</span><a id="line.869">        throw new ConcurrentModificationException();</a>
+<span class="sourceLineNo">870</span><a id="line.870">      }</a>
+<span class="sourceLineNo">871</span><a id="line.871">    }</a>
+<span class="sourceLineNo">872</span><a id="line.872"></a>
+<span class="sourceLineNo">873</span><a id="line.873">    /**</a>
+<span class="sourceLineNo">874</span><a id="line.874">     * Advances nextCursor to the index of the first element after {@code c} that is not in {@code</a>
+<span class="sourceLineNo">875</span><a id="line.875">     * skipMe} and returns {@code size()} if there is no such element.</a>
+<span class="sourceLineNo">876</span><a id="line.876">     */</a>
+<span class="sourceLineNo">877</span><a id="line.877">    private void nextNotInSkipMe(int c) {</a>
+<span class="sourceLineNo">878</span><a id="line.878">      if (nextCursor &lt; c) {</a>
+<span class="sourceLineNo">879</span><a id="line.879">        if (skipMe != null) {</a>
+<span class="sourceLineNo">880</span><a id="line.880">          while (c &lt; size() &amp;&amp; foundAndRemovedExactReference(skipMe, elementData(c))) {</a>
+<span class="sourceLineNo">881</span><a id="line.881">            c++;</a>
+<span class="sourceLineNo">882</span><a id="line.882">          }</a>
+<span class="sourceLineNo">883</span><a id="line.883">        }</a>
+<span class="sourceLineNo">884</span><a id="line.884">        nextCursor = c;</a>
+<span class="sourceLineNo">885</span><a id="line.885">      }</a>
+<span class="sourceLineNo">886</span><a id="line.886">    }</a>
+<span class="sourceLineNo">887</span><a id="line.887">  }</a>
+<span class="sourceLineNo">888</span><a id="line.888"></a>
+<span class="sourceLineNo">889</span><a id="line.889">  /**</a>
+<span class="sourceLineNo">890</span><a id="line.890">   * Returns an iterator over the elements contained in this collection, &lt;i&gt;in no particular</a>
+<span class="sourceLineNo">891</span><a id="line.891">   * order&lt;/i&gt;.</a>
+<span class="sourceLineNo">892</span><a id="line.892">   *</a>
+<span class="sourceLineNo">893</span><a id="line.893">   * &lt;p&gt;The iterator is &lt;i&gt;fail-fast&lt;/i&gt;: If the MinMaxPriorityQueue is modified at any time after</a>
+<span class="sourceLineNo">894</span><a id="line.894">   * the iterator is created, in any way except through the iterator's own remove method, the</a>
+<span class="sourceLineNo">895</span><a id="line.895">   * iterator will generally throw a {@link ConcurrentModificationException}. Thus, in the face of</a>
+<span class="sourceLineNo">896</span><a id="line.896">   * concurrent modification, the iterator fails quickly and cleanly, rather than risking arbitrary,</a>
+<span class="sourceLineNo">897</span><a id="line.897">   * non-deterministic behavior at an undetermined time in the future.</a>
+<span class="sourceLineNo">898</span><a id="line.898">   *</a>
+<span class="sourceLineNo">899</span><a id="line.899">   * &lt;p&gt;Note that the fail-fast behavior of an iterator cannot be guaranteed as it is, generally</a>
+<span class="sourceLineNo">900</span><a id="line.900">   * speaking, impossible to make any hard guarantees in the presence of unsynchronized concurrent</a>
+<span class="sourceLineNo">901</span><a id="line.901">   * modification. Fail-fast iterators throw {@code ConcurrentModificationException} on a</a>
+<span class="sourceLineNo">902</span><a id="line.902">   * best-effort basis. Therefore, it would be wrong to write a program that depended on this</a>
+<span class="sourceLineNo">903</span><a id="line.903">   * exception for its correctness: &lt;i&gt;the fail-fast behavior of iterators should be used only to</a>
+<span class="sourceLineNo">904</span><a id="line.904">   * detect bugs.&lt;/i&gt;</a>
+<span class="sourceLineNo">905</span><a id="line.905">   *</a>
+<span class="sourceLineNo">906</span><a id="line.906">   * @return an iterator over the elements contained in this collection</a>
+<span class="sourceLineNo">907</span><a id="line.907">   */</a>
+<span class="sourceLineNo">908</span><a id="line.908">  @Override</a>
+<span class="sourceLineNo">909</span><a id="line.909">  public Iterator&lt;E&gt; iterator() {</a>
+<span class="sourceLineNo">910</span><a id="line.910">    return new QueueIterator();</a>
+<span class="sourceLineNo">911</span><a id="line.911">  }</a>
+<span class="sourceLineNo">912</span><a id="line.912"></a>
+<span class="sourceLineNo">913</span><a id="line.913">  @Override</a>
+<span class="sourceLineNo">914</span><a id="line.914">  public void clear() {</a>
+<span class="sourceLineNo">915</span><a id="line.915">    for (int i = 0; i &lt; size; i++) {</a>
+<span class="sourceLineNo">916</span><a id="line.916">      queue[i] = null;</a>
+<span class="sourceLineNo">917</span><a id="line.917">    }</a>
+<span class="sourceLineNo">918</span><a id="line.918">    size = 0;</a>
+<span class="sourceLineNo">919</span><a id="line.919">  }</a>
+<span class="sourceLineNo">920</span><a id="line.920"></a>
+<span class="sourceLineNo">921</span><a id="line.921">  @Override</a>
+<span class="sourceLineNo">922</span><a id="line.922">  public Object[] toArray() {</a>
+<span class="sourceLineNo">923</span><a id="line.923">    Object[] copyTo = new Object[size];</a>
+<span class="sourceLineNo">924</span><a id="line.924">    System.arraycopy(queue, 0, copyTo, 0, size);</a>
+<span class="sourceLineNo">925</span><a id="line.925">    return copyTo;</a>
+<span class="sourceLineNo">926</span><a id="line.926">  }</a>
+<span class="sourceLineNo">927</span><a id="line.927"></a>
+<span class="sourceLineNo">928</span><a id="line.928">  /**</a>
+<span class="sourceLineNo">929</span><a id="line.929">   * Returns the comparator used to order the elements in this queue. Obeys the general contract of</a>
+<span class="sourceLineNo">930</span><a id="line.930">   * {@link PriorityQueue#comparator}, but returns {@link Ordering#natural} instead of {@code null}</a>
+<span class="sourceLineNo">931</span><a id="line.931">   * to indicate natural ordering.</a>
+<span class="sourceLineNo">932</span><a id="line.932">   */</a>
+<span class="sourceLineNo">933</span><a id="line.933">  public Comparator&lt;? super E&gt; comparator() {</a>
+<span class="sourceLineNo">934</span><a id="line.934">    return minHeap.ordering;</a>
+<span class="sourceLineNo">935</span><a id="line.935">  }</a>
+<span class="sourceLineNo">936</span><a id="line.936"></a>
+<span class="sourceLineNo">937</span><a id="line.937">  @VisibleForTesting</a>
+<span class="sourceLineNo">938</span><a id="line.938">  int capacity() {</a>
+<span class="sourceLineNo">939</span><a id="line.939">    return queue.length;</a>
+<span class="sourceLineNo">940</span><a id="line.940">  }</a>
+<span class="sourceLineNo">941</span><a id="line.941"></a>
+<span class="sourceLineNo">942</span><a id="line.942">  // Size/capacity-related methods</a>
+<span class="sourceLineNo">943</span><a id="line.943"></a>
+<span class="sourceLineNo">944</span><a id="line.944">  private static final int DEFAULT_CAPACITY = 11;</a>
+<span class="sourceLineNo">945</span><a id="line.945"></a>
+<span class="sourceLineNo">946</span><a id="line.946">  @VisibleForTesting</a>
+<span class="sourceLineNo">947</span><a id="line.947">  static int initialQueueSize(</a>
+<span class="sourceLineNo">948</span><a id="line.948">      int configuredExpectedSize, int maximumSize, Iterable&lt;?&gt; initialContents) {</a>
+<span class="sourceLineNo">949</span><a id="line.949">    // Start with what they said, if they said it, otherwise DEFAULT_CAPACITY</a>
+<span class="sourceLineNo">950</span><a id="line.950">    int result =</a>
+<span class="sourceLineNo">951</span><a id="line.951">        (configuredExpectedSize == Builder.UNSET_EXPECTED_SIZE)</a>
+<span class="sourceLineNo">952</span><a id="line.952">            ? DEFAULT_CAPACITY</a>
+<span class="sourceLineNo">953</span><a id="line.953">            : configuredExpectedSize;</a>
+<span class="sourceLineNo">954</span><a id="line.954"></a>
+<span class="sourceLineNo">955</span><a id="line.955">    // Enlarge to contain initial contents</a>
+<span class="sourceLineNo">956</span><a id="line.956">    if (initialContents instanceof Collection) {</a>
+<span class="sourceLineNo">957</span><a id="line.957">      int initialSize = ((Collection&lt;?&gt;) initialContents).size();</a>
+<span class="sourceLineNo">958</span><a id="line.958">      result = Math.max(result, initialSize);</a>
+<span class="sourceLineNo">959</span><a id="line.959">    }</a>
+<span class="sourceLineNo">960</span><a id="line.960"></a>
+<span class="sourceLineNo">961</span><a id="line.961">    // Now cap it at maxSize + 1</a>
+<span class="sourceLineNo">962</span><a id="line.962">    return capAtMaximumSize(result, maximumSize);</a>
+<span class="sourceLineNo">963</span><a id="line.963">  }</a>
+<span class="sourceLineNo">964</span><a id="line.964"></a>
+<span class="sourceLineNo">965</span><a id="line.965">  private void growIfNeeded() {</a>
+<span class="sourceLineNo">966</span><a id="line.966">    if (size &gt; queue.length) {</a>
+<span class="sourceLineNo">967</span><a id="line.967">      int newCapacity = calculateNewCapacity();</a>
+<span class="sourceLineNo">968</span><a id="line.968">      Object[] newQueue = new Object[newCapacity];</a>
+<span class="sourceLineNo">969</span><a id="line.969">      System.arraycopy(queue, 0, newQueue, 0, queue.length);</a>
+<span class="sourceLineNo">970</span><a id="line.970">      queue = newQueue;</a>
+<span class="sourceLineNo">971</span><a id="line.971">    }</a>
+<span class="sourceLineNo">972</span><a id="line.972">  }</a>
+<span class="sourceLineNo">973</span><a id="line.973"></a>
+<span class="sourceLineNo">974</span><a id="line.974">  /** Returns ~2x the old capacity if small; ~1.5x otherwise. */</a>
+<span class="sourceLineNo">975</span><a id="line.975">  private int calculateNewCapacity() {</a>
+<span class="sourceLineNo">976</span><a id="line.976">    int oldCapacity = queue.length;</a>
+<span class="sourceLineNo">977</span><a id="line.977">    int newCapacity =</a>
+<span class="sourceLineNo">978</span><a id="line.978">        (oldCapacity &lt; 64) ? (oldCapacity + 1) * 2 : IntMath.checkedMultiply(oldCapacity / 2, 3);</a>
+<span class="sourceLineNo">979</span><a id="line.979">    return capAtMaximumSize(newCapacity, maximumSize);</a>
+<span class="sourceLineNo">980</span><a id="line.980">  }</a>
+<span class="sourceLineNo">981</span><a id="line.981"></a>
+<span class="sourceLineNo">982</span><a id="line.982">  /** There's no reason for the queueSize to ever be more than maxSize + 1 */</a>
+<span class="sourceLineNo">983</span><a id="line.983">  private static int capAtMaximumSize(int queueSize, int maximumSize) {</a>
+<span class="sourceLineNo">984</span><a id="line.984">    return Math.min(queueSize - 1, maximumSize) + 1; // don't overflow</a>
+<span class="sourceLineNo">985</span><a id="line.985">  }</a>
+<span class="sourceLineNo">986</span><a id="line.986">}</a>
 
 
 
