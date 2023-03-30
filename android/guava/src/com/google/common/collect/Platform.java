@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
@@ -111,6 +112,7 @@ final class Platform {
    * GWT). This is sometimes acceptable, when only server-side code could generate enough volume
    * that reclamation becomes important.
    */
+  @J2ktIncompatible
   static MapMaker tryWeakKeys(MapMaker mapMaker) {
     return mapMaker.weakKeys();
   }
