@@ -180,6 +180,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
   private static final Object[] EMPTY_ARRAY = {};
 
   @Override
+  @J2ktIncompatible // Incompatible return type change. Use inherited (unoptimized) implementation
   public final Object[] toArray() {
     return toArray(EMPTY_ARRAY);
   }
