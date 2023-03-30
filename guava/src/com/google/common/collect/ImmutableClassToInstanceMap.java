@@ -154,8 +154,10 @@ public final class ImmutableClassToInstanceMap<B> extends ForwardingMap<Class<? 
   public static <B, S extends B> ImmutableClassToInstanceMap<B> copyOf(
       Map<? extends Class<? extends S>, ? extends S> map) {
     if (map instanceof ImmutableClassToInstanceMap) {
+      @SuppressWarnings("rawtypes") // JDT-based J2KT Java frontend does not permit the direct cast
+      Map rawMap = map;
       @SuppressWarnings("unchecked") // covariant casts safe (unmodifiable)
-      ImmutableClassToInstanceMap<B> cast = (ImmutableClassToInstanceMap<B>) map;
+      ImmutableClassToInstanceMap<B> cast = (ImmutableClassToInstanceMap<B>) rawMap;
       return cast;
     }
     return new Builder<B>().putAll(map).build();
