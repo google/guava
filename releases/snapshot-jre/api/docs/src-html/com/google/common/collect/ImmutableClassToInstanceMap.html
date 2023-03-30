@@ -163,50 +163,52 @@
 <span class="sourceLineNo">154</span><a id="line.154">  public static &lt;B, S extends B&gt; ImmutableClassToInstanceMap&lt;B&gt; copyOf(</a>
 <span class="sourceLineNo">155</span><a id="line.155">      Map&lt;? extends Class&lt;? extends S&gt;, ? extends S&gt; map) {</a>
 <span class="sourceLineNo">156</span><a id="line.156">    if (map instanceof ImmutableClassToInstanceMap) {</a>
-<span class="sourceLineNo">157</span><a id="line.157">      @SuppressWarnings("unchecked") // covariant casts safe (unmodifiable)</a>
-<span class="sourceLineNo">158</span><a id="line.158">      ImmutableClassToInstanceMap&lt;B&gt; cast = (ImmutableClassToInstanceMap&lt;B&gt;) map;</a>
-<span class="sourceLineNo">159</span><a id="line.159">      return cast;</a>
-<span class="sourceLineNo">160</span><a id="line.160">    }</a>
-<span class="sourceLineNo">161</span><a id="line.161">    return new Builder&lt;B&gt;().putAll(map).build();</a>
-<span class="sourceLineNo">162</span><a id="line.162">  }</a>
-<span class="sourceLineNo">163</span><a id="line.163"></a>
-<span class="sourceLineNo">164</span><a id="line.164">  private final ImmutableMap&lt;Class&lt;? extends B&gt;, B&gt; delegate;</a>
+<span class="sourceLineNo">157</span><a id="line.157">      @SuppressWarnings("rawtypes") // JDT-based J2KT Java frontend does not permit the direct cast</a>
+<span class="sourceLineNo">158</span><a id="line.158">      Map rawMap = map;</a>
+<span class="sourceLineNo">159</span><a id="line.159">      @SuppressWarnings("unchecked") // covariant casts safe (unmodifiable)</a>
+<span class="sourceLineNo">160</span><a id="line.160">      ImmutableClassToInstanceMap&lt;B&gt; cast = (ImmutableClassToInstanceMap&lt;B&gt;) rawMap;</a>
+<span class="sourceLineNo">161</span><a id="line.161">      return cast;</a>
+<span class="sourceLineNo">162</span><a id="line.162">    }</a>
+<span class="sourceLineNo">163</span><a id="line.163">    return new Builder&lt;B&gt;().putAll(map).build();</a>
+<span class="sourceLineNo">164</span><a id="line.164">  }</a>
 <span class="sourceLineNo">165</span><a id="line.165"></a>
-<span class="sourceLineNo">166</span><a id="line.166">  private ImmutableClassToInstanceMap(ImmutableMap&lt;Class&lt;? extends B&gt;, B&gt; delegate) {</a>
-<span class="sourceLineNo">167</span><a id="line.167">    this.delegate = delegate;</a>
-<span class="sourceLineNo">168</span><a id="line.168">  }</a>
-<span class="sourceLineNo">169</span><a id="line.169"></a>
-<span class="sourceLineNo">170</span><a id="line.170">  @Override</a>
-<span class="sourceLineNo">171</span><a id="line.171">  protected Map&lt;Class&lt;? extends B&gt;, B&gt; delegate() {</a>
-<span class="sourceLineNo">172</span><a id="line.172">    return delegate;</a>
-<span class="sourceLineNo">173</span><a id="line.173">  }</a>
-<span class="sourceLineNo">174</span><a id="line.174"></a>
-<span class="sourceLineNo">175</span><a id="line.175">  @Override</a>
-<span class="sourceLineNo">176</span><a id="line.176">  @SuppressWarnings("unchecked") // value could not get in if not a T</a>
-<span class="sourceLineNo">177</span><a id="line.177">  @CheckForNull</a>
-<span class="sourceLineNo">178</span><a id="line.178">  public &lt;T extends B&gt; T getInstance(Class&lt;T&gt; type) {</a>
-<span class="sourceLineNo">179</span><a id="line.179">    return (T) delegate.get(checkNotNull(type));</a>
-<span class="sourceLineNo">180</span><a id="line.180">  }</a>
-<span class="sourceLineNo">181</span><a id="line.181"></a>
-<span class="sourceLineNo">182</span><a id="line.182">  /**</a>
-<span class="sourceLineNo">183</span><a id="line.183">   * Guaranteed to throw an exception and leave the map unmodified.</a>
-<span class="sourceLineNo">184</span><a id="line.184">   *</a>
-<span class="sourceLineNo">185</span><a id="line.185">   * @throws UnsupportedOperationException always</a>
-<span class="sourceLineNo">186</span><a id="line.186">   * @deprecated Unsupported operation.</a>
-<span class="sourceLineNo">187</span><a id="line.187">   */</a>
-<span class="sourceLineNo">188</span><a id="line.188">  @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">189</span><a id="line.189">  @Deprecated</a>
-<span class="sourceLineNo">190</span><a id="line.190">  @Override</a>
-<span class="sourceLineNo">191</span><a id="line.191">  @DoNotCall("Always throws UnsupportedOperationException")</a>
-<span class="sourceLineNo">192</span><a id="line.192">  @CheckForNull</a>
-<span class="sourceLineNo">193</span><a id="line.193">  public &lt;T extends B&gt; T putInstance(Class&lt;T&gt; type, T value) {</a>
-<span class="sourceLineNo">194</span><a id="line.194">    throw new UnsupportedOperationException();</a>
-<span class="sourceLineNo">195</span><a id="line.195">  }</a>
-<span class="sourceLineNo">196</span><a id="line.196"></a>
-<span class="sourceLineNo">197</span><a id="line.197">  Object readResolve() {</a>
-<span class="sourceLineNo">198</span><a id="line.198">    return isEmpty() ? of() : this;</a>
-<span class="sourceLineNo">199</span><a id="line.199">  }</a>
-<span class="sourceLineNo">200</span><a id="line.200">}</a>
+<span class="sourceLineNo">166</span><a id="line.166">  private final ImmutableMap&lt;Class&lt;? extends B&gt;, B&gt; delegate;</a>
+<span class="sourceLineNo">167</span><a id="line.167"></a>
+<span class="sourceLineNo">168</span><a id="line.168">  private ImmutableClassToInstanceMap(ImmutableMap&lt;Class&lt;? extends B&gt;, B&gt; delegate) {</a>
+<span class="sourceLineNo">169</span><a id="line.169">    this.delegate = delegate;</a>
+<span class="sourceLineNo">170</span><a id="line.170">  }</a>
+<span class="sourceLineNo">171</span><a id="line.171"></a>
+<span class="sourceLineNo">172</span><a id="line.172">  @Override</a>
+<span class="sourceLineNo">173</span><a id="line.173">  protected Map&lt;Class&lt;? extends B&gt;, B&gt; delegate() {</a>
+<span class="sourceLineNo">174</span><a id="line.174">    return delegate;</a>
+<span class="sourceLineNo">175</span><a id="line.175">  }</a>
+<span class="sourceLineNo">176</span><a id="line.176"></a>
+<span class="sourceLineNo">177</span><a id="line.177">  @Override</a>
+<span class="sourceLineNo">178</span><a id="line.178">  @SuppressWarnings("unchecked") // value could not get in if not a T</a>
+<span class="sourceLineNo">179</span><a id="line.179">  @CheckForNull</a>
+<span class="sourceLineNo">180</span><a id="line.180">  public &lt;T extends B&gt; T getInstance(Class&lt;T&gt; type) {</a>
+<span class="sourceLineNo">181</span><a id="line.181">    return (T) delegate.get(checkNotNull(type));</a>
+<span class="sourceLineNo">182</span><a id="line.182">  }</a>
+<span class="sourceLineNo">183</span><a id="line.183"></a>
+<span class="sourceLineNo">184</span><a id="line.184">  /**</a>
+<span class="sourceLineNo">185</span><a id="line.185">   * Guaranteed to throw an exception and leave the map unmodified.</a>
+<span class="sourceLineNo">186</span><a id="line.186">   *</a>
+<span class="sourceLineNo">187</span><a id="line.187">   * @throws UnsupportedOperationException always</a>
+<span class="sourceLineNo">188</span><a id="line.188">   * @deprecated Unsupported operation.</a>
+<span class="sourceLineNo">189</span><a id="line.189">   */</a>
+<span class="sourceLineNo">190</span><a id="line.190">  @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">191</span><a id="line.191">  @Deprecated</a>
+<span class="sourceLineNo">192</span><a id="line.192">  @Override</a>
+<span class="sourceLineNo">193</span><a id="line.193">  @DoNotCall("Always throws UnsupportedOperationException")</a>
+<span class="sourceLineNo">194</span><a id="line.194">  @CheckForNull</a>
+<span class="sourceLineNo">195</span><a id="line.195">  public &lt;T extends B&gt; T putInstance(Class&lt;T&gt; type, T value) {</a>
+<span class="sourceLineNo">196</span><a id="line.196">    throw new UnsupportedOperationException();</a>
+<span class="sourceLineNo">197</span><a id="line.197">  }</a>
+<span class="sourceLineNo">198</span><a id="line.198"></a>
+<span class="sourceLineNo">199</span><a id="line.199">  Object readResolve() {</a>
+<span class="sourceLineNo">200</span><a id="line.200">    return isEmpty() ? of() : this;</a>
+<span class="sourceLineNo">201</span><a id="line.201">  }</a>
+<span class="sourceLineNo">202</span><a id="line.202">}</a>
 
 
 
