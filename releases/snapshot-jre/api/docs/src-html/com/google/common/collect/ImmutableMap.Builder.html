@@ -566,20 +566,20 @@
 <span class="sourceLineNo">557</span><a id="line.557">        if (entriesUsed) {</a>
 <span class="sourceLineNo">558</span><a id="line.558">          entries = Arrays.copyOf(entries, size);</a>
 <span class="sourceLineNo">559</span><a id="line.559">        }</a>
-<span class="sourceLineNo">560</span><a id="line.560">        localEntries = entries;</a>
-<span class="sourceLineNo">561</span><a id="line.561">        if (!throwIfDuplicateKeys) {</a>
-<span class="sourceLineNo">562</span><a id="line.562">          // We want to retain only the last-put value for any given key, before sorting.</a>
-<span class="sourceLineNo">563</span><a id="line.563">          // This could be improved, but orderEntriesByValue is rather rarely used anyway.</a>
-<span class="sourceLineNo">564</span><a id="line.564">          @SuppressWarnings("nullness") // entries 0..size-1 are non-null</a>
-<span class="sourceLineNo">565</span><a id="line.565">          Entry&lt;K, V&gt;[] nonNullEntries = (Entry&lt;K, V&gt;[]) localEntries;</a>
-<span class="sourceLineNo">566</span><a id="line.566">          localEntries = lastEntryForEachKey(nonNullEntries, size);</a>
-<span class="sourceLineNo">567</span><a id="line.567">          localSize = localEntries.length;</a>
-<span class="sourceLineNo">568</span><a id="line.568">        }</a>
-<span class="sourceLineNo">569</span><a id="line.569">        Arrays.sort(</a>
-<span class="sourceLineNo">570</span><a id="line.570">            localEntries,</a>
-<span class="sourceLineNo">571</span><a id="line.571">            0,</a>
-<span class="sourceLineNo">572</span><a id="line.572">            localSize,</a>
-<span class="sourceLineNo">573</span><a id="line.573">            Ordering.from(valueComparator).onResultOf(Maps.&lt;V&gt;valueFunction()));</a>
+<span class="sourceLineNo">560</span><a id="line.560">        @SuppressWarnings("nullness") // entries 0..localSize-1 are non-null</a>
+<span class="sourceLineNo">561</span><a id="line.561">        Entry&lt;K, V&gt;[] nonNullEntries = (Entry&lt;K, V&gt;[]) entries;</a>
+<span class="sourceLineNo">562</span><a id="line.562">        if (!throwIfDuplicateKeys) {</a>
+<span class="sourceLineNo">563</span><a id="line.563">          // We want to retain only the last-put value for any given key, before sorting.</a>
+<span class="sourceLineNo">564</span><a id="line.564">          // This could be improved, but orderEntriesByValue is rather rarely used anyway.</a>
+<span class="sourceLineNo">565</span><a id="line.565">          nonNullEntries = lastEntryForEachKey(nonNullEntries, size);</a>
+<span class="sourceLineNo">566</span><a id="line.566">          localSize = nonNullEntries.length;</a>
+<span class="sourceLineNo">567</span><a id="line.567">        }</a>
+<span class="sourceLineNo">568</span><a id="line.568">        Arrays.sort(</a>
+<span class="sourceLineNo">569</span><a id="line.569">            nonNullEntries,</a>
+<span class="sourceLineNo">570</span><a id="line.570">            0,</a>
+<span class="sourceLineNo">571</span><a id="line.571">            localSize,</a>
+<span class="sourceLineNo">572</span><a id="line.572">            Ordering.from(valueComparator).onResultOf(Maps.&lt;V&gt;valueFunction()));</a>
+<span class="sourceLineNo">573</span><a id="line.573">        localEntries = (@Nullable Entry&lt;K, V&gt;[]) nonNullEntries;</a>
 <span class="sourceLineNo">574</span><a id="line.574">      }</a>
 <span class="sourceLineNo">575</span><a id="line.575">      entriesUsed = true;</a>
 <span class="sourceLineNo">576</span><a id="line.576">      return RegularImmutableMap.fromEntryArray(localSize, localEntries, throwIfDuplicateKeys);</a>
