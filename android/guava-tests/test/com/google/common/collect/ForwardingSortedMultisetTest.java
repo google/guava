@@ -27,10 +27,10 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NavigableSet;
-import javax.annotation.CheckForNull;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Tests for {@link ForwardingSortedMultiset}.
@@ -93,12 +93,12 @@ public class ForwardingSortedMultisetTest extends TestCase {
     }
 
     @Override
-    public int count(@CheckForNull Object element) {
+    public int count(@Nullable Object element) {
       return standardCount(element);
     }
 
     @Override
-    public boolean equals(@CheckForNull Object object) {
+    public boolean equals(@Nullable Object object) {
       return standardEquals(object);
     }
 
@@ -123,7 +123,7 @@ public class ForwardingSortedMultisetTest extends TestCase {
     }
 
     @Override
-    public boolean contains(@CheckForNull Object object) {
+    public boolean contains(@Nullable Object object) {
       return standardContains(object);
     }
 
@@ -143,7 +143,7 @@ public class ForwardingSortedMultisetTest extends TestCase {
     }
 
     @Override
-    public boolean remove(@CheckForNull Object object) {
+    public boolean remove(@Nullable Object object) {
       return standardRemove(object);
     }
 

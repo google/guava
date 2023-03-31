@@ -23,8 +23,8 @@ import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import com.google.common.annotations.GwtCompatible;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.Executor;
-import javax.annotation.CheckForNull;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Test for {@link FutureCallback}.
@@ -177,8 +177,8 @@ public class FutureCallbackTest extends TestCase {
   }
 
   private final class MockCallback implements FutureCallback<String> {
-    @CheckForNull private String value = null;
-    @CheckForNull private Throwable failure = null;
+    @Nullable private String value = null;
+    @Nullable private Throwable failure = null;
     private boolean wasCalled = false;
 
     MockCallback(String expectedValue) {
