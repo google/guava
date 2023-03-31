@@ -20,9 +20,10 @@ import static java.lang.Double.NaN;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.concurrent.LazyInit;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * The representation of a linear transformation between real numbers {@code x} and {@code y}.
@@ -36,6 +37,7 @@ import org.jspecify.nullness.NullMarked;
  * @since 20.0
  */
 @Beta
+@J2ktIncompatible
 @GwtIncompatible
 @NullMarked
 public abstract class LinearTransformation {

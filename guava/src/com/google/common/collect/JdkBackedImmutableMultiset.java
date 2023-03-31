@@ -21,7 +21,7 @@ import com.google.common.primitives.Ints;
 import java.util.Collection;
 import java.util.Map;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * An implementation of ImmutableMultiset backed by a JDK Map and a list of entries. Used to protect
@@ -72,7 +72,7 @@ final class JdkBackedImmutableMultiset<E> extends ImmutableMultiset<E> {
   @Override
   public ImmutableSet<E> elementSet() {
     ImmutableSet<E> result = elementSet;
-    return (result == null) ? elementSet = new ElementSet<E>(entries, this) : result;
+    return (result == null) ? elementSet = new ElementSet<>(entries, this) : result;
   }
 
   @Override

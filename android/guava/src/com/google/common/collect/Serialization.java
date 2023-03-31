@@ -17,14 +17,15 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.Map;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Provides static methods for serializing collection classes.
@@ -35,6 +36,7 @@ import org.jspecify.nullness.Nullable;
  * @author Jared Levy
  */
 @GwtIncompatible
+@J2ktIncompatible
 @NullMarked
 final class Serialization {
   private Serialization() {}
@@ -188,10 +190,10 @@ final class Serialization {
   }
 
   // Secret sauce for setting final fields; don't make it public.
-  static <T> FieldSetter<T> getFieldSetter(final Class<T> clazz, String fieldName) {
+  static <T> FieldSetter<T> getFieldSetter(Class<T> clazz, String fieldName) {
     try {
       Field field = clazz.getDeclaredField(fieldName);
-      return new FieldSetter<T>(field);
+      return new FieldSetter<>(field);
     } catch (NoSuchFieldException e) {
       throw new AssertionError(e); // programmer error
     }

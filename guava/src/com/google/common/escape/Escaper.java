@@ -17,7 +17,7 @@ package com.google.common.escape;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Function;
 import com.google.errorprone.annotations.DoNotMock;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * An object that converts literal text into a format safe for inclusion in a particular context
@@ -86,13 +86,7 @@ public abstract class Escaper {
    */
   public abstract String escape(String string);
 
-  private final Function<String, String> asFunction =
-      new Function<String, String>() {
-        @Override
-        public String apply(String from) {
-          return escape(from);
-        }
-      };
+  private final Function<String, String> asFunction = this::escape;
 
   /** Returns a {@link Function} that invokes {@link #escape(String)} on this escaper. */
   public final Function<String, String> asFunction() {

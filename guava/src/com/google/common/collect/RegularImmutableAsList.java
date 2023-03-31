@@ -20,8 +20,8 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import java.util.function.Consumer;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An {@link ImmutableAsList} implementation specialized for when the delegate collection is already

@@ -19,7 +19,7 @@ package com.google.common.graph;
 import com.google.common.annotations.Beta;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * A subinterface of {@link ValueGraph} which adds mutation methods. When mutation is not required,

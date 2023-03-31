@@ -14,14 +14,13 @@
 
 package com.google.common.reflect;
 
-import com.google.common.annotations.Beta;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.Arrays;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Abstract implementation of {@link InvocationHandler} that handles {@link Object#equals}, {@link
@@ -40,7 +39,6 @@ import org.jspecify.nullness.Nullable;
  * @author Ben Yu
  * @since 12.0
  */
-@Beta
 @NullMarked
 public abstract class AbstractInvocationHandler implements InvocationHandler {
 

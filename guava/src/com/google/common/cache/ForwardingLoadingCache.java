@@ -17,8 +17,9 @@ package com.google.common.cache;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.concurrent.ExecutionException;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * A cache which forwards all its method calls to another cache. Subclasses should override one or
@@ -42,16 +43,19 @@ public abstract class ForwardingLoadingCache<K, V> extends ForwardingCache<K, V>
   @Override
   protected abstract LoadingCache<K, V> delegate();
 
+  @CanIgnoreReturnValue // TODO(b/27479612): consider removing this
   @Override
   public V get(K key) throws ExecutionException {
     return delegate().get(key);
   }
 
+  @CanIgnoreReturnValue // TODO(b/27479612): consider removing this
   @Override
   public V getUnchecked(K key) {
     return delegate().getUnchecked(key);
   }
 
+  @CanIgnoreReturnValue // TODO(b/27479612): consider removing this
   @Override
   public ImmutableMap<K, V> getAll(Iterable<? extends K> keys) throws ExecutionException {
     return delegate().getAll(keys);

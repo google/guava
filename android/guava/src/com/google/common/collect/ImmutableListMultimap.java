@@ -19,6 +19,7 @@ package com.google.common.collect;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.DoNotCall;
 import com.google.errorprone.annotations.concurrent.LazyInit;
@@ -32,15 +33,14 @@ import java.util.Comparator;
 import java.util.Map;
 import java.util.Map.Entry;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * A {@link ListMultimap} whose contents will never change, with many other important properties
  * detailed at {@link ImmutableCollection}.
  *
  * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/ImmutableCollectionsExplained"> immutable collections</a>.
+ * "https://github.com/google/guava/wiki/ImmutableCollectionsExplained">immutable collections</a>.
  *
  * @author Jared Levy
  * @since 2.0
@@ -281,7 +281,7 @@ public class ImmutableListMultimap<K, V> extends ImmutableMultimap<K, V>
   /** Creates an ImmutableListMultimap from an asMap.entrySet. */
   static <K, V> ImmutableListMultimap<K, V> fromMapEntries(
       Collection<? extends Map.Entry<? extends K, ? extends Collection<? extends V>>> mapEntries,
-      @Nullable Comparator<? super V> valueComparator) {
+      @CheckForNull Comparator<? super V> valueComparator) {
     if (mapEntries.isEmpty()) {
       return of();
     }
@@ -302,7 +302,7 @@ public class ImmutableListMultimap<K, V> extends ImmutableMultimap<K, V>
       }
     }
 
-    return new ImmutableListMultimap<>(builder.build(), size);
+    return new ImmutableListMultimap<>(builder.buildOrThrow(), size);
   }
 
   ImmutableListMultimap(ImmutableMap<K, ImmutableList<V>> map, int size) {
@@ -383,12 +383,14 @@ public class ImmutableListMultimap<K, V> extends ImmutableMultimap<K, V>
    *     values for that key, and the key's values
    */
   @GwtIncompatible // java.io.ObjectOutputStream
+  @J2ktIncompatible
   private void writeObject(ObjectOutputStream stream) throws IOException {
     stream.defaultWriteObject();
     Serialization.writeMultimap(this, stream);
   }
 
   @GwtIncompatible // java.io.ObjectInputStream
+  @J2ktIncompatible
   private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
     stream.defaultReadObject();
     int keyCount = stream.readInt();
@@ -415,7 +417,7 @@ public class ImmutableListMultimap<K, V> extends ImmutableMultimap<K, V>
 
     ImmutableMap<Object, ImmutableList<Object>> tmpMap;
     try {
-      tmpMap = builder.build();
+      tmpMap = builder.buildOrThrow();
     } catch (IllegalArgumentException e) {
       throw (InvalidObjectException) new InvalidObjectException(e.getMessage()).initCause(e);
     }
@@ -425,5 +427,6 @@ public class ImmutableListMultimap<K, V> extends ImmutableMultimap<K, V>
   }
 
   @GwtIncompatible // Not needed in emulated source
+  @J2ktIncompatible
   private static final long serialVersionUID = 0;
 }

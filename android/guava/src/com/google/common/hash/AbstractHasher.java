@@ -18,8 +18,8 @@ import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An abstract implementation of {@link Hasher}, which only requires subtypes to implement {@link
@@ -27,25 +27,28 @@ import org.jspecify.nullness.Nullable;
  *
  * @author Dimitris Andreou
  */
-@CanIgnoreReturnValue
 @NullMarked
 abstract class AbstractHasher implements Hasher {
   @Override
+  @CanIgnoreReturnValue
   public final Hasher putBoolean(boolean b) {
     return putByte(b ? (byte) 1 : (byte) 0);
   }
 
   @Override
+  @CanIgnoreReturnValue
   public final Hasher putDouble(double d) {
     return putLong(Double.doubleToRawLongBits(d));
   }
 
   @Override
+  @CanIgnoreReturnValue
   public final Hasher putFloat(float f) {
     return putInt(Float.floatToRawIntBits(f));
   }
 
   @Override
+  @CanIgnoreReturnValue
   public Hasher putUnencodedChars(CharSequence charSequence) {
     for (int i = 0, len = charSequence.length(); i < len; i++) {
       putChar(charSequence.charAt(i));
@@ -54,16 +57,19 @@ abstract class AbstractHasher implements Hasher {
   }
 
   @Override
+  @CanIgnoreReturnValue
   public Hasher putString(CharSequence charSequence, Charset charset) {
     return putBytes(charSequence.toString().getBytes(charset));
   }
 
   @Override
+  @CanIgnoreReturnValue
   public Hasher putBytes(byte[] bytes) {
     return putBytes(bytes, 0, bytes.length);
   }
 
   @Override
+  @CanIgnoreReturnValue
   public Hasher putBytes(byte[] bytes, int off, int len) {
     Preconditions.checkPositionIndexes(off, off + len, bytes.length);
     for (int i = 0; i < len; i++) {
@@ -73,6 +79,7 @@ abstract class AbstractHasher implements Hasher {
   }
 
   @Override
+  @CanIgnoreReturnValue
   public Hasher putBytes(ByteBuffer b) {
     if (b.hasArray()) {
       putBytes(b.array(), b.arrayOffset() + b.position(), b.remaining());
@@ -86,6 +93,7 @@ abstract class AbstractHasher implements Hasher {
   }
 
   @Override
+  @CanIgnoreReturnValue
   public Hasher putShort(short s) {
     putByte((byte) s);
     putByte((byte) (s >>> 8));
@@ -93,6 +101,7 @@ abstract class AbstractHasher implements Hasher {
   }
 
   @Override
+  @CanIgnoreReturnValue
   public Hasher putInt(int i) {
     putByte((byte) i);
     putByte((byte) (i >>> 8));
@@ -102,6 +111,7 @@ abstract class AbstractHasher implements Hasher {
   }
 
   @Override
+  @CanIgnoreReturnValue
   public Hasher putLong(long l) {
     for (int i = 0; i < 64; i += 8) {
       putByte((byte) (l >>> i));
@@ -110,6 +120,7 @@ abstract class AbstractHasher implements Hasher {
   }
 
   @Override
+  @CanIgnoreReturnValue
   public Hasher putChar(char c) {
     putByte((byte) c);
     putByte((byte) (c >>> 8));
@@ -117,7 +128,9 @@ abstract class AbstractHasher implements Hasher {
   }
 
   @Override
-  public <T extends @Nullable Object> Hasher putObject(T instance, Funnel<? super T> funnel) {
+  @CanIgnoreReturnValue
+  public <T extends @Nullable Object> Hasher putObject(
+      @ParametricNullness T instance, Funnel<? super T> funnel) {
     funnel.funnel(instance, this);
     return this;
   }

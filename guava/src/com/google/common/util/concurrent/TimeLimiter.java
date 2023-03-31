@@ -25,8 +25,8 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Imposes a time limit on method calls.
@@ -147,6 +147,7 @@ public interface TimeLimiter {
    */
   @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   @CanIgnoreReturnValue
+  @ParametricNullness
   <T extends @Nullable Object> T callWithTimeout(
       Callable<T> callable, long timeoutDuration, TimeUnit timeoutUnit)
       throws TimeoutException, InterruptedException, ExecutionException;
@@ -168,6 +169,7 @@ public interface TimeLimiter {
    * @since 28.0
    */
   @CanIgnoreReturnValue
+  @ParametricNullness
   default <T extends @Nullable Object> T callWithTimeout(Callable<T> callable, Duration timeout)
       throws TimeoutException, InterruptedException, ExecutionException {
     return callWithTimeout(callable, toNanosSaturated(timeout), TimeUnit.NANOSECONDS);
@@ -194,6 +196,7 @@ public interface TimeLimiter {
    */
   @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   @CanIgnoreReturnValue
+  @ParametricNullness
   <T extends @Nullable Object> T callUninterruptiblyWithTimeout(
       Callable<T> callable, long timeoutDuration, TimeUnit timeoutUnit)
       throws TimeoutException, ExecutionException;
@@ -217,6 +220,7 @@ public interface TimeLimiter {
    * @since 28.0
    */
   @CanIgnoreReturnValue
+  @ParametricNullness
   default <T extends @Nullable Object> T callUninterruptiblyWithTimeout(
       Callable<T> callable, Duration timeout) throws TimeoutException, ExecutionException {
     return callUninterruptiblyWithTimeout(

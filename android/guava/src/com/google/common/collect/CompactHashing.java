@@ -21,8 +21,8 @@ import com.google.common.base.Objects;
 import com.google.common.primitives.Ints;
 import java.util.Arrays;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Helper classes and static methods for implementing compact hash-based collections.

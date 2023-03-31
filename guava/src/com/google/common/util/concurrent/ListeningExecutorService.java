@@ -23,8 +23,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.TimeUnit;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An {@link ExecutorService} that returns {@link ListenableFuture} instances. To create an instance
@@ -59,7 +59,8 @@ public interface ListeningExecutorService extends ExecutorService {
    * @throws RejectedExecutionException {@inheritDoc}
    */
   @Override
-  <T extends @Nullable Object> ListenableFuture<T> submit(Runnable task, T result);
+  <T extends @Nullable Object> ListenableFuture<T> submit(
+      Runnable task, @ParametricNullness T result);
 
   /**
    * {@inheritDoc}

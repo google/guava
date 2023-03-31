@@ -17,17 +17,15 @@ package com.google.common.reflect;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Proxy;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Static utilities relating to Java reflection.
  *
  * @since 12.0
  */
-@Beta
 @NullMarked
 public final class Reflection {
 
@@ -57,7 +55,7 @@ public final class Reflection {
    *
    * <p>WARNING: Normally it's a smell if a class needs to be explicitly initialized, because static
    * state hurts system maintainability and testability. In cases when you have no choice while
-   * inter-operating with a legacy framework, this method helps to keep the code less ugly.
+   * interoperating with a legacy framework, this method helps to keep the code less ugly.
    *
    * @throws ExceptionInInitializerError if an exception is thrown during initialization of a class
    */

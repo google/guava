@@ -26,7 +26,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * A map-like data structure that wraps a backing map and caches values while iterating through
@@ -109,7 +109,7 @@ class MapIteratorCache<K, V> {
     return new AbstractSet<K>() {
       @Override
       public UnmodifiableIterator<K> iterator() {
-        final Iterator<Entry<K, V>> entryIterator = backingMap.entrySet().iterator();
+        Iterator<Entry<K, V>> entryIterator = backingMap.entrySet().iterator();
 
         return new UnmodifiableIterator<K>() {
           @Override

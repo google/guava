@@ -34,8 +34,8 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A builder for a multimap implementation that allows customization of the backing map and value
@@ -85,7 +85,7 @@ public abstract class MultimapBuilder<K0 extends @Nullable Object, V0 extends @N
    *
    * @throws IllegalArgumentException if {@code expectedKeys < 0}
    */
-  public static MultimapBuilderWithKeys<@Nullable Object> hashKeys(final int expectedKeys) {
+  public static MultimapBuilderWithKeys<@Nullable Object> hashKeys(int expectedKeys) {
     checkNonnegative(expectedKeys, "expectedKeys");
     return new MultimapBuilderWithKeys<@Nullable Object>() {
       @Override
@@ -116,7 +116,7 @@ public abstract class MultimapBuilder<K0 extends @Nullable Object, V0 extends @N
    * multimap, save that if all values associated with a key are removed and then the key is added
    * back into the multimap, that key will come last in the key iteration order.
    */
-  public static MultimapBuilderWithKeys<@Nullable Object> linkedHashKeys(final int expectedKeys) {
+  public static MultimapBuilderWithKeys<@Nullable Object> linkedHashKeys(int expectedKeys) {
     checkNonnegative(expectedKeys, "expectedKeys");
     return new MultimapBuilderWithKeys<@Nullable Object>() {
       @Override
@@ -155,7 +155,7 @@ public abstract class MultimapBuilder<K0 extends @Nullable Object, V0 extends @N
    * is not serializable.
    */
   public static <K0 extends @Nullable Object> MultimapBuilderWithKeys<K0> treeKeys(
-      final Comparator<K0> comparator) {
+      Comparator<K0> comparator) {
     checkNotNull(comparator);
     return new MultimapBuilderWithKeys<K0>() {
       @Override
@@ -170,8 +170,7 @@ public abstract class MultimapBuilder<K0 extends @Nullable Object, V0 extends @N
    *
    * @since 16.0
    */
-  public static <K0 extends Enum<K0>> MultimapBuilderWithKeys<K0> enumKeys(
-      final Class<K0> keyClass) {
+  public static <K0 extends Enum<K0>> MultimapBuilderWithKeys<K0> enumKeys(Class<K0> keyClass) {
     checkNotNull(keyClass);
     return new MultimapBuilderWithKeys<K0>() {
       @SuppressWarnings("unchecked")
@@ -194,7 +193,7 @@ public abstract class MultimapBuilder<K0 extends @Nullable Object, V0 extends @N
 
     @Override
     public List<V> get() {
-      return new ArrayList<V>(expectedValuesPerKey);
+      return new ArrayList<>(expectedValuesPerKey);
     }
   }
 
@@ -252,7 +251,7 @@ public abstract class MultimapBuilder<K0 extends @Nullable Object, V0 extends @N
 
     @Override
     public SortedSet<V> get() {
-      return new TreeSet<V>(comparator);
+      return new TreeSet<>(comparator);
     }
   }
 
@@ -296,8 +295,7 @@ public abstract class MultimapBuilder<K0 extends @Nullable Object, V0 extends @N
      *
      * @throws IllegalArgumentException if {@code expectedValuesPerKey < 0}
      */
-    public ListMultimapBuilder<K0, @Nullable Object> arrayListValues(
-        final int expectedValuesPerKey) {
+    public ListMultimapBuilder<K0, @Nullable Object> arrayListValues(int expectedValuesPerKey) {
       checkNonnegative(expectedValuesPerKey, "expectedValuesPerKey");
       return new ListMultimapBuilder<K0, @Nullable Object>() {
         @Override
@@ -331,7 +329,7 @@ public abstract class MultimapBuilder<K0 extends @Nullable Object, V0 extends @N
      *
      * @throws IllegalArgumentException if {@code expectedValuesPerKey < 0}
      */
-    public SetMultimapBuilder<K0, @Nullable Object> hashSetValues(final int expectedValuesPerKey) {
+    public SetMultimapBuilder<K0, @Nullable Object> hashSetValues(int expectedValuesPerKey) {
       checkNonnegative(expectedValuesPerKey, "expectedValuesPerKey");
       return new SetMultimapBuilder<K0, @Nullable Object>() {
         @Override
@@ -354,8 +352,7 @@ public abstract class MultimapBuilder<K0 extends @Nullable Object, V0 extends @N
      *
      * @throws IllegalArgumentException if {@code expectedValuesPerKey < 0}
      */
-    public SetMultimapBuilder<K0, @Nullable Object> linkedHashSetValues(
-        final int expectedValuesPerKey) {
+    public SetMultimapBuilder<K0, @Nullable Object> linkedHashSetValues(int expectedValuesPerKey) {
       checkNonnegative(expectedValuesPerKey, "expectedValuesPerKey");
       return new SetMultimapBuilder<K0, @Nullable Object>() {
         @Override
@@ -380,7 +377,7 @@ public abstract class MultimapBuilder<K0 extends @Nullable Object, V0 extends @N
      * comparator} is not serializable.
      */
     public <V0 extends @Nullable Object> SortedSetMultimapBuilder<K0, V0> treeSetValues(
-        final Comparator<V0> comparator) {
+        Comparator<V0> comparator) {
       checkNotNull(comparator, "comparator");
       return new SortedSetMultimapBuilder<K0, V0>() {
         @Override
@@ -392,8 +389,7 @@ public abstract class MultimapBuilder<K0 extends @Nullable Object, V0 extends @N
     }
 
     /** Uses an {@link EnumSet} to store value collections. */
-    public <V0 extends Enum<V0>> SetMultimapBuilder<K0, V0> enumSetValues(
-        final Class<V0> valueClass) {
+    public <V0 extends Enum<V0>> SetMultimapBuilder<K0, V0> enumSetValues(Class<V0> valueClass) {
       checkNotNull(valueClass, "valueClass");
       return new SetMultimapBuilder<K0, V0>() {
         @Override

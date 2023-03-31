@@ -133,7 +133,7 @@ public class SuppliersTest extends TestCase {
     assertThat(memoizedSupplier.toString()).isEqualTo("Suppliers.memoize(CountingSupplier)");
     checkMemoize(countingSupplier, memoizedSupplier);
     // Calls to the original memoized supplier shouldn't affect its copy.
-    memoizedSupplier.get();
+    Object unused = memoizedSupplier.get();
     assertThat(memoizedSupplier.toString())
         .isEqualTo("Suppliers.memoize(<supplier that returned 10>)");
 
@@ -153,12 +153,12 @@ public class SuppliersTest extends TestCase {
     assertThat(memoizedSupplier.toString()).isEqualTo("Suppliers.memoize(CountingSupplier)");
     checkMemoize(countingSupplier, memoizedSupplier);
     // Calls to the original memoized supplier shouldn't affect its copy.
-    memoizedSupplier.get();
+    Object unused = memoizedSupplier.get();
     assertThat(memoizedSupplier.toString())
         .isEqualTo("Suppliers.memoize(<supplier that returned 10>)");
 
     Supplier<Integer> copy = reserialize(memoizedSupplier);
-    memoizedSupplier.get();
+    Object unused2 = memoizedSupplier.get();
 
     CountingSupplier countingCopy =
         (CountingSupplier) ((Suppliers.MemoizingSupplier<Integer>) copy).delegate;
@@ -230,10 +230,10 @@ public class SuppliersTest extends TestCase {
     Supplier<Integer> memoizedSupplier =
         Suppliers.memoizeWithExpiration(countingSupplier, 75, TimeUnit.MILLISECONDS);
     // Calls to the original memoized supplier shouldn't affect its copy.
-    memoizedSupplier.get();
+    Object unused = memoizedSupplier.get();
 
     Supplier<Integer> copy = reserialize(memoizedSupplier);
-    memoizedSupplier.get();
+    Object unused2 = memoizedSupplier.get();
 
     CountingSupplier countingCopy =
         (CountingSupplier) ((Suppliers.ExpiringMemoizingSupplier<Integer>) copy).delegate;
@@ -279,7 +279,6 @@ public class SuppliersTest extends TestCase {
   }
 
   @GwtIncompatible // Thread
-
   public void testExpiringMemoizedSupplierThreadSafe() throws Throwable {
     Function<Supplier<Boolean>, Supplier<Boolean>> memoizer =
         new Function<Supplier<Boolean>, Supplier<Boolean>>() {
@@ -292,7 +291,6 @@ public class SuppliersTest extends TestCase {
   }
 
   @GwtIncompatible // Thread
-
   public void testMemoizedSupplierThreadSafe() throws Throwable {
     Function<Supplier<Boolean>, Supplier<Boolean>> memoizer =
         new Function<Supplier<Boolean>, Supplier<Boolean>>() {
@@ -305,7 +303,7 @@ public class SuppliersTest extends TestCase {
   }
 
   @GwtIncompatible // Thread
-  public void testSupplierThreadSafe(Function<Supplier<Boolean>, Supplier<Boolean>> memoizer)
+  private void testSupplierThreadSafe(Function<Supplier<Boolean>, Supplier<Boolean>> memoizer)
       throws Throwable {
     final AtomicInteger count = new AtomicInteger(0);
     final AtomicReference<Throwable> thrown = new AtomicReference<>(null);
@@ -381,7 +379,6 @@ public class SuppliersTest extends TestCase {
   }
 
   @GwtIncompatible // Thread
-
   public void testSynchronizedSupplierThreadSafe() throws InterruptedException {
     final Supplier<Integer> nonThreadSafe =
         new Supplier<Integer>() {
@@ -405,7 +402,7 @@ public class SuppliersTest extends TestCase {
             @Override
             public void run() {
               for (int j = 0; j < iterations; j++) {
-                Suppliers.synchronizedSupplier(nonThreadSafe).get();
+                Object unused = Suppliers.synchronizedSupplier(nonThreadSafe).get();
               }
             }
           };

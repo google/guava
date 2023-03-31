@@ -22,6 +22,7 @@ import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.IOException;
@@ -32,8 +33,8 @@ import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Basic implementation of {@code Multiset<E>} backed by an instance of {@code
@@ -73,7 +74,7 @@ abstract class AbstractMapBasedMultiset<E extends @Nullable Object> extends Abst
    */
   @CanIgnoreReturnValue
   @Override
-  public final int add(E element, int occurrences) {
+  public final int add(@ParametricNullness E element, int occurrences) {
     if (occurrences == 0) {
       return count(element);
     }
@@ -118,7 +119,7 @@ abstract class AbstractMapBasedMultiset<E extends @Nullable Object> extends Abst
 
   @CanIgnoreReturnValue
   @Override
-  public final int setCount(E element, int count) {
+  public final int setCount(@ParametricNullness E element, int count) {
     checkNonnegative(count, "count");
     int oldCount = (count == 0) ? backingMap.remove(element) : backingMap.put(element, count);
     size += (count - oldCount);
@@ -126,7 +127,7 @@ abstract class AbstractMapBasedMultiset<E extends @Nullable Object> extends Abst
   }
 
   @Override
-  public final boolean setCount(E element, int oldCount, int newCount) {
+  public final boolean setCount(@ParametricNullness E element, int oldCount, int newCount) {
     checkNonnegative(oldCount, "oldCount");
     checkNonnegative(newCount, "newCount");
     int entryIndex = backingMap.indexOf(element);
@@ -169,6 +170,7 @@ abstract class AbstractMapBasedMultiset<E extends @Nullable Object> extends Abst
     int toRemove = -1;
     int expectedModCount = backingMap.modCount;
 
+    @ParametricNullness
     abstract T result(int entryIndex);
 
     private void checkForConcurrentModification() {
@@ -184,6 +186,7 @@ abstract class AbstractMapBasedMultiset<E extends @Nullable Object> extends Abst
     }
 
     @Override
+    @ParametricNullness
     public T next() {
       if (!hasNext()) {
         throw new NoSuchElementException();
@@ -209,6 +212,7 @@ abstract class AbstractMapBasedMultiset<E extends @Nullable Object> extends Abst
   final Iterator<E> elementIterator() {
     return new Itr<E>() {
       @Override
+      @ParametricNullness
       E result(int entryIndex) {
         return backingMap.getKey(entryIndex);
       }
@@ -253,12 +257,14 @@ abstract class AbstractMapBasedMultiset<E extends @Nullable Object> extends Abst
    *     its count, and so on
    */
   @GwtIncompatible // java.io.ObjectOutputStream
+  @J2ktIncompatible
   private void writeObject(ObjectOutputStream stream) throws IOException {
     stream.defaultWriteObject();
     Serialization.writeMultiset(this, stream);
   }
 
   @GwtIncompatible // java.io.ObjectInputStream
+  @J2ktIncompatible
   private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
     stream.defaultReadObject();
     int distinctElements = Serialization.readCount(stream);
@@ -267,5 +273,6 @@ abstract class AbstractMapBasedMultiset<E extends @Nullable Object> extends Abst
   }
 
   @GwtIncompatible // Not needed in emulated source.
+  @J2ktIncompatible
   private static final long serialVersionUID = 0;
 }

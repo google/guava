@@ -20,7 +20,8 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import java.io.Serializable;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Equivalence applied on functional result.
@@ -35,11 +36,11 @@ final class FunctionalEquivalence<F, T> extends Equivalence<F> implements Serial
 
   private static final long serialVersionUID = 0;
 
-  private final Function<? super F, ? extends T> function;
+  private final Function<? super F, ? extends @Nullable T> function;
   private final Equivalence<T> resultEquivalence;
 
   FunctionalEquivalence(
-      Function<? super F, ? extends T> function, Equivalence<T> resultEquivalence) {
+      Function<? super F, ? extends @Nullable T> function, Equivalence<T> resultEquivalence) {
     this.function = checkNotNull(function);
     this.resultEquivalence = checkNotNull(resultEquivalence);
   }

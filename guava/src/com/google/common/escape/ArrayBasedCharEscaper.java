@@ -16,11 +16,10 @@ package com.google.common.escape;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import java.util.Map;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * A {@link CharEscaper} that uses an array to quickly look up replacement characters for a given
@@ -42,7 +41,6 @@ import org.jspecify.nullness.NullMarked;
  * @author David Beaumont
  * @since 15.0
  */
-@Beta
 @GwtCompatible
 @NullMarked
 public abstract class ArrayBasedCharEscaper extends CharEscaper {

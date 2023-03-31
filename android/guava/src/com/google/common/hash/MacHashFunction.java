@@ -23,7 +23,7 @@ import java.security.InvalidKeyException;
 import java.security.Key;
 import java.security.NoSuchAlgorithmException;
 import javax.crypto.Mac;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * {@link HashFunction} adapter for {@link Mac} instances.
@@ -59,7 +59,7 @@ final class MacHashFunction extends AbstractHashFunction {
 
   private static boolean supportsClone(Mac mac) {
     try {
-      mac.clone();
+      Object unused = mac.clone();
       return true;
     } catch (CloneNotSupportedException e) {
       return false;

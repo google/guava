@@ -35,8 +35,8 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A TimeLimiter that runs method calls in the background using an {@link ExecutorService}. If the
@@ -74,35 +74,27 @@ public final class SimpleTimeLimiter implements TimeLimiter {
 
   @Override
   public <T> T newProxy(
-      final T target,
-      Class<T> interfaceType,
-      final long timeoutDuration,
-      final TimeUnit timeoutUnit) {
+      T target, Class<T> interfaceType, long timeoutDuration, TimeUnit timeoutUnit) {
     checkNotNull(target);
     checkNotNull(interfaceType);
     checkNotNull(timeoutUnit);
     checkPositiveTimeout(timeoutDuration);
     checkArgument(interfaceType.isInterface(), "interfaceType must be an interface type");
 
-    final Set<Method> interruptibleMethods = findInterruptibleMethods(interfaceType);
+    Set<Method> interruptibleMethods = findInterruptibleMethods(interfaceType);
 
     InvocationHandler handler =
         new InvocationHandler() {
           @Override
           @CheckForNull
-          public Object invoke(
-              Object obj, final Method method, @CheckForNull final @Nullable Object[] args)
+          public Object invoke(Object obj, Method method, @CheckForNull @Nullable Object[] args)
               throws Throwable {
             Callable<@Nullable Object> callable =
-                new Callable<@Nullable Object>() {
-                  @Override
-                  @CheckForNull
-                  public Object call() throws Exception {
-                    try {
-                      return method.invoke(target, args);
-                    } catch (InvocationTargetException e) {
-                      throw throwCause(e, false /* combineStackTraces */);
-                    }
+                () -> {
+                  try {
+                    return method.invoke(target, args);
+                  } catch (InvocationTargetException e) {
+                    throw throwCause(e, false /* combineStackTraces */);
                   }
                 };
             return callWithTimeout(
@@ -120,6 +112,7 @@ public final class SimpleTimeLimiter implements TimeLimiter {
     return interfaceType.cast(object);
   }
 
+  @ParametricNullness
   private <T extends @Nullable Object> T callWithTimeout(
       Callable<T> callable, long timeoutDuration, TimeUnit timeoutUnit, boolean amInterruptible)
       throws Exception {
@@ -150,6 +143,7 @@ public final class SimpleTimeLimiter implements TimeLimiter {
 
   @CanIgnoreReturnValue
   @Override
+  @ParametricNullness
   public <T extends @Nullable Object> T callWithTimeout(
       Callable<T> callable, long timeoutDuration, TimeUnit timeoutUnit)
       throws TimeoutException, InterruptedException, ExecutionException {
@@ -172,6 +166,7 @@ public final class SimpleTimeLimiter implements TimeLimiter {
 
   @CanIgnoreReturnValue
   @Override
+  @ParametricNullness
   public <T extends @Nullable Object> T callUninterruptiblyWithTimeout(
       Callable<T> callable, long timeoutDuration, TimeUnit timeoutUnit)
       throws TimeoutException, ExecutionException {

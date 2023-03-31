@@ -26,8 +26,8 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.RejectedExecutionException;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /** Aggregate future that computes its value by calling a callable. */
 @GwtCompatible
@@ -113,7 +113,7 @@ final class CombinedFuture<V extends @Nullable Object>
     }
 
     @Override
-    final void afterRanInterruptiblySuccess(T result) {
+    final void afterRanInterruptiblySuccess(@ParametricNullness T result) {
       /*
        * The future no longer needs to interrupt this task, so it no longer needs a reference to it.
        *
@@ -148,7 +148,7 @@ final class CombinedFuture<V extends @Nullable Object>
       }
     }
 
-    abstract void setValue(T value);
+    abstract void setValue(@ParametricNullness T value);
   }
 
   @WeakOuter
@@ -192,12 +192,13 @@ final class CombinedFuture<V extends @Nullable Object>
     }
 
     @Override
+    @ParametricNullness
     V runInterruptibly() throws Exception {
       return callable.call();
     }
 
     @Override
-    void setValue(V value) {
+    void setValue(@ParametricNullness V value) {
       CombinedFuture.this.set(value);
     }
 

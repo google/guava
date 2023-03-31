@@ -20,7 +20,6 @@ import static com.google.common.collect.Iterables.transform;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.base.Objects;
 import com.google.common.base.Predicates;
@@ -46,8 +45,8 @@ import java.util.Collection;
 import java.util.Map.Entry;
 import java.util.concurrent.atomic.AtomicReference;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Utilities for working with {@link Type}.
@@ -58,14 +57,6 @@ import org.jspecify.nullness.Nullable;
 final class Types {
 
   /** Class#toString without the "class " and "interface " prefixes */
-  private static final Function<Type, String> TYPE_NAME =
-      new Function<Type, String>() {
-        @Override
-        public String apply(Type from) {
-          return JavaVersion.CURRENT.typeName(from);
-        }
-      };
-
   private static final Joiner COMMA_JOINER = Joiner.on(", ").useForNull("null");
 
   /** Returns the array type of {@code componentType}. */
@@ -170,7 +161,7 @@ final class Types {
   }
 
   /**
-   * Returns human readable string representation of {@code type}.
+   * Returns a human-readable string representation of {@code type}.
    *
    * <p>The format is subject to change.
    */
@@ -181,7 +172,7 @@ final class Types {
   @CheckForNull
   static Type getComponentType(Type type) {
     checkNotNull(type);
-    final AtomicReference<@Nullable Type> result = new AtomicReference<>();
+    AtomicReference<@Nullable Type> result = new AtomicReference<>();
     new TypeVisitor() {
       @Override
       void visitTypeVariable(TypeVariable<?> t) {
@@ -304,7 +295,7 @@ final class Types {
       return builder
           .append(rawType.getName())
           .append('<')
-          .append(COMMA_JOINER.join(transform(argumentsList, TYPE_NAME)))
+          .append(COMMA_JOINER.join(transform(argumentsList, JavaVersion.CURRENT::typeName)))
           .append('>')
           .toString();
     }
@@ -332,8 +323,7 @@ final class Types {
 
   private static <D extends GenericDeclaration> TypeVariable<D> newTypeVariableImpl(
       D genericDeclaration, String name, Type[] bounds) {
-    TypeVariableImpl<D> typeVariableImpl =
-        new TypeVariableImpl<D>(genericDeclaration, name, bounds);
+    TypeVariableImpl<D> typeVariableImpl = new TypeVariableImpl<>(genericDeclaration, name, bounds);
     @SuppressWarnings("unchecked")
     TypeVariable<D> typeVariable =
         Reflection.newProxy(
@@ -383,7 +373,7 @@ final class Types {
           builder.put(method.getName(), method);
         }
       }
-      typeVariableMethods = builder.build();
+      typeVariableMethods = builder.buildKeepingLast();
     }
 
     private final TypeVariableImpl<?> typeVariableImpl;

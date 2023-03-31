@@ -19,7 +19,7 @@ import static java.lang.Double.longBitsToDouble;
 
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.concurrent.atomic.AtomicLong;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * A {@code double} value that may be updated atomically. See the {@link
@@ -165,6 +165,7 @@ public class AtomicDouble extends Number implements java.io.Serializable {
    *
    * @param delta the value to add
    * @return the updated value
+   * @since 31.1
    */
   @CanIgnoreReturnValue
   public final double addAndGet(double delta) {

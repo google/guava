@@ -17,7 +17,7 @@
 package com.google.common.graph;
 
 import com.google.common.base.Optional;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * A base class for builders that construct graphs with user-defined properties.

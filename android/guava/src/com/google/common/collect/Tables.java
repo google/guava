@@ -35,14 +35,14 @@ import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Provides static methods that involve a {@code Table}.
  *
  * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/CollectionUtilitiesExplained#tables"> {@code Tables}</a>.
+ * "https://github.com/google/guava/wiki/CollectionUtilitiesExplained#tables">{@code Tables}</a>.
  *
  * @author Jared Levy
  * @author Louis Wasserman
@@ -63,34 +63,43 @@ public final class Tables {
    * @param value the value to be associated with the returned cell
    */
   public static <R extends @Nullable Object, C extends @Nullable Object, V extends @Nullable Object>
-      Cell<R, C, V> immutableCell(R rowKey, C columnKey, V value) {
+      Cell<R, C, V> immutableCell(
+          @ParametricNullness R rowKey,
+          @ParametricNullness C columnKey,
+          @ParametricNullness V value) {
     return new ImmutableCell<>(rowKey, columnKey, value);
   }
 
   static final class ImmutableCell<
           R extends @Nullable Object, C extends @Nullable Object, V extends @Nullable Object>
       extends AbstractCell<R, C, V> implements Serializable {
-    private final R rowKey;
-    private final C columnKey;
-    private final V value;
+    @ParametricNullness private final R rowKey;
+    @ParametricNullness private final C columnKey;
+    @ParametricNullness private final V value;
 
-    ImmutableCell(R rowKey, C columnKey, V value) {
+    ImmutableCell(
+        @ParametricNullness R rowKey,
+        @ParametricNullness C columnKey,
+        @ParametricNullness V value) {
       this.rowKey = rowKey;
       this.columnKey = columnKey;
       this.value = value;
     }
 
     @Override
+    @ParametricNullness
     public R getRowKey() {
       return rowKey;
     }
 
     @Override
+    @ParametricNullness
     public C getColumnKey() {
       return columnKey;
     }
 
     @Override
+    @ParametricNullness
     public V getValue() {
       return value;
     }
@@ -163,7 +172,7 @@ public final class Tables {
     }
 
     @Override
-    public Map<C, V> column(R columnKey) {
+    public Map<C, V> column(@ParametricNullness R columnKey) {
       return original.row(columnKey);
     }
 
@@ -205,7 +214,10 @@ public final class Tables {
 
     @Override
     @CheckForNull
-    public V put(C rowKey, R columnKey, V value) {
+    public V put(
+        @ParametricNullness C rowKey,
+        @ParametricNullness R columnKey,
+        @ParametricNullness V value) {
       return original.put(columnKey, rowKey, value);
     }
 
@@ -221,7 +233,7 @@ public final class Tables {
     }
 
     @Override
-    public Map<R, V> row(C rowKey) {
+    public Map<R, V> row(@ParametricNullness C rowKey) {
       return original.column(rowKey);
     }
 
@@ -246,7 +258,7 @@ public final class Tables {
     }
 
     // Will cast TRANSPOSE_CELL to a type that always succeeds
-    private static final Function<Cell<?, ?, ?>, Cell<?, ?, ?>> TRANSPOSE_CELL =
+    private static final Function TRANSPOSE_CELL =
         new Function<Cell<?, ?, ?>, Cell<?, ?, ?>>() {
           @Override
           public Cell<?, ?, ?> apply(Cell<?, ?, ?> cell) {
@@ -257,7 +269,8 @@ public final class Tables {
     @SuppressWarnings("unchecked")
     @Override
     Iterator<Cell<C, R, V>> cellIterator() {
-      return Iterators.transform(original.cellSet().iterator(), (Function) TRANSPOSE_CELL);
+      return Iterators.transform(
+          original.cellSet().iterator(), (Function<Cell<R, C, V>, Cell<C, R, V>>) TRANSPOSE_CELL);
     }
   }
 
@@ -382,7 +395,10 @@ public final class Tables {
 
     @Override
     @CheckForNull
-    public V2 put(R rowKey, C columnKey, V2 value) {
+    public V2 put(
+        @ParametricNullness R rowKey,
+        @ParametricNullness C columnKey,
+        @ParametricNullness V2 value) {
       throw new UnsupportedOperationException();
     }
 
@@ -401,12 +417,12 @@ public final class Tables {
     }
 
     @Override
-    public Map<C, V2> row(R rowKey) {
+    public Map<C, V2> row(@ParametricNullness R rowKey) {
       return Maps.transformValues(fromTable.row(rowKey), function);
     }
 
     @Override
-    public Map<R, V2> column(C columnKey) {
+    public Map<R, V2> column(@ParametricNullness C columnKey) {
       return Maps.transformValues(fromTable.column(columnKey), function);
     }
 
@@ -508,7 +524,7 @@ public final class Tables {
     }
 
     @Override
-    public Map<R, V> column(C columnKey) {
+    public Map<R, V> column(@ParametricNullness C columnKey) {
       return Collections.unmodifiableMap(super.column(columnKey));
     }
 
@@ -525,7 +541,10 @@ public final class Tables {
 
     @Override
     @CheckForNull
-    public V put(R rowKey, C columnKey, V value) {
+    public V put(
+        @ParametricNullness R rowKey,
+        @ParametricNullness C columnKey,
+        @ParametricNullness V value) {
       throw new UnsupportedOperationException();
     }
 
@@ -541,7 +560,7 @@ public final class Tables {
     }
 
     @Override
-    public Map<C, V> row(R rowKey) {
+    public Map<C, V> row(@ParametricNullness R rowKey) {
       return Collections.unmodifiableMap(super.row(rowKey));
     }
 

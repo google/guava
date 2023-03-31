@@ -24,7 +24,7 @@ import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.RetainedWith;
 import java.util.function.BiConsumer;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Implementation of {@link ImmutableMap} with exactly one entry.

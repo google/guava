@@ -15,7 +15,6 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Throwables.throwIfUnchecked;
 import static com.google.common.util.concurrent.NullnessCasts.uncheckedNull;
 import static java.lang.Integer.toHexString;
 import static java.lang.System.identityHashCode;
@@ -46,8 +45,8 @@ import java.util.concurrent.locks.LockSupport;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An abstract implementation of {@link ListenableFuture}, intended for advanced users only. More
@@ -79,7 +78,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
     implements ListenableFuture<V> {
   // NOTE: Whenever both tests are cheap and functional, it's faster to use &, | instead of &&, ||
 
-  private static final boolean GENERATE_CANCELLATION_CAUSES;
+  static final boolean GENERATE_CANCELLATION_CAUSES;
 
   static {
     // System.getProperty may throw if the security policy does not permit access.
@@ -109,12 +108,14 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
       implements Trusted<V> {
     @CanIgnoreReturnValue
     @Override
+    @ParametricNullness
     public final V get() throws InterruptedException, ExecutionException {
       return super.get();
     }
 
     @CanIgnoreReturnValue
     @Override
+    @ParametricNullness
     public final V get(long timeout, TimeUnit unit)
         throws InterruptedException, ExecutionException, TimeoutException {
       return super.get(timeout, unit);
@@ -158,7 +159,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
 
     try {
       helper = new UnsafeAtomicHelper();
-    } catch (Throwable unsafeFailure) {
+    } catch (RuntimeException | Error unsafeFailure) {
       thrownUnsafeFailure = unsafeFailure;
       // catch absolutely everything and fall through to our 'SafeAtomicHelper'
       // The access control checks that ARFU does means the caller class has to be AbstractFuture
@@ -171,7 +172,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
                 newUpdater(AbstractFuture.class, Waiter.class, "waiters"),
                 newUpdater(AbstractFuture.class, Listener.class, "listeners"),
                 newUpdater(AbstractFuture.class, Object.class, "value"));
-      } catch (Throwable atomicReferenceFieldUpdaterFailure) {
+      } catch (RuntimeException | Error atomicReferenceFieldUpdaterFailure) {
         // Some Android 5.0.x Samsung devices have bugs in JDK reflection APIs that cause
         // getDeclaredField to throw a NoSuchFieldException when the field is definitely there.
         // For these users fallback to a suboptimal implementation, based on synchronized. This will
@@ -356,7 +357,13 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
       }
       Object valueToSet = getFutureValue(future);
       if (ATOMIC_HELPER.casValue(owner, this, valueToSet)) {
-        complete(owner);
+        complete(
+            owner,
+            /*
+             * Interruption doesn't propagate through a SetFuture chain (see getFutureValue), so
+             * don't invoke interruptTask.
+             */
+            false);
       }
     }
   }
@@ -400,7 +407,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
   // Timed Get
   // There are a few design constraints to consider
   // * We want to be responsive to small timeouts, unpark() has non trivial latency overheads (I
-  //   have observed 12 micros on 64 bit linux systems to wake up a parked thread). So if the
+  //   have observed 12 micros on 64-bit linux systems to wake up a parked thread). So if the
   //   timeout is small we shouldn't park(). This needs to be traded off with the cpu overhead of
   //   spinning, so we use SPIN_THRESHOLD_NANOS which is what AbstractQueuedSynchronizer uses for
   //   similar purposes.
@@ -423,6 +430,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
    */
   @CanIgnoreReturnValue
   @Override
+  @ParametricNullness
   public V get(long timeout, TimeUnit unit)
       throws InterruptedException, TimeoutException, ExecutionException {
     // NOTE: if timeout < 0, remainingNanos will be < 0 and we will fall into the while(true) loop
@@ -535,6 +543,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
    */
   @CanIgnoreReturnValue
   @Override
+  @ParametricNullness
   public V get() throws InterruptedException, ExecutionException {
     if (Thread.interrupted()) {
       throw new InterruptedException();
@@ -575,6 +584,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
   }
 
   /** Unboxes {@code obj}. Assumes that obj is not {@code null} or a {@link SetFuture}. */
+  @ParametricNullness
   private V getDoneValue(Object obj) throws ExecutionException {
     // While this seems like it might be too branch-y, simple benchmarking proves it to be
     // unmeasurable (comparing done AbstractFutures with immediateFuture)
@@ -653,12 +663,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
       while (true) {
         if (ATOMIC_HELPER.casValue(abstractFuture, localValue, valueToSet)) {
           rValue = true;
-          // We call interruptTask before calling complete(), which is consistent with
-          // FutureTask
-          if (mayInterruptIfRunning) {
-            abstractFuture.interruptTask();
-          }
-          complete(abstractFuture);
+          complete(abstractFuture, mayInterruptIfRunning);
           if (localValue instanceof SetFuture) {
             // propagate cancellation to the future set in setfuture, this is racy, and we don't
             // care if we are successful or not.
@@ -773,10 +778,10 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
    * @return true if the attempt was accepted, completing the {@code Future}
    */
   @CanIgnoreReturnValue
-  protected boolean set(V value) {
+  protected boolean set(@ParametricNullness V value) {
     Object valueToSet = value == null ? NULL : value;
     if (ATOMIC_HELPER.casValue(this, null, valueToSet)) {
-      complete(this);
+      complete(this, /*callInterruptTask=*/ false);
       return true;
     }
     return false;
@@ -801,7 +806,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
   protected boolean setException(Throwable throwable) {
     Object valueToSet = new Failure(checkNotNull(throwable));
     if (ATOMIC_HELPER.casValue(this, null, valueToSet)) {
-      complete(this);
+      complete(this, /*callInterruptTask=*/ false);
       return true;
     }
     return false;
@@ -844,7 +849,13 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
       if (future.isDone()) {
         Object value = getFutureValue(future);
         if (ATOMIC_HELPER.casValue(this, null, value)) {
-          complete(this);
+          complete(
+              this,
+              /*
+               * Interruption doesn't propagate through a SetFuture chain (see getFutureValue), so
+               * don't invoke interruptTask.
+               */
+              false);
           return true;
         }
         return false;
@@ -855,14 +866,14 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
         // since all we are doing is unpacking a completed future which should be fast.
         try {
           future.addListener(valueToSet, DirectExecutor.INSTANCE);
-        } catch (Throwable t) {
+        } catch (RuntimeException | Error t) {
           // addListener has thrown an exception! SetFuture.run can't throw any exceptions so this
           // must have been caused by addListener itself. The most likely explanation is a
           // misconfigured mock. Try to switch to Failure.
           Failure failure;
           try {
             failure = new Failure(t);
-          } catch (Throwable oomMostLikely) {
+          } catch (RuntimeException | Error oomMostLikely) {
             failure = Failure.FALLBACK_INSTANCE;
           }
           // Note: The only way this CAS could fail is if cancel() has raced with us. That is ok.
@@ -957,7 +968,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
                 cancellation));
       }
       return new Cancellation(false, cancellation);
-    } catch (Throwable t) {
+    } catch (RuntimeException | Error t) {
       return new Failure(t);
     }
   }
@@ -966,6 +977,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
    * An inlined private copy of {@link Uninterruptibles#getUninterruptibly} used to break an
    * internal dependency on other /util/concurrent classes.
    */
+  @ParametricNullness
   private static <V extends @Nullable Object> V getUninterruptibly(Future<V> future)
       throws ExecutionException {
     boolean interrupted = false;
@@ -985,7 +997,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
   }
 
   /** Unblocks all threads and runs all listeners. */
-  private static void complete(AbstractFuture<?> param) {
+  private static void complete(AbstractFuture<?> param, boolean callInterruptTask) {
     // Declare a "true" local variable so that the Checker Framework will infer nullness.
     AbstractFuture<?> future = param;
 
@@ -993,6 +1005,18 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
     outer:
     while (true) {
       future.releaseWaiters();
+      /*
+       * We call interruptTask() immediately before afterDone() so that migrating between the two
+       * can be a no-op.
+       */
+      if (callInterruptTask) {
+        future.interruptTask();
+        /*
+         * Interruption doesn't propagate through a SetFuture chain (see getFutureValue), so don't
+         * invoke interruptTask on any subsequent futures.
+         */
+        callInterruptTask = false;
+      }
       // We call this before the listeners in order to avoid needing to manage a separate stack data
       // structure for them.  Also, some implementations rely on this running prior to listeners
       // so that the cleanup work is visible to listeners.
@@ -1024,7 +1048,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
               continue outer;
             }
           }
-          // other wise the future we were trying to set is already done.
+          // otherwise the future we were trying to set is already done.
         } else {
           /*
            * requireNonNull is safe because the listener stack never contains TOMBSTONE until after
@@ -1079,7 +1103,6 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
    * method returns @Nullable, too. However, we're not sure if we want to make any changes to that
    * class, since it's in a separate artifact that we planned to release only a single version of.
    */
-  @SuppressWarnings("nullness")
   @CheckForNull
   protected final Throwable tryInternalFastPathGetFailure() {
     if (this instanceof Trusted) {
@@ -1103,10 +1126,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
 
   /** Releases all threads in the {@link #waiters} list, and clears the list. */
   private void releaseWaiters() {
-    Waiter head;
-    do {
-      head = waiters;
-    } while (!ATOMIC_HELPER.casWaiters(this, head, Waiter.TOMBSTONE));
+    Waiter head = ATOMIC_HELPER.gasWaiters(this, Waiter.TOMBSTONE);
     for (Waiter currentWaiter = head; currentWaiter != null; currentWaiter = currentWaiter.next) {
       currentWaiter.unpark();
     }
@@ -1119,15 +1139,12 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
   @CheckForNull
   private Listener clearListeners(@CheckForNull Listener onto) {
     // We need to
-    // 1. atomically swap the listeners with TOMBSTONE, this is because addListener uses that to
+    // 1. atomically swap the listeners with TOMBSTONE, this is because addListener uses that
     //    to synchronize with us
     // 2. reverse the linked list, because despite our rather clear contract, people depend on us
     //    executing listeners in the order they were added
     // 3. push all the items onto 'onto' and return the new head of the stack
-    Listener head;
-    do {
-      head = listeners;
-    } while (!ATOMIC_HELPER.casListeners(this, head, Listener.TOMBSTONE));
+    Listener head = ATOMIC_HELPER.gasListeners(this, Listener.TOMBSTONE);
     Listener reversedList = onto;
     while (head != null) {
       Listener tmp = head;
@@ -1154,7 +1171,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
     } else if (isDone()) {
       addDoneString(builder);
     } else {
-      addPendingString(builder); // delegates to addDoneString if future completes mid-way
+      addPendingString(builder); // delegates to addDoneString if future completes midway
     }
     return builder.append("]").toString();
   }
@@ -1282,10 +1299,10 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
   }
 
   private abstract static class AtomicHelper {
-    /** Non volatile write of the thread to the {@link Waiter#thread} field. */
+    /** Non-volatile write of the thread to the {@link Waiter#thread} field. */
     abstract void putThread(Waiter waiter, Thread newValue);
 
-    /** Non volatile write of the waiter to the {@link Waiter#next} field. */
+    /** Non-volatile write of the waiter to the {@link Waiter#next} field. */
     abstract void putNext(Waiter waiter, @CheckForNull Waiter newValue);
 
     /** Performs a CAS operation on the {@link #waiters} field. */
@@ -1295,6 +1312,12 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
     /** Performs a CAS operation on the {@link #listeners} field. */
     abstract boolean casListeners(
         AbstractFuture<?> future, @CheckForNull Listener expect, Listener update);
+
+    /** Performs a GAS operation on the {@link #waiters} field. */
+    abstract Waiter gasWaiters(AbstractFuture<?> future, Waiter update);
+
+    /** Performs a GAS operation on the {@link #listeners} field. */
+    abstract Listener gasListeners(AbstractFuture<?> future, Listener update);
 
     /** Performs a CAS operation on the {@link #value} field. */
     abstract boolean casValue(AbstractFuture<?> future, @CheckForNull Object expect, Object update);
@@ -1349,9 +1372,10 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
         WAITER_THREAD_OFFSET = unsafe.objectFieldOffset(Waiter.class.getDeclaredField("thread"));
         WAITER_NEXT_OFFSET = unsafe.objectFieldOffset(Waiter.class.getDeclaredField("next"));
         UNSAFE = unsafe;
-      } catch (Exception e) {
-        throwIfUnchecked(e);
+      } catch (NoSuchFieldException e) {
         throw new RuntimeException(e);
+      } catch (RuntimeException e) {
+        throw e;
       }
     }
 
@@ -1376,6 +1400,34 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
     @Override
     boolean casListeners(AbstractFuture<?> future, @CheckForNull Listener expect, Listener update) {
       return UNSAFE.compareAndSwapObject(future, LISTENERS_OFFSET, expect, update);
+    }
+
+    /** Performs a GAS operation on the {@link #listeners} field. */
+    @Override
+    Listener gasListeners(AbstractFuture<?> future, Listener update) {
+      while (true) {
+        Listener listener = future.listeners;
+        if (update == listener) {
+          return listener;
+        }
+        if (casListeners(future, listener, update)) {
+          return listener;
+        }
+      }
+    }
+
+    /** Performs a GAS operation on the {@link #waiters} field. */
+    @Override
+    Waiter gasWaiters(AbstractFuture<?> future, Waiter update) {
+      while (true) {
+        Waiter waiter = future.waiters;
+        if (update == waiter) {
+          return waiter;
+        }
+        if (casWaiters(future, waiter, update)) {
+          return waiter;
+        }
+      }
     }
 
     /** Performs a CAS operation on the {@link #value} field. */
@@ -1428,6 +1480,18 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
       return listenersUpdater.compareAndSet(future, expect, update);
     }
 
+    /** Performs a GAS operation on the {@link #listeners} field. */
+    @Override
+    Listener gasListeners(AbstractFuture<?> future, Listener update) {
+      return listenersUpdater.getAndSet(future, update);
+    }
+
+    /** Performs a GAS operation on the {@link #waiters} field. */
+    @Override
+    Waiter gasWaiters(AbstractFuture<?> future, Waiter update) {
+      return waitersUpdater.getAndSet(future, update);
+    }
+
     @Override
     boolean casValue(AbstractFuture<?> future, @CheckForNull Object expect, Object update) {
       return valueUpdater.compareAndSet(future, expect, update);
@@ -1471,6 +1535,30 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
           return true;
         }
         return false;
+      }
+    }
+
+    /** Performs a GAS operation on the {@link #listeners} field. */
+    @Override
+    Listener gasListeners(AbstractFuture<?> future, Listener update) {
+      synchronized (future) {
+        Listener old = future.listeners;
+        if (old != update) {
+          future.listeners = update;
+        }
+        return old;
+      }
+    }
+
+    /** Performs a GAS operation on the {@link #waiters} field. */
+    @Override
+    Waiter gasWaiters(AbstractFuture<?> future, Waiter update) {
+      synchronized (future) {
+        Waiter old = future.waiters;
+        if (old != update) {
+          future.waiters = update;
+        }
+        return old;
       }
     }
 

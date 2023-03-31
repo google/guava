@@ -15,10 +15,9 @@
 package com.google.common.base;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Determines a true or false value for a given input; a pre-Java-8 version of {@link
@@ -64,8 +63,7 @@ public interface Predicate<T extends @Nullable Object> {
    * @throws NullPointerException if {@code input} is null and this predicate does not accept null
    *     arguments
    */
-  @CanIgnoreReturnValue
-  boolean apply(T input);
+  boolean apply(@ParametricNullness T input);
 
   /**
    * Indicates whether another object is equal to this predicate.

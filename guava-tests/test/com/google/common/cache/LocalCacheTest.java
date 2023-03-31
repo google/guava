@@ -98,7 +98,6 @@ public class LocalCacheTest extends TestCase {
     }
   }
 
-
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTestSuite(LocalCacheTest.class);
@@ -229,7 +228,7 @@ public class LocalCacheTest extends TestCase {
 
   private Throwable popLoggedThrowable() {
     List<LogRecord> logRecords = logHandler.getStoredLogRecords();
-    assertSame(1, logRecords.size());
+    assertEquals(1, logRecords.size());
     LogRecord logRecord = logRecords.get(0);
     logHandler.clear();
     return logRecord.getThrown();
@@ -327,7 +326,7 @@ public class LocalCacheTest extends TestCase {
   }
 
   public void testSetConcurrencyLevel() {
-    // round up to nearest power of two
+    // round up to the nearest power of two
 
     checkConcurrencyLevel(1, 1);
     checkConcurrencyLevel(2, 2);
@@ -346,7 +345,7 @@ public class LocalCacheTest extends TestCase {
   }
 
   public void testSetInitialCapacity() {
-    // share capacity over each segment, then round up to nearest power of two
+    // share capacity over each segment, then round up to the nearest power of two
 
     checkInitialCapacity(1, 0, 1);
     checkInitialCapacity(1, 1, 1);
@@ -714,7 +713,6 @@ public class LocalCacheTest extends TestCase {
     assertTrue(notifications.toString(), notifications.isEmpty());
   }
 
-
   public void testCopyEntry_computing() {
     final CountDownLatch startSignal = new CountDownLatch(1);
     final CountDownLatch computingSignal = new CountDownLatch(1);
@@ -815,7 +813,6 @@ public class LocalCacheTest extends TestCase {
     cache.remove(key);
     checkLogged(e);
   }
-
 
   public void testRemovalListener_replaced_computing() {
     final CountDownLatch startSignal = new CountDownLatch(1);

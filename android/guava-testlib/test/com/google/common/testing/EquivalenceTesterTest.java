@@ -113,7 +113,7 @@ public class EquivalenceTesterTest extends TestCase {
     fail();
   }
 
-  public void testTest_trasitive() {
+  public void testTest_transitive() {
     Object group1Item1 = new TestObject(1, 1);
     Object group1Item2 = new TestObject(1, 2);
     Object group1Item3 = new TestObject(1, 3);
@@ -237,7 +237,7 @@ public class EquivalenceTesterTest extends TestCase {
     void replay() {
       checkRecording();
       equivalentExpectations = equivalentExpectationsBuilder.build();
-      hashExpectations = hashExpectationsBuilder.build();
+      hashExpectations = hashExpectationsBuilder.buildOrThrow();
     }
 
     @Override

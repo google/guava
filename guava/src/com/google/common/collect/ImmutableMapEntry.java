@@ -20,7 +20,7 @@ import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
 
 import com.google.common.annotations.GwtIncompatible;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Implementation of {@code Entry} for {@link ImmutableMap} that adds extra methods to traverse hash
@@ -81,7 +81,7 @@ class ImmutableMapEntry<K, V> extends ImmutableEntry<K, V> {
   static class NonTerminalImmutableMapEntry<K, V> extends ImmutableMapEntry<K, V> {
     /*
      * Yes, we sometimes set nextInKeyBucket to null, even for this "non-terminal" entry. We don't
-     * do that with a plain NonTerminalImmutableMapEntry, but we do do it with the BiMap-specific
+     * do that with a plain NonTerminalImmutableMapEntry, but we do it with the BiMap-specific
      * subclass below. That's because the Entry might be non-terminal in the key bucket but terminal
      * in the value bucket (or vice versa).
      */

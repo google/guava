@@ -34,8 +34,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Implementation of {@link Multimaps#filterEntries(Multimap, Predicate)}.
@@ -70,19 +70,19 @@ class FilteredEntryMultimap<K extends @Nullable Object, V extends @Nullable Obje
     return entries().size();
   }
 
-  private boolean satisfies(K key, V value) {
+  private boolean satisfies(@ParametricNullness K key, @ParametricNullness V value) {
     return predicate.apply(Maps.immutableEntry(key, value));
   }
 
   final class ValuePredicate implements Predicate<V> {
-    private final K key;
+    @ParametricNullness private final K key;
 
-    ValuePredicate(K key) {
+    ValuePredicate(@ParametricNullness K key) {
       this.key = key;
     }
 
     @Override
-    public boolean apply(V value) {
+    public boolean apply(@ParametricNullness V value) {
       return satisfies(key, value);
     }
   }
@@ -119,7 +119,7 @@ class FilteredEntryMultimap<K extends @Nullable Object, V extends @Nullable Obje
   }
 
   @Override
-  public Collection<V> get(final K key) {
+  public Collection<V> get(@ParametricNullness K key) {
     return filterCollection(unfiltered.get(key), new ValuePredicate(key));
   }
 
@@ -397,15 +397,11 @@ class FilteredEntryMultimap<K extends @Nullable Object, V extends @Nullable Obje
           return FilteredEntryMultimap.this.keySet().size();
         }
 
-        private boolean removeEntriesIf(final Predicate<? super Multiset.Entry<K>> predicate) {
+        private boolean removeEntriesIf(Predicate<? super Multiset.Entry<K>> predicate) {
           return FilteredEntryMultimap.this.removeEntriesIf(
-              new Predicate<Map.Entry<K, Collection<V>>>() {
-                @Override
-                public boolean apply(Map.Entry<K, Collection<V>> entry) {
-                  return predicate.apply(
-                      Multisets.immutableEntry(entry.getKey(), entry.getValue().size()));
-                }
-              });
+              (Map.Entry<K, Collection<V>> entry) ->
+                  predicate.apply(
+                      Multisets.immutableEntry(entry.getKey(), entry.getValue().size())));
         }
 
         @Override

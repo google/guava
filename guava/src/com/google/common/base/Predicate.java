@@ -15,10 +15,9 @@
 package com.google.common.base;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Legacy version of {@link java.util.function.Predicate java.util.function.Predicate}. Determines a
@@ -61,8 +60,7 @@ public interface Predicate<T extends @Nullable Object> extends java.util.functio
    * @throws NullPointerException if {@code input} is null and this predicate does not accept null
    *     arguments
    */
-  @CanIgnoreReturnValue
-  boolean apply(T input);
+  boolean apply(@ParametricNullness T input);
 
   /**
    * Indicates whether another object is equal to this predicate.
@@ -78,7 +76,7 @@ public interface Predicate<T extends @Nullable Object> extends java.util.functio
   boolean equals(@CheckForNull Object object);
 
   @Override
-  default boolean test(T input) {
+  default boolean test(@ParametricNullness T input) {
     return apply(input);
   }
 }

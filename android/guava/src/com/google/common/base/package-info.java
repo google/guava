@@ -53,8 +53,11 @@
  *   <li>{@link com.google.common.base.Stopwatch}
  *   <li>{@link com.google.common.base.Throwables}
  * </ul>
+ *
  */
 @CheckReturnValue
+@ParametersAreNonnullByDefault
 package com.google.common.base;
 
 import com.google.errorprone.annotations.CheckReturnValue;
+import javax.annotation.ParametersAreNonnullByDefault;

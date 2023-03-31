@@ -14,8 +14,8 @@ package com.google.common.cache;
 import com.google.common.annotations.GwtIncompatible;
 import java.util.Random;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A package-local class holding common representation and mechanics for classes supporting dynamic

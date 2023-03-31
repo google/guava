@@ -522,7 +522,10 @@ public class BloomFilterTest extends TestCase {
     ByteArrayOutputStream out = new ByteArrayOutputStream();
     bf.writeTo(out);
 
-    assertEquals(bf, BloomFilter.readFrom(new ByteArrayInputStream(out.toByteArray()), funnel));
+    BloomFilter<byte[]> read =
+        BloomFilter.readFrom(new ByteArrayInputStream(out.toByteArray()), funnel);
+    assertThat(read).isEqualTo(bf);
+    assertThat(read.expectedFpp()).isGreaterThan(0);
   }
 
   /**

@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -30,7 +31,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Extracts non-overlapping substrings from an input string, typically by recognizing appearances of
@@ -215,6 +216,7 @@ public final class Splitter {
    * @return a splitter, with default settings, that uses this pattern
    * @throws IllegalArgumentException if {@code separatorPattern} matches the empty string
    */
+  @J2ktIncompatible
   @GwtIncompatible // java.util.regex
   public static Splitter on(Pattern separatorPattern) {
     return on(new JdkPattern(separatorPattern));
@@ -258,6 +260,7 @@ public final class Splitter {
    * @throws IllegalArgumentException if {@code separatorPattern} matches the empty string or is a
    *     malformed expression
    */
+  @J2ktIncompatible
   @GwtIncompatible // java.util.regex
   public static Splitter onPattern(String separatorPattern) {
     return on(Platform.compilePattern(separatorPattern));

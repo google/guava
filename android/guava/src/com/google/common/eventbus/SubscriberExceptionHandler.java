@@ -14,7 +14,7 @@
 
 package com.google.common.eventbus;
 
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Handler for exceptions thrown by event subscribers.

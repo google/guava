@@ -19,7 +19,7 @@ package com.google.common.collect;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.DoNotCall;
 import java.util.stream.Collector;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * "Overrides" the {@link ImmutableSet} static methods that lack {@link ImmutableSortedSet}
@@ -40,7 +40,7 @@ import org.jspecify.nullness.NullMarked;
  */
 @GwtIncompatible
 @NullMarked
-abstract class ImmutableSortedSetFauxverideShim<E> extends ImmutableSet<E> {
+abstract class ImmutableSortedSetFauxverideShim<E> extends ImmutableSet.CachingAsList<E> {
   /**
    * Not supported. Use {@link ImmutableSortedSet#toImmutableSortedSet} instead. This method exists
    * only to hide {@link ImmutableSet#toImmutableSet} from consumers of {@code ImmutableSortedSet}.

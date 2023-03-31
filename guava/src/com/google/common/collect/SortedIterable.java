@@ -17,8 +17,8 @@ package com.google.common.collect;
 import com.google.common.annotations.GwtCompatible;
 import java.util.Comparator;
 import java.util.Iterator;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An {@code Iterable} whose elements are sorted relative to a {@code Comparator}, typically

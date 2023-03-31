@@ -150,7 +150,7 @@ public class MathTesting {
 
   static {
     ImmutableSet.Builder<Long> longValues = ImmutableSet.builder();
-    // First of all add all the integer candidate values.
+    // First add all the integer candidate values.
     longValues.addAll(Iterables.transform(POSITIVE_INTEGER_CANDIDATES, TO_LONG));
     // Add boundary values manually to avoid over/under flow (this covers 2^N for 31 and 63).
     longValues.add(Integer.MAX_VALUE + 1L, Long.MAX_VALUE - 1L, Long.MAX_VALUE);
@@ -185,7 +185,7 @@ public class MathTesting {
 
   static {
     ImmutableSet.Builder<BigInteger> bigValues = ImmutableSet.builder();
-    // First of all add all the long candidate values.
+    // First add all the long candidate values.
     bigValues.addAll(Iterables.transform(POSITIVE_LONG_CANDIDATES, TO_BIGINTEGER));
     // Add boundary values manually to avoid over/under flow.
     bigValues.add(BigInteger.valueOf(Long.MAX_VALUE).add(ONE));

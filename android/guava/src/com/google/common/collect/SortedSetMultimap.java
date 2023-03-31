@@ -25,8 +25,8 @@ import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A {@code SetMultimap} whose set of values for a given key are kept sorted; that is, they comprise
@@ -44,8 +44,7 @@ import org.jspecify.nullness.Nullable;
  * position in the order of the values). Undefined behavior and bugs will result.
  *
  * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multimap"> {@code
- * Multimap}</a>.
+ * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multimap">{@code Multimap}</a>.
  *
  * @author Jared Levy
  * @since 2.0
@@ -67,7 +66,7 @@ public interface SortedSetMultimap<K extends @Nullable Object, V extends @Nullab
    * {@link Multimap} interface.
    */
   @Override
-  SortedSet<V> get(K key);
+  SortedSet<V> get(@ParametricNullness K key);
 
   /**
    * Removes all values associated with a given key.
@@ -91,7 +90,7 @@ public interface SortedSetMultimap<K extends @Nullable Object, V extends @Nullab
    */
   @CanIgnoreReturnValue
   @Override
-  SortedSet<V> replaceValues(K key, Iterable<? extends V> values);
+  SortedSet<V> replaceValues(@ParametricNullness K key, Iterable<? extends V> values);
 
   /**
    * Returns a map view that associates each key with the corresponding values in the multimap.

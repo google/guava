@@ -24,8 +24,8 @@ import java.util.Comparator;
 import java.util.NoSuchElementException;
 import java.util.SortedMap;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A sorted map which forwards all its method calls to another sorted map. Subclasses should
@@ -71,27 +71,29 @@ public abstract class ForwardingSortedMap<K extends @Nullable Object, V extends 
   }
 
   @Override
+  @ParametricNullness
   public K firstKey() {
     return delegate().firstKey();
   }
 
   @Override
-  public SortedMap<K, V> headMap(K toKey) {
+  public SortedMap<K, V> headMap(@ParametricNullness K toKey) {
     return delegate().headMap(toKey);
   }
 
   @Override
+  @ParametricNullness
   public K lastKey() {
     return delegate().lastKey();
   }
 
   @Override
-  public SortedMap<K, V> subMap(K fromKey, K toKey) {
+  public SortedMap<K, V> subMap(@ParametricNullness K fromKey, @ParametricNullness K toKey) {
     return delegate().subMap(fromKey, toKey);
   }
 
   @Override
-  public SortedMap<K, V> tailMap(K fromKey) {
+  public SortedMap<K, V> tailMap(@ParametricNullness K fromKey) {
     return delegate().tailMap(fromKey);
   }
 

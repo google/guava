@@ -19,6 +19,7 @@ import static com.google.common.base.Preconditions.checkPositionIndexes;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.Closeable;
 import java.io.EOFException;
@@ -29,13 +30,11 @@ import java.nio.CharBuffer;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Provides utility methods for working with character streams.
- *
- * <p>All method parameters must be non-null unless documented otherwise.
  *
  * <p>Some of the methods in this class take arguments with a generic type of {@code Readable &
  * Closeable}. A {@link java.io.Reader} implements both of those interfaces. Similarly for {@code
@@ -46,6 +45,7 @@ import org.jspecify.nullness.Nullable;
  * @author Colin Decker
  * @since 1.0
  */
+@J2ktIncompatible
 @GwtIncompatible
 @NullMarked
 public final class CharStreams {
@@ -218,6 +218,7 @@ public final class CharStreams {
    */
   @Beta
   @CanIgnoreReturnValue // some processors won't return a useful result
+  @ParametricNullness
   public static <T extends @Nullable Object> T readLines(
       Readable readable, LineProcessor<T> processor) throws IOException {
     checkNotNull(readable);

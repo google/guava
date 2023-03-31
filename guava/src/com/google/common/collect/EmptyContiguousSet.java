@@ -15,11 +15,14 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
+import java.io.InvalidObjectException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * An empty contiguous set.
@@ -143,6 +146,7 @@ final class EmptyContiguousSet<C extends Comparable> extends ContiguousSet<C> {
   }
 
   @GwtIncompatible // serialization
+  @J2ktIncompatible
   private static final class SerializedForm<C extends Comparable> implements Serializable {
     private final DiscreteDomain<C> domain;
 
@@ -151,21 +155,28 @@ final class EmptyContiguousSet<C extends Comparable> extends ContiguousSet<C> {
     }
 
     private Object readResolve() {
-      return new EmptyContiguousSet<C>(domain);
+      return new EmptyContiguousSet<>(domain);
     }
 
     private static final long serialVersionUID = 0;
   }
 
   @GwtIncompatible // serialization
+  @J2ktIncompatible
   @Override
   Object writeReplace() {
-    return new SerializedForm<C>(domain);
+    return new SerializedForm<>(domain);
+  }
+
+  @GwtIncompatible // serialization
+  @J2ktIncompatible
+  private void readObject(ObjectInputStream stream) throws InvalidObjectException {
+    throw new InvalidObjectException("Use SerializedForm");
   }
 
   @GwtIncompatible // NavigableSet
   @Override
   ImmutableSortedSet<C> createDescendingSet() {
-    return ImmutableSortedSet.emptySet(Ordering.natural().reverse());
+    return ImmutableSortedSet.emptySet(Ordering.<C>natural().reverse());
   }
 }

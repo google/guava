@@ -19,8 +19,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.GwtCompatible;
 import java.util.AbstractMap.SimpleImmutableEntry;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A notification of the removal of a single entry. The key and/or value may be null if they were
@@ -48,7 +48,7 @@ public final class RemovalNotification<K, V>
    */
   public static <K, V> RemovalNotification<K, V> create(
       @CheckForNull K key, @CheckForNull V value, RemovalCause cause) {
-    return new RemovalNotification(key, value, cause);
+    return new RemovalNotification<>(key, value, cause);
   }
 
   private RemovalNotification(@CheckForNull K key, @CheckForNull V value, RemovalCause cause) {

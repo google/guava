@@ -25,7 +25,7 @@ import com.google.errorprone.annotations.DoNotCall;
 import java.util.Collections;
 import java.util.NoSuchElementException;
 import java.util.Set;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * A sorted set of contiguous values in a given {@link DiscreteDomain}. Example:
@@ -243,10 +243,10 @@ public abstract class ContiguousSet<C extends Comparable> extends ImmutableSorte
   @Override
   @GwtIncompatible // NavigableSet
   ImmutableSortedSet<C> createDescendingSet() {
-    return new DescendingImmutableSortedSet<C>(this);
+    return new DescendingImmutableSortedSet<>(this);
   }
 
-  /** Returns a short-hand representation of the contents such as {@code "[1..100]"}. */
+  /** Returns a shorthand representation of the contents such as {@code "[1..100]"}. */
   @Override
   public String toString() {
     return range().toString();

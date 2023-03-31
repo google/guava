@@ -74,13 +74,8 @@ final class Platform {
   }
 
   static <T> T[] newArray(T[] reference, int length) {
-    T[] clone = Arrays.copyOf(reference, 0);
-    resizeArray(clone, length);
-    return clone;
-  }
-
-  private static void resizeArray(Object array, int newSize) {
-    ((NativeArray) array).setLength(newSize);
+    T[] empty = reference.length == 0 ? reference : Arrays.copyOf(reference, 0);
+    return Arrays.copyOf(empty, length);
   }
 
   /** Equivalent to Arrays.copyOfRange(source, from, to, arrayOfType.getClass()). */

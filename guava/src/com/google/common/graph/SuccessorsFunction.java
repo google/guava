@@ -18,7 +18,7 @@ package com.google.common.graph;
 
 import com.google.common.annotations.Beta;
 import com.google.errorprone.annotations.DoNotMock;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * A functional interface for <a

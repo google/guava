@@ -22,11 +22,12 @@ import static java.lang.Double.isNaN;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import java.util.Iterator;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * A mutable object which accumulates double values and tracks some basic statistics over all the
@@ -37,6 +38,7 @@ import org.jspecify.nullness.NullMarked;
  * @since 20.0
  */
 @Beta
+@J2ktIncompatible
 @GwtIncompatible
 @NullMarked
 public final class StatsAccumulator {

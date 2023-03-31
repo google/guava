@@ -16,7 +16,10 @@
 
 package com.google.common.util.concurrent;
 
+import org.jspecify.annotations.NullMarked;
+
 /** Methods factored out so that they can be emulated differently in GWT. */
+@NullMarked
 final class Platform {
   static boolean isInstanceOfThrowableClass(Throwable t, Class<? extends Throwable> expectedClass) {
     /*
@@ -25,6 +28,8 @@ final class Platform {
      */
     return true;
   }
+
+  static void restoreInterruptIfIsInterruptedException(Throwable t) {}
 
   private Platform() {}
 }

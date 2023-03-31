@@ -20,12 +20,13 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import java.io.Serializable;
 import java.util.Map.Entry;
 import java.util.Spliterator;
 import java.util.function.Consumer;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * {@code values()} implementation for {@link ImmutableMap}.
@@ -104,6 +105,7 @@ final class ImmutableMapValues<K, V> extends ImmutableCollection<V> {
 
   // No longer used for new writes, but kept so that old data can still be read.
   @GwtIncompatible // serialization
+  @J2ktIncompatible
   @SuppressWarnings("unused")
   private static class SerializedForm<V> implements Serializable {
     final ImmutableMap<?, V> map;

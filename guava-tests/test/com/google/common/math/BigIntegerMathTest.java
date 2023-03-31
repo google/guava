@@ -41,6 +41,7 @@ import static java.util.Arrays.asList;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.testing.NullPointerTester;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
@@ -558,6 +559,7 @@ public class BigIntegerMathTest extends TestCase {
       this.input = input;
     }
 
+    @CanIgnoreReturnValue
     RoundToDoubleTester setExpectation(double expectedValue, RoundingMode... modes) {
       for (RoundingMode mode : modes) {
         Double previous = expectedValues.put(mode, expectedValue);
@@ -568,6 +570,7 @@ public class BigIntegerMathTest extends TestCase {
       return this;
     }
 
+    @CanIgnoreReturnValue
     public RoundToDoubleTester roundUnnecessaryShouldThrow() {
       unnecessaryShouldThrow = true;
       return this;

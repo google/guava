@@ -178,6 +178,7 @@ public class ClassPathTest extends TestCase {
     assertThat(ClassPath.from(classloader).getTopLevelClasses()).isNotEmpty();
   }
 
+  @AndroidIncompatible // ClassPath is documented as not supporting Android
 
   public void testScan_classPathCycle() throws IOException {
     File jarFile = File.createTempFile("with_circular_class_path", ".jar");
@@ -201,6 +202,7 @@ public class ClassPathTest extends TestCase {
         .isEmpty();
   }
 
+  @AndroidIncompatible // ClassPath is documented as not supporting Android
 
   public void testScanFromFile_notJarFile() throws IOException {
     ClassLoader classLoader = ClassPathTest.class.getClassLoader();
@@ -399,6 +401,7 @@ public class ClassPathTest extends TestCase {
         .testAllPublicInstanceMethods(ClassPath.from(getClass().getClassLoader()));
   }
 
+  @AndroidIncompatible // ClassPath is documented as not supporting Android
 
   public void testLocationsFrom_idempotentScan() throws IOException {
     ImmutableSet<ClassPath.LocationInfo> locations =
@@ -429,6 +432,7 @@ public class ClassPathTest extends TestCase {
         .testEquals();
   }
 
+  @AndroidIncompatible // ClassPath is documented as not supporting Android
 
   public void testScanAllResources() throws IOException {
     assertThat(scanResourceNames(ClassLoader.getSystemClassLoader()))

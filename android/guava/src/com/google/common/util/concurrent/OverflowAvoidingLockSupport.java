@@ -18,7 +18,7 @@ import static java.lang.Math.min;
 
 import java.util.concurrent.locks.LockSupport;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Works around an android bug, where parking for more than INT_MAX seconds can produce an abort

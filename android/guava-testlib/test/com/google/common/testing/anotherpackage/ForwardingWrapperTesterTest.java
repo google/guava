@@ -28,6 +28,7 @@ import com.google.common.primitives.UnsignedInteger;
 import com.google.common.primitives.UnsignedLong;
 import com.google.common.testing.ForwardingWrapperTester;
 import com.google.common.testing.NullPointerTester;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.concurrent.TimeUnit;
@@ -255,7 +256,7 @@ public class ForwardingWrapperTesterTest extends TestCase {
         new Function<Adder, Adder>() {
           @Override
           public Adder apply(Adder adder) {
-            return new FailsToPropagageException(adder);
+            return new FailsToPropagateException(adder);
           }
         },
         "add(",
@@ -373,10 +374,10 @@ public class ForwardingWrapperTesterTest extends TestCase {
     }
   }
 
-  private static class FailsToPropagageException implements Adder {
+  private static class FailsToPropagateException implements Adder {
     private final Adder adder;
 
-    FailsToPropagageException(Adder adder) {
+    FailsToPropagateException(Adder adder) {
       this.adder = adder;
     }
 
@@ -579,6 +580,7 @@ public class ForwardingWrapperTesterTest extends TestCase {
   /** An interface for the 2 ways that a chaining call might be defined. */
   private interface ChainingCalls {
     // A method that is defined to 'return this'
+    @CanIgnoreReturnValue
     ChainingCalls chainingCall();
     // A method that just happens to return a ChainingCalls object
     ChainingCalls nonChainingCall();
@@ -591,6 +593,7 @@ public class ForwardingWrapperTesterTest extends TestCase {
       this.delegate = delegate;
     }
 
+    @CanIgnoreReturnValue
     @Override
     public ForwardingChainingCalls chainingCall() {
       delegate.chainingCall();

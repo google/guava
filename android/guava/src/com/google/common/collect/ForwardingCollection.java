@@ -22,8 +22,8 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Collection;
 import java.util.Iterator;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A collection which forwards all its method calls to another collection. Subclasses should
@@ -87,7 +87,7 @@ public abstract class ForwardingCollection<E extends @Nullable Object> extends F
 
   @CanIgnoreReturnValue
   @Override
-  public boolean add(E element) {
+  public boolean add(@ParametricNullness E element) {
     return delegate().add(element);
   }
 

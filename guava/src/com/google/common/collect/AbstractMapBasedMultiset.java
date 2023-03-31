@@ -25,6 +25,7 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.InvalidObjectException;
@@ -36,8 +37,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.ObjIntConsumer;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Basic implementation of {@code Multiset<E>} backed by an instance of {@code Map<E, Count>}.
@@ -98,6 +99,7 @@ abstract class AbstractMapBasedMultiset<E extends @Nullable Object> extends Abst
       }
 
       @Override
+      @ParametricNullness
       public E next() {
         final Map.Entry<E, Count> mapEntry = backingEntries.next();
         toRemove = mapEntry;
@@ -131,6 +133,7 @@ abstract class AbstractMapBasedMultiset<E extends @Nullable Object> extends Abst
         toRemove = mapEntry;
         return new Multisets.AbstractEntry<E>() {
           @Override
+          @ParametricNullness
           public E getElement() {
             return mapEntry.getKey();
           }
@@ -212,6 +215,7 @@ abstract class AbstractMapBasedMultiset<E extends @Nullable Object> extends Abst
     }
 
     @Override
+    @ParametricNullness
     public E next() {
       if (occurrencesLeft == 0) {
         currentEntry = entryIterator.next();
@@ -261,7 +265,7 @@ abstract class AbstractMapBasedMultiset<E extends @Nullable Object> extends Abst
    */
   @CanIgnoreReturnValue
   @Override
-  public int add(E element, int occurrences) {
+  public int add(@ParametricNullness E element, int occurrences) {
     if (occurrences == 0) {
       return count(element);
     }
@@ -311,7 +315,7 @@ abstract class AbstractMapBasedMultiset<E extends @Nullable Object> extends Abst
   // Roughly a 33% performance improvement over AbstractMultiset.setCount().
   @CanIgnoreReturnValue
   @Override
-  public int setCount(E element, int count) {
+  public int setCount(@ParametricNullness E element, int count) {
     checkNonnegative(count, "count");
 
     Count existingCounter;
@@ -342,10 +346,12 @@ abstract class AbstractMapBasedMultiset<E extends @Nullable Object> extends Abst
 
   // Don't allow default serialization.
   @GwtIncompatible // java.io.ObjectStreamException
+  @J2ktIncompatible
   private void readObjectNoData() throws ObjectStreamException {
     throw new InvalidObjectException("Stream data required");
   }
 
   @GwtIncompatible // not needed in emulated source.
+  @J2ktIncompatible
   private static final long serialVersionUID = -2250766705698539974L;
 }

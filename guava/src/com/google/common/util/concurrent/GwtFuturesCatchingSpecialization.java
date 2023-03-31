@@ -15,7 +15,7 @@
 package com.google.common.util.concurrent;
 
 import com.google.common.annotations.GwtCompatible;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Hidden superclass of {@link Futures} that provides us a place to declare special GWT versions of

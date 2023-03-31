@@ -14,6 +14,7 @@
 
 package com.google.common.util.concurrent;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static java.lang.Double.doubleToRawLongBits;
 import static java.lang.Double.longBitsToDouble;
 
@@ -21,7 +22,9 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.j2objc.annotations.ReflectionSupport;
 import java.util.concurrent.atomic.AtomicLongFieldUpdater;
-import org.jspecify.nullness.NullMarked;
+import java.util.function.DoubleBinaryOperator;
+import java.util.function.DoubleUnaryOperator;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * A {@code double} value that may be updated atomically. See the {@link
@@ -156,15 +159,7 @@ public class AtomicDouble extends Number implements java.io.Serializable {
    */
   @CanIgnoreReturnValue
   public final double getAndAdd(double delta) {
-    while (true) {
-      long current = value;
-      double currentVal = longBitsToDouble(current);
-      double nextVal = currentVal + delta;
-      long next = doubleToRawLongBits(nextVal);
-      if (updater.compareAndSet(this, current, next)) {
-        return currentVal;
-      }
-    }
+    return getAndAccumulate(delta, Double::sum);
   }
 
   /**
@@ -175,10 +170,72 @@ public class AtomicDouble extends Number implements java.io.Serializable {
    */
   @CanIgnoreReturnValue
   public final double addAndGet(double delta) {
+    return accumulateAndGet(delta, Double::sum);
+  }
+
+  /**
+   * Atomically updates the current value with the results of applying the given function to the
+   * current and given values.
+   *
+   * @param x the update value
+   * @param accumulatorFunction the accumulator function
+   * @return the previous value
+   * @since 31.1
+   */
+  @CanIgnoreReturnValue
+  public final double getAndAccumulate(double x, DoubleBinaryOperator accumulatorFunction) {
+    checkNotNull(accumulatorFunction);
+    return getAndUpdate(oldValue -> accumulatorFunction.applyAsDouble(oldValue, x));
+  }
+
+  /**
+   * Atomically updates the current value with the results of applying the given function to the
+   * current and given values.
+   *
+   * @param x the update value
+   * @param accumulatorFunction the accumulator function
+   * @return the updated value
+   * @since 31.1
+   */
+  @CanIgnoreReturnValue
+  public final double accumulateAndGet(double x, DoubleBinaryOperator accumulatorFunction) {
+    checkNotNull(accumulatorFunction);
+    return updateAndGet(oldValue -> accumulatorFunction.applyAsDouble(oldValue, x));
+  }
+
+  /**
+   * Atomically updates the current value with the results of applying the given function.
+   *
+   * @param updateFunction the update function
+   * @return the previous value
+   * @since 31.1
+   */
+  @CanIgnoreReturnValue
+  public final double getAndUpdate(DoubleUnaryOperator updateFunction) {
     while (true) {
       long current = value;
       double currentVal = longBitsToDouble(current);
-      double nextVal = currentVal + delta;
+      double nextVal = updateFunction.applyAsDouble(currentVal);
+      long next = doubleToRawLongBits(nextVal);
+      if (updater.compareAndSet(this, current, next)) {
+        return currentVal;
+      }
+    }
+  }
+
+  /**
+   * Atomically updates the current value with the results of applying the given function.
+   *
+   * @param updateFunction the update function
+   * @return the updated value
+   * @since 31.1
+   */
+  @CanIgnoreReturnValue
+  public final double updateAndGet(DoubleUnaryOperator updateFunction) {
+    while (true) {
+      long current = value;
+      double currentVal = longBitsToDouble(current);
+      double nextVal = updateFunction.applyAsDouble(currentVal);
       long next = doubleToRawLongBits(nextVal);
       if (updater.compareAndSet(this, current, next)) {
         return nextVal;

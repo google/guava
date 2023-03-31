@@ -27,19 +27,18 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.concurrent.TimeUnit;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * An object that accurately measures <i>elapsed time</i>: the measured duration between two
  * successive readings of "now" in the same process.
  *
- * <p>In contrast, <i>wall time</i> is a reading of "now" as given by a method like {@link
- * System#currentTimeMillis()}, best represented as an {@link Instant}. Such values
- *
- * <p><i>can</i> be subtracted to obtain a {@code Duration} (such as by {@code Duration.between}),
- * but doing so does <i>not</i> give a reliable measurement of elapsed time, because wall time
- * readings are inherently approximate, routinely affected by periodic clock corrections. Because
- * this class (by default) uses {@link System#nanoTime}, it is unaffected by these changes.
+ * <p>In contrast, <i>wall time</i> is a reading of "now" as given by a method like
+ * {@link System#currentTimeMillis()}, best represented as an {@link java.time.Instant}. Such values
+ * <i>can</i> be subtracted to obtain a {@code Duration} (such as by {@code Duration.between}), but
+ * doing so does <i>not</i> give a reliable measurement of elapsed time, because wall time readings
+ * are inherently approximate, routinely affected by periodic clock corrections. Because this class
+ * (by default) uses {@link System#nanoTime}, it is unaffected by these changes.
  *
  * <p>Use this class instead of direct calls to {@link System#nanoTime} for two reasons:
  *
@@ -49,6 +48,12 @@ import org.jspecify.nullness.NullMarked;
  *   <li>An alternative source of nanosecond ticks can be substituted, for example for testing or
  *       performance reasons, without affecting most of your code.
  * </ul>
+ *
+ * <p>The one downside of {@code Stopwatch} relative to {@link System#nanoTime()} is that {@code
+ * Stopwatch} requires object allocation and additional method calls, which can reduce the accuracy
+ * of the elapsed times reported. {@code Stopwatch} is still suitable for logging and metrics where
+ * reasonably accurate values are sufficient. If the uncommon case that you need to maximize
+ * accuracy, use {@code System.nanoTime()} directly instead.
  *
  * <p>Basic usage:
  *
@@ -78,7 +83,7 @@ import org.jspecify.nullness.NullMarked;
  * Stopwatch.createStarted(
  *      new Ticker() {
  *        public long read() {
- *          return android.os.SystemClock.elapsedRealtimeNanos();
+ *          return android.os.SystemClock.elapsedRealtimeNanos(); // requires API Level 17
  *        }
  *      });
  * }</pre>

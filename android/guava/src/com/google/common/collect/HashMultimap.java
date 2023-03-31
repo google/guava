@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
 import java.io.IOException;
@@ -26,8 +27,8 @@ import java.io.ObjectOutputStream;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Implementation of {@link Multimap} using hash tables.
@@ -132,12 +133,14 @@ public final class HashMultimap<K extends @Nullable Object, V extends @Nullable 
    *     key, number of values for that key, and the key's values
    */
   @GwtIncompatible // java.io.ObjectOutputStream
+  @J2ktIncompatible
   private void writeObject(ObjectOutputStream stream) throws IOException {
     stream.defaultWriteObject();
     Serialization.writeMultimap(this, stream);
   }
 
   @GwtIncompatible // java.io.ObjectInputStream
+  @J2ktIncompatible
   private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
     stream.defaultReadObject();
     expectedValuesPerKey = DEFAULT_VALUES_PER_KEY;
@@ -148,5 +151,6 @@ public final class HashMultimap<K extends @Nullable Object, V extends @Nullable 
   }
 
   @GwtIncompatible // Not needed in emulated source
+  @J2ktIncompatible
   private static final long serialVersionUID = 0;
 }

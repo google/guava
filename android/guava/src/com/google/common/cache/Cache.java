@@ -18,7 +18,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.util.concurrent.ExecutionError;
 import com.google.common.util.concurrent.UncheckedExecutionException;
-import com.google.errorprone.annotations.CheckReturnValue;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.CompatibleWith;
 import com.google.errorprone.annotations.DoNotMock;
 import java.util.Map;
@@ -26,7 +26,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * A semi-persistent mapping from keys to values. Cache entries are manually added using {@link
@@ -53,6 +53,7 @@ public interface Cache<K, V> {
    * @since 11.0
    */
   @CheckForNull
+  @CanIgnoreReturnValue // TODO(b/27479612): consider removing this?
   V getIfPresent(@CompatibleWith("K") Object key);
 
   /**
@@ -101,6 +102,7 @@ public interface Cache<K, V> {
    * @throws ExecutionError if an error was thrown while loading the value
    * @since 11.0
    */
+  @CanIgnoreReturnValue // TODO(b/27479612): consider removing this
   V get(K key, Callable<? extends V> loader) throws ExecutionException;
 
   /**
@@ -151,7 +153,6 @@ public interface Cache<K, V> {
   void invalidateAll();
 
   /** Returns the approximate number of entries in this cache. */
-  @CheckReturnValue
   long size();
 
   /**
@@ -163,8 +164,8 @@ public interface Cache<K, V> {
    * created using {@link CacheBuilder} only does so if the {@link CacheBuilder#recordStats} method
    * was called. If statistics are not being recorded, a {@code CacheStats} instance with zero for
    * all values is returned.
+   *
    */
-  @CheckReturnValue
   CacheStats stats();
 
   /**
@@ -180,7 +181,6 @@ public interface Cache<K, V> {
    * {@code ConcurrentMap} documentation. They will not function correctly and it is impossible for
    * Guava to fix them until Guava is ready to <i>require</i> Java 8 for all users.
    */
-  @CheckReturnValue
   ConcurrentMap<K, V> asMap();
 
   /**

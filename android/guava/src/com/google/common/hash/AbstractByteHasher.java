@@ -24,7 +24,7 @@ import com.google.common.primitives.Shorts;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Abstract {@link Hasher} that handles converting primitives to bytes using a scratch {@code
@@ -32,7 +32,6 @@ import org.jspecify.nullness.NullMarked;
  *
  * @author Colin Decker
  */
-@CanIgnoreReturnValue
 @NullMarked
 abstract class AbstractByteHasher extends AbstractHasher {
   private final ByteBuffer scratch = ByteBuffer.allocate(8).order(ByteOrder.LITTLE_ENDIAN);
@@ -65,6 +64,7 @@ abstract class AbstractByteHasher extends AbstractHasher {
   }
 
   /** Updates the sink with the given number of bytes from the buffer. */
+  @CanIgnoreReturnValue
   private Hasher update(int bytes) {
     try {
       update(scratch.array(), 0, bytes);
@@ -75,12 +75,14 @@ abstract class AbstractByteHasher extends AbstractHasher {
   }
 
   @Override
+  @CanIgnoreReturnValue
   public Hasher putByte(byte b) {
     update(b);
     return this;
   }
 
   @Override
+  @CanIgnoreReturnValue
   public Hasher putBytes(byte[] bytes) {
     checkNotNull(bytes);
     update(bytes);
@@ -88,6 +90,7 @@ abstract class AbstractByteHasher extends AbstractHasher {
   }
 
   @Override
+  @CanIgnoreReturnValue
   public Hasher putBytes(byte[] bytes, int off, int len) {
     checkPositionIndexes(off, off + len, bytes.length);
     update(bytes, off, len);
@@ -95,30 +98,35 @@ abstract class AbstractByteHasher extends AbstractHasher {
   }
 
   @Override
+  @CanIgnoreReturnValue
   public Hasher putBytes(ByteBuffer bytes) {
     update(bytes);
     return this;
   }
 
   @Override
+  @CanIgnoreReturnValue
   public Hasher putShort(short s) {
     scratch.putShort(s);
     return update(Shorts.BYTES);
   }
 
   @Override
+  @CanIgnoreReturnValue
   public Hasher putInt(int i) {
     scratch.putInt(i);
     return update(Ints.BYTES);
   }
 
   @Override
+  @CanIgnoreReturnValue
   public Hasher putLong(long l) {
     scratch.putLong(l);
     return update(Longs.BYTES);
   }
 
   @Override
+  @CanIgnoreReturnValue
   public Hasher putChar(char c) {
     scratch.putChar(c);
     return update(Chars.BYTES);

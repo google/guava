@@ -473,7 +473,9 @@ public class ByteSourceTest extends IoTestCase {
     }
   }
 
-  /** @return the number of exceptions that were suppressed on the expected thrown exception */
+  /**
+   * @return the number of exceptions that were suppressed on the expected thrown exception
+   */
   private static int runSuppressionFailureTest(ByteSource in, ByteSink out) {
     try {
       in.copyTo(out);

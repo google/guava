@@ -88,7 +88,6 @@ public class ExecutionSequencerTest extends TestCase {
     assertThat(thirdCallable.called).isTrue();
   }
 
-
   public void testCancellationMultipleThreads() throws Exception {
     final BlockingCallable blockingCallable = new BlockingCallable();
     ListenableFuture<Void> unused = serializer.submit(blockingCallable, executor);
@@ -115,7 +114,6 @@ public class ExecutionSequencerTest extends TestCase {
     assertThat(executor.awaitTermination(10, TimeUnit.SECONDS)).isTrue();
     assertThat(getDone(future2)).isFalse();
   }
-
 
   public void testSecondTaskWaitsForFirstEvenIfCancelled() throws Exception {
     final BlockingCallable blockingCallable = new BlockingCallable();
@@ -327,7 +325,6 @@ public class ExecutionSequencerTest extends TestCase {
   private static final int DIRECT_EXECUTIONS_PER_THREAD = 100;
 
   @GwtIncompatible // threads
-
   public void testAvoidsStackOverflow_multipleThreads() throws Exception {
     final LongHolder holder = new LongHolder();
     final ArrayList<ListenableFuture<Integer>> lengthChecks = new ArrayList<>();

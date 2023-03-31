@@ -19,6 +19,7 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.NullnessCasts.uncheckedCastNullableTToT;
+import static java.lang.Math.max;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.j2objc.annotations.Weak;
@@ -33,8 +34,8 @@ import java.util.function.LongConsumer;
 import java.util.function.Predicate;
 import java.util.stream.IntStream;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /** Spliterator utilities for {@code common.collect} internals. */
 @GwtCompatible
@@ -157,7 +158,7 @@ final class CollectSpliterators {
       @CheckForNull T holder = null;
 
       @Override
-      public void accept(T t) {
+      public void accept(@ParametricNullness T t) {
         this.holder = t;
       }
 
@@ -226,7 +227,7 @@ final class CollectSpliterators {
         "flatMap does not support SORTED characteristic");
     checkNotNull(fromSpliterator);
     checkNotNull(function);
-    return new FlatMapSpliteratorOfObject<InElementT, OutElementT>(
+    return new FlatMapSpliteratorOfObject<>(
         null, fromSpliterator, function, topCharacteristics, topSize);
   }
 
@@ -248,7 +249,7 @@ final class CollectSpliterators {
         "flatMap does not support SORTED characteristic");
     checkNotNull(fromSpliterator);
     checkNotNull(function);
-    return new FlatMapSpliteratorOfInt<InElementT>(
+    return new FlatMapSpliteratorOfInt<>(
         null, fromSpliterator, function, topCharacteristics, topSize);
   }
 
@@ -270,7 +271,7 @@ final class CollectSpliterators {
         "flatMap does not support SORTED characteristic");
     checkNotNull(fromSpliterator);
     checkNotNull(function);
-    return new FlatMapSpliteratorOfLong<InElementT>(
+    return new FlatMapSpliteratorOfLong<>(
         null, fromSpliterator, function, topCharacteristics, topSize);
   }
 
@@ -292,7 +293,7 @@ final class CollectSpliterators {
         "flatMap does not support SORTED characteristic");
     checkNotNull(fromSpliterator);
     checkNotNull(function);
-    return new FlatMapSpliteratorOfDouble<InElementT>(
+    return new FlatMapSpliteratorOfDouble<>(
         null, fromSpliterator, function, topCharacteristics, topSize);
   }
 
@@ -410,9 +411,9 @@ final class CollectSpliterators {
     @Override
     public final long estimateSize() {
       if (prefix != null) {
-        estimatedSize = Math.max(estimatedSize, prefix.estimateSize());
+        estimatedSize = max(estimatedSize, prefix.estimateSize());
       }
-      return Math.max(estimatedSize, 0);
+      return max(estimatedSize, 0);
     }
 
     @Override

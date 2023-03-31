@@ -16,12 +16,11 @@ package com.google.common.escape;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
 import java.util.Collections;
 import java.util.Map;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * An implementation-specific parameter class suitable for initializing {@link
@@ -37,7 +36,6 @@ import org.jspecify.nullness.NullMarked;
  * @author David Beaumont
  * @since 15.0
  */
-@Beta
 @GwtCompatible
 @NullMarked
 public final class ArrayBasedEscaperMap {

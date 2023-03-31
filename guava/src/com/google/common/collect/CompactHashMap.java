@@ -25,6 +25,7 @@ import static com.google.common.collect.NullnessCasts.unsafeNull;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
@@ -51,8 +52,8 @@ import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * CompactHashMap is an implementation of a Map. All optional operations (put and remove) are
@@ -118,7 +119,9 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
    * Maximum allowed false positive probability of detecting a hash flooding attack given random
    * input.
    */
-  @VisibleForTesting() static final double HASH_FLOODING_FPP = 0.001;
+  @VisibleForTesting(
+      )
+  static final double HASH_FLOODING_FPP = 0.001;
 
   /**
    * Maximum allowed length of a hash table bucket before falling back to a j.u.LinkedHashMap-based
@@ -334,7 +337,7 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
   @CanIgnoreReturnValue
   @Override
   @CheckForNull
-  public V put(K key, V value) {
+  public V put(@ParametricNullness K key, @ParametricNullness V value) {
     if (needsAllocArrays()) {
       allocArrays();
     }
@@ -401,7 +404,8 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
   /**
    * Creates a fresh entry with the specified object at the specified position in the entry arrays.
    */
-  void insertEntry(int entryIndex, K key, V value, int hash, int mask) {
+  void insertEntry(
+      int entryIndex, @ParametricNullness K key, @ParametricNullness V value, int hash, int mask) {
     this.setEntry(entryIndex, CompactHashing.maskCombine(hash, UNSET, mask));
     this.setKey(entryIndex, key);
     this.setValue(entryIndex, value);
@@ -635,9 +639,11 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
       return currentIndex >= 0;
     }
 
+    @ParametricNullness
     abstract T getOutput(int entry);
 
     @Override
+    @ParametricNullness
     public T next() {
       checkForConcurrentModification();
       if (!hasNext()) {
@@ -773,6 +779,7 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
     }
     return new Itr<K>() {
       @Override
+      @ParametricNullness
       K getOutput(int entry) {
         return key(entry);
       }
@@ -885,7 +892,7 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
   }
 
   final class MapEntry extends AbstractMapEntry<K, V> {
-    private final K key;
+    @ParametricNullness private final K key;
 
     private int lastKnownIndex;
 
@@ -895,6 +902,7 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
     }
 
     @Override
+    @ParametricNullness
     public K getKey() {
       return key;
     }
@@ -908,6 +916,7 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
     }
 
     @Override
+    @ParametricNullness
     public V getValue() {
       Map<K, V> delegate = delegateOrNull();
       if (delegate != null) {
@@ -930,7 +939,8 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
     }
 
     @Override
-    public V setValue(V value) {
+    @ParametricNullness
+    public V setValue(@ParametricNullness V value) {
       Map<K, V> delegate = delegateOrNull();
       if (delegate != null) {
         return uncheckedCastNullableTToT(delegate.put(key, value)); // See discussion in getValue().
@@ -1053,6 +1063,7 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
     }
     return new Itr<V>() {
       @Override
+      @ParametricNullness
       V getOutput(int entry) {
         return value(entry);
       }
@@ -1107,6 +1118,7 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
     }
   }
 
+  @J2ktIncompatible
   private void writeObject(ObjectOutputStream stream) throws IOException {
     stream.defaultWriteObject();
     stream.writeInt(size());
@@ -1119,6 +1131,7 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
   }
 
   @SuppressWarnings("unchecked")
+  @J2ktIncompatible
   private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
     stream.defaultReadObject();
     int elementCount = stream.readInt();

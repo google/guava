@@ -17,7 +17,7 @@ package com.google.common.cache;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Supplier;
 import java.util.concurrent.atomic.AtomicLong;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Source of {@link LongAddable} objects that deals with GWT, Unsafe, and all that.
@@ -32,7 +32,8 @@ final class LongAddables {
   static {
     Supplier<LongAddable> supplier;
     try {
-      new LongAdder(); // trigger static initialization of the LongAdder class, which may fail
+      // trigger static initialization of the LongAdder class, which may fail
+      LongAdder unused = new LongAdder();
       supplier =
           new Supplier<LongAddable>() {
             @Override

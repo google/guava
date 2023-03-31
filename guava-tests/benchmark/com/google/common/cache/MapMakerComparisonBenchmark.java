@@ -26,6 +26,7 @@ import java.util.Map;
  *
  * @author Nikita Sidorov
  */
+@SuppressWarnings("CheckReturnValue")
 public class MapMakerComparisonBenchmark {
   private static final String TEST_KEY = "test key";
   private static final String TEST_VALUE = "test value";

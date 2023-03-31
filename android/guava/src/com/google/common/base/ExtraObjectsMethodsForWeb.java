@@ -15,7 +15,7 @@
 package com.google.common.base;
 
 import com.google.common.annotations.GwtCompatible;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Holder for extra methods of {@code Objects} only in web. Intended to be empty for regular

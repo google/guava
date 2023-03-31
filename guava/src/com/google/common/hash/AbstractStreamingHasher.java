@@ -19,7 +19,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * A convenience base class for implementors of {@code Hasher}; handles accumulating data until an
@@ -29,7 +29,6 @@ import org.jspecify.nullness.NullMarked;
  * @author Dimitris Andreou
  */
 // TODO(kevinb): this class still needs some design-and-document-for-inheritance love
-@CanIgnoreReturnValue
 @NullMarked
 abstract class AbstractStreamingHasher extends AbstractHasher {
   /** Buffer via which we pass data to the hash algorithm (the implementor) */
@@ -93,11 +92,13 @@ abstract class AbstractStreamingHasher extends AbstractHasher {
   }
 
   @Override
+  @CanIgnoreReturnValue
   public final Hasher putBytes(byte[] bytes, int off, int len) {
     return putBytesInternal(ByteBuffer.wrap(bytes, off, len).order(ByteOrder.LITTLE_ENDIAN));
   }
 
   @Override
+  @CanIgnoreReturnValue
   public final Hasher putBytes(ByteBuffer readBuffer) {
     ByteOrder order = readBuffer.order();
     try {
@@ -108,6 +109,7 @@ abstract class AbstractStreamingHasher extends AbstractHasher {
     }
   }
 
+  @CanIgnoreReturnValue
   private Hasher putBytesInternal(ByteBuffer readBuffer) {
     // If we have room for all of it, this is easy
     if (readBuffer.remaining() <= buffer.remaining()) {
@@ -144,6 +146,7 @@ abstract class AbstractStreamingHasher extends AbstractHasher {
    */
 
   @Override
+  @CanIgnoreReturnValue
   public final Hasher putByte(byte b) {
     buffer.put(b);
     munchIfFull();
@@ -151,6 +154,7 @@ abstract class AbstractStreamingHasher extends AbstractHasher {
   }
 
   @Override
+  @CanIgnoreReturnValue
   public final Hasher putShort(short s) {
     buffer.putShort(s);
     munchIfFull();
@@ -158,6 +162,7 @@ abstract class AbstractStreamingHasher extends AbstractHasher {
   }
 
   @Override
+  @CanIgnoreReturnValue
   public final Hasher putChar(char c) {
     buffer.putChar(c);
     munchIfFull();
@@ -165,6 +170,7 @@ abstract class AbstractStreamingHasher extends AbstractHasher {
   }
 
   @Override
+  @CanIgnoreReturnValue
   public final Hasher putInt(int i) {
     buffer.putInt(i);
     munchIfFull();
@@ -172,6 +178,7 @@ abstract class AbstractStreamingHasher extends AbstractHasher {
   }
 
   @Override
+  @CanIgnoreReturnValue
   public final Hasher putLong(long l) {
     buffer.putLong(l);
     munchIfFull();

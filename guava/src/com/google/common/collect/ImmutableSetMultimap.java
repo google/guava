@@ -21,6 +21,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.MoreObjects;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.DoNotCall;
@@ -40,8 +41,8 @@ import java.util.function.Function;
 import java.util.stream.Collector;
 import java.util.stream.Stream;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A {@link SetMultimap} whose contents will never change, with many other important properties
@@ -52,7 +53,7 @@ import org.jspecify.nullness.Nullable;
  * Undefined behavior and bugs will result.
  *
  * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/ImmutableCollectionsExplained"> immutable collections</a>.
+ * "https://github.com/google/guava/wiki/ImmutableCollectionsExplained">immutable collections</a>.
  *
  * @author Mike Ward
  * @since 2.0
@@ -429,7 +430,7 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
       }
     }
 
-    return new ImmutableSetMultimap<>(builder.build(), size, valueComparator);
+    return new ImmutableSetMultimap<>(builder.buildOrThrow(), size, valueComparator);
   }
 
   /**
@@ -582,6 +583,7 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
    *     values for that key, and the key's values
    */
   @GwtIncompatible // java.io.ObjectOutputStream
+  @J2ktIncompatible
   private void writeObject(ObjectOutputStream stream) throws IOException {
     stream.defaultWriteObject();
     stream.writeObject(valueComparator());
@@ -596,12 +598,14 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
   }
 
   @GwtIncompatible // java serialization
+  @J2ktIncompatible
   private static final class SetFieldSettersHolder {
     static final Serialization.FieldSetter<ImmutableSetMultimap> EMPTY_SET_FIELD_SETTER =
         Serialization.getFieldSetter(ImmutableSetMultimap.class, "emptySet");
   }
 
   @GwtIncompatible // java.io.ObjectInputStream
+  @J2ktIncompatible
   // Serialization type safety is at the caller's mercy.
   @SuppressWarnings("unchecked")
   private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
@@ -635,7 +639,7 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
 
     ImmutableMap<Object, ImmutableSet<Object>> tmpMap;
     try {
-      tmpMap = builder.build();
+      tmpMap = builder.buildOrThrow();
     } catch (IllegalArgumentException e) {
       throw (InvalidObjectException) new InvalidObjectException(e.getMessage()).initCause(e);
     }
@@ -646,5 +650,6 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
   }
 
   @GwtIncompatible // not needed in emulated source.
+  @J2ktIncompatible
   private static final long serialVersionUID = 0;
 }

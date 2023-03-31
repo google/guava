@@ -17,12 +17,13 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Deque;
 import java.util.Iterator;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A deque which forwards all its method calls to another deque. Subclasses should override one or
@@ -41,6 +42,7 @@ import org.jspecify.nullness.Nullable;
  * @author Kurt Alfred Kluever
  * @since 12.0
  */
+@J2ktIncompatible
 @GwtIncompatible
 @NullMarked
 public abstract class ForwardingDeque<E extends @Nullable Object> extends ForwardingQueue<E>
@@ -53,12 +55,12 @@ public abstract class ForwardingDeque<E extends @Nullable Object> extends Forwar
   protected abstract Deque<E> delegate();
 
   @Override
-  public void addFirst(E e) {
+  public void addFirst(@ParametricNullness E e) {
     delegate().addFirst(e);
   }
 
   @Override
-  public void addLast(E e) {
+  public void addLast(@ParametricNullness E e) {
     delegate().addLast(e);
   }
 
@@ -68,24 +70,26 @@ public abstract class ForwardingDeque<E extends @Nullable Object> extends Forwar
   }
 
   @Override
+  @ParametricNullness
   public E getFirst() {
     return delegate().getFirst();
   }
 
   @Override
+  @ParametricNullness
   public E getLast() {
     return delegate().getLast();
   }
 
   @CanIgnoreReturnValue // TODO(cpovirk): Consider removing this?
   @Override
-  public boolean offerFirst(E e) {
+  public boolean offerFirst(@ParametricNullness E e) {
     return delegate().offerFirst(e);
   }
 
   @CanIgnoreReturnValue // TODO(cpovirk): Consider removing this?
   @Override
-  public boolean offerLast(E e) {
+  public boolean offerLast(@ParametricNullness E e) {
     return delegate().offerLast(e);
   }
 
@@ -117,23 +121,26 @@ public abstract class ForwardingDeque<E extends @Nullable Object> extends Forwar
 
   @CanIgnoreReturnValue
   @Override
+  @ParametricNullness
   public E pop() {
     return delegate().pop();
   }
 
   @Override
-  public void push(E e) {
+  public void push(@ParametricNullness E e) {
     delegate().push(e);
   }
 
   @CanIgnoreReturnValue
   @Override
+  @ParametricNullness
   public E removeFirst() {
     return delegate().removeFirst();
   }
 
   @CanIgnoreReturnValue
   @Override
+  @ParametricNullness
   public E removeLast() {
     return delegate().removeLast();
   }

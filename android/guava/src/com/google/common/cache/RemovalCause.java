@@ -18,7 +18,7 @@ import com.google.common.annotations.GwtCompatible;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * The reason why a cached entry was removed.

@@ -19,7 +19,7 @@ package com.google.common.graph;
 import java.util.AbstractSet;
 import java.util.Set;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Abstract base class for an incident edges set that allows different implementations of {@link

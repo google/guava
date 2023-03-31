@@ -20,8 +20,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import java.util.Iterator;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An iterator that transforms a backing iterator; for internal use. This avoids the object overhead
@@ -39,7 +39,8 @@ abstract class TransformedIterator<F extends @Nullable Object, T extends @Nullab
     this.backingIterator = checkNotNull(backingIterator);
   }
 
-  abstract T transform(F from);
+  @ParametricNullness
+  abstract T transform(@ParametricNullness F from);
 
   @Override
   public final boolean hasNext() {
@@ -47,6 +48,7 @@ abstract class TransformedIterator<F extends @Nullable Object, T extends @Nullab
   }
 
   @Override
+  @ParametricNullness
   public final T next() {
     return transform(backingIterator.next());
   }

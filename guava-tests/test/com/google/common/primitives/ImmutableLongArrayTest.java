@@ -342,7 +342,7 @@ public class ImmutableLongArrayTest extends TestCase {
     AtomicLong count = new AtomicLong(0);
     ImmutableLongArray.of(0, 1, 2, 3)
         .forEach(i -> assertThat(i).isEqualTo(count.getAndIncrement()));
-    assertEquals(4, count.get());
+    assertThat(count.get()).isEqualTo(4);
   }
 
   public void testStream() {

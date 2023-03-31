@@ -15,7 +15,7 @@
 package com.google.common.primitives;
 
 import com.google.common.annotations.GwtCompatible;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Holder for web specializations of methods of {@code Ints}. Intended to be empty for regular

@@ -16,7 +16,7 @@ package com.google.common.util.concurrent;
 
 import com.google.common.annotations.GwtCompatible;
 import java.util.concurrent.Executor;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * An {@link Executor} that runs each task in the thread that invokes {@link Executor#execute

@@ -16,12 +16,11 @@ package com.google.common.escape;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import java.util.Map;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A {@link UnicodeEscaper} that uses an array to quickly look up replacement characters for a given
@@ -42,7 +41,6 @@ import org.jspecify.nullness.Nullable;
  * @author David Beaumont
  * @since 15.0
  */
-@Beta
 @GwtCompatible
 @NullMarked
 public abstract class ArrayBasedUnicodeEscaper extends UnicodeEscaper {
@@ -131,7 +129,7 @@ public abstract class ArrayBasedUnicodeEscaper extends UnicodeEscaper {
       this.safeMinChar = Character.MAX_VALUE;
       this.safeMaxChar = 0;
     } else {
-      // The safe range is non empty and contains values below the surrogate
+      // The safe range is non-empty and contains values below the surrogate
       // range but may extend above it. We may need to clip the maximum value.
       this.safeMinChar = (char) safeMin;
       this.safeMaxChar = (char) Math.min(safeMax, Character.MIN_HIGH_SURROGATE - 1);

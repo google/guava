@@ -15,7 +15,7 @@
 package com.google.common.escape;
 
 import com.google.common.annotations.GwtCompatible;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Methods factored out so that they can be emulated differently in GWT.

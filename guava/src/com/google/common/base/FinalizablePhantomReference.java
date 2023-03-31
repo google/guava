@@ -15,10 +15,11 @@
 package com.google.common.base;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import java.lang.ref.PhantomReference;
 import java.lang.ref.ReferenceQueue;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Phantom reference with a {@code finalizeReferent()} method which a background thread invokes
@@ -30,6 +31,7 @@ import org.jspecify.nullness.NullMarked;
  * @author Bob Lee
  * @since 2.0
  */
+@J2ktIncompatible
 @GwtIncompatible
 @NullMarked
 public abstract class FinalizablePhantomReference<T> extends PhantomReference<T>

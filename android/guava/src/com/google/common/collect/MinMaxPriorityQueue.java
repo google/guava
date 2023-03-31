@@ -25,6 +25,7 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.math.IntMath;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -43,8 +44,8 @@ import java.util.NoSuchElementException;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A double-ended priority queue, which provides constant-time access to both its least element and
@@ -109,7 +110,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
    * initial contents, and an initial expected size of 11.
    */
   public static <E extends Comparable<E>> MinMaxPriorityQueue<E> create() {
-    return new Builder<Comparable>(Ordering.natural()).create();
+    return new Builder<Comparable<E>>(Ordering.natural()).create();
   }
 
   /**
@@ -132,7 +133,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
    * instead.
    */
   public static <B> Builder<B> orderedBy(Comparator<B> comparator) {
-    return new Builder<B>(comparator);
+    return new Builder<>(comparator);
   }
 
   /**
@@ -217,7 +218,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
      */
     public <T extends B> MinMaxPriorityQueue<T> create(Iterable<? extends T> initialContents) {
       MinMaxPriorityQueue<T> queue =
-          new MinMaxPriorityQueue<T>(
+          new MinMaxPriorityQueue<>(
               this, initialQueueSize(expectedSize, maximumSize, initialContents));
       for (T element : initialContents) {
         queue.offer(element);
@@ -437,11 +438,11 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
       // Last element is moved to before index, swapped with trickled element.
       if (changes == null) {
         // The trickled element is still after index.
-        return new MoveDesc<E>(actualLastElement, toTrickle);
+        return new MoveDesc<>(actualLastElement, toTrickle);
       } else {
         // The trickled element is back before index, but the replaced element
         // has now been moved after index.
-        return new MoveDesc<E>(actualLastElement, changes.replaced);
+        return new MoveDesc<>(actualLastElement, changes.replaced);
       }
     }
     // Trickled element was after index to begin with, no adjustment needed.
@@ -519,14 +520,17 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
   }
 
   /**
-   * Each instance of MinMaxPriortyQueue encapsulates two instances of Heap: a min-heap and a
+   * Each instance of MinMaxPriorityQueue encapsulates two instances of Heap: a min-heap and a
    * max-heap. Conceptually, these might each have their own array for storage, but for efficiency's
    * sake they are stored interleaved on alternate heap levels in the same array (MMPQ.queue).
    */
   @WeakOuter
   private class Heap {
     final Ordering<E> ordering;
-    @Weak Heap otherHeap; // always initialized immediately after construction
+
+    @SuppressWarnings("nullness:initialization.field.uninitialized")
+    @Weak
+    Heap otherHeap; // always initialized immediately after construction
 
     Heap(Ordering<E> ordering) {
       this.ordering = ordering;
@@ -561,7 +565,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
       }
       // bubble it up the opposite heap
       if (otherHeap.bubbleUpAlternatingLevels(crossOver, toTrickle) < removeIndex) {
-        return new MoveDesc<E>(toTrickle, parent);
+        return new MoveDesc<>(toTrickle, parent);
       } else {
         return null;
       }
@@ -645,17 +649,18 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
       int parentIndex = getParentIndex(index);
       E parentElement = elementData(parentIndex);
       if (parentIndex != 0) {
-        // This is a guard for the case of the childless uncle.
-        // Since the end of the array is actually the middle of the heap,
-        // a smaller childless uncle can become a child of x when we
-        // bubble up alternate levels, violating the invariant.
+        /*
+         * This is a guard for the case of the childless aunt node. Since the end of the array is
+         * actually the middle of the heap, a smaller childless aunt node can become a child of x
+         * when we bubble up alternate levels, violating the invariant.
+         */
         int grandparentIndex = getParentIndex(parentIndex);
-        int uncleIndex = getRightChildIndex(grandparentIndex);
-        if (uncleIndex != parentIndex && getLeftChildIndex(uncleIndex) >= size) {
-          E uncleElement = elementData(uncleIndex);
-          if (ordering.compare(uncleElement, parentElement) < 0) {
-            parentIndex = uncleIndex;
-            parentElement = uncleElement;
+        int auntIndex = getRightChildIndex(grandparentIndex);
+        if (auntIndex != parentIndex && getLeftChildIndex(auntIndex) >= size) {
+          E auntElement = elementData(auntIndex);
+          if (ordering.compare(auntElement, parentElement) < 0) {
+            parentIndex = auntIndex;
+            parentElement = auntElement;
           }
         }
       }
@@ -668,26 +673,30 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
       return index;
     }
 
+    // About the term "aunt node": it's better to leave gender out of it, but for this the English
+    // language has nothing for us. Except for the whimsical neologism "pibling" (!) which we
+    // obviously could not expect to increase anyone's understanding of the code.
+
     /**
      * Swap {@code actualLastElement} with the conceptually correct last element of the heap.
      * Returns the index that {@code actualLastElement} now resides in.
      *
      * <p>Since the last element of the array is actually in the middle of the sorted structure, a
-     * childless uncle node could be smaller, which would corrupt the invariant if this element
-     * becomes the new parent of the uncle. In that case, we first switch the last element with its
-     * uncle, before returning.
+     * childless aunt node could be smaller, which would corrupt the invariant if this element
+     * becomes the new parent of the aunt node. In that case, we first switch the last element with
+     * its aunt node, before returning.
      */
     int swapWithConceptuallyLastElement(E actualLastElement) {
       int parentIndex = getParentIndex(size);
       if (parentIndex != 0) {
         int grandparentIndex = getParentIndex(parentIndex);
-        int uncleIndex = getRightChildIndex(grandparentIndex);
-        if (uncleIndex != parentIndex && getLeftChildIndex(uncleIndex) >= size) {
-          E uncleElement = elementData(uncleIndex);
-          if (ordering.compare(uncleElement, actualLastElement) < 0) {
-            queue[uncleIndex] = actualLastElement;
-            queue[size] = uncleElement;
-            return uncleIndex;
+        int auntIndex = getRightChildIndex(grandparentIndex);
+        if (auntIndex != parentIndex && getLeftChildIndex(auntIndex) >= size) {
+          E auntElement = elementData(auntIndex);
+          if (ordering.compare(auntElement, actualLastElement) < 0) {
+            queue[auntIndex] = actualLastElement;
+            queue[size] = auntElement;
+            return auntIndex;
           }
         }
       }
@@ -816,8 +825,8 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
         if (moved != null) {
           // Either both are null or neither is, but we check both to satisfy the nullness checker.
           if (forgetMeNot == null || skipMe == null) {
-            forgetMeNot = new ArrayDeque<E>();
-            skipMe = new ArrayList<E>(3);
+            forgetMeNot = new ArrayDeque<>();
+            skipMe = new ArrayList<>(3);
           }
           if (!foundAndRemovedExactReference(skipMe, moved.toTrickle)) {
             forgetMeNot.add(moved.toTrickle);
@@ -912,6 +921,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
   }
 
   @Override
+  @J2ktIncompatible // Incompatible return type change. Use inherited (unoptimized) implementation
   public Object[] toArray() {
     Object[] copyTo = new Object[size];
     System.arraycopy(queue, 0, copyTo, 0, size);

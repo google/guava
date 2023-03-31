@@ -19,9 +19,10 @@ import com.google.common.base.Function;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.util.concurrent.ExecutionError;
 import com.google.common.util.concurrent.UncheckedExecutionException;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * A semi-persistent mapping from keys to values. Values are automatically loaded by the cache, and
@@ -68,6 +69,7 @@ public interface LoadingCache<K, V> extends Cache<K, V>, Function<K, V> {
    *     value
    * @throws ExecutionError if an error was thrown while loading the value
    */
+  @CanIgnoreReturnValue // TODO(b/27479612): consider removing this?
   V get(K key) throws ExecutionException;
 
   /**
@@ -94,6 +96,7 @@ public interface LoadingCache<K, V> extends Cache<K, V>, Function<K, V> {
    *     explained in the last paragraph above, this should be an unchecked exception only.)
    * @throws ExecutionError if an error was thrown while loading the value
    */
+  @CanIgnoreReturnValue // TODO(b/27479612): consider removing this?
   V getUnchecked(K key);
 
   /**
@@ -120,6 +123,7 @@ public interface LoadingCache<K, V> extends Cache<K, V>, Function<K, V> {
    * @throws ExecutionError if an error was thrown while loading the values
    * @since 11.0
    */
+  @CanIgnoreReturnValue // TODO(b/27479612): consider removing this
   ImmutableMap<K, V> getAll(Iterable<? extends K> keys) throws ExecutionException;
 
   /**

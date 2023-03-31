@@ -645,7 +645,7 @@ public class InetAddressesTest extends TestCase {
             InetAddresses.getCoercedIPv4Address(
                 InetAddresses.forString("2001:0000:4136:e378:8000:63bf:3fff:fdd3")));
 
-    // 2 Teredo addresses NOT differing in the their embedded IPv4 addresses should hash to the same
+    // 2 Teredo addresses NOT differing in their embedded IPv4 addresses should hash to the same
     // value.
     assertThat(
             InetAddresses.getCoercedIPv4Address(

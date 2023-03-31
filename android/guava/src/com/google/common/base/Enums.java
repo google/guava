@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import java.io.Serializable;
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
@@ -26,7 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.WeakHashMap;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Utility methods for working with {@link Enum} instances.
@@ -35,6 +36,7 @@ import org.jspecify.nullness.NullMarked;
  * @since 9.0
  */
 @GwtCompatible(emulated = true)
+@J2ktIncompatible
 @NullMarked
 public final class Enums {
 
@@ -49,7 +51,8 @@ public final class Enums {
    */
   @GwtIncompatible // reflection
   public static Field getField(Enum<?> enumValue) {
-    Class<?> clazz = enumValue.getDeclaringClass();
+    Class<?>
+        clazz = enumValue.getDeclaringClass();
     try {
       return clazz.getDeclaredField(enumValue.name());
     } catch (NoSuchFieldException impossible) {
@@ -99,15 +102,15 @@ public final class Enums {
   }
 
   /**
-   * Returns a converter that converts between strings and {@code enum} values of type {@code
-   * enumClass} using {@link Enum#valueOf(Class, String)} and {@link Enum#name()}. The converter
-   * will throw an {@code IllegalArgumentException} if the argument is not the name of any enum
-   * constant in the specified enum.
+   * Returns a serializable converter that converts between strings and {@code enum} values of type
+   * {@code enumClass} using {@link Enum#valueOf(Class, String)} and {@link Enum#name()}. The
+   * converter will throw an {@code IllegalArgumentException} if the argument is not the name of any
+   * enum constant in the specified enum.
    *
    * @since 16.0
    */
-  public static <T extends Enum<T>> Converter<String, T> stringConverter(final Class<T> enumClass) {
-    return new StringConverter<T>(enumClass);
+  public static <T extends Enum<T>> Converter<String, T> stringConverter(Class<T> enumClass) {
+    return new StringConverter<>(enumClass);
   }
 
   private static final class StringConverter<T extends Enum<T>> extends Converter<String, T>

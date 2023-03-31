@@ -26,7 +26,7 @@ import com.google.common.collect.Maps;
 import com.google.common.graph.GraphConstants.Presence;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.Immutable;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * A {@link Graph} whose elements and structural relationships will never change. Instances of this
@@ -88,7 +88,7 @@ public class ImmutableGraph<N> extends ForwardingGraph<N> {
     for (N node : graph.nodes()) {
       nodeConnections.put(node, connectionsOf(graph, node));
     }
-    return nodeConnections.build();
+    return nodeConnections.buildOrThrow();
   }
 
   @SuppressWarnings("unchecked")

@@ -16,6 +16,8 @@
 
 package com.google.common.util.concurrent.testing;
 
+import static java.util.concurrent.TimeUnit.NANOSECONDS;
+
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.ImmutableList;
@@ -28,7 +30,10 @@ import com.google.common.util.concurrent.MoreExecutors;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Delayed;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.ThreadPoolExecutor.CallerRunsPolicy;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -86,9 +91,9 @@ public final class TestingExecutors {
    * invokeAll/invokeAny} throwing RejectedExecutionException, although a subset of the tasks may
    * already have been executed.
    *
-   * @since 15.0
+   * @since NEXT (taking the place of a method with a different return type from 15.0)
    */
-  public static SameThreadScheduledExecutorService sameThreadScheduledExecutor() {
+  public static ListeningScheduledExecutorService sameThreadScheduledExecutor() {
     return new SameThreadScheduledExecutorService();
   }
 
@@ -153,7 +158,7 @@ public final class TestingExecutors {
         implements ListenableScheduledFuture<V> {
 
       static <V> NeverScheduledFuture<V> create() {
-        return new NeverScheduledFuture<V>();
+        return new NeverScheduledFuture<>();
       }
 
       @Override
@@ -163,7 +168,7 @@ public final class TestingExecutors {
 
       @Override
       public int compareTo(Delayed other) {
-        return Longs.compare(getDelay(TimeUnit.NANOSECONDS), other.getDelay(TimeUnit.NANOSECONDS));
+        return Longs.compare(getDelay(NANOSECONDS), other.getDelay(NANOSECONDS));
       }
     }
   }

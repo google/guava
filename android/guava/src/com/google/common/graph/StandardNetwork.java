@@ -28,7 +28,7 @@ import com.google.common.collect.ImmutableSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Standard implementation of {@link Network} that supports the options supplied by {@link

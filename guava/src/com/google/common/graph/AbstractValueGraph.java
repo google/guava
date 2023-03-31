@@ -25,7 +25,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * This class provides a skeletal implementation of {@link ValueGraph}. It is recommended to extend

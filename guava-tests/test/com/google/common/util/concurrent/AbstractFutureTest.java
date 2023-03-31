@@ -16,6 +16,7 @@
 
 package com.google.common.util.concurrent;
 
+import static com.google.common.base.StandardSystemProperty.JAVA_SPECIFICATION_VERSION;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 
@@ -23,6 +24,7 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Range;
 import com.google.common.collect.Sets;
+import com.google.common.primitives.Ints;
 import com.google.common.util.concurrent.internal.InternalFutureFailureAccess;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -52,7 +54,6 @@ import junit.framework.TestCase;
  *
  * @author Brian Stoler
  */
-
 public class AbstractFutureTest extends TestCase {
   public void testSuccess() throws ExecutionException, InterruptedException {
     final Object value = new Object();
@@ -292,7 +293,15 @@ public class AbstractFutureTest extends TestCase {
    * derived from observing how much time actually passed for various operations.
    */
   @SuppressWarnings({"DeprecatedThreadMethods", "ThreadPriorityCheck"})
+  @AndroidIncompatible // Thread.suspend
   public void testToString_delayedTimeout() throws Exception {
+    Integer javaVersion = Ints.tryParse(JAVA_SPECIFICATION_VERSION.value());
+    // Parsing to an integer might fail because Java 8 returns "1.8" instead of "8."
+    // We can continue if it's 1.8, and we can continue if it's an integer in [9, 20).
+    if (javaVersion != null && javaVersion >= 20) {
+      // TODO(b/261217224): Make this test work under newer JDKs.
+      return;
+    }
     TimedWaiterThread thread =
         new TimedWaiterThread(new AbstractFuture<Object>() {}, 2, TimeUnit.SECONDS);
     thread.start();
@@ -559,7 +568,7 @@ public class AbstractFutureTest extends TestCase {
     allTasks.add(setFutureCancelRunnable);
     for (int k = 0; k < 50; k++) {
       // For each listener we add a task that submits it to the executor directly for the blocking
-      // get usecase and another task that adds it as a listener to the future to exercise both
+      // get use case and another task that adds it as a listener to the future to exercise both
       // racing addListener calls and addListener calls completing after the future completes.
       final Runnable listener =
           k % 2 == 0 ? collectResultsRunnable : collectResultsTimedGetRunnable;
@@ -683,7 +692,7 @@ public class AbstractFutureTest extends TestCase {
     allTasks.add(setFutureCompleteSuccessfullyRunnable);
     for (int k = 0; k < size; k++) {
       // For each listener we add a task that submits it to the executor directly for the blocking
-      // get usecase and another task that adds it as a listener to the future to exercise both
+      // get use case and another task that adds it as a listener to the future to exercise both
       // racing addListener calls and addListener calls completing after the future completes.
       final Runnable listener =
           k % 2 == 0 ? collectResultsRunnable : collectResultsTimedGetRunnable;

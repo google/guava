@@ -20,8 +20,8 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.List;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A list multimap which forwards all its method calls to another list multimap. Subclasses should
@@ -47,7 +47,7 @@ public abstract class ForwardingListMultimap<K extends @Nullable Object, V exten
   protected abstract ListMultimap<K, V> delegate();
 
   @Override
-  public List<V> get(K key) {
+  public List<V> get(@ParametricNullness K key) {
     return delegate().get(key);
   }
 
@@ -59,7 +59,7 @@ public abstract class ForwardingListMultimap<K extends @Nullable Object, V exten
 
   @CanIgnoreReturnValue
   @Override
-  public List<V> replaceValues(K key, Iterable<? extends V> values) {
+  public List<V> replaceValues(@ParametricNullness K key, Iterable<? extends V> values) {
     return delegate().replaceValues(key, values);
   }
 }

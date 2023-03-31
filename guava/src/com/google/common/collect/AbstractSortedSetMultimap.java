@@ -24,8 +24,8 @@ import java.util.Map;
 import java.util.NavigableSet;
 import java.util.SortedSet;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Basic implementation of the {@link SortedSetMultimap} interface. It's a wrapper around {@link
@@ -66,7 +66,7 @@ abstract class AbstractSortedSetMultimap<K extends @Nullable Object, V extends @
   }
 
   @Override
-  Collection<V> wrapCollection(K key, Collection<V> collection) {
+  Collection<V> wrapCollection(@ParametricNullness K key, Collection<V> collection) {
     if (collection instanceof NavigableSet) {
       return new WrappedNavigableSet(key, (NavigableSet<V>) collection, null);
     } else {
@@ -87,7 +87,7 @@ abstract class AbstractSortedSetMultimap<K extends @Nullable Object, V extends @
    * Multimap} interface.
    */
   @Override
-  public SortedSet<V> get(K key) {
+  public SortedSet<V> get(@ParametricNullness K key) {
     return (SortedSet<V>) super.get(key);
   }
 
@@ -116,7 +116,7 @@ abstract class AbstractSortedSetMultimap<K extends @Nullable Object, V extends @
    */
   @CanIgnoreReturnValue
   @Override
-  public SortedSet<V> replaceValues(K key, Iterable<? extends V> values) {
+  public SortedSet<V> replaceValues(@ParametricNullness K key, Iterable<? extends V> values) {
     return (SortedSet<V>) super.replaceValues(key, values);
   }
 

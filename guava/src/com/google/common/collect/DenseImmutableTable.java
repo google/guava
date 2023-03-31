@@ -22,8 +22,8 @@ import com.google.errorprone.annotations.Immutable;
 import com.google.j2objc.annotations.WeakOuter;
 import java.util.Map;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /** A {@code RegularImmutableTable} optimized for dense data. */
 @GwtCompatible

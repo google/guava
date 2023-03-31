@@ -21,8 +21,8 @@ import com.google.errorprone.annotations.DoNotCall;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.stream.Collector;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * "Overrides" the {@link ImmutableMap} static methods that lack {@link ImmutableBiMap} equivalents

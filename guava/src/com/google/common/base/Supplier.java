@@ -15,9 +15,8 @@
 package com.google.common.base;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Legacy version of {@link java.util.function.Supplier java.util.function.Supplier}. Semantically,
@@ -47,7 +46,7 @@ public interface Supplier<T extends @Nullable Object> extends java.util.function
    *
    * @return an instance of the appropriate type
    */
-  @CanIgnoreReturnValue
   @Override
+  @ParametricNullness
   T get();
 }

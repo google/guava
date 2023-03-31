@@ -25,8 +25,8 @@ import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Collection;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Static utility methods pertaining to object arrays.
@@ -85,7 +85,7 @@ public final class ObjectArrays {
    * @return an array whose size is one larger than {@code array}, with {@code element} occupying
    *     the first position, and the elements of {@code array} occupying the remaining elements.
    */
-  public static <T extends @Nullable Object> T[] concat(T element, T[] array) {
+  public static <T extends @Nullable Object> T[] concat(@ParametricNullness T element, T[] array) {
     T[] result = newArray(array, array.length + 1);
     result[0] = element;
     System.arraycopy(array, 0, result, 1, array.length);
@@ -100,7 +100,7 @@ public final class ObjectArrays {
    * @return an array whose size is one larger than {@code array}, with the same contents as {@code
    *     array}, plus {@code element} occupying the last position.
    */
-  public static <T extends @Nullable Object> T[] concat(T[] array, T element) {
+  public static <T extends @Nullable Object> T[] concat(T[] array, @ParametricNullness T element) {
     T[] result = Arrays.copyOf(array, array.length + 1);
     result[array.length] = element;
     return result;

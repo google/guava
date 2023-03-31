@@ -15,9 +15,10 @@
 package com.google.common.io;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import java.io.DataOutput;
 import java.io.IOException;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * An extension of {@code DataOutput} for writing to in-memory byte arrays; its methods offer
@@ -26,6 +27,7 @@ import org.jspecify.nullness.NullMarked;
  * @author Jayaprabhakar Kadarkarai
  * @since 1.0
  */
+@J2ktIncompatible
 @GwtIncompatible
 @NullMarked
 public interface ByteArrayDataOutput extends DataOutput {

@@ -178,10 +178,12 @@ public class TypeTokenResolutionTest extends TestCase {
     assertEquals(String.class, new Owner.Nested<String>() {}.getTypeArgument());
   }
 
+  @SuppressWarnings("RestrictedApiChecker") // crashes under JDK8, which EP no longer supports
   public void testResolveInnerClass() {
     assertEquals(String.class, new Owner<Integer>().new Inner<String>() {}.getTypeArgument());
   }
 
+  @SuppressWarnings("RestrictedApiChecker") // crashes under JDK8, which EP no longer supports
   public void testResolveOwnerClass() {
     assertEquals(Integer.class, new Owner<Integer>().new Inner<String>() {}.getOwnerType());
   }
@@ -253,7 +255,7 @@ public class TypeTokenResolutionTest extends TestCase {
     }
   }
 
-  public void testConextIsParameterizedType() throws Exception {
+  public void testContextIsParameterizedType() throws Exception {
     class Context {
       @SuppressWarnings("unused") // used by reflection
       Map<String, Integer> returningMap() {

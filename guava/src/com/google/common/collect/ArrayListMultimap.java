@@ -20,6 +20,7 @@ import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -29,8 +30,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Implementation of {@code Multimap} that uses an {@code ArrayList} to store the values for a given
@@ -54,8 +55,7 @@ import org.jspecify.nullness.Nullable;
  * with a call to {@link Multimaps#synchronizedListMultimap}.
  *
  * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multimap"> {@code
- * Multimap}</a>.
+ * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multimap">{@code Multimap}</a>.
  *
  * @author Jared Levy
  * @since 2.0
@@ -157,12 +157,14 @@ public final class ArrayListMultimap<K extends @Nullable Object, V extends @Null
    *     key, number of values for that key, and the key's values
    */
   @GwtIncompatible // java.io.ObjectOutputStream
+  @J2ktIncompatible
   private void writeObject(ObjectOutputStream stream) throws IOException {
     stream.defaultWriteObject();
     Serialization.writeMultimap(this, stream);
   }
 
   @GwtIncompatible // java.io.ObjectOutputStream
+  @J2ktIncompatible
   private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
     stream.defaultReadObject();
     expectedValuesPerKey = DEFAULT_VALUES_PER_KEY;
@@ -173,5 +175,6 @@ public final class ArrayListMultimap<K extends @Nullable Object, V extends @Null
   }
 
   @GwtIncompatible // Not needed in emulated source.
+  @J2ktIncompatible
   private static final long serialVersionUID = 0;
 }

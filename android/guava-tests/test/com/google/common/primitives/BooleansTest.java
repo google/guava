@@ -16,6 +16,9 @@
 
 package com.google.common.primitives;
 
+import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.Helpers;
@@ -44,95 +47,92 @@ public class BooleansTest extends TestCase {
   private static final boolean[] VALUES = {false, true};
 
   public void testHashCode() {
-    assertEquals(Boolean.TRUE.hashCode(), Booleans.hashCode(true));
-    assertEquals(Boolean.FALSE.hashCode(), Booleans.hashCode(false));
+    assertThat(Booleans.hashCode(true)).isEqualTo(Boolean.TRUE.hashCode());
+    assertThat(Booleans.hashCode(false)).isEqualTo(Boolean.FALSE.hashCode());
   }
 
   public void testTrueFirst() {
-    assertEquals(0, Booleans.trueFirst().compare(true, true));
-    assertEquals(0, Booleans.trueFirst().compare(false, false));
-    assertTrue(Booleans.trueFirst().compare(true, false) < 0);
-    assertTrue(Booleans.trueFirst().compare(false, true) > 0);
+    assertThat(Booleans.trueFirst().compare(true, true)).isEqualTo(0);
+    assertThat(Booleans.trueFirst().compare(false, false)).isEqualTo(0);
+    assertThat(Booleans.trueFirst().compare(true, false)).isLessThan(0);
+    assertThat(Booleans.trueFirst().compare(false, true)).isGreaterThan(0);
   }
 
   public void testFalseFirst() {
-    assertEquals(0, Booleans.falseFirst().compare(true, true));
-    assertEquals(0, Booleans.falseFirst().compare(false, false));
-    assertTrue(Booleans.falseFirst().compare(false, true) < 0);
-    assertTrue(Booleans.falseFirst().compare(true, false) > 0);
+    assertThat(Booleans.falseFirst().compare(true, true)).isEqualTo(0);
+    assertThat(Booleans.falseFirst().compare(false, false)).isEqualTo(0);
+    assertThat(Booleans.falseFirst().compare(false, true)).isLessThan(0);
+    assertThat(Booleans.falseFirst().compare(true, false)).isGreaterThan(0);
   }
 
   public void testCompare() {
     for (boolean x : VALUES) {
       for (boolean y : VALUES) {
         // note: spec requires only that the sign is the same
-        assertEquals(x + ", " + y, Boolean.valueOf(x).compareTo(y), Booleans.compare(x, y));
+        assertWithMessage(x + ", " + y)
+            .that(Booleans.compare(x, y))
+            .isEqualTo(Boolean.valueOf(x).compareTo(y));
       }
     }
   }
 
   public void testContains() {
-    assertFalse(Booleans.contains(EMPTY, false));
-    assertFalse(Booleans.contains(ARRAY_FALSE, true));
-    assertTrue(Booleans.contains(ARRAY_FALSE, false));
-    assertTrue(Booleans.contains(ARRAY_FALSE_TRUE, false));
-    assertTrue(Booleans.contains(ARRAY_FALSE_TRUE, true));
+    assertThat(Booleans.contains(EMPTY, false)).isFalse();
+    assertThat(Booleans.contains(ARRAY_FALSE, true)).isFalse();
+    assertThat(Booleans.contains(ARRAY_FALSE, false)).isTrue();
+    assertThat(Booleans.contains(ARRAY_FALSE_TRUE, false)).isTrue();
+    assertThat(Booleans.contains(ARRAY_FALSE_TRUE, true)).isTrue();
   }
 
   public void testIndexOf() {
-    assertEquals(-1, Booleans.indexOf(EMPTY, ARRAY_FALSE));
-    assertEquals(-1, Booleans.indexOf(ARRAY_FALSE, ARRAY_FALSE_TRUE));
-    assertEquals(0, Booleans.indexOf(ARRAY_FALSE_FALSE, ARRAY_FALSE));
-    assertEquals(0, Booleans.indexOf(ARRAY_FALSE, ARRAY_FALSE));
-    assertEquals(0, Booleans.indexOf(ARRAY_FALSE_TRUE, ARRAY_FALSE));
-    assertEquals(1, Booleans.indexOf(ARRAY_FALSE_TRUE, ARRAY_TRUE));
-    assertEquals(0, Booleans.indexOf(ARRAY_TRUE, new boolean[0]));
+    assertThat(Booleans.indexOf(EMPTY, ARRAY_FALSE)).isEqualTo(-1);
+    assertThat(Booleans.indexOf(ARRAY_FALSE, ARRAY_FALSE_TRUE)).isEqualTo(-1);
+    assertThat(Booleans.indexOf(ARRAY_FALSE_FALSE, ARRAY_FALSE)).isEqualTo(0);
+    assertThat(Booleans.indexOf(ARRAY_FALSE, ARRAY_FALSE)).isEqualTo(0);
+    assertThat(Booleans.indexOf(ARRAY_FALSE_TRUE, ARRAY_FALSE)).isEqualTo(0);
+    assertThat(Booleans.indexOf(ARRAY_FALSE_TRUE, ARRAY_TRUE)).isEqualTo(1);
+    assertThat(Booleans.indexOf(ARRAY_TRUE, new boolean[0])).isEqualTo(0);
   }
 
   public void testIndexOf_arrays() {
-    assertEquals(-1, Booleans.indexOf(EMPTY, false));
-    assertEquals(-1, Booleans.indexOf(ARRAY_FALSE, true));
-    assertEquals(-1, Booleans.indexOf(ARRAY_FALSE_FALSE, true));
-    assertEquals(0, Booleans.indexOf(ARRAY_FALSE, false));
-    assertEquals(0, Booleans.indexOf(ARRAY_FALSE_TRUE, false));
-    assertEquals(1, Booleans.indexOf(ARRAY_FALSE_TRUE, true));
-    assertEquals(2, Booleans.indexOf(new boolean[] {false, false, true}, true));
+    assertThat(Booleans.indexOf(EMPTY, false)).isEqualTo(-1);
+    assertThat(Booleans.indexOf(ARRAY_FALSE, true)).isEqualTo(-1);
+    assertThat(Booleans.indexOf(ARRAY_FALSE_FALSE, true)).isEqualTo(-1);
+    assertThat(Booleans.indexOf(ARRAY_FALSE, false)).isEqualTo(0);
+    assertThat(Booleans.indexOf(ARRAY_FALSE_TRUE, false)).isEqualTo(0);
+    assertThat(Booleans.indexOf(ARRAY_FALSE_TRUE, true)).isEqualTo(1);
+    assertThat(Booleans.indexOf(new boolean[] {false, false, true}, true)).isEqualTo(2);
   }
 
   public void testLastIndexOf() {
-    assertEquals(-1, Booleans.lastIndexOf(EMPTY, false));
-    assertEquals(-1, Booleans.lastIndexOf(ARRAY_FALSE, true));
-    assertEquals(-1, Booleans.lastIndexOf(ARRAY_FALSE_FALSE, true));
-    assertEquals(0, Booleans.lastIndexOf(ARRAY_FALSE, false));
-    assertEquals(0, Booleans.lastIndexOf(ARRAY_FALSE_TRUE, false));
-    assertEquals(1, Booleans.lastIndexOf(ARRAY_FALSE_TRUE, true));
-    assertEquals(2, Booleans.lastIndexOf(new boolean[] {false, true, true}, true));
+    assertThat(Booleans.lastIndexOf(EMPTY, false)).isEqualTo(-1);
+    assertThat(Booleans.lastIndexOf(ARRAY_FALSE, true)).isEqualTo(-1);
+    assertThat(Booleans.lastIndexOf(ARRAY_FALSE_FALSE, true)).isEqualTo(-1);
+    assertThat(Booleans.lastIndexOf(ARRAY_FALSE, false)).isEqualTo(0);
+    assertThat(Booleans.lastIndexOf(ARRAY_FALSE_TRUE, false)).isEqualTo(0);
+    assertThat(Booleans.lastIndexOf(ARRAY_FALSE_TRUE, true)).isEqualTo(1);
+    assertThat(Booleans.lastIndexOf(new boolean[] {false, true, true}, true)).isEqualTo(2);
   }
 
   public void testConcat() {
-    assertTrue(Arrays.equals(EMPTY, Booleans.concat()));
-    assertTrue(Arrays.equals(EMPTY, Booleans.concat(EMPTY)));
-    assertTrue(Arrays.equals(EMPTY, Booleans.concat(EMPTY, EMPTY, EMPTY)));
-    assertTrue(Arrays.equals(ARRAY_FALSE, Booleans.concat(ARRAY_FALSE)));
-    assertNotSame(ARRAY_FALSE, Booleans.concat(ARRAY_FALSE));
-    assertTrue(Arrays.equals(ARRAY_FALSE, Booleans.concat(EMPTY, ARRAY_FALSE, EMPTY)));
-    assertTrue(
-        Arrays.equals(
-            new boolean[] {false, false, false},
-            Booleans.concat(ARRAY_FALSE, ARRAY_FALSE, ARRAY_FALSE)));
-    assertTrue(
-        Arrays.equals(
-            new boolean[] {false, false, true}, Booleans.concat(ARRAY_FALSE, ARRAY_FALSE_TRUE)));
+    assertThat(Booleans.concat()).isEqualTo(EMPTY);
+    assertThat(Booleans.concat(EMPTY)).isEqualTo(EMPTY);
+    assertThat(Booleans.concat(EMPTY, EMPTY, EMPTY)).isEqualTo(EMPTY);
+    assertThat(Booleans.concat(ARRAY_FALSE)).isEqualTo(ARRAY_FALSE);
+    assertThat(Booleans.concat(ARRAY_FALSE)).isNotSameInstanceAs(ARRAY_FALSE);
+    assertThat(Booleans.concat(EMPTY, ARRAY_FALSE, EMPTY)).isEqualTo(ARRAY_FALSE);
+    assertThat(Booleans.concat(ARRAY_FALSE, ARRAY_FALSE, ARRAY_FALSE))
+        .isEqualTo(new boolean[] {false, false, false});
+    assertThat(Booleans.concat(ARRAY_FALSE, ARRAY_FALSE_TRUE))
+        .isEqualTo(new boolean[] {false, false, true});
   }
 
   public void testEnsureCapacity() {
-    assertSame(EMPTY, Booleans.ensureCapacity(EMPTY, 0, 1));
-    assertSame(ARRAY_FALSE, Booleans.ensureCapacity(ARRAY_FALSE, 0, 1));
-    assertSame(ARRAY_FALSE, Booleans.ensureCapacity(ARRAY_FALSE, 1, 1));
-    assertTrue(
-        Arrays.equals(
-            new boolean[] {true, false, false},
-            Booleans.ensureCapacity(new boolean[] {true}, 2, 1)));
+    assertThat(Booleans.ensureCapacity(EMPTY, 0, 1)).isSameInstanceAs(EMPTY);
+    assertThat(Booleans.ensureCapacity(ARRAY_FALSE, 0, 1)).isSameInstanceAs(ARRAY_FALSE);
+    assertThat(Booleans.ensureCapacity(ARRAY_FALSE, 1, 1)).isSameInstanceAs(ARRAY_FALSE);
+    assertThat(Booleans.ensureCapacity(new boolean[] {true}, 2, 1))
+        .isEqualTo(new boolean[] {true, false, false});
   }
 
   public void testEnsureCapacity_fail() {
@@ -150,10 +150,10 @@ public class BooleansTest extends TestCase {
   }
 
   public void testJoin() {
-    assertEquals("", Booleans.join(",", EMPTY));
-    assertEquals("false", Booleans.join(",", ARRAY_FALSE));
-    assertEquals("false,true", Booleans.join(",", false, true));
-    assertEquals("falsetruefalse", Booleans.join("", false, true, false));
+    assertThat(Booleans.join(",", EMPTY)).isEmpty();
+    assertThat(Booleans.join(",", ARRAY_FALSE)).isEqualTo("false");
+    assertThat(Booleans.join(",", false, true)).isEqualTo("false,true");
+    assertThat(Booleans.join("", false, true, false)).isEqualTo("falsetruefalse");
   }
 
   public void testLexicographicalComparator() {
@@ -175,7 +175,7 @@ public class BooleansTest extends TestCase {
   @GwtIncompatible // SerializableTester
   public void testLexicographicalComparatorSerializable() {
     Comparator<boolean[]> comparator = Booleans.lexicographicalComparator();
-    assertSame(comparator, SerializableTester.reserialize(comparator));
+    assertThat(SerializableTester.reserialize(comparator)).isSameInstanceAs(comparator);
   }
 
   public void testReverse() {
@@ -189,14 +189,14 @@ public class BooleansTest extends TestCase {
   private static void testReverse(boolean[] input, boolean[] expectedOutput) {
     input = Arrays.copyOf(input, input.length);
     Booleans.reverse(input);
-    assertTrue(Arrays.equals(expectedOutput, input));
+    assertThat(input).isEqualTo(expectedOutput);
   }
 
   private static void testReverse(
       boolean[] input, int fromIndex, int toIndex, boolean[] expectedOutput) {
     input = Arrays.copyOf(input, input.length);
     Booleans.reverse(input, fromIndex, toIndex);
-    assertTrue(Arrays.equals(expectedOutput, input));
+    assertThat(input).isEqualTo(expectedOutput);
   }
 
   public void testReverseIndexed() {
@@ -209,20 +209,251 @@ public class BooleansTest extends TestCase {
         new boolean[] {true, true, false, false}, 1, 3, new boolean[] {true, false, true, false});
   }
 
+  private static void testRotate(boolean[] input, int distance, boolean[] expectedOutput) {
+    input = Arrays.copyOf(input, input.length);
+    Booleans.rotate(input, distance);
+    assertThat(input).isEqualTo(expectedOutput);
+  }
+
+  private static void testRotate(
+      boolean[] input, int distance, int fromIndex, int toIndex, boolean[] expectedOutput) {
+    input = Arrays.copyOf(input, input.length);
+    Booleans.rotate(input, distance, fromIndex, toIndex);
+    assertThat(input).isEqualTo(expectedOutput);
+  }
+
+  public void testRotate() {
+    testRotate(new boolean[] {}, -1, new boolean[] {});
+    testRotate(new boolean[] {}, 0, new boolean[] {});
+    testRotate(new boolean[] {}, 1, new boolean[] {});
+
+    testRotate(new boolean[] {true}, -2, new boolean[] {true});
+    testRotate(new boolean[] {true}, -1, new boolean[] {true});
+    testRotate(new boolean[] {true}, 0, new boolean[] {true});
+    testRotate(new boolean[] {true}, 1, new boolean[] {true});
+    testRotate(new boolean[] {true}, 2, new boolean[] {true});
+
+    testRotate(new boolean[] {true, false}, -3, new boolean[] {false, true});
+    testRotate(new boolean[] {true, false}, -1, new boolean[] {false, true});
+    testRotate(new boolean[] {true, false}, -2, new boolean[] {true, false});
+    testRotate(new boolean[] {true, false}, 0, new boolean[] {true, false});
+    testRotate(new boolean[] {true, false}, 1, new boolean[] {false, true});
+    testRotate(new boolean[] {true, false}, 2, new boolean[] {true, false});
+    testRotate(new boolean[] {true, false}, 3, new boolean[] {false, true});
+
+    testRotate(new boolean[] {true, false, true}, -5, new boolean[] {true, true, false});
+    testRotate(new boolean[] {true, false, true}, -4, new boolean[] {false, true, true});
+    testRotate(new boolean[] {true, false, true}, -3, new boolean[] {true, false, true});
+    testRotate(new boolean[] {true, false, true}, -2, new boolean[] {true, true, false});
+    testRotate(new boolean[] {true, false, true}, -1, new boolean[] {false, true, true});
+    testRotate(new boolean[] {true, false, true}, 0, new boolean[] {true, false, true});
+    testRotate(new boolean[] {true, false, true}, 1, new boolean[] {true, true, false});
+    testRotate(new boolean[] {true, false, true}, 2, new boolean[] {false, true, true});
+    testRotate(new boolean[] {true, false, true}, 3, new boolean[] {true, false, true});
+    testRotate(new boolean[] {true, false, true}, 4, new boolean[] {true, true, false});
+    testRotate(new boolean[] {true, false, true}, 5, new boolean[] {false, true, true});
+
+    testRotate(
+        new boolean[] {true, false, true, false}, -9, new boolean[] {false, true, false, true});
+    testRotate(
+        new boolean[] {true, false, true, false}, -5, new boolean[] {false, true, false, true});
+    testRotate(
+        new boolean[] {true, false, true, false}, -1, new boolean[] {false, true, false, true});
+    testRotate(
+        new boolean[] {true, false, true, false}, 0, new boolean[] {true, false, true, false});
+    testRotate(
+        new boolean[] {true, false, true, false}, 1, new boolean[] {false, true, false, true});
+    testRotate(
+        new boolean[] {true, false, true, false}, 5, new boolean[] {false, true, false, true});
+    testRotate(
+        new boolean[] {true, false, true, false}, 9, new boolean[] {false, true, false, true});
+
+    testRotate(
+        new boolean[] {true, false, true, false, true},
+        -6,
+        new boolean[] {false, true, false, true, true});
+    testRotate(
+        new boolean[] {true, false, true, false, true},
+        -4,
+        new boolean[] {true, true, false, true, false});
+    testRotate(
+        new boolean[] {true, false, true, false, true},
+        -3,
+        new boolean[] {false, true, true, false, true});
+    testRotate(
+        new boolean[] {true, false, true, false, true},
+        -1,
+        new boolean[] {false, true, false, true, true});
+    testRotate(
+        new boolean[] {true, false, true, false, true},
+        0,
+        new boolean[] {true, false, true, false, true});
+    testRotate(
+        new boolean[] {true, false, true, false, true},
+        1,
+        new boolean[] {true, true, false, true, false});
+    testRotate(
+        new boolean[] {true, false, true, false, true},
+        3,
+        new boolean[] {true, false, true, true, false});
+    testRotate(
+        new boolean[] {true, false, true, false, true},
+        4,
+        new boolean[] {false, true, false, true, true});
+    testRotate(
+        new boolean[] {true, false, true, false, true},
+        6,
+        new boolean[] {true, true, false, true, false});
+  }
+
+  public void testRotateIndexed() {
+    testRotate(new boolean[] {}, 0, 0, 0, new boolean[] {});
+
+    testRotate(new boolean[] {true}, 0, 0, 1, new boolean[] {true});
+    testRotate(new boolean[] {true}, 1, 0, 1, new boolean[] {true});
+    testRotate(new boolean[] {true}, 1, 1, 1, new boolean[] {true});
+
+    // Rotate the central 5 elements, leaving the ends as-is
+    testRotate(
+        new boolean[] {false, true, false, true, false, true, false},
+        -6,
+        1,
+        6,
+        new boolean[] {false, false, true, false, true, true, false});
+    testRotate(
+        new boolean[] {false, true, false, true, false, true, false},
+        -1,
+        1,
+        6,
+        new boolean[] {false, false, true, false, true, true, false});
+    testRotate(
+        new boolean[] {false, true, false, true, false, true, false},
+        0,
+        1,
+        6,
+        new boolean[] {false, true, false, true, false, true, false});
+    testRotate(
+        new boolean[] {false, true, false, true, false, true, false},
+        5,
+        1,
+        6,
+        new boolean[] {false, true, false, true, false, true, false});
+    testRotate(
+        new boolean[] {false, true, false, true, false, true, false},
+        14,
+        1,
+        6,
+        new boolean[] {false, false, true, false, true, true, false});
+
+    // Rotate the first three elements
+    testRotate(
+        new boolean[] {false, true, false, true, false, true, false},
+        -2,
+        0,
+        3,
+        new boolean[] {false, false, true, true, false, true, false});
+    testRotate(
+        new boolean[] {false, true, false, true, false, true, false},
+        -1,
+        0,
+        3,
+        new boolean[] {true, false, false, true, false, true, false});
+    testRotate(
+        new boolean[] {false, true, false, true, false, true, false},
+        0,
+        0,
+        3,
+        new boolean[] {false, true, false, true, false, true, false});
+    testRotate(
+        new boolean[] {false, true, false, true, false, true, false},
+        1,
+        0,
+        3,
+        new boolean[] {false, false, true, true, false, true, false});
+    testRotate(
+        new boolean[] {false, true, false, true, false, true, false},
+        2,
+        0,
+        3,
+        new boolean[] {true, false, false, true, false, true, false});
+
+    // Rotate the last four elements
+    testRotate(
+        new boolean[] {false, true, false, true, false, true, false},
+        -6,
+        3,
+        7,
+        new boolean[] {false, true, false, true, false, true, false});
+    testRotate(
+        new boolean[] {false, true, false, true, false, true, false},
+        -5,
+        3,
+        7,
+        new boolean[] {false, true, false, false, true, false, true});
+    testRotate(
+        new boolean[] {false, true, false, true, false, true, false},
+        -4,
+        3,
+        7,
+        new boolean[] {false, true, false, true, false, true, false});
+    testRotate(
+        new boolean[] {false, true, false, true, false, true, false},
+        -3,
+        3,
+        7,
+        new boolean[] {false, true, false, false, true, false, true});
+    testRotate(
+        new boolean[] {false, true, false, true, false, true, false},
+        -2,
+        3,
+        7,
+        new boolean[] {false, true, false, true, false, true, false});
+    testRotate(
+        new boolean[] {false, true, false, true, false, true, false},
+        -1,
+        3,
+        7,
+        new boolean[] {false, true, false, false, true, false, true});
+    testRotate(
+        new boolean[] {false, true, false, true, false, true, false},
+        0,
+        3,
+        7,
+        new boolean[] {false, true, false, true, false, true, false});
+    testRotate(
+        new boolean[] {false, true, false, true, false, true, false},
+        1,
+        3,
+        7,
+        new boolean[] {false, true, false, false, true, false, true});
+    testRotate(
+        new boolean[] {false, true, false, true, false, true, false},
+        2,
+        3,
+        7,
+        new boolean[] {false, true, false, true, false, true, false});
+    testRotate(
+        new boolean[] {false, true, false, true, false, true, false},
+        3,
+        3,
+        7,
+        new boolean[] {false, true, false, false, true, false, true});
+  }
+
   public void testToArray() {
     // need explicit type parameter to avoid javac warning!?
     List<Boolean> none = Arrays.<Boolean>asList();
-    assertTrue(Arrays.equals(EMPTY, Booleans.toArray(none)));
+    assertThat(Booleans.toArray(none)).isEqualTo(EMPTY);
 
     List<Boolean> one = Arrays.asList(false);
-    assertTrue(Arrays.equals(ARRAY_FALSE, Booleans.toArray(one)));
+    assertThat(Booleans.toArray(one)).isEqualTo(ARRAY_FALSE);
 
     boolean[] array = {false, false, true};
 
     List<Boolean> three = Arrays.asList(false, false, true);
-    assertTrue(Arrays.equals(array, Booleans.toArray(three)));
+    assertThat(Booleans.toArray(three)).isEqualTo(array);
 
-    assertTrue(Arrays.equals(array, Booleans.toArray(Booleans.asList(array))));
+    assertThat(Booleans.toArray(Booleans.asList(array))).isEqualTo(array);
   }
 
   public void testToArray_threadSafe() {
@@ -236,9 +467,9 @@ public class BooleansTest extends TestCase {
         Collection<Boolean> misleadingSize = Helpers.misleadingSizeCollection(delta);
         misleadingSize.addAll(list);
         boolean[] arr = Booleans.toArray(misleadingSize);
-        assertEquals(i, arr.length);
+        assertThat(arr).hasLength(i);
         for (int j = 0; j < i; j++) {
-          assertEquals(VALUES[j], arr[j]);
+          assertThat(arr[j]).isEqualTo(VALUES[j]);
         }
       }
     }
@@ -253,71 +484,80 @@ public class BooleansTest extends TestCase {
     }
   }
 
+  @SuppressWarnings({"CollectionIsEmptyTruth", "CollectionIsNotEmptyTruth"})
   public void testAsListIsEmpty() {
-    assertTrue(Booleans.asList(EMPTY).isEmpty());
-    assertFalse(Booleans.asList(ARRAY_FALSE).isEmpty());
+    assertThat(Booleans.asList(EMPTY).isEmpty()).isTrue();
+    assertThat(Booleans.asList(ARRAY_FALSE).isEmpty()).isFalse();
   }
 
+  @SuppressWarnings("CollectionSizeTruth")
   public void testAsListSize() {
-    assertEquals(0, Booleans.asList(EMPTY).size());
-    assertEquals(1, Booleans.asList(ARRAY_FALSE).size());
-    assertEquals(2, Booleans.asList(ARRAY_FALSE_TRUE).size());
+    assertThat(Booleans.asList(EMPTY).size()).isEqualTo(0);
+    assertThat(Booleans.asList(ARRAY_FALSE).size()).isEqualTo(1);
+    assertThat(Booleans.asList(ARRAY_FALSE_TRUE).size()).isEqualTo(2);
   }
 
+  @SuppressWarnings("BooleanArrayIndexOfBoolean")
   public void testAsListIndexOf() {
-    assertEquals(-1, Booleans.asList(EMPTY).indexOf((Object) "wrong type"));
-    assertEquals(-1, Booleans.asList(EMPTY).indexOf(true));
-    assertEquals(-1, Booleans.asList(ARRAY_FALSE).indexOf(true));
-    assertEquals(0, Booleans.asList(ARRAY_FALSE).indexOf(false));
-    assertEquals(1, Booleans.asList(ARRAY_FALSE_TRUE).indexOf(true));
+    assertThat(Booleans.asList(EMPTY).indexOf((Object) "wrong type")).isEqualTo(-1);
+    assertThat(Booleans.asList(EMPTY).indexOf(true)).isEqualTo(-1);
+    assertThat(Booleans.asList(ARRAY_FALSE).indexOf(true)).isEqualTo(-1);
+    assertThat(Booleans.asList(ARRAY_FALSE).indexOf(false)).isEqualTo(0);
+    assertThat(Booleans.asList(ARRAY_FALSE_TRUE).indexOf(true)).isEqualTo(1);
   }
 
   public void testAsListLastIndexOf() {
-    assertEquals(-1, Booleans.asList(EMPTY).lastIndexOf((Object) "wrong type"));
-    assertEquals(-1, Booleans.asList(EMPTY).lastIndexOf(true));
-    assertEquals(-1, Booleans.asList(ARRAY_FALSE).lastIndexOf(true));
-    assertEquals(1, Booleans.asList(ARRAY_FALSE_TRUE).lastIndexOf(true));
-    assertEquals(1, Booleans.asList(ARRAY_FALSE_FALSE).lastIndexOf(false));
+    assertThat(Booleans.asList(EMPTY).lastIndexOf((Object) "wrong type")).isEqualTo(-1);
+    assertThat(Booleans.asList(EMPTY).lastIndexOf(true)).isEqualTo(-1);
+    assertThat(Booleans.asList(ARRAY_FALSE).lastIndexOf(true)).isEqualTo(-1);
+    assertThat(Booleans.asList(ARRAY_FALSE_TRUE).lastIndexOf(true)).isEqualTo(1);
+    assertThat(Booleans.asList(ARRAY_FALSE_FALSE).lastIndexOf(false)).isEqualTo(1);
   }
 
+  @SuppressWarnings({"BooleanArrayContainsBoolean", "CollectionDoesNotContainTruth"})
   public void testAsListContains() {
-    assertFalse(Booleans.asList(EMPTY).contains((Object) "wrong type"));
-    assertFalse(Booleans.asList(EMPTY).contains(true));
-    assertFalse(Booleans.asList(ARRAY_FALSE).contains(true));
-    assertTrue(Booleans.asList(ARRAY_TRUE).contains(true));
-    assertTrue(Booleans.asList(ARRAY_FALSE_TRUE).contains(false));
-    assertTrue(Booleans.asList(ARRAY_FALSE_TRUE).contains(true));
+    assertThat(Booleans.asList(EMPTY).contains((Object) "wrong type")).isFalse();
+    assertThat(Booleans.asList(EMPTY).contains(true)).isFalse();
+    assertThat(Booleans.asList(ARRAY_FALSE).contains(true)).isFalse();
+    assertThat(Booleans.asList(ARRAY_TRUE).contains(true)).isTrue();
+    assertThat(Booleans.asList(ARRAY_FALSE_TRUE).contains(false)).isTrue();
+    assertThat(Booleans.asList(ARRAY_FALSE_TRUE).contains(true)).isTrue();
   }
 
   public void testAsListEquals() {
-    assertEquals(Booleans.asList(EMPTY), Collections.emptyList());
-    assertEquals(Booleans.asList(ARRAY_FALSE), Booleans.asList(ARRAY_FALSE));
-    assertFalse(Booleans.asList(ARRAY_FALSE).equals(ARRAY_FALSE));
-    assertFalse(Booleans.asList(ARRAY_FALSE).equals(null));
-    assertFalse(Booleans.asList(ARRAY_FALSE).equals(Booleans.asList(ARRAY_FALSE_TRUE)));
-    assertFalse(Booleans.asList(ARRAY_FALSE_FALSE).equals(Booleans.asList(ARRAY_FALSE_TRUE)));
+    assertThat(Booleans.asList(EMPTY).equals(Collections.emptyList())).isTrue();
+    assertThat(Booleans.asList(ARRAY_FALSE).equals(Booleans.asList(ARRAY_FALSE))).isTrue();
+    @SuppressWarnings("EqualsIncompatibleType")
+    boolean listEqualsArray = Booleans.asList(ARRAY_FALSE).equals(ARRAY_FALSE);
+    assertThat(listEqualsArray).isFalse();
+    assertThat(Booleans.asList(ARRAY_FALSE).equals(null)).isFalse();
+    assertThat(Booleans.asList(ARRAY_FALSE).equals(Booleans.asList(ARRAY_FALSE_TRUE))).isFalse();
+    assertThat(Booleans.asList(ARRAY_FALSE_FALSE).equals(Booleans.asList(ARRAY_FALSE_TRUE)))
+        .isFalse();
     assertEquals(1, Booleans.asList(ARRAY_FALSE_TRUE).lastIndexOf(true));
     List<Boolean> reference = Booleans.asList(ARRAY_FALSE);
     assertEquals(Booleans.asList(ARRAY_FALSE), reference);
-    assertEquals(reference, reference);
+    // Explicitly call `equals`; `assertEquals` might return fast
+    assertThat(reference.equals(reference)).isTrue();
   }
 
   public void testAsListHashcode() {
-    assertEquals(1, Booleans.asList(EMPTY).hashCode());
-    assertEquals(Booleans.asList(ARRAY_FALSE).hashCode(), Booleans.asList(ARRAY_FALSE).hashCode());
+    assertThat(Booleans.asList(EMPTY).hashCode()).isEqualTo(1);
+    assertThat(Booleans.asList(ARRAY_FALSE).hashCode())
+        .isEqualTo(Booleans.asList(ARRAY_FALSE).hashCode());
     List<Boolean> reference = Booleans.asList(ARRAY_FALSE);
-    assertEquals(Booleans.asList(ARRAY_FALSE).hashCode(), reference.hashCode());
+    assertThat(reference.hashCode()).isEqualTo(Booleans.asList(ARRAY_FALSE).hashCode());
   }
 
   public void testAsListToString() {
-    assertEquals("[false]", Booleans.asList(ARRAY_FALSE).toString());
-    assertEquals("[false, true]", Booleans.asList(ARRAY_FALSE_TRUE).toString());
+    assertThat(Booleans.asList(ARRAY_FALSE).toString()).isEqualTo("[false]");
+    assertThat(Booleans.asList(ARRAY_FALSE_TRUE).toString()).isEqualTo("[false, true]");
   }
 
   public void testAsListSet() {
     List<Boolean> list = Booleans.asList(ARRAY_FALSE);
-    assertFalse(list.set(0, true));
-    assertTrue(list.set(0, false));
+    assertThat(list.set(0, true)).isFalse();
+    assertThat(list.set(0, false)).isTrue();
     try {
       list.set(0, null);
       fail();
@@ -330,12 +570,26 @@ public class BooleansTest extends TestCase {
     }
   }
 
+  public void testAsListCanonicalValues() {
+    List<Boolean> list = Booleans.asList(true, false);
+    assertThat(list.get(0)).isSameInstanceAs(true);
+    assertThat(list.get(1)).isSameInstanceAs(false);
+    @SuppressWarnings("deprecation")
+    Boolean anotherTrue = new Boolean(true);
+    @SuppressWarnings("deprecation")
+    Boolean anotherFalse = new Boolean(false);
+    list.set(0, anotherTrue);
+    assertThat(list.get(0)).isSameInstanceAs(true);
+    list.set(1, anotherFalse);
+    assertThat(list.get(1)).isSameInstanceAs(false);
+  }
+
   public void testCountTrue() {
-    assertEquals(0, Booleans.countTrue());
-    assertEquals(0, Booleans.countTrue(false));
-    assertEquals(1, Booleans.countTrue(true));
-    assertEquals(3, Booleans.countTrue(false, true, false, true, false, true));
-    assertEquals(1, Booleans.countTrue(false, false, true, false, false));
+    assertThat(Booleans.countTrue()).isEqualTo(0);
+    assertThat(Booleans.countTrue(false)).isEqualTo(0);
+    assertThat(Booleans.countTrue(true)).isEqualTo(1);
+    assertThat(Booleans.countTrue(false, true, false, true, false, true)).isEqualTo(3);
+    assertThat(Booleans.countTrue(false, false, true, false, false)).isEqualTo(1);
   }
 
   @GwtIncompatible // NullPointerTester

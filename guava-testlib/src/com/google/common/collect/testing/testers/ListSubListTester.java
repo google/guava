@@ -326,7 +326,7 @@ public class ListSubListTester<E> extends AbstractListTester<E> {
 
   /**
    * Returns the {@link Method} instance for {@link
-   * #testSubList_originalListSetAffectsSubListLargeList()} ()} so that tests of {@link
+   * #testSubList_originalListSetAffectsSubListLargeList()} so that tests of {@link
    * CopyOnWriteArrayList} can suppress them with {@code
    * FeatureSpecificTestSuiteBuilder.suppressing()} until <a
    * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6570631">Sun bug 6570631</a> is fixed.

@@ -18,7 +18,7 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtIncompatible;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Skeletal implementation of {@link ImmutableSortedSet#descendingSet()}.

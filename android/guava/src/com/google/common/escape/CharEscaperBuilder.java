@@ -16,15 +16,14 @@ package com.google.common.escape;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Simple helper class to build a "sparse" array of objects based on the indexes that were added to
@@ -35,7 +34,6 @@ import org.jspecify.nullness.Nullable;
  * @author Sven Mawson
  * @since 15.0
  */
-@Beta
 @GwtCompatible
 @NullMarked
 public final class CharEscaperBuilder {

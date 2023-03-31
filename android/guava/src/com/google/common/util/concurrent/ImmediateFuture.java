@@ -23,8 +23,9 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import javax.annotation.CheckForNull;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /** Implementation of {@link Futures#immediateFuture}. */
 @GwtCompatible
@@ -35,9 +36,9 @@ class ImmediateFuture<V extends @Nullable Object> implements ListenableFuture<V>
 
   private static final Logger log = Logger.getLogger(ImmediateFuture.class.getName());
 
-  private final V value;
+  @ParametricNullness private final V value;
 
-  ImmediateFuture(V value) {
+  ImmediateFuture(@ParametricNullness V value) {
     this.value = value;
   }
 
@@ -64,11 +65,13 @@ class ImmediateFuture<V extends @Nullable Object> implements ListenableFuture<V>
 
   // TODO(lukes): Consider throwing InterruptedException when appropriate.
   @Override
+  @ParametricNullness
   public V get() {
     return value;
   }
 
   @Override
+  @ParametricNullness
   public V get(long timeout, TimeUnit unit) throws ExecutionException {
     checkNotNull(unit);
     return get();
@@ -97,6 +100,10 @@ class ImmediateFuture<V extends @Nullable Object> implements ListenableFuture<V>
   }
 
   static final class ImmediateCancelledFuture<V extends @Nullable Object> extends TrustedFuture<V> {
+    @CheckForNull
+    static final ImmediateCancelledFuture<Object> INSTANCE =
+        AbstractFuture.GENERATE_CANCELLATION_CAUSES ? null : new ImmediateCancelledFuture<>();
+
     ImmediateCancelledFuture() {
       cancel(false);
     }

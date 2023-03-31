@@ -21,8 +21,8 @@ import com.google.common.base.Predicate;
 import java.util.Map.Entry;
 import java.util.Set;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Implementation of {@link Multimaps#filterEntries(SetMultimap, Predicate)}.
@@ -44,7 +44,7 @@ final class FilteredEntrySetMultimap<K extends @Nullable Object, V extends @Null
   }
 
   @Override
-  public Set<V> get(K key) {
+  public Set<V> get(@ParametricNullness K key) {
     return (Set<V>) super.get(key);
   }
 
@@ -54,7 +54,7 @@ final class FilteredEntrySetMultimap<K extends @Nullable Object, V extends @Null
   }
 
   @Override
-  public Set<V> replaceValues(K key, Iterable<? extends V> values) {
+  public Set<V> replaceValues(@ParametricNullness K key, Iterable<? extends V> values) {
     return (Set<V>) super.replaceValues(key, values);
   }
 

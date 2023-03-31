@@ -46,7 +46,6 @@ import junit.framework.TestCase;
  *
  * @author Dimitris Andreou
  */
-
 public class QueuesTest extends TestCase {
   /*
    * All the following tests relate to BlockingQueue methods in Queues.

@@ -23,6 +23,7 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableList;
@@ -56,7 +57,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.stream.Stream;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Static utilities for use with {@link Path} instances, intended to complement {@link Files}.
@@ -69,6 +70,7 @@ import org.jspecify.nullness.NullMarked;
  * @author Colin Decker
  */
 @Beta
+@J2ktIncompatible
 @GwtIncompatible
 @J2ObjCIncompatible // java.nio.file
 @NullMarked
@@ -88,7 +90,9 @@ public final class MoreFiles {
     return new PathByteSource(path, options);
   }
 
-  private static final class PathByteSource extends ByteSource {
+  private static final class PathByteSource extends
+      ByteSource
+  {
 
     private static final LinkOption[] FOLLOW_LINKS = {};
 
@@ -171,7 +175,7 @@ public final class MoreFiles {
         // If no OpenOptions were passed, delegate to Files.lines, which could have performance
         // advantages. (If OpenOptions were passed we can't, because Files.lines doesn't have an
         // overload taking OpenOptions, meaning we can't guarantee the same behavior w.r.t. things
-        // like following/not following symlinks.
+        // like following/not following symlinks.)
         return new AsCharSource(charset) {
           @SuppressWarnings("FilesLinesLeak") // the user needs to close it in this case
           @Override

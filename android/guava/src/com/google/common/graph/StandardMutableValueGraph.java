@@ -26,7 +26,7 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Standard implementation of {@link MutableValueGraph} that supports both directed and undirected

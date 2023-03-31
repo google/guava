@@ -30,7 +30,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * An object that can traverse the nodes that are reachable from a specified (set of) start node(s)
@@ -97,7 +97,7 @@ public abstract class Traverser<N> {
    *
    * @param graph {@link SuccessorsFunction} representing a general graph that may have cycles.
    */
-  public static <N> Traverser<N> forGraph(final SuccessorsFunction<N> graph) {
+  public static <N> Traverser<N> forGraph(SuccessorsFunction<N> graph) {
     return new Traverser<N>(graph) {
       @Override
       Traversal<N> newTraversal() {
@@ -179,7 +179,7 @@ public abstract class Traverser<N> {
    * @param tree {@link SuccessorsFunction} representing a directed acyclic graph that has at most
    *     one path between any two nodes
    */
-  public static <N> Traverser<N> forTree(final SuccessorsFunction<N> tree) {
+  public static <N> Traverser<N> forTree(SuccessorsFunction<N> tree) {
     if (tree instanceof BaseGraph) {
       checkArgument(((BaseGraph<?>) tree).isDirected(), "Undirected graphs can never be trees.");
     }
@@ -240,7 +240,7 @@ public abstract class Traverser<N> {
    * @since 24.1
    */
   public final Iterable<N> breadthFirst(Iterable<? extends N> startNodes) {
-    final ImmutableSet<N> validated = validate(startNodes);
+    ImmutableSet<N> validated = validate(startNodes);
     return new Iterable<N>() {
       @Override
       public Iterator<N> iterator() {
@@ -295,7 +295,7 @@ public abstract class Traverser<N> {
    * @since 24.1
    */
   public final Iterable<N> depthFirstPreOrder(Iterable<? extends N> startNodes) {
-    final ImmutableSet<N> validated = validate(startNodes);
+    ImmutableSet<N> validated = validate(startNodes);
     return new Iterable<N>() {
       @Override
       public Iterator<N> iterator() {
@@ -350,7 +350,7 @@ public abstract class Traverser<N> {
    * @since 24.1
    */
   public final Iterable<N> depthFirstPostOrder(Iterable<? extends N> startNodes) {
-    final ImmutableSet<N> validated = validate(startNodes);
+    ImmutableSet<N> validated = validate(startNodes);
     return new Iterable<N>() {
       @Override
       public Iterator<N> iterator() {
@@ -383,7 +383,7 @@ public abstract class Traverser<N> {
     }
 
     static <N> Traversal<N> inGraph(SuccessorsFunction<N> graph) {
-      final Set<N> visited = new HashSet<>();
+      Set<N> visited = new HashSet<>();
       return new Traversal<N>(graph) {
         @Override
         @CheckForNull
@@ -439,8 +439,8 @@ public abstract class Traverser<N> {
      * determined by the {@code InsertionOrder} parameter: nieces are placed at the FRONT before
      * aunts for pre-order; while in BFS they are placed at the BACK after aunts.
      */
-    private Iterator<N> topDown(Iterator<? extends N> startNodes, final InsertionOrder order) {
-      final Deque<Iterator<? extends N>> horizon = new ArrayDeque<>();
+    private Iterator<N> topDown(Iterator<? extends N> startNodes, InsertionOrder order) {
+      Deque<Iterator<? extends N>> horizon = new ArrayDeque<>();
       horizon.add(startNodes);
       return new AbstractIterator<N>() {
         @Override
@@ -464,8 +464,8 @@ public abstract class Traverser<N> {
     }
 
     final Iterator<N> postOrder(Iterator<? extends N> startNodes) {
-      final Deque<N> ancestorStack = new ArrayDeque<>();
-      final Deque<Iterator<? extends N>> horizon = new ArrayDeque<>();
+      Deque<N> ancestorStack = new ArrayDeque<>();
+      Deque<Iterator<? extends N>> horizon = new ArrayDeque<>();
       horizon.add(startNodes);
       return new AbstractIterator<N>() {
         @Override

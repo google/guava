@@ -16,7 +16,6 @@
 
 package com.google.common.testing;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -52,7 +51,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Kevin Bourrillion
  * @since 10.0
  */
-@Beta
 @GwtCompatible
 public class TestLogHandler extends Handler {
   /** We will keep a private list of all logged records */

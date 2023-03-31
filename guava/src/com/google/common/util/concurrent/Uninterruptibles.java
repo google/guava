@@ -18,7 +18,6 @@ import static com.google.common.base.Verify.verify;
 import static com.google.common.util.concurrent.Internal.toNanosSaturated;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Preconditions;
@@ -35,8 +34,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Utilities for treating interruptible operations as uninterruptible. In all cases, if a thread is
@@ -79,9 +78,7 @@ public final class Uninterruptibles {
    *
    * @since 28.0
    */
-  @CanIgnoreReturnValue // TODO(cpovirk): Consider being more strict.
   @GwtIncompatible // concurrency
-  @Beta
   public static boolean awaitUninterruptibly(CountDownLatch latch, Duration timeout) {
     return awaitUninterruptibly(latch, toNanosSaturated(timeout), TimeUnit.NANOSECONDS);
   }
@@ -90,7 +87,6 @@ public final class Uninterruptibles {
    * Invokes {@code latch.}{@link CountDownLatch#await(long, TimeUnit) await(timeout, unit)}
    * uninterruptibly.
    */
-  @CanIgnoreReturnValue // TODO(cpovirk): Consider being more strict.
   @GwtIncompatible // concurrency
   @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public static boolean awaitUninterruptibly(CountDownLatch latch, long timeout, TimeUnit unit) {
@@ -122,7 +118,6 @@ public final class Uninterruptibles {
    * @since 28.0
    */
   @GwtIncompatible // concurrency
-  @Beta
   public static boolean awaitUninterruptibly(Condition condition, Duration timeout) {
     return awaitUninterruptibly(condition, toNanosSaturated(timeout), TimeUnit.NANOSECONDS);
   }
@@ -183,7 +178,6 @@ public final class Uninterruptibles {
    * @since 28.0
    */
   @GwtIncompatible // concurrency
-  @Beta
   public static void joinUninterruptibly(Thread toJoin, Duration timeout) {
     joinUninterruptibly(toJoin, toNanosSaturated(timeout), TimeUnit.NANOSECONDS);
   }
@@ -235,6 +229,7 @@ public final class Uninterruptibles {
    * @throws CancellationException if the computation was cancelled
    */
   @CanIgnoreReturnValue
+  @ParametricNullness
   public static <V extends @Nullable Object> V getUninterruptibly(Future<V> future)
       throws ExecutionException {
     boolean interrupted = false;
@@ -274,7 +269,7 @@ public final class Uninterruptibles {
    */
   @CanIgnoreReturnValue
   @GwtIncompatible // java.time.Duration
-  @Beta
+  @ParametricNullness
   public static <V extends @Nullable Object> V getUninterruptibly(
       Future<V> future, Duration timeout) throws ExecutionException, TimeoutException {
     return getUninterruptibly(future, toNanosSaturated(timeout), TimeUnit.NANOSECONDS);
@@ -301,6 +296,7 @@ public final class Uninterruptibles {
   @CanIgnoreReturnValue
   @GwtIncompatible // TODO
   @SuppressWarnings("GoodTime") // should accept a java.time.Duration
+  @ParametricNullness
   public static <V extends @Nullable Object> V getUninterruptibly(
       Future<V> future, long timeout, TimeUnit unit) throws ExecutionException, TimeoutException {
     boolean interrupted = false;
@@ -377,7 +373,6 @@ public final class Uninterruptibles {
    * @since 28.0
    */
   @GwtIncompatible // concurrency
-  @Beta
   public static void sleepUninterruptibly(Duration sleepFor) {
     sleepUninterruptibly(toNanosSaturated(sleepFor), TimeUnit.NANOSECONDS);
   }
@@ -415,7 +410,6 @@ public final class Uninterruptibles {
    * @since 28.0
    */
   @GwtIncompatible // concurrency
-  @Beta
   public static boolean tryAcquireUninterruptibly(Semaphore semaphore, Duration timeout) {
     return tryAcquireUninterruptibly(semaphore, toNanosSaturated(timeout), TimeUnit.NANOSECONDS);
   }
@@ -440,7 +434,6 @@ public final class Uninterruptibles {
    * @since 28.0
    */
   @GwtIncompatible // concurrency
-  @Beta
   public static boolean tryAcquireUninterruptibly(
       Semaphore semaphore, int permits, Duration timeout) {
     return tryAcquireUninterruptibly(
@@ -485,7 +478,6 @@ public final class Uninterruptibles {
    * @since 30.0
    */
   @GwtIncompatible // concurrency
-  @Beta
   public static boolean tryLockUninterruptibly(Lock lock, Duration timeout) {
     return tryLockUninterruptibly(lock, toNanosSaturated(timeout), TimeUnit.NANOSECONDS);
   }
@@ -525,7 +517,6 @@ public final class Uninterruptibles {
    *
    * @since 30.0
    */
-  @Beta
   @GwtIncompatible // concurrency
   public static void awaitTerminationUninterruptibly(ExecutorService executor) {
     // TODO(cpovirk): We could optimize this to avoid calling nanoTime() at all.
@@ -538,7 +529,6 @@ public final class Uninterruptibles {
    *
    * @since 30.0
    */
-  @Beta
   @GwtIncompatible // concurrency
   public static boolean awaitTerminationUninterruptibly(
       ExecutorService executor, Duration timeout) {
@@ -551,7 +541,6 @@ public final class Uninterruptibles {
    *
    * @since 30.0
    */
-  @Beta
   @GwtIncompatible // concurrency
   @SuppressWarnings("GoodTime")
   public static boolean awaitTerminationUninterruptibly(

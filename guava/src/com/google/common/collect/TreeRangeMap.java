@@ -40,8 +40,8 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.function.BiFunction;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An implementation of {@code RangeMap} based on a {@code TreeMap}, supporting all optional
@@ -170,8 +170,8 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
   }
 
   @Override
-  public void putAll(RangeMap<K, V> rangeMap) {
-    for (Entry<Range<K>, V> entry : rangeMap.asMapOfRanges().entrySet()) {
+  public void putAll(RangeMap<K, ? extends V> rangeMap) {
+    for (Entry<Range<K>, ? extends V> entry : rangeMap.asMapOfRanges().entrySet()) {
       put(entry.getKey(), entry.getValue());
     }
   }
@@ -418,7 +418,7 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
         }
 
         @Override
-        public void putAll(RangeMap<Comparable<?>, Object> rangeMap) {
+        public void putAll(RangeMap<Comparable<?>, ? extends Object> rangeMap) {
           if (!rangeMap.asMapOfRanges().isEmpty()) {
             throw new IllegalArgumentException(
                 "Cannot putAll(nonEmptyRangeMap) into an empty subRangeMap");
@@ -437,7 +437,8 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
         public void merge(
             Range<Comparable<?>> range,
             @CheckForNull Object value,
-            BiFunction<? super Object, ? super Object, ? extends Object> remappingFunction) {
+            BiFunction<? super Object, ? super @Nullable Object, ? extends @Nullable Object>
+                remappingFunction) {
           checkNotNull(range);
           throw new IllegalArgumentException(
               "Cannot merge range " + range + " into an empty subRangeMap");
@@ -534,7 +535,7 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
     }
 
     @Override
-    public void putAll(RangeMap<K, V> rangeMap) {
+    public void putAll(RangeMap<K, ? extends V> rangeMap) {
       if (rangeMap.asMapOfRanges().isEmpty()) {
         return;
       }

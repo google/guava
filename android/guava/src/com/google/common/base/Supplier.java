@@ -15,9 +15,8 @@
 package com.google.common.base;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A class that can supply objects of a single type; a pre-Java-8 version of {@link
@@ -55,6 +54,6 @@ public interface Supplier<T extends @Nullable Object> {
    *
    * @return an instance of the appropriate type
    */
-  @CanIgnoreReturnValue
+  @ParametricNullness
   T get();
 }

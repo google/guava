@@ -36,7 +36,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * This class provides a skeletal implementation of {@link Network}. It is recommended to extend
@@ -254,7 +254,7 @@ public abstract class AbstractNetwork<N, E> implements Network<N, E> {
   }
 
   protected final boolean isOrderingCompatible(EndpointPair<?> endpoints) {
-    return endpoints.isOrdered() || !this.isDirected();
+    return endpoints.isOrdered() == this.isDirected();
   }
 
   @Override

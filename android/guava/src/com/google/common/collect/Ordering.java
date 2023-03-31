@@ -20,9 +20,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Function;
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -39,8 +39,9 @@ import java.util.TreeSet;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A comparator, with additional methods to support common operations. This is an "enriched" version
@@ -172,6 +173,8 @@ public abstract class Ordering<T extends @Nullable Object> implements Comparator
    * unnecessary to create a <i>new</i> anonymous inner class implementing {@code Comparator} just
    * to pass it in here. Instead, simply subclass {@code Ordering} and implement its {@code compare}
    * method directly.
+   *
+   * <p>The returned object is serializable if {@code comparator} is serializable.
    *
    * <p><b>Java 8 users:</b> this class is now obsolete as explained in the class documentation, so
    * there is no need to use this method.
@@ -314,14 +317,17 @@ public abstract class Ordering<T extends @Nullable Object> implements Comparator
    * @since 2.0
    */
   // TODO(kevinb): copy to Comparators, etc.
+  @J2ktIncompatible // MapMaker
   public static Ordering<@Nullable Object> arbitrary() {
     return ArbitraryOrderingHolder.ARBITRARY_ORDERING;
   }
 
+  @J2ktIncompatible // MapMaker
   private static class ArbitraryOrderingHolder {
     static final Ordering<@Nullable Object> ARBITRARY_ORDERING = new ArbitraryOrdering();
   }
 
+  @J2ktIncompatible // MapMaker
   @VisibleForTesting
   static class ArbitraryOrdering extends Ordering<@Nullable Object> {
 
@@ -412,6 +418,8 @@ public abstract class Ordering<T extends @Nullable Object> implements Comparator
    * Returns an ordering that treats {@code null} as less than all other values and uses {@code
    * this} to compare non-null values.
    *
+   * <p>The returned object is serializable if this object is serializable.
+   *
    * <p><b>Java 8 users:</b> Use {@code Comparator.nullsFirst(thisComparator)} instead.
    */
   // type parameter <S> lets us avoid the extra <String> in statements like:
@@ -424,6 +432,8 @@ public abstract class Ordering<T extends @Nullable Object> implements Comparator
   /**
    * Returns an ordering that treats {@code null} as greater than all other values and uses this
    * ordering to compare non-null values.
+   *
+   * <p>The returned object is serializable if this object is serializable.
    *
    * <p><b>Java 8 users:</b> Use {@code Comparator.nullsLast(thisComparator)} instead.
    */
@@ -465,6 +475,9 @@ public abstract class Ordering<T extends @Nullable Object> implements Comparator
    * <p>An ordering produced by this method, or a chain of calls to this method, is equivalent to
    * one created using {@link Ordering#compound(Iterable)} on the same component comparators.
    *
+   * <p>The returned object is serializable if this object and {@code secondaryComparator} are both
+   * serializable.
+   *
    * <p><b>Java 8 users:</b> Use {@code thisComparator.thenComparing(secondaryComparator)} instead.
    * Depending on what {@code secondaryComparator} is, one of the other overloads of {@code
    * thenComparing} may be even more useful.
@@ -482,6 +495,8 @@ public abstract class Ordering<T extends @Nullable Object> implements Comparator
    *
    * <p>The returned ordering is equivalent to that produced using {@code
    * Ordering.from(comp1).compound(comp2).compound(comp3) . . .}.
+   *
+   * <p>The returned object is serializable if each of the {@code comparators} is serializable.
    *
    * <p><b>Warning:</b> Supplying an argument with undefined iteration order, such as a {@link
    * HashSet}, will produce non-deterministic results.
@@ -531,9 +546,8 @@ public abstract class Ordering<T extends @Nullable Object> implements Comparator
 
   // Regular instance methods
 
-  @CanIgnoreReturnValue // TODO(kak): Consider removing this
   @Override
-  public abstract int compare(T left, T right);
+  public abstract int compare(@ParametricNullness T left, @ParametricNullness T right);
 
   /**
    * Returns the least of the specified values according to this ordering. If there are multiple
@@ -549,6 +563,7 @@ public abstract class Ordering<T extends @Nullable Object> implements Comparator
    *     ordering.
    * @since 11.0
    */
+  @ParametricNullness
   public <E extends T> E min(Iterator<E> iterator) {
     // let this throw NoSuchElementException as necessary
     E minSoFar = iterator.next();
@@ -567,13 +582,14 @@ public abstract class Ordering<T extends @Nullable Object> implements Comparator
    * <p><b>Java 8 users:</b> If {@code iterable} is a {@link Collection}, use {@code
    * Collections.min(collection, thisComparator)} instead. Otherwise, use {@code
    * Streams.stream(iterable).min(thisComparator).get()} instead. Note that these alternatives do
-   * not guarantee which tied minimum element is returned)
+   * not guarantee which tied minimum element is returned.
    *
    * @param iterable the iterable whose minimum element is to be determined
    * @throws NoSuchElementException if {@code iterable} is empty
    * @throws ClassCastException if the parameters are not <i>mutually comparable</i> under this
    *     ordering.
    */
+  @ParametricNullness
   public <E extends T> E min(Iterable<E> iterable) {
     return min(iterable.iterator());
   }
@@ -593,7 +609,8 @@ public abstract class Ordering<T extends @Nullable Object> implements Comparator
    * @throws ClassCastException if the parameters are not <i>mutually comparable</i> under this
    *     ordering.
    */
-  public <E extends T> E min(E a, E b) {
+  @ParametricNullness
+  public <E extends T> E min(@ParametricNullness E a, @ParametricNullness E b) {
     return (compare(a, b) <= 0) ? a : b;
   }
 
@@ -611,7 +628,9 @@ public abstract class Ordering<T extends @Nullable Object> implements Comparator
    * @throws ClassCastException if the parameters are not <i>mutually comparable</i> under this
    *     ordering.
    */
-  public <E extends T> E min(E a, E b, E c, E... rest) {
+  @ParametricNullness
+  public <E extends T> E min(
+      @ParametricNullness E a, @ParametricNullness E b, @ParametricNullness E c, E... rest) {
     E minSoFar = min(min(a, b), c);
 
     for (E r : rest) {
@@ -635,6 +654,7 @@ public abstract class Ordering<T extends @Nullable Object> implements Comparator
    *     ordering.
    * @since 11.0
    */
+  @ParametricNullness
   public <E extends T> E max(Iterator<E> iterator) {
     // let this throw NoSuchElementException as necessary
     E maxSoFar = iterator.next();
@@ -653,13 +673,14 @@ public abstract class Ordering<T extends @Nullable Object> implements Comparator
    * <p><b>Java 8 users:</b> If {@code iterable} is a {@link Collection}, use {@code
    * Collections.max(collection, thisComparator)} instead. Otherwise, use {@code
    * Streams.stream(iterable).max(thisComparator).get()} instead. Note that these alternatives do
-   * not guarantee which tied maximum element is returned)
+   * not guarantee which tied maximum element is returned.
    *
    * @param iterable the iterable whose maximum element is to be determined
    * @throws NoSuchElementException if {@code iterable} is empty
    * @throws ClassCastException if the parameters are not <i>mutually comparable</i> under this
    *     ordering.
    */
+  @ParametricNullness
   public <E extends T> E max(Iterable<E> iterable) {
     return max(iterable.iterator());
   }
@@ -679,7 +700,8 @@ public abstract class Ordering<T extends @Nullable Object> implements Comparator
    * @throws ClassCastException if the parameters are not <i>mutually comparable</i> under this
    *     ordering.
    */
-  public <E extends T> E max(E a, E b) {
+  @ParametricNullness
+  public <E extends T> E max(@ParametricNullness E a, @ParametricNullness E b) {
     return (compare(a, b) >= 0) ? a : b;
   }
 
@@ -697,7 +719,9 @@ public abstract class Ordering<T extends @Nullable Object> implements Comparator
    * @throws ClassCastException if the parameters are not <i>mutually comparable</i> under this
    *     ordering.
    */
-  public <E extends T> E max(E a, E b, E c, E... rest) {
+  @ParametricNullness
+  public <E extends T> E max(
+      @ParametricNullness E a, @ParametricNullness E b, @ParametricNullness E c, E... rest) {
     E maxSoFar = max(max(a, b), c);
 
     for (E r : rest) {
@@ -800,7 +824,7 @@ public abstract class Ordering<T extends @Nullable Object> implements Comparator
   public <E extends T> List<E> greatestOf(Iterable<E> iterable, int k) {
     // TODO(kevinb): see if delegation is hurting performance noticeably
     // TODO(kevinb): if we change this implementation, add full unit tests.
-    return reverse().leastOf(iterable, k);
+    return this.<E>reverse().leastOf(iterable, k);
   }
 
   /**
@@ -820,7 +844,7 @@ public abstract class Ordering<T extends @Nullable Object> implements Comparator
    * @since 14.0
    */
   public <E extends T> List<E> greatestOf(Iterator<E> iterator, int k) {
-    return reverse().leastOf(iterator, k);
+    return this.<E>reverse().leastOf(iterator, k);
   }
 
   /**
@@ -832,10 +856,11 @@ public abstract class Ordering<T extends @Nullable Object> implements Comparator
    * duplicates according to the comparator. The sort performed is <i>stable</i>, meaning that such
    * elements will appear in the returned list in the same order they appeared in {@code elements}.
    *
-   * <p><b>Performance note:</b> According to our benchmarking on Open JDK 7, {@link
-   * #immutableSortedCopy} generally performs better (in both time and space) than this method, and
-   * this method in turn generally performs better than copying the list and calling {@link
-   * Collections#sort(List)}.
+   * <p><b>Performance note:</b> According to our
+   * benchmarking
+   * on Open JDK 7, {@link #immutableSortedCopy} generally performs better (in both time and space)
+   * than this method, and this method in turn generally performs better than copying the list and
+   * calling {@link Collections#sort(List)}.
    */
   // TODO(kevinb): rerun benchmarks including new options
   public <E extends T> List<E> sortedCopy(Iterable<E> elements) {
@@ -853,15 +878,15 @@ public abstract class Ordering<T extends @Nullable Object> implements Comparator
    * duplicates according to the comparator. The sort performed is <i>stable</i>, meaning that such
    * elements will appear in the returned list in the same order they appeared in {@code elements}.
    *
-   * <p><b>Performance note:</b> According to our benchmarking on Open JDK 7, this method is the
-   * most efficient way to make a sorted copy of a collection.
+   * <p><b>Performance note:</b> According to our
+   * benchmarking
+   * on Open JDK 7, this method is the most efficient way to make a sorted copy of a collection.
    *
    * @throws NullPointerException if any element of {@code elements} is {@code null}
    * @since 3.0
    */
   // TODO(kevinb): rerun benchmarks including new options
-  @SuppressWarnings("nullness") // unsafe, but there's not much we can do about it now
-  public <E extends T> ImmutableList<E> immutableSortedCopy(Iterable<E> elements) {
+  public <E extends @NonNull T> ImmutableList<E> immutableSortedCopy(Iterable<E> elements) {
     return ImmutableList.sortedCopyOf(this, elements);
   }
 
@@ -922,7 +947,8 @@ public abstract class Ordering<T extends @Nullable Object> implements Comparator
    * @deprecated Use {@link Collections#binarySearch(List, Object, Comparator)} directly.
    */
   @Deprecated
-  public int binarySearch(List<? extends T> sortedList, T key) {
+  public int binarySearch(
+      List<? extends T> sortedList, @ParametricNullness T key) {
     return Collections.binarySearch(sortedList, key, this);
   }
 

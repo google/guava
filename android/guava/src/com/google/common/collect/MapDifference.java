@@ -20,8 +20,8 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.DoNotMock;
 import java.util.Map;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An object representing the differences between two maps.
@@ -92,9 +92,11 @@ public interface MapDifference<K extends @Nullable Object, V extends @Nullable O
   @DoNotMock("Use Maps.difference")
   interface ValueDifference<V extends @Nullable Object> {
     /** Returns the value from the left map (possibly null). */
+    @ParametricNullness
     V leftValue();
 
     /** Returns the value from the right map (possibly null). */
+    @ParametricNullness
     V rightValue();
 
     /**

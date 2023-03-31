@@ -18,6 +18,7 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.errorprone.annotations.concurrent.GuardedBy;
 import java.io.ByteArrayInputStream;
@@ -29,7 +30,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * An {@link OutputStream} that starts buffering to a byte array, but switches to file buffering
@@ -52,6 +53,7 @@ import org.jspecify.nullness.NullMarked;
  * @since 1.0
  */
 @Beta
+@J2ktIncompatible
 @GwtIncompatible
 @NullMarked
 public final class FileBackedOutputStream extends OutputStream {

@@ -51,7 +51,7 @@ import org.junit.Ignore;
 @Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class CollectionIteratorTester<E> extends AbstractCollectionTester<E> {
   public void testIterator() {
-    List<E> iteratorElements = new ArrayList<E>();
+    List<E> iteratorElements = new ArrayList<>();
     for (E element : collection) { // uses iterator()
       iteratorElements.add(element);
     }
@@ -60,7 +60,7 @@ public class CollectionIteratorTester<E> extends AbstractCollectionTester<E> {
 
   @CollectionFeature.Require(KNOWN_ORDER)
   public void testIterationOrdering() {
-    List<E> iteratorElements = new ArrayList<E>();
+    List<E> iteratorElements = new ArrayList<>();
     for (E element : collection) { // uses iterator()
       iteratorElements.add(element);
     }
@@ -72,7 +72,7 @@ public class CollectionIteratorTester<E> extends AbstractCollectionTester<E> {
   @CollectionSize.Require(absent = ZERO)
   public void testIterator_nullElement() {
     initCollectionWithNullElement();
-    List<E> iteratorElements = new ArrayList<E>();
+    List<E> iteratorElements = new ArrayList<>();
     for (E element : collection) { // uses iterator()
       iteratorElements.add(element);
     }

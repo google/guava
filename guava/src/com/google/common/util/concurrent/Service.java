@@ -23,7 +23,7 @@ import java.time.Duration;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * An object with an operational state, plus asynchronous {@link #startAsync()} and {@link

@@ -21,7 +21,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.graph.GraphConstants.ENDPOINTS_MISMATCH;
 
-import com.google.common.base.Function;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Sets;
@@ -31,7 +30,7 @@ import com.google.common.primitives.Ints;
 import java.util.AbstractSet;
 import java.util.Set;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * This class provides a skeletal implementation of {@link BaseGraph}.
@@ -46,9 +45,9 @@ import org.jspecify.nullness.NullMarked;
 abstract class AbstractBaseGraph<N> implements BaseGraph<N> {
 
   /**
-   * Returns the number of edges in this graph; used to calculate the size of {@link #edges()}. This
-   * implementation requires O(|N|) time. Classes extending this one may manually keep track of the
-   * number of edges as the graph is updated, and override this method for better performance.
+   * Returns the number of edges in this graph; used to calculate the size of {@link Graph#edges()}.
+   * This implementation requires O(|N|) time. Classes extending this one may manually keep track of
+   * the number of edges as the graph is updated, and override this method for better performance.
    */
   protected long edgeCount() {
     long degreeSum = 0L;
@@ -61,8 +60,8 @@ abstract class AbstractBaseGraph<N> implements BaseGraph<N> {
   }
 
   /**
-   * An implementation of {@link BaseGraph#edges()} defined in terms of {@link #nodes()} and {@link
-   * #successors(Object)}.
+   * An implementation of {@link BaseGraph#edges()} defined in terms of {@link Graph#nodes()} and
+   * {@link #successors(Object)}.
    */
   @Override
   public Set<EndpointPair<N>> edges() {
@@ -116,31 +115,16 @@ abstract class AbstractBaseGraph<N> implements BaseGraph<N> {
               Iterators.concat(
                   Iterators.transform(
                       graph.predecessors(node).iterator(),
-                      new Function<N, EndpointPair<N>>() {
-                        @Override
-                        public EndpointPair<N> apply(N predecessor) {
-                          return EndpointPair.ordered(predecessor, node);
-                        }
-                      }),
+                      (N predecessor) -> EndpointPair.ordered(predecessor, node)),
                   Iterators.transform(
                       // filter out 'node' from successors (already covered by predecessors, above)
                       Sets.difference(graph.successors(node), ImmutableSet.of(node)).iterator(),
-                      new Function<N, EndpointPair<N>>() {
-                        @Override
-                        public EndpointPair<N> apply(N successor) {
-                          return EndpointPair.ordered(node, successor);
-                        }
-                      })));
+                      (N successor) -> EndpointPair.ordered(node, successor))));
         } else {
           return Iterators.unmodifiableIterator(
               Iterators.transform(
                   graph.adjacentNodes(node).iterator(),
-                  new Function<N, EndpointPair<N>>() {
-                    @Override
-                    public EndpointPair<N> apply(N adjacentNode) {
-                      return EndpointPair.unordered(node, adjacentNode);
-                    }
-                  }));
+                  (N adjacentNode) -> EndpointPair.unordered(node, adjacentNode)));
         }
       }
     };
@@ -194,7 +178,11 @@ abstract class AbstractBaseGraph<N> implements BaseGraph<N> {
     checkArgument(isOrderingCompatible(endpoints), ENDPOINTS_MISMATCH);
   }
 
+  /**
+   * Returns {@code true} iff {@code endpoints}' ordering is compatible with the directionality of
+   * this graph.
+   */
   protected final boolean isOrderingCompatible(EndpointPair<?> endpoints) {
-    return endpoints.isOrdered() || !this.isDirected();
+    return endpoints.isOrdered() == this.isDirected();
   }
 }

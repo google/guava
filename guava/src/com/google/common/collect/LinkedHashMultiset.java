@@ -18,12 +18,13 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.LinkedHashMap;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A {@code Multiset} implementation with predictable iteration order. Its iterator orders elements
@@ -33,8 +34,7 @@ import org.jspecify.nullness.Nullable;
  * element will appear at the end of the iteration.
  *
  * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multiset"> {@code
- * Multiset}</a>.
+ * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multiset">{@code Multiset}</a>.
  *
  * @author Kevin Bourrillion
  * @author Jared Levy
@@ -88,12 +88,14 @@ public final class LinkedHashMultiset<E extends @Nullable Object>
    *     its count, and so on
    */
   @GwtIncompatible // java.io.ObjectOutputStream
+  @J2ktIncompatible
   private void writeObject(ObjectOutputStream stream) throws IOException {
     stream.defaultWriteObject();
     Serialization.writeMultiset(this, stream);
   }
 
   @GwtIncompatible // java.io.ObjectInputStream
+  @J2ktIncompatible
   private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
     stream.defaultReadObject();
     int distinctElements = Serialization.readCount(stream);
@@ -102,5 +104,6 @@ public final class LinkedHashMultiset<E extends @Nullable Object>
   }
 
   @GwtIncompatible // not needed in emulated source
+  @J2ktIncompatible
   private static final long serialVersionUID = 0;
 }

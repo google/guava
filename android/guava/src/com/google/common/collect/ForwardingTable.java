@@ -22,8 +22,8 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A table which forwards all its method calls to another table. Subclasses should override one or
@@ -55,7 +55,7 @@ public abstract class ForwardingTable<
   }
 
   @Override
-  public Map<R, V> column(C columnKey) {
+  public Map<R, V> column(@ParametricNullness C columnKey) {
     return delegate().column(columnKey);
   }
 
@@ -103,7 +103,8 @@ public abstract class ForwardingTable<
   @CanIgnoreReturnValue
   @Override
   @CheckForNull
-  public V put(R rowKey, C columnKey, V value) {
+  public V put(
+      @ParametricNullness R rowKey, @ParametricNullness C columnKey, @ParametricNullness V value) {
     return delegate().put(rowKey, columnKey, value);
   }
 
@@ -120,7 +121,7 @@ public abstract class ForwardingTable<
   }
 
   @Override
-  public Map<C, V> row(R rowKey) {
+  public Map<C, V> row(@ParametricNullness R rowKey) {
     return delegate().row(rowKey);
   }
 

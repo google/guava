@@ -21,8 +21,8 @@ import com.google.common.collect.Multisets.UnmodifiableMultiset;
 import java.util.Comparator;
 import java.util.NavigableSet;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Implementation of {@link Multisets#unmodifiableSortedMultiset(SortedMultiset)}, split out into
@@ -65,7 +65,7 @@ final class UnmodifiableSortedMultiset<E extends @Nullable Object> extends Unmod
   public SortedMultiset<E> descendingMultiset() {
     UnmodifiableSortedMultiset<E> result = descendingMultiset;
     if (result == null) {
-      result = new UnmodifiableSortedMultiset<E>(delegate().descendingMultiset());
+      result = new UnmodifiableSortedMultiset<>(delegate().descendingMultiset());
       result.descendingMultiset = this;
       return descendingMultiset = result;
     }
@@ -97,19 +97,22 @@ final class UnmodifiableSortedMultiset<E extends @Nullable Object> extends Unmod
   }
 
   @Override
-  public SortedMultiset<E> headMultiset(E upperBound, BoundType boundType) {
+  public SortedMultiset<E> headMultiset(@ParametricNullness E upperBound, BoundType boundType) {
     return Multisets.unmodifiableSortedMultiset(delegate().headMultiset(upperBound, boundType));
   }
 
   @Override
   public SortedMultiset<E> subMultiset(
-      E lowerBound, BoundType lowerBoundType, E upperBound, BoundType upperBoundType) {
+      @ParametricNullness E lowerBound,
+      BoundType lowerBoundType,
+      @ParametricNullness E upperBound,
+      BoundType upperBoundType) {
     return Multisets.unmodifiableSortedMultiset(
         delegate().subMultiset(lowerBound, lowerBoundType, upperBound, upperBoundType));
   }
 
   @Override
-  public SortedMultiset<E> tailMultiset(E lowerBound, BoundType boundType) {
+  public SortedMultiset<E> tailMultiset(@ParametricNullness E lowerBound, BoundType boundType) {
     return Multisets.unmodifiableSortedMultiset(delegate().tailMultiset(lowerBound, boundType));
   }
 

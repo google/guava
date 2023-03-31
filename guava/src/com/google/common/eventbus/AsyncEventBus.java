@@ -15,7 +15,7 @@
 package com.google.common.eventbus;
 
 import java.util.concurrent.Executor;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * An {@link EventBus} that takes the Executor of your choice and uses it to dispatch events,

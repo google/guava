@@ -26,20 +26,12 @@
       <artifactId>jsr305</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.checkerframework</groupId>
-      <artifactId>checker-compat-qual</artifactId>
-    </dependency>
-    <dependency>
       <groupId>com.google.errorprone</groupId>
       <artifactId>error_prone_annotations</artifactId>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.easymock</groupId>
-      <artifactId>easymock</artifactId>
     </dependency>
     <dependency>
       <groupId>org.mockito</groupId>
@@ -79,13 +71,6 @@
       <plugin>
         <artifactId>maven-jar-plugin</artifactId>
         <executions>
-          <execution>
-            <id>default-jar</id>
-            <goals><goal>jar</goal></goals>
-            <configuration>
-              <skipIfEmpty>true</skipIfEmpty>
-            </configuration>
-          </execution>
           <execution>
             <id>create-test-jar</id>
             <goals><goal>test-jar</goal></goals>

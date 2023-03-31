@@ -21,8 +21,8 @@ import com.google.common.annotations.VisibleForTesting;
 import java.util.Spliterator;
 import java.util.Spliterators;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Implementation of {@link ImmutableSet} with two or more elements.
@@ -32,7 +32,7 @@ import org.jspecify.nullness.Nullable;
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // uses writeReplace(), not default serialization
 @NullMarked
-final class RegularImmutableSet<E> extends ImmutableSet<E> {
+final class RegularImmutableSet<E> extends ImmutableSet.CachingAsList<E> {
   private static final Object[] EMPTY_ARRAY = new Object[0];
   static final RegularImmutableSet<Object> EMPTY =
       new RegularImmutableSet<>(EMPTY_ARRAY, 0, EMPTY_ARRAY, 0);

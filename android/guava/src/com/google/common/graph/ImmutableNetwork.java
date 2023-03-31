@@ -25,7 +25,7 @@ import com.google.common.collect.Maps;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.Immutable;
 import java.util.Map;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * A {@link Network} whose elements and structural relationships will never change. Instances of
@@ -74,7 +74,7 @@ public final class ImmutableNetwork<N, E> extends StandardNetwork<N, E> {
 
   @Override
   public ImmutableGraph<N> asGraph() {
-    return new ImmutableGraph<N>(super.asGraph()); // safe because the view is effectively immutable
+    return new ImmutableGraph<>(super.asGraph()); // safe because the view is effectively immutable
   }
 
   private static <N, E> Map<N, NetworkConnections<N, E>> getNodeConnections(Network<N, E> network) {
@@ -85,7 +85,7 @@ public final class ImmutableNetwork<N, E> extends StandardNetwork<N, E> {
     for (N node : network.nodes()) {
       nodeConnections.put(node, connectionsOf(network, node));
     }
-    return nodeConnections.build();
+    return nodeConnections.buildOrThrow();
   }
 
   private static <N, E> Map<E, N> getEdgeToReferenceNode(Network<N, E> network) {
@@ -96,7 +96,7 @@ public final class ImmutableNetwork<N, E> extends StandardNetwork<N, E> {
     for (E edge : network.edges()) {
       edgeToReferenceNode.put(edge, network.incidentNodes(edge).nodeU());
     }
-    return edgeToReferenceNode.build();
+    return edgeToReferenceNode.buildOrThrow();
   }
 
   private static <N, E> NetworkConnections<N, E> connectionsOf(Network<N, E> network, N node) {
@@ -116,31 +116,16 @@ public final class ImmutableNetwork<N, E> extends StandardNetwork<N, E> {
     }
   }
 
-  private static <N, E> Function<E, N> sourceNodeFn(final Network<N, E> network) {
-    return new Function<E, N>() {
-      @Override
-      public N apply(E edge) {
-        return network.incidentNodes(edge).source();
-      }
-    };
+  private static <N, E> Function<E, N> sourceNodeFn(Network<N, E> network) {
+    return (E edge) -> network.incidentNodes(edge).source();
   }
 
-  private static <N, E> Function<E, N> targetNodeFn(final Network<N, E> network) {
-    return new Function<E, N>() {
-      @Override
-      public N apply(E edge) {
-        return network.incidentNodes(edge).target();
-      }
-    };
+  private static <N, E> Function<E, N> targetNodeFn(Network<N, E> network) {
+    return (E edge) -> network.incidentNodes(edge).target();
   }
 
-  private static <N, E> Function<E, N> adjacentNodeFn(final Network<N, E> network, final N node) {
-    return new Function<E, N>() {
-      @Override
-      public N apply(E edge) {
-        return network.incidentNodes(edge).adjacentNode(node);
-      }
-    };
+  private static <N, E> Function<E, N> adjacentNodeFn(Network<N, E> network, N node) {
+    return (E edge) -> network.incidentNodes(edge).adjacentNode(node);
   }
 
   /**

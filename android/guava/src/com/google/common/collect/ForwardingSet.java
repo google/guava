@@ -22,8 +22,8 @@ import com.google.common.annotations.GwtCompatible;
 import java.util.Collection;
 import java.util.Set;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A set which forwards all its method calls to another set. Subclasses should override one or more

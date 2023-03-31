@@ -30,7 +30,8 @@ public class RegularImmutableAsListTest extends TestCase {
    */
   public void testDoesntCheckForNull() {
     ImmutableSet<Integer> set = ImmutableSet.of(1, 2, 3);
-    new RegularImmutableAsList<Integer>(set, new Object[] {null, null, null});
+    ImmutableList<Integer> unused =
+        new RegularImmutableAsList<Integer>(set, new Object[] {null, null, null});
     // shouldn't throw!
   }
 }

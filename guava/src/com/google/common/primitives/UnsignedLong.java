@@ -22,7 +22,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.Serializable;
 import java.math.BigInteger;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * A wrapper class for unsigned {@code long} values, supporting arithmetic operations.

@@ -24,7 +24,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * A mapping from disjoint nonempty ranges to non-null values. Queries look up the value associated
@@ -102,7 +102,7 @@ public interface RangeMap<K extends Comparable, V> {
   void putCoalescing(Range<K> range, V value);
 
   /** Puts all the associations from {@code rangeMap} into this range map (optional operation). */
-  void putAll(RangeMap<K, V> rangeMap);
+  void putAll(RangeMap<K, ? extends V> rangeMap);
 
   /** Removes all associations from this range map (optional operation). */
   void clear();

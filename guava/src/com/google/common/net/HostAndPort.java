@@ -18,15 +18,15 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.Immutable;
 import java.io.Serializable;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * An immutable representation of a host and port.
@@ -61,7 +61,6 @@ import org.jspecify.nullness.NullMarked;
  * @author Paul Marks
  * @since 10.0
  */
-@Beta
 @Immutable
 @GwtCompatible
 @NullMarked
@@ -165,6 +164,7 @@ public final class HostAndPort implements Serializable {
    * @return if parsing was successful, a populated HostAndPort object.
    * @throws IllegalArgumentException if nothing meaningful could be parsed.
    */
+  @CanIgnoreReturnValue // TODO(b/219820829): consider removing
   public static HostAndPort fromString(String hostPortString) {
     checkNotNull(hostPortString);
     String host;
@@ -275,6 +275,7 @@ public final class HostAndPort implements Serializable {
    * @return {@code this}, to enable chaining of calls.
    * @throws IllegalArgumentException if bracketless IPv6 is detected.
    */
+  @CanIgnoreReturnValue
   public HostAndPort requireBracketsForIPv6() {
     checkArgument(!hasBracketlessColons, "Possible bracketless IPv6 literal: %s", host);
     return this;

@@ -15,8 +15,9 @@
 package com.google.common.base;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Represents a {@linkplain System#getProperties() standard system property}.
@@ -24,6 +25,7 @@ import org.jspecify.nullness.NullMarked;
  * @author Kurt Alfred Kluever
  * @since 15.0
  */
+@J2ktIncompatible
 @GwtIncompatible // java.lang.System#getProperty
 @NullMarked
 public enum StandardSystemProperty {
@@ -126,7 +128,7 @@ public enum StandardSystemProperty {
     this.key = key;
   }
 
-  /** Returns the key used to lookup this system property. */
+  /** Returns the key used to look up this system property. */
   public String key() {
     return key;
   }

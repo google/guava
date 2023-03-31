@@ -17,6 +17,7 @@
 package com.google.common.collect.testing;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Comparator;
@@ -117,7 +118,7 @@ public final class SafeTreeSet<E> implements Serializable, NavigableSet<E> {
 
   @Override
   public NavigableSet<E> descendingSet() {
-    return new SafeTreeSet<E>(delegate.descendingSet());
+    return new SafeTreeSet<>(delegate.descendingSet());
   }
 
   @Override
@@ -137,7 +138,7 @@ public final class SafeTreeSet<E> implements Serializable, NavigableSet<E> {
 
   @Override
   public NavigableSet<E> headSet(E toElement, boolean inclusive) {
-    return new SafeTreeSet<E>(delegate.headSet(checkValid(toElement), inclusive));
+    return new SafeTreeSet<>(delegate.headSet(checkValid(toElement), inclusive));
   }
 
   @Override
@@ -198,7 +199,7 @@ public final class SafeTreeSet<E> implements Serializable, NavigableSet<E> {
   @Override
   public NavigableSet<E> subSet(
       E fromElement, boolean fromInclusive, E toElement, boolean toInclusive) {
-    return new SafeTreeSet<E>(
+    return new SafeTreeSet<>(
         delegate.subSet(
             checkValid(fromElement), fromInclusive, checkValid(toElement), toInclusive));
   }
@@ -215,7 +216,7 @@ public final class SafeTreeSet<E> implements Serializable, NavigableSet<E> {
 
   @Override
   public NavigableSet<E> tailSet(E fromElement, boolean inclusive) {
-    return new SafeTreeSet<E>(delegate.tailSet(checkValid(fromElement), inclusive));
+    return new SafeTreeSet<>(delegate.tailSet(checkValid(fromElement), inclusive));
   }
 
   @Override
@@ -228,11 +229,12 @@ public final class SafeTreeSet<E> implements Serializable, NavigableSet<E> {
     return delegate.toArray(a);
   }
 
+  @CanIgnoreReturnValue
   private <T> T checkValid(T t) {
     // a ClassCastException is what's supposed to happen!
     @SuppressWarnings("unchecked")
     E e = (E) t;
-    comparator().compare(e, e);
+    int unused = comparator().compare(e, e);
     return t;
   }
 

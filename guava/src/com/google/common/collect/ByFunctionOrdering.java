@@ -23,8 +23,8 @@ import com.google.common.base.Function;
 import com.google.common.base.Objects;
 import java.io.Serializable;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An ordering that orders elements by applying an order to the result of a function on those
@@ -43,7 +43,7 @@ final class ByFunctionOrdering<F extends @Nullable Object, T extends @Nullable O
   }
 
   @Override
-  public int compare(F left, F right) {
+  public int compare(@ParametricNullness F left, @ParametricNullness F right) {
     return ordering.compare(function.apply(left), function.apply(right));
   }
 

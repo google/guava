@@ -25,7 +25,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * An implementation of {@link ImmutableTable} holding an arbitrary number of cells.
@@ -99,8 +99,8 @@ abstract class RegularImmutableTable<R, C, V> extends ImmutableTable<R, C, V> {
 
   static <R, C, V> RegularImmutableTable<R, C, V> forCells(
       List<Cell<R, C, V>> cells,
-      @CheckForNull final Comparator<? super R> rowComparator,
-      @CheckForNull final Comparator<? super C> columnComparator) {
+      @CheckForNull Comparator<? super R> rowComparator,
+      @CheckForNull Comparator<? super C> columnComparator) {
     checkNotNull(cells);
     if (rowComparator != null || columnComparator != null) {
       /*
@@ -111,20 +111,17 @@ abstract class RegularImmutableTable<R, C, V> extends ImmutableTable<R, C, V> {
        * column, the rows in the second column, etc.
        */
       Comparator<Cell<R, C, V>> comparator =
-          new Comparator<Cell<R, C, V>>() {
-            @Override
-            public int compare(Cell<R, C, V> cell1, Cell<R, C, V> cell2) {
-              int rowCompare =
-                  (rowComparator == null)
-                      ? 0
-                      : rowComparator.compare(cell1.getRowKey(), cell2.getRowKey());
-              if (rowCompare != 0) {
-                return rowCompare;
-              }
-              return (columnComparator == null)
-                  ? 0
-                  : columnComparator.compare(cell1.getColumnKey(), cell2.getColumnKey());
+          (Cell<R, C, V> cell1, Cell<R, C, V> cell2) -> {
+            int rowCompare =
+                (rowComparator == null)
+                    ? 0
+                    : rowComparator.compare(cell1.getRowKey(), cell2.getRowKey());
+            if (rowCompare != 0) {
+              return rowCompare;
             }
+            return (columnComparator == null)
+                ? 0
+                : columnComparator.compare(cell1.getColumnKey(), cell2.getColumnKey());
           };
       Collections.sort(cells, comparator);
     }

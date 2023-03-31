@@ -23,11 +23,13 @@ import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Collections2.FilteredCollection;
 import com.google.common.math.IntMath;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.DoNotCall;
 import java.io.Serializable;
 import java.util.AbstractSet;
 import java.util.Arrays;
@@ -52,15 +54,16 @@ import java.util.function.Consumer;
 import java.util.stream.Collector;
 import java.util.stream.Stream;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Static utility methods pertaining to {@link Set} instances. Also see this class's counterparts
  * {@link Lists}, {@link Maps} and {@link Queues}.
  *
  * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/CollectionUtilitiesExplained#sets"> {@code Sets}</a>.
+ * "https://github.com/google/guava/wiki/CollectionUtilitiesExplained#sets">{@code Sets}</a>.
  *
  * @author Kevin Bourrillion
  * @author Jared Levy
@@ -173,9 +176,9 @@ public final class Sets {
    * using a {@code LinkedHashSet} instead, at the cost of increased memory footprint, to get
    * deterministic iteration behavior.
    *
-   * <p><b>Note for Java 7 and later:</b> this method is now unnecessary and should be treated as
-   * deprecated. Instead, use the {@code HashSet} constructor directly, taking advantage of the new
-   * <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+   * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
+   * use the {@code HashSet} constructor directly, taking advantage of <a
+   * href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
    */
   public static <E extends @Nullable Object> HashSet<E> newHashSet() {
     return new HashSet<E>();
@@ -212,9 +215,9 @@ public final class Sets {
    * <p><b>Note:</b> if {@code E} is an {@link Enum} type, use {@link #newEnumSet(Iterable, Class)}
    * instead.
    *
-   * <p><b>Note for Java 7 and later:</b> if {@code elements} is a {@link Collection}, you don't
-   * need this method. Instead, use the {@code HashSet} constructor directly, taking advantage of
-   * the new <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+   * <p><b>Note:</b> if {@code elements} is a {@link Collection}, you don't need this method.
+   * Instead, use the {@code HashSet} constructor directly, taking advantage of <a
+   * href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
    *
    * <p>Overall, this method is not very useful and will likely be deprecated in the future.
    */
@@ -299,9 +302,9 @@ public final class Sets {
    *
    * <p><b>Note:</b> if mutability is not required, use {@link ImmutableSet#of()} instead.
    *
-   * <p><b>Note for Java 7 and later:</b> this method is now unnecessary and should be treated as
-   * deprecated. Instead, use the {@code LinkedHashSet} constructor directly, taking advantage of
-   * the new <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+   * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
+   * use the {@code LinkedHashSet} constructor directly, taking advantage of <a
+   * href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
    *
    * @return a new, empty {@code LinkedHashSet}
    */
@@ -315,9 +318,9 @@ public final class Sets {
    * <p><b>Note:</b> if mutability is not required and the elements are non-null, use {@link
    * ImmutableSet#copyOf(Iterable)} instead.
    *
-   * <p><b>Note for Java 7 and later:</b> if {@code elements} is a {@link Collection}, you don't
-   * need this method. Instead, use the {@code LinkedHashSet} constructor directly, taking advantage
-   * of the new <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+   * <p><b>Note:</b> if {@code elements} is a {@link Collection}, you don't need this method.
+   * Instead, use the {@code LinkedHashSet} constructor directly, taking advantage of <a
+   * href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
    *
    * <p>Overall, this method is not very useful and will likely be deprecated in the future.
    *
@@ -359,9 +362,9 @@ public final class Sets {
    *
    * <p><b>Note:</b> if mutability is not required, use {@link ImmutableSortedSet#of()} instead.
    *
-   * <p><b>Note for Java 7 and later:</b> this method is now unnecessary and should be treated as
-   * deprecated. Instead, use the {@code TreeSet} constructor directly, taking advantage of the new
-   * <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+   * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
+   * use the {@code TreeSet} constructor directly, taking advantage of <a
+   * href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
    *
    * @return a new, empty {@code TreeSet}
    */
@@ -380,9 +383,9 @@ public final class Sets {
    * method has different behavior than {@link TreeSet#TreeSet(SortedSet)}, which returns a {@code
    * TreeSet} with that comparator.
    *
-   * <p><b>Note for Java 7 and later:</b> this method is now unnecessary and should be treated as
-   * deprecated. Instead, use the {@code TreeSet} constructor directly, taking advantage of the new
-   * <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+   * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
+   * use the {@code TreeSet} constructor directly, taking advantage of <a
+   * href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
    *
    * <p>This method is just a small convenience for creating an empty set and then calling {@link
    * Iterables#addAll}. This method is not very useful and will likely be deprecated in the future.
@@ -402,11 +405,11 @@ public final class Sets {
    * <p><b>Note:</b> if mutability is not required, use {@code
    * ImmutableSortedSet.orderedBy(comparator).build()} instead.
    *
-   * <p><b>Note for Java 7 and later:</b> this method is now unnecessary and should be treated as
-   * deprecated. Instead, use the {@code TreeSet} constructor directly, taking advantage of the new
-   * <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>. One caveat to this is that the {@code
-   * TreeSet} constructor uses a null {@code Comparator} to mean "natural ordering," whereas this
-   * factory rejects null. Clean your code accordingly.
+   * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
+   * use the {@code TreeSet} constructor directly, taking advantage of <a
+   * href="http://goo.gl/iz2Wi">"diamond" syntax</a>. One caveat to this is that the {@code TreeSet}
+   * constructor uses a null {@code Comparator} to mean "natural ordering," whereas this factory
+   * rejects null. Clean your code accordingly.
    *
    * @param comparator the comparator to use to sort the set
    * @return a new, empty {@code TreeSet}
@@ -439,6 +442,7 @@ public final class Sets {
    * @return a new, empty {@code CopyOnWriteArraySet}
    * @since 12.0
    */
+  @J2ktIncompatible
   @GwtIncompatible // CopyOnWriteArraySet
   public static <E extends @Nullable Object> CopyOnWriteArraySet<E> newCopyOnWriteArraySet() {
     return new CopyOnWriteArraySet<E>();
@@ -451,6 +455,7 @@ public final class Sets {
    * @return a new {@code CopyOnWriteArraySet} containing those elements
    * @since 12.0
    */
+  @J2ktIncompatible
   @GwtIncompatible // CopyOnWriteArraySet
   public static <E extends @Nullable Object> CopyOnWriteArraySet<E> newCopyOnWriteArraySet(
       Iterable<? extends E> elements) {
@@ -476,6 +481,7 @@ public final class Sets {
    * @throws IllegalArgumentException if {@code collection} is not an {@code EnumSet} instance and
    *     contains no elements
    */
+  @J2ktIncompatible
   public static <E extends Enum<E>> EnumSet<E> complementOf(Collection<E> collection) {
     if (collection instanceof EnumSet) {
       return EnumSet.complementOf((EnumSet<E>) collection);
@@ -541,7 +547,8 @@ public final class Sets {
    * @deprecated Use {@link Collections#newSetFromMap} instead.
    */
   @Deprecated
-  public static <E extends @Nullable Object> Set<E> newSetFromMap(Map<E, Boolean> map) {
+  public static <E extends @Nullable Object> Set<E> newSetFromMap(
+      Map<E, Boolean> map) {
     return Collections.newSetFromMap(map);
   }
 
@@ -566,8 +573,8 @@ public final class Sets {
      * that is inconsistent with {@link Object#equals(Object)}.
      */
     @SuppressWarnings("nullness") // Unsafe, but we can't fix it now.
-    public ImmutableSet<E> immutableCopy() {
-      return ImmutableSet.copyOf(this);
+    public ImmutableSet<@NonNull E> immutableCopy() {
+      return ImmutableSet.copyOf((SetView<@NonNull E>) this);
     }
 
     /**
@@ -594,7 +601,8 @@ public final class Sets {
     @CanIgnoreReturnValue
     @Deprecated
     @Override
-    public final boolean add(E e) {
+    @DoNotCall("Always throws UnsupportedOperationException")
+    public final boolean add(@ParametricNullness E e) {
       throw new UnsupportedOperationException();
     }
 
@@ -607,6 +615,7 @@ public final class Sets {
     @CanIgnoreReturnValue
     @Deprecated
     @Override
+    @DoNotCall("Always throws UnsupportedOperationException")
     public final boolean remove(@CheckForNull Object object) {
       throw new UnsupportedOperationException();
     }
@@ -620,6 +629,7 @@ public final class Sets {
     @CanIgnoreReturnValue
     @Deprecated
     @Override
+    @DoNotCall("Always throws UnsupportedOperationException")
     public final boolean addAll(Collection<? extends E> newElements) {
       throw new UnsupportedOperationException();
     }
@@ -633,6 +643,7 @@ public final class Sets {
     @CanIgnoreReturnValue
     @Deprecated
     @Override
+    @DoNotCall("Always throws UnsupportedOperationException")
     public final boolean removeAll(Collection<?> oldElements) {
       throw new UnsupportedOperationException();
     }
@@ -646,6 +657,7 @@ public final class Sets {
     @CanIgnoreReturnValue
     @Deprecated
     @Override
+    @DoNotCall("Always throws UnsupportedOperationException")
     public final boolean removeIf(java.util.function.Predicate<? super E> filter) {
       throw new UnsupportedOperationException();
     }
@@ -659,6 +671,7 @@ public final class Sets {
     @CanIgnoreReturnValue
     @Deprecated
     @Override
+    @DoNotCall("Always throws UnsupportedOperationException")
     public final boolean retainAll(Collection<?> elementsToKeep) {
       throw new UnsupportedOperationException();
     }
@@ -671,6 +684,7 @@ public final class Sets {
      */
     @Deprecated
     @Override
+    @DoNotCall("Always throws UnsupportedOperationException")
     public final void clear() {
       throw new UnsupportedOperationException();
     }
@@ -762,9 +776,13 @@ public final class Sets {
       }
 
       @Override
-      @SuppressWarnings("nullness") // see supertype
-      public ImmutableSet<E> immutableCopy() {
-        return new ImmutableSet.Builder<E>().addAll(set1).addAll(set2).build();
+      @SuppressWarnings({"nullness", "unchecked"}) // see supertype
+      public ImmutableSet<@NonNull E> immutableCopy() {
+        ImmutableSet.Builder<@NonNull E> builder =
+            new ImmutableSet.Builder<@NonNull E>()
+                .addAll((Iterable<@NonNull E>) set1)
+                .addAll((Iterable<@NonNull E>) set2);
+        return (ImmutableSet<@NonNull E>) builder.build();
       }
     };
   }
@@ -1147,27 +1165,29 @@ public final class Sets {
     }
 
     @Override
-    public SortedSet<E> subSet(E fromElement, E toElement) {
+    public SortedSet<E> subSet(@ParametricNullness E fromElement, @ParametricNullness E toElement) {
       return new FilteredSortedSet<E>(
           ((SortedSet<E>) unfiltered).subSet(fromElement, toElement), predicate);
     }
 
     @Override
-    public SortedSet<E> headSet(E toElement) {
+    public SortedSet<E> headSet(@ParametricNullness E toElement) {
       return new FilteredSortedSet<E>(((SortedSet<E>) unfiltered).headSet(toElement), predicate);
     }
 
     @Override
-    public SortedSet<E> tailSet(E fromElement) {
+    public SortedSet<E> tailSet(@ParametricNullness E fromElement) {
       return new FilteredSortedSet<E>(((SortedSet<E>) unfiltered).tailSet(fromElement), predicate);
     }
 
     @Override
+    @ParametricNullness
     public E first() {
       return Iterators.find(unfiltered.iterator(), predicate);
     }
 
     @Override
+    @ParametricNullness
     public E last() {
       SortedSet<E> sortedUnfiltered = (SortedSet<E>) unfiltered;
       while (true) {
@@ -1193,25 +1213,25 @@ public final class Sets {
 
     @Override
     @CheckForNull
-    public E lower(E e) {
+    public E lower(@ParametricNullness E e) {
       return Iterators.find(unfiltered().headSet(e, false).descendingIterator(), predicate, null);
     }
 
     @Override
     @CheckForNull
-    public E floor(E e) {
+    public E floor(@ParametricNullness E e) {
       return Iterators.find(unfiltered().headSet(e, true).descendingIterator(), predicate, null);
     }
 
     @Override
     @CheckForNull
-    public E ceiling(E e) {
+    public E ceiling(@ParametricNullness E e) {
       return Iterables.find(unfiltered().tailSet(e, true), predicate, null);
     }
 
     @Override
     @CheckForNull
-    public E higher(E e) {
+    public E higher(@ParametricNullness E e) {
       return Iterables.find(unfiltered().tailSet(e, false), predicate, null);
     }
 
@@ -1238,24 +1258,28 @@ public final class Sets {
     }
 
     @Override
+    @ParametricNullness
     public E last() {
       return Iterators.find(unfiltered().descendingIterator(), predicate);
     }
 
     @Override
     public NavigableSet<E> subSet(
-        E fromElement, boolean fromInclusive, E toElement, boolean toInclusive) {
+        @ParametricNullness E fromElement,
+        boolean fromInclusive,
+        @ParametricNullness E toElement,
+        boolean toInclusive) {
       return filter(
           unfiltered().subSet(fromElement, fromInclusive, toElement, toInclusive), predicate);
     }
 
     @Override
-    public NavigableSet<E> headSet(E toElement, boolean inclusive) {
+    public NavigableSet<E> headSet(@ParametricNullness E toElement, boolean inclusive) {
       return filter(unfiltered().headSet(toElement, inclusive), predicate);
     }
 
     @Override
-    public NavigableSet<E> tailSet(E fromElement, boolean inclusive) {
+    public NavigableSet<E> tailSet(@ParametricNullness E fromElement, boolean inclusive) {
       return filter(unfiltered().tailSet(fromElement, inclusive), predicate);
     }
   }
@@ -1823,25 +1847,25 @@ public final class Sets {
 
     @Override
     @CheckForNull
-    public E lower(E e) {
+    public E lower(@ParametricNullness E e) {
       return delegate.lower(e);
     }
 
     @Override
     @CheckForNull
-    public E floor(E e) {
+    public E floor(@ParametricNullness E e) {
       return delegate.floor(e);
     }
 
     @Override
     @CheckForNull
-    public E ceiling(E e) {
+    public E ceiling(@ParametricNullness E e) {
       return delegate.ceiling(e);
     }
 
     @Override
     @CheckForNull
-    public E higher(E e) {
+    public E higher(@ParametricNullness E e) {
       return delegate.higher(e);
     }
 
@@ -1876,18 +1900,21 @@ public final class Sets {
 
     @Override
     public NavigableSet<E> subSet(
-        E fromElement, boolean fromInclusive, E toElement, boolean toInclusive) {
+        @ParametricNullness E fromElement,
+        boolean fromInclusive,
+        @ParametricNullness E toElement,
+        boolean toInclusive) {
       return unmodifiableNavigableSet(
           delegate.subSet(fromElement, fromInclusive, toElement, toInclusive));
     }
 
     @Override
-    public NavigableSet<E> headSet(E toElement, boolean inclusive) {
+    public NavigableSet<E> headSet(@ParametricNullness E toElement, boolean inclusive) {
       return unmodifiableNavigableSet(delegate.headSet(toElement, inclusive));
     }
 
     @Override
-    public NavigableSet<E> tailSet(E fromElement, boolean inclusive) {
+    public NavigableSet<E> tailSet(@ParametricNullness E fromElement, boolean inclusive) {
       return unmodifiableNavigableSet(delegate.tailSet(fromElement, inclusive));
     }
 
@@ -1988,25 +2015,25 @@ public final class Sets {
 
     @Override
     @CheckForNull
-    public E lower(E e) {
+    public E lower(@ParametricNullness E e) {
       return forward.higher(e);
     }
 
     @Override
     @CheckForNull
-    public E floor(E e) {
+    public E floor(@ParametricNullness E e) {
       return forward.ceiling(e);
     }
 
     @Override
     @CheckForNull
-    public E ceiling(E e) {
+    public E ceiling(@ParametricNullness E e) {
       return forward.floor(e);
     }
 
     @Override
     @CheckForNull
-    public E higher(E e) {
+    public E higher(@ParametricNullness E e) {
       return forward.lower(e);
     }
 
@@ -2034,32 +2061,35 @@ public final class Sets {
 
     @Override
     public NavigableSet<E> subSet(
-        E fromElement, boolean fromInclusive, E toElement, boolean toInclusive) {
+        @ParametricNullness E fromElement,
+        boolean fromInclusive,
+        @ParametricNullness E toElement,
+        boolean toInclusive) {
       return forward.subSet(toElement, toInclusive, fromElement, fromInclusive).descendingSet();
     }
 
     @Override
-    public SortedSet<E> subSet(E fromElement, E toElement) {
+    public SortedSet<E> subSet(@ParametricNullness E fromElement, @ParametricNullness E toElement) {
       return standardSubSet(fromElement, toElement);
     }
 
     @Override
-    public NavigableSet<E> headSet(E toElement, boolean inclusive) {
+    public NavigableSet<E> headSet(@ParametricNullness E toElement, boolean inclusive) {
       return forward.tailSet(toElement, inclusive).descendingSet();
     }
 
     @Override
-    public SortedSet<E> headSet(E toElement) {
+    public SortedSet<E> headSet(@ParametricNullness E toElement) {
       return standardHeadSet(toElement);
     }
 
     @Override
-    public NavigableSet<E> tailSet(E fromElement, boolean inclusive) {
+    public NavigableSet<E> tailSet(@ParametricNullness E fromElement, boolean inclusive) {
       return forward.headSet(fromElement, inclusive).descendingSet();
     }
 
     @Override
-    public SortedSet<E> tailSet(E fromElement) {
+    public SortedSet<E> tailSet(@ParametricNullness E fromElement) {
       return standardTailSet(fromElement);
     }
 
@@ -2080,11 +2110,13 @@ public final class Sets {
     }
 
     @Override
+    @ParametricNullness
     public E first() {
       return forward.last();
     }
 
     @Override
+    @ParametricNullness
     public E last() {
       return forward.first();
     }

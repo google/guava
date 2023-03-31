@@ -17,8 +17,8 @@ package com.google.common.util.concurrent;
 import com.google.common.annotations.GwtIncompatible;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.AtomicReferenceArray;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Static utility methods pertaining to classes in the {@code java.util.concurrent.atomic} package.
@@ -46,7 +46,8 @@ public final class Atomics {
    * @param initialValue the initial value
    * @return a new {@code AtomicReference} with the given initial value
    */
-  public static <V extends @Nullable Object> AtomicReference<V> newReference(V initialValue) {
+  public static <V extends @Nullable Object> AtomicReference<V> newReference(
+      @ParametricNullness V initialValue) {
     return new AtomicReference<>(initialValue);
   }
 

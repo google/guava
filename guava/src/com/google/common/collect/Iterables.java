@@ -40,8 +40,8 @@ import java.util.Spliterator;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An assortment of mainly legacy static utility methods that operate on or return objects of type
@@ -58,7 +58,7 @@ import org.jspecify.nullness.Nullable;
  * absolutely necessary.
  *
  * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/CollectionUtilitiesExplained#iterables"> {@code
+ * "https://github.com/google/guava/wiki/CollectionUtilitiesExplained#iterables">{@code
  * Iterables}</a>.
  *
  * @author Kevin Bourrillion
@@ -259,6 +259,7 @@ public final class Iterables {
    * @throws NoSuchElementException if the iterable is empty
    * @throws IllegalArgumentException if the iterable contains multiple elements
    */
+  @ParametricNullness
   public static <T extends @Nullable Object> T getOnlyElement(Iterable<T> iterable) {
     return Iterators.getOnlyElement(iterable.iterator());
   }
@@ -272,8 +273,9 @@ public final class Iterables {
    *
    * @throws IllegalArgumentException if the iterator contains multiple elements
    */
+  @ParametricNullness
   public static <T extends @Nullable Object> T getOnlyElement(
-      Iterable<? extends T> iterable, T defaultValue) {
+      Iterable<? extends T> iterable, @ParametricNullness T defaultValue) {
     return Iterators.getOnlyElement(iterable.iterator(), defaultValue);
   }
 
@@ -515,6 +517,10 @@ public final class Iterables {
    * <p>Iterators returned by the returned iterable do not support the {@link Iterator#remove()}
    * method. The returned lists implement {@link RandomAccess}, whether or not the input list does.
    *
+   * <p><b>Note:</b> The current implementation eagerly allocates storage for {@code size} elements.
+   * As a consequence, passing values like {@code Integer.MAX_VALUE} can lead to {@link
+   * OutOfMemoryError}.
+   *
    * <p><b>Note:</b> if {@code iterable} is a {@link List}, use {@link Lists#partition(List, int)}
    * instead.
    *
@@ -583,7 +589,7 @@ public final class Iterables {
       public void forEach(Consumer<? super T> action) {
         checkNotNull(action);
         unfiltered.forEach(
-            (T a) -> {
+            (@ParametricNullness T a) -> {
               if (retainIfTrue.test(a)) {
                 action.accept(a);
               }
@@ -649,6 +655,7 @@ public final class Iterables {
    *
    * @throws NoSuchElementException if no element in {@code iterable} matches the given predicate
    */
+  @ParametricNullness
   public static <T extends @Nullable Object> T find(
       Iterable<T> iterable, Predicate<? super T> predicate) {
     return Iterators.find(iterable.iterator(), predicate);
@@ -764,6 +771,7 @@ public final class Iterables {
    * @throws IndexOutOfBoundsException if {@code position} is negative or greater than or equal to
    *     the size of {@code iterable}
    */
+  @ParametricNullness
   public static <T extends @Nullable Object> T get(Iterable<T> iterable, int position) {
     checkNotNull(iterable);
     return (iterable instanceof List)
@@ -786,8 +794,9 @@ public final class Iterables {
    * @throws IndexOutOfBoundsException if {@code position} is negative
    * @since 4.0
    */
+  @ParametricNullness
   public static <T extends @Nullable Object> T get(
-      Iterable<? extends T> iterable, int position, T defaultValue) {
+      Iterable<? extends T> iterable, int position, @ParametricNullness T defaultValue) {
     checkNotNull(iterable);
     Iterators.checkNonnegative(position);
     if (iterable instanceof List) {
@@ -817,8 +826,9 @@ public final class Iterables {
    * @return the first element of {@code iterable} or the default value
    * @since 7.0
    */
+  @ParametricNullness
   public static <T extends @Nullable Object> T getFirst(
-      Iterable<? extends T> iterable, T defaultValue) {
+      Iterable<? extends T> iterable, @ParametricNullness T defaultValue) {
     return Iterators.getNext(iterable.iterator(), defaultValue);
   }
 
@@ -831,6 +841,7 @@ public final class Iterables {
    * @return the last element of {@code iterable}
    * @throws NoSuchElementException if the iterable is empty
    */
+  @ParametricNullness
   public static <T extends @Nullable Object> T getLast(Iterable<T> iterable) {
     // TODO(kevinb): Support a concurrently modified collection?
     if (iterable instanceof List) {
@@ -855,8 +866,9 @@ public final class Iterables {
    * @return the last element of {@code iterable} or the default value
    * @since 3.0
    */
+  @ParametricNullness
   public static <T extends @Nullable Object> T getLast(
-      Iterable<? extends T> iterable, T defaultValue) {
+      Iterable<? extends T> iterable, @ParametricNullness T defaultValue) {
     if (iterable instanceof Collection) {
       Collection<? extends T> c = (Collection<? extends T>) iterable;
       if (c.isEmpty()) {
@@ -869,6 +881,7 @@ public final class Iterables {
     return Iterators.getLast(iterable.iterator(), defaultValue);
   }
 
+  @ParametricNullness
   private static <T extends @Nullable Object> T getLastInNonemptyList(List<T> list) {
     return list.get(list.size() - 1);
   }
@@ -923,6 +936,7 @@ public final class Iterables {
           }
 
           @Override
+          @ParametricNullness
           public T next() {
             T result = iterator.next();
             atStart = false; // not called if next() fails
@@ -984,10 +998,13 @@ public final class Iterables {
    * Returns a view of the supplied iterable that wraps each generated {@link Iterator} through
    * {@link Iterators#consumingIterator(Iterator)}.
    *
-   * <p>Note: If {@code iterable} is a {@link Queue}, the returned iterable will get entries from
-   * {@link Queue#remove()} since {@link Queue}'s iteration order is undefined. Calling {@link
-   * Iterator#hasNext()} on a generated iterator from the returned iterable may cause an item to be
-   * immediately dequeued for return on a subsequent call to {@link Iterator#next()}.
+   * <p>Note: If {@code iterable} is a {@link Queue}, the returned iterable will instead use {@link
+   * Queue#isEmpty} and {@link Queue#remove()}, since {@link Queue}'s iteration order is undefined.
+   * Calling {@link Iterator#hasNext()} on a generated iterator from the returned iterable may cause
+   * an item to be immediately dequeued for return on a subsequent call to {@link Iterator#next()}.
+   *
+   * <p>Whether the input {@code iterable} is a {@link Queue} or not, the returned {@code Iterable}
+   * is not thread-safe.
    *
    * @param iterable the iterable to wrap
    * @return a view of the supplied iterable that wraps each generated iterator through {@link

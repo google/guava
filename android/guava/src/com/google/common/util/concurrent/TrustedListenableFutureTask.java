@@ -22,8 +22,8 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
 import java.util.concurrent.RunnableFuture;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A {@link RunnableFuture} that also implements the {@link ListenableFuture} interface.
@@ -38,11 +38,11 @@ class TrustedListenableFutureTask<V extends @Nullable Object> extends FluentFutu
 
   static <V extends @Nullable Object> TrustedListenableFutureTask<V> create(
       AsyncCallable<V> callable) {
-    return new TrustedListenableFutureTask<V>(callable);
+    return new TrustedListenableFutureTask<>(callable);
   }
 
   static <V extends @Nullable Object> TrustedListenableFutureTask<V> create(Callable<V> callable) {
-    return new TrustedListenableFutureTask<V>(callable);
+    return new TrustedListenableFutureTask<>(callable);
   }
 
   /**
@@ -55,8 +55,8 @@ class TrustedListenableFutureTask<V extends @Nullable Object> extends FluentFutu
    *     ListenableFutureTask.create(runnable, null)}
    */
   static <V extends @Nullable Object> TrustedListenableFutureTask<V> create(
-      Runnable runnable, V result) {
-    return new TrustedListenableFutureTask<V>(Executors.callable(runnable, result));
+      Runnable runnable, @ParametricNullness V result) {
+    return new TrustedListenableFutureTask<>(Executors.callable(runnable, result));
   }
 
   /*
@@ -127,12 +127,13 @@ class TrustedListenableFutureTask<V extends @Nullable Object> extends FluentFutu
     }
 
     @Override
+    @ParametricNullness
     V runInterruptibly() throws Exception {
       return callable.call();
     }
 
     @Override
-    void afterRanInterruptiblySuccess(V result) {
+    void afterRanInterruptiblySuccess(@ParametricNullness V result) {
       TrustedListenableFutureTask.this.set(result);
     }
 

@@ -26,6 +26,7 @@ import com.google.common.cache.LocalCache.Segment;
  *
  * @author Charles Fry
  */
+@SuppressWarnings("CheckReturnValue")
 public class ChainBenchmark {
 
   @Param({"1", "2", "3", "4", "5", "6"})

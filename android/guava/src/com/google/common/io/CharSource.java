@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Ascii;
 import com.google.common.base.Optional;
 import com.google.common.base.Splitter;
@@ -35,8 +36,8 @@ import java.nio.charset.Charset;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A readable source of characters, such as a text file. Unlike a {@link Reader}, a {@code
@@ -77,6 +78,7 @@ import org.jspecify.nullness.Nullable;
  * @since 14.0
  * @author Colin Decker
  */
+@J2ktIncompatible
 @GwtIncompatible
 @NullMarked
 public abstract class CharSource {
@@ -320,6 +322,7 @@ public abstract class CharSource {
    */
   @Beta
   @CanIgnoreReturnValue // some processors won't return a useful result
+  @ParametricNullness
   public <T extends @Nullable Object> T readLines(LineProcessor<T> processor) throws IOException {
     checkNotNull(processor);
 
@@ -536,6 +539,7 @@ public abstract class CharSource {
     }
 
     @Override
+    @ParametricNullness
     public <T extends @Nullable Object> T readLines(LineProcessor<T> processor) throws IOException {
       Iterator<String> lines = linesIterator();
       while (lines.hasNext()) {

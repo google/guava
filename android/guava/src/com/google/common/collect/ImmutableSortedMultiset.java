@@ -18,11 +18,14 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.math.IntMath;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.DoNotCall;
 import com.google.errorprone.annotations.concurrent.LazyInit;
+import java.io.InvalidObjectException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collection;
@@ -31,7 +34,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * A {@link SortedMultiset} whose contents will never change, with many other important properties
@@ -44,7 +47,7 @@ import org.jspecify.nullness.NullMarked;
  * collection will not correctly obey its specification.
  *
  * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/ImmutableCollectionsExplained"> immutable collections</a>.
+ * "https://github.com/google/guava/wiki/ImmutableCollectionsExplained">immutable collections</a>.
  *
  * @author Louis Wasserman
  * @since 12.0
@@ -370,7 +373,7 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
    * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6468354">bug 6468354</a>.
    */
   public static <E extends Comparable<?>> Builder<E> reverseOrder() {
-    return new Builder<E>(Ordering.natural().reverse());
+    return new Builder<E>(Ordering.<E>natural().reverse());
   }
 
   /**
@@ -639,6 +642,7 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
     }
   }
 
+  @J2ktIncompatible // serialization
   private static final class SerializedForm<E> implements Serializable {
     final Comparator<? super E> comparator;
     final E[] elements;
@@ -669,7 +673,13 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
   }
 
   @Override
+  @J2ktIncompatible // serialization
   Object writeReplace() {
     return new SerializedForm<E>(this);
+  }
+
+  @J2ktIncompatible // java.io.ObjectInputStream
+  private void readObject(ObjectInputStream stream) throws InvalidObjectException {
+    throw new InvalidObjectException("Use SerializedForm");
   }
 }

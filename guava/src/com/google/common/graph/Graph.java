@@ -21,7 +21,7 @@ import com.google.errorprone.annotations.DoNotMock;
 import java.util.Collection;
 import java.util.Set;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * An interface for <a

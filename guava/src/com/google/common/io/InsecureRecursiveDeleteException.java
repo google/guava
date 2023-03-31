@@ -18,11 +18,12 @@ package com.google.common.io;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.j2objc.annotations.J2ObjCIncompatible;
 import java.nio.file.FileSystemException;
 import java.nio.file.SecureDirectoryStream;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Exception indicating that a recursive delete can't be performed because the file system does not
@@ -37,6 +38,7 @@ import org.jspecify.nullness.NullMarked;
  * @author Colin Decker
  */
 @Beta
+@J2ktIncompatible
 @GwtIncompatible
 @J2ObjCIncompatible // java.nio.file
 @NullMarked

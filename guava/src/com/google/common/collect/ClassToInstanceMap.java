@@ -21,7 +21,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.DoNotMock;
 import java.util.Map;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * A map, each entry of which maps a Java <a href="http://tinyurl.com/2cmwkz">raw type</a> to an
@@ -31,12 +31,16 @@ import org.jspecify.nullness.NullMarked;
  * <p>Like any other {@code Map<Class, Object>}, this map may contain entries for primitive types,
  * and a primitive type and its corresponding wrapper type may map to different values.
  *
- * <p>Naturally, keys may not be null. From Guava 31.0 onward, this interface is <i>annotated</i> to
- * disallow null <i>values</i>, too, even though the implementation {@link
- * MutableClassToInstanceMap} will always continue to support them. If you use a nullness checker,
- * you can safely suppress any warnings it produces when you write null values into a {@code
+ * <p>This class's support for {@code null} requires some explanation: From release 31.0 onward,
+ * Guava specifies the nullness of its types through annotations. In the case of {@code
+ * ClassToInstanceMap}, it specifies that both the key and value types are restricted to
+ * non-nullable types. This specification is reasonable for <i>keys</i>, which must be non-null
+ * classes. This is in contrast to the specification for <i>values</i>: Null values <i>are</i>
+ * supported by the implementation {@link MutableClassToInstanceMap}, even though that
+ * implementation and this interface specify otherwise. Thus, if you use a nullness checker, you can
+ * safely suppress any warnings it produces when you write null values into a {@code
  * MutableClassToInstanceMap}. Just be sure to be prepared for null values when reading from it,
- * since nullness checkers will assume that vaules are non-null then, too.
+ * since nullness checkers will assume that values are non-null then, too.
  *
  * <p>See the Guava User Guide article on <a href=
  * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#classtoinstancemap">{@code
@@ -52,7 +56,7 @@ import org.jspecify.nullness.NullMarked;
 @DoNotMock("Use ImmutableClassToInstanceMap or MutableClassToInstanceMap")
 @GwtCompatible
 @NullMarked
-// If we ever support non-null projections (https://github.com/jspecify/jspecify/issues/86), we
+// If we ever support non-null projections (https://github.com/jspecify/jspecify/issues/86),
 // we might annotate this as...
 // ClassToInstanceMap<B extends @Nullable Object> extends Map<Class<? extends @Nonnull B>, B>
 // ...and change its methods similarly (<T extends @Nonnull B> or Class<@Nonnull T>).

@@ -26,8 +26,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A collection that maps keys to values, similar to {@link Map}, but in which each key may be
@@ -152,8 +152,7 @@ import org.jspecify.nullness.Nullable;
  * {@link UnsupportedOperationException}.
  *
  * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multimap"> {@code
- * Multimap}</a>.
+ * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multimap">{@code Multimap}</a>.
  *
  * @author Jared Levy
  * @since 2.0
@@ -212,7 +211,7 @@ public interface Multimap<K extends @Nullable Object, V extends @Nullable Object
    *     multimap already contained the key-value pair and doesn't allow duplicates
    */
   @CanIgnoreReturnValue
-  boolean put(K key, V value);
+  boolean put(@ParametricNullness K key, @ParametricNullness V value);
 
   /**
    * Removes a single key-value pair with the key {@code key} and the value {@code value} from this
@@ -243,7 +242,7 @@ public interface Multimap<K extends @Nullable Object, V extends @Nullable Object
    * @return {@code true} if the multimap changed
    */
   @CanIgnoreReturnValue
-  boolean putAll(K key, Iterable<? extends V> values);
+  boolean putAll(@ParametricNullness K key, Iterable<? extends V> values);
 
   /**
    * Stores all key-value pairs of {@code multimap} in this multimap, in the order returned by
@@ -264,7 +263,7 @@ public interface Multimap<K extends @Nullable Object, V extends @Nullable Object
    *     no effect on the multimap.
    */
   @CanIgnoreReturnValue
-  Collection<V> replaceValues(K key, Iterable<? extends V> values);
+  Collection<V> replaceValues(@ParametricNullness K key, Iterable<? extends V> values);
 
   /**
    * Removes all values associated with the key {@code key}.
@@ -290,7 +289,7 @@ public interface Multimap<K extends @Nullable Object, V extends @Nullable Object
    *
    * <p>Changes to the returned collection will update the underlying multimap, and vice versa.
    */
-  Collection<V> get(K key);
+  Collection<V> get(@ParametricNullness K key);
 
   /**
    * Returns a view collection of all <i>distinct</i> keys contained in this multimap. Note that the

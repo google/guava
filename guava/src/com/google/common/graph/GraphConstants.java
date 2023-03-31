@@ -16,7 +16,7 @@
 
 package com.google.common.graph;
 
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /** A utility class to hold various constants used by the Guava Graph library. */
 @NullMarked
@@ -53,7 +53,7 @@ final class GraphConstants {
           + "adjacentNode(node) if you already have a node, or nodeU()/nodeV() if you don't.";
   static final String EDGE_ALREADY_EXISTS = "Edge %s already exists in the graph.";
   static final String ENDPOINTS_MISMATCH =
-      "Mismatch: unordered endpoints cannot be used with directed graphs";
+      "Mismatch: endpoints' ordering is not compatible with directionality of the graph";
 
   /** Singleton edge value for {@link Graph} implementations backed by {@link ValueGraph}s. */
   enum Presence {

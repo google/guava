@@ -18,8 +18,8 @@ import com.google.errorprone.annotations.DoNotMock;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Future;
 import java.util.concurrent.RejectedExecutionException;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A {@link Future} that accepts completion listeners. Each listener has an associated executor, and
@@ -118,13 +118,6 @@ import org.jspecify.nullness.Nullable;
  */
 @DoNotMock("Use the methods in Futures (like immediateFuture) or SettableFuture")
 @NullMarked
-/*
- * it makes no difference because this class is already covered by the package-level
- * fields. (Not to mention that we'll be removing all @*AreNonnullByDefault annotations after tools
- * understand @NullMarked.) And it's fortunate that the annotation makes no difference, because
- * we're seeing a breakage internally when we add that annotation :)
- *
- */
 public interface ListenableFuture<V extends @Nullable Object> extends Future<V> {
   /**
    * Registers a listener to be {@linkplain Executor#execute(Runnable) run} on the given executor.

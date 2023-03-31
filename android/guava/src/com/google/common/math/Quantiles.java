@@ -23,13 +23,14 @@ import static java.util.Collections.unmodifiableMap;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.primitives.Doubles;
 import com.google.common.primitives.Ints;
 import java.math.RoundingMode;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Provides a fluent API for calculating <a
@@ -128,6 +129,7 @@ import org.jspecify.nullness.NullMarked;
  * @since 20.0
  */
 @Beta
+@J2ktIncompatible
 @GwtIncompatible
 @NullMarked
 public final class Quantiles {

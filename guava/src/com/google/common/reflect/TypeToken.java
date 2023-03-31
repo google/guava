@@ -48,7 +48,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * A {@link Type} with generics.
@@ -90,7 +90,7 @@ import org.jspecify.nullness.NullMarked;
  *
  * <p>{@code TypeToken} is serializable when no type variable is contained in the type.
  *
- * <p>Note to Guice users: {@code} TypeToken is similar to Guice's {@code TypeLiteral} class except
+ * <p>Note to Guice users: {@code TypeToken} is similar to Guice's {@code TypeLiteral} class except
  * that it is serializable and offers numerous additional utility methods.
  *
  * @author Bob Lee
@@ -98,7 +98,6 @@ import org.jspecify.nullness.NullMarked;
  * @author Ben Yu
  * @since 12.0
  */
-@Beta
 @SuppressWarnings("serial") // SimpleTypeToken is the serialized form.
 @NullMarked
 public abstract class TypeToken<T> extends TypeCapture<T> implements Serializable {
@@ -169,7 +168,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
 
   /** Returns an instance of type token that wraps {@code type}. */
   public static <T> TypeToken<T> of(Class<T> type) {
-    return new SimpleTypeToken<T>(type);
+    return new SimpleTypeToken<>(type);
   }
 
   /** Returns an instance of type token that wraps {@code type}. */
@@ -241,7 +240,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
                 ImmutableMap.of(
                     new TypeResolver.TypeVariableKey(typeParam.typeVariable), typeArg.runtimeType));
     // If there's any type error, we'd report now rather than later.
-    return new SimpleTypeToken<T>(resolver.resolveType(runtimeType));
+    return new SimpleTypeToken<>(resolver.resolveType(runtimeType));
   }
 
   /**
@@ -592,6 +591,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
    *
    * @since 14.0
    */
+  @Beta
   public final Invokable<T, Object> method(Method method) {
     checkArgument(
         this.someRawTypeIsSubclassOf(method.getDeclaringClass()),
@@ -631,6 +631,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
    *
    * @since 14.0
    */
+  @Beta
   public final Invokable<T, T> constructor(Constructor<?> constructor) {
     checkArgument(
         constructor.getDeclaringClass() == getRawType(),
@@ -747,15 +748,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
       @SuppressWarnings({"unchecked", "rawtypes"})
       ImmutableList<Class<? super T>> collectedTypes =
           (ImmutableList) TypeCollector.FOR_RAW_TYPE.collectTypes(getRawTypes());
-      return FluentIterable.from(collectedTypes)
-          .filter(
-              new Predicate<Class<?>>() {
-                @Override
-                public boolean apply(Class<?> type) {
-                  return type.isInterface();
-                }
-              })
-          .toSet();
+      return FluentIterable.from(collectedTypes).filter(Class::isInterface).toSet();
     }
 
     @Override
@@ -1104,7 +1097,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
   }
 
   private ImmutableSet<Class<? super T>> getRawTypes() {
-    final ImmutableSet.Builder<Class<?>> builder = ImmutableSet.builder();
+    ImmutableSet.Builder<Class<?>> builder = ImmutableSet.builder();
     new TypeVisitor() {
       @Override
       void visitTypeVariable(TypeVariable<?> t) {
@@ -1324,7 +1317,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
   }
 
   /**
-   * Collects parent types from a sub type.
+   * Collects parent types from a subtype.
    *
    * @param <K> The type "kind". Either a TypeToken, or Class.
    */
@@ -1429,7 +1422,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
     }
 
     private static <K, V> ImmutableList<K> sortKeysByValue(
-        final Map<K, V> map, final Comparator<? super V> valueComparator) {
+        Map<K, V> map, Comparator<? super V> valueComparator) {
       Ordering<K> keyOrdering =
           new Ordering<K>() {
             @Override

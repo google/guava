@@ -23,8 +23,8 @@ import java.util.Iterator;
 import java.util.NavigableSet;
 import java.util.Set;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A skeleton implementation of a descending multiset. Only needs {@code forwardMultiset()} and
@@ -55,7 +55,7 @@ abstract class DescendingMultiset<E extends @Nullable Object> extends Forwarding
   public NavigableSet<E> elementSet() {
     NavigableSet<E> result = elementSet;
     if (result == null) {
-      return elementSet = new SortedMultisets.NavigableElementSet<E>(this);
+      return elementSet = new SortedMultisets.NavigableElementSet<>(this);
     }
     return result;
   }
@@ -73,20 +73,23 @@ abstract class DescendingMultiset<E extends @Nullable Object> extends Forwarding
   }
 
   @Override
-  public SortedMultiset<E> headMultiset(E toElement, BoundType boundType) {
+  public SortedMultiset<E> headMultiset(@ParametricNullness E toElement, BoundType boundType) {
     return forwardMultiset().tailMultiset(toElement, boundType).descendingMultiset();
   }
 
   @Override
   public SortedMultiset<E> subMultiset(
-      E fromElement, BoundType fromBoundType, E toElement, BoundType toBoundType) {
+      @ParametricNullness E fromElement,
+      BoundType fromBoundType,
+      @ParametricNullness E toElement,
+      BoundType toBoundType) {
     return forwardMultiset()
         .subMultiset(toElement, toBoundType, fromElement, fromBoundType)
         .descendingMultiset();
   }
 
   @Override
-  public SortedMultiset<E> tailMultiset(E fromElement, BoundType boundType) {
+  public SortedMultiset<E> tailMultiset(@ParametricNullness E fromElement, BoundType boundType) {
     return forwardMultiset().headMultiset(fromElement, boundType).descendingMultiset();
   }
 

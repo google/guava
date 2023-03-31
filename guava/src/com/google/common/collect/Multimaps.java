@@ -25,6 +25,7 @@ import static java.util.Objects.requireNonNull;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
@@ -57,14 +58,14 @@ import java.util.function.Consumer;
 import java.util.stream.Collector;
 import java.util.stream.Stream;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Provides static methods acting on or generating a {@code Multimap}.
  *
  * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/CollectionUtilitiesExplained#multimaps"> {@code
+ * "https://github.com/google/guava/wiki/CollectionUtilitiesExplained#multimaps">{@code
  * Multimaps}</a>.
  *
  * @author Jared Levy
@@ -254,7 +255,7 @@ public final class Multimaps {
     }
 
     @Override
-    Collection<V> wrapCollection(K key, Collection<V> collection) {
+    Collection<V> wrapCollection(@ParametricNullness K key, Collection<V> collection) {
       if (collection instanceof List) {
         return wrapList(key, (List<V>) collection, null);
       } else if (collection instanceof NavigableSet) {
@@ -271,8 +272,11 @@ public final class Multimaps {
     // can't use Serialization writeMultimap and populateMultimap methods since
     // there's no way to generate the empty backing map.
 
-    /** @serialData the factory and the backing map */
+    /**
+     * @serialData the factory and the backing map
+     */
     @GwtIncompatible // java.io.ObjectOutputStream
+    @J2ktIncompatible
     private void writeObject(ObjectOutputStream stream) throws IOException {
       stream.defaultWriteObject();
       stream.writeObject(factory);
@@ -280,6 +284,7 @@ public final class Multimaps {
     }
 
     @GwtIncompatible // java.io.ObjectInputStream
+    @J2ktIncompatible
     @SuppressWarnings("unchecked") // reading data stored by writeObject
     private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
       stream.defaultReadObject();
@@ -289,6 +294,7 @@ public final class Multimaps {
     }
 
     @GwtIncompatible // java serialization not supported
+    @J2ktIncompatible
     private static final long serialVersionUID = 0;
   }
 
@@ -352,8 +358,11 @@ public final class Multimaps {
       return factory.get();
     }
 
-    /** @serialData the factory and the backing map */
+    /**
+     * @serialData the factory and the backing map
+     */
     @GwtIncompatible // java.io.ObjectOutputStream
+    @J2ktIncompatible
     private void writeObject(ObjectOutputStream stream) throws IOException {
       stream.defaultWriteObject();
       stream.writeObject(factory);
@@ -361,6 +370,7 @@ public final class Multimaps {
     }
 
     @GwtIncompatible // java.io.ObjectInputStream
+    @J2ktIncompatible
     @SuppressWarnings("unchecked") // reading data stored by writeObject
     private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
       stream.defaultReadObject();
@@ -370,6 +380,7 @@ public final class Multimaps {
     }
 
     @GwtIncompatible // java serialization not supported
+    @J2ktIncompatible
     private static final long serialVersionUID = 0;
   }
 
@@ -445,7 +456,7 @@ public final class Multimaps {
     }
 
     @Override
-    Collection<V> wrapCollection(K key, Collection<V> collection) {
+    Collection<V> wrapCollection(@ParametricNullness K key, Collection<V> collection) {
       if (collection instanceof NavigableSet) {
         return new WrappedNavigableSet(key, (NavigableSet<V>) collection, null);
       } else if (collection instanceof SortedSet) {
@@ -455,8 +466,11 @@ public final class Multimaps {
       }
     }
 
-    /** @serialData the factory and the backing map */
+    /**
+     * @serialData the factory and the backing map
+     */
     @GwtIncompatible // java.io.ObjectOutputStream
+    @J2ktIncompatible
     private void writeObject(ObjectOutputStream stream) throws IOException {
       stream.defaultWriteObject();
       stream.writeObject(factory);
@@ -464,6 +478,7 @@ public final class Multimaps {
     }
 
     @GwtIncompatible // java.io.ObjectInputStream
+    @J2ktIncompatible
     @SuppressWarnings("unchecked") // reading data stored by writeObject
     private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
       stream.defaultReadObject();
@@ -473,6 +488,7 @@ public final class Multimaps {
     }
 
     @GwtIncompatible // not needed in emulated source
+    @J2ktIncompatible
     private static final long serialVersionUID = 0;
   }
 
@@ -544,8 +560,11 @@ public final class Multimaps {
       return valueComparator;
     }
 
-    /** @serialData the factory and the backing map */
+    /**
+     * @serialData the factory and the backing map
+     */
     @GwtIncompatible // java.io.ObjectOutputStream
+    @J2ktIncompatible
     private void writeObject(ObjectOutputStream stream) throws IOException {
       stream.defaultWriteObject();
       stream.writeObject(factory);
@@ -553,6 +572,7 @@ public final class Multimaps {
     }
 
     @GwtIncompatible // java.io.ObjectInputStream
+    @J2ktIncompatible
     @SuppressWarnings("unchecked") // reading data stored by writeObject
     private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
       stream.defaultReadObject();
@@ -563,6 +583,7 @@ public final class Multimaps {
     }
 
     @GwtIncompatible // not needed in emulated source
+    @J2ktIncompatible
     private static final long serialVersionUID = 0;
   }
 
@@ -711,7 +732,7 @@ public final class Multimaps {
     }
 
     @Override
-    public Collection<V> get(K key) {
+    public Collection<V> get(@ParametricNullness K key) {
       return unmodifiableValueCollection(delegate.get(key));
     }
 
@@ -734,12 +755,12 @@ public final class Multimaps {
     }
 
     @Override
-    public boolean put(K key, V value) {
+    public boolean put(@ParametricNullness K key, @ParametricNullness V value) {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public boolean putAll(K key, Iterable<? extends V> values) {
+    public boolean putAll(@ParametricNullness K key, Iterable<? extends V> values) {
       throw new UnsupportedOperationException();
     }
 
@@ -759,7 +780,7 @@ public final class Multimaps {
     }
 
     @Override
-    public Collection<V> replaceValues(K key, Iterable<? extends V> values) {
+    public Collection<V> replaceValues(@ParametricNullness K key, Iterable<? extends V> values) {
       throw new UnsupportedOperationException();
     }
 
@@ -788,7 +809,7 @@ public final class Multimaps {
     }
 
     @Override
-    public List<V> get(K key) {
+    public List<V> get(@ParametricNullness K key) {
       return Collections.unmodifiableList(delegate().get(key));
     }
 
@@ -798,7 +819,7 @@ public final class Multimaps {
     }
 
     @Override
-    public List<V> replaceValues(K key, Iterable<? extends V> values) {
+    public List<V> replaceValues(@ParametricNullness K key, Iterable<? extends V> values) {
       throw new UnsupportedOperationException();
     }
 
@@ -818,7 +839,7 @@ public final class Multimaps {
     }
 
     @Override
-    public Set<V> get(K key) {
+    public Set<V> get(@ParametricNullness K key) {
       /*
        * Note that this doesn't return a SortedSet when delegate is a
        * SortedSetMultiset, unlike (SortedSet<V>) super.get().
@@ -837,7 +858,7 @@ public final class Multimaps {
     }
 
     @Override
-    public Set<V> replaceValues(K key, Iterable<? extends V> values) {
+    public Set<V> replaceValues(@ParametricNullness K key, Iterable<? extends V> values) {
       throw new UnsupportedOperationException();
     }
 
@@ -857,7 +878,7 @@ public final class Multimaps {
     }
 
     @Override
-    public SortedSet<V> get(K key) {
+    public SortedSet<V> get(@ParametricNullness K key) {
       return Collections.unmodifiableSortedSet(delegate().get(key));
     }
 
@@ -867,7 +888,7 @@ public final class Multimaps {
     }
 
     @Override
-    public SortedSet<V> replaceValues(K key, Iterable<? extends V> values) {
+    public SortedSet<V> replaceValues(@ParametricNullness K key, Iterable<? extends V> values) {
       throw new UnsupportedOperationException();
     }
 
@@ -1145,7 +1166,7 @@ public final class Multimaps {
     }
 
     @Override
-    public Set<V> get(final K key) {
+    public Set<V> get(@ParametricNullness final K key) {
       return new Sets.ImprovedAbstractSet<V>() {
         @Override
         public Iterator<V> iterator() {
@@ -1158,6 +1179,7 @@ public final class Multimaps {
             }
 
             @Override
+            @ParametricNullness
             public V next() {
               if (!hasNext()) {
                 throw new NoSuchElementException();
@@ -1187,12 +1209,12 @@ public final class Multimaps {
     }
 
     @Override
-    public boolean put(K key, V value) {
+    public boolean put(@ParametricNullness K key, @ParametricNullness V value) {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public boolean putAll(K key, Iterable<? extends V> values) {
+    public boolean putAll(@ParametricNullness K key, Iterable<? extends V> values) {
       throw new UnsupportedOperationException();
     }
 
@@ -1202,7 +1224,7 @@ public final class Multimaps {
     }
 
     @Override
-    public Set<V> replaceValues(K key, Iterable<? extends V> values) {
+    public Set<V> replaceValues(@ParametricNullness K key, Iterable<? extends V> values) {
       throw new UnsupportedOperationException();
     }
 
@@ -1494,7 +1516,7 @@ public final class Multimaps {
       this.transformer = checkNotNull(transformer);
     }
 
-    Collection<V2> transform(K key, Collection<V1> values) {
+    Collection<V2> transform(@ParametricNullness K key, Collection<V1> values) {
       Function<? super V1, V2> function = Maps.asValueToValueFunction(transformer, key);
       if (values instanceof List) {
         return Lists.transform((List<V1>) values, function);
@@ -1509,7 +1531,7 @@ public final class Multimaps {
           fromMultimap.asMap(),
           new EntryTransformer<K, Collection<V1>, Collection<V2>>() {
             @Override
-            public Collection<V2> transformEntry(K key, Collection<V1> value) {
+            public Collection<V2> transformEntry(@ParametricNullness K key, Collection<V1> value) {
               return transform(key, value);
             }
           });
@@ -1537,7 +1559,7 @@ public final class Multimaps {
     }
 
     @Override
-    public Collection<V2> get(final K key) {
+    public Collection<V2> get(@ParametricNullness final K key) {
       return transform(key, fromMultimap.get(key));
     }
 
@@ -1557,12 +1579,12 @@ public final class Multimaps {
     }
 
     @Override
-    public boolean put(K key, V2 value) {
+    public boolean put(@ParametricNullness K key, @ParametricNullness V2 value) {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public boolean putAll(K key, Iterable<? extends V2> values) {
+    public boolean putAll(@ParametricNullness K key, Iterable<? extends V2> values) {
       throw new UnsupportedOperationException();
     }
 
@@ -1584,7 +1606,7 @@ public final class Multimaps {
     }
 
     @Override
-    public Collection<V2> replaceValues(K key, Iterable<? extends V2> values) {
+    public Collection<V2> replaceValues(@ParametricNullness K key, Iterable<? extends V2> values) {
       throw new UnsupportedOperationException();
     }
 
@@ -1610,12 +1632,12 @@ public final class Multimaps {
     }
 
     @Override
-    List<V2> transform(K key, Collection<V1> values) {
+    List<V2> transform(@ParametricNullness K key, Collection<V1> values) {
       return Lists.transform((List<V1>) values, Maps.asValueToValueFunction(transformer, key));
     }
 
     @Override
-    public List<V2> get(K key) {
+    public List<V2> get(@ParametricNullness K key) {
       return transform(key, fromMultimap.get(key));
     }
 
@@ -1626,7 +1648,7 @@ public final class Multimaps {
     }
 
     @Override
-    public List<V2> replaceValues(K key, Iterable<? extends V2> values) {
+    public List<V2> replaceValues(@ParametricNullness K key, Iterable<? extends V2> values) {
       throw new UnsupportedOperationException();
     }
   }
@@ -1735,6 +1757,7 @@ public final class Multimaps {
         Multiset.Entry<K> transform(final Map.Entry<K, Collection<V>> backingEntry) {
           return new Multisets.AbstractEntry<K>() {
             @Override
+            @ParametricNullness
             public K getElement() {
               return backingEntry.getKey();
             }
@@ -1897,7 +1920,7 @@ public final class Multimaps {
             multimap.keySet(),
             new Function<K, Collection<V>>() {
               @Override
-              public Collection<V> apply(K key) {
+              public Collection<V> apply(@ParametricNullness K key) {
                 return multimap.get(key);
               }
             });

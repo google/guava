@@ -26,8 +26,8 @@ import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collector;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /** Collectors utilities for {@code common.collect.Table} internals. */
 @GwtCompatible
@@ -69,8 +69,7 @@ final class TableCollectors {
      */
 
     return Collector.of(
-        () -> new ImmutableTableCollectorState<R, C, V>()
-        /* GWT isn't currently playing nicely with constructor references? */ ,
+        ImmutableTableCollectorState<R, C, V>::new,
         (state, input) ->
             state.put(
                 rowFunction.apply(input),
@@ -200,7 +199,11 @@ final class TableCollectors {
   private static <
           R extends @Nullable Object, C extends @Nullable Object, V extends @Nullable Object>
       void mergeTables(
-          Table<R, C, V> table, R row, C column, V value, BinaryOperator<V> mergeFunction) {
+          Table<R, C, V> table,
+          @ParametricNullness R row,
+          @ParametricNullness C column,
+          @ParametricNullness V value,
+          BinaryOperator<V> mergeFunction) {
     checkNotNull(value);
     V oldValue = table.get(row, column);
     if (oldValue == null) {

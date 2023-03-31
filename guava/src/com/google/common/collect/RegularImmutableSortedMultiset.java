@@ -24,7 +24,7 @@ import com.google.common.primitives.Ints;
 import java.util.Comparator;
 import java.util.function.ObjIntConsumer;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * An immutable sorted multiset with one or more distinct elements.

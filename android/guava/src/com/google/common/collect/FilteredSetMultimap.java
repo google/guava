@@ -17,8 +17,8 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A supertype for filtered {@link SetMultimap} implementations.

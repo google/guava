@@ -18,10 +18,11 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import java.io.Serializable;
 import java.util.Map.Entry;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * {@code values()} implementation for {@link ImmutableMap}.
@@ -98,6 +99,7 @@ final class ImmutableMapValues<K, V> extends ImmutableCollection<V> {
   }
 
   @GwtIncompatible // serialization
+  @J2ktIncompatible
   private static class SerializedForm<V> implements Serializable {
     final ImmutableMap<?, V> map;
 

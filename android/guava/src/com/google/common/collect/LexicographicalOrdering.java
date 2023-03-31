@@ -21,8 +21,8 @@ import java.io.Serializable;
 import java.util.Comparator;
 import java.util.Iterator;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /** An ordering which sorts iterables by comparing corresponding elements pairwise. */
 @GwtCompatible(serializable = true)

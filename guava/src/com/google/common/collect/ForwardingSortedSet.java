@@ -25,8 +25,8 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.SortedSet;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A sorted set which forwards all its method calls to another sorted set. Subclasses should
@@ -73,27 +73,29 @@ public abstract class ForwardingSortedSet<E extends @Nullable Object> extends Fo
   }
 
   @Override
+  @ParametricNullness
   public E first() {
     return delegate().first();
   }
 
   @Override
-  public SortedSet<E> headSet(E toElement) {
+  public SortedSet<E> headSet(@ParametricNullness E toElement) {
     return delegate().headSet(toElement);
   }
 
   @Override
+  @ParametricNullness
   public E last() {
     return delegate().last();
   }
 
   @Override
-  public SortedSet<E> subSet(E fromElement, E toElement) {
+  public SortedSet<E> subSet(@ParametricNullness E fromElement, @ParametricNullness E toElement) {
     return delegate().subSet(fromElement, toElement);
   }
 
   @Override
-  public SortedSet<E> tailSet(E fromElement) {
+  public SortedSet<E> tailSet(@ParametricNullness E fromElement) {
     return delegate().tailSet(fromElement);
   }
 
@@ -154,7 +156,8 @@ public abstract class ForwardingSortedSet<E extends @Nullable Object> extends Fo
    * @since 7.0
    */
   @Beta
-  protected SortedSet<E> standardSubSet(E fromElement, E toElement) {
+  protected SortedSet<E> standardSubSet(
+      @ParametricNullness E fromElement, @ParametricNullness E toElement) {
     return tailSet(fromElement).headSet(toElement);
   }
 }

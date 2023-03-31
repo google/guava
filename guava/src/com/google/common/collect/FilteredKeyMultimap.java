@@ -31,8 +31,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Implementation of {@link Multimaps#filterKeys(Multimap, Predicate)}.
@@ -104,7 +104,7 @@ class FilteredKeyMultimap<K extends @Nullable Object, V extends @Nullable Object
   }
 
   @Override
-  public Collection<V> get(K key) {
+  public Collection<V> get(@ParametricNullness K key) {
     if (keyPredicate.apply(key)) {
       return unfiltered.get(key);
     } else if (unfiltered instanceof SetMultimap) {
@@ -116,14 +116,14 @@ class FilteredKeyMultimap<K extends @Nullable Object, V extends @Nullable Object
 
   static class AddRejectingSet<K extends @Nullable Object, V extends @Nullable Object>
       extends ForwardingSet<V> {
-    final K key;
+    @ParametricNullness final K key;
 
-    AddRejectingSet(K key) {
+    AddRejectingSet(@ParametricNullness K key) {
       this.key = key;
     }
 
     @Override
-    public boolean add(V element) {
+    public boolean add(@ParametricNullness V element) {
       throw new IllegalArgumentException("Key does not satisfy predicate: " + key);
     }
 
@@ -141,20 +141,20 @@ class FilteredKeyMultimap<K extends @Nullable Object, V extends @Nullable Object
 
   static class AddRejectingList<K extends @Nullable Object, V extends @Nullable Object>
       extends ForwardingList<V> {
-    final K key;
+    @ParametricNullness final K key;
 
-    AddRejectingList(K key) {
+    AddRejectingList(@ParametricNullness K key) {
       this.key = key;
     }
 
     @Override
-    public boolean add(V v) {
+    public boolean add(@ParametricNullness V v) {
       add(0, v);
       return true;
     }
 
     @Override
-    public void add(int index, V element) {
+    public void add(int index, @ParametricNullness V element) {
       checkPositionIndex(index, 0);
       throw new IllegalArgumentException("Key does not satisfy predicate: " + key);
     }

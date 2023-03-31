@@ -23,8 +23,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A multimap which forwards all its method calls to another multimap. Subclasses should override
@@ -80,7 +80,7 @@ public abstract class ForwardingMultimap<K extends @Nullable Object, V extends @
   }
 
   @Override
-  public Collection<V> get(K key) {
+  public Collection<V> get(@ParametricNullness K key) {
     return delegate().get(key);
   }
 
@@ -101,13 +101,13 @@ public abstract class ForwardingMultimap<K extends @Nullable Object, V extends @
 
   @CanIgnoreReturnValue
   @Override
-  public boolean put(K key, V value) {
+  public boolean put(@ParametricNullness K key, @ParametricNullness V value) {
     return delegate().put(key, value);
   }
 
   @CanIgnoreReturnValue
   @Override
-  public boolean putAll(K key, Iterable<? extends V> values) {
+  public boolean putAll(@ParametricNullness K key, Iterable<? extends V> values) {
     return delegate().putAll(key, values);
   }
 
@@ -131,7 +131,7 @@ public abstract class ForwardingMultimap<K extends @Nullable Object, V extends @
 
   @CanIgnoreReturnValue
   @Override
-  public Collection<V> replaceValues(K key, Iterable<? extends V> values) {
+  public Collection<V> replaceValues(@ParametricNullness K key, Iterable<? extends V> values) {
     return delegate().replaceValues(key, values);
   }
 

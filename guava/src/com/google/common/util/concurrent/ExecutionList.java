@@ -22,7 +22,7 @@ import java.util.concurrent.Executor;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * A support class for {@code ListenableFuture} implementations to manage their listeners. An

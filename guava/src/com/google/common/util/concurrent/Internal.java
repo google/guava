@@ -16,7 +16,7 @@ package com.google.common.util.concurrent;
 
 import com.google.common.annotations.GwtIncompatible;
 import java.time.Duration;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /** This class is for {@code com.google.common.util.concurrent} use only! */
 @GwtIncompatible // java.time.Duration

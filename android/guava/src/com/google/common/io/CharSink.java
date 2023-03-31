@@ -17,13 +17,14 @@ package com.google.common.io;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
 import java.nio.charset.Charset;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * A destination to which characters can be written, such as a text file. Unlike a {@link Writer}, a
@@ -48,6 +49,7 @@ import org.jspecify.nullness.NullMarked;
  * @since 14.0
  * @author Colin Decker
  */
+@J2ktIncompatible
 @GwtIncompatible
 @NullMarked
 public abstract class CharSink {

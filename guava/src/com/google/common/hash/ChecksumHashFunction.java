@@ -20,7 +20,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.errorprone.annotations.Immutable;
 import java.io.Serializable;
 import java.util.zip.Checksum;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * {@link HashFunction} adapter for {@link Checksum} instances.

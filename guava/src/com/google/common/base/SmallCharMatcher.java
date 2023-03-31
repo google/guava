@@ -15,10 +15,11 @@
 package com.google.common.base;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.CharMatcher.NamedFastMatcher;
 import java.util.BitSet;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * An immutable version of CharMatcher for smallish sets of characters that uses a hash table with
@@ -26,6 +27,7 @@ import org.jspecify.nullness.NullMarked;
  *
  * @author Christopher Swenson
  */
+@J2ktIncompatible
 @GwtIncompatible // no precomputation is done in GWT
 @NullMarked
 final class SmallCharMatcher extends NamedFastMatcher {

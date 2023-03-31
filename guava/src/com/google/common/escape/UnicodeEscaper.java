@@ -16,10 +16,9 @@ package com.google.common.escape;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * An {@link Escaper} that converts literal text into a format safe for inclusion in a particular
@@ -51,7 +50,6 @@ import org.jspecify.nullness.NullMarked;
  * @author David Beaumont
  * @since 15.0
  */
-@Beta
 @GwtCompatible
 @NullMarked
 public abstract class UnicodeEscaper extends Escaper {

@@ -402,7 +402,7 @@ public class TypeTokenTest extends TestCase {
     assertEquals(TypeToken.of(Object.class), new TypeToken<T[]>() {}.getGenericSuperclass());
   }
 
-  public <T extends ArrayList<String> & CharSequence>
+  public <T extends ArrayList<String> & Serializable>
       void testGetGenericSuperclass_typeVariable_boundIsClass() {
     assertEquals(
         new TypeToken<ArrayList<String>>() {},
@@ -410,7 +410,7 @@ public class TypeTokenTest extends TestCase {
     assertEquals(TypeToken.of(Object.class), new TypeToken<T[]>() {}.getGenericSuperclass());
   }
 
-  public <T extends Enum<T> & CharSequence>
+  public <T extends Enum<T> & Serializable>
       void testGetGenericSuperclass_typeVariable_boundIsFBoundedClass() {
     assertEquals(
         new TypeToken<Enum<T>>() {},
@@ -418,13 +418,13 @@ public class TypeTokenTest extends TestCase {
     assertEquals(TypeToken.of(Object.class), new TypeToken<T[]>() {}.getGenericSuperclass());
   }
 
-  public <T extends List<String> & CharSequence>
+  public <T extends List<String> & Serializable>
       void testGetGenericSuperclass_typeVariable_boundIsInterface() {
     assertNull(TypeToken.of(new TypeCapture<T>() {}.capture()).getGenericSuperclass());
     assertEquals(TypeToken.of(Object.class), new TypeToken<T[]>() {}.getGenericSuperclass());
   }
 
-  public <T extends ArrayList<String> & CharSequence, T1 extends T>
+  public <T extends ArrayList<String> & Serializable, T1 extends T>
       void testGetGenericSuperclass_typeVariable_boundIsTypeVariableAndClass() {
     assertEquals(
         TypeToken.of(new TypeCapture<T>() {}.capture()),
@@ -432,7 +432,7 @@ public class TypeTokenTest extends TestCase {
     assertEquals(TypeToken.of(Object.class), new TypeToken<T[]>() {}.getGenericSuperclass());
   }
 
-  public <T extends List<String> & CharSequence, T1 extends T>
+  public <T extends List<String> & Serializable, T1 extends T>
       void testGetGenericSuperclass_typeVariable_boundIsTypeVariableAndInterface() {
     assertNull(TypeToken.of(new TypeCapture<T1>() {}.capture()).getGenericSuperclass());
     assertEquals(TypeToken.of(Object.class), new TypeToken<T1[]>() {}.getGenericSuperclass());
@@ -1101,7 +1101,7 @@ public class TypeTokenTest extends TestCase {
   }
 
   public void testGetSupertype_chained() {
-    @SuppressWarnings("unchecked") // StringListIterable extensd ListIterable<String>
+    @SuppressWarnings("unchecked") // StringListIterable extends ListIterable<String>
     TypeToken<ListIterable<String>> listIterableType =
         (TypeToken<ListIterable<String>>)
             TypeToken.of(StringListIterable.class).getSupertype(ListIterable.class);
@@ -1747,6 +1747,7 @@ public class TypeTokenTest extends TestCase {
     }
   }
 
+  @SuppressWarnings("RestrictedApiChecker") // crashes under JDK8, which EP no longer supports
   public <T> void testRejectTypeVariable_withOwnerType() {
     // Neither has subclass
     assertHasTypeVariable(new From<Integer>().new To<String>().type());
@@ -1793,7 +1794,7 @@ public class TypeTokenTest extends TestCase {
 
     abstract <T2 extends CharSequence & Iterable<T2>> void acceptT2(T2 t2);
 
-    static void verifyConsitentRawType() {
+    static void verifyConsistentRawType() {
       for (Method method : RawTypeConsistencyTester.class.getDeclaredMethods()) {
         assertEquals(
             method.getReturnType(), TypeToken.of(method.getGenericReturnType()).getRawType());
@@ -1807,7 +1808,7 @@ public class TypeTokenTest extends TestCase {
   }
 
   public void testRawTypes() {
-    RawTypeConsistencyTester.verifyConsitentRawType();
+    RawTypeConsistencyTester.verifyConsistentRawType();
     assertEquals(Object.class, TypeToken.of(Types.subtypeOf(Object.class)).getRawType());
     assertEquals(
         CharSequence.class, TypeToken.of(Types.subtypeOf(CharSequence.class)).getRawType());

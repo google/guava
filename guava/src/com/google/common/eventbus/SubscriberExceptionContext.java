@@ -17,7 +17,7 @@ package com.google.common.eventbus;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.lang.reflect.Method;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Context for an exception thrown by a subscriber.

@@ -15,7 +15,7 @@
 package com.google.common.base;
 
 import com.google.common.annotations.GwtCompatible;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * A time source; returns a time value representing the number of nanoseconds elapsed since some

@@ -35,7 +35,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Static utility methods for {@link Graph}, {@link ValueGraph}, and {@link Network} instances.

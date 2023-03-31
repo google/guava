@@ -181,7 +181,6 @@ public class AtomicDoubleArrayTest extends JSR166TestCase {
   }
 
   /** compareAndSet in one thread enables another waiting for value to succeed */
-
   public void testCompareAndSetInMultipleThreads() throws InterruptedException {
     final AtomicDoubleArray a = new AtomicDoubleArray(1);
     a.set(0, 1.0);
@@ -294,7 +293,6 @@ public class AtomicDoubleArrayTest extends JSR166TestCase {
    * Multiple threads using same array of counters successfully update a number of times equal to
    * total count
    */
-
   public void testCountingInMultipleThreads() throws InterruptedException {
     final AtomicDoubleArray aa = new AtomicDoubleArray(SIZE);
     for (int i = 0; i < SIZE; i++) {

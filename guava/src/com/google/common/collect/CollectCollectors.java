@@ -17,9 +17,11 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.stream.Collectors.collectingAndThen;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Preconditions;
 import java.util.Collection;
 import java.util.Comparator;
@@ -35,8 +37,8 @@ import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /** Collectors utilities for {@code common.collect} internals. */
 @GwtCompatible
@@ -95,16 +97,20 @@ final class CollectCollectors {
     return (Collector) EnumSetAccumulator.TO_IMMUTABLE_ENUM_SET;
   }
 
+  private static <E extends Enum<E>>
+      Collector<E, EnumSetAccumulator<E>, ImmutableSet<E>> toImmutableEnumSetGeneric() {
+    return Collector.of(
+        EnumSetAccumulator::new,
+        EnumSetAccumulator::add,
+        EnumSetAccumulator::combine,
+        EnumSetAccumulator::toImmutableSet,
+        Collector.Characteristics.UNORDERED);
+  }
+
   private static final class EnumSetAccumulator<E extends Enum<E>> {
     @SuppressWarnings({"rawtypes", "unchecked"})
     static final Collector<Enum<?>, ?, ImmutableSet<? extends Enum<?>>> TO_IMMUTABLE_ENUM_SET =
-        (Collector)
-            Collector.<Enum, EnumSetAccumulator, ImmutableSet<?>>of(
-                EnumSetAccumulator::new,
-                EnumSetAccumulator::add,
-                EnumSetAccumulator::combine,
-                EnumSetAccumulator::toImmutableSet,
-                Collector.Characteristics.UNORDERED);
+        (Collector) toImmutableEnumSetGeneric();
 
     @CheckForNull private EnumSet<E> set;
 
@@ -128,7 +134,12 @@ final class CollectCollectors {
     }
 
     ImmutableSet<E> toImmutableSet() {
-      return (set == null) ? ImmutableSet.<E>of() : ImmutableEnumSet.asImmutable(set);
+      if (set == null) {
+        return ImmutableSet.of();
+      }
+      ImmutableSet<E> ret = ImmutableEnumSet.asImmutable(set);
+      set = null; // subsequent manual manipulation of the accumulator mustn't affect ret
+      return ret;
     }
   }
 
@@ -195,7 +206,7 @@ final class CollectCollectors {
     checkNotNull(keyFunction);
     checkNotNull(valueFunction);
     checkNotNull(mergeFunction);
-    return Collectors.collectingAndThen(
+    return collectingAndThen(
         Collectors.toMap(keyFunction, valueFunction, mergeFunction, LinkedHashMap::new),
         ImmutableMap::copyOf);
   }
@@ -230,7 +241,7 @@ final class CollectCollectors {
     checkNotNull(keyFunction);
     checkNotNull(valueFunction);
     checkNotNull(mergeFunction);
-    return Collectors.collectingAndThen(
+    return collectingAndThen(
         Collectors.toMap(
             keyFunction, valueFunction, mergeFunction, () -> new TreeMap<K, V>(comparator)),
         ImmutableSortedMap::copyOfSorted);
@@ -249,6 +260,7 @@ final class CollectCollectors {
         new Collector.Characteristics[0]);
   }
 
+  @J2ktIncompatible
   static <T extends @Nullable Object, K extends Enum<K>, V>
       Collector<T, ?, ImmutableMap<K, V>> toImmutableEnumMap(
           Function<? super T, ? extends K> keyFunction,
@@ -277,6 +289,7 @@ final class CollectCollectors {
         Collector.Characteristics.UNORDERED);
   }
 
+  @J2ktIncompatible
   static <T extends @Nullable Object, K extends Enum<K>, V>
       Collector<T, ?, ImmutableMap<K, V>> toImmutableEnumMap(
           Function<? super T, ? extends K> keyFunction,
@@ -303,6 +316,7 @@ final class CollectCollectors {
         EnumMapAccumulator::toImmutableMap);
   }
 
+  @J2ktIncompatible
   private static class EnumMapAccumulator<K extends Enum<K>, V> {
     private final BinaryOperator<V> mergeFunction;
     @CheckForNull private EnumMap<K, V> map = null;
@@ -369,7 +383,7 @@ final class CollectCollectors {
           Function<? super T, ? extends Stream<? extends V>> valuesFunction) {
     checkNotNull(keyFunction);
     checkNotNull(valuesFunction);
-    return Collectors.collectingAndThen(
+    return collectingAndThen(
         flatteningToMultimap(
             input -> checkNotNull(keyFunction.apply(input)),
             input -> valuesFunction.apply(input).peek(Preconditions::checkNotNull),
@@ -396,7 +410,7 @@ final class CollectCollectors {
           Function<? super T, ? extends Stream<? extends V>> valuesFunction) {
     checkNotNull(keyFunction);
     checkNotNull(valuesFunction);
-    return Collectors.collectingAndThen(
+    return collectingAndThen(
         flatteningToMultimap(
             input -> checkNotNull(keyFunction.apply(input)),
             input -> valuesFunction.apply(input).peek(Preconditions::checkNotNull),

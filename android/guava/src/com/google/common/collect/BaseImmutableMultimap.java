@@ -16,7 +16,7 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * A dummy superclass of {@link ImmutableMultimap} that can be instanceof'd without ProGuard

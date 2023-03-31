@@ -19,6 +19,7 @@ import static com.google.common.util.concurrent.Futures.getDone;
 import static com.google.common.util.concurrent.MoreExecutors.rejectionPropagatingExecutor;
 import static com.google.common.util.concurrent.NullnessCasts.uncheckedCastNullableTToT;
 import static com.google.common.util.concurrent.Platform.isInstanceOfThrowableClass;
+import static com.google.common.util.concurrent.Platform.restoreInterruptIfIsInterruptedException;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Function;
@@ -28,8 +29,8 @@ import com.google.errorprone.annotations.ForOverride;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /** Implementations of {@code Futures.catching*}. */
 @GwtCompatible
@@ -108,7 +109,7 @@ abstract class AbstractCatchingFuture<
                     + e.getClass()
                     + " without a cause");
       }
-    } catch (Throwable e) { // this includes cancellation exception
+    } catch (RuntimeException | Error e) { // this includes cancellation exception
       throwable = e;
     }
 
@@ -133,6 +134,7 @@ abstract class AbstractCatchingFuture<
     try {
       fallbackResult = doFallback(localFallback, castThrowable);
     } catch (Throwable t) {
+      restoreInterruptIfIsInterruptedException(t);
       setException(t);
       return;
     } finally {
@@ -169,11 +171,12 @@ abstract class AbstractCatchingFuture<
 
   /** Template method for subtypes to actually run the fallback. */
   @ForOverride
+  @ParametricNullness
   abstract T doFallback(F fallback, X throwable) throws Exception;
 
   /** Template method for subtypes to actually set the result. */
   @ForOverride
-  abstract void setResult(T result);
+  abstract void setResult(@ParametricNullness T result);
 
   @Override
   protected final void afterDone() {
@@ -229,12 +232,13 @@ abstract class AbstractCatchingFuture<
     }
 
     @Override
+    @ParametricNullness
     V doFallback(Function<? super X, ? extends V> fallback, X cause) throws Exception {
       return fallback.apply(cause);
     }
 
     @Override
-    void setResult(V result) {
+    void setResult(@ParametricNullness V result) {
       set(result);
     }
   }

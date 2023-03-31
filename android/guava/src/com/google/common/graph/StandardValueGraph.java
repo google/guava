@@ -25,7 +25,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Standard implementation of {@link ValueGraph} that supports the options supplied by {@link
@@ -119,7 +119,7 @@ class StandardValueGraph<N, V> extends AbstractValueGraph<N, V> {
 
   @Override
   public Set<EndpointPair<N>> incidentEdges(N node) {
-    final GraphConnections<N, V> connections = checkedConnections(node);
+    GraphConnections<N, V> connections = checkedConnections(node);
 
     return new IncidentEdgeSet<N>(this, node) {
       @Override

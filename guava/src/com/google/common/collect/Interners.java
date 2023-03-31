@@ -17,13 +17,14 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Equivalence;
 import com.google.common.base.Function;
 import com.google.common.collect.MapMaker.Dummy;
 import com.google.common.collect.MapMakerInternalMap.InternalEntry;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Contains static methods pertaining to instances of {@link Interner}.
@@ -31,6 +32,7 @@ import org.jspecify.nullness.NullMarked;
  * @author Kevin Bourrillion
  * @since 3.0
  */
+@J2ktIncompatible
 @GwtIncompatible
 @NullMarked
 public final class Interners {
@@ -82,7 +84,7 @@ public final class Interners {
       if (!strong) {
         mapMaker.weakKeys();
       }
-      return new InternerImpl<E>(mapMaker);
+      return new InternerImpl<>(mapMaker);
     }
   }
 
@@ -159,7 +161,7 @@ public final class Interners {
    * @since 8.0
    */
   public static <E> Function<E, E> asFunction(Interner<E> interner) {
-    return new InternerFunction<E>(checkNotNull(interner));
+    return new InternerFunction<>(checkNotNull(interner));
   }
 
   private static class InternerFunction<E> implements Function<E, E> {

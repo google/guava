@@ -18,7 +18,7 @@ package com.google.common.graph;
 
 import com.google.common.annotations.Beta;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * This class provides a skeletal implementation of {@link Graph}. It is recommended to extend this

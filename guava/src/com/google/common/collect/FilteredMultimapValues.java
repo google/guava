@@ -26,8 +26,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map.Entry;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Implementation for {@link FilteredMultimap#values()}.

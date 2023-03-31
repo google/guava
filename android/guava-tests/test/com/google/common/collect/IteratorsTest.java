@@ -74,6 +74,7 @@ public class IteratorsTest extends TestCase {
     return suite;
   }
 
+  @SuppressWarnings("DoNotCall")
   public void testEmptyIterator() {
     Iterator<String> iterator = Iterators.emptyIterator();
     assertFalse(iterator.hasNext());
@@ -89,6 +90,7 @@ public class IteratorsTest extends TestCase {
     }
   }
 
+  @SuppressWarnings("DoNotCall")
   public void testEmptyListIterator() {
     ListIterator<String> iterator = Iterators.emptyListIterator();
     assertFalse(iterator.hasNext());
@@ -1119,6 +1121,7 @@ public class IteratorsTest extends TestCase {
     }
   }
 
+  @SuppressWarnings("DoNotCall")
   public void testForArrayTypical() {
     String[] array = {"foo", "bar"};
     Iterator<String> iterator = Iterators.forArray(array);
@@ -1205,6 +1208,7 @@ public class IteratorsTest extends TestCase {
     }
   }
 
+  @SuppressWarnings("DoNotCall")
   public void testForEnumerationSingleton() {
     Enumeration<Integer> enumer = enumerate(1);
     Iterator<Integer> iter = Iterators.forEnumeration(enumer);

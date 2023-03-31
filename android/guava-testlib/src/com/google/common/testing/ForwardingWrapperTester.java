@@ -22,13 +22,13 @@ import static com.google.common.base.Throwables.throwIfUnchecked;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.fail;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Throwables;
 import com.google.common.collect.Lists;
 import com.google.common.reflect.AbstractInvocationHandler;
 import com.google.common.reflect.Reflection;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -53,7 +53,6 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author Ben Yu
  * @since 14.0
  */
-@Beta
 @GwtIncompatible
 public final class ForwardingWrapperTester {
 
@@ -63,6 +62,7 @@ public final class ForwardingWrapperTester {
    * Asks for {@link Object#equals} and {@link Object#hashCode} to be tested. That is, forwarding
    * wrappers of equal instances should be equal.
    */
+  @CanIgnoreReturnValue
   public ForwardingWrapperTester includingEquals() {
     this.testsEquals = true;
     return this;
@@ -129,7 +129,7 @@ public final class ForwardingWrapperTester {
 
   private static <T> void testExceptionPropagation(
       Class<T> interfaceType, Method method, Function<? super T, ? extends T> wrapperFunction) {
-    final RuntimeException exception = new RuntimeException();
+    RuntimeException exception = new RuntimeException();
     T proxy =
         Reflection.newProxy(
             interfaceType,
@@ -175,7 +175,7 @@ public final class ForwardingWrapperTester {
 
   private static Object[] getParameterValues(Method method) {
     FreshValueGenerator paramValues = new FreshValueGenerator();
-    final List<Object> passedArgs = Lists.newArrayList();
+    List<Object> passedArgs = Lists.newArrayList();
     for (Class<?> paramType : method.getParameterTypes()) {
       passedArgs.add(paramValues.generateFresh(paramType));
     }

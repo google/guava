@@ -18,8 +18,8 @@ import com.google.common.annotations.GwtIncompatible;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A {@link ScheduledExecutorService} that returns {@link ListenableFuture} instances from its

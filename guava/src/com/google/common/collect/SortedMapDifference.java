@@ -18,8 +18,8 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import java.util.SortedMap;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An object representing the differences between two sorted maps.

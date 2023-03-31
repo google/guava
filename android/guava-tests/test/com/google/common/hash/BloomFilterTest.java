@@ -36,8 +36,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
+import javax.annotation.CheckForNull;
 import junit.framework.TestCase;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * Tests for SimpleGenericBloomFilter and derived BloomFilter views.
@@ -408,7 +408,7 @@ public class BloomFilterTest extends TestCase {
     }
 
     @Override
-    public boolean equals(@NullableDecl Object object) {
+    public boolean equals(@CheckForNull Object object) {
       return (object instanceof CustomFunnel);
     }
 
@@ -506,7 +506,10 @@ public class BloomFilterTest extends TestCase {
     ByteArrayOutputStream out = new ByteArrayOutputStream();
     bf.writeTo(out);
 
-    assertEquals(bf, BloomFilter.readFrom(new ByteArrayInputStream(out.toByteArray()), funnel));
+    BloomFilter<byte[]> read =
+        BloomFilter.readFrom(new ByteArrayInputStream(out.toByteArray()), funnel);
+    assertThat(read).isEqualTo(bf);
+    assertThat(read.expectedFpp()).isGreaterThan(0);
   }
 
   /**

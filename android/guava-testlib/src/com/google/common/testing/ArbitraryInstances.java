@@ -18,7 +18,6 @@ package com.google.common.testing;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Charsets;
@@ -74,6 +73,7 @@ import com.google.common.io.CharSource;
 import com.google.common.primitives.Primitives;
 import com.google.common.primitives.UnsignedInteger;
 import com.google.common.primitives.UnsignedLong;
+import com.google.errorprone.annotations.Keep;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -142,7 +142,7 @@ import java.util.logging.Logger;
 import java.util.regex.MatchResult;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import javax.annotation.CheckForNull;
 
 /**
  * Supplies an arbitrary "default" instance for a wide range of types, often useful in testing
@@ -166,7 +166,6 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @author Ben Yu
  * @since 12.0
  */
-@Beta
 @GwtIncompatible
 public final class ArbitraryInstances {
 
@@ -327,7 +326,7 @@ public final class ArbitraryInstances {
   }
 
   @SuppressWarnings("unchecked") // it's a subtype map
-  @NullableDecl
+  @CheckForNull
   private static <T> Class<? extends T> getImplementation(Class<T> type) {
     return (Class<? extends T>) implementations.get(type);
   }
@@ -338,7 +337,7 @@ public final class ArbitraryInstances {
    * Returns an arbitrary instance for {@code type}, or {@code null} if no arbitrary instance can be
    * determined.
    */
-  @NullableDecl
+  @CheckForNull
   public static <T> T get(Class<T> type) {
     T defaultValue = DEFAULTS.getInstance(type);
     if (defaultValue != null) {
@@ -386,7 +385,7 @@ public final class ArbitraryInstances {
     }
   }
 
-  @NullableDecl
+  @CheckForNull
   private static <T> T arbitraryConstantInstanceOrNull(Class<T> type) {
     Field[] fields = type.getDeclaredFields();
     Arrays.sort(fields, BY_FIELD_NAME);
@@ -430,6 +429,7 @@ public final class ArbitraryInstances {
     }
 
     public static final class DeterministicRandom extends Random {
+      @Keep
       public DeterministicRandom() {
         super(0);
       }

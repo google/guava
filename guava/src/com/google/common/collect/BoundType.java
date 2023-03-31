@@ -15,7 +15,7 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Indicates whether an endpoint of some range is contained in the range itself ("closed") or not
@@ -40,9 +40,5 @@ public enum BoundType {
   /** Returns the bound type corresponding to a boolean value for inclusivity. */
   static BoundType forBoolean(boolean inclusive) {
     return inclusive ? CLOSED : OPEN;
-  }
-
-  BoundType flip() {
-    return forBoolean(!inclusive);
   }
 }

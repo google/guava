@@ -21,20 +21,26 @@ import static com.google.common.graph.Graphs.checkNonNegative;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Optional;
-import org.jspecify.nullness.NullMarked;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * A builder for constructing instances of {@link MutableNetwork} or {@link ImmutableNetwork} with
  * user-defined properties.
  *
- * <p>A network built by this class will have the following properties by default:
+ * <p>A {@code Network} built by this class has the following default properties:
  *
  * <ul>
  *   <li>does not allow parallel edges
  *   <li>does not allow self-loops
  *   <li>orders {@link Network#nodes()} and {@link Network#edges()} in the order in which the
- *       elements were added
+ *       elements were added (insertion order)
  * </ul>
+ *
+ * <p>{@code Network}s built by this class also guarantee that each collection-returning accessor
+ * returns a <b>(live) unmodifiable view</b>; see <a
+ * href="https://github.com/google/guava/wiki/GraphsExplained#accessor-behavior">the external
+ * documentation</a> for details.
  *
  * <p>Examples of use:
  *
@@ -123,6 +129,7 @@ public final class NetworkBuilder<N, E> extends AbstractGraphBuilder<N> {
    *
    * <p>The default value is {@code false}.
    */
+  @CanIgnoreReturnValue
   public NetworkBuilder<N, E> allowsParallelEdges(boolean allowsParallelEdges) {
     this.allowsParallelEdges = allowsParallelEdges;
     return this;
@@ -135,6 +142,7 @@ public final class NetworkBuilder<N, E> extends AbstractGraphBuilder<N> {
    *
    * <p>The default value is {@code false}.
    */
+  @CanIgnoreReturnValue
   public NetworkBuilder<N, E> allowsSelfLoops(boolean allowsSelfLoops) {
     this.allowsSelfLoops = allowsSelfLoops;
     return this;
@@ -145,6 +153,7 @@ public final class NetworkBuilder<N, E> extends AbstractGraphBuilder<N> {
    *
    * @throws IllegalArgumentException if {@code expectedNodeCount} is negative
    */
+  @CanIgnoreReturnValue
   public NetworkBuilder<N, E> expectedNodeCount(int expectedNodeCount) {
     this.expectedNodeCount = Optional.of(checkNonNegative(expectedNodeCount));
     return this;
@@ -155,6 +164,7 @@ public final class NetworkBuilder<N, E> extends AbstractGraphBuilder<N> {
    *
    * @throws IllegalArgumentException if {@code expectedEdgeCount} is negative
    */
+  @CanIgnoreReturnValue
   public NetworkBuilder<N, E> expectedEdgeCount(int expectedEdgeCount) {
     this.expectedEdgeCount = Optional.of(checkNonNegative(expectedEdgeCount));
     return this;

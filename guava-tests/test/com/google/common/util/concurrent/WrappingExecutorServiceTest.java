@@ -188,7 +188,7 @@ public class WrappingExecutorServiceTest extends TestCase {
     }
   }
 
-  // TODO: If this test can ever depend on EasyMock or the like, use it instead.
+  // TODO: If this test can ever depend on Mockito or the like, use it instead.
   private static final class MockExecutor implements ExecutorService {
     private String lastMethodCalled = "";
     private long lastTimeoutInMillis = -1;

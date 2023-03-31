@@ -49,9 +49,9 @@ public class InvokableTest extends TestCase {
   public void testApiCompatibleWithAccessibleObject() {
     ImmutableSet<String> invokableMethods =
         publicMethodSignatures(Invokable.class, ImmutableSet.<String>of());
-    ImmutableSet<String> accesibleObjectMethods =
+    ImmutableSet<String> accessibleObjectMethods =
         publicMethodSignatures(AccessibleObject.class, ImmutableSet.of("canAccess"));
-    assertThat(invokableMethods).containsAtLeastElementsIn(accesibleObjectMethods);
+    assertThat(invokableMethods).containsAtLeastElementsIn(accessibleObjectMethods);
     Class<?> genericDeclaration;
     try {
       genericDeclaration = Class.forName("java.lang.reflect.GenericDeclaration");
@@ -453,7 +453,7 @@ public class InvokableTest extends TestCase {
 
   static class Foo {}
 
-  public void testConstructor_isOverridablel() throws Exception {
+  public void testConstructor_isOverridable() throws Exception {
     Invokable<?, ?> delegate = Invokable.from(Foo.class.getDeclaredConstructor());
     assertFalse(delegate.isOverridable());
     assertFalse(delegate.isVarArgs());
@@ -601,7 +601,7 @@ public class InvokableTest extends TestCase {
   }
 
   public void testAnonymousClassInConstructor() {
-    new AnonymousClassInConstructor();
+    AnonymousClassInConstructor unused = new AnonymousClassInConstructor();
   }
 
   private static class AnonymousClassInConstructor {
@@ -621,7 +621,7 @@ public class InvokableTest extends TestCase {
   }
 
   public void testLocalClassInInstanceInitializer() {
-    new LocalClassInInstanceInitializer();
+    LocalClassInInstanceInitializer unused = new LocalClassInInstanceInitializer();
   }
 
   private static class LocalClassInInstanceInitializer {
@@ -633,7 +633,7 @@ public class InvokableTest extends TestCase {
   }
 
   public void testLocalClassInStaticInitializer() {
-    new LocalClassInStaticInitializer();
+    LocalClassInStaticInitializer unused = new LocalClassInStaticInitializer();
   }
 
   private static class LocalClassInStaticInitializer {
@@ -645,7 +645,8 @@ public class InvokableTest extends TestCase {
   }
 
   public void testLocalClassWithSeeminglyHiddenThisInStaticInitializer_BUG() {
-    new LocalClassWithSeeminglyHiddenThisInStaticInitializer();
+    LocalClassWithSeeminglyHiddenThisInStaticInitializer unused =
+        new LocalClassWithSeeminglyHiddenThisInStaticInitializer();
   }
 
   /**

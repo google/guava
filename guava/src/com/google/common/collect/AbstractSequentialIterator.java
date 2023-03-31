@@ -19,7 +19,7 @@ package com.google.common.collect;
 import com.google.common.annotations.GwtCompatible;
 import java.util.NoSuchElementException;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * This class provides a skeletal implementation of the {@code Iterator} interface for sequences

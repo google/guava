@@ -17,7 +17,7 @@
 package com.google.common.graph;
 
 import java.util.Set;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * A non-public interface for the methods shared between {@link Graph} and {@link ValueGraph}.

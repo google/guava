@@ -73,10 +73,10 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.concurrent.CopyOnWriteArraySet;
+import javax.annotation.CheckForNull;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * Unit test for {@code Sets}.
@@ -325,6 +325,7 @@ public class SetsTest extends TestCase {
     D
   }
 
+  @SuppressWarnings("DoNotCall")
   public void testImmutableEnumSet() {
     Set<SomeEnum> units = Sets.immutableEnumSet(SomeEnum.D, SomeEnum.B);
 
@@ -1076,7 +1077,7 @@ public class SetsTest extends TestCase {
    * same as the given comparator.
    */
   private static <E> void verifySortedSetContents(
-      SortedSet<E> set, Iterable<E> iterable, @NullableDecl Comparator<E> comparator) {
+      SortedSet<E> set, Iterable<E> iterable, @CheckForNull Comparator<E> comparator) {
     assertSame(comparator, set.comparator());
     verifySetContents(set, iterable);
   }

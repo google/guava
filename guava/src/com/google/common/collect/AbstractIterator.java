@@ -23,8 +23,8 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.NoSuchElementException;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * This class provides a skeletal implementation of the {@code Iterator} interface, to make this
@@ -128,7 +128,6 @@ public abstract class AbstractIterator<T extends @Nullable Object> extends Unmod
     return null;
   }
 
-  @CanIgnoreReturnValue // TODO(kak): Should we remove this? Some people are using it to prefetch?
   @Override
   public final boolean hasNext() {
     checkState(state != State.FAILED);
@@ -154,6 +153,7 @@ public abstract class AbstractIterator<T extends @Nullable Object> extends Unmod
 
   @CanIgnoreReturnValue // TODO(kak): Should we remove this?
   @Override
+  @ParametricNullness
   public final T next() {
     if (!hasNext()) {
       throw new NoSuchElementException();
@@ -172,6 +172,7 @@ public abstract class AbstractIterator<T extends @Nullable Object> extends Unmod
    * <p>Implementations of {@code AbstractIterator} that wish to expose this functionality should
    * implement {@code PeekingIterator}.
    */
+  @ParametricNullness
   public final T peek() {
     if (!hasNext()) {
       throw new NoSuchElementException();

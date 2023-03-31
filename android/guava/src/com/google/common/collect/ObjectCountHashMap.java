@@ -29,8 +29,8 @@ import com.google.common.collect.Multisets.AbstractEntry;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Arrays;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * {@code ObjectCountHashMap} uses arrays to store key objects and count values. Comparing to using
@@ -188,6 +188,7 @@ class ObjectCountHashMap<K extends @Nullable Object> {
   }
 
   @SuppressWarnings("unchecked")
+  @ParametricNullness
   K getKey(int index) {
     checkElementIndex(index, size);
     return (K) keys[index];
@@ -209,7 +210,7 @@ class ObjectCountHashMap<K extends @Nullable Object> {
   }
 
   class MapEntry extends AbstractEntry<K> {
-    final K key;
+    @ParametricNullness final K key;
 
     int lastKnownIndex;
 
@@ -220,6 +221,7 @@ class ObjectCountHashMap<K extends @Nullable Object> {
     }
 
     @Override
+    @ParametricNullness
     public K getElement() {
       return key;
     }
@@ -279,7 +281,7 @@ class ObjectCountHashMap<K extends @Nullable Object> {
   }
 
   @CanIgnoreReturnValue
-  public int put(K key, int value) {
+  public int put(@ParametricNullness K key, int value) {
     checkPositive(value, "count");
     long[] entries = this.entries;
     @Nullable Object[] keys = this.keys;
@@ -324,7 +326,7 @@ class ObjectCountHashMap<K extends @Nullable Object> {
   /**
    * Creates a fresh entry with the specified object at the specified position in the entry array.
    */
-  void insertEntry(int entryIndex, K key, int value, int hash) {
+  void insertEntry(int entryIndex, @ParametricNullness K key, int value, int hash) {
     this.entries[entryIndex] = ((long) hash << 32) | (NEXT_MASK & UNSET);
     this.keys[entryIndex] = key;
     this.values[entryIndex] = value;

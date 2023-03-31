@@ -24,7 +24,7 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * A base implementation of {@link NetworkConnections} for undirected networks.

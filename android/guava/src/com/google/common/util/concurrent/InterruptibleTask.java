@@ -15,6 +15,7 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.util.concurrent.NullnessCasts.uncheckedCastNullableTToT;
+import static com.google.common.util.concurrent.Platform.restoreInterruptIfIsInterruptedException;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
@@ -22,8 +23,8 @@ import com.google.j2objc.annotations.ReflectionSupport;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.AbstractOwnableSynchronizer;
 import java.util.concurrent.locks.LockSupport;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 @GwtCompatible(emulated = true)
 @ReflectionSupport(value = ReflectionSupport.Level.FULL)
@@ -75,6 +76,7 @@ abstract class InterruptibleTask<T extends @Nullable Object>
         result = runInterruptibly();
       }
     } catch (Throwable t) {
+      restoreInterruptIfIsInterruptedException(t);
       error = t;
     } finally {
       // Attempt to set the task as done so that further attempts to interrupt will fail.
@@ -168,13 +170,14 @@ abstract class InterruptibleTask<T extends @Nullable Object>
    * Do interruptible work here - do not complete Futures here, as their listeners could be
    * interrupted.
    */
+  @ParametricNullness
   abstract T runInterruptibly() throws Exception;
 
   /**
    * Any interruption that happens as a result of calling interruptTask will arrive before this
    * method is called. Complete Futures here.
    */
-  abstract void afterRanInterruptiblySuccess(T result);
+  abstract void afterRanInterruptiblySuccess(@ParametricNullness T result);
 
   /**
    * Any interruption that happens as a result of calling interruptTask will arrive before this
@@ -231,6 +234,11 @@ abstract class InterruptibleTask<T extends @Nullable Object>
       super.setExclusiveOwnerThread(thread);
     }
 
+    @VisibleForTesting
+    Thread getOwner() {
+      return super.getExclusiveOwnerThread();
+    }
+
     @Override
     public String toString() {
       return task.toString();
@@ -240,7 +248,7 @@ abstract class InterruptibleTask<T extends @Nullable Object>
   @Override
   public final String toString() {
     Runnable state = get();
-    final String result;
+    String result;
     if (state == DONE) {
       result = "running=[DONE]";
     } else if (state instanceof Blocker) {

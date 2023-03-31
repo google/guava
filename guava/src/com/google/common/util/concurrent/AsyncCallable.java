@@ -14,11 +14,10 @@
 
 package com.google.common.util.concurrent;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import java.util.concurrent.Future;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Computes a value, possibly asynchronously. For an example usage and more information, see {@link
@@ -29,7 +28,6 @@ import org.jspecify.nullness.Nullable;
  *
  * @since 20.0
  */
-@Beta
 @FunctionalInterface
 @GwtCompatible
 @NullMarked

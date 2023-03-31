@@ -16,6 +16,8 @@
 
 package com.google.common.primitives;
 
+import static com.google.common.truth.Truth.assertThat;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.Helpers;
@@ -41,97 +43,97 @@ public class BytesTest extends TestCase {
 
   public void testHashCode() {
     for (byte value : VALUES) {
-      assertEquals(((Byte) value).hashCode(), Bytes.hashCode(value));
+      assertThat(Bytes.hashCode(value)).isEqualTo(((Byte) value).hashCode());
     }
   }
 
   public void testContains() {
-    assertFalse(Bytes.contains(EMPTY, (byte) 1));
-    assertFalse(Bytes.contains(ARRAY1, (byte) 2));
-    assertFalse(Bytes.contains(ARRAY234, (byte) 1));
-    assertTrue(Bytes.contains(new byte[] {(byte) -1}, (byte) -1));
-    assertTrue(Bytes.contains(ARRAY234, (byte) 2));
-    assertTrue(Bytes.contains(ARRAY234, (byte) 3));
-    assertTrue(Bytes.contains(ARRAY234, (byte) 4));
+    assertThat(Bytes.contains(EMPTY, (byte) 1)).isFalse();
+    assertThat(Bytes.contains(ARRAY1, (byte) 2)).isFalse();
+    assertThat(Bytes.contains(ARRAY234, (byte) 1)).isFalse();
+    assertThat(Bytes.contains(new byte[] {(byte) -1}, (byte) -1)).isTrue();
+    assertThat(Bytes.contains(ARRAY234, (byte) 2)).isTrue();
+    assertThat(Bytes.contains(ARRAY234, (byte) 3)).isTrue();
+    assertThat(Bytes.contains(ARRAY234, (byte) 4)).isTrue();
   }
 
   public void testIndexOf() {
-    assertEquals(-1, Bytes.indexOf(EMPTY, (byte) 1));
-    assertEquals(-1, Bytes.indexOf(ARRAY1, (byte) 2));
-    assertEquals(-1, Bytes.indexOf(ARRAY234, (byte) 1));
-    assertEquals(0, Bytes.indexOf(new byte[] {(byte) -1}, (byte) -1));
-    assertEquals(0, Bytes.indexOf(ARRAY234, (byte) 2));
-    assertEquals(1, Bytes.indexOf(ARRAY234, (byte) 3));
-    assertEquals(2, Bytes.indexOf(ARRAY234, (byte) 4));
-    assertEquals(1, Bytes.indexOf(new byte[] {(byte) 2, (byte) 3, (byte) 2, (byte) 3}, (byte) 3));
+    assertThat(Bytes.indexOf(EMPTY, (byte) 1)).isEqualTo(-1);
+    assertThat(Bytes.indexOf(ARRAY1, (byte) 2)).isEqualTo(-1);
+    assertThat(Bytes.indexOf(ARRAY234, (byte) 1)).isEqualTo(-1);
+    assertThat(Bytes.indexOf(new byte[] {(byte) -1}, (byte) -1)).isEqualTo(0);
+    assertThat(Bytes.indexOf(ARRAY234, (byte) 2)).isEqualTo(0);
+    assertThat(Bytes.indexOf(ARRAY234, (byte) 3)).isEqualTo(1);
+    assertThat(Bytes.indexOf(ARRAY234, (byte) 4)).isEqualTo(2);
+    assertThat(Bytes.indexOf(new byte[] {(byte) 2, (byte) 3, (byte) 2, (byte) 3}, (byte) 3))
+        .isEqualTo(1);
   }
 
   public void testIndexOf_arrayTarget() {
-    assertEquals(0, Bytes.indexOf(EMPTY, EMPTY));
-    assertEquals(0, Bytes.indexOf(ARRAY234, EMPTY));
-    assertEquals(-1, Bytes.indexOf(EMPTY, ARRAY234));
-    assertEquals(-1, Bytes.indexOf(ARRAY234, ARRAY1));
-    assertEquals(-1, Bytes.indexOf(ARRAY1, ARRAY234));
-    assertEquals(0, Bytes.indexOf(ARRAY1, ARRAY1));
-    assertEquals(0, Bytes.indexOf(ARRAY234, ARRAY234));
-    assertEquals(0, Bytes.indexOf(ARRAY234, new byte[] {(byte) 2, (byte) 3}));
-    assertEquals(1, Bytes.indexOf(ARRAY234, new byte[] {(byte) 3, (byte) 4}));
-    assertEquals(1, Bytes.indexOf(ARRAY234, new byte[] {(byte) 3}));
-    assertEquals(2, Bytes.indexOf(ARRAY234, new byte[] {(byte) 4}));
-    assertEquals(
-        1,
-        Bytes.indexOf(
-            new byte[] {(byte) 2, (byte) 3, (byte) 3, (byte) 3, (byte) 3}, new byte[] {(byte) 3}));
-    assertEquals(
-        2,
-        Bytes.indexOf(
-            new byte[] {(byte) 2, (byte) 3, (byte) 2, (byte) 3, (byte) 4, (byte) 2, (byte) 3},
-            new byte[] {(byte) 2, (byte) 3, (byte) 4}));
-    assertEquals(
-        1,
-        Bytes.indexOf(
-            new byte[] {(byte) 2, (byte) 2, (byte) 3, (byte) 4, (byte) 2, (byte) 3, (byte) 4},
-            new byte[] {(byte) 2, (byte) 3, (byte) 4}));
-    assertEquals(
-        -1,
-        Bytes.indexOf(
-            new byte[] {(byte) 4, (byte) 3, (byte) 2}, new byte[] {(byte) 2, (byte) 3, (byte) 4}));
+    assertThat(Bytes.indexOf(EMPTY, EMPTY)).isEqualTo(0);
+    assertThat(Bytes.indexOf(ARRAY234, EMPTY)).isEqualTo(0);
+    assertThat(Bytes.indexOf(EMPTY, ARRAY234)).isEqualTo(-1);
+    assertThat(Bytes.indexOf(ARRAY234, ARRAY1)).isEqualTo(-1);
+    assertThat(Bytes.indexOf(ARRAY1, ARRAY234)).isEqualTo(-1);
+    assertThat(Bytes.indexOf(ARRAY1, ARRAY1)).isEqualTo(0);
+    assertThat(Bytes.indexOf(ARRAY234, ARRAY234)).isEqualTo(0);
+    assertThat(Bytes.indexOf(ARRAY234, new byte[] {(byte) 2, (byte) 3})).isEqualTo(0);
+    assertThat(Bytes.indexOf(ARRAY234, new byte[] {(byte) 3, (byte) 4})).isEqualTo(1);
+    assertThat(Bytes.indexOf(ARRAY234, new byte[] {(byte) 3})).isEqualTo(1);
+    assertThat(Bytes.indexOf(ARRAY234, new byte[] {(byte) 4})).isEqualTo(2);
+    assertThat(
+            Bytes.indexOf(
+                new byte[] {(byte) 2, (byte) 3, (byte) 3, (byte) 3, (byte) 3},
+                new byte[] {(byte) 3}))
+        .isEqualTo(1);
+    assertThat(
+            Bytes.indexOf(
+                new byte[] {(byte) 2, (byte) 3, (byte) 2, (byte) 3, (byte) 4, (byte) 2, (byte) 3},
+                new byte[] {(byte) 2, (byte) 3, (byte) 4}))
+        .isEqualTo(2);
+    assertThat(
+            Bytes.indexOf(
+                new byte[] {(byte) 2, (byte) 2, (byte) 3, (byte) 4, (byte) 2, (byte) 3, (byte) 4},
+                new byte[] {(byte) 2, (byte) 3, (byte) 4}))
+        .isEqualTo(1);
+    assertThat(
+            Bytes.indexOf(
+                new byte[] {(byte) 4, (byte) 3, (byte) 2},
+                new byte[] {(byte) 2, (byte) 3, (byte) 4}))
+        .isEqualTo(-1);
   }
 
   public void testLastIndexOf() {
-    assertEquals(-1, Bytes.lastIndexOf(EMPTY, (byte) 1));
-    assertEquals(-1, Bytes.lastIndexOf(ARRAY1, (byte) 2));
-    assertEquals(-1, Bytes.lastIndexOf(ARRAY234, (byte) 1));
-    assertEquals(0, Bytes.lastIndexOf(new byte[] {(byte) -1}, (byte) -1));
-    assertEquals(0, Bytes.lastIndexOf(ARRAY234, (byte) 2));
-    assertEquals(1, Bytes.lastIndexOf(ARRAY234, (byte) 3));
-    assertEquals(2, Bytes.lastIndexOf(ARRAY234, (byte) 4));
-    assertEquals(
-        3, Bytes.lastIndexOf(new byte[] {(byte) 2, (byte) 3, (byte) 2, (byte) 3}, (byte) 3));
+    assertThat(Bytes.lastIndexOf(EMPTY, (byte) 1)).isEqualTo(-1);
+    assertThat(Bytes.lastIndexOf(ARRAY1, (byte) 2)).isEqualTo(-1);
+    assertThat(Bytes.lastIndexOf(ARRAY234, (byte) 1)).isEqualTo(-1);
+    assertThat(Bytes.lastIndexOf(new byte[] {(byte) -1}, (byte) -1)).isEqualTo(0);
+    assertThat(Bytes.lastIndexOf(ARRAY234, (byte) 2)).isEqualTo(0);
+    assertThat(Bytes.lastIndexOf(ARRAY234, (byte) 3)).isEqualTo(1);
+    assertThat(Bytes.lastIndexOf(ARRAY234, (byte) 4)).isEqualTo(2);
+    assertThat(Bytes.lastIndexOf(new byte[] {(byte) 2, (byte) 3, (byte) 2, (byte) 3}, (byte) 3))
+        .isEqualTo(3);
   }
 
   public void testConcat() {
-    assertTrue(Arrays.equals(EMPTY, Bytes.concat()));
-    assertTrue(Arrays.equals(EMPTY, Bytes.concat(EMPTY)));
-    assertTrue(Arrays.equals(EMPTY, Bytes.concat(EMPTY, EMPTY, EMPTY)));
-    assertTrue(Arrays.equals(ARRAY1, Bytes.concat(ARRAY1)));
-    assertNotSame(ARRAY1, Bytes.concat(ARRAY1));
-    assertTrue(Arrays.equals(ARRAY1, Bytes.concat(EMPTY, ARRAY1, EMPTY)));
-    assertTrue(
-        Arrays.equals(
-            new byte[] {(byte) 1, (byte) 1, (byte) 1}, Bytes.concat(ARRAY1, ARRAY1, ARRAY1)));
-    assertTrue(
-        Arrays.equals(
-            new byte[] {(byte) 1, (byte) 2, (byte) 3, (byte) 4}, Bytes.concat(ARRAY1, ARRAY234)));
+    assertThat(Bytes.concat()).isEqualTo(EMPTY);
+    assertThat(Bytes.concat(EMPTY)).isEqualTo(EMPTY);
+    assertThat(Bytes.concat(EMPTY, EMPTY, EMPTY)).isEqualTo(EMPTY);
+    assertThat(Bytes.concat(ARRAY1)).isEqualTo(ARRAY1);
+    assertThat(Bytes.concat(ARRAY1)).isNotSameInstanceAs(ARRAY1);
+    assertThat(Bytes.concat(EMPTY, ARRAY1, EMPTY)).isEqualTo(ARRAY1);
+    assertThat(Bytes.concat(ARRAY1, ARRAY1, ARRAY1))
+        .isEqualTo(new byte[] {(byte) 1, (byte) 1, (byte) 1});
+    assertThat(Bytes.concat(ARRAY1, ARRAY234))
+        .isEqualTo(new byte[] {(byte) 1, (byte) 2, (byte) 3, (byte) 4});
   }
 
   public void testEnsureCapacity() {
-    assertSame(EMPTY, Bytes.ensureCapacity(EMPTY, 0, 1));
-    assertSame(ARRAY1, Bytes.ensureCapacity(ARRAY1, 0, 1));
-    assertSame(ARRAY1, Bytes.ensureCapacity(ARRAY1, 1, 1));
-    assertTrue(
-        Arrays.equals(
-            new byte[] {(byte) 1, (byte) 0, (byte) 0}, Bytes.ensureCapacity(ARRAY1, 2, 1)));
+    assertThat(Bytes.ensureCapacity(EMPTY, 0, 1)).isSameInstanceAs(EMPTY);
+    assertThat(Bytes.ensureCapacity(ARRAY1, 0, 1)).isSameInstanceAs(ARRAY1);
+    assertThat(Bytes.ensureCapacity(ARRAY1, 1, 1)).isSameInstanceAs(ARRAY1);
+    assertThat(Bytes.ensureCapacity(ARRAY1, 2, 1))
+        .isEqualTo(new byte[] {(byte) 1, (byte) 0, (byte) 0});
   }
 
   public void testEnsureCapacity_fail() {
@@ -151,17 +153,17 @@ public class BytesTest extends TestCase {
   public void testToArray() {
     // need explicit type parameter to avoid javac warning!?
     List<Byte> none = Arrays.<Byte>asList();
-    assertTrue(Arrays.equals(EMPTY, Bytes.toArray(none)));
+    assertThat(Bytes.toArray(none)).isEqualTo(EMPTY);
 
     List<Byte> one = Arrays.asList((byte) 1);
-    assertTrue(Arrays.equals(ARRAY1, Bytes.toArray(one)));
+    assertThat(Bytes.toArray(one)).isEqualTo(ARRAY1);
 
     byte[] array = {(byte) 0, (byte) 1, (byte) 0x55};
 
     List<Byte> three = Arrays.asList((byte) 0, (byte) 1, (byte) 0x55);
-    assertTrue(Arrays.equals(array, Bytes.toArray(three)));
+    assertThat(Bytes.toArray(three)).isEqualTo(array);
 
-    assertTrue(Arrays.equals(array, Bytes.toArray(Bytes.asList(array))));
+    assertThat(Bytes.toArray(Bytes.asList(array))).isEqualTo(array);
   }
 
   public void testToArray_threadSafe() {
@@ -171,9 +173,9 @@ public class BytesTest extends TestCase {
         Collection<Byte> misleadingSize = Helpers.misleadingSizeCollection(delta);
         misleadingSize.addAll(list);
         byte[] arr = Bytes.toArray(misleadingSize);
-        assertEquals(i, arr.length);
+        assertThat(arr).hasLength(i);
         for (int j = 0; j < i; j++) {
-          assertEquals(VALUES[j], arr[j]);
+          assertThat(arr[j]).isEqualTo(VALUES[j]);
         }
       }
     }
@@ -198,21 +200,21 @@ public class BytesTest extends TestCase {
     List<Long> longs = Arrays.asList((long) 0, (long) 1, (long) 2);
     List<Double> doubles = Arrays.asList((double) 0, (double) 1, (double) 2);
 
-    assertTrue(Arrays.equals(array, Bytes.toArray(bytes)));
-    assertTrue(Arrays.equals(array, Bytes.toArray(shorts)));
-    assertTrue(Arrays.equals(array, Bytes.toArray(ints)));
-    assertTrue(Arrays.equals(array, Bytes.toArray(floats)));
-    assertTrue(Arrays.equals(array, Bytes.toArray(longs)));
-    assertTrue(Arrays.equals(array, Bytes.toArray(doubles)));
+    assertThat(Bytes.toArray(bytes)).isEqualTo(array);
+    assertThat(Bytes.toArray(shorts)).isEqualTo(array);
+    assertThat(Bytes.toArray(ints)).isEqualTo(array);
+    assertThat(Bytes.toArray(floats)).isEqualTo(array);
+    assertThat(Bytes.toArray(longs)).isEqualTo(array);
+    assertThat(Bytes.toArray(doubles)).isEqualTo(array);
   }
 
   public void testAsList_isAView() {
     byte[] array = {(byte) 0, (byte) 1};
     List<Byte> list = Bytes.asList(array);
     list.set(0, (byte) 2);
-    assertTrue(Arrays.equals(new byte[] {(byte) 2, (byte) 1}, array));
+    assertThat(array).isEqualTo(new byte[] {(byte) 2, (byte) 1});
     array[1] = (byte) 3;
-    assertEquals(Arrays.asList((byte) 2, (byte) 3), list);
+    assertThat(list).containsExactly((byte) 2, (byte) 3).inOrder();
   }
 
   public void testAsList_toArray_roundTrip() {
@@ -222,21 +224,21 @@ public class BytesTest extends TestCase {
 
     // Make sure it returned a copy
     list.set(0, (byte) 4);
-    assertTrue(Arrays.equals(new byte[] {(byte) 0, (byte) 1, (byte) 2}, newArray));
+    assertThat(newArray).isEqualTo(new byte[] {(byte) 0, (byte) 1, (byte) 2});
     newArray[1] = (byte) 5;
-    assertEquals((byte) 1, (byte) list.get(1));
+    assertThat((byte) list.get(1)).isEqualTo((byte) 1);
   }
 
   // This test stems from a real bug found by andrewk
   public void testAsList_subList_toArray_roundTrip() {
     byte[] array = {(byte) 0, (byte) 1, (byte) 2, (byte) 3};
     List<Byte> list = Bytes.asList(array);
-    assertTrue(Arrays.equals(new byte[] {(byte) 1, (byte) 2}, Bytes.toArray(list.subList(1, 3))));
-    assertTrue(Arrays.equals(new byte[] {}, Bytes.toArray(list.subList(2, 2))));
+    assertThat(Bytes.toArray(list.subList(1, 3))).isEqualTo(new byte[] {(byte) 1, (byte) 2});
+    assertThat(Bytes.toArray(list.subList(2, 2))).isEqualTo(new byte[] {});
   }
 
   public void testAsListEmpty() {
-    assertSame(Collections.emptyList(), Bytes.asList(EMPTY));
+    assertThat(Bytes.asList(EMPTY)).isSameInstanceAs(Collections.emptyList());
   }
 
   public void testReverse() {
@@ -250,13 +252,13 @@ public class BytesTest extends TestCase {
   private static void testReverse(byte[] input, byte[] expectedOutput) {
     input = Arrays.copyOf(input, input.length);
     Bytes.reverse(input);
-    assertTrue(Arrays.equals(expectedOutput, input));
+    assertThat(input).isEqualTo(expectedOutput);
   }
 
   private static void testReverse(byte[] input, int fromIndex, int toIndex, byte[] expectedOutput) {
     input = Arrays.copyOf(input, input.length);
     Bytes.reverse(input, fromIndex, toIndex);
-    assertTrue(Arrays.equals(expectedOutput, input));
+    assertThat(input).isEqualTo(expectedOutput);
   }
 
   public void testReverseIndexed() {
@@ -266,6 +268,103 @@ public class BytesTest extends TestCase {
     testReverse(new byte[] {3, 1, 1}, 0, 2, new byte[] {1, 3, 1});
     testReverse(new byte[] {3, 1, 1}, 0, 1, new byte[] {3, 1, 1});
     testReverse(new byte[] {-1, 1, -2, 2}, 1, 3, new byte[] {-1, -2, 1, 2});
+  }
+
+  private static void testRotate(byte[] input, int distance, byte[] expectedOutput) {
+    input = Arrays.copyOf(input, input.length);
+    Bytes.rotate(input, distance);
+    assertThat(input).isEqualTo(expectedOutput);
+  }
+
+  private static void testRotate(
+      byte[] input, int distance, int fromIndex, int toIndex, byte[] expectedOutput) {
+    input = Arrays.copyOf(input, input.length);
+    Bytes.rotate(input, distance, fromIndex, toIndex);
+    assertThat(input).isEqualTo(expectedOutput);
+  }
+
+  public void testRotate() {
+    testRotate(new byte[] {}, -1, new byte[] {});
+    testRotate(new byte[] {}, 0, new byte[] {});
+    testRotate(new byte[] {}, 1, new byte[] {});
+
+    testRotate(new byte[] {1}, -2, new byte[] {1});
+    testRotate(new byte[] {1}, -1, new byte[] {1});
+    testRotate(new byte[] {1}, 0, new byte[] {1});
+    testRotate(new byte[] {1}, 1, new byte[] {1});
+    testRotate(new byte[] {1}, 2, new byte[] {1});
+
+    testRotate(new byte[] {1, 2}, -3, new byte[] {2, 1});
+    testRotate(new byte[] {1, 2}, -1, new byte[] {2, 1});
+    testRotate(new byte[] {1, 2}, -2, new byte[] {1, 2});
+    testRotate(new byte[] {1, 2}, 0, new byte[] {1, 2});
+    testRotate(new byte[] {1, 2}, 1, new byte[] {2, 1});
+    testRotate(new byte[] {1, 2}, 2, new byte[] {1, 2});
+    testRotate(new byte[] {1, 2}, 3, new byte[] {2, 1});
+
+    testRotate(new byte[] {1, 2, 3}, -5, new byte[] {3, 1, 2});
+    testRotate(new byte[] {1, 2, 3}, -4, new byte[] {2, 3, 1});
+    testRotate(new byte[] {1, 2, 3}, -3, new byte[] {1, 2, 3});
+    testRotate(new byte[] {1, 2, 3}, -2, new byte[] {3, 1, 2});
+    testRotate(new byte[] {1, 2, 3}, -1, new byte[] {2, 3, 1});
+    testRotate(new byte[] {1, 2, 3}, 0, new byte[] {1, 2, 3});
+    testRotate(new byte[] {1, 2, 3}, 1, new byte[] {3, 1, 2});
+    testRotate(new byte[] {1, 2, 3}, 2, new byte[] {2, 3, 1});
+    testRotate(new byte[] {1, 2, 3}, 3, new byte[] {1, 2, 3});
+    testRotate(new byte[] {1, 2, 3}, 4, new byte[] {3, 1, 2});
+    testRotate(new byte[] {1, 2, 3}, 5, new byte[] {2, 3, 1});
+
+    testRotate(new byte[] {1, 2, 3, 4}, -9, new byte[] {2, 3, 4, 1});
+    testRotate(new byte[] {1, 2, 3, 4}, -5, new byte[] {2, 3, 4, 1});
+    testRotate(new byte[] {1, 2, 3, 4}, -1, new byte[] {2, 3, 4, 1});
+    testRotate(new byte[] {1, 2, 3, 4}, 0, new byte[] {1, 2, 3, 4});
+    testRotate(new byte[] {1, 2, 3, 4}, 1, new byte[] {4, 1, 2, 3});
+    testRotate(new byte[] {1, 2, 3, 4}, 5, new byte[] {4, 1, 2, 3});
+    testRotate(new byte[] {1, 2, 3, 4}, 9, new byte[] {4, 1, 2, 3});
+
+    testRotate(new byte[] {1, 2, 3, 4, 5}, -6, new byte[] {2, 3, 4, 5, 1});
+    testRotate(new byte[] {1, 2, 3, 4, 5}, -4, new byte[] {5, 1, 2, 3, 4});
+    testRotate(new byte[] {1, 2, 3, 4, 5}, -3, new byte[] {4, 5, 1, 2, 3});
+    testRotate(new byte[] {1, 2, 3, 4, 5}, -1, new byte[] {2, 3, 4, 5, 1});
+    testRotate(new byte[] {1, 2, 3, 4, 5}, 0, new byte[] {1, 2, 3, 4, 5});
+    testRotate(new byte[] {1, 2, 3, 4, 5}, 1, new byte[] {5, 1, 2, 3, 4});
+    testRotate(new byte[] {1, 2, 3, 4, 5}, 3, new byte[] {3, 4, 5, 1, 2});
+    testRotate(new byte[] {1, 2, 3, 4, 5}, 4, new byte[] {2, 3, 4, 5, 1});
+    testRotate(new byte[] {1, 2, 3, 4, 5}, 6, new byte[] {5, 1, 2, 3, 4});
+  }
+
+  public void testRotateIndexed() {
+    testRotate(new byte[] {}, 0, 0, 0, new byte[] {});
+
+    testRotate(new byte[] {1}, 0, 0, 1, new byte[] {1});
+    testRotate(new byte[] {1}, 1, 0, 1, new byte[] {1});
+    testRotate(new byte[] {1}, 1, 1, 1, new byte[] {1});
+
+    // Rotate the central 5 elements, leaving the ends as-is
+    testRotate(new byte[] {0, 1, 2, 3, 4, 5, 6}, -6, 1, 6, new byte[] {0, 2, 3, 4, 5, 1, 6});
+    testRotate(new byte[] {0, 1, 2, 3, 4, 5, 6}, -1, 1, 6, new byte[] {0, 2, 3, 4, 5, 1, 6});
+    testRotate(new byte[] {0, 1, 2, 3, 4, 5, 6}, 0, 1, 6, new byte[] {0, 1, 2, 3, 4, 5, 6});
+    testRotate(new byte[] {0, 1, 2, 3, 4, 5, 6}, 5, 1, 6, new byte[] {0, 1, 2, 3, 4, 5, 6});
+    testRotate(new byte[] {0, 1, 2, 3, 4, 5, 6}, 14, 1, 6, new byte[] {0, 2, 3, 4, 5, 1, 6});
+
+    // Rotate the first three elements
+    testRotate(new byte[] {0, 1, 2, 3, 4, 5, 6}, -2, 0, 3, new byte[] {2, 0, 1, 3, 4, 5, 6});
+    testRotate(new byte[] {0, 1, 2, 3, 4, 5, 6}, -1, 0, 3, new byte[] {1, 2, 0, 3, 4, 5, 6});
+    testRotate(new byte[] {0, 1, 2, 3, 4, 5, 6}, 0, 0, 3, new byte[] {0, 1, 2, 3, 4, 5, 6});
+    testRotate(new byte[] {0, 1, 2, 3, 4, 5, 6}, 1, 0, 3, new byte[] {2, 0, 1, 3, 4, 5, 6});
+    testRotate(new byte[] {0, 1, 2, 3, 4, 5, 6}, 2, 0, 3, new byte[] {1, 2, 0, 3, 4, 5, 6});
+
+    // Rotate the last four elements
+    testRotate(new byte[] {0, 1, 2, 3, 4, 5, 6}, -6, 3, 7, new byte[] {0, 1, 2, 5, 6, 3, 4});
+    testRotate(new byte[] {0, 1, 2, 3, 4, 5, 6}, -5, 3, 7, new byte[] {0, 1, 2, 4, 5, 6, 3});
+    testRotate(new byte[] {0, 1, 2, 3, 4, 5, 6}, -4, 3, 7, new byte[] {0, 1, 2, 3, 4, 5, 6});
+    testRotate(new byte[] {0, 1, 2, 3, 4, 5, 6}, -3, 3, 7, new byte[] {0, 1, 2, 6, 3, 4, 5});
+    testRotate(new byte[] {0, 1, 2, 3, 4, 5, 6}, -2, 3, 7, new byte[] {0, 1, 2, 5, 6, 3, 4});
+    testRotate(new byte[] {0, 1, 2, 3, 4, 5, 6}, -1, 3, 7, new byte[] {0, 1, 2, 4, 5, 6, 3});
+    testRotate(new byte[] {0, 1, 2, 3, 4, 5, 6}, 0, 3, 7, new byte[] {0, 1, 2, 3, 4, 5, 6});
+    testRotate(new byte[] {0, 1, 2, 3, 4, 5, 6}, 1, 3, 7, new byte[] {0, 1, 2, 6, 3, 4, 5});
+    testRotate(new byte[] {0, 1, 2, 3, 4, 5, 6}, 2, 3, 7, new byte[] {0, 1, 2, 5, 6, 3, 4});
+    testRotate(new byte[] {0, 1, 2, 3, 4, 5, 6}, 3, 3, 7, new byte[] {0, 1, 2, 4, 5, 6, 3});
   }
 
   @GwtIncompatible // NullPointerTester

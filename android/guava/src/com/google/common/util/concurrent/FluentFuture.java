@@ -27,8 +27,8 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A {@link ListenableFuture} that supports fluent chains of operations. For example:
@@ -71,7 +71,6 @@ import org.jspecify.nullness.Nullable;
  *
  * @since 23.0
  */
-@Beta
 @DoNotMock("Use FluentFuture.from(Futures.immediate*Future) or SettableFuture")
 @GwtCompatible(emulated = true)
 @NullMarked
@@ -86,12 +85,14 @@ public abstract class FluentFuture<V extends @Nullable Object>
       implements AbstractFuture.Trusted<V> {
     @CanIgnoreReturnValue
     @Override
+    @ParametricNullness
     public final V get() throws InterruptedException, ExecutionException {
       return super.get();
     }
 
     @CanIgnoreReturnValue
     @Override
+    @ParametricNullness
     public final V get(long timeout, TimeUnit unit)
         throws InterruptedException, ExecutionException, TimeoutException {
       return super.get(timeout, unit);
@@ -183,6 +184,7 @@ public abstract class FluentFuture<V extends @Nullable Object>
    * @param executor the executor that runs {@code fallback} if the input fails
    */
   @Partially.GwtIncompatible("AVAILABLE but requires exceptionType to be Throwable.class")
+  @Beta
   public final <X extends Throwable> FluentFuture<V> catching(
       Class<X> exceptionType, Function<? super X, ? extends V> fallback, Executor executor) {
     return (FluentFuture<V>) Futures.catching(this, exceptionType, fallback, executor);
@@ -247,6 +249,7 @@ public abstract class FluentFuture<V extends @Nullable Object>
    * @param executor the executor that runs {@code fallback} if the input fails
    */
   @Partially.GwtIncompatible("AVAILABLE but requires exceptionType to be Throwable.class")
+  @Beta
   public final <X extends Throwable> FluentFuture<V> catchingAsync(
       Class<X> exceptionType, AsyncFunction<? super X, ? extends V> fallback, Executor executor) {
     return (FluentFuture<V>) Futures.catchingAsync(this, exceptionType, fallback, executor);
@@ -264,6 +267,7 @@ public abstract class FluentFuture<V extends @Nullable Object>
    */
   @GwtIncompatible // ScheduledExecutorService
   @SuppressWarnings("GoodTime") // should accept a java.time.Duration
+  @Beta
   public final FluentFuture<V> withTimeout(
       long timeout, TimeUnit unit, ScheduledExecutorService scheduledExecutor) {
     return (FluentFuture<V>) Futures.withTimeout(this, timeout, unit, scheduledExecutor);
@@ -308,6 +312,7 @@ public abstract class FluentFuture<V extends @Nullable Object>
    * @return A future that holds result of the function (if the input succeeded) or the original
    *     input's failure (if not)
    */
+  @Beta
   public final <T extends @Nullable Object> FluentFuture<T> transformAsync(
       AsyncFunction<? super V, T> function, Executor executor) {
     return (FluentFuture<T>) Futures.transformAsync(this, function, executor);
@@ -345,6 +350,7 @@ public abstract class FluentFuture<V extends @Nullable Object>
    * @param executor Executor to run the function in.
    * @return A future that holds result of the transformation.
    */
+  @Beta
   public final <T extends @Nullable Object> FluentFuture<T> transform(
       Function<? super V, T> function, Executor executor) {
     return (FluentFuture<T>) Futures.transform(this, function, executor);

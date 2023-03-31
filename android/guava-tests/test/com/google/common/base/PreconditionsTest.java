@@ -38,6 +38,7 @@ import junit.framework.TestCase;
  * @author Kevin Bourrillion
  * @author Jared Levy
  */
+@SuppressWarnings("LenientFormatStringValidation") // Intentional for testing
 @GwtCompatible(emulated = true)
 public class PreconditionsTest extends TestCase {
   public void testCheckArgument_simple_success() {

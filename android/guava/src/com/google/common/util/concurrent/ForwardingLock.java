@@ -17,7 +17,7 @@ package com.google.common.util.concurrent;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /** Forwarding wrapper around a {@code Lock}. */
 @NullMarked

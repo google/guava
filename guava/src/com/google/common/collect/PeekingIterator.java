@@ -21,14 +21,14 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.DoNotMock;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An iterator that supports a one-element lookahead while iterating.
  *
  * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/CollectionHelpersExplained#peekingiterator"> {@code
+ * "https://github.com/google/guava/wiki/CollectionHelpersExplained#peekingiterator">{@code
  * PeekingIterator}</a>.
  *
  * @author Mick Killianey
@@ -47,6 +47,7 @@ public interface PeekingIterator<E extends @Nullable Object> extends Iterator<E>
    * @throws NoSuchElementException if the iteration has no more elements according to {@link
    *     #hasNext()}
    */
+  @ParametricNullness
   E peek();
 
   /**
@@ -57,6 +58,7 @@ public interface PeekingIterator<E extends @Nullable Object> extends Iterator<E>
    */
   @CanIgnoreReturnValue
   @Override
+  @ParametricNullness
   E next();
 
   /**

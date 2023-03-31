@@ -31,6 +31,10 @@ import junit.framework.TestCase;
  *
  * @author Bob Lee
  */
+// - depends on details of GC and classloading
+// - .class files aren't available
+// - possibly no real concept of separate ClassLoaders?
+@AndroidIncompatible
 public class FinalizableReferenceQueueTest extends TestCase {
 
   private FinalizableReferenceQueue frq;
@@ -101,7 +105,6 @@ public class FinalizableReferenceQueueTest extends TestCase {
         };
   }
 
-  @AndroidIncompatible // no concept of separate ClassLoaders
   public void testDecoupledLoader() {
     FinalizableReferenceQueue.DecoupledLoader decoupledLoader =
         new FinalizableReferenceQueue.DecoupledLoader() {
@@ -141,7 +144,6 @@ public class FinalizableReferenceQueueTest extends TestCase {
     }
   }
 
-  @AndroidIncompatible // TODO(cpovirk): How significant is this failure?
   public void testGetFinalizerUrl() {
     assertNotNull(getClass().getResource("internal/Finalizer.class"));
   }

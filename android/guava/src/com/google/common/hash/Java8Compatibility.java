@@ -16,7 +16,7 @@ package com.google.common.hash;
 
 import com.google.common.annotations.GwtIncompatible;
 import java.nio.Buffer;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Wrappers around {@link Buffer} methods that are covariantly overridden in Java 9+. See

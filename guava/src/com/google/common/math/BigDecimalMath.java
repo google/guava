@@ -15,9 +15,10 @@
 package com.google.common.math;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * A class for arithmetic on {@link BigDecimal} that is not covered by its built-in methods.
@@ -25,6 +26,7 @@ import org.jspecify.nullness.NullMarked;
  * @author Louis Wasserman
  * @since 30.0
  */
+@J2ktIncompatible
 @GwtIncompatible
 @NullMarked
 public class BigDecimalMath {

@@ -15,11 +15,12 @@
 package com.google.common.io;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.DataInput;
 import java.io.IOException;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * An extension of {@code DataInput} for reading from in-memory byte arrays; its methods offer
@@ -33,6 +34,7 @@ import org.jspecify.nullness.NullMarked;
  * @author Kevin Bourrillion
  * @since 1.0
  */
+@J2ktIncompatible
 @GwtIncompatible
 @NullMarked
 public interface ByteArrayDataInput extends DataInput {

@@ -17,8 +17,8 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A {@code Multiset} implementation with predictable iteration order. Its iterator orders elements
@@ -28,8 +28,7 @@ import org.jspecify.nullness.Nullable;
  * element will appear at the end of the iteration.
  *
  * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multiset"> {@code
- * Multiset}</a>.
+ * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multiset">{@code Multiset}</a>.
  *
  * @author Kevin Bourrillion
  * @author Jared Levy

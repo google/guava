@@ -17,6 +17,7 @@
 package com.google.common.collect.testing;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.OverridingMethodsMustInvokeSuper;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -61,6 +62,7 @@ public abstract class AbstractContainerTester<C, E>
    * @see #resetContainer(Object) resetContainer(C)
    * @return the new container instance.
    */
+  @CanIgnoreReturnValue
   protected C resetContainer() {
     return resetContainer(getSubjectGenerator().createTestSubject());
   }
@@ -75,6 +77,7 @@ public abstract class AbstractContainerTester<C, E>
    * @return the new container instance
    * @param newValue the new container instance
    */
+  @CanIgnoreReturnValue
   protected C resetContainer(C newValue) {
     container = newValue;
     return container;
@@ -188,7 +191,7 @@ public abstract class AbstractContainerTester<C, E>
     E[] elements = createSamplesArray();
     E duplicate = elements[(elements.length / 2) - 1];
     elements[(elements.length / 2) + 1] = duplicate;
-    return new ArrayWithDuplicate<E>(elements, duplicate);
+    return new ArrayWithDuplicate<>(elements, duplicate);
   }
 
   // Helper methods to improve readability of derived classes
@@ -207,11 +210,11 @@ public abstract class AbstractContainerTester<C, E>
 
   /**
    * Returns the {@linkplain #getSampleElements() sample elements} as ordered by {@link
-   * TestContainerGenerator#order(List)}. Tests should used this method only if they declare
+   * TestContainerGenerator#order(List)}. Tests should use this method only if they declare
    * requirement {@link com.google.common.collect.testing.features.CollectionFeature#KNOWN_ORDER}.
    */
   protected List<E> getOrderedElements() {
-    List<E> list = new ArrayList<E>();
+    List<E> list = new ArrayList<>();
     for (E e : getSubjectGenerator().order(new ArrayList<E>(getSampleElements()))) {
       list.add(e);
     }

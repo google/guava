@@ -14,13 +14,13 @@
 
 package com.google.common.net;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Preconditions;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.net.InetAddress;
 import java.text.ParseException;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * A syntactically valid host specifier, suitable for use in a URI. This may be either a numeric IP
@@ -42,7 +42,6 @@ import org.jspecify.nullness.NullMarked;
  * @author Craig Berry
  * @since 5.0
  */
-@Beta
 @GwtIncompatible
 @NullMarked
 public final class HostSpecifier {
@@ -72,9 +71,9 @@ public final class HostSpecifier {
   public static HostSpecifier fromValid(String specifier) {
     // Verify that no port was specified, and strip optional brackets from
     // IPv6 literals.
-    final HostAndPort parsedHost = HostAndPort.fromString(specifier);
+    HostAndPort parsedHost = HostAndPort.fromString(specifier);
     Preconditions.checkArgument(!parsedHost.hasPort());
-    final String host = parsedHost.getHost();
+    String host = parsedHost.getHost();
 
     // Try to interpret the specifier as an IP address. Note we build
     // the address rather than using the .is* methods because we want to
@@ -94,7 +93,7 @@ public final class HostSpecifier {
     // It is not any kind of IP address; must be a domain name or invalid.
 
     // TODO(user): different versions of this for different factories?
-    final InternetDomainName domain = InternetDomainName.from(host);
+    InternetDomainName domain = InternetDomainName.from(host);
 
     if (domain.hasPublicSuffix()) {
       return new HostSpecifier(domain.toString());
@@ -111,6 +110,7 @@ public final class HostSpecifier {
    *
    * @throws ParseException if the specifier is not valid.
    */
+  @CanIgnoreReturnValue // TODO(b/219820829): consider removing
   public static HostSpecifier from(String specifier) throws ParseException {
     try {
       return fromValid(specifier);
@@ -131,7 +131,7 @@ public final class HostSpecifier {
    */
   public static boolean isValid(String specifier) {
     try {
-      fromValid(specifier);
+      HostSpecifier unused = fromValid(specifier);
       return true;
     } catch (IllegalArgumentException e) {
       return false;
@@ -145,7 +145,7 @@ public final class HostSpecifier {
     }
 
     if (other instanceof HostSpecifier) {
-      final HostSpecifier that = (HostSpecifier) other;
+      HostSpecifier that = (HostSpecifier) other;
       return this.canonicalForm.equals(that.canonicalForm);
     }
 

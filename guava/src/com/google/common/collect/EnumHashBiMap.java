@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -28,8 +29,8 @@ import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A {@code BiMap} backed by an {@code EnumMap} instance for keys-to-values, and a {@code HashMap}
@@ -37,12 +38,13 @@ import org.jspecify.nullness.Nullable;
  * EnumHashBiMap} and its inverse are both serializable.
  *
  * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#bimap"> {@code BiMap}</a>.
+ * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#bimap">{@code BiMap}</a>.
  *
  * @author Mike Bostock
  * @since 2.0
  */
 @GwtCompatible(emulated = true)
+@J2ktIncompatible
 @NullMarked
 public final class EnumHashBiMap<K extends Enum<K>, V extends @Nullable Object>
     extends AbstractBiMap<K, V> {
@@ -94,7 +96,7 @@ public final class EnumHashBiMap<K extends Enum<K>, V extends @Nullable Object>
   @SuppressWarnings("RedundantOverride") // b/192446478: RedundantOverride ignores some annotations.
   // TODO(b/192446998): Remove this override after tools understand nullness better.
   @CheckForNull
-  public V put(K key, V value) {
+  public V put(K key, @ParametricNullness V value) {
     return super.put(key, value);
   }
 
@@ -103,7 +105,7 @@ public final class EnumHashBiMap<K extends Enum<K>, V extends @Nullable Object>
   @SuppressWarnings("RedundantOverride") // b/192446478: RedundantOverride ignores some annotations.
   // TODO(b/192446998): Remove this override after tools understand nullness better.
   @CheckForNull
-  public V forcePut(K key, V value) {
+  public V forcePut(K key, @ParametricNullness V value) {
     return super.forcePut(key, value);
   }
 

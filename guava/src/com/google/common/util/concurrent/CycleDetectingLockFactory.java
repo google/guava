@@ -27,7 +27,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.MapMaker;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.j2objc.annotations.Weak;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -44,7 +43,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * The {@code CycleDetectingLockFactory} creates {@link ReentrantLock} instances and {@link
@@ -162,7 +161,6 @@ import org.jspecify.nullness.NullMarked;
  * @since 13.0
  */
 @Beta
-@CanIgnoreReturnValue // TODO(cpovirk): Consider being more strict.
 @GwtIncompatible
 @NullMarked
 public class CycleDetectingLockFactory {
@@ -284,7 +282,7 @@ public class CycleDetectingLockFactory {
     checkNotNull(policy);
     @SuppressWarnings("unchecked")
     Map<E, LockGraphNode> lockGraphNodes = (Map<E, LockGraphNode>) getOrCreateNodes(enumClass);
-    return new WithExplicitOrdering<E>(policy, lockGraphNodes);
+    return new WithExplicitOrdering<>(policy, lockGraphNodes);
   }
 
   @SuppressWarnings("unchecked")
@@ -309,7 +307,7 @@ public class CycleDetectingLockFactory {
   static <E extends Enum<E>> Map<E, LockGraphNode> createNodes(Class<E> clazz) {
     EnumMap<E, LockGraphNode> map = Maps.newEnumMap(clazz);
     E[] keys = clazz.getEnumConstants();
-    final int numKeys = keys.length;
+    int numKeys = keys.length;
     ArrayList<LockGraphNode> nodes = Lists.newArrayListWithCapacity(numKeys);
     // Create a LockGraphNode for each enum value.
     for (E key : keys) {

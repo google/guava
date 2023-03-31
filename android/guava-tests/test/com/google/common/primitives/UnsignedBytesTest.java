@@ -16,6 +16,9 @@
 
 package com.google.common.primitives;
 
+import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
+
 import com.google.common.collect.testing.Helpers;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
@@ -39,17 +42,17 @@ public class UnsignedBytesTest extends TestCase {
   private static final byte[] VALUES = {LEAST, 127, (byte) 128, (byte) 129, GREATEST};
 
   public void testToInt() {
-    assertEquals(0, UnsignedBytes.toInt((byte) 0));
-    assertEquals(1, UnsignedBytes.toInt((byte) 1));
-    assertEquals(127, UnsignedBytes.toInt((byte) 127));
-    assertEquals(128, UnsignedBytes.toInt((byte) -128));
-    assertEquals(129, UnsignedBytes.toInt((byte) -127));
-    assertEquals(255, UnsignedBytes.toInt((byte) -1));
+    assertThat(UnsignedBytes.toInt((byte) 0)).isEqualTo(0);
+    assertThat(UnsignedBytes.toInt((byte) 1)).isEqualTo(1);
+    assertThat(UnsignedBytes.toInt((byte) 127)).isEqualTo(127);
+    assertThat(UnsignedBytes.toInt((byte) -128)).isEqualTo(128);
+    assertThat(UnsignedBytes.toInt((byte) -127)).isEqualTo(129);
+    assertThat(UnsignedBytes.toInt((byte) -1)).isEqualTo(255);
   }
 
   public void testCheckedCast() {
     for (byte value : VALUES) {
-      assertEquals(value, UnsignedBytes.checkedCast(UnsignedBytes.toInt(value)));
+      assertThat(UnsignedBytes.checkedCast(UnsignedBytes.toInt(value))).isEqualTo(value);
     }
     assertCastFails(256L);
     assertCastFails(-1L);
@@ -59,12 +62,12 @@ public class UnsignedBytesTest extends TestCase {
 
   public void testSaturatedCast() {
     for (byte value : VALUES) {
-      assertEquals(value, UnsignedBytes.saturatedCast(UnsignedBytes.toInt(value)));
+      assertThat(UnsignedBytes.saturatedCast(UnsignedBytes.toInt(value))).isEqualTo(value);
     }
-    assertEquals(GREATEST, UnsignedBytes.saturatedCast(256L));
-    assertEquals(LEAST, UnsignedBytes.saturatedCast(-1L));
-    assertEquals(GREATEST, UnsignedBytes.saturatedCast(Long.MAX_VALUE));
-    assertEquals(LEAST, UnsignedBytes.saturatedCast(Long.MIN_VALUE));
+    assertThat(UnsignedBytes.saturatedCast(256L)).isEqualTo(GREATEST);
+    assertThat(UnsignedBytes.saturatedCast(-1L)).isEqualTo(LEAST);
+    assertThat(UnsignedBytes.saturatedCast(Long.MAX_VALUE)).isEqualTo(GREATEST);
+    assertThat(UnsignedBytes.saturatedCast(Long.MIN_VALUE)).isEqualTo(LEAST);
   }
 
   private static void assertCastFails(long value) {
@@ -72,9 +75,9 @@ public class UnsignedBytesTest extends TestCase {
       UnsignedBytes.checkedCast(value);
       fail("Cast to byte should have failed: " + value);
     } catch (IllegalArgumentException ex) {
-      assertTrue(
-          value + " not found in exception text: " + ex.getMessage(),
-          ex.getMessage().contains(String.valueOf(value)));
+      assertWithMessage(value + " not found in exception text: " + ex.getMessage())
+          .that(ex.getMessage().contains(String.valueOf(value)))
+          .isTrue();
     }
   }
 
@@ -86,10 +89,9 @@ public class UnsignedBytesTest extends TestCase {
         byte x = VALUES[i];
         byte y = VALUES[j];
         // note: spec requires only that the sign is the same
-        assertEquals(
-            x + ", " + y,
-            Math.signum(UnsignedBytes.compare(x, y)),
-            Math.signum(Ints.compare(i, j)));
+        assertWithMessage(x + ", " + y)
+            .that(Math.signum(Ints.compare(i, j)))
+            .isEqualTo(Math.signum(UnsignedBytes.compare(x, y)));
       }
     }
   }
@@ -103,10 +105,10 @@ public class UnsignedBytesTest extends TestCase {
   }
 
   public void testMax() {
-    assertEquals(LEAST, UnsignedBytes.max(LEAST));
-    assertEquals(GREATEST, UnsignedBytes.max(GREATEST));
-    assertEquals(
-        (byte) 255, UnsignedBytes.max((byte) 0, (byte) -128, (byte) -1, (byte) 127, (byte) 1));
+    assertThat(UnsignedBytes.max(LEAST)).isEqualTo(LEAST);
+    assertThat(UnsignedBytes.max(GREATEST)).isEqualTo(GREATEST);
+    assertThat(UnsignedBytes.max((byte) 0, (byte) -128, (byte) -1, (byte) 127, (byte) 1))
+        .isEqualTo((byte) 255);
   }
 
   public void testMin_noArgs() {
@@ -118,12 +120,12 @@ public class UnsignedBytesTest extends TestCase {
   }
 
   public void testMin() {
-    assertEquals(LEAST, UnsignedBytes.min(LEAST));
-    assertEquals(GREATEST, UnsignedBytes.min(GREATEST));
-    assertEquals(
-        (byte) 0, UnsignedBytes.min((byte) 0, (byte) -128, (byte) -1, (byte) 127, (byte) 1));
-    assertEquals(
-        (byte) 0, UnsignedBytes.min((byte) -1, (byte) 127, (byte) 1, (byte) -128, (byte) 0));
+    assertThat(UnsignedBytes.min(LEAST)).isEqualTo(LEAST);
+    assertThat(UnsignedBytes.min(GREATEST)).isEqualTo(GREATEST);
+    assertThat(UnsignedBytes.min((byte) 0, (byte) -128, (byte) -1, (byte) 127, (byte) 1))
+        .isEqualTo((byte) 0);
+    assertThat(UnsignedBytes.min((byte) -1, (byte) 127, (byte) 1, (byte) -128, (byte) 0))
+        .isEqualTo((byte) 0);
   }
 
   private static void assertParseFails(String value) {
@@ -145,7 +147,7 @@ public class UnsignedBytesTest extends TestCase {
   public void testParseUnsignedByte() {
     // We can easily afford to test this exhaustively.
     for (int i = 0; i <= 0xff; i++) {
-      assertEquals((byte) i, UnsignedBytes.parseUnsignedByte(Integer.toString(i)));
+      assertThat(UnsignedBytes.parseUnsignedByte(Integer.toString(i))).isEqualTo((byte) i);
     }
     assertParseFails("1000");
     assertParseFails("-1");
@@ -154,15 +156,16 @@ public class UnsignedBytesTest extends TestCase {
   }
 
   public void testMaxValue() {
-    assertTrue(
-        UnsignedBytes.compare(UnsignedBytes.MAX_VALUE, (byte) (UnsignedBytes.MAX_VALUE + 1)) > 0);
+    assertThat(UnsignedBytes.compare(UnsignedBytes.MAX_VALUE, (byte) (UnsignedBytes.MAX_VALUE + 1)))
+        .isGreaterThan(0);
   }
 
   public void testParseUnsignedByteWithRadix() throws NumberFormatException {
     // We can easily afford to test this exhaustively.
     for (int radix = Character.MIN_RADIX; radix <= Character.MAX_RADIX; radix++) {
       for (int i = 0; i <= 0xff; i++) {
-        assertEquals((byte) i, UnsignedBytes.parseUnsignedByte(Integer.toString(i, radix), radix));
+        assertThat(UnsignedBytes.parseUnsignedByte(Integer.toString(i, radix), radix))
+            .isEqualTo((byte) i);
       }
       assertParseFails(Integer.toString(1000, radix), radix);
       assertParseFails(Integer.toString(-1, radix), radix);
@@ -197,7 +200,7 @@ public class UnsignedBytesTest extends TestCase {
   public void testToString() {
     // We can easily afford to test this exhaustively.
     for (int i = 0; i <= 0xff; i++) {
-      assertEquals(Integer.toString(i), UnsignedBytes.toString((byte) i));
+      assertThat(UnsignedBytes.toString((byte) i)).isEqualTo(Integer.toString(i));
     }
   }
 
@@ -205,17 +208,17 @@ public class UnsignedBytesTest extends TestCase {
     // We can easily afford to test this exhaustively.
     for (int radix = Character.MIN_RADIX; radix <= Character.MAX_RADIX; radix++) {
       for (int i = 0; i <= 0xff; i++) {
-        assertEquals(Integer.toString(i, radix), UnsignedBytes.toString((byte) i, radix));
+        assertThat(UnsignedBytes.toString((byte) i, radix)).isEqualTo(Integer.toString(i, radix));
       }
     }
   }
 
   public void testJoin() {
-    assertEquals("", UnsignedBytes.join(",", new byte[] {}));
-    assertEquals("1", UnsignedBytes.join(",", new byte[] {(byte) 1}));
-    assertEquals("1,2", UnsignedBytes.join(",", (byte) 1, (byte) 2));
-    assertEquals("123", UnsignedBytes.join("", (byte) 1, (byte) 2, (byte) 3));
-    assertEquals("128,255", UnsignedBytes.join(",", (byte) 128, (byte) -1));
+    assertThat(UnsignedBytes.join(",", new byte[] {})).isEmpty();
+    assertThat(UnsignedBytes.join(",", new byte[] {(byte) 1})).isEqualTo("1");
+    assertThat(UnsignedBytes.join(",", (byte) 1, (byte) 2)).isEqualTo("1,2");
+    assertThat(UnsignedBytes.join("", (byte) 1, (byte) 2, (byte) 3)).isEqualTo("123");
+    assertThat(UnsignedBytes.join(",", (byte) 128, (byte) -1)).isEqualTo("128,255");
   }
 
   private static String unsafeComparatorClassName() {
@@ -251,12 +254,14 @@ public class UnsignedBytesTest extends TestCase {
 
   public void testLexicographicalComparatorChoice() throws Exception {
     Comparator<byte[]> defaultComparator = UnsignedBytes.lexicographicalComparator();
-    assertNotNull(defaultComparator);
-    assertSame(defaultComparator, UnsignedBytes.lexicographicalComparator());
+    assertThat(defaultComparator).isNotNull();
+    assertThat(UnsignedBytes.lexicographicalComparator()).isSameInstanceAs(defaultComparator);
     if (unsafeComparatorAvailable()) {
-      assertSame(defaultComparator.getClass(), Class.forName(unsafeComparatorClassName()));
+      assertThat(Class.forName(unsafeComparatorClassName()))
+          .isSameInstanceAs(defaultComparator.getClass());
     } else {
-      assertSame(defaultComparator, UnsignedBytes.lexicographicalComparatorJavaImpl());
+      assertThat(UnsignedBytes.lexicographicalComparatorJavaImpl())
+          .isSameInstanceAs(defaultComparator);
     }
   }
 
@@ -276,12 +281,12 @@ public class UnsignedBytesTest extends TestCase {
     // The Unsafe implementation if it's available. Otherwise, the Java implementation.
     Comparator<byte[]> comparator = UnsignedBytes.lexicographicalComparator();
     Helpers.testComparator(comparator, ordered);
-    assertSame(comparator, SerializableTester.reserialize(comparator));
+    assertThat(SerializableTester.reserialize(comparator)).isSameInstanceAs(comparator);
 
     // The Java implementation.
     Comparator<byte[]> javaImpl = UnsignedBytes.lexicographicalComparatorJavaImpl();
     Helpers.testComparator(javaImpl, ordered);
-    assertSame(javaImpl, SerializableTester.reserialize(javaImpl));
+    assertThat(SerializableTester.reserialize(javaImpl)).isSameInstanceAs(javaImpl);
   }
 
   @SuppressWarnings("unchecked")
@@ -295,12 +300,12 @@ public class UnsignedBytesTest extends TestCase {
         byte[] left = new byte[1 + rnd.nextInt(32)];
         rnd.nextBytes(left);
         byte[] right = left.clone();
-        assertTrue(comparator.compare(left, right) == 0);
+        assertThat(comparator.compare(left, right)).isEqualTo(0);
         int i = rnd.nextInt(left.length);
         left[i] ^= (byte) (1 + rnd.nextInt(255));
-        assertTrue(comparator.compare(left, right) != 0);
-        assertEquals(
-            comparator.compare(left, right) > 0, UnsignedBytes.compare(left[i], right[i]) > 0);
+        assertThat(comparator.compare(left, right)).isNotEqualTo(0);
+        assertThat(UnsignedBytes.compare(left[i], right[i]) > 0)
+            .isEqualTo(comparator.compare(left, right) > 0);
       }
     }
   }
@@ -315,13 +320,13 @@ public class UnsignedBytesTest extends TestCase {
   static void testSort(byte[] input, byte[] expected) {
     input = Arrays.copyOf(input, input.length);
     UnsignedBytes.sort(input);
-    assertTrue(Arrays.equals(expected, input));
+    assertThat(input).isEqualTo(expected);
   }
 
   static void testSort(byte[] input, int from, int to, byte[] expected) {
     input = Arrays.copyOf(input, input.length);
     UnsignedBytes.sort(input, from, to);
-    assertTrue(Arrays.equals(expected, input));
+    assertThat(input).isEqualTo(expected);
   }
 
   public void testSortIndexed() {
@@ -344,14 +349,14 @@ public class UnsignedBytesTest extends TestCase {
   private static void testSortDescending(byte[] input, byte[] expectedOutput) {
     input = Arrays.copyOf(input, input.length);
     UnsignedBytes.sortDescending(input);
-    assertTrue(Arrays.equals(expectedOutput, input));
+    assertThat(input).isEqualTo(expectedOutput);
   }
 
   private static void testSortDescending(
       byte[] input, int fromIndex, int toIndex, byte[] expectedOutput) {
     input = Arrays.copyOf(input, input.length);
     UnsignedBytes.sortDescending(input, fromIndex, toIndex);
-    assertTrue(Arrays.equals(expectedOutput, input));
+    assertThat(input).isEqualTo(expectedOutput);
   }
 
   public void testSortDescendingIndexed() {

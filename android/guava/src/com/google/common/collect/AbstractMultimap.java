@@ -29,8 +29,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A skeleton {@code Multimap} implementation, not necessarily in terms of a {@code Map}.
@@ -72,13 +72,13 @@ abstract class AbstractMultimap<K extends @Nullable Object, V extends @Nullable 
 
   @CanIgnoreReturnValue
   @Override
-  public boolean put(K key, V value) {
+  public boolean put(@ParametricNullness K key, @ParametricNullness V value) {
     return get(key).add(value);
   }
 
   @CanIgnoreReturnValue
   @Override
-  public boolean putAll(K key, Iterable<? extends V> values) {
+  public boolean putAll(@ParametricNullness K key, Iterable<? extends V> values) {
     checkNotNull(values);
     // make sure we only call values.iterator() once
     // and we only call get(key) if values is nonempty
@@ -103,7 +103,7 @@ abstract class AbstractMultimap<K extends @Nullable Object, V extends @Nullable 
 
   @CanIgnoreReturnValue
   @Override
-  public Collection<V> replaceValues(K key, Iterable<? extends V> values) {
+  public Collection<V> replaceValues(@ParametricNullness K key, Iterable<? extends V> values) {
     checkNotNull(values);
     Collection<V> result = removeAll(key);
     putAll(key, values);

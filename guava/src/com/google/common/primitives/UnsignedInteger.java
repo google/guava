@@ -22,9 +22,10 @@ import static com.google.common.primitives.UnsignedInts.toLong;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import java.math.BigInteger;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * A wrapper class for unsigned {@code int} values, supporting arithmetic operations.
@@ -144,6 +145,7 @@ public final class UnsignedInteger extends Number implements Comparable<Unsigned
    *
    * @since 14.0
    */
+  @J2ktIncompatible
   @GwtIncompatible // Does not truncate correctly
   public UnsignedInteger times(UnsignedInteger val) {
     // TODO(lowasser): make this GWT-compatible

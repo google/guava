@@ -15,7 +15,7 @@
 package com.google.common.cache;
 
 import com.google.common.annotations.GwtCompatible;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Abstract interface for objects that can concurrently add longs.

@@ -41,6 +41,7 @@ import com.google.common.reflect.TypeToken;
 import com.google.common.testing.NullPointerTester.Visibility;
 import com.google.common.testing.RelationshipTester.Item;
 import com.google.common.testing.RelationshipTester.ItemReporter;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -133,6 +134,7 @@ public final class ClassSanityTester {
    * Object#equals} because more than one sample instances are needed for testing inequality. To set
    * distinct values for equality testing, use {@link #setDistinctValues} instead.
    */
+  @CanIgnoreReturnValue
   public <T> ClassSanityTester setDefault(Class<T> type, T value) {
     nullPointerTester.setDefault(type, value);
     defaultValues.putInstance(type, value);
@@ -154,6 +156,7 @@ public final class ClassSanityTester {
    * @return this tester instance
    * @since 17.0
    */
+  @CanIgnoreReturnValue
   public <T> ClassSanityTester setDistinctValues(Class<T> type, T value1, T value2) {
     checkNotNull(type);
     checkNotNull(value1);
@@ -335,7 +338,9 @@ public final class ClassSanityTester {
    *     or factory method to be constructed.
    */
   <T> @Nullable T instantiate(Class<T> cls)
-      throws ParameterNotInstantiableException, IllegalAccessException, InvocationTargetException,
+      throws ParameterNotInstantiableException,
+          IllegalAccessException,
+          InvocationTargetException,
           FactoryMethodReturnsNullException {
     if (cls.isEnum()) {
       T[] constants = cls.getEnumConstants();
@@ -427,6 +432,7 @@ public final class ClassSanityTester {
      *
      * @return this tester object
      */
+    @CanIgnoreReturnValue
     public FactoryMethodReturnValueTester thatReturn(Class<?> returnType) {
       this.returnTypeToTest = returnType;
       return this;
@@ -440,6 +446,7 @@ public final class ClassSanityTester {
      *
      * @return this tester
      */
+    @CanIgnoreReturnValue
     public FactoryMethodReturnValueTester testNulls() throws Exception {
       for (Invokable<?, ?> factory : getFactoriesToTest()) {
         Object instance = instantiate(factory);
@@ -468,6 +475,7 @@ public final class ClassSanityTester {
      *
      * @return this tester
      */
+    @CanIgnoreReturnValue
     public FactoryMethodReturnValueTester testEquals() throws Exception {
       for (Invokable<?, ?> factory : getFactoriesToTest()) {
         try {
@@ -487,6 +495,7 @@ public final class ClassSanityTester {
      *
      * @return this tester
      */
+    @CanIgnoreReturnValue
     public FactoryMethodReturnValueTester testSerializable() throws Exception {
       for (Invokable<?, ?> factory : getFactoriesToTest()) {
         Object instance = instantiate(factory);
@@ -512,6 +521,7 @@ public final class ClassSanityTester {
      *
      * @return this tester
      */
+    @CanIgnoreReturnValue
     public FactoryMethodReturnValueTester testEqualsAndSerializable() throws Exception {
       for (Invokable<?, ?> factory : getFactoriesToTest()) {
         try {
@@ -705,9 +715,9 @@ public final class ClassSanityTester {
     for (Invokable<?, ?> factory : factories) {
       factory.setAccessible(true);
     }
-    // Sorts methods/constructors with least number of parameters first since it's likely easier to
-    // fill dummy parameter values for them. Ties are broken by name then by the string form of the
-    // parameter list.
+    // Sorts methods/constructors with the least number of parameters first since it's likely easier
+    // to fill dummy parameter values for them. Ties are broken by name then by the string form of
+    // the parameter list.
     return BY_NUMBER_OF_PARAMETERS
         .compound(BY_METHOD_NAME)
         .compound(BY_PARAMETERS)

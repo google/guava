@@ -17,7 +17,7 @@ package com.google.common.collect;
 import com.google.common.annotations.GwtCompatible;
 import java.util.Set;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * ImmutableSet implementation backed by a JDK HashSet, used to defend against apparent hash

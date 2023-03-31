@@ -19,8 +19,8 @@ package com.google.common.collect;
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.ListIterator;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A list iterator which forwards all its method calls to another list iterator. Subclasses should
@@ -49,7 +49,7 @@ public abstract class ForwardingListIterator<E extends @Nullable Object>
   protected abstract ListIterator<E> delegate();
 
   @Override
-  public void add(E element) {
+  public void add(@ParametricNullness E element) {
     delegate().add(element);
   }
 
@@ -65,6 +65,7 @@ public abstract class ForwardingListIterator<E extends @Nullable Object>
 
   @CanIgnoreReturnValue
   @Override
+  @ParametricNullness
   public E previous() {
     return delegate().previous();
   }
@@ -75,7 +76,7 @@ public abstract class ForwardingListIterator<E extends @Nullable Object>
   }
 
   @Override
-  public void set(E element) {
+  public void set(@ParametricNullness E element) {
     delegate().set(element);
   }
 }

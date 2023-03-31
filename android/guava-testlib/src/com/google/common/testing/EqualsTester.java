@@ -20,12 +20,12 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Equivalence;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.List;
 
 /**
@@ -74,7 +74,6 @@ import java.util.List;
  * @author Jige Yu
  * @since 10.0
  */
-@Beta
 @GwtCompatible
 public final class EqualsTester {
   private static final int REPETITIONS = 3;
@@ -95,6 +94,7 @@ public final class EqualsTester {
    * Adds {@code equalityGroup} with objects that are supposed to be equal to each other and not
    * equal to any other equality groups added to this tester.
    */
+  @CanIgnoreReturnValue
   public EqualsTester addEqualityGroup(Object... equalityGroup) {
     checkNotNull(equalityGroup);
     equalityGroups.add(ImmutableList.copyOf(equalityGroup));
@@ -102,6 +102,7 @@ public final class EqualsTester {
   }
 
   /** Run tests on equals method, throwing a failure on an invalid test */
+  @CanIgnoreReturnValue
   public EqualsTester testEquals() {
     RelationshipTester<Object> delegate =
         new RelationshipTester<>(
@@ -122,7 +123,7 @@ public final class EqualsTester {
       assertTrue(
           item + " must not be Object#equals to an arbitrary object of another class",
           !item.equals(NotAnInstance.EQUAL_TO_NOTHING));
-      assertEquals(item + " must be Object#equals to itself", item, item);
+      assertTrue(item + " must be Object#equals to itself", item.equals(item));
       assertEquals(
           "the Object#hashCode of " + item + " must be consistent",
           item.hashCode(),

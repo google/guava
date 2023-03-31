@@ -25,7 +25,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.Immutable;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * A {@link ValueGraph} whose elements and structural relationships will never change. Instances of
@@ -76,7 +76,7 @@ public final class ImmutableValueGraph<N, V> extends StandardValueGraph<N, V> {
 
   @Override
   public ImmutableGraph<N> asGraph() {
-    return new ImmutableGraph<N>(this); // safe because the view is effectively immutable
+    return new ImmutableGraph<>(this); // safe because the view is effectively immutable
   }
 
   private static <N, V> ImmutableMap<N, GraphConnections<N, V>> getNodeConnections(
@@ -88,19 +88,14 @@ public final class ImmutableValueGraph<N, V> extends StandardValueGraph<N, V> {
     for (N node : graph.nodes()) {
       nodeConnections.put(node, connectionsOf(graph, node));
     }
-    return nodeConnections.build();
+    return nodeConnections.buildOrThrow();
   }
 
-  private static <N, V> GraphConnections<N, V> connectionsOf(
-      final ValueGraph<N, V> graph, final N node) {
+  private static <N, V> GraphConnections<N, V> connectionsOf(ValueGraph<N, V> graph, N node) {
     Function<N, V> successorNodeToValueFn =
-        new Function<N, V>() {
-          @Override
-          public V apply(N successorNode) {
+        (N successorNode) ->
             // requireNonNull is safe because the endpoint pair comes from the graph.
-            return requireNonNull(graph.edgeValueOrDefault(node, successorNode, null));
-          }
-        };
+            requireNonNull(graph.edgeValueOrDefault(node, successorNode, null));
     return graph.isDirected()
         ? DirectedGraphConnections.ofImmutable(
             node, graph.incidentEdges(node), successorNodeToValueFn)

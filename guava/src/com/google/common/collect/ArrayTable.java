@@ -38,8 +38,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Spliterator;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Fixed-size {@link Table} implementation backed by a two-dimensional array.
@@ -85,7 +85,7 @@ import org.jspecify.nullness.Nullable;
  * thread that reads from another.
  *
  * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#table"> {@code Table}</a>.
+ * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#table">{@code Table}</a>.
  *
  * @author Jared Levy
  * @since 10.0
@@ -208,9 +208,11 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, @Nullable V>
 
     abstract String getKeyRole();
 
+    @ParametricNullness
     abstract V getValue(int index);
 
-    abstract V setValue(int index, V newValue);
+    @ParametricNullness
+    abstract V setValue(int index, @ParametricNullness V newValue);
 
     @Override
     public int size() {
@@ -231,12 +233,14 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, @Nullable V>
         }
 
         @Override
+        @ParametricNullness
         public V getValue() {
           return ArrayMap.this.getValue(index);
         }
 
         @Override
-        public V setValue(V value) {
+        @ParametricNullness
+        public V setValue(@ParametricNullness V value) {
           return ArrayMap.this.setValue(index, value);
         }
       };
@@ -277,7 +281,7 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, @Nullable V>
 
     @Override
     @CheckForNull
-    public V put(K key, V value) {
+    public V put(K key, @ParametricNullness V value) {
       Integer index = keyIndex.get(key);
       if (index == null) {
         throw new IllegalArgumentException(

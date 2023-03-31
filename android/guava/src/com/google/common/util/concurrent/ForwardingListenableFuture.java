@@ -16,10 +16,9 @@ package com.google.common.util.concurrent;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Preconditions;
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.concurrent.Executor;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A {@link ListenableFuture} which forwards all its method calls to another future. Subclasses
@@ -31,7 +30,6 @@ import org.jspecify.nullness.Nullable;
  * @author Shardul Deo
  * @since 4.0
  */
-@CanIgnoreReturnValue // TODO(cpovirk): Consider being more strict.
 @GwtCompatible
 @NullMarked
 public abstract class ForwardingListenableFuture<V extends @Nullable Object>

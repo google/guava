@@ -19,12 +19,14 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.errorprone.annotations.Immutable;
+import java.io.InvalidObjectException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.nio.ByteBuffer;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * {@link HashFunction} adapter for {@link MessageDigest} instances.
@@ -62,7 +64,7 @@ final class MessageDigestHashFunction extends AbstractHashFunction implements Se
 
   private static boolean supportsClone(MessageDigest digest) {
     try {
-      digest.clone();
+      Object unused = digest.clone();
       return true;
     } catch (CloneNotSupportedException e) {
       return false;
@@ -119,6 +121,10 @@ final class MessageDigestHashFunction extends AbstractHashFunction implements Se
 
   Object writeReplace() {
     return new SerializedForm(prototype.getAlgorithm(), bytes, toString);
+  }
+
+  private void readObject(ObjectInputStream stream) throws InvalidObjectException {
+    throw new InvalidObjectException("Use SerializedForm");
   }
 
   /** Hasher that updates a message digest. */

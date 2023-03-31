@@ -16,6 +16,7 @@ package com.google.common.io;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import java.io.Closeable;
 import java.io.IOException;
@@ -24,7 +25,7 @@ import java.io.Reader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Utility methods for working with {@link Closeable} objects.
@@ -33,6 +34,7 @@ import org.jspecify.nullness.NullMarked;
  * @since 1.0
  */
 @Beta
+@J2ktIncompatible
 @GwtIncompatible
 @NullMarked
 public final class Closeables {

@@ -15,7 +15,7 @@
 package com.google.common.base;
 
 import com.google.common.annotations.GwtCompatible;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * The subset of the {@link java.util.regex.Pattern} API which is used by this package, and also

@@ -16,8 +16,8 @@ package com.google.common.util.concurrent;
 
 import com.google.common.annotations.GwtCompatible;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /** A utility method to perform unchecked casts to suppress errors produced by nullness analyses. */
 @GwtCompatible
@@ -52,6 +52,7 @@ final class NullnessCasts {
    * value may be legitimately {@code null}.)
    */
   @SuppressWarnings("nullness")
+  @ParametricNullness
   static <T extends @Nullable Object> T uncheckedCastNullableTToT(@CheckForNull T t) {
     return t;
   }
@@ -65,7 +66,9 @@ final class NullnessCasts {
    * return to a caller, the code needs to a way to return {@code null} from a method that returns
    * "plain {@code T}." This API provides that.
    */
-  @SuppressWarnings("nullness")
+  @SuppressWarnings({"nullness", "TypeParameterUnusedInFormals", "ReturnMissingNullable"})
+  // The warnings are legitimate. Each time we use this method, we document why.
+  @ParametricNullness
   static <T extends @Nullable Object> T uncheckedNull() {
     return null;
   }

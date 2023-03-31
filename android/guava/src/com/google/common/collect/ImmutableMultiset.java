@@ -21,17 +21,21 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.DoNotCall;
 import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.WeakOuter;
+import java.io.InvalidObjectException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Set;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A {@link Multiset} whose contents will never change, with many other important properties
@@ -42,7 +46,7 @@ import org.jspecify.nullness.NullMarked;
  * element when the multiset was created.
  *
  * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/ImmutableCollectionsExplained"> immutable collections</a>.
+ * "https://github.com/google/guava/wiki/ImmutableCollectionsExplained">immutable collections</a>.
  *
  * @author Jared Levy
  * @author Louis Wasserman
@@ -283,7 +287,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
 
   @GwtIncompatible // not present in emulated superclass
   @Override
-  int copyIntoArray(Object[] dst, int offset) {
+  int copyIntoArray(@Nullable Object[] dst, int offset) {
     for (Multiset.Entry<E> entry : entrySet()) {
       Arrays.fill(dst, offset, offset + entry.getCount(), entry.getElement());
       offset += entry.getCount();
@@ -360,15 +364,23 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
     }
 
     @GwtIncompatible
+    @J2ktIncompatible
     @Override
     Object writeReplace() {
       return new EntrySetSerializedForm<E>(ImmutableMultiset.this);
     }
 
-    private static final long serialVersionUID = 0;
+    @GwtIncompatible
+    @J2ktIncompatible
+    private void readObject(ObjectInputStream stream) throws InvalidObjectException {
+      throw new InvalidObjectException("Use EntrySetSerializedForm");
+    }
+
+    @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   @GwtIncompatible
+  @J2ktIncompatible
   static class EntrySetSerializedForm<E> implements Serializable {
     final ImmutableMultiset<E> multiset;
 
@@ -382,8 +394,15 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
   }
 
   @GwtIncompatible
+  @J2ktIncompatible
   @Override
   abstract Object writeReplace();
+
+  @GwtIncompatible
+  @J2ktIncompatible
+  private void readObject(ObjectInputStream stream) throws InvalidObjectException {
+    throw new InvalidObjectException("Use SerializedForm");
+  }
 
   /**
    * Returns a new builder. The generated builder is equivalent to the builder created by the {@link

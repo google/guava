@@ -22,8 +22,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A {@code Multimap} that can hold duplicate key-value pairs and that maintains the insertion
@@ -35,8 +35,7 @@ import org.jspecify.nullness.Nullable;
  * {@link #asMap} has {@code List} values.
  *
  * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multimap"> {@code
- * Multimap}</a>.
+ * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multimap">{@code Multimap}</a>.
  *
  * @author Jared Levy
  * @since 2.0
@@ -53,7 +52,7 @@ public interface ListMultimap<K extends @Nullable Object, V extends @Nullable Ob
    * the {@link Multimap} interface.
    */
   @Override
-  List<V> get(K key);
+  List<V> get(@ParametricNullness K key);
 
   /**
    * {@inheritDoc}
@@ -75,7 +74,7 @@ public interface ListMultimap<K extends @Nullable Object, V extends @Nullable Ob
    */
   @CanIgnoreReturnValue
   @Override
-  List<V> replaceValues(K key, Iterable<? extends V> values);
+  List<V> replaceValues(@ParametricNullness K key, Iterable<? extends V> values);
 
   /**
    * {@inheritDoc}

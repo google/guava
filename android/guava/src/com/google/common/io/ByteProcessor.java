@@ -16,11 +16,12 @@ package com.google.common.io;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.DoNotMock;
 import java.io.IOException;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A callback interface to process bytes from a stream.
@@ -33,6 +34,7 @@ import org.jspecify.nullness.Nullable;
  */
 @Beta
 @DoNotMock("Implement it normally")
+@J2ktIncompatible
 @GwtIncompatible
 @NullMarked
 public interface ByteProcessor<T extends @Nullable Object> {
@@ -49,5 +51,6 @@ public interface ByteProcessor<T extends @Nullable Object> {
   boolean processBytes(byte[] buf, int off, int len) throws IOException;
 
   /** Return the result of processing all the bytes. */
+  @ParametricNullness
   T getResult();
 }

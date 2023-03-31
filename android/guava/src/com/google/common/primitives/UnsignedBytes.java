@@ -21,12 +21,13 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.nio.ByteOrder;
 import java.util.Arrays;
 import java.util.Comparator;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 import sun.misc.Unsafe;
 
 /**
@@ -44,6 +45,7 @@ import sun.misc.Unsafe;
  * @author Louis Wasserman
  * @since 1.0
  */
+@J2ktIncompatible
 @GwtIncompatible
 @NullMarked
 public final class UnsignedBytes {
@@ -366,7 +368,7 @@ public final class UnsignedBytes {
 
       @Override
       public int compare(byte[] left, byte[] right) {
-        final int stride = 8;
+        int stride = 8;
         int minLength = Math.min(left.length, right.length);
         int strideLimit = minLength & ~(stride - 1);
         int i;

@@ -15,10 +15,9 @@
 package com.google.common.base;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Determines an output value based on an input value; a pre-Java-8 version of {@link
@@ -62,8 +61,8 @@ public interface Function<F extends @Nullable Object, T extends @Nullable Object
    * @throws NullPointerException if {@code input} is null and this function does not accept null
    *     arguments
    */
-  @CanIgnoreReturnValue // TODO(kevinb): remove this
-  T apply(F input);
+  @ParametricNullness
+  T apply(@ParametricNullness F input);
 
   /**
    * <i>May</i> return {@code true} if {@code object} is a {@code Function} that behaves identically

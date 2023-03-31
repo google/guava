@@ -24,12 +24,15 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.SortedLists.KeyAbsentBehavior;
 import com.google.common.collect.SortedLists.KeyPresentBehavior;
 import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.DoNotCall;
 import com.google.errorprone.annotations.concurrent.LazyInit;
+import java.io.InvalidObjectException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.Iterator;
@@ -38,7 +41,7 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.stream.Collector;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * A {@link RangeSet} whose contents will never change, with many other important properties
@@ -518,7 +521,7 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
    * such a set can be performed efficiently, but others (such as {@link Set#hashCode} or {@link
    * Collections#frequency}) can cause major performance problems.
    *
-   * <p>The returned set's {@link Object#toString} method returns a short-hand form of the set's
+   * <p>The returned set's {@link Object#toString} method returns a shorthand form of the set's
    * contents, such as {@code "[1..100]}"}.
    *
    * @throws IllegalArgumentException if neither this range nor the domain has a lower bound, or if
@@ -691,8 +694,14 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
     }
 
     @Override
+    @J2ktIncompatible // serialization
     Object writeReplace() {
       return new AsSetSerializedForm<C>(ranges, domain);
+    }
+
+    @J2ktIncompatible // java.io.ObjectInputStream
+    private void readObject(ObjectInputStream stream) throws InvalidObjectException {
+      throw new InvalidObjectException("Use SerializedForm");
     }
   }
 
@@ -840,7 +849,13 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
     }
   }
 
+  @J2ktIncompatible // java.io.ObjectInputStream
   Object writeReplace() {
     return new SerializedForm<C>(ranges);
+  }
+
+  @J2ktIncompatible // java.io.ObjectInputStream
+  private void readObject(ObjectInputStream stream) throws InvalidObjectException {
+    throw new InvalidObjectException("Use SerializedForm");
   }
 }

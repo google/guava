@@ -14,7 +14,7 @@
 
 package com.google.common.hash;
 
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Abstract interface for objects that can concurrently add longs.

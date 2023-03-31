@@ -20,7 +20,7 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import javax.annotation.CheckForNull;
 
 public class SynchronizedTableTest extends AbstractTableTest {
   private static final class TestTable<R, C, V> implements Table<R, C, V>, Serializable {
@@ -34,7 +34,7 @@ public class SynchronizedTableTest extends AbstractTableTest {
     }
 
     @Override
-    public boolean equals(@NullableDecl Object o) {
+    public boolean equals(@CheckForNull Object o) {
       assertTrue(Thread.holdsLock(mutex));
       return delegate.equals(o);
     }
@@ -58,7 +58,7 @@ public class SynchronizedTableTest extends AbstractTableTest {
     }
 
     @Override
-    public boolean containsValue(@NullableDecl Object value) {
+    public boolean containsValue(@CheckForNull Object value) {
       assertTrue(Thread.holdsLock(mutex));
       return delegate.containsValue(value);
     }

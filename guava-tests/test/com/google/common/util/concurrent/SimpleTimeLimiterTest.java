@@ -34,7 +34,6 @@ import junit.framework.TestCase;
  * @author kevinb
  * @author Jens Nyman
  */
-
 public class SimpleTimeLimiterTest extends TestCase {
 
   private static final long DELAY_MS = 50;

@@ -23,7 +23,7 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import java.util.concurrent.Callable;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Statistics about the performance of a {@link Cache}. Instances of this class are immutable.
@@ -152,8 +152,8 @@ public final class CacheStats {
 
   /**
    * Returns the total number of times that {@link Cache} lookup methods attempted to load new
-   * values. This includes both successful load operations, as well as those that threw exceptions.
-   * This is defined as {@code loadSuccessCount + loadExceptionCount}.
+   * values. This includes both successful load operations and those that threw exceptions. This is
+   * defined as {@code loadSuccessCount + loadExceptionCount}.
    *
    * <p><b>Note:</b> the values of the metrics are undefined in case of overflow (though it is
    * guaranteed not to throw an exception). If you require specific handling, we recommend

@@ -19,8 +19,8 @@ package com.google.common.collect;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Function;
 import java.util.ListIterator;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An iterator that transforms a backing list iterator; for internal use. This avoids the object
@@ -46,6 +46,7 @@ abstract class TransformedListIterator<F extends @Nullable Object, T extends @Nu
   }
 
   @Override
+  @ParametricNullness
   public final T previous() {
     return transform(backingIterator().previous());
   }
@@ -61,12 +62,12 @@ abstract class TransformedListIterator<F extends @Nullable Object, T extends @Nu
   }
 
   @Override
-  public void set(T element) {
+  public void set(@ParametricNullness T element) {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public void add(T element) {
+  public void add(@ParametricNullness T element) {
     throw new UnsupportedOperationException();
   }
 }

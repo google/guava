@@ -20,14 +20,13 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import com.google.errorprone.annotations.CheckReturnValue;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.Locale;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicLong;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * A ThreadFactory builder, providing any combination of these features:
@@ -46,7 +45,6 @@ import org.jspecify.nullness.NullMarked;
  * @author Kurt Alfred Kluever
  * @since 4.0
  */
-@CanIgnoreReturnValue
 @GwtIncompatible
 @NullMarked
 public final class ThreadFactoryBuilder {
@@ -70,6 +68,7 @@ public final class ThreadFactoryBuilder {
    *     "rpc-pool-1"}, {@code "rpc-pool-2"}, etc.
    * @return this for the builder pattern
    */
+  @CanIgnoreReturnValue
   public ThreadFactoryBuilder setNameFormat(String nameFormat) {
     String unused = format(nameFormat, 0); // fail fast if the format is bad or null
     this.nameFormat = nameFormat;
@@ -82,6 +81,7 @@ public final class ThreadFactoryBuilder {
    * @param daemon whether or not new Threads created with this ThreadFactory will be daemon threads
    * @return this for the builder pattern
    */
+  @CanIgnoreReturnValue
   public ThreadFactoryBuilder setDaemon(boolean daemon) {
     this.daemon = daemon;
     return this;
@@ -90,9 +90,13 @@ public final class ThreadFactoryBuilder {
   /**
    * Sets the priority for new threads created with this ThreadFactory.
    *
+   * <p><b>Warning:</b> relying on the thread scheduler is <a
+   * href="http://errorprone.info/bugpattern/ThreadPriorityCheck">discouraged</a>.
+   *
    * @param priority the priority for new Threads created with this ThreadFactory
    * @return this for the builder pattern
    */
+  @CanIgnoreReturnValue
   public ThreadFactoryBuilder setPriority(int priority) {
     // Thread#setPriority() already checks for validity. These error messages
     // are nicer though and will fail-fast.
@@ -117,6 +121,7 @@ public final class ThreadFactoryBuilder {
    *     this ThreadFactory
    * @return this for the builder pattern
    */
+  @CanIgnoreReturnValue
   public ThreadFactoryBuilder setUncaughtExceptionHandler(
       UncaughtExceptionHandler uncaughtExceptionHandler) {
     this.uncaughtExceptionHandler = checkNotNull(uncaughtExceptionHandler);
@@ -132,6 +137,7 @@ public final class ThreadFactoryBuilder {
    * @return this for the builder pattern
    * @see MoreExecutors
    */
+  @CanIgnoreReturnValue
   public ThreadFactoryBuilder setThreadFactory(ThreadFactory backingThreadFactory) {
     this.backingThreadFactory = checkNotNull(backingThreadFactory);
     return this;
@@ -144,7 +150,6 @@ public final class ThreadFactoryBuilder {
    *
    * @return the fully constructed {@link ThreadFactory}
    */
-  @CheckReturnValue
   public ThreadFactory build() {
     return doBuild(this);
   }
@@ -152,15 +157,15 @@ public final class ThreadFactoryBuilder {
   // Split out so that the anonymous ThreadFactory can't contain a reference back to the builder.
   // At least, I assume that's why. TODO(cpovirk): Check, and maybe add a test for this.
   private static ThreadFactory doBuild(ThreadFactoryBuilder builder) {
-    final String nameFormat = builder.nameFormat;
-    final Boolean daemon = builder.daemon;
-    final Integer priority = builder.priority;
-    final UncaughtExceptionHandler uncaughtExceptionHandler = builder.uncaughtExceptionHandler;
-    final ThreadFactory backingThreadFactory =
+    String nameFormat = builder.nameFormat;
+    Boolean daemon = builder.daemon;
+    Integer priority = builder.priority;
+    UncaughtExceptionHandler uncaughtExceptionHandler = builder.uncaughtExceptionHandler;
+    ThreadFactory backingThreadFactory =
         (builder.backingThreadFactory != null)
             ? builder.backingThreadFactory
             : Executors.defaultThreadFactory();
-    final AtomicLong count = (nameFormat != null) ? new AtomicLong(0) : null;
+    AtomicLong count = (nameFormat != null) ? new AtomicLong(0) : null;
     return new ThreadFactory() {
       @Override
       public Thread newThread(Runnable runnable) {

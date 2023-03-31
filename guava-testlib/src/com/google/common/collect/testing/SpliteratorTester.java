@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.testing.Helpers.assertEqualIgnoringOrder;
 import static com.google.common.collect.testing.Helpers.assertEqualInOrder;
 import static com.google.common.collect.testing.Platform.format;
+import static java.util.Comparator.naturalOrder;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
@@ -29,6 +30,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Ordering;
 import com.google.common.primitives.Ints;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -274,10 +276,12 @@ public final class SpliteratorTester<E> {
   }
 
   @SafeVarargs
+  @CanIgnoreReturnValue
   public final Ordered expect(Object... elements) {
     return expect(Arrays.asList(elements));
   }
 
+  @CanIgnoreReturnValue
   public final Ordered expect(Iterable<?> elements) {
     List<List<E>> resultsForAllStrategies = new ArrayList<>();
     for (Supplier<GeneralSpliterator<E>> spliteratorSupplier : spliteratorSuppliers) {
@@ -296,7 +300,7 @@ public final class SpliteratorTester<E> {
         if ((characteristics & Spliterator.SORTED) != 0) {
           Comparator<? super E> comparator = spliterator.getComparator();
           if (comparator == null) {
-            comparator = (Comparator) Comparator.naturalOrder();
+            comparator = (Comparator) naturalOrder();
           }
           assertTrue(Ordering.from(comparator).isOrdered(resultsForStrategy));
         }

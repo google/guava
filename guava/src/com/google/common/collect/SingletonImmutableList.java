@@ -22,7 +22,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Preconditions;
 import java.util.Collections;
 import java.util.Spliterator;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Implementation of {@link ImmutableList} with exactly one element.

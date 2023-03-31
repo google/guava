@@ -21,8 +21,8 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * {@link FluentFuture} that forwards all calls to a delegate.
@@ -64,11 +64,13 @@ final class ForwardingFluentFuture<V extends @Nullable Object> extends FluentFut
   }
 
   @Override
+  @ParametricNullness
   public V get() throws InterruptedException, ExecutionException {
     return delegate.get();
   }
 
   @Override
+  @ParametricNullness
   public V get(long timeout, TimeUnit unit)
       throws InterruptedException, ExecutionException, TimeoutException {
     return delegate.get(timeout, unit);

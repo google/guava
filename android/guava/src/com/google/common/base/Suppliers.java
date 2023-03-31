@@ -17,15 +17,14 @@ package com.google.common.base;
 import static com.google.common.base.NullnessCasts.uncheckedCastNullableTToT;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
-import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
 import java.io.Serializable;
 import java.util.concurrent.TimeUnit;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Useful suppliers.
@@ -63,6 +62,7 @@ public final class Suppliers {
     }
 
     @Override
+    @ParametricNullness
     public T get() {
       return function.apply(supplier.get());
     }
@@ -97,7 +97,7 @@ public final class Suppliers {
    * <p>The returned supplier is thread-safe. The delegate's {@code get()} method will be invoked at
    * most once unless the underlying {@code get()} throws an exception. The supplier's serialized
    * form does not contain the cached value, which will be recalculated when {@code get()} is called
-   * on the reserialized instance.
+   * on the deserialized instance.
    *
    * <p>When the underlying delegate throws an exception then this memoizing supplier will keep
    * delegating calls until it returns valid data.
@@ -128,6 +128,7 @@ public final class Suppliers {
     }
 
     @Override
+    @ParametricNullness
     public T get() {
       // A 2-field variant of Double Checked Locking.
       if (!initialized) {
@@ -156,38 +157,36 @@ public final class Suppliers {
 
   @VisibleForTesting
   static class NonSerializableMemoizingSupplier<T extends @Nullable Object> implements Supplier<T> {
-    @CheckForNull volatile Supplier<T> delegate;
-    volatile boolean initialized;
-    // "value" does not need to be volatile; visibility piggy-backs
-    // on volatile read of "initialized".
-    @CheckForNull T value;
+    @SuppressWarnings("UnnecessaryLambda") // Must be a fixed singleton object
+    private static final Supplier<Void> SUCCESSFULLY_COMPUTED =
+        () -> {
+          throw new IllegalStateException(); // Should never get called.
+        };
+
+    private volatile Supplier<T> delegate;
+    // "value" does not need to be volatile; visibility piggy-backs on volatile read of "delegate".
+    @CheckForNull private T value;
 
     NonSerializableMemoizingSupplier(Supplier<T> delegate) {
       this.delegate = checkNotNull(delegate);
     }
 
     @Override
+    @ParametricNullness
+    @SuppressWarnings("unchecked") // Cast from Supplier<Void> to Supplier<T> is always valid
     public T get() {
-      // A 2-field variant of Double Checked Locking.
-      if (!initialized) {
+      // Because Supplier is read-heavy, we use the "double-checked locking" pattern.
+      if (delegate != SUCCESSFULLY_COMPUTED) {
         synchronized (this) {
-          if (!initialized) {
-            /*
-             * requireNonNull is safe because we read and write `delegate` under synchronization.
-             *
-             * TODO(cpovirk): To avoid having to check for null, replace `delegate` with a singleton
-             * `Supplier` that always throws an exception.
-             */
-            T t = requireNonNull(delegate).get();
+          if (delegate != SUCCESSFULLY_COMPUTED) {
+            T t = delegate.get();
             value = t;
-            initialized = true;
-            // Release the delegate to GC.
-            delegate = null;
+            delegate = (Supplier<T>) SUCCESSFULLY_COMPUTED;
             return t;
           }
         }
       }
-      // This is safe because we checked `initialized.`
+      // This is safe because we checked `delegate.`
       return uncheckedCastNullableTToT(value);
     }
 
@@ -195,7 +194,9 @@ public final class Suppliers {
     public String toString() {
       Supplier<T> delegate = this.delegate;
       return "Suppliers.memoize("
-          + (delegate == null ? "<supplier that returned " + value + ">" : delegate)
+          + (delegate == SUCCESSFULLY_COMPUTED
+              ? "<supplier that returned " + value + ">"
+              : delegate)
           + ")";
     }
   }
@@ -224,7 +225,7 @@ public final class Suppliers {
   @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public static <T extends @Nullable Object> Supplier<T> memoizeWithExpiration(
       Supplier<T> delegate, long duration, TimeUnit unit) {
-    return new ExpiringMemoizingSupplier<T>(delegate, duration, unit);
+    return new ExpiringMemoizingSupplier<>(delegate, duration, unit);
   }
 
   @VisibleForTesting
@@ -244,6 +245,7 @@ public final class Suppliers {
     }
 
     @Override
+    @ParametricNullness
     public T get() {
       // Another variant of Double Checked Locking.
       //
@@ -281,19 +283,21 @@ public final class Suppliers {
   }
 
   /** Returns a supplier that always supplies {@code instance}. */
-  public static <T extends @Nullable Object> Supplier<T> ofInstance(T instance) {
-    return new SupplierOfInstance<T>(instance);
+  public static <T extends @Nullable Object> Supplier<T> ofInstance(
+      @ParametricNullness T instance) {
+    return new SupplierOfInstance<>(instance);
   }
 
   private static class SupplierOfInstance<T extends @Nullable Object>
       implements Supplier<T>, Serializable {
-    final T instance;
+    @ParametricNullness final T instance;
 
-    SupplierOfInstance(T instance) {
+    SupplierOfInstance(@ParametricNullness T instance) {
       this.instance = instance;
     }
 
     @Override
+    @ParametricNullness
     public T get() {
       return instance;
     }
@@ -326,7 +330,7 @@ public final class Suppliers {
    */
   public static <T extends @Nullable Object> Supplier<T> synchronizedSupplier(
       Supplier<T> delegate) {
-    return new ThreadSafeSupplier<T>(delegate);
+    return new ThreadSafeSupplier<>(delegate);
   }
 
   private static class ThreadSafeSupplier<T extends @Nullable Object>
@@ -338,6 +342,7 @@ public final class Suppliers {
     }
 
     @Override
+    @ParametricNullness
     public T get() {
       synchronized (delegate) {
         return delegate.get();

@@ -22,6 +22,7 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Objects;
 import com.google.common.collect.Maps.IteratorBasedAbstractMap;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -29,6 +30,7 @@ import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.RetainedWith;
 import com.google.j2objc.annotations.Weak;
 import java.io.IOException;
+import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -41,8 +43,8 @@ import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A {@link BiMap} backed by two hash tables. This implementation allows null keys and values. A
@@ -51,7 +53,7 @@ import org.jspecify.nullness.Nullable;
  * <p>This implementation guarantees insertion-based iteration order of its keys.
  *
  * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#bimap"> {@code BiMap} </a>.
+ * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#bimap">{@code BiMap} </a>.
  *
  * @author Louis Wasserman
  * @author Mike Bostock
@@ -106,7 +108,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
     @Weak @CheckForNull BiEntry<K, V> nextInKeyInsertionOrder;
     @Weak @CheckForNull BiEntry<K, V> prevInKeyInsertionOrder;
 
-    BiEntry(K key, int keyHash, V value, int valueHash) {
+    BiEntry(@ParametricNullness K key, int keyHash, @ParametricNullness V value, int valueHash) {
       super(key, value);
       this.keyHash = keyHash;
       this.valueHash = valueHash;
@@ -120,8 +122,12 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
    * they are not initialized inline in the constructor, they are initialized from init(), which the
    * constructor calls (as does readObject()).
    */
+  @SuppressWarnings("nullness:initialization.field.uninitialized") // For J2KT (see above)
   private transient @Nullable BiEntry<K, V>[] hashTableKToV;
+
+  @SuppressWarnings("nullness:initialization.field.uninitialized") // For J2KT (see above)
   private transient @Nullable BiEntry<K, V>[] hashTableVToK;
+
   @Weak @CheckForNull private transient BiEntry<K, V> firstInKeyInsertionOrder;
   @Weak @CheckForNull private transient BiEntry<K, V> lastInKeyInsertionOrder;
   private transient int size;
@@ -287,12 +293,12 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
   @CanIgnoreReturnValue
   @Override
   @CheckForNull
-  public V put(K key, V value) {
+  public V put(@ParametricNullness K key, @ParametricNullness V value) {
     return put(key, value, false);
   }
 
   @CheckForNull
-  private V put(K key, V value, boolean force) {
+  private V put(@ParametricNullness K key, @ParametricNullness V value, boolean force) {
     int keyHash = smearedHash(key);
     int valueHash = smearedHash(value);
 
@@ -329,12 +335,13 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
   @CanIgnoreReturnValue
   @Override
   @CheckForNull
-  public V forcePut(K key, V value) {
+  public V forcePut(@ParametricNullness K key, @ParametricNullness V value) {
     return put(key, value, true);
   }
 
+  @CanIgnoreReturnValue
   @CheckForNull
-  private K putInverse(V value, K key, boolean force) {
+  private K putInverse(@ParametricNullness V value, @ParametricNullness K key, boolean force) {
     int valueHash = smearedHash(value);
     int keyHash = smearedHash(key);
 
@@ -490,6 +497,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
     public Iterator<K> iterator() {
       return new Itr<K>() {
         @Override
+        @ParametricNullness
         K output(BiEntry<K, V> entry) {
           return entry.key;
         }
@@ -531,17 +539,20 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
         }
 
         @Override
+        @ParametricNullness
         public K getKey() {
           return delegate.key;
         }
 
         @Override
+        @ParametricNullness
         public V getValue() {
           return delegate.value;
         }
 
         @Override
-        public V setValue(V value) {
+        @ParametricNullness
+        public V setValue(@ParametricNullness V value) {
           V oldValue = delegate.value;
           int valueHash = smearedHash(value);
           if (valueHash == delegate.valueHash && Objects.equal(value, oldValue)) {
@@ -622,13 +633,13 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
     @CanIgnoreReturnValue
     @Override
     @CheckForNull
-    public K put(V value, K key) {
+    public K put(@ParametricNullness V value, @ParametricNullness K key) {
       return putInverse(value, key, false);
     }
 
     @Override
     @CheckForNull
-    public K forcePut(V value, K key) {
+    public K forcePut(@ParametricNullness V value, @ParametricNullness K key) {
       return putInverse(value, key, true);
     }
 
@@ -676,6 +687,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
       public Iterator<V> iterator() {
         return new Itr<V>() {
           @Override
+          @ParametricNullness
           V output(BiEntry<K, V> entry) {
             return entry.value;
           }
@@ -704,17 +716,20 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
           }
 
           @Override
+          @ParametricNullness
           public V getKey() {
             return delegate.value;
           }
 
           @Override
+          @ParametricNullness
           public K getValue() {
             return delegate.key;
           }
 
           @Override
-          public K setValue(K key) {
+          @ParametricNullness
+          public K setValue(@ParametricNullness K key) {
             K oldKey = delegate.key;
             int keyHash = smearedHash(key);
             if (keyHash == delegate.keyHash && Objects.equal(key, oldKey)) {
@@ -752,6 +767,12 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
     Object writeReplace() {
       return new InverseSerializedForm<>(HashBiMap.this);
     }
+
+    @GwtIncompatible // serialization
+    @J2ktIncompatible
+    private void readObject(ObjectInputStream in) throws InvalidObjectException {
+      throw new InvalidObjectException("Use InverseSerializedForm");
+    }
   }
 
   private static final class InverseSerializedForm<
@@ -772,12 +793,14 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
    * @serialData the number of entries, first key, first value, second key, second value, and so on.
    */
   @GwtIncompatible // java.io.ObjectOutputStream
+  @J2ktIncompatible
   private void writeObject(ObjectOutputStream stream) throws IOException {
     stream.defaultWriteObject();
     Serialization.writeMap(this, stream);
   }
 
   @GwtIncompatible // java.io.ObjectInputStream
+  @J2ktIncompatible
   private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
     stream.defaultReadObject();
     int size = Serialization.readCount(stream);
@@ -786,5 +809,6 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
   }
 
   @GwtIncompatible // Not needed in emulated source
+  @J2ktIncompatible
   private static final long serialVersionUID = 0;
 }

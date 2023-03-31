@@ -20,7 +20,7 @@ import static java.util.Objects.requireNonNull;
 import com.google.common.annotations.GwtCompatible;
 import java.io.Serializable;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Utility class for converting between various ASCII case formats. Behavior is undefined for
@@ -152,7 +152,8 @@ public enum CaseFormat {
   }
 
   /**
-   * Returns a {@code Converter} that converts strings from this format to {@code targetFormat}.
+   * Returns a serializable {@code Converter} that converts strings from this format to {@code
+   * targetFormat}.
    *
    * @since 16.0
    */

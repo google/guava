@@ -16,14 +16,13 @@
 
 package com.google.common.testing;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.logging.Handler;
 import java.util.logging.LogRecord;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import javax.annotation.CheckForNull;
 
 /**
  * Tests may use this to intercept messages that are logged by the code under test. Example:
@@ -52,7 +51,6 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @author Kevin Bourrillion
  * @since 10.0
  */
-@Beta
 @GwtCompatible
 public class TestLogHandler extends Handler {
   /** We will keep a private list of all logged records */
@@ -60,7 +58,7 @@ public class TestLogHandler extends Handler {
 
   /** Adds the most recently logged record to our list. */
   @Override
-  public synchronized void publish(@NullableDecl LogRecord record) {
+  public synchronized void publish(@CheckForNull LogRecord record) {
     list.add(record);
   }
 

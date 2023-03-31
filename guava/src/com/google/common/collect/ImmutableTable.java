@@ -19,10 +19,14 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.MoreObjects;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.DoNotCall;
 import com.google.errorprone.annotations.DoNotMock;
+import java.io.InvalidObjectException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -33,15 +37,15 @@ import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.stream.Collector;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A {@link Table} whose contents will never change, with many other important properties detailed
  * at {@link ImmutableCollection}.
  *
  * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/ImmutableCollectionsExplained"> immutable collections</a>.
+ * "https://github.com/google/guava/wiki/ImmutableCollectionsExplained">immutable collections</a>.
  *
  * @author Gregory Kick
  * @since 11.0
@@ -167,7 +171,7 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V>
    *         .put(1, 'A', "foo")
    *         .put(1, 'B', "bar")
    *         .put(2, 'A', "baz")
-   *         .build();
+   *         .buildOrThrow();
    * }</pre>
    *
    * <p>By default, the order in which cells are added to the builder determines the iteration
@@ -178,8 +182,8 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V>
    * <p>For empty or single-cell immutable tables, {@link #of()} and {@link #of(Object, Object,
    * Object)} are even more convenient.
    *
-   * <p>Builder instances can be reused - it is safe to call {@link #build} multiple times to build
-   * multiple tables in series. Each table is a superset of the tables created before it.
+   * <p>Builder instances can be reused - it is safe to call {@link #buildOrThrow} multiple times to
+   * build multiple tables in series. Each table is a superset of the tables created before it.
    *
    * @since 11.0
    */
@@ -261,9 +265,24 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V>
     /**
      * Returns a newly-created immutable table.
      *
+     * <p>Prefer the equivalent method {@link #buildOrThrow()} to make it explicit that the method
+     * will throw an exception if there are duplicate key pairs. The {@code build()} method will
+     * soon be deprecated.
+     *
      * @throws IllegalArgumentException if duplicate key pairs were added
      */
     public ImmutableTable<R, C, V> build() {
+      return buildOrThrow();
+    }
+
+    /**
+     * Returns a newly-created immutable table, or throws an exception if duplicate key pairs were
+     * added.
+     *
+     * @throws IllegalArgumentException if duplicate key pairs were added
+     * @since 31.0
+     */
+    public ImmutableTable<R, C, V> buildOrThrow() {
       int size = cells.size();
       switch (size) {
         case 0:
@@ -487,5 +506,11 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V>
 
   final Object writeReplace() {
     return createSerializedForm();
+  }
+
+  @GwtIncompatible // serialization
+  @J2ktIncompatible
+  private void readObject(ObjectInputStream stream) throws InvalidObjectException {
+    throw new InvalidObjectException("Use SerializedForm");
   }
 }

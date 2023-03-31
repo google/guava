@@ -15,8 +15,8 @@
 package com.google.common.util.concurrent;
 
 import com.google.common.annotations.GwtCompatible;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Hidden superclass of {@link FluentFuture} that provides us a place to declare special GWT

@@ -21,6 +21,7 @@ import static com.google.common.io.ByteStreams.skipUpTo;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Ascii;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
@@ -40,8 +41,8 @@ import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A readable source of bytes, such as a file. Unlike an {@link InputStream}, a {@code ByteSource}
@@ -74,6 +75,7 @@ import org.jspecify.nullness.Nullable;
  * @since 14.0
  * @author Colin Decker
  */
+@J2ktIncompatible
 @GwtIncompatible
 @NullMarked
 public abstract class ByteSource {
@@ -317,6 +319,7 @@ public abstract class ByteSource {
    */
   @Beta
   @CanIgnoreReturnValue // some processors won't return a useful result
+  @ParametricNullness
   public <T extends @Nullable Object> T read(ByteProcessor<T> processor) throws IOException {
     checkNotNull(processor);
 
@@ -572,7 +575,9 @@ public abstract class ByteSource {
     }
   }
 
-  private static class ByteArrayByteSource extends ByteSource {
+  private static class ByteArrayByteSource extends
+      ByteSource
+  {
 
     final byte[] bytes;
     final int offset;
@@ -595,7 +600,7 @@ public abstract class ByteSource {
     }
 
     @Override
-    public InputStream openBufferedStream() throws IOException {
+    public InputStream openBufferedStream() {
       return openStream();
     }
 
@@ -621,6 +626,7 @@ public abstract class ByteSource {
 
     @SuppressWarnings("CheckReturnValue") // it doesn't matter what processBytes returns here
     @Override
+    @ParametricNullness
     public <T extends @Nullable Object> T read(ByteProcessor<T> processor) throws IOException {
       processor.processBytes(bytes, offset, length);
       return processor.getResult();

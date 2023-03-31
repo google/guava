@@ -18,34 +18,41 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import java.io.Serializable;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
-/** @see com.google.common.collect.Maps#immutableEntry(Object, Object) */
+/**
+ * An immutable {@code Map.Entry}, used both by {@link
+ * com.google.common.collect.Maps#immutableEntry(Object, Object)} and by other parts of {@code
+ * common.collect} as a superclass.
+ */
 @GwtCompatible(serializable = true)
 @NullMarked
 class ImmutableEntry<K extends @Nullable Object, V extends @Nullable Object>
     extends AbstractMapEntry<K, V> implements Serializable {
-  final K key;
-  final V value;
+  @ParametricNullness final K key;
+  @ParametricNullness final V value;
 
-  ImmutableEntry(K key, V value) {
+  ImmutableEntry(@ParametricNullness K key, @ParametricNullness V value) {
     this.key = key;
     this.value = value;
   }
 
   @Override
+  @ParametricNullness
   public final K getKey() {
     return key;
   }
 
   @Override
+  @ParametricNullness
   public final V getValue() {
     return value;
   }
 
   @Override
-  public final V setValue(V value) {
+  @ParametricNullness
+  public final V setValue(@ParametricNullness V value) {
     throw new UnsupportedOperationException();
   }
 

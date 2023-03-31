@@ -16,7 +16,7 @@ package com.google.common.util.concurrent;
 
 import com.google.common.annotations.GwtCompatible;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Unchecked variant of {@link java.util.concurrent.ExecutionException}. As with {@code

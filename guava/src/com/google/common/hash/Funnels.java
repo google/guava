@@ -16,12 +16,14 @@ package com.google.common.hash;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Preconditions;
+import java.io.InvalidObjectException;
+import java.io.ObjectInputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
 import java.nio.charset.Charset;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Funnels for common types. All implementations are serializable.
@@ -123,6 +125,10 @@ public final class Funnels {
       return new SerializedForm(charset);
     }
 
+    private void readObject(ObjectInputStream stream) throws InvalidObjectException {
+      throw new InvalidObjectException("Use SerializedForm");
+    }
+
     private static class SerializedForm implements Serializable {
       private final String charsetCanonicalName;
 
@@ -169,7 +175,7 @@ public final class Funnels {
    */
   public static <E extends @Nullable Object> Funnel<Iterable<? extends E>> sequentialFunnel(
       Funnel<E> elementFunnel) {
-    return new SequentialFunnel<E>(elementFunnel);
+    return new SequentialFunnel<>(elementFunnel);
   }
 
   private static class SequentialFunnel<E extends @Nullable Object>

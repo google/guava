@@ -24,7 +24,7 @@ import com.google.common.collect.ImmutableBiMap;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * An implementation of {@link NetworkConnections} for undirected networks.
@@ -55,6 +55,6 @@ final class UndirectedNetworkConnections<N, E> extends AbstractUndirectedNetwork
 
   @Override
   public Set<E> edgesConnecting(N node) {
-    return new EdgesConnecting<E>(((BiMap<E, N>) incidentEdgeMap).inverse(), node);
+    return new EdgesConnecting<>(((BiMap<E, N>) incidentEdgeMap).inverse(), node);
   }
 }

@@ -21,7 +21,9 @@
  * <p>See the Guava User Guide article on <a
  * href="https://github.com/google/guava/wiki/MathExplained">math utilities</a>.
  */
+@ParametersAreNonnullByDefault
 @CheckReturnValue
 package com.google.common.math;
 
 import com.google.errorprone.annotations.CheckReturnValue;
+import javax.annotation.ParametersAreNonnullByDefault;

@@ -18,9 +18,12 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkPositionIndex;
 import static com.google.common.base.Preconditions.checkPositionIndexes;
+import static java.lang.Math.max;
+import static java.lang.Math.min;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.math.IntMath;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.ByteArrayInputStream;
@@ -42,8 +45,8 @@ import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.Queue;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Provides utility methods for working with byte arrays and I/O streams.
@@ -52,6 +55,7 @@ import org.jspecify.nullness.Nullable;
  * @author Colin Decker
  * @since 1.0
  */
+@J2ktIncompatible
 @GwtIncompatible
 @NullMarked
 public final class ByteStreams {
@@ -171,13 +175,18 @@ public final class ByteStreams {
    */
   private static byte[] toByteArrayInternal(InputStream in, Queue<byte[]> bufs, int totalLen)
       throws IOException {
-    // Starting with an 8k buffer, double the size of each successive buffer. Buffers are retained
-    // in a deque so that there's no copying between buffers while reading and so all of the bytes
-    // in each new allocated buffer are available for reading from the stream.
-    for (int bufSize = BUFFER_SIZE;
+    // Roughly size to match what has been read already. Some file systems, such as procfs, return 0
+    // as their length. These files are very small, so it's wasteful to allocate an 8KB buffer.
+    int initialBufferSize = min(BUFFER_SIZE, max(128, Integer.highestOneBit(totalLen) * 2));
+    // Starting with an 8k buffer, double the size of each successive buffer. Smaller buffers
+    // quadruple in size until they reach 8k, to minimize the number of small reads for longer
+    // streams. Buffers are retained in a deque so that there's no copying between buffers while
+    // reading and so all of the bytes in each new allocated buffer are available for reading from
+    // the stream.
+    for (int bufSize = initialBufferSize;
         totalLen < MAX_ARRAY_LEN;
-        bufSize = IntMath.saturatedMultiply(bufSize, 2)) {
-      byte[] buf = new byte[Math.min(bufSize, MAX_ARRAY_LEN - totalLen)];
+        bufSize = IntMath.saturatedMultiply(bufSize, bufSize < 4096 ? 4 : 2)) {
+      byte[] buf = new byte[min(bufSize, MAX_ARRAY_LEN - totalLen)];
       bufs.add(buf);
       int off = 0;
       while (off < buf.length) {
@@ -201,11 +210,18 @@ public final class ByteStreams {
   }
 
   private static byte[] combineBuffers(Queue<byte[]> bufs, int totalLen) {
-    byte[] result = new byte[totalLen];
-    int remaining = totalLen;
+    if (bufs.isEmpty()) {
+      return new byte[0];
+    }
+    byte[] result = bufs.remove();
+    if (result.length == totalLen) {
+      return result;
+    }
+    int remaining = totalLen - result.length;
+    result = Arrays.copyOf(result, totalLen);
     while (remaining > 0) {
       byte[] buf = bufs.remove();
-      int bytesToCopy = Math.min(remaining, buf.length);
+      int bytesToCopy = min(remaining, buf.length);
       int resultOffset = totalLen - remaining;
       System.arraycopy(buf, 0, result, resultOffset, bytesToCopy);
       remaining -= bytesToCopy;
@@ -257,7 +273,7 @@ public final class ByteStreams {
     }
 
     // the stream was longer, so read the rest normally
-    Queue<byte[]> bufs = new ArrayDeque<byte[]>(TO_BYTE_ARRAY_DEQUE_SIZE + 2);
+    Queue<byte[]> bufs = new ArrayDeque<>(TO_BYTE_ARRAY_DEQUE_SIZE + 2);
     bufs.add(bytes);
     bufs.add(new byte[] {(byte) b});
     return toByteArrayInternal(in, bufs, bytes.length + 1);
@@ -658,6 +674,7 @@ public final class ByteStreams {
         @Override
         public void write(byte[] b, int off, int len) {
           checkNotNull(b);
+          checkPositionIndexes(off, off + len, b.length);
         }
 
         @Override
@@ -820,7 +837,7 @@ public final class ByteStreams {
    * either the full amount has been skipped or until the end of the stream is reached, whichever
    * happens first. Returns the total number of bytes skipped.
    */
-  static long skipUpTo(InputStream in, final long n) throws IOException {
+  static long skipUpTo(InputStream in, long n) throws IOException {
     long totalSkipped = 0;
     // A buffer is allocated if skipSafely does not skip any bytes.
     byte[] buf = null;
@@ -874,6 +891,7 @@ public final class ByteStreams {
    */
   @Beta
   @CanIgnoreReturnValue // some processors won't return a useful result
+  @ParametricNullness
   public static <T extends @Nullable Object> T readBytes(
       InputStream input, ByteProcessor<T> processor) throws IOException {
     checkNotNull(input);

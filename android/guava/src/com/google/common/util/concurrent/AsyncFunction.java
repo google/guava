@@ -16,8 +16,8 @@ package com.google.common.util.concurrent;
 
 import com.google.common.annotations.GwtCompatible;
 import java.util.concurrent.Future;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Transforms a value, possibly asynchronously. For an example usage and more information, see
@@ -36,5 +36,5 @@ public interface AsyncFunction<I extends @Nullable Object, O extends @Nullable O
    *
    * <p>Throwing an exception from this method is equivalent to returning a failing {@code Future}.
    */
-  ListenableFuture<O> apply(I input) throws Exception;
+  ListenableFuture<O> apply(@ParametricNullness I input) throws Exception;
 }

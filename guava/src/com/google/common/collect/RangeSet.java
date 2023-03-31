@@ -20,7 +20,7 @@ import com.google.errorprone.annotations.DoNotMock;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * A set comprising zero or more {@linkplain Range#isEmpty nonempty}, {@linkplain
@@ -44,7 +44,7 @@ import org.jspecify.nullness.NullMarked;
  * <p>For a {@link Set} whose contents are specified by a {@link Range}, see {@link ContiguousSet}.
  *
  * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#rangeset"> RangeSets</a>.
+ * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#rangeset">RangeSets</a>.
  *
  * @author Kevin Bourrillion
  * @author Louis Wasserman

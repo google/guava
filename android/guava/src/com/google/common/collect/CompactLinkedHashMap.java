@@ -19,14 +19,15 @@ package com.google.common.collect;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * CompactLinkedHashMap is an implementation of a Map with insertion or LRU iteration order,
@@ -48,6 +49,7 @@ import org.jspecify.nullness.Nullable;
  *
  * @author Louis Wasserman
  */
+@J2ktIncompatible // no support for access-order mode in LinkedHashMap delegate
 @GwtIncompatible // not worth using in GWT for now
 @NullMarked
 class CompactLinkedHashMap<K extends @Nullable Object, V extends @Nullable Object>
@@ -175,7 +177,8 @@ class CompactLinkedHashMap<K extends @Nullable Object, V extends @Nullable Objec
   }
 
   @Override
-  void insertEntry(int entryIndex, K key, V value, int hash, int mask) {
+  void insertEntry(
+      int entryIndex, @ParametricNullness K key, @ParametricNullness V value, int hash, int mask) {
     super.insertEntry(entryIndex, key, value, hash, mask);
     setSucceeds(lastEntry, entryIndex);
     setSucceeds(entryIndex, ENDPOINT);

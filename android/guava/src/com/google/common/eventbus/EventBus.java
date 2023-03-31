@@ -24,7 +24,7 @@ import java.util.Locale;
 import java.util.concurrent.Executor;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Dispatches events to listeners, and provides ways for listeners to register themselves.

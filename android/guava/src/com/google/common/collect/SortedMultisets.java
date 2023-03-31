@@ -29,8 +29,8 @@ import java.util.NavigableSet;
 import java.util.NoSuchElementException;
 import java.util.SortedSet;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Provides static utility methods for creating and working with {@link SortedMultiset} instances.
@@ -68,26 +68,28 @@ final class SortedMultisets {
     }
 
     @Override
-    public SortedSet<E> subSet(E fromElement, E toElement) {
+    public SortedSet<E> subSet(@ParametricNullness E fromElement, @ParametricNullness E toElement) {
       return multiset().subMultiset(fromElement, CLOSED, toElement, OPEN).elementSet();
     }
 
     @Override
-    public SortedSet<E> headSet(E toElement) {
+    public SortedSet<E> headSet(@ParametricNullness E toElement) {
       return multiset().headMultiset(toElement, OPEN).elementSet();
     }
 
     @Override
-    public SortedSet<E> tailSet(E fromElement) {
+    public SortedSet<E> tailSet(@ParametricNullness E fromElement) {
       return multiset().tailMultiset(fromElement, CLOSED).elementSet();
     }
 
     @Override
+    @ParametricNullness
     public E first() {
       return getElementOrThrow(multiset().firstEntry());
     }
 
     @Override
+    @ParametricNullness
     public E last() {
       return getElementOrThrow(multiset().lastEntry());
     }
@@ -103,31 +105,31 @@ final class SortedMultisets {
 
     @Override
     @CheckForNull
-    public E lower(E e) {
+    public E lower(@ParametricNullness E e) {
       return getElementOrNull(multiset().headMultiset(e, OPEN).lastEntry());
     }
 
     @Override
     @CheckForNull
-    public E floor(E e) {
+    public E floor(@ParametricNullness E e) {
       return getElementOrNull(multiset().headMultiset(e, CLOSED).lastEntry());
     }
 
     @Override
     @CheckForNull
-    public E ceiling(E e) {
+    public E ceiling(@ParametricNullness E e) {
       return getElementOrNull(multiset().tailMultiset(e, CLOSED).firstEntry());
     }
 
     @Override
     @CheckForNull
-    public E higher(E e) {
+    public E higher(@ParametricNullness E e) {
       return getElementOrNull(multiset().tailMultiset(e, OPEN).firstEntry());
     }
 
     @Override
     public NavigableSet<E> descendingSet() {
-      return new NavigableElementSet<E>(multiset().descendingMultiset());
+      return new NavigableElementSet<>(multiset().descendingMultiset());
     }
 
     @Override
@@ -149,8 +151,11 @@ final class SortedMultisets {
 
     @Override
     public NavigableSet<E> subSet(
-        E fromElement, boolean fromInclusive, E toElement, boolean toInclusive) {
-      return new NavigableElementSet<E>(
+        @ParametricNullness E fromElement,
+        boolean fromInclusive,
+        @ParametricNullness E toElement,
+        boolean toInclusive) {
+      return new NavigableElementSet<>(
           multiset()
               .subMultiset(
                   fromElement, BoundType.forBoolean(fromInclusive),
@@ -158,14 +163,14 @@ final class SortedMultisets {
     }
 
     @Override
-    public NavigableSet<E> headSet(E toElement, boolean inclusive) {
-      return new NavigableElementSet<E>(
+    public NavigableSet<E> headSet(@ParametricNullness E toElement, boolean inclusive) {
+      return new NavigableElementSet<>(
           multiset().headMultiset(toElement, BoundType.forBoolean(inclusive)));
     }
 
     @Override
-    public NavigableSet<E> tailSet(E fromElement, boolean inclusive) {
-      return new NavigableElementSet<E>(
+    public NavigableSet<E> tailSet(@ParametricNullness E fromElement, boolean inclusive) {
+      return new NavigableElementSet<>(
           multiset().tailMultiset(fromElement, BoundType.forBoolean(inclusive)));
     }
   }

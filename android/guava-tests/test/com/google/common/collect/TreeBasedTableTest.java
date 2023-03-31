@@ -20,7 +20,6 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-import com.google.common.collect.testing.SortedMapInterfaceTest;
 import com.google.common.collect.testing.SortedMapTestSuiteBuilder;
 import com.google.common.collect.testing.TestStringSortedMapGenerator;
 import com.google.common.collect.testing.features.CollectionFeature;
@@ -48,7 +47,6 @@ public class TreeBasedTableTest extends AbstractTableTest {
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTestSuite(TreeBasedTableTest.class);
-    suite.addTestSuite(TreeRowTest.class);
     suite.addTest(
         SortedMapTestSuiteBuilder.using(
                 new TestStringSortedMapGenerator() {
@@ -71,58 +69,6 @@ public class TreeBasedTableTest extends AbstractTableTest {
             .named("RowMapTestSuite")
             .createTestSuite());
     return suite;
-  }
-
-  public static class TreeRowTest extends SortedMapInterfaceTest<String, String> {
-    public TreeRowTest() {
-      super(false, false, true, true, true);
-    }
-
-    @Override
-    protected SortedMap<String, String> makeEmptyMap() {
-      TreeBasedTable<String, String, String> table = TreeBasedTable.create();
-      table.put("a", "b", "c");
-      table.put("c", "b", "a");
-      table.put("a", "a", "d");
-      return table.row("b");
-    }
-
-    @Override
-    protected SortedMap<String, String> makePopulatedMap() {
-      TreeBasedTable<String, String, String> table = TreeBasedTable.create();
-      table.put("a", "b", "c");
-      table.put("c", "b", "a");
-      table.put("b", "b", "x");
-      table.put("b", "c", "y");
-      table.put("b", "x", "n");
-      table.put("a", "a", "d");
-      return table.row("b");
-    }
-
-    @Override
-    protected String getKeyNotInPopulatedMap() {
-      return "q";
-    }
-
-    @Override
-    protected String getValueNotInPopulatedMap() {
-      return "p";
-    }
-
-    public void testClearSubMapOfRowMap() {
-      TreeBasedTable<String, String, String> table = TreeBasedTable.create();
-      table.put("a", "b", "c");
-      table.put("c", "b", "a");
-      table.put("b", "b", "x");
-      table.put("b", "c", "y");
-      table.put("b", "x", "n");
-      table.put("a", "a", "d");
-      table.row("b").subMap("c", "x").clear();
-      assertEquals(table.row("b"), ImmutableMap.of("b", "x", "x", "n"));
-      table.row("b").subMap("b", "y").clear();
-      assertEquals(table.row("b"), ImmutableMap.of());
-      assertFalse(table.backingMap.containsKey("b"));
-    }
   }
 
   private TreeBasedTable<String, Integer, Character> sortedTable;

@@ -27,7 +27,7 @@ import java.util.Iterator;
 import java.util.Queue;
 import java.util.function.Consumer;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Views elements of a type {@code T} as nodes in a tree, and provides methods to traverse the trees

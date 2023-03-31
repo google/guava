@@ -47,30 +47,35 @@ public class TypeTokenSubtypeTest extends TestCase {
     }
   }
 
+  @SuppressWarnings("RestrictedApiChecker") // crashes under JDK8, which EP no longer supports
   public void testSubtypeOfInnerClass_nonStaticAnonymousClass() {
     TypeToken<?> supertype = new TypeToken<Mall<Outdoor>.Shop<Electronics>>() {};
     Class<?> subclass = new Mall<Outdoor>().new Shop<Electronics>() {}.getClass();
     assertTrue(TypeToken.of(subclass).isSubtypeOf(supertype));
   }
 
+  @SuppressWarnings("RestrictedApiChecker") // crashes under JDK8, which EP no longer supports
   public void testSubtypeOfInnerClass_nonStaticAnonymousClass_typeParameterOfOwnerTypeNotMatch() {
     TypeToken<?> supertype = new TypeToken<Mall<Outdoor>.Shop<Electronics>>() {};
     Class<?> subclass = new Mall<Indoor>().new Shop<Electronics>() {}.getClass();
     assertFalse(TypeToken.of(subclass).isSubtypeOf(supertype));
   }
 
+  @SuppressWarnings("RestrictedApiChecker") // crashes under JDK8, which EP no longer supports
   public void testSubtypeOfInnerClass_nonStaticAnonymousClass_typeParameterOfInnerTypeNotMatch() {
     TypeToken<?> supertype = new TypeToken<Mall<Outdoor>.Shop<Electronics>>() {};
     Class<?> subclass = new Mall<Outdoor>().new Shop<Grocery>() {}.getClass();
     assertFalse(TypeToken.of(subclass).isSubtypeOf(supertype));
   }
 
+  @SuppressWarnings("RestrictedApiChecker") // crashes under JDK8, which EP no longer supports
   public static void testSubtypeOfInnerClass_staticAnonymousClass() {
     TypeToken<?> supertype = new TypeToken<Mall<Outdoor>.Shop<Electronics>>() {};
     Class<?> subclass = new Mall<Outdoor>().new Shop<Electronics>() {}.getClass();
     assertTrue(TypeToken.of(subclass).isSubtypeOf(supertype));
   }
 
+  @SuppressWarnings("RestrictedApiChecker") // crashes under JDK8, which EP no longer supports
   public static void testSubtypeOfStaticAnonymousClass() {
     Class<?> superclass = new Mall<Outdoor>().new Shop<Electronics>() {}.getClass();
     assertTrue(TypeToken.of(superclass).isSubtypeOf(superclass));
@@ -79,6 +84,7 @@ public class TypeTokenSubtypeTest extends TestCase {
             .isSubtypeOf(superclass));
   }
 
+  @SuppressWarnings("RestrictedApiChecker") // crashes under JDK8, which EP no longer supports
   public void testSubtypeOfNonStaticAnonymousClass() {
     Class<?> superclass = new Mall<Outdoor>().new Shop<Electronics>() {}.getClass();
     assertTrue(TypeToken.of(superclass).isSubtypeOf(superclass));
@@ -231,7 +237,7 @@ public class TypeTokenSubtypeTest extends TestCase {
     @TestSubtype(suppressGetSupertype = true, suppressGetSubtype = true)
     public List<RecursiveTypeBoundBugExample<?>> ifYouUseTheTypeVariableOnTheClassAndItIsRecursive(
         List<RecursiveTypeBoundBugExample<? extends RecursiveTypeBoundBugExample<T>>> arg) {
-      return notSubtype(arg); // isSubtype() currently incorectly considers it a subtype.
+      return notSubtype(arg); // isSubtype() currently incorrectly considers it a subtype.
     }
   }
 

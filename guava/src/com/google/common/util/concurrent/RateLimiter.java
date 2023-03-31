@@ -32,7 +32,7 @@ import java.time.Duration;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * A rate limiter. Conceptually, a rate limiter distributes permits at a configurable rate. Each

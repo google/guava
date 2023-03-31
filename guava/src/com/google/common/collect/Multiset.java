@@ -31,8 +31,8 @@ import java.util.Spliterator;
 import java.util.function.Consumer;
 import java.util.function.ObjIntConsumer;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A collection that supports order-independent equality, like {@link Set}, but may have duplicate
@@ -81,8 +81,7 @@ import org.jspecify.nullness.Nullable;
  * {@code Multiset}, {@code AtomicLongMap} does not automatically remove zeros.
  *
  * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multiset"> {@code
- * Multiset}</a>.
+ * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multiset">{@code Multiset}</a>.
  *
  * @author Kevin Bourrillion
  * @since 2.0
@@ -137,7 +136,7 @@ public interface Multiset<E extends @Nullable Object> extends Collection<E> {
    *     return normally.
    */
   @CanIgnoreReturnValue
-  int add(E element, int occurrences);
+  int add(@ParametricNullness E element, int occurrences);
 
   /**
    * Adds a single occurrence of the specified element to this multiset.
@@ -160,7 +159,7 @@ public interface Multiset<E extends @Nullable Object> extends Collection<E> {
    */
   @CanIgnoreReturnValue
   @Override
-  boolean add(E element);
+  boolean add(@ParametricNullness E element);
 
   /**
    * Removes a number of occurrences of the specified element from this multiset. If the multiset
@@ -207,7 +206,7 @@ public interface Multiset<E extends @Nullable Object> extends Collection<E> {
    *     zero instead.
    */
   @CanIgnoreReturnValue
-  int setCount(E element, int count);
+  int setCount(@ParametricNullness E element, int count);
 
   /**
    * Conditionally sets the count of an element to a new value, as described in {@link
@@ -226,7 +225,7 @@ public interface Multiset<E extends @Nullable Object> extends Collection<E> {
    *     implementor may optionally return {@code true} instead.
    */
   @CanIgnoreReturnValue
-  boolean setCount(E element, int oldCount, int newCount);
+  boolean setCount(@ParametricNullness E element, int oldCount, int newCount);
 
   // Views
 
@@ -280,6 +279,7 @@ public interface Multiset<E extends @Nullable Object> extends Collection<E> {
      *
      * @return the element corresponding to this entry
      */
+    @ParametricNullness
     E getElement();
 
     /**

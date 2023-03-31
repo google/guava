@@ -15,10 +15,9 @@
 package com.google.common.base;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Legacy version of {@link java.util.function.Function java.util.function.Function}.
@@ -47,8 +46,8 @@ import org.jspecify.nullness.Nullable;
 public interface Function<F extends @Nullable Object, T extends @Nullable Object>
     extends java.util.function.Function<F, T> {
   @Override
-  @CanIgnoreReturnValue // TODO(kevinb): remove this
-  T apply(F input);
+  @ParametricNullness
+  T apply(@ParametricNullness F input);
 
   /**
    * <i>May</i> return {@code true} if {@code object} is a {@code Function} that behaves identically

@@ -19,8 +19,9 @@ package com.google.common.collect;
 import com.google.common.annotations.GwtCompatible;
 import java.io.Serializable;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /** An ordering that treats {@code null} as less than all other values. */
 @GwtCompatible(serializable = true)
@@ -51,18 +52,18 @@ final class NullsFirstOrdering<T extends @Nullable Object> extends Ordering<@Nul
   @SuppressWarnings("nullness") // should be safe, but not sure if we can avoid the warning
   public <S extends @Nullable T> Ordering<S> reverse() {
     // ordering.reverse() might be optimized, so let it do its thing
-    return ordering.reverse().nullsLast();
+    return ordering.<T>reverse().<@NonNull S>nullsLast();
   }
 
   @SuppressWarnings("unchecked") // still need the right way to explain this
   @Override
-  public <S extends T> Ordering<@Nullable S> nullsFirst() {
+  public <S extends @Nullable T> Ordering<@Nullable S> nullsFirst() {
     return (Ordering<@Nullable S>) this;
   }
 
   @Override
-  public <S extends T> Ordering<@Nullable S> nullsLast() {
-    return ordering.<S>nullsLast();
+  public <S extends @Nullable T> Ordering<@Nullable S> nullsLast() {
+    return ordering.<@NonNull S>nullsLast();
   }
 
   @Override

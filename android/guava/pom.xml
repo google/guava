@@ -32,12 +32,8 @@
       <artifactId>jsr305</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.checkerframework</groupId>
-      <artifactId>checker-qual</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.checkerframework</groupId>
-      <artifactId>checker-compat-qual</artifactId>
+      <groupId>org.jspecify</groupId>
+      <artifactId>jspecify</artifactId>
     </dependency>
     <dependency>
       <groupId>com.google.errorprone</groupId>
@@ -46,11 +42,6 @@
     <dependency>
       <groupId>com.google.j2objc</groupId>
       <artifactId>j2objc-annotations</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.jspecify</groupId>
-      <artifactId>jspecify</artifactId>
-      <version>0.2.0</version>
     </dependency>
     <!-- TODO(cpovirk): does this comment belong on the <dependency> in <profiles>? -->
     <!-- TODO(cpovirk): want this only for dependency plugin but seems not to work there? Maven runs without failure, but the resulting Javadoc is missing the hoped-for inherited text -->
@@ -71,7 +62,7 @@
         <extensions>true</extensions>
         <groupId>org.apache.felix</groupId>
         <artifactId>maven-bundle-plugin</artifactId>
-        <version>2.5.0</version>
+        <version>5.1.8</version>
         <executions>
           <execution>
             <id>bundle-manifest</id>
@@ -125,12 +116,6 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>animal-sniffer-maven-plugin</artifactId>
-        <configuration>
-          <ignores>
-            <!-- Allow requireNonNull: Android desugaring rewrites it (so it's safe for us to use), and it's useful for null checks. Note that this line allows *all* methods from java.util.Objects. That's the best that we can do with the configuration options that Animal Sniffer offers. -->
-            <ignore>java.util.Objects</ignore>
-          </ignores>
-        </configuration>
       </plugin>
       <plugin>
         <artifactId>maven-javadoc-plugin</artifactId>
@@ -144,7 +129,7 @@
           <!-- excludePackageNames requires specification of packages separately from "all subpackages".
                https://issues.apache.org/jira/browse/MJAVADOC-584 -->
           <excludePackageNames>
-            com.google.common.base.internal,com.google.common.base.internal.*,com.google.thirdparty.publicsuffix,com.google.thirdparty.publicsuffix.*,com.oracle.*,com.sun.*,java.*,javax.*,jdk,jdk.*,org.*,sun.*
+            com.azul.tooling.in,com.google.common.base.internal,com.google.common.base.internal.*,com.google.thirdparty.publicsuffix,com.google.thirdparty.publicsuffix.*,com.oracle.*,com.sun.*,java.*,javax.*,jdk,jdk.*,org.*,sun.*
           </excludePackageNames>
           <!-- Ignore some tags that are found in Java 11 sources but not recognized... under -source 8, I think it was? I can no longer reproduce the failure. -->
           <tags>

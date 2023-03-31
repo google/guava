@@ -37,8 +37,8 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Provides static methods for working with {@code Collection} instances.
@@ -137,7 +137,7 @@ public final class Collections2 {
     }
 
     @Override
-    public boolean add(E element) {
+    public boolean add(@ParametricNullness E element) {
       checkArgument(predicate.apply(element));
       return unfiltered.add(element);
     }
@@ -696,7 +696,8 @@ public final class Collections2 {
     return true;
   }
 
-  private static <E> ObjectCountHashMap<E> counts(Collection<E> collection) {
+  private static <E extends @Nullable Object> ObjectCountHashMap<E> counts(
+      Collection<E> collection) {
     ObjectCountHashMap<E> map = new ObjectCountHashMap<>();
     for (E e : collection) {
       map.put(e, map.get(e) + 1);

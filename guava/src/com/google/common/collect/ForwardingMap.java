@@ -25,8 +25,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A map which forwards all its method calls to another map. Subclasses should override one or more
@@ -109,7 +109,7 @@ public abstract class ForwardingMap<K extends @Nullable Object, V extends @Nulla
   @CanIgnoreReturnValue
   @Override
   @CheckForNull
-  public V put(K key, V value) {
+  public V put(@ParametricNullness K key, @ParametricNullness V value) {
     return delegate().put(key, value);
   }
 
@@ -259,7 +259,7 @@ public abstract class ForwardingMap<K extends @Nullable Object, V extends @Nulla
   @Beta
   protected abstract class StandardEntrySet extends Maps.EntrySet<K, V> {
     /** Constructor for use by subclasses. */
-    public StandardEntrySet() {}
+    protected StandardEntrySet() {}
 
     @Override
     Map<K, V> map() {

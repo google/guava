@@ -19,8 +19,8 @@ package com.google.common.collect;
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.DoNotCall;
 import java.util.Iterator;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An iterator that does not support {@link #remove}.

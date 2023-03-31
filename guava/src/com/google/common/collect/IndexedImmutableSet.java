@@ -22,12 +22,12 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import java.util.Spliterator;
 import java.util.function.Consumer;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 @GwtCompatible(emulated = true)
 @NullMarked
-abstract class IndexedImmutableSet<E> extends ImmutableSet<E> {
+abstract class IndexedImmutableSet<E> extends ImmutableSet.CachingAsList<E> {
   abstract E get(int index);
 
   @Override

@@ -20,7 +20,7 @@ import com.google.common.annotations.GwtCompatible;
 import java.util.Collections;
 import java.util.Set;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /** Implementation of an {@link Optional} containing a reference. */
 @GwtCompatible
@@ -72,7 +72,7 @@ final class Present<T> extends Optional<T> {
 
   @Override
   public <V> Optional<V> transform(Function<? super T, V> function) {
-    return new Present<V>(
+    return new Present<>(
         checkNotNull(
             function.apply(reference),
             "the Function passed to Optional.transform() must not return null."));

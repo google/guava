@@ -16,6 +16,9 @@
 
 package com.google.common.primitives;
 
+import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Converter;
@@ -49,13 +52,13 @@ public class IntsTest extends TestCase {
 
   public void testHashCode() {
     for (int value : VALUES) {
-      assertEquals(((Integer) value).hashCode(), Ints.hashCode(value));
+      assertThat(Ints.hashCode(value)).isEqualTo(((Integer) value).hashCode());
     }
   }
 
   public void testCheckedCast() {
     for (int value : VALUES) {
-      assertEquals(value, Ints.checkedCast((long) value));
+      assertThat(Ints.checkedCast((long) value)).isEqualTo(value);
     }
     assertCastFails(GREATEST + 1L);
     assertCastFails(LEAST - 1L);
@@ -65,12 +68,12 @@ public class IntsTest extends TestCase {
 
   public void testSaturatedCast() {
     for (int value : VALUES) {
-      assertEquals(value, Ints.saturatedCast((long) value));
+      assertThat(Ints.saturatedCast((long) value)).isEqualTo(value);
     }
-    assertEquals(GREATEST, Ints.saturatedCast(GREATEST + 1L));
-    assertEquals(LEAST, Ints.saturatedCast(LEAST - 1L));
-    assertEquals(GREATEST, Ints.saturatedCast(Long.MAX_VALUE));
-    assertEquals(LEAST, Ints.saturatedCast(Long.MIN_VALUE));
+    assertThat(Ints.saturatedCast(GREATEST + 1L)).isEqualTo(GREATEST);
+    assertThat(Ints.saturatedCast(LEAST - 1L)).isEqualTo(LEAST);
+    assertThat(Ints.saturatedCast(Long.MAX_VALUE)).isEqualTo(GREATEST);
+    assertThat(Ints.saturatedCast(Long.MIN_VALUE)).isEqualTo(LEAST);
   }
 
   private static void assertCastFails(long value) {
@@ -78,9 +81,9 @@ public class IntsTest extends TestCase {
       Ints.checkedCast(value);
       fail("Cast to int should have failed: " + value);
     } catch (IllegalArgumentException ex) {
-      assertTrue(
-          value + " not found in exception text: " + ex.getMessage(),
-          ex.getMessage().contains(String.valueOf(value)));
+      assertWithMessage(value + " not found in exception text: " + ex.getMessage())
+          .that(ex.getMessage().contains(String.valueOf(value)))
+          .isTrue();
     }
   }
 
@@ -88,71 +91,76 @@ public class IntsTest extends TestCase {
     for (int x : VALUES) {
       for (int y : VALUES) {
         // note: spec requires only that the sign is the same
-        assertEquals(x + ", " + y, Integer.valueOf(x).compareTo(y), Ints.compare(x, y));
+        assertWithMessage(x + ", " + y)
+            .that(Ints.compare(x, y))
+            .isEqualTo(Integer.valueOf(x).compareTo(y));
       }
     }
   }
 
   public void testContains() {
-    assertFalse(Ints.contains(EMPTY, (int) 1));
-    assertFalse(Ints.contains(ARRAY1, (int) 2));
-    assertFalse(Ints.contains(ARRAY234, (int) 1));
-    assertTrue(Ints.contains(new int[] {(int) -1}, (int) -1));
-    assertTrue(Ints.contains(ARRAY234, (int) 2));
-    assertTrue(Ints.contains(ARRAY234, (int) 3));
-    assertTrue(Ints.contains(ARRAY234, (int) 4));
+    assertThat(Ints.contains(EMPTY, (int) 1)).isFalse();
+    assertThat(Ints.contains(ARRAY1, (int) 2)).isFalse();
+    assertThat(Ints.contains(ARRAY234, (int) 1)).isFalse();
+    assertThat(Ints.contains(new int[] {(int) -1}, (int) -1)).isTrue();
+    assertThat(Ints.contains(ARRAY234, (int) 2)).isTrue();
+    assertThat(Ints.contains(ARRAY234, (int) 3)).isTrue();
+    assertThat(Ints.contains(ARRAY234, (int) 4)).isTrue();
   }
 
   public void testIndexOf() {
-    assertEquals(-1, Ints.indexOf(EMPTY, (int) 1));
-    assertEquals(-1, Ints.indexOf(ARRAY1, (int) 2));
-    assertEquals(-1, Ints.indexOf(ARRAY234, (int) 1));
-    assertEquals(0, Ints.indexOf(new int[] {(int) -1}, (int) -1));
-    assertEquals(0, Ints.indexOf(ARRAY234, (int) 2));
-    assertEquals(1, Ints.indexOf(ARRAY234, (int) 3));
-    assertEquals(2, Ints.indexOf(ARRAY234, (int) 4));
-    assertEquals(1, Ints.indexOf(new int[] {(int) 2, (int) 3, (int) 2, (int) 3}, (int) 3));
+    assertThat(Ints.indexOf(EMPTY, (int) 1)).isEqualTo(-1);
+    assertThat(Ints.indexOf(ARRAY1, (int) 2)).isEqualTo(-1);
+    assertThat(Ints.indexOf(ARRAY234, (int) 1)).isEqualTo(-1);
+    assertThat(Ints.indexOf(new int[] {(int) -1}, (int) -1)).isEqualTo(0);
+    assertThat(Ints.indexOf(ARRAY234, (int) 2)).isEqualTo(0);
+    assertThat(Ints.indexOf(ARRAY234, (int) 3)).isEqualTo(1);
+    assertThat(Ints.indexOf(ARRAY234, (int) 4)).isEqualTo(2);
+    assertThat(Ints.indexOf(new int[] {(int) 2, (int) 3, (int) 2, (int) 3}, (int) 3)).isEqualTo(1);
   }
 
   public void testIndexOf_arrayTarget() {
-    assertEquals(0, Ints.indexOf(EMPTY, EMPTY));
-    assertEquals(0, Ints.indexOf(ARRAY234, EMPTY));
-    assertEquals(-1, Ints.indexOf(EMPTY, ARRAY234));
-    assertEquals(-1, Ints.indexOf(ARRAY234, ARRAY1));
-    assertEquals(-1, Ints.indexOf(ARRAY1, ARRAY234));
-    assertEquals(0, Ints.indexOf(ARRAY1, ARRAY1));
-    assertEquals(0, Ints.indexOf(ARRAY234, ARRAY234));
-    assertEquals(0, Ints.indexOf(ARRAY234, new int[] {(int) 2, (int) 3}));
-    assertEquals(1, Ints.indexOf(ARRAY234, new int[] {(int) 3, (int) 4}));
-    assertEquals(1, Ints.indexOf(ARRAY234, new int[] {(int) 3}));
-    assertEquals(2, Ints.indexOf(ARRAY234, new int[] {(int) 4}));
-    assertEquals(
-        1,
-        Ints.indexOf(new int[] {(int) 2, (int) 3, (int) 3, (int) 3, (int) 3}, new int[] {(int) 3}));
-    assertEquals(
-        2,
-        Ints.indexOf(
-            new int[] {(int) 2, (int) 3, (int) 2, (int) 3, (int) 4, (int) 2, (int) 3},
-            new int[] {(int) 2, (int) 3, (int) 4}));
-    assertEquals(
-        1,
-        Ints.indexOf(
-            new int[] {(int) 2, (int) 2, (int) 3, (int) 4, (int) 2, (int) 3, (int) 4},
-            new int[] {(int) 2, (int) 3, (int) 4}));
-    assertEquals(
-        -1,
-        Ints.indexOf(new int[] {(int) 4, (int) 3, (int) 2}, new int[] {(int) 2, (int) 3, (int) 4}));
+    assertThat(Ints.indexOf(EMPTY, EMPTY)).isEqualTo(0);
+    assertThat(Ints.indexOf(ARRAY234, EMPTY)).isEqualTo(0);
+    assertThat(Ints.indexOf(EMPTY, ARRAY234)).isEqualTo(-1);
+    assertThat(Ints.indexOf(ARRAY234, ARRAY1)).isEqualTo(-1);
+    assertThat(Ints.indexOf(ARRAY1, ARRAY234)).isEqualTo(-1);
+    assertThat(Ints.indexOf(ARRAY1, ARRAY1)).isEqualTo(0);
+    assertThat(Ints.indexOf(ARRAY234, ARRAY234)).isEqualTo(0);
+    assertThat(Ints.indexOf(ARRAY234, new int[] {(int) 2, (int) 3})).isEqualTo(0);
+    assertThat(Ints.indexOf(ARRAY234, new int[] {(int) 3, (int) 4})).isEqualTo(1);
+    assertThat(Ints.indexOf(ARRAY234, new int[] {(int) 3})).isEqualTo(1);
+    assertThat(Ints.indexOf(ARRAY234, new int[] {(int) 4})).isEqualTo(2);
+    assertThat(
+            Ints.indexOf(
+                new int[] {(int) 2, (int) 3, (int) 3, (int) 3, (int) 3}, new int[] {(int) 3}))
+        .isEqualTo(1);
+    assertThat(
+            Ints.indexOf(
+                new int[] {(int) 2, (int) 3, (int) 2, (int) 3, (int) 4, (int) 2, (int) 3},
+                new int[] {(int) 2, (int) 3, (int) 4}))
+        .isEqualTo(2);
+    assertThat(
+            Ints.indexOf(
+                new int[] {(int) 2, (int) 2, (int) 3, (int) 4, (int) 2, (int) 3, (int) 4},
+                new int[] {(int) 2, (int) 3, (int) 4}))
+        .isEqualTo(1);
+    assertThat(
+            Ints.indexOf(
+                new int[] {(int) 4, (int) 3, (int) 2}, new int[] {(int) 2, (int) 3, (int) 4}))
+        .isEqualTo(-1);
   }
 
   public void testLastIndexOf() {
-    assertEquals(-1, Ints.lastIndexOf(EMPTY, (int) 1));
-    assertEquals(-1, Ints.lastIndexOf(ARRAY1, (int) 2));
-    assertEquals(-1, Ints.lastIndexOf(ARRAY234, (int) 1));
-    assertEquals(0, Ints.lastIndexOf(new int[] {(int) -1}, (int) -1));
-    assertEquals(0, Ints.lastIndexOf(ARRAY234, (int) 2));
-    assertEquals(1, Ints.lastIndexOf(ARRAY234, (int) 3));
-    assertEquals(2, Ints.lastIndexOf(ARRAY234, (int) 4));
-    assertEquals(3, Ints.lastIndexOf(new int[] {(int) 2, (int) 3, (int) 2, (int) 3}, (int) 3));
+    assertThat(Ints.lastIndexOf(EMPTY, (int) 1)).isEqualTo(-1);
+    assertThat(Ints.lastIndexOf(ARRAY1, (int) 2)).isEqualTo(-1);
+    assertThat(Ints.lastIndexOf(ARRAY234, (int) 1)).isEqualTo(-1);
+    assertThat(Ints.lastIndexOf(new int[] {(int) -1}, (int) -1)).isEqualTo(0);
+    assertThat(Ints.lastIndexOf(ARRAY234, (int) 2)).isEqualTo(0);
+    assertThat(Ints.lastIndexOf(ARRAY234, (int) 3)).isEqualTo(1);
+    assertThat(Ints.lastIndexOf(ARRAY234, (int) 4)).isEqualTo(2);
+    assertThat(Ints.lastIndexOf(new int[] {(int) 2, (int) 3, (int) 2, (int) 3}, (int) 3))
+        .isEqualTo(3);
   }
 
   @GwtIncompatible
@@ -165,9 +173,10 @@ public class IntsTest extends TestCase {
   }
 
   public void testMax() {
-    assertEquals(LEAST, Ints.max(LEAST));
-    assertEquals(GREATEST, Ints.max(GREATEST));
-    assertEquals((int) 9, Ints.max((int) 8, (int) 6, (int) 7, (int) 5, (int) 3, (int) 0, (int) 9));
+    assertThat(Ints.max(LEAST)).isEqualTo(LEAST);
+    assertThat(Ints.max(GREATEST)).isEqualTo(GREATEST);
+    assertThat(Ints.max((int) 8, (int) 6, (int) 7, (int) 5, (int) 3, (int) 0, (int) 9))
+        .isEqualTo((int) 9);
   }
 
   @GwtIncompatible
@@ -180,17 +189,18 @@ public class IntsTest extends TestCase {
   }
 
   public void testMin() {
-    assertEquals(LEAST, Ints.min(LEAST));
-    assertEquals(GREATEST, Ints.min(GREATEST));
-    assertEquals((int) 0, Ints.min((int) 8, (int) 6, (int) 7, (int) 5, (int) 3, (int) 0, (int) 9));
+    assertThat(Ints.min(LEAST)).isEqualTo(LEAST);
+    assertThat(Ints.min(GREATEST)).isEqualTo(GREATEST);
+    assertThat(Ints.min((int) 8, (int) 6, (int) 7, (int) 5, (int) 3, (int) 0, (int) 9))
+        .isEqualTo((int) 0);
   }
 
   public void testConstrainToRange() {
-    assertEquals((int) 1, Ints.constrainToRange((int) 1, (int) 0, (int) 5));
-    assertEquals((int) 1, Ints.constrainToRange((int) 1, (int) 1, (int) 5));
-    assertEquals((int) 3, Ints.constrainToRange((int) 1, (int) 3, (int) 5));
-    assertEquals((int) -1, Ints.constrainToRange((int) 0, (int) -5, (int) -1));
-    assertEquals((int) 2, Ints.constrainToRange((int) 5, (int) 2, (int) 2));
+    assertThat(Ints.constrainToRange((int) 1, (int) 0, (int) 5)).isEqualTo((int) 1);
+    assertThat(Ints.constrainToRange((int) 1, (int) 1, (int) 5)).isEqualTo((int) 1);
+    assertThat(Ints.constrainToRange((int) 1, (int) 3, (int) 5)).isEqualTo((int) 3);
+    assertThat(Ints.constrainToRange((int) 0, (int) -5, (int) -1)).isEqualTo((int) -1);
+    assertThat(Ints.constrainToRange((int) 5, (int) 2, (int) 2)).isEqualTo((int) 2);
     try {
       Ints.constrainToRange((int) 1, (int) 3, (int) 2);
       fail();
@@ -199,32 +209,28 @@ public class IntsTest extends TestCase {
   }
 
   public void testConcat() {
-    assertTrue(Arrays.equals(EMPTY, Ints.concat()));
-    assertTrue(Arrays.equals(EMPTY, Ints.concat(EMPTY)));
-    assertTrue(Arrays.equals(EMPTY, Ints.concat(EMPTY, EMPTY, EMPTY)));
-    assertTrue(Arrays.equals(ARRAY1, Ints.concat(ARRAY1)));
-    assertNotSame(ARRAY1, Ints.concat(ARRAY1));
-    assertTrue(Arrays.equals(ARRAY1, Ints.concat(EMPTY, ARRAY1, EMPTY)));
-    assertTrue(
-        Arrays.equals(new int[] {(int) 1, (int) 1, (int) 1}, Ints.concat(ARRAY1, ARRAY1, ARRAY1)));
-    assertTrue(
-        Arrays.equals(
-            new int[] {(int) 1, (int) 2, (int) 3, (int) 4}, Ints.concat(ARRAY1, ARRAY234)));
+    assertThat(Ints.concat()).isEqualTo(EMPTY);
+    assertThat(Ints.concat(EMPTY)).isEqualTo(EMPTY);
+    assertThat(Ints.concat(EMPTY, EMPTY, EMPTY)).isEqualTo(EMPTY);
+    assertThat(Ints.concat(ARRAY1)).isEqualTo(ARRAY1);
+    assertThat(Ints.concat(ARRAY1)).isNotSameInstanceAs(ARRAY1);
+    assertThat(Ints.concat(EMPTY, ARRAY1, EMPTY)).isEqualTo(ARRAY1);
+    assertThat(Ints.concat(ARRAY1, ARRAY1, ARRAY1))
+        .isEqualTo(new int[] {(int) 1, (int) 1, (int) 1});
+    assertThat(Ints.concat(ARRAY1, ARRAY234))
+        .isEqualTo(new int[] {(int) 1, (int) 2, (int) 3, (int) 4});
   }
 
   public void testToByteArray() {
-    assertTrue(Arrays.equals(new byte[] {0x12, 0x13, 0x14, 0x15}, Ints.toByteArray(0x12131415)));
-    assertTrue(
-        Arrays.equals(
-            new byte[] {(byte) 0xFF, (byte) 0xEE, (byte) 0xDD, (byte) 0xCC},
-            Ints.toByteArray(0xFFEEDDCC)));
+    assertThat(Ints.toByteArray(0x12131415)).isEqualTo(new byte[] {0x12, 0x13, 0x14, 0x15});
+    assertThat(Ints.toByteArray(0xFFEEDDCC))
+        .isEqualTo(new byte[] {(byte) 0xFF, (byte) 0xEE, (byte) 0xDD, (byte) 0xCC});
   }
 
   public void testFromByteArray() {
-    assertEquals(0x12131415, Ints.fromByteArray(new byte[] {0x12, 0x13, 0x14, 0x15, 0x33}));
-    assertEquals(
-        0xFFEEDDCC,
-        Ints.fromByteArray(new byte[] {(byte) 0xFF, (byte) 0xEE, (byte) 0xDD, (byte) 0xCC}));
+    assertThat(Ints.fromByteArray(new byte[] {0x12, 0x13, 0x14, 0x15, 0x33})).isEqualTo(0x12131415);
+    assertThat(Ints.fromByteArray(new byte[] {(byte) 0xFF, (byte) 0xEE, (byte) 0xDD, (byte) 0xCC}))
+        .isEqualTo(0xFFEEDDCC);
   }
 
   public void testFromByteArrayFails() {
@@ -236,8 +242,10 @@ public class IntsTest extends TestCase {
   }
 
   public void testFromBytes() {
-    assertEquals(0x12131415, Ints.fromBytes((byte) 0x12, (byte) 0x13, (byte) 0x14, (byte) 0x15));
-    assertEquals(0xFFEEDDCC, Ints.fromBytes((byte) 0xFF, (byte) 0xEE, (byte) 0xDD, (byte) 0xCC));
+    assertThat(Ints.fromBytes((byte) 0x12, (byte) 0x13, (byte) 0x14, (byte) 0x15))
+        .isEqualTo(0x12131415);
+    assertThat(Ints.fromBytes((byte) 0xFF, (byte) 0xEE, (byte) 0xDD, (byte) 0xCC))
+        .isEqualTo(0xFFEEDDCC);
   }
 
   public void testByteArrayRoundTrips() {
@@ -247,19 +255,18 @@ public class IntsTest extends TestCase {
     // total overkill, but, it takes 0.1 sec so why not...
     for (int i = 0; i < 10000; i++) {
       int num = r.nextInt();
-      assertEquals(num, Ints.fromByteArray(Ints.toByteArray(num)));
+      assertThat(Ints.fromByteArray(Ints.toByteArray(num))).isEqualTo(num);
 
       r.nextBytes(b);
-      assertTrue(Arrays.equals(b, Ints.toByteArray(Ints.fromByteArray(b))));
+      assertThat(Ints.toByteArray(Ints.fromByteArray(b))).isEqualTo(b);
     }
   }
 
   public void testEnsureCapacity() {
-    assertSame(EMPTY, Ints.ensureCapacity(EMPTY, 0, 1));
-    assertSame(ARRAY1, Ints.ensureCapacity(ARRAY1, 0, 1));
-    assertSame(ARRAY1, Ints.ensureCapacity(ARRAY1, 1, 1));
-    assertTrue(
-        Arrays.equals(new int[] {(int) 1, (int) 0, (int) 0}, Ints.ensureCapacity(ARRAY1, 2, 1)));
+    assertThat(Ints.ensureCapacity(EMPTY, 0, 1)).isSameInstanceAs(EMPTY);
+    assertThat(Ints.ensureCapacity(ARRAY1, 0, 1)).isSameInstanceAs(ARRAY1);
+    assertThat(Ints.ensureCapacity(ARRAY1, 1, 1)).isSameInstanceAs(ARRAY1);
+    assertThat(Ints.ensureCapacity(ARRAY1, 2, 1)).isEqualTo(new int[] {(int) 1, (int) 0, (int) 0});
   }
 
   public void testEnsureCapacity_fail() {
@@ -277,10 +284,10 @@ public class IntsTest extends TestCase {
   }
 
   public void testJoin() {
-    assertEquals("", Ints.join(",", EMPTY));
-    assertEquals("1", Ints.join(",", ARRAY1));
-    assertEquals("1,2", Ints.join(",", (int) 1, (int) 2));
-    assertEquals("123", Ints.join("", (int) 1, (int) 2, (int) 3));
+    assertThat(Ints.join(",", EMPTY)).isEmpty();
+    assertThat(Ints.join(",", ARRAY1)).isEqualTo("1");
+    assertThat(Ints.join(",", (int) 1, (int) 2)).isEqualTo("1,2");
+    assertThat(Ints.join("", (int) 1, (int) 2, (int) 3)).isEqualTo("123");
   }
 
   public void testLexicographicalComparator() {
@@ -303,7 +310,7 @@ public class IntsTest extends TestCase {
   @GwtIncompatible // SerializableTester
   public void testLexicographicalComparatorSerializable() {
     Comparator<int[]> comparator = Ints.lexicographicalComparator();
-    assertSame(comparator, SerializableTester.reserialize(comparator));
+    assertThat(SerializableTester.reserialize(comparator)).isSameInstanceAs(comparator);
   }
 
   public void testReverse() {
@@ -317,13 +324,13 @@ public class IntsTest extends TestCase {
   private static void testReverse(int[] input, int[] expectedOutput) {
     input = Arrays.copyOf(input, input.length);
     Ints.reverse(input);
-    assertTrue(Arrays.equals(expectedOutput, input));
+    assertThat(input).isEqualTo(expectedOutput);
   }
 
   private static void testReverse(int[] input, int fromIndex, int toIndex, int[] expectedOutput) {
     input = Arrays.copyOf(input, input.length);
     Ints.reverse(input, fromIndex, toIndex);
-    assertTrue(Arrays.equals(expectedOutput, input));
+    assertThat(input).isEqualTo(expectedOutput);
   }
 
   public void testReverseIndexed() {
@@ -333,6 +340,103 @@ public class IntsTest extends TestCase {
     testReverse(new int[] {3, 1, 1}, 0, 2, new int[] {1, 3, 1});
     testReverse(new int[] {3, 1, 1}, 0, 1, new int[] {3, 1, 1});
     testReverse(new int[] {-1, 1, -2, 2}, 1, 3, new int[] {-1, -2, 1, 2});
+  }
+
+  private static void testRotate(int[] input, int distance, int[] expectedOutput) {
+    input = Arrays.copyOf(input, input.length);
+    Ints.rotate(input, distance);
+    assertThat(input).isEqualTo(expectedOutput);
+  }
+
+  private static void testRotate(
+      int[] input, int distance, int fromIndex, int toIndex, int[] expectedOutput) {
+    input = Arrays.copyOf(input, input.length);
+    Ints.rotate(input, distance, fromIndex, toIndex);
+    assertThat(input).isEqualTo(expectedOutput);
+  }
+
+  public void testRotate() {
+    testRotate(new int[] {}, -1, new int[] {});
+    testRotate(new int[] {}, 0, new int[] {});
+    testRotate(new int[] {}, 1, new int[] {});
+
+    testRotate(new int[] {1}, -2, new int[] {1});
+    testRotate(new int[] {1}, -1, new int[] {1});
+    testRotate(new int[] {1}, 0, new int[] {1});
+    testRotate(new int[] {1}, 1, new int[] {1});
+    testRotate(new int[] {1}, 2, new int[] {1});
+
+    testRotate(new int[] {1, 2}, -3, new int[] {2, 1});
+    testRotate(new int[] {1, 2}, -1, new int[] {2, 1});
+    testRotate(new int[] {1, 2}, -2, new int[] {1, 2});
+    testRotate(new int[] {1, 2}, 0, new int[] {1, 2});
+    testRotate(new int[] {1, 2}, 1, new int[] {2, 1});
+    testRotate(new int[] {1, 2}, 2, new int[] {1, 2});
+    testRotate(new int[] {1, 2}, 3, new int[] {2, 1});
+
+    testRotate(new int[] {1, 2, 3}, -5, new int[] {3, 1, 2});
+    testRotate(new int[] {1, 2, 3}, -4, new int[] {2, 3, 1});
+    testRotate(new int[] {1, 2, 3}, -3, new int[] {1, 2, 3});
+    testRotate(new int[] {1, 2, 3}, -2, new int[] {3, 1, 2});
+    testRotate(new int[] {1, 2, 3}, -1, new int[] {2, 3, 1});
+    testRotate(new int[] {1, 2, 3}, 0, new int[] {1, 2, 3});
+    testRotate(new int[] {1, 2, 3}, 1, new int[] {3, 1, 2});
+    testRotate(new int[] {1, 2, 3}, 2, new int[] {2, 3, 1});
+    testRotate(new int[] {1, 2, 3}, 3, new int[] {1, 2, 3});
+    testRotate(new int[] {1, 2, 3}, 4, new int[] {3, 1, 2});
+    testRotate(new int[] {1, 2, 3}, 5, new int[] {2, 3, 1});
+
+    testRotate(new int[] {1, 2, 3, 4}, -9, new int[] {2, 3, 4, 1});
+    testRotate(new int[] {1, 2, 3, 4}, -5, new int[] {2, 3, 4, 1});
+    testRotate(new int[] {1, 2, 3, 4}, -1, new int[] {2, 3, 4, 1});
+    testRotate(new int[] {1, 2, 3, 4}, 0, new int[] {1, 2, 3, 4});
+    testRotate(new int[] {1, 2, 3, 4}, 1, new int[] {4, 1, 2, 3});
+    testRotate(new int[] {1, 2, 3, 4}, 5, new int[] {4, 1, 2, 3});
+    testRotate(new int[] {1, 2, 3, 4}, 9, new int[] {4, 1, 2, 3});
+
+    testRotate(new int[] {1, 2, 3, 4, 5}, -6, new int[] {2, 3, 4, 5, 1});
+    testRotate(new int[] {1, 2, 3, 4, 5}, -4, new int[] {5, 1, 2, 3, 4});
+    testRotate(new int[] {1, 2, 3, 4, 5}, -3, new int[] {4, 5, 1, 2, 3});
+    testRotate(new int[] {1, 2, 3, 4, 5}, -1, new int[] {2, 3, 4, 5, 1});
+    testRotate(new int[] {1, 2, 3, 4, 5}, 0, new int[] {1, 2, 3, 4, 5});
+    testRotate(new int[] {1, 2, 3, 4, 5}, 1, new int[] {5, 1, 2, 3, 4});
+    testRotate(new int[] {1, 2, 3, 4, 5}, 3, new int[] {3, 4, 5, 1, 2});
+    testRotate(new int[] {1, 2, 3, 4, 5}, 4, new int[] {2, 3, 4, 5, 1});
+    testRotate(new int[] {1, 2, 3, 4, 5}, 6, new int[] {5, 1, 2, 3, 4});
+  }
+
+  public void testRotateIndexed() {
+    testRotate(new int[] {}, 0, 0, 0, new int[] {});
+
+    testRotate(new int[] {1}, 0, 0, 1, new int[] {1});
+    testRotate(new int[] {1}, 1, 0, 1, new int[] {1});
+    testRotate(new int[] {1}, 1, 1, 1, new int[] {1});
+
+    // Rotate the central 5 elements, leaving the ends as-is
+    testRotate(new int[] {0, 1, 2, 3, 4, 5, 6}, -6, 1, 6, new int[] {0, 2, 3, 4, 5, 1, 6});
+    testRotate(new int[] {0, 1, 2, 3, 4, 5, 6}, -1, 1, 6, new int[] {0, 2, 3, 4, 5, 1, 6});
+    testRotate(new int[] {0, 1, 2, 3, 4, 5, 6}, 0, 1, 6, new int[] {0, 1, 2, 3, 4, 5, 6});
+    testRotate(new int[] {0, 1, 2, 3, 4, 5, 6}, 5, 1, 6, new int[] {0, 1, 2, 3, 4, 5, 6});
+    testRotate(new int[] {0, 1, 2, 3, 4, 5, 6}, 14, 1, 6, new int[] {0, 2, 3, 4, 5, 1, 6});
+
+    // Rotate the first three elements
+    testRotate(new int[] {0, 1, 2, 3, 4, 5, 6}, -2, 0, 3, new int[] {2, 0, 1, 3, 4, 5, 6});
+    testRotate(new int[] {0, 1, 2, 3, 4, 5, 6}, -1, 0, 3, new int[] {1, 2, 0, 3, 4, 5, 6});
+    testRotate(new int[] {0, 1, 2, 3, 4, 5, 6}, 0, 0, 3, new int[] {0, 1, 2, 3, 4, 5, 6});
+    testRotate(new int[] {0, 1, 2, 3, 4, 5, 6}, 1, 0, 3, new int[] {2, 0, 1, 3, 4, 5, 6});
+    testRotate(new int[] {0, 1, 2, 3, 4, 5, 6}, 2, 0, 3, new int[] {1, 2, 0, 3, 4, 5, 6});
+
+    // Rotate the last four elements
+    testRotate(new int[] {0, 1, 2, 3, 4, 5, 6}, -6, 3, 7, new int[] {0, 1, 2, 5, 6, 3, 4});
+    testRotate(new int[] {0, 1, 2, 3, 4, 5, 6}, -5, 3, 7, new int[] {0, 1, 2, 4, 5, 6, 3});
+    testRotate(new int[] {0, 1, 2, 3, 4, 5, 6}, -4, 3, 7, new int[] {0, 1, 2, 3, 4, 5, 6});
+    testRotate(new int[] {0, 1, 2, 3, 4, 5, 6}, -3, 3, 7, new int[] {0, 1, 2, 6, 3, 4, 5});
+    testRotate(new int[] {0, 1, 2, 3, 4, 5, 6}, -2, 3, 7, new int[] {0, 1, 2, 5, 6, 3, 4});
+    testRotate(new int[] {0, 1, 2, 3, 4, 5, 6}, -1, 3, 7, new int[] {0, 1, 2, 4, 5, 6, 3});
+    testRotate(new int[] {0, 1, 2, 3, 4, 5, 6}, 0, 3, 7, new int[] {0, 1, 2, 3, 4, 5, 6});
+    testRotate(new int[] {0, 1, 2, 3, 4, 5, 6}, 1, 3, 7, new int[] {0, 1, 2, 6, 3, 4, 5});
+    testRotate(new int[] {0, 1, 2, 3, 4, 5, 6}, 2, 3, 7, new int[] {0, 1, 2, 5, 6, 3, 4});
+    testRotate(new int[] {0, 1, 2, 3, 4, 5, 6}, 3, 3, 7, new int[] {0, 1, 2, 4, 5, 6, 3});
   }
 
   public void testSortDescending() {
@@ -346,14 +450,14 @@ public class IntsTest extends TestCase {
   private static void testSortDescending(int[] input, int[] expectedOutput) {
     input = Arrays.copyOf(input, input.length);
     Ints.sortDescending(input);
-    assertTrue(Arrays.equals(expectedOutput, input));
+    assertThat(input).isEqualTo(expectedOutput);
   }
 
   private static void testSortDescending(
       int[] input, int fromIndex, int toIndex, int[] expectedOutput) {
     input = Arrays.copyOf(input, input.length);
     Ints.sortDescending(input, fromIndex, toIndex);
-    assertTrue(Arrays.equals(expectedOutput, input));
+    assertThat(input).isEqualTo(expectedOutput);
   }
 
   public void testSortDescendingIndexed() {
@@ -373,17 +477,17 @@ public class IntsTest extends TestCase {
   public void testToArray() {
     // need explicit type parameter to avoid javac warning!?
     List<Integer> none = Arrays.<Integer>asList();
-    assertTrue(Arrays.equals(EMPTY, Ints.toArray(none)));
+    assertThat(Ints.toArray(none)).isEqualTo(EMPTY);
 
     List<Integer> one = Arrays.asList((int) 1);
-    assertTrue(Arrays.equals(ARRAY1, Ints.toArray(one)));
+    assertThat(Ints.toArray(one)).isEqualTo(ARRAY1);
 
     int[] array = {(int) 0, (int) 1, (int) 0xdeadbeef};
 
     List<Integer> three = Arrays.asList((int) 0, (int) 1, (int) 0xdeadbeef);
-    assertTrue(Arrays.equals(array, Ints.toArray(three)));
+    assertThat(Ints.toArray(three)).isEqualTo(array);
 
-    assertTrue(Arrays.equals(array, Ints.toArray(Ints.asList(array))));
+    assertThat(Ints.toArray(Ints.asList(array))).isEqualTo(array);
   }
 
   public void testToArray_threadSafe() {
@@ -393,9 +497,9 @@ public class IntsTest extends TestCase {
         Collection<Integer> misleadingSize = Helpers.misleadingSizeCollection(delta);
         misleadingSize.addAll(list);
         int[] arr = Ints.toArray(misleadingSize);
-        assertEquals(i, arr.length);
+        assertThat(arr).hasLength(i);
         for (int j = 0; j < i; j++) {
-          assertEquals(VALUES[j], arr[j]);
+          assertThat(arr[j]).isEqualTo(VALUES[j]);
         }
       }
     }
@@ -420,21 +524,21 @@ public class IntsTest extends TestCase {
     List<Long> longs = Arrays.asList((long) 0, (long) 1, (long) 2);
     List<Double> doubles = Arrays.asList((double) 0, (double) 1, (double) 2);
 
-    assertTrue(Arrays.equals(array, Ints.toArray(bytes)));
-    assertTrue(Arrays.equals(array, Ints.toArray(shorts)));
-    assertTrue(Arrays.equals(array, Ints.toArray(ints)));
-    assertTrue(Arrays.equals(array, Ints.toArray(floats)));
-    assertTrue(Arrays.equals(array, Ints.toArray(longs)));
-    assertTrue(Arrays.equals(array, Ints.toArray(doubles)));
+    assertThat(Ints.toArray(bytes)).isEqualTo(array);
+    assertThat(Ints.toArray(shorts)).isEqualTo(array);
+    assertThat(Ints.toArray(ints)).isEqualTo(array);
+    assertThat(Ints.toArray(floats)).isEqualTo(array);
+    assertThat(Ints.toArray(longs)).isEqualTo(array);
+    assertThat(Ints.toArray(doubles)).isEqualTo(array);
   }
 
   public void testAsList_isAView() {
     int[] array = {(int) 0, (int) 1};
     List<Integer> list = Ints.asList(array);
     list.set(0, (int) 2);
-    assertTrue(Arrays.equals(new int[] {(int) 2, (int) 1}, array));
+    assertThat(array).isEqualTo(new int[] {(int) 2, (int) 1});
     array[1] = (int) 3;
-    assertEquals(Arrays.asList((int) 2, (int) 3), list);
+    assertThat(list).containsExactly((int) 2, (int) 3).inOrder();
   }
 
   public void testAsList_toArray_roundTrip() {
@@ -444,21 +548,21 @@ public class IntsTest extends TestCase {
 
     // Make sure it returned a copy
     list.set(0, (int) 4);
-    assertTrue(Arrays.equals(new int[] {(int) 0, (int) 1, (int) 2}, newArray));
+    assertThat(newArray).isEqualTo(new int[] {(int) 0, (int) 1, (int) 2});
     newArray[1] = (int) 5;
-    assertEquals((int) 1, (int) list.get(1));
+    assertThat((int) list.get(1)).isEqualTo((int) 1);
   }
 
   // This test stems from a real bug found by andrewk
   public void testAsList_subList_toArray_roundTrip() {
     int[] array = {(int) 0, (int) 1, (int) 2, (int) 3};
     List<Integer> list = Ints.asList(array);
-    assertTrue(Arrays.equals(new int[] {(int) 1, (int) 2}, Ints.toArray(list.subList(1, 3))));
-    assertTrue(Arrays.equals(new int[] {}, Ints.toArray(list.subList(2, 2))));
+    assertThat(Ints.toArray(list.subList(1, 3))).isEqualTo(new int[] {(int) 1, (int) 2});
+    assertThat(Ints.toArray(list.subList(2, 2))).isEqualTo(new int[] {});
   }
 
   public void testAsListEmpty() {
-    assertSame(Collections.emptyList(), Ints.asList(EMPTY));
+    assertThat(Ints.asList(EMPTY)).isSameInstanceAs(Collections.emptyList());
   }
 
   @GwtIncompatible // NullPointerTester
@@ -468,14 +572,14 @@ public class IntsTest extends TestCase {
 
   public void testStringConverter_convert() {
     Converter<String, Integer> converter = Ints.stringConverter();
-    assertEquals((Integer) 1, converter.convert("1"));
-    assertEquals((Integer) 0, converter.convert("0"));
-    assertEquals((Integer) (-1), converter.convert("-1"));
-    assertEquals((Integer) 255, converter.convert("0xff"));
-    assertEquals((Integer) 255, converter.convert("0xFF"));
-    assertEquals((Integer) (-255), converter.convert("-0xFF"));
-    assertEquals((Integer) 255, converter.convert("#0000FF"));
-    assertEquals((Integer) 438, converter.convert("0666"));
+    assertThat(converter.convert("1")).isEqualTo((Integer) 1);
+    assertThat(converter.convert("0")).isEqualTo((Integer) 0);
+    assertThat(converter.convert("-1")).isEqualTo((Integer) (-1));
+    assertThat(converter.convert("0xff")).isEqualTo((Integer) 255);
+    assertThat(converter.convert("0xFF")).isEqualTo((Integer) 255);
+    assertThat(converter.convert("-0xFF")).isEqualTo((Integer) (-255));
+    assertThat(converter.convert("#0000FF")).isEqualTo((Integer) 255);
+    assertThat(converter.convert("0666")).isEqualTo((Integer) 438);
   }
 
   public void testStringConverter_convertError() {
@@ -487,19 +591,19 @@ public class IntsTest extends TestCase {
   }
 
   public void testStringConverter_nullConversions() {
-    assertNull(Ints.stringConverter().convert(null));
-    assertNull(Ints.stringConverter().reverse().convert(null));
+    assertThat(Ints.stringConverter().convert(null)).isNull();
+    assertThat(Ints.stringConverter().reverse().convert(null)).isNull();
   }
 
   public void testStringConverter_reverse() {
     Converter<String, Integer> converter = Ints.stringConverter();
-    assertEquals("1", converter.reverse().convert(1));
-    assertEquals("0", converter.reverse().convert(0));
-    assertEquals("-1", converter.reverse().convert(-1));
-    assertEquals("255", converter.reverse().convert(0xff));
-    assertEquals("255", converter.reverse().convert(0xFF));
-    assertEquals("-255", converter.reverse().convert(-0xFF));
-    assertEquals("438", converter.reverse().convert(0666));
+    assertThat(converter.reverse().convert(1)).isEqualTo("1");
+    assertThat(converter.reverse().convert(0)).isEqualTo("0");
+    assertThat(converter.reverse().convert(-1)).isEqualTo("-1");
+    assertThat(converter.reverse().convert(0xff)).isEqualTo("255");
+    assertThat(converter.reverse().convert(0xFF)).isEqualTo("255");
+    assertThat(converter.reverse().convert(-0xFF)).isEqualTo("-255");
+    assertThat(converter.reverse().convert(0666)).isEqualTo("438");
   }
 
   @GwtIncompatible // NullPointerTester
@@ -517,17 +621,25 @@ public class IntsTest extends TestCase {
     tryParseAndAssertEquals(-8900, "-8900");
     tryParseAndAssertEquals(GREATEST, Integer.toString(GREATEST));
     tryParseAndAssertEquals(LEAST, Integer.toString(LEAST));
-    assertNull(Ints.tryParse(""));
-    assertNull(Ints.tryParse("-"));
-    assertNull(Ints.tryParse("+1"));
-    assertNull(Ints.tryParse("9999999999999999"));
-    assertNull("Max integer + 1", Ints.tryParse(Long.toString(((long) GREATEST) + 1)));
-    assertNull("Max integer * 10", Ints.tryParse(Long.toString(((long) GREATEST) * 10)));
-    assertNull("Min integer - 1", Ints.tryParse(Long.toString(((long) LEAST) - 1)));
-    assertNull("Min integer * 10", Ints.tryParse(Long.toString(((long) LEAST) * 10)));
-    assertNull("Max long", Ints.tryParse(Long.toString(Long.MAX_VALUE)));
-    assertNull("Min long", Ints.tryParse(Long.toString(Long.MIN_VALUE)));
-    assertNull(Ints.tryParse("\u0662\u06f3"));
+    assertThat(Ints.tryParse("")).isNull();
+    assertThat(Ints.tryParse("-")).isNull();
+    assertThat(Ints.tryParse("+1")).isNull();
+    assertThat(Ints.tryParse("9999999999999999")).isNull();
+    assertWithMessage("Max integer + 1")
+        .that(Ints.tryParse(Long.toString(((long) GREATEST) + 1)))
+        .isNull();
+    assertWithMessage("Max integer * 10")
+        .that(Ints.tryParse(Long.toString(((long) GREATEST) * 10)))
+        .isNull();
+    assertWithMessage("Min integer - 1")
+        .that(Ints.tryParse(Long.toString(((long) LEAST) - 1)))
+        .isNull();
+    assertWithMessage("Min integer * 10")
+        .that(Ints.tryParse(Long.toString(((long) LEAST) * 10)))
+        .isNull();
+    assertWithMessage("Max long").that(Ints.tryParse(Long.toString(Long.MAX_VALUE))).isNull();
+    assertWithMessage("Min long").that(Ints.tryParse(Long.toString(Long.MIN_VALUE))).isNull();
+    assertThat(Ints.tryParse("\u0662\u06f3")).isNull();
   }
 
   /**
@@ -535,7 +647,7 @@ public class IntsTest extends TestCase {
    * expected.
    */
   private static void tryParseAndAssertEquals(Integer expected, String value) {
-    assertEquals(expected, Ints.tryParse(value));
+    assertThat(Ints.tryParse(value)).isEqualTo(expected);
   }
 
   public void testTryParse_radix() {
@@ -545,21 +657,26 @@ public class IntsTest extends TestCase {
       radixEncodeParseAndAssertEquals(-8000, radix);
       radixEncodeParseAndAssertEquals(GREATEST, radix);
       radixEncodeParseAndAssertEquals(LEAST, radix);
-      assertNull("Radix: " + radix, Ints.tryParse("9999999999999999", radix));
-      assertNull(
-          "Radix: " + radix, Ints.tryParse(Long.toString((long) GREATEST + 1, radix), radix));
-      assertNull("Radix: " + radix, Ints.tryParse(Long.toString((long) LEAST - 1, radix), radix));
+      assertWithMessage("Radix: " + radix).that(Ints.tryParse("9999999999999999", radix)).isNull();
+      assertWithMessage("Radix: " + radix)
+          .that(Ints.tryParse(Long.toString((long) GREATEST + 1, radix), radix))
+          .isNull();
+      assertWithMessage("Radix: " + radix)
+          .that(Ints.tryParse(Long.toString((long) LEAST - 1, radix), radix))
+          .isNull();
     }
-    assertNull("Hex string and dec parm", Ints.tryParse("FFFF", 10));
-    assertEquals("Mixed hex case", 65535, (int) Ints.tryParse("ffFF", 16));
+    assertWithMessage("Hex string and dec parm").that(Ints.tryParse("FFFF", 10)).isNull();
+    assertWithMessage("Mixed hex case").that((int) Ints.tryParse("ffFF", 16)).isEqualTo(65535);
   }
 
   /**
-   * Encodes the an integer as a string with given radix, then uses {@link Ints#tryParse(String,
-   * int)} to parse the result. Asserts the result is the same as what we started with.
+   * Encodes an integer as a string with given radix, then uses {@link Ints#tryParse(String, int)}
+   * to parse the result. Asserts the result is the same as what we started with.
    */
   private static void radixEncodeParseAndAssertEquals(Integer value, int radix) {
-    assertEquals("Radix: " + radix, value, Ints.tryParse(Integer.toString(value, radix), radix));
+    assertWithMessage("Radix: " + radix)
+        .that(Ints.tryParse(Integer.toString(value, radix), radix))
+        .isEqualTo(value);
   }
 
   public void testTryParse_radixTooBig() {
@@ -579,7 +696,7 @@ public class IntsTest extends TestCase {
   }
 
   public void testTryParse_withNullGwt() {
-    assertNull(Ints.tryParse("null"));
+    assertThat(Ints.tryParse("null")).isNull();
     try {
       Ints.tryParse(null);
       fail("Expected NPE");

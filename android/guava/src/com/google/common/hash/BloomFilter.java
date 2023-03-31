@@ -23,6 +23,7 @@ import com.google.common.base.Objects;
 import com.google.common.base.Predicate;
 import com.google.common.hash.BloomFilterStrategies.LockFreeBitArray;
 import com.google.common.math.DoubleMath;
+import com.google.common.math.LongMath;
 import com.google.common.primitives.SignedBytes;
 import com.google.common.primitives.UnsignedBytes;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -30,12 +31,14 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InvalidObjectException;
+import java.io.ObjectInputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
 import java.math.RoundingMode;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A Bloom filter for instances of {@code T}. A Bloom filter offers an approximate containment test
@@ -80,14 +83,20 @@ public final class BloomFilter<T extends @Nullable Object> implements Predicate<
      * <p>Returns whether any bits changed as a result of this operation.
      */
     <T extends @Nullable Object> boolean put(
-        T object, Funnel<? super T> funnel, int numHashFunctions, LockFreeBitArray bits);
+        @ParametricNullness T object,
+        Funnel<? super T> funnel,
+        int numHashFunctions,
+        LockFreeBitArray bits);
 
     /**
      * Queries {@code numHashFunctions} bits of the given bit array, by hashing a user element;
      * returns {@code true} if and only if all selected bits are set.
      */
     <T extends @Nullable Object> boolean mightContain(
-        T object, Funnel<? super T> funnel, int numHashFunctions, LockFreeBitArray bits);
+        @ParametricNullness T object,
+        Funnel<? super T> funnel,
+        int numHashFunctions,
+        LockFreeBitArray bits);
 
     /**
      * Identifier used to encode this strategy, when marshalled as part of a BloomFilter. Only
@@ -137,7 +146,7 @@ public final class BloomFilter<T extends @Nullable Object> implements Predicate<
    * Returns {@code true} if the element <i>might</i> have been put in this Bloom filter, {@code
    * false} if this is <i>definitely</i> not the case.
    */
-  public boolean mightContain(T object) {
+  public boolean mightContain(@ParametricNullness T object) {
     return strategy.mightContain(object, funnel, numHashFunctions, bits);
   }
 
@@ -147,7 +156,7 @@ public final class BloomFilter<T extends @Nullable Object> implements Predicate<
    */
   @Deprecated
   @Override
-  public boolean apply(T input) {
+  public boolean apply(@ParametricNullness T input) {
     return mightContain(input);
   }
 
@@ -163,7 +172,7 @@ public final class BloomFilter<T extends @Nullable Object> implements Predicate<
    * @since 12.0 (present in 11.0 with {@code void} return type})
    */
   @CanIgnoreReturnValue
-  public boolean put(T object) {
+  public boolean put(@ParametricNullness T object) {
     return strategy.put(object, funnel, numHashFunctions, bits);
   }
 
@@ -465,6 +474,10 @@ public final class BloomFilter<T extends @Nullable Object> implements Predicate<
     return new SerialForm<T>(this);
   }
 
+  private void readObject(ObjectInputStream stream) throws InvalidObjectException {
+    throw new InvalidObjectException("Use SerializedForm");
+  }
+
   private static class SerialForm<T extends @Nullable Object> implements Serializable {
     final long[] data;
     final int numHashFunctions;
@@ -535,11 +548,13 @@ public final class BloomFilter<T extends @Nullable Object> implements Predicate<
       dataLength = din.readInt();
 
       Strategy strategy = BloomFilterStrategies.values()[strategyOrdinal];
-      long[] data = new long[dataLength];
-      for (int i = 0; i < data.length; i++) {
-        data[i] = din.readLong();
+
+      LockFreeBitArray dataArray = new LockFreeBitArray(LongMath.checkedMultiply(dataLength, 64L));
+      for (int i = 0; i < dataLength; i++) {
+        dataArray.putData(i, din.readLong());
       }
-      return new BloomFilter<T>(new LockFreeBitArray(data), numHashFunctions, funnel, strategy);
+
+      return new BloomFilter<T>(dataArray, numHashFunctions, funnel, strategy);
     } catch (RuntimeException e) {
       String message =
           "Unable to deserialize BloomFilter from InputStream."

@@ -30,8 +30,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Stream;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An accumulator that selects the "top" {@code k} elements added to it, relative to a provided
@@ -56,7 +56,8 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtCompatible
 @NullMarked
-final class TopKSelector<T extends @Nullable Object> {
+final class TopKSelector<
+    T extends @Nullable Object> {
 
   /**
    * Returns a {@code TopKSelector} that collects the lowest {@code k} elements added to it,
@@ -133,7 +134,7 @@ final class TopKSelector<T extends @Nullable Object> {
    * Adds {@code elem} as a candidate for the top {@code k} elements. This operation takes amortized
    * O(1) time.
    */
-  public void offer(T elem) {
+  public void offer(@ParametricNullness T elem) {
     if (k == 0) {
       return;
     } else if (bufferSize == 0) {
@@ -185,8 +186,10 @@ final class TopKSelector<T extends @Nullable Object> {
       }
       iterations++;
       if (iterations >= maxIterations) {
+        @SuppressWarnings("nullness") // safe because we pass sort() a range that contains real Ts
+        T[] castBuffer = (T[]) buffer;
         // We've already taken O(k log k), let's make sure we don't take longer than O(k log k).
-        Arrays.sort(buffer, left, right + 1, comparator);
+        Arrays.sort(castBuffer, left, right + 1, comparator);
         break;
       }
     }
@@ -271,13 +274,17 @@ final class TopKSelector<T extends @Nullable Object> {
    * this {@code TopKSelector}. This method returns in O(k log k) time.
    */
   public List<T> topK() {
-    Arrays.sort(buffer, 0, bufferSize, comparator);
+    @SuppressWarnings("nullness") // safe because we pass sort() a range that contains real Ts
+    T[] castBuffer = (T[]) buffer;
+    Arrays.sort(castBuffer, 0, bufferSize, comparator);
     if (bufferSize > k) {
       Arrays.fill(buffer, k, buffer.length, null);
       bufferSize = k;
       threshold = buffer[k - 1];
     }
+    // Up to bufferSize, all elements of buffer are real Ts (not null unless T includes null)
+    T[] topK = Arrays.copyOf(castBuffer, bufferSize);
     // we have to support null elements, so no ImmutableList for us
-    return Collections.unmodifiableList(Arrays.asList(Arrays.copyOf(buffer, bufferSize)));
+    return Collections.unmodifiableList(Arrays.asList(topK));
   }
 }

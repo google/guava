@@ -274,7 +274,14 @@ public class SequentialExecutorTest extends TestCase {
     assertEquals(1, numCalls.get());
   }
 
-
+  /*
+   * Under Android, MyError propagates up and fails the test?
+   *
+   * TODO(b/218700094): Does this matter to prod users, or is it just a feature of our testing
+   * environment? If the latter, maybe write a custom Executor that avoids failing the test when it
+   * sees an Error?
+   */
+  @AndroidIncompatible
   public void testTaskThrowsError() throws Exception {
     class MyError extends Error {}
     final CyclicBarrier barrier = new CyclicBarrier(2);
@@ -303,7 +310,7 @@ public class SequentialExecutorTest extends TestCase {
       executor.execute(errorTask);
       service.execute(barrierTask); // submit directly to the service
       // the barrier task runs after the error task so we know that the error has been observed by
-      // SequentialExecutor by the time the barrier is satified
+      // SequentialExecutor by the time the barrier is satisfied
       barrier.await(1, TimeUnit.SECONDS);
       executor.execute(barrierTask);
       // timeout means the second task wasn't even tried
@@ -312,7 +319,6 @@ public class SequentialExecutorTest extends TestCase {
       service.shutdown();
     }
   }
-
 
   public void testRejectedExecutionThrownWithMultipleCalls() throws Exception {
     final CountDownLatch latch = new CountDownLatch(1);

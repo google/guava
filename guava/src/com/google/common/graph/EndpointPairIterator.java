@@ -25,8 +25,8 @@ import com.google.common.collect.Sets;
 import java.util.Iterator;
 import java.util.Set;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A class to facilitate the set returned by {@link Graph#edges()}.

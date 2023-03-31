@@ -137,10 +137,11 @@ public class IntMathTest extends TestCase {
   @GwtIncompatible // BigIntegerMath // TODO(cpovirk): GWT-enable BigIntegerMath
   public void testConstantsHalfPowersOf10() {
     for (int i = 0; i < IntMath.halfPowersOf10.length; i++) {
-      assert IntMath.halfPowersOf10[i]
-          == Math.min(
+      assertEquals(
+          IntMath.halfPowersOf10[i],
+          Math.min(
               Integer.MAX_VALUE,
-              BigIntegerMath.sqrt(BigInteger.TEN.pow(2 * i + 1), FLOOR).longValue());
+              BigIntegerMath.sqrt(BigInteger.TEN.pow(2 * i + 1), FLOOR).longValue()));
     }
   }
 
@@ -211,7 +212,7 @@ public class IntMathTest extends TestCase {
     }
   }
 
-  // Relies on the correctness of BigIntegrerMath.log2 for all modes except UNNECESSARY.
+  // Relies on the correctness of BigIntegerMath.log2 for all modes except UNNECESSARY.
   public void testLog2MatchesBigInteger() {
     for (int x : POSITIVE_INTEGER_CANDIDATES) {
       for (RoundingMode mode : ALL_SAFE_ROUNDING_MODES) {

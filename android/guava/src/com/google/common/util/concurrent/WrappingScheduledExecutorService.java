@@ -15,13 +15,12 @@
 package com.google.common.util.concurrent;
 
 import com.google.common.annotations.GwtIncompatible;
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An abstract {@code ScheduledExecutorService} that allows subclasses to {@linkplain
@@ -31,7 +30,6 @@ import org.jspecify.nullness.Nullable;
  *
  * @author Luke Sandberg
  */
-@CanIgnoreReturnValue // TODO(cpovirk): Consider being more strict.
 @GwtIncompatible
 @NullMarked
 abstract class WrappingScheduledExecutorService extends WrappingExecutorService

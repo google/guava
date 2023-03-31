@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.RandomAccess;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Implementation of {@link Lists#cartesianProduct(List)}.
@@ -46,7 +46,7 @@ final class CartesianList<E> extends AbstractList<List<E>> implements RandomAcce
       }
       axesBuilder.add(copy);
     }
-    return new CartesianList<E>(axesBuilder.build());
+    return new CartesianList<>(axesBuilder.build());
   }
 
   CartesianList(ImmutableList<List<E>> axes) {
@@ -113,7 +113,7 @@ final class CartesianList<E> extends AbstractList<List<E>> implements RandomAcce
   }
 
   @Override
-  public ImmutableList<E> get(final int index) {
+  public ImmutableList<E> get(int index) {
     checkElementIndex(index, size());
     return new ImmutableList<E>() {
 

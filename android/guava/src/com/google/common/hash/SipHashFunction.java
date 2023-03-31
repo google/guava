@@ -25,7 +25,7 @@ import com.google.errorprone.annotations.Immutable;
 import java.io.Serializable;
 import java.nio.ByteBuffer;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * {@link HashFunction} implementation of SipHash-c-d.

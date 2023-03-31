@@ -17,7 +17,7 @@ package com.google.common.eventbus;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.base.MoreObjects;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Wraps an event that was posted, but which had no subscribers and thus could not be delivered.

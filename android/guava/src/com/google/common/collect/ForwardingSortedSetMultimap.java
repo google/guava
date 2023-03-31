@@ -20,8 +20,8 @@ import com.google.common.annotations.GwtCompatible;
 import java.util.Comparator;
 import java.util.SortedSet;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A sorted set multimap which forwards all its method calls to another sorted set multimap.
@@ -48,7 +48,7 @@ public abstract class ForwardingSortedSetMultimap<
   protected abstract SortedSetMultimap<K, V> delegate();
 
   @Override
-  public SortedSet<V> get(K key) {
+  public SortedSet<V> get(@ParametricNullness K key) {
     return delegate().get(key);
   }
 
@@ -58,7 +58,7 @@ public abstract class ForwardingSortedSetMultimap<
   }
 
   @Override
-  public SortedSet<V> replaceValues(K key, Iterable<? extends V> values) {
+  public SortedSet<V> replaceValues(@ParametricNullness K key, Iterable<? extends V> values) {
     return delegate().replaceValues(key, values);
   }
 

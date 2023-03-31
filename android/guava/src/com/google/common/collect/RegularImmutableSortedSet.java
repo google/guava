@@ -28,8 +28,8 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An immutable sorted set with one or more elements. TODO(jlevy): Consider separate class for a
@@ -156,7 +156,7 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
   }
 
   @Override
-  int copyIntoArray(Object[] dst, int offset) {
+  int copyIntoArray(@Nullable Object[] dst, int offset) {
     return elements.copyIntoArray(dst, offset);
   }
 

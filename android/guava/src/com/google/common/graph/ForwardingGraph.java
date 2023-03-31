@@ -17,7 +17,7 @@
 package com.google.common.graph;
 
 import java.util.Set;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * A class to allow {@link Graph} implementations to be backed by a {@link BaseGraph}. This is not

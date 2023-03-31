@@ -16,8 +16,8 @@ package com.google.common.util.concurrent;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A {@link ListenableFuture} whose result can be set by a {@link #set(Object)}, {@link
@@ -41,12 +41,12 @@ public final class SettableFuture<V extends @Nullable Object>
    * Creates a new {@code SettableFuture} that can be completed or cancelled by a later method call.
    */
   public static <V extends @Nullable Object> SettableFuture<V> create() {
-    return new SettableFuture<V>();
+    return new SettableFuture<>();
   }
 
   @CanIgnoreReturnValue
   @Override
-  public boolean set(V value) {
+  public boolean set(@ParametricNullness V value) {
     return super.set(value);
   }
 

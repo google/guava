@@ -24,7 +24,7 @@ import com.google.common.collect.UnmodifiableIterator;
 import java.util.AbstractSet;
 import java.util.Map;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * A class to represent the set of edges connecting an (implicit) origin node to a target node.

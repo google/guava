@@ -21,8 +21,8 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.NoSuchElementException;
 import java.util.Queue;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A queue which forwards all its method calls to another queue. Subclasses should override one or
@@ -59,7 +59,7 @@ public abstract class ForwardingQueue<E extends @Nullable Object> extends Forwar
 
   @CanIgnoreReturnValue // TODO(cpovirk): Consider removing this?
   @Override
-  public boolean offer(E o) {
+  public boolean offer(@ParametricNullness E o) {
     return delegate().offer(o);
   }
 
@@ -72,6 +72,7 @@ public abstract class ForwardingQueue<E extends @Nullable Object> extends Forwar
 
   @CanIgnoreReturnValue
   @Override
+  @ParametricNullness
   public E remove() {
     return delegate().remove();
   }
@@ -83,6 +84,7 @@ public abstract class ForwardingQueue<E extends @Nullable Object> extends Forwar
   }
 
   @Override
+  @ParametricNullness
   public E element() {
     return delegate().element();
   }
@@ -93,7 +95,7 @@ public abstract class ForwardingQueue<E extends @Nullable Object> extends Forwar
    *
    * @since 7.0
    */
-  protected boolean standardOffer(E e) {
+  protected boolean standardOffer(@ParametricNullness E e) {
     try {
       return add(e);
     } catch (IllegalStateException caught) {

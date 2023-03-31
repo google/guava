@@ -17,12 +17,12 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
-import java.lang.reflect.Array;
+import com.google.common.annotations.J2ktIncompatible;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Methods factored out so that they can be emulated differently in GWT.
@@ -90,13 +90,8 @@ final class Platform {
    * ObjectArrays, which is the main caller of this method.)
    */
   static <T extends @Nullable Object> T[] newArray(T[] reference, int length) {
-    Class<?> type = reference.getClass().getComponentType();
-
-    // the cast is safe because
-    // result.getClass() == reference.getClass().getComponentType()
-    @SuppressWarnings("unchecked")
-    T[] result = (T[]) Array.newInstance(type, length);
-    return result;
+    T[] empty = reference.length == 0 ? reference : Arrays.copyOf(reference, 0);
+    return Arrays.copyOf(empty, length);
   }
 
   /** Equivalent to Arrays.copyOfRange(source, from, to, arrayOfType.getClass()). */
@@ -118,6 +113,7 @@ final class Platform {
    * GWT). This is sometimes acceptable, when only server-side code could generate enough volume
    * that reclamation becomes important.
    */
+  @J2ktIncompatible
   static MapMaker tryWeakKeys(MapMaker mapMaker) {
     return mapMaker.weakKeys();
   }

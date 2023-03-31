@@ -62,7 +62,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * A manager for monitoring and controlling a set of {@linkplain Service services}. This class
@@ -263,8 +263,7 @@ public final class ServiceManager implements ServiceManagerBridge {
   @CanIgnoreReturnValue
   public ServiceManager startAsync() {
     for (Service service : services) {
-      State state = service.state();
-      checkState(state == NEW, "Service %s is %s, cannot start it.", service, state);
+      checkState(service.state() == NEW, "Not all services are NEW, cannot start %s", this);
     }
     for (Service service : services) {
       try {

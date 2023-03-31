@@ -20,7 +20,7 @@ import com.google.common.annotations.Beta;
 import java.io.FilterOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * An {@link OutputStream} that maintains a hash of the data written to it.

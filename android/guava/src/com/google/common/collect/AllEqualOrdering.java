@@ -20,8 +20,8 @@ import com.google.common.annotations.GwtCompatible;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An ordering that treats all references as equals, even nulls.
@@ -44,8 +44,7 @@ final class AllEqualOrdering extends Ordering<@Nullable Object> implements Seria
   }
 
   @Override
-  @SuppressWarnings("nullness") // unsafe: see supertype
-  public <E extends @Nullable Object> ImmutableList<E> immutableSortedCopy(Iterable<E> iterable) {
+  public <E> ImmutableList<E> immutableSortedCopy(Iterable<E> iterable) {
     return ImmutableList.copyOf(iterable);
   }
 

@@ -26,7 +26,7 @@ import com.google.errorprone.annotations.Immutable;
 import java.io.Serializable;
 import java.util.Map;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * A {@link ClassToInstanceMap} whose contents will never change, with many other important
@@ -63,7 +63,7 @@ public final class ImmutableClassToInstanceMap<B> extends ForwardingMap<Class<? 
    */
   public static <B, T extends B> ImmutableClassToInstanceMap<B> of(Class<T> type, T value) {
     ImmutableMap<Class<? extends B>, B> map = ImmutableMap.<Class<? extends B>, B>of(type, value);
-    return new ImmutableClassToInstanceMap<B>(map);
+    return new ImmutableClassToInstanceMap<>(map);
   }
 
   /**
@@ -71,7 +71,7 @@ public final class ImmutableClassToInstanceMap<B> extends ForwardingMap<Class<? 
    * Builder} constructor.
    */
   public static <B> Builder<B> builder() {
-    return new Builder<B>();
+    return new Builder<>();
   }
 
   /**
@@ -132,11 +132,11 @@ public final class ImmutableClassToInstanceMap<B> extends ForwardingMap<Class<? 
      * @throws IllegalArgumentException if duplicate keys were added
      */
     public ImmutableClassToInstanceMap<B> build() {
-      ImmutableMap<Class<? extends B>, B> map = mapBuilder.build();
+      ImmutableMap<Class<? extends B>, B> map = mapBuilder.buildOrThrow();
       if (map.isEmpty()) {
         return of();
       } else {
-        return new ImmutableClassToInstanceMap<B>(map);
+        return new ImmutableClassToInstanceMap<>(map);
       }
     }
   }
@@ -155,8 +155,10 @@ public final class ImmutableClassToInstanceMap<B> extends ForwardingMap<Class<? 
   public static <B, S extends B> ImmutableClassToInstanceMap<B> copyOf(
       Map<? extends Class<? extends S>, ? extends S> map) {
     if (map instanceof ImmutableClassToInstanceMap) {
+      @SuppressWarnings("rawtypes") // JDT-based J2KT Java frontend does not permit the direct cast
+      Map rawMap = map;
       @SuppressWarnings("unchecked") // covariant casts safe (unmodifiable)
-      ImmutableClassToInstanceMap<B> cast = (ImmutableClassToInstanceMap<B>) map;
+      ImmutableClassToInstanceMap<B> cast = (ImmutableClassToInstanceMap<B>) rawMap;
       return cast;
     }
     return new Builder<B>().putAll(map).build();

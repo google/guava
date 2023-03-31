@@ -29,8 +29,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A specification of a {@link CacheBuilder} configuration.
@@ -109,7 +109,7 @@ public final class CacheBuilderSpec {
           .put("expireAfterWrite", new WriteDurationParser())
           .put("refreshAfterWrite", new RefreshDurationParser())
           .put("refreshInterval", new RefreshDurationParser())
-          .build();
+          .buildOrThrow();
 
   @VisibleForTesting @CheckForNull Integer initialCapacity;
   @VisibleForTesting @CheckForNull Long maximumSize;
@@ -329,7 +329,7 @@ public final class CacheBuilderSpec {
     protected void parseInteger(CacheBuilderSpec spec, int value) {
       checkArgument(
           spec.initialCapacity == null,
-          "initial capacity was already set to ",
+          "initial capacity was already set to %s",
           spec.initialCapacity);
       spec.initialCapacity = value;
     }
@@ -339,9 +339,10 @@ public final class CacheBuilderSpec {
   static class MaximumSizeParser extends LongParser {
     @Override
     protected void parseLong(CacheBuilderSpec spec, long value) {
-      checkArgument(spec.maximumSize == null, "maximum size was already set to ", spec.maximumSize);
       checkArgument(
-          spec.maximumWeight == null, "maximum weight was already set to ", spec.maximumWeight);
+          spec.maximumSize == null, "maximum size was already set to %s", spec.maximumSize);
+      checkArgument(
+          spec.maximumWeight == null, "maximum weight was already set to %s", spec.maximumWeight);
       spec.maximumSize = value;
     }
   }
@@ -351,8 +352,9 @@ public final class CacheBuilderSpec {
     @Override
     protected void parseLong(CacheBuilderSpec spec, long value) {
       checkArgument(
-          spec.maximumWeight == null, "maximum weight was already set to ", spec.maximumWeight);
-      checkArgument(spec.maximumSize == null, "maximum size was already set to ", spec.maximumSize);
+          spec.maximumWeight == null, "maximum weight was already set to %s", spec.maximumWeight);
+      checkArgument(
+          spec.maximumSize == null, "maximum size was already set to %s", spec.maximumSize);
       spec.maximumWeight = value;
     }
   }
@@ -363,7 +365,7 @@ public final class CacheBuilderSpec {
     protected void parseInteger(CacheBuilderSpec spec, int value) {
       checkArgument(
           spec.concurrencyLevel == null,
-          "concurrency level was already set to ",
+          "concurrency level was already set to %s",
           spec.concurrencyLevel);
       spec.concurrencyLevel = value;
     }

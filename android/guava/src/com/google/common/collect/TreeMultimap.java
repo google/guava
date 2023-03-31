@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -31,8 +32,8 @@ import java.util.NavigableSet;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Implementation of {@code Multimap} whose keys and values are ordered by their natural ordering or
@@ -65,8 +66,7 @@ import org.jspecify.nullness.Nullable;
  * with a call to {@link Multimaps#synchronizedSortedSetMultimap}.
  *
  * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multimap"> {@code
- * Multimap}</a>.
+ * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multimap">{@code Multimap}</a>.
  *
  * @author Jared Levy
  * @author Louis Wasserman
@@ -137,13 +137,13 @@ public class TreeMultimap<K extends @Nullable Object, V extends @Nullable Object
    */
   @Override
   SortedSet<V> createCollection() {
-    return new TreeSet<V>(valueComparator);
+    return new TreeSet<>(valueComparator);
   }
 
   @Override
-  Collection<V> createCollection(K key) {
+  Collection<V> createCollection(@ParametricNullness K key) {
     if (key == null) {
-      keyComparator().compare(key, key);
+      int unused = keyComparator().compare(key, key);
     }
     return super.createCollection(key);
   }
@@ -166,7 +166,7 @@ public class TreeMultimap<K extends @Nullable Object, V extends @Nullable Object
   /** @since 14.0 (present with return type {@code SortedSet} since 2.0) */
   @Override
   @GwtIncompatible // NavigableSet
-  public NavigableSet<V> get(K key) {
+  public NavigableSet<V> get(@ParametricNullness K key) {
     return (NavigableSet<V>) super.get(key);
   }
 
@@ -203,6 +203,7 @@ public class TreeMultimap<K extends @Nullable Object, V extends @Nullable Object
    *     distinct key: the key, number of values for that key, and key values
    */
   @GwtIncompatible // java.io.ObjectOutputStream
+  @J2ktIncompatible
   private void writeObject(ObjectOutputStream stream) throws IOException {
     stream.defaultWriteObject();
     stream.writeObject(keyComparator());
@@ -211,6 +212,7 @@ public class TreeMultimap<K extends @Nullable Object, V extends @Nullable Object
   }
 
   @GwtIncompatible // java.io.ObjectInputStream
+  @J2ktIncompatible
   @SuppressWarnings("unchecked") // reading data stored by writeObject
   private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
     stream.defaultReadObject();
@@ -221,5 +223,6 @@ public class TreeMultimap<K extends @Nullable Object, V extends @Nullable Object
   }
 
   @GwtIncompatible // not needed in emulated source
+  @J2ktIncompatible
   private static final long serialVersionUID = 0;
 }

@@ -20,7 +20,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.util.Map;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * A {@link MapIteratorCache} that adds additional caching. In addition to the caching provided by

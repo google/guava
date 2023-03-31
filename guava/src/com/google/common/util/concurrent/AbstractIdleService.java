@@ -14,6 +14,8 @@
 
 package com.google.common.util.concurrent;
 
+import static com.google.common.util.concurrent.Platform.restoreInterruptIfIsInterruptedException;
+
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Supplier;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -22,12 +24,12 @@ import java.time.Duration;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Base class for services that do not need a thread while "running" but may need one during startup
  * and shutdown. Subclasses can implement {@link #startUp} and {@link #shutDown} methods, each which
- * run in a executor which by default uses a separate thread for each method.
+ * run in an executor which by default uses a separate thread for each method.
  *
  * @author Chris Nokleberg
  * @since 1.0
@@ -63,6 +65,7 @@ public abstract class AbstractIdleService implements Service {
                     startUp();
                     notifyStarted();
                   } catch (Throwable t) {
+                    restoreInterruptIfIsInterruptedException(t);
                     notifyFailed(t);
                   }
                 }
@@ -80,6 +83,7 @@ public abstract class AbstractIdleService implements Service {
                     shutDown();
                     notifyStopped();
                   } catch (Throwable t) {
+                    restoreInterruptIfIsInterruptedException(t);
                     notifyFailed(t);
                   }
                 }

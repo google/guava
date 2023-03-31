@@ -168,7 +168,7 @@ public class EventBusTest extends TestCase {
     GhostCatcher catcher = new GhostCatcher();
     bus.register(catcher);
 
-    // A String -- an event for which noone has registered.
+    // A String -- an event for which no one has registered.
     bus.post(EVENT);
 
     List<DeadEvent> events = catcher.getEvents();
@@ -239,7 +239,6 @@ public class EventBusTest extends TestCase {
 
   // NOTE: This test will always pass if register() is thread-safe but may also
   // pass if it isn't, though this is unlikely.
-
   public void testRegisterThreadSafety() throws Exception {
     List<StringCatcher> catchers = Lists.newCopyOnWriteArrayList();
     List<Future<?>> futures = Lists.newArrayList();

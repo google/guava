@@ -25,8 +25,8 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.SortedMap;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Skeletal implementation of {@link NavigableMap}.
@@ -67,6 +67,7 @@ abstract class AbstractNavigableMap<K extends @Nullable Object, V extends @Nulla
   }
 
   @Override
+  @ParametricNullness
   public K firstKey() {
     Entry<K, V> entry = firstEntry();
     if (entry == null) {
@@ -77,6 +78,7 @@ abstract class AbstractNavigableMap<K extends @Nullable Object, V extends @Nulla
   }
 
   @Override
+  @ParametricNullness
   public K lastKey() {
     Entry<K, V> entry = lastEntry();
     if (entry == null) {
@@ -88,66 +90,66 @@ abstract class AbstractNavigableMap<K extends @Nullable Object, V extends @Nulla
 
   @Override
   @CheckForNull
-  public Entry<K, V> lowerEntry(K key) {
+  public Entry<K, V> lowerEntry(@ParametricNullness K key) {
     return headMap(key, false).lastEntry();
   }
 
   @Override
   @CheckForNull
-  public Entry<K, V> floorEntry(K key) {
+  public Entry<K, V> floorEntry(@ParametricNullness K key) {
     return headMap(key, true).lastEntry();
   }
 
   @Override
   @CheckForNull
-  public Entry<K, V> ceilingEntry(K key) {
+  public Entry<K, V> ceilingEntry(@ParametricNullness K key) {
     return tailMap(key, true).firstEntry();
   }
 
   @Override
   @CheckForNull
-  public Entry<K, V> higherEntry(K key) {
+  public Entry<K, V> higherEntry(@ParametricNullness K key) {
     return tailMap(key, false).firstEntry();
   }
 
   @Override
   @CheckForNull
-  public K lowerKey(K key) {
+  public K lowerKey(@ParametricNullness K key) {
     return Maps.keyOrNull(lowerEntry(key));
   }
 
   @Override
   @CheckForNull
-  public K floorKey(K key) {
+  public K floorKey(@ParametricNullness K key) {
     return Maps.keyOrNull(floorEntry(key));
   }
 
   @Override
   @CheckForNull
-  public K ceilingKey(K key) {
+  public K ceilingKey(@ParametricNullness K key) {
     return Maps.keyOrNull(ceilingEntry(key));
   }
 
   @Override
   @CheckForNull
-  public K higherKey(K key) {
+  public K higherKey(@ParametricNullness K key) {
     return Maps.keyOrNull(higherEntry(key));
   }
 
   abstract Iterator<Entry<K, V>> descendingEntryIterator();
 
   @Override
-  public SortedMap<K, V> subMap(K fromKey, K toKey) {
+  public SortedMap<K, V> subMap(@ParametricNullness K fromKey, @ParametricNullness K toKey) {
     return subMap(fromKey, true, toKey, false);
   }
 
   @Override
-  public SortedMap<K, V> headMap(K toKey) {
+  public SortedMap<K, V> headMap(@ParametricNullness K toKey) {
     return headMap(toKey, false);
   }
 
   @Override
-  public SortedMap<K, V> tailMap(K fromKey) {
+  public SortedMap<K, V> tailMap(@ParametricNullness K fromKey) {
     return tailMap(fromKey, true);
   }
 

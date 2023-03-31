@@ -32,7 +32,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.RandomAccess;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Static utility methods pertaining to {@code int} primitives, that are not already found in either
@@ -512,6 +512,82 @@ public final class Ints extends IntsMethodsForWeb {
   }
 
   /**
+   * Performs a right rotation of {@code array} of "distance" places, so that the first element is
+   * moved to index "distance", and the element at index {@code i} ends up at index {@code (distance
+   * + i) mod array.length}. This is equivalent to {@code Collections.rotate(Ints.asList(array),
+   * distance)}, but is considerably faster and avoids allocation and garbage collection.
+   *
+   * <p>The provided "distance" may be negative, which will rotate left.
+   *
+   * @since NEXT
+   */
+  public static void rotate(int[] array, int distance) {
+    rotate(array, distance, 0, array.length);
+  }
+
+  /**
+   * Performs a right rotation of {@code array} between {@code fromIndex} inclusive and {@code
+   * toIndex} exclusive. This is equivalent to {@code
+   * Collections.rotate(Ints.asList(array).subList(fromIndex, toIndex), distance)}, but is
+   * considerably faster and avoids allocations and garbage collection.
+   *
+   * <p>The provided "distance" may be negative, which will rotate left.
+   *
+   * @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > array.length}, or
+   *     {@code toIndex > fromIndex}
+   * @since NEXT
+   */
+  public static void rotate(int[] array, int distance, int fromIndex, int toIndex) {
+    // There are several well-known algorithms for rotating part of an array (or, equivalently,
+    // exchanging two blocks of memory). This classic text by Gries and Mills mentions several:
+    // https://ecommons.cornell.edu/bitstream/handle/1813/6292/81-452.pdf.
+    // (1) "Reversal", the one we have here.
+    // (2) "Dolphin". If we're rotating an array a of size n by a distance of d, then element a[0]
+    //     ends up at a[d], which in turn ends up at a[2d], and so on until we get back to a[0].
+    //     (All indices taken mod n.) If d and n are mutually prime, all elements will have been
+    //     moved at that point. Otherwise, we can rotate the cycle a[1], a[1 + d], a[1 + 2d], etc,
+    //     then a[2] etc, and so on until we have rotated all elements. There are gcd(d, n) cycles
+    //     in all.
+    // (3) "Successive". We can consider that we are exchanging a block of size d (a[0..d-1]) with a
+    //     block of size n-d (a[d..n-1]), where in general these blocks have different sizes. If we
+    //     imagine a line separating the first block from the second, we can proceed by exchanging
+    //     the smaller of these blocks with the far end of the other one. That leaves us with a
+    //     smaller version of the same problem.
+    //     Say we are rotating abcdefgh by 5. We start with abcde|fgh. The smaller block is [fgh]:
+    //     [abc]de|[fgh] -> [fgh]de|[abc]. Now [fgh] is in the right place, but we need to swap [de]
+    //     with [abc]: fgh[de]|a[bc] -> fgh[bc]|a[de]. Now we need to swap [a] with [bc]:
+    //     fgh[b]c|[a]de -> fgh[a]c|[b]de. Finally we need to swap [c] with [b]:
+    //     fgha[c]|[b]de -> fgha[b]|[c]de. Because these two blocks are the same size, we are done.
+    // The Dolphin algorithm is attractive because it does the fewest array reads and writes: each
+    // array slot is read and written exactly once. However, it can have very poor memory locality:
+    // benchmarking shows it can take 7 times longer than the other two in some cases. The other two
+    // do n swaps, minus a delta (0 or 2 for Reversal, gcd(d, n) for Successive), so that's about
+    // twice as many reads and writes. But benchmarking shows that they usually perform better than
+    // Dolphin. Reversal is about as good as Successive on average, and it is much simpler,
+    // especially since we already have a `reverse` method.
+    checkNotNull(array);
+    checkPositionIndexes(fromIndex, toIndex, array.length);
+    if (array.length <= 1) {
+      return;
+    }
+
+    int length = toIndex - fromIndex;
+    // Obtain m = (-distance mod length), a non-negative value less than "length". This is how many
+    // places left to rotate.
+    int m = -distance % length;
+    m = (m < 0) ? m + length : m;
+    // The current index of what will become the first element of the rotated section.
+    int newFirstIndex = m + fromIndex;
+    if (newFirstIndex == fromIndex) {
+      return;
+    }
+
+    reverse(array, fromIndex, newFirstIndex);
+    reverse(array, newFirstIndex, toIndex);
+    reverse(array, fromIndex, toIndex);
+  }
+
+  /**
    * Returns an array containing each value of {@code collection}, converted to a {@code int} value
    * in the manner of {@link Number#intValue}.
    *
@@ -547,6 +623,8 @@ public final class Ints extends IntsMethodsForWeb {
    * <p>The returned list maintains the values, but not the identities, of {@code Integer} objects
    * written to or read from it. For example, whether {@code list.get(0) == list.get(0)} is true for
    * the returned list is unspecified.
+   *
+   * <p>The returned list is serializable.
    *
    * <p><b>Note:</b> when possible, you should represent your data as an {@link ImmutableIntArray}
    * instead, which has an {@link ImmutableIntArray#asList asList} view.

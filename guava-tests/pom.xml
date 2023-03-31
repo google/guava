@@ -38,10 +38,6 @@
       <artifactId>junit</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.easymock</groupId>
-      <artifactId>easymock</artifactId>
-    </dependency>
-    <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-core</artifactId>
     </dependency>
@@ -83,13 +79,6 @@
       <plugin>
         <artifactId>maven-jar-plugin</artifactId>
         <executions>
-          <execution>
-            <id>default-jar</id>
-            <goals><goal>jar</goal></goals>
-            <configuration>
-              <skipIfEmpty>true</skipIfEmpty>
-            </configuration>
-          </execution>
           <execution>
             <id>create-test-jar</id>
             <goals><goal>test-jar</goal></goals>

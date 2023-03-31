@@ -16,7 +16,7 @@ package com.google.common.util.concurrent;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Static utility methods pertaining to the {@link Runnable} interface.

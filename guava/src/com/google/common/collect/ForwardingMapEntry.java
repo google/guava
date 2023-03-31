@@ -22,8 +22,8 @@ import com.google.common.base.Objects;
 import java.util.Map;
 import java.util.Map.Entry;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A map entry which forwards all its method calls to another map entry. Subclasses should override
@@ -61,17 +61,20 @@ public abstract class ForwardingMapEntry<K extends @Nullable Object, V extends @
   protected abstract Entry<K, V> delegate();
 
   @Override
+  @ParametricNullness
   public K getKey() {
     return delegate().getKey();
   }
 
   @Override
+  @ParametricNullness
   public V getValue() {
     return delegate().getValue();
   }
 
   @Override
-  public V setValue(V value) {
+  @ParametricNullness
+  public V setValue(@ParametricNullness V value) {
     return delegate().setValue(value);
   }
 

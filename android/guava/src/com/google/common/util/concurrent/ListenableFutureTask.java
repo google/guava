@@ -25,8 +25,8 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.FutureTask;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A {@link FutureTask} that also implements the {@link ListenableFuture} interface. Unlike {@code
@@ -60,7 +60,7 @@ public class ListenableFutureTask<V extends @Nullable Object> extends FutureTask
    * @since 10.0
    */
   public static <V extends @Nullable Object> ListenableFutureTask<V> create(Callable<V> callable) {
-    return new ListenableFutureTask<V>(callable);
+    return new ListenableFutureTask<>(callable);
   }
 
   /**
@@ -74,15 +74,15 @@ public class ListenableFutureTask<V extends @Nullable Object> extends FutureTask
    * @since 10.0
    */
   public static <V extends @Nullable Object> ListenableFutureTask<V> create(
-      Runnable runnable, V result) {
-    return new ListenableFutureTask<V>(runnable, result);
+      Runnable runnable, @ParametricNullness V result) {
+    return new ListenableFutureTask<>(runnable, result);
   }
 
   ListenableFutureTask(Callable<V> callable) {
     super(callable);
   }
 
-  ListenableFutureTask(Runnable runnable, V result) {
+  ListenableFutureTask(Runnable runnable, @ParametricNullness V result) {
     super(runnable, result);
   }
 
@@ -93,6 +93,7 @@ public class ListenableFutureTask<V extends @Nullable Object> extends FutureTask
 
   @CanIgnoreReturnValue
   @Override
+  @ParametricNullness
   public V get(long timeout, TimeUnit unit)
       throws TimeoutException, InterruptedException, ExecutionException {
 

@@ -25,8 +25,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * CompactLinkedHashSet is an implementation of a Set, which a predictable iteration order that
@@ -194,7 +194,7 @@ class CompactLinkedHashSet<E extends @Nullable Object> extends CompactHashSet<E>
   }
 
   @Override
-  void insertEntry(int entryIndex, E object, int hash, int mask) {
+  void insertEntry(int entryIndex, @ParametricNullness E object, int hash, int mask) {
     super.insertEntry(entryIndex, object, hash, mask);
     setSucceeds(lastEntry, entryIndex);
     setSucceeds(entryIndex, ENDPOINT);

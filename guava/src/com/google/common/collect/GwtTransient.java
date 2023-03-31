@@ -23,7 +23,7 @@ import com.google.common.annotations.GwtCompatible;
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Private replacement for {@link com.google.gwt.user.client.rpc.GwtTransient} to work around

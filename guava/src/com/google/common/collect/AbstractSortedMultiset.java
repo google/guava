@@ -22,8 +22,8 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.NavigableSet;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * This class provides a skeletal implementation of the {@link SortedMultiset} interface.
@@ -57,7 +57,7 @@ abstract class AbstractSortedMultiset<E extends @Nullable Object> extends Abstra
 
   @Override
   NavigableSet<E> createElementSet() {
-    return new SortedMultisets.NavigableElementSet<E>(this);
+    return new SortedMultisets.NavigableElementSet<>(this);
   }
 
   @Override
@@ -107,7 +107,10 @@ abstract class AbstractSortedMultiset<E extends @Nullable Object> extends Abstra
 
   @Override
   public SortedMultiset<E> subMultiset(
-      E fromElement, BoundType fromBoundType, E toElement, BoundType toBoundType) {
+      @ParametricNullness E fromElement,
+      BoundType fromBoundType,
+      @ParametricNullness E toElement,
+      BoundType toBoundType) {
     // These are checked elsewhere, but NullPointerTester wants them checked eagerly.
     checkNotNull(fromBoundType);
     checkNotNull(toBoundType);

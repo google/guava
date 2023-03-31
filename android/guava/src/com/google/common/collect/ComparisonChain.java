@@ -21,8 +21,8 @@ import com.google.common.primitives.Booleans;
 import com.google.common.primitives.Ints;
 import com.google.common.primitives.Longs;
 import java.util.Comparator;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A utility for performing a chained comparison statement. For example:
@@ -50,7 +50,7 @@ import org.jspecify.nullness.Nullable;
  * the presence of expensive {@code compareTo} and {@code compare} implementations.
  *
  * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/CommonObjectUtilitiesExplained#comparecompareto"> {@code
+ * "https://github.com/google/guava/wiki/CommonObjectUtilitiesExplained#comparecompareto">{@code
  * ComparisonChain}</a>.
  *
  * @author Mark Davis
@@ -77,7 +77,7 @@ public abstract class ComparisonChain {
 
         @Override
         public <T extends @Nullable Object> ComparisonChain compare(
-            T left, T right, Comparator<T> comparator) {
+            @ParametricNullness T left, @ParametricNullness T right, Comparator<T> comparator) {
           return classify(comparator.compare(left, right));
         }
 
@@ -139,7 +139,7 @@ public abstract class ComparisonChain {
 
     @Override
     public <T extends @Nullable Object> ComparisonChain compare(
-        T left, T right, Comparator<T> comparator) {
+        @ParametricNullness T left, @ParametricNullness T right, Comparator<T> comparator) {
       return this;
     }
 
@@ -202,7 +202,7 @@ public abstract class ComparisonChain {
    * already been determined.
    */
   public abstract <T extends @Nullable Object> ComparisonChain compare(
-      T left, T right, Comparator<T> comparator);
+      @ParametricNullness T left, @ParametricNullness T right, Comparator<T> comparator);
 
   /**
    * Compares two {@code int} values as specified by {@link Ints#compare}, <i>if</i> the result of

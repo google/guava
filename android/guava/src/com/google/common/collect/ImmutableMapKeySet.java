@@ -18,9 +18,10 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import java.io.Serializable;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * {@code keySet()} implementation for {@link ImmutableMap}.
@@ -69,6 +70,7 @@ final class ImmutableMapKeySet<K, V> extends IndexedImmutableSet<K> {
   }
 
   @GwtIncompatible // serialization
+  @J2ktIncompatible
   private static class KeySetSerializedForm<K> implements Serializable {
     final ImmutableMap<K, ?> map;
 

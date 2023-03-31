@@ -20,7 +20,7 @@ import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /** Precondition checks useful in collection implementations. */
 @GwtCompatible

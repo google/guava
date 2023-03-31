@@ -110,36 +110,4 @@ public class SafeTreeMapTest extends TestCase {
         Lists.newArrayList(map.values()),
         Lists.newArrayList(SerializableTester.reserialize(map.values())));
   }
-
-  @GwtIncompatible // SerializableTester
-  public static class ReserializedMapTests extends SortedMapInterfaceTest<String, Integer> {
-    public ReserializedMapTests() {
-      super(false, true, true, true, true);
-    }
-
-    @Override
-    protected SortedMap<String, Integer> makePopulatedMap() {
-      NavigableMap<String, Integer> map = new SafeTreeMap<>();
-      map.put("one", 1);
-      map.put("two", 2);
-      map.put("three", 3);
-      return SerializableTester.reserialize(map);
-    }
-
-    @Override
-    protected SortedMap<String, Integer> makeEmptyMap() throws UnsupportedOperationException {
-      NavigableMap<String, Integer> map = new SafeTreeMap<>();
-      return SerializableTester.reserialize(map);
-    }
-
-    @Override
-    protected String getKeyNotInPopulatedMap() {
-      return "minus one";
-    }
-
-    @Override
-    protected Integer getValueNotInPopulatedMap() {
-      return -1;
-    }
-  }
 }

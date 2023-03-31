@@ -43,7 +43,6 @@ import junit.framework.TestSuite;
  *
  * @author Justin T. Sampson
  */
-
 public class GeneratedMonitorTest extends TestCase {
 
   public static TestSuite suite() {

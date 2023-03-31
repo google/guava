@@ -24,7 +24,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.Comparator;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Static utility methods pertaining to {@code long} primitives that interpret values as

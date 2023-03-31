@@ -17,8 +17,9 @@ package com.google.common.base;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * This class provides default values for all Java types, as defined by the JLS.
@@ -26,6 +27,7 @@ import org.jspecify.nullness.NullMarked;
  * @author Ben Yu
  * @since 1.0
  */
+@J2ktIncompatible
 @GwtIncompatible
 @NullMarked
 public final class Defaults {

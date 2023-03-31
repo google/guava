@@ -24,8 +24,11 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.DoNotCall;
+import java.io.InvalidObjectException;
+import java.io.ObjectInputStream;
 import java.util.AbstractMap;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -41,8 +44,8 @@ import java.util.function.Function;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A {@link NavigableMap} whose contents will never change, with many other important properties
@@ -55,7 +58,7 @@ import org.jspecify.nullness.Nullable;
  * not correctly obey its specification.
  *
  * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/ImmutableCollectionsExplained"> immutable collections</a>.
+ * "https://github.com/google/guava/wiki/ImmutableCollectionsExplained">immutable collections</a>.
  *
  * @author Jared Levy
  * @author Louis Wasserman
@@ -90,9 +93,9 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
    * keys and values are the result of applying the provided mapping functions to the input
    * elements.
    *
-   * <p>If the mapped keys contain duplicates (according to the comparator), the the values are
-   * merged using the specified merging function. Entries will appear in the encounter order of the
-   * first occurrence of the key.
+   * <p>If the mapped keys contain duplicates (according to the comparator), the values are merged
+   * using the specified merging function. Entries will appear in the encounter order of the first
+   * occurrence of the key.
    *
    * @since 21.0
    */
@@ -158,7 +161,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
   @SuppressWarnings("unchecked")
   public static <K extends Comparable<? super K>, V> ImmutableSortedMap<K, V> of(
       K k1, V v1, K k2, V v2) {
-    return ofEntries(entryOf(k1, v1), entryOf(k2, v2));
+    return fromEntries(entryOf(k1, v1), entryOf(k2, v2));
   }
 
   /**
@@ -170,7 +173,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
   @SuppressWarnings("unchecked")
   public static <K extends Comparable<? super K>, V> ImmutableSortedMap<K, V> of(
       K k1, V v1, K k2, V v2, K k3, V v3) {
-    return ofEntries(entryOf(k1, v1), entryOf(k2, v2), entryOf(k3, v3));
+    return fromEntries(entryOf(k1, v1), entryOf(k2, v2), entryOf(k3, v3));
   }
 
   /**
@@ -182,7 +185,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
   @SuppressWarnings("unchecked")
   public static <K extends Comparable<? super K>, V> ImmutableSortedMap<K, V> of(
       K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4) {
-    return ofEntries(entryOf(k1, v1), entryOf(k2, v2), entryOf(k3, v3), entryOf(k4, v4));
+    return fromEntries(entryOf(k1, v1), entryOf(k2, v2), entryOf(k3, v3), entryOf(k4, v4));
   }
 
   /**
@@ -194,13 +197,164 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
   @SuppressWarnings("unchecked")
   public static <K extends Comparable<? super K>, V> ImmutableSortedMap<K, V> of(
       K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5) {
-    return ofEntries(
+    return fromEntries(
         entryOf(k1, v1), entryOf(k2, v2), entryOf(k3, v3), entryOf(k4, v4), entryOf(k5, v5));
   }
 
-  private static <K extends Comparable<? super K>, V> ImmutableSortedMap<K, V> ofEntries(
-      Entry<K, V>... entries) {
-    return fromEntries(Ordering.natural(), false, entries, entries.length);
+  /**
+   * Returns an immutable sorted map containing the given entries, sorted by the natural ordering of
+   * their keys.
+   *
+   * @throws IllegalArgumentException if any two keys are equal according to their natural ordering
+   * @since 31.0
+   */
+  @SuppressWarnings("unchecked")
+  public static <K extends Comparable<? super K>, V> ImmutableSortedMap<K, V> of(
+      K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5, K k6, V v6) {
+    return fromEntries(
+        entryOf(k1, v1),
+        entryOf(k2, v2),
+        entryOf(k3, v3),
+        entryOf(k4, v4),
+        entryOf(k5, v5),
+        entryOf(k6, v6));
+  }
+
+  /**
+   * Returns an immutable sorted map containing the given entries, sorted by the natural ordering of
+   * their keys.
+   *
+   * @throws IllegalArgumentException if any two keys are equal according to their natural ordering
+   * @since 31.0
+   */
+  @SuppressWarnings("unchecked")
+  public static <K extends Comparable<? super K>, V> ImmutableSortedMap<K, V> of(
+      K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5, K k6, V v6, K k7, V v7) {
+    return fromEntries(
+        entryOf(k1, v1),
+        entryOf(k2, v2),
+        entryOf(k3, v3),
+        entryOf(k4, v4),
+        entryOf(k5, v5),
+        entryOf(k6, v6),
+        entryOf(k7, v7));
+  }
+
+  /**
+   * Returns an immutable sorted map containing the given entries, sorted by the natural ordering of
+   * their keys.
+   *
+   * @throws IllegalArgumentException if any two keys are equal according to their natural ordering
+   * @since 31.0
+   */
+  @SuppressWarnings("unchecked")
+  public static <K extends Comparable<? super K>, V> ImmutableSortedMap<K, V> of(
+      K k1,
+      V v1,
+      K k2,
+      V v2,
+      K k3,
+      V v3,
+      K k4,
+      V v4,
+      K k5,
+      V v5,
+      K k6,
+      V v6,
+      K k7,
+      V v7,
+      K k8,
+      V v8) {
+    return fromEntries(
+        entryOf(k1, v1),
+        entryOf(k2, v2),
+        entryOf(k3, v3),
+        entryOf(k4, v4),
+        entryOf(k5, v5),
+        entryOf(k6, v6),
+        entryOf(k7, v7),
+        entryOf(k8, v8));
+  }
+
+  /**
+   * Returns an immutable sorted map containing the given entries, sorted by the natural ordering of
+   * their keys.
+   *
+   * @throws IllegalArgumentException if any two keys are equal according to their natural ordering
+   * @since 31.0
+   */
+  @SuppressWarnings("unchecked")
+  public static <K extends Comparable<? super K>, V> ImmutableSortedMap<K, V> of(
+      K k1,
+      V v1,
+      K k2,
+      V v2,
+      K k3,
+      V v3,
+      K k4,
+      V v4,
+      K k5,
+      V v5,
+      K k6,
+      V v6,
+      K k7,
+      V v7,
+      K k8,
+      V v8,
+      K k9,
+      V v9) {
+    return fromEntries(
+        entryOf(k1, v1),
+        entryOf(k2, v2),
+        entryOf(k3, v3),
+        entryOf(k4, v4),
+        entryOf(k5, v5),
+        entryOf(k6, v6),
+        entryOf(k7, v7),
+        entryOf(k8, v8),
+        entryOf(k9, v9));
+  }
+
+  /**
+   * Returns an immutable sorted map containing the given entries, sorted by the natural ordering of
+   * their keys.
+   *
+   * @throws IllegalArgumentException if any two keys are equal according to their natural ordering
+   * @since 31.0
+   */
+  @SuppressWarnings("unchecked")
+  public static <K extends Comparable<? super K>, V> ImmutableSortedMap<K, V> of(
+      K k1,
+      V v1,
+      K k2,
+      V v2,
+      K k3,
+      V v3,
+      K k4,
+      V v4,
+      K k5,
+      V v5,
+      K k6,
+      V v6,
+      K k7,
+      V v7,
+      K k8,
+      V v8,
+      K k9,
+      V v9,
+      K k10,
+      V v10) {
+    return fromEntries(
+        entryOf(k1, v1),
+        entryOf(k2, v2),
+        entryOf(k3, v3),
+        entryOf(k4, v4),
+        entryOf(k5, v5),
+        entryOf(k6, v6),
+        entryOf(k7, v7),
+        entryOf(k8, v8),
+        entryOf(k9, v9),
+        entryOf(k10, v10));
   }
 
   /**
@@ -330,6 +484,11 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
     return fromEntries(comparator, sameComparator, map.entrySet());
   }
 
+  private static <K extends Comparable<? super K>, V> ImmutableSortedMap<K, V> fromEntries(
+      Entry<K, V>... entries) {
+    return fromEntries(Ordering.natural(), false, entries, entries.length);
+  }
+
   /**
    * Accepts a collection of possibly-null entries. If {@code sameComparator}, then it is assumed
    * that they do not need to be sorted or checked for dupes.
@@ -439,7 +598,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
    * their natural ordering.
    */
   public static <K extends Comparable<?>, V> Builder<K, V> reverseOrder() {
-    return new Builder<>(Ordering.natural().reverse());
+    return new Builder<>(Ordering.<K>natural().reverse());
   }
 
   /**
@@ -452,14 +611,14 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
    *         .put(1, "one")
    *         .put(2, "two")
    *         .put(3, "three")
-   *         .build();
+   *         .buildOrThrow();
    * }</pre>
    *
    * <p>For <i>small</i> immutable sorted maps, the {@code ImmutableSortedMap.of()} methods are even
    * more convenient.
    *
-   * <p>Builder instances can be reused - it is safe to call {@link #build} multiple times to build
-   * multiple maps in series. Each map is a superset of the maps created before it.
+   * <p>Builder instances can be reused - it is safe to call {@link #buildOrThrow} multiple times to
+   * build multiple maps in series. Each map is a superset of the maps created before it.
    *
    * @since 2.0
    */
@@ -555,11 +714,28 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
     /**
      * Returns a newly-created immutable sorted map.
      *
+     * <p>Prefer the equivalent method {@link #buildOrThrow()} to make it explicit that the method
+     * will throw an exception if there are duplicate keys. The {@code build()} method will soon be
+     * deprecated.
+     *
      * @throws IllegalArgumentException if any two keys are equal according to the comparator (which
      *     might be the keys' natural order)
      */
     @Override
     public ImmutableSortedMap<K, V> build() {
+      return buildOrThrow();
+    }
+
+    /**
+     * Returns a newly-created immutable sorted map, or throws an exception if any two keys are
+     * equal.
+     *
+     * @throws IllegalArgumentException if any two keys are equal according to the comparator (which
+     *     might be the keys' natural order)
+     * @since 31.0
+     */
+    @Override
+    public ImmutableSortedMap<K, V> buildOrThrow() {
       switch (size) {
         case 0:
           return emptyMap(comparator);
@@ -570,6 +746,24 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
         default:
           return fromEntries(comparator, false, entries, size);
       }
+    }
+
+    /**
+     * Throws UnsupportedOperationException. A future version may support this operation. Then the
+     * value for any given key will be the one that was last supplied in a {@code put} operation for
+     * that key.
+     *
+     * @throws UnsupportedOperationException always
+     * @since 31.1
+     * @deprecated This method is not currently implemented, and may never be.
+     */
+    @DoNotCall
+    @Deprecated
+    @Override
+    public final ImmutableSortedMap<K, V> buildKeepingLast() {
+      // TODO(emcmanus): implement
+      throw new UnsupportedOperationException(
+          "ImmutableSortedMap.Builder does not yet implement buildKeepingLast()");
     }
   }
 
@@ -949,6 +1143,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
    * are reconstructed using public factory methods. This ensures that the implementation types
    * remain as implementation details.
    */
+  @J2ktIncompatible // serialization
   private static class SerializedForm<K, V> extends ImmutableMap.SerializedForm<K, V> {
     private final Comparator<? super K> comparator;
 
@@ -966,8 +1161,14 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
   }
 
   @Override
+  @J2ktIncompatible // serialization
   Object writeReplace() {
     return new SerializedForm<>(this);
+  }
+
+  @J2ktIncompatible // java.io.ObjectInputStream
+  private void readObject(ObjectInputStream stream) throws InvalidObjectException {
+    throw new InvalidObjectException("Use SerializedForm");
   }
 
   // This class is never actually serialized directly, but we have to make the

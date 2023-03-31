@@ -20,7 +20,6 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import com.google.errorprone.annotations.CheckReturnValue;
 import com.google.errorprone.annotations.Immutable;
 import java.io.Serializable;
 import java.util.AbstractList;
@@ -29,7 +28,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.RandomAccess;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * An immutable array of {@code long} values, with an API resembling {@link List}.
@@ -195,7 +194,6 @@ public final class ImmutableLongArray implements Serializable {
    * A builder for {@link ImmutableLongArray} instances; obtained using {@link
    * ImmutableLongArray#builder}.
    */
-  @CanIgnoreReturnValue
   public static final class Builder {
     private long[] array;
     private int count = 0; // <= array.length
@@ -208,6 +206,7 @@ public final class ImmutableLongArray implements Serializable {
      * Appends {@code value} to the end of the values the built {@link ImmutableLongArray} will
      * contain.
      */
+    @CanIgnoreReturnValue
     public Builder add(long value) {
       ensureRoomFor(1);
       array[count] = value;
@@ -219,6 +218,7 @@ public final class ImmutableLongArray implements Serializable {
      * Appends {@code values}, in order, to the end of the values the built {@link
      * ImmutableLongArray} will contain.
      */
+    @CanIgnoreReturnValue
     public Builder addAll(long[] values) {
       ensureRoomFor(values.length);
       System.arraycopy(values, 0, array, count, values.length);
@@ -230,6 +230,7 @@ public final class ImmutableLongArray implements Serializable {
      * Appends {@code values}, in order, to the end of the values the built {@link
      * ImmutableLongArray} will contain.
      */
+    @CanIgnoreReturnValue
     public Builder addAll(Iterable<Long> values) {
       if (values instanceof Collection) {
         return addAll((Collection<Long>) values);
@@ -244,6 +245,7 @@ public final class ImmutableLongArray implements Serializable {
      * Appends {@code values}, in order, to the end of the values the built {@link
      * ImmutableLongArray} will contain.
      */
+    @CanIgnoreReturnValue
     public Builder addAll(Collection<Long> values) {
       ensureRoomFor(values.size());
       for (Long value : values) {
@@ -256,6 +258,7 @@ public final class ImmutableLongArray implements Serializable {
      * Appends {@code values}, in order, to the end of the values the built {@link
      * ImmutableLongArray} will contain.
      */
+    @CanIgnoreReturnValue
     public Builder addAll(ImmutableLongArray values) {
       ensureRoomFor(values.length());
       System.arraycopy(values.array, values.start, array, count, values.length());
@@ -294,7 +297,6 @@ public final class ImmutableLongArray implements Serializable {
      * no data is copied as part of this step, but this may occupy more memory than strictly
      * necessary. To copy the data to a right-sized backing array, use {@code .build().trimmed()}.
      */
-    @CheckReturnValue
     public ImmutableLongArray build() {
       return count == 0 ? EMPTY : new ImmutableLongArray(array, 0, count);
     }

@@ -19,7 +19,6 @@ package com.google.common.testing;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Converter;
 import com.google.common.base.Objects;
@@ -33,6 +32,7 @@ import com.google.common.reflect.Invokable;
 import com.google.common.reflect.Parameter;
 import com.google.common.reflect.Reflection;
 import com.google.common.reflect.TypeToken;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Constructor;
@@ -45,15 +45,15 @@ import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
+import javax.annotation.CheckForNull;
 import junit.framework.Assert;
 import junit.framework.AssertionFailedError;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * A test utility that verifies that your methods and constructors throw {@link
  * NullPointerException} or {@link UnsupportedOperationException} whenever null is passed to a
  * parameter that isn't annotated with an annotation with the simple name {@code Nullable}, {@code
- * CheckForNull}, {@link NullableType}, or {@link NullableDecl}.
+ * CheckForNull}, {@code NullableType}, or {@code NullableDecl}.
  *
  * <p>The tested methods and constructors are invoked -- each time with one parameter being null and
  * the rest not null -- and the test fails if no expected exception is thrown. {@code
@@ -66,7 +66,6 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @author Kevin Bourrillion
  * @since 10.0
  */
-@Beta
 @GwtIncompatible
 public final class NullPointerTester {
 
@@ -75,10 +74,27 @@ public final class NullPointerTester {
 
   private ExceptionTypePolicy policy = ExceptionTypePolicy.NPE_OR_UOE;
 
+  public NullPointerTester() {
+    try {
+      /*
+       * Converter.apply has a non-nullable parameter type but doesn't throw for null arguments. For
+       * more information, see the comments in that class.
+       *
+       * We already know that that's how it behaves, and subclasses of Converter can't change that
+       * behavior. So there's no sense in making all subclass authors exclude the method from any
+       * NullPointerTester tests that they have.
+       */
+      ignoredMembers.add(Converter.class.getMethod("apply", Object.class));
+    } catch (NoSuchMethodException shouldBeImpossible) {
+      // OK, fine: If it doesn't exist, then there's chance that we're going to be asked to test it.
+    }
+  }
+
   /**
    * Sets a default value that can be used for any parameter of type {@code type}. Returns this
    * object.
    */
+  @CanIgnoreReturnValue
   public <T> NullPointerTester setDefault(Class<T> type, T value) {
     defaults.putInstance(type, checkNotNull(value));
     return this;
@@ -89,6 +105,7 @@ public final class NullPointerTester {
    *
    * @since 13.0
    */
+  @CanIgnoreReturnValue
   public NullPointerTester ignore(Method method) {
     ignoredMembers.add(checkNotNull(method));
     return this;
@@ -99,6 +116,7 @@ public final class NullPointerTester {
    *
    * @since 22.0
    */
+  @CanIgnoreReturnValue
   public NullPointerTester ignore(Constructor<?> constructor) {
     ignoredMembers.add(checkNotNull(constructor));
     return this;
@@ -176,7 +194,7 @@ public final class NullPointerTester {
    *
    * @param instance the instance to invoke {@code method} on, or null if {@code method} is static
    */
-  public void testMethod(@NullableDecl Object instance, Method method) {
+  public void testMethod(@CheckForNull Object instance, Method method) {
     Class<?>[] types = method.getParameterTypes();
     for (int nullIndex = 0; nullIndex < types.length; nullIndex++) {
       testMethodParameter(instance, method, nullIndex);
@@ -208,7 +226,7 @@ public final class NullPointerTester {
    * @param instance the instance to invoke {@code method} on, or null if {@code method} is static
    */
   public void testMethodParameter(
-      @NullableDecl final Object instance, final Method method, int paramIndex) {
+      @CheckForNull final Object instance, final Method method, int paramIndex) {
     method.setAccessible(true);
     testParameter(instance, invokable(instance, method), paramIndex, method.getDeclaringClass());
   }
@@ -461,7 +479,7 @@ public final class NullPointerTester {
     }.newProxy(type);
   }
 
-  private static Invokable<?, ?> invokable(@NullableDecl Object instance, Method method) {
+  private static Invokable<?, ?> invokable(@CheckForNull Object instance, Method method) {
     if (instance == null) {
       return Invokable.from(method);
     } else {

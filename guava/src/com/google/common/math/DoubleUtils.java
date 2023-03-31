@@ -26,7 +26,7 @@ import static java.lang.Math.getExponent;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import java.math.BigInteger;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Utilities for {@code double} primitives.

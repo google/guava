@@ -18,12 +18,11 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import java.util.Comparator;
 import java.util.Iterator;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Provides static methods for working with {@link Comparator} instances. For many other helpful
@@ -40,7 +39,6 @@ import org.jspecify.nullness.Nullable;
  * @since 21.0
  * @author Louis Wasserman
  */
-@Beta
 @GwtCompatible
 @NullMarked
 public final class Comparators {
@@ -122,7 +120,6 @@ public final class Comparators {
    * @throws ClassCastException if the parameters are not <i>mutually comparable</i>.
    * @since 30.0
    */
-  @Beta
   public static <T extends Comparable<? super T>> T min(T a, T b) {
     return (a.compareTo(b) <= 0) ? a : b;
   }
@@ -142,8 +139,9 @@ public final class Comparators {
    *     comparator.
    * @since 30.0
    */
-  @Beta
-  public static <T extends @Nullable Object> T min(T a, T b, Comparator<T> comparator) {
+  @ParametricNullness
+  public static <T extends @Nullable Object> T min(
+      @ParametricNullness T a, @ParametricNullness T b, Comparator<T> comparator) {
     return (comparator.compare(a, b) <= 0) ? a : b;
   }
 
@@ -160,7 +158,6 @@ public final class Comparators {
    * @throws ClassCastException if the parameters are not <i>mutually comparable</i>.
    * @since 30.0
    */
-  @Beta
   public static <T extends Comparable<? super T>> T max(T a, T b) {
     return (a.compareTo(b) >= 0) ? a : b;
   }
@@ -180,8 +177,9 @@ public final class Comparators {
    *     comparator.
    * @since 30.0
    */
-  @Beta
-  public static <T extends @Nullable Object> T max(T a, T b, Comparator<T> comparator) {
+  @ParametricNullness
+  public static <T extends @Nullable Object> T max(
+      @ParametricNullness T a, @ParametricNullness T b, Comparator<T> comparator) {
     return (comparator.compare(a, b) >= 0) ? a : b;
   }
 }

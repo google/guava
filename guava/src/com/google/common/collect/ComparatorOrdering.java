@@ -22,8 +22,8 @@ import com.google.common.annotations.GwtCompatible;
 import java.io.Serializable;
 import java.util.Comparator;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /** An ordering for a pre-existing comparator. */
 @GwtCompatible(serializable = true)
@@ -37,7 +37,7 @@ final class ComparatorOrdering<T extends @Nullable Object> extends Ordering<T>
   }
 
   @Override
-  public int compare(T a, T b) {
+  public int compare(@ParametricNullness T a, @ParametricNullness T b) {
     return comparator.compare(a, b);
   }
 

@@ -21,7 +21,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * An {@link InputStream} that maintains a hash of the data read from it.

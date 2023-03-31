@@ -16,11 +16,10 @@ package com.google.common.reflect;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
-import com.google.common.annotations.Beta;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Captures a free type variable that can be used in {@link TypeToken#where}. For example:
@@ -35,7 +34,6 @@ import org.jspecify.nullness.NullMarked;
  * @author Ben Yu
  * @since 12.0
  */
-@Beta
 @NullMarked
 /*
  * A nullable bound would let users create a TypeParameter instance for a parameter with a nullable

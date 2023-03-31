@@ -45,14 +45,14 @@ import java.util.function.Supplier;
 import java.util.function.ToIntFunction;
 import java.util.stream.Collector;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Provides static utility methods for creating and working with {@link Multiset} instances.
  *
  * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/CollectionUtilitiesExplained#multisets"> {@code
+ * "https://github.com/google/guava/wiki/CollectionUtilitiesExplained#multisets">{@code
  * Multisets}</a>.
  *
  * @author Kevin Bourrillion
@@ -167,12 +167,12 @@ public final class Multisets {
     }
 
     @Override
-    public boolean add(E element) {
+    public boolean add(@ParametricNullness E element) {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public int add(E element, int occurences) {
+    public int add(@ParametricNullness E element, int occurrences) {
       throw new UnsupportedOperationException();
     }
 
@@ -207,12 +207,12 @@ public final class Multisets {
     }
 
     @Override
-    public int setCount(E element, int count) {
+    public int setCount(@ParametricNullness E element, int count) {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public boolean setCount(E element, int oldCount, int newCount) {
+    public boolean setCount(@ParametricNullness E element, int oldCount, int newCount) {
       throw new UnsupportedOperationException();
     }
 
@@ -245,22 +245,24 @@ public final class Multisets {
    * @param n the count to be associated with the returned entry
    * @throws IllegalArgumentException if {@code n} is negative
    */
-  public static <E extends @Nullable Object> Multiset.Entry<E> immutableEntry(E e, int n) {
+  public static <E extends @Nullable Object> Multiset.Entry<E> immutableEntry(
+      @ParametricNullness E e, int n) {
     return new ImmutableEntry<E>(e, n);
   }
 
   static class ImmutableEntry<E extends @Nullable Object> extends AbstractEntry<E>
       implements Serializable {
-    private final E element;
+    @ParametricNullness private final E element;
     private final int count;
 
-    ImmutableEntry(E element, int count) {
+    ImmutableEntry(@ParametricNullness E element, int count) {
       this.element = element;
       this.count = count;
       checkNonnegative(count, "count");
     }
 
     @Override
+    @ParametricNullness
     public final E getElement() {
       return element;
     }
@@ -369,7 +371,7 @@ public final class Multisets {
     }
 
     @Override
-    public int add(E element, int occurrences) {
+    public int add(@ParametricNullness E element, int occurrences) {
       checkArgument(
           predicate.apply(element), "Element %s does not match predicate %s", element, predicate);
       return unfiltered.add(element, occurrences);
@@ -944,7 +946,8 @@ public final class Multisets {
   }
 
   /** An implementation of {@link Multiset#setCount(Object, int)}. */
-  static <E extends @Nullable Object> int setCountImpl(Multiset<E> self, E element, int count) {
+  static <E extends @Nullable Object> int setCountImpl(
+      Multiset<E> self, @ParametricNullness E element, int count) {
     checkNonnegative(count, "count");
 
     int oldCount = self.count(element);
@@ -961,7 +964,7 @@ public final class Multisets {
 
   /** An implementation of {@link Multiset#setCount(Object, int, int)}. */
   static <E extends @Nullable Object> boolean setCountImpl(
-      Multiset<E> self, E element, int oldCount, int newCount) {
+      Multiset<E> self, @ParametricNullness E element, int oldCount, int newCount) {
     checkNonnegative(oldCount, "oldCount");
     checkNonnegative(newCount, "newCount");
 
@@ -977,6 +980,7 @@ public final class Multisets {
       Iterator<Entry<E>> entryIterator) {
     return new TransformedIterator<Entry<E>, E>(entryIterator) {
       @Override
+      @ParametricNullness
       E transform(Entry<E> entry) {
         return entry.getElement();
       }
@@ -1095,6 +1099,7 @@ public final class Multisets {
     }
 
     @Override
+    @ParametricNullness
     public E next() {
       if (!hasNext()) {
         throw new NoSuchElementException();
@@ -1155,8 +1160,8 @@ public final class Multisets {
   }
 
   /**
-   * Returns a copy of {@code multiset} as an {@link ImmutableMultiset} whose iteration order is
-   * highest count first, with ties broken by the iteration order of the original multiset.
+   * Returns a copy of {@code multiset} as an {@link ImmutableMultiset} whose iteration order puts
+   * the highest count first, with ties broken by the iteration order of the original multiset.
    *
    * @since 11.0
    */

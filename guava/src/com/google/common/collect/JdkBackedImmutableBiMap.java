@@ -24,8 +24,8 @@ import com.google.j2objc.annotations.RetainedWith;
 import com.google.j2objc.annotations.WeakOuter;
 import java.util.Map;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Implementation of ImmutableBiMap backed by a pair of JDK HashMaps, which have smartness
@@ -79,7 +79,7 @@ final class JdkBackedImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
     if (result == null) {
       inverse =
           result =
-              new JdkBackedImmutableBiMap<V, K>(
+              new JdkBackedImmutableBiMap<>(
                   new InverseEntries(), backwardDelegate, forwardDelegate);
       result.inverse = this;
     }
@@ -113,12 +113,12 @@ final class JdkBackedImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
 
   @Override
   ImmutableSet<Entry<K, V>> createEntrySet() {
-    return new ImmutableMapEntrySet.RegularEntrySet<K, V>(this, entries);
+    return new ImmutableMapEntrySet.RegularEntrySet<>(this, entries);
   }
 
   @Override
   ImmutableSet<K> createKeySet() {
-    return new ImmutableMapKeySet<K, V>(this);
+    return new ImmutableMapKeySet<>(this);
   }
 
   @Override

@@ -15,9 +15,10 @@
 package com.google.common.io;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.IOException;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Package-protected abstract class that implements the line reading algorithm used by {@link
@@ -30,6 +31,7 @@ import org.jspecify.nullness.NullMarked;
  * @author Chris Nokleberg
  * @since 1.0
  */
+@J2ktIncompatible
 @GwtIncompatible
 @NullMarked
 abstract class LineBuffer {

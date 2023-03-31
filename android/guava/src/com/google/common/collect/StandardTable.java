@@ -43,7 +43,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * {@link Table} implementation backed by a map that associates row keys with column key / value
@@ -958,7 +958,7 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
       public boolean removeAll(Collection<?> c) {
         /*
          * We can't inherit the normal implementation (which calls
-         * Sets.removeAllImpl(Set, *Collection*) because, under some
+         * Sets.removeAllImpl(Set, *Collection*)) because, under some
          * circumstances, it attempts to call columnKeySet().iterator().remove,
          * which is unsupported.
          */

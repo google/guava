@@ -39,8 +39,8 @@ import java.util.List;
 import java.util.Spliterator;
 import java.util.function.Consumer;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Provides static methods for working with {@code Collection} instances.
@@ -139,7 +139,7 @@ public final class Collections2 {
     }
 
     @Override
-    public boolean add(E element) {
+    public boolean add(@ParametricNullness E element) {
       checkArgument(predicate.apply(element));
       return unfiltered.add(element);
     }

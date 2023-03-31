@@ -23,7 +23,6 @@ import com.google.common.util.concurrent.UncaughtExceptionHandlers.Exiter;
 import junit.framework.TestCase;
 
 /** @author Gregory Kick */
-
 public class UncaughtExceptionHandlersTest extends TestCase {
 
   private Runtime runtimeMock;

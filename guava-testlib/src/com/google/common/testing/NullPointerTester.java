@@ -19,7 +19,6 @@ package com.google.common.testing;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Converter;
 import com.google.common.base.Objects;
@@ -33,6 +32,7 @@ import com.google.common.reflect.Invokable;
 import com.google.common.reflect.Parameter;
 import com.google.common.reflect.Reflection;
 import com.google.common.reflect.TypeToken;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedType;
 import java.lang.reflect.Constructor;
@@ -55,7 +55,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * A test utility that verifies that your methods and constructors throw {@link
  * NullPointerException} or {@link UnsupportedOperationException} whenever null is passed to a
  * parameter whose declaration or type isn't annotated with an annotation with the simple name
- * {@code Nullable}, {@code CheckForNull}, {@link NullableType}, or {@link NullableDecl}.
+ * {@code Nullable}, {@code CheckForNull}, {@code NullableType}, or {@code NullableDecl}.
  *
  * <p>The tested methods and constructors are invoked -- each time with one parameter being null and
  * the rest not null -- and the test fails if no expected exception is thrown. {@code
@@ -68,7 +68,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Kevin Bourrillion
  * @since 10.0
  */
-@Beta
 @GwtIncompatible
 public final class NullPointerTester {
 
@@ -77,10 +76,27 @@ public final class NullPointerTester {
 
   private ExceptionTypePolicy policy = ExceptionTypePolicy.NPE_OR_UOE;
 
+  public NullPointerTester() {
+    try {
+      /*
+       * Converter.apply has a non-nullable parameter type but doesn't throw for null arguments. For
+       * more information, see the comments in that class.
+       *
+       * We already know that that's how it behaves, and subclasses of Converter can't change that
+       * behavior. So there's no sense in making all subclass authors exclude the method from any
+       * NullPointerTester tests that they have.
+       */
+      ignoredMembers.add(Converter.class.getMethod("apply", Object.class));
+    } catch (NoSuchMethodException shouldBeImpossible) {
+      // OK, fine: If it doesn't exist, then there's chance that we're going to be asked to test it.
+    }
+  }
+
   /**
    * Sets a default value that can be used for any parameter of type {@code type}. Returns this
    * object.
    */
+  @CanIgnoreReturnValue
   public <T> NullPointerTester setDefault(Class<T> type, T value) {
     defaults.putInstance(type, checkNotNull(value));
     return this;
@@ -91,6 +107,7 @@ public final class NullPointerTester {
    *
    * @since 13.0
    */
+  @CanIgnoreReturnValue
   public NullPointerTester ignore(Method method) {
     ignoredMembers.add(checkNotNull(method));
     return this;
@@ -101,6 +118,7 @@ public final class NullPointerTester {
    *
    * @since 22.0
    */
+  @CanIgnoreReturnValue
   public NullPointerTester ignore(Constructor<?> constructor) {
     ignoredMembers.add(checkNotNull(constructor));
     return this;
@@ -480,13 +498,13 @@ public final class NullPointerTester {
           "CheckForNull", "Nullable", "NullableDecl", "NullableType", "ParametricNullness");
 
   static boolean isNullable(Invokable<?, ?> invokable) {
-    return isNullable(invokable.getAnnotatedReturnType().getAnnotations())
-        || isNullable(invokable.getAnnotations());
+    return containsNullable(invokable.getAnnotatedReturnType().getAnnotations())
+        || containsNullable(invokable.getAnnotations());
   }
 
   static boolean isNullable(Parameter param) {
-    return isNullable(param.getAnnotatedType().getAnnotations())
-        || isNullable(param.getAnnotations())
+    return containsNullable(param.getAnnotatedType().getAnnotations())
+        || containsNullable(param.getAnnotations())
         || isNullableTypeVariable(param.getAnnotatedType().getType());
   }
 
@@ -497,14 +515,16 @@ public final class NullPointerTester {
     TypeVariable<?> var = (TypeVariable<?>) type;
     AnnotatedType[] bounds = GET_ANNOTATED_BOUNDS.apply(var);
     for (AnnotatedType bound : bounds) {
-      if (isNullable(bound.getAnnotations()) || isNullableTypeVariable(bound.getType())) {
+      // Until Java 15, the isNullableTypeVariable case here won't help:
+      // https://bugs.openjdk.java.net/browse/JDK-8202469
+      if (containsNullable(bound.getAnnotations()) || isNullableTypeVariable(bound.getType())) {
         return true;
       }
     }
     return false;
   }
 
-  private static boolean isNullable(Annotation[] annotations) {
+  private static boolean containsNullable(Annotation[] annotations) {
     for (Annotation annotation : annotations) {
       if (NULLABLE_ANNOTATION_SIMPLE_NAMES.contains(annotation.annotationType().getSimpleName())) {
         return true;

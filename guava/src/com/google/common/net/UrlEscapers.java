@@ -16,7 +16,7 @@ package com.google.common.net;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.escape.Escaper;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * {@code Escaper} instances suitable for strings to be included in particular sections of URLs.
@@ -70,6 +70,7 @@ public final class UrlEscapers {
    *
    * <p><b>Note:</b> Unlike other escapers, URL escapers produce <a
    * href="https://url.spec.whatwg.org/#percent-encode">uppercase</a> hexadecimal sequences.
+   *
    */
   public static Escaper urlFormParameterEscaper() {
     return URL_FORM_PARAMETER_ESCAPER;

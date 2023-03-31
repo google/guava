@@ -17,8 +17,8 @@ package com.google.common.base;
 import com.google.common.annotations.GwtCompatible;
 import java.util.Arrays;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Helper functions that can operate on any {@code Object}.

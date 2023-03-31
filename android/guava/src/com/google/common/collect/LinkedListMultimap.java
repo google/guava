@@ -23,6 +23,7 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.j2objc.annotations.WeakOuter;
 import java.io.IOException;
@@ -40,8 +41,8 @@ import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An implementation of {@code ListMultimap} that supports deterministic iteration order for both
@@ -89,8 +90,7 @@ import org.jspecify.nullness.Nullable;
  * with a call to {@link Multimaps#synchronizedListMultimap}.
  *
  * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multimap"> {@code
- * Multimap}</a>.
+ * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multimap">{@code Multimap}</a>.
  *
  * @author Mike Bostock
  * @since 2.0
@@ -108,30 +108,33 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
 
   private static final class Node<K extends @Nullable Object, V extends @Nullable Object>
       extends AbstractMapEntry<K, V> {
-    final K key;
-    V value;
+    @ParametricNullness final K key;
+    @ParametricNullness V value;
     @CheckForNull Node<K, V> next; // the next node (with any key)
     @CheckForNull Node<K, V> previous; // the previous node (with any key)
     @CheckForNull Node<K, V> nextSibling; // the next node with the same key
     @CheckForNull Node<K, V> previousSibling; // the previous node with the same key
 
-    Node(K key, V value) {
+    Node(@ParametricNullness K key, @ParametricNullness V value) {
       this.key = key;
       this.value = value;
     }
 
     @Override
+    @ParametricNullness
     public K getKey() {
       return key;
     }
 
     @Override
+    @ParametricNullness
     public V getValue() {
       return value;
     }
 
     @Override
-    public V setValue(V newValue) {
+    @ParametricNullness
+    public V setValue(@ParametricNullness V newValue) {
       V result = value;
       this.value = newValue;
       return result;
@@ -210,10 +213,13 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
   /**
    * Adds a new node for the specified key-value pair before the specified {@code nextSibling}
    * element, or at the end of the list if {@code nextSibling} is null. Note: if {@code nextSibling}
-   * is specified, it MUST be for an node for the same {@code key}!
+   * is specified, it MUST be for a node for the same {@code key}!
    */
   @CanIgnoreReturnValue
-  private Node<K, V> addNode(K key, V value, @CheckForNull Node<K, V> nextSibling) {
+  private Node<K, V> addNode(
+      @ParametricNullness K key,
+      @ParametricNullness V value,
+      @CheckForNull Node<K, V> nextSibling) {
     Node<K, V> node = new Node<>(key, value);
     if (head == null) { // empty list
       head = tail = node;
@@ -311,7 +317,7 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
   }
 
   /** Removes all nodes for the specified key. */
-  private void removeAllNodes(K key) {
+  private void removeAllNodes(@ParametricNullness K key) {
     Iterators.clear(new ValueForKeyIterator(key));
   }
 
@@ -420,7 +426,7 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
       throw new UnsupportedOperationException();
     }
 
-    void setValue(V value) {
+    void setValue(@ParametricNullness V value) {
       checkState(current != null);
       current.value = value;
     }
@@ -446,6 +452,7 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
     }
 
     @Override
+    @ParametricNullness
     public K next() {
       checkForConcurrentModification();
       if (next == null) {
@@ -471,14 +478,14 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
 
   /** A {@code ListIterator} over values for a specified key. */
   private class ValueForKeyIterator implements ListIterator<V> {
-    final K key;
+    @ParametricNullness final K key;
     int nextIndex;
     @CheckForNull Node<K, V> next;
     @CheckForNull Node<K, V> current;
     @CheckForNull Node<K, V> previous;
 
     /** Constructs a new iterator over all values for the specified key. */
-    ValueForKeyIterator(K key) {
+    ValueForKeyIterator(@ParametricNullness K key) {
       this.key = key;
       KeyList<K, V> keyList = keyToKeyList.get(key);
       next = (keyList == null) ? null : keyList.head;
@@ -492,7 +499,7 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
      *
      * @throws IndexOutOfBoundsException if index is invalid
      */
-    public ValueForKeyIterator(K key, int index) {
+    public ValueForKeyIterator(@ParametricNullness K key, int index) {
       KeyList<K, V> keyList = keyToKeyList.get(key);
       int size = (keyList == null) ? 0 : keyList.count;
       checkPositionIndex(index, size);
@@ -519,6 +526,7 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
 
     @CanIgnoreReturnValue
     @Override
+    @ParametricNullness
     public V next() {
       if (next == null) {
         throw new NoSuchElementException();
@@ -536,6 +544,7 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
 
     @CanIgnoreReturnValue
     @Override
+    @ParametricNullness
     public V previous() {
       if (previous == null) {
         throw new NoSuchElementException();
@@ -570,13 +579,13 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
     }
 
     @Override
-    public void set(V value) {
+    public void set(@ParametricNullness V value) {
       checkState(current != null);
       current.value = value;
     }
 
     @Override
-    public void add(V value) {
+    public void add(@ParametricNullness V value) {
       previous = addNode(key, value, next);
       nextIndex++;
       current = null;
@@ -616,7 +625,7 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
    */
   @CanIgnoreReturnValue
   @Override
-  public boolean put(K key, V value) {
+  public boolean put(@ParametricNullness K key, @ParametricNullness V value) {
     addNode(key, value, null);
     return true;
   }
@@ -633,7 +642,7 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
    */
   @CanIgnoreReturnValue
   @Override
-  public List<V> replaceValues(K key, Iterable<? extends V> values) {
+  public List<V> replaceValues(@ParametricNullness K key, Iterable<? extends V> values) {
     List<V> oldValues = getCopy(key);
     ListIterator<V> keyValues = new ValueForKeyIterator(key);
     Iterator<? extends V> newValues = values.iterator();
@@ -658,7 +667,7 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
     return oldValues;
   }
 
-  private List<V> getCopy(K key) {
+  private List<V> getCopy(@ParametricNullness K key) {
     return unmodifiableList(Lists.newArrayList(new ValueForKeyIterator(key)));
   }
 
@@ -669,7 +678,7 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
    */
   @CanIgnoreReturnValue
   @Override
-  public List<V> removeAll(@Nullable Object key) {
+  public List<V> removeAll(@CheckForNull Object key) {
     /*
      * Safe because all we do is remove values for the key, not add them. (If we wanted to make sure
      * to call getCopy and removeAllNodes only with a true K, then we could check containsKey first.
@@ -703,7 +712,7 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
    * <p>The returned list is not serializable and does not have random access.
    */
   @Override
-  public List<V> get(final K key) {
+  public List<V> get(@ParametricNullness final K key) {
     return new AbstractSequentialList<V>() {
       @Override
       public int size() {
@@ -777,12 +786,13 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
         final NodeIterator nodeItr = new NodeIterator(index);
         return new TransformedListIterator<Entry<K, V>, V>(nodeItr) {
           @Override
+          @ParametricNullness
           V transform(Entry<K, V> entry) {
             return entry.getValue();
           }
 
           @Override
-          public void set(V value) {
+          public void set(@ParametricNullness V value) {
             nodeItr.setValue(value);
           }
         };
@@ -845,6 +855,7 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
    *     from the entries() ordering
    */
   @GwtIncompatible // java.io.ObjectOutputStream
+  @J2ktIncompatible
   private void writeObject(ObjectOutputStream stream) throws IOException {
     stream.defaultWriteObject();
     stream.writeInt(size());
@@ -855,6 +866,7 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
   }
 
   @GwtIncompatible // java.io.ObjectInputStream
+  @J2ktIncompatible
   private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
     stream.defaultReadObject();
     keyToKeyList = CompactLinkedHashMap.create();
@@ -869,5 +881,6 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
   }
 
   @GwtIncompatible // java serialization not supported
+  @J2ktIncompatible
   private static final long serialVersionUID = 0;
 }

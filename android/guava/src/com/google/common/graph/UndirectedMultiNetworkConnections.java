@@ -31,7 +31,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * An implementation of {@link NetworkConnections} for undirected networks with parallel edges.
@@ -74,7 +74,7 @@ final class UndirectedMultiNetworkConnections<N, E>
   }
 
   @Override
-  public Set<E> edgesConnecting(final N node) {
+  public Set<E> edgesConnecting(N node) {
     return new MultiEdgesConnecting<E>(incidentEdgeMap, node) {
       @Override
       public int size() {

@@ -22,8 +22,8 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Note this class is a copy of {@link com.google.common.collect.AbstractIterator} (for dependency
@@ -79,6 +79,7 @@ abstract class AbstractIterator<T extends @Nullable Object> implements Iterator<
   }
 
   @Override
+  @ParametricNullness
   public final T next() {
     if (!hasNext()) {
       throw new NoSuchElementException();

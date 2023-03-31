@@ -24,8 +24,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Basic implementation of the {@link SetMultimap} interface. It's a wrapper around {@link
@@ -62,7 +62,7 @@ abstract class AbstractSetMultimap<K extends @Nullable Object, V extends @Nullab
   }
 
   @Override
-  Collection<V> wrapCollection(K key, Collection<V> collection) {
+  Collection<V> wrapCollection(@ParametricNullness K key, Collection<V> collection) {
     return new WrappedSet(key, (Set<V>) collection);
   }
 
@@ -75,7 +75,7 @@ abstract class AbstractSetMultimap<K extends @Nullable Object, V extends @Nullab
    * {@link Set}, instead of the {@link Collection} specified in the {@link Multimap} interface.
    */
   @Override
-  public Set<V> get(K key) {
+  public Set<V> get(@ParametricNullness K key) {
     return (Set<V>) super.get(key);
   }
 
@@ -112,7 +112,7 @@ abstract class AbstractSetMultimap<K extends @Nullable Object, V extends @Nullab
    */
   @CanIgnoreReturnValue
   @Override
-  public Set<V> replaceValues(K key, Iterable<? extends V> values) {
+  public Set<V> replaceValues(@ParametricNullness K key, Iterable<? extends V> values) {
     return (Set<V>) super.replaceValues(key, values);
   }
 
@@ -137,7 +137,7 @@ abstract class AbstractSetMultimap<K extends @Nullable Object, V extends @Nullab
    */
   @CanIgnoreReturnValue
   @Override
-  public boolean put(K key, V value) {
+  public boolean put(@ParametricNullness K key, @ParametricNullness V value) {
     return super.put(key, value);
   }
 

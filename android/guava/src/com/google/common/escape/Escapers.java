@@ -16,14 +16,13 @@ package com.google.common.escape;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.HashMap;
 import java.util.Map;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Static utility methods pertaining to {@link Escaper} instances.
@@ -32,7 +31,6 @@ import org.jspecify.nullness.Nullable;
  * @author David Beaumont
  * @since 15.0
  */
-@Beta
 @GwtCompatible
 @NullMarked
 public final class Escapers {
@@ -94,7 +92,6 @@ public final class Escapers {
    * @author David Beaumont
    * @since 15.0
    */
-  @Beta
   public static final class Builder {
     private final Map<Character, String> replacementMap = new HashMap<>();
     private char safeMin = Character.MIN_VALUE;
@@ -190,7 +187,7 @@ public final class Escapers {
       return wrap((CharEscaper) escaper);
     }
     // In practice this shouldn't happen because it would be very odd not to
-    // extend either CharEscaper or UnicodeEscaper for non trivial cases.
+    // extend either CharEscaper or UnicodeEscaper for non-trivial cases.
     throw new IllegalArgumentException(
         "Cannot create a UnicodeEscaper from: " + escaper.getClass().getName());
   }
@@ -229,7 +226,7 @@ public final class Escapers {
   }
 
   /** Private helper to wrap a CharEscaper as a UnicodeEscaper. */
-  private static UnicodeEscaper wrap(final CharEscaper escaper) {
+  private static UnicodeEscaper wrap(CharEscaper escaper) {
     return new UnicodeEscaper() {
       @Override
       @CheckForNull

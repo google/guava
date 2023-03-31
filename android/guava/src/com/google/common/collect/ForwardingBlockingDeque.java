@@ -17,11 +17,12 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import java.util.Collection;
 import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.TimeUnit;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * A {@link BlockingDeque} which forwards all its method calls to another {@code BlockingDeque}.
@@ -47,6 +48,7 @@ import org.jspecify.nullness.NullMarked;
  *     com.google.common.util.concurrent.ForwardingBlockingDeque} instead.
  */
 @Deprecated
+@J2ktIncompatible
 @GwtIncompatible
 @NullMarked
 public abstract class ForwardingBlockingDeque<E> extends ForwardingDeque<E>

@@ -32,8 +32,8 @@ import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.TypeVariable;
 import java.util.Collections;
+import javax.annotation.CheckForNull;
 import junit.framework.TestCase;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * Unit tests for {@link Invokable}.
@@ -49,9 +49,9 @@ public class InvokableTest extends TestCase {
   public void testApiCompatibleWithAccessibleObject() {
     ImmutableSet<String> invokableMethods =
         publicMethodSignatures(Invokable.class, ImmutableSet.<String>of());
-    ImmutableSet<String> accesibleObjectMethods =
+    ImmutableSet<String> accessibleObjectMethods =
         publicMethodSignatures(AccessibleObject.class, ImmutableSet.of("canAccess"));
-    assertThat(invokableMethods).containsAtLeastElementsIn(accesibleObjectMethods);
+    assertThat(invokableMethods).containsAtLeastElementsIn(accessibleObjectMethods);
     Class<?> genericDeclaration;
     try {
       genericDeclaration = Class.forName("java.lang.reflect.GenericDeclaration");
@@ -453,7 +453,7 @@ public class InvokableTest extends TestCase {
 
   static class Foo {}
 
-  public void testConstructor_isOverridablel() throws Exception {
+  public void testConstructor_isOverridable() throws Exception {
     Invokable<?, ?> delegate = Invokable.from(Foo.class.getDeclaredConstructor());
     assertFalse(delegate.isOverridable());
     assertFalse(delegate.isVarArgs());
@@ -520,7 +520,7 @@ public class InvokableTest extends TestCase {
 
   private class InnerWithAnnotatedConstructorParameter {
     @SuppressWarnings("unused") // called by reflection
-    InnerWithAnnotatedConstructorParameter(@NullableDecl String s) {}
+    InnerWithAnnotatedConstructorParameter(@CheckForNull String s) {}
   }
 
   public void testInnerClassWithAnnotatedConstructorParameter() {
@@ -601,7 +601,7 @@ public class InvokableTest extends TestCase {
   }
 
   public void testAnonymousClassInConstructor() {
-    new AnonymousClassInConstructor();
+    AnonymousClassInConstructor unused = new AnonymousClassInConstructor();
   }
 
   private static class AnonymousClassInConstructor {
@@ -621,7 +621,7 @@ public class InvokableTest extends TestCase {
   }
 
   public void testLocalClassInInstanceInitializer() {
-    new LocalClassInInstanceInitializer();
+    LocalClassInInstanceInitializer unused = new LocalClassInInstanceInitializer();
   }
 
   private static class LocalClassInInstanceInitializer {
@@ -633,7 +633,7 @@ public class InvokableTest extends TestCase {
   }
 
   public void testLocalClassInStaticInitializer() {
-    new LocalClassInStaticInitializer();
+    LocalClassInStaticInitializer unused = new LocalClassInStaticInitializer();
   }
 
   private static class LocalClassInStaticInitializer {
@@ -645,7 +645,8 @@ public class InvokableTest extends TestCase {
   }
 
   public void testLocalClassWithSeeminglyHiddenThisInStaticInitializer_BUG() {
-    new LocalClassWithSeeminglyHiddenThisInStaticInitializer();
+    LocalClassWithSeeminglyHiddenThisInStaticInitializer unused =
+        new LocalClassWithSeeminglyHiddenThisInStaticInitializer();
   }
 
   /**
@@ -683,7 +684,7 @@ public class InvokableTest extends TestCase {
   public void testLocalClassWithAnnotatedConstructorParameter() throws Exception {
     class LocalWithAnnotatedConstructorParameter {
       @SuppressWarnings("unused") // called by reflection
-      LocalWithAnnotatedConstructorParameter(@NullableDecl String s) {}
+      LocalWithAnnotatedConstructorParameter(@CheckForNull String s) {}
     }
     Constructor<?> constructor =
         LocalWithAnnotatedConstructorParameter.class.getDeclaredConstructors()[0];

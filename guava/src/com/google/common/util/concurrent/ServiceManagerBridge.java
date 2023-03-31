@@ -19,7 +19,7 @@ package com.google.common.util.concurrent;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.util.concurrent.Service.State;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Superinterface of {@link ServiceManager} to introduce a bridge method for {@code

@@ -19,6 +19,7 @@ import static com.google.common.io.CharStreams.createBuffer;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.IOException;
 import java.io.Reader;
@@ -26,7 +27,7 @@ import java.nio.CharBuffer;
 import java.util.ArrayDeque;
 import java.util.Queue;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * A class for reading lines of text. Provides the same functionality as {@link
@@ -37,6 +38,7 @@ import org.jspecify.nullness.NullMarked;
  * @since 1.0
  */
 @Beta
+@J2ktIncompatible
 @GwtIncompatible
 @NullMarked
 public final class LineReader {

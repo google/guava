@@ -20,7 +20,7 @@ import com.google.common.collect.Queues;
 import java.util.Iterator;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Handler for dispatching events to subscribers, providing different event ordering guarantees that
@@ -134,7 +134,7 @@ abstract class Dispatcher {
     // This dispatcher matches the original dispatch behavior of AsyncEventBus.
     //
     // We can't really make any guarantees about the overall dispatch order for this dispatcher in
-    // a multithreaded environment for a couple reasons:
+    // a multithreaded environment for a couple of reasons:
     //
     // 1. Subscribers to events posted on different threads can be interleaved with each other
     //    freely. (A event on one thread, B event on another could yield any of

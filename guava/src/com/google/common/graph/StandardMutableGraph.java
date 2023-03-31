@@ -17,7 +17,7 @@
 package com.google.common.graph;
 
 import com.google.common.graph.GraphConstants.Presence;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Standard implementation of {@link MutableGraph} that supports both directed and undirected

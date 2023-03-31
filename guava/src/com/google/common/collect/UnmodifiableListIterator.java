@@ -19,8 +19,8 @@ package com.google.common.collect;
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.DoNotCall;
 import java.util.ListIterator;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A list iterator that does not support {@link #remove}, {@link #add}, or {@link #set}.
@@ -44,7 +44,7 @@ public abstract class UnmodifiableListIterator<E extends @Nullable Object>
   @Deprecated
   @Override
   @DoNotCall("Always throws UnsupportedOperationException")
-  public final void add(E e) {
+  public final void add(@ParametricNullness E e) {
     throw new UnsupportedOperationException();
   }
 
@@ -57,7 +57,7 @@ public abstract class UnmodifiableListIterator<E extends @Nullable Object>
   @Deprecated
   @Override
   @DoNotCall("Always throws UnsupportedOperationException")
-  public final void set(E e) {
+  public final void set(@ParametricNullness E e) {
     throw new UnsupportedOperationException();
   }
 }

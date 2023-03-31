@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Ascii;
 import com.google.common.base.Equivalence;
 import com.google.common.base.MoreObjects;
@@ -31,7 +32,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * A builder of {@link ConcurrentMap} instances that can have keys or values automatically wrapped
@@ -86,6 +87,7 @@ import org.jspecify.nullness.NullMarked;
  * @author Kevin Bourrillion
  * @since 2.0
  */
+@J2ktIncompatible
 @GwtCompatible(emulated = true)
 @NullMarked
 public final class MapMaker {

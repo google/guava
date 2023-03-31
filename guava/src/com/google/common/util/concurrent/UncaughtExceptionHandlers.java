@@ -21,7 +21,7 @@ import com.google.common.annotations.VisibleForTesting;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.Locale;
 import java.util.logging.Logger;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Factories for {@link UncaughtExceptionHandler} instances.
@@ -69,7 +69,7 @@ public final class UncaughtExceptionHandlers {
       try {
         logger.log(
             SEVERE, String.format(Locale.ROOT, "Caught an exception in %s.  Shutting down.", t), e);
-      } catch (Throwable errorInLogging) {
+      } catch (RuntimeException | Error errorInLogging) {
         // If logging fails, e.g. due to missing memory, at least try to log the
         // message and the cause for the failed logging.
         System.err.println(e.getMessage());

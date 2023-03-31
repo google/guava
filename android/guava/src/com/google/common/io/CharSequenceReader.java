@@ -20,11 +20,12 @@ import static com.google.common.base.Preconditions.checkPositionIndexes;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.CharBuffer;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * A {@link Reader} that reads the characters in a {@link CharSequence}. Like {@code StringReader},
@@ -33,6 +34,7 @@ import org.jspecify.nullness.NullMarked;
  * @author Colin Decker
  */
 // TODO(cgdecker): make this public? as a type, or a method in CharStreams?
+@J2ktIncompatible
 @GwtIncompatible
 @NullMarked
 final class CharSequenceReader extends Reader {

@@ -19,6 +19,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkPositionIndexes;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.primitives.UnsignedBytes;
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,7 +32,7 @@ import java.nio.charset.CharsetEncoder;
 import java.nio.charset.CoderResult;
 import java.nio.charset.CodingErrorAction;
 import java.util.Arrays;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * An {@link InputStream} that converts characters from a {@link Reader} into bytes using an
@@ -44,6 +45,7 @@ import org.jspecify.nullness.NullMarked;
  *
  * @author Chris Nokleberg
  */
+@J2ktIncompatible
 @GwtIncompatible
 @NullMarked
 final class ReaderInputStream extends InputStream {
@@ -199,8 +201,8 @@ final class ReaderInputStream extends InputStream {
   /** Handle the case of underflow caused by needing more input characters. */
   private void readMoreChars() throws IOException {
     // Possibilities:
-    // 1) array has space available on right hand side (between limit and capacity)
-    // 2) array has space available on left hand side (before position)
+    // 1) array has space available on right-hand side (between limit and capacity)
+    // 2) array has space available on left-hand side (before position)
     // 3) array has no space available
     //
     // In case 2 we shift the existing chars to the left, and in case 3 we create a bigger

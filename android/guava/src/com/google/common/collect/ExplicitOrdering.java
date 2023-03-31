@@ -20,7 +20,7 @@ import com.google.common.annotations.GwtCompatible;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /** An ordering that compares objects according to a given order. */
 @GwtCompatible(serializable = true)

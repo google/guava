@@ -41,8 +41,8 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A striped {@code Lock/Semaphore/ReadWriteLock}. This offers the underlying lock striping similar
@@ -207,14 +207,7 @@ public abstract class Striped<L> {
    * @return a new {@code Striped<Lock>}
    */
   public static Striped<Lock> lock(int stripes) {
-    return custom(
-        stripes,
-        new Supplier<Lock>() {
-          @Override
-          public Lock get() {
-            return new PaddedLock();
-          }
-        });
+    return custom(stripes, PaddedLock::new);
   }
 
   /**
@@ -225,14 +218,7 @@ public abstract class Striped<L> {
    * @return a new {@code Striped<Lock>}
    */
   public static Striped<Lock> lazyWeakLock(int stripes) {
-    return lazy(
-        stripes,
-        new Supplier<Lock>() {
-          @Override
-          public Lock get() {
-            return new ReentrantLock(false);
-          }
-        });
+    return lazy(stripes, () -> new ReentrantLock(false));
   }
 
   private static <L> Striped<L> lazy(int stripes, Supplier<L> supplier) {
@@ -249,15 +235,8 @@ public abstract class Striped<L> {
    * @param permits the number of permits in each semaphore
    * @return a new {@code Striped<Semaphore>}
    */
-  public static Striped<Semaphore> semaphore(int stripes, final int permits) {
-    return custom(
-        stripes,
-        new Supplier<Semaphore>() {
-          @Override
-          public Semaphore get() {
-            return new PaddedSemaphore(permits);
-          }
-        });
+  public static Striped<Semaphore> semaphore(int stripes, int permits) {
+    return custom(stripes, () -> new PaddedSemaphore(permits));
   }
 
   /**
@@ -268,15 +247,8 @@ public abstract class Striped<L> {
    * @param permits the number of permits in each semaphore
    * @return a new {@code Striped<Semaphore>}
    */
-  public static Striped<Semaphore> lazyWeakSemaphore(int stripes, final int permits) {
-    return lazy(
-        stripes,
-        new Supplier<Semaphore>() {
-          @Override
-          public Semaphore get() {
-            return new Semaphore(permits, false);
-          }
-        });
+  public static Striped<Semaphore> lazyWeakSemaphore(int stripes, int permits) {
+    return lazy(stripes, () -> new Semaphore(permits, false));
   }
 
   /**
@@ -287,7 +259,7 @@ public abstract class Striped<L> {
    * @return a new {@code Striped<ReadWriteLock>}
    */
   public static Striped<ReadWriteLock> readWriteLock(int stripes) {
-    return custom(stripes, READ_WRITE_LOCK_SUPPLIER);
+    return custom(stripes, ReentrantReadWriteLock::new);
   }
 
   /**
@@ -298,25 +270,8 @@ public abstract class Striped<L> {
    * @return a new {@code Striped<ReadWriteLock>}
    */
   public static Striped<ReadWriteLock> lazyWeakReadWriteLock(int stripes) {
-    return lazy(stripes, WEAK_SAFE_READ_WRITE_LOCK_SUPPLIER);
+    return lazy(stripes, WeakSafeReadWriteLock::new);
   }
-
-  private static final Supplier<ReadWriteLock> READ_WRITE_LOCK_SUPPLIER =
-      new Supplier<ReadWriteLock>() {
-        @Override
-        public ReadWriteLock get() {
-          return new ReentrantReadWriteLock();
-        }
-      };
-
-  private static final Supplier<ReadWriteLock> WEAK_SAFE_READ_WRITE_LOCK_SUPPLIER =
-      new Supplier<ReadWriteLock>() {
-        @Override
-        public ReadWriteLock get() {
-          return new WeakSafeReadWriteLock();
-        }
-      };
-
   /**
    * ReadWriteLock implementation whose read and write locks retain a reference back to this lock.
    * Otherwise, a reference to just the read lock or just the write lock would not suffice to ensure
@@ -442,7 +397,7 @@ public abstract class Striped<L> {
     final AtomicReferenceArray<@Nullable ArrayReference<? extends L>> locks;
     final Supplier<L> supplier;
     final int size;
-    final ReferenceQueue<L> queue = new ReferenceQueue<L>();
+    final ReferenceQueue<L> queue = new ReferenceQueue<>();
 
     SmallLazyStriped(int stripes, Supplier<L> supplier) {
       super(stripes);
@@ -462,7 +417,7 @@ public abstract class Striped<L> {
         return existing;
       }
       L created = supplier.get();
-      ArrayReference<L> newRef = new ArrayReference<L>(created, index, queue);
+      ArrayReference<L> newRef = new ArrayReference<>(created, index, queue);
       while (!locks.compareAndSet(index, existingRef, newRef)) {
         // we raced, we need to re-read and try again
         existingRef = locks.get(index);

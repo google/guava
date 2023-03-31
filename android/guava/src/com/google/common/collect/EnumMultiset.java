@@ -21,6 +21,7 @@ import static com.google.common.collect.CollectPreconditions.checkRemove;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.IOException;
@@ -31,20 +32,20 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Multiset implementation specialized for enum elements, supporting all single-element operations
  * in O(1).
  *
  * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multiset"> {@code
- * Multiset}</a>.
+ * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multiset">{@code Multiset}</a>.
  *
  * @author Jared Levy
  * @since 2.0
  */
 @GwtCompatible(emulated = true)
+@J2ktIncompatible
 @NullMarked
 public final class EnumMultiset<E extends Enum<E>> extends AbstractMultiset<E>
     implements Serializable {

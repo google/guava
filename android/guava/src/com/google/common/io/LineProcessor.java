@@ -16,10 +16,11 @@ package com.google.common.io;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.IOException;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A callback to be used with the streaming {@code readLines} methods.
@@ -31,6 +32,7 @@ import org.jspecify.nullness.Nullable;
  * @since 1.0
  */
 @Beta
+@J2ktIncompatible
 @GwtIncompatible
 @NullMarked
 public interface LineProcessor<T extends @Nullable Object> {
@@ -45,5 +47,6 @@ public interface LineProcessor<T extends @Nullable Object> {
   boolean processLine(String line) throws IOException;
 
   /** Return the result of processing all the lines. */
+  @ParametricNullness
   T getResult();
 }

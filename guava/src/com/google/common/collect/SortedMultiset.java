@@ -23,8 +23,8 @@ import java.util.Iterator;
 import java.util.NavigableSet;
 import java.util.Set;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A {@link Multiset} which maintains the ordering of its elements, according to either their
@@ -38,8 +38,7 @@ import org.jspecify.nullness.Nullable;
  * Collection} contract, which is specified in terms of {@link Object#equals}.
  *
  * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multiset"> {@code
- * Multiset}</a>.
+ * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multiset">{@code Multiset}</a>.
  *
  * @author Louis Wasserman
  * @since 11.0
@@ -94,8 +93,8 @@ public interface SortedMultiset<E extends @Nullable Object>
   /**
    * {@inheritDoc}
    *
-   * <p>The {@code entrySet}'s iterator returns entries in ascending element order according to the
-   * this multiset's comparator.
+   * <p>The {@code entrySet}'s iterator returns entries in ascending element order according to this
+   * multiset's comparator.
    */
   @Override
   Set<Entry<E>> entrySet();
@@ -124,7 +123,7 @@ public interface SortedMultiset<E extends @Nullable Object>
    * <p>The returned multiset will throw an {@link IllegalArgumentException} on attempts to add
    * elements outside its range.
    */
-  SortedMultiset<E> headMultiset(E upperBound, BoundType boundType);
+  SortedMultiset<E> headMultiset(@ParametricNullness E upperBound, BoundType boundType);
 
   /**
    * Returns a view of this multiset restricted to the range between {@code lowerBound} and {@code
@@ -139,7 +138,10 @@ public interface SortedMultiset<E extends @Nullable Object>
    * lowerBoundType).headMultiset(upperBound, upperBoundType)}.
    */
   SortedMultiset<E> subMultiset(
-      E lowerBound, BoundType lowerBoundType, E upperBound, BoundType upperBoundType);
+      @ParametricNullness E lowerBound,
+      BoundType lowerBoundType,
+      @ParametricNullness E upperBound,
+      BoundType upperBoundType);
 
   /**
    * Returns a view of this multiset restricted to the elements greater than {@code lowerBound},
@@ -150,5 +152,5 @@ public interface SortedMultiset<E extends @Nullable Object>
    * <p>The returned multiset will throw an {@link IllegalArgumentException} on attempts to add
    * elements outside its range.
    */
-  SortedMultiset<E> tailMultiset(E lowerBound, BoundType boundType);
+  SortedMultiset<E> tailMultiset(@ParametricNullness E lowerBound, BoundType boundType);
 }

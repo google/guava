@@ -20,8 +20,8 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Objects;
 import java.util.Map.Entry;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Implementation of the {@code equals}, {@code hashCode}, and {@code toString} methods of {@code
@@ -35,13 +35,16 @@ abstract class AbstractMapEntry<K extends @Nullable Object, V extends @Nullable 
     implements Entry<K, V> {
 
   @Override
+  @ParametricNullness
   public abstract K getKey();
 
   @Override
+  @ParametricNullness
   public abstract V getValue();
 
   @Override
-  public V setValue(V value) {
+  @ParametricNullness
+  public V setValue(@ParametricNullness V value) {
     throw new UnsupportedOperationException();
   }
 

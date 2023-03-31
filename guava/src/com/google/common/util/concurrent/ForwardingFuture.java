@@ -22,8 +22,8 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A {@link Future} which forwards all its method calls to another future. Subclasses should
@@ -35,7 +35,6 @@ import org.jspecify.nullness.Nullable;
  * @author Sven Mawson
  * @since 1.0
  */
-@CanIgnoreReturnValue // TODO(cpovirk): Consider being more strict.
 @GwtCompatible
 @NullMarked
 public abstract class ForwardingFuture<V extends @Nullable Object> extends ForwardingObject
@@ -47,6 +46,7 @@ public abstract class ForwardingFuture<V extends @Nullable Object> extends Forwa
   protected abstract Future<? extends V> delegate();
 
   @Override
+  @CanIgnoreReturnValue
   public boolean cancel(boolean mayInterruptIfRunning) {
     return delegate().cancel(mayInterruptIfRunning);
   }
@@ -62,11 +62,15 @@ public abstract class ForwardingFuture<V extends @Nullable Object> extends Forwa
   }
 
   @Override
+  @CanIgnoreReturnValue
+  @ParametricNullness
   public V get() throws InterruptedException, ExecutionException {
     return delegate().get();
   }
 
   @Override
+  @CanIgnoreReturnValue
+  @ParametricNullness
   public V get(long timeout, TimeUnit unit)
       throws InterruptedException, ExecutionException, TimeoutException {
     return delegate().get(timeout, unit);

@@ -18,7 +18,7 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.DoNotCall;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * "Overrides" the {@link ImmutableSet} static methods that lack {@link ImmutableSortedSet}

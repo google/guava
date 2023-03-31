@@ -21,7 +21,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.GwtCompatible;
 import java.io.Serializable;
 import java.util.Iterator;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /** An ordering that uses the reverse of the natural order of the values. */
 @GwtCompatible(serializable = true)

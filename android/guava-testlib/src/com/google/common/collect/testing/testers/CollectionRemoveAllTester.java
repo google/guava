@@ -29,6 +29,7 @@ import com.google.common.collect.testing.MinimalCollection;
 import com.google.common.collect.testing.WrongType;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
+import java.util.AbstractSet;
 import java.util.Collections;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
@@ -92,7 +93,7 @@ public class CollectionRemoveAllTester<E> extends AbstractCollectionTester<E> {
     }
   }
 
-  /** Trigger the {@code other.size() >= this.size()} case in {@link AbstractSet#removeAll()}. */
+  /** Trigger the {@code other.size() >= this.size()} case in {@link AbstractSet#removeAll}. */
   @CollectionFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(absent = ZERO)
   public void testRemoveAll_somePresentLargeCollectionToRemove() {

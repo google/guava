@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Throwables;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -28,8 +29,8 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.logging.Level;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A {@link Closeable} that collects {@code Closeable} resources and closes them all when it is
@@ -89,6 +90,7 @@ import org.jspecify.nullness.Nullable;
  */
 // Coffee's for {@link Closer closers} only.
 @Beta
+@J2ktIncompatible
 @GwtIncompatible
 @NullMarked
 public final class Closer implements Closeable {
@@ -125,7 +127,8 @@ public final class Closer implements Closeable {
    */
   // close. this word no longer has any meaning to me.
   @CanIgnoreReturnValue
-  public <C extends @Nullable Closeable> C register(C closeable) {
+  @ParametricNullness
+  public <C extends @Nullable Closeable> C register(@ParametricNullness C closeable) {
     if (closeable != null) {
       stack.addFirst(closeable);
     }

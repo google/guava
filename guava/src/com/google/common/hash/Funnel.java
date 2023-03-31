@@ -17,8 +17,8 @@ package com.google.common.hash;
 import com.google.common.annotations.Beta;
 import com.google.errorprone.annotations.DoNotMock;
 import java.io.Serializable;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An object which can send data from an object of type {@code T} into a {@code PrimitiveSink}.
@@ -54,5 +54,5 @@ public interface Funnel<T extends @Nullable Object> extends Serializable {
    *
    * @since 12.0 (in Guava 11.0, {@code PrimitiveSink} was named {@code Sink})
    */
-  void funnel(T from, PrimitiveSink into);
+  void funnel(@ParametricNullness T from, PrimitiveSink into);
 }

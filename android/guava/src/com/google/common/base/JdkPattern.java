@@ -15,13 +15,15 @@
 package com.google.common.base;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import java.io.Serializable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /** A regex pattern implementation which is backed by the {@link Pattern}. */
 @NullMarked
+@J2ktIncompatible
 @GwtIncompatible
 final class JdkPattern extends CommonPattern implements Serializable {
   private final Pattern pattern;

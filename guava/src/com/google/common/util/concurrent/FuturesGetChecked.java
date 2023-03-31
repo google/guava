@@ -36,14 +36,15 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /** Static methods used to implement {@link Futures#getChecked(Future, Class)}. */
 @GwtIncompatible
 @NullMarked
 final class FuturesGetChecked {
   @CanIgnoreReturnValue
+  @ParametricNullness
   static <V extends @Nullable Object, X extends Exception> V getChecked(
       Future<V> future, Class<X> exceptionClass) throws X {
     return getChecked(bestGetCheckedTypeValidator(), future, exceptionClass);
@@ -52,6 +53,7 @@ final class FuturesGetChecked {
   /** Implementation of {@link Futures#getChecked(Future, Class)}. */
   @CanIgnoreReturnValue
   @VisibleForTesting
+  @ParametricNullness
   static <V extends @Nullable Object, X extends Exception> V getChecked(
       GetCheckedTypeValidator validator, Future<V> future, Class<X> exceptionClass) throws X {
     validator.validateClass(exceptionClass);
@@ -68,6 +70,7 @@ final class FuturesGetChecked {
 
   /** Implementation of {@link Futures#getChecked(Future, Class, long, TimeUnit)}. */
   @CanIgnoreReturnValue
+  @ParametricNullness
   static <V extends @Nullable Object, X extends Exception> V getChecked(
       Future<V> future, Class<X> exceptionClass, long timeout, TimeUnit unit) throws X {
     // TODO(cpovirk): benchmark a version of this method that accepts a GetCheckedTypeValidator
@@ -191,7 +194,9 @@ final class FuturesGetChecked {
         Class<? extends Enum> theClass =
             Class.forName(CLASS_VALUE_VALIDATOR_NAME).asSubclass(Enum.class);
         return (GetCheckedTypeValidator) theClass.getEnumConstants()[0];
-      } catch (Throwable t) { // ensure we really catch *everything*
+      } catch (ClassNotFoundException
+          | RuntimeException
+          | Error t) { // ensure we really catch *everything*
         return weakSetValidator();
       }
     }
@@ -219,7 +224,7 @@ final class FuturesGetChecked {
     try {
       Exception unused = newWithCause(exceptionClass, new Exception());
       return true;
-    } catch (Exception e) {
+    } catch (RuntimeException | Error e) {
       return false;
     }
   }

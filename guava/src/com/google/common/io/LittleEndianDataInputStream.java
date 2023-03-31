@@ -16,6 +16,7 @@ package com.google.common.io;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Preconditions;
 import com.google.common.primitives.Ints;
 import com.google.common.primitives.Longs;
@@ -27,7 +28,7 @@ import java.io.EOFException;
 import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * An implementation of {@link DataInput} that uses little-endian byte ordering for reading {@code
@@ -41,6 +42,7 @@ import org.jspecify.nullness.NullMarked;
  * @since 8.0
  */
 @Beta
+@J2ktIncompatible
 @GwtIncompatible
 @NullMarked
 public final class LittleEndianDataInputStream extends FilterInputStream implements DataInput {

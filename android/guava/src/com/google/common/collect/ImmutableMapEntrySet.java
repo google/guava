@@ -18,11 +18,14 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
+import java.io.InvalidObjectException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.Map.Entry;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * {@code entrySet()} implementation for {@link ImmutableMap}.
@@ -104,12 +107,20 @@ abstract class ImmutableMapEntrySet<K, V> extends ImmutableSet<Entry<K, V>> {
   }
 
   @GwtIncompatible // serialization
+  @J2ktIncompatible
   @Override
   Object writeReplace() {
     return new EntrySetSerializedForm<>(map());
   }
 
   @GwtIncompatible // serialization
+  @J2ktIncompatible
+  private void readObject(ObjectInputStream stream) throws InvalidObjectException {
+    throw new InvalidObjectException("Use EntrySetSerializedForm");
+  }
+
+  @GwtIncompatible // serialization
+  @J2ktIncompatible
   private static class EntrySetSerializedForm<K, V> implements Serializable {
     final ImmutableMap<K, V> map;
 

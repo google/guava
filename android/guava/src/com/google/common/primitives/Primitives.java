@@ -16,12 +16,12 @@ package com.google.common.primitives;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.GwtCompatible;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Contains static utility methods pertaining to primitive types and their corresponding wrapper
@@ -30,7 +30,7 @@ import org.jspecify.nullness.NullMarked;
  * @author Kevin Bourrillion
  * @since 1.0
  */
-@GwtIncompatible
+@GwtCompatible
 @NullMarked
 public final class Primitives {
   private Primitives() {}

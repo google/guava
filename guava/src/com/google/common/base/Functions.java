@@ -22,8 +22,8 @@ import com.google.common.annotations.GwtCompatible;
 import java.io.Serializable;
 import java.util.Map;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Static utility methods pertaining to {@code com.google.common.base.Function} instances; see that
@@ -135,7 +135,7 @@ public final class Functions {
    *     defaultValue} otherwise
    */
   public static <K extends @Nullable Object, V extends @Nullable Object> Function<K, V> forMap(
-      Map<K, ? extends V> map, V defaultValue) {
+      Map<K, ? extends V> map, @ParametricNullness V defaultValue) {
     return new ForMapWithDefault<>(map, defaultValue);
   }
 
@@ -149,7 +149,8 @@ public final class Functions {
     }
 
     @Override
-    public V apply(K key) {
+    @ParametricNullness
+    public V apply(@ParametricNullness K key) {
       V result = map.get(key);
       checkArgument(result != null || map.containsKey(key), "Key '%s' not present in map", key);
       // The unchecked cast is safe because of the containsKey check.
@@ -181,15 +182,16 @@ public final class Functions {
   private static class ForMapWithDefault<K extends @Nullable Object, V extends @Nullable Object>
       implements Function<K, V>, Serializable {
     final Map<K, ? extends V> map;
-    final V defaultValue;
+    @ParametricNullness final V defaultValue;
 
-    ForMapWithDefault(Map<K, ? extends V> map, V defaultValue) {
+    ForMapWithDefault(Map<K, ? extends V> map, @ParametricNullness V defaultValue) {
       this.map = checkNotNull(map);
       this.defaultValue = defaultValue;
     }
 
     @Override
-    public V apply(K key) {
+    @ParametricNullness
+    public V apply(@ParametricNullness K key) {
       V result = map.get(key);
       // The unchecked cast is safe because of the containsKey check.
       return (result != null || map.containsKey(key))
@@ -249,7 +251,8 @@ public final class Functions {
     }
 
     @Override
-    public C apply(A a) {
+    @ParametricNullness
+    public C apply(@ParametricNullness A a) {
       return g.apply(f.apply(a));
     }
 
@@ -286,7 +289,7 @@ public final class Functions {
    */
   public static <T extends @Nullable Object> Function<T, Boolean> forPredicate(
       Predicate<T> predicate) {
-    return new PredicateFunction<T>(predicate);
+    return new PredicateFunction<>(predicate);
   }
 
   /** @see Functions#forPredicate */
@@ -299,7 +302,7 @@ public final class Functions {
     }
 
     @Override
-    public Boolean apply(T t) {
+    public Boolean apply(@ParametricNullness T t) {
       return predicate.apply(t);
     }
 
@@ -333,19 +336,21 @@ public final class Functions {
    * @param value the constant value for the function to return
    * @return a function that always returns {@code value}
    */
-  public static <E extends @Nullable Object> Function<@Nullable Object, E> constant(E value) {
+  public static <E extends @Nullable Object> Function<@Nullable Object, E> constant(
+      @ParametricNullness E value) {
     return new ConstantFunction<>(value);
   }
 
   private static class ConstantFunction<E extends @Nullable Object>
       implements Function<@Nullable Object, E>, Serializable {
-    private final E value;
+    @ParametricNullness private final E value;
 
-    public ConstantFunction(E value) {
+    public ConstantFunction(@ParametricNullness E value) {
       this.value = value;
     }
 
     @Override
+    @ParametricNullness
     public E apply(@CheckForNull Object from) {
       return value;
     }
@@ -395,7 +400,8 @@ public final class Functions {
     }
 
     @Override
-    public T apply(F input) {
+    @ParametricNullness
+    public T apply(@ParametricNullness F input) {
       return supplier.get();
     }
 

@@ -27,7 +27,7 @@ import java.util.Queue;
 import java.util.concurrent.Executor;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * A list of listeners for implementing a concurrency friendly observable object.
@@ -148,7 +148,7 @@ final class ListenerCallQueue<L> {
       this.executor = checkNotNull(executor);
     }
 
-    /** Enqueues a event to be run. */
+    /** Enqueues an event to be run. */
     synchronized void add(ListenerCallQueue.Event<L> event, Object label) {
       waitQueue.add(event);
       labelQueue.add(label);

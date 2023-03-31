@@ -30,7 +30,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.LongBinaryOperator;
 import java.util.function.LongUnaryOperator;
 import javax.annotation.CheckForNull;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * A map containing {@code long} values that can be atomically updated. While writes to a
@@ -44,6 +44,8 @@ import org.jspecify.nullness.NullMarked;
  *
  * <p>Instances of this class may be used by multiple threads concurrently. All operations are
  * atomic unless otherwise noted.
+ *
+ * <p>Instances of this class are serializable if the keys are serializable.
  *
  * <p><b>Note:</b> If your values are always positive and less than 2^31, you may wish to use a
  * {@link com.google.common.collect.Multiset} such as {@link

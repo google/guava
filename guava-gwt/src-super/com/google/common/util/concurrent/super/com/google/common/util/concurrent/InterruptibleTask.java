@@ -18,8 +18,12 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.util.concurrent.NullnessCasts.uncheckedCastNullableTToT;
 
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
+
 /** Emulation for InterruptibleTask in GWT. */
-abstract class InterruptibleTask<T> implements Runnable {
+@NullMarked
+abstract class InterruptibleTask<T extends @Nullable Object> implements Runnable {
 
   @Override
   public void run() {
