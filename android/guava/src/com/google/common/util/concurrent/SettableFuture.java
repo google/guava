@@ -46,7 +46,7 @@ public final class SettableFuture<V extends @Nullable Object>
 
   @CanIgnoreReturnValue
   @Override
-  public boolean set( V value) {
+  public boolean set(V value) {
     return super.set(value);
   }
 

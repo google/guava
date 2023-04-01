@@ -21,7 +21,9 @@ import com.google.common.collect.testing.AbstractCollectionTester;
 import java.util.Set;
 import org.junit.Ignore;
 
-/** @author George van den Driessche */
+/**
+ * @author George van den Driessche
+ */
 @GwtCompatible
 @Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class AbstractSetTester<E> extends AbstractCollectionTester<E> {

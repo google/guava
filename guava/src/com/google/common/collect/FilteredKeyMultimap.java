@@ -103,7 +103,7 @@ class FilteredKeyMultimap<K extends @Nullable Object, V extends @Nullable Object
   }
 
   @Override
-  public Collection<V> get( K key) {
+  public Collection<V> get(K key) {
     if (keyPredicate.apply(key)) {
       return unfiltered.get(key);
     } else if (unfiltered instanceof SetMultimap) {
@@ -115,14 +115,14 @@ class FilteredKeyMultimap<K extends @Nullable Object, V extends @Nullable Object
 
   static class AddRejectingSet<K extends @Nullable Object, V extends @Nullable Object>
       extends ForwardingSet<V> {
-     final K key;
+    final K key;
 
-    AddRejectingSet( K key) {
+    AddRejectingSet(K key) {
       this.key = key;
     }
 
     @Override
-    public boolean add( V element) {
+    public boolean add(V element) {
       throw new IllegalArgumentException("Key does not satisfy predicate: " + key);
     }
 
@@ -140,20 +140,20 @@ class FilteredKeyMultimap<K extends @Nullable Object, V extends @Nullable Object
 
   static class AddRejectingList<K extends @Nullable Object, V extends @Nullable Object>
       extends ForwardingList<V> {
-     final K key;
+    final K key;
 
-    AddRejectingList( K key) {
+    AddRejectingList(K key) {
       this.key = key;
     }
 
     @Override
-    public boolean add( V v) {
+    public boolean add(V v) {
       add(0, v);
       return true;
     }
 
     @Override
-    public void add(int index,  V element) {
+    public void add(int index, V element) {
       checkPositionIndex(index, 0);
       throw new IllegalArgumentException("Key does not satisfy predicate: " + key);
     }

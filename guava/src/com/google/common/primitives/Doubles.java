@@ -716,14 +716,10 @@ public final class Doubles extends DoublesMethodsForWeb {
    * that pass this regex are valid -- only a performance hit is incurred, not a semantics bug.
    */
   @GwtIncompatible // regular expressions
-  static final
-  java.util.regex.Pattern
-      FLOATING_POINT_PATTERN = fpPattern();
+  static final java.util.regex.Pattern FLOATING_POINT_PATTERN = fpPattern();
 
   @GwtIncompatible // regular expressions
-  private static
-  java.util.regex.Pattern
-      fpPattern() {
+  private static java.util.regex.Pattern fpPattern() {
     /*
      * We use # instead of * for possessive quantifiers. This lets us strip them out when building
      * the regex for RE2 (which doesn't support them) but leave them in when building it for
@@ -734,14 +730,8 @@ public final class Doubles extends DoublesMethodsForWeb {
     String hex = "(?:[0-9a-fA-F]+#(?:\\.[0-9a-fA-F]*#)?|\\.[0-9a-fA-F]+#)";
     String completeHex = "0[xX]" + hex + "[pP][+-]?\\d+#[fFdD]?";
     String fpPattern = "[+-]?(?:NaN|Infinity|" + completeDec + "|" + completeHex + ")";
-    fpPattern =
-        fpPattern.replace(
-            "#",
-            "+"
-            );
-    return
-    java.util.regex.Pattern
-        .compile(fpPattern);
+    fpPattern = fpPattern.replace("#", "+");
+    return java.util.regex.Pattern.compile(fpPattern);
   }
 
   /**

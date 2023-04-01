@@ -47,6 +47,5 @@ public interface Supplier<T extends @Nullable Object> extends java.util.function
    * @return an instance of the appropriate type
    */
   @Override
-  
   T get();
 }

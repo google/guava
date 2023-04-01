@@ -50,7 +50,6 @@ final class NullnessCasts {
    * addressed by this method is the case in which {@code T} has parametric nullness -- and thus its
    * value may be legitimately {@code null}.)
    */
-  
   @SuppressWarnings("nullness")
   static <T extends @Nullable Object> T uncheckedCastNullableTToT(@Nullable T t) {
     return t;
@@ -59,7 +58,7 @@ final class NullnessCasts {
   /** Returns {@code null} as any type, even one that does not include {@code null}. */
   @SuppressWarnings({"nullness", "TypeParameterUnusedInFormals", "ReturnMissingNullable"})
   // The warnings are legitimate. Each time we use this method, we document why.
-  
+
   static <T extends @Nullable Object> T unsafeNull() {
     return null;
   }

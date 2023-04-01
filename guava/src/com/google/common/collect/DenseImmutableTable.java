@@ -157,7 +157,8 @@ final class DenseImmutableTable<R, C, V> extends RegularImmutableTable<R, C, V> 
     }
 
     @Override
-    @Nullable V getValue(int keyIndex) {
+    @Nullable
+    V getValue(int keyIndex) {
       return values[rowIndex][keyIndex];
     }
 
@@ -181,7 +182,8 @@ final class DenseImmutableTable<R, C, V> extends RegularImmutableTable<R, C, V> 
     }
 
     @Override
-    @Nullable V getValue(int keyIndex) {
+    @Nullable
+    V getValue(int keyIndex) {
       return values[keyIndex][columnIndex];
     }
 

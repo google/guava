@@ -86,7 +86,7 @@ public abstract class ForwardingCollection<E extends @Nullable Object> extends F
 
   @CanIgnoreReturnValue
   @Override
-  public boolean add( E element) {
+  public boolean add(E element) {
     return delegate().add(element);
   }
 

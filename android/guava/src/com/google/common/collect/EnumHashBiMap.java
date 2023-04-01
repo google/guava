@@ -94,7 +94,7 @@ public final class EnumHashBiMap<K extends Enum<K>, V extends @Nullable Object>
   @Override
   @SuppressWarnings("RedundantOverride") // b/192446478: RedundantOverride ignores some annotations.
   // TODO(b/192446998): Remove this override after tools understand nullness better.
-  public @Nullable V put(K key,  V value) {
+  public @Nullable V put(K key, V value) {
     return super.put(key, value);
   }
 
@@ -102,7 +102,7 @@ public final class EnumHashBiMap<K extends Enum<K>, V extends @Nullable Object>
   @Override
   @SuppressWarnings("RedundantOverride") // b/192446478: RedundantOverride ignores some annotations.
   // TODO(b/192446998): Remove this override after tools understand nullness better.
-  public @Nullable V forcePut(K key,  V value) {
+  public @Nullable V forcePut(K key, V value) {
     return super.forcePut(key, value);
   }
 

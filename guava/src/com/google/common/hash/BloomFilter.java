@@ -83,20 +83,14 @@ public final class BloomFilter<T extends @Nullable Object> implements Predicate<
      * <p>Returns whether any bits changed as a result of this operation.
      */
     <T extends @Nullable Object> boolean put(
-         T object,
-        Funnel<? super T> funnel,
-        int numHashFunctions,
-        LockFreeBitArray bits);
+        T object, Funnel<? super T> funnel, int numHashFunctions, LockFreeBitArray bits);
 
     /**
      * Queries {@code numHashFunctions} bits of the given bit array, by hashing a user element;
      * returns {@code true} if and only if all selected bits are set.
      */
     <T extends @Nullable Object> boolean mightContain(
-         T object,
-        Funnel<? super T> funnel,
-        int numHashFunctions,
-        LockFreeBitArray bits);
+        T object, Funnel<? super T> funnel, int numHashFunctions, LockFreeBitArray bits);
 
     /**
      * Identifier used to encode this strategy, when marshalled as part of a BloomFilter. Only
@@ -146,7 +140,7 @@ public final class BloomFilter<T extends @Nullable Object> implements Predicate<
    * Returns {@code true} if the element <i>might</i> have been put in this Bloom filter, {@code
    * false} if this is <i>definitely</i> not the case.
    */
-  public boolean mightContain( T object) {
+  public boolean mightContain(T object) {
     return strategy.mightContain(object, funnel, numHashFunctions, bits);
   }
 
@@ -156,7 +150,7 @@ public final class BloomFilter<T extends @Nullable Object> implements Predicate<
    */
   @Deprecated
   @Override
-  public boolean apply( T input) {
+  public boolean apply(T input) {
     return mightContain(input);
   }
 
@@ -172,7 +166,7 @@ public final class BloomFilter<T extends @Nullable Object> implements Predicate<
    * @since 12.0 (present in 11.0 with {@code void} return type})
    */
   @CanIgnoreReturnValue
-  public boolean put( T object) {
+  public boolean put(T object) {
     return strategy.put(object, funnel, numHashFunctions, bits);
   }
 

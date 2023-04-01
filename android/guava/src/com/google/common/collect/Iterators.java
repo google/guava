@@ -141,7 +141,6 @@ public final class Iterators {
       }
 
       @Override
-      
       public T next() {
         return iterator.next();
       }
@@ -304,7 +303,6 @@ public final class Iterators {
    * @throws IllegalArgumentException if the iterator contains multiple elements. The state of the
    *     iterator is unspecified.
    */
-  
   public static <T extends @Nullable Object> T getOnlyElement(Iterator<T> iterator) {
     T first = iterator.next();
     if (!iterator.hasNext()) {
@@ -330,9 +328,8 @@ public final class Iterators {
    * @throws IllegalArgumentException if the iterator contains multiple elements. The state of the
    *     iterator is unspecified.
    */
-  
   public static <T extends @Nullable Object> T getOnlyElement(
-      Iterator<? extends T> iterator,  T defaultValue) {
+      Iterator<? extends T> iterator, T defaultValue) {
     return iterator.hasNext() ? getOnlyElement(iterator) : defaultValue;
   }
 
@@ -417,7 +414,6 @@ public final class Iterators {
       }
 
       @Override
-      
       public T next() {
         if (!iterator.hasNext()) {
           iterator = iterable.iterator();
@@ -722,7 +718,6 @@ public final class Iterators {
    *
    * @throws NoSuchElementException if no element in {@code iterator} matches the given predicate
    */
-  
   public static <T extends @Nullable Object> T find(
       Iterator<T> iterator, Predicate<? super T> predicate) {
     checkNotNull(iterator);
@@ -819,9 +814,9 @@ public final class Iterators {
       Iterator<F> fromIterator, Function<? super F, ? extends T> function) {
     checkNotNull(function);
     return new TransformedIterator<F, T>(fromIterator) {
-      
+
       @Override
-      T transform( F from) {
+      T transform(F from) {
         return function.apply(from);
       }
     };
@@ -836,7 +831,6 @@ public final class Iterators {
    * @throws IndexOutOfBoundsException if {@code position} is negative or greater than or equal to
    *     the number of elements remaining in {@code iterator}
    */
-  
   public static <T extends @Nullable Object> T get(Iterator<T> iterator, int position) {
     checkNonnegative(position);
     int skipped = advance(iterator, position);
@@ -863,9 +857,8 @@ public final class Iterators {
    * @throws IndexOutOfBoundsException if {@code position} is negative
    * @since 4.0
    */
-  
   public static <T extends @Nullable Object> T get(
-      Iterator<? extends T> iterator, int position,  T defaultValue) {
+      Iterator<? extends T> iterator, int position, T defaultValue) {
     checkNonnegative(position);
     advance(iterator, position);
     return getNext(iterator, defaultValue);
@@ -885,9 +878,8 @@ public final class Iterators {
    * @return the next element of {@code iterator} or the default value
    * @since 7.0
    */
-  
   public static <T extends @Nullable Object> T getNext(
-      Iterator<? extends T> iterator,  T defaultValue) {
+      Iterator<? extends T> iterator, T defaultValue) {
     return iterator.hasNext() ? iterator.next() : defaultValue;
   }
 
@@ -897,7 +889,6 @@ public final class Iterators {
    * @return the last element of {@code iterator}
    * @throws NoSuchElementException if the iterator is empty
    */
-  
   public static <T extends @Nullable Object> T getLast(Iterator<T> iterator) {
     while (true) {
       T current = iterator.next();
@@ -915,9 +906,8 @@ public final class Iterators {
    * @return the last element of {@code iterator}
    * @since 3.0
    */
-  
   public static <T extends @Nullable Object> T getLast(
-      Iterator<? extends T> iterator,  T defaultValue) {
+      Iterator<? extends T> iterator, T defaultValue) {
     return iterator.hasNext() ? getLast(iterator) : defaultValue;
   }
 
@@ -963,7 +953,6 @@ public final class Iterators {
       }
 
       @Override
-      
       public T next() {
         if (!hasNext()) {
           throw new NoSuchElementException();
@@ -1000,7 +989,6 @@ public final class Iterators {
       }
 
       @Override
-      
       public T next() {
         T next = iterator.next();
         iterator.remove();
@@ -1089,7 +1077,6 @@ public final class Iterators {
     }
 
     @Override
-    
     protected T get(int index) {
       return array[offset + index];
     }
@@ -1100,8 +1087,7 @@ public final class Iterators {
    *
    * <p>The {@link Iterable} equivalent of this method is {@link Collections#singleton}.
    */
-  public static <T extends @Nullable Object> UnmodifiableIterator<T> singletonIterator(
-       T value) {
+  public static <T extends @Nullable Object> UnmodifiableIterator<T> singletonIterator(T value) {
     return new UnmodifiableIterator<T>() {
       boolean done;
 
@@ -1111,7 +1097,6 @@ public final class Iterators {
       }
 
       @Override
-      
       public T next() {
         if (done) {
           throw new NoSuchElementException();
@@ -1142,7 +1127,6 @@ public final class Iterators {
       }
 
       @Override
-      
       public T next() {
         return enumeration.nextElement();
       }
@@ -1164,7 +1148,6 @@ public final class Iterators {
       }
 
       @Override
-      
       public T nextElement() {
         return iterator.next();
       }
@@ -1188,7 +1171,6 @@ public final class Iterators {
     }
 
     @Override
-    
     public E next() {
       if (!hasPeeked) {
         return iterator.next();
@@ -1207,7 +1189,6 @@ public final class Iterators {
     }
 
     @Override
-    
     public E peek() {
       if (!hasPeeked) {
         peekedElement = iterator.next();
@@ -1334,7 +1315,6 @@ public final class Iterators {
     }
 
     @Override
-    
     public T next() {
       PeekingIterator<T> nextIter = queue.remove();
       T next = nextIter.next();
@@ -1420,7 +1400,6 @@ public final class Iterators {
     }
 
     @Override
-    
     public T next() {
       if (hasNext()) {
         toRemove = iterator;

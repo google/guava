@@ -187,7 +187,6 @@ class ObjectCountHashMap<K extends @Nullable Object> {
   }
 
   @SuppressWarnings("unchecked")
-  
   K getKey(int index) {
     checkElementIndex(index, size);
     return (K) keys[index];
@@ -209,7 +208,7 @@ class ObjectCountHashMap<K extends @Nullable Object> {
   }
 
   class MapEntry extends AbstractEntry<K> {
-     final K key;
+    final K key;
 
     int lastKnownIndex;
 
@@ -220,7 +219,6 @@ class ObjectCountHashMap<K extends @Nullable Object> {
     }
 
     @Override
-    
     public K getElement() {
       return key;
     }
@@ -280,7 +278,7 @@ class ObjectCountHashMap<K extends @Nullable Object> {
   }
 
   @CanIgnoreReturnValue
-  public int put( K key, int value) {
+  public int put(K key, int value) {
     checkPositive(value, "count");
     long[] entries = this.entries;
     @Nullable Object[] keys = this.keys;
@@ -325,7 +323,7 @@ class ObjectCountHashMap<K extends @Nullable Object> {
   /**
    * Creates a fresh entry with the specified object at the specified position in the entry array.
    */
-  void insertEntry(int entryIndex,  K key, int value, int hash) {
+  void insertEntry(int entryIndex, K key, int value, int hash) {
     this.entries[entryIndex] = ((long) hash << 32) | (NEXT_MASK & UNSET);
     this.keys[entryIndex] = key;
     this.values[entryIndex] = value;

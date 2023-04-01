@@ -98,7 +98,6 @@ abstract class AbstractMapBasedMultiset<E extends @Nullable Object> extends Abst
       }
 
       @Override
-      
       public E next() {
         final Map.Entry<E, Count> mapEntry = backingEntries.next();
         toRemove = mapEntry;
@@ -132,7 +131,6 @@ abstract class AbstractMapBasedMultiset<E extends @Nullable Object> extends Abst
         toRemove = mapEntry;
         return new Multisets.AbstractEntry<E>() {
           @Override
-          
           public E getElement() {
             return mapEntry.getKey();
           }
@@ -214,7 +212,6 @@ abstract class AbstractMapBasedMultiset<E extends @Nullable Object> extends Abst
     }
 
     @Override
-    
     public E next() {
       if (occurrencesLeft == 0) {
         currentEntry = entryIterator.next();
@@ -264,7 +261,7 @@ abstract class AbstractMapBasedMultiset<E extends @Nullable Object> extends Abst
    */
   @CanIgnoreReturnValue
   @Override
-  public int add( E element, int occurrences) {
+  public int add(E element, int occurrences) {
     if (occurrences == 0) {
       return count(element);
     }
@@ -314,7 +311,7 @@ abstract class AbstractMapBasedMultiset<E extends @Nullable Object> extends Abst
   // Roughly a 33% performance improvement over AbstractMultiset.setCount().
   @CanIgnoreReturnValue
   @Override
-  public int setCount( E element, int count) {
+  public int setCount(E element, int count) {
     checkNonnegative(count, "count");
 
     Count existingCounter;

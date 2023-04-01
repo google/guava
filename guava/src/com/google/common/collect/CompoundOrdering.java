@@ -41,7 +41,7 @@ final class CompoundOrdering<T extends @Nullable Object> extends Ordering<T>
   }
 
   @Override
-  public int compare( T left,  T right) {
+  public int compare(T left, T right) {
     for (int i = 0; i < comparators.length; i++) {
       int result = comparators[i].compare(left, right);
       if (result != 0) {

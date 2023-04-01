@@ -51,6 +51,5 @@ public interface ByteProcessor<T extends @Nullable Object> {
   boolean processBytes(byte[] buf, int off, int len) throws IOException;
 
   /** Return the result of processing all the bytes. */
-  
   T getResult();
 }

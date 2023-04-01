@@ -100,13 +100,15 @@ final class Types {
   private enum ClassOwnership {
     OWNED_BY_ENCLOSING_CLASS {
       @Override
-      @Nullable Class<?> getOwnerType(Class<?> rawType) {
+      @Nullable
+      Class<?> getOwnerType(Class<?> rawType) {
         return rawType.getEnclosingClass();
       }
     },
     LOCAL_CLASS_HAS_NO_OWNER {
       @Override
-      @Nullable Class<?> getOwnerType(Class<?> rawType) {
+      @Nullable
+      Class<?> getOwnerType(Class<?> rawType) {
         if (rawType.isLocalClass()) {
           return null;
         } else {
@@ -238,7 +240,7 @@ final class Types {
     }
 
     @Override
-    public boolean equals( @Nullable Object obj) {
+    public boolean equals(@Nullable Object obj) {
       if (obj instanceof GenericArrayType) {
         GenericArrayType that = (GenericArrayType) obj;
         return Objects.equal(getGenericComponentType(), that.getGenericComponentType());
@@ -301,7 +303,7 @@ final class Types {
     }
 
     @Override
-    public boolean equals( @Nullable Object other) {
+    public boolean equals(@Nullable Object other) {
       if (!(other instanceof ParameterizedType)) {
         return false;
       }
@@ -432,7 +434,7 @@ final class Types {
     }
 
     @Override
-    public boolean equals( @Nullable Object obj) {
+    public boolean equals(@Nullable Object obj) {
       if (NativeTypeVariableEquals.NATIVE_TYPE_VARIABLE_ONLY) {
         // equal only to our TypeVariable implementation with identical bounds
         if (obj != null
@@ -481,7 +483,7 @@ final class Types {
     }
 
     @Override
-    public boolean equals( @Nullable Object obj) {
+    public boolean equals(@Nullable Object obj) {
       if (obj instanceof WildcardType) {
         WildcardType that = (WildcardType) obj;
         return lowerBounds.equals(Arrays.asList(that.getLowerBounds()))

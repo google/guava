@@ -484,7 +484,9 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
     throw new AssertionError("should never be called");
   }
 
-  /** @deprecated Internal method, use {@link #entrySet()}. */
+  /**
+   * @deprecated Internal method, use {@link #entrySet()}.
+   */
   @Deprecated
   @Override
   public Set<Multiset.Entry<E>> createEntrySet() {
@@ -589,7 +591,9 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
     }
   }
 
-  /** @serialData the ConcurrentMap of elements and their counts. */
+  /**
+   * @serialData the ConcurrentMap of elements and their counts.
+   */
   private void writeObject(ObjectOutputStream stream) throws IOException {
     stream.defaultWriteObject();
     stream.writeObject(countMap);

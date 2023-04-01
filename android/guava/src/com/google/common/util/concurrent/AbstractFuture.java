@@ -107,14 +107,12 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
       implements Trusted<V> {
     @CanIgnoreReturnValue
     @Override
-    
     public final V get() throws InterruptedException, ExecutionException {
       return super.get();
     }
 
     @CanIgnoreReturnValue
     @Override
-    
     public final V get(long timeout, TimeUnit unit)
         throws InterruptedException, ExecutionException, TimeoutException {
       return super.get(timeout, unit);
@@ -429,7 +427,6 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
    */
   @CanIgnoreReturnValue
   @Override
-  
   public V get(long timeout, TimeUnit unit)
       throws InterruptedException, TimeoutException, ExecutionException {
     // NOTE: if timeout < 0, remainingNanos will be < 0 and we will fall into the while(true) loop
@@ -542,7 +539,6 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
    */
   @CanIgnoreReturnValue
   @Override
-  
   public V get() throws InterruptedException, ExecutionException {
     if (Thread.interrupted()) {
       throw new InterruptedException();
@@ -583,7 +579,6 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
   }
 
   /** Unboxes {@code obj}. Assumes that obj is not {@code null} or a {@link SetFuture}. */
-  
   private V getDoneValue(Object obj) throws ExecutionException {
     // While this seems like it might be too branch-y, simple benchmarking proves it to be
     // unmeasurable (comparing done AbstractFutures with immediateFuture)
@@ -777,10 +772,10 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
    * @return true if the attempt was accepted, completing the {@code Future}
    */
   @CanIgnoreReturnValue
-  protected boolean set( V value) {
+  protected boolean set(V value) {
     Object valueToSet = value == null ? NULL : value;
     if (ATOMIC_HELPER.casValue(this, null, valueToSet)) {
-      complete(this, /*callInterruptTask=*/ false);
+      complete(this, /* callInterruptTask= */ false);
       return true;
     }
     return false;
@@ -805,7 +800,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
   protected boolean setException(Throwable throwable) {
     Object valueToSet = new Failure(checkNotNull(throwable));
     if (ATOMIC_HELPER.casValue(this, null, valueToSet)) {
-      complete(this, /*callInterruptTask=*/ false);
+      complete(this, /* callInterruptTask= */ false);
       return true;
     }
     return false;
@@ -976,7 +971,6 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
    * An inlined private copy of {@link Uninterruptibles#getUninterruptibly} used to break an
    * internal dependency on other /util/concurrent classes.
    */
-  
   private static <V extends @Nullable Object> V getUninterruptibly(Future<V> future)
       throws ExecutionException {
     boolean interrupted = false;

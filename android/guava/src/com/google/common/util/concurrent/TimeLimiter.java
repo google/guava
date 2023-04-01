@@ -100,7 +100,6 @@ public interface TimeLimiter {
    * @since 22.0
    */
   @CanIgnoreReturnValue
-  
   <T extends @Nullable Object> T callWithTimeout(
       Callable<T> callable, long timeoutDuration, TimeUnit timeoutUnit)
       throws TimeoutException, InterruptedException, ExecutionException;
@@ -125,7 +124,6 @@ public interface TimeLimiter {
    * @since 22.0
    */
   @CanIgnoreReturnValue
-  
   <T extends @Nullable Object> T callUninterruptiblyWithTimeout(
       Callable<T> callable, long timeoutDuration, TimeUnit timeoutUnit)
       throws TimeoutException, ExecutionException;

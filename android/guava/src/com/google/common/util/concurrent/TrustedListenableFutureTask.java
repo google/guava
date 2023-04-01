@@ -54,7 +54,7 @@ class TrustedListenableFutureTask<V extends @Nullable Object> extends FluentFutu
    *     ListenableFutureTask.create(runnable, null)}
    */
   static <V extends @Nullable Object> TrustedListenableFutureTask<V> create(
-      Runnable runnable,  V result) {
+      Runnable runnable, V result) {
     return new TrustedListenableFutureTask<>(Executors.callable(runnable, result));
   }
 
@@ -125,13 +125,12 @@ class TrustedListenableFutureTask<V extends @Nullable Object> extends FluentFutu
     }
 
     @Override
-    
     V runInterruptibly() throws Exception {
       return callable.call();
     }
 
     @Override
-    void afterRanInterruptiblySuccess( V result) {
+    void afterRanInterruptiblySuccess(V result) {
       TrustedListenableFutureTask.this.set(result);
     }
 

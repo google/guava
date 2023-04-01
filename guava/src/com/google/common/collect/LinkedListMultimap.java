@@ -109,33 +109,30 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
 
   private static final class Node<K extends @Nullable Object, V extends @Nullable Object>
       extends AbstractMapEntry<K, V> {
-     final K key;
-     V value;
+    final K key;
+    V value;
     @Nullable Node<K, V> next; // the next node (with any key)
     @Nullable Node<K, V> previous; // the previous node (with any key)
     @Nullable Node<K, V> nextSibling; // the next node with the same key
     @Nullable Node<K, V> previousSibling; // the previous node with the same key
 
-    Node( K key,  V value) {
+    Node(K key, V value) {
       this.key = key;
       this.value = value;
     }
 
     @Override
-    
     public K getKey() {
       return key;
     }
 
     @Override
-    
     public V getValue() {
       return value;
     }
 
     @Override
-    
-    public V setValue( V newValue) {
+    public V setValue(V newValue) {
       V result = value;
       this.value = newValue;
       return result;
@@ -217,8 +214,7 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
    * is specified, it MUST be for a node for the same {@code key}!
    */
   @CanIgnoreReturnValue
-  private Node<K, V> addNode(
-       K key,  V value, @Nullable Node<K, V> nextSibling) {
+  private Node<K, V> addNode(K key, V value, @Nullable Node<K, V> nextSibling) {
     Node<K, V> node = new Node<>(key, value);
     if (head == null) { // empty list
       head = tail = node;
@@ -316,7 +312,7 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
   }
 
   /** Removes all nodes for the specified key. */
-  private void removeAllNodes( K key) {
+  private void removeAllNodes(K key) {
     Iterators.clear(new ValueForKeyIterator(key));
   }
 
@@ -425,7 +421,7 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
       throw new UnsupportedOperationException();
     }
 
-    void setValue( V value) {
+    void setValue(V value) {
       checkState(current != null);
       current.value = value;
     }
@@ -451,7 +447,6 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
     }
 
     @Override
-    
     public K next() {
       checkForConcurrentModification();
       if (next == null) {
@@ -477,14 +472,14 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
 
   /** A {@code ListIterator} over values for a specified key. */
   private class ValueForKeyIterator implements ListIterator<V> {
-     final K key;
+    final K key;
     int nextIndex;
     @Nullable Node<K, V> next;
     @Nullable Node<K, V> current;
     @Nullable Node<K, V> previous;
 
     /** Constructs a new iterator over all values for the specified key. */
-    ValueForKeyIterator( K key) {
+    ValueForKeyIterator(K key) {
       this.key = key;
       KeyList<K, V> keyList = keyToKeyList.get(key);
       next = (keyList == null) ? null : keyList.head;
@@ -498,7 +493,7 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
      *
      * @throws IndexOutOfBoundsException if index is invalid
      */
-    public ValueForKeyIterator( K key, int index) {
+    public ValueForKeyIterator(K key, int index) {
       KeyList<K, V> keyList = keyToKeyList.get(key);
       int size = (keyList == null) ? 0 : keyList.count;
       checkPositionIndex(index, size);
@@ -525,7 +520,6 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
 
     @CanIgnoreReturnValue
     @Override
-    
     public V next() {
       if (next == null) {
         throw new NoSuchElementException();
@@ -543,7 +537,6 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
 
     @CanIgnoreReturnValue
     @Override
-    
     public V previous() {
       if (previous == null) {
         throw new NoSuchElementException();
@@ -578,13 +571,13 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
     }
 
     @Override
-    public void set( V value) {
+    public void set(V value) {
       checkState(current != null);
       current.value = value;
     }
 
     @Override
-    public void add( V value) {
+    public void add(V value) {
       previous = addNode(key, value, next);
       nextIndex++;
       current = null;
@@ -624,7 +617,7 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
    */
   @CanIgnoreReturnValue
   @Override
-  public boolean put( K key,  V value) {
+  public boolean put(K key, V value) {
     addNode(key, value, null);
     return true;
   }
@@ -641,7 +634,7 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
    */
   @CanIgnoreReturnValue
   @Override
-  public List<V> replaceValues( K key, Iterable<? extends V> values) {
+  public List<V> replaceValues(K key, Iterable<? extends V> values) {
     List<V> oldValues = getCopy(key);
     ListIterator<V> keyValues = new ValueForKeyIterator(key);
     Iterator<? extends V> newValues = values.iterator();
@@ -666,7 +659,7 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
     return oldValues;
   }
 
-  private List<V> getCopy( K key) {
+  private List<V> getCopy(K key) {
     return unmodifiableList(Lists.newArrayList(new ValueForKeyIterator(key)));
   }
 
@@ -711,7 +704,7 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
    * <p>The returned list is not serializable and does not have random access.
    */
   @Override
-  public List<V> get( final K key) {
+  public List<V> get(final K key) {
     return new AbstractSequentialList<V>() {
       @Override
       public int size() {
@@ -785,13 +778,12 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
         final NodeIterator nodeItr = new NodeIterator(index);
         return new TransformedListIterator<Entry<K, V>, V>(nodeItr) {
           @Override
-          
           V transform(Entry<K, V> entry) {
             return entry.getValue();
           }
 
           @Override
-          public void set( V value) {
+          public void set(V value) {
             nodeItr.setValue(value);
           }
         };

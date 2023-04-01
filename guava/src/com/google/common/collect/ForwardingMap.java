@@ -105,7 +105,7 @@ public abstract class ForwardingMap<K extends @Nullable Object, V extends @Nulla
 
   @CanIgnoreReturnValue
   @Override
-  public @Nullable V put( K key,  V value) {
+  public @Nullable V put(K key, V value) {
     return delegate().put(key, value);
   }
 

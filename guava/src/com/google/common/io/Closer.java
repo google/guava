@@ -126,8 +126,7 @@ public final class Closer implements Closeable {
    */
   // close. this word no longer has any meaning to me.
   @CanIgnoreReturnValue
-  
-  public <C extends @Nullable Closeable> C register( C closeable) {
+  public <C extends @Nullable Closeable> C register(C closeable) {
     if (closeable != null) {
       stack.addFirst(closeable);
     }

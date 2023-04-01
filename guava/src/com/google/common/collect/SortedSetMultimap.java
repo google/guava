@@ -65,7 +65,7 @@ public interface SortedSetMultimap<K extends @Nullable Object, V extends @Nullab
    * {@link Multimap} interface.
    */
   @Override
-  SortedSet<V> get( K key);
+  SortedSet<V> get(K key);
 
   /**
    * Removes all values associated with a given key.
@@ -89,7 +89,7 @@ public interface SortedSetMultimap<K extends @Nullable Object, V extends @Nullab
    */
   @CanIgnoreReturnValue
   @Override
-  SortedSet<V> replaceValues( K key, Iterable<? extends V> values);
+  SortedSet<V> replaceValues(K key, Iterable<? extends V> values);
 
   /**
    * Returns a map view that associates each key with the corresponding values in the multimap.
@@ -115,5 +115,6 @@ public interface SortedSetMultimap<K extends @Nullable Object, V extends @Nullab
    * Returns the comparator that orders the multimap values, with {@code null} indicating that
    * natural ordering is used.
    */
-  @Nullable Comparator<? super V> valueComparator();
+  @Nullable
+  Comparator<? super V> valueComparator();
 }

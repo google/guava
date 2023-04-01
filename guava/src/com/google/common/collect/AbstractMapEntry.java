@@ -34,16 +34,13 @@ abstract class AbstractMapEntry<K extends @Nullable Object, V extends @Nullable 
     implements Entry<K, V> {
 
   @Override
-  
   public abstract K getKey();
 
   @Override
-  
   public abstract V getValue();
 
   @Override
-  
-  public V setValue( V value) {
+  public V setValue(V value) {
     throw new UnsupportedOperationException();
   }
 

@@ -122,43 +122,34 @@ public final class Tables {
    * @param value the value to be associated with the returned cell
    */
   public static <R extends @Nullable Object, C extends @Nullable Object, V extends @Nullable Object>
-      Cell<R, C, V> immutableCell(
-           R rowKey,
-           C columnKey,
-           V value) {
+      Cell<R, C, V> immutableCell(R rowKey, C columnKey, V value) {
     return new ImmutableCell<>(rowKey, columnKey, value);
   }
 
   static final class ImmutableCell<
           R extends @Nullable Object, C extends @Nullable Object, V extends @Nullable Object>
       extends AbstractCell<R, C, V> implements Serializable {
-     private final R rowKey;
-     private final C columnKey;
-     private final V value;
+    private final R rowKey;
+    private final C columnKey;
+    private final V value;
 
-    ImmutableCell(
-         R rowKey,
-         C columnKey,
-         V value) {
+    ImmutableCell(R rowKey, C columnKey, V value) {
       this.rowKey = rowKey;
       this.columnKey = columnKey;
       this.value = value;
     }
 
     @Override
-    
     public R getRowKey() {
       return rowKey;
     }
 
     @Override
-    
     public C getColumnKey() {
       return columnKey;
     }
 
     @Override
-    
     public V getValue() {
       return value;
     }
@@ -231,7 +222,7 @@ public final class Tables {
     }
 
     @Override
-    public Map<C, V> column( R columnKey) {
+    public Map<C, V> column(R columnKey) {
       return original.row(columnKey);
     }
 
@@ -271,10 +262,7 @@ public final class Tables {
     }
 
     @Override
-    public @Nullable V put(
-         C rowKey,
-         R columnKey,
-         V value) {
+    public @Nullable V put(C rowKey, R columnKey, V value) {
       return original.put(columnKey, rowKey, value);
     }
 
@@ -289,7 +277,7 @@ public final class Tables {
     }
 
     @Override
-    public Map<R, V> row( C rowKey) {
+    public Map<R, V> row(C rowKey) {
       return original.column(rowKey);
     }
 
@@ -457,10 +445,7 @@ public final class Tables {
     }
 
     @Override
-    public @Nullable V2 put(
-         R rowKey,
-         C columnKey,
-         V2 value) {
+    public @Nullable V2 put(R rowKey, C columnKey, V2 value) {
       throw new UnsupportedOperationException();
     }
 
@@ -478,12 +463,12 @@ public final class Tables {
     }
 
     @Override
-    public Map<C, V2> row( R rowKey) {
+    public Map<C, V2> row(R rowKey) {
       return Maps.transformValues(fromTable.row(rowKey), function);
     }
 
     @Override
-    public Map<R, V2> column( C columnKey) {
+    public Map<R, V2> column(C columnKey) {
       return Maps.transformValues(fromTable.column(columnKey), function);
     }
 
@@ -590,7 +575,7 @@ public final class Tables {
     }
 
     @Override
-    public Map<R, V> column( C columnKey) {
+    public Map<R, V> column(C columnKey) {
       return Collections.unmodifiableMap(super.column(columnKey));
     }
 
@@ -606,10 +591,7 @@ public final class Tables {
     }
 
     @Override
-    public @Nullable V put(
-         R rowKey,
-         C columnKey,
-         V value) {
+    public @Nullable V put(R rowKey, C columnKey, V value) {
       throw new UnsupportedOperationException();
     }
 
@@ -624,7 +606,7 @@ public final class Tables {
     }
 
     @Override
-    public Map<C, V> row( R rowKey) {
+    public Map<C, V> row(R rowKey) {
       return Collections.unmodifiableMap(super.row(rowKey));
     }
 
@@ -746,7 +728,7 @@ public final class Tables {
     return Synchronized.table(table, null);
   }
 
-  static boolean equalsImpl(Table<?, ?, ?> table,  @Nullable Object obj) {
+  static boolean equalsImpl(Table<?, ?, ?> table, @Nullable Object obj) {
     if (obj == table) {
       return true;
     } else if (obj instanceof Table) {

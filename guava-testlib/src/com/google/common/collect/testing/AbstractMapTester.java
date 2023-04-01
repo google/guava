@@ -48,7 +48,9 @@ public abstract class AbstractMapTester<K, V>
     return getMap().entrySet();
   }
 
-  /** @see AbstractContainerTester#resetContainer() */
+  /**
+   * @see AbstractContainerTester#resetContainer()
+   */
   protected final void resetMap() {
     resetContainer();
   }
@@ -69,7 +71,9 @@ public abstract class AbstractMapTester<K, V>
     }
   }
 
-  /** @return an array of the proper size with {@code null} as the key of the middle element. */
+  /**
+   * @return an array of the proper size with {@code null} as the key of the middle element.
+   */
   protected Entry<K, V>[] createArrayWithNullKey() {
     Entry<K, V>[] array = createSamplesArray();
     int nullKeyLocation = getNullLocation();
@@ -94,7 +98,9 @@ public abstract class AbstractMapTester<K, V>
     return entries.next();
   }
 
-  /** @return an array of the proper size with {@code null} as the value of the middle element. */
+  /**
+   * @return an array of the proper size with {@code null} as the value of the middle element.
+   */
   protected Entry<K, V>[] createArrayWithNullValue() {
     Entry<K, V>[] array = createSamplesArray();
     int nullValueLocation = getNullLocation();

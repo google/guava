@@ -207,11 +207,9 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, @Nullable V>
 
     abstract String getKeyRole();
 
-    
     abstract V getValue(int index);
 
-    
-    abstract V setValue(int index,  V newValue);
+    abstract V setValue(int index, V newValue);
 
     @Override
     public int size() {
@@ -232,14 +230,12 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, @Nullable V>
         }
 
         @Override
-        
         public V getValue() {
           return ArrayMap.this.getValue(index);
         }
 
         @Override
-        
-        public V setValue( V value) {
+        public V setValue(V value) {
           return ArrayMap.this.setValue(index, value);
         }
       };
@@ -278,7 +274,7 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, @Nullable V>
     }
 
     @Override
-    public @Nullable V put(K key,  V value) {
+    public @Nullable V put(K key, V value) {
       Integer index = keyIndex.get(key);
       if (index == null) {
         throw new IllegalArgumentException(
@@ -628,12 +624,14 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, @Nullable V>
     }
 
     @Override
-    @Nullable V getValue(int index) {
+    @Nullable
+    V getValue(int index) {
       return at(index, columnIndex);
     }
 
     @Override
-    @Nullable V setValue(int index, @Nullable V newValue) {
+    @Nullable
+    V setValue(int index, @Nullable V newValue) {
       return set(index, columnIndex, newValue);
     }
   }
@@ -649,7 +647,7 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, @Nullable V>
     return columnKeyToIndex.keySet();
   }
 
-   private transient @Nullable ColumnMap columnMap;
+  private transient @Nullable ColumnMap columnMap;
 
   @Override
   public Map<C, Map<R, @Nullable V>> columnMap() {
@@ -720,12 +718,14 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, @Nullable V>
     }
 
     @Override
-    @Nullable V getValue(int index) {
+    @Nullable
+    V getValue(int index) {
       return at(rowIndex, index);
     }
 
     @Override
-    @Nullable V setValue(int index,  @Nullable V newValue) {
+    @Nullable
+    V setValue(int index, @Nullable V newValue) {
       return set(rowIndex, index, newValue);
     }
   }
@@ -741,7 +741,7 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, @Nullable V>
     return rowKeyToIndex.keySet();
   }
 
-   private transient @Nullable RowMap rowMap;
+  private transient @Nullable RowMap rowMap;
 
   @Override
   public Map<R, Map<C, @Nullable V>> rowMap() {

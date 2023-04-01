@@ -54,12 +54,12 @@ public abstract class ForwardingDeque<E extends @Nullable Object> extends Forwar
   protected abstract Deque<E> delegate();
 
   @Override
-  public void addFirst( E e) {
+  public void addFirst(E e) {
     delegate().addFirst(e);
   }
 
   @Override
-  public void addLast( E e) {
+  public void addLast(E e) {
     delegate().addLast(e);
   }
 
@@ -69,26 +69,24 @@ public abstract class ForwardingDeque<E extends @Nullable Object> extends Forwar
   }
 
   @Override
-  
   public E getFirst() {
     return delegate().getFirst();
   }
 
   @Override
-  
   public E getLast() {
     return delegate().getLast();
   }
 
   @CanIgnoreReturnValue // TODO(cpovirk): Consider removing this?
   @Override
-  public boolean offerFirst( E e) {
+  public boolean offerFirst(E e) {
     return delegate().offerFirst(e);
   }
 
   @CanIgnoreReturnValue // TODO(cpovirk): Consider removing this?
   @Override
-  public boolean offerLast( E e) {
+  public boolean offerLast(E e) {
     return delegate().offerLast(e);
   }
 
@@ -116,26 +114,23 @@ public abstract class ForwardingDeque<E extends @Nullable Object> extends Forwar
 
   @CanIgnoreReturnValue
   @Override
-  
   public E pop() {
     return delegate().pop();
   }
 
   @Override
-  public void push( E e) {
+  public void push(E e) {
     delegate().push(e);
   }
 
   @CanIgnoreReturnValue
   @Override
-  
   public E removeFirst() {
     return delegate().removeFirst();
   }
 
   @CanIgnoreReturnValue
   @Override
-  
   public E removeLast() {
     return delegate().removeLast();
   }

@@ -394,10 +394,10 @@ public final class Streams {
 
   // Use this carefully - it doesn't implement value semantics
   private static class TemporaryPair<A extends @Nullable Object, B extends @Nullable Object> {
-     final A a;
-     final B b;
+    final A a;
+    final B b;
 
-    TemporaryPair( A a,  B b) {
+    TemporaryPair(A a, B b) {
       this.a = a;
       this.b = b;
     }
@@ -460,7 +460,7 @@ public final class Streams {
       }
 
       @Override
-      public void accept( T t) {
+      public void accept(T t) {
         this.holder = t;
       }
 
@@ -733,8 +733,7 @@ public final class Streams {
    */
   public interface FunctionWithIndex<T extends @Nullable Object, R extends @Nullable Object> {
     /** Applies this function to the given argument and its index within a stream. */
-    
-    R apply( T from, long index);
+    R apply(T from, long index);
   }
 
   private abstract static class MapWithIndexSpliterator<
@@ -787,7 +786,6 @@ public final class Streams {
    */
   public interface IntFunctionWithIndex<R extends @Nullable Object> {
     /** Applies this function to the given argument and its index within a stream. */
-    
     R apply(int from, long index);
   }
 
@@ -801,7 +799,6 @@ public final class Streams {
    */
   public interface LongFunctionWithIndex<R extends @Nullable Object> {
     /** Applies this function to the given argument and its index within a stream. */
-    
     R apply(long from, long index);
   }
 
@@ -815,7 +812,6 @@ public final class Streams {
    */
   public interface DoubleFunctionWithIndex<R extends @Nullable Object> {
     /** Applies this function to the given argument and its index within a stream. */
-    
     R apply(double from, long index);
   }
 

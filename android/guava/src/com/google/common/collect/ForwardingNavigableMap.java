@@ -66,7 +66,7 @@ public abstract class ForwardingNavigableMap<K extends @Nullable Object, V exten
   protected abstract NavigableMap<K, V> delegate();
 
   @Override
-  public @Nullable Entry<K, V> lowerEntry( K key) {
+  public @Nullable Entry<K, V> lowerEntry(K key) {
     return delegate().lowerEntry(key);
   }
 
@@ -75,12 +75,12 @@ public abstract class ForwardingNavigableMap<K extends @Nullable Object, V exten
    * #headMap(Object, boolean)}. If you override {@code headMap}, you may wish to override {@code
    * lowerEntry} to forward to this implementation.
    */
-  protected @Nullable Entry<K, V> standardLowerEntry( K key) {
+  protected @Nullable Entry<K, V> standardLowerEntry(K key) {
     return headMap(key, false).lastEntry();
   }
 
   @Override
-  public @Nullable K lowerKey( K key) {
+  public @Nullable K lowerKey(K key) {
     return delegate().lowerKey(key);
   }
 
@@ -89,12 +89,12 @@ public abstract class ForwardingNavigableMap<K extends @Nullable Object, V exten
    * {@link #lowerEntry}, you may wish to override {@code lowerKey} to forward to this
    * implementation.
    */
-  protected @Nullable K standardLowerKey( K key) {
+  protected @Nullable K standardLowerKey(K key) {
     return keyOrNull(lowerEntry(key));
   }
 
   @Override
-  public @Nullable Entry<K, V> floorEntry( K key) {
+  public @Nullable Entry<K, V> floorEntry(K key) {
     return delegate().floorEntry(key);
   }
 
@@ -103,12 +103,12 @@ public abstract class ForwardingNavigableMap<K extends @Nullable Object, V exten
    * #headMap(Object, boolean)}. If you override {@code headMap}, you may wish to override {@code
    * floorEntry} to forward to this implementation.
    */
-  protected @Nullable Entry<K, V> standardFloorEntry( K key) {
+  protected @Nullable Entry<K, V> standardFloorEntry(K key) {
     return headMap(key, true).lastEntry();
   }
 
   @Override
-  public @Nullable K floorKey( K key) {
+  public @Nullable K floorKey(K key) {
     return delegate().floorKey(key);
   }
 
@@ -117,12 +117,12 @@ public abstract class ForwardingNavigableMap<K extends @Nullable Object, V exten
    * {@code floorEntry}, you may wish to override {@code floorKey} to forward to this
    * implementation.
    */
-  protected @Nullable K standardFloorKey( K key) {
+  protected @Nullable K standardFloorKey(K key) {
     return keyOrNull(floorEntry(key));
   }
 
   @Override
-  public @Nullable Entry<K, V> ceilingEntry( K key) {
+  public @Nullable Entry<K, V> ceilingEntry(K key) {
     return delegate().ceilingEntry(key);
   }
 
@@ -131,12 +131,12 @@ public abstract class ForwardingNavigableMap<K extends @Nullable Object, V exten
    * #tailMap(Object, boolean)}. If you override {@code tailMap}, you may wish to override {@code
    * ceilingEntry} to forward to this implementation.
    */
-  protected @Nullable Entry<K, V> standardCeilingEntry( K key) {
+  protected @Nullable Entry<K, V> standardCeilingEntry(K key) {
     return tailMap(key, true).firstEntry();
   }
 
   @Override
-  public @Nullable K ceilingKey( K key) {
+  public @Nullable K ceilingKey(K key) {
     return delegate().ceilingKey(key);
   }
 
@@ -145,12 +145,12 @@ public abstract class ForwardingNavigableMap<K extends @Nullable Object, V exten
    * {@code ceilingEntry}, you may wish to override {@code ceilingKey} to forward to this
    * implementation.
    */
-  protected @Nullable K standardCeilingKey( K key) {
+  protected @Nullable K standardCeilingKey(K key) {
     return keyOrNull(ceilingEntry(key));
   }
 
   @Override
-  public @Nullable Entry<K, V> higherEntry( K key) {
+  public @Nullable Entry<K, V> higherEntry(K key) {
     return delegate().higherEntry(key);
   }
 
@@ -159,12 +159,12 @@ public abstract class ForwardingNavigableMap<K extends @Nullable Object, V exten
    * #tailMap(Object, boolean)}. If you override {@code tailMap}, you may wish to override {@code
    * higherEntry} to forward to this implementation.
    */
-  protected @Nullable Entry<K, V> standardHigherEntry( K key) {
+  protected @Nullable Entry<K, V> standardHigherEntry(K key) {
     return tailMap(key, false).firstEntry();
   }
 
   @Override
-  public @Nullable K higherKey( K key) {
+  public @Nullable K higherKey(K key) {
     return delegate().higherKey(key);
   }
 
@@ -173,7 +173,7 @@ public abstract class ForwardingNavigableMap<K extends @Nullable Object, V exten
    * {@code higherEntry}, you may wish to override {@code higherKey} to forward to this
    * implementation.
    */
-  protected @Nullable K standardHigherKey( K key) {
+  protected @Nullable K standardHigherKey(K key) {
     return keyOrNull(higherEntry(key));
   }
 
@@ -366,27 +366,22 @@ public abstract class ForwardingNavigableMap<K extends @Nullable Object, V exten
    * wish to override {@code subMap} to forward to this implementation.
    */
   @Override
-  protected SortedMap<K, V> standardSubMap(
-       K fromKey,  K toKey) {
+  protected SortedMap<K, V> standardSubMap(K fromKey, K toKey) {
     return subMap(fromKey, true, toKey, false);
   }
 
   @Override
-  public NavigableMap<K, V> subMap(
-       K fromKey,
-      boolean fromInclusive,
-       K toKey,
-      boolean toInclusive) {
+  public NavigableMap<K, V> subMap(K fromKey, boolean fromInclusive, K toKey, boolean toInclusive) {
     return delegate().subMap(fromKey, fromInclusive, toKey, toInclusive);
   }
 
   @Override
-  public NavigableMap<K, V> headMap( K toKey, boolean inclusive) {
+  public NavigableMap<K, V> headMap(K toKey, boolean inclusive) {
     return delegate().headMap(toKey, inclusive);
   }
 
   @Override
-  public NavigableMap<K, V> tailMap( K fromKey, boolean inclusive) {
+  public NavigableMap<K, V> tailMap(K fromKey, boolean inclusive) {
     return delegate().tailMap(fromKey, inclusive);
   }
 
@@ -395,7 +390,7 @@ public abstract class ForwardingNavigableMap<K extends @Nullable Object, V exten
    * boolean)}. If you override {@code headMap(K, boolean)}, you may wish to override {@code
    * headMap} to forward to this implementation.
    */
-  protected SortedMap<K, V> standardHeadMap( K toKey) {
+  protected SortedMap<K, V> standardHeadMap(K toKey) {
     return headMap(toKey, false);
   }
 
@@ -404,7 +399,7 @@ public abstract class ForwardingNavigableMap<K extends @Nullable Object, V exten
    * boolean)}. If you override {@code tailMap(K, boolean)}, you may wish to override {@code
    * tailMap} to forward to this implementation.
    */
-  protected SortedMap<K, V> standardTailMap( K fromKey) {
+  protected SortedMap<K, V> standardTailMap(K fromKey) {
     return tailMap(fromKey, true);
   }
 }

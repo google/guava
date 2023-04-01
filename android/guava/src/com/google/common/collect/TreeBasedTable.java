@@ -259,7 +259,8 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
     }
 
     @Override
-    @Nullable SortedMap<C, V> computeBackingRowMap() {
+    @Nullable
+    SortedMap<C, V> computeBackingRowMap() {
       updateWholeRowField();
       SortedMap<C, V> map = wholeRow;
       if (map != null) {

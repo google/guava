@@ -61,7 +61,7 @@ abstract class AbstractSetMultimap<K extends @Nullable Object, V extends @Nullab
   }
 
   @Override
-  Collection<V> wrapCollection( K key, Collection<V> collection) {
+  Collection<V> wrapCollection(K key, Collection<V> collection) {
     return new WrappedSet(key, (Set<V>) collection);
   }
 
@@ -74,7 +74,7 @@ abstract class AbstractSetMultimap<K extends @Nullable Object, V extends @Nullab
    * {@link Set}, instead of the {@link Collection} specified in the {@link Multimap} interface.
    */
   @Override
-  public Set<V> get( K key) {
+  public Set<V> get(K key) {
     return (Set<V>) super.get(key);
   }
 
@@ -111,7 +111,7 @@ abstract class AbstractSetMultimap<K extends @Nullable Object, V extends @Nullab
    */
   @CanIgnoreReturnValue
   @Override
-  public Set<V> replaceValues( K key, Iterable<? extends V> values) {
+  public Set<V> replaceValues(K key, Iterable<? extends V> values) {
     return (Set<V>) super.replaceValues(key, values);
   }
 
@@ -136,7 +136,7 @@ abstract class AbstractSetMultimap<K extends @Nullable Object, V extends @Nullab
    */
   @CanIgnoreReturnValue
   @Override
-  public boolean put( K key,  V value) {
+  public boolean put(K key, V value) {
     return super.put(key, value);
   }
 

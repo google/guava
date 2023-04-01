@@ -180,8 +180,7 @@ abstract class AbstractCompositeHashFunction extends AbstractHashFunction {
       }
 
       @Override
-      public <T extends @Nullable Object> Hasher putObject(
-           T instance, Funnel<? super T> funnel) {
+      public <T extends @Nullable Object> Hasher putObject(T instance, Funnel<? super T> funnel) {
         for (Hasher hasher : hashers) {
           hasher.putObject(instance, funnel);
         }

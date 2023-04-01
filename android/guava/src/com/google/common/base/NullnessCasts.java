@@ -50,7 +50,6 @@ final class NullnessCasts {
    * addressed by this method is the case in which {@code T} has parametric nullness -- and thus its
    * value may be legitimately {@code null}.)
    */
-  
   @SuppressWarnings("nullness")
   static <T extends @Nullable Object> T uncheckedCastNullableTToT(@Nullable T t) {
     return t;

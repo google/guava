@@ -63,14 +63,12 @@ public abstract class ForwardingFuture<V extends @Nullable Object> extends Forwa
 
   @Override
   @CanIgnoreReturnValue
-  
   public V get() throws InterruptedException, ExecutionException {
     return delegate().get();
   }
 
   @Override
   @CanIgnoreReturnValue
-  
   public V get(long timeout, TimeUnit unit)
       throws InterruptedException, ExecutionException, TimeoutException {
     return delegate().get(timeout, unit);

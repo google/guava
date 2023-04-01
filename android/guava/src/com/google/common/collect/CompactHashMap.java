@@ -114,9 +114,7 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
    * Maximum allowed false positive probability of detecting a hash flooding attack given random
    * input.
    */
-  @VisibleForTesting(
-      )
-  static final double HASH_FLOODING_FPP = 0.001;
+  @VisibleForTesting() static final double HASH_FLOODING_FPP = 0.001;
 
   /**
    * Maximum allowed length of a hash table bucket before falling back to a j.u.LinkedHashMap-based
@@ -278,7 +276,8 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
 
   @SuppressWarnings("unchecked")
   @VisibleForTesting
-  @Nullable Map<K, V> delegateOrNull() {
+  @Nullable
+  Map<K, V> delegateOrNull() {
     if (table instanceof Map) {
       return (Map<K, V>) table;
     }
@@ -330,7 +329,7 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
 
   @CanIgnoreReturnValue
   @Override
-  public @Nullable V put( K key,  V value) {
+  public @Nullable V put(K key, V value) {
     if (needsAllocArrays()) {
       allocArrays();
     }
@@ -397,8 +396,7 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
   /**
    * Creates a fresh entry with the specified object at the specified position in the entry arrays.
    */
-  void insertEntry(
-      int entryIndex,  K key,  V value, int hash, int mask) {
+  void insertEntry(int entryIndex, K key, V value, int hash, int mask) {
     this.setEntry(entryIndex, CompactHashing.maskCombine(hash, UNSET, mask));
     this.setKey(entryIndex, key);
     this.setValue(entryIndex, value);
@@ -630,11 +628,9 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
       return currentIndex >= 0;
     }
 
-    
     abstract T getOutput(int entry);
 
     @Override
-    
     public T next() {
       checkForConcurrentModification();
       if (!hasNext()) {
@@ -716,7 +712,6 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
     }
     return new Itr<K>() {
       @Override
-      
       K getOutput(int entry) {
         return key(entry);
       }
@@ -813,7 +808,7 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
   }
 
   final class MapEntry extends AbstractMapEntry<K, V> {
-     private final K key;
+    private final K key;
 
     private int lastKnownIndex;
 
@@ -823,7 +818,6 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
     }
 
     @Override
-    
     public K getKey() {
       return key;
     }
@@ -837,7 +831,6 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
     }
 
     @Override
-    
     public V getValue() {
       Map<K, V> delegate = delegateOrNull();
       if (delegate != null) {
@@ -860,8 +853,7 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
     }
 
     @Override
-    
-    public V setValue( V value) {
+    public V setValue(V value) {
       Map<K, V> delegate = delegateOrNull();
       if (delegate != null) {
         return uncheckedCastNullableTToT(delegate.put(key, value)); // See discussion in getValue().
@@ -939,7 +931,6 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
     }
     return new Itr<V>() {
       @Override
-      
       V getOutput(int entry) {
         return value(entry);
       }

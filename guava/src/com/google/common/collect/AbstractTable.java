@@ -100,8 +100,7 @@ abstract class AbstractTable<
 
   @CanIgnoreReturnValue
   @Override
-  public @Nullable V put(
-       R rowKey,  C columnKey,  V value) {
+  public @Nullable V put(R rowKey, C columnKey, V value) {
     return row(rowKey).put(columnKey, value);
   }
 
@@ -190,7 +189,6 @@ abstract class AbstractTable<
   Iterator<V> valuesIterator() {
     return new TransformedIterator<Cell<R, C, V>, V>(cellSet().iterator()) {
       @Override
-      
       V transform(Cell<R, C, V> cell) {
         return cell.getValue();
       }

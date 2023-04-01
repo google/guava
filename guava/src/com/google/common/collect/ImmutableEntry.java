@@ -30,29 +30,26 @@ import org.jspecify.annotations.Nullable;
 @NullMarked
 class ImmutableEntry<K extends @Nullable Object, V extends @Nullable Object>
     extends AbstractMapEntry<K, V> implements Serializable {
-   final K key;
-   final V value;
+  final K key;
+  final V value;
 
-  ImmutableEntry( K key,  V value) {
+  ImmutableEntry(K key, V value) {
     this.key = key;
     this.value = value;
   }
 
   @Override
-  
   public final K getKey() {
     return key;
   }
 
   @Override
-  
   public final V getValue() {
     return value;
   }
 
   @Override
-  
-  public final V setValue( V value) {
+  public final V setValue(V value) {
     throw new UnsupportedOperationException();
   }
 

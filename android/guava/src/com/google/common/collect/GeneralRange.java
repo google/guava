@@ -66,7 +66,7 @@ final class GeneralRange<T extends @Nullable Object> implements Serializable {
    * endpoint behavior.
    */
   static <T extends @Nullable Object> GeneralRange<T> downTo(
-      Comparator<? super T> comparator,  T endpoint, BoundType boundType) {
+      Comparator<? super T> comparator, T endpoint, BoundType boundType) {
     return new GeneralRange<>(comparator, true, endpoint, boundType, false, null, OPEN);
   }
 
@@ -75,7 +75,7 @@ final class GeneralRange<T extends @Nullable Object> implements Serializable {
    * endpoint behavior.
    */
   static <T extends @Nullable Object> GeneralRange<T> upTo(
-      Comparator<? super T> comparator,  T endpoint, BoundType boundType) {
+      Comparator<? super T> comparator, T endpoint, BoundType boundType) {
     return new GeneralRange<>(comparator, false, null, OPEN, true, endpoint, boundType);
   }
 
@@ -85,9 +85,9 @@ final class GeneralRange<T extends @Nullable Object> implements Serializable {
    */
   static <T extends @Nullable Object> GeneralRange<T> range(
       Comparator<? super T> comparator,
-       T lower,
+      T lower,
       BoundType lowerType,
-       T upper,
+      T upper,
       BoundType upperType) {
     return new GeneralRange<>(comparator, true, lower, lowerType, true, upper, upperType);
   }
@@ -163,7 +163,7 @@ final class GeneralRange<T extends @Nullable Object> implements Serializable {
         || (hasLowerBound() && tooHigh(uncheckedCastNullableTToT(getLowerEndpoint())));
   }
 
-  boolean tooLow( T t) {
+  boolean tooLow(T t) {
     if (!hasLowerBound()) {
       return false;
     }
@@ -173,7 +173,7 @@ final class GeneralRange<T extends @Nullable Object> implements Serializable {
     return cmp < 0 | (cmp == 0 & getLowerBoundType() == OPEN);
   }
 
-  boolean tooHigh( T t) {
+  boolean tooHigh(T t) {
     if (!hasUpperBound()) {
       return false;
     }
@@ -183,7 +183,7 @@ final class GeneralRange<T extends @Nullable Object> implements Serializable {
     return cmp > 0 | (cmp == 0 & getUpperBoundType() == OPEN);
   }
 
-  boolean contains( T t) {
+  boolean contains(T t) {
     return !tooLow(t) && !tooHigh(t);
   }
 
@@ -295,7 +295,8 @@ final class GeneralRange<T extends @Nullable Object> implements Serializable {
         + (upperBoundType == CLOSED ? ']' : ')');
   }
 
-  @Nullable T getLowerEndpoint() {
+  @Nullable
+  T getLowerEndpoint() {
     return lowerEndpoint;
   }
 
@@ -303,7 +304,8 @@ final class GeneralRange<T extends @Nullable Object> implements Serializable {
     return lowerBoundType;
   }
 
-  @Nullable T getUpperEndpoint() {
+  @Nullable
+  T getUpperEndpoint() {
     return upperEndpoint;
   }
 

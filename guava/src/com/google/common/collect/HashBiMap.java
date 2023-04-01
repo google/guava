@@ -107,7 +107,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
     @Weak @Nullable BiEntry<K, V> nextInKeyInsertionOrder;
     @Weak @Nullable BiEntry<K, V> prevInKeyInsertionOrder;
 
-    BiEntry( K key, int keyHash,  V value, int valueHash) {
+    BiEntry(K key, int keyHash, V value, int valueHash) {
       super(key, value);
       this.keyHash = keyHash;
       this.valueHash = valueHash;
@@ -288,11 +288,11 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
 
   @CanIgnoreReturnValue
   @Override
-  public @Nullable V put( K key,  V value) {
+  public @Nullable V put(K key, V value) {
     return put(key, value, false);
   }
 
-  private @Nullable V put( K key,  V value, boolean force) {
+  private @Nullable V put(K key, V value, boolean force) {
     int keyHash = smearedHash(key);
     int valueHash = smearedHash(value);
 
@@ -328,13 +328,12 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
 
   @CanIgnoreReturnValue
   @Override
-  public @Nullable V forcePut( K key,  V value) {
+  public @Nullable V forcePut(K key, V value) {
     return put(key, value, true);
   }
 
   @CanIgnoreReturnValue
-  private @Nullable K putInverse(
-       V value,  K key, boolean force) {
+  private @Nullable K putInverse(V value, K key, boolean force) {
     int valueHash = smearedHash(value);
     int keyHash = smearedHash(key);
 
@@ -489,7 +488,6 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
     public Iterator<K> iterator() {
       return new Itr<K>() {
         @Override
-        
         K output(BiEntry<K, V> entry) {
           return entry.key;
         }
@@ -497,7 +495,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
     }
 
     @Override
-    public boolean remove( @Nullable Object o) {
+    public boolean remove(@Nullable Object o) {
       BiEntry<K, V> entry = seekByKey(o, smearedHash(o));
       if (entry == null) {
         return false;
@@ -531,20 +529,17 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
         }
 
         @Override
-        
         public K getKey() {
           return delegate.key;
         }
 
         @Override
-        
         public V getValue() {
           return delegate.value;
         }
 
         @Override
-        
-        public V setValue( V value) {
+        public V setValue(V value) {
           V oldValue = delegate.value;
           int valueHash = smearedHash(value);
           if (valueHash == delegate.valueHash && Objects.equal(value, oldValue)) {
@@ -623,12 +618,12 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
 
     @CanIgnoreReturnValue
     @Override
-    public @Nullable K put( V value,  K key) {
+    public @Nullable K put(V value, K key) {
       return putInverse(value, key, false);
     }
 
     @Override
-    public @Nullable K forcePut( V value,  K key) {
+    public @Nullable K forcePut(V value, K key) {
       return putInverse(value, key, true);
     }
 
@@ -661,7 +656,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
       }
 
       @Override
-      public boolean remove( @Nullable Object o) {
+      public boolean remove(@Nullable Object o) {
         BiEntry<K, V> entry = seekByValue(o, smearedHash(o));
         if (entry == null) {
           return false;
@@ -675,7 +670,6 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
       public Iterator<V> iterator() {
         return new Itr<V>() {
           @Override
-          
           V output(BiEntry<K, V> entry) {
             return entry.value;
           }
@@ -704,20 +698,17 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
           }
 
           @Override
-          
           public V getKey() {
             return delegate.value;
           }
 
           @Override
-          
           public K getValue() {
             return delegate.key;
           }
 
           @Override
-          
-          public K setValue( K key) {
+          public K setValue(K key) {
             K oldKey = delegate.key;
             int keyHash = smearedHash(key);
             if (keyHash == delegate.keyHash && Objects.equal(key, oldKey)) {

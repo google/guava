@@ -273,8 +273,9 @@ abstract class AggregateFuture<InputT extends @Nullable Object, OutputT extends 
   }
 
   private void decrementCountAndMaybeComplete(
-      @Nullable ImmutableCollection<? extends Future<? extends InputT>>
-          futuresIfNeedToCollectAtCompletion) {
+      @Nullable
+          ImmutableCollection<? extends Future<? extends InputT>>
+              futuresIfNeedToCollectAtCompletion) {
     int newRemaining = decrementRemainingAndGet();
     checkState(newRemaining >= 0, "Less than 0 remaining futures");
     if (newRemaining == 0) {
@@ -283,8 +284,9 @@ abstract class AggregateFuture<InputT extends @Nullable Object, OutputT extends 
   }
 
   private void processCompleted(
-      @Nullable ImmutableCollection<? extends Future<? extends InputT>>
-          futuresIfNeedToCollectAtCompletion) {
+      @Nullable
+          ImmutableCollection<? extends Future<? extends InputT>>
+              futuresIfNeedToCollectAtCompletion) {
     if (futuresIfNeedToCollectAtCompletion != null) {
       int i = 0;
       for (Future<? extends InputT> future : futuresIfNeedToCollectAtCompletion) {
@@ -338,7 +340,7 @@ abstract class AggregateFuture<InputT extends @Nullable Object, OutputT extends 
    * If {@code allMustSucceed} is true, called as each future completes; otherwise, if {@code
    * collectsValues} is true, called for each future when all futures complete.
    */
-  abstract void collectOneValue(int index,  InputT returnValue);
+  abstract void collectOneValue(int index, InputT returnValue);
 
   abstract void handleAllCompleted();
 

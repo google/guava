@@ -311,7 +311,8 @@ public interface ValueGraph<N, V> extends BaseGraph<N> {
    * @throws IllegalArgumentException if {@code nodeU} or {@code nodeV} is not an element of this
    *     graph
    */
-  @Nullable V edgeValueOrDefault(N nodeU, N nodeV, @Nullable V defaultValue);
+  @Nullable
+  V edgeValueOrDefault(N nodeU, N nodeV, @Nullable V defaultValue);
 
   /**
    * Returns the value of the edge that connects {@code endpoints} (in the order, if any, specified
@@ -323,7 +324,8 @@ public interface ValueGraph<N, V> extends BaseGraph<N> {
    * @throws IllegalArgumentException if the endpoints are unordered and the graph is directed
    * @since 27.1
    */
-  @Nullable V edgeValueOrDefault(EndpointPair<N> endpoints, @Nullable V defaultValue);
+  @Nullable
+  V edgeValueOrDefault(EndpointPair<N> endpoints, @Nullable V defaultValue);
 
   //
   // ValueGraph identity

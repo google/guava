@@ -35,9 +35,9 @@ class ImmediateFuture<V extends @Nullable Object> implements ListenableFuture<V>
 
   private static final Logger log = Logger.getLogger(ImmediateFuture.class.getName());
 
-   private final V value;
+  private final V value;
 
-  ImmediateFuture( V value) {
+  ImmediateFuture(V value) {
     this.value = value;
   }
 
@@ -64,13 +64,11 @@ class ImmediateFuture<V extends @Nullable Object> implements ListenableFuture<V>
 
   // TODO(lukes): Consider throwing InterruptedException when appropriate.
   @Override
-  
   public V get() {
     return value;
   }
 
   @Override
-  
   public V get(long timeout, TimeUnit unit) throws ExecutionException {
     checkNotNull(unit);
     return get();

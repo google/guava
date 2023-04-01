@@ -209,7 +209,7 @@ public interface Multimap<K extends @Nullable Object, V extends @Nullable Object
    *     multimap already contained the key-value pair and doesn't allow duplicates
    */
   @CanIgnoreReturnValue
-  boolean put( K key,  V value);
+  boolean put(K key, V value);
 
   /**
    * Removes a single key-value pair with the key {@code key} and the value {@code value} from this
@@ -239,7 +239,7 @@ public interface Multimap<K extends @Nullable Object, V extends @Nullable Object
    * @return {@code true} if the multimap changed
    */
   @CanIgnoreReturnValue
-  boolean putAll( K key, Iterable<? extends V> values);
+  boolean putAll(K key, Iterable<? extends V> values);
 
   /**
    * Stores all key-value pairs of {@code multimap} in this multimap, in the order returned by
@@ -260,7 +260,7 @@ public interface Multimap<K extends @Nullable Object, V extends @Nullable Object
    *     no effect on the multimap.
    */
   @CanIgnoreReturnValue
-  Collection<V> replaceValues( K key, Iterable<? extends V> values);
+  Collection<V> replaceValues(K key, Iterable<? extends V> values);
 
   /**
    * Removes all values associated with the key {@code key}.
@@ -286,7 +286,7 @@ public interface Multimap<K extends @Nullable Object, V extends @Nullable Object
    *
    * <p>Changes to the returned collection will update the underlying multimap, and vice versa.
    */
-  Collection<V> get( K key);
+  Collection<V> get(K key);
 
   /**
    * Returns a view collection of all <i>distinct</i> keys contained in this multimap. Note that the

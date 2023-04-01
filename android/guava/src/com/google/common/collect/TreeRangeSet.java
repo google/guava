@@ -644,7 +644,7 @@ public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C>
     }
 
     @Override
-    public boolean containsKey( @Nullable Object key) {
+    public boolean containsKey(@Nullable Object key) {
       return get(key) != null;
     }
   }
@@ -738,7 +738,7 @@ public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C>
     }
 
     @Override
-    public boolean containsKey( @Nullable Object key) {
+    public boolean containsKey(@Nullable Object key) {
       return get(key) != null;
     }
 

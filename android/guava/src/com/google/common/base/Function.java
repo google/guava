@@ -60,8 +60,7 @@ public interface Function<F extends @Nullable Object, T extends @Nullable Object
    * @throws NullPointerException if {@code input} is null and this function does not accept null
    *     arguments
    */
-  
-  T apply( F input);
+  T apply(F input);
 
   /**
    * <i>May</i> return {@code true} if {@code object} is a {@code Function} that behaves identically

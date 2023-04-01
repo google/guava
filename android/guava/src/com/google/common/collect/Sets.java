@@ -532,8 +532,7 @@ public final class Sets {
    * @deprecated Use {@link Collections#newSetFromMap} instead.
    */
   @Deprecated
-  public static <E extends @Nullable Object> Set<E> newSetFromMap(
-      Map<E, Boolean> map) {
+  public static <E extends @Nullable Object> Set<E> newSetFromMap(Map<E, Boolean> map) {
     return Collections.newSetFromMap(map);
   }
 
@@ -587,7 +586,7 @@ public final class Sets {
     @Deprecated
     @Override
     @DoNotCall("Always throws UnsupportedOperationException")
-    public final boolean add( E e) {
+    public final boolean add(E e) {
       throw new UnsupportedOperationException();
     }
 
@@ -1078,7 +1077,7 @@ public final class Sets {
     }
 
     @Override
-    public boolean equals( @Nullable Object object) {
+    public boolean equals(@Nullable Object object) {
       return equalsImpl(this, object);
     }
 
@@ -1101,29 +1100,27 @@ public final class Sets {
     }
 
     @Override
-    public SortedSet<E> subSet( E fromElement,  E toElement) {
+    public SortedSet<E> subSet(E fromElement, E toElement) {
       return new FilteredSortedSet<E>(
           ((SortedSet<E>) unfiltered).subSet(fromElement, toElement), predicate);
     }
 
     @Override
-    public SortedSet<E> headSet( E toElement) {
+    public SortedSet<E> headSet(E toElement) {
       return new FilteredSortedSet<E>(((SortedSet<E>) unfiltered).headSet(toElement), predicate);
     }
 
     @Override
-    public SortedSet<E> tailSet( E fromElement) {
+    public SortedSet<E> tailSet(E fromElement) {
       return new FilteredSortedSet<E>(((SortedSet<E>) unfiltered).tailSet(fromElement), predicate);
     }
 
     @Override
-    
     public E first() {
       return Iterators.find(unfiltered.iterator(), predicate);
     }
 
     @Override
-    
     public E last() {
       SortedSet<E> sortedUnfiltered = (SortedSet<E>) unfiltered;
       while (true) {
@@ -1148,22 +1145,22 @@ public final class Sets {
     }
 
     @Override
-    public @Nullable E lower( E e) {
+    public @Nullable E lower(E e) {
       return Iterators.find(unfiltered().headSet(e, false).descendingIterator(), predicate, null);
     }
 
     @Override
-    public @Nullable E floor( E e) {
+    public @Nullable E floor(E e) {
       return Iterators.find(unfiltered().headSet(e, true).descendingIterator(), predicate, null);
     }
 
     @Override
-    public @Nullable E ceiling( E e) {
+    public @Nullable E ceiling(E e) {
       return Iterables.find(unfiltered().tailSet(e, true), predicate, null);
     }
 
     @Override
-    public @Nullable E higher( E e) {
+    public @Nullable E higher(E e) {
       return Iterables.find(unfiltered().tailSet(e, false), predicate, null);
     }
 
@@ -1188,28 +1185,24 @@ public final class Sets {
     }
 
     @Override
-    
     public E last() {
       return Iterators.find(unfiltered().descendingIterator(), predicate);
     }
 
     @Override
     public NavigableSet<E> subSet(
-         E fromElement,
-        boolean fromInclusive,
-         E toElement,
-        boolean toInclusive) {
+        E fromElement, boolean fromInclusive, E toElement, boolean toInclusive) {
       return filter(
           unfiltered().subSet(fromElement, fromInclusive, toElement, toInclusive), predicate);
     }
 
     @Override
-    public NavigableSet<E> headSet( E toElement, boolean inclusive) {
+    public NavigableSet<E> headSet(E toElement, boolean inclusive) {
       return filter(unfiltered().headSet(toElement, inclusive), predicate);
     }
 
     @Override
-    public NavigableSet<E> tailSet( E fromElement, boolean inclusive) {
+    public NavigableSet<E> tailSet(E fromElement, boolean inclusive) {
       return filter(unfiltered().tailSet(fromElement, inclusive), predicate);
     }
   }
@@ -1375,7 +1368,7 @@ public final class Sets {
     }
 
     @Override
-    public boolean contains( @Nullable Object object) {
+    public boolean contains(@Nullable Object object) {
       if (!(object instanceof List)) {
         return false;
       }
@@ -1394,7 +1387,7 @@ public final class Sets {
     }
 
     @Override
-    public boolean equals( @Nullable Object object) {
+    public boolean equals(@Nullable Object object) {
       // Warning: this is broken if size() == 0, so it is critical that we
       // substitute an empty ImmutableSet to the user in place of this
       if (object instanceof CartesianSet) {
@@ -1494,7 +1487,7 @@ public final class Sets {
     }
 
     @Override
-    public boolean contains( @Nullable Object o) {
+    public boolean contains(@Nullable Object o) {
       Integer index = inputSet.get(o);
       return index != null && (mask & (1 << index)) != 0;
     }
@@ -1530,7 +1523,7 @@ public final class Sets {
     }
 
     @Override
-    public boolean contains( @Nullable Object obj) {
+    public boolean contains(@Nullable Object obj) {
       if (obj instanceof Set) {
         Set<?> set = (Set<?>) obj;
         return inputSet.keySet().containsAll(set);
@@ -1539,7 +1532,7 @@ public final class Sets {
     }
 
     @Override
-    public boolean equals( @Nullable Object obj) {
+    public boolean equals(@Nullable Object obj) {
       if (obj instanceof PowerSet) {
         PowerSet<?> that = (PowerSet<?>) obj;
         return inputSet.keySet().equals(that.inputSet.keySet());
@@ -1698,7 +1691,7 @@ public final class Sets {
   }
 
   /** An implementation for {@link Set#equals(Object)}. */
-  static boolean equalsImpl(Set<?> s,  @Nullable Object object) {
+  static boolean equalsImpl(Set<?> s, @Nullable Object object) {
     if (s == object) {
       return true;
     }
@@ -1751,22 +1744,22 @@ public final class Sets {
     }
 
     @Override
-    public @Nullable E lower( E e) {
+    public @Nullable E lower(E e) {
       return delegate.lower(e);
     }
 
     @Override
-    public @Nullable E floor( E e) {
+    public @Nullable E floor(E e) {
       return delegate.floor(e);
     }
 
     @Override
-    public @Nullable E ceiling( E e) {
+    public @Nullable E ceiling(E e) {
       return delegate.ceiling(e);
     }
 
     @Override
-    public @Nullable E higher( E e) {
+    public @Nullable E higher(E e) {
       return delegate.higher(e);
     }
 
@@ -1799,21 +1792,18 @@ public final class Sets {
 
     @Override
     public NavigableSet<E> subSet(
-         E fromElement,
-        boolean fromInclusive,
-         E toElement,
-        boolean toInclusive) {
+        E fromElement, boolean fromInclusive, E toElement, boolean toInclusive) {
       return unmodifiableNavigableSet(
           delegate.subSet(fromElement, fromInclusive, toElement, toInclusive));
     }
 
     @Override
-    public NavigableSet<E> headSet( E toElement, boolean inclusive) {
+    public NavigableSet<E> headSet(E toElement, boolean inclusive) {
       return unmodifiableNavigableSet(delegate.headSet(toElement, inclusive));
     }
 
     @Override
-    public NavigableSet<E> tailSet( E fromElement, boolean inclusive) {
+    public NavigableSet<E> tailSet(E fromElement, boolean inclusive) {
       return unmodifiableNavigableSet(delegate.tailSet(fromElement, inclusive));
     }
 
@@ -1913,22 +1903,22 @@ public final class Sets {
     }
 
     @Override
-    public @Nullable E lower( E e) {
+    public @Nullable E lower(E e) {
       return forward.higher(e);
     }
 
     @Override
-    public @Nullable E floor( E e) {
+    public @Nullable E floor(E e) {
       return forward.ceiling(e);
     }
 
     @Override
-    public @Nullable E ceiling( E e) {
+    public @Nullable E ceiling(E e) {
       return forward.floor(e);
     }
 
     @Override
-    public @Nullable E higher( E e) {
+    public @Nullable E higher(E e) {
       return forward.lower(e);
     }
 
@@ -1954,35 +1944,32 @@ public final class Sets {
 
     @Override
     public NavigableSet<E> subSet(
-         E fromElement,
-        boolean fromInclusive,
-         E toElement,
-        boolean toInclusive) {
+        E fromElement, boolean fromInclusive, E toElement, boolean toInclusive) {
       return forward.subSet(toElement, toInclusive, fromElement, fromInclusive).descendingSet();
     }
 
     @Override
-    public SortedSet<E> subSet( E fromElement,  E toElement) {
+    public SortedSet<E> subSet(E fromElement, E toElement) {
       return standardSubSet(fromElement, toElement);
     }
 
     @Override
-    public NavigableSet<E> headSet( E toElement, boolean inclusive) {
+    public NavigableSet<E> headSet(E toElement, boolean inclusive) {
       return forward.tailSet(toElement, inclusive).descendingSet();
     }
 
     @Override
-    public SortedSet<E> headSet( E toElement) {
+    public SortedSet<E> headSet(E toElement) {
       return standardHeadSet(toElement);
     }
 
     @Override
-    public NavigableSet<E> tailSet( E fromElement, boolean inclusive) {
+    public NavigableSet<E> tailSet(E fromElement, boolean inclusive) {
       return forward.headSet(fromElement, inclusive).descendingSet();
     }
 
     @Override
-    public SortedSet<E> tailSet( E fromElement) {
+    public SortedSet<E> tailSet(E fromElement) {
       return standardTailSet(fromElement);
     }
 
@@ -2003,13 +1990,11 @@ public final class Sets {
     }
 
     @Override
-    
     public E first() {
       return forward.last();
     }
 
     @Override
-    
     public E last() {
       return forward.first();
     }

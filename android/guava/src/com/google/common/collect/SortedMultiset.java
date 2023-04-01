@@ -57,25 +57,29 @@ public interface SortedMultiset<E extends @Nullable Object>
    * Returns the entry of the first element in this multiset, or {@code null} if this multiset is
    * empty.
    */
-  @Nullable Entry<E> firstEntry();
+  @Nullable
+  Entry<E> firstEntry();
 
   /**
    * Returns the entry of the last element in this multiset, or {@code null} if this multiset is
    * empty.
    */
-  @Nullable Entry<E> lastEntry();
+  @Nullable
+  Entry<E> lastEntry();
 
   /**
    * Returns and removes the entry associated with the lowest element in this multiset, or returns
    * {@code null} if this multiset is empty.
    */
-  @Nullable Entry<E> pollFirstEntry();
+  @Nullable
+  Entry<E> pollFirstEntry();
 
   /**
    * Returns and removes the entry associated with the greatest element in this multiset, or returns
    * {@code null} if this multiset is empty.
    */
-  @Nullable Entry<E> pollLastEntry();
+  @Nullable
+  Entry<E> pollLastEntry();
 
   /**
    * Returns a {@link NavigableSet} view of the distinct elements in this multiset.
@@ -118,7 +122,7 @@ public interface SortedMultiset<E extends @Nullable Object>
    * <p>The returned multiset will throw an {@link IllegalArgumentException} on attempts to add
    * elements outside its range.
    */
-  SortedMultiset<E> headMultiset( E upperBound, BoundType boundType);
+  SortedMultiset<E> headMultiset(E upperBound, BoundType boundType);
 
   /**
    * Returns a view of this multiset restricted to the range between {@code lowerBound} and {@code
@@ -133,10 +137,7 @@ public interface SortedMultiset<E extends @Nullable Object>
    * lowerBoundType).headMultiset(upperBound, upperBoundType)}.
    */
   SortedMultiset<E> subMultiset(
-       E lowerBound,
-      BoundType lowerBoundType,
-       E upperBound,
-      BoundType upperBoundType);
+      E lowerBound, BoundType lowerBoundType, E upperBound, BoundType upperBoundType);
 
   /**
    * Returns a view of this multiset restricted to the elements greater than {@code lowerBound},
@@ -147,5 +148,5 @@ public interface SortedMultiset<E extends @Nullable Object>
    * <p>The returned multiset will throw an {@link IllegalArgumentException} on attempts to add
    * elements outside its range.
    */
-  SortedMultiset<E> tailMultiset( E lowerBound, BoundType boundType);
+  SortedMultiset<E> tailMultiset(E lowerBound, BoundType boundType);
 }

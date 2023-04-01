@@ -53,8 +53,7 @@ public abstract class ForwardingListeningExecutorService extends ForwardingExecu
   }
 
   @Override
-  public <T extends @Nullable Object> ListenableFuture<T> submit(
-      Runnable task,  T result) {
+  public <T extends @Nullable Object> ListenableFuture<T> submit(Runnable task, T result) {
     return delegate().submit(task, result);
   }
 }

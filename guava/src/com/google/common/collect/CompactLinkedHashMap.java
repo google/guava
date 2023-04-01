@@ -181,8 +181,7 @@ class CompactLinkedHashMap<K extends @Nullable Object, V extends @Nullable Objec
   }
 
   @Override
-  void insertEntry(
-      int entryIndex,  K key,  V value, int hash, int mask) {
+  void insertEntry(int entryIndex, K key, V value, int hash, int mask) {
     super.insertEntry(entryIndex, key, value, hash, mask);
     setSucceeds(lastEntry, entryIndex);
     setSucceeds(entryIndex, ENDPOINT);

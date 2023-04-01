@@ -171,10 +171,10 @@ final class DirectedGraphConnections<N, V> implements GraphConnections<N, V> {
     }
 
     return new DirectedGraphConnections<>(
-        /* adjacentNodeValues = */ new HashMap<N, Object>(initialCapacity, INNER_LOAD_FACTOR),
+        /* adjacentNodeValues= */ new HashMap<N, Object>(initialCapacity, INNER_LOAD_FACTOR),
         orderedNodeConnections,
-        /* predecessorCount = */ 0,
-        /* successorCount = */ 0);
+        /* predecessorCount= */ 0,
+        /* successorCount= */ 0);
   }
 
   static <N, V> DirectedGraphConnections<N, V> ofImmutable(
@@ -546,11 +546,11 @@ final class DirectedGraphConnections<N, V> implements GraphConnections<N, V> {
     return previousSuccessor == null ? null : (V) previousSuccessor;
   }
 
-  private static boolean isPredecessor( @Nullable Object value) {
+  private static boolean isPredecessor(@Nullable Object value) {
     return (value == PRED) || (value instanceof PredAndSucc);
   }
 
-  private static boolean isSuccessor( @Nullable Object value) {
+  private static boolean isSuccessor(@Nullable Object value) {
     return (value != PRED) && (value != null);
   }
 }

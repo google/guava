@@ -42,7 +42,7 @@ final class ByFunctionOrdering<F extends @Nullable Object, T extends @Nullable O
   }
 
   @Override
-  public int compare( F left,  F right) {
+  public int compare(F left, F right) {
     return ordering.compare(function.apply(left), function.apply(right));
   }
 

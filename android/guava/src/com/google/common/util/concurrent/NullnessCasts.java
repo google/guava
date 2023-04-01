@@ -51,7 +51,6 @@ final class NullnessCasts {
    * value may be legitimately {@code null}.)
    */
   @SuppressWarnings("nullness")
-  
   static <T extends @Nullable Object> T uncheckedCastNullableTToT(@Nullable T t) {
     return t;
   }
@@ -67,7 +66,7 @@ final class NullnessCasts {
    */
   @SuppressWarnings({"nullness", "TypeParameterUnusedInFormals", "ReturnMissingNullable"})
   // The warnings are legitimate. Each time we use this method, we document why.
-  
+
   static <T extends @Nullable Object> T uncheckedNull() {
     return null;
   }

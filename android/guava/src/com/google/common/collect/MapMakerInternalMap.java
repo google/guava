@@ -965,7 +965,7 @@ class MapMakerInternalMap<
           WeakKeyWeakValueSegment<K, V> segment,
           K key,
           int hash,
-           @Nullable WeakKeyWeakValueEntry<K, V> next) {
+          @Nullable WeakKeyWeakValueEntry<K, V> next) {
         return next == null
             ? new WeakKeyWeakValueEntry<>(segment.queueForKeys, key, hash)
             : new LinkedWeakKeyWeakValueEntry<>(segment.queueForKeys, key, hash, next);
@@ -979,7 +979,8 @@ class MapMakerInternalMap<
      * Returns the current value being referenced, or {@code null} if there is none (e.g. because
      * either it got collected, or {@link #clear} was called, or it wasn't set in the first place).
      */
-    @Nullable V get();
+    @Nullable
+    V get();
 
     /** Returns the entry which contains this {@link WeakValueReference}. */
     E getEntry();
@@ -1220,7 +1221,7 @@ class MapMakerInternalMap<
     int threshold;
 
     /** The per-segment table. */
-     volatile @Nullable AtomicReferenceArray<E> table;
+    volatile @Nullable AtomicReferenceArray<E> table;
 
     /**
      * A counter of the number of reads since the last write, used to drain queues on a small
@@ -1320,7 +1321,7 @@ class MapMakerInternalMap<
     }
 
     /** Unsafely returns a copy of the given entry. */
-    E copyForTesting(InternalEntry<K, V, ?> entry,  @Nullable InternalEntry<K, V, ?> newNext) {
+    E copyForTesting(InternalEntry<K, V, ?> entry, @Nullable InternalEntry<K, V, ?> newNext) {
       return this.map.entryHelper.copy(self(), castForTesting(entry), castForTesting(newNext));
     }
 
@@ -1330,7 +1331,7 @@ class MapMakerInternalMap<
     }
 
     /** Unsafely returns a fresh entry. */
-    E newEntryForTesting(K key, int hash,  @Nullable InternalEntry<K, V, ?> next) {
+    E newEntryForTesting(K key, int hash, @Nullable InternalEntry<K, V, ?> next) {
       return this.map.entryHelper.newEntry(self(), key, hash, castForTesting(next));
     }
 
@@ -1348,7 +1349,8 @@ class MapMakerInternalMap<
     /**
      * Unsafely returns the value of the given entry if it's still live, or {@code null} otherwise.
      */
-    @Nullable V getLiveValueForTesting(InternalEntry<K, V, ?> entry) {
+    @Nullable
+    V getLiveValueForTesting(InternalEntry<K, V, ?> entry) {
       return getLiveValue(castForTesting(entry));
     }
 
@@ -1962,7 +1964,8 @@ class MapMakerInternalMap<
      * Gets the value from an entry. Returns {@code null} if the entry is invalid or
      * partially-collected.
      */
-    @Nullable V getLiveValue(E entry) {
+    @Nullable
+    V getLiveValue(E entry) {
       if (entry.getKey() == null) {
         tryDrainReferenceQueues();
         return null;
@@ -2346,7 +2349,7 @@ class MapMakerInternalMap<
   }
 
   @Override
-  public @Nullable V get( @Nullable Object key) {
+  public @Nullable V get(@Nullable Object key) {
     if (key == null) {
       return null;
     }
@@ -2358,7 +2361,7 @@ class MapMakerInternalMap<
    * Returns the internal entry for the specified key. The entry may be computing or partially
    * collected. Does not impact recency ordering.
    */
-  E getEntry( @Nullable Object key) {
+  E getEntry(@Nullable Object key) {
     if (key == null) {
       return null;
     }
@@ -2367,7 +2370,7 @@ class MapMakerInternalMap<
   }
 
   @Override
-  public boolean containsKey( @Nullable Object key) {
+  public boolean containsKey(@Nullable Object key) {
     if (key == null) {
       return false;
     }
@@ -2376,7 +2379,7 @@ class MapMakerInternalMap<
   }
 
   @Override
-  public boolean containsValue( @Nullable Object value) {
+  public boolean containsValue(@Nullable Object value) {
     if (value == null) {
       return false;
     }
@@ -2440,7 +2443,7 @@ class MapMakerInternalMap<
 
   @CanIgnoreReturnValue
   @Override
-  public @Nullable V remove( @Nullable Object key) {
+  public @Nullable V remove(@Nullable Object key) {
     if (key == null) {
       return null;
     }
@@ -2450,7 +2453,7 @@ class MapMakerInternalMap<
 
   @CanIgnoreReturnValue
   @Override
-  public boolean remove( @Nullable Object key,  @Nullable Object value) {
+  public boolean remove(@Nullable Object key, @Nullable Object value) {
     if (key == null || value == null) {
       return false;
     }
@@ -2460,7 +2463,7 @@ class MapMakerInternalMap<
 
   @CanIgnoreReturnValue
   @Override
-  public boolean replace(K key,  @Nullable V oldValue, V newValue) {
+  public boolean replace(K key, @Nullable V oldValue, V newValue) {
     checkNotNull(key);
     checkNotNull(newValue);
     if (oldValue == null) {
@@ -2486,7 +2489,7 @@ class MapMakerInternalMap<
     }
   }
 
-   transient @Nullable Set<K> keySet;
+  transient @Nullable Set<K> keySet;
 
   @Override
   public Set<K> keySet() {
@@ -2494,7 +2497,7 @@ class MapMakerInternalMap<
     return (ks != null) ? ks : (keySet = new KeySet());
   }
 
-   transient @Nullable Collection<V> values;
+  transient @Nullable Collection<V> values;
 
   @Override
   public Collection<V> values() {
@@ -2502,7 +2505,7 @@ class MapMakerInternalMap<
     return (vs != null) ? vs : (values = new Values());
   }
 
-   transient @Nullable Set<Entry<K, V>> entrySet;
+  transient @Nullable Set<Entry<K, V>> entrySet;
 
   @Override
   public Set<Entry<K, V>> entrySet() {
@@ -2516,7 +2519,7 @@ class MapMakerInternalMap<
 
     int nextSegmentIndex;
     int nextTableIndex;
-     @Nullable Segment<K, V, E, S> currentSegment;
+    @Nullable Segment<K, V, E, S> currentSegment;
     @Nullable AtomicReferenceArray<E> currentTable;
     @Nullable E nextEntry;
     @Nullable WriteThroughEntry nextExternal;
@@ -2660,7 +2663,7 @@ class MapMakerInternalMap<
     }
 
     @Override
-    public boolean equals( @Nullable Object object) {
+    public boolean equals(@Nullable Object object) {
       // Cannot use key and value equivalence
       if (object instanceof Entry) {
         Entry<?, ?> that = (Entry<?, ?>) object;

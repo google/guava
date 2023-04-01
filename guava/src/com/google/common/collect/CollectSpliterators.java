@@ -154,7 +154,7 @@ final class CollectSpliterators {
       @Nullable T holder = null;
 
       @Override
-      public void accept( T t) {
+      public void accept(T t) {
         this.holder = t;
       }
 
@@ -314,7 +314,7 @@ final class CollectSpliterators {
           long estSplitSize);
     }
 
-    @Weak  @Nullable OutSpliteratorT prefix;
+    @Weak @Nullable OutSpliteratorT prefix;
     final Spliterator<InElementT> from;
     final Function<? super InElementT, OutSpliteratorT> function;
     final Factory<InElementT, OutSpliteratorT> factory;

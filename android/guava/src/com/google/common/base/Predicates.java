@@ -158,7 +158,7 @@ public final class Predicates {
    * Returns a predicate that evaluates to {@code true} if the object being tested {@code equals()}
    * the given target or both are null.
    */
-  public static <T extends @Nullable Object> Predicate<T> equalTo( T target) {
+  public static <T extends @Nullable Object> Predicate<T> equalTo(T target) {
     return (target == null)
         ? Predicates.<T>isNull()
         : new IsEqualToPredicate(target).withNarrowedType();
@@ -260,7 +260,9 @@ public final class Predicates {
 
   // Package private for GWT serialization.
   enum ObjectPredicate implements Predicate<@Nullable Object> {
-    /** @see Predicates#alwaysTrue() */
+    /**
+     * @see Predicates#alwaysTrue()
+     */
     ALWAYS_TRUE {
       @Override
       public boolean apply(@Nullable Object o) {
@@ -272,7 +274,9 @@ public final class Predicates {
         return "Predicates.alwaysTrue()";
       }
     },
-    /** @see Predicates#alwaysFalse() */
+    /**
+     * @see Predicates#alwaysFalse()
+     */
     ALWAYS_FALSE {
       @Override
       public boolean apply(@Nullable Object o) {
@@ -284,7 +288,9 @@ public final class Predicates {
         return "Predicates.alwaysFalse()";
       }
     },
-    /** @see Predicates#isNull() */
+    /**
+     * @see Predicates#isNull()
+     */
     IS_NULL {
       @Override
       public boolean apply(@Nullable Object o) {
@@ -296,7 +302,9 @@ public final class Predicates {
         return "Predicates.isNull()";
       }
     },
-    /** @see Predicates#notNull() */
+    /**
+     * @see Predicates#notNull()
+     */
     NOT_NULL {
       @Override
       public boolean apply(@Nullable Object o) {
@@ -315,7 +323,9 @@ public final class Predicates {
     }
   }
 
-  /** @see Predicates#not(Predicate) */
+  /**
+   * @see Predicates#not(Predicate)
+   */
   private static class NotPredicate<T extends @Nullable Object>
       implements Predicate<T>, Serializable {
     final Predicate<T> predicate;
@@ -325,7 +335,7 @@ public final class Predicates {
     }
 
     @Override
-    public boolean apply( T t) {
+    public boolean apply(T t) {
       return !predicate.apply(t);
     }
 
@@ -351,7 +361,9 @@ public final class Predicates {
     private static final long serialVersionUID = 0;
   }
 
-  /** @see Predicates#and(Iterable) */
+  /**
+   * @see Predicates#and(Iterable)
+   */
   private static class AndPredicate<T extends @Nullable Object>
       implements Predicate<T>, Serializable {
     private final List<? extends Predicate<? super T>> components;
@@ -361,7 +373,7 @@ public final class Predicates {
     }
 
     @Override
-    public boolean apply( T t) {
+    public boolean apply(T t) {
       // Avoid using the Iterator to avoid generating garbage (issue 820).
       for (int i = 0; i < components.size(); i++) {
         if (!components.get(i).apply(t)) {
@@ -394,7 +406,9 @@ public final class Predicates {
     private static final long serialVersionUID = 0;
   }
 
-  /** @see Predicates#or(Iterable) */
+  /**
+   * @see Predicates#or(Iterable)
+   */
   private static class OrPredicate<T extends @Nullable Object>
       implements Predicate<T>, Serializable {
     private final List<? extends Predicate<? super T>> components;
@@ -404,7 +418,7 @@ public final class Predicates {
     }
 
     @Override
-    public boolean apply( T t) {
+    public boolean apply(T t) {
       // Avoid using the Iterator to avoid generating garbage (issue 820).
       for (int i = 0; i < components.size(); i++) {
         if (components.get(i).apply(t)) {
@@ -450,7 +464,9 @@ public final class Predicates {
     return builder.append(')').toString();
   }
 
-  /** @see Predicates#equalTo(Object) */
+  /**
+   * @see Predicates#equalTo(Object)
+   */
   private static class IsEqualToPredicate implements Predicate<@Nullable Object>, Serializable {
     private final Object target;
 
@@ -503,7 +519,7 @@ public final class Predicates {
     }
 
     @Override
-    public boolean apply( T o) {
+    public boolean apply(T o) {
       return clazz.isInstance(o);
     }
 
@@ -568,7 +584,9 @@ public final class Predicates {
     private static final long serialVersionUID = 0;
   }
 
-  /** @see Predicates#in(Collection) */
+  /**
+   * @see Predicates#in(Collection)
+   */
   private static class InPredicate<T extends @Nullable Object>
       implements Predicate<T>, Serializable {
     private final Collection<?> target;
@@ -578,7 +596,7 @@ public final class Predicates {
     }
 
     @Override
-    public boolean apply( T t) {
+    public boolean apply(T t) {
       try {
         return target.contains(t);
       } catch (NullPointerException | ClassCastException e) {
@@ -608,7 +626,9 @@ public final class Predicates {
     private static final long serialVersionUID = 0;
   }
 
-  /** @see Predicates#compose(Predicate, Function) */
+  /**
+   * @see Predicates#compose(Predicate, Function)
+   */
   private static class CompositionPredicate<A extends @Nullable Object, B extends @Nullable Object>
       implements Predicate<A>, Serializable {
     final Predicate<B> p;
@@ -620,7 +640,7 @@ public final class Predicates {
     }
 
     @Override
-    public boolean apply( A a) {
+    public boolean apply(A a) {
       return p.apply(f.apply(a));
     }
 

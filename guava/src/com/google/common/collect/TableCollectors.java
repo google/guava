@@ -199,11 +199,7 @@ final class TableCollectors {
   private static <
           R extends @Nullable Object, C extends @Nullable Object, V extends @Nullable Object>
       void mergeTables(
-          Table<R, C, V> table,
-           R row,
-           C column,
-           V value,
-          BinaryOperator<V> mergeFunction) {
+          Table<R, C, V> table, R row, C column, V value, BinaryOperator<V> mergeFunction) {
     checkNotNull(value);
     V oldValue = table.get(row, column);
     if (oldValue == null) {

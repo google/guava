@@ -451,7 +451,8 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
     }
 
     @Override
-    @Nullable Object @Nullable [] internalArray() {
+    @Nullable
+    Object @Nullable [] internalArray() {
       return ImmutableList.this.internalArray();
     }
 

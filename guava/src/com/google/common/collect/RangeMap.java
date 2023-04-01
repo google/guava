@@ -53,13 +53,15 @@ public interface RangeMap<K extends Comparable, V> {
    * <p>Specifically, if any range in this range map contains the specified key, the value
    * associated with that range is returned.
    */
-  @Nullable V get(K key);
+  @Nullable
+  V get(K key);
 
   /**
    * Returns the range containing this key and its associated value, if such a range is present in
    * the range map, or {@code null} otherwise.
    */
-  @Nullable Entry<Range<K>, V> getEntry(K key);
+  @Nullable
+  Entry<Range<K>, V> getEntry(K key);
 
   /**
    * Returns the minimal range {@linkplain Range#encloses(Range) enclosing} the ranges in this

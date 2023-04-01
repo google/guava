@@ -55,7 +55,6 @@ public abstract class ForwardingIterator<T extends @Nullable Object> extends For
 
   @CanIgnoreReturnValue
   @Override
-  
   public T next() {
     return delegate().next();
   }

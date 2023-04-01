@@ -255,7 +255,7 @@ public final class TreeMultiset<E extends @Nullable Object> extends AbstractSort
 
   @CanIgnoreReturnValue
   @Override
-  public int add( E element, int occurrences) {
+  public int add(E element, int occurrences) {
     checkNonnegative(occurrences, "occurrences");
     if (occurrences == 0) {
       return count(element);
@@ -301,7 +301,7 @@ public final class TreeMultiset<E extends @Nullable Object> extends AbstractSort
 
   @CanIgnoreReturnValue
   @Override
-  public int setCount( E element, int count) {
+  public int setCount(E element, int count) {
     checkNonnegative(count, "count");
     if (!range.contains(element)) {
       checkArgument(count == 0);
@@ -323,7 +323,7 @@ public final class TreeMultiset<E extends @Nullable Object> extends AbstractSort
 
   @CanIgnoreReturnValue
   @Override
-  public boolean setCount( E element, int oldCount, int newCount) {
+  public boolean setCount(E element, int oldCount, int newCount) {
     checkNonnegative(newCount, "newCount");
     checkNonnegative(oldCount, "oldCount");
     checkArgument(range.contains(element));
@@ -372,7 +372,6 @@ public final class TreeMultiset<E extends @Nullable Object> extends AbstractSort
   private Entry<E> wrapEntry(final AvlNode<E> baseEntry) {
     return new Multisets.AbstractEntry<E>() {
       @Override
-      
       public E getElement() {
         return baseEntry.getElement();
       }
@@ -534,7 +533,7 @@ public final class TreeMultiset<E extends @Nullable Object> extends AbstractSort
   }
 
   @Override
-  public SortedMultiset<E> headMultiset( E upperBound, BoundType boundType) {
+  public SortedMultiset<E> headMultiset(E upperBound, BoundType boundType) {
     return new TreeMultiset<E>(
         rootReference,
         range.intersect(GeneralRange.upTo(comparator(), upperBound, boundType)),
@@ -542,7 +541,7 @@ public final class TreeMultiset<E extends @Nullable Object> extends AbstractSort
   }
 
   @Override
-  public SortedMultiset<E> tailMultiset( E lowerBound, BoundType boundType) {
+  public SortedMultiset<E> tailMultiset(E lowerBound, BoundType boundType) {
     return new TreeMultiset<E>(
         rootReference,
         range.intersect(GeneralRange.downTo(comparator(), lowerBound, boundType)),
@@ -603,7 +602,7 @@ public final class TreeMultiset<E extends @Nullable Object> extends AbstractSort
     private @Nullable AvlNode<E> pred;
     private @Nullable AvlNode<E> succ;
 
-    AvlNode( E elem, int elemCount) {
+    AvlNode(E elem, int elemCount) {
       checkArgument(elemCount > 0);
       this.elem = elem;
       this.elemCount = elemCount;
@@ -630,7 +629,7 @@ public final class TreeMultiset<E extends @Nullable Object> extends AbstractSort
       return requireNonNull(succ);
     }
 
-    int count(Comparator<? super E> comparator,  E e) {
+    int count(Comparator<? super E> comparator, E e) {
       int cmp = comparator.compare(e, getElement());
       if (cmp < 0) {
         return (left == null) ? 0 : left.count(comparator, e);
@@ -641,7 +640,7 @@ public final class TreeMultiset<E extends @Nullable Object> extends AbstractSort
       }
     }
 
-    private AvlNode<E> addRightChild( E e, int count) {
+    private AvlNode<E> addRightChild(E e, int count) {
       right = new AvlNode<E>(e, count);
       successor(this, right, succ());
       height = Math.max(2, height);
@@ -650,7 +649,7 @@ public final class TreeMultiset<E extends @Nullable Object> extends AbstractSort
       return this;
     }
 
-    private AvlNode<E> addLeftChild( E e, int count) {
+    private AvlNode<E> addLeftChild(E e, int count) {
       left = new AvlNode<E>(e, count);
       successor(pred(), left, this);
       height = Math.max(2, height);
@@ -659,8 +658,7 @@ public final class TreeMultiset<E extends @Nullable Object> extends AbstractSort
       return this;
     }
 
-    AvlNode<E> add(
-        Comparator<? super E> comparator,  E e, int count, int[] result) {
+    AvlNode<E> add(Comparator<? super E> comparator, E e, int count, int[] result) {
       /*
        * It speeds things up considerably to unconditionally add count to totalCount here,
        * but that destroys failure atomicity in the case of count overflow. =(
@@ -705,8 +703,8 @@ public final class TreeMultiset<E extends @Nullable Object> extends AbstractSort
       return this;
     }
 
-    @Nullable AvlNode<E> remove(
-        Comparator<? super E> comparator,  E e, int count, int[] result) {
+    @Nullable
+    AvlNode<E> remove(Comparator<? super E> comparator, E e, int count, int[] result) {
       int cmp = comparator.compare(e, getElement());
       if (cmp < 0) {
         AvlNode<E> initLeft = left;
@@ -757,8 +755,8 @@ public final class TreeMultiset<E extends @Nullable Object> extends AbstractSort
       }
     }
 
-    @Nullable AvlNode<E> setCount(
-        Comparator<? super E> comparator,  E e, int count, int[] result) {
+    @Nullable
+    AvlNode<E> setCount(Comparator<? super E> comparator, E e, int count, int[] result) {
       int cmp = comparator.compare(e, getElement());
       if (cmp < 0) {
         AvlNode<E> initLeft = left;
@@ -806,12 +804,9 @@ public final class TreeMultiset<E extends @Nullable Object> extends AbstractSort
       return this;
     }
 
-    @Nullable AvlNode<E> setCount(
-        Comparator<? super E> comparator,
-         E e,
-        int expectedCount,
-        int newCount,
-        int[] result) {
+    @Nullable
+    AvlNode<E> setCount(
+        Comparator<? super E> comparator, E e, int expectedCount, int newCount, int[] result) {
       int cmp = comparator.compare(e, getElement());
       if (cmp < 0) {
         AvlNode<E> initLeft = left;
@@ -984,16 +979,15 @@ public final class TreeMultiset<E extends @Nullable Object> extends AbstractSort
       return newTop;
     }
 
-    private static long totalCount( @Nullable AvlNode<?> node) {
+    private static long totalCount(@Nullable AvlNode<?> node) {
       return (node == null) ? 0 : node.totalCount;
     }
 
-    private static int height( @Nullable AvlNode<?> node) {
+    private static int height(@Nullable AvlNode<?> node) {
       return (node == null) ? 0 : node.height;
     }
 
-    private @Nullable AvlNode<E> ceiling(
-        Comparator<? super E> comparator,  E e) {
+    private @Nullable AvlNode<E> ceiling(Comparator<? super E> comparator, E e) {
       int cmp = comparator.compare(e, getElement());
       if (cmp < 0) {
         return (left == null) ? this : MoreObjects.firstNonNull(left.ceiling(comparator, e), this);
@@ -1004,7 +998,7 @@ public final class TreeMultiset<E extends @Nullable Object> extends AbstractSort
       }
     }
 
-    private @Nullable AvlNode<E> floor(Comparator<? super E> comparator,  E e) {
+    private @Nullable AvlNode<E> floor(Comparator<? super E> comparator, E e) {
       int cmp = comparator.compare(e, getElement());
       if (cmp > 0) {
         return (right == null) ? this : MoreObjects.firstNonNull(right.floor(comparator, e), this);
@@ -1015,7 +1009,6 @@ public final class TreeMultiset<E extends @Nullable Object> extends AbstractSort
       }
     }
 
-    
     E getElement() {
       // For discussion of this cast, see the comment on the elem field.
       return uncheckedCastNullableTToT(elem);

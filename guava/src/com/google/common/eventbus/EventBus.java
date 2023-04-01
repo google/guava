@@ -28,7 +28,6 @@ import org.jspecify.annotations.NullMarked;
 
 /**
  * Dispatches events to listeners, and provides ways for listeners to register themselves.
-
  *
  * <h2>Avoid EventBus</h2>
  *
@@ -84,7 +83,7 @@ import org.jspecify.annotations.NullMarked;
  *       to <a href="https://github.com/google/guava/issues/3311">more verbose</a>.
  * </ul>
  *
- -->
+ * -->
  *
  * <h2>EventBus Summary</h2>
  *

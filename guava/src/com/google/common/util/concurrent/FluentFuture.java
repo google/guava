@@ -87,14 +87,12 @@ public abstract class FluentFuture<V extends @Nullable Object>
       implements AbstractFuture.Trusted<V> {
     @CanIgnoreReturnValue
     @Override
-    
     public final V get() throws InterruptedException, ExecutionException {
       return super.get();
     }
 
     @CanIgnoreReturnValue
     @Override
-    
     public final V get(long timeout, TimeUnit unit)
         throws InterruptedException, ExecutionException, TimeoutException {
       return super.get(timeout, unit);

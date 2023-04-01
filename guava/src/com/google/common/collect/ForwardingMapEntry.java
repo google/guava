@@ -60,20 +60,17 @@ public abstract class ForwardingMapEntry<K extends @Nullable Object, V extends @
   protected abstract Entry<K, V> delegate();
 
   @Override
-  
   public K getKey() {
     return delegate().getKey();
   }
 
   @Override
-  
   public V getValue() {
     return delegate().getValue();
   }
 
   @Override
-  
-  public V setValue( V value) {
+  public V setValue(V value) {
     return delegate().setValue(value);
   }
 

@@ -45,8 +45,7 @@ import org.jspecify.annotations.Nullable;
 public interface Function<F extends @Nullable Object, T extends @Nullable Object>
     extends java.util.function.Function<F, T> {
   @Override
-  
-  T apply( F input);
+  T apply(F input);
 
   /**
    * <i>May</i> return {@code true} if {@code object} is a {@code Function} that behaves identically

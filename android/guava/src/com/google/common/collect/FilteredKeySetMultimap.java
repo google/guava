@@ -43,7 +43,7 @@ final class FilteredKeySetMultimap<K extends @Nullable Object, V extends @Nullab
   }
 
   @Override
-  public Set<V> get( K key) {
+  public Set<V> get(K key) {
     return (Set<V>) super.get(key);
   }
 
@@ -53,7 +53,7 @@ final class FilteredKeySetMultimap<K extends @Nullable Object, V extends @Nullab
   }
 
   @Override
-  public Set<V> replaceValues( K key, Iterable<? extends V> values) {
+  public Set<V> replaceValues(K key, Iterable<? extends V> values) {
     return (Set<V>) super.replaceValues(key, values);
   }
 

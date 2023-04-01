@@ -49,7 +49,7 @@ public abstract class ForwardingSetMultimap<K extends @Nullable Object, V extend
   }
 
   @Override
-  public Set<V> get( K key) {
+  public Set<V> get(K key) {
     return delegate().get(key);
   }
 
@@ -61,7 +61,7 @@ public abstract class ForwardingSetMultimap<K extends @Nullable Object, V extend
 
   @CanIgnoreReturnValue
   @Override
-  public Set<V> replaceValues( K key, Iterable<? extends V> values) {
+  public Set<V> replaceValues(K key, Iterable<? extends V> values) {
     return delegate().replaceValues(key, values);
   }
 }

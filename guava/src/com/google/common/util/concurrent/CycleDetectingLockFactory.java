@@ -570,10 +570,14 @@ public class CycleDetectingLockFactory {
    */
   private interface CycleDetectingLock {
 
-    /** @return the {@link LockGraphNode} associated with this lock. */
+    /**
+     * @return the {@link LockGraphNode} associated with this lock.
+     */
     LockGraphNode getLockGraphNode();
 
-    /** @return {@code true} if the current thread has acquired this lock. */
+    /**
+     * @return {@code true} if the current thread has acquired this lock.
+     */
     boolean isAcquiredByCurrentThread();
   }
 

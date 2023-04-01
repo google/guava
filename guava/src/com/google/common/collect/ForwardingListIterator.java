@@ -49,7 +49,7 @@ public abstract class ForwardingListIterator<E extends @Nullable Object>
   protected abstract ListIterator<E> delegate();
 
   @Override
-  public void add( E element) {
+  public void add(E element) {
     delegate().add(element);
   }
 
@@ -65,7 +65,6 @@ public abstract class ForwardingListIterator<E extends @Nullable Object>
 
   @CanIgnoreReturnValue
   @Override
-  
   public E previous() {
     return delegate().previous();
   }
@@ -76,7 +75,7 @@ public abstract class ForwardingListIterator<E extends @Nullable Object>
   }
 
   @Override
-  public void set( E element) {
+  public void set(E element) {
     delegate().set(element);
   }
 }

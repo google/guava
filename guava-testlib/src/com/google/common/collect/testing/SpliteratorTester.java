@@ -241,7 +241,9 @@ public final class SpliteratorTester<E> {
         ImmutableSet.of(() -> new GeneralSpliteratorOfObject<>(spliteratorSupplier.get())));
   }
 
-  /** @since 28.1 */
+  /**
+   * @since 28.1
+   */
   @SuppressWarnings("AndroidJdkLibsChecker") // see comment on GeneralSpliteratorOfPrimitive
   public static SpliteratorTester<Integer> ofInt(Supplier<Spliterator.OfInt> spliteratorSupplier) {
     return new SpliteratorTester<>(
@@ -250,7 +252,9 @@ public final class SpliteratorTester<E> {
             () -> new GeneralSpliteratorOfPrimitive<>(spliteratorSupplier.get(), c -> c::accept)));
   }
 
-  /** @since 28.1 */
+  /**
+   * @since 28.1
+   */
   @SuppressWarnings("AndroidJdkLibsChecker") // see comment on GeneralSpliteratorOfPrimitive
   public static SpliteratorTester<Long> ofLong(Supplier<Spliterator.OfLong> spliteratorSupplier) {
     return new SpliteratorTester<>(
@@ -259,7 +263,9 @@ public final class SpliteratorTester<E> {
             () -> new GeneralSpliteratorOfPrimitive<>(spliteratorSupplier.get(), c -> c::accept)));
   }
 
-  /** @since 28.1 */
+  /**
+   * @since 28.1
+   */
   @SuppressWarnings("AndroidJdkLibsChecker") // see comment on GeneralSpliteratorOfPrimitive
   public static SpliteratorTester<Double> ofDouble(
       Supplier<Spliterator.OfDouble> spliteratorSupplier) {

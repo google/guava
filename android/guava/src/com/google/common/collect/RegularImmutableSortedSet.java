@@ -52,7 +52,8 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
   }
 
   @Override
-  @Nullable Object @Nullable [] internalArray() {
+  @Nullable
+  Object @Nullable [] internalArray() {
     return elements.internalArray();
   }
 

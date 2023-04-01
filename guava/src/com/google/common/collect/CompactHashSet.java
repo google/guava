@@ -132,9 +132,7 @@ class CompactHashSet<E extends @Nullable Object> extends AbstractSet<E> implemen
    * Maximum allowed false positive probability of detecting a hash flooding attack given random
    * input.
    */
-  @VisibleForTesting(
-      )
-  static final double HASH_FLOODING_FPP = 0.001;
+  @VisibleForTesting() static final double HASH_FLOODING_FPP = 0.001;
 
   /**
    * Maximum allowed length of a hash table bucket before falling back to a j.u.LinkedHashSet based
@@ -247,7 +245,8 @@ class CompactHashSet<E extends @Nullable Object> extends AbstractSet<E> implemen
 
   @SuppressWarnings("unchecked")
   @VisibleForTesting
-  @Nullable Set<E> delegateOrNull() {
+  @Nullable
+  Set<E> delegateOrNull() {
     if (table instanceof Set) {
       return (Set<E>) table;
     }
@@ -295,7 +294,7 @@ class CompactHashSet<E extends @Nullable Object> extends AbstractSet<E> implemen
 
   @CanIgnoreReturnValue
   @Override
-  public boolean add( E object) {
+  public boolean add(E object) {
     if (needsAllocArrays()) {
       allocArrays();
     }
@@ -356,7 +355,7 @@ class CompactHashSet<E extends @Nullable Object> extends AbstractSet<E> implemen
   /**
    * Creates a fresh entry with the specified object at the specified position in the entry arrays.
    */
-  void insertEntry(int entryIndex,  E object, int hash, int mask) {
+  void insertEntry(int entryIndex, E object, int hash, int mask) {
     setEntry(entryIndex, CompactHashing.maskCombine(hash, UNSET, mask));
     setElement(entryIndex, object);
   }
@@ -556,7 +555,6 @@ class CompactHashSet<E extends @Nullable Object> extends AbstractSet<E> implemen
       }
 
       @Override
-      
       public E next() {
         checkForConcurrentModification();
         if (!hasNext()) {

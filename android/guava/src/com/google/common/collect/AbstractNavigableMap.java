@@ -61,7 +61,6 @@ abstract class AbstractNavigableMap<K extends @Nullable Object, V extends @Nulla
   }
 
   @Override
-  
   public K firstKey() {
     Entry<K, V> entry = firstEntry();
     if (entry == null) {
@@ -72,7 +71,6 @@ abstract class AbstractNavigableMap<K extends @Nullable Object, V extends @Nulla
   }
 
   @Override
-  
   public K lastKey() {
     Entry<K, V> entry = lastEntry();
     if (entry == null) {
@@ -83,59 +81,59 @@ abstract class AbstractNavigableMap<K extends @Nullable Object, V extends @Nulla
   }
 
   @Override
-  public @Nullable Entry<K, V> lowerEntry( K key) {
+  public @Nullable Entry<K, V> lowerEntry(K key) {
     return headMap(key, false).lastEntry();
   }
 
   @Override
-  public @Nullable Entry<K, V> floorEntry( K key) {
+  public @Nullable Entry<K, V> floorEntry(K key) {
     return headMap(key, true).lastEntry();
   }
 
   @Override
-  public @Nullable Entry<K, V> ceilingEntry( K key) {
+  public @Nullable Entry<K, V> ceilingEntry(K key) {
     return tailMap(key, true).firstEntry();
   }
 
   @Override
-  public @Nullable Entry<K, V> higherEntry( K key) {
+  public @Nullable Entry<K, V> higherEntry(K key) {
     return tailMap(key, false).firstEntry();
   }
 
   @Override
-  public @Nullable K lowerKey( K key) {
+  public @Nullable K lowerKey(K key) {
     return Maps.keyOrNull(lowerEntry(key));
   }
 
   @Override
-  public @Nullable K floorKey( K key) {
+  public @Nullable K floorKey(K key) {
     return Maps.keyOrNull(floorEntry(key));
   }
 
   @Override
-  public @Nullable K ceilingKey( K key) {
+  public @Nullable K ceilingKey(K key) {
     return Maps.keyOrNull(ceilingEntry(key));
   }
 
   @Override
-  public @Nullable K higherKey( K key) {
+  public @Nullable K higherKey(K key) {
     return Maps.keyOrNull(higherEntry(key));
   }
 
   abstract Iterator<Entry<K, V>> descendingEntryIterator();
 
   @Override
-  public SortedMap<K, V> subMap( K fromKey,  K toKey) {
+  public SortedMap<K, V> subMap(K fromKey, K toKey) {
     return subMap(fromKey, true, toKey, false);
   }
 
   @Override
-  public SortedMap<K, V> headMap( K toKey) {
+  public SortedMap<K, V> headMap(K toKey) {
     return headMap(toKey, false);
   }
 
   @Override
-  public SortedMap<K, V> tailMap( K fromKey) {
+  public SortedMap<K, V> tailMap(K fromKey) {
     return tailMap(fromKey, true);
   }
 

@@ -155,7 +155,7 @@ public final class Multimaps {
     }
 
     @Override
-    Collection<V> wrapCollection( K key, Collection<V> collection) {
+    Collection<V> wrapCollection(K key, Collection<V> collection) {
       if (collection instanceof List) {
         return wrapList(key, (List<V>) collection, null);
       } else if (collection instanceof NavigableSet) {
@@ -356,7 +356,7 @@ public final class Multimaps {
     }
 
     @Override
-    Collection<V> wrapCollection( K key, Collection<V> collection) {
+    Collection<V> wrapCollection(K key, Collection<V> collection) {
       if (collection instanceof NavigableSet) {
         return new WrappedNavigableSet(key, (NavigableSet<V>) collection, null);
       } else if (collection instanceof SortedSet) {
@@ -626,7 +626,7 @@ public final class Multimaps {
     }
 
     @Override
-    public Collection<V> get( K key) {
+    public Collection<V> get(K key) {
       return unmodifiableValueCollection(delegate.get(key));
     }
 
@@ -649,12 +649,12 @@ public final class Multimaps {
     }
 
     @Override
-    public boolean put( K key,  V value) {
+    public boolean put(K key, V value) {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public boolean putAll( K key, Iterable<? extends V> values) {
+    public boolean putAll(K key, Iterable<? extends V> values) {
       throw new UnsupportedOperationException();
     }
 
@@ -674,7 +674,7 @@ public final class Multimaps {
     }
 
     @Override
-    public Collection<V> replaceValues( K key, Iterable<? extends V> values) {
+    public Collection<V> replaceValues(K key, Iterable<? extends V> values) {
       throw new UnsupportedOperationException();
     }
 
@@ -703,7 +703,7 @@ public final class Multimaps {
     }
 
     @Override
-    public List<V> get( K key) {
+    public List<V> get(K key) {
       return Collections.unmodifiableList(delegate().get(key));
     }
 
@@ -713,7 +713,7 @@ public final class Multimaps {
     }
 
     @Override
-    public List<V> replaceValues( K key, Iterable<? extends V> values) {
+    public List<V> replaceValues(K key, Iterable<? extends V> values) {
       throw new UnsupportedOperationException();
     }
 
@@ -733,7 +733,7 @@ public final class Multimaps {
     }
 
     @Override
-    public Set<V> get( K key) {
+    public Set<V> get(K key) {
       /*
        * Note that this doesn't return a SortedSet when delegate is a
        * SortedSetMultiset, unlike (SortedSet<V>) super.get().
@@ -752,7 +752,7 @@ public final class Multimaps {
     }
 
     @Override
-    public Set<V> replaceValues( K key, Iterable<? extends V> values) {
+    public Set<V> replaceValues(K key, Iterable<? extends V> values) {
       throw new UnsupportedOperationException();
     }
 
@@ -772,7 +772,7 @@ public final class Multimaps {
     }
 
     @Override
-    public SortedSet<V> get( K key) {
+    public SortedSet<V> get(K key) {
       return Collections.unmodifiableSortedSet(delegate().get(key));
     }
 
@@ -782,7 +782,7 @@ public final class Multimaps {
     }
 
     @Override
-    public SortedSet<V> replaceValues( K key, Iterable<? extends V> values) {
+    public SortedSet<V> replaceValues(K key, Iterable<? extends V> values) {
       throw new UnsupportedOperationException();
     }
 
@@ -1029,7 +1029,9 @@ public final class Multimaps {
     return new MapMultimap<>(map);
   }
 
-  /** @see Multimaps#forMap */
+  /**
+   * @see Multimaps#forMap
+   */
   private static class MapMultimap<K extends @Nullable Object, V extends @Nullable Object>
       extends AbstractMultimap<K, V> implements SetMultimap<K, V>, Serializable {
     final Map<K, V> map;
@@ -1059,7 +1061,7 @@ public final class Multimaps {
     }
 
     @Override
-    public Set<V> get( final K key) {
+    public Set<V> get(final K key) {
       return new Sets.ImprovedAbstractSet<V>() {
         @Override
         public Iterator<V> iterator() {
@@ -1072,7 +1074,6 @@ public final class Multimaps {
             }
 
             @Override
-            
             public V next() {
               if (!hasNext()) {
                 throw new NoSuchElementException();
@@ -1102,12 +1103,12 @@ public final class Multimaps {
     }
 
     @Override
-    public boolean put( K key,  V value) {
+    public boolean put(K key, V value) {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public boolean putAll( K key, Iterable<? extends V> values) {
+    public boolean putAll(K key, Iterable<? extends V> values) {
       throw new UnsupportedOperationException();
     }
 
@@ -1117,7 +1118,7 @@ public final class Multimaps {
     }
 
     @Override
-    public Set<V> replaceValues( K key, Iterable<? extends V> values) {
+    public Set<V> replaceValues(K key, Iterable<? extends V> values) {
       throw new UnsupportedOperationException();
     }
 
@@ -1409,7 +1410,7 @@ public final class Multimaps {
       this.transformer = checkNotNull(transformer);
     }
 
-    Collection<V2> transform( K key, Collection<V1> values) {
+    Collection<V2> transform(K key, Collection<V1> values) {
       Function<? super V1, V2> function = Maps.asValueToValueFunction(transformer, key);
       if (values instanceof List) {
         return Lists.transform((List<V1>) values, function);
@@ -1424,7 +1425,7 @@ public final class Multimaps {
           fromMultimap.asMap(),
           new EntryTransformer<K, Collection<V1>, Collection<V2>>() {
             @Override
-            public Collection<V2> transformEntry( K key, Collection<V1> value) {
+            public Collection<V2> transformEntry(K key, Collection<V1> value) {
               return transform(key, value);
             }
           });
@@ -1452,7 +1453,7 @@ public final class Multimaps {
     }
 
     @Override
-    public Collection<V2> get( final K key) {
+    public Collection<V2> get(final K key) {
       return transform(key, fromMultimap.get(key));
     }
 
@@ -1472,12 +1473,12 @@ public final class Multimaps {
     }
 
     @Override
-    public boolean put( K key,  V2 value) {
+    public boolean put(K key, V2 value) {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public boolean putAll( K key, Iterable<? extends V2> values) {
+    public boolean putAll(K key, Iterable<? extends V2> values) {
       throw new UnsupportedOperationException();
     }
 
@@ -1499,7 +1500,7 @@ public final class Multimaps {
     }
 
     @Override
-    public Collection<V2> replaceValues( K key, Iterable<? extends V2> values) {
+    public Collection<V2> replaceValues(K key, Iterable<? extends V2> values) {
       throw new UnsupportedOperationException();
     }
 
@@ -1525,12 +1526,12 @@ public final class Multimaps {
     }
 
     @Override
-    List<V2> transform( K key, Collection<V1> values) {
+    List<V2> transform(K key, Collection<V1> values) {
       return Lists.transform((List<V1>) values, Maps.asValueToValueFunction(transformer, key));
     }
 
     @Override
-    public List<V2> get( K key) {
+    public List<V2> get(K key) {
       return transform(key, fromMultimap.get(key));
     }
 
@@ -1541,7 +1542,7 @@ public final class Multimaps {
     }
 
     @Override
-    public List<V2> replaceValues( K key, Iterable<? extends V2> values) {
+    public List<V2> replaceValues(K key, Iterable<? extends V2> values) {
       throw new UnsupportedOperationException();
     }
   }
@@ -1650,7 +1651,6 @@ public final class Multimaps {
         Multiset.Entry<K> transform(final Map.Entry<K, Collection<V>> backingEntry) {
           return new Multisets.AbstractEntry<K>() {
             @Override
-            
             public K getElement() {
               return backingEntry.getKey();
             }
@@ -1802,7 +1802,7 @@ public final class Multimaps {
             multimap.keySet(),
             new Function<K, Collection<V>>() {
               @Override
-              public Collection<V> apply( K key) {
+              public Collection<V> apply(K key) {
                 return multimap.get(key);
               }
             });

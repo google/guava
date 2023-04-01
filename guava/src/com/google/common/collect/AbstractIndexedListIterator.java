@@ -39,7 +39,6 @@ abstract class AbstractIndexedListIterator<E extends @Nullable Object>
   private int position;
 
   /** Returns the element with the specified index. This method is called by {@link #next()}. */
-  
   protected abstract E get(int index);
 
   /**
@@ -75,7 +74,6 @@ abstract class AbstractIndexedListIterator<E extends @Nullable Object>
   }
 
   @Override
-  
   public final E next() {
     if (!hasNext()) {
       throw new NoSuchElementException();
@@ -94,7 +92,6 @@ abstract class AbstractIndexedListIterator<E extends @Nullable Object>
   }
 
   @Override
-  
   public final E previous() {
     if (!hasPrevious()) {
       throw new NoSuchElementException();

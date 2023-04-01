@@ -47,10 +47,7 @@ enum BloomFilterStrategies implements BloomFilter.Strategy {
   MURMUR128_MITZ_32() {
     @Override
     public <T extends @Nullable Object> boolean put(
-         T object,
-        Funnel<? super T> funnel,
-        int numHashFunctions,
-        LockFreeBitArray bits) {
+        T object, Funnel<? super T> funnel, int numHashFunctions, LockFreeBitArray bits) {
       long bitSize = bits.bitSize();
       long hash64 = Hashing.murmur3_128().hashObject(object, funnel).asLong();
       int hash1 = (int) hash64;
@@ -70,10 +67,7 @@ enum BloomFilterStrategies implements BloomFilter.Strategy {
 
     @Override
     public <T extends @Nullable Object> boolean mightContain(
-         T object,
-        Funnel<? super T> funnel,
-        int numHashFunctions,
-        LockFreeBitArray bits) {
+        T object, Funnel<? super T> funnel, int numHashFunctions, LockFreeBitArray bits) {
       long bitSize = bits.bitSize();
       long hash64 = Hashing.murmur3_128().hashObject(object, funnel).asLong();
       int hash1 = (int) hash64;
@@ -101,10 +95,7 @@ enum BloomFilterStrategies implements BloomFilter.Strategy {
   MURMUR128_MITZ_64() {
     @Override
     public <T extends @Nullable Object> boolean put(
-         T object,
-        Funnel<? super T> funnel,
-        int numHashFunctions,
-        LockFreeBitArray bits) {
+        T object, Funnel<? super T> funnel, int numHashFunctions, LockFreeBitArray bits) {
       long bitSize = bits.bitSize();
       byte[] bytes = Hashing.murmur3_128().hashObject(object, funnel).getBytesInternal();
       long hash1 = lowerEight(bytes);
@@ -122,10 +113,7 @@ enum BloomFilterStrategies implements BloomFilter.Strategy {
 
     @Override
     public <T extends @Nullable Object> boolean mightContain(
-         T object,
-        Funnel<? super T> funnel,
-        int numHashFunctions,
-        LockFreeBitArray bits) {
+        T object, Funnel<? super T> funnel, int numHashFunctions, LockFreeBitArray bits) {
       long bitSize = bits.bitSize();
       byte[] bytes = Hashing.murmur3_128().hashObject(object, funnel).getBytesInternal();
       long hash1 = lowerEight(bytes);

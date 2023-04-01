@@ -136,7 +136,7 @@ public final class Collections2 {
     }
 
     @Override
-    public boolean add( E element) {
+    public boolean add(E element) {
       checkArgument(predicate.apply(element));
       return unfiltered.add(element);
     }

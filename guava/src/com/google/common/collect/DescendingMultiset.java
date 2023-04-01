@@ -70,23 +70,20 @@ abstract class DescendingMultiset<E extends @Nullable Object> extends Forwarding
   }
 
   @Override
-  public SortedMultiset<E> headMultiset( E toElement, BoundType boundType) {
+  public SortedMultiset<E> headMultiset(E toElement, BoundType boundType) {
     return forwardMultiset().tailMultiset(toElement, boundType).descendingMultiset();
   }
 
   @Override
   public SortedMultiset<E> subMultiset(
-       E fromElement,
-      BoundType fromBoundType,
-       E toElement,
-      BoundType toBoundType) {
+      E fromElement, BoundType fromBoundType, E toElement, BoundType toBoundType) {
     return forwardMultiset()
         .subMultiset(toElement, toBoundType, fromElement, fromBoundType)
         .descendingMultiset();
   }
 
   @Override
-  public SortedMultiset<E> tailMultiset( E fromElement, BoundType boundType) {
+  public SortedMultiset<E> tailMultiset(E fromElement, BoundType boundType) {
     return forwardMultiset().headMultiset(fromElement, boundType).descendingMultiset();
   }
 

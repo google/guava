@@ -44,7 +44,7 @@ public abstract class UnmodifiableListIterator<E extends @Nullable Object>
   @Deprecated
   @Override
   @DoNotCall("Always throws UnsupportedOperationException")
-  public final void add( E e) {
+  public final void add(E e) {
     throw new UnsupportedOperationException();
   }
 
@@ -57,7 +57,7 @@ public abstract class UnmodifiableListIterator<E extends @Nullable Object>
   @Deprecated
   @Override
   @DoNotCall("Always throws UnsupportedOperationException")
-  public final void set( E e) {
+  public final void set(E e) {
     throw new UnsupportedOperationException();
   }
 }

@@ -91,7 +91,8 @@ public interface ByteArrayDataInput extends DataInput {
 
   @CanIgnoreReturnValue // to skip a line
   @Override
-  @Nullable String readLine();
+  @Nullable
+  String readLine();
 
   @CanIgnoreReturnValue // to skip a field
   @Override

@@ -250,8 +250,6 @@
  * them from your test code to simulate the EventBus.
  */
 @CheckReturnValue
-
 package com.google.common.eventbus;
 
 import com.google.errorprone.annotations.CheckReturnValue;
-import javax.annotation.ParametersAreNonnullByDefault;

@@ -61,7 +61,6 @@ public final class Suppliers {
     }
 
     @Override
-    
     public T get() {
       return function.apply(supplier.get());
     }
@@ -127,7 +126,6 @@ public final class Suppliers {
     }
 
     @Override
-    
     public T get() {
       // A 2-field variant of Double Checked Locking.
       if (!initialized) {
@@ -171,7 +169,6 @@ public final class Suppliers {
     }
 
     @Override
-    
     @SuppressWarnings("unchecked") // Cast from Supplier<Void> to Supplier<T> is always valid
     public T get() {
       // Because Supplier is read-heavy, we use the "double-checked locking" pattern.
@@ -244,7 +241,6 @@ public final class Suppliers {
     }
 
     @Override
-    
     public T get() {
       // Another variant of Double Checked Locking.
       //
@@ -282,21 +278,19 @@ public final class Suppliers {
   }
 
   /** Returns a supplier that always supplies {@code instance}. */
-  public static <T extends @Nullable Object> Supplier<T> ofInstance(
-       T instance) {
+  public static <T extends @Nullable Object> Supplier<T> ofInstance(T instance) {
     return new SupplierOfInstance<>(instance);
   }
 
   private static class SupplierOfInstance<T extends @Nullable Object>
       implements Supplier<T>, Serializable {
-     final T instance;
+    final T instance;
 
-    SupplierOfInstance( T instance) {
+    SupplierOfInstance(T instance) {
       this.instance = instance;
     }
 
     @Override
-    
     public T get() {
       return instance;
     }
@@ -341,7 +335,6 @@ public final class Suppliers {
     }
 
     @Override
-    
     public T get() {
       synchronized (delegate) {
         return delegate.get();

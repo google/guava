@@ -81,7 +81,8 @@ class MapIteratorCache<K, V> {
     backingMap.clear();
   }
 
-  @Nullable V get(Object key) {
+  @Nullable
+  V get(Object key) {
     checkNotNull(key);
     V value = getIfCached(key);
     // TODO(b/192579700): Use a ternary once it no longer confuses our nullness checker.
@@ -136,7 +137,8 @@ class MapIteratorCache<K, V> {
 
   // Internal methods (package-visible, but treat as only subclass-visible)
 
-  @Nullable V getIfCached(@Nullable Object key) {
+  @Nullable
+  V getIfCached(@Nullable Object key) {
     Entry<K, V> entry = cacheEntry; // store local reference for thread-safety
 
     // Check cache. We use == on purpose because it's cheaper and a cache miss is ok.

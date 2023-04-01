@@ -41,7 +41,7 @@ final class FilteredKeyListMultimap<K extends @Nullable Object, V extends @Nulla
   }
 
   @Override
-  public List<V> get( K key) {
+  public List<V> get(K key) {
     return (List<V>) super.get(key);
   }
 
@@ -51,7 +51,7 @@ final class FilteredKeyListMultimap<K extends @Nullable Object, V extends @Nulla
   }
 
   @Override
-  public List<V> replaceValues( K key, Iterable<? extends V> values) {
+  public List<V> replaceValues(K key, Iterable<? extends V> values) {
     return (List<V>) super.replaceValues(key, values);
   }
 }

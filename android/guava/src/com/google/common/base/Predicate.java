@@ -62,7 +62,7 @@ public interface Predicate<T extends @Nullable Object> {
    * @throws NullPointerException if {@code input} is null and this predicate does not accept null
    *     arguments
    */
-  boolean apply( T input);
+  boolean apply(T input);
 
   /**
    * Indicates whether another object is equal to this predicate.

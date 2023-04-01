@@ -91,11 +91,9 @@ public interface MapDifference<K extends @Nullable Object, V extends @Nullable O
   @DoNotMock("Use Maps.difference")
   interface ValueDifference<V extends @Nullable Object> {
     /** Returns the value from the left map (possibly null). */
-    
     V leftValue();
 
     /** Returns the value from the right map (possibly null). */
-    
     V rightValue();
 
     /**

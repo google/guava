@@ -102,10 +102,7 @@ abstract class AbstractSortedMultiset<E extends @Nullable Object> extends Abstra
 
   @Override
   public SortedMultiset<E> subMultiset(
-       E fromElement,
-      BoundType fromBoundType,
-       E toElement,
-      BoundType toBoundType) {
+      E fromElement, BoundType fromBoundType, E toElement, BoundType toBoundType) {
     // These are checked elsewhere, but NullPointerTester wants them checked eagerly.
     checkNotNull(fromBoundType);
     checkNotNull(toBoundType);

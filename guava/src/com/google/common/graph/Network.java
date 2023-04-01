@@ -352,7 +352,8 @@ public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFuncti
    *     network
    * @since 23.0
    */
-  @Nullable E edgeConnectingOrNull(N nodeU, N nodeV);
+  @Nullable
+  E edgeConnectingOrNull(N nodeU, N nodeV);
 
   /**
    * Returns the single edge that directly connects {@code endpoints} (in the order, if any,
@@ -366,7 +367,8 @@ public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFuncti
    * @throws IllegalArgumentException if the endpoints are unordered and the graph is directed
    * @since 27.1
    */
-  @Nullable E edgeConnectingOrNull(EndpointPair<N> endpoints);
+  @Nullable
+  E edgeConnectingOrNull(EndpointPair<N> endpoints);
 
   /**
    * Returns true if there is an edge that directly connects {@code nodeU} to {@code nodeV}. This is

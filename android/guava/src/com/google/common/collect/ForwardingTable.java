@@ -54,7 +54,7 @@ public abstract class ForwardingTable<
   }
 
   @Override
-  public Map<R, V> column( C columnKey) {
+  public Map<R, V> column(C columnKey) {
     return delegate().column(columnKey);
   }
 
@@ -100,8 +100,7 @@ public abstract class ForwardingTable<
 
   @CanIgnoreReturnValue
   @Override
-  public @Nullable V put(
-       R rowKey,  C columnKey,  V value) {
+  public @Nullable V put(R rowKey, C columnKey, V value) {
     return delegate().put(rowKey, columnKey, value);
   }
 
@@ -117,7 +116,7 @@ public abstract class ForwardingTable<
   }
 
   @Override
-  public Map<C, V> row( R rowKey) {
+  public Map<C, V> row(R rowKey) {
     return delegate().row(rowKey);
   }
 

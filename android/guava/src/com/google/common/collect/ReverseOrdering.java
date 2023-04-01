@@ -36,7 +36,7 @@ final class ReverseOrdering<T extends @Nullable Object> extends Ordering<T>
   }
 
   @Override
-  public int compare( T a,  T b) {
+  public int compare(T a, T b) {
     return forwardOrder.compare(b, a);
   }
 
@@ -49,13 +49,12 @@ final class ReverseOrdering<T extends @Nullable Object> extends Ordering<T>
   // Override the min/max methods to "hoist" delegation outside loops
 
   @Override
-  public <E extends T> E min( E a,  E b) {
+  public <E extends T> E min(E a, E b) {
     return forwardOrder.max(a, b);
   }
 
   @Override
-  public <E extends T> E min(
-       E a,  E b,  E c, E... rest) {
+  public <E extends T> E min(E a, E b, E c, E... rest) {
     return forwardOrder.max(a, b, c, rest);
   }
 
@@ -70,13 +69,12 @@ final class ReverseOrdering<T extends @Nullable Object> extends Ordering<T>
   }
 
   @Override
-  public <E extends T> E max( E a,  E b) {
+  public <E extends T> E max(E a, E b) {
     return forwardOrder.min(a, b);
   }
 
   @Override
-  public <E extends T> E max(
-       E a,  E b,  E c, E... rest) {
+  public <E extends T> E max(E a, E b, E c, E... rest) {
     return forwardOrder.min(a, b, c, rest);
   }
 

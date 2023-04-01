@@ -141,7 +141,7 @@ public class TreeMultimap<K extends @Nullable Object, V extends @Nullable Object
   }
 
   @Override
-  Collection<V> createCollection( K key) {
+  Collection<V> createCollection(K key) {
     if (key == null) {
       int unused = keyComparator().compare(key, key);
     }
@@ -163,10 +163,12 @@ public class TreeMultimap<K extends @Nullable Object, V extends @Nullable Object
     return valueComparator;
   }
 
-  /** @since 14.0 (present with return type {@code SortedSet} since 2.0) */
+  /**
+   * @since 14.0 (present with return type {@code SortedSet} since 2.0)
+   */
   @Override
   @GwtIncompatible // NavigableSet
-  public NavigableSet<V> get( K key) {
+  public NavigableSet<V> get(K key) {
     return (NavigableSet<V>) super.get(key);
   }
 

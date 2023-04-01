@@ -53,10 +53,7 @@ final class SortedLists {
     ANY_PRESENT {
       @Override
       <E extends @Nullable Object> int resultIndex(
-          Comparator<? super E> comparator,
-           E key,
-          List<? extends E> list,
-          int foundIndex) {
+          Comparator<? super E> comparator, E key, List<? extends E> list, int foundIndex) {
         return foundIndex;
       }
     },
@@ -64,10 +61,7 @@ final class SortedLists {
     LAST_PRESENT {
       @Override
       <E extends @Nullable Object> int resultIndex(
-          Comparator<? super E> comparator,
-           E key,
-          List<? extends E> list,
-          int foundIndex) {
+          Comparator<? super E> comparator, E key, List<? extends E> list, int foundIndex) {
         // Of course, we have to use binary search to find the precise
         // breakpoint...
         int lower = foundIndex;
@@ -89,10 +83,7 @@ final class SortedLists {
     FIRST_PRESENT {
       @Override
       <E extends @Nullable Object> int resultIndex(
-          Comparator<? super E> comparator,
-           E key,
-          List<? extends E> list,
-          int foundIndex) {
+          Comparator<? super E> comparator, E key, List<? extends E> list, int foundIndex) {
         // Of course, we have to use binary search to find the precise
         // breakpoint...
         int lower = 0;
@@ -118,10 +109,7 @@ final class SortedLists {
     FIRST_AFTER {
       @Override
       public <E extends @Nullable Object> int resultIndex(
-          Comparator<? super E> comparator,
-           E key,
-          List<? extends E> list,
-          int foundIndex) {
+          Comparator<? super E> comparator, E key, List<? extends E> list, int foundIndex) {
         return LAST_PRESENT.resultIndex(comparator, key, list, foundIndex) + 1;
       }
     },
@@ -132,19 +120,13 @@ final class SortedLists {
     LAST_BEFORE {
       @Override
       public <E extends @Nullable Object> int resultIndex(
-          Comparator<? super E> comparator,
-           E key,
-          List<? extends E> list,
-          int foundIndex) {
+          Comparator<? super E> comparator, E key, List<? extends E> list, int foundIndex) {
         return FIRST_PRESENT.resultIndex(comparator, key, list, foundIndex) - 1;
       }
     };
 
     abstract <E extends @Nullable Object> int resultIndex(
-        Comparator<? super E> comparator,
-         E key,
-        List<? extends E> list,
-        int foundIndex);
+        Comparator<? super E> comparator, E key, List<? extends E> list, int foundIndex);
   }
 
   /**
@@ -237,7 +219,7 @@ final class SortedLists {
   public static <E extends @Nullable Object, K extends @Nullable Object> int binarySearch(
       List<E> list,
       Function<? super E, K> keyFunction,
-       K key,
+      K key,
       Comparator<? super K> keyComparator,
       KeyPresentBehavior presentBehavior,
       KeyAbsentBehavior absentBehavior) {
@@ -270,7 +252,7 @@ final class SortedLists {
    */
   public static <E extends @Nullable Object> int binarySearch(
       List<? extends E> list,
-       E key,
+      E key,
       Comparator<? super E> comparator,
       KeyPresentBehavior presentBehavior,
       KeyAbsentBehavior absentBehavior) {

@@ -69,19 +69,19 @@ class FilteredEntryMultimap<K extends @Nullable Object, V extends @Nullable Obje
     return entries().size();
   }
 
-  private boolean satisfies( K key,  V value) {
+  private boolean satisfies(K key, V value) {
     return predicate.apply(Maps.immutableEntry(key, value));
   }
 
   final class ValuePredicate implements Predicate<V> {
-     private final K key;
+    private final K key;
 
-    ValuePredicate( K key) {
+    ValuePredicate(K key) {
       this.key = key;
     }
 
     @Override
-    public boolean apply( V value) {
+    public boolean apply(V value) {
       return satisfies(key, value);
     }
   }
@@ -118,7 +118,7 @@ class FilteredEntryMultimap<K extends @Nullable Object, V extends @Nullable Obje
   }
 
   @Override
-  public Collection<V> get( K key) {
+  public Collection<V> get(K key) {
     return filterCollection(unfiltered.get(key), new ValuePredicate(key));
   }
 
@@ -300,7 +300,7 @@ class FilteredEntryMultimap<K extends @Nullable Object, V extends @Nullable Obje
         }
 
         @Override
-        public boolean remove( @Nullable Object o) {
+        public boolean remove(@Nullable Object o) {
           if (o instanceof Collection) {
             Collection<?> c = (Collection<?>) o;
             Iterator<Entry<K, Collection<V>>> entryIterator =

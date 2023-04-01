@@ -32,8 +32,7 @@ import org.jspecify.annotations.Nullable;
 @NullMarked
 abstract class AbstractHashFunction implements HashFunction {
   @Override
-  public <T extends @Nullable Object> HashCode hashObject(
-       T instance, Funnel<? super T> funnel) {
+  public <T extends @Nullable Object> HashCode hashObject(T instance, Funnel<? super T> funnel) {
     return newHasher().putObject(instance, funnel).hash();
   }
 

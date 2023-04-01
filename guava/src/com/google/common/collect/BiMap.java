@@ -48,7 +48,8 @@ public interface BiMap<K extends @Nullable Object, V extends @Nullable Object> e
    */
   @CanIgnoreReturnValue
   @Override
-  @Nullable V put( K key,  V value);
+  @Nullable
+  V put(K key, V value);
 
   /**
    * An alternate form of {@code put} that silently removes any existing entry with the value {@code
@@ -69,7 +70,8 @@ public interface BiMap<K extends @Nullable Object, V extends @Nullable Object> e
    *     value.)
    */
   @CanIgnoreReturnValue
-  @Nullable V forcePut( K key,  V value);
+  @Nullable
+  V forcePut(K key, V value);
 
   // Bulk Operations
 

@@ -54,8 +54,7 @@ import org.jspecify.annotations.Nullable;
  */
 @GwtCompatible
 @NullMarked
-final class TopKSelector<
-    T extends @Nullable Object> {
+final class TopKSelector<T extends @Nullable Object> {
 
   /**
    * Returns a {@code TopKSelector} that collects the lowest {@code k} elements added to it,
@@ -132,7 +131,7 @@ final class TopKSelector<
    * Adds {@code elem} as a candidate for the top {@code k} elements. This operation takes amortized
    * O(1) time.
    */
-  public void offer( T elem) {
+  public void offer(T elem) {
     if (k == 0) {
       return;
     } else if (bufferSize == 0) {

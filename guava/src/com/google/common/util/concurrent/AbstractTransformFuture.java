@@ -93,7 +93,8 @@ abstract class AbstractTransformFuture<
     try {
       sourceResult = getDone(localInputFuture);
     } catch (CancellationException e) {
-      // TODO(user): verify future behavior - unify logic with getFutureValue in AbstractFuture. This
+      // TODO(user): verify future behavior - unify logic with getFutureValue in AbstractFuture.
+      // This
       // code should be unreachable with correctly implemented Futures.
       // Cancel this future and return.
       // At this point, inputFuture is cancelled and outputFuture doesn't exist, so the value of
@@ -171,12 +172,11 @@ abstract class AbstractTransformFuture<
 
   /** Template method for subtypes to actually run the transform. */
   @ForOverride
-  
-  abstract T doTransform(F function,  I result) throws Exception;
+  abstract T doTransform(F function, I result) throws Exception;
 
   /** Template method for subtypes to actually set the result. */
   @ForOverride
-  abstract void setResult( T result);
+  abstract void setResult(T result);
 
   @Override
   protected final void afterDone() {
@@ -217,8 +217,7 @@ abstract class AbstractTransformFuture<
 
     @Override
     ListenableFuture<? extends O> doTransform(
-        AsyncFunction<? super I, ? extends O> function,  I input)
-        throws Exception {
+        AsyncFunction<? super I, ? extends O> function, I input) throws Exception {
       ListenableFuture<? extends O> outputFuture = function.apply(input);
       checkNotNull(
           outputFuture,
@@ -246,13 +245,12 @@ abstract class AbstractTransformFuture<
     }
 
     @Override
-    
-    O doTransform(Function<? super I, ? extends O> function,  I input) {
+    O doTransform(Function<? super I, ? extends O> function, I input) {
       return function.apply(input);
     }
 
     @Override
-    void setResult( O result) {
+    void setResult(O result) {
       set(result);
     }
   }

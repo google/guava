@@ -319,7 +319,6 @@ public abstract class ByteSource {
    */
   @Beta
   @CanIgnoreReturnValue // some processors won't return a useful result
-  
   public <T extends @Nullable Object> T read(ByteProcessor<T> processor) throws IOException {
     checkNotNull(processor);
 
@@ -575,9 +574,7 @@ public abstract class ByteSource {
     }
   }
 
-  private static class ByteArrayByteSource extends
-      ByteSource
-  {
+  private static class ByteArrayByteSource extends ByteSource {
 
     final byte[] bytes;
     final int offset;
@@ -626,7 +623,6 @@ public abstract class ByteSource {
 
     @SuppressWarnings("CheckReturnValue") // it doesn't matter what processBytes returns here
     @Override
-    
     public <T extends @Nullable Object> T read(ByteProcessor<T> processor) throws IOException {
       processor.processBytes(bytes, offset, length);
       return processor.getResult();

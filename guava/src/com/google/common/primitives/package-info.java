@@ -60,9 +60,7 @@
  *   <li>{@link com.google.common.primitives.UnsignedLong}
  * </ul>
  */
-
 @CheckReturnValue
 package com.google.common.primitives;
 
 import com.google.errorprone.annotations.CheckReturnValue;
-import javax.annotation.ParametersAreNonnullByDefault;

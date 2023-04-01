@@ -60,11 +60,13 @@ class ImmutableMapEntry<K, V> extends ImmutableEntry<K, V> {
     // null check would be redundant
   }
 
-  @Nullable ImmutableMapEntry<K, V> getNextInKeyBucket() {
+  @Nullable
+  ImmutableMapEntry<K, V> getNextInKeyBucket() {
     return null;
   }
 
-  @Nullable ImmutableMapEntry<K, V> getNextInValueBucket() {
+  @Nullable
+  ImmutableMapEntry<K, V> getNextInValueBucket() {
     return null;
   }
 
@@ -116,7 +118,8 @@ class ImmutableMapEntry<K, V> extends ImmutableEntry<K, V> {
     }
 
     @Override
-    @Nullable ImmutableMapEntry<K, V> getNextInValueBucket() {
+    @Nullable
+    ImmutableMapEntry<K, V> getNextInValueBucket() {
       return nextInValueBucket;
     }
   }

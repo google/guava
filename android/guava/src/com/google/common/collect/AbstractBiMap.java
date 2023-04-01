@@ -77,15 +77,13 @@ abstract class AbstractBiMap<K extends @Nullable Object, V extends @Nullable Obj
 
   /** Returns its input, or throws an exception if this is not a valid key. */
   @CanIgnoreReturnValue
-  
-  K checkKey( K key) {
+  K checkKey(K key) {
     return key;
   }
 
   /** Returns its input, or throws an exception if this is not a valid value. */
   @CanIgnoreReturnValue
-  
-  V checkValue( V value) {
+  V checkValue(V value) {
     return value;
   }
 
@@ -122,18 +120,17 @@ abstract class AbstractBiMap<K extends @Nullable Object, V extends @Nullable Obj
 
   @CanIgnoreReturnValue
   @Override
-  public @Nullable V put( K key,  V value) {
+  public @Nullable V put(K key, V value) {
     return putInBothMaps(key, value, false);
   }
 
   @CanIgnoreReturnValue
   @Override
-  public @Nullable V forcePut( K key,  V value) {
+  public @Nullable V forcePut(K key, V value) {
     return putInBothMaps(key, value, true);
   }
 
-  private @Nullable V putInBothMaps(
-       K key,  V value, boolean force) {
+  private @Nullable V putInBothMaps(K key, V value, boolean force) {
     checkKey(key);
     checkValue(value);
     boolean containedKey = containsKey(key);
@@ -150,11 +147,7 @@ abstract class AbstractBiMap<K extends @Nullable Object, V extends @Nullable Obj
     return oldValue;
   }
 
-  private void updateInverseMap(
-       K key,
-      boolean containedKey,
-      @Nullable V oldValue,
-       V newValue) {
+  private void updateInverseMap(K key, boolean containedKey, @Nullable V oldValue, V newValue) {
     if (containedKey) {
       // The cast is safe because of the containedKey check.
       removeFromInverseMap(uncheckedCastNullableTToT(oldValue));
@@ -169,7 +162,6 @@ abstract class AbstractBiMap<K extends @Nullable Object, V extends @Nullable Obj
   }
 
   @CanIgnoreReturnValue
-  
   private V removeFromBothMaps(@Nullable Object key) {
     // The cast is safe because the callers of this method first check that the key is present.
     V oldValue = uncheckedCastNullableTToT(delegate.remove(key));
@@ -177,7 +169,7 @@ abstract class AbstractBiMap<K extends @Nullable Object, V extends @Nullable Obj
     return oldValue;
   }
 
-  private void removeFromInverseMap( V oldValue) {
+  private void removeFromInverseMap(V oldValue) {
     inverse.delegate.remove(oldValue);
   }
 
@@ -448,14 +440,12 @@ abstract class AbstractBiMap<K extends @Nullable Object, V extends @Nullable Obj
      */
 
     @Override
-    
-    K checkKey( K key) {
+    K checkKey(K key) {
       return inverse.checkValue(key);
     }
 
     @Override
-    
-    V checkValue( V value) {
+    V checkValue(V value) {
       return inverse.checkKey(value);
     }
 

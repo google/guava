@@ -46,7 +46,7 @@ public abstract class ForwardingListMultimap<K extends @Nullable Object, V exten
   protected abstract ListMultimap<K, V> delegate();
 
   @Override
-  public List<V> get( K key) {
+  public List<V> get(K key) {
     return delegate().get(key);
   }
 
@@ -58,7 +58,7 @@ public abstract class ForwardingListMultimap<K extends @Nullable Object, V exten
 
   @CanIgnoreReturnValue
   @Override
-  public List<V> replaceValues( K key, Iterable<? extends V> values) {
+  public List<V> replaceValues(K key, Iterable<? extends V> values) {
     return delegate().replaceValues(key, values);
   }
 }

@@ -139,9 +139,7 @@ public final class Comparators {
    *     comparator.
    * @since 30.0
    */
-  
-  public static <T extends @Nullable Object> T min(
-       T a,  T b, Comparator<T> comparator) {
+  public static <T extends @Nullable Object> T min(T a, T b, Comparator<T> comparator) {
     return (comparator.compare(a, b) <= 0) ? a : b;
   }
 
@@ -177,9 +175,7 @@ public final class Comparators {
    *     comparator.
    * @since 30.0
    */
-  
-  public static <T extends @Nullable Object> T max(
-       T a,  T b, Comparator<T> comparator) {
+  public static <T extends @Nullable Object> T max(T a, T b, Comparator<T> comparator) {
     return (comparator.compare(a, b) >= 0) ? a : b;
   }
 }

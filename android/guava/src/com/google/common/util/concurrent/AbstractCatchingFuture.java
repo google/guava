@@ -169,12 +169,11 @@ abstract class AbstractCatchingFuture<
 
   /** Template method for subtypes to actually run the fallback. */
   @ForOverride
-  
   abstract T doFallback(F fallback, X throwable) throws Exception;
 
   /** Template method for subtypes to actually set the result. */
   @ForOverride
-  abstract void setResult( T result);
+  abstract void setResult(T result);
 
   @Override
   protected final void afterDone() {
@@ -230,13 +229,12 @@ abstract class AbstractCatchingFuture<
     }
 
     @Override
-    
     V doFallback(Function<? super X, ? extends V> fallback, X cause) throws Exception {
       return fallback.apply(cause);
     }
 
     @Override
-    void setResult( V result) {
+    void setResult(V result) {
       set(result);
     }
   }

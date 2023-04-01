@@ -69,29 +69,27 @@ public abstract class ForwardingSortedMap<K extends @Nullable Object, V extends 
   }
 
   @Override
-  
   public K firstKey() {
     return delegate().firstKey();
   }
 
   @Override
-  public SortedMap<K, V> headMap( K toKey) {
+  public SortedMap<K, V> headMap(K toKey) {
     return delegate().headMap(toKey);
   }
 
   @Override
-  
   public K lastKey() {
     return delegate().lastKey();
   }
 
   @Override
-  public SortedMap<K, V> subMap( K fromKey,  K toKey) {
+  public SortedMap<K, V> subMap(K fromKey, K toKey) {
     return delegate().subMap(fromKey, toKey);
   }
 
   @Override
-  public SortedMap<K, V> tailMap( K fromKey) {
+  public SortedMap<K, V> tailMap(K fromKey) {
     return delegate().tailMap(fromKey);
   }
 

@@ -168,7 +168,7 @@ public abstract class Equivalence<T> implements BiPredicate<@Nullable T, @Nullab
    *
    * @since 10.0
    */
-  public final <S extends @Nullable T> Wrapper<S> wrap( S reference) {
+  public final <S extends @Nullable T> Wrapper<S> wrap(S reference) {
     return new Wrapper<>(this, reference);
   }
 
@@ -203,15 +203,14 @@ public abstract class Equivalence<T> implements BiPredicate<@Nullable T, @Nullab
      */
     private final Equivalence<? super @NonNull T> equivalence;
 
-     private final T reference;
+    private final T reference;
 
-    private Wrapper(Equivalence<? super @NonNull T> equivalence,  T reference) {
+    private Wrapper(Equivalence<? super @NonNull T> equivalence, T reference) {
       this.equivalence = checkNotNull(equivalence);
       this.reference = reference;
     }
 
     /** Returns the (possibly null) reference wrapped by this instance. */
-    
     public T get() {
       return reference;
     }

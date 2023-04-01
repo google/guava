@@ -47,7 +47,6 @@ public interface PeekingIterator<E extends @Nullable Object> extends Iterator<E>
    * @throws NoSuchElementException if the iteration has no more elements according to {@link
    *     #hasNext()}
    */
-  
   E peek();
 
   /**
@@ -58,7 +57,6 @@ public interface PeekingIterator<E extends @Nullable Object> extends Iterator<E>
    */
   @CanIgnoreReturnValue
   @Override
-  
   E next();
 
   /**

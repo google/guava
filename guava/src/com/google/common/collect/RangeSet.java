@@ -66,7 +66,8 @@ public interface RangeSet<C extends Comparable> {
    * Returns the unique range from this range set that {@linkplain Range#contains contains} {@code
    * value}, or {@code null} if this range set does not contain {@code value}.
    */
-  @Nullable Range<C> rangeContaining(C value);
+  @Nullable
+  Range<C> rangeContaining(C value);
 
   /**
    * Returns {@code true} if there exists a non-empty range enclosed by both a member range in this

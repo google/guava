@@ -39,8 +39,7 @@ abstract class TransformedIterator<F extends @Nullable Object, T extends @Nullab
     this.backingIterator = checkNotNull(backingIterator);
   }
 
-  
-  abstract T transform( F from);
+  abstract T transform(F from);
 
   @Override
   public final boolean hasNext() {
@@ -48,7 +47,6 @@ abstract class TransformedIterator<F extends @Nullable Object, T extends @Nullab
   }
 
   @Override
-  
   public final T next() {
     return transform(backingIterator.next());
   }

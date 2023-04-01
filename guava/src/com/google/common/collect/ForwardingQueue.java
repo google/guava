@@ -58,7 +58,7 @@ public abstract class ForwardingQueue<E extends @Nullable Object> extends Forwar
 
   @CanIgnoreReturnValue // TODO(cpovirk): Consider removing this?
   @Override
-  public boolean offer( E o) {
+  public boolean offer(E o) {
     return delegate().offer(o);
   }
 
@@ -70,7 +70,6 @@ public abstract class ForwardingQueue<E extends @Nullable Object> extends Forwar
 
   @CanIgnoreReturnValue
   @Override
-  
   public E remove() {
     return delegate().remove();
   }
@@ -81,7 +80,6 @@ public abstract class ForwardingQueue<E extends @Nullable Object> extends Forwar
   }
 
   @Override
-  
   public E element() {
     return delegate().element();
   }
@@ -92,7 +90,7 @@ public abstract class ForwardingQueue<E extends @Nullable Object> extends Forwar
    *
    * @since 7.0
    */
-  protected boolean standardOffer( E e) {
+  protected boolean standardOffer(E e) {
     try {
       return add(e);
     } catch (IllegalStateException caught) {

@@ -48,7 +48,7 @@ public abstract class AbstractListeningExecutorService extends AbstractExecutorS
   @CanIgnoreReturnValue // TODO(kak): consider removing this
   @Override
   protected final <T extends @Nullable Object> RunnableFuture<T> newTaskFor(
-      Runnable runnable,  T value) {
+      Runnable runnable, T value) {
     return TrustedListenableFutureTask.create(runnable, value);
   }
 
@@ -69,8 +69,7 @@ public abstract class AbstractListeningExecutorService extends AbstractExecutorS
 
   @CanIgnoreReturnValue // TODO(kak): consider removing this
   @Override
-  public <T extends @Nullable Object> ListenableFuture<T> submit(
-      Runnable task,  T result) {
+  public <T extends @Nullable Object> ListenableFuture<T> submit(Runnable task, T result) {
     return (ListenableFuture<T>) super.submit(task, result);
   }
 

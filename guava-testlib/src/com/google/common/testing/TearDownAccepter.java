@@ -17,8 +17,8 @@
 package com.google.common.testing;
 
 import com.google.common.annotations.Beta;
-import com.google.errorprone.annotations.DoNotMock;
 import com.google.common.annotations.GwtCompatible;
+import com.google.errorprone.annotations.DoNotMock;
 
 /**
  * Any object which can accept registrations of {@link TearDown} instances.

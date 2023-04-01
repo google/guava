@@ -846,9 +846,8 @@ public final class CacheBuilder<K, V> {
    *
    * <p>Currently automatic refreshes are performed when the first stale request for an entry
    * occurs. The request triggering refresh will make a synchronous call to {@link
-   * CacheLoader#reload}
-   * to obtain a future of the new value. If the returned future is already complete, it is returned
-   * immediately. Otherwise, the old value is returned.
+   * CacheLoader#reload} to obtain a future of the new value. If the returned future is already
+   * complete, it is returned immediately. Otherwise, the old value is returned.
    *
    * <p><b>Note:</b> <i>all exceptions thrown during refresh will be logged and then swallowed</i>.
    *
@@ -881,9 +880,8 @@ public final class CacheBuilder<K, V> {
    *
    * <p>Currently automatic refreshes are performed when the first stale request for an entry
    * occurs. The request triggering refresh will make a synchronous call to {@link
-   * CacheLoader#reload}
-   * and immediately return the new value if the returned future is complete, and the old value
-   * otherwise.
+   * CacheLoader#reload} and immediately return the new value if the returned future is complete,
+   * and the old value otherwise.
    *
    * <p><b>Note:</b> <i>all exceptions thrown during refresh will be logged and then swallowed</i>.
    *

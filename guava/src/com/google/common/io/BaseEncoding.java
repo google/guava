@@ -231,8 +231,7 @@ public abstract class BaseEncoding {
    * @throws DecodingException if the input is not a valid encoded string according to this
    *     encoding.
    */
-  final byte[] decodeChecked(CharSequence chars)
-      throws DecodingException {
+  final byte[] decodeChecked(CharSequence chars) throws DecodingException {
     chars = trimTrailingPadding(chars);
     byte[] tmp = new byte[maxDecodedSize(chars.length())];
     int len = decodeTo(tmp, chars);
