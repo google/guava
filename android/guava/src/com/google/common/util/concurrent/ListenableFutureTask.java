@@ -74,7 +74,7 @@ public class ListenableFutureTask<V extends @Nullable Object> extends FutureTask
    * @since 10.0
    */
   public static <V extends @Nullable Object> ListenableFutureTask<V> create(
-      Runnable runnable, @ParametricNullness V result) {
+      Runnable runnable,  V result) {
     return new ListenableFutureTask<>(runnable, result);
   }
 
@@ -82,7 +82,7 @@ public class ListenableFutureTask<V extends @Nullable Object> extends FutureTask
     super(callable);
   }
 
-  ListenableFutureTask(Runnable runnable, @ParametricNullness V result) {
+  ListenableFutureTask(Runnable runnable,  V result) {
     super(runnable, result);
   }
 
@@ -93,7 +93,7 @@ public class ListenableFutureTask<V extends @Nullable Object> extends FutureTask
 
   @CanIgnoreReturnValue
   @Override
-  @ParametricNullness
+  
   public V get(long timeout, TimeUnit unit)
       throws TimeoutException, InterruptedException, ExecutionException {
 

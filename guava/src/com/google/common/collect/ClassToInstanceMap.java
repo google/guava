@@ -20,8 +20,8 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.DoNotMock;
 import java.util.Map;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A map, each entry of which maps a Java <a href="http://tinyurl.com/2cmwkz">raw type</a> to an
@@ -66,8 +66,7 @@ public interface ClassToInstanceMap<B> extends Map<Class<? extends B>, B> {
    * is present. This will only return a value that was bound to this specific class, not a value
    * that may have been bound to a subtype.
    */
-  @CheckForNull
-  <T extends B> T getInstance(Class<T> type);
+  <T extends B> @Nullable T getInstance(Class<T> type);
 
   /**
    * Maps the specified class to the specified value. Does <i>not</i> associate this value with any
@@ -77,6 +76,5 @@ public interface ClassToInstanceMap<B> extends Map<Class<? extends B>, B> {
    *     null} if there was no previous entry.
    */
   @CanIgnoreReturnValue
-  @CheckForNull
-  <T extends B> T putInstance(Class<T> type, T value);
+  <T extends B> @Nullable T putInstance(Class<T> type, T value);
 }

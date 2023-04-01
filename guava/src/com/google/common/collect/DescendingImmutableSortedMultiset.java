@@ -15,8 +15,8 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtIncompatible;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A descending wrapper around an {@code ImmutableSortedMultiset}
@@ -34,19 +34,17 @@ final class DescendingImmutableSortedMultiset<E> extends ImmutableSortedMultiset
   }
 
   @Override
-  public int count(@CheckForNull Object element) {
+  public int count(@Nullable Object element) {
     return forward.count(element);
   }
 
   @Override
-  @CheckForNull
-  public Entry<E> firstEntry() {
+  public @Nullable Entry<E> firstEntry() {
     return forward.lastEntry();
   }
 
   @Override
-  @CheckForNull
-  public Entry<E> lastEntry() {
+  public @Nullable Entry<E> lastEntry() {
     return forward.firstEntry();
   }
 

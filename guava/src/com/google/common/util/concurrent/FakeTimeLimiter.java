@@ -52,7 +52,7 @@ public final class FakeTimeLimiter implements TimeLimiter {
 
   @CanIgnoreReturnValue // TODO(kak): consider removing this
   @Override
-  @ParametricNullness
+  
   public <T extends @Nullable Object> T callWithTimeout(
       Callable<T> callable, long timeoutDuration, TimeUnit timeoutUnit) throws ExecutionException {
     checkNotNull(callable);
@@ -71,7 +71,7 @@ public final class FakeTimeLimiter implements TimeLimiter {
 
   @CanIgnoreReturnValue // TODO(kak): consider removing this
   @Override
-  @ParametricNullness
+  
   public <T extends @Nullable Object> T callUninterruptiblyWithTimeout(
       Callable<T> callable, long timeoutDuration, TimeUnit timeoutUnit) throws ExecutionException {
     return callWithTimeout(callable, timeoutDuration, timeoutUnit);

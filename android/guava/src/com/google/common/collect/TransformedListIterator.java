@@ -46,7 +46,7 @@ abstract class TransformedListIterator<F extends @Nullable Object, T extends @Nu
   }
 
   @Override
-  @ParametricNullness
+  
   public final T previous() {
     return transform(backingIterator().previous());
   }
@@ -62,12 +62,12 @@ abstract class TransformedListIterator<F extends @Nullable Object, T extends @Nu
   }
 
   @Override
-  public void set(@ParametricNullness T element) {
+  public void set( T element) {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public void add(@ParametricNullness T element) {
+  public void add( T element) {
     throw new UnsupportedOperationException();
   }
 }

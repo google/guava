@@ -22,7 +22,6 @@ import com.google.common.primitives.Longs;
 import java.math.RoundingMode;
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicLongArray;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -48,7 +47,7 @@ enum BloomFilterStrategies implements BloomFilter.Strategy {
   MURMUR128_MITZ_32() {
     @Override
     public <T extends @Nullable Object> boolean put(
-        @ParametricNullness T object,
+         T object,
         Funnel<? super T> funnel,
         int numHashFunctions,
         LockFreeBitArray bits) {
@@ -71,7 +70,7 @@ enum BloomFilterStrategies implements BloomFilter.Strategy {
 
     @Override
     public <T extends @Nullable Object> boolean mightContain(
-        @ParametricNullness T object,
+         T object,
         Funnel<? super T> funnel,
         int numHashFunctions,
         LockFreeBitArray bits) {
@@ -102,7 +101,7 @@ enum BloomFilterStrategies implements BloomFilter.Strategy {
   MURMUR128_MITZ_64() {
     @Override
     public <T extends @Nullable Object> boolean put(
-        @ParametricNullness T object,
+         T object,
         Funnel<? super T> funnel,
         int numHashFunctions,
         LockFreeBitArray bits) {
@@ -123,7 +122,7 @@ enum BloomFilterStrategies implements BloomFilter.Strategy {
 
     @Override
     public <T extends @Nullable Object> boolean mightContain(
-        @ParametricNullness T object,
+         T object,
         Funnel<? super T> funnel,
         int numHashFunctions,
         LockFreeBitArray bits) {
@@ -297,7 +296,7 @@ enum BloomFilterStrategies implements BloomFilter.Strategy {
     }
 
     @Override
-    public boolean equals(@CheckForNull Object o) {
+    public boolean equals(@Nullable Object o) {
       if (o instanceof LockFreeBitArray) {
         LockFreeBitArray lockFreeBitArray = (LockFreeBitArray) o;
         // TODO(lowasser): avoid allocation here

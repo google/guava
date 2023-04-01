@@ -21,7 +21,6 @@ import com.google.j2objc.annotations.WeakOuter;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
 import java.util.concurrent.RunnableFuture;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -55,7 +54,7 @@ class TrustedListenableFutureTask<V extends @Nullable Object> extends FluentFutu
    *     ListenableFutureTask.create(runnable, null)}
    */
   static <V extends @Nullable Object> TrustedListenableFutureTask<V> create(
-      Runnable runnable, @ParametricNullness V result) {
+      Runnable runnable,  V result) {
     return new TrustedListenableFutureTask<>(Executors.callable(runnable, result));
   }
 
@@ -66,7 +65,7 @@ class TrustedListenableFutureTask<V extends @Nullable Object> extends FluentFutu
    * <p>{@code volatile} is required for j2objc transpiling:
    * https://developers.google.com/j2objc/guides/j2objc-memory-model#atomicity
    */
-  @CheckForNull private volatile InterruptibleTask<?> task;
+  private volatile @Nullable InterruptibleTask<?> task;
 
   TrustedListenableFutureTask(Callable<V> callable) {
     this.task = new TrustedFutureInterruptibleTask(callable);
@@ -104,8 +103,7 @@ class TrustedListenableFutureTask<V extends @Nullable Object> extends FluentFutu
   }
 
   @Override
-  @CheckForNull
-  protected String pendingToString() {
+  protected @Nullable String pendingToString() {
     InterruptibleTask<?> localTask = task;
     if (localTask != null) {
       return "task=[" + localTask + "]";
@@ -127,13 +125,13 @@ class TrustedListenableFutureTask<V extends @Nullable Object> extends FluentFutu
     }
 
     @Override
-    @ParametricNullness
+    
     V runInterruptibly() throws Exception {
       return callable.call();
     }
 
     @Override
-    void afterRanInterruptiblySuccess(@ParametricNullness V result) {
+    void afterRanInterruptiblySuccess( V result) {
       TrustedListenableFutureTask.this.set(result);
     }
 

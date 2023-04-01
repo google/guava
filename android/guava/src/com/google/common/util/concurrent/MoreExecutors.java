@@ -698,7 +698,7 @@ public final class MoreExecutors {
    */
   @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   @GwtIncompatible
-  @ParametricNullness
+  
   static <T extends @Nullable Object> T invokeAnyImpl(
       ListeningExecutorService executorService,
       Collection<? extends Callable<T>> tasks,

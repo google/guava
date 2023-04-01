@@ -29,7 +29,6 @@ import java.io.Writer;
 import java.nio.CharBuffer;
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -218,7 +217,7 @@ public final class CharStreams {
    */
   @Beta
   @CanIgnoreReturnValue // some processors won't return a useful result
-  @ParametricNullness
+  
   public static <T extends @Nullable Object> T readLines(
       Readable readable, LineProcessor<T> processor) throws IOException {
     checkNotNull(readable);
@@ -312,12 +311,12 @@ public final class CharStreams {
     }
 
     @Override
-    public Writer append(@CheckForNull CharSequence csq) {
+    public Writer append(@Nullable CharSequence csq) {
       return this;
     }
 
     @Override
-    public Writer append(@CheckForNull CharSequence csq, int start, int end) {
+    public Writer append(@Nullable CharSequence csq, int start, int end) {
       checkPositionIndexes(start, end, csq == null ? "null".length() : csq.length());
       return this;
     }

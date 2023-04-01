@@ -26,7 +26,6 @@ import com.google.errorprone.annotations.DoNotCall;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -46,28 +45,24 @@ public final class MutableTypeToInstanceMap<B> extends ForwardingMap<TypeToken<?
   private final Map<TypeToken<? extends B>, B> backingMap = Maps.newHashMap();
 
   @Override
-  @CheckForNull
-  public <T extends B> T getInstance(Class<T> type) {
+  public <T extends B> @Nullable T getInstance(Class<T> type) {
     return trustedGet(TypeToken.of(type));
   }
 
   @Override
-  @CheckForNull
-  public <T extends B> T getInstance(TypeToken<T> type) {
+  public <T extends B> @Nullable T getInstance(TypeToken<T> type) {
     return trustedGet(type.rejectTypeVariables());
   }
 
   @Override
   @CanIgnoreReturnValue
-  @CheckForNull
-  public <T extends B> T putInstance(Class<T> type, T value) {
+  public <T extends B> @Nullable T putInstance(Class<T> type, T value) {
     return trustedPut(TypeToken.of(type), value);
   }
 
   @Override
   @CanIgnoreReturnValue
-  @CheckForNull
-  public <T extends B> T putInstance(TypeToken<T> type, T value) {
+  public <T extends B> @Nullable T putInstance(TypeToken<T> type, T value) {
     return trustedPut(type.rejectTypeVariables(), value);
   }
 
@@ -81,8 +76,7 @@ public final class MutableTypeToInstanceMap<B> extends ForwardingMap<TypeToken<?
   @Deprecated
   @Override
   @DoNotCall("Always throws UnsupportedOperationException")
-  @CheckForNull
-  public B put(TypeToken<? extends B> key, B value) {
+  public @Nullable B put(TypeToken<? extends B> key, B value) {
     throw new UnsupportedOperationException("Please use putInstance() instead.");
   }
 
@@ -110,14 +104,12 @@ public final class MutableTypeToInstanceMap<B> extends ForwardingMap<TypeToken<?
   }
 
   @SuppressWarnings("unchecked") // value could not get in if not a T
-  @CheckForNull
-  private <T extends B> T trustedPut(TypeToken<T> type, T value) {
+  private <T extends B> @Nullable T trustedPut(TypeToken<T> type, T value) {
     return (T) backingMap.put(type, value);
   }
 
   @SuppressWarnings("unchecked") // value could not get in if not a T
-  @CheckForNull
-  private <T extends B> T trustedGet(TypeToken<T> type) {
+  private <T extends B> @Nullable T trustedGet(TypeToken<T> type) {
     return (T) backingMap.get(type);
   }
 

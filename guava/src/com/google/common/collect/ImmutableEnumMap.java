@@ -27,8 +27,8 @@ import java.io.Serializable;
 import java.util.EnumMap;
 import java.util.Spliterator;
 import java.util.function.BiConsumer;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Implementation of {@link ImmutableMap} backed by a non-empty {@link java.util.EnumMap}.
@@ -74,18 +74,17 @@ final class ImmutableEnumMap<K extends Enum<K>, V> extends IteratorBasedImmutabl
   }
 
   @Override
-  public boolean containsKey(@CheckForNull Object key) {
+  public boolean containsKey(@Nullable Object key) {
     return delegate.containsKey(key);
   }
 
   @Override
-  @CheckForNull
-  public V get(@CheckForNull Object key) {
+  public @Nullable V get(@Nullable Object key) {
     return delegate.get(key);
   }
 
   @Override
-  public boolean equals(@CheckForNull Object object) {
+  public boolean equals(@Nullable Object object) {
     if (object == this) {
       return true;
     }

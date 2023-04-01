@@ -36,7 +36,7 @@ public final class Callables {
   private Callables() {}
 
   /** Creates a {@code Callable} which immediately returns a preset value each time it is called. */
-  public static <T extends @Nullable Object> Callable<T> returning(@ParametricNullness T value) {
+  public static <T extends @Nullable Object> Callable<T> returning( T value) {
     return () -> value;
   }
 

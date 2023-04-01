@@ -44,7 +44,6 @@ import java.nio.channels.WritableByteChannel;
 import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.Queue;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -458,8 +457,7 @@ public final class ByteStreams {
     }
 
     @Override
-    @CheckForNull
-    public String readLine() {
+    public @Nullable String readLine() {
       try {
         return input.readLine();
       } catch (IOException e) {
@@ -891,7 +889,7 @@ public final class ByteStreams {
    */
   @Beta
   @CanIgnoreReturnValue // some processors won't return a useful result
-  @ParametricNullness
+  
   public static <T extends @Nullable Object> T readBytes(
       InputStream input, ByteProcessor<T> processor) throws IOException {
     checkNotNull(input);

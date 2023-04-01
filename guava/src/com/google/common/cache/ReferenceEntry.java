@@ -16,8 +16,8 @@ package com.google.common.cache;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.cache.LocalCache.ValueReference;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An entry in a reference map.
@@ -43,22 +43,19 @@ import org.jspecify.annotations.NullMarked;
 @NullMarked
 interface ReferenceEntry<K, V> {
   /** Returns the value reference from this entry. */
-  @CheckForNull
-  ValueReference<K, V> getValueReference();
+  @Nullable ValueReference<K, V> getValueReference();
 
   /** Sets the value reference for this entry. */
   void setValueReference(ValueReference<K, V> valueReference);
 
   /** Returns the next entry in the chain. */
-  @CheckForNull
-  ReferenceEntry<K, V> getNext();
+  @Nullable ReferenceEntry<K, V> getNext();
 
   /** Returns the entry's hash. */
   int getHash();
 
   /** Returns the key for this entry. */
-  @CheckForNull
-  K getKey();
+  @Nullable K getKey();
 
   /*
    * Used by entries that use access order. Access entries are maintained in a doubly-linked list.

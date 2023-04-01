@@ -28,7 +28,7 @@ import java.lang.annotation.Target;
 /**
  * Annotates a "top-level" type-variable usage that takes its nullness from the type argument
  * supplied by the user of the class. For example, {@code Multiset.Entry.getElement()} returns
- * {@code @ParametricNullness E}, which means:
+ * {@code  E}, which means:
  *
  * <ul>
  *   <li>{@code getElement} on a {@code Multiset.Entry<@NonNull String>} returns {@code @NonNull

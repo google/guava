@@ -19,7 +19,6 @@ package com.google.common.collect;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Predicate;
 import java.util.List;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -42,17 +41,17 @@ final class FilteredKeyListMultimap<K extends @Nullable Object, V extends @Nulla
   }
 
   @Override
-  public List<V> get(@ParametricNullness K key) {
+  public List<V> get( K key) {
     return (List<V>) super.get(key);
   }
 
   @Override
-  public List<V> removeAll(@CheckForNull Object key) {
+  public List<V> removeAll(@Nullable Object key) {
     return (List<V>) super.removeAll(key);
   }
 
   @Override
-  public List<V> replaceValues(@ParametricNullness K key, Iterable<? extends V> values) {
+  public List<V> replaceValues( K key, Iterable<? extends V> values) {
     return (List<V>) super.replaceValues(key, values);
   }
 }

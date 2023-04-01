@@ -22,7 +22,6 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Objects;
 import java.io.Serializable;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -43,12 +42,12 @@ final class ByFunctionOrdering<F extends @Nullable Object, T extends @Nullable O
   }
 
   @Override
-  public int compare(@ParametricNullness F left, @ParametricNullness F right) {
+  public int compare( F left,  F right) {
     return ordering.compare(function.apply(left), function.apply(right));
   }
 
   @Override
-  public boolean equals(@CheckForNull Object object) {
+  public boolean equals(@Nullable Object object) {
     if (object == this) {
       return true;
     }

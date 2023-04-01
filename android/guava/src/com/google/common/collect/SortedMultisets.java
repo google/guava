@@ -28,7 +28,6 @@ import java.util.Iterator;
 import java.util.NavigableSet;
 import java.util.NoSuchElementException;
 import java.util.SortedSet;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -68,28 +67,28 @@ final class SortedMultisets {
     }
 
     @Override
-    public SortedSet<E> subSet(@ParametricNullness E fromElement, @ParametricNullness E toElement) {
+    public SortedSet<E> subSet( E fromElement,  E toElement) {
       return multiset().subMultiset(fromElement, CLOSED, toElement, OPEN).elementSet();
     }
 
     @Override
-    public SortedSet<E> headSet(@ParametricNullness E toElement) {
+    public SortedSet<E> headSet( E toElement) {
       return multiset().headMultiset(toElement, OPEN).elementSet();
     }
 
     @Override
-    public SortedSet<E> tailSet(@ParametricNullness E fromElement) {
+    public SortedSet<E> tailSet( E fromElement) {
       return multiset().tailMultiset(fromElement, CLOSED).elementSet();
     }
 
     @Override
-    @ParametricNullness
+    
     public E first() {
       return getElementOrThrow(multiset().firstEntry());
     }
 
     @Override
-    @ParametricNullness
+    
     public E last() {
       return getElementOrThrow(multiset().lastEntry());
     }
@@ -104,26 +103,22 @@ final class SortedMultisets {
     }
 
     @Override
-    @CheckForNull
-    public E lower(@ParametricNullness E e) {
+    public @Nullable E lower( E e) {
       return getElementOrNull(multiset().headMultiset(e, OPEN).lastEntry());
     }
 
     @Override
-    @CheckForNull
-    public E floor(@ParametricNullness E e) {
+    public @Nullable E floor( E e) {
       return getElementOrNull(multiset().headMultiset(e, CLOSED).lastEntry());
     }
 
     @Override
-    @CheckForNull
-    public E ceiling(@ParametricNullness E e) {
+    public @Nullable E ceiling( E e) {
       return getElementOrNull(multiset().tailMultiset(e, CLOSED).firstEntry());
     }
 
     @Override
-    @CheckForNull
-    public E higher(@ParametricNullness E e) {
+    public @Nullable E higher( E e) {
       return getElementOrNull(multiset().tailMultiset(e, OPEN).firstEntry());
     }
 
@@ -138,22 +133,20 @@ final class SortedMultisets {
     }
 
     @Override
-    @CheckForNull
-    public E pollFirst() {
+    public @Nullable E pollFirst() {
       return getElementOrNull(multiset().pollFirstEntry());
     }
 
     @Override
-    @CheckForNull
-    public E pollLast() {
+    public @Nullable E pollLast() {
       return getElementOrNull(multiset().pollLastEntry());
     }
 
     @Override
     public NavigableSet<E> subSet(
-        @ParametricNullness E fromElement,
+         E fromElement,
         boolean fromInclusive,
-        @ParametricNullness E toElement,
+         E toElement,
         boolean toInclusive) {
       return new NavigableElementSet<>(
           multiset()
@@ -163,27 +156,27 @@ final class SortedMultisets {
     }
 
     @Override
-    public NavigableSet<E> headSet(@ParametricNullness E toElement, boolean inclusive) {
+    public NavigableSet<E> headSet( E toElement, boolean inclusive) {
       return new NavigableElementSet<>(
           multiset().headMultiset(toElement, BoundType.forBoolean(inclusive)));
     }
 
     @Override
-    public NavigableSet<E> tailSet(@ParametricNullness E fromElement, boolean inclusive) {
+    public NavigableSet<E> tailSet( E fromElement, boolean inclusive) {
       return new NavigableElementSet<>(
           multiset().tailMultiset(fromElement, BoundType.forBoolean(inclusive)));
     }
   }
 
-  private static <E extends @Nullable Object> E getElementOrThrow(@CheckForNull Entry<E> entry) {
+  private static <E extends @Nullable Object> E getElementOrThrow( @Nullable Entry<E> entry) {
     if (entry == null) {
       throw new NoSuchElementException();
     }
     return entry.getElement();
   }
 
-  @CheckForNull
-  private static <E extends @Nullable Object> E getElementOrNull(@CheckForNull Entry<E> entry) {
+  private static <E extends @Nullable Object> @Nullable E getElementOrNull(
+      @Nullable Entry<E> entry) {
     return (entry == null) ? null : entry.getElement();
   }
 }

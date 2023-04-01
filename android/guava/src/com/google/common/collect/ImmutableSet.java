@@ -39,7 +39,6 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.SortedSet;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -327,7 +326,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
   }
 
   @Override
-  public boolean equals(@CheckForNull Object object) {
+  public boolean equals(@Nullable Object object) {
     if (object == this) {
       return true;
     }
@@ -350,7 +349,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
   @Override
   public abstract UnmodifiableIterator<E> iterator();
 
-  @LazyInit @RetainedWith @CheckForNull private transient ImmutableList<E> asList;
+  @LazyInit @RetainedWith private transient @Nullable ImmutableList<E> asList;
 
   @Override
   public ImmutableList<E> asList() {
@@ -440,7 +439,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    * @since 2.0
    */
   public static class Builder<E> extends ImmutableCollection.ArrayBasedBuilder<E> {
-    @VisibleForTesting @CheckForNull @Nullable Object[] hashTable;
+    @VisibleForTesting @Nullable Object @Nullable [] hashTable;
     private int hashCode;
 
     /**

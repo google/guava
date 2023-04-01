@@ -150,7 +150,7 @@ class ObjectCountLinkedHashMap<K extends @Nullable Object> extends ObjectCountHa
   }
 
   @Override
-  void insertEntry(int entryIndex, @ParametricNullness K key, int value, int hash) {
+  void insertEntry(int entryIndex,  K key, int value, int hash) {
     super.insertEntry(entryIndex, key, value, hash);
     setSucceeds(lastEntry, entryIndex);
     setSucceeds(entryIndex, ENDPOINT);

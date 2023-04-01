@@ -39,8 +39,8 @@ abstract class TransformedIterator<F extends @Nullable Object, T extends @Nullab
     this.backingIterator = checkNotNull(backingIterator);
   }
 
-  @ParametricNullness
-  abstract T transform(@ParametricNullness F from);
+  
+  abstract T transform( F from);
 
   @Override
   public final boolean hasNext() {
@@ -48,7 +48,7 @@ abstract class TransformedIterator<F extends @Nullable Object, T extends @Nullab
   }
 
   @Override
-  @ParametricNullness
+  
   public final T next() {
     return transform(backingIterator.next());
   }

@@ -36,7 +36,6 @@ import java.util.NoSuchElementException;
 import java.util.Queue;
 import java.util.RandomAccess;
 import java.util.Set;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -125,7 +124,7 @@ public final class Iterables {
    */
   // <? extends @Nullable Object> instead of <?> because of Kotlin b/189937072, discussed in Joiner.
   public static boolean contains(
-      Iterable<? extends @Nullable Object> iterable, @CheckForNull Object element) {
+      Iterable<? extends @Nullable Object> iterable, @Nullable Object element) {
     if (iterable instanceof Collection) {
       Collection<?> collection = (Collection<?>) iterable;
       return Collections2.safeContains(collection, element);
@@ -245,8 +244,7 @@ public final class Iterables {
   }
 
   /** Removes and returns the first matching element, or returns {@code null} if there is none. */
-  @CheckForNull
-  static <T extends @Nullable Object> T removeFirstMatching(
+  static <T extends @Nullable Object> @Nullable T removeFirstMatching(
       Iterable<T> removeFrom, Predicate<? super T> predicate) {
     checkNotNull(predicate);
     Iterator<T> iterator = removeFrom.iterator();
@@ -297,7 +295,7 @@ public final class Iterables {
    * @throws NoSuchElementException if the iterable is empty
    * @throws IllegalArgumentException if the iterable contains multiple elements
    */
-  @ParametricNullness
+  
   public static <T extends @Nullable Object> T getOnlyElement(Iterable<T> iterable) {
     return Iterators.getOnlyElement(iterable.iterator());
   }
@@ -311,9 +309,9 @@ public final class Iterables {
    *
    * @throws IllegalArgumentException if the iterator contains multiple elements
    */
-  @ParametricNullness
+  
   public static <T extends @Nullable Object> T getOnlyElement(
-      Iterable<? extends T> iterable, @ParametricNullness T defaultValue) {
+      Iterable<? extends T> iterable,  T defaultValue) {
     return Iterators.getOnlyElement(iterable.iterator(), defaultValue);
   }
 
@@ -387,7 +385,7 @@ public final class Iterables {
    * @see java.util.Collections#frequency(Collection, Object) Collections.frequency(Collection,
    *     Object)
    */
-  public static int frequency(Iterable<?> iterable, @CheckForNull Object element) {
+  public static int frequency(Iterable<?> iterable, @Nullable Object element) {
     if ((iterable instanceof Multiset)) {
       return ((Multiset<?>) iterable).count(element);
     } else if ((iterable instanceof Set)) {
@@ -672,7 +670,7 @@ public final class Iterables {
    *
    * @throws NoSuchElementException if no element in {@code iterable} matches the given predicate
    */
-  @ParametricNullness
+  
   public static <T extends @Nullable Object> T find(
       Iterable<T> iterable, Predicate<? super T> predicate) {
     return Iterators.find(iterable.iterator(), predicate);
@@ -703,11 +701,8 @@ public final class Iterables {
   //   iterables with null elements.)
   //
   // - @JointlyNullable means "@Nullable or no annotation"
-  @CheckForNull
-  public static <T extends @Nullable Object> T find(
-      Iterable<? extends T> iterable,
-      Predicate<? super T> predicate,
-      @CheckForNull T defaultValue) {
+  public static <T extends @Nullable Object> @Nullable T find(
+      Iterable<? extends T> iterable, Predicate<? super T> predicate, @Nullable T defaultValue) {
     return Iterators.find(iterable.iterator(), predicate, defaultValue);
   }
 
@@ -777,7 +772,7 @@ public final class Iterables {
    * @throws IndexOutOfBoundsException if {@code position} is negative or greater than or equal to
    *     the size of {@code iterable}
    */
-  @ParametricNullness
+  
   public static <T extends @Nullable Object> T get(Iterable<T> iterable, int position) {
     checkNotNull(iterable);
     return (iterable instanceof List)
@@ -800,9 +795,9 @@ public final class Iterables {
    * @throws IndexOutOfBoundsException if {@code position} is negative
    * @since 4.0
    */
-  @ParametricNullness
+  
   public static <T extends @Nullable Object> T get(
-      Iterable<? extends T> iterable, int position, @ParametricNullness T defaultValue) {
+      Iterable<? extends T> iterable, int position,  T defaultValue) {
     checkNotNull(iterable);
     Iterators.checkNonnegative(position);
     if (iterable instanceof List) {
@@ -832,9 +827,9 @@ public final class Iterables {
    * @return the first element of {@code iterable} or the default value
    * @since 7.0
    */
-  @ParametricNullness
+  
   public static <T extends @Nullable Object> T getFirst(
-      Iterable<? extends T> iterable, @ParametricNullness T defaultValue) {
+      Iterable<? extends T> iterable,  T defaultValue) {
     return Iterators.getNext(iterable.iterator(), defaultValue);
   }
 
@@ -847,7 +842,7 @@ public final class Iterables {
    * @return the last element of {@code iterable}
    * @throws NoSuchElementException if the iterable is empty
    */
-  @ParametricNullness
+  
   public static <T extends @Nullable Object> T getLast(Iterable<T> iterable) {
     // TODO(kevinb): Support a concurrently modified collection?
     if (iterable instanceof List) {
@@ -872,9 +867,9 @@ public final class Iterables {
    * @return the last element of {@code iterable} or the default value
    * @since 3.0
    */
-  @ParametricNullness
+  
   public static <T extends @Nullable Object> T getLast(
-      Iterable<? extends T> iterable, @ParametricNullness T defaultValue) {
+      Iterable<? extends T> iterable,  T defaultValue) {
     if (iterable instanceof Collection) {
       Collection<? extends T> c = (Collection<? extends T>) iterable;
       if (c.isEmpty()) {
@@ -887,7 +882,7 @@ public final class Iterables {
     return Iterators.getLast(iterable.iterator(), defaultValue);
   }
 
-  @ParametricNullness
+  
   private static <T extends @Nullable Object> T getLastInNonemptyList(List<T> list) {
     return list.get(list.size() - 1);
   }
@@ -942,7 +937,7 @@ public final class Iterables {
           }
 
           @Override
-          @ParametricNullness
+          
           public T next() {
             T result = iterator.next();
             atStart = false; // not called if next() fails

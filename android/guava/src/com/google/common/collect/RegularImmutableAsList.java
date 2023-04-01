@@ -18,7 +18,6 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -70,9 +69,7 @@ class RegularImmutableAsList<E> extends ImmutableAsList<E> {
   }
 
   @Override
-  @CheckForNull
-  @Nullable
-  Object[] internalArray() {
+  @Nullable Object @Nullable [] internalArray() {
     return delegateList.internalArray();
   }
 

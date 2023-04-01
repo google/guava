@@ -45,9 +45,9 @@ import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
-import javax.annotation.CheckForNull;
 import junit.framework.Assert;
 import junit.framework.AssertionFailedError;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A test utility that verifies that your methods and constructors throw {@link
@@ -194,7 +194,7 @@ public final class NullPointerTester {
    *
    * @param instance the instance to invoke {@code method} on, or null if {@code method} is static
    */
-  public void testMethod(@CheckForNull Object instance, Method method) {
+  public void testMethod(@Nullable Object instance, Method method) {
     Class<?>[] types = method.getParameterTypes();
     for (int nullIndex = 0; nullIndex < types.length; nullIndex++) {
       testMethodParameter(instance, method, nullIndex);
@@ -226,7 +226,7 @@ public final class NullPointerTester {
    * @param instance the instance to invoke {@code method} on, or null if {@code method} is static
    */
   public void testMethodParameter(
-      @CheckForNull final Object instance, final Method method, int paramIndex) {
+      final @Nullable Object instance, final Method method, int paramIndex) {
     method.setAccessible(true);
     testParameter(instance, invokable(instance, method), paramIndex, method.getDeclaringClass());
   }
@@ -479,7 +479,7 @@ public final class NullPointerTester {
     }.newProxy(type);
   }
 
-  private static Invokable<?, ?> invokable(@CheckForNull Object instance, Method method) {
+  private static Invokable<?, ?> invokable(@Nullable Object instance, Method method) {
     if (instance == null) {
       return Invokable.from(method);
     } else {

@@ -136,7 +136,7 @@ public interface Hasher extends PrimitiveSink {
   /** A simple convenience for {@code funnel.funnel(object, this)}. */
   @CanIgnoreReturnValue
   <T extends @Nullable Object> Hasher putObject(
-      @ParametricNullness T instance, Funnel<? super T> funnel);
+       T instance, Funnel<? super T> funnel);
 
   /**
    * Computes a hash code based on the data that have been provided to this hasher. The result is

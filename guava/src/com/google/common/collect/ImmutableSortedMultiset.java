@@ -34,7 +34,6 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.function.ToIntFunction;
 import java.util.stream.Collector;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -335,7 +334,7 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
   @Override
   public abstract ImmutableSortedSet<E> elementSet();
 
-  @LazyInit @CheckForNull transient ImmutableSortedMultiset<E> descendingMultiset;
+  @LazyInit transient @Nullable ImmutableSortedMultiset<E> descendingMultiset;
 
   @Override
   public ImmutableSortedMultiset<E> descendingMultiset() {
@@ -361,8 +360,7 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
   @Deprecated
   @Override
   @DoNotCall("Always throws UnsupportedOperationException")
-  @CheckForNull
-  public final Entry<E> pollFirstEntry() {
+  public final @Nullable Entry<E> pollFirstEntry() {
     throw new UnsupportedOperationException();
   }
 
@@ -378,8 +376,7 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
   @Deprecated
   @Override
   @DoNotCall("Always throws UnsupportedOperationException")
-  @CheckForNull
-  public final Entry<E> pollLastEntry() {
+  public final @Nullable Entry<E> pollLastEntry() {
     throw new UnsupportedOperationException();
   }
 

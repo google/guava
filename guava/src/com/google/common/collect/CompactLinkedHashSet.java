@@ -26,7 +26,6 @@ import java.util.Collections;
 import java.util.Set;
 import java.util.Spliterator;
 import java.util.Spliterators;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -112,13 +111,13 @@ class CompactLinkedHashSet<E extends @Nullable Object> extends CompactHashSet<E>
    * Pointer to the predecessor of an entry in insertion order. ENDPOINT indicates a node is the
    * first node in insertion order; all values at indices ≥ {@link #size()} are UNSET.
    */
-  @CheckForNull private transient int[] predecessor;
+  private transient int @Nullable [] predecessor;
 
   /**
    * Pointer to the successor of an entry in insertion order. ENDPOINT indicates a node is the last
    * node in insertion order; all values at indices ≥ {@link #size()} are UNSET.
    */
-  @CheckForNull private transient int[] successor;
+  private transient int @Nullable [] successor;
 
   /** Pointer to the first node in the linked list, or {@code ENDPOINT} if there are no entries. */
   private transient int firstEntry;
@@ -196,7 +195,7 @@ class CompactLinkedHashSet<E extends @Nullable Object> extends CompactHashSet<E>
   }
 
   @Override
-  void insertEntry(int entryIndex, @ParametricNullness E object, int hash, int mask) {
+  void insertEntry(int entryIndex,  E object, int hash, int mask) {
     super.insertEntry(entryIndex, object, hash, mask);
     setSucceeds(lastEntry, entryIndex);
     setSucceeds(entryIndex, ENDPOINT);

@@ -20,7 +20,6 @@ import com.google.common.annotations.GwtCompatible;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Comparator;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -42,7 +41,7 @@ final class CompoundOrdering<T extends @Nullable Object> extends Ordering<T>
   }
 
   @Override
-  public int compare(@ParametricNullness T left, @ParametricNullness T right) {
+  public int compare( T left,  T right) {
     for (int i = 0; i < comparators.length; i++) {
       int result = comparators[i].compare(left, right);
       if (result != 0) {
@@ -53,7 +52,7 @@ final class CompoundOrdering<T extends @Nullable Object> extends Ordering<T>
   }
 
   @Override
-  public boolean equals(@CheckForNull Object object) {
+  public boolean equals(@Nullable Object object) {
     if (object == this) {
       return true;
     }

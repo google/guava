@@ -21,7 +21,6 @@ import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Deque;
 import java.util.Iterator;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -55,12 +54,12 @@ public abstract class ForwardingDeque<E extends @Nullable Object> extends Forwar
   protected abstract Deque<E> delegate();
 
   @Override
-  public void addFirst(@ParametricNullness E e) {
+  public void addFirst( E e) {
     delegate().addFirst(e);
   }
 
   @Override
-  public void addLast(@ParametricNullness E e) {
+  public void addLast( E e) {
     delegate().addLast(e);
   }
 
@@ -70,90 +69,86 @@ public abstract class ForwardingDeque<E extends @Nullable Object> extends Forwar
   }
 
   @Override
-  @ParametricNullness
+  
   public E getFirst() {
     return delegate().getFirst();
   }
 
   @Override
-  @ParametricNullness
+  
   public E getLast() {
     return delegate().getLast();
   }
 
   @CanIgnoreReturnValue // TODO(cpovirk): Consider removing this?
   @Override
-  public boolean offerFirst(@ParametricNullness E e) {
+  public boolean offerFirst( E e) {
     return delegate().offerFirst(e);
   }
 
   @CanIgnoreReturnValue // TODO(cpovirk): Consider removing this?
   @Override
-  public boolean offerLast(@ParametricNullness E e) {
+  public boolean offerLast( E e) {
     return delegate().offerLast(e);
   }
 
   @Override
-  @CheckForNull
-  public E peekFirst() {
+  public @Nullable E peekFirst() {
     return delegate().peekFirst();
   }
 
   @Override
-  @CheckForNull
-  public E peekLast() {
+  public @Nullable E peekLast() {
     return delegate().peekLast();
   }
 
   @CanIgnoreReturnValue // TODO(cpovirk): Consider removing this?
   @Override
-  @CheckForNull
-  public E pollFirst() {
+  public @Nullable E pollFirst() {
     return delegate().pollFirst();
   }
 
   @CanIgnoreReturnValue // TODO(cpovirk): Consider removing this?
   @Override
-  @CheckForNull
-  public E pollLast() {
+  public @Nullable E pollLast() {
     return delegate().pollLast();
   }
 
   @CanIgnoreReturnValue
   @Override
-  @ParametricNullness
+  
   public E pop() {
     return delegate().pop();
   }
 
   @Override
-  public void push(@ParametricNullness E e) {
+  public void push( E e) {
     delegate().push(e);
   }
 
   @CanIgnoreReturnValue
   @Override
-  @ParametricNullness
+  
   public E removeFirst() {
     return delegate().removeFirst();
   }
 
   @CanIgnoreReturnValue
   @Override
-  @ParametricNullness
+  
   public E removeLast() {
     return delegate().removeLast();
   }
 
   @CanIgnoreReturnValue
   @Override
-  public boolean removeFirstOccurrence(@CheckForNull Object o) {
+  public boolean removeFirstOccurrence(@Nullable Object o) {
     return delegate().removeFirstOccurrence(o);
   }
 
   @CanIgnoreReturnValue
   @Override
-  public boolean removeLastOccurrence(@CheckForNull Object o) {
+  public boolean removeLastOccurrence(@Nullable Object o) {
     return delegate().removeLastOccurrence(o);
   }
 }

@@ -59,7 +59,6 @@ import java.util.concurrent.Future;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Logger;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -233,10 +232,10 @@ public final class ClosingFuture<V extends @Nullable Object> {
      * @return the first argument
      */
     @CanIgnoreReturnValue
-    @ParametricNullness
+    
     // TODO(b/163345357): Widen bound to AutoCloseable once we require API Level 19.
     public <C extends @Nullable Object & @Nullable Closeable> C eventuallyClose(
-        @ParametricNullness C closeable, Executor closingExecutor) {
+         C closeable, Executor closingExecutor) {
       checkNotNull(closingExecutor);
       if (closeable != null) {
         list.add(closeable, closingExecutor);
@@ -258,7 +257,7 @@ public final class ClosingFuture<V extends @Nullable Object> {
      * closer.eventuallyClose()} will be closed when the {@link ClosingFuture} pipeline is done (but
      * not before this method completes), even if this method throws or the pipeline is cancelled.
      */
-    @ParametricNullness
+    
     V call(DeferredCloser closer) throws Exception;
   }
 
@@ -294,8 +293,8 @@ public final class ClosingFuture<V extends @Nullable Object> {
      * closer.eventuallyClose()} will be closed when the {@link ClosingFuture} pipeline is done (but
      * not before this method completes), even if this method throws or the pipeline is cancelled.
      */
-    @ParametricNullness
-    U apply(DeferredCloser closer, @ParametricNullness T input) throws Exception;
+    
+    U apply(DeferredCloser closer,  T input) throws Exception;
   }
 
   /**
@@ -312,7 +311,7 @@ public final class ClosingFuture<V extends @Nullable Object> {
      * closer.eventuallyClose()} will be closed when the {@link ClosingFuture} pipeline is done (but
      * not before this method completes), even if this method throws or the pipeline is cancelled.
      */
-    ClosingFuture<U> apply(DeferredCloser closer, @ParametricNullness T input) throws Exception;
+    ClosingFuture<U> apply(DeferredCloser closer,  T input) throws Exception;
   }
 
   /**
@@ -343,7 +342,7 @@ public final class ClosingFuture<V extends @Nullable Object> {
      * @throws CancellationException if the computation was cancelled
      * @throws ExecutionException if the computation threw an exception
      */
-    @ParametricNullness
+    
     public V get() throws ExecutionException {
       return getDone(closingFuture.future);
     }
@@ -442,7 +441,7 @@ public final class ClosingFuture<V extends @Nullable Object> {
         future,
         new FutureCallback<@Nullable Closeable>() {
           @Override
-          public void onSuccess(@CheckForNull Closeable result) {
+          public void onSuccess(@Nullable Closeable result) {
             closingFuture.closeables.closer.eventuallyClose(result, closingExecutor);
           }
 
@@ -599,7 +598,7 @@ public final class ClosingFuture<V extends @Nullable Object> {
         TrustedListenableFutureTask.create(
             new Callable<V>() {
               @Override
-              @ParametricNullness
+              
               public V call() throws Exception {
                 return callable.call(closeables.closer);
               }
@@ -1167,7 +1166,7 @@ public final class ClosingFuture<V extends @Nullable Object> {
      *     CombiningCallable#call(DeferredCloser, Peeker)} or {@link
      *     AsyncCombiningCallable#call(DeferredCloser, Peeker)}
      */
-    @ParametricNullness
+    
     public final <D extends @Nullable Object> D getDone(ClosingFuture<D> closingFuture)
         throws ExecutionException {
       checkState(beingCalled);
@@ -1175,7 +1174,7 @@ public final class ClosingFuture<V extends @Nullable Object> {
       return Futures.getDone(closingFuture.future);
     }
 
-    @ParametricNullness
+    
     private <V extends @Nullable Object> V call(
         CombiningCallable<V> combiner, CloseableList closeables) throws Exception {
       beingCalled = true;
@@ -1249,7 +1248,7 @@ public final class ClosingFuture<V extends @Nullable Object> {
        *
        * @param peeker used to get the value of any of the input futures
        */
-      @ParametricNullness
+      
       V call(DeferredCloser closer, Peeker peeker) throws Exception;
     }
 
@@ -1302,7 +1301,7 @@ public final class ClosingFuture<V extends @Nullable Object> {
       Callable<V> callable =
           new Callable<V>() {
             @Override
-            @ParametricNullness
+            
             public V call() throws Exception {
               return new Peeker(inputs).call(combiningCallable, closeables);
             }
@@ -1422,8 +1421,8 @@ public final class ClosingFuture<V extends @Nullable Object> {
        * (but not before this method completes), even if this method throws or the pipeline is
        * cancelled.
        */
-      @ParametricNullness
-      U apply(DeferredCloser closer, @ParametricNullness V1 value1, @ParametricNullness V2 value2)
+      
+      U apply(DeferredCloser closer,  V1 value1,  V2 value2)
           throws Exception;
     }
 
@@ -1447,7 +1446,7 @@ public final class ClosingFuture<V extends @Nullable Object> {
        * cancelled.
        */
       ClosingFuture<U> apply(
-          DeferredCloser closer, @ParametricNullness V1 value1, @ParametricNullness V2 value2)
+          DeferredCloser closer,  V1 value1,  V2 value2)
           throws Exception;
     }
 
@@ -1478,7 +1477,7 @@ public final class ClosingFuture<V extends @Nullable Object> {
       return call(
           new CombiningCallable<U>() {
             @Override
-            @ParametricNullness
+            
             public U call(DeferredCloser closer, Peeker peeker) throws Exception {
               return function.apply(closer, peeker.getDone(future1), peeker.getDone(future2));
             }
@@ -1578,12 +1577,12 @@ public final class ClosingFuture<V extends @Nullable Object> {
        * (but not before this method completes), even if this method throws or the pipeline is
        * cancelled.
        */
-      @ParametricNullness
+      
       U apply(
           DeferredCloser closer,
-          @ParametricNullness V1 value1,
-          @ParametricNullness V2 value2,
-          @ParametricNullness V3 value3)
+           V1 value1,
+           V2 value2,
+           V3 value3)
           throws Exception;
     }
 
@@ -1611,9 +1610,9 @@ public final class ClosingFuture<V extends @Nullable Object> {
        */
       ClosingFuture<U> apply(
           DeferredCloser closer,
-          @ParametricNullness V1 value1,
-          @ParametricNullness V2 value2,
-          @ParametricNullness V3 value3)
+           V1 value1,
+           V2 value2,
+           V3 value3)
           throws Exception;
     }
 
@@ -1647,7 +1646,7 @@ public final class ClosingFuture<V extends @Nullable Object> {
       return call(
           new CombiningCallable<U>() {
             @Override
-            @ParametricNullness
+            
             public U call(DeferredCloser closer, Peeker peeker) throws Exception {
               return function.apply(
                   closer,
@@ -1761,13 +1760,13 @@ public final class ClosingFuture<V extends @Nullable Object> {
        * (but not before this method completes), even if this method throws or the pipeline is
        * cancelled.
        */
-      @ParametricNullness
+      
       U apply(
           DeferredCloser closer,
-          @ParametricNullness V1 value1,
-          @ParametricNullness V2 value2,
-          @ParametricNullness V3 value3,
-          @ParametricNullness V4 value4)
+           V1 value1,
+           V2 value2,
+           V3 value3,
+           V4 value4)
           throws Exception;
     }
 
@@ -1798,10 +1797,10 @@ public final class ClosingFuture<V extends @Nullable Object> {
        */
       ClosingFuture<U> apply(
           DeferredCloser closer,
-          @ParametricNullness V1 value1,
-          @ParametricNullness V2 value2,
-          @ParametricNullness V3 value3,
-          @ParametricNullness V4 value4)
+           V1 value1,
+           V2 value2,
+           V3 value3,
+           V4 value4)
           throws Exception;
     }
 
@@ -1840,7 +1839,7 @@ public final class ClosingFuture<V extends @Nullable Object> {
       return call(
           new CombiningCallable<U>() {
             @Override
-            @ParametricNullness
+            
             public U call(DeferredCloser closer, Peeker peeker) throws Exception {
               return function.apply(
                   closer,
@@ -1961,14 +1960,14 @@ public final class ClosingFuture<V extends @Nullable Object> {
        * (but not before this method completes), even if this method throws or the pipeline is
        * cancelled.
        */
-      @ParametricNullness
+      
       U apply(
           DeferredCloser closer,
-          @ParametricNullness V1 value1,
-          @ParametricNullness V2 value2,
-          @ParametricNullness V3 value3,
-          @ParametricNullness V4 value4,
-          @ParametricNullness V5 value5)
+           V1 value1,
+           V2 value2,
+           V3 value3,
+           V4 value4,
+           V5 value5)
           throws Exception;
     }
 
@@ -2001,11 +2000,11 @@ public final class ClosingFuture<V extends @Nullable Object> {
        */
       ClosingFuture<U> apply(
           DeferredCloser closer,
-          @ParametricNullness V1 value1,
-          @ParametricNullness V2 value2,
-          @ParametricNullness V3 value3,
-          @ParametricNullness V4 value4,
-          @ParametricNullness V5 value5)
+           V1 value1,
+           V2 value2,
+           V3 value3,
+           V4 value4,
+           V5 value5)
           throws Exception;
     }
 
@@ -2048,7 +2047,7 @@ public final class ClosingFuture<V extends @Nullable Object> {
       return call(
           new CombiningCallable<U>() {
             @Override
-            @ParametricNullness
+            
             public U call(DeferredCloser closer, Peeker peeker) throws Exception {
               return function.apply(
                   closer,
@@ -2141,7 +2140,7 @@ public final class ClosingFuture<V extends @Nullable Object> {
     }
   }
 
-  private static void closeQuietly(@CheckForNull final Closeable closeable, Executor executor) {
+  private static void closeQuietly(final @Nullable Closeable closeable, Executor executor) {
     if (closeable == null) {
       return;
     }
@@ -2183,11 +2182,11 @@ public final class ClosingFuture<V extends @Nullable Object> {
       implements Closeable {
     private final DeferredCloser closer = new DeferredCloser(this);
     private volatile boolean closed;
-    @CheckForNull private volatile CountDownLatch whenClosed;
+    private volatile @Nullable CountDownLatch whenClosed;
 
     <V extends @Nullable Object, U extends @Nullable Object>
         ListenableFuture<U> applyClosingFunction(
-            ClosingFunction<? super V, U> transformation, @ParametricNullness V input)
+            ClosingFunction<? super V, U> transformation,  V input)
             throws Exception {
       // TODO(dpb): Consider ways to defer closing without creating a separate CloseableList.
       CloseableList newCloseables = new CloseableList();
@@ -2200,7 +2199,7 @@ public final class ClosingFuture<V extends @Nullable Object> {
 
     <V extends @Nullable Object, U extends @Nullable Object>
         FluentFuture<U> applyAsyncClosingFunction(
-            AsyncClosingFunction<V, U> transformation, @ParametricNullness V input)
+            AsyncClosingFunction<V, U> transformation,  V input)
             throws Exception {
       // TODO(dpb): Consider ways to defer closing without creating a separate CloseableList.
       CloseableList newCloseables = new CloseableList();
@@ -2233,7 +2232,7 @@ public final class ClosingFuture<V extends @Nullable Object> {
       }
     }
 
-    void add(@CheckForNull Closeable closeable, Executor executor) {
+    void add(@Nullable Closeable closeable, Executor executor) {
       checkNotNull(executor);
       if (closeable == null) {
         return;

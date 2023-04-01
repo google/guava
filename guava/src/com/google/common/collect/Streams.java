@@ -48,7 +48,6 @@ import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -395,10 +394,10 @@ public final class Streams {
 
   // Use this carefully - it doesn't implement value semantics
   private static class TemporaryPair<A extends @Nullable Object, B extends @Nullable Object> {
-    @ParametricNullness final A a;
-    @ParametricNullness final B b;
+     final A a;
+     final B b;
 
-    TemporaryPair(@ParametricNullness A a, @ParametricNullness B b) {
+    TemporaryPair( A a,  B b) {
       this.a = a;
       this.b = b;
     }
@@ -454,14 +453,14 @@ public final class Streams {
           .onClose(stream::close);
     }
     class Splitr extends MapWithIndexSpliterator<Spliterator<T>, R, Splitr> implements Consumer<T> {
-      @CheckForNull T holder;
+      @Nullable T holder;
 
       Splitr(Spliterator<T> splitr, long index) {
         super(splitr, index);
       }
 
       @Override
-      public void accept(@ParametricNullness T t) {
+      public void accept( T t) {
         this.holder = t;
       }
 
@@ -734,8 +733,8 @@ public final class Streams {
    */
   public interface FunctionWithIndex<T extends @Nullable Object, R extends @Nullable Object> {
     /** Applies this function to the given argument and its index within a stream. */
-    @ParametricNullness
-    R apply(@ParametricNullness T from, long index);
+    
+    R apply( T from, long index);
   }
 
   private abstract static class MapWithIndexSpliterator<
@@ -754,8 +753,7 @@ public final class Streams {
     abstract S createSplit(F from, long i);
 
     @Override
-    @CheckForNull
-    public S trySplit() {
+    public @Nullable S trySplit() {
       Spliterator<?> splitOrNull = fromSpliterator.trySplit();
       if (splitOrNull == null) {
         return null;
@@ -789,7 +787,7 @@ public final class Streams {
    */
   public interface IntFunctionWithIndex<R extends @Nullable Object> {
     /** Applies this function to the given argument and its index within a stream. */
-    @ParametricNullness
+    
     R apply(int from, long index);
   }
 
@@ -803,7 +801,7 @@ public final class Streams {
    */
   public interface LongFunctionWithIndex<R extends @Nullable Object> {
     /** Applies this function to the given argument and its index within a stream. */
-    @ParametricNullness
+    
     R apply(long from, long index);
   }
 
@@ -817,7 +815,7 @@ public final class Streams {
    */
   public interface DoubleFunctionWithIndex<R extends @Nullable Object> {
     /** Applies this function to the given argument and its index within a stream. */
-    @ParametricNullness
+    
     R apply(double from, long index);
   }
 
@@ -849,7 +847,7 @@ public final class Streams {
   public static <T> java.util.Optional<T> findLast(Stream<T> stream) {
     class OptionalState {
       boolean set = false;
-      @CheckForNull T value = null;
+      @Nullable T value = null;
 
       void set(T value) {
         this.set = true;

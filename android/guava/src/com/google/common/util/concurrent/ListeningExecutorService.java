@@ -60,7 +60,7 @@ public interface ListeningExecutorService extends ExecutorService {
    */
   @Override
   <T extends @Nullable Object> ListenableFuture<T> submit(
-      Runnable task, @ParametricNullness T result);
+      Runnable task,  T result);
 
   /**
    * {@inheritDoc}

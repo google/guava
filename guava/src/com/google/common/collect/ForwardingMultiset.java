@@ -23,7 +23,6 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Set;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -61,19 +60,19 @@ public abstract class ForwardingMultiset<E extends @Nullable Object> extends For
   protected abstract Multiset<E> delegate();
 
   @Override
-  public int count(@CheckForNull Object element) {
+  public int count(@Nullable Object element) {
     return delegate().count(element);
   }
 
   @CanIgnoreReturnValue
   @Override
-  public int add(@ParametricNullness E element, int occurrences) {
+  public int add( E element, int occurrences) {
     return delegate().add(element, occurrences);
   }
 
   @CanIgnoreReturnValue
   @Override
-  public int remove(@CheckForNull Object element, int occurrences) {
+  public int remove(@Nullable Object element, int occurrences) {
     return delegate().remove(element, occurrences);
   }
 
@@ -88,7 +87,7 @@ public abstract class ForwardingMultiset<E extends @Nullable Object> extends For
   }
 
   @Override
-  public boolean equals(@CheckForNull Object object) {
+  public boolean equals(@Nullable Object object) {
     return object == this || delegate().equals(object);
   }
 
@@ -99,13 +98,13 @@ public abstract class ForwardingMultiset<E extends @Nullable Object> extends For
 
   @CanIgnoreReturnValue
   @Override
-  public int setCount(@ParametricNullness E element, int count) {
+  public int setCount( E element, int count) {
     return delegate().setCount(element, count);
   }
 
   @CanIgnoreReturnValue
   @Override
-  public boolean setCount(@ParametricNullness E element, int oldCount, int newCount) {
+  public boolean setCount( E element, int oldCount, int newCount) {
     return delegate().setCount(element, oldCount, newCount);
   }
 
@@ -116,7 +115,7 @@ public abstract class ForwardingMultiset<E extends @Nullable Object> extends For
    * @since 7.0
    */
   @Override
-  protected boolean standardContains(@CheckForNull Object object) {
+  protected boolean standardContains(@Nullable Object object) {
     return count(object) > 0;
   }
 
@@ -140,7 +139,7 @@ public abstract class ForwardingMultiset<E extends @Nullable Object> extends For
    * @since 7.0
    */
   @Beta
-  protected int standardCount(@CheckForNull Object object) {
+  protected int standardCount(@Nullable Object object) {
     for (Entry<?> entry : this.entrySet()) {
       if (Objects.equal(entry.getElement(), object)) {
         return entry.getCount();
@@ -156,7 +155,7 @@ public abstract class ForwardingMultiset<E extends @Nullable Object> extends For
    *
    * @since 7.0
    */
-  protected boolean standardAdd(@ParametricNullness E element) {
+  protected boolean standardAdd( E element) {
     add(element, 1);
     return true;
   }
@@ -182,7 +181,7 @@ public abstract class ForwardingMultiset<E extends @Nullable Object> extends For
    * @since 7.0
    */
   @Override
-  protected boolean standardRemove(@CheckForNull Object element) {
+  protected boolean standardRemove(@Nullable Object element) {
     return remove(element, 1) > 0;
   }
 
@@ -218,7 +217,7 @@ public abstract class ForwardingMultiset<E extends @Nullable Object> extends For
    *
    * @since 7.0
    */
-  protected int standardSetCount(@ParametricNullness E element, int count) {
+  protected int standardSetCount( E element, int count) {
     return Multisets.setCountImpl(this, element, count);
   }
 
@@ -229,7 +228,7 @@ public abstract class ForwardingMultiset<E extends @Nullable Object> extends For
    *
    * @since 7.0
    */
-  protected boolean standardSetCount(@ParametricNullness E element, int oldCount, int newCount) {
+  protected boolean standardSetCount( E element, int oldCount, int newCount) {
     return Multisets.setCountImpl(this, element, oldCount, newCount);
   }
 
@@ -289,7 +288,7 @@ public abstract class ForwardingMultiset<E extends @Nullable Object> extends For
    *
    * @since 7.0
    */
-  protected boolean standardEquals(@CheckForNull Object object) {
+  protected boolean standardEquals(@Nullable Object object) {
     return Multisets.equalsImpl(this, object);
   }
 

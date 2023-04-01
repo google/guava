@@ -49,8 +49,8 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 import java.util.logging.Logger;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Scans the source of a {@link ClassLoader} and finds all loadable classes and resources.
@@ -278,7 +278,7 @@ public final class ClassPath {
     }
 
     @Override
-    public boolean equals(@CheckForNull Object obj) {
+    public boolean equals(@Nullable Object obj) {
       if (obj instanceof ResourceInfo) {
         ResourceInfo that = (ResourceInfo) obj;
         return resourceName.equals(that.resourceName) && loader == that.loader;
@@ -551,7 +551,7 @@ public final class ClassPath {
     }
 
     @Override
-    public boolean equals(@CheckForNull Object obj) {
+    public boolean equals(@Nullable Object obj) {
       if (obj instanceof LocationInfo) {
         LocationInfo that = (LocationInfo) obj;
         return home.equals(that.home) && classloader.equals(that.classloader);
@@ -578,8 +578,7 @@ public final class ClassPath {
    * an empty set will be returned.
    */
   @VisibleForTesting
-  static ImmutableSet<File> getClassPathFromManifest(
-      File jarFile, @CheckForNull Manifest manifest) {
+  static ImmutableSet<File> getClassPathFromManifest(File jarFile, @Nullable Manifest manifest) {
     if (manifest == null) {
       return ImmutableSet.of();
     }

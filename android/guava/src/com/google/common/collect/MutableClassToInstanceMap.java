@@ -30,7 +30,6 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -140,8 +139,7 @@ public final class MutableClassToInstanceMap<B> extends ForwardingMap<Class<? ex
 
   @Override
   @CanIgnoreReturnValue
-  @CheckForNull
-  public B put(Class<? extends B> key, B value) {
+  public @Nullable B put(Class<? extends B> key, B value) {
     return super.put(key, cast(key, value));
   }
 
@@ -156,20 +154,17 @@ public final class MutableClassToInstanceMap<B> extends ForwardingMap<Class<? ex
 
   @CanIgnoreReturnValue
   @Override
-  @CheckForNull
-  public <T extends B> T putInstance(Class<T> type, T value) {
+  public <T extends B> @Nullable T putInstance(Class<T> type, T value) {
     return cast(type, put(type, value));
   }
 
   @Override
-  @CheckForNull
-  public <T extends B> T getInstance(Class<T> type) {
+  public <T extends B> @Nullable T getInstance(Class<T> type) {
     return cast(type, get(type));
   }
 
   @CanIgnoreReturnValue
-  @CheckForNull
-  private static <B, T extends B> T cast(Class<T> type, @CheckForNull B value) {
+  private static <B, T extends B> @Nullable T cast(Class<T> type, @Nullable B value) {
     return Primitives.wrap(type).cast(value);
   }
 

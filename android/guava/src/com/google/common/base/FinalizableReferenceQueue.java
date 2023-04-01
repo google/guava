@@ -28,8 +28,8 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A reference queue with an associated background thread that dequeues references and invokes
@@ -232,8 +232,7 @@ public class FinalizableReferenceQueue implements Closeable {
      *
      * @throws SecurityException if we don't have the appropriate privileges
      */
-    @CheckForNull
-    Class<?> loadFinalizer();
+    @Nullable Class<?> loadFinalizer();
   }
 
   /**
@@ -246,8 +245,7 @@ public class FinalizableReferenceQueue implements Closeable {
     @VisibleForTesting static boolean disabled;
 
     @Override
-    @CheckForNull
-    public Class<?> loadFinalizer() {
+    public @Nullable Class<?> loadFinalizer() {
       if (disabled) {
         return null;
       }
@@ -284,8 +282,7 @@ public class FinalizableReferenceQueue implements Closeable {
             + "issue, or move Guava to your system class path.";
 
     @Override
-    @CheckForNull
-    public Class<?> loadFinalizer() {
+    public @Nullable Class<?> loadFinalizer() {
       try {
         /*
          * We use URLClassLoader because it's the only concrete class loader implementation in the

@@ -23,8 +23,8 @@ import static java.util.Objects.requireNonNull;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A base implementation of {@link NetworkConnections} for undirected networks.
@@ -74,8 +74,7 @@ abstract class AbstractUndirectedNetworkConnections<N, E> implements NetworkConn
   }
 
   @Override
-  @CheckForNull
-  public N removeInEdge(E edge, boolean isSelfLoop) {
+  public @Nullable N removeInEdge(E edge, boolean isSelfLoop) {
     if (!isSelfLoop) {
       return removeOutEdge(edge);
     }

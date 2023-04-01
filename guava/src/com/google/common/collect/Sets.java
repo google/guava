@@ -53,7 +53,6 @@ import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.function.Consumer;
 import java.util.stream.Collector;
 import java.util.stream.Stream;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
@@ -602,7 +601,7 @@ public final class Sets {
     @Deprecated
     @Override
     @DoNotCall("Always throws UnsupportedOperationException")
-    public final boolean add(@ParametricNullness E e) {
+    public final boolean add( E e) {
       throw new UnsupportedOperationException();
     }
 
@@ -616,7 +615,7 @@ public final class Sets {
     @Deprecated
     @Override
     @DoNotCall("Always throws UnsupportedOperationException")
-    public final boolean remove(@CheckForNull Object object) {
+    public final boolean remove(@Nullable Object object) {
       throw new UnsupportedOperationException();
     }
 
@@ -737,8 +736,7 @@ public final class Sets {
           final Iterator<? extends E> itr2 = set2.iterator();
 
           @Override
-          @CheckForNull
-          protected E computeNext() {
+          protected @Nullable E computeNext() {
             if (itr1.hasNext()) {
               return itr1.next();
             }
@@ -764,7 +762,7 @@ public final class Sets {
       }
 
       @Override
-      public boolean contains(@CheckForNull Object object) {
+      public boolean contains(@Nullable Object object) {
         return set1.contains(object) || set2.contains(object);
       }
 
@@ -826,8 +824,7 @@ public final class Sets {
           final Iterator<E> itr = set1.iterator();
 
           @Override
-          @CheckForNull
-          protected E computeNext() {
+          protected @Nullable E computeNext() {
             while (itr.hasNext()) {
               E e = itr.next();
               if (set2.contains(e)) {
@@ -866,7 +863,7 @@ public final class Sets {
       }
 
       @Override
-      public boolean contains(@CheckForNull Object object) {
+      public boolean contains(@Nullable Object object) {
         return set1.contains(object) && set2.contains(object);
       }
 
@@ -899,8 +896,7 @@ public final class Sets {
           final Iterator<E> itr = set1.iterator();
 
           @Override
-          @CheckForNull
-          protected E computeNext() {
+          protected @Nullable E computeNext() {
             while (itr.hasNext()) {
               E e = itr.next();
               if (!set2.contains(e)) {
@@ -939,7 +935,7 @@ public final class Sets {
       }
 
       @Override
-      public boolean contains(@CheckForNull Object element) {
+      public boolean contains(@Nullable Object element) {
         return set1.contains(element) && !set2.contains(element);
       }
     };
@@ -968,8 +964,7 @@ public final class Sets {
         final Iterator<? extends E> itr2 = set2.iterator();
         return new AbstractIterator<E>() {
           @Override
-          @CheckForNull
-          public E computeNext() {
+          public @Nullable E computeNext() {
             while (itr1.hasNext()) {
               E elem1 = itr1.next();
               if (!set2.contains(elem1)) {
@@ -1009,7 +1004,7 @@ public final class Sets {
       }
 
       @Override
-      public boolean contains(@CheckForNull Object element) {
+      public boolean contains(@Nullable Object element) {
         return set1.contains(element) ^ set2.contains(element);
       }
     };
@@ -1141,7 +1136,7 @@ public final class Sets {
     }
 
     @Override
-    public boolean equals(@CheckForNull Object object) {
+    public boolean equals( @Nullable Object object) {
       return equalsImpl(this, object);
     }
 
@@ -1159,35 +1154,34 @@ public final class Sets {
     }
 
     @Override
-    @CheckForNull
-    public Comparator<? super E> comparator() {
+    public @Nullable Comparator<? super E> comparator() {
       return ((SortedSet<E>) unfiltered).comparator();
     }
 
     @Override
-    public SortedSet<E> subSet(@ParametricNullness E fromElement, @ParametricNullness E toElement) {
+    public SortedSet<E> subSet( E fromElement,  E toElement) {
       return new FilteredSortedSet<E>(
           ((SortedSet<E>) unfiltered).subSet(fromElement, toElement), predicate);
     }
 
     @Override
-    public SortedSet<E> headSet(@ParametricNullness E toElement) {
+    public SortedSet<E> headSet( E toElement) {
       return new FilteredSortedSet<E>(((SortedSet<E>) unfiltered).headSet(toElement), predicate);
     }
 
     @Override
-    public SortedSet<E> tailSet(@ParametricNullness E fromElement) {
+    public SortedSet<E> tailSet( E fromElement) {
       return new FilteredSortedSet<E>(((SortedSet<E>) unfiltered).tailSet(fromElement), predicate);
     }
 
     @Override
-    @ParametricNullness
+    
     public E first() {
       return Iterators.find(unfiltered.iterator(), predicate);
     }
 
     @Override
-    @ParametricNullness
+    
     public E last() {
       SortedSet<E> sortedUnfiltered = (SortedSet<E>) unfiltered;
       while (true) {
@@ -1212,38 +1206,32 @@ public final class Sets {
     }
 
     @Override
-    @CheckForNull
-    public E lower(@ParametricNullness E e) {
+    public @Nullable E lower( E e) {
       return Iterators.find(unfiltered().headSet(e, false).descendingIterator(), predicate, null);
     }
 
     @Override
-    @CheckForNull
-    public E floor(@ParametricNullness E e) {
+    public @Nullable E floor( E e) {
       return Iterators.find(unfiltered().headSet(e, true).descendingIterator(), predicate, null);
     }
 
     @Override
-    @CheckForNull
-    public E ceiling(@ParametricNullness E e) {
+    public @Nullable E ceiling( E e) {
       return Iterables.find(unfiltered().tailSet(e, true), predicate, null);
     }
 
     @Override
-    @CheckForNull
-    public E higher(@ParametricNullness E e) {
+    public @Nullable E higher( E e) {
       return Iterables.find(unfiltered().tailSet(e, false), predicate, null);
     }
 
     @Override
-    @CheckForNull
-    public E pollFirst() {
+    public @Nullable E pollFirst() {
       return Iterables.removeFirstMatching(unfiltered(), predicate);
     }
 
     @Override
-    @CheckForNull
-    public E pollLast() {
+    public @Nullable E pollLast() {
       return Iterables.removeFirstMatching(unfiltered().descendingSet(), predicate);
     }
 
@@ -1258,28 +1246,28 @@ public final class Sets {
     }
 
     @Override
-    @ParametricNullness
+    
     public E last() {
       return Iterators.find(unfiltered().descendingIterator(), predicate);
     }
 
     @Override
     public NavigableSet<E> subSet(
-        @ParametricNullness E fromElement,
+         E fromElement,
         boolean fromInclusive,
-        @ParametricNullness E toElement,
+         E toElement,
         boolean toInclusive) {
       return filter(
           unfiltered().subSet(fromElement, fromInclusive, toElement, toInclusive), predicate);
     }
 
     @Override
-    public NavigableSet<E> headSet(@ParametricNullness E toElement, boolean inclusive) {
+    public NavigableSet<E> headSet( E toElement, boolean inclusive) {
       return filter(unfiltered().headSet(toElement, inclusive), predicate);
     }
 
     @Override
-    public NavigableSet<E> tailSet(@ParametricNullness E fromElement, boolean inclusive) {
+    public NavigableSet<E> tailSet( E fromElement, boolean inclusive) {
       return filter(unfiltered().tailSet(fromElement, inclusive), predicate);
     }
   }
@@ -1445,7 +1433,7 @@ public final class Sets {
     }
 
     @Override
-    public boolean contains(@CheckForNull Object object) {
+    public boolean contains( @Nullable Object object) {
       if (!(object instanceof List)) {
         return false;
       }
@@ -1464,7 +1452,7 @@ public final class Sets {
     }
 
     @Override
-    public boolean equals(@CheckForNull Object object) {
+    public boolean equals( @Nullable Object object) {
       // Warning: this is broken if size() == 0, so it is critical that we
       // substitute an empty ImmutableSet to the user in place of this
       if (object instanceof CartesianSet) {
@@ -1564,7 +1552,7 @@ public final class Sets {
     }
 
     @Override
-    public boolean contains(@CheckForNull Object o) {
+    public boolean contains( @Nullable Object o) {
       Integer index = inputSet.get(o);
       return index != null && (mask & (1 << index)) != 0;
     }
@@ -1600,7 +1588,7 @@ public final class Sets {
     }
 
     @Override
-    public boolean contains(@CheckForNull Object obj) {
+    public boolean contains( @Nullable Object obj) {
       if (obj instanceof Set) {
         Set<?> set = (Set<?>) obj;
         return inputSet.keySet().containsAll(set);
@@ -1609,7 +1597,7 @@ public final class Sets {
     }
 
     @Override
-    public boolean equals(@CheckForNull Object obj) {
+    public boolean equals( @Nullable Object obj) {
       if (obj instanceof PowerSet) {
         PowerSet<?> that = (PowerSet<?>) obj;
         return inputSet.keySet().equals(that.inputSet.keySet());
@@ -1669,7 +1657,7 @@ public final class Sets {
     }
     return new AbstractSet<Set<E>>() {
       @Override
-      public boolean contains(@CheckForNull Object o) {
+      public boolean contains(@Nullable Object o) {
         if (o instanceof Set) {
           Set<?> s = (Set<?>) o;
           return s.size() == size && index.keySet().containsAll(s);
@@ -1683,8 +1671,7 @@ public final class Sets {
           final BitSet bits = new BitSet(index.size());
 
           @Override
-          @CheckForNull
-          protected Set<E> computeNext() {
+          protected @Nullable Set<E> computeNext() {
             if (bits.isEmpty()) {
               bits.set(0, size);
             } else {
@@ -1715,7 +1702,7 @@ public final class Sets {
             final BitSet copy = (BitSet) bits.clone();
             return new AbstractSet<E>() {
               @Override
-              public boolean contains(@CheckForNull Object o) {
+              public boolean contains(@Nullable Object o) {
                 Integer i = index.get(o);
                 return i != null && copy.get(i);
               }
@@ -1726,8 +1713,7 @@ public final class Sets {
                   int i = -1;
 
                   @Override
-                  @CheckForNull
-                  protected E computeNext() {
+                  protected @Nullable E computeNext() {
                     i = copy.nextSetBit(i + 1);
                     if (i == -1) {
                       return endOfData();
@@ -1771,7 +1757,7 @@ public final class Sets {
   }
 
   /** An implementation for {@link Set#equals(Object)}. */
-  static boolean equalsImpl(Set<?> s, @CheckForNull Object object) {
+  static boolean equalsImpl(Set<?> s,  @Nullable Object object) {
     if (s == object) {
       return true;
     }
@@ -1846,42 +1832,36 @@ public final class Sets {
     }
 
     @Override
-    @CheckForNull
-    public E lower(@ParametricNullness E e) {
+    public @Nullable E lower( E e) {
       return delegate.lower(e);
     }
 
     @Override
-    @CheckForNull
-    public E floor(@ParametricNullness E e) {
+    public @Nullable E floor( E e) {
       return delegate.floor(e);
     }
 
     @Override
-    @CheckForNull
-    public E ceiling(@ParametricNullness E e) {
+    public @Nullable E ceiling( E e) {
       return delegate.ceiling(e);
     }
 
     @Override
-    @CheckForNull
-    public E higher(@ParametricNullness E e) {
+    public @Nullable E higher( E e) {
       return delegate.higher(e);
     }
 
     @Override
-    @CheckForNull
-    public E pollFirst() {
+    public @Nullable E pollFirst() {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    @CheckForNull
-    public E pollLast() {
+    public @Nullable E pollLast() {
       throw new UnsupportedOperationException();
     }
 
-    @CheckForNull private transient UnmodifiableNavigableSet<E> descendingSet;
+    private transient @Nullable UnmodifiableNavigableSet<E> descendingSet;
 
     @Override
     public NavigableSet<E> descendingSet() {
@@ -1900,21 +1880,21 @@ public final class Sets {
 
     @Override
     public NavigableSet<E> subSet(
-        @ParametricNullness E fromElement,
+         E fromElement,
         boolean fromInclusive,
-        @ParametricNullness E toElement,
+         E toElement,
         boolean toInclusive) {
       return unmodifiableNavigableSet(
           delegate.subSet(fromElement, fromInclusive, toElement, toInclusive));
     }
 
     @Override
-    public NavigableSet<E> headSet(@ParametricNullness E toElement, boolean inclusive) {
+    public NavigableSet<E> headSet( E toElement, boolean inclusive) {
       return unmodifiableNavigableSet(delegate.headSet(toElement, inclusive));
     }
 
     @Override
-    public NavigableSet<E> tailSet(@ParametricNullness E fromElement, boolean inclusive) {
+    public NavigableSet<E> tailSet( E fromElement, boolean inclusive) {
       return unmodifiableNavigableSet(delegate.tailSet(fromElement, inclusive));
     }
 
@@ -2014,38 +1994,32 @@ public final class Sets {
     }
 
     @Override
-    @CheckForNull
-    public E lower(@ParametricNullness E e) {
+    public @Nullable E lower( E e) {
       return forward.higher(e);
     }
 
     @Override
-    @CheckForNull
-    public E floor(@ParametricNullness E e) {
+    public @Nullable E floor( E e) {
       return forward.ceiling(e);
     }
 
     @Override
-    @CheckForNull
-    public E ceiling(@ParametricNullness E e) {
+    public @Nullable E ceiling( E e) {
       return forward.floor(e);
     }
 
     @Override
-    @CheckForNull
-    public E higher(@ParametricNullness E e) {
+    public @Nullable E higher( E e) {
       return forward.lower(e);
     }
 
     @Override
-    @CheckForNull
-    public E pollFirst() {
+    public @Nullable E pollFirst() {
       return forward.pollLast();
     }
 
     @Override
-    @CheckForNull
-    public E pollLast() {
+    public @Nullable E pollLast() {
       return forward.pollFirst();
     }
 
@@ -2061,35 +2035,35 @@ public final class Sets {
 
     @Override
     public NavigableSet<E> subSet(
-        @ParametricNullness E fromElement,
+         E fromElement,
         boolean fromInclusive,
-        @ParametricNullness E toElement,
+         E toElement,
         boolean toInclusive) {
       return forward.subSet(toElement, toInclusive, fromElement, fromInclusive).descendingSet();
     }
 
     @Override
-    public SortedSet<E> subSet(@ParametricNullness E fromElement, @ParametricNullness E toElement) {
+    public SortedSet<E> subSet( E fromElement,  E toElement) {
       return standardSubSet(fromElement, toElement);
     }
 
     @Override
-    public NavigableSet<E> headSet(@ParametricNullness E toElement, boolean inclusive) {
+    public NavigableSet<E> headSet( E toElement, boolean inclusive) {
       return forward.tailSet(toElement, inclusive).descendingSet();
     }
 
     @Override
-    public SortedSet<E> headSet(@ParametricNullness E toElement) {
+    public SortedSet<E> headSet( E toElement) {
       return standardHeadSet(toElement);
     }
 
     @Override
-    public NavigableSet<E> tailSet(@ParametricNullness E fromElement, boolean inclusive) {
+    public NavigableSet<E> tailSet( E fromElement, boolean inclusive) {
       return forward.headSet(fromElement, inclusive).descendingSet();
     }
 
     @Override
-    public SortedSet<E> tailSet(@ParametricNullness E fromElement) {
+    public SortedSet<E> tailSet( E fromElement) {
       return standardTailSet(fromElement);
     }
 
@@ -2110,13 +2084,13 @@ public final class Sets {
     }
 
     @Override
-    @ParametricNullness
+    
     public E first() {
       return forward.last();
     }
 
     @Override
-    @ParametricNullness
+    
     public E last() {
       return forward.first();
     }

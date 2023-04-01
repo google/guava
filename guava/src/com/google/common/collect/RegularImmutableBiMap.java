@@ -36,7 +36,6 @@ import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -55,8 +54,8 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
 
   static final double MAX_LOAD_FACTOR = 1.2;
 
-  @CheckForNull private final transient @Nullable ImmutableMapEntry<K, V>[] keyTable;
-  @CheckForNull private final transient @Nullable ImmutableMapEntry<K, V>[] valueTable;
+  private final transient @Nullable ImmutableMapEntry<K, V> @Nullable [] keyTable;
+  private final transient @Nullable ImmutableMapEntry<K, V> @Nullable [] valueTable;
   @VisibleForTesting final transient Entry<K, V>[] entries;
   private final transient int mask;
   private final transient int hashCode;
@@ -114,8 +113,8 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
   }
 
   private RegularImmutableBiMap(
-      @CheckForNull @Nullable ImmutableMapEntry<K, V>[] keyTable,
-      @CheckForNull @Nullable ImmutableMapEntry<K, V>[] valueTable,
+      @Nullable ImmutableMapEntry<K, V> @Nullable [] keyTable,
+      @Nullable ImmutableMapEntry<K, V> @Nullable [] valueTable,
       Entry<K, V>[] entries,
       int mask,
       int hashCode) {
@@ -134,7 +133,7 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
    *     flooding attack
    */
   private static void checkNoConflictInValueBucket(
-      Object value, Entry<?, ?> entry, @CheckForNull ImmutableMapEntry<?, ?> valueBucketHead)
+      Object value, Entry<?, ?> entry, @Nullable ImmutableMapEntry<?, ?> valueBucketHead)
       throws BucketOverflowException {
     int bucketSize = 0;
     for (; valueBucketHead != null; valueBucketHead = valueBucketHead.getNextInValueBucket()) {
@@ -146,8 +145,7 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
   }
 
   @Override
-  @CheckForNull
-  public V get(@CheckForNull Object key) {
+  public @Nullable V get(@Nullable Object key) {
     return RegularImmutableMap.get(key, keyTable, mask);
   }
 
@@ -191,7 +189,7 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
     return entries.length;
   }
 
-  @LazyInit @RetainedWith @CheckForNull private transient ImmutableBiMap<V, K> inverse;
+  @LazyInit @RetainedWith private transient @Nullable ImmutableBiMap<V, K> inverse;
 
   @Override
   public ImmutableBiMap<V, K> inverse() {
@@ -221,8 +219,7 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
     }
 
     @Override
-    @CheckForNull
-    public K get(@CheckForNull Object value) {
+    public @Nullable K get(@Nullable Object value) {
       if (value == null || valueTable == null) {
         return null;
       }

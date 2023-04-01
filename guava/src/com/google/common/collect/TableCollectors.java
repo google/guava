@@ -200,9 +200,9 @@ final class TableCollectors {
           R extends @Nullable Object, C extends @Nullable Object, V extends @Nullable Object>
       void mergeTables(
           Table<R, C, V> table,
-          @ParametricNullness R row,
-          @ParametricNullness C column,
-          @ParametricNullness V value,
+           R row,
+           C column,
+           V value,
           BinaryOperator<V> mergeFunction) {
     checkNotNull(value);
     V oldValue = table.get(row, column);

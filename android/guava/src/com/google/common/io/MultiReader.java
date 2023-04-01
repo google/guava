@@ -22,8 +22,8 @@ import com.google.common.base.Preconditions;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.Iterator;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A {@link Reader} that concatenates multiple readers.
@@ -36,7 +36,7 @@ import org.jspecify.annotations.NullMarked;
 @NullMarked
 class MultiReader extends Reader {
   private final Iterator<? extends CharSource> it;
-  @CheckForNull private Reader current;
+  private @Nullable Reader current;
 
   MultiReader(Iterator<? extends CharSource> readers) throws IOException {
     this.it = readers;

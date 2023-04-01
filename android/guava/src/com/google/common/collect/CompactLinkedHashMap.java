@@ -25,7 +25,6 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -87,7 +86,7 @@ class CompactLinkedHashMap<K extends @Nullable Object, V extends @Nullable Objec
    * <p>A node with "prev" pointer equal to {@code ENDPOINT} is the first node in the linked list,
    * and a node with "next" pointer equal to {@code ENDPOINT} is the last node.
    */
-  @CheckForNull @VisibleForTesting transient long[] links;
+  @VisibleForTesting transient long @Nullable [] links;
 
   /** Pointer to the first node in the linked list, or {@code ENDPOINT} if there are no entries. */
   private transient int firstEntry;
@@ -178,7 +177,7 @@ class CompactLinkedHashMap<K extends @Nullable Object, V extends @Nullable Objec
 
   @Override
   void insertEntry(
-      int entryIndex, @ParametricNullness K key, @ParametricNullness V value, int hash, int mask) {
+      int entryIndex,  K key,  V value, int hash, int mask) {
     super.insertEntry(entryIndex, key, value, hash, mask);
     setSucceeds(lastEntry, entryIndex);
     setSucceeds(entryIndex, ENDPOINT);

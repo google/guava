@@ -22,7 +22,6 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
 import java.io.Serializable;
 import java.util.concurrent.TimeUnit;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -62,13 +61,13 @@ public final class Suppliers {
     }
 
     @Override
-    @ParametricNullness
+    
     public T get() {
       return function.apply(supplier.get());
     }
 
     @Override
-    public boolean equals(@CheckForNull Object obj) {
+    public boolean equals(@Nullable Object obj) {
       if (obj instanceof SupplierComposition) {
         SupplierComposition<?, ?> that = (SupplierComposition<?, ?>) obj;
         return function.equals(that.function) && supplier.equals(that.supplier);
@@ -121,14 +120,14 @@ public final class Suppliers {
     transient volatile boolean initialized;
     // "value" does not need to be volatile; visibility piggy-backs
     // on volatile read of "initialized".
-    @CheckForNull transient T value;
+    transient @Nullable T value;
 
     MemoizingSupplier(Supplier<T> delegate) {
       this.delegate = checkNotNull(delegate);
     }
 
     @Override
-    @ParametricNullness
+    
     public T get() {
       // A 2-field variant of Double Checked Locking.
       if (!initialized) {
@@ -165,14 +164,14 @@ public final class Suppliers {
 
     private volatile Supplier<T> delegate;
     // "value" does not need to be volatile; visibility piggy-backs on volatile read of "delegate".
-    @CheckForNull private T value;
+    private @Nullable T value;
 
     NonSerializableMemoizingSupplier(Supplier<T> delegate) {
       this.delegate = checkNotNull(delegate);
     }
 
     @Override
-    @ParametricNullness
+    
     @SuppressWarnings("unchecked") // Cast from Supplier<Void> to Supplier<T> is always valid
     public T get() {
       // Because Supplier is read-heavy, we use the "double-checked locking" pattern.
@@ -234,7 +233,7 @@ public final class Suppliers {
       implements Supplier<T>, Serializable {
     final Supplier<T> delegate;
     final long durationNanos;
-    @CheckForNull transient volatile T value;
+    transient volatile @Nullable T value;
     // The special value 0 means "not yet initialized".
     transient volatile long expirationNanos;
 
@@ -245,7 +244,7 @@ public final class Suppliers {
     }
 
     @Override
-    @ParametricNullness
+    
     public T get() {
       // Another variant of Double Checked Locking.
       //
@@ -284,26 +283,26 @@ public final class Suppliers {
 
   /** Returns a supplier that always supplies {@code instance}. */
   public static <T extends @Nullable Object> Supplier<T> ofInstance(
-      @ParametricNullness T instance) {
+       T instance) {
     return new SupplierOfInstance<>(instance);
   }
 
   private static class SupplierOfInstance<T extends @Nullable Object>
       implements Supplier<T>, Serializable {
-    @ParametricNullness final T instance;
+     final T instance;
 
-    SupplierOfInstance(@ParametricNullness T instance) {
+    SupplierOfInstance( T instance) {
       this.instance = instance;
     }
 
     @Override
-    @ParametricNullness
+    
     public T get() {
       return instance;
     }
 
     @Override
-    public boolean equals(@CheckForNull Object obj) {
+    public boolean equals(@Nullable Object obj) {
       if (obj instanceof SupplierOfInstance) {
         SupplierOfInstance<?> that = (SupplierOfInstance<?>) obj;
         return Objects.equal(instance, that.instance);
@@ -342,7 +341,7 @@ public final class Suppliers {
     }
 
     @Override
-    @ParametricNullness
+    
     public T get() {
       synchronized (delegate) {
         return delegate.get();
@@ -378,8 +377,7 @@ public final class Suppliers {
 
     // Note: This makes T a "pass-through type"
     @Override
-    @CheckForNull
-    public Object apply(Supplier<@Nullable Object> input) {
+    public @Nullable Object apply(Supplier<@Nullable Object> input) {
       return input.get();
     }
 

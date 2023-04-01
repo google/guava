@@ -25,8 +25,8 @@ import com.google.common.base.Strings;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.Immutable;
 import java.io.Serializable;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An immutable representation of a host and port.
@@ -282,7 +282,7 @@ public final class HostAndPort implements Serializable {
   }
 
   @Override
-  public boolean equals(@CheckForNull Object other) {
+  public boolean equals(@Nullable Object other) {
     if (this == other) {
       return true;
     }

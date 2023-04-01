@@ -28,7 +28,6 @@ import com.google.common.collect.Multiset.Entry;
 import com.google.common.collect.Multisets.AbstractEntry;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Arrays;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -188,7 +187,7 @@ class ObjectCountHashMap<K extends @Nullable Object> {
   }
 
   @SuppressWarnings("unchecked")
-  @ParametricNullness
+  
   K getKey(int index) {
     checkElementIndex(index, size);
     return (K) keys[index];
@@ -210,7 +209,7 @@ class ObjectCountHashMap<K extends @Nullable Object> {
   }
 
   class MapEntry extends AbstractEntry<K> {
-    @ParametricNullness final K key;
+     final K key;
 
     int lastKnownIndex;
 
@@ -221,7 +220,7 @@ class ObjectCountHashMap<K extends @Nullable Object> {
     }
 
     @Override
-    @ParametricNullness
+    
     public K getElement() {
       return key;
     }
@@ -281,7 +280,7 @@ class ObjectCountHashMap<K extends @Nullable Object> {
   }
 
   @CanIgnoreReturnValue
-  public int put(@ParametricNullness K key, int value) {
+  public int put( K key, int value) {
     checkPositive(value, "count");
     long[] entries = this.entries;
     @Nullable Object[] keys = this.keys;
@@ -326,7 +325,7 @@ class ObjectCountHashMap<K extends @Nullable Object> {
   /**
    * Creates a fresh entry with the specified object at the specified position in the entry array.
    */
-  void insertEntry(int entryIndex, @ParametricNullness K key, int value, int hash) {
+  void insertEntry(int entryIndex,  K key, int value, int hash) {
     this.entries[entryIndex] = ((long) hash << 32) | (NEXT_MASK & UNSET);
     this.keys[entryIndex] = key;
     this.values[entryIndex] = value;
@@ -387,7 +386,7 @@ class ObjectCountHashMap<K extends @Nullable Object> {
     this.table = newTable;
   }
 
-  int indexOf(@CheckForNull Object key) {
+  int indexOf(@Nullable Object key) {
     int hash = smearedHash(key);
     int next = table[hash & hashTableMask()];
     while (next != UNSET) {
@@ -400,21 +399,21 @@ class ObjectCountHashMap<K extends @Nullable Object> {
     return -1;
   }
 
-  public boolean containsKey(@CheckForNull Object key) {
+  public boolean containsKey(@Nullable Object key) {
     return indexOf(key) != -1;
   }
 
-  public int get(@CheckForNull Object key) {
+  public int get(@Nullable Object key) {
     int index = indexOf(key);
     return (index == -1) ? 0 : values[index];
   }
 
   @CanIgnoreReturnValue
-  public int remove(@CheckForNull Object key) {
+  public int remove(@Nullable Object key) {
     return remove(key, smearedHash(key));
   }
 
-  private int remove(@CheckForNull Object key, int hash) {
+  private int remove(@Nullable Object key, int hash) {
     int tableIndex = hash & hashTableMask();
     int next = table[tableIndex];
     if (next == UNSET) { // empty bucket

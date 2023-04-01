@@ -54,5 +54,5 @@ public interface Funnel<T extends @Nullable Object> extends Serializable {
    *
    * @since 12.0 (in Guava 11.0, {@code PrimitiveSink} was named {@code Sink})
    */
-  void funnel(@ParametricNullness T from, PrimitiveSink into);
+  void funnel( T from, PrimitiveSink into);
 }

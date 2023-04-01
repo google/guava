@@ -21,7 +21,6 @@ import java.io.ObjectInputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
 import java.nio.charset.Charset;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -108,7 +107,7 @@ public final class Funnels {
     }
 
     @Override
-    public boolean equals(@CheckForNull Object o) {
+    public boolean equals(@Nullable Object o) {
       if (o instanceof StringCharsetFunnel) {
         StringCharsetFunnel funnel = (StringCharsetFunnel) o;
         return this.charset.equals(funnel.charset);
@@ -199,7 +198,7 @@ public final class Funnels {
     }
 
     @Override
-    public boolean equals(@CheckForNull Object o) {
+    public boolean equals(@Nullable Object o) {
       if (o instanceof SequentialFunnel) {
         SequentialFunnel<?> funnel = (SequentialFunnel<?>) o;
         return elementFunnel.equals(funnel.elementFunnel);

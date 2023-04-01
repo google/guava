@@ -26,7 +26,6 @@ import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -46,7 +45,7 @@ abstract class AggregateFutureState<OutputT extends @Nullable Object>
     extends AbstractFuture.TrustedFuture<OutputT> {
   // Lazily initialized the first time we see an exception; not released until all the input futures
   // have completed and we have processed them all.
-  @CheckForNull private volatile Set<Throwable> seenExceptions = null;
+  private volatile @Nullable Set<Throwable> seenExceptions = null;
 
   private volatile int remaining;
 
@@ -153,7 +152,7 @@ abstract class AggregateFutureState<OutputT extends @Nullable Object>
   private abstract static class AtomicHelper {
     /** Atomic compare-and-set of the {@link AggregateFutureState#seenExceptions} field. */
     abstract void compareAndSetSeenExceptions(
-        AggregateFutureState<?> state, @CheckForNull Set<Throwable> expect, Set<Throwable> update);
+        AggregateFutureState<?> state, @Nullable Set<Throwable> expect, Set<Throwable> update);
 
     /** Atomic decrement-and-get of the {@link AggregateFutureState#remaining} field. */
     abstract int decrementAndGetRemainingCount(AggregateFutureState<?> state);
@@ -178,7 +177,7 @@ abstract class AggregateFutureState<OutputT extends @Nullable Object>
 
     @Override
     void compareAndSetSeenExceptions(
-        AggregateFutureState<?> state, @CheckForNull Set<Throwable> expect, Set<Throwable> update) {
+        AggregateFutureState<?> state, @Nullable Set<Throwable> expect, Set<Throwable> update) {
       seenExceptionsUpdater.compareAndSet(state, expect, update);
     }
 
@@ -191,7 +190,7 @@ abstract class AggregateFutureState<OutputT extends @Nullable Object>
   private static final class SynchronizedAtomicHelper extends AtomicHelper {
     @Override
     void compareAndSetSeenExceptions(
-        AggregateFutureState<?> state, @CheckForNull Set<Throwable> expect, Set<Throwable> update) {
+        AggregateFutureState<?> state, @Nullable Set<Throwable> expect, Set<Throwable> update) {
       synchronized (state) {
         if (state.seenExceptions == expect) {
           state.seenExceptions = update;

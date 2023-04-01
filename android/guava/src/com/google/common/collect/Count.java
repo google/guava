@@ -16,8 +16,8 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import java.io.Serializable;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A mutable value of type {@code int}, for multisets to use in tracking counts of values.
@@ -61,7 +61,7 @@ final class Count implements Serializable {
   }
 
   @Override
-  public boolean equals(@CheckForNull Object obj) {
+  public boolean equals(@Nullable Object obj) {
     return obj instanceof Count && ((Count) obj).value == value;
   }
 

@@ -20,7 +20,6 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Map;
 import java.util.Set;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -49,8 +48,7 @@ public interface BiMap<K extends @Nullable Object, V extends @Nullable Object> e
    */
   @CanIgnoreReturnValue
   @Override
-  @CheckForNull
-  V put(@ParametricNullness K key, @ParametricNullness V value);
+  @Nullable V put( K key,  V value);
 
   /**
    * An alternate form of {@code put} that silently removes any existing entry with the value {@code
@@ -71,8 +69,7 @@ public interface BiMap<K extends @Nullable Object, V extends @Nullable Object> e
    *     value.)
    */
   @CanIgnoreReturnValue
-  @CheckForNull
-  V forcePut(@ParametricNullness K key, @ParametricNullness V value);
+  @Nullable V forcePut( K key,  V value);
 
   // Bulk Operations
 

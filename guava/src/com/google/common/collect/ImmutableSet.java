@@ -44,7 +44,6 @@ import java.util.SortedSet;
 import java.util.Spliterator;
 import java.util.function.Consumer;
 import java.util.stream.Collector;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -316,7 +315,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
   }
 
   @Override
-  public boolean equals(@CheckForNull Object object) {
+  public boolean equals(@Nullable Object object) {
     if (object == this) {
       return true;
     }
@@ -341,7 +340,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
 
   @GwtCompatible
   abstract static class CachingAsList<E> extends ImmutableSet<E> {
-    @LazyInit @RetainedWith @CheckForNull private transient ImmutableList<E> asList;
+    @LazyInit @RetainedWith private transient @Nullable ImmutableList<E> asList;
 
     @Override
     public ImmutableList<E> asList() {
@@ -484,7 +483,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
      * overrides all the methods that access it here. Thus, all the methods here can safely assume
      * that this field is non-null.
      */
-    @CheckForNull private SetBuilderImpl<E> impl;
+    private @Nullable SetBuilderImpl<E> impl;
     boolean forceCopy;
 
     public Builder() {
@@ -729,7 +728,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    */
   private static final class RegularSetBuilderImpl<E> extends SetBuilderImpl<E> {
     // null until at least two elements are present
-    @CheckForNull private @Nullable Object[] hashTable;
+    private @Nullable Object @Nullable [] hashTable;
     private int maxRunBeforeFallback;
     private int expandTableThreshold;
     private int hashCode;

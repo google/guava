@@ -107,7 +107,7 @@ abstract class WrappingExecutorService implements ExecutorService {
 
   @Override
   public final <T extends @Nullable Object> Future<T> submit(
-      Runnable task, @ParametricNullness T result) {
+      Runnable task,  T result) {
     return delegate.submit(wrapTask(task), result);
   }
 

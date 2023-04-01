@@ -17,8 +17,8 @@ package com.google.common.escape;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An {@link Escaper} that converts literal text into a format safe for inclusion in a particular
@@ -78,8 +78,7 @@ public abstract class UnicodeEscaper extends Escaper {
    * @param cp the Unicode code point to escape if necessary
    * @return the replacement characters, or {@code null} if no escaping was needed
    */
-  @CheckForNull
-  protected abstract char[] escape(int cp);
+  protected abstract char @Nullable [] escape(int cp);
 
   /**
    * Returns the escaped form of a given literal string.

@@ -24,7 +24,6 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Collection;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -85,7 +84,7 @@ public final class ObjectArrays {
    * @return an array whose size is one larger than {@code array}, with {@code element} occupying
    *     the first position, and the elements of {@code array} occupying the remaining elements.
    */
-  public static <T extends @Nullable Object> T[] concat(@ParametricNullness T element, T[] array) {
+  public static <T extends @Nullable Object> T[] concat( T element, T[] array) {
     T[] result = newArray(array, array.length + 1);
     result[0] = element;
     System.arraycopy(array, 0, result, 1, array.length);
@@ -100,7 +99,7 @@ public final class ObjectArrays {
    * @return an array whose size is one larger than {@code array}, with the same contents as {@code
    *     array}, plus {@code element} occupying the last position.
    */
-  public static <T extends @Nullable Object> T[] concat(T[] array, @ParametricNullness T element) {
+  public static <T extends @Nullable Object> T[] concat(T[] array,  T element) {
     T[] result = Arrays.copyOf(array, array.length + 1);
     result[array.length] = element;
     return result;
@@ -227,7 +226,7 @@ public final class ObjectArrays {
   // We do this instead of Preconditions.checkNotNull to save boxing and array
   // creation cost.
   @CanIgnoreReturnValue
-  static Object checkElementNotNull(@CheckForNull Object element, int index) {
+  static Object checkElementNotNull(@Nullable Object element, int index) {
     if (element == null) {
       throw new NullPointerException("at index " + index);
     }

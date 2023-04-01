@@ -19,8 +19,8 @@ import com.google.common.collect.ImmutableMap;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.DoNotCall;
 import java.util.Map;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A type-to-instance map backed by an {@link ImmutableMap}. See also {@link
@@ -102,14 +102,12 @@ public final class ImmutableTypeToInstanceMap<B> extends ForwardingMap<TypeToken
   }
 
   @Override
-  @CheckForNull
-  public <T extends B> T getInstance(TypeToken<T> type) {
+  public <T extends B> @Nullable T getInstance(TypeToken<T> type) {
     return trustedGet(type.rejectTypeVariables());
   }
 
   @Override
-  @CheckForNull
-  public <T extends B> T getInstance(Class<T> type) {
+  public <T extends B> @Nullable T getInstance(Class<T> type) {
     return trustedGet(TypeToken.of(type));
   }
 
@@ -123,8 +121,7 @@ public final class ImmutableTypeToInstanceMap<B> extends ForwardingMap<TypeToken
   @Deprecated
   @Override
   @DoNotCall("Always throws UnsupportedOperationException")
-  @CheckForNull
-  public <T extends B> T putInstance(TypeToken<T> type, T value) {
+  public <T extends B> @Nullable T putInstance(TypeToken<T> type, T value) {
     throw new UnsupportedOperationException();
   }
 
@@ -138,8 +135,7 @@ public final class ImmutableTypeToInstanceMap<B> extends ForwardingMap<TypeToken
   @Deprecated
   @Override
   @DoNotCall("Always throws UnsupportedOperationException")
-  @CheckForNull
-  public <T extends B> T putInstance(Class<T> type, T value) {
+  public <T extends B> @Nullable T putInstance(Class<T> type, T value) {
     throw new UnsupportedOperationException();
   }
 
@@ -153,8 +149,7 @@ public final class ImmutableTypeToInstanceMap<B> extends ForwardingMap<TypeToken
   @Deprecated
   @Override
   @DoNotCall("Always throws UnsupportedOperationException")
-  @CheckForNull
-  public B put(TypeToken<? extends B> key, B value) {
+  public @Nullable B put(TypeToken<? extends B> key, B value) {
     throw new UnsupportedOperationException();
   }
 
@@ -177,8 +172,7 @@ public final class ImmutableTypeToInstanceMap<B> extends ForwardingMap<TypeToken
   }
 
   @SuppressWarnings("unchecked") // value could not get in if not a T
-  @CheckForNull
-  private <T extends B> T trustedGet(TypeToken<T> type) {
+  private <T extends B> @Nullable T trustedGet(TypeToken<T> type) {
     return (T) delegate.get(type);
   }
 }

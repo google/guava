@@ -20,8 +20,8 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.primitives.Ints;
 import java.util.Collection;
 import java.util.Map;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An implementation of ImmutableMultiset backed by a JDK Map and a list of entries. Used to protect
@@ -63,11 +63,11 @@ final class JdkBackedImmutableMultiset<E> extends ImmutableMultiset<E> {
   }
 
   @Override
-  public int count(@CheckForNull Object element) {
+  public int count(@Nullable Object element) {
     return delegateMap.getOrDefault(element, 0);
   }
 
-  @CheckForNull private transient ImmutableSet<E> elementSet;
+  private transient @Nullable ImmutableSet<E> elementSet;
 
   @Override
   public ImmutableSet<E> elementSet() {

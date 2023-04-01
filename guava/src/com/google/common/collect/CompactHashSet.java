@@ -46,7 +46,6 @@ import java.util.Set;
 import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.function.Consumer;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -166,7 +165,7 @@ class CompactHashSet<E extends @Nullable Object> extends AbstractSet<E> implemen
    *   <li>null, if no entries have yet been added to the map
    * </ul>
    */
-  @CheckForNull private transient Object table;
+  private transient @Nullable Object table;
 
   /**
    * Contains the logical entries, in the range of [0, size()). The high bits of each int are the
@@ -183,13 +182,13 @@ class CompactHashSet<E extends @Nullable Object> extends AbstractSet<E> implemen
    *
    * <p>The pointers in [size(), entries.length) are all "null" (UNSET).
    */
-  @CheckForNull private transient int[] entries;
+  private transient int @Nullable [] entries;
 
   /**
    * The elements contained in the set, in the range of [0, size()). The elements in [size(),
    * elements.length) are all {@code null}.
    */
-  @VisibleForTesting @CheckForNull transient @Nullable Object[] elements;
+  @VisibleForTesting transient @Nullable Object @Nullable [] elements;
 
   /**
    * Keeps track of metadata like the number of hash table bits and modifications of this data
@@ -248,8 +247,7 @@ class CompactHashSet<E extends @Nullable Object> extends AbstractSet<E> implemen
 
   @SuppressWarnings("unchecked")
   @VisibleForTesting
-  @CheckForNull
-  Set<E> delegateOrNull() {
+  @Nullable Set<E> delegateOrNull() {
     if (table instanceof Set) {
       return (Set<E>) table;
     }
@@ -297,7 +295,7 @@ class CompactHashSet<E extends @Nullable Object> extends AbstractSet<E> implemen
 
   @CanIgnoreReturnValue
   @Override
-  public boolean add(@ParametricNullness E object) {
+  public boolean add( E object) {
     if (needsAllocArrays()) {
       allocArrays();
     }
@@ -358,7 +356,7 @@ class CompactHashSet<E extends @Nullable Object> extends AbstractSet<E> implemen
   /**
    * Creates a fresh entry with the specified object at the specified position in the entry arrays.
    */
-  void insertEntry(int entryIndex, @ParametricNullness E object, int hash, int mask) {
+  void insertEntry(int entryIndex,  E object, int hash, int mask) {
     setEntry(entryIndex, CompactHashing.maskCombine(hash, UNSET, mask));
     setElement(entryIndex, object);
   }
@@ -423,7 +421,7 @@ class CompactHashSet<E extends @Nullable Object> extends AbstractSet<E> implemen
   }
 
   @Override
-  public boolean contains(@CheckForNull Object object) {
+  public boolean contains(@Nullable Object object) {
     if (needsAllocArrays()) {
       return false;
     }
@@ -452,7 +450,7 @@ class CompactHashSet<E extends @Nullable Object> extends AbstractSet<E> implemen
 
   @CanIgnoreReturnValue
   @Override
-  public boolean remove(@CheckForNull Object object) {
+  public boolean remove(@Nullable Object object) {
     if (needsAllocArrays()) {
       return false;
     }
@@ -558,7 +556,7 @@ class CompactHashSet<E extends @Nullable Object> extends AbstractSet<E> implemen
       }
 
       @Override
-      @ParametricNullness
+      
       public E next() {
         checkForConcurrentModification();
         if (!hasNext()) {

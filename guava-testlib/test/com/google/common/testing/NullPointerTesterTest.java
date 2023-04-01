@@ -82,8 +82,7 @@ public class NullPointerTesterTest extends TestCase {
       // should catch as failure
     }
 
-    public static void staticOneArgCheckForNullCorrectlyDoesNotThrowNPE(
-        @javax.annotation.CheckForNull String s) {
+    public static void staticOneArgCheckForNullCorrectlyDoesNotThrowNPE(@Nullable String s) {
       // null?  no problem
     }
 
@@ -96,8 +95,7 @@ public class NullPointerTesterTest extends TestCase {
       // null?  no problem
     }
 
-    public static void staticOneArgCheckForNullCorrectlyThrowsOtherThanNPE(
-        @javax.annotation.CheckForNull String s) {
+    public static void staticOneArgCheckForNullCorrectlyThrowsOtherThanNPE(@Nullable String s) {
       throw new FooException(); // ok, as long as it's not NullPointerException
     }
 
@@ -105,7 +103,7 @@ public class NullPointerTesterTest extends TestCase {
       throw new FooException(); // ok, as long as it's not NullPointerException
     }
 
-    public static void staticOneArgCheckForNullThrowsNPE(@javax.annotation.CheckForNull String s) {
+    public static void staticOneArgCheckForNullThrowsNPE(@Nullable String s) {
       checkNotNull(s); // doesn't check if you said you'd accept null, but you don't
     }
 
@@ -125,8 +123,7 @@ public class NullPointerTesterTest extends TestCase {
       // should catch as failure
     }
 
-    public void oneArgCheckForNullCorrectlyDoesNotThrowNPE(
-        @javax.annotation.CheckForNull String s) {
+    public void oneArgCheckForNullCorrectlyDoesNotThrowNPE(@Nullable String s) {
       // null?  no problem
     }
 
@@ -134,8 +131,7 @@ public class NullPointerTesterTest extends TestCase {
       // null?  no problem
     }
 
-    public void oneArgCheckForNullCorrectlyThrowsOtherThanNPE(
-        @javax.annotation.CheckForNull String s) {
+    public void oneArgCheckForNullCorrectlyThrowsOtherThanNPE(@Nullable String s) {
       throw new FooException(); // ok, as long as it's not NullPointerException
     }
 
@@ -143,7 +139,7 @@ public class NullPointerTesterTest extends TestCase {
       throw new FooException(); // ok, as long as it's not NullPointerException
     }
 
-    public void oneArgCheckForNullThrowsNPE(@javax.annotation.CheckForNull String s) {
+    public void oneArgCheckForNullThrowsNPE(@Nullable String s) {
       checkNotNull(s); // doesn't check if you said you'd accept null, but you don't
     }
 

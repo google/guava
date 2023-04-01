@@ -45,7 +45,6 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicInteger;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -130,7 +129,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * {@code isDone()} method always returns {@code true}.
    */
   public static <V extends @Nullable Object> ListenableFuture<V> immediateFuture(
-      @ParametricNullness V value) {
+       V value) {
     if (value == null) {
       // This cast is safe because null is assignable to V for all V (i.e. it is bivariant)
       @SuppressWarnings("unchecked")
@@ -743,8 +742,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
       return call(
           new Callable<@Nullable Void>() {
             @Override
-            @CheckForNull
-            public Void call() throws Exception {
+            public @Nullable Void call() throws Exception {
               combiner.run();
               return null;
             }
@@ -773,7 +771,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
   /** A wrapped future that does not propagate cancellation to its delegate. */
   private static final class NonCancellationPropagatingFuture<V extends @Nullable Object>
       extends AbstractFuture.TrustedFuture<V> implements Runnable {
-    @CheckForNull private ListenableFuture<V> delegate;
+    private @Nullable ListenableFuture<V> delegate;
 
     NonCancellationPropagatingFuture(final ListenableFuture<V> delegate) {
       this.delegate = delegate;
@@ -790,8 +788,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
     }
 
     @Override
-    @CheckForNull
-    protected String pendingToString() {
+    protected @Nullable String pendingToString() {
       ListenableFuture<V> localDelegate = delegate;
       if (localDelegate != null) {
         return "delegate=[" + localDelegate + "]";
@@ -933,7 +930,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
   // cancelled.
   private static final class InCompletionOrderFuture<T extends @Nullable Object>
       extends AbstractFuture<T> {
-    @CheckForNull private InCompletionOrderState<T> state;
+    private @Nullable InCompletionOrderState<T> state;
 
     private InCompletionOrderFuture(InCompletionOrderState<T> state) {
       this.state = state;
@@ -963,8 +960,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
     }
 
     @Override
-    @CheckForNull
-    protected String pendingToString() {
+    protected @Nullable String pendingToString() {
       InCompletionOrderState<T> localState = state;
       if (localState != null) {
         // Don't print the actual array! We don't want inCompletionOrder(list).toString() to have
@@ -1148,7 +1144,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    */
   @CanIgnoreReturnValue
   // TODO(cpovirk): Consider calling getDone() in our own code.
-  @ParametricNullness
+  
   public static <V extends @Nullable Object> V getDone(Future<V> future) throws ExecutionException {
     /*
      * We throw IllegalStateException, since the call could succeed later. Perhaps we "should" throw
@@ -1209,7 +1205,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
   @Beta
   @CanIgnoreReturnValue
   @GwtIncompatible // reflection
-  @ParametricNullness
+  
   public static <V extends @Nullable Object, X extends Exception> V getChecked(
       Future<V> future, Class<X> exceptionClass) throws X {
     return FuturesGetChecked.getChecked(future, exceptionClass);
@@ -1262,7 +1258,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
   @CanIgnoreReturnValue
   @GwtIncompatible // reflection
   @SuppressWarnings("GoodTime") // should accept a java.time.Duration
-  @ParametricNullness
+  
   public static <V extends @Nullable Object, X extends Exception> V getChecked(
       Future<V> future, Class<X> exceptionClass, long timeout, TimeUnit unit) throws X {
     return FuturesGetChecked.getChecked(future, exceptionClass, timeout, unit);
@@ -1303,7 +1299,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * @since 10.0
    */
   @CanIgnoreReturnValue
-  @ParametricNullness
+  
   public static <V extends @Nullable Object> V getUnchecked(Future<V> future) {
     checkNotNull(future);
     try {

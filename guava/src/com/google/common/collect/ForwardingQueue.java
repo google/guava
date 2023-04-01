@@ -20,7 +20,6 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.NoSuchElementException;
 import java.util.Queue;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -59,32 +58,30 @@ public abstract class ForwardingQueue<E extends @Nullable Object> extends Forwar
 
   @CanIgnoreReturnValue // TODO(cpovirk): Consider removing this?
   @Override
-  public boolean offer(@ParametricNullness E o) {
+  public boolean offer( E o) {
     return delegate().offer(o);
   }
 
   @CanIgnoreReturnValue // TODO(cpovirk): Consider removing this?
   @Override
-  @CheckForNull
-  public E poll() {
+  public @Nullable E poll() {
     return delegate().poll();
   }
 
   @CanIgnoreReturnValue
   @Override
-  @ParametricNullness
+  
   public E remove() {
     return delegate().remove();
   }
 
   @Override
-  @CheckForNull
-  public E peek() {
+  public @Nullable E peek() {
     return delegate().peek();
   }
 
   @Override
-  @ParametricNullness
+  
   public E element() {
     return delegate().element();
   }
@@ -95,7 +92,7 @@ public abstract class ForwardingQueue<E extends @Nullable Object> extends Forwar
    *
    * @since 7.0
    */
-  protected boolean standardOffer(@ParametricNullness E e) {
+  protected boolean standardOffer( E e) {
     try {
       return add(e);
     } catch (IllegalStateException caught) {
@@ -109,8 +106,7 @@ public abstract class ForwardingQueue<E extends @Nullable Object> extends Forwar
    *
    * @since 7.0
    */
-  @CheckForNull
-  protected E standardPeek() {
+  protected @Nullable E standardPeek() {
     try {
       return element();
     } catch (NoSuchElementException caught) {
@@ -124,8 +120,7 @@ public abstract class ForwardingQueue<E extends @Nullable Object> extends Forwar
    *
    * @since 7.0
    */
-  @CheckForNull
-  protected E standardPoll() {
+  protected @Nullable E standardPoll() {
     try {
       return remove();
     } catch (NoSuchElementException caught) {

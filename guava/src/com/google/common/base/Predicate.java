@@ -15,7 +15,6 @@
 package com.google.common.base;
 
 import com.google.common.annotations.GwtCompatible;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -60,7 +59,7 @@ public interface Predicate<T extends @Nullable Object> extends java.util.functio
    * @throws NullPointerException if {@code input} is null and this predicate does not accept null
    *     arguments
    */
-  boolean apply(@ParametricNullness T input);
+  boolean apply( T input);
 
   /**
    * Indicates whether another object is equal to this predicate.
@@ -73,10 +72,10 @@ public interface Predicate<T extends @Nullable Object> extends java.util.functio
    * predicates are known <i>not</i> to be interchangeable.
    */
   @Override
-  boolean equals(@CheckForNull Object object);
+  boolean equals(@Nullable Object object);
 
   @Override
-  default boolean test(@ParametricNullness T input) {
+  default boolean test( T input) {
     return apply(input);
   }
 }

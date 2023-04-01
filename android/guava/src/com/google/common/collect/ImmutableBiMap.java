@@ -30,8 +30,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Map;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A {@link BiMap} whose contents will never change, with many other important properties detailed
@@ -560,8 +560,7 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
   @Deprecated
   @Override
   @DoNotCall("Always throws UnsupportedOperationException")
-  @CheckForNull
-  public final V forcePut(K key, V value) {
+  public final @Nullable V forcePut(K key, V value) {
     throw new UnsupportedOperationException();
   }
 

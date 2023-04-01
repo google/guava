@@ -23,7 +23,6 @@ import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.Map.Entry;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -81,7 +80,7 @@ abstract class ImmutableMapEntrySet<K, V> extends ImmutableSet<Entry<K, V>> {
   }
 
   @Override
-  public boolean contains(@CheckForNull Object object) {
+  public boolean contains(@Nullable Object object) {
     if (object instanceof Entry) {
       Entry<?, ?> entry = (Entry<?, ?>) object;
       V value = map().get(entry.getKey());

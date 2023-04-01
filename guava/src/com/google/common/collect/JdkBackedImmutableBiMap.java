@@ -23,7 +23,6 @@ import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.RetainedWith;
 import com.google.j2objc.annotations.WeakOuter;
 import java.util.Map;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -71,7 +70,7 @@ final class JdkBackedImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
     return entries.size();
   }
 
-  @LazyInit @RetainedWith @CheckForNull private transient JdkBackedImmutableBiMap<V, K> inverse;
+  @LazyInit @RetainedWith private transient @Nullable JdkBackedImmutableBiMap<V, K> inverse;
 
   @Override
   public ImmutableBiMap<V, K> inverse() {
@@ -106,8 +105,7 @@ final class JdkBackedImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
   }
 
   @Override
-  @CheckForNull
-  public V get(@CheckForNull Object key) {
+  public @Nullable V get(@Nullable Object key) {
     return forwardDelegate.get(key);
   }
 

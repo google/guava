@@ -19,8 +19,8 @@ package com.google.common.collect;
 import com.google.common.annotations.GwtCompatible;
 import java.io.Serializable;
 import java.util.List;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /** An ordering that compares objects according to a given order. */
 @GwtCompatible(serializable = true)
@@ -50,7 +50,7 @@ final class ExplicitOrdering<T> extends Ordering<T> implements Serializable {
   }
 
   @Override
-  public boolean equals(@CheckForNull Object object) {
+  public boolean equals(@Nullable Object object) {
     if (object instanceof ExplicitOrdering) {
       ExplicitOrdering<?> that = (ExplicitOrdering<?>) object;
       return this.rankMap.equals(that.rankMap);

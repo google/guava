@@ -319,7 +319,7 @@ public abstract class ByteSource {
    */
   @Beta
   @CanIgnoreReturnValue // some processors won't return a useful result
-  @ParametricNullness
+  
   public <T extends @Nullable Object> T read(ByteProcessor<T> processor) throws IOException {
     checkNotNull(processor);
 
@@ -626,7 +626,7 @@ public abstract class ByteSource {
 
     @SuppressWarnings("CheckReturnValue") // it doesn't matter what processBytes returns here
     @Override
-    @ParametricNullness
+    
     public <T extends @Nullable Object> T read(ByteProcessor<T> processor) throws IOException {
       processor.processBytes(bytes, offset, length);
       return processor.getResult();

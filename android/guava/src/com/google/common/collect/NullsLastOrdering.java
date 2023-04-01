@@ -18,7 +18,6 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import java.io.Serializable;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
@@ -35,7 +34,7 @@ final class NullsLastOrdering<T extends @Nullable Object> extends Ordering<@Null
   }
 
   @Override
-  public int compare(@CheckForNull T left, @CheckForNull T right) {
+  public int compare(@Nullable T left, @Nullable T right) {
     if (left == right) {
       return 0;
     }
@@ -67,7 +66,7 @@ final class NullsLastOrdering<T extends @Nullable Object> extends Ordering<@Null
   }
 
   @Override
-  public boolean equals(@CheckForNull Object object) {
+  public boolean equals(@Nullable Object object) {
     if (object == this) {
       return true;
     }

@@ -29,8 +29,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An {@link OutputStream} that starts buffering to a byte array, but switches to file buffering
@@ -60,18 +60,16 @@ public final class FileBackedOutputStream extends OutputStream {
   private final int fileThreshold;
   private final boolean resetOnFinalize;
   private final ByteSource source;
-  @CheckForNull private final File parentDirectory;
+  private final @Nullable File parentDirectory;
 
   @GuardedBy("this")
   private OutputStream out;
 
   @GuardedBy("this")
-  @CheckForNull
-  private MemoryOutput memory;
+  private @Nullable MemoryOutput memory;
 
   @GuardedBy("this")
-  @CheckForNull
-  private File file;
+  private @Nullable File file;
 
   /** ByteArrayOutputStream that exposes its internals. */
   private static class MemoryOutput extends ByteArrayOutputStream {
@@ -86,8 +84,7 @@ public final class FileBackedOutputStream extends OutputStream {
 
   /** Returns the file holding the data (possibly null). */
   @VisibleForTesting
-  @CheckForNull
-  synchronized File getFile() {
+  synchronized @Nullable File getFile() {
     return file;
   }
 
@@ -114,7 +111,7 @@ public final class FileBackedOutputStream extends OutputStream {
   }
 
   private FileBackedOutputStream(
-      int fileThreshold, boolean resetOnFinalize, @CheckForNull File parentDirectory) {
+      int fileThreshold, boolean resetOnFinalize, @Nullable File parentDirectory) {
     this.fileThreshold = fileThreshold;
     this.resetOnFinalize = resetOnFinalize;
     this.parentDirectory = parentDirectory;

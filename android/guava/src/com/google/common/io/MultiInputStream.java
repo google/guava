@@ -21,8 +21,8 @@ import com.google.common.annotations.J2ktIncompatible;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An {@link InputStream} that concatenates multiple substreams. At most one stream will be open at
@@ -37,7 +37,7 @@ import org.jspecify.annotations.NullMarked;
 final class MultiInputStream extends InputStream {
 
   private Iterator<? extends ByteSource> it;
-  @CheckForNull private InputStream in;
+  private @Nullable InputStream in;
 
   /**
    * Creates a new instance.

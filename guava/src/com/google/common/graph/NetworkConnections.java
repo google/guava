@@ -18,8 +18,8 @@ package com.google.common.graph;
 
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Set;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An interface for representing and manipulating an origin node's adjacent nodes and incident edges
@@ -63,8 +63,7 @@ interface NetworkConnections<N, E> {
    * <p>In the undirected case, returns {@code null} if {@code isSelfLoop} is true.
    */
   @CanIgnoreReturnValue
-  @CheckForNull
-  N removeInEdge(E edge, boolean isSelfLoop);
+  @Nullable N removeInEdge(E edge, boolean isSelfLoop);
 
   /** Remove {@code edge} from the set of outgoing edges. Returns the former successor node. */
   @CanIgnoreReturnValue

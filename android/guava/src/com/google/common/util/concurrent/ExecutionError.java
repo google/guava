@@ -15,8 +15,8 @@
 package com.google.common.util.concurrent;
 
 import com.google.common.annotations.GwtCompatible;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * {@link Error} variant of {@link java.util.concurrent.ExecutionException}. As with {@code
@@ -41,17 +41,17 @@ public class ExecutionError extends Error {
   protected ExecutionError() {}
 
   /** Creates a new instance with the given detail message. */
-  protected ExecutionError(@CheckForNull String message) {
+  protected ExecutionError(@Nullable String message) {
     super(message);
   }
 
   /** Creates a new instance with the given detail message and cause. */
-  public ExecutionError(@CheckForNull String message, @CheckForNull Error cause) {
+  public ExecutionError(@Nullable String message, @Nullable Error cause) {
     super(message, cause);
   }
 
   /** Creates a new instance with the given cause. */
-  public ExecutionError(@CheckForNull Error cause) {
+  public ExecutionError(@Nullable Error cause) {
     super(cause);
   }
 

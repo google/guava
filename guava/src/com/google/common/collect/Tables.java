@@ -37,7 +37,6 @@ import java.util.SortedSet;
 import java.util.Spliterator;
 import java.util.function.BinaryOperator;
 import java.util.stream.Collector;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -124,42 +123,42 @@ public final class Tables {
    */
   public static <R extends @Nullable Object, C extends @Nullable Object, V extends @Nullable Object>
       Cell<R, C, V> immutableCell(
-          @ParametricNullness R rowKey,
-          @ParametricNullness C columnKey,
-          @ParametricNullness V value) {
+           R rowKey,
+           C columnKey,
+           V value) {
     return new ImmutableCell<>(rowKey, columnKey, value);
   }
 
   static final class ImmutableCell<
           R extends @Nullable Object, C extends @Nullable Object, V extends @Nullable Object>
       extends AbstractCell<R, C, V> implements Serializable {
-    @ParametricNullness private final R rowKey;
-    @ParametricNullness private final C columnKey;
-    @ParametricNullness private final V value;
+     private final R rowKey;
+     private final C columnKey;
+     private final V value;
 
     ImmutableCell(
-        @ParametricNullness R rowKey,
-        @ParametricNullness C columnKey,
-        @ParametricNullness V value) {
+         R rowKey,
+         C columnKey,
+         V value) {
       this.rowKey = rowKey;
       this.columnKey = columnKey;
       this.value = value;
     }
 
     @Override
-    @ParametricNullness
+    
     public R getRowKey() {
       return rowKey;
     }
 
     @Override
-    @ParametricNullness
+    
     public C getColumnKey() {
       return columnKey;
     }
 
     @Override
-    @ParametricNullness
+    
     public V getValue() {
       return value;
     }
@@ -174,7 +173,7 @@ public final class Tables {
     AbstractCell() {}
 
     @Override
-    public boolean equals(@CheckForNull Object obj) {
+    public boolean equals(@Nullable Object obj) {
       if (obj == this) {
         return true;
       }
@@ -232,7 +231,7 @@ public final class Tables {
     }
 
     @Override
-    public Map<C, V> column(@ParametricNullness R columnKey) {
+    public Map<C, V> column( R columnKey) {
       return original.row(columnKey);
     }
 
@@ -247,37 +246,35 @@ public final class Tables {
     }
 
     @Override
-    public boolean contains(@CheckForNull Object rowKey, @CheckForNull Object columnKey) {
+    public boolean contains(@Nullable Object rowKey, @Nullable Object columnKey) {
       return original.contains(columnKey, rowKey);
     }
 
     @Override
-    public boolean containsColumn(@CheckForNull Object columnKey) {
+    public boolean containsColumn(@Nullable Object columnKey) {
       return original.containsRow(columnKey);
     }
 
     @Override
-    public boolean containsRow(@CheckForNull Object rowKey) {
+    public boolean containsRow(@Nullable Object rowKey) {
       return original.containsColumn(rowKey);
     }
 
     @Override
-    public boolean containsValue(@CheckForNull Object value) {
+    public boolean containsValue(@Nullable Object value) {
       return original.containsValue(value);
     }
 
     @Override
-    @CheckForNull
-    public V get(@CheckForNull Object rowKey, @CheckForNull Object columnKey) {
+    public @Nullable V get(@Nullable Object rowKey, @Nullable Object columnKey) {
       return original.get(columnKey, rowKey);
     }
 
     @Override
-    @CheckForNull
-    public V put(
-        @ParametricNullness C rowKey,
-        @ParametricNullness R columnKey,
-        @ParametricNullness V value) {
+    public @Nullable V put(
+         C rowKey,
+         R columnKey,
+         V value) {
       return original.put(columnKey, rowKey, value);
     }
 
@@ -287,13 +284,12 @@ public final class Tables {
     }
 
     @Override
-    @CheckForNull
-    public V remove(@CheckForNull Object rowKey, @CheckForNull Object columnKey) {
+    public @Nullable V remove(@Nullable Object rowKey, @Nullable Object columnKey) {
       return original.remove(columnKey, rowKey);
     }
 
     @Override
-    public Map<R, V> row(@ParametricNullness C rowKey) {
+    public Map<R, V> row( C rowKey) {
       return original.column(rowKey);
     }
 
@@ -436,13 +432,12 @@ public final class Tables {
     }
 
     @Override
-    public boolean contains(@CheckForNull Object rowKey, @CheckForNull Object columnKey) {
+    public boolean contains(@Nullable Object rowKey, @Nullable Object columnKey) {
       return fromTable.contains(rowKey, columnKey);
     }
 
     @Override
-    @CheckForNull
-    public V2 get(@CheckForNull Object rowKey, @CheckForNull Object columnKey) {
+    public @Nullable V2 get(@Nullable Object rowKey, @Nullable Object columnKey) {
       // The function is passed a null input only when the table contains a null
       // value.
       // The cast is safe because of the contains() check.
@@ -462,11 +457,10 @@ public final class Tables {
     }
 
     @Override
-    @CheckForNull
-    public V2 put(
-        @ParametricNullness R rowKey,
-        @ParametricNullness C columnKey,
-        @ParametricNullness V2 value) {
+    public @Nullable V2 put(
+         R rowKey,
+         C columnKey,
+         V2 value) {
       throw new UnsupportedOperationException();
     }
 
@@ -476,8 +470,7 @@ public final class Tables {
     }
 
     @Override
-    @CheckForNull
-    public V2 remove(@CheckForNull Object rowKey, @CheckForNull Object columnKey) {
+    public @Nullable V2 remove(@Nullable Object rowKey, @Nullable Object columnKey) {
       return contains(rowKey, columnKey)
           // The cast is safe because of the contains() check.
           ? function.apply(uncheckedCastNullableTToT(fromTable.remove(rowKey, columnKey)))
@@ -485,12 +478,12 @@ public final class Tables {
     }
 
     @Override
-    public Map<C, V2> row(@ParametricNullness R rowKey) {
+    public Map<C, V2> row( R rowKey) {
       return Maps.transformValues(fromTable.row(rowKey), function);
     }
 
     @Override
-    public Map<R, V2> column(@ParametricNullness C columnKey) {
+    public Map<R, V2> column( C columnKey) {
       return Maps.transformValues(fromTable.column(columnKey), function);
     }
 
@@ -597,7 +590,7 @@ public final class Tables {
     }
 
     @Override
-    public Map<R, V> column(@ParametricNullness C columnKey) {
+    public Map<R, V> column( C columnKey) {
       return Collections.unmodifiableMap(super.column(columnKey));
     }
 
@@ -613,11 +606,10 @@ public final class Tables {
     }
 
     @Override
-    @CheckForNull
-    public V put(
-        @ParametricNullness R rowKey,
-        @ParametricNullness C columnKey,
-        @ParametricNullness V value) {
+    public @Nullable V put(
+         R rowKey,
+         C columnKey,
+         V value) {
       throw new UnsupportedOperationException();
     }
 
@@ -627,13 +619,12 @@ public final class Tables {
     }
 
     @Override
-    @CheckForNull
-    public V remove(@CheckForNull Object rowKey, @CheckForNull Object columnKey) {
+    public @Nullable V remove(@Nullable Object rowKey, @Nullable Object columnKey) {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public Map<C, V> row(@ParametricNullness R rowKey) {
+    public Map<C, V> row( R rowKey) {
       return Collections.unmodifiableMap(super.row(rowKey));
     }
 
@@ -755,7 +746,7 @@ public final class Tables {
     return Synchronized.table(table, null);
   }
 
-  static boolean equalsImpl(Table<?, ?, ?> table, @CheckForNull Object obj) {
+  static boolean equalsImpl(Table<?, ?, ?> table,  @Nullable Object obj) {
     if (obj == table) {
       return true;
     } else if (obj instanceof Table) {

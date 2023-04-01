@@ -24,7 +24,6 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.SortedSet;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -67,35 +66,34 @@ public abstract class ForwardingSortedSet<E extends @Nullable Object> extends Fo
   protected abstract SortedSet<E> delegate();
 
   @Override
-  @CheckForNull
-  public Comparator<? super E> comparator() {
+  public @Nullable Comparator<? super E> comparator() {
     return delegate().comparator();
   }
 
   @Override
-  @ParametricNullness
+  
   public E first() {
     return delegate().first();
   }
 
   @Override
-  public SortedSet<E> headSet(@ParametricNullness E toElement) {
+  public SortedSet<E> headSet( E toElement) {
     return delegate().headSet(toElement);
   }
 
   @Override
-  @ParametricNullness
+  
   public E last() {
     return delegate().last();
   }
 
   @Override
-  public SortedSet<E> subSet(@ParametricNullness E fromElement, @ParametricNullness E toElement) {
+  public SortedSet<E> subSet( E fromElement,  E toElement) {
     return delegate().subSet(fromElement, toElement);
   }
 
   @Override
-  public SortedSet<E> tailSet(@ParametricNullness E fromElement) {
+  public SortedSet<E> tailSet( E fromElement) {
     return delegate().tailSet(fromElement);
   }
 
@@ -108,7 +106,7 @@ public abstract class ForwardingSortedSet<E extends @Nullable Object> extends Fo
    */
   @Override
   @Beta
-  protected boolean standardContains(@CheckForNull Object object) {
+  protected boolean standardContains(@Nullable Object object) {
     try {
       // any ClassCastExceptions and NullPointerExceptions are caught
       @SuppressWarnings({"unchecked", "nullness"})
@@ -129,7 +127,7 @@ public abstract class ForwardingSortedSet<E extends @Nullable Object> extends Fo
    */
   @Override
   @Beta
-  protected boolean standardRemove(@CheckForNull Object object) {
+  protected boolean standardRemove(@Nullable Object object) {
     try {
       // any ClassCastExceptions and NullPointerExceptions are caught
       @SuppressWarnings({"unchecked", "nullness"})
@@ -157,7 +155,7 @@ public abstract class ForwardingSortedSet<E extends @Nullable Object> extends Fo
    */
   @Beta
   protected SortedSet<E> standardSubSet(
-      @ParametricNullness E fromElement, @ParametricNullness E toElement) {
+       E fromElement,  E toElement) {
     return tailSet(fromElement).headSet(toElement);
   }
 }

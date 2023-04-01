@@ -18,8 +18,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * This class provides default values for all Java types, as defined by the JLS.
@@ -42,8 +42,7 @@ public final class Defaults {
    * {@code void}, {@code null} is returned.
    */
   @SuppressWarnings("unchecked")
-  @CheckForNull
-  public static <T> T defaultValue(Class<T> type) {
+  public static <T> @Nullable T defaultValue(Class<T> type) {
     checkNotNull(type);
     if (type.isPrimitive()) {
       if (type == boolean.class) {

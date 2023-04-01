@@ -30,8 +30,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An implementation of {@link NetworkConnections} for directed networks with parallel edges.
@@ -61,7 +61,7 @@ final class DirectedMultiNetworkConnections<N, E> extends AbstractDirectedNetwor
         ImmutableMap.copyOf(inEdges), ImmutableMap.copyOf(outEdges), selfLoopCount);
   }
 
-  @CheckForNull @LazyInit private transient Reference<Multiset<N>> predecessorsReference;
+  @LazyInit private transient @Nullable Reference<Multiset<N>> predecessorsReference;
 
   @Override
   public Set<N> predecessors() {
@@ -77,7 +77,7 @@ final class DirectedMultiNetworkConnections<N, E> extends AbstractDirectedNetwor
     return predecessors;
   }
 
-  @CheckForNull @LazyInit private transient Reference<Multiset<N>> successorsReference;
+  @LazyInit private transient @Nullable Reference<Multiset<N>> successorsReference;
 
   @Override
   public Set<N> successors() {
@@ -141,8 +141,7 @@ final class DirectedMultiNetworkConnections<N, E> extends AbstractDirectedNetwor
     }
   }
 
-  @CheckForNull
-  private static <T> T getReference(@CheckForNull Reference<T> reference) {
+  private static <T> @Nullable T getReference(@Nullable Reference<T> reference) {
     return (reference == null) ? null : reference.get();
   }
 }

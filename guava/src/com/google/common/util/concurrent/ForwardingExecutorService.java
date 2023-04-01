@@ -121,7 +121,7 @@ public abstract class ForwardingExecutorService extends ForwardingObject
 
   @Override
   public <T extends @Nullable Object> Future<T> submit(
-      Runnable task, @ParametricNullness T result) {
+      Runnable task,  T result) {
     return delegate().submit(task, result);
   }
 }

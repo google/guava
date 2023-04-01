@@ -25,8 +25,8 @@ import com.google.errorprone.annotations.DoNotCall;
 import com.google.errorprone.annotations.Immutable;
 import java.io.Serializable;
 import java.util.Map;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A {@link ClassToInstanceMap} whose contents will never change, with many other important
@@ -177,8 +177,7 @@ public final class ImmutableClassToInstanceMap<B> extends ForwardingMap<Class<? 
 
   @Override
   @SuppressWarnings("unchecked") // value could not get in if not a T
-  @CheckForNull
-  public <T extends B> T getInstance(Class<T> type) {
+  public <T extends B> @Nullable T getInstance(Class<T> type) {
     return (T) delegate.get(checkNotNull(type));
   }
 
@@ -192,8 +191,7 @@ public final class ImmutableClassToInstanceMap<B> extends ForwardingMap<Class<? 
   @Deprecated
   @Override
   @DoNotCall("Always throws UnsupportedOperationException")
-  @CheckForNull
-  public <T extends B> T putInstance(Class<T> type, T value) {
+  public <T extends B> @Nullable T putInstance(Class<T> type, T value) {
     throw new UnsupportedOperationException();
   }
 

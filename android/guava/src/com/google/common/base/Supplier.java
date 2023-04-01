@@ -54,6 +54,6 @@ public interface Supplier<T extends @Nullable Object> {
    *
    * @return an instance of the appropriate type
    */
-  @ParametricNullness
+  
   T get();
 }

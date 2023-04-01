@@ -16,8 +16,8 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import java.util.Set;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * ImmutableSet implementation backed by a JDK HashSet, used to defend against apparent hash
@@ -43,7 +43,7 @@ final class JdkBackedImmutableSet<E> extends IndexedImmutableSet<E> {
   }
 
   @Override
-  public boolean contains(@CheckForNull Object object) {
+  public boolean contains(@Nullable Object object) {
     return delegate.contains(object);
   }
 

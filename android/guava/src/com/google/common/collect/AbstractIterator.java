@@ -22,7 +22,6 @@ import static com.google.common.collect.NullnessCasts.uncheckedCastNullableTToT;
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.NoSuchElementException;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -85,7 +84,7 @@ public abstract class AbstractIterator<T extends @Nullable Object> extends Unmod
     FAILED,
   }
 
-  @CheckForNull private T next;
+  private @Nullable T next;
 
   /**
    * Returns the next element. <b>Note:</b> the implementation must call {@link #endOfData()} when
@@ -111,8 +110,7 @@ public abstract class AbstractIterator<T extends @Nullable Object> extends Unmod
    *     this method. Any further attempts to use the iterator will result in an {@link
    *     IllegalStateException}.
    */
-  @CheckForNull
-  protected abstract T computeNext();
+  protected abstract @Nullable T computeNext();
 
   /**
    * Implementations of {@link #computeNext} <b>must</b> invoke this method when there are no
@@ -122,8 +120,7 @@ public abstract class AbstractIterator<T extends @Nullable Object> extends Unmod
    *     simple statement {@code return endOfData();}
    */
   @CanIgnoreReturnValue
-  @CheckForNull
-  protected final T endOfData() {
+  protected final @Nullable T endOfData() {
     state = State.DONE;
     return null;
   }
@@ -153,7 +150,7 @@ public abstract class AbstractIterator<T extends @Nullable Object> extends Unmod
 
   @CanIgnoreReturnValue // TODO(kak): Should we remove this?
   @Override
-  @ParametricNullness
+  
   public final T next() {
     if (!hasNext()) {
       throw new NoSuchElementException();
@@ -172,7 +169,7 @@ public abstract class AbstractIterator<T extends @Nullable Object> extends Unmod
    * <p>Implementations of {@code AbstractIterator} that wish to expose this functionality should
    * implement {@code PeekingIterator}.
    */
-  @ParametricNullness
+  
   public final T peek() {
     if (!hasNext()) {
       throw new NoSuchElementException();

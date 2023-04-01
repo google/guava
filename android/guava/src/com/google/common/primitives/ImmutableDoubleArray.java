@@ -27,8 +27,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.RandomAccess;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An immutable array of {@code double} values, with an API resembling {@link List}.
@@ -441,17 +441,17 @@ public final class ImmutableDoubleArray implements Serializable {
     }
 
     @Override
-    public boolean contains(@CheckForNull Object target) {
+    public boolean contains(@Nullable Object target) {
       return indexOf(target) >= 0;
     }
 
     @Override
-    public int indexOf(@CheckForNull Object target) {
+    public int indexOf(@Nullable Object target) {
       return target instanceof Double ? parent.indexOf((Double) target) : -1;
     }
 
     @Override
-    public int lastIndexOf(@CheckForNull Object target) {
+    public int lastIndexOf(@Nullable Object target) {
       return target instanceof Double ? parent.lastIndexOf((Double) target) : -1;
     }
 
@@ -461,7 +461,7 @@ public final class ImmutableDoubleArray implements Serializable {
     }
 
     @Override
-    public boolean equals(@CheckForNull Object object) {
+    public boolean equals(@Nullable Object object) {
       if (object instanceof AsList) {
         AsList that = (AsList) object;
         return this.parent.equals(that.parent);
@@ -501,7 +501,7 @@ public final class ImmutableDoubleArray implements Serializable {
    * values as this one, in the same order. Values are compared as if by {@link Double#equals}.
    */
   @Override
-  public boolean equals(@CheckForNull Object object) {
+  public boolean equals(@Nullable Object object) {
     if (object == this) {
       return true;
     }

@@ -18,8 +18,8 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import java.util.NoSuchElementException;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * This class provides a skeletal implementation of the {@code Iterator} interface for sequences
@@ -43,13 +43,13 @@ import org.jspecify.annotations.NullMarked;
 @GwtCompatible
 @NullMarked
 public abstract class AbstractSequentialIterator<T> extends UnmodifiableIterator<T> {
-  @CheckForNull private T nextOrNull;
+  private @Nullable T nextOrNull;
 
   /**
    * Creates a new iterator with the given first element, or, if {@code firstOrNull} is null,
    * creates a new empty iterator.
    */
-  protected AbstractSequentialIterator(@CheckForNull T firstOrNull) {
+  protected AbstractSequentialIterator(@Nullable T firstOrNull) {
     this.nextOrNull = firstOrNull;
   }
 
@@ -58,8 +58,7 @@ public abstract class AbstractSequentialIterator<T> extends UnmodifiableIterator
    * remain. This method is invoked during each call to {@link #next()} in order to compute the
    * result of a <i>future</i> call to {@code next()}.
    */
-  @CheckForNull
-  protected abstract T computeNext(T previous);
+  protected abstract @Nullable T computeNext(T previous);
 
   @Override
   public final boolean hasNext() {

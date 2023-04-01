@@ -21,8 +21,8 @@ import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.NoSuchElementException;
 import java.util.Set;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An empty contiguous set.
@@ -84,13 +84,13 @@ final class EmptyContiguousSet<C extends Comparable> extends ContiguousSet<C> {
   }
 
   @Override
-  public boolean contains(@CheckForNull Object object) {
+  public boolean contains(@Nullable Object object) {
     return false;
   }
 
   @GwtIncompatible // not used by GWT emulation
   @Override
-  int indexOf(@CheckForNull Object target) {
+  int indexOf(@Nullable Object target) {
     return -1;
   }
 
@@ -126,7 +126,7 @@ final class EmptyContiguousSet<C extends Comparable> extends ContiguousSet<C> {
   }
 
   @Override
-  public boolean equals(@CheckForNull Object object) {
+  public boolean equals(@Nullable Object object) {
     if (object instanceof Set) {
       Set<?> that = (Set<?>) object;
       return that.isEmpty();

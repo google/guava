@@ -50,7 +50,6 @@ import java.util.NoSuchElementException;
 import java.util.RandomAccess;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Predicate;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -293,7 +292,7 @@ public final class Lists {
    * @param rest an array of additional elements, possibly empty
    * @return an unmodifiable list containing the specified elements
    */
-  public static <E extends @Nullable Object> List<E> asList(@ParametricNullness E first, E[] rest) {
+  public static <E extends @Nullable Object> List<E> asList( E first, E[] rest) {
     return new OnePlusArrayList<>(first, rest);
   }
 
@@ -314,17 +313,17 @@ public final class Lists {
    * @return an unmodifiable list containing the specified elements
    */
   public static <E extends @Nullable Object> List<E> asList(
-      @ParametricNullness E first, @ParametricNullness E second, E[] rest) {
+       E first,  E second, E[] rest) {
     return new TwoPlusArrayList<>(first, second, rest);
   }
 
   /** @see Lists#asList(Object, Object[]) */
   private static class OnePlusArrayList<E extends @Nullable Object> extends AbstractList<E>
       implements Serializable, RandomAccess {
-    @ParametricNullness final E first;
+     final E first;
     final E[] rest;
 
-    OnePlusArrayList(@ParametricNullness E first, E[] rest) {
+    OnePlusArrayList( E first, E[] rest) {
       this.first = first;
       this.rest = checkNotNull(rest);
     }
@@ -335,7 +334,7 @@ public final class Lists {
     }
 
     @Override
-    @ParametricNullness
+    
     public E get(int index) {
       // check explicitly so the IOOBE will have the right message
       checkElementIndex(index, size());
@@ -348,11 +347,11 @@ public final class Lists {
   /** @see Lists#asList(Object, Object, Object[]) */
   private static class TwoPlusArrayList<E extends @Nullable Object> extends AbstractList<E>
       implements Serializable, RandomAccess {
-    @ParametricNullness final E first;
-    @ParametricNullness final E second;
+     final E first;
+     final E second;
     final E[] rest;
 
-    TwoPlusArrayList(@ParametricNullness E first, @ParametricNullness E second, E[] rest) {
+    TwoPlusArrayList( E first,  E second, E[] rest) {
       this.first = first;
       this.second = second;
       this.rest = checkNotNull(rest);
@@ -364,7 +363,7 @@ public final class Lists {
     }
 
     @Override
-    @ParametricNullness
+    
     public E get(int index) {
       switch (index) {
         case 0:
@@ -571,8 +570,8 @@ public final class Lists {
     public ListIterator<T> listIterator(final int index) {
       return new TransformedListIterator<F, T>(fromList.listIterator(index)) {
         @Override
-        @ParametricNullness
-        T transform(@ParametricNullness F from) {
+        
+        T transform( F from) {
           return function.apply(from);
         }
       };
@@ -611,7 +610,7 @@ public final class Lists {
     }
 
     @Override
-    @ParametricNullness
+    
     public T get(int index) {
       return function.apply(fromList.get(index));
     }
@@ -643,7 +642,7 @@ public final class Lists {
     }
 
     @Override
-    @ParametricNullness
+    
     public T remove(int index) {
       return function.apply(fromList.remove(index));
     }
@@ -747,12 +746,12 @@ public final class Lists {
     }
 
     @Override
-    public int indexOf(@CheckForNull Object object) {
+    public int indexOf(@Nullable Object object) {
       return (object instanceof Character) ? string.indexOf((Character) object) : -1;
     }
 
     @Override
-    public int lastIndexOf(@CheckForNull Object object) {
+    public int lastIndexOf(@Nullable Object object) {
       return (object instanceof Character) ? string.lastIndexOf((Character) object) : -1;
     }
 
@@ -849,7 +848,7 @@ public final class Lists {
     }
 
     @Override
-    public void add(int index, @ParametricNullness T element) {
+    public void add(int index,  T element) {
       forwardList.add(reversePosition(index), element);
     }
 
@@ -859,7 +858,7 @@ public final class Lists {
     }
 
     @Override
-    @ParametricNullness
+    
     public T remove(int index) {
       return forwardList.remove(reverseIndex(index));
     }
@@ -870,13 +869,13 @@ public final class Lists {
     }
 
     @Override
-    @ParametricNullness
-    public T set(int index, @ParametricNullness T element) {
+    
+    public T set(int index,  T element) {
       return forwardList.set(reverseIndex(index), element);
     }
 
     @Override
-    @ParametricNullness
+    
     public T get(int index) {
       return forwardList.get(reverseIndex(index));
     }
@@ -906,7 +905,7 @@ public final class Lists {
         boolean canRemoveOrSet;
 
         @Override
-        public void add(@ParametricNullness T e) {
+        public void add( T e) {
           forwardIterator.add(e);
           forwardIterator.previous();
           canRemoveOrSet = false;
@@ -923,7 +922,7 @@ public final class Lists {
         }
 
         @Override
-        @ParametricNullness
+        
         public T next() {
           if (!hasNext()) {
             throw new NoSuchElementException();
@@ -938,7 +937,7 @@ public final class Lists {
         }
 
         @Override
-        @ParametricNullness
+        
         public T previous() {
           if (!hasPrevious()) {
             throw new NoSuchElementException();
@@ -960,7 +959,7 @@ public final class Lists {
         }
 
         @Override
-        public void set(@ParametricNullness T e) {
+        public void set( T e) {
           checkState(canRemoveOrSet);
           forwardIterator.set(e);
         }
@@ -989,7 +988,7 @@ public final class Lists {
   }
 
   /** An implementation of {@link List#equals(Object)}. */
-  static boolean equalsImpl(List<?> thisList, @CheckForNull Object other) {
+  static boolean equalsImpl(List<?> thisList, @Nullable Object other) {
     if (other == checkNotNull(thisList)) {
       return true;
     }
@@ -1027,7 +1026,7 @@ public final class Lists {
   }
 
   /** An implementation of {@link List#indexOf(Object)}. */
-  static int indexOfImpl(List<?> list, @CheckForNull Object element) {
+  static int indexOfImpl(List<?> list, @Nullable Object element) {
     if (list instanceof RandomAccess) {
       return indexOfRandomAccess(list, element);
     } else {
@@ -1041,7 +1040,7 @@ public final class Lists {
     }
   }
 
-  private static int indexOfRandomAccess(List<?> list, @CheckForNull Object element) {
+  private static int indexOfRandomAccess(List<?> list, @Nullable Object element) {
     int size = list.size();
     if (element == null) {
       for (int i = 0; i < size; i++) {
@@ -1060,7 +1059,7 @@ public final class Lists {
   }
 
   /** An implementation of {@link List#lastIndexOf(Object)}. */
-  static int lastIndexOfImpl(List<?> list, @CheckForNull Object element) {
+  static int lastIndexOfImpl(List<?> list, @Nullable Object element) {
     if (list instanceof RandomAccess) {
       return lastIndexOfRandomAccess(list, element);
     } else {
@@ -1074,7 +1073,7 @@ public final class Lists {
     }
   }
 
-  private static int lastIndexOfRandomAccess(List<?> list, @CheckForNull Object element) {
+  private static int lastIndexOfRandomAccess(List<?> list, @Nullable Object element) {
     if (element == null) {
       for (int i = list.size() - 1; i >= 0; i--) {
         if (list.get(i) == null) {
@@ -1132,7 +1131,7 @@ public final class Lists {
     }
 
     @Override
-    public void add(int index, @ParametricNullness E element) {
+    public void add(int index,  E element) {
       backingList.add(index, element);
     }
 
@@ -1142,25 +1141,25 @@ public final class Lists {
     }
 
     @Override
-    @ParametricNullness
+    
     public E get(int index) {
       return backingList.get(index);
     }
 
     @Override
-    @ParametricNullness
+    
     public E remove(int index) {
       return backingList.remove(index);
     }
 
     @Override
-    @ParametricNullness
-    public E set(int index, @ParametricNullness E element) {
+    
+    public E set(int index,  E element) {
       return backingList.set(index, element);
     }
 
     @Override
-    public boolean contains(@CheckForNull Object o) {
+    public boolean contains(@Nullable Object o) {
       return backingList.contains(o);
     }
 

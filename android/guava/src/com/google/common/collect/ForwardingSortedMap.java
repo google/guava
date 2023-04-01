@@ -23,7 +23,6 @@ import com.google.common.annotations.GwtCompatible;
 import java.util.Comparator;
 import java.util.NoSuchElementException;
 import java.util.SortedMap;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -65,35 +64,34 @@ public abstract class ForwardingSortedMap<K extends @Nullable Object, V extends 
   protected abstract SortedMap<K, V> delegate();
 
   @Override
-  @CheckForNull
-  public Comparator<? super K> comparator() {
+  public @Nullable Comparator<? super K> comparator() {
     return delegate().comparator();
   }
 
   @Override
-  @ParametricNullness
+  
   public K firstKey() {
     return delegate().firstKey();
   }
 
   @Override
-  public SortedMap<K, V> headMap(@ParametricNullness K toKey) {
+  public SortedMap<K, V> headMap( K toKey) {
     return delegate().headMap(toKey);
   }
 
   @Override
-  @ParametricNullness
+  
   public K lastKey() {
     return delegate().lastKey();
   }
 
   @Override
-  public SortedMap<K, V> subMap(@ParametricNullness K fromKey, @ParametricNullness K toKey) {
+  public SortedMap<K, V> subMap( K fromKey,  K toKey) {
     return delegate().subMap(fromKey, toKey);
   }
 
   @Override
-  public SortedMap<K, V> tailMap(@ParametricNullness K fromKey) {
+  public SortedMap<K, V> tailMap( K fromKey) {
     return delegate().tailMap(fromKey);
   }
 
@@ -115,7 +113,7 @@ public abstract class ForwardingSortedMap<K extends @Nullable Object, V extends 
   // unsafe, but worst case is a CCE or NPE is thrown, which callers will be expecting
   @SuppressWarnings({"unchecked", "nullness"})
   static int unsafeCompare(
-      @CheckForNull Comparator<?> comparator, @CheckForNull Object o1, @CheckForNull Object o2) {
+      @Nullable Comparator<?> comparator, @Nullable Object o1, @Nullable Object o2) {
     if (comparator == null) {
       return ((Comparable<@Nullable Object>) o1).compareTo(o2);
     } else {
@@ -132,7 +130,7 @@ public abstract class ForwardingSortedMap<K extends @Nullable Object, V extends 
    */
   @Override
   @Beta
-  protected boolean standardContainsKey(@CheckForNull Object key) {
+  protected boolean standardContainsKey(@Nullable Object key) {
     try {
       // any CCE or NPE will be caught
       @SuppressWarnings({"unchecked", "nullness"})

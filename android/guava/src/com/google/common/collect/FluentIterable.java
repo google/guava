@@ -32,7 +32,6 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.SortedSet;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
@@ -335,7 +334,7 @@ public abstract class FluentIterable<E extends @Nullable Object> implements Iter
    */
   @Beta
   public static <E extends @Nullable Object> FluentIterable<E> of(
-      @ParametricNullness E element, E... elements) {
+       E element, E... elements) {
     return from(Lists.asList(element, elements));
   }
 
@@ -366,7 +365,7 @@ public abstract class FluentIterable<E extends @Nullable Object> implements Iter
    *
    * <p><b>{@code Stream} equivalent:</b> {@code stream.anyMatch(Predicate.isEqual(target))}.
    */
-  public final boolean contains(@CheckForNull Object target) {
+  public final boolean contains(@Nullable Object target) {
     return Iterables.contains(getDelegate(), target);
   }
 
@@ -853,7 +852,7 @@ public abstract class FluentIterable<E extends @Nullable Object> implements Iter
    * @throws IndexOutOfBoundsException if {@code position} is negative or greater than or equal to
    *     the size of this fluent iterable
    */
-  @ParametricNullness
+  
   public final E get(int position) {
     return Iterables.get(getDelegate(), position);
   }

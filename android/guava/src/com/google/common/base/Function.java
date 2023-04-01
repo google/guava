@@ -15,7 +15,6 @@
 package com.google.common.base;
 
 import com.google.common.annotations.GwtCompatible;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -61,8 +60,8 @@ public interface Function<F extends @Nullable Object, T extends @Nullable Object
    * @throws NullPointerException if {@code input} is null and this function does not accept null
    *     arguments
    */
-  @ParametricNullness
-  T apply(@ParametricNullness F input);
+  
+  T apply( F input);
 
   /**
    * <i>May</i> return {@code true} if {@code object} is a {@code Function} that behaves identically
@@ -76,5 +75,5 @@ public interface Function<F extends @Nullable Object, T extends @Nullable Object
    * disappear. It is best not to depend on it.
    */
   @Override
-  boolean equals(@CheckForNull Object object);
+  boolean equals(@Nullable Object object);
 }

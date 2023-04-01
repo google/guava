@@ -25,8 +25,8 @@ import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A semi-persistent mapping from keys to values. Cache entries are manually added using {@link
@@ -52,9 +52,8 @@ public interface Cache<K, V> {
    *
    * @since 11.0
    */
-  @CheckForNull
   @CanIgnoreReturnValue // TODO(b/27479612): consider removing this?
-  V getIfPresent(@CompatibleWith("K") Object key);
+  @Nullable V getIfPresent(@CompatibleWith("K") Object key);
 
   /**
    * Returns the value associated with {@code key} in this cache, obtaining that value from {@code

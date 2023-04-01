@@ -40,7 +40,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 import java.util.Set;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -108,33 +107,33 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
 
   private static final class Node<K extends @Nullable Object, V extends @Nullable Object>
       extends AbstractMapEntry<K, V> {
-    @ParametricNullness final K key;
-    @ParametricNullness V value;
-    @CheckForNull Node<K, V> next; // the next node (with any key)
-    @CheckForNull Node<K, V> previous; // the previous node (with any key)
-    @CheckForNull Node<K, V> nextSibling; // the next node with the same key
-    @CheckForNull Node<K, V> previousSibling; // the previous node with the same key
+     final K key;
+     V value;
+    @Nullable Node<K, V> next; // the next node (with any key)
+    @Nullable Node<K, V> previous; // the previous node (with any key)
+    @Nullable Node<K, V> nextSibling; // the next node with the same key
+    @Nullable Node<K, V> previousSibling; // the previous node with the same key
 
-    Node(@ParametricNullness K key, @ParametricNullness V value) {
+    Node( K key,  V value) {
       this.key = key;
       this.value = value;
     }
 
     @Override
-    @ParametricNullness
+    
     public K getKey() {
       return key;
     }
 
     @Override
-    @ParametricNullness
+    
     public V getValue() {
       return value;
     }
 
     @Override
-    @ParametricNullness
-    public V setValue(@ParametricNullness V newValue) {
+    
+    public V setValue( V newValue) {
       V result = value;
       this.value = newValue;
       return result;
@@ -155,8 +154,8 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
     }
   }
 
-  @CheckForNull private transient Node<K, V> head; // the head for all keys
-  @CheckForNull private transient Node<K, V> tail; // the tail for all keys
+  private transient @Nullable Node<K, V> head; // the head for all keys
+  private transient @Nullable Node<K, V> tail; // the tail for all keys
   private transient Map<K, KeyList<K, V>> keyToKeyList;
   private transient int size;
 
@@ -217,9 +216,7 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
    */
   @CanIgnoreReturnValue
   private Node<K, V> addNode(
-      @ParametricNullness K key,
-      @ParametricNullness V value,
-      @CheckForNull Node<K, V> nextSibling) {
+       K key,  V value, @Nullable Node<K, V> nextSibling) {
     Node<K, V> node = new Node<>(key, value);
     if (head == null) { // empty list
       head = tail = node;
@@ -317,16 +314,16 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
   }
 
   /** Removes all nodes for the specified key. */
-  private void removeAllNodes(@ParametricNullness K key) {
+  private void removeAllNodes( K key) {
     Iterators.clear(new ValueForKeyIterator(key));
   }
 
   /** An {@code Iterator} over all nodes. */
   private class NodeIterator implements ListIterator<Entry<K, V>> {
     int nextIndex;
-    @CheckForNull Node<K, V> next;
-    @CheckForNull Node<K, V> current;
-    @CheckForNull Node<K, V> previous;
+    @Nullable Node<K, V> next;
+    @Nullable Node<K, V> current;
+    @Nullable Node<K, V> previous;
     int expectedModCount = modCount;
 
     NodeIterator(int index) {
@@ -426,7 +423,7 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
       throw new UnsupportedOperationException();
     }
 
-    void setValue(@ParametricNullness V value) {
+    void setValue( V value) {
       checkState(current != null);
       current.value = value;
     }
@@ -435,8 +432,8 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
   /** An {@code Iterator} over distinct keys in key head order. */
   private class DistinctKeyIterator implements Iterator<K> {
     final Set<K> seenKeys = Sets.<K>newHashSetWithExpectedSize(keySet().size());
-    @CheckForNull Node<K, V> next = head;
-    @CheckForNull Node<K, V> current;
+    @Nullable Node<K, V> next = head;
+    @Nullable Node<K, V> current;
     int expectedModCount = modCount;
 
     private void checkForConcurrentModification() {
@@ -452,7 +449,7 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
     }
 
     @Override
-    @ParametricNullness
+    
     public K next() {
       checkForConcurrentModification();
       if (next == null) {
@@ -478,14 +475,14 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
 
   /** A {@code ListIterator} over values for a specified key. */
   private class ValueForKeyIterator implements ListIterator<V> {
-    @ParametricNullness final K key;
+     final K key;
     int nextIndex;
-    @CheckForNull Node<K, V> next;
-    @CheckForNull Node<K, V> current;
-    @CheckForNull Node<K, V> previous;
+    @Nullable Node<K, V> next;
+    @Nullable Node<K, V> current;
+    @Nullable Node<K, V> previous;
 
     /** Constructs a new iterator over all values for the specified key. */
-    ValueForKeyIterator(@ParametricNullness K key) {
+    ValueForKeyIterator( K key) {
       this.key = key;
       KeyList<K, V> keyList = keyToKeyList.get(key);
       next = (keyList == null) ? null : keyList.head;
@@ -499,7 +496,7 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
      *
      * @throws IndexOutOfBoundsException if index is invalid
      */
-    public ValueForKeyIterator(@ParametricNullness K key, int index) {
+    public ValueForKeyIterator( K key, int index) {
       KeyList<K, V> keyList = keyToKeyList.get(key);
       int size = (keyList == null) ? 0 : keyList.count;
       checkPositionIndex(index, size);
@@ -526,7 +523,7 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
 
     @CanIgnoreReturnValue
     @Override
-    @ParametricNullness
+    
     public V next() {
       if (next == null) {
         throw new NoSuchElementException();
@@ -544,7 +541,7 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
 
     @CanIgnoreReturnValue
     @Override
-    @ParametricNullness
+    
     public V previous() {
       if (previous == null) {
         throw new NoSuchElementException();
@@ -579,13 +576,13 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
     }
 
     @Override
-    public void set(@ParametricNullness V value) {
+    public void set( V value) {
       checkState(current != null);
       current.value = value;
     }
 
     @Override
-    public void add(@ParametricNullness V value) {
+    public void add( V value) {
       previous = addNode(key, value, next);
       nextIndex++;
       current = null;
@@ -605,12 +602,12 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
   }
 
   @Override
-  public boolean containsKey(@CheckForNull Object key) {
+  public boolean containsKey(@Nullable Object key) {
     return keyToKeyList.containsKey(key);
   }
 
   @Override
-  public boolean containsValue(@CheckForNull Object value) {
+  public boolean containsValue(@Nullable Object value) {
     return values().contains(value);
   }
 
@@ -625,7 +622,7 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
    */
   @CanIgnoreReturnValue
   @Override
-  public boolean put(@ParametricNullness K key, @ParametricNullness V value) {
+  public boolean put( K key,  V value) {
     addNode(key, value, null);
     return true;
   }
@@ -642,7 +639,7 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
    */
   @CanIgnoreReturnValue
   @Override
-  public List<V> replaceValues(@ParametricNullness K key, Iterable<? extends V> values) {
+  public List<V> replaceValues( K key, Iterable<? extends V> values) {
     List<V> oldValues = getCopy(key);
     ListIterator<V> keyValues = new ValueForKeyIterator(key);
     Iterator<? extends V> newValues = values.iterator();
@@ -667,7 +664,7 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
     return oldValues;
   }
 
-  private List<V> getCopy(@ParametricNullness K key) {
+  private List<V> getCopy( K key) {
     return unmodifiableList(Lists.newArrayList(new ValueForKeyIterator(key)));
   }
 
@@ -678,7 +675,7 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
    */
   @CanIgnoreReturnValue
   @Override
-  public List<V> removeAll(@CheckForNull Object key) {
+  public List<V> removeAll(@Nullable Object key) {
     /*
      * Safe because all we do is remove values for the key, not add them. (If we wanted to make sure
      * to call getCopy and removeAllNodes only with a true K, then we could check containsKey first.
@@ -712,7 +709,7 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
    * <p>The returned list is not serializable and does not have random access.
    */
   @Override
-  public List<V> get(@ParametricNullness final K key) {
+  public List<V> get( final K key) {
     return new AbstractSequentialList<V>() {
       @Override
       public int size() {
@@ -742,12 +739,12 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
       }
 
       @Override
-      public boolean contains(@CheckForNull Object key) { // for performance
+      public boolean contains(@Nullable Object key) { // for performance
         return containsKey(key);
       }
 
       @Override
-      public boolean remove(@CheckForNull Object o) { // for performance
+      public boolean remove(@Nullable Object o) { // for performance
         return !LinkedListMultimap.this.removeAll(o).isEmpty();
       }
     }
@@ -786,13 +783,13 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
         final NodeIterator nodeItr = new NodeIterator(index);
         return new TransformedListIterator<Entry<K, V>, V>(nodeItr) {
           @Override
-          @ParametricNullness
+          
           V transform(Entry<K, V> entry) {
             return entry.getValue();
           }
 
           @Override
-          public void set(@ParametricNullness V value) {
+          public void set( V value) {
             nodeItr.setValue(value);
           }
         };

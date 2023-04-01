@@ -15,7 +15,6 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -51,16 +50,16 @@ final class NullnessCasts {
    * addressed by this method is the case in which {@code T} has parametric nullness -- and thus its
    * value may be legitimately {@code null}.)
    */
-  @ParametricNullness
+  
   @SuppressWarnings("nullness")
-  static <T extends @Nullable Object> T uncheckedCastNullableTToT(@CheckForNull T t) {
+  static <T extends @Nullable Object> T uncheckedCastNullableTToT(@Nullable T t) {
     return t;
   }
 
   /** Returns {@code null} as any type, even one that does not include {@code null}. */
   @SuppressWarnings({"nullness", "TypeParameterUnusedInFormals", "ReturnMissingNullable"})
   // The warnings are legitimate. Each time we use this method, we document why.
-  @ParametricNullness
+  
   static <T extends @Nullable Object> T unsafeNull() {
     return null;
   }

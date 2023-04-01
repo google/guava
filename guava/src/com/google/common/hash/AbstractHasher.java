@@ -130,7 +130,7 @@ abstract class AbstractHasher implements Hasher {
   @Override
   @CanIgnoreReturnValue
   public <T extends @Nullable Object> Hasher putObject(
-      @ParametricNullness T instance, Funnel<? super T> funnel) {
+       T instance, Funnel<? super T> funnel) {
     funnel.funnel(instance, this);
     return this;
   }

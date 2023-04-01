@@ -29,8 +29,8 @@ import com.google.common.util.concurrent.SmoothRateLimiter.SmoothWarmingUp;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A rate limiter. Conceptually, a rate limiter distributes permits at a configurable rate. Each
@@ -186,7 +186,7 @@ public abstract class RateLimiter {
   private final SleepingStopwatch stopwatch;
 
   // Can't be initialized in the constructor because mocks don't call the constructor.
-  @CheckForNull private volatile Object mutexDoNotUseDirectly;
+  private volatile @Nullable Object mutexDoNotUseDirectly;
 
   private Object mutex() {
     Object mutex = mutexDoNotUseDirectly;

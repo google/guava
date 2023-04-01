@@ -19,7 +19,6 @@ package com.google.common.collect;
 import com.google.common.annotations.GwtCompatible;
 import java.util.Comparator;
 import java.util.SortedSet;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -48,23 +47,22 @@ public abstract class ForwardingSortedSetMultimap<
   protected abstract SortedSetMultimap<K, V> delegate();
 
   @Override
-  public SortedSet<V> get(@ParametricNullness K key) {
+  public SortedSet<V> get( K key) {
     return delegate().get(key);
   }
 
   @Override
-  public SortedSet<V> removeAll(@CheckForNull Object key) {
+  public SortedSet<V> removeAll(@Nullable Object key) {
     return delegate().removeAll(key);
   }
 
   @Override
-  public SortedSet<V> replaceValues(@ParametricNullness K key, Iterable<? extends V> values) {
+  public SortedSet<V> replaceValues( K key, Iterable<? extends V> values) {
     return delegate().replaceValues(key, values);
   }
 
   @Override
-  @CheckForNull
-  public Comparator<? super V> valueComparator() {
+  public @Nullable Comparator<? super V> valueComparator() {
     return delegate().valueComparator();
   }
 }

@@ -24,7 +24,6 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -74,8 +73,8 @@ final class TimeoutFuture<V extends @Nullable Object> extends FluentFuture.Trust
    * write-barriers).
    */
 
-  @CheckForNull private ListenableFuture<V> delegateRef;
-  @CheckForNull private ScheduledFuture<?> timer;
+  private @Nullable ListenableFuture<V> delegateRef;
+  private @Nullable ScheduledFuture<?> timer;
 
   private TimeoutFuture(ListenableFuture<V> delegate) {
     this.delegateRef = Preconditions.checkNotNull(delegate);
@@ -83,7 +82,7 @@ final class TimeoutFuture<V extends @Nullable Object> extends FluentFuture.Trust
 
   /** A runnable that is called when the delegate or the timer completes. */
   private static final class Fire<V extends @Nullable Object> implements Runnable {
-    @CheckForNull TimeoutFuture<V> timeoutFutureRef;
+    @Nullable TimeoutFuture<V> timeoutFutureRef;
 
     Fire(TimeoutFuture<V> timeoutFuture) {
       this.timeoutFutureRef = timeoutFuture;
@@ -155,8 +154,7 @@ final class TimeoutFuture<V extends @Nullable Object> extends FluentFuture.Trust
   }
 
   @Override
-  @CheckForNull
-  protected String pendingToString() {
+  protected @Nullable String pendingToString() {
     ListenableFuture<? extends V> localInputFuture = delegateRef;
     ScheduledFuture<?> localTimer = timer;
     if (localInputFuture != null) {

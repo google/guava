@@ -28,7 +28,6 @@ import java.lang.reflect.Method;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.logging.Level;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -112,7 +111,7 @@ public final class Closer implements Closeable {
 
   // only need space for 2 elements in most cases, so try to use the smallest array possible
   private final Deque<Closeable> stack = new ArrayDeque<>(4);
-  @CheckForNull private Throwable thrown;
+  private @Nullable Throwable thrown;
 
   @VisibleForTesting
   Closer(Suppressor suppressor) {
@@ -127,8 +126,8 @@ public final class Closer implements Closeable {
    */
   // close. this word no longer has any meaning to me.
   @CanIgnoreReturnValue
-  @ParametricNullness
-  public <C extends @Nullable Closeable> C register(@ParametricNullness C closeable) {
+  
+  public <C extends @Nullable Closeable> C register( C closeable) {
     if (closeable != null) {
       stack.addFirst(closeable);
     }
@@ -265,8 +264,7 @@ public final class Closer implements Closeable {
    */
   @VisibleForTesting
   static final class SuppressingSuppressor implements Suppressor {
-    @CheckForNull
-    static SuppressingSuppressor tryCreate() {
+    static @Nullable SuppressingSuppressor tryCreate() {
       Method addSuppressed;
       try {
         addSuppressed = Throwable.class.getMethod("addSuppressed", Throwable.class);

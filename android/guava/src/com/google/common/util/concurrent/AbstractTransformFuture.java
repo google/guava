@@ -25,7 +25,6 @@ import com.google.errorprone.annotations.ForOverride;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -58,8 +57,8 @@ abstract class AbstractTransformFuture<
    * In certain circumstances, this field might theoretically not be visible to an afterDone() call
    * triggered by cancel(). For details, see the comments on the fields of TimeoutFuture.
    */
-  @CheckForNull ListenableFuture<? extends I> inputFuture;
-  @CheckForNull F function;
+  @Nullable ListenableFuture<? extends I> inputFuture;
+  @Nullable F function;
 
   AbstractTransformFuture(ListenableFuture<? extends I> inputFuture, F function) {
     this.inputFuture = checkNotNull(inputFuture);
@@ -172,12 +171,12 @@ abstract class AbstractTransformFuture<
 
   /** Template method for subtypes to actually run the transform. */
   @ForOverride
-  @ParametricNullness
-  abstract T doTransform(F function, @ParametricNullness I result) throws Exception;
+  
+  abstract T doTransform(F function,  I result) throws Exception;
 
   /** Template method for subtypes to actually set the result. */
   @ForOverride
-  abstract void setResult(@ParametricNullness T result);
+  abstract void setResult( T result);
 
   @Override
   protected final void afterDone() {
@@ -187,8 +186,7 @@ abstract class AbstractTransformFuture<
   }
 
   @Override
-  @CheckForNull
-  protected String pendingToString() {
+  protected @Nullable String pendingToString() {
     ListenableFuture<? extends I> localInputFuture = inputFuture;
     F localFunction = function;
     String superString = super.pendingToString();
@@ -219,7 +217,7 @@ abstract class AbstractTransformFuture<
 
     @Override
     ListenableFuture<? extends O> doTransform(
-        AsyncFunction<? super I, ? extends O> function, @ParametricNullness I input)
+        AsyncFunction<? super I, ? extends O> function,  I input)
         throws Exception {
       ListenableFuture<? extends O> outputFuture = function.apply(input);
       checkNotNull(
@@ -248,13 +246,13 @@ abstract class AbstractTransformFuture<
     }
 
     @Override
-    @ParametricNullness
-    O doTransform(Function<? super I, ? extends O> function, @ParametricNullness I input) {
+    
+    O doTransform(Function<? super I, ? extends O> function,  I input) {
       return function.apply(input);
     }
 
     @Override
-    void setResult(@ParametricNullness O result) {
+    void setResult( O result) {
       set(result);
     }
   }

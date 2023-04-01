@@ -25,8 +25,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A map-like data structure that wraps a backing map and caches values while iterating through
@@ -55,15 +55,14 @@ class MapIteratorCache<K, V> {
    * while writing to it in another. All it does is help with _reading_ from multiple threads
    * concurrently. For more information, see AbstractNetworkTest.concurrentIteration.
    */
-  @CheckForNull private transient volatile Entry<K, V> cacheEntry;
+  private transient volatile @Nullable Entry<K, V> cacheEntry;
 
   MapIteratorCache(Map<K, V> backingMap) {
     this.backingMap = checkNotNull(backingMap);
   }
 
   @CanIgnoreReturnValue
-  @CheckForNull
-  final V put(K key, V value) {
+  final @Nullable V put(K key, V value) {
     checkNotNull(key);
     checkNotNull(value);
     clearCache();
@@ -71,8 +70,7 @@ class MapIteratorCache<K, V> {
   }
 
   @CanIgnoreReturnValue
-  @CheckForNull
-  final V remove(Object key) {
+  final @Nullable V remove(Object key) {
     checkNotNull(key);
     clearCache();
     return backingMap.remove(key);
@@ -83,8 +81,7 @@ class MapIteratorCache<K, V> {
     backingMap.clear();
   }
 
-  @CheckForNull
-  V get(Object key) {
+  @Nullable V get(Object key) {
     checkNotNull(key);
     V value = getIfCached(key);
     // TODO(b/192579700): Use a ternary once it no longer confuses our nullness checker.
@@ -95,13 +92,12 @@ class MapIteratorCache<K, V> {
     }
   }
 
-  @CheckForNull
-  final V getWithoutCaching(Object key) {
+  final @Nullable V getWithoutCaching(Object key) {
     checkNotNull(key);
     return backingMap.get(key);
   }
 
-  final boolean containsKey(@CheckForNull Object key) {
+  final boolean containsKey(@Nullable Object key) {
     return getIfCached(key) != null || backingMap.containsKey(key);
   }
 
@@ -132,7 +128,7 @@ class MapIteratorCache<K, V> {
       }
 
       @Override
-      public boolean contains(@CheckForNull Object key) {
+      public boolean contains(@Nullable Object key) {
         return containsKey(key);
       }
     };
@@ -140,8 +136,7 @@ class MapIteratorCache<K, V> {
 
   // Internal methods (package-visible, but treat as only subclass-visible)
 
-  @CheckForNull
-  V getIfCached(@CheckForNull Object key) {
+  @Nullable V getIfCached(@Nullable Object key) {
     Entry<K, V> entry = cacheEntry; // store local reference for thread-safety
 
     // Check cache. We use == on purpose because it's cheaper and a cache miss is ok.

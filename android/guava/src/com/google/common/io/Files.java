@@ -54,7 +54,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -534,9 +533,8 @@ public final class Files {
   @InlineMe(
       replacement = "Files.asCharSource(file, charset).readFirstLine()",
       imports = "com.google.common.io.Files")
-  @CheckForNull
   public
-  static String readFirstLine(File file, Charset charset) throws IOException {
+  static @Nullable String readFirstLine(File file, Charset charset) throws IOException {
     return asCharSource(file, charset).readFirstLine();
   }
 
@@ -594,7 +592,7 @@ public final class Files {
       replacement = "Files.asCharSource(file, charset).readLines(callback)",
       imports = "com.google.common.io.Files")
   @CanIgnoreReturnValue // some processors won't return a useful result
-  @ParametricNullness
+  
   public
   static <T extends @Nullable Object> T readLines(
       File file, Charset charset, LineProcessor<T> callback) throws IOException {
@@ -617,7 +615,7 @@ public final class Files {
       replacement = "Files.asByteSource(file).read(processor)",
       imports = "com.google.common.io.Files")
   @CanIgnoreReturnValue // some processors won't return a useful result
-  @ParametricNullness
+  
   public
   static <T extends @Nullable Object> T readBytes(File file, ByteProcessor<T> processor)
       throws IOException {

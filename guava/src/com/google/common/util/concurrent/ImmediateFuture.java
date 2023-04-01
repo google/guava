@@ -23,7 +23,6 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -36,9 +35,9 @@ class ImmediateFuture<V extends @Nullable Object> implements ListenableFuture<V>
 
   private static final Logger log = Logger.getLogger(ImmediateFuture.class.getName());
 
-  @ParametricNullness private final V value;
+   private final V value;
 
-  ImmediateFuture(@ParametricNullness V value) {
+  ImmediateFuture( V value) {
     this.value = value;
   }
 
@@ -65,13 +64,13 @@ class ImmediateFuture<V extends @Nullable Object> implements ListenableFuture<V>
 
   // TODO(lukes): Consider throwing InterruptedException when appropriate.
   @Override
-  @ParametricNullness
+  
   public V get() {
     return value;
   }
 
   @Override
-  @ParametricNullness
+  
   public V get(long timeout, TimeUnit unit) throws ExecutionException {
     checkNotNull(unit);
     return get();
@@ -100,8 +99,7 @@ class ImmediateFuture<V extends @Nullable Object> implements ListenableFuture<V>
   }
 
   static final class ImmediateCancelledFuture<V extends @Nullable Object> extends TrustedFuture<V> {
-    @CheckForNull
-    static final ImmediateCancelledFuture<Object> INSTANCE =
+    static final @Nullable ImmediateCancelledFuture<Object> INSTANCE =
         AbstractFuture.GENERATE_CANCELLATION_CAUSES ? null : new ImmediateCancelledFuture<>();
 
     ImmediateCancelledFuture() {

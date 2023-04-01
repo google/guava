@@ -34,7 +34,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -86,9 +85,8 @@ public final class SimpleTimeLimiter implements TimeLimiter {
     InvocationHandler handler =
         new InvocationHandler() {
           @Override
-          @CheckForNull
-          public Object invoke(Object obj, Method method, @CheckForNull @Nullable Object[] args)
-              throws Throwable {
+          public @Nullable Object invoke(
+              Object obj, Method method, @Nullable Object @Nullable [] args) throws Throwable {
             Callable<@Nullable Object> callable =
                 () -> {
                   try {
@@ -112,7 +110,7 @@ public final class SimpleTimeLimiter implements TimeLimiter {
     return interfaceType.cast(object);
   }
 
-  @ParametricNullness
+  
   private <T extends @Nullable Object> T callWithTimeout(
       Callable<T> callable, long timeoutDuration, TimeUnit timeoutUnit, boolean amInterruptible)
       throws Exception {
@@ -143,7 +141,7 @@ public final class SimpleTimeLimiter implements TimeLimiter {
 
   @CanIgnoreReturnValue
   @Override
-  @ParametricNullness
+  
   public <T extends @Nullable Object> T callWithTimeout(
       Callable<T> callable, long timeoutDuration, TimeUnit timeoutUnit)
       throws TimeoutException, InterruptedException, ExecutionException {
@@ -166,7 +164,7 @@ public final class SimpleTimeLimiter implements TimeLimiter {
 
   @CanIgnoreReturnValue
   @Override
-  @ParametricNullness
+  
   public <T extends @Nullable Object> T callUninterruptiblyWithTimeout(
       Callable<T> callable, long timeoutDuration, TimeUnit timeoutUnit)
       throws TimeoutException, ExecutionException {

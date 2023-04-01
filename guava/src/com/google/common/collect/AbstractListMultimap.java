@@ -22,7 +22,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -62,7 +61,7 @@ abstract class AbstractListMultimap<K extends @Nullable Object, V extends @Nulla
   }
 
   @Override
-  Collection<V> wrapCollection(@ParametricNullness K key, Collection<V> collection) {
+  Collection<V> wrapCollection( K key, Collection<V> collection) {
     return wrapList(key, (List<V>) collection, null);
   }
 
@@ -76,7 +75,7 @@ abstract class AbstractListMultimap<K extends @Nullable Object, V extends @Nulla
    * Multimap} interface.
    */
   @Override
-  public List<V> get(@ParametricNullness K key) {
+  public List<V> get( K key) {
     return (List<V>) super.get(key);
   }
 
@@ -89,7 +88,7 @@ abstract class AbstractListMultimap<K extends @Nullable Object, V extends @Nulla
    */
   @CanIgnoreReturnValue
   @Override
-  public List<V> removeAll(@CheckForNull Object key) {
+  public List<V> removeAll(@Nullable Object key) {
     return (List<V>) super.removeAll(key);
   }
 
@@ -102,7 +101,7 @@ abstract class AbstractListMultimap<K extends @Nullable Object, V extends @Nulla
    */
   @CanIgnoreReturnValue
   @Override
-  public List<V> replaceValues(@ParametricNullness K key, Iterable<? extends V> values) {
+  public List<V> replaceValues( K key, Iterable<? extends V> values) {
     return (List<V>) super.replaceValues(key, values);
   }
 
@@ -115,7 +114,7 @@ abstract class AbstractListMultimap<K extends @Nullable Object, V extends @Nulla
    */
   @CanIgnoreReturnValue
   @Override
-  public boolean put(@ParametricNullness K key, @ParametricNullness V value) {
+  public boolean put( K key,  V value) {
     return super.put(key, value);
   }
 
@@ -137,7 +136,7 @@ abstract class AbstractListMultimap<K extends @Nullable Object, V extends @Nulla
    * in the same order. If the value orderings disagree, the multimaps will not be considered equal.
    */
   @Override
-  public boolean equals(@CheckForNull Object object) {
+  public boolean equals(@Nullable Object object) {
     return super.equals(object);
   }
 

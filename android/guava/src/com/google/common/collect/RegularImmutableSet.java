@@ -18,7 +18,6 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -54,7 +53,7 @@ final class RegularImmutableSet<E> extends ImmutableSet<E> {
   }
 
   @Override
-  public boolean contains(@CheckForNull Object target) {
+  public boolean contains(@Nullable Object target) {
     @Nullable Object[] table = this.table;
     if (target == null || table.length == 0) {
       return false;

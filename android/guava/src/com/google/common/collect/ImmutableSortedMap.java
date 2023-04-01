@@ -36,7 +36,6 @@ import java.util.Map;
 import java.util.NavigableMap;
 import java.util.SortedMap;
 import java.util.TreeMap;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -494,7 +493,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
               size,
               new Comparator<@Nullable Entry<K, V>>() {
                 @Override
-                public int compare(@CheckForNull Entry<K, V> e1, @CheckForNull Entry<K, V> e2) {
+                public int compare(@Nullable Entry<K, V> e1, @Nullable Entry<K, V> e2) {
                   // requireNonNull is safe because the first `size` elements have been filled in.
                   requireNonNull(e1);
                   requireNonNull(e2);
@@ -768,7 +767,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
 
   private final transient RegularImmutableSortedSet<K> keySet;
   private final transient ImmutableList<V> valueList;
-  @CheckForNull private transient ImmutableSortedMap<K, V> descendingMap;
+  private transient @Nullable ImmutableSortedMap<K, V> descendingMap;
 
   ImmutableSortedMap(RegularImmutableSortedSet<K> keySet, ImmutableList<V> valueList) {
     this(keySet, valueList, null);
@@ -777,7 +776,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
   ImmutableSortedMap(
       RegularImmutableSortedSet<K> keySet,
       ImmutableList<V> valueList,
-      @CheckForNull ImmutableSortedMap<K, V> descendingMap) {
+      @Nullable ImmutableSortedMap<K, V> descendingMap) {
     this.keySet = keySet;
     this.valueList = valueList;
     this.descendingMap = descendingMap;
@@ -789,8 +788,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
   }
 
   @Override
-  @CheckForNull
-  public V get(@CheckForNull Object key) {
+  public @Nullable V get(@Nullable Object key) {
     int index = keySet.indexOf(key);
     return (index == -1) ? null : valueList.get(index);
   }
@@ -1001,62 +999,52 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
   }
 
   @Override
-  @CheckForNull
-  public Entry<K, V> lowerEntry(K key) {
+  public @Nullable Entry<K, V> lowerEntry(K key) {
     return headMap(key, false).lastEntry();
   }
 
   @Override
-  @CheckForNull
-  public K lowerKey(K key) {
+  public @Nullable K lowerKey(K key) {
     return keyOrNull(lowerEntry(key));
   }
 
   @Override
-  @CheckForNull
-  public Entry<K, V> floorEntry(K key) {
+  public @Nullable Entry<K, V> floorEntry(K key) {
     return headMap(key, true).lastEntry();
   }
 
   @Override
-  @CheckForNull
-  public K floorKey(K key) {
+  public @Nullable K floorKey(K key) {
     return keyOrNull(floorEntry(key));
   }
 
   @Override
-  @CheckForNull
-  public Entry<K, V> ceilingEntry(K key) {
+  public @Nullable Entry<K, V> ceilingEntry(K key) {
     return tailMap(key, true).firstEntry();
   }
 
   @Override
-  @CheckForNull
-  public K ceilingKey(K key) {
+  public @Nullable K ceilingKey(K key) {
     return keyOrNull(ceilingEntry(key));
   }
 
   @Override
-  @CheckForNull
-  public Entry<K, V> higherEntry(K key) {
+  public @Nullable Entry<K, V> higherEntry(K key) {
     return tailMap(key, false).firstEntry();
   }
 
   @Override
-  @CheckForNull
-  public K higherKey(K key) {
+  public @Nullable K higherKey(K key) {
     return keyOrNull(higherEntry(key));
   }
 
   @Override
-  @CheckForNull
-  public Entry<K, V> firstEntry() {
+  public @Nullable Entry<K, V> firstEntry() {
     return isEmpty() ? null : entrySet().asList().get(0);
   }
 
   @Override
-  @CheckForNull
-  public Entry<K, V> lastEntry() {
+  public @Nullable Entry<K, V> lastEntry() {
     return isEmpty() ? null : entrySet().asList().get(size() - 1);
   }
 
@@ -1070,8 +1058,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
   @Deprecated
   @Override
   @DoNotCall("Always throws UnsupportedOperationException")
-  @CheckForNull
-  public final Entry<K, V> pollFirstEntry() {
+  public final @Nullable Entry<K, V> pollFirstEntry() {
     throw new UnsupportedOperationException();
   }
 
@@ -1085,8 +1072,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
   @Deprecated
   @Override
   @DoNotCall("Always throws UnsupportedOperationException")
-  @CheckForNull
-  public final Entry<K, V> pollLastEntry() {
+  public final @Nullable Entry<K, V> pollLastEntry() {
     throw new UnsupportedOperationException();
   }
 

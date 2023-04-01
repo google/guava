@@ -18,8 +18,8 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Captures a free type variable that can be used in {@link TypeToken#where}. For example:
@@ -61,7 +61,7 @@ public abstract class TypeParameter<T> extends TypeCapture<T> {
   }
 
   @Override
-  public final boolean equals(@CheckForNull Object o) {
+  public final boolean equals(@Nullable Object o) {
     if (o instanceof TypeParameter) {
       TypeParameter<?> that = (TypeParameter<?>) o;
       return typeVariable.equals(that.typeVariable);

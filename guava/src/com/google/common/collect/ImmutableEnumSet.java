@@ -26,8 +26,8 @@ import java.util.Collection;
 import java.util.EnumSet;
 import java.util.Spliterator;
 import java.util.function.Consumer;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Implementation of {@link ImmutableSet} backed by a non-empty {@link java.util.EnumSet}.
@@ -89,7 +89,7 @@ final class ImmutableEnumSet<E extends Enum<E>> extends ImmutableSet<E> {
   }
 
   @Override
-  public boolean contains(@CheckForNull Object object) {
+  public boolean contains(@Nullable Object object) {
     return delegate.contains(object);
   }
 
@@ -107,7 +107,7 @@ final class ImmutableEnumSet<E extends Enum<E>> extends ImmutableSet<E> {
   }
 
   @Override
-  public boolean equals(@CheckForNull Object object) {
+  public boolean equals(@Nullable Object object) {
     if (object == this) {
       return true;
     }

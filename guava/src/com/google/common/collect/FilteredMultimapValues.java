@@ -25,7 +25,6 @@ import java.util.AbstractCollection;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map.Entry;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -50,7 +49,7 @@ final class FilteredMultimapValues<K extends @Nullable Object, V extends @Nullab
   }
 
   @Override
-  public boolean contains(@CheckForNull Object o) {
+  public boolean contains(@Nullable Object o) {
     return multimap.containsValue(o);
   }
 
@@ -60,7 +59,7 @@ final class FilteredMultimapValues<K extends @Nullable Object, V extends @Nullab
   }
 
   @Override
-  public boolean remove(@CheckForNull Object o) {
+  public boolean remove(@Nullable Object o) {
     Predicate<? super Entry<K, V>> entryPredicate = multimap.entryPredicate();
     for (Iterator<Entry<K, V>> unfilteredItr = multimap.unfiltered().entries().iterator();
         unfilteredItr.hasNext(); ) {

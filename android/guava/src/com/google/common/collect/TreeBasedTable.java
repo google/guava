@@ -31,8 +31,8 @@ import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeMap;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Implementation of {@code Table} whose row keys and column keys are ordered by their natural
@@ -175,14 +175,14 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
   }
 
   private class TreeRow extends Row implements SortedMap<C, V> {
-    @CheckForNull final C lowerBound;
-    @CheckForNull final C upperBound;
+    final @Nullable C lowerBound;
+    final @Nullable C upperBound;
 
     TreeRow(R rowKey) {
       this(rowKey, null, null);
     }
 
-    TreeRow(R rowKey, @CheckForNull C lowerBound, @CheckForNull C upperBound) {
+    TreeRow(R rowKey, @Nullable C lowerBound, @Nullable C upperBound) {
       super(rowKey);
       this.lowerBound = lowerBound;
       this.upperBound = upperBound;
@@ -207,7 +207,7 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
       return cmp.compare(a, b);
     }
 
-    boolean rangeContains(@CheckForNull Object o) {
+    boolean rangeContains(@Nullable Object o) {
       return o != null
           && (lowerBound == null || compare(lowerBound, o) <= 0)
           && (upperBound == null || compare(upperBound, o) > 0);
@@ -249,7 +249,7 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
       return ((SortedMap<C, V>) backingRowMap).lastKey();
     }
 
-    @CheckForNull transient SortedMap<C, V> wholeRow;
+    transient @Nullable SortedMap<C, V> wholeRow;
 
     // If the row was previously empty, we check if there's a new row here every time we're queried.
     void updateWholeRowField() {
@@ -259,8 +259,7 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
     }
 
     @Override
-    @CheckForNull
-    SortedMap<C, V> computeBackingRowMap() {
+    @Nullable SortedMap<C, V> computeBackingRowMap() {
       updateWholeRowField();
       SortedMap<C, V> map = wholeRow;
       if (map != null) {
@@ -286,13 +285,12 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
     }
 
     @Override
-    public boolean containsKey(@CheckForNull Object key) {
+    public boolean containsKey(@Nullable Object key) {
       return rangeContains(key) && super.containsKey(key);
     }
 
     @Override
-    @CheckForNull
-    public V put(C key, V value) {
+    public @Nullable V put(C key, V value) {
       checkArgument(rangeContains(checkNotNull(key)));
       return super.put(key, value);
     }
@@ -322,11 +320,10 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
             comparator);
 
     return new AbstractIterator<C>() {
-      @CheckForNull C lastValue;
+      @Nullable C lastValue;
 
       @Override
-      @CheckForNull
-      protected C computeNext() {
+      protected @Nullable C computeNext() {
         while (merged.hasNext()) {
           C next = merged.next();
           boolean duplicate = lastValue != null && comparator.compare(next, lastValue) == 0;

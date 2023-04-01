@@ -21,7 +21,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.GwtCompatible;
 import java.util.Collection;
 import java.util.Set;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -60,7 +59,7 @@ public abstract class ForwardingSet<E extends @Nullable Object> extends Forwardi
   protected abstract Set<E> delegate();
 
   @Override
-  public boolean equals(@CheckForNull Object object) {
+  public boolean equals(@Nullable Object object) {
     return object == this || delegate().equals(object);
   }
 
@@ -88,7 +87,7 @@ public abstract class ForwardingSet<E extends @Nullable Object> extends Forwardi
    *
    * @since 7.0
    */
-  protected boolean standardEquals(@CheckForNull Object object) {
+  protected boolean standardEquals(@Nullable Object object) {
     return Sets.equalsImpl(this, object);
   }
 

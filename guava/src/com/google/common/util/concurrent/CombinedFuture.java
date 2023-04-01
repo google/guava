@@ -25,7 +25,6 @@ import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.RejectedExecutionException;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -34,7 +33,7 @@ import org.jspecify.annotations.Nullable;
 @NullMarked
 final class CombinedFuture<V extends @Nullable Object>
     extends AggregateFuture<@Nullable Object, V> {
-  @CheckForNull private CombinedFutureInterruptibleTask<?> task;
+  private @Nullable CombinedFutureInterruptibleTask<?> task;
 
   CombinedFuture(
       ImmutableCollection<? extends ListenableFuture<?>> futures,
@@ -57,7 +56,7 @@ final class CombinedFuture<V extends @Nullable Object>
   }
 
   @Override
-  void collectOneValue(int index, @CheckForNull Object returnValue) {}
+  void collectOneValue(int index, @Nullable Object returnValue) {}
 
   @Override
   void handleAllCompleted() {
@@ -113,7 +112,7 @@ final class CombinedFuture<V extends @Nullable Object>
     }
 
     @Override
-    final void afterRanInterruptiblySuccess(@ParametricNullness T result) {
+    final void afterRanInterruptiblySuccess( T result) {
       /*
        * The future no longer needs to interrupt this task, so it no longer needs a reference to it.
        *
@@ -148,7 +147,7 @@ final class CombinedFuture<V extends @Nullable Object>
       }
     }
 
-    abstract void setValue(@ParametricNullness T value);
+    abstract void setValue( T value);
   }
 
   @WeakOuter
@@ -192,13 +191,13 @@ final class CombinedFuture<V extends @Nullable Object>
     }
 
     @Override
-    @ParametricNullness
+    
     V runInterruptibly() throws Exception {
       return callable.call();
     }
 
     @Override
-    void setValue(@ParametricNullness V value) {
+    void setValue( V value) {
       CombinedFuture.this.set(value);
     }
 

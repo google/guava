@@ -22,8 +22,8 @@ import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Helper functions that operate on any {@code Object}, and are not already provided in {@link
@@ -76,7 +76,7 @@ public final class MoreObjects {
    * consider the more flexible signature if we judge it worth the risks. If we do, we would likely
    * update both methods so that they continue to match.
    */
-  public static <T> T firstNonNull(@CheckForNull T first, T second) {
+  public static <T> T firstNonNull(@Nullable T first, T second) {
     if (first != null) {
       return first;
     }
@@ -193,7 +193,7 @@ public final class MoreObjects {
      * called, in which case this name/value pair will not be added.
      */
     @CanIgnoreReturnValue
-    public ToStringHelper add(String name, @CheckForNull Object value) {
+    public ToStringHelper add(String name, @Nullable Object value) {
       return addHolder(name, value);
     }
 
@@ -264,7 +264,7 @@ public final class MoreObjects {
      * readable name.
      */
     @CanIgnoreReturnValue
-    public ToStringHelper addValue(@CheckForNull Object value) {
+    public ToStringHelper addValue(@Nullable Object value) {
       return addHolder(value);
     }
 
@@ -410,14 +410,14 @@ public final class MoreObjects {
     }
 
     @CanIgnoreReturnValue
-    private ToStringHelper addHolder(@CheckForNull Object value) {
+    private ToStringHelper addHolder(@Nullable Object value) {
       ValueHolder valueHolder = addHolder();
       valueHolder.value = value;
       return this;
     }
 
     @CanIgnoreReturnValue
-    private ToStringHelper addHolder(String name, @CheckForNull Object value) {
+    private ToStringHelper addHolder(String name, @Nullable Object value) {
       ValueHolder valueHolder = addHolder();
       valueHolder.value = value;
       valueHolder.name = checkNotNull(name);
@@ -447,9 +447,9 @@ public final class MoreObjects {
 
     // Holder object for values that might be null and/or empty.
     private static class ValueHolder {
-      @CheckForNull String name;
-      @CheckForNull Object value;
-      @CheckForNull ValueHolder next;
+      @Nullable String name;
+      @Nullable Object value;
+      @Nullable ValueHolder next;
     }
 
     /**

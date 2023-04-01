@@ -19,8 +19,8 @@ import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.net.InetAddress;
 import java.text.ParseException;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A syntactically valid host specifier, suitable for use in a URI. This may be either a numeric IP
@@ -139,7 +139,7 @@ public final class HostSpecifier {
   }
 
   @Override
-  public boolean equals(@CheckForNull Object other) {
+  public boolean equals(@Nullable Object other) {
     if (this == other) {
       return true;
     }

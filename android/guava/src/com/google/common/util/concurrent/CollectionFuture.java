@@ -22,7 +22,6 @@ import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.Lists;
 import java.util.Collections;
 import java.util.List;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -37,7 +36,7 @@ abstract class CollectionFuture<V extends @Nullable Object, C extends @Nullable 
    * there: cancel() never reads this field, only writes to it. That makes the race here completely
    * harmless, rather than just 99.99% harmless.
    */
-  @CheckForNull private List<@Nullable Present<V>> values;
+  private @Nullable List<@Nullable Present<V>> values;
 
   CollectionFuture(
       ImmutableCollection<? extends ListenableFuture<? extends V>> futures,
@@ -58,7 +57,7 @@ abstract class CollectionFuture<V extends @Nullable Object, C extends @Nullable 
   }
 
   @Override
-  final void collectOneValue(int index, @ParametricNullness V returnValue) {
+  final void collectOneValue(int index,  V returnValue) {
     List<@Nullable Present<V>> localValues = values;
     if (localValues != null) {
       localValues.set(index, new Present<>(returnValue));
@@ -103,9 +102,9 @@ abstract class CollectionFuture<V extends @Nullable Object, C extends @Nullable 
 
   /** The result of a successful {@code Future}. */
   private static final class Present<V extends @Nullable Object> {
-    @ParametricNullness final V value;
+     final V value;
 
-    Present(@ParametricNullness V value) {
+    Present( V value) {
       this.value = value;
     }
   }

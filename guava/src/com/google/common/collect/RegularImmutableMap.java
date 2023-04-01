@@ -31,7 +31,6 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.Serializable;
 import java.util.IdentityHashMap;
 import java.util.function.BiConsumer;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -71,7 +70,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
   // entries in insertion order
   @VisibleForTesting final transient Entry<K, V>[] entries;
   // array of linked lists of entries
-  @CheckForNull private final transient @Nullable ImmutableMapEntry<K, V>[] table;
+  private final transient @Nullable ImmutableMapEntry<K, V> @Nullable [] table;
   // 'and' with an int to get a table index
   private final transient int mask;
 
@@ -215,7 +214,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
   }
 
   private RegularImmutableMap(
-      Entry<K, V>[] entries, @CheckForNull @Nullable ImmutableMapEntry<K, V>[] table, int mask) {
+      Entry<K, V>[] entries, @Nullable ImmutableMapEntry<K, V> @Nullable [] table, int mask) {
     this.entries = entries;
     this.table = table;
     this.mask = mask;
@@ -233,11 +232,10 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
    *     flooding attack
    */
   @CanIgnoreReturnValue
-  @CheckForNull
-  static <K, V> ImmutableMapEntry<K, V> checkNoConflictInKeyBucket(
+  static <K, V> @Nullable ImmutableMapEntry<K, V> checkNoConflictInKeyBucket(
       Object key,
       Object newValue,
-      @CheckForNull ImmutableMapEntry<K, V> keyBucketHead,
+      @Nullable ImmutableMapEntry<K, V> keyBucketHead,
       boolean throwIfDuplicateKeys)
       throws BucketOverflowException {
     int bucketSize = 0;
@@ -259,16 +257,12 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
   static class BucketOverflowException extends Exception {}
 
   @Override
-  @CheckForNull
-  public V get(@CheckForNull Object key) {
+  public @Nullable V get(@Nullable Object key) {
     return get(key, table, mask);
   }
 
-  @CheckForNull
-  static <V> V get(
-      @CheckForNull Object key,
-      @CheckForNull @Nullable ImmutableMapEntry<?, V>[] keyTable,
-      int mask) {
+  static <V> @Nullable V get(
+      @Nullable Object key, @Nullable ImmutableMapEntry<?, V> @Nullable [] keyTable, int mask) {
     if (key == null || keyTable == null) {
       return null;
     }
@@ -333,7 +327,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
     }
 
     @Override
-    public boolean contains(@CheckForNull Object object) {
+    public boolean contains(@Nullable Object object) {
       return map.containsKey(object);
     }
 

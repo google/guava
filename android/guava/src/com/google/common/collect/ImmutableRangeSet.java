@@ -39,8 +39,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A {@link RangeSet} whose contents will never change, with many other important properties
@@ -179,8 +179,7 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
   }
 
   @Override
-  @CheckForNull
-  public Range<C> rangeContaining(C value) {
+  public @Nullable Range<C> rangeContaining(C value) {
     int index =
         SortedLists.binarySearch(
             ranges,
@@ -303,7 +302,7 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
     return new RegularImmutableSortedSet<>(ranges.reverse(), Range.<C>rangeLexOrdering().reverse());
   }
 
-  @LazyInit @CheckForNull private transient ImmutableRangeSet<C> complement;
+  @LazyInit private transient @Nullable ImmutableRangeSet<C> complement;
 
   private final class ComplementRanges extends ImmutableList<Range<C>> {
     // True if the "positive" range set is empty or bounded below.
@@ -545,7 +544,7 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
       this.domain = domain;
     }
 
-    @CheckForNull private transient Integer size;
+    private transient @Nullable Integer size;
 
     @Override
     public int size() {
@@ -571,8 +570,7 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
         Iterator<C> elemItr = Iterators.emptyIterator();
 
         @Override
-        @CheckForNull
-        protected C computeNext() {
+        protected @Nullable C computeNext() {
           while (!elemItr.hasNext()) {
             if (rangeItr.hasNext()) {
               elemItr = ContiguousSet.create(rangeItr.next(), domain).iterator();
@@ -593,8 +591,7 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
         Iterator<C> elemItr = Iterators.emptyIterator();
 
         @Override
-        @CheckForNull
-        protected C computeNext() {
+        protected @Nullable C computeNext() {
           while (!elemItr.hasNext()) {
             if (rangeItr.hasNext()) {
               elemItr = ContiguousSet.create(rangeItr.next(), domain).descendingIterator();
@@ -634,7 +631,7 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
     }
 
     @Override
-    public boolean contains(@CheckForNull Object o) {
+    public boolean contains(@Nullable Object o) {
       if (o == null) {
         return false;
       }
@@ -648,7 +645,7 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
     }
 
     @Override
-    int indexOf(@CheckForNull Object target) {
+    int indexOf(@Nullable Object target) {
       if (contains(target)) {
         @SuppressWarnings("unchecked") // if it's contained, it's definitely a C
         C c = (C) requireNonNull(target);

@@ -17,8 +17,8 @@ package com.google.common.util.concurrent;
 import static java.lang.Math.min;
 
 import java.util.concurrent.locks.LockSupport;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Works around an android bug, where parking for more than INT_MAX seconds can produce an abort
@@ -31,7 +31,7 @@ final class OverflowAvoidingLockSupport {
 
   private OverflowAvoidingLockSupport() {}
 
-  static void parkNanos(@CheckForNull Object blocker, long nanos) {
+  static void parkNanos(@Nullable Object blocker, long nanos) {
     // Even in the extremely unlikely event that a thread unblocks itself early after only 68 years,
     // this is indistinguishable from a spurious wakeup, which LockSupport allows.
     LockSupport.parkNanos(blocker, min(nanos, MAX_NANOSECONDS_THRESHOLD));

@@ -170,14 +170,14 @@ abstract class InterruptibleTask<T extends @Nullable Object>
    * Do interruptible work here - do not complete Futures here, as their listeners could be
    * interrupted.
    */
-  @ParametricNullness
+  
   abstract T runInterruptibly() throws Exception;
 
   /**
    * Any interruption that happens as a result of calling interruptTask will arrive before this
    * method is called. Complete Futures here.
    */
-  abstract void afterRanInterruptiblySuccess(@ParametricNullness T result);
+  abstract void afterRanInterruptiblySuccess( T result);
 
   /**
    * Any interruption that happens as a result of calling interruptTask will arrive before this

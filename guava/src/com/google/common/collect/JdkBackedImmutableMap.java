@@ -24,7 +24,6 @@ import com.google.common.annotations.GwtCompatible;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -101,8 +100,7 @@ final class JdkBackedImmutableMap<K, V> extends ImmutableMap<K, V> {
   }
 
   @Override
-  @CheckForNull
-  public V get(@CheckForNull Object key) {
+  public @Nullable V get(@Nullable Object key) {
     return delegateMap.get(key);
   }
 

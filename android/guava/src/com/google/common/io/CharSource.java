@@ -35,7 +35,6 @@ import java.io.Writer;
 import java.nio.charset.Charset;
 import java.util.Iterator;
 import java.util.List;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -265,8 +264,7 @@ public abstract class CharSource {
    *
    * @throws IOException if an I/O error occurs while reading from this source
    */
-  @CheckForNull
-  public String readFirstLine() throws IOException {
+  public @Nullable String readFirstLine() throws IOException {
     Closer closer = Closer.create();
     try {
       BufferedReader reader = closer.register(openBufferedStream());
@@ -322,7 +320,7 @@ public abstract class CharSource {
    */
   @Beta
   @CanIgnoreReturnValue // some processors won't return a useful result
-  @ParametricNullness
+  
   public <T extends @Nullable Object> T readLines(LineProcessor<T> processor) throws IOException {
     checkNotNull(processor);
 
@@ -512,8 +510,7 @@ public abstract class CharSource {
         Iterator<String> lines = LINE_SPLITTER.split(seq).iterator();
 
         @Override
-        @CheckForNull
-        protected String computeNext() {
+        protected @Nullable String computeNext() {
           if (lines.hasNext()) {
             String next = lines.next();
             // skip last line if it's empty
@@ -527,8 +524,7 @@ public abstract class CharSource {
     }
 
     @Override
-    @CheckForNull
-    public String readFirstLine() {
+    public @Nullable String readFirstLine() {
       Iterator<String> lines = linesIterator();
       return lines.hasNext() ? lines.next() : null;
     }
@@ -539,7 +535,7 @@ public abstract class CharSource {
     }
 
     @Override
-    @ParametricNullness
+    
     public <T extends @Nullable Object> T readLines(LineProcessor<T> processor) throws IOException {
       Iterator<String> lines = linesIterator();
       while (lines.hasNext()) {

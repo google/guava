@@ -21,8 +21,8 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.Serializable;
 import java.math.BigInteger;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A wrapper class for unsigned {@code long} values, supporting arithmetic operations.
@@ -243,7 +243,7 @@ public final class UnsignedLong extends Number implements Comparable<UnsignedLon
   }
 
   @Override
-  public boolean equals(@CheckForNull Object obj) {
+  public boolean equals(@Nullable Object obj) {
     if (obj instanceof UnsignedLong) {
       UnsignedLong other = (UnsignedLong) obj;
       return value == other.value;

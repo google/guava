@@ -19,8 +19,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.GwtCompatible;
 import java.util.Collections;
 import java.util.Set;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /** Implementation of an {@link Optional} not containing a reference. */
 @GwtCompatible
@@ -63,8 +63,7 @@ final class Absent<T> extends Optional<T> {
   }
 
   @Override
-  @CheckForNull
-  public T orNull() {
+  public @Nullable T orNull() {
     return null;
   }
 
@@ -80,7 +79,7 @@ final class Absent<T> extends Optional<T> {
   }
 
   @Override
-  public boolean equals(@CheckForNull Object object) {
+  public boolean equals(@Nullable Object object) {
     return object == this;
   }
 

@@ -23,8 +23,8 @@ import com.google.common.base.Function;
 import com.google.common.collect.Maps;
 import java.util.Map;
 import java.util.Set;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * This class provides a skeletal implementation of {@link ValueGraph}. It is recommended to extend
@@ -109,7 +109,7 @@ public abstract class AbstractValueGraph<N, V> extends AbstractBaseGraph<N>
   }
 
   @Override
-  public final boolean equals(@CheckForNull Object obj) {
+  public final boolean equals(@Nullable Object obj) {
     if (obj == this) {
       return true;
     }

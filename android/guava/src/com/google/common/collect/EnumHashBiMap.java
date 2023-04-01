@@ -28,7 +28,6 @@ import java.io.ObjectOutputStream;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -95,8 +94,7 @@ public final class EnumHashBiMap<K extends Enum<K>, V extends @Nullable Object>
   @Override
   @SuppressWarnings("RedundantOverride") // b/192446478: RedundantOverride ignores some annotations.
   // TODO(b/192446998): Remove this override after tools understand nullness better.
-  @CheckForNull
-  public V put(K key, @ParametricNullness V value) {
+  public @Nullable V put(K key,  V value) {
     return super.put(key, value);
   }
 
@@ -104,8 +102,7 @@ public final class EnumHashBiMap<K extends Enum<K>, V extends @Nullable Object>
   @Override
   @SuppressWarnings("RedundantOverride") // b/192446478: RedundantOverride ignores some annotations.
   // TODO(b/192446998): Remove this override after tools understand nullness better.
-  @CheckForNull
-  public V forcePut(K key, @ParametricNullness V value) {
+  public @Nullable V forcePut(K key,  V value) {
     return super.forcePut(key, value);
   }
 

@@ -21,7 +21,6 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -43,14 +42,12 @@ abstract class AbstractIterator<T extends @Nullable Object> implements Iterator<
     FAILED,
   }
 
-  @CheckForNull private T next;
+  private @Nullable T next;
 
-  @CheckForNull
-  protected abstract T computeNext();
+  protected abstract @Nullable T computeNext();
 
   @CanIgnoreReturnValue
-  @CheckForNull
-  protected final T endOfData() {
+  protected final @Nullable T endOfData() {
     state = State.DONE;
     return null;
   }
@@ -79,7 +76,7 @@ abstract class AbstractIterator<T extends @Nullable Object> implements Iterator<
   }
 
   @Override
-  @ParametricNullness
+  
   public final T next() {
     if (!hasNext()) {
       throw new NoSuchElementException();

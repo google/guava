@@ -23,8 +23,8 @@ import com.google.j2objc.annotations.Weak;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A synchronization abstraction supporting waiting on arbitrary boolean conditions.
@@ -310,8 +310,7 @@ public final class Monitor {
 
     /** The next active guard */
     @GuardedBy("monitor.lock")
-    @CheckForNull
-    Guard next;
+    @Nullable Guard next;
 
     protected Guard(Monitor monitor) {
       this.monitor = checkNotNull(monitor, "monitor");
@@ -337,8 +336,7 @@ public final class Monitor {
    * A linked list threaded through the Guard.next field.
    */
   @GuardedBy("lock")
-  @CheckForNull
-  private Guard activeGuards = null;
+  private @Nullable Guard activeGuards = null;
 
   /**
    * Creates a monitor with a non-fair (but fast) ordering policy. Equivalent to {@code

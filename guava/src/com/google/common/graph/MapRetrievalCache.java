@@ -19,8 +19,8 @@ package com.google.common.graph;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.util.Map;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A {@link MapIteratorCache} that adds additional caching. In addition to the caching provided by
@@ -31,8 +31,8 @@ import org.jspecify.annotations.NullMarked;
 @NullMarked
 final class MapRetrievalCache<K, V> extends MapIteratorCache<K, V> {
   // See the note about volatile in the superclass.
-  @CheckForNull private transient volatile CacheEntry<K, V> cacheEntry1;
-  @CheckForNull private transient volatile CacheEntry<K, V> cacheEntry2;
+  private transient volatile @Nullable CacheEntry<K, V> cacheEntry1;
+  private transient volatile @Nullable CacheEntry<K, V> cacheEntry2;
 
   MapRetrievalCache(Map<K, V> backingMap) {
     super(backingMap);
@@ -40,8 +40,7 @@ final class MapRetrievalCache<K, V> extends MapIteratorCache<K, V> {
 
   @SuppressWarnings("unchecked") // Safe because we only cast if key is found in map.
   @Override
-  @CheckForNull
-  V get(Object key) {
+  @Nullable V get(Object key) {
     checkNotNull(key);
     V value = getIfCached(key);
     if (value != null) {
@@ -58,8 +57,7 @@ final class MapRetrievalCache<K, V> extends MapIteratorCache<K, V> {
   // Internal methods (package-visible, but treat as only subclass-visible)
 
   @Override
-  @CheckForNull
-  V getIfCached(@CheckForNull Object key) {
+  @Nullable V getIfCached(@Nullable Object key) {
     V value = super.getIfCached(key);
     if (value != null) {
       return value;

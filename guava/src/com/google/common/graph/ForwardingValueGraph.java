@@ -18,8 +18,8 @@ package com.google.common.graph;
 
 import java.util.Optional;
 import java.util.Set;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A class to allow {@link ValueGraph} implementations to be backed by a provided delegate. This is
@@ -118,14 +118,12 @@ abstract class ForwardingValueGraph<N, V> extends AbstractValueGraph<N, V> {
   }
 
   @Override
-  @CheckForNull
-  public V edgeValueOrDefault(N nodeU, N nodeV, @CheckForNull V defaultValue) {
+  public @Nullable V edgeValueOrDefault(N nodeU, N nodeV, @Nullable V defaultValue) {
     return delegate().edgeValueOrDefault(nodeU, nodeV, defaultValue);
   }
 
   @Override
-  @CheckForNull
-  public V edgeValueOrDefault(EndpointPair<N> endpoints, @CheckForNull V defaultValue) {
+  public @Nullable V edgeValueOrDefault(EndpointPair<N> endpoints, @Nullable V defaultValue) {
     return delegate().edgeValueOrDefault(endpoints, defaultValue);
   }
 }

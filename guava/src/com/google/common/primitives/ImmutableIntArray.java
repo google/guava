@@ -32,8 +32,8 @@ import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.function.IntConsumer;
 import java.util.stream.IntStream;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An immutable array of {@code int} values, with an API resembling {@link List}.
@@ -483,17 +483,17 @@ public final class ImmutableIntArray implements Serializable {
     }
 
     @Override
-    public boolean contains(@CheckForNull Object target) {
+    public boolean contains(@Nullable Object target) {
       return indexOf(target) >= 0;
     }
 
     @Override
-    public int indexOf(@CheckForNull Object target) {
+    public int indexOf(@Nullable Object target) {
       return target instanceof Integer ? parent.indexOf((Integer) target) : -1;
     }
 
     @Override
-    public int lastIndexOf(@CheckForNull Object target) {
+    public int lastIndexOf(@Nullable Object target) {
       return target instanceof Integer ? parent.lastIndexOf((Integer) target) : -1;
     }
 
@@ -509,7 +509,7 @@ public final class ImmutableIntArray implements Serializable {
     }
 
     @Override
-    public boolean equals(@CheckForNull Object object) {
+    public boolean equals(@Nullable Object object) {
       if (object instanceof AsList) {
         AsList that = (AsList) object;
         return this.parent.equals(that.parent);
@@ -549,7 +549,7 @@ public final class ImmutableIntArray implements Serializable {
    * values as this one, in the same order.
    */
   @Override
-  public boolean equals(@CheckForNull Object object) {
+  public boolean equals(@Nullable Object object) {
     if (object == this) {
       return true;
     }

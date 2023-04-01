@@ -20,7 +20,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import java.io.Serializable;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -31,8 +30,8 @@ import org.jspecify.annotations.Nullable;
 final class NaturalOrdering extends Ordering<Comparable<?>> implements Serializable {
   static final NaturalOrdering INSTANCE = new NaturalOrdering();
 
-  @CheckForNull private transient Ordering<@Nullable Comparable<?>> nullsFirst;
-  @CheckForNull private transient Ordering<@Nullable Comparable<?>> nullsLast;
+  private transient @Nullable Ordering<@Nullable Comparable<?>> nullsFirst;
+  private transient @Nullable Ordering<@Nullable Comparable<?>> nullsLast;
 
   @Override
   public int compare(Comparable<?> left, Comparable<?> right) {

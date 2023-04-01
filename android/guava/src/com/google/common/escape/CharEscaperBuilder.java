@@ -21,7 +21,6 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -67,8 +66,7 @@ public final class CharEscaperBuilder {
     }
 
     @Override
-    @CheckForNull
-    protected char[] escape(char c) {
+    protected char @Nullable [] escape(char c) {
       return c < replaceLength ? replacements[c] : null;
     }
   }

@@ -34,7 +34,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -43,7 +42,7 @@ import org.jspecify.annotations.Nullable;
 @NullMarked
 final class FuturesGetChecked {
   @CanIgnoreReturnValue
-  @ParametricNullness
+  
   static <V extends @Nullable Object, X extends Exception> V getChecked(
       Future<V> future, Class<X> exceptionClass) throws X {
     return getChecked(bestGetCheckedTypeValidator(), future, exceptionClass);
@@ -52,7 +51,7 @@ final class FuturesGetChecked {
   /** Implementation of {@link Futures#getChecked(Future, Class)}. */
   @CanIgnoreReturnValue
   @VisibleForTesting
-  @ParametricNullness
+  
   static <V extends @Nullable Object, X extends Exception> V getChecked(
       GetCheckedTypeValidator validator, Future<V> future, Class<X> exceptionClass) throws X {
     validator.validateClass(exceptionClass);
@@ -69,7 +68,7 @@ final class FuturesGetChecked {
 
   /** Implementation of {@link Futures#getChecked(Future, Class, long, TimeUnit)}. */
   @CanIgnoreReturnValue
-  @ParametricNullness
+  
   static <V extends @Nullable Object, X extends Exception> V getChecked(
       Future<V> future, Class<X> exceptionClass, long timeout, TimeUnit unit) throws X {
     // TODO(cpovirk): benchmark a version of this method that accepts a GetCheckedTypeValidator
@@ -224,8 +223,7 @@ final class FuturesGetChecked {
               })
           .reverse();
 
-  @CheckForNull
-  private static <X> X newFromConstructor(Constructor<X> constructor, Throwable cause) {
+  private static <X> @Nullable X newFromConstructor(Constructor<X> constructor, Throwable cause) {
     Class<?>[] paramTypes = constructor.getParameterTypes();
     Object[] params = new Object[paramTypes.length];
     for (int i = 0; i < paramTypes.length; i++) {
