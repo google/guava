@@ -29,7 +29,7 @@
  * @author Chris Nokleberg
  */
 @CheckReturnValue
-@ParametersAreNonnullByDefault
+
 package com.google.common.io;
 
 import com.google.errorprone.annotations.CheckReturnValue;

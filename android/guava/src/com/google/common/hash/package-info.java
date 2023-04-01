@@ -20,7 +20,7 @@
  * href="https://github.com/google/guava/wiki/HashingExplained">hashing</a>.
  */
 @CheckReturnValue
-@ParametersAreNonnullByDefault
+
 package com.google.common.hash;
 
 import com.google.errorprone.annotations.CheckReturnValue;

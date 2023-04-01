@@ -60,7 +60,7 @@
  *   <li>{@link com.google.common.primitives.UnsignedLong}
  * </ul>
  */
-@ParametersAreNonnullByDefault
+
 @CheckReturnValue
 package com.google.common.primitives;
 
