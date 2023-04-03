@@ -1,8 +1,11 @@
 // always apply plugins as the first step
 plugins {
   id "java"
+  id "org.gradle.crypto.checksum"  
   id "maven-publish"
 }
+
+import org.gradle.crypto.checksum.Checksum
 
 // configurable properties
 project.ext.funatic = [
@@ -40,16 +43,6 @@ jar {
     }
 }
 
-repositories {
-    mavenCentral()
-    maven {
-        url = uri("https://maven.pkg.github.com/funatic-nl/fun-maven-repo")
-        credentials {
-            username = project.findProperty("gpr.user") ?: System.getenv("MAVEN_REPO_USERNAME")
-            password = project.findProperty("gpr.key") ?: System.getenv("MAVEN_REPO_TOKEN")
-        }        
-    }
-}   
 publishing {
     repositories {
         maven {
@@ -73,6 +66,22 @@ publishing {
         }
     }
 }
+
+task collectArtifactsAndResources {
+    doLast {
+        println('Collecting artifacts and resources')
+        copy {
+            from "resources"
+            into "../build/resources"
+        }
+        copy {
+            from "build/libs"
+            exclude "**/*.war"
+            into "../build"
+        }
+    }
+}
+build.finalizedBy(collectArtifactsAndResources)
 
 dependencies {
     // basic JEE 6 runtime (like WebSphere 8.5/9)

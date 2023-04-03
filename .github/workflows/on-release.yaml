@@ -1,0 +1,82 @@
+name: Gradle Release
+
+
+on:
+  push:
+    tags:
+      - '*'      
+      - '!snapshot*'  
+      
+jobs:
+  build:
+
+    env:
+      MAVEN_REPO_USERNAME: ${{ secrets.FUNATIC_BUILDER_MAVEN_USER }}
+      MAVEN_REPO_TOKEN: ${{ secrets.FUNATIC_BUILDER_MAVEN_TOKEN }}
+      
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
+
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Set up JDK 11
+      uses: actions/setup-java@v2
+      with:
+        java-version: '11'
+        distribution: 'adopt'
+        server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
+        settings-path: ${{ github.workspace }} # location for the settings.xml file
+        
+    - name: Use Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+
+    - name: Set timezone
+      uses: szenius/set-timezone@v1.0
+      with:
+        timezoneLinux: "Europe/Amsterdam"
+        
+    - name: Collect build info
+      id: buildInfo
+      run: |
+          echo ::set-output name=SOURCE_TAG::${GITHUB_REF#refs/tags/}
+          echo ::set-output name=SOURCE_BRANCH::${GITHUB_REF#refs/heads/}
+                 
+    - name: Validate Gradle wrapper
+      uses: gradle/wrapper-validation-action@e6e38bacfdf1a337459f332974bb2327a31aaf4b
+                     
+    - name: Build with Gradle and collect artifacts and resources
+      run: ./gradlew build
+      env:
+        FUNATICBUILDER_GITHUBACTION_TOKEN: ${{ secrets.FUNATICBUILDER_GITHUBACTION_TOKEN }}
+        VERSION: ${{ steps.buildInfo.outputs.SOURCE_TAG }}
+        
+    - name: Assemble distribution and resources
+      run: ./gradlew assemble
+        
+    - name: Publish to GitHub Packages
+      run: ./gradlew publish
+      env:
+        VERSION: ${{ steps.buildInfo.outputs.SOURCE_TAG }}         
+
+    - name: Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: |
+          build/dist/dist.zip
+          build/dist/resources.zip
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  
+                          
+    - name: Delete old snapshot releases
+      uses: dev-drprasad/delete-older-releases@v0.2.0
+      with:
+        delete_tag_pattern: snapshot-${{ steps.buildInfo.outputs.SOURCE_BRANCH }}
+        keep_latest: 0
+        delete_tags: true
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

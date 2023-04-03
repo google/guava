@@ -1,0 +1,89 @@
+# This workflow will:
+# - build all projects in the repo using Gradle (gradlew build)
+# - collect all artifacts and resources an zip these (gradlew assemble)
+# - create a tag
+# -  
+
+name: Gradle Build
+
+on: 
+  schedule:
+    - cron: '19 4 * * 5'
+  push:
+    branches:
+      - '**'
+
+jobs:
+  build:
+
+    env:
+      MAVEN_REPO_USERNAME: ${{ secrets.FUNATIC_BUILDER_MAVEN_USER }}
+      MAVEN_REPO_TOKEN: ${{ secrets.FUNATIC_BUILDER_MAVEN_TOKEN }}
+      
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: read
+
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Set up JDK 11
+      uses: actions/setup-java@v2
+      with:
+        java-version: '11'
+        distribution: 'adopt'
+        server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
+        settings-path: ${{ github.workspace }} # location for the settings.xml file
+        
+    - name: Use Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+
+    - name: Set timezone
+      uses: szenius/set-timezone@v1.0
+      with:
+        timezoneLinux: "Europe/Amsterdam"
+        
+    - name: Collect build info
+      id: buildInfo
+      run: |
+          echo ::set-output name=SOURCE_BRANCH::${GITHUB_REF#refs/heads/}
+          echo ::set-output name=NOW::$(date +'%Y%m%d-%H%M')
+                          
+    - name: Validate Gradle wrapper
+      uses: gradle/wrapper-validation-action@e6e38bacfdf1a337459f332974bb2327a31aaf4b
+      
+    - name: Build with Gradle and collect artifacts and resources
+      run: ./gradlew build
+      env:
+        FUNATICBUILDER_GITHUBACTION_TOKEN: ${{ secrets.FUNATICBUILDER_GITHUBACTION_TOKEN }}
+        VERSION: snapshot-${{ steps.buildInfo.outputs.SOURCE_BRANCH }}-${{ steps.buildInfo.outputs.NOW }}
+        
+    - name: Assemble distribution and resources
+      run: ./gradlew assemble
+      
+    - name: Release
+      uses: ncipollo/release-action@v1
+      with:
+        artifacts: "build/dist/dist.zip,build/dist/resources.zip"   
+        token: ${{ secrets.GITHUB_TOKEN }}
+        prerelease: true
+        tag: snapshot-${{ steps.buildInfo.outputs.SOURCE_BRANCH }}-${{ steps.buildInfo.outputs.NOW }}
+        body: "Snapshot build of branch: ${{ steps.buildInfo.outputs.SOURCE_BRANCH }}"
+
+    - name: Delete old snapshot releases
+      uses: dev-drprasad/delete-older-releases@v0.2.0
+      with:
+        delete_tag_pattern: snapshot-${{ steps.buildInfo.outputs.SOURCE_BRANCH }}
+        keep_latest: 3
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Publish Test Report
+      uses: mikepenz/action-junit-report@v3
+      if: always() # always run even if the previous step fails
+      with:
+        report_paths: '**/build/test-results/test/TEST-*.xml'
+        check_name: JUnit          

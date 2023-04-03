@@ -1,0 +1,60 @@
+plugins {
+  id "org.gradle.crypto.checksum" version "latest.release"
+  id "de.undercouch.download" version "latest.release"
+}
+import org.gradle.crypto.checksum.Checksum
+
+// make repos available to all prjects
+subprojects {
+    repositories {
+        mavenCentral()
+        maven {
+            url = uri("https://maven.pkg.github.com/funatic-nl/fun-maven-repo")
+            credentials {
+                username = project.findProperty("gpr.user") ?: System.getenv("MAVEN_REPO_USERNAME")
+                password = project.findProperty("gpr.key") ?: System.getenv("MAVEN_REPO_TOKEN")
+            }        
+        }
+    }   
+}
+
+// generate SHA512 hashes, it will depend on the build task for all sub projects
+task hash(type: Checksum) {
+    files = layout.files { file('build').listFiles() }.filter { File f ->
+            f.name.endsWith(".jar") || f.name.endsWith(".ear") || f.name.endsWith(".zip")
+        }
+    outputDir = file(new File("build"))
+    algorithm = Checksum.Algorithm.SHA512
+}
+
+
+// clean resources and artifacts
+task clean {
+    doLast {
+        println('Deleting artifacts and resources in Funatic build folder')
+        delete 'build'
+    }
+}
+
+task distZip(type: Zip, dependsOn: hash) {
+   from 'build/'
+   include '*'
+   excludes = ['resources', 'dist']
+   archiveFileName = 'dist.zip'
+   destinationDirectory = layout.buildDirectory.dir('dist')
+}
+
+task resourcesZip(type: Zip, dependsOn: hash) {
+   from 'build/'
+   include 'resources/**'
+   archiveFileName = 'resources.zip'
+   destinationDirectory = layout.buildDirectory.dir('dist')
+}
+
+task assemble {
+    dependsOn(distZip, resourcesZip)
+    doLast {
+        println('Make sure the projects have been build')
+    }
+}
+

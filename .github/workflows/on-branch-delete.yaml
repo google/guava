@@ -1,0 +1,23 @@
+name: Branch Deleted
+on: delete
+jobs:
+  delete:
+    if: github.event.ref_type == 'branch'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write    
+    steps:
+      - name: Clean up
+        run: |
+          echo "Clean up for branch ${{ github.event.ref }}"
+          
+      - name: Delete snapshot releases
+        uses: dev-drprasad/delete-older-releases@v0.2.0
+        with:
+          delete_tag_pattern: snapshot-${{ github.event.ref }}
+          keep_latest: 0
+          delete_tags: true          
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    
