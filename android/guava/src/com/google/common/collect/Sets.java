@@ -23,6 +23,7 @@ import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Collections2.FilteredCollection;
@@ -50,6 +51,7 @@ import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
 import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -425,6 +427,7 @@ public final class Sets {
    * @return a new, empty {@code CopyOnWriteArraySet}
    * @since 12.0
    */
+  @J2ktIncompatible
   @GwtIncompatible // CopyOnWriteArraySet
   public static <E extends @Nullable Object> CopyOnWriteArraySet<E> newCopyOnWriteArraySet() {
     return new CopyOnWriteArraySet<E>();
@@ -437,6 +440,7 @@ public final class Sets {
    * @return a new {@code CopyOnWriteArraySet} containing those elements
    * @since 12.0
    */
+  @J2ktIncompatible
   @GwtIncompatible // CopyOnWriteArraySet
   public static <E extends @Nullable Object> CopyOnWriteArraySet<E> newCopyOnWriteArraySet(
       Iterable<? extends E> elements) {
@@ -462,6 +466,7 @@ public final class Sets {
    * @throws IllegalArgumentException if {@code collection} is not an {@code EnumSet} instance and
    *     contains no elements
    */
+  @J2ktIncompatible
   public static <E extends Enum<E>> EnumSet<E> complementOf(Collection<E> collection) {
     if (collection instanceof EnumSet) {
       return EnumSet.complementOf((EnumSet<E>) collection);
@@ -553,8 +558,8 @@ public final class Sets {
      * that is inconsistent with {@link Object#equals(Object)}.
      */
     @SuppressWarnings("nullness") // Unsafe, but we can't fix it now.
-    public ImmutableSet<E> immutableCopy() {
-      return ImmutableSet.copyOf(this);
+    public ImmutableSet<@NonNull E> immutableCopy() {
+      return ImmutableSet.copyOf((SetView<@NonNull E>) this);
     }
 
     /**
@@ -732,9 +737,13 @@ public final class Sets {
       }
 
       @Override
-      @SuppressWarnings("nullness") // see supertype
-      public ImmutableSet<E> immutableCopy() {
-        return new ImmutableSet.Builder<E>().addAll(set1).addAll(set2).build();
+      @SuppressWarnings({"nullness", "unchecked"}) // see supertype
+      public ImmutableSet<@NonNull E> immutableCopy() {
+        ImmutableSet.Builder<@NonNull E> builder =
+            new ImmutableSet.Builder<@NonNull E>()
+                .addAll((Iterable<@NonNull E>) set1)
+                .addAll((Iterable<@NonNull E>) set2);
+        return (ImmutableSet<@NonNull E>) builder.build();
       }
     };
   }

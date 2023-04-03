@@ -22,6 +22,7 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.DoNotCall;
@@ -472,10 +473,10 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableBiMapFauxverideShim<
               entries = Arrays.copyOf(entries, size);
             }
             Arrays.sort(
-                entries,
+                (Entry<K, V>[]) entries, // Entries up to size are not null
                 0,
                 size,
-                Ordering.from(valueComparator).onResultOf(Maps.<V>valueFunction()));
+                Ordering.from(valueComparator).onResultOf(Maps.valueFunction()));
           }
           entriesUsed = true;
           return RegularImmutableBiMap.fromEntryArray(size, entries);
@@ -622,6 +623,7 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableBiMapFauxverideShim<
    * <p>Since the bimap is immutable, ImmutableBiMap doesn't require special logic for keeping the
    * bimap and its inverse in sync during serialization, the way AbstractBiMap does.
    */
+  @J2ktIncompatible // serialization
   private static class SerializedForm<K, V> extends ImmutableMap.SerializedForm<K, V> {
     SerializedForm(ImmutableBiMap<K, V> bimap) {
       super(bimap);
@@ -636,10 +638,12 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableBiMapFauxverideShim<
   }
 
   @Override
+  @J2ktIncompatible // serialization
   Object writeReplace() {
     return new SerializedForm<>(this);
   }
 
+  @J2ktIncompatible // serialization
   private void readObject(ObjectInputStream stream) throws InvalidObjectException {
     throw new InvalidObjectException("Use SerializedForm");
   }

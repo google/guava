@@ -25,6 +25,7 @@ import static com.google.common.collect.RegularImmutableMap.checkNoConflictInKey
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableMapEntry.NonTerminalImmutableBiMapEntry;
 import com.google.common.collect.RegularImmutableMap.BucketOverflowException;
@@ -294,15 +295,18 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
     }
 
     @Override
+    @J2ktIncompatible // serialization
     Object writeReplace() {
       return new InverseSerializedForm<>(RegularImmutableBiMap.this);
     }
 
+    @J2ktIncompatible // java.io.ObjectInputStream
     private void readObject(ObjectInputStream stream) throws InvalidObjectException {
       throw new InvalidObjectException("Use InverseSerializedForm");
     }
   }
 
+  @J2ktIncompatible // serialization
   private static class InverseSerializedForm<K, V> implements Serializable {
     private final ImmutableBiMap<K, V> forward;
 

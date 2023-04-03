@@ -23,6 +23,7 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.j2objc.annotations.WeakOuter;
 import java.io.IOException;
@@ -853,6 +854,7 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
    *     from the entries() ordering
    */
   @GwtIncompatible // java.io.ObjectOutputStream
+  @J2ktIncompatible
   private void writeObject(ObjectOutputStream stream) throws IOException {
     stream.defaultWriteObject();
     stream.writeInt(size());
@@ -863,6 +865,7 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
   }
 
   @GwtIncompatible // java.io.ObjectInputStream
+  @J2ktIncompatible
   private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
     stream.defaultReadObject();
     keyToKeyList = CompactLinkedHashMap.create();
@@ -877,5 +880,6 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
   }
 
   @GwtIncompatible // java serialization not supported
+  @J2ktIncompatible
   private static final long serialVersionUID = 0;
 }

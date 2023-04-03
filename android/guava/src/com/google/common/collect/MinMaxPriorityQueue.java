@@ -25,6 +25,7 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.math.IntMath;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -108,7 +109,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
    * initial contents, and an initial expected size of 11.
    */
   public static <E extends Comparable<E>> MinMaxPriorityQueue<E> create() {
-    return new Builder<Comparable>(Ordering.natural()).create();
+    return new Builder<Comparable<E>>(Ordering.natural()).create();
   }
 
   /**
@@ -525,7 +526,10 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
   @WeakOuter
   private class Heap {
     final Ordering<E> ordering;
-    @Weak Heap otherHeap; // always initialized immediately after construction
+
+    @SuppressWarnings("nullness:initialization.field.uninitialized")
+    @Weak
+    Heap otherHeap; // always initialized immediately after construction
 
     Heap(Ordering<E> ordering) {
       this.ordering = ordering;
@@ -916,6 +920,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
   }
 
   @Override
+  @J2ktIncompatible // Incompatible return type change. Use inherited (unoptimized) implementation
   public Object[] toArray() {
     Object[] copyTo = new Object[size];
     System.arraycopy(queue, 0, copyTo, 0, size);

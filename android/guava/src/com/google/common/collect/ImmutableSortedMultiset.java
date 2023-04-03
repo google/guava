@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.math.IntMath;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -371,7 +372,7 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
    * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6468354">bug 6468354</a>.
    */
   public static <E extends Comparable<?>> Builder<E> reverseOrder() {
-    return new Builder<E>(Ordering.natural().reverse());
+    return new Builder<E>(Ordering.<E>natural().reverse());
   }
 
   /**
@@ -640,6 +641,7 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
     }
   }
 
+  @J2ktIncompatible // serialization
   private static final class SerializedForm<E> implements Serializable {
     final Comparator<? super E> comparator;
     final E[] elements;
@@ -670,10 +672,12 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
   }
 
   @Override
+  @J2ktIncompatible // serialization
   Object writeReplace() {
     return new SerializedForm<E>(this);
   }
 
+  @J2ktIncompatible // java.io.ObjectInputStream
   private void readObject(ObjectInputStream stream) throws InvalidObjectException {
     throw new InvalidObjectException("Use SerializedForm");
   }

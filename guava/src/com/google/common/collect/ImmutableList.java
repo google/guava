@@ -27,6 +27,7 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.DoNotCall;
@@ -702,6 +703,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    * Serializes ImmutableLists as their logical contents. This ensures that
    * implementation types do not leak into the serialized representation.
    */
+  @J2ktIncompatible // serialization
   static class SerializedForm implements Serializable {
     final Object[] elements;
 
@@ -716,11 +718,13 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
     private static final long serialVersionUID = 0;
   }
 
+  @J2ktIncompatible // serialization
   private void readObject(ObjectInputStream stream) throws InvalidObjectException {
     throw new InvalidObjectException("Use SerializedForm");
   }
 
   @Override
+  @J2ktIncompatible // serialization
   Object writeReplace() {
     return new SerializedForm(toArray());
   }

@@ -336,7 +336,7 @@ public final class Range<C extends Comparable> extends RangeGwtSerializationDepe
     if (values instanceof SortedSet) {
       SortedSet<C> set = (SortedSet<C>) values;
       Comparator<?> comparator = set.comparator();
-      if (Ordering.natural().equals(comparator) || comparator == null) {
+      if (Ordering.<C>natural().equals(comparator) || comparator == null) {
         return closed(set.first(), set.last());
       }
     }
@@ -345,8 +345,8 @@ public final class Range<C extends Comparable> extends RangeGwtSerializationDepe
     C max = min;
     while (valueIterator.hasNext()) {
       C value = checkNotNull(valueIterator.next());
-      min = Ordering.natural().min(min, value);
-      max = Ordering.natural().max(max, value);
+      min = Ordering.<C>natural().min(min, value);
+      max = Ordering.<C>natural().max(max, value);
     }
     return closed(min, max);
   }

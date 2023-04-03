@@ -22,6 +22,7 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Objects;
 import com.google.common.collect.Maps.IteratorBasedAbstractMap;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -120,8 +121,12 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
    * they are not initialized inline in the constructor, they are initialized from init(), which the
    * constructor calls (as does readObject()).
    */
+  @SuppressWarnings("nullness:initialization.field.uninitialized") // For J2KT (see above)
   private transient @Nullable BiEntry<K, V>[] hashTableKToV;
+
+  @SuppressWarnings("nullness:initialization.field.uninitialized") // For J2KT (see above)
   private transient @Nullable BiEntry<K, V>[] hashTableVToK;
+
   @Weak @CheckForNull private transient BiEntry<K, V> firstInKeyInsertionOrder;
   @Weak @CheckForNull private transient BiEntry<K, V> lastInKeyInsertionOrder;
   private transient int size;
@@ -763,6 +768,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
     }
 
     @GwtIncompatible // serialization
+    @J2ktIncompatible
     private void readObject(ObjectInputStream in) throws InvalidObjectException {
       throw new InvalidObjectException("Use InverseSerializedForm");
     }
@@ -786,12 +792,14 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
    * @serialData the number of entries, first key, first value, second key, second value, and so on.
    */
   @GwtIncompatible // java.io.ObjectOutputStream
+  @J2ktIncompatible
   private void writeObject(ObjectOutputStream stream) throws IOException {
     stream.defaultWriteObject();
     Serialization.writeMap(this, stream);
   }
 
   @GwtIncompatible // java.io.ObjectInputStream
+  @J2ktIncompatible
   private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
     stream.defaultReadObject();
     int size = Serialization.readCount(stream);
@@ -800,5 +808,6 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
   }
 
   @GwtIncompatible // Not needed in emulated source
+  @J2ktIncompatible
   private static final long serialVersionUID = 0;
 }

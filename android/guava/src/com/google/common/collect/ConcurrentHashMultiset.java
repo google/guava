@@ -23,6 +23,7 @@ import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Serialization.FieldSetter;
 import com.google.common.math.IntMath;
@@ -55,6 +56,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author mike nonemacher
  * @since 2.0
  */
+@J2ktIncompatible
 @GwtIncompatible
 @ElementTypesAreNonnullByDefault
 public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> implements Serializable {
@@ -594,6 +596,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
     stream.writeObject(countMap);
   }
 
+  @J2ktIncompatible // serialization
   private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
     stream.defaultReadObject();
     @SuppressWarnings("unchecked") // reading data stored by writeObject

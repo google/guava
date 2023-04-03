@@ -24,6 +24,7 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.DoNotCall;
@@ -556,20 +557,20 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
         if (entriesUsed) {
           entries = Arrays.copyOf(entries, size);
         }
-        localEntries = entries;
+        @SuppressWarnings("nullness") // entries 0..localSize-1 are non-null
+        Entry<K, V>[] nonNullEntries = (Entry<K, V>[]) entries;
         if (!throwIfDuplicateKeys) {
           // We want to retain only the last-put value for any given key, before sorting.
           // This could be improved, but orderEntriesByValue is rather rarely used anyway.
-          @SuppressWarnings("nullness") // entries 0..size-1 are non-null
-          Entry<K, V>[] nonNullEntries = (Entry<K, V>[]) localEntries;
-          localEntries = lastEntryForEachKey(nonNullEntries, size);
-          localSize = localEntries.length;
+          nonNullEntries = lastEntryForEachKey(nonNullEntries, size);
+          localSize = nonNullEntries.length;
         }
         Arrays.sort(
-            localEntries,
+            nonNullEntries,
             0,
             localSize,
             Ordering.from(valueComparator).onResultOf(Maps.<V>valueFunction()));
+        localEntries = (@Nullable Entry<K, V>[]) nonNullEntries;
       }
       entriesUsed = true;
       return RegularImmutableMap.fromEntryArray(localSize, localEntries, throwIfDuplicateKeys);
@@ -682,7 +683,10 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
       }
     } else if (map instanceof EnumMap) {
       @SuppressWarnings("unchecked") // safe since map is not writable
-      ImmutableMap<K, V> kvMap = (ImmutableMap<K, V>) copyOfEnumMap((EnumMap<?, ?>) map);
+      ImmutableMap<K, V> kvMap =
+          (ImmutableMap<K, V>)
+              copyOfEnumMap(
+                  (EnumMap<?, ? extends V>) map); // hide K (violates bounds) from J2KT, preserve V.
       return kvMap;
     }
     return copyOf(map.entrySet());
@@ -717,9 +721,9 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     }
   }
 
-  private static <K extends Enum<K>, V> ImmutableMap<K, V> copyOfEnumMap(
-      EnumMap<K, ? extends V> original) {
-    EnumMap<K, V> copy = new EnumMap<>(original);
+  private static <K extends Enum<K>, V> ImmutableMap<K, ? extends V> copyOfEnumMap(
+      EnumMap<?, ? extends V> original) {
+    EnumMap<K, V> copy = new EnumMap<>((EnumMap<K, ? extends V>) original);
     for (Entry<K, V> entry : copy.entrySet()) {
       checkEntryNotNull(entry.getKey(), entry.getValue());
     }
@@ -1193,6 +1197,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    * reconstructed using public factory methods. This ensures that the implementation types remain
    * as implementation details.
    */
+  @J2ktIncompatible // serialization
   static class SerializedForm<K, V> implements Serializable {
     // This object retains references to collections returned by keySet() and value(). This saves
     // bytes when the both the map and its keySet or value collection are written to the same
@@ -1272,10 +1277,12 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    * method. Publicly-accessible subclasses must override this method and should return a subclass
    * of SerializedForm whose readResolve() method returns objects of the subclass type.
    */
+  @J2ktIncompatible // serialization
   Object writeReplace() {
     return new SerializedForm<>(this);
   }
 
+  @J2ktIncompatible // java.io.ObjectInputStream
   private void readObject(ObjectInputStream stream) throws InvalidObjectException {
     throw new InvalidObjectException("Use SerializedForm");
   }

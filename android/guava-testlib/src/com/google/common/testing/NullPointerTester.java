@@ -74,6 +74,22 @@ public final class NullPointerTester {
 
   private ExceptionTypePolicy policy = ExceptionTypePolicy.NPE_OR_UOE;
 
+  public NullPointerTester() {
+    try {
+      /*
+       * Converter.apply has a non-nullable parameter type but doesn't throw for null arguments. For
+       * more information, see the comments in that class.
+       *
+       * We already know that that's how it behaves, and subclasses of Converter can't change that
+       * behavior. So there's no sense in making all subclass authors exclude the method from any
+       * NullPointerTester tests that they have.
+       */
+      ignoredMembers.add(Converter.class.getMethod("apply", Object.class));
+    } catch (NoSuchMethodException shouldBeImpossible) {
+      // OK, fine: If it doesn't exist, then there's chance that we're going to be asked to test it.
+    }
+  }
+
   /**
    * Sets a default value that can be used for any parameter of type {@code type}. Returns this
    * object.

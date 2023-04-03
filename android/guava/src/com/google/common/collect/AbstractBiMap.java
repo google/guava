@@ -22,6 +22,7 @@ import static com.google.common.collect.NullnessCasts.uncheckedCastNullableTToT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Objects;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.j2objc.annotations.RetainedWith;
@@ -51,8 +52,12 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 abstract class AbstractBiMap<K extends @Nullable Object, V extends @Nullable Object>
     extends ForwardingMap<K, V> implements BiMap<K, V>, Serializable {
 
+  @SuppressWarnings("nullness:initialization.field.uninitialized") // For J2KT (lateinit)
   private transient Map<K, V> delegate;
-  @RetainedWith transient AbstractBiMap<V, K> inverse;
+
+  @SuppressWarnings("nullness:initialization.field.uninitialized") // For J2KT (lateinit)
+  @RetainedWith
+  transient AbstractBiMap<V, K> inverse;
 
   /** Package-private constructor for creating a map-backed bimap. */
   AbstractBiMap(Map<K, V> forward, Map<V, K> backward) {
@@ -398,15 +403,8 @@ abstract class AbstractBiMap<K extends @Nullable Object, V extends @Nullable Obj
     // See java.util.Collections.CheckedEntrySet for details on attacks.
 
     @Override
-    public Object[] toArray() {
-      /*
-       * standardToArray returns `@Nullable Object[]` rather than `Object[]` but only because it can
-       * be used with collections that may contain null. This collection never contains nulls, so we
-       * can treat it as a plain `Object[]`.
-       */
-      @SuppressWarnings("nullness")
-      Object[] result = standardToArray();
-      return result;
+    public @Nullable Object[] toArray() {
+      return standardToArray();
     }
 
     @Override
@@ -464,14 +462,18 @@ abstract class AbstractBiMap<K extends @Nullable Object, V extends @Nullable Obj
       return inverse.checkKey(value);
     }
 
-    /** @serialData the forward bimap */
+    /**
+     * @serialData the forward bimap
+     */
     @GwtIncompatible // java.io.ObjectOutputStream
+    @J2ktIncompatible
     private void writeObject(ObjectOutputStream stream) throws IOException {
       stream.defaultWriteObject();
       stream.writeObject(inverse());
     }
 
     @GwtIncompatible // java.io.ObjectInputStream
+    @J2ktIncompatible
     @SuppressWarnings("unchecked") // reading data stored by writeObject
     private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
       stream.defaultReadObject();
@@ -479,14 +481,17 @@ abstract class AbstractBiMap<K extends @Nullable Object, V extends @Nullable Obj
     }
 
     @GwtIncompatible // Not needed in the emulated source.
+    @J2ktIncompatible
     Object readResolve() {
       return inverse().inverse();
     }
 
     @GwtIncompatible // Not needed in emulated source.
+    @J2ktIncompatible
     private static final long serialVersionUID = 0;
   }
 
   @GwtIncompatible // Not needed in emulated source.
+  @J2ktIncompatible
   private static final long serialVersionUID = 0;
 }

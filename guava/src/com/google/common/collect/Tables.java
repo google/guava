@@ -317,7 +317,7 @@ public final class Tables {
     }
 
     // Will cast TRANSPOSE_CELL to a type that always succeeds
-    private static final Function<Cell<?, ?, ?>, Cell<?, ?, ?>> TRANSPOSE_CELL =
+    private static final Function TRANSPOSE_CELL =
         new Function<Cell<?, ?, ?>, Cell<?, ?, ?>>() {
           @Override
           public Cell<?, ?, ?> apply(Cell<?, ?, ?> cell) {
@@ -328,13 +328,16 @@ public final class Tables {
     @SuppressWarnings("unchecked")
     @Override
     Iterator<Cell<C, R, V>> cellIterator() {
-      return Iterators.transform(original.cellSet().iterator(), (Function) TRANSPOSE_CELL);
+      return Iterators.transform(
+          original.cellSet().iterator(), (Function<Cell<R, C, V>, Cell<C, R, V>>) TRANSPOSE_CELL);
     }
 
     @SuppressWarnings("unchecked")
     @Override
     Spliterator<Cell<C, R, V>> cellSpliterator() {
-      return CollectSpliterators.map(original.cellSet().spliterator(), (Function) TRANSPOSE_CELL);
+      return CollectSpliterators.map(
+          original.cellSet().spliterator(),
+          (Function<Cell<R, C, V>, Cell<C, R, V>>) TRANSPOSE_CELL);
     }
   }
 

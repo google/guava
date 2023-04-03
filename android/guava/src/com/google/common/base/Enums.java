@@ -50,7 +50,8 @@ public final class Enums {
    */
   @GwtIncompatible // reflection
   public static Field getField(Enum<?> enumValue) {
-    Class<?> clazz = enumValue.getDeclaringClass();
+    Class<?>
+        clazz = enumValue.getDeclaringClass();
     try {
       return clazz.getDeclaredField(enumValue.name());
     } catch (NoSuchFieldException impossible) {

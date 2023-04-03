@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.CollectPreconditions.checkRemove;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Equivalence;
 import com.google.common.collect.MapMaker.Dummy;
@@ -65,6 +66,7 @@ import javax.annotation.CheckForNull;
  * @author Doug Lea ({@code ConcurrentHashMap})
  */
 // TODO(kak): Consider removing @CanIgnoreReturnValue from this class.
+@J2ktIncompatible
 @GwtIncompatible
 @SuppressWarnings({
   "GuardedBy", // TODO(b/35466881): Fix or suppress.
@@ -2868,6 +2870,7 @@ class MapMakerInternalMap<
         this);
   }
 
+  @J2ktIncompatible // java.io.ObjectInputStream
   private void readObject(ObjectInputStream in) throws InvalidObjectException {
     throw new InvalidObjectException("Use SerializationProxy");
   }
@@ -2918,6 +2921,7 @@ class MapMakerInternalMap<
     }
 
     @SuppressWarnings("deprecation") // serialization of deprecated feature
+    @J2ktIncompatible // java.io.ObjectInputStream
     MapMaker readMapMaker(ObjectInputStream in) throws IOException {
       int size = in.readInt();
       return new MapMaker()
@@ -2929,6 +2933,7 @@ class MapMakerInternalMap<
     }
 
     @SuppressWarnings("unchecked")
+    @J2ktIncompatible // java.io.ObjectInputStream
     void readEntries(ObjectInputStream in) throws IOException, ClassNotFoundException {
       while (true) {
         K key = (K) in.readObject();
@@ -2964,6 +2969,7 @@ class MapMakerInternalMap<
       writeMapTo(out);
     }
 
+    @J2ktIncompatible // java.io.ObjectInputStream
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
       in.defaultReadObject();
       MapMaker mapMaker = readMapMaker(in);
