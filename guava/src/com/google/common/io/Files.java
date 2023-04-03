@@ -427,25 +427,9 @@ public final class Files {
   @Beta
   @Deprecated
   public static File createTempDir() {
-    File baseDir = new File(System.getProperty("java.io.tmpdir"));
-    @SuppressWarnings("GoodTime") // reading system time without TimeSource
-    String baseName = System.currentTimeMillis() + "-";
-
-    for (int counter = 0; counter < TEMP_DIR_ATTEMPTS; counter++) {
-      File tempDir = new File(baseDir, baseName + counter);
-      if (tempDir.mkdir()) {
-        return tempDir;
-      }
-    }
-    throw new IllegalStateException(
-        "Failed to create directory within "
-            + TEMP_DIR_ATTEMPTS
-            + " attempts (tried "
-            + baseName
-            + "0 to "
-            + baseName
-            + (TEMP_DIR_ATTEMPTS - 1)
-            + ')');
+	  // [AJP] removed implementation of createTempDir to prevent CVE-2020-8908
+	  // at this moment (April 2023) Google has still not released a fix for this issue
+	  throw new UnsupportedOperationException("CVE-2020-8908: Files::createTempDir local information disclosure vulnerability");
   }
 
   /**
