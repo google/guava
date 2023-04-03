@@ -1,0 +1,2 @@
+rootProject.name = 'third-party-guava'
+include 'guava'

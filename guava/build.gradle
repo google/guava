@@ -1,0 +1,80 @@
+// always apply plugins as the first step
+plugins {
+  id "java"
+  id "maven-publish"
+}
+
+// configurable properties
+project.ext.funatic = [
+    'groupId': 'nl.funatic.thirdparty',
+    'artifactName': 'guava',
+]
+
+dependencies {
+    // basic JEE 6 runtime (like WebSphere 8.5/9)
+    compileOnly group: 'javax', name: 'javaee-api', version: '6.0'
+       
+	// https://mvnrepository.com/artifact/com.google.code.findbugs/jsr305
+	compileOnly group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.2'
+	
+	// https://mvnrepository.com/artifact/com.google.errorprone/error_prone_annotations
+	compileOnly group: 'com.google.errorprone', name: 'error_prone_annotations', version: '2.18.0'
+	
+	// https://mvnrepository.com/artifact/com.google.guava/failureaccess
+	compileOnly group: 'com.google.guava', name: 'failureaccess', version: '1.0.1'
+	
+	// https://mvnrepository.com/artifact/com.google.guava/listenablefuture
+	compileOnly group: 'com.google.guava', name: 'listenablefuture', version: '9999.0-empty-to-avoid-conflict-with-guava'
+	
+	// https://mvnrepository.com/artifact/com.google.j2objc/j2objc-annotations
+	compileOnly group: 'com.google.j2objc', name: 'j2objc-annotations', version: '2.8'
+	
+	// https://mvnrepository.com/artifact/org.checkerframework/checker-qual
+	compileOnly group: 'org.checkerframework', name: 'checker-qual', version: '3.32.0'
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+compileJava.options.encoding = 'UTF-8'
+compileTestJava.options.encoding = 'UTF-8'
+
+jar {
+    archiveFileName = project.funatic.artifactName + '.jar'
+    manifest {
+        attributes(
+            'Built-By'       : System.properties['user.name'],
+            'Build-Timestamp': new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ").format(new Date()),
+            'Created-By'     : "Gradle ${gradle.gradleVersion}",
+            'Build-Jdk'      : "${System.properties['java.version']} (${System.properties['java.vendor']} ${System.properties['java.vm.version']})",
+            'Build-OS'       : "${System.properties['os.name']} ${System.properties['os.arch']} ${System.properties['os.version']}",
+            'Implementation-Vendor' : 'Funatic B.V.',
+            'Implementation-Title': project.funatic.artifactName,
+            'Implementation-Version': System.getenv("VERSION") ?: 'LOCALBUILD'
+        )
+    }
+}
+
+publishing {
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            version = System.getenv("VERSION") ?: 'LOCALBUILD'
+            // trick to avoid publishing snapshot builds to GitHub
+            url = version.equals('LOCALBUILD')? "" : uri("https://maven.pkg.github.com/funatic-nl/fun-maven-repo")
+            credentials {
+                username = project.findProperty("gpr.user") ?: System.getenv("MAVEN_REPO_USERNAME")
+                password = project.findProperty("gpr.key") ?: System.getenv("MAVEN_REPO_TOKEN")
+            }            
+        }
+    }
+    publications {
+        gpr(MavenPublication) {
+            groupId project.funatic.groupId
+            artifactId project.funatic.artifactName
+            version System.getenv("VERSION") ?: 'LOCALBUILD'
+            
+            from(components.java)
+        }
+    }
+}
