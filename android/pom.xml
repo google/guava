@@ -178,6 +178,7 @@
           <artifactId>animal-sniffer-maven-plugin</artifactId>
           <version>${animal.sniffer.version}</version>
           <configuration>
+            <annotations>com.google.common.reflect.IgnoreJRERequirement,com.google.common.testing.IgnoreJRERequirement</annotations>
             <checkTestClasses>true</checkTestClasses>
             <signature>
               <groupId>org.codehaus.mojo.signature</groupId>

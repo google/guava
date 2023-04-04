@@ -34,7 +34,7 @@ import com.google.common.reflect.Reflection;
 import com.google.common.reflect.TypeToken;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.lang.annotation.Annotation;
-import java.lang.reflect.AnnotatedElement;
+import java.lang.reflect.AnnotatedType;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Member;
@@ -42,6 +42,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.lang.reflect.TypeVariable;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
@@ -52,8 +53,8 @@ import junit.framework.AssertionFailedError;
 /**
  * A test utility that verifies that your methods and constructors throw {@link
  * NullPointerException} or {@link UnsupportedOperationException} whenever null is passed to a
- * parameter that isn't annotated with an annotation with the simple name {@code Nullable}, {@code
- * CheckForNull}, {@code NullableType}, or {@code NullableDecl}.
+ * parameter whose declaration or type isn't annotated with an annotation with the simple name
+ * {@code Nullable}, {@code CheckForNull}, {@code NullableType}, or {@code NullableDecl}.
  *
  * <p>The tested methods and constructors are invoked -- each time with one parameter being null and
  * the rest not null -- and the test fails if no expected exception is thrown. {@code
@@ -495,8 +496,16 @@ public final class NullPointerTester {
       ImmutableSet.of(
           "CheckForNull", "Nullable", "NullableDecl", "NullableType", "ParametricNullness");
 
-  static boolean isNullable(AnnotatedElement e) {
-    for (Annotation annotation : e.getAnnotations()) {
+  static boolean isNullable(Invokable<?, ?> invokable) {
+    return NULLNESS_ANNOTATION_READER.isNullable(invokable);
+  }
+
+  static boolean isNullable(Parameter param) {
+    return NULLNESS_ANNOTATION_READER.isNullable(param);
+  }
+
+  private static boolean containsNullable(Annotation[] annotations) {
+    for (Annotation annotation : annotations) {
       if (NULLABLE_ANNOTATION_SIMPLE_NAMES.contains(annotation.annotationType().getSimpleName())) {
         return true;
       }
@@ -566,5 +575,83 @@ public final class NullPointerTester {
     };
 
     public abstract boolean isExpectedType(Throwable cause);
+  }
+
+  private static boolean annotatedTypeExists() {
+    try {
+      Class.forName("java.lang.reflect.AnnotatedType");
+    } catch (ClassNotFoundException e) {
+      return false;
+    }
+    return true;
+  }
+
+  private static final NullnessAnnotationReader NULLNESS_ANNOTATION_READER =
+      annotatedTypeExists()
+          ? NullnessAnnotationReader.FROM_DECLARATION_AND_TYPE_USE_ANNOTATIONS
+          : NullnessAnnotationReader.FROM_DECLARATION_ANNOTATIONS_ONLY;
+
+  /**
+   * Looks for declaration nullness annotations and, if supported, type-use nullness annotations.
+   *
+   * <p>Under Android VMs, the methods for retrieving type-use annotations don't exist. This means
+   * that {@link NullPointerException} may misbehave under Android when used on classes that rely on
+   * type-use annotations.
+   *
+   * <p>Under j2objc, the necessary APIs exist, but some (perhaps all) return stub values, like
+   * empty arrays. Presumably {@link NullPointerException} could likewise misbehave under j2objc,
+   * but I don't know that anyone uses it there, anyway.
+   */
+  private enum NullnessAnnotationReader {
+    // Usages (which are unsafe only for Android) are guarded by the annotatedTypeExists() check.
+    @SuppressWarnings({"Java7ApiChecker", "AndroidApiChecker", "DoNotCall", "deprecation"})
+    FROM_DECLARATION_AND_TYPE_USE_ANNOTATIONS {
+      @Override
+      @IgnoreJRERequirement
+      boolean isNullable(Invokable<?, ?> invokable) {
+        return FROM_DECLARATION_ANNOTATIONS_ONLY.isNullable(invokable)
+            || containsNullable(invokable.getAnnotatedReturnType().getAnnotations());
+        // TODO(cpovirk): Should we also check isNullableTypeVariable?
+      }
+
+      @Override
+      @IgnoreJRERequirement
+      boolean isNullable(Parameter param) {
+        return FROM_DECLARATION_ANNOTATIONS_ONLY.isNullable(param)
+            || containsNullable(param.getAnnotatedType().getAnnotations())
+            || isNullableTypeVariable(param.getAnnotatedType().getType());
+      }
+
+      @IgnoreJRERequirement
+      boolean isNullableTypeVariable(Type type) {
+        if (!(type instanceof TypeVariable)) {
+          return false;
+        }
+        TypeVariable<?> typeVar = (TypeVariable<?>) type;
+        for (AnnotatedType bound : typeVar.getAnnotatedBounds()) {
+          // Until Java 15, the isNullableTypeVariable case here won't help:
+          // https://bugs.openjdk.java.net/browse/JDK-8202469
+          if (containsNullable(bound.getAnnotations()) || isNullableTypeVariable(bound.getType())) {
+            return true;
+          }
+        }
+        return false;
+      }
+    },
+    FROM_DECLARATION_ANNOTATIONS_ONLY {
+      @Override
+      boolean isNullable(Invokable<?, ?> invokable) {
+        return containsNullable(invokable.getAnnotations());
+      }
+
+      @Override
+      boolean isNullable(Parameter param) {
+        return containsNullable(param.getAnnotations());
+      }
+    };
+
+    abstract boolean isNullable(Invokable<?, ?> invokable);
+
+    abstract boolean isNullable(Parameter param);
   }
 }
