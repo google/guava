@@ -133,7 +133,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <hr>
 <pre><a href="../../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../../annotations/GwtCompatible.html#emulated()">emulated</a>=true)
-public final class <a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.47">Uninterruptibles</a>
+public final class <a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.48">Uninterruptibles</a>
 extends java.lang.Object</pre>
 <div class="block">Utilities for treating interruptible operations as uninterruptible. In all cases, if a thread is
  interrupted during such a call, the call continues to block until the result is available or the
@@ -403,7 +403,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>awaitUninterruptibly</h4>
 <pre class="methodSignature"><a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.55">awaitUninterruptibly</a>&#8203;(java.util.concurrent.CountDownLatch&nbsp;latch)</pre>
+public static&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.56">awaitUninterruptibly</a>&#8203;(java.util.concurrent.CountDownLatch&nbsp;latch)</pre>
 <div class="block">Invokes <code>latch.</code><code>await()</code> uninterruptibly.</div>
 </li>
 </ul>
@@ -414,7 +414,7 @@ public static&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/
 <li class="blockList">
 <h4>awaitUninterruptibly</h4>
 <pre class="methodSignature"><a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.80">awaitUninterruptibly</a>&#8203;(java.util.concurrent.CountDownLatch&nbsp;latch,
+public static&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.82">awaitUninterruptibly</a>&#8203;(java.util.concurrent.CountDownLatch&nbsp;latch,
                                            java.time.Duration&nbsp;timeout)</pre>
 <div class="block">Invokes <code>latch.</code><code>await(timeout, unit)</code>
  uninterruptibly.</div>
@@ -431,7 +431,7 @@ public static&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/comm
 <li class="blockList">
 <h4>awaitUninterruptibly</h4>
 <pre class="methodSignature"><a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.89">awaitUninterruptibly</a>&#8203;(java.util.concurrent.CountDownLatch&nbsp;latch,
+public static&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.92">awaitUninterruptibly</a>&#8203;(java.util.concurrent.CountDownLatch&nbsp;latch,
                                            long&nbsp;timeout,
                                            java.util.concurrent.TimeUnit&nbsp;unit)</pre>
 <div class="block">Invokes <code>latch.</code><code>await(timeout, unit)</code>
@@ -445,7 +445,7 @@ public static&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/comm
 <li class="blockList">
 <h4>awaitUninterruptibly</h4>
 <pre class="methodSignature"><a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.119">awaitUninterruptibly</a>&#8203;(java.util.concurrent.locks.Condition&nbsp;condition,
+public static&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.123">awaitUninterruptibly</a>&#8203;(java.util.concurrent.locks.Condition&nbsp;condition,
                                            java.time.Duration&nbsp;timeout)</pre>
 <div class="block">Invokes <code>condition.</code><code>await(timeout, unit)</code>
  uninterruptibly.</div>
@@ -462,7 +462,7 @@ public static&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/comm
 <li class="blockList">
 <h4>awaitUninterruptibly</h4>
 <pre class="methodSignature"><a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.130">awaitUninterruptibly</a>&#8203;(java.util.concurrent.locks.Condition&nbsp;condition,
+public static&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.135">awaitUninterruptibly</a>&#8203;(java.util.concurrent.locks.Condition&nbsp;condition,
                                            long&nbsp;timeout,
                                            java.util.concurrent.TimeUnit&nbsp;unit)</pre>
 <div class="block">Invokes <code>condition.</code><code>await(timeout, unit)</code>
@@ -480,7 +480,7 @@ public static&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/comm
 <li class="blockList">
 <h4>joinUninterruptibly</h4>
 <pre class="methodSignature"><a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.154">joinUninterruptibly</a>&#8203;(java.lang.Thread&nbsp;toJoin)</pre>
+public static&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.160">joinUninterruptibly</a>&#8203;(java.lang.Thread&nbsp;toJoin)</pre>
 <div class="block">Invokes <code>toJoin.</code><code>join()</code> uninterruptibly.</div>
 </li>
 </ul>
@@ -491,7 +491,7 @@ public static&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/
 <li class="blockList">
 <h4>joinUninterruptibly</h4>
 <pre class="methodSignature"><a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.179">joinUninterruptibly</a>&#8203;(java.lang.Thread&nbsp;toJoin,
+public static&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.186">joinUninterruptibly</a>&#8203;(java.lang.Thread&nbsp;toJoin,
                                        java.time.Duration&nbsp;timeout)</pre>
 <div class="block">Invokes <code>unit.</code><code>timedJoin(toJoin, timeout)</code>
  uninterruptibly.</div>
@@ -508,7 +508,7 @@ public static&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/
 <li class="blockList">
 <h4>joinUninterruptibly</h4>
 <pre class="methodSignature"><a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.188">joinUninterruptibly</a>&#8203;(java.lang.Thread&nbsp;toJoin,
+public static&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.196">joinUninterruptibly</a>&#8203;(java.lang.Thread&nbsp;toJoin,
                                        long&nbsp;timeout,
                                        java.util.concurrent.TimeUnit&nbsp;unit)</pre>
 <div class="block">Invokes <code>unit.</code><code>timedJoin(toJoin, timeout)</code>
@@ -522,7 +522,7 @@ public static&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/
 <li class="blockList">
 <h4>getUninterruptibly</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public static&nbsp;&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;V&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.230">getUninterruptibly</a>&#8203;(java.util.concurrent.Future&lt;V&gt;&nbsp;future)
+public static&nbsp;&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;V&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.239">getUninterruptibly</a>&#8203;(java.util.concurrent.Future&lt;V&gt;&nbsp;future)
                                                                    throws java.util.concurrent.ExecutionException</pre>
 <div class="block">Invokes <code>future.</code><code>get()</code> uninterruptibly.
 
@@ -548,7 +548,7 @@ public static&nbsp;&lt;V extends <a href="https://checkerframework.org/api/org/c
 <h4>getUninterruptibly</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 <a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;V&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.269">getUninterruptibly</a>&#8203;(java.util.concurrent.Future&lt;V&gt;&nbsp;future,
+public static&nbsp;&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;V&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.278">getUninterruptibly</a>&#8203;(java.util.concurrent.Future&lt;V&gt;&nbsp;future,
                                                                           java.time.Duration&nbsp;timeout)
                                                                    throws java.util.concurrent.ExecutionException,
                                                                           java.util.concurrent.TimeoutException</pre>
@@ -579,7 +579,7 @@ public static&nbsp;&lt;V extends <a href="https://checkerframework.org/api/org/c
 <h4>getUninterruptibly</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 <a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;V&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.295">getUninterruptibly</a>&#8203;(java.util.concurrent.Future&lt;V&gt;&nbsp;future,
+public static&nbsp;&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;V&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.305">getUninterruptibly</a>&#8203;(java.util.concurrent.Future&lt;V&gt;&nbsp;future,
                                                                           long&nbsp;timeout,
                                                                           java.util.concurrent.TimeUnit&nbsp;unit)
                                                                    throws java.util.concurrent.ExecutionException,
@@ -608,7 +608,7 @@ public static&nbsp;&lt;V extends <a href="https://checkerframework.org/api/org/c
 <li class="blockList">
 <h4>takeUninterruptibly</h4>
 <pre class="methodSignature"><a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;&lt;E&gt;&nbsp;E&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.323">takeUninterruptibly</a>&#8203;(java.util.concurrent.BlockingQueue&lt;E&gt;&nbsp;queue)</pre>
+public static&nbsp;&lt;E&gt;&nbsp;E&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.334">takeUninterruptibly</a>&#8203;(java.util.concurrent.BlockingQueue&lt;E&gt;&nbsp;queue)</pre>
 <div class="block">Invokes <code>queue.</code><code>take()</code> uninterruptibly.</div>
 </li>
 </ul>
@@ -621,7 +621,7 @@ public static&nbsp;&lt;E&gt;&nbsp;E&nbsp;<a href="../../../../../src-html/com/go
 <li class="blockList">
 <h4>putUninterruptibly</h4>
 <pre class="methodSignature"><a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;&lt;E&gt;&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.349">putUninterruptibly</a>&#8203;(java.util.concurrent.BlockingQueue&lt;E&gt;&nbsp;queue,
+public static&nbsp;&lt;E&gt;&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.361">putUninterruptibly</a>&#8203;(java.util.concurrent.BlockingQueue&lt;E&gt;&nbsp;queue,
                                           E&nbsp;element)</pre>
 <div class="block">Invokes <code>queue.</code><code>put(element)</code> uninterruptibly.</div>
 <dl>
@@ -640,7 +640,7 @@ public static&nbsp;&lt;E&gt;&nbsp;void&nbsp;<a href="../../../../../src-html/com
 <li class="blockList">
 <h4>sleepUninterruptibly</h4>
 <pre class="methodSignature"><a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.374">sleepUninterruptibly</a>&#8203;(java.time.Duration&nbsp;sleepFor)</pre>
+public static&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.387">sleepUninterruptibly</a>&#8203;(java.time.Duration&nbsp;sleepFor)</pre>
 <div class="block">Invokes <code>unit.</code><code>sleep(sleepFor)</code> uninterruptibly.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -655,7 +655,7 @@ public static&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/
 <li class="blockList">
 <h4>sleepUninterruptibly</h4>
 <pre class="methodSignature"><a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.381">sleepUninterruptibly</a>&#8203;(long&nbsp;sleepFor,
+public static&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.395">sleepUninterruptibly</a>&#8203;(long&nbsp;sleepFor,
                                         java.util.concurrent.TimeUnit&nbsp;unit)</pre>
 <div class="block">Invokes <code>unit.</code><code>sleep(sleepFor)</code> uninterruptibly.</div>
 </li>
@@ -667,7 +667,7 @@ public static&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/
 <li class="blockList">
 <h4>tryAcquireUninterruptibly</h4>
 <pre class="methodSignature"><a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.411">tryAcquireUninterruptibly</a>&#8203;(java.util.concurrent.Semaphore&nbsp;semaphore,
+public static&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.426">tryAcquireUninterruptibly</a>&#8203;(java.util.concurrent.Semaphore&nbsp;semaphore,
                                                 java.time.Duration&nbsp;timeout)</pre>
 <div class="block">Invokes <code>semaphore.</code><code>tryAcquire(1,
  timeout, unit)</code> uninterruptibly.</div>
@@ -684,7 +684,7 @@ public static&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/comm
 <li class="blockList">
 <h4>tryAcquireUninterruptibly</h4>
 <pre class="methodSignature"><a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.422">tryAcquireUninterruptibly</a>&#8203;(java.util.concurrent.Semaphore&nbsp;semaphore,
+public static&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.438">tryAcquireUninterruptibly</a>&#8203;(java.util.concurrent.Semaphore&nbsp;semaphore,
                                                 long&nbsp;timeout,
                                                 java.util.concurrent.TimeUnit&nbsp;unit)</pre>
 <div class="block">Invokes <code>semaphore.</code><code>tryAcquire(1,
@@ -702,7 +702,7 @@ public static&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/comm
 <li class="blockList">
 <h4>tryAcquireUninterruptibly</h4>
 <pre class="methodSignature"><a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.435">tryAcquireUninterruptibly</a>&#8203;(java.util.concurrent.Semaphore&nbsp;semaphore,
+public static&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.452">tryAcquireUninterruptibly</a>&#8203;(java.util.concurrent.Semaphore&nbsp;semaphore,
                                                 int&nbsp;permits,
                                                 java.time.Duration&nbsp;timeout)</pre>
 <div class="block">Invokes <code>semaphore.</code><code>tryAcquire(permits,
@@ -720,7 +720,7 @@ public static&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/comm
 <li class="blockList">
 <h4>tryAcquireUninterruptibly</h4>
 <pre class="methodSignature"><a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.448">tryAcquireUninterruptibly</a>&#8203;(java.util.concurrent.Semaphore&nbsp;semaphore,
+public static&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.466">tryAcquireUninterruptibly</a>&#8203;(java.util.concurrent.Semaphore&nbsp;semaphore,
                                                 int&nbsp;permits,
                                                 long&nbsp;timeout,
                                                 java.util.concurrent.TimeUnit&nbsp;unit)</pre>
@@ -739,7 +739,7 @@ public static&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/comm
 <li class="blockList">
 <h4>tryLockUninterruptibly</h4>
 <pre class="methodSignature"><a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.479">tryLockUninterruptibly</a>&#8203;(java.util.concurrent.locks.Lock&nbsp;lock,
+public static&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.498">tryLockUninterruptibly</a>&#8203;(java.util.concurrent.locks.Lock&nbsp;lock,
                                              java.time.Duration&nbsp;timeout)</pre>
 <div class="block">Invokes <code>lock.</code><code>tryLock(timeout, unit)</code>
  uninterruptibly.</div>
@@ -756,7 +756,7 @@ public static&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/comm
 <li class="blockList">
 <h4>tryLockUninterruptibly</h4>
 <pre class="methodSignature"><a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.490">tryLockUninterruptibly</a>&#8203;(java.util.concurrent.locks.Lock&nbsp;lock,
+public static&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.510">tryLockUninterruptibly</a>&#8203;(java.util.concurrent.locks.Lock&nbsp;lock,
                                              long&nbsp;timeout,
                                              java.util.concurrent.TimeUnit&nbsp;unit)</pre>
 <div class="block">Invokes <code>lock.</code><code>tryLock(timeout, unit)</code>
@@ -774,7 +774,7 @@ public static&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/comm
 <li class="blockList">
 <h4>awaitTerminationUninterruptibly</h4>
 <pre class="methodSignature"><a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.519">awaitTerminationUninterruptibly</a>&#8203;(java.util.concurrent.ExecutorService&nbsp;executor)</pre>
+public static&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.540">awaitTerminationUninterruptibly</a>&#8203;(java.util.concurrent.ExecutorService&nbsp;executor)</pre>
 <div class="block">Invokes <code>executor.</code><code>awaitTermination(long, TimeUnit)</code> uninterruptibly with no timeout.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -789,7 +789,7 @@ public static&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/
 <li class="blockList">
 <h4>awaitTerminationUninterruptibly</h4>
 <pre class="methodSignature"><a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.531">awaitTerminationUninterruptibly</a>&#8203;(java.util.concurrent.ExecutorService&nbsp;executor,
+public static&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.553">awaitTerminationUninterruptibly</a>&#8203;(java.util.concurrent.ExecutorService&nbsp;executor,
                                                       java.time.Duration&nbsp;timeout)</pre>
 <div class="block">Invokes <code>executor.</code><code>awaitTermination(long, TimeUnit)</code> uninterruptibly.</div>
 <dl>
@@ -805,7 +805,7 @@ public static&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/comm
 <li class="blockList">
 <h4>awaitTerminationUninterruptibly</h4>
 <pre class="methodSignature"><a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.543">awaitTerminationUninterruptibly</a>&#8203;(java.util.concurrent.ExecutorService&nbsp;executor,
+public static&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.566">awaitTerminationUninterruptibly</a>&#8203;(java.util.concurrent.ExecutorService&nbsp;executor,
                                                       long&nbsp;timeout,
                                                       java.util.concurrent.TimeUnit&nbsp;unit)</pre>
 <div class="block">Invokes <code>executor.</code><code>awaitTermination(long, TimeUnit)</code> uninterruptibly.</div>

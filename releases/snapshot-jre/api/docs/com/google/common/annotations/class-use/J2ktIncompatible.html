@@ -139,6 +139,12 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  treating them as unsigned.</div>
 </td>
 </tr>
+<tr class="rowColor">
+<th class="colFirst" scope="row"><a href="#com.google.common.util.concurrent">com.google.common.util.concurrent</a></th>
+<td class="colLast">
+<div class="block">Concurrency utilities.</div>
+</td>
+</tr>
 </tbody>
 </table>
 </li>
@@ -1318,6 +1324,742 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <th class="colSecond" scope="row"><span class="typeNameLabel">UnsignedInteger.</span><code><span class="memberNameLink"><a href="../../primitives/UnsignedInteger.html#times(com.google.common.primitives.UnsignedInteger)">times</a></span>&#8203;(<a href="../../primitives/UnsignedInteger.html" title="class in com.google.common.primitives">UnsignedInteger</a>&nbsp;val)</code></th>
 <td class="colLast">
 <div class="block">Returns the result of multiplying this and <code>val</code>.</div>
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+</li>
+<li class="blockList">
+<section><a id="com.google.common.util.concurrent">
+<!--   -->
+</a>
+<h3>Uses of <a href="../J2ktIncompatible.html" title="annotation in com.google.common.annotations">J2ktIncompatible</a> in <a href="../../util/concurrent/package-summary.html">com.google.common.util.concurrent</a></h3>
+<table class="useSummary">
+<caption><span>Classes in <a href="../../util/concurrent/package-summary.html">com.google.common.util.concurrent</a> with annotations of type <a href="../J2ktIncompatible.html" title="annotation in com.google.common.annotations">J2ktIncompatible</a></span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colFirst" scope="col">Modifier and Type</th>
+<th class="colSecond" scope="col">Class</th>
+<th class="colLast" scope="col">Description</th>
+</tr>
+<tbody>
+<tr class="altColor">
+<td class="colFirst"><code>class&nbsp;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../util/concurrent/AbstractExecutionThreadService.html" title="class in com.google.common.util.concurrent">AbstractExecutionThreadService</a></span></code></th>
+<td class="colLast">
+<div class="block">Base class for services that can implement <a href="../../util/concurrent/AbstractExecutionThreadService.html#startUp()"><code>AbstractExecutionThreadService.startUp()</code></a>, <a href="../../util/concurrent/AbstractExecutionThreadService.html#run()"><code>AbstractExecutionThreadService.run()</code></a> and <a href="../../util/concurrent/AbstractExecutionThreadService.html#shutDown()"><code>AbstractExecutionThreadService.shutDown()</code></a>
+ methods.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>class&nbsp;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../util/concurrent/AbstractIdleService.html" title="class in com.google.common.util.concurrent">AbstractIdleService</a></span></code></th>
+<td class="colLast">
+<div class="block">Base class for services that do not need a thread while "running" but may need one during startup
+ and shutdown.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>class&nbsp;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../util/concurrent/AbstractListeningExecutorService.html" title="class in com.google.common.util.concurrent">AbstractListeningExecutorService</a></span></code></th>
+<td class="colLast">
+<div class="block">Abstract <a href="../../util/concurrent/ListeningExecutorService.html" title="interface in com.google.common.util.concurrent"><code>ListeningExecutorService</code></a> implementation that creates <a href="../../util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a>
+ instances for each <code>Runnable</code> and <code>Callable</code> submitted to it.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>class&nbsp;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../util/concurrent/AbstractScheduledService.html" title="class in com.google.common.util.concurrent">AbstractScheduledService</a></span></code></th>
+<td class="colLast">
+<div class="block">Base class for services that can implement <a href="../../util/concurrent/AbstractScheduledService.html#startUp()"><code>AbstractScheduledService.startUp()</code></a> and <a href="../../util/concurrent/AbstractScheduledService.html#shutDown()"><code>AbstractScheduledService.shutDown()</code></a> but while in
+ the "running" state need to perform a periodic task.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>class&nbsp;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../util/concurrent/AbstractService.html" title="class in com.google.common.util.concurrent">AbstractService</a></span></code></th>
+<td class="colLast">
+<div class="block">Base class for implementing services that can handle <a href="../../util/concurrent/AbstractService.html#doStart()"><code>AbstractService.doStart()</code></a> and <a href="../../util/concurrent/AbstractService.html#doStop()"><code>AbstractService.doStop()</code></a>
+ requests, responding to them with <a href="../../util/concurrent/AbstractService.html#notifyStarted()"><code>AbstractService.notifyStarted()</code></a> and <a href="../../util/concurrent/AbstractService.html#notifyStopped()"><code>AbstractService.notifyStopped()</code></a>
+ callbacks.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>class&nbsp;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../util/concurrent/AtomicDouble.html" title="class in com.google.common.util.concurrent">AtomicDouble</a></span></code></th>
+<td class="colLast">
+<div class="block">A <code>double</code> value that may be updated atomically.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>class&nbsp;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../util/concurrent/AtomicDoubleArray.html" title="class in com.google.common.util.concurrent">AtomicDoubleArray</a></span></code></th>
+<td class="colLast">
+<div class="block">A <code>double</code> array in which elements may be updated atomically.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>class&nbsp;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../util/concurrent/AtomicLongMap.html" title="class in com.google.common.util.concurrent">AtomicLongMap</a>&lt;K&gt;</span></code></th>
+<td class="colLast">
+<div class="block">A map containing <code>long</code> values that can be atomically updated.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>class&nbsp;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</span></code></th>
+<td class="colLast">
+<div class="block">A step in a pipeline of an asynchronous computation.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>class&nbsp;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../util/concurrent/CycleDetectingLockFactory.html" title="class in com.google.common.util.concurrent">CycleDetectingLockFactory</a></span></code></th>
+<td class="colLast">
+<div class="block">The <code>CycleDetectingLockFactory</code> creates <code>ReentrantLock</code> instances and <code>ReentrantReadWriteLock</code> instances that detect potential deadlock by checking for cycles in lock
+ acquisition order.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>class&nbsp;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../util/concurrent/ExecutionList.html" title="class in com.google.common.util.concurrent">ExecutionList</a></span></code></th>
+<td class="colLast">
+<div class="block">A support class for <code>ListenableFuture</code> implementations to manage their listeners.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>class&nbsp;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../util/concurrent/ExecutionSequencer.html" title="class in com.google.common.util.concurrent">ExecutionSequencer</a></span></code></th>
+<td class="colLast">
+<div class="block">Serializes execution of tasks, somewhat like an "asynchronous <code>synchronized</code> block." Each
+ <a href="../../util/concurrent/ExecutionSequencer.html#submit(java.util.concurrent.Callable,java.util.concurrent.Executor)">enqueued</a> callable will not be submitted to its associated executor until the
+ previous callable has returned -- and, if the previous callable was an <a href="../../util/concurrent/AsyncCallable.html" title="interface in com.google.common.util.concurrent"><code>AsyncCallable</code></a>, not
+ until the <code>Future</code> it returned is done (successful, failed, or
+ cancelled).</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>class&nbsp;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../util/concurrent/FakeTimeLimiter.html" title="class in com.google.common.util.concurrent">FakeTimeLimiter</a></span></code></th>
+<td class="colLast">
+<div class="block">A TimeLimiter implementation which actually does not attempt to limit time at all.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>class&nbsp;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../util/concurrent/ForwardingBlockingDeque.html" title="class in com.google.common.util.concurrent">ForwardingBlockingDeque</a>&lt;E&gt;</span></code></th>
+<td class="colLast">
+<div class="block">A <code>BlockingDeque</code> which forwards all its method calls to another <code>BlockingDeque</code>.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>class&nbsp;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../util/concurrent/ForwardingBlockingQueue.html" title="class in com.google.common.util.concurrent">ForwardingBlockingQueue</a>&lt;E&gt;</span></code></th>
+<td class="colLast">
+<div class="block">A <code>BlockingQueue</code> which forwards all its method calls to another <code>BlockingQueue</code>.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>class&nbsp;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../util/concurrent/ForwardingExecutorService.html" title="class in com.google.common.util.concurrent">ForwardingExecutorService</a></span></code></th>
+<td class="colLast">
+<div class="block">An executor service which forwards all its method calls to another executor service.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>class&nbsp;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../util/concurrent/ForwardingListeningExecutorService.html" title="class in com.google.common.util.concurrent">ForwardingListeningExecutorService</a></span></code></th>
+<td class="colLast">
+<div class="block">A listening executor service which forwards all its method calls to another listening executor
+ service.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>class&nbsp;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../util/concurrent/JdkFutureAdapters.html" title="class in com.google.common.util.concurrent">JdkFutureAdapters</a></span></code></th>
+<td class="colLast">
+<div class="block">Utilities necessary for working with libraries that supply plain <code>Future</code> instances.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>class&nbsp;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../util/concurrent/ListenableFutureTask.html" title="class in com.google.common.util.concurrent">ListenableFutureTask</a>&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</span></code></th>
+<td class="colLast">
+<div class="block">A <code>FutureTask</code> that also implements the <a href="../../util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a> interface.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>interface&nbsp;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../util/concurrent/ListeningScheduledExecutorService.html" title="interface in com.google.common.util.concurrent">ListeningScheduledExecutorService</a></span></code></th>
+<td class="colLast">
+<div class="block">A <code>ScheduledExecutorService</code> that returns <a href="../../util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a> instances from its
+ <code>ExecutorService</code> methods.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>class&nbsp;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../util/concurrent/Monitor.html" title="class in com.google.common.util.concurrent">Monitor</a></span></code></th>
+<td class="colLast">
+<div class="block">A synchronization abstraction supporting waiting on arbitrary boolean conditions.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>class&nbsp;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../util/concurrent/RateLimiter.html" title="class in com.google.common.util.concurrent">RateLimiter</a></span></code></th>
+<td class="colLast">
+<div class="block">A rate limiter.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>interface&nbsp;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../util/concurrent/Service.html" title="interface in com.google.common.util.concurrent">Service</a></span></code></th>
+<td class="colLast">
+<div class="block">An object with an operational state, plus asynchronous <a href="../../util/concurrent/Service.html#startAsync()"><code>Service.startAsync()</code></a> and <a href="../../util/concurrent/Service.html#stopAsync()"><code>Service.stopAsync()</code></a> lifecycle methods to transition between states.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>class&nbsp;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../util/concurrent/ServiceManager.html" title="class in com.google.common.util.concurrent">ServiceManager</a></span></code></th>
+<td class="colLast">
+<div class="block">A manager for monitoring and controlling a set of <a href="../../util/concurrent/Service.html" title="interface in com.google.common.util.concurrent">services</a>.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>class&nbsp;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../util/concurrent/SimpleTimeLimiter.html" title="class in com.google.common.util.concurrent">SimpleTimeLimiter</a></span></code></th>
+<td class="colLast">
+<div class="block">A TimeLimiter that runs method calls in the background using an <code>ExecutorService</code>.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>class&nbsp;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../util/concurrent/Striped.html" title="class in com.google.common.util.concurrent">Striped</a>&lt;L&gt;</span></code></th>
+<td class="colLast">
+<div class="block">A striped <code>Lock/Semaphore/ReadWriteLock</code>.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>class&nbsp;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../util/concurrent/ThreadFactoryBuilder.html" title="class in com.google.common.util.concurrent">ThreadFactoryBuilder</a></span></code></th>
+<td class="colLast">
+<div class="block">A ThreadFactory builder, providing any combination of these features:
+
+ 
+   whether threads should be marked as daemon threads
+   a <a href="../../util/concurrent/ThreadFactoryBuilder.html#setNameFormat(java.lang.String)">naming format</a>
+   a thread priority
+   an uncaught exception handler
+   a backing thread factory
+ </div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>interface&nbsp;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../util/concurrent/TimeLimiter.html" title="interface in com.google.common.util.concurrent">TimeLimiter</a></span></code></th>
+<td class="colLast">
+<div class="block">Imposes a time limit on method calls.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>class&nbsp;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../util/concurrent/UncaughtExceptionHandlers.html" title="class in com.google.common.util.concurrent">UncaughtExceptionHandlers</a></span></code></th>
+<td class="colLast">
+<div class="block">Factories for <code>Thread.UncaughtExceptionHandler</code> instances.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>class&nbsp;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../util/concurrent/UncheckedTimeoutException.html" title="class in com.google.common.util.concurrent">UncheckedTimeoutException</a></span></code></th>
+<td class="colLast">
+<div class="block">Unchecked version of <code>TimeoutException</code>.</div>
+</td>
+</tr>
+</tbody>
+</table>
+<table class="useSummary">
+<caption><span>Methods in <a href="../../util/concurrent/package-summary.html">com.google.common.util.concurrent</a> with annotations of type <a href="../J2ktIncompatible.html" title="annotation in com.google.common.annotations">J2ktIncompatible</a></span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colFirst" scope="col">Modifier and Type</th>
+<th class="colSecond" scope="col">Method</th>
+<th class="colLast" scope="col">Description</th>
+</tr>
+<tbody>
+<tr class="altColor">
+<td class="colFirst"><code>static void</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">MoreExecutors.</span><code><span class="memberNameLink"><a href="../../util/concurrent/MoreExecutors.html#addDelayedShutdownHook(java.util.concurrent.ExecutorService,long,java.util.concurrent.TimeUnit)">addDelayedShutdownHook</a></span>&#8203;(java.util.concurrent.ExecutorService&nbsp;service,
+                      long&nbsp;terminationTimeout,
+                      java.util.concurrent.TimeUnit&nbsp;timeUnit)</code></th>
+<td class="colLast">
+<div class="block">Add a shutdown hook to wait for thread completion in the given <code>service</code>.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static void</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">MoreExecutors.</span><code><span class="memberNameLink"><a href="../../util/concurrent/MoreExecutors.html#addDelayedShutdownHook(java.util.concurrent.ExecutorService,java.time.Duration)">addDelayedShutdownHook</a></span>&#8203;(java.util.concurrent.ExecutorService&nbsp;service,
+                      java.time.Duration&nbsp;terminationTimeout)</code></th>
+<td class="colLast">
+<div class="block">Add a shutdown hook to wait for thread completion in the given <code>service</code>.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="../../util/concurrent/AsyncCallable.html" title="interface in com.google.common.util.concurrent">AsyncCallable</a>&lt;T&gt;</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Callables.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Callables.html#asAsyncCallable(java.util.concurrent.Callable,com.google.common.util.concurrent.ListeningExecutorService)">asAsyncCallable</a></span>&#8203;(java.util.concurrent.Callable&lt;T&gt;&nbsp;callable,
+               <a href="../../util/concurrent/ListeningExecutorService.html" title="interface in com.google.common.util.concurrent">ListeningExecutorService</a>&nbsp;listeningExecutorService)</code></th>
+<td class="colLast">
+<div class="block">Creates an <a href="../../util/concurrent/AsyncCallable.html" title="interface in com.google.common.util.concurrent"><code>AsyncCallable</code></a> from a <code>Callable</code>.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static void</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Uninterruptibles.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Uninterruptibles.html#awaitTerminationUninterruptibly(java.util.concurrent.ExecutorService)">awaitTerminationUninterruptibly</a></span>&#8203;(java.util.concurrent.ExecutorService&nbsp;executor)</code></th>
+<td class="colLast">
+<div class="block">Invokes <code>executor.</code><code>awaitTermination(long, TimeUnit)</code> uninterruptibly with no timeout.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static boolean</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Uninterruptibles.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Uninterruptibles.html#awaitTerminationUninterruptibly(java.util.concurrent.ExecutorService,long,java.util.concurrent.TimeUnit)">awaitTerminationUninterruptibly</a></span>&#8203;(java.util.concurrent.ExecutorService&nbsp;executor,
+                               long&nbsp;timeout,
+                               java.util.concurrent.TimeUnit&nbsp;unit)</code></th>
+<td class="colLast">
+<div class="block">Invokes <code>executor.</code><code>awaitTermination(long, TimeUnit)</code> uninterruptibly.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static boolean</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Uninterruptibles.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Uninterruptibles.html#awaitTerminationUninterruptibly(java.util.concurrent.ExecutorService,java.time.Duration)">awaitTerminationUninterruptibly</a></span>&#8203;(java.util.concurrent.ExecutorService&nbsp;executor,
+                               java.time.Duration&nbsp;timeout)</code></th>
+<td class="colLast">
+<div class="block">Invokes <code>executor.</code><code>awaitTermination(long, TimeUnit)</code> uninterruptibly.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static void</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Uninterruptibles.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Uninterruptibles.html#awaitUninterruptibly(java.util.concurrent.CountDownLatch)">awaitUninterruptibly</a></span>&#8203;(java.util.concurrent.CountDownLatch&nbsp;latch)</code></th>
+<td class="colLast">
+<div class="block">Invokes <code>latch.</code><code>await()</code> uninterruptibly.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static boolean</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Uninterruptibles.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Uninterruptibles.html#awaitUninterruptibly(java.util.concurrent.CountDownLatch,long,java.util.concurrent.TimeUnit)">awaitUninterruptibly</a></span>&#8203;(java.util.concurrent.CountDownLatch&nbsp;latch,
+                    long&nbsp;timeout,
+                    java.util.concurrent.TimeUnit&nbsp;unit)</code></th>
+<td class="colLast">
+<div class="block">Invokes <code>latch.</code><code>await(timeout, unit)</code>
+ uninterruptibly.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static boolean</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Uninterruptibles.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Uninterruptibles.html#awaitUninterruptibly(java.util.concurrent.CountDownLatch,java.time.Duration)">awaitUninterruptibly</a></span>&#8203;(java.util.concurrent.CountDownLatch&nbsp;latch,
+                    java.time.Duration&nbsp;timeout)</code></th>
+<td class="colLast">
+<div class="block">Invokes <code>latch.</code><code>await(timeout, unit)</code>
+ uninterruptibly.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static boolean</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Uninterruptibles.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Uninterruptibles.html#awaitUninterruptibly(java.util.concurrent.locks.Condition,long,java.util.concurrent.TimeUnit)">awaitUninterruptibly</a></span>&#8203;(java.util.concurrent.locks.Condition&nbsp;condition,
+                    long&nbsp;timeout,
+                    java.util.concurrent.TimeUnit&nbsp;unit)</code></th>
+<td class="colLast">
+<div class="block">Invokes <code>condition.</code><code>await(timeout, unit)</code>
+ uninterruptibly.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static boolean</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Uninterruptibles.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Uninterruptibles.html#awaitUninterruptibly(java.util.concurrent.locks.Condition,java.time.Duration)">awaitUninterruptibly</a></span>&#8203;(java.util.concurrent.locks.Condition&nbsp;condition,
+                    java.time.Duration&nbsp;timeout)</code></th>
+<td class="colLast">
+<div class="block">Invokes <code>condition.</code><code>await(timeout, unit)</code>
+ uninterruptibly.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>&lt;X extends java.lang.Throwable&gt;<br><a href="../../util/concurrent/FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;<a href="../../util/concurrent/FluentFuture.html" title="type parameter in FluentFuture">V</a>&gt;</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">FluentFuture.</span><code><span class="memberNameLink"><a href="../../util/concurrent/FluentFuture.html#catching(java.lang.Class,com.google.common.base.Function,java.util.concurrent.Executor)">catching</a></span>&#8203;(java.lang.Class&lt;X&gt;&nbsp;exceptionType,
+        <a href="../../base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super X,&#8203;? extends <a href="../../util/concurrent/FluentFuture.html" title="type parameter in FluentFuture">V</a>&gt;&nbsp;fallback,
+        java.util.concurrent.Executor&nbsp;executor)</code></th>
+<td class="colLast">
+<div class="block">Returns a <code>Future</code> whose result is taken from this <code>Future</code> or, if this <code>
+ Future</code> fails with the given <code>exceptionType</code>, from the result provided by the <code>
+ fallback</code>.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static &lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;X extends java.lang.Throwable&gt;<br><a href="../../util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Futures.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Futures.html#catching(com.google.common.util.concurrent.ListenableFuture,java.lang.Class,com.google.common.base.Function,java.util.concurrent.Executor)">catching</a></span>&#8203;(<a href="../../util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;? extends V&gt;&nbsp;input,
+        java.lang.Class&lt;X&gt;&nbsp;exceptionType,
+        <a href="../../base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super X,&#8203;? extends V&gt;&nbsp;fallback,
+        java.util.concurrent.Executor&nbsp;executor)</code></th>
+<td class="colLast">
+<div class="block">Returns a <code>Future</code> whose result is taken from the given primary <code>input</code> or, if the
+ primary input fails with the given <code>exceptionType</code>, from the result provided by the
+ <code>fallback</code>.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>&lt;X extends java.lang.Throwable&gt;<br><a href="../../util/concurrent/FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;<a href="../../util/concurrent/FluentFuture.html" title="type parameter in FluentFuture">V</a>&gt;</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">FluentFuture.</span><code><span class="memberNameLink"><a href="../../util/concurrent/FluentFuture.html#catchingAsync(java.lang.Class,com.google.common.util.concurrent.AsyncFunction,java.util.concurrent.Executor)">catchingAsync</a></span>&#8203;(java.lang.Class&lt;X&gt;&nbsp;exceptionType,
+             <a href="../../util/concurrent/AsyncFunction.html" title="interface in com.google.common.util.concurrent">AsyncFunction</a>&lt;? super X,&#8203;? extends <a href="../../util/concurrent/FluentFuture.html" title="type parameter in FluentFuture">V</a>&gt;&nbsp;fallback,
+             java.util.concurrent.Executor&nbsp;executor)</code></th>
+<td class="colLast">
+<div class="block">Returns a <code>Future</code> whose result is taken from this <code>Future</code> or, if this <code>
+ Future</code> fails with the given <code>exceptionType</code>, from the result provided by the <code>
+ fallback</code>.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static &lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;X extends java.lang.Throwable&gt;<br><a href="../../util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Futures.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Futures.html#catchingAsync(com.google.common.util.concurrent.ListenableFuture,java.lang.Class,com.google.common.util.concurrent.AsyncFunction,java.util.concurrent.Executor)">catchingAsync</a></span>&#8203;(<a href="../../util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;? extends V&gt;&nbsp;input,
+             java.lang.Class&lt;X&gt;&nbsp;exceptionType,
+             <a href="../../util/concurrent/AsyncFunction.html" title="interface in com.google.common.util.concurrent">AsyncFunction</a>&lt;? super X,&#8203;? extends V&gt;&nbsp;fallback,
+             java.util.concurrent.Executor&nbsp;executor)</code></th>
+<td class="colLast">
+<div class="block">Returns a <code>Future</code> whose result is taken from the given primary <code>input</code> or, if the
+ primary input fails with the given <code>exceptionType</code>, from the result provided by the
+ <code>fallback</code>.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static &lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;X extends java.lang.Exception&gt;<br>V</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Futures.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Futures.html#getChecked(java.util.concurrent.Future,java.lang.Class)">getChecked</a></span>&#8203;(java.util.concurrent.Future&lt;V&gt;&nbsp;future,
+          java.lang.Class&lt;X&gt;&nbsp;exceptionClass)</code></th>
+<td class="colLast">
+<div class="block">Returns the result of <code>Future.get()</code>, converting most exceptions to a new instance of the
+ given checked exception type.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static &lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;X extends java.lang.Exception&gt;<br>V</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Futures.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Futures.html#getChecked(java.util.concurrent.Future,java.lang.Class,long,java.util.concurrent.TimeUnit)">getChecked</a></span>&#8203;(java.util.concurrent.Future&lt;V&gt;&nbsp;future,
+          java.lang.Class&lt;X&gt;&nbsp;exceptionClass,
+          long&nbsp;timeout,
+          java.util.concurrent.TimeUnit&nbsp;unit)</code></th>
+<td class="colLast">
+<div class="block">Returns the result of <code>Future.get(long, TimeUnit)</code>, converting most exceptions to a new
+ instance of the given checked exception type.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static &lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;X extends java.lang.Exception&gt;<br>V</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Futures.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Futures.html#getChecked(java.util.concurrent.Future,java.lang.Class,java.time.Duration)">getChecked</a></span>&#8203;(java.util.concurrent.Future&lt;V&gt;&nbsp;future,
+          java.lang.Class&lt;X&gt;&nbsp;exceptionClass,
+          java.time.Duration&nbsp;timeout)</code></th>
+<td class="colLast">
+<div class="block">Returns the result of <code>Future.get(long, TimeUnit)</code>, converting most exceptions to a new
+ instance of the given checked exception type.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static java.util.concurrent.ExecutorService</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">MoreExecutors.</span><code><span class="memberNameLink"><a href="../../util/concurrent/MoreExecutors.html#getExitingExecutorService(java.util.concurrent.ThreadPoolExecutor)">getExitingExecutorService</a></span>&#8203;(java.util.concurrent.ThreadPoolExecutor&nbsp;executor)</code></th>
+<td class="colLast">
+<div class="block">Converts the given ThreadPoolExecutor into an ExecutorService that exits when the application
+ is complete.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static java.util.concurrent.ExecutorService</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">MoreExecutors.</span><code><span class="memberNameLink"><a href="../../util/concurrent/MoreExecutors.html#getExitingExecutorService(java.util.concurrent.ThreadPoolExecutor,long,java.util.concurrent.TimeUnit)">getExitingExecutorService</a></span>&#8203;(java.util.concurrent.ThreadPoolExecutor&nbsp;executor,
+                         long&nbsp;terminationTimeout,
+                         java.util.concurrent.TimeUnit&nbsp;timeUnit)</code></th>
+<td class="colLast">
+<div class="block">Converts the given ThreadPoolExecutor into an ExecutorService that exits when the application
+ is complete.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static java.util.concurrent.ExecutorService</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">MoreExecutors.</span><code><span class="memberNameLink"><a href="../../util/concurrent/MoreExecutors.html#getExitingExecutorService(java.util.concurrent.ThreadPoolExecutor,java.time.Duration)">getExitingExecutorService</a></span>&#8203;(java.util.concurrent.ThreadPoolExecutor&nbsp;executor,
+                         java.time.Duration&nbsp;terminationTimeout)</code></th>
+<td class="colLast">
+<div class="block">Converts the given ThreadPoolExecutor into an ExecutorService that exits when the application
+ is complete.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static java.util.concurrent.ScheduledExecutorService</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">MoreExecutors.</span><code><span class="memberNameLink"><a href="../../util/concurrent/MoreExecutors.html#getExitingScheduledExecutorService(java.util.concurrent.ScheduledThreadPoolExecutor)">getExitingScheduledExecutorService</a></span>&#8203;(java.util.concurrent.ScheduledThreadPoolExecutor&nbsp;executor)</code></th>
+<td class="colLast">
+<div class="block">Converts the given ScheduledThreadPoolExecutor into a ScheduledExecutorService that exits when
+ the application is complete.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static java.util.concurrent.ScheduledExecutorService</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">MoreExecutors.</span><code><span class="memberNameLink"><a href="../../util/concurrent/MoreExecutors.html#getExitingScheduledExecutorService(java.util.concurrent.ScheduledThreadPoolExecutor,long,java.util.concurrent.TimeUnit)">getExitingScheduledExecutorService</a></span>&#8203;(java.util.concurrent.ScheduledThreadPoolExecutor&nbsp;executor,
+                                  long&nbsp;terminationTimeout,
+                                  java.util.concurrent.TimeUnit&nbsp;timeUnit)</code></th>
+<td class="colLast">
+<div class="block">Converts the given ScheduledThreadPoolExecutor into a ScheduledExecutorService that exits when
+ the application is complete.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static java.util.concurrent.ScheduledExecutorService</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">MoreExecutors.</span><code><span class="memberNameLink"><a href="../../util/concurrent/MoreExecutors.html#getExitingScheduledExecutorService(java.util.concurrent.ScheduledThreadPoolExecutor,java.time.Duration)">getExitingScheduledExecutorService</a></span>&#8203;(java.util.concurrent.ScheduledThreadPoolExecutor&nbsp;executor,
+                                  java.time.Duration&nbsp;terminationTimeout)</code></th>
+<td class="colLast">
+<div class="block">Converts the given ScheduledThreadPoolExecutor into a ScheduledExecutorService that exits when
+ the application is complete.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static &lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>V</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Uninterruptibles.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Uninterruptibles.html#getUninterruptibly(java.util.concurrent.Future,long,java.util.concurrent.TimeUnit)">getUninterruptibly</a></span>&#8203;(java.util.concurrent.Future&lt;V&gt;&nbsp;future,
+                  long&nbsp;timeout,
+                  java.util.concurrent.TimeUnit&nbsp;unit)</code></th>
+<td class="colLast">
+<div class="block">Invokes <code>future.</code><code>get(timeout, unit)</code> uninterruptibly.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static &lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>V</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Uninterruptibles.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Uninterruptibles.html#getUninterruptibly(java.util.concurrent.Future,java.time.Duration)">getUninterruptibly</a></span>&#8203;(java.util.concurrent.Future&lt;V&gt;&nbsp;future,
+                  java.time.Duration&nbsp;timeout)</code></th>
+<td class="colLast">
+<div class="block">Invokes <code>future.</code><code>get(timeout, unit)</code> uninterruptibly.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static void</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Uninterruptibles.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Uninterruptibles.html#joinUninterruptibly(java.lang.Thread)">joinUninterruptibly</a></span>&#8203;(java.lang.Thread&nbsp;toJoin)</code></th>
+<td class="colLast">
+<div class="block">Invokes <code>toJoin.</code><code>join()</code> uninterruptibly.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static void</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Uninterruptibles.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Uninterruptibles.html#joinUninterruptibly(java.lang.Thread,long,java.util.concurrent.TimeUnit)">joinUninterruptibly</a></span>&#8203;(java.lang.Thread&nbsp;toJoin,
+                   long&nbsp;timeout,
+                   java.util.concurrent.TimeUnit&nbsp;unit)</code></th>
+<td class="colLast">
+<div class="block">Invokes <code>unit.</code><code>timedJoin(toJoin, timeout)</code>
+ uninterruptibly.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static void</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Uninterruptibles.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Uninterruptibles.html#joinUninterruptibly(java.lang.Thread,java.time.Duration)">joinUninterruptibly</a></span>&#8203;(java.lang.Thread&nbsp;toJoin,
+                   java.time.Duration&nbsp;timeout)</code></th>
+<td class="colLast">
+<div class="block">Invokes <code>unit.</code><code>timedJoin(toJoin, timeout)</code>
+ uninterruptibly.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static &lt;I extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;O extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>java.util.concurrent.Future&lt;O&gt;</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Futures.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Futures.html#lazyTransform(java.util.concurrent.Future,com.google.common.base.Function)">lazyTransform</a></span>&#8203;(java.util.concurrent.Future&lt;I&gt;&nbsp;input,
+             <a href="../../base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super I,&#8203;? extends O&gt;&nbsp;function)</code></th>
+<td class="colLast">
+<div class="block">Like <a href="../../util/concurrent/Futures.html#transform(com.google.common.util.concurrent.ListenableFuture,com.google.common.base.Function,java.util.concurrent.Executor)"><code>Futures.transform(ListenableFuture, Function, Executor)</code></a> except that the transformation
+ <code>function</code> is invoked on each call to <code>get()</code> on the returned future.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static <a href="../../util/concurrent/ListeningExecutorService.html" title="interface in com.google.common.util.concurrent">ListeningExecutorService</a></code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">MoreExecutors.</span><code><span class="memberNameLink"><a href="../../util/concurrent/MoreExecutors.html#listeningDecorator(java.util.concurrent.ExecutorService)">listeningDecorator</a></span>&#8203;(java.util.concurrent.ExecutorService&nbsp;delegate)</code></th>
+<td class="colLast">
+<div class="block">Creates an <code>ExecutorService</code> whose <code>submit</code> and <code>invokeAll</code> methods submit
+ <a href="../../util/concurrent/ListenableFutureTask.html" title="class in com.google.common.util.concurrent"><code>ListenableFutureTask</code></a> instances to the given delegate executor.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static <a href="../../util/concurrent/ListeningScheduledExecutorService.html" title="interface in com.google.common.util.concurrent">ListeningScheduledExecutorService</a></code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">MoreExecutors.</span><code><span class="memberNameLink"><a href="../../util/concurrent/MoreExecutors.html#listeningDecorator(java.util.concurrent.ScheduledExecutorService)">listeningDecorator</a></span>&#8203;(java.util.concurrent.ScheduledExecutorService&nbsp;delegate)</code></th>
+<td class="colLast">
+<div class="block">Creates a <code>ScheduledExecutorService</code> whose <code>submit</code> and <code>invokeAll</code> methods
+ submit <a href="../../util/concurrent/ListenableFutureTask.html" title="class in com.google.common.util.concurrent"><code>ListenableFutureTask</code></a> instances to the given delegate executor.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static <a href="../../util/concurrent/ListeningExecutorService.html" title="interface in com.google.common.util.concurrent">ListeningExecutorService</a></code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">MoreExecutors.</span><code><span class="memberNameLink"><a href="../../util/concurrent/MoreExecutors.html#newDirectExecutorService()">newDirectExecutorService</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Creates an executor service that runs each task in the thread that invokes <code>
+ execute/submit</code>, as in <code>ThreadPoolExecutor.CallerRunsPolicy</code>.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static java.util.concurrent.Executor</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">MoreExecutors.</span><code><span class="memberNameLink"><a href="../../util/concurrent/MoreExecutors.html#newSequentialExecutor(java.util.concurrent.Executor)">newSequentialExecutor</a></span>&#8203;(java.util.concurrent.Executor&nbsp;delegate)</code></th>
+<td class="colLast">
+<div class="block">Returns an <code>Executor</code> that runs each task executed sequentially, such that no two tasks
+ are running concurrently.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static java.util.concurrent.ThreadFactory</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">MoreExecutors.</span><code><span class="memberNameLink"><a href="../../util/concurrent/MoreExecutors.html#platformThreadFactory()">platformThreadFactory</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Returns a default thread factory used to create new threads.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static &lt;E&gt;&nbsp;void</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Uninterruptibles.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Uninterruptibles.html#putUninterruptibly(java.util.concurrent.BlockingQueue,E)">putUninterruptibly</a></span>&#8203;(java.util.concurrent.BlockingQueue&lt;E&gt;&nbsp;queue,
+                  E&nbsp;element)</code></th>
+<td class="colLast">
+<div class="block">Invokes <code>queue.</code><code>put(element)</code> uninterruptibly.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static &lt;O extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="../../util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;O&gt;</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Futures.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Futures.html#scheduleAsync(com.google.common.util.concurrent.AsyncCallable,long,java.util.concurrent.TimeUnit,java.util.concurrent.ScheduledExecutorService)">scheduleAsync</a></span>&#8203;(<a href="../../util/concurrent/AsyncCallable.html" title="interface in com.google.common.util.concurrent">AsyncCallable</a>&lt;O&gt;&nbsp;callable,
+             long&nbsp;delay,
+             java.util.concurrent.TimeUnit&nbsp;timeUnit,
+             java.util.concurrent.ScheduledExecutorService&nbsp;executorService)</code></th>
+<td class="colLast">
+<div class="block">Schedules <code>callable</code> on the specified <code>executor</code>, returning a <code>Future</code>.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static &lt;O extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="../../util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;O&gt;</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Futures.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Futures.html#scheduleAsync(com.google.common.util.concurrent.AsyncCallable,java.time.Duration,java.util.concurrent.ScheduledExecutorService)">scheduleAsync</a></span>&#8203;(<a href="../../util/concurrent/AsyncCallable.html" title="interface in com.google.common.util.concurrent">AsyncCallable</a>&lt;O&gt;&nbsp;callable,
+             java.time.Duration&nbsp;delay,
+             java.util.concurrent.ScheduledExecutorService&nbsp;executorService)</code></th>
+<td class="colLast">
+<div class="block">Schedules <code>callable</code> on the specified <code>executor</code>, returning a <code>Future</code>.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static boolean</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">MoreExecutors.</span><code><span class="memberNameLink"><a href="../../util/concurrent/MoreExecutors.html#shutdownAndAwaitTermination(java.util.concurrent.ExecutorService,long,java.util.concurrent.TimeUnit)">shutdownAndAwaitTermination</a></span>&#8203;(java.util.concurrent.ExecutorService&nbsp;service,
+                           long&nbsp;timeout,
+                           java.util.concurrent.TimeUnit&nbsp;unit)</code></th>
+<td class="colLast">
+<div class="block">Shuts down the given executor service gradually, first disabling new submissions and later, if
+ necessary, cancelling remaining tasks.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static boolean</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">MoreExecutors.</span><code><span class="memberNameLink"><a href="../../util/concurrent/MoreExecutors.html#shutdownAndAwaitTermination(java.util.concurrent.ExecutorService,java.time.Duration)">shutdownAndAwaitTermination</a></span>&#8203;(java.util.concurrent.ExecutorService&nbsp;service,
+                           java.time.Duration&nbsp;timeout)</code></th>
+<td class="colLast">
+<div class="block">Shuts down the given executor service gradually, first disabling new submissions and later, if
+ necessary, cancelling remaining tasks.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static void</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Uninterruptibles.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Uninterruptibles.html#sleepUninterruptibly(long,java.util.concurrent.TimeUnit)">sleepUninterruptibly</a></span>&#8203;(long&nbsp;sleepFor,
+                    java.util.concurrent.TimeUnit&nbsp;unit)</code></th>
+<td class="colLast">
+<div class="block">Invokes <code>unit.</code><code>sleep(sleepFor)</code> uninterruptibly.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static void</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Uninterruptibles.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Uninterruptibles.html#sleepUninterruptibly(java.time.Duration)">sleepUninterruptibly</a></span>&#8203;(java.time.Duration&nbsp;sleepFor)</code></th>
+<td class="colLast">
+<div class="block">Invokes <code>unit.</code><code>sleep(sleepFor)</code> uninterruptibly.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static &lt;E&gt;&nbsp;E</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Uninterruptibles.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Uninterruptibles.html#takeUninterruptibly(java.util.concurrent.BlockingQueue)">takeUninterruptibly</a></span>&#8203;(java.util.concurrent.BlockingQueue&lt;E&gt;&nbsp;queue)</code></th>
+<td class="colLast">
+<div class="block">Invokes <code>queue.</code><code>take()</code> uninterruptibly.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static boolean</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Uninterruptibles.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Uninterruptibles.html#tryAcquireUninterruptibly(java.util.concurrent.Semaphore,int,long,java.util.concurrent.TimeUnit)">tryAcquireUninterruptibly</a></span>&#8203;(java.util.concurrent.Semaphore&nbsp;semaphore,
+                         int&nbsp;permits,
+                         long&nbsp;timeout,
+                         java.util.concurrent.TimeUnit&nbsp;unit)</code></th>
+<td class="colLast">
+<div class="block">Invokes <code>semaphore.</code><code>tryAcquire(permits,
+ timeout, unit)</code> uninterruptibly.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static boolean</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Uninterruptibles.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Uninterruptibles.html#tryAcquireUninterruptibly(java.util.concurrent.Semaphore,int,java.time.Duration)">tryAcquireUninterruptibly</a></span>&#8203;(java.util.concurrent.Semaphore&nbsp;semaphore,
+                         int&nbsp;permits,
+                         java.time.Duration&nbsp;timeout)</code></th>
+<td class="colLast">
+<div class="block">Invokes <code>semaphore.</code><code>tryAcquire(permits,
+ timeout, unit)</code> uninterruptibly.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static boolean</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Uninterruptibles.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Uninterruptibles.html#tryAcquireUninterruptibly(java.util.concurrent.Semaphore,long,java.util.concurrent.TimeUnit)">tryAcquireUninterruptibly</a></span>&#8203;(java.util.concurrent.Semaphore&nbsp;semaphore,
+                         long&nbsp;timeout,
+                         java.util.concurrent.TimeUnit&nbsp;unit)</code></th>
+<td class="colLast">
+<div class="block">Invokes <code>semaphore.</code><code>tryAcquire(1,
+ timeout, unit)</code> uninterruptibly.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static boolean</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Uninterruptibles.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Uninterruptibles.html#tryAcquireUninterruptibly(java.util.concurrent.Semaphore,java.time.Duration)">tryAcquireUninterruptibly</a></span>&#8203;(java.util.concurrent.Semaphore&nbsp;semaphore,
+                         java.time.Duration&nbsp;timeout)</code></th>
+<td class="colLast">
+<div class="block">Invokes <code>semaphore.</code><code>tryAcquire(1,
+ timeout, unit)</code> uninterruptibly.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static boolean</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Uninterruptibles.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Uninterruptibles.html#tryLockUninterruptibly(java.util.concurrent.locks.Lock,long,java.util.concurrent.TimeUnit)">tryLockUninterruptibly</a></span>&#8203;(java.util.concurrent.locks.Lock&nbsp;lock,
+                      long&nbsp;timeout,
+                      java.util.concurrent.TimeUnit&nbsp;unit)</code></th>
+<td class="colLast">
+<div class="block">Invokes <code>lock.</code><code>tryLock(timeout, unit)</code>
+ uninterruptibly.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static boolean</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Uninterruptibles.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Uninterruptibles.html#tryLockUninterruptibly(java.util.concurrent.locks.Lock,java.time.Duration)">tryLockUninterruptibly</a></span>&#8203;(java.util.concurrent.locks.Lock&nbsp;lock,
+                      java.time.Duration&nbsp;timeout)</code></th>
+<td class="colLast">
+<div class="block">Invokes <code>lock.</code><code>tryLock(timeout, unit)</code>
+ uninterruptibly.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code><a href="../../util/concurrent/FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;<a href="../../util/concurrent/FluentFuture.html" title="type parameter in FluentFuture">V</a>&gt;</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">FluentFuture.</span><code><span class="memberNameLink"><a href="../../util/concurrent/FluentFuture.html#withTimeout(long,java.util.concurrent.TimeUnit,java.util.concurrent.ScheduledExecutorService)">withTimeout</a></span>&#8203;(long&nbsp;timeout,
+           java.util.concurrent.TimeUnit&nbsp;unit,
+           java.util.concurrent.ScheduledExecutorService&nbsp;scheduledExecutor)</code></th>
+<td class="colLast">
+<div class="block">Returns a future that delegates to this future but will finish early (via a <code>TimeoutException</code> wrapped in an <code>ExecutionException</code>) if the specified timeout expires.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="../../util/concurrent/FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;<a href="../../util/concurrent/FluentFuture.html" title="type parameter in FluentFuture">V</a>&gt;</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">FluentFuture.</span><code><span class="memberNameLink"><a href="../../util/concurrent/FluentFuture.html#withTimeout(java.time.Duration,java.util.concurrent.ScheduledExecutorService)">withTimeout</a></span>&#8203;(java.time.Duration&nbsp;timeout,
+           java.util.concurrent.ScheduledExecutorService&nbsp;scheduledExecutor)</code></th>
+<td class="colLast">
+<div class="block">Returns a future that delegates to this future but will finish early (via a <code>TimeoutException</code> wrapped in an <code>ExecutionException</code>) if the specified timeout expires.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static &lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="../../util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Futures.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Futures.html#withTimeout(com.google.common.util.concurrent.ListenableFuture,long,java.util.concurrent.TimeUnit,java.util.concurrent.ScheduledExecutorService)">withTimeout</a></span>&#8203;(<a href="../../util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;&nbsp;delegate,
+           long&nbsp;time,
+           java.util.concurrent.TimeUnit&nbsp;unit,
+           java.util.concurrent.ScheduledExecutorService&nbsp;scheduledExecutor)</code></th>
+<td class="colLast">
+<div class="block">Returns a future that delegates to another but will finish early (via a <code>TimeoutException</code> wrapped in an <code>ExecutionException</code>) if the specified duration expires.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static &lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="../../util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Futures.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Futures.html#withTimeout(com.google.common.util.concurrent.ListenableFuture,java.time.Duration,java.util.concurrent.ScheduledExecutorService)">withTimeout</a></span>&#8203;(<a href="../../util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;&nbsp;delegate,
+           java.time.Duration&nbsp;time,
+           java.util.concurrent.ScheduledExecutorService&nbsp;scheduledExecutor)</code></th>
+<td class="colLast">
+<div class="block">Returns a future that delegates to another but will finish early (via a <code>TimeoutException</code> wrapped in an <code>ExecutionException</code>) if the specified duration expires.</div>
 </td>
 </tr>
 </tbody>

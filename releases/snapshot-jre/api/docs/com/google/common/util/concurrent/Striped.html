@@ -134,7 +134,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <hr>
 <pre><a href="../../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
 <a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public abstract class <a href="../../../../../src-html/com/google/common/util/concurrent/Striped.html#line.85">Striped</a>&lt;L&gt;
+public abstract class <a href="../../../../../src-html/com/google/common/util/concurrent/Striped.html#line.86">Striped</a>&lt;L&gt;
 extends java.lang.Object</pre>
 <div class="block">A striped <code>Lock/Semaphore/ReadWriteLock</code>. This offers the underlying lock striping similar
  to that of <code>ConcurrentHashMap</code> in a reusable form, and extends it for semaphores and
@@ -299,7 +299,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre class="methodSignature">public abstract&nbsp;<a href="Striped.html" title="type parameter in Striped">L</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Striped.html#line.105">get</a>&#8203;(java.lang.Object&nbsp;key)</pre>
+<pre class="methodSignature">public abstract&nbsp;<a href="Striped.html" title="type parameter in Striped">L</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Striped.html#line.107">get</a>&#8203;(java.lang.Object&nbsp;key)</pre>
 <div class="block">Returns the stripe that corresponds to the passed key. It is always guaranteed that if <code>
  key1.equals(key2)</code>, then <code>get(key1) == get(key2)</code>.</div>
 <dl>
@@ -316,7 +316,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>getAt</h4>
-<pre class="methodSignature">public abstract&nbsp;<a href="Striped.html" title="type parameter in Striped">L</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Striped.html#line.114">getAt</a>&#8203;(int&nbsp;index)</pre>
+<pre class="methodSignature">public abstract&nbsp;<a href="Striped.html" title="type parameter in Striped">L</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Striped.html#line.116">getAt</a>&#8203;(int&nbsp;index)</pre>
 <div class="block">Returns the stripe at the specified index. Valid indexes are 0, inclusively, to <code>size()</code>,
  exclusively.</div>
 <dl>
@@ -333,7 +333,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>size</h4>
-<pre class="methodSignature">public abstract&nbsp;int&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Striped.html#line.122">size</a>()</pre>
+<pre class="methodSignature">public abstract&nbsp;int&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Striped.html#line.124">size</a>()</pre>
 <div class="block">Returns the total number of stripes in this instance.</div>
 </li>
 </ul>
@@ -343,7 +343,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>bulkGet</h4>
-<pre class="methodSignature">public&nbsp;java.lang.Iterable&lt;<a href="Striped.html" title="type parameter in Striped">L</a>&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Striped.html#line.142">bulkGet</a>&#8203;(java.lang.Iterable&lt;? extends java.lang.Object&gt;&nbsp;keys)</pre>
+<pre class="methodSignature">public&nbsp;java.lang.Iterable&lt;<a href="Striped.html" title="type parameter in Striped">L</a>&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Striped.html#line.144">bulkGet</a>&#8203;(java.lang.Iterable&lt;? extends java.lang.Object&gt;&nbsp;keys)</pre>
 <div class="block">Returns the stripes that correspond to the passed objects, in ascending (as per <a href="#getAt(int)"><code>getAt(int)</code></a>) order. Thus, threads that use the stripes in the order returned by this method
  are guaranteed to not deadlock each other.
 
@@ -370,7 +370,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>lock</h4>
-<pre class="methodSignature">public static&nbsp;<a href="Striped.html" title="class in com.google.common.util.concurrent">Striped</a>&lt;java.util.concurrent.locks.Lock&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Striped.html#line.208">lock</a>&#8203;(int&nbsp;stripes)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="Striped.html" title="class in com.google.common.util.concurrent">Striped</a>&lt;java.util.concurrent.locks.Lock&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Striped.html#line.210">lock</a>&#8203;(int&nbsp;stripes)</pre>
 <div class="block">Creates a <code>Striped&lt;Lock&gt;</code> with eagerly initialized, strongly referenced locks. Every lock
  is reentrant.</div>
 <dl>
@@ -387,7 +387,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>lazyWeakLock</h4>
-<pre class="methodSignature">public static&nbsp;<a href="Striped.html" title="class in com.google.common.util.concurrent">Striped</a>&lt;java.util.concurrent.locks.Lock&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Striped.html#line.219">lazyWeakLock</a>&#8203;(int&nbsp;stripes)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="Striped.html" title="class in com.google.common.util.concurrent">Striped</a>&lt;java.util.concurrent.locks.Lock&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Striped.html#line.221">lazyWeakLock</a>&#8203;(int&nbsp;stripes)</pre>
 <div class="block">Creates a <code>Striped&lt;Lock&gt;</code> with lazily initialized, weakly referenced locks. Every lock is
  reentrant.</div>
 <dl>
@@ -404,7 +404,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>semaphore</h4>
-<pre class="methodSignature">public static&nbsp;<a href="Striped.html" title="class in com.google.common.util.concurrent">Striped</a>&lt;java.util.concurrent.Semaphore&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Striped.html#line.237">semaphore</a>&#8203;(int&nbsp;stripes,
+<pre class="methodSignature">public static&nbsp;<a href="Striped.html" title="class in com.google.common.util.concurrent">Striped</a>&lt;java.util.concurrent.Semaphore&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Striped.html#line.239">semaphore</a>&#8203;(int&nbsp;stripes,
                                                                 int&nbsp;permits)</pre>
 <div class="block">Creates a <code>Striped&lt;Semaphore&gt;</code> with eagerly initialized, strongly referenced semaphores,
  with the specified number of permits.</div>
@@ -423,7 +423,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>lazyWeakSemaphore</h4>
-<pre class="methodSignature">public static&nbsp;<a href="Striped.html" title="class in com.google.common.util.concurrent">Striped</a>&lt;java.util.concurrent.Semaphore&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Striped.html#line.249">lazyWeakSemaphore</a>&#8203;(int&nbsp;stripes,
+<pre class="methodSignature">public static&nbsp;<a href="Striped.html" title="class in com.google.common.util.concurrent">Striped</a>&lt;java.util.concurrent.Semaphore&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Striped.html#line.251">lazyWeakSemaphore</a>&#8203;(int&nbsp;stripes,
                                                                         int&nbsp;permits)</pre>
 <div class="block">Creates a <code>Striped&lt;Semaphore&gt;</code> with lazily initialized, weakly referenced semaphores,
  with the specified number of permits.</div>
@@ -442,7 +442,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>readWriteLock</h4>
-<pre class="methodSignature">public static&nbsp;<a href="Striped.html" title="class in com.google.common.util.concurrent">Striped</a>&lt;java.util.concurrent.locks.ReadWriteLock&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Striped.html#line.260">readWriteLock</a>&#8203;(int&nbsp;stripes)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="Striped.html" title="class in com.google.common.util.concurrent">Striped</a>&lt;java.util.concurrent.locks.ReadWriteLock&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Striped.html#line.262">readWriteLock</a>&#8203;(int&nbsp;stripes)</pre>
 <div class="block">Creates a <code>Striped&lt;ReadWriteLock&gt;</code> with eagerly initialized, strongly referenced
  read-write locks. Every lock is reentrant.</div>
 <dl>
@@ -459,7 +459,7 @@ extends java.lang.Object</pre>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>lazyWeakReadWriteLock</h4>
-<pre class="methodSignature">public static&nbsp;<a href="Striped.html" title="class in com.google.common.util.concurrent">Striped</a>&lt;java.util.concurrent.locks.ReadWriteLock&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Striped.html#line.271">lazyWeakReadWriteLock</a>&#8203;(int&nbsp;stripes)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="Striped.html" title="class in com.google.common.util.concurrent">Striped</a>&lt;java.util.concurrent.locks.ReadWriteLock&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Striped.html#line.273">lazyWeakReadWriteLock</a>&#8203;(int&nbsp;stripes)</pre>
 <div class="block">Creates a <code>Striped&lt;ReadWriteLock&gt;</code> with lazily initialized, weakly referenced read-write
  locks. Every lock is reentrant.</div>
 <dl>

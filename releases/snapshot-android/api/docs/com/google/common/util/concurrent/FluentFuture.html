@@ -148,7 +148,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <hr>
 <pre><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/DoNotMock.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@DoNotMock</a>("Use FluentFuture.from(Futures.immediate*Future) or SettableFuture")
 <a href="../../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../../annotations/GwtCompatible.html#emulated()">emulated</a>=true)
-public abstract class <a href="../../../../../src-html/com/google/common/util/concurrent/FluentFuture.html#line.73">FluentFuture</a>&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;
+public abstract class <a href="../../../../../src-html/com/google/common/util/concurrent/FluentFuture.html#line.74">FluentFuture</a>&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;
 extends <a href="AbstractFuture.html" title="class in com.google.common.util.concurrent">AbstractFuture</a>&lt;V&gt;</pre>
 <div class="block">A <a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a> that supports fluent chains of operations. For example:
 
@@ -321,7 +321,7 @@ extends <a href="AbstractFuture.html" title="class in com.google.common.util.con
 <ul class="blockList">
 <li class="blockList">
 <h4>from</h4>
-<pre class="methodSignature">public static&nbsp;&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;V&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/FluentFuture.html#line.131">from</a>&#8203;(<a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;&nbsp;future)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;V&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/FluentFuture.html#line.132">from</a>&#8203;(<a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;&nbsp;future)</pre>
 <div class="block">Converts the given <code>ListenableFuture</code> to an equivalent <code>FluentFuture</code>.
 
  <p>If the given <code>ListenableFuture</code> is already a <code>FluentFuture</code>, it is returned
@@ -336,7 +336,7 @@ extends <a href="AbstractFuture.html" title="class in com.google.common.util.con
 <li class="blockList">
 <h4>from</h4>
 <pre class="methodSignature">@Deprecated
-public static&nbsp;&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;V&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/FluentFuture.html#line.143">from</a>&#8203;(<a href="FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;V&gt;&nbsp;future)</pre>
+public static&nbsp;&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;V&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/FluentFuture.html#line.144">from</a>&#8203;(<a href="FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;V&gt;&nbsp;future)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">no need to use this</div>
 </div>
@@ -355,7 +355,7 @@ public static&nbsp;&lt;V extends <a href="https://checkerframework.org/api/org/c
 <h4>catching</h4>
 <pre class="methodSignature">@GwtIncompatible("AVAILABLE but requires exceptionType to be Throwable.class")
 <a href="../../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public final&nbsp;&lt;X extends java.lang.Throwable&gt;&nbsp;<a href="FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;<a href="FluentFuture.html" title="type parameter in FluentFuture">V</a>&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/FluentFuture.html#line.185">catching</a>&#8203;(java.lang.Class&lt;X&gt;&nbsp;exceptionType,
+public final&nbsp;&lt;X extends java.lang.Throwable&gt;&nbsp;<a href="FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;<a href="FluentFuture.html" title="type parameter in FluentFuture">V</a>&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/FluentFuture.html#line.186">catching</a>&#8203;(java.lang.Class&lt;X&gt;&nbsp;exceptionType,
                                                                       <a href="../../base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super X,&#8203;? extends <a href="FluentFuture.html" title="type parameter in FluentFuture">V</a>&gt;&nbsp;fallback,
                                                                       java.util.concurrent.Executor&nbsp;executor)</pre>
 <div class="block">Returns a <code>Future</code> whose result is taken from this <code>Future</code> or, if this <code>
@@ -404,7 +404,7 @@ public final&nbsp;&lt;X extends java.lang.Throwable&gt;&nbsp;<a href="FluentFutu
 <h4>catchingAsync</h4>
 <pre class="methodSignature">@GwtIncompatible("AVAILABLE but requires exceptionType to be Throwable.class")
 <a href="../../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public final&nbsp;&lt;X extends java.lang.Throwable&gt;&nbsp;<a href="FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;<a href="FluentFuture.html" title="type parameter in FluentFuture">V</a>&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/FluentFuture.html#line.250">catchingAsync</a>&#8203;(java.lang.Class&lt;X&gt;&nbsp;exceptionType,
+public final&nbsp;&lt;X extends java.lang.Throwable&gt;&nbsp;<a href="FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;<a href="FluentFuture.html" title="type parameter in FluentFuture">V</a>&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/FluentFuture.html#line.252">catchingAsync</a>&#8203;(java.lang.Class&lt;X&gt;&nbsp;exceptionType,
                                                                            <a href="AsyncFunction.html" title="interface in com.google.common.util.concurrent">AsyncFunction</a>&lt;? super X,&#8203;? extends <a href="FluentFuture.html" title="type parameter in FluentFuture">V</a>&gt;&nbsp;fallback,
                                                                            java.util.concurrent.Executor&nbsp;executor)</pre>
 <div class="block">Returns a <code>Future</code> whose result is taken from this <code>Future</code> or, if this <code>
@@ -474,7 +474,7 @@ public final&nbsp;&lt;X extends java.lang.Throwable&gt;&nbsp;<a href="FluentFutu
 <h4>withTimeout</h4>
 <pre class="methodSignature"><a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 <a href="../../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public final&nbsp;<a href="FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;<a href="FluentFuture.html" title="type parameter in FluentFuture">V</a>&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/FluentFuture.html#line.267">withTimeout</a>&#8203;(long&nbsp;timeout,
+public final&nbsp;<a href="FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;<a href="FluentFuture.html" title="type parameter in FluentFuture">V</a>&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/FluentFuture.html#line.270">withTimeout</a>&#8203;(long&nbsp;timeout,
                                          java.util.concurrent.TimeUnit&nbsp;unit,
                                          java.util.concurrent.ScheduledExecutorService&nbsp;scheduledExecutor)</pre>
 <div class="block">Returns a future that delegates to this future but will finish early (via a <code>TimeoutException</code> wrapped in an <code>ExecutionException</code>) if the specified timeout expires.
@@ -495,7 +495,7 @@ public final&nbsp;<a href="FluentFuture.html" title="class in com.google.common.
 <li class="blockList">
 <h4>transformAsync</h4>
 <pre class="methodSignature"><a href="../../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public final&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;T&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/FluentFuture.html#line.314">transformAsync</a>&#8203;(<a href="AsyncFunction.html" title="interface in com.google.common.util.concurrent">AsyncFunction</a>&lt;? super <a href="FluentFuture.html" title="type parameter in FluentFuture">V</a>,&#8203;T&gt;&nbsp;function,
+public final&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;T&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/FluentFuture.html#line.318">transformAsync</a>&#8203;(<a href="AsyncFunction.html" title="interface in com.google.common.util.concurrent">AsyncFunction</a>&lt;? super <a href="FluentFuture.html" title="type parameter in FluentFuture">V</a>,&#8203;T&gt;&nbsp;function,
                                                                                    java.util.concurrent.Executor&nbsp;executor)</pre>
 <div class="block">Returns a new <code>Future</code> whose result is asynchronously derived from the result of this
  <code>Future</code>. If the input <code>Future</code> fails, the returned <code>Future</code> fails with the
@@ -545,7 +545,7 @@ public final&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/ch
 <li class="blockList">
 <h4>transform</h4>
 <pre class="methodSignature"><a href="../../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public final&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;T&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/FluentFuture.html#line.352">transform</a>&#8203;(<a href="../../base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super <a href="FluentFuture.html" title="type parameter in FluentFuture">V</a>,&#8203;T&gt;&nbsp;function,
+public final&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;T&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/FluentFuture.html#line.356">transform</a>&#8203;(<a href="../../base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super <a href="FluentFuture.html" title="type parameter in FluentFuture">V</a>,&#8203;T&gt;&nbsp;function,
                                                                               java.util.concurrent.Executor&nbsp;executor)</pre>
 <div class="block">Returns a new <code>Future</code> whose result is derived from the result of this <code>Future</code>. If
  this input <code>Future</code> fails, the returned <code>Future</code> fails with the same exception (and
@@ -587,7 +587,7 @@ public final&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/ch
 <ul class="blockListLast">
 <li class="blockList">
 <h4>addCallback</h4>
-<pre class="methodSignature">public final&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/FluentFuture.html#line.395">addCallback</a>&#8203;(<a href="FutureCallback.html" title="interface in com.google.common.util.concurrent">FutureCallback</a>&lt;? super <a href="FluentFuture.html" title="type parameter in FluentFuture">V</a>&gt;&nbsp;callback,
+<pre class="methodSignature">public final&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/FluentFuture.html#line.399">addCallback</a>&#8203;(<a href="FutureCallback.html" title="interface in com.google.common.util.concurrent">FutureCallback</a>&lt;? super <a href="FluentFuture.html" title="type parameter in FluentFuture">V</a>&gt;&nbsp;callback,
                               java.util.concurrent.Executor&nbsp;executor)</pre>
 <div class="block">Registers separate success and failure callbacks to be run when this <code>Future</code>'s
  computation is complete or, if the

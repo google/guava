@@ -156,7 +156,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <hr>
 <pre><a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public abstract class <a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingBlockingQueue.html#line.39">ForwardingBlockingQueue</a>&lt;E&gt;
+public abstract class <a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingBlockingQueue.html#line.40">ForwardingBlockingQueue</a>&lt;E&gt;
 extends <a href="../../collect/ForwardingQueue.html" title="class in com.google.common.collect">ForwardingQueue</a>&lt;E&gt;
 implements java.util.concurrent.BlockingQueue&lt;E&gt;</pre>
 <div class="block">A <code>BlockingQueue</code> which forwards all its method calls to another <code>BlockingQueue</code>.
@@ -343,7 +343,7 @@ implements java.util.concurrent.BlockingQueue&lt;E&gt;</pre>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>ForwardingBlockingQueue</h4>
-<pre>protected&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingBlockingQueue.html#line.45">ForwardingBlockingQueue</a>()</pre>
+<pre>protected&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingBlockingQueue.html#line.47">ForwardingBlockingQueue</a>()</pre>
 <div class="block">Constructor for use by subclasses.</div>
 </li>
 </ul>
@@ -363,7 +363,7 @@ implements java.util.concurrent.BlockingQueue&lt;E&gt;</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>delegate</h4>
-<pre class="methodSignature">protected abstract&nbsp;java.util.concurrent.BlockingQueue&lt;<a href="ForwardingBlockingQueue.html" title="type parameter in ForwardingBlockingQueue">E</a>&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingBlockingQueue.html#line.47">delegate</a>()</pre>
+<pre class="methodSignature">protected abstract&nbsp;java.util.concurrent.BlockingQueue&lt;<a href="ForwardingBlockingQueue.html" title="type parameter in ForwardingBlockingQueue">E</a>&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingBlockingQueue.html#line.49">delegate</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="../../collect/ForwardingObject.html#delegate()">ForwardingObject</a></code></span></div>
 <div class="block">Returns the backing delegate instance that methods are forwarded to. Abstract subclasses
  generally override this method with an abstract method that has a more specific return type,
@@ -382,7 +382,7 @@ implements java.util.concurrent.BlockingQueue&lt;E&gt;</pre>
 <li class="blockList">
 <h4>drainTo</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;int&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingBlockingQueue.html#line.50">drainTo</a>&#8203;(java.util.Collection&lt;? super <a href="ForwardingBlockingQueue.html" title="type parameter in ForwardingBlockingQueue">E</a>&gt;&nbsp;c,
+public&nbsp;int&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingBlockingQueue.html#line.52">drainTo</a>&#8203;(java.util.Collection&lt;? super <a href="ForwardingBlockingQueue.html" title="type parameter in ForwardingBlockingQueue">E</a>&gt;&nbsp;c,
                    int&nbsp;maxElements)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
@@ -397,7 +397,7 @@ public&nbsp;int&nbsp;<a href="../../../../../src-html/com/google/common/util/con
 <li class="blockList">
 <h4>drainTo</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;int&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingBlockingQueue.html#line.56">drainTo</a>&#8203;(java.util.Collection&lt;? super <a href="ForwardingBlockingQueue.html" title="type parameter in ForwardingBlockingQueue">E</a>&gt;&nbsp;c)</pre>
+public&nbsp;int&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingBlockingQueue.html#line.58">drainTo</a>&#8203;(java.util.Collection&lt;? super <a href="ForwardingBlockingQueue.html" title="type parameter in ForwardingBlockingQueue">E</a>&gt;&nbsp;c)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>drainTo</code>&nbsp;in interface&nbsp;<code>java.util.concurrent.BlockingQueue&lt;<a href="ForwardingBlockingQueue.html" title="type parameter in ForwardingBlockingQueue">E</a>&gt;</code></dd>
@@ -413,7 +413,7 @@ public&nbsp;int&nbsp;<a href="../../../../../src-html/com/google/common/util/con
 <li class="blockList">
 <h4>offer</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingBlockingQueue.html#line.62">offer</a>&#8203;(<a href="ForwardingBlockingQueue.html" title="type parameter in ForwardingBlockingQueue">E</a>&nbsp;e,
+public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingBlockingQueue.html#line.64">offer</a>&#8203;(<a href="ForwardingBlockingQueue.html" title="type parameter in ForwardingBlockingQueue">E</a>&nbsp;e,
                      long&nbsp;timeout,
                      java.util.concurrent.TimeUnit&nbsp;unit)
               throws java.lang.InterruptedException</pre>
@@ -433,7 +433,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util
 <h4>poll</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;<a href="ForwardingBlockingQueue.html" title="type parameter in ForwardingBlockingQueue">E</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingBlockingQueue.html#line.68">poll</a>&#8203;(long&nbsp;timeout,
+public&nbsp;<a href="ForwardingBlockingQueue.html" title="type parameter in ForwardingBlockingQueue">E</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingBlockingQueue.html#line.70">poll</a>&#8203;(long&nbsp;timeout,
               java.util.concurrent.TimeUnit&nbsp;unit)
        throws java.lang.InterruptedException</pre>
 <dl>
@@ -452,7 +452,7 @@ public&nbsp;<a href="ForwardingBlockingQueue.html" title="type parameter in Forw
 <ul class="blockList">
 <li class="blockList">
 <h4>put</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingBlockingQueue.html#line.75">put</a>&#8203;(<a href="ForwardingBlockingQueue.html" title="type parameter in ForwardingBlockingQueue">E</a>&nbsp;e)
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingBlockingQueue.html#line.77">put</a>&#8203;(<a href="ForwardingBlockingQueue.html" title="type parameter in ForwardingBlockingQueue">E</a>&nbsp;e)
          throws java.lang.InterruptedException</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
@@ -468,7 +468,7 @@ public&nbsp;<a href="ForwardingBlockingQueue.html" title="type parameter in Forw
 <ul class="blockList">
 <li class="blockList">
 <h4>remainingCapacity</h4>
-<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingBlockingQueue.html#line.80">remainingCapacity</a>()</pre>
+<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingBlockingQueue.html#line.82">remainingCapacity</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>remainingCapacity</code>&nbsp;in interface&nbsp;<code>java.util.concurrent.BlockingQueue&lt;<a href="ForwardingBlockingQueue.html" title="type parameter in ForwardingBlockingQueue">E</a>&gt;</code></dd>
@@ -482,7 +482,7 @@ public&nbsp;<a href="ForwardingBlockingQueue.html" title="type parameter in Forw
 <li class="blockList">
 <h4>take</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="ForwardingBlockingQueue.html" title="type parameter in ForwardingBlockingQueue">E</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingBlockingQueue.html#line.85">take</a>()
+public&nbsp;<a href="ForwardingBlockingQueue.html" title="type parameter in ForwardingBlockingQueue">E</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingBlockingQueue.html#line.87">take</a>()
        throws java.lang.InterruptedException</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>

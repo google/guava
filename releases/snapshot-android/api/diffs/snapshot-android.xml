@@ -66625,7 +66625,6 @@
  <p>The delegate future is interrupted and cancelled if it times out.
 
  @param delegate The future to delegate to.
- @param time when to timeout the future
  @param unit the time unit of the time parameter
  @param scheduledExecutor The executor service to enforce the timeout.
  @since 19.0]]>

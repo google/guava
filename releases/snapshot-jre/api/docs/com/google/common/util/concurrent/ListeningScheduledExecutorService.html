@@ -129,7 +129,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <hr>
 <pre><a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public interface <a href="../../../../../src-html/com/google/common/util/concurrent/ListeningScheduledExecutorService.html#line.35">ListeningScheduledExecutorService</a>
+public interface <a href="../../../../../src-html/com/google/common/util/concurrent/ListeningScheduledExecutorService.html#line.36">ListeningScheduledExecutorService</a>
 extends java.util.concurrent.ScheduledExecutorService, <a href="ListeningExecutorService.html" title="interface in com.google.common.util.concurrent">ListeningExecutorService</a></pre>
 <div class="block">A <code>ScheduledExecutorService</code> that returns <a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a> instances from its
  <code>ExecutorService</code> methods. To create an instance from an existing <code>ScheduledExecutorService</code>, call <a href="MoreExecutors.html#listeningDecorator(java.util.concurrent.ScheduledExecutorService)"><code>MoreExecutors.listeningDecorator(ScheduledExecutorService)</code></a>.</div>
@@ -267,7 +267,7 @@ extends java.util.concurrent.ScheduledExecutorService, <a href="ListeningExecuto
 <ul class="blockList">
 <li class="blockList">
 <h4>schedule</h4>
-<pre class="methodSignature"><a href="ListenableScheduledFuture.html" title="interface in com.google.common.util.concurrent">ListenableScheduledFuture</a>&lt;?&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListeningScheduledExecutorService.html#line.41">schedule</a>&#8203;(java.lang.Runnable&nbsp;command,
+<pre class="methodSignature"><a href="ListenableScheduledFuture.html" title="interface in com.google.common.util.concurrent">ListenableScheduledFuture</a>&lt;?&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListeningScheduledExecutorService.html#line.43">schedule</a>&#8203;(java.lang.Runnable&nbsp;command,
                                       long&nbsp;delay,
                                       java.util.concurrent.TimeUnit&nbsp;unit)</pre>
 <dl>
@@ -284,7 +284,7 @@ extends java.util.concurrent.ScheduledExecutorService, <a href="ListeningExecuto
 <ul class="blockList">
 <li class="blockList">
 <h4>schedule</h4>
-<pre class="methodSignature">default&nbsp;<a href="ListenableScheduledFuture.html" title="interface in com.google.common.util.concurrent">ListenableScheduledFuture</a>&lt;?&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListeningScheduledExecutorService.html#line.49">schedule</a>&#8203;(java.lang.Runnable&nbsp;command,
+<pre class="methodSignature">default&nbsp;<a href="ListenableScheduledFuture.html" title="interface in com.google.common.util.concurrent">ListenableScheduledFuture</a>&lt;?&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListeningScheduledExecutorService.html#line.51">schedule</a>&#8203;(java.lang.Runnable&nbsp;command,
                                               java.time.Duration&nbsp;delay)</pre>
 <div class="block">Duration-based overload of <a href="#schedule(java.lang.Runnable,long,java.util.concurrent.TimeUnit)"><code>schedule(Runnable, long, TimeUnit)</code></a>.</div>
 <dl>
@@ -299,7 +299,7 @@ extends java.util.concurrent.ScheduledExecutorService, <a href="ListeningExecuto
 <ul class="blockList">
 <li class="blockList">
 <h4>schedule</h4>
-<pre class="methodSignature">&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="ListenableScheduledFuture.html" title="interface in com.google.common.util.concurrent">ListenableScheduledFuture</a>&lt;V&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListeningScheduledExecutorService.html#line.54">schedule</a>&#8203;(java.util.concurrent.Callable&lt;V&gt;&nbsp;callable,
+<pre class="methodSignature">&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="ListenableScheduledFuture.html" title="interface in com.google.common.util.concurrent">ListenableScheduledFuture</a>&lt;V&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListeningScheduledExecutorService.html#line.56">schedule</a>&#8203;(java.util.concurrent.Callable&lt;V&gt;&nbsp;callable,
                                                                              long&nbsp;delay,
                                                                              java.util.concurrent.TimeUnit&nbsp;unit)</pre>
 <dl>
@@ -316,7 +316,7 @@ extends java.util.concurrent.ScheduledExecutorService, <a href="ListeningExecuto
 <ul class="blockList">
 <li class="blockList">
 <h4>schedule</h4>
-<pre class="methodSignature">default&nbsp;&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="ListenableScheduledFuture.html" title="interface in com.google.common.util.concurrent">ListenableScheduledFuture</a>&lt;V&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListeningScheduledExecutorService.html#line.63">schedule</a>&#8203;(java.util.concurrent.Callable&lt;V&gt;&nbsp;callable,
+<pre class="methodSignature">default&nbsp;&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="ListenableScheduledFuture.html" title="interface in com.google.common.util.concurrent">ListenableScheduledFuture</a>&lt;V&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListeningScheduledExecutorService.html#line.65">schedule</a>&#8203;(java.util.concurrent.Callable&lt;V&gt;&nbsp;callable,
                                                                                      java.time.Duration&nbsp;delay)</pre>
 <div class="block">Duration-based overload of <a href="#schedule(java.util.concurrent.Callable,long,java.util.concurrent.TimeUnit)"><code>schedule(Callable, long, TimeUnit)</code></a>.</div>
 <dl>
@@ -331,7 +331,7 @@ extends java.util.concurrent.ScheduledExecutorService, <a href="ListeningExecuto
 <ul class="blockList">
 <li class="blockList">
 <h4>scheduleAtFixedRate</h4>
-<pre class="methodSignature"><a href="ListenableScheduledFuture.html" title="interface in com.google.common.util.concurrent">ListenableScheduledFuture</a>&lt;?&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListeningScheduledExecutorService.html#line.69">scheduleAtFixedRate</a>&#8203;(java.lang.Runnable&nbsp;command,
+<pre class="methodSignature"><a href="ListenableScheduledFuture.html" title="interface in com.google.common.util.concurrent">ListenableScheduledFuture</a>&lt;?&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListeningScheduledExecutorService.html#line.71">scheduleAtFixedRate</a>&#8203;(java.lang.Runnable&nbsp;command,
                                                  long&nbsp;initialDelay,
                                                  long&nbsp;period,
                                                  java.util.concurrent.TimeUnit&nbsp;unit)</pre>
@@ -349,7 +349,7 @@ extends java.util.concurrent.ScheduledExecutorService, <a href="ListeningExecuto
 <ul class="blockList">
 <li class="blockList">
 <h4>scheduleAtFixedRate</h4>
-<pre class="methodSignature">default&nbsp;<a href="ListenableScheduledFuture.html" title="interface in com.google.common.util.concurrent">ListenableScheduledFuture</a>&lt;?&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListeningScheduledExecutorService.html#line.78">scheduleAtFixedRate</a>&#8203;(java.lang.Runnable&nbsp;command,
+<pre class="methodSignature">default&nbsp;<a href="ListenableScheduledFuture.html" title="interface in com.google.common.util.concurrent">ListenableScheduledFuture</a>&lt;?&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListeningScheduledExecutorService.html#line.80">scheduleAtFixedRate</a>&#8203;(java.lang.Runnable&nbsp;command,
                                                          java.time.Duration&nbsp;initialDelay,
                                                          java.time.Duration&nbsp;period)</pre>
 <div class="block">Duration-based overload of <a href="#scheduleAtFixedRate(java.lang.Runnable,long,long,java.util.concurrent.TimeUnit)"><code>scheduleAtFixedRate(Runnable, long, long, TimeUnit)</code></a>.</div>
@@ -365,7 +365,7 @@ extends java.util.concurrent.ScheduledExecutorService, <a href="ListeningExecuto
 <ul class="blockList">
 <li class="blockList">
 <h4>scheduleWithFixedDelay</h4>
-<pre class="methodSignature"><a href="ListenableScheduledFuture.html" title="interface in com.google.common.util.concurrent">ListenableScheduledFuture</a>&lt;?&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListeningScheduledExecutorService.html#line.85">scheduleWithFixedDelay</a>&#8203;(java.lang.Runnable&nbsp;command,
+<pre class="methodSignature"><a href="ListenableScheduledFuture.html" title="interface in com.google.common.util.concurrent">ListenableScheduledFuture</a>&lt;?&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListeningScheduledExecutorService.html#line.87">scheduleWithFixedDelay</a>&#8203;(java.lang.Runnable&nbsp;command,
                                                     long&nbsp;initialDelay,
                                                     long&nbsp;delay,
                                                     java.util.concurrent.TimeUnit&nbsp;unit)</pre>
@@ -383,7 +383,7 @@ extends java.util.concurrent.ScheduledExecutorService, <a href="ListeningExecuto
 <ul class="blockListLast">
 <li class="blockList">
 <h4>scheduleWithFixedDelay</h4>
-<pre class="methodSignature">default&nbsp;<a href="ListenableScheduledFuture.html" title="interface in com.google.common.util.concurrent">ListenableScheduledFuture</a>&lt;?&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListeningScheduledExecutorService.html#line.94">scheduleWithFixedDelay</a>&#8203;(java.lang.Runnable&nbsp;command,
+<pre class="methodSignature">default&nbsp;<a href="ListenableScheduledFuture.html" title="interface in com.google.common.util.concurrent">ListenableScheduledFuture</a>&lt;?&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListeningScheduledExecutorService.html#line.96">scheduleWithFixedDelay</a>&#8203;(java.lang.Runnable&nbsp;command,
                                                             java.time.Duration&nbsp;initialDelay,
                                                             java.time.Duration&nbsp;delay)</pre>
 <div class="block">Duration-based overload of <a href="#scheduleWithFixedDelay(java.lang.Runnable,long,long,java.util.concurrent.TimeUnit)"><code>scheduleWithFixedDelay(Runnable, long, long, TimeUnit)</code></a>.</div>

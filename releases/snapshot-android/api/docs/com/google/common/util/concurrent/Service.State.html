@@ -145,7 +145,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><a href="Service.html" title="interface in com.google.common.util.concurrent">Service</a></dd>
 </dl>
 <hr>
-<pre>public static enum <a href="../../../../../src-html/com/google/common/util/concurrent/Service.html#line.177">Service.State</a>
+<pre>public static enum <a href="../../../../../src-html/com/google/common/util/concurrent/Service.html#line.179">Service.State</a>
 extends java.lang.Enum&lt;<a href="Service.State.html" title="enum in com.google.common.util.concurrent">Service.State</a>&gt;</pre>
 <div class="block">The lifecycle states of a service.
 
@@ -282,7 +282,7 @@ the order they are declared.</div>
 <ul class="blockList">
 <li class="blockList">
 <h4>NEW</h4>
-<pre>public static final&nbsp;<a href="Service.State.html" title="enum in com.google.common.util.concurrent">Service.State</a> <a href="../../../../../src-html/com/google/common/util/concurrent/Service.State.html#line.179">NEW</a></pre>
+<pre>public static final&nbsp;<a href="Service.State.html" title="enum in com.google.common.util.concurrent">Service.State</a> <a href="../../../../../src-html/com/google/common/util/concurrent/Service.State.html#line.181">NEW</a></pre>
 <div class="block">A service in this state is inactive. It does minimal work and consumes minimal resources.</div>
 </li>
 </ul>
@@ -292,7 +292,7 @@ the order they are declared.</div>
 <ul class="blockList">
 <li class="blockList">
 <h4>STARTING</h4>
-<pre>public static final&nbsp;<a href="Service.State.html" title="enum in com.google.common.util.concurrent">Service.State</a> <a href="../../../../../src-html/com/google/common/util/concurrent/Service.State.html#line.182">STARTING</a></pre>
+<pre>public static final&nbsp;<a href="Service.State.html" title="enum in com.google.common.util.concurrent">Service.State</a> <a href="../../../../../src-html/com/google/common/util/concurrent/Service.State.html#line.184">STARTING</a></pre>
 <div class="block">A service in this state is transitioning to <a href="#RUNNING"><code>RUNNING</code></a>.</div>
 </li>
 </ul>
@@ -302,7 +302,7 @@ the order they are declared.</div>
 <ul class="blockList">
 <li class="blockList">
 <h4>RUNNING</h4>
-<pre>public static final&nbsp;<a href="Service.State.html" title="enum in com.google.common.util.concurrent">Service.State</a> <a href="../../../../../src-html/com/google/common/util/concurrent/Service.State.html#line.185">RUNNING</a></pre>
+<pre>public static final&nbsp;<a href="Service.State.html" title="enum in com.google.common.util.concurrent">Service.State</a> <a href="../../../../../src-html/com/google/common/util/concurrent/Service.State.html#line.187">RUNNING</a></pre>
 <div class="block">A service in this state is operational.</div>
 </li>
 </ul>
@@ -312,7 +312,7 @@ the order they are declared.</div>
 <ul class="blockList">
 <li class="blockList">
 <h4>STOPPING</h4>
-<pre>public static final&nbsp;<a href="Service.State.html" title="enum in com.google.common.util.concurrent">Service.State</a> <a href="../../../../../src-html/com/google/common/util/concurrent/Service.State.html#line.188">STOPPING</a></pre>
+<pre>public static final&nbsp;<a href="Service.State.html" title="enum in com.google.common.util.concurrent">Service.State</a> <a href="../../../../../src-html/com/google/common/util/concurrent/Service.State.html#line.190">STOPPING</a></pre>
 <div class="block">A service in this state is transitioning to <a href="#TERMINATED"><code>TERMINATED</code></a>.</div>
 </li>
 </ul>
@@ -322,7 +322,7 @@ the order they are declared.</div>
 <ul class="blockList">
 <li class="blockList">
 <h4>TERMINATED</h4>
-<pre>public static final&nbsp;<a href="Service.State.html" title="enum in com.google.common.util.concurrent">Service.State</a> <a href="../../../../../src-html/com/google/common/util/concurrent/Service.State.html#line.194">TERMINATED</a></pre>
+<pre>public static final&nbsp;<a href="Service.State.html" title="enum in com.google.common.util.concurrent">Service.State</a> <a href="../../../../../src-html/com/google/common/util/concurrent/Service.State.html#line.196">TERMINATED</a></pre>
 <div class="block">A service in this state has completed execution normally. It does minimal work and consumes
  minimal resources.</div>
 </li>
@@ -333,7 +333,7 @@ the order they are declared.</div>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>FAILED</h4>
-<pre>public static final&nbsp;<a href="Service.State.html" title="enum in com.google.common.util.concurrent">Service.State</a> <a href="../../../../../src-html/com/google/common/util/concurrent/Service.State.html#line.200">FAILED</a></pre>
+<pre>public static final&nbsp;<a href="Service.State.html" title="enum in com.google.common.util.concurrent">Service.State</a> <a href="../../../../../src-html/com/google/common/util/concurrent/Service.State.html#line.202">FAILED</a></pre>
 <div class="block">A service in this state has encountered a problem and may not be operational. It cannot be
  started nor stopped.</div>
 </li>
@@ -354,7 +354,7 @@ the order they are declared.</div>
 <ul class="blockList">
 <li class="blockList">
 <h4>values</h4>
-<pre class="methodSignature">public static&nbsp;<a href="Service.State.html" title="enum in com.google.common.util.concurrent">Service.State</a>[]&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Service.State.html#line.177">values</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="Service.State.html" title="enum in com.google.common.util.concurrent">Service.State</a>[]&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Service.State.html#line.179">values</a>()</pre>
 <div class="block">Returns an array containing the constants of this enum type, in
 the order they are declared. This method may be used to iterate
 over the constants as follows:
@@ -374,7 +374,7 @@ for (Service.State c : Service.State.values())
 <ul class="blockListLast">
 <li class="blockList">
 <h4>valueOf</h4>
-<pre class="methodSignature">public static&nbsp;<a href="Service.State.html" title="enum in com.google.common.util.concurrent">Service.State</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Service.State.html#line.177">valueOf</a>&#8203;(java.lang.String&nbsp;name)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="Service.State.html" title="enum in com.google.common.util.concurrent">Service.State</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Service.State.html#line.179">valueOf</a>&#8203;(java.lang.String&nbsp;name)</pre>
 <div class="block">Returns the enum constant of this type with the specified name.
 The string must match <i>exactly</i> an identifier used to declare an
 enum constant in this type.  (Extraneous whitespace characters are 

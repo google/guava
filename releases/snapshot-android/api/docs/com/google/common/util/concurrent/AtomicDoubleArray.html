@@ -137,7 +137,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <hr>
 <pre><a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public class <a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDoubleArray.html#line.46">AtomicDoubleArray</a>
+public class <a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDoubleArray.html#line.47">AtomicDoubleArray</a>
 extends java.lang.Object
 implements java.io.Serializable</pre>
 <div class="block">A <code>double</code> array in which elements may be updated atomically. See the <code>java.util.concurrent.atomic</code> package specification for description of the properties of atomic
@@ -323,7 +323,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>AtomicDoubleArray</h4>
-<pre>public&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDoubleArray.html#line.60">AtomicDoubleArray</a>&#8203;(int&nbsp;length)</pre>
+<pre>public&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDoubleArray.html#line.62">AtomicDoubleArray</a>&#8203;(int&nbsp;length)</pre>
 <div class="block">Creates a new <code>AtomicDoubleArray</code> of the given length, with all elements initially zero.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -337,7 +337,7 @@ implements java.io.Serializable</pre>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>AtomicDoubleArray</h4>
-<pre>public&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDoubleArray.html#line.71">AtomicDoubleArray</a>&#8203;(double[]&nbsp;array)</pre>
+<pre>public&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDoubleArray.html#line.73">AtomicDoubleArray</a>&#8203;(double[]&nbsp;array)</pre>
 <div class="block">Creates a new <code>AtomicDoubleArray</code> with the same length as, and all elements copied from,
  the given array.</div>
 <dl>
@@ -364,7 +364,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>length</h4>
-<pre class="methodSignature">public final&nbsp;int&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDoubleArray.html#line.85">length</a>()</pre>
+<pre class="methodSignature">public final&nbsp;int&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDoubleArray.html#line.87">length</a>()</pre>
 <div class="block">Returns the length of the array.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -378,7 +378,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre class="methodSignature">public final&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDoubleArray.html#line.95">get</a>&#8203;(int&nbsp;i)</pre>
+<pre class="methodSignature">public final&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDoubleArray.html#line.97">get</a>&#8203;(int&nbsp;i)</pre>
 <div class="block">Gets the current value at position <code>i</code>.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -394,7 +394,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>set</h4>
-<pre class="methodSignature">public final&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDoubleArray.html#line.105">set</a>&#8203;(int&nbsp;i,
+<pre class="methodSignature">public final&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDoubleArray.html#line.107">set</a>&#8203;(int&nbsp;i,
                       double&nbsp;newValue)</pre>
 <div class="block">Atomically sets the element at position <code>i</code> to the given value.</div>
 <dl>
@@ -410,7 +410,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>lazySet</h4>
-<pre class="methodSignature">public final&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDoubleArray.html#line.116">lazySet</a>&#8203;(int&nbsp;i,
+<pre class="methodSignature">public final&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDoubleArray.html#line.118">lazySet</a>&#8203;(int&nbsp;i,
                           double&nbsp;newValue)</pre>
 <div class="block">Eventually sets the element at position <code>i</code> to the given value.</div>
 <dl>
@@ -426,7 +426,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>getAndSet</h4>
-<pre class="methodSignature">public final&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDoubleArray.html#line.128">getAndSet</a>&#8203;(int&nbsp;i,
+<pre class="methodSignature">public final&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDoubleArray.html#line.130">getAndSet</a>&#8203;(int&nbsp;i,
                               double&nbsp;newValue)</pre>
 <div class="block">Atomically sets the element at position <code>i</code> to the given value and returns the old value.</div>
 <dl>
@@ -444,7 +444,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>compareAndSet</h4>
-<pre class="methodSignature">public final&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDoubleArray.html#line.143">compareAndSet</a>&#8203;(int&nbsp;i,
+<pre class="methodSignature">public final&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDoubleArray.html#line.145">compareAndSet</a>&#8203;(int&nbsp;i,
                                    double&nbsp;expect,
                                    double&nbsp;update)</pre>
 <div class="block">Atomically sets the element at position <code>i</code> to the given updated value if the current
@@ -466,7 +466,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>weakCompareAndSet</h4>
-<pre class="methodSignature">public final&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDoubleArray.html#line.161">weakCompareAndSet</a>&#8203;(int&nbsp;i,
+<pre class="methodSignature">public final&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDoubleArray.html#line.163">weakCompareAndSet</a>&#8203;(int&nbsp;i,
                                        double&nbsp;expect,
                                        double&nbsp;update)</pre>
 <div class="block">Atomically sets the element at position <code>i</code> to the given updated value if the current
@@ -492,7 +492,7 @@ implements java.io.Serializable</pre>
 <li class="blockList">
 <h4>getAndAdd</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public final&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDoubleArray.html#line.172">getAndAdd</a>&#8203;(int&nbsp;i,
+public final&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDoubleArray.html#line.174">getAndAdd</a>&#8203;(int&nbsp;i,
                               double&nbsp;delta)</pre>
 <div class="block">Atomically adds the given value to the element at index <code>i</code>.</div>
 <dl>
@@ -511,7 +511,7 @@ public final&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common
 <li class="blockList">
 <h4>addAndGet</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDoubleArray.html#line.193">addAndGet</a>&#8203;(int&nbsp;i,
+public&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDoubleArray.html#line.195">addAndGet</a>&#8203;(int&nbsp;i,
                         double&nbsp;delta)</pre>
 <div class="block">Atomically adds the given value to the element at index <code>i</code>.</div>
 <dl>
@@ -531,7 +531,7 @@ public&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/
 <ul class="blockListLast">
 <li class="blockList">
 <h4>toString</h4>
-<pre class="methodSignature">public&nbsp;java.lang.String&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDoubleArray.html#line.211">toString</a>()</pre>
+<pre class="methodSignature">public&nbsp;java.lang.String&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDoubleArray.html#line.213">toString</a>()</pre>
 <div class="block">Returns the String representation of the current values of array.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
