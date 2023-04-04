@@ -19,6 +19,7 @@ import static com.google.common.util.concurrent.Uninterruptibles.getUninterrupti
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -36,6 +37,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 10.0 (replacing {@code Futures.makeListenable}, which existed in 1.0)
  */
 @Beta
+@J2ktIncompatible
 @GwtIncompatible
 @ElementTypesAreNonnullByDefault
 public final class JdkFutureAdapters {

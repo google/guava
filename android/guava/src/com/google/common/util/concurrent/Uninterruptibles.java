@@ -19,6 +19,7 @@ import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.concurrent.BlockingQueue;
@@ -50,6 +51,7 @@ public final class Uninterruptibles {
   // methods is identical, save for method being invoked.
 
   /** Invokes {@code latch.}{@link CountDownLatch#await() await()} uninterruptibly. */
+  @J2ktIncompatible
   @GwtIncompatible // concurrency
   public static void awaitUninterruptibly(CountDownLatch latch) {
     boolean interrupted = false;
@@ -73,6 +75,7 @@ public final class Uninterruptibles {
    * Invokes {@code latch.}{@link CountDownLatch#await(long, TimeUnit) await(timeout, unit)}
    * uninterruptibly.
    */
+  @J2ktIncompatible
   @GwtIncompatible // concurrency
   @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public static boolean awaitUninterruptibly(CountDownLatch latch, long timeout, TimeUnit unit) {
@@ -103,6 +106,7 @@ public final class Uninterruptibles {
    *
    * @since 23.6
    */
+  @J2ktIncompatible
   @GwtIncompatible // concurrency
   @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public static boolean awaitUninterruptibly(Condition condition, long timeout, TimeUnit unit) {
@@ -127,6 +131,7 @@ public final class Uninterruptibles {
   }
 
   /** Invokes {@code toJoin.}{@link Thread#join() join()} uninterruptibly. */
+  @J2ktIncompatible
   @GwtIncompatible // concurrency
   public static void joinUninterruptibly(Thread toJoin) {
     boolean interrupted = false;
@@ -150,6 +155,7 @@ public final class Uninterruptibles {
    * Invokes {@code unit.}{@link TimeUnit#timedJoin(Thread, long) timedJoin(toJoin, timeout)}
    * uninterruptibly.
    */
+  @J2ktIncompatible
   @GwtIncompatible // concurrency
   @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public static void joinUninterruptibly(Thread toJoin, long timeout, TimeUnit unit) {
@@ -231,6 +237,7 @@ public final class Uninterruptibles {
    * @throws TimeoutException if the wait timed out
    */
   @CanIgnoreReturnValue
+  @J2ktIncompatible
   @GwtIncompatible // TODO
   @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   @ParametricNullness
@@ -258,6 +265,7 @@ public final class Uninterruptibles {
   }
 
   /** Invokes {@code queue.}{@link BlockingQueue#take() take()} uninterruptibly. */
+  @J2ktIncompatible
   @GwtIncompatible // concurrency
   public static <E> E takeUninterruptibly(BlockingQueue<E> queue) {
     boolean interrupted = false;
@@ -284,6 +292,7 @@ public final class Uninterruptibles {
    * @throws IllegalArgumentException if some property of the specified element prevents it from
    *     being added to the given queue
    */
+  @J2ktIncompatible
   @GwtIncompatible // concurrency
   public static <E> void putUninterruptibly(BlockingQueue<E> queue, E element) {
     boolean interrupted = false;
@@ -305,6 +314,7 @@ public final class Uninterruptibles {
 
   // TODO(user): Support Sleeper somehow (wrapper or interface method)?
   /** Invokes {@code unit.}{@link TimeUnit#sleep(long) sleep(sleepFor)} uninterruptibly. */
+  @J2ktIncompatible
   @GwtIncompatible // concurrency
   @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public static void sleepUninterruptibly(long sleepFor, TimeUnit unit) {
@@ -335,6 +345,7 @@ public final class Uninterruptibles {
    *
    * @since 18.0
    */
+  @J2ktIncompatible
   @GwtIncompatible // concurrency
   @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public static boolean tryAcquireUninterruptibly(
@@ -348,6 +359,7 @@ public final class Uninterruptibles {
    *
    * @since 18.0
    */
+  @J2ktIncompatible
   @GwtIncompatible // concurrency
   @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public static boolean tryAcquireUninterruptibly(
@@ -379,6 +391,7 @@ public final class Uninterruptibles {
    *
    * @since 30.0
    */
+  @J2ktIncompatible
   @GwtIncompatible // concurrency
   @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public static boolean tryLockUninterruptibly(Lock lock, long timeout, TimeUnit unit) {
@@ -408,6 +421,7 @@ public final class Uninterruptibles {
    *
    * @since 30.0
    */
+  @J2ktIncompatible
   @GwtIncompatible // concurrency
   public static void awaitTerminationUninterruptibly(ExecutorService executor) {
     // TODO(cpovirk): We could optimize this to avoid calling nanoTime() at all.
@@ -420,6 +434,7 @@ public final class Uninterruptibles {
    *
    * @since 30.0
    */
+  @J2ktIncompatible
   @GwtIncompatible // concurrency
   @SuppressWarnings("GoodTime")
   public static boolean awaitTerminationUninterruptibly(

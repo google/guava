@@ -25,6 +25,7 @@ import static com.google.common.util.concurrent.Futures.immediateVoidFuture;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static java.util.Objects.requireNonNull;
 
+import com.google.common.annotations.J2ktIncompatible;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Future;
@@ -85,6 +86,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 26.0
  */
 @ElementTypesAreNonnullByDefault
+@J2ktIncompatible
 public final class ExecutionSequencer {
 
   private ExecutionSequencer() {}

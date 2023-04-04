@@ -14,6 +14,7 @@
 
 package com.google.common.util.concurrent.internal;
 
+
 /**
  * A future that, if it fails, may <i>optionally</i> provide access to the cause of the failure.
  *
@@ -48,5 +49,6 @@ public abstract class InternalFutureFailureAccess {
    * instance method. In the unlikely event that you need to call this method, call {@link
    * InternalFutures#tryInternalFastPathGetFailure(InternalFutureFailureAccess)}.
    */
-  protected abstract Throwable tryInternalFastPathGetFailure();
+  protected abstract
+      Throwable tryInternalFastPathGetFailure();
 }
