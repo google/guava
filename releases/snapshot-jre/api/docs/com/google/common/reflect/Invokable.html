@@ -229,7 +229,9 @@ implements java.lang.reflect.AnnotatedElement, java.lang.reflect.Member</pre>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>abstract java.lang.reflect.AnnotatedType</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getAnnotatedReturnType()">getAnnotatedReturnType</a></span>()</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Returns the <code>AnnotatedType</code> for the return type.</div>
+</td>
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code>&lt;A extends java.lang.annotation.Annotation&gt;<br>A</code></td>
@@ -834,7 +836,7 @@ public final&nbsp;<a href="Invokable.html" title="type parameter in Invokable">R
 <ul class="blockList">
 <li class="blockList">
 <h4>getExceptionTypes</h4>
-<pre class="methodSignature">public final&nbsp;<a href="../collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;? extends java.lang.Throwable&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.290">getExceptionTypes</a>()</pre>
+<pre class="methodSignature">public final&nbsp;<a href="../collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;? extends java.lang.Throwable&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.292">getExceptionTypes</a>()</pre>
 <div class="block">Returns all declared exception types of this <code>Invokable</code>.</div>
 </li>
 </ul>
@@ -844,7 +846,7 @@ public final&nbsp;<a href="Invokable.html" title="type parameter in Invokable">R
 <ul class="blockList">
 <li class="blockList">
 <h4>returning</h4>
-<pre class="methodSignature">public final&nbsp;&lt;R1 extends <a href="Invokable.html" title="type parameter in Invokable">R</a>&gt;&nbsp;<a href="Invokable.html" title="class in com.google.common.reflect">Invokable</a>&lt;<a href="Invokable.html" title="type parameter in Invokable">T</a>,&#8203;R1&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.310">returning</a>&#8203;(java.lang.Class&lt;R1&gt;&nbsp;returnType)</pre>
+<pre class="methodSignature">public final&nbsp;&lt;R1 extends <a href="Invokable.html" title="type parameter in Invokable">R</a>&gt;&nbsp;<a href="Invokable.html" title="class in com.google.common.reflect">Invokable</a>&lt;<a href="Invokable.html" title="type parameter in Invokable">T</a>,&#8203;R1&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.312">returning</a>&#8203;(java.lang.Class&lt;R1&gt;&nbsp;returnType)</pre>
 <div class="block">Explicitly specifies the return type of this <code>Invokable</code>. For example:
 
  <pre><code>
@@ -859,7 +861,7 @@ public final&nbsp;<a href="Invokable.html" title="type parameter in Invokable">R
 <ul class="blockList">
 <li class="blockList">
 <h4>returning</h4>
-<pre class="methodSignature">public final&nbsp;&lt;R1 extends <a href="Invokable.html" title="type parameter in Invokable">R</a>&gt;&nbsp;<a href="Invokable.html" title="class in com.google.common.reflect">Invokable</a>&lt;<a href="Invokable.html" title="type parameter in Invokable">T</a>,&#8203;R1&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.315">returning</a>&#8203;(<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;R1&gt;&nbsp;returnType)</pre>
+<pre class="methodSignature">public final&nbsp;&lt;R1 extends <a href="Invokable.html" title="type parameter in Invokable">R</a>&gt;&nbsp;<a href="Invokable.html" title="class in com.google.common.reflect">Invokable</a>&lt;<a href="Invokable.html" title="type parameter in Invokable">T</a>,&#8203;R1&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.317">returning</a>&#8203;(<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;R1&gt;&nbsp;returnType)</pre>
 <div class="block">Explicitly specifies the return type of this <code>Invokable</code>.</div>
 </li>
 </ul>
@@ -869,7 +871,7 @@ public final&nbsp;<a href="Invokable.html" title="type parameter in Invokable">R
 <ul class="blockList">
 <li class="blockList">
 <h4>getDeclaringClass</h4>
-<pre class="methodSignature">public final&nbsp;java.lang.Class&lt;? super <a href="Invokable.html" title="type parameter in Invokable">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.325">getDeclaringClass</a>()</pre>
+<pre class="methodSignature">public final&nbsp;java.lang.Class&lt;? super <a href="Invokable.html" title="type parameter in Invokable">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.327">getDeclaringClass</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>getDeclaringClass</code>&nbsp;in interface&nbsp;<code>java.lang.reflect.Member</code></dd>
@@ -882,7 +884,7 @@ public final&nbsp;<a href="Invokable.html" title="type parameter in Invokable">R
 <ul class="blockList">
 <li class="blockList">
 <h4>getOwnerType</h4>
-<pre class="methodSignature">public&nbsp;<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;<a href="Invokable.html" title="type parameter in Invokable">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.333">getOwnerType</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;<a href="Invokable.html" title="type parameter in Invokable">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.335">getOwnerType</a>()</pre>
 <div class="block">Returns the type of <code>T</code>.</div>
 </li>
 </ul>
@@ -892,7 +894,14 @@ public final&nbsp;<a href="Invokable.html" title="type parameter in Invokable">R
 <ul class="blockListLast">
 <li class="blockList">
 <h4>getAnnotatedReturnType</h4>
-<pre class="methodSignature">public abstract&nbsp;java.lang.reflect.AnnotatedType&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.353">getAnnotatedReturnType</a>()</pre>
+<pre class="methodSignature">public abstract&nbsp;java.lang.reflect.AnnotatedType&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.364">getAnnotatedReturnType</a>()</pre>
+<div class="block">Returns the <code>AnnotatedType</code> for the return type.
+
+ <p>This method will fail if run under an Android VM.</div>
+<dl>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>14.0 for guava-jre (available since 32.0 in guava-android)</dd>
+</dl>
 </li>
 </ul>
 </li>

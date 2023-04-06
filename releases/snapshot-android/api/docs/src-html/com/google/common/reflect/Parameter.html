@@ -24,124 +24,163 @@
 <span class="sourceLineNo">015</span><a id="line.15">package com.google.common.reflect;</a>
 <span class="sourceLineNo">016</span><a id="line.16"></a>
 <span class="sourceLineNo">017</span><a id="line.17">import static com.google.common.base.Preconditions.checkNotNull;</a>
-<span class="sourceLineNo">018</span><a id="line.18"></a>
-<span class="sourceLineNo">019</span><a id="line.19">import com.google.common.annotations.Beta;</a>
-<span class="sourceLineNo">020</span><a id="line.20">import com.google.common.collect.FluentIterable;</a>
-<span class="sourceLineNo">021</span><a id="line.21">import com.google.common.collect.ImmutableList;</a>
-<span class="sourceLineNo">022</span><a id="line.22">import java.lang.annotation.Annotation;</a>
-<span class="sourceLineNo">023</span><a id="line.23">import java.lang.reflect.AnnotatedElement;</a>
-<span class="sourceLineNo">024</span><a id="line.24">import javax.annotation.CheckForNull;</a>
-<span class="sourceLineNo">025</span><a id="line.25">import org.checkerframework.checker.nullness.qual.Nullable;</a>
-<span class="sourceLineNo">026</span><a id="line.26"></a>
-<span class="sourceLineNo">027</span><a id="line.27">/**</a>
-<span class="sourceLineNo">028</span><a id="line.28"> * Represents a method or constructor parameter.</a>
-<span class="sourceLineNo">029</span><a id="line.29"> *</a>
-<span class="sourceLineNo">030</span><a id="line.30"> * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; Since Java 8 introduced {@link java.lang.reflect.Parameter} to represent method</a>
-<span class="sourceLineNo">031</span><a id="line.31"> * and constructor parameters, this class is no longer necessary. We intend to deprecate it in a</a>
-<span class="sourceLineNo">032</span><a id="line.32"> * future version.</a>
-<span class="sourceLineNo">033</span><a id="line.33"> *</a>
-<span class="sourceLineNo">034</span><a id="line.34"> * @author Ben Yu</a>
-<span class="sourceLineNo">035</span><a id="line.35"> * @since 14.0</a>
-<span class="sourceLineNo">036</span><a id="line.36"> */</a>
-<span class="sourceLineNo">037</span><a id="line.37">@Beta</a>
-<span class="sourceLineNo">038</span><a id="line.38">@ElementTypesAreNonnullByDefault</a>
-<span class="sourceLineNo">039</span><a id="line.39">public final class Parameter implements AnnotatedElement {</a>
-<span class="sourceLineNo">040</span><a id="line.40"></a>
-<span class="sourceLineNo">041</span><a id="line.41">  private final Invokable&lt;?, ?&gt; declaration;</a>
-<span class="sourceLineNo">042</span><a id="line.42">  private final int position;</a>
-<span class="sourceLineNo">043</span><a id="line.43">  private final TypeToken&lt;?&gt; type;</a>
-<span class="sourceLineNo">044</span><a id="line.44">  private final ImmutableList&lt;Annotation&gt; annotations;</a>
-<span class="sourceLineNo">045</span><a id="line.45"></a>
-<span class="sourceLineNo">046</span><a id="line.46">  Parameter(</a>
-<span class="sourceLineNo">047</span><a id="line.47">      Invokable&lt;?, ?&gt; declaration, int position, TypeToken&lt;?&gt; type, Annotation[] annotations) {</a>
-<span class="sourceLineNo">048</span><a id="line.48">    this.declaration = declaration;</a>
-<span class="sourceLineNo">049</span><a id="line.49">    this.position = position;</a>
-<span class="sourceLineNo">050</span><a id="line.50">    this.type = type;</a>
-<span class="sourceLineNo">051</span><a id="line.51">    this.annotations = ImmutableList.copyOf(annotations);</a>
-<span class="sourceLineNo">052</span><a id="line.52">  }</a>
-<span class="sourceLineNo">053</span><a id="line.53"></a>
-<span class="sourceLineNo">054</span><a id="line.54">  /** Returns the type of the parameter. */</a>
-<span class="sourceLineNo">055</span><a id="line.55">  public TypeToken&lt;?&gt; getType() {</a>
-<span class="sourceLineNo">056</span><a id="line.56">    return type;</a>
-<span class="sourceLineNo">057</span><a id="line.57">  }</a>
-<span class="sourceLineNo">058</span><a id="line.58"></a>
-<span class="sourceLineNo">059</span><a id="line.59">  /** Returns the {@link Invokable} that declares this parameter. */</a>
-<span class="sourceLineNo">060</span><a id="line.60">  public Invokable&lt;?, ?&gt; getDeclaringInvokable() {</a>
-<span class="sourceLineNo">061</span><a id="line.61">    return declaration;</a>
-<span class="sourceLineNo">062</span><a id="line.62">  }</a>
-<span class="sourceLineNo">063</span><a id="line.63"></a>
-<span class="sourceLineNo">064</span><a id="line.64">  @Override</a>
-<span class="sourceLineNo">065</span><a id="line.65">  public boolean isAnnotationPresent(Class&lt;? extends Annotation&gt; annotationType) {</a>
-<span class="sourceLineNo">066</span><a id="line.66">    return getAnnotation(annotationType) != null;</a>
-<span class="sourceLineNo">067</span><a id="line.67">  }</a>
-<span class="sourceLineNo">068</span><a id="line.68"></a>
-<span class="sourceLineNo">069</span><a id="line.69">  @Override</a>
-<span class="sourceLineNo">070</span><a id="line.70">  @CheckForNull</a>
-<span class="sourceLineNo">071</span><a id="line.71">  public &lt;A extends Annotation&gt; A getAnnotation(Class&lt;A&gt; annotationType) {</a>
-<span class="sourceLineNo">072</span><a id="line.72">    checkNotNull(annotationType);</a>
-<span class="sourceLineNo">073</span><a id="line.73">    for (Annotation annotation : annotations) {</a>
-<span class="sourceLineNo">074</span><a id="line.74">      if (annotationType.isInstance(annotation)) {</a>
-<span class="sourceLineNo">075</span><a id="line.75">        return annotationType.cast(annotation);</a>
-<span class="sourceLineNo">076</span><a id="line.76">      }</a>
-<span class="sourceLineNo">077</span><a id="line.77">    }</a>
-<span class="sourceLineNo">078</span><a id="line.78">    return null;</a>
+<span class="sourceLineNo">018</span><a id="line.18">import static java.util.Objects.requireNonNull;</a>
+<span class="sourceLineNo">019</span><a id="line.19"></a>
+<span class="sourceLineNo">020</span><a id="line.20">import com.google.common.annotations.Beta;</a>
+<span class="sourceLineNo">021</span><a id="line.21">import com.google.common.collect.FluentIterable;</a>
+<span class="sourceLineNo">022</span><a id="line.22">import com.google.common.collect.ImmutableList;</a>
+<span class="sourceLineNo">023</span><a id="line.23">import com.google.errorprone.annotations.DoNotCall;</a>
+<span class="sourceLineNo">024</span><a id="line.24">import java.lang.annotation.Annotation;</a>
+<span class="sourceLineNo">025</span><a id="line.25">import java.lang.reflect.AnnotatedElement;</a>
+<span class="sourceLineNo">026</span><a id="line.26">import java.lang.reflect.AnnotatedType;</a>
+<span class="sourceLineNo">027</span><a id="line.27">import javax.annotation.CheckForNull;</a>
+<span class="sourceLineNo">028</span><a id="line.28">import org.checkerframework.checker.nullness.qual.Nullable;</a>
+<span class="sourceLineNo">029</span><a id="line.29"></a>
+<span class="sourceLineNo">030</span><a id="line.30">/**</a>
+<span class="sourceLineNo">031</span><a id="line.31"> * Represents a method or constructor parameter.</a>
+<span class="sourceLineNo">032</span><a id="line.32"> *</a>
+<span class="sourceLineNo">033</span><a id="line.33"> * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; Since Java 8 introduced {@link java.lang.reflect.Parameter} to represent method</a>
+<span class="sourceLineNo">034</span><a id="line.34"> * and constructor parameters, this class is no longer necessary. We intend to deprecate it in a</a>
+<span class="sourceLineNo">035</span><a id="line.35"> * future version.</a>
+<span class="sourceLineNo">036</span><a id="line.36"> *</a>
+<span class="sourceLineNo">037</span><a id="line.37"> * @author Ben Yu</a>
+<span class="sourceLineNo">038</span><a id="line.38"> * @since 14.0</a>
+<span class="sourceLineNo">039</span><a id="line.39"> */</a>
+<span class="sourceLineNo">040</span><a id="line.40">@Beta</a>
+<span class="sourceLineNo">041</span><a id="line.41">@ElementTypesAreNonnullByDefault</a>
+<span class="sourceLineNo">042</span><a id="line.42">public final class Parameter implements AnnotatedElement {</a>
+<span class="sourceLineNo">043</span><a id="line.43"></a>
+<span class="sourceLineNo">044</span><a id="line.44">  private final Invokable&lt;?, ?&gt; declaration;</a>
+<span class="sourceLineNo">045</span><a id="line.45">  private final int position;</a>
+<span class="sourceLineNo">046</span><a id="line.46">  private final TypeToken&lt;?&gt; type;</a>
+<span class="sourceLineNo">047</span><a id="line.47">  private final ImmutableList&lt;Annotation&gt; annotations;</a>
+<span class="sourceLineNo">048</span><a id="line.48"></a>
+<span class="sourceLineNo">049</span><a id="line.49">  /**</a>
+<span class="sourceLineNo">050</span><a id="line.50">   * An {@link AnnotatedType} instance, or {@code null} under Android VMs (possible only when using</a>
+<span class="sourceLineNo">051</span><a id="line.51">   * the Android flavor of Guava). The field is declared with a type of {@code Object} to avoid</a>
+<span class="sourceLineNo">052</span><a id="line.52">   * compatibility problems on Android VMs. The corresponding accessor method, however, can have the</a>
+<span class="sourceLineNo">053</span><a id="line.53">   * more specific return type as long as users are careful to guard calls to it with version checks</a>
+<span class="sourceLineNo">054</span><a id="line.54">   * or reflection: Android VMs ignore the types of elements that aren't used.</a>
+<span class="sourceLineNo">055</span><a id="line.55">   */</a>
+<span class="sourceLineNo">056</span><a id="line.56">  private final @Nullable Object annotatedType;</a>
+<span class="sourceLineNo">057</span><a id="line.57"></a>
+<span class="sourceLineNo">058</span><a id="line.58">  Parameter(</a>
+<span class="sourceLineNo">059</span><a id="line.59">      Invokable&lt;?, ?&gt; declaration,</a>
+<span class="sourceLineNo">060</span><a id="line.60">      int position,</a>
+<span class="sourceLineNo">061</span><a id="line.61">      TypeToken&lt;?&gt; type,</a>
+<span class="sourceLineNo">062</span><a id="line.62">      Annotation[] annotations,</a>
+<span class="sourceLineNo">063</span><a id="line.63">      @Nullable Object annotatedType) {</a>
+<span class="sourceLineNo">064</span><a id="line.64">    this.declaration = declaration;</a>
+<span class="sourceLineNo">065</span><a id="line.65">    this.position = position;</a>
+<span class="sourceLineNo">066</span><a id="line.66">    this.type = type;</a>
+<span class="sourceLineNo">067</span><a id="line.67">    this.annotations = ImmutableList.copyOf(annotations);</a>
+<span class="sourceLineNo">068</span><a id="line.68">    this.annotatedType = annotatedType;</a>
+<span class="sourceLineNo">069</span><a id="line.69">  }</a>
+<span class="sourceLineNo">070</span><a id="line.70"></a>
+<span class="sourceLineNo">071</span><a id="line.71">  /** Returns the type of the parameter. */</a>
+<span class="sourceLineNo">072</span><a id="line.72">  public TypeToken&lt;?&gt; getType() {</a>
+<span class="sourceLineNo">073</span><a id="line.73">    return type;</a>
+<span class="sourceLineNo">074</span><a id="line.74">  }</a>
+<span class="sourceLineNo">075</span><a id="line.75"></a>
+<span class="sourceLineNo">076</span><a id="line.76">  /** Returns the {@link Invokable} that declares this parameter. */</a>
+<span class="sourceLineNo">077</span><a id="line.77">  public Invokable&lt;?, ?&gt; getDeclaringInvokable() {</a>
+<span class="sourceLineNo">078</span><a id="line.78">    return declaration;</a>
 <span class="sourceLineNo">079</span><a id="line.79">  }</a>
 <span class="sourceLineNo">080</span><a id="line.80"></a>
 <span class="sourceLineNo">081</span><a id="line.81">  @Override</a>
-<span class="sourceLineNo">082</span><a id="line.82">  public Annotation[] getAnnotations() {</a>
-<span class="sourceLineNo">083</span><a id="line.83">    return getDeclaredAnnotations();</a>
+<span class="sourceLineNo">082</span><a id="line.82">  public boolean isAnnotationPresent(Class&lt;? extends Annotation&gt; annotationType) {</a>
+<span class="sourceLineNo">083</span><a id="line.83">    return getAnnotation(annotationType) != null;</a>
 <span class="sourceLineNo">084</span><a id="line.84">  }</a>
 <span class="sourceLineNo">085</span><a id="line.85"></a>
-<span class="sourceLineNo">086</span><a id="line.86">  /** @since 18.0 */</a>
-<span class="sourceLineNo">087</span><a id="line.87">  // @Override on JDK8</a>
-<span class="sourceLineNo">088</span><a id="line.88">  public &lt;A extends Annotation&gt; A[] getAnnotationsByType(Class&lt;A&gt; annotationType) {</a>
-<span class="sourceLineNo">089</span><a id="line.89">    return getDeclaredAnnotationsByType(annotationType);</a>
-<span class="sourceLineNo">090</span><a id="line.90">  }</a>
-<span class="sourceLineNo">091</span><a id="line.91"></a>
-<span class="sourceLineNo">092</span><a id="line.92">  /** @since 18.0 */</a>
-<span class="sourceLineNo">093</span><a id="line.93">  // @Override on JDK8</a>
-<span class="sourceLineNo">094</span><a id="line.94">  @Override</a>
-<span class="sourceLineNo">095</span><a id="line.95">  public Annotation[] getDeclaredAnnotations() {</a>
-<span class="sourceLineNo">096</span><a id="line.96">    return annotations.toArray(new Annotation[0]);</a>
-<span class="sourceLineNo">097</span><a id="line.97">  }</a>
-<span class="sourceLineNo">098</span><a id="line.98"></a>
-<span class="sourceLineNo">099</span><a id="line.99">  /** @since 18.0 */</a>
-<span class="sourceLineNo">100</span><a id="line.100">  // @Override on JDK8</a>
-<span class="sourceLineNo">101</span><a id="line.101">  @CheckForNull</a>
-<span class="sourceLineNo">102</span><a id="line.102">  public &lt;A extends Annotation&gt; A getDeclaredAnnotation(Class&lt;A&gt; annotationType) {</a>
-<span class="sourceLineNo">103</span><a id="line.103">    checkNotNull(annotationType);</a>
-<span class="sourceLineNo">104</span><a id="line.104">    return FluentIterable.from(annotations).filter(annotationType).first().orNull();</a>
-<span class="sourceLineNo">105</span><a id="line.105">  }</a>
-<span class="sourceLineNo">106</span><a id="line.106"></a>
-<span class="sourceLineNo">107</span><a id="line.107">  /** @since 18.0 */</a>
-<span class="sourceLineNo">108</span><a id="line.108">  // @Override on JDK8</a>
-<span class="sourceLineNo">109</span><a id="line.109">  public &lt;A extends Annotation&gt; A[] getDeclaredAnnotationsByType(Class&lt;A&gt; annotationType) {</a>
-<span class="sourceLineNo">110</span><a id="line.110">    @Nullable</a>
-<span class="sourceLineNo">111</span><a id="line.111">    A[] result = FluentIterable.from(annotations).filter(annotationType).toArray(annotationType);</a>
-<span class="sourceLineNo">112</span><a id="line.112">    @SuppressWarnings("nullness") // safe because the input list contains no nulls</a>
-<span class="sourceLineNo">113</span><a id="line.113">    A[] cast = (A[]) result;</a>
-<span class="sourceLineNo">114</span><a id="line.114">    return cast;</a>
+<span class="sourceLineNo">086</span><a id="line.86">  @Override</a>
+<span class="sourceLineNo">087</span><a id="line.87">  @CheckForNull</a>
+<span class="sourceLineNo">088</span><a id="line.88">  public &lt;A extends Annotation&gt; A getAnnotation(Class&lt;A&gt; annotationType) {</a>
+<span class="sourceLineNo">089</span><a id="line.89">    checkNotNull(annotationType);</a>
+<span class="sourceLineNo">090</span><a id="line.90">    for (Annotation annotation : annotations) {</a>
+<span class="sourceLineNo">091</span><a id="line.91">      if (annotationType.isInstance(annotation)) {</a>
+<span class="sourceLineNo">092</span><a id="line.92">        return annotationType.cast(annotation);</a>
+<span class="sourceLineNo">093</span><a id="line.93">      }</a>
+<span class="sourceLineNo">094</span><a id="line.94">    }</a>
+<span class="sourceLineNo">095</span><a id="line.95">    return null;</a>
+<span class="sourceLineNo">096</span><a id="line.96">  }</a>
+<span class="sourceLineNo">097</span><a id="line.97"></a>
+<span class="sourceLineNo">098</span><a id="line.98">  @Override</a>
+<span class="sourceLineNo">099</span><a id="line.99">  public Annotation[] getAnnotations() {</a>
+<span class="sourceLineNo">100</span><a id="line.100">    return getDeclaredAnnotations();</a>
+<span class="sourceLineNo">101</span><a id="line.101">  }</a>
+<span class="sourceLineNo">102</span><a id="line.102"></a>
+<span class="sourceLineNo">103</span><a id="line.103">  /**</a>
+<span class="sourceLineNo">104</span><a id="line.104">   * @since 18.0</a>
+<span class="sourceLineNo">105</span><a id="line.105">   */</a>
+<span class="sourceLineNo">106</span><a id="line.106">  @Override</a>
+<span class="sourceLineNo">107</span><a id="line.107">  public &lt;A extends Annotation&gt; A[] getAnnotationsByType(Class&lt;A&gt; annotationType) {</a>
+<span class="sourceLineNo">108</span><a id="line.108">    return getDeclaredAnnotationsByType(annotationType);</a>
+<span class="sourceLineNo">109</span><a id="line.109">  }</a>
+<span class="sourceLineNo">110</span><a id="line.110"></a>
+<span class="sourceLineNo">111</span><a id="line.111">  /** @since 18.0 */</a>
+<span class="sourceLineNo">112</span><a id="line.112">  @Override</a>
+<span class="sourceLineNo">113</span><a id="line.113">  public Annotation[] getDeclaredAnnotations() {</a>
+<span class="sourceLineNo">114</span><a id="line.114">    return annotations.toArray(new Annotation[0]);</a>
 <span class="sourceLineNo">115</span><a id="line.115">  }</a>
 <span class="sourceLineNo">116</span><a id="line.116"></a>
-<span class="sourceLineNo">117</span><a id="line.117">  @Override</a>
-<span class="sourceLineNo">118</span><a id="line.118">  public boolean equals(@CheckForNull Object obj) {</a>
-<span class="sourceLineNo">119</span><a id="line.119">    if (obj instanceof Parameter) {</a>
-<span class="sourceLineNo">120</span><a id="line.120">      Parameter that = (Parameter) obj;</a>
-<span class="sourceLineNo">121</span><a id="line.121">      return position == that.position &amp;&amp; declaration.equals(that.declaration);</a>
-<span class="sourceLineNo">122</span><a id="line.122">    }</a>
-<span class="sourceLineNo">123</span><a id="line.123">    return false;</a>
-<span class="sourceLineNo">124</span><a id="line.124">  }</a>
-<span class="sourceLineNo">125</span><a id="line.125"></a>
-<span class="sourceLineNo">126</span><a id="line.126">  @Override</a>
-<span class="sourceLineNo">127</span><a id="line.127">  public int hashCode() {</a>
-<span class="sourceLineNo">128</span><a id="line.128">    return position;</a>
-<span class="sourceLineNo">129</span><a id="line.129">  }</a>
-<span class="sourceLineNo">130</span><a id="line.130"></a>
-<span class="sourceLineNo">131</span><a id="line.131">  @Override</a>
-<span class="sourceLineNo">132</span><a id="line.132">  public String toString() {</a>
-<span class="sourceLineNo">133</span><a id="line.133">    return type + " arg" + position;</a>
-<span class="sourceLineNo">134</span><a id="line.134">  }</a>
-<span class="sourceLineNo">135</span><a id="line.135">}</a>
+<span class="sourceLineNo">117</span><a id="line.117">  /**</a>
+<span class="sourceLineNo">118</span><a id="line.118">   * @since 18.0</a>
+<span class="sourceLineNo">119</span><a id="line.119">   */</a>
+<span class="sourceLineNo">120</span><a id="line.120">  @Override</a>
+<span class="sourceLineNo">121</span><a id="line.121">  @CheckForNull</a>
+<span class="sourceLineNo">122</span><a id="line.122">  public &lt;A extends Annotation&gt; A getDeclaredAnnotation(Class&lt;A&gt; annotationType) {</a>
+<span class="sourceLineNo">123</span><a id="line.123">    checkNotNull(annotationType);</a>
+<span class="sourceLineNo">124</span><a id="line.124">    return FluentIterable.from(annotations).filter(annotationType).first().orNull();</a>
+<span class="sourceLineNo">125</span><a id="line.125">  }</a>
+<span class="sourceLineNo">126</span><a id="line.126"></a>
+<span class="sourceLineNo">127</span><a id="line.127">  /**</a>
+<span class="sourceLineNo">128</span><a id="line.128">   * @since 18.0</a>
+<span class="sourceLineNo">129</span><a id="line.129">   */</a>
+<span class="sourceLineNo">130</span><a id="line.130">  @Override</a>
+<span class="sourceLineNo">131</span><a id="line.131">  public &lt;A extends Annotation&gt; A[] getDeclaredAnnotationsByType(Class&lt;A&gt; annotationType) {</a>
+<span class="sourceLineNo">132</span><a id="line.132">    @Nullable</a>
+<span class="sourceLineNo">133</span><a id="line.133">    A[] result = FluentIterable.from(annotations).filter(annotationType).toArray(annotationType);</a>
+<span class="sourceLineNo">134</span><a id="line.134">    @SuppressWarnings("nullness") // safe because the input list contains no nulls</a>
+<span class="sourceLineNo">135</span><a id="line.135">    A[] cast = (A[]) result;</a>
+<span class="sourceLineNo">136</span><a id="line.136">    return cast;</a>
+<span class="sourceLineNo">137</span><a id="line.137">  }</a>
+<span class="sourceLineNo">138</span><a id="line.138"></a>
+<span class="sourceLineNo">139</span><a id="line.139">  /**</a>
+<span class="sourceLineNo">140</span><a id="line.140">   * Returns the {@link AnnotatedType} of the parameter.</a>
+<span class="sourceLineNo">141</span><a id="line.141">   *</a>
+<span class="sourceLineNo">142</span><a id="line.142">   * &lt;p&gt;This method will fail if run under an Android VM.</a>
+<span class="sourceLineNo">143</span><a id="line.143">   *</a>
+<span class="sourceLineNo">144</span><a id="line.144">   * @since NEXT for guava-android (available since 25.1 in guava-jre)</a>
+<span class="sourceLineNo">145</span><a id="line.145">   * @deprecated This method does not work under Android VMs. It is safe to use from guava-jre, but</a>
+<span class="sourceLineNo">146</span><a id="line.146">   *     this copy in guava-android is not safe to use.</a>
+<span class="sourceLineNo">147</span><a id="line.147">   */</a>
+<span class="sourceLineNo">148</span><a id="line.148">  @SuppressWarnings({"Java7ApiChecker", "AndroidJdkLibsChecker"})</a>
+<span class="sourceLineNo">149</span><a id="line.149">  @Deprecated</a>
+<span class="sourceLineNo">150</span><a id="line.150">  @DoNotCall("fails under Android VMs; do not use from guava-android")</a>
+<span class="sourceLineNo">151</span><a id="line.151">  @IgnoreJRERequirement</a>
+<span class="sourceLineNo">152</span><a id="line.152">  public AnnotatedType getAnnotatedType() {</a>
+<span class="sourceLineNo">153</span><a id="line.153">    return requireNonNull((AnnotatedType) annotatedType);</a>
+<span class="sourceLineNo">154</span><a id="line.154">  }</a>
+<span class="sourceLineNo">155</span><a id="line.155"></a>
+<span class="sourceLineNo">156</span><a id="line.156">  @Override</a>
+<span class="sourceLineNo">157</span><a id="line.157">  public boolean equals(@CheckForNull Object obj) {</a>
+<span class="sourceLineNo">158</span><a id="line.158">    if (obj instanceof Parameter) {</a>
+<span class="sourceLineNo">159</span><a id="line.159">      Parameter that = (Parameter) obj;</a>
+<span class="sourceLineNo">160</span><a id="line.160">      return position == that.position &amp;&amp; declaration.equals(that.declaration);</a>
+<span class="sourceLineNo">161</span><a id="line.161">    }</a>
+<span class="sourceLineNo">162</span><a id="line.162">    return false;</a>
+<span class="sourceLineNo">163</span><a id="line.163">  }</a>
+<span class="sourceLineNo">164</span><a id="line.164"></a>
+<span class="sourceLineNo">165</span><a id="line.165">  @Override</a>
+<span class="sourceLineNo">166</span><a id="line.166">  public int hashCode() {</a>
+<span class="sourceLineNo">167</span><a id="line.167">    return position;</a>
+<span class="sourceLineNo">168</span><a id="line.168">  }</a>
+<span class="sourceLineNo">169</span><a id="line.169"></a>
+<span class="sourceLineNo">170</span><a id="line.170">  @Override</a>
+<span class="sourceLineNo">171</span><a id="line.171">  public String toString() {</a>
+<span class="sourceLineNo">172</span><a id="line.172">    return type + " arg" + position;</a>
+<span class="sourceLineNo">173</span><a id="line.173">  }</a>
+<span class="sourceLineNo">174</span><a id="line.174">}</a>
 
 
 
