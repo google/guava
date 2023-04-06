@@ -141,7 +141,7 @@ public class FuturesTest extends TestCase {
   }
 
   public void testImmediateVoidFuture() throws Exception {
-    ListenableFuture<Void> voidFuture = immediateVoidFuture();
+    ListenableFuture<@Nullable Void> voidFuture = immediateVoidFuture();
 
     assertThat(getDone(voidFuture)).isNull();
     assertThat(getDoneFromTimeoutOverload(voidFuture)).isNull();
@@ -1978,7 +1978,7 @@ public class FuturesTest extends TestCase {
             pendingRunnables.add(runnable);
           }
         };
-    ListenableFuture<Void> future = submit(runnable, executor);
+    ListenableFuture<@Nullable Void> future = submit(runnable, executor);
     assertThat(future.isDone()).isFalse();
     assertThat(executedRunnables).isEmpty();
     assertThat(pendingRunnables).hasSize(1);
@@ -1997,7 +1997,7 @@ public class FuturesTest extends TestCase {
             throw exception;
           }
         };
-    ListenableFuture<Void> future = submit(runnable, directExecutor());
+    ListenableFuture<@Nullable Void> future = submit(runnable, directExecutor());
     try {
       getDone(future);
       fail();

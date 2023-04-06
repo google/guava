@@ -26,6 +26,7 @@ import java.security.Permission;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Unit tests for {@link Callables}.
@@ -90,10 +91,10 @@ public class CallablesTest extends TestCase {
   public void testRenaming() throws Exception {
     String oldName = Thread.currentThread().getName();
     final Supplier<String> newName = Suppliers.ofInstance("MyCrazyThreadName");
-    Callable<Void> callable =
-        new Callable<Void>() {
+    Callable<@Nullable Void> callable =
+        new Callable<@Nullable Void>() {
           @Override
-          public Void call() throws Exception {
+          public @Nullable Void call() throws Exception {
             assertEquals(Thread.currentThread().getName(), newName.get());
             return null;
           }
@@ -107,10 +108,10 @@ public class CallablesTest extends TestCase {
     String oldName = Thread.currentThread().getName();
     final Supplier<String> newName = Suppliers.ofInstance("MyCrazyThreadName");
     class MyException extends Exception {}
-    Callable<Void> callable =
-        new Callable<Void>() {
+    Callable<@Nullable Void> callable =
+        new Callable<@Nullable Void>() {
           @Override
-          public Void call() throws Exception {
+          public @Nullable Void call() throws Exception {
             assertEquals(Thread.currentThread().getName(), newName.get());
             throw new MyException();
           }
@@ -141,10 +142,10 @@ public class CallablesTest extends TestCase {
     try {
       final String oldName = Thread.currentThread().getName();
       Supplier<String> newName = Suppliers.ofInstance("MyCrazyThreadName");
-      Callable<Void> callable =
-          new Callable<Void>() {
+      Callable<@Nullable Void> callable =
+          new Callable<@Nullable Void>() {
             @Override
-            public Void call() throws Exception {
+            public @Nullable Void call() throws Exception {
               assertEquals(Thread.currentThread().getName(), oldName);
               return null;
             }

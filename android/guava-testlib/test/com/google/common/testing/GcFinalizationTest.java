@@ -25,6 +25,7 @@ import java.util.WeakHashMap;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicBoolean;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Tests for {@link GcFinalization}.
@@ -55,7 +56,7 @@ public class GcFinalizationTest extends TestCase {
   }
 
   public void testAwaitDone_Future() {
-    final SettableFuture<Void> future = SettableFuture.create();
+    final SettableFuture<@Nullable Void> future = SettableFuture.create();
     Object x =
         new Object() {
           @Override
@@ -70,7 +71,7 @@ public class GcFinalizationTest extends TestCase {
   }
 
   public void testAwaitDone_Future_Cancel() {
-    final SettableFuture<Void> future = SettableFuture.create();
+    final SettableFuture<@Nullable Void> future = SettableFuture.create();
     Object x =
         new Object() {
           @Override
@@ -160,7 +161,7 @@ public class GcFinalizationTest extends TestCase {
   public void testAwaitDone_Future_Interrupted_Interrupted() {
     Interruptenator interruptenator = new Interruptenator(Thread.currentThread());
     try {
-      final SettableFuture<Void> future = SettableFuture.create();
+      final SettableFuture<@Nullable Void> future = SettableFuture.create();
       try {
         GcFinalization.awaitDone(future);
         fail("should throw");

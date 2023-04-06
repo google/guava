@@ -499,7 +499,7 @@ public class GeneratedMonitorTest extends TestCase {
             runChosenTest();
           }
         };
-    final FutureTask<Void> task = new FutureTask<>(runChosenTest, null);
+    final FutureTask<@Nullable Void> task = new FutureTask<>(runChosenTest, null);
     startThread(
         new Runnable() {
           @Override
