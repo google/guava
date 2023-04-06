@@ -41,8 +41,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
-import javax.annotation.CheckForNull;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Tests for {@link Quantiles}.
@@ -92,7 +92,7 @@ public class QuantilesTest extends TestCase {
       Correspondence.from(
           new BinaryPredicate<Double, Double>() {
             @Override
-            public boolean apply(@CheckForNull Double actual, @CheckForNull Double expected) {
+            public boolean apply(@Nullable Double actual, @Nullable Double expected) {
               // Test for equality to allow non-finite values to match; otherwise, use the finite
               // test.
               return actual.equals(expected)

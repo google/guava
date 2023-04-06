@@ -23,7 +23,7 @@ import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
-import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Utility {@link CacheLoader} implementations intended for use in testing.
@@ -57,7 +57,7 @@ class TestingCacheLoaders {
   }
 
   /** Returns a {@link CacheLoader} that returns the given {@code constant} for every request. */
-  static <K, V> ConstantLoader<K, V> constantLoader(@CheckForNull V constant) {
+  static <K, V> ConstantLoader<K, V> constantLoader(@Nullable V constant) {
     return new ConstantLoader<>(constant);
   }
 
