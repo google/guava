@@ -1209,13 +1209,10 @@ public class AbstractFutureTest extends TestCase {
       throws InterruptedException {
     try {
       String got = future.get();
-      fail("Expected exception but got " + got);
+      throw new AssertionError("Expected exception but got " + got);
     } catch (ExecutionException e) {
       return e;
     }
-
-    // unreachable, but compiler doesn't know that fail() always throws
-    return null;
   }
 
   private static final class WaiterThread extends Thread {

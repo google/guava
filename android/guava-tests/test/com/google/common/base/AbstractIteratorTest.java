@@ -50,8 +50,7 @@ public class AbstractIteratorTest extends TestCase {
               case 2:
                 return endOfData();
               default:
-                fail("Should not have been invoked again");
-                return null;
+                throw new AssertionError("Should not have been invoked again");
             }
           }
         };
@@ -85,12 +84,12 @@ public class AbstractIteratorTest extends TestCase {
           @Override
           public Integer computeNext() {
             if (haveBeenCalled) {
-              fail("Should not have been called again");
+              throw new AssertionError("Should not have been called again");
             } else {
               haveBeenCalled = true;
               sneakyThrow(new SomeCheckedException());
+              throw new AssertionError(); // unreachable
             }
-            return null; // never reached
           }
         };
 
@@ -192,7 +191,7 @@ public class AbstractIteratorTest extends TestCase {
           @Override
           protected Integer computeNext() {
             boolean unused = hasNext();
-            return null;
+            throw new AssertionError();
           }
         };
     try {
