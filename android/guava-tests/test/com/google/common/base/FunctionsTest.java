@@ -274,7 +274,7 @@ public class FunctionsTest extends TestCase {
         Functions.compose(numberToSpanish, japaneseToInteger);
   }
 
-  private static class HashCodeFunction implements Function<Object, Integer> {
+  private static class HashCodeFunction implements Function<@Nullable Object, Integer> {
     @Override
     public Integer apply(@Nullable Object o) {
       return (o == null) ? 0 : o.hashCode();
