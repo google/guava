@@ -21,6 +21,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Function;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Test cases for {@link Tables#transformValues}.
@@ -33,7 +34,7 @@ public class TablesTransformValuesTest extends AbstractTableTest {
   private static final Function<String, Character> FIRST_CHARACTER =
       new Function<String, Character>() {
         @Override
-        public Character apply(String input) {
+        public Character apply(@Nullable String input) {
           return input == null ? null : input.charAt(0);
         }
       };

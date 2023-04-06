@@ -275,7 +275,7 @@ public final class TestThread<L> extends Thread implements TearDown {
     final Object result;
     final Throwable throwable;
 
-    Response(String methodName, Object result, Throwable throwable) {
+    Response(String methodName, @Nullable Object result, @Nullable Throwable throwable) {
       this.methodName = methodName;
       this.result = result;
       this.throwable = throwable;

@@ -62,6 +62,7 @@ import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.concurrent.ConcurrentMap;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Unit test for {@code Maps}.
@@ -1373,7 +1374,7 @@ public class MapsTest extends TestCase {
   static final Predicate<String> NOT_LENGTH_3 =
       new Predicate<String>() {
         @Override
-        public boolean apply(String input) {
+        public boolean apply(@Nullable String input) {
           return input == null || input.length() != 3;
         }
       };
@@ -1381,7 +1382,7 @@ public class MapsTest extends TestCase {
   static final Predicate<Integer> EVEN =
       new Predicate<Integer>() {
         @Override
-        public boolean apply(Integer input) {
+        public boolean apply(@Nullable Integer input) {
           return input == null || input % 2 == 0;
         }
       };

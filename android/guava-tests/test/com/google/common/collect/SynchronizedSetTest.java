@@ -40,6 +40,9 @@ public class SynchronizedSetTest extends TestCase {
 
   public static final Object MUTEX = new Integer(1); // something Serializable
 
+  // TODO(cpovirk): Resolve difference between branches in their choice of mutex:
+  // - The mainline uses `null` (even since the change in cl/99720576 was integrated).
+  // - The backport continued to use MUTEX.
   public static Test suite() {
     return SetTestSuiteBuilder.using(
             new TestStringSetGenerator() {

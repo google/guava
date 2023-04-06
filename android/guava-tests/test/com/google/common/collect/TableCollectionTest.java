@@ -44,6 +44,7 @@ import java.util.SortedSet;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Collection tests for {@link Table} implementations.
@@ -770,7 +771,7 @@ public class TableCollectionTest extends TestCase {
   static final Function<Integer, Integer> DIVIDE_BY_2 =
       new Function<Integer, Integer>() {
         @Override
-        public Integer apply(Integer input) {
+        public Integer apply(@Nullable Integer input) {
           return (input == null) ? null : input / 2;
         }
       };
@@ -892,7 +893,7 @@ public class TableCollectionTest extends TestCase {
   static final Function<String, Character> FIRST_CHARACTER =
       new Function<String, Character>() {
         @Override
-        public Character apply(String input) {
+        public Character apply(@Nullable String input) {
           return input == null ? null : input.charAt(0);
         }
       };

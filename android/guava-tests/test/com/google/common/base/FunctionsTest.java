@@ -27,6 +27,7 @@ import com.google.common.testing.SerializableTester;
 import java.io.Serializable;
 import java.util.Map;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Tests for {@link Functions}.
@@ -275,7 +276,7 @@ public class FunctionsTest extends TestCase {
 
   private static class HashCodeFunction implements Function<Object, Integer> {
     @Override
-    public Integer apply(Object o) {
+    public Integer apply(@Nullable Object o) {
       return (o == null) ? 0 : o.hashCode();
     }
   }
