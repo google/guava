@@ -29,6 +29,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Unit test for {@link Optional}.
@@ -183,12 +184,13 @@ public final class OptionalTest extends TestCase {
       Optional<String> unused =
           Optional.of("a")
               .transform(
-                  new Function<String, String>() {
-                    @Override
-                    public String apply(String input) {
-                      return null;
-                    }
-                  });
+                  (Function<String, String>)
+                      new Function<String, @Nullable String>() {
+                        @Override
+                        public @Nullable String apply(String input) {
+                          return null;
+                        }
+                      });
       fail("Should throw if Function returns null.");
     } catch (NullPointerException expected) {
     }
@@ -199,12 +201,13 @@ public final class OptionalTest extends TestCase {
         Optional.absent(),
         Optional.absent()
             .transform(
-                new Function<Object, Object>() {
-                  @Override
-                  public Object apply(Object input) {
-                    return null;
-                  }
-                }));
+                (Function<Object, Object>)
+                    new Function<Object, @Nullable Object>() {
+                      @Override
+                      public @Nullable Object apply(Object input) {
+                        return null;
+                      }
+                    }));
   }
 
   public void testEqualsAndHashCode() {

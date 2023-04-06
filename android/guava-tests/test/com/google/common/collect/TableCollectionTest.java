@@ -768,10 +768,10 @@ public class TableCollectionTest extends TestCase {
     }
   }
 
-  static final Function<Integer, Integer> DIVIDE_BY_2 =
-      new Function<Integer, Integer>() {
+  static final Function<@Nullable Integer, @Nullable Integer> DIVIDE_BY_2 =
+      new Function<@Nullable Integer, @Nullable Integer>() {
         @Override
-        public Integer apply(@Nullable Integer input) {
+        public @Nullable Integer apply(@Nullable Integer input) {
           return (input == null) ? null : input / 2;
         }
       };
@@ -890,10 +890,10 @@ public class TableCollectionTest extends TestCase {
     }
   }
 
-  static final Function<String, Character> FIRST_CHARACTER =
-      new Function<String, Character>() {
+  static final Function<@Nullable String, @Nullable Character> FIRST_CHARACTER =
+      new Function<@Nullable String, @Nullable Character>() {
         @Override
-        public Character apply(@Nullable String input) {
+        public @Nullable Character apply(@Nullable String input) {
           return input == null ? null : input.charAt(0);
         }
       };
