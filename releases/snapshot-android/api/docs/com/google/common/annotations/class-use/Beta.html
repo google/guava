@@ -1348,27 +1348,19 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>static long</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">ByteStreams.</span><code><span class="memberNameLink"><a href="../../io/ByteStreams.html#exhaust(java.io.InputStream)">exhaust</a></span>&#8203;(java.io.InputStream&nbsp;in)</code></th>
-<td class="colLast">
-<div class="block">Reads and discards data from the given <code>InputStream</code> until the end of the stream is
- reached.</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>static long</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">CharStreams.</span><code><span class="memberNameLink"><a href="../../io/CharStreams.html#exhaust(java.lang.Readable)">exhaust</a></span>&#8203;(java.lang.Readable&nbsp;readable)</code></th>
 <td class="colLast">
 <div class="block">Reads and discards data from the given <code>Readable</code> until the end of the stream is reached.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static <a href="../../graph/Traverser.html" title="class in com.google.common.graph">Traverser</a>&lt;java.io.File&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Files.</span><code><span class="memberNameLink"><a href="../../io/Files.html#fileTraverser()">fileTraverser</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns a <a href="../../graph/Traverser.html" title="class in com.google.common.graph"><code>Traverser</code></a> instance for the file and directory tree.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>long</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">CharSource.</span><code><span class="memberNameLink"><a href="../../io/CharSource.html#length()">length</a></span>()</code></th>
 <td class="colLast">
@@ -1376,7 +1368,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  entire stream.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../base/Optional.html" title="class in com.google.common.base">Optional</a>&lt;java.lang.Long&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">CharSource.</span><code><span class="memberNameLink"><a href="../../io/CharSource.html#lengthIfKnown()">lengthIfKnown</a></span>()</code></th>
 <td class="colLast">
@@ -1384,77 +1376,14 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  opening the data stream.</div>
 </td>
 </tr>
-<tr class="altColor">
-<td class="colFirst"><code>static java.io.InputStream</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">ByteStreams.</span><code><span class="memberNameLink"><a href="../../io/ByteStreams.html#limit(java.io.InputStream,long)">limit</a></span>&#8203;(java.io.InputStream&nbsp;in,
-     long&nbsp;limit)</code></th>
-<td class="colLast">
-<div class="block">Wraps a <code>InputStream</code>, limiting the number of bytes which can be read.</div>
-</td>
-</tr>
 <tr class="rowColor">
-<td class="colFirst"><code>static <a href="../../io/ByteArrayDataInput.html" title="interface in com.google.common.io">ByteArrayDataInput</a></code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">ByteStreams.</span><code><span class="memberNameLink"><a href="../../io/ByteStreams.html#newDataInput(byte%5B%5D)">newDataInput</a></span>&#8203;(byte[]&nbsp;bytes)</code></th>
-<td class="colLast">
-<div class="block">Returns a new <a href="../../io/ByteArrayDataInput.html" title="interface in com.google.common.io"><code>ByteArrayDataInput</code></a> instance to read from the <code>bytes</code> array from the
- beginning.</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>static <a href="../../io/ByteArrayDataInput.html" title="interface in com.google.common.io">ByteArrayDataInput</a></code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">ByteStreams.</span><code><span class="memberNameLink"><a href="../../io/ByteStreams.html#newDataInput(byte%5B%5D,int)">newDataInput</a></span>&#8203;(byte[]&nbsp;bytes,
-            int&nbsp;start)</code></th>
-<td class="colLast">
-<div class="block">Returns a new <a href="../../io/ByteArrayDataInput.html" title="interface in com.google.common.io"><code>ByteArrayDataInput</code></a> instance to read from the <code>bytes</code> array,
- starting at the given position.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code>static <a href="../../io/ByteArrayDataInput.html" title="interface in com.google.common.io">ByteArrayDataInput</a></code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">ByteStreams.</span><code><span class="memberNameLink"><a href="../../io/ByteStreams.html#newDataInput(java.io.ByteArrayInputStream)">newDataInput</a></span>&#8203;(java.io.ByteArrayInputStream&nbsp;byteArrayInputStream)</code></th>
-<td class="colLast">
-<div class="block">Returns a new <a href="../../io/ByteArrayDataInput.html" title="interface in com.google.common.io"><code>ByteArrayDataInput</code></a> instance to read from the given <code>
- ByteArrayInputStream</code>.</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>static <a href="../../io/ByteArrayDataOutput.html" title="interface in com.google.common.io">ByteArrayDataOutput</a></code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">ByteStreams.</span><code><span class="memberNameLink"><a href="../../io/ByteStreams.html#newDataOutput()">newDataOutput</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Returns a new <a href="../../io/ByteArrayDataOutput.html" title="interface in com.google.common.io"><code>ByteArrayDataOutput</code></a> instance with a default size.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code>static <a href="../../io/ByteArrayDataOutput.html" title="interface in com.google.common.io">ByteArrayDataOutput</a></code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">ByteStreams.</span><code><span class="memberNameLink"><a href="../../io/ByteStreams.html#newDataOutput(int)">newDataOutput</a></span>&#8203;(int&nbsp;size)</code></th>
-<td class="colLast">
-<div class="block">Returns a new <a href="../../io/ByteArrayDataOutput.html" title="interface in com.google.common.io"><code>ByteArrayDataOutput</code></a> instance sized to hold <code>size</code> bytes before
- resizing.</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>static <a href="../../io/ByteArrayDataOutput.html" title="interface in com.google.common.io">ByteArrayDataOutput</a></code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">ByteStreams.</span><code><span class="memberNameLink"><a href="../../io/ByteStreams.html#newDataOutput(java.io.ByteArrayOutputStream)">newDataOutput</a></span>&#8203;(java.io.ByteArrayOutputStream&nbsp;byteArrayOutputStream)</code></th>
-<td class="colLast">
-<div class="block">Returns a new <a href="../../io/ByteArrayDataOutput.html" title="interface in com.google.common.io"><code>ByteArrayDataOutput</code></a> instance which writes to the given <code>
- ByteArrayOutputStream</code>.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code>static java.io.OutputStream</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">ByteStreams.</span><code><span class="memberNameLink"><a href="../../io/ByteStreams.html#nullOutputStream()">nullOutputStream</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Returns an <code>OutputStream</code> that simply discards written bytes.</div>
-</td>
-</tr>
-<tr class="altColor">
 <td class="colFirst"><code>static java.io.Writer</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">CharStreams.</span><code><span class="memberNameLink"><a href="../../io/CharStreams.html#nullWriter()">nullWriter</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns a <code>Writer</code> that simply discards written chars.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>T</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">ByteSource.</span><code><span class="memberNameLink"><a href="../../io/ByteSource.html#read(com.google.common.io.ByteProcessor)">read</a></span>&#8203;(<a href="../../io/ByteProcessor.html" title="interface in com.google.common.io">ByteProcessor</a>&lt;T&gt;&nbsp;processor)</code></th>
 <td class="colLast">
@@ -1462,59 +1391,21 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  they are read.</div>
 </td>
 </tr>
-<tr class="altColor">
-<td class="colFirst"><code>static int</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">ByteStreams.</span><code><span class="memberNameLink"><a href="../../io/ByteStreams.html#read(java.io.InputStream,byte%5B%5D,int,int)">read</a></span>&#8203;(java.io.InputStream&nbsp;in,
-    byte[]&nbsp;b,
-    int&nbsp;off,
-    int&nbsp;len)</code></th>
-<td class="colLast">
-<div class="block">Reads some bytes from an input stream and stores them into the buffer array <code>b</code>.</div>
-</td>
-</tr>
 <tr class="rowColor">
-<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>T</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">ByteStreams.</span><code><span class="memberNameLink"><a href="../../io/ByteStreams.html#readBytes(java.io.InputStream,com.google.common.io.ByteProcessor)">readBytes</a></span>&#8203;(java.io.InputStream&nbsp;input,
-         <a href="../../io/ByteProcessor.html" title="interface in com.google.common.io">ByteProcessor</a>&lt;T&gt;&nbsp;processor)</code></th>
-<td class="colLast">
-<div class="block">Process the bytes of the given input stream using the given processor.</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>static void</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">ByteStreams.</span><code><span class="memberNameLink"><a href="../../io/ByteStreams.html#readFully(java.io.InputStream,byte%5B%5D)">readFully</a></span>&#8203;(java.io.InputStream&nbsp;in,
-         byte[]&nbsp;b)</code></th>
-<td class="colLast">
-<div class="block">Attempts to read enough bytes from the stream to fill the given byte array, with the same
- behavior as <code>DataInput.readFully(byte[])</code>.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code>static void</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">ByteStreams.</span><code><span class="memberNameLink"><a href="../../io/ByteStreams.html#readFully(java.io.InputStream,byte%5B%5D,int,int)">readFully</a></span>&#8203;(java.io.InputStream&nbsp;in,
-         byte[]&nbsp;b,
-         int&nbsp;off,
-         int&nbsp;len)</code></th>
-<td class="colLast">
-<div class="block">Attempts to read <code>len</code> bytes from the stream into the given array starting at <code>
- off</code>, with the same behavior as <code>DataInput.readFully(byte[], int, int)</code>.</div>
-</td>
-</tr>
-<tr class="altColor">
 <td class="colFirst"><code>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>T</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">CharSource.</span><code><span class="memberNameLink"><a href="../../io/CharSource.html#readLines(com.google.common.io.LineProcessor)">readLines</a></span>&#8203;(<a href="../../io/LineProcessor.html" title="interface in com.google.common.io">LineProcessor</a>&lt;T&gt;&nbsp;processor)</code></th>
 <td class="colLast">
 <div class="block">Reads lines of text from this source, processing each line as it is read using the given <a href="../../io/LineProcessor.html" title="interface in com.google.common.io"><code>processor</code></a>.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static java.util.List&lt;java.lang.String&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">CharStreams.</span><code><span class="memberNameLink"><a href="../../io/CharStreams.html#readLines(java.lang.Readable)">readLines</a></span>&#8203;(java.lang.Readable&nbsp;r)</code></th>
 <td class="colLast">
 <div class="block">Reads all of the lines from a <code>Readable</code> object.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>T</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">CharStreams.</span><code><span class="memberNameLink"><a href="../../io/CharStreams.html#readLines(java.lang.Readable,com.google.common.io.LineProcessor)">readLines</a></span>&#8203;(java.lang.Readable&nbsp;readable,
          <a href="../../io/LineProcessor.html" title="interface in com.google.common.io">LineProcessor</a>&lt;T&gt;&nbsp;processor)</code></th>
@@ -1523,20 +1414,12 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  or all lines have been read and returning the result produced by the processor.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../base/Optional.html" title="class in com.google.common.base">Optional</a>&lt;java.lang.Long&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">ByteSource.</span><code><span class="memberNameLink"><a href="../../io/ByteSource.html#sizeIfKnown()">sizeIfKnown</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns the size of this source in bytes, if the size can be easily determined without actually
  opening the data stream.</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>static void</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">ByteStreams.</span><code><span class="memberNameLink"><a href="../../io/ByteStreams.html#skipFully(java.io.InputStream,long)">skipFully</a></span>&#8203;(java.io.InputStream&nbsp;in,
-         long&nbsp;n)</code></th>
-<td class="colLast">
-<div class="block">Discards <code>n</code> bytes of data from the input stream.</div>
 </td>
 </tr>
 <tr class="rowColor">
