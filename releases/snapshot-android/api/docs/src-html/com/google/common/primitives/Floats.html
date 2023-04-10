@@ -721,23 +721,22 @@
 <span class="sourceLineNo">712</span><a id="line.712">   * @throws NullPointerException if {@code string} is {@code null}</a>
 <span class="sourceLineNo">713</span><a id="line.713">   * @since 14.0</a>
 <span class="sourceLineNo">714</span><a id="line.714">   */</a>
-<span class="sourceLineNo">715</span><a id="line.715">  @Beta</a>
-<span class="sourceLineNo">716</span><a id="line.716">  @GwtIncompatible // regular expressions</a>
-<span class="sourceLineNo">717</span><a id="line.717">  @CheckForNull</a>
-<span class="sourceLineNo">718</span><a id="line.718">  public static Float tryParse(String string) {</a>
-<span class="sourceLineNo">719</span><a id="line.719">    if (Doubles.FLOATING_POINT_PATTERN.matcher(string).matches()) {</a>
-<span class="sourceLineNo">720</span><a id="line.720">      // TODO(lowasser): could be potentially optimized, but only with</a>
-<span class="sourceLineNo">721</span><a id="line.721">      // extensive testing</a>
-<span class="sourceLineNo">722</span><a id="line.722">      try {</a>
-<span class="sourceLineNo">723</span><a id="line.723">        return Float.parseFloat(string);</a>
-<span class="sourceLineNo">724</span><a id="line.724">      } catch (NumberFormatException e) {</a>
-<span class="sourceLineNo">725</span><a id="line.725">        // Float.parseFloat has changed specs several times, so fall through</a>
-<span class="sourceLineNo">726</span><a id="line.726">        // gracefully</a>
-<span class="sourceLineNo">727</span><a id="line.727">      }</a>
-<span class="sourceLineNo">728</span><a id="line.728">    }</a>
-<span class="sourceLineNo">729</span><a id="line.729">    return null;</a>
-<span class="sourceLineNo">730</span><a id="line.730">  }</a>
-<span class="sourceLineNo">731</span><a id="line.731">}</a>
+<span class="sourceLineNo">715</span><a id="line.715">  @GwtIncompatible // regular expressions</a>
+<span class="sourceLineNo">716</span><a id="line.716">  @CheckForNull</a>
+<span class="sourceLineNo">717</span><a id="line.717">  public static Float tryParse(String string) {</a>
+<span class="sourceLineNo">718</span><a id="line.718">    if (Doubles.FLOATING_POINT_PATTERN.matcher(string).matches()) {</a>
+<span class="sourceLineNo">719</span><a id="line.719">      // TODO(lowasser): could be potentially optimized, but only with</a>
+<span class="sourceLineNo">720</span><a id="line.720">      // extensive testing</a>
+<span class="sourceLineNo">721</span><a id="line.721">      try {</a>
+<span class="sourceLineNo">722</span><a id="line.722">        return Float.parseFloat(string);</a>
+<span class="sourceLineNo">723</span><a id="line.723">      } catch (NumberFormatException e) {</a>
+<span class="sourceLineNo">724</span><a id="line.724">        // Float.parseFloat has changed specs several times, so fall through</a>
+<span class="sourceLineNo">725</span><a id="line.725">        // gracefully</a>
+<span class="sourceLineNo">726</span><a id="line.726">      }</a>
+<span class="sourceLineNo">727</span><a id="line.727">    }</a>
+<span class="sourceLineNo">728</span><a id="line.728">    return null;</a>
+<span class="sourceLineNo">729</span><a id="line.729">  }</a>
+<span class="sourceLineNo">730</span><a id="line.730">}</a>
 
 
 

@@ -188,14 +188,6 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">An object that splits strings into maps as <code>Splitter</code> splits iterables and lists.</div>
 </td>
 </tr>
-<tr class="rowColor">
-<td class="colFirst"><code>class&nbsp;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../base/Utf8.html" title="class in com.google.common.base">Utf8</a></span></code></th>
-<td class="colLast">
-<div class="block">Low-level, high-performance utility methods related to the <a href="../../base/Charsets.html#UTF_8">UTF-8</a>
- character encoding.</div>
-</td>
-</tr>
 </tbody>
 </table>
 <table class="useSummary">
@@ -503,65 +495,6 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code>static &lt;K extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>java.util.Map&lt;K,&#8203;java.util.List&lt;V&gt;&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Multimaps.</span><code><span class="memberNameLink"><a href="../../collect/Multimaps.html#asMap(com.google.common.collect.ListMultimap)">asMap</a></span>&#8203;(<a href="../../collect/ListMultimap.html" title="interface in com.google.common.collect">ListMultimap</a>&lt;K,&#8203;V&gt;&nbsp;multimap)</code></th>
-<td class="colLast">
-<div class="block">Returns <a href="../../collect/ListMultimap.html#asMap()"><code>multimap.asMap()</code></a>, with its type corrected from <code>Map&lt;K,
- Collection&lt;V&gt;&gt;</code> to <code>Map&lt;K, List&lt;V&gt;&gt;</code>.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code>static &lt;K extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>java.util.Map&lt;K,&#8203;java.util.Collection&lt;V&gt;&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Multimaps.</span><code><span class="memberNameLink"><a href="../../collect/Multimaps.html#asMap(com.google.common.collect.Multimap)">asMap</a></span>&#8203;(<a href="../../collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;K,&#8203;V&gt;&nbsp;multimap)</code></th>
-<td class="colLast">
-<div class="block">Returns <a href="../../collect/Multimap.html#asMap()"><code>multimap.asMap()</code></a>.</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>static &lt;K extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>java.util.Map&lt;K,&#8203;java.util.Set&lt;V&gt;&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Multimaps.</span><code><span class="memberNameLink"><a href="../../collect/Multimaps.html#asMap(com.google.common.collect.SetMultimap)">asMap</a></span>&#8203;(<a href="../../collect/SetMultimap.html" title="interface in com.google.common.collect">SetMultimap</a>&lt;K,&#8203;V&gt;&nbsp;multimap)</code></th>
-<td class="colLast">
-<div class="block">Returns <a href="../../collect/SetMultimap.html#asMap()"><code>multimap.asMap()</code></a>, with its type corrected from <code>Map&lt;K,
- Collection&lt;V&gt;&gt;</code> to <code>Map&lt;K, Set&lt;V&gt;&gt;</code>.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code>static &lt;K extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>java.util.Map&lt;K,&#8203;java.util.SortedSet&lt;V&gt;&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Multimaps.</span><code><span class="memberNameLink"><a href="../../collect/Multimaps.html#asMap(com.google.common.collect.SortedSetMultimap)">asMap</a></span>&#8203;(<a href="../../collect/SortedSetMultimap.html" title="interface in com.google.common.collect">SortedSetMultimap</a>&lt;K,&#8203;V&gt;&nbsp;multimap)</code></th>
-<td class="colLast">
-<div class="block">Returns <a href="../../collect/SortedSetMultimap.html#asMap()"><code>multimap.asMap()</code></a>, with its type corrected from <code>
- Map&lt;K, Collection&lt;V&gt;&gt;</code> to <code>Map&lt;K, SortedSet&lt;V&gt;&gt;</code>.</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>static &lt;K,&#8203;V&gt;<br><a href="../../collect/ImmutableBiMap.Builder.html" title="class in com.google.common.collect">ImmutableBiMap.Builder</a>&lt;K,&#8203;V&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">ImmutableBiMap.</span><code><span class="memberNameLink"><a href="../../collect/ImmutableBiMap.html#builderWithExpectedSize(int)">builderWithExpectedSize</a></span>&#8203;(int&nbsp;expectedSize)</code></th>
-<td class="colLast">
-<div class="block">Returns a new builder, expecting the specified number of entries to be added.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="../../collect/ImmutableList.Builder.html" title="class in com.google.common.collect">ImmutableList.Builder</a>&lt;E&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">ImmutableList.</span><code><span class="memberNameLink"><a href="../../collect/ImmutableList.html#builderWithExpectedSize(int)">builderWithExpectedSize</a></span>&#8203;(int&nbsp;expectedSize)</code></th>
-<td class="colLast">
-<div class="block">Returns a new builder, expecting the specified number of elements to be added.</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>static &lt;K,&#8203;V&gt;<br><a href="../../collect/ImmutableMap.Builder.html" title="class in com.google.common.collect">ImmutableMap.Builder</a>&lt;K,&#8203;V&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">ImmutableMap.</span><code><span class="memberNameLink"><a href="../../collect/ImmutableMap.html#builderWithExpectedSize(int)">builderWithExpectedSize</a></span>&#8203;(int&nbsp;expectedSize)</code></th>
-<td class="colLast">
-<div class="block">Returns a new builder, expecting the specified number of entries to be added.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="../../collect/ImmutableSet.Builder.html" title="class in com.google.common.collect">ImmutableSet.Builder</a>&lt;E&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">ImmutableSet.</span><code><span class="memberNameLink"><a href="../../collect/ImmutableSet.html#builderWithExpectedSize(int)">builderWithExpectedSize</a></span>&#8203;(int&nbsp;expectedSize)</code></th>
-<td class="colLast">
-<div class="block">Returns a new builder, expecting the specified number of distinct elements to be added.</div>
-</td>
-</tr>
-<tr class="altColor">
 <td class="colFirst"><code>static java.util.List&lt;java.lang.Character&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Lists.</span><code><span class="memberNameLink"><a href="../../collect/Lists.html#charactersOf(java.lang.CharSequence)">charactersOf</a></span>&#8203;(java.lang.CharSequence&nbsp;sequence)</code></th>
 <td class="colLast">
@@ -663,24 +596,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code>static &lt;K,&#8203;V&gt;<br><a href="../../collect/ImmutableBiMap.html" title="class in com.google.common.collect">ImmutableBiMap</a>&lt;K,&#8203;V&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">ImmutableBiMap.</span><code><span class="memberNameLink"><a href="../../collect/ImmutableBiMap.html#copyOf(java.lang.Iterable)">copyOf</a></span>&#8203;(java.lang.Iterable&lt;? extends java.util.Map.Entry&lt;? extends K,&#8203;? extends V&gt;&gt;&nbsp;entries)</code></th>
-<td class="colLast">
-<div class="block">Returns an immutable bimap containing the given entries.</div>
-</td>
-</tr>
-<tr class="rowColor">
 <td class="colFirst"><code>static &lt;K,&#8203;V&gt;<br><a href="../../collect/ImmutableListMultimap.html" title="class in com.google.common.collect">ImmutableListMultimap</a>&lt;K,&#8203;V&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">ImmutableListMultimap.</span><code><span class="memberNameLink"><a href="../../collect/ImmutableListMultimap.html#copyOf(java.lang.Iterable)">copyOf</a></span>&#8203;(java.lang.Iterable&lt;? extends java.util.Map.Entry&lt;? extends K,&#8203;? extends V&gt;&gt;&nbsp;entries)</code></th>
 <td class="colLast">
 <div class="block">Returns an immutable multimap containing the specified entries.</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>static &lt;K,&#8203;V&gt;<br><a href="../../collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;K,&#8203;V&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">ImmutableMap.</span><code><span class="memberNameLink"><a href="../../collect/ImmutableMap.html#copyOf(java.lang.Iterable)">copyOf</a></span>&#8203;(java.lang.Iterable&lt;? extends java.util.Map.Entry&lt;? extends K,&#8203;? extends V&gt;&gt;&nbsp;entries)</code></th>
-<td class="colLast">
-<div class="block">Returns an immutable map containing the specified entries.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -834,22 +753,6 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code><a href="../../collect/ImmutableBiMap.Builder.html" title="class in com.google.common.collect">ImmutableBiMap.Builder</a>&lt;<a href="../../collect/ImmutableBiMap.Builder.html" title="type parameter in ImmutableBiMap.Builder">K</a>,&#8203;<a href="../../collect/ImmutableBiMap.Builder.html" title="type parameter in ImmutableBiMap.Builder">V</a>&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">ImmutableBiMap.Builder.</span><code><span class="memberNameLink"><a href="../../collect/ImmutableBiMap.Builder.html#orderEntriesByValue(java.util.Comparator)">orderEntriesByValue</a></span>&#8203;(java.util.Comparator&lt;? super <a href="../../collect/ImmutableBiMap.Builder.html" title="type parameter in ImmutableBiMap.Builder">V</a>&gt;&nbsp;valueComparator)</code></th>
-<td class="colLast">
-<div class="block">Configures this <code>Builder</code> to order entries by value according to the specified
- comparator.</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code><a href="../../collect/ImmutableMap.Builder.html" title="class in com.google.common.collect">ImmutableMap.Builder</a>&lt;<a href="../../collect/ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">K</a>,&#8203;<a href="../../collect/ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">V</a>&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">ImmutableMap.Builder.</span><code><span class="memberNameLink"><a href="../../collect/ImmutableMap.Builder.html#orderEntriesByValue(java.util.Comparator)">orderEntriesByValue</a></span>&#8203;(java.util.Comparator&lt;? super <a href="../../collect/ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">V</a>&gt;&nbsp;valueComparator)</code></th>
-<td class="colLast">
-<div class="block">Configures this <code>Builder</code> to order entries by value according to the specified
- comparator.</div>
-</td>
-</tr>
-<tr class="rowColor">
 <td class="colFirst"><code><a href="../../collect/ImmutableSortedMap.Builder.html" title="class in com.google.common.collect">ImmutableSortedMap.Builder</a>&lt;<a href="../../collect/ImmutableSortedMap.Builder.html" title="type parameter in ImmutableSortedMap.Builder">K</a>,&#8203;<a href="../../collect/ImmutableSortedMap.Builder.html" title="type parameter in ImmutableSortedMap.Builder">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">ImmutableSortedMap.Builder.</span><code><span class="memberNameLink"><a href="../../collect/ImmutableSortedMap.Builder.html#orderEntriesByValue(java.util.Comparator)">orderEntriesByValue</a></span>&#8203;(java.util.Comparator&lt;? super <a href="../../collect/ImmutableSortedMap.Builder.html" title="type parameter in ImmutableSortedMap.Builder">V</a>&gt;&nbsp;valueComparator)</code></th>
 <td class="colLast">
@@ -866,24 +769,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code><a href="../../collect/ImmutableBiMap.Builder.html" title="class in com.google.common.collect">ImmutableBiMap.Builder</a>&lt;<a href="../../collect/ImmutableBiMap.Builder.html" title="type parameter in ImmutableBiMap.Builder">K</a>,&#8203;<a href="../../collect/ImmutableBiMap.Builder.html" title="type parameter in ImmutableBiMap.Builder">V</a>&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">ImmutableBiMap.Builder.</span><code><span class="memberNameLink"><a href="../../collect/ImmutableBiMap.Builder.html#putAll(java.lang.Iterable)">putAll</a></span>&#8203;(java.lang.Iterable&lt;? extends java.util.Map.Entry&lt;? extends <a href="../../collect/ImmutableBiMap.Builder.html" title="type parameter in ImmutableBiMap.Builder">K</a>,&#8203;? extends <a href="../../collect/ImmutableBiMap.Builder.html" title="type parameter in ImmutableBiMap.Builder">V</a>&gt;&gt;&nbsp;entries)</code></th>
-<td class="colLast">
-<div class="block">Adds all of the given entries to the built bimap.</div>
-</td>
-</tr>
-<tr class="altColor">
 <td class="colFirst"><code><a href="../../collect/ImmutableListMultimap.Builder.html" title="class in com.google.common.collect">ImmutableListMultimap.Builder</a>&lt;<a href="../../collect/ImmutableListMultimap.Builder.html" title="type parameter in ImmutableListMultimap.Builder">K</a>,&#8203;<a href="../../collect/ImmutableListMultimap.Builder.html" title="type parameter in ImmutableListMultimap.Builder">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">ImmutableListMultimap.Builder.</span><code><span class="memberNameLink"><a href="../../collect/ImmutableListMultimap.Builder.html#putAll(java.lang.Iterable)">putAll</a></span>&#8203;(java.lang.Iterable&lt;? extends java.util.Map.Entry&lt;? extends <a href="../../collect/ImmutableListMultimap.Builder.html" title="type parameter in ImmutableListMultimap.Builder">K</a>,&#8203;? extends <a href="../../collect/ImmutableListMultimap.Builder.html" title="type parameter in ImmutableListMultimap.Builder">V</a>&gt;&gt;&nbsp;entries)</code></th>
 <td class="colLast">
 <div class="block">Adds entries to the built multimap.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code><a href="../../collect/ImmutableMap.Builder.html" title="class in com.google.common.collect">ImmutableMap.Builder</a>&lt;<a href="../../collect/ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">K</a>,&#8203;<a href="../../collect/ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">V</a>&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">ImmutableMap.Builder.</span><code><span class="memberNameLink"><a href="../../collect/ImmutableMap.Builder.html#putAll(java.lang.Iterable)">putAll</a></span>&#8203;(java.lang.Iterable&lt;? extends java.util.Map.Entry&lt;? extends <a href="../../collect/ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">K</a>,&#8203;? extends <a href="../../collect/ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">V</a>&gt;&gt;&nbsp;entries)</code></th>
-<td class="colLast">
-<div class="block">Adds all of the given entries to the built map.</div>
 </td>
 </tr>
 <tr class="altColor">
@@ -2065,50 +1954,6 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <th class="colSecond" scope="row"><span class="typeNameLabel">Booleans.</span><code><span class="memberNameLink"><a href="../../primitives/Booleans.html#trueFirst()">trueFirst</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns a <code>Comparator&lt;Boolean&gt;</code> that sorts <code>true</code> before <code>false</code>.</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>static java.lang.Double</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Doubles.</span><code><span class="memberNameLink"><a href="../../primitives/Doubles.html#tryParse(java.lang.String)">tryParse</a></span>&#8203;(java.lang.String&nbsp;string)</code></th>
-<td class="colLast">
-<div class="block">Parses the specified string as a double-precision floating point value.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code>static java.lang.Float</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Floats.</span><code><span class="memberNameLink"><a href="../../primitives/Floats.html#tryParse(java.lang.String)">tryParse</a></span>&#8203;(java.lang.String&nbsp;string)</code></th>
-<td class="colLast">
-<div class="block">Parses the specified string as a single-precision floating point value.</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>static java.lang.Integer</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Ints.</span><code><span class="memberNameLink"><a href="../../primitives/Ints.html#tryParse(java.lang.String)">tryParse</a></span>&#8203;(java.lang.String&nbsp;string)</code></th>
-<td class="colLast">
-<div class="block">Parses the specified string as a signed decimal integer value.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code>static java.lang.Integer</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Ints.</span><code><span class="memberNameLink"><a href="../../primitives/Ints.html#tryParse(java.lang.String,int)">tryParse</a></span>&#8203;(java.lang.String&nbsp;string,
-        int&nbsp;radix)</code></th>
-<td class="colLast">
-<div class="block">Parses the specified string as a signed integer value using the specified radix.</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>static java.lang.Long</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Longs.</span><code><span class="memberNameLink"><a href="../../primitives/Longs.html#tryParse(java.lang.String)">tryParse</a></span>&#8203;(java.lang.String&nbsp;string)</code></th>
-<td class="colLast">
-<div class="block">Parses the specified string as a signed decimal long value.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code>static java.lang.Long</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Longs.</span><code><span class="memberNameLink"><a href="../../primitives/Longs.html#tryParse(java.lang.String,int)">tryParse</a></span>&#8203;(java.lang.String&nbsp;string,
-        int&nbsp;radix)</code></th>
-<td class="colLast">
-<div class="block">Parses the specified string as a signed long value using the specified radix.</div>
 </td>
 </tr>
 </tbody>

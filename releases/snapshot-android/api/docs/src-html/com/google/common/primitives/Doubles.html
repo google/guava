@@ -762,23 +762,22 @@
 <span class="sourceLineNo">753</span><a id="line.753">   * @throws NullPointerException if {@code string} is {@code null}</a>
 <span class="sourceLineNo">754</span><a id="line.754">   * @since 14.0</a>
 <span class="sourceLineNo">755</span><a id="line.755">   */</a>
-<span class="sourceLineNo">756</span><a id="line.756">  @Beta</a>
-<span class="sourceLineNo">757</span><a id="line.757">  @GwtIncompatible // regular expressions</a>
-<span class="sourceLineNo">758</span><a id="line.758">  @CheckForNull</a>
-<span class="sourceLineNo">759</span><a id="line.759">  public static Double tryParse(String string) {</a>
-<span class="sourceLineNo">760</span><a id="line.760">    if (FLOATING_POINT_PATTERN.matcher(string).matches()) {</a>
-<span class="sourceLineNo">761</span><a id="line.761">      // TODO(lowasser): could be potentially optimized, but only with</a>
-<span class="sourceLineNo">762</span><a id="line.762">      // extensive testing</a>
-<span class="sourceLineNo">763</span><a id="line.763">      try {</a>
-<span class="sourceLineNo">764</span><a id="line.764">        return Double.parseDouble(string);</a>
-<span class="sourceLineNo">765</span><a id="line.765">      } catch (NumberFormatException e) {</a>
-<span class="sourceLineNo">766</span><a id="line.766">        // Double.parseDouble has changed specs several times, so fall through</a>
-<span class="sourceLineNo">767</span><a id="line.767">        // gracefully</a>
-<span class="sourceLineNo">768</span><a id="line.768">      }</a>
-<span class="sourceLineNo">769</span><a id="line.769">    }</a>
-<span class="sourceLineNo">770</span><a id="line.770">    return null;</a>
-<span class="sourceLineNo">771</span><a id="line.771">  }</a>
-<span class="sourceLineNo">772</span><a id="line.772">}</a>
+<span class="sourceLineNo">756</span><a id="line.756">  @GwtIncompatible // regular expressions</a>
+<span class="sourceLineNo">757</span><a id="line.757">  @CheckForNull</a>
+<span class="sourceLineNo">758</span><a id="line.758">  public static Double tryParse(String string) {</a>
+<span class="sourceLineNo">759</span><a id="line.759">    if (FLOATING_POINT_PATTERN.matcher(string).matches()) {</a>
+<span class="sourceLineNo">760</span><a id="line.760">      // TODO(lowasser): could be potentially optimized, but only with</a>
+<span class="sourceLineNo">761</span><a id="line.761">      // extensive testing</a>
+<span class="sourceLineNo">762</span><a id="line.762">      try {</a>
+<span class="sourceLineNo">763</span><a id="line.763">        return Double.parseDouble(string);</a>
+<span class="sourceLineNo">764</span><a id="line.764">      } catch (NumberFormatException e) {</a>
+<span class="sourceLineNo">765</span><a id="line.765">        // Double.parseDouble has changed specs several times, so fall through</a>
+<span class="sourceLineNo">766</span><a id="line.766">        // gracefully</a>
+<span class="sourceLineNo">767</span><a id="line.767">      }</a>
+<span class="sourceLineNo">768</span><a id="line.768">    }</a>
+<span class="sourceLineNo">769</span><a id="line.769">    return null;</a>
+<span class="sourceLineNo">770</span><a id="line.770">  }</a>
+<span class="sourceLineNo">771</span><a id="line.771">}</a>
 
 
 

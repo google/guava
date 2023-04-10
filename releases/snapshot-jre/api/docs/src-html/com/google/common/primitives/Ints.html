@@ -800,43 +800,41 @@
 <span class="sourceLineNo">791</span><a id="line.791">   * @throws NullPointerException if {@code string} is {@code null}</a>
 <span class="sourceLineNo">792</span><a id="line.792">   * @since 11.0</a>
 <span class="sourceLineNo">793</span><a id="line.793">   */</a>
-<span class="sourceLineNo">794</span><a id="line.794">  @Beta</a>
-<span class="sourceLineNo">795</span><a id="line.795">  @CheckForNull</a>
-<span class="sourceLineNo">796</span><a id="line.796">  public static Integer tryParse(String string) {</a>
-<span class="sourceLineNo">797</span><a id="line.797">    return tryParse(string, 10);</a>
-<span class="sourceLineNo">798</span><a id="line.798">  }</a>
-<span class="sourceLineNo">799</span><a id="line.799"></a>
-<span class="sourceLineNo">800</span><a id="line.800">  /**</a>
-<span class="sourceLineNo">801</span><a id="line.801">   * Parses the specified string as a signed integer value using the specified radix. The ASCII</a>
-<span class="sourceLineNo">802</span><a id="line.802">   * character {@code '-'} (&lt;code&gt;'&amp;#92;u002D'&lt;/code&gt;) is recognized as the minus sign.</a>
-<span class="sourceLineNo">803</span><a id="line.803">   *</a>
-<span class="sourceLineNo">804</span><a id="line.804">   * &lt;p&gt;Unlike {@link Integer#parseInt(String, int)}, this method returns {@code null} instead of</a>
-<span class="sourceLineNo">805</span><a id="line.805">   * throwing an exception if parsing fails. Additionally, this method only accepts ASCII digits,</a>
-<span class="sourceLineNo">806</span><a id="line.806">   * and returns {@code null} if non-ASCII digits are present in the string.</a>
-<span class="sourceLineNo">807</span><a id="line.807">   *</a>
-<span class="sourceLineNo">808</span><a id="line.808">   * &lt;p&gt;Note that strings prefixed with ASCII {@code '+'} are rejected, even under JDK 7, despite</a>
-<span class="sourceLineNo">809</span><a id="line.809">   * the change to {@link Integer#parseInt(String, int)} for that version.</a>
-<span class="sourceLineNo">810</span><a id="line.810">   *</a>
-<span class="sourceLineNo">811</span><a id="line.811">   * @param string the string representation of an integer value</a>
-<span class="sourceLineNo">812</span><a id="line.812">   * @param radix the radix to use when parsing</a>
-<span class="sourceLineNo">813</span><a id="line.813">   * @return the integer value represented by {@code string} using {@code radix}, or {@code null} if</a>
-<span class="sourceLineNo">814</span><a id="line.814">   *     {@code string} has a length of zero or cannot be parsed as an integer value</a>
-<span class="sourceLineNo">815</span><a id="line.815">   * @throws IllegalArgumentException if {@code radix &lt; Character.MIN_RADIX} or {@code radix &gt;</a>
-<span class="sourceLineNo">816</span><a id="line.816">   *     Character.MAX_RADIX}</a>
-<span class="sourceLineNo">817</span><a id="line.817">   * @throws NullPointerException if {@code string} is {@code null}</a>
-<span class="sourceLineNo">818</span><a id="line.818">   * @since 19.0</a>
-<span class="sourceLineNo">819</span><a id="line.819">   */</a>
-<span class="sourceLineNo">820</span><a id="line.820">  @Beta</a>
-<span class="sourceLineNo">821</span><a id="line.821">  @CheckForNull</a>
-<span class="sourceLineNo">822</span><a id="line.822">  public static Integer tryParse(String string, int radix) {</a>
-<span class="sourceLineNo">823</span><a id="line.823">    Long result = Longs.tryParse(string, radix);</a>
-<span class="sourceLineNo">824</span><a id="line.824">    if (result == null || result.longValue() != result.intValue()) {</a>
-<span class="sourceLineNo">825</span><a id="line.825">      return null;</a>
-<span class="sourceLineNo">826</span><a id="line.826">    } else {</a>
-<span class="sourceLineNo">827</span><a id="line.827">      return result.intValue();</a>
-<span class="sourceLineNo">828</span><a id="line.828">    }</a>
-<span class="sourceLineNo">829</span><a id="line.829">  }</a>
-<span class="sourceLineNo">830</span><a id="line.830">}</a>
+<span class="sourceLineNo">794</span><a id="line.794">  @CheckForNull</a>
+<span class="sourceLineNo">795</span><a id="line.795">  public static Integer tryParse(String string) {</a>
+<span class="sourceLineNo">796</span><a id="line.796">    return tryParse(string, 10);</a>
+<span class="sourceLineNo">797</span><a id="line.797">  }</a>
+<span class="sourceLineNo">798</span><a id="line.798"></a>
+<span class="sourceLineNo">799</span><a id="line.799">  /**</a>
+<span class="sourceLineNo">800</span><a id="line.800">   * Parses the specified string as a signed integer value using the specified radix. The ASCII</a>
+<span class="sourceLineNo">801</span><a id="line.801">   * character {@code '-'} (&lt;code&gt;'&amp;#92;u002D'&lt;/code&gt;) is recognized as the minus sign.</a>
+<span class="sourceLineNo">802</span><a id="line.802">   *</a>
+<span class="sourceLineNo">803</span><a id="line.803">   * &lt;p&gt;Unlike {@link Integer#parseInt(String, int)}, this method returns {@code null} instead of</a>
+<span class="sourceLineNo">804</span><a id="line.804">   * throwing an exception if parsing fails. Additionally, this method only accepts ASCII digits,</a>
+<span class="sourceLineNo">805</span><a id="line.805">   * and returns {@code null} if non-ASCII digits are present in the string.</a>
+<span class="sourceLineNo">806</span><a id="line.806">   *</a>
+<span class="sourceLineNo">807</span><a id="line.807">   * &lt;p&gt;Note that strings prefixed with ASCII {@code '+'} are rejected, even under JDK 7, despite</a>
+<span class="sourceLineNo">808</span><a id="line.808">   * the change to {@link Integer#parseInt(String, int)} for that version.</a>
+<span class="sourceLineNo">809</span><a id="line.809">   *</a>
+<span class="sourceLineNo">810</span><a id="line.810">   * @param string the string representation of an integer value</a>
+<span class="sourceLineNo">811</span><a id="line.811">   * @param radix the radix to use when parsing</a>
+<span class="sourceLineNo">812</span><a id="line.812">   * @return the integer value represented by {@code string} using {@code radix}, or {@code null} if</a>
+<span class="sourceLineNo">813</span><a id="line.813">   *     {@code string} has a length of zero or cannot be parsed as an integer value</a>
+<span class="sourceLineNo">814</span><a id="line.814">   * @throws IllegalArgumentException if {@code radix &lt; Character.MIN_RADIX} or {@code radix &gt;</a>
+<span class="sourceLineNo">815</span><a id="line.815">   *     Character.MAX_RADIX}</a>
+<span class="sourceLineNo">816</span><a id="line.816">   * @throws NullPointerException if {@code string} is {@code null}</a>
+<span class="sourceLineNo">817</span><a id="line.817">   * @since 19.0</a>
+<span class="sourceLineNo">818</span><a id="line.818">   */</a>
+<span class="sourceLineNo">819</span><a id="line.819">  @CheckForNull</a>
+<span class="sourceLineNo">820</span><a id="line.820">  public static Integer tryParse(String string, int radix) {</a>
+<span class="sourceLineNo">821</span><a id="line.821">    Long result = Longs.tryParse(string, radix);</a>
+<span class="sourceLineNo">822</span><a id="line.822">    if (result == null || result.longValue() != result.intValue()) {</a>
+<span class="sourceLineNo">823</span><a id="line.823">      return null;</a>
+<span class="sourceLineNo">824</span><a id="line.824">    } else {</a>
+<span class="sourceLineNo">825</span><a id="line.825">      return result.intValue();</a>
+<span class="sourceLineNo">826</span><a id="line.826">    }</a>
+<span class="sourceLineNo">827</span><a id="line.827">  }</a>
+<span class="sourceLineNo">828</span><a id="line.828">}</a>
 
 
 

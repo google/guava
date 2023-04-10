@@ -132,9 +132,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <hr>
-<pre><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-<a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../annotations/GwtCompatible.html#emulated()">emulated</a>=true)
-public final class <a href="../../../../src-html/com/google/common/base/Utf8.html#line.39">Utf8</a>
+<pre><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../annotations/GwtCompatible.html#emulated()">emulated</a>=true)
+public final class <a href="../../../../src-html/com/google/common/base/Utf8.html#line.38">Utf8</a>
 extends java.lang.Object</pre>
 <div class="block">Low-level, high-performance utility methods related to the <a href="Charsets.html#UTF_8">UTF-8</a>
  character encoding. UTF-8 is defined in section D92 of <a href="http://www.unicode.org/versions/Unicode6.2.0/ch03.pdf">The Unicode Standard Core
@@ -224,7 +223,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>encodedLength</h4>
-<pre class="methodSignature">public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/base/Utf8.html#line.51">encodedLength</a>&#8203;(java.lang.CharSequence&nbsp;sequence)</pre>
+<pre class="methodSignature">public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/base/Utf8.html#line.49">encodedLength</a>&#8203;(java.lang.CharSequence&nbsp;sequence)</pre>
 <div class="block">Returns the number of bytes in the UTF-8-encoded form of <code>sequence</code>. For a string, this
  method is equivalent to <code>string.getBytes(UTF_8).length</code>, but is more efficient in both
  time and space.</div>
@@ -241,7 +240,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>isWellFormed</h4>
-<pre class="methodSignature">public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Utf8.html#line.113">isWellFormed</a>&#8203;(byte[]&nbsp;bytes)</pre>
+<pre class="methodSignature">public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Utf8.html#line.111">isWellFormed</a>&#8203;(byte[]&nbsp;bytes)</pre>
 <div class="block">Returns <code>true</code> if <code>bytes</code> is a <i>well-formed</i> UTF-8 byte sequence according to
  Unicode 6.0. Note that this is a stronger criterion than simply whether the bytes can be
  decoded. For example, some versions of the JDK decoder will accept "non-shortest form" byte
@@ -258,7 +257,7 @@ extends java.lang.Object</pre>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>isWellFormed</h4>
-<pre class="methodSignature">public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Utf8.html#line.126">isWellFormed</a>&#8203;(byte[]&nbsp;bytes,
+<pre class="methodSignature">public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Utf8.html#line.124">isWellFormed</a>&#8203;(byte[]&nbsp;bytes,
                                    int&nbsp;off,
                                    int&nbsp;len)</pre>
 <div class="block">Returns whether the given byte array slice is a well-formed UTF-8 byte sequence, as defined by
