@@ -16,7 +16,6 @@ package com.google.common.reflect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.DoNotCall;
@@ -64,7 +63,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 14.0 (no longer implements {@link AccessibleObject} or {@code GenericDeclaration} since
  *     31.0)
  */
-@Beta
 @ElementTypesAreNonnullByDefault
 public abstract class Invokable<T, R> implements AnnotatedElement, Member {
   private final AccessibleObject accessibleObject;
