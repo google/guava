@@ -128,10 +128,9 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><code><a href="ImmutableRangeMap.html" title="class in com.google.common.collect">ImmutableRangeMap</a></code>, <code><a href="TreeRangeMap.html" title="class in com.google.common.collect">TreeRangeMap</a></code></dd>
 </dl>
 <hr>
-<pre><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/DoNotMock.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@DoNotMock</a>("Use ImmutableRangeMap or TreeRangeMap")
+<pre><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/DoNotMock.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@DoNotMock</a>("Use ImmutableRangeMap or TreeRangeMap")
 <a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public interface <a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.38">RangeMap</a>&lt;K extends java.lang.Comparable,&#8203;V&gt;</pre>
+public interface <a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.37">RangeMap</a>&lt;K extends java.lang.Comparable,&#8203;V&gt;</pre>
 <div class="block">A mapping from disjoint nonempty ranges to non-null values. Queries look up the value associated
  with the range (if any) that contains a specified key.
 
@@ -291,7 +290,7 @@ public interface <a href="../../../../src-html/com/google/common/collect/RangeMa
 <li class="blockList">
 <h4>get</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-<a href="RangeMap.html" title="type parameter in RangeMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.54">get</a>&#8203;(<a href="RangeMap.html" title="type parameter in RangeMap">K</a>&nbsp;key)</pre>
+<a href="RangeMap.html" title="type parameter in RangeMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.52">get</a>&#8203;(<a href="RangeMap.html" title="type parameter in RangeMap">K</a>&nbsp;key)</pre>
 <div class="block">Returns the value associated with the specified key, or <code>null</code> if there is no such value.
 
  <p>Specifically, if any range in this range map contains the specified key, the value
@@ -307,7 +306,7 @@ public interface <a href="../../../../src-html/com/google/common/collect/RangeMa
 <li class="blockList">
 <h4>getEntry</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-java.util.Map.Entry&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="RangeMap.html" title="type parameter in RangeMap">K</a>&gt;,&#8203;<a href="RangeMap.html" title="type parameter in RangeMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.61">getEntry</a>&#8203;(<a href="RangeMap.html" title="type parameter in RangeMap">K</a>&nbsp;key)</pre>
+java.util.Map.Entry&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="RangeMap.html" title="type parameter in RangeMap">K</a>&gt;,&#8203;<a href="RangeMap.html" title="type parameter in RangeMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.59">getEntry</a>&#8203;(<a href="RangeMap.html" title="type parameter in RangeMap">K</a>&nbsp;key)</pre>
 <div class="block">Returns the range containing this key and its associated value, if such a range is present in
  the range map, or <code>null</code> otherwise.</div>
 </li>
@@ -318,7 +317,7 @@ java.util.Map.Entry&lt;<a href="Range.html" title="class in com.google.common.co
 <ul class="blockList">
 <li class="blockList">
 <h4>span</h4>
-<pre class="methodSignature"><a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="RangeMap.html" title="type parameter in RangeMap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.70">span</a>()</pre>
+<pre class="methodSignature"><a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="RangeMap.html" title="type parameter in RangeMap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.68">span</a>()</pre>
 <div class="block">Returns the minimal range <a href="Range.html#encloses(com.google.common.collect.Range)">enclosing</a> the ranges in this
  <code>RangeMap</code>.</div>
 <dl>
@@ -335,7 +334,7 @@ java.util.Map.Entry&lt;<a href="Range.html" title="class in com.google.common.co
 <ul class="blockList">
 <li class="blockList">
 <h4>put</h4>
-<pre class="methodSignature">void&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.81">put</a>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="RangeMap.html" title="type parameter in RangeMap">K</a>&gt;&nbsp;range,
+<pre class="methodSignature">void&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.79">put</a>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="RangeMap.html" title="type parameter in RangeMap">K</a>&gt;&nbsp;range,
          <a href="RangeMap.html" title="type parameter in RangeMap">V</a>&nbsp;value)</pre>
 <div class="block">Maps a range to a specified value (optional operation).
 
@@ -353,7 +352,7 @@ java.util.Map.Entry&lt;<a href="Range.html" title="class in com.google.common.co
 <ul class="blockList">
 <li class="blockList">
 <h4>putCoalescing</h4>
-<pre class="methodSignature">void&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.101">putCoalescing</a>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="RangeMap.html" title="type parameter in RangeMap">K</a>&gt;&nbsp;range,
+<pre class="methodSignature">void&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.99">putCoalescing</a>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="RangeMap.html" title="type parameter in RangeMap">K</a>&gt;&nbsp;range,
                    <a href="RangeMap.html" title="type parameter in RangeMap">V</a>&nbsp;value)</pre>
 <div class="block">Maps a range to a specified value, coalescing this range with any existing ranges with the same
  value that are <a href="Range.html#isConnected(com.google.common.collect.Range)">connected</a> to this range.
@@ -381,7 +380,7 @@ java.util.Map.Entry&lt;<a href="Range.html" title="class in com.google.common.co
 <ul class="blockList">
 <li class="blockList">
 <h4>putAll</h4>
-<pre class="methodSignature">void&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.104">putAll</a>&#8203;(<a href="RangeMap.html" title="interface in com.google.common.collect">RangeMap</a>&lt;<a href="RangeMap.html" title="type parameter in RangeMap">K</a>,&#8203;? extends <a href="RangeMap.html" title="type parameter in RangeMap">V</a>&gt;&nbsp;rangeMap)</pre>
+<pre class="methodSignature">void&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.102">putAll</a>&#8203;(<a href="RangeMap.html" title="interface in com.google.common.collect">RangeMap</a>&lt;<a href="RangeMap.html" title="type parameter in RangeMap">K</a>,&#8203;? extends <a href="RangeMap.html" title="type parameter in RangeMap">V</a>&gt;&nbsp;rangeMap)</pre>
 <div class="block">Puts all the associations from <code>rangeMap</code> into this range map (optional operation).</div>
 </li>
 </ul>
@@ -391,7 +390,7 @@ java.util.Map.Entry&lt;<a href="Range.html" title="class in com.google.common.co
 <ul class="blockList">
 <li class="blockList">
 <h4>clear</h4>
-<pre class="methodSignature">void&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.107">clear</a>()</pre>
+<pre class="methodSignature">void&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.105">clear</a>()</pre>
 <div class="block">Removes all associations from this range map (optional operation).</div>
 </li>
 </ul>
@@ -401,7 +400,7 @@ java.util.Map.Entry&lt;<a href="Range.html" title="class in com.google.common.co
 <ul class="blockList">
 <li class="blockList">
 <h4>remove</h4>
-<pre class="methodSignature">void&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.116">remove</a>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="RangeMap.html" title="type parameter in RangeMap">K</a>&gt;&nbsp;range)</pre>
+<pre class="methodSignature">void&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.114">remove</a>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="RangeMap.html" title="type parameter in RangeMap">K</a>&gt;&nbsp;range)</pre>
 <div class="block">Removes all associations from this range map in the specified range (optional operation).
 
  <p>If <code>!range.contains(k)</code>, <a href="#get(K)"><code>get(k)</code></a> will return the same result
@@ -415,7 +414,7 @@ java.util.Map.Entry&lt;<a href="Range.html" title="class in com.google.common.co
 <ul class="blockList">
 <li class="blockList">
 <h4>asMapOfRanges</h4>
-<pre class="methodSignature">java.util.Map&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="RangeMap.html" title="type parameter in RangeMap">K</a>&gt;,&#8203;<a href="RangeMap.html" title="type parameter in RangeMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.127">asMapOfRanges</a>()</pre>
+<pre class="methodSignature">java.util.Map&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="RangeMap.html" title="type parameter in RangeMap">K</a>&gt;,&#8203;<a href="RangeMap.html" title="type parameter in RangeMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.125">asMapOfRanges</a>()</pre>
 <div class="block">Returns a view of this range map as an unmodifiable <code>Map&lt;Range&lt;K&gt;, V&gt;</code>. Modifications to
  this range map are guaranteed to read through to the returned <code>Map</code>.
 
@@ -431,7 +430,7 @@ java.util.Map.Entry&lt;<a href="Range.html" title="class in com.google.common.co
 <ul class="blockList">
 <li class="blockList">
 <h4>asDescendingMapOfRanges</h4>
-<pre class="methodSignature">java.util.Map&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="RangeMap.html" title="type parameter in RangeMap">K</a>&gt;,&#8203;<a href="RangeMap.html" title="type parameter in RangeMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.140">asDescendingMapOfRanges</a>()</pre>
+<pre class="methodSignature">java.util.Map&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="RangeMap.html" title="type parameter in RangeMap">K</a>&gt;,&#8203;<a href="RangeMap.html" title="type parameter in RangeMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.138">asDescendingMapOfRanges</a>()</pre>
 <div class="block">Returns a view of this range map as an unmodifiable <code>Map&lt;Range&lt;K&gt;, V&gt;</code>. Modifications to
  this range map are guaranteed to read through to the returned <code>Map</code>.
 
@@ -451,7 +450,7 @@ java.util.Map.Entry&lt;<a href="Range.html" title="class in com.google.common.co
 <ul class="blockList">
 <li class="blockList">
 <h4>subRangeMap</h4>
-<pre class="methodSignature"><a href="RangeMap.html" title="interface in com.google.common.collect">RangeMap</a>&lt;<a href="RangeMap.html" title="type parameter in RangeMap">K</a>,&#8203;<a href="RangeMap.html" title="type parameter in RangeMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.156">subRangeMap</a>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="RangeMap.html" title="type parameter in RangeMap">K</a>&gt;&nbsp;range)</pre>
+<pre class="methodSignature"><a href="RangeMap.html" title="interface in com.google.common.collect">RangeMap</a>&lt;<a href="RangeMap.html" title="type parameter in RangeMap">K</a>,&#8203;<a href="RangeMap.html" title="type parameter in RangeMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.154">subRangeMap</a>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="RangeMap.html" title="type parameter in RangeMap">K</a>&gt;&nbsp;range)</pre>
 <div class="block">Returns a view of the part of this range map that intersects with <code>range</code>.
 
  <p>For example, if <code>rangeMap</code> had the entries <code>[1, 5] =&gt; "foo", (6, 8) =&gt; "bar",
@@ -471,7 +470,7 @@ java.util.Map.Entry&lt;<a href="Range.html" title="class in com.google.common.co
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.162">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+<pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.160">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                java.lang.Object&nbsp;o)</pre>
 <div class="block">Returns <code>true</code> if <code>obj</code> is another <code>RangeMap</code> that has an equivalent <a href="#asMapOfRanges()"><code>asMapOfRanges()</code></a>.</div>
 <dl>
@@ -486,7 +485,7 @@ java.util.Map.Entry&lt;<a href="Range.html" title="class in com.google.common.co
 <ul class="blockList">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre class="methodSignature">int&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.166">hashCode</a>()</pre>
+<pre class="methodSignature">int&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.164">hashCode</a>()</pre>
 <div class="block">Returns <code>asMapOfRanges().hashCode()</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
@@ -500,7 +499,7 @@ java.util.Map.Entry&lt;<a href="Range.html" title="class in com.google.common.co
 <ul class="blockListLast">
 <li class="blockList">
 <h4>toString</h4>
-<pre class="methodSignature">java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.170">toString</a>()</pre>
+<pre class="methodSignature">java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.168">toString</a>()</pre>
 <div class="block">Returns a readable string representation of this range map.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>

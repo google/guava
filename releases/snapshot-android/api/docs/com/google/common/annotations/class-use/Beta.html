@@ -401,22 +401,6 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>class&nbsp;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../collect/ImmutableRangeMap.html" title="class in com.google.common.collect">ImmutableRangeMap</a>&lt;K extends java.lang.Comparable&lt;?&gt;,&#8203;V&gt;</span></code></th>
-<td class="colLast">
-<div class="block">A <a href="../../collect/RangeMap.html" title="interface in com.google.common.collect"><code>RangeMap</code></a> whose contents will never change, with many other important properties
- detailed at <a href="../../collect/ImmutableCollection.html" title="class in com.google.common.collect"><code>ImmutableCollection</code></a>.</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>class&nbsp;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../collect/ImmutableRangeSet.html" title="class in com.google.common.collect">ImmutableRangeSet</a>&lt;C extends java.lang.Comparable&gt;</span></code></th>
-<td class="colLast">
-<div class="block">A <a href="../../collect/RangeSet.html" title="interface in com.google.common.collect"><code>RangeSet</code></a> whose contents will never change, with many other important properties
- detailed at <a href="../../collect/ImmutableCollection.html" title="class in com.google.common.collect"><code>ImmutableCollection</code></a>.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code>class&nbsp;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../collect/MinMaxPriorityQueue.html" title="class in com.google.common.collect">MinMaxPriorityQueue</a>&lt;E&gt;</span></code></th>
 <td class="colLast">
 <div class="block">A double-ended priority queue, which provides constant-time access to both its least element and
@@ -428,35 +412,6 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../collect/MinMaxPriorityQueue.Builder.html" title="class in com.google.common.collect">MinMaxPriorityQueue.Builder</a>&lt;B&gt;</span></code></th>
 <td class="colLast">
 <div class="block">The builder class used in creation of min-max priority queues.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code>interface&nbsp;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../collect/RangeMap.html" title="interface in com.google.common.collect">RangeMap</a>&lt;K extends java.lang.Comparable,&#8203;V&gt;</span></code></th>
-<td class="colLast">
-<div class="block">A mapping from disjoint nonempty ranges to non-null values.</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>interface&nbsp;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../collect/RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;C extends java.lang.Comparable&gt;</span></code></th>
-<td class="colLast">
-<div class="block">A set comprising zero or more <a href="../../collect/Range.html#isEmpty()">nonempty</a>, <a href="../../collect/Range.html#isConnected(com.google.common.collect.Range)">disconnected</a> ranges of type <code>C</code>.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code>class&nbsp;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../collect/TreeRangeMap.html" title="class in com.google.common.collect">TreeRangeMap</a>&lt;K extends java.lang.Comparable,&#8203;V&gt;</span></code></th>
-<td class="colLast">
-<div class="block">An implementation of <code>RangeMap</code> based on a <code>TreeMap</code>, supporting all optional
- operations.</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>class&nbsp;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../collect/TreeRangeSet.html" title="class in com.google.common.collect">TreeRangeSet</a>&lt;C extends java.lang.Comparable&lt;?&gt;&gt;</span></code></th>
-<td class="colLast">
-<div class="block">An implementation of <a href="../../collect/RangeSet.html" title="interface in com.google.common.collect"><code>RangeSet</code></a> backed by a <code>TreeMap</code>.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -478,22 +433,6 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <th class="colLast" scope="col">Description</th>
 </tr>
 <tbody>
-<tr class="altColor">
-<td class="colFirst"><code><a href="../../collect/FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;<a href="../../collect/FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">FluentIterable.</span><code><span class="memberNameLink"><a href="../../collect/FluentIterable.html#append(E...)">append</a></span>&#8203;(<a href="../../collect/FluentIterable.html" title="type parameter in FluentIterable">E</a>...&nbsp;elements)</code></th>
-<td class="colLast">
-<div class="block">Returns a fluent iterable whose iterators traverse first the elements of this fluent iterable,
- followed by <code>elements</code>.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code><a href="../../collect/FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;<a href="../../collect/FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">FluentIterable.</span><code><span class="memberNameLink"><a href="../../collect/FluentIterable.html#append(java.lang.Iterable)">append</a></span>&#8203;(java.lang.Iterable&lt;? extends <a href="../../collect/FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;&nbsp;other)</code></th>
-<td class="colLast">
-<div class="block">Returns a fluent iterable whose iterators traverse first the elements of this fluent iterable,
- followed by those of <code>other</code>.</div>
-</td>
-</tr>
 <tr class="altColor">
 <td class="colFirst"><code>static java.util.List&lt;java.lang.Character&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Lists.</span><code><span class="memberNameLink"><a href="../../collect/Lists.html#charactersOf(java.lang.CharSequence)">charactersOf</a></span>&#8203;(java.lang.CharSequence&nbsp;sequence)</code></th>
@@ -547,47 +486,6 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="../../collect/FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;T&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">FluentIterable.</span><code><span class="memberNameLink"><a href="../../collect/FluentIterable.html#concat(java.lang.Iterable)">concat</a></span>&#8203;(java.lang.Iterable&lt;? extends java.lang.Iterable&lt;? extends T&gt;&gt;&nbsp;inputs)</code></th>
-<td class="colLast">
-<div class="block">Returns a fluent iterable that combines several iterables.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="../../collect/FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;T&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">FluentIterable.</span><code><span class="memberNameLink"><a href="../../collect/FluentIterable.html#concat(java.lang.Iterable...)">concat</a></span>&#8203;(java.lang.Iterable&lt;? extends T&gt;...&nbsp;inputs)</code></th>
-<td class="colLast">
-<div class="block">Returns a fluent iterable that combines several iterables.</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="../../collect/FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;T&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">FluentIterable.</span><code><span class="memberNameLink"><a href="../../collect/FluentIterable.html#concat(java.lang.Iterable,java.lang.Iterable)">concat</a></span>&#8203;(java.lang.Iterable&lt;? extends T&gt;&nbsp;a,
-      java.lang.Iterable&lt;? extends T&gt;&nbsp;b)</code></th>
-<td class="colLast">
-<div class="block">Returns a fluent iterable that combines two iterables.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="../../collect/FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;T&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">FluentIterable.</span><code><span class="memberNameLink"><a href="../../collect/FluentIterable.html#concat(java.lang.Iterable,java.lang.Iterable,java.lang.Iterable)">concat</a></span>&#8203;(java.lang.Iterable&lt;? extends T&gt;&nbsp;a,
-      java.lang.Iterable&lt;? extends T&gt;&nbsp;b,
-      java.lang.Iterable&lt;? extends T&gt;&nbsp;c)</code></th>
-<td class="colLast">
-<div class="block">Returns a fluent iterable that combines three iterables.</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="../../collect/FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;T&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">FluentIterable.</span><code><span class="memberNameLink"><a href="../../collect/FluentIterable.html#concat(java.lang.Iterable,java.lang.Iterable,java.lang.Iterable,java.lang.Iterable)">concat</a></span>&#8203;(java.lang.Iterable&lt;? extends T&gt;&nbsp;a,
-      java.lang.Iterable&lt;? extends T&gt;&nbsp;b,
-      java.lang.Iterable&lt;? extends T&gt;&nbsp;c,
-      java.lang.Iterable&lt;? extends T&gt;&nbsp;d)</code></th>
-<td class="colLast">
-<div class="block">Returns a fluent iterable that combines four iterables.</div>
-</td>
-</tr>
-<tr class="rowColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="../../collect/ImmutableMultiset.html" title="class in com.google.common.collect">ImmutableMultiset</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Multisets.</span><code><span class="memberNameLink"><a href="../../collect/Multisets.html#copyHighestCountFirst(com.google.common.collect.Multiset)">copyHighestCountFirst</a></span>&#8203;(<a href="../../collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E&gt;&nbsp;multiset)</code></th>
 <td class="colLast">
@@ -595,28 +493,28 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  the highest count first, with ties broken by the iteration order of the original multiset.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static &lt;K,&#8203;V&gt;<br><a href="../../collect/ImmutableListMultimap.html" title="class in com.google.common.collect">ImmutableListMultimap</a>&lt;K,&#8203;V&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">ImmutableListMultimap.</span><code><span class="memberNameLink"><a href="../../collect/ImmutableListMultimap.html#copyOf(java.lang.Iterable)">copyOf</a></span>&#8203;(java.lang.Iterable&lt;? extends java.util.Map.Entry&lt;? extends K,&#8203;? extends V&gt;&gt;&nbsp;entries)</code></th>
 <td class="colLast">
 <div class="block">Returns an immutable multimap containing the specified entries.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static &lt;K,&#8203;V&gt;<br><a href="../../collect/ImmutableMultimap.html" title="class in com.google.common.collect">ImmutableMultimap</a>&lt;K,&#8203;V&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">ImmutableMultimap.</span><code><span class="memberNameLink"><a href="../../collect/ImmutableMultimap.html#copyOf(java.lang.Iterable)">copyOf</a></span>&#8203;(java.lang.Iterable&lt;? extends java.util.Map.Entry&lt;? extends K,&#8203;? extends V&gt;&gt;&nbsp;entries)</code></th>
 <td class="colLast">
 <div class="block">Returns an immutable multimap containing the specified entries.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static &lt;K,&#8203;V&gt;<br><a href="../../collect/ImmutableSetMultimap.html" title="class in com.google.common.collect">ImmutableSetMultimap</a>&lt;K,&#8203;V&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">ImmutableSetMultimap.</span><code><span class="memberNameLink"><a href="../../collect/ImmutableSetMultimap.html#copyOf(java.lang.Iterable)">copyOf</a></span>&#8203;(java.lang.Iterable&lt;? extends java.util.Map.Entry&lt;? extends K,&#8203;? extends V&gt;&gt;&nbsp;entries)</code></th>
 <td class="colLast">
 <div class="block">Returns an immutable multimap containing the specified entries.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static &lt;K,&#8203;V&gt;<br><a href="../../collect/ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;K,&#8203;V&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">ImmutableSortedMap.</span><code><span class="memberNameLink"><a href="../../collect/ImmutableSortedMap.html#copyOf(java.lang.Iterable)">copyOf</a></span>&#8203;(java.lang.Iterable&lt;? extends java.util.Map.Entry&lt;? extends K,&#8203;? extends V&gt;&gt;&nbsp;entries)</code></th>
 <td class="colLast">
@@ -624,7 +522,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  ordering.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static &lt;K,&#8203;V&gt;<br><a href="../../collect/ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;K,&#8203;V&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">ImmutableSortedMap.</span><code><span class="memberNameLink"><a href="../../collect/ImmutableSortedMap.html#copyOf(java.lang.Iterable,java.util.Comparator)">copyOf</a></span>&#8203;(java.lang.Iterable&lt;? extends java.util.Map.Entry&lt;? extends K,&#8203;? extends V&gt;&gt;&nbsp;entries,
       java.util.Comparator&lt;? super K&gt;&nbsp;comparator)</code></th>
@@ -633,7 +531,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  comparator.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="../../collect/ConcurrentHashMultiset.html" title="class in com.google.common.collect">ConcurrentHashMultiset</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">ConcurrentHashMultiset.</span><code><span class="memberNameLink"><a href="../../collect/ConcurrentHashMultiset.html#create(java.util.concurrent.ConcurrentMap)">create</a></span>&#8203;(java.util.concurrent.ConcurrentMap&lt;E,&#8203;java.util.concurrent.atomic.AtomicInteger&gt;&nbsp;countMap)</code></th>
 <td class="colLast">
@@ -641,7 +539,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  backing map.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static &lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="../../collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Multisets.</span><code><span class="memberNameLink"><a href="../../collect/Multisets.html#difference(com.google.common.collect.Multiset,com.google.common.collect.Multiset)">difference</a></span>&#8203;(<a href="../../collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E&gt;&nbsp;multiset1,
           <a href="../../collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;?&gt;&nbsp;multiset2)</code></th>
@@ -649,7 +547,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Returns an unmodifiable view of the difference of two multisets.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;int</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Queues.</span><code><span class="memberNameLink"><a href="../../collect/Queues.html#drain(java.util.concurrent.BlockingQueue,java.util.Collection,int,long,java.util.concurrent.TimeUnit)">drain</a></span>&#8203;(java.util.concurrent.BlockingQueue&lt;E&gt;&nbsp;q,
      java.util.Collection&lt;? super E&gt;&nbsp;buffer,
@@ -661,7 +559,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  numElements</code> elements are not available, it will wait for them up to the specified timeout.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;int</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Queues.</span><code><span class="memberNameLink"><a href="../../collect/Queues.html#drainUninterruptibly(java.util.concurrent.BlockingQueue,java.util.Collection,int,long,java.util.concurrent.TimeUnit)">drainUninterruptibly</a></span>&#8203;(java.util.concurrent.BlockingQueue&lt;E&gt;&nbsp;q,
                     java.util.Collection&lt;? super E&gt;&nbsp;buffer,
@@ -673,7 +571,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  with a different behavior in case it is interrupted while waiting.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static &lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="../../collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Multisets.</span><code><span class="memberNameLink"><a href="../../collect/Multisets.html#filter(com.google.common.collect.Multiset,com.google.common.base.Predicate)">filter</a></span>&#8203;(<a href="../../collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E&gt;&nbsp;unfiltered,
       <a href="../../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super E&gt;&nbsp;predicate)</code></th>
@@ -681,22 +579,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Returns a view of the elements of <code>unfiltered</code> that satisfy a predicate.</div>
 </td>
 </tr>
-<tr class="altColor">
-<td class="colFirst"><code>static &lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="../../collect/FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;E&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">FluentIterable.</span><code><span class="memberNameLink"><a href="../../collect/FluentIterable.html#from(E%5B%5D)">from</a></span>&#8203;(E[]&nbsp;elements)</code></th>
-<td class="colLast">
-<div class="block">Returns a fluent iterable containing <code>elements</code> in the specified order.</div>
-</td>
-</tr>
 <tr class="rowColor">
-<td class="colFirst"><code>java.lang.String</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">FluentIterable.</span><code><span class="memberNameLink"><a href="../../collect/FluentIterable.html#join(com.google.common.base.Joiner)">join</a></span>&#8203;(<a href="../../base/Joiner.html" title="class in com.google.common.base">Joiner</a>&nbsp;joiner)</code></th>
-<td class="colLast">
-<div class="block">Returns a <code>String</code> containing all of the elements of this fluent iterable joined with
- <code>joiner</code>.</div>
-</td>
-</tr>
-<tr class="altColor">
 <td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>java.lang.Iterable&lt;T&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Iterables.</span><code><span class="memberNameLink"><a href="../../collect/Iterables.html#mergeSorted(java.lang.Iterable,java.util.Comparator)">mergeSorted</a></span>&#8203;(java.lang.Iterable&lt;? extends java.lang.Iterable&lt;? extends T&gt;&gt;&nbsp;iterables,
            java.util.Comparator&lt;? super T&gt;&nbsp;comparator)</code></th>
@@ -704,7 +587,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Returns an iterable over the merged contents of all given <code>iterables</code>.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="../../collect/UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;T&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Iterators.</span><code><span class="memberNameLink"><a href="../../collect/Iterators.html#mergeSorted(java.lang.Iterable,java.util.Comparator)">mergeSorted</a></span>&#8203;(java.lang.Iterable&lt;? extends java.util.Iterator&lt;? extends T&gt;&gt;&nbsp;iterators,
            java.util.Comparator&lt;? super T&gt;&nbsp;comparator)</code></th>
@@ -713,7 +596,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  element of the input iterators.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static &lt;R,&#8203;C,&#8203;V&gt;<br><a href="../../collect/Table.html" title="interface in com.google.common.collect">Table</a>&lt;R,&#8203;C,&#8203;V&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Tables.</span><code><span class="memberNameLink"><a href="../../collect/Tables.html#newCustomTable(java.util.Map,com.google.common.base.Supplier)">newCustomTable</a></span>&#8203;(java.util.Map&lt;R,&#8203;java.util.Map&lt;C,&#8203;V&gt;&gt;&nbsp;backingMap,
               <a href="../../base/Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;? extends java.util.Map&lt;C,&#8203;V&gt;&gt;&nbsp;factory)</code></th>
@@ -721,29 +604,14 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Creates a table that uses the specified backing map and factory.</div>
 </td>
 </tr>
-<tr class="rowColor">
-<td class="colFirst"><code>static &lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="../../collect/FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;E&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">FluentIterable.</span><code><span class="memberNameLink"><a href="../../collect/FluentIterable.html#of()">of</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Returns a fluent iterable containing no elements.</div>
-</td>
-</tr>
 <tr class="altColor">
-<td class="colFirst"><code>static &lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="../../collect/FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;E&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">FluentIterable.</span><code><span class="memberNameLink"><a href="../../collect/FluentIterable.html#of(E,E...)">of</a></span>&#8203;(E&nbsp;element,
-  E...&nbsp;elements)</code></th>
-<td class="colLast">
-<div class="block">Returns a fluent iterable containing the specified elements in order.</div>
-</td>
-</tr>
-<tr class="rowColor">
 <td class="colFirst"><code>static &lt;E extends java.lang.Comparable&lt;? super E&gt;&gt;<br>java.util.Collection&lt;java.util.List&lt;E&gt;&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Collections2.</span><code><span class="memberNameLink"><a href="../../collect/Collections2.html#orderedPermutations(java.lang.Iterable)">orderedPermutations</a></span>&#8203;(java.lang.Iterable&lt;E&gt;&nbsp;elements)</code></th>
 <td class="colLast">
 <div class="block">Returns a <code>Collection</code> of all the permutations of the specified <code>Iterable</code>.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;java.util.Collection&lt;java.util.List&lt;E&gt;&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Collections2.</span><code><span class="memberNameLink"><a href="../../collect/Collections2.html#orderedPermutations(java.lang.Iterable,java.util.Comparator)">orderedPermutations</a></span>&#8203;(java.lang.Iterable&lt;E&gt;&nbsp;elements,
                    java.util.Comparator&lt;? super E&gt;&nbsp;comparator)</code></th>
@@ -752,7 +620,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  the specified <code>Comparator</code> for establishing the lexicographical ordering.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../collect/ImmutableSortedMap.Builder.html" title="class in com.google.common.collect">ImmutableSortedMap.Builder</a>&lt;<a href="../../collect/ImmutableSortedMap.Builder.html" title="type parameter in ImmutableSortedMap.Builder">K</a>,&#8203;<a href="../../collect/ImmutableSortedMap.Builder.html" title="type parameter in ImmutableSortedMap.Builder">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">ImmutableSortedMap.Builder.</span><code><span class="memberNameLink"><a href="../../collect/ImmutableSortedMap.Builder.html#orderEntriesByValue(java.util.Comparator)">orderEntriesByValue</a></span>&#8203;(java.util.Comparator&lt;? super <a href="../../collect/ImmutableSortedMap.Builder.html" title="type parameter in ImmutableSortedMap.Builder">V</a>&gt;&nbsp;valueComparator)</code></th>
 <td class="colLast">
@@ -761,42 +629,42 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;java.util.Collection&lt;java.util.List&lt;E&gt;&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Collections2.</span><code><span class="memberNameLink"><a href="../../collect/Collections2.html#permutations(java.util.Collection)">permutations</a></span>&#8203;(java.util.Collection&lt;E&gt;&nbsp;elements)</code></th>
 <td class="colLast">
 <div class="block">Returns a <code>Collection</code> of all the permutations of the specified <code>Collection</code>.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../collect/ImmutableListMultimap.Builder.html" title="class in com.google.common.collect">ImmutableListMultimap.Builder</a>&lt;<a href="../../collect/ImmutableListMultimap.Builder.html" title="type parameter in ImmutableListMultimap.Builder">K</a>,&#8203;<a href="../../collect/ImmutableListMultimap.Builder.html" title="type parameter in ImmutableListMultimap.Builder">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">ImmutableListMultimap.Builder.</span><code><span class="memberNameLink"><a href="../../collect/ImmutableListMultimap.Builder.html#putAll(java.lang.Iterable)">putAll</a></span>&#8203;(java.lang.Iterable&lt;? extends java.util.Map.Entry&lt;? extends <a href="../../collect/ImmutableListMultimap.Builder.html" title="type parameter in ImmutableListMultimap.Builder">K</a>,&#8203;? extends <a href="../../collect/ImmutableListMultimap.Builder.html" title="type parameter in ImmutableListMultimap.Builder">V</a>&gt;&gt;&nbsp;entries)</code></th>
 <td class="colLast">
 <div class="block">Adds entries to the built multimap.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../../collect/ImmutableMultimap.Builder.html" title="class in com.google.common.collect">ImmutableMultimap.Builder</a>&lt;<a href="../../collect/ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">K</a>,&#8203;<a href="../../collect/ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">ImmutableMultimap.Builder.</span><code><span class="memberNameLink"><a href="../../collect/ImmutableMultimap.Builder.html#putAll(java.lang.Iterable)">putAll</a></span>&#8203;(java.lang.Iterable&lt;? extends java.util.Map.Entry&lt;? extends <a href="../../collect/ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">K</a>,&#8203;? extends <a href="../../collect/ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">V</a>&gt;&gt;&nbsp;entries)</code></th>
 <td class="colLast">
 <div class="block">Adds entries to the built multimap.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../collect/ImmutableSetMultimap.Builder.html" title="class in com.google.common.collect">ImmutableSetMultimap.Builder</a>&lt;<a href="../../collect/ImmutableSetMultimap.Builder.html" title="type parameter in ImmutableSetMultimap.Builder">K</a>,&#8203;<a href="../../collect/ImmutableSetMultimap.Builder.html" title="type parameter in ImmutableSetMultimap.Builder">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">ImmutableSetMultimap.Builder.</span><code><span class="memberNameLink"><a href="../../collect/ImmutableSetMultimap.Builder.html#putAll(java.lang.Iterable)">putAll</a></span>&#8203;(java.lang.Iterable&lt;? extends java.util.Map.Entry&lt;? extends <a href="../../collect/ImmutableSetMultimap.Builder.html" title="type parameter in ImmutableSetMultimap.Builder">K</a>,&#8203;? extends <a href="../../collect/ImmutableSetMultimap.Builder.html" title="type parameter in ImmutableSetMultimap.Builder">V</a>&gt;&gt;&nbsp;entries)</code></th>
 <td class="colLast">
 <div class="block">Adds entries to the built multimap.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../../collect/ImmutableSortedMap.Builder.html" title="class in com.google.common.collect">ImmutableSortedMap.Builder</a>&lt;<a href="../../collect/ImmutableSortedMap.Builder.html" title="type parameter in ImmutableSortedMap.Builder">K</a>,&#8203;<a href="../../collect/ImmutableSortedMap.Builder.html" title="type parameter in ImmutableSortedMap.Builder">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">ImmutableSortedMap.Builder.</span><code><span class="memberNameLink"><a href="../../collect/ImmutableSortedMap.Builder.html#putAll(java.lang.Iterable)">putAll</a></span>&#8203;(java.lang.Iterable&lt;? extends java.util.Map.Entry&lt;? extends <a href="../../collect/ImmutableSortedMap.Builder.html" title="type parameter in ImmutableSortedMap.Builder">K</a>,&#8203;? extends <a href="../../collect/ImmutableSortedMap.Builder.html" title="type parameter in ImmutableSortedMap.Builder">V</a>&gt;&gt;&nbsp;entries)</code></th>
 <td class="colLast">
 <div class="block">Adds all the given entries to the built map.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected boolean</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">ForwardingMultiset.</span><code><span class="memberNameLink"><a href="../../collect/ForwardingMultiset.html#standardAddAll(java.util.Collection)">standardAddAll</a></span>&#8203;(java.util.Collection&lt;? extends <a href="../../collect/ForwardingMultiset.html" title="type parameter in ForwardingMultiset">E</a>&gt;&nbsp;elementsToAdd)</code></th>
 <td class="colLast">
@@ -804,14 +672,14 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  <a href="../../collect/ForwardingMultiset.html#add(E,int)"><code>ForwardingMultiset.add(Object, int)</code></a>.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected boolean</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">ForwardingSortedSet.</span><code><span class="memberNameLink"><a href="../../collect/ForwardingSortedSet.html#standardContains(java.lang.Object)">standardContains</a></span>&#8203;(java.lang.Object&nbsp;object)</code></th>
 <td class="colLast">
 <div class="block">A sensible definition of <a href="../../collect/ForwardingCollection.html#contains(java.lang.Object)"><code>ForwardingCollection.contains(java.lang.Object)</code></a> in terms of the <code>first()</code> method of <a href="../../collect/ForwardingSortedSet.html#tailSet(E)"><code>ForwardingSortedSet.tailSet(E)</code></a>.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected boolean</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">ForwardingMap.</span><code><span class="memberNameLink"><a href="../../collect/ForwardingMap.html#standardContainsKey(java.lang.Object)">standardContainsKey</a></span>&#8203;(java.lang.Object&nbsp;key)</code></th>
 <td class="colLast">
@@ -819,7 +687,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  iterator</code> method of <a href="../../collect/ForwardingMap.html#entrySet()"><code>ForwardingMap.entrySet()</code></a>.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected boolean</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">ForwardingSortedMap.</span><code><span class="memberNameLink"><a href="../../collect/ForwardingSortedMap.html#standardContainsKey(java.lang.Object)">standardContainsKey</a></span>&#8203;(java.lang.Object&nbsp;key)</code></th>
 <td class="colLast">
@@ -827,35 +695,35 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  <a href="../../collect/ForwardingSortedMap.html#tailMap(K)"><code>ForwardingSortedMap.tailMap(K)</code></a>.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected int</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">ForwardingMultiset.</span><code><span class="memberNameLink"><a href="../../collect/ForwardingMultiset.html#standardCount(java.lang.Object)">standardCount</a></span>&#8203;(java.lang.Object&nbsp;object)</code></th>
 <td class="colLast">
 <div class="block">A sensible, albeit inefficient, definition of <a href="../../collect/ForwardingMultiset.html#count(java.lang.Object)"><code>ForwardingMultiset.count(java.lang.Object)</code></a> in terms of <a href="../../collect/ForwardingMultiset.html#entrySet()"><code>ForwardingMultiset.entrySet()</code></a>.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected java.util.NavigableSet&lt;<a href="../../collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">ForwardingNavigableMap.</span><code><span class="memberNameLink"><a href="../../collect/ForwardingNavigableMap.html#standardDescendingKeySet()">standardDescendingKeySet</a></span>()</code></th>
 <td class="colLast">
 <div class="block">A sensible definition of <a href="../../collect/ForwardingNavigableMap.html#descendingKeySet()"><code>ForwardingNavigableMap.descendingKeySet()</code></a> as the <code>navigableKeySet</code> of <a href="../../collect/ForwardingNavigableMap.html#descendingMap()"><code>ForwardingNavigableMap.descendingMap()</code></a>.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected boolean</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">ForwardingList.</span><code><span class="memberNameLink"><a href="../../collect/ForwardingList.html#standardEquals(java.lang.Object)">standardEquals</a></span>&#8203;(java.lang.Object&nbsp;object)</code></th>
 <td class="colLast">
 <div class="block">A sensible definition of <a href="../../collect/ForwardingList.html#equals(java.lang.Object)"><code>ForwardingList.equals(Object)</code></a> in terms of <a href="../../collect/ForwardingCollection.html#size()"><code>ForwardingCollection.size()</code></a> and <a href="../../collect/ForwardingCollection.html#iterator()"><code>ForwardingCollection.iterator()</code></a>.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected int</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">ForwardingList.</span><code><span class="memberNameLink"><a href="../../collect/ForwardingList.html#standardHashCode()">standardHashCode</a></span>()</code></th>
 <td class="colLast">
 <div class="block">A sensible definition of <a href="../../collect/ForwardingList.html#hashCode()"><code>ForwardingList.hashCode()</code></a> in terms of <a href="../../collect/ForwardingCollection.html#iterator()"><code>ForwardingCollection.iterator()</code></a>.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected java.util.ListIterator&lt;<a href="../../collect/ForwardingList.html" title="type parameter in ForwardingList">E</a>&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">ForwardingList.</span><code><span class="memberNameLink"><a href="../../collect/ForwardingList.html#standardListIterator(int)">standardListIterator</a></span>&#8203;(int&nbsp;start)</code></th>
 <td class="colLast">
@@ -863,7 +731,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  <a href="../../collect/ForwardingList.html#get(int)"><code>ForwardingList.get(int)</code></a>, <a href="../../collect/ForwardingList.html#set(int,E)"><code>ForwardingList.set(int, Object)</code></a>, <a href="../../collect/ForwardingList.html#add(int,E)"><code>ForwardingList.add(int, Object)</code></a>, and <a href="../../collect/ForwardingList.html#remove(int)"><code>ForwardingList.remove(int)</code></a>.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="../../collect/ForwardingMap.html" title="type parameter in ForwardingMap">V</a></code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">ForwardingMap.</span><code><span class="memberNameLink"><a href="../../collect/ForwardingMap.html#standardRemove(java.lang.Object)">standardRemove</a></span>&#8203;(java.lang.Object&nbsp;key)</code></th>
 <td class="colLast">
@@ -871,14 +739,14 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  method of <a href="../../collect/ForwardingMap.html#entrySet()"><code>ForwardingMap.entrySet()</code></a>.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected boolean</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">ForwardingSortedSet.</span><code><span class="memberNameLink"><a href="../../collect/ForwardingSortedSet.html#standardRemove(java.lang.Object)">standardRemove</a></span>&#8203;(java.lang.Object&nbsp;object)</code></th>
 <td class="colLast">
 <div class="block">A sensible definition of <a href="../../collect/ForwardingCollection.html#remove(java.lang.Object)"><code>ForwardingCollection.remove(java.lang.Object)</code></a> in terms of the <code>iterator()</code> method of <a href="../../collect/ForwardingSortedSet.html#tailSet(E)"><code>ForwardingSortedSet.tailSet(E)</code></a>.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected java.util.List&lt;<a href="../../collect/ForwardingList.html" title="type parameter in ForwardingList">E</a>&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">ForwardingList.</span><code><span class="memberNameLink"><a href="../../collect/ForwardingList.html#standardSubList(int,int)">standardSubList</a></span>&#8203;(int&nbsp;fromIndex,
                int&nbsp;toIndex)</code></th>
@@ -886,7 +754,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">A sensible default implementation of <a href="../../collect/ForwardingList.html#subList(int,int)"><code>ForwardingList.subList(int, int)</code></a>.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected java.util.SortedMap&lt;<a href="../../collect/ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>,&#8203;<a href="../../collect/ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">ForwardingSortedMap.</span><code><span class="memberNameLink"><a href="../../collect/ForwardingSortedMap.html#standardSubMap(K,K)">standardSubMap</a></span>&#8203;(<a href="../../collect/ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>&nbsp;fromKey,
               <a href="../../collect/ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>&nbsp;toKey)</code></th>
@@ -894,7 +762,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">A sensible default implementation of <a href="../../collect/ForwardingSortedMap.html#subMap(K,K)"><code>ForwardingSortedMap.subMap(Object, Object)</code></a> in terms of <a href="../../collect/ForwardingSortedMap.html#headMap(K)"><code>ForwardingSortedMap.headMap(Object)</code></a> and <a href="../../collect/ForwardingSortedMap.html#tailMap(K)"><code>ForwardingSortedMap.tailMap(Object)</code></a>.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected java.util.NavigableSet&lt;<a href="../../collect/ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">ForwardingNavigableSet.</span><code><span class="memberNameLink"><a href="../../collect/ForwardingNavigableSet.html#standardSubSet(E,boolean,E,boolean)">standardSubSet</a></span>&#8203;(<a href="../../collect/ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;fromElement,
               boolean&nbsp;fromInclusive,
@@ -905,7 +773,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  <code>headSet</code> and <code>tailSet</code> methods.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected java.util.SortedSet&lt;<a href="../../collect/ForwardingSortedSet.html" title="type parameter in ForwardingSortedSet">E</a>&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">ForwardingSortedSet.</span><code><span class="memberNameLink"><a href="../../collect/ForwardingSortedSet.html#standardSubSet(E,E)">standardSubSet</a></span>&#8203;(<a href="../../collect/ForwardingSortedSet.html" title="type parameter in ForwardingSortedSet">E</a>&nbsp;fromElement,
               <a href="../../collect/ForwardingSortedSet.html" title="type parameter in ForwardingSortedSet">E</a>&nbsp;toElement)</code></th>
@@ -913,14 +781,14 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">A sensible default implementation of <a href="../../collect/ForwardingSortedSet.html#subSet(E,E)"><code>ForwardingSortedSet.subSet(Object, Object)</code></a> in terms of <a href="../../collect/ForwardingSortedSet.html#headSet(E)"><code>ForwardingSortedSet.headSet(Object)</code></a> and <a href="../../collect/ForwardingSortedSet.html#tailSet(E)"><code>ForwardingSortedSet.tailSet(Object)</code></a>.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected java.lang.String</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">ForwardingMapEntry.</span><code><span class="memberNameLink"><a href="../../collect/ForwardingMapEntry.html#standardToString()">standardToString</a></span>()</code></th>
 <td class="colLast">
 <div class="block">A sensible definition of <a href="../../collect/ForwardingObject.html#toString()"><code>ForwardingObject.toString()</code></a> in terms of <a href="../../collect/ForwardingMapEntry.html#getKey()"><code>ForwardingMapEntry.getKey()</code></a> and <a href="../../collect/ForwardingMapEntry.html#getValue()"><code>ForwardingMapEntry.getValue()</code></a>.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static &lt;K extends java.lang.Comparable&lt;? super K&gt;,&#8203;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>java.util.NavigableMap&lt;K,&#8203;V&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Maps.</span><code><span class="memberNameLink"><a href="../../collect/Maps.html#subMap(java.util.NavigableMap,com.google.common.collect.Range)">subMap</a></span>&#8203;(java.util.NavigableMap&lt;K,&#8203;V&gt;&nbsp;map,
       <a href="../../collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;K&gt;&nbsp;range)</code></th>
@@ -928,7 +796,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Returns a view of the portion of <code>map</code> whose keys are contained by <code>range</code>.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static &lt;K extends java.lang.Comparable&lt;? super K&gt;&gt;<br>java.util.NavigableSet&lt;K&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Sets.</span><code><span class="memberNameLink"><a href="../../collect/Sets.html#subSet(java.util.NavigableSet,com.google.common.collect.Range)">subSet</a></span>&#8203;(java.util.NavigableSet&lt;K&gt;&nbsp;set,
       <a href="../../collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;K&gt;&nbsp;range)</code></th>
@@ -936,7 +804,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Returns a view of the portion of <code>set</code> whose elements are contained by <code>range</code>.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static &lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="../../collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Multisets.</span><code><span class="memberNameLink"><a href="../../collect/Multisets.html#sum(com.google.common.collect.Multiset,com.google.common.collect.Multiset)">sum</a></span>&#8203;(<a href="../../collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;? extends E&gt;&nbsp;multiset1,
    <a href="../../collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;? extends E&gt;&nbsp;multiset2)</code></th>
@@ -944,7 +812,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Returns an unmodifiable view of the sum of two multisets.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static &lt;R extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;C extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;V1 extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;V2 extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="../../collect/Table.html" title="interface in com.google.common.collect">Table</a>&lt;R,&#8203;C,&#8203;V2&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Tables.</span><code><span class="memberNameLink"><a href="../../collect/Tables.html#transformValues(com.google.common.collect.Table,com.google.common.base.Function)">transformValues</a></span>&#8203;(<a href="../../collect/Table.html" title="interface in com.google.common.collect">Table</a>&lt;R,&#8203;C,&#8203;V1&gt;&nbsp;fromTable,
                <a href="../../base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super V1,&#8203;V2&gt;&nbsp;function)</code></th>
@@ -952,7 +820,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Returns a view of a table where each value is transformed by a function.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static &lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="../../collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Multisets.</span><code><span class="memberNameLink"><a href="../../collect/Multisets.html#union(com.google.common.collect.Multiset,com.google.common.collect.Multiset)">union</a></span>&#8203;(<a href="../../collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;? extends E&gt;&nbsp;multiset1,
      <a href="../../collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;? extends E&gt;&nbsp;multiset2)</code></th>
@@ -960,14 +828,14 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Returns an unmodifiable view of the union of two multisets.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static &lt;R extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;C extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="../../collect/RowSortedTable.html" title="interface in com.google.common.collect">RowSortedTable</a>&lt;R,&#8203;C,&#8203;V&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Tables.</span><code><span class="memberNameLink"><a href="../../collect/Tables.html#unmodifiableRowSortedTable(com.google.common.collect.RowSortedTable)">unmodifiableRowSortedTable</a></span>&#8203;(<a href="../../collect/RowSortedTable.html" title="interface in com.google.common.collect">RowSortedTable</a>&lt;R,&#8203;? extends C,&#8203;? extends V&gt;&nbsp;table)</code></th>
 <td class="colLast">
 <div class="block">Returns an unmodifiable view of the specified row-sorted table.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static &lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="../../collect/SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Multisets.</span><code><span class="memberNameLink"><a href="../../collect/Multisets.html#unmodifiableSortedMultiset(com.google.common.collect.SortedMultiset)">unmodifiableSortedMultiset</a></span>&#8203;(<a href="../../collect/SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;E&gt;&nbsp;sortedMultiset)</code></th>
 <td class="colLast">
@@ -1858,40 +1726,9 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <tbody>
 <tr class="altColor">
 <td class="colFirst"><code>class&nbsp;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../reflect/Invokable.html" title="class in com.google.common.reflect">Invokable</a>&lt;T,&#8203;R&gt;</span></code></th>
-<td class="colLast">
-<div class="block">Wrapper around either a <code>Method</code> or a <code>Constructor</code>.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code>class&nbsp;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../reflect/Parameter.html" title="class in com.google.common.reflect">Parameter</a></span></code></th>
 <td class="colLast">
 <div class="block">Represents a method or constructor parameter.</div>
-</td>
-</tr>
-</tbody>
-</table>
-<table class="useSummary">
-<caption><span>Methods in <a href="../../reflect/package-summary.html">com.google.common.reflect</a> with annotations of type <a href="../Beta.html" title="annotation in com.google.common.annotations">Beta</a></span><span class="tabEnd">&nbsp;</span></caption>
-<tr>
-<th class="colFirst" scope="col">Modifier and Type</th>
-<th class="colSecond" scope="col">Method</th>
-<th class="colLast" scope="col">Description</th>
-</tr>
-<tbody>
-<tr class="altColor">
-<td class="colFirst"><code><a href="../../reflect/Invokable.html" title="class in com.google.common.reflect">Invokable</a>&lt;<a href="../../reflect/TypeToken.html" title="type parameter in TypeToken">T</a>,&#8203;<a href="../../reflect/TypeToken.html" title="type parameter in TypeToken">T</a>&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">TypeToken.</span><code><span class="memberNameLink"><a href="../../reflect/TypeToken.html#constructor(java.lang.reflect.Constructor)">constructor</a></span>&#8203;(java.lang.reflect.Constructor&lt;?&gt;&nbsp;constructor)</code></th>
-<td class="colLast">
-<div class="block">Returns the <a href="../../reflect/Invokable.html" title="class in com.google.common.reflect"><code>Invokable</code></a> for <code>constructor</code>, which must be a member of <code>T</code>.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code><a href="../../reflect/Invokable.html" title="class in com.google.common.reflect">Invokable</a>&lt;<a href="../../reflect/TypeToken.html" title="type parameter in TypeToken">T</a>,&#8203;java.lang.Object&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">TypeToken.</span><code><span class="memberNameLink"><a href="../../reflect/TypeToken.html#method(java.lang.reflect.Method)">method</a></span>&#8203;(java.lang.reflect.Method&nbsp;method)</code></th>
-<td class="colLast">
-<div class="block">Returns the <a href="../../reflect/Invokable.html" title="class in com.google.common.reflect"><code>Invokable</code></a> for <code>method</code>, which must be a member of <code>T</code>.</div>
 </td>
 </tr>
 </tbody>
@@ -2000,13 +1837,6 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code>class&nbsp;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../util/concurrent/Striped.html" title="class in com.google.common.util.concurrent">Striped</a>&lt;L&gt;</span></code></th>
-<td class="colLast">
-<div class="block">A striped <code>Lock/Semaphore/ReadWriteLock</code>.</div>
-</td>
-</tr>
-<tr class="rowColor">
 <td class="colFirst"><code>interface&nbsp;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../util/concurrent/TimeLimiter.html" title="interface in com.google.common.util.concurrent">TimeLimiter</a></span></code></th>
 <td class="colLast">

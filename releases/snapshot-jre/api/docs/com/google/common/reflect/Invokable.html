@@ -142,8 +142,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><code>java.lang.reflect.AnnotatedElement</code>, <code>java.lang.reflect.Member</code></dd>
 </dl>
 <hr>
-<pre><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public abstract class <a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.66">Invokable</a>&lt;T,&#8203;R&gt;
+<pre>public abstract class <a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.65">Invokable</a>&lt;T,&#8203;R&gt;
 extends java.lang.Object
 implements java.lang.reflect.AnnotatedElement, java.lang.reflect.Member</pre>
 <div class="block">Wrapper around either a <code>Method</code> or a <code>Constructor</code>. Convenience API is provided to
@@ -477,7 +476,7 @@ implements java.lang.reflect.AnnotatedElement, java.lang.reflect.Member</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>from</h4>
-<pre class="methodSignature">public static&nbsp;<a href="Invokable.html" title="class in com.google.common.reflect">Invokable</a>&lt;?,&#8203;java.lang.Object&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.79">from</a>&#8203;(java.lang.reflect.Method&nbsp;method)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="Invokable.html" title="class in com.google.common.reflect">Invokable</a>&lt;?,&#8203;java.lang.Object&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.77">from</a>&#8203;(java.lang.reflect.Method&nbsp;method)</pre>
 <div class="block">Returns <a href="Invokable.html" title="class in com.google.common.reflect"><code>Invokable</code></a> of <code>method</code>.</div>
 </li>
 </ul>
@@ -487,7 +486,7 @@ implements java.lang.reflect.AnnotatedElement, java.lang.reflect.Member</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>from</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T&gt;&nbsp;<a href="Invokable.html" title="class in com.google.common.reflect">Invokable</a>&lt;T,&#8203;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.84">from</a>&#8203;(java.lang.reflect.Constructor&lt;T&gt;&nbsp;constructor)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;T&gt;&nbsp;<a href="Invokable.html" title="class in com.google.common.reflect">Invokable</a>&lt;T,&#8203;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.82">from</a>&#8203;(java.lang.reflect.Constructor&lt;T&gt;&nbsp;constructor)</pre>
 <div class="block">Returns <a href="Invokable.html" title="class in com.google.common.reflect"><code>Invokable</code></a> of <code>constructor</code>.</div>
 </li>
 </ul>
@@ -497,7 +496,7 @@ implements java.lang.reflect.AnnotatedElement, java.lang.reflect.Member</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>isAnnotationPresent</h4>
-<pre class="methodSignature">public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.88">isAnnotationPresent</a>&#8203;(java.lang.Class&lt;? extends java.lang.annotation.Annotation&gt;&nbsp;annotationClass)</pre>
+<pre class="methodSignature">public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.86">isAnnotationPresent</a>&#8203;(java.lang.Class&lt;? extends java.lang.annotation.Annotation&gt;&nbsp;annotationClass)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>isAnnotationPresent</code>&nbsp;in interface&nbsp;<code>java.lang.reflect.AnnotatedElement</code></dd>
@@ -511,7 +510,7 @@ implements java.lang.reflect.AnnotatedElement, java.lang.reflect.Member</pre>
 <li class="blockList">
 <h4>getAnnotation</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public final&nbsp;&lt;A extends java.lang.annotation.Annotation&gt;&nbsp;A&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.93">getAnnotation</a>&#8203;(java.lang.Class&lt;A&gt;&nbsp;annotationClass)</pre>
+public final&nbsp;&lt;A extends java.lang.annotation.Annotation&gt;&nbsp;A&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.91">getAnnotation</a>&#8203;(java.lang.Class&lt;A&gt;&nbsp;annotationClass)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>getAnnotation</code>&nbsp;in interface&nbsp;<code>java.lang.reflect.AnnotatedElement</code></dd>
@@ -524,7 +523,7 @@ public final&nbsp;&lt;A extends java.lang.annotation.Annotation&gt;&nbsp;A&nbsp;
 <ul class="blockList">
 <li class="blockList">
 <h4>getAnnotations</h4>
-<pre class="methodSignature">public final&nbsp;java.lang.annotation.Annotation[]&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.99">getAnnotations</a>()</pre>
+<pre class="methodSignature">public final&nbsp;java.lang.annotation.Annotation[]&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.97">getAnnotations</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>getAnnotations</code>&nbsp;in interface&nbsp;<code>java.lang.reflect.AnnotatedElement</code></dd>
@@ -537,7 +536,7 @@ public final&nbsp;&lt;A extends java.lang.annotation.Annotation&gt;&nbsp;A&nbsp;
 <ul class="blockList">
 <li class="blockList">
 <h4>getDeclaredAnnotations</h4>
-<pre class="methodSignature">public final&nbsp;java.lang.annotation.Annotation[]&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.104">getDeclaredAnnotations</a>()</pre>
+<pre class="methodSignature">public final&nbsp;java.lang.annotation.Annotation[]&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.102">getDeclaredAnnotations</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>getDeclaredAnnotations</code>&nbsp;in interface&nbsp;<code>java.lang.reflect.AnnotatedElement</code></dd>
@@ -550,7 +549,7 @@ public final&nbsp;&lt;A extends java.lang.annotation.Annotation&gt;&nbsp;A&nbsp;
 <ul class="blockList">
 <li class="blockList">
 <h4>getTypeParameters</h4>
-<pre class="methodSignature">public abstract&nbsp;java.lang.reflect.TypeVariable&lt;?&gt;[]&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.114">getTypeParameters</a>()</pre>
+<pre class="methodSignature">public abstract&nbsp;java.lang.reflect.TypeVariable&lt;?&gt;[]&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.112">getTypeParameters</a>()</pre>
 <div class="block">See <code>GenericDeclaration.getTypeParameters()</code>.</div>
 </li>
 </ul>
@@ -560,7 +559,7 @@ public final&nbsp;&lt;A extends java.lang.annotation.Annotation&gt;&nbsp;A&nbsp;
 <ul class="blockList">
 <li class="blockList">
 <h4>setAccessible</h4>
-<pre class="methodSignature">public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.117">setAccessible</a>&#8203;(boolean&nbsp;flag)</pre>
+<pre class="methodSignature">public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.115">setAccessible</a>&#8203;(boolean&nbsp;flag)</pre>
 <div class="block">See <code>AccessibleObject.setAccessible(boolean)</code>.</div>
 </li>
 </ul>
@@ -570,7 +569,7 @@ public final&nbsp;&lt;A extends java.lang.annotation.Annotation&gt;&nbsp;A&nbsp;
 <ul class="blockList">
 <li class="blockList">
 <h4>trySetAccessible</h4>
-<pre class="methodSignature">public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.122">trySetAccessible</a>()</pre>
+<pre class="methodSignature">public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.120">trySetAccessible</a>()</pre>
 <div class="block">See <code>AccessibleObject.trySetAccessible()</code>.</div>
 </li>
 </ul>
@@ -580,7 +579,7 @@ public final&nbsp;&lt;A extends java.lang.annotation.Annotation&gt;&nbsp;A&nbsp;
 <ul class="blockList">
 <li class="blockList">
 <h4>isAccessible</h4>
-<pre class="methodSignature">public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.134">isAccessible</a>()</pre>
+<pre class="methodSignature">public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.132">isAccessible</a>()</pre>
 <div class="block">See <code>AccessibleObject.isAccessible()</code>.</div>
 </li>
 </ul>
@@ -590,7 +589,7 @@ public final&nbsp;&lt;A extends java.lang.annotation.Annotation&gt;&nbsp;A&nbsp;
 <ul class="blockList">
 <li class="blockList">
 <h4>getName</h4>
-<pre class="methodSignature">public final&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.138">getName</a>()</pre>
+<pre class="methodSignature">public final&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.136">getName</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>getName</code>&nbsp;in interface&nbsp;<code>java.lang.reflect.Member</code></dd>
@@ -603,7 +602,7 @@ public final&nbsp;&lt;A extends java.lang.annotation.Annotation&gt;&nbsp;A&nbsp;
 <ul class="blockList">
 <li class="blockList">
 <h4>getModifiers</h4>
-<pre class="methodSignature">public final&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.143">getModifiers</a>()</pre>
+<pre class="methodSignature">public final&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.141">getModifiers</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>getModifiers</code>&nbsp;in interface&nbsp;<code>java.lang.reflect.Member</code></dd>
@@ -616,7 +615,7 @@ public final&nbsp;&lt;A extends java.lang.annotation.Annotation&gt;&nbsp;A&nbsp;
 <ul class="blockList">
 <li class="blockList">
 <h4>isSynthetic</h4>
-<pre class="methodSignature">public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.148">isSynthetic</a>()</pre>
+<pre class="methodSignature">public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.146">isSynthetic</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>isSynthetic</code>&nbsp;in interface&nbsp;<code>java.lang.reflect.Member</code></dd>
@@ -629,7 +628,7 @@ public final&nbsp;&lt;A extends java.lang.annotation.Annotation&gt;&nbsp;A&nbsp;
 <ul class="blockList">
 <li class="blockList">
 <h4>isPublic</h4>
-<pre class="methodSignature">public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.154">isPublic</a>()</pre>
+<pre class="methodSignature">public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.152">isPublic</a>()</pre>
 <div class="block">Returns true if the element is public.</div>
 </li>
 </ul>
@@ -639,7 +638,7 @@ public final&nbsp;&lt;A extends java.lang.annotation.Annotation&gt;&nbsp;A&nbsp;
 <ul class="blockList">
 <li class="blockList">
 <h4>isProtected</h4>
-<pre class="methodSignature">public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.159">isProtected</a>()</pre>
+<pre class="methodSignature">public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.157">isProtected</a>()</pre>
 <div class="block">Returns true if the element is protected.</div>
 </li>
 </ul>
@@ -649,7 +648,7 @@ public final&nbsp;&lt;A extends java.lang.annotation.Annotation&gt;&nbsp;A&nbsp;
 <ul class="blockList">
 <li class="blockList">
 <h4>isPackagePrivate</h4>
-<pre class="methodSignature">public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.164">isPackagePrivate</a>()</pre>
+<pre class="methodSignature">public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.162">isPackagePrivate</a>()</pre>
 <div class="block">Returns true if the element is package-private.</div>
 </li>
 </ul>
@@ -659,7 +658,7 @@ public final&nbsp;&lt;A extends java.lang.annotation.Annotation&gt;&nbsp;A&nbsp;
 <ul class="blockList">
 <li class="blockList">
 <h4>isPrivate</h4>
-<pre class="methodSignature">public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.169">isPrivate</a>()</pre>
+<pre class="methodSignature">public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.167">isPrivate</a>()</pre>
 <div class="block">Returns true if the element is private.</div>
 </li>
 </ul>
@@ -669,7 +668,7 @@ public final&nbsp;&lt;A extends java.lang.annotation.Annotation&gt;&nbsp;A&nbsp;
 <ul class="blockList">
 <li class="blockList">
 <h4>isStatic</h4>
-<pre class="methodSignature">public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.174">isStatic</a>()</pre>
+<pre class="methodSignature">public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.172">isStatic</a>()</pre>
 <div class="block">Returns true if the element is static.</div>
 </li>
 </ul>
@@ -679,7 +678,7 @@ public final&nbsp;&lt;A extends java.lang.annotation.Annotation&gt;&nbsp;A&nbsp;
 <ul class="blockList">
 <li class="blockList">
 <h4>isFinal</h4>
-<pre class="methodSignature">public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.185">isFinal</a>()</pre>
+<pre class="methodSignature">public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.183">isFinal</a>()</pre>
 <div class="block">Returns <code>true</code> if this method is final, per <code>Modifier.isFinal(getModifiers())</code>.
 
  <p>Note that a method may still be effectively "final", or non-overridable when it has no
@@ -693,7 +692,7 @@ public final&nbsp;&lt;A extends java.lang.annotation.Annotation&gt;&nbsp;A&nbsp;
 <ul class="blockList">
 <li class="blockList">
 <h4>isAbstract</h4>
-<pre class="methodSignature">public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.190">isAbstract</a>()</pre>
+<pre class="methodSignature">public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.188">isAbstract</a>()</pre>
 <div class="block">Returns true if the method is abstract.</div>
 </li>
 </ul>
@@ -703,7 +702,7 @@ public final&nbsp;&lt;A extends java.lang.annotation.Annotation&gt;&nbsp;A&nbsp;
 <ul class="blockList">
 <li class="blockList">
 <h4>isNative</h4>
-<pre class="methodSignature">public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.195">isNative</a>()</pre>
+<pre class="methodSignature">public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.193">isNative</a>()</pre>
 <div class="block">Returns true if the element is native.</div>
 </li>
 </ul>
@@ -713,7 +712,7 @@ public final&nbsp;&lt;A extends java.lang.annotation.Annotation&gt;&nbsp;A&nbsp;
 <ul class="blockList">
 <li class="blockList">
 <h4>isSynchronized</h4>
-<pre class="methodSignature">public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.200">isSynchronized</a>()</pre>
+<pre class="methodSignature">public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.198">isSynchronized</a>()</pre>
 <div class="block">Returns true if the method is synchronized.</div>
 </li>
 </ul>
@@ -723,7 +722,7 @@ public final&nbsp;&lt;A extends java.lang.annotation.Annotation&gt;&nbsp;A&nbsp;
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.214">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.212">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                       java.lang.Object&nbsp;obj)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
@@ -737,7 +736,7 @@ public final&nbsp;&lt;A extends java.lang.annotation.Annotation&gt;&nbsp;A&nbsp;
 <ul class="blockList">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.223">hashCode</a>()</pre>
+<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.221">hashCode</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code>hashCode</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
@@ -750,7 +749,7 @@ public final&nbsp;&lt;A extends java.lang.annotation.Annotation&gt;&nbsp;A&nbsp;
 <ul class="blockList">
 <li class="blockList">
 <h4>toString</h4>
-<pre class="methodSignature">public&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.228">toString</a>()</pre>
+<pre class="methodSignature">public&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.226">toString</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code>toString</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
@@ -763,7 +762,7 @@ public final&nbsp;&lt;A extends java.lang.annotation.Annotation&gt;&nbsp;A&nbsp;
 <ul class="blockList">
 <li class="blockList">
 <h4>isOverridable</h4>
-<pre class="methodSignature">public abstract&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.237">isOverridable</a>()</pre>
+<pre class="methodSignature">public abstract&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.235">isOverridable</a>()</pre>
 <div class="block">Returns <code>true</code> if this is an overridable method. Constructors, private, static or final
  methods, or methods declared by final classes are not overridable.</div>
 </li>
@@ -774,7 +773,7 @@ public final&nbsp;&lt;A extends java.lang.annotation.Annotation&gt;&nbsp;A&nbsp;
 <ul class="blockList">
 <li class="blockList">
 <h4>isVarArgs</h4>
-<pre class="methodSignature">public abstract&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.240">isVarArgs</a>()</pre>
+<pre class="methodSignature">public abstract&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.238">isVarArgs</a>()</pre>
 <div class="block">Returns <code>true</code> if this was declared to take a variable number of arguments.</div>
 </li>
 </ul>
@@ -788,7 +787,7 @@ public final&nbsp;&lt;A extends java.lang.annotation.Annotation&gt;&nbsp;A&nbsp;
 <h4>invoke</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public final&nbsp;<a href="Invokable.html" title="type parameter in Invokable">R</a>&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.256">invoke</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+public final&nbsp;<a href="Invokable.html" title="type parameter in Invokable">R</a>&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.254">invoke</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                       <a href="Invokable.html" title="type parameter in Invokable">T</a>&nbsp;receiver,
                       <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object...&nbsp;args)
                throws java.lang.reflect.InvocationTargetException,
@@ -814,7 +813,7 @@ public final&nbsp;<a href="Invokable.html" title="type parameter in Invokable">R
 <ul class="blockList">
 <li class="blockList">
 <h4>getReturnType</h4>
-<pre class="methodSignature">public final&nbsp;<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;? extends <a href="Invokable.html" title="type parameter in Invokable">R</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.266">getReturnType</a>()</pre>
+<pre class="methodSignature">public final&nbsp;<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;? extends <a href="Invokable.html" title="type parameter in Invokable">R</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.264">getReturnType</a>()</pre>
 <div class="block">Returns the return type of this <code>Invokable</code>.</div>
 </li>
 </ul>
@@ -824,7 +823,7 @@ public final&nbsp;<a href="Invokable.html" title="type parameter in Invokable">R
 <ul class="blockList">
 <li class="blockList">
 <h4>getParameters</h4>
-<pre class="methodSignature">public final&nbsp;<a href="../collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;<a href="Parameter.html" title="class in com.google.common.reflect">Parameter</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.276">getParameters</a>()</pre>
+<pre class="methodSignature">public final&nbsp;<a href="../collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;<a href="Parameter.html" title="class in com.google.common.reflect">Parameter</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.274">getParameters</a>()</pre>
 <div class="block">Returns all declared parameters of this <code>Invokable</code>. Note that if this is a constructor
  of a non-static inner class, unlike <code>Constructor.getParameterTypes()</code>, the hidden <code>
  this</code> parameter of the enclosing class is excluded from the returned parameters.</div>
@@ -836,7 +835,7 @@ public final&nbsp;<a href="Invokable.html" title="type parameter in Invokable">R
 <ul class="blockList">
 <li class="blockList">
 <h4>getExceptionTypes</h4>
-<pre class="methodSignature">public final&nbsp;<a href="../collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;? extends java.lang.Throwable&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.292">getExceptionTypes</a>()</pre>
+<pre class="methodSignature">public final&nbsp;<a href="../collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;? extends java.lang.Throwable&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.290">getExceptionTypes</a>()</pre>
 <div class="block">Returns all declared exception types of this <code>Invokable</code>.</div>
 </li>
 </ul>
@@ -846,7 +845,7 @@ public final&nbsp;<a href="Invokable.html" title="type parameter in Invokable">R
 <ul class="blockList">
 <li class="blockList">
 <h4>returning</h4>
-<pre class="methodSignature">public final&nbsp;&lt;R1 extends <a href="Invokable.html" title="type parameter in Invokable">R</a>&gt;&nbsp;<a href="Invokable.html" title="class in com.google.common.reflect">Invokable</a>&lt;<a href="Invokable.html" title="type parameter in Invokable">T</a>,&#8203;R1&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.312">returning</a>&#8203;(java.lang.Class&lt;R1&gt;&nbsp;returnType)</pre>
+<pre class="methodSignature">public final&nbsp;&lt;R1 extends <a href="Invokable.html" title="type parameter in Invokable">R</a>&gt;&nbsp;<a href="Invokable.html" title="class in com.google.common.reflect">Invokable</a>&lt;<a href="Invokable.html" title="type parameter in Invokable">T</a>,&#8203;R1&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.310">returning</a>&#8203;(java.lang.Class&lt;R1&gt;&nbsp;returnType)</pre>
 <div class="block">Explicitly specifies the return type of this <code>Invokable</code>. For example:
 
  <pre><code>
@@ -861,7 +860,7 @@ public final&nbsp;<a href="Invokable.html" title="type parameter in Invokable">R
 <ul class="blockList">
 <li class="blockList">
 <h4>returning</h4>
-<pre class="methodSignature">public final&nbsp;&lt;R1 extends <a href="Invokable.html" title="type parameter in Invokable">R</a>&gt;&nbsp;<a href="Invokable.html" title="class in com.google.common.reflect">Invokable</a>&lt;<a href="Invokable.html" title="type parameter in Invokable">T</a>,&#8203;R1&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.317">returning</a>&#8203;(<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;R1&gt;&nbsp;returnType)</pre>
+<pre class="methodSignature">public final&nbsp;&lt;R1 extends <a href="Invokable.html" title="type parameter in Invokable">R</a>&gt;&nbsp;<a href="Invokable.html" title="class in com.google.common.reflect">Invokable</a>&lt;<a href="Invokable.html" title="type parameter in Invokable">T</a>,&#8203;R1&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.315">returning</a>&#8203;(<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;R1&gt;&nbsp;returnType)</pre>
 <div class="block">Explicitly specifies the return type of this <code>Invokable</code>.</div>
 </li>
 </ul>
@@ -871,7 +870,7 @@ public final&nbsp;<a href="Invokable.html" title="type parameter in Invokable">R
 <ul class="blockList">
 <li class="blockList">
 <h4>getDeclaringClass</h4>
-<pre class="methodSignature">public final&nbsp;java.lang.Class&lt;? super <a href="Invokable.html" title="type parameter in Invokable">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.327">getDeclaringClass</a>()</pre>
+<pre class="methodSignature">public final&nbsp;java.lang.Class&lt;? super <a href="Invokable.html" title="type parameter in Invokable">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.325">getDeclaringClass</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>getDeclaringClass</code>&nbsp;in interface&nbsp;<code>java.lang.reflect.Member</code></dd>
@@ -884,7 +883,7 @@ public final&nbsp;<a href="Invokable.html" title="type parameter in Invokable">R
 <ul class="blockList">
 <li class="blockList">
 <h4>getOwnerType</h4>
-<pre class="methodSignature">public&nbsp;<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;<a href="Invokable.html" title="type parameter in Invokable">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.335">getOwnerType</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;<a href="Invokable.html" title="type parameter in Invokable">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.333">getOwnerType</a>()</pre>
 <div class="block">Returns the type of <code>T</code>.</div>
 </li>
 </ul>
@@ -894,7 +893,7 @@ public final&nbsp;<a href="Invokable.html" title="type parameter in Invokable">R
 <ul class="blockListLast">
 <li class="blockList">
 <h4>getAnnotatedReturnType</h4>
-<pre class="methodSignature">public abstract&nbsp;java.lang.reflect.AnnotatedType&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.364">getAnnotatedReturnType</a>()</pre>
+<pre class="methodSignature">public abstract&nbsp;java.lang.reflect.AnnotatedType&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.362">getAnnotatedReturnType</a>()</pre>
 <div class="block">Returns the <code>AnnotatedType</code> for the return type.
 
  <p>This method will fail if run under an Android VM.</div>
