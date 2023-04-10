@@ -16,6 +16,7 @@ package com.google.common.reflect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.annotations.Beta;
 import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.DoNotCall;
@@ -366,6 +367,7 @@ public abstract class Invokable<T, R> implements AnnotatedElement, Member {
   @DoNotCall("fails under Android VMs; do not use from guava-android")
   @Deprecated
   @IgnoreJRERequirement
+  @Beta
   public abstract AnnotatedType getAnnotatedReturnType();
 
   static class MethodInvokable<T> extends Invokable<T, Object> {
