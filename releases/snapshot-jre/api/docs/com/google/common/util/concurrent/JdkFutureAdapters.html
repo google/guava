@@ -134,11 +134,14 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <hr>
 <pre><a href="../../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
 <a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public final class <a href="../../../../../src-html/com/google/common/util/concurrent/JdkFutureAdapters.html#line.39">JdkFutureAdapters</a>
+public final class <a href="../../../../../src-html/com/google/common/util/concurrent/JdkFutureAdapters.html#line.42">JdkFutureAdapters</a>
 extends java.lang.Object</pre>
 <div class="block">Utilities necessary for working with libraries that supply plain <code>Future</code> instances. Note
  that, whenever possible, it is strongly preferred to modify those libraries to return <code>
- ListenableFuture</code> directly.</div>
+ ListenableFuture</code> directly.
+
+ <p>For interoperability between <code>ListenableFuture</code> and <b><code>CompletableFuture</code></b>,
+ consider <a href="https://github.com/lukas-krecan/future-converter">Future Converter</a>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>10.0 (replacing <code>Futures.makeListenable</code>, which existed in 1.0)</dd>
@@ -211,7 +214,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>listenInPoolThread</h4>
-<pre class="methodSignature">public static&nbsp;&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/JdkFutureAdapters.html#line.57">listenInPoolThread</a>&#8203;(java.util.concurrent.Future&lt;V&gt;&nbsp;future)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/JdkFutureAdapters.html#line.60">listenInPoolThread</a>&#8203;(java.util.concurrent.Future&lt;V&gt;&nbsp;future)</pre>
 <div class="block">Assigns a thread to the given <code>Future</code> to provide <a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a> functionality.
 
  <p><b>Warning:</b> If the input future does not already implement <code>ListenableFuture</code>, the
@@ -229,7 +232,7 @@ extends java.lang.Object</pre>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>listenInPoolThread</h4>
-<pre class="methodSignature">public static&nbsp;&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/JdkFutureAdapters.html#line.85">listenInPoolThread</a>&#8203;(java.util.concurrent.Future&lt;V&gt;&nbsp;future,
+<pre class="methodSignature">public static&nbsp;&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/JdkFutureAdapters.html#line.88">listenInPoolThread</a>&#8203;(java.util.concurrent.Future&lt;V&gt;&nbsp;future,
                                                                                             java.util.concurrent.Executor&nbsp;executor)</pre>
 <div class="block">Submits a blocking task for the given <code>Future</code> to provide <a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a>
  functionality.

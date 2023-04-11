@@ -1811,42 +1811,34 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code>static class&nbsp;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../util/concurrent/Futures.FutureCombiner.html" title="class in com.google.common.util.concurrent">Futures.FutureCombiner</a>&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</span></code></th>
-<td class="colLast">
-<div class="block">A helper to create a new <code>ListenableFuture</code> whose result is generated from a combination
- of input futures.</div>
-</td>
-</tr>
-<tr class="altColor">
 <td class="colFirst"><code>class&nbsp;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../util/concurrent/JdkFutureAdapters.html" title="class in com.google.common.util.concurrent">JdkFutureAdapters</a></span></code></th>
 <td class="colLast">
 <div class="block">Utilities necessary for working with libraries that supply plain <code>Future</code> instances.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>class&nbsp;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../util/concurrent/RateLimiter.html" title="class in com.google.common.util.concurrent">RateLimiter</a></span></code></th>
 <td class="colLast">
 <div class="block">A rate limiter.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>class&nbsp;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../util/concurrent/Runnables.html" title="class in com.google.common.util.concurrent">Runnables</a></span></code></th>
 <td class="colLast">
 <div class="block">Static utility methods pertaining to the <code>Runnable</code> interface.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>class&nbsp;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../util/concurrent/SimpleTimeLimiter.html" title="class in com.google.common.util.concurrent">SimpleTimeLimiter</a></span></code></th>
 <td class="colLast">
 <div class="block">A TimeLimiter that runs method calls in the background using an <code>ExecutorService</code>.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>interface&nbsp;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../util/concurrent/TimeLimiter.html" title="interface in com.google.common.util.concurrent">TimeLimiter</a></span></code></th>
 <td class="colLast">
@@ -1880,22 +1872,6 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code>static &lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="../../util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;java.util.List&lt;V&gt;&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Futures.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Futures.html#allAsList(com.google.common.util.concurrent.ListenableFuture...)">allAsList</a></span>&#8203;(<a href="../../util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;? extends V&gt;...&nbsp;futures)</code></th>
-<td class="colLast">
-<div class="block">Creates a new <code>ListenableFuture</code> whose value is a list containing the values of all its
- input futures, if all succeed.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code>static &lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="../../util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;java.util.List&lt;V&gt;&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Futures.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Futures.html#allAsList(java.lang.Iterable)">allAsList</a></span>&#8203;(java.lang.Iterable&lt;? extends <a href="../../util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;? extends V&gt;&gt;&nbsp;futures)</code></th>
-<td class="colLast">
-<div class="block">Creates a new <code>ListenableFuture</code> whose value is a list containing the values of all its
- input futures, if all succeed.</div>
-</td>
-</tr>
-<tr class="altColor">
 <td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="../../util/concurrent/AsyncCallable.html" title="interface in com.google.common.util.concurrent">AsyncCallable</a>&lt;T&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Callables.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Callables.html#asAsyncCallable(java.util.concurrent.Callable,com.google.common.util.concurrent.ListeningExecutorService)">asAsyncCallable</a></span>&#8203;(java.util.concurrent.Callable&lt;T&gt;&nbsp;callable,
                <a href="../../util/concurrent/ListeningExecutorService.html" title="interface in com.google.common.util.concurrent">ListeningExecutorService</a>&nbsp;listeningExecutorService)</code></th>
@@ -1904,76 +1880,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code>&lt;X extends java.lang.Throwable&gt;<br><a href="../../util/concurrent/FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;<a href="../../util/concurrent/FluentFuture.html" title="type parameter in FluentFuture">V</a>&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">FluentFuture.</span><code><span class="memberNameLink"><a href="../../util/concurrent/FluentFuture.html#catching(java.lang.Class,com.google.common.base.Function,java.util.concurrent.Executor)">catching</a></span>&#8203;(java.lang.Class&lt;X&gt;&nbsp;exceptionType,
-        <a href="../../base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super X,&#8203;? extends <a href="../../util/concurrent/FluentFuture.html" title="type parameter in FluentFuture">V</a>&gt;&nbsp;fallback,
-        java.util.concurrent.Executor&nbsp;executor)</code></th>
-<td class="colLast">
-<div class="block">Returns a <code>Future</code> whose result is taken from this <code>Future</code> or, if this <code>
- Future</code> fails with the given <code>exceptionType</code>, from the result provided by the <code>
- fallback</code>.</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>static &lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;X extends java.lang.Throwable&gt;<br><a href="../../util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Futures.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Futures.html#catching(com.google.common.util.concurrent.ListenableFuture,java.lang.Class,com.google.common.base.Function,java.util.concurrent.Executor)">catching</a></span>&#8203;(<a href="../../util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;? extends V&gt;&nbsp;input,
-        java.lang.Class&lt;X&gt;&nbsp;exceptionType,
-        <a href="../../base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super X,&#8203;? extends V&gt;&nbsp;fallback,
-        java.util.concurrent.Executor&nbsp;executor)</code></th>
-<td class="colLast">
-<div class="block">Returns a <code>Future</code> whose result is taken from the given primary <code>input</code> or, if the
- primary input fails with the given <code>exceptionType</code>, from the result provided by the
- <code>fallback</code>.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code>&lt;X extends java.lang.Throwable&gt;<br><a href="../../util/concurrent/FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;<a href="../../util/concurrent/FluentFuture.html" title="type parameter in FluentFuture">V</a>&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">FluentFuture.</span><code><span class="memberNameLink"><a href="../../util/concurrent/FluentFuture.html#catchingAsync(java.lang.Class,com.google.common.util.concurrent.AsyncFunction,java.util.concurrent.Executor)">catchingAsync</a></span>&#8203;(java.lang.Class&lt;X&gt;&nbsp;exceptionType,
-             <a href="../../util/concurrent/AsyncFunction.html" title="interface in com.google.common.util.concurrent">AsyncFunction</a>&lt;? super X,&#8203;? extends <a href="../../util/concurrent/FluentFuture.html" title="type parameter in FluentFuture">V</a>&gt;&nbsp;fallback,
-             java.util.concurrent.Executor&nbsp;executor)</code></th>
-<td class="colLast">
-<div class="block">Returns a <code>Future</code> whose result is taken from this <code>Future</code> or, if this <code>
- Future</code> fails with the given <code>exceptionType</code>, from the result provided by the <code>
- fallback</code>.</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>static &lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;X extends java.lang.Throwable&gt;<br><a href="../../util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Futures.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Futures.html#catchingAsync(com.google.common.util.concurrent.ListenableFuture,java.lang.Class,com.google.common.util.concurrent.AsyncFunction,java.util.concurrent.Executor)">catchingAsync</a></span>&#8203;(<a href="../../util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;? extends V&gt;&nbsp;input,
-             java.lang.Class&lt;X&gt;&nbsp;exceptionType,
-             <a href="../../util/concurrent/AsyncFunction.html" title="interface in com.google.common.util.concurrent">AsyncFunction</a>&lt;? super X,&#8203;? extends V&gt;&nbsp;fallback,
-             java.util.concurrent.Executor&nbsp;executor)</code></th>
-<td class="colLast">
-<div class="block">Returns a <code>Future</code> whose result is taken from the given primary <code>input</code> or, if the
- primary input fails with the given <code>exceptionType</code>, from the result provided by the
- <code>fallback</code>.</div>
-</td>
-</tr>
-<tr class="rowColor">
 <td class="colFirst"><code>protected void</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">AbstractService.</span><code><span class="memberNameLink"><a href="../../util/concurrent/AbstractService.html#doCancelStart()">doCancelStart</a></span>()</code></th>
 <td class="colLast">
 <div class="block">This method is called by <a href="../../util/concurrent/AbstractService.html#stopAsync()"><code>AbstractService.stopAsync()</code></a> when the service is still starting (i.e.</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>static &lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;X extends java.lang.Exception&gt;<br>V</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Futures.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Futures.html#getChecked(java.util.concurrent.Future,java.lang.Class)">getChecked</a></span>&#8203;(java.util.concurrent.Future&lt;V&gt;&nbsp;future,
-          java.lang.Class&lt;X&gt;&nbsp;exceptionClass)</code></th>
-<td class="colLast">
-<div class="block">Returns the result of <code>Future.get()</code>, converting most exceptions to a new instance of the
- given checked exception type.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code>static &lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;X extends java.lang.Exception&gt;<br>V</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Futures.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Futures.html#getChecked(java.util.concurrent.Future,java.lang.Class,long,java.util.concurrent.TimeUnit)">getChecked</a></span>&#8203;(java.util.concurrent.Future&lt;V&gt;&nbsp;future,
-          java.lang.Class&lt;X&gt;&nbsp;exceptionClass,
-          long&nbsp;timeout,
-          java.util.concurrent.TimeUnit&nbsp;unit)</code></th>
-<td class="colLast">
-<div class="block">Returns the result of <code>Future.get(long, TimeUnit)</code>, converting most exceptions to a new
- instance of the given checked exception type.</div>
 </td>
 </tr>
 <tr class="altColor">
@@ -2013,29 +1923,20 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code>static &lt;I extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;O extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>java.util.concurrent.Future&lt;O&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Futures.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Futures.html#lazyTransform(java.util.concurrent.Future,com.google.common.base.Function)">lazyTransform</a></span>&#8203;(java.util.concurrent.Future&lt;I&gt;&nbsp;input,
-             <a href="../../base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super I,&#8203;? extends O&gt;&nbsp;function)</code></th>
-<td class="colLast">
-<div class="block">Like <a href="../../util/concurrent/Futures.html#transform(com.google.common.util.concurrent.ListenableFuture,com.google.common.base.Function,java.util.concurrent.Executor)"><code>Futures.transform(ListenableFuture, Function, Executor)</code></a> except that the transformation
- <code>function</code> is invoked on each call to <code>get()</code> on the returned future.</div>
-</td>
-</tr>
-<tr class="rowColor">
 <td class="colFirst"><code>static java.util.concurrent.ThreadFactory</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">MoreExecutors.</span><code><span class="memberNameLink"><a href="../../util/concurrent/MoreExecutors.html#platformThreadFactory()">platformThreadFactory</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns a default thread factory used to create new threads.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">AtomicLongMap.</span><code><span class="memberNameLink"><a href="../../util/concurrent/AtomicLongMap.html#removeIfZero(K)">removeIfZero</a></span>&#8203;(<a href="../../util/concurrent/AtomicLongMap.html" title="type parameter in AtomicLongMap">K</a>&nbsp;key)</code></th>
 <td class="colLast">
 <div class="block">Atomically remove <code>key</code> from the map iff its associated value is 0.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static boolean</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">MoreExecutors.</span><code><span class="memberNameLink"><a href="../../util/concurrent/MoreExecutors.html#shutdownAndAwaitTermination(java.util.concurrent.ExecutorService,long,java.util.concurrent.TimeUnit)">shutdownAndAwaitTermination</a></span>&#8203;(java.util.concurrent.ExecutorService&nbsp;service,
                            long&nbsp;timeout,
@@ -2045,113 +1946,11 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  necessary, cancelling remaining tasks.</div>
 </td>
 </tr>
-<tr class="altColor">
-<td class="colFirst"><code>static &lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="../../util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;java.util.List&lt;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> V&gt;&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Futures.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Futures.html#successfulAsList(com.google.common.util.concurrent.ListenableFuture...)">successfulAsList</a></span>&#8203;(<a href="../../util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;? extends V&gt;...&nbsp;futures)</code></th>
-<td class="colLast">
-<div class="block">Creates a new <code>ListenableFuture</code> whose value is a list containing the values of all its
- successful input futures.</div>
-</td>
-</tr>
 <tr class="rowColor">
-<td class="colFirst"><code>static &lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="../../util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;java.util.List&lt;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> V&gt;&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Futures.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Futures.html#successfulAsList(java.lang.Iterable)">successfulAsList</a></span>&#8203;(java.lang.Iterable&lt;? extends <a href="../../util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;? extends V&gt;&gt;&nbsp;futures)</code></th>
-<td class="colLast">
-<div class="block">Creates a new <code>ListenableFuture</code> whose value is a list containing the values of all its
- successful input futures.</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="../../util/concurrent/FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;T&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">FluentFuture.</span><code><span class="memberNameLink"><a href="../../util/concurrent/FluentFuture.html#transform(com.google.common.base.Function,java.util.concurrent.Executor)">transform</a></span>&#8203;(<a href="../../base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super <a href="../../util/concurrent/FluentFuture.html" title="type parameter in FluentFuture">V</a>,&#8203;T&gt;&nbsp;function,
-         java.util.concurrent.Executor&nbsp;executor)</code></th>
-<td class="colLast">
-<div class="block">Returns a new <code>Future</code> whose result is derived from the result of this <code>Future</code>.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code>static &lt;I extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;O extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="../../util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;O&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Futures.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Futures.html#transform(com.google.common.util.concurrent.ListenableFuture,com.google.common.base.Function,java.util.concurrent.Executor)">transform</a></span>&#8203;(<a href="../../util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;I&gt;&nbsp;input,
-         <a href="../../base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super I,&#8203;? extends O&gt;&nbsp;function,
-         java.util.concurrent.Executor&nbsp;executor)</code></th>
-<td class="colLast">
-<div class="block">Returns a new <code>Future</code> whose result is derived from the result of the given <code>
- Future</code>.</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="../../util/concurrent/FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;T&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">FluentFuture.</span><code><span class="memberNameLink"><a href="../../util/concurrent/FluentFuture.html#transformAsync(com.google.common.util.concurrent.AsyncFunction,java.util.concurrent.Executor)">transformAsync</a></span>&#8203;(<a href="../../util/concurrent/AsyncFunction.html" title="interface in com.google.common.util.concurrent">AsyncFunction</a>&lt;? super <a href="../../util/concurrent/FluentFuture.html" title="type parameter in FluentFuture">V</a>,&#8203;T&gt;&nbsp;function,
-              java.util.concurrent.Executor&nbsp;executor)</code></th>
-<td class="colLast">
-<div class="block">Returns a new <code>Future</code> whose result is asynchronously derived from the result of this
- <code>Future</code>.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code>static &lt;I extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;O extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="../../util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;O&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Futures.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Futures.html#transformAsync(com.google.common.util.concurrent.ListenableFuture,com.google.common.util.concurrent.AsyncFunction,java.util.concurrent.Executor)">transformAsync</a></span>&#8203;(<a href="../../util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;I&gt;&nbsp;input,
-              <a href="../../util/concurrent/AsyncFunction.html" title="interface in com.google.common.util.concurrent">AsyncFunction</a>&lt;? super I,&#8203;? extends O&gt;&nbsp;function,
-              java.util.concurrent.Executor&nbsp;executor)</code></th>
-<td class="colLast">
-<div class="block">Returns a new <code>Future</code> whose result is asynchronously derived from the result of the
- given <code>Future</code>.</div>
-</td>
-</tr>
-<tr class="altColor">
 <td class="colFirst"><code>protected void</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">AbstractExecutionThreadService.</span><code><span class="memberNameLink"><a href="../../util/concurrent/AbstractExecutionThreadService.html#triggerShutdown()">triggerShutdown</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Invoked to request the service to stop.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code>static &lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="../../util/concurrent/Futures.FutureCombiner.html" title="class in com.google.common.util.concurrent">Futures.FutureCombiner</a>&lt;V&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Futures.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Futures.html#whenAllComplete(com.google.common.util.concurrent.ListenableFuture...)">whenAllComplete</a></span>&#8203;(<a href="../../util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;? extends V&gt;...&nbsp;futures)</code></th>
-<td class="colLast">
-<div class="block">Creates a <a href="../../util/concurrent/Futures.FutureCombiner.html" title="class in com.google.common.util.concurrent"><code>Futures.FutureCombiner</code></a> that processes the completed futures whether or not they're
- successful.</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>static &lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="../../util/concurrent/Futures.FutureCombiner.html" title="class in com.google.common.util.concurrent">Futures.FutureCombiner</a>&lt;V&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Futures.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Futures.html#whenAllComplete(java.lang.Iterable)">whenAllComplete</a></span>&#8203;(java.lang.Iterable&lt;? extends <a href="../../util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;? extends V&gt;&gt;&nbsp;futures)</code></th>
-<td class="colLast">
-<div class="block">Creates a <a href="../../util/concurrent/Futures.FutureCombiner.html" title="class in com.google.common.util.concurrent"><code>Futures.FutureCombiner</code></a> that processes the completed futures whether or not they're
- successful.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code>static &lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="../../util/concurrent/Futures.FutureCombiner.html" title="class in com.google.common.util.concurrent">Futures.FutureCombiner</a>&lt;V&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Futures.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Futures.html#whenAllSucceed(com.google.common.util.concurrent.ListenableFuture...)">whenAllSucceed</a></span>&#8203;(<a href="../../util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;? extends V&gt;...&nbsp;futures)</code></th>
-<td class="colLast">
-<div class="block">Creates a <a href="../../util/concurrent/Futures.FutureCombiner.html" title="class in com.google.common.util.concurrent"><code>Futures.FutureCombiner</code></a> requiring that all passed in futures are successful.</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>static &lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="../../util/concurrent/Futures.FutureCombiner.html" title="class in com.google.common.util.concurrent">Futures.FutureCombiner</a>&lt;V&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Futures.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Futures.html#whenAllSucceed(java.lang.Iterable)">whenAllSucceed</a></span>&#8203;(java.lang.Iterable&lt;? extends <a href="../../util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;? extends V&gt;&gt;&nbsp;futures)</code></th>
-<td class="colLast">
-<div class="block">Creates a <a href="../../util/concurrent/Futures.FutureCombiner.html" title="class in com.google.common.util.concurrent"><code>Futures.FutureCombiner</code></a> requiring that all passed in futures are successful.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code><a href="../../util/concurrent/FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;<a href="../../util/concurrent/FluentFuture.html" title="type parameter in FluentFuture">V</a>&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">FluentFuture.</span><code><span class="memberNameLink"><a href="../../util/concurrent/FluentFuture.html#withTimeout(long,java.util.concurrent.TimeUnit,java.util.concurrent.ScheduledExecutorService)">withTimeout</a></span>&#8203;(long&nbsp;timeout,
-           java.util.concurrent.TimeUnit&nbsp;unit,
-           java.util.concurrent.ScheduledExecutorService&nbsp;scheduledExecutor)</code></th>
-<td class="colLast">
-<div class="block">Returns a future that delegates to this future but will finish early (via a <code>TimeoutException</code> wrapped in an <code>ExecutionException</code>) if the specified timeout expires.</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>static &lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="../../util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Futures.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Futures.html#withTimeout(com.google.common.util.concurrent.ListenableFuture,long,java.util.concurrent.TimeUnit,java.util.concurrent.ScheduledExecutorService)">withTimeout</a></span>&#8203;(<a href="../../util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;&nbsp;delegate,
-           long&nbsp;time,
-           java.util.concurrent.TimeUnit&nbsp;unit,
-           java.util.concurrent.ScheduledExecutorService&nbsp;scheduledExecutor)</code></th>
-<td class="colLast">
-<div class="block">Returns a future that delegates to another but will finish early (via a <code>TimeoutException</code> wrapped in an <code>ExecutionException</code>) if the specified duration expires.</div>
 </td>
 </tr>
 </tbody>
