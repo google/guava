@@ -134,7 +134,7 @@ public final class Parameter implements AnnotatedElement {
    *
    * <p>This method will fail if run under an Android VM.
    *
-   * @since 25.1 for guava-jre (available since 32.0 in guava-android)
+   * @since 25.1 for guava-jre (available since 32.0.0 in guava-android)
    */
   @SuppressWarnings({"Java7ApiChecker", "AndroidJdkLibsChecker"})
   @IgnoreJRERequirement
