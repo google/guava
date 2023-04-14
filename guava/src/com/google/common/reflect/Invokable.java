@@ -357,7 +357,7 @@ public abstract class Invokable<T, R> implements AnnotatedElement, Member {
    *
    * <p>This method will fail if run under an Android VM.
    *
-   * @since 14.0 for guava-jre (available since 32.0 in guava-android)
+   * @since 14.0 for guava-jre (available since 32.0.0 in guava-android)
    */
   @SuppressWarnings({"Java7ApiChecker", "AndroidJdkLibsChecker"})
   @IgnoreJRERequirement
