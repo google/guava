@@ -5,16 +5,16 @@
 [![OpenSSF Best Practices](https://bestpractices.coreinfrastructure.org/projects/7197/badge)](https://bestpractices.coreinfrastructure.org/projects/7197)
 
 Guava is a set of core Java libraries from Google that includes new collection types
-(such as multimap and multiset), immutable collections, a graph library, and
+(such as Multimap and Multiset), immutable collections, a graph library, and
 utilities for concurrency, I/O, hashing, caching, primitives, strings, and more! It
 is widely used on most Java projects within Google, and widely used by many
 other companies as well.
 
 Guava comes in two flavors:
 
-*   The JRE flavor requires JDK 1.8 or higher.
-*   If you need support for Android, use the Android flavor. You can find the
-    Android Guava source in the [`android` directory].
+- The JRE flavor requires JDK 1.8 or higher.
+- If you need support for Android, use the Android flavor. You can find the
+  Android Guava source in the [`android` directory].
 
 [`android` directory]: https://github.com/google/guava/tree/master/android
 
@@ -24,7 +24,7 @@ Guava's Maven group ID is `com.google.guava`, and its artifact ID is `guava`.
 Guava provides two different "flavors": one for use on a (Java 8+) JRE and one
 for use on Android or by any library that wants to be compatible with Android.
 These flavors are specified in the Maven version field as either `31.1-jre` or
-`31.1-android`. For more about depending on Guava, see
+`31.1.1-android`. For more about depending on Guava, see
 [using Guava in your build].
 
 To add a dependency on Guava using Maven, use the following:
@@ -69,22 +69,22 @@ Snapshots of Guava built from the `master` branch are available through Maven
 using version `HEAD-jre-SNAPSHOT`, or `HEAD-android-SNAPSHOT` for the Android
 flavor.
 
--   Snapshot API Docs: [guava][guava-snapshot-api-docs]
--   Snapshot API Diffs: [guava][guava-snapshot-api-diffs]
+- Snapshot API Docs: [guava][guava-snapshot-api-docs]
+- Snapshot API Diffs: [guava][guava-snapshot-api-diffs]
 
 ## Learn about Guava
 
--   Our users' guide, [Guava Explained]
--   [A nice collection](http://www.tfnico.com/presentations/google-guava) of
-    other helpful links
+- Our users' guide, [Guava Explained]
+- [A nice collection](http://www.tfnico.com/presentations/google-guava) of
+  other helpful links
 
 ## Links
 
--   [GitHub project](https://github.com/google/guava)
--   [Issue tracker: Report a defect or feature request](https://github.com/google/guava/issues/new)
--   [StackOverflow: Ask "how-to" and "why-didn't-it-work" questions](https://stackoverflow.com/questions/ask?tags=guava+java)
--   [guava-announce: Announcements of releases and upcoming significant changes](http://groups.google.com/group/guava-announce)
--   [guava-discuss: For open-ended questions and discussion](http://groups.google.com/group/guava-discuss)
+- [GitHub project](https://github.com/google/guava)
+- [Issue tracker: Report a defect or feature request](https://github.com/google/guava/issues/new)
+- [StackOverflow: Ask "how-to" and "why-didn't-it-work" questions](https://stackoverflow.com/questions/ask?tags=guava+java)
+- [guava-announce: Announcements of releases and upcoming significant changes](http://groups.google.com/group/guava-announce)
+- [guava-discuss: For open-ended questions and discussion](http://groups.google.com/group/guava-discuss)
 
 ## IMPORTANT WARNINGS
 
@@ -121,11 +121,11 @@ flavor.
 
 [guava-snapshot-api-docs]: https://guava.dev/releases/snapshot-jre/api/docs/
 [guava-snapshot-api-diffs]: https://guava.dev/releases/snapshot-jre/api/diffs/
-[Guava Explained]: https://github.com/google/guava/wiki/Home
-[Guava Beta Checker]: https://github.com/google/guava-beta-checker
+[guava explained]: https://github.com/google/guava/wiki/Home
+[guava beta checker]: https://github.com/google/guava-beta-checker
 
 <!-- References -->
 
-[using Guava in your build]: https://github.com/google/guava/wiki/UseGuavaInYourBuild
+[using guava in your build]: https://github.com/google/guava/wiki/UseGuavaInYourBuild
 [repackage]: https://github.com/google/guava/wiki/UseGuavaInYourBuild#what-if-i-want-to-use-beta-apis-from-a-library-that-people-use-as-a-dependency
 [guava-deps]: https://github.com/google/guava/wiki/UseGuavaInYourBuild#what-about-guavas-own-dependencies
