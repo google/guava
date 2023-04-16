@@ -237,7 +237,7 @@ public final class CacheBuilder<K, V> {
    * I would have guessed that a lambda would produce the same problem, but maybe it's safe because
    * the lambda implementation is generated as a method in the _same class_ as the usage?
    */
-  static final Supplier<StatsCounter> CACHE_STATS_COUNTER = () -> new SimpleStatsCounter();
+  static final Supplier<StatsCounter> CACHE_STATS_COUNTER = SimpleStatsCounter::new;
 
   enum NullListener implements RemovalListener<Object, Object> {
     INSTANCE;

@@ -153,13 +153,10 @@ public abstract class AbstractValueGraph<N, V> extends AbstractBaseGraph<N>
 
   private static <N, V> Map<EndpointPair<N>, V> edgeValueMap(final ValueGraph<N, V> graph) {
     Function<EndpointPair<N>, V> edgeToValueFn =
-        new Function<EndpointPair<N>, V>() {
-          @Override
-          public V apply(EndpointPair<N> edge) {
-            // requireNonNull is safe because the endpoint pair comes from the graph.
-            return requireNonNull(graph.edgeValueOrDefault(edge.nodeU(), edge.nodeV(), null));
-          }
-        };
+            edge -> {
+              // requireNonNull is safe because the endpoint pair comes from the graph.
+              return requireNonNull(graph.edgeValueOrDefault(edge.nodeU(), edge.nodeV(), null));
+            };
     return Maps.asMap(graph.edges(), edgeToValueFn);
   }
 }

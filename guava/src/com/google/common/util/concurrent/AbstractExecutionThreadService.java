@@ -51,51 +51,43 @@ public abstract class AbstractExecutionThreadService implements Service {
           Executor executor =
               MoreExecutors.renamingDecorator(
                   executor(),
-                  new Supplier<String>() {
-                    @Override
-                    public String get() {
-                      return serviceName();
+                      () -> serviceName());
+          executor.execute(
+                  () -> {
+                    try {
+                      startUp();
+                      notifyStarted();
+                      // If stopAsync() is called while starting we may be in the STOPPING state in
+                      // which case we should skip right down to shutdown.
+                      if (isRunning()) {
+                        try {
+                          AbstractExecutionThreadService.this.run();
+                        } catch (Throwable t) {
+                          restoreInterruptIfIsInterruptedException(t);
+                          try {
+                            shutDown();
+                          } catch (Exception ignored) {
+                            restoreInterruptIfIsInterruptedException(ignored);
+                            // TODO(lukes): if guava ever moves to java7, this would be a good
+                            // candidate for a suppressed exception, or maybe we could generalize
+                            // Closer.Suppressor
+                            logger.log(
+                                Level.WARNING,
+                                "Error while attempting to shut down the service after failure.",
+                                ignored);
+                          }
+                          notifyFailed(t);
+                          return;
+                        }
+                      }
+
+                      shutDown();
+                      notifyStopped();
+                    } catch (Throwable t) {
+                      restoreInterruptIfIsInterruptedException(t);
+                      notifyFailed(t);
                     }
                   });
-          executor.execute(
-              new Runnable() {
-                @Override
-                public void run() {
-                  try {
-                    startUp();
-                    notifyStarted();
-                    // If stopAsync() is called while starting we may be in the STOPPING state in
-                    // which case we should skip right down to shutdown.
-                    if (isRunning()) {
-                      try {
-                        AbstractExecutionThreadService.this.run();
-                      } catch (Throwable t) {
-                        restoreInterruptIfIsInterruptedException(t);
-                        try {
-                          shutDown();
-                        } catch (Exception ignored) {
-                          restoreInterruptIfIsInterruptedException(ignored);
-                          // TODO(lukes): if guava ever moves to java7, this would be a good
-                          // candidate for a suppressed exception, or maybe we could generalize
-                          // Closer.Suppressor
-                          logger.log(
-                              Level.WARNING,
-                              "Error while attempting to shut down the service after failure.",
-                              ignored);
-                        }
-                        notifyFailed(t);
-                        return;
-                      }
-                    }
-
-                    shutDown();
-                    notifyStopped();
-                  } catch (Throwable t) {
-                    restoreInterruptIfIsInterruptedException(t);
-                    notifyFailed(t);
-                  }
-                }
-              });
         }
 
         @Override
@@ -169,12 +161,7 @@ public abstract class AbstractExecutionThreadService implements Service {
    * to the string returned by {@link #serviceName}
    */
   protected Executor executor() {
-    return new Executor() {
-      @Override
-      public void execute(Runnable command) {
-        MoreExecutors.newThread(serviceName(), command).start();
-      }
-    };
+    return command -> MoreExecutors.newThread(serviceName(), command).start();
   }
 
   @Override

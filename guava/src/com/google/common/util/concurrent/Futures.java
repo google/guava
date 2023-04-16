@@ -251,13 +251,10 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
     TrustedListenableFutureTask<O> task = TrustedListenableFutureTask.create(callable);
     final Future<?> scheduled = executorService.schedule(task, delay, timeUnit);
     task.addListener(
-        new Runnable() {
-          @Override
-          public void run() {
-            // Don't want to interrupt twice
-            scheduled.cancel(false);
-          }
-        },
+            () -> {
+              // Don't want to interrupt twice
+              scheduled.cancel(false);
+            },
         directExecutor());
     return task;
   }
@@ -924,12 +921,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
     for (int i = 0; i < copy.length; i++) {
       final int localI = i;
       copy[i].addListener(
-          new Runnable() {
-            @Override
-            public void run() {
-              state.recordInputCompletion(delegates, localI);
-            }
-          },
+              () -> state.recordInputCompletion(delegates, localI),
           directExecutor());
     }
 

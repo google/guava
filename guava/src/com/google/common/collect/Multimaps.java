@@ -706,12 +706,7 @@ public final class Multimaps {
                 Collections.unmodifiableMap(
                     Maps.transformValues(
                         delegate.asMap(),
-                        new Function<Collection<V>, Collection<V>>() {
-                          @Override
-                          public Collection<V> apply(Collection<V> collection) {
-                            return unmodifiableValueCollection(collection);
-                          }
-                        }));
+                            collection -> unmodifiableValueCollection(collection)));
       }
       return result;
     }
@@ -1524,12 +1519,7 @@ public final class Multimaps {
     Map<K, Collection<V2>> createAsMap() {
       return Maps.transformEntries(
           fromMultimap.asMap(),
-          new EntryTransformer<K, Collection<V1>, Collection<V2>>() {
-            @Override
-            public Collection<V2> transformEntry(@ParametricNullness K key, Collection<V1> value) {
-              return transform(key, value);
-            }
-          });
+              (key, value) -> transform(key, value));
     }
 
     @Override
@@ -1913,12 +1903,7 @@ public final class Multimaps {
       public Iterator<Entry<K, Collection<V>>> iterator() {
         return Maps.asMapEntryIterator(
             multimap.keySet(),
-            new Function<K, Collection<V>>() {
-              @Override
-              public Collection<V> apply(@ParametricNullness K key) {
-                return multimap.get(key);
-              }
-            });
+                key -> multimap.get(key));
       }
 
       @Override

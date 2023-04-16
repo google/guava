@@ -1386,12 +1386,7 @@ public final class ClosingFuture<V extends @Nullable Object> {
     }
 
     private static final Function<ClosingFuture<?>, FluentFuture<?>> INNER_FUTURE =
-        new Function<ClosingFuture<?>, FluentFuture<?>>() {
-          @Override
-          public FluentFuture<?> apply(ClosingFuture<?> future) {
-            return future.future;
-          }
-        };
+            future -> future.future;
 
     private ImmutableList<FluentFuture<?>> inputFutures() {
       return FluentIterable.from(inputs).transform(INNER_FUTURE).toList();
@@ -2161,17 +2156,14 @@ public final class ClosingFuture<V extends @Nullable Object> {
     }
     try {
       executor.execute(
-          new Runnable() {
-            @Override
-            public void run() {
-              try {
-                closeable.close();
-              } catch (Exception e) {
-                restoreInterruptIfIsInterruptedException(e);
-                logger.log(WARNING, "thrown by close()", e);
-              }
-            }
-          });
+              () -> {
+                try {
+                  closeable.close();
+                } catch (Exception e) {
+                  restoreInterruptIfIsInterruptedException(e);
+                  logger.log(WARNING, "thrown by close()", e);
+                }
+              });
     } catch (RejectedExecutionException e) {
       if (logger.isLoggable(WARNING)) {
         logger.log(

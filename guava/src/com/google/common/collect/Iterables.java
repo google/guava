@@ -1084,11 +1084,6 @@ public final class Iterables {
   // Useful as a public method?
   static <T extends @Nullable Object>
       Function<Iterable<? extends T>, Iterator<? extends T>> toIterator() {
-    return new Function<Iterable<? extends T>, Iterator<? extends T>>() {
-      @Override
-      public Iterator<? extends T> apply(Iterable<? extends T> iterable) {
-        return iterable.iterator();
-      }
-    };
+    return iterable -> iterable.iterator();
   }
 }

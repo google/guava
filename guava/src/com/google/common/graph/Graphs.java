@@ -289,12 +289,7 @@ public final class Graphs {
         public Iterator<EndpointPair<N>> iterator() {
           return Iterators.transform(
               delegate().incidentEdges(node).iterator(),
-              new Function<EndpointPair<N>, EndpointPair<N>>() {
-                @Override
-                public EndpointPair<N> apply(EndpointPair<N> edge) {
-                  return EndpointPair.of(delegate(), edge.nodeV(), edge.nodeU());
-                }
-              });
+                  edge -> EndpointPair.of(delegate(), edge.nodeV(), edge.nodeU()));
         }
       };
     }
