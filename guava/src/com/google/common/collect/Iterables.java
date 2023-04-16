@@ -25,6 +25,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Optional;
+import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -34,6 +35,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Queue;
+import java.util.Random;
 import java.util.RandomAccess;
 import java.util.Set;
 import java.util.Spliterator;
@@ -1078,6 +1080,18 @@ public final class Iterables {
           }
         };
     return new UnmodifiableIterable<>(iterable);
+  }
+
+  /**
+   * Picks up random value from {@link Iterable}.
+   * <p>
+   *     Consider providing {@link Iterable} with at least 1 element,
+   *     in other way you will get {@link IllegalArgumentException}.
+   * </p>
+   */
+  public static <T> T getRandom(final Iterable<T> iterable) {
+    Preconditions.checkNotNull(iterable);
+    return Iterables.get(iterable, new Random().nextInt(Iterables.size(iterable)));
   }
 
   // TODO(user): Is this the best place for this? Move to fluent functions?

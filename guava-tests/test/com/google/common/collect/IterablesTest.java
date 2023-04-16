@@ -1440,6 +1440,11 @@ public class IterablesTest extends TestCase {
         .testNulls();
   }
 
+  public void testGetRandom() {
+      ArrayList<String> strings = Lists.newArrayList("d", "a", "o");
+      strings.forEach(string -> assertTrue(strings.contains(Iterables.getRandom(strings))));
+  }
+
   private static void verifyMergeSorted(
       Iterable<Iterable<Integer>> iterables, Iterable<Integer> unsortedExpected) {
     Iterable<Integer> expected = Ordering.natural().sortedCopy(unsortedExpected);
