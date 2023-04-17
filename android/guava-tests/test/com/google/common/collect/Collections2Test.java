@@ -40,6 +40,7 @@ import java.util.NoSuchElementException;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Tests for {@link Collections2}.
@@ -203,7 +204,7 @@ public class Collections2Test extends TestCase {
   private static final Function<String, String> REMOVE_FIRST_CHAR =
       new Function<String, String>() {
         @Override
-        public String apply(String from) {
+        public String apply(@Nullable String from) {
           return ((from == null) || "".equals(from)) ? null : from.substring(1);
         }
       };

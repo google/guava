@@ -158,14 +158,14 @@ class CacheBuilderFactory {
   }
 
   private CacheBuilder<Object, Object> createCacheBuilder(
-      Integer concurrencyLevel,
-      Integer initialCapacity,
-      Integer maximumSize,
-      DurationSpec expireAfterWrite,
-      DurationSpec expireAfterAccess,
-      DurationSpec refresh,
-      Strength keyStrength,
-      Strength valueStrength) {
+      @Nullable Integer concurrencyLevel,
+      @Nullable Integer initialCapacity,
+      @Nullable Integer maximumSize,
+      @Nullable DurationSpec expireAfterWrite,
+      @Nullable DurationSpec expireAfterAccess,
+      @Nullable DurationSpec refresh,
+      @Nullable Strength keyStrength,
+      @Nullable Strength valueStrength) {
 
     CacheBuilder<Object, Object> builder = CacheBuilder.newBuilder();
     if (concurrencyLevel != null) {

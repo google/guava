@@ -23,6 +23,7 @@ import com.google.common.collect.Sets;
 import java.util.Set;
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Unit tests for {@link EqualsTester}.
@@ -370,7 +371,7 @@ public class EqualsTesterTest extends TestCase {
   private static class InvalidEqualsNullObject {
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(@Nullable Object o) {
       return o == this || o == null;
     }
 
@@ -384,7 +385,7 @@ public class EqualsTesterTest extends TestCase {
   private static class InvalidEqualsIncompatibleClassObject {
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(@Nullable Object o) {
       return o != null;
     }
 
@@ -440,7 +441,7 @@ public class EqualsTesterTest extends TestCase {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(@Nullable Object obj) {
       return obj != null && obj.toString().equals(toString());
     }
 

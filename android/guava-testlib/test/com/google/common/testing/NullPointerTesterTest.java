@@ -333,7 +333,7 @@ public class NullPointerTesterTest extends TestCase {
     }
 
     /** Method that decides how to react to parameters. */
-    public void reactToNullParameters(Object first, Object second) {
+    public void reactToNullParameters(@Nullable Object first, @Nullable Object second) {
       if (first == null) {
         actionWhenFirstParamIsNull.act();
       }

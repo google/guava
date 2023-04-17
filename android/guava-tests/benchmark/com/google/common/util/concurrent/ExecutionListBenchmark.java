@@ -671,7 +671,7 @@ public class ExecutionListBenchmark {
       // Volatile because this is written on one thread and read on another with no synchronization.
       @Nullable volatile RunnableExecutorPair next;
 
-      RunnableExecutorPair(Runnable runnable, Executor executor) {
+      RunnableExecutorPair(@Nullable Runnable runnable, @Nullable Executor executor) {
         this.runnable = runnable;
         this.executor = executor;
       }

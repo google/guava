@@ -1113,7 +1113,7 @@ public class SetsTest extends TestCase {
     }
 
     @Override
-    public boolean equals(Object other) {
+    public boolean equals(@Nullable Object other) {
       if (other == null) {
         return false;
       } else if (other instanceof Base) {
