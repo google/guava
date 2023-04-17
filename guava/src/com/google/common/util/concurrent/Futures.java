@@ -249,16 +249,12 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
       TimeUnit timeUnit,
       ScheduledExecutorService executorService) {
     TrustedListenableFutureTask<O> task = TrustedListenableFutureTask.create(callable);
-    final Future<?> scheduled = executorService.schedule(task, delay, timeUnit);
-    task.addListener(
-        new Runnable() {
-          @Override
-          public void run() {
-            // Don't want to interrupt twice
-            scheduled.cancel(false);
-          }
-        },
-        directExecutor());
+    Future<?> scheduled = executorService.schedule(task, delay, timeUnit);
+    /*
+     * Even when the user interrupts the task, we pass `false` to `cancel` so that we don't
+     * interrupt a second time after the interruption performed by TrustedListenableFutureTask.
+     */
+    task.addListener(() -> scheduled.cancel(false), directExecutor());
     return task;
   }
 
@@ -923,14 +919,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
     final ImmutableList<AbstractFuture<T>> delegates = delegatesBuilder.build();
     for (int i = 0; i < copy.length; i++) {
       final int localI = i;
-      copy[i].addListener(
-          new Runnable() {
-            @Override
-            public void run() {
-              state.recordInputCompletion(delegates, localI);
-            }
-          },
-          directExecutor());
+      copy[i].addListener(() -> state.recordInputCompletion(delegates, localI), directExecutor());
     }
 
     @SuppressWarnings("unchecked")

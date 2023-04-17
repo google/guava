@@ -27,7 +27,6 @@ import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableList;
-import com.google.common.graph.SuccessorsFunction;
 import com.google.common.graph.Traverser;
 import com.google.j2objc.annotations.J2ObjCIncompatible;
 import java.io.IOException;
@@ -296,16 +295,8 @@ public final class MoreFiles {
    * @since 23.5
    */
   public static Traverser<Path> fileTraverser() {
-    return Traverser.forTree(FILE_TREE);
+    return Traverser.forTree(MoreFiles::fileTreeChildren);
   }
-
-  private static final SuccessorsFunction<Path> FILE_TREE =
-      new SuccessorsFunction<Path>() {
-        @Override
-        public Iterable<Path> successors(Path path) {
-          return fileTreeChildren(path);
-        }
-      };
 
   private static Iterable<Path> fileTreeChildren(Path dir) {
     if (Files.isDirectory(dir, NOFOLLOW_LINKS)) {

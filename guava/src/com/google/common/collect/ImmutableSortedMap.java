@@ -538,14 +538,11 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
               entryArray,
               0,
               size,
-              new Comparator<@Nullable Entry<K, V>>() {
-                @Override
-                public int compare(@CheckForNull Entry<K, V> e1, @CheckForNull Entry<K, V> e2) {
-                  // requireNonNull is safe because the first `size` elements have been filled in.
-                  requireNonNull(e1);
-                  requireNonNull(e2);
-                  return comparator.compare(e1.getKey(), e2.getKey());
-                }
+              (e1, e2) -> {
+                // requireNonNull is safe because the first `size` elements have been filled in.
+                requireNonNull(e1);
+                requireNonNull(e2);
+                return comparator.compare(e1.getKey(), e2.getKey());
               });
           // requireNonNull is safe because the first `size` elements have been filled in.
           Entry<K, V> firstEntry = requireNonNull(entryArray[0]);

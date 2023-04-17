@@ -279,7 +279,7 @@ public abstract class FluentIterable<E extends @Nullable Object> implements Iter
     return new FluentIterable<T>() {
       @Override
       public Iterator<T> iterator() {
-        return Iterators.concat(Iterators.transform(inputs.iterator(), Iterables.<T>toIterator()));
+        return Iterators.concat(Iterators.transform(inputs.iterator(), Iterable::iterator));
       }
     };
   }
