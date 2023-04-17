@@ -349,6 +349,13 @@ public final class NullPointerTester {
    */
   private void testParameter(
       Object instance, Invokable<?, ?> invokable, int paramIndex, Class<?> testedClass) {
+    /*
+     * com.google.common is starting to rely on type-use annotations, which aren't visible under
+     * Android VMs. So we skip testing there.
+     */
+    if (isAndroid() && Reflection.getPackageName(testedClass).startsWith("com.google.common")) {
+      return;
+    }
     if (isPrimitiveOrNullable(invokable.getParameters().get(paramIndex))) {
       return; // there's nothing to test
     }
@@ -653,5 +660,10 @@ public final class NullPointerTester {
     abstract boolean isNullable(Invokable<?, ?> invokable);
 
     abstract boolean isNullable(Parameter param);
+  }
+
+  private static boolean isAndroid() {
+    // Arguably it would make more sense to test "can we see type-use annotations" directly....
+    return System.getProperty("java.runtime.name").contains("Android");
   }
 }
