@@ -58,7 +58,7 @@ public final class TestThread<L> extends Thread implements TearDown {
   private final SynchronousQueue<Request> requestQueue = new SynchronousQueue<>();
   private final SynchronousQueue<Response> responseQueue = new SynchronousQueue<>();
 
-  private Throwable uncaughtThrowable = null;
+  private @Nullable Throwable uncaughtThrowable = null;
 
   public TestThread(L lockLikeObject, String threadName) {
     super(threadName);

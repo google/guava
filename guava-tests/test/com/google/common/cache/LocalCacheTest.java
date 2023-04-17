@@ -2753,7 +2753,7 @@ public class LocalCacheTest extends TestCase {
   }
 
   static class DummyEntry<K, V> implements ReferenceEntry<K, V> {
-    private K key;
+    private @Nullable K key;
     private final int hash;
     private final ReferenceEntry<K, V> next;
 
@@ -2873,7 +2873,7 @@ public class LocalCacheTest extends TestCase {
   }
 
   static class DummyValueReference<K, V> implements ValueReference<K, V> {
-    private V value;
+    private @Nullable V value;
     boolean loading = false;
 
     public DummyValueReference() {
