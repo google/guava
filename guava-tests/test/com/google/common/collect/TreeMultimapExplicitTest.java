@@ -42,7 +42,7 @@ public class TreeMultimapExplicitTest extends TestCase {
    * Compare strings lengths, and if the lengths are equal compare the strings. A {@code null} is
    * less than any non-null value.
    */
-  private enum StringLength implements Comparator<String> {
+  private enum StringLength implements Comparator<@Nullable String> {
     COMPARATOR;
 
     @Override

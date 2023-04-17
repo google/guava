@@ -1371,16 +1371,16 @@ public class MapsTest extends TestCase {
     assertEquals(ImmutableSet.of(1, 2, 3), sync.inverse().keySet());
   }
 
-  static final Predicate<String> NOT_LENGTH_3 =
-      new Predicate<String>() {
+  static final Predicate<@Nullable String> NOT_LENGTH_3 =
+      new Predicate<@Nullable String>() {
         @Override
         public boolean apply(@Nullable String input) {
           return input == null || input.length() != 3;
         }
       };
 
-  static final Predicate<Integer> EVEN =
-      new Predicate<Integer>() {
+  static final Predicate<@Nullable Integer> EVEN =
+      new Predicate<@Nullable Integer>() {
         @Override
         public boolean apply(@Nullable Integer input) {
           return input == null || input % 2 == 0;
