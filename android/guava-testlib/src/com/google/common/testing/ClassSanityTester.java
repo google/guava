@@ -51,9 +51,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
-import javax.annotation.CheckForNull;
 import junit.framework.Assert;
 import junit.framework.AssertionFailedError;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Tester that runs automated sanity tests for any given class. A typical use case is to test static
@@ -337,8 +337,7 @@ public final class ClassSanityTester {
    * @return The instantiated instance, or {@code null} if the class has no non-private constructor
    *     or factory method to be constructed.
    */
-  @CheckForNull
-  <T> T instantiate(Class<T> cls)
+  <T> @Nullable T instantiate(Class<T> cls)
       throws ParameterNotInstantiableException,
           IllegalAccessException,
           InvocationTargetException,
@@ -388,8 +387,7 @@ public final class ClassSanityTester {
    *     class, preventing its methods from being accessible.
    * @throws InvocationTargetException if a static method threw exception.
    */
-  @CheckForNull
-  private <T> T instantiate(Invokable<?, ? extends T> factory)
+  private <T> @Nullable T instantiate(Invokable<?, ? extends T> factory)
       throws ParameterNotInstantiableException, InvocationTargetException, IllegalAccessException {
     return invoke(factory, getDummyArguments(factory));
   }
@@ -674,8 +672,7 @@ public final class ClassSanityTester {
     return generator;
   }
 
-  @CheckForNull
-  private static Object generateDummyArg(Parameter param, FreshValueGenerator generator)
+  private static @Nullable Object generateDummyArg(Parameter param, FreshValueGenerator generator)
       throws ParameterNotInstantiableException {
     if (isNullable(param)) {
       return null;
@@ -771,8 +768,7 @@ public final class ClassSanityTester {
     return instance;
   }
 
-  @CheckForNull
-  private static <T> T invoke(Invokable<?, ? extends T> factory, List<?> args)
+  private static <T> @Nullable T invoke(Invokable<?, ? extends T> factory, List<?> args)
       throws InvocationTargetException, IllegalAccessException {
     T returnValue = factory.invoke(null, args.toArray());
     if (returnValue == null) {
