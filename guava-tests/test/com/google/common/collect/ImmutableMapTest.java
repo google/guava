@@ -65,6 +65,7 @@ import java.util.stream.Stream;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Tests for {@link ImmutableMap}.
@@ -557,7 +558,7 @@ public class ImmutableMapTest extends TestCase {
     }
 
     @Override
-    public boolean equals(Object x) {
+    public boolean equals(@Nullable Object x) {
       return x instanceof ClassWithTerribleHashCode
           && ((ClassWithTerribleHashCode) x).value == value;
     }
@@ -928,7 +929,7 @@ public class ImmutableMapTest extends TestCase {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(@Nullable Object o) {
       return (o instanceof IntHolder) && ((IntHolder) o).value == value;
     }
 

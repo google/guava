@@ -355,7 +355,7 @@ public class ImmutableMultisetTest extends TestCase {
       }
 
       @Override
-      public boolean equals(Object obj) {
+      public boolean equals(@Nullable Object obj) {
         return obj instanceof TypeWithDuplicates && ((TypeWithDuplicates) obj).a == a;
       }
 

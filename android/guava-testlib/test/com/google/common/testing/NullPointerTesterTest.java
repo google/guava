@@ -1395,7 +1395,7 @@ public class NullPointerTesterTest extends TestCase {
   static class OverridesEquals {
     @SuppressWarnings("EqualsHashCode")
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(@Nullable Object o) {
       return true;
     }
   }

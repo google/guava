@@ -25,6 +25,7 @@ import com.google.common.testing.EqualsTester;
 import java.util.Collections;
 import java.util.Comparator;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Tests for {@code Comparators}.
@@ -118,7 +119,7 @@ public class ComparatorsTest extends TestCase {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(@Nullable Object o) {
       return (o instanceof Foo) && ((Foo) o).value.equals(value);
     }
 

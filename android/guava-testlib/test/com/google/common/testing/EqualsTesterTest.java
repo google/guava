@@ -303,7 +303,7 @@ public class EqualsTesterTest extends TestCase {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(@Nullable Object o) {
       if (!(o instanceof ValidTestObject)) {
         return false;
       }
@@ -338,7 +338,7 @@ public class EqualsTesterTest extends TestCase {
 
     @SuppressWarnings("EqualsHashCode")
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(@Nullable Object o) {
       if (!(o instanceof InvalidHashCodeObject)) {
         return false;
       }
@@ -357,7 +357,7 @@ public class EqualsTesterTest extends TestCase {
   private static class NonReflexiveObject {
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(@Nullable Object o) {
       return false;
     }
 
@@ -414,7 +414,7 @@ public class EqualsTesterTest extends TestCase {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(@Nullable Object obj) {
       if (obj instanceof NamedObject) {
         NamedObject that = (NamedObject) obj;
         return name.equals(that.name) || peerNames.contains(that.name);

@@ -379,7 +379,7 @@ public class FunctionsTest extends TestCase {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(@Nullable Object obj) {
       if (obj instanceof CountingSupplier) {
         return this.value == ((CountingSupplier) obj).value;
       }
