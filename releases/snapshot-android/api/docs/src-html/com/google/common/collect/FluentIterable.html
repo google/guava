@@ -288,7 +288,7 @@
 <span class="sourceLineNo">279</span><a id="line.279">    return new FluentIterable&lt;T&gt;() {</a>
 <span class="sourceLineNo">280</span><a id="line.280">      @Override</a>
 <span class="sourceLineNo">281</span><a id="line.281">      public Iterator&lt;T&gt; iterator() {</a>
-<span class="sourceLineNo">282</span><a id="line.282">        return Iterators.concat(Iterators.transform(inputs.iterator(), Iterables.&lt;T&gt;toIterator()));</a>
+<span class="sourceLineNo">282</span><a id="line.282">        return Iterators.concat(Iterators.transform(inputs.iterator(), Iterable::iterator));</a>
 <span class="sourceLineNo">283</span><a id="line.283">      }</a>
 <span class="sourceLineNo">284</span><a id="line.284">    };</a>
 <span class="sourceLineNo">285</span><a id="line.285">  }</a>

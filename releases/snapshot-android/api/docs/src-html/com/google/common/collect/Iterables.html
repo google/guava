@@ -1073,24 +1073,12 @@
 <span class="sourceLineNo">1064</span><a id="line.1064">          @Override</a>
 <span class="sourceLineNo">1065</span><a id="line.1065">          public Iterator&lt;T&gt; iterator() {</a>
 <span class="sourceLineNo">1066</span><a id="line.1066">            return Iterators.mergeSorted(</a>
-<span class="sourceLineNo">1067</span><a id="line.1067">                Iterables.transform(iterables, Iterables.&lt;T&gt;toIterator()), comparator);</a>
+<span class="sourceLineNo">1067</span><a id="line.1067">                Iterables.transform(iterables, Iterable::iterator), comparator);</a>
 <span class="sourceLineNo">1068</span><a id="line.1068">          }</a>
 <span class="sourceLineNo">1069</span><a id="line.1069">        };</a>
 <span class="sourceLineNo">1070</span><a id="line.1070">    return new UnmodifiableIterable&lt;&gt;(iterable);</a>
 <span class="sourceLineNo">1071</span><a id="line.1071">  }</a>
-<span class="sourceLineNo">1072</span><a id="line.1072"></a>
-<span class="sourceLineNo">1073</span><a id="line.1073">  // TODO(user): Is this the best place for this? Move to fluent functions?</a>
-<span class="sourceLineNo">1074</span><a id="line.1074">  // Useful as a public method?</a>
-<span class="sourceLineNo">1075</span><a id="line.1075">  static &lt;T extends @Nullable Object&gt;</a>
-<span class="sourceLineNo">1076</span><a id="line.1076">      Function&lt;Iterable&lt;? extends T&gt;, Iterator&lt;? extends T&gt;&gt; toIterator() {</a>
-<span class="sourceLineNo">1077</span><a id="line.1077">    return new Function&lt;Iterable&lt;? extends T&gt;, Iterator&lt;? extends T&gt;&gt;() {</a>
-<span class="sourceLineNo">1078</span><a id="line.1078">      @Override</a>
-<span class="sourceLineNo">1079</span><a id="line.1079">      public Iterator&lt;? extends T&gt; apply(Iterable&lt;? extends T&gt; iterable) {</a>
-<span class="sourceLineNo">1080</span><a id="line.1080">        return iterable.iterator();</a>
-<span class="sourceLineNo">1081</span><a id="line.1081">      }</a>
-<span class="sourceLineNo">1082</span><a id="line.1082">    };</a>
-<span class="sourceLineNo">1083</span><a id="line.1083">  }</a>
-<span class="sourceLineNo">1084</span><a id="line.1084">}</a>
+<span class="sourceLineNo">1072</span><a id="line.1072">}</a>
 
 
 
