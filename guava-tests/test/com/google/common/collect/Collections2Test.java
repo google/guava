@@ -201,10 +201,10 @@ public class Collections2Test extends TestCase {
         .createTestSuite();
   }
 
-  private static final Function<String, String> REMOVE_FIRST_CHAR =
-      new Function<String, String>() {
+  private static final Function<@Nullable String, @Nullable String> REMOVE_FIRST_CHAR =
+      new Function<@Nullable String, @Nullable String>() {
         @Override
-        public String apply(@Nullable String from) {
+        public @Nullable String apply(@Nullable String from) {
           return ((from == null) || "".equals(from)) ? null : from.substring(1);
         }
       };
@@ -214,8 +214,8 @@ public class Collections2Test extends TestCase {
     return CollectionTestSuiteBuilder.using(
             new TestStringCollectionGenerator() {
               @Override
-              public Collection<String> create(String[] elements) {
-                List<String> list = newArrayList();
+              public Collection<@Nullable String> create(@Nullable String[] elements) {
+                List<@Nullable String> list = newArrayList();
                 for (String element : elements) {
                   list.add((element == null) ? null : "q" + element);
                 }
