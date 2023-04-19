@@ -24,6 +24,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * When describing the features of the collection produced by a given generator (i.e. in a call to
@@ -59,7 +60,7 @@ public enum CollectionSize implements Feature<Collection>, Comparable<Collection
   ANY(ZERO, ONE, SEVERAL);
 
   private final Set<Feature<? super Collection>> implied;
-  private final Integer numElements;
+  private final @Nullable Integer numElements;
 
   CollectionSize(int numElements) {
     this.implied = Collections.emptySet();

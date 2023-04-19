@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 import java.util.Map.Entry;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.junit.Ignore;
 
 /**
@@ -167,7 +168,7 @@ public abstract class AbstractMapTester<K, V>
     }
   }
 
-  private static boolean equal(Object a, Object b) {
+  private static boolean equal(@Nullable Object a, @Nullable Object b) {
     return a == b || (a != null && a.equals(b));
   }
 
