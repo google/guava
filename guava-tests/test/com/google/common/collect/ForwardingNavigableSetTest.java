@@ -120,32 +120,32 @@ public class ForwardingNavigableSetTest extends TestCase {
     }
 
     @Override
-    public T lower(T e) {
+    public @Nullable T lower(T e) {
       return standardLower(e);
     }
 
     @Override
-    public T floor(T e) {
+    public @Nullable T floor(T e) {
       return standardFloor(e);
     }
 
     @Override
-    public T ceiling(T e) {
+    public @Nullable T ceiling(T e) {
       return standardCeiling(e);
     }
 
     @Override
-    public T higher(T e) {
+    public @Nullable T higher(T e) {
       return standardHigher(e);
     }
 
     @Override
-    public T pollFirst() {
+    public @Nullable T pollFirst() {
       return standardPollFirst();
     }
 
     @Override
-    public T pollLast() {
+    public @Nullable T pollLast() {
       return standardPollLast();
     }
 

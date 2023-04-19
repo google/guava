@@ -33,6 +33,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Unit test for {@link Floats}.
@@ -585,7 +586,7 @@ public class FloatsTest extends TestCase {
    * A reference implementation for {@code tryParse} that just catches the exception from {@link
    * Float#valueOf}.
    */
-  private static Float referenceTryParse(String input) {
+  private static @Nullable Float referenceTryParse(String input) {
     if (input.trim().length() < input.length()) {
       return null;
     }

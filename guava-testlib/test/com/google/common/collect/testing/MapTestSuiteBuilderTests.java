@@ -108,7 +108,7 @@ public final class MapTestSuiteBuilderTests extends TestCase {
               }
 
               @Override
-              public String put(String key, String value) {
+              public @Nullable String put(String key, String value) {
                 checkNotNull(key);
                 return map.put(key, value);
               }
@@ -150,7 +150,7 @@ public final class MapTestSuiteBuilderTests extends TestCase {
               }
 
               @Override
-              public String remove(Object key) {
+              public @Nullable String remove(Object key) {
                 return map.remove(key);
               }
 
@@ -261,7 +261,7 @@ public final class MapTestSuiteBuilderTests extends TestCase {
               }
 
               @Override
-              public String put(String key, String value) {
+              public @Nullable String put(String key, String value) {
                 checkNotNull(value);
                 return map.put(key, value);
               }

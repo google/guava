@@ -72,7 +72,7 @@ public class SynchronizedMapTest extends TestCase {
     }
 
     @Override
-    public V remove(Object object) {
+    public @Nullable V remove(Object object) {
       assertTrue(Thread.holdsLock(mutex));
       return super.remove(object);
     }
@@ -96,13 +96,13 @@ public class SynchronizedMapTest extends TestCase {
     }
 
     @Override
-    public V get(Object key) {
+    public @Nullable V get(Object key) {
       assertTrue(Thread.holdsLock(mutex));
       return super.get(key);
     }
 
     @Override
-    public V put(K key, V value) {
+    public @Nullable V put(K key, V value) {
       assertTrue(Thread.holdsLock(mutex));
       return super.put(key, value);
     }

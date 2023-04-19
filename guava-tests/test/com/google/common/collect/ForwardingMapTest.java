@@ -84,7 +84,7 @@ public class ForwardingMapTest extends TestCase {
     }
 
     @Override
-    public V remove(Object object) {
+    public @Nullable V remove(Object object) {
       return standardRemove(object);
     }
 
@@ -336,7 +336,7 @@ public class ForwardingMapTest extends TestCase {
           "java.util.function.Consumer", "accept",
           "java.util.function.IntFunction", "apply");
 
-  private static Object getDefaultValue(final TypeToken<?> type) {
+  private static @Nullable Object getDefaultValue(final TypeToken<?> type) {
     Class<?> rawType = type.getRawType();
     Object defaultValue = ArbitraryInstances.get(rawType);
     if (defaultValue != null) {

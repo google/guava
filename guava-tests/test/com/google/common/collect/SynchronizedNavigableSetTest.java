@@ -62,7 +62,7 @@ public class SynchronizedNavigableSetTest extends TestCase {
     }
 
     @Override
-    public E ceiling(E e) {
+    public @Nullable E ceiling(E e) {
       assertTrue(Thread.holdsLock(mutex));
       return delegate().ceiling(e);
     }
@@ -79,7 +79,7 @@ public class SynchronizedNavigableSetTest extends TestCase {
     }
 
     @Override
-    public E floor(E e) {
+    public @Nullable E floor(E e) {
       assertTrue(Thread.holdsLock(mutex));
       return delegate().floor(e);
     }
@@ -96,24 +96,24 @@ public class SynchronizedNavigableSetTest extends TestCase {
     }
 
     @Override
-    public E higher(E e) {
+    public @Nullable E higher(E e) {
       assertTrue(Thread.holdsLock(mutex));
       return delegate().higher(e);
     }
 
     @Override
-    public E lower(E e) {
+    public @Nullable E lower(E e) {
       return delegate().lower(e);
     }
 
     @Override
-    public E pollFirst() {
+    public @Nullable E pollFirst() {
       assertTrue(Thread.holdsLock(mutex));
       return delegate().pollFirst();
     }
 
     @Override
-    public E pollLast() {
+    public @Nullable E pollLast() {
       assertTrue(Thread.holdsLock(mutex));
       return delegate().pollLast();
     }

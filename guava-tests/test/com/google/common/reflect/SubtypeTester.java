@@ -106,7 +106,7 @@ abstract class SubtypeTester implements Cloneable {
    * Call this in a {@link TestSubtype} public method asserting that subtype relationship does not
    * hold.
    */
-  final <X> X notSubtype(@SuppressWarnings("unused") Object sub) {
+  final <X> @Nullable X notSubtype(@SuppressWarnings("unused") Object sub) {
     Type returnType = method.getGenericReturnType();
     Type paramType = getOnlyParameterType();
     TestSubtype spec = method.getAnnotation(TestSubtype.class);

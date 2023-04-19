@@ -290,7 +290,7 @@ public class MonitorBasedArrayBlockingQueue<E> extends AbstractQueue<E>
 
   @CanIgnoreReturnValue
   @Override
-  public E poll() {
+  public @Nullable E poll() {
     final Monitor monitor = this.monitor;
     if (monitor.enterIf(notEmpty)) {
       try {
@@ -305,7 +305,7 @@ public class MonitorBasedArrayBlockingQueue<E> extends AbstractQueue<E>
 
   @CanIgnoreReturnValue
   @Override
-  public E poll(long timeout, TimeUnit unit) throws InterruptedException {
+  public @Nullable E poll(long timeout, TimeUnit unit) throws InterruptedException {
     final Monitor monitor = this.monitor;
     if (monitor.enterWhen(notEmpty, timeout, unit)) {
       try {
@@ -332,7 +332,7 @@ public class MonitorBasedArrayBlockingQueue<E> extends AbstractQueue<E>
 
   @CanIgnoreReturnValue
   @Override
-  public E peek() {
+  public @Nullable E peek() {
     final Monitor monitor = this.monitor;
     if (monitor.enterIf(notEmpty)) {
       try {

@@ -29,6 +29,7 @@ import java.util.Queue;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Tests for {@code ForwardingQueue}.
@@ -106,12 +107,12 @@ public class ForwardingQueueTest extends TestCase {
     }
 
     @Override
-    public T peek() {
+    public @Nullable T peek() {
       return standardPeek();
     }
 
     @Override
-    public T poll() {
+    public @Nullable T poll() {
       return standardPoll();
     }
   }
