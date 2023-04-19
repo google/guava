@@ -28,6 +28,7 @@ import com.google.common.annotations.GwtCompatible;
 @Beta
 @FunctionalInterface
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public interface TearDown {
   /**
    * Performs a <b>single</b> tear-down operation. See test-libraries-for-java's {@code

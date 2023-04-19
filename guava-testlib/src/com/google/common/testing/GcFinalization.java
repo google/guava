@@ -104,6 +104,7 @@ import java.util.concurrent.TimeoutException;
  */
 @GwtIncompatible
 @J2ObjCIncompatible // gc
+@ElementTypesAreNonnullByDefault
 public final class GcFinalization {
   private GcFinalization() {}
 

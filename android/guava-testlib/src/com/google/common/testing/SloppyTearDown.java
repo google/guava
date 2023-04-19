@@ -32,6 +32,7 @@ import java.util.logging.Logger;
  */
 @Beta
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public abstract class SloppyTearDown implements TearDown {
   private static final Logger logger = Logger.getLogger(SloppyTearDown.class.getName());
 

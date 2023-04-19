@@ -106,6 +106,7 @@ import org.junit.Test;
 // Note: @Test annotations are deliberate, as some subclasses specify @RunWith(JUnit4).
 @GwtIncompatible
 @J2ObjCIncompatible // com.google.common.reflect.ClassPath
+@ElementTypesAreNonnullByDefault
 public abstract class AbstractPackageSanityTests extends TestCase {
 
   /**
