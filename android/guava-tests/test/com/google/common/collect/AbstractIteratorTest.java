@@ -96,8 +96,7 @@ public class AbstractIteratorTest extends TestCase {
               case 2:
                 return endOfData();
               default:
-                fail("Should not have been invoked again");
-                return null;
+                throw new AssertionError("Should not have been invoked again");
             }
           }
         };
