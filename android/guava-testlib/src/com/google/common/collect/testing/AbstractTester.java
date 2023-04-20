@@ -18,6 +18,7 @@ package com.google.common.collect.testing;
 
 import com.google.common.annotations.GwtCompatible;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * This abstract base class for testers allows the framework to inject needed information after
@@ -34,8 +35,8 @@ import junit.framework.TestCase;
 public class AbstractTester<G> extends TestCase {
   private G subjectGenerator;
   private String suiteName;
-  private Runnable setUp;
-  private Runnable tearDown;
+  private @Nullable Runnable setUp;
+  private @Nullable Runnable tearDown;
 
   // public so that it can be referenced in generated GWT tests.
   @Override
@@ -54,7 +55,8 @@ public class AbstractTester<G> extends TestCase {
   }
 
   // public so that it can be referenced in generated GWT tests.
-  public final void init(G subjectGenerator, String suiteName, Runnable setUp, Runnable tearDown) {
+  public final void init(
+      G subjectGenerator, String suiteName, @Nullable Runnable setUp, @Nullable Runnable tearDown) {
     this.subjectGenerator = subjectGenerator;
     this.suiteName = suiteName;
     this.setUp = setUp;

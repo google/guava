@@ -31,6 +31,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Abstract test case parent for anything implementing {@link ListenableFuture}. Tests the two get
@@ -63,7 +64,7 @@ public abstract class AbstractListenableFutureTest extends TestCase {
 
   /** Constructs a listenable future with a value available after the latch has counted down. */
   protected abstract <V> ListenableFuture<V> createListenableFuture(
-      V value, Exception except, CountDownLatch waitOn);
+      V value, @Nullable Exception except, CountDownLatch waitOn);
 
   /** Tests that the {@link Future#get()} method blocks until a value is available. */
   public void testGetBlocksUntilValueAvailable() throws Throwable {
