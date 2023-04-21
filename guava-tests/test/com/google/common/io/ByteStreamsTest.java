@@ -51,7 +51,6 @@ public class ByteStreamsTest extends IoTestCase {
     assertThat(out.toByteArray()).isEqualTo(expected);
   }
 
-  @AndroidIncompatible // Android forbids much filesystem access. Maybe we could make it work?
 
   public void testCopyFileChannel() throws IOException {
     final int chunkSize = 14407; // Random prime, unlikely to match any internal chunk size
@@ -381,7 +380,7 @@ public class ByteStreamsTest extends IoTestCase {
     assertThat(out.toByteArray()).isEqualTo(expected);
   }
 
-  @AndroidIncompatible // https://code.google.com/p/android/issues/detail?id=196848
+  @AndroidIncompatible // https://issuetracker.google.com/issues/37074504
   public void testUtf16Expected() {
     byte[] hardcodedExpected = utf16ExpectedWithBom;
     byte[] computedExpected = "r\u00C9sum\u00C9".getBytes(Charsets.UTF_16);
