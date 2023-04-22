@@ -28,7 +28,6 @@
 -->
 <super-source path="super"/>
 
-<inherits name="checker_framework_annotations.Checker_framework_annotations-gwt" />
 <inherits name="com.google.common.annotations.Annotations" />
 <inherits name="com.google.common.base.Base" />
 <inherits name="com.google.common.math.Math" />
