@@ -27,78 +27,77 @@
 <span class="sourceLineNo">018</span><a id="line.18">import com.google.errorprone.annotations.DoNotMock;</a>
 <span class="sourceLineNo">019</span><a id="line.19">import java.util.Map;</a>
 <span class="sourceLineNo">020</span><a id="line.20">import javax.annotation.CheckForNull;</a>
-<span class="sourceLineNo">021</span><a id="line.21"></a>
-<span class="sourceLineNo">022</span><a id="line.22">/**</a>
-<span class="sourceLineNo">023</span><a id="line.23"> * A map, each entry of which maps a {@link TypeToken} to an instance of that type. In addition to</a>
-<span class="sourceLineNo">024</span><a id="line.24"> * implementing {@code Map}, the additional type-safe operations {@link #putInstance} and {@link</a>
-<span class="sourceLineNo">025</span><a id="line.25"> * #getInstance} are available.</a>
-<span class="sourceLineNo">026</span><a id="line.26"> *</a>
-<span class="sourceLineNo">027</span><a id="line.27"> * &lt;p&gt;Generally, implementations don't support {@link #put} and {@link #putAll} because there is no</a>
-<span class="sourceLineNo">028</span><a id="line.28"> * way to check an object at runtime to be an instance of a {@link TypeToken}. Instead, caller</a>
-<span class="sourceLineNo">029</span><a id="line.29"> * should use the type safe {@link #putInstance}.</a>
-<span class="sourceLineNo">030</span><a id="line.30"> *</a>
-<span class="sourceLineNo">031</span><a id="line.31"> * &lt;p&gt;Also, if caller suppresses unchecked warnings and passes in an {@code Iterable&lt;String&gt;} for</a>
-<span class="sourceLineNo">032</span><a id="line.32"> * type {@code Iterable&lt;Integer&gt;}, the map won't be able to detect and throw type error.</a>
-<span class="sourceLineNo">033</span><a id="line.33"> *</a>
-<span class="sourceLineNo">034</span><a id="line.34"> * &lt;p&gt;Like any other {@code Map&lt;Class, Object&gt;}, this map may contain entries for primitive types,</a>
-<span class="sourceLineNo">035</span><a id="line.35"> * and a primitive type and its corresponding wrapper type may map to different values.</a>
-<span class="sourceLineNo">036</span><a id="line.36"> *</a>
-<span class="sourceLineNo">037</span><a id="line.37"> * &lt;p&gt;This class's support for {@code null} requires some explanation. For details, see {@link</a>
-<span class="sourceLineNo">038</span><a id="line.38"> * com.google.common.collect.ClassToInstanceMap}. Its explanation applies equally well to {@code</a>
-<span class="sourceLineNo">039</span><a id="line.39"> * TypeToInstanceMap}.</a>
-<span class="sourceLineNo">040</span><a id="line.40"> *</a>
-<span class="sourceLineNo">041</span><a id="line.41"> * @param &lt;B&gt; the common supertype that all entries must share; often this is simply {@link Object}</a>
-<span class="sourceLineNo">042</span><a id="line.42"> * @author Ben Yu</a>
-<span class="sourceLineNo">043</span><a id="line.43"> * @since 13.0</a>
-<span class="sourceLineNo">044</span><a id="line.44"> */</a>
-<span class="sourceLineNo">045</span><a id="line.45">@DoNotMock("Use ImmutableTypeToInstanceMap or MutableTypeToInstanceMap")</a>
-<span class="sourceLineNo">046</span><a id="line.46">@ElementTypesAreNonnullByDefault</a>
-<span class="sourceLineNo">047</span><a id="line.47">public interface TypeToInstanceMap&lt;B&gt; extends Map&lt;TypeToken&lt;? extends B&gt;, B&gt; {</a>
-<span class="sourceLineNo">048</span><a id="line.48"></a>
-<span class="sourceLineNo">049</span><a id="line.49">  /**</a>
-<span class="sourceLineNo">050</span><a id="line.50">   * Returns the value the specified class is mapped to, or {@code null} if no entry for this class</a>
-<span class="sourceLineNo">051</span><a id="line.51">   * is present. This will only return a value that was bound to this specific class, not a value</a>
-<span class="sourceLineNo">052</span><a id="line.52">   * that may have been bound to a subtype.</a>
-<span class="sourceLineNo">053</span><a id="line.53">   *</a>
-<span class="sourceLineNo">054</span><a id="line.54">   * &lt;p&gt;{@code getInstance(Foo.class)} is equivalent to {@code</a>
-<span class="sourceLineNo">055</span><a id="line.55">   * getInstance(TypeToken.of(Foo.class))}.</a>
-<span class="sourceLineNo">056</span><a id="line.56">   */</a>
-<span class="sourceLineNo">057</span><a id="line.57">  @CheckForNull</a>
-<span class="sourceLineNo">058</span><a id="line.58">  &lt;T extends B&gt; T getInstance(Class&lt;T&gt; type);</a>
-<span class="sourceLineNo">059</span><a id="line.59"></a>
-<span class="sourceLineNo">060</span><a id="line.60">  /**</a>
-<span class="sourceLineNo">061</span><a id="line.61">   * Returns the value the specified type is mapped to, or {@code null} if no entry for this type is</a>
-<span class="sourceLineNo">062</span><a id="line.62">   * present. This will only return a value that was bound to this specific type, not a value that</a>
-<span class="sourceLineNo">063</span><a id="line.63">   * may have been bound to a subtype.</a>
-<span class="sourceLineNo">064</span><a id="line.64">   */</a>
-<span class="sourceLineNo">065</span><a id="line.65">  @CheckForNull</a>
-<span class="sourceLineNo">066</span><a id="line.66">  &lt;T extends B&gt; T getInstance(TypeToken&lt;T&gt; type);</a>
-<span class="sourceLineNo">067</span><a id="line.67"></a>
-<span class="sourceLineNo">068</span><a id="line.68">  /**</a>
-<span class="sourceLineNo">069</span><a id="line.69">   * Maps the specified class to the specified value. Does &lt;i&gt;not&lt;/i&gt; associate this value with any</a>
-<span class="sourceLineNo">070</span><a id="line.70">   * of the class's supertypes.</a>
-<span class="sourceLineNo">071</span><a id="line.71">   *</a>
-<span class="sourceLineNo">072</span><a id="line.72">   * &lt;p&gt;{@code putInstance(Foo.class, foo)} is equivalent to {@code</a>
-<span class="sourceLineNo">073</span><a id="line.73">   * putInstance(TypeToken.of(Foo.class), foo)}.</a>
-<span class="sourceLineNo">074</span><a id="line.74">   *</a>
-<span class="sourceLineNo">075</span><a id="line.75">   * @return the value previously associated with this class (possibly {@code null}), or {@code</a>
-<span class="sourceLineNo">076</span><a id="line.76">   *     null} if there was no previous entry.</a>
-<span class="sourceLineNo">077</span><a id="line.77">   */</a>
-<span class="sourceLineNo">078</span><a id="line.78">  @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">079</span><a id="line.79">  @CheckForNull</a>
-<span class="sourceLineNo">080</span><a id="line.80">  &lt;T extends B&gt; T putInstance(Class&lt;T&gt; type, T value);</a>
-<span class="sourceLineNo">081</span><a id="line.81"></a>
-<span class="sourceLineNo">082</span><a id="line.82">  /**</a>
-<span class="sourceLineNo">083</span><a id="line.83">   * Maps the specified type to the specified value. Does &lt;i&gt;not&lt;/i&gt; associate this value with any</a>
-<span class="sourceLineNo">084</span><a id="line.84">   * of the type's supertypes.</a>
-<span class="sourceLineNo">085</span><a id="line.85">   *</a>
-<span class="sourceLineNo">086</span><a id="line.86">   * @return the value previously associated with this type (possibly {@code null}), or {@code null}</a>
-<span class="sourceLineNo">087</span><a id="line.87">   *     if there was no previous entry.</a>
-<span class="sourceLineNo">088</span><a id="line.88">   */</a>
-<span class="sourceLineNo">089</span><a id="line.89">  @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">090</span><a id="line.90">  @CheckForNull</a>
-<span class="sourceLineNo">091</span><a id="line.91">  &lt;T extends B&gt; T putInstance(TypeToken&lt;T&gt; type, T value);</a>
-<span class="sourceLineNo">092</span><a id="line.92">}</a>
+<span class="sourceLineNo">021</span><a id="line.21">import org.checkerframework.checker.nullness.qual.NonNull;</a>
+<span class="sourceLineNo">022</span><a id="line.22">import org.checkerframework.checker.nullness.qual.Nullable;</a>
+<span class="sourceLineNo">023</span><a id="line.23"></a>
+<span class="sourceLineNo">024</span><a id="line.24">/**</a>
+<span class="sourceLineNo">025</span><a id="line.25"> * A map, each entry of which maps a {@link TypeToken} to an instance of that type. In addition to</a>
+<span class="sourceLineNo">026</span><a id="line.26"> * implementing {@code Map}, the additional type-safe operations {@link #putInstance} and {@link</a>
+<span class="sourceLineNo">027</span><a id="line.27"> * #getInstance} are available.</a>
+<span class="sourceLineNo">028</span><a id="line.28"> *</a>
+<span class="sourceLineNo">029</span><a id="line.29"> * &lt;p&gt;Generally, implementations don't support {@link #put} and {@link #putAll} because there is no</a>
+<span class="sourceLineNo">030</span><a id="line.30"> * way to check an object at runtime to be an instance of a {@link TypeToken}. Instead, caller</a>
+<span class="sourceLineNo">031</span><a id="line.31"> * should use the type safe {@link #putInstance}.</a>
+<span class="sourceLineNo">032</span><a id="line.32"> *</a>
+<span class="sourceLineNo">033</span><a id="line.33"> * &lt;p&gt;Also, if caller suppresses unchecked warnings and passes in an {@code Iterable&lt;String&gt;} for</a>
+<span class="sourceLineNo">034</span><a id="line.34"> * type {@code Iterable&lt;Integer&gt;}, the map won't be able to detect and throw type error.</a>
+<span class="sourceLineNo">035</span><a id="line.35"> *</a>
+<span class="sourceLineNo">036</span><a id="line.36"> * &lt;p&gt;Like any other {@code Map&lt;Class, Object&gt;}, this map may contain entries for primitive types,</a>
+<span class="sourceLineNo">037</span><a id="line.37"> * and a primitive type and its corresponding wrapper type may map to different values.</a>
+<span class="sourceLineNo">038</span><a id="line.38"> *</a>
+<span class="sourceLineNo">039</span><a id="line.39"> * @param &lt;B&gt; the common supertype that all entries must share; often this is simply {@link Object}</a>
+<span class="sourceLineNo">040</span><a id="line.40"> * @author Ben Yu</a>
+<span class="sourceLineNo">041</span><a id="line.41"> * @since 13.0</a>
+<span class="sourceLineNo">042</span><a id="line.42"> */</a>
+<span class="sourceLineNo">043</span><a id="line.43">@DoNotMock("Use ImmutableTypeToInstanceMap or MutableTypeToInstanceMap")</a>
+<span class="sourceLineNo">044</span><a id="line.44">@ElementTypesAreNonnullByDefault</a>
+<span class="sourceLineNo">045</span><a id="line.45">public interface TypeToInstanceMap&lt;B extends @Nullable Object&gt;</a>
+<span class="sourceLineNo">046</span><a id="line.46">    extends Map&lt;TypeToken&lt;? extends @NonNull B&gt;, B&gt; {</a>
+<span class="sourceLineNo">047</span><a id="line.47"></a>
+<span class="sourceLineNo">048</span><a id="line.48">  /**</a>
+<span class="sourceLineNo">049</span><a id="line.49">   * Returns the value the specified class is mapped to, or {@code null} if no entry for this class</a>
+<span class="sourceLineNo">050</span><a id="line.50">   * is present. This will only return a value that was bound to this specific class, not a value</a>
+<span class="sourceLineNo">051</span><a id="line.51">   * that may have been bound to a subtype.</a>
+<span class="sourceLineNo">052</span><a id="line.52">   *</a>
+<span class="sourceLineNo">053</span><a id="line.53">   * &lt;p&gt;{@code getInstance(Foo.class)} is equivalent to {@code</a>
+<span class="sourceLineNo">054</span><a id="line.54">   * getInstance(TypeToken.of(Foo.class))}.</a>
+<span class="sourceLineNo">055</span><a id="line.55">   */</a>
+<span class="sourceLineNo">056</span><a id="line.56">  @CheckForNull</a>
+<span class="sourceLineNo">057</span><a id="line.57">  &lt;T extends @NonNull B&gt; T getInstance(Class&lt;T&gt; type);</a>
+<span class="sourceLineNo">058</span><a id="line.58"></a>
+<span class="sourceLineNo">059</span><a id="line.59">  /**</a>
+<span class="sourceLineNo">060</span><a id="line.60">   * Returns the value the specified type is mapped to, or {@code null} if no entry for this type is</a>
+<span class="sourceLineNo">061</span><a id="line.61">   * present. This will only return a value that was bound to this specific type, not a value that</a>
+<span class="sourceLineNo">062</span><a id="line.62">   * may have been bound to a subtype.</a>
+<span class="sourceLineNo">063</span><a id="line.63">   */</a>
+<span class="sourceLineNo">064</span><a id="line.64">  @CheckForNull</a>
+<span class="sourceLineNo">065</span><a id="line.65">  &lt;T extends @NonNull B&gt; T getInstance(TypeToken&lt;T&gt; type);</a>
+<span class="sourceLineNo">066</span><a id="line.66"></a>
+<span class="sourceLineNo">067</span><a id="line.67">  /**</a>
+<span class="sourceLineNo">068</span><a id="line.68">   * Maps the specified class to the specified value. Does &lt;i&gt;not&lt;/i&gt; associate this value with any</a>
+<span class="sourceLineNo">069</span><a id="line.69">   * of the class's supertypes.</a>
+<span class="sourceLineNo">070</span><a id="line.70">   *</a>
+<span class="sourceLineNo">071</span><a id="line.71">   * &lt;p&gt;{@code putInstance(Foo.class, foo)} is equivalent to {@code</a>
+<span class="sourceLineNo">072</span><a id="line.72">   * putInstance(TypeToken.of(Foo.class), foo)}.</a>
+<span class="sourceLineNo">073</span><a id="line.73">   *</a>
+<span class="sourceLineNo">074</span><a id="line.74">   * @return the value previously associated with this class (possibly {@code null}), or {@code</a>
+<span class="sourceLineNo">075</span><a id="line.75">   *     null} if there was no previous entry.</a>
+<span class="sourceLineNo">076</span><a id="line.76">   */</a>
+<span class="sourceLineNo">077</span><a id="line.77">  @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">078</span><a id="line.78">  @CheckForNull</a>
+<span class="sourceLineNo">079</span><a id="line.79">  &lt;T extends B&gt; T putInstance(Class&lt;@NonNull T&gt; type, @ParametricNullness T value);</a>
+<span class="sourceLineNo">080</span><a id="line.80"></a>
+<span class="sourceLineNo">081</span><a id="line.81">  /**</a>
+<span class="sourceLineNo">082</span><a id="line.82">   * Maps the specified type to the specified value. Does &lt;i&gt;not&lt;/i&gt; associate this value with any</a>
+<span class="sourceLineNo">083</span><a id="line.83">   * of the type's supertypes.</a>
+<span class="sourceLineNo">084</span><a id="line.84">   *</a>
+<span class="sourceLineNo">085</span><a id="line.85">   * @return the value previously associated with this type (possibly {@code null}), or {@code null}</a>
+<span class="sourceLineNo">086</span><a id="line.86">   *     if there was no previous entry.</a>
+<span class="sourceLineNo">087</span><a id="line.87">   */</a>
+<span class="sourceLineNo">088</span><a id="line.88">  @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">089</span><a id="line.89">  @CheckForNull</a>
+<span class="sourceLineNo">090</span><a id="line.90">  &lt;T extends B&gt; T putInstance(TypeToken&lt;@NonNull T&gt; type, @ParametricNullness T value);</a>
+<span class="sourceLineNo">091</span><a id="line.91">}</a>
 
 
 

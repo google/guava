@@ -10580,17 +10580,6 @@
  <p>Like any other {@code Map<Class, Object>}, this map may contain entries for primitive types,
  and a primitive type and its corresponding wrapper type may map to different values.
 
- <p>This class's support for {@code null} requires some explanation: From release 31.0 onward,
- Guava specifies the nullness of its types through annotations. In the case of {@code
- ClassToInstanceMap}, it specifies that both the key and value types are restricted to
- non-nullable types. This specification is reasonable for <i>keys</i>, which must be non-null
- classes. This is in contrast to the specification for <i>values</i>: Null values <i>are</i>
- supported by the implementation {@link MutableClassToInstanceMap}, even though that
- implementation and this interface specify otherwise. Thus, if you use a nullness checker, you can
- safely suppress any warnings it produces when you write null values into a {@code
- MutableClassToInstanceMap}. Just be sure to be prepared for null values when reading from it,
- since nullness checkers will assume that values are non-null then, too.
-
  <p>See the Guava User Guide article on <a href=
  "https://github.com/google/guava/wiki/NewCollectionTypesExplained#classtoinstancemap">{@code
  ClassToInstanceMap}</a>.
@@ -10598,8 +10587,8 @@
  <p>To map a generic type to an instance of that type, use {@link
  com.google.common.reflect.TypeToInstanceMap} instead.
 
- @param <B> the common supertype that all entries must share; often this is simply {@link Object}
- @author Kevin Bourrillion
+ @param <B> the common supertype that all values will share. When in doubt, just use {@link
+     Object}, or use {@code @Nullable Object} to allow null values.
  @since 2.0]]>
     </doc>
   </interface>
@@ -31495,12 +31484,12 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
     </method>
-    <method name="put" return="B"
+    <method name="put" return="B extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="key" type="java.lang.Class&lt;? extends B&gt;"/>
-      <param name="value" type="B"/>
+      <param name="value" type="B extends java.lang.Object"/>
     </method>
     <method name="putAll"
       abstract="false" native="false" synchronized="false"
@@ -31528,9 +31517,6 @@
  <p>See the Guava User Guide article on <a href=
  "https://github.com/google/guava/wiki/NewCollectionTypesExplained#classtoinstancemap">{@code
  ClassToInstanceMap}</a>.
-
- <p>This implementation <i>does</i> support null values, despite how it is annotated; see
- discussion at {@link ClassToInstanceMap}.
 
  @author Kevin Bourrillion
  @since 2.0]]>
@@ -62909,12 +62895,12 @@
       <param name="type" type="com.google.common.reflect.TypeToken&lt;T&gt;"/>
       <param name="value" type="T extends B"/>
     </method>
-    <method name="put" return="B"
+    <method name="put" return="B extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="unsupported operation">
       <param name="key" type="com.google.common.reflect.TypeToken&lt;? extends B&gt;"/>
-      <param name="value" type="B"/>
+      <param name="value" type="B extends java.lang.Object"/>
       <doc>
       <![CDATA[Not supported. Use {@link #putInstance} instead.
 
@@ -62946,9 +62932,6 @@
     </method>
     <doc>
     <![CDATA[A mutable type-to-instance map. See also {@link ImmutableTypeToInstanceMap}.
-
- <p>This implementation <i>does</i> support null values, despite how it is annotated; see
- discussion at {@link TypeToInstanceMap}.
 
  @author Ben Yu
  @since 13.0]]>
@@ -63312,10 +63295,6 @@
 
  <p>Like any other {@code Map<Class, Object>}, this map may contain entries for primitive types,
  and a primitive type and its corresponding wrapper type may map to different values.
-
- <p>This class's support for {@code null} requires some explanation. For details, see {@link
- com.google.common.collect.ClassToInstanceMap}. Its explanation applies equally well to {@code
- TypeToInstanceMap}.
 
  @param <B> the common supertype that all entries must share; often this is simply {@link Object}
  @author Ben Yu

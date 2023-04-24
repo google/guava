@@ -127,7 +127,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li><a href="ForwardingObject.html" title="class in com.google.common.collect">com.google.common.collect.ForwardingObject</a></li>
 <li>
 <ul class="inheritance">
-<li><a href="ForwardingMap.html" title="class in com.google.common.collect">com.google.common.collect.ForwardingMap</a>&lt;java.lang.Class&lt;? extends B&gt;,&#8203;B&gt;</li>
+<li><a href="ForwardingMap.html" title="class in com.google.common.collect">com.google.common.collect.ForwardingMap</a>&lt;java.lang.Class&lt;? extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> B&gt;,&#8203;B&gt;</li>
 <li>
 <ul class="inheritance">
 <li>com.google.common.collect.ImmutableClassToInstanceMap&lt;B&gt;</li>
@@ -148,8 +148,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <hr>
 <pre><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/Immutable.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@Immutable</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/Immutable.html?is-external=true#containerOf()" title="class or interface in com.google.errorprone.annotations" class="externalLink">containerOf</a>="B")
 <a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public final class <a href="../../../../src-html/com/google/common/collect/ImmutableClassToInstanceMap.html#line.37">ImmutableClassToInstanceMap</a>&lt;B&gt;
-extends <a href="ForwardingMap.html" title="class in com.google.common.collect">ForwardingMap</a>&lt;java.lang.Class&lt;? extends B&gt;,&#8203;B&gt;
+public final class <a href="../../../../src-html/com/google/common/collect/ImmutableClassToInstanceMap.html#line.38">ImmutableClassToInstanceMap</a>&lt;B&gt;
+extends <a href="ForwardingMap.html" title="class in com.google.common.collect">ForwardingMap</a>&lt;java.lang.Class&lt;? extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> B&gt;,&#8203;B&gt;
 implements <a href="ClassToInstanceMap.html" title="interface in com.google.common.collect">ClassToInstanceMap</a>&lt;B&gt;, java.io.Serializable</pre>
 <div class="block">A <a href="ClassToInstanceMap.html" title="interface in com.google.common.collect"><code>ClassToInstanceMap</code></a> whose contents will never change, with many other important
  properties detailed at <a href="ImmutableCollection.html" title="class in com.google.common.collect"><code>ImmutableCollection</code></a>.</div>
@@ -325,7 +325,7 @@ implements <a href="ClassToInstanceMap.html" title="interface in com.google.comm
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre class="methodSignature">public static&nbsp;&lt;B&gt;&nbsp;<a href="ImmutableClassToInstanceMap.html" title="class in com.google.common.collect">ImmutableClassToInstanceMap</a>&lt;B&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableClassToInstanceMap.html#line.53">of</a>()</pre>
+<pre class="methodSignature">public static&nbsp;&lt;B&gt;&nbsp;<a href="ImmutableClassToInstanceMap.html" title="class in com.google.common.collect">ImmutableClassToInstanceMap</a>&lt;B&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableClassToInstanceMap.html#line.56">of</a>()</pre>
 <div class="block">Returns an empty <code>ImmutableClassToInstanceMap</code>.
 
  <p><b>Performance note:</b> the instance returned is a singleton.</div>
@@ -343,7 +343,7 @@ implements <a href="ClassToInstanceMap.html" title="interface in com.google.comm
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre class="methodSignature">public static&nbsp;&lt;B,&#8203;T extends B&gt;&nbsp;<a href="ImmutableClassToInstanceMap.html" title="class in com.google.common.collect">ImmutableClassToInstanceMap</a>&lt;B&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableClassToInstanceMap.html#line.63">of</a>&#8203;(java.lang.Class&lt;T&gt;&nbsp;type,
+<pre class="methodSignature">public static&nbsp;&lt;B,&#8203;T extends B&gt;&nbsp;<a href="ImmutableClassToInstanceMap.html" title="class in com.google.common.collect">ImmutableClassToInstanceMap</a>&lt;B&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableClassToInstanceMap.html#line.66">of</a>&#8203;(java.lang.Class&lt;T&gt;&nbsp;type,
                                                                       T&nbsp;value)</pre>
 <div class="block">Returns an <code>ImmutableClassToInstanceMap</code> containing a single entry.</div>
 <dl>
@@ -358,7 +358,7 @@ implements <a href="ClassToInstanceMap.html" title="interface in com.google.comm
 <ul class="blockList">
 <li class="blockList">
 <h4>builder</h4>
-<pre class="methodSignature">public static&nbsp;&lt;B&gt;&nbsp;<a href="ImmutableClassToInstanceMap.Builder.html" title="class in com.google.common.collect">ImmutableClassToInstanceMap.Builder</a>&lt;B&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableClassToInstanceMap.html#line.72">builder</a>()</pre>
+<pre class="methodSignature">public static&nbsp;&lt;B&gt;&nbsp;<a href="ImmutableClassToInstanceMap.Builder.html" title="class in com.google.common.collect">ImmutableClassToInstanceMap.Builder</a>&lt;B&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableClassToInstanceMap.html#line.75">builder</a>()</pre>
 <div class="block">Returns a new builder. The generated builder is equivalent to the builder created by the <a href="ImmutableClassToInstanceMap.Builder.html" title="class in com.google.common.collect"><code>ImmutableClassToInstanceMap.Builder</code></a> constructor.</div>
 </li>
 </ul>
@@ -368,7 +368,7 @@ implements <a href="ClassToInstanceMap.html" title="interface in com.google.comm
 <ul class="blockList">
 <li class="blockList">
 <h4>copyOf</h4>
-<pre class="methodSignature">public static&nbsp;&lt;B,&#8203;S extends B&gt;&nbsp;<a href="ImmutableClassToInstanceMap.html" title="class in com.google.common.collect">ImmutableClassToInstanceMap</a>&lt;B&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableClassToInstanceMap.html#line.154">copyOf</a>&#8203;(java.util.Map&lt;? extends java.lang.Class&lt;? extends S&gt;,&#8203;? extends S&gt;&nbsp;map)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;B,&#8203;S extends B&gt;&nbsp;<a href="ImmutableClassToInstanceMap.html" title="class in com.google.common.collect">ImmutableClassToInstanceMap</a>&lt;B&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableClassToInstanceMap.html#line.157">copyOf</a>&#8203;(java.util.Map&lt;? extends java.lang.Class&lt;? extends S&gt;,&#8203;? extends S&gt;&nbsp;map)</pre>
 <div class="block">Returns an immutable map containing the same entries as <code>map</code>. If <code>map</code> somehow
  contains entries with duplicate keys (for example, if it is a <code>SortedMap</code> whose
  comparator is not <i>consistent with equals</i>), the results of this method are undefined.
@@ -388,7 +388,7 @@ implements <a href="ClassToInstanceMap.html" title="interface in com.google.comm
 <ul class="blockList">
 <li class="blockList">
 <h4>delegate</h4>
-<pre class="methodSignature">protected&nbsp;java.util.Map&lt;java.lang.Class&lt;? extends <a href="ImmutableClassToInstanceMap.html" title="type parameter in ImmutableClassToInstanceMap">B</a>&gt;,&#8203;<a href="ImmutableClassToInstanceMap.html" title="type parameter in ImmutableClassToInstanceMap">B</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableClassToInstanceMap.html#line.172">delegate</a>()</pre>
+<pre class="methodSignature">protected&nbsp;java.util.Map&lt;java.lang.Class&lt;? extends <a href="ImmutableClassToInstanceMap.html" title="type parameter in ImmutableClassToInstanceMap">B</a>&gt;,&#8203;<a href="ImmutableClassToInstanceMap.html" title="type parameter in ImmutableClassToInstanceMap">B</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableClassToInstanceMap.html#line.175">delegate</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="ForwardingObject.html#delegate()">ForwardingObject</a></code></span></div>
 <div class="block">Returns the backing delegate instance that methods are forwarded to. Abstract subclasses
  generally override this method with an abstract method that has a more specific return type,
@@ -396,7 +396,7 @@ implements <a href="ClassToInstanceMap.html" title="interface in com.google.comm
  instance being decorated.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="ForwardingMap.html#delegate()">delegate</a></code>&nbsp;in class&nbsp;<code><a href="ForwardingMap.html" title="class in com.google.common.collect">ForwardingMap</a>&lt;java.lang.Class&lt;? extends <a href="ImmutableClassToInstanceMap.html" title="type parameter in ImmutableClassToInstanceMap">B</a>&gt;,&#8203;<a href="ImmutableClassToInstanceMap.html" title="type parameter in ImmutableClassToInstanceMap">B</a>&gt;</code></dd>
+<dd><code><a href="ForwardingMap.html#delegate()">delegate</a></code>&nbsp;in class&nbsp;<code><a href="ForwardingMap.html" title="class in com.google.common.collect">ForwardingMap</a>&lt;java.lang.Class&lt;? extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="ImmutableClassToInstanceMap.html" title="type parameter in ImmutableClassToInstanceMap">B</a>&gt;,&#8203;<a href="ImmutableClassToInstanceMap.html" title="type parameter in ImmutableClassToInstanceMap">B</a>&gt;</code></dd>
 </dl>
 </li>
 </ul>
@@ -407,7 +407,7 @@ implements <a href="ClassToInstanceMap.html" title="interface in com.google.comm
 <li class="blockList">
 <h4>getInstance</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;&lt;T extends <a href="ImmutableClassToInstanceMap.html" title="type parameter in ImmutableClassToInstanceMap">B</a>&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableClassToInstanceMap.html#line.177">getInstance</a>&#8203;(java.lang.Class&lt;T&gt;&nbsp;type)</pre>
+public&nbsp;&lt;T extends <a href="ImmutableClassToInstanceMap.html" title="type parameter in ImmutableClassToInstanceMap">B</a>&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableClassToInstanceMap.html#line.180">getInstance</a>&#8203;(java.lang.Class&lt;T&gt;&nbsp;type)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="ClassToInstanceMap.html#getInstance(java.lang.Class)">ClassToInstanceMap</a></code></span></div>
 <div class="block">Returns the value the specified class is mapped to, or <code>null</code> if no entry for this class
  is present. This will only return a value that was bound to this specific class, not a value
@@ -429,7 +429,7 @@ public&nbsp;&lt;T extends <a href="ImmutableClassToInstanceMap.html" title="type
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 @Deprecated
 <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;&lt;T extends <a href="ImmutableClassToInstanceMap.html" title="type parameter in ImmutableClassToInstanceMap">B</a>&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableClassToInstanceMap.html#line.190">putInstance</a>&#8203;(java.lang.Class&lt;T&gt;&nbsp;type,
+public&nbsp;&lt;T extends <a href="ImmutableClassToInstanceMap.html" title="type parameter in ImmutableClassToInstanceMap">B</a>&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableClassToInstanceMap.html#line.193">putInstance</a>&#8203;(java.lang.Class&lt;T&gt;&nbsp;type,
                                    T&nbsp;value)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Unsupported operation.</div>
