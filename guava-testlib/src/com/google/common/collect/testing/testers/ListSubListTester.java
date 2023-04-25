@@ -349,6 +349,6 @@ public class ListSubListTester<E> extends AbstractListTester<E> {
   }
 
   /*
-   * TODO: perform all List tests on subList(), but beware infinite recursion
+   * TODO -, but beware infinite recursion
    */
 }

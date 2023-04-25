@@ -131,7 +131,7 @@ abstract class AbstractIteratorTester<E, I extends Iterator<E>> {
     // TODO: track seen elements when order isn't guaranteed
     // TODO: verify contents afterward
     // TODO: something shiny and new instead of Stack
-    // TODO: test whether null is supported (create a Feature)
+    // TODO -
     /**
      * The elements to be returned by future calls to {@code next()}, with the first at the top of
      * the stack.

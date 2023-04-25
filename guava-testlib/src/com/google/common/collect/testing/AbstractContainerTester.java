@@ -151,7 +151,7 @@ public abstract class AbstractContainerTester<C, E>
   }
 
   /*
-   * TODO: if we're testing a list, we could check indexOf(). (Doing it in
+   * TODO -. (Doing it in
    * AbstractListTester isn't enough because many tests that run on lists don't
    * extends AbstractListTester.) We could also iterate over all elements to
    * verify absence

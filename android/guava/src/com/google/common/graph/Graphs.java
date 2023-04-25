@@ -256,7 +256,7 @@ public final class Graphs {
     return endpoints;
   }
 
-  // NOTE: this should work as long as the delegate graph's implementation of edges() (like that of
+  // NOTE - (like that of
   // AbstractGraph) derives its behavior from calling successors().
   private static class TransposedGraph<N> extends ForwardingGraph<N> {
     private final Graph<N> graph;
@@ -313,7 +313,7 @@ public final class Graphs {
     }
   }
 
-  // NOTE: this should work as long as the delegate graph's implementation of edges() (like that of
+  // NOTE - (like that of
   // AbstractValueGraph) derives its behavior from calling successors().
   private static class TransposedValueGraph<N, V> extends ForwardingValueGraph<N, V> {
     private final ValueGraph<N, V> graph;
