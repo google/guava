@@ -93,7 +93,7 @@ public final class Longs {
    *     greater than {@code b}; or zero if they are equal
    */
   public static int compare(long a, long b) {
-    return (a < b) ? -1 : ((a > b) ? 1 : 0);
+    return Long.compare(a, b);
   }
 
   /**

@@ -122,7 +122,7 @@ public final class Ints extends IntsMethodsForWeb {
    *     greater than {@code b}; or zero if they are equal
    */
   public static int compare(int a, int b) {
-    return (a < b) ? -1 : ((a > b) ? 1 : 0);
+    return Integer.compare(a, b);
   }
 
   /**
