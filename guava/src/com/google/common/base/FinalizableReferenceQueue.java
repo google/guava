@@ -128,7 +128,7 @@ public class FinalizableReferenceQueue implements Closeable {
    * If any of this fails along the way, we fall back to loading Finalizer directly in the
    * application class loader.
    *
-   * NOTE: The tests for this behavior (FinalizableReferenceQueueClassLoaderUnloadingTest) fail
+   * NOTE - fail
    * strangely when run in JDK 9. We are considering this a known issue. Please see
    * https://github.com/google/guava/issues/3086 for more information.
    */
