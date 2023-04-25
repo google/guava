@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Throwables.throwIfUnchecked;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Charsets;
 import com.google.common.base.Equivalence;
@@ -126,6 +127,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Ben Yu
  */
 @GwtIncompatible
+@J2ktIncompatible
 class FreshValueGenerator {
 
   private static final ImmutableMap<Class<?>, Method> GENERATORS;

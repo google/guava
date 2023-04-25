@@ -156,7 +156,7 @@ public final class TestThread<L> extends Thread implements TearDown {
   public void callAndAssertWaits(String methodName, Object conditionLikeObject) throws Exception {
     checkNotNull(methodName);
     checkNotNull(conditionLikeObject);
-    // TODO - no longer acquires the lock.
+    // TODO: Restore the following line when Monitor.hasWaiters() no longer acquires the lock.
     // assertEquals(false, invokeMethod("hasWaiters", conditionLikeObject));
     sendRequest(methodName, conditionLikeObject);
     Thread.sleep(DUE_DILIGENCE_MILLIS);

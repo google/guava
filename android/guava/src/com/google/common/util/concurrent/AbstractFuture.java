@@ -432,7 +432,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
   @ParametricNullness
   public V get(long timeout, TimeUnit unit)
       throws InterruptedException, TimeoutException, ExecutionException {
-    // NOTE - loop
+    // NOTE: if timeout < 0, remainingNanos will be < 0 and we will fall into the while(true) loop
     // at the bottom and throw a timeoutexception.
     final long timeoutNanos = unit.toNanos(timeout); // we rely on the implicit null check on unit.
     long remainingNanos = timeoutNanos;

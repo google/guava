@@ -22,6 +22,7 @@ import static com.google.common.testing.AbstractPackageSanityTests.Chopper.suffi
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
@@ -105,6 +106,7 @@ import org.junit.Test;
 // TODO: Switch to JUnit 4 and use @Parameterized and @BeforeClass
 // Note: @Test annotations are deliberate, as some subclasses specify @RunWith(JUnit4).
 @GwtIncompatible
+@J2ktIncompatible
 @J2ObjCIncompatible // com.google.common.reflect.ClassPath
 public abstract class AbstractPackageSanityTests extends TestCase {
 
