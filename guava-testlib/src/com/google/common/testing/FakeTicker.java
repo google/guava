@@ -36,6 +36,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * @author Jige Yu
  * @since 10.0
  */
+@ElementTypesAreNonnullByDefault
 @GwtCompatible
 public class FakeTicker extends Ticker {
 

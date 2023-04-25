@@ -59,6 +59,7 @@ import java.util.Collections;
  * @author Luiz-Otavio Zorzella
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 final class ClusterException extends RuntimeException {
 
   final Collection<? extends Throwable> exceptions;

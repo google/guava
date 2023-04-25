@@ -50,6 +50,7 @@ import java.util.List;
  * @since 10.0
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public final class EquivalenceTester<T> {
   private static final int REPETITIONS = 3;
 

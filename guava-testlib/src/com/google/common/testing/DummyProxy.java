@@ -30,6 +30,7 @@ import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.Set;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Generates a dummy interface proxy that simply returns a dummy value for each method.
@@ -37,6 +38,7 @@ import java.util.Set;
  * @author Ben Yu
  */
 @GwtIncompatible
+@ElementTypesAreNonnullByDefault
 abstract class DummyProxy {
 
   /**
@@ -59,7 +61,7 @@ abstract class DummyProxy {
   }
 
   /** Returns the dummy return value for {@code returnType}. */
-  abstract <R> R dummyReturnValue(TypeToken<R> returnType);
+  abstract <R> @Nullable R dummyReturnValue(TypeToken<R> returnType);
 
   private class DummyHandler extends AbstractInvocationHandler implements Serializable {
     private final TypeToken<?> interfaceType;
@@ -69,7 +71,7 @@ abstract class DummyProxy {
     }
 
     @Override
-    protected Object handleInvocation(Object proxy, Method method, Object[] args) {
+    protected @Nullable Object handleInvocation(Object proxy, Method method, Object[] args) {
       Invokable<?, ?> invokable = interfaceType.method(method);
       ImmutableList<Parameter> params = invokable.getParameters();
       for (int i = 0; i < args.length; i++) {
@@ -87,7 +89,7 @@ abstract class DummyProxy {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(@Nullable Object obj) {
       if (obj instanceof DummyHandler) {
         DummyHandler that = (DummyHandler) obj;
         return identity().equals(that.identity());
