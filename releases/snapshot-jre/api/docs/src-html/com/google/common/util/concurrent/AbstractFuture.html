@@ -441,7 +441,7 @@
 <span class="sourceLineNo">432</span><a id="line.432">  @ParametricNullness</a>
 <span class="sourceLineNo">433</span><a id="line.433">  public V get(long timeout, TimeUnit unit)</a>
 <span class="sourceLineNo">434</span><a id="line.434">      throws InterruptedException, TimeoutException, ExecutionException {</a>
-<span class="sourceLineNo">435</span><a id="line.435">    // NOTE - loop</a>
+<span class="sourceLineNo">435</span><a id="line.435">    // NOTE: if timeout &lt; 0, remainingNanos will be &lt; 0 and we will fall into the while(true) loop</a>
 <span class="sourceLineNo">436</span><a id="line.436">    // at the bottom and throw a timeoutexception.</a>
 <span class="sourceLineNo">437</span><a id="line.437">    final long timeoutNanos = unit.toNanos(timeout); // we rely on the implicit null check on unit.</a>
 <span class="sourceLineNo">438</span><a id="line.438">    long remainingNanos = timeoutNanos;</a>
