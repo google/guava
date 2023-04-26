@@ -34,19 +34,8 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import java.util.ArrayDeque;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Deque;
-import java.util.Enumeration;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.NoSuchElementException;
-import java.util.PriorityQueue;
-import java.util.Queue;
+
+import java.util.*;
 import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -1349,6 +1338,83 @@ public final class Iterators {
       return next;
     }
   }
+
+  /**
+   * Returns an iterator that iterates across the iterators in {@code iterators}, returning their
+   * elements in ascending order according to the specified comparator. If two elements compare as
+   * equal, the order they were added to the queue is used to break the tie.
+   *
+   * <p>The returned iterator supports {@code remove()} when the corresponding input iterator supports
+   * it. The methods of the returned iterator may throw {@code NullPointerException} if any of the
+   * input iterators contains a {@code null} element, or {@code ClassCastException} if they contain
+   * elements that are not mutually comparable using the specified comparator.
+   *
+   * <p>Note: the input iterators are not polled until necessary.
+   *
+   * @param iterators the iterators to merge
+   * @param comparator the comparator to determine the order of the elements
+   * @return an iterator that merges the input iterators into a sorted sequence
+   * @throws NullPointerException if any of the input iterators or the comparator is null
+   */
+
+  public static <T> Iterator<T> mergeStableSorted(
+          Iterable<? extends Iterator<? extends T>> iterators, Comparator<? super T> comparator) {
+    checkNotNull(iterators, "iterators");
+    checkNotNull(comparator, "comparator");
+    return new MergingIterator<T>(iterators, comparator);
+  }
+
+  /**
+   * An iterator that merges multiple sorted iterators into a single sorted iterator.
+   *
+   * <p>Elements that compare as equal using the specified comparator are returned in the order they
+   * were added to the queue.
+   *
+   * <p>The returned iterator supports {@code remove()} when the corresponding input iterator
+   * supports it.
+   *
+   * @param <T> the type of elements returned by this iterator
+   */
+
+  private static class MergingStableIterator<T> extends AbstractIterator<T> {
+    final Queue<PeekingIterator<T>> queue;
+    final Comparator<? super T> comparator;
+
+    MergingStableIterator(Iterable<? extends Iterator<? extends T>> iterators, Comparator<? super T> comparator) {
+      this.comparator = comparator;
+      this.queue = new PriorityQueue<PeekingIterator<T>>(2, new Comparator<PeekingIterator<T>>() {
+        @Override
+        public int compare(PeekingIterator<T> o1, PeekingIterator<T> o2) {
+          int result = comparator.compare(o1.peek(), o2.peek());
+          if (result == 0) {
+            // If two elements are equal, compare the order they were added to the queue
+            result = Integer.compare(o1.hashCode(), o2.hashCode());
+          }
+          return result;
+        }
+      });
+
+      for (Iterator<? extends T> iterator : iterators) {
+        if (iterator.hasNext()) {
+          queue.add(Iterators.peekingIterator(iterator));
+        }
+      }
+    }
+
+    @Override
+    protected T computeNext() {
+      while (!queue.isEmpty()) {
+        PeekingIterator<T> nextIter = queue.poll();
+        T next = nextIter.next();
+        if (nextIter.hasNext()) {
+          queue.add(nextIter);
+        }
+        return next;
+      }
+      return endOfData();
+    }
+  }
+
 
   private static class ConcatenatedIterator<T extends @Nullable Object> implements Iterator<T> {
     /* The last iterator to return an element.  Calls to remove() go to this iterator. */
