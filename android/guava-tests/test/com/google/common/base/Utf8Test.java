@@ -26,6 +26,7 @@ import static java.lang.Character.MIN_SUPPLEMENTARY_CODE_POINT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.ImmutableList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -187,18 +188,21 @@ public class Utf8Test extends TestCase {
           FOUR_BYTE_ROUNDTRIPPABLE_CHARACTERS;
 
   /** Tests that round tripping of all two byte permutations work. */
+  @J2ktIncompatible
   @GwtIncompatible // java.nio.charset.Charset
   public void testIsWellFormed_1Byte() {
     testBytes(1, EXPECTED_ONE_BYTE_ROUNDTRIPPABLE_COUNT);
   }
 
   /** Tests that round tripping of all two byte permutations work. */
+  @J2ktIncompatible
   @GwtIncompatible // java.nio.charset.Charset
   public void testIsWellFormed_2Bytes() {
     testBytes(2, EXPECTED_TWO_BYTE_ROUNDTRIPPABLE_COUNT);
   }
 
   /** Tests that round tripping of all three byte permutations work. */
+  @J2ktIncompatible
   @GwtIncompatible // java.nio.charset.Charset
 
   public void testIsWellFormed_3Bytes() {
@@ -302,6 +306,7 @@ public class Utf8Test extends TestCase {
    * @param numBytes the number of bytes in the byte array
    * @param expectedCount the expected number of roundtrippable permutations
    */
+  @J2ktIncompatible
   @GwtIncompatible // java.nio.charset.Charset
   private static void testBytes(int numBytes, long expectedCount) {
     testBytes(numBytes, expectedCount, 0, -1);
@@ -317,6 +322,7 @@ public class Utf8Test extends TestCase {
    * @param lim the limit of bytes to process encoded as a long as big-endian, or -1 to mean the max
    *     limit for numBytes
    */
+  @J2ktIncompatible
   @GwtIncompatible // java.nio.charset.Charset
   private static void testBytes(int numBytes, long expectedCount, long start, long lim) {
     byte[] bytes = new byte[numBytes];
