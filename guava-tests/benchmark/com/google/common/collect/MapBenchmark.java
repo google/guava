@@ -159,7 +159,7 @@ public class MapBenchmark {
   @Param({"5", "50", "500", "5000", "50000"})
   private int size;
 
-  // TODO - hits vs. equals() hits?
+  // TODO: look at exact (==) hits vs. equals() hits?
   @Param("0.9")
   private double hitRate;
 

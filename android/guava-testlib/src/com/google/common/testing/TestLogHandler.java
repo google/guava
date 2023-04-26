@@ -16,7 +16,6 @@
 
 package com.google.common.testing;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import java.util.ArrayList;
@@ -62,7 +61,9 @@ public class TestLogHandler extends Handler {
   /** Adds the most recently logged record to our list. */
   @Override
   public synchronized void publish(@Nullable LogRecord record) {
-    list.add(checkNotNull(record));
+    if (record != null) {
+      list.add(record);
+    }
   }
 
   @Override

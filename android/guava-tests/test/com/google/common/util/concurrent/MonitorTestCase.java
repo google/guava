@@ -225,13 +225,13 @@ public abstract class MonitorTestCase extends TestCase {
         .testAllPublicInstanceMethods(monitor);
   }
 
-  // TODO:  user -.
-  // TODO:  user -.
-  // TODO:  user -.
-  // TODO:  user -.
-  // TODO -.
-  // TODO -.
-  // TODO -.
+  // TODO: Test enter(long, TimeUnit).
+  // TODO: Test enterWhen(Guard, long, TimeUnit).
+  // TODO: Test enterIf(Guard, long, TimeUnit).
+  // TODO: Test waitFor(Guard, long, TimeUnit).
+  // TODO: Test getQueueLength().
+  // TODO: Test hasQueuedThreads().
+  // TODO: Test getWaitQueueLength(Guard).
   // TODO: Test automatic signaling before leave, waitFor, and reentrant enterWhen.
   // TODO: Test blocking to re-enter monitor after being signaled.
   // TODO: Test interrupts with both interruptible and uninterruptible monitor.
