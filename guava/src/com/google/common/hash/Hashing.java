@@ -394,7 +394,19 @@ public final class Hashing {
    * @since 18.0
    */
   public static HashFunction crc32c() {
-    return Crc32cHashFunction.CRC_32_C;
+    return Crc32CSupplier.HASH_FUNCTION;
+  }
+
+  @Immutable
+  private enum Crc32CSupplier implements ImmutableSupplier<HashFunction> {
+    ABSTRACT_HASH_FUNCTION {
+      @Override
+      public HashFunction get() {
+        return Crc32cHashFunction.CRC_32_C;
+      }
+    };
+
+    static final HashFunction HASH_FUNCTION = values()[0].get();
   }
 
   /**
