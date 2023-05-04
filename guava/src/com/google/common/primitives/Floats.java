@@ -25,6 +25,7 @@ import static java.lang.Float.POSITIVE_INFINITY;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Converter;
 import java.io.Serializable;
 import java.util.AbstractList;
@@ -712,6 +713,7 @@ public final class Floats extends FloatsMethodsForWeb {
    * @throws NullPointerException if {@code string} is {@code null}
    * @since 14.0
    */
+  @J2ktIncompatible
   @GwtIncompatible // regular expressions
   @CheckForNull
   public static Float tryParse(String string) {

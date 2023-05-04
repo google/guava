@@ -26,6 +26,6 @@ class TestPlatform {
   }
 
   static boolean isAndroid() {
-    return System.getProperty("java.runtime.name").contains("Android");
+    return System.getProperty("java.runtime.name", "").contains("Android");
   }
 }
