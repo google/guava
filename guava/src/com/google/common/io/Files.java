@@ -34,6 +34,7 @@ import com.google.common.hash.HashCode;
 import com.google.common.hash.HashFunction;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.InlineMe;
+import com.google.j2objc.annotations.J2ObjCIncompatible;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -426,6 +427,7 @@ public final class Files {
    */
   @Beta
   @Deprecated
+  @J2ObjCIncompatible
   public static File createTempDir() {
     File baseDir = new File(System.getProperty("java.io.tmpdir"));
     @SuppressWarnings("GoodTime") // reading system time without TimeSource

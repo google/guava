@@ -21,6 +21,7 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.errorprone.annotations.concurrent.GuardedBy;
+import com.google.j2objc.annotations.J2ObjCIncompatible;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -54,6 +55,7 @@ import javax.annotation.CheckForNull;
 @Beta
 @J2ktIncompatible
 @GwtIncompatible
+@J2ObjCIncompatible
 @ElementTypesAreNonnullByDefault
 public final class FileBackedOutputStream extends OutputStream {
   private final int fileThreshold;
