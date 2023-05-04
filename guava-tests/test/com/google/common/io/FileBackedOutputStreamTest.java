@@ -17,7 +17,6 @@
 package com.google.common.io;
 
 
-import com.google.common.testing.GcFinalization;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -25,6 +24,8 @@ import java.util.Arrays;
 
 /**
  * Unit tests for {@link FileBackedOutputStream}.
+ *
+ * <p>For a tiny bit more testing, see {@link FileBackedOutputStreamAndroidIncompatibleTest}.
  *
  * @author Chris Nokleberg
  */
@@ -79,31 +80,6 @@ public class FileBackedOutputStreamTest extends IoTestCase {
   }
 
 
-  @AndroidIncompatible // Finalization probably just doesn't happen fast enough?
-  public void testFinalizeDeletesFile() throws Exception {
-    byte[] data = newPreFilledByteArray(100);
-    FileBackedOutputStream out = new FileBackedOutputStream(0, true);
-
-    write(out, data, 0, 100, true);
-    final File file = out.getFile();
-    assertEquals(100, file.length());
-    assertTrue(file.exists());
-    out.close();
-
-    // Make sure that finalize deletes the file
-    out = null;
-
-    // times out and throws RuntimeException on failure
-    GcFinalization.awaitDone(
-        new GcFinalization.FinalizationPredicate() {
-          @Override
-          public boolean isDone() {
-            return !file.exists();
-          }
-        });
-  }
-
-
   public void testThreshold_resetOnFinalize() throws Exception {
     testThreshold(0, 100, true, true);
     testThreshold(10, 100, true, true);
@@ -115,7 +91,7 @@ public class FileBackedOutputStreamTest extends IoTestCase {
     testThreshold(1000, 100, false, true);
   }
 
-  private static void write(OutputStream out, byte[] b, int off, int len, boolean singleByte)
+  static void write(OutputStream out, byte[] b, int off, int len, boolean singleByte)
       throws IOException {
     if (singleByte) {
       for (int i = off; i < off + len; i++) {
