@@ -713,7 +713,6 @@ public final class Floats extends FloatsMethodsForWeb {
    * @throws NullPointerException if {@code string} is {@code null}
    * @since 14.0
    */
-  @Beta
   @GwtIncompatible // regular expressions
   public static @Nullable Float tryParse(String string) {
     if (Doubles.FLOATING_POINT_PATTERN.matcher(string).matches()) {

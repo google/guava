@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Function;
 import com.google.common.collect.Maps;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -57,6 +58,7 @@ import org.jspecify.annotations.Nullable;
  * @since 11.0
  */
 @GwtCompatible
+@J2ktIncompatible
 @NullMarked
 public final class AtomicLongMap<K> implements Serializable {
   private final ConcurrentHashMap<K, AtomicLong> map;

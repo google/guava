@@ -19,7 +19,7 @@ package com.google.common.collect;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * GWT implementation of {@link ImmutableSet} that forwards to another {@code Set} implementation.

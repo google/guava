@@ -31,6 +31,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.Spliterator;
+import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -42,9 +43,6 @@ import org.jspecify.annotations.Nullable;
  * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#classtoinstancemap">{@code
  * ClassToInstanceMap}</a>.
  *
- * <p>This implementation <i>does</i> support null values, despite how it is annotated; see
- * discussion at {@link ClassToInstanceMap}.
- *
  * @author Kevin Bourrillion
  * @since 2.0
  */
@@ -52,15 +50,16 @@ import org.jspecify.annotations.Nullable;
 @GwtIncompatible
 @SuppressWarnings("serial") // using writeReplace instead of standard serialization
 @NullMarked
-public final class MutableClassToInstanceMap<B> extends ForwardingMap<Class<? extends B>, B>
+public final class MutableClassToInstanceMap<B extends @Nullable Object>
+    extends ForwardingMap<Class<? extends @NonNull B>, B>
     implements ClassToInstanceMap<B>, Serializable {
 
   /**
    * Returns a new {@code MutableClassToInstanceMap} instance backed by a {@link HashMap} using the
    * default initial capacity and load factor.
    */
-  public static <B> MutableClassToInstanceMap<B> create() {
-    return new MutableClassToInstanceMap<B>(new HashMap<Class<? extends B>, B>());
+  public static <B extends @Nullable Object> MutableClassToInstanceMap<B> create() {
+    return new MutableClassToInstanceMap<B>(new HashMap<Class<? extends @NonNull B>, B>());
   }
 
   /**
@@ -68,29 +67,30 @@ public final class MutableClassToInstanceMap<B> extends ForwardingMap<Class<? ex
    * backingMap}. The caller surrenders control of the backing map, and thus should not allow any
    * direct references to it to remain accessible.
    */
-  public static <B> MutableClassToInstanceMap<B> create(Map<Class<? extends B>, B> backingMap) {
+  public static <B extends @Nullable Object> MutableClassToInstanceMap<B> create(
+      Map<Class<? extends @NonNull B>, B> backingMap) {
     return new MutableClassToInstanceMap<B>(backingMap);
   }
 
-  private final Map<Class<? extends B>, B> delegate;
+  private final Map<Class<? extends @NonNull B>, B> delegate;
 
-  private MutableClassToInstanceMap(Map<Class<? extends B>, B> delegate) {
+  private MutableClassToInstanceMap(Map<Class<? extends @NonNull B>, B> delegate) {
     this.delegate = checkNotNull(delegate);
   }
 
   @Override
-  protected Map<Class<? extends B>, B> delegate() {
+  protected Map<Class<? extends @NonNull B>, B> delegate() {
     return delegate;
   }
 
   /**
    * Wraps the {@code setValue} implementation of an {@code Entry} to enforce the class constraint.
    */
-  private static <B> Entry<Class<? extends B>, B> checkedEntry(
-      final Entry<Class<? extends B>, B> entry) {
-    return new ForwardingMapEntry<Class<? extends B>, B>() {
+  private static <B extends @Nullable Object> Entry<Class<? extends @NonNull B>, B> checkedEntry(
+      final Entry<Class<? extends @NonNull B>, B> entry) {
+    return new ForwardingMapEntry<Class<? extends @NonNull B>, B>() {
       @Override
-      protected Entry<Class<? extends B>, B> delegate() {
+      protected Entry<Class<? extends @NonNull B>, B> delegate() {
         return entry;
       }
 
@@ -102,26 +102,28 @@ public final class MutableClassToInstanceMap<B> extends ForwardingMap<Class<? ex
   }
 
   @Override
-  public Set<Entry<Class<? extends B>, B>> entrySet() {
-    return new ForwardingSet<Entry<Class<? extends B>, B>>() {
+  public Set<Entry<Class<? extends @NonNull B>, B>> entrySet() {
+    return new ForwardingSet<Entry<Class<? extends @NonNull B>, B>>() {
 
       @Override
-      protected Set<Entry<Class<? extends B>, B>> delegate() {
+      protected Set<Entry<Class<? extends @NonNull B>, B>> delegate() {
         return MutableClassToInstanceMap.this.delegate().entrySet();
       }
 
       @Override
-      public Spliterator<Entry<Class<? extends B>, B>> spliterator() {
+      public Spliterator<Entry<Class<? extends @NonNull B>, B>> spliterator() {
         return CollectSpliterators.map(
             delegate().spliterator(), MutableClassToInstanceMap::checkedEntry);
       }
 
       @Override
-      public Iterator<Entry<Class<? extends B>, B>> iterator() {
-        return new TransformedIterator<Entry<Class<? extends B>, B>, Entry<Class<? extends B>, B>>(
+      public Iterator<Entry<Class<? extends @NonNull B>, B>> iterator() {
+        return new TransformedIterator<
+            Entry<Class<? extends @NonNull B>, B>, Entry<Class<? extends @NonNull B>, B>>(
             delegate().iterator()) {
           @Override
-          Entry<Class<? extends B>, B> transform(Entry<Class<? extends B>, B> from) {
+          Entry<Class<? extends @NonNull B>, B> transform(
+              Entry<Class<? extends @NonNull B>, B> from) {
             return checkedEntry(from);
           }
         };
@@ -150,14 +152,14 @@ public final class MutableClassToInstanceMap<B> extends ForwardingMap<Class<? ex
 
   @Override
   @CanIgnoreReturnValue
-  public @Nullable B put(Class<? extends B> key, B value) {
+  public @Nullable B put(Class<? extends @NonNull B> key, B value) {
     return super.put(key, cast(key, value));
   }
 
   @Override
-  public void putAll(Map<? extends Class<? extends B>, ? extends B> map) {
-    Map<Class<? extends B>, B> copy = new LinkedHashMap<>(map);
-    for (Entry<? extends Class<? extends B>, B> entry : copy.entrySet()) {
+  public void putAll(Map<? extends Class<? extends @NonNull B>, ? extends B> map) {
+    Map<Class<? extends @NonNull B>, B> copy = new LinkedHashMap<>(map);
+    for (Entry<? extends Class<? extends @NonNull B>, B> entry : copy.entrySet()) {
       cast(entry.getKey(), entry.getValue());
     }
     super.putAll(copy);
@@ -165,17 +167,17 @@ public final class MutableClassToInstanceMap<B> extends ForwardingMap<Class<? ex
 
   @CanIgnoreReturnValue
   @Override
-  public <T extends B> @Nullable T putInstance(Class<T> type, T value) {
+  public <T extends B> @Nullable T putInstance(Class<@NonNull T> type, T value) {
     return cast(type, put(type, value));
   }
 
   @Override
-  public <T extends B> @Nullable T getInstance(Class<T> type) {
+  public <T extends @NonNull B> @Nullable T getInstance(Class<T> type) {
     return cast(type, get(type));
   }
 
   @CanIgnoreReturnValue
-  private static <B, T extends B> @Nullable T cast(Class<T> type, @Nullable B value) {
+  private static <B, T extends B> @Nullable T cast(Class<@NonNull T> type, @Nullable B value) {
     return Primitives.wrap(type).cast(value);
   }
 
@@ -188,10 +190,10 @@ public final class MutableClassToInstanceMap<B> extends ForwardingMap<Class<? ex
   }
 
   /** Serialized form of the map, to avoid serializing the constraint. */
-  private static final class SerializedForm<B> implements Serializable {
-    private final Map<Class<? extends B>, B> backingMap;
+  private static final class SerializedForm<B extends @Nullable Object> implements Serializable {
+    private final Map<Class<? extends @NonNull B>, B> backingMap;
 
-    SerializedForm(Map<Class<? extends B>, B> backingMap) {
+    SerializedForm(Map<Class<? extends @NonNull B>, B> backingMap) {
       this.backingMap = backingMap;
     }
 

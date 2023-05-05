@@ -17,6 +17,7 @@
 package com.google.common.util.concurrent;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.util.concurrent.Service.State;
 import org.jspecify.annotations.NullMarked;
@@ -26,6 +27,7 @@ import org.jspecify.annotations.NullMarked;
  * servicesByState()}, to ensure binary compatibility with older Guava versions that specified
  * {@code servicesByState()} to return {@code ImmutableMultimap}.
  */
+@J2ktIncompatible
 @GwtIncompatible
 @NullMarked
 interface ServiceManagerBridge {

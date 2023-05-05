@@ -21,6 +21,7 @@ import static com.google.common.util.concurrent.Internal.toNanosSaturated;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Supplier;
 import com.google.common.base.Throwables;
@@ -82,6 +83,7 @@ public final class MoreExecutors {
    * @since 28.0
    */
   @Beta
+  @J2ktIncompatible
   @GwtIncompatible // TODO
   public static ExecutorService getExitingExecutorService(
       ThreadPoolExecutor executor, Duration terminationTimeout) {
@@ -103,6 +105,7 @@ public final class MoreExecutors {
    * @return an unmodifiable version of the input which will not hang the JVM
    */
   @Beta
+  @J2ktIncompatible
   @GwtIncompatible // TODO
   @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public static ExecutorService getExitingExecutorService(
@@ -124,6 +127,7 @@ public final class MoreExecutors {
    * @return an unmodifiable version of the input which will not hang the JVM
    */
   @Beta
+  @J2ktIncompatible
   @GwtIncompatible // concurrency
   public static ExecutorService getExitingExecutorService(ThreadPoolExecutor executor) {
     return new Application().getExitingExecutorService(executor);
@@ -143,6 +147,7 @@ public final class MoreExecutors {
    * @since 28.0
    */
   @Beta
+  @J2ktIncompatible
   @GwtIncompatible // java.time.Duration
   public static ScheduledExecutorService getExitingScheduledExecutorService(
       ScheduledThreadPoolExecutor executor, Duration terminationTimeout) {
@@ -164,6 +169,7 @@ public final class MoreExecutors {
    * @return an unmodifiable version of the input which will not hang the JVM
    */
   @Beta
+  @J2ktIncompatible
   @GwtIncompatible // TODO
   @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public static ScheduledExecutorService getExitingScheduledExecutorService(
@@ -186,6 +192,7 @@ public final class MoreExecutors {
    * @return an unmodifiable version of the input which will not hang the JVM
    */
   @Beta
+  @J2ktIncompatible
   @GwtIncompatible // TODO
   public static ScheduledExecutorService getExitingScheduledExecutorService(
       ScheduledThreadPoolExecutor executor) {
@@ -204,6 +211,7 @@ public final class MoreExecutors {
    * @since 28.0
    */
   @Beta
+  @J2ktIncompatible
   @GwtIncompatible // java.time.Duration
   public static void addDelayedShutdownHook(ExecutorService service, Duration terminationTimeout) {
     addDelayedShutdownHook(service, toNanosSaturated(terminationTimeout), TimeUnit.NANOSECONDS);
@@ -221,6 +229,7 @@ public final class MoreExecutors {
    * @param timeUnit unit of time for the time parameter
    */
   @Beta
+  @J2ktIncompatible
   @GwtIncompatible // TODO
   @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public static void addDelayedShutdownHook(
@@ -229,6 +238,7 @@ public final class MoreExecutors {
   }
 
   /** Represents the current application to register shutdown hooks. */
+  @J2ktIncompatible
   @GwtIncompatible // TODO
   @VisibleForTesting
   static class Application {
@@ -289,6 +299,7 @@ public final class MoreExecutors {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // TODO
   private static void useDaemonThreadFactory(ThreadPoolExecutor executor) {
     executor.setThreadFactory(
@@ -299,6 +310,7 @@ public final class MoreExecutors {
   }
 
   // See newDirectExecutorService javadoc for behavioral notes.
+  @J2ktIncompatible
   @GwtIncompatible // TODO
   private static final class DirectExecutorService extends AbstractListeningExecutorService {
     /** Lock used whenever accessing the state variables (runningTasks, shutdown) of the executor */
@@ -427,6 +439,7 @@ public final class MoreExecutors {
    *
    * @since 18.0 (present as MoreExecutors.sameThreadExecutor() since 10.0)
    */
+  @J2ktIncompatible
   @GwtIncompatible // TODO
   public static ListeningExecutorService newDirectExecutorService() {
     return new DirectExecutorService();
@@ -541,6 +554,7 @@ public final class MoreExecutors {
    *
    * @since 23.3 (since 23.1 as {@code sequentialExecutor})
    */
+  @J2ktIncompatible
   @GwtIncompatible
   public static Executor newSequentialExecutor(Executor delegate) {
     return new SequentialExecutor(delegate);
@@ -561,6 +575,7 @@ public final class MoreExecutors {
    *
    * @since 10.0
    */
+  @J2ktIncompatible
   @GwtIncompatible // TODO
   public static ListeningExecutorService listeningDecorator(ExecutorService delegate) {
     return (delegate instanceof ListeningExecutorService)
@@ -586,6 +601,7 @@ public final class MoreExecutors {
    *
    * @since 10.0
    */
+  @J2ktIncompatible
   @GwtIncompatible // TODO
   public static ListeningScheduledExecutorService listeningDecorator(
       ScheduledExecutorService delegate) {
@@ -594,6 +610,7 @@ public final class MoreExecutors {
         : new ScheduledListeningDecorator(delegate);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // TODO
   private static class ListeningDecorator extends AbstractListeningExecutorService {
     private final ExecutorService delegate;
@@ -638,6 +655,7 @@ public final class MoreExecutors {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // TODO
   private static final class ScheduledListeningDecorator extends ListeningDecorator
       implements ListeningScheduledExecutorService {
@@ -716,6 +734,7 @@ public final class MoreExecutors {
       }
     }
 
+    @J2ktIncompatible
     @GwtIncompatible // TODO
     private static final class NeverSuccessfulListenableFutureTask
         extends AbstractFuture.TrustedFuture<@Nullable Void> implements Runnable {
@@ -757,6 +776,7 @@ public final class MoreExecutors {
    * An implementation of {@link ExecutorService#invokeAny} for {@link ListeningExecutorService}
    * implementations.
    */
+  @J2ktIncompatible
   @GwtIncompatible
   static <T extends @Nullable Object> T invokeAnyImpl(
       ListeningExecutorService executorService,
@@ -773,6 +793,7 @@ public final class MoreExecutors {
    * implementations.
    */
   @SuppressWarnings("GoodTime") // should accept a java.time.Duration
+  @J2ktIncompatible
   @GwtIncompatible
   static <T extends @Nullable Object> T invokeAnyImpl(
       ListeningExecutorService executorService,
@@ -853,6 +874,7 @@ public final class MoreExecutors {
   /**
    * Submits the task and adds a listener that adds the future to {@code queue} when it completes.
    */
+  @J2ktIncompatible
   @GwtIncompatible // TODO
   private static <T extends @Nullable Object> ListenableFuture<T> submitAndAddQueueListener(
       ListeningExecutorService executorService,
@@ -881,6 +903,7 @@ public final class MoreExecutors {
    * @since 14.0
    */
   @Beta
+  @J2ktIncompatible
   @GwtIncompatible // concurrency
   public static ThreadFactory platformThreadFactory() {
     if (!isAppEngineWithApiClasses()) {
@@ -907,6 +930,7 @@ public final class MoreExecutors {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // TODO
   private static boolean isAppEngineWithApiClasses() {
     if (System.getProperty("com.google.appengine.runtime.environment") == null) {
@@ -942,6 +966,7 @@ public final class MoreExecutors {
    * Creates a thread using {@link #platformThreadFactory}, and sets its name to {@code name} unless
    * changing the name is forbidden by the security manager.
    */
+  @J2ktIncompatible
   @GwtIncompatible // concurrency
   static Thread newThread(String name, Runnable runnable) {
     checkNotNull(name);
@@ -969,6 +994,7 @@ public final class MoreExecutors {
    * @param executor The executor to decorate
    * @param nameSupplier The source of names for each task
    */
+  @J2ktIncompatible
   @GwtIncompatible // concurrency
   static Executor renamingDecorator(final Executor executor, final Supplier<String> nameSupplier) {
     checkNotNull(executor);
@@ -992,6 +1018,7 @@ public final class MoreExecutors {
    * @param service The executor to decorate
    * @param nameSupplier The source of names for each task
    */
+  @J2ktIncompatible
   @GwtIncompatible // concurrency
   static ExecutorService renamingDecorator(
       final ExecutorService service, final Supplier<String> nameSupplier) {
@@ -1021,6 +1048,7 @@ public final class MoreExecutors {
    * @param service The executor to decorate
    * @param nameSupplier The source of names for each task
    */
+  @J2ktIncompatible
   @GwtIncompatible // concurrency
   static ScheduledExecutorService renamingDecorator(
       final ScheduledExecutorService service, final Supplier<String> nameSupplier) {
@@ -1064,6 +1092,7 @@ public final class MoreExecutors {
    */
   @Beta
   @CanIgnoreReturnValue
+  @J2ktIncompatible
   @GwtIncompatible // java.time.Duration
   public static boolean shutdownAndAwaitTermination(ExecutorService service, Duration timeout) {
     return shutdownAndAwaitTermination(service, toNanosSaturated(timeout), TimeUnit.NANOSECONDS);
@@ -1095,6 +1124,7 @@ public final class MoreExecutors {
    */
   @Beta
   @CanIgnoreReturnValue
+  @J2ktIncompatible
   @GwtIncompatible // concurrency
   @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public static boolean shutdownAndAwaitTermination(

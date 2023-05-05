@@ -15,6 +15,7 @@
 package com.google.common.net;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.net.InetAddress;
@@ -42,6 +43,7 @@ import org.jspecify.annotations.Nullable;
  * @author Craig Berry
  * @since 5.0
  */
+@J2ktIncompatible
 @GwtIncompatible
 @NullMarked
 public final class HostSpecifier {

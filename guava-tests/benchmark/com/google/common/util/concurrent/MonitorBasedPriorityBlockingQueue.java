@@ -30,7 +30,7 @@ import java.util.Queue;
 import java.util.SortedSet;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An unbounded {@linkplain BlockingQueue blocking queue} that uses the same ordering rules as class
@@ -217,7 +217,7 @@ public class MonitorBasedPriorityBlockingQueue<E> extends AbstractQueue<E>
 
   @CanIgnoreReturnValue // pushed down from class to method
   @Override
-  public E poll() {
+  public @Nullable E poll() {
     final Monitor monitor = this.monitor;
     monitor.enter();
     try {
@@ -229,7 +229,7 @@ public class MonitorBasedPriorityBlockingQueue<E> extends AbstractQueue<E>
 
   @CanIgnoreReturnValue // pushed down from class to method
   @Override
-  public E poll(long timeout, TimeUnit unit) throws InterruptedException {
+  public @Nullable E poll(long timeout, TimeUnit unit) throws InterruptedException {
     final Monitor monitor = this.monitor;
     if (monitor.enterWhen(notEmpty, timeout, unit)) {
       try {
@@ -256,7 +256,7 @@ public class MonitorBasedPriorityBlockingQueue<E> extends AbstractQueue<E>
 
   @CanIgnoreReturnValue // pushed down from class to method
   @Override
-  public E peek() {
+  public @Nullable E peek() {
     final Monitor monitor = this.monitor;
     monitor.enter();
     try {

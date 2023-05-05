@@ -17,6 +17,7 @@ package com.google.common.util.concurrent;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.primitives.Longs;
 import com.google.errorprone.annotations.concurrent.GuardedBy;
 import com.google.j2objc.annotations.Weak;
@@ -197,6 +198,7 @@ import org.jspecify.annotations.Nullable;
  * @author Martin Buchholz
  * @since 10.0
  */
+@J2ktIncompatible
 @GwtIncompatible
 @SuppressWarnings("GuardedBy") // TODO(b/35466881): Fix or suppress.
 @NullMarked

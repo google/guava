@@ -36,7 +36,7 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.io.StringWriter;
 import junit.framework.TestCase;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Tests for {@code BaseEncoding}.

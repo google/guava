@@ -14,6 +14,7 @@
 
 package com.google.common.util.concurrent.internal;
 
+
 /**
  * Static utilities for {@link InternalFutureFailureAccess}. Most users will never need to use this
  * class.
@@ -37,7 +38,8 @@ public final class InternalFutures {
    *       return value of this method as its cause
    * </ul>
    */
-  public static Throwable tryInternalFastPathGetFailure(InternalFutureFailureAccess future) {
+  public static
+      Throwable tryInternalFastPathGetFailure(InternalFutureFailureAccess future) {
     return future.tryInternalFastPathGetFailure();
   }
 

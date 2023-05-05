@@ -20,7 +20,6 @@ import com.google.common.annotations.GwtCompatible;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.SortedSet;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * This class provides a skeletal implementation of the {@link SortedMultiset} interface.
@@ -98,10 +97,7 @@ abstract class AbstractSortedMultiset<E> extends AbstractMultiset<E> implements 
 
   @Override
   public SortedMultiset<E> subMultiset(
-      @Nullable E fromElement,
-      BoundType fromBoundType,
-      @Nullable E toElement,
-      BoundType toBoundType) {
+      E fromElement, BoundType fromBoundType, E toElement, BoundType toBoundType) {
     // These are checked elsewhere, but NullPointerTester wants them checked eagerly.
     checkNotNull(fromBoundType);
     checkNotNull(toBoundType);

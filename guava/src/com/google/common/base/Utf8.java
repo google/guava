@@ -18,7 +18,6 @@ import static com.google.common.base.Preconditions.checkPositionIndexes;
 import static java.lang.Character.MAX_SURROGATE;
 import static java.lang.Character.MIN_SURROGATE;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import org.jspecify.annotations.NullMarked;
 
@@ -37,7 +36,6 @@ import org.jspecify.annotations.NullMarked;
  * @author Clément Roux
  * @since 16.0
  */
-@Beta
 @GwtCompatible(emulated = true)
 @NullMarked
 public final class Utf8 {

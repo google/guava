@@ -15,10 +15,12 @@
 package com.google.common.util.concurrent;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import java.time.Duration;
 import org.jspecify.annotations.NullMarked;
 
 /** This class is for {@code com.google.common.util.concurrent} use only! */
+@J2ktIncompatible
 @GwtIncompatible // java.time.Duration
 @NullMarked
 final class Internal {

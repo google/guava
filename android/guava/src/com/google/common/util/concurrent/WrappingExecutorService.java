@@ -19,6 +19,7 @@ import static com.google.common.base.Throwables.throwIfUnchecked;
 import static com.google.common.util.concurrent.Platform.restoreInterruptIfIsInterruptedException;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Collection;
@@ -43,6 +44,7 @@ import org.jspecify.annotations.Nullable;
  *
  * @author Chris Nokleberg
  */
+@J2ktIncompatible
 @GwtIncompatible
 @NullMarked
 abstract class WrappingExecutorService implements ExecutorService {

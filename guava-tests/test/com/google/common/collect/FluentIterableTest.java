@@ -44,7 +44,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Unit test for {@link FluentIterable}.

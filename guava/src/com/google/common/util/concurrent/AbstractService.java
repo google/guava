@@ -28,6 +28,7 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.util.concurrent.Monitor.Guard;
 import com.google.common.util.concurrent.Service.State;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -52,6 +53,7 @@ import org.jspecify.annotations.Nullable;
  * @since 1.0
  */
 @GwtIncompatible
+@J2ktIncompatible
 @NullMarked
 public abstract class AbstractService implements Service {
   private static final ListenerCallQueue.Event<Listener> STARTING_EVENT =

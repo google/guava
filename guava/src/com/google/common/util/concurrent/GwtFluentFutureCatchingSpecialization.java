@@ -15,6 +15,7 @@
 package com.google.common.util.concurrent;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -24,6 +25,7 @@ import org.jspecify.annotations.Nullable;
  * FluentFuture.catching} family of methods. Those versions have slightly different signatures.
  */
 @GwtCompatible(emulated = true)
+@J2ktIncompatible // Super-sourced
 @NullMarked
 abstract class GwtFluentFutureCatchingSpecialization<V extends @Nullable Object>
     extends AbstractFuture<V> {

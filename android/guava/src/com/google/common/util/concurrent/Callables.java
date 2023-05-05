@@ -19,6 +19,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Supplier;
 import java.util.concurrent.Callable;
 import org.jspecify.annotations.NullMarked;
@@ -49,6 +50,7 @@ public final class Callables {
    * @since 20.0
    */
   @Beta
+  @J2ktIncompatible
   @GwtIncompatible
   public static <T extends @Nullable Object> AsyncCallable<T> asAsyncCallable(
       Callable<T> callable, ListeningExecutorService listeningExecutorService) {
@@ -65,6 +67,7 @@ public final class Callables {
    * @param nameSupplier The supplier of thread names, {@link Supplier#get get} will be called once
    *     for each invocation of the wrapped callable.
    */
+  @J2ktIncompatible
   @GwtIncompatible // threads
   static <T extends @Nullable Object> Callable<T> threadRenaming(
       Callable<T> callable, Supplier<String> nameSupplier) {
@@ -92,6 +95,7 @@ public final class Callables {
    * @param nameSupplier The supplier of thread names, {@link Supplier#get get} will be called once
    *     for each invocation of the wrapped callable.
    */
+  @J2ktIncompatible
   @GwtIncompatible // threads
   static Runnable threadRenaming(Runnable task, Supplier<String> nameSupplier) {
     checkNotNull(nameSupplier);
@@ -111,6 +115,7 @@ public final class Callables {
   }
 
   /** Tries to set name of the given {@link Thread}, returns true if successful. */
+  @J2ktIncompatible
   @GwtIncompatible // threads
   private static boolean trySetName(String threadName, Thread currentThread) {
     /*

@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.MoreObjects;
 import com.google.common.hash.Hashing;
@@ -96,6 +97,7 @@ import org.jspecify.annotations.Nullable;
  * @author Erik Kline
  * @since 5.0
  */
+@J2ktIncompatible
 @GwtIncompatible
 @NullMarked
 public final class InetAddresses {

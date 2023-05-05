@@ -19,7 +19,6 @@ package com.google.common.graph;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.Beta;
-import com.google.common.base.Function;
 import com.google.common.collect.Maps;
 import java.util.Map;
 import java.util.Optional;
@@ -153,14 +152,10 @@ public abstract class AbstractValueGraph<N, V> extends AbstractBaseGraph<N>
   }
 
   private static <N, V> Map<EndpointPair<N>, V> edgeValueMap(final ValueGraph<N, V> graph) {
-    Function<EndpointPair<N>, V> edgeToValueFn =
-        new Function<EndpointPair<N>, V>() {
-          @Override
-          public V apply(EndpointPair<N> edge) {
+    return Maps.asMap(
+        graph.edges(),
+        edge ->
             // requireNonNull is safe because the endpoint pair comes from the graph.
-            return requireNonNull(graph.edgeValueOrDefault(edge.nodeU(), edge.nodeV(), null));
-          }
-        };
-    return Maps.asMap(graph.edges(), edgeToValueFn);
+            requireNonNull(graph.edgeValueOrDefault(edge.nodeU(), edge.nodeV(), null)));
   }
 }

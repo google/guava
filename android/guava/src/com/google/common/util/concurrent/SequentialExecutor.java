@@ -22,6 +22,7 @@ import static com.google.common.util.concurrent.SequentialExecutor.WorkerRunning
 import static java.lang.System.identityHashCode;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.concurrent.GuardedBy;
 import com.google.j2objc.annotations.RetainedWith;
@@ -48,6 +49,7 @@ import org.jspecify.annotations.Nullable;
  * If an {@code Error} is thrown, the error will propagate and execution will stop until it is
  * restarted by a call to {@link #execute}.
  */
+@J2ktIncompatible
 @GwtIncompatible
 @NullMarked
 final class SequentialExecutor implements Executor {

@@ -23,6 +23,7 @@ import static com.google.common.testing.NullPointerTester.isNullable;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Joiner;
 import com.google.common.base.Objects;
@@ -81,6 +82,7 @@ import org.jspecify.annotations.Nullable;
  */
 @Beta
 @GwtIncompatible
+@J2ktIncompatible
 public final class ClassSanityTester {
 
   private static final Ordering<Invokable<?, ?>> BY_METHOD_NAME =
@@ -349,7 +351,7 @@ public final class ClassSanityTester {
           FactoryMethodReturnsNullException {
     if (cls.isEnum()) {
       T[] constants = cls.getEnumConstants();
-      if (constants.length > 0) {
+      if (constants != null && constants.length > 0) {
         return constants[0];
       } else {
         return null;
@@ -584,7 +586,7 @@ public final class ClassSanityTester {
           FactoryMethodReturnsNullException {
     List<Parameter> params = factory.getParameters();
     List<FreshValueGenerator> argGenerators = Lists.newArrayListWithCapacity(params.size());
-    List<Object> args = Lists.newArrayListWithCapacity(params.size());
+    List<@Nullable Object> args = Lists.newArrayListWithCapacity(params.size());
     for (Parameter param : params) {
       FreshValueGenerator generator = newFreshValueGenerator();
       argGenerators.add(generator);
@@ -644,7 +646,7 @@ public final class ClassSanityTester {
       Object shouldBeEqualArg = generateDummyArg(param, newFreshValueGenerator());
       if (arg != shouldBeEqualArg
           && Objects.equal(arg, shouldBeEqualArg)
-          && hashCodeInsensitiveToArgReference(factory, args, i, shouldBeEqualArg)
+          && hashCodeInsensitiveToArgReference(factory, args, i, checkNotNull(shouldBeEqualArg))
           && hashCodeInsensitiveToArgReference(
               factory, args, i, generateDummyArg(param, newFreshValueGenerator()))) {
         // If the implementation uses identityHashCode(), referential equality is
@@ -844,7 +846,7 @@ public final class ClassSanityTester {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(@Nullable Object obj) {
       return obj instanceof SerializableDummyProxy;
     }
 

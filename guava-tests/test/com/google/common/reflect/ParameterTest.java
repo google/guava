@@ -29,6 +29,16 @@ import junit.framework.TestCase;
 public class ParameterTest extends TestCase {
 
   public void testNulls() {
+    try {
+      Class.forName("java.lang.reflect.AnnotatedType");
+    } catch (ClassNotFoundException runningInAndroidVm) {
+      /*
+       * Parameter declares a method that returns AnnotatedType, which isn't available on Android.
+       * This would cause NullPointerTester, which calls Class.getDeclaredMethods, to throw
+       * NoClassDefFoundError.
+       */
+      return;
+    }
     for (Method method : ParameterTest.class.getDeclaredMethods()) {
       for (Parameter param : Invokable.from(method).getParameters()) {
         new NullPointerTester().testAllPublicInstanceMethods(param);

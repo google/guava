@@ -32,6 +32,7 @@ import static com.google.common.util.concurrent.Service.State.TERMINATED;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Function;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Stopwatch;
@@ -121,6 +122,7 @@ import org.jspecify.annotations.NullMarked;
  * @author Luke Sandberg
  * @since 14.0
  */
+@J2ktIncompatible
 @GwtIncompatible
 @NullMarked
 public final class ServiceManager implements ServiceManagerBridge {

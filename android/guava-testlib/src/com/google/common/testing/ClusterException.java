@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * An {@link ClusterException} is a data structure that allows for some code to "throw multiple
@@ -59,6 +60,7 @@ import java.util.Collections;
  * @author Luiz-Otavio Zorzella
  */
 @GwtCompatible
+@NullMarked
 final class ClusterException extends RuntimeException {
 
   final Collection<? extends Throwable> exceptions;
@@ -67,7 +69,7 @@ final class ClusterException extends RuntimeException {
     super(
         exceptions.size() + " exceptions were thrown. The first exception is listed as a cause.",
         exceptions.iterator().next());
-    ArrayList<Throwable> temp = new ArrayList<>(exceptions);
+    ArrayList<? extends Throwable> temp = new ArrayList<>(exceptions);
     this.exceptions = Collections.unmodifiableCollection(temp);
   }
 

@@ -25,6 +25,7 @@ import com.google.errorprone.annotations.DoNotCall;
 import com.google.errorprone.annotations.Immutable;
 import java.io.Serializable;
 import java.util.Map;
+import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -38,7 +39,9 @@ import org.jspecify.annotations.Nullable;
 @Immutable(containerOf = "B")
 @GwtIncompatible
 @NullMarked
-public final class ImmutableClassToInstanceMap<B> extends ForwardingMap<Class<? extends B>, B>
+// TODO(b/278589132): Remove the redundant "@NonNull" on B once it's no longer required by J2KT.
+public final class ImmutableClassToInstanceMap<B>
+    extends ForwardingMap<Class<? extends @NonNull B>, B>
     implements ClassToInstanceMap<B>, Serializable {
 
   private static final ImmutableClassToInstanceMap<Object> EMPTY =

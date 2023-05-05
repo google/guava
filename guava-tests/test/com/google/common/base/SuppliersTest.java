@@ -21,6 +21,7 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.Lists;
 import com.google.common.testing.ClassSanityTester;
 import com.google.common.testing.EqualsTester;
@@ -32,6 +33,7 @@ import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Tests com.google.common.base.Suppliers.
@@ -39,6 +41,7 @@ import junit.framework.TestCase;
  * @author Laurence Gonsalves
  * @author Harry Heymann
  */
+@NullMarked
 @GwtCompatible(emulated = true)
 public class SuppliersTest extends TestCase {
 
@@ -126,6 +129,7 @@ public class SuppliersTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testMemoizeNonSerializable() throws Exception {
     CountingSupplier countingSupplier = new CountingSupplier();
@@ -146,6 +150,7 @@ public class SuppliersTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testMemoizeSerializable() throws Exception {
     SerializableCountingSupplier countingSupplier = new SerializableCountingSupplier();
@@ -213,6 +218,7 @@ public class SuppliersTest extends TestCase {
     assertEquals(Integer.valueOf(1), result.get(1));
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // Thread.sleep
   public void testMemoizeWithExpiration() throws InterruptedException {
     CountingSupplier countingSupplier = new CountingSupplier();
@@ -223,6 +229,7 @@ public class SuppliersTest extends TestCase {
     checkExpiration(countingSupplier, memoizedSupplier);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // Thread.sleep, SerializationTester
   public void testMemoizeWithExpirationSerialized() throws InterruptedException {
     SerializableCountingSupplier countingSupplier = new SerializableCountingSupplier();
@@ -240,6 +247,7 @@ public class SuppliersTest extends TestCase {
     checkExpiration(countingCopy, copy);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // Thread.sleep
   private void checkExpiration(
       CountingSupplier countingSupplier, Supplier<Integer> memoizedSupplier)
@@ -278,6 +286,7 @@ public class SuppliersTest extends TestCase {
     assertNull(nullSupplier.get());
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // Thread
   public void testExpiringMemoizedSupplierThreadSafe() throws Throwable {
     Function<Supplier<Boolean>, Supplier<Boolean>> memoizer =
@@ -290,6 +299,7 @@ public class SuppliersTest extends TestCase {
     testSupplierThreadSafe(memoizer);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // Thread
   public void testMemoizedSupplierThreadSafe() throws Throwable {
     Function<Supplier<Boolean>, Supplier<Boolean>> memoizer =
@@ -302,6 +312,7 @@ public class SuppliersTest extends TestCase {
     testSupplierThreadSafe(memoizer);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // Thread
   private void testSupplierThreadSafe(Function<Supplier<Boolean>, Supplier<Boolean>> memoizer)
       throws Throwable {
@@ -378,6 +389,7 @@ public class SuppliersTest extends TestCase {
     assertEquals(1, count.get());
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // Thread
   public void testSynchronizedSupplierThreadSafe() throws InterruptedException {
     final Supplier<Integer> nonThreadSafe =
@@ -424,6 +436,7 @@ public class SuppliersTest extends TestCase {
     assertEquals(14, (int) supplierFunction.apply(supplier));
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializationTester
   public void testSerialization() {
     assertEquals(Integer.valueOf(5), reserialize(Suppliers.ofInstance(5)).get());
@@ -440,11 +453,13 @@ public class SuppliersTest extends TestCase {
         reserialize(Suppliers.synchronizedSupplier(Suppliers.ofInstance(5))).get());
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // reflection
   public void testSuppliersNullChecks() throws Exception {
     new ClassSanityTester().forAllPublicStaticMethods(Suppliers.class).testNulls();
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // reflection
   @AndroidIncompatible // TODO(cpovirk): ClassNotFoundException: com.google.common.base.Function
   public void testSuppliersSerializable() throws Exception {

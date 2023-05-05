@@ -20,7 +20,7 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public class SynchronizedTableTest extends AbstractTableTest {
   private static final class TestTable<R, C, V> implements Table<R, C, V>, Serializable {
@@ -119,13 +119,13 @@ public class SynchronizedTableTest extends AbstractTableTest {
     }
 
     @Override
-    public V get(Object rowKey, Object columnKey) {
+    public @Nullable V get(Object rowKey, Object columnKey) {
       assertTrue(Thread.holdsLock(mutex));
       return delegate.get(rowKey, columnKey);
     }
 
     @Override
-    public V put(R rowKey, C columnKey, V value) {
+    public @Nullable V put(R rowKey, C columnKey, V value) {
       assertTrue(Thread.holdsLock(mutex));
       return delegate.put(rowKey, columnKey, value);
     }
@@ -137,7 +137,7 @@ public class SynchronizedTableTest extends AbstractTableTest {
     }
 
     @Override
-    public V remove(Object rowKey, Object columnKey) {
+    public @Nullable V remove(Object rowKey, Object columnKey) {
       assertTrue(Thread.holdsLock(mutex));
       return delegate.remove(rowKey, columnKey);
     }

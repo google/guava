@@ -33,7 +33,7 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.TypeVariable;
 import java.util.Collections;
 import junit.framework.TestCase;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Unit tests for {@link Invokable}.
@@ -733,7 +733,7 @@ public class InvokableTest extends TestCase {
     private final String prefix;
     private final int times;
 
-    Prepender(@NotBlank String prefix, int times) throws NullPointerException {
+    Prepender(@NotBlank @Nullable String prefix, int times) throws NullPointerException {
       this.prefix = prefix;
       this.times = times;
     }

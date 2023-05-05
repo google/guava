@@ -76,6 +76,7 @@ import java.util.logging.LogRecord;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.jspecify.annotations.Nullable;
 
 /** @author Charles Fry */
 @SuppressWarnings("GuardedBy") // TODO(b/35466881): Fix or suppress.
@@ -2695,7 +2696,7 @@ public class LocalCacheTest extends TestCase {
   // entries and values
 
   private static <K, V> DummyEntry<K, V> createDummyEntry(
-      K key, int hash, V value, ReferenceEntry<K, V> next) {
+      K key, int hash, V value, @Nullable ReferenceEntry<K, V> next) {
     DummyEntry<K, V> entry = DummyEntry.create(key, hash, next);
     DummyValueReference<K, V> valueRef = DummyValueReference.create(value);
     entry.setValueReference(valueRef);
@@ -2703,7 +2704,7 @@ public class LocalCacheTest extends TestCase {
   }
 
   static class DummyEntry<K, V> implements ReferenceEntry<K, V> {
-    private K key;
+    private @Nullable K key;
     private final int hash;
     private final ReferenceEntry<K, V> next;
 
@@ -2713,7 +2714,8 @@ public class LocalCacheTest extends TestCase {
       this.next = next;
     }
 
-    public static <K, V> DummyEntry<K, V> create(K key, int hash, ReferenceEntry<K, V> next) {
+    public static <K, V> DummyEntry<K, V> create(
+        K key, int hash, @Nullable ReferenceEntry<K, V> next) {
       return new DummyEntry<>(key, hash, next);
     }
 
@@ -2822,7 +2824,7 @@ public class LocalCacheTest extends TestCase {
   }
 
   static class DummyValueReference<K, V> implements ValueReference<K, V> {
-    private V value;
+    private @Nullable V value;
     boolean loading = false;
 
     public DummyValueReference() {
@@ -2852,7 +2854,7 @@ public class LocalCacheTest extends TestCase {
     }
 
     @Override
-    public ReferenceEntry<K, V> getEntry() {
+    public @Nullable ReferenceEntry<K, V> getEntry() {
       return null;
     }
 
@@ -2902,7 +2904,7 @@ public class LocalCacheTest extends TestCase {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(@Nullable Object o) {
       return (o instanceof SerializableCacheLoader);
     }
   }
@@ -2918,7 +2920,7 @@ public class LocalCacheTest extends TestCase {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(@Nullable Object o) {
       return (o instanceof SerializableRemovalListener);
     }
   }
@@ -2935,7 +2937,7 @@ public class LocalCacheTest extends TestCase {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(@Nullable Object o) {
       return (o instanceof SerializableTicker);
     }
   }
@@ -2952,7 +2954,7 @@ public class LocalCacheTest extends TestCase {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(@Nullable Object o) {
       return (o instanceof SerializableWeigher);
     }
   }

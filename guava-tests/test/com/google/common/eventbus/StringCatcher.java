@@ -19,7 +19,7 @@ package com.google.common.eventbus;
 import com.google.common.collect.Lists;
 import java.util.List;
 import junit.framework.Assert;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A simple EventSubscriber mock that records Strings.

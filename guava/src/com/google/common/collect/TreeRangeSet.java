@@ -17,7 +17,6 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.MoreObjects;
@@ -39,7 +38,6 @@ import org.jspecify.annotations.Nullable;
  * @author Louis Wasserman
  * @since 14.0
  */
-@Beta
 @GwtIncompatible // uses NavigableMap
 @NullMarked
 public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C>

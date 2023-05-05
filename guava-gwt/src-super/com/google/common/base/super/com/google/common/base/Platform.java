@@ -21,7 +21,7 @@ import static jsinterop.annotations.JsPackage.GLOBAL;
 import java.util.concurrent.TimeUnit;
 import jsinterop.annotations.JsMethod;
 import jsinterop.annotations.JsType;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /** @author Jesse Wilson */
 final class Platform {

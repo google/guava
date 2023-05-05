@@ -18,6 +18,7 @@ package com.google.common.testing;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * An object that can perform a {@link #tearDown} operation.
@@ -27,6 +28,7 @@ import com.google.common.annotations.GwtCompatible;
  */
 @Beta
 @GwtCompatible
+@NullMarked
 public interface TearDown {
   /**
    * Performs a <b>single</b> tear-down operation. See test-libraries-for-java's {@code

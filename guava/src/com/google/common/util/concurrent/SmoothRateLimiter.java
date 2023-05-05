@@ -18,10 +18,12 @@ import static java.lang.Math.min;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.math.LongMath;
 import java.util.concurrent.TimeUnit;
 import org.jspecify.annotations.NullMarked;
 
+@J2ktIncompatible
 @GwtIncompatible
 @NullMarked
 abstract class SmoothRateLimiter extends RateLimiter {

@@ -25,7 +25,7 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A bounded {@linkplain BlockingQueue blocking queue} backed by an array. This queue orders
@@ -290,7 +290,7 @@ public class MonitorBasedArrayBlockingQueue<E> extends AbstractQueue<E>
 
   @CanIgnoreReturnValue
   @Override
-  public E poll() {
+  public @Nullable E poll() {
     final Monitor monitor = this.monitor;
     if (monitor.enterIf(notEmpty)) {
       try {
@@ -305,7 +305,7 @@ public class MonitorBasedArrayBlockingQueue<E> extends AbstractQueue<E>
 
   @CanIgnoreReturnValue
   @Override
-  public E poll(long timeout, TimeUnit unit) throws InterruptedException {
+  public @Nullable E poll(long timeout, TimeUnit unit) throws InterruptedException {
     final Monitor monitor = this.monitor;
     if (monitor.enterWhen(notEmpty, timeout, unit)) {
       try {
@@ -332,7 +332,7 @@ public class MonitorBasedArrayBlockingQueue<E> extends AbstractQueue<E>
 
   @CanIgnoreReturnValue
   @Override
-  public E peek() {
+  public @Nullable E peek() {
     final Monitor monitor = this.monitor;
     if (monitor.enterIf(notEmpty)) {
       try {
@@ -672,7 +672,7 @@ public class MonitorBasedArrayBlockingQueue<E> extends AbstractQueue<E>
      * we must return it in the following next() call even if it was in the process of being removed
      * when hasNext() was called.
      */
-    private E nextItem;
+    private @Nullable E nextItem;
 
     /**
      * Index of element returned by most recent call to next. Reset to -1 if this element is deleted

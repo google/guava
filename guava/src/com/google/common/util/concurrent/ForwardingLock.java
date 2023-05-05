@@ -14,12 +14,14 @@
 
 package com.google.common.util.concurrent;
 
+import com.google.common.annotations.J2ktIncompatible;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import org.jspecify.annotations.NullMarked;
 
 /** Forwarding wrapper around a {@code Lock}. */
+@J2ktIncompatible
 @NullMarked
 abstract class ForwardingLock implements Lock {
   abstract Lock delegate();

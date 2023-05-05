@@ -123,6 +123,7 @@ public final class CacheBuilderSpec {
   @VisibleForTesting @Nullable TimeUnit accessExpirationTimeUnit;
   @VisibleForTesting long refreshDuration;
   @VisibleForTesting @Nullable TimeUnit refreshTimeUnit;
+
   /** Specification; used for toParseableString(). */
   private final String specification;
 

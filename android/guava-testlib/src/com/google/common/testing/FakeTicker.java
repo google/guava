@@ -23,6 +23,7 @@ import com.google.common.base.Ticker;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * A Ticker whose value can be advanced programmatically in test.
@@ -35,6 +36,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * @author Jige Yu
  * @since 10.0
  */
+@NullMarked
 @GwtCompatible
 public class FakeTicker extends Ticker {
 

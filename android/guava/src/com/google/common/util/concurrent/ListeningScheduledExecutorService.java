@@ -15,6 +15,7 @@
 package com.google.common.util.concurrent;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -30,6 +31,7 @@ import org.jspecify.annotations.Nullable;
  * @author Chris Povirk
  * @since 10.0
  */
+@J2ktIncompatible
 @GwtIncompatible
 @NullMarked
 public interface ListeningScheduledExecutorService

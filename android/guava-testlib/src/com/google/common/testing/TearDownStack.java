@@ -27,6 +27,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * A {@code TearDownStack} contains a stack of {@link TearDown} instances.
@@ -38,6 +39,7 @@ import java.util.logging.Logger;
  */
 @Beta
 @GwtCompatible
+@NullMarked
 public class TearDownStack implements TearDownAccepter {
   private static final Logger logger = Logger.getLogger(TearDownStack.class.getName());
 

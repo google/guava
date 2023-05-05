@@ -22,7 +22,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.logging.Handler;
 import java.util.logging.LogRecord;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Tests may use this to intercept messages that are logged by the code under test. Example:
@@ -52,6 +53,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 10.0
  */
 @GwtCompatible
+@NullMarked
 public class TestLogHandler extends Handler {
   /** We will keep a private list of all logged records */
   private final List<LogRecord> list = new ArrayList<>();
@@ -59,7 +61,9 @@ public class TestLogHandler extends Handler {
   /** Adds the most recently logged record to our list. */
   @Override
   public synchronized void publish(@Nullable LogRecord record) {
-    list.add(record);
+    if (record != null) {
+      list.add(record);
+    }
   }
 
   @Override

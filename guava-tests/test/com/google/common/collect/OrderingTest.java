@@ -41,7 +41,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.RandomAccess;
 import junit.framework.TestCase;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Unit tests for {@code Ordering}.
@@ -833,7 +833,7 @@ public class OrderingTest extends TestCase {
     }
 
     @Override
-    public boolean equals(Object other) {
+    public boolean equals(@Nullable Object other) {
       return other instanceof NumberOrdering;
     }
 

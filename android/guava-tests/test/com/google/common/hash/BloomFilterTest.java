@@ -36,8 +36,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
-import javax.annotation.CheckForNull;
 import junit.framework.TestCase;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Tests for SimpleGenericBloomFilter and derived BloomFilter views.
@@ -408,7 +408,7 @@ public class BloomFilterTest extends TestCase {
     }
 
     @Override
-    public boolean equals(@CheckForNull Object object) {
+    public boolean equals(@Nullable Object object) {
       return (object instanceof CustomFunnel);
     }
 

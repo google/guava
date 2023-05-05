@@ -18,6 +18,7 @@ import static java.lang.Double.doubleToRawLongBits;
 import static java.lang.Double.longBitsToDouble;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.primitives.ImmutableLongArray;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.concurrent.atomic.AtomicLongArray;
@@ -48,6 +49,7 @@ import org.jspecify.annotations.NullMarked;
  * @since 11.0
  */
 @GwtIncompatible
+@J2ktIncompatible
 @NullMarked
 public class AtomicDoubleArray implements java.io.Serializable {
   private static final long serialVersionUID = 0L;

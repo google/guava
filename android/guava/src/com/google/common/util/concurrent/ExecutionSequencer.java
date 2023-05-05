@@ -25,6 +25,7 @@ import static com.google.common.util.concurrent.Futures.immediateVoidFuture;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static java.util.Objects.requireNonNull;
 
+import com.google.common.annotations.J2ktIncompatible;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Future;
@@ -85,6 +86,7 @@ import org.jspecify.annotations.Nullable;
  * @since 26.0
  */
 @NullMarked
+@J2ktIncompatible
 public final class ExecutionSequencer {
 
   private ExecutionSequencer() {}
@@ -130,8 +132,10 @@ public final class ExecutionSequencer {
      * though it's racy, we don't care which of those values we get, so no need to synchronize.
      */
     @Nullable Thread thread;
+
     /** Only used by the thread associated with this object */
     @Nullable Runnable nextTask;
+
     /** Only used by the thread associated with this object */
     @Nullable Executor nextExecutor;
   }

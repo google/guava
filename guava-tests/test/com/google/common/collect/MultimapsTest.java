@@ -62,7 +62,7 @@ import java.util.function.BiPredicate;
 import java.util.stream.Collector;
 import java.util.stream.Stream;
 import junit.framework.TestCase;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Unit test for {@code Multimaps}.

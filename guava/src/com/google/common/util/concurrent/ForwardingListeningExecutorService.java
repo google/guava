@@ -15,6 +15,7 @@
 package com.google.common.util.concurrent;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import java.util.concurrent.Callable;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
@@ -32,6 +33,7 @@ import org.jspecify.annotations.Nullable;
  * @author Isaac Shum
  * @since 10.0
  */
+@J2ktIncompatible
 @GwtIncompatible
 @NullMarked
 public abstract class ForwardingListeningExecutorService extends ForwardingExecutorService

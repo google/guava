@@ -24,6 +24,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Methods factored out so that they can be emulated differently in GWT.
@@ -31,6 +32,7 @@ import java.io.ObjectOutputStream;
  * @author Chris Povirk
  */
 @GwtCompatible(emulated = true)
+@NullMarked
 final class Platform {
   /** Serializes and deserializes the specified object. */
   @SuppressWarnings("unchecked")

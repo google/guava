@@ -79,7 +79,7 @@ import java.util.stream.Stream;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Unit test for {@code Sets}.
@@ -1144,7 +1144,7 @@ public class SetsTest extends TestCase {
     }
 
     @Override
-    public boolean equals(Object other) {
+    public boolean equals(@Nullable Object other) {
       if (other == null) {
         return false;
       } else if (other instanceof Base) {

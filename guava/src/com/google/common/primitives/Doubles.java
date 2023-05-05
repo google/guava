@@ -751,7 +751,6 @@ public final class Doubles extends DoublesMethodsForWeb {
    * @throws NullPointerException if {@code string} is {@code null}
    * @since 14.0
    */
-  @Beta
   @GwtIncompatible // regular expressions
   public static @Nullable Double tryParse(String string) {
     if (FLOATING_POINT_PATTERN.matcher(string).matches()) {

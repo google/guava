@@ -38,7 +38,7 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 import junit.framework.TestCase;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Tests for SimpleGenericBloomFilter and derived BloomFilter views.

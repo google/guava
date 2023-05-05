@@ -16,6 +16,7 @@ package com.google.common.util.concurrent;
 
 import static java.lang.Math.min;
 
+import com.google.common.annotations.J2ktIncompatible;
 import java.util.concurrent.locks.LockSupport;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
@@ -24,6 +25,7 @@ import org.jspecify.annotations.Nullable;
  * Works around an android bug, where parking for more than INT_MAX seconds can produce an abort
  * signal on 32 bit devices running Android Q.
  */
+@J2ktIncompatible
 @NullMarked
 final class OverflowAvoidingLockSupport {
   // Represents the max nanoseconds representable on a linux timespec with a 32 bit tv_sec

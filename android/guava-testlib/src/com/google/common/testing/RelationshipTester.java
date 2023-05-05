@@ -25,6 +25,7 @@ import com.google.common.collect.Lists;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.List;
 import junit.framework.AssertionFailedError;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Implementation helper for {@link EqualsTester} and {@link EquivalenceTester} that tests for
@@ -33,6 +34,7 @@ import junit.framework.AssertionFailedError;
  * @author Gregory Kick
  */
 @GwtCompatible
+@NullMarked
 final class RelationshipTester<T> {
 
   static class ItemReporter {

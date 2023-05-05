@@ -792,7 +792,6 @@ public final class Ints extends IntsMethodsForWeb {
    * @throws NullPointerException if {@code string} is {@code null}
    * @since 11.0
    */
-  @Beta
   public static @Nullable Integer tryParse(String string) {
     return tryParse(string, 10);
   }
@@ -817,7 +816,6 @@ public final class Ints extends IntsMethodsForWeb {
    * @throws NullPointerException if {@code string} is {@code null}
    * @since 19.0
    */
-  @Beta
   public static @Nullable Integer tryParse(String string, int radix) {
     Long result = Longs.tryParse(string, radix);
     if (result == null || result.longValue() != result.intValue()) {

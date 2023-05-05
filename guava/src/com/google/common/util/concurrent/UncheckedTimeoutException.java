@@ -15,6 +15,7 @@
 package com.google.common.util.concurrent;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -24,6 +25,7 @@ import org.jspecify.annotations.Nullable;
  * @author Kevin Bourrillion
  * @since 1.0
  */
+@J2ktIncompatible
 @GwtIncompatible
 @NullMarked
 public class UncheckedTimeoutException extends RuntimeException {

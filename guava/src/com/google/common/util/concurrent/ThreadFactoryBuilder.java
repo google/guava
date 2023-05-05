@@ -19,6 +19,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.Locale;
@@ -45,6 +46,7 @@ import org.jspecify.annotations.Nullable;
  * @author Kurt Alfred Kluever
  * @since 4.0
  */
+@J2ktIncompatible
 @GwtIncompatible
 @NullMarked
 public final class ThreadFactoryBuilder {

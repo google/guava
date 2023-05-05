@@ -32,7 +32,7 @@ import java.lang.reflect.Method;
 import java.util.List;
 import java.util.logging.LogRecord;
 import junit.framework.TestCase;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Tests for {@link Closer}.
@@ -393,7 +393,7 @@ public class CloserTest extends TestCase {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(@Nullable Object obj) {
       if (obj instanceof Suppression) {
         Suppression other = (Suppression) obj;
         return closeable.equals(other.closeable)

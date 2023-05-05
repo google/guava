@@ -362,7 +362,6 @@ public final class Longs {
    * @throws NullPointerException if {@code string} is {@code null}
    * @since 14.0
    */
-  @Beta
   public static @Nullable Long tryParse(String string) {
     return tryParse(string, 10);
   }
@@ -387,7 +386,6 @@ public final class Longs {
    * @throws NullPointerException if {@code string} is {@code null}
    * @since 19.0
    */
-  @Beta
   public static @Nullable Long tryParse(String string, int radix) {
     if (checkNotNull(string).isEmpty()) {
       return null;

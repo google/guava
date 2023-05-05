@@ -40,7 +40,7 @@ import java.util.Spliterator;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /** Tester for {@code Spliterator} implementations. */
 @GwtCompatible
@@ -104,6 +104,7 @@ public final class SpliteratorTester<E> {
     }
 
     @Override
+    @Nullable
     GeneralSpliterator<E> trySplit() {
       Spliterator<E> split = spliterator.trySplit();
       return split == null ? null : new GeneralSpliteratorOfObject<>(split);
@@ -141,6 +142,7 @@ public final class SpliteratorTester<E> {
     }
 
     @Override
+    @Nullable
     GeneralSpliterator<E> trySplit() {
       Spliterator.OfPrimitive<E, C, ?> split = spliterator.trySplit();
       return split == null ? null : new GeneralSpliteratorOfPrimitive<>(split, consumerizer);

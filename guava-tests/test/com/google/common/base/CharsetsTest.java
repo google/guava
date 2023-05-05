@@ -18,6 +18,7 @@ package com.google.common.base;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 import junit.framework.TestCase;
@@ -30,11 +31,13 @@ import junit.framework.TestCase;
 @GwtCompatible(emulated = true)
 public class CharsetsTest extends TestCase {
 
+  @J2ktIncompatible
   @GwtIncompatible // Non-UTF-8 Charset
   public void testUsAscii() {
     assertEquals(Charset.forName("US-ASCII"), Charsets.US_ASCII);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // Non-UTF-8 Charset
   public void testIso88591() {
     assertEquals(Charset.forName("ISO-8859-1"), Charsets.ISO_8859_1);
@@ -44,21 +47,25 @@ public class CharsetsTest extends TestCase {
     assertEquals(Charset.forName("UTF-8"), Charsets.UTF_8);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // Non-UTF-8 Charset
   public void testUtf16be() {
     assertEquals(Charset.forName("UTF-16BE"), Charsets.UTF_16BE);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // Non-UTF-8 Charset
   public void testUtf16le() {
     assertEquals(Charset.forName("UTF-16LE"), Charsets.UTF_16LE);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // Non-UTF-8 Charset
   public void testUtf16() {
     assertEquals(Charset.forName("UTF-16"), Charsets.UTF_16);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // Non-UTF-8 Charset
   public void testWhyUsAsciiIsDangerous() {
     byte[] b1 = "朝日新聞".getBytes(Charsets.US_ASCII);

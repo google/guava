@@ -17,6 +17,7 @@ package com.google.common.util.concurrent;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.concurrent.GuardedBy;
 import java.util.concurrent.Executor;
 import java.util.logging.Level;
@@ -40,6 +41,7 @@ import org.jspecify.annotations.Nullable;
  * @author Sven Mawson
  * @since 1.0
  */
+@J2ktIncompatible
 @GwtIncompatible
 @NullMarked
 public final class ExecutionList {

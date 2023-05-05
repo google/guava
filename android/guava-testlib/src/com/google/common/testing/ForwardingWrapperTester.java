@@ -23,6 +23,7 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.fail;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Throwables;
 import com.google.common.collect.Lists;
@@ -35,6 +36,8 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Tester to ensure forwarding wrapper works by delegating calls to the corresponding method with
@@ -54,6 +57,8 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @since 14.0
  */
 @GwtIncompatible
+@J2ktIncompatible
+@NullMarked
 public final class ForwardingWrapperTester {
 
   private boolean testsEquals = false;
@@ -173,9 +178,9 @@ public final class ForwardingWrapperTester {
         wrapperFunction.apply(proxy).toString());
   }
 
-  private static Object[] getParameterValues(Method method) {
+  private static @Nullable Object[] getParameterValues(Method method) {
     FreshValueGenerator paramValues = new FreshValueGenerator();
-    List<Object> passedArgs = Lists.newArrayList();
+    List<@Nullable Object> passedArgs = Lists.newArrayList();
     for (Class<?> paramType : method.getParameterTypes()) {
       passedArgs.add(paramValues.generateFresh(paramType));
     }
@@ -187,8 +192,8 @@ public final class ForwardingWrapperTester {
 
     private final Class<T> interfaceType;
     private final Method method;
-    private final Object[] passedArgs;
-    private final Object returnValue;
+    private final @Nullable Object[] passedArgs;
+    private final @Nullable Object returnValue;
     private final AtomicInteger called = new AtomicInteger();
 
     InteractionTester(Class<T> interfaceType, Method method) {
@@ -199,8 +204,8 @@ public final class ForwardingWrapperTester {
     }
 
     @Override
-    protected Object handleInvocation(Object p, Method calledMethod, Object[] args)
-        throws Throwable {
+    protected @Nullable Object handleInvocation(
+        Object p, Method calledMethod, @Nullable Object[] args) throws Throwable {
       assertEquals(method, calledMethod);
       assertEquals(method + " invoked more than once.", 0, called.get());
       for (int i = 0; i < passedArgs.length; i++) {
