@@ -162,9 +162,14 @@ public class EquivalenceTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // NullPointerTester
-  public void testNulls() {
-    new NullPointerTester().testAllPublicStaticMethods(Equivalence.class);
-    new NullPointerTester().testAllPublicInstanceMethods(Equivalence.equals());
-    new NullPointerTester().testAllPublicInstanceMethods(Equivalence.identity());
+  public void testNulls() throws NoSuchMethodException {
+    NullPointerTester tester = new NullPointerTester();
+    // Necessary until JDK15:
+    // https://bugs.openjdk.org/browse/JDK-8202469
+    tester.ignore(Equivalence.class.getMethod("wrap", Object.class));
+
+    tester.testAllPublicStaticMethods(Equivalence.class);
+    tester.testAllPublicInstanceMethods(Equivalence.equals());
+    tester.testAllPublicInstanceMethods(Equivalence.identity());
   }
 }

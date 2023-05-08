@@ -503,8 +503,7 @@ public final class NullPointerTester {
   }
 
   private static final ImmutableSet<String> NULLABLE_ANNOTATION_SIMPLE_NAMES =
-      ImmutableSet.of(
-          "CheckForNull", "Nullable", "NullableDecl", "NullableType", "ParametricNullness");
+      ImmutableSet.of("CheckForNull", "Nullable", "NullableDecl", "NullableType");
 
   static boolean isNullable(Invokable<?, ?> invokable) {
     return NULLNESS_ANNOTATION_READER.isNullable(invokable);
