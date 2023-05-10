@@ -721,6 +721,13 @@ public final class HttpHeaders {
    */
   public static final String SEC_CH_UA_BITNESS = "Sec-CH-UA-Bitness";
   /**
+   * The HTTP <a href="https://wicg.github.io/ua-client-hints/#sec-ch-ua-form-factor">{@code
+   * Sec-CH-UA-Form-Factor}</a> header field name.
+   *
+   * @since NEXT
+   */
+  public static final String SEC_CH_UA_FORM_FACTOR = "Sec-CH-UA-Form-Factor";
+  /**
    * The HTTP <a
    * href="https://wicg.github.io/responsive-image-client-hints/#sec-ch-viewport-width">{@code
    * Sec-CH-Viewport-Width}</a> header field name.
