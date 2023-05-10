@@ -17,6 +17,7 @@ package com.google.common.util.concurrent;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.util.concurrent.Internal.toNanosSaturated;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
@@ -972,7 +973,8 @@ public final class MoreExecutors {
   static Thread newThread(String name, Runnable runnable) {
     checkNotNull(name);
     checkNotNull(runnable);
-    Thread result = platformThreadFactory().newThread(runnable);
+    // TODO(b/139726489): Confirm that null is impossible here.
+    Thread result = requireNonNull(platformThreadFactory().newThread(runnable));
     try {
       result.setName(name);
     } catch (SecurityException e) {
