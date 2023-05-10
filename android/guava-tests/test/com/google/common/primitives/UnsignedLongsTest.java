@@ -19,6 +19,7 @@ import static java.math.BigInteger.ONE;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.testing.NullPointerTester;
 import java.math.BigInteger;
@@ -194,6 +195,7 @@ public class UnsignedLongsTest extends TestCase {
     assertThat(UnsignedLongs.remainder(0xfffffffffffffffeL, 5)).isEqualTo(4);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // Too slow in GWT (~3min fully optimized)
   public void testDivideRemainderEuclideanProperty() {
     // Use a seed so that the test is deterministic:
@@ -361,6 +363,7 @@ public class UnsignedLongsTest extends TestCase {
         .isEqualTo("184467440737095516159223372036854775808");
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // NullPointerTester
   public void testNulls() {
     new NullPointerTester().testAllPublicStaticMethods(UnsignedLongs.class);
