@@ -234,9 +234,11 @@ public final class Predicates {
    *
    * @throws IllegalArgumentException if the pattern is invalid
    * @since 3.0
+   * @deprecated Use {@link java.util.regex.Pattern#asPredicate}
    */
   @J2ktIncompatible
   @GwtIncompatible // Only used by other GWT-incompatible code.
+  @Deprecated
   public static Predicate<CharSequence> containsPattern(String pattern) {
     return new ContainsPatternFromStringPredicate(pattern);
   }
@@ -247,9 +249,11 @@ public final class Predicates {
    * {@code pattern.matcher(arg).find()}
    *
    * @since 3.0
+   * @deprecated Use {@link java.util.regex.Pattern#asPredicate}
    */
   @J2ktIncompatible
   @GwtIncompatible(value = "java.util.regex.Pattern")
+  @Deprecated
   public static Predicate<CharSequence> contains(Pattern pattern) {
     return new ContainsPatternPredicate(new JdkPattern(pattern));
   }
