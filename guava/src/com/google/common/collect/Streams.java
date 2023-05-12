@@ -74,7 +74,6 @@ public final class Streams {
    *
    * @deprecated There is no reason to use this; just invoke {@code collection.stream()} directly.
    */
-  @Beta
   @Deprecated
   @InlineMe(replacement = "collection.stream()")
   public static <T extends @Nullable Object> Stream<T> stream(Collection<T> collection) {
@@ -85,7 +84,6 @@ public final class Streams {
    * Returns a sequential {@link Stream} of the remaining contents of {@code iterator}. Do not use
    * {@code iterator} directly after passing it to this method.
    */
-  @Beta
   public static <T extends @Nullable Object> Stream<T> stream(Iterator<T> iterator) {
     return StreamSupport.stream(Spliterators.spliteratorUnknownSize(iterator, 0), false);
   }
@@ -94,7 +92,6 @@ public final class Streams {
    * If a value is present in {@code optional}, returns a stream containing only that element,
    * otherwise returns an empty stream.
    */
-  @Beta
   public static <T> Stream<T> stream(com.google.common.base.Optional<T> optional) {
     return optional.isPresent() ? Stream.of(optional.get()) : Stream.empty();
   }

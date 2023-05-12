@@ -24,7 +24,6 @@ import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 import static com.google.common.collect.NullnessCasts.uncheckedCastNullableTToT;
 import static java.util.Objects.requireNonNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
@@ -4355,7 +4354,6 @@ public final class Maps {
    *
    * @since 20.0
    */
-  @Beta
   @GwtIncompatible // NavigableMap
   public static <K extends Comparable<? super K>, V extends @Nullable Object>
       NavigableMap<K, V> subMap(NavigableMap<K, V> map, Range<K> range) {
