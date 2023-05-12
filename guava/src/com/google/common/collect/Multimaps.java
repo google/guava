@@ -22,7 +22,6 @@ import static com.google.common.collect.CollectPreconditions.checkRemove;
 import static com.google.common.collect.NullnessCasts.uncheckedCastNullableTToT;
 import static java.util.Objects.requireNonNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
@@ -159,7 +158,6 @@ public final class Multimaps {
    *
    * @since 21.0
    */
-  @Beta
   public static <
           T extends @Nullable Object,
           K extends @Nullable Object,
