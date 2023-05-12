@@ -30,14 +30,9 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 /**
  * Represents a method or constructor parameter.
  *
- * <p><b>Note:</b> Since Java 8 introduced {@link java.lang.reflect.Parameter} to represent method
- * and constructor parameters, this class is no longer necessary. We intend to deprecate it in a
- * future version.
- *
  * @author Ben Yu
  * @since 14.0
  */
-@Beta
 @ElementTypesAreNonnullByDefault
 public final class Parameter implements AnnotatedElement {
 
@@ -145,6 +140,7 @@ public final class Parameter implements AnnotatedElement {
    * @deprecated This method does not work under Android VMs. It is safe to use from guava-jre, but
    *     this copy in guava-android is not safe to use.
    */
+  @Beta
   @SuppressWarnings({"Java7ApiChecker", "AndroidJdkLibsChecker"})
   @Deprecated
   @DoNotCall("fails under Android VMs; do not use from guava-android")

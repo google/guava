@@ -17,7 +17,6 @@ package com.google.common.reflect;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static java.util.Objects.requireNonNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import java.lang.annotation.Annotation;
@@ -29,14 +28,9 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 /**
  * Represents a method or constructor parameter.
  *
- * <p><b>Note:</b> Since Java 8 introduced {@link java.lang.reflect.Parameter} to represent method
- * and constructor parameters, this class is no longer necessary. We intend to deprecate it in a
- * future version.
- *
  * @author Ben Yu
  * @since 14.0
  */
-@Beta
 @ElementTypesAreNonnullByDefault
 public final class Parameter implements AnnotatedElement {
 
