@@ -253,8 +253,9 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>firstNonNull</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/base/MoreObjects.html#line.78">firstNonNull</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+<pre class="methodSignature">public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/base/MoreObjects.html#line.61">firstNonNull</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                                  T&nbsp;first,
+                                 <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                                  T&nbsp;second)</pre>
 <div class="block">Returns the first of two given parameters that is not <code>null</code>, if either is, or otherwise
  throws a <code>NullPointerException</code>.
@@ -285,7 +286,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>toStringHelper</h4>
-<pre class="methodSignature">public static&nbsp;<a href="MoreObjects.ToStringHelper.html" title="class in com.google.common.base">MoreObjects.ToStringHelper</a>&nbsp;<a href="../../../../src-html/com/google/common/base/MoreObjects.html#line.128">toStringHelper</a>&#8203;(java.lang.Object&nbsp;self)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="MoreObjects.ToStringHelper.html" title="class in com.google.common.base">MoreObjects.ToStringHelper</a>&nbsp;<a href="../../../../src-html/com/google/common/base/MoreObjects.html#line.111">toStringHelper</a>&#8203;(java.lang.Object&nbsp;self)</pre>
 <div class="block">Creates an instance of <a href="MoreObjects.ToStringHelper.html" title="class in com.google.common.base"><code>MoreObjects.ToStringHelper</code></a>.
 
  <p>This is helpful for implementing <code>Object.toString()</code>. Specification by example:
@@ -335,7 +336,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>toStringHelper</h4>
-<pre class="methodSignature">public static&nbsp;<a href="MoreObjects.ToStringHelper.html" title="class in com.google.common.base">MoreObjects.ToStringHelper</a>&nbsp;<a href="../../../../src-html/com/google/common/base/MoreObjects.html#line.142">toStringHelper</a>&#8203;(java.lang.Class&lt;?&gt;&nbsp;clazz)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="MoreObjects.ToStringHelper.html" title="class in com.google.common.base">MoreObjects.ToStringHelper</a>&nbsp;<a href="../../../../src-html/com/google/common/base/MoreObjects.html#line.125">toStringHelper</a>&#8203;(java.lang.Class&lt;?&gt;&nbsp;clazz)</pre>
 <div class="block">Creates an instance of <a href="MoreObjects.ToStringHelper.html" title="class in com.google.common.base"><code>MoreObjects.ToStringHelper</code></a> in the same manner as <a href="#toStringHelper(java.lang.Object)"><code>toStringHelper(Object)</code></a>, but using the simple name of <code>clazz</code> instead of using an
  instance's <code>Object.getClass()</code>.
 
@@ -354,7 +355,7 @@ extends java.lang.Object</pre>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>toStringHelper</h4>
-<pre class="methodSignature">public static&nbsp;<a href="MoreObjects.ToStringHelper.html" title="class in com.google.common.base">MoreObjects.ToStringHelper</a>&nbsp;<a href="../../../../src-html/com/google/common/base/MoreObjects.html#line.154">toStringHelper</a>&#8203;(java.lang.String&nbsp;className)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="MoreObjects.ToStringHelper.html" title="class in com.google.common.base">MoreObjects.ToStringHelper</a>&nbsp;<a href="../../../../src-html/com/google/common/base/MoreObjects.html#line.137">toStringHelper</a>&#8203;(java.lang.String&nbsp;className)</pre>
 <div class="block">Creates an instance of <a href="MoreObjects.ToStringHelper.html" title="class in com.google.common.base"><code>MoreObjects.ToStringHelper</code></a> in the same manner as <a href="#toStringHelper(java.lang.Object)"><code>toStringHelper(Object)</code></a>, but using <code>className</code> instead of using an instance's <code>Object.getClass()</code>.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
