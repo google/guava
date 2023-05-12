@@ -16,7 +16,6 @@
 
 package com.google.common.testing;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 
 /**
@@ -25,7 +24,6 @@ import com.google.common.annotations.GwtCompatible;
  * @author Kevin Bourrillion
  * @since 10.0
  */
-@Beta
 @GwtCompatible
 @ElementTypesAreNonnullByDefault
 public interface TearDown {

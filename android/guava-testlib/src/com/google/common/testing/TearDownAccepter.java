@@ -16,7 +16,6 @@
 
 package com.google.common.testing;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.DoNotMock;
 
@@ -26,7 +25,6 @@ import com.google.errorprone.annotations.DoNotMock;
  * @author Kevin Bourrillion
  * @since 10.0
  */
-@Beta
 @DoNotMock("Implement with a lambda")
 @GwtCompatible
 @ElementTypesAreNonnullByDefault
