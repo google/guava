@@ -136,9 +136,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><code><a href="TimeLimiter.html" title="interface in com.google.common.util.concurrent">TimeLimiter</a></code></dd>
 </dl>
 <hr>
-<pre><a href="../../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-<a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public final class <a href="../../../../../src-html/com/google/common/util/concurrent/FakeTimeLimiter.html#line.39">FakeTimeLimiter</a>
+<pre><a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
+public final class <a href="../../../../../src-html/com/google/common/util/concurrent/FakeTimeLimiter.html#line.38">FakeTimeLimiter</a>
 extends java.lang.Object
 implements <a href="TimeLimiter.html" title="interface in com.google.common.util.concurrent">TimeLimiter</a></pre>
 <div class="block">A TimeLimiter implementation which actually does not attempt to limit time at all. This may be
@@ -269,7 +268,7 @@ implements <a href="TimeLimiter.html" title="interface in com.google.common.util
 <ul class="blockListLast">
 <li class="blockList">
 <h4>FakeTimeLimiter</h4>
-<pre>public&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/FakeTimeLimiter.html#line.43">FakeTimeLimiter</a>()</pre>
+<pre>public&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/FakeTimeLimiter.html#line.41">FakeTimeLimiter</a>()</pre>
 </li>
 </ul>
 </li>
@@ -291,7 +290,7 @@ implements <a href="TimeLimiter.html" title="interface in com.google.common.util
 <li class="blockList">
 <h4>newProxy</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/FakeTimeLimiter.html#line.44">newProxy</a>&#8203;(T&nbsp;target,
+public&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/FakeTimeLimiter.html#line.42">newProxy</a>&#8203;(T&nbsp;target,
                       java.lang.Class&lt;T&gt;&nbsp;interfaceType,
                       long&nbsp;timeoutDuration,
                       java.util.concurrent.TimeUnit&nbsp;timeoutUnit)</pre>
@@ -345,7 +344,7 @@ public&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../../src-html/com/google/co
 <li class="blockList">
 <h4>callWithTimeout</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;T&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/FakeTimeLimiter.html#line.54">callWithTimeout</a>&#8203;(java.util.concurrent.Callable&lt;T&gt;&nbsp;callable,
+public&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;T&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/FakeTimeLimiter.html#line.52">callWithTimeout</a>&#8203;(java.util.concurrent.Callable&lt;T&gt;&nbsp;callable,
                                                                 long&nbsp;timeoutDuration,
                                                                 java.util.concurrent.TimeUnit&nbsp;timeoutUnit)
                                                          throws java.util.concurrent.ExecutionException</pre>
@@ -375,7 +374,7 @@ public&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerf
 <li class="blockList">
 <h4>callUninterruptiblyWithTimeout</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;T&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/FakeTimeLimiter.html#line.73">callUninterruptiblyWithTimeout</a>&#8203;(java.util.concurrent.Callable&lt;T&gt;&nbsp;callable,
+public&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;T&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/FakeTimeLimiter.html#line.71">callUninterruptiblyWithTimeout</a>&#8203;(java.util.concurrent.Callable&lt;T&gt;&nbsp;callable,
                                                                                long&nbsp;timeoutDuration,
                                                                                java.util.concurrent.TimeUnit&nbsp;timeoutUnit)
                                                                         throws java.util.concurrent.ExecutionException</pre>
@@ -407,7 +406,7 @@ public&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerf
 <ul class="blockList">
 <li class="blockList">
 <h4>runWithTimeout</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/FakeTimeLimiter.html#line.81">runWithTimeout</a>&#8203;(java.lang.Runnable&nbsp;runnable,
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/FakeTimeLimiter.html#line.79">runWithTimeout</a>&#8203;(java.lang.Runnable&nbsp;runnable,
                            long&nbsp;timeoutDuration,
                            java.util.concurrent.TimeUnit&nbsp;timeoutUnit)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="TimeLimiter.html#runWithTimeout(java.lang.Runnable,long,java.util.concurrent.TimeUnit)">TimeLimiter</a></code></span></div>
@@ -431,7 +430,7 @@ public&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerf
 <ul class="blockListLast">
 <li class="blockList">
 <h4>runUninterruptiblyWithTimeout</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/FakeTimeLimiter.html#line.94">runUninterruptiblyWithTimeout</a>&#8203;(java.lang.Runnable&nbsp;runnable,
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/FakeTimeLimiter.html#line.92">runUninterruptiblyWithTimeout</a>&#8203;(java.lang.Runnable&nbsp;runnable,
                                           long&nbsp;timeoutDuration,
                                           java.util.concurrent.TimeUnit&nbsp;timeoutUnit)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="TimeLimiter.html#runUninterruptiblyWithTimeout(java.lang.Runnable,long,java.util.concurrent.TimeUnit)">TimeLimiter</a></code></span></div>

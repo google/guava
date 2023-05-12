@@ -142,7 +142,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <hr>
 <pre><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public final class <a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.59">ConcurrentHashMultiset</a>&lt;E&gt;
+public final class <a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.58">ConcurrentHashMultiset</a>&lt;E&gt;
 extends java.util.AbstractCollection&lt;E&gt;
 implements java.io.Serializable</pre>
 <div class="block">A multiset that supports concurrent modifications and that provides atomic versions of most
@@ -426,7 +426,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="ConcurrentHashMultiset.html" title="class in com.google.common.collect">ConcurrentHashMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.88">create</a>()</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="ConcurrentHashMultiset.html" title="class in com.google.common.collect">ConcurrentHashMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.87">create</a>()</pre>
 <div class="block">Creates a new, empty <code>ConcurrentHashMultiset</code> using the default initial capacity, load
  factor, and concurrency settings.</div>
 </li>
@@ -437,7 +437,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="ConcurrentHashMultiset.html" title="class in com.google.common.collect">ConcurrentHashMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.103">create</a>&#8203;(java.lang.Iterable&lt;? extends E&gt;&nbsp;elements)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="ConcurrentHashMultiset.html" title="class in com.google.common.collect">ConcurrentHashMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.102">create</a>&#8203;(java.lang.Iterable&lt;? extends E&gt;&nbsp;elements)</pre>
 <div class="block">Creates a new <code>ConcurrentHashMultiset</code> containing the specified elements, using the
  default initial capacity, load factor, and concurrency settings.
 
@@ -454,8 +454,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre class="methodSignature"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;&lt;E&gt;&nbsp;<a href="ConcurrentHashMultiset.html" title="class in com.google.common.collect">ConcurrentHashMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.123">create</a>&#8203;(java.util.concurrent.ConcurrentMap&lt;E,&#8203;java.util.concurrent.atomic.AtomicInteger&gt;&nbsp;countMap)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="ConcurrentHashMultiset.html" title="class in com.google.common.collect">ConcurrentHashMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.122">create</a>&#8203;(java.util.concurrent.ConcurrentMap&lt;E,&#8203;java.util.concurrent.atomic.AtomicInteger&gt;&nbsp;countMap)</pre>
 <div class="block">Creates a new, empty <code>ConcurrentHashMultiset</code> using <code>countMap</code> as the internal
  backing map.
 
@@ -480,7 +479,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="ConcurrentHashMultiset.html" title="c
 <ul class="blockList">
 <li class="blockList">
 <h4>count</h4>
-<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.142">count</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.140">count</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                  java.lang.Object&nbsp;element)</pre>
 <div class="block">Returns the number of occurrences of <code>element</code> in this multiset.</div>
 <dl>
@@ -499,7 +498,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="ConcurrentHashMultiset.html" title="c
 <ul class="blockList">
 <li class="blockList">
 <h4>size</h4>
-<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.154">size</a>()</pre>
+<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.152">size</a>()</pre>
 <div class="block">Returns the total number of all occurrences of all elements in this multiset.
 
  <p><b>Note:</b> this method does not return the number of <i>distinct elements</i> in the
@@ -523,7 +522,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="ConcurrentHashMultiset.html" title="c
 <ul class="blockList">
 <li class="blockList">
 <h4>toArray</h4>
-<pre class="methodSignature">public&nbsp;java.lang.Object[]&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.168">toArray</a>()</pre>
+<pre class="methodSignature">public&nbsp;java.lang.Object[]&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.166">toArray</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>toArray</code>&nbsp;in interface&nbsp;<code>java.util.Collection&lt;<a href="ConcurrentHashMultiset.html" title="type parameter in ConcurrentHashMultiset">E</a>&gt;</code></dd>
@@ -540,7 +539,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="ConcurrentHashMultiset.html" title="c
 <ul class="blockList">
 <li class="blockList">
 <h4>toArray</h4>
-<pre class="methodSignature">public&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;T[]&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.173">toArray</a>&#8203;(T[]&nbsp;array)</pre>
+<pre class="methodSignature">public&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;T[]&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.171">toArray</a>&#8203;(T[]&nbsp;array)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>toArray</code>&nbsp;in interface&nbsp;<code>java.util.Collection&lt;<a href="ConcurrentHashMultiset.html" title="type parameter in ConcurrentHashMultiset">E</a>&gt;</code></dd>
@@ -558,7 +557,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="ConcurrentHashMultiset.html" title="c
 <li class="blockList">
 <h4>add</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.205">add</a>&#8203;(<a href="ConcurrentHashMultiset.html" title="type parameter in ConcurrentHashMultiset">E</a>&nbsp;element,
+public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.203">add</a>&#8203;(<a href="ConcurrentHashMultiset.html" title="type parameter in ConcurrentHashMultiset">E</a>&nbsp;element,
                int&nbsp;occurrences)</pre>
 <div class="block">Adds a number of occurrences of the specified element to this multiset.</div>
 <dl>
@@ -582,7 +581,7 @@ public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/Con
 <li class="blockList">
 <h4>remove</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.272">remove</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.270">remove</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                   java.lang.Object&nbsp;element,
                   int&nbsp;occurrences)</pre>
 <div class="block">Removes a number of occurrences of the specified element from this multiset. If the multiset
@@ -607,7 +606,7 @@ public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/Con
 <li class="blockList">
 <h4>removeExactly</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.314">removeExactly</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.312">removeExactly</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                              java.lang.Object&nbsp;element,
                              int&nbsp;occurrences)</pre>
 <div class="block">Removes exactly the specified number of occurrences of <code>element</code>, or makes no change if
@@ -635,7 +634,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <li class="blockList">
 <h4>setCount</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.349">setCount</a>&#8203;(<a href="ConcurrentHashMultiset.html" title="type parameter in ConcurrentHashMultiset">E</a>&nbsp;element,
+public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.347">setCount</a>&#8203;(<a href="ConcurrentHashMultiset.html" title="type parameter in ConcurrentHashMultiset">E</a>&nbsp;element,
                     int&nbsp;count)</pre>
 <div class="block">Adds or removes occurrences of <code>element</code> such that the <a href="#count(java.lang.Object)"><code>count(java.lang.Object)</code></a> of the element
  becomes <code>count</code>.</div>
@@ -662,7 +661,7 @@ public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/Con
 <li class="blockList">
 <h4>setCount</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.405">setCount</a>&#8203;(<a href="ConcurrentHashMultiset.html" title="type parameter in ConcurrentHashMultiset">E</a>&nbsp;element,
+public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.403">setCount</a>&#8203;(<a href="ConcurrentHashMultiset.html" title="type parameter in ConcurrentHashMultiset">E</a>&nbsp;element,
                         int&nbsp;expectedOldCount,
                         int&nbsp;newCount)</pre>
 <div class="block">Sets the number of occurrences of <code>element</code> to <code>newCount</code>, but only if the count is
@@ -692,7 +691,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <li class="blockList">
 <h4>createEntrySet</h4>
 <pre class="methodSignature">@Deprecated
-public&nbsp;java.util.Set&lt;<a href="Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="ConcurrentHashMultiset.html" title="type parameter in ConcurrentHashMultiset">E</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.488">createEntrySet</a>()</pre>
+public&nbsp;java.util.Set&lt;<a href="Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="ConcurrentHashMultiset.html" title="type parameter in ConcurrentHashMultiset">E</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.486">createEntrySet</a>()</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Internal method, use <a href="Multiset.html#entrySet()"><code>Multiset.entrySet()</code></a>.</div>
 </div>
@@ -704,7 +703,7 @@ public&nbsp;java.util.Set&lt;<a href="Multiset.Entry.html" title="interface in c
 <ul class="blockList">
 <li class="blockList">
 <h4>isEmpty</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.499">isEmpty</a>()</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.497">isEmpty</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>isEmpty</code>&nbsp;in interface&nbsp;<code>java.util.Collection&lt;<a href="ConcurrentHashMultiset.html" title="type parameter in ConcurrentHashMultiset">E</a>&gt;</code></dd>
@@ -717,7 +716,7 @@ public&nbsp;java.util.Set&lt;<a href="Multiset.Entry.html" title="interface in c
 <ul class="blockList">
 <li class="blockList">
 <h4>iterator</h4>
-<pre class="methodSignature">public&nbsp;java.util.Iterator&lt;<a href="ConcurrentHashMultiset.html" title="type parameter in ConcurrentHashMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.552">iterator</a>()</pre>
+<pre class="methodSignature">public&nbsp;java.util.Iterator&lt;<a href="ConcurrentHashMultiset.html" title="type parameter in ConcurrentHashMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.550">iterator</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Multiset.html#iterator()">Multiset</a></code></span></div>
 <div class="block">
 
@@ -741,7 +740,7 @@ public&nbsp;java.util.Set&lt;<a href="Multiset.Entry.html" title="interface in c
 <ul class="blockList">
 <li class="blockList">
 <h4>clear</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.557">clear</a>()</pre>
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.555">clear</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>clear</code>&nbsp;in interface&nbsp;<code>java.util.Collection&lt;<a href="ConcurrentHashMultiset.html" title="type parameter in ConcurrentHashMultiset">E</a>&gt;</code></dd>

@@ -157,7 +157,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <hr>
 <pre><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../annotations/GwtCompatible.html#emulated()">emulated</a>=true)
-public abstract class <a href="../../../../src-html/com/google/common/collect/ContiguousSet.html#line.51">ContiguousSet</a>&lt;C extends java.lang.Comparable&gt;
+public abstract class <a href="../../../../src-html/com/google/common/collect/ContiguousSet.html#line.50">ContiguousSet</a>&lt;C extends java.lang.Comparable&gt;
 extends <a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;C&gt;</pre>
 <div class="block">A sorted set of contiguous values in a given <a href="DiscreteDomain.html" title="class in com.google.common.collect"><code>DiscreteDomain</code></a>. Example:
 
@@ -522,7 +522,7 @@ extends <a href="ImmutableSortedSet.html" title="class in com.google.common.coll
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre class="methodSignature">public static&nbsp;&lt;C extends java.lang.Comparable&gt;&nbsp;<a href="ContiguousSet.html" title="class in com.google.common.collect">ContiguousSet</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ContiguousSet.html#line.63">create</a>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&nbsp;range,
+<pre class="methodSignature">public static&nbsp;&lt;C extends java.lang.Comparable&gt;&nbsp;<a href="ContiguousSet.html" title="class in com.google.common.collect">ContiguousSet</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ContiguousSet.html#line.62">create</a>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&nbsp;range,
                                                                        <a href="DiscreteDomain.html" title="class in com.google.common.collect">DiscreteDomain</a>&lt;C&gt;&nbsp;domain)</pre>
 <div class="block">Returns a <code>ContiguousSet</code> containing the same values in the given domain <a href="Range.html#contains(C)">contained</a> by the range.</div>
 <dl>
@@ -540,8 +540,7 @@ extends <a href="ImmutableSortedSet.html" title="class in com.google.common.coll
 <ul class="blockList">
 <li class="blockList">
 <h4>closed</h4>
-<pre class="methodSignature"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;<a href="ContiguousSet.html" title="class in com.google.common.collect">ContiguousSet</a>&lt;java.lang.Integer&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ContiguousSet.html#line.106">closed</a>&#8203;(int&nbsp;lower,
+<pre class="methodSignature">public static&nbsp;<a href="ContiguousSet.html" title="class in com.google.common.collect">ContiguousSet</a>&lt;java.lang.Integer&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ContiguousSet.html#line.105">closed</a>&#8203;(int&nbsp;lower,
                                                       int&nbsp;upper)</pre>
 <div class="block">Returns a nonempty contiguous set containing all <code>int</code> values from <code>lower</code>
  (inclusive) to <code>upper</code> (inclusive). (These are the same values contained in <code>
@@ -560,8 +559,7 @@ public static&nbsp;<a href="ContiguousSet.html" title="class in com.google.commo
 <ul class="blockList">
 <li class="blockList">
 <h4>closed</h4>
-<pre class="methodSignature"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;<a href="ContiguousSet.html" title="class in com.google.common.collect">ContiguousSet</a>&lt;java.lang.Long&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ContiguousSet.html#line.119">closed</a>&#8203;(long&nbsp;lower,
+<pre class="methodSignature">public static&nbsp;<a href="ContiguousSet.html" title="class in com.google.common.collect">ContiguousSet</a>&lt;java.lang.Long&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ContiguousSet.html#line.117">closed</a>&#8203;(long&nbsp;lower,
                                                    long&nbsp;upper)</pre>
 <div class="block">Returns a nonempty contiguous set containing all <code>long</code> values from <code>lower</code>
  (inclusive) to <code>upper</code> (inclusive). (These are the same values contained in <code>
@@ -580,8 +578,7 @@ public static&nbsp;<a href="ContiguousSet.html" title="class in com.google.commo
 <ul class="blockList">
 <li class="blockList">
 <h4>closedOpen</h4>
-<pre class="methodSignature"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;<a href="ContiguousSet.html" title="class in com.google.common.collect">ContiguousSet</a>&lt;java.lang.Integer&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ContiguousSet.html#line.132">closedOpen</a>&#8203;(int&nbsp;lower,
+<pre class="methodSignature">public static&nbsp;<a href="ContiguousSet.html" title="class in com.google.common.collect">ContiguousSet</a>&lt;java.lang.Integer&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ContiguousSet.html#line.129">closedOpen</a>&#8203;(int&nbsp;lower,
                                                           int&nbsp;upper)</pre>
 <div class="block">Returns a contiguous set containing all <code>int</code> values from <code>lower</code> (inclusive) to
  <code>upper</code> (exclusive). If the endpoints are equal, an empty set is returned. (These are the
@@ -600,8 +597,7 @@ public static&nbsp;<a href="ContiguousSet.html" title="class in com.google.commo
 <ul class="blockList">
 <li class="blockList">
 <h4>closedOpen</h4>
-<pre class="methodSignature"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;<a href="ContiguousSet.html" title="class in com.google.common.collect">ContiguousSet</a>&lt;java.lang.Long&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ContiguousSet.html#line.145">closedOpen</a>&#8203;(long&nbsp;lower,
+<pre class="methodSignature">public static&nbsp;<a href="ContiguousSet.html" title="class in com.google.common.collect">ContiguousSet</a>&lt;java.lang.Long&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ContiguousSet.html#line.141">closedOpen</a>&#8203;(long&nbsp;lower,
                                                        long&nbsp;upper)</pre>
 <div class="block">Returns a contiguous set containing all <code>long</code> values from <code>lower</code> (inclusive) to
  <code>upper</code> (exclusive). If the endpoints are equal, an empty set is returned. (These are the
@@ -622,7 +618,7 @@ public static&nbsp;<a href="ContiguousSet.html" title="class in com.google.commo
 <ul class="blockList">
 <li class="blockList">
 <h4>headSet</h4>
-<pre class="methodSignature">public&nbsp;<a href="ContiguousSet.html" title="class in com.google.common.collect">ContiguousSet</a>&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ContiguousSet.html#line.157">headSet</a>&#8203;(<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a>&nbsp;toElement)</pre>
+<pre class="methodSignature">public&nbsp;<a href="ContiguousSet.html" title="class in com.google.common.collect">ContiguousSet</a>&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ContiguousSet.html#line.152">headSet</a>&#8203;(<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a>&nbsp;toElement)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="ImmutableSortedSet.html#headSet(E)">ImmutableSortedSet</a></code></span></div>
 <div class="block">
 
@@ -651,7 +647,7 @@ public static&nbsp;<a href="ContiguousSet.html" title="class in com.google.commo
 <li class="blockList">
 <h4>headSet</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public&nbsp;<a href="ContiguousSet.html" title="class in com.google.common.collect">ContiguousSet</a>&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ContiguousSet.html#line.163">headSet</a>&#8203;(<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a>&nbsp;toElement,
+public&nbsp;<a href="ContiguousSet.html" title="class in com.google.common.collect">ContiguousSet</a>&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ContiguousSet.html#line.158">headSet</a>&#8203;(<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a>&nbsp;toElement,
                                 boolean&nbsp;inclusive)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
@@ -671,7 +667,7 @@ public&nbsp;<a href="ContiguousSet.html" title="class in com.google.common.colle
 <ul class="blockList">
 <li class="blockList">
 <h4>subSet</h4>
-<pre class="methodSignature">public&nbsp;<a href="ContiguousSet.html" title="class in com.google.common.collect">ContiguousSet</a>&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ContiguousSet.html#line.169">subSet</a>&#8203;(<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a>&nbsp;fromElement,
+<pre class="methodSignature">public&nbsp;<a href="ContiguousSet.html" title="class in com.google.common.collect">ContiguousSet</a>&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ContiguousSet.html#line.164">subSet</a>&#8203;(<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a>&nbsp;fromElement,
                                <a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a>&nbsp;toElement)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="ImmutableSortedSet.html#subSet(E,E)">ImmutableSortedSet</a></code></span></div>
 <div class="block">
@@ -702,7 +698,7 @@ public&nbsp;<a href="ContiguousSet.html" title="class in com.google.common.colle
 <li class="blockList">
 <h4>subSet</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public&nbsp;<a href="ContiguousSet.html" title="class in com.google.common.collect">ContiguousSet</a>&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ContiguousSet.html#line.178">subSet</a>&#8203;(<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a>&nbsp;fromElement,
+public&nbsp;<a href="ContiguousSet.html" title="class in com.google.common.collect">ContiguousSet</a>&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ContiguousSet.html#line.173">subSet</a>&#8203;(<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a>&nbsp;fromElement,
                                boolean&nbsp;fromInclusive,
                                <a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a>&nbsp;toElement,
                                boolean&nbsp;toInclusive)</pre>
@@ -724,7 +720,7 @@ public&nbsp;<a href="ContiguousSet.html" title="class in com.google.common.colle
 <ul class="blockList">
 <li class="blockList">
 <h4>tailSet</h4>
-<pre class="methodSignature">public&nbsp;<a href="ContiguousSet.html" title="class in com.google.common.collect">ContiguousSet</a>&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ContiguousSet.html#line.188">tailSet</a>&#8203;(<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a>&nbsp;fromElement)</pre>
+<pre class="methodSignature">public&nbsp;<a href="ContiguousSet.html" title="class in com.google.common.collect">ContiguousSet</a>&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ContiguousSet.html#line.183">tailSet</a>&#8203;(<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a>&nbsp;fromElement)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="ImmutableSortedSet.html#tailSet(E)">ImmutableSortedSet</a></code></span></div>
 <div class="block">
 
@@ -753,7 +749,7 @@ public&nbsp;<a href="ContiguousSet.html" title="class in com.google.common.colle
 <li class="blockList">
 <h4>tailSet</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public&nbsp;<a href="ContiguousSet.html" title="class in com.google.common.collect">ContiguousSet</a>&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ContiguousSet.html#line.194">tailSet</a>&#8203;(<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a>&nbsp;fromElement,
+public&nbsp;<a href="ContiguousSet.html" title="class in com.google.common.collect">ContiguousSet</a>&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ContiguousSet.html#line.189">tailSet</a>&#8203;(<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a>&nbsp;fromElement,
                                 boolean&nbsp;inclusive)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
@@ -771,7 +767,7 @@ public&nbsp;<a href="ContiguousSet.html" title="class in com.google.common.colle
 <ul class="blockList">
 <li class="blockList">
 <h4>intersection</h4>
-<pre class="methodSignature">public abstract&nbsp;<a href="ContiguousSet.html" title="class in com.google.common.collect">ContiguousSet</a>&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ContiguousSet.html#line.219">intersection</a>&#8203;(<a href="ContiguousSet.html" title="class in com.google.common.collect">ContiguousSet</a>&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a>&gt;&nbsp;other)</pre>
+<pre class="methodSignature">public abstract&nbsp;<a href="ContiguousSet.html" title="class in com.google.common.collect">ContiguousSet</a>&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ContiguousSet.html#line.214">intersection</a>&#8203;(<a href="ContiguousSet.html" title="class in com.google.common.collect">ContiguousSet</a>&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a>&gt;&nbsp;other)</pre>
 <div class="block">Returns the set of values that are contained in both this set and the other.
 
  <p>This method should always be used instead of <a href="Sets.html#intersection(java.util.Set,java.util.Set)"><code>Sets.intersection(java.util.Set&lt;E&gt;, java.util.Set&lt;?&gt;)</code></a> for <a href="ContiguousSet.html" title="class in com.google.common.collect"><code>ContiguousSet</code></a> instances.</div>
@@ -783,7 +779,7 @@ public&nbsp;<a href="ContiguousSet.html" title="class in com.google.common.colle
 <ul class="blockList">
 <li class="blockList">
 <h4>range</h4>
-<pre class="methodSignature">public abstract&nbsp;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ContiguousSet.html#line.227">range</a>()</pre>
+<pre class="methodSignature">public abstract&nbsp;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ContiguousSet.html#line.222">range</a>()</pre>
 <div class="block">Returns a range, closed on both ends, whose endpoints are the minimum and maximum values
  contained in this set. This is equivalent to <code>range(CLOSED, CLOSED)</code>.</div>
 <dl>
@@ -798,7 +794,7 @@ public&nbsp;<a href="ContiguousSet.html" title="class in com.google.common.colle
 <ul class="blockList">
 <li class="blockList">
 <h4>range</h4>
-<pre class="methodSignature">public abstract&nbsp;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ContiguousSet.html#line.240">range</a>&#8203;(<a href="BoundType.html" title="enum in com.google.common.collect">BoundType</a>&nbsp;lowerBoundType,
+<pre class="methodSignature">public abstract&nbsp;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ContiguousSet.html#line.235">range</a>&#8203;(<a href="BoundType.html" title="enum in com.google.common.collect">BoundType</a>&nbsp;lowerBoundType,
                                <a href="BoundType.html" title="enum in com.google.common.collect">BoundType</a>&nbsp;upperBoundType)</pre>
 <div class="block">Returns the minimal range with the given boundary types for which all values in this set are
  <a href="Range.html#contains(C)">contained</a> within the range.
@@ -819,7 +815,7 @@ public&nbsp;<a href="ContiguousSet.html" title="class in com.google.common.colle
 <ul class="blockList">
 <li class="blockList">
 <h4>toString</h4>
-<pre class="methodSignature">public&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/collect/ContiguousSet.html#line.249">toString</a>()</pre>
+<pre class="methodSignature">public&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/collect/ContiguousSet.html#line.244">toString</a>()</pre>
 <div class="block">Returns a shorthand representation of the contents such as <code>"[1..100]"</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
@@ -834,7 +830,7 @@ public&nbsp;<a href="ContiguousSet.html" title="class in com.google.common.colle
 <li class="blockList">
 <h4>builder</h4>
 <pre class="methodSignature">@Deprecated
-public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedSet.Builder.html" title="class in com.google.common.collect">ImmutableSortedSet.Builder</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ContiguousSet.html#line.262">builder</a>()</pre>
+public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedSet.Builder.html" title="class in com.google.common.collect">ImmutableSortedSet.Builder</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ContiguousSet.html#line.257">builder</a>()</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Use <a href="#create(com.google.common.collect.Range,com.google.common.collect.DiscreteDomain)"><code>create(com.google.common.collect.Range&lt;C&gt;, com.google.common.collect.DiscreteDomain&lt;C&gt;)</code></a>.</div>
 </div>

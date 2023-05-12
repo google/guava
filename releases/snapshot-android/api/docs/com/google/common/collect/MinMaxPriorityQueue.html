@@ -146,9 +146,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><code>java.lang.Iterable&lt;E&gt;</code>, <code>java.util.Collection&lt;E&gt;</code>, <code>java.util.Queue&lt;E&gt;</code></dd>
 </dl>
 <hr>
-<pre><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-<a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public final class <a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.102">MinMaxPriorityQueue</a>&lt;E&gt;
+<pre><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
+public final class <a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.101">MinMaxPriorityQueue</a>&lt;E&gt;
 extends java.util.AbstractQueue&lt;E&gt;</pre>
 <div class="block">A double-ended priority queue, which provides constant-time access to both its least element and
  its greatest element, as determined by the queue's specified comparator. If no comparator is
@@ -448,7 +447,7 @@ extends java.util.AbstractQueue&lt;E&gt;</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E extends java.lang.Comparable&lt;E&gt;&gt;&nbsp;<a href="MinMaxPriorityQueue.html" title="class in com.google.common.collect">MinMaxPriorityQueue</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.111">create</a>()</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E extends java.lang.Comparable&lt;E&gt;&gt;&nbsp;<a href="MinMaxPriorityQueue.html" title="class in com.google.common.collect">MinMaxPriorityQueue</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.109">create</a>()</pre>
 <div class="block">Creates a new min-max priority queue with default settings: natural order, no maximum size, no
  initial contents, and an initial expected size of 11.</div>
 </li>
@@ -459,7 +458,7 @@ extends java.util.AbstractQueue&lt;E&gt;</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E extends java.lang.Comparable&lt;E&gt;&gt;&nbsp;<a href="MinMaxPriorityQueue.html" title="class in com.google.common.collect">MinMaxPriorityQueue</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.119">create</a>&#8203;(java.lang.Iterable&lt;? extends E&gt;&nbsp;initialContents)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E extends java.lang.Comparable&lt;E&gt;&gt;&nbsp;<a href="MinMaxPriorityQueue.html" title="class in com.google.common.collect">MinMaxPriorityQueue</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.117">create</a>&#8203;(java.lang.Iterable&lt;? extends E&gt;&nbsp;initialContents)</pre>
 <div class="block">Creates a new min-max priority queue using natural order, no maximum size, and initially
  containing the given elements.</div>
 </li>
@@ -470,7 +469,7 @@ extends java.util.AbstractQueue&lt;E&gt;</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>orderedBy</h4>
-<pre class="methodSignature">public static&nbsp;&lt;B&gt;&nbsp;<a href="MinMaxPriorityQueue.Builder.html" title="class in com.google.common.collect">MinMaxPriorityQueue.Builder</a>&lt;B&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.134">orderedBy</a>&#8203;(java.util.Comparator&lt;B&gt;&nbsp;comparator)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;B&gt;&nbsp;<a href="MinMaxPriorityQueue.Builder.html" title="class in com.google.common.collect">MinMaxPriorityQueue.Builder</a>&lt;B&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.132">orderedBy</a>&#8203;(java.util.Comparator&lt;B&gt;&nbsp;comparator)</pre>
 <div class="block">Creates and returns a new builder, configured to build <code>MinMaxPriorityQueue</code> instances
  that use <code>comparator</code> to determine the least and greatest elements.</div>
 </li>
@@ -481,7 +480,7 @@ extends java.util.AbstractQueue&lt;E&gt;</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>expectedSize</h4>
-<pre class="methodSignature">public static&nbsp;<a href="MinMaxPriorityQueue.Builder.html" title="class in com.google.common.collect">MinMaxPriorityQueue.Builder</a>&lt;java.lang.Comparable&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.142">expectedSize</a>&#8203;(int&nbsp;expectedSize)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="MinMaxPriorityQueue.Builder.html" title="class in com.google.common.collect">MinMaxPriorityQueue.Builder</a>&lt;java.lang.Comparable&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.140">expectedSize</a>&#8203;(int&nbsp;expectedSize)</pre>
 <div class="block">Creates and returns a new builder, configured to build <code>MinMaxPriorityQueue</code> instances
  sized appropriately to hold <code>expectedSize</code> elements.</div>
 </li>
@@ -492,7 +491,7 @@ extends java.util.AbstractQueue&lt;E&gt;</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>maximumSize</h4>
-<pre class="methodSignature">public static&nbsp;<a href="MinMaxPriorityQueue.Builder.html" title="class in com.google.common.collect">MinMaxPriorityQueue.Builder</a>&lt;java.lang.Comparable&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.152">maximumSize</a>&#8203;(int&nbsp;maximumSize)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="MinMaxPriorityQueue.Builder.html" title="class in com.google.common.collect">MinMaxPriorityQueue.Builder</a>&lt;java.lang.Comparable&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.150">maximumSize</a>&#8203;(int&nbsp;maximumSize)</pre>
 <div class="block">Creates and returns a new builder, configured to build <code>MinMaxPriorityQueue</code> instances
  that are limited to <code>maximumSize</code> elements. Each time a queue grows beyond this bound, it
  immediately removes its greatest element (according to its comparator), which might be the
@@ -505,7 +504,7 @@ extends java.util.AbstractQueue&lt;E&gt;</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>size</h4>
-<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.253">size</a>()</pre>
+<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.250">size</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>size</code>&nbsp;in interface&nbsp;<code>java.util.Collection&lt;<a href="MinMaxPriorityQueue.html" title="type parameter in MinMaxPriorityQueue">E</a>&gt;</code></dd>
@@ -523,7 +522,7 @@ extends java.util.AbstractQueue&lt;E&gt;</pre>
 <li class="blockList">
 <h4>add</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.265">add</a>&#8203;(<a href="MinMaxPriorityQueue.html" title="type parameter in MinMaxPriorityQueue">E</a>&nbsp;element)</pre>
+public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.262">add</a>&#8203;(<a href="MinMaxPriorityQueue.html" title="type parameter in MinMaxPriorityQueue">E</a>&nbsp;element)</pre>
 <div class="block">Adds the given element to this queue. If this queue has a maximum size, after adding <code>
  element</code> the queue will automatically evict its greatest element (according to its comparator),
  which may be <code>element</code> itself.</div>
@@ -546,7 +545,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <li class="blockList">
 <h4>addAll</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.272">addAll</a>&#8203;(java.util.Collection&lt;? extends <a href="MinMaxPriorityQueue.html" title="type parameter in MinMaxPriorityQueue">E</a>&gt;&nbsp;newElements)</pre>
+public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.269">addAll</a>&#8203;(java.util.Collection&lt;? extends <a href="MinMaxPriorityQueue.html" title="type parameter in MinMaxPriorityQueue">E</a>&gt;&nbsp;newElements)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>addAll</code>&nbsp;in interface&nbsp;<code>java.util.Collection&lt;<a href="MinMaxPriorityQueue.html" title="type parameter in MinMaxPriorityQueue">E</a>&gt;</code></dd>
@@ -564,7 +563,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <li class="blockList">
 <h4>offer</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.288">offer</a>&#8203;(<a href="MinMaxPriorityQueue.html" title="type parameter in MinMaxPriorityQueue">E</a>&nbsp;element)</pre>
+public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.285">offer</a>&#8203;(<a href="MinMaxPriorityQueue.html" title="type parameter in MinMaxPriorityQueue">E</a>&nbsp;element)</pre>
 <div class="block">Adds the given element to this queue. If this queue has a maximum size, after adding <code>
  element</code> the queue will automatically evict its greatest element (according to its comparator),
  which may be <code>element</code> itself.</div>
@@ -578,7 +577,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <h4>poll</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;<a href="MinMaxPriorityQueue.html" title="type parameter in MinMaxPriorityQueue">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.303">poll</a>()</pre>
+public&nbsp;<a href="MinMaxPriorityQueue.html" title="type parameter in MinMaxPriorityQueue">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.300">poll</a>()</pre>
 </li>
 </ul>
 <a id="peek()">
@@ -588,7 +587,7 @@ public&nbsp;<a href="MinMaxPriorityQueue.html" title="type parameter in MinMaxPr
 <li class="blockList">
 <h4>peek</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;<a href="MinMaxPriorityQueue.html" title="type parameter in MinMaxPriorityQueue">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.319">peek</a>()</pre>
+public&nbsp;<a href="MinMaxPriorityQueue.html" title="type parameter in MinMaxPriorityQueue">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.316">peek</a>()</pre>
 </li>
 </ul>
 <a id="pollFirst()">
@@ -599,7 +598,7 @@ public&nbsp;<a href="MinMaxPriorityQueue.html" title="type parameter in MinMaxPr
 <h4>pollFirst</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;<a href="MinMaxPriorityQueue.html" title="type parameter in MinMaxPriorityQueue">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.343">pollFirst</a>()</pre>
+public&nbsp;<a href="MinMaxPriorityQueue.html" title="type parameter in MinMaxPriorityQueue">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.340">pollFirst</a>()</pre>
 <div class="block">Removes and returns the least element of this queue, or returns <code>null</code> if the queue is
  empty.</div>
 </li>
@@ -611,7 +610,7 @@ public&nbsp;<a href="MinMaxPriorityQueue.html" title="type parameter in MinMaxPr
 <li class="blockList">
 <h4>removeFirst</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="MinMaxPriorityQueue.html" title="type parameter in MinMaxPriorityQueue">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.354">removeFirst</a>()</pre>
+public&nbsp;<a href="MinMaxPriorityQueue.html" title="type parameter in MinMaxPriorityQueue">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.351">removeFirst</a>()</pre>
 <div class="block">Removes and returns the least element of this queue.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
@@ -626,7 +625,7 @@ public&nbsp;<a href="MinMaxPriorityQueue.html" title="type parameter in MinMaxPr
 <li class="blockList">
 <h4>peekFirst</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;<a href="MinMaxPriorityQueue.html" title="type parameter in MinMaxPriorityQueue">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.363">peekFirst</a>()</pre>
+public&nbsp;<a href="MinMaxPriorityQueue.html" title="type parameter in MinMaxPriorityQueue">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.360">peekFirst</a>()</pre>
 <div class="block">Retrieves, but does not remove, the least element of this queue, or returns <code>null</code> if the
  queue is empty.</div>
 </li>
@@ -639,7 +638,7 @@ public&nbsp;<a href="MinMaxPriorityQueue.html" title="type parameter in MinMaxPr
 <h4>pollLast</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;<a href="MinMaxPriorityQueue.html" title="type parameter in MinMaxPriorityQueue">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.372">pollLast</a>()</pre>
+public&nbsp;<a href="MinMaxPriorityQueue.html" title="type parameter in MinMaxPriorityQueue">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.369">pollLast</a>()</pre>
 <div class="block">Removes and returns the greatest element of this queue, or returns <code>null</code> if the queue is
  empty.</div>
 </li>
@@ -651,7 +650,7 @@ public&nbsp;<a href="MinMaxPriorityQueue.html" title="type parameter in MinMaxPr
 <li class="blockList">
 <h4>removeLast</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="MinMaxPriorityQueue.html" title="type parameter in MinMaxPriorityQueue">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.383">removeLast</a>()</pre>
+public&nbsp;<a href="MinMaxPriorityQueue.html" title="type parameter in MinMaxPriorityQueue">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.380">removeLast</a>()</pre>
 <div class="block">Removes and returns the greatest element of this queue.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
@@ -666,7 +665,7 @@ public&nbsp;<a href="MinMaxPriorityQueue.html" title="type parameter in MinMaxPr
 <li class="blockList">
 <h4>peekLast</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;<a href="MinMaxPriorityQueue.html" title="type parameter in MinMaxPriorityQueue">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.395">peekLast</a>()</pre>
+public&nbsp;<a href="MinMaxPriorityQueue.html" title="type parameter in MinMaxPriorityQueue">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.392">peekLast</a>()</pre>
 <div class="block">Retrieves, but does not remove, the greatest element of this queue, or returns <code>null</code> if
  the queue is empty.</div>
 </li>
@@ -677,7 +676,7 @@ public&nbsp;<a href="MinMaxPriorityQueue.html" title="type parameter in MinMaxPr
 <ul class="blockList">
 <li class="blockList">
 <h4>iterator</h4>
-<pre class="methodSignature">public&nbsp;java.util.Iterator&lt;<a href="MinMaxPriorityQueue.html" title="type parameter in MinMaxPriorityQueue">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.909">iterator</a>()</pre>
+<pre class="methodSignature">public&nbsp;java.util.Iterator&lt;<a href="MinMaxPriorityQueue.html" title="type parameter in MinMaxPriorityQueue">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.906">iterator</a>()</pre>
 <div class="block">Returns an iterator over the elements contained in this collection, <i>in no particular
  order</i>.
 
@@ -711,7 +710,7 @@ public&nbsp;<a href="MinMaxPriorityQueue.html" title="type parameter in MinMaxPr
 <ul class="blockList">
 <li class="blockList">
 <h4>clear</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.914">clear</a>()</pre>
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.911">clear</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>clear</code>&nbsp;in interface&nbsp;<code>java.util.Collection&lt;<a href="MinMaxPriorityQueue.html" title="type parameter in MinMaxPriorityQueue">E</a>&gt;</code></dd>
@@ -726,7 +725,7 @@ public&nbsp;<a href="MinMaxPriorityQueue.html" title="type parameter in MinMaxPr
 <ul class="blockList">
 <li class="blockList">
 <h4>toArray</h4>
-<pre class="methodSignature">public&nbsp;java.lang.Object[]&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.922">toArray</a>()</pre>
+<pre class="methodSignature">public&nbsp;java.lang.Object[]&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.919">toArray</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>toArray</code>&nbsp;in interface&nbsp;<code>java.util.Collection&lt;<a href="MinMaxPriorityQueue.html" title="type parameter in MinMaxPriorityQueue">E</a>&gt;</code></dd>
@@ -741,7 +740,7 @@ public&nbsp;<a href="MinMaxPriorityQueue.html" title="type parameter in MinMaxPr
 <ul class="blockListLast">
 <li class="blockList">
 <h4>comparator</h4>
-<pre class="methodSignature">public&nbsp;java.util.Comparator&lt;? super <a href="MinMaxPriorityQueue.html" title="type parameter in MinMaxPriorityQueue">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.935">comparator</a>()</pre>
+<pre class="methodSignature">public&nbsp;java.util.Comparator&lt;? super <a href="MinMaxPriorityQueue.html" title="type parameter in MinMaxPriorityQueue">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.932">comparator</a>()</pre>
 <div class="block">Returns the comparator used to order the elements in this queue. Obeys the general contract of
  <code>PriorityQueue.comparator</code>, but returns <a href="Ordering.html#natural()"><code>Ordering.natural()</code></a> instead of <code>null</code>
  to indicate natural ordering.</div>
