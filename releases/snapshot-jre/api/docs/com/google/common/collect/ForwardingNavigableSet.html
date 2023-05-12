@@ -161,7 +161,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <hr>
 <pre><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public abstract class <a href="../../../../src-html/com/google/common/collect/ForwardingNavigableSet.html#line.53">ForwardingNavigableSet</a>&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;
+public abstract class <a href="../../../../src-html/com/google/common/collect/ForwardingNavigableSet.html#line.52">ForwardingNavigableSet</a>&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;
 extends <a href="ForwardingSortedSet.html" title="class in com.google.common.collect">ForwardingSortedSet</a>&lt;E&gt;
 implements java.util.NavigableSet&lt;E&gt;</pre>
 <div class="block">A navigable set which forwards all its method calls to another navigable set. Subclasses should
@@ -511,7 +511,7 @@ implements java.util.NavigableSet&lt;E&gt;</pre>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>ForwardingNavigableSet</h4>
-<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableSet.html#line.59">ForwardingNavigableSet</a>()</pre>
+<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableSet.html#line.58">ForwardingNavigableSet</a>()</pre>
 <div class="block">Constructor for use by subclasses.</div>
 </li>
 </ul>
@@ -531,7 +531,7 @@ implements java.util.NavigableSet&lt;E&gt;</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>delegate</h4>
-<pre class="methodSignature">protected abstract&nbsp;java.util.NavigableSet&lt;<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableSet.html#line.61">delegate</a>()</pre>
+<pre class="methodSignature">protected abstract&nbsp;java.util.NavigableSet&lt;<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableSet.html#line.60">delegate</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="ForwardingObject.html#delegate()">ForwardingObject</a></code></span></div>
 <div class="block">Returns the backing delegate instance that methods are forwarded to. Abstract subclasses
  generally override this method with an abstract method that has a more specific return type,
@@ -552,7 +552,7 @@ implements java.util.NavigableSet&lt;E&gt;</pre>
 <li class="blockList">
 <h4>lower</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableSet.html#line.64">lower</a>&#8203;(<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;e)</pre>
+public&nbsp;<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableSet.html#line.63">lower</a>&#8203;(<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;e)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>lower</code>&nbsp;in interface&nbsp;<code>java.util.NavigableSet&lt;<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
@@ -568,7 +568,7 @@ public&nbsp;<a href="ForwardingNavigableSet.html" title="type parameter in Forwa
 <li class="blockList">
 <h4>standardLower</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-protected&nbsp;<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableSet.html#line.75">standardLower</a>&#8203;(<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;e)</pre>
+protected&nbsp;<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableSet.html#line.74">standardLower</a>&#8203;(<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;e)</pre>
 <div class="block">A sensible definition of <a href="#lower(E)"><code>lower(E)</code></a> in terms of the <code>descendingIterator</code> method of
  <a href="#headSet(E,boolean)"><code>headSet(Object, boolean)</code></a>. If you override <a href="#headSet(E,boolean)"><code>headSet(Object, boolean)</code></a>, you may
  wish to override <a href="#lower(E)"><code>lower(E)</code></a> to forward to this implementation.</div>
@@ -583,7 +583,7 @@ protected&nbsp;<a href="ForwardingNavigableSet.html" title="type parameter in Fo
 <li class="blockList">
 <h4>floor</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableSet.html#line.80">floor</a>&#8203;(<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;e)</pre>
+public&nbsp;<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableSet.html#line.79">floor</a>&#8203;(<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;e)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>floor</code>&nbsp;in interface&nbsp;<code>java.util.NavigableSet&lt;<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
@@ -599,7 +599,7 @@ public&nbsp;<a href="ForwardingNavigableSet.html" title="type parameter in Forwa
 <li class="blockList">
 <h4>standardFloor</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-protected&nbsp;<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableSet.html#line.91">standardFloor</a>&#8203;(<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;e)</pre>
+protected&nbsp;<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableSet.html#line.90">standardFloor</a>&#8203;(<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;e)</pre>
 <div class="block">A sensible definition of <a href="#floor(E)"><code>floor(E)</code></a> in terms of the <code>descendingIterator</code> method of
  <a href="#headSet(E,boolean)"><code>headSet(Object, boolean)</code></a>. If you override <a href="#headSet(E,boolean)"><code>headSet(Object, boolean)</code></a>, you may
  wish to override <a href="#floor(E)"><code>floor(E)</code></a> to forward to this implementation.</div>
@@ -614,7 +614,7 @@ protected&nbsp;<a href="ForwardingNavigableSet.html" title="type parameter in Fo
 <li class="blockList">
 <h4>ceiling</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableSet.html#line.96">ceiling</a>&#8203;(<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;e)</pre>
+public&nbsp;<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableSet.html#line.95">ceiling</a>&#8203;(<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;e)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>ceiling</code>&nbsp;in interface&nbsp;<code>java.util.NavigableSet&lt;<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
@@ -630,7 +630,7 @@ public&nbsp;<a href="ForwardingNavigableSet.html" title="type parameter in Forwa
 <li class="blockList">
 <h4>standardCeiling</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-protected&nbsp;<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableSet.html#line.107">standardCeiling</a>&#8203;(<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;e)</pre>
+protected&nbsp;<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableSet.html#line.106">standardCeiling</a>&#8203;(<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;e)</pre>
 <div class="block">A sensible definition of <a href="#ceiling(E)"><code>ceiling(E)</code></a> in terms of the <code>iterator</code> method of <a href="#tailSet(E,boolean)"><code>tailSet(Object, boolean)</code></a>. If you override <a href="#tailSet(E,boolean)"><code>tailSet(Object, boolean)</code></a>, you may wish to
  override <a href="#ceiling(E)"><code>ceiling(E)</code></a> to forward to this implementation.</div>
 </li>
@@ -644,7 +644,7 @@ protected&nbsp;<a href="ForwardingNavigableSet.html" title="type parameter in Fo
 <li class="blockList">
 <h4>higher</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableSet.html#line.112">higher</a>&#8203;(<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;e)</pre>
+public&nbsp;<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableSet.html#line.111">higher</a>&#8203;(<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;e)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>higher</code>&nbsp;in interface&nbsp;<code>java.util.NavigableSet&lt;<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
@@ -660,7 +660,7 @@ public&nbsp;<a href="ForwardingNavigableSet.html" title="type parameter in Forwa
 <li class="blockList">
 <h4>standardHigher</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-protected&nbsp;<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableSet.html#line.123">standardHigher</a>&#8203;(<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;e)</pre>
+protected&nbsp;<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableSet.html#line.122">standardHigher</a>&#8203;(<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;e)</pre>
 <div class="block">A sensible definition of <a href="#higher(E)"><code>higher(E)</code></a> in terms of the <code>iterator</code> method of <a href="#tailSet(E,boolean)"><code>tailSet(Object, boolean)</code></a>. If you override <a href="#tailSet(E,boolean)"><code>tailSet(Object, boolean)</code></a>, you may wish to
  override <a href="#higher(E)"><code>higher(E)</code></a> to forward to this implementation.</div>
 </li>
@@ -672,7 +672,7 @@ protected&nbsp;<a href="ForwardingNavigableSet.html" title="type parameter in Fo
 <li class="blockList">
 <h4>pollFirst</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableSet.html#line.128">pollFirst</a>()</pre>
+public&nbsp;<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableSet.html#line.127">pollFirst</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>pollFirst</code>&nbsp;in interface&nbsp;<code>java.util.NavigableSet&lt;<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
@@ -686,7 +686,7 @@ public&nbsp;<a href="ForwardingNavigableSet.html" title="type parameter in Forwa
 <li class="blockList">
 <h4>standardPollFirst</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-protected&nbsp;<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableSet.html#line.139">standardPollFirst</a>()</pre>
+protected&nbsp;<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableSet.html#line.138">standardPollFirst</a>()</pre>
 <div class="block">A sensible definition of <a href="#pollFirst()"><code>pollFirst()</code></a> in terms of the <code>iterator</code> method. If you
  override <a href="ForwardingCollection.html#iterator()"><code>ForwardingCollection.iterator()</code></a> you may wish to override <a href="#pollFirst()"><code>pollFirst()</code></a> to forward to this
  implementation.</div>
@@ -699,7 +699,7 @@ protected&nbsp;<a href="ForwardingNavigableSet.html" title="type parameter in Fo
 <li class="blockList">
 <h4>pollLast</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableSet.html#line.144">pollLast</a>()</pre>
+public&nbsp;<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableSet.html#line.143">pollLast</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>pollLast</code>&nbsp;in interface&nbsp;<code>java.util.NavigableSet&lt;<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
@@ -713,7 +713,7 @@ public&nbsp;<a href="ForwardingNavigableSet.html" title="type parameter in Forwa
 <li class="blockList">
 <h4>standardPollLast</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-protected&nbsp;<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableSet.html#line.155">standardPollLast</a>()</pre>
+protected&nbsp;<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableSet.html#line.154">standardPollLast</a>()</pre>
 <div class="block">A sensible definition of <a href="#pollLast()"><code>pollLast()</code></a> in terms of the <code>descendingIterator</code> method.
  If you override <a href="#descendingIterator()"><code>descendingIterator()</code></a> you may wish to override <a href="#pollLast()"><code>pollLast()</code></a> to
  forward to this implementation.</div>
@@ -725,7 +725,7 @@ protected&nbsp;<a href="ForwardingNavigableSet.html" title="type parameter in Fo
 <ul class="blockList">
 <li class="blockList">
 <h4>standardFirst</h4>
-<pre class="methodSignature">protected&nbsp;<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableSet.html#line.160">standardFirst</a>()</pre>
+<pre class="methodSignature">protected&nbsp;<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableSet.html#line.159">standardFirst</a>()</pre>
 </li>
 </ul>
 <a id="standardLast()">
@@ -734,7 +734,7 @@ protected&nbsp;<a href="ForwardingNavigableSet.html" title="type parameter in Fo
 <ul class="blockList">
 <li class="blockList">
 <h4>standardLast</h4>
-<pre class="methodSignature">protected&nbsp;<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableSet.html#line.165">standardLast</a>()</pre>
+<pre class="methodSignature">protected&nbsp;<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableSet.html#line.164">standardLast</a>()</pre>
 </li>
 </ul>
 <a id="descendingSet()">
@@ -743,7 +743,7 @@ protected&nbsp;<a href="ForwardingNavigableSet.html" title="type parameter in Fo
 <ul class="blockList">
 <li class="blockList">
 <h4>descendingSet</h4>
-<pre class="methodSignature">public&nbsp;java.util.NavigableSet&lt;<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableSet.html#line.170">descendingSet</a>()</pre>
+<pre class="methodSignature">public&nbsp;java.util.NavigableSet&lt;<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableSet.html#line.169">descendingSet</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>descendingSet</code>&nbsp;in interface&nbsp;<code>java.util.NavigableSet&lt;<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
@@ -756,7 +756,7 @@ protected&nbsp;<a href="ForwardingNavigableSet.html" title="type parameter in Fo
 <ul class="blockList">
 <li class="blockList">
 <h4>descendingIterator</h4>
-<pre class="methodSignature">public&nbsp;java.util.Iterator&lt;<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableSet.html#line.192">descendingIterator</a>()</pre>
+<pre class="methodSignature">public&nbsp;java.util.Iterator&lt;<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableSet.html#line.190">descendingIterator</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>descendingIterator</code>&nbsp;in interface&nbsp;<code>java.util.NavigableSet&lt;<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
@@ -771,7 +771,7 @@ protected&nbsp;<a href="ForwardingNavigableSet.html" title="type parameter in Fo
 <ul class="blockList">
 <li class="blockList">
 <h4>subSet</h4>
-<pre class="methodSignature">public&nbsp;java.util.NavigableSet&lt;<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableSet.html#line.197">subSet</a>&#8203;(<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;fromElement,
+<pre class="methodSignature">public&nbsp;java.util.NavigableSet&lt;<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableSet.html#line.195">subSet</a>&#8203;(<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;fromElement,
                                         boolean&nbsp;fromInclusive,
                                         <a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;toElement,
                                         boolean&nbsp;toInclusive)</pre>
@@ -789,8 +789,7 @@ protected&nbsp;<a href="ForwardingNavigableSet.html" title="type parameter in Fo
 <ul class="blockList">
 <li class="blockList">
 <h4>standardSubSet</h4>
-<pre class="methodSignature"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-protected&nbsp;java.util.NavigableSet&lt;<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableSet.html#line.211">standardSubSet</a>&#8203;(<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;fromElement,
+<pre class="methodSignature">protected&nbsp;java.util.NavigableSet&lt;<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableSet.html#line.209">standardSubSet</a>&#8203;(<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;fromElement,
                                                    boolean&nbsp;fromInclusive,
                                                    <a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;toElement,
                                                    boolean&nbsp;toInclusive)</pre>
@@ -806,7 +805,7 @@ protected&nbsp;java.util.NavigableSet&lt;<a href="ForwardingNavigableSet.html" t
 <ul class="blockList">
 <li class="blockList">
 <h4>standardSubSet</h4>
-<pre class="methodSignature">protected&nbsp;java.util.SortedSet&lt;<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableSet.html#line.226">standardSubSet</a>&#8203;(<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;fromElement,
+<pre class="methodSignature">protected&nbsp;java.util.SortedSet&lt;<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableSet.html#line.223">standardSubSet</a>&#8203;(<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;fromElement,
                                                 <a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;toElement)</pre>
 <div class="block">A sensible definition of <a href="ForwardingSortedSet.html#subSet(E,E)"><code>ForwardingSortedSet.subSet(Object, Object)</code></a> in terms of the <a href="#subSet(E,boolean,E,boolean)"><code>subSet(Object,
  boolean, Object, boolean)</code></a> method. If you override <a href="#subSet(E,boolean,E,boolean)"><code>subSet(Object, boolean, Object,
@@ -826,7 +825,7 @@ protected&nbsp;java.util.NavigableSet&lt;<a href="ForwardingNavigableSet.html" t
 <ul class="blockList">
 <li class="blockList">
 <h4>headSet</h4>
-<pre class="methodSignature">public&nbsp;java.util.NavigableSet&lt;<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableSet.html#line.232">headSet</a>&#8203;(<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;toElement,
+<pre class="methodSignature">public&nbsp;java.util.NavigableSet&lt;<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableSet.html#line.229">headSet</a>&#8203;(<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;toElement,
                                          boolean&nbsp;inclusive)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
@@ -842,7 +841,7 @@ protected&nbsp;java.util.NavigableSet&lt;<a href="ForwardingNavigableSet.html" t
 <ul class="blockList">
 <li class="blockList">
 <h4>standardHeadSet</h4>
-<pre class="methodSignature">protected&nbsp;java.util.SortedSet&lt;<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableSet.html#line.242">standardHeadSet</a>&#8203;(<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;toElement)</pre>
+<pre class="methodSignature">protected&nbsp;java.util.SortedSet&lt;<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableSet.html#line.239">standardHeadSet</a>&#8203;(<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;toElement)</pre>
 <div class="block">A sensible definition of <a href="ForwardingSortedSet.html#headSet(E)"><code>ForwardingSortedSet.headSet(Object)</code></a> in terms of the <a href="#headSet(E,boolean)"><code>headSet(Object,
  boolean)</code></a> method. If you override <a href="#headSet(E,boolean)"><code>headSet(Object, boolean)</code></a>, you may wish to override
  <a href="ForwardingSortedSet.html#headSet(E)"><code>ForwardingSortedSet.headSet(Object)</code></a> to forward to this implementation.</div>
@@ -856,7 +855,7 @@ protected&nbsp;java.util.NavigableSet&lt;<a href="ForwardingNavigableSet.html" t
 <ul class="blockList">
 <li class="blockList">
 <h4>tailSet</h4>
-<pre class="methodSignature">public&nbsp;java.util.NavigableSet&lt;<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableSet.html#line.246">tailSet</a>&#8203;(<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;fromElement,
+<pre class="methodSignature">public&nbsp;java.util.NavigableSet&lt;<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableSet.html#line.243">tailSet</a>&#8203;(<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;fromElement,
                                          boolean&nbsp;inclusive)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
@@ -872,7 +871,7 @@ protected&nbsp;java.util.NavigableSet&lt;<a href="ForwardingNavigableSet.html" t
 <ul class="blockListLast">
 <li class="blockList">
 <h4>standardTailSet</h4>
-<pre class="methodSignature">protected&nbsp;java.util.SortedSet&lt;<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableSet.html#line.256">standardTailSet</a>&#8203;(<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;fromElement)</pre>
+<pre class="methodSignature">protected&nbsp;java.util.SortedSet&lt;<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableSet.html#line.253">standardTailSet</a>&#8203;(<a href="ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;fromElement)</pre>
 <div class="block">A sensible definition of <a href="ForwardingSortedSet.html#tailSet(E)"><code>ForwardingSortedSet.tailSet(Object)</code></a> in terms of the <a href="#tailSet(E,boolean)"><code>tailSet(Object,
  boolean)</code></a> method. If you override <a href="#tailSet(E,boolean)"><code>tailSet(Object, boolean)</code></a>, you may wish to override
  <a href="ForwardingSortedSet.html#tailSet(E)"><code>ForwardingSortedSet.tailSet(Object)</code></a> to forward to this implementation.</div>

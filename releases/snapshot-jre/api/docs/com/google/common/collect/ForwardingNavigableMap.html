@@ -152,7 +152,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <hr>
 <pre><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public abstract class <a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.58">ForwardingNavigableMap</a>&lt;K extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;
+public abstract class <a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.57">ForwardingNavigableMap</a>&lt;K extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;
 extends <a href="ForwardingSortedMap.html" title="class in com.google.common.collect">ForwardingSortedMap</a>&lt;K,&#8203;V&gt;
 implements java.util.NavigableMap&lt;K,&#8203;V&gt;</pre>
 <div class="block">A navigable map which forwards all its method calls to another navigable map. Subclasses should
@@ -587,7 +587,7 @@ implements java.util.NavigableMap&lt;K,&#8203;V&gt;</pre>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>ForwardingNavigableMap</h4>
-<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.64">ForwardingNavigableMap</a>()</pre>
+<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.63">ForwardingNavigableMap</a>()</pre>
 <div class="block">Constructor for use by subclasses.</div>
 </li>
 </ul>
@@ -607,7 +607,7 @@ implements java.util.NavigableMap&lt;K,&#8203;V&gt;</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>delegate</h4>
-<pre class="methodSignature">protected abstract&nbsp;java.util.NavigableMap&lt;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,&#8203;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.66">delegate</a>()</pre>
+<pre class="methodSignature">protected abstract&nbsp;java.util.NavigableMap&lt;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,&#8203;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.65">delegate</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="ForwardingObject.html#delegate()">ForwardingObject</a></code></span></div>
 <div class="block">Returns the backing delegate instance that methods are forwarded to. Abstract subclasses
  generally override this method with an abstract method that has a more specific return type,
@@ -628,7 +628,7 @@ implements java.util.NavigableMap&lt;K,&#8203;V&gt;</pre>
 <li class="blockList">
 <h4>lowerEntry</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;java.util.Map.Entry&lt;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,&#8203;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.69">lowerEntry</a>&#8203;(<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;key)</pre>
+public&nbsp;java.util.Map.Entry&lt;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,&#8203;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.68">lowerEntry</a>&#8203;(<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;key)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>lowerEntry</code>&nbsp;in interface&nbsp;<code>java.util.NavigableMap&lt;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
@@ -644,7 +644,7 @@ public&nbsp;java.util.Map.Entry&lt;<a href="ForwardingNavigableMap.html" title="
 <li class="blockList">
 <h4>standardLowerEntry</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-protected&nbsp;java.util.Map.Entry&lt;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,&#8203;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.80">standardLowerEntry</a>&#8203;(<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;key)</pre>
+protected&nbsp;java.util.Map.Entry&lt;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,&#8203;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.79">standardLowerEntry</a>&#8203;(<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;key)</pre>
 <div class="block">A sensible definition of <a href="#lowerEntry(K)"><code>lowerEntry(K)</code></a> in terms of the <code>lastEntry()</code> of <a href="#headMap(K,boolean)"><code>headMap(Object, boolean)</code></a>. If you override <code>headMap</code>, you may wish to override <code>
  lowerEntry</code> to forward to this implementation.</div>
 </li>
@@ -658,7 +658,7 @@ protected&nbsp;java.util.Map.Entry&lt;<a href="ForwardingNavigableMap.html" titl
 <li class="blockList">
 <h4>lowerKey</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.85">lowerKey</a>&#8203;(<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;key)</pre>
+public&nbsp;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.84">lowerKey</a>&#8203;(<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;key)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>lowerKey</code>&nbsp;in interface&nbsp;<code>java.util.NavigableMap&lt;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
@@ -674,7 +674,7 @@ public&nbsp;<a href="ForwardingNavigableMap.html" title="type parameter in Forwa
 <li class="blockList">
 <h4>standardLowerKey</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-protected&nbsp;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.96">standardLowerKey</a>&#8203;(<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;key)</pre>
+protected&nbsp;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.95">standardLowerKey</a>&#8203;(<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;key)</pre>
 <div class="block">A sensible definition of <a href="#lowerKey(K)"><code>lowerKey(K)</code></a> in terms of <code>lowerEntry</code>. If you override
  <a href="#lowerEntry(K)"><code>lowerEntry(K)</code></a>, you may wish to override <code>lowerKey</code> to forward to this
  implementation.</div>
@@ -689,7 +689,7 @@ protected&nbsp;<a href="ForwardingNavigableMap.html" title="type parameter in Fo
 <li class="blockList">
 <h4>floorEntry</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;java.util.Map.Entry&lt;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,&#8203;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.101">floorEntry</a>&#8203;(<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;key)</pre>
+public&nbsp;java.util.Map.Entry&lt;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,&#8203;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.100">floorEntry</a>&#8203;(<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;key)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>floorEntry</code>&nbsp;in interface&nbsp;<code>java.util.NavigableMap&lt;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
@@ -705,7 +705,7 @@ public&nbsp;java.util.Map.Entry&lt;<a href="ForwardingNavigableMap.html" title="
 <li class="blockList">
 <h4>standardFloorEntry</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-protected&nbsp;java.util.Map.Entry&lt;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,&#8203;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.112">standardFloorEntry</a>&#8203;(<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;key)</pre>
+protected&nbsp;java.util.Map.Entry&lt;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,&#8203;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.111">standardFloorEntry</a>&#8203;(<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;key)</pre>
 <div class="block">A sensible definition of <a href="#floorEntry(K)"><code>floorEntry(K)</code></a> in terms of the <code>lastEntry()</code> of <a href="#headMap(K,boolean)"><code>headMap(Object, boolean)</code></a>. If you override <code>headMap</code>, you may wish to override <code>
  floorEntry</code> to forward to this implementation.</div>
 </li>
@@ -719,7 +719,7 @@ protected&nbsp;java.util.Map.Entry&lt;<a href="ForwardingNavigableMap.html" titl
 <li class="blockList">
 <h4>floorKey</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.117">floorKey</a>&#8203;(<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;key)</pre>
+public&nbsp;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.116">floorKey</a>&#8203;(<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;key)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>floorKey</code>&nbsp;in interface&nbsp;<code>java.util.NavigableMap&lt;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
@@ -735,7 +735,7 @@ public&nbsp;<a href="ForwardingNavigableMap.html" title="type parameter in Forwa
 <li class="blockList">
 <h4>standardFloorKey</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-protected&nbsp;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.128">standardFloorKey</a>&#8203;(<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;key)</pre>
+protected&nbsp;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.127">standardFloorKey</a>&#8203;(<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;key)</pre>
 <div class="block">A sensible definition of <a href="#floorKey(K)"><code>floorKey(K)</code></a> in terms of <code>floorEntry</code>. If you override
  <code>floorEntry</code>, you may wish to override <code>floorKey</code> to forward to this
  implementation.</div>
@@ -750,7 +750,7 @@ protected&nbsp;<a href="ForwardingNavigableMap.html" title="type parameter in Fo
 <li class="blockList">
 <h4>ceilingEntry</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;java.util.Map.Entry&lt;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,&#8203;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.133">ceilingEntry</a>&#8203;(<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;key)</pre>
+public&nbsp;java.util.Map.Entry&lt;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,&#8203;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.132">ceilingEntry</a>&#8203;(<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;key)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>ceilingEntry</code>&nbsp;in interface&nbsp;<code>java.util.NavigableMap&lt;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
@@ -766,7 +766,7 @@ public&nbsp;java.util.Map.Entry&lt;<a href="ForwardingNavigableMap.html" title="
 <li class="blockList">
 <h4>standardCeilingEntry</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-protected&nbsp;java.util.Map.Entry&lt;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,&#8203;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.144">standardCeilingEntry</a>&#8203;(<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;key)</pre>
+protected&nbsp;java.util.Map.Entry&lt;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,&#8203;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.143">standardCeilingEntry</a>&#8203;(<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;key)</pre>
 <div class="block">A sensible definition of <a href="#ceilingEntry(K)"><code>ceilingEntry(K)</code></a> in terms of the <code>firstEntry()</code> of <a href="#tailMap(K,boolean)"><code>tailMap(Object, boolean)</code></a>. If you override <code>tailMap</code>, you may wish to override <code>
  ceilingEntry</code> to forward to this implementation.</div>
 </li>
@@ -780,7 +780,7 @@ protected&nbsp;java.util.Map.Entry&lt;<a href="ForwardingNavigableMap.html" titl
 <li class="blockList">
 <h4>ceilingKey</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.149">ceilingKey</a>&#8203;(<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;key)</pre>
+public&nbsp;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.148">ceilingKey</a>&#8203;(<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;key)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>ceilingKey</code>&nbsp;in interface&nbsp;<code>java.util.NavigableMap&lt;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
@@ -796,7 +796,7 @@ public&nbsp;<a href="ForwardingNavigableMap.html" title="type parameter in Forwa
 <li class="blockList">
 <h4>standardCeilingKey</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-protected&nbsp;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.160">standardCeilingKey</a>&#8203;(<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;key)</pre>
+protected&nbsp;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.159">standardCeilingKey</a>&#8203;(<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;key)</pre>
 <div class="block">A sensible definition of <a href="#ceilingKey(K)"><code>ceilingKey(K)</code></a> in terms of <code>ceilingEntry</code>. If you override
  <code>ceilingEntry</code>, you may wish to override <code>ceilingKey</code> to forward to this
  implementation.</div>
@@ -811,7 +811,7 @@ protected&nbsp;<a href="ForwardingNavigableMap.html" title="type parameter in Fo
 <li class="blockList">
 <h4>higherEntry</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;java.util.Map.Entry&lt;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,&#8203;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.165">higherEntry</a>&#8203;(<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;key)</pre>
+public&nbsp;java.util.Map.Entry&lt;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,&#8203;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.164">higherEntry</a>&#8203;(<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;key)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>higherEntry</code>&nbsp;in interface&nbsp;<code>java.util.NavigableMap&lt;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
@@ -827,7 +827,7 @@ public&nbsp;java.util.Map.Entry&lt;<a href="ForwardingNavigableMap.html" title="
 <li class="blockList">
 <h4>standardHigherEntry</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-protected&nbsp;java.util.Map.Entry&lt;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,&#8203;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.176">standardHigherEntry</a>&#8203;(<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;key)</pre>
+protected&nbsp;java.util.Map.Entry&lt;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,&#8203;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.175">standardHigherEntry</a>&#8203;(<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;key)</pre>
 <div class="block">A sensible definition of <a href="#higherEntry(K)"><code>higherEntry(K)</code></a> in terms of the <code>firstEntry()</code> of <a href="#tailMap(K,boolean)"><code>tailMap(Object, boolean)</code></a>. If you override <code>tailMap</code>, you may wish to override <code>
  higherEntry</code> to forward to this implementation.</div>
 </li>
@@ -841,7 +841,7 @@ protected&nbsp;java.util.Map.Entry&lt;<a href="ForwardingNavigableMap.html" titl
 <li class="blockList">
 <h4>higherKey</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.181">higherKey</a>&#8203;(<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;key)</pre>
+public&nbsp;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.180">higherKey</a>&#8203;(<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;key)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>higherKey</code>&nbsp;in interface&nbsp;<code>java.util.NavigableMap&lt;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
@@ -857,7 +857,7 @@ public&nbsp;<a href="ForwardingNavigableMap.html" title="type parameter in Forwa
 <li class="blockList">
 <h4>standardHigherKey</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-protected&nbsp;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.192">standardHigherKey</a>&#8203;(<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;key)</pre>
+protected&nbsp;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.191">standardHigherKey</a>&#8203;(<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;key)</pre>
 <div class="block">A sensible definition of <a href="#higherKey(K)"><code>higherKey(K)</code></a> in terms of <code>higherEntry</code>. If you override
  <code>higherEntry</code>, you may wish to override <code>higherKey</code> to forward to this
  implementation.</div>
@@ -870,7 +870,7 @@ protected&nbsp;<a href="ForwardingNavigableMap.html" title="type parameter in Fo
 <li class="blockList">
 <h4>firstEntry</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;java.util.Map.Entry&lt;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,&#8203;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.197">firstEntry</a>()</pre>
+public&nbsp;java.util.Map.Entry&lt;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,&#8203;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.196">firstEntry</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>firstEntry</code>&nbsp;in interface&nbsp;<code>java.util.NavigableMap&lt;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
@@ -884,7 +884,7 @@ public&nbsp;java.util.Map.Entry&lt;<a href="ForwardingNavigableMap.html" title="
 <li class="blockList">
 <h4>standardFirstEntry</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-protected&nbsp;java.util.Map.Entry&lt;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,&#8203;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.208">standardFirstEntry</a>()</pre>
+protected&nbsp;java.util.Map.Entry&lt;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,&#8203;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.207">standardFirstEntry</a>()</pre>
 <div class="block">A sensible definition of <a href="#firstEntry()"><code>firstEntry()</code></a> in terms of the <code>iterator()</code> of <a href="ForwardingMap.html#entrySet()"><code>ForwardingMap.entrySet()</code></a>. If you override <code>entrySet</code>, you may wish to override <code>firstEntry</code> to
  forward to this implementation.</div>
 </li>
@@ -895,7 +895,7 @@ protected&nbsp;java.util.Map.Entry&lt;<a href="ForwardingNavigableMap.html" titl
 <ul class="blockList">
 <li class="blockList">
 <h4>standardFirstKey</h4>
-<pre class="methodSignature">protected&nbsp;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.218">standardFirstKey</a>()</pre>
+<pre class="methodSignature">protected&nbsp;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.217">standardFirstKey</a>()</pre>
 <div class="block">A sensible definition of <a href="ForwardingSortedMap.html#firstKey()"><code>ForwardingSortedMap.firstKey()</code></a> in terms of <code>firstEntry</code>. If you override
  <code>firstEntry</code>, you may wish to override <code>firstKey</code> to forward to this
  implementation.</div>
@@ -908,7 +908,7 @@ protected&nbsp;java.util.Map.Entry&lt;<a href="ForwardingNavigableMap.html" titl
 <li class="blockList">
 <h4>lastEntry</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;java.util.Map.Entry&lt;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,&#8203;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.227">lastEntry</a>()</pre>
+public&nbsp;java.util.Map.Entry&lt;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,&#8203;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.226">lastEntry</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>lastEntry</code>&nbsp;in interface&nbsp;<code>java.util.NavigableMap&lt;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
@@ -922,7 +922,7 @@ public&nbsp;java.util.Map.Entry&lt;<a href="ForwardingNavigableMap.html" title="
 <li class="blockList">
 <h4>standardLastEntry</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-protected&nbsp;java.util.Map.Entry&lt;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,&#8203;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.238">standardLastEntry</a>()</pre>
+protected&nbsp;java.util.Map.Entry&lt;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,&#8203;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.237">standardLastEntry</a>()</pre>
 <div class="block">A sensible definition of <a href="#lastEntry()"><code>lastEntry()</code></a> in terms of the <code>iterator()</code> of the <a href="ForwardingMap.html#entrySet()"><code>ForwardingMap.entrySet()</code></a> of <a href="#descendingMap()"><code>descendingMap()</code></a>. If you override <code>descendingMap</code>, you may wish to
  override <code>lastEntry</code> to forward to this implementation.</div>
 </li>
@@ -933,7 +933,7 @@ protected&nbsp;java.util.Map.Entry&lt;<a href="ForwardingNavigableMap.html" titl
 <ul class="blockList">
 <li class="blockList">
 <h4>standardLastKey</h4>
-<pre class="methodSignature">protected&nbsp;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.247">standardLastKey</a>()</pre>
+<pre class="methodSignature">protected&nbsp;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.246">standardLastKey</a>()</pre>
 <div class="block">A sensible definition of <a href="ForwardingSortedMap.html#lastKey()"><code>ForwardingSortedMap.lastKey()</code></a> in terms of <code>lastEntry</code>. If you override <code>
  lastEntry</code>, you may wish to override <code>lastKey</code> to forward to this implementation.</div>
 </li>
@@ -945,7 +945,7 @@ protected&nbsp;java.util.Map.Entry&lt;<a href="ForwardingNavigableMap.html" titl
 <li class="blockList">
 <h4>pollFirstEntry</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;java.util.Map.Entry&lt;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,&#8203;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.256">pollFirstEntry</a>()</pre>
+public&nbsp;java.util.Map.Entry&lt;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,&#8203;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.255">pollFirstEntry</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>pollFirstEntry</code>&nbsp;in interface&nbsp;<code>java.util.NavigableMap&lt;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
@@ -959,7 +959,7 @@ public&nbsp;java.util.Map.Entry&lt;<a href="ForwardingNavigableMap.html" title="
 <li class="blockList">
 <h4>standardPollFirstEntry</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-protected&nbsp;java.util.Map.Entry&lt;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,&#8203;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.267">standardPollFirstEntry</a>()</pre>
+protected&nbsp;java.util.Map.Entry&lt;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,&#8203;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.266">standardPollFirstEntry</a>()</pre>
 <div class="block">A sensible definition of <a href="#pollFirstEntry()"><code>pollFirstEntry()</code></a> in terms of the <code>iterator</code> of <code>
  entrySet</code>. If you override <code>entrySet</code>, you may wish to override <code>pollFirstEntry</code> to
  forward to this implementation.</div>
@@ -972,7 +972,7 @@ protected&nbsp;java.util.Map.Entry&lt;<a href="ForwardingNavigableMap.html" titl
 <li class="blockList">
 <h4>pollLastEntry</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;java.util.Map.Entry&lt;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,&#8203;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.272">pollLastEntry</a>()</pre>
+public&nbsp;java.util.Map.Entry&lt;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,&#8203;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.271">pollLastEntry</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>pollLastEntry</code>&nbsp;in interface&nbsp;<code>java.util.NavigableMap&lt;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
@@ -986,7 +986,7 @@ public&nbsp;java.util.Map.Entry&lt;<a href="ForwardingNavigableMap.html" title="
 <li class="blockList">
 <h4>standardPollLastEntry</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-protected&nbsp;java.util.Map.Entry&lt;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,&#8203;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.283">standardPollLastEntry</a>()</pre>
+protected&nbsp;java.util.Map.Entry&lt;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,&#8203;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.282">standardPollLastEntry</a>()</pre>
 <div class="block">A sensible definition of <a href="#pollFirstEntry()"><code>pollFirstEntry()</code></a> in terms of the <code>iterator</code> of the <code>
  entrySet</code> of <code>descendingMap</code>. If you override <code>descendingMap</code>, you may wish to
  override <code>pollFirstEntry</code> to forward to this implementation.</div>
@@ -998,7 +998,7 @@ protected&nbsp;java.util.Map.Entry&lt;<a href="ForwardingNavigableMap.html" titl
 <ul class="blockList">
 <li class="blockList">
 <h4>descendingMap</h4>
-<pre class="methodSignature">public&nbsp;java.util.NavigableMap&lt;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,&#8203;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.288">descendingMap</a>()</pre>
+<pre class="methodSignature">public&nbsp;java.util.NavigableMap&lt;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,&#8203;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.287">descendingMap</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>descendingMap</code>&nbsp;in interface&nbsp;<code>java.util.NavigableMap&lt;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
@@ -1011,7 +1011,7 @@ protected&nbsp;java.util.Map.Entry&lt;<a href="ForwardingNavigableMap.html" titl
 <ul class="blockList">
 <li class="blockList">
 <h4>navigableKeySet</h4>
-<pre class="methodSignature">public&nbsp;java.util.NavigableSet&lt;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.355">navigableKeySet</a>()</pre>
+<pre class="methodSignature">public&nbsp;java.util.NavigableSet&lt;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.353">navigableKeySet</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>navigableKeySet</code>&nbsp;in interface&nbsp;<code>java.util.NavigableMap&lt;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
@@ -1024,7 +1024,7 @@ protected&nbsp;java.util.Map.Entry&lt;<a href="ForwardingNavigableMap.html" titl
 <ul class="blockList">
 <li class="blockList">
 <h4>descendingKeySet</h4>
-<pre class="methodSignature">public&nbsp;java.util.NavigableSet&lt;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.376">descendingKeySet</a>()</pre>
+<pre class="methodSignature">public&nbsp;java.util.NavigableSet&lt;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.373">descendingKeySet</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>descendingKeySet</code>&nbsp;in interface&nbsp;<code>java.util.NavigableMap&lt;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
@@ -1037,8 +1037,7 @@ protected&nbsp;java.util.Map.Entry&lt;<a href="ForwardingNavigableMap.html" titl
 <ul class="blockList">
 <li class="blockList">
 <h4>standardDescendingKeySet</h4>
-<pre class="methodSignature"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-protected&nbsp;java.util.NavigableSet&lt;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.388">standardDescendingKeySet</a>()</pre>
+<pre class="methodSignature">protected&nbsp;java.util.NavigableSet&lt;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.385">standardDescendingKeySet</a>()</pre>
 <div class="block">A sensible definition of <a href="#descendingKeySet()"><code>descendingKeySet()</code></a> as the <code>navigableKeySet</code> of <a href="#descendingMap()"><code>descendingMap()</code></a>. (The <a href="ForwardingNavigableMap.StandardDescendingMap.html" title="class in com.google.common.collect"><code>ForwardingNavigableMap.StandardDescendingMap</code></a> implementation implements <code>
  navigableKeySet</code> on its own, so as not to cause an infinite loop.) If you override <code>
  descendingMap</code>, you may wish to override <code>descendingKeySet</code> to forward to this
@@ -1053,7 +1052,7 @@ protected&nbsp;java.util.NavigableSet&lt;<a href="ForwardingNavigableMap.html" t
 <ul class="blockList">
 <li class="blockList">
 <h4>standardSubMap</h4>
-<pre class="methodSignature">protected&nbsp;java.util.SortedMap&lt;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,&#8203;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.398">standardSubMap</a>&#8203;(<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;fromKey,
+<pre class="methodSignature">protected&nbsp;java.util.SortedMap&lt;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,&#8203;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.394">standardSubMap</a>&#8203;(<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;fromKey,
                                                         <a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;toKey)</pre>
 <div class="block">A sensible definition of <a href="ForwardingSortedMap.html#subMap(K,K)"><code>ForwardingSortedMap.subMap(Object, Object)</code></a> in terms of <a href="#subMap(K,boolean,K,boolean)"><code>subMap(Object,
  boolean, Object, boolean)</code></a>. If you override <code>subMap(K, boolean, K, boolean)</code>, you may
@@ -1072,7 +1071,7 @@ protected&nbsp;java.util.NavigableSet&lt;<a href="ForwardingNavigableMap.html" t
 <ul class="blockList">
 <li class="blockList">
 <h4>subMap</h4>
-<pre class="methodSignature">public&nbsp;java.util.NavigableMap&lt;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,&#8203;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.404">subMap</a>&#8203;(<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;fromKey,
+<pre class="methodSignature">public&nbsp;java.util.NavigableMap&lt;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,&#8203;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.400">subMap</a>&#8203;(<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;fromKey,
                                                 boolean&nbsp;fromInclusive,
                                                 <a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;toKey,
                                                 boolean&nbsp;toInclusive)</pre>
@@ -1090,7 +1089,7 @@ protected&nbsp;java.util.NavigableSet&lt;<a href="ForwardingNavigableMap.html" t
 <ul class="blockList">
 <li class="blockList">
 <h4>headMap</h4>
-<pre class="methodSignature">public&nbsp;java.util.NavigableMap&lt;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,&#8203;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.413">headMap</a>&#8203;(<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;toKey,
+<pre class="methodSignature">public&nbsp;java.util.NavigableMap&lt;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,&#8203;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.409">headMap</a>&#8203;(<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;toKey,
                                                  boolean&nbsp;inclusive)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
@@ -1106,7 +1105,7 @@ protected&nbsp;java.util.NavigableSet&lt;<a href="ForwardingNavigableMap.html" t
 <ul class="blockList">
 <li class="blockList">
 <h4>tailMap</h4>
-<pre class="methodSignature">public&nbsp;java.util.NavigableMap&lt;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,&#8203;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.418">tailMap</a>&#8203;(<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;fromKey,
+<pre class="methodSignature">public&nbsp;java.util.NavigableMap&lt;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,&#8203;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.414">tailMap</a>&#8203;(<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;fromKey,
                                                  boolean&nbsp;inclusive)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
@@ -1122,7 +1121,7 @@ protected&nbsp;java.util.NavigableSet&lt;<a href="ForwardingNavigableMap.html" t
 <ul class="blockList">
 <li class="blockList">
 <h4>standardHeadMap</h4>
-<pre class="methodSignature">protected&nbsp;java.util.SortedMap&lt;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,&#8203;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.428">standardHeadMap</a>&#8203;(<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;toKey)</pre>
+<pre class="methodSignature">protected&nbsp;java.util.SortedMap&lt;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,&#8203;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.424">standardHeadMap</a>&#8203;(<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;toKey)</pre>
 <div class="block">A sensible definition of <a href="ForwardingSortedMap.html#headMap(K)"><code>ForwardingSortedMap.headMap(Object)</code></a> in terms of <a href="#headMap(K,boolean)"><code>headMap(Object,
  boolean)</code></a>. If you override <code>headMap(K, boolean)</code>, you may wish to override <code>
  headMap</code> to forward to this implementation.</div>
@@ -1136,7 +1135,7 @@ protected&nbsp;java.util.NavigableSet&lt;<a href="ForwardingNavigableMap.html" t
 <ul class="blockListLast">
 <li class="blockList">
 <h4>standardTailMap</h4>
-<pre class="methodSignature">protected&nbsp;java.util.SortedMap&lt;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,&#8203;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.437">standardTailMap</a>&#8203;(<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;fromKey)</pre>
+<pre class="methodSignature">protected&nbsp;java.util.SortedMap&lt;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,&#8203;<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.433">standardTailMap</a>&#8203;(<a href="ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;fromKey)</pre>
 <div class="block">A sensible definition of <a href="ForwardingSortedMap.html#tailMap(K)"><code>ForwardingSortedMap.tailMap(Object)</code></a> in terms of <a href="#tailMap(K,boolean)"><code>tailMap(Object,
  boolean)</code></a>. If you override <code>tailMap(K, boolean)</code>, you may wish to override <code>
  tailMap</code> to forward to this implementation.</div>

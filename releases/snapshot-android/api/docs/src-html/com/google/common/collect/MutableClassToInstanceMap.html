@@ -105,112 +105,114 @@
 <span class="sourceLineNo">096</span><a id="line.96">      @Override</a>
 <span class="sourceLineNo">097</span><a id="line.97">      @ParametricNullness</a>
 <span class="sourceLineNo">098</span><a id="line.98">      public B setValue(@ParametricNullness B value) {</a>
-<span class="sourceLineNo">099</span><a id="line.99">        return super.setValue(cast(getKey(), value));</a>
-<span class="sourceLineNo">100</span><a id="line.100">      }</a>
-<span class="sourceLineNo">101</span><a id="line.101">    };</a>
-<span class="sourceLineNo">102</span><a id="line.102">  }</a>
-<span class="sourceLineNo">103</span><a id="line.103"></a>
-<span class="sourceLineNo">104</span><a id="line.104">  @Override</a>
-<span class="sourceLineNo">105</span><a id="line.105">  public Set&lt;Entry&lt;Class&lt;? extends @NonNull B&gt;, B&gt;&gt; entrySet() {</a>
-<span class="sourceLineNo">106</span><a id="line.106">    return new ForwardingSet&lt;Entry&lt;Class&lt;? extends @NonNull B&gt;, B&gt;&gt;() {</a>
-<span class="sourceLineNo">107</span><a id="line.107"></a>
-<span class="sourceLineNo">108</span><a id="line.108">      @Override</a>
-<span class="sourceLineNo">109</span><a id="line.109">      protected Set&lt;Entry&lt;Class&lt;? extends @NonNull B&gt;, B&gt;&gt; delegate() {</a>
-<span class="sourceLineNo">110</span><a id="line.110">        return MutableClassToInstanceMap.this.delegate().entrySet();</a>
-<span class="sourceLineNo">111</span><a id="line.111">      }</a>
-<span class="sourceLineNo">112</span><a id="line.112"></a>
-<span class="sourceLineNo">113</span><a id="line.113">      @Override</a>
-<span class="sourceLineNo">114</span><a id="line.114">      public Iterator&lt;Entry&lt;Class&lt;? extends @NonNull B&gt;, B&gt;&gt; iterator() {</a>
-<span class="sourceLineNo">115</span><a id="line.115">        return new TransformedIterator&lt;</a>
-<span class="sourceLineNo">116</span><a id="line.116">            Entry&lt;Class&lt;? extends @NonNull B&gt;, B&gt;, Entry&lt;Class&lt;? extends @NonNull B&gt;, B&gt;&gt;(</a>
-<span class="sourceLineNo">117</span><a id="line.117">            delegate().iterator()) {</a>
-<span class="sourceLineNo">118</span><a id="line.118">          @Override</a>
-<span class="sourceLineNo">119</span><a id="line.119">          Entry&lt;Class&lt;? extends @NonNull B&gt;, B&gt; transform(</a>
-<span class="sourceLineNo">120</span><a id="line.120">              Entry&lt;Class&lt;? extends @NonNull B&gt;, B&gt; from) {</a>
-<span class="sourceLineNo">121</span><a id="line.121">            return checkedEntry(from);</a>
-<span class="sourceLineNo">122</span><a id="line.122">          }</a>
-<span class="sourceLineNo">123</span><a id="line.123">        };</a>
-<span class="sourceLineNo">124</span><a id="line.124">      }</a>
-<span class="sourceLineNo">125</span><a id="line.125"></a>
-<span class="sourceLineNo">126</span><a id="line.126">      @Override</a>
-<span class="sourceLineNo">127</span><a id="line.127">      public Object[] toArray() {</a>
-<span class="sourceLineNo">128</span><a id="line.128">        /*</a>
-<span class="sourceLineNo">129</span><a id="line.129">         * standardToArray returns `@Nullable Object[]` rather than `Object[]` but only because it</a>
-<span class="sourceLineNo">130</span><a id="line.130">         * can be used with collections that may contain null. This collection is a collection of</a>
-<span class="sourceLineNo">131</span><a id="line.131">         * non-null Entry objects (Entry objects that might contain null values but are not</a>
-<span class="sourceLineNo">132</span><a id="line.132">         * themselves null), so we can treat it as a plain `Object[]`.</a>
-<span class="sourceLineNo">133</span><a id="line.133">         */</a>
-<span class="sourceLineNo">134</span><a id="line.134">        @SuppressWarnings("nullness")</a>
-<span class="sourceLineNo">135</span><a id="line.135">        Object[] result = standardToArray();</a>
-<span class="sourceLineNo">136</span><a id="line.136">        return result;</a>
-<span class="sourceLineNo">137</span><a id="line.137">      }</a>
-<span class="sourceLineNo">138</span><a id="line.138"></a>
-<span class="sourceLineNo">139</span><a id="line.139">      @Override</a>
-<span class="sourceLineNo">140</span><a id="line.140">      @SuppressWarnings("nullness") // b/192354773 in our checker affects toArray declarations</a>
-<span class="sourceLineNo">141</span><a id="line.141">      public &lt;T extends @Nullable Object&gt; T[] toArray(T[] array) {</a>
-<span class="sourceLineNo">142</span><a id="line.142">        return standardToArray(array);</a>
-<span class="sourceLineNo">143</span><a id="line.143">      }</a>
-<span class="sourceLineNo">144</span><a id="line.144">    };</a>
-<span class="sourceLineNo">145</span><a id="line.145">  }</a>
-<span class="sourceLineNo">146</span><a id="line.146"></a>
-<span class="sourceLineNo">147</span><a id="line.147">  @Override</a>
-<span class="sourceLineNo">148</span><a id="line.148">  @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">149</span><a id="line.149">  @CheckForNull</a>
-<span class="sourceLineNo">150</span><a id="line.150">  public B put(Class&lt;? extends @NonNull B&gt; key, @ParametricNullness B value) {</a>
-<span class="sourceLineNo">151</span><a id="line.151">    return super.put(key, cast(key, value));</a>
-<span class="sourceLineNo">152</span><a id="line.152">  }</a>
-<span class="sourceLineNo">153</span><a id="line.153"></a>
-<span class="sourceLineNo">154</span><a id="line.154">  @Override</a>
-<span class="sourceLineNo">155</span><a id="line.155">  public void putAll(Map&lt;? extends Class&lt;? extends @NonNull B&gt;, ? extends B&gt; map) {</a>
-<span class="sourceLineNo">156</span><a id="line.156">    Map&lt;Class&lt;? extends @NonNull B&gt;, B&gt; copy = new LinkedHashMap&lt;&gt;(map);</a>
-<span class="sourceLineNo">157</span><a id="line.157">    for (Entry&lt;? extends Class&lt;? extends @NonNull B&gt;, B&gt; entry : copy.entrySet()) {</a>
-<span class="sourceLineNo">158</span><a id="line.158">      cast(entry.getKey(), entry.getValue());</a>
-<span class="sourceLineNo">159</span><a id="line.159">    }</a>
-<span class="sourceLineNo">160</span><a id="line.160">    super.putAll(copy);</a>
-<span class="sourceLineNo">161</span><a id="line.161">  }</a>
-<span class="sourceLineNo">162</span><a id="line.162"></a>
-<span class="sourceLineNo">163</span><a id="line.163">  @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">164</span><a id="line.164">  @Override</a>
-<span class="sourceLineNo">165</span><a id="line.165">  @CheckForNull</a>
-<span class="sourceLineNo">166</span><a id="line.166">  public &lt;T extends B&gt; T putInstance(Class&lt;@NonNull T&gt; type, @ParametricNullness T value) {</a>
-<span class="sourceLineNo">167</span><a id="line.167">    return cast(type, put(type, value));</a>
-<span class="sourceLineNo">168</span><a id="line.168">  }</a>
-<span class="sourceLineNo">169</span><a id="line.169"></a>
-<span class="sourceLineNo">170</span><a id="line.170">  @Override</a>
-<span class="sourceLineNo">171</span><a id="line.171">  @CheckForNull</a>
-<span class="sourceLineNo">172</span><a id="line.172">  public &lt;T extends @NonNull B&gt; T getInstance(Class&lt;T&gt; type) {</a>
-<span class="sourceLineNo">173</span><a id="line.173">    return cast(type, get(type));</a>
-<span class="sourceLineNo">174</span><a id="line.174">  }</a>
-<span class="sourceLineNo">175</span><a id="line.175"></a>
-<span class="sourceLineNo">176</span><a id="line.176">  @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">177</span><a id="line.177">  @CheckForNull</a>
-<span class="sourceLineNo">178</span><a id="line.178">  private static &lt;B, T extends B&gt; T cast(Class&lt;@NonNull T&gt; type, @CheckForNull B value) {</a>
-<span class="sourceLineNo">179</span><a id="line.179">    return Primitives.wrap(type).cast(value);</a>
-<span class="sourceLineNo">180</span><a id="line.180">  }</a>
-<span class="sourceLineNo">181</span><a id="line.181"></a>
-<span class="sourceLineNo">182</span><a id="line.182">  private Object writeReplace() {</a>
-<span class="sourceLineNo">183</span><a id="line.183">    return new SerializedForm(delegate());</a>
-<span class="sourceLineNo">184</span><a id="line.184">  }</a>
-<span class="sourceLineNo">185</span><a id="line.185"></a>
-<span class="sourceLineNo">186</span><a id="line.186">  private void readObject(ObjectInputStream stream) throws InvalidObjectException {</a>
-<span class="sourceLineNo">187</span><a id="line.187">    throw new InvalidObjectException("Use SerializedForm");</a>
-<span class="sourceLineNo">188</span><a id="line.188">  }</a>
-<span class="sourceLineNo">189</span><a id="line.189"></a>
-<span class="sourceLineNo">190</span><a id="line.190">  /** Serialized form of the map, to avoid serializing the constraint. */</a>
-<span class="sourceLineNo">191</span><a id="line.191">  private static final class SerializedForm&lt;B extends @Nullable Object&gt; implements Serializable {</a>
-<span class="sourceLineNo">192</span><a id="line.192">    private final Map&lt;Class&lt;? extends @NonNull B&gt;, B&gt; backingMap;</a>
-<span class="sourceLineNo">193</span><a id="line.193"></a>
-<span class="sourceLineNo">194</span><a id="line.194">    SerializedForm(Map&lt;Class&lt;? extends @NonNull B&gt;, B&gt; backingMap) {</a>
-<span class="sourceLineNo">195</span><a id="line.195">      this.backingMap = backingMap;</a>
-<span class="sourceLineNo">196</span><a id="line.196">    }</a>
-<span class="sourceLineNo">197</span><a id="line.197"></a>
-<span class="sourceLineNo">198</span><a id="line.198">    Object readResolve() {</a>
-<span class="sourceLineNo">199</span><a id="line.199">      return create(backingMap);</a>
-<span class="sourceLineNo">200</span><a id="line.200">    }</a>
-<span class="sourceLineNo">201</span><a id="line.201"></a>
-<span class="sourceLineNo">202</span><a id="line.202">    private static final long serialVersionUID = 0;</a>
-<span class="sourceLineNo">203</span><a id="line.203">  }</a>
-<span class="sourceLineNo">204</span><a id="line.204">}</a>
+<span class="sourceLineNo">099</span><a id="line.99">        cast(getKey(), value);</a>
+<span class="sourceLineNo">100</span><a id="line.100">        return super.setValue(value);</a>
+<span class="sourceLineNo">101</span><a id="line.101">      }</a>
+<span class="sourceLineNo">102</span><a id="line.102">    };</a>
+<span class="sourceLineNo">103</span><a id="line.103">  }</a>
+<span class="sourceLineNo">104</span><a id="line.104"></a>
+<span class="sourceLineNo">105</span><a id="line.105">  @Override</a>
+<span class="sourceLineNo">106</span><a id="line.106">  public Set&lt;Entry&lt;Class&lt;? extends @NonNull B&gt;, B&gt;&gt; entrySet() {</a>
+<span class="sourceLineNo">107</span><a id="line.107">    return new ForwardingSet&lt;Entry&lt;Class&lt;? extends @NonNull B&gt;, B&gt;&gt;() {</a>
+<span class="sourceLineNo">108</span><a id="line.108"></a>
+<span class="sourceLineNo">109</span><a id="line.109">      @Override</a>
+<span class="sourceLineNo">110</span><a id="line.110">      protected Set&lt;Entry&lt;Class&lt;? extends @NonNull B&gt;, B&gt;&gt; delegate() {</a>
+<span class="sourceLineNo">111</span><a id="line.111">        return MutableClassToInstanceMap.this.delegate().entrySet();</a>
+<span class="sourceLineNo">112</span><a id="line.112">      }</a>
+<span class="sourceLineNo">113</span><a id="line.113"></a>
+<span class="sourceLineNo">114</span><a id="line.114">      @Override</a>
+<span class="sourceLineNo">115</span><a id="line.115">      public Iterator&lt;Entry&lt;Class&lt;? extends @NonNull B&gt;, B&gt;&gt; iterator() {</a>
+<span class="sourceLineNo">116</span><a id="line.116">        return new TransformedIterator&lt;</a>
+<span class="sourceLineNo">117</span><a id="line.117">            Entry&lt;Class&lt;? extends @NonNull B&gt;, B&gt;, Entry&lt;Class&lt;? extends @NonNull B&gt;, B&gt;&gt;(</a>
+<span class="sourceLineNo">118</span><a id="line.118">            delegate().iterator()) {</a>
+<span class="sourceLineNo">119</span><a id="line.119">          @Override</a>
+<span class="sourceLineNo">120</span><a id="line.120">          Entry&lt;Class&lt;? extends @NonNull B&gt;, B&gt; transform(</a>
+<span class="sourceLineNo">121</span><a id="line.121">              Entry&lt;Class&lt;? extends @NonNull B&gt;, B&gt; from) {</a>
+<span class="sourceLineNo">122</span><a id="line.122">            return checkedEntry(from);</a>
+<span class="sourceLineNo">123</span><a id="line.123">          }</a>
+<span class="sourceLineNo">124</span><a id="line.124">        };</a>
+<span class="sourceLineNo">125</span><a id="line.125">      }</a>
+<span class="sourceLineNo">126</span><a id="line.126"></a>
+<span class="sourceLineNo">127</span><a id="line.127">      @Override</a>
+<span class="sourceLineNo">128</span><a id="line.128">      public Object[] toArray() {</a>
+<span class="sourceLineNo">129</span><a id="line.129">        /*</a>
+<span class="sourceLineNo">130</span><a id="line.130">         * standardToArray returns `@Nullable Object[]` rather than `Object[]` but only because it</a>
+<span class="sourceLineNo">131</span><a id="line.131">         * can be used with collections that may contain null. This collection is a collection of</a>
+<span class="sourceLineNo">132</span><a id="line.132">         * non-null Entry objects (Entry objects that might contain null values but are not</a>
+<span class="sourceLineNo">133</span><a id="line.133">         * themselves null), so we can treat it as a plain `Object[]`.</a>
+<span class="sourceLineNo">134</span><a id="line.134">         */</a>
+<span class="sourceLineNo">135</span><a id="line.135">        @SuppressWarnings("nullness")</a>
+<span class="sourceLineNo">136</span><a id="line.136">        Object[] result = standardToArray();</a>
+<span class="sourceLineNo">137</span><a id="line.137">        return result;</a>
+<span class="sourceLineNo">138</span><a id="line.138">      }</a>
+<span class="sourceLineNo">139</span><a id="line.139"></a>
+<span class="sourceLineNo">140</span><a id="line.140">      @Override</a>
+<span class="sourceLineNo">141</span><a id="line.141">      @SuppressWarnings("nullness") // b/192354773 in our checker affects toArray declarations</a>
+<span class="sourceLineNo">142</span><a id="line.142">      public &lt;T extends @Nullable Object&gt; T[] toArray(T[] array) {</a>
+<span class="sourceLineNo">143</span><a id="line.143">        return standardToArray(array);</a>
+<span class="sourceLineNo">144</span><a id="line.144">      }</a>
+<span class="sourceLineNo">145</span><a id="line.145">    };</a>
+<span class="sourceLineNo">146</span><a id="line.146">  }</a>
+<span class="sourceLineNo">147</span><a id="line.147"></a>
+<span class="sourceLineNo">148</span><a id="line.148">  @Override</a>
+<span class="sourceLineNo">149</span><a id="line.149">  @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">150</span><a id="line.150">  @CheckForNull</a>
+<span class="sourceLineNo">151</span><a id="line.151">  public B put(Class&lt;? extends @NonNull B&gt; key, @ParametricNullness B value) {</a>
+<span class="sourceLineNo">152</span><a id="line.152">    cast(key, value);</a>
+<span class="sourceLineNo">153</span><a id="line.153">    return super.put(key, value);</a>
+<span class="sourceLineNo">154</span><a id="line.154">  }</a>
+<span class="sourceLineNo">155</span><a id="line.155"></a>
+<span class="sourceLineNo">156</span><a id="line.156">  @Override</a>
+<span class="sourceLineNo">157</span><a id="line.157">  public void putAll(Map&lt;? extends Class&lt;? extends @NonNull B&gt;, ? extends B&gt; map) {</a>
+<span class="sourceLineNo">158</span><a id="line.158">    Map&lt;Class&lt;? extends @NonNull B&gt;, B&gt; copy = new LinkedHashMap&lt;&gt;(map);</a>
+<span class="sourceLineNo">159</span><a id="line.159">    for (Entry&lt;? extends Class&lt;? extends @NonNull B&gt;, B&gt; entry : copy.entrySet()) {</a>
+<span class="sourceLineNo">160</span><a id="line.160">      cast(entry.getKey(), entry.getValue());</a>
+<span class="sourceLineNo">161</span><a id="line.161">    }</a>
+<span class="sourceLineNo">162</span><a id="line.162">    super.putAll(copy);</a>
+<span class="sourceLineNo">163</span><a id="line.163">  }</a>
+<span class="sourceLineNo">164</span><a id="line.164"></a>
+<span class="sourceLineNo">165</span><a id="line.165">  @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">166</span><a id="line.166">  @Override</a>
+<span class="sourceLineNo">167</span><a id="line.167">  @CheckForNull</a>
+<span class="sourceLineNo">168</span><a id="line.168">  public &lt;T extends B&gt; T putInstance(Class&lt;@NonNull T&gt; type, @ParametricNullness T value) {</a>
+<span class="sourceLineNo">169</span><a id="line.169">    return cast(type, put(type, value));</a>
+<span class="sourceLineNo">170</span><a id="line.170">  }</a>
+<span class="sourceLineNo">171</span><a id="line.171"></a>
+<span class="sourceLineNo">172</span><a id="line.172">  @Override</a>
+<span class="sourceLineNo">173</span><a id="line.173">  @CheckForNull</a>
+<span class="sourceLineNo">174</span><a id="line.174">  public &lt;T extends @NonNull B&gt; T getInstance(Class&lt;T&gt; type) {</a>
+<span class="sourceLineNo">175</span><a id="line.175">    return cast(type, get(type));</a>
+<span class="sourceLineNo">176</span><a id="line.176">  }</a>
+<span class="sourceLineNo">177</span><a id="line.177"></a>
+<span class="sourceLineNo">178</span><a id="line.178">  @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">179</span><a id="line.179">  @CheckForNull</a>
+<span class="sourceLineNo">180</span><a id="line.180">  private static &lt;T&gt; T cast(Class&lt;T&gt; type, @CheckForNull Object value) {</a>
+<span class="sourceLineNo">181</span><a id="line.181">    return Primitives.wrap(type).cast(value);</a>
+<span class="sourceLineNo">182</span><a id="line.182">  }</a>
+<span class="sourceLineNo">183</span><a id="line.183"></a>
+<span class="sourceLineNo">184</span><a id="line.184">  private Object writeReplace() {</a>
+<span class="sourceLineNo">185</span><a id="line.185">    return new SerializedForm(delegate());</a>
+<span class="sourceLineNo">186</span><a id="line.186">  }</a>
+<span class="sourceLineNo">187</span><a id="line.187"></a>
+<span class="sourceLineNo">188</span><a id="line.188">  private void readObject(ObjectInputStream stream) throws InvalidObjectException {</a>
+<span class="sourceLineNo">189</span><a id="line.189">    throw new InvalidObjectException("Use SerializedForm");</a>
+<span class="sourceLineNo">190</span><a id="line.190">  }</a>
+<span class="sourceLineNo">191</span><a id="line.191"></a>
+<span class="sourceLineNo">192</span><a id="line.192">  /** Serialized form of the map, to avoid serializing the constraint. */</a>
+<span class="sourceLineNo">193</span><a id="line.193">  private static final class SerializedForm&lt;B extends @Nullable Object&gt; implements Serializable {</a>
+<span class="sourceLineNo">194</span><a id="line.194">    private final Map&lt;Class&lt;? extends @NonNull B&gt;, B&gt; backingMap;</a>
+<span class="sourceLineNo">195</span><a id="line.195"></a>
+<span class="sourceLineNo">196</span><a id="line.196">    SerializedForm(Map&lt;Class&lt;? extends @NonNull B&gt;, B&gt; backingMap) {</a>
+<span class="sourceLineNo">197</span><a id="line.197">      this.backingMap = backingMap;</a>
+<span class="sourceLineNo">198</span><a id="line.198">    }</a>
+<span class="sourceLineNo">199</span><a id="line.199"></a>
+<span class="sourceLineNo">200</span><a id="line.200">    Object readResolve() {</a>
+<span class="sourceLineNo">201</span><a id="line.201">      return create(backingMap);</a>
+<span class="sourceLineNo">202</span><a id="line.202">    }</a>
+<span class="sourceLineNo">203</span><a id="line.203"></a>
+<span class="sourceLineNo">204</span><a id="line.204">    private static final long serialVersionUID = 0;</a>
+<span class="sourceLineNo">205</span><a id="line.205">  }</a>
+<span class="sourceLineNo">206</span><a id="line.206">}</a>
 
 
 

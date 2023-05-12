@@ -146,7 +146,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <hr>
 <pre><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public abstract class <a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.58">ForwardingMap</a>&lt;K extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;
+public abstract class <a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.57">ForwardingMap</a>&lt;K extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;
 extends <a href="ForwardingObject.html" title="class in com.google.common.collect">ForwardingObject</a>
 implements java.util.Map&lt;K,&#8203;V&gt;</pre>
 <div class="block">A map which forwards all its method calls to another map. Subclasses should override one or more
@@ -456,7 +456,7 @@ implements java.util.Map&lt;K,&#8203;V&gt;</pre>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>ForwardingMap</h4>
-<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.65">ForwardingMap</a>()</pre>
+<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.64">ForwardingMap</a>()</pre>
 <div class="block">Constructor for use by subclasses.</div>
 </li>
 </ul>
@@ -476,7 +476,7 @@ implements java.util.Map&lt;K,&#8203;V&gt;</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>delegate</h4>
-<pre class="methodSignature">protected abstract&nbsp;java.util.Map&lt;<a href="ForwardingMap.html" title="type parameter in ForwardingMap">K</a>,&#8203;<a href="ForwardingMap.html" title="type parameter in ForwardingMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.67">delegate</a>()</pre>
+<pre class="methodSignature">protected abstract&nbsp;java.util.Map&lt;<a href="ForwardingMap.html" title="type parameter in ForwardingMap">K</a>,&#8203;<a href="ForwardingMap.html" title="type parameter in ForwardingMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.66">delegate</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="ForwardingObject.html#delegate()">ForwardingObject</a></code></span></div>
 <div class="block">Returns the backing delegate instance that methods are forwarded to. Abstract subclasses
  generally override this method with an abstract method that has a more specific return type,
@@ -494,7 +494,7 @@ implements java.util.Map&lt;K,&#8203;V&gt;</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>size</h4>
-<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.70">size</a>()</pre>
+<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.69">size</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>size</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="ForwardingMap.html" title="type parameter in ForwardingMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="ForwardingMap.html" title="type parameter in ForwardingMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
@@ -507,7 +507,7 @@ implements java.util.Map&lt;K,&#8203;V&gt;</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>isEmpty</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.75">isEmpty</a>()</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.74">isEmpty</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>isEmpty</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="ForwardingMap.html" title="type parameter in ForwardingMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="ForwardingMap.html" title="type parameter in ForwardingMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
@@ -522,7 +522,7 @@ implements java.util.Map&lt;K,&#8203;V&gt;</pre>
 <h4>remove</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;<a href="ForwardingMap.html" title="type parameter in ForwardingMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.80">remove</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+public&nbsp;<a href="ForwardingMap.html" title="type parameter in ForwardingMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.79">remove</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                 java.lang.Object&nbsp;key)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
@@ -536,7 +536,7 @@ public&nbsp;<a href="ForwardingMap.html" title="type parameter in ForwardingMap"
 <ul class="blockList">
 <li class="blockList">
 <h4>clear</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.87">clear</a>()</pre>
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.86">clear</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>clear</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="ForwardingMap.html" title="type parameter in ForwardingMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="ForwardingMap.html" title="type parameter in ForwardingMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
@@ -549,7 +549,7 @@ public&nbsp;<a href="ForwardingMap.html" title="type parameter in ForwardingMap"
 <ul class="blockList">
 <li class="blockList">
 <h4>containsKey</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.92">containsKey</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.91">containsKey</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                            java.lang.Object&nbsp;key)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
@@ -563,7 +563,7 @@ public&nbsp;<a href="ForwardingMap.html" title="type parameter in ForwardingMap"
 <ul class="blockList">
 <li class="blockList">
 <h4>containsValue</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.97">containsValue</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.96">containsValue</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                              java.lang.Object&nbsp;value)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
@@ -578,7 +578,7 @@ public&nbsp;<a href="ForwardingMap.html" title="type parameter in ForwardingMap"
 <li class="blockList">
 <h4>get</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;<a href="ForwardingMap.html" title="type parameter in ForwardingMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.102">get</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+public&nbsp;<a href="ForwardingMap.html" title="type parameter in ForwardingMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.101">get</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
              java.lang.Object&nbsp;key)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
@@ -596,7 +596,7 @@ public&nbsp;<a href="ForwardingMap.html" title="type parameter in ForwardingMap"
 <h4>put</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;<a href="ForwardingMap.html" title="type parameter in ForwardingMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.108">put</a>&#8203;(<a href="ForwardingMap.html" title="type parameter in ForwardingMap">K</a>&nbsp;key,
+public&nbsp;<a href="ForwardingMap.html" title="type parameter in ForwardingMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.107">put</a>&#8203;(<a href="ForwardingMap.html" title="type parameter in ForwardingMap">K</a>&nbsp;key,
              <a href="ForwardingMap.html" title="type parameter in ForwardingMap">V</a>&nbsp;value)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
@@ -610,7 +610,7 @@ public&nbsp;<a href="ForwardingMap.html" title="type parameter in ForwardingMap"
 <ul class="blockList">
 <li class="blockList">
 <h4>putAll</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.115">putAll</a>&#8203;(java.util.Map&lt;? extends <a href="ForwardingMap.html" title="type parameter in ForwardingMap">K</a>,&#8203;? extends <a href="ForwardingMap.html" title="type parameter in ForwardingMap">V</a>&gt;&nbsp;map)</pre>
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.114">putAll</a>&#8203;(java.util.Map&lt;? extends <a href="ForwardingMap.html" title="type parameter in ForwardingMap">K</a>,&#8203;? extends <a href="ForwardingMap.html" title="type parameter in ForwardingMap">V</a>&gt;&nbsp;map)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>putAll</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="ForwardingMap.html" title="type parameter in ForwardingMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="ForwardingMap.html" title="type parameter in ForwardingMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
@@ -623,7 +623,7 @@ public&nbsp;<a href="ForwardingMap.html" title="type parameter in ForwardingMap"
 <ul class="blockList">
 <li class="blockList">
 <h4>keySet</h4>
-<pre class="methodSignature">public&nbsp;java.util.Set&lt;<a href="ForwardingMap.html" title="type parameter in ForwardingMap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.120">keySet</a>()</pre>
+<pre class="methodSignature">public&nbsp;java.util.Set&lt;<a href="ForwardingMap.html" title="type parameter in ForwardingMap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.119">keySet</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>keySet</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="ForwardingMap.html" title="type parameter in ForwardingMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="ForwardingMap.html" title="type parameter in ForwardingMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
@@ -636,7 +636,7 @@ public&nbsp;<a href="ForwardingMap.html" title="type parameter in ForwardingMap"
 <ul class="blockList">
 <li class="blockList">
 <h4>values</h4>
-<pre class="methodSignature">public&nbsp;java.util.Collection&lt;<a href="ForwardingMap.html" title="type parameter in ForwardingMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.125">values</a>()</pre>
+<pre class="methodSignature">public&nbsp;java.util.Collection&lt;<a href="ForwardingMap.html" title="type parameter in ForwardingMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.124">values</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>values</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="ForwardingMap.html" title="type parameter in ForwardingMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="ForwardingMap.html" title="type parameter in ForwardingMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
@@ -649,7 +649,7 @@ public&nbsp;<a href="ForwardingMap.html" title="type parameter in ForwardingMap"
 <ul class="blockList">
 <li class="blockList">
 <h4>entrySet</h4>
-<pre class="methodSignature">public&nbsp;java.util.Set&lt;java.util.Map.Entry&lt;<a href="ForwardingMap.html" title="type parameter in ForwardingMap">K</a>,&#8203;<a href="ForwardingMap.html" title="type parameter in ForwardingMap">V</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.130">entrySet</a>()</pre>
+<pre class="methodSignature">public&nbsp;java.util.Set&lt;java.util.Map.Entry&lt;<a href="ForwardingMap.html" title="type parameter in ForwardingMap">K</a>,&#8203;<a href="ForwardingMap.html" title="type parameter in ForwardingMap">V</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.129">entrySet</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>entrySet</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="ForwardingMap.html" title="type parameter in ForwardingMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="ForwardingMap.html" title="type parameter in ForwardingMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
@@ -662,7 +662,7 @@ public&nbsp;<a href="ForwardingMap.html" title="type parameter in ForwardingMap"
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.135">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.134">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                       java.lang.Object&nbsp;object)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
@@ -678,7 +678,7 @@ public&nbsp;<a href="ForwardingMap.html" title="type parameter in ForwardingMap"
 <ul class="blockList">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.140">hashCode</a>()</pre>
+<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.139">hashCode</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>hashCode</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="ForwardingMap.html" title="type parameter in ForwardingMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="ForwardingMap.html" title="type parameter in ForwardingMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
@@ -693,7 +693,7 @@ public&nbsp;<a href="ForwardingMap.html" title="type parameter in ForwardingMap"
 <ul class="blockList">
 <li class="blockList">
 <h4>standardPutAll</h4>
-<pre class="methodSignature">protected&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.152">standardPutAll</a>&#8203;(java.util.Map&lt;? extends <a href="ForwardingMap.html" title="type parameter in ForwardingMap">K</a>,&#8203;? extends <a href="ForwardingMap.html" title="type parameter in ForwardingMap">V</a>&gt;&nbsp;map)</pre>
+<pre class="methodSignature">protected&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.151">standardPutAll</a>&#8203;(java.util.Map&lt;? extends <a href="ForwardingMap.html" title="type parameter in ForwardingMap">K</a>,&#8203;? extends <a href="ForwardingMap.html" title="type parameter in ForwardingMap">V</a>&gt;&nbsp;map)</pre>
 <div class="block">A sensible definition of <a href="#putAll(java.util.Map)"><code>putAll(Map)</code></a> in terms of <a href="#put(K,V)"><code>put(Object, Object)</code></a>. If you
  override <a href="#put(K,V)"><code>put(Object, Object)</code></a>, you may wish to override <a href="#putAll(java.util.Map)"><code>putAll(Map)</code></a> to forward
  to this implementation.</div>
@@ -709,9 +709,8 @@ public&nbsp;<a href="ForwardingMap.html" title="type parameter in ForwardingMap"
 <ul class="blockList">
 <li class="blockList">
 <h4>standardRemove</h4>
-<pre class="methodSignature"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-protected&nbsp;<a href="ForwardingMap.html" title="type parameter in ForwardingMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.166">standardRemove</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+<pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+protected&nbsp;<a href="ForwardingMap.html" title="type parameter in ForwardingMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.165">standardRemove</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                            java.lang.Object&nbsp;key)</pre>
 <div class="block">A sensible, albeit inefficient, definition of <a href="#remove(java.lang.Object)"><code>remove(java.lang.Object)</code></a> in terms of the <code>iterator</code>
  method of <a href="#entrySet()"><code>entrySet()</code></a>. If you override <a href="#entrySet()"><code>entrySet()</code></a>, you may wish to override <a href="#remove(java.lang.Object)"><code>remove(java.lang.Object)</code></a> to forward to this implementation.
@@ -730,7 +729,7 @@ protected&nbsp;<a href="ForwardingMap.html" title="type parameter in ForwardingM
 <ul class="blockList">
 <li class="blockList">
 <h4>standardClear</h4>
-<pre class="methodSignature">protected&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.188">standardClear</a>()</pre>
+<pre class="methodSignature">protected&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.186">standardClear</a>()</pre>
 <div class="block">A sensible definition of <a href="#clear()"><code>clear()</code></a> in terms of the <code>iterator</code> method of <a href="#entrySet()"><code>entrySet()</code></a>. In many cases, you may wish to override <a href="#clear()"><code>clear()</code></a> to forward to this
  implementation.</div>
 <dl>
@@ -745,8 +744,7 @@ protected&nbsp;<a href="ForwardingMap.html" title="type parameter in ForwardingM
 <ul class="blockList">
 <li class="blockList">
 <h4>standardContainsKey</h4>
-<pre class="methodSignature"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.216">standardContainsKey</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+<pre class="methodSignature">protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.213">standardContainsKey</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                                       java.lang.Object&nbsp;key)</pre>
 <div class="block">A sensible, albeit inefficient, definition of <a href="#containsKey(java.lang.Object)"><code>containsKey(java.lang.Object)</code></a> in terms of the <code>
  iterator</code> method of <a href="#entrySet()"><code>entrySet()</code></a>. If you override <a href="#entrySet()"><code>entrySet()</code></a>, you may wish to
@@ -763,7 +761,7 @@ protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/coll
 <ul class="blockList">
 <li class="blockList">
 <h4>standardContainsValue</h4>
-<pre class="methodSignature">protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.245">standardContainsValue</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+<pre class="methodSignature">protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.240">standardContainsValue</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                                         java.lang.Object&nbsp;value)</pre>
 <div class="block">A sensible definition of <a href="#containsValue(java.lang.Object)"><code>containsValue(java.lang.Object)</code></a> in terms of the <code>iterator</code> method of
  <a href="#entrySet()"><code>entrySet()</code></a>. If you override <a href="#entrySet()"><code>entrySet()</code></a>, you may wish to override <a href="#containsValue(java.lang.Object)"><code>containsValue(java.lang.Object)</code></a> to forward to this implementation.</div>
@@ -779,7 +777,7 @@ protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/coll
 <ul class="blockList">
 <li class="blockList">
 <h4>standardIsEmpty</h4>
-<pre class="methodSignature">protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.276">standardIsEmpty</a>()</pre>
+<pre class="methodSignature">protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.270">standardIsEmpty</a>()</pre>
 <div class="block">A sensible definition of <a href="#isEmpty()"><code>isEmpty()</code></a> in terms of the <code>iterator</code> method of <a href="#entrySet()"><code>entrySet()</code></a>. If you override <a href="#entrySet()"><code>entrySet()</code></a>, you may wish to override <a href="#isEmpty()"><code>isEmpty()</code></a> to
  forward to this implementation.</div>
 <dl>
@@ -794,7 +792,7 @@ protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/coll
 <ul class="blockList">
 <li class="blockList">
 <h4>standardEquals</h4>
-<pre class="methodSignature">protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.287">standardEquals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+<pre class="methodSignature">protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.281">standardEquals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                                  java.lang.Object&nbsp;object)</pre>
 <div class="block">A sensible definition of <a href="#equals(java.lang.Object)"><code>equals(java.lang.Object)</code></a> in terms of the <code>equals</code> method of <a href="#entrySet()"><code>entrySet()</code></a>. If you override <a href="#entrySet()"><code>entrySet()</code></a>, you may wish to override <a href="#equals(java.lang.Object)"><code>equals(java.lang.Object)</code></a> to
  forward to this implementation.</div>
@@ -810,7 +808,7 @@ protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/coll
 <ul class="blockList">
 <li class="blockList">
 <h4>standardHashCode</h4>
-<pre class="methodSignature">protected&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.298">standardHashCode</a>()</pre>
+<pre class="methodSignature">protected&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.292">standardHashCode</a>()</pre>
 <div class="block">A sensible definition of <a href="#hashCode()"><code>hashCode()</code></a> in terms of the <code>iterator</code> method of <a href="#entrySet()"><code>entrySet()</code></a>. If you override <a href="#entrySet()"><code>entrySet()</code></a>, you may wish to override <a href="#hashCode()"><code>hashCode()</code></a> to
  forward to this implementation.</div>
 <dl>
@@ -825,7 +823,7 @@ protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/coll
 <ul class="blockListLast">
 <li class="blockList">
 <h4>standardToString</h4>
-<pre class="methodSignature">protected&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.309">standardToString</a>()</pre>
+<pre class="methodSignature">protected&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.303">standardToString</a>()</pre>
 <div class="block">A sensible definition of <a href="ForwardingObject.html#toString()"><code>ForwardingObject.toString()</code></a> in terms of the <code>iterator</code> method of <a href="#entrySet()"><code>entrySet()</code></a>. If you override <a href="#entrySet()"><code>entrySet()</code></a>, you may wish to override <a href="ForwardingObject.html#toString()"><code>ForwardingObject.toString()</code></a> to
  forward to this implementation.</div>
 <dl>

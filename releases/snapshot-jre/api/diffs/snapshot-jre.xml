@@ -52987,6 +52987,17 @@
  @since 31.0]]>
       </doc>
     </field>
+    <field name="SEC_CH_UA_FORM_FACTOR" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[The HTTP <a href="https://wicg.github.io/ua-client-hints/#sec-ch-ua-form-factor">{@code
+ Sec-CH-UA-Form-Factor}</a> header field name.
+
+ @since NEXT]]>
+      </doc>
+    </field>
     <field name="SEC_CH_VIEWPORT_WIDTH" type="java.lang.String"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"

@@ -147,7 +147,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <hr>
 <pre><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public abstract class <a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.54">ForwardingList</a>&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;
+public abstract class <a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.53">ForwardingList</a>&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;
 extends <a href="ForwardingCollection.html" title="class in com.google.common.collect">ForwardingCollection</a>&lt;E&gt;
 implements java.util.List&lt;E&gt;</pre>
 <div class="block">A list which forwards all its method calls to another list. Subclasses should override one or
@@ -430,7 +430,7 @@ implements java.util.List&lt;E&gt;</pre>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>ForwardingList</h4>
-<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.61">ForwardingList</a>()</pre>
+<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.60">ForwardingList</a>()</pre>
 <div class="block">Constructor for use by subclasses.</div>
 </li>
 </ul>
@@ -450,7 +450,7 @@ implements java.util.List&lt;E&gt;</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>delegate</h4>
-<pre class="methodSignature">protected abstract&nbsp;java.util.List&lt;<a href="ForwardingList.html" title="type parameter in ForwardingList">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.63">delegate</a>()</pre>
+<pre class="methodSignature">protected abstract&nbsp;java.util.List&lt;<a href="ForwardingList.html" title="type parameter in ForwardingList">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.62">delegate</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="ForwardingObject.html#delegate()">ForwardingObject</a></code></span></div>
 <div class="block">Returns the backing delegate instance that methods are forwarded to. Abstract subclasses
  generally override this method with an abstract method that has a more specific return type,
@@ -470,7 +470,7 @@ implements java.util.List&lt;E&gt;</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>add</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.66">add</a>&#8203;(int&nbsp;index,
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.65">add</a>&#8203;(int&nbsp;index,
                 <a href="ForwardingList.html" title="type parameter in ForwardingList">E</a>&nbsp;element)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
@@ -485,7 +485,7 @@ implements java.util.List&lt;E&gt;</pre>
 <li class="blockList">
 <h4>addAll</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.71">addAll</a>&#8203;(int&nbsp;index,
+public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.70">addAll</a>&#8203;(int&nbsp;index,
                       java.util.Collection&lt;? extends <a href="ForwardingList.html" title="type parameter in ForwardingList">E</a>&gt;&nbsp;elements)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
@@ -499,7 +499,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre class="methodSignature">public&nbsp;<a href="ForwardingList.html" title="type parameter in ForwardingList">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.77">get</a>&#8203;(int&nbsp;index)</pre>
+<pre class="methodSignature">public&nbsp;<a href="ForwardingList.html" title="type parameter in ForwardingList">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.76">get</a>&#8203;(int&nbsp;index)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>get</code>&nbsp;in interface&nbsp;<code>java.util.List&lt;<a href="ForwardingList.html" title="type parameter in ForwardingList">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
@@ -512,7 +512,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>indexOf</h4>
-<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.83">indexOf</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.82">indexOf</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                    java.lang.Object&nbsp;element)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
@@ -526,7 +526,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>lastIndexOf</h4>
-<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.88">lastIndexOf</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.87">lastIndexOf</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                        java.lang.Object&nbsp;element)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
@@ -540,7 +540,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>listIterator</h4>
-<pre class="methodSignature">public&nbsp;java.util.ListIterator&lt;<a href="ForwardingList.html" title="type parameter in ForwardingList">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.93">listIterator</a>()</pre>
+<pre class="methodSignature">public&nbsp;java.util.ListIterator&lt;<a href="ForwardingList.html" title="type parameter in ForwardingList">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.92">listIterator</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>listIterator</code>&nbsp;in interface&nbsp;<code>java.util.List&lt;<a href="ForwardingList.html" title="type parameter in ForwardingList">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
@@ -553,7 +553,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>listIterator</h4>
-<pre class="methodSignature">public&nbsp;java.util.ListIterator&lt;<a href="ForwardingList.html" title="type parameter in ForwardingList">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.98">listIterator</a>&#8203;(int&nbsp;index)</pre>
+<pre class="methodSignature">public&nbsp;java.util.ListIterator&lt;<a href="ForwardingList.html" title="type parameter in ForwardingList">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.97">listIterator</a>&#8203;(int&nbsp;index)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>listIterator</code>&nbsp;in interface&nbsp;<code>java.util.List&lt;<a href="ForwardingList.html" title="type parameter in ForwardingList">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
@@ -567,7 +567,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <li class="blockList">
 <h4>remove</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="ForwardingList.html" title="type parameter in ForwardingList">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.103">remove</a>&#8203;(int&nbsp;index)</pre>
+public&nbsp;<a href="ForwardingList.html" title="type parameter in ForwardingList">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.102">remove</a>&#8203;(int&nbsp;index)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>remove</code>&nbsp;in interface&nbsp;<code>java.util.List&lt;<a href="ForwardingList.html" title="type parameter in ForwardingList">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
@@ -583,7 +583,7 @@ public&nbsp;<a href="ForwardingList.html" title="type parameter in ForwardingLis
 <li class="blockList">
 <h4>set</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="ForwardingList.html" title="type parameter in ForwardingList">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.110">set</a>&#8203;(int&nbsp;index,
+public&nbsp;<a href="ForwardingList.html" title="type parameter in ForwardingList">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.109">set</a>&#8203;(int&nbsp;index,
              <a href="ForwardingList.html" title="type parameter in ForwardingList">E</a>&nbsp;element)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
@@ -597,7 +597,7 @@ public&nbsp;<a href="ForwardingList.html" title="type parameter in ForwardingLis
 <ul class="blockList">
 <li class="blockList">
 <h4>subList</h4>
-<pre class="methodSignature">public&nbsp;java.util.List&lt;<a href="ForwardingList.html" title="type parameter in ForwardingList">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.117">subList</a>&#8203;(int&nbsp;fromIndex,
+<pre class="methodSignature">public&nbsp;java.util.List&lt;<a href="ForwardingList.html" title="type parameter in ForwardingList">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.116">subList</a>&#8203;(int&nbsp;fromIndex,
                                  int&nbsp;toIndex)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
@@ -611,7 +611,7 @@ public&nbsp;<a href="ForwardingList.html" title="type parameter in ForwardingLis
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.122">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.121">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                       java.lang.Object&nbsp;object)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
@@ -629,7 +629,7 @@ public&nbsp;<a href="ForwardingList.html" title="type parameter in ForwardingLis
 <ul class="blockList">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.127">hashCode</a>()</pre>
+<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.126">hashCode</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>hashCode</code>&nbsp;in interface&nbsp;<code>java.util.Collection&lt;<a href="ForwardingList.html" title="type parameter in ForwardingList">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
@@ -648,7 +648,7 @@ public&nbsp;<a href="ForwardingList.html" title="type parameter in ForwardingLis
 <ul class="blockList">
 <li class="blockList">
 <h4>standardAdd</h4>
-<pre class="methodSignature">protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.139">standardAdd</a>&#8203;(<a href="ForwardingList.html" title="type parameter in ForwardingList">E</a>&nbsp;element)</pre>
+<pre class="methodSignature">protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.138">standardAdd</a>&#8203;(<a href="ForwardingList.html" title="type parameter in ForwardingList">E</a>&nbsp;element)</pre>
 <div class="block">A sensible default implementation of <a href="ForwardingCollection.html#add(E)"><code>ForwardingCollection.add(Object)</code></a>, in terms of <a href="#add(int,E)"><code>add(int,
  Object)</code></a>. If you override <a href="#add(int,E)"><code>add(int, Object)</code></a>, you may wish to override <a href="ForwardingCollection.html#add(E)"><code>ForwardingCollection.add(Object)</code></a> to forward to this implementation.</div>
 <dl>
@@ -663,7 +663,7 @@ public&nbsp;<a href="ForwardingList.html" title="type parameter in ForwardingLis
 <ul class="blockList">
 <li class="blockList">
 <h4>standardAddAll</h4>
-<pre class="methodSignature">protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.151">standardAddAll</a>&#8203;(int&nbsp;index,
+<pre class="methodSignature">protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.150">standardAddAll</a>&#8203;(int&nbsp;index,
                                  java.lang.Iterable&lt;? extends <a href="ForwardingList.html" title="type parameter in ForwardingList">E</a>&gt;&nbsp;elements)</pre>
 <div class="block">A sensible default implementation of <a href="#addAll(int,java.util.Collection)"><code>addAll(int, Collection)</code></a>, in terms of the <code>
  add</code> method of <a href="#listIterator(int)"><code>listIterator(int)</code></a>. If you override <a href="#listIterator(int)"><code>listIterator(int)</code></a>, you may
@@ -680,7 +680,7 @@ public&nbsp;<a href="ForwardingList.html" title="type parameter in ForwardingLis
 <ul class="blockList">
 <li class="blockList">
 <h4>standardIndexOf</h4>
-<pre class="methodSignature">protected&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.162">standardIndexOf</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+<pre class="methodSignature">protected&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.161">standardIndexOf</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                               java.lang.Object&nbsp;element)</pre>
 <div class="block">A sensible default implementation of <a href="#indexOf(java.lang.Object)"><code>indexOf(java.lang.Object)</code></a>, in terms of <a href="#listIterator()"><code>listIterator()</code></a>. If
  you override <a href="#listIterator()"><code>listIterator()</code></a>, you may wish to override <a href="#indexOf(java.lang.Object)"><code>indexOf(java.lang.Object)</code></a> to forward to
@@ -697,7 +697,7 @@ public&nbsp;<a href="ForwardingList.html" title="type parameter in ForwardingLis
 <ul class="blockList">
 <li class="blockList">
 <h4>standardLastIndexOf</h4>
-<pre class="methodSignature">protected&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.173">standardLastIndexOf</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+<pre class="methodSignature">protected&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.172">standardLastIndexOf</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                                   java.lang.Object&nbsp;element)</pre>
 <div class="block">A sensible default implementation of <a href="#lastIndexOf(java.lang.Object)"><code>lastIndexOf(java.lang.Object)</code></a>, in terms of <a href="#listIterator(int)"><code>listIterator(int)</code></a>. If you override <a href="#listIterator(int)"><code>listIterator(int)</code></a>, you may wish to override
  <a href="#lastIndexOf(java.lang.Object)"><code>lastIndexOf(java.lang.Object)</code></a> to forward to this implementation.</div>
@@ -713,7 +713,7 @@ public&nbsp;<a href="ForwardingList.html" title="type parameter in ForwardingLis
 <ul class="blockList">
 <li class="blockList">
 <h4>standardIterator</h4>
-<pre class="methodSignature">protected&nbsp;java.util.Iterator&lt;<a href="ForwardingList.html" title="type parameter in ForwardingList">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.184">standardIterator</a>()</pre>
+<pre class="methodSignature">protected&nbsp;java.util.Iterator&lt;<a href="ForwardingList.html" title="type parameter in ForwardingList">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.183">standardIterator</a>()</pre>
 <div class="block">A sensible default implementation of <a href="ForwardingCollection.html#iterator()"><code>ForwardingCollection.iterator()</code></a>, in terms of <a href="#listIterator()"><code>listIterator()</code></a>. If
  you override <a href="#listIterator()"><code>listIterator()</code></a>, you may wish to override <a href="ForwardingCollection.html#iterator()"><code>ForwardingCollection.iterator()</code></a> to forward to
  this implementation.</div>
@@ -729,7 +729,7 @@ public&nbsp;<a href="ForwardingList.html" title="type parameter in ForwardingLis
 <ul class="blockList">
 <li class="blockList">
 <h4>standardListIterator</h4>
-<pre class="methodSignature">protected&nbsp;java.util.ListIterator&lt;<a href="ForwardingList.html" title="type parameter in ForwardingList">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.195">standardListIterator</a>()</pre>
+<pre class="methodSignature">protected&nbsp;java.util.ListIterator&lt;<a href="ForwardingList.html" title="type parameter in ForwardingList">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.194">standardListIterator</a>()</pre>
 <div class="block">A sensible default implementation of <a href="#listIterator()"><code>listIterator()</code></a>, in terms of <a href="#listIterator(int)"><code>listIterator(int)</code></a>. If you override <a href="#listIterator(int)"><code>listIterator(int)</code></a>, you may wish to override
  <a href="#listIterator()"><code>listIterator()</code></a> to forward to this implementation.</div>
 <dl>
@@ -744,8 +744,7 @@ public&nbsp;<a href="ForwardingList.html" title="type parameter in ForwardingLis
 <ul class="blockList">
 <li class="blockList">
 <h4>standardListIterator</h4>
-<pre class="methodSignature"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-protected&nbsp;java.util.ListIterator&lt;<a href="ForwardingList.html" title="type parameter in ForwardingList">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.207">standardListIterator</a>&#8203;(int&nbsp;start)</pre>
+<pre class="methodSignature">protected&nbsp;java.util.ListIterator&lt;<a href="ForwardingList.html" title="type parameter in ForwardingList">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.206">standardListIterator</a>&#8203;(int&nbsp;start)</pre>
 <div class="block">A sensible default implementation of <a href="#listIterator(int)"><code>listIterator(int)</code></a>, in terms of <a href="ForwardingCollection.html#size()"><code>ForwardingCollection.size()</code></a>,
  <a href="#get(int)"><code>get(int)</code></a>, <a href="#set(int,E)"><code>set(int, Object)</code></a>, <a href="#add(int,E)"><code>add(int, Object)</code></a>, and <a href="#remove(int)"><code>remove(int)</code></a>. If you override any of these methods, you may wish to override <a href="#listIterator(int)"><code>listIterator(int)</code></a> to forward to this implementation.</div>
 <dl>
@@ -760,8 +759,7 @@ protected&nbsp;java.util.ListIterator&lt;<a href="ForwardingList.html" title="ty
 <ul class="blockList">
 <li class="blockList">
 <h4>standardSubList</h4>
-<pre class="methodSignature"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-protected&nbsp;java.util.List&lt;<a href="ForwardingList.html" title="type parameter in ForwardingList">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.218">standardSubList</a>&#8203;(int&nbsp;fromIndex,
+<pre class="methodSignature">protected&nbsp;java.util.List&lt;<a href="ForwardingList.html" title="type parameter in ForwardingList">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.216">standardSubList</a>&#8203;(int&nbsp;fromIndex,
                                             int&nbsp;toIndex)</pre>
 <div class="block">A sensible default implementation of <a href="#subList(int,int)"><code>subList(int, int)</code></a>. If you override any other
  methods, you may wish to override <a href="#subList(int,int)"><code>subList(int, int)</code></a> to forward to this implementation.</div>
@@ -777,8 +775,7 @@ protected&nbsp;java.util.List&lt;<a href="ForwardingList.html" title="type param
 <ul class="blockList">
 <li class="blockList">
 <h4>standardEquals</h4>
-<pre class="methodSignature"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.230">standardEquals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+<pre class="methodSignature">protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.227">standardEquals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                                  java.lang.Object&nbsp;object)</pre>
 <div class="block">A sensible definition of <a href="#equals(java.lang.Object)"><code>equals(Object)</code></a> in terms of <a href="ForwardingCollection.html#size()"><code>ForwardingCollection.size()</code></a> and <a href="ForwardingCollection.html#iterator()"><code>ForwardingCollection.iterator()</code></a>. If you override either of those methods, you may wish to override <a href="#equals(java.lang.Object)"><code>equals(Object)</code></a> to forward to this implementation.</div>
 <dl>
@@ -793,8 +790,7 @@ protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/coll
 <ul class="blockListLast">
 <li class="blockList">
 <h4>standardHashCode</h4>
-<pre class="methodSignature"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-protected&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.242">standardHashCode</a>()</pre>
+<pre class="methodSignature">protected&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.238">standardHashCode</a>()</pre>
 <div class="block">A sensible definition of <a href="#hashCode()"><code>hashCode()</code></a> in terms of <a href="ForwardingCollection.html#iterator()"><code>ForwardingCollection.iterator()</code></a>. If you override
  <a href="ForwardingCollection.html#iterator()"><code>ForwardingCollection.iterator()</code></a>, you may wish to override <a href="#hashCode()"><code>hashCode()</code></a> to forward to this
  implementation.</div>

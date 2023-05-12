@@ -143,7 +143,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <hr>
 <pre><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../annotations/GwtCompatible.html#serializable()">serializable</a>=true,
                <a href="../annotations/GwtCompatible.html#emulated()">emulated</a>=true)
-public class <a href="../../../../src-html/com/google/common/collect/ImmutableSetMultimap.html#line.60">ImmutableSetMultimap</a>&lt;K,&#8203;V&gt;
+public class <a href="../../../../src-html/com/google/common/collect/ImmutableSetMultimap.html#line.59">ImmutableSetMultimap</a>&lt;K,&#8203;V&gt;
 extends <a href="ImmutableMultimap.html" title="class in com.google.common.collect">ImmutableMultimap</a>&lt;K,&#8203;V&gt;
 implements <a href="SetMultimap.html" title="interface in com.google.common.collect">SetMultimap</a>&lt;K,&#8203;V&gt;</pre>
 <div class="block">A <a href="SetMultimap.html" title="interface in com.google.common.collect"><code>SetMultimap</code></a> whose contents will never change, with many other important properties
@@ -443,7 +443,7 @@ implements <a href="SetMultimap.html" title="interface in com.google.common.coll
 <ul class="blockList">
 <li class="blockList">
 <h4>toImmutableSetMultimap</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;K,&#8203;V&gt;&nbsp;java.util.stream.Collector&lt;T,&#8203;?,&#8203;<a href="ImmutableSetMultimap.html" title="class in com.google.common.collect">ImmutableSetMultimap</a>&lt;K,&#8203;V&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSetMultimap.html#line.92">toImmutableSetMultimap</a>&#8203;(java.util.function.Function&lt;? super T,&#8203;? extends K&gt;&nbsp;keyFunction,
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;K,&#8203;V&gt;&nbsp;java.util.stream.Collector&lt;T,&#8203;?,&#8203;<a href="ImmutableSetMultimap.html" title="class in com.google.common.collect">ImmutableSetMultimap</a>&lt;K,&#8203;V&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSetMultimap.html#line.91">toImmutableSetMultimap</a>&#8203;(java.util.function.Function&lt;? super T,&#8203;? extends K&gt;&nbsp;keyFunction,
                                                                                                                                                                         java.util.function.Function&lt;? super T,&#8203;? extends V&gt;&nbsp;valueFunction)</pre>
 <div class="block">Returns a <code>Collector</code> that accumulates elements into an <code>ImmutableSetMultimap</code>
  whose keys and values are the result of applying the provided mapping functions to the input
@@ -479,7 +479,7 @@ implements <a href="SetMultimap.html" title="interface in com.google.common.coll
 <ul class="blockList">
 <li class="blockList">
 <h4>flatteningToImmutableSetMultimap</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;K,&#8203;V&gt;&nbsp;java.util.stream.Collector&lt;T,&#8203;?,&#8203;<a href="ImmutableSetMultimap.html" title="class in com.google.common.collect">ImmutableSetMultimap</a>&lt;K,&#8203;V&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSetMultimap.html#line.139">flatteningToImmutableSetMultimap</a>&#8203;(java.util.function.Function&lt;? super T,&#8203;? extends K&gt;&nbsp;keyFunction,
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;K,&#8203;V&gt;&nbsp;java.util.stream.Collector&lt;T,&#8203;?,&#8203;<a href="ImmutableSetMultimap.html" title="class in com.google.common.collect">ImmutableSetMultimap</a>&lt;K,&#8203;V&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSetMultimap.html#line.138">flatteningToImmutableSetMultimap</a>&#8203;(java.util.function.Function&lt;? super T,&#8203;? extends K&gt;&nbsp;keyFunction,
                                                                                                                                                                                   java.util.function.Function&lt;? super T,&#8203;? extends java.util.stream.Stream&lt;? extends V&gt;&gt;&nbsp;valuesFunction)</pre>
 <div class="block">Returns a <code>Collector</code> accumulating entries into an <code>ImmutableSetMultimap</code>. Each
  input element is mapped to a key and a stream of values, each of which are put into the
@@ -529,7 +529,7 @@ implements <a href="SetMultimap.html" title="interface in com.google.common.coll
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre class="methodSignature">public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableSetMultimap.html" title="class in com.google.common.collect">ImmutableSetMultimap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSetMultimap.html#line.152">of</a>()</pre>
+<pre class="methodSignature">public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableSetMultimap.html" title="class in com.google.common.collect">ImmutableSetMultimap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSetMultimap.html#line.151">of</a>()</pre>
 <div class="block">Returns the empty multimap.
 
  <p><b>Performance note:</b> the instance returned is a singleton.</div>
@@ -543,7 +543,7 @@ implements <a href="SetMultimap.html" title="interface in com.google.common.coll
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre class="methodSignature">public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableSetMultimap.html" title="class in com.google.common.collect">ImmutableSetMultimap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSetMultimap.html#line.158">of</a>&#8203;(K&nbsp;k1,
+<pre class="methodSignature">public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableSetMultimap.html" title="class in com.google.common.collect">ImmutableSetMultimap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSetMultimap.html#line.157">of</a>&#8203;(K&nbsp;k1,
                                                              V&nbsp;v1)</pre>
 <div class="block">Returns an immutable multimap containing a single entry.</div>
 </li>
@@ -556,7 +556,7 @@ implements <a href="SetMultimap.html" title="interface in com.google.common.coll
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre class="methodSignature">public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableSetMultimap.html" title="class in com.google.common.collect">ImmutableSetMultimap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSetMultimap.html#line.168">of</a>&#8203;(K&nbsp;k1,
+<pre class="methodSignature">public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableSetMultimap.html" title="class in com.google.common.collect">ImmutableSetMultimap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSetMultimap.html#line.167">of</a>&#8203;(K&nbsp;k1,
                                                              V&nbsp;v1,
                                                              K&nbsp;k2,
                                                              V&nbsp;v2)</pre>
@@ -572,7 +572,7 @@ implements <a href="SetMultimap.html" title="interface in com.google.common.coll
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre class="methodSignature">public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableSetMultimap.html" title="class in com.google.common.collect">ImmutableSetMultimap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSetMultimap.html#line.179">of</a>&#8203;(K&nbsp;k1,
+<pre class="methodSignature">public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableSetMultimap.html" title="class in com.google.common.collect">ImmutableSetMultimap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSetMultimap.html#line.178">of</a>&#8203;(K&nbsp;k1,
                                                              V&nbsp;v1,
                                                              K&nbsp;k2,
                                                              V&nbsp;v2,
@@ -590,7 +590,7 @@ implements <a href="SetMultimap.html" title="interface in com.google.common.coll
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre class="methodSignature">public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableSetMultimap.html" title="class in com.google.common.collect">ImmutableSetMultimap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSetMultimap.html#line.191">of</a>&#8203;(K&nbsp;k1,
+<pre class="methodSignature">public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableSetMultimap.html" title="class in com.google.common.collect">ImmutableSetMultimap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSetMultimap.html#line.190">of</a>&#8203;(K&nbsp;k1,
                                                              V&nbsp;v1,
                                                              K&nbsp;k2,
                                                              V&nbsp;v2,
@@ -610,7 +610,7 @@ implements <a href="SetMultimap.html" title="interface in com.google.common.coll
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre class="methodSignature">public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableSetMultimap.html" title="class in com.google.common.collect">ImmutableSetMultimap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSetMultimap.html#line.205">of</a>&#8203;(K&nbsp;k1,
+<pre class="methodSignature">public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableSetMultimap.html" title="class in com.google.common.collect">ImmutableSetMultimap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSetMultimap.html#line.204">of</a>&#8203;(K&nbsp;k1,
                                                              V&nbsp;v1,
                                                              K&nbsp;k2,
                                                              V&nbsp;v2,
@@ -630,7 +630,7 @@ implements <a href="SetMultimap.html" title="interface in com.google.common.coll
 <ul class="blockList">
 <li class="blockList">
 <h4>builder</h4>
-<pre class="methodSignature">public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableSetMultimap.Builder.html" title="class in com.google.common.collect">ImmutableSetMultimap.Builder</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSetMultimap.html#line.219">builder</a>()</pre>
+<pre class="methodSignature">public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableSetMultimap.Builder.html" title="class in com.google.common.collect">ImmutableSetMultimap.Builder</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSetMultimap.html#line.218">builder</a>()</pre>
 <div class="block">Returns a new <a href="ImmutableSetMultimap.Builder.html" title="class in com.google.common.collect"><code>ImmutableSetMultimap.Builder</code></a>.</div>
 </li>
 </ul>
@@ -640,7 +640,7 @@ implements <a href="SetMultimap.html" title="interface in com.google.common.coll
 <ul class="blockList">
 <li class="blockList">
 <h4>copyOf</h4>
-<pre class="methodSignature">public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableSetMultimap.html" title="class in com.google.common.collect">ImmutableSetMultimap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSetMultimap.html#line.372">copyOf</a>&#8203;(<a href="Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;? extends K,&#8203;? extends V&gt;&nbsp;multimap)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableSetMultimap.html" title="class in com.google.common.collect">ImmutableSetMultimap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSetMultimap.html#line.370">copyOf</a>&#8203;(<a href="Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;? extends K,&#8203;? extends V&gt;&nbsp;multimap)</pre>
 <div class="block">Returns an immutable set multimap containing the same mappings as <code>multimap</code>. The
  generated multimap's key and value orderings correspond to the iteration ordering of the <code>
  multimap.asMap()</code> view. Repeated occurrences of an entry in the multimap after the first are
@@ -661,8 +661,7 @@ implements <a href="SetMultimap.html" title="interface in com.google.common.coll
 <ul class="blockList">
 <li class="blockList">
 <h4>copyOf</h4>
-<pre class="methodSignature"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableSetMultimap.html" title="class in com.google.common.collect">ImmutableSetMultimap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSetMultimap.html#line.405">copyOf</a>&#8203;(java.lang.Iterable&lt;? extends java.util.Map.Entry&lt;? extends K,&#8203;? extends V&gt;&gt;&nbsp;entries)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableSetMultimap.html" title="class in com.google.common.collect">ImmutableSetMultimap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSetMultimap.html#line.403">copyOf</a>&#8203;(java.lang.Iterable&lt;? extends java.util.Map.Entry&lt;? extends K,&#8203;? extends V&gt;&gt;&nbsp;entries)</pre>
 <div class="block">Returns an immutable multimap containing the specified entries. The returned multimap iterates
  over keys in the order they were first encountered in the input, and the values for each key
  are iterated in the order they were encountered. If two values for the same key are equal, the first value encountered is used.</div>
@@ -682,7 +681,7 @@ public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableSetMultimap.html" t
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre class="methodSignature">public&nbsp;<a href="ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="ImmutableSetMultimap.html" title="type parameter in ImmutableSetMultimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSetMultimap.html#line.456">get</a>&#8203;(<a href="ImmutableSetMultimap.html" title="type parameter in ImmutableSetMultimap">K</a>&nbsp;key)</pre>
+<pre class="methodSignature">public&nbsp;<a href="ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="ImmutableSetMultimap.html" title="type parameter in ImmutableSetMultimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSetMultimap.html#line.453">get</a>&#8203;(<a href="ImmutableSetMultimap.html" title="type parameter in ImmutableSetMultimap">K</a>&nbsp;key)</pre>
 <div class="block">Returns an immutable set of the values for the given key. If no mappings in the multimap have
  the provided key, an empty immutable set is returned. The values are in the same order as the
  parameters used to build this multimap.</div>
@@ -702,7 +701,7 @@ public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableSetMultimap.html" t
 <ul class="blockList">
 <li class="blockList">
 <h4>inverse</h4>
-<pre class="methodSignature">public&nbsp;<a href="ImmutableSetMultimap.html" title="class in com.google.common.collect">ImmutableSetMultimap</a>&lt;<a href="ImmutableSetMultimap.html" title="type parameter in ImmutableSetMultimap">V</a>,&#8203;<a href="ImmutableSetMultimap.html" title="type parameter in ImmutableSetMultimap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSetMultimap.html#line.472">inverse</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="ImmutableSetMultimap.html" title="class in com.google.common.collect">ImmutableSetMultimap</a>&lt;<a href="ImmutableSetMultimap.html" title="type parameter in ImmutableSetMultimap">V</a>,&#8203;<a href="ImmutableSetMultimap.html" title="type parameter in ImmutableSetMultimap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSetMultimap.html#line.469">inverse</a>()</pre>
 <div class="block">Returns an immutable multimap which is the inverse of this one. For every key-value mapping in
  the original, the result will have a mapping with key and value reversed.
 
@@ -723,7 +722,7 @@ public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableSetMultimap.html" t
 <h4>removeAll</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 @Deprecated
-public final&nbsp;<a href="ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="ImmutableSetMultimap.html" title="type parameter in ImmutableSetMultimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSetMultimap.html#line.494">removeAll</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+public final&nbsp;<a href="ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="ImmutableSetMultimap.html" title="type parameter in ImmutableSetMultimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSetMultimap.html#line.491">removeAll</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                                        java.lang.Object&nbsp;key)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Unsupported operation.</div>
@@ -754,7 +753,7 @@ public final&nbsp;<a href="ImmutableSet.html" title="class in com.google.common.
 <h4>replaceValues</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 @Deprecated
-public final&nbsp;<a href="ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="ImmutableSetMultimap.html" title="type parameter in ImmutableSetMultimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSetMultimap.html#line.508">replaceValues</a>&#8203;(<a href="ImmutableSetMultimap.html" title="type parameter in ImmutableSetMultimap">K</a>&nbsp;key,
+public final&nbsp;<a href="ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="ImmutableSetMultimap.html" title="type parameter in ImmutableSetMultimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSetMultimap.html#line.505">replaceValues</a>&#8203;(<a href="ImmutableSetMultimap.html" title="type parameter in ImmutableSetMultimap">K</a>&nbsp;key,
                                            java.lang.Iterable&lt;? extends <a href="ImmutableSetMultimap.html" title="type parameter in ImmutableSetMultimap">V</a>&gt;&nbsp;values)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Unsupported operation.</div>
@@ -782,7 +781,7 @@ public final&nbsp;<a href="ImmutableSet.html" title="class in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>entries</h4>
-<pre class="methodSignature">public&nbsp;<a href="ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;java.util.Map.Entry&lt;<a href="ImmutableSetMultimap.html" title="type parameter in ImmutableSetMultimap">K</a>,&#8203;<a href="ImmutableSetMultimap.html" title="type parameter in ImmutableSetMultimap">V</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSetMultimap.html#line.522">entries</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;java.util.Map.Entry&lt;<a href="ImmutableSetMultimap.html" title="type parameter in ImmutableSetMultimap">K</a>,&#8203;<a href="ImmutableSetMultimap.html" title="type parameter in ImmutableSetMultimap">V</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSetMultimap.html#line.519">entries</a>()</pre>
 <div class="block">Returns an immutable collection of all key-value pairs in the multimap. Its iterator traverses
  the values for the first key, the values for the second key, and so on.</div>
 <dl>

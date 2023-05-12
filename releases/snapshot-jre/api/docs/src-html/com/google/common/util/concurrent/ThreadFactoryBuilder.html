@@ -180,28 +180,30 @@
 <span class="sourceLineNo">171</span><a id="line.171">      @Override</a>
 <span class="sourceLineNo">172</span><a id="line.172">      public Thread newThread(Runnable runnable) {</a>
 <span class="sourceLineNo">173</span><a id="line.173">        Thread thread = backingThreadFactory.newThread(runnable);</a>
-<span class="sourceLineNo">174</span><a id="line.174">        if (nameFormat != null) {</a>
-<span class="sourceLineNo">175</span><a id="line.175">          // requireNonNull is safe because we create `count` if (and only if) we have a nameFormat.</a>
-<span class="sourceLineNo">176</span><a id="line.176">          thread.setName(format(nameFormat, requireNonNull(count).getAndIncrement()));</a>
-<span class="sourceLineNo">177</span><a id="line.177">        }</a>
-<span class="sourceLineNo">178</span><a id="line.178">        if (daemon != null) {</a>
-<span class="sourceLineNo">179</span><a id="line.179">          thread.setDaemon(daemon);</a>
-<span class="sourceLineNo">180</span><a id="line.180">        }</a>
-<span class="sourceLineNo">181</span><a id="line.181">        if (priority != null) {</a>
-<span class="sourceLineNo">182</span><a id="line.182">          thread.setPriority(priority);</a>
-<span class="sourceLineNo">183</span><a id="line.183">        }</a>
-<span class="sourceLineNo">184</span><a id="line.184">        if (uncaughtExceptionHandler != null) {</a>
-<span class="sourceLineNo">185</span><a id="line.185">          thread.setUncaughtExceptionHandler(uncaughtExceptionHandler);</a>
-<span class="sourceLineNo">186</span><a id="line.186">        }</a>
-<span class="sourceLineNo">187</span><a id="line.187">        return thread;</a>
-<span class="sourceLineNo">188</span><a id="line.188">      }</a>
-<span class="sourceLineNo">189</span><a id="line.189">    };</a>
-<span class="sourceLineNo">190</span><a id="line.190">  }</a>
-<span class="sourceLineNo">191</span><a id="line.191"></a>
-<span class="sourceLineNo">192</span><a id="line.192">  private static String format(String format, Object... args) {</a>
-<span class="sourceLineNo">193</span><a id="line.193">    return String.format(Locale.ROOT, format, args);</a>
-<span class="sourceLineNo">194</span><a id="line.194">  }</a>
-<span class="sourceLineNo">195</span><a id="line.195">}</a>
+<span class="sourceLineNo">174</span><a id="line.174">        // TODO(b/139735208): Figure out what to do when the factory returns null.</a>
+<span class="sourceLineNo">175</span><a id="line.175">        requireNonNull(thread);</a>
+<span class="sourceLineNo">176</span><a id="line.176">        if (nameFormat != null) {</a>
+<span class="sourceLineNo">177</span><a id="line.177">          // requireNonNull is safe because we create `count` if (and only if) we have a nameFormat.</a>
+<span class="sourceLineNo">178</span><a id="line.178">          thread.setName(format(nameFormat, requireNonNull(count).getAndIncrement()));</a>
+<span class="sourceLineNo">179</span><a id="line.179">        }</a>
+<span class="sourceLineNo">180</span><a id="line.180">        if (daemon != null) {</a>
+<span class="sourceLineNo">181</span><a id="line.181">          thread.setDaemon(daemon);</a>
+<span class="sourceLineNo">182</span><a id="line.182">        }</a>
+<span class="sourceLineNo">183</span><a id="line.183">        if (priority != null) {</a>
+<span class="sourceLineNo">184</span><a id="line.184">          thread.setPriority(priority);</a>
+<span class="sourceLineNo">185</span><a id="line.185">        }</a>
+<span class="sourceLineNo">186</span><a id="line.186">        if (uncaughtExceptionHandler != null) {</a>
+<span class="sourceLineNo">187</span><a id="line.187">          thread.setUncaughtExceptionHandler(uncaughtExceptionHandler);</a>
+<span class="sourceLineNo">188</span><a id="line.188">        }</a>
+<span class="sourceLineNo">189</span><a id="line.189">        return thread;</a>
+<span class="sourceLineNo">190</span><a id="line.190">      }</a>
+<span class="sourceLineNo">191</span><a id="line.191">    };</a>
+<span class="sourceLineNo">192</span><a id="line.192">  }</a>
+<span class="sourceLineNo">193</span><a id="line.193"></a>
+<span class="sourceLineNo">194</span><a id="line.194">  private static String format(String format, Object... args) {</a>
+<span class="sourceLineNo">195</span><a id="line.195">    return String.format(Locale.ROOT, format, args);</a>
+<span class="sourceLineNo">196</span><a id="line.196">  }</a>
+<span class="sourceLineNo">197</span><a id="line.197">}</a>
 
 
 

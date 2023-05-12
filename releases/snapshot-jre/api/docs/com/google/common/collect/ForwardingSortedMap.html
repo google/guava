@@ -151,7 +151,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <hr>
 <pre><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public abstract class <a href="../../../../src-html/com/google/common/collect/ForwardingSortedMap.html#line.54">ForwardingSortedMap</a>&lt;K extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;
+public abstract class <a href="../../../../src-html/com/google/common/collect/ForwardingSortedMap.html#line.53">ForwardingSortedMap</a>&lt;K extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;
 extends <a href="ForwardingMap.html" title="class in com.google.common.collect">ForwardingMap</a>&lt;K,&#8203;V&gt;
 implements java.util.SortedMap&lt;K,&#8203;V&gt;</pre>
 <div class="block">A sorted map which forwards all its method calls to another sorted map. Subclasses should
@@ -376,7 +376,7 @@ implements java.util.SortedMap&lt;K,&#8203;V&gt;</pre>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>ForwardingSortedMap</h4>
-<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMap.html#line.61">ForwardingSortedMap</a>()</pre>
+<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMap.html#line.60">ForwardingSortedMap</a>()</pre>
 <div class="block">Constructor for use by subclasses.</div>
 </li>
 </ul>
@@ -396,7 +396,7 @@ implements java.util.SortedMap&lt;K,&#8203;V&gt;</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>delegate</h4>
-<pre class="methodSignature">protected abstract&nbsp;java.util.SortedMap&lt;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>,&#8203;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMap.html#line.63">delegate</a>()</pre>
+<pre class="methodSignature">protected abstract&nbsp;java.util.SortedMap&lt;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>,&#8203;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMap.html#line.62">delegate</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="ForwardingObject.html#delegate()">ForwardingObject</a></code></span></div>
 <div class="block">Returns the backing delegate instance that methods are forwarded to. Abstract subclasses
  generally override this method with an abstract method that has a more specific return type,
@@ -415,7 +415,7 @@ implements java.util.SortedMap&lt;K,&#8203;V&gt;</pre>
 <li class="blockList">
 <h4>comparator</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;java.util.Comparator&lt;? super <a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMap.html#line.66">comparator</a>()</pre>
+public&nbsp;java.util.Comparator&lt;? super <a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMap.html#line.65">comparator</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>comparator</code>&nbsp;in interface&nbsp;<code>java.util.SortedMap&lt;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
@@ -428,7 +428,7 @@ public&nbsp;java.util.Comparator&lt;? super <a href="ForwardingSortedMap.html" t
 <ul class="blockList">
 <li class="blockList">
 <h4>firstKey</h4>
-<pre class="methodSignature">public&nbsp;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMap.html#line.72">firstKey</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMap.html#line.71">firstKey</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>firstKey</code>&nbsp;in interface&nbsp;<code>java.util.SortedMap&lt;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
@@ -443,7 +443,7 @@ public&nbsp;java.util.Comparator&lt;? super <a href="ForwardingSortedMap.html" t
 <ul class="blockList">
 <li class="blockList">
 <h4>headMap</h4>
-<pre class="methodSignature">public&nbsp;java.util.SortedMap&lt;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>,&#8203;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMap.html#line.78">headMap</a>&#8203;(<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>&nbsp;toKey)</pre>
+<pre class="methodSignature">public&nbsp;java.util.SortedMap&lt;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>,&#8203;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMap.html#line.77">headMap</a>&#8203;(<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>&nbsp;toKey)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>headMap</code>&nbsp;in interface&nbsp;<code>java.util.SortedMap&lt;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
@@ -456,7 +456,7 @@ public&nbsp;java.util.Comparator&lt;? super <a href="ForwardingSortedMap.html" t
 <ul class="blockList">
 <li class="blockList">
 <h4>lastKey</h4>
-<pre class="methodSignature">public&nbsp;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMap.html#line.83">lastKey</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMap.html#line.82">lastKey</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>lastKey</code>&nbsp;in interface&nbsp;<code>java.util.SortedMap&lt;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
@@ -471,7 +471,7 @@ public&nbsp;java.util.Comparator&lt;? super <a href="ForwardingSortedMap.html" t
 <ul class="blockList">
 <li class="blockList">
 <h4>subMap</h4>
-<pre class="methodSignature">public&nbsp;java.util.SortedMap&lt;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>,&#8203;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMap.html#line.89">subMap</a>&#8203;(<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>&nbsp;fromKey,
+<pre class="methodSignature">public&nbsp;java.util.SortedMap&lt;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>,&#8203;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMap.html#line.88">subMap</a>&#8203;(<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>&nbsp;fromKey,
                                              <a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>&nbsp;toKey)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
@@ -487,7 +487,7 @@ public&nbsp;java.util.Comparator&lt;? super <a href="ForwardingSortedMap.html" t
 <ul class="blockList">
 <li class="blockList">
 <h4>tailMap</h4>
-<pre class="methodSignature">public&nbsp;java.util.SortedMap&lt;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>,&#8203;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMap.html#line.94">tailMap</a>&#8203;(<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>&nbsp;fromKey)</pre>
+<pre class="methodSignature">public&nbsp;java.util.SortedMap&lt;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>,&#8203;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMap.html#line.93">tailMap</a>&#8203;(<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>&nbsp;fromKey)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>tailMap</code>&nbsp;in interface&nbsp;<code>java.util.SortedMap&lt;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
@@ -500,8 +500,7 @@ public&nbsp;java.util.Comparator&lt;? super <a href="ForwardingSortedMap.html" t
 <ul class="blockList">
 <li class="blockList">
 <h4>standardContainsKey</h4>
-<pre class="methodSignature"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMap.html#line.132">standardContainsKey</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+<pre class="methodSignature">protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMap.html#line.130">standardContainsKey</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                                       java.lang.Object&nbsp;key)</pre>
 <div class="block">A sensible definition of <a href="ForwardingMap.html#containsKey(java.lang.Object)"><code>ForwardingMap.containsKey(java.lang.Object)</code></a> in terms of the <code>firstKey()</code> method of
  <a href="#tailMap(K)"><code>tailMap(K)</code></a>. If you override <a href="#tailMap(K)"><code>tailMap(K)</code></a>, you may wish to override <a href="ForwardingMap.html#containsKey(java.lang.Object)"><code>ForwardingMap.containsKey(java.lang.Object)</code></a> to forward to this implementation.</div>
@@ -521,8 +520,7 @@ protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/coll
 <ul class="blockListLast">
 <li class="blockList">
 <h4>standardSubMap</h4>
-<pre class="methodSignature"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-protected&nbsp;java.util.SortedMap&lt;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>,&#8203;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMap.html#line.153">standardSubMap</a>&#8203;(<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>&nbsp;fromKey,
+<pre class="methodSignature">protected&nbsp;java.util.SortedMap&lt;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>,&#8203;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMap.html#line.150">standardSubMap</a>&#8203;(<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>&nbsp;fromKey,
                                                         <a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>&nbsp;toKey)</pre>
 <div class="block">A sensible default implementation of <a href="#subMap(K,K)"><code>subMap(Object, Object)</code></a> in terms of <a href="#headMap(K)"><code>headMap(Object)</code></a> and <a href="#tailMap(K)"><code>tailMap(Object)</code></a>. In some situations, you may wish to override
  <a href="#subMap(K,K)"><code>subMap(Object, Object)</code></a> to forward to this implementation.</div>

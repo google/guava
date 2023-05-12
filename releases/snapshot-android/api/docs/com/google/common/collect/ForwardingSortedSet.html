@@ -156,7 +156,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <hr>
 <pre><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public abstract class <a href="../../../../src-html/com/google/common/collect/ForwardingSortedSet.html#line.57">ForwardingSortedSet</a>&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;
+public abstract class <a href="../../../../src-html/com/google/common/collect/ForwardingSortedSet.html#line.56">ForwardingSortedSet</a>&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;
 extends <a href="ForwardingSet.html" title="class in com.google.common.collect">ForwardingSet</a>&lt;E&gt;
 implements java.util.SortedSet&lt;E&gt;</pre>
 <div class="block">A sorted set which forwards all its method calls to another sorted set. Subclasses should
@@ -370,7 +370,7 @@ implements java.util.SortedSet&lt;E&gt;</pre>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>ForwardingSortedSet</h4>
-<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedSet.html#line.63">ForwardingSortedSet</a>()</pre>
+<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedSet.html#line.62">ForwardingSortedSet</a>()</pre>
 <div class="block">Constructor for use by subclasses.</div>
 </li>
 </ul>
@@ -390,7 +390,7 @@ implements java.util.SortedSet&lt;E&gt;</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>delegate</h4>
-<pre class="methodSignature">protected abstract&nbsp;java.util.SortedSet&lt;<a href="ForwardingSortedSet.html" title="type parameter in ForwardingSortedSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedSet.html#line.65">delegate</a>()</pre>
+<pre class="methodSignature">protected abstract&nbsp;java.util.SortedSet&lt;<a href="ForwardingSortedSet.html" title="type parameter in ForwardingSortedSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedSet.html#line.64">delegate</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="ForwardingObject.html#delegate()">ForwardingObject</a></code></span></div>
 <div class="block">Returns the backing delegate instance that methods are forwarded to. Abstract subclasses
  generally override this method with an abstract method that has a more specific return type,
@@ -409,7 +409,7 @@ implements java.util.SortedSet&lt;E&gt;</pre>
 <li class="blockList">
 <h4>comparator</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;java.util.Comparator&lt;? super <a href="ForwardingSortedSet.html" title="type parameter in ForwardingSortedSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedSet.html#line.68">comparator</a>()</pre>
+public&nbsp;java.util.Comparator&lt;? super <a href="ForwardingSortedSet.html" title="type parameter in ForwardingSortedSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedSet.html#line.67">comparator</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>comparator</code>&nbsp;in interface&nbsp;<code>java.util.SortedSet&lt;<a href="ForwardingSortedSet.html" title="type parameter in ForwardingSortedSet">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
@@ -422,7 +422,7 @@ public&nbsp;java.util.Comparator&lt;? super <a href="ForwardingSortedSet.html" t
 <ul class="blockList">
 <li class="blockList">
 <h4>first</h4>
-<pre class="methodSignature">public&nbsp;<a href="ForwardingSortedSet.html" title="type parameter in ForwardingSortedSet">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedSet.html#line.74">first</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="ForwardingSortedSet.html" title="type parameter in ForwardingSortedSet">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedSet.html#line.73">first</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>first</code>&nbsp;in interface&nbsp;<code>java.util.SortedSet&lt;<a href="ForwardingSortedSet.html" title="type parameter in ForwardingSortedSet">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
@@ -437,7 +437,7 @@ public&nbsp;java.util.Comparator&lt;? super <a href="ForwardingSortedSet.html" t
 <ul class="blockList">
 <li class="blockList">
 <h4>headSet</h4>
-<pre class="methodSignature">public&nbsp;java.util.SortedSet&lt;<a href="ForwardingSortedSet.html" title="type parameter in ForwardingSortedSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedSet.html#line.80">headSet</a>&#8203;(<a href="ForwardingSortedSet.html" title="type parameter in ForwardingSortedSet">E</a>&nbsp;toElement)</pre>
+<pre class="methodSignature">public&nbsp;java.util.SortedSet&lt;<a href="ForwardingSortedSet.html" title="type parameter in ForwardingSortedSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedSet.html#line.79">headSet</a>&#8203;(<a href="ForwardingSortedSet.html" title="type parameter in ForwardingSortedSet">E</a>&nbsp;toElement)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>headSet</code>&nbsp;in interface&nbsp;<code>java.util.SortedSet&lt;<a href="ForwardingSortedSet.html" title="type parameter in ForwardingSortedSet">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
@@ -450,7 +450,7 @@ public&nbsp;java.util.Comparator&lt;? super <a href="ForwardingSortedSet.html" t
 <ul class="blockList">
 <li class="blockList">
 <h4>last</h4>
-<pre class="methodSignature">public&nbsp;<a href="ForwardingSortedSet.html" title="type parameter in ForwardingSortedSet">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedSet.html#line.85">last</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="ForwardingSortedSet.html" title="type parameter in ForwardingSortedSet">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedSet.html#line.84">last</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>last</code>&nbsp;in interface&nbsp;<code>java.util.SortedSet&lt;<a href="ForwardingSortedSet.html" title="type parameter in ForwardingSortedSet">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
@@ -465,7 +465,7 @@ public&nbsp;java.util.Comparator&lt;? super <a href="ForwardingSortedSet.html" t
 <ul class="blockList">
 <li class="blockList">
 <h4>subSet</h4>
-<pre class="methodSignature">public&nbsp;java.util.SortedSet&lt;<a href="ForwardingSortedSet.html" title="type parameter in ForwardingSortedSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedSet.html#line.91">subSet</a>&#8203;(<a href="ForwardingSortedSet.html" title="type parameter in ForwardingSortedSet">E</a>&nbsp;fromElement,
+<pre class="methodSignature">public&nbsp;java.util.SortedSet&lt;<a href="ForwardingSortedSet.html" title="type parameter in ForwardingSortedSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedSet.html#line.90">subSet</a>&#8203;(<a href="ForwardingSortedSet.html" title="type parameter in ForwardingSortedSet">E</a>&nbsp;fromElement,
                                      <a href="ForwardingSortedSet.html" title="type parameter in ForwardingSortedSet">E</a>&nbsp;toElement)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
@@ -481,7 +481,7 @@ public&nbsp;java.util.Comparator&lt;? super <a href="ForwardingSortedSet.html" t
 <ul class="blockList">
 <li class="blockList">
 <h4>tailSet</h4>
-<pre class="methodSignature">public&nbsp;java.util.SortedSet&lt;<a href="ForwardingSortedSet.html" title="type parameter in ForwardingSortedSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedSet.html#line.96">tailSet</a>&#8203;(<a href="ForwardingSortedSet.html" title="type parameter in ForwardingSortedSet">E</a>&nbsp;fromElement)</pre>
+<pre class="methodSignature">public&nbsp;java.util.SortedSet&lt;<a href="ForwardingSortedSet.html" title="type parameter in ForwardingSortedSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedSet.html#line.95">tailSet</a>&#8203;(<a href="ForwardingSortedSet.html" title="type parameter in ForwardingSortedSet">E</a>&nbsp;fromElement)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>tailSet</code>&nbsp;in interface&nbsp;<code>java.util.SortedSet&lt;<a href="ForwardingSortedSet.html" title="type parameter in ForwardingSortedSet">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
@@ -494,8 +494,7 @@ public&nbsp;java.util.Comparator&lt;? super <a href="ForwardingSortedSet.html" t
 <ul class="blockList">
 <li class="blockList">
 <h4>standardContains</h4>
-<pre class="methodSignature"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedSet.html#line.108">standardContains</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+<pre class="methodSignature">protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedSet.html#line.107">standardContains</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                                    java.lang.Object&nbsp;object)</pre>
 <div class="block">A sensible definition of <a href="ForwardingCollection.html#contains(java.lang.Object)"><code>ForwardingCollection.contains(java.lang.Object)</code></a> in terms of the <code>first()</code> method of <a href="#tailSet(E)"><code>tailSet(E)</code></a>. If you override <a href="#tailSet(E)"><code>tailSet(E)</code></a>, you may wish to override <a href="ForwardingCollection.html#contains(java.lang.Object)"><code>ForwardingCollection.contains(java.lang.Object)</code></a> to
  forward to this implementation.</div>
@@ -513,8 +512,7 @@ protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/coll
 <ul class="blockList">
 <li class="blockList">
 <h4>standardRemove</h4>
-<pre class="methodSignature"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedSet.html#line.129">standardRemove</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+<pre class="methodSignature">protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedSet.html#line.127">standardRemove</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                                  java.lang.Object&nbsp;object)</pre>
 <div class="block">A sensible definition of <a href="ForwardingCollection.html#remove(java.lang.Object)"><code>ForwardingCollection.remove(java.lang.Object)</code></a> in terms of the <code>iterator()</code> method of <a href="#tailSet(E)"><code>tailSet(E)</code></a>. If you override <a href="#tailSet(E)"><code>tailSet(E)</code></a>, you may wish to override <a href="ForwardingCollection.html#remove(java.lang.Object)"><code>ForwardingCollection.remove(java.lang.Object)</code></a> to
  forward to this implementation.</div>
@@ -534,8 +532,7 @@ protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/coll
 <ul class="blockListLast">
 <li class="blockList">
 <h4>standardSubSet</h4>
-<pre class="methodSignature"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-protected&nbsp;java.util.SortedSet&lt;<a href="ForwardingSortedSet.html" title="type parameter in ForwardingSortedSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedSet.html#line.157">standardSubSet</a>&#8203;(<a href="ForwardingSortedSet.html" title="type parameter in ForwardingSortedSet">E</a>&nbsp;fromElement,
+<pre class="methodSignature">protected&nbsp;java.util.SortedSet&lt;<a href="ForwardingSortedSet.html" title="type parameter in ForwardingSortedSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedSet.html#line.154">standardSubSet</a>&#8203;(<a href="ForwardingSortedSet.html" title="type parameter in ForwardingSortedSet">E</a>&nbsp;fromElement,
                                                 <a href="ForwardingSortedSet.html" title="type parameter in ForwardingSortedSet">E</a>&nbsp;toElement)</pre>
 <div class="block">A sensible default implementation of <a href="#subSet(E,E)"><code>subSet(Object, Object)</code></a> in terms of <a href="#headSet(E)"><code>headSet(Object)</code></a> and <a href="#tailSet(E)"><code>tailSet(Object)</code></a>. In some situations, you may wish to override
  <a href="#subSet(E,E)"><code>subSet(Object, Object)</code></a> to forward to this implementation.</div>
