@@ -42,7 +42,6 @@ import java.util.concurrent.TimeUnit;
  * @author Chris Nokleberg
  * @since 14.0
  */
-@Beta
 @GwtIncompatible
 public final class TestingExecutors {
   private TestingExecutors() {}
@@ -93,6 +92,7 @@ public final class TestingExecutors {
    *
    * @since NEXT (taking the place of a method with a different return type from 15.0)
    */
+  @Beta
   public static ListeningScheduledExecutorService sameThreadScheduledExecutor() {
     return new SameThreadScheduledExecutorService();
   }
