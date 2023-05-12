@@ -19,7 +19,6 @@ import static com.google.common.base.Preconditions.checkElementIndex;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkPositionIndexes;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Converter;
@@ -266,7 +265,6 @@ public final class Shorts extends ShortsMethodsForWeb {
    * @throws IllegalArgumentException if {@code min > max}
    * @since 21.0
    */
-  @Beta
   public static short constrainToRange(short value, short min, short max) {
     checkArgument(min <= max, "min (%s) must be less than or equal to max (%s)", min, max);
     return value < min ? min : value < max ? value : max;
@@ -372,7 +370,6 @@ public final class Shorts extends ShortsMethodsForWeb {
    *
    * @since 16.0
    */
-  @Beta
   public static Converter<String, Short> stringConverter() {
     return ShortConverter.INSTANCE;
   }

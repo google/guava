@@ -22,7 +22,6 @@ import static com.google.common.base.Strings.lenientFormat;
 import static java.lang.Double.NEGATIVE_INFINITY;
 import static java.lang.Double.POSITIVE_INFINITY;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
@@ -254,7 +253,6 @@ public final class Doubles extends DoublesMethodsForWeb {
    * @throws IllegalArgumentException if {@code min > max}
    * @since 21.0
    */
-  @Beta
   public static double constrainToRange(double value, double min, double max) {
     // avoid auto-boxing by not using Preconditions.checkArgument(); see Guava issue 3984
     // Reject NaN by testing for the good case (min <= max) instead of the bad (min > max).
@@ -319,7 +317,6 @@ public final class Doubles extends DoublesMethodsForWeb {
    *
    * @since 16.0
    */
-  @Beta
   public static Converter<String, Double> stringConverter() {
     return DoubleConverter.INSTANCE;
   }
