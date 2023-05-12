@@ -19,7 +19,6 @@ import static com.google.common.base.Preconditions.checkElementIndex;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkPositionIndexes;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Converter;
 import java.io.Serializable;
@@ -234,7 +233,6 @@ public final class Longs {
    * @throws IllegalArgumentException if {@code min > max}
    * @since 21.0
    */
-  @Beta
   public static long constrainToRange(long value, long min, long max) {
     checkArgument(min <= max, "min (%s) must be less than or equal to max (%s)", min, max);
     return Math.min(Math.max(value, min), max);
@@ -465,7 +463,6 @@ public final class Longs {
    *
    * @since 16.0
    */
-  @Beta
   public static Converter<String, Long> stringConverter() {
     return LongConverter.INSTANCE;
   }
