@@ -18,7 +18,6 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -242,7 +241,6 @@ public final class AtomicLongMap<K> implements Serializable {
    *
    * @since 20.0
    */
-  @Beta
   @CanIgnoreReturnValue
   public boolean removeIfZero(K key) {
     return remove(key, 0);

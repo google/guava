@@ -16,7 +16,6 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.util.concurrent.Internal.toNanosSaturated;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -35,7 +34,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Jens Nyman
  * @since 1.0
  */
-@Beta
 @DoNotMock("Use FakeTimeLimiter")
 @J2ktIncompatible
 @GwtIncompatible
