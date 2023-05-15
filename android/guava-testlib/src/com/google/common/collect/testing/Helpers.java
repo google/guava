@@ -253,17 +253,25 @@ public class Helpers {
     throw assertionFailedError;
   }
 
-  public static <K, V> Comparator<Entry<K, V>> entryComparator(
-      @Nullable Comparator<? super K> keyComparator) {
-    return new Comparator<Entry<K, V>>() {
-      @Override
-      @SuppressWarnings("unchecked") // no less safe than putting it in the map!
-      public int compare(Entry<K, V> a, Entry<K, V> b) {
+  private static class EntryComparator<K, V> implements Comparator<Entry<K, V>> {
+    final @Nullable Comparator<? super K> keyComparator;
+
+    public EntryComparator(@Nullable Comparator<? super K> keyComparator) {
+      this.keyComparator = keyComparator;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked") // no less safe than putting it in the map!
+    public int compare(Entry<K, V> a, Entry<K, V> b) {
         return (keyComparator == null)
             ? ((Comparable) a.getKey()).compareTo(b.getKey())
             : keyComparator.compare(a.getKey(), b.getKey());
-      }
-    };
+    }
+  }
+
+  public static <K, V> Comparator<Entry<K, V>> entryComparator(
+      @Nullable Comparator<? super K> keyComparator) {
+    return new EntryComparator<K, V>(keyComparator);
   }
 
   /**
