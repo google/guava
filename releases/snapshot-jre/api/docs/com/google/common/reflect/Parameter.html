@@ -136,15 +136,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><code>java.lang.reflect.AnnotatedElement</code></dd>
 </dl>
 <hr>
-<pre><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public final class <a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.39">Parameter</a>
+<pre>public final class <a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.34">Parameter</a>
 extends java.lang.Object
 implements java.lang.reflect.AnnotatedElement</pre>
-<div class="block">Represents a method or constructor parameter.
-
- <p><b>Note:</b> Since Java 8 introduced <code>Parameter</code> to represent method
- and constructor parameters, this class is no longer necessary. We intend to deprecate it in a
- future version.</div>
+<div class="block">Represents a method or constructor parameter.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>14.0</dd>
@@ -272,7 +267,7 @@ implements java.lang.reflect.AnnotatedElement</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>getType</h4>
-<pre class="methodSignature">public&nbsp;<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;?&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.71">getType</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;?&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.65">getType</a>()</pre>
 <div class="block">Returns the type of the parameter.</div>
 </li>
 </ul>
@@ -282,7 +277,7 @@ implements java.lang.reflect.AnnotatedElement</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>getDeclaringInvokable</h4>
-<pre class="methodSignature">public&nbsp;<a href="Invokable.html" title="class in com.google.common.reflect">Invokable</a>&lt;?,&#8203;?&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.76">getDeclaringInvokable</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="Invokable.html" title="class in com.google.common.reflect">Invokable</a>&lt;?,&#8203;?&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.70">getDeclaringInvokable</a>()</pre>
 <div class="block">Returns the <a href="Invokable.html" title="class in com.google.common.reflect"><code>Invokable</code></a> that declares this parameter.</div>
 </li>
 </ul>
@@ -292,7 +287,7 @@ implements java.lang.reflect.AnnotatedElement</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>isAnnotationPresent</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.80">isAnnotationPresent</a>&#8203;(java.lang.Class&lt;? extends java.lang.annotation.Annotation&gt;&nbsp;annotationType)</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.74">isAnnotationPresent</a>&#8203;(java.lang.Class&lt;? extends java.lang.annotation.Annotation&gt;&nbsp;annotationType)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>isAnnotationPresent</code>&nbsp;in interface&nbsp;<code>java.lang.reflect.AnnotatedElement</code></dd>
@@ -306,7 +301,7 @@ implements java.lang.reflect.AnnotatedElement</pre>
 <li class="blockList">
 <h4>getAnnotation</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;&lt;A extends java.lang.annotation.Annotation&gt;&nbsp;A&nbsp;<a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.85">getAnnotation</a>&#8203;(java.lang.Class&lt;A&gt;&nbsp;annotationType)</pre>
+public&nbsp;&lt;A extends java.lang.annotation.Annotation&gt;&nbsp;A&nbsp;<a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.79">getAnnotation</a>&#8203;(java.lang.Class&lt;A&gt;&nbsp;annotationType)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>getAnnotation</code>&nbsp;in interface&nbsp;<code>java.lang.reflect.AnnotatedElement</code></dd>
@@ -319,7 +314,7 @@ public&nbsp;&lt;A extends java.lang.annotation.Annotation&gt;&nbsp;A&nbsp;<a hre
 <ul class="blockList">
 <li class="blockList">
 <h4>getAnnotations</h4>
-<pre class="methodSignature">public&nbsp;java.lang.annotation.Annotation[]&nbsp;<a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.97">getAnnotations</a>()</pre>
+<pre class="methodSignature">public&nbsp;java.lang.annotation.Annotation[]&nbsp;<a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.91">getAnnotations</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>getAnnotations</code>&nbsp;in interface&nbsp;<code>java.lang.reflect.AnnotatedElement</code></dd>
@@ -332,7 +327,7 @@ public&nbsp;&lt;A extends java.lang.annotation.Annotation&gt;&nbsp;A&nbsp;<a hre
 <ul class="blockList">
 <li class="blockList">
 <h4>getAnnotationsByType</h4>
-<pre class="methodSignature">public&nbsp;&lt;A extends java.lang.annotation.Annotation&gt;&nbsp;A[]&nbsp;<a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.103">getAnnotationsByType</a>&#8203;(java.lang.Class&lt;A&gt;&nbsp;annotationType)</pre>
+<pre class="methodSignature">public&nbsp;&lt;A extends java.lang.annotation.Annotation&gt;&nbsp;A[]&nbsp;<a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.97">getAnnotationsByType</a>&#8203;(java.lang.Class&lt;A&gt;&nbsp;annotationType)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>getAnnotationsByType</code>&nbsp;in interface&nbsp;<code>java.lang.reflect.AnnotatedElement</code></dd>
@@ -347,7 +342,7 @@ public&nbsp;&lt;A extends java.lang.annotation.Annotation&gt;&nbsp;A&nbsp;<a hre
 <ul class="blockList">
 <li class="blockList">
 <h4>getDeclaredAnnotations</h4>
-<pre class="methodSignature">public&nbsp;java.lang.annotation.Annotation[]&nbsp;<a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.109">getDeclaredAnnotations</a>()</pre>
+<pre class="methodSignature">public&nbsp;java.lang.annotation.Annotation[]&nbsp;<a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.103">getDeclaredAnnotations</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>getDeclaredAnnotations</code>&nbsp;in interface&nbsp;<code>java.lang.reflect.AnnotatedElement</code></dd>
@@ -363,7 +358,7 @@ public&nbsp;&lt;A extends java.lang.annotation.Annotation&gt;&nbsp;A&nbsp;<a hre
 <li class="blockList">
 <h4>getDeclaredAnnotation</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;&lt;A extends java.lang.annotation.Annotation&gt;&nbsp;A&nbsp;<a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.115">getDeclaredAnnotation</a>&#8203;(java.lang.Class&lt;A&gt;&nbsp;annotationType)</pre>
+public&nbsp;&lt;A extends java.lang.annotation.Annotation&gt;&nbsp;A&nbsp;<a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.109">getDeclaredAnnotation</a>&#8203;(java.lang.Class&lt;A&gt;&nbsp;annotationType)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>getDeclaredAnnotation</code>&nbsp;in interface&nbsp;<code>java.lang.reflect.AnnotatedElement</code></dd>
@@ -378,7 +373,7 @@ public&nbsp;&lt;A extends java.lang.annotation.Annotation&gt;&nbsp;A&nbsp;<a hre
 <ul class="blockList">
 <li class="blockList">
 <h4>getDeclaredAnnotationsByType</h4>
-<pre class="methodSignature">public&nbsp;&lt;A extends java.lang.annotation.Annotation&gt;&nbsp;A[]&nbsp;<a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.123">getDeclaredAnnotationsByType</a>&#8203;(java.lang.Class&lt;A&gt;&nbsp;annotationType)</pre>
+<pre class="methodSignature">public&nbsp;&lt;A extends java.lang.annotation.Annotation&gt;&nbsp;A[]&nbsp;<a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.117">getDeclaredAnnotationsByType</a>&#8203;(java.lang.Class&lt;A&gt;&nbsp;annotationType)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>getDeclaredAnnotationsByType</code>&nbsp;in interface&nbsp;<code>java.lang.reflect.AnnotatedElement</code></dd>
@@ -393,7 +388,7 @@ public&nbsp;&lt;A extends java.lang.annotation.Annotation&gt;&nbsp;A&nbsp;<a hre
 <ul class="blockList">
 <li class="blockList">
 <h4>getAnnotatedType</h4>
-<pre class="methodSignature">public&nbsp;java.lang.reflect.AnnotatedType&nbsp;<a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.139">getAnnotatedType</a>()</pre>
+<pre class="methodSignature">public&nbsp;java.lang.reflect.AnnotatedType&nbsp;<a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.133">getAnnotatedType</a>()</pre>
 <div class="block">Returns the <code>AnnotatedType</code> of the parameter.
 
  <p>This method will fail if run under an Android VM.</div>
@@ -409,7 +404,7 @@ public&nbsp;&lt;A extends java.lang.annotation.Annotation&gt;&nbsp;A&nbsp;<a hre
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.145">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.139">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                       java.lang.Object&nbsp;obj)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
@@ -423,7 +418,7 @@ public&nbsp;&lt;A extends java.lang.annotation.Annotation&gt;&nbsp;A&nbsp;<a hre
 <ul class="blockList">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.154">hashCode</a>()</pre>
+<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.148">hashCode</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code>hashCode</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
@@ -436,7 +431,7 @@ public&nbsp;&lt;A extends java.lang.annotation.Annotation&gt;&nbsp;A&nbsp;<a hre
 <ul class="blockListLast">
 <li class="blockList">
 <h4>toString</h4>
-<pre class="methodSignature">public&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.159">toString</a>()</pre>
+<pre class="methodSignature">public&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.153">toString</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code>toString</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
