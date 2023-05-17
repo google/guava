@@ -133,7 +133,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <hr>
 <pre><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public final class <a href="../../../../src-html/com/google/common/io/CharStreams.html#line.47">CharStreams</a>
+public final class <a href="../../../../src-html/com/google/common/io/CharStreams.html#line.46">CharStreams</a>
 extends java.lang.Object</pre>
 <div class="block">Provides utility methods for working with character streams.
 
@@ -257,7 +257,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>copy</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/io/CharStreams.html#line.71">copy</a>&#8203;(java.lang.Readable&nbsp;from,
+public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/io/CharStreams.html#line.70">copy</a>&#8203;(java.lang.Readable&nbsp;from,
                         java.lang.Appendable&nbsp;to)
                  throws java.io.IOException</pre>
 <div class="block">Copies all characters between the <code>Readable</code> and <code>Appendable</code> objects. Does not
@@ -279,7 +279,7 @@ public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/io/
 <ul class="blockList">
 <li class="blockList">
 <h4>toString</h4>
-<pre class="methodSignature">public static&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/io/CharStreams.html#line.165">toString</a>&#8203;(java.lang.Readable&nbsp;r)
+<pre class="methodSignature">public static&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/io/CharStreams.html#line.164">toString</a>&#8203;(java.lang.Readable&nbsp;r)
                                  throws java.io.IOException</pre>
 <div class="block">Reads all characters from a <code>Readable</code> object into a <code>String</code>. Does not close the
  <code>Readable</code>.</div>
@@ -299,8 +299,7 @@ public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/io/
 <ul class="blockList">
 <li class="blockList">
 <h4>readLines</h4>
-<pre class="methodSignature"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;java.util.List&lt;java.lang.String&gt;&nbsp;<a href="../../../../src-html/com/google/common/io/CharStreams.html#line.198">readLines</a>&#8203;(java.lang.Readable&nbsp;r)
+<pre class="methodSignature">public static&nbsp;java.util.List&lt;java.lang.String&gt;&nbsp;<a href="../../../../src-html/com/google/common/io/CharStreams.html#line.197">readLines</a>&#8203;(java.lang.Readable&nbsp;r)
                                                   throws java.io.IOException</pre>
 <div class="block">Reads all of the lines from a <code>Readable</code> object. The lines do not include
  line-termination characters, but do include other leading and trailing whitespace.
@@ -322,9 +321,8 @@ public static&nbsp;java.util.List&lt;java.lang.String&gt;&nbsp;<a href="../../..
 <ul class="blockList">
 <li class="blockList">
 <h4>readLines</h4>
-<pre class="methodSignature"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/io/CharStreams.html#line.218">readLines</a>&#8203;(java.lang.Readable&nbsp;readable,
+<pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
+public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/io/CharStreams.html#line.216">readLines</a>&#8203;(java.lang.Readable&nbsp;readable,
                                                                  <a href="LineProcessor.html" title="interface in com.google.common.io">LineProcessor</a>&lt;T&gt;&nbsp;processor)
                                                           throws java.io.IOException</pre>
 <div class="block">Streams lines from a <code>Readable</code> object, stopping when the processor returns <code>false</code>
@@ -345,9 +343,8 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>exhaust</h4>
-<pre class="methodSignature"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/io/CharStreams.html#line.242">exhaust</a>&#8203;(java.lang.Readable&nbsp;readable)
+<pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
+public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/io/CharStreams.html#line.239">exhaust</a>&#8203;(java.lang.Readable&nbsp;readable)
                     throws java.io.IOException</pre>
 <div class="block">Reads and discards data from the given <code>Readable</code> until the end of the stream is reached.
  Returns the total number of chars read. Does not close the stream.</div>
@@ -365,8 +362,7 @@ public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/io/
 <ul class="blockList">
 <li class="blockList">
 <h4>skipFully</h4>
-<pre class="methodSignature"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/CharStreams.html#line.264">skipFully</a>&#8203;(java.io.Reader&nbsp;reader,
+<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/CharStreams.html#line.260">skipFully</a>&#8203;(java.io.Reader&nbsp;reader,
                              long&nbsp;n)
                       throws java.io.IOException</pre>
 <div class="block">Discards <code>n</code> characters of data from the reader. This method will block until the full
@@ -387,8 +383,7 @@ public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/
 <ul class="blockList">
 <li class="blockList">
 <h4>nullWriter</h4>
-<pre class="methodSignature"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;java.io.Writer&nbsp;<a href="../../../../src-html/com/google/common/io/CharStreams.html#line.281">nullWriter</a>()</pre>
+<pre class="methodSignature">public static&nbsp;java.io.Writer&nbsp;<a href="../../../../src-html/com/google/common/io/CharStreams.html#line.276">nullWriter</a>()</pre>
 <div class="block">Returns a <code>Writer</code> that simply discards written chars.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -402,8 +397,7 @@ public static&nbsp;java.io.Writer&nbsp;<a href="../../../../src-html/com/google/
 <ul class="blockListLast">
 <li class="blockList">
 <h4>asWriter</h4>
-<pre class="methodSignature"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;java.io.Writer&nbsp;<a href="../../../../src-html/com/google/common/io/CharStreams.html#line.349">asWriter</a>&#8203;(java.lang.Appendable&nbsp;target)</pre>
+<pre class="methodSignature">public static&nbsp;java.io.Writer&nbsp;<a href="../../../../src-html/com/google/common/io/CharStreams.html#line.343">asWriter</a>&#8203;(java.lang.Appendable&nbsp;target)</pre>
 <div class="block">Returns a Writer that sends all output to the given <code>Appendable</code> target. Closing the
  writer will close the target if it is <code>Closeable</code>, and flushing the writer will flush the
  target if it is <code>Flushable</code>.</div>

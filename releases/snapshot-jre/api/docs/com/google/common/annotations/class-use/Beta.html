@@ -478,112 +478,16 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <caption><span>Classes in <a href="../../io/package-summary.html">com.google.common.io</a> with annotations of type <a href="../Beta.html" title="annotation in com.google.common.annotations">Beta</a></span><span class="tabEnd">&nbsp;</span></caption>
 <tr>
 <th class="colFirst" scope="col">Modifier and Type</th>
-<th class="colSecond" scope="col">Interface</th>
+<th class="colSecond" scope="col">Class</th>
 <th class="colLast" scope="col">Description</th>
 </tr>
 <tbody>
-<tr class="altColor">
-<td class="colFirst"><code>interface&nbsp;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../io/ByteProcessor.html" title="interface in com.google.common.io">ByteProcessor</a>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</span></code></th>
-<td class="colLast">
-<div class="block">A callback interface to process bytes from a stream.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code>class&nbsp;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../io/Closeables.html" title="class in com.google.common.io">Closeables</a></span></code></th>
-<td class="colLast">
-<div class="block">Utility methods for working with <code>Closeable</code> objects.</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>class&nbsp;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../io/Closer.html" title="class in com.google.common.io">Closer</a></span></code></th>
-<td class="colLast">
-<div class="block">A <code>Closeable</code> that collects <code>Closeable</code> resources and closes them all when it is
- <a href="../../io/Closer.html#close()">closed</a>.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code>class&nbsp;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../io/CountingInputStream.html" title="class in com.google.common.io">CountingInputStream</a></span></code></th>
-<td class="colLast">
-<div class="block">An <code>InputStream</code> that counts the number of bytes read.</div>
-</td>
-</tr>
 <tr class="altColor">
 <td class="colFirst"><code>class&nbsp;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../io/FileBackedOutputStream.html" title="class in com.google.common.io">FileBackedOutputStream</a></span></code></th>
 <td class="colLast">
 <div class="block">An <code>OutputStream</code> that starts buffering to a byte array, but switches to file buffering
  once the data reaches a configurable size.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code>class&nbsp;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../io/Flushables.html" title="class in com.google.common.io">Flushables</a></span></code></th>
-<td class="colLast">
-<div class="block">Utility methods for working with <code>Flushable</code> objects.</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>class&nbsp;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../io/InsecureRecursiveDeleteException.html" title="class in com.google.common.io">InsecureRecursiveDeleteException</a></span></code></th>
-<td class="colLast">
-<div class="block">Exception indicating that a recursive delete can't be performed because the file system does not
- have the support necessary to guarantee that it is not vulnerable to race conditions that would
- allow it to delete files and directories outside of the directory being deleted (i.e., <code>SecureDirectoryStream</code> is not supported).</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code>interface&nbsp;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../io/LineProcessor.html" title="interface in com.google.common.io">LineProcessor</a>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</span></code></th>
-<td class="colLast">
-<div class="block">A callback to be used with the streaming <code>readLines</code> methods.</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>class&nbsp;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../io/LineReader.html" title="class in com.google.common.io">LineReader</a></span></code></th>
-<td class="colLast">
-<div class="block">A class for reading lines of text.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code>class&nbsp;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../io/LittleEndianDataInputStream.html" title="class in com.google.common.io">LittleEndianDataInputStream</a></span></code></th>
-<td class="colLast">
-<div class="block">An implementation of <code>DataInput</code> that uses little-endian byte ordering for reading <code>
- short</code>, <code>int</code>, <code>float</code>, <code>double</code>, and <code>long</code> values.</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>class&nbsp;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../io/LittleEndianDataOutputStream.html" title="class in com.google.common.io">LittleEndianDataOutputStream</a></span></code></th>
-<td class="colLast">
-<div class="block">An implementation of <code>DataOutput</code> that uses little-endian byte ordering for writing <code>
- char</code>, <code>short</code>, <code>int</code>, <code>float</code>, <code>double</code>, and <code>long</code> values.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code>class&nbsp;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../io/MoreFiles.html" title="class in com.google.common.io">MoreFiles</a></span></code></th>
-<td class="colLast">
-<div class="block">Static utilities for use with <code>Path</code> instances, intended to complement <code>Files</code>.</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>class&nbsp;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../io/PatternFilenameFilter.html" title="class in com.google.common.io">PatternFilenameFilter</a></span></code></th>
-<td class="colLast">
-<div class="block">File name filter that only accepts files matching a regular expression.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code>class&nbsp;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../io/RecursiveDeleteOption.html" title="enum in com.google.common.io">RecursiveDeleteOption</a></span></code></th>
-<td class="colLast">
-<div class="block">Options for use with recursive delete methods (<a href="../../io/MoreFiles.html#deleteRecursively(java.nio.file.Path,com.google.common.io.RecursiveDeleteOption...)"><code>MoreFiles.deleteRecursively(java.nio.file.Path, com.google.common.io.RecursiveDeleteOption...)</code></a> and <a href="../../io/MoreFiles.html#deleteDirectoryContents(java.nio.file.Path,com.google.common.io.RecursiveDeleteOption...)"><code>MoreFiles.deleteDirectoryContents(java.nio.file.Path, com.google.common.io.RecursiveDeleteOption...)</code></a>).</div>
 </td>
 </tr>
 </tbody>
@@ -597,21 +501,6 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </tr>
 <tbody>
 <tr class="altColor">
-<td class="colFirst"><code><a href="../../io/ByteSource.html" title="class in com.google.common.io">ByteSource</a></code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">CharSource.</span><code><span class="memberNameLink"><a href="../../io/CharSource.html#asByteSource(java.nio.charset.Charset)">asByteSource</a></span>&#8203;(java.nio.charset.Charset&nbsp;charset)</code></th>
-<td class="colLast">
-<div class="block">Returns a <a href="../../io/ByteSource.html" title="class in com.google.common.io"><code>ByteSource</code></a> view of this char source that encodes chars read from this source
- as bytes using the given <code>Charset</code>.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code>static java.io.Writer</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">CharStreams.</span><code><span class="memberNameLink"><a href="../../io/CharStreams.html#asWriter(java.lang.Appendable)">asWriter</a></span>&#8203;(java.lang.Appendable&nbsp;target)</code></th>
-<td class="colLast">
-<div class="block">Returns a Writer that sends all output to the given <code>Appendable</code> target.</div>
-</td>
-</tr>
-<tr class="altColor">
 <td class="colFirst"><code>static java.io.File</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Files.</span><code><span class="memberNameLink"><a href="../../io/Files.html#createTempDir()">createTempDir</a></span>()</code></th>
 <td class="colLast">
@@ -623,119 +512,11 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code>static long</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">CharStreams.</span><code><span class="memberNameLink"><a href="../../io/CharStreams.html#exhaust(java.lang.Readable)">exhaust</a></span>&#8203;(java.lang.Readable&nbsp;readable)</code></th>
-<td class="colLast">
-<div class="block">Reads and discards data from the given <code>Readable</code> until the end of the stream is reached.</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>static <a href="../../graph/Traverser.html" title="class in com.google.common.graph">Traverser</a>&lt;java.io.File&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Files.</span><code><span class="memberNameLink"><a href="../../io/Files.html#fileTraverser()">fileTraverser</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Returns a <a href="../../graph/Traverser.html" title="class in com.google.common.graph"><code>Traverser</code></a> instance for the file and directory tree.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">CharSource.</span><code><span class="memberNameLink"><a href="../../io/CharSource.html#forEachLine(java.util.function.Consumer)">forEachLine</a></span>&#8203;(java.util.function.Consumer&lt;? super java.lang.String&gt;&nbsp;action)</code></th>
-<td class="colLast">
-<div class="block">Reads all lines of text from this source, running the given <code>action</code> for each line as it
- is read.</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>long</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">CharSource.</span><code><span class="memberNameLink"><a href="../../io/CharSource.html#length()">length</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Returns the length of this source in chars, even if doing so requires opening and traversing an
- entire stream.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code><a href="../../base/Optional.html" title="class in com.google.common.base">Optional</a>&lt;java.lang.Long&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">CharSource.</span><code><span class="memberNameLink"><a href="../../io/CharSource.html#lengthIfKnown()">lengthIfKnown</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Returns the size of this source in chars, if the size can be easily determined without actually
- opening the data stream.</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>java.util.stream.Stream&lt;java.lang.String&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">CharSource.</span><code><span class="memberNameLink"><a href="../../io/CharSource.html#lines()">lines</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Opens a new <code>Stream</code> for reading text one line at a time from this source.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code>static java.io.Writer</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">CharStreams.</span><code><span class="memberNameLink"><a href="../../io/CharStreams.html#nullWriter()">nullWriter</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Returns a <code>Writer</code> that simply discards written chars.</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>T</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">ByteSource.</span><code><span class="memberNameLink"><a href="../../io/ByteSource.html#read(com.google.common.io.ByteProcessor)">read</a></span>&#8203;(<a href="../../io/ByteProcessor.html" title="interface in com.google.common.io">ByteProcessor</a>&lt;T&gt;&nbsp;processor)</code></th>
-<td class="colLast">
-<div class="block">Reads the contents of this byte source using the given <code>processor</code> to process bytes as
- they are read.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>T</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">CharSource.</span><code><span class="memberNameLink"><a href="../../io/CharSource.html#readLines(com.google.common.io.LineProcessor)">readLines</a></span>&#8203;(<a href="../../io/LineProcessor.html" title="interface in com.google.common.io">LineProcessor</a>&lt;T&gt;&nbsp;processor)</code></th>
-<td class="colLast">
-<div class="block">Reads lines of text from this source, processing each line as it is read using the given <a href="../../io/LineProcessor.html" title="interface in com.google.common.io"><code>processor</code></a>.</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>static java.util.List&lt;java.lang.String&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">CharStreams.</span><code><span class="memberNameLink"><a href="../../io/CharStreams.html#readLines(java.lang.Readable)">readLines</a></span>&#8203;(java.lang.Readable&nbsp;r)</code></th>
-<td class="colLast">
-<div class="block">Reads all of the lines from a <code>Readable</code> object.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>T</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">CharStreams.</span><code><span class="memberNameLink"><a href="../../io/CharStreams.html#readLines(java.lang.Readable,com.google.common.io.LineProcessor)">readLines</a></span>&#8203;(java.lang.Readable&nbsp;readable,
-         <a href="../../io/LineProcessor.html" title="interface in com.google.common.io">LineProcessor</a>&lt;T&gt;&nbsp;processor)</code></th>
-<td class="colLast">
-<div class="block">Streams lines from a <code>Readable</code> object, stopping when the processor returns <code>false</code>
- or all lines have been read and returning the result produced by the processor.</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code><a href="../../base/Optional.html" title="class in com.google.common.base">Optional</a>&lt;java.lang.Long&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">ByteSource.</span><code><span class="memberNameLink"><a href="../../io/ByteSource.html#sizeIfKnown()">sizeIfKnown</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Returns the size of this source in bytes, if the size can be easily determined without actually
- opening the data stream.</div>
-</td>
-</tr>
-<tr class="rowColor">
 <td class="colFirst"><code>static void</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">CharStreams.</span><code><span class="memberNameLink"><a href="../../io/CharStreams.html#skipFully(java.io.Reader,long)">skipFully</a></span>&#8203;(java.io.Reader&nbsp;reader,
-         long&nbsp;n)</code></th>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Flushables.</span><code><span class="memberNameLink"><a href="../../io/Flushables.html#flushQuietly(java.io.Flushable)">flushQuietly</a></span>&#8203;(java.io.Flushable&nbsp;flushable)</code></th>
 <td class="colLast">
-<div class="block">Discards <code>n</code> characters of data from the reader.</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">CharSink.</span><code><span class="memberNameLink"><a href="../../io/CharSink.html#writeLines(java.util.stream.Stream)">writeLines</a></span>&#8203;(java.util.stream.Stream&lt;? extends java.lang.CharSequence&gt;&nbsp;lines)</code></th>
-<td class="colLast">
-<div class="block">Writes the given lines of text to this sink with each line (including the last) terminated with
- the operating system's default line separator.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">CharSink.</span><code><span class="memberNameLink"><a href="../../io/CharSink.html#writeLines(java.util.stream.Stream,java.lang.String)">writeLines</a></span>&#8203;(java.util.stream.Stream&lt;? extends java.lang.CharSequence&gt;&nbsp;lines,
-          java.lang.String&nbsp;lineSeparator)</code></th>
-<td class="colLast">
-<div class="block">Writes the given lines of text to this sink with each line (including the last) terminated with
- the given line separator.</div>
+<div class="block">Equivalent to calling <code>flush(flushable, true)</code>, but with no <code>IOException</code> in the
+ signature.</div>
 </td>
 </tr>
 </tbody>

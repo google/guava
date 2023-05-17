@@ -146,9 +146,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><code>java.io.Closeable</code>, <code>java.io.DataOutput</code>, <code>java.io.Flushable</code>, <code>java.lang.AutoCloseable</code></dd>
 </dl>
 <hr>
-<pre><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-<a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public final class <a href="../../../../src-html/com/google/common/io/LittleEndianDataOutputStream.html#line.39">LittleEndianDataOutputStream</a>
+<pre><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
+public final class <a href="../../../../src-html/com/google/common/io/LittleEndianDataOutputStream.html#line.38">LittleEndianDataOutputStream</a>
 extends java.io.FilterOutputStream
 implements java.io.DataOutput</pre>
 <div class="block">An implementation of <code>DataOutput</code> that uses little-endian byte ordering for writing <code>
@@ -365,7 +364,7 @@ implements java.io.DataOutput</pre>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>LittleEndianDataOutputStream</h4>
-<pre>public&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataOutputStream.html#line.50">LittleEndianDataOutputStream</a>&#8203;(java.io.OutputStream&nbsp;out)</pre>
+<pre>public&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataOutputStream.html#line.48">LittleEndianDataOutputStream</a>&#8203;(java.io.OutputStream&nbsp;out)</pre>
 <div class="block">Creates a <code>LittleEndianDataOutputStream</code> that wraps the given stream.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -389,7 +388,7 @@ implements java.io.DataOutput</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>write</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataOutputStream.html#line.54">write</a>&#8203;(byte[]&nbsp;b,
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataOutputStream.html#line.52">write</a>&#8203;(byte[]&nbsp;b,
                   int&nbsp;off,
                   int&nbsp;len)
            throws java.io.IOException</pre>
@@ -409,7 +408,7 @@ implements java.io.DataOutput</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>writeBoolean</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataOutputStream.html#line.60">writeBoolean</a>&#8203;(boolean&nbsp;v)
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataOutputStream.html#line.58">writeBoolean</a>&#8203;(boolean&nbsp;v)
                   throws java.io.IOException</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
@@ -425,7 +424,7 @@ implements java.io.DataOutput</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>writeByte</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataOutputStream.html#line.65">writeByte</a>&#8203;(int&nbsp;v)
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataOutputStream.html#line.63">writeByte</a>&#8203;(int&nbsp;v)
                throws java.io.IOException</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
@@ -442,7 +441,7 @@ implements java.io.DataOutput</pre>
 <li class="blockList">
 <h4>writeBytes</h4>
 <pre class="methodSignature">@Deprecated
-public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataOutputStream.html#line.74">writeBytes</a>&#8203;(java.lang.String&nbsp;s)
+public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataOutputStream.html#line.72">writeBytes</a>&#8203;(java.lang.String&nbsp;s)
                 throws java.io.IOException</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">The semantics of <code>writeBytes(String s)</code> are considered dangerous. Please use
@@ -462,7 +461,7 @@ public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleE
 <ul class="blockList">
 <li class="blockList">
 <h4>writeChar</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataOutputStream.html#line.86">writeChar</a>&#8203;(int&nbsp;v)
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataOutputStream.html#line.84">writeChar</a>&#8203;(int&nbsp;v)
                throws java.io.IOException</pre>
 <div class="block">Writes a char as specified by <code>DataOutputStream.writeChar(int)</code>, except using
  little-endian byte order.</div>
@@ -480,7 +479,7 @@ public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleE
 <ul class="blockList">
 <li class="blockList">
 <h4>writeChars</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataOutputStream.html#line.97">writeChars</a>&#8203;(java.lang.String&nbsp;s)
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataOutputStream.html#line.95">writeChars</a>&#8203;(java.lang.String&nbsp;s)
                 throws java.io.IOException</pre>
 <div class="block">Writes a <code>String</code> as specified by <code>DataOutputStream.writeChars(String)</code>, except
  each character is written using little-endian byte order.</div>
@@ -498,7 +497,7 @@ public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleE
 <ul class="blockList">
 <li class="blockList">
 <h4>writeDouble</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataOutputStream.html#line.110">writeDouble</a>&#8203;(double&nbsp;v)
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataOutputStream.html#line.108">writeDouble</a>&#8203;(double&nbsp;v)
                  throws java.io.IOException</pre>
 <div class="block">Writes a <code>double</code> as specified by <code>DataOutputStream.writeDouble(double)</code>, except
  using little-endian byte order.</div>
@@ -516,7 +515,7 @@ public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleE
 <ul class="blockList">
 <li class="blockList">
 <h4>writeFloat</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataOutputStream.html#line.121">writeFloat</a>&#8203;(float&nbsp;v)
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataOutputStream.html#line.119">writeFloat</a>&#8203;(float&nbsp;v)
                 throws java.io.IOException</pre>
 <div class="block">Writes a <code>float</code> as specified by <code>DataOutputStream.writeFloat(float)</code>, except using
  little-endian byte order.</div>
@@ -534,7 +533,7 @@ public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleE
 <ul class="blockList">
 <li class="blockList">
 <h4>writeInt</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataOutputStream.html#line.132">writeInt</a>&#8203;(int&nbsp;v)
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataOutputStream.html#line.130">writeInt</a>&#8203;(int&nbsp;v)
               throws java.io.IOException</pre>
 <div class="block">Writes an <code>int</code> as specified by <code>DataOutputStream.writeInt(int)</code>, except using
  little-endian byte order.</div>
@@ -552,7 +551,7 @@ public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleE
 <ul class="blockList">
 <li class="blockList">
 <h4>writeLong</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataOutputStream.html#line.146">writeLong</a>&#8203;(long&nbsp;v)
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataOutputStream.html#line.144">writeLong</a>&#8203;(long&nbsp;v)
                throws java.io.IOException</pre>
 <div class="block">Writes a <code>long</code> as specified by <code>DataOutputStream.writeLong(long)</code>, except using
  little-endian byte order.</div>
@@ -570,7 +569,7 @@ public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleE
 <ul class="blockList">
 <li class="blockList">
 <h4>writeShort</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataOutputStream.html#line.158">writeShort</a>&#8203;(int&nbsp;v)
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataOutputStream.html#line.156">writeShort</a>&#8203;(int&nbsp;v)
                 throws java.io.IOException</pre>
 <div class="block">Writes a <code>short</code> as specified by <code>DataOutputStream.writeShort(int)</code>, except using
  little-endian byte order.</div>
@@ -588,7 +587,7 @@ public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleE
 <ul class="blockList">
 <li class="blockList">
 <h4>writeUTF</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataOutputStream.html#line.164">writeUTF</a>&#8203;(java.lang.String&nbsp;str)
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataOutputStream.html#line.162">writeUTF</a>&#8203;(java.lang.String&nbsp;str)
               throws java.io.IOException</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
@@ -604,7 +603,7 @@ public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleE
 <ul class="blockListLast">
 <li class="blockList">
 <h4>close</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataOutputStream.html#line.172">close</a>()
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataOutputStream.html#line.170">close</a>()
            throws java.io.IOException</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>

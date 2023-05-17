@@ -133,7 +133,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <hr>
 <pre><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public abstract class <a href="../../../../src-html/com/google/common/io/CharSink.html#line.54">CharSink</a>
+public abstract class <a href="../../../../src-html/com/google/common/io/CharSink.html#line.53">CharSink</a>
 extends java.lang.Object</pre>
 <div class="block">A destination to which characters can be written, such as a text file. Unlike a <code>Writer</code>, a
  <code>CharSink</code> is not an open, stateful stream that can be written to and closed. Instead, it
@@ -295,7 +295,7 @@ extends java.lang.Object</pre>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>CharSink</h4>
-<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/io/CharSink.html#line.60">CharSink</a>()</pre>
+<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/io/CharSink.html#line.59">CharSink</a>()</pre>
 <div class="block">Constructor for use by subclasses.</div>
 </li>
 </ul>
@@ -315,7 +315,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>openStream</h4>
-<pre class="methodSignature">public abstract&nbsp;java.io.Writer&nbsp;<a href="../../../../src-html/com/google/common/io/CharSink.html#line.70">openStream</a>()
+<pre class="methodSignature">public abstract&nbsp;java.io.Writer&nbsp;<a href="../../../../src-html/com/google/common/io/CharSink.html#line.69">openStream</a>()
                                    throws java.io.IOException</pre>
 <div class="block">Opens a new <code>Writer</code> for writing to this sink. This method returns a new, independent
  writer each time it is called.
@@ -333,7 +333,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>openBufferedStream</h4>
-<pre class="methodSignature">public&nbsp;java.io.Writer&nbsp;<a href="../../../../src-html/com/google/common/io/CharSink.html#line.83">openBufferedStream</a>()
+<pre class="methodSignature">public&nbsp;java.io.Writer&nbsp;<a href="../../../../src-html/com/google/common/io/CharSink.html#line.82">openBufferedStream</a>()
                                   throws java.io.IOException</pre>
 <div class="block">Opens a new buffered <code>Writer</code> for writing to this sink. The returned stream is not
  required to be a <code>BufferedWriter</code> in order to allow implementations to simply delegate to
@@ -355,7 +355,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>write</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/CharSink.html#line.95">write</a>&#8203;(java.lang.CharSequence&nbsp;charSequence)
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/CharSink.html#line.94">write</a>&#8203;(java.lang.CharSequence&nbsp;charSequence)
            throws java.io.IOException</pre>
 <div class="block">Writes the given character sequence to this sink.</div>
 <dl>
@@ -370,7 +370,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>writeLines</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/CharSink.html#line.117">writeLines</a>&#8203;(java.lang.Iterable&lt;? extends java.lang.CharSequence&gt;&nbsp;lines)
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/CharSink.html#line.116">writeLines</a>&#8203;(java.lang.Iterable&lt;? extends java.lang.CharSequence&gt;&nbsp;lines)
                 throws java.io.IOException</pre>
 <div class="block">Writes the given lines of text to this sink with each line (including the last) terminated with
  the operating system's default line separator. This method is equivalent to <code>
@@ -387,7 +387,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>writeLines</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/CharSink.html#line.127">writeLines</a>&#8203;(java.lang.Iterable&lt;? extends java.lang.CharSequence&gt;&nbsp;lines,
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/CharSink.html#line.126">writeLines</a>&#8203;(java.lang.Iterable&lt;? extends java.lang.CharSequence&gt;&nbsp;lines,
                        java.lang.String&nbsp;lineSeparator)
                 throws java.io.IOException</pre>
 <div class="block">Writes the given lines of text to this sink with each line (including the last) terminated with
@@ -404,8 +404,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>writeLines</h4>
-<pre class="methodSignature"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/CharSink.html#line.140">writeLines</a>&#8203;(java.util.stream.Stream&lt;? extends java.lang.CharSequence&gt;&nbsp;lines)
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/CharSink.html#line.139">writeLines</a>&#8203;(java.util.stream.Stream&lt;? extends java.lang.CharSequence&gt;&nbsp;lines)
                 throws java.io.IOException</pre>
 <div class="block">Writes the given lines of text to this sink with each line (including the last) terminated with
  the operating system's default line separator. This method is equivalent to <code>
@@ -424,8 +423,7 @@ public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/CharSin
 <ul class="blockList">
 <li class="blockList">
 <h4>writeLines</h4>
-<pre class="methodSignature"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/CharSink.html#line.152">writeLines</a>&#8203;(java.util.stream.Stream&lt;? extends java.lang.CharSequence&gt;&nbsp;lines,
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/CharSink.html#line.150">writeLines</a>&#8203;(java.util.stream.Stream&lt;? extends java.lang.CharSequence&gt;&nbsp;lines,
                        java.lang.String&nbsp;lineSeparator)
                 throws java.io.IOException</pre>
 <div class="block">Writes the given lines of text to this sink with each line (including the last) terminated with
@@ -445,7 +443,7 @@ public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/CharSin
 <li class="blockList">
 <h4>writeFrom</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/io/CharSink.html#line.177">writeFrom</a>&#8203;(java.lang.Readable&nbsp;readable)
+public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/io/CharSink.html#line.174">writeFrom</a>&#8203;(java.lang.Readable&nbsp;readable)
                throws java.io.IOException</pre>
 <div class="block">Writes all the text from the given <code>Readable</code> (such as a <code>Reader</code>) to this sink.
  Does not close <code>readable</code> if it is <code>Closeable</code>.</div>

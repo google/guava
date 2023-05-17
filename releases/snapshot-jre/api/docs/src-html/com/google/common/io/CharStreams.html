@@ -26,343 +26,336 @@
 <span class="sourceLineNo">017</span><a id="line.17">import static com.google.common.base.Preconditions.checkNotNull;</a>
 <span class="sourceLineNo">018</span><a id="line.18">import static com.google.common.base.Preconditions.checkPositionIndexes;</a>
 <span class="sourceLineNo">019</span><a id="line.19"></a>
-<span class="sourceLineNo">020</span><a id="line.20">import com.google.common.annotations.Beta;</a>
-<span class="sourceLineNo">021</span><a id="line.21">import com.google.common.annotations.GwtIncompatible;</a>
-<span class="sourceLineNo">022</span><a id="line.22">import com.google.common.annotations.J2ktIncompatible;</a>
-<span class="sourceLineNo">023</span><a id="line.23">import com.google.errorprone.annotations.CanIgnoreReturnValue;</a>
-<span class="sourceLineNo">024</span><a id="line.24">import java.io.Closeable;</a>
-<span class="sourceLineNo">025</span><a id="line.25">import java.io.EOFException;</a>
-<span class="sourceLineNo">026</span><a id="line.26">import java.io.IOException;</a>
-<span class="sourceLineNo">027</span><a id="line.27">import java.io.Reader;</a>
-<span class="sourceLineNo">028</span><a id="line.28">import java.io.Writer;</a>
-<span class="sourceLineNo">029</span><a id="line.29">import java.nio.CharBuffer;</a>
-<span class="sourceLineNo">030</span><a id="line.30">import java.util.ArrayList;</a>
-<span class="sourceLineNo">031</span><a id="line.31">import java.util.List;</a>
-<span class="sourceLineNo">032</span><a id="line.32">import javax.annotation.CheckForNull;</a>
-<span class="sourceLineNo">033</span><a id="line.33">import org.checkerframework.checker.nullness.qual.Nullable;</a>
-<span class="sourceLineNo">034</span><a id="line.34"></a>
-<span class="sourceLineNo">035</span><a id="line.35">/**</a>
-<span class="sourceLineNo">036</span><a id="line.36"> * Provides utility methods for working with character streams.</a>
-<span class="sourceLineNo">037</span><a id="line.37"> *</a>
-<span class="sourceLineNo">038</span><a id="line.38"> * &lt;p&gt;Some of the methods in this class take arguments with a generic type of {@code Readable &amp;</a>
-<span class="sourceLineNo">039</span><a id="line.39"> * Closeable}. A {@link java.io.Reader} implements both of those interfaces. Similarly for {@code</a>
-<span class="sourceLineNo">040</span><a id="line.40"> * Appendable &amp; Closeable} and {@link java.io.Writer}.</a>
-<span class="sourceLineNo">041</span><a id="line.41"> *</a>
-<span class="sourceLineNo">042</span><a id="line.42"> * @author Chris Nokleberg</a>
-<span class="sourceLineNo">043</span><a id="line.43"> * @author Bin Zhu</a>
-<span class="sourceLineNo">044</span><a id="line.44"> * @author Colin Decker</a>
-<span class="sourceLineNo">045</span><a id="line.45"> * @since 1.0</a>
-<span class="sourceLineNo">046</span><a id="line.46"> */</a>
-<span class="sourceLineNo">047</span><a id="line.47">@J2ktIncompatible</a>
-<span class="sourceLineNo">048</span><a id="line.48">@GwtIncompatible</a>
-<span class="sourceLineNo">049</span><a id="line.49">@ElementTypesAreNonnullByDefault</a>
-<span class="sourceLineNo">050</span><a id="line.50">public final class CharStreams {</a>
-<span class="sourceLineNo">051</span><a id="line.51"></a>
-<span class="sourceLineNo">052</span><a id="line.52">  // 2K chars (4K bytes)</a>
-<span class="sourceLineNo">053</span><a id="line.53">  private static final int DEFAULT_BUF_SIZE = 0x800;</a>
-<span class="sourceLineNo">054</span><a id="line.54"></a>
-<span class="sourceLineNo">055</span><a id="line.55">  /** Creates a new {@code CharBuffer} for buffering reads or writes. */</a>
-<span class="sourceLineNo">056</span><a id="line.56">  static CharBuffer createBuffer() {</a>
-<span class="sourceLineNo">057</span><a id="line.57">    return CharBuffer.allocate(DEFAULT_BUF_SIZE);</a>
-<span class="sourceLineNo">058</span><a id="line.58">  }</a>
-<span class="sourceLineNo">059</span><a id="line.59"></a>
-<span class="sourceLineNo">060</span><a id="line.60">  private CharStreams() {}</a>
-<span class="sourceLineNo">061</span><a id="line.61"></a>
-<span class="sourceLineNo">062</span><a id="line.62">  /**</a>
-<span class="sourceLineNo">063</span><a id="line.63">   * Copies all characters between the {@link Readable} and {@link Appendable} objects. Does not</a>
-<span class="sourceLineNo">064</span><a id="line.64">   * close or flush either object.</a>
-<span class="sourceLineNo">065</span><a id="line.65">   *</a>
-<span class="sourceLineNo">066</span><a id="line.66">   * @param from the object to read from</a>
-<span class="sourceLineNo">067</span><a id="line.67">   * @param to the object to write to</a>
-<span class="sourceLineNo">068</span><a id="line.68">   * @return the number of characters copied</a>
-<span class="sourceLineNo">069</span><a id="line.69">   * @throws IOException if an I/O error occurs</a>
-<span class="sourceLineNo">070</span><a id="line.70">   */</a>
-<span class="sourceLineNo">071</span><a id="line.71">  @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">072</span><a id="line.72">  public static long copy(Readable from, Appendable to) throws IOException {</a>
-<span class="sourceLineNo">073</span><a id="line.73">    // The most common case is that from is a Reader (like InputStreamReader or StringReader) so</a>
-<span class="sourceLineNo">074</span><a id="line.74">    // take advantage of that.</a>
-<span class="sourceLineNo">075</span><a id="line.75">    if (from instanceof Reader) {</a>
-<span class="sourceLineNo">076</span><a id="line.76">      // optimize for common output types which are optimized to deal with char[]</a>
-<span class="sourceLineNo">077</span><a id="line.77">      if (to instanceof StringBuilder) {</a>
-<span class="sourceLineNo">078</span><a id="line.78">        return copyReaderToBuilder((Reader) from, (StringBuilder) to);</a>
-<span class="sourceLineNo">079</span><a id="line.79">      } else {</a>
-<span class="sourceLineNo">080</span><a id="line.80">        return copyReaderToWriter((Reader) from, asWriter(to));</a>
-<span class="sourceLineNo">081</span><a id="line.81">      }</a>
-<span class="sourceLineNo">082</span><a id="line.82">    }</a>
-<span class="sourceLineNo">083</span><a id="line.83"></a>
-<span class="sourceLineNo">084</span><a id="line.84">    checkNotNull(from);</a>
-<span class="sourceLineNo">085</span><a id="line.85">    checkNotNull(to);</a>
-<span class="sourceLineNo">086</span><a id="line.86">    long total = 0;</a>
-<span class="sourceLineNo">087</span><a id="line.87">    CharBuffer buf = createBuffer();</a>
-<span class="sourceLineNo">088</span><a id="line.88">    while (from.read(buf) != -1) {</a>
-<span class="sourceLineNo">089</span><a id="line.89">      Java8Compatibility.flip(buf);</a>
-<span class="sourceLineNo">090</span><a id="line.90">      to.append(buf);</a>
-<span class="sourceLineNo">091</span><a id="line.91">      total += buf.remaining();</a>
-<span class="sourceLineNo">092</span><a id="line.92">      Java8Compatibility.clear(buf);</a>
-<span class="sourceLineNo">093</span><a id="line.93">    }</a>
-<span class="sourceLineNo">094</span><a id="line.94">    return total;</a>
-<span class="sourceLineNo">095</span><a id="line.95">  }</a>
-<span class="sourceLineNo">096</span><a id="line.96"></a>
-<span class="sourceLineNo">097</span><a id="line.97">  // TODO(lukes): consider allowing callers to pass in a buffer to use, some callers would be able</a>
-<span class="sourceLineNo">098</span><a id="line.98">  // to reuse buffers, others would be able to size them more appropriately than the constant</a>
-<span class="sourceLineNo">099</span><a id="line.99">  // defaults</a>
-<span class="sourceLineNo">100</span><a id="line.100"></a>
-<span class="sourceLineNo">101</span><a id="line.101">  /**</a>
-<span class="sourceLineNo">102</span><a id="line.102">   * Copies all characters between the {@link Reader} and {@link StringBuilder} objects. Does not</a>
-<span class="sourceLineNo">103</span><a id="line.103">   * close or flush the reader.</a>
-<span class="sourceLineNo">104</span><a id="line.104">   *</a>
-<span class="sourceLineNo">105</span><a id="line.105">   * &lt;p&gt;This is identical to {@link #copy(Readable, Appendable)} but optimized for these specific</a>
-<span class="sourceLineNo">106</span><a id="line.106">   * types. CharBuffer has poor performance when being written into or read out of so round tripping</a>
-<span class="sourceLineNo">107</span><a id="line.107">   * all the bytes through the buffer takes a long time. With these specialized types we can just</a>
-<span class="sourceLineNo">108</span><a id="line.108">   * use a char array.</a>
-<span class="sourceLineNo">109</span><a id="line.109">   *</a>
-<span class="sourceLineNo">110</span><a id="line.110">   * @param from the object to read from</a>
-<span class="sourceLineNo">111</span><a id="line.111">   * @param to the object to write to</a>
-<span class="sourceLineNo">112</span><a id="line.112">   * @return the number of characters copied</a>
-<span class="sourceLineNo">113</span><a id="line.113">   * @throws IOException if an I/O error occurs</a>
-<span class="sourceLineNo">114</span><a id="line.114">   */</a>
-<span class="sourceLineNo">115</span><a id="line.115">  @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">116</span><a id="line.116">  static long copyReaderToBuilder(Reader from, StringBuilder to) throws IOException {</a>
-<span class="sourceLineNo">117</span><a id="line.117">    checkNotNull(from);</a>
-<span class="sourceLineNo">118</span><a id="line.118">    checkNotNull(to);</a>
-<span class="sourceLineNo">119</span><a id="line.119">    char[] buf = new char[DEFAULT_BUF_SIZE];</a>
-<span class="sourceLineNo">120</span><a id="line.120">    int nRead;</a>
-<span class="sourceLineNo">121</span><a id="line.121">    long total = 0;</a>
-<span class="sourceLineNo">122</span><a id="line.122">    while ((nRead = from.read(buf)) != -1) {</a>
-<span class="sourceLineNo">123</span><a id="line.123">      to.append(buf, 0, nRead);</a>
-<span class="sourceLineNo">124</span><a id="line.124">      total += nRead;</a>
-<span class="sourceLineNo">125</span><a id="line.125">    }</a>
-<span class="sourceLineNo">126</span><a id="line.126">    return total;</a>
-<span class="sourceLineNo">127</span><a id="line.127">  }</a>
-<span class="sourceLineNo">128</span><a id="line.128"></a>
-<span class="sourceLineNo">129</span><a id="line.129">  /**</a>
-<span class="sourceLineNo">130</span><a id="line.130">   * Copies all characters between the {@link Reader} and {@link Writer} objects. Does not close or</a>
-<span class="sourceLineNo">131</span><a id="line.131">   * flush the reader or writer.</a>
-<span class="sourceLineNo">132</span><a id="line.132">   *</a>
-<span class="sourceLineNo">133</span><a id="line.133">   * &lt;p&gt;This is identical to {@link #copy(Readable, Appendable)} but optimized for these specific</a>
-<span class="sourceLineNo">134</span><a id="line.134">   * types. CharBuffer has poor performance when being written into or read out of so round tripping</a>
-<span class="sourceLineNo">135</span><a id="line.135">   * all the bytes through the buffer takes a long time. With these specialized types we can just</a>
-<span class="sourceLineNo">136</span><a id="line.136">   * use a char array.</a>
-<span class="sourceLineNo">137</span><a id="line.137">   *</a>
-<span class="sourceLineNo">138</span><a id="line.138">   * @param from the object to read from</a>
-<span class="sourceLineNo">139</span><a id="line.139">   * @param to the object to write to</a>
-<span class="sourceLineNo">140</span><a id="line.140">   * @return the number of characters copied</a>
-<span class="sourceLineNo">141</span><a id="line.141">   * @throws IOException if an I/O error occurs</a>
-<span class="sourceLineNo">142</span><a id="line.142">   */</a>
-<span class="sourceLineNo">143</span><a id="line.143">  @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">144</span><a id="line.144">  static long copyReaderToWriter(Reader from, Writer to) throws IOException {</a>
-<span class="sourceLineNo">145</span><a id="line.145">    checkNotNull(from);</a>
-<span class="sourceLineNo">146</span><a id="line.146">    checkNotNull(to);</a>
-<span class="sourceLineNo">147</span><a id="line.147">    char[] buf = new char[DEFAULT_BUF_SIZE];</a>
-<span class="sourceLineNo">148</span><a id="line.148">    int nRead;</a>
-<span class="sourceLineNo">149</span><a id="line.149">    long total = 0;</a>
-<span class="sourceLineNo">150</span><a id="line.150">    while ((nRead = from.read(buf)) != -1) {</a>
-<span class="sourceLineNo">151</span><a id="line.151">      to.write(buf, 0, nRead);</a>
-<span class="sourceLineNo">152</span><a id="line.152">      total += nRead;</a>
-<span class="sourceLineNo">153</span><a id="line.153">    }</a>
-<span class="sourceLineNo">154</span><a id="line.154">    return total;</a>
-<span class="sourceLineNo">155</span><a id="line.155">  }</a>
-<span class="sourceLineNo">156</span><a id="line.156"></a>
-<span class="sourceLineNo">157</span><a id="line.157">  /**</a>
-<span class="sourceLineNo">158</span><a id="line.158">   * Reads all characters from a {@link Readable} object into a {@link String}. Does not close the</a>
-<span class="sourceLineNo">159</span><a id="line.159">   * {@code Readable}.</a>
-<span class="sourceLineNo">160</span><a id="line.160">   *</a>
-<span class="sourceLineNo">161</span><a id="line.161">   * @param r the object to read from</a>
-<span class="sourceLineNo">162</span><a id="line.162">   * @return a string containing all the characters</a>
-<span class="sourceLineNo">163</span><a id="line.163">   * @throws IOException if an I/O error occurs</a>
-<span class="sourceLineNo">164</span><a id="line.164">   */</a>
-<span class="sourceLineNo">165</span><a id="line.165">  public static String toString(Readable r) throws IOException {</a>
-<span class="sourceLineNo">166</span><a id="line.166">    return toStringBuilder(r).toString();</a>
-<span class="sourceLineNo">167</span><a id="line.167">  }</a>
-<span class="sourceLineNo">168</span><a id="line.168"></a>
-<span class="sourceLineNo">169</span><a id="line.169">  /**</a>
-<span class="sourceLineNo">170</span><a id="line.170">   * Reads all characters from a {@link Readable} object into a new {@link StringBuilder} instance.</a>
-<span class="sourceLineNo">171</span><a id="line.171">   * Does not close the {@code Readable}.</a>
-<span class="sourceLineNo">172</span><a id="line.172">   *</a>
-<span class="sourceLineNo">173</span><a id="line.173">   * @param r the object to read from</a>
-<span class="sourceLineNo">174</span><a id="line.174">   * @return a {@link StringBuilder} containing all the characters</a>
-<span class="sourceLineNo">175</span><a id="line.175">   * @throws IOException if an I/O error occurs</a>
-<span class="sourceLineNo">176</span><a id="line.176">   */</a>
-<span class="sourceLineNo">177</span><a id="line.177">  private static StringBuilder toStringBuilder(Readable r) throws IOException {</a>
-<span class="sourceLineNo">178</span><a id="line.178">    StringBuilder sb = new StringBuilder();</a>
-<span class="sourceLineNo">179</span><a id="line.179">    if (r instanceof Reader) {</a>
-<span class="sourceLineNo">180</span><a id="line.180">      copyReaderToBuilder((Reader) r, sb);</a>
-<span class="sourceLineNo">181</span><a id="line.181">    } else {</a>
-<span class="sourceLineNo">182</span><a id="line.182">      copy(r, sb);</a>
-<span class="sourceLineNo">183</span><a id="line.183">    }</a>
-<span class="sourceLineNo">184</span><a id="line.184">    return sb;</a>
-<span class="sourceLineNo">185</span><a id="line.185">  }</a>
-<span class="sourceLineNo">186</span><a id="line.186"></a>
-<span class="sourceLineNo">187</span><a id="line.187">  /**</a>
-<span class="sourceLineNo">188</span><a id="line.188">   * Reads all of the lines from a {@link Readable} object. The lines do not include</a>
-<span class="sourceLineNo">189</span><a id="line.189">   * line-termination characters, but do include other leading and trailing whitespace.</a>
-<span class="sourceLineNo">190</span><a id="line.190">   *</a>
-<span class="sourceLineNo">191</span><a id="line.191">   * &lt;p&gt;Does not close the {@code Readable}. If reading files or resources you should use the {@link</a>
-<span class="sourceLineNo">192</span><a id="line.192">   * Files#readLines} and {@link Resources#readLines} methods.</a>
-<span class="sourceLineNo">193</span><a id="line.193">   *</a>
-<span class="sourceLineNo">194</span><a id="line.194">   * @param r the object to read from</a>
-<span class="sourceLineNo">195</span><a id="line.195">   * @return a mutable {@link List} containing all the lines</a>
-<span class="sourceLineNo">196</span><a id="line.196">   * @throws IOException if an I/O error occurs</a>
-<span class="sourceLineNo">197</span><a id="line.197">   */</a>
-<span class="sourceLineNo">198</span><a id="line.198">  @Beta</a>
-<span class="sourceLineNo">199</span><a id="line.199">  public static List&lt;String&gt; readLines(Readable r) throws IOException {</a>
-<span class="sourceLineNo">200</span><a id="line.200">    List&lt;String&gt; result = new ArrayList&lt;&gt;();</a>
-<span class="sourceLineNo">201</span><a id="line.201">    LineReader lineReader = new LineReader(r);</a>
-<span class="sourceLineNo">202</span><a id="line.202">    String line;</a>
-<span class="sourceLineNo">203</span><a id="line.203">    while ((line = lineReader.readLine()) != null) {</a>
-<span class="sourceLineNo">204</span><a id="line.204">      result.add(line);</a>
-<span class="sourceLineNo">205</span><a id="line.205">    }</a>
-<span class="sourceLineNo">206</span><a id="line.206">    return result;</a>
-<span class="sourceLineNo">207</span><a id="line.207">  }</a>
-<span class="sourceLineNo">208</span><a id="line.208"></a>
-<span class="sourceLineNo">209</span><a id="line.209">  /**</a>
-<span class="sourceLineNo">210</span><a id="line.210">   * Streams lines from a {@link Readable} object, stopping when the processor returns {@code false}</a>
-<span class="sourceLineNo">211</span><a id="line.211">   * or all lines have been read and returning the result produced by the processor. Does not close</a>
-<span class="sourceLineNo">212</span><a id="line.212">   * {@code readable}. Note that this method may not fully consume the contents of {@code readable}</a>
-<span class="sourceLineNo">213</span><a id="line.213">   * if the processor stops processing early.</a>
-<span class="sourceLineNo">214</span><a id="line.214">   *</a>
-<span class="sourceLineNo">215</span><a id="line.215">   * @throws IOException if an I/O error occurs</a>
-<span class="sourceLineNo">216</span><a id="line.216">   * @since 14.0</a>
-<span class="sourceLineNo">217</span><a id="line.217">   */</a>
-<span class="sourceLineNo">218</span><a id="line.218">  @Beta</a>
-<span class="sourceLineNo">219</span><a id="line.219">  @CanIgnoreReturnValue // some processors won't return a useful result</a>
-<span class="sourceLineNo">220</span><a id="line.220">  @ParametricNullness</a>
-<span class="sourceLineNo">221</span><a id="line.221">  public static &lt;T extends @Nullable Object&gt; T readLines(</a>
-<span class="sourceLineNo">222</span><a id="line.222">      Readable readable, LineProcessor&lt;T&gt; processor) throws IOException {</a>
-<span class="sourceLineNo">223</span><a id="line.223">    checkNotNull(readable);</a>
-<span class="sourceLineNo">224</span><a id="line.224">    checkNotNull(processor);</a>
-<span class="sourceLineNo">225</span><a id="line.225"></a>
-<span class="sourceLineNo">226</span><a id="line.226">    LineReader lineReader = new LineReader(readable);</a>
-<span class="sourceLineNo">227</span><a id="line.227">    String line;</a>
-<span class="sourceLineNo">228</span><a id="line.228">    while ((line = lineReader.readLine()) != null) {</a>
-<span class="sourceLineNo">229</span><a id="line.229">      if (!processor.processLine(line)) {</a>
-<span class="sourceLineNo">230</span><a id="line.230">        break;</a>
-<span class="sourceLineNo">231</span><a id="line.231">      }</a>
-<span class="sourceLineNo">232</span><a id="line.232">    }</a>
-<span class="sourceLineNo">233</span><a id="line.233">    return processor.getResult();</a>
-<span class="sourceLineNo">234</span><a id="line.234">  }</a>
-<span class="sourceLineNo">235</span><a id="line.235"></a>
-<span class="sourceLineNo">236</span><a id="line.236">  /**</a>
-<span class="sourceLineNo">237</span><a id="line.237">   * Reads and discards data from the given {@code Readable} until the end of the stream is reached.</a>
-<span class="sourceLineNo">238</span><a id="line.238">   * Returns the total number of chars read. Does not close the stream.</a>
-<span class="sourceLineNo">239</span><a id="line.239">   *</a>
-<span class="sourceLineNo">240</span><a id="line.240">   * @since 20.0</a>
-<span class="sourceLineNo">241</span><a id="line.241">   */</a>
-<span class="sourceLineNo">242</span><a id="line.242">  @Beta</a>
-<span class="sourceLineNo">243</span><a id="line.243">  @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">244</span><a id="line.244">  public static long exhaust(Readable readable) throws IOException {</a>
-<span class="sourceLineNo">245</span><a id="line.245">    long total = 0;</a>
-<span class="sourceLineNo">246</span><a id="line.246">    long read;</a>
-<span class="sourceLineNo">247</span><a id="line.247">    CharBuffer buf = createBuffer();</a>
-<span class="sourceLineNo">248</span><a id="line.248">    while ((read = readable.read(buf)) != -1) {</a>
-<span class="sourceLineNo">249</span><a id="line.249">      total += read;</a>
-<span class="sourceLineNo">250</span><a id="line.250">      Java8Compatibility.clear(buf);</a>
-<span class="sourceLineNo">251</span><a id="line.251">    }</a>
-<span class="sourceLineNo">252</span><a id="line.252">    return total;</a>
-<span class="sourceLineNo">253</span><a id="line.253">  }</a>
-<span class="sourceLineNo">254</span><a id="line.254"></a>
-<span class="sourceLineNo">255</span><a id="line.255">  /**</a>
-<span class="sourceLineNo">256</span><a id="line.256">   * Discards {@code n} characters of data from the reader. This method will block until the full</a>
-<span class="sourceLineNo">257</span><a id="line.257">   * amount has been skipped. Does not close the reader.</a>
-<span class="sourceLineNo">258</span><a id="line.258">   *</a>
-<span class="sourceLineNo">259</span><a id="line.259">   * @param reader the reader to read from</a>
-<span class="sourceLineNo">260</span><a id="line.260">   * @param n the number of characters to skip</a>
-<span class="sourceLineNo">261</span><a id="line.261">   * @throws EOFException if this stream reaches the end before skipping all the characters</a>
-<span class="sourceLineNo">262</span><a id="line.262">   * @throws IOException if an I/O error occurs</a>
-<span class="sourceLineNo">263</span><a id="line.263">   */</a>
-<span class="sourceLineNo">264</span><a id="line.264">  @Beta</a>
-<span class="sourceLineNo">265</span><a id="line.265">  public static void skipFully(Reader reader, long n) throws IOException {</a>
-<span class="sourceLineNo">266</span><a id="line.266">    checkNotNull(reader);</a>
-<span class="sourceLineNo">267</span><a id="line.267">    while (n &gt; 0) {</a>
-<span class="sourceLineNo">268</span><a id="line.268">      long amt = reader.skip(n);</a>
-<span class="sourceLineNo">269</span><a id="line.269">      if (amt == 0) {</a>
-<span class="sourceLineNo">270</span><a id="line.270">        throw new EOFException();</a>
-<span class="sourceLineNo">271</span><a id="line.271">      }</a>
-<span class="sourceLineNo">272</span><a id="line.272">      n -= amt;</a>
-<span class="sourceLineNo">273</span><a id="line.273">    }</a>
-<span class="sourceLineNo">274</span><a id="line.274">  }</a>
-<span class="sourceLineNo">275</span><a id="line.275"></a>
-<span class="sourceLineNo">276</span><a id="line.276">  /**</a>
-<span class="sourceLineNo">277</span><a id="line.277">   * Returns a {@link Writer} that simply discards written chars.</a>
-<span class="sourceLineNo">278</span><a id="line.278">   *</a>
-<span class="sourceLineNo">279</span><a id="line.279">   * @since 15.0</a>
-<span class="sourceLineNo">280</span><a id="line.280">   */</a>
-<span class="sourceLineNo">281</span><a id="line.281">  @Beta</a>
-<span class="sourceLineNo">282</span><a id="line.282">  public static Writer nullWriter() {</a>
-<span class="sourceLineNo">283</span><a id="line.283">    return NullWriter.INSTANCE;</a>
-<span class="sourceLineNo">284</span><a id="line.284">  }</a>
-<span class="sourceLineNo">285</span><a id="line.285"></a>
-<span class="sourceLineNo">286</span><a id="line.286">  private static final class NullWriter extends Writer {</a>
-<span class="sourceLineNo">287</span><a id="line.287"></a>
-<span class="sourceLineNo">288</span><a id="line.288">    private static final NullWriter INSTANCE = new NullWriter();</a>
-<span class="sourceLineNo">289</span><a id="line.289"></a>
-<span class="sourceLineNo">290</span><a id="line.290">    @Override</a>
-<span class="sourceLineNo">291</span><a id="line.291">    public void write(int c) {}</a>
-<span class="sourceLineNo">292</span><a id="line.292"></a>
-<span class="sourceLineNo">293</span><a id="line.293">    @Override</a>
-<span class="sourceLineNo">294</span><a id="line.294">    public void write(char[] cbuf) {</a>
-<span class="sourceLineNo">295</span><a id="line.295">      checkNotNull(cbuf);</a>
-<span class="sourceLineNo">296</span><a id="line.296">    }</a>
-<span class="sourceLineNo">297</span><a id="line.297"></a>
-<span class="sourceLineNo">298</span><a id="line.298">    @Override</a>
-<span class="sourceLineNo">299</span><a id="line.299">    public void write(char[] cbuf, int off, int len) {</a>
-<span class="sourceLineNo">300</span><a id="line.300">      checkPositionIndexes(off, off + len, cbuf.length);</a>
-<span class="sourceLineNo">301</span><a id="line.301">    }</a>
-<span class="sourceLineNo">302</span><a id="line.302"></a>
-<span class="sourceLineNo">303</span><a id="line.303">    @Override</a>
-<span class="sourceLineNo">304</span><a id="line.304">    public void write(String str) {</a>
-<span class="sourceLineNo">305</span><a id="line.305">      checkNotNull(str);</a>
-<span class="sourceLineNo">306</span><a id="line.306">    }</a>
-<span class="sourceLineNo">307</span><a id="line.307"></a>
-<span class="sourceLineNo">308</span><a id="line.308">    @Override</a>
-<span class="sourceLineNo">309</span><a id="line.309">    public void write(String str, int off, int len) {</a>
-<span class="sourceLineNo">310</span><a id="line.310">      checkPositionIndexes(off, off + len, str.length());</a>
-<span class="sourceLineNo">311</span><a id="line.311">    }</a>
-<span class="sourceLineNo">312</span><a id="line.312"></a>
-<span class="sourceLineNo">313</span><a id="line.313">    @Override</a>
-<span class="sourceLineNo">314</span><a id="line.314">    public Writer append(@CheckForNull CharSequence csq) {</a>
+<span class="sourceLineNo">020</span><a id="line.20">import com.google.common.annotations.GwtIncompatible;</a>
+<span class="sourceLineNo">021</span><a id="line.21">import com.google.common.annotations.J2ktIncompatible;</a>
+<span class="sourceLineNo">022</span><a id="line.22">import com.google.errorprone.annotations.CanIgnoreReturnValue;</a>
+<span class="sourceLineNo">023</span><a id="line.23">import java.io.Closeable;</a>
+<span class="sourceLineNo">024</span><a id="line.24">import java.io.EOFException;</a>
+<span class="sourceLineNo">025</span><a id="line.25">import java.io.IOException;</a>
+<span class="sourceLineNo">026</span><a id="line.26">import java.io.Reader;</a>
+<span class="sourceLineNo">027</span><a id="line.27">import java.io.Writer;</a>
+<span class="sourceLineNo">028</span><a id="line.28">import java.nio.CharBuffer;</a>
+<span class="sourceLineNo">029</span><a id="line.29">import java.util.ArrayList;</a>
+<span class="sourceLineNo">030</span><a id="line.30">import java.util.List;</a>
+<span class="sourceLineNo">031</span><a id="line.31">import javax.annotation.CheckForNull;</a>
+<span class="sourceLineNo">032</span><a id="line.32">import org.checkerframework.checker.nullness.qual.Nullable;</a>
+<span class="sourceLineNo">033</span><a id="line.33"></a>
+<span class="sourceLineNo">034</span><a id="line.34">/**</a>
+<span class="sourceLineNo">035</span><a id="line.35"> * Provides utility methods for working with character streams.</a>
+<span class="sourceLineNo">036</span><a id="line.36"> *</a>
+<span class="sourceLineNo">037</span><a id="line.37"> * &lt;p&gt;Some of the methods in this class take arguments with a generic type of {@code Readable &amp;</a>
+<span class="sourceLineNo">038</span><a id="line.38"> * Closeable}. A {@link java.io.Reader} implements both of those interfaces. Similarly for {@code</a>
+<span class="sourceLineNo">039</span><a id="line.39"> * Appendable &amp; Closeable} and {@link java.io.Writer}.</a>
+<span class="sourceLineNo">040</span><a id="line.40"> *</a>
+<span class="sourceLineNo">041</span><a id="line.41"> * @author Chris Nokleberg</a>
+<span class="sourceLineNo">042</span><a id="line.42"> * @author Bin Zhu</a>
+<span class="sourceLineNo">043</span><a id="line.43"> * @author Colin Decker</a>
+<span class="sourceLineNo">044</span><a id="line.44"> * @since 1.0</a>
+<span class="sourceLineNo">045</span><a id="line.45"> */</a>
+<span class="sourceLineNo">046</span><a id="line.46">@J2ktIncompatible</a>
+<span class="sourceLineNo">047</span><a id="line.47">@GwtIncompatible</a>
+<span class="sourceLineNo">048</span><a id="line.48">@ElementTypesAreNonnullByDefault</a>
+<span class="sourceLineNo">049</span><a id="line.49">public final class CharStreams {</a>
+<span class="sourceLineNo">050</span><a id="line.50"></a>
+<span class="sourceLineNo">051</span><a id="line.51">  // 2K chars (4K bytes)</a>
+<span class="sourceLineNo">052</span><a id="line.52">  private static final int DEFAULT_BUF_SIZE = 0x800;</a>
+<span class="sourceLineNo">053</span><a id="line.53"></a>
+<span class="sourceLineNo">054</span><a id="line.54">  /** Creates a new {@code CharBuffer} for buffering reads or writes. */</a>
+<span class="sourceLineNo">055</span><a id="line.55">  static CharBuffer createBuffer() {</a>
+<span class="sourceLineNo">056</span><a id="line.56">    return CharBuffer.allocate(DEFAULT_BUF_SIZE);</a>
+<span class="sourceLineNo">057</span><a id="line.57">  }</a>
+<span class="sourceLineNo">058</span><a id="line.58"></a>
+<span class="sourceLineNo">059</span><a id="line.59">  private CharStreams() {}</a>
+<span class="sourceLineNo">060</span><a id="line.60"></a>
+<span class="sourceLineNo">061</span><a id="line.61">  /**</a>
+<span class="sourceLineNo">062</span><a id="line.62">   * Copies all characters between the {@link Readable} and {@link Appendable} objects. Does not</a>
+<span class="sourceLineNo">063</span><a id="line.63">   * close or flush either object.</a>
+<span class="sourceLineNo">064</span><a id="line.64">   *</a>
+<span class="sourceLineNo">065</span><a id="line.65">   * @param from the object to read from</a>
+<span class="sourceLineNo">066</span><a id="line.66">   * @param to the object to write to</a>
+<span class="sourceLineNo">067</span><a id="line.67">   * @return the number of characters copied</a>
+<span class="sourceLineNo">068</span><a id="line.68">   * @throws IOException if an I/O error occurs</a>
+<span class="sourceLineNo">069</span><a id="line.69">   */</a>
+<span class="sourceLineNo">070</span><a id="line.70">  @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">071</span><a id="line.71">  public static long copy(Readable from, Appendable to) throws IOException {</a>
+<span class="sourceLineNo">072</span><a id="line.72">    // The most common case is that from is a Reader (like InputStreamReader or StringReader) so</a>
+<span class="sourceLineNo">073</span><a id="line.73">    // take advantage of that.</a>
+<span class="sourceLineNo">074</span><a id="line.74">    if (from instanceof Reader) {</a>
+<span class="sourceLineNo">075</span><a id="line.75">      // optimize for common output types which are optimized to deal with char[]</a>
+<span class="sourceLineNo">076</span><a id="line.76">      if (to instanceof StringBuilder) {</a>
+<span class="sourceLineNo">077</span><a id="line.77">        return copyReaderToBuilder((Reader) from, (StringBuilder) to);</a>
+<span class="sourceLineNo">078</span><a id="line.78">      } else {</a>
+<span class="sourceLineNo">079</span><a id="line.79">        return copyReaderToWriter((Reader) from, asWriter(to));</a>
+<span class="sourceLineNo">080</span><a id="line.80">      }</a>
+<span class="sourceLineNo">081</span><a id="line.81">    }</a>
+<span class="sourceLineNo">082</span><a id="line.82"></a>
+<span class="sourceLineNo">083</span><a id="line.83">    checkNotNull(from);</a>
+<span class="sourceLineNo">084</span><a id="line.84">    checkNotNull(to);</a>
+<span class="sourceLineNo">085</span><a id="line.85">    long total = 0;</a>
+<span class="sourceLineNo">086</span><a id="line.86">    CharBuffer buf = createBuffer();</a>
+<span class="sourceLineNo">087</span><a id="line.87">    while (from.read(buf) != -1) {</a>
+<span class="sourceLineNo">088</span><a id="line.88">      Java8Compatibility.flip(buf);</a>
+<span class="sourceLineNo">089</span><a id="line.89">      to.append(buf);</a>
+<span class="sourceLineNo">090</span><a id="line.90">      total += buf.remaining();</a>
+<span class="sourceLineNo">091</span><a id="line.91">      Java8Compatibility.clear(buf);</a>
+<span class="sourceLineNo">092</span><a id="line.92">    }</a>
+<span class="sourceLineNo">093</span><a id="line.93">    return total;</a>
+<span class="sourceLineNo">094</span><a id="line.94">  }</a>
+<span class="sourceLineNo">095</span><a id="line.95"></a>
+<span class="sourceLineNo">096</span><a id="line.96">  // TODO(lukes): consider allowing callers to pass in a buffer to use, some callers would be able</a>
+<span class="sourceLineNo">097</span><a id="line.97">  // to reuse buffers, others would be able to size them more appropriately than the constant</a>
+<span class="sourceLineNo">098</span><a id="line.98">  // defaults</a>
+<span class="sourceLineNo">099</span><a id="line.99"></a>
+<span class="sourceLineNo">100</span><a id="line.100">  /**</a>
+<span class="sourceLineNo">101</span><a id="line.101">   * Copies all characters between the {@link Reader} and {@link StringBuilder} objects. Does not</a>
+<span class="sourceLineNo">102</span><a id="line.102">   * close or flush the reader.</a>
+<span class="sourceLineNo">103</span><a id="line.103">   *</a>
+<span class="sourceLineNo">104</span><a id="line.104">   * &lt;p&gt;This is identical to {@link #copy(Readable, Appendable)} but optimized for these specific</a>
+<span class="sourceLineNo">105</span><a id="line.105">   * types. CharBuffer has poor performance when being written into or read out of so round tripping</a>
+<span class="sourceLineNo">106</span><a id="line.106">   * all the bytes through the buffer takes a long time. With these specialized types we can just</a>
+<span class="sourceLineNo">107</span><a id="line.107">   * use a char array.</a>
+<span class="sourceLineNo">108</span><a id="line.108">   *</a>
+<span class="sourceLineNo">109</span><a id="line.109">   * @param from the object to read from</a>
+<span class="sourceLineNo">110</span><a id="line.110">   * @param to the object to write to</a>
+<span class="sourceLineNo">111</span><a id="line.111">   * @return the number of characters copied</a>
+<span class="sourceLineNo">112</span><a id="line.112">   * @throws IOException if an I/O error occurs</a>
+<span class="sourceLineNo">113</span><a id="line.113">   */</a>
+<span class="sourceLineNo">114</span><a id="line.114">  @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">115</span><a id="line.115">  static long copyReaderToBuilder(Reader from, StringBuilder to) throws IOException {</a>
+<span class="sourceLineNo">116</span><a id="line.116">    checkNotNull(from);</a>
+<span class="sourceLineNo">117</span><a id="line.117">    checkNotNull(to);</a>
+<span class="sourceLineNo">118</span><a id="line.118">    char[] buf = new char[DEFAULT_BUF_SIZE];</a>
+<span class="sourceLineNo">119</span><a id="line.119">    int nRead;</a>
+<span class="sourceLineNo">120</span><a id="line.120">    long total = 0;</a>
+<span class="sourceLineNo">121</span><a id="line.121">    while ((nRead = from.read(buf)) != -1) {</a>
+<span class="sourceLineNo">122</span><a id="line.122">      to.append(buf, 0, nRead);</a>
+<span class="sourceLineNo">123</span><a id="line.123">      total += nRead;</a>
+<span class="sourceLineNo">124</span><a id="line.124">    }</a>
+<span class="sourceLineNo">125</span><a id="line.125">    return total;</a>
+<span class="sourceLineNo">126</span><a id="line.126">  }</a>
+<span class="sourceLineNo">127</span><a id="line.127"></a>
+<span class="sourceLineNo">128</span><a id="line.128">  /**</a>
+<span class="sourceLineNo">129</span><a id="line.129">   * Copies all characters between the {@link Reader} and {@link Writer} objects. Does not close or</a>
+<span class="sourceLineNo">130</span><a id="line.130">   * flush the reader or writer.</a>
+<span class="sourceLineNo">131</span><a id="line.131">   *</a>
+<span class="sourceLineNo">132</span><a id="line.132">   * &lt;p&gt;This is identical to {@link #copy(Readable, Appendable)} but optimized for these specific</a>
+<span class="sourceLineNo">133</span><a id="line.133">   * types. CharBuffer has poor performance when being written into or read out of so round tripping</a>
+<span class="sourceLineNo">134</span><a id="line.134">   * all the bytes through the buffer takes a long time. With these specialized types we can just</a>
+<span class="sourceLineNo">135</span><a id="line.135">   * use a char array.</a>
+<span class="sourceLineNo">136</span><a id="line.136">   *</a>
+<span class="sourceLineNo">137</span><a id="line.137">   * @param from the object to read from</a>
+<span class="sourceLineNo">138</span><a id="line.138">   * @param to the object to write to</a>
+<span class="sourceLineNo">139</span><a id="line.139">   * @return the number of characters copied</a>
+<span class="sourceLineNo">140</span><a id="line.140">   * @throws IOException if an I/O error occurs</a>
+<span class="sourceLineNo">141</span><a id="line.141">   */</a>
+<span class="sourceLineNo">142</span><a id="line.142">  @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">143</span><a id="line.143">  static long copyReaderToWriter(Reader from, Writer to) throws IOException {</a>
+<span class="sourceLineNo">144</span><a id="line.144">    checkNotNull(from);</a>
+<span class="sourceLineNo">145</span><a id="line.145">    checkNotNull(to);</a>
+<span class="sourceLineNo">146</span><a id="line.146">    char[] buf = new char[DEFAULT_BUF_SIZE];</a>
+<span class="sourceLineNo">147</span><a id="line.147">    int nRead;</a>
+<span class="sourceLineNo">148</span><a id="line.148">    long total = 0;</a>
+<span class="sourceLineNo">149</span><a id="line.149">    while ((nRead = from.read(buf)) != -1) {</a>
+<span class="sourceLineNo">150</span><a id="line.150">      to.write(buf, 0, nRead);</a>
+<span class="sourceLineNo">151</span><a id="line.151">      total += nRead;</a>
+<span class="sourceLineNo">152</span><a id="line.152">    }</a>
+<span class="sourceLineNo">153</span><a id="line.153">    return total;</a>
+<span class="sourceLineNo">154</span><a id="line.154">  }</a>
+<span class="sourceLineNo">155</span><a id="line.155"></a>
+<span class="sourceLineNo">156</span><a id="line.156">  /**</a>
+<span class="sourceLineNo">157</span><a id="line.157">   * Reads all characters from a {@link Readable} object into a {@link String}. Does not close the</a>
+<span class="sourceLineNo">158</span><a id="line.158">   * {@code Readable}.</a>
+<span class="sourceLineNo">159</span><a id="line.159">   *</a>
+<span class="sourceLineNo">160</span><a id="line.160">   * @param r the object to read from</a>
+<span class="sourceLineNo">161</span><a id="line.161">   * @return a string containing all the characters</a>
+<span class="sourceLineNo">162</span><a id="line.162">   * @throws IOException if an I/O error occurs</a>
+<span class="sourceLineNo">163</span><a id="line.163">   */</a>
+<span class="sourceLineNo">164</span><a id="line.164">  public static String toString(Readable r) throws IOException {</a>
+<span class="sourceLineNo">165</span><a id="line.165">    return toStringBuilder(r).toString();</a>
+<span class="sourceLineNo">166</span><a id="line.166">  }</a>
+<span class="sourceLineNo">167</span><a id="line.167"></a>
+<span class="sourceLineNo">168</span><a id="line.168">  /**</a>
+<span class="sourceLineNo">169</span><a id="line.169">   * Reads all characters from a {@link Readable} object into a new {@link StringBuilder} instance.</a>
+<span class="sourceLineNo">170</span><a id="line.170">   * Does not close the {@code Readable}.</a>
+<span class="sourceLineNo">171</span><a id="line.171">   *</a>
+<span class="sourceLineNo">172</span><a id="line.172">   * @param r the object to read from</a>
+<span class="sourceLineNo">173</span><a id="line.173">   * @return a {@link StringBuilder} containing all the characters</a>
+<span class="sourceLineNo">174</span><a id="line.174">   * @throws IOException if an I/O error occurs</a>
+<span class="sourceLineNo">175</span><a id="line.175">   */</a>
+<span class="sourceLineNo">176</span><a id="line.176">  private static StringBuilder toStringBuilder(Readable r) throws IOException {</a>
+<span class="sourceLineNo">177</span><a id="line.177">    StringBuilder sb = new StringBuilder();</a>
+<span class="sourceLineNo">178</span><a id="line.178">    if (r instanceof Reader) {</a>
+<span class="sourceLineNo">179</span><a id="line.179">      copyReaderToBuilder((Reader) r, sb);</a>
+<span class="sourceLineNo">180</span><a id="line.180">    } else {</a>
+<span class="sourceLineNo">181</span><a id="line.181">      copy(r, sb);</a>
+<span class="sourceLineNo">182</span><a id="line.182">    }</a>
+<span class="sourceLineNo">183</span><a id="line.183">    return sb;</a>
+<span class="sourceLineNo">184</span><a id="line.184">  }</a>
+<span class="sourceLineNo">185</span><a id="line.185"></a>
+<span class="sourceLineNo">186</span><a id="line.186">  /**</a>
+<span class="sourceLineNo">187</span><a id="line.187">   * Reads all of the lines from a {@link Readable} object. The lines do not include</a>
+<span class="sourceLineNo">188</span><a id="line.188">   * line-termination characters, but do include other leading and trailing whitespace.</a>
+<span class="sourceLineNo">189</span><a id="line.189">   *</a>
+<span class="sourceLineNo">190</span><a id="line.190">   * &lt;p&gt;Does not close the {@code Readable}. If reading files or resources you should use the {@link</a>
+<span class="sourceLineNo">191</span><a id="line.191">   * Files#readLines} and {@link Resources#readLines} methods.</a>
+<span class="sourceLineNo">192</span><a id="line.192">   *</a>
+<span class="sourceLineNo">193</span><a id="line.193">   * @param r the object to read from</a>
+<span class="sourceLineNo">194</span><a id="line.194">   * @return a mutable {@link List} containing all the lines</a>
+<span class="sourceLineNo">195</span><a id="line.195">   * @throws IOException if an I/O error occurs</a>
+<span class="sourceLineNo">196</span><a id="line.196">   */</a>
+<span class="sourceLineNo">197</span><a id="line.197">  public static List&lt;String&gt; readLines(Readable r) throws IOException {</a>
+<span class="sourceLineNo">198</span><a id="line.198">    List&lt;String&gt; result = new ArrayList&lt;&gt;();</a>
+<span class="sourceLineNo">199</span><a id="line.199">    LineReader lineReader = new LineReader(r);</a>
+<span class="sourceLineNo">200</span><a id="line.200">    String line;</a>
+<span class="sourceLineNo">201</span><a id="line.201">    while ((line = lineReader.readLine()) != null) {</a>
+<span class="sourceLineNo">202</span><a id="line.202">      result.add(line);</a>
+<span class="sourceLineNo">203</span><a id="line.203">    }</a>
+<span class="sourceLineNo">204</span><a id="line.204">    return result;</a>
+<span class="sourceLineNo">205</span><a id="line.205">  }</a>
+<span class="sourceLineNo">206</span><a id="line.206"></a>
+<span class="sourceLineNo">207</span><a id="line.207">  /**</a>
+<span class="sourceLineNo">208</span><a id="line.208">   * Streams lines from a {@link Readable} object, stopping when the processor returns {@code false}</a>
+<span class="sourceLineNo">209</span><a id="line.209">   * or all lines have been read and returning the result produced by the processor. Does not close</a>
+<span class="sourceLineNo">210</span><a id="line.210">   * {@code readable}. Note that this method may not fully consume the contents of {@code readable}</a>
+<span class="sourceLineNo">211</span><a id="line.211">   * if the processor stops processing early.</a>
+<span class="sourceLineNo">212</span><a id="line.212">   *</a>
+<span class="sourceLineNo">213</span><a id="line.213">   * @throws IOException if an I/O error occurs</a>
+<span class="sourceLineNo">214</span><a id="line.214">   * @since 14.0</a>
+<span class="sourceLineNo">215</span><a id="line.215">   */</a>
+<span class="sourceLineNo">216</span><a id="line.216">  @CanIgnoreReturnValue // some processors won't return a useful result</a>
+<span class="sourceLineNo">217</span><a id="line.217">  @ParametricNullness</a>
+<span class="sourceLineNo">218</span><a id="line.218">  public static &lt;T extends @Nullable Object&gt; T readLines(</a>
+<span class="sourceLineNo">219</span><a id="line.219">      Readable readable, LineProcessor&lt;T&gt; processor) throws IOException {</a>
+<span class="sourceLineNo">220</span><a id="line.220">    checkNotNull(readable);</a>
+<span class="sourceLineNo">221</span><a id="line.221">    checkNotNull(processor);</a>
+<span class="sourceLineNo">222</span><a id="line.222"></a>
+<span class="sourceLineNo">223</span><a id="line.223">    LineReader lineReader = new LineReader(readable);</a>
+<span class="sourceLineNo">224</span><a id="line.224">    String line;</a>
+<span class="sourceLineNo">225</span><a id="line.225">    while ((line = lineReader.readLine()) != null) {</a>
+<span class="sourceLineNo">226</span><a id="line.226">      if (!processor.processLine(line)) {</a>
+<span class="sourceLineNo">227</span><a id="line.227">        break;</a>
+<span class="sourceLineNo">228</span><a id="line.228">      }</a>
+<span class="sourceLineNo">229</span><a id="line.229">    }</a>
+<span class="sourceLineNo">230</span><a id="line.230">    return processor.getResult();</a>
+<span class="sourceLineNo">231</span><a id="line.231">  }</a>
+<span class="sourceLineNo">232</span><a id="line.232"></a>
+<span class="sourceLineNo">233</span><a id="line.233">  /**</a>
+<span class="sourceLineNo">234</span><a id="line.234">   * Reads and discards data from the given {@code Readable} until the end of the stream is reached.</a>
+<span class="sourceLineNo">235</span><a id="line.235">   * Returns the total number of chars read. Does not close the stream.</a>
+<span class="sourceLineNo">236</span><a id="line.236">   *</a>
+<span class="sourceLineNo">237</span><a id="line.237">   * @since 20.0</a>
+<span class="sourceLineNo">238</span><a id="line.238">   */</a>
+<span class="sourceLineNo">239</span><a id="line.239">  @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">240</span><a id="line.240">  public static long exhaust(Readable readable) throws IOException {</a>
+<span class="sourceLineNo">241</span><a id="line.241">    long total = 0;</a>
+<span class="sourceLineNo">242</span><a id="line.242">    long read;</a>
+<span class="sourceLineNo">243</span><a id="line.243">    CharBuffer buf = createBuffer();</a>
+<span class="sourceLineNo">244</span><a id="line.244">    while ((read = readable.read(buf)) != -1) {</a>
+<span class="sourceLineNo">245</span><a id="line.245">      total += read;</a>
+<span class="sourceLineNo">246</span><a id="line.246">      Java8Compatibility.clear(buf);</a>
+<span class="sourceLineNo">247</span><a id="line.247">    }</a>
+<span class="sourceLineNo">248</span><a id="line.248">    return total;</a>
+<span class="sourceLineNo">249</span><a id="line.249">  }</a>
+<span class="sourceLineNo">250</span><a id="line.250"></a>
+<span class="sourceLineNo">251</span><a id="line.251">  /**</a>
+<span class="sourceLineNo">252</span><a id="line.252">   * Discards {@code n} characters of data from the reader. This method will block until the full</a>
+<span class="sourceLineNo">253</span><a id="line.253">   * amount has been skipped. Does not close the reader.</a>
+<span class="sourceLineNo">254</span><a id="line.254">   *</a>
+<span class="sourceLineNo">255</span><a id="line.255">   * @param reader the reader to read from</a>
+<span class="sourceLineNo">256</span><a id="line.256">   * @param n the number of characters to skip</a>
+<span class="sourceLineNo">257</span><a id="line.257">   * @throws EOFException if this stream reaches the end before skipping all the characters</a>
+<span class="sourceLineNo">258</span><a id="line.258">   * @throws IOException if an I/O error occurs</a>
+<span class="sourceLineNo">259</span><a id="line.259">   */</a>
+<span class="sourceLineNo">260</span><a id="line.260">  public static void skipFully(Reader reader, long n) throws IOException {</a>
+<span class="sourceLineNo">261</span><a id="line.261">    checkNotNull(reader);</a>
+<span class="sourceLineNo">262</span><a id="line.262">    while (n &gt; 0) {</a>
+<span class="sourceLineNo">263</span><a id="line.263">      long amt = reader.skip(n);</a>
+<span class="sourceLineNo">264</span><a id="line.264">      if (amt == 0) {</a>
+<span class="sourceLineNo">265</span><a id="line.265">        throw new EOFException();</a>
+<span class="sourceLineNo">266</span><a id="line.266">      }</a>
+<span class="sourceLineNo">267</span><a id="line.267">      n -= amt;</a>
+<span class="sourceLineNo">268</span><a id="line.268">    }</a>
+<span class="sourceLineNo">269</span><a id="line.269">  }</a>
+<span class="sourceLineNo">270</span><a id="line.270"></a>
+<span class="sourceLineNo">271</span><a id="line.271">  /**</a>
+<span class="sourceLineNo">272</span><a id="line.272">   * Returns a {@link Writer} that simply discards written chars.</a>
+<span class="sourceLineNo">273</span><a id="line.273">   *</a>
+<span class="sourceLineNo">274</span><a id="line.274">   * @since 15.0</a>
+<span class="sourceLineNo">275</span><a id="line.275">   */</a>
+<span class="sourceLineNo">276</span><a id="line.276">  public static Writer nullWriter() {</a>
+<span class="sourceLineNo">277</span><a id="line.277">    return NullWriter.INSTANCE;</a>
+<span class="sourceLineNo">278</span><a id="line.278">  }</a>
+<span class="sourceLineNo">279</span><a id="line.279"></a>
+<span class="sourceLineNo">280</span><a id="line.280">  private static final class NullWriter extends Writer {</a>
+<span class="sourceLineNo">281</span><a id="line.281"></a>
+<span class="sourceLineNo">282</span><a id="line.282">    private static final NullWriter INSTANCE = new NullWriter();</a>
+<span class="sourceLineNo">283</span><a id="line.283"></a>
+<span class="sourceLineNo">284</span><a id="line.284">    @Override</a>
+<span class="sourceLineNo">285</span><a id="line.285">    public void write(int c) {}</a>
+<span class="sourceLineNo">286</span><a id="line.286"></a>
+<span class="sourceLineNo">287</span><a id="line.287">    @Override</a>
+<span class="sourceLineNo">288</span><a id="line.288">    public void write(char[] cbuf) {</a>
+<span class="sourceLineNo">289</span><a id="line.289">      checkNotNull(cbuf);</a>
+<span class="sourceLineNo">290</span><a id="line.290">    }</a>
+<span class="sourceLineNo">291</span><a id="line.291"></a>
+<span class="sourceLineNo">292</span><a id="line.292">    @Override</a>
+<span class="sourceLineNo">293</span><a id="line.293">    public void write(char[] cbuf, int off, int len) {</a>
+<span class="sourceLineNo">294</span><a id="line.294">      checkPositionIndexes(off, off + len, cbuf.length);</a>
+<span class="sourceLineNo">295</span><a id="line.295">    }</a>
+<span class="sourceLineNo">296</span><a id="line.296"></a>
+<span class="sourceLineNo">297</span><a id="line.297">    @Override</a>
+<span class="sourceLineNo">298</span><a id="line.298">    public void write(String str) {</a>
+<span class="sourceLineNo">299</span><a id="line.299">      checkNotNull(str);</a>
+<span class="sourceLineNo">300</span><a id="line.300">    }</a>
+<span class="sourceLineNo">301</span><a id="line.301"></a>
+<span class="sourceLineNo">302</span><a id="line.302">    @Override</a>
+<span class="sourceLineNo">303</span><a id="line.303">    public void write(String str, int off, int len) {</a>
+<span class="sourceLineNo">304</span><a id="line.304">      checkPositionIndexes(off, off + len, str.length());</a>
+<span class="sourceLineNo">305</span><a id="line.305">    }</a>
+<span class="sourceLineNo">306</span><a id="line.306"></a>
+<span class="sourceLineNo">307</span><a id="line.307">    @Override</a>
+<span class="sourceLineNo">308</span><a id="line.308">    public Writer append(@CheckForNull CharSequence csq) {</a>
+<span class="sourceLineNo">309</span><a id="line.309">      return this;</a>
+<span class="sourceLineNo">310</span><a id="line.310">    }</a>
+<span class="sourceLineNo">311</span><a id="line.311"></a>
+<span class="sourceLineNo">312</span><a id="line.312">    @Override</a>
+<span class="sourceLineNo">313</span><a id="line.313">    public Writer append(@CheckForNull CharSequence csq, int start, int end) {</a>
+<span class="sourceLineNo">314</span><a id="line.314">      checkPositionIndexes(start, end, csq == null ? "null".length() : csq.length());</a>
 <span class="sourceLineNo">315</span><a id="line.315">      return this;</a>
 <span class="sourceLineNo">316</span><a id="line.316">    }</a>
 <span class="sourceLineNo">317</span><a id="line.317"></a>
 <span class="sourceLineNo">318</span><a id="line.318">    @Override</a>
-<span class="sourceLineNo">319</span><a id="line.319">    public Writer append(@CheckForNull CharSequence csq, int start, int end) {</a>
-<span class="sourceLineNo">320</span><a id="line.320">      checkPositionIndexes(start, end, csq == null ? "null".length() : csq.length());</a>
-<span class="sourceLineNo">321</span><a id="line.321">      return this;</a>
-<span class="sourceLineNo">322</span><a id="line.322">    }</a>
-<span class="sourceLineNo">323</span><a id="line.323"></a>
-<span class="sourceLineNo">324</span><a id="line.324">    @Override</a>
-<span class="sourceLineNo">325</span><a id="line.325">    public Writer append(char c) {</a>
-<span class="sourceLineNo">326</span><a id="line.326">      return this;</a>
-<span class="sourceLineNo">327</span><a id="line.327">    }</a>
+<span class="sourceLineNo">319</span><a id="line.319">    public Writer append(char c) {</a>
+<span class="sourceLineNo">320</span><a id="line.320">      return this;</a>
+<span class="sourceLineNo">321</span><a id="line.321">    }</a>
+<span class="sourceLineNo">322</span><a id="line.322"></a>
+<span class="sourceLineNo">323</span><a id="line.323">    @Override</a>
+<span class="sourceLineNo">324</span><a id="line.324">    public void flush() {}</a>
+<span class="sourceLineNo">325</span><a id="line.325"></a>
+<span class="sourceLineNo">326</span><a id="line.326">    @Override</a>
+<span class="sourceLineNo">327</span><a id="line.327">    public void close() {}</a>
 <span class="sourceLineNo">328</span><a id="line.328"></a>
 <span class="sourceLineNo">329</span><a id="line.329">    @Override</a>
-<span class="sourceLineNo">330</span><a id="line.330">    public void flush() {}</a>
-<span class="sourceLineNo">331</span><a id="line.331"></a>
-<span class="sourceLineNo">332</span><a id="line.332">    @Override</a>
-<span class="sourceLineNo">333</span><a id="line.333">    public void close() {}</a>
+<span class="sourceLineNo">330</span><a id="line.330">    public String toString() {</a>
+<span class="sourceLineNo">331</span><a id="line.331">      return "CharStreams.nullWriter()";</a>
+<span class="sourceLineNo">332</span><a id="line.332">    }</a>
+<span class="sourceLineNo">333</span><a id="line.333">  }</a>
 <span class="sourceLineNo">334</span><a id="line.334"></a>
-<span class="sourceLineNo">335</span><a id="line.335">    @Override</a>
-<span class="sourceLineNo">336</span><a id="line.336">    public String toString() {</a>
-<span class="sourceLineNo">337</span><a id="line.337">      return "CharStreams.nullWriter()";</a>
-<span class="sourceLineNo">338</span><a id="line.338">    }</a>
-<span class="sourceLineNo">339</span><a id="line.339">  }</a>
-<span class="sourceLineNo">340</span><a id="line.340"></a>
-<span class="sourceLineNo">341</span><a id="line.341">  /**</a>
-<span class="sourceLineNo">342</span><a id="line.342">   * Returns a Writer that sends all output to the given {@link Appendable} target. Closing the</a>
-<span class="sourceLineNo">343</span><a id="line.343">   * writer will close the target if it is {@link Closeable}, and flushing the writer will flush the</a>
-<span class="sourceLineNo">344</span><a id="line.344">   * target if it is {@link java.io.Flushable}.</a>
-<span class="sourceLineNo">345</span><a id="line.345">   *</a>
-<span class="sourceLineNo">346</span><a id="line.346">   * @param target the object to which output will be sent</a>
-<span class="sourceLineNo">347</span><a id="line.347">   * @return a new Writer object, unless target is a Writer, in which case the target is returned</a>
-<span class="sourceLineNo">348</span><a id="line.348">   */</a>
-<span class="sourceLineNo">349</span><a id="line.349">  @Beta</a>
-<span class="sourceLineNo">350</span><a id="line.350">  public static Writer asWriter(Appendable target) {</a>
-<span class="sourceLineNo">351</span><a id="line.351">    if (target instanceof Writer) {</a>
-<span class="sourceLineNo">352</span><a id="line.352">      return (Writer) target;</a>
-<span class="sourceLineNo">353</span><a id="line.353">    }</a>
-<span class="sourceLineNo">354</span><a id="line.354">    return new AppendableWriter(target);</a>
-<span class="sourceLineNo">355</span><a id="line.355">  }</a>
-<span class="sourceLineNo">356</span><a id="line.356">}</a>
+<span class="sourceLineNo">335</span><a id="line.335">  /**</a>
+<span class="sourceLineNo">336</span><a id="line.336">   * Returns a Writer that sends all output to the given {@link Appendable} target. Closing the</a>
+<span class="sourceLineNo">337</span><a id="line.337">   * writer will close the target if it is {@link Closeable}, and flushing the writer will flush the</a>
+<span class="sourceLineNo">338</span><a id="line.338">   * target if it is {@link java.io.Flushable}.</a>
+<span class="sourceLineNo">339</span><a id="line.339">   *</a>
+<span class="sourceLineNo">340</span><a id="line.340">   * @param target the object to which output will be sent</a>
+<span class="sourceLineNo">341</span><a id="line.341">   * @return a new Writer object, unless target is a Writer, in which case the target is returned</a>
+<span class="sourceLineNo">342</span><a id="line.342">   */</a>
+<span class="sourceLineNo">343</span><a id="line.343">  public static Writer asWriter(Appendable target) {</a>
+<span class="sourceLineNo">344</span><a id="line.344">    if (target instanceof Writer) {</a>
+<span class="sourceLineNo">345</span><a id="line.345">      return (Writer) target;</a>
+<span class="sourceLineNo">346</span><a id="line.346">    }</a>
+<span class="sourceLineNo">347</span><a id="line.347">    return new AppendableWriter(target);</a>
+<span class="sourceLineNo">348</span><a id="line.348">  }</a>
+<span class="sourceLineNo">349</span><a id="line.349">}</a>
 
 
 

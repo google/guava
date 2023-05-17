@@ -124,9 +124,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <hr>
-<pre><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-<a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public interface <a href="../../../../src-html/com/google/common/io/LineProcessor.html#line.33">LineProcessor</a>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</pre>
+<pre><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
+public interface <a href="../../../../src-html/com/google/common/io/LineProcessor.html#line.32">LineProcessor</a>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</pre>
 <div class="block">A callback to be used with the streaming <code>readLines</code> methods.
 
  <p><a href="#processLine(java.lang.String)"><code>processLine(java.lang.String)</code></a> will be called for each line that is read, and should return <code>
@@ -195,7 +194,7 @@ public interface <a href="../../../../src-html/com/google/common/io/LineProcesso
 <li class="blockList">
 <h4>processLine</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-boolean&nbsp;<a href="../../../../src-html/com/google/common/io/LineProcessor.html#line.45">processLine</a>&#8203;(java.lang.String&nbsp;line)
+boolean&nbsp;<a href="../../../../src-html/com/google/common/io/LineProcessor.html#line.43">processLine</a>&#8203;(java.lang.String&nbsp;line)
              throws java.io.IOException</pre>
 <div class="block">This method will be called once for each line.</div>
 <dl>
@@ -214,7 +213,7 @@ boolean&nbsp;<a href="../../../../src-html/com/google/common/io/LineProcessor.ht
 <ul class="blockListLast">
 <li class="blockList">
 <h4>getResult</h4>
-<pre class="methodSignature"><a href="LineProcessor.html" title="type parameter in LineProcessor">T</a>&nbsp;<a href="../../../../src-html/com/google/common/io/LineProcessor.html#line.49">getResult</a>()</pre>
+<pre class="methodSignature"><a href="LineProcessor.html" title="type parameter in LineProcessor">T</a>&nbsp;<a href="../../../../src-html/com/google/common/io/LineProcessor.html#line.47">getResult</a>()</pre>
 <div class="block">Return the result of processing all the lines.</div>
 </li>
 </ul>
