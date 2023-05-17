@@ -851,7 +851,6 @@ public final class Files {
    *
    * @since 23.5
    */
-  @Beta
   public static Traverser<File> fileTraverser() {
     return Traverser.forTree(FILE_TREE);
   }

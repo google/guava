@@ -16,7 +16,6 @@ package com.google.common.io;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -137,7 +136,6 @@ public abstract class CharSink {
    * @throws IOException if an I/O error occurs while writing to this sink
    * @since 22.0
    */
-  @Beta
   public void writeLines(Stream<? extends CharSequence> lines) throws IOException {
     writeLines(lines, System.getProperty("line.separator"));
   }
@@ -149,7 +147,6 @@ public abstract class CharSink {
    * @throws IOException if an I/O error occurs while writing to this sink
    * @since 22.0
    */
-  @Beta
   public void writeLines(Stream<? extends CharSequence> lines, String lineSeparator)
       throws IOException {
     writeLines(lines.iterator(), lineSeparator);
