@@ -652,6 +652,14 @@ public class CharMatcherTest extends TestCase {
     assertEquals("12 &gt; 5", is('>').replaceFrom("12 > 5", "&gt;"));
   }
 
+  public void testRetainFrom() {
+    assertEquals("aaa", is('a').retainFrom("bazaar"));
+    assertEquals("z", is('z').retainFrom("bazaar"));
+    assertEquals("!", is('!').retainFrom("!@#$%^&*()-="));
+    assertEquals("", is('x').retainFrom("bazaar"));
+    assertEquals("", is('a').retainFrom(""));
+  }
+
   public void testPrecomputedOptimizations() {
     // These are testing behavior that's never promised by the API.
     // Some matchers are so efficient that it is a waste of effort to
