@@ -22,6 +22,7 @@ import static com.google.common.base.Predicates.compose;
 import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 import static com.google.common.collect.NullnessCasts.uncheckedCastNullableTToT;
+import static java.util.Collections.singletonMap;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
@@ -163,9 +164,8 @@ public final class Maps {
     K key1 = entry1.getKey();
     V value1 = entry1.getValue();
     checkEntryNotNull(key1, value1);
-    Class<K> clazz = key1.getDeclaringClass();
-    EnumMap<K, V> enumMap = new EnumMap<>(clazz);
-    enumMap.put(key1, value1);
+    // Do something that works for j2cl, where we can't call getDeclaredClass():
+    EnumMap<K, V> enumMap = new EnumMap<>(singletonMap(key1, value1));
     while (entryItr.hasNext()) {
       Entry<K, ? extends V> entry = entryItr.next();
       K key = entry.getKey();
