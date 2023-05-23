@@ -36,12 +36,6 @@ final class Platform {
 
   private Platform() {}
 
-  /** Calls {@link System#nanoTime()}. */
-  @SuppressWarnings("GoodTime") // reading system time without TimeSource
-  static long systemNanoTime() {
-    return System.nanoTime();
-  }
-
   static CharMatcher precomputeCharMatcher(CharMatcher matcher) {
     return matcher.precomputedInternal();
   }
