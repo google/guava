@@ -18,6 +18,8 @@ OK: com.google.common.primitives.Shorts Method rotate(short[], int)
 OK: com.google.common.primitives.Shorts Method rotate(short[], int, int, int)
 OK: com.google.common.net.MediaType Field JWT
 OK: com.google.common.net.HttpHeaders Field NO_VARY_SEARCH
+OK: com.google.common.net.HttpHeaders Field OBSERVE_BROWSING_TOPICS
+OK: com.google.common.net.HttpHeaders Field SEC_BROWSING_TOPICS
 OK: com.google.common.net.HttpHeaders Field SEC_CH_DPR
 OK: com.google.common.net.HttpHeaders Field SEC_CH_UA_FORM_FACTOR
 OK: com.google.common.net.HttpHeaders Field SEC_CH_UA_WOW64

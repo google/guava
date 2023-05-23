@@ -53176,6 +53176,28 @@
  @since 28.0]]>
       </doc>
     </field>
+    <field name="SEC_BROWSING_TOPICS" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[The HTTP <a href="https://patcg-individual-drafts.github.io/topics/">{@code
+ Sec-Browsing-Topics}</a> header field name.
+
+ @since NEXT]]>
+      </doc>
+    </field>
+    <field name="OBSERVE_BROWSING_TOPICS" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[The HTTP <a href="https://patcg-individual-drafts.github.io/topics/">{@code
+ Observe-Browsing-Topics}</a> header field name.
+
+ @since NEXT]]>
+      </doc>
+    </field>
     <field name="CDN_LOOP" type="java.lang.String"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
