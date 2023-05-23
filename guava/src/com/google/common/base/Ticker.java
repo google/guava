@@ -48,8 +48,9 @@ public abstract class Ticker {
   private static final Ticker SYSTEM_TICKER =
       new Ticker() {
         @Override
+        @SuppressWarnings("GoodTime") // reading system time without TimeSource
         public long read() {
-          return Platform.systemNanoTime();
+          return System.nanoTime();
         }
       };
 }
