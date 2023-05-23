@@ -903,8 +903,8 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableList.html" title="class in c
 
  <p>Note that if <code>list</code> is a <code>List&lt;String&gt;</code>, then <code>ImmutableList.copyOf(list)</code>
  returns an <code>ImmutableList&lt;String&gt;</code> containing each of the strings in <code>list</code>, while
- ImmutableList.of(list)} returns an <code>ImmutableList&lt;List&lt;String&gt;&gt;</code> containing one element
- (the given list itself).
+ <code>ImmutableList.of(list)</code> returns an <code>ImmutableList&lt;List&lt;String&gt;&gt;</code> containing one
+ element (the given list itself).
 
  <p>This method is safe to use even when <code>elements</code> is a synchronized or concurrent
  collection that is currently being modified by another thread.</div>
