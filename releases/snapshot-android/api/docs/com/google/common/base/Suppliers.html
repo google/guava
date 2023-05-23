@@ -313,7 +313,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>ofInstance</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Suppliers.html#line.285">ofInstance</a>&#8203;(T&nbsp;instance)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Suppliers.html#line.286">ofInstance</a>&#8203;(T&nbsp;instance)</pre>
 <div class="block">Returns a supplier that always supplies <code>instance</code>.</div>
 </li>
 </ul>
@@ -323,7 +323,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>synchronizedSupplier</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Suppliers.html#line.330">synchronizedSupplier</a>&#8203;(<a href="Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;&nbsp;delegate)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Suppliers.html#line.331">synchronizedSupplier</a>&#8203;(<a href="Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;&nbsp;delegate)</pre>
 <div class="block">Returns a supplier whose <code>get()</code> method synchronizes on <code>delegate</code> before calling
  it, making it thread-safe.</div>
 </li>
@@ -334,7 +334,7 @@ extends java.lang.Object</pre>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>supplierFunction</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="Function.html" title="interface in com.google.common.base">Function</a>&lt;<a href="Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;,&#8203;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Suppliers.html#line.367">supplierFunction</a>()</pre>
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="Function.html" title="interface in com.google.common.base">Function</a>&lt;<a href="Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;,&#8203;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Suppliers.html#line.368">supplierFunction</a>()</pre>
 <div class="block">Returns a function that accepts a supplier and returns the result of invoking <a href="Supplier.html#get()"><code>Supplier.get()</code></a> on that supplier.
 
  <p><b>Java 8 users:</b> use the method reference <code>Supplier::get</code> instead.</div>

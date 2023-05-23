@@ -57,11 +57,12 @@
 <span class="sourceLineNo">048</span><a id="line.48">  private static final Ticker SYSTEM_TICKER =</a>
 <span class="sourceLineNo">049</span><a id="line.49">      new Ticker() {</a>
 <span class="sourceLineNo">050</span><a id="line.50">        @Override</a>
-<span class="sourceLineNo">051</span><a id="line.51">        public long read() {</a>
-<span class="sourceLineNo">052</span><a id="line.52">          return Platform.systemNanoTime();</a>
-<span class="sourceLineNo">053</span><a id="line.53">        }</a>
-<span class="sourceLineNo">054</span><a id="line.54">      };</a>
-<span class="sourceLineNo">055</span><a id="line.55">}</a>
+<span class="sourceLineNo">051</span><a id="line.51">        @SuppressWarnings("GoodTime") // reading system time without TimeSource</a>
+<span class="sourceLineNo">052</span><a id="line.52">        public long read() {</a>
+<span class="sourceLineNo">053</span><a id="line.53">          return System.nanoTime();</a>
+<span class="sourceLineNo">054</span><a id="line.54">        }</a>
+<span class="sourceLineNo">055</span><a id="line.55">      };</a>
+<span class="sourceLineNo">056</span><a id="line.56">}</a>
 
 
 
