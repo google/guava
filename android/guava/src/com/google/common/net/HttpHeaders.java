@@ -842,6 +842,20 @@ public final class HttpHeaders {
    */
   public static final String SEC_WEBSOCKET_VERSION = "Sec-WebSocket-Version";
   /**
+   * The HTTP <a href="https://patcg-individual-drafts.github.io/topics/">{@code
+   * Sec-Browsing-Topics}</a> header field name.
+   *
+   * @since NEXT
+   */
+  public static final String SEC_BROWSING_TOPICS = "Sec-Browsing-Topics";
+  /**
+   * The HTTP <a href="https://patcg-individual-drafts.github.io/topics/">{@code
+   * Observe-Browsing-Topics}</a> header field name.
+   *
+   * @since NEXT
+   */
+  public static final String OBSERVE_BROWSING_TOPICS = "Observe-Browsing-Topics";
+  /**
    * The HTTP <a href="https://tools.ietf.org/html/rfc8586">{@code CDN-Loop}</a> header field name.
    *
    * @since 28.0
