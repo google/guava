@@ -5329,7 +5329,14 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">For Android users, see the <a href="https://developer.android.com/training/data-storage" target="_blank">Data and File
      Storage overview</a> to select an appropriate temporary directory (perhaps <code>
-     context.getCacheDir()</code>). For developers on Java 7 or later, use <code>Files.createTempDirectory(java.nio.file.Path, java.lang.String, java.nio.file.attribute.FileAttribute&lt;?&gt;...)</code>, transforming it to a <code>File</code> using <code>toFile()</code> if needed.</div>
+     context.getCacheDir()</code>), and create your own directory under that. (For example, you might
+     use <code>new File(context.getCacheDir(), "directoryname").mkdir()</code>, or, if you need an
+     arbitrary number of temporary directories, you might have to generate multiple directory
+     names in a loop until <code>mkdir()</code> returns <code>true</code>.) For developers on Java 7 or
+     later, use <code>Files.createTempDirectory(java.nio.file.Path, java.lang.String, java.nio.file.attribute.FileAttribute&lt;?&gt;...)</code>, transforming it to a <code>File</code> using <code>toFile()</code> if needed. To restrict permissions
+     as this method does, pass <code>
+     PosixFilePermissions.asFileAttribute(PosixFilePermissions.fromString("rwx------"))</code> to your
+     call to <code>createTempDirectory</code>.</div>
 </div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/Stopwatch.html#createUnstarted()">createUnstarted()</a></span> - Static method in class com.google.common.base.<a href="com/google/common/base/Stopwatch.html" title="class in com.google.common.base">Stopwatch</a></dt>
