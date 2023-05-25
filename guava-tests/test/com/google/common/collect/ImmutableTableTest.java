@@ -63,6 +63,17 @@ public class ImmutableTableTest extends AbstractTableReadTest {
             Tables.immutableCell("one", "uno", 2));
   }
 
+  public void testCellsToImmutableTable() {
+    Collector<
+            Cell<? extends String, ? extends String, ? extends Integer>,
+            ?,
+            ImmutableTable<String, String, Integer>>
+        collector = ImmutableTable.cellsToImmutableTable();
+    CollectorTester.of(collector)
+        .expectCollects(ImmutableTable.of())
+        .expectCollects(ImmutableTable.of("one", "uno", 1), Tables.immutableCell("one", "uno", 1));
+  }
+
   public void testBuilder() {
     ImmutableTable.Builder<Character, Integer, String> builder = new ImmutableTable.Builder<>();
     assertEquals(ImmutableTable.of(), builder.build());
