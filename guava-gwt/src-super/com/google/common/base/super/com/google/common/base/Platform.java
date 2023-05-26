@@ -32,14 +32,6 @@ final class Platform {
     return matcher;
   }
 
-  static <T extends Enum<T>> Optional<T> getEnumIfPresent(Class<T> enumClass, String value) {
-    try {
-      return Optional.of(Enum.valueOf(enumClass, value));
-    } catch (IllegalArgumentException iae) {
-      return Optional.absent();
-    }
-  }
-
   static String formatCompact4Digits(double value) {
     return "" + ((Number) (Object) value).toPrecision(4);
   }
