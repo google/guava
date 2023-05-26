@@ -185,20 +185,27 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>class&nbsp;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../base/Enums.html" title="class in com.google.common.base">Enums</a></span></code></th>
+<td class="colLast">
+<div class="block">Utility methods for working with <code>Enum</code> instances.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>class&nbsp;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../base/FinalizablePhantomReference.html" title="class in com.google.common.base">FinalizablePhantomReference</a>&lt;T&gt;</span></code></th>
 <td class="colLast">
 <div class="block">Phantom reference with a <code>finalizeReferent()</code> method which a background thread invokes
  after the garbage collector reclaims the referent.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>interface&nbsp;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../base/FinalizableReference.html" title="interface in com.google.common.base">FinalizableReference</a></span></code></th>
 <td class="colLast">
 <div class="block">Implemented by references that have code to run after garbage collection of their referents.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>class&nbsp;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../base/FinalizableReferenceQueue.html" title="class in com.google.common.base">FinalizableReferenceQueue</a></span></code></th>
 <td class="colLast">
@@ -206,7 +213,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  <a href="../../base/FinalizableReference.html#finalizeReferent()"><code>FinalizableReference.finalizeReferent()</code></a> on them.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>class&nbsp;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../base/FinalizableSoftReference.html" title="class in com.google.common.base">FinalizableSoftReference</a>&lt;T&gt;</span></code></th>
 <td class="colLast">
@@ -214,7 +221,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  the garbage collector reclaims the referent.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>class&nbsp;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../base/FinalizableWeakReference.html" title="class in com.google.common.base">FinalizableWeakReference</a>&lt;T&gt;</span></code></th>
 <td class="colLast">
@@ -222,7 +229,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  the garbage collector reclaims the referent.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>class&nbsp;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../base/StandardSystemProperty.html" title="enum in com.google.common.base">StandardSystemProperty</a></span></code></th>
 <td class="colLast">
@@ -416,6 +423,14 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </td>
 </tr>
 <tr class="altColor">
+<td class="colFirst"><code>static &lt;T extends java.lang.Enum&lt;T&gt;&gt;<br><a href="../../base/Converter.html" title="class in com.google.common.base">Converter</a>&lt;java.lang.String,&#8203;T&gt;</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Enums.</span><code><span class="memberNameLink"><a href="../../base/Enums.html#stringConverter(java.lang.Class)">stringConverter</a></span>&#8203;(java.lang.Class&lt;T&gt;&nbsp;enumClass)</code></th>
+<td class="colLast">
+<div class="block">Returns a serializable converter that converts between strings and <code>enum</code> values of type
+ <code>enumClass</code> using <code>Enum.valueOf(Class, String)</code> and <code>Enum.name()</code>.</div>
+</td>
+</tr>
+<tr class="rowColor">
 <td class="colFirst"><code>static <a href="../../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;java.lang.Class&lt;?&gt;&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Predicates.</span><code><span class="memberNameLink"><a href="../../base/Predicates.html#subtypeOf(java.lang.Class)">subtypeOf</a></span>&#8203;(java.lang.Class&lt;?&gt;&nbsp;clazz)</code></th>
 <td class="colLast">
@@ -423,7 +438,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  (is a subtype of) <code>clazz</code>.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static &lt;X extends java.lang.Throwable&gt;<br>void</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Throwables.</span><code><span class="memberNameLink"><a href="../../base/Throwables.html#throwIfInstanceOf(java.lang.Throwable,java.lang.Class)">throwIfInstanceOf</a></span>&#8203;(java.lang.Throwable&nbsp;throwable,
                  java.lang.Class&lt;X&gt;&nbsp;declaredType)</code></th>
