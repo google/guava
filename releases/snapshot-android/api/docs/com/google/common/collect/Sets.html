@@ -900,7 +900,8 @@ public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>complementOf</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E extends java.lang.Enum&lt;E&gt;&gt;&nbsp;java.util.EnumSet&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.468">complementOf</a>&#8203;(java.util.Collection&lt;E&gt;&nbsp;collection)</pre>
+<pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
+public static&nbsp;&lt;E extends java.lang.Enum&lt;E&gt;&gt;&nbsp;java.util.EnumSet&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.468">complementOf</a>&#8203;(java.util.Collection&lt;E&gt;&nbsp;collection)</pre>
 <div class="block">Creates an <code>EnumSet</code> consisting of all enum values that are not in the specified
  collection. If the collection is an <code>EnumSet</code>, this method has the same behavior as
  <code>EnumSet.complementOf(java.util.EnumSet&lt;E&gt;)</code>. Otherwise, the specified collection must contain at least one
@@ -923,7 +924,8 @@ public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>complementOf</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E extends java.lang.Enum&lt;E&gt;&gt;&nbsp;java.util.EnumSet&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.489">complementOf</a>&#8203;(java.util.Collection&lt;E&gt;&nbsp;collection,
+<pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
+public static&nbsp;&lt;E extends java.lang.Enum&lt;E&gt;&gt;&nbsp;java.util.EnumSet&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.490">complementOf</a>&#8203;(java.util.Collection&lt;E&gt;&nbsp;collection,
                                                                               java.lang.Class&lt;E&gt;&nbsp;type)</pre>
 <div class="block">Creates an <code>EnumSet</code> consisting of all enum values that are not in the specified
  collection. This is equivalent to <code>EnumSet.complementOf(java.util.EnumSet&lt;E&gt;)</code>, but can act on any input
@@ -945,7 +947,7 @@ public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/c
 <li class="blockList">
 <h4>newSetFromMap</h4>
 <pre class="methodSignature">@Deprecated
-public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.util.Set&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.533">newSetFromMap</a>&#8203;(java.util.Map&lt;E,&#8203;java.lang.Boolean&gt;&nbsp;map)</pre>
+public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.util.Set&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.536">newSetFromMap</a>&#8203;(java.util.Map&lt;E,&#8203;java.lang.Boolean&gt;&nbsp;map)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Use <code>Collections.newSetFromMap(java.util.Map&lt;E, java.lang.Boolean&gt;)</code> instead.</div>
 </div>
@@ -986,7 +988,7 @@ public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>union</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="Sets.SetView.html" title="class in com.google.common.collect">Sets.SetView</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.681">union</a>&#8203;(java.util.Set&lt;? extends E&gt;&nbsp;set1,
+<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="Sets.SetView.html" title="class in com.google.common.collect">Sets.SetView</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.684">union</a>&#8203;(java.util.Set&lt;? extends E&gt;&nbsp;set1,
                                                                            java.util.Set&lt;? extends E&gt;&nbsp;set2)</pre>
 <div class="block">Returns an unmodifiable <b>view</b> of the union of two sets. The returned set contains all
  elements that are contained in either backing set. Iterating over the returned set iterates
@@ -1004,7 +1006,7 @@ public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>intersection</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="Sets.SetView.html" title="class in com.google.common.collect">Sets.SetView</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.777">intersection</a>&#8203;(java.util.Set&lt;E&gt;&nbsp;set1,
+<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="Sets.SetView.html" title="class in com.google.common.collect">Sets.SetView</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.780">intersection</a>&#8203;(java.util.Set&lt;E&gt;&nbsp;set1,
                                                                                   java.util.Set&lt;?&gt;&nbsp;set2)</pre>
 <div class="block">Returns an unmodifiable <b>view</b> of the intersection of two sets. The returned set contains
  all elements that are contained by both backing sets. The iteration order of the returned set
@@ -1039,7 +1041,7 @@ public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>difference</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="Sets.SetView.html" title="class in com.google.common.collect">Sets.SetView</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.840">difference</a>&#8203;(java.util.Set&lt;E&gt;&nbsp;set1,
+<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="Sets.SetView.html" title="class in com.google.common.collect">Sets.SetView</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.843">difference</a>&#8203;(java.util.Set&lt;E&gt;&nbsp;set1,
                                                                                 java.util.Set&lt;?&gt;&nbsp;set2)</pre>
 <div class="block">Returns an unmodifiable <b>view</b> of the difference of two sets. The returned set contains
  all elements that are contained by <code>set1</code> and not contained by <code>set2</code>. <code>set2</code>
@@ -1057,7 +1059,7 @@ public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>symmetricDifference</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="Sets.SetView.html" title="class in com.google.common.collect">Sets.SetView</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.899">symmetricDifference</a>&#8203;(java.util.Set&lt;? extends E&gt;&nbsp;set1,
+<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="Sets.SetView.html" title="class in com.google.common.collect">Sets.SetView</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.902">symmetricDifference</a>&#8203;(java.util.Set&lt;? extends E&gt;&nbsp;set1,
                                                                                          java.util.Set&lt;? extends E&gt;&nbsp;set2)</pre>
 <div class="block">Returns an unmodifiable <b>view</b> of the symmetric difference of two sets. The returned set
  contains all elements that are contained in either <code>set1</code> or <code>set2</code> but not in
@@ -1078,7 +1080,7 @@ public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>filter</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.util.Set&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.985">filter</a>&#8203;(java.util.Set&lt;E&gt;&nbsp;unfiltered,
+<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.util.Set&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.988">filter</a>&#8203;(java.util.Set&lt;E&gt;&nbsp;unfiltered,
                                                                              <a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super E&gt;&nbsp;predicate)</pre>
 <div class="block">Returns the elements of <code>unfiltered</code> that satisfy a predicate. The returned set is a live
  view of <code>unfiltered</code>; changes to one affect the other.
@@ -1110,7 +1112,7 @@ public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>filter</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.util.SortedSet&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.1025">filter</a>&#8203;(java.util.SortedSet&lt;E&gt;&nbsp;unfiltered,
+<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.util.SortedSet&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.1028">filter</a>&#8203;(java.util.SortedSet&lt;E&gt;&nbsp;unfiltered,
                                                                                    <a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super E&gt;&nbsp;predicate)</pre>
 <div class="block">Returns the elements of a <code>SortedSet</code>, <code>unfiltered</code>, that satisfy a predicate. The
  returned set is a live view of <code>unfiltered</code>; changes to one affect the other.
@@ -1144,7 +1146,7 @@ public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/c
 <li class="blockList">
 <h4>filter</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.util.NavigableSet&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.1062">filter</a>&#8203;(java.util.NavigableSet&lt;E&gt;&nbsp;unfiltered,
+public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.util.NavigableSet&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.1065">filter</a>&#8203;(java.util.NavigableSet&lt;E&gt;&nbsp;unfiltered,
                                                                                       <a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super E&gt;&nbsp;predicate)</pre>
 <div class="block">Returns the elements of a <code>NavigableSet</code>, <code>unfiltered</code>, that satisfy a predicate.
  The returned set is a live view of <code>unfiltered</code>; changes to one affect the other.
@@ -1177,7 +1179,7 @@ public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>cartesianProduct</h4>
-<pre class="methodSignature">public static&nbsp;&lt;B&gt;&nbsp;java.util.Set&lt;java.util.List&lt;B&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.1280">cartesianProduct</a>&#8203;(java.util.List&lt;? extends java.util.Set&lt;? extends B&gt;&gt;&nbsp;sets)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;B&gt;&nbsp;java.util.Set&lt;java.util.List&lt;B&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.1283">cartesianProduct</a>&#8203;(java.util.List&lt;? extends java.util.Set&lt;? extends B&gt;&gt;&nbsp;sets)</pre>
 <div class="block">Returns every possible list that can be formed by choosing one element from each of the given
  sets in order; the "n-ary <a href="http://en.wikipedia.org/wiki/Cartesian_product">Cartesian
  product</a>" of the sets. For example:
@@ -1244,7 +1246,7 @@ public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/c
 <li class="blockList">
 <h4>cartesianProduct</h4>
 <pre class="methodSignature">@SafeVarargs
-public static&nbsp;&lt;B&gt;&nbsp;java.util.Set&lt;java.util.List&lt;B&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.1337">cartesianProduct</a>&#8203;(java.util.Set&lt;? extends B&gt;...&nbsp;sets)</pre>
+public static&nbsp;&lt;B&gt;&nbsp;java.util.Set&lt;java.util.List&lt;B&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.1340">cartesianProduct</a>&#8203;(java.util.Set&lt;? extends B&gt;...&nbsp;sets)</pre>
 <div class="block">Returns every possible list that can be formed by choosing one element from each of the given
  sets in order; the "n-ary <a href="http://en.wikipedia.org/wiki/Cartesian_product">Cartesian
  product</a>" of the sets. For example:
@@ -1311,7 +1313,7 @@ public static&nbsp;&lt;B&gt;&nbsp;java.util.Set&lt;java.util.List&lt;B&gt;&gt;&n
 <li class="blockList">
 <h4>powerSet</h4>
 <pre class="methodSignature"><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../annotations/GwtCompatible.html#serializable()">serializable</a>=false)
-public static&nbsp;&lt;E&gt;&nbsp;java.util.Set&lt;java.util.Set&lt;E&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.1464">powerSet</a>&#8203;(java.util.Set&lt;E&gt;&nbsp;set)</pre>
+public static&nbsp;&lt;E&gt;&nbsp;java.util.Set&lt;java.util.Set&lt;E&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.1467">powerSet</a>&#8203;(java.util.Set&lt;E&gt;&nbsp;set)</pre>
 <div class="block">Returns the set of all possible subsets of <code>set</code>. For example, <code>
  powerSet(ImmutableSet.of(1, 2))</code> returns the set <code>{{}, {1}, {2}, {1, 2}}</code>.
 
@@ -1348,7 +1350,7 @@ public static&nbsp;&lt;E&gt;&nbsp;java.util.Set&lt;java.util.Set&lt;E&gt;&gt;&nb
 <ul class="blockList">
 <li class="blockList">
 <h4>combinations</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;java.util.Set&lt;java.util.Set&lt;E&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.1600">combinations</a>&#8203;(java.util.Set&lt;E&gt;&nbsp;set,
+<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;java.util.Set&lt;java.util.Set&lt;E&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.1603">combinations</a>&#8203;(java.util.Set&lt;E&gt;&nbsp;set,
                                                                int&nbsp;size)</pre>
 <div class="block">Returns the set of all subsets of <code>set</code> of size <code>size</code>. For example, <code>
  combinations(ImmutableSet.of(1, 2, 3), 2)</code> returns the set <code>{{1, 2}, {1, 3}, {2, 3}}</code>.
@@ -1385,7 +1387,7 @@ public static&nbsp;&lt;E&gt;&nbsp;java.util.Set&lt;java.util.Set&lt;E&gt;&gt;&nb
 <ul class="blockList">
 <li class="blockList">
 <h4>unmodifiableNavigableSet</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.util.NavigableSet&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.1741">unmodifiableNavigableSet</a>&#8203;(java.util.NavigableSet&lt;E&gt;&nbsp;set)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.util.NavigableSet&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.1744">unmodifiableNavigableSet</a>&#8203;(java.util.NavigableSet&lt;E&gt;&nbsp;set)</pre>
 <div class="block">Returns an unmodifiable view of the specified navigable set. This method allows modules to
  provide users with "read-only" access to internal navigable sets. Query operations on the
  returned set "read through" to the specified set, and attempts to modify the returned set,
@@ -1410,7 +1412,7 @@ public static&nbsp;&lt;E&gt;&nbsp;java.util.Set&lt;java.util.Set&lt;E&gt;&gt;&nb
 <li class="blockList">
 <h4>synchronizedNavigableSet</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.util.NavigableSet&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.1885">synchronizedNavigableSet</a>&#8203;(java.util.NavigableSet&lt;E&gt;&nbsp;navigableSet)</pre>
+public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.util.NavigableSet&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.1888">synchronizedNavigableSet</a>&#8203;(java.util.NavigableSet&lt;E&gt;&nbsp;navigableSet)</pre>
 <div class="block">Returns a synchronized (thread-safe) navigable set backed by the specified navigable set. In
  order to guarantee serial access, it is critical that <b>all</b> access to the backing
  navigable set is accomplished through the returned navigable set (or its views).
@@ -1467,7 +1469,7 @@ public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/c
 <li class="blockList">
 <h4>subSet</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;&lt;K extends java.lang.Comparable&lt;? super K&gt;&gt;&nbsp;java.util.NavigableSet&lt;K&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.2078">subSet</a>&#8203;(java.util.NavigableSet&lt;K&gt;&nbsp;set,
+public static&nbsp;&lt;K extends java.lang.Comparable&lt;? super K&gt;&gt;&nbsp;java.util.NavigableSet&lt;K&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.2081">subSet</a>&#8203;(java.util.NavigableSet&lt;K&gt;&nbsp;set,
                                                                                            <a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;K&gt;&nbsp;range)</pre>
 <div class="block">Returns a view of the portion of <code>set</code> whose elements are contained by <code>range</code>.
 
