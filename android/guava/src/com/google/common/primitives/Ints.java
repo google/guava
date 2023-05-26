@@ -515,7 +515,7 @@ public final class Ints extends IntsMethodsForWeb {
    *
    * <p>The provided "distance" may be negative, which will rotate left.
    *
-   * @since NEXT
+   * @since 32.0.0
    */
   public static void rotate(int[] array, int distance) {
     rotate(array, distance, 0, array.length);
@@ -531,7 +531,7 @@ public final class Ints extends IntsMethodsForWeb {
    *
    * @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > array.length}, or
    *     {@code toIndex > fromIndex}
-   * @since NEXT
+   * @since 32.0.0
    */
   public static void rotate(int[] array, int distance, int fromIndex, int toIndex) {
     // There are several well-known algorithms for rotating part of an array (or, equivalently,
