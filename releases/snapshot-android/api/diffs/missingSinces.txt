@@ -1,7 +1,7 @@
 OK: com.google.common.annotations.J2ktIncompatible Class
 OK: com.google.common.reflect.Invokable Method getAnnotatedReturnType()
 OK: com.google.common.reflect.Parameter Method getAnnotatedType()
-MISSING @SINCE TAG: com.google.common.io.BaseEncoding Method ignoreCase()
+OK: com.google.common.io.BaseEncoding Method ignoreCase()
 OK: com.google.common.primitives.Booleans Method rotate(boolean[], int)
 OK: com.google.common.primitives.Booleans Method rotate(boolean[], int, int, int)
 OK: com.google.common.primitives.Bytes Method rotate(byte[], int)

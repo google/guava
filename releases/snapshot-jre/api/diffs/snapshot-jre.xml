@@ -99,7 +99,7 @@
     <![CDATA[The presence of this annotation on an API indicates that the method may <em>not</em> be used with
  J2kt.
 
- @since NEXT]]>
+ @since 32.0.0]]>
     </doc>
   </class>
   <!-- end class com.google.common.annotations.J2ktIncompatible -->
@@ -44446,7 +44446,8 @@
  regard to case.
 
  @throws IllegalStateException if the alphabet used by this encoding contains mixed upper- and
-     lower-case characters]]>
+     lower-case characters
+ @since 32.0.0]]>
       </doc>
     </method>
     <method name="base64" return="com.google.common.io.BaseEncoding"
@@ -52325,7 +52326,7 @@
       <![CDATA[The HTTP <a href="https://github.com/WICG/nav-speculation/blob/main/no-vary-search.md">{@code
  No-Vary-Seearch}</a> header field name.
 
- @since NEXT]]>
+ @since 32.0.0]]>
       </doc>
     </field>
     <field name="ORIGIN_TRIAL" type="java.lang.String"
@@ -52447,7 +52448,7 @@
  href="https://developer.chrome.com/docs/privacy-sandbox/fenced-frame/#server-opt-in">fenced
  frames</a>.
 
- @since NEXT]]>
+ @since 32.0.0]]>
       </doc>
     </field>
     <field name="STRICT_TRANSPORT_SECURITY" type="java.lang.String"
@@ -52999,7 +53000,7 @@
       <![CDATA[The HTTP <a href="https://wicg.github.io/ua-client-hints/#sec-ch-ua-wow64">{@code
  Sec-CH-UA-WoW64}</a> header field name.
 
- @since NEXT]]>
+ @since 32.0.0]]>
       </doc>
     </field>
     <field name="SEC_CH_UA_BITNESS" type="java.lang.String"
@@ -53021,7 +53022,7 @@
       <![CDATA[The HTTP <a href="https://wicg.github.io/ua-client-hints/#sec-ch-ua-form-factor">{@code
  Sec-CH-UA-Form-Factor}</a> header field name.
 
- @since NEXT]]>
+ @since 32.0.0]]>
       </doc>
     </field>
     <field name="SEC_CH_VIEWPORT_WIDTH" type="java.lang.String"
@@ -53033,7 +53034,7 @@
  href="https://wicg.github.io/responsive-image-client-hints/#sec-ch-viewport-width">{@code
  Sec-CH-Viewport-Width}</a> header field name.
 
- @since NEXT]]>
+ @since 32.0.0]]>
       </doc>
     </field>
     <field name="SEC_CH_VIEWPORT_HEIGHT" type="java.lang.String"
@@ -53045,7 +53046,7 @@
  href="https://wicg.github.io/responsive-image-client-hints/#sec-ch-viewport-height">{@code
  Sec-CH-Viewport-Height}</a> header field name.
 
- @since NEXT]]>
+ @since 32.0.0]]>
       </doc>
     </field>
     <field name="SEC_CH_DPR" type="java.lang.String"
@@ -53056,7 +53057,7 @@
       <![CDATA[The HTTP <a href="https://wicg.github.io/responsive-image-client-hints/#sec-ch-dpr">{@code
  Sec-CH-DPR}</a> header field name.
 
- @since NEXT]]>
+ @since 32.0.0]]>
       </doc>
     </field>
     <field name="SEC_FETCH_DEST" type="java.lang.String"
@@ -53210,7 +53211,7 @@
       <![CDATA[The HTTP <a href="https://patcg-individual-drafts.github.io/topics/">{@code
  Sec-Browsing-Topics}</a> header field name.
 
- @since NEXT]]>
+ @since 32.0.0]]>
       </doc>
     </field>
     <field name="OBSERVE_BROWSING_TOPICS" type="java.lang.String"
@@ -53221,7 +53222,7 @@
       <![CDATA[The HTTP <a href="https://patcg-individual-drafts.github.io/topics/">{@code
  Observe-Browsing-Topics}</a> header field name.
 
- @since NEXT]]>
+ @since 32.0.0]]>
       </doc>
     </field>
     <field name="CDN_LOOP" type="java.lang.String"
@@ -55077,7 +55078,7 @@
       <doc>
       <![CDATA[For <a href="https://tools.ietf.org/html/7519">JWT objects using the compact Serialization</a>.
 
- @since NEXT]]>
+ @since 32.0.0]]>
       </doc>
     </field>
     <field name="MANIFEST_JSON_UTF_8" type="com.google.common.net.MediaType"
@@ -55989,7 +55990,7 @@
 
  <p>The provided "distance" may be negative, which will rotate left.
 
- @since NEXT]]>
+ @since 32.0.0]]>
       </doc>
     </method>
     <method name="rotate"
@@ -56010,7 +56011,7 @@
 
  @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > array.length}, or
      {@code toIndex > fromIndex}
- @since NEXT]]>
+ @since 32.0.0]]>
       </doc>
     </method>
     <doc>
@@ -56223,7 +56224,7 @@
 
  <p>The provided "distance" may be negative, which will rotate left.
 
- @since NEXT]]>
+ @since 32.0.0]]>
       </doc>
     </method>
     <method name="rotate"
@@ -56244,7 +56245,7 @@
 
  @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > array.length}, or
      {@code toIndex > fromIndex}
- @since NEXT]]>
+ @since 32.0.0]]>
       </doc>
     </method>
     <doc>
@@ -56637,7 +56638,7 @@
 
  <p>The provided "distance" may be negative, which will rotate left.
 
- @since NEXT]]>
+ @since 32.0.0]]>
       </doc>
     </method>
     <method name="rotate"
@@ -56658,7 +56659,7 @@
 
  @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > array.length}, or
      {@code toIndex > fromIndex}
- @since NEXT]]>
+ @since 32.0.0]]>
       </doc>
     </method>
     <method name="asList" return="java.util.List&lt;java.lang.Character&gt;"
@@ -57036,7 +57037,7 @@
 
  <p>The provided "distance" may be negative, which will rotate left.
 
- @since NEXT]]>
+ @since 32.0.0]]>
       </doc>
     </method>
     <method name="rotate"
@@ -57057,7 +57058,7 @@
 
  @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > array.length}, or
      {@code toIndex > fromIndex}
- @since NEXT]]>
+ @since 32.0.0]]>
       </doc>
     </method>
     <method name="toArray" return="double[]"
@@ -57481,7 +57482,7 @@
 
  <p>The provided "distance" may be negative, which will rotate left.
 
- @since NEXT]]>
+ @since 32.0.0]]>
       </doc>
     </method>
     <method name="rotate"
@@ -57502,7 +57503,7 @@
 
  @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > array.length}, or
      {@code toIndex > fromIndex}
- @since NEXT]]>
+ @since 32.0.0]]>
       </doc>
     </method>
     <method name="toArray" return="float[]"
@@ -59312,7 +59313,7 @@
 
  <p>The provided "distance" may be negative, which will rotate left.
 
- @since NEXT]]>
+ @since 32.0.0]]>
       </doc>
     </method>
     <method name="rotate"
@@ -59333,7 +59334,7 @@
 
  @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > array.length}, or
      {@code toIndex > fromIndex}
- @since NEXT]]>
+ @since 32.0.0]]>
       </doc>
     </method>
     <method name="toArray" return="int[]"
@@ -59867,7 +59868,7 @@
 
  <p>The provided "distance" may be negative, which will rotate left.
 
- @since NEXT]]>
+ @since 32.0.0]]>
       </doc>
     </method>
     <method name="rotate"
@@ -59888,7 +59889,7 @@
 
  @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > array.length}, or
      {@code toIndex > fromIndex}
- @since NEXT]]>
+ @since 32.0.0]]>
       </doc>
     </method>
     <method name="toArray" return="long[]"
@@ -60419,7 +60420,7 @@
 
  <p>The provided "distance" may be negative, which will rotate left.
 
- @since NEXT]]>
+ @since 32.0.0]]>
       </doc>
     </method>
     <method name="rotate"
@@ -60440,7 +60441,7 @@
 
  @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > array.length}, or
      {@code toIndex > fromIndex}
- @since NEXT]]>
+ @since 32.0.0]]>
       </doc>
     </method>
     <method name="toArray" return="short[]"

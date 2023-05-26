@@ -628,13 +628,15 @@ public final&nbsp;<a href="ByteSource.html" title="class in com.google.common.io
 <ul class="blockList">
 <li class="blockList">
 <h4>ignoreCase</h4>
-<pre class="methodSignature">public abstract&nbsp;<a href="BaseEncoding.html" title="class in com.google.common.io">BaseEncoding</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.333">ignoreCase</a>()</pre>
+<pre class="methodSignature">public abstract&nbsp;<a href="BaseEncoding.html" title="class in com.google.common.io">BaseEncoding</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.334">ignoreCase</a>()</pre>
 <div class="block">Returns an encoding that behaves equivalently to this encoding, but decodes letters without
  regard to case.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.IllegalStateException</code> - if the alphabet used by this encoding contains mixed upper- and
      lower-case characters</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>32.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -644,7 +646,7 @@ public final&nbsp;<a href="ByteSource.html" title="class in com.google.common.io
 <ul class="blockList">
 <li class="blockList">
 <h4>base64</h4>
-<pre class="methodSignature">public static&nbsp;<a href="BaseEncoding.html" title="class in com.google.common.io">BaseEncoding</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.352">base64</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="BaseEncoding.html" title="class in com.google.common.io">BaseEncoding</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.353">base64</a>()</pre>
 <div class="block">The "base64" base encoding specified by <a href="http://tools.ietf.org/html/rfc4648#section-4">RFC 4648 section 4</a>, Base 64 Encoding.
  (This is the same as the base 64 encoding from <a href="http://tools.ietf.org/html/rfc3548#section-3">RFC 3548</a>.)
 
@@ -660,7 +662,7 @@ public final&nbsp;<a href="ByteSource.html" title="class in com.google.common.io
 <ul class="blockList">
 <li class="blockList">
 <h4>base64Url</h4>
-<pre class="methodSignature">public static&nbsp;<a href="BaseEncoding.html" title="class in com.google.common.io">BaseEncoding</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.374">base64Url</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="BaseEncoding.html" title="class in com.google.common.io">BaseEncoding</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.375">base64Url</a>()</pre>
 <div class="block">The "base64url" encoding specified by <a href="http://tools.ietf.org/html/rfc4648#section-5">RFC 4648 section 5</a>, Base 64 Encoding
  with URL and Filename Safe Alphabet, also sometimes referred to as the "web safe Base64." (This
  is the same as the base 64 encoding with URL and filename safe alphabet from <a href="http://tools.ietf.org/html/rfc3548#section-4">RFC 3548</a>.)
@@ -677,7 +679,7 @@ public final&nbsp;<a href="ByteSource.html" title="class in com.google.common.io
 <ul class="blockList">
 <li class="blockList">
 <h4>base32</h4>
-<pre class="methodSignature">public static&nbsp;<a href="BaseEncoding.html" title="class in com.google.common.io">BaseEncoding</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.393">base32</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="BaseEncoding.html" title="class in com.google.common.io">BaseEncoding</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.394">base32</a>()</pre>
 <div class="block">The "base32" encoding specified by <a href="http://tools.ietf.org/html/rfc4648#section-6">RFC
  4648 section 6</a>, Base 32 Encoding. (This is the same as the base 32 encoding from <a href="http://tools.ietf.org/html/rfc3548#section-5">RFC 3548</a>.)
 
@@ -693,7 +695,7 @@ public final&nbsp;<a href="ByteSource.html" title="class in com.google.common.io
 <ul class="blockList">
 <li class="blockList">
 <h4>base32Hex</h4>
-<pre class="methodSignature">public static&nbsp;<a href="BaseEncoding.html" title="class in com.google.common.io">BaseEncoding</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.412">base32Hex</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="BaseEncoding.html" title="class in com.google.common.io">BaseEncoding</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.413">base32Hex</a>()</pre>
 <div class="block">The "base32hex" encoding specified by <a href="http://tools.ietf.org/html/rfc4648#section-7">RFC 4648 section 7</a>, Base 32 Encoding
  with Extended Hex Alphabet. There is no corresponding encoding in RFC 3548.
 
@@ -709,7 +711,7 @@ public final&nbsp;<a href="ByteSource.html" title="class in com.google.common.io
 <ul class="blockListLast">
 <li class="blockList">
 <h4>base16</h4>
-<pre class="methodSignature">public static&nbsp;<a href="BaseEncoding.html" title="class in com.google.common.io">BaseEncoding</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.431">base16</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="BaseEncoding.html" title="class in com.google.common.io">BaseEncoding</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.432">base16</a>()</pre>
 <div class="block">The "base16" encoding specified by <a href="http://tools.ietf.org/html/rfc4648#section-8">RFC
  4648 section 8</a>, Base 16 Encoding. (This is the same as the base 16 encoding from <a href="http://tools.ietf.org/html/rfc3548#section-6">RFC 3548</a>.) This is commonly known as
  "hexadecimal" format.
