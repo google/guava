@@ -412,13 +412,20 @@ public final class Files {
    * <p>This method assumes that the temporary volume is writable, has free inodes and free blocks,
    * and that it will not be called thousands of times per second.
    *
+   * <p><b>Warning for Windows users:</b> This method is one of the Guava APIs known to <i>not</i>
+   * work under Windows. Note that <a href="https://github.com/google/guava/issues/2686">we do not
+   * run our CI under Windows</a>, <a href="https://github.com/google/guava/issues/2130">we know
+   * that some of our tests fail under Windows</a>, and <a
+   * href="https://guava.dev/#important-warnings">we warn about using some features of Guava under
+   * Windows</a>, especially I/O features, and that warning applies even to APIs whose documentation
+   * doesn't include individual warnings like this one.
+   *
    * <p><b>{@link java.nio.file.Path} equivalent:</b> {@link
    * java.nio.file.Files#createTempDirectory}.
    *
    * @return the newly-created directory
-   * @throws IllegalStateException if the directory could not be created
-   * @throws UnsupportedOperationException if the system does not support creating temporary
-   *     directories securely
+   * @throws IllegalStateException if the directory could not be created, such as if the system does
+   *     not support creating temporary directories securely
    * @deprecated For Android users, see the <a
    *     href="https://developer.android.com/training/data-storage" target="_blank">Data and File
    *     Storage overview</a> to select an appropriate temporary directory (perhaps {@code
