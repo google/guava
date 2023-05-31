@@ -42,8 +42,7 @@ abstract class TempFileCreator {
 
   /**
    * @throws IllegalStateException if the directory could not be created (to implement the contract
-   *     of {@link Files#createTempDir()}
-   * @throws UnsupportedOperationException if the system does not support creating temporary
+   *     of {@link Files#createTempDir()}, such as if the system does not support creating temporary
    *     directories securely
    */
   abstract File createTempDir();
