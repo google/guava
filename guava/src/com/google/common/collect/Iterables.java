@@ -39,6 +39,7 @@ import java.util.Spliterator;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -285,12 +286,8 @@ public final class Iterables {
    * @return a newly-allocated array into which all the elements of the iterable have been copied
    */
   @GwtIncompatible // Array.newInstance(Class, int)
-  /*
-   * If we could express Class<@Nonnull T>, we could generalize the type parameter to <T extends
-   * @Nullable Object>, and then we could accept an Iterable<? extends T> and return a plain T[]
-   * instead of a @Nullable T[].
-   */
-  public static <T> @Nullable T[] toArray(Iterable<? extends @Nullable T> iterable, Class<T> type) {
+  public static <T extends @Nullable Object> T[] toArray(
+      Iterable<? extends T> iterable, Class<@NonNull T> type) {
     return toArray(iterable, ObjectArrays.newArray(type, 0));
   }
 
