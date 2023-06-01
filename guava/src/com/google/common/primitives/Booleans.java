@@ -19,7 +19,6 @@ import static com.google.common.base.Preconditions.checkElementIndex;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkPositionIndexes;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import java.io.Serializable;
 import java.util.AbstractList;
@@ -81,7 +80,6 @@ public final class Booleans {
    *
    * @since 21.0
    */
-  @Beta
   public static Comparator<Boolean> trueFirst() {
     return BooleanComparator.TRUE_FIRST;
   }
@@ -94,7 +92,6 @@ public final class Booleans {
    *
    * @since 21.0
    */
-  @Beta
   public static Comparator<Boolean> falseFirst() {
     return BooleanComparator.FALSE_FIRST;
   }
@@ -512,7 +509,6 @@ public final class Booleans {
    *
    * @since 16.0
    */
-  @Beta
   public static int countTrue(boolean... values) {
     int count = 0;
     for (boolean value : values) {
@@ -562,7 +558,7 @@ public final class Booleans {
    *
    * <p>The provided "distance" may be negative, which will rotate left.
    *
-   * @since NEXT
+   * @since 32.0.0
    */
   public static void rotate(boolean[] array, int distance) {
     rotate(array, distance, 0, array.length);
@@ -578,7 +574,7 @@ public final class Booleans {
    *
    * @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > array.length}, or
    *     {@code toIndex > fromIndex}
-   * @since NEXT
+   * @since 32.0.0
    */
   public static void rotate(boolean[] array, int distance, int fromIndex, int toIndex) {
     // See Ints.rotate for more details about possible algorithms here.

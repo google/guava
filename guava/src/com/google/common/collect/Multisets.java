@@ -22,7 +22,6 @@ import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 import static com.google.common.collect.CollectPreconditions.checkRemove;
 import static java.util.Objects.requireNonNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Objects;
 import com.google.common.base.Predicate;
@@ -229,7 +228,6 @@ public final class Multisets {
    * @return an unmodifiable view of the multiset
    * @since 11.0
    */
-  @Beta
   public static <E extends @Nullable Object> SortedMultiset<E> unmodifiableSortedMultiset(
       SortedMultiset<E> sortedMultiset) {
     // it's in its own file so it can be emulated for GWT
@@ -301,7 +299,6 @@ public final class Multisets {
    *
    * @since 14.0
    */
-  @Beta
   public static <E extends @Nullable Object> Multiset<E> filter(
       Multiset<E> unfiltered, Predicate<? super E> predicate) {
     if (unfiltered instanceof FilteredMultiset) {
@@ -408,7 +405,6 @@ public final class Multisets {
    *
    * @since 14.0
    */
-  @Beta
   public static <E extends @Nullable Object> Multiset<E> union(
       final Multiset<? extends E> multiset1, final Multiset<? extends E> multiset2) {
     checkNotNull(multiset1);
@@ -536,7 +532,6 @@ public final class Multisets {
    *
    * @since 14.0
    */
-  @Beta
   public static <E extends @Nullable Object> Multiset<E> sum(
       final Multiset<? extends E> multiset1, final Multiset<? extends E> multiset2) {
     checkNotNull(multiset1);
@@ -613,7 +608,6 @@ public final class Multisets {
    *
    * @since 14.0
    */
-  @Beta
   public static <E extends @Nullable Object> Multiset<E> difference(
       final Multiset<E> multiset1, final Multiset<?> multiset2) {
     checkNotNull(multiset1);
@@ -1153,7 +1147,6 @@ public final class Multisets {
    *
    * @since 11.0
    */
-  @Beta
   public static <E> ImmutableMultiset<E> copyHighestCountFirst(Multiset<E> multiset) {
     Entry<E>[] entries = (Entry<E>[]) multiset.entrySet().toArray(new Entry[0]);
     Arrays.sort(entries, DecreasingCount.INSTANCE);

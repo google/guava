@@ -20,6 +20,7 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ObjectArrays;
 import com.google.common.collect.testing.ListTestSuiteBuilder;
@@ -388,6 +389,7 @@ public class ImmutableLongArrayTest extends TestCase {
     assertActuallyTrims(underSized);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testSerialization() {
     assertThat(reserialize(ImmutableLongArray.of())).isSameInstanceAs(ImmutableLongArray.of());
@@ -412,6 +414,7 @@ public class ImmutableLongArrayTest extends TestCase {
     assertThat(iia.trimmed()).isSameInstanceAs(iia);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // suite
   public static Test suite() {
     List<ListTestSuiteBuilder<Long>> builders =
@@ -443,6 +446,7 @@ public class ImmutableLongArrayTest extends TestCase {
     return suite;
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // used only from suite
   private static ImmutableLongArray makeArray(Long[] values) {
     return ImmutableLongArray.copyOf(Arrays.asList(values));
@@ -451,6 +455,7 @@ public class ImmutableLongArrayTest extends TestCase {
   // Test generators.  To let the GWT test suite generator access them, they need to be public named
   // classes with a public default constructor (not that we run these suites under GWT yet).
 
+  @J2ktIncompatible
   @GwtIncompatible // used only from suite
   public static final class ImmutableLongArrayAsListGenerator extends TestLongListGenerator {
     @Override
@@ -459,6 +464,7 @@ public class ImmutableLongArrayTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // used only from suite
   public static final class ImmutableLongArrayHeadSubListAsListGenerator
       extends TestLongListGenerator {
@@ -470,6 +476,7 @@ public class ImmutableLongArrayTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // used only from suite
   public static final class ImmutableLongArrayTailSubListAsListGenerator
       extends TestLongListGenerator {
@@ -481,6 +488,7 @@ public class ImmutableLongArrayTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // used only from suite
   public static final class ImmutableLongArrayMiddleSubListAsListGenerator
       extends TestLongListGenerator {
@@ -493,11 +501,13 @@ public class ImmutableLongArrayTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // used only from suite
   private static Long[] concat(Long[] a, Long[] b) {
     return ObjectArrays.concat(a, b, Long.class);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // used only from suite
   public abstract static class TestLongListGenerator implements TestListGenerator<Long> {
     @Override
@@ -533,6 +543,7 @@ public class ImmutableLongArrayTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // used only from suite
   public static class SampleLongs extends SampleElements<Long> {
     public SampleLongs() {

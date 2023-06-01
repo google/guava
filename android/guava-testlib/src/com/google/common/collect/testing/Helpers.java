@@ -23,9 +23,11 @@ import static junit.framework.Assert.assertTrue;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.Serializable;
 import java.lang.reflect.Method;
+import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -253,17 +255,25 @@ public class Helpers {
     throw assertionFailedError;
   }
 
+  private static class EntryComparator<K, V> implements Comparator<Entry<K, V>> {
+    final @Nullable Comparator<? super K> keyComparator;
+
+    public EntryComparator(@Nullable Comparator<? super K> keyComparator) {
+      this.keyComparator = keyComparator;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked") // no less safe than putting it in the map!
+    public int compare(Entry<K, V> a, Entry<K, V> b) {
+      return (keyComparator == null)
+          ? ((Comparable) a.getKey()).compareTo(b.getKey())
+          : keyComparator.compare(a.getKey(), b.getKey());
+    }
+  }
+
   public static <K, V> Comparator<Entry<K, V>> entryComparator(
       @Nullable Comparator<? super K> keyComparator) {
-    return new Comparator<Entry<K, V>>() {
-      @Override
-      @SuppressWarnings("unchecked") // no less safe than putting it in the map!
-      public int compare(Entry<K, V> a, Entry<K, V> b) {
-        return (keyComparator == null)
-            ? ((Comparable) a.getKey()).compareTo(b.getKey())
-            : keyComparator.compare(a.getKey(), b.getKey());
-      }
-    };
+    return new EntryComparator<K, V>(keyComparator);
   }
 
   /**
@@ -352,10 +362,48 @@ public class Helpers {
     // It would be nice to be able to return a real concurrent
     // collection like ConcurrentLinkedQueue, so that e.g. concurrent
     // iteration would work, but that would not be GWT-compatible.
-    return new ArrayList<T>() {
+    // We are not "just" inheriting from ArrayList here as this doesn't work for J2kt.
+    return new AbstractList<T>() {
+      ArrayList<T> data = new ArrayList<>();
+
       @Override
       public int size() {
-        return Math.max(0, super.size() + delta);
+        return Math.max(0, data.size() + delta);
+      }
+
+      @Override
+      public T get(int index) {
+        return data.get(index);
+      }
+
+      @Override
+      public T set(int index, T element) {
+        return data.set(index, element);
+      }
+
+      @Override
+      public boolean add(T element) {
+        return data.add(element);
+      }
+
+      @Override
+      public void add(int index, T element) {
+        data.add(index, element);
+      }
+
+      @Override
+      public T remove(int index) {
+        return data.remove(index);
+      }
+
+      @Override
+      public <T> T[] toArray(T[] a) {
+        return data.toArray(a);
+      }
+
+      @Override
+      public Object[] toArray() {
+        return data.toArray();
       }
     };
   }
@@ -517,6 +565,7 @@ public class Helpers {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // reflection
   public static Method getMethod(Class<?> clazz, String name) {
     try {

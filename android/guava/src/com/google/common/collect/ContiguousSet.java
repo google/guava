@@ -18,7 +18,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static java.util.Objects.requireNonNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.DoNotCall;
@@ -104,7 +103,6 @@ public abstract class ContiguousSet<C extends Comparable> extends ImmutableSorte
    * @throws IllegalArgumentException if {@code lower} is greater than {@code upper}
    * @since 23.0
    */
-  @Beta
   public static ContiguousSet<Integer> closed(int lower, int upper) {
     return create(Range.closed(lower, upper), DiscreteDomain.integers());
   }
@@ -117,7 +115,6 @@ public abstract class ContiguousSet<C extends Comparable> extends ImmutableSorte
    * @throws IllegalArgumentException if {@code lower} is greater than {@code upper}
    * @since 23.0
    */
-  @Beta
   public static ContiguousSet<Long> closed(long lower, long upper) {
     return create(Range.closed(lower, upper), DiscreteDomain.longs());
   }
@@ -130,7 +127,6 @@ public abstract class ContiguousSet<C extends Comparable> extends ImmutableSorte
    * @throws IllegalArgumentException if {@code lower} is greater than {@code upper}
    * @since 23.0
    */
-  @Beta
   public static ContiguousSet<Integer> closedOpen(int lower, int upper) {
     return create(Range.closedOpen(lower, upper), DiscreteDomain.integers());
   }
@@ -143,7 +139,6 @@ public abstract class ContiguousSet<C extends Comparable> extends ImmutableSorte
    * @throws IllegalArgumentException if {@code lower} is greater than {@code upper}
    * @since 23.0
    */
-  @Beta
   public static ContiguousSet<Long> closedOpen(long lower, long upper) {
     return create(Range.closedOpen(lower, upper), DiscreteDomain.longs());
   }

@@ -18,7 +18,6 @@ package com.google.common.collect;
 
 import static com.google.common.collect.ForwardingSortedMap.unsafeCompare;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -103,7 +102,6 @@ public abstract class ForwardingSortedSet<E extends @Nullable Object> extends Fo
    * @since 7.0
    */
   @Override
-  @Beta
   protected boolean standardContains(@Nullable Object object) {
     try {
       // any ClassCastExceptions and NullPointerExceptions are caught
@@ -124,7 +122,6 @@ public abstract class ForwardingSortedSet<E extends @Nullable Object> extends Fo
    * @since 7.0
    */
   @Override
-  @Beta
   protected boolean standardRemove(@Nullable Object object) {
     try {
       // any ClassCastExceptions and NullPointerExceptions are caught
@@ -151,7 +148,6 @@ public abstract class ForwardingSortedSet<E extends @Nullable Object> extends Fo
    *
    * @since 7.0
    */
-  @Beta
   protected SortedSet<E> standardSubSet(E fromElement, E toElement) {
     return tailSet(fromElement).headSet(toElement);
   }

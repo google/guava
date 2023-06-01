@@ -14,7 +14,6 @@
 
 package com.google.common.io;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -32,7 +31,6 @@ import org.jspecify.annotations.Nullable;
  * @author Chris Nokleberg
  * @since 1.0
  */
-@Beta
 @DoNotMock("Implement it normally")
 @J2ktIncompatible
 @GwtIncompatible

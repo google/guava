@@ -21,7 +21,6 @@ import static java.lang.System.identityHashCode;
 import static java.util.Objects.requireNonNull;
 import static java.util.concurrent.atomic.AtomicReferenceFieldUpdater.newUpdater;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Strings;
 import com.google.common.util.concurrent.internal.InternalFutureFailureAccess;
@@ -1065,7 +1064,6 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
    *
    * @since 20.0
    */
-  @Beta
   @ForOverride
   protected void afterDone() {}
 

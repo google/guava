@@ -18,7 +18,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkPositionIndexes;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Arrays;
@@ -46,7 +45,6 @@ import org.jspecify.annotations.NullMarked;
  * @author Louis Wasserman
  * @since 11.0
  */
-@Beta
 @GwtCompatible
 @NullMarked
 public final class UnsignedInts {

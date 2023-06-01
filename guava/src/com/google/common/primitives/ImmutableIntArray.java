@@ -17,7 +17,6 @@ package com.google.common.primitives;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -85,7 +84,6 @@ import org.jspecify.annotations.Nullable;
  *
  * @since 22.0
  */
-@Beta
 @GwtCompatible
 @Immutable
 @NullMarked

@@ -486,7 +486,7 @@ class MapMakerInternalMap<
     }
 
     @Override
-    public final V getValue() {
+    public final @Nullable V getValue() {
       return valueReference.get();
     }
 
@@ -1147,6 +1147,7 @@ class MapMakerInternalMap<
    * Gets the value from an entry. Returns {@code null} if the entry is invalid, partially-collected
    * or computing.
    */
+  @Nullable
   V getLiveValue(E entry) {
     if (entry.getKey() == null) {
       return null;
@@ -1255,6 +1256,7 @@ class MapMakerInternalMap<
     }
 
     /** Returns a copy of the given {@code entry}. */
+    @Nullable
     E copyEntry(E original, E newNext) {
       return this.map.entryHelper.copy(self(), original, newNext);
     }
@@ -1342,6 +1344,7 @@ class MapMakerInternalMap<
     }
 
     /** Unsafely removes the given entry from the given chain in this segment's hash table. */
+    @Nullable
     E removeFromChainForTesting(InternalEntry<K, V, ?> first, InternalEntry<K, V, ?> entry) {
       return removeFromChain(castForTesting(first), castForTesting(entry));
     }
@@ -1400,6 +1403,7 @@ class MapMakerInternalMap<
     }
 
     /** Returns first entry of bin for given hash. */
+    @Nullable
     E getFirst(int hash) {
       // read this volatile field only once
       AtomicReferenceArray<E> table = this.table;
@@ -1408,6 +1412,7 @@ class MapMakerInternalMap<
 
     // Specialized implementations of map methods
 
+    @Nullable
     E getEntry(Object key, int hash) {
       if (count != 0) { // read-volatile
         for (E e = getFirst(hash); e != null; e = e.getNext()) {
@@ -1430,10 +1435,12 @@ class MapMakerInternalMap<
       return null;
     }
 
+    @Nullable
     E getLiveEntry(Object key, int hash) {
       return getEntry(key, hash);
     }
 
+    @Nullable
     V get(Object key, int hash) {
       try {
         E e = getLiveEntry(key, hash);
@@ -1493,6 +1500,7 @@ class MapMakerInternalMap<
       }
     }
 
+    @Nullable
     V put(K key, int hash, V value, boolean onlyIfAbsent) {
       lock();
       try {
@@ -1666,6 +1674,7 @@ class MapMakerInternalMap<
       }
     }
 
+    @Nullable
     V replace(K key, int hash, V newValue) {
       lock();
       try {
@@ -1708,6 +1717,7 @@ class MapMakerInternalMap<
     }
 
     @CanIgnoreReturnValue
+    @Nullable
     V remove(Object key, int hash) {
       lock();
       try {
@@ -1821,6 +1831,7 @@ class MapMakerInternalMap<
      * @return the new first entry for the table
      */
     @GuardedBy("this")
+    @Nullable
     E removeFromChain(E first, E entry) {
       int newCount = count;
       E newFirst = entry.getNext();
@@ -2033,7 +2044,8 @@ class MapMakerInternalMap<
 
     @SuppressWarnings("unchecked")
     @Override
-    public StrongKeyStrongValueEntry<K, V> castForTesting(InternalEntry<K, V, ?> entry) {
+    public @Nullable StrongKeyStrongValueEntry<K, V> castForTesting(
+        @Nullable InternalEntry<K, V, ?> entry) {
       return (StrongKeyStrongValueEntry<K, V>) entry;
     }
   }
@@ -2062,7 +2074,8 @@ class MapMakerInternalMap<
 
     @SuppressWarnings("unchecked")
     @Override
-    public StrongKeyWeakValueEntry<K, V> castForTesting(InternalEntry<K, V, ?> entry) {
+    public @Nullable StrongKeyWeakValueEntry<K, V> castForTesting(
+        @Nullable InternalEntry<K, V, ?> entry) {
       return (StrongKeyWeakValueEntry<K, V>) entry;
     }
 
@@ -2192,7 +2205,8 @@ class MapMakerInternalMap<
 
     @SuppressWarnings("unchecked")
     @Override
-    public WeakKeyWeakValueEntry<K, V> castForTesting(InternalEntry<K, V, ?> entry) {
+    public @Nullable WeakKeyWeakValueEntry<K, V> castForTesting(
+        @Nullable InternalEntry<K, V, ?> entry) {
       return (WeakKeyWeakValueEntry<K, V>) entry;
     }
 
@@ -2361,6 +2375,7 @@ class MapMakerInternalMap<
    * Returns the internal entry for the specified key. The entry may be computing or partially
    * collected. Does not impact recency ordering.
    */
+  @Nullable
   E getEntry(@Nullable Object key) {
     if (key == null) {
       return null;

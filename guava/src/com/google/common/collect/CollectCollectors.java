@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Collections.singletonMap;
 import static java.util.stream.Collectors.collectingAndThen;
 
 import com.google.common.annotations.GwtCompatible;
@@ -326,9 +327,10 @@ final class CollectCollectors {
 
     void put(K key, V value) {
       if (map == null) {
-        map = new EnumMap<>(key.getDeclaringClass());
+        map = new EnumMap<>(singletonMap(key, value));
+      } else {
+        map.merge(key, value, mergeFunction);
       }
-      map.merge(key, value, mergeFunction);
     }
 
     EnumMapAccumulator<K, V> combine(EnumMapAccumulator<K, V> other) {

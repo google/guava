@@ -16,7 +16,6 @@
 
 package com.google.common.testing;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,7 +30,6 @@ import org.jspecify.annotations.NullMarked;
  * @author Luiz-Otavio Zorzella
  * @since 10.0
  */
-@Beta
 @GwtCompatible
 @NullMarked
 public abstract class SloppyTearDown implements TearDown {

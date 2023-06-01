@@ -14,7 +14,6 @@
 
 package com.google.common.util.concurrent;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -37,7 +36,6 @@ import org.jspecify.annotations.Nullable;
  * @since 14.0
  */
 @CheckReturnValue
-@Beta
 @GwtIncompatible
 @J2ktIncompatible
 @NullMarked

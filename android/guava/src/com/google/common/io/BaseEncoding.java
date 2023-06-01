@@ -329,6 +329,7 @@ public abstract class BaseEncoding {
    *
    * @throws IllegalStateException if the alphabet used by this encoding contains mixed upper- and
    *     lower-case characters
+   * @since 32.0.0
    */
   public abstract BaseEncoding ignoreCase();
 

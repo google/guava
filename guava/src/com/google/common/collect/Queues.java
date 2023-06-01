@@ -14,7 +14,6 @@
 
 package com.google.common.collect;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
@@ -284,7 +283,6 @@ public final class Queues {
    * @throws InterruptedException if interrupted while waiting
    * @since 28.0
    */
-  @Beta
   @CanIgnoreReturnValue
   @J2ktIncompatible
   @GwtIncompatible // BlockingQueue
@@ -307,7 +305,6 @@ public final class Queues {
    * @return the number of elements transferred
    * @throws InterruptedException if interrupted while waiting
    */
-  @Beta
   @CanIgnoreReturnValue
   @J2ktIncompatible
   @GwtIncompatible // BlockingQueue
@@ -356,7 +353,6 @@ public final class Queues {
    * @return the number of elements transferred
    * @since 28.0
    */
-  @Beta
   @CanIgnoreReturnValue
   @J2ktIncompatible
   @GwtIncompatible // BlockingQueue
@@ -382,7 +378,6 @@ public final class Queues {
    * @param unit a {@code TimeUnit} determining how to interpret the timeout parameter
    * @return the number of elements transferred
    */
-  @Beta
   @CanIgnoreReturnValue
   @J2ktIncompatible
   @GwtIncompatible // BlockingQueue

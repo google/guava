@@ -21,7 +21,6 @@ import static java.lang.Double.POSITIVE_INFINITY;
 import static java.util.Arrays.sort;
 import static java.util.Collections.unmodifiableMap;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.primitives.Doubles;
@@ -128,7 +127,6 @@ import org.jspecify.annotations.NullMarked;
  * @author Pete Gillin
  * @since 20.0
  */
-@Beta
 @J2ktIncompatible
 @GwtIncompatible
 @NullMarked

@@ -20,6 +20,7 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.testing.NullPointerTester;
 import java.util.Arrays;
@@ -27,12 +28,15 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Unit test for {@link Bytes}.
  *
  * @author Kevin Bourrillion
  */
+@NullMarked
 @GwtCompatible(emulated = true)
 public class BytesTest extends TestCase {
   private static final byte[] EMPTY = {};
@@ -182,7 +186,7 @@ public class BytesTest extends TestCase {
   }
 
   public void testToArray_withNull() {
-    List<Byte> list = Arrays.asList((byte) 0, (byte) 1, null);
+    List<@Nullable Byte> list = Arrays.asList((byte) 0, (byte) 1, null);
     try {
       Bytes.toArray(list);
       fail();
@@ -208,6 +212,7 @@ public class BytesTest extends TestCase {
     assertThat(Bytes.toArray(doubles)).isEqualTo(array);
   }
 
+  @J2ktIncompatible // TODO(b/278877942): Enable
   public void testAsList_isAView() {
     byte[] array = {(byte) 0, (byte) 1};
     List<Byte> list = Bytes.asList(array);
@@ -367,6 +372,7 @@ public class BytesTest extends TestCase {
     testRotate(new byte[] {0, 1, 2, 3, 4, 5, 6}, 3, 3, 7, new byte[] {0, 1, 2, 4, 5, 6, 3});
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // NullPointerTester
   public void testNulls() {
     new NullPointerTester().testAllPublicStaticMethods(Bytes.class);

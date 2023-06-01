@@ -71,11 +71,11 @@
     <testSourceDirectory>test</testSourceDirectory>
     <resources>
       <resource>
-        <directory>src</directory>
-        <excludes>
-          <exclude>**/*.java</exclude>
-          <exclude>**/*.sw*</exclude>
-        </excludes>
+        <directory>../..</directory>
+        <includes>
+          <include>LICENSE</include>
+        </includes>
+        <targetPath>META-INF</targetPath>
       </resource>
     </resources>
     <testResources>
@@ -176,7 +176,7 @@
           <artifactId>animal-sniffer-maven-plugin</artifactId>
           <version>1.23</version>
           <configuration>
-            <annotations>com.google.common.reflect.IgnoreJRERequirement,com.google.common.testing.IgnoreJRERequirement</annotations>
+            <annotations>com.google.common.io.IgnoreJRERequirement,com.google.common.reflect.IgnoreJRERequirement,com.google.common.testing.IgnoreJRERequirement</annotations>
             <checkTestClasses>true</checkTestClasses>
             <signature>
               <groupId>org.codehaus.mojo.signature</groupId>

@@ -14,7 +14,6 @@
 
 package com.google.common.util.concurrent;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import org.jspecify.annotations.NullMarked;
 
@@ -23,7 +22,6 @@ import org.jspecify.annotations.NullMarked;
  *
  * @since 16.0
  */
-@Beta
 @GwtCompatible
 @NullMarked
 public final class Runnables {

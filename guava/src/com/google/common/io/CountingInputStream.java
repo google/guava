@@ -16,7 +16,6 @@ package com.google.common.io;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import java.io.FilterInputStream;
@@ -30,7 +29,6 @@ import org.jspecify.annotations.NullMarked;
  * @author Chris Nokleberg
  * @since 1.0
  */
-@Beta
 @J2ktIncompatible
 @GwtIncompatible
 @NullMarked

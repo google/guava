@@ -42,7 +42,6 @@ import java.util.concurrent.TimeUnit;
  * @author Chris Nokleberg
  * @since 14.0
  */
-@Beta
 @GwtIncompatible
 public final class TestingExecutors {
   private TestingExecutors() {}
@@ -91,8 +90,9 @@ public final class TestingExecutors {
    * invokeAll/invokeAny} throwing RejectedExecutionException, although a subset of the tasks may
    * already have been executed.
    *
-   * @since NEXT (taking the place of a method with a different return type from 15.0)
+   * @since 32.0.0 (taking the place of a method with a different return type from 15.0)
    */
+  @Beta
   public static ListeningScheduledExecutorService sameThreadScheduledExecutor() {
     return new SameThreadScheduledExecutorService();
   }

@@ -16,7 +16,6 @@
 
 package com.google.common.collect;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import java.util.Iterator;
 import java.util.NavigableSet;
@@ -167,7 +166,6 @@ public abstract class ForwardingNavigableSet<E extends @Nullable Object>
    *
    * @since 12.0
    */
-  @Beta
   protected class StandardDescendingSet extends Sets.DescendingSet<E> {
     /** Constructor for use by subclasses. */
     public StandardDescendingSet() {
@@ -191,7 +189,6 @@ public abstract class ForwardingNavigableSet<E extends @Nullable Object>
    * {@code headSet} and {@code tailSet} methods. In many cases, you may wish to override {@link
    * #subSet(Object, boolean, Object, boolean)} to forward to this implementation.
    */
-  @Beta
   protected NavigableSet<E> standardSubSet(
       E fromElement, boolean fromInclusive, E toElement, boolean toInclusive) {
     return tailSet(fromElement, fromInclusive).headSet(toElement, toInclusive);

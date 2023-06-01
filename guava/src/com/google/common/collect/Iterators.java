@@ -24,7 +24,6 @@ import static com.google.common.collect.CollectPreconditions.checkRemove;
 import static com.google.common.collect.NullnessCasts.uncheckedCastNullableTToT;
 import static java.util.Objects.requireNonNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Function;
@@ -47,6 +46,7 @@ import java.util.ListIterator;
 import java.util.NoSuchElementException;
 import java.util.PriorityQueue;
 import java.util.Queue;
+import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -342,10 +342,10 @@ public final class Iterators {
    * @return a newly-allocated array into which all the elements of the iterator have been copied
    */
   @GwtIncompatible // Array.newInstance(Class, int)
-  // For discussion of this signature, see the corresponding overload of *Iterables*.toArray.
-  public static <T> @Nullable T[] toArray(Iterator<? extends @Nullable T> iterator, Class<T> type) {
-    List<@Nullable T> list = Lists.newArrayList(iterator);
-    return Iterables.toArray(list, type);
+  public static <T extends @Nullable Object> T[] toArray(
+      Iterator<? extends T> iterator, Class<@NonNull T> type) {
+    List<T> list = Lists.newArrayList(iterator);
+    return Iterables.<T>toArray(list, type);
   }
 
   /**
@@ -1271,7 +1271,6 @@ public final class Iterators {
    *
    * @since 11.0
    */
-  @Beta
   public static <T extends @Nullable Object> UnmodifiableIterator<T> mergeSorted(
       Iterable<? extends Iterator<? extends T>> iterators, Comparator<? super T> comparator) {
     checkNotNull(iterators, "iterators");
