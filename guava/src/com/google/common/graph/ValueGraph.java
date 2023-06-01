@@ -113,6 +113,17 @@ public interface ValueGraph<N, V> extends BaseGraph<N> {
   //
   // ValueGraph-level accessors
   //
+  
+   /**
+   * Adds an edge between the specified nodes with the given value.
+   *
+   * @param nodeU the source node of the edge
+   * @param nodeV the target node of the edge
+   * @param value the value associated with the edge
+   * @throws IllegalArgumentException if {@code nodeU} or {@code nodeV} is not an element of this graph
+   */
+  void addEdge(N nodeU, N nodeV, V value);
+
 
   /** Returns all nodes in this graph, in the order specified by {@link #nodeOrder()}. */
   @Override
