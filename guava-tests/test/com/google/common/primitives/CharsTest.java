@@ -21,6 +21,7 @@ import static com.google.common.truth.Truth.assertWithMessage;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
@@ -221,12 +222,14 @@ public class CharsTest extends TestCase {
         .isEqualTo(new char[] {(char) 1, (char) 2, (char) 3, (char) 4});
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // Chars.fromByteArray
   public void testFromByteArray() {
     assertThat(Chars.fromByteArray(new byte[] {0x23, 0x45, (byte) 0xDC})).isEqualTo('\u2345');
     assertThat(Chars.fromByteArray(new byte[] {(byte) 0xFE, (byte) 0xDC})).isEqualTo('\uFEDC');
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // Chars.fromByteArray
   public void testFromByteArrayFails() {
     try {
@@ -236,12 +239,14 @@ public class CharsTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // Chars.fromBytes
   public void testFromBytes() {
     assertThat(Chars.fromBytes((byte) 0x23, (byte) 0x45)).isEqualTo('\u2345');
     assertThat(Chars.fromBytes((byte) 0xFE, (byte) 0xDC)).isEqualTo('\uFEDC');
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // Chars.fromByteArray, Chars.toByteArray
   public void testByteArrayRoundTrips() {
     char c = 0;
@@ -269,6 +274,7 @@ public class CharsTest extends TestCase {
     assertThat(c).isEqualTo((char) 0); // sanity check
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // Chars.fromByteArray, Chars.toByteArray
   public void testByteArrayRoundTripsFails() {
     try {
@@ -324,6 +330,7 @@ public class CharsTest extends TestCase {
     Helpers.testComparator(comparator, ordered);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testLexicographicalComparatorSerializable() {
     Comparator<char[]> comparator = Chars.lexicographicalComparator();
@@ -659,6 +666,7 @@ public class CharsTest extends TestCase {
     assertThat(Chars.asList(EMPTY)).isSameInstanceAs(Collections.emptyList());
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // NullPointerTester
   public void testNulls() {
     new NullPointerTester().testAllPublicStaticMethods(Chars.class);
