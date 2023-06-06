@@ -33,12 +33,14 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Unit test for {@link Shorts}.
  *
  * @author Kevin Bourrillion
  */
+@ElementTypesAreNonnullByDefault
 @GwtCompatible(emulated = true)
 @SuppressWarnings("cast") // redundant casts are intentional and harmless
 public class ShortsTest extends TestCase {
@@ -321,6 +323,7 @@ public class ShortsTest extends TestCase {
     assertThat(Shorts.join("", (short) 1, (short) 2, (short) 3)).isEqualTo("123");
   }
 
+  @J2ktIncompatible // TODO(b/285297472): Enable
   public void testLexicographicalComparator() {
     List<short[]> ordered =
         Arrays.asList(
@@ -540,7 +543,7 @@ public class ShortsTest extends TestCase {
   }
 
   public void testToArray_withNull() {
-    List<Short> list = Arrays.asList((short) 0, (short) 1, null);
+    List<@Nullable Short> list = Arrays.asList((short) 0, (short) 1, null);
     try {
       Shorts.toArray(list);
       fail();
@@ -566,6 +569,7 @@ public class ShortsTest extends TestCase {
     assertThat(Shorts.toArray(doubles)).isEqualTo(array);
   }
 
+  @J2ktIncompatible // b/285319375
   public void testAsList_isAView() {
     short[] array = {(short) 0, (short) 1};
     List<Short> list = Shorts.asList(array);

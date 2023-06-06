@@ -31,6 +31,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Unit test for {@link Booleans}.
@@ -38,6 +39,7 @@ import junit.framework.TestCase;
  * @author Kevin Bourrillion
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public class BooleansTest extends TestCase {
   private static final boolean[] EMPTY = {};
   private static final boolean[] ARRAY_FALSE = {false};
@@ -47,6 +49,7 @@ public class BooleansTest extends TestCase {
 
   private static final boolean[] VALUES = {false, true};
 
+  @J2ktIncompatible // TODO(b/285538920): Fix and enable.
   public void testHashCode() {
     assertThat(Booleans.hashCode(true)).isEqualTo(Boolean.TRUE.hashCode());
     assertThat(Booleans.hashCode(false)).isEqualTo(Boolean.FALSE.hashCode());
@@ -478,7 +481,7 @@ public class BooleansTest extends TestCase {
   }
 
   public void testToArray_withNull() {
-    List<Boolean> list = Arrays.asList(false, true, null);
+    List<@Nullable Boolean> list = Arrays.asList(false, true, null);
     try {
       Booleans.toArray(list);
       fail();

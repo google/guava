@@ -41,6 +41,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *
  * @author Kevin Bourrillion
  */
+@ElementTypesAreNonnullByDefault
 @GwtCompatible(emulated = true)
 public class FloatsTest extends TestCase {
   private static final float[] EMPTY = {};
@@ -529,7 +530,7 @@ public class FloatsTest extends TestCase {
   }
 
   public void testToArray_withNull() {
-    List<Float> list = Arrays.asList((float) 0, (float) 1, null);
+    List<@Nullable Float> list = Arrays.asList((float) 0, (float) 1, null);
     try {
       Floats.toArray(list);
       fail();
@@ -555,6 +556,7 @@ public class FloatsTest extends TestCase {
     assertThat(Floats.toArray(doubles)).isEqualTo(array);
   }
 
+  @J2ktIncompatible // b/285319375
   public void testAsList_isAView() {
     float[] array = {(float) 0, (float) 1};
     List<Float> list = Floats.asList(array);

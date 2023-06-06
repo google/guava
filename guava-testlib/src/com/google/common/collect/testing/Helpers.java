@@ -45,6 +45,7 @@ import junit.framework.AssertionFailedError;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public class Helpers {
   // Clone of Objects.equal
   static boolean equal(@Nullable Object a, @Nullable Object b) {
@@ -52,29 +53,30 @@ public class Helpers {
   }
 
   // Clone of Lists.newArrayList
-  public static <E> List<E> copyToList(Iterable<? extends E> elements) {
+  public static <E extends @Nullable Object> List<E> copyToList(Iterable<? extends E> elements) {
     List<E> list = new ArrayList<>();
     addAll(list, elements);
     return list;
   }
 
-  public static <E> List<E> copyToList(E[] elements) {
+  public static <E extends @Nullable Object> List<E> copyToList(E[] elements) {
     return copyToList(Arrays.asList(elements));
   }
 
   // Clone of Sets.newLinkedHashSet
-  public static <E> Set<E> copyToSet(Iterable<? extends E> elements) {
+  public static <E extends @Nullable Object> Set<E> copyToSet(Iterable<? extends E> elements) {
     Set<E> set = new LinkedHashSet<>();
     addAll(set, elements);
     return set;
   }
 
-  public static <E> Set<E> copyToSet(E[] elements) {
+  public static <E extends @Nullable Object> Set<E> copyToSet(E[] elements) {
     return copyToSet(Arrays.asList(elements));
   }
 
   // Would use Maps.immutableEntry
-  public static <K, V> Entry<K, V> mapEntry(K key, V value) {
+  public static <K extends @Nullable Object, V extends @Nullable Object> Entry<K, V> mapEntry(
+      K key, V value) {
     return Collections.singletonMap(key, value).entrySet().iterator().next();
   }
 
@@ -185,7 +187,8 @@ public class Helpers {
   }
 
   @CanIgnoreReturnValue
-  public static <E> boolean addAll(Collection<E> addTo, Iterable<? extends E> elementsToAdd) {
+  public static <E extends @Nullable Object> boolean addAll(
+      Collection<E> addTo, Iterable<? extends E> elementsToAdd) {
     boolean modified = false;
     for (E e : elementsToAdd) {
       modified |= addTo.add(e);
@@ -255,7 +258,8 @@ public class Helpers {
     throw assertionFailedError;
   }
 
-  private static class EntryComparator<K, V> implements Comparator<Entry<K, V>> {
+  private static class EntryComparator<K extends @Nullable Object, V extends @Nullable Object>
+      implements Comparator<Entry<K, V>> {
     final @Nullable Comparator<? super K> keyComparator;
 
     public EntryComparator(@Nullable Comparator<? super K> keyComparator) {
@@ -303,7 +307,7 @@ public class Helpers {
    *       valuesInExpectedOrder.get(i)} and {@code tj = valuesInExpectedOrder.get(j)}.
    * </ul>
    */
-  public static <T> void testComparator(
+  public static <T extends @Nullable Object> void testComparator(
       Comparator<? super T> comparator, List<T> valuesInExpectedOrder) {
     // This does an O(n^2) test of all pairs of values in both orders
     for (int i = 0; i < valuesInExpectedOrder.size(); i++) {
@@ -358,7 +362,7 @@ public class Helpers {
    * @param delta the difference between the true size of the collection and the values returned by
    *     the size method
    */
-  public static <T> Collection<T> misleadingSizeCollection(int delta) {
+  public static <T extends @Nullable Object> Collection<T> misleadingSizeCollection(int delta) {
     // It would be nice to be able to return a real concurrent
     // collection like ConcurrentLinkedQueue, so that e.g. concurrent
     // iteration would work, but that would not be GWT-compatible.
@@ -397,12 +401,7 @@ public class Helpers {
       }
 
       @Override
-      public <T> T[] toArray(T[] a) {
-        return data.toArray(a);
-      }
-
-      @Override
-      public Object[] toArray() {
+      public @Nullable Object[] toArray() {
         return data.toArray();
       }
     };
@@ -414,7 +413,8 @@ public class Helpers {
    * equals. This is used for testing unmodifiable collections of map entries; for example, it
    * should not be possible to access the raw (modifiable) map entry via a nefarious equals method.
    */
-  public static <K, V> Entry<K, V> nefariousMapEntry(K key, V value) {
+  public static <K extends @Nullable Object, V extends @Nullable Object>
+      Entry<K, V> nefariousMapEntry(K key, V value) {
     return new Entry<K, V>() {
       @Override
       public K getKey() {
@@ -457,7 +457,7 @@ public class Helpers {
     };
   }
 
-  static <E> List<E> castOrCopyToList(Iterable<E> iterable) {
+  static <E extends @Nullable Object> List<E> castOrCopyToList(Iterable<E> iterable) {
     if (iterable instanceof List) {
       return (List<E>) iterable;
     }
@@ -477,6 +477,7 @@ public class Helpers {
         }
       };
 
+  @J2ktIncompatible
   public static <K extends Comparable, V> Iterable<Entry<K, V>> orderEntriesByKey(
       List<Entry<K, V>> insertionOrder) {
     sort(insertionOrder, Helpers.<K, V>entryComparator(NATURAL_ORDER));
@@ -495,7 +496,7 @@ public class Helpers {
    * values, it lies outside the submap/submultiset ranges we test, and the variety of tests that
    * exercise null handling fail on those subcollections.
    */
-  public abstract static class NullsBefore implements Comparator<String>, Serializable {
+  public abstract static class NullsBefore implements Comparator<@Nullable String>, Serializable {
     /*
      * We don't serialize this class in GWT, so we don't care about whether GWT will serialize this
      * field.

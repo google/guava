@@ -36,12 +36,14 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Unit test for {@link Longs}.
  *
  * @author Kevin Bourrillion
  */
+@ElementTypesAreNonnullByDefault
 @GwtCompatible(emulated = true)
 @SuppressWarnings("cast") // redundant casts are intentional and harmless
 public class LongsTest extends TestCase {
@@ -522,7 +524,7 @@ public class LongsTest extends TestCase {
   }
 
   public void testToArray_withNull() {
-    List<Long> list = Arrays.asList((long) 0, (long) 1, null);
+    List<@Nullable Long> list = Arrays.asList((long) 0, (long) 1, null);
     try {
       Longs.toArray(list);
       fail();
@@ -548,6 +550,7 @@ public class LongsTest extends TestCase {
     assertThat(Longs.toArray(doubles)).isEqualTo(array);
   }
 
+  @J2ktIncompatible // b/285319375
   public void testAsList_isAView() {
     long[] array = {(long) 0, (long) 1};
     List<Long> list = Longs.asList(array);

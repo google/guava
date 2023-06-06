@@ -35,6 +35,7 @@ import junit.framework.TestCase;
  *
  * @author Kevin Bourrillion
  */
+@ElementTypesAreNonnullByDefault
 @GwtCompatible(emulated = true)
 @SuppressWarnings("cast") // redundant casts are intentional and harmless
 public class SignedBytesTest extends TestCase {
@@ -136,6 +137,7 @@ public class SignedBytesTest extends TestCase {
     assertThat(SignedBytes.join(",", (byte) -128, (byte) -1)).isEqualTo("-128,-1");
   }
 
+  @J2ktIncompatible // b/285319375
   public void testLexicographicalComparator() {
     List<byte[]> ordered =
         Arrays.asList(

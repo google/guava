@@ -103,6 +103,7 @@ public class UnsignedLongTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible // TODO(b/285562794): Wrong result for j2kt
   public void testValueOfBigInteger() {
     BigInteger min = BigInteger.ZERO;
     BigInteger max = UnsignedLong.MAX_VALUE.bigIntegerValue();
@@ -166,6 +167,7 @@ public class UnsignedLongTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible // TODO(b/285562794): Wrong result for j2kt
   public void testPlus() {
     for (long a : TEST_LONGS) {
       for (long b : TEST_LONGS) {
@@ -178,6 +180,7 @@ public class UnsignedLongTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible // TODO(b/285562794): Wrong result for j2kt
   public void testMinus() {
     for (long a : TEST_LONGS) {
       for (long b : TEST_LONGS) {
@@ -191,6 +194,7 @@ public class UnsignedLongTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible // TODO(b/285562794): Wrong result for j2kt
   public void testTimes() {
     for (long a : TEST_LONGS) {
       for (long b : TEST_LONGS) {
@@ -204,6 +208,7 @@ public class UnsignedLongTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible // TODO(b/285562794): Wrong result for j2kt
   public void testDividedBy() {
     for (long a : TEST_LONGS) {
       for (long b : TEST_LONGS) {
@@ -229,6 +234,7 @@ public class UnsignedLongTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible // TODO(b/285538920): Wrong result for j2kt
   public void testMod() {
     for (long a : TEST_LONGS) {
       for (long b : TEST_LONGS) {

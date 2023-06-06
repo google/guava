@@ -33,6 +33,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Unit test for {@link Ints}.
@@ -40,6 +41,7 @@ import junit.framework.TestCase;
  * @author Kevin Bourrillion
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 @SuppressWarnings("cast") // redundant casts are intentional and harmless
 public class IntsTest extends TestCase {
   private static final int[] EMPTY = {};
@@ -511,7 +513,7 @@ public class IntsTest extends TestCase {
   }
 
   public void testToArray_withNull() {
-    List<Integer> list = Arrays.asList((int) 0, (int) 1, null);
+    List<@Nullable Integer> list = Arrays.asList((int) 0, (int) 1, null);
     try {
       Ints.toArray(list);
       fail();
@@ -537,6 +539,7 @@ public class IntsTest extends TestCase {
     assertThat(Ints.toArray(doubles)).isEqualTo(array);
   }
 
+  @J2ktIncompatible // b/285319375
   public void testAsList_isAView() {
     int[] array = {(int) 0, (int) 1};
     List<Integer> list = Ints.asList(array);
