@@ -15,17 +15,37 @@
 package com.google.common.io;
 
 import static com.google.common.base.StandardSystemProperty.JAVA_IO_TMPDIR;
+import static java.nio.file.attribute.AclEntryFlag.DIRECTORY_INHERIT;
+import static java.nio.file.attribute.AclEntryFlag.FILE_INHERIT;
+import static java.nio.file.attribute.AclEntryPermission.APPEND_DATA;
+import static java.nio.file.attribute.AclEntryPermission.DELETE;
+import static java.nio.file.attribute.AclEntryPermission.DELETE_CHILD;
+import static java.nio.file.attribute.AclEntryPermission.EXECUTE;
+import static java.nio.file.attribute.AclEntryPermission.READ_ACL;
+import static java.nio.file.attribute.AclEntryPermission.READ_ATTRIBUTES;
+import static java.nio.file.attribute.AclEntryPermission.READ_DATA;
+import static java.nio.file.attribute.AclEntryPermission.READ_NAMED_ATTRS;
+import static java.nio.file.attribute.AclEntryPermission.SYNCHRONIZE;
+import static java.nio.file.attribute.AclEntryPermission.WRITE_ACL;
+import static java.nio.file.attribute.AclEntryPermission.WRITE_ATTRIBUTES;
+import static java.nio.file.attribute.AclEntryPermission.WRITE_NAMED_ATTRS;
+import static java.nio.file.attribute.AclEntryPermission.WRITE_OWNER;
+import static java.nio.file.attribute.AclEntryType.ALLOW;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
+import com.google.common.collect.ImmutableList;
 import com.google.j2objc.annotations.J2ObjCIncompatible;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.FileSystems;
 import java.nio.file.Paths;
+import java.nio.file.attribute.AclEntry;
 import java.nio.file.attribute.FileAttribute;
-import java.nio.file.attribute.PosixFilePermission;
 import java.nio.file.attribute.PosixFilePermissions;
+import java.nio.file.attribute.UserPrincipal;
 import java.util.Set;
+import javax.annotation.CheckForNull;
 
 /**
  * Creates temporary files and directories whose permissions are restricted to the current user or,
@@ -90,16 +110,62 @@ abstract class TempFileCreator {
 
   @IgnoreJRERequirement // used only when Path is available
   private static final class JavaNioCreator extends TempFileCreator {
-    private static final FileAttribute<Set<PosixFilePermission>> RWX_USER_ONLY =
+    private static final FileAttribute<?> RWX_USER_ONLY =
         PosixFilePermissions.asFileAttribute(PosixFilePermissions.fromString("rwx------"));
-    private static final FileAttribute<Set<PosixFilePermission>> RW_USER_ONLY =
+    private static final FileAttribute<?> RW_USER_ONLY =
         PosixFilePermissions.asFileAttribute(PosixFilePermissions.fromString("rw-------"));
+    @CheckForNull private static FileAttribute<?> userOnly;
+
+    private static FileAttribute<?> userOnly() throws IOException {
+      FileAttribute<?> result = userOnly;
+      if (result != null) {
+        return result;
+      }
+
+      UserPrincipal user =
+          FileSystems.getDefault()
+              .getUserPrincipalLookupService()
+              .lookupPrincipalByName(System.getProperty("user.name"));
+      ImmutableList<AclEntry> acl =
+          ImmutableList.of(
+              AclEntry.newBuilder()
+                  .setType(ALLOW)
+                  .setPrincipal(user)
+                  .setPermissions(
+                      APPEND_DATA,
+                      DELETE,
+                      DELETE_CHILD,
+                      EXECUTE,
+                      READ_ACL,
+                      READ_ATTRIBUTES,
+                      READ_DATA,
+                      READ_NAMED_ATTRS,
+                      SYNCHRONIZE,
+                      WRITE_ACL,
+                      WRITE_ATTRIBUTES,
+                      WRITE_NAMED_ATTRS,
+                      WRITE_OWNER)
+                  .setFlags(DIRECTORY_INHERIT, FILE_INHERIT)
+                  .build());
+      return userOnly =
+          new FileAttribute<ImmutableList<AclEntry>>() {
+            @Override
+            public String name() {
+              return "acl:acl";
+            }
+
+            @Override
+            public ImmutableList<AclEntry> value() {
+              return acl;
+            }
+          };
+    }
 
     @Override
     File createTempDir() {
       try {
         return java.nio.file.Files.createTempDirectory(
-                Paths.get(JAVA_IO_TMPDIR.value()), /* prefix= */ null, RWX_USER_ONLY)
+                Paths.get(JAVA_IO_TMPDIR.value()), /* prefix= */ null, directoryPermissions())
             .toFile();
       } catch (IOException e) {
         throw new IllegalStateException("Failed to create directory", e);
@@ -112,8 +178,30 @@ abstract class TempFileCreator {
               Paths.get(JAVA_IO_TMPDIR.value()),
               /* prefix= */ prefix,
               /* suffix= */ null,
-              RW_USER_ONLY)
+              filePermissions())
           .toFile();
+    }
+
+    private static FileAttribute<?> directoryPermissions() throws IOException {
+      Set<String> views = FileSystems.getDefault().supportedFileAttributeViews();
+      if (views.contains("posix")) {
+        return RWX_USER_ONLY;
+      } else if (views.contains("acl")) {
+        return userOnly();
+      } else {
+        throw new IOException("unrecognized FileSystem type " + FileSystems.getDefault());
+      }
+    }
+
+    private static FileAttribute<?> filePermissions() throws IOException {
+      Set<String> views = FileSystems.getDefault().supportedFileAttributeViews();
+      if (views.contains("posix")) {
+        return RW_USER_ONLY;
+      } else if (views.contains("acl")) {
+        return userOnly();
+      } else {
+        throw new IOException("unrecognized FileSystem type " + FileSystems.getDefault());
+      }
     }
   }
 
