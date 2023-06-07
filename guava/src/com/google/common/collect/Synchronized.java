@@ -447,7 +447,7 @@ final class Synchronized {
     }
 
     @Override
-    public void sort(Comparator<? super E> c) {
+    public void sort(@Nullable Comparator<? super E> c) {
       synchronized (mutex) {
         delegate().sort(c);
       }
