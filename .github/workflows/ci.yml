@@ -16,12 +16,17 @@ jobs:
     permissions:
       actions: write  # for styfle/cancel-workflow-action to cancel/stop running workflows
       contents: read  # for actions/checkout to fetch code
-    name: "${{ matrix.root-pom }} on JDK ${{ matrix.java }}"
+    name: "${{ matrix.root-pom }} on JDK ${{ matrix.java }} on ${{ matrix.os }}"
     strategy:
       matrix:
+        os: [ ubuntu-latest ]
         java: [ 8, 11, 17 ]
         root-pom: [ 'pom.xml', 'android/pom.xml' ]
-    runs-on: ubuntu-latest
+        include:
+          - os: windows-latest
+            java: 17
+            root-pom: pom.xml
+    runs-on: ${{ matrix.os }}
     env:
       ROOT_POM: ${{ matrix.root-pom }}
     steps:

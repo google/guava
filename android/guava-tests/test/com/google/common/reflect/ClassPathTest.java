@@ -17,6 +17,7 @@ package com.google.common.reflect;
 
 import static com.google.common.base.Charsets.US_ASCII;
 import static com.google.common.base.StandardSystemProperty.JAVA_CLASS_PATH;
+import static com.google.common.base.StandardSystemProperty.OS_NAME;
 import static com.google.common.base.StandardSystemProperty.PATH_SEPARATOR;
 import static com.google.common.truth.Truth.assertThat;
 
@@ -173,6 +174,13 @@ public class ClassPathTest extends TestCase {
   @AndroidIncompatible // Android forbids null parent ClassLoader
   // https://github.com/google/guava/issues/2152
   public void testJarFileWithSpaces() throws Exception {
+    if (isWindows()) {
+      /*
+       * TODO: b/285742623 - Fix c.g.c.io.Files.createTempDir under Windows. Or use java.nio.files
+       * instead?
+       */
+      return;
+    }
     URL url = makeJarUrlWithName("To test unescaped spaces in jar file name.jar");
     URLClassLoader classloader = new URLClassLoader(new URL[] {url}, null);
     assertThat(ClassPath.from(classloader).getTopLevelClasses()).isNotEmpty();
@@ -215,6 +223,9 @@ public class ClassPathTest extends TestCase {
   }
 
   public void testGetClassPathEntry() throws MalformedURLException, URISyntaxException {
+    if (isWindows()) {
+      return; // TODO: b/136041958 - We need to account for drive letters in the path.
+    }
     assertEquals(
         new File("/usr/test/dep.jar").toURI(),
         ClassPath.getClassPathEntry(new File("/home/build/outer.jar"), "file:/usr/test/dep.jar")
@@ -285,6 +296,9 @@ public class ClassPathTest extends TestCase {
   }
 
   public void testGetClassPathFromManifest_absoluteDirectory() throws IOException {
+    if (isWindows()) {
+      return; // TODO: b/136041958 - We need to account for drive letters in the path.
+    }
     File jarFile = new File("base/some.jar");
     Manifest manifest = manifestClasspath("file:/with/absolute/dir");
     assertThat(ClassPath.getClassPathFromManifest(jarFile, manifest))
@@ -292,6 +306,9 @@ public class ClassPathTest extends TestCase {
   }
 
   public void testGetClassPathFromManifest_absoluteJar() throws IOException {
+    if (isWindows()) {
+      return; // TODO: b/136041958 - We need to account for drive letters in the path.
+    }
     File jarFile = new File("base/some.jar");
     Manifest manifest = manifestClasspath("file:/with/absolute.jar");
     assertThat(ClassPath.getClassPathFromManifest(jarFile, manifest))
@@ -299,6 +316,9 @@ public class ClassPathTest extends TestCase {
   }
 
   public void testGetClassPathFromManifest_multiplePaths() throws IOException {
+    if (isWindows()) {
+      return; // TODO: b/136041958 - We need to account for drive letters in the path.
+    }
     File jarFile = new File("base/some.jar");
     Manifest manifest = manifestClasspath("file:/with/absolute.jar relative.jar  relative/dir");
     assertThat(ClassPath.getClassPathFromManifest(jarFile, manifest))
@@ -355,6 +375,9 @@ public class ClassPathTest extends TestCase {
 
 
   public void testGetClassPathUrls() throws Exception {
+    if (isWindows()) {
+      return; // TODO: b/136041958 - We need to account for drive letters in the path.
+    }
     String oldPathSeparator = PATH_SEPARATOR.value();
     String oldClassPath = JAVA_CLASS_PATH.value();
     System.setProperty(PATH_SEPARATOR.key(), ":");
@@ -571,5 +594,9 @@ public class ClassPathTest extends TestCase {
       }
     }
     return builder.build();
+  }
+
+  private static boolean isWindows() {
+    return OS_NAME.value().startsWith("Windows");
   }
 }

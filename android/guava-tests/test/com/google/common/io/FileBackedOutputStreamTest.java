@@ -17,6 +17,7 @@
 package com.google.common.io;
 
 import static com.google.common.base.StandardSystemProperty.JAVA_IO_TMPDIR;
+import static com.google.common.base.StandardSystemProperty.OS_NAME;
 import static com.google.common.truth.Truth.assertThat;
 import static java.nio.file.attribute.PosixFilePermission.OWNER_READ;
 import static java.nio.file.attribute.PosixFilePermission.OWNER_WRITE;
@@ -40,6 +41,9 @@ public class FileBackedOutputStreamTest extends IoTestCase {
 
 
   public void testThreshold() throws Exception {
+    if (isWindows()) {
+      return; // TODO: b/285742623 - Fix FileBackedOutputStream under Windows.
+    }
     testThreshold(0, 100, true, false);
     testThreshold(10, 100, true, false);
     testThreshold(100, 100, true, false);
@@ -99,6 +103,9 @@ public class FileBackedOutputStreamTest extends IoTestCase {
 
 
   public void testThreshold_resetOnFinalize() throws Exception {
+    if (isWindows()) {
+      return; // TODO: b/285742623 - Fix FileBackedOutputStream under Windows.
+    }
     testThreshold(0, 100, true, true);
     testThreshold(10, 100, true, true);
     testThreshold(100, 100, true, true);
@@ -124,6 +131,9 @@ public class FileBackedOutputStreamTest extends IoTestCase {
   // TODO(chrisn): only works if we ensure we have crossed file threshold
 
   public void testWriteErrorAfterClose() throws Exception {
+    if (isWindows()) {
+      return; // TODO: b/285742623 - Fix FileBackedOutputStream under Windows.
+    }
     byte[] data = newPreFilledByteArray(100);
     FileBackedOutputStream out = new FileBackedOutputStream(50);
     ByteSource source = out.asByteSource();
@@ -166,5 +176,9 @@ public class FileBackedOutputStreamTest extends IoTestCase {
 
   private static boolean isAndroid() {
     return System.getProperty("java.runtime.name", "").contains("Android");
+  }
+
+  private static boolean isWindows() {
+    return OS_NAME.value().startsWith("Windows");
   }
 }
