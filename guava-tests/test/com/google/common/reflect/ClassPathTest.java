@@ -180,13 +180,6 @@ public class ClassPathTest extends TestCase {
   @AndroidIncompatible // Android forbids null parent ClassLoader
   // https://github.com/google/guava/issues/2152
   public void testJarFileWithSpaces() throws Exception {
-    if (isWindows()) {
-      /*
-       * TODO: b/285742623 - Fix c.g.c.io.Files.createTempDir under Windows. Or use java.nio.files
-       * instead?
-       */
-      return;
-    }
     URL url = makeJarUrlWithName("To test unescaped spaces in jar file name.jar");
     URLClassLoader classloader = new URLClassLoader(new URL[] {url}, null);
     assertThat(ClassPath.from(classloader).getTopLevelClasses()).isNotEmpty();
@@ -635,6 +628,10 @@ public class ClassPathTest extends TestCase {
   }
 
   private static URL makeJarUrlWithName(String name) throws IOException {
+    /*
+     * TODO: cpovirk - Use java.nio.file.Files.createTempDirectory instead of
+     * c.g.c.io.Files.createTempDir?
+     */
     File fullPath = new File(Files.createTempDir(), name);
     File jarFile = pickAnyJarFile();
     Files.copy(jarFile, fullPath);

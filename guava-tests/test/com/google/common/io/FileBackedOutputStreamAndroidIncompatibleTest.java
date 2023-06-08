@@ -16,7 +16,6 @@
 
 package com.google.common.io;
 
-import static com.google.common.base.StandardSystemProperty.OS_NAME;
 import static com.google.common.io.FileBackedOutputStreamTest.write;
 
 import com.google.common.testing.GcFinalization;
@@ -31,9 +30,6 @@ import java.io.File;
 public class FileBackedOutputStreamAndroidIncompatibleTest extends IoTestCase {
 
   public void testFinalizeDeletesFile() throws Exception {
-    if (isWindows()) {
-      return; // TODO: b/285742623 - Fix FileBackedOutputStream under Windows.
-    }
     byte[] data = newPreFilledByteArray(100);
     FileBackedOutputStream out = new FileBackedOutputStream(0, true);
 
@@ -54,9 +50,5 @@ public class FileBackedOutputStreamAndroidIncompatibleTest extends IoTestCase {
             return !file.exists();
           }
         });
-  }
-
-  private static boolean isWindows() {
-    return OS_NAME.value().startsWith("Windows");
   }
 }

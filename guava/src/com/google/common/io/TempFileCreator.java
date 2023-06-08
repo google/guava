@@ -15,16 +15,26 @@
 package com.google.common.io;
 
 import static com.google.common.base.StandardSystemProperty.JAVA_IO_TMPDIR;
+import static com.google.common.base.StandardSystemProperty.USER_NAME;
+import static java.nio.file.attribute.AclEntryFlag.DIRECTORY_INHERIT;
+import static java.nio.file.attribute.AclEntryFlag.FILE_INHERIT;
+import static java.nio.file.attribute.AclEntryType.ALLOW;
+import static java.nio.file.attribute.PosixFilePermissions.asFileAttribute;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
+import com.google.common.collect.ImmutableList;
 import com.google.j2objc.annotations.J2ObjCIncompatible;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.FileSystems;
 import java.nio.file.Paths;
+import java.nio.file.attribute.AclEntry;
+import java.nio.file.attribute.AclEntryPermission;
 import java.nio.file.attribute.FileAttribute;
-import java.nio.file.attribute.PosixFilePermission;
 import java.nio.file.attribute.PosixFilePermissions;
+import java.nio.file.attribute.UserPrincipal;
+import java.util.EnumSet;
 import java.util.Set;
 
 /**
@@ -90,16 +100,11 @@ abstract class TempFileCreator {
 
   @IgnoreJRERequirement // used only when Path is available
   private static final class JavaNioCreator extends TempFileCreator {
-    private static final FileAttribute<Set<PosixFilePermission>> RWX_USER_ONLY =
-        PosixFilePermissions.asFileAttribute(PosixFilePermissions.fromString("rwx------"));
-    private static final FileAttribute<Set<PosixFilePermission>> RW_USER_ONLY =
-        PosixFilePermissions.asFileAttribute(PosixFilePermissions.fromString("rw-------"));
-
     @Override
     File createTempDir() {
       try {
         return java.nio.file.Files.createTempDirectory(
-                Paths.get(JAVA_IO_TMPDIR.value()), /* prefix= */ null, RWX_USER_ONLY)
+                Paths.get(JAVA_IO_TMPDIR.value()), /* prefix= */ null, directoryPermissions.get())
             .toFile();
       } catch (IOException e) {
         throw new IllegalStateException("Failed to create directory", e);
@@ -112,8 +117,67 @@ abstract class TempFileCreator {
               Paths.get(JAVA_IO_TMPDIR.value()),
               /* prefix= */ prefix,
               /* suffix= */ null,
-              RW_USER_ONLY)
+              filePermissions.get())
           .toFile();
+    }
+
+    @IgnoreJRERequirement // see enclosing class (whose annotation Animal Sniffer ignores here...)
+    private interface PermissionSupplier {
+      FileAttribute<?> get() throws IOException;
+    }
+
+    private static final PermissionSupplier filePermissions;
+    private static final PermissionSupplier directoryPermissions;
+
+    static {
+      Set<String> views = FileSystems.getDefault().supportedFileAttributeViews();
+      if (views.contains("posix")) {
+        filePermissions = () -> asFileAttribute(PosixFilePermissions.fromString("rw-------"));
+        directoryPermissions = () -> asFileAttribute(PosixFilePermissions.fromString("rwx------"));
+      } else if (views.contains("acl")) {
+        filePermissions = directoryPermissions = userPermissions();
+      } else {
+        filePermissions =
+            directoryPermissions =
+                () -> {
+                  throw new IOException("unrecognized FileSystem type " + FileSystems.getDefault());
+                };
+      }
+    }
+
+    private static PermissionSupplier userPermissions() {
+      try {
+        UserPrincipal user =
+            FileSystems.getDefault()
+                .getUserPrincipalLookupService()
+                .lookupPrincipalByName(USER_NAME.value());
+        ImmutableList<AclEntry> acl =
+            ImmutableList.of(
+                AclEntry.newBuilder()
+                    .setType(ALLOW)
+                    .setPrincipal(user)
+                    .setPermissions(EnumSet.allOf(AclEntryPermission.class))
+                    .setFlags(DIRECTORY_INHERIT, FILE_INHERIT)
+                    .build());
+        FileAttribute<ImmutableList<AclEntry>> attribute =
+            new FileAttribute<ImmutableList<AclEntry>>() {
+              @Override
+              public String name() {
+                return "acl:acl";
+              }
+
+              @Override
+              public ImmutableList<AclEntry> value() {
+                return acl;
+              }
+            };
+        return () -> attribute;
+      } catch (IOException e) {
+        // We throw a new exception each time so that the stack trace is right.
+        return () -> {
+          throw new IOException("Could not find user", e);
+        };
+      }
     }
   }
 

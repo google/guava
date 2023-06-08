@@ -39,28 +39,28 @@ import junit.framework.TestCase;
 @SuppressWarnings("deprecation") // tests of a deprecated method
 public class FilesCreateTempDirTest extends TestCase {
   public void testCreateTempDir() throws IOException {
-    if (isWindows()) {
-      return; // TODO: b/285742623 - Fix Files.createTempDir under Windows.
-    }
     if (JAVA_IO_TMPDIR.value().equals("/sdcard")) {
       assertThrows(IllegalStateException.class, Files::createTempDir);
       return;
     }
     File temp = Files.createTempDir();
     try {
-      assertTrue(temp.exists());
-      assertTrue(temp.isDirectory());
+      assertThat(temp.exists()).isTrue();
+      assertThat(temp.isDirectory()).isTrue();
       assertThat(temp.listFiles()).isEmpty();
+      File child = new File(temp, "child");
+      assertThat(child.createNewFile()).isTrue();
+      assertThat(child.delete()).isTrue();
 
-      if (isAndroid()) {
-        return;
+      if (!isAndroid() && !isWindows()) {
+        PosixFileAttributes attributes =
+            java.nio.file.Files.getFileAttributeView(temp.toPath(), PosixFileAttributeView.class)
+                .readAttributes();
+        assertThat(attributes.permissions())
+            .containsExactly(OWNER_READ, OWNER_WRITE, OWNER_EXECUTE);
       }
-      PosixFileAttributes attributes =
-          java.nio.file.Files.getFileAttributeView(temp.toPath(), PosixFileAttributeView.class)
-              .readAttributes();
-      assertThat(attributes.permissions()).containsExactly(OWNER_READ, OWNER_WRITE, OWNER_EXECUTE);
     } finally {
-      assertTrue(temp.delete());
+      assertThat(temp.delete()).isTrue();
     }
   }
 
