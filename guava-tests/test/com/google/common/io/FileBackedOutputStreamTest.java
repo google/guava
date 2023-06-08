@@ -41,9 +41,6 @@ public class FileBackedOutputStreamTest extends IoTestCase {
 
 
   public void testThreshold() throws Exception {
-    if (isWindows()) {
-      return; // TODO: b/285742623 - Fix FileBackedOutputStream under Windows.
-    }
     testThreshold(0, 100, true, false);
     testThreshold(10, 100, true, false);
     testThreshold(100, 100, true, false);
@@ -82,7 +79,7 @@ public class FileBackedOutputStreamTest extends IoTestCase {
       assertEquals(dataSize, file.length());
       assertTrue(file.exists());
       assertThat(file.getName()).contains("FileBackedOutputStream");
-      if (!isAndroid()) {
+      if (!isAndroid() && !isWindows()) {
         PosixFileAttributes attributes =
             java.nio.file.Files.getFileAttributeView(file.toPath(), PosixFileAttributeView.class)
                 .readAttributes();
@@ -103,9 +100,6 @@ public class FileBackedOutputStreamTest extends IoTestCase {
 
 
   public void testThreshold_resetOnFinalize() throws Exception {
-    if (isWindows()) {
-      return; // TODO: b/285742623 - Fix FileBackedOutputStream under Windows.
-    }
     testThreshold(0, 100, true, true);
     testThreshold(10, 100, true, true);
     testThreshold(100, 100, true, true);
@@ -131,9 +125,6 @@ public class FileBackedOutputStreamTest extends IoTestCase {
   // TODO(chrisn): only works if we ensure we have crossed file threshold
 
   public void testWriteErrorAfterClose() throws Exception {
-    if (isWindows()) {
-      return; // TODO: b/285742623 - Fix FileBackedOutputStream under Windows.
-    }
     byte[] data = newPreFilledByteArray(100);
     FileBackedOutputStream out = new FileBackedOutputStream(50);
     ByteSource source = out.asByteSource();
