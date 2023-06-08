@@ -58,13 +58,6 @@ import javax.annotation.CheckForNull;
  *
  * <p>This class is thread-safe.
  *
- * <p><b>Warning for Windows users:</b> This class is one of the Guava APIs known to <i>not</i> work
- * under Windows. Note that <a href="https://github.com/google/guava/issues/2686">we do not run our
- * CI under Windows</a>, <a href="https://github.com/google/guava/issues/2130">we know that some of
- * our tests fail under Windows</a>, and <a href="https://guava.dev/#important-warnings">we warn
- * about using some features of Guava under Windows</a>, especially I/O features, and that warning
- * applies even to APIs whose documentation doesn't include individual warnings like this one.
- *
  * @author Chris Nokleberg
  * @since 1.0
  */
