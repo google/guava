@@ -23,8 +23,8 @@ Guava comes in two flavors:
 Guava's Maven group ID is `com.google.guava`, and its artifact ID is `guava`.
 Guava provides two different "flavors": one for use on a (Java 8+) JRE and one
 for use on Android or by any library that wants to be compatible with Android.
-These flavors are specified in the Maven version field as either `32.0.0-jre` or
-`32.0.0-android`. For more about depending on Guava, see
+These flavors are specified in the Maven version field as either `32.0.1-jre` or
+`32.0.1-android`. For more about depending on Guava, see
 [using Guava in your build].
 
 To add a dependency on Guava using Maven, use the following:
@@ -33,9 +33,9 @@ To add a dependency on Guava using Maven, use the following:
 <dependency>
   <groupId>com.google.guava</groupId>
   <artifactId>guava</artifactId>
-  <version>32.0.0-jre</version>
+  <version>32.0.1-jre</version>
   <!-- or, for Android: -->
-  <version>32.0.0-android</version>
+  <version>32.0.1-android</version>
 </dependency>
 ```
 
@@ -46,16 +46,16 @@ dependencies {
   // Pick one:
 
   // 1. Use Guava in your implementation only:
-  implementation("com.google.guava:guava:32.0.0-jre")
+  implementation("com.google.guava:guava:32.0.1-jre")
 
   // 2. Use Guava types in your public API:
-  api("com.google.guava:guava:32.0.0-jre")
+  api("com.google.guava:guava:32.0.1-jre")
 
   // 3. Android - Use Guava in your implementation only:
-  implementation("com.google.guava:guava:32.0.0-android")
+  implementation("com.google.guava:guava:32.0.1-android")
 
   // 4. Android - Use Guava types in your public API:
-  api("com.google.guava:guava:32.0.0-android")
+  api("com.google.guava:guava:32.0.1-android")
 }
 ```
 
@@ -114,10 +114,11 @@ flavor.
 5.  Our classes are not designed to protect against a malicious caller. You
     should not use them for communication between trusted and untrusted code.
 
-6.  For the mainline flavor, we test the libraries using only OpenJDK 8 and
-    OpenJDK 11 on Linux. Some features, especially in `com.google.common.io`,
-    may not work correctly in other environments. For the Android flavor, our
-    unit tests also run on API level 15 (Ice Cream Sandwich).
+6.  For the mainline flavor, we test the libraries using OpenJDK 8, 11, and 17
+    on Linux, with some additional testing on newer JDKs and on Windows. Some
+    features, especially in `com.google.common.io`, may not work correctly in
+    non-Linux environments. For the Android flavor, our unit tests also run on
+    API level 15 (Ice Cream Sandwich).
 
 [guava-snapshot-api-docs]: https://guava.dev/releases/snapshot-jre/api/docs/
 [guava-snapshot-api-diffs]: https://guava.dev/releases/snapshot-jre/api/diffs/
