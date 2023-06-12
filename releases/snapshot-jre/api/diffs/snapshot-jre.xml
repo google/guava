@@ -18251,7 +18251,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="true" visibility="public"
       deprecated="Unsupported operation.">
-      <param name="c" type="java.util.Comparator&lt;? super E&gt;"/>
+      <param name="c" type="Comparator"/>
       <doc>
       <![CDATA[Guaranteed to throw an exception and leave the list unmodified.
 
@@ -47091,9 +47091,8 @@
  java.nio.file.Files#createTempDirectory}.
 
  @return the newly-created directory
- @throws IllegalStateException if the directory could not be created
- @throws UnsupportedOperationException if the system does not support creating temporary
-     directories securely
+ @throws IllegalStateException if the directory could not be created, such as if the system does
+     not support creating temporary directories securely
  @deprecated For Android users, see the <a
      href="https://developer.android.com/training/data-storage" target="_blank">Data and File
      Storage overview</a> to select an appropriate temporary directory (perhaps {@code
@@ -70705,6 +70704,46 @@
      not have completed.
  @throws RejectedExecutionException {@inheritDoc}
  @throws NullPointerException if any task is null]]>
+      </doc>
+    </method>
+    <method name="invokeAll" return="java.util.List&lt;java.util.concurrent.Future&lt;T&gt;&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="tasks" type="java.util.Collection&lt;? extends java.util.concurrent.Callable&lt;T&gt;&gt;"/>
+      <param name="timeout" type="java.time.Duration"/>
+      <exception name="InterruptedException" type="java.lang.InterruptedException"/>
+      <doc>
+      <![CDATA[Duration-based overload of {@link #invokeAll(Collection, long, TimeUnit)}.
+
+ @since NEXT]]>
+      </doc>
+    </method>
+    <method name="invokeAny" return="T extends java.lang.Object"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="tasks" type="java.util.Collection&lt;? extends java.util.concurrent.Callable&lt;T&gt;&gt;"/>
+      <param name="timeout" type="java.time.Duration"/>
+      <exception name="InterruptedException" type="java.lang.InterruptedException"/>
+      <exception name="ExecutionException" type="java.util.concurrent.ExecutionException"/>
+      <exception name="TimeoutException" type="java.util.concurrent.TimeoutException"/>
+      <doc>
+      <![CDATA[Duration-based overload of {@link #invokeAny(Collection, long, TimeUnit)}.
+
+ @since NEXT]]>
+      </doc>
+    </method>
+    <method name="awaitTermination" return="boolean"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="timeout" type="java.time.Duration"/>
+      <exception name="InterruptedException" type="java.lang.InterruptedException"/>
+      <doc>
+      <![CDATA[Duration-based overload of {@link #awaitTermination(long, TimeUnit)}.
+
+ @since NEXT]]>
       </doc>
     </method>
     <doc>

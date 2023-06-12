@@ -6,16 +6,15 @@
 <title>Files (Guava: Google Core Libraries for Java HEAD-jre-SNAPSHOT API)</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" type="text/css" href="../../../../stylesheet.css" title="Style">
-<link rel="stylesheet" type="text/css" href="../../../../jquery/jquery-ui.min.css" title="Style">
-<link rel="stylesheet" type="text/css" href="../../../../jquery-ui.overrides.css" title="Style">
+<link rel="stylesheet" type="text/css" href="../../../../jquery/jquery-ui.css" title="Style">
 <script type="text/javascript" src="../../../../script.js"></script>
 <script type="text/javascript" src="../../../../jquery/jszip/dist/jszip.min.js"></script>
 <script type="text/javascript" src="../../../../jquery/jszip-utils/dist/jszip-utils.min.js"></script>
 <!--[if IE]>
 <script type="text/javascript" src="../../../../jquery/jszip-utils/dist/jszip-utils-ie.min.js"></script>
 <![endif]-->
-<script type="text/javascript" src="../../../../jquery/jquery-3.6.1.min.js"></script>
-<script type="text/javascript" src="../../../../jquery/jquery-ui.min.js"></script>
+<script type="text/javascript" src="../../../../jquery/jquery-3.5.1.js"></script>
+<script type="text/javascript" src="../../../../jquery/jquery-ui.js"></script>
 </head>
 <body>
 <script type="text/javascript"><!--
@@ -152,7 +151,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <!-- ========== METHOD SUMMARY =========== -->
-<section>
+<section role="region">
 <ul class="blockList">
 <li class="blockList"><a id="method.summary">
 <!--   -->
@@ -467,7 +466,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <!-- ============ METHOD DETAIL ========== -->
-<section>
+<section role="region">
 <ul class="blockList">
 <li class="blockList"><a id="method.detail">
 <!--   -->
@@ -821,7 +820,7 @@ public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/
 <pre class="methodSignature"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
 @Deprecated
 <a href="https://static.javadoc.io/com.google.j2objc/j2objc-annotations/1.1/com/google/j2objc/annotations/J2ObjCIncompatible.html?is-external=true" title="class or interface in com.google.j2objc.annotations" class="externalLink">@J2ObjCIncompatible</a>
-public static&nbsp;java.io.File&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.435">createTempDir</a>()</pre>
+public static&nbsp;java.io.File&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.434">createTempDir</a>()</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">For Android users, see the <a href="https://developer.android.com/training/data-storage" target="_blank">Data and File
      Storage overview</a> to select an appropriate temporary directory (perhaps <code>
@@ -857,9 +856,8 @@ public static&nbsp;java.io.File&nbsp;<a href="../../../../src-html/com/google/co
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the newly-created directory</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.IllegalStateException</code> - if the directory could not be created</dd>
-<dd><code>java.lang.UnsupportedOperationException</code> - if the system does not support creating temporary
-     directories securely</dd>
+<dd><code>java.lang.IllegalStateException</code> - if the directory could not be created, such as if the system does
+     not support creating temporary directories securely</dd>
 </dl>
 </li>
 </ul>
@@ -869,7 +867,7 @@ public static&nbsp;java.io.File&nbsp;<a href="../../../../src-html/com/google/co
 <ul class="blockList">
 <li class="blockList">
 <h4>touch</h4>
-<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.449">touch</a>&#8203;(java.io.File&nbsp;file)
+<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.448">touch</a>&#8203;(java.io.File&nbsp;file)
                   throws java.io.IOException</pre>
 <div class="block">Creates an empty file or updates the last updated timestamp on the same as the unix command of
  the same name.</div>
@@ -887,7 +885,7 @@ public static&nbsp;java.io.File&nbsp;<a href="../../../../src-html/com/google/co
 <ul class="blockList">
 <li class="blockList">
 <h4>createParentDirs</h4>
-<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.466">createParentDirs</a>&#8203;(java.io.File&nbsp;file)
+<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.465">createParentDirs</a>&#8203;(java.io.File&nbsp;file)
                              throws java.io.IOException</pre>
 <div class="block">Creates any necessary but nonexistent parent directories of the specified file. Note that if
  this operation fails it may have succeeded in creating some (but not all) of the necessary
@@ -907,7 +905,7 @@ public static&nbsp;java.io.File&nbsp;<a href="../../../../src-html/com/google/co
 <ul class="blockList">
 <li class="blockList">
 <h4>move</h4>
-<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.496">move</a>&#8203;(java.io.File&nbsp;from,
+<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.495">move</a>&#8203;(java.io.File&nbsp;from,
                         java.io.File&nbsp;to)
                  throws java.io.IOException</pre>
 <div class="block">Moves a file from one path to another. This method can rename a file and/or move it to a
@@ -935,7 +933,7 @@ public static&nbsp;java.io.File&nbsp;<a href="../../../../src-html/com/google/co
 <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@InlineMe</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html?is-external=true#replacement()" title="class or interface in com.google.errorprone.annotations" class="externalLink">replacement</a>="Files.asCharSource(file, charset).readFirstLine()",
           <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html?is-external=true#imports()" title="class or interface in com.google.errorprone.annotations" class="externalLink">imports</a>="com.google.common.io.Files")
 <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public static&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.523">readFirstLine</a>&#8203;(java.io.File&nbsp;file,
+public static&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.522">readFirstLine</a>&#8203;(java.io.File&nbsp;file,
                                              java.nio.charset.Charset&nbsp;charset)
                                       throws java.io.IOException</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
@@ -961,7 +959,7 @@ public static&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/googl
 <ul class="blockList">
 <li class="blockList">
 <h4>readLines</h4>
-<pre class="methodSignature">public static&nbsp;java.util.List&lt;java.lang.String&gt;&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.549">readLines</a>&#8203;(java.io.File&nbsp;file,
+<pre class="methodSignature">public static&nbsp;java.util.List&lt;java.lang.String&gt;&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.548">readLines</a>&#8203;(java.io.File&nbsp;file,
                                                          java.nio.charset.Charset&nbsp;charset)
                                                   throws java.io.IOException</pre>
 <div class="block">Reads all of the lines from a file. The lines do not include line-termination characters, but
@@ -993,7 +991,7 @@ public static&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/googl
 <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@InlineMe</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html?is-external=true#replacement()" title="class or interface in com.google.errorprone.annotations" class="externalLink">replacement</a>="Files.asCharSource(file, charset).readLines(callback)",
           <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html?is-external=true#imports()" title="class or interface in com.google.errorprone.annotations" class="externalLink">imports</a>="com.google.common.io.Files")
 <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.582">readLines</a>&#8203;(java.io.File&nbsp;file,
+public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.581">readLines</a>&#8203;(java.io.File&nbsp;file,
                                                                  java.nio.charset.Charset&nbsp;charset,
                                                                  <a href="LineProcessor.html" title="interface in com.google.common.io">LineProcessor</a>&lt;T&gt;&nbsp;callback)
                                                           throws java.io.IOException</pre>
@@ -1025,7 +1023,7 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@InlineMe</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html?is-external=true#replacement()" title="class or interface in com.google.errorprone.annotations" class="externalLink">replacement</a>="Files.asByteSource(file).read(processor)",
           <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html?is-external=true#imports()" title="class or interface in com.google.errorprone.annotations" class="externalLink">imports</a>="com.google.common.io.Files")
 <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.605">readBytes</a>&#8203;(java.io.File&nbsp;file,
+public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.604">readBytes</a>&#8203;(java.io.File&nbsp;file,
                                                                  <a href="ByteProcessor.html" title="interface in com.google.common.io">ByteProcessor</a>&lt;T&gt;&nbsp;processor)
                                                           throws java.io.IOException</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
@@ -1054,7 +1052,7 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <pre class="methodSignature">@Deprecated
 <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@InlineMe</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html?is-external=true#replacement()" title="class or interface in com.google.errorprone.annotations" class="externalLink">replacement</a>="Files.asByteSource(file).hash(hashFunction)",
           <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html?is-external=true#imports()" title="class or interface in com.google.errorprone.annotations" class="externalLink">imports</a>="com.google.common.io.Files")
-public static&nbsp;<a href="../hash/HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.627">hash</a>&#8203;(java.io.File&nbsp;file,
+public static&nbsp;<a href="../hash/HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.626">hash</a>&#8203;(java.io.File&nbsp;file,
                             <a href="../hash/HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;hashFunction)
                      throws java.io.IOException</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
@@ -1080,7 +1078,7 @@ public static&nbsp;<a href="../hash/HashCode.html" title="class in com.google.co
 <ul class="blockList">
 <li class="blockList">
 <h4>map</h4>
-<pre class="methodSignature">public static&nbsp;java.nio.MappedByteBuffer&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.651">map</a>&#8203;(java.io.File&nbsp;file)
+<pre class="methodSignature">public static&nbsp;java.nio.MappedByteBuffer&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.650">map</a>&#8203;(java.io.File&nbsp;file)
                                      throws java.io.IOException</pre>
 <div class="block">Fully maps a file read-only in to memory as per <code>FileChannel.map(java.nio.channels.FileChannel.MapMode, long, long)</code>.
 
@@ -1108,7 +1106,7 @@ public static&nbsp;<a href="../hash/HashCode.html" title="class in com.google.co
 <ul class="blockList">
 <li class="blockList">
 <h4>map</h4>
-<pre class="methodSignature">public static&nbsp;java.nio.MappedByteBuffer&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.673">map</a>&#8203;(java.io.File&nbsp;file,
+<pre class="methodSignature">public static&nbsp;java.nio.MappedByteBuffer&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.672">map</a>&#8203;(java.io.File&nbsp;file,
                                             java.nio.channels.FileChannel.MapMode&nbsp;mode)
                                      throws java.io.IOException</pre>
 <div class="block">Fully maps a file in to memory as per <code>FileChannel.map(java.nio.channels.FileChannel.MapMode, long, long)</code> using the requested <code>FileChannel.MapMode</code>.
@@ -1138,7 +1136,7 @@ public static&nbsp;<a href="../hash/HashCode.html" title="class in com.google.co
 <ul class="blockList">
 <li class="blockList">
 <h4>map</h4>
-<pre class="methodSignature">public static&nbsp;java.nio.MappedByteBuffer&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.696">map</a>&#8203;(java.io.File&nbsp;file,
+<pre class="methodSignature">public static&nbsp;java.nio.MappedByteBuffer&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.695">map</a>&#8203;(java.io.File&nbsp;file,
                                             java.nio.channels.FileChannel.MapMode&nbsp;mode,
                                             long&nbsp;size)
                                      throws java.io.IOException</pre>
@@ -1173,7 +1171,7 @@ public static&nbsp;<a href="../hash/HashCode.html" title="class in com.google.co
 <ul class="blockList">
 <li class="blockList">
 <h4>simplifyPath</h4>
-<pre class="methodSignature">public static&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.739">simplifyPath</a>&#8203;(java.lang.String&nbsp;pathname)</pre>
+<pre class="methodSignature">public static&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.738">simplifyPath</a>&#8203;(java.lang.String&nbsp;pathname)</pre>
 <div class="block">Returns the lexically cleaned form of the path name, <i>usually</i> (but not always) equivalent
  to the original. The following heuristics are used:
 
@@ -1202,7 +1200,7 @@ public static&nbsp;<a href="../hash/HashCode.html" title="class in com.google.co
 <ul class="blockList">
 <li class="blockList">
 <h4>getFileExtension</h4>
-<pre class="methodSignature">public static&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.799">getFileExtension</a>&#8203;(java.lang.String&nbsp;fullName)</pre>
+<pre class="methodSignature">public static&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.798">getFileExtension</a>&#8203;(java.lang.String&nbsp;fullName)</pre>
 <div class="block">Returns the <a href="http://en.wikipedia.org/wiki/Filename_extension">file extension</a> for
  the given file name, or the empty string if the file has no extension. The result does not
  include the '<code>.</code>'.
@@ -1225,7 +1223,7 @@ public static&nbsp;<a href="../hash/HashCode.html" title="class in com.google.co
 <ul class="blockList">
 <li class="blockList">
 <h4>getNameWithoutExtension</h4>
-<pre class="methodSignature">public static&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.816">getNameWithoutExtension</a>&#8203;(java.lang.String&nbsp;file)</pre>
+<pre class="methodSignature">public static&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.815">getNameWithoutExtension</a>&#8203;(java.lang.String&nbsp;file)</pre>
 <div class="block">Returns the file name without its <a href="http://en.wikipedia.org/wiki/Filename_extension">file extension</a> or path. This is
  similar to the <code>basename</code> unix command. The result does not include the '<code>.</code>'.</div>
 <dl>
@@ -1245,7 +1243,7 @@ public static&nbsp;<a href="../hash/HashCode.html" title="class in com.google.co
 <ul class="blockList">
 <li class="blockList">
 <h4>fileTraverser</h4>
-<pre class="methodSignature">public static&nbsp;<a href="../graph/Traverser.html" title="class in com.google.common.graph">Traverser</a>&lt;java.io.File&gt;&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.845">fileTraverser</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="../graph/Traverser.html" title="class in com.google.common.graph">Traverser</a>&lt;java.io.File&gt;&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.844">fileTraverser</a>()</pre>
 <div class="block">Returns a <a href="../graph/Traverser.html" title="class in com.google.common.graph"><code>Traverser</code></a> instance for the file and directory tree. The returned traverser
  starts from a <code>File</code> and will return all files and directories it encounters.
 
@@ -1276,7 +1274,7 @@ public static&nbsp;<a href="../hash/HashCode.html" title="class in com.google.co
 <ul class="blockList">
 <li class="blockList">
 <h4>isDirectory</h4>
-<pre class="methodSignature">public static&nbsp;<a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;java.io.File&gt;&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.870">isDirectory</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;java.io.File&gt;&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.869">isDirectory</a>()</pre>
 <div class="block">Returns a predicate that returns the result of <code>File.isDirectory()</code> on input files.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -1290,7 +1288,7 @@ public static&nbsp;<a href="../hash/HashCode.html" title="class in com.google.co
 <ul class="blockListLast">
 <li class="blockList">
 <h4>isFile</h4>
-<pre class="methodSignature">public static&nbsp;<a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;java.io.File&gt;&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.879">isFile</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;java.io.File&gt;&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.878">isFile</a>()</pre>
 <div class="block">Returns a predicate that returns the result of <code>File.isFile()</code> on input files.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>

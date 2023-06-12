@@ -794,8 +794,8 @@
 <span class="sourceLineNo">785</span><a id="line.785">   *     copied</a>
 <span class="sourceLineNo">786</span><a id="line.786">   */</a>
 <span class="sourceLineNo">787</span><a id="line.787">  @GwtIncompatible // Array.newArray(Class, int)</a>
-<span class="sourceLineNo">788</span><a id="line.788">  public final @Nullable E[] toArray(Class&lt;@NonNull E&gt; type) {</a>
-<span class="sourceLineNo">789</span><a id="line.789">    return Iterables.toArray(getDelegate(), type);</a>
+<span class="sourceLineNo">788</span><a id="line.788">  public final E[] toArray(Class&lt;@NonNull E&gt; type) {</a>
+<span class="sourceLineNo">789</span><a id="line.789">    return Iterables.&lt;E&gt;toArray(getDelegate(), type);</a>
 <span class="sourceLineNo">790</span><a id="line.790">  }</a>
 <span class="sourceLineNo">791</span><a id="line.791"></a>
 <span class="sourceLineNo">792</span><a id="line.792">  /**</a>

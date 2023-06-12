@@ -6,16 +6,15 @@
 <title>Index (Guava: Google Core Libraries for Java HEAD-jre-SNAPSHOT API)</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" type="text/css" href="stylesheet.css" title="Style">
-<link rel="stylesheet" type="text/css" href="jquery/jquery-ui.min.css" title="Style">
-<link rel="stylesheet" type="text/css" href="jquery-ui.overrides.css" title="Style">
+<link rel="stylesheet" type="text/css" href="jquery/jquery-ui.css" title="Style">
 <script type="text/javascript" src="script.js"></script>
 <script type="text/javascript" src="jquery/jszip/dist/jszip.min.js"></script>
 <script type="text/javascript" src="jquery/jszip-utils/dist/jszip-utils.min.js"></script>
 <!--[if IE]>
 <script type="text/javascript" src="jquery/jszip-utils/dist/jszip-utils-ie.min.js"></script>
 <![endif]-->
-<script type="text/javascript" src="jquery/jquery-3.6.1.min.js"></script>
-<script type="text/javascript" src="jquery/jquery-ui.min.js"></script>
+<script type="text/javascript" src="jquery/jquery-3.5.1.js"></script>
+<script type="text/javascript" src="jquery/jquery-ui.js"></script>
 </head>
 <body>
 <script type="text/javascript"><!--
@@ -1899,6 +1898,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ForwardingExecutorService.html#awaitTermination(long,java.util.concurrent.TimeUnit)">awaitTermination(long, TimeUnit)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ForwardingExecutorService.html" title="class in com.google.common.util.concurrent">ForwardingExecutorService</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ListeningExecutorService.html#awaitTermination(java.time.Duration)">awaitTermination(Duration)</a></span> - Method in interface com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ListeningExecutorService.html" title="interface in com.google.common.util.concurrent">ListeningExecutorService</a></dt>
+<dd>
+<div class="block">Duration-based overload of <code>ExecutorService.awaitTermination(long, TimeUnit)</code>.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/Uninterruptibles.html#awaitTerminationUninterruptibly(java.util.concurrent.ExecutorService)">awaitTerminationUninterruptibly(ExecutorService)</a></span> - Static method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/Uninterruptibles.html" title="class in com.google.common.util.concurrent">Uninterruptibles</a></dt>
 <dd>
 <div class="block">Invokes <code>executor.</code><code>awaitTermination(long, TimeUnit)</code> uninterruptibly with no timeout.</div>
@@ -10321,10 +10324,18 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ForwardingExecutorService.html#invokeAll(java.util.Collection,long,java.util.concurrent.TimeUnit)">invokeAll(Collection&lt;? extends Callable&lt;T&gt;&gt;, long, TimeUnit)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ForwardingExecutorService.html" title="class in com.google.common.util.concurrent">ForwardingExecutorService</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ListeningExecutorService.html#invokeAll(java.util.Collection,long,java.util.concurrent.TimeUnit)">invokeAll(Collection&lt;? extends Callable&lt;T&gt;&gt;, long, TimeUnit)</a></span> - Method in interface com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ListeningExecutorService.html" title="interface in com.google.common.util.concurrent">ListeningExecutorService</a></dt>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ListeningExecutorService.html#invokeAll(java.util.Collection,java.time.Duration)">invokeAll(Collection&lt;? extends Callable&lt;T&gt;&gt;, Duration)</a></span> - Method in interface com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ListeningExecutorService.html" title="interface in com.google.common.util.concurrent">ListeningExecutorService</a></dt>
+<dd>
+<div class="block">Duration-based overload of <a href="com/google/common/util/concurrent/ListeningExecutorService.html#invokeAll(java.util.Collection,long,java.util.concurrent.TimeUnit)"><code>ListeningExecutorService.invokeAll(Collection, long, TimeUnit)</code></a>.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ForwardingExecutorService.html#invokeAny(java.util.Collection)">invokeAny(Collection&lt;? extends Callable&lt;T&gt;&gt;)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ForwardingExecutorService.html" title="class in com.google.common.util.concurrent">ForwardingExecutorService</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ForwardingExecutorService.html#invokeAny(java.util.Collection,long,java.util.concurrent.TimeUnit)">invokeAny(Collection&lt;? extends Callable&lt;T&gt;&gt;, long, TimeUnit)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ForwardingExecutorService.html" title="class in com.google.common.util.concurrent">ForwardingExecutorService</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ListeningExecutorService.html#invokeAny(java.util.Collection,java.time.Duration)">invokeAny(Collection&lt;? extends Callable&lt;T&gt;&gt;, Duration)</a></span> - Method in interface com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ListeningExecutorService.html" title="interface in com.google.common.util.concurrent">ListeningExecutorService</a></dt>
+<dd>
+<div class="block">Duration-based overload of <code>ExecutorService.invokeAny(Collection, long, TimeUnit)</code>.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/CharMatcher.html#is(char)">is(char)</a></span> - Static method in class com.google.common.base.<a href="com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></dt>
 <dd>
 <div class="block">Returns a <code>char</code> matcher that matches only one specified BMP character.</div>
@@ -19218,7 +19229,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/hash/HashCode.html#toString()">toString()</a></span> - Method in class com.google.common.hash.<a href="com/google/common/hash/HashCode.html" title="class in com.google.common.hash">HashCode</a></dt>
 <dd>
-<div class="block">Returns a string containing each byte of <a href="com/google/common/hash/HashCode.html#asBytes()"><code>asBytes()</code></a>, in order, as a two-digit unsigned
+<div class="block">Returns a string containing each byte of <a href="com/google/common/hash/HashCode.html#asBytes()"><code>HashCode.asBytes()</code></a>, in order, as a two-digit unsigned
  hexadecimal number in lower case.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/math/PairedStats.html#toString()">toString()</a></span> - Method in class com.google.common.math.<a href="com/google/common/math/PairedStats.html" title="class in com.google.common.math">PairedStats</a></dt>

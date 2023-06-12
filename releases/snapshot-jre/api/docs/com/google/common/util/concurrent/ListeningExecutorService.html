@@ -6,16 +6,15 @@
 <title>ListeningExecutorService (Guava: Google Core Libraries for Java HEAD-jre-SNAPSHOT API)</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
-<link rel="stylesheet" type="text/css" href="../../../../../jquery/jquery-ui.min.css" title="Style">
-<link rel="stylesheet" type="text/css" href="../../../../../jquery-ui.overrides.css" title="Style">
+<link rel="stylesheet" type="text/css" href="../../../../../jquery/jquery-ui.css" title="Style">
 <script type="text/javascript" src="../../../../../script.js"></script>
 <script type="text/javascript" src="../../../../../jquery/jszip/dist/jszip.min.js"></script>
 <script type="text/javascript" src="../../../../../jquery/jszip-utils/dist/jszip-utils.min.js"></script>
 <!--[if IE]>
 <script type="text/javascript" src="../../../../../jquery/jszip-utils/dist/jszip-utils-ie.min.js"></script>
 <![endif]-->
-<script type="text/javascript" src="../../../../../jquery/jquery-3.6.1.min.js"></script>
-<script type="text/javascript" src="../../../../../jquery/jquery-ui.min.js"></script>
+<script type="text/javascript" src="../../../../../jquery/jquery-3.5.1.js"></script>
+<script type="text/javascript" src="../../../../../jquery/jquery-ui.js"></script>
 </head>
 <body>
 <script type="text/javascript"><!--
@@ -27,8 +26,8 @@
     catch(err) {
     }
 //-->
-var data = {"i0":6,"i1":6,"i2":6,"i3":6,"i4":6};
-var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],4:["t3","Abstract Methods"]};
+var data = {"i0":18,"i1":6,"i2":6,"i3":18,"i4":18,"i5":6,"i6":6,"i7":6};
+var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],4:["t3","Abstract Methods"],16:["t5","Default Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
 var tableTab = "tableTab";
@@ -138,7 +137,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <hr>
 <pre><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/DoNotMock.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@DoNotMock</a>("Use TestingExecutors.sameThreadScheduledExecutor, or wrap a real Executor from java.util.concurrent.Executors with MoreExecutors.listeningDecorator")
 <a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public interface <a href="../../../../../src-html/com/google/common/util/concurrent/ListeningExecutorService.html#line.36">ListeningExecutorService</a>
+public interface <a href="../../../../../src-html/com/google/common/util/concurrent/ListeningExecutorService.html#line.42">ListeningExecutorService</a>
 extends java.util.concurrent.ExecutorService</pre>
 <div class="block">An <code>ExecutorService</code> that returns <a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a> instances. To create an instance
  from an existing <code>ExecutorService</code>, call <a href="MoreExecutors.html#listeningDecorator(java.util.concurrent.ExecutorService)"><code>MoreExecutors.listeningDecorator(ExecutorService)</code></a>.</div>
@@ -155,41 +154,64 @@ extends java.util.concurrent.ExecutorService</pre>
 <ul class="blockList">
 <li class="blockList">
 <!-- ========== METHOD SUMMARY =========== -->
-<section>
+<section role="region">
 <ul class="blockList">
 <li class="blockList"><a id="method.summary">
 <!--   -->
 </a>
 <h3>Method Summary</h3>
 <table class="memberSummary">
-<caption><span id="t0" class="activeTableTab"><span>All Methods</span><span class="tabEnd">&nbsp;</span></span><span id="t2" class="tableTab"><span><a href="javascript:show(2);">Instance Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t3" class="tableTab"><span><a href="javascript:show(4);">Abstract Methods</a></span><span class="tabEnd">&nbsp;</span></span></caption>
+<caption><span id="t0" class="activeTableTab"><span>All Methods</span><span class="tabEnd">&nbsp;</span></span><span id="t2" class="tableTab"><span><a href="javascript:show(2);">Instance Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t3" class="tableTab"><span><a href="javascript:show(4);">Abstract Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t5" class="tableTab"><span><a href="javascript:show(16);">Default Methods</a></span><span class="tabEnd">&nbsp;</span></span></caption>
 <tr>
 <th class="colFirst" scope="col">Modifier and Type</th>
 <th class="colSecond" scope="col">Method</th>
 <th class="colLast" scope="col">Description</th>
 </tr>
 <tr id="i0" class="altColor">
+<td class="colFirst"><code>default boolean</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#awaitTermination(java.time.Duration)">awaitTermination</a></span>&#8203;(java.time.Duration&nbsp;timeout)</code></th>
+<td class="colLast">
+<div class="block">Duration-based overload of <code>ExecutorService.awaitTermination(long, TimeUnit)</code>.</div>
+</td>
+</tr>
+<tr id="i1" class="rowColor">
 <td class="colFirst"><code>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>java.util.List&lt;java.util.concurrent.Future&lt;T&gt;&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#invokeAll(java.util.Collection)">invokeAll</a></span>&#8203;(java.util.Collection&lt;? extends java.util.concurrent.Callable&lt;T&gt;&gt;&nbsp;tasks)</code></th>
 </tr>
-<tr id="i1" class="rowColor">
+<tr id="i2" class="altColor">
 <td class="colFirst"><code>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>java.util.List&lt;java.util.concurrent.Future&lt;T&gt;&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#invokeAll(java.util.Collection,long,java.util.concurrent.TimeUnit)">invokeAll</a></span>&#8203;(java.util.Collection&lt;? extends java.util.concurrent.Callable&lt;T&gt;&gt;&nbsp;tasks,
          long&nbsp;timeout,
          java.util.concurrent.TimeUnit&nbsp;unit)</code></th>
 </tr>
-<tr id="i2" class="altColor">
+<tr id="i3" class="rowColor">
+<td class="colFirst"><code>default &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>java.util.List&lt;java.util.concurrent.Future&lt;T&gt;&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#invokeAll(java.util.Collection,java.time.Duration)">invokeAll</a></span>&#8203;(java.util.Collection&lt;? extends java.util.concurrent.Callable&lt;T&gt;&gt;&nbsp;tasks,
+         java.time.Duration&nbsp;timeout)</code></th>
+<td class="colLast">
+<div class="block">Duration-based overload of <a href="#invokeAll(java.util.Collection,long,java.util.concurrent.TimeUnit)"><code>invokeAll(Collection, long, TimeUnit)</code></a>.</div>
+</td>
+</tr>
+<tr id="i4" class="altColor">
+<td class="colFirst"><code>default &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>T</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#invokeAny(java.util.Collection,java.time.Duration)">invokeAny</a></span>&#8203;(java.util.Collection&lt;? extends java.util.concurrent.Callable&lt;T&gt;&gt;&nbsp;tasks,
+         java.time.Duration&nbsp;timeout)</code></th>
+<td class="colLast">
+<div class="block">Duration-based overload of <code>ExecutorService.invokeAny(Collection, long, TimeUnit)</code>.</div>
+</td>
+</tr>
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code><a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;?&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#submit(java.lang.Runnable)">submit</a></span>&#8203;(java.lang.Runnable&nbsp;task)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i3" class="rowColor">
+<tr id="i6" class="altColor">
 <td class="colFirst"><code>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;T&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#submit(java.lang.Runnable,T)">submit</a></span>&#8203;(java.lang.Runnable&nbsp;task,
       T&nbsp;result)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i4" class="altColor">
+<tr id="i7" class="rowColor">
 <td class="colFirst"><code>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;T&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#submit(java.util.concurrent.Callable)">submit</a></span>&#8203;(java.util.concurrent.Callable&lt;T&gt;&nbsp;task)</code></th>
 <td class="colLast">&nbsp;</td>
@@ -219,7 +241,7 @@ extends java.util.concurrent.ExecutorService</pre>
 <ul class="blockList">
 <li class="blockList">
 <!-- ============ METHOD DETAIL ========== -->
-<section>
+<section role="region">
 <ul class="blockList">
 <li class="blockList"><a id="method.detail">
 <!--   -->
@@ -231,7 +253,7 @@ extends java.util.concurrent.ExecutorService</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>submit</h4>
-<pre class="methodSignature">&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;T&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListeningExecutorService.html#line.46">submit</a>&#8203;(java.util.concurrent.Callable&lt;T&gt;&nbsp;task)</pre>
+<pre class="methodSignature">&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;T&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListeningExecutorService.html#line.52">submit</a>&#8203;(java.util.concurrent.Callable&lt;T&gt;&nbsp;task)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>submit</code>&nbsp;in interface&nbsp;<code>java.util.concurrent.ExecutorService</code></dd>
@@ -248,7 +270,7 @@ extends java.util.concurrent.ExecutorService</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>submit</h4>
-<pre class="methodSignature"><a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;?&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListeningExecutorService.html#line.53">submit</a>&#8203;(java.lang.Runnable&nbsp;task)</pre>
+<pre class="methodSignature"><a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;?&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListeningExecutorService.html#line.59">submit</a>&#8203;(java.lang.Runnable&nbsp;task)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>submit</code>&nbsp;in interface&nbsp;<code>java.util.concurrent.ExecutorService</code></dd>
@@ -267,7 +289,7 @@ extends java.util.concurrent.ExecutorService</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>submit</h4>
-<pre class="methodSignature">&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;T&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListeningExecutorService.html#line.60">submit</a>&#8203;(java.lang.Runnable&nbsp;task,
+<pre class="methodSignature">&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;T&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListeningExecutorService.html#line.66">submit</a>&#8203;(java.lang.Runnable&nbsp;task,
                                                                   T&nbsp;result)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
@@ -285,7 +307,7 @@ extends java.util.concurrent.ExecutorService</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>invokeAll</h4>
-<pre class="methodSignature">&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.util.List&lt;java.util.concurrent.Future&lt;T&gt;&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListeningExecutorService.html#line.82">invokeAll</a>&#8203;(java.util.Collection&lt;? extends java.util.concurrent.Callable&lt;T&gt;&gt;&nbsp;tasks)
+<pre class="methodSignature">&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.util.List&lt;java.util.concurrent.Future&lt;T&gt;&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListeningExecutorService.html#line.88">invokeAll</a>&#8203;(java.util.Collection&lt;? extends java.util.concurrent.Callable&lt;T&gt;&gt;&nbsp;tasks)
                                                                                          throws java.lang.InterruptedException</pre>
 <div class="block">
 
@@ -314,10 +336,10 @@ extends java.util.concurrent.ExecutorService</pre>
 <a id="invokeAll(java.util.Collection,long,java.util.concurrent.TimeUnit)">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>invokeAll</h4>
-<pre class="methodSignature">&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.util.List&lt;java.util.concurrent.Future&lt;T&gt;&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListeningExecutorService.html#line.105">invokeAll</a>&#8203;(java.util.Collection&lt;? extends java.util.concurrent.Callable&lt;T&gt;&gt;&nbsp;tasks,
+<pre class="methodSignature">&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.util.List&lt;java.util.concurrent.Future&lt;T&gt;&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListeningExecutorService.html#line.111">invokeAll</a>&#8203;(java.util.Collection&lt;? extends java.util.concurrent.Callable&lt;T&gt;&gt;&nbsp;tasks,
                                                                                                 long&nbsp;timeout,
                                                                                                 java.util.concurrent.TimeUnit&nbsp;unit)
                                                                                          throws java.lang.InterruptedException</pre>
@@ -343,6 +365,63 @@ extends java.util.concurrent.ExecutorService</pre>
 <dd><code>java.util.concurrent.RejectedExecutionException</code></dd>
 <dd><code>java.lang.NullPointerException</code> - if any task is null</dd>
 <dd><code>java.lang.InterruptedException</code></dd>
+</dl>
+</li>
+</ul>
+<a id="invokeAll(java.util.Collection,java.time.Duration)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>invokeAll</h4>
+<pre class="methodSignature">default&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.util.List&lt;java.util.concurrent.Future&lt;T&gt;&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListeningExecutorService.html#line.121">invokeAll</a>&#8203;(java.util.Collection&lt;? extends java.util.concurrent.Callable&lt;T&gt;&gt;&nbsp;tasks,
+                                                                                                        java.time.Duration&nbsp;timeout)
+                                                                                                 throws java.lang.InterruptedException</pre>
+<div class="block">Duration-based overload of <a href="#invokeAll(java.util.Collection,long,java.util.concurrent.TimeUnit)"><code>invokeAll(Collection, long, TimeUnit)</code></a>.</div>
+<dl>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code>java.lang.InterruptedException</code></dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>NEXT</dd>
+</dl>
+</li>
+</ul>
+<a id="invokeAny(java.util.Collection,java.time.Duration)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>invokeAny</h4>
+<pre class="methodSignature">default&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;T&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListeningExecutorService.html#line.132">invokeAny</a>&#8203;(java.util.Collection&lt;? extends java.util.concurrent.Callable&lt;T&gt;&gt;&nbsp;tasks,
+                                                           java.time.Duration&nbsp;timeout)
+                                                    throws java.lang.InterruptedException,
+                                                           java.util.concurrent.ExecutionException,
+                                                           java.util.concurrent.TimeoutException</pre>
+<div class="block">Duration-based overload of <code>ExecutorService.invokeAny(Collection, long, TimeUnit)</code>.</div>
+<dl>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code>java.lang.InterruptedException</code></dd>
+<dd><code>java.util.concurrent.ExecutionException</code></dd>
+<dd><code>java.util.concurrent.TimeoutException</code></dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>NEXT</dd>
+</dl>
+</li>
+</ul>
+<a id="awaitTermination(java.time.Duration)">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>awaitTermination</h4>
+<pre class="methodSignature">default&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListeningExecutorService.html#line.144">awaitTermination</a>&#8203;(java.time.Duration&nbsp;timeout)
+                          throws java.lang.InterruptedException</pre>
+<div class="block">Duration-based overload of <code>ExecutorService.awaitTermination(long, TimeUnit)</code>.</div>
+<dl>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code>java.lang.InterruptedException</code></dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>NEXT</dd>
 </dl>
 </li>
 </ul>

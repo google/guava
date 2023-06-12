@@ -6,16 +6,15 @@
 <title>Uses of Class com.google.common.annotations.J2ktIncompatible (Guava: Google Core Libraries for Java HEAD-jre-SNAPSHOT API)</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
-<link rel="stylesheet" type="text/css" href="../../../../../jquery/jquery-ui.min.css" title="Style">
-<link rel="stylesheet" type="text/css" href="../../../../../jquery-ui.overrides.css" title="Style">
+<link rel="stylesheet" type="text/css" href="../../../../../jquery/jquery-ui.css" title="Style">
 <script type="text/javascript" src="../../../../../script.js"></script>
 <script type="text/javascript" src="../../../../../jquery/jszip/dist/jszip.min.js"></script>
 <script type="text/javascript" src="../../../../../jquery/jszip-utils/dist/jszip-utils.min.js"></script>
 <!--[if IE]>
 <script type="text/javascript" src="../../../../../jquery/jszip-utils/dist/jszip-utils-ie.min.js"></script>
 <![endif]-->
-<script type="text/javascript" src="../../../../../jquery/jquery-3.6.1.min.js"></script>
-<script type="text/javascript" src="../../../../../jquery/jquery-ui.min.js"></script>
+<script type="text/javascript" src="../../../../../jquery/jquery-3.5.1.js"></script>
+<script type="text/javascript" src="../../../../../jquery/jquery-ui.js"></script>
 </head>
 <body>
 <script type="text/javascript"><!--
@@ -158,7 +157,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <ul class="blockList">
 <li class="blockList">
-<section><a id="com.google.common.base">
+<section role="region"><a id="com.google.common.base">
 <!--   -->
 </a>
 <h3>Uses of <a href="../J2ktIncompatible.html" title="annotation in com.google.common.annotations">J2ktIncompatible</a> in <a href="../../base/package-summary.html">com.google.common.base</a></h3>
@@ -414,7 +413,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </section>
 </li>
 <li class="blockList">
-<section><a id="com.google.common.collect">
+<section role="region"><a id="com.google.common.collect">
 <!--   -->
 </a>
 <h3>Uses of <a href="../J2ktIncompatible.html" title="annotation in com.google.common.annotations">J2ktIncompatible</a> in <a href="../../collect/package-summary.html">com.google.common.collect</a></h3>
@@ -746,7 +745,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </section>
 </li>
 <li class="blockList">
-<section><a id="com.google.common.io">
+<section role="region"><a id="com.google.common.io">
 <!--   -->
 </a>
 <h3>Uses of <a href="../J2ktIncompatible.html" title="annotation in com.google.common.annotations">J2ktIncompatible</a> in <a href="../../io/package-summary.html">com.google.common.io</a></h3>
@@ -994,7 +993,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </section>
 </li>
 <li class="blockList">
-<section><a id="com.google.common.math">
+<section role="region"><a id="com.google.common.math">
 <!--   -->
 </a>
 <h3>Uses of <a href="../J2ktIncompatible.html" title="annotation in com.google.common.annotations">J2ktIncompatible</a> in <a href="../../math/package-summary.html">com.google.common.math</a></h3>
@@ -1295,7 +1294,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </section>
 </li>
 <li class="blockList">
-<section><a id="com.google.common.net">
+<section role="region"><a id="com.google.common.net">
 <!--   -->
 </a>
 <h3>Uses of <a href="../J2ktIncompatible.html" title="annotation in com.google.common.annotations">J2ktIncompatible</a> in <a href="../../net/package-summary.html">com.google.common.net</a></h3>
@@ -1326,7 +1325,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </section>
 </li>
 <li class="blockList">
-<section><a id="com.google.common.primitives">
+<section role="region"><a id="com.google.common.primitives">
 <!--   -->
 </a>
 <h3>Uses of <a href="../J2ktIncompatible.html" title="annotation in com.google.common.annotations">J2ktIncompatible</a> in <a href="../../primitives/package-summary.html">com.google.common.primitives</a></h3>
@@ -1383,7 +1382,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </section>
 </li>
 <li class="blockList">
-<section><a id="com.google.common.util.concurrent">
+<section role="region"><a id="com.google.common.util.concurrent">
 <!--   -->
 </a>
 <h3>Uses of <a href="../J2ktIncompatible.html" title="annotation in com.google.common.annotations">J2ktIncompatible</a> in <a href="../../util/concurrent/package-summary.html">com.google.common.util.concurrent</a></h3>
@@ -1662,13 +1661,20 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </td>
 </tr>
 <tr class="rowColor">
+<td class="colFirst"><code>default boolean</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">ListeningExecutorService.</span><code><span class="memberNameLink"><a href="../../util/concurrent/ListeningExecutorService.html#awaitTermination(java.time.Duration)">awaitTermination</a></span>&#8203;(java.time.Duration&nbsp;timeout)</code></th>
+<td class="colLast">
+<div class="block">Duration-based overload of <code>ExecutorService.awaitTermination(long, TimeUnit)</code>.</div>
+</td>
+</tr>
+<tr class="altColor">
 <td class="colFirst"><code>static void</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Uninterruptibles.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Uninterruptibles.html#awaitTerminationUninterruptibly(java.util.concurrent.ExecutorService)">awaitTerminationUninterruptibly</a></span>&#8203;(java.util.concurrent.ExecutorService&nbsp;executor)</code></th>
 <td class="colLast">
 <div class="block">Invokes <code>executor.</code><code>awaitTermination(long, TimeUnit)</code> uninterruptibly with no timeout.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static boolean</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Uninterruptibles.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Uninterruptibles.html#awaitTerminationUninterruptibly(java.util.concurrent.ExecutorService,long,java.util.concurrent.TimeUnit)">awaitTerminationUninterruptibly</a></span>&#8203;(java.util.concurrent.ExecutorService&nbsp;executor,
                                long&nbsp;timeout,
@@ -1677,7 +1683,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Invokes <code>executor.</code><code>awaitTermination(long, TimeUnit)</code> uninterruptibly.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static boolean</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Uninterruptibles.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Uninterruptibles.html#awaitTerminationUninterruptibly(java.util.concurrent.ExecutorService,java.time.Duration)">awaitTerminationUninterruptibly</a></span>&#8203;(java.util.concurrent.ExecutorService&nbsp;executor,
                                java.time.Duration&nbsp;timeout)</code></th>
@@ -1685,14 +1691,14 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Invokes <code>executor.</code><code>awaitTermination(long, TimeUnit)</code> uninterruptibly.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static void</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Uninterruptibles.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Uninterruptibles.html#awaitUninterruptibly(java.util.concurrent.CountDownLatch)">awaitUninterruptibly</a></span>&#8203;(java.util.concurrent.CountDownLatch&nbsp;latch)</code></th>
 <td class="colLast">
 <div class="block">Invokes <code>latch.</code><code>await()</code> uninterruptibly.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static boolean</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Uninterruptibles.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Uninterruptibles.html#awaitUninterruptibly(java.util.concurrent.CountDownLatch,long,java.util.concurrent.TimeUnit)">awaitUninterruptibly</a></span>&#8203;(java.util.concurrent.CountDownLatch&nbsp;latch,
                     long&nbsp;timeout,
@@ -1702,7 +1708,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  uninterruptibly.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static boolean</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Uninterruptibles.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Uninterruptibles.html#awaitUninterruptibly(java.util.concurrent.CountDownLatch,java.time.Duration)">awaitUninterruptibly</a></span>&#8203;(java.util.concurrent.CountDownLatch&nbsp;latch,
                     java.time.Duration&nbsp;timeout)</code></th>
@@ -1711,7 +1717,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  uninterruptibly.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static boolean</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Uninterruptibles.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Uninterruptibles.html#awaitUninterruptibly(java.util.concurrent.locks.Condition,long,java.util.concurrent.TimeUnit)">awaitUninterruptibly</a></span>&#8203;(java.util.concurrent.locks.Condition&nbsp;condition,
                     long&nbsp;timeout,
@@ -1721,7 +1727,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  uninterruptibly.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static boolean</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Uninterruptibles.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Uninterruptibles.html#awaitUninterruptibly(java.util.concurrent.locks.Condition,java.time.Duration)">awaitUninterruptibly</a></span>&#8203;(java.util.concurrent.locks.Condition&nbsp;condition,
                     java.time.Duration&nbsp;timeout)</code></th>
@@ -1730,7 +1736,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  uninterruptibly.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>&lt;X extends java.lang.Throwable&gt;<br><a href="../../util/concurrent/FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;<a href="../../util/concurrent/FluentFuture.html" title="type parameter in FluentFuture">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">FluentFuture.</span><code><span class="memberNameLink"><a href="../../util/concurrent/FluentFuture.html#catching(java.lang.Class,com.google.common.base.Function,java.util.concurrent.Executor)">catching</a></span>&#8203;(java.lang.Class&lt;X&gt;&nbsp;exceptionType,
         <a href="../../base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super X,&#8203;? extends <a href="../../util/concurrent/FluentFuture.html" title="type parameter in FluentFuture">V</a>&gt;&nbsp;fallback,
@@ -1741,7 +1747,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  fallback</code>.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static &lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;X extends java.lang.Throwable&gt;<br><a href="../../util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Futures.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Futures.html#catching(com.google.common.util.concurrent.ListenableFuture,java.lang.Class,com.google.common.base.Function,java.util.concurrent.Executor)">catching</a></span>&#8203;(<a href="../../util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;? extends V&gt;&nbsp;input,
         java.lang.Class&lt;X&gt;&nbsp;exceptionType,
@@ -1753,7 +1759,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  <code>fallback</code>.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>&lt;X extends java.lang.Throwable&gt;<br><a href="../../util/concurrent/FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;<a href="../../util/concurrent/FluentFuture.html" title="type parameter in FluentFuture">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">FluentFuture.</span><code><span class="memberNameLink"><a href="../../util/concurrent/FluentFuture.html#catchingAsync(java.lang.Class,com.google.common.util.concurrent.AsyncFunction,java.util.concurrent.Executor)">catchingAsync</a></span>&#8203;(java.lang.Class&lt;X&gt;&nbsp;exceptionType,
              <a href="../../util/concurrent/AsyncFunction.html" title="interface in com.google.common.util.concurrent">AsyncFunction</a>&lt;? super X,&#8203;? extends <a href="../../util/concurrent/FluentFuture.html" title="type parameter in FluentFuture">V</a>&gt;&nbsp;fallback,
@@ -1764,7 +1770,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  fallback</code>.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static &lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;X extends java.lang.Throwable&gt;<br><a href="../../util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Futures.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Futures.html#catchingAsync(com.google.common.util.concurrent.ListenableFuture,java.lang.Class,com.google.common.util.concurrent.AsyncFunction,java.util.concurrent.Executor)">catchingAsync</a></span>&#8203;(<a href="../../util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;? extends V&gt;&nbsp;input,
              java.lang.Class&lt;X&gt;&nbsp;exceptionType,
@@ -1776,7 +1782,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  <code>fallback</code>.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static &lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;X extends java.lang.Exception&gt;<br>V</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Futures.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Futures.html#getChecked(java.util.concurrent.Future,java.lang.Class)">getChecked</a></span>&#8203;(java.util.concurrent.Future&lt;V&gt;&nbsp;future,
           java.lang.Class&lt;X&gt;&nbsp;exceptionClass)</code></th>
@@ -1785,7 +1791,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  given checked exception type.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static &lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;X extends java.lang.Exception&gt;<br>V</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Futures.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Futures.html#getChecked(java.util.concurrent.Future,java.lang.Class,long,java.util.concurrent.TimeUnit)">getChecked</a></span>&#8203;(java.util.concurrent.Future&lt;V&gt;&nbsp;future,
           java.lang.Class&lt;X&gt;&nbsp;exceptionClass,
@@ -1796,7 +1802,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  instance of the given checked exception type.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static &lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;X extends java.lang.Exception&gt;<br>V</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Futures.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Futures.html#getChecked(java.util.concurrent.Future,java.lang.Class,java.time.Duration)">getChecked</a></span>&#8203;(java.util.concurrent.Future&lt;V&gt;&nbsp;future,
           java.lang.Class&lt;X&gt;&nbsp;exceptionClass,
@@ -1806,7 +1812,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  instance of the given checked exception type.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static java.util.concurrent.ExecutorService</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">MoreExecutors.</span><code><span class="memberNameLink"><a href="../../util/concurrent/MoreExecutors.html#getExitingExecutorService(java.util.concurrent.ThreadPoolExecutor)">getExitingExecutorService</a></span>&#8203;(java.util.concurrent.ThreadPoolExecutor&nbsp;executor)</code></th>
 <td class="colLast">
@@ -1814,7 +1820,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  is complete.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static java.util.concurrent.ExecutorService</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">MoreExecutors.</span><code><span class="memberNameLink"><a href="../../util/concurrent/MoreExecutors.html#getExitingExecutorService(java.util.concurrent.ThreadPoolExecutor,long,java.util.concurrent.TimeUnit)">getExitingExecutorService</a></span>&#8203;(java.util.concurrent.ThreadPoolExecutor&nbsp;executor,
                          long&nbsp;terminationTimeout,
@@ -1824,7 +1830,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  is complete.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static java.util.concurrent.ExecutorService</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">MoreExecutors.</span><code><span class="memberNameLink"><a href="../../util/concurrent/MoreExecutors.html#getExitingExecutorService(java.util.concurrent.ThreadPoolExecutor,java.time.Duration)">getExitingExecutorService</a></span>&#8203;(java.util.concurrent.ThreadPoolExecutor&nbsp;executor,
                          java.time.Duration&nbsp;terminationTimeout)</code></th>
@@ -1833,7 +1839,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  is complete.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static java.util.concurrent.ScheduledExecutorService</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">MoreExecutors.</span><code><span class="memberNameLink"><a href="../../util/concurrent/MoreExecutors.html#getExitingScheduledExecutorService(java.util.concurrent.ScheduledThreadPoolExecutor)">getExitingScheduledExecutorService</a></span>&#8203;(java.util.concurrent.ScheduledThreadPoolExecutor&nbsp;executor)</code></th>
 <td class="colLast">
@@ -1841,7 +1847,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  the application is complete.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static java.util.concurrent.ScheduledExecutorService</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">MoreExecutors.</span><code><span class="memberNameLink"><a href="../../util/concurrent/MoreExecutors.html#getExitingScheduledExecutorService(java.util.concurrent.ScheduledThreadPoolExecutor,long,java.util.concurrent.TimeUnit)">getExitingScheduledExecutorService</a></span>&#8203;(java.util.concurrent.ScheduledThreadPoolExecutor&nbsp;executor,
                                   long&nbsp;terminationTimeout,
@@ -1851,7 +1857,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  the application is complete.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static java.util.concurrent.ScheduledExecutorService</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">MoreExecutors.</span><code><span class="memberNameLink"><a href="../../util/concurrent/MoreExecutors.html#getExitingScheduledExecutorService(java.util.concurrent.ScheduledThreadPoolExecutor,java.time.Duration)">getExitingScheduledExecutorService</a></span>&#8203;(java.util.concurrent.ScheduledThreadPoolExecutor&nbsp;executor,
                                   java.time.Duration&nbsp;terminationTimeout)</code></th>
@@ -1860,7 +1866,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  the application is complete.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static &lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>V</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Uninterruptibles.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Uninterruptibles.html#getUninterruptibly(java.util.concurrent.Future,long,java.util.concurrent.TimeUnit)">getUninterruptibly</a></span>&#8203;(java.util.concurrent.Future&lt;V&gt;&nbsp;future,
                   long&nbsp;timeout,
@@ -1869,7 +1875,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Invokes <code>future.</code><code>get(timeout, unit)</code> uninterruptibly.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static &lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>V</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Uninterruptibles.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Uninterruptibles.html#getUninterruptibly(java.util.concurrent.Future,java.time.Duration)">getUninterruptibly</a></span>&#8203;(java.util.concurrent.Future&lt;V&gt;&nbsp;future,
                   java.time.Duration&nbsp;timeout)</code></th>
@@ -1877,14 +1883,30 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Invokes <code>future.</code><code>get(timeout, unit)</code> uninterruptibly.</div>
 </td>
 </tr>
+<tr class="rowColor">
+<td class="colFirst"><code>default &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>java.util.List&lt;java.util.concurrent.Future&lt;T&gt;&gt;</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">ListeningExecutorService.</span><code><span class="memberNameLink"><a href="../../util/concurrent/ListeningExecutorService.html#invokeAll(java.util.Collection,java.time.Duration)">invokeAll</a></span>&#8203;(java.util.Collection&lt;? extends java.util.concurrent.Callable&lt;T&gt;&gt;&nbsp;tasks,
+         java.time.Duration&nbsp;timeout)</code></th>
+<td class="colLast">
+<div class="block">Duration-based overload of <a href="../../util/concurrent/ListeningExecutorService.html#invokeAll(java.util.Collection,long,java.util.concurrent.TimeUnit)"><code>ListeningExecutorService.invokeAll(Collection, long, TimeUnit)</code></a>.</div>
+</td>
+</tr>
 <tr class="altColor">
+<td class="colFirst"><code>default &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>T</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">ListeningExecutorService.</span><code><span class="memberNameLink"><a href="../../util/concurrent/ListeningExecutorService.html#invokeAny(java.util.Collection,java.time.Duration)">invokeAny</a></span>&#8203;(java.util.Collection&lt;? extends java.util.concurrent.Callable&lt;T&gt;&gt;&nbsp;tasks,
+         java.time.Duration&nbsp;timeout)</code></th>
+<td class="colLast">
+<div class="block">Duration-based overload of <code>ExecutorService.invokeAny(Collection, long, TimeUnit)</code>.</div>
+</td>
+</tr>
+<tr class="rowColor">
 <td class="colFirst"><code>static void</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Uninterruptibles.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Uninterruptibles.html#joinUninterruptibly(java.lang.Thread)">joinUninterruptibly</a></span>&#8203;(java.lang.Thread&nbsp;toJoin)</code></th>
 <td class="colLast">
 <div class="block">Invokes <code>toJoin.</code><code>join()</code> uninterruptibly.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static void</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Uninterruptibles.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Uninterruptibles.html#joinUninterruptibly(java.lang.Thread,long,java.util.concurrent.TimeUnit)">joinUninterruptibly</a></span>&#8203;(java.lang.Thread&nbsp;toJoin,
                    long&nbsp;timeout,
@@ -1894,7 +1916,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  uninterruptibly.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static void</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Uninterruptibles.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Uninterruptibles.html#joinUninterruptibly(java.lang.Thread,java.time.Duration)">joinUninterruptibly</a></span>&#8203;(java.lang.Thread&nbsp;toJoin,
                    java.time.Duration&nbsp;timeout)</code></th>
@@ -1903,7 +1925,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  uninterruptibly.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static &lt;I extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;O extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>java.util.concurrent.Future&lt;O&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Futures.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Futures.html#lazyTransform(java.util.concurrent.Future,com.google.common.base.Function)">lazyTransform</a></span>&#8203;(java.util.concurrent.Future&lt;I&gt;&nbsp;input,
              <a href="../../base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super I,&#8203;? extends O&gt;&nbsp;function)</code></th>
@@ -1912,7 +1934,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  <code>function</code> is invoked on each call to <code>get()</code> on the returned future.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static <a href="../../util/concurrent/ListeningExecutorService.html" title="interface in com.google.common.util.concurrent">ListeningExecutorService</a></code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">MoreExecutors.</span><code><span class="memberNameLink"><a href="../../util/concurrent/MoreExecutors.html#listeningDecorator(java.util.concurrent.ExecutorService)">listeningDecorator</a></span>&#8203;(java.util.concurrent.ExecutorService&nbsp;delegate)</code></th>
 <td class="colLast">
@@ -1920,7 +1942,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  <a href="../../util/concurrent/ListenableFutureTask.html" title="class in com.google.common.util.concurrent"><code>ListenableFutureTask</code></a> instances to the given delegate executor.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static <a href="../../util/concurrent/ListeningScheduledExecutorService.html" title="interface in com.google.common.util.concurrent">ListeningScheduledExecutorService</a></code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">MoreExecutors.</span><code><span class="memberNameLink"><a href="../../util/concurrent/MoreExecutors.html#listeningDecorator(java.util.concurrent.ScheduledExecutorService)">listeningDecorator</a></span>&#8203;(java.util.concurrent.ScheduledExecutorService&nbsp;delegate)</code></th>
 <td class="colLast">
@@ -1928,7 +1950,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  submit <a href="../../util/concurrent/ListenableFutureTask.html" title="class in com.google.common.util.concurrent"><code>ListenableFutureTask</code></a> instances to the given delegate executor.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static <a href="../../util/concurrent/ListeningExecutorService.html" title="interface in com.google.common.util.concurrent">ListeningExecutorService</a></code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">MoreExecutors.</span><code><span class="memberNameLink"><a href="../../util/concurrent/MoreExecutors.html#newDirectExecutorService()">newDirectExecutorService</a></span>()</code></th>
 <td class="colLast">
@@ -1936,7 +1958,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  execute/submit</code>, as in <code>ThreadPoolExecutor.CallerRunsPolicy</code>.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static java.util.concurrent.Executor</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">MoreExecutors.</span><code><span class="memberNameLink"><a href="../../util/concurrent/MoreExecutors.html#newSequentialExecutor(java.util.concurrent.Executor)">newSequentialExecutor</a></span>&#8203;(java.util.concurrent.Executor&nbsp;delegate)</code></th>
 <td class="colLast">
@@ -1944,14 +1966,14 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  are running concurrently.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static java.util.concurrent.ThreadFactory</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">MoreExecutors.</span><code><span class="memberNameLink"><a href="../../util/concurrent/MoreExecutors.html#platformThreadFactory()">platformThreadFactory</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns a default thread factory used to create new threads.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;void</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Uninterruptibles.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Uninterruptibles.html#putUninterruptibly(java.util.concurrent.BlockingQueue,E)">putUninterruptibly</a></span>&#8203;(java.util.concurrent.BlockingQueue&lt;E&gt;&nbsp;queue,
                   E&nbsp;element)</code></th>
@@ -1959,7 +1981,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Invokes <code>queue.</code><code>put(element)</code> uninterruptibly.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static &lt;O extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="../../util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;O&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Futures.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Futures.html#scheduleAsync(com.google.common.util.concurrent.AsyncCallable,long,java.util.concurrent.TimeUnit,java.util.concurrent.ScheduledExecutorService)">scheduleAsync</a></span>&#8203;(<a href="../../util/concurrent/AsyncCallable.html" title="interface in com.google.common.util.concurrent">AsyncCallable</a>&lt;O&gt;&nbsp;callable,
              long&nbsp;delay,
@@ -1969,7 +1991,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Schedules <code>callable</code> on the specified <code>executor</code>, returning a <code>Future</code>.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static &lt;O extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="../../util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;O&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Futures.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Futures.html#scheduleAsync(com.google.common.util.concurrent.AsyncCallable,java.time.Duration,java.util.concurrent.ScheduledExecutorService)">scheduleAsync</a></span>&#8203;(<a href="../../util/concurrent/AsyncCallable.html" title="interface in com.google.common.util.concurrent">AsyncCallable</a>&lt;O&gt;&nbsp;callable,
              java.time.Duration&nbsp;delay,
@@ -1978,7 +2000,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Schedules <code>callable</code> on the specified <code>executor</code>, returning a <code>Future</code>.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static boolean</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">MoreExecutors.</span><code><span class="memberNameLink"><a href="../../util/concurrent/MoreExecutors.html#shutdownAndAwaitTermination(java.util.concurrent.ExecutorService,long,java.util.concurrent.TimeUnit)">shutdownAndAwaitTermination</a></span>&#8203;(java.util.concurrent.ExecutorService&nbsp;service,
                            long&nbsp;timeout,
@@ -1988,7 +2010,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  necessary, cancelling remaining tasks.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static boolean</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">MoreExecutors.</span><code><span class="memberNameLink"><a href="../../util/concurrent/MoreExecutors.html#shutdownAndAwaitTermination(java.util.concurrent.ExecutorService,java.time.Duration)">shutdownAndAwaitTermination</a></span>&#8203;(java.util.concurrent.ExecutorService&nbsp;service,
                            java.time.Duration&nbsp;timeout)</code></th>
@@ -1997,7 +2019,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  necessary, cancelling remaining tasks.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static void</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Uninterruptibles.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Uninterruptibles.html#sleepUninterruptibly(long,java.util.concurrent.TimeUnit)">sleepUninterruptibly</a></span>&#8203;(long&nbsp;sleepFor,
                     java.util.concurrent.TimeUnit&nbsp;unit)</code></th>
@@ -2005,21 +2027,21 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Invokes <code>unit.</code><code>sleep(sleepFor)</code> uninterruptibly.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static void</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Uninterruptibles.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Uninterruptibles.html#sleepUninterruptibly(java.time.Duration)">sleepUninterruptibly</a></span>&#8203;(java.time.Duration&nbsp;sleepFor)</code></th>
 <td class="colLast">
 <div class="block">Invokes <code>unit.</code><code>sleep(sleepFor)</code> uninterruptibly.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;E</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Uninterruptibles.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Uninterruptibles.html#takeUninterruptibly(java.util.concurrent.BlockingQueue)">takeUninterruptibly</a></span>&#8203;(java.util.concurrent.BlockingQueue&lt;E&gt;&nbsp;queue)</code></th>
 <td class="colLast">
 <div class="block">Invokes <code>queue.</code><code>take()</code> uninterruptibly.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static boolean</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Uninterruptibles.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Uninterruptibles.html#tryAcquireUninterruptibly(java.util.concurrent.Semaphore,int,long,java.util.concurrent.TimeUnit)">tryAcquireUninterruptibly</a></span>&#8203;(java.util.concurrent.Semaphore&nbsp;semaphore,
                          int&nbsp;permits,
@@ -2030,7 +2052,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  timeout, unit)</code> uninterruptibly.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static boolean</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Uninterruptibles.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Uninterruptibles.html#tryAcquireUninterruptibly(java.util.concurrent.Semaphore,int,java.time.Duration)">tryAcquireUninterruptibly</a></span>&#8203;(java.util.concurrent.Semaphore&nbsp;semaphore,
                          int&nbsp;permits,
@@ -2040,7 +2062,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  timeout, unit)</code> uninterruptibly.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static boolean</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Uninterruptibles.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Uninterruptibles.html#tryAcquireUninterruptibly(java.util.concurrent.Semaphore,long,java.util.concurrent.TimeUnit)">tryAcquireUninterruptibly</a></span>&#8203;(java.util.concurrent.Semaphore&nbsp;semaphore,
                          long&nbsp;timeout,
@@ -2050,7 +2072,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  timeout, unit)</code> uninterruptibly.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static boolean</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Uninterruptibles.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Uninterruptibles.html#tryAcquireUninterruptibly(java.util.concurrent.Semaphore,java.time.Duration)">tryAcquireUninterruptibly</a></span>&#8203;(java.util.concurrent.Semaphore&nbsp;semaphore,
                          java.time.Duration&nbsp;timeout)</code></th>
@@ -2059,7 +2081,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  timeout, unit)</code> uninterruptibly.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static boolean</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Uninterruptibles.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Uninterruptibles.html#tryLockUninterruptibly(java.util.concurrent.locks.Lock,long,java.util.concurrent.TimeUnit)">tryLockUninterruptibly</a></span>&#8203;(java.util.concurrent.locks.Lock&nbsp;lock,
                       long&nbsp;timeout,
@@ -2069,7 +2091,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  uninterruptibly.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static boolean</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Uninterruptibles.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Uninterruptibles.html#tryLockUninterruptibly(java.util.concurrent.locks.Lock,java.time.Duration)">tryLockUninterruptibly</a></span>&#8203;(java.util.concurrent.locks.Lock&nbsp;lock,
                       java.time.Duration&nbsp;timeout)</code></th>
@@ -2078,7 +2100,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  uninterruptibly.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../util/concurrent/FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;<a href="../../util/concurrent/FluentFuture.html" title="type parameter in FluentFuture">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">FluentFuture.</span><code><span class="memberNameLink"><a href="../../util/concurrent/FluentFuture.html#withTimeout(long,java.util.concurrent.TimeUnit,java.util.concurrent.ScheduledExecutorService)">withTimeout</a></span>&#8203;(long&nbsp;timeout,
            java.util.concurrent.TimeUnit&nbsp;unit,
@@ -2087,7 +2109,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Returns a future that delegates to this future but will finish early (via a <code>TimeoutException</code> wrapped in an <code>ExecutionException</code>) if the specified timeout expires.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../../util/concurrent/FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;<a href="../../util/concurrent/FluentFuture.html" title="type parameter in FluentFuture">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">FluentFuture.</span><code><span class="memberNameLink"><a href="../../util/concurrent/FluentFuture.html#withTimeout(java.time.Duration,java.util.concurrent.ScheduledExecutorService)">withTimeout</a></span>&#8203;(java.time.Duration&nbsp;timeout,
            java.util.concurrent.ScheduledExecutorService&nbsp;scheduledExecutor)</code></th>
@@ -2095,7 +2117,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Returns a future that delegates to this future but will finish early (via a <code>TimeoutException</code> wrapped in an <code>ExecutionException</code>) if the specified timeout expires.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static &lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="../../util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Futures.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Futures.html#withTimeout(com.google.common.util.concurrent.ListenableFuture,long,java.util.concurrent.TimeUnit,java.util.concurrent.ScheduledExecutorService)">withTimeout</a></span>&#8203;(<a href="../../util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;&nbsp;delegate,
            long&nbsp;time,
@@ -2105,7 +2127,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Returns a future that delegates to another but will finish early (via a <code>TimeoutException</code> wrapped in an <code>ExecutionException</code>) if the specified duration expires.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static &lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="../../util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Futures.</span><code><span class="memberNameLink"><a href="../../util/concurrent/Futures.html#withTimeout(com.google.common.util.concurrent.ListenableFuture,java.time.Duration,java.util.concurrent.ScheduledExecutorService)">withTimeout</a></span>&#8203;(<a href="../../util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;&nbsp;delegate,
            java.time.Duration&nbsp;time,
