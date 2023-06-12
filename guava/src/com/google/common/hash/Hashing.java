@@ -16,8 +16,13 @@ package com.google.common.hash;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Throwables.throwIfUnchecked;
+import static java.lang.invoke.MethodType.methodType;
 
 import com.google.errorprone.annotations.Immutable;
+import com.google.j2objc.annotations.J2ObjCIncompatible;
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles;
 import java.security.Key;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -399,6 +404,13 @@ public final class Hashing {
 
   @Immutable
   private enum Crc32CSupplier implements ImmutableSupplier<HashFunction> {
+    @J2ObjCIncompatible
+    JAVA_UTIL_ZIP {
+      @Override
+      public HashFunction get() {
+        return ChecksumType.CRC_32C.hashFunction;
+      }
+    },
     ABSTRACT_HASH_FUNCTION {
       @Override
       public HashFunction get() {
@@ -406,7 +418,26 @@ public final class Hashing {
       }
     };
 
-    static final HashFunction HASH_FUNCTION = values()[0].get();
+    static final HashFunction HASH_FUNCTION = pickFunction().get();
+
+    private static Crc32CSupplier pickFunction() {
+      Crc32CSupplier[] functions = values();
+
+      if (functions.length == 1) {
+        // We're running under J2ObjC.
+        return functions[0];
+      }
+
+      // We can't refer to JAVA_UTIL_ZIP directly at compile time because of J2ObjC.
+      Crc32CSupplier javaUtilZip = functions[0];
+
+      try {
+        Class.forName("java.util.zip.CRC32C");
+        return javaUtilZip;
+      } catch (ClassNotFoundException runningUnderJava8) {
+        return ABSTRACT_HASH_FUNCTION;
+      }
+    }
   }
 
   /**
@@ -449,6 +480,13 @@ public final class Hashing {
         return new CRC32();
       }
     },
+    @J2ObjCIncompatible
+    CRC_32C("Hashing.crc32c()") {
+      @Override
+      public Checksum get() {
+        return Crc32cMethodHandles.newCrc32c();
+      }
+    },
     ADLER_32("Hashing.adler32()") {
       @Override
       public Checksum get() {
@@ -460,6 +498,52 @@ public final class Hashing {
 
     ChecksumType(String toString) {
       this.hashFunction = new ChecksumHashFunction(this, 32, toString);
+    }
+  }
+
+  @J2ObjCIncompatible
+  @SuppressWarnings("unused")
+  private static final class Crc32cMethodHandles {
+    private static final MethodHandle CONSTRUCTOR = crc32cConstructor();
+
+    @IgnoreJRERequirement // https://github.com/mojohaus/animal-sniffer/issues/67
+    static Checksum newCrc32c() {
+      try {
+        return (Checksum) CONSTRUCTOR.invokeExact();
+      } catch (Throwable e) {
+        throwIfUnchecked(e);
+        // That constructor has no `throws` clause.
+        throw newLinkageError(e);
+      }
+    }
+
+    private static MethodHandle crc32cConstructor() {
+      try {
+        Class<?> clazz = Class.forName("java.util.zip.CRC32C");
+        /*
+         * We can't cast to CRC32C at the call site because we support building with Java 8
+         * (https://github.com/google/guava/issues/6549). So we have to use asType() to change from
+         * CRC32C to Checksum. This may carry some performance cost
+         * (https://stackoverflow.com/a/22321671/28465), but I'd have to benchmark more carefully to
+         * even detect it.
+         */
+        return MethodHandles.lookup()
+            .findConstructor(clazz, methodType(void.class))
+            .asType(methodType(Checksum.class));
+      } catch (ClassNotFoundException e) {
+        // We check that the class is available before calling this method.
+        throw new AssertionError(e);
+      } catch (IllegalAccessException e) {
+        // That API is public.
+        throw newLinkageError(e);
+      } catch (NoSuchMethodException e) {
+        // That constructor exists.
+        throw newLinkageError(e);
+      }
+    }
+
+    private static LinkageError newLinkageError(Throwable cause) {
+      return new LinkageError(cause.toString(), cause);
     }
   }
 

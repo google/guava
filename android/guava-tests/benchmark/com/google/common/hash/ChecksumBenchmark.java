@@ -69,6 +69,13 @@ public class ChecksumBenchmark {
     return result;
   }
 
+  // CRC32C
+
+  @Benchmark
+  byte crc32cHashFunction(int reps) {
+    return runHashFunction(reps, Hashing.crc32c());
+  }
+
   // Adler32
 
   @Benchmark
