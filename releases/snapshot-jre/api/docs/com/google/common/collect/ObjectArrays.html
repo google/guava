@@ -6,15 +6,16 @@
 <title>ObjectArrays (Guava: Google Core Libraries for Java HEAD-jre-SNAPSHOT API)</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" type="text/css" href="../../../../stylesheet.css" title="Style">
-<link rel="stylesheet" type="text/css" href="../../../../jquery/jquery-ui.css" title="Style">
+<link rel="stylesheet" type="text/css" href="../../../../jquery/jquery-ui.min.css" title="Style">
+<link rel="stylesheet" type="text/css" href="../../../../jquery-ui.overrides.css" title="Style">
 <script type="text/javascript" src="../../../../script.js"></script>
 <script type="text/javascript" src="../../../../jquery/jszip/dist/jszip.min.js"></script>
 <script type="text/javascript" src="../../../../jquery/jszip-utils/dist/jszip-utils.min.js"></script>
 <!--[if IE]>
 <script type="text/javascript" src="../../../../jquery/jszip-utils/dist/jszip-utils-ie.min.js"></script>
 <![endif]-->
-<script type="text/javascript" src="../../../../jquery/jquery-3.5.1.js"></script>
-<script type="text/javascript" src="../../../../jquery/jquery-ui.js"></script>
+<script type="text/javascript" src="../../../../jquery/jquery-3.6.1.min.js"></script>
+<script type="text/javascript" src="../../../../jquery/jquery-ui.min.js"></script>
 </head>
 <body>
 <script type="text/javascript"><!--
@@ -132,7 +133,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <hr>
 <pre><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../annotations/GwtCompatible.html#emulated()">emulated</a>=true)
-public final class <a href="../../../../src-html/com/google/common/collect/ObjectArrays.html#line.35">ObjectArrays</a>
+public final class <a href="../../../../src-html/com/google/common/collect/ObjectArrays.html#line.36">ObjectArrays</a>
 extends java.lang.Object</pre>
 <div class="block">Static utility methods pertaining to object arrays.</div>
 <dl>
@@ -148,7 +149,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <!-- ========== METHOD SUMMARY =========== -->
-<section role="region">
+<section>
 <ul class="blockList">
 <li class="blockList"><a id="method.summary">
 <!--   -->
@@ -170,10 +171,10 @@ extends java.lang.Object</pre>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
-<td class="colFirst"><code>static &lt;T&gt;&nbsp;T[]</code></td>
+<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>T[]</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#concat(T%5B%5D,T%5B%5D,java.lang.Class)">concat</a></span>&#8203;(T[]&nbsp;first,
       T[]&nbsp;second,
-      java.lang.Class&lt;T&gt;&nbsp;type)</code></th>
+      java.lang.Class&lt;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> T&gt;&nbsp;type)</code></th>
 <td class="colLast">
 <div class="block">Returns a new array that contains the concatenated contents of two arrays.</div>
 </td>
@@ -187,8 +188,8 @@ extends java.lang.Object</pre>
 </td>
 </tr>
 <tr id="i3" class="rowColor">
-<td class="colFirst"><code>static &lt;T&gt;&nbsp;T[]</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#newArray(java.lang.Class,int)">newArray</a></span>&#8203;(java.lang.Class&lt;T&gt;&nbsp;type,
+<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>T[]</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#newArray(java.lang.Class,int)">newArray</a></span>&#8203;(java.lang.Class&lt;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> T&gt;&nbsp;type,
         int&nbsp;length)</code></th>
 <td class="colLast">
 <div class="block">Returns a new array of the given length with the specified component type.</div>
@@ -220,7 +221,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <!-- ============ METHOD DETAIL ========== -->
-<section role="region">
+<section>
 <ul class="blockList">
 <li class="blockList"><a id="method.detail">
 <!--   -->
@@ -233,8 +234,8 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>newArray</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;&lt;T&gt;&nbsp;T[]&nbsp;<a href="../../../../src-html/com/google/common/collect/ObjectArrays.html#line.47">newArray</a>&#8203;(java.lang.Class&lt;T&gt;&nbsp;type,
-                               int&nbsp;length)</pre>
+public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;T[]&nbsp;<a href="../../../../src-html/com/google/common/collect/ObjectArrays.html#line.49">newArray</a>&#8203;(java.lang.Class&lt;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> T&gt;&nbsp;type,
+                                                                  int&nbsp;length)</pre>
 <div class="block">Returns a new array of the given length with the specified component type.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -251,7 +252,7 @@ public static&nbsp;&lt;T&gt;&nbsp;T[]&nbsp;<a href="../../../../src-html/com/goo
 <ul class="blockList">
 <li class="blockList">
 <h4>newArray</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;T[]&nbsp;<a href="../../../../src-html/com/google/common/collect/ObjectArrays.html#line.59">newArray</a>&#8203;(T[]&nbsp;reference,
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;T[]&nbsp;<a href="../../../../src-html/com/google/common/collect/ObjectArrays.html#line.61">newArray</a>&#8203;(T[]&nbsp;reference,
                                                                   int&nbsp;length)</pre>
 <div class="block">Returns a new array of the given length with the same type as a reference array.</div>
 <dl>
@@ -270,9 +271,9 @@ public static&nbsp;&lt;T&gt;&nbsp;T[]&nbsp;<a href="../../../../src-html/com/goo
 <li class="blockList">
 <h4>concat</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;&lt;T&gt;&nbsp;T[]&nbsp;<a href="../../../../src-html/com/google/common/collect/ObjectArrays.html#line.70">concat</a>&#8203;(T[]&nbsp;first,
-                             T[]&nbsp;second,
-                             java.lang.Class&lt;T&gt;&nbsp;type)</pre>
+public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;T[]&nbsp;<a href="../../../../src-html/com/google/common/collect/ObjectArrays.html#line.72">concat</a>&#8203;(T[]&nbsp;first,
+                                                                T[]&nbsp;second,
+                                                                java.lang.Class&lt;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> T&gt;&nbsp;type)</pre>
 <div class="block">Returns a new array that contains the concatenated contents of two arrays.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -290,7 +291,7 @@ public static&nbsp;&lt;T&gt;&nbsp;T[]&nbsp;<a href="../../../../src-html/com/goo
 <ul class="blockList">
 <li class="blockList">
 <h4>concat</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;T[]&nbsp;<a href="../../../../src-html/com/google/common/collect/ObjectArrays.html#line.86">concat</a>&#8203;(T&nbsp;element,
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;T[]&nbsp;<a href="../../../../src-html/com/google/common/collect/ObjectArrays.html#line.89">concat</a>&#8203;(T&nbsp;element,
                                                                 T[]&nbsp;array)</pre>
 <div class="block">Returns a new array that prepends <code>element</code> to <code>array</code>.</div>
 <dl>
@@ -311,7 +312,7 @@ public static&nbsp;&lt;T&gt;&nbsp;T[]&nbsp;<a href="../../../../src-html/com/goo
 <ul class="blockListLast">
 <li class="blockList">
 <h4>concat</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;T[]&nbsp;<a href="../../../../src-html/com/google/common/collect/ObjectArrays.html#line.101">concat</a>&#8203;(T[]&nbsp;array,
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;T[]&nbsp;<a href="../../../../src-html/com/google/common/collect/ObjectArrays.html#line.104">concat</a>&#8203;(T[]&nbsp;array,
                                                                 T&nbsp;element)</pre>
 <div class="block">Returns a new array that appends <code>element</code> to <code>array</code>.</div>
 <dl>

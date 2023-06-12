@@ -50,7 +50,7 @@ function getURLPrefix(ui) {
             return ui.item.m + slash;
         } else if ((ui.item.category === catTypes && ui.item.p) || ui.item.category === catMembers) {
             $.each(packageSearchIndex, function(index, item) {
-                if (ui.item.p == item.l) {
+                if (item.m && ui.item.p == item.l) {
                     urlPrefix = item.m + slash;
                 }
             });
