@@ -214,7 +214,7 @@
 <span class="sourceLineNo">205</span><a id="line.205">   */</a>
 <span class="sourceLineNo">206</span><a id="line.206">  @CheckForNull</a>
 <span class="sourceLineNo">207</span><a id="line.207">  protected Entry&lt;K, V&gt; standardFirstEntry() {</a>
-<span class="sourceLineNo">208</span><a id="line.208">    return Iterables.getFirst(entrySet(), null);</a>
+<span class="sourceLineNo">208</span><a id="line.208">    return Iterables.&lt;@Nullable Entry&lt;K, V&gt;&gt;getFirst(entrySet(), null);</a>
 <span class="sourceLineNo">209</span><a id="line.209">  }</a>
 <span class="sourceLineNo">210</span><a id="line.210"></a>
 <span class="sourceLineNo">211</span><a id="line.211">  /**</a>
@@ -244,7 +244,7 @@
 <span class="sourceLineNo">235</span><a id="line.235">   */</a>
 <span class="sourceLineNo">236</span><a id="line.236">  @CheckForNull</a>
 <span class="sourceLineNo">237</span><a id="line.237">  protected Entry&lt;K, V&gt; standardLastEntry() {</a>
-<span class="sourceLineNo">238</span><a id="line.238">    return Iterables.getFirst(descendingMap().entrySet(), null);</a>
+<span class="sourceLineNo">238</span><a id="line.238">    return Iterables.&lt;@Nullable Entry&lt;K, V&gt;&gt;getFirst(descendingMap().entrySet(), null);</a>
 <span class="sourceLineNo">239</span><a id="line.239">  }</a>
 <span class="sourceLineNo">240</span><a id="line.240"></a>
 <span class="sourceLineNo">241</span><a id="line.241">  /**</a>

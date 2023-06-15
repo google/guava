@@ -637,21 +637,21 @@
 <span class="sourceLineNo">628</span><a id="line.628">  @Override</a>
 <span class="sourceLineNo">629</span><a id="line.629">  @CheckForNull</a>
 <span class="sourceLineNo">630</span><a id="line.630">  public E lower(E e) {</a>
-<span class="sourceLineNo">631</span><a id="line.631">    return Iterators.getNext(headSet(e, false).descendingIterator(), null);</a>
+<span class="sourceLineNo">631</span><a id="line.631">    return Iterators.&lt;@Nullable E&gt;getNext(headSet(e, false).descendingIterator(), null);</a>
 <span class="sourceLineNo">632</span><a id="line.632">  }</a>
 <span class="sourceLineNo">633</span><a id="line.633"></a>
 <span class="sourceLineNo">634</span><a id="line.634">  /** @since 12.0 */</a>
 <span class="sourceLineNo">635</span><a id="line.635">  @Override</a>
 <span class="sourceLineNo">636</span><a id="line.636">  @CheckForNull</a>
 <span class="sourceLineNo">637</span><a id="line.637">  public E floor(E e) {</a>
-<span class="sourceLineNo">638</span><a id="line.638">    return Iterators.getNext(headSet(e, true).descendingIterator(), null);</a>
+<span class="sourceLineNo">638</span><a id="line.638">    return Iterators.&lt;@Nullable E&gt;getNext(headSet(e, true).descendingIterator(), null);</a>
 <span class="sourceLineNo">639</span><a id="line.639">  }</a>
 <span class="sourceLineNo">640</span><a id="line.640"></a>
 <span class="sourceLineNo">641</span><a id="line.641">  /** @since 12.0 */</a>
 <span class="sourceLineNo">642</span><a id="line.642">  @Override</a>
 <span class="sourceLineNo">643</span><a id="line.643">  @CheckForNull</a>
 <span class="sourceLineNo">644</span><a id="line.644">  public E ceiling(E e) {</a>
-<span class="sourceLineNo">645</span><a id="line.645">    return Iterables.getFirst(tailSet(e, true), null);</a>
+<span class="sourceLineNo">645</span><a id="line.645">    return Iterables.&lt;@Nullable E&gt;getFirst(tailSet(e, true), null);</a>
 <span class="sourceLineNo">646</span><a id="line.646">  }</a>
 <span class="sourceLineNo">647</span><a id="line.647"></a>
 <span class="sourceLineNo">648</span><a id="line.648">  /** @since 12.0 */</a>
@@ -659,7 +659,7 @@
 <span class="sourceLineNo">650</span><a id="line.650">  @Override</a>
 <span class="sourceLineNo">651</span><a id="line.651">  @CheckForNull</a>
 <span class="sourceLineNo">652</span><a id="line.652">  public E higher(E e) {</a>
-<span class="sourceLineNo">653</span><a id="line.653">    return Iterables.getFirst(tailSet(e, false), null);</a>
+<span class="sourceLineNo">653</span><a id="line.653">    return Iterables.&lt;@Nullable E&gt;getFirst(tailSet(e, false), null);</a>
 <span class="sourceLineNo">654</span><a id="line.654">  }</a>
 <span class="sourceLineNo">655</span><a id="line.655"></a>
 <span class="sourceLineNo">656</span><a id="line.656">  @Override</a>
