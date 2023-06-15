@@ -104,7 +104,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <!--   -->
 </a>
 <div class="block">This package contains generic collection interfaces and implementations, and other utilities for
- working with collections. It is a part of the open-source <a href="http://github.com/google/guava">Guava</a> library.
+ working with collections. It is a part of the open-source <a href="https://github.com/google/guava">Guava</a> library.
 
  <h2>Collection Types</h2>
 
@@ -112,31 +112,30 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
    <dt><a href="BiMap.html" title="interface in com.google.common.collect"><code>BiMap</code></a>
    <dd>An extension of <code>Map</code> that guarantees the uniqueness of its values as well
        as that of its keys. This is sometimes called an "invertible map," since the restriction on
-       values enables it to support an <a href="BiMap.html#inverse()">inverse
-       view</a> -- which is another instance of <code>BiMap</code>.
+       values enables it to support an <a href="BiMap.html#inverse()">inverse view</a> -- which is another
+       instance of <code>BiMap</code>.
    <dt><a href="Multiset.html" title="interface in com.google.common.collect"><code>Multiset</code></a>
    <dd>An extension of <code>Collection</code> that may contain duplicate values like a
        <code>List</code>, yet has order-independent equality like a <code>Set</code>.
        One typical use for a multiset is to represent a histogram.
    <dt><a href="Multimap.html" title="interface in com.google.common.collect"><code>Multimap</code></a>
    <dd>A new type, which is similar to <code>Map</code>, but may contain multiple entries
-       with the same key. Some behaviors of <a href="Multimap.html" title="interface in com.google.common.collect"><code>Multimap</code></a> are left
-       unspecified and are provided only by the subtypes mentioned below.
+       with the same key. Some behaviors of <a href="Multimap.html" title="interface in com.google.common.collect"><code>Multimap</code></a> are left unspecified and are provided
+       only by the subtypes mentioned below.
    <dt><a href="ListMultimap.html" title="interface in com.google.common.collect"><code>ListMultimap</code></a>
-   <dd>An extension of <a href="Multimap.html" title="interface in com.google.common.collect"><code>Multimap</code></a> which permits duplicate entries,
-       supports random access of values for a particular key, and has <i>partially order-dependent
-       equality</i> as defined by <a href="ListMultimap.html#equals(java.lang.Object)"><code>ListMultimap.equals(Object)</code></a>.
-       <code>ListMultimap</code> takes its name from the fact that the <a href="ListMultimap.html#get(K)">collection of values</a> associated with a given
-       key fulfills the <code>List</code> contract.
+   <dd>An extension of <a href="Multimap.html" title="interface in com.google.common.collect"><code>Multimap</code></a> which permits duplicate entries, supports random access of
+       values for a particular key, and has <i>partially order-dependent equality</i> as defined
+       by <a href="ListMultimap.html#equals(java.lang.Object)"><code>ListMultimap.equals(Object)</code></a>. <code>ListMultimap</code> takes its name from the fact
+       that the <a href="ListMultimap.html#get(K)">collection of values</a> associated with a given key
+       fulfills the <code>List</code> contract.
    <dt><a href="SetMultimap.html" title="interface in com.google.common.collect"><code>SetMultimap</code></a>
-   <dd>An extension of <a href="Multimap.html" title="interface in com.google.common.collect"><code>Multimap</code></a> which has order-independent
-       equality and does not allow duplicate entries; that is, while a key may appear twice in a
-       <code>SetMultimap</code>, each must map to a different value. <code>SetMultimap</code> takes its name
-       from the fact that the <a href="SetMultimap.html#get(K)">collection of
-       values</a> associated with a given key fulfills the <code>Set</code> contract.
+   <dd>An extension of <a href="Multimap.html" title="interface in com.google.common.collect"><code>Multimap</code></a> which has order-independent equality and does not allow
+       duplicate entries; that is, while a key may appear twice in a <code>SetMultimap</code>, each
+       must map to a different value. <code>SetMultimap</code> takes its name from the fact that the
+       <a href="SetMultimap.html#get(K)">collection of values</a> associated with a given key fulfills the
+       <code>Set</code> contract.
    <dt><a href="SortedSetMultimap.html" title="interface in com.google.common.collect"><code>SortedSetMultimap</code></a>
-   <dd>An extension of <a href="SetMultimap.html" title="interface in com.google.common.collect"><code>SetMultimap</code></a> for which the <a href="SortedSetMultimap.html#get(K)">collection values</a> associated with a given
-       key is a <code>SortedSet</code>.
+   <dd>An extension of <a href="SetMultimap.html" title="interface in com.google.common.collect"><code>SetMultimap</code></a> for which the <a href="SortedSetMultimap.html#get(K)">collection values</a> associated with a given key is a <code>SortedSet</code>.
    <dt><a href="Table.html" title="interface in com.google.common.collect"><code>Table</code></a>
    <dd>A new type, which is similar to <code>Map</code>, but which indexes its values by an
        ordered pair of keys, a row key and column key.
