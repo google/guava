@@ -407,10 +407,14 @@ public abstract class AbstractGraphTest {
   public void removeNode_queryAfterRemoval() {
     assume().that(graphIsMutable()).isTrue();
 
-    addNode(N1);
-    @SuppressWarnings("unused")
-    Set<Integer> unused = graph.adjacentNodes(N1); // ensure cache (if any) is populated
+    putEdge(N1, N2);
+    putEdge(N2, N1);
+    Set<Integer> n1AdjacentNodes = graph.adjacentNodes(N1);
+    Set<Integer> n2AdjacentNodes = graph.adjacentNodes(N2);
+
     assertThat(graphAsMutableGraph.removeNode(N1)).isTrue();
+    assertThat(n1AdjacentNodes).isEmpty();
+    assertThat(n2AdjacentNodes).isEmpty();
     try {
       graph.adjacentNodes(N1);
       fail(ERROR_NODE_NOT_IN_GRAPH);

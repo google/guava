@@ -24,6 +24,7 @@ import static com.google.common.graph.Graphs.checkNonNegative;
 import static com.google.common.graph.Graphs.checkPositive;
 import static java.util.Objects.requireNonNull;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import javax.annotation.CheckForNull;
 
@@ -136,17 +137,23 @@ final class StandardMutableValueGraph<N, V> extends StandardValueGraph<N, V>
       }
     }
 
-    for (N successor : connections.successors()) {
+    // Since views are returned, we need to copy the successors that will be removed.
+    // Thus we avoid modifying the underlying view while iterating over it.
+    for (N successor : ImmutableSet.copyOf(connections.successors())) {
       // requireNonNull is safe because the node is a successor.
       requireNonNull(nodeConnections.getWithoutCaching(successor)).removePredecessor(node);
+      requireNonNull(connections.removeSuccessor(successor));
       --edgeCount;
     }
     if (isDirected()) { // In undirected graphs, the successor and predecessor sets are equal.
-      for (N predecessor : connections.predecessors()) {
+      // Since views are returned, we need to copy the predecessors that will be removed.
+      // Thus we avoid modifying the underlying view while iterating over it.
+      for (N predecessor : ImmutableSet.copyOf(connections.predecessors())) {
         // requireNonNull is safe because the node is a predecessor.
         checkState(
             requireNonNull(nodeConnections.getWithoutCaching(predecessor)).removeSuccessor(node)
                 != null);
+        connections.removePredecessor(predecessor);
         --edgeCount;
       }
     }

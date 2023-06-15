@@ -702,11 +702,13 @@ public abstract class AbstractNetworkTest {
   public void removeNode_queryAfterRemoval() {
     assume().that(graphIsMutable()).isTrue();
 
-    addNode(N1);
-    @SuppressWarnings("unused")
-    Set<Integer> unused =
-        networkAsMutableNetwork.adjacentNodes(N1); // ensure cache (if any) is populated
+    addEdge(N1, N2, E12);
+    Set<Integer> n1AdjacentNodes = networkAsMutableNetwork.adjacentNodes(N1);
+    Set<Integer> n2AdjacentNodes = networkAsMutableNetwork.adjacentNodes(N2);
+
     assertTrue(networkAsMutableNetwork.removeNode(N1));
+    assertThat(n1AdjacentNodes).isEmpty();
+    assertThat(n2AdjacentNodes).isEmpty();
     try {
       networkAsMutableNetwork.adjacentNodes(N1);
       fail(ERROR_NODE_NOT_IN_GRAPH);
