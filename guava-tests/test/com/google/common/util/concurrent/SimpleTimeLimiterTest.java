@@ -278,7 +278,7 @@ public class SimpleTimeLimiterTest extends TestCase {
         finished = true;
         return input;
       } catch (InterruptedException e) {
-        return null;
+        throw new AssertionError();
       }
     }
 

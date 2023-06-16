@@ -28,10 +28,10 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
-import javax.annotation.CheckForNull;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Unit test for {@link AbstractMultiset}.
@@ -106,7 +106,7 @@ public class SimpleAbstractMultisetTest extends TestCase {
     }
 
     @Override
-    public int count(@CheckForNull Object element) {
+    public int count(@Nullable Object element) {
       for (Entry<E> entry : entrySet()) {
         if (Objects.equal(entry.getElement(), element)) {
           return entry.getCount();
@@ -116,7 +116,7 @@ public class SimpleAbstractMultisetTest extends TestCase {
     }
 
     @Override
-    public int add(@CheckForNull E element, int occurrences) {
+    public int add(@Nullable E element, int occurrences) {
       checkArgument(occurrences >= 0);
       Integer frequency = backingMap.get(element);
       if (frequency == null) {

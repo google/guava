@@ -88,9 +88,9 @@ import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
-import javax.annotation.CheckForNull;
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Unit tests for {@link Futures}.
@@ -141,7 +141,7 @@ public class FuturesTest extends TestCase {
   }
 
   public void testImmediateVoidFuture() throws Exception {
-    ListenableFuture<Void> voidFuture = immediateVoidFuture();
+    ListenableFuture<@Nullable Void> voidFuture = immediateVoidFuture();
 
     assertThat(getDone(voidFuture)).isNull();
     assertThat(getDoneFromTimeoutOverload(voidFuture)).isNull();
@@ -1662,7 +1662,7 @@ public class FuturesTest extends TestCase {
   }
 
   private static <I, O> AsyncFunction<I, O> constantAsyncFunction(
-      final ListenableFuture<O> output) {
+      final @Nullable ListenableFuture<O> output) {
     return new AsyncFunction<I, O>() {
       @Override
       public ListenableFuture<O> apply(I input) {
@@ -1978,7 +1978,7 @@ public class FuturesTest extends TestCase {
             pendingRunnables.add(runnable);
           }
         };
-    ListenableFuture<Void> future = submit(runnable, executor);
+    ListenableFuture<@Nullable Void> future = submit(runnable, executor);
     assertThat(future.isDone()).isFalse();
     assertThat(executedRunnables).isEmpty();
     assertThat(pendingRunnables).hasSize(1);
@@ -1997,7 +1997,7 @@ public class FuturesTest extends TestCase {
             throw exception;
           }
         };
-    ListenableFuture<Void> future = submit(runnable, directExecutor());
+    ListenableFuture<@Nullable Void> future = submit(runnable, directExecutor());
     try {
       getDone(future);
       fail();
@@ -2110,7 +2110,8 @@ public class FuturesTest extends TestCase {
     assertFalse(callableCalled.get());
   }
 
-  private static <T> AsyncCallable<T> constantAsyncCallable(final ListenableFuture<T> returnValue) {
+  private static <T> AsyncCallable<T> constantAsyncCallable(
+      final @Nullable ListenableFuture<T> returnValue) {
     return new AsyncCallable<T>() {
       @Override
       public ListenableFuture<T> call() {
@@ -3677,7 +3678,7 @@ public class FuturesTest extends TestCase {
   @GwtIncompatible // used only in GwtIncompatible tests
   private static class TestException extends Exception {
 
-    TestException(@CheckForNull Throwable cause) {
+    TestException(@Nullable Throwable cause) {
       super(cause);
     }
   }

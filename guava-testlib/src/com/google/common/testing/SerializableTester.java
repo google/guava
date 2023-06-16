@@ -33,6 +33,7 @@ import junit.framework.AssertionFailedError;
  * @since 10.0
  */
 @GwtCompatible // but no-op!
+@ElementTypesAreNonnullByDefault
 public final class SerializableTester {
   private SerializableTester() {}
 

@@ -29,6 +29,7 @@ import com.google.common.collect.testing.google.TestStringBiMapGenerator;
 import java.util.Map.Entry;
 import java.util.Set;
 import junit.framework.TestSuite;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Tests for {@code Synchronized#biMap}.
@@ -111,7 +112,7 @@ public class SynchronizedBiMapTest extends SynchronizedMapTest {
     }
 
     @Override
-    public V forcePut(K key, V value) {
+    public @Nullable V forcePut(K key, V value) {
       assertTrue(Thread.holdsLock(mutex));
       return delegate.forcePut(key, value);
     }

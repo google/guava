@@ -19,6 +19,7 @@ import static java.lang.Thread.currentThread;
 import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Function;
 import com.google.common.collect.Ordering;
@@ -39,6 +40,7 @@ import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** Static methods used to implement {@link Futures#getChecked(Future, Class)}. */
+@J2ktIncompatible
 @GwtIncompatible
 @ElementTypesAreNonnullByDefault
 final class FuturesGetChecked {
@@ -256,12 +258,8 @@ final class FuturesGetChecked {
   private static final Ordering<Constructor<?>> WITH_STRING_PARAM_FIRST =
       Ordering.natural()
           .onResultOf(
-              new Function<Constructor<?>, Boolean>() {
-                @Override
-                public Boolean apply(Constructor<?> input) {
-                  return asList(input.getParameterTypes()).contains(String.class);
-                }
-              })
+              (Function<Constructor<?>, Boolean>)
+                  input -> asList(input.getParameterTypes()).contains(String.class))
           .reverse();
 
   @CheckForNull

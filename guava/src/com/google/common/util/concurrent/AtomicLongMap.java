@@ -18,8 +18,8 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.Serializable;
 import java.util.Collections;
@@ -57,6 +57,7 @@ import javax.annotation.CheckForNull;
  * @since 11.0
  */
 @GwtCompatible
+@J2ktIncompatible
 @ElementTypesAreNonnullByDefault
 public final class AtomicLongMap<K> implements Serializable {
   private final ConcurrentHashMap<K, Long> map;
@@ -240,7 +241,6 @@ public final class AtomicLongMap<K> implements Serializable {
    *
    * @since 20.0
    */
-  @Beta
   @CanIgnoreReturnValue
   public boolean removeIfZero(K key) {
     return remove(key, 0);

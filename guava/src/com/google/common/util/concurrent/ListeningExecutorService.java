@@ -14,15 +14,21 @@
 
 package com.google.common.util.concurrent;
 
+import static com.google.common.util.concurrent.Internal.toNanosSaturated;
+
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.DoNotMock;
+import java.time.Duration;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -106,4 +112,37 @@ public interface ListeningExecutorService extends ExecutorService {
   <T extends @Nullable Object> List<Future<T>> invokeAll(
       Collection<? extends Callable<T>> tasks, long timeout, TimeUnit unit)
       throws InterruptedException;
+
+  /**
+   * Duration-based overload of {@link #invokeAll(Collection, long, TimeUnit)}.
+   *
+   * @since NEXT
+   */
+  @J2ktIncompatible
+  default <T extends @Nullable Object> List<Future<T>> invokeAll(
+      Collection<? extends Callable<T>> tasks, Duration timeout) throws InterruptedException {
+    return invokeAll(tasks, toNanosSaturated(timeout), TimeUnit.NANOSECONDS);
+  }
+
+  /**
+   * Duration-based overload of {@link #invokeAny(Collection, long, TimeUnit)}.
+   *
+   * @since NEXT
+   */
+  @J2ktIncompatible
+  default <T extends @Nullable Object> T invokeAny(
+      Collection<? extends Callable<T>> tasks, Duration timeout)
+      throws InterruptedException, ExecutionException, TimeoutException {
+    return invokeAny(tasks, toNanosSaturated(timeout), TimeUnit.NANOSECONDS);
+  }
+
+  /**
+   * Duration-based overload of {@link #awaitTermination(long, TimeUnit)}.
+   *
+   * @since NEXT
+   */
+  @J2ktIncompatible
+  default boolean awaitTermination(Duration timeout) throws InterruptedException {
+    return awaitTermination(toNanosSaturated(timeout), TimeUnit.NANOSECONDS);
+  }
 }

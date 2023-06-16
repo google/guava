@@ -17,8 +17,8 @@ package com.google.common.util.concurrent;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.util.concurrent.Uninterruptibles.getUninterruptibly;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -32,10 +32,13 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * that, whenever possible, it is strongly preferred to modify those libraries to return {@code
  * ListenableFuture} directly.
  *
+ * <p>For interoperability between {@code ListenableFuture} and <b>{@code CompletableFuture}</b>,
+ * consider <a href="https://github.com/lukas-krecan/future-converter">Future Converter</a>.
+ *
  * @author Sven Mawson
  * @since 10.0 (replacing {@code Futures.makeListenable}, which existed in 1.0)
  */
-@Beta
+@J2ktIncompatible
 @GwtIncompatible
 @ElementTypesAreNonnullByDefault
 public final class JdkFutureAdapters {

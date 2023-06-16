@@ -21,6 +21,7 @@ import static com.google.common.truth.Truth.assertWithMessage;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
@@ -31,6 +32,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Unit test for {@link Chars}.
@@ -38,6 +40,7 @@ import junit.framework.TestCase;
  * @author Kevin Bourrillion
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 @SuppressWarnings("cast") // redundant casts are intentional and harmless
 public class CharsTest extends TestCase {
   private static final char[] EMPTY = {};
@@ -86,6 +89,7 @@ public class CharsTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible // TODO(b/285538920): Fix and enable.
   public void testCompare() {
     for (char x : VALUES) {
       for (char y : VALUES) {
@@ -221,12 +225,14 @@ public class CharsTest extends TestCase {
         .isEqualTo(new char[] {(char) 1, (char) 2, (char) 3, (char) 4});
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // Chars.fromByteArray
   public void testFromByteArray() {
     assertThat(Chars.fromByteArray(new byte[] {0x23, 0x45, (byte) 0xDC})).isEqualTo('\u2345');
     assertThat(Chars.fromByteArray(new byte[] {(byte) 0xFE, (byte) 0xDC})).isEqualTo('\uFEDC');
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // Chars.fromByteArray
   public void testFromByteArrayFails() {
     try {
@@ -236,12 +242,14 @@ public class CharsTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // Chars.fromBytes
   public void testFromBytes() {
     assertThat(Chars.fromBytes((byte) 0x23, (byte) 0x45)).isEqualTo('\u2345');
     assertThat(Chars.fromBytes((byte) 0xFE, (byte) 0xDC)).isEqualTo('\uFEDC');
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // Chars.fromByteArray, Chars.toByteArray
   public void testByteArrayRoundTrips() {
     char c = 0;
@@ -269,6 +277,7 @@ public class CharsTest extends TestCase {
     assertThat(c).isEqualTo((char) 0); // sanity check
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // Chars.fromByteArray, Chars.toByteArray
   public void testByteArrayRoundTripsFails() {
     try {
@@ -324,6 +333,7 @@ public class CharsTest extends TestCase {
     Helpers.testComparator(comparator, ordered);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testLexicographicalComparatorSerializable() {
     Comparator<char[]> comparator = Chars.lexicographicalComparator();
@@ -618,7 +628,7 @@ public class CharsTest extends TestCase {
   }
 
   public void testToArray_withNull() {
-    List<Character> list = Arrays.asList((char) 0, (char) 1, null);
+    List<@Nullable Character> list = Arrays.asList((char) 0, (char) 1, null);
     try {
       Chars.toArray(list);
       fail();
@@ -626,6 +636,7 @@ public class CharsTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible // b/285319375
   public void testAsList_isAView() {
     char[] array = {(char) 0, (char) 1};
     List<Character> list = Chars.asList(array);
@@ -659,6 +670,7 @@ public class CharsTest extends TestCase {
     assertThat(Chars.asList(EMPTY)).isSameInstanceAs(Collections.emptyList());
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // NullPointerTester
   public void testNulls() {
     new NullPointerTester().testAllPublicStaticMethods(Chars.class);

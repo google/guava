@@ -40,6 +40,7 @@ import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.TimeUnit;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Tests for {@link Queues}.
@@ -220,8 +221,9 @@ public class QueuesTest extends TestCase {
     @SuppressWarnings("unused") // https://errorprone.info/bugpattern/FutureReturnValueIgnored
     Future<?> possiblyIgnoredError =
         threadPool.submit(
-            new Callable<Void>() {
-              public Void call() throws InterruptedException {
+            new Callable<@Nullable Void>() {
+              @Override
+              public @Nullable Void call() throws InterruptedException {
                 new Producer(q, 50).call();
                 new Interrupter(mainThread).run();
                 new Producer(q, 50).call();
@@ -302,7 +304,7 @@ public class QueuesTest extends TestCase {
     }
   }
 
-  private static class Producer implements Callable<Void> {
+  private static class Producer implements Callable<@Nullable Void> {
     final BlockingQueue<Object> q;
     final int elements;
     final CountDownLatch beganProducing = new CountDownLatch(1);
@@ -314,7 +316,7 @@ public class QueuesTest extends TestCase {
     }
 
     @Override
-    public Void call() throws InterruptedException {
+    public @Nullable Void call() throws InterruptedException {
       try {
         beganProducing.countDown();
         for (int i = 0; i < elements; i++) {

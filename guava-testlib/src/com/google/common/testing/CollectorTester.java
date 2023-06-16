@@ -24,7 +24,6 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.EnumSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.BiPredicate;
@@ -47,12 +46,15 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 21.0
  */
 @GwtCompatible
-public final class CollectorTester<T, A, R> {
+@ElementTypesAreNonnullByDefault
+public final class CollectorTester<
+    T extends @Nullable Object, A extends @Nullable Object, R extends @Nullable Object> {
   /**
    * Creates a {@code CollectorTester} for the specified {@code Collector}. The result of the {@code
    * Collector} will be compared to the expected value using {@link Object#equals}.
    */
-  public static <T, A, R> CollectorTester<T, A, R> of(Collector<T, A, R> collector) {
+  public static <T extends @Nullable Object, A extends @Nullable Object, R extends @Nullable Object>
+      CollectorTester<T, A, R> of(Collector<T, A, R> collector) {
     return of(collector, Objects::equals);
   }
 
@@ -60,8 +62,9 @@ public final class CollectorTester<T, A, R> {
    * Creates a {@code CollectorTester} for the specified {@code Collector}. The result of the {@code
    * Collector} will be compared to the expected value using the specified {@code equivalence}.
    */
-  public static <T, A, R> CollectorTester<T, A, R> of(
-      Collector<T, A, R> collector, BiPredicate<? super R, ? super R> equivalence) {
+  public static <T extends @Nullable Object, A extends @Nullable Object, R extends @Nullable Object>
+      CollectorTester<T, A, R> of(
+          Collector<T, A, R> collector, BiPredicate<? super R, ? super R> equivalence) {
     return new CollectorTester<>(collector, equivalence);
   }
 
@@ -82,7 +85,8 @@ public final class CollectorTester<T, A, R> {
     /** Get one accumulator and accumulate the elements into it sequentially. */
     SEQUENTIAL {
       @Override
-      final <T, A, R> A result(Collector<T, A, R> collector, Iterable<T> inputs) {
+      final <T extends @Nullable Object, A extends @Nullable Object, R extends @Nullable Object>
+          A result(Collector<T, A, R> collector, Iterable<T> inputs) {
         A accum = collector.supplier().get();
         for (T input : inputs) {
           collector.accumulator().accept(accum, input);
@@ -93,7 +97,8 @@ public final class CollectorTester<T, A, R> {
     /** Get one accumulator for each element and merge the accumulators left-to-right. */
     MERGE_LEFT_ASSOCIATIVE {
       @Override
-      final <T, A, R> A result(Collector<T, A, R> collector, Iterable<T> inputs) {
+      final <T extends @Nullable Object, A extends @Nullable Object, R extends @Nullable Object>
+          A result(Collector<T, A, R> collector, Iterable<T> inputs) {
         A accum = collector.supplier().get();
         for (T input : inputs) {
           A newAccum = collector.supplier().get();
@@ -106,7 +111,8 @@ public final class CollectorTester<T, A, R> {
     /** Get one accumulator for each element and merge the accumulators right-to-left. */
     MERGE_RIGHT_ASSOCIATIVE {
       @Override
-      final <T, A, R> A result(Collector<T, A, R> collector, Iterable<T> inputs) {
+      final <T extends @Nullable Object, A extends @Nullable Object, R extends @Nullable Object>
+          A result(Collector<T, A, R> collector, Iterable<T> inputs) {
         List<A> stack = new ArrayList<>();
         for (T input : inputs) {
           A newAccum = collector.supplier().get();
@@ -122,16 +128,17 @@ public final class CollectorTester<T, A, R> {
         return pop(stack);
       }
 
-      <E> void push(List<E> stack, E value) {
+      <E extends @Nullable Object> void push(List<E> stack, E value) {
         stack.add(value);
       }
 
-      <E> E pop(List<E> stack) {
+      <E extends @Nullable Object> E pop(List<E> stack) {
         return stack.remove(stack.size() - 1);
       }
     };
 
-    abstract <T, A, R> A result(Collector<T, A, R> collector, Iterable<T> inputs);
+    abstract <T extends @Nullable Object, A extends @Nullable Object, R extends @Nullable Object>
+        A result(Collector<T, A, R> collector, Iterable<T> inputs);
   }
 
   /**
@@ -140,7 +147,7 @@ public final class CollectorTester<T, A, R> {
    */
   @SafeVarargs
   @CanIgnoreReturnValue
-  public final CollectorTester<T, A, R> expectCollects(@Nullable R expectedResult, T... inputs) {
+  public final CollectorTester<T, A, R> expectCollects(R expectedResult, T... inputs) {
     List<T> list = Arrays.asList(inputs);
     doExpectCollects(expectedResult, list);
     if (collector.characteristics().contains(Collector.Characteristics.UNORDERED)) {
@@ -150,8 +157,8 @@ public final class CollectorTester<T, A, R> {
     return this;
   }
 
-  private void doExpectCollects(@Nullable R expectedResult, List<T> inputs) {
-    for (CollectStrategy scheme : EnumSet.allOf(CollectStrategy.class)) {
+  private void doExpectCollects(R expectedResult, List<T> inputs) {
+    for (CollectStrategy scheme : CollectStrategy.values()) {
       A finalAccum = scheme.result(collector, inputs);
       if (collector.characteristics().contains(Collector.Characteristics.IDENTITY_FINISH)) {
         assertEquivalent(expectedResult, (R) finalAccum);
@@ -160,7 +167,7 @@ public final class CollectorTester<T, A, R> {
     }
   }
 
-  private void assertEquivalent(@Nullable R expected, @Nullable R actual) {
+  private void assertEquivalent(R expected, R actual) {
     assertTrue(
         "Expected " + expected + " got " + actual + " modulo equivalence " + equivalence,
         equivalence.test(expected, actual));

@@ -36,8 +36,8 @@ import static java.util.logging.Level.FINER;
 import static java.util.logging.Level.SEVERE;
 import static java.util.logging.Level.WARNING;
 
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Function;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.util.concurrent.ClosingFuture.Combiner.AsyncCombiningCallable;
@@ -191,6 +191,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 // TODO(dpb): Consider reusing one CloseableList for the entire pipeline, modulo combinations.
 @DoNotMock("Use ClosingFuture.from(Futures.immediate*Future)")
+@J2ktIncompatible
 @ElementTypesAreNonnullByDefault
 // TODO(dpb): GWT compatibility.
 public final class ClosingFuture<V extends @Nullable Object> {
@@ -1378,16 +1379,11 @@ public final class ClosingFuture<V extends @Nullable Object> {
           : Futures.whenAllComplete(inputFutures());
     }
 
-    private static final Function<ClosingFuture<?>, FluentFuture<?>> INNER_FUTURE =
-        new Function<ClosingFuture<?>, FluentFuture<?>>() {
-          @Override
-          public FluentFuture<?> apply(ClosingFuture<?> future) {
-            return future.future;
-          }
-        };
 
     private ImmutableList<FluentFuture<?>> inputFutures() {
-      return FluentIterable.from(inputs).transform(INNER_FUTURE).toList();
+      return FluentIterable.from(inputs)
+          .<FluentFuture<?>>transform(future -> future.future)
+          .toList();
     }
   }
 
@@ -2146,14 +2142,11 @@ public final class ClosingFuture<V extends @Nullable Object> {
     }
     try {
       executor.execute(
-          new Runnable() {
-            @Override
-            public void run() {
-              try {
-                closeable.close();
-              } catch (IOException | RuntimeException e) {
-                logger.log(WARNING, "thrown by close()", e);
-              }
+          () -> {
+            try {
+              closeable.close();
+            } catch (IOException | RuntimeException e) {
+              logger.log(WARNING, "thrown by close()", e);
             }
           });
     } catch (RejectedExecutionException e) {

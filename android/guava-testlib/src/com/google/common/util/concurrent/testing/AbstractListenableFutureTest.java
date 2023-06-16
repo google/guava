@@ -19,7 +19,6 @@ package com.google.common.util.concurrent.testing;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.util.concurrent.ListenableFuture;
 import java.util.concurrent.CancellationException;
@@ -31,6 +30,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Abstract test case parent for anything implementing {@link ListenableFuture}. Tests the two get
@@ -39,7 +39,6 @@ import junit.framework.TestCase;
  * @author Sven Mawson
  * @since 10.0
  */
-@Beta
 @GwtIncompatible
 public abstract class AbstractListenableFutureTest extends TestCase {
 
@@ -63,7 +62,7 @@ public abstract class AbstractListenableFutureTest extends TestCase {
 
   /** Constructs a listenable future with a value available after the latch has counted down. */
   protected abstract <V> ListenableFuture<V> createListenableFuture(
-      V value, Exception except, CountDownLatch waitOn);
+      V value, @Nullable Exception except, CountDownLatch waitOn);
 
   /** Tests that the {@link Future#get()} method blocks until a value is available. */
   public void testGetBlocksUntilValueAvailable() throws Throwable {

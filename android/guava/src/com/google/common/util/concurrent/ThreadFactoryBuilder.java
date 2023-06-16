@@ -19,6 +19,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.Locale;
@@ -44,6 +45,7 @@ import javax.annotation.CheckForNull;
  * @author Kurt Alfred Kluever
  * @since 4.0
  */
+@J2ktIncompatible
 @GwtIncompatible
 @ElementTypesAreNonnullByDefault
 public final class ThreadFactoryBuilder {
@@ -169,6 +171,8 @@ public final class ThreadFactoryBuilder {
       @Override
       public Thread newThread(Runnable runnable) {
         Thread thread = backingThreadFactory.newThread(runnable);
+        // TODO(b/139735208): Figure out what to do when the factory returns null.
+        requireNonNull(thread);
         if (nameFormat != null) {
           // requireNonNull is safe because we create `count` if (and only if) we have a nameFormat.
           thread.setName(format(nameFormat, requireNonNull(count).getAndIncrement()));

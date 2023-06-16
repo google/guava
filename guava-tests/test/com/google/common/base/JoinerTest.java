@@ -18,6 +18,7 @@ package com.google.common.base;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Joiner.MapJoiner;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMultimap;
@@ -33,6 +34,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Unit test for {@link Joiner}.
@@ -40,6 +42,7 @@ import junit.framework.TestCase;
  * @author Kevin Bourrillion
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public class JoinerTest extends TestCase {
   private static final Joiner J = Joiner.on("-");
 
@@ -162,12 +165,13 @@ public class JoinerTest extends TestCase {
   private static final Appendable NASTY_APPENDABLE =
       new Appendable() {
         @Override
-        public Appendable append(CharSequence csq) throws IOException {
+        public Appendable append(@Nullable CharSequence csq) throws IOException {
           throw new IOException();
         }
 
         @Override
-        public Appendable append(CharSequence csq, int start, int end) throws IOException {
+        public Appendable append(@Nullable CharSequence csq, int start, int end)
+            throws IOException {
           throw new IOException();
         }
 
@@ -359,6 +363,7 @@ public class JoinerTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // StringBuilder.append in GWT invokes Object.toString(), unlike the JRE version.
   public void testDontConvertCharSequenceToString() {
     assertEquals("foo,foo", Joiner.on(",").join(new DontStringMeBro(), new DontStringMeBro()));
@@ -367,6 +372,7 @@ public class JoinerTest extends TestCase {
         Joiner.on(",").useForNull("bar").join(new DontStringMeBro(), null, new DontStringMeBro()));
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // NullPointerTester
   public void testNullPointers() {
     NullPointerTester tester = new NullPointerTester();

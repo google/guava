@@ -22,6 +22,7 @@ import com.google.common.testing.EqualsTester;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Tests for {@link Subscriber}.
@@ -35,7 +36,7 @@ public class SubscriberTest extends TestCase {
 
   private EventBus bus;
   private boolean methodCalled;
-  private Object methodArgument;
+  private @Nullable Object methodArgument;
 
   @Override
   protected void setUp() throws Exception {

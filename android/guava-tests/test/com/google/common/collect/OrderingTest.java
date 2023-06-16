@@ -40,8 +40,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import java.util.RandomAccess;
-import javax.annotation.CheckForNull;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Unit tests for {@code Ordering}.
@@ -833,7 +833,7 @@ public class OrderingTest extends TestCase {
     }
 
     @Override
-    public boolean equals(Object other) {
+    public boolean equals(@Nullable Object other) {
       return other instanceof NumberOrdering;
     }
 
@@ -1030,7 +1030,7 @@ public class OrderingTest extends TestCase {
             scenario.ordering.onResultOf(
                 new Function<Integer, T>() {
                   @Override
-                  public T apply(@CheckForNull Integer from) {
+                  public T apply(@Nullable Integer from) {
                     return scenario.strictlyOrderedList.get(from);
                   }
                 });

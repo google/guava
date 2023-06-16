@@ -20,6 +20,7 @@ import com.google.caliper.BeforeExperiment;
 import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import com.google.common.cache.LocalCache.Segment;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Benchmark for {@code LocalCache.Segment.removeEntryFromChain}.
@@ -34,7 +35,7 @@ public class ChainBenchmark {
 
   private Segment<Object, Object> segment;
   private ReferenceEntry<Object, Object> head;
-  private ReferenceEntry<Object, Object> chain;
+  private @Nullable ReferenceEntry<Object, Object> chain;
 
   @SuppressWarnings("GuardedBy")
   @BeforeExperiment

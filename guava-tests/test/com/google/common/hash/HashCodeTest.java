@@ -24,6 +24,7 @@ import com.google.common.io.BaseEncoding;
 import com.google.common.testing.ClassSanityTester;
 import java.util.Arrays;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Unit tests for {@link HashCode}.
@@ -391,7 +392,7 @@ public class HashCodeTest extends TestCase {
     final Long asLong; // null means that asLong should throw an exception
     final String toString;
 
-    ExpectedHashCode(byte[] bytes, int asInt, Long asLong, String toString) {
+    ExpectedHashCode(byte[] bytes, int asInt, @Nullable Long asLong, String toString) {
       this.bytes = bytes;
       this.asInt = asInt;
       this.asLong = asLong;

@@ -16,7 +16,6 @@ package com.google.common.base;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.DoNotMock;
 import java.io.Serializable;
@@ -200,7 +199,6 @@ public abstract class Optional<T> implements Serializable {
    * @throws NullPointerException if this optional's value is absent and the supplier returns {@code
    *     null}
    */
-  @Beta
   public abstract T or(Supplier<? extends T> supplier);
 
   /**
@@ -292,7 +290,6 @@ public abstract class Optional<T> implements Serializable {
    *
    * @since 11.0 (generics widened in 13.0)
    */
-  @Beta
   public static <T> Iterable<T> presentInstances(
       final Iterable<? extends Optional<? extends T>> optionals) {
     checkNotNull(optionals);

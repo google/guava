@@ -21,6 +21,7 @@ import static com.google.common.truth.Truth.assertWithMessage;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Converter;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.testing.NullPointerTester;
@@ -32,6 +33,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Unit test for {@link Ints}.
@@ -39,6 +41,7 @@ import junit.framework.TestCase;
  * @author Kevin Bourrillion
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 @SuppressWarnings("cast") // redundant casts are intentional and harmless
 public class IntsTest extends TestCase {
   private static final int[] EMPTY = {};
@@ -163,6 +166,7 @@ public class IntsTest extends TestCase {
         .isEqualTo(3);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible
   public void testMax_noArgs() {
     try {
@@ -179,6 +183,7 @@ public class IntsTest extends TestCase {
         .isEqualTo((int) 9);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible
   public void testMin_noArgs() {
     try {
@@ -307,6 +312,7 @@ public class IntsTest extends TestCase {
     Helpers.testComparator(comparator, ordered);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testLexicographicalComparatorSerializable() {
     Comparator<int[]> comparator = Ints.lexicographicalComparator();
@@ -469,6 +475,7 @@ public class IntsTest extends TestCase {
     testSortDescending(new int[] {-1, -2, 1, 2}, 1, 3, new int[] {-1, 1, -2, 2});
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testStringConverterSerialization() {
     SerializableTester.reserializeAndAssert(Ints.stringConverter());
@@ -506,7 +513,7 @@ public class IntsTest extends TestCase {
   }
 
   public void testToArray_withNull() {
-    List<Integer> list = Arrays.asList((int) 0, (int) 1, null);
+    List<@Nullable Integer> list = Arrays.asList((int) 0, (int) 1, null);
     try {
       Ints.toArray(list);
       fail();
@@ -532,6 +539,7 @@ public class IntsTest extends TestCase {
     assertThat(Ints.toArray(doubles)).isEqualTo(array);
   }
 
+  @J2ktIncompatible // b/285319375
   public void testAsList_isAView() {
     int[] array = {(int) 0, (int) 1};
     List<Integer> list = Ints.asList(array);
@@ -565,6 +573,7 @@ public class IntsTest extends TestCase {
     assertThat(Ints.asList(EMPTY)).isSameInstanceAs(Collections.emptyList());
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // NullPointerTester
   public void testNulls() {
     new NullPointerTester().testAllPublicStaticMethods(Ints.class);
@@ -606,6 +615,7 @@ public class IntsTest extends TestCase {
     assertThat(converter.reverse().convert(0666)).isEqualTo("438");
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // NullPointerTester
   public void testStringConverter_nullPointerTester() throws Exception {
     NullPointerTester tester = new NullPointerTester();

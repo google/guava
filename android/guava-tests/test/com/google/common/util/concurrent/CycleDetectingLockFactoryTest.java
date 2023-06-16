@@ -16,6 +16,7 @@
 
 package com.google.common.util.concurrent;
 
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.base.Joiner;
 import com.google.common.util.concurrent.CycleDetectingLockFactory.Policies;
@@ -26,8 +27,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import junit.framework.TestCase;
 
 /**
@@ -543,16 +542,6 @@ public class CycleDetectingLockFactoryTest extends TestCase {
   // "LockA -> LockB \b.*\b LockB -> LockC \b.*\b LockC -> LockA"
   private void checkMessage(IllegalStateException exception, String... expectedLockCycle) {
     String regex = Joiner.on("\\b.*\\b").join(expectedLockCycle);
-    assertContainsRegex(regex, exception.getMessage());
-  }
-
-  // TODO(cpovirk): consider adding support for regex to Truth
-  private static void assertContainsRegex(String expectedRegex, String actual) {
-    Pattern pattern = Pattern.compile(expectedRegex);
-    Matcher matcher = pattern.matcher(actual);
-    if (!matcher.find()) {
-      String actualDesc = (actual == null) ? "null" : ('<' + actual + '>');
-      fail("expected to contain regex:<" + expectedRegex + "> but was:" + actualDesc);
-    }
+    assertThat(exception).hasMessageThat().containsMatch(regex);
   }
 }

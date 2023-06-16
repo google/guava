@@ -20,6 +20,7 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 
@@ -93,6 +94,7 @@ public class VerifyTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // NullPointerTester
   public void testNullPointers() {
     // Don't bother testing: Verify is like Preconditions. See the discussion on that class.

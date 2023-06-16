@@ -17,6 +17,7 @@ package com.google.common.util.concurrent;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Queues;
 import com.google.errorprone.annotations.concurrent.GuardedBy;
@@ -52,6 +53,7 @@ import java.util.logging.Logger;
  * the listeners can be delayed slightly so that locks can be dropped. Also, because {@link
  * #dispatch} is expected to be called concurrently, it is idempotent.
  */
+@J2ktIncompatible
 @GwtIncompatible
 @ElementTypesAreNonnullByDefault
 final class ListenerCallQueue<L> {

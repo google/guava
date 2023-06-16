@@ -197,6 +197,7 @@ public class EnumHashBiMapTest extends TestCase {
     assertEquals(bimap3, emptyBimap);
   }
 
+  @GwtIncompatible // keyType
   public void testKeyType() {
     EnumHashBiMap<Currency, String> bimap = EnumHashBiMap.create(Currency.class);
     assertEquals(Currency.class, bimap.keyType());

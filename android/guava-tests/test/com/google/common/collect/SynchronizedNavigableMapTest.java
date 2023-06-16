@@ -33,6 +33,7 @@ import java.util.NavigableMap;
 import java.util.NavigableSet;
 import java.util.SortedMap;
 import junit.framework.TestSuite;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Tests for {@link Maps#synchronizedNavigableMap(NavigableMap)}.
@@ -65,7 +66,7 @@ public class SynchronizedNavigableMapTest extends SynchronizedMapTest {
     }
 
     @Override
-    public boolean equals(Object object) {
+    public boolean equals(@Nullable Object object) {
       assertTrue(Thread.holdsLock(mutex));
       return super.equals(object);
     }
@@ -110,13 +111,13 @@ public class SynchronizedNavigableMapTest extends SynchronizedMapTest {
     }
 
     @Override
-    public Entry<K, V> ceilingEntry(K key) {
+    public @Nullable Entry<K, V> ceilingEntry(K key) {
       assertTrue(Thread.holdsLock(mutex));
       return delegate().ceilingEntry(key);
     }
 
     @Override
-    public K ceilingKey(K key) {
+    public @Nullable K ceilingKey(K key) {
       assertTrue(Thread.holdsLock(mutex));
       return delegate().ceilingKey(key);
     }
@@ -134,19 +135,19 @@ public class SynchronizedNavigableMapTest extends SynchronizedMapTest {
     }
 
     @Override
-    public Entry<K, V> firstEntry() {
+    public @Nullable Entry<K, V> firstEntry() {
       assertTrue(Thread.holdsLock(mutex));
       return delegate().firstEntry();
     }
 
     @Override
-    public Entry<K, V> floorEntry(K key) {
+    public @Nullable Entry<K, V> floorEntry(K key) {
       assertTrue(Thread.holdsLock(mutex));
       return delegate().floorEntry(key);
     }
 
     @Override
-    public K floorKey(K key) {
+    public @Nullable K floorKey(K key) {
       assertTrue(Thread.holdsLock(mutex));
       return delegate().floorKey(key);
     }
@@ -163,31 +164,31 @@ public class SynchronizedNavigableMapTest extends SynchronizedMapTest {
     }
 
     @Override
-    public Entry<K, V> higherEntry(K key) {
+    public @Nullable Entry<K, V> higherEntry(K key) {
       assertTrue(Thread.holdsLock(mutex));
       return delegate().higherEntry(key);
     }
 
     @Override
-    public K higherKey(K key) {
+    public @Nullable K higherKey(K key) {
       assertTrue(Thread.holdsLock(mutex));
       return delegate().higherKey(key);
     }
 
     @Override
-    public Entry<K, V> lastEntry() {
+    public @Nullable Entry<K, V> lastEntry() {
       assertTrue(Thread.holdsLock(mutex));
       return delegate().lastEntry();
     }
 
     @Override
-    public Entry<K, V> lowerEntry(K key) {
+    public @Nullable Entry<K, V> lowerEntry(K key) {
       assertTrue(Thread.holdsLock(mutex));
       return delegate().lowerEntry(key);
     }
 
     @Override
-    public K lowerKey(K key) {
+    public @Nullable K lowerKey(K key) {
       assertTrue(Thread.holdsLock(mutex));
       return delegate().lowerKey(key);
     }
@@ -199,13 +200,13 @@ public class SynchronizedNavigableMapTest extends SynchronizedMapTest {
     }
 
     @Override
-    public Entry<K, V> pollFirstEntry() {
+    public @Nullable Entry<K, V> pollFirstEntry() {
       assertTrue(Thread.holdsLock(mutex));
       return delegate().pollFirstEntry();
     }
 
     @Override
-    public Entry<K, V> pollLastEntry() {
+    public @Nullable Entry<K, V> pollLastEntry() {
       assertTrue(Thread.holdsLock(mutex));
       return delegate().pollLastEntry();
     }

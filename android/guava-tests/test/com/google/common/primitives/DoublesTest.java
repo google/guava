@@ -22,6 +22,7 @@ import static java.lang.Double.NaN;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Converter;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.testing.Helpers;
@@ -34,12 +35,14 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.regex.Pattern;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Unit test for {@link Doubles}.
  *
  * @author Kevin Bourrillion
  */
+@ElementTypesAreNonnullByDefault
 @GwtCompatible(emulated = true)
 public class DoublesTest extends TestCase {
   private static final double[] EMPTY = {};
@@ -204,6 +207,7 @@ public class DoublesTest extends TestCase {
     assertThat(Doubles.lastIndexOf(new double[] {NaN, 5.0}, NaN)).isEqualTo(-1);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible
   public void testMax_noArgs() {
     try {
@@ -227,6 +231,7 @@ public class DoublesTest extends TestCase {
     assertThat(Double.isNaN(Doubles.max(VALUES))).isTrue();
   }
 
+  @J2ktIncompatible
   @GwtIncompatible
   public void testMin_noArgs() {
     try {
@@ -302,6 +307,7 @@ public class DoublesTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // Double.toString returns different value in GWT.
   public void testJoin() {
     assertThat(Doubles.join(",", EMPTY)).isEmpty();
@@ -500,12 +506,14 @@ public class DoublesTest extends TestCase {
         new double[] {-1, 1, Double.NaN, -2, 2}, 1, 4, new double[] {-1, Double.NaN, 1, -2, 2});
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testLexicographicalComparatorSerializable() {
     Comparator<double[]> comparator = Doubles.lexicographicalComparator();
     assertThat(SerializableTester.reserialize(comparator)).isSameInstanceAs(comparator);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testStringConverterSerialization() {
     SerializableTester.reserializeAndAssert(Doubles.stringConverter());
@@ -543,7 +551,7 @@ public class DoublesTest extends TestCase {
   }
 
   public void testToArray_withNull() {
-    List<Double> list = Arrays.asList((double) 0, (double) 1, null);
+    List<@Nullable Double> list = Arrays.asList((double) 0, (double) 1, null);
     try {
       Doubles.toArray(list);
       fail();
@@ -569,6 +577,7 @@ public class DoublesTest extends TestCase {
     assertThat(Doubles.toArray(doubles)).isEqualTo(array);
   }
 
+  @J2ktIncompatible // b/285319375
   public void testAsList_isAView() {
     double[] array = {(double) 0, (double) 1};
     List<Double> list = Doubles.asList(array);
@@ -607,7 +616,7 @@ public class DoublesTest extends TestCase {
    * A reference implementation for {@code tryParse} that just catches the exception from {@link
    * Double#valueOf}.
    */
-  private static Double referenceTryParse(String input) {
+  private static @Nullable Double referenceTryParse(String input) {
     if (input.trim().length() < input.length()) {
       return null;
     }
@@ -618,6 +627,7 @@ public class DoublesTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // Doubles.tryParse
   private static void checkTryParse(String input) {
     Double expected = referenceTryParse(input);
@@ -636,6 +646,7 @@ public class DoublesTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // Doubles.tryParse
   private static void checkTryParse(double expected, String input) {
     assertThat(Doubles.tryParse(input)).isEqualTo(Double.valueOf(expected));
@@ -645,6 +656,7 @@ public class DoublesTest extends TestCase {
                 Doubles.FLOATING_POINT_PATTERN.pattern(), Doubles.FLOATING_POINT_PATTERN.flags()));
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // Doubles.tryParse
   public void testTryParseHex() {
     for (String signChar : ImmutableList.of("", "+", "-")) {
@@ -666,6 +678,7 @@ public class DoublesTest extends TestCase {
   }
 
   @AndroidIncompatible // slow
+  @J2ktIncompatible
   @GwtIncompatible // Doubles.tryParse
   public void testTryParseAllCodePoints() {
     // Exercise non-ASCII digit test cases and the like.
@@ -676,6 +689,7 @@ public class DoublesTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // Doubles.tryParse
   public void testTryParseOfToStringIsOriginal() {
     for (double d : NUMBERS) {
@@ -683,6 +697,7 @@ public class DoublesTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // Doubles.tryParse
   public void testTryParseOfToHexStringIsOriginal() {
     for (double d : NUMBERS) {
@@ -690,6 +705,7 @@ public class DoublesTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // Doubles.tryParse
   public void testTryParseNaN() {
     checkTryParse("NaN");
@@ -697,6 +713,7 @@ public class DoublesTest extends TestCase {
     checkTryParse("-NaN");
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // Doubles.tryParse
   public void testTryParseInfinity() {
     checkTryParse(Double.POSITIVE_INFINITY, "Infinity");
@@ -721,6 +738,7 @@ public class DoublesTest extends TestCase {
     "InfinityF"
   };
 
+  @J2ktIncompatible
   @GwtIncompatible // Doubles.tryParse
   public void testTryParseFailures() {
     for (String badInput : BAD_TRY_PARSE_INPUTS) {
@@ -734,6 +752,7 @@ public class DoublesTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // NullPointerTester
   public void testNulls() {
     new NullPointerTester().testAllPublicStaticMethods(Doubles.class);
@@ -764,6 +783,7 @@ public class DoublesTest extends TestCase {
     assertThat(Doubles.stringConverter().reverse().convert(null)).isNull();
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // Double.toString returns different value in GWT.
   public void testStringConverter_reverse() {
     Converter<String, Double> converter = Doubles.stringConverter();
@@ -774,12 +794,14 @@ public class DoublesTest extends TestCase {
     assertThat(converter.reverse().convert(1e-6)).isEqualTo("1.0E-6");
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // NullPointerTester
   public void testStringConverter_nullPointerTester() throws Exception {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicInstanceMethods(Doubles.stringConverter());
   }
 
+  @J2ktIncompatible
   @GwtIncompatible
   public void testTryParse_withNullNoGwt() {
     assertThat(Doubles.tryParse("null")).isNull();

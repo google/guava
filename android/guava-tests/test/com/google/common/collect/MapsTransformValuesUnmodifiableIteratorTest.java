@@ -25,7 +25,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Tests for {@link Maps#transformValues} when the backing map's views have iterators that don't
@@ -232,7 +232,7 @@ public class MapsTransformValuesUnmodifiableIteratorTest extends MapInterfaceTes
             underlying,
             new Function<String, Boolean>() {
               @Override
-              public Boolean apply(@CheckForNull String from) {
+              public Boolean apply(@Nullable String from) {
                 return from == null;
               }
             });
@@ -340,22 +340,22 @@ public class MapsTransformValuesUnmodifiableIteratorTest extends MapInterfaceTes
   }
 
   public void testTransformEntrySetContains() {
-    Map<String, Boolean> underlying = Maps.newHashMap();
+    Map<@Nullable String, @Nullable Boolean> underlying = Maps.newHashMap();
     underlying.put("a", null);
     underlying.put("b", true);
     underlying.put(null, true);
 
-    Map<String, Boolean> map =
+    Map<@Nullable String, @Nullable Boolean> map =
         Maps.transformValues(
             underlying,
-            new Function<Boolean, Boolean>() {
+            new Function<@Nullable Boolean, @Nullable Boolean>() {
               @Override
-              public Boolean apply(@CheckForNull Boolean from) {
+              public @Nullable Boolean apply(@Nullable Boolean from) {
                 return (from == null) ? true : null;
               }
             });
 
-    Set<Entry<String, Boolean>> entries = map.entrySet();
+    Set<Entry<@Nullable String, @Nullable Boolean>> entries = map.entrySet();
     assertTrue(entries.contains(Maps.immutableEntry("a", true)));
     assertTrue(entries.contains(Maps.immutableEntry("b", (Boolean) null)));
     assertTrue(entries.contains(Maps.immutableEntry((String) null, (Boolean) null)));

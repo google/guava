@@ -21,6 +21,7 @@ import java.util.Collection;
 import java.util.Deque;
 import java.util.Iterator;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Tests for {@link Synchronized#deque} and {@link Queues#synchronizedDeque}.
@@ -47,7 +48,7 @@ public class SynchronizedDequeTest extends TestCase {
     }
 
     @Override
-    public E poll() {
+    public @Nullable E poll() {
       assertTrue(Thread.holdsLock(mutex));
       return delegate.poll();
     }
@@ -65,7 +66,7 @@ public class SynchronizedDequeTest extends TestCase {
     }
 
     @Override
-    public E peek() {
+    public @Nullable E peek() {
       assertTrue(Thread.holdsLock(mutex));
       return delegate.peek();
     }
@@ -186,13 +187,13 @@ public class SynchronizedDequeTest extends TestCase {
     }
 
     @Override
-    public E pollFirst() {
+    public @Nullable E pollFirst() {
       assertTrue(Thread.holdsLock(mutex));
       return delegate.pollFirst();
     }
 
     @Override
-    public E pollLast() {
+    public @Nullable E pollLast() {
       assertTrue(Thread.holdsLock(mutex));
       return delegate.pollLast();
     }
@@ -210,13 +211,13 @@ public class SynchronizedDequeTest extends TestCase {
     }
 
     @Override
-    public E peekFirst() {
+    public @Nullable E peekFirst() {
       assertTrue(Thread.holdsLock(mutex));
       return delegate.peekFirst();
     }
 
     @Override
-    public E peekLast() {
+    public @Nullable E peekLast() {
       assertTrue(Thread.holdsLock(mutex));
       return delegate.peekLast();
     }

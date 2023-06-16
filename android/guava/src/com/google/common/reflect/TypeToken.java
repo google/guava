@@ -19,7 +19,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static java.util.Objects.requireNonNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Joiner;
 import com.google.common.base.Predicate;
@@ -590,7 +589,6 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
    *
    * @since 14.0
    */
-  @Beta
   public final Invokable<T, Object> method(Method method) {
     checkArgument(
         this.someRawTypeIsSubclassOf(method.getDeclaringClass()),
@@ -630,7 +628,6 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
    *
    * @since 14.0
    */
-  @Beta
   public final Invokable<T, T> constructor(Constructor<?> constructor) {
     checkArgument(
         constructor.getDeclaringClass() == getRawType(),

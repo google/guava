@@ -16,7 +16,6 @@ package com.google.common.io;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Ascii;
@@ -96,7 +95,6 @@ public abstract class CharSource {
    *
    * @since 20.0
    */
-  @Beta
   public ByteSource asByteSource(Charset charset) {
     return new AsByteSource(charset);
   }
@@ -140,7 +138,6 @@ public abstract class CharSource {
    *
    * @since 19.0
    */
-  @Beta
   public Optional<Long> lengthIfKnown() {
     return Optional.absent();
   }
@@ -164,7 +161,6 @@ public abstract class CharSource {
    * @throws IOException if an I/O error occurs while reading the length of this source
    * @since 19.0
    */
-  @Beta
   public long length() throws IOException {
     Optional<Long> lengthIfKnown = lengthIfKnown();
     if (lengthIfKnown.isPresent()) {
@@ -319,7 +315,6 @@ public abstract class CharSource {
    *     processor} throws an {@code IOException}
    * @since 16.0
    */
-  @Beta
   @CanIgnoreReturnValue // some processors won't return a useful result
   @ParametricNullness
   public <T extends @Nullable Object> T readLines(LineProcessor<T> processor) throws IOException {

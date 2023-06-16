@@ -15,6 +15,7 @@
 package com.google.common.util.concurrent;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.J2ktIncompatible;
 
 /**
  * Hidden superclass of {@link Futures} that provides us a place to declare special GWT versions of
@@ -23,6 +24,7 @@ import com.google.common.annotations.GwtCompatible;
  * different signatures.
  */
 @GwtCompatible(emulated = true)
+@J2ktIncompatible // Super-sourced
 @ElementTypesAreNonnullByDefault
 abstract class GwtFuturesCatchingSpecialization {
   /*

@@ -27,9 +27,9 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
-import javax.annotation.CheckForNull;
 import junit.framework.Test;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Tests for {@code Synchronized#set}.
@@ -40,6 +40,9 @@ public class SynchronizedSetTest extends TestCase {
 
   public static final Object MUTEX = new Integer(1); // something Serializable
 
+  // TODO(cpovirk): Resolve difference between branches in their choice of mutex:
+  // - The mainline uses `null` (even since the change in cl/99720576 was integrated).
+  // - The backport continued to use MUTEX.
   public static Test suite() {
     return SetTestSuiteBuilder.using(
             new TestStringSetGenerator() {
@@ -82,7 +85,7 @@ public class SynchronizedSetTest extends TestCase {
     }
 
     @Override
-    public boolean equals(@CheckForNull Object o) {
+    public boolean equals(@Nullable Object o) {
       assertTrue(Thread.holdsLock(mutex));
       return super.equals(o);
     }
@@ -94,7 +97,7 @@ public class SynchronizedSetTest extends TestCase {
     }
 
     @Override
-    public boolean add(@CheckForNull E o) {
+    public boolean add(@Nullable E o) {
       assertTrue(Thread.holdsLock(mutex));
       return super.add(o);
     }
@@ -112,7 +115,7 @@ public class SynchronizedSetTest extends TestCase {
     }
 
     @Override
-    public boolean contains(@CheckForNull Object o) {
+    public boolean contains(@Nullable Object o) {
       assertTrue(Thread.holdsLock(mutex));
       return super.contains(o);
     }
@@ -132,7 +135,7 @@ public class SynchronizedSetTest extends TestCase {
     /* Don't test iterator(); it may or may not hold the mutex. */
 
     @Override
-    public boolean remove(@CheckForNull Object o) {
+    public boolean remove(@Nullable Object o) {
       assertTrue(Thread.holdsLock(mutex));
       return super.remove(o);
     }

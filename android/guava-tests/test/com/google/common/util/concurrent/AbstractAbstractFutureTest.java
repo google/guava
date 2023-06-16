@@ -34,6 +34,7 @@ import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Base class for tests for emulated {@link AbstractFuture} that allow subclasses to swap in a
@@ -443,7 +444,8 @@ abstract class AbstractAbstractFutureTest extends TestCase {
     verifyTimedGetOnPendingFuture(future);
   }
 
-  private static void assertSuccessful(AbstractFuture<Integer> future, Integer expectedResult)
+  private static void assertSuccessful(
+      AbstractFuture<Integer> future, @Nullable Integer expectedResult)
       throws InterruptedException, TimeoutException, ExecutionException {
     assertDone(future);
     assertThat(future.isCancelled()).isFalse();

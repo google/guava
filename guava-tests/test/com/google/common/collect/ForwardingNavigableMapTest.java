@@ -39,6 +39,7 @@ import java.util.SortedMap;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Tests for {@code ForwardingNavigableMap}.
@@ -75,12 +76,12 @@ public class ForwardingNavigableMapTest extends TestCase {
     }
 
     @Override
-    public V remove(Object object) {
+    public @Nullable V remove(Object object) {
       return standardRemove(object);
     }
 
     @Override
-    public boolean equals(Object object) {
+    public boolean equals(@Nullable Object object) {
       return standardEquals(object);
     }
 
@@ -134,47 +135,47 @@ public class ForwardingNavigableMapTest extends TestCase {
     }
 
     @Override
-    public Entry<K, V> lowerEntry(K key) {
+    public @Nullable Entry<K, V> lowerEntry(K key) {
       return standardLowerEntry(key);
     }
 
     @Override
-    public K lowerKey(K key) {
+    public @Nullable K lowerKey(K key) {
       return standardLowerKey(key);
     }
 
     @Override
-    public Entry<K, V> floorEntry(K key) {
+    public @Nullable Entry<K, V> floorEntry(K key) {
       return standardFloorEntry(key);
     }
 
     @Override
-    public K floorKey(K key) {
+    public @Nullable K floorKey(K key) {
       return standardFloorKey(key);
     }
 
     @Override
-    public Entry<K, V> ceilingEntry(K key) {
+    public @Nullable Entry<K, V> ceilingEntry(K key) {
       return standardCeilingEntry(key);
     }
 
     @Override
-    public K ceilingKey(K key) {
+    public @Nullable K ceilingKey(K key) {
       return standardCeilingKey(key);
     }
 
     @Override
-    public Entry<K, V> higherEntry(K key) {
+    public @Nullable Entry<K, V> higherEntry(K key) {
       return standardHigherEntry(key);
     }
 
     @Override
-    public K higherKey(K key) {
+    public @Nullable K higherKey(K key) {
       return standardHigherKey(key);
     }
 
     @Override
-    public Entry<K, V> firstEntry() {
+    public @Nullable Entry<K, V> firstEntry() {
       return standardFirstEntry();
     }
 
@@ -184,12 +185,12 @@ public class ForwardingNavigableMapTest extends TestCase {
      */
 
     @Override
-    public Entry<K, V> pollFirstEntry() {
+    public @Nullable Entry<K, V> pollFirstEntry() {
       return standardPollFirstEntry();
     }
 
     @Override
-    public Entry<K, V> pollLastEntry() {
+    public @Nullable Entry<K, V> pollLastEntry() {
       return standardPollLastEntry();
     }
 
@@ -242,7 +243,7 @@ public class ForwardingNavigableMapTest extends TestCase {
     }
 
     @Override
-    public Entry<K, V> lastEntry() {
+    public @Nullable Entry<K, V> lastEntry() {
       return standardLastEntry();
     }
   }

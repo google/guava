@@ -15,8 +15,8 @@
 package com.google.common.reflect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import java.lang.annotation.Annotation;
@@ -28,14 +28,9 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 /**
  * Represents a method or constructor parameter.
  *
- * <p><b>Note:</b> Since Java 8 introduced {@link java.lang.reflect.Parameter} to represent method
- * and constructor parameters, this class is no longer necessary. We intend to deprecate it in a
- * future version.
- *
  * @author Ben Yu
  * @since 14.0
  */
-@Beta
 @ElementTypesAreNonnullByDefault
 public final class Parameter implements AnnotatedElement {
 
@@ -43,14 +38,22 @@ public final class Parameter implements AnnotatedElement {
   private final int position;
   private final TypeToken<?> type;
   private final ImmutableList<Annotation> annotations;
-  private final AnnotatedType annotatedType;
+
+  /**
+   * An {@link AnnotatedType} instance, or {@code null} under Android VMs (possible only when using
+   * the Android flavor of Guava). The field is declared with a type of {@code Object} to avoid
+   * compatibility problems on Android VMs. The corresponding accessor method, however, can have the
+   * more specific return type as long as users are careful to guard calls to it with version checks
+   * or reflection: Android VMs ignore the types of elements that aren't used.
+   */
+  private final @Nullable Object annotatedType;
 
   Parameter(
       Invokable<?, ?> declaration,
       int position,
       TypeToken<?> type,
       Annotation[] annotations,
-      AnnotatedType annotatedType) {
+      @Nullable Object annotatedType) {
     this.declaration = declaration;
     this.position = position;
     this.type = type;
@@ -91,21 +94,18 @@ public final class Parameter implements AnnotatedElement {
   }
 
   /** @since 18.0 */
-  // @Override on JDK8
   @Override
   public <A extends Annotation> A[] getAnnotationsByType(Class<A> annotationType) {
     return getDeclaredAnnotationsByType(annotationType);
   }
 
   /** @since 18.0 */
-  // @Override on JDK8
   @Override
   public Annotation[] getDeclaredAnnotations() {
     return annotations.toArray(new Annotation[0]);
   }
 
   /** @since 18.0 */
-  // @Override on JDK8
   @Override
   @CheckForNull
   public <A extends Annotation> A getDeclaredAnnotation(Class<A> annotationType) {
@@ -114,7 +114,6 @@ public final class Parameter implements AnnotatedElement {
   }
 
   /** @since 18.0 */
-  // @Override on JDK8
   @Override
   public <A extends Annotation> A[] getDeclaredAnnotationsByType(Class<A> annotationType) {
     @Nullable
@@ -124,10 +123,17 @@ public final class Parameter implements AnnotatedElement {
     return cast;
   }
 
-  /** @since 25.1 */
-  // @Override on JDK8
+  /**
+   * Returns the {@link AnnotatedType} of the parameter.
+   *
+   * <p>This method will fail if run under an Android VM.
+   *
+   * @since 25.1 for guava-jre (available since 32.0.0 in guava-android)
+   */
+  @SuppressWarnings({"Java7ApiChecker", "AndroidJdkLibsChecker"})
+  @IgnoreJRERequirement
   public AnnotatedType getAnnotatedType() {
-    return annotatedType;
+    return requireNonNull((AnnotatedType) annotatedType);
   }
 
   @Override

@@ -127,6 +127,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Unit test for {@link ArbitraryInstances}.
@@ -473,7 +474,7 @@ public class ArbitraryInstancesTest extends TestCase {
   }
 
   public static class WithNullConstant {
-    public static final WithNullConstant NULL = null;
+    public static final @Nullable WithNullConstant NULL = null;
 
     private WithNullConstant() {}
   }
@@ -496,7 +497,7 @@ public class ArbitraryInstancesTest extends TestCase {
   private static class FirstConstantIsNull {
     // To test that null constant is ignored
     @SuppressWarnings("unused")
-    public static final FirstConstantIsNull FIRST = null;
+    public static final @Nullable FirstConstantIsNull FIRST = null;
 
     public static final FirstConstantIsNull SECOND = new FirstConstantIsNull();
   }

@@ -14,7 +14,6 @@
 
 package com.google.common.io;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Preconditions;
@@ -30,7 +29,6 @@ import java.util.regex.PatternSyntaxException;
  * @author Apple Chow
  * @since 1.0
  */
-@Beta
 @J2ktIncompatible
 @GwtIncompatible
 @ElementTypesAreNonnullByDefault

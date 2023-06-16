@@ -104,7 +104,7 @@ public final class SpliteratorTester<E> {
     }
 
     @Override
-    GeneralSpliterator<E> trySplit() {
+    @Nullable GeneralSpliterator<E> trySplit() {
       Spliterator<E> split = spliterator.trySplit();
       return split == null ? null : new GeneralSpliteratorOfObject<>(split);
     }
@@ -141,7 +141,7 @@ public final class SpliteratorTester<E> {
     }
 
     @Override
-    GeneralSpliterator<E> trySplit() {
+    @Nullable GeneralSpliterator<E> trySplit() {
       Spliterator.OfPrimitive<E, C, ?> split = spliterator.trySplit();
       return split == null ? null : new GeneralSpliteratorOfPrimitive<>(split, consumerizer);
     }

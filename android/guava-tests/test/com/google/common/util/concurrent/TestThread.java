@@ -28,8 +28,8 @@ import java.lang.reflect.Method;
 import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import javax.annotation.CheckForNull;
 import junit.framework.AssertionFailedError;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A helper for concurrency testing. One or more {@code TestThread} instances are instantiated in a
@@ -58,7 +58,7 @@ public final class TestThread<L> extends Thread implements TearDown {
   private final SynchronousQueue<Request> requestQueue = new SynchronousQueue<>();
   private final SynchronousQueue<Response> responseQueue = new SynchronousQueue<>();
 
-  private Throwable uncaughtThrowable = null;
+  private @Nullable Throwable uncaughtThrowable = null;
 
   public TestThread(L lockLikeObject, String threadName) {
     super(threadName);
@@ -168,7 +168,7 @@ public final class TestThread<L> extends Thread implements TearDown {
    * Asserts that a prior call that had caused this thread to block or wait has since returned
    * normally.
    */
-  public void assertPriorCallReturns(@CheckForNull String methodName) throws Exception {
+  public void assertPriorCallReturns(@Nullable String methodName) throws Exception {
     assertEquals(null, getResponse(methodName).getResult());
   }
 
@@ -176,7 +176,7 @@ public final class TestThread<L> extends Thread implements TearDown {
    * Asserts that a prior call that had caused this thread to block or wait has since returned the
    * expected boolean value.
    */
-  public void assertPriorCallReturns(boolean expected, @CheckForNull String methodName)
+  public void assertPriorCallReturns(boolean expected, @Nullable String methodName)
       throws Exception {
     assertEquals(expected, getResponse(methodName).getResult());
   }
@@ -275,7 +275,7 @@ public final class TestThread<L> extends Thread implements TearDown {
     final Object result;
     final Throwable throwable;
 
-    Response(String methodName, Object result, Throwable throwable) {
+    Response(String methodName, @Nullable Object result, @Nullable Throwable throwable) {
       this.methodName = methodName;
       this.result = result;
       this.throwable = throwable;

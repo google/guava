@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.testing.NullPointerTester;
 import java.util.Arrays;
@@ -245,6 +246,7 @@ public class UnsignedIntsTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // Too slow in GWT (~3min fully optimized)
   public void testDivideRemainderEuclideanProperty() {
     // Use a seed so that the test is deterministic:
@@ -302,6 +304,7 @@ public class UnsignedIntsTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible // TODO(b/285538920): Exception mismatch
   public void testParseIntThrowsExceptionForInvalidRadix() {
     // Valid radix values are Character.MIN_RADIX to Character.MAX_RADIX,
     // inclusive.
@@ -384,6 +387,7 @@ public class UnsignedIntsTest extends TestCase {
     return UnsignedInts.join(",", values);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // NullPointerTester
   public void testNulls() {
     new NullPointerTester().testAllPublicStaticMethods(UnsignedInts.class);

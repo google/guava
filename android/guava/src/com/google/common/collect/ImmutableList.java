@@ -25,7 +25,6 @@ import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 import static com.google.common.collect.ObjectArrays.checkElementsNotNull;
 import static com.google.common.collect.RegularImmutableList.EMPTY;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -233,8 +232,8 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    *
    * <p>Note that if {@code list} is a {@code List<String>}, then {@code ImmutableList.copyOf(list)}
    * returns an {@code ImmutableList<String>} containing each of the strings in {@code list}, while
-   * ImmutableList.of(list)} returns an {@code ImmutableList<List<String>>} containing one element
-   * (the given list itself).
+   * {@code ImmutableList.of(list)} returns an {@code ImmutableList<List<String>>} containing one
+   * element (the given list itself).
    *
    * <p>This method is safe to use even when {@code elements} is a synchronized or concurrent
    * collection that is currently being modified by another thread.
@@ -702,7 +701,6 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    *
    * @since 23.1
    */
-  @Beta
   public static <E> Builder<E> builderWithExpectedSize(int expectedSize) {
     checkNonnegative(expectedSize, "expectedSize");
     return new ImmutableList.Builder<E>(expectedSize);

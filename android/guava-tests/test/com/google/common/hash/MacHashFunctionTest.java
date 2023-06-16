@@ -29,6 +29,7 @@ import javax.crypto.Mac;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import sun.security.jca.ProviderList;
 import sun.security.jca.Providers;
 
@@ -155,7 +156,7 @@ public class MacHashFunctionTest extends TestCase {
           }
 
           @Override
-          public byte[] getEncoded() {
+          public byte @Nullable [] getEncoded() {
             return null;
           }
 

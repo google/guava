@@ -3907,7 +3907,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     return value;
   }
 
-  @SuppressWarnings("MissingOverride") // Supermethod will not exist if we build with --release 7.
+  @Override
   @CheckForNull
   public V getOrDefault(@CheckForNull Object key, @CheckForNull V defaultValue) {
     V result = get(key);

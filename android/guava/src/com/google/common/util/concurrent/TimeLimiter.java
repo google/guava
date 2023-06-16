@@ -14,8 +14,9 @@
 
 package com.google.common.util.concurrent;
 
-import com.google.common.annotations.Beta;
+
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.DoNotMock;
 import java.util.concurrent.Callable;
@@ -31,8 +32,8 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Jens Nyman
  * @since 1.0
  */
-@Beta
 @DoNotMock("Use FakeTimeLimiter")
+@J2ktIncompatible
 @GwtIncompatible
 @SuppressWarnings("GoodTime") // should have java.time.Duration overloads
 @ElementTypesAreNonnullByDefault

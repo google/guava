@@ -22,7 +22,6 @@ import static com.google.common.collect.SortedLists.KeyAbsentBehavior.NEXT_LOWER
 import static com.google.common.collect.SortedLists.KeyPresentBehavior.ANY_PRESENT;
 import static java.util.Objects.requireNonNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.SortedLists.KeyAbsentBehavior;
@@ -49,7 +48,6 @@ import javax.annotation.CheckForNull;
  * @author Louis Wasserman
  * @since 14.0
  */
-@Beta
 @GwtIncompatible
 @ElementTypesAreNonnullByDefault
 public final class ImmutableRangeSet<C extends Comparable> extends AbstractRangeSet<C>

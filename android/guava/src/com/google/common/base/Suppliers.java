@@ -245,6 +245,7 @@ public final class Suppliers {
 
     @Override
     @ParametricNullness
+    @SuppressWarnings("GoodTime") // reading system time without TimeSource
     public T get() {
       // Another variant of Double Checked Locking.
       //
@@ -253,7 +254,7 @@ public final class Suppliers {
       // the extra memory consumption and indirection are more
       // expensive than the extra volatile reads.
       long nanos = expirationNanos;
-      long now = Platform.systemNanoTime();
+      long now = System.nanoTime();
       if (nanos == 0 || now - nanos >= 0) {
         synchronized (this) {
           if (nanos == expirationNanos) { // recheck for lost race

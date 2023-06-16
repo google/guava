@@ -19,6 +19,7 @@ import static com.google.common.truth.Truth.assertWithMessage;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
@@ -111,6 +112,7 @@ public class UnsignedIntegerTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // too slow
   public void testToStringRadix() {
     for (int radix = Character.MIN_RADIX; radix <= Character.MAX_RADIX; radix++) {
@@ -172,6 +174,7 @@ public class UnsignedIntegerTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // multiply
   public void testTimes() {
     for (int a : TEST_INTS) {
@@ -247,6 +250,7 @@ public class UnsignedIntegerTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // too slow
   public void testEquals() {
     EqualsTester equalsTester = new EqualsTester();
@@ -269,6 +273,7 @@ public class UnsignedIntegerTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // serialization
   public void testSerialization() {
     for (int a : TEST_INTS) {
@@ -276,6 +281,7 @@ public class UnsignedIntegerTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // NullPointerTester
   public void testNulls() {
     new NullPointerTester().testAllPublicStaticMethods(UnsignedInteger.class);
