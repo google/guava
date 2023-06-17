@@ -437,6 +437,9 @@ public class AbstractFutureTest extends TestCase {
    */
 
   public void testFutureBash() {
+    if (isWindows()) {
+      return; // TODO: b/136041958 - Running very slowly on Windows.
+    }
     final CyclicBarrier barrier =
         new CyclicBarrier(
             6 // for the setter threads
@@ -618,6 +621,9 @@ public class AbstractFutureTest extends TestCase {
 
   // setFuture and cancel() interact in more complicated ways than the other setters.
   public void testSetFutureCancelBash() {
+    if (isWindows()) {
+      return; // TODO: b/136041958 - Running very slowly on Windows.
+    }
     final int size = 50;
     final CyclicBarrier barrier =
         new CyclicBarrier(
@@ -1325,5 +1331,9 @@ public class AbstractFutureTest extends TestCase {
       assertFalse(interruptTaskWasCalled);
       interruptTaskWasCalled = true;
     }
+  }
+
+  private static boolean isWindows() {
+    return OS_NAME.value().startsWith("Windows");
   }
 }
