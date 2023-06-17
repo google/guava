@@ -22,15 +22,6 @@
  * <h2>Collection Types</h2>
  *
  * <dl>
- *   <dt>{@link BiMap}
- *   <dd>An extension of {@link java.util.Map} that guarantees the uniqueness of its values as well
- *       as that of its keys. This is sometimes called an "invertible map," since the restriction on
- *       values enables it to support an {@linkplain BiMap#inverse inverse view} -- which is another
- *       instance of {@code BiMap}.
- *   <dt>{@link Multiset}
- *   <dd>An extension of {@link java.util.Collection} that may contain duplicate values like a
- *       {@link java.util.List}, yet has order-independent equality like a {@link java.util.Set}.
- *       One typical use for a multiset is to represent a histogram.
  *   <dt>{@link Multimap}
  *   <dd>A new type, which is similar to {@link java.util.Map}, but may contain multiple entries
  *       with the same key. Some behaviors of {@link Multimap} are left unspecified and are provided
@@ -50,15 +41,27 @@
  *   <dt>{@link SortedSetMultimap}
  *   <dd>An extension of {@link SetMultimap} for which the {@linkplain SortedSetMultimap#get
  *       collection values} associated with a given key is a {@link java.util.SortedSet}.
+ *   <dt>{@link BiMap}
+ *   <dd>An extension of {@link java.util.Map} that guarantees the uniqueness of its values as well
+ *       as that of its keys. This is sometimes called an "invertible map," since the restriction on
+ *       values enables it to support an {@linkplain BiMap#inverse inverse view} -- which is another
+ *       instance of {@code BiMap}.
  *   <dt>{@link Table}
  *   <dd>A new type, which is similar to {@link java.util.Map}, but which indexes its values by an
  *       ordered pair of keys, a row key and column key.
+ *   <dt>{@link Multiset}
+ *   <dd>An extension of {@link java.util.Collection} that may contain duplicate values like a
+ *       {@link java.util.List}, yet has order-independent equality like a {@link java.util.Set}.
+ *       One typical use for a multiset is to represent a histogram.
  *   <dt>{@link ClassToInstanceMap}
  *   <dd>An extension of {@link java.util.Map} that associates a raw type with an instance of that
  *       type.
  * </dl>
  *
  * <h2>Collection Implementations</h2>
+ *
+ * To find implementations of one of our own collection types, like {@link Multimap}, see that
+ * interface's own documentation.
  *
  * <h3>of {@link java.util.List}</h3>
  *
@@ -79,57 +82,7 @@
  * <ul>
  *   <li>{@link ImmutableMap}
  *   <li>{@link ImmutableSortedMap}
- *   <li>{@link MapMaker}
- * </ul>
- *
- * <h3>of {@link BiMap}</h3>
- *
- * <ul>
- *   <li>{@link ImmutableBiMap}
- *   <li>{@link HashBiMap}
- *   <li>{@link EnumBiMap}
- *   <li>{@link EnumHashBiMap}
- * </ul>
- *
- * <h3>of {@link Multiset}</h3>
- *
- * <ul>
- *   <li>{@link ImmutableMultiset}
- *   <li>{@link ImmutableSortedMultiset}
- *   <li>{@link HashMultiset}
- *   <li>{@link LinkedHashMultiset}
- *   <li>{@link TreeMultiset}
- *   <li>{@link EnumMultiset}
- *   <li>{@link ConcurrentHashMultiset}
- * </ul>
- *
- * <h3>of {@link Multimap}</h3>
- *
- * <ul>
- *   <li>{@link ImmutableMultimap}
- *   <li>{@link ImmutableListMultimap}
- *   <li>{@link ImmutableSetMultimap}
- *   <li>{@link ArrayListMultimap}
- *   <li>{@link HashMultimap}
- *   <li>{@link TreeMultimap}
- *   <li>{@link LinkedHashMultimap}
- *   <li>{@link LinkedListMultimap}
- * </ul>
- *
- * <h3>of {@link Table}</h3>
- *
- * <ul>
- *   <li>{@link ImmutableTable}
- *   <li>{@link ArrayTable}
- *   <li>{@link HashBasedTable}
- *   <li>{@link TreeBasedTable}
- * </ul>
- *
- * <h3>of {@link ClassToInstanceMap}</h3>
- *
- * <ul>
- *   <li>{@link ImmutableClassToInstanceMap}
- *   <li>{@link MutableClassToInstanceMap}
+ *   <li>Configure your own map with weak keys or values with {@link MapMaker}
  * </ul>
  *
  * <h2>Classes of static utility methods</h2>
