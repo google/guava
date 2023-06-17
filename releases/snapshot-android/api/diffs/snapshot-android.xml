@@ -10346,6 +10346,15 @@
  that of its keys. This constraint enables bimaps to support an "inverse view", which is another
  bimap containing the same entries as this bimap but with reversed keys and values.
 
+ <h3>Implementations</h3>
+
+ <ul>
+   <li>{@link ImmutableBiMap}
+   <li>{@link HashBiMap}
+   <li>{@link EnumBiMap}
+   <li>{@link EnumHashBiMap}
+ </ul>
+
  <p>See the Guava User Guide article on <a href=
  "https://github.com/google/guava/wiki/NewCollectionTypesExplained#bimap">{@code BiMap}</a>.
 
@@ -10417,12 +10426,19 @@
  <p>Like any other {@code Map<Class, Object>}, this map may contain entries for primitive types,
  and a primitive type and its corresponding wrapper type may map to different values.
 
- <p>See the Guava User Guide article on <a href=
- "https://github.com/google/guava/wiki/NewCollectionTypesExplained#classtoinstancemap">{@code
- ClassToInstanceMap}</a>.
+ <h3>Implementations</h3>
+
+ <ul>
+   <li>{@link ImmutableClassToInstanceMap}
+   <li>{@link MutableClassToInstanceMap}
+ </ul>
 
  <p>To map a generic type to an instance of that type, use {@link
  com.google.common.reflect.TypeToInstanceMap} instead.
+
+ <p>See the Guava User Guide article on <a href=
+ "https://github.com/google/guava/wiki/NewCollectionTypesExplained#classtoinstancemap">{@code
+ ClassToInstanceMap}</a>.
 
  @param <B> the common supertype that all values will share. When in doubt, just use {@link
      Object}, or use {@code @Nullable Object} to allow null values.
@@ -28237,13 +28253,16 @@
 
  <h3>Implementations</h3>
 
- <p>As always, prefer the immutable implementations, {@link ImmutableListMultimap} and {@link
- ImmutableSetMultimap}. General-purpose mutable implementations are listed above under "All Known
- Implementing Classes". You can also create a <i>custom</i> multimap, backed by any {@code Map}
- and {@link Collection} types, using the {@link Multimaps#newMultimap Multimaps.newMultimap}
- family of methods. Finally, another popular way to obtain a multimap is using {@link
- Multimaps#index Multimaps.index}. See the {@link Multimaps} class for these and other static
- utilities related to multimaps.
+ <ul>
+   <li>{@link ImmutableListMultimap}
+   <li>{@link ImmutableSetMultimap}
+   <li>Configure your own mutable multimap with {@link MultimapBuilder}
+   <li>{@link LinkedListMultimap} (for one unusual kind of mutable {@code Multimap})
+ </ul>
+
+ Guava contains a number of other multimap implementations, such as {@link ArrayListMultimap}. In
+ new code, we recommend using {@link MultimapBuilder} instead: It provides better control of how
+ keys and values are stored.
 
  <h3>Other Notes</h3>
 
@@ -28380,17 +28399,14 @@
       </doc>
     </method>
     <doc>
-    <![CDATA[A builder for a multimap implementation that allows customization of the backing map and value
- collection implementations used in a particular multimap.
-
- <p>This can be used to easily configure multimap data structure implementations not provided
- explicitly in {@code com.google.common.collect}, for example:
+    <![CDATA[An immutable builder for {@link Multimap} instances, letting you independently select the desired
+ behaviors (for example, ordering) of the backing map and value-collections. Example:
 
  <pre>{@code
- ListMultimap<String, Integer> treeListMultimap =
-     MultimapBuilder.treeKeys().arrayListValues().build();
- SetMultimap<Integer, MyEnum> hashEnumMultimap =
-     MultimapBuilder.hashKeys().enumSetValues(MyEnum.class).build();
+ ListMultimap<UserId, ErrorResponse> errorsByUser =
+     MultimapBuilder.linkedHashKeys().arrayListValues().build();
+ SortedSetMultimap<String, Method> methodsForName =
+     MultimapBuilder.treeKeys().treeSetValues(this::compareMethods).build();
  }</pre>
 
  <p>{@code MultimapBuilder} instances are immutable. Invoking a configuration method has no effect
@@ -29929,8 +29945,17 @@
  element (in a way that affects its {@link Object#equals} behavior) while it is contained in a
  multiset. Undefined behavior and bugs will result.
 
- <p>Common implementations include {@link ImmutableMultiset}, {@link HashMultiset}, and {@link
- ConcurrentHashMultiset}.
+ <h3>Implementations</h3>
+
+ <ul>
+   <li>{@link ImmutableMultiset}
+   <li>{@link ImmutableSortedMultiset}
+   <li>{@link HashMultiset}
+   <li>{@link LinkedHashMultiset}
+   <li>{@link TreeMultiset}
+   <li>{@link EnumMultiset}
+   <li>{@link ConcurrentHashMultiset}
+ </ul>
 
  <p>If your values may be zero, negative, or outside the range of an int, you may wish to use
  {@link com.google.common.util.concurrent.AtomicLongMap} instead. Note, however, that unlike
@@ -34428,6 +34453,16 @@
  <p>All methods that modify the table are optional, and the views returned by the table may or may
  not be modifiable. When modification isn't supported, those methods will throw an {@link
  UnsupportedOperationException}.
+
+ <h3>Implementations</h3>
+
+ <ul>
+   <li>{@link ImmutableTable}
+   <li>{@link HashBasedTable}
+   <li>{@link TreeBasedTable}
+   <li>{@link ArrayTable}
+   <li>{@link Tables#newCustomTable Tables.newCustomTable}
+ </ul>
 
  <p>See the Guava User Guide article on <a href=
  "https://github.com/google/guava/wiki/NewCollectionTypesExplained#table">{@code Table}</a>.

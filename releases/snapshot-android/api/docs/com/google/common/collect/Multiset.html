@@ -137,7 +137,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <hr>
 <pre><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public interface <a href="../../../../src-html/com/google/common/collect/Multiset.html#line.82">Multiset</a>&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;
+public interface <a href="../../../../src-html/com/google/common/collect/Multiset.html#line.91">Multiset</a>&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;
 extends java.util.Collection&lt;E&gt;</pre>
 <div class="block">A collection that supports order-independent equality, like <code>Set</code>, but may have duplicate
  elements. A multiset is also sometimes called a <i>bag</i>.
@@ -176,7 +176,17 @@ extends java.util.Collection&lt;E&gt;</pre>
  element (in a way that affects its <code>Object.equals(java.lang.Object)</code> behavior) while it is contained in a
  multiset. Undefined behavior and bugs will result.
 
- <p>Common implementations include <a href="ImmutableMultiset.html" title="class in com.google.common.collect"><code>ImmutableMultiset</code></a>, <a href="HashMultiset.html" title="class in com.google.common.collect"><code>HashMultiset</code></a>, and <a href="ConcurrentHashMultiset.html" title="class in com.google.common.collect"><code>ConcurrentHashMultiset</code></a>.
+ <h3>Implementations</h3>
+
+ <ul>
+   <li><a href="ImmutableMultiset.html" title="class in com.google.common.collect"><code>ImmutableMultiset</code></a>
+   <li><a href="ImmutableSortedMultiset.html" title="class in com.google.common.collect"><code>ImmutableSortedMultiset</code></a>
+   <li><a href="HashMultiset.html" title="class in com.google.common.collect"><code>HashMultiset</code></a>
+   <li><a href="LinkedHashMultiset.html" title="class in com.google.common.collect"><code>LinkedHashMultiset</code></a>
+   <li><a href="TreeMultiset.html" title="class in com.google.common.collect"><code>TreeMultiset</code></a>
+   <li><a href="EnumMultiset.html" title="class in com.google.common.collect"><code>EnumMultiset</code></a>
+   <li><a href="ConcurrentHashMultiset.html" title="class in com.google.common.collect"><code>ConcurrentHashMultiset</code></a>
+ </ul>
 
  <p>If your values may be zero, negative, or outside the range of an int, you may wish to use
  <a href="../util/concurrent/AtomicLongMap.html" title="class in com.google.common.util.concurrent"><code>AtomicLongMap</code></a> instead. Note, however, that unlike
@@ -394,7 +404,7 @@ extends java.util.Collection&lt;E&gt;</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>size</h4>
-<pre class="methodSignature">int&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.html#line.93">size</a>()</pre>
+<pre class="methodSignature">int&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.html#line.102">size</a>()</pre>
 <div class="block">Returns the total number of all occurrences of all elements in this multiset.
 
  <p><b>Note:</b> this method does not return the number of <i>distinct elements</i> in the
@@ -411,7 +421,7 @@ extends java.util.Collection&lt;E&gt;</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>count</h4>
-<pre class="methodSignature">int&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.html#line.109">count</a>&#8203;(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CompatibleWith</a>("E") <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+<pre class="methodSignature">int&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.html#line.118">count</a>&#8203;(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CompatibleWith</a>("E") <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
           java.lang.Object&nbsp;element)</pre>
 <div class="block">Returns the number of occurrences of an element in this multiset (the <i>count</i> of the
  element). Note that for an <code>Object.equals(java.lang.Object)</code>-based multiset, this gives the same result as
@@ -438,7 +448,7 @@ extends java.util.Collection&lt;E&gt;</pre>
 <li class="blockList">
 <h4>add</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-int&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.html#line.131">add</a>&#8203;(<a href="Multiset.html" title="type parameter in Multiset">E</a>&nbsp;element,
+int&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.html#line.140">add</a>&#8203;(<a href="Multiset.html" title="type parameter in Multiset">E</a>&nbsp;element,
         int&nbsp;occurrences)</pre>
 <div class="block">Adds a number of occurrences of an element to this multiset. Note that if <code>occurrences ==
  1</code>, this method has the identical effect to <a href="#add(E)"><code>add(Object)</code></a>. This method is functionally
@@ -471,7 +481,7 @@ int&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.html#l
 <li class="blockList">
 <h4>add</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.html#line.153">add</a>&#8203;(<a href="Multiset.html" title="type parameter in Multiset">E</a>&nbsp;element)</pre>
+boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.html#line.162">add</a>&#8203;(<a href="Multiset.html" title="type parameter in Multiset">E</a>&nbsp;element)</pre>
 <div class="block">Adds a single occurrence of the specified element to this multiset.
 
  <p>This method refines <code>Collection.add(E)</code>, which only <i>ensures</i> the presence of the
@@ -503,7 +513,7 @@ boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.ht
 <li class="blockList">
 <h4>remove</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-int&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.html#line.169">remove</a>&#8203;(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CompatibleWith</a>("E") <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+int&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.html#line.178">remove</a>&#8203;(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CompatibleWith</a>("E") <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
            java.lang.Object&nbsp;element,
            int&nbsp;occurrences)</pre>
 <div class="block">Removes a number of occurrences of the specified element from this multiset. If the multiset
@@ -529,7 +539,7 @@ int&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.html#l
 <li class="blockList">
 <h4>remove</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.html#line.184">remove</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.html#line.193">remove</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                java.lang.Object&nbsp;element)</pre>
 <div class="block">Removes a <i>single</i> occurrence of the specified element from this multiset, if present.
 
@@ -556,7 +566,7 @@ boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.ht
 <li class="blockList">
 <h4>setCount</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-int&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.html#line.201">setCount</a>&#8203;(<a href="Multiset.html" title="type parameter in Multiset">E</a>&nbsp;element,
+int&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.html#line.210">setCount</a>&#8203;(<a href="Multiset.html" title="type parameter in Multiset">E</a>&nbsp;element,
              int&nbsp;count)</pre>
 <div class="block">Adds or removes the necessary occurrences of an element such that the element attains the
  desired count.</div>
@@ -584,7 +594,7 @@ int&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.html#l
 <li class="blockList">
 <h4>setCount</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.html#line.220">setCount</a>&#8203;(<a href="Multiset.html" title="type parameter in Multiset">E</a>&nbsp;element,
+boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.html#line.229">setCount</a>&#8203;(<a href="Multiset.html" title="type parameter in Multiset">E</a>&nbsp;element,
                  int&nbsp;oldCount,
                  int&nbsp;newCount)</pre>
 <div class="block">Conditionally sets the count of an element to a new value, as described in <a href="#setCount(E,int)"><code>setCount(Object, int)</code></a>, provided that the element has the expected current count. If the
@@ -612,7 +622,7 @@ boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.ht
 <ul class="blockList">
 <li class="blockList">
 <h4>elementSet</h4>
-<pre class="methodSignature">java.util.Set&lt;<a href="Multiset.html" title="type parameter in Multiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.html#line.239">elementSet</a>()</pre>
+<pre class="methodSignature">java.util.Set&lt;<a href="Multiset.html" title="type parameter in Multiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.html#line.248">elementSet</a>()</pre>
 <div class="block">Returns the set of distinct elements contained in this multiset. The element set is backed by
  the same data as the multiset, so any change to either is immediately reflected in the other.
  The order of the elements in the element set is unspecified.
@@ -635,7 +645,7 @@ boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.ht
 <ul class="blockList">
 <li class="blockList">
 <h4>entrySet</h4>
-<pre class="methodSignature">java.util.Set&lt;<a href="Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="Multiset.html" title="type parameter in Multiset">E</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.html#line.257">entrySet</a>()</pre>
+<pre class="methodSignature">java.util.Set&lt;<a href="Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="Multiset.html" title="type parameter in Multiset">E</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.html#line.266">entrySet</a>()</pre>
 <div class="block">Returns a view of the contents of this multiset, grouped into <code>Multiset.Entry</code> instances,
  each providing an element of the multiset and the count of that element. This set contains
  exactly one entry for each distinct element in the multiset (thus it always has the same size
@@ -660,7 +670,7 @@ boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.ht
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.html#line.335">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+<pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.html#line.344">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                java.lang.Object&nbsp;object)</pre>
 <div class="block">Compares the specified object with this multiset for equality. Returns <code>true</code> if the
  given object is also a multiset and contains equal elements with equal counts, regardless of
@@ -679,7 +689,7 @@ boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.ht
 <ul class="blockList">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre class="methodSignature">int&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.html#line.349">hashCode</a>()</pre>
+<pre class="methodSignature">int&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.html#line.358">hashCode</a>()</pre>
 <div class="block">Returns the hash code for this multiset. This is defined as the sum of
 
  <pre><code>
@@ -702,7 +712,7 @@ boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.ht
 <ul class="blockList">
 <li class="blockList">
 <h4>toString</h4>
-<pre class="methodSignature">java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.html#line.359">toString</a>()</pre>
+<pre class="methodSignature">java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.html#line.368">toString</a>()</pre>
 <div class="block">
 
  <p>It is recommended, though not mandatory, that this method return the result of invoking
@@ -720,7 +730,7 @@ boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.ht
 <ul class="blockList">
 <li class="blockList">
 <h4>iterator</h4>
-<pre class="methodSignature">java.util.Iterator&lt;<a href="Multiset.html" title="type parameter in Multiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.html#line.370">iterator</a>()</pre>
+<pre class="methodSignature">java.util.Iterator&lt;<a href="Multiset.html" title="type parameter in Multiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.html#line.379">iterator</a>()</pre>
 <div class="block">
 
  <p>Elements that occur multiple times in the multiset will appear multiple times in this
@@ -739,7 +749,7 @@ boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.ht
 <ul class="blockList">
 <li class="blockList">
 <h4>contains</h4>
-<pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.html#line.382">contains</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+<pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.html#line.391">contains</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                  java.lang.Object&nbsp;element)</pre>
 <div class="block">Determines whether this multiset contains the specified element.
 
@@ -761,7 +771,7 @@ boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.ht
 <ul class="blockList">
 <li class="blockList">
 <h4>containsAll</h4>
-<pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.html#line.402">containsAll</a>&#8203;(java.util.Collection&lt;?&gt;&nbsp;elements)</pre>
+<pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.html#line.411">containsAll</a>&#8203;(java.util.Collection&lt;?&gt;&nbsp;elements)</pre>
 <div class="block">Returns <code>true</code> if this multiset contains at least one occurrence of each element in the
  specified collection.
 
@@ -792,7 +802,7 @@ boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.ht
 <li class="blockList">
 <h4>removeAll</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.html#line.416">removeAll</a>&#8203;(java.util.Collection&lt;?&gt;&nbsp;c)</pre>
+boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.html#line.425">removeAll</a>&#8203;(java.util.Collection&lt;?&gt;&nbsp;c)</pre>
 <div class="block">
 
  <p><b>Note:</b> This method ignores how often any element might appear in <code>c</code>, and only
@@ -815,7 +825,7 @@ boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.ht
 <li class="blockList">
 <h4>retainAll</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.html#line.433">retainAll</a>&#8203;(java.util.Collection&lt;?&gt;&nbsp;c)</pre>
+boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.html#line.442">retainAll</a>&#8203;(java.util.Collection&lt;?&gt;&nbsp;c)</pre>
 <div class="block">
 
  <p><b>Note:</b> This method ignores how often any element might appear in <code>c</code>, and only

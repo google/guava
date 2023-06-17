@@ -133,11 +133,20 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <hr>
 <pre><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public interface <a href="../../../../src-html/com/google/common/collect/BiMap.html#line.37">BiMap</a>&lt;K extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;
+public interface <a href="../../../../src-html/com/google/common/collect/BiMap.html#line.46">BiMap</a>&lt;K extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;
 extends java.util.Map&lt;K,&#8203;V&gt;</pre>
 <div class="block">A bimap (or "bidirectional map") is a map that preserves the uniqueness of its values as well as
  that of its keys. This constraint enables bimaps to support an "inverse view", which is another
  bimap containing the same entries as this bimap but with reversed keys and values.
+
+ <h3>Implementations</h3>
+
+ <ul>
+   <li><a href="ImmutableBiMap.html" title="class in com.google.common.collect"><code>ImmutableBiMap</code></a>
+   <li><a href="HashBiMap.html" title="class in com.google.common.collect"><code>HashBiMap</code></a>
+   <li><a href="EnumBiMap.html" title="class in com.google.common.collect"><code>EnumBiMap</code></a>
+   <li><a href="EnumHashBiMap.html" title="class in com.google.common.collect"><code>EnumHashBiMap</code></a>
+ </ul>
 
  <p>See the Guava User Guide article on <a href="https://github.com/google/guava/wiki/NewCollectionTypesExplained#bimap"><code>BiMap</code></a>.</div>
 <dl>
@@ -247,7 +256,7 @@ extends java.util.Map&lt;K,&#8203;V&gt;</pre>
 <h4>put</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-<a href="BiMap.html" title="type parameter in BiMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/BiMap.html#line.49">put</a>&#8203;(<a href="BiMap.html" title="type parameter in BiMap">K</a>&nbsp;key,
+<a href="BiMap.html" title="type parameter in BiMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/BiMap.html#line.58">put</a>&#8203;(<a href="BiMap.html" title="type parameter in BiMap">K</a>&nbsp;key,
       <a href="BiMap.html" title="type parameter in BiMap">V</a>&nbsp;value)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
@@ -268,7 +277,7 @@ extends java.util.Map&lt;K,&#8203;V&gt;</pre>
 <h4>forcePut</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-<a href="BiMap.html" title="type parameter in BiMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/BiMap.html#line.72">forcePut</a>&#8203;(<a href="BiMap.html" title="type parameter in BiMap">K</a>&nbsp;key,
+<a href="BiMap.html" title="type parameter in BiMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/BiMap.html#line.81">forcePut</a>&#8203;(<a href="BiMap.html" title="type parameter in BiMap">K</a>&nbsp;key,
            <a href="BiMap.html" title="type parameter in BiMap">V</a>&nbsp;value)</pre>
 <div class="block">An alternate form of <code>put</code> that silently removes any existing entry with the value <code>
  value</code> before proceeding with the <a href="#put(K,V)"><code>put(K, V)</code></a> operation. If the bimap previously contained the
@@ -297,7 +306,7 @@ extends java.util.Map&lt;K,&#8203;V&gt;</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>putAll</h4>
-<pre class="methodSignature">void&nbsp;<a href="../../../../src-html/com/google/common/collect/BiMap.html#line.87">putAll</a>&#8203;(java.util.Map&lt;? extends <a href="BiMap.html" title="type parameter in BiMap">K</a>,&#8203;? extends <a href="BiMap.html" title="type parameter in BiMap">V</a>&gt;&nbsp;map)</pre>
+<pre class="methodSignature">void&nbsp;<a href="../../../../src-html/com/google/common/collect/BiMap.html#line.96">putAll</a>&#8203;(java.util.Map&lt;? extends <a href="BiMap.html" title="type parameter in BiMap">K</a>,&#8203;? extends <a href="BiMap.html" title="type parameter in BiMap">V</a>&gt;&nbsp;map)</pre>
 <div class="block">
 
  <p><b>Warning:</b> the results of calling this method may vary depending on the iteration order
@@ -317,7 +326,7 @@ extends java.util.Map&lt;K,&#8203;V&gt;</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>values</h4>
-<pre class="methodSignature">java.util.Set&lt;<a href="BiMap.html" title="type parameter in BiMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/BiMap.html#line.98">values</a>()</pre>
+<pre class="methodSignature">java.util.Set&lt;<a href="BiMap.html" title="type parameter in BiMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/BiMap.html#line.107">values</a>()</pre>
 <div class="block">
 
  <p>Because a bimap has unique values, this method returns a <code>Set</code>, instead of the <code>Collection</code> specified in the <code>Map</code> interface.</div>
@@ -333,7 +342,7 @@ extends java.util.Map&lt;K,&#8203;V&gt;</pre>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>inverse</h4>
-<pre class="methodSignature"><a href="BiMap.html" title="interface in com.google.common.collect">BiMap</a>&lt;<a href="BiMap.html" title="type parameter in BiMap">V</a>,&#8203;<a href="BiMap.html" title="type parameter in BiMap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/BiMap.html#line.111">inverse</a>()</pre>
+<pre class="methodSignature"><a href="BiMap.html" title="interface in com.google.common.collect">BiMap</a>&lt;<a href="BiMap.html" title="type parameter in BiMap">V</a>,&#8203;<a href="BiMap.html" title="type parameter in BiMap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/BiMap.html#line.120">inverse</a>()</pre>
 <div class="block">Returns the inverse view of this bimap, which maps each of this bimap's values to its
  associated key. The two bimaps are backed by the same data; any changes to one will appear in
  the other.

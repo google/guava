@@ -138,7 +138,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <hr>
 <pre><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/DoNotMock.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@DoNotMock</a>("Use ImmutableClassToInstanceMap or MutableClassToInstanceMap")
 <a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public interface <a href="../../../../src-html/com/google/common/collect/ClassToInstanceMap.html#line.46">ClassToInstanceMap</a>&lt;B extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;
+public interface <a href="../../../../src-html/com/google/common/collect/ClassToInstanceMap.html#line.53">ClassToInstanceMap</a>&lt;B extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;
 extends java.util.Map&lt;java.lang.Class&lt;? extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> B&gt;,&#8203;B&gt;</pre>
 <div class="block">A map, each entry of which maps a Java <a href="http://tinyurl.com/2cmwkz">raw type</a> to an
  instance of that type. In addition to implementing <code>Map</code>, the additional type-safe
@@ -147,10 +147,17 @@ extends java.util.Map&lt;java.lang.Class&lt;? extends <a href="https://checkerfr
  <p>Like any other <code>Map&lt;Class, Object&gt;</code>, this map may contain entries for primitive types,
  and a primitive type and its corresponding wrapper type may map to different values.
 
- <p>See the Guava User Guide article on <a href="https://github.com/google/guava/wiki/NewCollectionTypesExplained#classtoinstancemap"><code>
- ClassToInstanceMap</code></a>.
+ <h3>Implementations</h3>
 
- <p>To map a generic type to an instance of that type, use <a href="../reflect/TypeToInstanceMap.html" title="interface in com.google.common.reflect"><code>TypeToInstanceMap</code></a> instead.</div>
+ <ul>
+   <li><a href="ImmutableClassToInstanceMap.html" title="class in com.google.common.collect"><code>ImmutableClassToInstanceMap</code></a>
+   <li><a href="MutableClassToInstanceMap.html" title="class in com.google.common.collect"><code>MutableClassToInstanceMap</code></a>
+ </ul>
+
+ <p>To map a generic type to an instance of that type, use <a href="../reflect/TypeToInstanceMap.html" title="interface in com.google.common.reflect"><code>TypeToInstanceMap</code></a> instead.
+
+ <p>See the Guava User Guide article on <a href="https://github.com/google/guava/wiki/NewCollectionTypesExplained#classtoinstancemap"><code>
+ ClassToInstanceMap</code></a>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>2.0</dd>
@@ -239,7 +246,7 @@ extends java.util.Map&lt;java.lang.Class&lt;? extends <a href="https://checkerfr
 <li class="blockList">
 <h4>getInstance</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="ClassToInstanceMap.html" title="type parameter in ClassToInstanceMap">B</a>&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/ClassToInstanceMap.html#line.56">getInstance</a>&#8203;(java.lang.Class&lt;T&gt;&nbsp;type)</pre>
+&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="ClassToInstanceMap.html" title="type parameter in ClassToInstanceMap">B</a>&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/ClassToInstanceMap.html#line.63">getInstance</a>&#8203;(java.lang.Class&lt;T&gt;&nbsp;type)</pre>
 <div class="block">Returns the value the specified class is mapped to, or <code>null</code> if no entry for this class
  is present. This will only return a value that was bound to this specific class, not a value
  that may have been bound to a subtype.</div>
@@ -255,7 +262,7 @@ extends java.util.Map&lt;java.lang.Class&lt;? extends <a href="https://checkerfr
 <h4>putInstance</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-&lt;T extends <a href="ClassToInstanceMap.html" title="type parameter in ClassToInstanceMap">B</a>&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/ClassToInstanceMap.html#line.66">putInstance</a>&#8203;(java.lang.Class&lt;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> T&gt;&nbsp;type,
+&lt;T extends <a href="ClassToInstanceMap.html" title="type parameter in ClassToInstanceMap">B</a>&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/ClassToInstanceMap.html#line.73">putInstance</a>&#8203;(java.lang.Class&lt;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> T&gt;&nbsp;type,
                             T&nbsp;value)</pre>
 <div class="block">Maps the specified class to the specified value. Does <i>not</i> associate this value with any
  of the class's supertypes.</div>
