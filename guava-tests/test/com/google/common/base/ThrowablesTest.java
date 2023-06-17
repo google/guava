@@ -658,9 +658,6 @@ public class ThrowablesTest extends TestCase {
   @J2ktIncompatible
   @GwtIncompatible // getStackTraceAsString(Throwable)
   public void testGetStackTraceAsString() {
-    if (isWindows()) {
-      return; // TODO: b/136041958 - We probably just need to accept \r\n line delimiters.
-    }
     class StackTraceException extends Exception {
       StackTraceException(String message) {
         super(message);
@@ -671,8 +668,8 @@ public class ThrowablesTest extends TestCase {
 
     String firstLine = quote(e.getClass().getName() + ": " + e.getMessage());
     String secondLine = "\\s*at " + ThrowablesTest.class.getName() + "\\..*";
-    String moreLines = "(?:.*\n?)*";
-    String expected = firstLine + "\n" + secondLine + "\n" + moreLines;
+    String moreLines = "(?:.*" + System.lineSeparator() + "?)*";
+    String expected = String.join(System.lineSeparator(), firstLine, secondLine, moreLines);
     assertThat(getStackTraceAsString(e)).matches(expected);
   }
 
@@ -791,9 +788,5 @@ public class ThrowablesTest extends TestCase {
   @GwtIncompatible // NullPointerTester
   public void testNullPointers() {
     new NullPointerTester().testAllPublicStaticMethods(Throwables.class);
-  }
-
-  private static boolean isWindows() {
-    return OS_NAME.value().startsWith("Windows");
   }
 }
