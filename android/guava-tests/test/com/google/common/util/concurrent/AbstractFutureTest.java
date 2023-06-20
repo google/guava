@@ -218,9 +218,6 @@ public class AbstractFutureTest extends TestCase {
   }
 
   public void testToString_oom() throws Exception {
-    if (isWindows()) {
-      return; // TODO: b/136041958 - Some tests in this file are slow, but I'm not sure which.
-    }
     SettableFuture<Object> future = SettableFuture.create();
     future.set(
         new Object() {
@@ -300,9 +297,6 @@ public class AbstractFutureTest extends TestCase {
   @SuppressWarnings({"DeprecatedThreadMethods", "ThreadPriorityCheck"})
   @AndroidIncompatible // Thread.suspend
   public void testToString_delayedTimeout() throws Exception {
-    if (isWindows()) {
-      return; // TODO: b/136041958 - Some tests in this file are slow, but I'm not sure which.
-    }
     Integer javaVersion = Ints.tryParse(JAVA_SPECIFICATION_VERSION.value());
     // Parsing to an integer might fail because Java 8 returns "1.8" instead of "8."
     // We can continue if it's 1.8, and we can continue if it's an integer in [9, 20).
@@ -392,9 +386,6 @@ public class AbstractFutureTest extends TestCase {
   }
 
   public void testCompletionFinishesWithDone() {
-    if (isWindows()) {
-      return; // TODO: b/136041958 - Some tests in this file are slow, but I'm not sure which.
-    }
     ExecutorService executor = Executors.newFixedThreadPool(10);
     for (int i = 0; i < 50000; i++) {
       final AbstractFuture<String> future = new AbstractFuture<String>() {};
@@ -447,7 +438,7 @@ public class AbstractFutureTest extends TestCase {
 
   public void testFutureBash() {
     if (isWindows()) {
-      return; // TODO: b/136041958 - Some tests in this file are slow, but I'm not sure which.
+      return; // TODO: b/136041958 - Running very slowly on Windows CI.
     }
     final CyclicBarrier barrier =
         new CyclicBarrier(
@@ -631,7 +622,7 @@ public class AbstractFutureTest extends TestCase {
   // setFuture and cancel() interact in more complicated ways than the other setters.
   public void testSetFutureCancelBash() {
     if (isWindows()) {
-      return; // TODO: b/136041958 - Some tests in this file are slow, but I'm not sure which.
+      return; // TODO: b/136041958 - Running very slowly on Windows CI.
     }
     final int size = 50;
     final CyclicBarrier barrier =
@@ -768,9 +759,6 @@ public class AbstractFutureTest extends TestCase {
   // Test to ensure that when calling setFuture with a done future only setFuture or cancel can
   // return true.
   public void testSetFutureCancelBash_withDoneFuture() {
-    if (isWindows()) {
-      return; // TODO: b/136041958 - Some tests in this file are slow, but I'm not sure which.
-    }
     final CyclicBarrier barrier =
         new CyclicBarrier(
             2 // for the setter threads
@@ -854,9 +842,6 @@ public class AbstractFutureTest extends TestCase {
   // In a previous implementation this would cause a stack overflow after ~2000 futures chained
   // together.  Now it should only be limited by available memory (and time)
   public void testSetFuture_stackOverflow() {
-    if (isWindows()) {
-      return; // TODO: b/136041958 - Some tests in this file are slow, but I'm not sure which.
-    }
     SettableFuture<String> orig = SettableFuture.create();
     SettableFuture<String> prev = orig;
     for (int i = 0; i < 100000; i++) {
@@ -874,9 +859,6 @@ public class AbstractFutureTest extends TestCase {
   @GwtIncompatible
   @AndroidIncompatible
   public void testSetFutureToString_stackOverflow() {
-    if (isWindows()) {
-      return; // TODO: b/136041958 - Some tests in this file are slow, but I'm not sure which.
-    }
     SettableFuture<String> orig = SettableFuture.create();
     SettableFuture<String> prev = orig;
     for (int i = 0; i < 100000; i++) {
