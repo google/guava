@@ -129,7 +129,5 @@ final class Platform {
     return exponent;
   }
 
-  static void checkGwtRpcEnabled() {}
-
   private Platform() {}
 }
