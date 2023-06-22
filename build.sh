@@ -20,3 +20,5 @@ fi
 java Hello
 
 touch artifact.jar
+touch report.xml
+touch today.log
