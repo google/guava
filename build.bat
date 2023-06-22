@@ -1,1 +1,1 @@
-timeout 3
+echo hello
