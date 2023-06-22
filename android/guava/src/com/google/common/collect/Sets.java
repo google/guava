@@ -29,6 +29,7 @@ import com.google.common.collect.Collections2.FilteredCollection;
 import com.google.common.math.IntMath;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.DoNotCall;
+import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.io.Serializable;
 import java.util.AbstractSet;
 import java.util.Arrays;
@@ -1802,7 +1803,7 @@ public final class Sets {
       throw new UnsupportedOperationException();
     }
 
-    @CheckForNull private transient UnmodifiableNavigableSet<E> descendingSet;
+    @LazyInit @CheckForNull private transient UnmodifiableNavigableSet<E> descendingSet;
 
     @Override
     public NavigableSet<E> descendingSet() {

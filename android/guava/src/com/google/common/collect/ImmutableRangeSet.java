@@ -542,7 +542,7 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
       this.domain = domain;
     }
 
-    @CheckForNull private transient Integer size;
+    @LazyInit @CheckForNull private transient Integer size;
 
     @Override
     public int size() {

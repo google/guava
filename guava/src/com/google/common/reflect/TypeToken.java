@@ -31,6 +31,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
 import com.google.common.primitives.Primitives;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.GenericArrayType;
@@ -103,10 +104,10 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
   private final Type runtimeType;
 
   /** Resolver for resolving parameter and field types with {@link #runtimeType} as context. */
-  @CheckForNull private transient TypeResolver invariantTypeResolver;
+  @LazyInit @CheckForNull private transient TypeResolver invariantTypeResolver;
 
   /** Resolver for resolving covariant types with {@link #runtimeType} as context. */
-  @CheckForNull private transient TypeResolver covariantTypeResolver;
+  @LazyInit @CheckForNull private transient TypeResolver covariantTypeResolver;
 
   /**
    * Constructs a new type token of {@code T}.
