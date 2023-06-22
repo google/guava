@@ -1,1 +1,1 @@
-timeout /t 3
+timeout 3
