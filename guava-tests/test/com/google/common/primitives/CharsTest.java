@@ -32,6 +32,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Unit test for {@link Chars}.
@@ -39,6 +41,7 @@ import junit.framework.TestCase;
  * @author Kevin Bourrillion
  */
 @GwtCompatible(emulated = true)
+@NullMarked
 @SuppressWarnings("cast") // redundant casts are intentional and harmless
 public class CharsTest extends TestCase {
   private static final char[] EMPTY = {};
@@ -87,6 +90,7 @@ public class CharsTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible // TODO(b/285538920): Fix and enable.
   public void testCompare() {
     for (char x : VALUES) {
       for (char y : VALUES) {
@@ -625,7 +629,7 @@ public class CharsTest extends TestCase {
   }
 
   public void testToArray_withNull() {
-    List<Character> list = Arrays.asList((char) 0, (char) 1, null);
+    List<@Nullable Character> list = Arrays.asList((char) 0, (char) 1, null);
     try {
       Chars.toArray(list);
       fail();
@@ -633,6 +637,7 @@ public class CharsTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible // b/285319375
   public void testAsList_isAView() {
     char[] array = {(char) 0, (char) 1};
     List<Character> list = Chars.asList(array);

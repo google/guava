@@ -17,6 +17,7 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.base.StandardSystemProperty.JAVA_SPECIFICATION_VERSION;
+import static com.google.common.base.StandardSystemProperty.OS_NAME;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 
@@ -436,6 +437,9 @@ public class AbstractFutureTest extends TestCase {
    */
 
   public void testFutureBash() {
+    if (isWindows()) {
+      return; // TODO: b/136041958 - Running very slowly on Windows CI.
+    }
     final CyclicBarrier barrier =
         new CyclicBarrier(
             6 // for the setter threads
@@ -617,6 +621,9 @@ public class AbstractFutureTest extends TestCase {
 
   // setFuture and cancel() interact in more complicated ways than the other setters.
   public void testSetFutureCancelBash() {
+    if (isWindows()) {
+      return; // TODO: b/136041958 - Running very slowly on Windows CI.
+    }
     final int size = 50;
     final CyclicBarrier barrier =
         new CyclicBarrier(
@@ -1324,5 +1331,9 @@ public class AbstractFutureTest extends TestCase {
       assertFalse(interruptTaskWasCalled);
       interruptTaskWasCalled = true;
     }
+  }
+
+  private static boolean isWindows() {
+    return OS_NAME.value().startsWith("Windows");
   }
 }

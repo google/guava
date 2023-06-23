@@ -159,7 +159,7 @@ public class ResourcesTest extends IoTestCase {
       Thread.currentThread().setContextClassLoader(loader);
       URL url = Resources.getResource(tempFile.getName());
       String text = Resources.toString(url, Charsets.UTF_8);
-      assertEquals("rud a chur ar an méar fhada\n", text);
+      assertEquals("rud a chur ar an méar fhada" + System.lineSeparator(), text);
     } finally {
       Thread.currentThread().setContextClassLoader(oldContextLoader);
     }

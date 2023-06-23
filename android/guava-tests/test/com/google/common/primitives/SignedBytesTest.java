@@ -29,12 +29,14 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Unit test for {@link SignedBytes}.
  *
  * @author Kevin Bourrillion
  */
+@NullMarked
 @GwtCompatible(emulated = true)
 @SuppressWarnings("cast") // redundant casts are intentional and harmless
 public class SignedBytesTest extends TestCase {
@@ -136,6 +138,7 @@ public class SignedBytesTest extends TestCase {
     assertThat(SignedBytes.join(",", (byte) -128, (byte) -1)).isEqualTo("-128,-1");
   }
 
+  @J2ktIncompatible // b/285319375
   public void testLexicographicalComparator() {
     List<byte[]> ordered =
         Arrays.asList(

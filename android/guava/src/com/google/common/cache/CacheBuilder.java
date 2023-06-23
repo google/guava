@@ -229,15 +229,24 @@ public final class CacheBuilder<K, V> {
   static final CacheStats EMPTY_STATS = new CacheStats(0, 0, 0, 0, 0, 0);
 
   /*
-   * We avoid using a method reference here for now: Inside Google, CacheBuilder is used from the
-   * implementation of a custom ClassLoader that is sometimes used as a system classloader. That's a
-   * problem because method-reference linking tries to look up the system classloader, and it fails
-   * because there isn't one yet.
+   * We avoid using a method reference or lambda here for now:
    *
-   * I would have guessed that a lambda would produce the same problem, but maybe it's safe because
-   * the lambda implementation is generated as a method in the _same class_ as the usage?
+   * - method reference: Inside Google, CacheBuilder is used from the implementation of a custom
+   *   ClassLoader that is sometimes used as a system classloader. That's a problem because
+   *   method-reference linking tries to look up the system classloader, and it fails because there
+   *   isn't one yet.
+   *
+   * - lambda: Outside Google, we got a report of a similar problem in
+   *   https://github.com/google/guava/issues/6565
    */
-  static final Supplier<StatsCounter> CACHE_STATS_COUNTER = () -> new SimpleStatsCounter();
+  @SuppressWarnings("AnonymousToLambda")
+  static final Supplier<StatsCounter> CACHE_STATS_COUNTER =
+      new Supplier<StatsCounter>() {
+        @Override
+        public StatsCounter get() {
+          return new SimpleStatsCounter();
+        }
+      };
 
   enum NullListener implements RemovalListener<Object, Object> {
     INSTANCE;

@@ -187,7 +187,7 @@ public abstract class ForwardingNavigableMap<K extends @Nullable Object, V exten
    * forward to this implementation.
    */
   protected @Nullable Entry<K, V> standardFirstEntry() {
-    return Iterables.getFirst(entrySet(), null);
+    return Iterables.<@Nullable Entry<K, V>>getFirst(entrySet(), null);
   }
 
   /**
@@ -215,7 +215,7 @@ public abstract class ForwardingNavigableMap<K extends @Nullable Object, V exten
    * override {@code lastEntry} to forward to this implementation.
    */
   protected @Nullable Entry<K, V> standardLastEntry() {
-    return Iterables.getFirst(descendingMap().entrySet(), null);
+    return Iterables.<@Nullable Entry<K, V>>getFirst(descendingMap().entrySet(), null);
   }
 
   /**

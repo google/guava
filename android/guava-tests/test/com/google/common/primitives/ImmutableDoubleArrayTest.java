@@ -40,9 +40,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.jspecify.annotations.NullMarked;
 
-/** @author Kevin Bourrillion */
+/**
+ * @author Kevin Bourrillion
+ */
 @GwtCompatible(emulated = true)
+@NullMarked
 public class ImmutableDoubleArrayTest extends TestCase {
   // Test all creation paths very lazily: by assuming asList() works
 

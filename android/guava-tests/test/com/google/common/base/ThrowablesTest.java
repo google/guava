@@ -667,8 +667,9 @@ public class ThrowablesTest extends TestCase {
 
     String firstLine = quote(e.getClass().getName() + ": " + e.getMessage());
     String secondLine = "\\s*at " + ThrowablesTest.class.getName() + "\\..*";
-    String moreLines = "(?:.*\n?)*";
-    String expected = firstLine + "\n" + secondLine + "\n" + moreLines;
+    String moreLines = "(?:.*" + System.lineSeparator() + "?)*";
+    String expected =
+        firstLine + System.lineSeparator() + secondLine + System.lineSeparator() + moreLines;
     assertThat(getStackTraceAsString(e)).matches(expected);
   }
 

@@ -17,6 +17,7 @@
 package com.google.common.io;
 
 import static com.google.common.base.StandardSystemProperty.JAVA_IO_TMPDIR;
+import static com.google.common.base.StandardSystemProperty.OS_NAME;
 import static com.google.common.truth.Truth.assertThat;
 import static java.nio.file.attribute.PosixFilePermission.OWNER_EXECUTE;
 import static java.nio.file.attribute.PosixFilePermission.OWNER_READ;
@@ -44,23 +45,30 @@ public class FilesCreateTempDirTest extends TestCase {
     }
     File temp = Files.createTempDir();
     try {
-      assertTrue(temp.exists());
-      assertTrue(temp.isDirectory());
+      assertThat(temp.exists()).isTrue();
+      assertThat(temp.isDirectory()).isTrue();
       assertThat(temp.listFiles()).isEmpty();
+      File child = new File(temp, "child");
+      assertThat(child.createNewFile()).isTrue();
+      assertThat(child.delete()).isTrue();
 
-      if (isAndroid()) {
-        return;
+      if (!isAndroid() && !isWindows()) {
+        PosixFileAttributes attributes =
+            java.nio.file.Files.getFileAttributeView(temp.toPath(), PosixFileAttributeView.class)
+                .readAttributes();
+        assertThat(attributes.permissions())
+            .containsExactly(OWNER_READ, OWNER_WRITE, OWNER_EXECUTE);
       }
-      PosixFileAttributes attributes =
-          java.nio.file.Files.getFileAttributeView(temp.toPath(), PosixFileAttributeView.class)
-              .readAttributes();
-      assertThat(attributes.permissions()).containsExactly(OWNER_READ, OWNER_WRITE, OWNER_EXECUTE);
     } finally {
-      assertTrue(temp.delete());
+      assertThat(temp.delete()).isTrue();
     }
   }
 
   private static boolean isAndroid() {
     return System.getProperty("java.runtime.name", "").contains("Android");
+  }
+
+  private static boolean isWindows() {
+    return OS_NAME.value().startsWith("Windows");
   }
 }

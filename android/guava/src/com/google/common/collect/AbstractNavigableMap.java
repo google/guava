@@ -42,12 +42,12 @@ abstract class AbstractNavigableMap<K extends @Nullable Object, V extends @Nulla
 
   @Override
   public @Nullable Entry<K, V> firstEntry() {
-    return Iterators.getNext(entryIterator(), null);
+    return Iterators.<@Nullable Entry<K, V>>getNext(entryIterator(), null);
   }
 
   @Override
   public @Nullable Entry<K, V> lastEntry() {
-    return Iterators.getNext(descendingEntryIterator(), null);
+    return Iterators.<@Nullable Entry<K, V>>getNext(descendingEntryIterator(), null);
   }
 
   @Override

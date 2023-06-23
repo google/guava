@@ -35,6 +35,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.regex.Pattern;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
 /**
@@ -42,6 +43,7 @@ import org.jspecify.annotations.Nullable;
  *
  * @author Kevin Bourrillion
  */
+@NullMarked
 @GwtCompatible(emulated = true)
 public class DoublesTest extends TestCase {
   private static final double[] EMPTY = {};
@@ -550,7 +552,7 @@ public class DoublesTest extends TestCase {
   }
 
   public void testToArray_withNull() {
-    List<Double> list = Arrays.asList((double) 0, (double) 1, null);
+    List<@Nullable Double> list = Arrays.asList((double) 0, (double) 1, null);
     try {
       Doubles.toArray(list);
       fail();
@@ -576,6 +578,7 @@ public class DoublesTest extends TestCase {
     assertThat(Doubles.toArray(doubles)).isEqualTo(array);
   }
 
+  @J2ktIncompatible // b/285319375
   public void testAsList_isAView() {
     double[] array = {(double) 0, (double) 1};
     List<Double> list = Doubles.asList(array);

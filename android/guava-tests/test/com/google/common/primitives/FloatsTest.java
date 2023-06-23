@@ -34,6 +34,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
 /**
@@ -41,6 +42,7 @@ import org.jspecify.annotations.Nullable;
  *
  * @author Kevin Bourrillion
  */
+@NullMarked
 @GwtCompatible(emulated = true)
 public class FloatsTest extends TestCase {
   private static final float[] EMPTY = {};
@@ -529,7 +531,7 @@ public class FloatsTest extends TestCase {
   }
 
   public void testToArray_withNull() {
-    List<Float> list = Arrays.asList((float) 0, (float) 1, null);
+    List<@Nullable Float> list = Arrays.asList((float) 0, (float) 1, null);
     try {
       Floats.toArray(list);
       fail();
@@ -555,6 +557,7 @@ public class FloatsTest extends TestCase {
     assertThat(Floats.toArray(doubles)).isEqualTo(array);
   }
 
+  @J2ktIncompatible // b/285319375
   public void testAsList_isAView() {
     float[] array = {(float) 0, (float) 1};
     List<Float> list = Floats.asList(array);

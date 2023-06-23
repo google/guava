@@ -17,6 +17,7 @@
 package com.google.common.io;
 
 import static com.google.common.base.StandardSystemProperty.JAVA_IO_TMPDIR;
+import static com.google.common.base.StandardSystemProperty.OS_NAME;
 import static com.google.common.truth.Truth.assertThat;
 import static java.nio.file.attribute.PosixFilePermission.OWNER_READ;
 import static java.nio.file.attribute.PosixFilePermission.OWNER_WRITE;
@@ -78,7 +79,7 @@ public class FileBackedOutputStreamTest extends IoTestCase {
       assertEquals(dataSize, file.length());
       assertTrue(file.exists());
       assertThat(file.getName()).contains("FileBackedOutputStream");
-      if (!isAndroid()) {
+      if (!isAndroid() && !isWindows()) {
         PosixFileAttributes attributes =
             java.nio.file.Files.getFileAttributeView(file.toPath(), PosixFileAttributeView.class)
                 .readAttributes();
@@ -166,5 +167,9 @@ public class FileBackedOutputStreamTest extends IoTestCase {
 
   private static boolean isAndroid() {
     return System.getProperty("java.runtime.name", "").contains("Android");
+  }
+
+  private static boolean isWindows() {
+    return OS_NAME.value().startsWith("Windows");
   }
 }

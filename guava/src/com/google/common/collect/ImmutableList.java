@@ -577,7 +577,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
   @Deprecated
   @Override
   @DoNotCall("Always throws UnsupportedOperationException")
-  public final void sort(Comparator<? super E> c) {
+  public final void sort(@Nullable Comparator<? super E> c) {
     throw new UnsupportedOperationException();
   }
 

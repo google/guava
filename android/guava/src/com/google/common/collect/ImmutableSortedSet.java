@@ -635,7 +635,7 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
   @GwtIncompatible // NavigableSet
   @Override
   public @Nullable E lower(E e) {
-    return Iterators.getNext(headSet(e, false).descendingIterator(), null);
+    return Iterators.<@Nullable E>getNext(headSet(e, false).descendingIterator(), null);
   }
 
   /**
@@ -643,7 +643,7 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
    */
   @Override
   public @Nullable E floor(E e) {
-    return Iterators.getNext(headSet(e, true).descendingIterator(), null);
+    return Iterators.<@Nullable E>getNext(headSet(e, true).descendingIterator(), null);
   }
 
   /**
@@ -651,7 +651,7 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
    */
   @Override
   public @Nullable E ceiling(E e) {
-    return Iterables.getFirst(tailSet(e, true), null);
+    return Iterables.<@Nullable E>getFirst(tailSet(e, true), null);
   }
 
   /**
@@ -660,7 +660,7 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
   @GwtIncompatible // NavigableSet
   @Override
   public @Nullable E higher(E e) {
-    return Iterables.getFirst(tailSet(e, false), null);
+    return Iterables.<@Nullable E>getFirst(tailSet(e, false), null);
   }
 
   @Override

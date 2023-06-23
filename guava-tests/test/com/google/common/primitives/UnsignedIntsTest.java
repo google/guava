@@ -304,6 +304,7 @@ public class UnsignedIntsTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible // TODO(b/285538920): Exception mismatch
   public void testParseIntThrowsExceptionForInvalidRadix() {
     // Valid radix values are Character.MIN_RADIX to Character.MAX_RADIX,
     // inclusive.
