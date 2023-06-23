@@ -272,7 +272,10 @@ public final class CacheBuilder<K, V> {
         }
       };
 
-  private static final Logger logger = Logger.getLogger(CacheBuilder.class.getName());
+  // We use a holder class to delay initialization: https://github.com/google/guava/issues/6566
+  private static final class LoggerHolder {
+    static final Logger logger = Logger.getLogger(CacheBuilder.class.getName());
+  }
 
   static final int UNSET_INT = -1;
 
@@ -1056,7 +1059,8 @@ public final class CacheBuilder<K, V> {
         checkState(maximumWeight != UNSET_INT, "weigher requires maximumWeight");
       } else {
         if (maximumWeight == UNSET_INT) {
-          logger.log(Level.WARNING, "ignoring weigher specified without maximumWeight");
+          LoggerHolder.logger.log(
+              Level.WARNING, "ignoring weigher specified without maximumWeight");
         }
       }
     }
