@@ -13,8 +13,7 @@
  */
 
 /**
- * This package contains utility methods and classes for working with net addresses (numeric IP and
- * domain names).
+ * Utility methods and classes for networking (such as IP addresses and domain names).
  *
  * <p>This package is a part of the open-source <a href="https://github.com/google/guava">Guava</a>
  * library.

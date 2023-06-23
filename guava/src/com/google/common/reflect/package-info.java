@@ -13,7 +13,7 @@
  */
 
 /**
- * This package contains utilities to work with Java reflection. It is a part of the open-source <a
+ * Utilities for reflection. This package is a part of the open-source <a
  * href="https://github.com/google/guava">Guava</a> library.
  */
 @CheckReturnValue
