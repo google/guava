@@ -1285,18 +1285,18 @@ public final class LongMath {
             ? roundArbitrarily
             : DoubleUtils.nextDown(roundArbitrarily);
       case CEILING:
-        return (cmpXToRoundArbitrarily <= 0) ? roundArbitrarily : Math.nextUp(roundArbitrarily);
+        return DoubleUtils.nextUp(cmpXToRoundArbitrarily, roundArbitrarily);
       case DOWN:
         if (x >= 0) {
           return (cmpXToRoundArbitrarily >= 0)
               ? roundArbitrarily
               : DoubleUtils.nextDown(roundArbitrarily);
         } else {
-          return (cmpXToRoundArbitrarily <= 0) ? roundArbitrarily : Math.nextUp(roundArbitrarily);
+          return DoubleUtils.nextUp(cmpXToRoundArbitrarily, roundArbitrarily);
         }
       case UP:
         if (x >= 0) {
-          return (cmpXToRoundArbitrarily <= 0) ? roundArbitrarily : Math.nextUp(roundArbitrarily);
+          return DoubleUtils.nextUp(cmpXToRoundArbitrarily, roundArbitrarily);
         } else {
           return (cmpXToRoundArbitrarily >= 0)
               ? roundArbitrarily

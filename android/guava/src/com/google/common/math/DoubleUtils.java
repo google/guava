@@ -41,6 +41,10 @@ final class DoubleUtils {
     return -Math.nextUp(-d);
   }
 
+  static double nextUp(int value, double nextUpValue){
+    return (value <= 0) ? nextUpValue : Math.nextUp(nextUpValue);
+  }
+
   // The mask for the significand, according to the {@link
   // Double#doubleToRawLongBits(double)} spec.
   static final long SIGNIFICAND_MASK = 0x000fffffffffffffL;

@@ -19,6 +19,8 @@ package com.google.common.math;
 import static com.google.common.math.MathTesting.ALL_BIGINTEGER_CANDIDATES;
 import static com.google.common.math.MathTesting.FINITE_DOUBLE_CANDIDATES;
 import static com.google.common.math.MathTesting.POSITIVE_FINITE_DOUBLE_CANDIDATES;
+import static com.google.common.math.MathTesting.NEGATIVE_INTEGER_CANDIDATES;
+import static com.google.common.math.MathTesting.POSITIVE_INTEGER_CANDIDATES;
 
 import java.lang.reflect.Method;
 import java.math.BigInteger;
@@ -43,6 +45,18 @@ public class DoubleUtilsTest extends TestCase {
       return Math.class.getMethod("nextDown", double.class);
     } catch (NoSuchMethodException expectedBeforeJava8) {
       return Class.forName("sun.misc.FpUtils").getMethod("nextDown", double.class);
+    }
+  }
+
+  public void testNextUp() {
+    for (double d : FINITE_DOUBLE_CANDIDATES) {
+      for (int i : NEGATIVE_INTEGER_CANDIDATES) {
+        assertEquals(d, DoubleUtils.nextUp(i, d));
+      }
+      assertEquals(d, DoubleUtils.nextUp(0, d));
+      for (int i : POSITIVE_INTEGER_CANDIDATES) {
+        assertEquals(Math.nextUp(d), DoubleUtils.nextUp(i, d));
+      }
     }
   }
 
