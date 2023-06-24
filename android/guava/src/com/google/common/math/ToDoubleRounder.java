@@ -81,18 +81,18 @@ abstract class ToDoubleRounder<X extends Number & Comparable<X>> {
             ? roundArbitrarily
             : DoubleUtils.nextDown(roundArbitrarily);
       case CEILING:
-        return (cmpXToRoundArbitrarily <= 0) ? roundArbitrarily : Math.nextUp(roundArbitrarily);
+        return DoubleUtils.nextUp(cmpXToRoundArbitrarily, roundArbitrarily);
       case DOWN:
         if (sign(x) >= 0) {
           return (cmpXToRoundArbitrarily >= 0)
               ? roundArbitrarily
               : DoubleUtils.nextDown(roundArbitrarily);
         } else {
-          return (cmpXToRoundArbitrarily <= 0) ? roundArbitrarily : Math.nextUp(roundArbitrarily);
+          return DoubleUtils.nextUp(cmpXToRoundArbitrarily, roundArbitrarily);
         }
       case UP:
         if (sign(x) >= 0) {
-          return (cmpXToRoundArbitrarily <= 0) ? roundArbitrarily : Math.nextUp(roundArbitrarily);
+          return DoubleUtils.nextUp(cmpXToRoundArbitrarily, roundArbitrarily);
         } else {
           return (cmpXToRoundArbitrarily >= 0)
               ? roundArbitrarily
