@@ -494,7 +494,7 @@ public final class MediaType {
   /**
    * For <a href="https://tools.ietf.org/html/7519">JWT objects using the compact Serialization</a>.
    *
-   * @since NEXT
+   * @since 32.0.0
    */
   public static final MediaType JWT = createConstant(APPLICATION_TYPE, "jwt");
 

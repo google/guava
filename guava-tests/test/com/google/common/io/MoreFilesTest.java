@@ -16,6 +16,7 @@
 
 package com.google.common.io;
 
+import static com.google.common.base.StandardSystemProperty.OS_NAME;
 import static com.google.common.io.RecursiveDeleteOption.ALLOW_INSECURE;
 import static com.google.common.jimfs.Feature.SECURE_DIRECTORY_STREAM;
 import static com.google.common.jimfs.Feature.SYMBOLIC_LINKS;
@@ -261,6 +262,9 @@ public class MoreFilesTest extends TestCase {
   }
 
   public void testCreateParentDirectories_root() throws IOException {
+    if (isWindows()) {
+      return; // TODO: b/136041958 - *Sometimes* fails with "A:\: The device is not ready"
+    }
     Path root = root();
     assertNull(root.getParent());
     assertNull(root.toRealPath().getParent());
@@ -301,6 +305,9 @@ public class MoreFilesTest extends TestCase {
   }
 
   public void testCreateParentDirectories_noPermission() {
+    if (isWindows()) {
+      return; // TODO: b/136041958 - Create/find a directory that we don't have permissions on?
+    }
     Path file = root().resolve("parent/nonexistent.file");
     Path parent = file.getParent();
     assertFalse(Files.exists(parent));
@@ -325,6 +332,9 @@ public class MoreFilesTest extends TestCase {
   }
 
   public void testCreateParentDirectories_symlinkParentExists() throws IOException {
+    if (isWindows()) {
+      return; // TODO: b/136041958 - *Sometimes* fails with FileAlreadyExistsException
+    }
     Path symlink = tempDir.resolve("linkToDir");
     Files.createSymbolicLink(symlink, root());
     Path file = symlink.resolve("foo");
@@ -720,5 +730,9 @@ public class MoreFilesTest extends TestCase {
     public abstract void delete(Path path, RecursiveDeleteOption... options) throws IOException;
 
     public abstract void assertDeleteSucceeded(Path path) throws IOException;
+  }
+
+  private static boolean isWindows() {
+    return OS_NAME.value().startsWith("Windows");
   }
 }

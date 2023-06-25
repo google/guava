@@ -16,8 +16,8 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
@@ -79,7 +79,6 @@ public final class MoreExecutors {
    * @param timeUnit unit of time for the time parameter
    * @return an unmodifiable version of the input which will not hang the JVM
    */
-  @Beta
   @J2ktIncompatible
   @GwtIncompatible // TODO
   @SuppressWarnings("GoodTime") // should accept a java.time.Duration
@@ -101,7 +100,6 @@ public final class MoreExecutors {
    * @param executor the executor to modify to make sure it exits when the application is finished
    * @return an unmodifiable version of the input which will not hang the JVM
    */
-  @Beta
   @J2ktIncompatible
   @GwtIncompatible // concurrency
   public static ExecutorService getExitingExecutorService(ThreadPoolExecutor executor) {
@@ -121,7 +119,6 @@ public final class MoreExecutors {
    * @param timeUnit unit of time for the time parameter
    * @return an unmodifiable version of the input which will not hang the JVM
    */
-  @Beta
   @J2ktIncompatible
   @GwtIncompatible // TODO
   @SuppressWarnings("GoodTime") // should accept a java.time.Duration
@@ -144,7 +141,6 @@ public final class MoreExecutors {
    * @param executor the executor to modify to make sure it exits when the application is finished
    * @return an unmodifiable version of the input which will not hang the JVM
    */
-  @Beta
   @J2ktIncompatible
   @GwtIncompatible // TODO
   public static ScheduledExecutorService getExitingScheduledExecutorService(
@@ -163,7 +159,6 @@ public final class MoreExecutors {
    *     JVM
    * @param timeUnit unit of time for the time parameter
    */
-  @Beta
   @J2ktIncompatible
   @GwtIncompatible // TODO
   @SuppressWarnings("GoodTime") // should accept a java.time.Duration
@@ -822,7 +817,6 @@ public final class MoreExecutors {
    *
    * @since 14.0
    */
-  @Beta
   @J2ktIncompatible
   @GwtIncompatible // concurrency
   public static ThreadFactory platformThreadFactory() {
@@ -891,7 +885,8 @@ public final class MoreExecutors {
   static Thread newThread(String name, Runnable runnable) {
     checkNotNull(name);
     checkNotNull(runnable);
-    Thread result = platformThreadFactory().newThread(runnable);
+    // TODO(b/139726489): Confirm that null is impossible here.
+    Thread result = requireNonNull(platformThreadFactory().newThread(runnable));
     try {
       result.setName(name);
     } catch (SecurityException e) {
@@ -1011,7 +1006,6 @@ public final class MoreExecutors {
    *     if the call timed out or was interrupted
    * @since 17.0
    */
-  @Beta
   @CanIgnoreReturnValue
   @J2ktIncompatible
   @GwtIncompatible // concurrency

@@ -38,7 +38,7 @@ public class UncheckedExecutionException extends RuntimeException {
   /*
    * Ideally, this class would have exposed only constructors that require a non-null cause. We
    * might try to move in that direction, but there are complications. See
-   * https://github.com/jspecify/nullness-checker-for-checker-framework/blob/61aafa4ae52594830cfc2d61c8b113009dbdb045/src/main/java/com/google/jspecify/nullness/NullSpecTransfer.java#L789
+   * https://github.com/jspecify/jspecify-reference-checker/blob/61aafa4ae52594830cfc2d61c8b113009dbdb045/src/main/java/com/google/jspecify/nullness/NullSpecTransfer.java#L789
    */
 
   /** Creates a new instance with {@code null} as its detail message. */

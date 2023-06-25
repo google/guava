@@ -19,6 +19,7 @@ import static com.google.common.truth.Truth.assertWithMessage;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
@@ -102,6 +103,7 @@ public class UnsignedLongTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible // TODO(b/285562794): Wrong result for j2kt
   public void testValueOfBigInteger() {
     BigInteger min = BigInteger.ZERO;
     BigInteger max = UnsignedLong.MAX_VALUE.bigIntegerValue();
@@ -123,6 +125,7 @@ public class UnsignedLongTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // too slow
   public void testToStringRadix() {
     for (int radix = Character.MIN_RADIX; radix <= Character.MAX_RADIX; radix++) {
@@ -164,6 +167,7 @@ public class UnsignedLongTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible // TODO(b/285562794): Wrong result for j2kt
   public void testPlus() {
     for (long a : TEST_LONGS) {
       for (long b : TEST_LONGS) {
@@ -176,6 +180,7 @@ public class UnsignedLongTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible // TODO(b/285562794): Wrong result for j2kt
   public void testMinus() {
     for (long a : TEST_LONGS) {
       for (long b : TEST_LONGS) {
@@ -189,6 +194,7 @@ public class UnsignedLongTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible // TODO(b/285562794): Wrong result for j2kt
   public void testTimes() {
     for (long a : TEST_LONGS) {
       for (long b : TEST_LONGS) {
@@ -202,6 +208,7 @@ public class UnsignedLongTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible // TODO(b/285562794): Wrong result for j2kt
   public void testDividedBy() {
     for (long a : TEST_LONGS) {
       for (long b : TEST_LONGS) {
@@ -227,6 +234,7 @@ public class UnsignedLongTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible // TODO(b/285538920): Wrong result for j2kt
   public void testMod() {
     for (long a : TEST_LONGS) {
       for (long b : TEST_LONGS) {
@@ -263,6 +271,7 @@ public class UnsignedLongTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // too slow
   public void testEquals() {
     EqualsTester equalsTester = new EqualsTester();
@@ -286,6 +295,7 @@ public class UnsignedLongTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // serialization
   public void testSerialization() {
     for (long a : TEST_LONGS) {
@@ -293,6 +303,7 @@ public class UnsignedLongTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // NullPointerTester
   public void testNulls() {
     new NullPointerTester().testAllPublicStaticMethods(UnsignedLong.class);

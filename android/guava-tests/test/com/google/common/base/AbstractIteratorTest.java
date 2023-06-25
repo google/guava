@@ -18,6 +18,7 @@ package com.google.common.base;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.testing.GcFinalization;
 import java.lang.ref.WeakReference;
 import java.util.Iterator;
@@ -172,6 +173,7 @@ public class AbstractIteratorTest extends TestCase {
 
 
   @GwtIncompatible // weak references
+  @J2ktIncompatible
   @AndroidIncompatible // depends on details of GC
   public void testFreesNextReference() {
     Iterator<Object> itr =

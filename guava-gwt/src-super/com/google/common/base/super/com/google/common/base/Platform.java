@@ -18,7 +18,6 @@ package com.google.common.base;
 
 import static jsinterop.annotations.JsPackage.GLOBAL;
 
-import java.util.concurrent.TimeUnit;
 import jsinterop.annotations.JsMethod;
 import jsinterop.annotations.JsType;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -31,21 +30,6 @@ final class Platform {
     // choosing to turn .precomputed() into a no-op in GWT, because it doesn't
     // seem to be a worthwhile tradeoff in a browser.
     return matcher;
-  }
-
-  @SuppressWarnings("GoodTime") // reading system time without TimeSource
-  static long systemNanoTime() {
-    // System.nanoTime() is not available in GWT, so we get milliseconds
-    // and convert to nanos.
-    return TimeUnit.MILLISECONDS.toNanos(System.currentTimeMillis());
-  }
-
-  static <T extends Enum<T>> Optional<T> getEnumIfPresent(Class<T> enumClass, String value) {
-    try {
-      return Optional.of(Enum.valueOf(enumClass, value));
-    } catch (IllegalArgumentException iae) {
-      return Optional.absent();
-    }
   }
 
   static String formatCompact4Digits(double value) {

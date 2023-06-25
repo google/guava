@@ -248,8 +248,8 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    *
    * <p>Note that if {@code list} is a {@code List<String>}, then {@code ImmutableList.copyOf(list)}
    * returns an {@code ImmutableList<String>} containing each of the strings in {@code list}, while
-   * ImmutableList.of(list)} returns an {@code ImmutableList<List<String>>} containing one element
-   * (the given list itself).
+   * {@code ImmutableList.of(list)} returns an {@code ImmutableList<List<String>>} containing one
+   * element (the given list itself).
    *
    * <p>This method is safe to use even when {@code elements} is a synchronized or concurrent
    * collection that is currently being modified by another thread.
@@ -577,7 +577,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
   @Deprecated
   @Override
   @DoNotCall("Always throws UnsupportedOperationException")
-  public final void sort(Comparator<? super E> c) {
+  public final void sort(@Nullable Comparator<? super E> c) {
     throw new UnsupportedOperationException();
   }
 

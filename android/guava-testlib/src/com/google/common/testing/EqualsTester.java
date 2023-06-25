@@ -22,11 +22,12 @@ import static junit.framework.Assert.assertTrue;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Equivalence;
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import java.util.ArrayList;
 import java.util.List;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Tester for equals() and hashCode() methods of a class.
@@ -75,6 +76,7 @@ import java.util.List;
  * @since 10.0
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public final class EqualsTester {
   private static final int REPETITIONS = 3;
 
@@ -95,9 +97,17 @@ public final class EqualsTester {
    * equal to any other equality groups added to this tester.
    */
   @CanIgnoreReturnValue
-  public EqualsTester addEqualityGroup(Object... equalityGroup) {
+  public EqualsTester addEqualityGroup(@Nullable Object @Nullable ... equalityGroup) {
     checkNotNull(equalityGroup);
-    equalityGroups.add(ImmutableList.copyOf(equalityGroup));
+    List<Object> list = new ArrayList<>(equalityGroup.length);
+    for (int i = 0; i < equalityGroup.length; i++) {
+      Object element = equalityGroup[i];
+      if (element == null) {
+        throw new NullPointerException("at index " + i);
+      }
+      list.add(element);
+    }
+    equalityGroups.add(list);
     return this;
   }
 

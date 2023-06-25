@@ -133,7 +133,6 @@ public class ResourcesTest extends IoTestCase {
     assertNotNull(Resources.getResource(getClass(), "testdata/i18n.txt"));
   }
 
-  @AndroidIncompatible // Android prevents most access to files
   public void testGetResource_contextClassLoader() throws IOException {
     // Check that we can find a resource if it is visible to the context class
     // loader, even if it is not visible to the loader of the Resources class.
@@ -160,7 +159,7 @@ public class ResourcesTest extends IoTestCase {
       Thread.currentThread().setContextClassLoader(loader);
       URL url = Resources.getResource(tempFile.getName());
       String text = Resources.toString(url, Charsets.UTF_8);
-      assertEquals("rud a chur ar an méar fhada\n", text);
+      assertEquals("rud a chur ar an méar fhada" + System.lineSeparator(), text);
     } finally {
       Thread.currentThread().setContextClassLoader(oldContextLoader);
     }

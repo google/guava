@@ -19,7 +19,6 @@ package com.google.common.util.concurrent.testing;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.util.concurrent.ListenableFuture;
 import java.util.concurrent.CancellationException;
@@ -40,7 +39,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Sven Mawson
  * @since 10.0
  */
-@Beta
 @GwtIncompatible
 public abstract class AbstractListenableFutureTest extends TestCase {
 

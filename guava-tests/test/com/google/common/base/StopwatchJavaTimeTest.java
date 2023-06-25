@@ -17,11 +17,13 @@
 package com.google.common.base;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.testing.FakeTicker;
 import java.time.Duration;
 import junit.framework.TestCase;
 
 /** Unit test for the {@code java.time} support in {@link Stopwatch}. */
+@J2ktIncompatible
 @GwtIncompatible
 public class StopwatchJavaTimeTest extends TestCase {
   private final FakeTicker ticker = new FakeTicker();

@@ -23,6 +23,7 @@ import static java.lang.Long.MIN_VALUE;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Converter;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.testing.NullPointerTester;
@@ -35,12 +36,14 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Unit test for {@link Longs}.
  *
  * @author Kevin Bourrillion
  */
+@ElementTypesAreNonnullByDefault
 @GwtCompatible(emulated = true)
 @SuppressWarnings("cast") // redundant casts are intentional and harmless
 public class LongsTest extends TestCase {
@@ -50,6 +53,7 @@ public class LongsTest extends TestCase {
 
   private static final long[] VALUES = {MIN_VALUE, (long) -1, (long) 0, (long) 1, MAX_VALUE};
 
+  @J2ktIncompatible
   @GwtIncompatible // Long.hashCode returns different values in GWT.
   public void testHashCode() {
     for (long value : VALUES) {
@@ -319,6 +323,7 @@ public class LongsTest extends TestCase {
     Helpers.testComparator(comparator, ordered);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testLexicographicalComparatorSerializable() {
     Comparator<long[]> comparator = Longs.lexicographicalComparator();
@@ -481,6 +486,7 @@ public class LongsTest extends TestCase {
     testSortDescending(new long[] {-1, -2, 1, 2}, 1, 3, new long[] {-1, 1, -2, 2});
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testStringConverterSerialization() {
     SerializableTester.reserializeAndAssert(Longs.stringConverter());
@@ -518,7 +524,7 @@ public class LongsTest extends TestCase {
   }
 
   public void testToArray_withNull() {
-    List<Long> list = Arrays.asList((long) 0, (long) 1, null);
+    List<@Nullable Long> list = Arrays.asList((long) 0, (long) 1, null);
     try {
       Longs.toArray(list);
       fail();
@@ -544,6 +550,7 @@ public class LongsTest extends TestCase {
     assertThat(Longs.toArray(doubles)).isEqualTo(array);
   }
 
+  @J2ktIncompatible // b/285319375
   public void testAsList_isAView() {
     long[] array = {(long) 0, (long) 1};
     List<Long> list = Longs.asList(array);
@@ -577,6 +584,7 @@ public class LongsTest extends TestCase {
     assertThat(Longs.asList(EMPTY)).isSameInstanceAs(Collections.emptyList());
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // NullPointerTester
   public void testNulls() {
     new NullPointerTester().testAllPublicStaticMethods(Longs.class);
@@ -618,6 +626,7 @@ public class LongsTest extends TestCase {
     assertThat(converter.reverse().convert(0666L)).isEqualTo("438");
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // NullPointerTester
   public void testStringConverter_nullPointerTester() throws Exception {
     NullPointerTester tester = new NullPointerTester();

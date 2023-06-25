@@ -42,14 +42,19 @@ import junit.framework.TestSuite;
 /**
  * Unit test for {@link Files}.
  *
- * <p>Note: {@link Files#fileTraverser()} is tested in {@link FilesFileTraverserTest}.
+ * <p>Some methods are tested in separate files:
+ *
+ * <ul>
+ *   <li>{@link Files#fileTraverser()} is tested in {@link FilesFileTraverserTest}.
+ *   <li>{@link Files#createTempDir()} is tested in {@link FilesCreateTempDirTest}.
+ * </ul>
  *
  * @author Chris Nokleberg
  */
 
-@AndroidIncompatible // Android forbids much filesystem access. Maybe we could make it work?
 public class FilesTest extends IoTestCase {
 
+  @AndroidIncompatible // suites, ByteSourceTester (b/230620681)
   public static TestSuite suite() {
     TestSuite suite = new TestSuite();
     suite.addTest(
@@ -356,14 +361,6 @@ public class FilesTest extends IoTestCase {
       fail();
     } catch (IOException expected) {
     }
-  }
-
-  public void testCreateTempDir() {
-    File temp = Files.createTempDir();
-    assertTrue(temp.exists());
-    assertTrue(temp.isDirectory());
-    assertThat(temp.listFiles()).isEmpty();
-    assertTrue(temp.delete());
   }
 
   public void testMove() throws IOException {

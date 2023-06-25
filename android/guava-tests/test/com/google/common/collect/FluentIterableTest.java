@@ -57,7 +57,7 @@ public class FluentIterableTest extends TestCase {
   }
 
   public void testFromArrayAndAppend() {
-    FluentIterable<TimeUnit> units =
+    FluentIterable<TimeUnit> unused =
         FluentIterable.from(TimeUnit.values()).append(TimeUnit.SECONDS);
   }
 
@@ -101,7 +101,6 @@ public class FluentIterableTest extends TestCase {
     List<Integer> list1 = newArrayList(1);
     List<Integer> list2 = newArrayList(4);
 
-    @SuppressWarnings("unchecked")
     List<List<Integer>> input = newArrayList(list1, list2);
 
     FluentIterable<Integer> result = FluentIterable.concat(input);
@@ -123,7 +122,6 @@ public class FluentIterableTest extends TestCase {
     List<Integer> list3 = newArrayList(7, 8);
     List<Integer> list4 = newArrayList(9);
     List<Integer> list5 = newArrayList(10);
-    @SuppressWarnings("unchecked")
     FluentIterable<Integer> result = FluentIterable.concat(list1, list2, list3, list4, list5);
     assertEquals(asList(1, 4, 7, 8, 9, 10), newArrayList(result));
     assertEquals("[1, 4, 7, 8, 9, 10]", result.toString());

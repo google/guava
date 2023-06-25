@@ -58,24 +58,7 @@ public final class MoreObjects {
    * @throws NullPointerException if both {@code first} and {@code second} are null
    * @since 18.0 (since 3.0 as {@code Objects.firstNonNull()}).
    */
-  /*
-   * We annotate firstNonNull in a way that protects against NullPointerException at the cost of
-   * forbidding some reasonable calls.
-   *
-   * The more permissive signature would be to accept (@CheckForNull T first, @CheckForNull T
-   * second), since it's OK for `second` to be null as long as `first` is not also null. But we
-   * expect for that flexibility to be useful relatively rarely: The more common use case is to
-   * supply a clearly non-null default, like `firstNonNull(someString, "")`. And users who really
-   * know that `first` is guaranteed non-null when `second` is null can write the logic out
-   * longhand, including a requireNonNull call, which calls attention to the fact that the static
-   * analyzer can't prove that the operation is safe.
-   *
-   * This matches the signature we currently have for requireNonNullElse in our own checker. (And
-   * that in turn matches that method's signature under the Checker Framework.) As always, we could
-   * consider the more flexible signature if we judge it worth the risks. If we do, we would likely
-   * update both methods so that they continue to match.
-   */
-  public static <T> T firstNonNull(@CheckForNull T first, T second) {
+  public static <T> T firstNonNull(@CheckForNull T first, @CheckForNull T second) {
     if (first != null) {
       return first;
     }

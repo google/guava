@@ -21,14 +21,14 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import jsinterop.annotations.JsMethod;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Minimal GWT emulation of {@code com.google.common.collect.Platform}.
- *
- * <p><strong>This .java file should never be consumed by javac.</strong>
  *
  * @author Hayward Chan
  */
@@ -95,6 +95,19 @@ final class Platform {
   static MapMaker tryWeakKeys(MapMaker mapMaker) {
     return mapMaker;
   }
+
+  static <E extends Enum<E>> Class<E> getDeclaringClassOrObjectForJ2cl(E e) {
+    Class<E> classOrNull = getDeclaringClassOrNullForJ2cl(e);
+    @SuppressWarnings("unchecked")
+    Class<E> result = classOrNull == null ? (Class<E>) (Class<?>) Object.class : classOrNull;
+    return result;
+  }
+
+  @JsMethod
+  private static native <E extends Enum<E>> @Nullable Class<E> getDeclaringClassOrNullForJ2cl(
+      E e) /*-{
+    return e.@java.lang.Enum::getDeclaringClass()();
+  }-*/;
 
   static int reduceIterationsIfGwt(int iterations) {
     return iterations / 10;

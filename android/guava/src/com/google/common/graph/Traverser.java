@@ -396,7 +396,7 @@ public abstract class Traverser<N> {
              * requireNonNull(top.next())`) once our checker supports it.
              *
              * (The problem is likely
-             * https://github.com/jspecify/nullness-checker-for-checker-framework/blob/61aafa4ae52594830cfc2d61c8b113009dbdb045/src/main/java/com/google/jspecify/nullness/NullSpecAnnotatedTypeFactory.java#L896)
+             * https://github.com/jspecify/jspecify-reference-checker/blob/61aafa4ae52594830cfc2d61c8b113009dbdb045/src/main/java/com/google/jspecify/nullness/NullSpecAnnotatedTypeFactory.java#L896)
              */
             requireNonNull(element);
             if (visited.add(element)) {

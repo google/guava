@@ -18,7 +18,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.math.DoubleUtils.isFinite;
 import static java.lang.Double.NaN;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.concurrent.LazyInit;
@@ -35,7 +34,6 @@ import javax.annotation.CheckForNull;
  * @author Pete Gillin
  * @since 20.0
  */
-@Beta
 @J2ktIncompatible
 @GwtIncompatible
 @ElementTypesAreNonnullByDefault
