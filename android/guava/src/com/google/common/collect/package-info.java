@@ -18,7 +18,12 @@
  * Collection interfaces and implementations, and other utilities for collections. This package is a
  * part of the open-source <a href="https://github.com/google/guava">Guava</a> library.
  *
- * <h2>Collection Types</h2>
+ * <h2>Immutable collections</h2>
+ *
+ * Implementations of JDK and Guava collection types whose contents will never change, and which
+ * offer a few additional guarantees. For details, see {@link ImmutableCollection}.
+ *
+ * <h2>Collection types</h2>
  *
  * <dl>
  *   <dt>{@link Multimap}
@@ -57,37 +62,14 @@
  *       type.
  * </dl>
  *
- * <h2>Collection Implementations</h2>
- *
- * To find implementations of one of our own collection types, like {@link Multimap}, see that
- * interface's own documentation.
- *
- * <h3>of {@link java.util.List}</h3>
+ * <h2>Ranges</h2>
  *
  * <ul>
- *   <li>{@link ImmutableList}
- * </ul>
- *
- * <h3>of {@link java.util.Set}</h3>
- *
- * <ul>
- *   <li>{@link ImmutableSet}
- *   <li>{@link ImmutableSortedSet}
- *   <li>{@link ContiguousSet} (see {@code Range})
- * </ul>
- *
- * <h3>of {@link java.util.Map}</h3>
- *
- * <ul>
- *   <li>{@link ImmutableMap}
- *   <li>{@link ImmutableSortedMap}
- *   <li>Configure your own map with weak keys or values with {@link MapMaker}
- * </ul>
- *
- * <h3>of {@link java.util.Queue}</h3>
- *
- * <ul>
- *   <li>{@link EvictingQueue}
+ *   <li>{@link Range}
+ *   <li>{@link RangeMap}
+ *   <li>{@link RangeSet}
+ *   <li>{@link DiscreteDomain}
+ *   <li>{@link ContiguousSet}
  * </ul>
  *
  * <h2>Classes of static utility methods</h2>
@@ -109,40 +91,13 @@
  *   <li>{@link Streams}
  * </ul>
  *
- * <h2>Comparison</h2>
- *
- * <ul>
- *   <li>{@link Ordering}
- *   <li>{@link ComparisonChain}
- * </ul>
- *
  * <h2>Abstract implementations</h2>
  *
  * <ul>
  *   <li>{@link AbstractIterator}
  *   <li>{@link AbstractSequentialIterator}
- *   <li>{@link ImmutableCollection}
  *   <li>{@link UnmodifiableIterator}
  *   <li>{@link UnmodifiableListIterator}
- * </ul>
- *
- * <h2>Ranges</h2>
- *
- * <ul>
- *   <li>{@link Range}
- *   <li>{@link RangeMap}
- *   <li>{@link RangeSet}
- *   <li>{@link DiscreteDomain}
- *   <li>{@link ContiguousSet}
- * </ul>
- *
- * <h2>Other</h2>
- *
- * <ul>
- *   <li>{@link Interner}, {@link Interners}
- *   <li>{@link MapDifference}, {@link SortedMapDifference}
- *   <li>{@link MinMaxPriorityQueue}
- *   <li>{@link PeekingIterator}
  * </ul>
  *
  * <h2>Forwarding collections</h2>
@@ -150,6 +105,16 @@
  * We provide implementations of collection that forward all method calls to a delegate collection
  * by default. Subclasses can override one or more methods to implement the decorator pattern. For
  * an example, see {@link ForwardingCollection}.
+ *
+ * <h2>Other</h2>
+ *
+ * <ul>
+ *   <li>{@link EvictingQueue}
+ *   <li>{@link Interner}, {@link Interners}
+ *   <li>{@link MapMaker}
+ *   <li>{@link MinMaxPriorityQueue}
+ *   <li>{@link PeekingIterator}
+ * </ul>
  */
 @CheckReturnValue
 @ParametersAreNonnullByDefault
