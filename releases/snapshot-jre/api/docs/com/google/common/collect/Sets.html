@@ -1411,14 +1411,16 @@ public static&nbsp;&lt;E&gt;&nbsp;java.util.Set&lt;java.util.Set&lt;E&gt;&gt;&nb
 <ul class="blockList">
 <li class="blockList">
 <h4>unmodifiableNavigableSet</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.util.NavigableSet&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.1803">unmodifiableNavigableSet</a>&#8203;(java.util.NavigableSet&lt;E&gt;&nbsp;set)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.util.NavigableSet&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.1805">unmodifiableNavigableSet</a>&#8203;(java.util.NavigableSet&lt;E&gt;&nbsp;set)</pre>
 <div class="block">Returns an unmodifiable view of the specified navigable set. This method allows modules to
  provide users with "read-only" access to internal navigable sets. Query operations on the
  returned set "read through" to the specified set, and attempts to modify the returned set,
  whether direct or via its collection views, result in an <code>UnsupportedOperationException</code>.
 
  <p>The returned navigable set will be serializable if the specified navigable set is
- serializable.</div>
+ serializable.
+
+ <p><b>Java 8 users and later:</b> Prefer <code>Collections.unmodifiableNavigableSet(java.util.NavigableSet&lt;T&gt;)</code>.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>set</code> - the navigable set for which an unmodifiable view is to be returned</dd>
@@ -1436,7 +1438,7 @@ public static&nbsp;&lt;E&gt;&nbsp;java.util.Set&lt;java.util.Set&lt;E&gt;&gt;&nb
 <li class="blockList">
 <h4>synchronizedNavigableSet</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.util.NavigableSet&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.1969">synchronizedNavigableSet</a>&#8203;(java.util.NavigableSet&lt;E&gt;&nbsp;navigableSet)</pre>
+public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.util.NavigableSet&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.1973">synchronizedNavigableSet</a>&#8203;(java.util.NavigableSet&lt;E&gt;&nbsp;navigableSet)</pre>
 <div class="block">Returns a synchronized (thread-safe) navigable set backed by the specified navigable set. In
  order to guarantee serial access, it is critical that <b>all</b> access to the backing
  navigable set is accomplished through the returned navigable set (or its views).
@@ -1475,7 +1477,9 @@ public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/c
  <p>Failure to follow this advice may result in non-deterministic behavior.
 
  <p>The returned navigable set will be serializable if the specified navigable set is
- serializable.</div>
+ serializable.
+
+ <p><b>Java 8 users and later:</b> Prefer <code>Collections.synchronizedNavigableSet(java.util.NavigableSet&lt;T&gt;)</code>.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>navigableSet</code> - the navigable set to be "wrapped" in a synchronized navigable set.</dd>
@@ -1493,7 +1497,7 @@ public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/c
 <li class="blockList">
 <h4>subSet</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;&lt;K extends java.lang.Comparable&lt;? super K&gt;&gt;&nbsp;java.util.NavigableSet&lt;K&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.2162">subSet</a>&#8203;(java.util.NavigableSet&lt;K&gt;&nbsp;set,
+public static&nbsp;&lt;K extends java.lang.Comparable&lt;? super K&gt;&gt;&nbsp;java.util.NavigableSet&lt;K&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.2166">subSet</a>&#8203;(java.util.NavigableSet&lt;K&gt;&nbsp;set,
                                                                                            <a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;K&gt;&nbsp;range)</pre>
 <div class="block">Returns a view of the portion of <code>set</code> whose elements are contained by <code>range</code>.
 
