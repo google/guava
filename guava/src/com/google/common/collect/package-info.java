@@ -84,20 +84,29 @@
  *   <li>Configure your own map with weak keys or values with {@link MapMaker}
  * </ul>
  *
+ * <h3>of {@link java.util.Queue}</h3>
+ *
+ * <ul>
+ *   <li>{@link EvictingQueue}
+ * </ul>
+ *
  * <h2>Classes of static utility methods</h2>
  *
  * <ul>
+ *   <li>{@link Comparators}
  *   <li>{@link Collections2}
  *   <li>{@link Iterators}
  *   <li>{@link Iterables}
  *   <li>{@link Lists}
  *   <li>{@link Maps}
+ *   <li>{@link MoreCollectors}
  *   <li>{@link Queues}
  *   <li>{@link Sets}
  *   <li>{@link Multisets}
  *   <li>{@link Multimaps}
  *   <li>{@link Tables}
  *   <li>{@link ObjectArrays}
+ *   <li>{@link Streams}
  * </ul>
  *
  * <h2>Comparison</h2>
@@ -122,6 +131,7 @@
  * <ul>
  *   <li>{@link Range}
  *   <li>{@link RangeMap}
+ *   <li>{@link RangeSet}
  *   <li>{@link DiscreteDomain}
  *   <li>{@link ContiguousSet}
  * </ul>
