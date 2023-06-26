@@ -147,29 +147,9 @@
  *
  * <h2>Forwarding collections</h2>
  *
- * <ul>
- *   <li>{@link ForwardingCollection}
- *   <li>{@link ForwardingConcurrentMap}
- *   <li>{@link ForwardingIterator}
- *   <li>{@link ForwardingList}
- *   <li>{@link ForwardingListIterator}
- *   <li>{@link ForwardingListMultimap}
- *   <li>{@link ForwardingMap}
- *   <li>{@link ForwardingMapEntry}
- *   <li>{@link ForwardingMultimap}
- *   <li>{@link ForwardingMultiset}
- *   <li>{@link ForwardingNavigableMap}
- *   <li>{@link ForwardingNavigableSet}
- *   <li>{@link ForwardingObject}
- *   <li>{@link ForwardingQueue}
- *   <li>{@link ForwardingSet}
- *   <li>{@link ForwardingSetMultimap}
- *   <li>{@link ForwardingSortedMap}
- *   <li>{@link ForwardingSortedMultiset}
- *   <li>{@link ForwardingSortedSet}
- *   <li>{@link ForwardingSortedSetMultimap}
- *   <li>{@link ForwardingTable}
- * </ul>
+ * We provide implementations of collection that forward all method calls to a delegate collection
+ * by default. Subclasses can override one or more methods to implement the decorator pattern. For
+ * an example, see {@link ForwardingCollection}.
  */
 @CheckReturnValue
 @ParametersAreNonnullByDefault
