@@ -244,19 +244,29 @@ public final class Longs {
    *
    * @param arrays zero or more {@code long} arrays
    * @return a single array containing all the values from the source arrays, in order
+   * @throws IllegalArgumentException if the total number of elements in {@code arrays} does not fit
+   *     in an {@code int}
    */
   public static long[] concat(long[]... arrays) {
-    int length = 0;
+    long length = 0;
     for (long[] array : arrays) {
       length += array.length;
     }
-    long[] result = new long[length];
+    long[] result = new long[checkNoOverflow(length)];
     int pos = 0;
     for (long[] array : arrays) {
       System.arraycopy(array, 0, result, pos, array.length);
       pos += array.length;
     }
     return result;
+  }
+
+  private static int checkNoOverflow(long result) {
+    checkArgument(
+        result == (int) result,
+        "the total number of elements (%s) in the arrays must fit in an int",
+        result);
+    return (int) result;
   }
 
   /**
