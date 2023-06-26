@@ -137,7 +137,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <hr>
 <pre><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/DoNotMock.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@DoNotMock</a>("Use the methods in Futures (like immediateFuture) or SettableFuture")
-public interface <a href="../../../../../src-html/com/google/common/util/concurrent/ListenableFuture.html#line.118">ListenableFuture</a>&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;
+public interface <a href="../../../../../src-html/com/google/common/util/concurrent/ListenableFuture.html#line.119">ListenableFuture</a>&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;
 extends java.util.concurrent.Future&lt;V&gt;</pre>
 <div class="block">A <code>Future</code> that accepts completion listeners. Each listener has an associated executor, and
  it is invoked using this executor once the future's computation is complete. If the computation has already completed when the listener is added, the listener will
@@ -151,9 +151,10 @@ extends java.util.concurrent.Future&lt;V&gt;</pre>
  <h3>Purpose</h3>
 
  <p>The main purpose of <code>ListenableFuture</code> is to help you chain together a graph of
- asynchronous operations. You can chain them together manually with calls to methods like <a href="Futures.html#transform(com.google.common.util.concurrent.ListenableFuture,com.google.common.base.Function,java.util.concurrent.Executor)"><code>Futures.transform</code></a>, but you will often find it easier to use a framework. Frameworks automate the
- process, often adding features like monitoring, debugging, and cancellation. Examples of
- frameworks include:
+ asynchronous operations. You can chain them together manually with calls to methods like <a href="Futures.html#transform(com.google.common.util.concurrent.ListenableFuture,com.google.common.base.Function,java.util.concurrent.Executor)"><code>Futures.transform</code></a>
+ (or <a href="FluentFuture.html#transform(com.google.common.base.Function,java.util.concurrent.Executor)"><code>FluentFuture.transform</code></a>), but you will often find it easier to use a framework. Frameworks
+ automate the process, often adding features like monitoring, debugging, and cancellation.
+ Examples of frameworks include:
 
  <ul>
    <li><a href="https://dagger.dev/producers.html">Dagger Producers</a>
@@ -269,7 +270,7 @@ extends java.util.concurrent.Future&lt;V&gt;</pre>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>addListener</h4>
-<pre class="methodSignature">void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListenableFuture.html#line.155">addListener</a>&#8203;(java.lang.Runnable&nbsp;listener,
+<pre class="methodSignature">void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListenableFuture.html#line.156">addListener</a>&#8203;(java.lang.Runnable&nbsp;listener,
                  java.util.concurrent.Executor&nbsp;executor)</pre>
 <div class="block">Registers a listener to be run on the given executor.
  The listener will run when the <code>Future</code>'s computation is complete or, if the computation is already complete, immediately.

@@ -106,7 +106,12 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Collection interfaces and implementations, and other utilities for collections. This package is a
  part of the open-source <a href="https://github.com/google/guava">Guava</a> library.
 
- <h2>Collection Types</h2>
+ <h2>Immutable collections</h2>
+
+ Implementations of JDK and Guava collection types whose contents will never change, and which
+ offer a few additional guarantees. For details, see <a href="ImmutableCollection.html" title="class in com.google.common.collect"><code>ImmutableCollection</code></a>.
+
+ <h2>Collection types</h2>
 
  <dl>
    <dt><a href="Multimap.html" title="interface in com.google.common.collect"><code>Multimap</code></a>
@@ -144,37 +149,14 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
        type.
  </dl>
 
- <h2>Collection Implementations</h2>
-
- To find implementations of one of our own collection types, like <a href="Multimap.html" title="interface in com.google.common.collect"><code>Multimap</code></a>, see that
- interface's own documentation.
-
- <h3>of <code>List</code></h3>
+ <h2>Ranges</h2>
 
  <ul>
-   <li><a href="ImmutableList.html" title="class in com.google.common.collect"><code>ImmutableList</code></a>
- </ul>
-
- <h3>of <code>Set</code></h3>
-
- <ul>
-   <li><a href="ImmutableSet.html" title="class in com.google.common.collect"><code>ImmutableSet</code></a>
-   <li><a href="ImmutableSortedSet.html" title="class in com.google.common.collect"><code>ImmutableSortedSet</code></a>
-   <li><a href="ContiguousSet.html" title="class in com.google.common.collect"><code>ContiguousSet</code></a> (see <code>Range</code>)
- </ul>
-
- <h3>of <code>Map</code></h3>
-
- <ul>
-   <li><a href="ImmutableMap.html" title="class in com.google.common.collect"><code>ImmutableMap</code></a>
-   <li><a href="ImmutableSortedMap.html" title="class in com.google.common.collect"><code>ImmutableSortedMap</code></a>
-   <li>Configure your own map with weak keys or values with <a href="MapMaker.html" title="class in com.google.common.collect"><code>MapMaker</code></a>
- </ul>
-
- <h3>of <code>Queue</code></h3>
-
- <ul>
-   <li><a href="EvictingQueue.html" title="class in com.google.common.collect"><code>EvictingQueue</code></a>
+   <li><a href="Range.html" title="class in com.google.common.collect"><code>Range</code></a>
+   <li><a href="RangeMap.html" title="interface in com.google.common.collect"><code>RangeMap</code></a>
+   <li><a href="RangeSet.html" title="interface in com.google.common.collect"><code>RangeSet</code></a>
+   <li><a href="DiscreteDomain.html" title="class in com.google.common.collect"><code>DiscreteDomain</code></a>
+   <li><a href="ContiguousSet.html" title="class in com.google.common.collect"><code>ContiguousSet</code></a>
  </ul>
 
  <h2>Classes of static utility methods</h2>
@@ -196,47 +178,30 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
    <li><a href="Streams.html" title="class in com.google.common.collect"><code>Streams</code></a>
  </ul>
 
- <h2>Comparison</h2>
-
- <ul>
-   <li><a href="Ordering.html" title="class in com.google.common.collect"><code>Ordering</code></a>
-   <li><a href="ComparisonChain.html" title="class in com.google.common.collect"><code>ComparisonChain</code></a>
- </ul>
-
  <h2>Abstract implementations</h2>
 
  <ul>
    <li><a href="AbstractIterator.html" title="class in com.google.common.collect"><code>AbstractIterator</code></a>
    <li><a href="AbstractSequentialIterator.html" title="class in com.google.common.collect"><code>AbstractSequentialIterator</code></a>
-   <li><a href="ImmutableCollection.html" title="class in com.google.common.collect"><code>ImmutableCollection</code></a>
    <li><a href="UnmodifiableIterator.html" title="class in com.google.common.collect"><code>UnmodifiableIterator</code></a>
    <li><a href="UnmodifiableListIterator.html" title="class in com.google.common.collect"><code>UnmodifiableListIterator</code></a>
- </ul>
-
- <h2>Ranges</h2>
-
- <ul>
-   <li><a href="Range.html" title="class in com.google.common.collect"><code>Range</code></a>
-   <li><a href="RangeMap.html" title="interface in com.google.common.collect"><code>RangeMap</code></a>
-   <li><a href="RangeSet.html" title="interface in com.google.common.collect"><code>RangeSet</code></a>
-   <li><a href="DiscreteDomain.html" title="class in com.google.common.collect"><code>DiscreteDomain</code></a>
-   <li><a href="ContiguousSet.html" title="class in com.google.common.collect"><code>ContiguousSet</code></a>
- </ul>
-
- <h2>Other</h2>
-
- <ul>
-   <li><a href="Interner.html" title="interface in com.google.common.collect"><code>Interner</code></a>, <a href="Interners.html" title="class in com.google.common.collect"><code>Interners</code></a>
-   <li><a href="MapDifference.html" title="interface in com.google.common.collect"><code>MapDifference</code></a>, <a href="SortedMapDifference.html" title="interface in com.google.common.collect"><code>SortedMapDifference</code></a>
-   <li><a href="MinMaxPriorityQueue.html" title="class in com.google.common.collect"><code>MinMaxPriorityQueue</code></a>
-   <li><a href="PeekingIterator.html" title="interface in com.google.common.collect"><code>PeekingIterator</code></a>
  </ul>
 
  <h2>Forwarding collections</h2>
 
  We provide implementations of collection that forward all method calls to a delegate collection
  by default. Subclasses can override one or more methods to implement the decorator pattern. For
- an example, see <a href="ForwardingCollection.html" title="class in com.google.common.collect"><code>ForwardingCollection</code></a>.</div>
+ an example, see <a href="ForwardingCollection.html" title="class in com.google.common.collect"><code>ForwardingCollection</code></a>.
+
+ <h2>Other</h2>
+
+ <ul>
+   <li><a href="EvictingQueue.html" title="class in com.google.common.collect"><code>EvictingQueue</code></a>
+   <li><a href="Interner.html" title="interface in com.google.common.collect"><code>Interner</code></a>, <a href="Interners.html" title="class in com.google.common.collect"><code>Interners</code></a>
+   <li><a href="MapMaker.html" title="class in com.google.common.collect"><code>MapMaker</code></a>
+   <li><a href="MinMaxPriorityQueue.html" title="class in com.google.common.collect"><code>MinMaxPriorityQueue</code></a>
+   <li><a href="PeekingIterator.html" title="interface in com.google.common.collect"><code>PeekingIterator</code></a>
+ </ul></div>
 </section>
 <ul class="blockList">
 <li class="blockList">

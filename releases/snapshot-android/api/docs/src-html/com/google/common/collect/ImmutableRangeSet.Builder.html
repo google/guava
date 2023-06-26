@@ -551,7 +551,7 @@
 <span class="sourceLineNo">542</span><a id="line.542">      this.domain = domain;</a>
 <span class="sourceLineNo">543</span><a id="line.543">    }</a>
 <span class="sourceLineNo">544</span><a id="line.544"></a>
-<span class="sourceLineNo">545</span><a id="line.545">    @CheckForNull private transient Integer size;</a>
+<span class="sourceLineNo">545</span><a id="line.545">    @LazyInit @CheckForNull private transient Integer size;</a>
 <span class="sourceLineNo">546</span><a id="line.546"></a>
 <span class="sourceLineNo">547</span><a id="line.547">    @Override</a>
 <span class="sourceLineNo">548</span><a id="line.548">    public int size() {</a>

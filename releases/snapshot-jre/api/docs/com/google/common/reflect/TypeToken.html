@@ -136,7 +136,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><code>java.io.Serializable</code></dd>
 </dl>
 <hr>
-<pre>public abstract class <a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.99">TypeToken</a>&lt;T&gt;
+<pre>public abstract class <a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.100">TypeToken</a>&lt;T&gt;
 extends java.lang.Object
 implements java.io.Serializable</pre>
 <div class="block">A <code>Type</code> with generics.
@@ -475,7 +475,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>TypeToken</h4>
-<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.123">TypeToken</a>()</pre>
+<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.124">TypeToken</a>()</pre>
 <div class="block">Constructs a new type token of <code>T</code>.
 
  <p>Clients create an empty anonymous subclass. Doing so embeds the type parameter in the
@@ -494,7 +494,7 @@ implements java.io.Serializable</pre>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>TypeToken</h4>
-<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.154">TypeToken</a>&#8203;(java.lang.Class&lt;?&gt;&nbsp;declaringClass)</pre>
+<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.155">TypeToken</a>&#8203;(java.lang.Class&lt;?&gt;&nbsp;declaringClass)</pre>
 <div class="block">Constructs a new type token of <code>T</code> while resolving free type variables in the context of
  <code>declaringClass</code>.
 
@@ -530,7 +530,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T&gt;&nbsp;<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.168">of</a>&#8203;(java.lang.Class&lt;T&gt;&nbsp;type)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;T&gt;&nbsp;<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.169">of</a>&#8203;(java.lang.Class&lt;T&gt;&nbsp;type)</pre>
 <div class="block">Returns an instance of type token that wraps <code>type</code>.</div>
 </li>
 </ul>
@@ -540,7 +540,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre class="methodSignature">public static&nbsp;<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;?&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.173">of</a>&#8203;(java.lang.reflect.Type&nbsp;type)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;?&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.174">of</a>&#8203;(java.lang.reflect.Type&nbsp;type)</pre>
 <div class="block">Returns an instance of type token that wraps <code>type</code>.</div>
 </li>
 </ul>
@@ -550,7 +550,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>getRawType</h4>
-<pre class="methodSignature">public final&nbsp;java.lang.Class&lt;? super <a href="TypeToken.html" title="type parameter in TypeToken">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.192">getRawType</a>()</pre>
+<pre class="methodSignature">public final&nbsp;java.lang.Class&lt;? super <a href="TypeToken.html" title="type parameter in TypeToken">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.193">getRawType</a>()</pre>
 <div class="block">Returns the raw type of <code>T</code>. Formally speaking, if <code>T</code> is returned by <code>Method.getGenericReturnType()</code>, the raw type is what's returned by <code>Method.getReturnType()</code> of the same method object. Specifically:
 
  <ul>
@@ -570,7 +570,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>getType</h4>
-<pre class="methodSignature">public final&nbsp;java.lang.reflect.Type&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.201">getType</a>()</pre>
+<pre class="methodSignature">public final&nbsp;java.lang.reflect.Type&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.202">getType</a>()</pre>
 <div class="block">Returns the represented type.</div>
 </li>
 </ul>
@@ -580,7 +580,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>where</h4>
-<pre class="methodSignature">public final&nbsp;&lt;X&gt;&nbsp;<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;<a href="TypeToken.html" title="type parameter in TypeToken">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.234">where</a>&#8203;(<a href="TypeParameter.html" title="class in com.google.common.reflect">TypeParameter</a>&lt;X&gt;&nbsp;typeParam,
+<pre class="methodSignature">public final&nbsp;&lt;X&gt;&nbsp;<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;<a href="TypeToken.html" title="type parameter in TypeToken">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.235">where</a>&#8203;(<a href="TypeParameter.html" title="class in com.google.common.reflect">TypeParameter</a>&lt;X&gt;&nbsp;typeParam,
                                     <a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;X&gt;&nbsp;typeArg)</pre>
 <div class="block">Returns a new <code>TypeToken</code> where type variables represented by <code>typeParam</code> are
  substituted by <code>typeArg</code>. For example, it can be used to construct <code>Map&lt;K, V&gt;</code> for
@@ -609,7 +609,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>where</h4>
-<pre class="methodSignature">public final&nbsp;&lt;X&gt;&nbsp;<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;<a href="TypeToken.html" title="type parameter in TypeToken">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.266">where</a>&#8203;(<a href="TypeParameter.html" title="class in com.google.common.reflect">TypeParameter</a>&lt;X&gt;&nbsp;typeParam,
+<pre class="methodSignature">public final&nbsp;&lt;X&gt;&nbsp;<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;<a href="TypeToken.html" title="type parameter in TypeToken">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.267">where</a>&#8203;(<a href="TypeParameter.html" title="class in com.google.common.reflect">TypeParameter</a>&lt;X&gt;&nbsp;typeParam,
                                     java.lang.Class&lt;X&gt;&nbsp;typeArg)</pre>
 <div class="block">Returns a new <code>TypeToken</code> where type variables represented by <code>typeParam</code> are
  substituted by <code>typeArg</code>. For example, it can be used to construct <code>Map&lt;K, V&gt;</code> for
@@ -638,7 +638,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>resolveType</h4>
-<pre class="methodSignature">public final&nbsp;<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;?&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.279">resolveType</a>&#8203;(java.lang.reflect.Type&nbsp;type)</pre>
+<pre class="methodSignature">public final&nbsp;<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;?&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.280">resolveType</a>&#8203;(java.lang.reflect.Type&nbsp;type)</pre>
 <div class="block">Resolves the given <code>type</code> against the type context represented by this type. For example:
 
  <pre><code>
@@ -654,7 +654,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>getTypes</h4>
-<pre class="methodSignature">public final&nbsp;<a href="TypeToken.TypeSet.html" title="class in com.google.common.reflect">TypeToken.TypeSet</a>&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.388">getTypes</a>()</pre>
+<pre class="methodSignature">public final&nbsp;<a href="TypeToken.TypeSet.html" title="class in com.google.common.reflect">TypeToken.TypeSet</a>&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.389">getTypes</a>()</pre>
 <div class="block">Returns the set of interfaces and classes that this type is or is a subtype of. The returned
  types are parameterized with proper type arguments.
 
@@ -672,7 +672,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>getSupertype</h4>
-<pre class="methodSignature">public final&nbsp;<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;? super <a href="TypeToken.html" title="type parameter in TypeToken">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.397">getSupertype</a>&#8203;(java.lang.Class&lt;? super <a href="TypeToken.html" title="type parameter in TypeToken">T</a>&gt;&nbsp;superclass)</pre>
+<pre class="methodSignature">public final&nbsp;<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;? super <a href="TypeToken.html" title="type parameter in TypeToken">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.398">getSupertype</a>&#8203;(java.lang.Class&lt;? super <a href="TypeToken.html" title="type parameter in TypeToken">T</a>&gt;&nbsp;superclass)</pre>
 <div class="block">Returns the generic form of <code>superclass</code>. For example, if this is <code>
  ArrayList&lt;String&gt;</code>, <code>Iterable&lt;String&gt;</code> is returned given the input <code>
  Iterable.class</code>.</div>
@@ -684,7 +684,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>getSubtype</h4>
-<pre class="methodSignature">public final&nbsp;<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;? extends <a href="TypeToken.html" title="type parameter in TypeToken">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.423">getSubtype</a>&#8203;(java.lang.Class&lt;?&gt;&nbsp;subclass)</pre>
+<pre class="methodSignature">public final&nbsp;<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;? extends <a href="TypeToken.html" title="type parameter in TypeToken">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.424">getSubtype</a>&#8203;(java.lang.Class&lt;?&gt;&nbsp;subclass)</pre>
 <div class="block">Returns subtype of <code>this</code> with <code>subclass</code> as the raw class. For example, if this is
  <code>Iterable&lt;String&gt;</code> and <code>subclass</code> is <code>List</code>, <code>List&lt;String&gt;</code> is
  returned.</div>
@@ -696,7 +696,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>isSupertypeOf</h4>
-<pre class="methodSignature">public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.452">isSupertypeOf</a>&#8203;(<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;?&gt;&nbsp;type)</pre>
+<pre class="methodSignature">public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.453">isSupertypeOf</a>&#8203;(<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;?&gt;&nbsp;type)</pre>
 <div class="block">Returns true if this type is a supertype of the given <code>type</code>. "Supertype" is defined
  according to <a href="http://docs.oracle.com/javase/specs/jls/se8/html/jls-4.html#jls-4.5.1">the rules for type
  arguments</a> introduced with Java generics.</div>
@@ -712,7 +712,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>isSupertypeOf</h4>
-<pre class="methodSignature">public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.464">isSupertypeOf</a>&#8203;(java.lang.reflect.Type&nbsp;type)</pre>
+<pre class="methodSignature">public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.465">isSupertypeOf</a>&#8203;(java.lang.reflect.Type&nbsp;type)</pre>
 <div class="block">Returns true if this type is a supertype of the given <code>type</code>. "Supertype" is defined
  according to <a href="http://docs.oracle.com/javase/specs/jls/se8/html/jls-4.html#jls-4.5.1">the rules for type
  arguments</a> introduced with Java generics.</div>
@@ -728,7 +728,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>isSubtypeOf</h4>
-<pre class="methodSignature">public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.476">isSubtypeOf</a>&#8203;(<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;?&gt;&nbsp;type)</pre>
+<pre class="methodSignature">public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.477">isSubtypeOf</a>&#8203;(<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;?&gt;&nbsp;type)</pre>
 <div class="block">Returns true if this type is a subtype of the given <code>type</code>. "Subtype" is defined
  according to <a href="http://docs.oracle.com/javase/specs/jls/se8/html/jls-4.html#jls-4.5.1">the rules for type
  arguments</a> introduced with Java generics.</div>
@@ -744,7 +744,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>isSubtypeOf</h4>
-<pre class="methodSignature">public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.488">isSubtypeOf</a>&#8203;(java.lang.reflect.Type&nbsp;supertype)</pre>
+<pre class="methodSignature">public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.489">isSubtypeOf</a>&#8203;(java.lang.reflect.Type&nbsp;supertype)</pre>
 <div class="block">Returns true if this type is a subtype of the given <code>type</code>. "Subtype" is defined
  according to <a href="http://docs.oracle.com/javase/specs/jls/se8/html/jls-4.html#jls-4.5.1">the rules for type
  arguments</a> introduced with Java generics.</div>
@@ -760,7 +760,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>isArray</h4>
-<pre class="methodSignature">public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.527">isArray</a>()</pre>
+<pre class="methodSignature">public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.528">isArray</a>()</pre>
 <div class="block">Returns true if this type is known to be an array type, such as <code>int[]</code>, <code>T[]</code>,
  <code>&lt;? extends Map&lt;String, Integer&gt;[]&gt;</code> etc.</div>
 </li>
@@ -771,7 +771,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>isPrimitive</h4>
-<pre class="methodSignature">public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.536">isPrimitive</a>()</pre>
+<pre class="methodSignature">public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.537">isPrimitive</a>()</pre>
 <div class="block">Returns true if this type is one of the nine primitive types (including <code>void</code>).</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -785,7 +785,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>wrap</h4>
-<pre class="methodSignature">public final&nbsp;<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;<a href="TypeToken.html" title="type parameter in TypeToken">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.546">wrap</a>()</pre>
+<pre class="methodSignature">public final&nbsp;<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;<a href="TypeToken.html" title="type parameter in TypeToken">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.547">wrap</a>()</pre>
 <div class="block">Returns the corresponding wrapper type if this is a primitive type; otherwise returns <code>
  this</code> itself. Idempotent.</div>
 <dl>
@@ -800,7 +800,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>unwrap</h4>
-<pre class="methodSignature">public final&nbsp;<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;<a href="TypeToken.html" title="type parameter in TypeToken">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.565">unwrap</a>()</pre>
+<pre class="methodSignature">public final&nbsp;<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;<a href="TypeToken.html" title="type parameter in TypeToken">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.566">unwrap</a>()</pre>
 <div class="block">Returns the corresponding primitive type if this is a wrapper type; otherwise returns <code>
  this</code> itself. Idempotent.</div>
 <dl>
@@ -816,7 +816,7 @@ implements java.io.Serializable</pre>
 <li class="blockList">
 <h4>getComponentType</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public final&nbsp;<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;?&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.578">getComponentType</a>()</pre>
+public final&nbsp;<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;?&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.579">getComponentType</a>()</pre>
 <div class="block">Returns the array component type if this type represents an array (<code>int[]</code>, <code>T[]</code>,
  <code>&lt;? extends Map&lt;String, Integer&gt;[]&gt;</code> etc.), or else <code>null</code> is returned.</div>
 </li>
@@ -827,7 +827,7 @@ public final&nbsp;<a href="TypeToken.html" title="class in com.google.common.ref
 <ul class="blockList">
 <li class="blockList">
 <h4>method</h4>
-<pre class="methodSignature">public final&nbsp;<a href="Invokable.html" title="class in com.google.common.reflect">Invokable</a>&lt;<a href="TypeToken.html" title="type parameter in TypeToken">T</a>,&#8203;java.lang.Object&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.592">method</a>&#8203;(java.lang.reflect.Method&nbsp;method)</pre>
+<pre class="methodSignature">public final&nbsp;<a href="Invokable.html" title="class in com.google.common.reflect">Invokable</a>&lt;<a href="TypeToken.html" title="type parameter in TypeToken">T</a>,&#8203;java.lang.Object&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.593">method</a>&#8203;(java.lang.reflect.Method&nbsp;method)</pre>
 <div class="block">Returns the <a href="Invokable.html" title="class in com.google.common.reflect"><code>Invokable</code></a> for <code>method</code>, which must be a member of <code>T</code>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -841,7 +841,7 @@ public final&nbsp;<a href="TypeToken.html" title="class in com.google.common.ref
 <ul class="blockList">
 <li class="blockList">
 <h4>constructor</h4>
-<pre class="methodSignature">public final&nbsp;<a href="Invokable.html" title="class in com.google.common.reflect">Invokable</a>&lt;<a href="TypeToken.html" title="type parameter in TypeToken">T</a>,&#8203;<a href="TypeToken.html" title="type parameter in TypeToken">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.631">constructor</a>&#8203;(java.lang.reflect.Constructor&lt;?&gt;&nbsp;constructor)</pre>
+<pre class="methodSignature">public final&nbsp;<a href="Invokable.html" title="class in com.google.common.reflect">Invokable</a>&lt;<a href="TypeToken.html" title="type parameter in TypeToken">T</a>,&#8203;<a href="TypeToken.html" title="type parameter in TypeToken">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.632">constructor</a>&#8203;(java.lang.reflect.Constructor&lt;?&gt;&nbsp;constructor)</pre>
 <div class="block">Returns the <a href="Invokable.html" title="class in com.google.common.reflect"><code>Invokable</code></a> for <code>constructor</code>, which must be a member of <code>T</code>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -855,7 +855,7 @@ public final&nbsp;<a href="TypeToken.html" title="class in com.google.common.ref
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.828">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.829">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                       java.lang.Object&nbsp;o)</pre>
 <div class="block">Returns true if <code>o</code> is another <code>TypeToken</code> that represents the same <code>Type</code>.</div>
 <dl>
@@ -870,7 +870,7 @@ public final&nbsp;<a href="TypeToken.html" title="class in com.google.common.ref
 <ul class="blockList">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.837">hashCode</a>()</pre>
+<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.838">hashCode</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code>hashCode</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
@@ -883,7 +883,7 @@ public final&nbsp;<a href="TypeToken.html" title="class in com.google.common.ref
 <ul class="blockList">
 <li class="blockList">
 <h4>toString</h4>
-<pre class="methodSignature">public&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.842">toString</a>()</pre>
+<pre class="methodSignature">public&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.843">toString</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code>toString</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
@@ -896,7 +896,7 @@ public final&nbsp;<a href="TypeToken.html" title="class in com.google.common.ref
 <ul class="blockListLast">
 <li class="blockList">
 <h4>writeReplace</h4>
-<pre class="methodSignature">protected&nbsp;java.lang.Object&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.848">writeReplace</a>()</pre>
+<pre class="methodSignature">protected&nbsp;java.lang.Object&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.849">writeReplace</a>()</pre>
 <div class="block">Implemented to support serialization of subclasses.</div>
 </li>
 </ul>
