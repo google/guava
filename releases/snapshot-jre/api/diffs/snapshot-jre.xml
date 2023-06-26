@@ -59662,7 +59662,9 @@
  concat(new long[] {a, b}, new long[] {}, new long[] {c}} returns the array {@code {a, b, c}}.
 
  @param arrays zero or more {@code long} arrays
- @return a single array containing all the values from the source arrays, in order]]>
+ @return a single array containing all the values from the source arrays, in order
+ @throws IllegalArgumentException if the total number of elements in {@code arrays} does not fit
+     in an {@code int}]]>
       </doc>
     </method>
     <method name="toByteArray" return="byte[]"
