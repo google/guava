@@ -21,6 +21,7 @@ import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Function;
 import com.google.common.collect.Maps;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.Iterator;
@@ -328,7 +329,7 @@ public final class AtomicLongMap<K> implements Serializable {
     return sum;
   }
 
-  @CheckForNull private transient Map<K, Long> asMap;
+  @LazyInit @CheckForNull private transient Map<K, Long> asMap;
 
   /** Returns a live, read-only view of the map backing this {@code AtomicLongMap}. */
   public Map<K, Long> asMap() {

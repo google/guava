@@ -34,6 +34,7 @@ import com.google.common.collect.Maps.IteratorBasedAbstractMap;
 import com.google.common.collect.Maps.ViewCachingAbstractMap;
 import com.google.common.collect.Sets.ImprovedAbstractSet;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.WeakOuter;
 import java.io.Serializable;
 import java.util.Collection;
@@ -674,7 +675,7 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
     return rowMap().keySet();
   }
 
-  @CheckForNull private transient Set<C> columnKeySet;
+  @LazyInit @CheckForNull private transient Set<C> columnKeySet;
 
   /**
    * {@inheritDoc}
@@ -805,7 +806,7 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
     return super.values();
   }
 
-  @CheckForNull private transient Map<R, Map<C, V>> rowMap;
+  @LazyInit @CheckForNull private transient Map<R, Map<C, V>> rowMap;
 
   @Override
   public Map<R, Map<C, V>> rowMap() {
@@ -887,7 +888,7 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
     }
   }
 
-  @CheckForNull private transient ColumnMap columnMap;
+  @LazyInit @CheckForNull private transient ColumnMap columnMap;
 
   @Override
   public Map<C, Map<R, V>> columnMap() {
