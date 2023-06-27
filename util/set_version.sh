@@ -13,10 +13,12 @@ if [[ $version == *"SNAPSHOT"* ]]; then
   status="integration"
 fi
 
-mvn versions:set versions:commit -DnewVersion="${version}-jre"
-mvn versions:set versions:commit -DnewVersion="${version}-android" -f android
+mvn versions:set -DnewVersion="${version}-jre"
+mvn versions:set -DnewVersion="${version}-android" -f android
 mvn versions:set-property -Dproperty=otherVariant.version -DnewVersion="${version}-android"
 mvn versions:set-property -Dproperty=otherVariant.version -DnewVersion="${version}-jre" -f android
 mvn versions:set-property -Dproperty=module.status -DnewVersion="${status}"
 mvn versions:set-property -Dproperty=module.status -DnewVersion="${status}" -f android
+mvn versions:commit
+mvn versions:commit -f android
 git commit -am "Set version numbers to ${version}"
