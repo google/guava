@@ -53,7 +53,7 @@ subprojects {
   var expectedClasspath =
     if (runningGradle5) {
       // without Gradle Module Metadata (only the POM is used)
-      // - variant decision is made based on version suffix (android/jre) and not on actual Java version
+      // - variant decision is made based on version suffix (android/jre) and not on the actual environment
       // - runtime classpath equals the compile classpath
       // - dependency conflict with Google Collections is not detected and '9999.0' hack is present
       if (name.startsWith("android")) {
@@ -63,10 +63,9 @@ subprojects {
       }
     } else {
       // with Gradle Module Metadata
-      // - variant is chosen based on Java version used independent of version suffix
-      //   (for Android projects, the 'android' variant is always chosen)
+      // - variant is chosen based on the actual environment, independent of version suffix
       // - reduced runtime classpath is used (w/o annotation libraries)
-      // - capability conflicts are detected between Google Collections and Listenablefuture
+      // - capability conflicts are detected between Google Collections and listenablefuture
       if (name.contains("Android") && !name.contains("JreConstraint") ) {
         when {
             name.contains("RuntimeClasspath") -> {
