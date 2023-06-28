@@ -19,6 +19,4 @@ mvn versions:set-property -Dproperty=otherVariant.version -DnewVersion="${versio
 mvn versions:set-property -Dproperty=otherVariant.version -DnewVersion="${version}-jre" -f android
 mvn versions:set-property -Dproperty=module.status -DnewVersion="${status}"
 mvn versions:set-property -Dproperty=module.status -DnewVersion="${status}" -f android
-mvn versions:set-property -Dproperty=module.parentVersion -DnewVersion="${version}-jre"
-mvn versions:set-property -Dproperty=module.parentVersion -DnewVersion="${version}-jre" -f android
 git commit -am "Set version numbers to ${version}"

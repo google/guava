@@ -29,7 +29,7 @@
           "group": "com.google.guava",
           "module": "guava-parent",
           "version": {
-            "requires": "${module.parentVersion}"
+            "requires": "${pom.version}"
           },
           "attributes": {
             "org.gradle.category": "platform"
@@ -48,7 +48,7 @@
         },
         {
           "group": "org.checkerframework",
-          "module": ${variant.checkerframework}
+          "module": "${variant.checkerframework}"
         },
         {
           "group": "com.google.errorprone",
@@ -97,7 +97,7 @@
           "group": "com.google.guava",
           "module": "guava-parent",
           "version": {
-            "requires": "${module.parentVersion}"
+            "requires": "${pom.version}"
           },
           "attributes": {
             "org.gradle.category": "platform"
@@ -149,7 +149,7 @@
           "group": "com.google.guava",
           "module": "guava-parent",
           "version": {
-            "requires": "${module.parentVersion}"
+            "requires": "${otherVariant.version}"
           },
           "attributes": {
             "org.gradle.category": "platform"
@@ -168,7 +168,7 @@
         },
         {
           "group": "org.checkerframework",
-          "module": ${otherVariant.checkerframework}
+          "module": "${otherVariant.checkerframework}"
         },
         {
           "group": "com.google.errorprone",
@@ -217,7 +217,7 @@
           "group": "com.google.guava",
           "module": "guava-parent",
           "version": {
-            "requires": "${module.parentVersion}"
+            "requires": "${otherVariant.version}"
           },
           "attributes": {
             "org.gradle.category": "platform"

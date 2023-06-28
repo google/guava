@@ -24,12 +24,11 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <test.add.opens></test.add.opens>
     <module.status>integration</module.status>
-    <module.parentVersion>HEAD-jre-SNAPSHOT</module.parentVersion>
     <variant.jvmVersion>6</variant.jvmVersion>
-    <variant.checkerframework>"checker-compat-qual", "version": { "requires": "2.5.5" }</variant.checkerframework>
+    <variant.checkerframework>checker-compat-qual</variant.checkerframework>
     <otherVariant.version>HEAD-jre-SNAPSHOT</otherVariant.version>
     <otherVariant.jvmVersion>8</otherVariant.jvmVersion>
-    <otherVariant.checkerframework>"checker-qual"</otherVariant.checkerframework>
+    <otherVariant.checkerframework>checker-qual</otherVariant.checkerframework>
   </properties>
   <issueManagement>
     <system>GitHub Issues</system>
