@@ -18,10 +18,10 @@
     {
       "name": "jdk${variant.jvmVersion}ApiElements",
       "attributes": {
-        ${variant.additionalAttribute}
         "org.gradle.category": "library",
         "org.gradle.dependency.bundling": "external",
         "org.gradle.jvm.version": "${variant.jvmVersion}",
+        "org.gradle.jvm.environment": "${variant.jvmEnvironment}",
         "org.gradle.libraryelements": "jar",
         "org.gradle.usage": "java-api"
       },
@@ -87,10 +87,10 @@
     {
       "name": "jdk${variant.jvmVersion}RuntimeElements",
       "attributes": {
-        ${variant.additionalAttribute}
         "org.gradle.category": "library",
         "org.gradle.dependency.bundling": "external",
         "org.gradle.jvm.version": "${variant.jvmVersion}",
+        "org.gradle.jvm.environment": "${variant.jvmEnvironment}",
         "org.gradle.libraryelements": "jar",
         "org.gradle.usage": "java-runtime"
       },
@@ -152,10 +152,10 @@
     {
       "name": "jdk${otherVariant.jvmVersion}ApiElements",
       "attributes": {
-        ${otherVariant.additionalAttribute}
         "org.gradle.category": "library",
         "org.gradle.dependency.bundling": "external",
         "org.gradle.jvm.version": "${otherVariant.jvmVersion}",
+        "org.gradle.jvm.environment": "${otherVariant.jvmEnvironment}",
         "org.gradle.libraryelements": "jar",
         "org.gradle.usage": "java-api"
       },
@@ -221,10 +221,10 @@
     {
       "name": "jdk${otherVariant.jvmVersion}RuntimeElements",
       "attributes": {
-        ${otherVariant.additionalAttribute}
         "org.gradle.category": "library",
         "org.gradle.dependency.bundling": "external",
         "org.gradle.jvm.version": "${otherVariant.jvmVersion}",
+        "org.gradle.jvm.environment": "${otherVariant.jvmEnvironment}",
         "org.gradle.libraryelements": "jar",
         "org.gradle.usage": "java-runtime"
       },
