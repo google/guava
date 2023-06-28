@@ -1,3 +1,5 @@
+val runningGradle5 = gradle.gradleVersion.startsWith("5.")
+
 val guavaVersionJre = "<version>(.*)</version>".toRegex().find(file("../../pom.xml").readText())
   ?.groups?.get(1)?.value ?: error("version not found in pom")
 
@@ -6,6 +8,7 @@ val expectedReducedRuntimeClasspathJava6 = setOf(
   "failureaccess-1.0.1.jar",
   "jsr305-3.0.2.jar",
   "checker-compat-qual-2.5.5.jar",
+  "checker-qual-3.12.0.jar",
   "error_prone_annotations-2.6.0.jar"
 )
 val expectedReducedRuntimeClasspathJava8 = setOf(
@@ -55,8 +58,8 @@ subprojects {
     // ===
   }
 
-  val expectedClasspath =
-    if (gradle.gradleVersion.startsWith("5.")) {
+  var expectedClasspath =
+    if (runningGradle5) {
       // without Gradle Module Metadata (only the POM is used)
       // - variant decision is made based on version suffix (android/jre) and not on actual Java version
       // - runtime classpath equals the compile classpath
@@ -126,7 +129,7 @@ subprojects {
   java.targetCompatibility = javaVersion
   java.sourceCompatibility = javaVersion
 
-  if (!gradle.gradleVersion.startsWith("5.")) {
+  if (!runningGradle5) {
     configurations.all {
       resolutionStrategy.capabilitiesResolution {
         withCapability("com.google.collections:google-collections") {
@@ -213,6 +216,11 @@ subprojects {
         if (project.name.endsWith("Java")) configurations["compileClasspath"] else configurations["debugCompileClasspath"]
       } else {
         error("unexpected classpath type: " + project.name)
+      }
+      if (javaVersion == JavaVersion.VERSION_1_6 && !runningGradle5) {
+        // Hack: There is no Java 6/7 compatible variant of 'checker-qual' so we exclude it
+        classpathConfiguration.exclude(group = "org.checkerframework", module = "checker-qual")
+        expectedClasspath = expectedClasspath - "checker-qual-3.12.0.jar"
       }
 
       val actualClasspath = classpathConfiguration.files.map { it.name }.toSet()

@@ -26,11 +26,11 @@
     <module.status>integration</module.status>
     <variant.jvmVersion>8</variant.jvmVersion>
     <variant.jvmEnvironment>standard-jvm</variant.jvmEnvironment>
-    <variant.checkerframework>checker-qual</variant.checkerframework>
+    <variant.checkerCompatQual></variant.checkerCompatQual>
     <otherVariant.version>HEAD-android-SNAPSHOT</otherVariant.version>
     <otherVariant.jvmVersion>6</otherVariant.jvmVersion>
     <otherVariant.jvmEnvironment>android</otherVariant.jvmEnvironment>
-    <otherVariant.checkerframework>checker-compat-qual</otherVariant.checkerframework>
+    <otherVariant.checkerCompatQual>{ "group": "org.checkerframework", "module": "checker-compat-qual" },</otherVariant.checkerCompatQual>
   </properties>
   <issueManagement>
     <system>GitHub Issues</system>
