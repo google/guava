@@ -50,14 +50,15 @@ jobs:
       - name: 'Test'
         shell: bash
         run: mvn -B -P!standard-with-extra-repos verify -U -Dmaven.javadoc.skip=true -f $ROOT_POM
-      - name: 'Integration Test'
-        shell: bash
-        run: util/gradle_integration_tests.sh
       - name: 'Print Surefire reports'
         # Note: Normally a step won't run if the job has failed, but this causes it to
         if: ${{ failure() }}
         shell: bash
         run: ./util/print_surefire_reports.sh
+      - name: 'Integration Test'
+        if: matrix.java == 11
+        shell: bash
+        run: util/gradle_integration_tests.sh
 
   publish_snapshot:
     name: 'Publish snapshot'
