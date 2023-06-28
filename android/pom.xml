@@ -23,6 +23,10 @@
     <project.build.outputTimestamp>1980-02-01T00:00:00Z</project.build.outputTimestamp>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <test.add.opens></test.add.opens>
+    <module.status>integration</module.status>
+    <variant.jvmEnvironment>android</variant.jvmEnvironment>
+    <otherVariant.version>HEAD-jre-SNAPSHOT</otherVariant.version>
+    <otherVariant.jvmEnvironment>standard-jvm</otherVariant.jvmEnvironment>
   </properties>
   <issueManagement>
     <system>GitHub Issues</system>
@@ -261,6 +265,15 @@
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-enforcer-plugin</artifactId>
           <version>3.0.0-M3</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-resources-plugin</artifactId>
+          <version>3.3.1</version>
+        </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>build-helper-maven-plugin</artifactId>
+          <version>3.4.0</version>
         </plugin>
       </plugins>
     </pluginManagement>

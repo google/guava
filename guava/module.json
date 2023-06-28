@@ -1,0 +1,287 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "${pom.groupId}",
+    "module": "${pom.artifactId}",
+    "version": "${pom.version}",
+    "attributes": {
+      "org.gradle.status": "${module.status}"
+    }
+  },
+  "createdBy": {
+    "maven": {
+      "version": "${maven.version}",
+      "buildId": "${maven.build.version}"
+    }
+  },
+  "variants": [
+    {
+      "name": "${variant.jvmEnvironment}ApiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": "8",
+        "org.gradle.jvm.environment": "${variant.jvmEnvironment}",
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api"
+      },
+      "dependencies": [
+        {
+          "group": "com.google.guava",
+          "module": "guava-parent",
+          "version": {
+            "requires": "${pom.version}"
+          },
+          "attributes": {
+            "org.gradle.category": "platform"
+          }
+        },
+        {
+          "group": "com.google.guava",
+          "module": "failureaccess",
+          "version": {
+            "requires": "1.0.1"
+          }
+        },
+        {
+          "group": "com.google.code.findbugs",
+          "module": "jsr305"
+        },
+        {
+          "group": "org.checkerframework",
+          "module": "checker-qual"
+        },
+        {
+          "group": "com.google.errorprone",
+          "module": "error_prone_annotations"
+        },
+        {
+          "group": "com.google.j2objc",
+          "module": "j2objc-annotations"
+        }
+      ],
+      "files": [
+        {
+          "name": "${project.build.finalName}.jar",
+          "url": "${project.build.finalName}.jar"
+        }
+      ],
+      "capabilities": [
+        {
+          "group": "com.google.guava",
+          "name": "guava",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "com.google.collections",
+          "name": "google-collections",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "com.google.guava",
+          "name": "listenablefuture",
+          "version": "1.0"
+        }
+      ]
+    },
+    {
+      "name": "${variant.jvmEnvironment}RuntimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": "8",
+        "org.gradle.jvm.environment": "${variant.jvmEnvironment}",
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "com.google.guava",
+          "module": "guava-parent",
+          "version": {
+            "requires": "${pom.version}"
+          },
+          "attributes": {
+            "org.gradle.category": "platform"
+          }
+        },
+        {
+          "group": "com.google.guava",
+          "module": "failureaccess",
+          "version": {
+            "requires": "1.0.1"
+          }
+        },
+        {
+          "group": "com.google.code.findbugs",
+          "module": "jsr305"
+        },
+        {
+          "group": "org.checkerframework",
+          "module": "checker-qual"
+        },
+        {
+          "group": "com.google.errorprone",
+          "module": "error_prone_annotations"
+        }
+      ],
+      "files": [
+        {
+          "name": "${project.build.finalName}.jar",
+          "url": "${project.build.finalName}.jar"
+        }
+      ],
+      "capabilities": [
+        {
+          "group": "com.google.guava",
+          "name": "guava",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "com.google.collections",
+          "name": "google-collections",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "com.google.guava",
+          "name": "listenablefuture",
+          "version": "1.0"
+        }
+      ]
+    },
+    {
+      "name": "${otherVariant.jvmEnvironment}ApiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": "8",
+        "org.gradle.jvm.environment": "${otherVariant.jvmEnvironment}",
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api"
+      },
+      "dependencies": [
+        {
+          "group": "com.google.guava",
+          "module": "guava-parent",
+          "version": {
+            "requires": "${otherVariant.version}"
+          },
+          "attributes": {
+            "org.gradle.category": "platform"
+          }
+        },
+        {
+          "group": "com.google.guava",
+          "module": "failureaccess",
+          "version": {
+            "requires": "1.0.1"
+          }
+        },
+        {
+          "group": "com.google.code.findbugs",
+          "module": "jsr305"
+        },
+        {
+          "group": "org.checkerframework",
+          "module": "checker-qual"
+        },
+        {
+          "group": "com.google.errorprone",
+          "module": "error_prone_annotations"
+        },
+        {
+          "group": "com.google.j2objc",
+          "module": "j2objc-annotations"
+        }
+      ],
+      "files": [
+        {
+          "name": "${pom.artifactId}-${otherVariant.version}.jar",
+          "url": "../${otherVariant.version}/${pom.artifactId}-${otherVariant.version}.jar"
+        }
+      ],
+      "capabilities": [
+        {
+          "group": "com.google.guava",
+          "name": "guava",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "com.google.collections",
+          "name": "google-collections",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "com.google.guava",
+          "name": "listenablefuture",
+          "version": "1.0"
+        }
+      ]
+    },
+    {
+      "name": "${otherVariant.jvmEnvironment}RuntimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": "8",
+        "org.gradle.jvm.environment": "${otherVariant.jvmEnvironment}",
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "com.google.guava",
+          "module": "guava-parent",
+          "version": {
+            "requires": "${otherVariant.version}"
+          },
+          "attributes": {
+            "org.gradle.category": "platform"
+          }
+        },
+        {
+          "group": "com.google.guava",
+          "module": "failureaccess",
+          "version": {
+            "requires": "1.0.1"
+          }
+        },
+        {
+          "group": "com.google.code.findbugs",
+          "module": "jsr305"
+        },
+        {
+          "group": "org.checkerframework",
+          "module": "checker-qual"
+        },
+        {
+          "group": "com.google.errorprone",
+          "module": "error_prone_annotations"
+        }
+      ],
+      "files": [
+        {
+          "name": "${pom.artifactId}-${otherVariant.version}.jar",
+          "url": "../${otherVariant.version}/${pom.artifactId}-${otherVariant.version}.jar"
+        }
+      ],
+      "capabilities": [
+        {
+          "group": "com.google.guava",
+          "name": "guava",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "com.google.collections",
+          "name": "google-collections",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "com.google.guava",
+          "name": "listenablefuture",
+          "version": "1.0"
+        }
+      ]
+    }
+  ]
+}
