@@ -223,7 +223,7 @@
               <outputDirectory>target/publish</outputDirectory>
               <resources>
                 <resource>
-                <directory>../../guava</directory>
+                  <directory>../../guava</directory>
                   <includes>
                     <include>module.json</include>
                   </includes>
