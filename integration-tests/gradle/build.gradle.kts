@@ -74,10 +74,12 @@ subprojects {
     } else {
         JavaVersion.VERSION_1_8
     }
-    val classpathConfiguration = if (name.contains("runtimeClasspath")) {
+    val classpathConfiguration = if (name.contains("RuntimeClasspath")) {
         configurations["runtimeClasspath"]
-    } else {
+    } else if (name.contains("CompileClasspath")) {
         configurations["compileClasspath"]
+    } else {
+        error("unexpected classpath type: " + name)
     }
 
     repositories {
