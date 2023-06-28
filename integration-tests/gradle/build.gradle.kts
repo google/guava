@@ -27,8 +27,23 @@ val extraLegacyDependencies = setOf(
   "google-collections-1.0.jar"
 )
 
+buildscript {
+  repositories {
+    google()
+    jcenter()
+  }
+  dependencies {
+    classpath("com.android.tools.build:gradle:3.6.3")
+  }
+}
+
 subprojects {
-  apply(plugin = "java-library")
+  if (name.endsWith("Java")) {
+    apply(plugin = "java-library")
+  } else {
+    apply(plugin = "com.android.application")
+    the<com.android.build.gradle.AppExtension>().compileSdkVersion(30)
+  }
 
   val expectedClasspath =
     if (gradle.gradleVersion.startsWith("5.")) {
@@ -44,9 +59,10 @@ subprojects {
     } else {
       // with Gradle Module Metadata
       // - variant is chosen based on Java version used independent of version suffix
+      //   (for Android projects, the 'android' variant is always chosen)
       // - reduced runtime classpath is used (w/o annotation libraries)
       // - capability conflicts are detected between Google Collections and Listenablefuture
-      if (name.contains("Java6")) {
+      if (name.contains("Java6") || name.endsWith("Android")) {
         if (name.contains("RuntimeClasspath")) {
           expectedReducedRuntimeClasspathJava6
         } else if (name.contains("CompileClasspath")) {
@@ -74,19 +90,12 @@ subprojects {
   } else {
     JavaVersion.VERSION_1_8
   }
-  val classpathConfiguration = if (name.contains("RuntimeClasspath")) {
-    configurations["runtimeClasspath"]
-  } else if (name.contains("CompileClasspath")) {
-    configurations["compileClasspath"]
-  } else {
-    error("unexpected classpath type: " + name)
-  }
 
   repositories {
     mavenCentral()
     mavenLocal()
   }
-  val java = extensions.getByType<JavaPluginExtension>()
+  val java = the<JavaPluginExtension>()
   java.targetCompatibility = javaVersion
   java.sourceCompatibility = javaVersion
 
@@ -121,6 +130,14 @@ subprojects {
 
   tasks.register("testClasspath") {
     doLast {
+      val classpathConfiguration = if (project.name.contains("RuntimeClasspath")) {
+        if (project.name.endsWith("Java")) configurations["runtimeClasspath"] else configurations["debugRuntimeClasspath"]
+      } else if (project.name.contains("CompileClasspath")) {
+        if (project.name.endsWith("Java")) configurations["compileClasspath"] else configurations["debugCompileClasspath"]
+      } else {
+        error("unexpected classpath type: " + project.name)
+      }
+
       val actualClasspath = classpathConfiguration.files.map { it.name }.toSet()
       if (actualClasspath != expectedClasspath) {
         throw RuntimeException(
