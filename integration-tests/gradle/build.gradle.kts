@@ -6,14 +6,14 @@ val expectedReducedRuntimeClasspathJava6 = setOf(
   "failureaccess-1.0.1.jar",
   "jsr305-3.0.2.jar",
   "checker-compat-qual-2.5.5.jar",
-  "error_prone_annotations-2.3.4.jar"
+  "error_prone_annotations-2.5.1.jar"
 )
 val expectedReducedRuntimeClasspathJava8 = setOf(
   "guava-$guavaVersionJre.jar",
   "failureaccess-1.0.1.jar",
   "jsr305-3.0.2.jar",
-  "checker-qual-3.5.0.jar",
-  "error_prone_annotations-2.3.4.jar"
+  "checker-qual-3.8.0.jar",
+  "error_prone_annotations-2.5.1.jar"
 )
 val expectedCompileClasspathJava6 = expectedReducedRuntimeClasspathJava6 + setOf(
   "j2objc-annotations-1.3.jar"
