@@ -19,3 +19,11 @@ include("jreJava6CompileClasspathAndroid")
 include("androidJava6CompileClasspathAndroid")
 include("jreJava6RuntimeClasspathAndroid")
 include("androidJava6RuntimeClasspathAndroid")
+
+// Enforce 'android' variant in Java projects via constraint
+include("jreJava6ConstraintCompileClasspathJava")
+include("androidJava6ConstraintCompileClasspathJava")
+
+// Enforce 'jre' variant in Android projects via constraint
+include("jreJava8ConstraintCompileClasspathAndroid")
+include("androidJava8ConstraintCompileClasspathAndroid")
