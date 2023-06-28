@@ -25,9 +25,11 @@
     <test.add.opens></test.add.opens>
     <module.status>integration</module.status>
     <variant.jvmVersion>8</variant.jvmVersion>
+    <variant.additionalAttribute>"com.android.build.api.attributes.BuildTypeAttr": "jre",</variant.additionalAttribute>
     <variant.checkerframework>checker-qual</variant.checkerframework>
     <otherVariant.version>HEAD-android-SNAPSHOT</otherVariant.version>
     <otherVariant.jvmVersion>6</otherVariant.jvmVersion>
+    <otherVariant.additionalAttribute/>
     <otherVariant.checkerframework>checker-compat-qual</otherVariant.checkerframework>
   </properties>
   <issueManagement>
