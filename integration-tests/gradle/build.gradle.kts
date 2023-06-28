@@ -1,9 +1,12 @@
+val guavaVersionJre = "<version>(.*)</version>".toRegex().find(file("../../pom.xml").readText())
+        ?.groups?.get(1)?.value?: error("version not found in pom")
+
 val expectedReducedRuntimeClasspathJava6 = setOf(
-        "guava-HEAD-android-SNAPSHOT.jar",
+        "guava-${guavaVersionJre.replace("jre", "android")}.jar",
         "failureaccess-1.0.1.jar"
 )
 val expectedReducedRuntimeClasspathJava8 = setOf(
-        "guava-HEAD-jre-SNAPSHOT.jar",
+        "guava-${guavaVersionJre}.jar",
         "failureaccess-1.0.1.jar"
 )
 val expectedCompileClasspathJava6 = expectedReducedRuntimeClasspathJava6 + setOf(
