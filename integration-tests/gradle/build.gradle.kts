@@ -12,7 +12,7 @@ val expectedReducedRuntimeClasspathJava8 = setOf(
   "guava-$guavaVersionJre.jar",
   "failureaccess-1.0.1.jar",
   "jsr305-3.0.2.jar",
-  "checker-qual-3.8.0.jar",
+  "checker-qual-3.12.0.jar",
   "error_prone_annotations-2.6.0.jar"
 )
 val expectedCompileClasspathJava6 = expectedReducedRuntimeClasspathJava6 + setOf(
