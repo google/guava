@@ -16,11 +16,11 @@
   },
   "variants": [
     {
-      "name": "jdk${variant.jvmVersion}ApiElements",
+      "name": "${variant.jvmEnvironment}ApiElements",
       "attributes": {
         "org.gradle.category": "library",
         "org.gradle.dependency.bundling": "external",
-        "org.gradle.jvm.version": "${variant.jvmVersion}",
+        "org.gradle.jvm.version": "8",
         "org.gradle.jvm.environment": "${variant.jvmEnvironment}",
         "org.gradle.libraryelements": "jar",
         "org.gradle.usage": "java-api"
@@ -51,7 +51,6 @@
           "group": "org.checkerframework",
           "module": "checker-qual"
         },
-        ${variant.checkerCompatQual}
         {
           "group": "com.google.errorprone",
           "module": "error_prone_annotations"
@@ -86,11 +85,11 @@
       ]
     },
     {
-      "name": "jdk${variant.jvmVersion}RuntimeElements",
+      "name": "${variant.jvmEnvironment}RuntimeElements",
       "attributes": {
         "org.gradle.category": "library",
         "org.gradle.dependency.bundling": "external",
-        "org.gradle.jvm.version": "${variant.jvmVersion}",
+        "org.gradle.jvm.version": "8",
         "org.gradle.jvm.environment": "${variant.jvmEnvironment}",
         "org.gradle.libraryelements": "jar",
         "org.gradle.usage": "java-runtime"
@@ -121,7 +120,6 @@
           "group": "org.checkerframework",
           "module": "checker-qual"
         },
-        ${variant.checkerCompatQual}
         {
           "group": "com.google.errorprone",
           "module": "error_prone_annotations"
@@ -152,11 +150,11 @@
       ]
     },
     {
-      "name": "jdk${otherVariant.jvmVersion}ApiElements",
+      "name": "${otherVariant.jvmEnvironment}ApiElements",
       "attributes": {
         "org.gradle.category": "library",
         "org.gradle.dependency.bundling": "external",
-        "org.gradle.jvm.version": "${otherVariant.jvmVersion}",
+        "org.gradle.jvm.version": "8",
         "org.gradle.jvm.environment": "${otherVariant.jvmEnvironment}",
         "org.gradle.libraryelements": "jar",
         "org.gradle.usage": "java-api"
@@ -187,7 +185,6 @@
           "group": "org.checkerframework",
           "module": "checker-qual"
         },
-        ${otherVariant.checkerCompatQual}
         {
           "group": "com.google.errorprone",
           "module": "error_prone_annotations"
@@ -222,11 +219,11 @@
       ]
     },
     {
-      "name": "jdk${otherVariant.jvmVersion}RuntimeElements",
+      "name": "${otherVariant.jvmEnvironment}RuntimeElements",
       "attributes": {
         "org.gradle.category": "library",
         "org.gradle.dependency.bundling": "external",
-        "org.gradle.jvm.version": "${otherVariant.jvmVersion}",
+        "org.gradle.jvm.version": "8",
         "org.gradle.jvm.environment": "${otherVariant.jvmEnvironment}",
         "org.gradle.libraryelements": "jar",
         "org.gradle.usage": "java-runtime"
@@ -257,7 +254,6 @@
           "group": "org.checkerframework",
           "module": "checker-qual"
         },
-        ${otherVariant.checkerCompatQual}
         {
           "group": "com.google.errorprone",
           "module": "error_prone_annotations"

@@ -24,14 +24,9 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <test.add.opens></test.add.opens>
     <module.status>integration</module.status>
-    <variant.jvmVersion>6</variant.jvmVersion>
     <variant.jvmEnvironment>android</variant.jvmEnvironment>
-    <variant.checkerCompatQual>{ "group": "org.checkerframework", "module": "checker-compat-qual" },</variant.checkerCompatQual>
     <otherVariant.version>HEAD-jre-SNAPSHOT</otherVariant.version>
-    <otherVariant.jvmVersion>8</otherVariant.jvmVersion>
     <otherVariant.jvmEnvironment>standard-jvm</otherVariant.jvmEnvironment>
-    <otherVariant.checkerframework>checker-qual</otherVariant.checkerframework>
-    <otherVariant.checkerCompatQual></otherVariant.checkerCompatQual>
   </properties>
   <issueManagement>
     <system>GitHub Issues</system>

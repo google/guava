@@ -3,25 +3,24 @@ val runningGradle5 = gradle.gradleVersion.startsWith("5.")
 val guavaVersionJre = "<version>(.*)</version>".toRegex().find(file("../../pom.xml").readText())
   ?.groups?.get(1)?.value ?: error("version not found in pom")
 
-val expectedReducedRuntimeClasspathJava6 = setOf(
+val expectedReducedRuntimeClasspathAndroidVersion= setOf(
   "guava-${guavaVersionJre.replace("jre", "android")}.jar",
   "failureaccess-1.0.1.jar",
   "jsr305-3.0.2.jar",
-  "checker-compat-qual-2.5.5.jar",
   "checker-qual-3.12.0.jar",
-  "error_prone_annotations-2.6.0.jar"
+  "error_prone_annotations-2.7.1.jar"
 )
-val expectedReducedRuntimeClasspathJava8 = setOf(
+val expectedReducedRuntimeClasspathJreVersion = setOf(
   "guava-$guavaVersionJre.jar",
   "failureaccess-1.0.1.jar",
   "jsr305-3.0.2.jar",
   "checker-qual-3.12.0.jar",
-  "error_prone_annotations-2.6.0.jar"
+  "error_prone_annotations-2.7.1.jar"
 )
-val expectedCompileClasspathJava6 = expectedReducedRuntimeClasspathJava6 + setOf(
+val expectedCompileClasspathAndroidVersion = expectedReducedRuntimeClasspathAndroidVersion + setOf(
   "j2objc-annotations-1.3.jar"
 )
-val expectedCompileClasspathJava8 = expectedReducedRuntimeClasspathJava8 + setOf(
+val expectedCompileClasspathJreVersion = expectedReducedRuntimeClasspathJreVersion + setOf(
   "j2objc-annotations-1.3.jar"
 )
 
@@ -31,7 +30,7 @@ val extraLegacyDependencies = setOf(
 )
 
 buildscript {
-  val agpVersion = if (gradle.gradleVersion.startsWith("5.")) "3.6.4" else "7.0.0-alpha15"
+  val agpVersion = if (gradle.gradleVersion.startsWith("5.")) "3.6.4" else "7.0.4"
   repositories {
     google()
     mavenCentral()
@@ -58,9 +57,9 @@ subprojects {
       // - runtime classpath equals the compile classpath
       // - dependency conflict with Google Collections is not detected and '9999.0' hack is present
       if (name.startsWith("android")) {
-        expectedCompileClasspathJava6 + extraLegacyDependencies
+        expectedCompileClasspathAndroidVersion + extraLegacyDependencies
       } else {
-        expectedCompileClasspathJava8 + extraLegacyDependencies
+        expectedCompileClasspathJreVersion + extraLegacyDependencies
       }
     } else {
       // with Gradle Module Metadata
@@ -68,13 +67,13 @@ subprojects {
       //   (for Android projects, the 'android' variant is always chosen)
       // - reduced runtime classpath is used (w/o annotation libraries)
       // - capability conflicts are detected between Google Collections and Listenablefuture
-      if (name.contains("Java6") || (name.contains("Android") && !name.contains("JreConstraint")) ) {
+      if (name.contains("Android") && !name.contains("JreConstraint") ) {
         when {
             name.contains("RuntimeClasspath") -> {
-              expectedReducedRuntimeClasspathJava6
+              expectedReducedRuntimeClasspathAndroidVersion
             }
             name.contains("CompileClasspath") -> {
-              expectedCompileClasspathJava6
+              expectedCompileClasspathAndroidVersion
             }
             else -> {
               error("unexpected classpath type: $name")
@@ -83,10 +82,10 @@ subprojects {
       } else {
         when {
             name.contains("RuntimeClasspath") -> {
-              expectedReducedRuntimeClasspathJava8
+              expectedReducedRuntimeClasspathJreVersion
             }
             name.contains("CompileClasspath") -> {
-              expectedCompileClasspathJava8
+              expectedCompileClasspathJreVersion
             }
             else -> {
               error("unexpected classpath type: $name")
@@ -99,20 +98,7 @@ subprojects {
   } else {
     guavaVersionJre
   }
-  val javaVersion = when {
-      name.contains("JreConstraint") -> {
-        JavaVersion.VERSION_1_6
-      }
-      name.contains("AndroidConstraint") -> {
-        JavaVersion.VERSION_1_8
-      }
-      name.contains("Java6") -> {
-        JavaVersion.VERSION_1_6
-      }
-      else -> {
-        JavaVersion.VERSION_1_8
-      }
-  }
+  val javaVersion = JavaVersion.VERSION_1_8
 
   repositories {
     mavenCentral()
@@ -160,7 +146,7 @@ subprojects {
           withCapability("com.google.guava:guava") {
             candidates.find {
               val variantName = it.javaClass.getDeclaredMethod("getVariantName")
-              (variantName.invoke(it) as String).contains("6")
+              (variantName.invoke(it) as String).contains("android")
             }?.apply {
               select(this)
             }
@@ -185,7 +171,7 @@ subprojects {
           withCapability("com.google.guava:guava") {
             candidates.find {
               val variantName = it.javaClass.getDeclaredMethod("getVariantName")
-              (variantName.invoke(it) as String).contains("8")
+              (variantName.invoke(it) as String).contains("standard-jvm")
             }?.apply {
               select(this)
             }
@@ -209,11 +195,6 @@ subprojects {
         if (project.name.endsWith("Java")) configurations["compileClasspath"] else configurations["debugCompileClasspath"]
       } else {
         error("unexpected classpath type: " + project.name)
-      }
-      if (javaVersion == JavaVersion.VERSION_1_6 && !runningGradle5) {
-        // Hack: There is no Java 6/7 compatible variant of 'checker-qual' so we exclude it
-        classpathConfiguration.exclude(group = "org.checkerframework", module = "checker-qual")
-        expectedClasspath = expectedClasspath - "checker-qual-3.12.0.jar"
       }
 
       val actualClasspath = classpathConfiguration.files.map { it.name }.toSet()
