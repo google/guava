@@ -31,7 +31,7 @@ val extraLegacyDependencies = setOf(
 )
 
 buildscript {
-  val agpVersion = if (gradle.gradleVersion.startsWith("5.")) "3.6.4" else "7.0.0-alpha08"
+  val agpVersion = if (gradle.gradleVersion.startsWith("5.")) "3.6.4" else "7.0.0-alpha15"
   repositories {
     google()
     mavenCentral()
@@ -49,13 +49,6 @@ subprojects {
   } else {
     apply(plugin = "com.android.application")
     the<com.android.build.gradle.AppExtension>().compileSdkVersion(30)
-    // === TODO Remove this when https://issuetracker.google.com/issues/179488433 is fixed in AGP 7.0.0
-    configurations.whenObjectAdded {
-      if (name in listOf("releaseRuntimeClasspath", "debugRuntimeClasspath", "releaseCompileClasspath", "debugCompileClasspath")) {
-        attributes.attribute(Attribute.of("org.gradle.jvm.environment", String::class.java), "android")
-      }
-    }
-    // ===
   }
 
   var expectedClasspath =
