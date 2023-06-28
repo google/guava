@@ -109,6 +109,18 @@
           "version": {
             "requires": "1.0.1"
           }
+        },
+        {
+          "group": "com.google.code.findbugs",
+          "module": "jsr305"
+        },
+        {
+          "group": "org.checkerframework",
+          "module": "${variant.checkerframework}"
+        },
+        {
+          "group": "com.google.errorprone",
+          "module": "error_prone_annotations"
         }
       ],
       "files": [
@@ -229,6 +241,18 @@
           "version": {
             "requires": "1.0.1"
           }
+        },
+        {
+          "group": "com.google.code.findbugs",
+          "module": "jsr305"
+        },
+        {
+          "group": "org.checkerframework",
+          "module": "${otherVariant.checkerframework}"
+        },
+        {
+          "group": "com.google.errorprone",
+          "module": "error_prone_annotations"
         }
       ],
       "files": [
