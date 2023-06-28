@@ -103,7 +103,21 @@ final class Platform {
     return result;
   }
 
+  /*
+   * If I understand correctly:
+   *
+   * This needs to be a @JsMethod so that J2CL knows to look for a JavaScript implemention of
+   * it in Platform.native.js. (The JavaScript implementation inline below is visible to *GWT*, but
+   * *J2CL* doesn't look at it.)
+   *
+   * However, once it's a @JsMethod, GWT produces a warning. That's because (a) the *other* purpose
+   * of @JsMethod is to make a method *callable* from JavaScript and (b) this method would not be
+   * useful to call from vanilla JavaScript because it returns an instance of Class, which can't be
+   * converted to a standard JavaScript type. (Contrast to something like String or boolean.) Since
+   * we're not calling it from JavaScript, we suppress the warning.
+   */
   @JsMethod
+  @SuppressWarnings("unusable-by-js")
   private static native <E extends Enum<E>> @Nullable Class<E> getDeclaringClassOrNullForJ2cl(
       E e) /*-{
     return e.@java.lang.Enum::getDeclaringClass()();
