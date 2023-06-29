@@ -6,7 +6,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.google.guava</groupId>
   <artifactId>guava-parent</artifactId>
-  <version>HEAD-jre-SNAPSHOT</version>
+  <version>32.1.0-jre</version>
   <packaging>pom</packaging>
   <name>Guava Maven Parent</name>
   <description>Parent for guava artifacts</description>
@@ -20,7 +20,7 @@
     <!-- Empty for all JDKs but 9-12 -->
     <maven-javadoc-plugin.additionalJOptions></maven-javadoc-plugin.additionalJOptions>
     <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
-    <project.build.outputTimestamp>1980-02-01T00:00:00Z</project.build.outputTimestamp>
+    <project.build.outputTimestamp>2023-06-29T18:37:56Z</project.build.outputTimestamp>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <test.add.opens></test.add.opens>
     <module.status>integration</module.status>
