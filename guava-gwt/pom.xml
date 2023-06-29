@@ -335,6 +335,7 @@
               <module>com.google.common.ForceGuavaCompilation</module>
               <failOnError>true</failOnError>
               <logLevel>${gwt.logLevel}</logLevel>
+              <generateJsInteropExports>true</generateJsInteropExports>
               <validateOnly>true</validateOnly>
               <sourceLevel>1.8</sourceLevel>
               <!--
