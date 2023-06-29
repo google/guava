@@ -25,8 +25,10 @@
     <test.add.opens></test.add.opens>
     <module.status>integration</module.status>
     <variant.jvmEnvironment>standard-jvm</variant.jvmEnvironment>
+    <variant.jvmEnvironmentVariantName>jre</variant.jvmEnvironmentVariantName>
     <otherVariant.version>HEAD-android-SNAPSHOT</otherVariant.version>
     <otherVariant.jvmEnvironment>android</otherVariant.jvmEnvironment>
+    <otherVariant.jvmEnvironmentVariantName>android</otherVariant.jvmEnvironmentVariantName>
   </properties>
   <issueManagement>
     <system>GitHub Issues</system>

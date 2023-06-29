@@ -16,7 +16,7 @@
   },
   "variants": [
     {
-      "name": "${variant.jvmEnvironment}ApiElements",
+      "name": "${variant.jvmEnvironmentVariantName}ApiElements",
       "attributes": {
         "org.gradle.category": "library",
         "org.gradle.dependency.bundling": "external",
@@ -85,7 +85,7 @@
       ]
     },
     {
-      "name": "${variant.jvmEnvironment}RuntimeElements",
+      "name": "${variant.jvmEnvironmentVariantName}RuntimeElements",
       "attributes": {
         "org.gradle.category": "library",
         "org.gradle.dependency.bundling": "external",
@@ -150,7 +150,7 @@
       ]
     },
     {
-      "name": "${otherVariant.jvmEnvironment}ApiElements",
+      "name": "${otherVariant.jvmEnvironmentVariantName}ApiElements",
       "attributes": {
         "org.gradle.category": "library",
         "org.gradle.dependency.bundling": "external",
@@ -219,7 +219,7 @@
       ]
     },
     {
-      "name": "${otherVariant.jvmEnvironment}RuntimeElements",
+      "name": "${otherVariant.jvmEnvironmentVariantName}RuntimeElements",
       "attributes": {
         "org.gradle.category": "library",
         "org.gradle.dependency.bundling": "external",
