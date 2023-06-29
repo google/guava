@@ -34,13 +34,6 @@
           }
         },
         {
-          "group": "com.google.guava",
-          "module": "listenablefuture",
-          "version": {
-            "requires": "9999.0-empty-to-avoid-conflict-with-guava"
-          }
-        },
-        {
           "group": "com.google.code.findbugs",
           "module": "jsr305",
           "version": {
@@ -85,6 +78,11 @@
           "group": "com.google.collections",
           "name": "google-collections",
           "version": "${pom.version}"
+        },
+        {
+          "group": "com.google.guava",
+          "name": "listenablefuture",
+          "version": "1.0"
         }
       ]
     },
@@ -105,34 +103,6 @@
           "version": {
             "requires": "1.0.2"
           }
-        },
-        {
-          "group": "com.google.guava",
-          "module": "listenablefuture",
-          "version": {
-            "requires": "9999.0-empty-to-avoid-conflict-with-guava"
-          }
-        },
-        {
-          "group": "com.google.code.findbugs",
-          "module": "jsr305",
-          "version": {
-            "requires": "${jsr305.version}"
-          }
-        },
-        {
-          "group": "org.checkerframework",
-          "module": "checker-qual",
-          "version": {
-            "requires": "${checker.version}"
-          }
-        },
-        {
-          "group": "com.google.errorprone",
-          "module": "error_prone_annotations",
-          "version": {
-            "requires": "${errorprone.version}"
-          }
         }
       ],
       "files": [
@@ -151,6 +121,11 @@
           "group": "com.google.collections",
           "name": "google-collections",
           "version": "${pom.version}"
+        },
+        {
+          "group": "com.google.guava",
+          "name": "listenablefuture",
+          "version": "1.0"
         }
       ]
     },
@@ -173,13 +148,6 @@
           }
         },
         {
-          "group": "com.google.guava",
-          "module": "listenablefuture",
-          "version": {
-            "requires": "9999.0-empty-to-avoid-conflict-with-guava"
-          }
-        },
-        {
           "group": "com.google.code.findbugs",
           "module": "jsr305",
           "version": {
@@ -224,6 +192,11 @@
           "group": "com.google.collections",
           "name": "google-collections",
           "version": "${pom.version}"
+        },
+        {
+          "group": "com.google.guava",
+          "name": "listenablefuture",
+          "version": "1.0"
         }
       ]
     },
@@ -244,34 +217,6 @@
           "version": {
             "requires": "1.0.2"
           }
-        },
-        {
-          "group": "com.google.guava",
-          "module": "listenablefuture",
-          "version": {
-            "requires": "9999.0-empty-to-avoid-conflict-with-guava"
-          }
-        },
-        {
-          "group": "com.google.code.findbugs",
-          "module": "jsr305",
-          "version": {
-            "requires": "${jsr305.version}"
-          }
-        },
-        {
-          "group": "org.checkerframework",
-          "module": "checker-qual",
-          "version": {
-            "requires": "${checker.version}"
-          }
-        },
-        {
-          "group": "com.google.errorprone",
-          "module": "error_prone_annotations",
-          "version": {
-            "requires": "${errorprone.version}"
-          }
         }
       ],
       "files": [
@@ -290,6 +235,11 @@
           "group": "com.google.collections",
           "name": "google-collections",
           "version": "${pom.version}"
+        },
+        {
+          "group": "com.google.guava",
+          "name": "listenablefuture",
+          "version": "1.0"
         }
       ]
     }

@@ -7,27 +7,30 @@ val guavaVersionJre =
 val expectedReducedRuntimeClasspathAndroidVersion =
   setOf(
     "guava-${guavaVersionJre.replace("jre", "android")}.jar",
-    "failureaccess-1.0.2.jar",
-    "jsr305-3.0.2.jar",
-    "checker-qual-3.41.0.jar",
-    "error_prone_annotations-2.23.0.jar",
-    "listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar"
+    "failureaccess-1.0.2.jar"
   )
 val expectedReducedRuntimeClasspathJreVersion =
   setOf(
     "guava-$guavaVersionJre.jar",
-    "failureaccess-1.0.2.jar",
+    "failureaccess-1.0.2.jar"
+  )
+val compileOnlyDependencies =
+  setOf(
+    "j2objc-annotations-2.8.jar",
     "jsr305-3.0.2.jar",
     "checker-qual-3.41.0.jar",
-    "error_prone_annotations-2.23.0.jar",
-    "listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar"
+    "error_prone_annotations-2.23.0.jar"
   )
 val expectedCompileClasspathAndroidVersion =
-  expectedReducedRuntimeClasspathAndroidVersion + setOf("j2objc-annotations-2.8.jar")
+  expectedReducedRuntimeClasspathAndroidVersion + compileOnlyDependencies
 val expectedCompileClasspathJreVersion =
-  expectedReducedRuntimeClasspathJreVersion + setOf("j2objc-annotations-2.8.jar")
+  expectedReducedRuntimeClasspathJreVersion + compileOnlyDependencies
 
-val extraLegacyDependencies = setOf("google-collections-1.0.jar")
+val extraLegacyDependencies =
+  setOf(
+    "google-collections-1.0.jar",
+    "listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar"
+  )
 
 buildscript {
   val agpVersion = if (gradle.gradleVersion.startsWith("5.")) "3.6.4" else "7.0.4"
@@ -58,7 +61,7 @@ subprojects {
       // - variant decision is made based on version suffix (android/jre) and not on the actual
       // environment
       // - runtime classpath equals the compile classpath
-      // - dependency conflict with Google Collections is not detected
+      // - dependency conflict with Google Collections is not detected and '9999.0' hack is present
       if (name.startsWith("android")) {
         expectedCompileClasspathAndroidVersion + extraLegacyDependencies
       } else {
@@ -68,7 +71,7 @@ subprojects {
       // with Gradle Module Metadata
       // - variant is chosen based on the actual environment, independent of version suffix
       // - reduced runtime classpath is used (w/o annotation libraries)
-      // - capability conflicts are detected with Google Collections
+      // - capability conflicts are detected between Google Collections and listenablefuture
       if (name.contains("Android") && !name.contains("JreConstraint")) {
         when {
           name.contains("RuntimeClasspath") -> {
@@ -115,6 +118,17 @@ subprojects {
     configurations.all {
       resolutionStrategy.capabilitiesResolution {
         withCapability("com.google.collections:google-collections") {
+          candidates
+            .find {
+              val idField =
+                it.javaClass.getDeclaredMethod(
+                  "getId"
+                ) // reflective access to make this compile with Gradle 5
+              (idField.invoke(it) as ModuleComponentIdentifier).module == "guava"
+            }
+            ?.apply { select(this) }
+        }
+        withCapability("com.google.guava:listenablefuture") {
           candidates
             .find {
               val idField =
