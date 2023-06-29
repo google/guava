@@ -2448,7 +2448,10 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Returns the identity function.]]>
+      <![CDATA[Returns the identity function.
+
+ <p><b>Discouraged:</b> Prefer using a lambda like {@code v -> v}, which is shorter and often
+ more readable.]]>
       </doc>
     </method>
     <method name="forMap" return="com.google.common.base.Function&lt;K, V&gt;"
