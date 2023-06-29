@@ -188,7 +188,7 @@ subprojects {
             candidates
               .find {
                 val variantName = it.javaClass.getDeclaredMethod("getVariantName")
-                (variantName.invoke(it) as String).contains("standard-jvm")
+                (variantName.invoke(it) as String).contains("jre")
               }
               ?.apply { select(this) }
           }
