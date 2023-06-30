@@ -1,0 +1,3 @@
+OK: com.google.common.util.concurrent.ListeningExecutorService Method awaitTermination(java.time.Duration)
+OK: com.google.common.util.concurrent.ListeningExecutorService Method invokeAll(java.util.Collection<? extends java.util.concurrent.Callable<T>>, java.time.Duration)
+OK: com.google.common.util.concurrent.ListeningExecutorService Method invokeAny(java.util.Collection<? extends java.util.concurrent.Callable<T>>, java.time.Duration)
