@@ -25,10 +25,7 @@ import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.errorprone.annotations.Immutable;
 import java.io.Serializable;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-import java.util.SortedSet;
+import java.util.*;
 import javax.annotation.CheckForNull;
 
 /**
@@ -667,6 +664,35 @@ public final class Range<C extends Comparable> extends RangeGwtSerializationDepe
     Cut<C> lower = lowerBound.canonical(domain);
     Cut<C> upper = upperBound.canonical(domain);
     return (lower == lowerBound && upper == upperBound) ? this : create(lower, upper);
+  }
+
+  /**
+   * Returns the range list . list in self but not in others.
+   * <p>For example,
+   * <ul>
+   *     <li> {@code [2, 4)} different {@code [5, 7)}, because not connected , return {@code [2, 4)} self </li>
+   *     <li> {@code [2..4)} different {@code [2..6)}, because {@code [2..6)} encloses {@code [2..4)} so return empty list </li>
+   *     <li> {@code [2..4)} different {@code (3..7)} is {@code [2..3]}</li>
+   *     <li> {@code (3..7)} different {@code [1..5]} is {@code (5..7)}</li>
+   *     <li> {@code [2..4)} different {@code [3..3]} is {@code [2..3)} and  {@code (3..4)} </li>
+   * </ul>
+   */
+  public List<Range<C>> different(Range<C> other) {
+    if (!this.isConnected(other)) {
+      return Lists.newArrayList(this);
+    }
+    List<Range<C>> result = new ArrayList<>();
+    int lowerCmp = lowerBound.compareTo(other.lowerBound);
+    int upperCmp = upperBound.compareTo(other.upperBound);
+    if (lowerCmp < 0) {
+      Range<C> d1 = create(lowerBound, other.lowerBound);
+      result.add(d1);
+    }
+    if (upperCmp > 0) {
+      Range<C> d2 = create(other.upperBound, upperBound);
+      result.add(d2);
+    }
+    return result;
   }
 
   /**

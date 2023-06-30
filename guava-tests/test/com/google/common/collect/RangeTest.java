@@ -701,4 +701,29 @@ public class RangeTest extends TestCase {
         .addEqualityGroup(Range.closedOpen(1, 7), Range.range(1, CLOSED, 7, OPEN))
         .testEquals();
   }
+
+  public void testDifferent() {
+    Range<Integer> range = Range.closedOpen(2, 4);
+
+    List<Range<Integer>> different = range.different(Range.closedOpen(5, 7));
+    assertEquals(1, different.size());
+    assertEquals(range, different.get(0));
+
+    different = range.different(Range.closedOpen(2, 6));
+    assertTrue(different.isEmpty());
+
+    Range<Integer> range2 = Range.open(3, 7);
+    different = range.different(range2);
+    assertEquals(1, different.size());
+    assertEquals(different.get(0), Range.closed(2, 3));
+
+    different = range2.different(Range.closed(1, 5));
+    assertEquals(1, different.size());
+    assertEquals(different.get(0), Range.open(5, 7));
+
+    different = range.different(Range.closed(3, 3));
+    assertEquals(2, different.size());
+    assertEquals(different.get(0), Range.closedOpen(2, 3));
+    assertEquals(different.get(1), Range.open(3, 4));
+  }
 }
