@@ -55,6 +55,10 @@ jobs:
         if: ${{ failure() }}
         shell: bash
         run: ./util/print_surefire_reports.sh
+      - name: 'Integration Test'
+        if: matrix.java == 11
+        shell: bash
+        run: util/gradle_integration_tests.sh
 
   publish_snapshot:
     name: 'Publish snapshot'

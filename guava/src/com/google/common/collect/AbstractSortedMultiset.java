@@ -17,6 +17,7 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.WeakOuter;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -122,7 +123,7 @@ abstract class AbstractSortedMultiset<E extends @Nullable Object> extends Abstra
     return Multisets.iteratorImpl(descendingMultiset());
   }
 
-  @CheckForNull private transient SortedMultiset<E> descendingMultiset;
+  @LazyInit @CheckForNull private transient SortedMultiset<E> descendingMultiset;
 
   @Override
   public SortedMultiset<E> descendingMultiset() {

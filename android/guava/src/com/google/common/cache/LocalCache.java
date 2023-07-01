@@ -52,6 +52,7 @@ import com.google.common.util.concurrent.UncheckedExecutionException;
 import com.google.common.util.concurrent.Uninterruptibles;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.concurrent.GuardedBy;
+import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.RetainedWith;
 import com.google.j2objc.annotations.Weak;
 import java.io.IOException;
@@ -4201,7 +4202,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     }
   }
 
-  @RetainedWith @CheckForNull Set<K> keySet;
+  @LazyInit @RetainedWith @CheckForNull Set<K> keySet;
 
   @Override
   public Set<K> keySet() {
@@ -4210,7 +4211,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     return (ks != null) ? ks : (keySet = new KeySet());
   }
 
-  @RetainedWith @CheckForNull Collection<V> values;
+  @LazyInit @RetainedWith @CheckForNull Collection<V> values;
 
   @Override
   public Collection<V> values() {
@@ -4219,7 +4220,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     return (vs != null) ? vs : (values = new Values());
   }
 
-  @RetainedWith @CheckForNull Set<Entry<K, V>> entrySet;
+  @LazyInit @RetainedWith @CheckForNull Set<Entry<K, V>> entrySet;
 
   @Override
   @GwtIncompatible // Not supported.

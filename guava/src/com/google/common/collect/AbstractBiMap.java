@@ -25,6 +25,7 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Objects;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.RetainedWith;
 import com.google.j2objc.annotations.WeakOuter;
 import java.io.IOException;
@@ -230,7 +231,7 @@ abstract class AbstractBiMap<K extends @Nullable Object, V extends @Nullable Obj
     return inverse;
   }
 
-  @CheckForNull private transient Set<K> keySet;
+  @LazyInit @CheckForNull private transient Set<K> keySet;
 
   @Override
   public Set<K> keySet() {
@@ -275,7 +276,7 @@ abstract class AbstractBiMap<K extends @Nullable Object, V extends @Nullable Obj
     }
   }
 
-  @CheckForNull private transient Set<V> valueSet;
+  @LazyInit @CheckForNull private transient Set<V> valueSet;
 
   @Override
   public Set<V> values() {
@@ -318,7 +319,7 @@ abstract class AbstractBiMap<K extends @Nullable Object, V extends @Nullable Obj
     }
   }
 
-  @CheckForNull private transient Set<Entry<K, V>> entrySet;
+  @LazyInit @CheckForNull private transient Set<Entry<K, V>> entrySet;
 
   @Override
   public Set<Entry<K, V>> entrySet() {

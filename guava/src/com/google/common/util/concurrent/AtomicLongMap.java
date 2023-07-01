@@ -21,6 +21,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.Map;
@@ -265,7 +266,7 @@ public final class AtomicLongMap<K> implements Serializable {
     return map.values().stream().mapToLong(Long::longValue).sum();
   }
 
-  @CheckForNull private transient Map<K, Long> asMap;
+  @LazyInit @CheckForNull private transient Map<K, Long> asMap;
 
   /** Returns a live, read-only view of the map backing this {@code AtomicLongMap}. */
   public Map<K, Long> asMap() {
