@@ -25,6 +25,7 @@ import com.google.common.collect.MapMaker.Dummy;
 import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.concurrent.GuardedBy;
+import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.Weak;
 import com.google.j2objc.annotations.WeakOuter;
 import java.io.IOException;
@@ -2522,7 +2523,7 @@ class MapMakerInternalMap<
     }
   }
 
-  @CheckForNull transient Set<K> keySet;
+  @LazyInit @CheckForNull transient Set<K> keySet;
 
   @Override
   public Set<K> keySet() {
@@ -2530,7 +2531,7 @@ class MapMakerInternalMap<
     return (ks != null) ? ks : (keySet = new KeySet());
   }
 
-  @CheckForNull transient Collection<V> values;
+  @LazyInit @CheckForNull transient Collection<V> values;
 
   @Override
   public Collection<V> values() {
@@ -2538,7 +2539,7 @@ class MapMakerInternalMap<
     return (vs != null) ? vs : (values = new Values());
   }
 
-  @CheckForNull transient Set<Entry<K, V>> entrySet;
+  @LazyInit @CheckForNull transient Set<Entry<K, V>> entrySet;
 
   @Override
   public Set<Entry<K, V>> entrySet() {

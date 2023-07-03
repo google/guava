@@ -27,6 +27,7 @@ import com.google.common.base.Objects;
 import com.google.common.collect.Maps.IteratorBasedAbstractMap;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.DoNotCall;
+import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.WeakOuter;
 import java.io.Serializable;
 import java.lang.reflect.Array;
@@ -660,7 +661,7 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, @Nullable V>
     return columnKeyToIndex.keySet();
   }
 
-  @CheckForNull private transient ColumnMap columnMap;
+  @LazyInit @CheckForNull private transient ColumnMap columnMap;
 
   @Override
   public Map<C, Map<R, @Nullable V>> columnMap() {
@@ -755,7 +756,7 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, @Nullable V>
     return rowKeyToIndex.keySet();
   }
 
-  @CheckForNull private transient RowMap rowMap;
+  @LazyInit @CheckForNull private transient RowMap rowMap;
 
   @Override
   public Map<R, Map<C, @Nullable V>> rowMap() {

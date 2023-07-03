@@ -45,6 +45,16 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * not be modifiable. When modification isn't supported, those methods will throw an {@link
  * UnsupportedOperationException}.
  *
+ * <h3>Implementations</h3>
+ *
+ * <ul>
+ *   <li>{@link ImmutableTable}
+ *   <li>{@link HashBasedTable}
+ *   <li>{@link TreeBasedTable}
+ *   <li>{@link ArrayTable}
+ *   <li>{@link Tables#newCustomTable Tables.newCustomTable}
+ * </ul>
+ *
  * <p>See the Guava User Guide article on <a href=
  * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#table">{@code Table}</a>.
  *

@@ -36,10 +36,11 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *
  * <p>The main purpose of {@code ListenableFuture} is to help you chain together a graph of
  * asynchronous operations. You can chain them together manually with calls to methods like {@link
- * Futures#transform(ListenableFuture, com.google.common.base.Function, Executor)
- * Futures.transform}, but you will often find it easier to use a framework. Frameworks automate the
- * process, often adding features like monitoring, debugging, and cancellation. Examples of
- * frameworks include:
+ * Futures#transform(ListenableFuture, com.google.common.base.Function, Executor) Futures.transform}
+ * (or {@link FluentFuture#transform(com.google.common.base.Function, Executor)
+ * FluentFuture.transform}), but you will often find it easier to use a framework. Frameworks
+ * automate the process, often adding features like monitoring, debugging, and cancellation.
+ * Examples of frameworks include:
  *
  * <ul>
  *   <li><a href="https://dagger.dev/producers.html">Dagger Producers</a>

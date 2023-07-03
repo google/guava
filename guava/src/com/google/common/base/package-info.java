@@ -43,6 +43,7 @@
  *
  * <ul>
  *   <li>{@link Enums}
+ *   <li>{@link MoreObjects}
  *   <li>{@link Preconditions}
  *   <li>{@link StandardSystemProperty}
  *   <li>{@link Stopwatch}

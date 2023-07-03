@@ -26,6 +26,7 @@ import com.google.common.collect.testing.AbstractMapTester;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
 import java.util.Map;
+import java.util.Map.Entry;
 import org.junit.Ignore;
 
 /**
@@ -102,7 +103,7 @@ public class MapPutIfAbsentTester<K, V> extends AbstractMapTester<K, V> {
   }
 
   @MapFeature.Require(value = SUPPORTS_PUT, absent = ALLOWS_NULL_VALUES)
-  public void testPutIfAbsent_nullValueUnsupported() {
+  public void testPutIfAbsent_nullValueUnsupportedAndKeyAbsent() {
     try {
       getMap().putIfAbsent(k3(), null);
       fail("putIfAbsent(key, null) should throw");
@@ -110,12 +111,12 @@ public class MapPutIfAbsentTester<K, V> extends AbstractMapTester<K, V> {
     }
     expectUnchanged();
     expectNullValueMissingWhenNullValuesUnsupported(
-        "Should not contain null value after unsupported put(key, null)");
+        "Should not contain null value after unsupported putIfAbsent(key, null)");
   }
 
   @MapFeature.Require(value = SUPPORTS_PUT, absent = ALLOWS_NULL_VALUES)
   @CollectionSize.Require(absent = ZERO)
-  public void testPutIfAbsent_putWithNullValueUnsupported() {
+  public void testPutIfAbsent_nullValueUnsupportedAndKeyPresent() {
     try {
       getMap().putIfAbsent(k0(), null);
     } catch (NullPointerException tolerated) {
@@ -123,5 +124,14 @@ public class MapPutIfAbsentTester<K, V> extends AbstractMapTester<K, V> {
     expectUnchanged();
     expectNullValueMissingWhenNullValuesUnsupported(
         "Should not contain null after unsupported putIfAbsent(present, null)");
+  }
+
+  @MapFeature.Require({SUPPORTS_PUT, ALLOWS_NULL_VALUES})
+  public void testPut_nullValueSupported() {
+    Entry<K, V> nullValueEntry = entry(k3(), null);
+    assertNull(
+        "putIfAbsent(key, null) should return null",
+        getMap().putIfAbsent(nullValueEntry.getKey(), nullValueEntry.getValue()));
+    expectAdded(nullValueEntry);
   }
 }

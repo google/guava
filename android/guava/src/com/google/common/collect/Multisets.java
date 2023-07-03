@@ -30,6 +30,7 @@ import com.google.common.collect.Multiset.Entry;
 import com.google.common.math.IntMath;
 import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collection;
@@ -104,7 +105,7 @@ public final class Multisets {
       return (Multiset<E>) delegate;
     }
 
-    @CheckForNull transient Set<E> elementSet;
+    @LazyInit @CheckForNull transient Set<E> elementSet;
 
     Set<E> createElementSet() {
       return Collections.<E>unmodifiableSet(delegate.elementSet());
@@ -116,7 +117,7 @@ public final class Multisets {
       return (es == null) ? elementSet = createElementSet() : es;
     }
 
-    @CheckForNull transient Set<Multiset.Entry<E>> entrySet;
+    @LazyInit @CheckForNull transient Set<Multiset.Entry<E>> entrySet;
 
     @SuppressWarnings("unchecked")
     @Override

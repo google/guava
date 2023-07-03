@@ -15,22 +15,17 @@
  */
 
 /**
- * This package contains generic collection interfaces and implementations, and other utilities for
- * working with collections. It is a part of the open-source <a
- * href="https://github.com/google/guava">Guava</a> library.
+ * Collection interfaces and implementations, and other utilities for collections. This package is a
+ * part of the open-source <a href="https://github.com/google/guava">Guava</a> library.
  *
- * <h2>Collection Types</h2>
+ * <h2>Immutable collections</h2>
+ *
+ * Implementations of JDK and Guava collection types whose contents will never change, and which
+ * offer a few additional guarantees. For details, see {@link ImmutableCollection}.
+ *
+ * <h2>Collection types</h2>
  *
  * <dl>
- *   <dt>{@link BiMap}
- *   <dd>An extension of {@link java.util.Map} that guarantees the uniqueness of its values as well
- *       as that of its keys. This is sometimes called an "invertible map," since the restriction on
- *       values enables it to support an {@linkplain BiMap#inverse inverse view} -- which is another
- *       instance of {@code BiMap}.
- *   <dt>{@link Multiset}
- *   <dd>An extension of {@link java.util.Collection} that may contain duplicate values like a
- *       {@link java.util.List}, yet has order-independent equality like a {@link java.util.Set}.
- *       One typical use for a multiset is to represent a histogram.
  *   <dt>{@link Multimap}
  *   <dd>A new type, which is similar to {@link java.util.Map}, but may contain multiple entries
  *       with the same key. Some behaviors of {@link Multimap} are left unspecified and are provided
@@ -50,109 +45,50 @@
  *   <dt>{@link SortedSetMultimap}
  *   <dd>An extension of {@link SetMultimap} for which the {@linkplain SortedSetMultimap#get
  *       collection values} associated with a given key is a {@link java.util.SortedSet}.
+ *   <dt>{@link BiMap}
+ *   <dd>An extension of {@link java.util.Map} that guarantees the uniqueness of its values as well
+ *       as that of its keys. This is sometimes called an "invertible map," since the restriction on
+ *       values enables it to support an {@linkplain BiMap#inverse inverse view} -- which is another
+ *       instance of {@code BiMap}.
  *   <dt>{@link Table}
  *   <dd>A new type, which is similar to {@link java.util.Map}, but which indexes its values by an
  *       ordered pair of keys, a row key and column key.
+ *   <dt>{@link Multiset}
+ *   <dd>An extension of {@link java.util.Collection} that may contain duplicate values like a
+ *       {@link java.util.List}, yet has order-independent equality like a {@link java.util.Set}.
+ *       One typical use for a multiset is to represent a histogram.
  *   <dt>{@link ClassToInstanceMap}
  *   <dd>An extension of {@link java.util.Map} that associates a raw type with an instance of that
  *       type.
  * </dl>
  *
- * <h2>Collection Implementations</h2>
- *
- * <h3>of {@link java.util.List}</h3>
+ * <h2>Ranges</h2>
  *
  * <ul>
- *   <li>{@link ImmutableList}
- * </ul>
- *
- * <h3>of {@link java.util.Set}</h3>
- *
- * <ul>
- *   <li>{@link ImmutableSet}
- *   <li>{@link ImmutableSortedSet}
- *   <li>{@link ContiguousSet} (see {@code Range})
- * </ul>
- *
- * <h3>of {@link java.util.Map}</h3>
- *
- * <ul>
- *   <li>{@link ImmutableMap}
- *   <li>{@link ImmutableSortedMap}
- *   <li>{@link MapMaker}
- * </ul>
- *
- * <h3>of {@link BiMap}</h3>
- *
- * <ul>
- *   <li>{@link ImmutableBiMap}
- *   <li>{@link HashBiMap}
- *   <li>{@link EnumBiMap}
- *   <li>{@link EnumHashBiMap}
- * </ul>
- *
- * <h3>of {@link Multiset}</h3>
- *
- * <ul>
- *   <li>{@link ImmutableMultiset}
- *   <li>{@link ImmutableSortedMultiset}
- *   <li>{@link HashMultiset}
- *   <li>{@link LinkedHashMultiset}
- *   <li>{@link TreeMultiset}
- *   <li>{@link EnumMultiset}
- *   <li>{@link ConcurrentHashMultiset}
- * </ul>
- *
- * <h3>of {@link Multimap}</h3>
- *
- * <ul>
- *   <li>{@link ImmutableMultimap}
- *   <li>{@link ImmutableListMultimap}
- *   <li>{@link ImmutableSetMultimap}
- *   <li>{@link ArrayListMultimap}
- *   <li>{@link HashMultimap}
- *   <li>{@link TreeMultimap}
- *   <li>{@link LinkedHashMultimap}
- *   <li>{@link LinkedListMultimap}
- * </ul>
- *
- * <h3>of {@link Table}</h3>
- *
- * <ul>
- *   <li>{@link ImmutableTable}
- *   <li>{@link ArrayTable}
- *   <li>{@link HashBasedTable}
- *   <li>{@link TreeBasedTable}
- * </ul>
- *
- * <h3>of {@link ClassToInstanceMap}</h3>
- *
- * <ul>
- *   <li>{@link ImmutableClassToInstanceMap}
- *   <li>{@link MutableClassToInstanceMap}
+ *   <li>{@link Range}
+ *   <li>{@link RangeMap}
+ *   <li>{@link RangeSet}
+ *   <li>{@link DiscreteDomain}
+ *   <li>{@link ContiguousSet}
  * </ul>
  *
  * <h2>Classes of static utility methods</h2>
  *
  * <ul>
+ *   <li>{@link Comparators}
  *   <li>{@link Collections2}
  *   <li>{@link Iterators}
  *   <li>{@link Iterables}
  *   <li>{@link Lists}
  *   <li>{@link Maps}
+ *   <li>{@link MoreCollectors}
  *   <li>{@link Queues}
  *   <li>{@link Sets}
  *   <li>{@link Multisets}
  *   <li>{@link Multimaps}
  *   <li>{@link Tables}
  *   <li>{@link ObjectArrays}
- * </ul>
- *
- * <h2>Comparison</h2>
- *
- * <ul>
- *   <li>{@link Ordering}
- *   <li>{@link ComparisonChain}
+ *   <li>{@link Streams}
  * </ul>
  *
  * <h2>Abstract implementations</h2>
@@ -160,53 +96,24 @@
  * <ul>
  *   <li>{@link AbstractIterator}
  *   <li>{@link AbstractSequentialIterator}
- *   <li>{@link ImmutableCollection}
  *   <li>{@link UnmodifiableIterator}
  *   <li>{@link UnmodifiableListIterator}
  * </ul>
  *
- * <h2>Ranges</h2>
+ * <h2>Forwarding collections</h2>
  *
- * <ul>
- *   <li>{@link Range}
- *   <li>{@link RangeMap}
- *   <li>{@link DiscreteDomain}
- *   <li>{@link ContiguousSet}
- * </ul>
+ * We provide implementations of collection that forward all method calls to a delegate collection
+ * by default. Subclasses can override one or more methods to implement the decorator pattern. For
+ * an example, see {@link ForwardingCollection}.
  *
  * <h2>Other</h2>
  *
  * <ul>
+ *   <li>{@link EvictingQueue}
  *   <li>{@link Interner}, {@link Interners}
- *   <li>{@link MapDifference}, {@link SortedMapDifference}
+ *   <li>{@link MapMaker}
  *   <li>{@link MinMaxPriorityQueue}
  *   <li>{@link PeekingIterator}
- * </ul>
- *
- * <h2>Forwarding collections</h2>
- *
- * <ul>
- *   <li>{@link ForwardingCollection}
- *   <li>{@link ForwardingConcurrentMap}
- *   <li>{@link ForwardingIterator}
- *   <li>{@link ForwardingList}
- *   <li>{@link ForwardingListIterator}
- *   <li>{@link ForwardingListMultimap}
- *   <li>{@link ForwardingMap}
- *   <li>{@link ForwardingMapEntry}
- *   <li>{@link ForwardingMultimap}
- *   <li>{@link ForwardingMultiset}
- *   <li>{@link ForwardingNavigableMap}
- *   <li>{@link ForwardingNavigableSet}
- *   <li>{@link ForwardingObject}
- *   <li>{@link ForwardingQueue}
- *   <li>{@link ForwardingSet}
- *   <li>{@link ForwardingSetMultimap}
- *   <li>{@link ForwardingSortedMap}
- *   <li>{@link ForwardingSortedMultiset}
- *   <li>{@link ForwardingSortedSet}
- *   <li>{@link ForwardingSortedSetMultimap}
- *   <li>{@link ForwardingTable}
  * </ul>
  */
 @CheckReturnValue

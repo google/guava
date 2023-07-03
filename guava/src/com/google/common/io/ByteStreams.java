@@ -100,6 +100,9 @@ public final class ByteStreams {
    * Copies all bytes from the input stream to the output stream. Does not close or flush either
    * stream.
    *
+   * <p><b>Java 9 users and later:</b> this method should be treated as deprecated; use the
+   * equivalent {@link InputStream#transferTo} method instead.
+   *
    * @param from the input stream to read from
    * @param to the output stream to write to
    * @return the number of bytes copied

@@ -1083,16 +1083,18 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
 
   @Override
   public ImmutableSortedMap<K, V> descendingMap() {
-    // TODO(kevinb): the descendingMap is never actually cached at all. Either it should be or the
-    // code below simplified.
+    // TODO(kevinb): The descendingMap is never actually cached at all. Either:
+    //
+    // - Cache it, and annotate the field with @LazyInit.
+    // - Simplify the code below, and consider eliminating the field (b/287198172), which is also
+    //   set by one of the constructors.
     ImmutableSortedMap<K, V> result = descendingMap;
     if (result == null) {
       if (isEmpty()) {
-        return result = emptyMap(Ordering.from(comparator()).reverse());
+        return emptyMap(Ordering.from(comparator()).reverse());
       } else {
-        return result =
-            new ImmutableSortedMap<>(
-                (RegularImmutableSortedSet<K>) keySet.descendingSet(), valueList.reverse(), this);
+        return new ImmutableSortedMap<>(
+            (RegularImmutableSortedSet<K>) keySet.descendingSet(), valueList.reverse(), this);
       }
     }
     return result;

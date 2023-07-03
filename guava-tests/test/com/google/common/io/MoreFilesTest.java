@@ -262,6 +262,9 @@ public class MoreFilesTest extends TestCase {
   }
 
   public void testCreateParentDirectories_root() throws IOException {
+    if (isWindows()) {
+      return; // TODO: b/136041958 - *Sometimes* fails with "A:\: The device is not ready"
+    }
     Path root = root();
     assertNull(root.getParent());
     assertNull(root.toRealPath().getParent());
@@ -329,6 +332,9 @@ public class MoreFilesTest extends TestCase {
   }
 
   public void testCreateParentDirectories_symlinkParentExists() throws IOException {
+    if (isWindows()) {
+      return; // TODO: b/136041958 - *Sometimes* fails with FileAlreadyExistsException
+    }
     Path symlink = tempDir.resolve("linkToDir");
     Files.createSymbolicLink(symlink, root());
     Path file = symlink.resolve("foo");

@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.primitives.Ints;
+import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.util.Collection;
 import java.util.Map;
 import javax.annotation.CheckForNull;
@@ -66,7 +67,7 @@ final class JdkBackedImmutableMultiset<E> extends ImmutableMultiset<E> {
     return delegateMap.getOrDefault(element, 0);
   }
 
-  @CheckForNull private transient ImmutableSet<E> elementSet;
+  @LazyInit @CheckForNull private transient ImmutableSet<E> elementSet;
 
   @Override
   public ImmutableSet<E> elementSet() {
