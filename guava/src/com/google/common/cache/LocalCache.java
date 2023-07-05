@@ -4277,7 +4277,9 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
   }
 
   @Override
-  public V merge(K key, V newValue, BiFunction<? super V, ? super V, ? extends V> function) {
+  @CheckForNull
+  public V merge(
+      K key, V newValue, BiFunction<? super V, ? super V, ? extends @Nullable V> function) {
     checkNotNull(key);
     checkNotNull(newValue);
     checkNotNull(function);
