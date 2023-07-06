@@ -106,10 +106,13 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Collection interfaces and implementations, and other utilities for collections. This package is a
  part of the open-source <a href="https://github.com/google/guava">Guava</a> library.
 
+ <p>The classes in this package include:
+
  <h2>Immutable collections</h2>
 
- Implementations of JDK and Guava collection types whose contents will never change, and which
- offer a few additional guarantees. For details, see <a href="ImmutableCollection.html" title="class in com.google.common.collect"><code>ImmutableCollection</code></a>.
+ These are collections whose contents will never change. They also offer a few additional
+ guarantees (see <a href="ImmutableCollection.html" title="class in com.google.common.collect"><code>ImmutableCollection</code></a> for details). Implementations are available for both
+ the JDK collection types and the Guava collection types (listed below).
 
  <h2>Collection types</h2>
 
@@ -162,20 +165,20 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  <h2>Classes of static utility methods</h2>
 
  <ul>
-   <li><a href="Comparators.html" title="class in com.google.common.collect"><code>Comparators</code></a>
    <li><a href="Collections2.html" title="class in com.google.common.collect"><code>Collections2</code></a>
-   <li><a href="Iterators.html" title="class in com.google.common.collect"><code>Iterators</code></a>
+   <li><a href="Comparators.html" title="class in com.google.common.collect"><code>Comparators</code></a>
    <li><a href="Iterables.html" title="class in com.google.common.collect"><code>Iterables</code></a>
+   <li><a href="Iterators.html" title="class in com.google.common.collect"><code>Iterators</code></a>
    <li><a href="Lists.html" title="class in com.google.common.collect"><code>Lists</code></a>
    <li><a href="Maps.html" title="class in com.google.common.collect"><code>Maps</code></a>
    <li><code>MoreCollectors</code>
+   <li><a href="Multimaps.html" title="class in com.google.common.collect"><code>Multimaps</code></a>
+   <li><a href="Multisets.html" title="class in com.google.common.collect"><code>Multisets</code></a>
+   <li><a href="ObjectArrays.html" title="class in com.google.common.collect"><code>ObjectArrays</code></a>
    <li><a href="Queues.html" title="class in com.google.common.collect"><code>Queues</code></a>
    <li><a href="Sets.html" title="class in com.google.common.collect"><code>Sets</code></a>
-   <li><a href="Multisets.html" title="class in com.google.common.collect"><code>Multisets</code></a>
-   <li><a href="Multimaps.html" title="class in com.google.common.collect"><code>Multimaps</code></a>
-   <li><a href="Tables.html" title="class in com.google.common.collect"><code>Tables</code></a>
-   <li><a href="ObjectArrays.html" title="class in com.google.common.collect"><code>ObjectArrays</code></a>
    <li><code>Streams</code>
+   <li><a href="Tables.html" title="class in com.google.common.collect"><code>Tables</code></a>
  </ul>
 
  <h2>Abstract implementations</h2>
@@ -189,7 +192,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 
  <h2>Forwarding collections</h2>
 
- We provide implementations of collection that forward all method calls to a delegate collection
+ We provide implementations of collections that forward all method calls to a delegate collection
  by default. Subclasses can override one or more methods to implement the decorator pattern. For
  an example, see <a href="ForwardingCollection.html" title="class in com.google.common.collect"><code>ForwardingCollection</code></a>.
 
