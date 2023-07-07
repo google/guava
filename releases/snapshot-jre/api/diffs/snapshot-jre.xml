@@ -19267,7 +19267,7 @@
       deprecated="Unsupported operation.">
       <param name="key" type="K"/>
       <param name="value" type="V"/>
-      <param name="remappingFunction" type="java.util.function.BiFunction&lt;? super V, ? super V, ? extends V&gt;"/>
+      <param name="function" type="java.util.function.BiFunction&lt;? super V, ? super V, ? extends V&gt;"/>
       <doc>
       <![CDATA[Guaranteed to throw an exception and leave the map unmodified.
 
