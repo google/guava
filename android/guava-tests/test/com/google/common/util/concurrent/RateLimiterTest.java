@@ -563,11 +563,7 @@ public class RateLimiterTest extends TestCase {
     }
   }
 
-  /*
-   * Note: Mockito appears to lose its ability to Mock doGetRate as of Android 21. If we start
-   * testing with that version or newer, we'll need to suppress this test (or see if Mockito can be
-   * changed to support this).
-   */
+  @AndroidIncompatible // Mockito loses its ability to mock doGetRate as of Android 21
   public void testMockingMockito() throws Exception {
     RateLimiter mock = Mockito.mock(RateLimiter.class);
     for (Method method : RateLimiter.class.getMethods()) {

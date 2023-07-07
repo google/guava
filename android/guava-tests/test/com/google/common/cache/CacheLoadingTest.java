@@ -1767,6 +1767,7 @@ public class CacheLoadingTest extends TestCase {
   }
 
 
+  @AndroidIncompatible // Depends on GC behavior
   public void testReloadAfterValueReclamation() throws InterruptedException, ExecutionException {
     CountingLoader countingLoader = new CountingLoader();
     LoadingCache<Object, Object> cache =
