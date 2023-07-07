@@ -432,6 +432,7 @@ public class ClassPathTest extends TestCase {
   // Test that ResourceInfo.urls() returns identical content to ClassLoader.getResources()
 
 
+  @AndroidIncompatible
   public void testGetClassPathUrls() throws Exception {
     if (isWindows()) {
       return; // TODO: b/136041958 - We need to account for drive letters in the path.
