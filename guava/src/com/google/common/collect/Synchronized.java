@@ -1205,8 +1205,9 @@ final class Synchronized {
     }
 
     @Override
+    @CheckForNull
     public V merge(
-        K key, V value, BiFunction<? super V, ? super V, ? extends V> remappingFunction) {
+        K key, V value, BiFunction<? super V, ? super V, ? extends @Nullable V> remappingFunction) {
       synchronized (mutex) {
         return delegate().merge(key, value, remappingFunction);
       }

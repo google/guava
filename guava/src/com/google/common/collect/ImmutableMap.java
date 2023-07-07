@@ -873,8 +873,9 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
   @Deprecated
   @Override
   @DoNotCall("Always throws UnsupportedOperationException")
+  @CheckForNull
   public final V merge(
-      K key, V value, BiFunction<? super V, ? super V, ? extends V> remappingFunction) {
+      K key, V value, BiFunction<? super V, ? super V, ? extends @Nullable V> function) {
     throw new UnsupportedOperationException();
   }
 
