@@ -198,6 +198,7 @@
           <links>
             <link>https://errorprone.info/api/latest/</link>
           </links>
+          <overview>../overview.html</overview>
         </configuration>
         <executions>
           <execution>
