@@ -369,8 +369,8 @@
 <span class="sourceLineNo">360</span><a id="line.360">   * elements are in the first {@code k} positions of {@code contents}, and {@code contents[i] ==</a>
 <span class="sourceLineNo">361</span><a id="line.361">   * null} for {@code k &lt;= i &lt; n}.</a>
 <span class="sourceLineNo">362</span><a id="line.362">   *</a>
-<span class="sourceLineNo">363</span><a id="line.363">   * &lt;p&gt;If {@code k == contents.length}, then {@code contents} may no longer be safe for</a>
-<span class="sourceLineNo">364</span><a id="line.364">   * modification.</a>
+<span class="sourceLineNo">363</span><a id="line.363">   * &lt;p&gt;This method takes ownership of {@code contents}; do not modify {@code contents} after this</a>
+<span class="sourceLineNo">364</span><a id="line.364">   * returns.</a>
 <span class="sourceLineNo">365</span><a id="line.365">   *</a>
 <span class="sourceLineNo">366</span><a id="line.366">   * @throws NullPointerException if any of the first {@code n} elements of {@code contents} is null</a>
 <span class="sourceLineNo">367</span><a id="line.367">   */</a>
