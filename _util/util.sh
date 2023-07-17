@@ -125,7 +125,8 @@ function expand_release {
 }
 
 # Converts an expanded release number back to its default form (no patch
-# version if the patch version is 0, RCs converted back to using -rcN).
+# version if the patch version is 0 and the major version is less than 32,
+# RCs converted back to using -rcN).
 function unexpand_release {
   local release="$1"
 
@@ -163,7 +164,7 @@ function unexpand_release {
   local rc="${release_array[3]}"
 
   local result="$major.$minor"
-  if (( patch != 0 )); then
+  if (( major >= 32 || patch != 0 )); then
     result="$result.$patch"
   fi
 
