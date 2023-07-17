@@ -4,7 +4,7 @@
 [![Build Status](https://github.com/google/guava/workflows/CI/badge.svg?branch=master)](https://github.com/google/guava/actions)
 [![OpenSSF Best Practices](https://bestpractices.coreinfrastructure.org/projects/7197/badge)](https://bestpractices.coreinfrastructure.org/projects/7197)
 
-<!-- LINT.IfChange -->
+
 
 Guava is a set of core Java libraries from Google that includes new collection
 types (such as multimap and multiset), immutable collections, a graph library,
@@ -12,7 +12,7 @@ and utilities for concurrency, I/O, hashing, primitives, strings, and more! It
 is widely used on most Java projects within Google, and widely used by many
 other companies as well.
 
-<!-- LINT.ThenChange(overview.html) -->
+
 
 Guava comes in two flavors:
 

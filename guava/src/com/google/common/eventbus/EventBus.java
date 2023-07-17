@@ -27,7 +27,7 @@ import java.util.logging.Logger;
 
 /**
  * Dispatches events to listeners, and provides ways for listeners to register themselves.
- * <!-- LINT.IfChange(avoid) -->
+
  *
  * <h2>Avoid EventBus</h2>
  *
@@ -83,7 +83,7 @@ import java.util.logging.Logger;
  *       to <a href="https://github.com/google/guava/issues/3311">more verbose</a>.
  * </ul>
  *
- * <!-- LINT.ThenChange(README.md:avoid) -->
+
  *
  * <h2>EventBus Summary</h2>
  *
