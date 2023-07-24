@@ -137,6 +137,7 @@ public class AbstractIteratorTest extends TestCase {
 
 
   @GwtIncompatible // weak references
+  @AndroidIncompatible // depends on details of GC
   public void testFreesNextReference() {
     Iterator<Object> itr =
         new AbstractIterator<Object>() {
