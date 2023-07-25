@@ -463,4 +463,6 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V>
   private void readObject(ObjectInputStream stream) throws InvalidObjectException {
     throw new InvalidObjectException("Use SerializedForm");
   }
+
+  private static final long serialVersionUID = 0xdecaf;
 }
