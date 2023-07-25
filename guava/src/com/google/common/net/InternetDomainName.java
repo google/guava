@@ -167,6 +167,12 @@ public final class InternetDomainName {
     for (int i = 0; i < partsSize; i++) {
       String ancestorName = DOT_JOINER.join(parts.subList(i, partsSize));
 
+      if (i > 0
+          && matchesType(
+              desiredType, Optional.fromNullable(PublicSuffixPatterns.UNDER.get(ancestorName)))) {
+        return i - 1;
+      }
+
       if (matchesType(
           desiredType, Optional.fromNullable(PublicSuffixPatterns.EXACT.get(ancestorName)))) {
         return i;
@@ -177,10 +183,6 @@ public final class InternetDomainName {
 
       if (PublicSuffixPatterns.EXCLUDED.containsKey(ancestorName)) {
         return i + 1;
-      }
-
-      if (matchesWildcardSuffixType(desiredType, ancestorName)) {
-        return i;
       }
     }
 
@@ -589,18 +591,6 @@ public final class InternetDomainName {
     } catch (IllegalArgumentException e) {
       return false;
     }
-  }
-
-  /**
-   * Does the domain name match one of the "wildcard" patterns (e.g. {@code "*.ar"})? If a {@code
-   * desiredType} is specified, the wildcard pattern must also match that type.
-   */
-  private static boolean matchesWildcardSuffixType(
-      Optional<PublicSuffixType> desiredType, String domain) {
-    List<String> pieces = DOT_SPLITTER.limit(2).splitToList(domain);
-    return pieces.size() == 2
-        && matchesType(
-            desiredType, Optional.fromNullable(PublicSuffixPatterns.UNDER.get(pieces.get(1))));
   }
 
   /**
