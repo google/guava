@@ -27,6 +27,7 @@ import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.Immutable;
+import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.thirdparty.publicsuffix.PublicSuffixPatterns;
 import com.google.thirdparty.publicsuffix.PublicSuffixType;
 import java.util.List;
@@ -126,6 +127,7 @@ public final class InternetDomainName {
    * value.
    */
   @SuppressWarnings("Immutable")
+  @LazyInit
   private int publicSuffixIndexCache = SUFFIX_NOT_INITIALIZED;
 
   /**
@@ -136,6 +138,7 @@ public final class InternetDomainName {
    * value.
    */
   @SuppressWarnings("Immutable")
+  @LazyInit
   private int registrySuffixIndexCache = SUFFIX_NOT_INITIALIZED;
 
   /** Constructor used to implement {@link #from(String)}, and from subclasses. */
@@ -166,10 +169,12 @@ public final class InternetDomainName {
    * suffix was found.
    */
   private int publicSuffixIndex() {
-    if (publicSuffixIndexCache == SUFFIX_NOT_INITIALIZED) {
-      publicSuffixIndexCache = findSuffixOfType(Optional.<PublicSuffixType>absent());
+    int publicSuffixIndexLocal = publicSuffixIndexCache;
+    if (publicSuffixIndexLocal == SUFFIX_NOT_INITIALIZED) {
+      publicSuffixIndexCache =
+          publicSuffixIndexLocal = findSuffixOfType(Optional.<PublicSuffixType>absent());
     }
-    return publicSuffixIndexCache;
+    return publicSuffixIndexLocal;
   }
 
   /**
@@ -179,10 +184,12 @@ public final class InternetDomainName {
    * was found.
    */
   private int registrySuffixIndex() {
-    if (registrySuffixIndexCache == SUFFIX_NOT_INITIALIZED) {
-      registrySuffixIndexCache = findSuffixOfType(Optional.of(PublicSuffixType.REGISTRY));
+    int registrySuffixIndexLocal = registrySuffixIndexCache;
+    if (registrySuffixIndexLocal == SUFFIX_NOT_INITIALIZED) {
+      registrySuffixIndexCache =
+          registrySuffixIndexLocal = findSuffixOfType(Optional.of(PublicSuffixType.REGISTRY));
     }
-    return registrySuffixIndexCache;
+    return registrySuffixIndexLocal;
   }
 
   /**
