@@ -81,10 +81,16 @@ public final class InternetDomainName {
   private static final Joiner DOT_JOINER = Joiner.on('.');
 
   /**
-   * Value of {@link #publicSuffixIndex} or {@link #registrySuffixIndex} which indicates that no
+   * Value of {@link #publicSuffixIndex()} or {@link #registrySuffixIndex()} which indicates that no
    * relevant suffix was found.
    */
   private static final int NO_SUFFIX_FOUND = -1;
+
+  /**
+   * Value of {@link #publicSuffixIndexCache} or {@link #registrySuffixIndexCache} which indicates
+   * that they were not initialized yet.
+   */
+  private static final int SUFFIX_NOT_INITIALIZED = -2;
 
   /**
    * Maximum parts (labels) in a domain name. This value arises from the 255-octet limit described
@@ -113,20 +119,24 @@ public final class InternetDomainName {
   private final ImmutableList<String> parts;
 
   /**
-   * The index in the {@link #parts()} list at which the public suffix begins. For example, for the
-   * domain name {@code myblog.blogspot.co.uk}, the value would be 1 (the index of the {@code
-   * blogspot} part). The value is negative (specifically, {@link #NO_SUFFIX_FOUND}) if no public
-   * suffix was found.
+   * Cached value of #publicSuffixIndex(). Do not use directly.
+   *
+   * <p>Since this field isn't {@code volatile}, if an instance of this class is shared across
+   * threads before it is initialized, then each thread is likely to compute their own copy of the
+   * value.
    */
-  private final int publicSuffixIndex;
+  @SuppressWarnings("Immutable")
+  private int publicSuffixIndexCache = SUFFIX_NOT_INITIALIZED;
 
   /**
-   * The index in the {@link #parts()} list at which the registry suffix begins. For example, for
-   * the domain name {@code myblog.blogspot.co.uk}, the value would be 2 (the index of the {@code
-   * co} part). The value is negative (specifically, {@link #NO_SUFFIX_FOUND}) if no registry suffix
-   * was found.
+   * Cached value of #registrySuffixIndex(). Do not use directly.
+   *
+   * <p>Since this field isn't {@code volatile}, if an instance of this class is shared across
+   * threads before it is initialized, then each thread is likely to compute their own copy of the
+   * value.
    */
-  private final int registrySuffixIndex;
+  @SuppressWarnings("Immutable")
+  private int registrySuffixIndexCache = SUFFIX_NOT_INITIALIZED;
 
   /** Constructor used to implement {@link #from(String)}, and from subclasses. */
   InternetDomainName(String name) {
@@ -147,9 +157,32 @@ public final class InternetDomainName {
     this.parts = ImmutableList.copyOf(DOT_SPLITTER.split(name));
     checkArgument(parts.size() <= MAX_PARTS, "Domain has too many parts: '%s'", name);
     checkArgument(validateSyntax(parts), "Not a valid domain name: '%s'", name);
+  }
 
-    this.publicSuffixIndex = findSuffixOfType(Optional.<PublicSuffixType>absent());
-    this.registrySuffixIndex = findSuffixOfType(Optional.of(PublicSuffixType.REGISTRY));
+  /**
+   * The index in the {@link #parts()} list at which the public suffix begins. For example, for the
+   * domain name {@code myblog.blogspot.co.uk}, the value would be 1 (the index of the {@code
+   * blogspot} part). The value is negative (specifically, {@link #NO_SUFFIX_FOUND}) if no public
+   * suffix was found.
+   */
+  private int publicSuffixIndex() {
+    if (publicSuffixIndexCache == SUFFIX_NOT_INITIALIZED) {
+      publicSuffixIndexCache = findSuffixOfType(Optional.<PublicSuffixType>absent());
+    }
+    return publicSuffixIndexCache;
+  }
+
+  /**
+   * The index in the {@link #parts()} list at which the registry suffix begins. For example, for
+   * the domain name {@code myblog.blogspot.co.uk}, the value would be 2 (the index of the {@code
+   * co} part). The value is negative (specifically, {@link #NO_SUFFIX_FOUND}) if no registry suffix
+   * was found.
+   */
+  private int registrySuffixIndex() {
+    if (registrySuffixIndexCache == SUFFIX_NOT_INITIALIZED) {
+      registrySuffixIndexCache = findSuffixOfType(Optional.of(PublicSuffixType.REGISTRY));
+    }
+    return registrySuffixIndexCache;
   }
 
   /**
@@ -331,7 +364,7 @@ public final class InternetDomainName {
    * @since 6.0
    */
   public boolean isPublicSuffix() {
-    return publicSuffixIndex == 0;
+    return publicSuffixIndex() == 0;
   }
 
   /**
@@ -347,7 +380,7 @@ public final class InternetDomainName {
    * @since 6.0
    */
   public boolean hasPublicSuffix() {
-    return publicSuffixIndex != NO_SUFFIX_FOUND;
+    return publicSuffixIndex() != NO_SUFFIX_FOUND;
   }
 
   /**
@@ -358,7 +391,7 @@ public final class InternetDomainName {
    */
   @CheckForNull
   public InternetDomainName publicSuffix() {
-    return hasPublicSuffix() ? ancestor(publicSuffixIndex) : null;
+    return hasPublicSuffix() ? ancestor(publicSuffixIndex()) : null;
   }
 
   /**
@@ -374,7 +407,7 @@ public final class InternetDomainName {
    * @since 6.0
    */
   public boolean isUnderPublicSuffix() {
-    return publicSuffixIndex > 0;
+    return publicSuffixIndex() > 0;
   }
 
   /**
@@ -390,7 +423,7 @@ public final class InternetDomainName {
    * @since 6.0
    */
   public boolean isTopPrivateDomain() {
-    return publicSuffixIndex == 1;
+    return publicSuffixIndex() == 1;
   }
 
   /**
@@ -414,7 +447,7 @@ public final class InternetDomainName {
       return this;
     }
     checkState(isUnderPublicSuffix(), "Not under a public suffix: %s", name);
-    return ancestor(publicSuffixIndex - 1);
+    return ancestor(publicSuffixIndex() - 1);
   }
 
   /**
@@ -441,7 +474,7 @@ public final class InternetDomainName {
    * @since 23.3
    */
   public boolean isRegistrySuffix() {
-    return registrySuffixIndex == 0;
+    return registrySuffixIndex() == 0;
   }
 
   /**
@@ -456,7 +489,7 @@ public final class InternetDomainName {
    * @since 23.3
    */
   public boolean hasRegistrySuffix() {
-    return registrySuffixIndex != NO_SUFFIX_FOUND;
+    return registrySuffixIndex() != NO_SUFFIX_FOUND;
   }
 
   /**
@@ -467,7 +500,7 @@ public final class InternetDomainName {
    */
   @CheckForNull
   public InternetDomainName registrySuffix() {
-    return hasRegistrySuffix() ? ancestor(registrySuffixIndex) : null;
+    return hasRegistrySuffix() ? ancestor(registrySuffixIndex()) : null;
   }
 
   /**
@@ -479,7 +512,7 @@ public final class InternetDomainName {
    * @since 23.3
    */
   public boolean isUnderRegistrySuffix() {
-    return registrySuffixIndex > 0;
+    return registrySuffixIndex() > 0;
   }
 
   /**
@@ -494,7 +527,7 @@ public final class InternetDomainName {
    * @since 23.3
    */
   public boolean isTopDomainUnderRegistrySuffix() {
-    return registrySuffixIndex == 1;
+    return registrySuffixIndex() == 1;
   }
 
   /**
@@ -517,7 +550,7 @@ public final class InternetDomainName {
       return this;
     }
     checkState(isUnderRegistrySuffix(), "Not under a registry suffix: %s", name);
-    return ancestor(registrySuffixIndex - 1);
+    return ancestor(registrySuffixIndex() - 1);
   }
 
   /** Indicates whether this domain is composed of two or more parts. */
