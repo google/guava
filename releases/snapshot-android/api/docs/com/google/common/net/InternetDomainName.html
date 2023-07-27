@@ -134,7 +134,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <hr>
 <pre><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../annotations/GwtCompatible.html#emulated()">emulated</a>=true)
 <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/Immutable.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@Immutable</a>
-public final class <a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.74">InternetDomainName</a>
+public final class <a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.75">InternetDomainName</a>
 extends java.lang.Object</pre>
 <div class="block">An immutable well-formed internet domain name, such as <code>com</code> or <code>foo.co.uk</code>. Only
  syntactic analysis is performed; no DNS lookups or other network interactions take place. Thus
@@ -384,7 +384,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>from</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public static&nbsp;<a href="InternetDomainName.html" title="class in com.google.common.net">InternetDomainName</a>&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.243">from</a>&#8203;(java.lang.String&nbsp;domain)</pre>
+public static&nbsp;<a href="InternetDomainName.html" title="class in com.google.common.net">InternetDomainName</a>&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.250">from</a>&#8203;(java.lang.String&nbsp;domain)</pre>
 <div class="block">Returns an instance of <a href="InternetDomainName.html" title="class in com.google.common.net"><code>InternetDomainName</code></a> after lenient validation. Specifically,
  validation against <a href="http://www.ietf.org/rfc/rfc3490.txt">RFC 3490</a>
  ("Internationalizing Domain Names in Applications") is skipped, while validation against <a href="http://www.ietf.org/rfc/rfc1035.txt">RFC 1035</a> is relaxed in the following ways:
@@ -411,7 +411,7 @@ public static&nbsp;<a href="InternetDomainName.html" title="class in com.google.
 <ul class="blockList">
 <li class="blockList">
 <h4>parts</h4>
-<pre class="methodSignature">public&nbsp;<a href="../collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;java.lang.String&gt;&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.342">parts</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="../collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;java.lang.String&gt;&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.349">parts</a>()</pre>
 <div class="block">Returns the individual components of this domain name, normalized to all lower case. For
  example, for the domain name <code>mail.google.com</code>, this method returns the list <code>
  ["mail", "google", "com"]</code>.</div>
@@ -423,7 +423,7 @@ public static&nbsp;<a href="InternetDomainName.html" title="class in com.google.
 <ul class="blockList">
 <li class="blockList">
 <h4>isPublicSuffix</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.366">isPublicSuffix</a>()</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.373">isPublicSuffix</a>()</pre>
 <div class="block">Indicates whether this domain name represents a <i>public suffix</i>, as defined by the Mozilla
  Foundation's <a href="http://publicsuffix.org/">Public Suffix List</a> (PSL). A public suffix
  is one under which Internet users can directly register names, such as <code>com</code>, <code>
@@ -452,7 +452,7 @@ public static&nbsp;<a href="InternetDomainName.html" title="class in com.google.
 <ul class="blockList">
 <li class="blockList">
 <h4>hasPublicSuffix</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.382">hasPublicSuffix</a>()</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.389">hasPublicSuffix</a>()</pre>
 <div class="block">Indicates whether this domain name ends in a <a href="#isPublicSuffix()">public suffix</a>,
  including if it is a public suffix itself. For example, returns <code>true</code> for <code>
  www.google.com</code>, <code>foo.co.uk</code> and <code>com</code>, but not for <code>invalid</code> or <code>
@@ -474,7 +474,7 @@ public static&nbsp;<a href="InternetDomainName.html" title="class in com.google.
 <li class="blockList">
 <h4>publicSuffix</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;<a href="InternetDomainName.html" title="class in com.google.common.net">InternetDomainName</a>&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.392">publicSuffix</a>()</pre>
+public&nbsp;<a href="InternetDomainName.html" title="class in com.google.common.net">InternetDomainName</a>&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.399">publicSuffix</a>()</pre>
 <div class="block">Returns the <a href="#isPublicSuffix()">public suffix</a> portion of the domain name, or <code>
  null</code> if no public suffix is present.</div>
 <dl>
@@ -489,7 +489,7 @@ public&nbsp;<a href="InternetDomainName.html" title="class in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>isUnderPublicSuffix</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.409">isUnderPublicSuffix</a>()</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.416">isUnderPublicSuffix</a>()</pre>
 <div class="block">Indicates whether this domain name ends in a <a href="#isPublicSuffix()">public suffix</a>,
  while not being a public suffix itself. For example, returns <code>true</code> for <code>
  www.google.com</code>, <code>foo.co.uk</code> and <code>myblog.blogspot.com</code>, but not for <code>com</code>,
@@ -510,7 +510,7 @@ public&nbsp;<a href="InternetDomainName.html" title="class in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>isTopPrivateDomain</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.425">isTopPrivateDomain</a>()</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.432">isTopPrivateDomain</a>()</pre>
 <div class="block">Indicates whether this domain name is composed of exactly one subdomain component followed by a
  <a href="#isPublicSuffix()">public suffix</a>. For example, returns <code>true</code> for <code>
  google.com</code> <code>foo.co.uk</code>, and <code>myblog.blogspot.com</code>, but not for <code>
@@ -531,7 +531,7 @@ public&nbsp;<a href="InternetDomainName.html" title="class in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>topPrivateDomain</h4>
-<pre class="methodSignature">public&nbsp;<a href="InternetDomainName.html" title="class in com.google.common.net">InternetDomainName</a>&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.445">topPrivateDomain</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="InternetDomainName.html" title="class in com.google.common.net">InternetDomainName</a>&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.452">topPrivateDomain</a>()</pre>
 <div class="block">Returns the portion of this domain name that is one level beneath the <a href="#isPublicSuffix()">public suffix</a>. For example, for <code>x.adwords.google.co.uk</code> it returns
  <code>google.co.uk</code>, since <code>co.uk</code> is a public suffix. Similarly, for <code>
  myblog.blogspot.com</code> it returns the same domain, <code>myblog.blogspot.com</code>, since <code>
@@ -556,7 +556,7 @@ public&nbsp;<a href="InternetDomainName.html" title="class in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>isRegistrySuffix</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.476">isRegistrySuffix</a>()</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.483">isRegistrySuffix</a>()</pre>
 <div class="block">Indicates whether this domain name represents a <i>registry suffix</i>, as defined by a subset
  of the Mozilla Foundation's <a href="http://publicsuffix.org/">Public Suffix List</a> (PSL). A
  registry suffix is one under which Internet users can directly register names via a domain name
@@ -588,7 +588,7 @@ public&nbsp;<a href="InternetDomainName.html" title="class in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>hasRegistrySuffix</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.491">hasRegistrySuffix</a>()</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.498">hasRegistrySuffix</a>()</pre>
 <div class="block">Indicates whether this domain name ends in a <a href="#isRegistrySuffix()">registry suffix</a>,
  including if it is a registry suffix itself. For example, returns <code>true</code> for <code>
  www.google.com</code>, <code>foo.co.uk</code> and <code>com</code>, but not for <code>invalid</code> or <code>
@@ -609,7 +609,7 @@ public&nbsp;<a href="InternetDomainName.html" title="class in com.google.common.
 <li class="blockList">
 <h4>registrySuffix</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;<a href="InternetDomainName.html" title="class in com.google.common.net">InternetDomainName</a>&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.501">registrySuffix</a>()</pre>
+public&nbsp;<a href="InternetDomainName.html" title="class in com.google.common.net">InternetDomainName</a>&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.508">registrySuffix</a>()</pre>
 <div class="block">Returns the <a href="#isRegistrySuffix()">registry suffix</a> portion of the domain name, or
  <code>null</code> if no registry suffix is present.</div>
 <dl>
@@ -624,7 +624,7 @@ public&nbsp;<a href="InternetDomainName.html" title="class in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>isUnderRegistrySuffix</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.514">isUnderRegistrySuffix</a>()</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.521">isUnderRegistrySuffix</a>()</pre>
 <div class="block">Indicates whether this domain name ends in a <a href="#isRegistrySuffix()">registry suffix</a>,
  while not being a registry suffix itself. For example, returns <code>true</code> for <code>
  www.google.com</code>, <code>foo.co.uk</code> and <code>blogspot.com</code>, but not for <code>com</code>, <code>
@@ -641,7 +641,7 @@ public&nbsp;<a href="InternetDomainName.html" title="class in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>isTopDomainUnderRegistrySuffix</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.529">isTopDomainUnderRegistrySuffix</a>()</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.536">isTopDomainUnderRegistrySuffix</a>()</pre>
 <div class="block">Indicates whether this domain name is composed of exactly one subdomain component followed by a
  <a href="#isRegistrySuffix()">registry suffix</a>. For example, returns <code>true</code> for <code>
  google.com</code>, <code>foo.co.uk</code>, and <code>blogspot.com</code>, but not for <code>www.google.com</code>,
@@ -661,7 +661,7 @@ public&nbsp;<a href="InternetDomainName.html" title="class in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>topDomainUnderRegistrySuffix</h4>
-<pre class="methodSignature">public&nbsp;<a href="InternetDomainName.html" title="class in com.google.common.net">InternetDomainName</a>&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.548">topDomainUnderRegistrySuffix</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="InternetDomainName.html" title="class in com.google.common.net">InternetDomainName</a>&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.555">topDomainUnderRegistrySuffix</a>()</pre>
 <div class="block">Returns the portion of this domain name that is one level beneath the <a href="#isRegistrySuffix()">registry suffix</a>. For example, for <code>x.adwords.google.co.uk</code> it
  returns <code>google.co.uk</code>, since <code>co.uk</code> is a registry suffix. Similarly, for <code>
  myblog.blogspot.com</code> it returns <code>blogspot.com</code>, since <code>com</code> is a registry suffix.
@@ -685,7 +685,7 @@ public&nbsp;<a href="InternetDomainName.html" title="class in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>hasParent</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.557">hasParent</a>()</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.564">hasParent</a>()</pre>
 <div class="block">Indicates whether this domain is composed of two or more parts.</div>
 </li>
 </ul>
@@ -695,7 +695,7 @@ public&nbsp;<a href="InternetDomainName.html" title="class in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>parent</h4>
-<pre class="methodSignature">public&nbsp;<a href="InternetDomainName.html" title="class in com.google.common.net">InternetDomainName</a>&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.568">parent</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="InternetDomainName.html" title="class in com.google.common.net">InternetDomainName</a>&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.575">parent</a>()</pre>
 <div class="block">Returns an <code>InternetDomainName</code> that is the immediate ancestor of this one; that is, the
  current domain with the leftmost part removed. For example, the parent of <code>
  www.google.com</code> is <code>google.com</code>.</div>
@@ -711,7 +711,7 @@ public&nbsp;<a href="InternetDomainName.html" title="class in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>child</h4>
-<pre class="methodSignature">public&nbsp;<a href="InternetDomainName.html" title="class in com.google.common.net">InternetDomainName</a>&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.593">child</a>&#8203;(java.lang.String&nbsp;leftParts)</pre>
+<pre class="methodSignature">public&nbsp;<a href="InternetDomainName.html" title="class in com.google.common.net">InternetDomainName</a>&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.600">child</a>&#8203;(java.lang.String&nbsp;leftParts)</pre>
 <div class="block">Creates and returns a new <code>InternetDomainName</code> by prepending the argument and a dot to
  the current name. For example, <code>InternetDomainName.from("foo.com").child("www.bar")</code>
  returns a new <code>InternetDomainName</code> with the value <code>www.bar.foo.com</code>. Only lenient
@@ -729,7 +729,7 @@ public&nbsp;<a href="InternetDomainName.html" title="class in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>isValid</h4>
-<pre class="methodSignature">public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.620">isValid</a>&#8203;(java.lang.String&nbsp;name)</pre>
+<pre class="methodSignature">public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.627">isValid</a>&#8203;(java.lang.String&nbsp;name)</pre>
 <div class="block">Indicates whether the argument is a syntactically valid domain name using lenient validation.
  Specifically, validation against <a href="http://www.ietf.org/rfc/rfc3490.txt">RFC 3490</a>
  ("Internationalizing Domain Names in Applications") is skipped.
@@ -761,7 +761,7 @@ public&nbsp;<a href="InternetDomainName.html" title="class in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>toString</h4>
-<pre class="methodSignature">public&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.639">toString</a>()</pre>
+<pre class="methodSignature">public&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.646">toString</a>()</pre>
 <div class="block">Returns the domain name, normalized to all lower case.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
@@ -775,7 +775,7 @@ public&nbsp;<a href="InternetDomainName.html" title="class in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.649">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.656">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                       java.lang.Object&nbsp;object)</pre>
 <div class="block">Equality testing is based on the text supplied by the caller, after normalization as described
  in the class documentation. For example, a non-ASCII Unicode domain name and the Punycode
@@ -792,7 +792,7 @@ public&nbsp;<a href="InternetDomainName.html" title="class in com.google.common.
 <ul class="blockListLast">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.663">hashCode</a>()</pre>
+<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.670">hashCode</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code>hashCode</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
