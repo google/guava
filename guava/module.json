@@ -44,6 +44,13 @@
           }
         },
         {
+          "group": "com.google.guava",
+          "module": "listenablefuture",
+          "version": {
+            "requires": "9999.0-empty-to-avoid-conflict-with-guava"
+          }
+        },
+        {
           "group": "com.google.code.findbugs",
           "module": "jsr305"
         },
@@ -76,11 +83,6 @@
           "group": "com.google.collections",
           "name": "google-collections",
           "version": "${pom.version}"
-        },
-        {
-          "group": "com.google.guava",
-          "name": "listenablefuture",
-          "version": "1.0"
         }
       ]
     },
@@ -113,6 +115,13 @@
           }
         },
         {
+          "group": "com.google.guava",
+          "module": "listenablefuture",
+          "version": {
+            "requires": "9999.0-empty-to-avoid-conflict-with-guava"
+          }
+        },
+        {
           "group": "com.google.code.findbugs",
           "module": "jsr305"
         },
@@ -141,11 +150,6 @@
           "group": "com.google.collections",
           "name": "google-collections",
           "version": "${pom.version}"
-        },
-        {
-          "group": "com.google.guava",
-          "name": "listenablefuture",
-          "version": "1.0"
         }
       ]
     },
@@ -175,6 +179,13 @@
           "module": "failureaccess",
           "version": {
             "requires": "1.0.1"
+          }
+        },
+        {
+          "group": "com.google.guava",
+          "module": "listenablefuture",
+          "version": {
+            "requires": "9999.0-empty-to-avoid-conflict-with-guava"
           }
         },
         {
@@ -210,11 +221,6 @@
           "group": "com.google.collections",
           "name": "google-collections",
           "version": "${pom.version}"
-        },
-        {
-          "group": "com.google.guava",
-          "name": "listenablefuture",
-          "version": "1.0"
         }
       ]
     },
@@ -247,6 +253,13 @@
           }
         },
         {
+          "group": "com.google.guava",
+          "module": "listenablefuture",
+          "version": {
+            "requires": "9999.0-empty-to-avoid-conflict-with-guava"
+          }
+        },
+        {
           "group": "com.google.code.findbugs",
           "module": "jsr305"
         },
@@ -275,11 +288,6 @@
           "group": "com.google.collections",
           "name": "google-collections",
           "version": "${pom.version}"
-        },
-        {
-          "group": "com.google.guava",
-          "name": "listenablefuture",
-          "version": "1.0"
         }
       ]
     }
