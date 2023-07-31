@@ -36,26 +36,38 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
+      <version>4.13.2</version>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-core</artifactId>
+      <version>4.11.0</version>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.google.truth</groupId>
       <artifactId>truth</artifactId>
+      <version>${truth.version}</version>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.google.truth.extensions</groupId>
       <artifactId>truth-java8-extension</artifactId>
+      <version>${truth.version}</version>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.google.jimfs</groupId>
       <artifactId>jimfs</artifactId>
+      <version>1.2</version>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.google.caliper</groupId>
       <artifactId>caliper</artifactId>
+      <version>1.0-beta-3</version>
+      <scope>test</scope>
     </dependency>
   </dependencies>
   <build>
