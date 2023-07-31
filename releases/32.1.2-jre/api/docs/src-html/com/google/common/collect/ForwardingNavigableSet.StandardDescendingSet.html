@@ -1,0 +1,330 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<main role="main">
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span><a id="line.1">/*</a>
+<span class="sourceLineNo">002</span><a id="line.2"> * Copyright (C) 2012 The Guava Authors</a>
+<span class="sourceLineNo">003</span><a id="line.3"> *</a>
+<span class="sourceLineNo">004</span><a id="line.4"> * Licensed under the Apache License, Version 2.0 (the "License");</a>
+<span class="sourceLineNo">005</span><a id="line.5"> * you may not use this file except in compliance with the License.</a>
+<span class="sourceLineNo">006</span><a id="line.6"> * You may obtain a copy of the License at</a>
+<span class="sourceLineNo">007</span><a id="line.7"> *</a>
+<span class="sourceLineNo">008</span><a id="line.8"> * http://www.apache.org/licenses/LICENSE-2.0</a>
+<span class="sourceLineNo">009</span><a id="line.9"> *</a>
+<span class="sourceLineNo">010</span><a id="line.10"> * Unless required by applicable law or agreed to in writing, software</a>
+<span class="sourceLineNo">011</span><a id="line.11"> * distributed under the License is distributed on an "AS IS" BASIS,</a>
+<span class="sourceLineNo">012</span><a id="line.12"> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</a>
+<span class="sourceLineNo">013</span><a id="line.13"> * See the License for the specific language governing permissions and</a>
+<span class="sourceLineNo">014</span><a id="line.14"> * limitations under the License.</a>
+<span class="sourceLineNo">015</span><a id="line.15"> */</a>
+<span class="sourceLineNo">016</span><a id="line.16"></a>
+<span class="sourceLineNo">017</span><a id="line.17">package com.google.common.collect;</a>
+<span class="sourceLineNo">018</span><a id="line.18"></a>
+<span class="sourceLineNo">019</span><a id="line.19">import com.google.common.annotations.GwtIncompatible;</a>
+<span class="sourceLineNo">020</span><a id="line.20">import java.util.Iterator;</a>
+<span class="sourceLineNo">021</span><a id="line.21">import java.util.NavigableSet;</a>
+<span class="sourceLineNo">022</span><a id="line.22">import java.util.SortedSet;</a>
+<span class="sourceLineNo">023</span><a id="line.23">import javax.annotation.CheckForNull;</a>
+<span class="sourceLineNo">024</span><a id="line.24">import org.checkerframework.checker.nullness.qual.Nullable;</a>
+<span class="sourceLineNo">025</span><a id="line.25"></a>
+<span class="sourceLineNo">026</span><a id="line.26">/**</a>
+<span class="sourceLineNo">027</span><a id="line.27"> * A navigable set which forwards all its method calls to another navigable set. Subclasses should</a>
+<span class="sourceLineNo">028</span><a id="line.28"> * override one or more methods to modify the behavior of the backing set as desired per the &lt;a</a>
+<span class="sourceLineNo">029</span><a id="line.29"> * href="http://en.wikipedia.org/wiki/Decorator_pattern"&gt;decorator pattern&lt;/a&gt;.</a>
+<span class="sourceLineNo">030</span><a id="line.30"> *</a>
+<span class="sourceLineNo">031</span><a id="line.31"> * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; The methods of {@code ForwardingNavigableSet} forward &lt;i&gt;indiscriminately&lt;/i&gt;</a>
+<span class="sourceLineNo">032</span><a id="line.32"> * to the methods of the delegate. For example, overriding {@link #add} alone &lt;i&gt;will not&lt;/i&gt; change</a>
+<span class="sourceLineNo">033</span><a id="line.33"> * the behavior of {@link #addAll}, which can lead to unexpected behavior. In this case, you should</a>
+<span class="sourceLineNo">034</span><a id="line.34"> * override {@code addAll} as well, either providing your own implementation, or delegating to the</a>
+<span class="sourceLineNo">035</span><a id="line.35"> * provided {@code standardAddAll} method.</a>
+<span class="sourceLineNo">036</span><a id="line.36"> *</a>
+<span class="sourceLineNo">037</span><a id="line.37"> * &lt;p&gt;&lt;b&gt;{@code default} method warning:&lt;/b&gt; This class does &lt;i&gt;not&lt;/i&gt; forward calls to {@code</a>
+<span class="sourceLineNo">038</span><a id="line.38"> * default} methods. Instead, it inherits their default implementations. When those implementations</a>
+<span class="sourceLineNo">039</span><a id="line.39"> * invoke methods, they invoke methods on the {@code ForwardingNavigableSet}.</a>
+<span class="sourceLineNo">040</span><a id="line.40"> *</a>
+<span class="sourceLineNo">041</span><a id="line.41"> * &lt;p&gt;Each of the {@code standard} methods uses the set's comparator (or the natural ordering of the</a>
+<span class="sourceLineNo">042</span><a id="line.42"> * elements, if there is no comparator) to test element equality. As a result, if the comparator is</a>
+<span class="sourceLineNo">043</span><a id="line.43"> * not consistent with equals, some of the standard implementations may violate the {@code Set}</a>
+<span class="sourceLineNo">044</span><a id="line.44"> * contract.</a>
+<span class="sourceLineNo">045</span><a id="line.45"> *</a>
+<span class="sourceLineNo">046</span><a id="line.46"> * &lt;p&gt;The {@code standard} methods and the collection views they return are not guaranteed to be</a>
+<span class="sourceLineNo">047</span><a id="line.47"> * thread-safe, even when all of the methods that they depend on are thread-safe.</a>
+<span class="sourceLineNo">048</span><a id="line.48"> *</a>
+<span class="sourceLineNo">049</span><a id="line.49"> * @author Louis Wasserman</a>
+<span class="sourceLineNo">050</span><a id="line.50"> * @since 12.0</a>
+<span class="sourceLineNo">051</span><a id="line.51"> */</a>
+<span class="sourceLineNo">052</span><a id="line.52">@GwtIncompatible</a>
+<span class="sourceLineNo">053</span><a id="line.53">@ElementTypesAreNonnullByDefault</a>
+<span class="sourceLineNo">054</span><a id="line.54">public abstract class ForwardingNavigableSet&lt;E extends @Nullable Object&gt;</a>
+<span class="sourceLineNo">055</span><a id="line.55">    extends ForwardingSortedSet&lt;E&gt; implements NavigableSet&lt;E&gt; {</a>
+<span class="sourceLineNo">056</span><a id="line.56"></a>
+<span class="sourceLineNo">057</span><a id="line.57">  /** Constructor for use by subclasses. */</a>
+<span class="sourceLineNo">058</span><a id="line.58">  protected ForwardingNavigableSet() {}</a>
+<span class="sourceLineNo">059</span><a id="line.59"></a>
+<span class="sourceLineNo">060</span><a id="line.60">  @Override</a>
+<span class="sourceLineNo">061</span><a id="line.61">  protected abstract NavigableSet&lt;E&gt; delegate();</a>
+<span class="sourceLineNo">062</span><a id="line.62"></a>
+<span class="sourceLineNo">063</span><a id="line.63">  @Override</a>
+<span class="sourceLineNo">064</span><a id="line.64">  @CheckForNull</a>
+<span class="sourceLineNo">065</span><a id="line.65">  public E lower(@ParametricNullness E e) {</a>
+<span class="sourceLineNo">066</span><a id="line.66">    return delegate().lower(e);</a>
+<span class="sourceLineNo">067</span><a id="line.67">  }</a>
+<span class="sourceLineNo">068</span><a id="line.68"></a>
+<span class="sourceLineNo">069</span><a id="line.69">  /**</a>
+<span class="sourceLineNo">070</span><a id="line.70">   * A sensible definition of {@link #lower} in terms of the {@code descendingIterator} method of</a>
+<span class="sourceLineNo">071</span><a id="line.71">   * {@link #headSet(Object, boolean)}. If you override {@link #headSet(Object, boolean)}, you may</a>
+<span class="sourceLineNo">072</span><a id="line.72">   * wish to override {@link #lower} to forward to this implementation.</a>
+<span class="sourceLineNo">073</span><a id="line.73">   */</a>
+<span class="sourceLineNo">074</span><a id="line.74">  @CheckForNull</a>
+<span class="sourceLineNo">075</span><a id="line.75">  protected E standardLower(@ParametricNullness E e) {</a>
+<span class="sourceLineNo">076</span><a id="line.76">    return Iterators.getNext(headSet(e, false).descendingIterator(), null);</a>
+<span class="sourceLineNo">077</span><a id="line.77">  }</a>
+<span class="sourceLineNo">078</span><a id="line.78"></a>
+<span class="sourceLineNo">079</span><a id="line.79">  @Override</a>
+<span class="sourceLineNo">080</span><a id="line.80">  @CheckForNull</a>
+<span class="sourceLineNo">081</span><a id="line.81">  public E floor(@ParametricNullness E e) {</a>
+<span class="sourceLineNo">082</span><a id="line.82">    return delegate().floor(e);</a>
+<span class="sourceLineNo">083</span><a id="line.83">  }</a>
+<span class="sourceLineNo">084</span><a id="line.84"></a>
+<span class="sourceLineNo">085</span><a id="line.85">  /**</a>
+<span class="sourceLineNo">086</span><a id="line.86">   * A sensible definition of {@link #floor} in terms of the {@code descendingIterator} method of</a>
+<span class="sourceLineNo">087</span><a id="line.87">   * {@link #headSet(Object, boolean)}. If you override {@link #headSet(Object, boolean)}, you may</a>
+<span class="sourceLineNo">088</span><a id="line.88">   * wish to override {@link #floor} to forward to this implementation.</a>
+<span class="sourceLineNo">089</span><a id="line.89">   */</a>
+<span class="sourceLineNo">090</span><a id="line.90">  @CheckForNull</a>
+<span class="sourceLineNo">091</span><a id="line.91">  protected E standardFloor(@ParametricNullness E e) {</a>
+<span class="sourceLineNo">092</span><a id="line.92">    return Iterators.getNext(headSet(e, true).descendingIterator(), null);</a>
+<span class="sourceLineNo">093</span><a id="line.93">  }</a>
+<span class="sourceLineNo">094</span><a id="line.94"></a>
+<span class="sourceLineNo">095</span><a id="line.95">  @Override</a>
+<span class="sourceLineNo">096</span><a id="line.96">  @CheckForNull</a>
+<span class="sourceLineNo">097</span><a id="line.97">  public E ceiling(@ParametricNullness E e) {</a>
+<span class="sourceLineNo">098</span><a id="line.98">    return delegate().ceiling(e);</a>
+<span class="sourceLineNo">099</span><a id="line.99">  }</a>
+<span class="sourceLineNo">100</span><a id="line.100"></a>
+<span class="sourceLineNo">101</span><a id="line.101">  /**</a>
+<span class="sourceLineNo">102</span><a id="line.102">   * A sensible definition of {@link #ceiling} in terms of the {@code iterator} method of {@link</a>
+<span class="sourceLineNo">103</span><a id="line.103">   * #tailSet(Object, boolean)}. If you override {@link #tailSet(Object, boolean)}, you may wish to</a>
+<span class="sourceLineNo">104</span><a id="line.104">   * override {@link #ceiling} to forward to this implementation.</a>
+<span class="sourceLineNo">105</span><a id="line.105">   */</a>
+<span class="sourceLineNo">106</span><a id="line.106">  @CheckForNull</a>
+<span class="sourceLineNo">107</span><a id="line.107">  protected E standardCeiling(@ParametricNullness E e) {</a>
+<span class="sourceLineNo">108</span><a id="line.108">    return Iterators.getNext(tailSet(e, true).iterator(), null);</a>
+<span class="sourceLineNo">109</span><a id="line.109">  }</a>
+<span class="sourceLineNo">110</span><a id="line.110"></a>
+<span class="sourceLineNo">111</span><a id="line.111">  @Override</a>
+<span class="sourceLineNo">112</span><a id="line.112">  @CheckForNull</a>
+<span class="sourceLineNo">113</span><a id="line.113">  public E higher(@ParametricNullness E e) {</a>
+<span class="sourceLineNo">114</span><a id="line.114">    return delegate().higher(e);</a>
+<span class="sourceLineNo">115</span><a id="line.115">  }</a>
+<span class="sourceLineNo">116</span><a id="line.116"></a>
+<span class="sourceLineNo">117</span><a id="line.117">  /**</a>
+<span class="sourceLineNo">118</span><a id="line.118">   * A sensible definition of {@link #higher} in terms of the {@code iterator} method of {@link</a>
+<span class="sourceLineNo">119</span><a id="line.119">   * #tailSet(Object, boolean)}. If you override {@link #tailSet(Object, boolean)}, you may wish to</a>
+<span class="sourceLineNo">120</span><a id="line.120">   * override {@link #higher} to forward to this implementation.</a>
+<span class="sourceLineNo">121</span><a id="line.121">   */</a>
+<span class="sourceLineNo">122</span><a id="line.122">  @CheckForNull</a>
+<span class="sourceLineNo">123</span><a id="line.123">  protected E standardHigher(@ParametricNullness E e) {</a>
+<span class="sourceLineNo">124</span><a id="line.124">    return Iterators.getNext(tailSet(e, false).iterator(), null);</a>
+<span class="sourceLineNo">125</span><a id="line.125">  }</a>
+<span class="sourceLineNo">126</span><a id="line.126"></a>
+<span class="sourceLineNo">127</span><a id="line.127">  @Override</a>
+<span class="sourceLineNo">128</span><a id="line.128">  @CheckForNull</a>
+<span class="sourceLineNo">129</span><a id="line.129">  public E pollFirst() {</a>
+<span class="sourceLineNo">130</span><a id="line.130">    return delegate().pollFirst();</a>
+<span class="sourceLineNo">131</span><a id="line.131">  }</a>
+<span class="sourceLineNo">132</span><a id="line.132"></a>
+<span class="sourceLineNo">133</span><a id="line.133">  /**</a>
+<span class="sourceLineNo">134</span><a id="line.134">   * A sensible definition of {@link #pollFirst} in terms of the {@code iterator} method. If you</a>
+<span class="sourceLineNo">135</span><a id="line.135">   * override {@link #iterator} you may wish to override {@link #pollFirst} to forward to this</a>
+<span class="sourceLineNo">136</span><a id="line.136">   * implementation.</a>
+<span class="sourceLineNo">137</span><a id="line.137">   */</a>
+<span class="sourceLineNo">138</span><a id="line.138">  @CheckForNull</a>
+<span class="sourceLineNo">139</span><a id="line.139">  protected E standardPollFirst() {</a>
+<span class="sourceLineNo">140</span><a id="line.140">    return Iterators.pollNext(iterator());</a>
+<span class="sourceLineNo">141</span><a id="line.141">  }</a>
+<span class="sourceLineNo">142</span><a id="line.142"></a>
+<span class="sourceLineNo">143</span><a id="line.143">  @Override</a>
+<span class="sourceLineNo">144</span><a id="line.144">  @CheckForNull</a>
+<span class="sourceLineNo">145</span><a id="line.145">  public E pollLast() {</a>
+<span class="sourceLineNo">146</span><a id="line.146">    return delegate().pollLast();</a>
+<span class="sourceLineNo">147</span><a id="line.147">  }</a>
+<span class="sourceLineNo">148</span><a id="line.148"></a>
+<span class="sourceLineNo">149</span><a id="line.149">  /**</a>
+<span class="sourceLineNo">150</span><a id="line.150">   * A sensible definition of {@link #pollLast} in terms of the {@code descendingIterator} method.</a>
+<span class="sourceLineNo">151</span><a id="line.151">   * If you override {@link #descendingIterator} you may wish to override {@link #pollLast} to</a>
+<span class="sourceLineNo">152</span><a id="line.152">   * forward to this implementation.</a>
+<span class="sourceLineNo">153</span><a id="line.153">   */</a>
+<span class="sourceLineNo">154</span><a id="line.154">  @CheckForNull</a>
+<span class="sourceLineNo">155</span><a id="line.155">  protected E standardPollLast() {</a>
+<span class="sourceLineNo">156</span><a id="line.156">    return Iterators.pollNext(descendingIterator());</a>
+<span class="sourceLineNo">157</span><a id="line.157">  }</a>
+<span class="sourceLineNo">158</span><a id="line.158"></a>
+<span class="sourceLineNo">159</span><a id="line.159">  @ParametricNullness</a>
+<span class="sourceLineNo">160</span><a id="line.160">  protected E standardFirst() {</a>
+<span class="sourceLineNo">161</span><a id="line.161">    return iterator().next();</a>
+<span class="sourceLineNo">162</span><a id="line.162">  }</a>
+<span class="sourceLineNo">163</span><a id="line.163"></a>
+<span class="sourceLineNo">164</span><a id="line.164">  @ParametricNullness</a>
+<span class="sourceLineNo">165</span><a id="line.165">  protected E standardLast() {</a>
+<span class="sourceLineNo">166</span><a id="line.166">    return descendingIterator().next();</a>
+<span class="sourceLineNo">167</span><a id="line.167">  }</a>
+<span class="sourceLineNo">168</span><a id="line.168"></a>
+<span class="sourceLineNo">169</span><a id="line.169">  @Override</a>
+<span class="sourceLineNo">170</span><a id="line.170">  public NavigableSet&lt;E&gt; descendingSet() {</a>
+<span class="sourceLineNo">171</span><a id="line.171">    return delegate().descendingSet();</a>
+<span class="sourceLineNo">172</span><a id="line.172">  }</a>
+<span class="sourceLineNo">173</span><a id="line.173"></a>
+<span class="sourceLineNo">174</span><a id="line.174">  /**</a>
+<span class="sourceLineNo">175</span><a id="line.175">   * A sensible implementation of {@link NavigableSet#descendingSet} in terms of the other methods</a>
+<span class="sourceLineNo">176</span><a id="line.176">   * of {@link NavigableSet}, notably including {@link NavigableSet#descendingIterator}.</a>
+<span class="sourceLineNo">177</span><a id="line.177">   *</a>
+<span class="sourceLineNo">178</span><a id="line.178">   * &lt;p&gt;In many cases, you may wish to override {@link ForwardingNavigableSet#descendingSet} to</a>
+<span class="sourceLineNo">179</span><a id="line.179">   * forward to this implementation or a subclass thereof.</a>
+<span class="sourceLineNo">180</span><a id="line.180">   *</a>
+<span class="sourceLineNo">181</span><a id="line.181">   * @since 12.0</a>
+<span class="sourceLineNo">182</span><a id="line.182">   */</a>
+<span class="sourceLineNo">183</span><a id="line.183">  protected class StandardDescendingSet extends Sets.DescendingSet&lt;E&gt; {</a>
+<span class="sourceLineNo">184</span><a id="line.184">    /** Constructor for use by subclasses. */</a>
+<span class="sourceLineNo">185</span><a id="line.185">    public StandardDescendingSet() {</a>
+<span class="sourceLineNo">186</span><a id="line.186">      super(ForwardingNavigableSet.this);</a>
+<span class="sourceLineNo">187</span><a id="line.187">    }</a>
+<span class="sourceLineNo">188</span><a id="line.188">  }</a>
+<span class="sourceLineNo">189</span><a id="line.189"></a>
+<span class="sourceLineNo">190</span><a id="line.190">  @Override</a>
+<span class="sourceLineNo">191</span><a id="line.191">  public Iterator&lt;E&gt; descendingIterator() {</a>
+<span class="sourceLineNo">192</span><a id="line.192">    return delegate().descendingIterator();</a>
+<span class="sourceLineNo">193</span><a id="line.193">  }</a>
+<span class="sourceLineNo">194</span><a id="line.194"></a>
+<span class="sourceLineNo">195</span><a id="line.195">  @Override</a>
+<span class="sourceLineNo">196</span><a id="line.196">  public NavigableSet&lt;E&gt; subSet(</a>
+<span class="sourceLineNo">197</span><a id="line.197">      @ParametricNullness E fromElement,</a>
+<span class="sourceLineNo">198</span><a id="line.198">      boolean fromInclusive,</a>
+<span class="sourceLineNo">199</span><a id="line.199">      @ParametricNullness E toElement,</a>
+<span class="sourceLineNo">200</span><a id="line.200">      boolean toInclusive) {</a>
+<span class="sourceLineNo">201</span><a id="line.201">    return delegate().subSet(fromElement, fromInclusive, toElement, toInclusive);</a>
+<span class="sourceLineNo">202</span><a id="line.202">  }</a>
+<span class="sourceLineNo">203</span><a id="line.203"></a>
+<span class="sourceLineNo">204</span><a id="line.204">  /**</a>
+<span class="sourceLineNo">205</span><a id="line.205">   * A sensible definition of {@link #subSet(Object, boolean, Object, boolean)} in terms of the</a>
+<span class="sourceLineNo">206</span><a id="line.206">   * {@code headSet} and {@code tailSet} methods. In many cases, you may wish to override {@link</a>
+<span class="sourceLineNo">207</span><a id="line.207">   * #subSet(Object, boolean, Object, boolean)} to forward to this implementation.</a>
+<span class="sourceLineNo">208</span><a id="line.208">   */</a>
+<span class="sourceLineNo">209</span><a id="line.209">  protected NavigableSet&lt;E&gt; standardSubSet(</a>
+<span class="sourceLineNo">210</span><a id="line.210">      @ParametricNullness E fromElement,</a>
+<span class="sourceLineNo">211</span><a id="line.211">      boolean fromInclusive,</a>
+<span class="sourceLineNo">212</span><a id="line.212">      @ParametricNullness E toElement,</a>
+<span class="sourceLineNo">213</span><a id="line.213">      boolean toInclusive) {</a>
+<span class="sourceLineNo">214</span><a id="line.214">    return tailSet(fromElement, fromInclusive).headSet(toElement, toInclusive);</a>
+<span class="sourceLineNo">215</span><a id="line.215">  }</a>
+<span class="sourceLineNo">216</span><a id="line.216"></a>
+<span class="sourceLineNo">217</span><a id="line.217">  /**</a>
+<span class="sourceLineNo">218</span><a id="line.218">   * A sensible definition of {@link #subSet(Object, Object)} in terms of the {@link #subSet(Object,</a>
+<span class="sourceLineNo">219</span><a id="line.219">   * boolean, Object, boolean)} method. If you override {@link #subSet(Object, boolean, Object,</a>
+<span class="sourceLineNo">220</span><a id="line.220">   * boolean)}, you may wish to override {@link #subSet(Object, Object)} to forward to this</a>
+<span class="sourceLineNo">221</span><a id="line.221">   * implementation.</a>
+<span class="sourceLineNo">222</span><a id="line.222">   */</a>
+<span class="sourceLineNo">223</span><a id="line.223">  @Override</a>
+<span class="sourceLineNo">224</span><a id="line.224">  protected SortedSet&lt;E&gt; standardSubSet(</a>
+<span class="sourceLineNo">225</span><a id="line.225">      @ParametricNullness E fromElement, @ParametricNullness E toElement) {</a>
+<span class="sourceLineNo">226</span><a id="line.226">    return subSet(fromElement, true, toElement, false);</a>
+<span class="sourceLineNo">227</span><a id="line.227">  }</a>
+<span class="sourceLineNo">228</span><a id="line.228"></a>
+<span class="sourceLineNo">229</span><a id="line.229">  @Override</a>
+<span class="sourceLineNo">230</span><a id="line.230">  public NavigableSet&lt;E&gt; headSet(@ParametricNullness E toElement, boolean inclusive) {</a>
+<span class="sourceLineNo">231</span><a id="line.231">    return delegate().headSet(toElement, inclusive);</a>
+<span class="sourceLineNo">232</span><a id="line.232">  }</a>
+<span class="sourceLineNo">233</span><a id="line.233"></a>
+<span class="sourceLineNo">234</span><a id="line.234">  /**</a>
+<span class="sourceLineNo">235</span><a id="line.235">   * A sensible definition of {@link #headSet(Object)} in terms of the {@link #headSet(Object,</a>
+<span class="sourceLineNo">236</span><a id="line.236">   * boolean)} method. If you override {@link #headSet(Object, boolean)}, you may wish to override</a>
+<span class="sourceLineNo">237</span><a id="line.237">   * {@link #headSet(Object)} to forward to this implementation.</a>
+<span class="sourceLineNo">238</span><a id="line.238">   */</a>
+<span class="sourceLineNo">239</span><a id="line.239">  protected SortedSet&lt;E&gt; standardHeadSet(@ParametricNullness E toElement) {</a>
+<span class="sourceLineNo">240</span><a id="line.240">    return headSet(toElement, false);</a>
+<span class="sourceLineNo">241</span><a id="line.241">  }</a>
+<span class="sourceLineNo">242</span><a id="line.242"></a>
+<span class="sourceLineNo">243</span><a id="line.243">  @Override</a>
+<span class="sourceLineNo">244</span><a id="line.244">  public NavigableSet&lt;E&gt; tailSet(@ParametricNullness E fromElement, boolean inclusive) {</a>
+<span class="sourceLineNo">245</span><a id="line.245">    return delegate().tailSet(fromElement, inclusive);</a>
+<span class="sourceLineNo">246</span><a id="line.246">  }</a>
+<span class="sourceLineNo">247</span><a id="line.247"></a>
+<span class="sourceLineNo">248</span><a id="line.248">  /**</a>
+<span class="sourceLineNo">249</span><a id="line.249">   * A sensible definition of {@link #tailSet(Object)} in terms of the {@link #tailSet(Object,</a>
+<span class="sourceLineNo">250</span><a id="line.250">   * boolean)} method. If you override {@link #tailSet(Object, boolean)}, you may wish to override</a>
+<span class="sourceLineNo">251</span><a id="line.251">   * {@link #tailSet(Object)} to forward to this implementation.</a>
+<span class="sourceLineNo">252</span><a id="line.252">   */</a>
+<span class="sourceLineNo">253</span><a id="line.253">  protected SortedSet&lt;E&gt; standardTailSet(@ParametricNullness E fromElement) {</a>
+<span class="sourceLineNo">254</span><a id="line.254">    return tailSet(fromElement, true);</a>
+<span class="sourceLineNo">255</span><a id="line.255">  }</a>
+<span class="sourceLineNo">256</span><a id="line.256">}</a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</main>
+</body>
+</html>
