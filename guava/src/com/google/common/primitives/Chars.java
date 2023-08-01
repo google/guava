@@ -285,8 +285,8 @@ public final class Chars {
 
   /**
    * Returns a big-endian representation of {@code value} in a 2-element byte array; equivalent to
-   * {@code ByteBuffer.allocate(2).putChar(value).array()}. For example, the input value {@code
-   * '\\u5432'} would yield the byte array {@code {0x54, 0x32}}.
+   * {@code ByteBuffer.allocate(2).order(ByteOrder.LITTLE_ENDIAN).putChar(value).array()}. For example,
+   * the input value {@code '\\u5432'} would yield the byte array {@code {0x54, 0x32}}.
    *
    * <p>If you need to convert and concatenate several values (possibly even of different types),
    * use a shared {@link java.nio.ByteBuffer} instance, or use {@link

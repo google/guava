@@ -294,8 +294,8 @@ public final class Shorts extends ShortsMethodsForWeb {
 
   /**
    * Returns a big-endian representation of {@code value} in a 2-element byte array; equivalent to
-   * {@code ByteBuffer.allocate(2).putShort(value).array()}. For example, the input value {@code
-   * (short) 0x1234} would yield the byte array {@code {0x12, 0x34}}.
+   * {@code ByteBuffer.allocate(2).order(ByteOrder.LITTLE_ENDIAN).putShort(value).array()}. For example,
+   * the input value {@code (short) 0x1234} would yield the byte array {@code {0x12, 0x34}}.
    *
    * <p>If you need to convert and concatenate several values (possibly even of different types),
    * use a shared {@link java.nio.ByteBuffer} instance, or use {@link

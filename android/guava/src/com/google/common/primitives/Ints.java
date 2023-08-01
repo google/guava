@@ -294,8 +294,8 @@ public final class Ints extends IntsMethodsForWeb {
 
   /**
    * Returns a big-endian representation of {@code value} in a 4-element byte array; equivalent to
-   * {@code ByteBuffer.allocate(4).putInt(value).array()}. For example, the input value {@code
-   * 0x12131415} would yield the byte array {@code {0x12, 0x13, 0x14, 0x15}}.
+   * {@code ByteBuffer.allocate(4).order(ByteOrder.LITTLE_ENDIAN).putInt(value).array()}. For example,
+   * the input value {@code 0x12131415} would yield the byte array {@code {0x12, 0x13, 0x14, 0x15}}.
    *
    * <p>If you need to convert and concatenate several values (possibly even of different types),
    * use a shared {@link java.nio.ByteBuffer} instance, or use {@link
