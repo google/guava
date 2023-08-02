@@ -28,16 +28,6 @@
       "dependencies": [
         {
           "group": "com.google.guava",
-          "module": "guava-parent",
-          "version": {
-            "requires": "${pom.version}"
-          },
-          "attributes": {
-            "org.gradle.category": "platform"
-          }
-        },
-        {
-          "group": "com.google.guava",
           "module": "failureaccess",
           "version": {
             "requires": "1.0.1"
@@ -52,19 +42,31 @@
         },
         {
           "group": "com.google.code.findbugs",
-          "module": "jsr305"
+          "module": "jsr305",
+          "version": {
+            "requires": "${jsr305.version}"
+          }
         },
         {
           "group": "org.checkerframework",
-          "module": "checker-qual"
+          "module": "checker-qual",
+          "version": {
+            "requires": "${checker.version}"
+          }
         },
         {
           "group": "com.google.errorprone",
-          "module": "error_prone_annotations"
+          "module": "error_prone_annotations",
+          "version": {
+            "requires": "${errorprone.version}"
+          }
         },
         {
           "group": "com.google.j2objc",
-          "module": "j2objc-annotations"
+          "module": "j2objc-annotations",
+          "version": {
+            "requires": "${j2objc.version}"
+          }
         }
       ],
       "files": [
@@ -99,16 +101,6 @@
       "dependencies": [
         {
           "group": "com.google.guava",
-          "module": "guava-parent",
-          "version": {
-            "requires": "${pom.version}"
-          },
-          "attributes": {
-            "org.gradle.category": "platform"
-          }
-        },
-        {
-          "group": "com.google.guava",
           "module": "failureaccess",
           "version": {
             "requires": "1.0.1"
@@ -123,15 +115,24 @@
         },
         {
           "group": "com.google.code.findbugs",
-          "module": "jsr305"
+          "module": "jsr305",
+          "version": {
+            "requires": "${jsr305.version}"
+          }
         },
         {
           "group": "org.checkerframework",
-          "module": "checker-qual"
+          "module": "checker-qual",
+          "version": {
+            "requires": "${checker.version}"
+          }
         },
         {
           "group": "com.google.errorprone",
-          "module": "error_prone_annotations"
+          "module": "error_prone_annotations",
+          "version": {
+            "requires": "${errorprone.version}"
+          }
         }
       ],
       "files": [
@@ -166,16 +167,6 @@
       "dependencies": [
         {
           "group": "com.google.guava",
-          "module": "guava-parent",
-          "version": {
-            "requires": "${otherVariant.version}"
-          },
-          "attributes": {
-            "org.gradle.category": "platform"
-          }
-        },
-        {
-          "group": "com.google.guava",
           "module": "failureaccess",
           "version": {
             "requires": "1.0.1"
@@ -190,19 +181,31 @@
         },
         {
           "group": "com.google.code.findbugs",
-          "module": "jsr305"
+          "module": "jsr305",
+          "version": {
+            "requires": "${jsr305.version}"
+          }
         },
         {
           "group": "org.checkerframework",
-          "module": "checker-qual"
+          "module": "checker-qual",
+          "version": {
+            "requires": "${checker.version}"
+          }
         },
         {
           "group": "com.google.errorprone",
-          "module": "error_prone_annotations"
+          "module": "error_prone_annotations",
+          "version": {
+            "requires": "${errorprone.version}"
+          }
         },
         {
           "group": "com.google.j2objc",
-          "module": "j2objc-annotations"
+          "module": "j2objc-annotations",
+          "version": {
+            "requires": "${j2objc.version}"
+          }
         }
       ],
       "files": [
@@ -237,16 +240,6 @@
       "dependencies": [
         {
           "group": "com.google.guava",
-          "module": "guava-parent",
-          "version": {
-            "requires": "${otherVariant.version}"
-          },
-          "attributes": {
-            "org.gradle.category": "platform"
-          }
-        },
-        {
-          "group": "com.google.guava",
           "module": "failureaccess",
           "version": {
             "requires": "1.0.1"
@@ -261,15 +254,24 @@
         },
         {
           "group": "com.google.code.findbugs",
-          "module": "jsr305"
+          "module": "jsr305",
+          "version": {
+            "requires": "${jsr305.version}"
+          }
         },
         {
           "group": "org.checkerframework",
-          "module": "checker-qual"
+          "module": "checker-qual",
+          "version": {
+            "requires": "${checker.version}"
+          }
         },
         {
           "group": "com.google.errorprone",
-          "module": "error_prone_annotations"
+          "module": "error_prone_annotations",
+          "version": {
+            "requires": "${errorprone.version}"
+          }
         }
       ],
       "files": [
