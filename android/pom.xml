@@ -15,6 +15,10 @@
     <!-- Override this with -Dtest.include="**/SomeTest.java" on the CLI -->
     <test.include>%regex[.*.class]</test.include>
     <truth.version>1.1.3</truth.version>
+    <jsr305.version>3.0.2</jsr305.version>
+    <checker.version>3.33.0</checker.version>
+    <errorprone.version>2.18.0</errorprone.version>
+    <j2objc.version>2.8</j2objc.version>
     <maven-javadoc-plugin.version>3.4.1</maven-javadoc-plugin.version>
     <javac.version>9+181-r4173-1</javac.version>
     <!-- Empty for all JDKs but 9-12 -->
@@ -302,24 +306,28 @@
       <dependency>
         <groupId>com.google.code.findbugs</groupId>
         <artifactId>jsr305</artifactId>
-        <version>3.0.2</version>
+        <version>${jsr305.version}</version>
       </dependency>
       <dependency>
         <groupId>org.checkerframework</groupId>
         <artifactId>checker-qual</artifactId>
-        <version>3.33.0</version>
+        <version>${checker.version}</version>
       </dependency>
       <dependency>
         <groupId>com.google.errorprone</groupId>
         <artifactId>error_prone_annotations</artifactId>
-        <version>2.18.0</version>
+        <version>${errorprone.version}</version>
       </dependency>
       <dependency>
         <groupId>com.google.j2objc</groupId>
         <artifactId>j2objc-annotations</artifactId>
-        <version>2.8</version>
+        <version>${j2objc.version}</version>
       </dependency>
-      <!-- We avoid using dependencyManagement for test-only deps because of https://github.com/google/guava/issues/6654 -->
+      <!--
+      We moved away from using dependencyManagement for test-only deps because of https://github.com/google/guava/issues/6654.
+      We could probably have resumed it after https://github.com/google/guava/pull/6664.
+      But it's always weird that published poms reference test-only libraries at all, so I'm not in any rush to do so.
+      -->
     </dependencies>
   </dependencyManagement>
   <profiles>
