@@ -16,14 +16,14 @@
     <test.include>%regex[.*.class]</test.include>
     <truth.version>1.1.3</truth.version>
     <jsr305.version>3.0.2</jsr305.version>
-    <checker.version>3.33.0</checker.version>
-    <errorprone.version>2.18.0</errorprone.version>
+    <checker.version>3.37.0</checker.version>
+    <errorprone.version>2.21.1</errorprone.version>
     <j2objc.version>2.8</j2objc.version>
-    <maven-javadoc-plugin.version>3.4.1</maven-javadoc-plugin.version>
+    <maven-javadoc-plugin.version>3.5.0</maven-javadoc-plugin.version>
     <javac.version>9+181-r4173-1</javac.version>
     <!-- Empty for all JDKs but 9-12 -->
     <maven-javadoc-plugin.additionalJOptions></maven-javadoc-plugin.additionalJOptions>
-    <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
+    <maven-source-plugin.version>3.3.0</maven-source-plugin.version>
     <project.build.outputTimestamp>2023-02-01T00:00:00Z</project.build.outputTimestamp>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <test.add.opens></test.add.opens>
