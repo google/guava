@@ -1061,160 +1061,164 @@
 <span class="sourceLineNo">1052</span><a id="line.1052">    Tokenizer tokenizer = new Tokenizer(input);</a>
 <span class="sourceLineNo">1053</span><a id="line.1053">    try {</a>
 <span class="sourceLineNo">1054</span><a id="line.1054">      String type = tokenizer.consumeToken(TOKEN_MATCHER);</a>
-<span class="sourceLineNo">1055</span><a id="line.1055">      tokenizer.consumeCharacter('/');</a>
+<span class="sourceLineNo">1055</span><a id="line.1055">      consumeSeparator(tokenizer, '/');</a>
 <span class="sourceLineNo">1056</span><a id="line.1056">      String subtype = tokenizer.consumeToken(TOKEN_MATCHER);</a>
 <span class="sourceLineNo">1057</span><a id="line.1057">      ImmutableListMultimap.Builder&lt;String, String&gt; parameters = ImmutableListMultimap.builder();</a>
 <span class="sourceLineNo">1058</span><a id="line.1058">      while (tokenizer.hasMore()) {</a>
-<span class="sourceLineNo">1059</span><a id="line.1059">        tokenizer.consumeTokenIfPresent(LINEAR_WHITE_SPACE);</a>
-<span class="sourceLineNo">1060</span><a id="line.1060">        tokenizer.consumeCharacter(';');</a>
-<span class="sourceLineNo">1061</span><a id="line.1061">        tokenizer.consumeTokenIfPresent(LINEAR_WHITE_SPACE);</a>
-<span class="sourceLineNo">1062</span><a id="line.1062">        String attribute = tokenizer.consumeToken(TOKEN_MATCHER);</a>
-<span class="sourceLineNo">1063</span><a id="line.1063">        tokenizer.consumeCharacter('=');</a>
-<span class="sourceLineNo">1064</span><a id="line.1064">        String value;</a>
-<span class="sourceLineNo">1065</span><a id="line.1065">        if ('"' == tokenizer.previewChar()) {</a>
-<span class="sourceLineNo">1066</span><a id="line.1066">          tokenizer.consumeCharacter('"');</a>
-<span class="sourceLineNo">1067</span><a id="line.1067">          StringBuilder valueBuilder = new StringBuilder();</a>
-<span class="sourceLineNo">1068</span><a id="line.1068">          while ('"' != tokenizer.previewChar()) {</a>
-<span class="sourceLineNo">1069</span><a id="line.1069">            if ('\\' == tokenizer.previewChar()) {</a>
-<span class="sourceLineNo">1070</span><a id="line.1070">              tokenizer.consumeCharacter('\\');</a>
-<span class="sourceLineNo">1071</span><a id="line.1071">              valueBuilder.append(tokenizer.consumeCharacter(ascii()));</a>
-<span class="sourceLineNo">1072</span><a id="line.1072">            } else {</a>
-<span class="sourceLineNo">1073</span><a id="line.1073">              valueBuilder.append(tokenizer.consumeToken(QUOTED_TEXT_MATCHER));</a>
-<span class="sourceLineNo">1074</span><a id="line.1074">            }</a>
-<span class="sourceLineNo">1075</span><a id="line.1075">          }</a>
-<span class="sourceLineNo">1076</span><a id="line.1076">          value = valueBuilder.toString();</a>
-<span class="sourceLineNo">1077</span><a id="line.1077">          tokenizer.consumeCharacter('"');</a>
-<span class="sourceLineNo">1078</span><a id="line.1078">        } else {</a>
-<span class="sourceLineNo">1079</span><a id="line.1079">          value = tokenizer.consumeToken(TOKEN_MATCHER);</a>
-<span class="sourceLineNo">1080</span><a id="line.1080">        }</a>
-<span class="sourceLineNo">1081</span><a id="line.1081">        parameters.put(attribute, value);</a>
-<span class="sourceLineNo">1082</span><a id="line.1082">      }</a>
-<span class="sourceLineNo">1083</span><a id="line.1083">      return create(type, subtype, parameters.build());</a>
-<span class="sourceLineNo">1084</span><a id="line.1084">    } catch (IllegalStateException e) {</a>
-<span class="sourceLineNo">1085</span><a id="line.1085">      throw new IllegalArgumentException("Could not parse '" + input + "'", e);</a>
-<span class="sourceLineNo">1086</span><a id="line.1086">    }</a>
-<span class="sourceLineNo">1087</span><a id="line.1087">  }</a>
-<span class="sourceLineNo">1088</span><a id="line.1088"></a>
-<span class="sourceLineNo">1089</span><a id="line.1089">  private static final class Tokenizer {</a>
-<span class="sourceLineNo">1090</span><a id="line.1090">    final String input;</a>
-<span class="sourceLineNo">1091</span><a id="line.1091">    int position = 0;</a>
+<span class="sourceLineNo">1059</span><a id="line.1059">        consumeSeparator(tokenizer, ';');</a>
+<span class="sourceLineNo">1060</span><a id="line.1060">        String attribute = tokenizer.consumeToken(TOKEN_MATCHER);</a>
+<span class="sourceLineNo">1061</span><a id="line.1061">        consumeSeparator(tokenizer, '=');</a>
+<span class="sourceLineNo">1062</span><a id="line.1062">        String value;</a>
+<span class="sourceLineNo">1063</span><a id="line.1063">        if ('"' == tokenizer.previewChar()) {</a>
+<span class="sourceLineNo">1064</span><a id="line.1064">          tokenizer.consumeCharacter('"');</a>
+<span class="sourceLineNo">1065</span><a id="line.1065">          StringBuilder valueBuilder = new StringBuilder();</a>
+<span class="sourceLineNo">1066</span><a id="line.1066">          while ('"' != tokenizer.previewChar()) {</a>
+<span class="sourceLineNo">1067</span><a id="line.1067">            if ('\\' == tokenizer.previewChar()) {</a>
+<span class="sourceLineNo">1068</span><a id="line.1068">              tokenizer.consumeCharacter('\\');</a>
+<span class="sourceLineNo">1069</span><a id="line.1069">              valueBuilder.append(tokenizer.consumeCharacter(ascii()));</a>
+<span class="sourceLineNo">1070</span><a id="line.1070">            } else {</a>
+<span class="sourceLineNo">1071</span><a id="line.1071">              valueBuilder.append(tokenizer.consumeToken(QUOTED_TEXT_MATCHER));</a>
+<span class="sourceLineNo">1072</span><a id="line.1072">            }</a>
+<span class="sourceLineNo">1073</span><a id="line.1073">          }</a>
+<span class="sourceLineNo">1074</span><a id="line.1074">          value = valueBuilder.toString();</a>
+<span class="sourceLineNo">1075</span><a id="line.1075">          tokenizer.consumeCharacter('"');</a>
+<span class="sourceLineNo">1076</span><a id="line.1076">        } else {</a>
+<span class="sourceLineNo">1077</span><a id="line.1077">          value = tokenizer.consumeToken(TOKEN_MATCHER);</a>
+<span class="sourceLineNo">1078</span><a id="line.1078">        }</a>
+<span class="sourceLineNo">1079</span><a id="line.1079">        parameters.put(attribute, value);</a>
+<span class="sourceLineNo">1080</span><a id="line.1080">      }</a>
+<span class="sourceLineNo">1081</span><a id="line.1081">      return create(type, subtype, parameters.build());</a>
+<span class="sourceLineNo">1082</span><a id="line.1082">    } catch (IllegalStateException e) {</a>
+<span class="sourceLineNo">1083</span><a id="line.1083">      throw new IllegalArgumentException("Could not parse '" + input + "'", e);</a>
+<span class="sourceLineNo">1084</span><a id="line.1084">    }</a>
+<span class="sourceLineNo">1085</span><a id="line.1085">  }</a>
+<span class="sourceLineNo">1086</span><a id="line.1086"></a>
+<span class="sourceLineNo">1087</span><a id="line.1087">  private static void consumeSeparator(Tokenizer tokenizer, char c) {</a>
+<span class="sourceLineNo">1088</span><a id="line.1088">    tokenizer.consumeTokenIfPresent(LINEAR_WHITE_SPACE);</a>
+<span class="sourceLineNo">1089</span><a id="line.1089">    tokenizer.consumeCharacter(c);</a>
+<span class="sourceLineNo">1090</span><a id="line.1090">    tokenizer.consumeTokenIfPresent(LINEAR_WHITE_SPACE);</a>
+<span class="sourceLineNo">1091</span><a id="line.1091">  }</a>
 <span class="sourceLineNo">1092</span><a id="line.1092"></a>
-<span class="sourceLineNo">1093</span><a id="line.1093">    Tokenizer(String input) {</a>
-<span class="sourceLineNo">1094</span><a id="line.1094">      this.input = input;</a>
-<span class="sourceLineNo">1095</span><a id="line.1095">    }</a>
+<span class="sourceLineNo">1093</span><a id="line.1093">  private static final class Tokenizer {</a>
+<span class="sourceLineNo">1094</span><a id="line.1094">    final String input;</a>
+<span class="sourceLineNo">1095</span><a id="line.1095">    int position = 0;</a>
 <span class="sourceLineNo">1096</span><a id="line.1096"></a>
-<span class="sourceLineNo">1097</span><a id="line.1097">    @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">1098</span><a id="line.1098">    String consumeTokenIfPresent(CharMatcher matcher) {</a>
-<span class="sourceLineNo">1099</span><a id="line.1099">      checkState(hasMore());</a>
-<span class="sourceLineNo">1100</span><a id="line.1100">      int startPosition = position;</a>
-<span class="sourceLineNo">1101</span><a id="line.1101">      position = matcher.negate().indexIn(input, startPosition);</a>
-<span class="sourceLineNo">1102</span><a id="line.1102">      return hasMore() ? input.substring(startPosition, position) : input.substring(startPosition);</a>
-<span class="sourceLineNo">1103</span><a id="line.1103">    }</a>
-<span class="sourceLineNo">1104</span><a id="line.1104"></a>
-<span class="sourceLineNo">1105</span><a id="line.1105">    String consumeToken(CharMatcher matcher) {</a>
-<span class="sourceLineNo">1106</span><a id="line.1106">      int startPosition = position;</a>
-<span class="sourceLineNo">1107</span><a id="line.1107">      String token = consumeTokenIfPresent(matcher);</a>
-<span class="sourceLineNo">1108</span><a id="line.1108">      checkState(position != startPosition);</a>
-<span class="sourceLineNo">1109</span><a id="line.1109">      return token;</a>
-<span class="sourceLineNo">1110</span><a id="line.1110">    }</a>
-<span class="sourceLineNo">1111</span><a id="line.1111"></a>
-<span class="sourceLineNo">1112</span><a id="line.1112">    char consumeCharacter(CharMatcher matcher) {</a>
-<span class="sourceLineNo">1113</span><a id="line.1113">      checkState(hasMore());</a>
-<span class="sourceLineNo">1114</span><a id="line.1114">      char c = previewChar();</a>
-<span class="sourceLineNo">1115</span><a id="line.1115">      checkState(matcher.matches(c));</a>
-<span class="sourceLineNo">1116</span><a id="line.1116">      position++;</a>
-<span class="sourceLineNo">1117</span><a id="line.1117">      return c;</a>
-<span class="sourceLineNo">1118</span><a id="line.1118">    }</a>
-<span class="sourceLineNo">1119</span><a id="line.1119"></a>
-<span class="sourceLineNo">1120</span><a id="line.1120">    @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">1121</span><a id="line.1121">    char consumeCharacter(char c) {</a>
-<span class="sourceLineNo">1122</span><a id="line.1122">      checkState(hasMore());</a>
-<span class="sourceLineNo">1123</span><a id="line.1123">      checkState(previewChar() == c);</a>
-<span class="sourceLineNo">1124</span><a id="line.1124">      position++;</a>
-<span class="sourceLineNo">1125</span><a id="line.1125">      return c;</a>
-<span class="sourceLineNo">1126</span><a id="line.1126">    }</a>
-<span class="sourceLineNo">1127</span><a id="line.1127"></a>
-<span class="sourceLineNo">1128</span><a id="line.1128">    char previewChar() {</a>
-<span class="sourceLineNo">1129</span><a id="line.1129">      checkState(hasMore());</a>
-<span class="sourceLineNo">1130</span><a id="line.1130">      return input.charAt(position);</a>
-<span class="sourceLineNo">1131</span><a id="line.1131">    }</a>
-<span class="sourceLineNo">1132</span><a id="line.1132"></a>
-<span class="sourceLineNo">1133</span><a id="line.1133">    boolean hasMore() {</a>
-<span class="sourceLineNo">1134</span><a id="line.1134">      return (position &gt;= 0) &amp;&amp; (position &lt; input.length());</a>
+<span class="sourceLineNo">1097</span><a id="line.1097">    Tokenizer(String input) {</a>
+<span class="sourceLineNo">1098</span><a id="line.1098">      this.input = input;</a>
+<span class="sourceLineNo">1099</span><a id="line.1099">    }</a>
+<span class="sourceLineNo">1100</span><a id="line.1100"></a>
+<span class="sourceLineNo">1101</span><a id="line.1101">    @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">1102</span><a id="line.1102">    String consumeTokenIfPresent(CharMatcher matcher) {</a>
+<span class="sourceLineNo">1103</span><a id="line.1103">      checkState(hasMore());</a>
+<span class="sourceLineNo">1104</span><a id="line.1104">      int startPosition = position;</a>
+<span class="sourceLineNo">1105</span><a id="line.1105">      position = matcher.negate().indexIn(input, startPosition);</a>
+<span class="sourceLineNo">1106</span><a id="line.1106">      return hasMore() ? input.substring(startPosition, position) : input.substring(startPosition);</a>
+<span class="sourceLineNo">1107</span><a id="line.1107">    }</a>
+<span class="sourceLineNo">1108</span><a id="line.1108"></a>
+<span class="sourceLineNo">1109</span><a id="line.1109">    String consumeToken(CharMatcher matcher) {</a>
+<span class="sourceLineNo">1110</span><a id="line.1110">      int startPosition = position;</a>
+<span class="sourceLineNo">1111</span><a id="line.1111">      String token = consumeTokenIfPresent(matcher);</a>
+<span class="sourceLineNo">1112</span><a id="line.1112">      checkState(position != startPosition);</a>
+<span class="sourceLineNo">1113</span><a id="line.1113">      return token;</a>
+<span class="sourceLineNo">1114</span><a id="line.1114">    }</a>
+<span class="sourceLineNo">1115</span><a id="line.1115"></a>
+<span class="sourceLineNo">1116</span><a id="line.1116">    char consumeCharacter(CharMatcher matcher) {</a>
+<span class="sourceLineNo">1117</span><a id="line.1117">      checkState(hasMore());</a>
+<span class="sourceLineNo">1118</span><a id="line.1118">      char c = previewChar();</a>
+<span class="sourceLineNo">1119</span><a id="line.1119">      checkState(matcher.matches(c));</a>
+<span class="sourceLineNo">1120</span><a id="line.1120">      position++;</a>
+<span class="sourceLineNo">1121</span><a id="line.1121">      return c;</a>
+<span class="sourceLineNo">1122</span><a id="line.1122">    }</a>
+<span class="sourceLineNo">1123</span><a id="line.1123"></a>
+<span class="sourceLineNo">1124</span><a id="line.1124">    @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">1125</span><a id="line.1125">    char consumeCharacter(char c) {</a>
+<span class="sourceLineNo">1126</span><a id="line.1126">      checkState(hasMore());</a>
+<span class="sourceLineNo">1127</span><a id="line.1127">      checkState(previewChar() == c);</a>
+<span class="sourceLineNo">1128</span><a id="line.1128">      position++;</a>
+<span class="sourceLineNo">1129</span><a id="line.1129">      return c;</a>
+<span class="sourceLineNo">1130</span><a id="line.1130">    }</a>
+<span class="sourceLineNo">1131</span><a id="line.1131"></a>
+<span class="sourceLineNo">1132</span><a id="line.1132">    char previewChar() {</a>
+<span class="sourceLineNo">1133</span><a id="line.1133">      checkState(hasMore());</a>
+<span class="sourceLineNo">1134</span><a id="line.1134">      return input.charAt(position);</a>
 <span class="sourceLineNo">1135</span><a id="line.1135">    }</a>
-<span class="sourceLineNo">1136</span><a id="line.1136">  }</a>
-<span class="sourceLineNo">1137</span><a id="line.1137"></a>
-<span class="sourceLineNo">1138</span><a id="line.1138">  @Override</a>
-<span class="sourceLineNo">1139</span><a id="line.1139">  public boolean equals(@CheckForNull Object obj) {</a>
-<span class="sourceLineNo">1140</span><a id="line.1140">    if (obj == this) {</a>
-<span class="sourceLineNo">1141</span><a id="line.1141">      return true;</a>
-<span class="sourceLineNo">1142</span><a id="line.1142">    } else if (obj instanceof MediaType) {</a>
-<span class="sourceLineNo">1143</span><a id="line.1143">      MediaType that = (MediaType) obj;</a>
-<span class="sourceLineNo">1144</span><a id="line.1144">      return this.type.equals(that.type)</a>
-<span class="sourceLineNo">1145</span><a id="line.1145">          &amp;&amp; this.subtype.equals(that.subtype)</a>
-<span class="sourceLineNo">1146</span><a id="line.1146">          // compare parameters regardless of order</a>
-<span class="sourceLineNo">1147</span><a id="line.1147">          &amp;&amp; this.parametersAsMap().equals(that.parametersAsMap());</a>
-<span class="sourceLineNo">1148</span><a id="line.1148">    } else {</a>
-<span class="sourceLineNo">1149</span><a id="line.1149">      return false;</a>
-<span class="sourceLineNo">1150</span><a id="line.1150">    }</a>
-<span class="sourceLineNo">1151</span><a id="line.1151">  }</a>
-<span class="sourceLineNo">1152</span><a id="line.1152"></a>
-<span class="sourceLineNo">1153</span><a id="line.1153">  @Override</a>
-<span class="sourceLineNo">1154</span><a id="line.1154">  public int hashCode() {</a>
-<span class="sourceLineNo">1155</span><a id="line.1155">    // racy single-check idiom</a>
-<span class="sourceLineNo">1156</span><a id="line.1156">    int h = hashCode;</a>
-<span class="sourceLineNo">1157</span><a id="line.1157">    if (h == 0) {</a>
-<span class="sourceLineNo">1158</span><a id="line.1158">      h = Objects.hashCode(type, subtype, parametersAsMap());</a>
-<span class="sourceLineNo">1159</span><a id="line.1159">      hashCode = h;</a>
-<span class="sourceLineNo">1160</span><a id="line.1160">    }</a>
-<span class="sourceLineNo">1161</span><a id="line.1161">    return h;</a>
-<span class="sourceLineNo">1162</span><a id="line.1162">  }</a>
-<span class="sourceLineNo">1163</span><a id="line.1163"></a>
-<span class="sourceLineNo">1164</span><a id="line.1164">  private static final MapJoiner PARAMETER_JOINER = Joiner.on("; ").withKeyValueSeparator("=");</a>
-<span class="sourceLineNo">1165</span><a id="line.1165"></a>
-<span class="sourceLineNo">1166</span><a id="line.1166">  /**</a>
-<span class="sourceLineNo">1167</span><a id="line.1167">   * Returns the string representation of this media type in the format described in &lt;a</a>
-<span class="sourceLineNo">1168</span><a id="line.1168">   * href="http://www.ietf.org/rfc/rfc2045.txt"&gt;RFC 2045&lt;/a&gt;.</a>
-<span class="sourceLineNo">1169</span><a id="line.1169">   */</a>
-<span class="sourceLineNo">1170</span><a id="line.1170">  @Override</a>
-<span class="sourceLineNo">1171</span><a id="line.1171">  public String toString() {</a>
-<span class="sourceLineNo">1172</span><a id="line.1172">    // racy single-check idiom, safe because String is immutable</a>
-<span class="sourceLineNo">1173</span><a id="line.1173">    String result = toString;</a>
-<span class="sourceLineNo">1174</span><a id="line.1174">    if (result == null) {</a>
-<span class="sourceLineNo">1175</span><a id="line.1175">      result = computeToString();</a>
-<span class="sourceLineNo">1176</span><a id="line.1176">      toString = result;</a>
-<span class="sourceLineNo">1177</span><a id="line.1177">    }</a>
-<span class="sourceLineNo">1178</span><a id="line.1178">    return result;</a>
-<span class="sourceLineNo">1179</span><a id="line.1179">  }</a>
-<span class="sourceLineNo">1180</span><a id="line.1180"></a>
-<span class="sourceLineNo">1181</span><a id="line.1181">  private String computeToString() {</a>
-<span class="sourceLineNo">1182</span><a id="line.1182">    StringBuilder builder = new StringBuilder().append(type).append('/').append(subtype);</a>
-<span class="sourceLineNo">1183</span><a id="line.1183">    if (!parameters.isEmpty()) {</a>
-<span class="sourceLineNo">1184</span><a id="line.1184">      builder.append("; ");</a>
-<span class="sourceLineNo">1185</span><a id="line.1185">      Multimap&lt;String, String&gt; quotedParameters =</a>
-<span class="sourceLineNo">1186</span><a id="line.1186">          Multimaps.transformValues(</a>
-<span class="sourceLineNo">1187</span><a id="line.1187">              parameters,</a>
-<span class="sourceLineNo">1188</span><a id="line.1188">              (String value) -&gt;</a>
-<span class="sourceLineNo">1189</span><a id="line.1189">                  (TOKEN_MATCHER.matchesAllOf(value) &amp;&amp; !value.isEmpty())</a>
-<span class="sourceLineNo">1190</span><a id="line.1190">                      ? value</a>
-<span class="sourceLineNo">1191</span><a id="line.1191">                      : escapeAndQuote(value));</a>
-<span class="sourceLineNo">1192</span><a id="line.1192">      PARAMETER_JOINER.appendTo(builder, quotedParameters.entries());</a>
-<span class="sourceLineNo">1193</span><a id="line.1193">    }</a>
-<span class="sourceLineNo">1194</span><a id="line.1194">    return builder.toString();</a>
-<span class="sourceLineNo">1195</span><a id="line.1195">  }</a>
-<span class="sourceLineNo">1196</span><a id="line.1196"></a>
-<span class="sourceLineNo">1197</span><a id="line.1197">  private static String escapeAndQuote(String value) {</a>
-<span class="sourceLineNo">1198</span><a id="line.1198">    StringBuilder escaped = new StringBuilder(value.length() + 16).append('"');</a>
-<span class="sourceLineNo">1199</span><a id="line.1199">    for (int i = 0; i &lt; value.length(); i++) {</a>
-<span class="sourceLineNo">1200</span><a id="line.1200">      char ch = value.charAt(i);</a>
-<span class="sourceLineNo">1201</span><a id="line.1201">      if (ch == '\r' || ch == '\\' || ch == '"') {</a>
-<span class="sourceLineNo">1202</span><a id="line.1202">        escaped.append('\\');</a>
-<span class="sourceLineNo">1203</span><a id="line.1203">      }</a>
-<span class="sourceLineNo">1204</span><a id="line.1204">      escaped.append(ch);</a>
-<span class="sourceLineNo">1205</span><a id="line.1205">    }</a>
-<span class="sourceLineNo">1206</span><a id="line.1206">    return escaped.append('"').toString();</a>
-<span class="sourceLineNo">1207</span><a id="line.1207">  }</a>
-<span class="sourceLineNo">1208</span><a id="line.1208">}</a>
+<span class="sourceLineNo">1136</span><a id="line.1136"></a>
+<span class="sourceLineNo">1137</span><a id="line.1137">    boolean hasMore() {</a>
+<span class="sourceLineNo">1138</span><a id="line.1138">      return (position &gt;= 0) &amp;&amp; (position &lt; input.length());</a>
+<span class="sourceLineNo">1139</span><a id="line.1139">    }</a>
+<span class="sourceLineNo">1140</span><a id="line.1140">  }</a>
+<span class="sourceLineNo">1141</span><a id="line.1141"></a>
+<span class="sourceLineNo">1142</span><a id="line.1142">  @Override</a>
+<span class="sourceLineNo">1143</span><a id="line.1143">  public boolean equals(@CheckForNull Object obj) {</a>
+<span class="sourceLineNo">1144</span><a id="line.1144">    if (obj == this) {</a>
+<span class="sourceLineNo">1145</span><a id="line.1145">      return true;</a>
+<span class="sourceLineNo">1146</span><a id="line.1146">    } else if (obj instanceof MediaType) {</a>
+<span class="sourceLineNo">1147</span><a id="line.1147">      MediaType that = (MediaType) obj;</a>
+<span class="sourceLineNo">1148</span><a id="line.1148">      return this.type.equals(that.type)</a>
+<span class="sourceLineNo">1149</span><a id="line.1149">          &amp;&amp; this.subtype.equals(that.subtype)</a>
+<span class="sourceLineNo">1150</span><a id="line.1150">          // compare parameters regardless of order</a>
+<span class="sourceLineNo">1151</span><a id="line.1151">          &amp;&amp; this.parametersAsMap().equals(that.parametersAsMap());</a>
+<span class="sourceLineNo">1152</span><a id="line.1152">    } else {</a>
+<span class="sourceLineNo">1153</span><a id="line.1153">      return false;</a>
+<span class="sourceLineNo">1154</span><a id="line.1154">    }</a>
+<span class="sourceLineNo">1155</span><a id="line.1155">  }</a>
+<span class="sourceLineNo">1156</span><a id="line.1156"></a>
+<span class="sourceLineNo">1157</span><a id="line.1157">  @Override</a>
+<span class="sourceLineNo">1158</span><a id="line.1158">  public int hashCode() {</a>
+<span class="sourceLineNo">1159</span><a id="line.1159">    // racy single-check idiom</a>
+<span class="sourceLineNo">1160</span><a id="line.1160">    int h = hashCode;</a>
+<span class="sourceLineNo">1161</span><a id="line.1161">    if (h == 0) {</a>
+<span class="sourceLineNo">1162</span><a id="line.1162">      h = Objects.hashCode(type, subtype, parametersAsMap());</a>
+<span class="sourceLineNo">1163</span><a id="line.1163">      hashCode = h;</a>
+<span class="sourceLineNo">1164</span><a id="line.1164">    }</a>
+<span class="sourceLineNo">1165</span><a id="line.1165">    return h;</a>
+<span class="sourceLineNo">1166</span><a id="line.1166">  }</a>
+<span class="sourceLineNo">1167</span><a id="line.1167"></a>
+<span class="sourceLineNo">1168</span><a id="line.1168">  private static final MapJoiner PARAMETER_JOINER = Joiner.on("; ").withKeyValueSeparator("=");</a>
+<span class="sourceLineNo">1169</span><a id="line.1169"></a>
+<span class="sourceLineNo">1170</span><a id="line.1170">  /**</a>
+<span class="sourceLineNo">1171</span><a id="line.1171">   * Returns the string representation of this media type in the format described in &lt;a</a>
+<span class="sourceLineNo">1172</span><a id="line.1172">   * href="http://www.ietf.org/rfc/rfc2045.txt"&gt;RFC 2045&lt;/a&gt;.</a>
+<span class="sourceLineNo">1173</span><a id="line.1173">   */</a>
+<span class="sourceLineNo">1174</span><a id="line.1174">  @Override</a>
+<span class="sourceLineNo">1175</span><a id="line.1175">  public String toString() {</a>
+<span class="sourceLineNo">1176</span><a id="line.1176">    // racy single-check idiom, safe because String is immutable</a>
+<span class="sourceLineNo">1177</span><a id="line.1177">    String result = toString;</a>
+<span class="sourceLineNo">1178</span><a id="line.1178">    if (result == null) {</a>
+<span class="sourceLineNo">1179</span><a id="line.1179">      result = computeToString();</a>
+<span class="sourceLineNo">1180</span><a id="line.1180">      toString = result;</a>
+<span class="sourceLineNo">1181</span><a id="line.1181">    }</a>
+<span class="sourceLineNo">1182</span><a id="line.1182">    return result;</a>
+<span class="sourceLineNo">1183</span><a id="line.1183">  }</a>
+<span class="sourceLineNo">1184</span><a id="line.1184"></a>
+<span class="sourceLineNo">1185</span><a id="line.1185">  private String computeToString() {</a>
+<span class="sourceLineNo">1186</span><a id="line.1186">    StringBuilder builder = new StringBuilder().append(type).append('/').append(subtype);</a>
+<span class="sourceLineNo">1187</span><a id="line.1187">    if (!parameters.isEmpty()) {</a>
+<span class="sourceLineNo">1188</span><a id="line.1188">      builder.append("; ");</a>
+<span class="sourceLineNo">1189</span><a id="line.1189">      Multimap&lt;String, String&gt; quotedParameters =</a>
+<span class="sourceLineNo">1190</span><a id="line.1190">          Multimaps.transformValues(</a>
+<span class="sourceLineNo">1191</span><a id="line.1191">              parameters,</a>
+<span class="sourceLineNo">1192</span><a id="line.1192">              (String value) -&gt;</a>
+<span class="sourceLineNo">1193</span><a id="line.1193">                  (TOKEN_MATCHER.matchesAllOf(value) &amp;&amp; !value.isEmpty())</a>
+<span class="sourceLineNo">1194</span><a id="line.1194">                      ? value</a>
+<span class="sourceLineNo">1195</span><a id="line.1195">                      : escapeAndQuote(value));</a>
+<span class="sourceLineNo">1196</span><a id="line.1196">      PARAMETER_JOINER.appendTo(builder, quotedParameters.entries());</a>
+<span class="sourceLineNo">1197</span><a id="line.1197">    }</a>
+<span class="sourceLineNo">1198</span><a id="line.1198">    return builder.toString();</a>
+<span class="sourceLineNo">1199</span><a id="line.1199">  }</a>
+<span class="sourceLineNo">1200</span><a id="line.1200"></a>
+<span class="sourceLineNo">1201</span><a id="line.1201">  private static String escapeAndQuote(String value) {</a>
+<span class="sourceLineNo">1202</span><a id="line.1202">    StringBuilder escaped = new StringBuilder(value.length() + 16).append('"');</a>
+<span class="sourceLineNo">1203</span><a id="line.1203">    for (int i = 0; i &lt; value.length(); i++) {</a>
+<span class="sourceLineNo">1204</span><a id="line.1204">      char ch = value.charAt(i);</a>
+<span class="sourceLineNo">1205</span><a id="line.1205">      if (ch == '\r' || ch == '\\' || ch == '"') {</a>
+<span class="sourceLineNo">1206</span><a id="line.1206">        escaped.append('\\');</a>
+<span class="sourceLineNo">1207</span><a id="line.1207">      }</a>
+<span class="sourceLineNo">1208</span><a id="line.1208">      escaped.append(ch);</a>
+<span class="sourceLineNo">1209</span><a id="line.1209">    }</a>
+<span class="sourceLineNo">1210</span><a id="line.1210">    return escaped.append('"').toString();</a>
+<span class="sourceLineNo">1211</span><a id="line.1211">  }</a>
+<span class="sourceLineNo">1212</span><a id="line.1212">}</a>
 
 
 
