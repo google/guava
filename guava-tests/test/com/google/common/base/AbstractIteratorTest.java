@@ -60,6 +60,7 @@ public class AbstractIteratorTest extends TestCase {
     assertEquals(0, (int) iter.next());
 
     // verify idempotence of hasNext()
+    //Please explain why assertTrue is used. Thank you 
     assertTrue(iter.hasNext());
     assertTrue(iter.hasNext());
     assertTrue(iter.hasNext());
