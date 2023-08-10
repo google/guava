@@ -159,7 +159,7 @@ abstract class AggregateFutureState<OutputT extends @Nullable Object>
   }
 
   private static final class SafeAtomicHelper extends AtomicHelper {
-    final AtomicReferenceFieldUpdater<AggregateFutureState<?>, Set<Throwable>>
+    final AtomicReferenceFieldUpdater<AggregateFutureState<?>, @Nullable Set<Throwable>>
         seenExceptionsUpdater;
 
     final AtomicIntegerFieldUpdater<AggregateFutureState<?>> remainingCountUpdater;
@@ -169,7 +169,7 @@ abstract class AggregateFutureState<OutputT extends @Nullable Object>
         AtomicReferenceFieldUpdater seenExceptionsUpdater,
         AtomicIntegerFieldUpdater remainingCountUpdater) {
       this.seenExceptionsUpdater =
-          (AtomicReferenceFieldUpdater<AggregateFutureState<?>, Set<Throwable>>)
+          (AtomicReferenceFieldUpdater<AggregateFutureState<?>, @Nullable Set<Throwable>>)
               seenExceptionsUpdater;
       this.remainingCountUpdater =
           (AtomicIntegerFieldUpdater<AggregateFutureState<?>>) remainingCountUpdater;
