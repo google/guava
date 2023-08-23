@@ -158,7 +158,8 @@ public class Finalizer implements Runnable {
    * @return true if the caller should continue, false if the associated FinalizableReferenceQueue
    *     is no longer referenced.
    */
-  private boolean cleanUp(Reference<?> reference) {
+  private boolean cleanUp(Reference<?> referenceParam) {
+    Reference<?> reference = referenceParam;
     Method finalizeReferentMethod = getFinalizeReferentMethod();
     if (finalizeReferentMethod == null) {
       return false;
