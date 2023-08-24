@@ -244,7 +244,7 @@ implements java.util.Map&lt;K,&#8203;V&gt;, java.io.Serializable</pre>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code><a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#compute(K,java.util.function.BiFunction)">compute</a></span>&#8203;(<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>&nbsp;key,
-       java.util.function.BiFunction&lt;? super <a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;? super <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>,&#8203;? extends <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;&nbsp;remappingFunction)</code></th>
+       java.util.function.BiFunction&lt;? super <a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;? super <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>,&#8203;? extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;&nbsp;remappingFunction)</code></th>
 <td class="colLast">
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Unsupported operation.</div>
@@ -264,7 +264,7 @@ implements java.util.Map&lt;K,&#8203;V&gt;, java.io.Serializable</pre>
 <tr id="i6" class="altColor">
 <td class="colFirst"><code><a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#computeIfPresent(K,java.util.function.BiFunction)">computeIfPresent</a></span>&#8203;(<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>&nbsp;key,
-                java.util.function.BiFunction&lt;? super <a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;? super <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>,&#8203;? extends <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;&nbsp;remappingFunction)</code></th>
+                java.util.function.BiFunction&lt;? super <a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;? super <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>,&#8203;? extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;&nbsp;remappingFunction)</code></th>
 <td class="colLast">
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Unsupported operation.</div>
@@ -1210,8 +1210,9 @@ public final&nbsp;<a href="ImmutableMap.html" title="type parameter in Immutable
 <li class="blockList">
 <h4>computeIfPresent</h4>
 <pre class="methodSignature">@Deprecated
+<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
 public final&nbsp;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.845">computeIfPresent</a>&#8203;(<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>&nbsp;key,
-                                java.util.function.BiFunction&lt;? super <a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;? super <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>,&#8203;? extends <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;&nbsp;remappingFunction)</pre>
+                                java.util.function.BiFunction&lt;? super <a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;? super <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>,&#8203;? extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;&nbsp;remappingFunction)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Unsupported operation.</div>
 </div>
@@ -1233,8 +1234,9 @@ public final&nbsp;<a href="ImmutableMap.html" title="type parameter in Immutable
 <li class="blockList">
 <h4>compute</h4>
 <pre class="methodSignature">@Deprecated
-public final&nbsp;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.859">compute</a>&#8203;(<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>&nbsp;key,
-                       java.util.function.BiFunction&lt;? super <a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;? super <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>,&#8203;? extends <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;&nbsp;remappingFunction)</pre>
+<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+public final&nbsp;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.860">compute</a>&#8203;(<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>&nbsp;key,
+                       java.util.function.BiFunction&lt;? super <a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;? super <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>,&#8203;? extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;&nbsp;remappingFunction)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Unsupported operation.</div>
 </div>
@@ -1257,7 +1259,7 @@ public final&nbsp;<a href="ImmutableMap.html" title="type parameter in Immutable
 <h4>merge</h4>
 <pre class="methodSignature">@Deprecated
 <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public final&nbsp;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.873">merge</a>&#8203;(<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>&nbsp;key,
+public final&nbsp;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.875">merge</a>&#8203;(<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>&nbsp;key,
                      <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&nbsp;value,
                      java.util.function.BiFunction&lt;? super <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>,&#8203;? super <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>,&#8203;? extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;&nbsp;function)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
@@ -1279,7 +1281,7 @@ public final&nbsp;<a href="ImmutableMap.html" title="type parameter in Immutable
 <li class="blockList">
 <h4>putAll</h4>
 <pre class="methodSignature">@Deprecated
-public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.888">putAll</a>&#8203;(java.util.Map&lt;? extends <a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;? extends <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;&nbsp;map)</pre>
+public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.890">putAll</a>&#8203;(java.util.Map&lt;? extends <a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;? extends <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;&nbsp;map)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Unsupported operation.</div>
 </div>
@@ -1299,7 +1301,7 @@ public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/coll
 <li class="blockList">
 <h4>replaceAll</h4>
 <pre class="methodSignature">@Deprecated
-public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.901">replaceAll</a>&#8203;(java.util.function.BiFunction&lt;? super <a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;? super <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>,&#8203;? extends <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;&nbsp;function)</pre>
+public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.903">replaceAll</a>&#8203;(java.util.function.BiFunction&lt;? super <a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;? super <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>,&#8203;? extends <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;&nbsp;function)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Unsupported operation.</div>
 </div>
@@ -1320,7 +1322,7 @@ public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/coll
 <h4>remove</h4>
 <pre class="methodSignature">@Deprecated
 <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public final&nbsp;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.914">remove</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+public final&nbsp;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.916">remove</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                       java.lang.Object&nbsp;o)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Unsupported operation.</div>
@@ -1341,7 +1343,7 @@ public final&nbsp;<a href="ImmutableMap.html" title="type parameter in Immutable
 <li class="blockList">
 <h4>remove</h4>
 <pre class="methodSignature">@Deprecated
-public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.928">remove</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.930">remove</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                             java.lang.Object&nbsp;key,
                             <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                             java.lang.Object&nbsp;value)</pre>
@@ -1364,7 +1366,7 @@ public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/c
 <li class="blockList">
 <h4>clear</h4>
 <pre class="methodSignature">@Deprecated
-public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.941">clear</a>()</pre>
+public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.943">clear</a>()</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Unsupported operation.</div>
 </div>
@@ -1383,7 +1385,7 @@ public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/coll
 <ul class="blockList">
 <li class="blockList">
 <h4>isEmpty</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.948">isEmpty</a>()</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.950">isEmpty</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>isEmpty</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;</code></dd>
@@ -1396,7 +1398,7 @@ public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/coll
 <ul class="blockList">
 <li class="blockList">
 <h4>containsKey</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.953">containsKey</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.955">containsKey</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                            java.lang.Object&nbsp;key)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
@@ -1410,7 +1412,7 @@ public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/coll
 <ul class="blockList">
 <li class="blockList">
 <h4>containsValue</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.958">containsValue</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.960">containsValue</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                              java.lang.Object&nbsp;value)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
@@ -1425,7 +1427,7 @@ public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/coll
 <li class="blockList">
 <h4>get</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public abstract&nbsp;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.964">get</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+public abstract&nbsp;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.966">get</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                       java.lang.Object&nbsp;key)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
@@ -1442,7 +1444,7 @@ public abstract&nbsp;<a href="ImmutableMap.html" title="type parameter in Immuta
 <li class="blockList">
 <h4>getOrDefault</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public final&nbsp;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.973">getOrDefault</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+public final&nbsp;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.975">getOrDefault</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                             java.lang.Object&nbsp;key,
                             <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                             <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&nbsp;defaultValue)</pre>
@@ -1461,7 +1463,7 @@ public final&nbsp;<a href="ImmutableMap.html" title="type parameter in Immutable
 <ul class="blockList">
 <li class="blockList">
 <h4>entrySet</h4>
-<pre class="methodSignature">public&nbsp;<a href="ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;java.util.Map.Entry&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.1016">entrySet</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;java.util.Map.Entry&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.1018">entrySet</a>()</pre>
 <div class="block">Returns an immutable set of the mappings in this map. The iteration order is specified by the
  method used to create this map. Typically, this is insertion order.</div>
 <dl>
@@ -1476,7 +1478,7 @@ public final&nbsp;<a href="ImmutableMap.html" title="type parameter in Immutable
 <ul class="blockList">
 <li class="blockList">
 <h4>keySet</h4>
-<pre class="methodSignature">public&nbsp;<a href="ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.1030">keySet</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.1032">keySet</a>()</pre>
 <div class="block">Returns an immutable set of the keys in this map, in the same order that they appear in <a href="#entrySet"><code>entrySet</code></a>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
@@ -1490,7 +1492,7 @@ public final&nbsp;<a href="ImmutableMap.html" title="type parameter in Immutable
 <ul class="blockList">
 <li class="blockList">
 <h4>values</h4>
-<pre class="methodSignature">public&nbsp;<a href="ImmutableCollection.html" title="class in com.google.common.collect">ImmutableCollection</a>&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.1068">values</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="ImmutableCollection.html" title="class in com.google.common.collect">ImmutableCollection</a>&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.1070">values</a>()</pre>
 <div class="block">Returns an immutable collection of the values in this map, in the same order that they appear
  in <a href="#entrySet"><code>entrySet</code></a>.</div>
 <dl>
@@ -1505,7 +1507,7 @@ public final&nbsp;<a href="ImmutableMap.html" title="type parameter in Immutable
 <ul class="blockList">
 <li class="blockList">
 <h4>asMultimap</h4>
-<pre class="methodSignature">public&nbsp;<a href="ImmutableSetMultimap.html" title="class in com.google.common.collect">ImmutableSetMultimap</a>&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.1089">asMultimap</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="ImmutableSetMultimap.html" title="class in com.google.common.collect">ImmutableSetMultimap</a>&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.1091">asMultimap</a>()</pre>
 <div class="block">Returns a multimap view of the map.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -1519,7 +1521,7 @@ public final&nbsp;<a href="ImmutableMap.html" title="type parameter in Immutable
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.1170">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.1172">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                       java.lang.Object&nbsp;object)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
@@ -1535,7 +1537,7 @@ public final&nbsp;<a href="ImmutableMap.html" title="type parameter in Immutable
 <ul class="blockList">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.1177">hashCode</a>()</pre>
+<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.1179">hashCode</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>hashCode</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;</code></dd>
@@ -1550,7 +1552,7 @@ public final&nbsp;<a href="ImmutableMap.html" title="type parameter in Immutable
 <ul class="blockListLast">
 <li class="blockList">
 <h4>toString</h4>
-<pre class="methodSignature">public&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.1186">toString</a>()</pre>
+<pre class="methodSignature">public&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.1188">toString</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code>toString</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>

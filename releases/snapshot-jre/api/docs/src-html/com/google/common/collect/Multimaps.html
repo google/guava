@@ -294,8 +294,8 @@
 <span class="sourceLineNo">285</span><a id="line.285">    @SuppressWarnings("unchecked") // reading data stored by writeObject</a>
 <span class="sourceLineNo">286</span><a id="line.286">    private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {</a>
 <span class="sourceLineNo">287</span><a id="line.287">      stream.defaultReadObject();</a>
-<span class="sourceLineNo">288</span><a id="line.288">      factory = (Supplier&lt;? extends Collection&lt;V&gt;&gt;) stream.readObject();</a>
-<span class="sourceLineNo">289</span><a id="line.289">      Map&lt;K, Collection&lt;V&gt;&gt; map = (Map&lt;K, Collection&lt;V&gt;&gt;) stream.readObject();</a>
+<span class="sourceLineNo">288</span><a id="line.288">      factory = (Supplier&lt;? extends Collection&lt;V&gt;&gt;) requireNonNull(stream.readObject());</a>
+<span class="sourceLineNo">289</span><a id="line.289">      Map&lt;K, Collection&lt;V&gt;&gt; map = (Map&lt;K, Collection&lt;V&gt;&gt;) requireNonNull(stream.readObject());</a>
 <span class="sourceLineNo">290</span><a id="line.290">      setMap(map);</a>
 <span class="sourceLineNo">291</span><a id="line.291">    }</a>
 <span class="sourceLineNo">292</span><a id="line.292"></a>
@@ -380,8 +380,8 @@
 <span class="sourceLineNo">371</span><a id="line.371">    @SuppressWarnings("unchecked") // reading data stored by writeObject</a>
 <span class="sourceLineNo">372</span><a id="line.372">    private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {</a>
 <span class="sourceLineNo">373</span><a id="line.373">      stream.defaultReadObject();</a>
-<span class="sourceLineNo">374</span><a id="line.374">      factory = (Supplier&lt;? extends List&lt;V&gt;&gt;) stream.readObject();</a>
-<span class="sourceLineNo">375</span><a id="line.375">      Map&lt;K, Collection&lt;V&gt;&gt; map = (Map&lt;K, Collection&lt;V&gt;&gt;) stream.readObject();</a>
+<span class="sourceLineNo">374</span><a id="line.374">      factory = (Supplier&lt;? extends List&lt;V&gt;&gt;) requireNonNull(stream.readObject());</a>
+<span class="sourceLineNo">375</span><a id="line.375">      Map&lt;K, Collection&lt;V&gt;&gt; map = (Map&lt;K, Collection&lt;V&gt;&gt;) requireNonNull(stream.readObject());</a>
 <span class="sourceLineNo">376</span><a id="line.376">      setMap(map);</a>
 <span class="sourceLineNo">377</span><a id="line.377">    }</a>
 <span class="sourceLineNo">378</span><a id="line.378"></a>
@@ -488,8 +488,8 @@
 <span class="sourceLineNo">479</span><a id="line.479">    @SuppressWarnings("unchecked") // reading data stored by writeObject</a>
 <span class="sourceLineNo">480</span><a id="line.480">    private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {</a>
 <span class="sourceLineNo">481</span><a id="line.481">      stream.defaultReadObject();</a>
-<span class="sourceLineNo">482</span><a id="line.482">      factory = (Supplier&lt;? extends Set&lt;V&gt;&gt;) stream.readObject();</a>
-<span class="sourceLineNo">483</span><a id="line.483">      Map&lt;K, Collection&lt;V&gt;&gt; map = (Map&lt;K, Collection&lt;V&gt;&gt;) stream.readObject();</a>
+<span class="sourceLineNo">482</span><a id="line.482">      factory = (Supplier&lt;? extends Set&lt;V&gt;&gt;) requireNonNull(stream.readObject());</a>
+<span class="sourceLineNo">483</span><a id="line.483">      Map&lt;K, Collection&lt;V&gt;&gt; map = (Map&lt;K, Collection&lt;V&gt;&gt;) requireNonNull(stream.readObject());</a>
 <span class="sourceLineNo">484</span><a id="line.484">      setMap(map);</a>
 <span class="sourceLineNo">485</span><a id="line.485">    }</a>
 <span class="sourceLineNo">486</span><a id="line.486"></a>
@@ -582,9 +582,9 @@
 <span class="sourceLineNo">573</span><a id="line.573">    @SuppressWarnings("unchecked") // reading data stored by writeObject</a>
 <span class="sourceLineNo">574</span><a id="line.574">    private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {</a>
 <span class="sourceLineNo">575</span><a id="line.575">      stream.defaultReadObject();</a>
-<span class="sourceLineNo">576</span><a id="line.576">      factory = (Supplier&lt;? extends SortedSet&lt;V&gt;&gt;) stream.readObject();</a>
+<span class="sourceLineNo">576</span><a id="line.576">      factory = (Supplier&lt;? extends SortedSet&lt;V&gt;&gt;) requireNonNull(stream.readObject());</a>
 <span class="sourceLineNo">577</span><a id="line.577">      valueComparator = factory.get().comparator();</a>
-<span class="sourceLineNo">578</span><a id="line.578">      Map&lt;K, Collection&lt;V&gt;&gt; map = (Map&lt;K, Collection&lt;V&gt;&gt;) stream.readObject();</a>
+<span class="sourceLineNo">578</span><a id="line.578">      Map&lt;K, Collection&lt;V&gt;&gt; map = (Map&lt;K, Collection&lt;V&gt;&gt;) requireNonNull(stream.readObject());</a>
 <span class="sourceLineNo">579</span><a id="line.579">      setMap(map);</a>
 <span class="sourceLineNo">580</span><a id="line.580">    }</a>
 <span class="sourceLineNo">581</span><a id="line.581"></a>

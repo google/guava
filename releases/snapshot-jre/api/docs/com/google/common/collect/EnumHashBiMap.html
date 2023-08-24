@@ -147,7 +147,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <hr>
 <pre><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../annotations/GwtCompatible.html#emulated()">emulated</a>=true)
-public final class <a href="../../../../src-html/com/google/common/collect/EnumHashBiMap.html#line.45">EnumHashBiMap</a>&lt;K extends java.lang.Enum&lt;K&gt;,&#8203;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;
+public final class <a href="../../../../src-html/com/google/common/collect/EnumHashBiMap.html#line.46">EnumHashBiMap</a>&lt;K extends java.lang.Enum&lt;K&gt;,&#8203;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;
 extends <a href="ForwardingMap.html" title="class in com.google.common.collect">ForwardingMap</a>&lt;K,&#8203;V&gt;</pre>
 <div class="block">A <code>BiMap</code> backed by an <code>EnumMap</code> instance for keys-to-values, and a <code>HashMap</code>
  instance for values-to-keys. Null keys are not permitted, but null values are. An <code>
@@ -345,7 +345,7 @@ extends <a href="ForwardingMap.html" title="class in com.google.common.collect">
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre class="methodSignature">public static&nbsp;&lt;K extends java.lang.Enum&lt;K&gt;,&#8203;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="EnumHashBiMap.html" title="class in com.google.common.collect">EnumHashBiMap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/EnumHashBiMap.html#line.57">create</a>&#8203;(java.lang.Class&lt;K&gt;&nbsp;keyType)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;K extends java.lang.Enum&lt;K&gt;,&#8203;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="EnumHashBiMap.html" title="class in com.google.common.collect">EnumHashBiMap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/EnumHashBiMap.html#line.58">create</a>&#8203;(java.lang.Class&lt;K&gt;&nbsp;keyType)</pre>
 <div class="block">Returns a new, empty <code>EnumHashBiMap</code> using the specified key type.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -359,7 +359,7 @@ extends <a href="ForwardingMap.html" title="class in com.google.common.collect">
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre class="methodSignature">public static&nbsp;&lt;K extends java.lang.Enum&lt;K&gt;,&#8203;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="EnumHashBiMap.html" title="class in com.google.common.collect">EnumHashBiMap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/EnumHashBiMap.html#line.72">create</a>&#8203;(java.util.Map&lt;K,&#8203;? extends V&gt;&nbsp;map)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;K extends java.lang.Enum&lt;K&gt;,&#8203;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="EnumHashBiMap.html" title="class in com.google.common.collect">EnumHashBiMap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/EnumHashBiMap.html#line.73">create</a>&#8203;(java.util.Map&lt;K,&#8203;? extends V&gt;&nbsp;map)</pre>
 <div class="block">Constructs a new bimap with the same mappings as the specified map. If the specified map is an
  <code>EnumHashBiMap</code> or an <a href="EnumBiMap.html" title="class in com.google.common.collect"><code>EnumBiMap</code></a>, the new bimap has the same key type as the input
  bimap. Otherwise, the specified map must contain at least one mapping, in order to determine
@@ -383,7 +383,7 @@ extends <a href="ForwardingMap.html" title="class in com.google.common.collect">
 <h4>put</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;<a href="EnumHashBiMap.html" title="type parameter in EnumHashBiMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/EnumHashBiMap.html#line.92">put</a>&#8203;(<a href="EnumHashBiMap.html" title="type parameter in EnumHashBiMap">K</a>&nbsp;key,
+public&nbsp;<a href="EnumHashBiMap.html" title="type parameter in EnumHashBiMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/EnumHashBiMap.html#line.93">put</a>&#8203;(<a href="EnumHashBiMap.html" title="type parameter in EnumHashBiMap">K</a>&nbsp;key,
              <a href="EnumHashBiMap.html" title="type parameter in EnumHashBiMap">V</a>&nbsp;value)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="BiMap.html#put(K,V)">BiMap</a></code></span></div>
 <dl>
@@ -404,7 +404,7 @@ public&nbsp;<a href="EnumHashBiMap.html" title="type parameter in EnumHashBiMap"
 <h4>forcePut</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;<a href="EnumHashBiMap.html" title="type parameter in EnumHashBiMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/EnumHashBiMap.html#line.101">forcePut</a>&#8203;(<a href="EnumHashBiMap.html" title="type parameter in EnumHashBiMap">K</a>&nbsp;key,
+public&nbsp;<a href="EnumHashBiMap.html" title="type parameter in EnumHashBiMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/EnumHashBiMap.html#line.102">forcePut</a>&#8203;(<a href="EnumHashBiMap.html" title="type parameter in EnumHashBiMap">K</a>&nbsp;key,
                   <a href="EnumHashBiMap.html" title="type parameter in EnumHashBiMap">V</a>&nbsp;value)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="BiMap.html#forcePut(K,V)">BiMap</a></code></span></div>
 <div class="block">An alternate form of <code>put</code> that silently removes any existing entry with the value <code>
@@ -437,7 +437,7 @@ public&nbsp;<a href="EnumHashBiMap.html" title="type parameter in EnumHashBiMap"
 <li class="blockList">
 <h4>keyType</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public&nbsp;java.lang.Class&lt;<a href="EnumHashBiMap.html" title="type parameter in EnumHashBiMap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/EnumHashBiMap.html#line.111">keyType</a>()</pre>
+public&nbsp;java.lang.Class&lt;<a href="EnumHashBiMap.html" title="type parameter in EnumHashBiMap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/EnumHashBiMap.html#line.112">keyType</a>()</pre>
 <div class="block">Returns the associated key type.</div>
 </li>
 </ul>

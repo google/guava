@@ -1085,7 +1085,7 @@
 <span class="sourceLineNo">1076</span><a id="line.1076">    stream.defaultReadObject();</a>
 <span class="sourceLineNo">1077</span><a id="line.1077">    @SuppressWarnings("unchecked")</a>
 <span class="sourceLineNo">1078</span><a id="line.1078">    // reading data stored by writeObject</a>
-<span class="sourceLineNo">1079</span><a id="line.1079">    Comparator&lt;? super E&gt; comparator = (Comparator&lt;? super E&gt;) stream.readObject();</a>
+<span class="sourceLineNo">1079</span><a id="line.1079">    Comparator&lt;? super E&gt; comparator = (Comparator&lt;? super E&gt;) requireNonNull(stream.readObject());</a>
 <span class="sourceLineNo">1080</span><a id="line.1080">    Serialization.getFieldSetter(AbstractSortedMultiset.class, "comparator").set(this, comparator);</a>
 <span class="sourceLineNo">1081</span><a id="line.1081">    Serialization.getFieldSetter(TreeMultiset.class, "range")</a>
 <span class="sourceLineNo">1082</span><a id="line.1082">        .set(this, GeneralRange.all(comparator));</a>
