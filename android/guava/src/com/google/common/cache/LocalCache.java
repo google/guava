@@ -277,7 +277,8 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     // will result in random eviction behavior.
     int segmentShift = 0;
     int segmentCount = 1;
-    while (segmentCount < concurrencyLevel && (!evictsBySize() || segmentCount * 20 <= maxWeight)) {
+    while (segmentCount < concurrencyLevel
+        && (!evictsBySize() || segmentCount * 20L <= maxWeight)) {
       ++segmentShift;
       segmentCount <<= 1;
     }
@@ -3430,6 +3431,11 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
       this(LocalCache.<K, V>unset());
     }
 
+    /*
+     * TODO(cpovirk): Consider making this implementation closer to the mainline implementation.
+     * (The difference was introduced as part of Java-8-specific changes in cl/132882204, but we
+     * could probably make *some* of those changes here in the backport, too.)
+     */
     public LoadingValueReference(ValueReference<K, V> oldValue) {
       this.oldValue = oldValue;
     }

@@ -19,6 +19,7 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.Platform.getDeclaringClassOrObjectForJ2cl;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -151,8 +152,8 @@ public final class EnumBiMap<K extends Enum<K>, V extends Enum<V>> extends Abstr
   @GwtIncompatible // java.io.ObjectInputStream
   private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
     stream.defaultReadObject();
-    keyTypeOrObjectUnderJ2cl = (Class<K>) stream.readObject();
-    valueTypeOrObjectUnderJ2cl = (Class<V>) stream.readObject();
+    keyTypeOrObjectUnderJ2cl = (Class<K>) requireNonNull(stream.readObject());
+    valueTypeOrObjectUnderJ2cl = (Class<V>) requireNonNull(stream.readObject());
     setDelegates(
         new EnumMap<K, V>(keyTypeOrObjectUnderJ2cl), new EnumMap<V, K>(valueTypeOrObjectUnderJ2cl));
     Serialization.populateMap(this, stream);

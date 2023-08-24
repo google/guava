@@ -285,8 +285,8 @@ public final class Multimaps {
     @SuppressWarnings("unchecked") // reading data stored by writeObject
     private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
       stream.defaultReadObject();
-      factory = (Supplier<? extends Collection<V>>) stream.readObject();
-      Map<K, Collection<V>> map = (Map<K, Collection<V>>) stream.readObject();
+      factory = (Supplier<? extends Collection<V>>) requireNonNull(stream.readObject());
+      Map<K, Collection<V>> map = (Map<K, Collection<V>>) requireNonNull(stream.readObject());
       setMap(map);
     }
 
@@ -371,8 +371,8 @@ public final class Multimaps {
     @SuppressWarnings("unchecked") // reading data stored by writeObject
     private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
       stream.defaultReadObject();
-      factory = (Supplier<? extends List<V>>) stream.readObject();
-      Map<K, Collection<V>> map = (Map<K, Collection<V>>) stream.readObject();
+      factory = (Supplier<? extends List<V>>) requireNonNull(stream.readObject());
+      Map<K, Collection<V>> map = (Map<K, Collection<V>>) requireNonNull(stream.readObject());
       setMap(map);
     }
 
@@ -479,8 +479,8 @@ public final class Multimaps {
     @SuppressWarnings("unchecked") // reading data stored by writeObject
     private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
       stream.defaultReadObject();
-      factory = (Supplier<? extends Set<V>>) stream.readObject();
-      Map<K, Collection<V>> map = (Map<K, Collection<V>>) stream.readObject();
+      factory = (Supplier<? extends Set<V>>) requireNonNull(stream.readObject());
+      Map<K, Collection<V>> map = (Map<K, Collection<V>>) requireNonNull(stream.readObject());
       setMap(map);
     }
 
@@ -573,9 +573,9 @@ public final class Multimaps {
     @SuppressWarnings("unchecked") // reading data stored by writeObject
     private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
       stream.defaultReadObject();
-      factory = (Supplier<? extends SortedSet<V>>) stream.readObject();
+      factory = (Supplier<? extends SortedSet<V>>) requireNonNull(stream.readObject());
       valueComparator = factory.get().comparator();
-      Map<K, Collection<V>> map = (Map<K, Collection<V>>) stream.readObject();
+      Map<K, Collection<V>> map = (Map<K, Collection<V>>) requireNonNull(stream.readObject());
       setMap(map);
     }
 

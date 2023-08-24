@@ -845,8 +845,9 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
   @Deprecated
   @Override
   @DoNotCall("Always throws UnsupportedOperationException")
+  @CheckForNull
   public final V computeIfPresent(
-      K key, BiFunction<? super K, ? super V, ? extends V> remappingFunction) {
+      K key, BiFunction<? super K, ? super V, ? extends @Nullable V> remappingFunction) {
     throw new UnsupportedOperationException();
   }
 
@@ -859,8 +860,9 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
   @Deprecated
   @Override
   @DoNotCall("Always throws UnsupportedOperationException")
+  @CheckForNull
   public final V compute(
-      K key, BiFunction<? super K, ? super @Nullable V, ? extends V> remappingFunction) {
+      K key, BiFunction<? super K, ? super @Nullable V, ? extends @Nullable V> remappingFunction) {
     throw new UnsupportedOperationException();
   }
 

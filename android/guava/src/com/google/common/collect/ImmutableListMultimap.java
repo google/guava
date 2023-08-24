@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import static java.util.Objects.requireNonNull;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
@@ -397,7 +399,7 @@ public class ImmutableListMultimap<K, V> extends ImmutableMultimap<K, V>
     int tmpSize = 0;
 
     for (int i = 0; i < keyCount; i++) {
-      Object key = stream.readObject();
+      Object key = requireNonNull(stream.readObject());
       int valueCount = stream.readInt();
       if (valueCount <= 0) {
         throw new InvalidObjectException("Invalid value count " + valueCount);
@@ -405,7 +407,7 @@ public class ImmutableListMultimap<K, V> extends ImmutableMultimap<K, V>
 
       ImmutableList.Builder<Object> valuesBuilder = ImmutableList.builder();
       for (int j = 0; j < valueCount; j++) {
-        valuesBuilder.add(stream.readObject());
+        valuesBuilder.add(requireNonNull(stream.readObject()));
       }
       builder.put(key, valuesBuilder.build());
       tmpSize += valueCount;

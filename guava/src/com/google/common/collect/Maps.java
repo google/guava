@@ -1737,22 +1737,33 @@ public final class Maps {
       throw new UnsupportedOperationException();
     }
 
+    /*
+     * TODO(cpovirk): Uncomment the @NonNull annotations below once our JDK stubs and J2KT
+     * emulations include them.
+     */
     @Override
+    @CheckForNull
     public V computeIfPresent(
-        K key, BiFunction<? super K, ? super V, ? extends V> remappingFunction) {
+        K key,
+        BiFunction<? super K, ? super /*@NonNull*/ V, ? extends @Nullable V> remappingFunction) {
       throw new UnsupportedOperationException();
     }
 
     @Override
+    @CheckForNull
     public V compute(
-        K key, BiFunction<? super K, ? super @Nullable V, ? extends V> remappingFunction) {
+        K key,
+        BiFunction<? super K, ? super @Nullable V, ? extends @Nullable V> remappingFunction) {
       throw new UnsupportedOperationException();
     }
 
     @Override
     @CheckForNull
     public V merge(
-        K key, V value, BiFunction<? super V, ? super V, ? extends @Nullable V> function) {
+        K key,
+        /*@NonNull*/ V value,
+        BiFunction<? super /*@NonNull*/ V, ? super /*@NonNull*/ V, ? extends @Nullable V>
+            function) {
       throw new UnsupportedOperationException();
     }
 
@@ -3644,22 +3655,33 @@ public final class Maps {
       throw new UnsupportedOperationException();
     }
 
+    /*
+     * TODO(cpovirk): Uncomment the @NonNull annotations below once our JDK stubs and J2KT
+     * emulations include them.
+     */
     @Override
+    @CheckForNull
     public V computeIfPresent(
-        K key, BiFunction<? super K, ? super V, ? extends V> remappingFunction) {
+        K key,
+        BiFunction<? super K, ? super /*@NonNull*/ V, ? extends @Nullable V> remappingFunction) {
       throw new UnsupportedOperationException();
     }
 
     @Override
+    @CheckForNull
     public V compute(
-        K key, BiFunction<? super K, ? super @Nullable V, ? extends V> remappingFunction) {
+        K key,
+        BiFunction<? super K, ? super @Nullable V, ? extends @Nullable V> remappingFunction) {
       throw new UnsupportedOperationException();
     }
 
     @Override
     @CheckForNull
     public V merge(
-        K key, V value, BiFunction<? super V, ? super V, ? extends @Nullable V> function) {
+        K key,
+        /*@NonNull*/ V value,
+        BiFunction<? super /*@NonNull*/ V, ? super /*@NonNull*/ V, ? extends @Nullable V>
+            function) {
       throw new UnsupportedOperationException();
     }
 

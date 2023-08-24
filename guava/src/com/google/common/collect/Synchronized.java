@@ -1188,17 +1188,25 @@ final class Synchronized {
       }
     }
 
+    /*
+     * TODO(cpovirk): Uncomment the @NonNull annotations below once our JDK stubs and J2KT
+     * emulations include them.
+     */
     @Override
+    @CheckForNull
     public V computeIfPresent(
-        K key, BiFunction<? super K, ? super V, ? extends V> remappingFunction) {
+        K key,
+        BiFunction<? super K, ? super /*@NonNull*/ V, ? extends @Nullable V> remappingFunction) {
       synchronized (mutex) {
         return delegate().computeIfPresent(key, remappingFunction);
       }
     }
 
     @Override
+    @CheckForNull
     public V compute(
-        K key, BiFunction<? super K, ? super @Nullable V, ? extends V> remappingFunction) {
+        K key,
+        BiFunction<? super K, ? super @Nullable V, ? extends @Nullable V> remappingFunction) {
       synchronized (mutex) {
         return delegate().compute(key, remappingFunction);
       }
@@ -1207,7 +1215,10 @@ final class Synchronized {
     @Override
     @CheckForNull
     public V merge(
-        K key, V value, BiFunction<? super V, ? super V, ? extends @Nullable V> remappingFunction) {
+        K key,
+        /*@NonNull*/ V value,
+        BiFunction<? super /*@NonNull*/ V, ? super /*@NonNull*/ V, ? extends @Nullable V>
+            remappingFunction) {
       synchronized (mutex) {
         return delegate().merge(key, value, remappingFunction);
       }
