@@ -21,6 +21,7 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.DerivedComparable;
+import com.google.common.collect.testing.google.UnmodifiableCollectionTests;
 import com.google.common.testing.CollectorTester;
 import com.google.common.testing.NullPointerTester;
 import java.util.Arrays;
@@ -296,5 +297,10 @@ public class MultisetsTest extends TestCase {
   @GwtIncompatible // NullPointerTester
   public void testNullPointers() {
     new NullPointerTester().testAllPublicStaticMethods(Multisets.class);
+  }
+
+  public void testUnmodifiableMultisetWrites() {
+    Multiset<String> unmodifiableSet = Multisets.unmodifiableMultiset(HashMultiset.create());
+    UnmodifiableCollectionTests.assertMultisetIsUnmodifiable(unmodifiableSet, "test");
   }
 }
