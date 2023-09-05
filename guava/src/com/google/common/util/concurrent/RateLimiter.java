@@ -289,7 +289,7 @@ public abstract class RateLimiter {
    */
   @CanIgnoreReturnValue
   public double acquire() {
-    return acquire(1);
+    return acquire(1.0);
   }
 
   /**
@@ -303,6 +303,20 @@ public abstract class RateLimiter {
    */
   @CanIgnoreReturnValue
   public double acquire(int permits) {
+    return acquire((double) permits);
+  }
+
+  /**
+   * Acquires the given number of permits from this {@code RateLimiter}, blocking until the request
+   * can be granted. Tells the amount of time slept, if any.
+   *
+   * @param permits the number of permits to acquire
+   * @return time spent sleeping to enforce rate, in seconds; 0.0 if not rate-limited
+   * @throws IllegalArgumentException if the requested number of permits is negative or zero
+   * @since 20.0
+   */
+  @CanIgnoreReturnValue
+  public double acquire(double permits) {
     long microsToWait = reserve(permits);
     stopwatch.sleepMicrosUninterruptibly(microsToWait);
     return 1.0 * microsToWait / SECONDS.toMicros(1L);
@@ -314,7 +328,7 @@ public abstract class RateLimiter {
    *
    * @return time in microseconds to wait until the resource can be acquired, never negative
    */
-  final long reserve(int permits) {
+  final long reserve(double permits) {
     checkPermits(permits);
     synchronized (mutex()) {
       return reserveAndGetWaitLength(permits, stopwatch.readMicros());
@@ -351,7 +365,7 @@ public abstract class RateLimiter {
    */
   @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public boolean tryAcquire(long timeout, TimeUnit unit) {
-    return tryAcquire(1, timeout, unit);
+    return tryAcquire(1.0, timeout, unit);
   }
 
   /**
@@ -365,6 +379,20 @@ public abstract class RateLimiter {
    * @since 14.0
    */
   public boolean tryAcquire(int permits) {
+    return tryAcquire((double) permits, 0, MICROSECONDS);
+  }
+
+  /**
+   * Acquires permits from this {@link RateLimiter} if it can be acquired immediately without delay.
+   *
+   * <p>This method is equivalent to {@code tryAcquire(permits, 0, anyUnit)}.
+   *
+   * @param permits the number of permits to acquire
+   * @return {@code true} if the permits were acquired, {@code false} otherwise
+   * @throws IllegalArgumentException if the requested number of permits is negative or zero
+   * @since 20.0
+   */
+  public boolean tryAcquire(double permits) {
     return tryAcquire(permits, 0, MICROSECONDS);
   }
 
@@ -378,7 +406,7 @@ public abstract class RateLimiter {
    * @since 14.0
    */
   public boolean tryAcquire() {
-    return tryAcquire(1, 0, MICROSECONDS);
+    return tryAcquire(1.0, 0, MICROSECONDS);
   }
 
   /**
@@ -409,6 +437,22 @@ public abstract class RateLimiter {
    */
   @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public boolean tryAcquire(int permits, long timeout, TimeUnit unit) {
+    return tryAcquire((double) permits, timeout, unit);
+  }
+
+  /**
+   * Acquires the given number of permits from this {@code RateLimiter} if it can be obtained
+   * without exceeding the specified {@code timeout}, or returns {@code false} immediately (without
+   * waiting) if the permits would not have been granted before the timeout expired.
+   *
+   * @param permits the number of permits to acquire
+   * @param timeout the maximum time to wait for the permits. Negative values are treated as zero.
+   * @param unit the time unit of the timeout argument
+   * @return {@code true} if the permits were acquired, {@code false} otherwise
+   * @throws IllegalArgumentException if the requested number of permits is negative or zero
+   * @since 20.0
+   */
+  public boolean tryAcquire(double permits, long timeout, TimeUnit unit) {
     long timeoutMicros = max(unit.toMicros(timeout), 0);
     checkPermits(permits);
     long microsToWait;
@@ -433,7 +477,7 @@ public abstract class RateLimiter {
    *
    * @return the required wait time, never negative
    */
-  final long reserveAndGetWaitLength(int permits, long nowMicros) {
+  final long reserveAndGetWaitLength(double permits, long nowMicros) {
     long momentAvailable = reserveEarliestAvailable(permits, nowMicros);
     return max(momentAvailable - nowMicros, 0);
   }
@@ -453,7 +497,7 @@ public abstract class RateLimiter {
    * @return the time that the permits may be used, or, if the permits may be used immediately, an
    *     arbitrary past or present time
    */
-  abstract long reserveEarliestAvailable(int permits, long nowMicros);
+  abstract long reserveEarliestAvailable(double permits, long nowMicros);
 
   @Override
   public String toString() {
@@ -492,7 +536,7 @@ public abstract class RateLimiter {
     }
   }
 
-  private static void checkPermits(int permits) {
+  private static void checkPermits(double permits) {
     checkArgument(permits > 0, "Requested permits (%s) must be positive", permits);
   }
 }
