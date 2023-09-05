@@ -163,7 +163,7 @@ public abstract class RateLimiter {
    */
   @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public static RateLimiter create(double permitsPerSecond, long warmupPeriod, TimeUnit unit) {
-    checkArgument(warmupPeriod >= 0, "warmupPeriod must not be negative: %s", warmupPeriod);
+    checkArgument(warmupPeriod > 0, "warmupPeriod %s must be larger than zero", warmupPeriod);
     return create(
         permitsPerSecond, warmupPeriod, unit, 3.0, SleepingStopwatch.createFromSystemTimer());
   }

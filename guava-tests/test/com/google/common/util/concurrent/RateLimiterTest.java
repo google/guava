@@ -167,7 +167,6 @@ public class RateLimiterTest extends TestCase {
   public void testCreateWarmupParameterValidation() {
     RateLimiter unused;
     unused = RateLimiter.create(1.0, 1, NANOSECONDS);
-    unused = RateLimiter.create(1.0, 0, NANOSECONDS);
 
     try {
       RateLimiter.create(0.0, 1, NANOSECONDS);
@@ -177,6 +176,12 @@ public class RateLimiterTest extends TestCase {
 
     try {
       RateLimiter.create(1.0, -1, NANOSECONDS);
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
+
+    try {
+      RateLimiter.create(1.0, 0, NANOSECONDS);
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -492,7 +497,7 @@ public class RateLimiterTest extends TestCase {
     NullPointerTester tester =
         new NullPointerTester()
             .setDefault(SleepingStopwatch.class, stopwatch)
-            .setDefault(int.class, 1)
+            .setDefault(long.class, 1L)
             .setDefault(double.class, 1.0d);
     tester.testStaticMethods(RateLimiter.class, Visibility.PACKAGE);
     tester.testInstanceMethods(RateLimiter.create(5.0, stopwatch), Visibility.PACKAGE);
