@@ -17,6 +17,7 @@
 package com.google.common.testing;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Charsets;
@@ -278,11 +279,7 @@ public class ArbitraryInstancesTest extends TestCase {
     Comparable<Object> comparable = ArbitraryInstances.get(Comparable.class);
     assertEquals(0, comparable.compareTo(comparable));
     assertTrue(comparable.compareTo("") > 0);
-    try {
-      comparable.compareTo(null);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> comparable.compareTo(null));
   }
 
   public void testGet_array() {

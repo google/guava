@@ -18,6 +18,7 @@ package com.google.common.hash;
 
 import static com.google.common.base.Charsets.UTF_8;
 import static com.google.common.io.BaseEncoding.base16;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableTable;
@@ -225,11 +226,7 @@ public class MacHashFunctionTest extends TestCase {
     assertEquals(
         "9753980fe94daa8ecaa82216519393a9",
         hasher.putString("The quick brown fox jumps over the lazy dog", UTF_8).hash().toString());
-    try {
-      hasher.putInt(42);
-      fail();
-    } catch (IllegalStateException expected) {
-    }
+    assertThrows(IllegalStateException.class, () -> hasher.putInt(42));
   }
 
   public void testHashTwice() {
@@ -238,11 +235,7 @@ public class MacHashFunctionTest extends TestCase {
     assertEquals(
         "9753980fe94daa8ecaa82216519393a9",
         hasher.putString("The quick brown fox jumps over the lazy dog", UTF_8).hash().toString());
-    try {
-      hasher.hash();
-      fail();
-    } catch (IllegalStateException expected) {
-    }
+    assertThrows(IllegalStateException.class, () -> hasher.hash());
   }
 
   public void testToString() {

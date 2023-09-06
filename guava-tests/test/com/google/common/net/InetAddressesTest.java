@@ -17,6 +17,7 @@
 package com.google.common.net;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.testing.NullPointerTester;
@@ -109,21 +110,16 @@ public class InetAddressesTest extends TestCase {
             ":1:2:3:4:5:6:");
 
     for (String bogusInput : bogusInputs) {
-      try {
-        InetAddresses.forString(bogusInput);
-        fail("IllegalArgumentException expected for '" + bogusInput + "'");
-      } catch (IllegalArgumentException expected) {
-      }
+      assertThrows(
+          "IllegalArgumentException expected for '" + bogusInput + "'",
+          IllegalArgumentException.class,
+          () -> InetAddresses.forString(bogusInput));
       assertFalse(InetAddresses.isInetAddress(bogusInput));
     }
   }
 
   public void test3ff31() {
-    try {
-      InetAddresses.forString("3ffe:::1");
-      fail("IllegalArgumentException expected");
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> InetAddresses.forString("3ffe:::1"));
     assertFalse(InetAddresses.isInetAddress("016.016.016.016"));
   }
 
@@ -327,71 +323,33 @@ public class InetAddressesTest extends TestCase {
   }
 
   public void testForUriStringBad() {
-    try {
-      InetAddresses.forUriString("");
-      fail("expected IllegalArgumentException"); // COV_NF_LINE
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> InetAddresses.forUriString(""));
 
-    try {
-      InetAddresses.forUriString("192.168.999.888");
-      fail("expected IllegalArgumentException"); // COV_NF_LINE
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class, () -> InetAddresses.forUriString("192.168.999.888"));
 
-    try {
-      InetAddresses.forUriString("www.google.com");
-      fail("expected IllegalArgumentException"); // COV_NF_LINE
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class, () -> InetAddresses.forUriString("www.google.com"));
 
-    try {
-      InetAddresses.forUriString("[1:2e]");
-      fail("expected IllegalArgumentException"); // COV_NF_LINE
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> InetAddresses.forUriString("[1:2e]"));
 
-    try {
-      InetAddresses.forUriString("[192.168.1.1]");
-      fail("expected IllegalArgumentException"); // COV_NF_LINE
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> InetAddresses.forUriString("[192.168.1.1]"));
 
-    try {
-      InetAddresses.forUriString("192.168.1.1]");
-      fail("expected IllegalArgumentException"); // COV_NF_LINE
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> InetAddresses.forUriString("192.168.1.1]"));
 
-    try {
-      InetAddresses.forUriString("[192.168.1.1");
-      fail("expected IllegalArgumentException"); // COV_NF_LINE
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> InetAddresses.forUriString("[192.168.1.1"));
 
-    try {
-      InetAddresses.forUriString("[3ffe:0:0:0:0:0:0:1");
-      fail("expected IllegalArgumentException"); // COV_NF_LINE
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class, () -> InetAddresses.forUriString("[3ffe:0:0:0:0:0:0:1"));
 
-    try {
-      InetAddresses.forUriString("3ffe:0:0:0:0:0:0:1]");
-      fail("expected IllegalArgumentException"); // COV_NF_LINE
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class, () -> InetAddresses.forUriString("3ffe:0:0:0:0:0:0:1]"));
 
-    try {
-      InetAddresses.forUriString("3ffe:0:0:0:0:0:0:1");
-      fail("expected IllegalArgumentException"); // COV_NF_LINE
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class, () -> InetAddresses.forUriString("3ffe:0:0:0:0:0:0:1"));
 
-    try {
-      InetAddresses.forUriString("::ffff:192.0.2.1");
-      fail("expected IllegalArgumentException"); // COV_NF_LINE
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class, () -> InetAddresses.forUriString("::ffff:192.0.2.1"));
   }
 
   public void testCompatIPv4Addresses() {
@@ -400,11 +358,10 @@ public class InetAddressesTest extends TestCase {
     for (String nonCompatAddress : nonCompatAddresses) {
       InetAddress ip = InetAddresses.forString(nonCompatAddress);
       assertFalse(InetAddresses.isCompatIPv4Address((Inet6Address) ip));
-      try {
-        InetAddresses.getCompatIPv4Address((Inet6Address) ip);
-        fail("IllegalArgumentException expected for '" + nonCompatAddress + "'");
-      } catch (IllegalArgumentException expected) {
-      }
+      assertThrows(
+          "IllegalArgumentException expected for '" + nonCompatAddress + "'",
+          IllegalArgumentException.class,
+          () -> InetAddresses.getCompatIPv4Address((Inet6Address) ip));
     }
 
     ImmutableSet<String> validCompatAddresses = ImmutableSet.of("::1.2.3.4", "::102:304");
@@ -470,11 +427,10 @@ public class InetAddressesTest extends TestCase {
     for (String non6to4Address : non6to4Addresses) {
       InetAddress ip = InetAddresses.forString(non6to4Address);
       assertFalse(InetAddresses.is6to4Address((Inet6Address) ip));
-      try {
-        InetAddresses.get6to4IPv4Address((Inet6Address) ip);
-        fail("IllegalArgumentException expected for '" + non6to4Address + "'");
-      } catch (IllegalArgumentException expected) {
-      }
+      assertThrows(
+          "IllegalArgumentException expected for '" + non6to4Address + "'",
+          IllegalArgumentException.class,
+          () -> InetAddresses.get6to4IPv4Address((Inet6Address) ip));
     }
 
     String valid6to4Address = "2002:0102:0304::1";
@@ -492,11 +448,10 @@ public class InetAddressesTest extends TestCase {
     for (String nonTeredoAddress : nonTeredoAddresses) {
       InetAddress ip = InetAddresses.forString(nonTeredoAddress);
       assertFalse(InetAddresses.isTeredoAddress((Inet6Address) ip));
-      try {
-        InetAddresses.getTeredoInfo((Inet6Address) ip);
-        fail("IllegalArgumentException expected for '" + nonTeredoAddress + "'");
-      } catch (IllegalArgumentException expected) {
-      }
+      assertThrows(
+          "IllegalArgumentException expected for '" + nonTeredoAddress + "'",
+          IllegalArgumentException.class,
+          () -> InetAddresses.getTeredoInfo((Inet6Address) ip));
     }
 
     String validTeredoAddress = "2001:0000:4136:e378:8000:63bf:3fff:fdd2";
@@ -559,11 +514,10 @@ public class InetAddressesTest extends TestCase {
     for (String nonIsatapAddress : nonIsatapAddresses) {
       InetAddress ip = InetAddresses.forString(nonIsatapAddress);
       assertFalse(InetAddresses.isIsatapAddress((Inet6Address) ip));
-      try {
-        InetAddresses.getIsatapIPv4Address((Inet6Address) ip);
-        fail("IllegalArgumentException expected for '" + nonIsatapAddress + "'");
-      } catch (IllegalArgumentException expected) {
-      }
+      assertThrows(
+          "IllegalArgumentException expected for '" + nonIsatapAddress + "'",
+          IllegalArgumentException.class,
+          () -> InetAddresses.getIsatapIPv4Address((Inet6Address) ip));
     }
   }
 
@@ -683,12 +637,8 @@ public class InetAddressesTest extends TestCase {
         InetAddress.getByAddress(
             new byte[] {16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1}));
 
-    try {
-      InetAddresses.fromLittleEndianByteArray(new byte[3]);
-      fail("expected exception");
-    } catch (UnknownHostException expected) {
-      // success
-    }
+    assertThrows(
+        UnknownHostException.class, () -> InetAddresses.fromLittleEndianByteArray(new byte[3]));
   }
 
   public void testIsMaximum() throws UnknownHostException {
@@ -720,12 +670,7 @@ public class InetAddressesTest extends TestCase {
     assertEquals(address_67_0, address);
 
     InetAddress address_ffffff = InetAddress.getByName("255.255.255.255");
-    address = address_ffffff;
-    try {
-      address = InetAddresses.increment(address);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> InetAddresses.increment(address_ffffff));
   }
 
   public void testIncrementIPv6() throws UnknownHostException {
@@ -743,12 +688,7 @@ public class InetAddressesTest extends TestCase {
     assertEquals(addressV6_67_0, address);
 
     InetAddress addressV6_ffffff = InetAddress.getByName("ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff");
-    address = addressV6_ffffff;
-    try {
-      address = InetAddresses.increment(address);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> InetAddresses.increment(addressV6_ffffff));
   }
 
   public void testDecrementIPv4() throws UnknownHostException {
@@ -767,12 +707,7 @@ public class InetAddressesTest extends TestCase {
     assertEquals(address660, address);
 
     InetAddress address0000 = InetAddress.getByName("0.0.0.0");
-    address = address0000;
-    try {
-      address = InetAddresses.decrement(address);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> InetAddresses.decrement(address0000));
   }
 
   public void testDecrementIPv6() throws UnknownHostException {
@@ -791,30 +726,23 @@ public class InetAddressesTest extends TestCase {
     assertEquals(addressV6660, address);
 
     InetAddress addressV6000000 = InetAddress.getByName("0:0:0:0:0:0:0:0");
-    address = addressV6000000;
-    try {
-      address = InetAddresses.decrement(address);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> InetAddresses.decrement(addressV6000000));
   }
 
   public void testFromIpv4BigIntegerThrowsLessThanZero() {
-    try {
-      InetAddresses.fromIPv4BigInteger(BigInteger.valueOf(-1L));
-      fail();
-    } catch (IllegalArgumentException expected) {
-      assertEquals("BigInteger must be greater than or equal to 0", expected.getMessage());
-    }
+    IllegalArgumentException expected =
+        assertThrows(
+            IllegalArgumentException.class,
+            () -> InetAddresses.fromIPv4BigInteger(BigInteger.valueOf(-1L)));
+    assertEquals("BigInteger must be greater than or equal to 0", expected.getMessage());
   }
 
   public void testFromIpv6BigIntegerThrowsLessThanZero() {
-    try {
-      InetAddresses.fromIPv6BigInteger(BigInteger.valueOf(-1L));
-      fail();
-    } catch (IllegalArgumentException expected) {
-      assertEquals("BigInteger must be greater than or equal to 0", expected.getMessage());
-    }
+    IllegalArgumentException expected =
+        assertThrows(
+            IllegalArgumentException.class,
+            () -> InetAddresses.fromIPv6BigInteger(BigInteger.valueOf(-1L)));
+    assertEquals("BigInteger must be greater than or equal to 0", expected.getMessage());
   }
 
   public void testFromIpv4BigIntegerValid() {
@@ -840,27 +768,28 @@ public class InetAddressesTest extends TestCase {
   }
 
   public void testFromIpv4BigIntegerInputTooLarge() {
-    try {
-      InetAddresses.fromIPv4BigInteger(BigInteger.ONE.shiftLeft(32).add(BigInteger.ONE));
-      fail();
-    } catch (IllegalArgumentException expected) {
-      assertEquals(
-          "BigInteger cannot be converted to InetAddress because it has more than 4 bytes:"
-              + " 4294967297",
-          expected.getMessage());
-    }
+    IllegalArgumentException expected =
+        assertThrows(
+            IllegalArgumentException.class,
+            () ->
+                InetAddresses.fromIPv4BigInteger(BigInteger.ONE.shiftLeft(32).add(BigInteger.ONE)));
+    assertEquals(
+        "BigInteger cannot be converted to InetAddress because it has more than 4 bytes:"
+            + " 4294967297",
+        expected.getMessage());
   }
 
   public void testFromIpv6BigIntegerInputTooLarge() {
-    try {
-      InetAddresses.fromIPv6BigInteger(BigInteger.ONE.shiftLeft(128).add(BigInteger.ONE));
-      fail();
-    } catch (IllegalArgumentException expected) {
-      assertEquals(
-          "BigInteger cannot be converted to InetAddress because it has more than 16 bytes:"
-              + " 340282366920938463463374607431768211457",
-          expected.getMessage());
-    }
+    IllegalArgumentException expected =
+        assertThrows(
+            IllegalArgumentException.class,
+            () ->
+                InetAddresses.fromIPv6BigInteger(
+                    BigInteger.ONE.shiftLeft(128).add(BigInteger.ONE)));
+    assertEquals(
+        "BigInteger cannot be converted to InetAddress because it has more than 16 bytes:"
+            + " 340282366920938463463374607431768211457",
+        expected.getMessage());
   }
 
   /** Checks that the IP converts to the big integer and the big integer converts to the IP. */

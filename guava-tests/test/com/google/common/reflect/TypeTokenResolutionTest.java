@@ -17,6 +17,7 @@
 package com.google.common.reflect;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.base.Predicate;
 import com.google.common.base.Supplier;
@@ -248,11 +249,7 @@ public class TypeTokenResolutionTest extends TestCase {
         TypeToken.of(StringIterable.class)
             .resolveType(Iterable.class.getTypeParameters()[0])
             .getType());
-    try {
-      TypeToken.of(this.getClass()).resolveType(null);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> TypeToken.of(this.getClass()).resolveType(null));
   }
 
   public void testContextIsParameterizedType() throws Exception {

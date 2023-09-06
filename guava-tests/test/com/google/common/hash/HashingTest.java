@@ -18,6 +18,7 @@ package com.google.common.hash;
 
 import static com.google.common.base.Charsets.UTF_8;
 import static java.util.Arrays.asList;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableTable;
@@ -219,11 +220,7 @@ public class HashingTest extends TestCase {
   private static final int MAX_SHARDS = 500;
 
   public void testConsistentHash_outOfRange() {
-    try {
-      Hashing.consistentHash(5L, 0);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> Hashing.consistentHash(5L, 0));
   }
 
   public void testConsistentHash_ofHashCode() {
@@ -260,20 +257,19 @@ public class HashingTest extends TestCase {
   private static final long RANDOM_SEED = 177L;
 
   public void testCombineOrdered_empty() {
-    try {
-      Hashing.combineOrdered(Collections.<HashCode>emptySet());
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> Hashing.combineOrdered(Collections.<HashCode>emptySet()));
   }
 
   public void testCombineOrdered_differentBitLengths() {
-    try {
-      HashCode unused =
-          Hashing.combineOrdered(ImmutableList.of(HashCode.fromInt(32), HashCode.fromLong(32L)));
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> {
+          HashCode unused =
+              Hashing.combineOrdered(
+                  ImmutableList.of(HashCode.fromInt(32), HashCode.fromLong(32L)));
+        });
   }
 
   public void testCombineOrdered() {
@@ -305,20 +301,19 @@ public class HashingTest extends TestCase {
   }
 
   public void testCombineUnordered_empty() {
-    try {
-      Hashing.combineUnordered(Collections.<HashCode>emptySet());
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> Hashing.combineUnordered(Collections.<HashCode>emptySet()));
   }
 
   public void testCombineUnordered_differentBitLengths() {
-    try {
-      HashCode unused =
-          Hashing.combineUnordered(ImmutableList.of(HashCode.fromInt(32), HashCode.fromLong(32L)));
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> {
+          HashCode unused =
+              Hashing.combineUnordered(
+                  ImmutableList.of(HashCode.fromInt(32), HashCode.fromLong(32L)));
+        });
   }
 
   public void testCombineUnordered() {

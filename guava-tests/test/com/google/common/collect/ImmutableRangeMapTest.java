@@ -15,6 +15,7 @@
 package com.google.common.collect;
 
 import static com.google.common.collect.BoundType.OPEN;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.testing.CollectorTester;
@@ -65,18 +66,10 @@ public class ImmutableRangeMapTest extends TestCase {
 
   public void testBuilderRejectsEmptyRanges() {
     for (int i = MIN_BOUND; i <= MAX_BOUND; i++) {
+      final int ii = i;
       ImmutableRangeMap.Builder<Integer, Integer> builder = ImmutableRangeMap.builder();
-      try {
-        builder.put(Range.closedOpen(i, i), 1);
-        fail("Expected IllegalArgumentException");
-      } catch (IllegalArgumentException expected) {
-        // success
-      }
-      try {
-        builder.put(Range.openClosed(i, i), 1);
-        fail("Expected IllegalArgumentException");
-      } catch (IllegalArgumentException expected) {
-      }
+      assertThrows(IllegalArgumentException.class, () -> builder.put(Range.closedOpen(ii, ii), 1));
+      assertThrows(IllegalArgumentException.class, () -> builder.put(Range.openClosed(ii, ii), 1));
     }
   }
 
@@ -120,11 +113,7 @@ public class ImmutableRangeMapTest extends TestCase {
   }
 
   public void testSpanEmpty() {
-    try {
-      ImmutableRangeMap.of().span();
-      fail("Expected NoSuchElementException");
-    } catch (NoSuchElementException expected) {
-    }
+    assertThrows(NoSuchElementException.class, () -> ImmutableRangeMap.of().span());
   }
 
   public void testSpanSingleRange() {

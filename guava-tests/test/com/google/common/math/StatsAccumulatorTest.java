@@ -53,6 +53,7 @@ import static com.google.common.math.StatsTesting.megaPrimitiveDoubleStreamPart2
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static java.lang.Math.sqrt;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.math.StatsTesting.ManyValues;
@@ -195,21 +196,9 @@ public class StatsAccumulatorTest extends TestCase {
   }
 
   public void testMean() {
-    try {
-      emptyAccumulator.mean();
-      fail("Expected IllegalStateException");
-    } catch (IllegalStateException expected) {
-    }
-    try {
-      emptyAccumulatorByAddAllEmptyIterable.mean();
-      fail("Expected IllegalStateException");
-    } catch (IllegalStateException expected) {
-    }
-    try {
-      emptyAccumulatorByAddAllEmptyStats.mean();
-      fail("Expected IllegalStateException");
-    } catch (IllegalStateException expected) {
-    }
+    assertThrows(IllegalStateException.class, () -> emptyAccumulator.mean());
+    assertThrows(IllegalStateException.class, () -> emptyAccumulatorByAddAllEmptyIterable.mean());
+    assertThrows(IllegalStateException.class, () -> emptyAccumulatorByAddAllEmptyStats.mean());
     assertThat(oneValueAccumulator.mean()).isWithin(ALLOWED_ERROR).of(ONE_VALUE);
     assertThat(oneValueAccumulatorByAddAllEmptyStats.mean()).isWithin(ALLOWED_ERROR).of(ONE_VALUE);
     assertThat(twoValuesAccumulator.mean()).isWithin(ALLOWED_ERROR).of(TWO_VALUES_MEAN);
@@ -329,21 +318,12 @@ public class StatsAccumulatorTest extends TestCase {
   }
 
   public void testPopulationVariance() {
-    try {
-      emptyAccumulator.populationVariance();
-      fail("Expected IllegalStateException");
-    } catch (IllegalStateException expected) {
-    }
-    try {
-      emptyAccumulatorByAddAllEmptyIterable.populationVariance();
-      fail("Expected IllegalStateException");
-    } catch (IllegalStateException expected) {
-    }
-    try {
-      emptyAccumulatorByAddAllEmptyStats.populationVariance();
-      fail("Expected IllegalStateException");
-    } catch (IllegalStateException expected) {
-    }
+    assertThrows(IllegalStateException.class, () -> emptyAccumulator.populationVariance());
+    assertThrows(
+        IllegalStateException.class,
+        () -> emptyAccumulatorByAddAllEmptyIterable.populationVariance());
+    assertThrows(
+        IllegalStateException.class, () -> emptyAccumulatorByAddAllEmptyStats.populationVariance());
     assertThat(oneValueAccumulator.populationVariance()).isWithin(0.0).of(0.0);
     assertThat(oneValueAccumulatorByAddAllEmptyStats.populationVariance()).isWithin(0.0).of(0.0);
     assertThat(twoValuesAccumulator.populationVariance())
@@ -412,21 +392,13 @@ public class StatsAccumulatorTest extends TestCase {
   }
 
   public void testPopulationStandardDeviation() {
-    try {
-      emptyAccumulator.populationStandardDeviation();
-      fail("Expected IllegalStateException");
-    } catch (IllegalStateException expected) {
-    }
-    try {
-      emptyAccumulatorByAddAllEmptyIterable.populationStandardDeviation();
-      fail("Expected IllegalStateException");
-    } catch (IllegalStateException expected) {
-    }
-    try {
-      emptyAccumulatorByAddAllEmptyStats.populationStandardDeviation();
-      fail("Expected IllegalStateException");
-    } catch (IllegalStateException expected) {
-    }
+    assertThrows(IllegalStateException.class, () -> emptyAccumulator.populationStandardDeviation());
+    assertThrows(
+        IllegalStateException.class,
+        () -> emptyAccumulatorByAddAllEmptyIterable.populationStandardDeviation());
+    assertThrows(
+        IllegalStateException.class,
+        () -> emptyAccumulatorByAddAllEmptyStats.populationStandardDeviation());
     assertThat(oneValueAccumulator.populationStandardDeviation()).isWithin(0.0).of(0.0);
     assertThat(oneValueAccumulatorByAddAllEmptyStats.populationStandardDeviation())
         .isWithin(0.0)
@@ -470,31 +442,14 @@ public class StatsAccumulatorTest extends TestCase {
   }
 
   public void testSampleVariance() {
-    try {
-      emptyAccumulator.sampleVariance();
-      fail("Expected IllegalStateException");
-    } catch (IllegalStateException expected) {
-    }
-    try {
-      emptyAccumulatorByAddAllEmptyIterable.sampleVariance();
-      fail("Expected IllegalStateException");
-    } catch (IllegalStateException expected) {
-    }
-    try {
-      emptyAccumulatorByAddAllEmptyStats.sampleVariance();
-      fail("Expected IllegalStateException");
-    } catch (IllegalStateException expected) {
-    }
-    try {
-      oneValueAccumulator.sampleVariance();
-      fail("Expected IllegalStateException");
-    } catch (IllegalStateException expected) {
-    }
-    try {
-      oneValueAccumulatorByAddAllEmptyStats.sampleVariance();
-      fail("Expected IllegalStateException");
-    } catch (IllegalStateException expected) {
-    }
+    assertThrows(IllegalStateException.class, () -> emptyAccumulator.sampleVariance());
+    assertThrows(
+        IllegalStateException.class, () -> emptyAccumulatorByAddAllEmptyIterable.sampleVariance());
+    assertThrows(
+        IllegalStateException.class, () -> emptyAccumulatorByAddAllEmptyStats.sampleVariance());
+    assertThrows(IllegalStateException.class, () -> oneValueAccumulator.sampleVariance());
+    assertThrows(
+        IllegalStateException.class, () -> oneValueAccumulatorByAddAllEmptyStats.sampleVariance());
     assertThat(twoValuesAccumulator.sampleVariance())
         .isWithin(ALLOWED_ERROR)
         .of(TWO_VALUES_SUM_OF_SQUARES_OF_DELTAS);
@@ -534,31 +489,17 @@ public class StatsAccumulatorTest extends TestCase {
   }
 
   public void testSampleStandardDeviation() {
-    try {
-      emptyAccumulator.sampleStandardDeviation();
-      fail("Expected IllegalStateException");
-    } catch (IllegalStateException expected) {
-    }
-    try {
-      emptyAccumulatorByAddAllEmptyIterable.sampleStandardDeviation();
-      fail("Expected IllegalStateException");
-    } catch (IllegalStateException expected) {
-    }
-    try {
-      emptyAccumulatorByAddAllEmptyStats.sampleStandardDeviation();
-      fail("Expected IllegalStateException");
-    } catch (IllegalStateException expected) {
-    }
-    try {
-      oneValueAccumulator.sampleStandardDeviation();
-      fail("Expected IllegalStateException");
-    } catch (IllegalStateException expected) {
-    }
-    try {
-      oneValueAccumulatorByAddAllEmptyStats.sampleStandardDeviation();
-      fail("Expected IllegalStateException");
-    } catch (IllegalStateException expected) {
-    }
+    assertThrows(IllegalStateException.class, () -> emptyAccumulator.sampleStandardDeviation());
+    assertThrows(
+        IllegalStateException.class,
+        () -> emptyAccumulatorByAddAllEmptyIterable.sampleStandardDeviation());
+    assertThrows(
+        IllegalStateException.class,
+        () -> emptyAccumulatorByAddAllEmptyStats.sampleStandardDeviation());
+    assertThrows(IllegalStateException.class, () -> oneValueAccumulator.sampleStandardDeviation());
+    assertThrows(
+        IllegalStateException.class,
+        () -> oneValueAccumulatorByAddAllEmptyStats.sampleStandardDeviation());
     assertThat(twoValuesAccumulator.sampleStandardDeviation())
         .isWithin(ALLOWED_ERROR)
         .of(sqrt(TWO_VALUES_SUM_OF_SQUARES_OF_DELTAS));
@@ -598,21 +539,9 @@ public class StatsAccumulatorTest extends TestCase {
   }
 
   public void testMax() {
-    try {
-      emptyAccumulator.max();
-      fail("Expected IllegalStateException");
-    } catch (IllegalStateException expected) {
-    }
-    try {
-      emptyAccumulatorByAddAllEmptyIterable.max();
-      fail("Expected IllegalStateException");
-    } catch (IllegalStateException expected) {
-    }
-    try {
-      emptyAccumulatorByAddAllEmptyStats.max();
-      fail("Expected IllegalStateException");
-    } catch (IllegalStateException expected) {
-    }
+    assertThrows(IllegalStateException.class, () -> emptyAccumulator.max());
+    assertThrows(IllegalStateException.class, () -> emptyAccumulatorByAddAllEmptyIterable.max());
+    assertThrows(IllegalStateException.class, () -> emptyAccumulatorByAddAllEmptyStats.max());
     assertThat(oneValueAccumulator.max()).isEqualTo(ONE_VALUE);
     assertThat(oneValueAccumulatorByAddAllEmptyStats.max()).isEqualTo(ONE_VALUE);
     assertThat(twoValuesAccumulator.max()).isEqualTo(TWO_VALUES_MAX);
@@ -657,21 +586,9 @@ public class StatsAccumulatorTest extends TestCase {
   }
 
   public void testMin() {
-    try {
-      emptyAccumulator.min();
-      fail("Expected IllegalStateException");
-    } catch (IllegalStateException expected) {
-    }
-    try {
-      emptyAccumulatorByAddAllEmptyIterable.min();
-      fail("Expected IllegalStateException");
-    } catch (IllegalStateException expected) {
-    }
-    try {
-      emptyAccumulatorByAddAllEmptyStats.min();
-      fail("Expected IllegalStateException");
-    } catch (IllegalStateException expected) {
-    }
+    assertThrows(IllegalStateException.class, () -> emptyAccumulator.min());
+    assertThrows(IllegalStateException.class, () -> emptyAccumulatorByAddAllEmptyIterable.min());
+    assertThrows(IllegalStateException.class, () -> emptyAccumulatorByAddAllEmptyStats.min());
     assertThat(oneValueAccumulator.min()).isEqualTo(ONE_VALUE);
     assertThat(oneValueAccumulatorByAddAllEmptyStats.min()).isEqualTo(ONE_VALUE);
     assertThat(twoValuesAccumulator.min()).isEqualTo(TWO_VALUES_MIN);

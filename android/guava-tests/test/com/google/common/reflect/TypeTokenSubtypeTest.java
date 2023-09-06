@@ -17,6 +17,7 @@
 package com.google.common.reflect;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.assertThrows;
 
 import java.io.Serializable;
 import java.util.Comparator;
@@ -39,12 +40,10 @@ public class TypeTokenSubtypeTest extends TestCase {
    * recursively bounded.
    */
   public void testRecursiveWildcardSubtypeBug() throws Exception {
-    try {
-      new RecursiveTypeBoundBugExample<>().testAllDeclarations();
-      fail();
-    } catch (Exception e) {
-      assertThat(e).hasCauseThat().isInstanceOf(AssertionError.class);
-    }
+    Exception e =
+        assertThrows(
+            Exception.class, () -> new RecursiveTypeBoundBugExample<>().testAllDeclarations());
+    assertThat(e).hasCauseThat().isInstanceOf(AssertionError.class);
   }
 
   @SuppressWarnings("RestrictedApiChecker") // crashes under JDK8, which EP no longer supports
@@ -96,11 +95,7 @@ public class TypeTokenSubtypeTest extends TestCase {
   public void testGetSubtypeOf_impossibleWildcard() {
     TypeToken<List<? extends Number>> numberList = new TypeToken<List<? extends Number>>() {};
     abstract class StringList implements List<String> {}
-    try {
-      numberList.getSubtype(StringList.class);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> numberList.getSubtype(StringList.class));
   }
 
   private static class OwnerTypeSubtypingTests extends SubtypeTester {

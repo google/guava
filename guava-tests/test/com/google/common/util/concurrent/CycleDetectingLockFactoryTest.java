@@ -17,6 +17,7 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.base.Joiner;
 import com.google.common.util.concurrent.CycleDetectingLockFactory.Policies;
@@ -102,24 +103,15 @@ public class CycleDetectingLockFactoryTest extends TestCase {
     // The opposite order should fail (Policies.THROW).
     PotentialDeadlockException firstException = null;
     lockB.lock();
-    try {
-      lockA.lock();
-      fail("Expected PotentialDeadlockException");
-    } catch (PotentialDeadlockException expected) {
-      checkMessage(expected, "LockB -> LockA", "LockA -> LockB");
-      firstException = expected;
-    }
-
+    PotentialDeadlockException expected =
+        assertThrows(PotentialDeadlockException.class, () -> lockA.lock());
+    checkMessage(expected, "LockB -> LockA", "LockA -> LockB");
+    firstException = expected;
     // Second time should also fail, with a cached causal chain.
-    try {
-      lockA.lock();
-      fail("Expected PotentialDeadlockException");
-    } catch (PotentialDeadlockException expected) {
-      checkMessage(expected, "LockB -> LockA", "LockA -> LockB");
-      // The causal chain should be cached.
-      assertSame(firstException.getCause(), expected.getCause());
-    }
-
+    expected = assertThrows(PotentialDeadlockException.class, () -> lockA.lock());
+    checkMessage(expected, "LockB -> LockA", "LockA -> LockB");
+    // The causal chain should be cached.
+    assertSame(firstException.getCause(), expected.getCause());
     // lockA should work after lockB is released.
     lockB.unlock();
     lockA.lock();
@@ -139,12 +131,9 @@ public class CycleDetectingLockFactoryTest extends TestCase {
     lockB.unlock();
 
     // lockC -> lockA should fail.
-    try {
-      lockA.lock();
-      fail("Expected PotentialDeadlockException");
-    } catch (PotentialDeadlockException expected) {
-      checkMessage(expected, "LockC -> LockA", "LockB -> LockC", "LockA -> LockB");
-    }
+    PotentialDeadlockException expected =
+        assertThrows(PotentialDeadlockException.class, () -> lockA.lock());
+    checkMessage(expected, "LockC -> LockA", "LockB -> LockC", "LockA -> LockB");
   }
 
   public void testReentrancy_noDeadlock() {
@@ -163,29 +152,18 @@ public class CycleDetectingLockFactoryTest extends TestCase {
 
   public void testExplicitOrdering_violations() {
     lock3.lock();
-    try {
-      lock2.lock();
-      fail("Expected PotentialDeadlockException");
-    } catch (PotentialDeadlockException expected) {
-      checkMessage(expected, "MyOrder.THIRD -> MyOrder.SECOND");
-    }
+    PotentialDeadlockException expected =
+        assertThrows(PotentialDeadlockException.class, () -> lock2.lock());
+    checkMessage(expected, "MyOrder.THIRD -> MyOrder.SECOND");
 
-    try {
-      lock1.lock();
-      fail("Expected PotentialDeadlockException");
-    } catch (PotentialDeadlockException expected) {
-      checkMessage(expected, "MyOrder.THIRD -> MyOrder.FIRST");
-    }
+    expected = assertThrows(PotentialDeadlockException.class, () -> lock1.lock());
+    checkMessage(expected, "MyOrder.THIRD -> MyOrder.FIRST");
 
     lock3.unlock();
     lock2.lock();
 
-    try {
-      lock1.lock();
-      fail("Expected PotentialDeadlockException");
-    } catch (PotentialDeadlockException expected) {
-      checkMessage(expected, "MyOrder.SECOND -> MyOrder.FIRST");
-    }
+    expected = assertThrows(PotentialDeadlockException.class, () -> lock1.lock());
+    checkMessage(expected, "MyOrder.SECOND -> MyOrder.FIRST");
   }
 
   public void testDifferentOrderings_noViolations() {
@@ -198,26 +176,18 @@ public class CycleDetectingLockFactoryTest extends TestCase {
     lock01.lock(); // OtherOrder, ordinal() == 1
 
     lock3.unlock();
-    try {
-      lock3.lock();
-      fail("Expected PotentialDeadlockException");
-    } catch (PotentialDeadlockException expected) {
-      checkMessage(
-          expected, "OtherOrder.FIRST -> MyOrder.THIRD", "MyOrder.THIRD -> OtherOrder.FIRST");
-    }
-
+    PotentialDeadlockException expected =
+        assertThrows(PotentialDeadlockException.class, () -> lock3.lock());
+    checkMessage(
+        expected, "OtherOrder.FIRST -> MyOrder.THIRD", "MyOrder.THIRD -> OtherOrder.FIRST");
     lockA.lock();
     lock01.unlock();
     lockB.lock();
     lockA.unlock();
 
-    try {
-      lock01.lock();
-      fail("Expected PotentialDeadlockException");
-    } catch (PotentialDeadlockException expected) {
-      checkMessage(
-          expected, "LockB -> OtherOrder.FIRST", "LockA -> LockB", "OtherOrder.FIRST -> LockA");
-    }
+    expected = assertThrows(PotentialDeadlockException.class, () -> lock01.lock());
+    checkMessage(
+        expected, "LockB -> OtherOrder.FIRST", "LockA -> LockB", "OtherOrder.FIRST -> LockA");
   }
 
   public void testExplicitOrdering_cycleWithUnorderedLock() {
@@ -226,16 +196,13 @@ public class CycleDetectingLockFactoryTest extends TestCase {
     myLock.lock();
     lock03.unlock();
 
-    try {
-      lock01.lock();
-      fail("Expected PotentialDeadlockException");
-    } catch (PotentialDeadlockException expected) {
-      checkMessage(
-          expected,
-          "MyLock -> OtherOrder.FIRST",
-          "OtherOrder.THIRD -> MyLock",
-          "OtherOrder.FIRST -> OtherOrder.THIRD");
-    }
+    PotentialDeadlockException expected =
+        assertThrows(PotentialDeadlockException.class, () -> lock01.lock());
+    checkMessage(
+        expected,
+        "MyLock -> OtherOrder.FIRST",
+        "OtherOrder.THIRD -> MyLock",
+        "OtherOrder.FIRST -> OtherOrder.THIRD");
   }
 
   public void testExplicitOrdering_reentrantAcquisition() {
@@ -261,11 +228,7 @@ public class CycleDetectingLockFactoryTest extends TestCase {
     Lock lockB = factory.newReentrantReadWriteLock(OtherOrder.FIRST).readLock();
 
     lockA.lock();
-    try {
-      lockB.lock();
-      fail("Expected IllegalStateException");
-    } catch (IllegalStateException expected) {
-    }
+    assertThrows(IllegalStateException.class, () -> lockB.lock());
 
     lockA.unlock();
     lockB.lock();
@@ -278,12 +241,9 @@ public class CycleDetectingLockFactoryTest extends TestCase {
     readLockA.unlock();
 
     lockB.lock();
-    try {
-      readLockA.lock();
-      fail("Expected PotentialDeadlockException");
-    } catch (PotentialDeadlockException expected) {
-      checkMessage(expected, "LockB -> ReadWriteA", "ReadWriteA -> LockB");
-    }
+    PotentialDeadlockException expected =
+        assertThrows(PotentialDeadlockException.class, () -> readLockA.lock());
+    checkMessage(expected, "LockB -> ReadWriteA", "ReadWriteA -> LockB");
   }
 
   public void testReadLock_transitive() {
@@ -300,13 +260,10 @@ public class CycleDetectingLockFactoryTest extends TestCase {
 
     // readLockC -> readLockA
     readLockC.lock();
-    try {
-      readLockA.lock();
-      fail("Expected PotentialDeadlockException");
-    } catch (PotentialDeadlockException expected) {
-      checkMessage(
-          expected, "ReadWriteC -> ReadWriteA", "LockB -> ReadWriteC", "ReadWriteA -> LockB");
-    }
+    PotentialDeadlockException expected =
+        assertThrows(PotentialDeadlockException.class, () -> readLockA.lock());
+    checkMessage(
+        expected, "ReadWriteC -> ReadWriteA", "LockB -> ReadWriteC", "ReadWriteA -> LockB");
   }
 
   public void testWriteLock_threeLockDeadLock() {
@@ -322,16 +279,13 @@ public class CycleDetectingLockFactoryTest extends TestCase {
     writeLockB.unlock();
 
     // writeLockC -> writeLockA should fail.
-    try {
-      writeLockA.lock();
-      fail("Expected PotentialDeadlockException");
-    } catch (PotentialDeadlockException expected) {
-      checkMessage(
-          expected,
-          "ReadWriteC -> ReadWriteA",
-          "ReadWriteB -> ReadWriteC",
-          "ReadWriteA -> ReadWriteB");
-    }
+    PotentialDeadlockException expected =
+        assertThrows(PotentialDeadlockException.class, () -> writeLockA.lock());
+    checkMessage(
+        expected,
+        "ReadWriteC -> ReadWriteA",
+        "ReadWriteB -> ReadWriteC",
+        "ReadWriteA -> ReadWriteB");
   }
 
   public void testWriteToReadLockDowngrading() {
@@ -343,12 +297,9 @@ public class CycleDetectingLockFactoryTest extends TestCase {
     readLockA.unlock();
 
     // lockB -> writeLockA should fail
-    try {
-      writeLockA.lock();
-      fail("Expected PotentialDeadlockException");
-    } catch (PotentialDeadlockException expected) {
-      checkMessage(expected, "LockB -> ReadWriteA", "ReadWriteA -> LockB");
-    }
+    PotentialDeadlockException expected =
+        assertThrows(PotentialDeadlockException.class, () -> writeLockA.lock());
+    checkMessage(expected, "LockB -> ReadWriteA", "ReadWriteA -> LockB");
   }
 
   public void testReadWriteLockDeadlock() {
@@ -359,12 +310,9 @@ public class CycleDetectingLockFactoryTest extends TestCase {
 
     // lockB -> readLockA should fail.
     lockB.lock();
-    try {
-      readLockA.lock();
-      fail("Expected PotentialDeadlockException");
-    } catch (PotentialDeadlockException expected) {
-      checkMessage(expected, "LockB -> ReadWriteA", "ReadWriteA -> LockB");
-    }
+    PotentialDeadlockException expected =
+        assertThrows(PotentialDeadlockException.class, () -> readLockA.lock());
+    checkMessage(expected, "LockB -> ReadWriteA", "ReadWriteA -> LockB");
   }
 
   public void testReadWriteLockDeadlock_transitive() {
@@ -381,12 +329,9 @@ public class CycleDetectingLockFactoryTest extends TestCase {
 
     // lockC -> writeLockA should fail.
     lockC.lock();
-    try {
-      writeLockA.lock();
-      fail("Expected PotentialDeadlockException");
-    } catch (PotentialDeadlockException expected) {
-      checkMessage(expected, "LockC -> ReadWriteA", "LockB -> LockC", "ReadWriteA -> LockB");
-    }
+    PotentialDeadlockException expected =
+        assertThrows(PotentialDeadlockException.class, () -> writeLockA.lock());
+    checkMessage(expected, "LockC -> ReadWriteA", "LockB -> LockC", "ReadWriteA -> LockB");
   }
 
   public void testReadWriteLockDeadlock_treatedEquivalently() {
@@ -397,12 +342,9 @@ public class CycleDetectingLockFactoryTest extends TestCase {
 
     // readLockB -> writeLockA should fail.
     readLockB.lock();
-    try {
-      writeLockA.lock();
-      fail("Expected PotentialDeadlockException");
-    } catch (PotentialDeadlockException expected) {
-      checkMessage(expected, "ReadWriteB -> ReadWriteA", "ReadWriteA -> ReadWriteB");
-    }
+    PotentialDeadlockException expected =
+        assertThrows(PotentialDeadlockException.class, () -> writeLockA.lock());
+    checkMessage(expected, "ReadWriteB -> ReadWriteA", "ReadWriteA -> ReadWriteB");
   }
 
   public void testDifferentLockFactories() {
@@ -417,12 +359,9 @@ public class CycleDetectingLockFactoryTest extends TestCase {
 
     // lockD -> lockA should fail even though lockD is from a different factory.
     lockD.lock();
-    try {
-      lockA.lock();
-      fail("Expected PotentialDeadlockException");
-    } catch (PotentialDeadlockException expected) {
-      checkMessage(expected, "LockD -> LockA", "LockA -> LockD");
-    }
+    PotentialDeadlockException expected =
+        assertThrows(PotentialDeadlockException.class, () -> lockA.lock());
+    checkMessage(expected, "LockD -> LockA", "LockA -> LockD");
   }
 
   public void testDifferentLockFactories_policyExecution() {

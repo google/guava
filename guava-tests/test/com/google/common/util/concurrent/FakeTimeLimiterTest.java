@@ -17,6 +17,7 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.assertThrows;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -51,22 +52,24 @@ public class FakeTimeLimiterTest extends TestCase {
 
   public void testCallWithTimeout_wrapsCheckedException() throws Exception {
     Exception exception = new SampleCheckedException();
-    try {
-      timeLimiter.callWithTimeout(callableThrowing(exception), DELAY_MS, TimeUnit.MILLISECONDS);
-      fail("Expected ExecutionException");
-    } catch (ExecutionException e) {
-      assertThat(e.getCause()).isEqualTo(exception);
-    }
+    ExecutionException e =
+        assertThrows(
+            ExecutionException.class,
+            () ->
+                timeLimiter.callWithTimeout(
+                    callableThrowing(exception), DELAY_MS, TimeUnit.MILLISECONDS));
+    assertThat(e.getCause()).isEqualTo(exception);
   }
 
   public void testCallWithTimeout_wrapsUncheckedException() throws Exception {
     Exception exception = new RuntimeException("test");
-    try {
-      timeLimiter.callWithTimeout(callableThrowing(exception), DELAY_MS, TimeUnit.MILLISECONDS);
-      fail("Expected UncheckedExecutionException");
-    } catch (UncheckedExecutionException e) {
-      assertThat(e.getCause()).isEqualTo(exception);
-    }
+    UncheckedExecutionException e =
+        assertThrows(
+            UncheckedExecutionException.class,
+            () ->
+                timeLimiter.callWithTimeout(
+                    callableThrowing(exception), DELAY_MS, TimeUnit.MILLISECONDS));
+    assertThat(e.getCause()).isEqualTo(exception);
   }
 
   public void testCallUninterruptiblyWithTimeout_propagatesReturnValue() throws Exception {
@@ -83,23 +86,24 @@ public class FakeTimeLimiterTest extends TestCase {
 
   public void testRunWithTimeout_wrapsUncheckedException() throws Exception {
     RuntimeException exception = new RuntimeException("test");
-    try {
-      timeLimiter.runWithTimeout(runnableThrowing(exception), DELAY_MS, TimeUnit.MILLISECONDS);
-      fail("Expected UncheckedExecutionException");
-    } catch (UncheckedExecutionException e) {
-      assertThat(e.getCause()).isEqualTo(exception);
-    }
+    UncheckedExecutionException e =
+        assertThrows(
+            UncheckedExecutionException.class,
+            () ->
+                timeLimiter.runWithTimeout(
+                    runnableThrowing(exception), DELAY_MS, TimeUnit.MILLISECONDS));
+    assertThat(e.getCause()).isEqualTo(exception);
   }
 
   public void testRunUninterruptiblyWithTimeout_wrapsUncheckedException() throws Exception {
     RuntimeException exception = new RuntimeException("test");
-    try {
-      timeLimiter.runUninterruptiblyWithTimeout(
-          runnableThrowing(exception), DELAY_MS, TimeUnit.MILLISECONDS);
-      fail("Expected UncheckedExecutionException");
-    } catch (UncheckedExecutionException e) {
-      assertThat(e.getCause()).isEqualTo(exception);
-    }
+    UncheckedExecutionException e =
+        assertThrows(
+            UncheckedExecutionException.class,
+            () ->
+                timeLimiter.runUninterruptiblyWithTimeout(
+                    runnableThrowing(exception), DELAY_MS, TimeUnit.MILLISECONDS));
+    assertThat(e.getCause()).isEqualTo(exception);
   }
 
   public static <T> Callable<T> callableThrowing(final Exception exception) {

@@ -16,13 +16,11 @@
 
 package com.google.common.graph;
 
-import static com.google.common.graph.AbstractNetworkTest.ERROR_MODIFIABLE_COLLECTION;
-import static com.google.common.graph.TestUtil.ERROR_NODE_NOT_IN_GRAPH;
 import static com.google.common.graph.TestUtil.EdgeType.DIRECTED;
 import static com.google.common.graph.TestUtil.EdgeType.UNDIRECTED;
 import static com.google.common.graph.TestUtil.assertNodeNotInGraphErrorMessage;
 import static com.google.common.truth.Truth.assertThat;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.graph.TestUtil.EdgeType;
 import java.util.Arrays;
@@ -89,24 +87,21 @@ public final class DefaultNetworkImplementationsTest {
   public void edgesConnecting_nodesNotInGraph() {
     network.addNode(N1);
     network.addNode(N2);
-    try {
-      networkForTest.edgesConnecting(N1, NODE_NOT_IN_GRAPH);
-      fail(ERROR_NODE_NOT_IN_GRAPH);
-    } catch (IllegalArgumentException e) {
-      assertNodeNotInGraphErrorMessage(e);
-    }
-    try {
-      networkForTest.edgesConnecting(NODE_NOT_IN_GRAPH, N2);
-      fail(ERROR_NODE_NOT_IN_GRAPH);
-    } catch (IllegalArgumentException e) {
-      assertNodeNotInGraphErrorMessage(e);
-    }
-    try {
-      networkForTest.edgesConnecting(NODE_NOT_IN_GRAPH, NODE_NOT_IN_GRAPH);
-      fail(ERROR_NODE_NOT_IN_GRAPH);
-    } catch (IllegalArgumentException e) {
-      assertNodeNotInGraphErrorMessage(e);
-    }
+    IllegalArgumentException e =
+        assertThrows(
+            IllegalArgumentException.class,
+            () -> networkForTest.edgesConnecting(N1, NODE_NOT_IN_GRAPH));
+    assertNodeNotInGraphErrorMessage(e);
+    e =
+        assertThrows(
+            IllegalArgumentException.class,
+            () -> networkForTest.edgesConnecting(NODE_NOT_IN_GRAPH, N2));
+    assertNodeNotInGraphErrorMessage(e);
+    e =
+        assertThrows(
+            IllegalArgumentException.class,
+            () -> networkForTest.edgesConnecting(NODE_NOT_IN_GRAPH, NODE_NOT_IN_GRAPH));
+    assertNodeNotInGraphErrorMessage(e);
   }
 
   @Test
@@ -114,13 +109,10 @@ public final class DefaultNetworkImplementationsTest {
     network.addNode(N1);
     network.addNode(N2);
     Set<String> edgesConnecting = network.edgesConnecting(N1, N2);
-    try {
-      edgesConnecting.add(E23);
-      fail(ERROR_MODIFIABLE_COLLECTION);
-    } catch (UnsupportedOperationException e) {
-      network.addEdge(N1, N2, E12);
-      assertThat(networkForTest.edgesConnecting(N1, N2)).containsExactlyElementsIn(edgesConnecting);
-    }
+    UnsupportedOperationException e =
+        assertThrows(UnsupportedOperationException.class, () -> edgesConnecting.add(E23));
+    network.addEdge(N1, N2, E12);
+    assertThat(networkForTest.edgesConnecting(N1, N2)).containsExactlyElementsIn(edgesConnecting);
   }
 
   @Test

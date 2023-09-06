@@ -20,6 +20,7 @@ import static com.google.common.util.concurrent.InterruptionUtil.repeatedlyInter
 import static com.google.common.util.concurrent.Uninterruptibles.getUninterruptibly;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.testing.TearDown;
 import com.google.common.testing.TearDownStack;
@@ -120,11 +121,9 @@ public class UninterruptibleFutureTest extends TestCase {
 
     repeatedlyInterruptTestThread(100, tearDownStack);
 
-    try {
-      getUninterruptibly(delayedFuture, 500, TimeUnit.MILLISECONDS);
-      fail("expected to time out");
-    } catch (TimeoutException expected) {
-    }
+    assertThrows(
+        TimeoutException.class,
+        () -> getUninterruptibly(delayedFuture, 500, TimeUnit.MILLISECONDS));
     assertTrue(Thread.interrupted()); // clears the interrupt state, too
 
     assertFalse(sleeper.completed);
@@ -217,13 +216,9 @@ public class UninterruptibleFutureTest extends TestCase {
     Thread waitingThread = new Thread(wasInterrupted);
     waitingThread.start();
     waitingThread.interrupt();
-    try {
-      wasInterrupted.get();
-      fail();
-    } catch (ExecutionException expected) {
-      assertTrue(
-          expected.getCause().toString(), expected.getCause() instanceof InterruptedException);
-    }
+    ExecutionException expected =
+        assertThrows(ExecutionException.class, () -> wasInterrupted.get());
+    assertTrue(expected.getCause().toString(), expected.getCause() instanceof InterruptedException);
   }
 
   public void testMakeUninterruptible_timedGetZeroTimeoutAttempted()

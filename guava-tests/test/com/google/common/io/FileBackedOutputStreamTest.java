@@ -137,11 +137,7 @@ public class FileBackedOutputStreamTest extends IoTestCase {
     assertTrue(Arrays.equals(data, source.read()));
 
     out.close();
-    try {
-      out.write(42);
-      fail("expected exception");
-    } catch (IOException expected) {
-    }
+    assertThrows(IOException.class, () -> out.write(42));
 
     // Verify that write had no effect
     assertTrue(Arrays.equals(data, source.read()));

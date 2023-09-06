@@ -17,6 +17,7 @@
 package com.google.common.reflect;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
@@ -285,11 +286,7 @@ public class InvokableTest extends TestCase {
 
   public void testConstructor_invalidReturning() throws Exception {
     Invokable<?, Prepender> delegate = Prepender.constructor(String.class, int.class);
-    try {
-      delegate.returning(SubPrepender.class);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> delegate.returning(SubPrepender.class));
   }
 
   public void testStaticMethod_returnType() throws Exception {
@@ -352,11 +349,9 @@ public class InvokableTest extends TestCase {
 
   public void testStaticMethod_invalidReturning() throws Exception {
     Invokable<?, Object> delegate = Prepender.method("prepend", String.class, Iterable.class);
-    try {
-      delegate.returning(new TypeToken<Iterable<Integer>>() {});
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> delegate.returning(new TypeToken<Iterable<Integer>>() {}));
   }
 
   public void testInstanceMethod_returnType() throws Exception {
@@ -414,11 +409,9 @@ public class InvokableTest extends TestCase {
 
   public void testInstanceMethod_invalidReturning() throws Exception {
     Invokable<?, Object> delegate = Prepender.method("prepend", Iterable.class);
-    try {
-      delegate.returning(new TypeToken<Iterable<Integer>>() {});
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> delegate.returning(new TypeToken<Iterable<Integer>>() {}));
   }
 
   public void testPrivateInstanceMethod_isOverridable() throws Exception {

@@ -19,6 +19,7 @@ package com.google.common.util.concurrent;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.util.concurrent.MoreExecutors.newSequentialExecutor;
 import static com.google.common.util.concurrent.Uninterruptibles.awaitUninterruptibly;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
@@ -79,11 +80,7 @@ public class SequentialExecutorTest extends TestCase {
   }
 
   public void testConstructingWithNullExecutor_fails() {
-    try {
-      new SequentialExecutor(null);
-      fail("Should have failed with NullPointerException.");
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> new SequentialExecutor(null));
   }
 
   public void testBasics() {
@@ -263,11 +260,7 @@ public class SequentialExecutorTest extends TestCase {
             numCalls.incrementAndGet();
           }
         };
-    try {
-      executor.execute(task);
-      fail();
-    } catch (RejectedExecutionException expected) {
-    }
+    assertThrows(RejectedExecutionException.class, () -> executor.execute(task));
     assertEquals(0, numCalls.get());
     reject.set(false);
     executor.execute(task);
@@ -344,18 +337,11 @@ public class SequentialExecutorTest extends TestCase {
               }
             });
     future.get(10, TimeUnit.SECONDS);
-    try {
-      executor.execute(Runnables.doNothing());
-      fail();
-    } catch (RejectedExecutionException expected) {
-    }
+    assertThrows(RejectedExecutionException.class, () -> executor.execute(Runnables.doNothing()));
     latch.countDown();
-    try {
-      first.get(10, TimeUnit.SECONDS);
-      fail();
-    } catch (ExecutionException expected) {
-      assertThat(expected).hasCauseThat().isInstanceOf(RejectedExecutionException.class);
-    }
+    ExecutionException expected =
+        assertThrows(ExecutionException.class, () -> first.get(10, TimeUnit.SECONDS));
+    assertThat(expected).hasCauseThat().isInstanceOf(RejectedExecutionException.class);
   }
 
   public void testToString() {

@@ -19,6 +19,7 @@ package com.google.common.graph;
 import static com.google.common.graph.GraphConstants.ENDPOINTS_MISMATCH;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -59,26 +60,20 @@ public abstract class AbstractStandardUndirectedNetworkTest extends AbstractNetw
   @Test
   public void nodes_checkReturnedSetMutability() {
     Set<Integer> nodes = network.nodes();
-    try {
-      nodes.add(N2);
-      fail(ERROR_MODIFIABLE_COLLECTION);
-    } catch (UnsupportedOperationException e) {
-      addNode(N1);
-      assertThat(network.nodes()).containsExactlyElementsIn(nodes);
-    }
+    UnsupportedOperationException e =
+        assertThrows(UnsupportedOperationException.class, () -> nodes.add(N2));
+    addNode(N1);
+    assertThat(network.nodes()).containsExactlyElementsIn(nodes);
   }
 
   @Override
   @Test
   public void edges_checkReturnedSetMutability() {
     Set<String> edges = network.edges();
-    try {
-      edges.add(E12);
-      fail(ERROR_MODIFIABLE_COLLECTION);
-    } catch (UnsupportedOperationException e) {
-      addEdge(N1, N2, E12);
-      assertThat(network.edges()).containsExactlyElementsIn(edges);
-    }
+    UnsupportedOperationException e =
+        assertThrows(UnsupportedOperationException.class, () -> edges.add(E12));
+    addEdge(N1, N2, E12);
+    assertThat(network.edges()).containsExactlyElementsIn(edges);
   }
 
   @Override
@@ -86,13 +81,10 @@ public abstract class AbstractStandardUndirectedNetworkTest extends AbstractNetw
   public void incidentEdges_checkReturnedSetMutability() {
     addNode(N1);
     Set<String> incidentEdges = network.incidentEdges(N1);
-    try {
-      incidentEdges.add(E12);
-      fail(ERROR_MODIFIABLE_COLLECTION);
-    } catch (UnsupportedOperationException e) {
-      addEdge(N1, N2, E12);
-      assertThat(network.incidentEdges(N1)).containsExactlyElementsIn(incidentEdges);
-    }
+    UnsupportedOperationException e =
+        assertThrows(UnsupportedOperationException.class, () -> incidentEdges.add(E12));
+    addEdge(N1, N2, E12);
+    assertThat(network.incidentEdges(N1)).containsExactlyElementsIn(incidentEdges);
   }
 
   @Override
@@ -100,13 +92,10 @@ public abstract class AbstractStandardUndirectedNetworkTest extends AbstractNetw
   public void adjacentNodes_checkReturnedSetMutability() {
     addNode(N1);
     Set<Integer> adjacentNodes = network.adjacentNodes(N1);
-    try {
-      adjacentNodes.add(N2);
-      fail(ERROR_MODIFIABLE_COLLECTION);
-    } catch (UnsupportedOperationException e) {
-      addEdge(N1, N2, E12);
-      assertThat(network.adjacentNodes(N1)).containsExactlyElementsIn(adjacentNodes);
-    }
+    UnsupportedOperationException e =
+        assertThrows(UnsupportedOperationException.class, () -> adjacentNodes.add(N2));
+    addEdge(N1, N2, E12);
+    assertThat(network.adjacentNodes(N1)).containsExactlyElementsIn(adjacentNodes);
   }
 
   @Override
@@ -128,13 +117,10 @@ public abstract class AbstractStandardUndirectedNetworkTest extends AbstractNetw
     addNode(N1);
     addNode(N2);
     Set<String> edgesConnecting = network.edgesConnecting(N1, N2);
-    try {
-      edgesConnecting.add(E23);
-      fail(ERROR_MODIFIABLE_COLLECTION);
-    } catch (UnsupportedOperationException e) {
-      addEdge(N1, N2, E12);
-      assertThat(network.edgesConnecting(N1, N2)).containsExactlyElementsIn(edgesConnecting);
-    }
+    UnsupportedOperationException e =
+        assertThrows(UnsupportedOperationException.class, () -> edgesConnecting.add(E23));
+    addEdge(N1, N2, E12);
+    assertThat(network.edgesConnecting(N1, N2)).containsExactlyElementsIn(edgesConnecting);
   }
 
   @Override
@@ -142,13 +128,10 @@ public abstract class AbstractStandardUndirectedNetworkTest extends AbstractNetw
   public void inEdges_checkReturnedSetMutability() {
     addNode(N2);
     Set<String> inEdges = network.inEdges(N2);
-    try {
-      inEdges.add(E12);
-      fail(ERROR_MODIFIABLE_COLLECTION);
-    } catch (UnsupportedOperationException e) {
-      addEdge(N1, N2, E12);
-      assertThat(network.inEdges(N2)).containsExactlyElementsIn(inEdges);
-    }
+    UnsupportedOperationException e =
+        assertThrows(UnsupportedOperationException.class, () -> inEdges.add(E12));
+    addEdge(N1, N2, E12);
+    assertThat(network.inEdges(N2)).containsExactlyElementsIn(inEdges);
   }
 
   @Override
@@ -156,13 +139,10 @@ public abstract class AbstractStandardUndirectedNetworkTest extends AbstractNetw
   public void outEdges_checkReturnedSetMutability() {
     addNode(N1);
     Set<String> outEdges = network.outEdges(N1);
-    try {
-      outEdges.add(E12);
-      fail(ERROR_MODIFIABLE_COLLECTION);
-    } catch (UnsupportedOperationException e) {
-      addEdge(N1, N2, E12);
-      assertThat(network.outEdges(N1)).containsExactlyElementsIn(outEdges);
-    }
+    UnsupportedOperationException e =
+        assertThrows(UnsupportedOperationException.class, () -> outEdges.add(E12));
+    addEdge(N1, N2, E12);
+    assertThat(network.outEdges(N1)).containsExactlyElementsIn(outEdges);
   }
 
   @Override
@@ -170,13 +150,10 @@ public abstract class AbstractStandardUndirectedNetworkTest extends AbstractNetw
   public void predecessors_checkReturnedSetMutability() {
     addNode(N2);
     Set<Integer> predecessors = network.predecessors(N2);
-    try {
-      predecessors.add(N1);
-      fail(ERROR_MODIFIABLE_COLLECTION);
-    } catch (UnsupportedOperationException e) {
-      addEdge(N1, N2, E12);
-      assertThat(network.predecessors(N2)).containsExactlyElementsIn(predecessors);
-    }
+    UnsupportedOperationException e =
+        assertThrows(UnsupportedOperationException.class, () -> predecessors.add(N1));
+    addEdge(N1, N2, E12);
+    assertThat(network.predecessors(N2)).containsExactlyElementsIn(predecessors);
   }
 
   @Override
@@ -184,13 +161,10 @@ public abstract class AbstractStandardUndirectedNetworkTest extends AbstractNetw
   public void successors_checkReturnedSetMutability() {
     addNode(N1);
     Set<Integer> successors = network.successors(N1);
-    try {
-      successors.add(N2);
-      fail(ERROR_MODIFIABLE_COLLECTION);
-    } catch (UnsupportedOperationException e) {
-      addEdge(N1, N2, E12);
-      assertThat(network.successors(N1)).containsExactlyElementsIn(successors);
-    }
+    UnsupportedOperationException e =
+        assertThrows(UnsupportedOperationException.class, () -> successors.add(N2));
+    addEdge(N1, N2, E12);
+    assertThat(network.successors(N1)).containsExactlyElementsIn(successors);
   }
 
   @Test
@@ -203,23 +177,25 @@ public abstract class AbstractStandardUndirectedNetworkTest extends AbstractNetw
   @Test
   public void edgesConnecting_orderMismatch() {
     addEdge(N1, N2, E12);
-    try {
-      Set<String> unused = network.edgesConnecting(ENDPOINTS_N1N2);
-      fail("Expected IllegalArgumentException: " + ENDPOINTS_MISMATCH);
-    } catch (IllegalArgumentException e) {
-      assertThat(e).hasMessageThat().contains(ENDPOINTS_MISMATCH);
-    }
+    IllegalArgumentException e =
+        assertThrows(
+            IllegalArgumentException.class,
+            () -> {
+              Set<String> unused = network.edgesConnecting(ENDPOINTS_N1N2);
+            });
+    assertThat(e).hasMessageThat().contains(ENDPOINTS_MISMATCH);
   }
 
   @Test
   public void edgeConnectingOrNull_orderMismatch() {
     addEdge(N1, N2, E12);
-    try {
-      String unused = network.edgeConnectingOrNull(ENDPOINTS_N1N2);
-      fail("Expected IllegalArgumentException: " + ENDPOINTS_MISMATCH);
-    } catch (IllegalArgumentException e) {
-      assertThat(e).hasMessageThat().contains(ENDPOINTS_MISMATCH);
-    }
+    IllegalArgumentException e =
+        assertThrows(
+            IllegalArgumentException.class,
+            () -> {
+              String unused = network.edgeConnectingOrNull(ENDPOINTS_N1N2);
+            });
+    assertThat(e).hasMessageThat().contains(ENDPOINTS_MISMATCH);
   }
 
   @Test
@@ -429,13 +405,10 @@ public abstract class AbstractStandardUndirectedNetworkTest extends AbstractNetw
     assume().that(graphIsMutable()).isTrue();
 
     addEdge(N1, N2, E12);
-    try {
-      // Edge between totally different nodes
-      networkAsMutableNetwork.addEdge(N4, N5, E12);
-      fail(ERROR_ADDED_EXISTING_EDGE);
-    } catch (IllegalArgumentException e) {
-      assertThat(e).hasMessageThat().contains(ERROR_REUSE_EDGE);
-    }
+    IllegalArgumentException e =
+        assertThrows(
+            IllegalArgumentException.class, () -> networkAsMutableNetwork.addEdge(N4, N5, E12));
+    assertThat(e).hasMessageThat().contains(ERROR_REUSE_EDGE);
   }
 
   @Test
@@ -444,18 +417,16 @@ public abstract class AbstractStandardUndirectedNetworkTest extends AbstractNetw
     assume().that(network.allowsParallelEdges()).isFalse();
 
     addEdge(N1, N2, E12);
-    try {
-      networkAsMutableNetwork.addEdge(N1, N2, EDGE_NOT_IN_GRAPH);
-      fail(ERROR_ADDED_PARALLEL_EDGE);
-    } catch (IllegalArgumentException e) {
-      assertThat(e).hasMessageThat().contains(ERROR_PARALLEL_EDGE);
-    }
-    try {
-      networkAsMutableNetwork.addEdge(N2, N1, EDGE_NOT_IN_GRAPH);
-      fail(ERROR_ADDED_PARALLEL_EDGE);
-    } catch (IllegalArgumentException e) {
-      assertThat(e).hasMessageThat().contains(ERROR_PARALLEL_EDGE);
-    }
+    IllegalArgumentException e =
+        assertThrows(
+            IllegalArgumentException.class,
+            () -> networkAsMutableNetwork.addEdge(N1, N2, EDGE_NOT_IN_GRAPH));
+    assertThat(e).hasMessageThat().contains(ERROR_PARALLEL_EDGE);
+    e =
+        assertThrows(
+            IllegalArgumentException.class,
+            () -> networkAsMutableNetwork.addEdge(N2, N1, EDGE_NOT_IN_GRAPH));
+    assertThat(e).hasMessageThat().contains(ERROR_PARALLEL_EDGE);
   }
 
   @Test
@@ -474,12 +445,10 @@ public abstract class AbstractStandardUndirectedNetworkTest extends AbstractNetw
     assume().that(graphIsMutable()).isTrue();
 
     EndpointPair<Integer> endpoints = EndpointPair.ordered(N1, N2);
-    try {
-      networkAsMutableNetwork.addEdge(endpoints, E12);
-      fail("Expected IllegalArgumentException: " + ENDPOINTS_MISMATCH);
-    } catch (IllegalArgumentException e) {
-      assertThat(e).hasMessageThat().contains(ENDPOINTS_MISMATCH);
-    }
+    IllegalArgumentException e =
+        assertThrows(
+            IllegalArgumentException.class, () -> networkAsMutableNetwork.addEdge(endpoints, E12));
+    assertThat(e).hasMessageThat().contains(ENDPOINTS_MISMATCH);
   }
 
   @Test
@@ -487,12 +456,10 @@ public abstract class AbstractStandardUndirectedNetworkTest extends AbstractNetw
     assume().that(graphIsMutable()).isTrue();
     assume().that(network.allowsSelfLoops()).isFalse();
 
-    try {
-      networkAsMutableNetwork.addEdge(N1, N1, E11);
-      fail(ERROR_ADDED_SELF_LOOP);
-    } catch (IllegalArgumentException e) {
-      assertThat(e).hasMessageThat().contains(ERROR_SELF_LOOP);
-    }
+    IllegalArgumentException e =
+        assertThrows(
+            IllegalArgumentException.class, () -> networkAsMutableNetwork.addEdge(N1, N1, E11));
+    assertThat(e).hasMessageThat().contains(ERROR_SELF_LOOP);
   }
 
   /**
@@ -544,25 +511,19 @@ public abstract class AbstractStandardUndirectedNetworkTest extends AbstractNetw
     assume().that(network.allowsSelfLoops()).isTrue();
 
     addEdge(N1, N1, E11);
-    try {
-      networkAsMutableNetwork.addEdge(N1, N2, E11);
-      fail("Reusing an existing self-loop edge to connect different nodes succeeded");
-    } catch (IllegalArgumentException e) {
-      assertThat(e).hasMessageThat().contains(ERROR_REUSE_EDGE);
-    }
-    try {
-      networkAsMutableNetwork.addEdge(N2, N2, E11);
-      fail("Reusing an existing self-loop edge to make a different self-loop edge succeeded");
-    } catch (IllegalArgumentException e) {
-      assertThat(e).hasMessageThat().contains(ERROR_REUSE_EDGE);
-    }
+    IllegalArgumentException e =
+        assertThrows(
+            IllegalArgumentException.class, () -> networkAsMutableNetwork.addEdge(N1, N2, E11));
+    assertThat(e).hasMessageThat().contains(ERROR_REUSE_EDGE);
+    e =
+        assertThrows(
+            IllegalArgumentException.class, () -> networkAsMutableNetwork.addEdge(N2, N2, E11));
+    assertThat(e).hasMessageThat().contains(ERROR_REUSE_EDGE);
     addEdge(N1, N2, E12);
-    try {
-      networkAsMutableNetwork.addEdge(N1, N1, E12);
-      fail("Reusing an existing edge to add a self-loop edge between different nodes succeeded");
-    } catch (IllegalArgumentException e) {
-      assertThat(e).hasMessageThat().contains(ERROR_REUSE_EDGE);
-    }
+    e =
+        assertThrows(
+            IllegalArgumentException.class, () -> networkAsMutableNetwork.addEdge(N1, N1, E12));
+    assertThat(e).hasMessageThat().contains(ERROR_REUSE_EDGE);
   }
 
   @Test
@@ -572,12 +533,11 @@ public abstract class AbstractStandardUndirectedNetworkTest extends AbstractNetw
     assume().that(network.allowsParallelEdges()).isFalse();
 
     addEdge(N1, N1, E11);
-    try {
-      networkAsMutableNetwork.addEdge(N1, N1, EDGE_NOT_IN_GRAPH);
-      fail("Adding a parallel self-loop edge succeeded");
-    } catch (IllegalArgumentException e) {
-      assertThat(e).hasMessageThat().contains(ERROR_PARALLEL_EDGE);
-    }
+    IllegalArgumentException e =
+        assertThrows(
+            IllegalArgumentException.class,
+            () -> networkAsMutableNetwork.addEdge(N1, N1, EDGE_NOT_IN_GRAPH));
+    assertThat(e).hasMessageThat().contains(ERROR_PARALLEL_EDGE);
   }
 
   @Test

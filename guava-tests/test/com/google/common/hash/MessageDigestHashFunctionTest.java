@@ -16,6 +16,8 @@
 
 package com.google.common.hash;
 
+import static org.junit.Assert.assertThrows;
+
 import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -65,11 +67,7 @@ public class MessageDigestHashFunctionTest extends TestCase {
         sha1.putString("The quick brown fox jumps over the lazy dog", Charsets.UTF_8)
             .hash()
             .toString());
-    try {
-      sha1.putInt(42);
-      fail();
-    } catch (IllegalStateException expected) {
-    }
+    assertThrows(IllegalStateException.class, () -> sha1.putInt(42));
   }
 
   public void testHashTwice() {
@@ -80,11 +78,7 @@ public class MessageDigestHashFunctionTest extends TestCase {
         sha1.putString("The quick brown fox jumps over the lazy dog", Charsets.UTF_8)
             .hash()
             .toString());
-    try {
-      sha1.hash();
-      fail();
-    } catch (IllegalStateException expected) {
-    }
+    assertThrows(IllegalStateException.class, () -> sha1.hash());
   }
 
   public void testToString() {
