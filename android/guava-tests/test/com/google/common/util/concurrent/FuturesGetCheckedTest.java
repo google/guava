@@ -30,11 +30,13 @@ import static com.google.common.util.concurrent.FuturesGetCheckedInputs.RUNTIME_
 import static com.google.common.util.concurrent.FuturesGetCheckedInputs.RUNTIME_EXCEPTION_FUTURE;
 import static com.google.common.util.concurrent.FuturesGetCheckedInputs.UNCHECKED_EXCEPTION;
 import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.testing.GcFinalization;
 import com.google.common.util.concurrent.FuturesGetCheckedInputs.ExceptionWithBadConstructor;
 import com.google.common.util.concurrent.FuturesGetCheckedInputs.ExceptionWithGoodAndBadConstructor;
 import com.google.common.util.concurrent.FuturesGetCheckedInputs.ExceptionWithManyConstructors;
+import com.google.common.util.concurrent.FuturesGetCheckedInputs.ExceptionWithManyConstructorsButOnlyOneThrowable;
 import com.google.common.util.concurrent.FuturesGetCheckedInputs.ExceptionWithPrivateConstructor;
 import com.google.common.util.concurrent.FuturesGetCheckedInputs.ExceptionWithSomePrivateConstructors;
 import com.google.common.util.concurrent.FuturesGetCheckedInputs.ExceptionWithWrongTypesConstructor;
@@ -347,6 +349,18 @@ public class FuturesGetCheckedTest extends TestCase {
       assertThat(expected).hasMessageThat().contains("mymessage");
       assertThat(expected).hasCauseThat().isEqualTo(CHECKED_EXCEPTION);
     }
+  }
+
+  public void testPrefersConstructorWithThrowableParameter() {
+    ExceptionWithManyConstructorsButOnlyOneThrowable exception =
+        assertThrows(
+            ExceptionWithManyConstructorsButOnlyOneThrowable.class,
+            () ->
+                getChecked(
+                    FAILED_FUTURE_CHECKED_EXCEPTION,
+                    ExceptionWithManyConstructorsButOnlyOneThrowable.class));
+    assertThat(exception).hasMessageThat().contains("mymessage");
+    assertThat(exception.getAntecedent()).isEqualTo(CHECKED_EXCEPTION);
   }
 
   // Class unloading test:
