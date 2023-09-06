@@ -18,6 +18,7 @@ package com.google.common.util.concurrent.testing;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -127,13 +128,8 @@ public abstract class AbstractListenableFutureTest extends TestCase {
     // Run cancellation in a separate thread as an extra thread-safety test.
     new Thread(
             () -> {
-              try {
-                future.get();
-              } catch (CancellationException expected) {
-                successLatch.countDown();
-              } catch (Exception ignored) {
-                // All other errors are ignored, we expect a cancellation.
-              }
+              assertThrows(CancellationException.class, future::get);
+              successLatch.countDown();
             })
         .start();
 
@@ -160,13 +156,8 @@ public abstract class AbstractListenableFutureTest extends TestCase {
 
     new Thread(
             () -> {
-              try {
-                future.get();
-              } catch (CancellationException expected) {
-                successLatch.countDown();
-              } catch (Exception ignored) {
-                // No success latch count down.
-              }
+              assertThrows(CancellationException.class, future::get);
+              successLatch.countDown();
             })
         .start();
 
