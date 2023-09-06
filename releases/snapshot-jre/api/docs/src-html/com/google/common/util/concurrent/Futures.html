@@ -1211,10 +1211,10 @@
 <span class="sourceLineNo">1202</span><a id="line.1202">   *</a>
 <span class="sourceLineNo">1203</span><a id="line.1203">   * &lt;p&gt;Instances of {@code exceptionClass} are created by choosing an arbitrary public constructor</a>
 <span class="sourceLineNo">1204</span><a id="line.1204">   * that accepts zero or more arguments, all of type {@code String} or {@code Throwable}</a>
-<span class="sourceLineNo">1205</span><a id="line.1205">   * (preferring constructors with at least one {@code String}) and calling the constructor via</a>
-<span class="sourceLineNo">1206</span><a id="line.1206">   * reflection. If the exception did not already have a cause, one is set by calling {@link</a>
-<span class="sourceLineNo">1207</span><a id="line.1207">   * Throwable#initCause(Throwable)} on it. If no such constructor exists, an {@code</a>
-<span class="sourceLineNo">1208</span><a id="line.1208">   * IllegalArgumentException} is thrown.</a>
+<span class="sourceLineNo">1205</span><a id="line.1205">   * (preferring constructors with at least one {@code String}, then preferring constructors with at</a>
+<span class="sourceLineNo">1206</span><a id="line.1206">   * least one {@code Throwable}) and calling the constructor via reflection. If the exception did</a>
+<span class="sourceLineNo">1207</span><a id="line.1207">   * not already have a cause, one is set by calling {@link Throwable#initCause(Throwable)} on it.</a>
+<span class="sourceLineNo">1208</span><a id="line.1208">   * If no such constructor exists, an {@code IllegalArgumentException} is thrown.</a>
 <span class="sourceLineNo">1209</span><a id="line.1209">   *</a>
 <span class="sourceLineNo">1210</span><a id="line.1210">   * @throws X if {@code get} throws any checked exception except for an {@code ExecutionException}</a>
 <span class="sourceLineNo">1211</span><a id="line.1211">   *     whose cause is not itself a checked exception</a>
@@ -1263,10 +1263,10 @@
 <span class="sourceLineNo">1254</span><a id="line.1254">   *</a>
 <span class="sourceLineNo">1255</span><a id="line.1255">   * &lt;p&gt;Instances of {@code exceptionClass} are created by choosing an arbitrary public constructor</a>
 <span class="sourceLineNo">1256</span><a id="line.1256">   * that accepts zero or more arguments, all of type {@code String} or {@code Throwable}</a>
-<span class="sourceLineNo">1257</span><a id="line.1257">   * (preferring constructors with at least one {@code String}) and calling the constructor via</a>
-<span class="sourceLineNo">1258</span><a id="line.1258">   * reflection. If the exception did not already have a cause, one is set by calling {@link</a>
-<span class="sourceLineNo">1259</span><a id="line.1259">   * Throwable#initCause(Throwable)} on it. If no such constructor exists, an {@code</a>
-<span class="sourceLineNo">1260</span><a id="line.1260">   * IllegalArgumentException} is thrown.</a>
+<span class="sourceLineNo">1257</span><a id="line.1257">   * (preferring constructors with at least one {@code String}, then preferring constructors with at</a>
+<span class="sourceLineNo">1258</span><a id="line.1258">   * least one {@code Throwable}) and calling the constructor via reflection. If the exception did</a>
+<span class="sourceLineNo">1259</span><a id="line.1259">   * not already have a cause, one is set by calling {@link Throwable#initCause(Throwable)} on it.</a>
+<span class="sourceLineNo">1260</span><a id="line.1260">   * If no such constructor exists, an {@code IllegalArgumentException} is thrown.</a>
 <span class="sourceLineNo">1261</span><a id="line.1261">   *</a>
 <span class="sourceLineNo">1262</span><a id="line.1262">   * @throws X if {@code get} throws any checked exception except for an {@code ExecutionException}</a>
 <span class="sourceLineNo">1263</span><a id="line.1263">   *     whose cause is not itself a checked exception</a>

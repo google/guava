@@ -1216,9 +1216,10 @@ public static&nbsp;&lt;V extends <a href="https://checkerframework.org/api/org/c
 
  <p>Instances of <code>exceptionClass</code> are created by choosing an arbitrary public constructor
  that accepts zero or more arguments, all of type <code>String</code> or <code>Throwable</code>
- (preferring constructors with at least one <code>String</code>) and calling the constructor via
- reflection. If the exception did not already have a cause, one is set by calling <code>Throwable.initCause(Throwable)</code> on it. If no such constructor exists, an <code>
- IllegalArgumentException</code> is thrown.</div>
+ (preferring constructors with at least one <code>String</code>, then preferring constructors with at
+ least one <code>Throwable</code>) and calling the constructor via reflection. If the exception did
+ not already have a cause, one is set by calling <code>Throwable.initCause(Throwable)</code> on it.
+ If no such constructor exists, an <code>IllegalArgumentException</code> is thrown.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>X</code> - if <code>get</code> throws any checked exception except for an <code>ExecutionException</code>
@@ -1274,9 +1275,10 @@ public static&nbsp;&lt;V extends <a href="https://checkerframework.org/api/org/c
 
  <p>Instances of <code>exceptionClass</code> are created by choosing an arbitrary public constructor
  that accepts zero or more arguments, all of type <code>String</code> or <code>Throwable</code>
- (preferring constructors with at least one <code>String</code>) and calling the constructor via
- reflection. If the exception did not already have a cause, one is set by calling <code>Throwable.initCause(Throwable)</code> on it. If no such constructor exists, an <code>
- IllegalArgumentException</code> is thrown.</div>
+ (preferring constructors with at least one <code>String</code>, then preferring constructors with at
+ least one <code>Throwable</code>) and calling the constructor via reflection. If the exception did
+ not already have a cause, one is set by calling <code>Throwable.initCause(Throwable)</code> on it.
+ If no such constructor exists, an <code>IllegalArgumentException</code> is thrown.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>X</code> - if <code>get</code> throws any checked exception except for an <code>ExecutionException</code>
