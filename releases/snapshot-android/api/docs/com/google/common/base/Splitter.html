@@ -467,7 +467,7 @@ public static&nbsp;<a href="Splitter.html" title="class in com.google.common.bas
 <li class="blockList">
 <h4>onPattern</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;<a href="Splitter.html" title="class in com.google.common.base">Splitter</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Splitter.html#line.259">onPattern</a>&#8203;(java.lang.String&nbsp;separatorPattern)</pre>
+public static&nbsp;<a href="Splitter.html" title="class in com.google.common.base">Splitter</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Splitter.html#line.260">onPattern</a>&#8203;(java.lang.String&nbsp;separatorPattern)</pre>
 <div class="block">Returns a splitter that considers any subsequence matching a given pattern (regular expression)
  to be a separator. For example, <code>Splitter.onPattern("\r?\n").split(entireFile)</code> splits a
  string into lines whether it uses DOS-style or UNIX-style line terminators. This is equivalent
@@ -490,7 +490,7 @@ public static&nbsp;<a href="Splitter.html" title="class in com.google.common.bas
 <ul class="blockList">
 <li class="blockList">
 <h4>fixedLength</h4>
-<pre class="methodSignature">public static&nbsp;<a href="Splitter.html" title="class in com.google.common.base">Splitter</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Splitter.html#line.283">fixedLength</a>&#8203;(int&nbsp;length)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="Splitter.html" title="class in com.google.common.base">Splitter</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Splitter.html#line.284">fixedLength</a>&#8203;(int&nbsp;length)</pre>
 <div class="block">Returns a splitter that divides strings into pieces of the given length. For example, <code>
  Splitter.fixedLength(2).split("abcde")</code> returns an iterable containing <code>["ab", "cd",
  "e"]</code>. The last piece can be smaller than <code>length</code> but will never be empty.
@@ -519,7 +519,7 @@ public static&nbsp;<a href="Splitter.html" title="class in com.google.common.bas
 <ul class="blockList">
 <li class="blockList">
 <h4>omitEmptyStrings</h4>
-<pre class="methodSignature">public&nbsp;<a href="Splitter.html" title="class in com.google.common.base">Splitter</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Splitter.html#line.322">omitEmptyStrings</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="Splitter.html" title="class in com.google.common.base">Splitter</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Splitter.html#line.323">omitEmptyStrings</a>()</pre>
 <div class="block">Returns a splitter that behaves equivalently to <code>this</code> splitter, but automatically omits
  empty strings from the results. For example, <code>
  Splitter.on(',').omitEmptyStrings().split(",a,,,b,c,,")</code> returns an iterable containing only
@@ -544,7 +544,7 @@ public static&nbsp;<a href="Splitter.html" title="class in com.google.common.bas
 <ul class="blockList">
 <li class="blockList">
 <h4>limit</h4>
-<pre class="methodSignature">public&nbsp;<a href="Splitter.html" title="class in com.google.common.base">Splitter</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Splitter.html#line.342">limit</a>&#8203;(int&nbsp;maxItems)</pre>
+<pre class="methodSignature">public&nbsp;<a href="Splitter.html" title="class in com.google.common.base">Splitter</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Splitter.html#line.343">limit</a>&#8203;(int&nbsp;maxItems)</pre>
 <div class="block">Returns a splitter that behaves equivalently to <code>this</code> splitter but stops splitting after
  it reaches the limit. The limit defines the maximum number of items returned by the iterator,
  or the maximum size of the list returned by <a href="#splitToList(java.lang.CharSequence)"><code>splitToList(java.lang.CharSequence)</code></a>.
@@ -571,7 +571,7 @@ public static&nbsp;<a href="Splitter.html" title="class in com.google.common.bas
 <ul class="blockList">
 <li class="blockList">
 <h4>trimResults</h4>
-<pre class="methodSignature">public&nbsp;<a href="Splitter.html" title="class in com.google.common.base">Splitter</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Splitter.html#line.356">trimResults</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="Splitter.html" title="class in com.google.common.base">Splitter</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Splitter.html#line.357">trimResults</a>()</pre>
 <div class="block">Returns a splitter that behaves equivalently to <code>this</code> splitter, but automatically
  removes leading and trailing <a href="CharMatcher.html#whitespace()">whitespace</a> from each returned
  substring; equivalent to <code>trimResults(CharMatcher.whitespace())</code>. For example, <code>
@@ -589,7 +589,7 @@ public static&nbsp;<a href="Splitter.html" title="class in com.google.common.bas
 <ul class="blockList">
 <li class="blockList">
 <h4>trimResults</h4>
-<pre class="methodSignature">public&nbsp;<a href="Splitter.html" title="class in com.google.common.base">Splitter</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Splitter.html#line.371">trimResults</a>&#8203;(<a href="CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;trimmer)</pre>
+<pre class="methodSignature">public&nbsp;<a href="Splitter.html" title="class in com.google.common.base">Splitter</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Splitter.html#line.372">trimResults</a>&#8203;(<a href="CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;trimmer)</pre>
 <div class="block">Returns a splitter that behaves equivalently to <code>this</code> splitter, but removes all leading
  or trailing characters matching the given <code>CharMatcher</code> from each returned substring. For
  example, <code>Splitter.on(',').trimResults(CharMatcher.is('_')).split("_a ,_b_ ,c__")</code>
@@ -609,7 +609,7 @@ public static&nbsp;<a href="Splitter.html" title="class in com.google.common.bas
 <ul class="blockList">
 <li class="blockList">
 <h4>split</h4>
-<pre class="methodSignature">public&nbsp;java.lang.Iterable&lt;java.lang.String&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Splitter.html#line.384">split</a>&#8203;(java.lang.CharSequence&nbsp;sequence)</pre>
+<pre class="methodSignature">public&nbsp;java.lang.Iterable&lt;java.lang.String&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Splitter.html#line.385">split</a>&#8203;(java.lang.CharSequence&nbsp;sequence)</pre>
 <div class="block">Splits <code>sequence</code> into string components and makes them available through an <code>Iterator</code>, which may be lazily evaluated. If you want an eagerly computed <code>List</code>, use
  <a href="#splitToList(java.lang.CharSequence)"><code>splitToList(CharSequence)</code></a>.</div>
 <dl>
@@ -626,7 +626,7 @@ public static&nbsp;<a href="Splitter.html" title="class in com.google.common.bas
 <ul class="blockList">
 <li class="blockList">
 <h4>splitToList</h4>
-<pre class="methodSignature">public&nbsp;java.util.List&lt;java.lang.String&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Splitter.html#line.415">splitToList</a>&#8203;(java.lang.CharSequence&nbsp;sequence)</pre>
+<pre class="methodSignature">public&nbsp;java.util.List&lt;java.lang.String&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Splitter.html#line.416">splitToList</a>&#8203;(java.lang.CharSequence&nbsp;sequence)</pre>
 <div class="block">Splits <code>sequence</code> into string components and returns them as an immutable list. If you
  want an <code>Iterable</code> which may be lazily evaluated, use <a href="#split(java.lang.CharSequence)"><code>split(CharSequence)</code></a>.</div>
 <dl>
@@ -645,7 +645,7 @@ public static&nbsp;<a href="Splitter.html" title="class in com.google.common.bas
 <ul class="blockList">
 <li class="blockList">
 <h4>withKeyValueSeparator</h4>
-<pre class="methodSignature">public&nbsp;<a href="Splitter.MapSplitter.html" title="class in com.google.common.base">Splitter.MapSplitter</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Splitter.html#line.434">withKeyValueSeparator</a>&#8203;(java.lang.String&nbsp;separator)</pre>
+<pre class="methodSignature">public&nbsp;<a href="Splitter.MapSplitter.html" title="class in com.google.common.base">Splitter.MapSplitter</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Splitter.html#line.435">withKeyValueSeparator</a>&#8203;(java.lang.String&nbsp;separator)</pre>
 <div class="block">Returns a <code>MapSplitter</code> which splits entries based on this splitter, and splits entries
  into keys and values using the specified separator.</div>
 <dl>
@@ -660,7 +660,7 @@ public static&nbsp;<a href="Splitter.html" title="class in com.google.common.bas
 <ul class="blockList">
 <li class="blockList">
 <h4>withKeyValueSeparator</h4>
-<pre class="methodSignature">public&nbsp;<a href="Splitter.MapSplitter.html" title="class in com.google.common.base">Splitter.MapSplitter</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Splitter.html#line.444">withKeyValueSeparator</a>&#8203;(char&nbsp;separator)</pre>
+<pre class="methodSignature">public&nbsp;<a href="Splitter.MapSplitter.html" title="class in com.google.common.base">Splitter.MapSplitter</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Splitter.html#line.445">withKeyValueSeparator</a>&#8203;(char&nbsp;separator)</pre>
 <div class="block">Returns a <code>MapSplitter</code> which splits entries based on this splitter, and splits entries
  into keys and values using the specified separator.</div>
 <dl>
@@ -675,7 +675,7 @@ public static&nbsp;<a href="Splitter.html" title="class in com.google.common.bas
 <ul class="blockListLast">
 <li class="blockList">
 <h4>withKeyValueSeparator</h4>
-<pre class="methodSignature">public&nbsp;<a href="Splitter.MapSplitter.html" title="class in com.google.common.base">Splitter.MapSplitter</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Splitter.html#line.467">withKeyValueSeparator</a>&#8203;(<a href="Splitter.html" title="class in com.google.common.base">Splitter</a>&nbsp;keyValueSplitter)</pre>
+<pre class="methodSignature">public&nbsp;<a href="Splitter.MapSplitter.html" title="class in com.google.common.base">Splitter.MapSplitter</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Splitter.html#line.468">withKeyValueSeparator</a>&#8203;(<a href="Splitter.html" title="class in com.google.common.base">Splitter</a>&nbsp;keyValueSplitter)</pre>
 <div class="block">Returns a <code>MapSplitter</code> which splits entries based on this splitter, and splits entries
  into keys and values using the specified key-value splitter.
 
