@@ -477,8 +477,8 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
       } catch (IllegalStateException expected) {
       }
     } else {
+      iterator.next();
       try {
-        iterator.next();
         iterator.remove();
         fail("Expected UnsupportedOperationException.");
       } catch (UnsupportedOperationException expected) {
@@ -1425,8 +1425,8 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
       } catch (IllegalStateException expected) {
       }
     } else {
+      iterator.next();
       try {
-        iterator.next();
         iterator.remove();
         fail("Expected UnsupportedOperationException.");
       } catch (UnsupportedOperationException expected) {
