@@ -25,6 +25,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.Spliterator;
+import java.util.function.Predicate;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -61,6 +62,10 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
   }
 
   public final boolean removeAll(Collection<?> oldElements) {
+    throw new UnsupportedOperationException();
+  }
+
+  public final boolean removeIf(Predicate<? super E> predicate) {
     throw new UnsupportedOperationException();
   }
 
