@@ -527,7 +527,7 @@ public static&nbsp;java.util.stream.DoubleStream&nbsp;<a href="../../../../src-h
 <li class="blockList">
 <h4>concat</h4>
 <pre class="methodSignature">@SafeVarargs
-public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.util.stream.Stream&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Streams.html#line.167">concat</a>&#8203;(java.util.stream.Stream&lt;? extends T&gt;...&nbsp;streams)</pre>
+public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.util.stream.Stream&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Streams.html#line.182">concat</a>&#8203;(java.util.stream.Stream&lt;? extends T&gt;...&nbsp;streams)</pre>
 <div class="block">Returns a <code>Stream</code> containing the elements of the first stream, followed by the elements
  of the second stream, and so on.
 
@@ -545,7 +545,7 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>concat</h4>
-<pre class="methodSignature">public static&nbsp;java.util.stream.IntStream&nbsp;<a href="../../../../src-html/com/google/common/collect/Streams.html#line.201">concat</a>&#8203;(java.util.stream.IntStream...&nbsp;streams)</pre>
+<pre class="methodSignature">public static&nbsp;java.util.stream.IntStream&nbsp;<a href="../../../../src-html/com/google/common/collect/Streams.html#line.216">concat</a>&#8203;(java.util.stream.IntStream...&nbsp;streams)</pre>
 <div class="block">Returns an <code>IntStream</code> containing the elements of the first stream, followed by the
  elements of the second stream, and so on.
 
@@ -563,7 +563,7 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>concat</h4>
-<pre class="methodSignature">public static&nbsp;java.util.stream.LongStream&nbsp;<a href="../../../../src-html/com/google/common/collect/Streams.html#line.233">concat</a>&#8203;(java.util.stream.LongStream...&nbsp;streams)</pre>
+<pre class="methodSignature">public static&nbsp;java.util.stream.LongStream&nbsp;<a href="../../../../src-html/com/google/common/collect/Streams.html#line.248">concat</a>&#8203;(java.util.stream.LongStream...&nbsp;streams)</pre>
 <div class="block">Returns a <code>LongStream</code> containing the elements of the first stream, followed by the
  elements of the second stream, and so on.
 
@@ -581,7 +581,7 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>concat</h4>
-<pre class="methodSignature">public static&nbsp;java.util.stream.DoubleStream&nbsp;<a href="../../../../src-html/com/google/common/collect/Streams.html#line.265">concat</a>&#8203;(java.util.stream.DoubleStream...&nbsp;streams)</pre>
+<pre class="methodSignature">public static&nbsp;java.util.stream.DoubleStream&nbsp;<a href="../../../../src-html/com/google/common/collect/Streams.html#line.280">concat</a>&#8203;(java.util.stream.DoubleStream...&nbsp;streams)</pre>
 <div class="block">Returns a <code>DoubleStream</code> containing the elements of the first stream, followed by the
  elements of the second stream, and so on.
 
@@ -600,7 +600,7 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <li class="blockList">
 <h4>zip</h4>
 <pre class="methodSignature"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;&lt;A extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;B extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;R extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.util.stream.Stream&lt;R&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Streams.html#line.313">zip</a>&#8203;(java.util.stream.Stream&lt;A&gt;&nbsp;streamA,
+public static&nbsp;&lt;A extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;B extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;R extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.util.stream.Stream&lt;R&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Streams.html#line.328">zip</a>&#8203;(java.util.stream.Stream&lt;A&gt;&nbsp;streamA,
                                                                                                                                                                           java.util.stream.Stream&lt;B&gt;&nbsp;streamB,
                                                                                                                                                                           java.util.function.BiFunction&lt;? super A,&#8203;? super B,&#8203;R&gt;&nbsp;function)</pre>
 <div class="block">Returns a stream in which each element is the result of passing the corresponding element of
@@ -634,7 +634,7 @@ public static&nbsp;&lt;A extends <a href="https://checkerframework.org/api/org/c
 <li class="blockList">
 <h4>forEachPair</h4>
 <pre class="methodSignature"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;&lt;A extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;B extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/Streams.html#line.376">forEachPair</a>&#8203;(java.util.stream.Stream&lt;A&gt;&nbsp;streamA,
+public static&nbsp;&lt;A extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;B extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/Streams.html#line.391">forEachPair</a>&#8203;(java.util.stream.Stream&lt;A&gt;&nbsp;streamA,
                                                                                                                  java.util.stream.Stream&lt;B&gt;&nbsp;streamB,
                                                                                                                  java.util.function.BiConsumer&lt;? super A,&#8203;? super B&gt;&nbsp;consumer)</pre>
 <div class="block">Invokes <code>consumer</code> once for each pair of <i>corresponding</i> elements in <code>streamA</code>
@@ -675,7 +675,7 @@ public static&nbsp;&lt;A extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>mapWithIndex</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;R extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.util.stream.Stream&lt;R&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Streams.html#line.425">mapWithIndex</a>&#8203;(java.util.stream.Stream&lt;T&gt;&nbsp;stream,
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;R extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.util.stream.Stream&lt;R&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Streams.html#line.440">mapWithIndex</a>&#8203;(java.util.stream.Stream&lt;T&gt;&nbsp;stream,
                                                                                                                                         <a href="Streams.FunctionWithIndex.html" title="interface in com.google.common.collect">Streams.FunctionWithIndex</a>&lt;? super T,&#8203;? extends R&gt;&nbsp;function)</pre>
 <div class="block">Returns a stream consisting of the results of applying the given function to the elements of
  <code>stream</code> and their indices in the stream. For example,
@@ -704,7 +704,7 @@ public static&nbsp;&lt;A extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>mapWithIndex</h4>
-<pre class="methodSignature">public static&nbsp;&lt;R extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.util.stream.Stream&lt;R&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Streams.html#line.508">mapWithIndex</a>&#8203;(java.util.stream.IntStream&nbsp;stream,
+<pre class="methodSignature">public static&nbsp;&lt;R extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.util.stream.Stream&lt;R&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Streams.html#line.523">mapWithIndex</a>&#8203;(java.util.stream.IntStream&nbsp;stream,
                                                                                              <a href="Streams.IntFunctionWithIndex.html" title="interface in com.google.common.collect">Streams.IntFunctionWithIndex</a>&lt;R&gt;&nbsp;function)</pre>
 <div class="block">Returns a stream consisting of the results of applying the given function to the elements of
  <code>stream</code> and their indexes in the stream. For example,
@@ -733,7 +733,7 @@ public static&nbsp;&lt;A extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>mapWithIndex</h4>
-<pre class="methodSignature">public static&nbsp;&lt;R extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.util.stream.Stream&lt;R&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Streams.html#line.587">mapWithIndex</a>&#8203;(java.util.stream.LongStream&nbsp;stream,
+<pre class="methodSignature">public static&nbsp;&lt;R extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.util.stream.Stream&lt;R&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Streams.html#line.602">mapWithIndex</a>&#8203;(java.util.stream.LongStream&nbsp;stream,
                                                                                              <a href="Streams.LongFunctionWithIndex.html" title="interface in com.google.common.collect">Streams.LongFunctionWithIndex</a>&lt;R&gt;&nbsp;function)</pre>
 <div class="block">Returns a stream consisting of the results of applying the given function to the elements of
  <code>stream</code> and their indexes in the stream. For example,
@@ -762,7 +762,7 @@ public static&nbsp;&lt;A extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>mapWithIndex</h4>
-<pre class="methodSignature">public static&nbsp;&lt;R extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.util.stream.Stream&lt;R&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Streams.html#line.666">mapWithIndex</a>&#8203;(java.util.stream.DoubleStream&nbsp;stream,
+<pre class="methodSignature">public static&nbsp;&lt;R extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.util.stream.Stream&lt;R&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Streams.html#line.681">mapWithIndex</a>&#8203;(java.util.stream.DoubleStream&nbsp;stream,
                                                                                              <a href="Streams.DoubleFunctionWithIndex.html" title="interface in com.google.common.collect">Streams.DoubleFunctionWithIndex</a>&lt;R&gt;&nbsp;function)</pre>
 <div class="block">Returns a stream consisting of the results of applying the given function to the elements of
  <code>stream</code> and their indexes in the stream. For example,
@@ -791,7 +791,7 @@ public static&nbsp;&lt;A extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>findLast</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T&gt;&nbsp;java.util.Optional&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Streams.html#line.845">findLast</a>&#8203;(java.util.stream.Stream&lt;T&gt;&nbsp;stream)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;T&gt;&nbsp;java.util.Optional&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Streams.html#line.860">findLast</a>&#8203;(java.util.stream.Stream&lt;T&gt;&nbsp;stream)</pre>
 <div class="block">Returns the last element of the specified stream, or <code>Optional.empty()</code> if the
  stream is empty.
 
@@ -814,7 +814,7 @@ public static&nbsp;&lt;A extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>findLast</h4>
-<pre class="methodSignature">public static&nbsp;java.util.OptionalInt&nbsp;<a href="../../../../src-html/com/google/common/collect/Streams.html#line.923">findLast</a>&#8203;(java.util.stream.IntStream&nbsp;stream)</pre>
+<pre class="methodSignature">public static&nbsp;java.util.OptionalInt&nbsp;<a href="../../../../src-html/com/google/common/collect/Streams.html#line.938">findLast</a>&#8203;(java.util.stream.IntStream&nbsp;stream)</pre>
 <div class="block">Returns the last element of the specified stream, or <code>OptionalInt.empty()</code> if the stream is
  empty.
 
@@ -835,7 +835,7 @@ public static&nbsp;&lt;A extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>findLast</h4>
-<pre class="methodSignature">public static&nbsp;java.util.OptionalLong&nbsp;<a href="../../../../src-html/com/google/common/collect/Streams.html#line.941">findLast</a>&#8203;(java.util.stream.LongStream&nbsp;stream)</pre>
+<pre class="methodSignature">public static&nbsp;java.util.OptionalLong&nbsp;<a href="../../../../src-html/com/google/common/collect/Streams.html#line.956">findLast</a>&#8203;(java.util.stream.LongStream&nbsp;stream)</pre>
 <div class="block">Returns the last element of the specified stream, or <code>OptionalLong.empty()</code> if the stream
  is empty.
 
@@ -856,7 +856,7 @@ public static&nbsp;&lt;A extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockListLast">
 <li class="blockList">
 <h4>findLast</h4>
-<pre class="methodSignature">public static&nbsp;java.util.OptionalDouble&nbsp;<a href="../../../../src-html/com/google/common/collect/Streams.html#line.959">findLast</a>&#8203;(java.util.stream.DoubleStream&nbsp;stream)</pre>
+<pre class="methodSignature">public static&nbsp;java.util.OptionalDouble&nbsp;<a href="../../../../src-html/com/google/common/collect/Streams.html#line.974">findLast</a>&#8203;(java.util.stream.DoubleStream&nbsp;stream)</pre>
 <div class="block">Returns the last element of the specified stream, or <code>OptionalDouble.empty()</code> if the stream
  is empty.
 
