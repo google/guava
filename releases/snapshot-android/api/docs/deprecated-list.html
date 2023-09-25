@@ -280,10 +280,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <tr class="altColor">
 <th class="colDeprecatedItemName" scope="row"><a href="com/google/common/base/Throwables.html#propagate(java.lang.Throwable)">com.google.common.base.Throwables.propagate&#8203;(Throwable)</a></th>
 <td class="colLast">
-<div class="deprecationComment">Use <code>throw e</code> or <code>throw new RuntimeException(e)</code> directly, or use a
-     combination of <a href="com/google/common/base/Throwables.html#throwIfUnchecked(java.lang.Throwable)"><code>Throwables.throwIfUnchecked(java.lang.Throwable)</code></a> and <code>throw new RuntimeException(e)</code>. For
-     background on the deprecation, read <a href="https://goo.gl/Ivn2kc">Why we deprecated
-     <code>Throwables.propagate</code></a>.</div>
+<div class="deprecationComment">To preserve behavior, use <code>throw e</code> or <code>throw new RuntimeException(e)</code>
+     directly, or use a combination of <a href="com/google/common/base/Throwables.html#throwIfUnchecked(java.lang.Throwable)"><code>Throwables.throwIfUnchecked(java.lang.Throwable)</code></a> and <code>throw new
+     RuntimeException(e)</code>. But consider whether users would be better off if your API threw a
+     different type of exception. For background on the deprecation, read <a href="https://goo.gl/Ivn2kc">Why we deprecated <code>Throwables.propagate</code></a>.</div>
 </td>
 </tr>
 <tr class="rowColor">

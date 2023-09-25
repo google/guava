@@ -14584,10 +14584,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dt><span class="memberNameLink"><a href="com/google/common/base/Throwables.html#propagate(java.lang.Throwable)">propagate(Throwable)</a></span> - Static method in class com.google.common.base.<a href="com/google/common/base/Throwables.html" title="class in com.google.common.base">Throwables</a></dt>
 <dd>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
-<div class="deprecationComment">Use <code>throw e</code> or <code>throw new RuntimeException(e)</code> directly, or use a
-     combination of <a href="com/google/common/base/Throwables.html#throwIfUnchecked(java.lang.Throwable)"><code>Throwables.throwIfUnchecked(java.lang.Throwable)</code></a> and <code>throw new RuntimeException(e)</code>. For
-     background on the deprecation, read <a href="https://goo.gl/Ivn2kc">Why we deprecated
-     <code>Throwables.propagate</code></a>.</div>
+<div class="deprecationComment">To preserve behavior, use <code>throw e</code> or <code>throw new RuntimeException(e)</code>
+     directly, or use a combination of <a href="com/google/common/base/Throwables.html#throwIfUnchecked(java.lang.Throwable)"><code>Throwables.throwIfUnchecked(java.lang.Throwable)</code></a> and <code>throw new
+     RuntimeException(e)</code>. But consider whether users would be better off if your API threw a
+     different type of exception. For background on the deprecation, read <a href="https://goo.gl/Ivn2kc">Why we deprecated <code>Throwables.propagate</code></a>.</div>
 </div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/Throwables.html#propagateIfInstanceOf(java.lang.Throwable,java.lang.Class)">propagateIfInstanceOf(Throwable, Class&lt;X&gt;)</a></span> - Static method in class com.google.common.base.<a href="com/google/common/base/Throwables.html" title="class in com.google.common.base">Throwables</a></dt>
