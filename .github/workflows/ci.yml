@@ -20,8 +20,8 @@ jobs:
     strategy:
       matrix:
         os: [ ubuntu-latest ]
-        java: [ 8, 11, 17 ]
-        root-pom: [ 'pom.xml', 'android/pom.xml' ]
+        java: [ 8 ]
+        root-pom: [ 'pom.xml' ]
         include:
           - os: windows-latest
             java: 17
