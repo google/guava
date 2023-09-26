@@ -98,6 +98,17 @@ abstract class TempFileCreator {
     return new JavaIoCreator();
   }
 
+  /**
+   * Creates the permissions normally used for Windows filesystems, looking up the user afresh, even
+   * if previous calls have initialized the PermissionSupplier fields.
+   */
+  @IgnoreJRERequirement // used only when Path is available (and only from tests)
+  @VisibleForTesting
+  static void testMakingUserPermissionsFromScratch() throws IOException {
+    // All we're testing is whether it throws.
+    FileAttribute<?> unused = JavaNioCreator.userPermissions().get();
+  }
+
   @IgnoreJRERequirement // used only when Path is available
   private static final class JavaNioCreator extends TempFileCreator {
     @Override
