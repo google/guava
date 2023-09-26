@@ -23,6 +23,7 @@ import static java.nio.file.attribute.PosixFilePermissions.asFileAttribute;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
 import com.google.j2objc.annotations.J2ObjCIncompatible;
 import java.io.File;
