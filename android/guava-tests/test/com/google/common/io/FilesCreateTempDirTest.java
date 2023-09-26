@@ -17,6 +17,7 @@
 package com.google.common.io;
 
 import static com.google.common.base.StandardSystemProperty.JAVA_IO_TMPDIR;
+import static com.google.common.base.StandardSystemProperty.JAVA_SPECIFICATION_VERSION;
 import static com.google.common.base.StandardSystemProperty.OS_NAME;
 import static com.google.common.truth.Truth.assertThat;
 import static java.nio.file.attribute.PosixFilePermission.OWNER_EXECUTE;
@@ -61,6 +62,41 @@ public class FilesCreateTempDirTest extends TestCase {
       }
     } finally {
       assertThat(temp.delete()).isTrue();
+    }
+  }
+
+  public void testBogusSystemPropertiesUsername() {
+    /*
+     * Only under Windows (or hypothetically when running with some other non-POSIX, ACL-based
+     * filesystem) do we look up the username. Thus, this test doesn't test anything interesting
+     * under most environments.
+     *
+     * Under Windows, we test that:
+     *
+     * - Under Java 9+, createTempDir() succeeds because it can look up the *real* username, rather
+     * than relying on the one from the system property.
+     *
+     * - Under Java 8, createTempDir() fails because it falls back to the bogus username from the
+     * system property.
+     *
+     * However: Note that we don't actually run our CI on Windows under Java 8, at least as of this
+     * writing.
+     */
+    boolean isJava8OnWindows = JAVA_SPECIFICATION_VERSION.value().equals("1.8") && isWindows();
+
+    String save = System.getProperty("user.name");
+    System.setProperty("user.name", "-this-is-definitely-not-the-username-we-are-running-as//?");
+    File temp = null;
+    try {
+      temp = Files.createTempDir();
+      assertThat(isJava8OnWindows).isFalse();
+    } catch (IllegalStateException expectedIfJavaWindows8) {
+      assertThat(isJava8OnWindows).isTrue();
+    } finally {
+      System.setProperty("user.name", save);
+      if (temp != null) {
+        assertThat(temp.delete()).isTrue();
+      }
     }
   }
 
