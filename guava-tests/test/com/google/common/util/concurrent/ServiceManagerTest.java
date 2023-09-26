@@ -16,6 +16,8 @@
 
 package com.google.common.util.concurrent;
 
+import static com.google.common.base.StandardSystemProperty.JAVA_SPECIFICATION_VERSION;
+import static com.google.common.base.StandardSystemProperty.OS_NAME;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static java.util.Arrays.asList;
@@ -122,6 +124,10 @@ public class ServiceManagerTest extends TestCase {
   }
 
   public void testServiceStartupTimes() {
+    if (isWindows() && isJava8()) {
+      // Flaky there: https://github.com/google/guava/pull/6731#issuecomment-1736298607
+      return;
+    }
     Service a = new NoOpDelayedService(150);
     Service b = new NoOpDelayedService(353);
     ServiceManager serviceManager = new ServiceManager(asList(a, b));
@@ -133,6 +139,10 @@ public class ServiceManagerTest extends TestCase {
   }
 
   public void testServiceStartupDurations() {
+    if (isWindows() && isJava8()) {
+      // Flaky there: https://github.com/google/guava/pull/6731#issuecomment-1736298607
+      return;
+    }
     Service a = new NoOpDelayedService(150);
     Service b = new NoOpDelayedService(353);
     ServiceManager serviceManager = new ServiceManager(asList(a, b));
@@ -650,5 +660,13 @@ public class ServiceManagerTest extends TestCase {
     public void failure(Service service) {
       failedServices.add(service);
     }
+  }
+
+  private static boolean isWindows() {
+    return OS_NAME.value().startsWith("Windows");
+  }
+
+  private static boolean isJava8() {
+    return JAVA_SPECIFICATION_VERSION.value().equals("1.8");
   }
 }
