@@ -85,18 +85,14 @@ public class FilesCreateTempDirTest extends TestCase {
     boolean isJava8OnWindows = JAVA_SPECIFICATION_VERSION.value().equals("1.8") && isWindows();
 
     String save = System.getProperty("user.name");
-    System.setProperty("user.name", "thisisabogususername");
-    File temp = null;
+    System.setProperty("user.name", "-this-is-definitely-not-the-username-we-are-running-as//?");
     try {
-      temp = Files.createTempDir();
+      TempFileCreator.testMakingUserPermissionsFromScratch();
       assertThat(isJava8OnWindows).isFalse();
-    } catch (IllegalStateException expectedIfJavaWindows8) {
+    } catch (IOException expectedIfJavaWindows8) {
       assertThat(isJava8OnWindows).isTrue();
     } finally {
       System.setProperty("user.name", save);
-      if (temp != null) {
-        assertThat(temp.delete()).isTrue();
-      }
     }
   }
 
