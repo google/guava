@@ -479,4 +479,33 @@ public class ImmutableTableTest extends AbstractTableReadTest {
     }
     assertTrue(builder.build() instanceof SparseImmutableTable);
   }
+
+  @GwtIncompatible // NullPointerTester
+  @Override
+  public void testNullPointerInstance() {
+    if (isAndroid()) {
+      /*
+       * NPT fails under the old versions of Android we test under because it performs reflection on
+       * ImmutableTable, which declares static methods that refer to Collector, which is unavailable
+       * under such versions.
+       *
+       * We use a runtime check here instead of @AndroidIncompatible: @AndroidIncompatible operates
+       * by stripping annotated methods entirely, and if we strip this method, then JUnit would just
+       * run the supermethod as usual.
+       *
+       * TODO: b/292578973: Use @AndroidIncompatible if we change our system to keep the methods in
+       * place but to have the test runner skip them. However, note that if we choose to *both*
+       * strip the methods *and* have the test runner not run them (for some unusual cases in which
+       * we don't run the stripping test for technical reasons), then we'd be back to the problem
+       * described above, since the supermethod is *not* annotated @AndroidIncompatible (since it
+       * works fine with the other Table implementations).
+       */
+      return;
+    }
+    super.testNullPointerInstance();
+  }
+
+  private static boolean isAndroid() {
+    return System.getProperty("java.runtime.name", "").contains("Android");
+  }
 }

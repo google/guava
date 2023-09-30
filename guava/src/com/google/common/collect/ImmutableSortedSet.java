@@ -360,8 +360,8 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
    * elements are in the first {@code k} positions of {@code contents}, and {@code contents[i] ==
    * null} for {@code k <= i < n}.
    *
-   * <p>If {@code k == contents.length}, then {@code contents} may no longer be safe for
-   * modification.
+   * <p>This method takes ownership of {@code contents}; do not modify {@code contents} after this
+   * returns.
    *
    * @throws NullPointerException if any of the first {@code n} elements of {@code contents} is null
    */
@@ -696,21 +696,21 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
   @Override
   @CheckForNull
   public E lower(E e) {
-    return Iterators.getNext(headSet(e, false).descendingIterator(), null);
+    return Iterators.<@Nullable E>getNext(headSet(e, false).descendingIterator(), null);
   }
 
   /** @since 12.0 */
   @Override
   @CheckForNull
   public E floor(E e) {
-    return Iterators.getNext(headSet(e, true).descendingIterator(), null);
+    return Iterators.<@Nullable E>getNext(headSet(e, true).descendingIterator(), null);
   }
 
   /** @since 12.0 */
   @Override
   @CheckForNull
   public E ceiling(E e) {
-    return Iterables.getFirst(tailSet(e, true), null);
+    return Iterables.<@Nullable E>getFirst(tailSet(e, true), null);
   }
 
   /** @since 12.0 */
@@ -718,7 +718,7 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
   @Override
   @CheckForNull
   public E higher(E e) {
-    return Iterables.getFirst(tailSet(e, false), null);
+    return Iterables.<@Nullable E>getFirst(tailSet(e, false), null);
   }
 
   @Override

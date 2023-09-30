@@ -20,6 +20,7 @@ import static com.google.common.cache.TestingCacheLoaders.identityLoader;
 import static com.google.common.truth.Truth.assertThat;
 import static java.util.concurrent.TimeUnit.DAYS;
 import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.base.Function;
 import com.google.common.cache.CacheBuilderFactory.DurationSpec;
@@ -279,11 +280,7 @@ public class PopulatedCachesTest extends TestCase {
       assertEquals(3, cache.getIfPresent(1));
       checkValidState(cache);
 
-      try {
-        entry.setValue(null);
-        fail();
-      } catch (NullPointerException expected) {
-      }
+      assertThrows(NullPointerException.class, () -> entry.setValue(null));
       checkValidState(cache);
     }
   }

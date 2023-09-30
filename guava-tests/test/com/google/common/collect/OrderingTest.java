@@ -161,6 +161,19 @@ public class OrderingTest extends TestCase {
     assertEquals("Ordering.explicit([0])", c.toString());
   }
 
+  public void testExplicitMax_b297601553() {
+    Ordering<Integer> c = Ordering.explicit(1, 2, 3);
+
+    // TODO(b/297601553): this should probably throw an CCE since 0 isn't explicitly listed
+    assertEquals(0, (int) c.max(asList(0)));
+    try {
+      c.max(asList(0, 1));
+      fail();
+    } catch (IncomparableValueException expected) {
+      assertEquals(0, expected.value);
+    }
+  }
+
   public void testExplicit_two() {
     Comparator<Integer> c = Ordering.explicit(42, 5);
     assertEquals(0, c.compare(5, 5));

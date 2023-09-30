@@ -149,9 +149,24 @@ public final class Streams {
   }
 
   private static void closeAll(BaseStream<?, ?>[] toClose) {
+    // If one of the streams throws a RuntimeException, continue closing the others, then throw the
+    // exception later. If more than one stream throws an exception, the later ones are added to the
+    // first as suppressed exceptions. We don't catch Error on the grounds that it should be allowed
+    // to propagate immediately.
+    RuntimeException exception = null;
     for (BaseStream<?, ?> stream : toClose) {
-      // TODO(b/80534298): Catch exceptions, rethrowing later with extras as suppressed exceptions.
-      stream.close();
+      try {
+        stream.close();
+      } catch (RuntimeException e) {
+        if (exception == null) {
+          exception = e;
+        } else {
+          exception.addSuppressed(e);
+        }
+      }
+    }
+    if (exception != null) {
+      throw exception;
     }
   }
 

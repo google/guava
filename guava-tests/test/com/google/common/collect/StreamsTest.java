@@ -121,6 +121,31 @@ public class StreamsTest extends TestCase {
     Truth.assertThat(closeCountB.get()).isEqualTo(1);
   }
 
+  public void testConcat_refStream_closeIsPropagated_exceptionsChained() {
+    RuntimeException exception1 = new IllegalArgumentException("exception from stream 1");
+    RuntimeException exception2 = new IllegalStateException("exception from stream 2");
+    RuntimeException exception3 = new ArithmeticException("exception from stream 3");
+    Stream<String> stream1 = Stream.of("foo", "bar").onClose(doThrow(exception1));
+    Stream<String> stream2 = Stream.of("baz", "buh").onClose(doThrow(exception2));
+    Stream<String> stream3 = Stream.of("quux").onClose(doThrow(exception3));
+    RuntimeException exception = null;
+    try (Stream<String> concatenated = Streams.concat(stream1, stream2, stream3)) {
+    } catch (RuntimeException e) {
+      exception = e;
+    }
+    Truth.assertThat(exception).isEqualTo(exception1);
+    Truth.assertThat(exception.getSuppressed())
+        .asList()
+        .containsExactly(exception2, exception3)
+        .inOrder();
+  }
+
+  private static Runnable doThrow(RuntimeException exception) {
+    return () -> {
+      throw exception;
+    };
+  }
+
   public void testConcat_refStream_parallel() {
     Truth.assertThat(
             Streams.concat(Stream.of("a"), Stream.of("b"), Stream.empty(), Stream.of("c", "d"))

@@ -17,6 +17,7 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
+import static org.junit.Assert.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -199,11 +200,7 @@ public class ImmutableSortedMultisetTest extends TestCase {
 
   public void testCreation_arrayContainingOnlyNull() {
     String[] array = new String[] {null};
-    try {
-      ImmutableSortedMultiset.copyOf(array);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> ImmutableSortedMultiset.copyOf(array));
   }
 
   public void testCopyOf_collection_empty() {
@@ -227,11 +224,7 @@ public class ImmutableSortedMultisetTest extends TestCase {
 
   public void testCopyOf_collectionContainingNull() {
     Collection<String> c = MinimalCollection.of("a", null, "b");
-    try {
-      ImmutableSortedMultiset.copyOf(c);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> ImmutableSortedMultiset.copyOf(c));
   }
 
   public void testCopyOf_multiset_empty() {
@@ -254,11 +247,7 @@ public class ImmutableSortedMultisetTest extends TestCase {
 
   public void testCopyOf_multisetContainingNull() {
     Multiset<String> c = HashMultiset.create(asList("a", null, "b"));
-    try {
-      ImmutableSortedMultiset.copyOf(c);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> ImmutableSortedMultiset.copyOf(c));
   }
 
   public void testCopyOf_iterator_empty() {
@@ -281,11 +270,7 @@ public class ImmutableSortedMultisetTest extends TestCase {
 
   public void testCopyOf_iteratorContainingNull() {
     Iterator<String> iterator = asList("a", null, "b").iterator();
-    try {
-      ImmutableSortedMultiset.copyOf(iterator);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> ImmutableSortedMultiset.copyOf(iterator));
   }
 
   private static class CountingIterable implements Iterable<String> {
@@ -384,73 +369,47 @@ public class ImmutableSortedMultisetTest extends TestCase {
 
   public void testBuilderAddHandlesNullsCorrectly() {
     ImmutableSortedMultiset.Builder<String> builder = ImmutableSortedMultiset.naturalOrder();
-    try {
-      builder.add((String) null);
-      fail("expected NullPointerException");
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> builder.add((String) null));
   }
 
   public void testBuilderAddAllHandlesNullsCorrectly() {
-    ImmutableSortedMultiset.Builder<String> builder = ImmutableSortedMultiset.naturalOrder();
-    try {
-      builder.addAll((Collection<String>) null);
-      fail("expected NullPointerException");
-    } catch (NullPointerException expected) {
+    {
+      ImmutableSortedMultiset.Builder<String> builder = ImmutableSortedMultiset.naturalOrder();
+      assertThrows(NullPointerException.class, () -> builder.addAll((Collection<String>) null));
     }
 
-    builder = ImmutableSortedMultiset.naturalOrder();
-    List<String> listWithNulls = asList("a", null, "b");
-    try {
-      builder.addAll(listWithNulls);
-      fail("expected NullPointerException");
-    } catch (NullPointerException expected) {
+    {
+      ImmutableSortedMultiset.Builder<String> builder = ImmutableSortedMultiset.naturalOrder();
+      List<String> listWithNulls = asList("a", null, "b");
+      assertThrows(NullPointerException.class, () -> builder.addAll(listWithNulls));
     }
 
-    builder = ImmutableSortedMultiset.naturalOrder();
-    Multiset<String> multisetWithNull = LinkedHashMultiset.create(asList("a", null, "b"));
-    try {
-      builder.addAll(multisetWithNull);
-      fail("expected NullPointerException");
-    } catch (NullPointerException expected) {
+    {
+      ImmutableSortedMultiset.Builder<String> builder = ImmutableSortedMultiset.naturalOrder();
+      Multiset<String> multisetWithNull = LinkedHashMultiset.create(asList("a", null, "b"));
+      assertThrows(NullPointerException.class, () -> builder.addAll(multisetWithNull));
     }
   }
 
   public void testBuilderAddCopiesHandlesNullsCorrectly() {
     ImmutableSortedMultiset.Builder<String> builder = ImmutableSortedMultiset.naturalOrder();
-    try {
-      builder.addCopies(null, 2);
-      fail("expected NullPointerException");
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> builder.addCopies(null, 2));
   }
 
   public void testBuilderAddCopiesIllegal() {
     ImmutableSortedMultiset.Builder<String> builder = ImmutableSortedMultiset.naturalOrder();
-    try {
-      builder.addCopies("a", -2);
-      fail("expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> builder.addCopies("a", -2));
   }
 
   public void testBuilderSetCountHandlesNullsCorrectly() {
     ImmutableSortedMultiset.Builder<String> builder =
         new ImmutableSortedMultiset.Builder<>(Ordering.natural().nullsFirst());
-    try {
-      builder.setCount(null, 2);
-      fail("expected NullPointerException");
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> builder.setCount(null, 2));
   }
 
   public void testBuilderSetCountIllegal() {
     ImmutableSortedMultiset.Builder<String> builder = ImmutableSortedMultiset.naturalOrder();
-    try {
-      builder.setCount("a", -2);
-      fail("expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> builder.setCount("a", -2));
   }
 
   public void testToImmutableSortedMultiset() {

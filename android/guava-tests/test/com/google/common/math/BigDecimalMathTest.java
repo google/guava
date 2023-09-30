@@ -25,6 +25,7 @@ import static java.math.RoundingMode.HALF_UP;
 import static java.math.RoundingMode.UNNECESSARY;
 import static java.math.RoundingMode.UP;
 import static java.math.RoundingMode.values;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.annotations.GwtIncompatible;
 import java.math.BigDecimal;
@@ -76,12 +77,10 @@ public class BigDecimalMathTest extends TestCase {
         assertWithMessage("Expected roundUnnecessaryShouldThrow call")
             .that(unnecessaryShouldThrow)
             .isTrue();
-        try {
-          BigDecimalMath.roundToDouble(input, UNNECESSARY);
-          fail("Expected ArithmeticException for roundToDouble(" + input + ", UNNECESSARY)");
-        } catch (ArithmeticException expected) {
-          // expected
-        }
+        assertThrows(
+            "Expected ArithmeticException for roundToDouble(" + input + ", UNNECESSARY)",
+            ArithmeticException.class,
+            () -> BigDecimalMath.roundToDouble(input, UNNECESSARY));
       }
     }
   }

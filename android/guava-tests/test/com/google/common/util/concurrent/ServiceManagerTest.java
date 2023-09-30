@@ -20,6 +20,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static java.util.Arrays.asList;
 import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -195,11 +196,7 @@ public class ServiceManagerTest extends TestCase {
     RecordingListener listener = new RecordingListener();
     manager.addListener(listener, directExecutor());
     assertState(manager, Service.State.NEW, a, b, c, d, e);
-    try {
-      manager.startAsync().awaitHealthy();
-      fail();
-    } catch (IllegalStateException expected) {
-    }
+    assertThrows(IllegalStateException.class, () -> manager.startAsync().awaitHealthy());
     assertFalse(listener.healthyCalled);
     assertState(manager, Service.State.RUNNING, a, c, e);
     assertEquals(ImmutableSet.of(b, d), listener.failedServices);
@@ -219,11 +216,7 @@ public class ServiceManagerTest extends TestCase {
     RecordingListener listener = new RecordingListener();
     manager.addListener(listener, directExecutor());
     assertState(manager, Service.State.NEW, a, b);
-    try {
-      manager.startAsync().awaitHealthy();
-      fail();
-    } catch (IllegalStateException expected) {
-    }
+    assertThrows(IllegalStateException.class, () -> manager.startAsync().awaitHealthy());
     assertTrue(listener.healthyCalled);
     assertEquals(ImmutableSet.of(b), listener.failedServices);
 
@@ -266,19 +259,11 @@ public class ServiceManagerTest extends TestCase {
     Service a = new NoOpDelayedService(50);
     ServiceManager manager = new ServiceManager(asList(a));
     manager.startAsync();
-    try {
-      manager.awaitHealthy(1, TimeUnit.MILLISECONDS);
-      fail();
-    } catch (TimeoutException expected) {
-    }
+    assertThrows(TimeoutException.class, () -> manager.awaitHealthy(1, TimeUnit.MILLISECONDS));
     manager.awaitHealthy(5, SECONDS); // no exception thrown
 
     manager.stopAsync();
-    try {
-      manager.awaitStopped(1, TimeUnit.MILLISECONDS);
-      fail();
-    } catch (TimeoutException expected) {
-    }
+    assertThrows(TimeoutException.class, () -> manager.awaitStopped(1, TimeUnit.MILLISECONDS));
     manager.awaitStopped(5, SECONDS); // no exception thrown
   }
 
@@ -291,11 +276,7 @@ public class ServiceManagerTest extends TestCase {
     ServiceManager manager = new ServiceManager(asList(a));
     RecordingListener listener = new RecordingListener();
     manager.addListener(listener, directExecutor());
-    try {
-      manager.startAsync().awaitHealthy();
-      fail();
-    } catch (IllegalStateException expected) {
-    }
+    assertThrows(IllegalStateException.class, () -> manager.startAsync().awaitHealthy());
     assertTrue(listener.stoppedCalled);
   }
 
@@ -308,11 +289,7 @@ public class ServiceManagerTest extends TestCase {
     ServiceManager manager = new ServiceManager(asList(a));
     RecordingListener listener = new RecordingListener();
     manager.addListener(listener, directExecutor());
-    try {
-      manager.startAsync().awaitHealthy();
-      fail();
-    } catch (IllegalStateException expected) {
-    }
+    assertThrows(IllegalStateException.class, () -> manager.startAsync().awaitHealthy());
     assertFalse(listener.healthyCalled);
   }
 
@@ -511,11 +488,7 @@ public class ServiceManagerTest extends TestCase {
     logger.addHandler(logHandler);
     NoOpService service = new NoOpService();
     service.startAsync();
-    try {
-      new ServiceManager(Arrays.asList(service));
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> new ServiceManager(Arrays.asList(service)));
     service.stopAsync();
     // Nothing was logged!
     assertEquals(0, logHandler.getStoredLogRecords().size());
@@ -536,6 +509,7 @@ public class ServiceManagerTest extends TestCase {
             service1.startAsync();
             delegate.addListener(listener, executor);
           }
+
           // Delegates from here on down
           @Override
           public final Service startAsync() {
@@ -582,12 +556,11 @@ public class ServiceManagerTest extends TestCase {
             return delegate.failureCause();
           }
         };
-    try {
-      new ServiceManager(Arrays.asList(service1, service2));
-      fail();
-    } catch (IllegalArgumentException expected) {
-      assertThat(expected.getMessage()).contains("started transitioning asynchronously");
-    }
+    IllegalArgumentException expected =
+        assertThrows(
+            IllegalArgumentException.class,
+            () -> new ServiceManager(Arrays.asList(service1, service2)));
+    assertThat(expected.getMessage()).contains("started transitioning asynchronously");
   }
 
   /**

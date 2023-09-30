@@ -1202,10 +1202,10 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *
    * <p>Instances of {@code exceptionClass} are created by choosing an arbitrary public constructor
    * that accepts zero or more arguments, all of type {@code String} or {@code Throwable}
-   * (preferring constructors with at least one {@code String}) and calling the constructor via
-   * reflection. If the exception did not already have a cause, one is set by calling {@link
-   * Throwable#initCause(Throwable)} on it. If no such constructor exists, an {@code
-   * IllegalArgumentException} is thrown.
+   * (preferring constructors with at least one {@code String}, then preferring constructors with at
+   * least one {@code Throwable}) and calling the constructor via reflection. If the exception did
+   * not already have a cause, one is set by calling {@link Throwable#initCause(Throwable)} on it.
+   * If no such constructor exists, an {@code IllegalArgumentException} is thrown.
    *
    * @throws X if {@code get} throws any checked exception except for an {@code ExecutionException}
    *     whose cause is not itself a checked exception
@@ -1254,10 +1254,10 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *
    * <p>Instances of {@code exceptionClass} are created by choosing an arbitrary public constructor
    * that accepts zero or more arguments, all of type {@code String} or {@code Throwable}
-   * (preferring constructors with at least one {@code String}) and calling the constructor via
-   * reflection. If the exception did not already have a cause, one is set by calling {@link
-   * Throwable#initCause(Throwable)} on it. If no such constructor exists, an {@code
-   * IllegalArgumentException} is thrown.
+   * (preferring constructors with at least one {@code String}, then preferring constructors with at
+   * least one {@code Throwable}) and calling the constructor via reflection. If the exception did
+   * not already have a cause, one is set by calling {@link Throwable#initCause(Throwable)} on it.
+   * If no such constructor exists, an {@code IllegalArgumentException} is thrown.
    *
    * @throws X if {@code get} throws any checked exception except for an {@code ExecutionException}
    *     whose cause is not itself a checked exception

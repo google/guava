@@ -224,6 +224,11 @@ public class UnmodifiableCollectionTests {
     }
     assertCollectionsAreEquivalent(multiset, copy);
 
+    try {
+      multiset.removeIf(x -> false);
+      fail("removeIf(Predicate) succeeded on unmodifiable collection");
+    } catch (UnsupportedOperationException expected) {
+    }
     assertCollectionsAreEquivalent(multiset, copy);
 
     assertSetIsUnmodifiable(multiset.elementSet(), sampleElement);

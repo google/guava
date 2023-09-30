@@ -18,8 +18,8 @@ package com.google.common.graph;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import com.google.common.testing.EqualsTester;
 import java.util.Set;
@@ -47,13 +47,10 @@ public abstract class AbstractStandardUndirectedGraphTest extends AbstractGraphT
     assume().that(graphIsMutable()).isTrue();
 
     Set<Integer> nodes = graph.nodes();
-    try {
-      nodes.add(N2);
-      fail(ERROR_MODIFIABLE_SET);
-    } catch (UnsupportedOperationException e) {
-      addNode(N1);
-      assertThat(graph.nodes()).containsExactlyElementsIn(nodes);
-    }
+    UnsupportedOperationException e =
+        assertThrows(UnsupportedOperationException.class, () -> nodes.add(N2));
+    addNode(N1);
+    assertThat(graph.nodes()).containsExactlyElementsIn(nodes);
   }
 
   @Override
@@ -63,13 +60,10 @@ public abstract class AbstractStandardUndirectedGraphTest extends AbstractGraphT
 
     addNode(N1);
     Set<Integer> adjacentNodes = graph.adjacentNodes(N1);
-    try {
-      adjacentNodes.add(N2);
-      fail(ERROR_MODIFIABLE_SET);
-    } catch (UnsupportedOperationException e) {
-      putEdge(N1, N2);
-      assertThat(graph.adjacentNodes(N1)).containsExactlyElementsIn(adjacentNodes);
-    }
+    UnsupportedOperationException e =
+        assertThrows(UnsupportedOperationException.class, () -> adjacentNodes.add(N2));
+    putEdge(N1, N2);
+    assertThat(graph.adjacentNodes(N1)).containsExactlyElementsIn(adjacentNodes);
   }
 
   @Override
@@ -79,13 +73,10 @@ public abstract class AbstractStandardUndirectedGraphTest extends AbstractGraphT
 
     addNode(N2);
     Set<Integer> predecessors = graph.predecessors(N2);
-    try {
-      predecessors.add(N1);
-      fail(ERROR_MODIFIABLE_SET);
-    } catch (UnsupportedOperationException e) {
-      putEdge(N1, N2);
-      assertThat(graph.predecessors(N2)).containsExactlyElementsIn(predecessors);
-    }
+    UnsupportedOperationException e =
+        assertThrows(UnsupportedOperationException.class, () -> predecessors.add(N1));
+    putEdge(N1, N2);
+    assertThat(graph.predecessors(N2)).containsExactlyElementsIn(predecessors);
   }
 
   @Override
@@ -95,13 +86,10 @@ public abstract class AbstractStandardUndirectedGraphTest extends AbstractGraphT
 
     addNode(N1);
     Set<Integer> successors = graph.successors(N1);
-    try {
-      successors.add(N2);
-      fail(ERROR_MODIFIABLE_SET);
-    } catch (UnsupportedOperationException e) {
-      putEdge(N1, N2);
-      assertThat(graph.successors(N1)).containsExactlyElementsIn(successors);
-    }
+    UnsupportedOperationException e =
+        assertThrows(UnsupportedOperationException.class, () -> successors.add(N2));
+    putEdge(N1, N2);
+    assertThat(graph.successors(N1)).containsExactlyElementsIn(successors);
   }
 
   @Override
@@ -111,13 +99,12 @@ public abstract class AbstractStandardUndirectedGraphTest extends AbstractGraphT
 
     addNode(N1);
     Set<EndpointPair<Integer>> incidentEdges = graph.incidentEdges(N1);
-    try {
-      incidentEdges.add(EndpointPair.unordered(N1, N2));
-      fail(ERROR_MODIFIABLE_SET);
-    } catch (UnsupportedOperationException e) {
-      putEdge(N1, N2);
-      assertThat(incidentEdges).containsExactlyElementsIn(graph.incidentEdges(N1));
-    }
+    UnsupportedOperationException e =
+        assertThrows(
+            UnsupportedOperationException.class,
+            () -> incidentEdges.add(EndpointPair.unordered(N1, N2)));
+    putEdge(N1, N2);
+    assertThat(incidentEdges).containsExactlyElementsIn(graph.incidentEdges(N1));
   }
 
   @Test
@@ -380,12 +367,9 @@ public abstract class AbstractStandardUndirectedGraphTest extends AbstractGraphT
     assume().that(graphIsMutable()).isTrue();
     assume().that(graph.allowsSelfLoops()).isFalse();
 
-    try {
-      putEdge(N1, N1);
-      fail(ERROR_ADDED_SELF_LOOP);
-    } catch (IllegalArgumentException e) {
-      assertThat(e).hasMessageThat().contains(ERROR_SELF_LOOP);
-    }
+    IllegalArgumentException e =
+        assertThrows(IllegalArgumentException.class, () -> putEdge(N1, N1));
+    assertThat(e).hasMessageThat().contains(ERROR_SELF_LOOP);
   }
 
   @Test

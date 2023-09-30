@@ -30,6 +30,7 @@ import static com.google.common.util.concurrent.Uninterruptibles.getUninterrupti
 import static java.util.Arrays.asList;
 import static java.util.concurrent.Executors.newSingleThreadExecutor;
 import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.junit.Assert.assertThrows;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.timeout;
 import static org.mockito.Mockito.verify;
@@ -722,11 +723,7 @@ public abstract class AbstractClosingFutureTest extends TestCase {
     waitUntilClosed(closingFuture);
     assertStillOpen(closeable2);
     assertClosed(closeable1);
-    try {
-      capturedPeeker.get().getDone(input1);
-      fail("Peeker should not be able to peek except during call.");
-    } catch (IllegalStateException expected) {
-    }
+    assertThrows(IllegalStateException.class, () -> capturedPeeker.get().getDone(input1));
   }
 
   public void testWhenAllComplete_call_cancelledPipeline() throws Exception {
@@ -808,11 +805,7 @@ public abstract class AbstractClosingFutureTest extends TestCase {
     assertThat(getFinalValue(closingFuture)).isSameInstanceAs(closeable2);
     waitUntilClosed(closingFuture);
     assertClosed(closeable1, closeable2);
-    try {
-      capturedPeeker.get().getDone(input1);
-      fail("Peeker should not be able to peek except during call.");
-    } catch (IllegalStateException expected) {
-    }
+    assertThrows(IllegalStateException.class, () -> capturedPeeker.get().getDone(input1));
   }
 
   public void testWhenAllComplete_callAsync_cancelledPipeline() throws Exception {

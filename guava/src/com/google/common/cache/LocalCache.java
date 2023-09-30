@@ -51,6 +51,7 @@ import com.google.common.util.concurrent.UncheckedExecutionException;
 import com.google.common.util.concurrent.Uninterruptibles;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.concurrent.GuardedBy;
+import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.RetainedWith;
 import com.google.j2objc.annotations.Weak;
 import java.io.IOException;
@@ -280,7 +281,8 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     // will result in random eviction behavior.
     int segmentShift = 0;
     int segmentCount = 1;
-    while (segmentCount < concurrencyLevel && (!evictsBySize() || segmentCount * 20 <= maxWeight)) {
+    while (segmentCount < concurrencyLevel
+        && (!evictsBySize() || segmentCount * 20L <= maxWeight)) {
       ++segmentShift;
       segmentCount <<= 1;
     }
@@ -2219,7 +2221,11 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
       }
     }
 
-    V compute(K key, int hash, BiFunction<? super K, ? super @Nullable V, ? extends V> function) {
+    @CheckForNull
+    V compute(
+        K key,
+        int hash,
+        BiFunction<? super K, ? super @Nullable V, ? extends @Nullable V> function) {
       ReferenceEntry<K, V> e;
       ValueReference<K, V> valueReference = null;
       ComputingValueReference<K, V> computingValueReference = null;
@@ -3515,7 +3521,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
       this(null);
     }
 
-    public LoadingValueReference(ValueReference<K, V> oldValue) {
+    public LoadingValueReference(@CheckForNull ValueReference<K, V> oldValue) {
       this.oldValue = (oldValue == null) ? LocalCache.unset() : oldValue;
     }
 
@@ -3592,7 +3598,9 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
       }
     }
 
-    public V compute(K key, BiFunction<? super K, ? super @Nullable V, ? extends V> function) {
+    @CheckForNull
+    public V compute(
+        K key, BiFunction<? super K, ? super @Nullable V, ? extends @Nullable V> function) {
       stopwatch.start();
       V previousValue;
       try {
@@ -4254,7 +4262,9 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
   }
 
   @Override
-  public V compute(K key, BiFunction<? super K, ? super @Nullable V, ? extends V> function) {
+  @CheckForNull
+  public V compute(
+      K key, BiFunction<? super K, ? super @Nullable V, ? extends @Nullable V> function) {
     checkNotNull(key);
     checkNotNull(function);
     int hash = hash(key);
@@ -4269,14 +4279,18 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
   }
 
   @Override
-  public V computeIfPresent(K key, BiFunction<? super K, ? super V, ? extends V> function) {
+  @CheckForNull
+  public V computeIfPresent(
+      K key, BiFunction<? super K, ? super V, ? extends @Nullable V> function) {
     checkNotNull(key);
     checkNotNull(function);
     return compute(key, (k, oldValue) -> (oldValue == null) ? null : function.apply(k, oldValue));
   }
 
   @Override
-  public V merge(K key, V newValue, BiFunction<? super V, ? super V, ? extends V> function) {
+  @CheckForNull
+  public V merge(
+      K key, V newValue, BiFunction<? super V, ? super V, ? extends @Nullable V> function) {
     checkNotNull(key);
     checkNotNull(newValue);
     checkNotNull(function);
@@ -4348,7 +4362,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     }
   }
 
-  @RetainedWith @CheckForNull Set<K> keySet;
+  @LazyInit @RetainedWith @CheckForNull Set<K> keySet;
 
   @Override
   public Set<K> keySet() {
@@ -4357,7 +4371,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     return (ks != null) ? ks : (keySet = new KeySet());
   }
 
-  @RetainedWith @CheckForNull Collection<V> values;
+  @LazyInit @RetainedWith @CheckForNull Collection<V> values;
 
   @Override
   public Collection<V> values() {
@@ -4366,7 +4380,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     return (vs != null) ? vs : (values = new Values());
   }
 
-  @RetainedWith @CheckForNull Set<Entry<K, V>> entrySet;
+  @LazyInit @RetainedWith @CheckForNull Set<Entry<K, V>> entrySet;
 
   @Override
   @GwtIncompatible // Not supported.

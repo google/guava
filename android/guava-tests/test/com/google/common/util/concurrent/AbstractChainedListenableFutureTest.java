@@ -17,6 +17,7 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.util.concurrent.testing.MockFutureListener;
 import java.util.concurrent.TimeUnit;
@@ -49,11 +50,7 @@ public abstract class AbstractChainedListenableFutureTest<T> extends TestCase {
 
   public void testFutureGetBeforeCallback() throws Exception {
     // Verify that get throws a timeout exception before the callback is called.
-    try {
-      resultFuture.get(1L, TimeUnit.MILLISECONDS);
-      fail("The data is not yet ready, so a TimeoutException is expected");
-    } catch (TimeoutException expected) {
-    }
+    assertThrows(TimeoutException.class, () -> resultFuture.get(1L, TimeUnit.MILLISECONDS));
   }
 
   public void testFutureGetThrowsWrappedException() throws Exception {
