@@ -18,6 +18,7 @@ package com.google.common.base;
 
 import static com.google.common.base.CharMatcher.whitespace;
 import static com.google.common.collect.Lists.newArrayList;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -623,11 +624,7 @@ public class PredicatesTest extends TestCase {
     assertTrue(isInteger.apply(Integer.class));
     assertFalse(isInteger.apply(Float.class));
 
-    try {
-      isInteger.apply(null);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> isInteger.apply(null));
   }
 
   @J2ktIncompatible
