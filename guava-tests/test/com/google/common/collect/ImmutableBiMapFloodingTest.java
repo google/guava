@@ -16,20 +16,24 @@
 
 package com.google.common.collect;
 
+import static java.util.Arrays.asList;
+import static java.util.Collections.unmodifiableSet;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import java.util.EnumSet;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.stream.Stream;
 
 @GwtCompatible
 public class ImmutableBiMapFloodingTest extends AbstractHashFloodingTest<BiMap<Object, Object>> {
   public ImmutableBiMapFloodingTest() {
     super(
-        EnumSet.allOf(ConstructionPathway.class).stream()
+        ConstructionPathway.ALL_PATHWAYS.stream()
             .flatMap(
                 path ->
                     Stream.<Construction<BiMap<Object, Object>>>of(
@@ -110,5 +114,8 @@ public class ImmutableBiMapFloodingTest extends AbstractHashFloodingTest<BiMap<O
 
     @CanIgnoreReturnValue
     public abstract ImmutableBiMap<Object, Object> create(List<Entry<?, ?>> entries);
+
+    static final Set<ConstructionPathway> ALL_PATHWAYS =
+        unmodifiableSet(new LinkedHashSet<>(asList(values())));
   }
 }
