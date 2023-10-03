@@ -16,12 +16,12 @@
 
 package com.google.common.collect;
 
-import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
-@GwtCompatible
+@GwtIncompatible
 public class ImmutableSetFloodingTest extends AbstractHashFloodingTest<Set<Object>> {
   public ImmutableSetFloodingTest() {
     super(
