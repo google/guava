@@ -18,6 +18,7 @@ package com.google.common.base;
 
 import static com.google.common.testing.SerializableTester.reserialize;
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -141,12 +142,8 @@ public class SuppliersTest extends TestCase {
         .isEqualTo("Suppliers.memoize(<supplier that returned 10>)");
 
     // Should get an exception when we try to serialize.
-    try {
-      reserialize(memoizedSupplier);
-      fail();
-    } catch (RuntimeException ex) {
-      assertThat(ex).hasCauseThat().isInstanceOf(java.io.NotSerializableException.class);
-    }
+    RuntimeException ex = assertThrows(RuntimeException.class, () -> reserialize(memoizedSupplier));
+    assertThat(ex).hasCauseThat().isInstanceOf(java.io.NotSerializableException.class);
   }
 
   @J2ktIncompatible

@@ -30,6 +30,7 @@ import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.google.ListMultimapTestSuiteBuilder;
 import com.google.common.collect.testing.google.TestStringListMultimapGenerator;
 import com.google.common.collect.testing.google.UnmodifiableCollectionTests;
+import com.google.common.primitives.Chars;
 import com.google.common.testing.CollectorTester;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
@@ -413,7 +414,7 @@ public class ImmutableListMultimapTest extends TestCase {
   public void testFlatteningToImmutableListMultimap() {
     Collector<String, ?, ImmutableListMultimap<Character, Character>> collector =
         ImmutableListMultimap.flatteningToImmutableListMultimap(
-            str -> str.charAt(0), str -> str.substring(1).chars().mapToObj(c -> (char) c));
+            str -> str.charAt(0), str -> Chars.asList(str.substring(1).toCharArray()).stream());
     BiPredicate<Multimap<?, ?>, Multimap<?, ?>> equivalence =
         Equivalence.equals()
             .onResultOf((Multimap<?, ?> mm) -> ImmutableList.copyOf(mm.asMap().entrySet()))

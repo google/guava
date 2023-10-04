@@ -16,13 +16,13 @@
 
 package com.google.common.collect;
 
-import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-@GwtCompatible
+@GwtIncompatible
 public class ImmutableMapFloodingTest extends AbstractHashFloodingTest<Map<Object, Object>> {
   public ImmutableMapFloodingTest() {
     super(

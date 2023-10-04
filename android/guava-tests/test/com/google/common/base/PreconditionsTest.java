@@ -17,6 +17,7 @@
 package com.google.common.base;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -397,12 +398,11 @@ public class PreconditionsTest extends TestCase {
       checkArgumentMethod.invoke(null /* static method */, getParametersForSignature(true, sig));
 
       Object[] failingParams = getParametersForSignature(false, sig);
-      try {
-        checkArgumentMethod.invoke(null /* static method */, failingParams);
-        fail();
-      } catch (InvocationTargetException ite) {
-        assertFailureCause(ite.getCause(), IllegalArgumentException.class, failingParams);
-      }
+      InvocationTargetException ite =
+          assertThrows(
+              InvocationTargetException.class,
+              () -> checkArgumentMethod.invoke(null /* static method */, failingParams));
+      assertFailureCause(ite.getCause(), IllegalArgumentException.class, failingParams);
     }
   }
 
@@ -415,12 +415,11 @@ public class PreconditionsTest extends TestCase {
       checkArgumentMethod.invoke(null /* static method */, getParametersForSignature(true, sig));
 
       Object[] failingParams = getParametersForSignature(false, sig);
-      try {
-        checkArgumentMethod.invoke(null /* static method */, failingParams);
-        fail();
-      } catch (InvocationTargetException ite) {
-        assertFailureCause(ite.getCause(), IllegalStateException.class, failingParams);
-      }
+      InvocationTargetException ite =
+          assertThrows(
+              InvocationTargetException.class,
+              () -> checkArgumentMethod.invoke(null /* static method */, failingParams));
+      assertFailureCause(ite.getCause(), IllegalStateException.class, failingParams);
     }
   }
 
@@ -434,12 +433,11 @@ public class PreconditionsTest extends TestCase {
           null /* static method */, getParametersForSignature(new Object(), sig));
 
       Object[] failingParams = getParametersForSignature(null, sig);
-      try {
-        checkArgumentMethod.invoke(null /* static method */, failingParams);
-        fail();
-      } catch (InvocationTargetException ite) {
-        assertFailureCause(ite.getCause(), NullPointerException.class, failingParams);
-      }
+      InvocationTargetException ite =
+          assertThrows(
+              InvocationTargetException.class,
+              () -> checkArgumentMethod.invoke(null /* static method */, failingParams));
+      assertFailureCause(ite.getCause(), NullPointerException.class, failingParams);
     }
   }
 

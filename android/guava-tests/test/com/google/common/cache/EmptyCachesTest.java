@@ -19,6 +19,7 @@ import static com.google.common.cache.TestingCacheLoaders.identityLoader;
 import static java.util.Arrays.asList;
 import static java.util.concurrent.TimeUnit.DAYS;
 import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.base.Function;
 import com.google.common.cache.CacheBuilderFactory.DurationSpec;
@@ -89,22 +90,14 @@ public class EmptyCachesTest extends TestCase {
 
   public void testGet_null() throws ExecutionException {
     for (LoadingCache<Object, Object> cache : caches()) {
-      try {
-        cache.get(null);
-        fail("Expected NullPointerException");
-      } catch (NullPointerException expected) {
-      }
+      assertThrows(NullPointerException.class, () -> cache.get(null));
       checkEmpty(cache);
     }
   }
 
   public void testGetUnchecked_null() {
     for (LoadingCache<Object, Object> cache : caches()) {
-      try {
-        cache.getUnchecked(null);
-        fail("Expected NullPointerException");
-      } catch (NullPointerException expected) {
-      }
+      assertThrows(NullPointerException.class, () -> cache.getUnchecked(null));
       checkEmpty(cache);
     }
   }
@@ -114,28 +107,17 @@ public class EmptyCachesTest extends TestCase {
   public void testKeySet_nullToArray() {
     for (LoadingCache<Object, Object> cache : caches()) {
       Set<Object> keys = cache.asMap().keySet();
-      try {
-        keys.toArray((Object[]) null);
-        fail();
-      } catch (NullPointerException expected) {
-      }
+      assertThrows(NullPointerException.class, () -> keys.toArray((Object[]) null));
       checkEmpty(cache);
     }
   }
 
   public void testKeySet_addNotSupported() {
     for (LoadingCache<Object, Object> cache : caches()) {
-      try {
-        cache.asMap().keySet().add(1);
-        fail();
-      } catch (UnsupportedOperationException expected) {
-      }
+      assertThrows(UnsupportedOperationException.class, () -> cache.asMap().keySet().add(1));
 
-      try {
-        cache.asMap().keySet().addAll(asList(1, 2));
-        fail();
-      } catch (UnsupportedOperationException expected) {
-      }
+      assertThrows(
+          UnsupportedOperationException.class, () -> cache.asMap().keySet().addAll(asList(1, 2)));
     }
   }
 
@@ -189,28 +171,17 @@ public class EmptyCachesTest extends TestCase {
   public void testValues_nullToArray() {
     for (LoadingCache<Object, Object> cache : caches()) {
       Collection<Object> values = cache.asMap().values();
-      try {
-        values.toArray((Object[]) null);
-        fail();
-      } catch (NullPointerException expected) {
-      }
+      assertThrows(NullPointerException.class, () -> values.toArray((Object[]) null));
       checkEmpty(cache);
     }
   }
 
   public void testValues_addNotSupported() {
     for (LoadingCache<Object, Object> cache : caches()) {
-      try {
-        cache.asMap().values().add(1);
-        fail();
-      } catch (UnsupportedOperationException expected) {
-      }
+      assertThrows(UnsupportedOperationException.class, () -> cache.asMap().values().add(1));
 
-      try {
-        cache.asMap().values().addAll(asList(1, 2));
-        fail();
-      } catch (UnsupportedOperationException expected) {
-      }
+      assertThrows(
+          UnsupportedOperationException.class, () -> cache.asMap().values().addAll(asList(1, 2)));
     }
   }
 
@@ -264,28 +235,20 @@ public class EmptyCachesTest extends TestCase {
   public void testEntrySet_nullToArray() {
     for (LoadingCache<Object, Object> cache : caches()) {
       Set<Entry<Object, Object>> entries = cache.asMap().entrySet();
-      try {
-        entries.toArray((Entry<Object, Object>[]) null);
-        fail();
-      } catch (NullPointerException expected) {
-      }
+      assertThrows(
+          NullPointerException.class, () -> entries.toArray((Entry<Object, Object>[]) null));
       checkEmpty(cache);
     }
   }
 
   public void testEntrySet_addNotSupported() {
     for (LoadingCache<Object, Object> cache : caches()) {
-      try {
-        cache.asMap().entrySet().add(entryOf(1, 1));
-        fail();
-      } catch (UnsupportedOperationException expected) {
-      }
+      assertThrows(
+          UnsupportedOperationException.class, () -> cache.asMap().entrySet().add(entryOf(1, 1)));
 
-      try {
-        cache.asMap().values().addAll(asList(entryOf(1, 1), entryOf(2, 2)));
-        fail();
-      } catch (UnsupportedOperationException expected) {
-      }
+      assertThrows(
+          UnsupportedOperationException.class,
+          () -> cache.asMap().values().addAll(asList(entryOf(1, 1), entryOf(2, 2))));
     }
   }
 

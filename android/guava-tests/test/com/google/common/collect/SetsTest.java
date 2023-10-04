@@ -52,7 +52,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -1105,47 +1104,6 @@ public class SetsTest extends TestCase {
       }
     }
     assertEquals(expected, set);
-  }
-
-  /** Simple base class to verify that we handle generics correctly. */
-  static class Base implements Comparable<Base>, Serializable {
-    private final String s;
-
-    public Base(String s) {
-      this.s = s;
-    }
-
-    @Override
-    public int hashCode() { // delegate to 's'
-      return s.hashCode();
-    }
-
-    @Override
-    public boolean equals(@Nullable Object other) {
-      if (other == null) {
-        return false;
-      } else if (other instanceof Base) {
-        return s.equals(((Base) other).s);
-      } else {
-        return false;
-      }
-    }
-
-    @Override
-    public int compareTo(Base o) {
-      return s.compareTo(o.s);
-    }
-
-    private static final long serialVersionUID = 0;
-  }
-
-  /** Simple derived class to verify that we handle generics correctly. */
-  static class Derived extends Base {
-    public Derived(String s) {
-      super(s);
-    }
-
-    private static final long serialVersionUID = 0;
   }
 
   @GwtIncompatible // NavigableSet

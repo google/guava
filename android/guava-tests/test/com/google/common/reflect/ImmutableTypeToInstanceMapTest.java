@@ -18,6 +18,7 @@ package com.google.common.reflect;
 
 import static com.google.common.collect.Maps.immutableEntry;
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.testing.MapTestSuiteBuilder;
@@ -121,21 +122,16 @@ public class ImmutableTypeToInstanceMapTest extends TestCase {
 
   public void testGetInstance_containsTypeVariable() {
     ImmutableTypeToInstanceMap<Iterable<Number>> map = ImmutableTypeToInstanceMap.of();
-    try {
-      map.getInstance(this.<Number>anyIterableType());
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class, () -> map.getInstance(this.<Number>anyIterableType()));
   }
 
   public void testPut_containsTypeVariable() {
     ImmutableTypeToInstanceMap.Builder<Iterable<Integer>> builder =
         ImmutableTypeToInstanceMap.builder();
-    try {
-      builder.put(this.<Integer>anyIterableType(), ImmutableList.of(1));
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> builder.put(this.<Integer>anyIterableType(), ImmutableList.of(1)));
   }
 
   private <T> TypeToken<Iterable<T>> anyIterableType() {

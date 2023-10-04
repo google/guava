@@ -21,6 +21,7 @@ import static java.util.concurrent.TimeUnit.MICROSECONDS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.ImmutableClassToInstanceMap;
 import com.google.common.collect.ImmutableSet;
@@ -75,50 +76,18 @@ public class RateLimiterTest extends TestCase {
     limiter.setRate(10.0);
     assertEquals(10.0, limiter.getRate());
 
-    try {
-      limiter.setRate(0.0);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
-    try {
-      limiter.setRate(-10.0);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> limiter.setRate(0.0));
+    assertThrows(IllegalArgumentException.class, () -> limiter.setRate(-10.0));
   }
 
   public void testAcquireParameterValidation() {
     RateLimiter limiter = RateLimiter.create(999);
-    try {
-      limiter.acquire(0);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
-    try {
-      limiter.acquire(-1);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
-    try {
-      limiter.tryAcquire(0);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
-    try {
-      limiter.tryAcquire(-1);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
-    try {
-      limiter.tryAcquire(0, 1, SECONDS);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
-    try {
-      limiter.tryAcquire(-1, 1, SECONDS);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> limiter.acquire(0));
+    assertThrows(IllegalArgumentException.class, () -> limiter.acquire(-1));
+    assertThrows(IllegalArgumentException.class, () -> limiter.tryAcquire(0));
+    assertThrows(IllegalArgumentException.class, () -> limiter.tryAcquire(-1));
+    assertThrows(IllegalArgumentException.class, () -> limiter.tryAcquire(0, 1, SECONDS));
+    assertThrows(IllegalArgumentException.class, () -> limiter.tryAcquire(-1, 1, SECONDS));
   }
 
   public void testSimpleWithWait() {
@@ -169,17 +138,9 @@ public class RateLimiterTest extends TestCase {
     unused = RateLimiter.create(1.0, 1, NANOSECONDS);
     unused = RateLimiter.create(1.0, 0, NANOSECONDS);
 
-    try {
-      RateLimiter.create(0.0, 1, NANOSECONDS);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> RateLimiter.create(0.0, 1, NANOSECONDS));
 
-    try {
-      RateLimiter.create(1.0, -1, NANOSECONDS);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> RateLimiter.create(1.0, -1, NANOSECONDS));
   }
 
   @AndroidIncompatible // difference in String.format rounding?
@@ -563,11 +524,7 @@ public class RateLimiterTest extends TestCase {
     }
   }
 
-  /*
-   * Note: Mockito appears to lose its ability to Mock doGetRate as of Android 21. If we start
-   * testing with that version or newer, we'll need to suppress this test (or see if Mockito can be
-   * changed to support this).
-   */
+  @AndroidIncompatible // Mockito loses its ability to mock doGetRate as of Android 21
   public void testMockingMockito() throws Exception {
     RateLimiter mock = Mockito.mock(RateLimiter.class);
     for (Method method : RateLimiter.class.getMethods()) {

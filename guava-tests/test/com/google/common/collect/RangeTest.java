@@ -614,7 +614,7 @@ public class RangeTest extends TestCase {
     Range<LegacyComparable> range = Range.closed(LegacyComparable.X, LegacyComparable.Y);
   }
 
-  static final DiscreteDomain<Integer> UNBOUNDED_DOMAIN =
+  private static final DiscreteDomain<Integer> UNBOUNDED_DOMAIN =
       new DiscreteDomain<Integer>() {
         @Override
         public Integer next(Integer value) {

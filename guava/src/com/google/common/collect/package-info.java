@@ -18,10 +18,13 @@
  * Collection interfaces and implementations, and other utilities for collections. This package is a
  * part of the open-source <a href="https://github.com/google/guava">Guava</a> library.
  *
+ * <p>The classes in this package include:
+ *
  * <h2>Immutable collections</h2>
  *
- * Implementations of JDK and Guava collection types whose contents will never change, and which
- * offer a few additional guarantees. For details, see {@link ImmutableCollection}.
+ * These are collections whose contents will never change. They also offer a few additional
+ * guarantees (see {@link ImmutableCollection} for details). Implementations are available for both
+ * the JDK collection types and the Guava collection types (listed below).
  *
  * <h2>Collection types</h2>
  *
@@ -75,20 +78,20 @@
  * <h2>Classes of static utility methods</h2>
  *
  * <ul>
- *   <li>{@link Comparators}
  *   <li>{@link Collections2}
- *   <li>{@link Iterators}
+ *   <li>{@link Comparators}
  *   <li>{@link Iterables}
+ *   <li>{@link Iterators}
  *   <li>{@link Lists}
  *   <li>{@link Maps}
  *   <li>{@link MoreCollectors}
+ *   <li>{@link Multimaps}
+ *   <li>{@link Multisets}
+ *   <li>{@link ObjectArrays}
  *   <li>{@link Queues}
  *   <li>{@link Sets}
- *   <li>{@link Multisets}
- *   <li>{@link Multimaps}
- *   <li>{@link Tables}
- *   <li>{@link ObjectArrays}
  *   <li>{@link Streams}
+ *   <li>{@link Tables}
  * </ul>
  *
  * <h2>Abstract implementations</h2>
@@ -102,7 +105,7 @@
  *
  * <h2>Forwarding collections</h2>
  *
- * We provide implementations of collection that forward all method calls to a delegate collection
+ * We provide implementations of collections that forward all method calls to a delegate collection
  * by default. Subclasses can override one or more methods to implement the decorator pattern. For
  * an example, see {@link ForwardingCollection}.
  *

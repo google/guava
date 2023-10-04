@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -128,7 +129,7 @@ public final class EnumHashBiMap<K extends Enum<K>, V extends @Nullable Object>
   @GwtIncompatible // java.io.ObjectInputStream
   private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
     stream.defaultReadObject();
-    keyTypeOrObjectUnderJ2cl = (Class<K>) stream.readObject();
+    keyTypeOrObjectUnderJ2cl = (Class<K>) requireNonNull(stream.readObject());
     /*
      * TODO: cpovirk - Pre-size the HashMap based on the number of enum values? (But *not* based on
      * the number of entries in the map, as that makes it easy for hostile inputs to trigger lots of

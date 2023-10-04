@@ -29,6 +29,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.RandomAccess;
 import java.util.stream.Collector;
+import jsinterop.annotations.JsMethod;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -118,6 +119,12 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
     System.arraycopy(source, 0, dest, pos, source.length);
   }
 
+  /** ImmutableList.of API that is friendly to use from JavaScript. */
+  @JsMethod(name = "of")
+  static <E> ImmutableList<E> jsOf(E... elements) {
+    return copyOf(elements);
+  }
+
   public static <E> ImmutableList<E> copyOf(Iterable<? extends E> elements) {
     checkNotNull(elements); // for GWT
     return (elements instanceof Collection)
@@ -142,6 +149,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
     return copyFromCollection(elements);
   }
 
+  @JsMethod
   public static <E> ImmutableList<E> copyOf(E[] elements) {
     checkNotNull(elements); // eager for GWT
     return copyOf(Arrays.asList(elements));

@@ -18,6 +18,7 @@ package com.google.common.hash;
 
 import static com.google.common.base.Charsets.UTF_8;
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.ImmutableSet;
@@ -222,36 +223,28 @@ public class BloomFilterTest extends TestCase {
   }
 
   public void testPreconditions() {
-    try {
-      BloomFilter.create(Funnels.unencodedCharsFunnel(), -1);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
-    try {
-      BloomFilter.create(Funnels.unencodedCharsFunnel(), -1, 0.03);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
-    try {
-      BloomFilter.create(Funnels.unencodedCharsFunnel(), 1, 0.0);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
-    try {
-      BloomFilter.create(Funnels.unencodedCharsFunnel(), 1, 1.0);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> BloomFilter.create(Funnels.unencodedCharsFunnel(), -1));
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> BloomFilter.create(Funnels.unencodedCharsFunnel(), -1, 0.03));
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> BloomFilter.create(Funnels.unencodedCharsFunnel(), 1, 0.0));
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> BloomFilter.create(Funnels.unencodedCharsFunnel(), 1, 1.0));
   }
 
   public void testFailureWhenMoreThan255HashFunctionsAreNeeded() {
-    try {
-      int n = 1000;
-      double p = 0.00000000000000000000000000000000000000000000000000000000000000000000000000000001;
-      BloomFilter.create(Funnels.unencodedCharsFunnel(), n, p);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    int n = 1000;
+    double p = 0.00000000000000000000000000000000000000000000000000000000000000000000000000000001;
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> {
+          BloomFilter.create(Funnels.unencodedCharsFunnel(), n, p);
+        });
   }
 
   public void testNullPointers() {
@@ -290,15 +283,16 @@ public class BloomFilterTest extends TestCase {
 
     // and some crazy values (this used to be capped to Integer.MAX_VALUE, now it can go bigger
     assertEquals(3327428144502L, BloomFilter.optimalNumOfBits(Integer.MAX_VALUE, Double.MIN_VALUE));
-    try {
-      BloomFilter<String> unused =
-          BloomFilter.create(HashTestUtils.BAD_FUNNEL, Integer.MAX_VALUE, Double.MIN_VALUE);
-      fail("we can't represent such a large BF!");
-    } catch (IllegalArgumentException expected) {
-      assertThat(expected)
-          .hasMessageThat()
-          .isEqualTo("Could not create BloomFilter of 3327428144502 bits");
-    }
+    IllegalArgumentException expected =
+        assertThrows(
+            IllegalArgumentException.class,
+            () -> {
+              BloomFilter<String> unused =
+                  BloomFilter.create(HashTestUtils.BAD_FUNNEL, Integer.MAX_VALUE, Double.MIN_VALUE);
+            });
+    assertThat(expected)
+        .hasMessageThat()
+        .isEqualTo("Could not create BloomFilter of 3327428144502 bits");
   }
 
   @AndroidIncompatible // OutOfMemoryError
@@ -472,29 +466,29 @@ public class BloomFilterTest extends TestCase {
     BloomFilter<Integer> bf1 = BloomFilter.create(Funnels.integerFunnel(), 1);
     BloomFilter<Integer> bf2 = BloomFilter.create(Funnels.integerFunnel(), 10);
 
-    try {
-      assertFalse(bf1.isCompatible(bf2));
-      bf1.putAll(bf2);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertFalse(bf1.isCompatible(bf2));
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> {
+          bf1.putAll(bf2);
+        });
 
-    try {
-      assertFalse(bf2.isCompatible(bf1));
-      bf2.putAll(bf1);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertFalse(bf2.isCompatible(bf1));
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> {
+          bf2.putAll(bf1);
+        });
   }
 
   public void testPutAllWithSelf() {
     BloomFilter<Integer> bf1 = BloomFilter.create(Funnels.integerFunnel(), 1);
-    try {
-      assertFalse(bf1.isCompatible(bf1));
-      bf1.putAll(bf1);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertFalse(bf1.isCompatible(bf1));
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> {
+          bf1.putAll(bf1);
+        });
   }
 
   public void testJavaSerialization() {

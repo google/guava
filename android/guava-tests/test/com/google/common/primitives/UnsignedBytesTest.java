@@ -18,6 +18,7 @@ package com.google.common.primitives;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.testing.Helpers;
 import com.google.common.testing.NullPointerTester;
@@ -97,11 +98,7 @@ public class UnsignedBytesTest extends TestCase {
   }
 
   public void testMax_noArgs() {
-    try {
-      UnsignedBytes.max();
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> UnsignedBytes.max());
   }
 
   public void testMax() {
@@ -112,11 +109,7 @@ public class UnsignedBytesTest extends TestCase {
   }
 
   public void testMin_noArgs() {
-    try {
-      UnsignedBytes.min();
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> UnsignedBytes.min());
   }
 
   public void testMin() {
@@ -177,24 +170,16 @@ public class UnsignedBytesTest extends TestCase {
   public void testParseUnsignedByteThrowsExceptionForInvalidRadix() {
     // Valid radix values are Character.MIN_RADIX to Character.MAX_RADIX,
     // inclusive.
-    try {
-      UnsignedBytes.parseUnsignedByte("0", Character.MIN_RADIX - 1);
-      fail();
-    } catch (NumberFormatException expected) {
-    }
+    assertThrows(
+        NumberFormatException.class,
+        () -> UnsignedBytes.parseUnsignedByte("0", Character.MIN_RADIX - 1));
 
-    try {
-      UnsignedBytes.parseUnsignedByte("0", Character.MAX_RADIX + 1);
-      fail();
-    } catch (NumberFormatException expected) {
-    }
+    assertThrows(
+        NumberFormatException.class,
+        () -> UnsignedBytes.parseUnsignedByte("0", Character.MAX_RADIX + 1));
 
     // The radix is used as an array index, so try a negative value.
-    try {
-      UnsignedBytes.parseUnsignedByte("0", -1);
-      fail();
-    } catch (NumberFormatException expected) {
-    }
+    assertThrows(NumberFormatException.class, () -> UnsignedBytes.parseUnsignedByte("0", -1));
   }
 
   public void testToString() {

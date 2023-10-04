@@ -99,11 +99,13 @@ public class ListsImplTest extends TestCase {
     return example == null ? new ImmutableListExample("test") : example;
   }
 
+  @GwtIncompatible // not used under GWT, and super.getName() is not available under J2CL
   @Override
   public String getName() {
     return example == null ? super.getName() : buildTestName();
   }
 
+  @GwtIncompatible // not used under GWT, and super.getName() is not available under J2CL
   private String buildTestName() {
     return super.getName() + ":" + example.getName();
   }

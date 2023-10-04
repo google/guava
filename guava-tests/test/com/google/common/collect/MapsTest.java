@@ -30,10 +30,8 @@ import com.google.common.base.Converter;
 import com.google.common.base.Equivalence;
 import com.google.common.base.Function;
 import com.google.common.base.Functions;
-import com.google.common.base.Predicate;
 import com.google.common.collect.Maps.EntryTransformer;
 import com.google.common.collect.Maps.ValueDifferenceImpl;
-import com.google.common.collect.SetsTest.Derived;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
@@ -62,7 +60,6 @@ import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.concurrent.ConcurrentMap;
 import junit.framework.TestCase;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Unit test for {@code Maps}.
@@ -1371,37 +1368,7 @@ public class MapsTest extends TestCase {
     assertEquals(ImmutableSet.of(1, 2, 3), sync.inverse().keySet());
   }
 
-  static final Predicate<@Nullable String> NOT_LENGTH_3 =
-      new Predicate<@Nullable String>() {
-        @Override
-        public boolean apply(@Nullable String input) {
-          return input == null || input.length() != 3;
-        }
-      };
-
-  static final Predicate<@Nullable Integer> EVEN =
-      new Predicate<@Nullable Integer>() {
-        @Override
-        public boolean apply(@Nullable Integer input) {
-          return input == null || input % 2 == 0;
-        }
-      };
-
-  static final Predicate<Entry<String, Integer>> CORRECT_LENGTH =
-      new Predicate<Entry<String, Integer>>() {
-        @Override
-        public boolean apply(Entry<String, Integer> input) {
-          return input.getKey().length() == input.getValue();
-        }
-      };
-
-  static final Function<Integer, Double> SQRT_FUNCTION =
-      new Function<Integer, Double>() {
-        @Override
-        public Double apply(Integer in) {
-          return Math.sqrt(in);
-        }
-      };
+  private static final Function<Integer, Double> SQRT_FUNCTION = in -> Math.sqrt(in);
 
   public void testTransformValues() {
     Map<String, Integer> map = ImmutableMap.of("a", 4, "b", 9);

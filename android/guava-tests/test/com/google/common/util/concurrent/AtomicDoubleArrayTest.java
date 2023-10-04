@@ -13,6 +13,8 @@
 
 package com.google.common.util.concurrent;
 
+import static org.junit.Assert.assertThrows;
+
 import java.util.Arrays;
 
 /** Unit test for {@link AtomicDoubleArray}. */
@@ -59,11 +61,7 @@ public class AtomicDoubleArrayTest extends JSR166TestCase {
   /** constructor with null array throws NPE */
   public void testConstructor2NPE() {
     double[] a = null;
-    try {
-      new AtomicDoubleArray(a);
-      fail();
-    } catch (NullPointerException success) {
-    }
+    assertThrows(NullPointerException.class, () -> new AtomicDoubleArray(a));
   }
 
   /** constructor with array is of same size and has all elements */
@@ -79,63 +77,27 @@ public class AtomicDoubleArrayTest extends JSR166TestCase {
   public void testConstructorEmptyArray() {
     AtomicDoubleArray aa = new AtomicDoubleArray(new double[0]);
     assertEquals(0, aa.length());
-    try {
-      aa.get(0);
-      fail();
-    } catch (IndexOutOfBoundsException success) {
-    }
+    assertThrows(IndexOutOfBoundsException.class, () -> aa.get(0));
   }
 
   /** constructor with length zero has size 0 and contains no elements */
   public void testConstructorZeroLength() {
     AtomicDoubleArray aa = new AtomicDoubleArray(0);
     assertEquals(0, aa.length());
-    try {
-      aa.get(0);
-      fail();
-    } catch (IndexOutOfBoundsException success) {
-    }
+    assertThrows(IndexOutOfBoundsException.class, () -> aa.get(0));
   }
 
   /** get and set for out of bound indices throw IndexOutOfBoundsException */
   public void testIndexing() {
     AtomicDoubleArray aa = new AtomicDoubleArray(SIZE);
     for (int index : new int[] {-1, SIZE}) {
-      try {
-        aa.get(index);
-        fail();
-      } catch (IndexOutOfBoundsException success) {
-      }
-      try {
-        aa.set(index, 1.0);
-        fail();
-      } catch (IndexOutOfBoundsException success) {
-      }
-      try {
-        aa.lazySet(index, 1.0);
-        fail();
-      } catch (IndexOutOfBoundsException success) {
-      }
-      try {
-        aa.compareAndSet(index, 1.0, 2.0);
-        fail();
-      } catch (IndexOutOfBoundsException success) {
-      }
-      try {
-        aa.weakCompareAndSet(index, 1.0, 2.0);
-        fail();
-      } catch (IndexOutOfBoundsException success) {
-      }
-      try {
-        aa.getAndAdd(index, 1.0);
-        fail();
-      } catch (IndexOutOfBoundsException success) {
-      }
-      try {
-        aa.addAndGet(index, 1.0);
-        fail();
-      } catch (IndexOutOfBoundsException success) {
-      }
+      assertThrows(IndexOutOfBoundsException.class, () -> aa.get(index));
+      assertThrows(IndexOutOfBoundsException.class, () -> aa.set(index, 1.0));
+      assertThrows(IndexOutOfBoundsException.class, () -> aa.lazySet(index, 1.0));
+      assertThrows(IndexOutOfBoundsException.class, () -> aa.compareAndSet(index, 1.0, 2.0));
+      assertThrows(IndexOutOfBoundsException.class, () -> aa.weakCompareAndSet(index, 1.0, 2.0));
+      assertThrows(IndexOutOfBoundsException.class, () -> aa.getAndAdd(index, 1.0));
+      assertThrows(IndexOutOfBoundsException.class, () -> aa.addAndGet(index, 1.0));
     }
   }
 

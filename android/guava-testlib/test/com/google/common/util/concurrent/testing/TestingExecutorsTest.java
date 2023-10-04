@@ -16,6 +16,8 @@
 
 package com.google.common.util.concurrent.testing;
 
+import static org.junit.Assert.assertThrows;
+
 import com.google.common.collect.ImmutableList;
 import com.google.common.util.concurrent.ListeningScheduledExecutorService;
 import java.util.List;
@@ -76,12 +78,7 @@ public class TestingExecutorsTest extends TestCase {
     Future<Boolean> future = futureList.get(0);
     assertFalse(taskDone);
     assertTrue(future.isDone());
-    try {
-      future.get();
-      fail();
-    } catch (CancellationException e) {
-      // pass
-    }
+    assertThrows(CancellationException.class, () -> future.get());
   }
 
   public void testSameThreadScheduledExecutor() throws ExecutionException, InterruptedException {
@@ -110,11 +107,6 @@ public class TestingExecutorsTest extends TestCase {
         };
 
     Future<?> future = TestingExecutors.sameThreadScheduledExecutor().submit(runnable);
-    try {
-      future.get();
-      fail("Should have thrown exception");
-    } catch (ExecutionException e) {
-      // pass
-    }
+    assertThrows(ExecutionException.class, () -> future.get());
   }
 }

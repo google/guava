@@ -477,8 +477,8 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
       } catch (IllegalStateException expected) {
       }
     } else {
+      iterator.next();
       try {
-        iterator.next();
         iterator.remove();
         fail("Expected UnsupportedOperationException.");
       } catch (UnsupportedOperationException expected) {
@@ -729,7 +729,7 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
       try {
         entrySet.retainAll(null);
         // Returning successfully is not ideal, but tolerated.
-      } catch (NullPointerException expected) {
+      } catch (NullPointerException tolerated) {
       }
     } else {
       try {
@@ -1365,7 +1365,7 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
       try {
         keySet.retainAll(null);
         // Returning successfully is not ideal, but tolerated.
-      } catch (NullPointerException expected) {
+      } catch (NullPointerException tolerated) {
       }
     } else {
       try {
@@ -1425,8 +1425,8 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
       } catch (IllegalStateException expected) {
       }
     } else {
+      iterator.next();
       try {
-        iterator.next();
         iterator.remove();
         fail("Expected UnsupportedOperationException.");
       } catch (UnsupportedOperationException expected) {
@@ -1527,7 +1527,7 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
       try {
         values.removeAll(null);
         // Returning successfully is not ideal, but tolerated.
-      } catch (NullPointerException expected) {
+      } catch (NullPointerException tolerated) {
       }
     } else {
       try {
@@ -1581,7 +1581,7 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
       try {
         values.retainAll(null);
         // Returning successfully is not ideal, but tolerated.
-      } catch (NullPointerException expected) {
+      } catch (NullPointerException tolerated) {
       }
     } else {
       try {

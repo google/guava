@@ -20,6 +20,7 @@ import static com.google.common.base.StandardSystemProperty.JAVA_SPECIFICATION_V
 import static com.google.common.base.StandardSystemProperty.OS_NAME;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.Iterables;
@@ -97,13 +98,8 @@ public class AbstractFutureTest extends TestCase {
     assertTrue(future.isDone());
     assertFalse(future.wasInterrupted());
     assertFalse(future.interruptTaskWasCalled);
-    try {
-      future.get();
-      fail("Expected CancellationException");
-    } catch (CancellationException e) {
-      // See AbstractFutureCancellationCauseTest for how to set causes
-      assertThat(e).hasCauseThat().isNull();
-    }
+    CancellationException e = assertThrows(CancellationException.class, () -> future.get());
+    assertThat(e).hasCauseThat().isNull();
   }
 
   public void testCancel_notDoneInterrupt() throws Exception {
@@ -113,13 +109,8 @@ public class AbstractFutureTest extends TestCase {
     assertTrue(future.isDone());
     assertTrue(future.wasInterrupted());
     assertTrue(future.interruptTaskWasCalled);
-    try {
-      future.get();
-      fail("Expected CancellationException");
-    } catch (CancellationException e) {
-      // See AbstractFutureCancellationCauseTest for how to set causes
-      assertThat(e).hasCauseThat().isNull();
-    }
+    CancellationException e = assertThrows(CancellationException.class, () -> future.get());
+    assertThat(e).hasCauseThat().isNull();
   }
 
   public void testCancel_done() throws Exception {
@@ -156,12 +147,8 @@ public class AbstractFutureTest extends TestCase {
     AbstractFuture<String> normalFuture = new AbstractFuture<String>() {};
     normalFuture.setFuture(evilFuture);
     assertTrue(normalFuture.isDone());
-    try {
-      normalFuture.get();
-      fail();
-    } catch (ExecutionException e) {
-      assertThat(e).hasCauseThat().isSameInstanceAs(exception);
-    }
+    ExecutionException e = assertThrows(ExecutionException.class, () -> normalFuture.get());
+    assertThat(e).hasCauseThat().isSameInstanceAs(exception);
   }
 
   public void testRemoveWaiter_interruption() throws Exception {
@@ -266,13 +253,10 @@ public class AbstractFutureTest extends TestCase {
     assertThat(testFuture.toString())
         .matches(
             "[^\\[]+\\[status=PENDING, info=\\[cause=\\[Because this test isn't done\\]\\]\\]");
-    try {
-      testFuture.get(1, TimeUnit.NANOSECONDS);
-      fail();
-    } catch (TimeoutException e) {
-      assertThat(e.getMessage()).contains("1 nanoseconds");
-      assertThat(e.getMessage()).contains("Because this test isn't done");
-    }
+    TimeoutException e =
+        assertThrows(TimeoutException.class, () -> testFuture.get(1, TimeUnit.NANOSECONDS));
+    assertThat(e.getMessage()).contains("1 nanoseconds");
+    assertThat(e.getMessage()).contains("Because this test isn't done");
   }
 
   public void testToString_completesDuringToString() throws Exception {
@@ -1171,12 +1155,8 @@ public class AbstractFutureTest extends TestCase {
     SettableFuture<String> normalFuture = SettableFuture.create();
     normalFuture.setFuture(new FailFuture(exception));
     assertTrue(normalFuture.isDone());
-    try {
-      normalFuture.get();
-      fail();
-    } catch (ExecutionException e) {
-      assertSame(exception, e.getCause());
-    }
+    ExecutionException e = assertThrows(ExecutionException.class, () -> normalFuture.get());
+    assertSame(exception, e.getCause());
   }
 
   private static void awaitUnchecked(final CyclicBarrier barrier) {

@@ -16,6 +16,8 @@
 
 package com.google.common.reflect;
 
+import static org.junit.Assert.assertThrows;
+
 import com.google.common.testing.NullPointerTester;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -39,11 +41,8 @@ public class ReflectionTest extends TestCase {
   }
 
   public void testNewProxyCantWorkOnAClass() throws Exception {
-    try {
-      Reflection.newProxy(Object.class, X_RETURNER);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class, () -> Reflection.newProxy(Object.class, X_RETURNER));
   }
 
   private static final InvocationHandler X_RETURNER =

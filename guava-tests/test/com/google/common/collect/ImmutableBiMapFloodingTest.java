@@ -16,7 +16,7 @@
 
 package com.google.common.collect;
 
-import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.EnumSet;
 import java.util.LinkedHashMap;
@@ -25,7 +25,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Stream;
 
-@GwtCompatible
+@GwtIncompatible
 public class ImmutableBiMapFloodingTest extends AbstractHashFloodingTest<BiMap<Object, Object>> {
   public ImmutableBiMapFloodingTest() {
     super(

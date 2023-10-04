@@ -604,12 +604,12 @@ public final class NullPointerTester {
    * Looks for declaration nullness annotations and, if supported, type-use nullness annotations.
    *
    * <p>Under Android VMs, the methods for retrieving type-use annotations don't exist. This means
-   * that {@link NullPointerException} may misbehave under Android when used on classes that rely on
+   * that {@link NullPointerTester} may misbehave under Android when used on classes that rely on
    * type-use annotations.
    *
    * <p>Under j2objc, the necessary APIs exist, but some (perhaps all) return stub values, like
-   * empty arrays. Presumably {@link NullPointerException} could likewise misbehave under j2objc,
-   * but I don't know that anyone uses it there, anyway.
+   * empty arrays. Presumably {@link NullPointerTester} could likewise misbehave under j2objc, but I
+   * don't know that anyone uses it there, anyway.
    */
   private enum NullnessAnnotationReader {
     // Usages (which are unsafe only for Android) are guarded by the annotatedTypeExists() check.

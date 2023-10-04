@@ -17,6 +17,7 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.testing.NullPointerTester;
 import java.lang.Thread.UncaughtExceptionHandler;
@@ -129,19 +130,13 @@ public class ThreadFactoryBuilderTest extends TestCase {
   }
 
   public void testPriority_tooLow() {
-    try {
-      builder.setPriority(Thread.MIN_PRIORITY - 1);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class, () -> builder.setPriority(Thread.MIN_PRIORITY - 1));
   }
 
   public void testPriority_tooHigh() {
-    try {
-      builder.setPriority(Thread.MAX_PRIORITY + 1);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class, () -> builder.setPriority(Thread.MAX_PRIORITY + 1));
   }
 
   public void testUncaughtExceptionHandler_custom() {

@@ -1076,7 +1076,7 @@ public final class TreeMultiset<E extends @Nullable Object> extends AbstractSort
     stream.defaultReadObject();
     @SuppressWarnings("unchecked")
     // reading data stored by writeObject
-    Comparator<? super E> comparator = (Comparator<? super E>) stream.readObject();
+    Comparator<? super E> comparator = (Comparator<? super E>) requireNonNull(stream.readObject());
     Serialization.getFieldSetter(AbstractSortedMultiset.class, "comparator").set(this, comparator);
     Serialization.getFieldSetter(TreeMultiset.class, "range")
         .set(this, GeneralRange.all(comparator));

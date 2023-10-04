@@ -27,6 +27,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collector;
+import jsinterop.annotations.JsMethod;
 
 /**
  * GWT emulated version of {@link com.google.common.collect.ImmutableSet}. For the unsorted sets,
@@ -85,6 +86,13 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
     return copyOf(all.iterator());
   }
 
+  /** ImmutableSet.of API that is friendly to use from JavaScript. */
+  @JsMethod(name = "of")
+  static <E> ImmutableSet<E> jsOf(E... elements) {
+    return copyOf(elements);
+  }
+
+  @JsMethod
   public static <E> ImmutableSet<E> copyOf(E[] elements) {
     checkNotNull(elements);
     switch (elements.length) {

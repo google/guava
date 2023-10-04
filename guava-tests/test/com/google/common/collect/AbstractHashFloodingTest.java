@@ -17,7 +17,6 @@ package com.google.common.collect;
 
 import static com.google.common.truth.Truth.assertWithMessage;
 
-import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Arrays;
@@ -35,7 +34,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * Abstract superclass for tests that hash flooding a collection has controlled worst-case
  * performance.
  */
-@GwtCompatible
+@GwtIncompatible
 public abstract class AbstractHashFloodingTest<T> extends TestCase {
   private final List<Construction<T>> constructions;
   private final IntToDoubleFunction constructionAsymptotics;
@@ -188,7 +187,6 @@ public abstract class AbstractHashFloodingTest<T> extends TestCase {
     return result;
   }
 
-  @GwtIncompatible
   public void testResistsHashFloodingInConstruction() {
     CallsCounter smallCounter = new CallsCounter();
     List<CountsHashCodeAndEquals> haveSameHashesSmall = createAdversarialInput(10, smallCounter);
@@ -221,7 +219,6 @@ public abstract class AbstractHashFloodingTest<T> extends TestCase {
     }
   }
 
-  @GwtIncompatible
   public void testResistsHashFloodingOnQuery() {
     CallsCounter smallCounter = new CallsCounter();
     List<CountsHashCodeAndEquals> haveSameHashesSmall = createAdversarialInput(10, smallCounter);
