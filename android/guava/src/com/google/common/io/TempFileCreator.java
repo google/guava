@@ -16,17 +16,22 @@ package com.google.common.io;
 
 import static com.google.common.base.StandardSystemProperty.JAVA_IO_TMPDIR;
 import static com.google.common.base.StandardSystemProperty.USER_NAME;
+import static com.google.common.base.Throwables.throwIfUnchecked;
 import static java.nio.file.attribute.AclEntryFlag.DIRECTORY_INHERIT;
 import static java.nio.file.attribute.AclEntryFlag.FILE_INHERIT;
 import static java.nio.file.attribute.AclEntryType.ALLOW;
 import static java.nio.file.attribute.PosixFilePermissions.asFileAttribute;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
 import com.google.j2objc.annotations.J2ObjCIncompatible;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.nio.file.FileSystems;
 import java.nio.file.Paths;
 import java.nio.file.attribute.AclEntry;
@@ -98,6 +103,20 @@ abstract class TempFileCreator {
     return new JavaIoCreator();
   }
 
+  /**
+   * Creates the permissions normally used for Windows filesystems, looking up the user afresh, even
+   * if previous calls have initialized the {@code PermissionSupplier} fields.
+   *
+   * <p>This lets us test the effects of different values of the {@code user.name} system property
+   * without needing a separate VM or classloader.
+   */
+  @IgnoreJRERequirement // used only when Path is available (and only from tests)
+  @VisibleForTesting
+  static void testMakingUserPermissionsFromScratch() throws IOException {
+    // All we're testing is whether it throws.
+    FileAttribute<?> unused = JavaNioCreator.userPermissions().get();
+  }
+
   @IgnoreJRERequirement // used only when Path is available
   private static final class JavaNioCreator extends TempFileCreator {
     @Override
@@ -150,7 +169,7 @@ abstract class TempFileCreator {
         UserPrincipal user =
             FileSystems.getDefault()
                 .getUserPrincipalLookupService()
-                .lookupPrincipalByName(USER_NAME.value());
+                .lookupPrincipalByName(getUsername());
         ImmutableList<AclEntry> acl =
             ImmutableList.of(
                 AclEntry.newBuilder()
@@ -177,6 +196,62 @@ abstract class TempFileCreator {
         return () -> {
           throw new IOException("Could not find user", e);
         };
+      }
+    }
+
+    private static String getUsername() {
+      /*
+       * https://github.com/google/guava/issues/6634: ProcessHandle has more accurate information,
+       * but that class isn't available under all environments that we support. We use it if
+       * available and fall back if not.
+       */
+      String fromSystemProperty = requireNonNull(USER_NAME.value());
+
+      try {
+        Class<?> processHandleClass = Class.forName("java.lang.ProcessHandle");
+        Class<?> processHandleInfoClass = Class.forName("java.lang.ProcessHandle$Info");
+        Class<?> optionalClass = Class.forName("java.util.Optional");
+        /*
+         * We don't *need* to use reflection to access Optional: It's available on all JDKs we
+         * support, and Android code won't get this far, anyway, because ProcessHandle is
+         * unavailable. But given how much other reflection we're using, we might as well use it
+         * here, too, so that we don't need to also suppress an AndroidApiChecker error.
+         */
+
+        Method currentMethod = processHandleClass.getMethod("current");
+        Method infoMethod = processHandleClass.getMethod("info");
+        Method userMethod = processHandleInfoClass.getMethod("user");
+        Method orElseMethod = optionalClass.getMethod("orElse", Object.class);
+
+        Object current = currentMethod.invoke(null);
+        Object info = infoMethod.invoke(current);
+        Object user = userMethod.invoke(info);
+        return (String) requireNonNull(orElseMethod.invoke(user, fromSystemProperty));
+      } catch (ClassNotFoundException runningUnderAndroidOrJava8) {
+        /*
+         * I'm not sure that we could actually get here for *Android*: I would expect us to enter
+         * the POSIX code path instead. And if we tried this code path, we'd have trouble unless we
+         * were running under a new enough version of Android to support NIO.
+         *
+         * So this is probably just the "Windows Java 8" case. In that case, if we wanted *another*
+         * layer of fallback before consulting the system property, we could try
+         * com.sun.security.auth.module.NTSystem.
+         *
+         * But for now, we use the value from the system property as our best guess.
+         */
+        return fromSystemProperty;
+      } catch (InvocationTargetException e) {
+        throwIfUnchecked(e.getCause()); // in case it's an Error or something
+        return fromSystemProperty; // should be impossible
+      } catch (NoSuchMethodException shouldBeImpossible) {
+        return fromSystemProperty;
+      } catch (IllegalAccessException shouldBeImpossible) {
+        /*
+         * We don't merge these into `catch (ReflectiveOperationException ...)` or an equivalent
+         * multicatch because ReflectiveOperationException isn't available under Android:
+         * b/124188803
+         */
+        return fromSystemProperty;
       }
     }
   }
