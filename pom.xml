@@ -23,7 +23,6 @@
     <javac.version>9+181-r4173-1</javac.version>
     <!-- Empty for all JDKs but 9-12 -->
     <maven-javadoc-plugin.additionalJOptions></maven-javadoc-plugin.additionalJOptions>
-    <maven-source-plugin.version>3.3.0</maven-source-plugin.version>
     <project.build.outputTimestamp>2023-02-01T00:00:00Z</project.build.outputTimestamp>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <test.add.opens></test.add.opens>
@@ -173,12 +172,14 @@
         </plugin>
         <plugin>
           <artifactId>maven-source-plugin</artifactId>
-          <version>${maven-source-plugin.version}</version>
+          <version>3.3.0</version>
           <executions>
             <execution>
               <id>attach-sources</id>
-              <phase>post-integration-test</phase>
-              <goals><goal>jar</goal></goals>
+              <phase>verify</phase>
+              <goals>
+                <goal>jar-no-fork</goal>
+              </goals>
             </execution>
           </executions>
         </plugin>
@@ -329,19 +330,10 @@
         <id>sonatype-oss-release</id>
         <build>
           <plugins>
-            <plugin>
-              <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-source-plugin</artifactId>
-              <version>${maven-source-plugin.version}</version>
-              <executions>
-                <execution>
-                  <id>attach-sources</id>
-                  <goals>
-                    <goal>jar-no-fork</goal>
-                  </goals>
-                </execution>
-              </executions>
-            </plugin>
+            <!-- TODO(cpovirk): Consider eliminating the maven-javadoc-plugin
+                 config here, moving anything that we want into the "normal"
+                 plugin config and perhaps removing javadoc:jar from the command
+                 we run for snapshot releases. -->
             <plugin>
               <groupId>org.apache.maven.plugins</groupId>
               <artifactId>maven-javadoc-plugin</artifactId>
