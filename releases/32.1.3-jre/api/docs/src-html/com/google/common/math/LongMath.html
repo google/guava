@@ -1,0 +1,1434 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<main role="main">
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span><a id="line.1">/*</a>
+<span class="sourceLineNo">002</span><a id="line.2"> * Copyright (C) 2011 The Guava Authors</a>
+<span class="sourceLineNo">003</span><a id="line.3"> *</a>
+<span class="sourceLineNo">004</span><a id="line.4"> * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except</a>
+<span class="sourceLineNo">005</span><a id="line.5"> * in compliance with the License. You may obtain a copy of the License at</a>
+<span class="sourceLineNo">006</span><a id="line.6"> *</a>
+<span class="sourceLineNo">007</span><a id="line.7"> * http://www.apache.org/licenses/LICENSE-2.0</a>
+<span class="sourceLineNo">008</span><a id="line.8"> *</a>
+<span class="sourceLineNo">009</span><a id="line.9"> * Unless required by applicable law or agreed to in writing, software distributed under the License</a>
+<span class="sourceLineNo">010</span><a id="line.10"> * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express</a>
+<span class="sourceLineNo">011</span><a id="line.11"> * or implied. See the License for the specific language governing permissions and limitations under</a>
+<span class="sourceLineNo">012</span><a id="line.12"> * the License.</a>
+<span class="sourceLineNo">013</span><a id="line.13"> */</a>
+<span class="sourceLineNo">014</span><a id="line.14"></a>
+<span class="sourceLineNo">015</span><a id="line.15">package com.google.common.math;</a>
+<span class="sourceLineNo">016</span><a id="line.16"></a>
+<span class="sourceLineNo">017</span><a id="line.17">import static com.google.common.base.Preconditions.checkArgument;</a>
+<span class="sourceLineNo">018</span><a id="line.18">import static com.google.common.base.Preconditions.checkNotNull;</a>
+<span class="sourceLineNo">019</span><a id="line.19">import static com.google.common.math.MathPreconditions.checkNoOverflow;</a>
+<span class="sourceLineNo">020</span><a id="line.20">import static com.google.common.math.MathPreconditions.checkNonNegative;</a>
+<span class="sourceLineNo">021</span><a id="line.21">import static com.google.common.math.MathPreconditions.checkPositive;</a>
+<span class="sourceLineNo">022</span><a id="line.22">import static com.google.common.math.MathPreconditions.checkRoundingUnnecessary;</a>
+<span class="sourceLineNo">023</span><a id="line.23">import static java.lang.Math.abs;</a>
+<span class="sourceLineNo">024</span><a id="line.24">import static java.lang.Math.min;</a>
+<span class="sourceLineNo">025</span><a id="line.25">import static java.math.RoundingMode.HALF_EVEN;</a>
+<span class="sourceLineNo">026</span><a id="line.26">import static java.math.RoundingMode.HALF_UP;</a>
+<span class="sourceLineNo">027</span><a id="line.27"></a>
+<span class="sourceLineNo">028</span><a id="line.28">import com.google.common.annotations.GwtCompatible;</a>
+<span class="sourceLineNo">029</span><a id="line.29">import com.google.common.annotations.GwtIncompatible;</a>
+<span class="sourceLineNo">030</span><a id="line.30">import com.google.common.annotations.J2ktIncompatible;</a>
+<span class="sourceLineNo">031</span><a id="line.31">import com.google.common.annotations.VisibleForTesting;</a>
+<span class="sourceLineNo">032</span><a id="line.32">import com.google.common.primitives.Longs;</a>
+<span class="sourceLineNo">033</span><a id="line.33">import com.google.common.primitives.UnsignedLongs;</a>
+<span class="sourceLineNo">034</span><a id="line.34">import java.math.BigInteger;</a>
+<span class="sourceLineNo">035</span><a id="line.35">import java.math.RoundingMode;</a>
+<span class="sourceLineNo">036</span><a id="line.36"></a>
+<span class="sourceLineNo">037</span><a id="line.37">/**</a>
+<span class="sourceLineNo">038</span><a id="line.38"> * A class for arithmetic on values of type {@code long}. Where possible, methods are defined and</a>
+<span class="sourceLineNo">039</span><a id="line.39"> * named analogously to their {@code BigInteger} counterparts.</a>
+<span class="sourceLineNo">040</span><a id="line.40"> *</a>
+<span class="sourceLineNo">041</span><a id="line.41"> * &lt;p&gt;The implementations of many methods in this class are based on material from Henry S. Warren,</a>
+<span class="sourceLineNo">042</span><a id="line.42"> * Jr.'s &lt;i&gt;Hacker's Delight&lt;/i&gt;, (Addison Wesley, 2002).</a>
+<span class="sourceLineNo">043</span><a id="line.43"> *</a>
+<span class="sourceLineNo">044</span><a id="line.44"> * &lt;p&gt;Similar functionality for {@code int} and for {@link BigInteger} can be found in {@link</a>
+<span class="sourceLineNo">045</span><a id="line.45"> * IntMath} and {@link BigIntegerMath} respectively. For other common operations on {@code long}</a>
+<span class="sourceLineNo">046</span><a id="line.46"> * values, see {@link com.google.common.primitives.Longs}.</a>
+<span class="sourceLineNo">047</span><a id="line.47"> *</a>
+<span class="sourceLineNo">048</span><a id="line.48"> * @author Louis Wasserman</a>
+<span class="sourceLineNo">049</span><a id="line.49"> * @since 11.0</a>
+<span class="sourceLineNo">050</span><a id="line.50"> */</a>
+<span class="sourceLineNo">051</span><a id="line.51">@GwtCompatible(emulated = true)</a>
+<span class="sourceLineNo">052</span><a id="line.52">@ElementTypesAreNonnullByDefault</a>
+<span class="sourceLineNo">053</span><a id="line.53">public final class LongMath {</a>
+<span class="sourceLineNo">054</span><a id="line.54">  // NOTE: Whenever both tests are cheap and functional, it's faster to use &amp;, | instead of &amp;&amp;, ||</a>
+<span class="sourceLineNo">055</span><a id="line.55"></a>
+<span class="sourceLineNo">056</span><a id="line.56">  @VisibleForTesting static final long MAX_SIGNED_POWER_OF_TWO = 1L &lt;&lt; (Long.SIZE - 2);</a>
+<span class="sourceLineNo">057</span><a id="line.57"></a>
+<span class="sourceLineNo">058</span><a id="line.58">  /**</a>
+<span class="sourceLineNo">059</span><a id="line.59">   * Returns the smallest power of two greater than or equal to {@code x}. This is equivalent to</a>
+<span class="sourceLineNo">060</span><a id="line.60">   * {@code checkedPow(2, log2(x, CEILING))}.</a>
+<span class="sourceLineNo">061</span><a id="line.61">   *</a>
+<span class="sourceLineNo">062</span><a id="line.62">   * @throws IllegalArgumentException if {@code x &lt;= 0}</a>
+<span class="sourceLineNo">063</span><a id="line.63">   * @throws ArithmeticException of the next-higher power of two is not representable as a {@code</a>
+<span class="sourceLineNo">064</span><a id="line.64">   *     long}, i.e. when {@code x &gt; 2^62}</a>
+<span class="sourceLineNo">065</span><a id="line.65">   * @since 20.0</a>
+<span class="sourceLineNo">066</span><a id="line.66">   */</a>
+<span class="sourceLineNo">067</span><a id="line.67">  public static long ceilingPowerOfTwo(long x) {</a>
+<span class="sourceLineNo">068</span><a id="line.68">    checkPositive("x", x);</a>
+<span class="sourceLineNo">069</span><a id="line.69">    if (x &gt; MAX_SIGNED_POWER_OF_TWO) {</a>
+<span class="sourceLineNo">070</span><a id="line.70">      throw new ArithmeticException("ceilingPowerOfTwo(" + x + ") is not representable as a long");</a>
+<span class="sourceLineNo">071</span><a id="line.71">    }</a>
+<span class="sourceLineNo">072</span><a id="line.72">    return 1L &lt;&lt; -Long.numberOfLeadingZeros(x - 1);</a>
+<span class="sourceLineNo">073</span><a id="line.73">  }</a>
+<span class="sourceLineNo">074</span><a id="line.74"></a>
+<span class="sourceLineNo">075</span><a id="line.75">  /**</a>
+<span class="sourceLineNo">076</span><a id="line.76">   * Returns the largest power of two less than or equal to {@code x}. This is equivalent to {@code</a>
+<span class="sourceLineNo">077</span><a id="line.77">   * checkedPow(2, log2(x, FLOOR))}.</a>
+<span class="sourceLineNo">078</span><a id="line.78">   *</a>
+<span class="sourceLineNo">079</span><a id="line.79">   * @throws IllegalArgumentException if {@code x &lt;= 0}</a>
+<span class="sourceLineNo">080</span><a id="line.80">   * @since 20.0</a>
+<span class="sourceLineNo">081</span><a id="line.81">   */</a>
+<span class="sourceLineNo">082</span><a id="line.82">  public static long floorPowerOfTwo(long x) {</a>
+<span class="sourceLineNo">083</span><a id="line.83">    checkPositive("x", x);</a>
+<span class="sourceLineNo">084</span><a id="line.84"></a>
+<span class="sourceLineNo">085</span><a id="line.85">    // Long.highestOneBit was buggy on GWT.  We've fixed it, but I'm not certain when the fix will</a>
+<span class="sourceLineNo">086</span><a id="line.86">    // be released.</a>
+<span class="sourceLineNo">087</span><a id="line.87">    return 1L &lt;&lt; ((Long.SIZE - 1) - Long.numberOfLeadingZeros(x));</a>
+<span class="sourceLineNo">088</span><a id="line.88">  }</a>
+<span class="sourceLineNo">089</span><a id="line.89"></a>
+<span class="sourceLineNo">090</span><a id="line.90">  /**</a>
+<span class="sourceLineNo">091</span><a id="line.91">   * Returns {@code true} if {@code x} represents a power of two.</a>
+<span class="sourceLineNo">092</span><a id="line.92">   *</a>
+<span class="sourceLineNo">093</span><a id="line.93">   * &lt;p&gt;This differs from {@code Long.bitCount(x) == 1}, because {@code</a>
+<span class="sourceLineNo">094</span><a id="line.94">   * Long.bitCount(Long.MIN_VALUE) == 1}, but {@link Long#MIN_VALUE} is not a power of two.</a>
+<span class="sourceLineNo">095</span><a id="line.95">   */</a>
+<span class="sourceLineNo">096</span><a id="line.96">  @SuppressWarnings("ShortCircuitBoolean")</a>
+<span class="sourceLineNo">097</span><a id="line.97">  public static boolean isPowerOfTwo(long x) {</a>
+<span class="sourceLineNo">098</span><a id="line.98">    return x &gt; 0 &amp; (x &amp; (x - 1)) == 0;</a>
+<span class="sourceLineNo">099</span><a id="line.99">  }</a>
+<span class="sourceLineNo">100</span><a id="line.100"></a>
+<span class="sourceLineNo">101</span><a id="line.101">  /**</a>
+<span class="sourceLineNo">102</span><a id="line.102">   * Returns 1 if {@code x &lt; y} as unsigned longs, and 0 otherwise. Assumes that x - y fits into a</a>
+<span class="sourceLineNo">103</span><a id="line.103">   * signed long. The implementation is branch-free, and benchmarks suggest it is measurably faster</a>
+<span class="sourceLineNo">104</span><a id="line.104">   * than the straightforward ternary expression.</a>
+<span class="sourceLineNo">105</span><a id="line.105">   */</a>
+<span class="sourceLineNo">106</span><a id="line.106">  @VisibleForTesting</a>
+<span class="sourceLineNo">107</span><a id="line.107">  static int lessThanBranchFree(long x, long y) {</a>
+<span class="sourceLineNo">108</span><a id="line.108">    // Returns the sign bit of x - y.</a>
+<span class="sourceLineNo">109</span><a id="line.109">    return (int) (~~(x - y) &gt;&gt;&gt; (Long.SIZE - 1));</a>
+<span class="sourceLineNo">110</span><a id="line.110">  }</a>
+<span class="sourceLineNo">111</span><a id="line.111"></a>
+<span class="sourceLineNo">112</span><a id="line.112">  /**</a>
+<span class="sourceLineNo">113</span><a id="line.113">   * Returns the base-2 logarithm of {@code x}, rounded according to the specified rounding mode.</a>
+<span class="sourceLineNo">114</span><a id="line.114">   *</a>
+<span class="sourceLineNo">115</span><a id="line.115">   * @throws IllegalArgumentException if {@code x &lt;= 0}</a>
+<span class="sourceLineNo">116</span><a id="line.116">   * @throws ArithmeticException if {@code mode} is {@link RoundingMode#UNNECESSARY} and {@code x}</a>
+<span class="sourceLineNo">117</span><a id="line.117">   *     is not a power of two</a>
+<span class="sourceLineNo">118</span><a id="line.118">   */</a>
+<span class="sourceLineNo">119</span><a id="line.119">  @SuppressWarnings("fallthrough")</a>
+<span class="sourceLineNo">120</span><a id="line.120">  // TODO(kevinb): remove after this warning is disabled globally</a>
+<span class="sourceLineNo">121</span><a id="line.121">  public static int log2(long x, RoundingMode mode) {</a>
+<span class="sourceLineNo">122</span><a id="line.122">    checkPositive("x", x);</a>
+<span class="sourceLineNo">123</span><a id="line.123">    switch (mode) {</a>
+<span class="sourceLineNo">124</span><a id="line.124">      case UNNECESSARY:</a>
+<span class="sourceLineNo">125</span><a id="line.125">        checkRoundingUnnecessary(isPowerOfTwo(x));</a>
+<span class="sourceLineNo">126</span><a id="line.126">        // fall through</a>
+<span class="sourceLineNo">127</span><a id="line.127">      case DOWN:</a>
+<span class="sourceLineNo">128</span><a id="line.128">      case FLOOR:</a>
+<span class="sourceLineNo">129</span><a id="line.129">        return (Long.SIZE - 1) - Long.numberOfLeadingZeros(x);</a>
+<span class="sourceLineNo">130</span><a id="line.130"></a>
+<span class="sourceLineNo">131</span><a id="line.131">      case UP:</a>
+<span class="sourceLineNo">132</span><a id="line.132">      case CEILING:</a>
+<span class="sourceLineNo">133</span><a id="line.133">        return Long.SIZE - Long.numberOfLeadingZeros(x - 1);</a>
+<span class="sourceLineNo">134</span><a id="line.134"></a>
+<span class="sourceLineNo">135</span><a id="line.135">      case HALF_DOWN:</a>
+<span class="sourceLineNo">136</span><a id="line.136">      case HALF_UP:</a>
+<span class="sourceLineNo">137</span><a id="line.137">      case HALF_EVEN:</a>
+<span class="sourceLineNo">138</span><a id="line.138">        // Since sqrt(2) is irrational, log2(x) - logFloor cannot be exactly 0.5</a>
+<span class="sourceLineNo">139</span><a id="line.139">        int leadingZeros = Long.numberOfLeadingZeros(x);</a>
+<span class="sourceLineNo">140</span><a id="line.140">        long cmp = MAX_POWER_OF_SQRT2_UNSIGNED &gt;&gt;&gt; leadingZeros;</a>
+<span class="sourceLineNo">141</span><a id="line.141">        // floor(2^(logFloor + 0.5))</a>
+<span class="sourceLineNo">142</span><a id="line.142">        int logFloor = (Long.SIZE - 1) - leadingZeros;</a>
+<span class="sourceLineNo">143</span><a id="line.143">        return logFloor + lessThanBranchFree(cmp, x);</a>
+<span class="sourceLineNo">144</span><a id="line.144">    }</a>
+<span class="sourceLineNo">145</span><a id="line.145">    throw new AssertionError("impossible");</a>
+<span class="sourceLineNo">146</span><a id="line.146">  }</a>
+<span class="sourceLineNo">147</span><a id="line.147"></a>
+<span class="sourceLineNo">148</span><a id="line.148">  /** The biggest half power of two that fits into an unsigned long */</a>
+<span class="sourceLineNo">149</span><a id="line.149">  @VisibleForTesting static final long MAX_POWER_OF_SQRT2_UNSIGNED = 0xB504F333F9DE6484L;</a>
+<span class="sourceLineNo">150</span><a id="line.150"></a>
+<span class="sourceLineNo">151</span><a id="line.151">  /**</a>
+<span class="sourceLineNo">152</span><a id="line.152">   * Returns the base-10 logarithm of {@code x}, rounded according to the specified rounding mode.</a>
+<span class="sourceLineNo">153</span><a id="line.153">   *</a>
+<span class="sourceLineNo">154</span><a id="line.154">   * @throws IllegalArgumentException if {@code x &lt;= 0}</a>
+<span class="sourceLineNo">155</span><a id="line.155">   * @throws ArithmeticException if {@code mode} is {@link RoundingMode#UNNECESSARY} and {@code x}</a>
+<span class="sourceLineNo">156</span><a id="line.156">   *     is not a power of ten</a>
+<span class="sourceLineNo">157</span><a id="line.157">   */</a>
+<span class="sourceLineNo">158</span><a id="line.158">  @J2ktIncompatible</a>
+<span class="sourceLineNo">159</span><a id="line.159">  @GwtIncompatible // TODO</a>
+<span class="sourceLineNo">160</span><a id="line.160">  @SuppressWarnings("fallthrough")</a>
+<span class="sourceLineNo">161</span><a id="line.161">  // TODO(kevinb): remove after this warning is disabled globally</a>
+<span class="sourceLineNo">162</span><a id="line.162">  public static int log10(long x, RoundingMode mode) {</a>
+<span class="sourceLineNo">163</span><a id="line.163">    checkPositive("x", x);</a>
+<span class="sourceLineNo">164</span><a id="line.164">    int logFloor = log10Floor(x);</a>
+<span class="sourceLineNo">165</span><a id="line.165">    long floorPow = powersOf10[logFloor];</a>
+<span class="sourceLineNo">166</span><a id="line.166">    switch (mode) {</a>
+<span class="sourceLineNo">167</span><a id="line.167">      case UNNECESSARY:</a>
+<span class="sourceLineNo">168</span><a id="line.168">        checkRoundingUnnecessary(x == floorPow);</a>
+<span class="sourceLineNo">169</span><a id="line.169">        // fall through</a>
+<span class="sourceLineNo">170</span><a id="line.170">      case FLOOR:</a>
+<span class="sourceLineNo">171</span><a id="line.171">      case DOWN:</a>
+<span class="sourceLineNo">172</span><a id="line.172">        return logFloor;</a>
+<span class="sourceLineNo">173</span><a id="line.173">      case CEILING:</a>
+<span class="sourceLineNo">174</span><a id="line.174">      case UP:</a>
+<span class="sourceLineNo">175</span><a id="line.175">        return logFloor + lessThanBranchFree(floorPow, x);</a>
+<span class="sourceLineNo">176</span><a id="line.176">      case HALF_DOWN:</a>
+<span class="sourceLineNo">177</span><a id="line.177">      case HALF_UP:</a>
+<span class="sourceLineNo">178</span><a id="line.178">      case HALF_EVEN:</a>
+<span class="sourceLineNo">179</span><a id="line.179">        // sqrt(10) is irrational, so log10(x)-logFloor is never exactly 0.5</a>
+<span class="sourceLineNo">180</span><a id="line.180">        return logFloor + lessThanBranchFree(halfPowersOf10[logFloor], x);</a>
+<span class="sourceLineNo">181</span><a id="line.181">    }</a>
+<span class="sourceLineNo">182</span><a id="line.182">    throw new AssertionError();</a>
+<span class="sourceLineNo">183</span><a id="line.183">  }</a>
+<span class="sourceLineNo">184</span><a id="line.184"></a>
+<span class="sourceLineNo">185</span><a id="line.185">  @J2ktIncompatible</a>
+<span class="sourceLineNo">186</span><a id="line.186">  @GwtIncompatible // TODO</a>
+<span class="sourceLineNo">187</span><a id="line.187">  static int log10Floor(long x) {</a>
+<span class="sourceLineNo">188</span><a id="line.188">    /*</a>
+<span class="sourceLineNo">189</span><a id="line.189">     * Based on Hacker's Delight Fig. 11-5, the two-table-lookup, branch-free implementation.</a>
+<span class="sourceLineNo">190</span><a id="line.190">     *</a>
+<span class="sourceLineNo">191</span><a id="line.191">     * The key idea is that based on the number of leading zeros (equivalently, floor(log2(x))), we</a>
+<span class="sourceLineNo">192</span><a id="line.192">     * can narrow the possible floor(log10(x)) values to two. For example, if floor(log2(x)) is 6,</a>
+<span class="sourceLineNo">193</span><a id="line.193">     * then 64 &lt;= x &lt; 128, so floor(log10(x)) is either 1 or 2.</a>
+<span class="sourceLineNo">194</span><a id="line.194">     */</a>
+<span class="sourceLineNo">195</span><a id="line.195">    int y = maxLog10ForLeadingZeros[Long.numberOfLeadingZeros(x)];</a>
+<span class="sourceLineNo">196</span><a id="line.196">    /*</a>
+<span class="sourceLineNo">197</span><a id="line.197">     * y is the higher of the two possible values of floor(log10(x)). If x &lt; 10^y, then we want the</a>
+<span class="sourceLineNo">198</span><a id="line.198">     * lower of the two possible values, or y - 1, otherwise, we want y.</a>
+<span class="sourceLineNo">199</span><a id="line.199">     */</a>
+<span class="sourceLineNo">200</span><a id="line.200">    return y - lessThanBranchFree(x, powersOf10[y]);</a>
+<span class="sourceLineNo">201</span><a id="line.201">  }</a>
+<span class="sourceLineNo">202</span><a id="line.202"></a>
+<span class="sourceLineNo">203</span><a id="line.203">  // maxLog10ForLeadingZeros[i] == floor(log10(2^(Long.SIZE - i)))</a>
+<span class="sourceLineNo">204</span><a id="line.204">  @VisibleForTesting</a>
+<span class="sourceLineNo">205</span><a id="line.205">  static final byte[] maxLog10ForLeadingZeros = {</a>
+<span class="sourceLineNo">206</span><a id="line.206">    19, 18, 18, 18, 18, 17, 17, 17, 16, 16, 16, 15, 15, 15, 15, 14, 14, 14, 13, 13, 13, 12, 12, 12,</a>
+<span class="sourceLineNo">207</span><a id="line.207">    12, 11, 11, 11, 10, 10, 10, 9, 9, 9, 9, 8, 8, 8, 7, 7, 7, 6, 6, 6, 6, 5, 5, 5, 4, 4, 4, 3, 3, 3,</a>
+<span class="sourceLineNo">208</span><a id="line.208">    3, 2, 2, 2, 1, 1, 1, 0, 0, 0</a>
+<span class="sourceLineNo">209</span><a id="line.209">  };</a>
+<span class="sourceLineNo">210</span><a id="line.210"></a>
+<span class="sourceLineNo">211</span><a id="line.211">  @J2ktIncompatible</a>
+<span class="sourceLineNo">212</span><a id="line.212">  @GwtIncompatible // TODO</a>
+<span class="sourceLineNo">213</span><a id="line.213">  @VisibleForTesting</a>
+<span class="sourceLineNo">214</span><a id="line.214">  static final long[] powersOf10 = {</a>
+<span class="sourceLineNo">215</span><a id="line.215">    1L,</a>
+<span class="sourceLineNo">216</span><a id="line.216">    10L,</a>
+<span class="sourceLineNo">217</span><a id="line.217">    100L,</a>
+<span class="sourceLineNo">218</span><a id="line.218">    1000L,</a>
+<span class="sourceLineNo">219</span><a id="line.219">    10000L,</a>
+<span class="sourceLineNo">220</span><a id="line.220">    100000L,</a>
+<span class="sourceLineNo">221</span><a id="line.221">    1000000L,</a>
+<span class="sourceLineNo">222</span><a id="line.222">    10000000L,</a>
+<span class="sourceLineNo">223</span><a id="line.223">    100000000L,</a>
+<span class="sourceLineNo">224</span><a id="line.224">    1000000000L,</a>
+<span class="sourceLineNo">225</span><a id="line.225">    10000000000L,</a>
+<span class="sourceLineNo">226</span><a id="line.226">    100000000000L,</a>
+<span class="sourceLineNo">227</span><a id="line.227">    1000000000000L,</a>
+<span class="sourceLineNo">228</span><a id="line.228">    10000000000000L,</a>
+<span class="sourceLineNo">229</span><a id="line.229">    100000000000000L,</a>
+<span class="sourceLineNo">230</span><a id="line.230">    1000000000000000L,</a>
+<span class="sourceLineNo">231</span><a id="line.231">    10000000000000000L,</a>
+<span class="sourceLineNo">232</span><a id="line.232">    100000000000000000L,</a>
+<span class="sourceLineNo">233</span><a id="line.233">    1000000000000000000L</a>
+<span class="sourceLineNo">234</span><a id="line.234">  };</a>
+<span class="sourceLineNo">235</span><a id="line.235"></a>
+<span class="sourceLineNo">236</span><a id="line.236">  // halfPowersOf10[i] = largest long less than 10^(i + 0.5)</a>
+<span class="sourceLineNo">237</span><a id="line.237">  @J2ktIncompatible</a>
+<span class="sourceLineNo">238</span><a id="line.238">  @GwtIncompatible // TODO</a>
+<span class="sourceLineNo">239</span><a id="line.239">  @VisibleForTesting</a>
+<span class="sourceLineNo">240</span><a id="line.240">  static final long[] halfPowersOf10 = {</a>
+<span class="sourceLineNo">241</span><a id="line.241">    3L,</a>
+<span class="sourceLineNo">242</span><a id="line.242">    31L,</a>
+<span class="sourceLineNo">243</span><a id="line.243">    316L,</a>
+<span class="sourceLineNo">244</span><a id="line.244">    3162L,</a>
+<span class="sourceLineNo">245</span><a id="line.245">    31622L,</a>
+<span class="sourceLineNo">246</span><a id="line.246">    316227L,</a>
+<span class="sourceLineNo">247</span><a id="line.247">    3162277L,</a>
+<span class="sourceLineNo">248</span><a id="line.248">    31622776L,</a>
+<span class="sourceLineNo">249</span><a id="line.249">    316227766L,</a>
+<span class="sourceLineNo">250</span><a id="line.250">    3162277660L,</a>
+<span class="sourceLineNo">251</span><a id="line.251">    31622776601L,</a>
+<span class="sourceLineNo">252</span><a id="line.252">    316227766016L,</a>
+<span class="sourceLineNo">253</span><a id="line.253">    3162277660168L,</a>
+<span class="sourceLineNo">254</span><a id="line.254">    31622776601683L,</a>
+<span class="sourceLineNo">255</span><a id="line.255">    316227766016837L,</a>
+<span class="sourceLineNo">256</span><a id="line.256">    3162277660168379L,</a>
+<span class="sourceLineNo">257</span><a id="line.257">    31622776601683793L,</a>
+<span class="sourceLineNo">258</span><a id="line.258">    316227766016837933L,</a>
+<span class="sourceLineNo">259</span><a id="line.259">    3162277660168379331L</a>
+<span class="sourceLineNo">260</span><a id="line.260">  };</a>
+<span class="sourceLineNo">261</span><a id="line.261"></a>
+<span class="sourceLineNo">262</span><a id="line.262">  /**</a>
+<span class="sourceLineNo">263</span><a id="line.263">   * Returns {@code b} to the {@code k}th power. Even if the result overflows, it will be equal to</a>
+<span class="sourceLineNo">264</span><a id="line.264">   * {@code BigInteger.valueOf(b).pow(k).longValue()}. This implementation runs in {@code O(log k)}</a>
+<span class="sourceLineNo">265</span><a id="line.265">   * time.</a>
+<span class="sourceLineNo">266</span><a id="line.266">   *</a>
+<span class="sourceLineNo">267</span><a id="line.267">   * @throws IllegalArgumentException if {@code k &lt; 0}</a>
+<span class="sourceLineNo">268</span><a id="line.268">   */</a>
+<span class="sourceLineNo">269</span><a id="line.269">  @J2ktIncompatible</a>
+<span class="sourceLineNo">270</span><a id="line.270">  @GwtIncompatible // TODO</a>
+<span class="sourceLineNo">271</span><a id="line.271">  public static long pow(long b, int k) {</a>
+<span class="sourceLineNo">272</span><a id="line.272">    checkNonNegative("exponent", k);</a>
+<span class="sourceLineNo">273</span><a id="line.273">    if (-2 &lt;= b &amp;&amp; b &lt;= 2) {</a>
+<span class="sourceLineNo">274</span><a id="line.274">      switch ((int) b) {</a>
+<span class="sourceLineNo">275</span><a id="line.275">        case 0:</a>
+<span class="sourceLineNo">276</span><a id="line.276">          return (k == 0) ? 1 : 0;</a>
+<span class="sourceLineNo">277</span><a id="line.277">        case 1:</a>
+<span class="sourceLineNo">278</span><a id="line.278">          return 1;</a>
+<span class="sourceLineNo">279</span><a id="line.279">        case (-1):</a>
+<span class="sourceLineNo">280</span><a id="line.280">          return ((k &amp; 1) == 0) ? 1 : -1;</a>
+<span class="sourceLineNo">281</span><a id="line.281">        case 2:</a>
+<span class="sourceLineNo">282</span><a id="line.282">          return (k &lt; Long.SIZE) ? 1L &lt;&lt; k : 0;</a>
+<span class="sourceLineNo">283</span><a id="line.283">        case (-2):</a>
+<span class="sourceLineNo">284</span><a id="line.284">          if (k &lt; Long.SIZE) {</a>
+<span class="sourceLineNo">285</span><a id="line.285">            return ((k &amp; 1) == 0) ? 1L &lt;&lt; k : -(1L &lt;&lt; k);</a>
+<span class="sourceLineNo">286</span><a id="line.286">          } else {</a>
+<span class="sourceLineNo">287</span><a id="line.287">            return 0;</a>
+<span class="sourceLineNo">288</span><a id="line.288">          }</a>
+<span class="sourceLineNo">289</span><a id="line.289">        default:</a>
+<span class="sourceLineNo">290</span><a id="line.290">          throw new AssertionError();</a>
+<span class="sourceLineNo">291</span><a id="line.291">      }</a>
+<span class="sourceLineNo">292</span><a id="line.292">    }</a>
+<span class="sourceLineNo">293</span><a id="line.293">    for (long accum = 1; ; k &gt;&gt;= 1) {</a>
+<span class="sourceLineNo">294</span><a id="line.294">      switch (k) {</a>
+<span class="sourceLineNo">295</span><a id="line.295">        case 0:</a>
+<span class="sourceLineNo">296</span><a id="line.296">          return accum;</a>
+<span class="sourceLineNo">297</span><a id="line.297">        case 1:</a>
+<span class="sourceLineNo">298</span><a id="line.298">          return accum * b;</a>
+<span class="sourceLineNo">299</span><a id="line.299">        default:</a>
+<span class="sourceLineNo">300</span><a id="line.300">          accum *= ((k &amp; 1) == 0) ? 1 : b;</a>
+<span class="sourceLineNo">301</span><a id="line.301">          b *= b;</a>
+<span class="sourceLineNo">302</span><a id="line.302">      }</a>
+<span class="sourceLineNo">303</span><a id="line.303">    }</a>
+<span class="sourceLineNo">304</span><a id="line.304">  }</a>
+<span class="sourceLineNo">305</span><a id="line.305"></a>
+<span class="sourceLineNo">306</span><a id="line.306">  /**</a>
+<span class="sourceLineNo">307</span><a id="line.307">   * Returns the square root of {@code x}, rounded with the specified rounding mode.</a>
+<span class="sourceLineNo">308</span><a id="line.308">   *</a>
+<span class="sourceLineNo">309</span><a id="line.309">   * @throws IllegalArgumentException if {@code x &lt; 0}</a>
+<span class="sourceLineNo">310</span><a id="line.310">   * @throws ArithmeticException if {@code mode} is {@link RoundingMode#UNNECESSARY} and {@code</a>
+<span class="sourceLineNo">311</span><a id="line.311">   *     sqrt(x)} is not an integer</a>
+<span class="sourceLineNo">312</span><a id="line.312">   */</a>
+<span class="sourceLineNo">313</span><a id="line.313">  @J2ktIncompatible</a>
+<span class="sourceLineNo">314</span><a id="line.314">  @GwtIncompatible // TODO</a>
+<span class="sourceLineNo">315</span><a id="line.315">  public static long sqrt(long x, RoundingMode mode) {</a>
+<span class="sourceLineNo">316</span><a id="line.316">    checkNonNegative("x", x);</a>
+<span class="sourceLineNo">317</span><a id="line.317">    if (fitsInInt(x)) {</a>
+<span class="sourceLineNo">318</span><a id="line.318">      return IntMath.sqrt((int) x, mode);</a>
+<span class="sourceLineNo">319</span><a id="line.319">    }</a>
+<span class="sourceLineNo">320</span><a id="line.320">    /*</a>
+<span class="sourceLineNo">321</span><a id="line.321">     * Let k be the true value of floor(sqrt(x)), so that</a>
+<span class="sourceLineNo">322</span><a id="line.322">     *</a>
+<span class="sourceLineNo">323</span><a id="line.323">     *            k * k &lt;= x          &lt;  (k + 1) * (k + 1)</a>
+<span class="sourceLineNo">324</span><a id="line.324">     * (double) (k * k) &lt;= (double) x &lt;= (double) ((k + 1) * (k + 1))</a>
+<span class="sourceLineNo">325</span><a id="line.325">     *          since casting to double is nondecreasing.</a>
+<span class="sourceLineNo">326</span><a id="line.326">     *          Note that the right-hand inequality is no longer strict.</a>
+<span class="sourceLineNo">327</span><a id="line.327">     * Math.sqrt(k * k) &lt;= Math.sqrt(x) &lt;= Math.sqrt((k + 1) * (k + 1))</a>
+<span class="sourceLineNo">328</span><a id="line.328">     *          since Math.sqrt is monotonic.</a>
+<span class="sourceLineNo">329</span><a id="line.329">     * (long) Math.sqrt(k * k) &lt;= (long) Math.sqrt(x) &lt;= (long) Math.sqrt((k + 1) * (k + 1))</a>
+<span class="sourceLineNo">330</span><a id="line.330">     *          since casting to long is monotonic</a>
+<span class="sourceLineNo">331</span><a id="line.331">     * k &lt;= (long) Math.sqrt(x) &lt;= k + 1</a>
+<span class="sourceLineNo">332</span><a id="line.332">     *          since (long) Math.sqrt(k * k) == k, as checked exhaustively in</a>
+<span class="sourceLineNo">333</span><a id="line.333">     *          {@link LongMathTest#testSqrtOfPerfectSquareAsDoubleIsPerfect}</a>
+<span class="sourceLineNo">334</span><a id="line.334">     */</a>
+<span class="sourceLineNo">335</span><a id="line.335">    long guess = (long) Math.sqrt((double) x);</a>
+<span class="sourceLineNo">336</span><a id="line.336">    // Note: guess is always &lt;= FLOOR_SQRT_MAX_LONG.</a>
+<span class="sourceLineNo">337</span><a id="line.337">    long guessSquared = guess * guess;</a>
+<span class="sourceLineNo">338</span><a id="line.338">    // Note (2013-2-26): benchmarks indicate that, inscrutably enough, using if statements is</a>
+<span class="sourceLineNo">339</span><a id="line.339">    // faster here than using lessThanBranchFree.</a>
+<span class="sourceLineNo">340</span><a id="line.340">    switch (mode) {</a>
+<span class="sourceLineNo">341</span><a id="line.341">      case UNNECESSARY:</a>
+<span class="sourceLineNo">342</span><a id="line.342">        checkRoundingUnnecessary(guessSquared == x);</a>
+<span class="sourceLineNo">343</span><a id="line.343">        return guess;</a>
+<span class="sourceLineNo">344</span><a id="line.344">      case FLOOR:</a>
+<span class="sourceLineNo">345</span><a id="line.345">      case DOWN:</a>
+<span class="sourceLineNo">346</span><a id="line.346">        if (x &lt; guessSquared) {</a>
+<span class="sourceLineNo">347</span><a id="line.347">          return guess - 1;</a>
+<span class="sourceLineNo">348</span><a id="line.348">        }</a>
+<span class="sourceLineNo">349</span><a id="line.349">        return guess;</a>
+<span class="sourceLineNo">350</span><a id="line.350">      case CEILING:</a>
+<span class="sourceLineNo">351</span><a id="line.351">      case UP:</a>
+<span class="sourceLineNo">352</span><a id="line.352">        if (x &gt; guessSquared) {</a>
+<span class="sourceLineNo">353</span><a id="line.353">          return guess + 1;</a>
+<span class="sourceLineNo">354</span><a id="line.354">        }</a>
+<span class="sourceLineNo">355</span><a id="line.355">        return guess;</a>
+<span class="sourceLineNo">356</span><a id="line.356">      case HALF_DOWN:</a>
+<span class="sourceLineNo">357</span><a id="line.357">      case HALF_UP:</a>
+<span class="sourceLineNo">358</span><a id="line.358">      case HALF_EVEN:</a>
+<span class="sourceLineNo">359</span><a id="line.359">        long sqrtFloor = guess - ((x &lt; guessSquared) ? 1 : 0);</a>
+<span class="sourceLineNo">360</span><a id="line.360">        long halfSquare = sqrtFloor * sqrtFloor + sqrtFloor;</a>
+<span class="sourceLineNo">361</span><a id="line.361">        /*</a>
+<span class="sourceLineNo">362</span><a id="line.362">         * We wish to test whether or not x &lt;= (sqrtFloor + 0.5)^2 = halfSquare + 0.25. Since both x</a>
+<span class="sourceLineNo">363</span><a id="line.363">         * and halfSquare are integers, this is equivalent to testing whether or not x &lt;=</a>
+<span class="sourceLineNo">364</span><a id="line.364">         * halfSquare. (We have to deal with overflow, though.)</a>
+<span class="sourceLineNo">365</span><a id="line.365">         *</a>
+<span class="sourceLineNo">366</span><a id="line.366">         * If we treat halfSquare as an unsigned long, we know that</a>
+<span class="sourceLineNo">367</span><a id="line.367">         *            sqrtFloor^2 &lt;= x &lt; (sqrtFloor + 1)^2</a>
+<span class="sourceLineNo">368</span><a id="line.368">         * halfSquare - sqrtFloor &lt;= x &lt; halfSquare + sqrtFloor + 1</a>
+<span class="sourceLineNo">369</span><a id="line.369">         * so |x - halfSquare| &lt;= sqrtFloor.  Therefore, it's safe to treat x - halfSquare as a</a>
+<span class="sourceLineNo">370</span><a id="line.370">         * signed long, so lessThanBranchFree is safe for use.</a>
+<span class="sourceLineNo">371</span><a id="line.371">         */</a>
+<span class="sourceLineNo">372</span><a id="line.372">        return sqrtFloor + lessThanBranchFree(halfSquare, x);</a>
+<span class="sourceLineNo">373</span><a id="line.373">    }</a>
+<span class="sourceLineNo">374</span><a id="line.374">    throw new AssertionError();</a>
+<span class="sourceLineNo">375</span><a id="line.375">  }</a>
+<span class="sourceLineNo">376</span><a id="line.376"></a>
+<span class="sourceLineNo">377</span><a id="line.377">  /**</a>
+<span class="sourceLineNo">378</span><a id="line.378">   * Returns the result of dividing {@code p} by {@code q}, rounding using the specified {@code</a>
+<span class="sourceLineNo">379</span><a id="line.379">   * RoundingMode}.</a>
+<span class="sourceLineNo">380</span><a id="line.380">   *</a>
+<span class="sourceLineNo">381</span><a id="line.381">   * @throws ArithmeticException if {@code q == 0}, or if {@code mode == UNNECESSARY} and {@code a}</a>
+<span class="sourceLineNo">382</span><a id="line.382">   *     is not an integer multiple of {@code b}</a>
+<span class="sourceLineNo">383</span><a id="line.383">   */</a>
+<span class="sourceLineNo">384</span><a id="line.384">  @J2ktIncompatible</a>
+<span class="sourceLineNo">385</span><a id="line.385">  @GwtIncompatible // TODO</a>
+<span class="sourceLineNo">386</span><a id="line.386">  @SuppressWarnings("fallthrough")</a>
+<span class="sourceLineNo">387</span><a id="line.387">  public static long divide(long p, long q, RoundingMode mode) {</a>
+<span class="sourceLineNo">388</span><a id="line.388">    checkNotNull(mode);</a>
+<span class="sourceLineNo">389</span><a id="line.389">    long div = p / q; // throws if q == 0</a>
+<span class="sourceLineNo">390</span><a id="line.390">    long rem = p - q * div; // equals p % q</a>
+<span class="sourceLineNo">391</span><a id="line.391"></a>
+<span class="sourceLineNo">392</span><a id="line.392">    if (rem == 0) {</a>
+<span class="sourceLineNo">393</span><a id="line.393">      return div;</a>
+<span class="sourceLineNo">394</span><a id="line.394">    }</a>
+<span class="sourceLineNo">395</span><a id="line.395"></a>
+<span class="sourceLineNo">396</span><a id="line.396">    /*</a>
+<span class="sourceLineNo">397</span><a id="line.397">     * Normal Java division rounds towards 0, consistently with RoundingMode.DOWN. We just have to</a>
+<span class="sourceLineNo">398</span><a id="line.398">     * deal with the cases where rounding towards 0 is wrong, which typically depends on the sign of</a>
+<span class="sourceLineNo">399</span><a id="line.399">     * p / q.</a>
+<span class="sourceLineNo">400</span><a id="line.400">     *</a>
+<span class="sourceLineNo">401</span><a id="line.401">     * signum is 1 if p and q are both nonnegative or both negative, and -1 otherwise.</a>
+<span class="sourceLineNo">402</span><a id="line.402">     */</a>
+<span class="sourceLineNo">403</span><a id="line.403">    int signum = 1 | (int) ((p ^ q) &gt;&gt; (Long.SIZE - 1));</a>
+<span class="sourceLineNo">404</span><a id="line.404">    boolean increment;</a>
+<span class="sourceLineNo">405</span><a id="line.405">    switch (mode) {</a>
+<span class="sourceLineNo">406</span><a id="line.406">      case UNNECESSARY:</a>
+<span class="sourceLineNo">407</span><a id="line.407">        checkRoundingUnnecessary(rem == 0);</a>
+<span class="sourceLineNo">408</span><a id="line.408">        // fall through</a>
+<span class="sourceLineNo">409</span><a id="line.409">      case DOWN:</a>
+<span class="sourceLineNo">410</span><a id="line.410">        increment = false;</a>
+<span class="sourceLineNo">411</span><a id="line.411">        break;</a>
+<span class="sourceLineNo">412</span><a id="line.412">      case UP:</a>
+<span class="sourceLineNo">413</span><a id="line.413">        increment = true;</a>
+<span class="sourceLineNo">414</span><a id="line.414">        break;</a>
+<span class="sourceLineNo">415</span><a id="line.415">      case CEILING:</a>
+<span class="sourceLineNo">416</span><a id="line.416">        increment = signum &gt; 0;</a>
+<span class="sourceLineNo">417</span><a id="line.417">        break;</a>
+<span class="sourceLineNo">418</span><a id="line.418">      case FLOOR:</a>
+<span class="sourceLineNo">419</span><a id="line.419">        increment = signum &lt; 0;</a>
+<span class="sourceLineNo">420</span><a id="line.420">        break;</a>
+<span class="sourceLineNo">421</span><a id="line.421">      case HALF_EVEN:</a>
+<span class="sourceLineNo">422</span><a id="line.422">      case HALF_DOWN:</a>
+<span class="sourceLineNo">423</span><a id="line.423">      case HALF_UP:</a>
+<span class="sourceLineNo">424</span><a id="line.424">        long absRem = abs(rem);</a>
+<span class="sourceLineNo">425</span><a id="line.425">        long cmpRemToHalfDivisor = absRem - (abs(q) - absRem);</a>
+<span class="sourceLineNo">426</span><a id="line.426">        // subtracting two nonnegative longs can't overflow</a>
+<span class="sourceLineNo">427</span><a id="line.427">        // cmpRemToHalfDivisor has the same sign as compare(abs(rem), abs(q) / 2).</a>
+<span class="sourceLineNo">428</span><a id="line.428">        if (cmpRemToHalfDivisor == 0) { // exactly on the half mark</a>
+<span class="sourceLineNo">429</span><a id="line.429">          increment = (mode == HALF_UP || (mode == HALF_EVEN &amp;&amp; (div &amp; 1) != 0));</a>
+<span class="sourceLineNo">430</span><a id="line.430">        } else {</a>
+<span class="sourceLineNo">431</span><a id="line.431">          increment = cmpRemToHalfDivisor &gt; 0; // closer to the UP value</a>
+<span class="sourceLineNo">432</span><a id="line.432">        }</a>
+<span class="sourceLineNo">433</span><a id="line.433">        break;</a>
+<span class="sourceLineNo">434</span><a id="line.434">      default:</a>
+<span class="sourceLineNo">435</span><a id="line.435">        throw new AssertionError();</a>
+<span class="sourceLineNo">436</span><a id="line.436">    }</a>
+<span class="sourceLineNo">437</span><a id="line.437">    return increment ? div + signum : div;</a>
+<span class="sourceLineNo">438</span><a id="line.438">  }</a>
+<span class="sourceLineNo">439</span><a id="line.439"></a>
+<span class="sourceLineNo">440</span><a id="line.440">  /**</a>
+<span class="sourceLineNo">441</span><a id="line.441">   * Returns {@code x mod m}, a non-negative value less than {@code m}. This differs from {@code x %</a>
+<span class="sourceLineNo">442</span><a id="line.442">   * m}, which might be negative.</a>
+<span class="sourceLineNo">443</span><a id="line.443">   *</a>
+<span class="sourceLineNo">444</span><a id="line.444">   * &lt;p&gt;For example:</a>
+<span class="sourceLineNo">445</span><a id="line.445">   *</a>
+<span class="sourceLineNo">446</span><a id="line.446">   * &lt;pre&gt;{@code</a>
+<span class="sourceLineNo">447</span><a id="line.447">   * mod(7, 4) == 3</a>
+<span class="sourceLineNo">448</span><a id="line.448">   * mod(-7, 4) == 1</a>
+<span class="sourceLineNo">449</span><a id="line.449">   * mod(-1, 4) == 3</a>
+<span class="sourceLineNo">450</span><a id="line.450">   * mod(-8, 4) == 0</a>
+<span class="sourceLineNo">451</span><a id="line.451">   * mod(8, 4) == 0</a>
+<span class="sourceLineNo">452</span><a id="line.452">   * }&lt;/pre&gt;</a>
+<span class="sourceLineNo">453</span><a id="line.453">   *</a>
+<span class="sourceLineNo">454</span><a id="line.454">   * @throws ArithmeticException if {@code m &lt;= 0}</a>
+<span class="sourceLineNo">455</span><a id="line.455">   * @see &lt;a href="http://docs.oracle.com/javase/specs/jls/se7/html/jls-15.html#jls-15.17.3"&gt;</a>
+<span class="sourceLineNo">456</span><a id="line.456">   *     Remainder Operator&lt;/a&gt;</a>
+<span class="sourceLineNo">457</span><a id="line.457">   */</a>
+<span class="sourceLineNo">458</span><a id="line.458">  @J2ktIncompatible</a>
+<span class="sourceLineNo">459</span><a id="line.459">  @GwtIncompatible // TODO</a>
+<span class="sourceLineNo">460</span><a id="line.460">  public static int mod(long x, int m) {</a>
+<span class="sourceLineNo">461</span><a id="line.461">    // Cast is safe because the result is guaranteed in the range [0, m)</a>
+<span class="sourceLineNo">462</span><a id="line.462">    return (int) mod(x, (long) m);</a>
+<span class="sourceLineNo">463</span><a id="line.463">  }</a>
+<span class="sourceLineNo">464</span><a id="line.464"></a>
+<span class="sourceLineNo">465</span><a id="line.465">  /**</a>
+<span class="sourceLineNo">466</span><a id="line.466">   * Returns {@code x mod m}, a non-negative value less than {@code m}. This differs from {@code x %</a>
+<span class="sourceLineNo">467</span><a id="line.467">   * m}, which might be negative.</a>
+<span class="sourceLineNo">468</span><a id="line.468">   *</a>
+<span class="sourceLineNo">469</span><a id="line.469">   * &lt;p&gt;For example:</a>
+<span class="sourceLineNo">470</span><a id="line.470">   *</a>
+<span class="sourceLineNo">471</span><a id="line.471">   * &lt;pre&gt;{@code</a>
+<span class="sourceLineNo">472</span><a id="line.472">   * mod(7, 4) == 3</a>
+<span class="sourceLineNo">473</span><a id="line.473">   * mod(-7, 4) == 1</a>
+<span class="sourceLineNo">474</span><a id="line.474">   * mod(-1, 4) == 3</a>
+<span class="sourceLineNo">475</span><a id="line.475">   * mod(-8, 4) == 0</a>
+<span class="sourceLineNo">476</span><a id="line.476">   * mod(8, 4) == 0</a>
+<span class="sourceLineNo">477</span><a id="line.477">   * }&lt;/pre&gt;</a>
+<span class="sourceLineNo">478</span><a id="line.478">   *</a>
+<span class="sourceLineNo">479</span><a id="line.479">   * @throws ArithmeticException if {@code m &lt;= 0}</a>
+<span class="sourceLineNo">480</span><a id="line.480">   * @see &lt;a href="http://docs.oracle.com/javase/specs/jls/se7/html/jls-15.html#jls-15.17.3"&gt;</a>
+<span class="sourceLineNo">481</span><a id="line.481">   *     Remainder Operator&lt;/a&gt;</a>
+<span class="sourceLineNo">482</span><a id="line.482">   */</a>
+<span class="sourceLineNo">483</span><a id="line.483">  @J2ktIncompatible</a>
+<span class="sourceLineNo">484</span><a id="line.484">  @GwtIncompatible // TODO</a>
+<span class="sourceLineNo">485</span><a id="line.485">  public static long mod(long x, long m) {</a>
+<span class="sourceLineNo">486</span><a id="line.486">    if (m &lt;= 0) {</a>
+<span class="sourceLineNo">487</span><a id="line.487">      throw new ArithmeticException("Modulus must be positive");</a>
+<span class="sourceLineNo">488</span><a id="line.488">    }</a>
+<span class="sourceLineNo">489</span><a id="line.489">    long result = x % m;</a>
+<span class="sourceLineNo">490</span><a id="line.490">    return (result &gt;= 0) ? result : result + m;</a>
+<span class="sourceLineNo">491</span><a id="line.491">  }</a>
+<span class="sourceLineNo">492</span><a id="line.492"></a>
+<span class="sourceLineNo">493</span><a id="line.493">  /**</a>
+<span class="sourceLineNo">494</span><a id="line.494">   * Returns the greatest common divisor of {@code a, b}. Returns {@code 0} if {@code a == 0 &amp;&amp; b ==</a>
+<span class="sourceLineNo">495</span><a id="line.495">   * 0}.</a>
+<span class="sourceLineNo">496</span><a id="line.496">   *</a>
+<span class="sourceLineNo">497</span><a id="line.497">   * @throws IllegalArgumentException if {@code a &lt; 0} or {@code b &lt; 0}</a>
+<span class="sourceLineNo">498</span><a id="line.498">   */</a>
+<span class="sourceLineNo">499</span><a id="line.499">  public static long gcd(long a, long b) {</a>
+<span class="sourceLineNo">500</span><a id="line.500">    /*</a>
+<span class="sourceLineNo">501</span><a id="line.501">     * The reason we require both arguments to be &gt;= 0 is because otherwise, what do you return on</a>
+<span class="sourceLineNo">502</span><a id="line.502">     * gcd(0, Long.MIN_VALUE)? BigInteger.gcd would return positive 2^63, but positive 2^63 isn't an</a>
+<span class="sourceLineNo">503</span><a id="line.503">     * int.</a>
+<span class="sourceLineNo">504</span><a id="line.504">     */</a>
+<span class="sourceLineNo">505</span><a id="line.505">    checkNonNegative("a", a);</a>
+<span class="sourceLineNo">506</span><a id="line.506">    checkNonNegative("b", b);</a>
+<span class="sourceLineNo">507</span><a id="line.507">    if (a == 0) {</a>
+<span class="sourceLineNo">508</span><a id="line.508">      // 0 % b == 0, so b divides a, but the converse doesn't hold.</a>
+<span class="sourceLineNo">509</span><a id="line.509">      // BigInteger.gcd is consistent with this decision.</a>
+<span class="sourceLineNo">510</span><a id="line.510">      return b;</a>
+<span class="sourceLineNo">511</span><a id="line.511">    } else if (b == 0) {</a>
+<span class="sourceLineNo">512</span><a id="line.512">      return a; // similar logic</a>
+<span class="sourceLineNo">513</span><a id="line.513">    }</a>
+<span class="sourceLineNo">514</span><a id="line.514">    /*</a>
+<span class="sourceLineNo">515</span><a id="line.515">     * Uses the binary GCD algorithm; see http://en.wikipedia.org/wiki/Binary_GCD_algorithm. This is</a>
+<span class="sourceLineNo">516</span><a id="line.516">     * &gt;60% faster than the Euclidean algorithm in benchmarks.</a>
+<span class="sourceLineNo">517</span><a id="line.517">     */</a>
+<span class="sourceLineNo">518</span><a id="line.518">    int aTwos = Long.numberOfTrailingZeros(a);</a>
+<span class="sourceLineNo">519</span><a id="line.519">    a &gt;&gt;= aTwos; // divide out all 2s</a>
+<span class="sourceLineNo">520</span><a id="line.520">    int bTwos = Long.numberOfTrailingZeros(b);</a>
+<span class="sourceLineNo">521</span><a id="line.521">    b &gt;&gt;= bTwos; // divide out all 2s</a>
+<span class="sourceLineNo">522</span><a id="line.522">    while (a != b) { // both a, b are odd</a>
+<span class="sourceLineNo">523</span><a id="line.523">      // The key to the binary GCD algorithm is as follows:</a>
+<span class="sourceLineNo">524</span><a id="line.524">      // Both a and b are odd. Assume a &gt; b; then gcd(a - b, b) = gcd(a, b).</a>
+<span class="sourceLineNo">525</span><a id="line.525">      // But in gcd(a - b, b), a - b is even and b is odd, so we can divide out powers of two.</a>
+<span class="sourceLineNo">526</span><a id="line.526"></a>
+<span class="sourceLineNo">527</span><a id="line.527">      // We bend over backwards to avoid branching, adapting a technique from</a>
+<span class="sourceLineNo">528</span><a id="line.528">      // http://graphics.stanford.edu/~seander/bithacks.html#IntegerMinOrMax</a>
+<span class="sourceLineNo">529</span><a id="line.529"></a>
+<span class="sourceLineNo">530</span><a id="line.530">      long delta = a - b; // can't overflow, since a and b are nonnegative</a>
+<span class="sourceLineNo">531</span><a id="line.531"></a>
+<span class="sourceLineNo">532</span><a id="line.532">      long minDeltaOrZero = delta &amp; (delta &gt;&gt; (Long.SIZE - 1));</a>
+<span class="sourceLineNo">533</span><a id="line.533">      // equivalent to Math.min(delta, 0)</a>
+<span class="sourceLineNo">534</span><a id="line.534"></a>
+<span class="sourceLineNo">535</span><a id="line.535">      a = delta - minDeltaOrZero - minDeltaOrZero; // sets a to Math.abs(a - b)</a>
+<span class="sourceLineNo">536</span><a id="line.536">      // a is now nonnegative and even</a>
+<span class="sourceLineNo">537</span><a id="line.537"></a>
+<span class="sourceLineNo">538</span><a id="line.538">      b += minDeltaOrZero; // sets b to min(old a, b)</a>
+<span class="sourceLineNo">539</span><a id="line.539">      a &gt;&gt;= Long.numberOfTrailingZeros(a); // divide out all 2s, since 2 doesn't divide b</a>
+<span class="sourceLineNo">540</span><a id="line.540">    }</a>
+<span class="sourceLineNo">541</span><a id="line.541">    return a &lt;&lt; min(aTwos, bTwos);</a>
+<span class="sourceLineNo">542</span><a id="line.542">  }</a>
+<span class="sourceLineNo">543</span><a id="line.543"></a>
+<span class="sourceLineNo">544</span><a id="line.544">  /**</a>
+<span class="sourceLineNo">545</span><a id="line.545">   * Returns the sum of {@code a} and {@code b}, provided it does not overflow.</a>
+<span class="sourceLineNo">546</span><a id="line.546">   *</a>
+<span class="sourceLineNo">547</span><a id="line.547">   * @throws ArithmeticException if {@code a + b} overflows in signed {@code long} arithmetic</a>
+<span class="sourceLineNo">548</span><a id="line.548">   */</a>
+<span class="sourceLineNo">549</span><a id="line.549">  @SuppressWarnings("ShortCircuitBoolean")</a>
+<span class="sourceLineNo">550</span><a id="line.550">  public static long checkedAdd(long a, long b) {</a>
+<span class="sourceLineNo">551</span><a id="line.551">    long result = a + b;</a>
+<span class="sourceLineNo">552</span><a id="line.552">    checkNoOverflow((a ^ b) &lt; 0 | (a ^ result) &gt;= 0, "checkedAdd", a, b);</a>
+<span class="sourceLineNo">553</span><a id="line.553">    return result;</a>
+<span class="sourceLineNo">554</span><a id="line.554">  }</a>
+<span class="sourceLineNo">555</span><a id="line.555"></a>
+<span class="sourceLineNo">556</span><a id="line.556">  /**</a>
+<span class="sourceLineNo">557</span><a id="line.557">   * Returns the difference of {@code a} and {@code b}, provided it does not overflow.</a>
+<span class="sourceLineNo">558</span><a id="line.558">   *</a>
+<span class="sourceLineNo">559</span><a id="line.559">   * @throws ArithmeticException if {@code a - b} overflows in signed {@code long} arithmetic</a>
+<span class="sourceLineNo">560</span><a id="line.560">   */</a>
+<span class="sourceLineNo">561</span><a id="line.561">  @J2ktIncompatible</a>
+<span class="sourceLineNo">562</span><a id="line.562">  @GwtIncompatible // TODO</a>
+<span class="sourceLineNo">563</span><a id="line.563">  @SuppressWarnings("ShortCircuitBoolean")</a>
+<span class="sourceLineNo">564</span><a id="line.564">  public static long checkedSubtract(long a, long b) {</a>
+<span class="sourceLineNo">565</span><a id="line.565">    long result = a - b;</a>
+<span class="sourceLineNo">566</span><a id="line.566">    checkNoOverflow((a ^ b) &gt;= 0 | (a ^ result) &gt;= 0, "checkedSubtract", a, b);</a>
+<span class="sourceLineNo">567</span><a id="line.567">    return result;</a>
+<span class="sourceLineNo">568</span><a id="line.568">  }</a>
+<span class="sourceLineNo">569</span><a id="line.569"></a>
+<span class="sourceLineNo">570</span><a id="line.570">  /**</a>
+<span class="sourceLineNo">571</span><a id="line.571">   * Returns the product of {@code a} and {@code b}, provided it does not overflow.</a>
+<span class="sourceLineNo">572</span><a id="line.572">   *</a>
+<span class="sourceLineNo">573</span><a id="line.573">   * @throws ArithmeticException if {@code a * b} overflows in signed {@code long} arithmetic</a>
+<span class="sourceLineNo">574</span><a id="line.574">   */</a>
+<span class="sourceLineNo">575</span><a id="line.575">  @SuppressWarnings("ShortCircuitBoolean")</a>
+<span class="sourceLineNo">576</span><a id="line.576">  public static long checkedMultiply(long a, long b) {</a>
+<span class="sourceLineNo">577</span><a id="line.577">    // Hacker's Delight, Section 2-12</a>
+<span class="sourceLineNo">578</span><a id="line.578">    int leadingZeros =</a>
+<span class="sourceLineNo">579</span><a id="line.579">        Long.numberOfLeadingZeros(a)</a>
+<span class="sourceLineNo">580</span><a id="line.580">            + Long.numberOfLeadingZeros(~a)</a>
+<span class="sourceLineNo">581</span><a id="line.581">            + Long.numberOfLeadingZeros(b)</a>
+<span class="sourceLineNo">582</span><a id="line.582">            + Long.numberOfLeadingZeros(~b);</a>
+<span class="sourceLineNo">583</span><a id="line.583">    /*</a>
+<span class="sourceLineNo">584</span><a id="line.584">     * If leadingZeros &gt; Long.SIZE + 1 it's definitely fine, if it's &lt; Long.SIZE it's definitely</a>
+<span class="sourceLineNo">585</span><a id="line.585">     * bad. We do the leadingZeros check to avoid the division below if at all possible.</a>
+<span class="sourceLineNo">586</span><a id="line.586">     *</a>
+<span class="sourceLineNo">587</span><a id="line.587">     * Otherwise, if b == Long.MIN_VALUE, then the only allowed values of a are 0 and 1. We take</a>
+<span class="sourceLineNo">588</span><a id="line.588">     * care of all a &lt; 0 with their own check, because in particular, the case a == -1 will</a>
+<span class="sourceLineNo">589</span><a id="line.589">     * incorrectly pass the division check below.</a>
+<span class="sourceLineNo">590</span><a id="line.590">     *</a>
+<span class="sourceLineNo">591</span><a id="line.591">     * In all other cases, we check that either a is 0 or the result is consistent with division.</a>
+<span class="sourceLineNo">592</span><a id="line.592">     */</a>
+<span class="sourceLineNo">593</span><a id="line.593">    if (leadingZeros &gt; Long.SIZE + 1) {</a>
+<span class="sourceLineNo">594</span><a id="line.594">      return a * b;</a>
+<span class="sourceLineNo">595</span><a id="line.595">    }</a>
+<span class="sourceLineNo">596</span><a id="line.596">    checkNoOverflow(leadingZeros &gt;= Long.SIZE, "checkedMultiply", a, b);</a>
+<span class="sourceLineNo">597</span><a id="line.597">    checkNoOverflow(a &gt;= 0 | b != Long.MIN_VALUE, "checkedMultiply", a, b);</a>
+<span class="sourceLineNo">598</span><a id="line.598">    long result = a * b;</a>
+<span class="sourceLineNo">599</span><a id="line.599">    checkNoOverflow(a == 0 || result / a == b, "checkedMultiply", a, b);</a>
+<span class="sourceLineNo">600</span><a id="line.600">    return result;</a>
+<span class="sourceLineNo">601</span><a id="line.601">  }</a>
+<span class="sourceLineNo">602</span><a id="line.602"></a>
+<span class="sourceLineNo">603</span><a id="line.603">  /**</a>
+<span class="sourceLineNo">604</span><a id="line.604">   * Returns the {@code b} to the {@code k}th power, provided it does not overflow.</a>
+<span class="sourceLineNo">605</span><a id="line.605">   *</a>
+<span class="sourceLineNo">606</span><a id="line.606">   * @throws ArithmeticException if {@code b} to the {@code k}th power overflows in signed {@code</a>
+<span class="sourceLineNo">607</span><a id="line.607">   *     long} arithmetic</a>
+<span class="sourceLineNo">608</span><a id="line.608">   */</a>
+<span class="sourceLineNo">609</span><a id="line.609">  @J2ktIncompatible</a>
+<span class="sourceLineNo">610</span><a id="line.610">  @GwtIncompatible // TODO</a>
+<span class="sourceLineNo">611</span><a id="line.611">  @SuppressWarnings("ShortCircuitBoolean")</a>
+<span class="sourceLineNo">612</span><a id="line.612">  public static long checkedPow(long b, int k) {</a>
+<span class="sourceLineNo">613</span><a id="line.613">    checkNonNegative("exponent", k);</a>
+<span class="sourceLineNo">614</span><a id="line.614">    if (b &gt;= -2 &amp; b &lt;= 2) {</a>
+<span class="sourceLineNo">615</span><a id="line.615">      switch ((int) b) {</a>
+<span class="sourceLineNo">616</span><a id="line.616">        case 0:</a>
+<span class="sourceLineNo">617</span><a id="line.617">          return (k == 0) ? 1 : 0;</a>
+<span class="sourceLineNo">618</span><a id="line.618">        case 1:</a>
+<span class="sourceLineNo">619</span><a id="line.619">          return 1;</a>
+<span class="sourceLineNo">620</span><a id="line.620">        case (-1):</a>
+<span class="sourceLineNo">621</span><a id="line.621">          return ((k &amp; 1) == 0) ? 1 : -1;</a>
+<span class="sourceLineNo">622</span><a id="line.622">        case 2:</a>
+<span class="sourceLineNo">623</span><a id="line.623">          checkNoOverflow(k &lt; Long.SIZE - 1, "checkedPow", b, k);</a>
+<span class="sourceLineNo">624</span><a id="line.624">          return 1L &lt;&lt; k;</a>
+<span class="sourceLineNo">625</span><a id="line.625">        case (-2):</a>
+<span class="sourceLineNo">626</span><a id="line.626">          checkNoOverflow(k &lt; Long.SIZE, "checkedPow", b, k);</a>
+<span class="sourceLineNo">627</span><a id="line.627">          return ((k &amp; 1) == 0) ? (1L &lt;&lt; k) : (-1L &lt;&lt; k);</a>
+<span class="sourceLineNo">628</span><a id="line.628">        default:</a>
+<span class="sourceLineNo">629</span><a id="line.629">          throw new AssertionError();</a>
+<span class="sourceLineNo">630</span><a id="line.630">      }</a>
+<span class="sourceLineNo">631</span><a id="line.631">    }</a>
+<span class="sourceLineNo">632</span><a id="line.632">    long accum = 1;</a>
+<span class="sourceLineNo">633</span><a id="line.633">    while (true) {</a>
+<span class="sourceLineNo">634</span><a id="line.634">      switch (k) {</a>
+<span class="sourceLineNo">635</span><a id="line.635">        case 0:</a>
+<span class="sourceLineNo">636</span><a id="line.636">          return accum;</a>
+<span class="sourceLineNo">637</span><a id="line.637">        case 1:</a>
+<span class="sourceLineNo">638</span><a id="line.638">          return checkedMultiply(accum, b);</a>
+<span class="sourceLineNo">639</span><a id="line.639">        default:</a>
+<span class="sourceLineNo">640</span><a id="line.640">          if ((k &amp; 1) != 0) {</a>
+<span class="sourceLineNo">641</span><a id="line.641">            accum = checkedMultiply(accum, b);</a>
+<span class="sourceLineNo">642</span><a id="line.642">          }</a>
+<span class="sourceLineNo">643</span><a id="line.643">          k &gt;&gt;= 1;</a>
+<span class="sourceLineNo">644</span><a id="line.644">          if (k &gt; 0) {</a>
+<span class="sourceLineNo">645</span><a id="line.645">            checkNoOverflow(</a>
+<span class="sourceLineNo">646</span><a id="line.646">                -FLOOR_SQRT_MAX_LONG &lt;= b &amp;&amp; b &lt;= FLOOR_SQRT_MAX_LONG, "checkedPow", b, k);</a>
+<span class="sourceLineNo">647</span><a id="line.647">            b *= b;</a>
+<span class="sourceLineNo">648</span><a id="line.648">          }</a>
+<span class="sourceLineNo">649</span><a id="line.649">      }</a>
+<span class="sourceLineNo">650</span><a id="line.650">    }</a>
+<span class="sourceLineNo">651</span><a id="line.651">  }</a>
+<span class="sourceLineNo">652</span><a id="line.652"></a>
+<span class="sourceLineNo">653</span><a id="line.653">  /**</a>
+<span class="sourceLineNo">654</span><a id="line.654">   * Returns the sum of {@code a} and {@code b} unless it would overflow or underflow in which case</a>
+<span class="sourceLineNo">655</span><a id="line.655">   * {@code Long.MAX_VALUE} or {@code Long.MIN_VALUE} is returned, respectively.</a>
+<span class="sourceLineNo">656</span><a id="line.656">   *</a>
+<span class="sourceLineNo">657</span><a id="line.657">   * @since 20.0</a>
+<span class="sourceLineNo">658</span><a id="line.658">   */</a>
+<span class="sourceLineNo">659</span><a id="line.659">  @SuppressWarnings("ShortCircuitBoolean")</a>
+<span class="sourceLineNo">660</span><a id="line.660">  public static long saturatedAdd(long a, long b) {</a>
+<span class="sourceLineNo">661</span><a id="line.661">    long naiveSum = a + b;</a>
+<span class="sourceLineNo">662</span><a id="line.662">    if ((a ^ b) &lt; 0 | (a ^ naiveSum) &gt;= 0) {</a>
+<span class="sourceLineNo">663</span><a id="line.663">      // If a and b have different signs or a has the same sign as the result then there was no</a>
+<span class="sourceLineNo">664</span><a id="line.664">      // overflow, return.</a>
+<span class="sourceLineNo">665</span><a id="line.665">      return naiveSum;</a>
+<span class="sourceLineNo">666</span><a id="line.666">    }</a>
+<span class="sourceLineNo">667</span><a id="line.667">    // we did over/under flow, if the sign is negative we should return MAX otherwise MIN</a>
+<span class="sourceLineNo">668</span><a id="line.668">    return Long.MAX_VALUE + ((naiveSum &gt;&gt;&gt; (Long.SIZE - 1)) ^ 1);</a>
+<span class="sourceLineNo">669</span><a id="line.669">  }</a>
+<span class="sourceLineNo">670</span><a id="line.670"></a>
+<span class="sourceLineNo">671</span><a id="line.671">  /**</a>
+<span class="sourceLineNo">672</span><a id="line.672">   * Returns the difference of {@code a} and {@code b} unless it would overflow or underflow in</a>
+<span class="sourceLineNo">673</span><a id="line.673">   * which case {@code Long.MAX_VALUE} or {@code Long.MIN_VALUE} is returned, respectively.</a>
+<span class="sourceLineNo">674</span><a id="line.674">   *</a>
+<span class="sourceLineNo">675</span><a id="line.675">   * @since 20.0</a>
+<span class="sourceLineNo">676</span><a id="line.676">   */</a>
+<span class="sourceLineNo">677</span><a id="line.677">  @SuppressWarnings("ShortCircuitBoolean")</a>
+<span class="sourceLineNo">678</span><a id="line.678">  public static long saturatedSubtract(long a, long b) {</a>
+<span class="sourceLineNo">679</span><a id="line.679">    long naiveDifference = a - b;</a>
+<span class="sourceLineNo">680</span><a id="line.680">    if ((a ^ b) &gt;= 0 | (a ^ naiveDifference) &gt;= 0) {</a>
+<span class="sourceLineNo">681</span><a id="line.681">      // If a and b have the same signs or a has the same sign as the result then there was no</a>
+<span class="sourceLineNo">682</span><a id="line.682">      // overflow, return.</a>
+<span class="sourceLineNo">683</span><a id="line.683">      return naiveDifference;</a>
+<span class="sourceLineNo">684</span><a id="line.684">    }</a>
+<span class="sourceLineNo">685</span><a id="line.685">    // we did over/under flow</a>
+<span class="sourceLineNo">686</span><a id="line.686">    return Long.MAX_VALUE + ((naiveDifference &gt;&gt;&gt; (Long.SIZE - 1)) ^ 1);</a>
+<span class="sourceLineNo">687</span><a id="line.687">  }</a>
+<span class="sourceLineNo">688</span><a id="line.688"></a>
+<span class="sourceLineNo">689</span><a id="line.689">  /**</a>
+<span class="sourceLineNo">690</span><a id="line.690">   * Returns the product of {@code a} and {@code b} unless it would overflow or underflow in which</a>
+<span class="sourceLineNo">691</span><a id="line.691">   * case {@code Long.MAX_VALUE} or {@code Long.MIN_VALUE} is returned, respectively.</a>
+<span class="sourceLineNo">692</span><a id="line.692">   *</a>
+<span class="sourceLineNo">693</span><a id="line.693">   * @since 20.0</a>
+<span class="sourceLineNo">694</span><a id="line.694">   */</a>
+<span class="sourceLineNo">695</span><a id="line.695">  @SuppressWarnings("ShortCircuitBoolean")</a>
+<span class="sourceLineNo">696</span><a id="line.696">  public static long saturatedMultiply(long a, long b) {</a>
+<span class="sourceLineNo">697</span><a id="line.697">    // see checkedMultiply for explanation</a>
+<span class="sourceLineNo">698</span><a id="line.698">    int leadingZeros =</a>
+<span class="sourceLineNo">699</span><a id="line.699">        Long.numberOfLeadingZeros(a)</a>
+<span class="sourceLineNo">700</span><a id="line.700">            + Long.numberOfLeadingZeros(~a)</a>
+<span class="sourceLineNo">701</span><a id="line.701">            + Long.numberOfLeadingZeros(b)</a>
+<span class="sourceLineNo">702</span><a id="line.702">            + Long.numberOfLeadingZeros(~b);</a>
+<span class="sourceLineNo">703</span><a id="line.703">    if (leadingZeros &gt; Long.SIZE + 1) {</a>
+<span class="sourceLineNo">704</span><a id="line.704">      return a * b;</a>
+<span class="sourceLineNo">705</span><a id="line.705">    }</a>
+<span class="sourceLineNo">706</span><a id="line.706">    // the return value if we will overflow (which we calculate by overflowing a long :) )</a>
+<span class="sourceLineNo">707</span><a id="line.707">    long limit = Long.MAX_VALUE + ((a ^ b) &gt;&gt;&gt; (Long.SIZE - 1));</a>
+<span class="sourceLineNo">708</span><a id="line.708">    if (leadingZeros &lt; Long.SIZE | (a &lt; 0 &amp; b == Long.MIN_VALUE)) {</a>
+<span class="sourceLineNo">709</span><a id="line.709">      // overflow</a>
+<span class="sourceLineNo">710</span><a id="line.710">      return limit;</a>
+<span class="sourceLineNo">711</span><a id="line.711">    }</a>
+<span class="sourceLineNo">712</span><a id="line.712">    long result = a * b;</a>
+<span class="sourceLineNo">713</span><a id="line.713">    if (a == 0 || result / a == b) {</a>
+<span class="sourceLineNo">714</span><a id="line.714">      return result;</a>
+<span class="sourceLineNo">715</span><a id="line.715">    }</a>
+<span class="sourceLineNo">716</span><a id="line.716">    return limit;</a>
+<span class="sourceLineNo">717</span><a id="line.717">  }</a>
+<span class="sourceLineNo">718</span><a id="line.718"></a>
+<span class="sourceLineNo">719</span><a id="line.719">  /**</a>
+<span class="sourceLineNo">720</span><a id="line.720">   * Returns the {@code b} to the {@code k}th power, unless it would overflow or underflow in which</a>
+<span class="sourceLineNo">721</span><a id="line.721">   * case {@code Long.MAX_VALUE} or {@code Long.MIN_VALUE} is returned, respectively.</a>
+<span class="sourceLineNo">722</span><a id="line.722">   *</a>
+<span class="sourceLineNo">723</span><a id="line.723">   * @since 20.0</a>
+<span class="sourceLineNo">724</span><a id="line.724">   */</a>
+<span class="sourceLineNo">725</span><a id="line.725">  @SuppressWarnings("ShortCircuitBoolean")</a>
+<span class="sourceLineNo">726</span><a id="line.726">  public static long saturatedPow(long b, int k) {</a>
+<span class="sourceLineNo">727</span><a id="line.727">    checkNonNegative("exponent", k);</a>
+<span class="sourceLineNo">728</span><a id="line.728">    if (b &gt;= -2 &amp; b &lt;= 2) {</a>
+<span class="sourceLineNo">729</span><a id="line.729">      switch ((int) b) {</a>
+<span class="sourceLineNo">730</span><a id="line.730">        case 0:</a>
+<span class="sourceLineNo">731</span><a id="line.731">          return (k == 0) ? 1 : 0;</a>
+<span class="sourceLineNo">732</span><a id="line.732">        case 1:</a>
+<span class="sourceLineNo">733</span><a id="line.733">          return 1;</a>
+<span class="sourceLineNo">734</span><a id="line.734">        case (-1):</a>
+<span class="sourceLineNo">735</span><a id="line.735">          return ((k &amp; 1) == 0) ? 1 : -1;</a>
+<span class="sourceLineNo">736</span><a id="line.736">        case 2:</a>
+<span class="sourceLineNo">737</span><a id="line.737">          if (k &gt;= Long.SIZE - 1) {</a>
+<span class="sourceLineNo">738</span><a id="line.738">            return Long.MAX_VALUE;</a>
+<span class="sourceLineNo">739</span><a id="line.739">          }</a>
+<span class="sourceLineNo">740</span><a id="line.740">          return 1L &lt;&lt; k;</a>
+<span class="sourceLineNo">741</span><a id="line.741">        case (-2):</a>
+<span class="sourceLineNo">742</span><a id="line.742">          if (k &gt;= Long.SIZE) {</a>
+<span class="sourceLineNo">743</span><a id="line.743">            return Long.MAX_VALUE + (k &amp; 1);</a>
+<span class="sourceLineNo">744</span><a id="line.744">          }</a>
+<span class="sourceLineNo">745</span><a id="line.745">          return ((k &amp; 1) == 0) ? (1L &lt;&lt; k) : (-1L &lt;&lt; k);</a>
+<span class="sourceLineNo">746</span><a id="line.746">        default:</a>
+<span class="sourceLineNo">747</span><a id="line.747">          throw new AssertionError();</a>
+<span class="sourceLineNo">748</span><a id="line.748">      }</a>
+<span class="sourceLineNo">749</span><a id="line.749">    }</a>
+<span class="sourceLineNo">750</span><a id="line.750">    long accum = 1;</a>
+<span class="sourceLineNo">751</span><a id="line.751">    // if b is negative and k is odd then the limit is MIN otherwise the limit is MAX</a>
+<span class="sourceLineNo">752</span><a id="line.752">    long limit = Long.MAX_VALUE + ((b &gt;&gt;&gt; (Long.SIZE - 1)) &amp; (k &amp; 1));</a>
+<span class="sourceLineNo">753</span><a id="line.753">    while (true) {</a>
+<span class="sourceLineNo">754</span><a id="line.754">      switch (k) {</a>
+<span class="sourceLineNo">755</span><a id="line.755">        case 0:</a>
+<span class="sourceLineNo">756</span><a id="line.756">          return accum;</a>
+<span class="sourceLineNo">757</span><a id="line.757">        case 1:</a>
+<span class="sourceLineNo">758</span><a id="line.758">          return saturatedMultiply(accum, b);</a>
+<span class="sourceLineNo">759</span><a id="line.759">        default:</a>
+<span class="sourceLineNo">760</span><a id="line.760">          if ((k &amp; 1) != 0) {</a>
+<span class="sourceLineNo">761</span><a id="line.761">            accum = saturatedMultiply(accum, b);</a>
+<span class="sourceLineNo">762</span><a id="line.762">          }</a>
+<span class="sourceLineNo">763</span><a id="line.763">          k &gt;&gt;= 1;</a>
+<span class="sourceLineNo">764</span><a id="line.764">          if (k &gt; 0) {</a>
+<span class="sourceLineNo">765</span><a id="line.765">            if (-FLOOR_SQRT_MAX_LONG &gt; b | b &gt; FLOOR_SQRT_MAX_LONG) {</a>
+<span class="sourceLineNo">766</span><a id="line.766">              return limit;</a>
+<span class="sourceLineNo">767</span><a id="line.767">            }</a>
+<span class="sourceLineNo">768</span><a id="line.768">            b *= b;</a>
+<span class="sourceLineNo">769</span><a id="line.769">          }</a>
+<span class="sourceLineNo">770</span><a id="line.770">      }</a>
+<span class="sourceLineNo">771</span><a id="line.771">    }</a>
+<span class="sourceLineNo">772</span><a id="line.772">  }</a>
+<span class="sourceLineNo">773</span><a id="line.773"></a>
+<span class="sourceLineNo">774</span><a id="line.774">  @VisibleForTesting static final long FLOOR_SQRT_MAX_LONG = 3037000499L;</a>
+<span class="sourceLineNo">775</span><a id="line.775"></a>
+<span class="sourceLineNo">776</span><a id="line.776">  /**</a>
+<span class="sourceLineNo">777</span><a id="line.777">   * Returns {@code n!}, that is, the product of the first {@code n} positive integers, {@code 1} if</a>
+<span class="sourceLineNo">778</span><a id="line.778">   * {@code n == 0}, or {@link Long#MAX_VALUE} if the result does not fit in a {@code long}.</a>
+<span class="sourceLineNo">779</span><a id="line.779">   *</a>
+<span class="sourceLineNo">780</span><a id="line.780">   * @throws IllegalArgumentException if {@code n &lt; 0}</a>
+<span class="sourceLineNo">781</span><a id="line.781">   */</a>
+<span class="sourceLineNo">782</span><a id="line.782">  @J2ktIncompatible</a>
+<span class="sourceLineNo">783</span><a id="line.783">  @GwtIncompatible // TODO</a>
+<span class="sourceLineNo">784</span><a id="line.784">  public static long factorial(int n) {</a>
+<span class="sourceLineNo">785</span><a id="line.785">    checkNonNegative("n", n);</a>
+<span class="sourceLineNo">786</span><a id="line.786">    return (n &lt; factorials.length) ? factorials[n] : Long.MAX_VALUE;</a>
+<span class="sourceLineNo">787</span><a id="line.787">  }</a>
+<span class="sourceLineNo">788</span><a id="line.788"></a>
+<span class="sourceLineNo">789</span><a id="line.789">  static final long[] factorials = {</a>
+<span class="sourceLineNo">790</span><a id="line.790">    1L,</a>
+<span class="sourceLineNo">791</span><a id="line.791">    1L,</a>
+<span class="sourceLineNo">792</span><a id="line.792">    1L * 2,</a>
+<span class="sourceLineNo">793</span><a id="line.793">    1L * 2 * 3,</a>
+<span class="sourceLineNo">794</span><a id="line.794">    1L * 2 * 3 * 4,</a>
+<span class="sourceLineNo">795</span><a id="line.795">    1L * 2 * 3 * 4 * 5,</a>
+<span class="sourceLineNo">796</span><a id="line.796">    1L * 2 * 3 * 4 * 5 * 6,</a>
+<span class="sourceLineNo">797</span><a id="line.797">    1L * 2 * 3 * 4 * 5 * 6 * 7,</a>
+<span class="sourceLineNo">798</span><a id="line.798">    1L * 2 * 3 * 4 * 5 * 6 * 7 * 8,</a>
+<span class="sourceLineNo">799</span><a id="line.799">    1L * 2 * 3 * 4 * 5 * 6 * 7 * 8 * 9,</a>
+<span class="sourceLineNo">800</span><a id="line.800">    1L * 2 * 3 * 4 * 5 * 6 * 7 * 8 * 9 * 10,</a>
+<span class="sourceLineNo">801</span><a id="line.801">    1L * 2 * 3 * 4 * 5 * 6 * 7 * 8 * 9 * 10 * 11,</a>
+<span class="sourceLineNo">802</span><a id="line.802">    1L * 2 * 3 * 4 * 5 * 6 * 7 * 8 * 9 * 10 * 11 * 12,</a>
+<span class="sourceLineNo">803</span><a id="line.803">    1L * 2 * 3 * 4 * 5 * 6 * 7 * 8 * 9 * 10 * 11 * 12 * 13,</a>
+<span class="sourceLineNo">804</span><a id="line.804">    1L * 2 * 3 * 4 * 5 * 6 * 7 * 8 * 9 * 10 * 11 * 12 * 13 * 14,</a>
+<span class="sourceLineNo">805</span><a id="line.805">    1L * 2 * 3 * 4 * 5 * 6 * 7 * 8 * 9 * 10 * 11 * 12 * 13 * 14 * 15,</a>
+<span class="sourceLineNo">806</span><a id="line.806">    1L * 2 * 3 * 4 * 5 * 6 * 7 * 8 * 9 * 10 * 11 * 12 * 13 * 14 * 15 * 16,</a>
+<span class="sourceLineNo">807</span><a id="line.807">    1L * 2 * 3 * 4 * 5 * 6 * 7 * 8 * 9 * 10 * 11 * 12 * 13 * 14 * 15 * 16 * 17,</a>
+<span class="sourceLineNo">808</span><a id="line.808">    1L * 2 * 3 * 4 * 5 * 6 * 7 * 8 * 9 * 10 * 11 * 12 * 13 * 14 * 15 * 16 * 17 * 18,</a>
+<span class="sourceLineNo">809</span><a id="line.809">    1L * 2 * 3 * 4 * 5 * 6 * 7 * 8 * 9 * 10 * 11 * 12 * 13 * 14 * 15 * 16 * 17 * 18 * 19,</a>
+<span class="sourceLineNo">810</span><a id="line.810">    1L * 2 * 3 * 4 * 5 * 6 * 7 * 8 * 9 * 10 * 11 * 12 * 13 * 14 * 15 * 16 * 17 * 18 * 19 * 20</a>
+<span class="sourceLineNo">811</span><a id="line.811">  };</a>
+<span class="sourceLineNo">812</span><a id="line.812"></a>
+<span class="sourceLineNo">813</span><a id="line.813">  /**</a>
+<span class="sourceLineNo">814</span><a id="line.814">   * Returns {@code n} choose {@code k}, also known as the binomial coefficient of {@code n} and</a>
+<span class="sourceLineNo">815</span><a id="line.815">   * {@code k}, or {@link Long#MAX_VALUE} if the result does not fit in a {@code long}.</a>
+<span class="sourceLineNo">816</span><a id="line.816">   *</a>
+<span class="sourceLineNo">817</span><a id="line.817">   * @throws IllegalArgumentException if {@code n &lt; 0}, {@code k &lt; 0}, or {@code k &gt; n}</a>
+<span class="sourceLineNo">818</span><a id="line.818">   */</a>
+<span class="sourceLineNo">819</span><a id="line.819">  public static long binomial(int n, int k) {</a>
+<span class="sourceLineNo">820</span><a id="line.820">    checkNonNegative("n", n);</a>
+<span class="sourceLineNo">821</span><a id="line.821">    checkNonNegative("k", k);</a>
+<span class="sourceLineNo">822</span><a id="line.822">    checkArgument(k &lt;= n, "k (%s) &gt; n (%s)", k, n);</a>
+<span class="sourceLineNo">823</span><a id="line.823">    if (k &gt; (n &gt;&gt; 1)) {</a>
+<span class="sourceLineNo">824</span><a id="line.824">      k = n - k;</a>
+<span class="sourceLineNo">825</span><a id="line.825">    }</a>
+<span class="sourceLineNo">826</span><a id="line.826">    switch (k) {</a>
+<span class="sourceLineNo">827</span><a id="line.827">      case 0:</a>
+<span class="sourceLineNo">828</span><a id="line.828">        return 1;</a>
+<span class="sourceLineNo">829</span><a id="line.829">      case 1:</a>
+<span class="sourceLineNo">830</span><a id="line.830">        return n;</a>
+<span class="sourceLineNo">831</span><a id="line.831">      default:</a>
+<span class="sourceLineNo">832</span><a id="line.832">        if (n &lt; factorials.length) {</a>
+<span class="sourceLineNo">833</span><a id="line.833">          return factorials[n] / (factorials[k] * factorials[n - k]);</a>
+<span class="sourceLineNo">834</span><a id="line.834">        } else if (k &gt;= biggestBinomials.length || n &gt; biggestBinomials[k]) {</a>
+<span class="sourceLineNo">835</span><a id="line.835">          return Long.MAX_VALUE;</a>
+<span class="sourceLineNo">836</span><a id="line.836">        } else if (k &lt; biggestSimpleBinomials.length &amp;&amp; n &lt;= biggestSimpleBinomials[k]) {</a>
+<span class="sourceLineNo">837</span><a id="line.837">          // guaranteed not to overflow</a>
+<span class="sourceLineNo">838</span><a id="line.838">          long result = n--;</a>
+<span class="sourceLineNo">839</span><a id="line.839">          for (int i = 2; i &lt;= k; n--, i++) {</a>
+<span class="sourceLineNo">840</span><a id="line.840">            result *= n;</a>
+<span class="sourceLineNo">841</span><a id="line.841">            result /= i;</a>
+<span class="sourceLineNo">842</span><a id="line.842">          }</a>
+<span class="sourceLineNo">843</span><a id="line.843">          return result;</a>
+<span class="sourceLineNo">844</span><a id="line.844">        } else {</a>
+<span class="sourceLineNo">845</span><a id="line.845">          int nBits = LongMath.log2(n, RoundingMode.CEILING);</a>
+<span class="sourceLineNo">846</span><a id="line.846"></a>
+<span class="sourceLineNo">847</span><a id="line.847">          long result = 1;</a>
+<span class="sourceLineNo">848</span><a id="line.848">          long numerator = n--;</a>
+<span class="sourceLineNo">849</span><a id="line.849">          long denominator = 1;</a>
+<span class="sourceLineNo">850</span><a id="line.850"></a>
+<span class="sourceLineNo">851</span><a id="line.851">          int numeratorBits = nBits;</a>
+<span class="sourceLineNo">852</span><a id="line.852">          // This is an upper bound on log2(numerator, ceiling).</a>
+<span class="sourceLineNo">853</span><a id="line.853"></a>
+<span class="sourceLineNo">854</span><a id="line.854">          /*</a>
+<span class="sourceLineNo">855</span><a id="line.855">           * We want to do this in long math for speed, but want to avoid overflow. We adapt the</a>
+<span class="sourceLineNo">856</span><a id="line.856">           * technique previously used by BigIntegerMath: maintain separate numerator and</a>
+<span class="sourceLineNo">857</span><a id="line.857">           * denominator accumulators, multiplying the fraction into result when near overflow.</a>
+<span class="sourceLineNo">858</span><a id="line.858">           */</a>
+<span class="sourceLineNo">859</span><a id="line.859">          for (int i = 2; i &lt;= k; i++, n--) {</a>
+<span class="sourceLineNo">860</span><a id="line.860">            if (numeratorBits + nBits &lt; Long.SIZE - 1) {</a>
+<span class="sourceLineNo">861</span><a id="line.861">              // It's definitely safe to multiply into numerator and denominator.</a>
+<span class="sourceLineNo">862</span><a id="line.862">              numerator *= n;</a>
+<span class="sourceLineNo">863</span><a id="line.863">              denominator *= i;</a>
+<span class="sourceLineNo">864</span><a id="line.864">              numeratorBits += nBits;</a>
+<span class="sourceLineNo">865</span><a id="line.865">            } else {</a>
+<span class="sourceLineNo">866</span><a id="line.866">              // It might not be safe to multiply into numerator and denominator,</a>
+<span class="sourceLineNo">867</span><a id="line.867">              // so multiply (numerator / denominator) into result.</a>
+<span class="sourceLineNo">868</span><a id="line.868">              result = multiplyFraction(result, numerator, denominator);</a>
+<span class="sourceLineNo">869</span><a id="line.869">              numerator = n;</a>
+<span class="sourceLineNo">870</span><a id="line.870">              denominator = i;</a>
+<span class="sourceLineNo">871</span><a id="line.871">              numeratorBits = nBits;</a>
+<span class="sourceLineNo">872</span><a id="line.872">            }</a>
+<span class="sourceLineNo">873</span><a id="line.873">          }</a>
+<span class="sourceLineNo">874</span><a id="line.874">          return multiplyFraction(result, numerator, denominator);</a>
+<span class="sourceLineNo">875</span><a id="line.875">        }</a>
+<span class="sourceLineNo">876</span><a id="line.876">    }</a>
+<span class="sourceLineNo">877</span><a id="line.877">  }</a>
+<span class="sourceLineNo">878</span><a id="line.878"></a>
+<span class="sourceLineNo">879</span><a id="line.879">  /** Returns (x * numerator / denominator), which is assumed to come out to an integral value. */</a>
+<span class="sourceLineNo">880</span><a id="line.880">  static long multiplyFraction(long x, long numerator, long denominator) {</a>
+<span class="sourceLineNo">881</span><a id="line.881">    if (x == 1) {</a>
+<span class="sourceLineNo">882</span><a id="line.882">      return numerator / denominator;</a>
+<span class="sourceLineNo">883</span><a id="line.883">    }</a>
+<span class="sourceLineNo">884</span><a id="line.884">    long commonDivisor = gcd(x, denominator);</a>
+<span class="sourceLineNo">885</span><a id="line.885">    x /= commonDivisor;</a>
+<span class="sourceLineNo">886</span><a id="line.886">    denominator /= commonDivisor;</a>
+<span class="sourceLineNo">887</span><a id="line.887">    // We know gcd(x, denominator) = 1, and x * numerator / denominator is exact,</a>
+<span class="sourceLineNo">888</span><a id="line.888">    // so denominator must be a divisor of numerator.</a>
+<span class="sourceLineNo">889</span><a id="line.889">    return x * (numerator / denominator);</a>
+<span class="sourceLineNo">890</span><a id="line.890">  }</a>
+<span class="sourceLineNo">891</span><a id="line.891"></a>
+<span class="sourceLineNo">892</span><a id="line.892">  /*</a>
+<span class="sourceLineNo">893</span><a id="line.893">   * binomial(biggestBinomials[k], k) fits in a long, but not binomial(biggestBinomials[k] + 1, k).</a>
+<span class="sourceLineNo">894</span><a id="line.894">   */</a>
+<span class="sourceLineNo">895</span><a id="line.895">  static final int[] biggestBinomials = {</a>
+<span class="sourceLineNo">896</span><a id="line.896">    Integer.MAX_VALUE,</a>
+<span class="sourceLineNo">897</span><a id="line.897">    Integer.MAX_VALUE,</a>
+<span class="sourceLineNo">898</span><a id="line.898">    Integer.MAX_VALUE,</a>
+<span class="sourceLineNo">899</span><a id="line.899">    3810779,</a>
+<span class="sourceLineNo">900</span><a id="line.900">    121977,</a>
+<span class="sourceLineNo">901</span><a id="line.901">    16175,</a>
+<span class="sourceLineNo">902</span><a id="line.902">    4337,</a>
+<span class="sourceLineNo">903</span><a id="line.903">    1733,</a>
+<span class="sourceLineNo">904</span><a id="line.904">    887,</a>
+<span class="sourceLineNo">905</span><a id="line.905">    534,</a>
+<span class="sourceLineNo">906</span><a id="line.906">    361,</a>
+<span class="sourceLineNo">907</span><a id="line.907">    265,</a>
+<span class="sourceLineNo">908</span><a id="line.908">    206,</a>
+<span class="sourceLineNo">909</span><a id="line.909">    169,</a>
+<span class="sourceLineNo">910</span><a id="line.910">    143,</a>
+<span class="sourceLineNo">911</span><a id="line.911">    125,</a>
+<span class="sourceLineNo">912</span><a id="line.912">    111,</a>
+<span class="sourceLineNo">913</span><a id="line.913">    101,</a>
+<span class="sourceLineNo">914</span><a id="line.914">    94,</a>
+<span class="sourceLineNo">915</span><a id="line.915">    88,</a>
+<span class="sourceLineNo">916</span><a id="line.916">    83,</a>
+<span class="sourceLineNo">917</span><a id="line.917">    79,</a>
+<span class="sourceLineNo">918</span><a id="line.918">    76,</a>
+<span class="sourceLineNo">919</span><a id="line.919">    74,</a>
+<span class="sourceLineNo">920</span><a id="line.920">    72,</a>
+<span class="sourceLineNo">921</span><a id="line.921">    70,</a>
+<span class="sourceLineNo">922</span><a id="line.922">    69,</a>
+<span class="sourceLineNo">923</span><a id="line.923">    68,</a>
+<span class="sourceLineNo">924</span><a id="line.924">    67,</a>
+<span class="sourceLineNo">925</span><a id="line.925">    67,</a>
+<span class="sourceLineNo">926</span><a id="line.926">    66,</a>
+<span class="sourceLineNo">927</span><a id="line.927">    66,</a>
+<span class="sourceLineNo">928</span><a id="line.928">    66,</a>
+<span class="sourceLineNo">929</span><a id="line.929">    66</a>
+<span class="sourceLineNo">930</span><a id="line.930">  };</a>
+<span class="sourceLineNo">931</span><a id="line.931"></a>
+<span class="sourceLineNo">932</span><a id="line.932">  /*</a>
+<span class="sourceLineNo">933</span><a id="line.933">   * binomial(biggestSimpleBinomials[k], k) doesn't need to use the slower GCD-based impl, but</a>
+<span class="sourceLineNo">934</span><a id="line.934">   * binomial(biggestSimpleBinomials[k] + 1, k) does.</a>
+<span class="sourceLineNo">935</span><a id="line.935">   */</a>
+<span class="sourceLineNo">936</span><a id="line.936">  @VisibleForTesting</a>
+<span class="sourceLineNo">937</span><a id="line.937">  static final int[] biggestSimpleBinomials = {</a>
+<span class="sourceLineNo">938</span><a id="line.938">    Integer.MAX_VALUE,</a>
+<span class="sourceLineNo">939</span><a id="line.939">    Integer.MAX_VALUE,</a>
+<span class="sourceLineNo">940</span><a id="line.940">    Integer.MAX_VALUE,</a>
+<span class="sourceLineNo">941</span><a id="line.941">    2642246,</a>
+<span class="sourceLineNo">942</span><a id="line.942">    86251,</a>
+<span class="sourceLineNo">943</span><a id="line.943">    11724,</a>
+<span class="sourceLineNo">944</span><a id="line.944">    3218,</a>
+<span class="sourceLineNo">945</span><a id="line.945">    1313,</a>
+<span class="sourceLineNo">946</span><a id="line.946">    684,</a>
+<span class="sourceLineNo">947</span><a id="line.947">    419,</a>
+<span class="sourceLineNo">948</span><a id="line.948">    287,</a>
+<span class="sourceLineNo">949</span><a id="line.949">    214,</a>
+<span class="sourceLineNo">950</span><a id="line.950">    169,</a>
+<span class="sourceLineNo">951</span><a id="line.951">    139,</a>
+<span class="sourceLineNo">952</span><a id="line.952">    119,</a>
+<span class="sourceLineNo">953</span><a id="line.953">    105,</a>
+<span class="sourceLineNo">954</span><a id="line.954">    95,</a>
+<span class="sourceLineNo">955</span><a id="line.955">    87,</a>
+<span class="sourceLineNo">956</span><a id="line.956">    81,</a>
+<span class="sourceLineNo">957</span><a id="line.957">    76,</a>
+<span class="sourceLineNo">958</span><a id="line.958">    73,</a>
+<span class="sourceLineNo">959</span><a id="line.959">    70,</a>
+<span class="sourceLineNo">960</span><a id="line.960">    68,</a>
+<span class="sourceLineNo">961</span><a id="line.961">    66,</a>
+<span class="sourceLineNo">962</span><a id="line.962">    64,</a>
+<span class="sourceLineNo">963</span><a id="line.963">    63,</a>
+<span class="sourceLineNo">964</span><a id="line.964">    62,</a>
+<span class="sourceLineNo">965</span><a id="line.965">    62,</a>
+<span class="sourceLineNo">966</span><a id="line.966">    61,</a>
+<span class="sourceLineNo">967</span><a id="line.967">    61,</a>
+<span class="sourceLineNo">968</span><a id="line.968">    61</a>
+<span class="sourceLineNo">969</span><a id="line.969">  };</a>
+<span class="sourceLineNo">970</span><a id="line.970">  // These values were generated by using checkedMultiply to see when the simple multiply/divide</a>
+<span class="sourceLineNo">971</span><a id="line.971">  // algorithm would lead to an overflow.</a>
+<span class="sourceLineNo">972</span><a id="line.972"></a>
+<span class="sourceLineNo">973</span><a id="line.973">  static boolean fitsInInt(long x) {</a>
+<span class="sourceLineNo">974</span><a id="line.974">    return (int) x == x;</a>
+<span class="sourceLineNo">975</span><a id="line.975">  }</a>
+<span class="sourceLineNo">976</span><a id="line.976"></a>
+<span class="sourceLineNo">977</span><a id="line.977">  /**</a>
+<span class="sourceLineNo">978</span><a id="line.978">   * Returns the arithmetic mean of {@code x} and {@code y}, rounded toward negative infinity. This</a>
+<span class="sourceLineNo">979</span><a id="line.979">   * method is resilient to overflow.</a>
+<span class="sourceLineNo">980</span><a id="line.980">   *</a>
+<span class="sourceLineNo">981</span><a id="line.981">   * @since 14.0</a>
+<span class="sourceLineNo">982</span><a id="line.982">   */</a>
+<span class="sourceLineNo">983</span><a id="line.983">  public static long mean(long x, long y) {</a>
+<span class="sourceLineNo">984</span><a id="line.984">    // Efficient method for computing the arithmetic mean.</a>
+<span class="sourceLineNo">985</span><a id="line.985">    // The alternative (x + y) / 2 fails for large values.</a>
+<span class="sourceLineNo">986</span><a id="line.986">    // The alternative (x + y) &gt;&gt;&gt; 1 fails for negative values.</a>
+<span class="sourceLineNo">987</span><a id="line.987">    return (x &amp; y) + ((x ^ y) &gt;&gt; 1);</a>
+<span class="sourceLineNo">988</span><a id="line.988">  }</a>
+<span class="sourceLineNo">989</span><a id="line.989"></a>
+<span class="sourceLineNo">990</span><a id="line.990">  /*</a>
+<span class="sourceLineNo">991</span><a id="line.991">   * This bitmask is used as an optimization for cheaply testing for divisibility by 2, 3, or 5.</a>
+<span class="sourceLineNo">992</span><a id="line.992">   * Each bit is set to 1 for all remainders that indicate divisibility by 2, 3, or 5, so</a>
+<span class="sourceLineNo">993</span><a id="line.993">   * 1, 7, 11, 13, 17, 19, 23, 29 are set to 0. 30 and up don't matter because they won't be hit.</a>
+<span class="sourceLineNo">994</span><a id="line.994">   */</a>
+<span class="sourceLineNo">995</span><a id="line.995">  private static final int SIEVE_30 =</a>
+<span class="sourceLineNo">996</span><a id="line.996">      ~((1 &lt;&lt; 1) | (1 &lt;&lt; 7) | (1 &lt;&lt; 11) | (1 &lt;&lt; 13) | (1 &lt;&lt; 17) | (1 &lt;&lt; 19) | (1 &lt;&lt; 23)</a>
+<span class="sourceLineNo">997</span><a id="line.997">          | (1 &lt;&lt; 29));</a>
+<span class="sourceLineNo">998</span><a id="line.998"></a>
+<span class="sourceLineNo">999</span><a id="line.999">  /**</a>
+<span class="sourceLineNo">1000</span><a id="line.1000">   * Returns {@code true} if {@code n} is a &lt;a</a>
+<span class="sourceLineNo">1001</span><a id="line.1001">   * href="http://mathworld.wolfram.com/PrimeNumber.html"&gt;prime number&lt;/a&gt;: an integer &lt;i&gt;greater</a>
+<span class="sourceLineNo">1002</span><a id="line.1002">   * than one&lt;/i&gt; that cannot be factored into a product of &lt;i&gt;smaller&lt;/i&gt; positive integers.</a>
+<span class="sourceLineNo">1003</span><a id="line.1003">   * Returns {@code false} if {@code n} is zero, one, or a composite number (one which &lt;i&gt;can&lt;/i&gt; be</a>
+<span class="sourceLineNo">1004</span><a id="line.1004">   * factored into smaller positive integers).</a>
+<span class="sourceLineNo">1005</span><a id="line.1005">   *</a>
+<span class="sourceLineNo">1006</span><a id="line.1006">   * &lt;p&gt;To test larger numbers, use {@link BigInteger#isProbablePrime}.</a>
+<span class="sourceLineNo">1007</span><a id="line.1007">   *</a>
+<span class="sourceLineNo">1008</span><a id="line.1008">   * @throws IllegalArgumentException if {@code n} is negative</a>
+<span class="sourceLineNo">1009</span><a id="line.1009">   * @since 20.0</a>
+<span class="sourceLineNo">1010</span><a id="line.1010">   */</a>
+<span class="sourceLineNo">1011</span><a id="line.1011">  @J2ktIncompatible</a>
+<span class="sourceLineNo">1012</span><a id="line.1012">  @GwtIncompatible // TODO</a>
+<span class="sourceLineNo">1013</span><a id="line.1013">  public static boolean isPrime(long n) {</a>
+<span class="sourceLineNo">1014</span><a id="line.1014">    if (n &lt; 2) {</a>
+<span class="sourceLineNo">1015</span><a id="line.1015">      checkNonNegative("n", n);</a>
+<span class="sourceLineNo">1016</span><a id="line.1016">      return false;</a>
+<span class="sourceLineNo">1017</span><a id="line.1017">    }</a>
+<span class="sourceLineNo">1018</span><a id="line.1018">    if (n &lt; 66) {</a>
+<span class="sourceLineNo">1019</span><a id="line.1019">      // Encode all primes less than 66 into mask without 0 and 1.</a>
+<span class="sourceLineNo">1020</span><a id="line.1020">      long mask =</a>
+<span class="sourceLineNo">1021</span><a id="line.1021">          (1L &lt;&lt; (2 - 2))</a>
+<span class="sourceLineNo">1022</span><a id="line.1022">              | (1L &lt;&lt; (3 - 2))</a>
+<span class="sourceLineNo">1023</span><a id="line.1023">              | (1L &lt;&lt; (5 - 2))</a>
+<span class="sourceLineNo">1024</span><a id="line.1024">              | (1L &lt;&lt; (7 - 2))</a>
+<span class="sourceLineNo">1025</span><a id="line.1025">              | (1L &lt;&lt; (11 - 2))</a>
+<span class="sourceLineNo">1026</span><a id="line.1026">              | (1L &lt;&lt; (13 - 2))</a>
+<span class="sourceLineNo">1027</span><a id="line.1027">              | (1L &lt;&lt; (17 - 2))</a>
+<span class="sourceLineNo">1028</span><a id="line.1028">              | (1L &lt;&lt; (19 - 2))</a>
+<span class="sourceLineNo">1029</span><a id="line.1029">              | (1L &lt;&lt; (23 - 2))</a>
+<span class="sourceLineNo">1030</span><a id="line.1030">              | (1L &lt;&lt; (29 - 2))</a>
+<span class="sourceLineNo">1031</span><a id="line.1031">              | (1L &lt;&lt; (31 - 2))</a>
+<span class="sourceLineNo">1032</span><a id="line.1032">              | (1L &lt;&lt; (37 - 2))</a>
+<span class="sourceLineNo">1033</span><a id="line.1033">              | (1L &lt;&lt; (41 - 2))</a>
+<span class="sourceLineNo">1034</span><a id="line.1034">              | (1L &lt;&lt; (43 - 2))</a>
+<span class="sourceLineNo">1035</span><a id="line.1035">              | (1L &lt;&lt; (47 - 2))</a>
+<span class="sourceLineNo">1036</span><a id="line.1036">              | (1L &lt;&lt; (53 - 2))</a>
+<span class="sourceLineNo">1037</span><a id="line.1037">              | (1L &lt;&lt; (59 - 2))</a>
+<span class="sourceLineNo">1038</span><a id="line.1038">              | (1L &lt;&lt; (61 - 2));</a>
+<span class="sourceLineNo">1039</span><a id="line.1039">      // Look up n within the mask.</a>
+<span class="sourceLineNo">1040</span><a id="line.1040">      return ((mask &gt;&gt; ((int) n - 2)) &amp; 1) != 0;</a>
+<span class="sourceLineNo">1041</span><a id="line.1041">    }</a>
+<span class="sourceLineNo">1042</span><a id="line.1042"></a>
+<span class="sourceLineNo">1043</span><a id="line.1043">    if ((SIEVE_30 &amp; (1 &lt;&lt; (n % 30))) != 0) {</a>
+<span class="sourceLineNo">1044</span><a id="line.1044">      return false;</a>
+<span class="sourceLineNo">1045</span><a id="line.1045">    }</a>
+<span class="sourceLineNo">1046</span><a id="line.1046">    if (n % 7 == 0 || n % 11 == 0 || n % 13 == 0) {</a>
+<span class="sourceLineNo">1047</span><a id="line.1047">      return false;</a>
+<span class="sourceLineNo">1048</span><a id="line.1048">    }</a>
+<span class="sourceLineNo">1049</span><a id="line.1049">    if (n &lt; 17 * 17) {</a>
+<span class="sourceLineNo">1050</span><a id="line.1050">      return true;</a>
+<span class="sourceLineNo">1051</span><a id="line.1051">    }</a>
+<span class="sourceLineNo">1052</span><a id="line.1052"></a>
+<span class="sourceLineNo">1053</span><a id="line.1053">    for (long[] baseSet : millerRabinBaseSets) {</a>
+<span class="sourceLineNo">1054</span><a id="line.1054">      if (n &lt;= baseSet[0]) {</a>
+<span class="sourceLineNo">1055</span><a id="line.1055">        for (int i = 1; i &lt; baseSet.length; i++) {</a>
+<span class="sourceLineNo">1056</span><a id="line.1056">          if (!MillerRabinTester.test(baseSet[i], n)) {</a>
+<span class="sourceLineNo">1057</span><a id="line.1057">            return false;</a>
+<span class="sourceLineNo">1058</span><a id="line.1058">          }</a>
+<span class="sourceLineNo">1059</span><a id="line.1059">        }</a>
+<span class="sourceLineNo">1060</span><a id="line.1060">        return true;</a>
+<span class="sourceLineNo">1061</span><a id="line.1061">      }</a>
+<span class="sourceLineNo">1062</span><a id="line.1062">    }</a>
+<span class="sourceLineNo">1063</span><a id="line.1063">    throw new AssertionError();</a>
+<span class="sourceLineNo">1064</span><a id="line.1064">  }</a>
+<span class="sourceLineNo">1065</span><a id="line.1065"></a>
+<span class="sourceLineNo">1066</span><a id="line.1066">  /*</a>
+<span class="sourceLineNo">1067</span><a id="line.1067">   * If n &lt;= millerRabinBases[i][0], then testing n against bases millerRabinBases[i][1..] suffices</a>
+<span class="sourceLineNo">1068</span><a id="line.1068">   * to prove its primality. Values from miller-rabin.appspot.com.</a>
+<span class="sourceLineNo">1069</span><a id="line.1069">   *</a>
+<span class="sourceLineNo">1070</span><a id="line.1070">   * NOTE: We could get slightly better bases that would be treated as unsigned, but benchmarks</a>
+<span class="sourceLineNo">1071</span><a id="line.1071">   * showed negligible performance improvements.</a>
+<span class="sourceLineNo">1072</span><a id="line.1072">   */</a>
+<span class="sourceLineNo">1073</span><a id="line.1073">  private static final long[][] millerRabinBaseSets = {</a>
+<span class="sourceLineNo">1074</span><a id="line.1074">    {291830, 126401071349994536L},</a>
+<span class="sourceLineNo">1075</span><a id="line.1075">    {885594168, 725270293939359937L, 3569819667048198375L},</a>
+<span class="sourceLineNo">1076</span><a id="line.1076">    {273919523040L, 15, 7363882082L, 992620450144556L},</a>
+<span class="sourceLineNo">1077</span><a id="line.1077">    {47636622961200L, 2, 2570940, 211991001, 3749873356L},</a>
+<span class="sourceLineNo">1078</span><a id="line.1078">    {</a>
+<span class="sourceLineNo">1079</span><a id="line.1079">      7999252175582850L,</a>
+<span class="sourceLineNo">1080</span><a id="line.1080">      2,</a>
+<span class="sourceLineNo">1081</span><a id="line.1081">      4130806001517L,</a>
+<span class="sourceLineNo">1082</span><a id="line.1082">      149795463772692060L,</a>
+<span class="sourceLineNo">1083</span><a id="line.1083">      186635894390467037L,</a>
+<span class="sourceLineNo">1084</span><a id="line.1084">      3967304179347715805L</a>
+<span class="sourceLineNo">1085</span><a id="line.1085">    },</a>
+<span class="sourceLineNo">1086</span><a id="line.1086">    {</a>
+<span class="sourceLineNo">1087</span><a id="line.1087">      585226005592931976L,</a>
+<span class="sourceLineNo">1088</span><a id="line.1088">      2,</a>
+<span class="sourceLineNo">1089</span><a id="line.1089">      123635709730000L,</a>
+<span class="sourceLineNo">1090</span><a id="line.1090">      9233062284813009L,</a>
+<span class="sourceLineNo">1091</span><a id="line.1091">      43835965440333360L,</a>
+<span class="sourceLineNo">1092</span><a id="line.1092">      761179012939631437L,</a>
+<span class="sourceLineNo">1093</span><a id="line.1093">      1263739024124850375L</a>
+<span class="sourceLineNo">1094</span><a id="line.1094">    },</a>
+<span class="sourceLineNo">1095</span><a id="line.1095">    {Long.MAX_VALUE, 2, 325, 9375, 28178, 450775, 9780504, 1795265022}</a>
+<span class="sourceLineNo">1096</span><a id="line.1096">  };</a>
+<span class="sourceLineNo">1097</span><a id="line.1097"></a>
+<span class="sourceLineNo">1098</span><a id="line.1098">  private enum MillerRabinTester {</a>
+<span class="sourceLineNo">1099</span><a id="line.1099">    /** Works for inputs ≤ FLOOR_SQRT_MAX_LONG. */</a>
+<span class="sourceLineNo">1100</span><a id="line.1100">    SMALL {</a>
+<span class="sourceLineNo">1101</span><a id="line.1101">      @Override</a>
+<span class="sourceLineNo">1102</span><a id="line.1102">      long mulMod(long a, long b, long m) {</a>
+<span class="sourceLineNo">1103</span><a id="line.1103">        /*</a>
+<span class="sourceLineNo">1104</span><a id="line.1104">         * lowasser, 2015-Feb-12: Benchmarks suggest that changing this to UnsignedLongs.remainder</a>
+<span class="sourceLineNo">1105</span><a id="line.1105">         * and increasing the threshold to 2^32 doesn't pay for itself, and adding another enum</a>
+<span class="sourceLineNo">1106</span><a id="line.1106">         * constant hurts performance further -- I suspect because bimorphic implementation is a</a>
+<span class="sourceLineNo">1107</span><a id="line.1107">         * sweet spot for the JVM.</a>
+<span class="sourceLineNo">1108</span><a id="line.1108">         */</a>
+<span class="sourceLineNo">1109</span><a id="line.1109">        return (a * b) % m;</a>
+<span class="sourceLineNo">1110</span><a id="line.1110">      }</a>
+<span class="sourceLineNo">1111</span><a id="line.1111"></a>
+<span class="sourceLineNo">1112</span><a id="line.1112">      @Override</a>
+<span class="sourceLineNo">1113</span><a id="line.1113">      long squareMod(long a, long m) {</a>
+<span class="sourceLineNo">1114</span><a id="line.1114">        return (a * a) % m;</a>
+<span class="sourceLineNo">1115</span><a id="line.1115">      }</a>
+<span class="sourceLineNo">1116</span><a id="line.1116">    },</a>
+<span class="sourceLineNo">1117</span><a id="line.1117">    /** Works for all nonnegative signed longs. */</a>
+<span class="sourceLineNo">1118</span><a id="line.1118">    LARGE {</a>
+<span class="sourceLineNo">1119</span><a id="line.1119">      /** Returns (a + b) mod m. Precondition: {@code 0 &lt;= a}, {@code b &lt; m &lt; 2^63}. */</a>
+<span class="sourceLineNo">1120</span><a id="line.1120">      private long plusMod(long a, long b, long m) {</a>
+<span class="sourceLineNo">1121</span><a id="line.1121">        return (a &gt;= m - b) ? (a + b - m) : (a + b);</a>
+<span class="sourceLineNo">1122</span><a id="line.1122">      }</a>
+<span class="sourceLineNo">1123</span><a id="line.1123"></a>
+<span class="sourceLineNo">1124</span><a id="line.1124">      /** Returns (a * 2^32) mod m. a may be any unsigned long. */</a>
+<span class="sourceLineNo">1125</span><a id="line.1125">      private long times2ToThe32Mod(long a, long m) {</a>
+<span class="sourceLineNo">1126</span><a id="line.1126">        int remainingPowersOf2 = 32;</a>
+<span class="sourceLineNo">1127</span><a id="line.1127">        do {</a>
+<span class="sourceLineNo">1128</span><a id="line.1128">          int shift = min(remainingPowersOf2, Long.numberOfLeadingZeros(a));</a>
+<span class="sourceLineNo">1129</span><a id="line.1129">          // shift is either the number of powers of 2 left to multiply a by, or the biggest shift</a>
+<span class="sourceLineNo">1130</span><a id="line.1130">          // possible while keeping a in an unsigned long.</a>
+<span class="sourceLineNo">1131</span><a id="line.1131">          a = UnsignedLongs.remainder(a &lt;&lt; shift, m);</a>
+<span class="sourceLineNo">1132</span><a id="line.1132">          remainingPowersOf2 -= shift;</a>
+<span class="sourceLineNo">1133</span><a id="line.1133">        } while (remainingPowersOf2 &gt; 0);</a>
+<span class="sourceLineNo">1134</span><a id="line.1134">        return a;</a>
+<span class="sourceLineNo">1135</span><a id="line.1135">      }</a>
+<span class="sourceLineNo">1136</span><a id="line.1136"></a>
+<span class="sourceLineNo">1137</span><a id="line.1137">      @Override</a>
+<span class="sourceLineNo">1138</span><a id="line.1138">      long mulMod(long a, long b, long m) {</a>
+<span class="sourceLineNo">1139</span><a id="line.1139">        long aHi = a &gt;&gt;&gt; 32; // &lt; 2^31</a>
+<span class="sourceLineNo">1140</span><a id="line.1140">        long bHi = b &gt;&gt;&gt; 32; // &lt; 2^31</a>
+<span class="sourceLineNo">1141</span><a id="line.1141">        long aLo = a &amp; 0xFFFFFFFFL; // &lt; 2^32</a>
+<span class="sourceLineNo">1142</span><a id="line.1142">        long bLo = b &amp; 0xFFFFFFFFL; // &lt; 2^32</a>
+<span class="sourceLineNo">1143</span><a id="line.1143"></a>
+<span class="sourceLineNo">1144</span><a id="line.1144">        /*</a>
+<span class="sourceLineNo">1145</span><a id="line.1145">         * a * b == aHi * bHi * 2^64 + (aHi * bLo + aLo * bHi) * 2^32 + aLo * bLo.</a>
+<span class="sourceLineNo">1146</span><a id="line.1146">         *       == (aHi * bHi * 2^32 + aHi * bLo + aLo * bHi) * 2^32 + aLo * bLo</a>
+<span class="sourceLineNo">1147</span><a id="line.1147">         *</a>
+<span class="sourceLineNo">1148</span><a id="line.1148">         * We carry out this computation in modular arithmetic. Since times2ToThe32Mod accepts any</a>
+<span class="sourceLineNo">1149</span><a id="line.1149">         * unsigned long, we don't have to do a mod on every operation, only when intermediate</a>
+<span class="sourceLineNo">1150</span><a id="line.1150">         * results can exceed 2^63.</a>
+<span class="sourceLineNo">1151</span><a id="line.1151">         */</a>
+<span class="sourceLineNo">1152</span><a id="line.1152">        long result = times2ToThe32Mod(aHi * bHi /* &lt; 2^62 */, m); // &lt; m &lt; 2^63</a>
+<span class="sourceLineNo">1153</span><a id="line.1153">        result += aHi * bLo; // aHi * bLo &lt; 2^63, result &lt; 2^64</a>
+<span class="sourceLineNo">1154</span><a id="line.1154">        if (result &lt; 0) {</a>
+<span class="sourceLineNo">1155</span><a id="line.1155">          result = UnsignedLongs.remainder(result, m);</a>
+<span class="sourceLineNo">1156</span><a id="line.1156">        }</a>
+<span class="sourceLineNo">1157</span><a id="line.1157">        // result &lt; 2^63 again</a>
+<span class="sourceLineNo">1158</span><a id="line.1158">        result += aLo * bHi; // aLo * bHi &lt; 2^63, result &lt; 2^64</a>
+<span class="sourceLineNo">1159</span><a id="line.1159">        result = times2ToThe32Mod(result, m); // result &lt; m &lt; 2^63</a>
+<span class="sourceLineNo">1160</span><a id="line.1160">        return plusMod(result, UnsignedLongs.remainder(aLo * bLo /* &lt; 2^64 */, m), m);</a>
+<span class="sourceLineNo">1161</span><a id="line.1161">      }</a>
+<span class="sourceLineNo">1162</span><a id="line.1162"></a>
+<span class="sourceLineNo">1163</span><a id="line.1163">      @Override</a>
+<span class="sourceLineNo">1164</span><a id="line.1164">      long squareMod(long a, long m) {</a>
+<span class="sourceLineNo">1165</span><a id="line.1165">        long aHi = a &gt;&gt;&gt; 32; // &lt; 2^31</a>
+<span class="sourceLineNo">1166</span><a id="line.1166">        long aLo = a &amp; 0xFFFFFFFFL; // &lt; 2^32</a>
+<span class="sourceLineNo">1167</span><a id="line.1167"></a>
+<span class="sourceLineNo">1168</span><a id="line.1168">        /*</a>
+<span class="sourceLineNo">1169</span><a id="line.1169">         * a^2 == aHi^2 * 2^64 + aHi * aLo * 2^33 + aLo^2</a>
+<span class="sourceLineNo">1170</span><a id="line.1170">         *     == (aHi^2 * 2^32 + aHi * aLo * 2) * 2^32 + aLo^2</a>
+<span class="sourceLineNo">1171</span><a id="line.1171">         * We carry out this computation in modular arithmetic.  Since times2ToThe32Mod accepts any</a>
+<span class="sourceLineNo">1172</span><a id="line.1172">         * unsigned long, we don't have to do a mod on every operation, only when intermediate</a>
+<span class="sourceLineNo">1173</span><a id="line.1173">         * results can exceed 2^63.</a>
+<span class="sourceLineNo">1174</span><a id="line.1174">         */</a>
+<span class="sourceLineNo">1175</span><a id="line.1175">        long result = times2ToThe32Mod(aHi * aHi /* &lt; 2^62 */, m); // &lt; m &lt; 2^63</a>
+<span class="sourceLineNo">1176</span><a id="line.1176">        long hiLo = aHi * aLo * 2;</a>
+<span class="sourceLineNo">1177</span><a id="line.1177">        if (hiLo &lt; 0) {</a>
+<span class="sourceLineNo">1178</span><a id="line.1178">          hiLo = UnsignedLongs.remainder(hiLo, m);</a>
+<span class="sourceLineNo">1179</span><a id="line.1179">        }</a>
+<span class="sourceLineNo">1180</span><a id="line.1180">        // hiLo &lt; 2^63</a>
+<span class="sourceLineNo">1181</span><a id="line.1181">        result += hiLo; // result &lt; 2^64</a>
+<span class="sourceLineNo">1182</span><a id="line.1182">        result = times2ToThe32Mod(result, m); // result &lt; m &lt; 2^63</a>
+<span class="sourceLineNo">1183</span><a id="line.1183">        return plusMod(result, UnsignedLongs.remainder(aLo * aLo /* &lt; 2^64 */, m), m);</a>
+<span class="sourceLineNo">1184</span><a id="line.1184">      }</a>
+<span class="sourceLineNo">1185</span><a id="line.1185">    };</a>
+<span class="sourceLineNo">1186</span><a id="line.1186"></a>
+<span class="sourceLineNo">1187</span><a id="line.1187">    static boolean test(long base, long n) {</a>
+<span class="sourceLineNo">1188</span><a id="line.1188">      // Since base will be considered % n, it's okay if base &gt; FLOOR_SQRT_MAX_LONG,</a>
+<span class="sourceLineNo">1189</span><a id="line.1189">      // so long as n &lt;= FLOOR_SQRT_MAX_LONG.</a>
+<span class="sourceLineNo">1190</span><a id="line.1190">      return ((n &lt;= FLOOR_SQRT_MAX_LONG) ? SMALL : LARGE).testWitness(base, n);</a>
+<span class="sourceLineNo">1191</span><a id="line.1191">    }</a>
+<span class="sourceLineNo">1192</span><a id="line.1192"></a>
+<span class="sourceLineNo">1193</span><a id="line.1193">    /** Returns a * b mod m. */</a>
+<span class="sourceLineNo">1194</span><a id="line.1194">    abstract long mulMod(long a, long b, long m);</a>
+<span class="sourceLineNo">1195</span><a id="line.1195"></a>
+<span class="sourceLineNo">1196</span><a id="line.1196">    /** Returns a^2 mod m. */</a>
+<span class="sourceLineNo">1197</span><a id="line.1197">    abstract long squareMod(long a, long m);</a>
+<span class="sourceLineNo">1198</span><a id="line.1198"></a>
+<span class="sourceLineNo">1199</span><a id="line.1199">    /** Returns a^p mod m. */</a>
+<span class="sourceLineNo">1200</span><a id="line.1200">    private long powMod(long a, long p, long m) {</a>
+<span class="sourceLineNo">1201</span><a id="line.1201">      long res = 1;</a>
+<span class="sourceLineNo">1202</span><a id="line.1202">      for (; p != 0; p &gt;&gt;= 1) {</a>
+<span class="sourceLineNo">1203</span><a id="line.1203">        if ((p &amp; 1) != 0) {</a>
+<span class="sourceLineNo">1204</span><a id="line.1204">          res = mulMod(res, a, m);</a>
+<span class="sourceLineNo">1205</span><a id="line.1205">        }</a>
+<span class="sourceLineNo">1206</span><a id="line.1206">        a = squareMod(a, m);</a>
+<span class="sourceLineNo">1207</span><a id="line.1207">      }</a>
+<span class="sourceLineNo">1208</span><a id="line.1208">      return res;</a>
+<span class="sourceLineNo">1209</span><a id="line.1209">    }</a>
+<span class="sourceLineNo">1210</span><a id="line.1210"></a>
+<span class="sourceLineNo">1211</span><a id="line.1211">    /** Returns true if n is a strong probable prime relative to the specified base. */</a>
+<span class="sourceLineNo">1212</span><a id="line.1212">    private boolean testWitness(long base, long n) {</a>
+<span class="sourceLineNo">1213</span><a id="line.1213">      int r = Long.numberOfTrailingZeros(n - 1);</a>
+<span class="sourceLineNo">1214</span><a id="line.1214">      long d = (n - 1) &gt;&gt; r;</a>
+<span class="sourceLineNo">1215</span><a id="line.1215">      base %= n;</a>
+<span class="sourceLineNo">1216</span><a id="line.1216">      if (base == 0) {</a>
+<span class="sourceLineNo">1217</span><a id="line.1217">        return true;</a>
+<span class="sourceLineNo">1218</span><a id="line.1218">      }</a>
+<span class="sourceLineNo">1219</span><a id="line.1219">      // Calculate a := base^d mod n.</a>
+<span class="sourceLineNo">1220</span><a id="line.1220">      long a = powMod(base, d, n);</a>
+<span class="sourceLineNo">1221</span><a id="line.1221">      // n passes this test if</a>
+<span class="sourceLineNo">1222</span><a id="line.1222">      //    base^d = 1 (mod n)</a>
+<span class="sourceLineNo">1223</span><a id="line.1223">      // or base^(2^j * d) = -1 (mod n) for some 0 &lt;= j &lt; r.</a>
+<span class="sourceLineNo">1224</span><a id="line.1224">      if (a == 1) {</a>
+<span class="sourceLineNo">1225</span><a id="line.1225">        return true;</a>
+<span class="sourceLineNo">1226</span><a id="line.1226">      }</a>
+<span class="sourceLineNo">1227</span><a id="line.1227">      int j = 0;</a>
+<span class="sourceLineNo">1228</span><a id="line.1228">      while (a != n - 1) {</a>
+<span class="sourceLineNo">1229</span><a id="line.1229">        if (++j == r) {</a>
+<span class="sourceLineNo">1230</span><a id="line.1230">          return false;</a>
+<span class="sourceLineNo">1231</span><a id="line.1231">        }</a>
+<span class="sourceLineNo">1232</span><a id="line.1232">        a = squareMod(a, n);</a>
+<span class="sourceLineNo">1233</span><a id="line.1233">      }</a>
+<span class="sourceLineNo">1234</span><a id="line.1234">      return true;</a>
+<span class="sourceLineNo">1235</span><a id="line.1235">    }</a>
+<span class="sourceLineNo">1236</span><a id="line.1236">  }</a>
+<span class="sourceLineNo">1237</span><a id="line.1237"></a>
+<span class="sourceLineNo">1238</span><a id="line.1238">  /**</a>
+<span class="sourceLineNo">1239</span><a id="line.1239">   * Returns {@code x}, rounded to a {@code double} with the specified rounding mode. If {@code x}</a>
+<span class="sourceLineNo">1240</span><a id="line.1240">   * is precisely representable as a {@code double}, its {@code double} value will be returned;</a>
+<span class="sourceLineNo">1241</span><a id="line.1241">   * otherwise, the rounding will choose between the two nearest representable values with {@code</a>
+<span class="sourceLineNo">1242</span><a id="line.1242">   * mode}.</a>
+<span class="sourceLineNo">1243</span><a id="line.1243">   *</a>
+<span class="sourceLineNo">1244</span><a id="line.1244">   * &lt;p&gt;For the case of {@link RoundingMode#HALF_EVEN}, this implementation uses the IEEE 754</a>
+<span class="sourceLineNo">1245</span><a id="line.1245">   * default rounding mode: if the two nearest representable values are equally near, the one with</a>
+<span class="sourceLineNo">1246</span><a id="line.1246">   * the least significant bit zero is chosen. (In such cases, both of the nearest representable</a>
+<span class="sourceLineNo">1247</span><a id="line.1247">   * values are even integers; this method returns the one that is a multiple of a greater power of</a>
+<span class="sourceLineNo">1248</span><a id="line.1248">   * two.)</a>
+<span class="sourceLineNo">1249</span><a id="line.1249">   *</a>
+<span class="sourceLineNo">1250</span><a id="line.1250">   * @throws ArithmeticException if {@code mode} is {@link RoundingMode#UNNECESSARY} and {@code x}</a>
+<span class="sourceLineNo">1251</span><a id="line.1251">   *     is not precisely representable as a {@code double}</a>
+<span class="sourceLineNo">1252</span><a id="line.1252">   * @since 30.0</a>
+<span class="sourceLineNo">1253</span><a id="line.1253">   */</a>
+<span class="sourceLineNo">1254</span><a id="line.1254">  @SuppressWarnings("deprecation")</a>
+<span class="sourceLineNo">1255</span><a id="line.1255">  @J2ktIncompatible</a>
+<span class="sourceLineNo">1256</span><a id="line.1256">  @GwtIncompatible</a>
+<span class="sourceLineNo">1257</span><a id="line.1257">  public static double roundToDouble(long x, RoundingMode mode) {</a>
+<span class="sourceLineNo">1258</span><a id="line.1258">    // Logic adapted from ToDoubleRounder.</a>
+<span class="sourceLineNo">1259</span><a id="line.1259">    double roundArbitrarily = (double) x;</a>
+<span class="sourceLineNo">1260</span><a id="line.1260">    long roundArbitrarilyAsLong = (long) roundArbitrarily;</a>
+<span class="sourceLineNo">1261</span><a id="line.1261">    int cmpXToRoundArbitrarily;</a>
+<span class="sourceLineNo">1262</span><a id="line.1262"></a>
+<span class="sourceLineNo">1263</span><a id="line.1263">    if (roundArbitrarilyAsLong == Long.MAX_VALUE) {</a>
+<span class="sourceLineNo">1264</span><a id="line.1264">      /*</a>
+<span class="sourceLineNo">1265</span><a id="line.1265">       * For most values, the conversion from roundArbitrarily to roundArbitrarilyAsLong is</a>
+<span class="sourceLineNo">1266</span><a id="line.1266">       * lossless. In that case we can compare x to roundArbitrarily using Longs.compare(x,</a>
+<span class="sourceLineNo">1267</span><a id="line.1267">       * roundArbitrarilyAsLong). The exception is for values where the conversion to double rounds</a>
+<span class="sourceLineNo">1268</span><a id="line.1268">       * up to give roundArbitrarily equal to 2^63, so the conversion back to long overflows and</a>
+<span class="sourceLineNo">1269</span><a id="line.1269">       * roundArbitrarilyAsLong is Long.MAX_VALUE. (This is the only way this condition can occur as</a>
+<span class="sourceLineNo">1270</span><a id="line.1270">       * otherwise the conversion back to long pads with zero bits.) In this case we know that</a>
+<span class="sourceLineNo">1271</span><a id="line.1271">       * roundArbitrarily &gt; x. (This is important when x == Long.MAX_VALUE ==</a>
+<span class="sourceLineNo">1272</span><a id="line.1272">       * roundArbitrarilyAsLong.)</a>
+<span class="sourceLineNo">1273</span><a id="line.1273">       */</a>
+<span class="sourceLineNo">1274</span><a id="line.1274">      cmpXToRoundArbitrarily = -1;</a>
+<span class="sourceLineNo">1275</span><a id="line.1275">    } else {</a>
+<span class="sourceLineNo">1276</span><a id="line.1276">      cmpXToRoundArbitrarily = Longs.compare(x, roundArbitrarilyAsLong);</a>
+<span class="sourceLineNo">1277</span><a id="line.1277">    }</a>
+<span class="sourceLineNo">1278</span><a id="line.1278"></a>
+<span class="sourceLineNo">1279</span><a id="line.1279">    switch (mode) {</a>
+<span class="sourceLineNo">1280</span><a id="line.1280">      case UNNECESSARY:</a>
+<span class="sourceLineNo">1281</span><a id="line.1281">        checkRoundingUnnecessary(cmpXToRoundArbitrarily == 0);</a>
+<span class="sourceLineNo">1282</span><a id="line.1282">        return roundArbitrarily;</a>
+<span class="sourceLineNo">1283</span><a id="line.1283">      case FLOOR:</a>
+<span class="sourceLineNo">1284</span><a id="line.1284">        return (cmpXToRoundArbitrarily &gt;= 0)</a>
+<span class="sourceLineNo">1285</span><a id="line.1285">            ? roundArbitrarily</a>
+<span class="sourceLineNo">1286</span><a id="line.1286">            : DoubleUtils.nextDown(roundArbitrarily);</a>
+<span class="sourceLineNo">1287</span><a id="line.1287">      case CEILING:</a>
+<span class="sourceLineNo">1288</span><a id="line.1288">        return (cmpXToRoundArbitrarily &lt;= 0) ? roundArbitrarily : Math.nextUp(roundArbitrarily);</a>
+<span class="sourceLineNo">1289</span><a id="line.1289">      case DOWN:</a>
+<span class="sourceLineNo">1290</span><a id="line.1290">        if (x &gt;= 0) {</a>
+<span class="sourceLineNo">1291</span><a id="line.1291">          return (cmpXToRoundArbitrarily &gt;= 0)</a>
+<span class="sourceLineNo">1292</span><a id="line.1292">              ? roundArbitrarily</a>
+<span class="sourceLineNo">1293</span><a id="line.1293">              : DoubleUtils.nextDown(roundArbitrarily);</a>
+<span class="sourceLineNo">1294</span><a id="line.1294">        } else {</a>
+<span class="sourceLineNo">1295</span><a id="line.1295">          return (cmpXToRoundArbitrarily &lt;= 0) ? roundArbitrarily : Math.nextUp(roundArbitrarily);</a>
+<span class="sourceLineNo">1296</span><a id="line.1296">        }</a>
+<span class="sourceLineNo">1297</span><a id="line.1297">      case UP:</a>
+<span class="sourceLineNo">1298</span><a id="line.1298">        if (x &gt;= 0) {</a>
+<span class="sourceLineNo">1299</span><a id="line.1299">          return (cmpXToRoundArbitrarily &lt;= 0) ? roundArbitrarily : Math.nextUp(roundArbitrarily);</a>
+<span class="sourceLineNo">1300</span><a id="line.1300">        } else {</a>
+<span class="sourceLineNo">1301</span><a id="line.1301">          return (cmpXToRoundArbitrarily &gt;= 0)</a>
+<span class="sourceLineNo">1302</span><a id="line.1302">              ? roundArbitrarily</a>
+<span class="sourceLineNo">1303</span><a id="line.1303">              : DoubleUtils.nextDown(roundArbitrarily);</a>
+<span class="sourceLineNo">1304</span><a id="line.1304">        }</a>
+<span class="sourceLineNo">1305</span><a id="line.1305">      case HALF_DOWN:</a>
+<span class="sourceLineNo">1306</span><a id="line.1306">      case HALF_UP:</a>
+<span class="sourceLineNo">1307</span><a id="line.1307">      case HALF_EVEN:</a>
+<span class="sourceLineNo">1308</span><a id="line.1308">        {</a>
+<span class="sourceLineNo">1309</span><a id="line.1309">          long roundFloor;</a>
+<span class="sourceLineNo">1310</span><a id="line.1310">          double roundFloorAsDouble;</a>
+<span class="sourceLineNo">1311</span><a id="line.1311">          long roundCeiling;</a>
+<span class="sourceLineNo">1312</span><a id="line.1312">          double roundCeilingAsDouble;</a>
+<span class="sourceLineNo">1313</span><a id="line.1313"></a>
+<span class="sourceLineNo">1314</span><a id="line.1314">          if (cmpXToRoundArbitrarily &gt;= 0) {</a>
+<span class="sourceLineNo">1315</span><a id="line.1315">            roundFloorAsDouble = roundArbitrarily;</a>
+<span class="sourceLineNo">1316</span><a id="line.1316">            roundFloor = roundArbitrarilyAsLong;</a>
+<span class="sourceLineNo">1317</span><a id="line.1317">            roundCeilingAsDouble = Math.nextUp(roundArbitrarily);</a>
+<span class="sourceLineNo">1318</span><a id="line.1318">            roundCeiling = (long) Math.ceil(roundCeilingAsDouble);</a>
+<span class="sourceLineNo">1319</span><a id="line.1319">          } else {</a>
+<span class="sourceLineNo">1320</span><a id="line.1320">            roundCeilingAsDouble = roundArbitrarily;</a>
+<span class="sourceLineNo">1321</span><a id="line.1321">            roundCeiling = roundArbitrarilyAsLong;</a>
+<span class="sourceLineNo">1322</span><a id="line.1322">            roundFloorAsDouble = DoubleUtils.nextDown(roundArbitrarily);</a>
+<span class="sourceLineNo">1323</span><a id="line.1323">            roundFloor = (long) Math.floor(roundFloorAsDouble);</a>
+<span class="sourceLineNo">1324</span><a id="line.1324">          }</a>
+<span class="sourceLineNo">1325</span><a id="line.1325"></a>
+<span class="sourceLineNo">1326</span><a id="line.1326">          long deltaToFloor = x - roundFloor;</a>
+<span class="sourceLineNo">1327</span><a id="line.1327">          long deltaToCeiling = roundCeiling - x;</a>
+<span class="sourceLineNo">1328</span><a id="line.1328"></a>
+<span class="sourceLineNo">1329</span><a id="line.1329">          if (roundCeiling == Long.MAX_VALUE) {</a>
+<span class="sourceLineNo">1330</span><a id="line.1330">            // correct for Long.MAX_VALUE as discussed above: roundCeilingAsDouble must be 2^63, but</a>
+<span class="sourceLineNo">1331</span><a id="line.1331">            // roundCeiling is 2^63-1.</a>
+<span class="sourceLineNo">1332</span><a id="line.1332">            deltaToCeiling++;</a>
+<span class="sourceLineNo">1333</span><a id="line.1333">          }</a>
+<span class="sourceLineNo">1334</span><a id="line.1334"></a>
+<span class="sourceLineNo">1335</span><a id="line.1335">          int diff = Longs.compare(deltaToFloor, deltaToCeiling);</a>
+<span class="sourceLineNo">1336</span><a id="line.1336">          if (diff &lt; 0) { // closer to floor</a>
+<span class="sourceLineNo">1337</span><a id="line.1337">            return roundFloorAsDouble;</a>
+<span class="sourceLineNo">1338</span><a id="line.1338">          } else if (diff &gt; 0) { // closer to ceiling</a>
+<span class="sourceLineNo">1339</span><a id="line.1339">            return roundCeilingAsDouble;</a>
+<span class="sourceLineNo">1340</span><a id="line.1340">          }</a>
+<span class="sourceLineNo">1341</span><a id="line.1341">          // halfway between the representable values; do the half-whatever logic</a>
+<span class="sourceLineNo">1342</span><a id="line.1342">          switch (mode) {</a>
+<span class="sourceLineNo">1343</span><a id="line.1343">            case HALF_EVEN:</a>
+<span class="sourceLineNo">1344</span><a id="line.1344">              return ((DoubleUtils.getSignificand(roundFloorAsDouble) &amp; 1L) == 0)</a>
+<span class="sourceLineNo">1345</span><a id="line.1345">                  ? roundFloorAsDouble</a>
+<span class="sourceLineNo">1346</span><a id="line.1346">                  : roundCeilingAsDouble;</a>
+<span class="sourceLineNo">1347</span><a id="line.1347">            case HALF_DOWN:</a>
+<span class="sourceLineNo">1348</span><a id="line.1348">              return (x &gt;= 0) ? roundFloorAsDouble : roundCeilingAsDouble;</a>
+<span class="sourceLineNo">1349</span><a id="line.1349">            case HALF_UP:</a>
+<span class="sourceLineNo">1350</span><a id="line.1350">              return (x &gt;= 0) ? roundCeilingAsDouble : roundFloorAsDouble;</a>
+<span class="sourceLineNo">1351</span><a id="line.1351">            default:</a>
+<span class="sourceLineNo">1352</span><a id="line.1352">              throw new AssertionError("impossible");</a>
+<span class="sourceLineNo">1353</span><a id="line.1353">          }</a>
+<span class="sourceLineNo">1354</span><a id="line.1354">        }</a>
+<span class="sourceLineNo">1355</span><a id="line.1355">    }</a>
+<span class="sourceLineNo">1356</span><a id="line.1356">    throw new AssertionError("impossible");</a>
+<span class="sourceLineNo">1357</span><a id="line.1357">  }</a>
+<span class="sourceLineNo">1358</span><a id="line.1358"></a>
+<span class="sourceLineNo">1359</span><a id="line.1359">  private LongMath() {}</a>
+<span class="sourceLineNo">1360</span><a id="line.1360">}</a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</main>
+</body>
+</html>
