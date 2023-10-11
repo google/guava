@@ -30,6 +30,7 @@ import java.io.ObjectInputStream;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Map;
+import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
@@ -45,8 +46,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @GwtCompatible(serializable = true, emulated = true)
 @ElementTypesAreNonnullByDefault
-public abstract class ImmutableBiMap<K, V> extends ImmutableBiMapFauxverideShim<K, V>
-    implements BiMap<K, V> {
+public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements BiMap<K, V> {
 
   /**
    * Returns a {@link Collector} that accumulates elements into an {@code ImmutableBiMap} whose keys
@@ -641,5 +641,39 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableBiMapFauxverideShim<
   @J2ktIncompatible // serialization
   private void readObject(ObjectInputStream stream) throws InvalidObjectException {
     throw new InvalidObjectException("Use SerializedForm");
+  }
+
+  /**
+   * Not supported. Use {@link #toImmutableBiMap} instead. This method exists only to hide {@link
+   * ImmutableMap#toImmutableMap(Function, Function)} from consumers of {@code ImmutableBiMap}.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated Use {@link ImmutableBiMap#toImmutableBiMap}.
+   */
+  @Deprecated
+  @DoNotCall("Use toImmutableBiMap")
+  public static <T extends @Nullable Object, K, V>
+      Collector<T, ?, ImmutableMap<K, V>> toImmutableMap(
+          Function<? super T, ? extends K> keyFunction,
+          Function<? super T, ? extends V> valueFunction) {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
+   * Not supported. This method does not make sense for {@code BiMap}. This method exists only to
+   * hide {@link ImmutableMap#toImmutableMap(Function, Function, BinaryOperator)} from consumers of
+   * {@code ImmutableBiMap}.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated
+   */
+  @Deprecated
+  @DoNotCall("Use toImmutableBiMap")
+  public static <T extends @Nullable Object, K, V>
+      Collector<T, ?, ImmutableMap<K, V>> toImmutableMap(
+          Function<? super T, ? extends K> keyFunction,
+          Function<? super T, ? extends V> valueFunction,
+          BinaryOperator<V> mergeFunction) {
+    throw new UnsupportedOperationException();
   }
 }

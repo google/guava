@@ -57,7 +57,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @GwtCompatible(serializable = true, emulated = true)
 @ElementTypesAreNonnullByDefault
-public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxverideShim<K, V>
+public final class ImmutableSortedMap<K, V> extends ImmutableMap<K, V>
     implements NavigableMap<K, V> {
 
   /*
@@ -1146,4 +1146,256 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
   // This class is never actually serialized directly, but we have to make the
   // warning go away (and suppressing would suppress for all nested classes too)
   private static final long serialVersionUID = 0;
+
+  /**
+   * Not supported. Use {@link ImmutableSortedMap#naturalOrder}, which offers better type-safety,
+   * instead. This method exists only to hide {@link ImmutableMap#builder} from consumers of {@code
+   * ImmutableSortedMap}.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated Use {@link ImmutableSortedMap#naturalOrder}, which offers better type-safety.
+   */
+  @DoNotCall("Use naturalOrder")
+  @Deprecated
+  public static <K, V> ImmutableSortedMap.Builder<K, V> builder() {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
+   * Not supported for ImmutableSortedMap.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated Not supported for ImmutableSortedMap.
+   */
+  @DoNotCall("Use naturalOrder (which does not accept an expected size)")
+  @Deprecated
+  public static <K, V> ImmutableSortedMap.Builder<K, V> builderWithExpectedSize(int expectedSize) {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
+   * Not supported. <b>You are attempting to create a map that may contain a non-{@code Comparable}
+   * key.</b> Proper calls will resolve to the version in {@code ImmutableSortedMap}, not this dummy
+   * version.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated <b>Pass a key of type {@code Comparable} to use {@link
+   *     ImmutableSortedMap#of(Comparable, Object)}.</b>
+   */
+  @DoNotCall("Pass a key of type Comparable")
+  @Deprecated
+  public static <K, V> ImmutableSortedMap<K, V> of(K k1, V v1) {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
+   * Not supported. <b>You are attempting to create a map that may contain non-{@code Comparable}
+   * keys.</b> Proper calls will resolve to the version in {@code ImmutableSortedMap}, not this
+   * dummy version.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated <b>Pass keys of type {@code Comparable} to use {@link
+   *     ImmutableSortedMap#of(Comparable, Object, Comparable, Object)}.</b>
+   */
+  @DoNotCall("Pass keys of type Comparable")
+  @Deprecated
+  public static <K, V> ImmutableSortedMap<K, V> of(K k1, V v1, K k2, V v2) {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
+   * Not supported. <b>You are attempting to create a map that may contain non-{@code Comparable}
+   * keys.</b> Proper calls to will resolve to the version in {@code ImmutableSortedMap}, not this
+   * dummy version.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated <b>Pass keys of type {@code Comparable} to use {@link
+   *     ImmutableSortedMap#of(Comparable, Object, Comparable, Object, Comparable, Object)}.</b>
+   */
+  @DoNotCall("Pass keys of type Comparable")
+  @Deprecated
+  public static <K, V> ImmutableSortedMap<K, V> of(K k1, V v1, K k2, V v2, K k3, V v3) {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
+   * Not supported. <b>You are attempting to create a map that may contain non-{@code Comparable}
+   * keys.</b> Proper calls will resolve to the version in {@code ImmutableSortedMap}, not this
+   * dummy version.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated <b>Pass keys of type {@code Comparable} to use {@link
+   *     ImmutableSortedMap#of(Comparable, Object, Comparable, Object, Comparable, Object,
+   *     Comparable, Object)}.</b>
+   */
+  @DoNotCall("Pass keys of type Comparable")
+  @Deprecated
+  public static <K, V> ImmutableSortedMap<K, V> of(K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4) {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
+   * Not supported. <b>You are attempting to create a map that may contain non-{@code Comparable}
+   * keys.</b> Proper calls will resolve to the version in {@code ImmutableSortedMap}, not this
+   * dummy version.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated <b>Pass keys of type {@code Comparable} to use {@link
+   *     ImmutableSortedMap#of(Comparable, Object, Comparable, Object, Comparable, Object,
+   *     Comparable, Object, Comparable, Object)}.</b>
+   */
+  @DoNotCall("Pass keys of type Comparable")
+  @Deprecated
+  public static <K, V> ImmutableSortedMap<K, V> of(
+      K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5) {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
+   * Not supported. <b>You are attempting to create a map that may contain non-{@code Comparable}
+   * keys.</b> Proper calls will resolve to the version in {@code ImmutableSortedMap}, not this
+   * dummy version.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated <b>Pass keys of type {@code Comparable} to use {@link
+   *     ImmutableSortedMap#of(Comparable, Object, Comparable, Object, Comparable, Object,
+   *     Comparable, Object, Comparable, Object)}.</b>
+   */
+  @DoNotCall("Pass keys of type Comparable")
+  @Deprecated
+  public static <K, V> ImmutableSortedMap<K, V> of(
+      K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5, K k6, V v6) {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
+   * Not supported. <b>You are attempting to create a map that may contain non-{@code Comparable}
+   * keys.</b> Proper calls will resolve to the version in {@code ImmutableSortedMap}, not this
+   * dummy version.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated <b>Pass keys of type {@code Comparable} to use {@link
+   *     ImmutableSortedMap#of(Comparable, Object, Comparable, Object, Comparable, Object,
+   *     Comparable, Object, Comparable, Object)}.</b>
+   */
+  @DoNotCall("Pass keys of type Comparable")
+  @Deprecated
+  public static <K, V> ImmutableSortedMap<K, V> of(
+      K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5, K k6, V v6, K k7, V v7) {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
+   * Not supported. <b>You are attempting to create a map that may contain non-{@code Comparable}
+   * keys.</b> Proper calls will resolve to the version in {@code ImmutableSortedMap}, not this
+   * dummy version.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated <b>Pass keys of type {@code Comparable} to use {@link
+   *     ImmutableSortedMap#of(Comparable, Object, Comparable, Object, Comparable, Object,
+   *     Comparable, Object, Comparable, Object)}.</b>
+   */
+  @DoNotCall("Pass keys of type Comparable")
+  @Deprecated
+  public static <K, V> ImmutableSortedMap<K, V> of(
+      K k1,
+      V v1,
+      K k2,
+      V v2,
+      K k3,
+      V v3,
+      K k4,
+      V v4,
+      K k5,
+      V v5,
+      K k6,
+      V v6,
+      K k7,
+      V v7,
+      K k8,
+      V v8) {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
+   * Not supported. <b>You are attempting to create a map that may contain non-{@code Comparable}
+   * keys.</b> Proper calls will resolve to the version in {@code ImmutableSortedMap}, not this
+   * dummy version.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated <b>Pass keys of type {@code Comparable} to use {@link
+   *     ImmutableSortedMap#of(Comparable, Object, Comparable, Object, Comparable, Object,
+   *     Comparable, Object, Comparable, Object)}.</b>
+   */
+  @DoNotCall("Pass keys of type Comparable")
+  @Deprecated
+  public static <K, V> ImmutableSortedMap<K, V> of(
+      K k1,
+      V v1,
+      K k2,
+      V v2,
+      K k3,
+      V v3,
+      K k4,
+      V v4,
+      K k5,
+      V v5,
+      K k6,
+      V v6,
+      K k7,
+      V v7,
+      K k8,
+      V v8,
+      K k9,
+      V v9) {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
+   * Not supported. <b>You are attempting to create a map that may contain non-{@code Comparable}
+   * keys.</b> Proper calls will resolve to the version in {@code ImmutableSortedMap}, not this
+   * dummy version.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated <b>Pass keys of type {@code Comparable} to use {@link
+   *     ImmutableSortedMap#of(Comparable, Object, Comparable, Object, Comparable, Object,
+   *     Comparable, Object, Comparable, Object)}.</b>
+   */
+  @DoNotCall("Pass keys of type Comparable")
+  @Deprecated
+  public static <K, V> ImmutableSortedMap<K, V> of(
+      K k1,
+      V v1,
+      K k2,
+      V v2,
+      K k3,
+      V v3,
+      K k4,
+      V v4,
+      K k5,
+      V v5,
+      K k6,
+      V v6,
+      K k7,
+      V v7,
+      K k8,
+      V v8,
+      K k9,
+      V v9,
+      K k10,
+      V v10) {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
+   * Not supported. Use {@code ImmutableSortedMap.copyOf(ImmutableMap.ofEntries(...))}.
+   *
+   * @deprecated Use {@code ImmutableSortedMap.copyOf(ImmutableMap.ofEntries(...))}.
+   */
+  @DoNotCall("ImmutableSortedMap.ofEntries not currently available; use ImmutableSortedMap.copyOf")
+  @Deprecated
+  public static <K, V> ImmutableSortedMap<K, V> ofEntries(
+      Entry<? extends K, ? extends V>... entries) {
+    throw new UnsupportedOperationException();
+  }
 }
