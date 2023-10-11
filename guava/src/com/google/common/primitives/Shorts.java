@@ -335,7 +335,7 @@ public final class Shorts extends ShortsMethodsForWeb {
 
   private static final class ShortConverter extends Converter<String, Short>
       implements Serializable {
-    static final ShortConverter INSTANCE = new ShortConverter();
+    static final Converter<String, Short> INSTANCE = new ShortConverter();
 
     @Override
     protected Short doForward(String value) {

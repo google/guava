@@ -337,7 +337,7 @@ public final class Ints extends IntsMethodsForWeb {
 
   private static final class IntConverter extends Converter<String, Integer>
       implements Serializable {
-    static final IntConverter INSTANCE = new IntConverter();
+    static final Converter<String, Integer> INSTANCE = new IntConverter();
 
     @Override
     protected Integer doForward(String value) {

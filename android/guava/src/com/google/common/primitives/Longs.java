@@ -438,7 +438,7 @@ public final class Longs {
   }
 
   private static final class LongConverter extends Converter<String, Long> implements Serializable {
-    static final LongConverter INSTANCE = new LongConverter();
+    static final Converter<String, Long> INSTANCE = new LongConverter();
 
     @Override
     protected Long doForward(String value) {

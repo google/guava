@@ -289,7 +289,7 @@ public final class Doubles extends DoublesMethodsForWeb {
 
   private static final class DoubleConverter extends Converter<String, Double>
       implements Serializable {
-    static final DoubleConverter INSTANCE = new DoubleConverter();
+    static final Converter<String, Double> INSTANCE = new DoubleConverter();
 
     @Override
     protected Double doForward(String value) {

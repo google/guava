@@ -284,7 +284,7 @@ public final class Floats extends FloatsMethodsForWeb {
 
   private static final class FloatConverter extends Converter<String, Float>
       implements Serializable {
-    static final FloatConverter INSTANCE = new FloatConverter();
+    static final Converter<String, Float> INSTANCE = new FloatConverter();
 
     @Override
     protected Float doForward(String value) {
