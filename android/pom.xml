@@ -19,7 +19,6 @@
     <checker.version>3.37.0</checker.version>
     <errorprone.version>2.21.1</errorprone.version>
     <j2objc.version>2.8</j2objc.version>
-    <maven-javadoc-plugin.version>3.5.0</maven-javadoc-plugin.version>
     <javac.version>9+181-r4173-1</javac.version>
     <!-- Empty for all JDKs but 9-12 -->
     <maven-javadoc-plugin.additionalJOptions></maven-javadoc-plugin.additionalJOptions>
@@ -97,7 +96,6 @@
     </testResources>
     <plugins>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-enforcer-plugin</artifactId>
         <executions>
           <execution>
@@ -117,13 +115,6 @@
             </configuration>
           </execution>
         </executions>
-      </plugin>
-      <plugin>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <version>${maven-javadoc-plugin.version}</version>
-        <configuration>
-          <source>${java.specification.version}</source>
-        </configuration>
       </plugin>
     </plugins>
     <pluginManagement>
@@ -175,7 +166,6 @@
           <executions>
             <execution>
               <id>attach-sources</id>
-              <phase>verify</phase>
               <goals>
                 <goal>jar-no-fork</goal>
               </goals>
@@ -214,7 +204,7 @@
         </plugin>
         <plugin>
           <artifactId>maven-javadoc-plugin</artifactId>
-          <version>${maven-javadoc-plugin.version}</version>
+          <version>3.5.0</version>
           <configuration>
             <quiet>true</quiet>
             <notimestamp>true</notimestamp>
@@ -226,13 +216,12 @@
               <additionalOption>-Xdoclint:-html</additionalOption>
             </additionalOptions>
             <linksource>true</linksource>
-            <source>8</source>
+            <source>${java.specification.version}</source>
             <additionalJOption>${maven-javadoc-plugin.additionalJOptions}</additionalJOption>
           </configuration>
           <executions>
             <execution>
               <id>attach-docs</id>
-              <phase>post-integration-test</phase>
               <goals><goal>jar</goal></goals>
             </execution>
           </executions>
@@ -269,7 +258,6 @@
           </configuration>
         </plugin>
         <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-enforcer-plugin</artifactId>
           <version>3.0.0-M3</version>
         </plugin>
@@ -336,25 +324,7 @@
         <id>sonatype-oss-release</id>
         <build>
           <plugins>
-            <!-- TODO(cpovirk): Consider eliminating the maven-javadoc-plugin
-                 config here, moving anything that we want into the "normal"
-                 plugin config and perhaps removing javadoc:jar from the command
-                 we run for snapshot releases. -->
             <plugin>
-              <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-javadoc-plugin</artifactId>
-              <version>${maven-javadoc-plugin.version}</version>
-                <executions>
-                  <execution>
-                    <id>attach-javadocs</id>
-                    <goals>
-                      <goal>jar</goal>
-                    </goals>
-                </execution>
-              </executions>
-            </plugin>
-            <plugin>
-              <groupId>org.apache.maven.plugins</groupId>
               <artifactId>maven-gpg-plugin</artifactId>
               <version>3.0.1</version>
               <executions>
@@ -417,7 +387,6 @@
       <build>
         <plugins>
           <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-compiler-plugin</artifactId>
             <configuration>
               <!-- Under JDK8, we continue to use errorprone's javac9 (even
@@ -460,7 +429,6 @@
       <build>
         <plugins>
           <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-compiler-plugin</artifactId>
             <configuration>
               <compilerArgs combine.children="append">

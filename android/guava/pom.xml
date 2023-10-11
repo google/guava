@@ -200,16 +200,6 @@
           </links>
           <overview>../../overview.html</overview>
         </configuration>
-        <executions>
-          <execution>
-            <id>attach-docs</id>
-          </execution>
-          <execution>
-            <id>generate-javadoc-site-report</id>
-            <phase>site</phase>
-            <goals><goal>javadoc</goal></goals>
-          </execution>
-        </executions>
       </plugin>
       <plugin>
         <artifactId>maven-resources-plugin</artifactId>

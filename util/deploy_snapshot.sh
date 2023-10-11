@@ -5,7 +5,7 @@
 set -e -u
 
 function mvn_deploy() {
-  mvn clean javadoc:jar deploy -DskipTests=true "$@"
+  mvn clean deploy -DskipTests=true "$@"
 }
 
 echo "Publishing Maven snapshot..."
