@@ -43,6 +43,9 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 /** Collectors utilities for {@code common.collect} internals. */
 @GwtCompatible
 @ElementTypesAreNonnullByDefault
+@SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
+@IgnoreJRERequirement // used only from APIs with Java 8 types in them
+// (not used publicly by guava-android as of this writing, but we include it in the jar as a test)
 final class CollectCollectors {
 
   private static final Collector<Object, ?, ImmutableList<Object>> TO_IMMUTABLE_LIST =
@@ -107,6 +110,7 @@ final class CollectCollectors {
         Collector.Characteristics.UNORDERED);
   }
 
+  @IgnoreJRERequirement // see enclosing class (whose annotation Animal Sniffer ignores here...)
   private static final class EnumSetAccumulator<E extends Enum<E>> {
     @SuppressWarnings({"rawtypes", "unchecked"})
     static final Collector<Enum<?>, ?, ImmutableSet<? extends Enum<?>>> TO_IMMUTABLE_ENUM_SET =
@@ -317,6 +321,7 @@ final class CollectCollectors {
   }
 
   @J2ktIncompatible
+  @IgnoreJRERequirement // see enclosing class (whose annotation Animal Sniffer ignores here...)
   private static class EnumMapAccumulator<K extends Enum<K>, V> {
     private final BinaryOperator<V> mergeFunction;
     @CheckForNull private EnumMap<K, V> map = null;

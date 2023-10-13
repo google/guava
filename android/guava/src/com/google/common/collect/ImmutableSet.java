@@ -38,6 +38,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.SortedSet;
+import java.util.Spliterator;
 import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -51,6 +52,12 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 @SuppressWarnings("serial") // we're overriding default serialization
 @ElementTypesAreNonnullByDefault
 public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements Set<E> {
+  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
+  // @IgnoreJRERequirement is not necessary because this compiles down to a constant.
+  // (which is fortunate because Animal Sniffer doesn't look for @IgnoreJRERequirement on fields)
+  static final int SPLITERATOR_CHARACTERISTICS =
+      ImmutableCollection.SPLITERATOR_CHARACTERISTICS | Spliterator.DISTINCT;
+
   /**
    * Returns the empty immutable set. Preferred over {@link Collections#emptySet} for code
    * consistency, and because the return type conveys the immutability guarantee.
@@ -605,4 +612,6 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
       }
     }
   }
+
+  private static final long serialVersionUID = 0xdecaf;
 }

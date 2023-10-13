@@ -61,10 +61,12 @@ public class FauxveridesTest extends TestCase {
     doHasAllFauxveridesTest(ImmutableSortedMap.class, ImmutableMap.class);
   }
 
+  @AndroidIncompatible // similar to ImmutableTableTest.testNullPointerInstance
   public void testImmutableSortedSet() {
     doHasAllFauxveridesTest(ImmutableSortedSet.class, ImmutableSet.class);
   }
 
+  @AndroidIncompatible // similar to ImmutableTableTest.testNullPointerInstance
   public void testImmutableSortedMultiset() {
     doHasAllFauxveridesTest(ImmutableSortedMultiset.class, ImmutableMultiset.class);
   }
