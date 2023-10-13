@@ -521,7 +521,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
    * sake they are stored interleaved on alternate heap levels in the same array (MMPQ.queue).
    */
   @WeakOuter
-  private class Heap {
+  class Heap {
     final Ordering<E> ordering;
 
     @SuppressWarnings("nullness:initialization.field.uninitialized")

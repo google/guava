@@ -602,7 +602,7 @@ public final class Tables {
     return new UnmodifiableRowSortedMap<>(table);
   }
 
-  static final class UnmodifiableRowSortedMap<
+  private static final class UnmodifiableRowSortedMap<
           R extends @Nullable Object, C extends @Nullable Object, V extends @Nullable Object>
       extends UnmodifiableTable<R, C, V> implements RowSortedTable<R, C, V> {
 
