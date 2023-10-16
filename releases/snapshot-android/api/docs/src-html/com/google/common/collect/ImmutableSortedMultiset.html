@@ -62,7 +62,7 @@
 <span class="sourceLineNo">053</span><a id="line.53"> */</a>
 <span class="sourceLineNo">054</span><a id="line.54">@GwtIncompatible // hasn't been tested yet</a>
 <span class="sourceLineNo">055</span><a id="line.55">@ElementTypesAreNonnullByDefault</a>
-<span class="sourceLineNo">056</span><a id="line.56">public abstract class ImmutableSortedMultiset&lt;E&gt; extends ImmutableSortedMultisetFauxverideShim&lt;E&gt;</a>
+<span class="sourceLineNo">056</span><a id="line.56">public abstract class ImmutableSortedMultiset&lt;E&gt; extends ImmutableMultiset&lt;E&gt;</a>
 <span class="sourceLineNo">057</span><a id="line.57">    implements SortedMultiset&lt;E&gt; {</a>
 <span class="sourceLineNo">058</span><a id="line.58">  // TODO(lowasser): GWT compatibility</a>
 <span class="sourceLineNo">059</span><a id="line.59"></a>
@@ -690,7 +690,130 @@
 <span class="sourceLineNo">681</span><a id="line.681">  private void readObject(ObjectInputStream stream) throws InvalidObjectException {</a>
 <span class="sourceLineNo">682</span><a id="line.682">    throw new InvalidObjectException("Use SerializedForm");</a>
 <span class="sourceLineNo">683</span><a id="line.683">  }</a>
-<span class="sourceLineNo">684</span><a id="line.684">}</a>
+<span class="sourceLineNo">684</span><a id="line.684"></a>
+<span class="sourceLineNo">685</span><a id="line.685">  /**</a>
+<span class="sourceLineNo">686</span><a id="line.686">   * Not supported. Use {@link ImmutableSortedMultiset#naturalOrder}, which offers better</a>
+<span class="sourceLineNo">687</span><a id="line.687">   * type-safety, instead. This method exists only to hide {@link ImmutableMultiset#builder} from</a>
+<span class="sourceLineNo">688</span><a id="line.688">   * consumers of {@code ImmutableSortedMultiset}.</a>
+<span class="sourceLineNo">689</span><a id="line.689">   *</a>
+<span class="sourceLineNo">690</span><a id="line.690">   * @throws UnsupportedOperationException always</a>
+<span class="sourceLineNo">691</span><a id="line.691">   * @deprecated Use {@link ImmutableSortedMultiset#naturalOrder}, which offers better type-safety.</a>
+<span class="sourceLineNo">692</span><a id="line.692">   */</a>
+<span class="sourceLineNo">693</span><a id="line.693">  @DoNotCall("Use naturalOrder.")</a>
+<span class="sourceLineNo">694</span><a id="line.694">  @Deprecated</a>
+<span class="sourceLineNo">695</span><a id="line.695">  public static &lt;E&gt; ImmutableSortedMultiset.Builder&lt;E&gt; builder() {</a>
+<span class="sourceLineNo">696</span><a id="line.696">    throw new UnsupportedOperationException();</a>
+<span class="sourceLineNo">697</span><a id="line.697">  }</a>
+<span class="sourceLineNo">698</span><a id="line.698"></a>
+<span class="sourceLineNo">699</span><a id="line.699">  /**</a>
+<span class="sourceLineNo">700</span><a id="line.700">   * Not supported. &lt;b&gt;You are attempting to create a multiset that may contain a non-{@code</a>
+<span class="sourceLineNo">701</span><a id="line.701">   * Comparable} element.&lt;/b&gt; Proper calls will resolve to the version in {@code</a>
+<span class="sourceLineNo">702</span><a id="line.702">   * ImmutableSortedMultiset}, not this dummy version.</a>
+<span class="sourceLineNo">703</span><a id="line.703">   *</a>
+<span class="sourceLineNo">704</span><a id="line.704">   * @throws UnsupportedOperationException always</a>
+<span class="sourceLineNo">705</span><a id="line.705">   * @deprecated &lt;b&gt;Pass a parameter of type {@code Comparable} to use {@link</a>
+<span class="sourceLineNo">706</span><a id="line.706">   *     ImmutableSortedMultiset#of(Comparable)}.&lt;/b&gt;</a>
+<span class="sourceLineNo">707</span><a id="line.707">   */</a>
+<span class="sourceLineNo">708</span><a id="line.708">  @DoNotCall("Elements must be Comparable. (Or, pass a Comparator to orderedBy or copyOf.)")</a>
+<span class="sourceLineNo">709</span><a id="line.709">  @Deprecated</a>
+<span class="sourceLineNo">710</span><a id="line.710">  public static &lt;E&gt; ImmutableSortedMultiset&lt;E&gt; of(E element) {</a>
+<span class="sourceLineNo">711</span><a id="line.711">    throw new UnsupportedOperationException();</a>
+<span class="sourceLineNo">712</span><a id="line.712">  }</a>
+<span class="sourceLineNo">713</span><a id="line.713"></a>
+<span class="sourceLineNo">714</span><a id="line.714">  /**</a>
+<span class="sourceLineNo">715</span><a id="line.715">   * Not supported. &lt;b&gt;You are attempting to create a multiset that may contain a non-{@code</a>
+<span class="sourceLineNo">716</span><a id="line.716">   * Comparable} element.&lt;/b&gt; Proper calls will resolve to the version in {@code</a>
+<span class="sourceLineNo">717</span><a id="line.717">   * ImmutableSortedMultiset}, not this dummy version.</a>
+<span class="sourceLineNo">718</span><a id="line.718">   *</a>
+<span class="sourceLineNo">719</span><a id="line.719">   * @throws UnsupportedOperationException always</a>
+<span class="sourceLineNo">720</span><a id="line.720">   * @deprecated &lt;b&gt;Pass the parameters of type {@code Comparable} to use {@link</a>
+<span class="sourceLineNo">721</span><a id="line.721">   *     ImmutableSortedMultiset#of(Comparable, Comparable)}.&lt;/b&gt;</a>
+<span class="sourceLineNo">722</span><a id="line.722">   */</a>
+<span class="sourceLineNo">723</span><a id="line.723">  @DoNotCall("Elements must be Comparable. (Or, pass a Comparator to orderedBy or copyOf.)")</a>
+<span class="sourceLineNo">724</span><a id="line.724">  @Deprecated</a>
+<span class="sourceLineNo">725</span><a id="line.725">  public static &lt;E&gt; ImmutableSortedMultiset&lt;E&gt; of(E e1, E e2) {</a>
+<span class="sourceLineNo">726</span><a id="line.726">    throw new UnsupportedOperationException();</a>
+<span class="sourceLineNo">727</span><a id="line.727">  }</a>
+<span class="sourceLineNo">728</span><a id="line.728"></a>
+<span class="sourceLineNo">729</span><a id="line.729">  /**</a>
+<span class="sourceLineNo">730</span><a id="line.730">   * Not supported. &lt;b&gt;You are attempting to create a multiset that may contain a non-{@code</a>
+<span class="sourceLineNo">731</span><a id="line.731">   * Comparable} element.&lt;/b&gt; Proper calls will resolve to the version in {@code</a>
+<span class="sourceLineNo">732</span><a id="line.732">   * ImmutableSortedMultiset}, not this dummy version.</a>
+<span class="sourceLineNo">733</span><a id="line.733">   *</a>
+<span class="sourceLineNo">734</span><a id="line.734">   * @throws UnsupportedOperationException always</a>
+<span class="sourceLineNo">735</span><a id="line.735">   * @deprecated &lt;b&gt;Pass the parameters of type {@code Comparable} to use {@link</a>
+<span class="sourceLineNo">736</span><a id="line.736">   *     ImmutableSortedMultiset#of(Comparable, Comparable, Comparable)}.&lt;/b&gt;</a>
+<span class="sourceLineNo">737</span><a id="line.737">   */</a>
+<span class="sourceLineNo">738</span><a id="line.738">  @DoNotCall("Elements must be Comparable. (Or, pass a Comparator to orderedBy or copyOf.)")</a>
+<span class="sourceLineNo">739</span><a id="line.739">  @Deprecated</a>
+<span class="sourceLineNo">740</span><a id="line.740">  public static &lt;E&gt; ImmutableSortedMultiset&lt;E&gt; of(E e1, E e2, E e3) {</a>
+<span class="sourceLineNo">741</span><a id="line.741">    throw new UnsupportedOperationException();</a>
+<span class="sourceLineNo">742</span><a id="line.742">  }</a>
+<span class="sourceLineNo">743</span><a id="line.743"></a>
+<span class="sourceLineNo">744</span><a id="line.744">  /**</a>
+<span class="sourceLineNo">745</span><a id="line.745">   * Not supported. &lt;b&gt;You are attempting to create a multiset that may contain a non-{@code</a>
+<span class="sourceLineNo">746</span><a id="line.746">   * Comparable} element.&lt;/b&gt; Proper calls will resolve to the version in {@code</a>
+<span class="sourceLineNo">747</span><a id="line.747">   * ImmutableSortedMultiset}, not this dummy version.</a>
+<span class="sourceLineNo">748</span><a id="line.748">   *</a>
+<span class="sourceLineNo">749</span><a id="line.749">   * @throws UnsupportedOperationException always</a>
+<span class="sourceLineNo">750</span><a id="line.750">   * @deprecated &lt;b&gt;Pass the parameters of type {@code Comparable} to use {@link</a>
+<span class="sourceLineNo">751</span><a id="line.751">   *     ImmutableSortedMultiset#of(Comparable, Comparable, Comparable, Comparable)}. &lt;/b&gt;</a>
+<span class="sourceLineNo">752</span><a id="line.752">   */</a>
+<span class="sourceLineNo">753</span><a id="line.753">  @DoNotCall("Elements must be Comparable. (Or, pass a Comparator to orderedBy or copyOf.)")</a>
+<span class="sourceLineNo">754</span><a id="line.754">  @Deprecated</a>
+<span class="sourceLineNo">755</span><a id="line.755">  public static &lt;E&gt; ImmutableSortedMultiset&lt;E&gt; of(E e1, E e2, E e3, E e4) {</a>
+<span class="sourceLineNo">756</span><a id="line.756">    throw new UnsupportedOperationException();</a>
+<span class="sourceLineNo">757</span><a id="line.757">  }</a>
+<span class="sourceLineNo">758</span><a id="line.758"></a>
+<span class="sourceLineNo">759</span><a id="line.759">  /**</a>
+<span class="sourceLineNo">760</span><a id="line.760">   * Not supported. &lt;b&gt;You are attempting to create a multiset that may contain a non-{@code</a>
+<span class="sourceLineNo">761</span><a id="line.761">   * Comparable} element.&lt;/b&gt; Proper calls will resolve to the version in {@code</a>
+<span class="sourceLineNo">762</span><a id="line.762">   * ImmutableSortedMultiset}, not this dummy version.</a>
+<span class="sourceLineNo">763</span><a id="line.763">   *</a>
+<span class="sourceLineNo">764</span><a id="line.764">   * @throws UnsupportedOperationException always</a>
+<span class="sourceLineNo">765</span><a id="line.765">   * @deprecated &lt;b&gt;Pass the parameters of type {@code Comparable} to use {@link</a>
+<span class="sourceLineNo">766</span><a id="line.766">   *     ImmutableSortedMultiset#of(Comparable, Comparable, Comparable, Comparable, Comparable)} .</a>
+<span class="sourceLineNo">767</span><a id="line.767">   *     &lt;/b&gt;</a>
+<span class="sourceLineNo">768</span><a id="line.768">   */</a>
+<span class="sourceLineNo">769</span><a id="line.769">  @DoNotCall("Elements must be Comparable. (Or, pass a Comparator to orderedBy or copyOf.)")</a>
+<span class="sourceLineNo">770</span><a id="line.770">  @Deprecated</a>
+<span class="sourceLineNo">771</span><a id="line.771">  public static &lt;E&gt; ImmutableSortedMultiset&lt;E&gt; of(E e1, E e2, E e3, E e4, E e5) {</a>
+<span class="sourceLineNo">772</span><a id="line.772">    throw new UnsupportedOperationException();</a>
+<span class="sourceLineNo">773</span><a id="line.773">  }</a>
+<span class="sourceLineNo">774</span><a id="line.774"></a>
+<span class="sourceLineNo">775</span><a id="line.775">  /**</a>
+<span class="sourceLineNo">776</span><a id="line.776">   * Not supported. &lt;b&gt;You are attempting to create a multiset that may contain a non-{@code</a>
+<span class="sourceLineNo">777</span><a id="line.777">   * Comparable} element.&lt;/b&gt; Proper calls will resolve to the version in {@code</a>
+<span class="sourceLineNo">778</span><a id="line.778">   * ImmutableSortedMultiset}, not this dummy version.</a>
+<span class="sourceLineNo">779</span><a id="line.779">   *</a>
+<span class="sourceLineNo">780</span><a id="line.780">   * @throws UnsupportedOperationException always</a>
+<span class="sourceLineNo">781</span><a id="line.781">   * @deprecated &lt;b&gt;Pass the parameters of type {@code Comparable} to use {@link</a>
+<span class="sourceLineNo">782</span><a id="line.782">   *     ImmutableSortedMultiset#of(Comparable, Comparable, Comparable, Comparable, Comparable,</a>
+<span class="sourceLineNo">783</span><a id="line.783">   *     Comparable, Comparable...)} . &lt;/b&gt;</a>
+<span class="sourceLineNo">784</span><a id="line.784">   */</a>
+<span class="sourceLineNo">785</span><a id="line.785">  @DoNotCall("Elements must be Comparable. (Or, pass a Comparator to orderedBy or copyOf.)")</a>
+<span class="sourceLineNo">786</span><a id="line.786">  @Deprecated</a>
+<span class="sourceLineNo">787</span><a id="line.787">  public static &lt;E&gt; ImmutableSortedMultiset&lt;E&gt; of(</a>
+<span class="sourceLineNo">788</span><a id="line.788">      E e1, E e2, E e3, E e4, E e5, E e6, E... remaining) {</a>
+<span class="sourceLineNo">789</span><a id="line.789">    throw new UnsupportedOperationException();</a>
+<span class="sourceLineNo">790</span><a id="line.790">  }</a>
+<span class="sourceLineNo">791</span><a id="line.791"></a>
+<span class="sourceLineNo">792</span><a id="line.792">  /**</a>
+<span class="sourceLineNo">793</span><a id="line.793">   * Not supported. &lt;b&gt;You are attempting to create a multiset that may contain non-{@code</a>
+<span class="sourceLineNo">794</span><a id="line.794">   * Comparable} elements.&lt;/b&gt; Proper calls will resolve to the version in {@code</a>
+<span class="sourceLineNo">795</span><a id="line.795">   * ImmutableSortedMultiset}, not this dummy version.</a>
+<span class="sourceLineNo">796</span><a id="line.796">   *</a>
+<span class="sourceLineNo">797</span><a id="line.797">   * @throws UnsupportedOperationException always</a>
+<span class="sourceLineNo">798</span><a id="line.798">   * @deprecated &lt;b&gt;Pass parameters of type {@code Comparable} to use {@link</a>
+<span class="sourceLineNo">799</span><a id="line.799">   *     ImmutableSortedMultiset#copyOf(Comparable[])}.&lt;/b&gt;</a>
+<span class="sourceLineNo">800</span><a id="line.800">   */</a>
+<span class="sourceLineNo">801</span><a id="line.801">  @DoNotCall("Elements must be Comparable. (Or, pass a Comparator to orderedBy or copyOf.)")</a>
+<span class="sourceLineNo">802</span><a id="line.802">  @Deprecated</a>
+<span class="sourceLineNo">803</span><a id="line.803">  // The usage of "Z" here works around bugs in Javadoc (JDK-8318093) and JDiff.</a>
+<span class="sourceLineNo">804</span><a id="line.804">  public static &lt;Z&gt; ImmutableSortedMultiset&lt;Z&gt; copyOf(Z[] elements) {</a>
+<span class="sourceLineNo">805</span><a id="line.805">    throw new UnsupportedOperationException();</a>
+<span class="sourceLineNo">806</span><a id="line.806">  }</a>
+<span class="sourceLineNo">807</span><a id="line.807">}</a>
 
 
 

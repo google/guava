@@ -198,11 +198,11 @@
 <span class="sourceLineNo">189</span><a id="line.189">     * frameworks like Android that define post-construct hooks like Activity.onCreate, etc.</a>
 <span class="sourceLineNo">190</span><a id="line.190">     */</a>
 <span class="sourceLineNo">191</span><a id="line.191"></a>
-<span class="sourceLineNo">192</span><a id="line.192">    @CheckForNull ValueSetLink&lt;K, V&gt; predecessorInValueSet;</a>
-<span class="sourceLineNo">193</span><a id="line.193">    @CheckForNull ValueSetLink&lt;K, V&gt; successorInValueSet;</a>
+<span class="sourceLineNo">192</span><a id="line.192">    @CheckForNull private ValueSetLink&lt;K, V&gt; predecessorInValueSet;</a>
+<span class="sourceLineNo">193</span><a id="line.193">    @CheckForNull private ValueSetLink&lt;K, V&gt; successorInValueSet;</a>
 <span class="sourceLineNo">194</span><a id="line.194"></a>
-<span class="sourceLineNo">195</span><a id="line.195">    @CheckForNull ValueEntry&lt;K, V&gt; predecessorInMultimap;</a>
-<span class="sourceLineNo">196</span><a id="line.196">    @CheckForNull ValueEntry&lt;K, V&gt; successorInMultimap;</a>
+<span class="sourceLineNo">195</span><a id="line.195">    @CheckForNull private ValueEntry&lt;K, V&gt; predecessorInMultimap;</a>
+<span class="sourceLineNo">196</span><a id="line.196">    @CheckForNull private ValueEntry&lt;K, V&gt; successorInMultimap;</a>
 <span class="sourceLineNo">197</span><a id="line.197"></a>
 <span class="sourceLineNo">198</span><a id="line.198">    ValueEntry(</a>
 <span class="sourceLineNo">199</span><a id="line.199">        @ParametricNullness K key,</a>

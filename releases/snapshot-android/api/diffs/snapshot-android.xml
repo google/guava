@@ -21011,7 +21011,7 @@
   </class>
   <!-- end class com.google.common.collect.ImmutableSetMultimap.Builder -->
   <!-- start class com.google.common.collect.ImmutableSortedMap -->
-  <class name="ImmutableSortedMap" extends="com.google.common.collect.ImmutableSortedMapFauxverideShim&lt;K, V&gt;"
+  <class name="ImmutableSortedMap" extends="com.google.common.collect.ImmutableMap&lt;K, V&gt;"
     abstract="false"
     static="false" final="true" visibility="public"
     deprecated="not deprecated">
@@ -21623,6 +21623,316 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
     </method>
+    <method name="builder" return="com.google.common.collect.ImmutableSortedMap.Builder&lt;K, V&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="Use {@link ImmutableSortedMap#naturalOrder}, which offers better type-safety.">
+      <doc>
+      <![CDATA[Not supported. Use {@link ImmutableSortedMap#naturalOrder}, which offers better type-safety,
+ instead. This method exists only to hide {@link ImmutableMap#builder} from consumers of {@code
+ ImmutableSortedMap}.
+
+ @throws UnsupportedOperationException always
+ @deprecated Use {@link ImmutableSortedMap#naturalOrder}, which offers better type-safety.]]>
+      </doc>
+    </method>
+    <method name="builderWithExpectedSize" return="com.google.common.collect.ImmutableSortedMap.Builder&lt;K, V&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="Not supported for ImmutableSortedMap.">
+      <param name="expectedSize" type="int"/>
+      <doc>
+      <![CDATA[Not supported for ImmutableSortedMap.
+
+ @throws UnsupportedOperationException always
+ @deprecated Not supported for ImmutableSortedMap.]]>
+      </doc>
+    </method>
+    <method name="of" return="com.google.common.collect.ImmutableSortedMap&lt;K, V&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="lEsS_tHaNb>Pass a key of type {@code Comparable} to use {@link
+     ImmutableSortedMap#of(Comparable, Object)}.lEsS_tHaN/b>">
+      <param name="k1" type="K"/>
+      <param name="v1" type="V"/>
+      <doc>
+      <![CDATA[Not supported. <b>You are attempting to create a map that may contain a non-{@code Comparable}
+ key.</b> Proper calls will resolve to the version in {@code ImmutableSortedMap}, not this dummy
+ version.
+
+ @throws UnsupportedOperationException always
+ @deprecated <b>Pass a key of type {@code Comparable} to use {@link
+     ImmutableSortedMap#of(Comparable, Object)}.</b>]]>
+      </doc>
+    </method>
+    <method name="of" return="com.google.common.collect.ImmutableSortedMap&lt;K, V&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="lEsS_tHaNb>Pass keys of type {@code Comparable} to use {@link
+     ImmutableSortedMap#of(Comparable, Object, Comparable, Object)}.lEsS_tHaN/b>">
+      <param name="k1" type="K"/>
+      <param name="v1" type="V"/>
+      <param name="k2" type="K"/>
+      <param name="v2" type="V"/>
+      <doc>
+      <![CDATA[Not supported. <b>You are attempting to create a map that may contain non-{@code Comparable}
+ keys.</b> Proper calls will resolve to the version in {@code ImmutableSortedMap}, not this
+ dummy version.
+
+ @throws UnsupportedOperationException always
+ @deprecated <b>Pass keys of type {@code Comparable} to use {@link
+     ImmutableSortedMap#of(Comparable, Object, Comparable, Object)}.</b>]]>
+      </doc>
+    </method>
+    <method name="of" return="com.google.common.collect.ImmutableSortedMap&lt;K, V&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="lEsS_tHaNb>Pass keys of type {@code Comparable} to use {@link
+     ImmutableSortedMap#of(Comparable, Object, Comparable, Object, Comparable, Object)}.lEsS_tHaN/b>">
+      <param name="k1" type="K"/>
+      <param name="v1" type="V"/>
+      <param name="k2" type="K"/>
+      <param name="v2" type="V"/>
+      <param name="k3" type="K"/>
+      <param name="v3" type="V"/>
+      <doc>
+      <![CDATA[Not supported. <b>You are attempting to create a map that may contain non-{@code Comparable}
+ keys.</b> Proper calls to will resolve to the version in {@code ImmutableSortedMap}, not this
+ dummy version.
+
+ @throws UnsupportedOperationException always
+ @deprecated <b>Pass keys of type {@code Comparable} to use {@link
+     ImmutableSortedMap#of(Comparable, Object, Comparable, Object, Comparable, Object)}.</b>]]>
+      </doc>
+    </method>
+    <method name="of" return="com.google.common.collect.ImmutableSortedMap&lt;K, V&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="lEsS_tHaNb>Pass keys of type {@code Comparable} to use {@link
+     ImmutableSortedMap#of(Comparable, Object, Comparable, Object, Comparable, Object,
+     Comparable, Object)}.lEsS_tHaN/b>">
+      <param name="k1" type="K"/>
+      <param name="v1" type="V"/>
+      <param name="k2" type="K"/>
+      <param name="v2" type="V"/>
+      <param name="k3" type="K"/>
+      <param name="v3" type="V"/>
+      <param name="k4" type="K"/>
+      <param name="v4" type="V"/>
+      <doc>
+      <![CDATA[Not supported. <b>You are attempting to create a map that may contain non-{@code Comparable}
+ keys.</b> Proper calls will resolve to the version in {@code ImmutableSortedMap}, not this
+ dummy version.
+
+ @throws UnsupportedOperationException always
+ @deprecated <b>Pass keys of type {@code Comparable} to use {@link
+     ImmutableSortedMap#of(Comparable, Object, Comparable, Object, Comparable, Object,
+     Comparable, Object)}.</b>]]>
+      </doc>
+    </method>
+    <method name="of" return="com.google.common.collect.ImmutableSortedMap&lt;K, V&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="lEsS_tHaNb>Pass keys of type {@code Comparable} to use {@link
+     ImmutableSortedMap#of(Comparable, Object, Comparable, Object, Comparable, Object,
+     Comparable, Object, Comparable, Object)}.lEsS_tHaN/b>">
+      <param name="k1" type="K"/>
+      <param name="v1" type="V"/>
+      <param name="k2" type="K"/>
+      <param name="v2" type="V"/>
+      <param name="k3" type="K"/>
+      <param name="v3" type="V"/>
+      <param name="k4" type="K"/>
+      <param name="v4" type="V"/>
+      <param name="k5" type="K"/>
+      <param name="v5" type="V"/>
+      <doc>
+      <![CDATA[Not supported. <b>You are attempting to create a map that may contain non-{@code Comparable}
+ keys.</b> Proper calls will resolve to the version in {@code ImmutableSortedMap}, not this
+ dummy version.
+
+ @throws UnsupportedOperationException always
+ @deprecated <b>Pass keys of type {@code Comparable} to use {@link
+     ImmutableSortedMap#of(Comparable, Object, Comparable, Object, Comparable, Object,
+     Comparable, Object, Comparable, Object)}.</b>]]>
+      </doc>
+    </method>
+    <method name="of" return="com.google.common.collect.ImmutableSortedMap&lt;K, V&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="lEsS_tHaNb>Pass keys of type {@code Comparable} to use {@link
+     ImmutableSortedMap#of(Comparable, Object, Comparable, Object, Comparable, Object,
+     Comparable, Object, Comparable, Object)}.lEsS_tHaN/b>">
+      <param name="k1" type="K"/>
+      <param name="v1" type="V"/>
+      <param name="k2" type="K"/>
+      <param name="v2" type="V"/>
+      <param name="k3" type="K"/>
+      <param name="v3" type="V"/>
+      <param name="k4" type="K"/>
+      <param name="v4" type="V"/>
+      <param name="k5" type="K"/>
+      <param name="v5" type="V"/>
+      <param name="k6" type="K"/>
+      <param name="v6" type="V"/>
+      <doc>
+      <![CDATA[Not supported. <b>You are attempting to create a map that may contain non-{@code Comparable}
+ keys.</b> Proper calls will resolve to the version in {@code ImmutableSortedMap}, not this
+ dummy version.
+
+ @throws UnsupportedOperationException always
+ @deprecated <b>Pass keys of type {@code Comparable} to use {@link
+     ImmutableSortedMap#of(Comparable, Object, Comparable, Object, Comparable, Object,
+     Comparable, Object, Comparable, Object)}.</b>]]>
+      </doc>
+    </method>
+    <method name="of" return="com.google.common.collect.ImmutableSortedMap&lt;K, V&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="lEsS_tHaNb>Pass keys of type {@code Comparable} to use {@link
+     ImmutableSortedMap#of(Comparable, Object, Comparable, Object, Comparable, Object,
+     Comparable, Object, Comparable, Object)}.lEsS_tHaN/b>">
+      <param name="k1" type="K"/>
+      <param name="v1" type="V"/>
+      <param name="k2" type="K"/>
+      <param name="v2" type="V"/>
+      <param name="k3" type="K"/>
+      <param name="v3" type="V"/>
+      <param name="k4" type="K"/>
+      <param name="v4" type="V"/>
+      <param name="k5" type="K"/>
+      <param name="v5" type="V"/>
+      <param name="k6" type="K"/>
+      <param name="v6" type="V"/>
+      <param name="k7" type="K"/>
+      <param name="v7" type="V"/>
+      <doc>
+      <![CDATA[Not supported. <b>You are attempting to create a map that may contain non-{@code Comparable}
+ keys.</b> Proper calls will resolve to the version in {@code ImmutableSortedMap}, not this
+ dummy version.
+
+ @throws UnsupportedOperationException always
+ @deprecated <b>Pass keys of type {@code Comparable} to use {@link
+     ImmutableSortedMap#of(Comparable, Object, Comparable, Object, Comparable, Object,
+     Comparable, Object, Comparable, Object)}.</b>]]>
+      </doc>
+    </method>
+    <method name="of" return="com.google.common.collect.ImmutableSortedMap&lt;K, V&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="lEsS_tHaNb>Pass keys of type {@code Comparable} to use {@link
+     ImmutableSortedMap#of(Comparable, Object, Comparable, Object, Comparable, Object,
+     Comparable, Object, Comparable, Object)}.lEsS_tHaN/b>">
+      <param name="k1" type="K"/>
+      <param name="v1" type="V"/>
+      <param name="k2" type="K"/>
+      <param name="v2" type="V"/>
+      <param name="k3" type="K"/>
+      <param name="v3" type="V"/>
+      <param name="k4" type="K"/>
+      <param name="v4" type="V"/>
+      <param name="k5" type="K"/>
+      <param name="v5" type="V"/>
+      <param name="k6" type="K"/>
+      <param name="v6" type="V"/>
+      <param name="k7" type="K"/>
+      <param name="v7" type="V"/>
+      <param name="k8" type="K"/>
+      <param name="v8" type="V"/>
+      <doc>
+      <![CDATA[Not supported. <b>You are attempting to create a map that may contain non-{@code Comparable}
+ keys.</b> Proper calls will resolve to the version in {@code ImmutableSortedMap}, not this
+ dummy version.
+
+ @throws UnsupportedOperationException always
+ @deprecated <b>Pass keys of type {@code Comparable} to use {@link
+     ImmutableSortedMap#of(Comparable, Object, Comparable, Object, Comparable, Object,
+     Comparable, Object, Comparable, Object)}.</b>]]>
+      </doc>
+    </method>
+    <method name="of" return="com.google.common.collect.ImmutableSortedMap&lt;K, V&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="lEsS_tHaNb>Pass keys of type {@code Comparable} to use {@link
+     ImmutableSortedMap#of(Comparable, Object, Comparable, Object, Comparable, Object,
+     Comparable, Object, Comparable, Object)}.lEsS_tHaN/b>">
+      <param name="k1" type="K"/>
+      <param name="v1" type="V"/>
+      <param name="k2" type="K"/>
+      <param name="v2" type="V"/>
+      <param name="k3" type="K"/>
+      <param name="v3" type="V"/>
+      <param name="k4" type="K"/>
+      <param name="v4" type="V"/>
+      <param name="k5" type="K"/>
+      <param name="v5" type="V"/>
+      <param name="k6" type="K"/>
+      <param name="v6" type="V"/>
+      <param name="k7" type="K"/>
+      <param name="v7" type="V"/>
+      <param name="k8" type="K"/>
+      <param name="v8" type="V"/>
+      <param name="k9" type="K"/>
+      <param name="v9" type="V"/>
+      <doc>
+      <![CDATA[Not supported. <b>You are attempting to create a map that may contain non-{@code Comparable}
+ keys.</b> Proper calls will resolve to the version in {@code ImmutableSortedMap}, not this
+ dummy version.
+
+ @throws UnsupportedOperationException always
+ @deprecated <b>Pass keys of type {@code Comparable} to use {@link
+     ImmutableSortedMap#of(Comparable, Object, Comparable, Object, Comparable, Object,
+     Comparable, Object, Comparable, Object)}.</b>]]>
+      </doc>
+    </method>
+    <method name="of" return="com.google.common.collect.ImmutableSortedMap&lt;K, V&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="lEsS_tHaNb>Pass keys of type {@code Comparable} to use {@link
+     ImmutableSortedMap#of(Comparable, Object, Comparable, Object, Comparable, Object,
+     Comparable, Object, Comparable, Object)}.lEsS_tHaN/b>">
+      <param name="k1" type="K"/>
+      <param name="v1" type="V"/>
+      <param name="k2" type="K"/>
+      <param name="v2" type="V"/>
+      <param name="k3" type="K"/>
+      <param name="v3" type="V"/>
+      <param name="k4" type="K"/>
+      <param name="v4" type="V"/>
+      <param name="k5" type="K"/>
+      <param name="v5" type="V"/>
+      <param name="k6" type="K"/>
+      <param name="v6" type="V"/>
+      <param name="k7" type="K"/>
+      <param name="v7" type="V"/>
+      <param name="k8" type="K"/>
+      <param name="v8" type="V"/>
+      <param name="k9" type="K"/>
+      <param name="v9" type="V"/>
+      <param name="k10" type="K"/>
+      <param name="v10" type="V"/>
+      <doc>
+      <![CDATA[Not supported. <b>You are attempting to create a map that may contain non-{@code Comparable}
+ keys.</b> Proper calls will resolve to the version in {@code ImmutableSortedMap}, not this
+ dummy version.
+
+ @throws UnsupportedOperationException always
+ @deprecated <b>Pass keys of type {@code Comparable} to use {@link
+     ImmutableSortedMap#of(Comparable, Object, Comparable, Object, Comparable, Object,
+     Comparable, Object, Comparable, Object)}.</b>]]>
+      </doc>
+    </method>
+    <method name="ofEntries" return="com.google.common.collect.ImmutableSortedMap&lt;K, V&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="Use {@code ImmutableSortedMap.copyOf(ImmutableMap.ofEntries(...))}.">
+      <param name="entries" type="java.util.Map.Entry[]"/>
+      <doc>
+      <![CDATA[Not supported. Use {@code ImmutableSortedMap.copyOf(ImmutableMap.ofEntries(...))}.
+
+ @deprecated Use {@code ImmutableSortedMap.copyOf(ImmutableMap.ofEntries(...))}.]]>
+      </doc>
+    </method>
     <doc>
     <![CDATA[A {@link NavigableMap} whose contents will never change, with many other important properties
  detailed at {@link ImmutableCollection}.
@@ -21785,7 +22095,7 @@
   </class>
   <!-- end class com.google.common.collect.ImmutableSortedMap.Builder -->
   <!-- start class com.google.common.collect.ImmutableSortedMultiset -->
-  <class name="ImmutableSortedMultiset" extends="com.google.common.collect.ImmutableSortedMultisetFauxverideShim&lt;E&gt;"
+  <class name="ImmutableSortedMultiset" extends="com.google.common.collect.ImmutableMultiset&lt;E&gt;"
     abstract="true"
     static="false" final="false" visibility="public"
     deprecated="not deprecated">
@@ -22096,6 +22406,151 @@
  href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6468354">bug 6468354</a>.]]>
       </doc>
     </method>
+    <method name="builder" return="com.google.common.collect.ImmutableSortedMultiset.Builder&lt;E&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="Use {@link ImmutableSortedMultiset#naturalOrder}, which offers better type-safety.">
+      <doc>
+      <![CDATA[Not supported. Use {@link ImmutableSortedMultiset#naturalOrder}, which offers better
+ type-safety, instead. This method exists only to hide {@link ImmutableMultiset#builder} from
+ consumers of {@code ImmutableSortedMultiset}.
+
+ @throws UnsupportedOperationException always
+ @deprecated Use {@link ImmutableSortedMultiset#naturalOrder}, which offers better type-safety.]]>
+      </doc>
+    </method>
+    <method name="of" return="com.google.common.collect.ImmutableSortedMultiset&lt;E&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="lEsS_tHaNb>Pass a parameter of type {@code Comparable} to use {@link
+     ImmutableSortedMultiset#of(Comparable)}.lEsS_tHaN/b>">
+      <param name="element" type="E"/>
+      <doc>
+      <![CDATA[Not supported. <b>You are attempting to create a multiset that may contain a non-{@code
+ Comparable} element.</b> Proper calls will resolve to the version in {@code
+ ImmutableSortedMultiset}, not this dummy version.
+
+ @throws UnsupportedOperationException always
+ @deprecated <b>Pass a parameter of type {@code Comparable} to use {@link
+     ImmutableSortedMultiset#of(Comparable)}.</b>]]>
+      </doc>
+    </method>
+    <method name="of" return="com.google.common.collect.ImmutableSortedMultiset&lt;E&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="lEsS_tHaNb>Pass the parameters of type {@code Comparable} to use {@link
+     ImmutableSortedMultiset#of(Comparable, Comparable)}.lEsS_tHaN/b>">
+      <param name="e1" type="E"/>
+      <param name="e2" type="E"/>
+      <doc>
+      <![CDATA[Not supported. <b>You are attempting to create a multiset that may contain a non-{@code
+ Comparable} element.</b> Proper calls will resolve to the version in {@code
+ ImmutableSortedMultiset}, not this dummy version.
+
+ @throws UnsupportedOperationException always
+ @deprecated <b>Pass the parameters of type {@code Comparable} to use {@link
+     ImmutableSortedMultiset#of(Comparable, Comparable)}.</b>]]>
+      </doc>
+    </method>
+    <method name="of" return="com.google.common.collect.ImmutableSortedMultiset&lt;E&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="lEsS_tHaNb>Pass the parameters of type {@code Comparable} to use {@link
+     ImmutableSortedMultiset#of(Comparable, Comparable, Comparable)}.lEsS_tHaN/b>">
+      <param name="e1" type="E"/>
+      <param name="e2" type="E"/>
+      <param name="e3" type="E"/>
+      <doc>
+      <![CDATA[Not supported. <b>You are attempting to create a multiset that may contain a non-{@code
+ Comparable} element.</b> Proper calls will resolve to the version in {@code
+ ImmutableSortedMultiset}, not this dummy version.
+
+ @throws UnsupportedOperationException always
+ @deprecated <b>Pass the parameters of type {@code Comparable} to use {@link
+     ImmutableSortedMultiset#of(Comparable, Comparable, Comparable)}.</b>]]>
+      </doc>
+    </method>
+    <method name="of" return="com.google.common.collect.ImmutableSortedMultiset&lt;E&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="lEsS_tHaNb>Pass the parameters of type {@code Comparable} to use {@link
+     ImmutableSortedMultiset#of(Comparable, Comparable, Comparable, Comparable)}. lEsS_tHaN/b>">
+      <param name="e1" type="E"/>
+      <param name="e2" type="E"/>
+      <param name="e3" type="E"/>
+      <param name="e4" type="E"/>
+      <doc>
+      <![CDATA[Not supported. <b>You are attempting to create a multiset that may contain a non-{@code
+ Comparable} element.</b> Proper calls will resolve to the version in {@code
+ ImmutableSortedMultiset}, not this dummy version.
+
+ @throws UnsupportedOperationException always
+ @deprecated <b>Pass the parameters of type {@code Comparable} to use {@link
+     ImmutableSortedMultiset#of(Comparable, Comparable, Comparable, Comparable)}. </b>]]>
+      </doc>
+    </method>
+    <method name="of" return="com.google.common.collect.ImmutableSortedMultiset&lt;E&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="lEsS_tHaNb>Pass the parameters of type {@code Comparable} to use {@link
+     ImmutableSortedMultiset#of(Comparable, Comparable, Comparable, Comparable, Comparable)} .
+     lEsS_tHaN/b>">
+      <param name="e1" type="E"/>
+      <param name="e2" type="E"/>
+      <param name="e3" type="E"/>
+      <param name="e4" type="E"/>
+      <param name="e5" type="E"/>
+      <doc>
+      <![CDATA[Not supported. <b>You are attempting to create a multiset that may contain a non-{@code
+ Comparable} element.</b> Proper calls will resolve to the version in {@code
+ ImmutableSortedMultiset}, not this dummy version.
+
+ @throws UnsupportedOperationException always
+ @deprecated <b>Pass the parameters of type {@code Comparable} to use {@link
+     ImmutableSortedMultiset#of(Comparable, Comparable, Comparable, Comparable, Comparable)} .
+     </b>]]>
+      </doc>
+    </method>
+    <method name="of" return="com.google.common.collect.ImmutableSortedMultiset&lt;E&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="lEsS_tHaNb>Pass the parameters of type {@code Comparable} to use {@link
+     ImmutableSortedMultiset#of(Comparable, Comparable, Comparable, Comparable, Comparable,
+     Comparable, Comparable...)} . lEsS_tHaN/b>">
+      <param name="e1" type="E"/>
+      <param name="e2" type="E"/>
+      <param name="e3" type="E"/>
+      <param name="e4" type="E"/>
+      <param name="e5" type="E"/>
+      <param name="e6" type="E"/>
+      <param name="remaining" type="E[]"/>
+      <doc>
+      <![CDATA[Not supported. <b>You are attempting to create a multiset that may contain a non-{@code
+ Comparable} element.</b> Proper calls will resolve to the version in {@code
+ ImmutableSortedMultiset}, not this dummy version.
+
+ @throws UnsupportedOperationException always
+ @deprecated <b>Pass the parameters of type {@code Comparable} to use {@link
+     ImmutableSortedMultiset#of(Comparable, Comparable, Comparable, Comparable, Comparable,
+     Comparable, Comparable...)} . </b>]]>
+      </doc>
+    </method>
+    <method name="copyOf" return="com.google.common.collect.ImmutableSortedMultiset&lt;Z&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="lEsS_tHaNb>Pass parameters of type {@code Comparable} to use {@link
+     ImmutableSortedMultiset#copyOf(Comparable[])}.lEsS_tHaN/b>">
+      <param name="elements" type="Z[]"/>
+      <doc>
+      <![CDATA[Not supported. <b>You are attempting to create a multiset that may contain non-{@code
+ Comparable} elements.</b> Proper calls will resolve to the version in {@code
+ ImmutableSortedMultiset}, not this dummy version.
+
+ @throws UnsupportedOperationException always
+ @deprecated <b>Pass parameters of type {@code Comparable} to use {@link
+     ImmutableSortedMultiset#copyOf(Comparable[])}.</b>]]>
+      </doc>
+    </method>
     <doc>
     <![CDATA[A {@link SortedMultiset} whose contents will never change, with many other important properties
  detailed at {@link ImmutableCollection}.
@@ -22245,7 +22700,7 @@
   </class>
   <!-- end class com.google.common.collect.ImmutableSortedMultiset.Builder -->
   <!-- start class com.google.common.collect.ImmutableSortedSet -->
-  <class name="ImmutableSortedSet" extends="com.google.common.collect.ImmutableSortedSetFauxverideShim&lt;E&gt;"
+  <class name="ImmutableSortedSet" extends="com.google.common.collect.ImmutableSet&lt;E&gt;"
     abstract="true"
     static="false" final="false" visibility="public"
     deprecated="not deprecated">
@@ -22730,6 +23185,162 @@
       deprecated="not deprecated">
       <doc>
       <![CDATA[@since 12.0]]>
+      </doc>
+    </method>
+    <method name="builder" return="com.google.common.collect.ImmutableSortedSet.Builder&lt;E&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="Use {@link ImmutableSortedSet#naturalOrder}, which offers better type-safety.">
+      <doc>
+      <![CDATA[Not supported. Use {@link ImmutableSortedSet#naturalOrder}, which offers better type-safety,
+ instead. This method exists only to hide {@link ImmutableSet#builder} from consumers of {@code
+ ImmutableSortedSet}.
+
+ @throws UnsupportedOperationException always
+ @deprecated Use {@link ImmutableSortedSet#naturalOrder}, which offers better type-safety.]]>
+      </doc>
+    </method>
+    <method name="builderWithExpectedSize" return="com.google.common.collect.ImmutableSortedSet.Builder&lt;E&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="Not supported by ImmutableSortedSet.">
+      <param name="expectedSize" type="int"/>
+      <doc>
+      <![CDATA[Not supported. This method exists only to hide {@link ImmutableSet#builderWithExpectedSize}
+ from consumers of {@code ImmutableSortedSet}.
+
+ @throws UnsupportedOperationException always
+ @deprecated Not supported by ImmutableSortedSet.]]>
+      </doc>
+    </method>
+    <method name="of" return="com.google.common.collect.ImmutableSortedSet&lt;E&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="lEsS_tHaNb>Pass a parameter of type {@code Comparable} to use {@link
+     ImmutableSortedSet#of(Comparable)}.lEsS_tHaN/b>">
+      <param name="element" type="E"/>
+      <doc>
+      <![CDATA[Not supported. <b>You are attempting to create a set that may contain a non-{@code Comparable}
+ element.</b> Proper calls will resolve to the version in {@code ImmutableSortedSet}, not this
+ dummy version.
+
+ @throws UnsupportedOperationException always
+ @deprecated <b>Pass a parameter of type {@code Comparable} to use {@link
+     ImmutableSortedSet#of(Comparable)}.</b>]]>
+      </doc>
+    </method>
+    <method name="of" return="com.google.common.collect.ImmutableSortedSet&lt;E&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="lEsS_tHaNb>Pass the parameters of type {@code Comparable} to use {@link
+     ImmutableSortedSet#of(Comparable, Comparable)}.lEsS_tHaN/b>">
+      <param name="e1" type="E"/>
+      <param name="e2" type="E"/>
+      <doc>
+      <![CDATA[Not supported. <b>You are attempting to create a set that may contain a non-{@code Comparable}
+ element.</b> Proper calls will resolve to the version in {@code ImmutableSortedSet}, not this
+ dummy version.
+
+ @throws UnsupportedOperationException always
+ @deprecated <b>Pass the parameters of type {@code Comparable} to use {@link
+     ImmutableSortedSet#of(Comparable, Comparable)}.</b>]]>
+      </doc>
+    </method>
+    <method name="of" return="com.google.common.collect.ImmutableSortedSet&lt;E&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="lEsS_tHaNb>Pass the parameters of type {@code Comparable} to use {@link
+     ImmutableSortedSet#of(Comparable, Comparable, Comparable)}.lEsS_tHaN/b>">
+      <param name="e1" type="E"/>
+      <param name="e2" type="E"/>
+      <param name="e3" type="E"/>
+      <doc>
+      <![CDATA[Not supported. <b>You are attempting to create a set that may contain a non-{@code Comparable}
+ element.</b> Proper calls will resolve to the version in {@code ImmutableSortedSet}, not this
+ dummy version.
+
+ @throws UnsupportedOperationException always
+ @deprecated <b>Pass the parameters of type {@code Comparable} to use {@link
+     ImmutableSortedSet#of(Comparable, Comparable, Comparable)}.</b>]]>
+      </doc>
+    </method>
+    <method name="of" return="com.google.common.collect.ImmutableSortedSet&lt;E&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="lEsS_tHaNb>Pass the parameters of type {@code Comparable} to use {@link
+     ImmutableSortedSet#of(Comparable, Comparable, Comparable, Comparable)}. lEsS_tHaN/b>">
+      <param name="e1" type="E"/>
+      <param name="e2" type="E"/>
+      <param name="e3" type="E"/>
+      <param name="e4" type="E"/>
+      <doc>
+      <![CDATA[Not supported. <b>You are attempting to create a set that may contain a non-{@code Comparable}
+ element.</b> Proper calls will resolve to the version in {@code ImmutableSortedSet}, not this
+ dummy version.
+
+ @throws UnsupportedOperationException always
+ @deprecated <b>Pass the parameters of type {@code Comparable} to use {@link
+     ImmutableSortedSet#of(Comparable, Comparable, Comparable, Comparable)}. </b>]]>
+      </doc>
+    </method>
+    <method name="of" return="com.google.common.collect.ImmutableSortedSet&lt;E&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="lEsS_tHaNb>Pass the parameters of type {@code Comparable} to use {@link
+     ImmutableSortedSet#of( Comparable, Comparable, Comparable, Comparable, Comparable)}. lEsS_tHaN/b>">
+      <param name="e1" type="E"/>
+      <param name="e2" type="E"/>
+      <param name="e3" type="E"/>
+      <param name="e4" type="E"/>
+      <param name="e5" type="E"/>
+      <doc>
+      <![CDATA[Not supported. <b>You are attempting to create a set that may contain a non-{@code Comparable}
+ element.</b> Proper calls will resolve to the version in {@code ImmutableSortedSet}, not this
+ dummy version.
+
+ @throws UnsupportedOperationException always
+ @deprecated <b>Pass the parameters of type {@code Comparable} to use {@link
+     ImmutableSortedSet#of( Comparable, Comparable, Comparable, Comparable, Comparable)}. </b>]]>
+      </doc>
+    </method>
+    <method name="of" return="com.google.common.collect.ImmutableSortedSet&lt;E&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="lEsS_tHaNb>Pass the parameters of type {@code Comparable} to use {@link
+     ImmutableSortedSet#of(Comparable, Comparable, Comparable, Comparable, Comparable,
+     Comparable, Comparable...)}. lEsS_tHaN/b>">
+      <param name="e1" type="E"/>
+      <param name="e2" type="E"/>
+      <param name="e3" type="E"/>
+      <param name="e4" type="E"/>
+      <param name="e5" type="E"/>
+      <param name="e6" type="E"/>
+      <param name="remaining" type="E[]"/>
+      <doc>
+      <![CDATA[Not supported. <b>You are attempting to create a set that may contain a non-{@code Comparable}
+ element.</b> Proper calls will resolve to the version in {@code ImmutableSortedSet}, not this
+ dummy version.
+
+ @throws UnsupportedOperationException always
+ @deprecated <b>Pass the parameters of type {@code Comparable} to use {@link
+     ImmutableSortedSet#of(Comparable, Comparable, Comparable, Comparable, Comparable,
+     Comparable, Comparable...)}. </b>]]>
+      </doc>
+    </method>
+    <method name="copyOf" return="com.google.common.collect.ImmutableSortedSet&lt;Z&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="lEsS_tHaNb>Pass parameters of type {@code Comparable} to use {@link
+     ImmutableSortedSet#copyOf(Comparable[])}.lEsS_tHaN/b>">
+      <param name="elements" type="Z[]"/>
+      <doc>
+      <![CDATA[Not supported. <b>You are attempting to create a set that may contain non-{@code Comparable}
+ elements.</b> Proper calls will resolve to the version in {@code ImmutableSortedSet}, not this
+ dummy version.
+
+ @throws UnsupportedOperationException always
+ @deprecated <b>Pass parameters of type {@code Comparable} to use {@link
+     ImmutableSortedSet#copyOf(Comparable[])}.</b>]]>
       </doc>
     </method>
     <doc>
@@ -63476,7 +64087,7 @@
 
  <p>After calling this method, you may not call {@link #finishToFuture()}, {@link
  #finishToValueAndCloser(ValueAndCloserConsumer, Executor)}, or any other derivation method on
- this {@code ClosingFuture}.
+ the original {@code ClosingFuture} instance.
 
  @param function transforms the value of this step to the value of the derived step
  @param executor executor to run the function in
@@ -63557,7 +64168,7 @@
 
  <p>After calling this method, you may not call {@link #finishToFuture()}, {@link
  #finishToValueAndCloser(ValueAndCloserConsumer, Executor)}, or any other derivation method on
- this {@code ClosingFuture}.
+ the original {@code ClosingFuture} instance.
 
  @param function transforms the value of this step to a {@code ClosingFuture} with the value of
      the derived step
@@ -63633,7 +64244,7 @@
 
  <p>After calling this method, you may not call {@link #finishToFuture()}, {@link
  #finishToValueAndCloser(ValueAndCloserConsumer, Executor)}, or any other derivation method on
- this {@code ClosingFuture}.
+ the original {@code ClosingFuture} instance.
 
  @param exceptionType the exception type that triggers use of {@code fallback}. The exception
      type is matched against this step's exception. "This step's exception" means the cause of
@@ -63709,7 +64320,7 @@
 
  <p>After calling this method, you may not call {@link #finishToFuture()}, {@link
  #finishToValueAndCloser(ValueAndCloserConsumer, Executor)}, or any other derivation method on
- this {@code ClosingFuture}.
+ the original {@code ClosingFuture} instance.
 
  @param exceptionType the exception type that triggers use of {@code fallback}. The exception
      type is matched against this step's exception. "This step's exception" means the cause of
@@ -63741,7 +64352,7 @@
 
  <p>After calling this method, you may not call {@link
  #finishToValueAndCloser(ValueAndCloserConsumer, Executor)}, this method, or any other
- derivation method on this {@code ClosingFuture}.
+ derivation method on the original {@code ClosingFuture} instance.
 
  @return a {@link Future} that represents the final value or exception of the pipeline]]>
       </doc>
@@ -63758,7 +64369,7 @@
  receiver can store the {@link ValueAndCloser} outside the receiver for later synchronous use.
 
  <p>After calling this method, you may not call {@link #finishToFuture()}, this method again, or
- any other derivation method on this {@code ClosingFuture}.
+ any other derivation method on the original {@code ClosingFuture} instance.
 
  @param consumer a callback whose method will be called (using {@code executor}) when this
      operation is done]]>

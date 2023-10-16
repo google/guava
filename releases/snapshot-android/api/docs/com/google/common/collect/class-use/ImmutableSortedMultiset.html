@@ -181,6 +181,15 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </td>
 </tr>
 <tr class="altColor">
+<td class="colFirst"><code>static &lt;Z&gt;&nbsp;<a href="../ImmutableSortedMultiset.html" title="class in com.google.common.collect">ImmutableSortedMultiset</a>&lt;Z&gt;</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">ImmutableSortedMultiset.</span><code><span class="memberNameLink"><a href="../ImmutableSortedMultiset.html#copyOf(Z%5B%5D)">copyOf</a></span>&#8203;(Z[]&nbsp;elements)</code></th>
+<td class="colLast">
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>
+<div class="deprecationComment"><b>Pass parameters of type <code>Comparable</code> to use <a href="../ImmutableSortedMultiset.html#copyOf(E%5B%5D)"><code>copyOf(Comparable[])</code></a>.</b></div>
+</div>
+</td>
+</tr>
+<tr class="rowColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="../ImmutableSortedMultiset.html" title="class in com.google.common.collect">ImmutableSortedMultiset</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">ImmutableSortedMultiset.</span><code><span class="memberNameLink"><a href="../ImmutableSortedMultiset.html#copyOfSorted(com.google.common.collect.SortedMultiset)">copyOfSorted</a></span>&#8203;(<a href="../SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;E&gt;&nbsp;sortedMultiset)</code></th>
 <td class="colLast">
@@ -188,29 +197,38 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  the same <code>Comparator</code>.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../ImmutableSortedMultiset.html" title="class in com.google.common.collect">ImmutableSortedMultiset</a>&lt;<a href="../ImmutableSortedMultiset.html" title="type parameter in ImmutableSortedMultiset">E</a>&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">ImmutableSortedMultiset.</span><code><span class="memberNameLink"><a href="../ImmutableSortedMultiset.html#descendingMultiset()">descendingMultiset</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>abstract <a href="../ImmutableSortedMultiset.html" title="class in com.google.common.collect">ImmutableSortedMultiset</a>&lt;<a href="../ImmutableSortedMultiset.html" title="type parameter in ImmutableSortedMultiset">E</a>&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">ImmutableSortedMultiset.</span><code><span class="memberNameLink"><a href="../ImmutableSortedMultiset.html#headMultiset(E,com.google.common.collect.BoundType)">headMultiset</a></span>&#8203;(<a href="../ImmutableSortedMultiset.html" title="type parameter in ImmutableSortedMultiset">E</a>&nbsp;upperBound,
             <a href="../BoundType.html" title="enum in com.google.common.collect">BoundType</a>&nbsp;boundType)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="../ImmutableSortedMultiset.html" title="class in com.google.common.collect">ImmutableSortedMultiset</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">ImmutableSortedMultiset.</span><code><span class="memberNameLink"><a href="../ImmutableSortedMultiset.html#of()">of</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns the empty immutable sorted multiset.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static &lt;E extends java.lang.Comparable&lt;? super E&gt;&gt;<br><a href="../ImmutableSortedMultiset.html" title="class in com.google.common.collect">ImmutableSortedMultiset</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">ImmutableSortedMultiset.</span><code><span class="memberNameLink"><a href="../ImmutableSortedMultiset.html#of(E)">of</a></span>&#8203;(E&nbsp;element)</code></th>
 <td class="colLast">
 <div class="block">Returns an immutable sorted multiset containing a single element.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="../ImmutableSortedMultiset.html" title="class in com.google.common.collect">ImmutableSortedMultiset</a>&lt;E&gt;</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">ImmutableSortedMultiset.</span><code><span class="memberNameLink"><a href="../ImmutableSortedMultiset.html#of(E)">of</a></span>&#8203;(E&nbsp;element)</code></th>
+<td class="colLast">
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>
+<div class="deprecationComment"><b>Pass a parameter of type <code>Comparable</code> to use <a href="../ImmutableSortedMultiset.html#of(E)"><code>of(Comparable)</code></a>.</b></div>
+</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -223,6 +241,16 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </td>
 </tr>
 <tr class="altColor">
+<td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="../ImmutableSortedMultiset.html" title="class in com.google.common.collect">ImmutableSortedMultiset</a>&lt;E&gt;</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">ImmutableSortedMultiset.</span><code><span class="memberNameLink"><a href="../ImmutableSortedMultiset.html#of(E,E)">of</a></span>&#8203;(E&nbsp;e1,
+  E&nbsp;e2)</code></th>
+<td class="colLast">
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>
+<div class="deprecationComment"><b>Pass the parameters of type <code>Comparable</code> to use <a href="../ImmutableSortedMultiset.html#of(E,E)"><code>of(Comparable, Comparable)</code></a>.</b></div>
+</div>
+</td>
+</tr>
+<tr class="rowColor">
 <td class="colFirst"><code>static &lt;E extends java.lang.Comparable&lt;? super E&gt;&gt;<br><a href="../ImmutableSortedMultiset.html" title="class in com.google.common.collect">ImmutableSortedMultiset</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">ImmutableSortedMultiset.</span><code><span class="memberNameLink"><a href="../ImmutableSortedMultiset.html#of(E,E,E)">of</a></span>&#8203;(E&nbsp;e1,
   E&nbsp;e2,
@@ -230,6 +258,17 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <td class="colLast">
 <div class="block">Returns an immutable sorted multiset containing the given elements sorted by their natural
  ordering.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="../ImmutableSortedMultiset.html" title="class in com.google.common.collect">ImmutableSortedMultiset</a>&lt;E&gt;</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">ImmutableSortedMultiset.</span><code><span class="memberNameLink"><a href="../ImmutableSortedMultiset.html#of(E,E,E)">of</a></span>&#8203;(E&nbsp;e1,
+  E&nbsp;e2,
+  E&nbsp;e3)</code></th>
+<td class="colLast">
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>
+<div class="deprecationComment"><b>Pass the parameters of type <code>Comparable</code> to use <a href="../ImmutableSortedMultiset.html#of(E,E,E)"><code>of(Comparable, Comparable, Comparable)</code></a>.</b></div>
+</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -244,6 +283,18 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </td>
 </tr>
 <tr class="altColor">
+<td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="../ImmutableSortedMultiset.html" title="class in com.google.common.collect">ImmutableSortedMultiset</a>&lt;E&gt;</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">ImmutableSortedMultiset.</span><code><span class="memberNameLink"><a href="../ImmutableSortedMultiset.html#of(E,E,E,E)">of</a></span>&#8203;(E&nbsp;e1,
+  E&nbsp;e2,
+  E&nbsp;e3,
+  E&nbsp;e4)</code></th>
+<td class="colLast">
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>
+<div class="deprecationComment"><b>Pass the parameters of type <code>Comparable</code> to use <a href="../ImmutableSortedMultiset.html#of(E,E,E,E)"><code>of(Comparable, Comparable, Comparable, Comparable)</code></a>.</div>
+</div>
+</td>
+</tr>
+<tr class="rowColor">
 <td class="colFirst"><code>static &lt;E extends java.lang.Comparable&lt;? super E&gt;&gt;<br><a href="../ImmutableSortedMultiset.html" title="class in com.google.common.collect">ImmutableSortedMultiset</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">ImmutableSortedMultiset.</span><code><span class="memberNameLink"><a href="../ImmutableSortedMultiset.html#of(E,E,E,E,E)">of</a></span>&#8203;(E&nbsp;e1,
   E&nbsp;e2,
@@ -253,6 +304,19 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <td class="colLast">
 <div class="block">Returns an immutable sorted multiset containing the given elements sorted by their natural
  ordering.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="../ImmutableSortedMultiset.html" title="class in com.google.common.collect">ImmutableSortedMultiset</a>&lt;E&gt;</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">ImmutableSortedMultiset.</span><code><span class="memberNameLink"><a href="../ImmutableSortedMultiset.html#of(E,E,E,E,E)">of</a></span>&#8203;(E&nbsp;e1,
+  E&nbsp;e2,
+  E&nbsp;e3,
+  E&nbsp;e4,
+  E&nbsp;e5)</code></th>
+<td class="colLast">
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>
+<div class="deprecationComment"><b>Pass the parameters of type <code>Comparable</code> to use <a href="../ImmutableSortedMultiset.html#of(E,E,E,E,E)"><code>of(Comparable, Comparable, Comparable, Comparable, Comparable)</code></a> .</div>
+</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -270,6 +334,22 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </td>
 </tr>
 <tr class="altColor">
+<td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="../ImmutableSortedMultiset.html" title="class in com.google.common.collect">ImmutableSortedMultiset</a>&lt;E&gt;</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">ImmutableSortedMultiset.</span><code><span class="memberNameLink"><a href="../ImmutableSortedMultiset.html#of(E,E,E,E,E,E,E...)">of</a></span>&#8203;(E&nbsp;e1,
+  E&nbsp;e2,
+  E&nbsp;e3,
+  E&nbsp;e4,
+  E&nbsp;e5,
+  E&nbsp;e6,
+  E...&nbsp;remaining)</code></th>
+<td class="colLast">
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>
+<div class="deprecationComment"><b>Pass the parameters of type <code>Comparable</code> to use <a href="../ImmutableSortedMultiset.html#of(E,E,E,E,E,E,E...)"><code>of(Comparable, Comparable, Comparable, Comparable, Comparable,
+     Comparable, Comparable...)</code></a> .</div>
+</div>
+</td>
+</tr>
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../ImmutableSortedMultiset.html" title="class in com.google.common.collect">ImmutableSortedMultiset</a>&lt;<a href="../ImmutableSortedMultiset.html" title="type parameter in ImmutableSortedMultiset">E</a>&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">ImmutableSortedMultiset.</span><code><span class="memberNameLink"><a href="../ImmutableSortedMultiset.html#subMultiset(E,com.google.common.collect.BoundType,E,com.google.common.collect.BoundType)">subMultiset</a></span>&#8203;(<a href="../ImmutableSortedMultiset.html" title="type parameter in ImmutableSortedMultiset">E</a>&nbsp;lowerBound,
            <a href="../BoundType.html" title="enum in com.google.common.collect">BoundType</a>&nbsp;lowerBoundType,
@@ -277,7 +357,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
            <a href="../BoundType.html" title="enum in com.google.common.collect">BoundType</a>&nbsp;upperBoundType)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>abstract <a href="../ImmutableSortedMultiset.html" title="class in com.google.common.collect">ImmutableSortedMultiset</a>&lt;<a href="../ImmutableSortedMultiset.html" title="type parameter in ImmutableSortedMultiset">E</a>&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">ImmutableSortedMultiset.</span><code><span class="memberNameLink"><a href="../ImmutableSortedMultiset.html#tailMultiset(E,com.google.common.collect.BoundType)">tailMultiset</a></span>&#8203;(<a href="../ImmutableSortedMultiset.html" title="type parameter in ImmutableSortedMultiset">E</a>&nbsp;lowerBound,
             <a href="../BoundType.html" title="enum in com.google.common.collect">BoundType</a>&nbsp;boundType)</code></th>

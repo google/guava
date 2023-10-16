@@ -99,7 +99,7 @@
 <span class="sourceLineNo">090</span><a id="line.90">    return bimap;</a>
 <span class="sourceLineNo">091</span><a id="line.91">  }</a>
 <span class="sourceLineNo">092</span><a id="line.92"></a>
-<span class="sourceLineNo">093</span><a id="line.93">  private static final class BiEntry&lt;K extends @Nullable Object, V extends @Nullable Object&gt;</a>
+<span class="sourceLineNo">093</span><a id="line.93">  static final class BiEntry&lt;K extends @Nullable Object, V extends @Nullable Object&gt;</a>
 <span class="sourceLineNo">094</span><a id="line.94">      extends ImmutableEntry&lt;K, V&gt; {</a>
 <span class="sourceLineNo">095</span><a id="line.95">    final int keyHash;</a>
 <span class="sourceLineNo">096</span><a id="line.96">    final int valueHash;</a>
@@ -447,7 +447,7 @@
 <span class="sourceLineNo">438</span><a id="line.438">    return size;</a>
 <span class="sourceLineNo">439</span><a id="line.439">  }</a>
 <span class="sourceLineNo">440</span><a id="line.440"></a>
-<span class="sourceLineNo">441</span><a id="line.441">  abstract class Itr&lt;T extends @Nullable Object&gt; implements Iterator&lt;T&gt; {</a>
+<span class="sourceLineNo">441</span><a id="line.441">  private abstract class Itr&lt;T extends @Nullable Object&gt; implements Iterator&lt;T&gt; {</a>
 <span class="sourceLineNo">442</span><a id="line.442">    @CheckForNull BiEntry&lt;K, V&gt; next = firstInKeyInsertionOrder;</a>
 <span class="sourceLineNo">443</span><a id="line.443">    @CheckForNull BiEntry&lt;K, V&gt; toRemove = null;</a>
 <span class="sourceLineNo">444</span><a id="line.444">    int expectedModCount = modCount;</a>
@@ -540,7 +540,7 @@
 <span class="sourceLineNo">531</span><a id="line.531">      }</a>
 <span class="sourceLineNo">532</span><a id="line.532"></a>
 <span class="sourceLineNo">533</span><a id="line.533">      class MapEntry extends AbstractMapEntry&lt;K, V&gt; {</a>
-<span class="sourceLineNo">534</span><a id="line.534">        BiEntry&lt;K, V&gt; delegate;</a>
+<span class="sourceLineNo">534</span><a id="line.534">        private BiEntry&lt;K, V&gt; delegate;</a>
 <span class="sourceLineNo">535</span><a id="line.535"></a>
 <span class="sourceLineNo">536</span><a id="line.536">        MapEntry(BiEntry&lt;K, V&gt; entry) {</a>
 <span class="sourceLineNo">537</span><a id="line.537">          this.delegate = entry;</a>
@@ -717,7 +717,7 @@
 <span class="sourceLineNo">708</span><a id="line.708">        }</a>
 <span class="sourceLineNo">709</span><a id="line.709"></a>
 <span class="sourceLineNo">710</span><a id="line.710">        class InverseEntry extends AbstractMapEntry&lt;V, K&gt; {</a>
-<span class="sourceLineNo">711</span><a id="line.711">          BiEntry&lt;K, V&gt; delegate;</a>
+<span class="sourceLineNo">711</span><a id="line.711">          private BiEntry&lt;K, V&gt; delegate;</a>
 <span class="sourceLineNo">712</span><a id="line.712"></a>
 <span class="sourceLineNo">713</span><a id="line.713">          InverseEntry(BiEntry&lt;K, V&gt; entry) {</a>
 <span class="sourceLineNo">714</span><a id="line.714">            this.delegate = entry;</a>

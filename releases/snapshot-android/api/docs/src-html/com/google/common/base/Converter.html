@@ -580,7 +580,7 @@
 <span class="sourceLineNo">571</span><a id="line.571">   * "pass-through type".</a>
 <span class="sourceLineNo">572</span><a id="line.572">   */</a>
 <span class="sourceLineNo">573</span><a id="line.573">  private static final class IdentityConverter&lt;T&gt; extends Converter&lt;T, T&gt; implements Serializable {</a>
-<span class="sourceLineNo">574</span><a id="line.574">    static final IdentityConverter&lt;?&gt; INSTANCE = new IdentityConverter&lt;&gt;();</a>
+<span class="sourceLineNo">574</span><a id="line.574">    static final Converter&lt;?, ?&gt; INSTANCE = new IdentityConverter&lt;&gt;();</a>
 <span class="sourceLineNo">575</span><a id="line.575"></a>
 <span class="sourceLineNo">576</span><a id="line.576">    @Override</a>
 <span class="sourceLineNo">577</span><a id="line.577">    protected T doForward(T t) {</a>

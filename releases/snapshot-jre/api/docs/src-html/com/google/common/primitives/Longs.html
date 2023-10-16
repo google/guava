@@ -449,7 +449,7 @@
 <span class="sourceLineNo">440</span><a id="line.440">  }</a>
 <span class="sourceLineNo">441</span><a id="line.441"></a>
 <span class="sourceLineNo">442</span><a id="line.442">  private static final class LongConverter extends Converter&lt;String, Long&gt; implements Serializable {</a>
-<span class="sourceLineNo">443</span><a id="line.443">    static final LongConverter INSTANCE = new LongConverter();</a>
+<span class="sourceLineNo">443</span><a id="line.443">    static final Converter&lt;String, Long&gt; INSTANCE = new LongConverter();</a>
 <span class="sourceLineNo">444</span><a id="line.444"></a>
 <span class="sourceLineNo">445</span><a id="line.445">    @Override</a>
 <span class="sourceLineNo">446</span><a id="line.446">    protected Long doForward(String value) {</a>

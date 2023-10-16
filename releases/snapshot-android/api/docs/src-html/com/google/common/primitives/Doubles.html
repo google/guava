@@ -296,7 +296,7 @@
 <span class="sourceLineNo">287</span><a id="line.287"></a>
 <span class="sourceLineNo">288</span><a id="line.288">  private static final class DoubleConverter extends Converter&lt;String, Double&gt;</a>
 <span class="sourceLineNo">289</span><a id="line.289">      implements Serializable {</a>
-<span class="sourceLineNo">290</span><a id="line.290">    static final DoubleConverter INSTANCE = new DoubleConverter();</a>
+<span class="sourceLineNo">290</span><a id="line.290">    static final Converter&lt;String, Double&gt; INSTANCE = new DoubleConverter();</a>
 <span class="sourceLineNo">291</span><a id="line.291"></a>
 <span class="sourceLineNo">292</span><a id="line.292">    @Override</a>
 <span class="sourceLineNo">293</span><a id="line.293">    protected Double doForward(String value) {</a>

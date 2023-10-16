@@ -980,7 +980,7 @@
 <span class="sourceLineNo">971</span><a id="line.971">  }</a>
 <span class="sourceLineNo">972</span><a id="line.972"></a>
 <span class="sourceLineNo">973</span><a id="line.973">  /** Negation of a {@link FastMatcher}. */</a>
-<span class="sourceLineNo">974</span><a id="line.974">  static class NegatedFastMatcher extends Negated {</a>
+<span class="sourceLineNo">974</span><a id="line.974">  private static class NegatedFastMatcher extends Negated {</a>
 <span class="sourceLineNo">975</span><a id="line.975"></a>
 <span class="sourceLineNo">976</span><a id="line.976">    NegatedFastMatcher(CharMatcher original) {</a>
 <span class="sourceLineNo">977</span><a id="line.977">      super(original);</a>
@@ -1024,7 +1024,7 @@
 <span class="sourceLineNo">1015</span><a id="line.1015">  /** Implementation of {@link #any()}. */</a>
 <span class="sourceLineNo">1016</span><a id="line.1016">  private static final class Any extends NamedFastMatcher {</a>
 <span class="sourceLineNo">1017</span><a id="line.1017"></a>
-<span class="sourceLineNo">1018</span><a id="line.1018">    static final Any INSTANCE = new Any();</a>
+<span class="sourceLineNo">1018</span><a id="line.1018">    static final CharMatcher INSTANCE = new Any();</a>
 <span class="sourceLineNo">1019</span><a id="line.1019"></a>
 <span class="sourceLineNo">1020</span><a id="line.1020">    private Any() {</a>
 <span class="sourceLineNo">1021</span><a id="line.1021">      super("CharMatcher.any()");</a>
@@ -1121,7 +1121,7 @@
 <span class="sourceLineNo">1112</span><a id="line.1112">  /** Implementation of {@link #none()}. */</a>
 <span class="sourceLineNo">1113</span><a id="line.1113">  private static final class None extends NamedFastMatcher {</a>
 <span class="sourceLineNo">1114</span><a id="line.1114"></a>
-<span class="sourceLineNo">1115</span><a id="line.1115">    static final None INSTANCE = new None();</a>
+<span class="sourceLineNo">1115</span><a id="line.1115">    static final CharMatcher INSTANCE = new None();</a>
 <span class="sourceLineNo">1116</span><a id="line.1116"></a>
 <span class="sourceLineNo">1117</span><a id="line.1117">    private None() {</a>
 <span class="sourceLineNo">1118</span><a id="line.1118">      super("CharMatcher.none()");</a>
@@ -1237,7 +1237,7 @@
 <span class="sourceLineNo">1228</span><a id="line.1228">    static final int MULTIPLIER = 1682554634;</a>
 <span class="sourceLineNo">1229</span><a id="line.1229">    static final int SHIFT = Integer.numberOfLeadingZeros(TABLE.length() - 1);</a>
 <span class="sourceLineNo">1230</span><a id="line.1230"></a>
-<span class="sourceLineNo">1231</span><a id="line.1231">    static final Whitespace INSTANCE = new Whitespace();</a>
+<span class="sourceLineNo">1231</span><a id="line.1231">    static final CharMatcher INSTANCE = new Whitespace();</a>
 <span class="sourceLineNo">1232</span><a id="line.1232"></a>
 <span class="sourceLineNo">1233</span><a id="line.1233">    Whitespace() {</a>
 <span class="sourceLineNo">1234</span><a id="line.1234">      super("CharMatcher.whitespace()");</a>
@@ -1295,7 +1295,7 @@
 <span class="sourceLineNo">1286</span><a id="line.1286">  /** Implementation of {@link #ascii()}. */</a>
 <span class="sourceLineNo">1287</span><a id="line.1287">  private static final class Ascii extends NamedFastMatcher {</a>
 <span class="sourceLineNo">1288</span><a id="line.1288"></a>
-<span class="sourceLineNo">1289</span><a id="line.1289">    static final Ascii INSTANCE = new Ascii();</a>
+<span class="sourceLineNo">1289</span><a id="line.1289">    static final CharMatcher INSTANCE = new Ascii();</a>
 <span class="sourceLineNo">1290</span><a id="line.1290"></a>
 <span class="sourceLineNo">1291</span><a id="line.1291">    Ascii() {</a>
 <span class="sourceLineNo">1292</span><a id="line.1292">      super("CharMatcher.ascii()");</a>
@@ -1369,7 +1369,7 @@
 <span class="sourceLineNo">1360</span><a id="line.1360">      return nines;</a>
 <span class="sourceLineNo">1361</span><a id="line.1361">    }</a>
 <span class="sourceLineNo">1362</span><a id="line.1362"></a>
-<span class="sourceLineNo">1363</span><a id="line.1363">    static final Digit INSTANCE = new Digit();</a>
+<span class="sourceLineNo">1363</span><a id="line.1363">    static final CharMatcher INSTANCE = new Digit();</a>
 <span class="sourceLineNo">1364</span><a id="line.1364"></a>
 <span class="sourceLineNo">1365</span><a id="line.1365">    private Digit() {</a>
 <span class="sourceLineNo">1366</span><a id="line.1366">      super("CharMatcher.digit()", zeroes(), nines());</a>
@@ -1379,7 +1379,7 @@
 <span class="sourceLineNo">1370</span><a id="line.1370">  /** Implementation of {@link #javaDigit()}. */</a>
 <span class="sourceLineNo">1371</span><a id="line.1371">  private static final class JavaDigit extends CharMatcher {</a>
 <span class="sourceLineNo">1372</span><a id="line.1372"></a>
-<span class="sourceLineNo">1373</span><a id="line.1373">    static final JavaDigit INSTANCE = new JavaDigit();</a>
+<span class="sourceLineNo">1373</span><a id="line.1373">    static final CharMatcher INSTANCE = new JavaDigit();</a>
 <span class="sourceLineNo">1374</span><a id="line.1374"></a>
 <span class="sourceLineNo">1375</span><a id="line.1375">    @Override</a>
 <span class="sourceLineNo">1376</span><a id="line.1376">    public boolean matches(char c) {</a>
@@ -1395,7 +1395,7 @@
 <span class="sourceLineNo">1386</span><a id="line.1386">  /** Implementation of {@link #javaLetter()}. */</a>
 <span class="sourceLineNo">1387</span><a id="line.1387">  private static final class JavaLetter extends CharMatcher {</a>
 <span class="sourceLineNo">1388</span><a id="line.1388"></a>
-<span class="sourceLineNo">1389</span><a id="line.1389">    static final JavaLetter INSTANCE = new JavaLetter();</a>
+<span class="sourceLineNo">1389</span><a id="line.1389">    static final CharMatcher INSTANCE = new JavaLetter();</a>
 <span class="sourceLineNo">1390</span><a id="line.1390"></a>
 <span class="sourceLineNo">1391</span><a id="line.1391">    @Override</a>
 <span class="sourceLineNo">1392</span><a id="line.1392">    public boolean matches(char c) {</a>
@@ -1411,7 +1411,7 @@
 <span class="sourceLineNo">1402</span><a id="line.1402">  /** Implementation of {@link #javaLetterOrDigit()}. */</a>
 <span class="sourceLineNo">1403</span><a id="line.1403">  private static final class JavaLetterOrDigit extends CharMatcher {</a>
 <span class="sourceLineNo">1404</span><a id="line.1404"></a>
-<span class="sourceLineNo">1405</span><a id="line.1405">    static final JavaLetterOrDigit INSTANCE = new JavaLetterOrDigit();</a>
+<span class="sourceLineNo">1405</span><a id="line.1405">    static final CharMatcher INSTANCE = new JavaLetterOrDigit();</a>
 <span class="sourceLineNo">1406</span><a id="line.1406"></a>
 <span class="sourceLineNo">1407</span><a id="line.1407">    @Override</a>
 <span class="sourceLineNo">1408</span><a id="line.1408">    public boolean matches(char c) {</a>
@@ -1427,7 +1427,7 @@
 <span class="sourceLineNo">1418</span><a id="line.1418">  /** Implementation of {@link #javaUpperCase()}. */</a>
 <span class="sourceLineNo">1419</span><a id="line.1419">  private static final class JavaUpperCase extends CharMatcher {</a>
 <span class="sourceLineNo">1420</span><a id="line.1420"></a>
-<span class="sourceLineNo">1421</span><a id="line.1421">    static final JavaUpperCase INSTANCE = new JavaUpperCase();</a>
+<span class="sourceLineNo">1421</span><a id="line.1421">    static final CharMatcher INSTANCE = new JavaUpperCase();</a>
 <span class="sourceLineNo">1422</span><a id="line.1422"></a>
 <span class="sourceLineNo">1423</span><a id="line.1423">    @Override</a>
 <span class="sourceLineNo">1424</span><a id="line.1424">    public boolean matches(char c) {</a>
@@ -1443,7 +1443,7 @@
 <span class="sourceLineNo">1434</span><a id="line.1434">  /** Implementation of {@link #javaLowerCase()}. */</a>
 <span class="sourceLineNo">1435</span><a id="line.1435">  private static final class JavaLowerCase extends CharMatcher {</a>
 <span class="sourceLineNo">1436</span><a id="line.1436"></a>
-<span class="sourceLineNo">1437</span><a id="line.1437">    static final JavaLowerCase INSTANCE = new JavaLowerCase();</a>
+<span class="sourceLineNo">1437</span><a id="line.1437">    static final CharMatcher INSTANCE = new JavaLowerCase();</a>
 <span class="sourceLineNo">1438</span><a id="line.1438"></a>
 <span class="sourceLineNo">1439</span><a id="line.1439">    @Override</a>
 <span class="sourceLineNo">1440</span><a id="line.1440">    public boolean matches(char c) {</a>
@@ -1459,7 +1459,7 @@
 <span class="sourceLineNo">1450</span><a id="line.1450">  /** Implementation of {@link #javaIsoControl()}. */</a>
 <span class="sourceLineNo">1451</span><a id="line.1451">  private static final class JavaIsoControl extends NamedFastMatcher {</a>
 <span class="sourceLineNo">1452</span><a id="line.1452"></a>
-<span class="sourceLineNo">1453</span><a id="line.1453">    static final JavaIsoControl INSTANCE = new JavaIsoControl();</a>
+<span class="sourceLineNo">1453</span><a id="line.1453">    static final CharMatcher INSTANCE = new JavaIsoControl();</a>
 <span class="sourceLineNo">1454</span><a id="line.1454"></a>
 <span class="sourceLineNo">1455</span><a id="line.1455">    private JavaIsoControl() {</a>
 <span class="sourceLineNo">1456</span><a id="line.1456">      super("CharMatcher.javaIsoControl()");</a>
@@ -1484,7 +1484,7 @@
 <span class="sourceLineNo">1475</span><a id="line.1475">        "\u0020\u00a0\u00ad\u0605\u061c\u06dd\u070f\u0891\u08e2\u1680\u180e\u200f\u202f\u2064\u206f"</a>
 <span class="sourceLineNo">1476</span><a id="line.1476">            + "\u3000\uf8ff\ufeff\ufffb";</a>
 <span class="sourceLineNo">1477</span><a id="line.1477"></a>
-<span class="sourceLineNo">1478</span><a id="line.1478">    static final Invisible INSTANCE = new Invisible();</a>
+<span class="sourceLineNo">1478</span><a id="line.1478">    static final CharMatcher INSTANCE = new Invisible();</a>
 <span class="sourceLineNo">1479</span><a id="line.1479"></a>
 <span class="sourceLineNo">1480</span><a id="line.1480">    private Invisible() {</a>
 <span class="sourceLineNo">1481</span><a id="line.1481">      super("CharMatcher.invisible()", RANGE_STARTS.toCharArray(), RANGE_ENDS.toCharArray());</a>
@@ -1494,7 +1494,7 @@
 <span class="sourceLineNo">1485</span><a id="line.1485">  /** Implementation of {@link #singleWidth()}. */</a>
 <span class="sourceLineNo">1486</span><a id="line.1486">  private static final class SingleWidth extends RangesMatcher {</a>
 <span class="sourceLineNo">1487</span><a id="line.1487"></a>
-<span class="sourceLineNo">1488</span><a id="line.1488">    static final SingleWidth INSTANCE = new SingleWidth();</a>
+<span class="sourceLineNo">1488</span><a id="line.1488">    static final CharMatcher INSTANCE = new SingleWidth();</a>
 <span class="sourceLineNo">1489</span><a id="line.1489"></a>
 <span class="sourceLineNo">1490</span><a id="line.1490">    private SingleWidth() {</a>
 <span class="sourceLineNo">1491</span><a id="line.1491">      super(</a>

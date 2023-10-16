@@ -293,7 +293,7 @@
 <span class="sourceLineNo">284</span><a id="line.284"></a>
 <span class="sourceLineNo">285</span><a id="line.285">  private static final class FloatConverter extends Converter&lt;String, Float&gt;</a>
 <span class="sourceLineNo">286</span><a id="line.286">      implements Serializable {</a>
-<span class="sourceLineNo">287</span><a id="line.287">    static final FloatConverter INSTANCE = new FloatConverter();</a>
+<span class="sourceLineNo">287</span><a id="line.287">    static final Converter&lt;String, Float&gt; INSTANCE = new FloatConverter();</a>
 <span class="sourceLineNo">288</span><a id="line.288"></a>
 <span class="sourceLineNo">289</span><a id="line.289">    @Override</a>
 <span class="sourceLineNo">290</span><a id="line.290">    protected Float doForward(String value) {</a>

@@ -143,7 +143,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <hr>
 <pre><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../annotations/GwtCompatible.html#serializable()">serializable</a>=true,
                <a href="../annotations/GwtCompatible.html#emulated()">emulated</a>=true)
-public abstract class <a href="../../../../src-html/com/google/common/collect/ImmutableBiMap.html#line.46">ImmutableBiMap</a>&lt;K,&#8203;V&gt;
+public abstract class <a href="../../../../src-html/com/google/common/collect/ImmutableBiMap.html#line.47">ImmutableBiMap</a>&lt;K,&#8203;V&gt;
 extends <a href="ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;K,&#8203;V&gt;
 implements <a href="BiMap.html" title="interface in com.google.common.collect">BiMap</a>&lt;K,&#8203;V&gt;</pre>
 <div class="block">A <a href="BiMap.html" title="interface in com.google.common.collect"><code>BiMap</code></a> whose contents will never change, with many other important properties detailed
@@ -988,14 +988,12 @@ public final&nbsp;<a href="ImmutableBiMap.html" title="type parameter in Immutab
 <li class="blockList">
 <h4>toImmutableMap</h4>
 <pre class="methodSignature">@Deprecated
-public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;K,&#8203;V&gt;&nbsp;java.util.stream.Collector&lt;T,&#8203;?,&#8203;<a href="ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;K,&#8203;V&gt;&gt;&nbsp;toImmutableMap&#8203;(java.util.function.Function&lt;? super T,&#8203;? extends K&gt;&nbsp;keyFunction,
+public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;K,&#8203;V&gt;&nbsp;java.util.stream.Collector&lt;T,&#8203;?,&#8203;<a href="ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;K,&#8203;V&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableBiMap.html#line.653">toImmutableMap</a>&#8203;(java.util.function.Function&lt;? super T,&#8203;? extends K&gt;&nbsp;keyFunction,
                                                                                                                                                         java.util.function.Function&lt;? super T,&#8203;? extends V&gt;&nbsp;valueFunction)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Use <a href="#toImmutableBiMap(java.util.function.Function,java.util.function.Function)"><code>toImmutableBiMap(java.util.function.Function&lt;? super T, ? extends K&gt;, java.util.function.Function&lt;? super T, ? extends V&gt;)</code></a>.</div>
 </div>
-<div class="block">Not supported. Use <a href="#toImmutableBiMap(java.util.function.Function,java.util.function.Function)"><code>toImmutableBiMap(java.util.function.Function&lt;? super T, ? extends K&gt;, java.util.function.Function&lt;? super T, ? extends V&gt;)</code></a> instead. This method exists only to
- hide <a href="ImmutableMap.html#toImmutableMap(java.util.function.Function,java.util.function.Function)"><code>ImmutableMap.toImmutableMap(Function, Function)</code></a> from consumers of <code>
- ImmutableBiMap</code>.</div>
+<div class="block">Not supported. Use <a href="#toImmutableBiMap(java.util.function.Function,java.util.function.Function)"><code>toImmutableBiMap(java.util.function.Function&lt;? super T, ? extends K&gt;, java.util.function.Function&lt;? super T, ? extends V&gt;)</code></a> instead. This method exists only to hide <a href="ImmutableMap.html#toImmutableMap(java.util.function.Function,java.util.function.Function)"><code>ImmutableMap.toImmutableMap(Function, Function)</code></a> from consumers of <code>ImmutableBiMap</code>.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.UnsupportedOperationException</code> - always</dd>
@@ -1009,7 +1007,7 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <li class="blockList">
 <h4>toImmutableMap</h4>
 <pre class="methodSignature">@Deprecated
-public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;K,&#8203;V&gt;&nbsp;java.util.stream.Collector&lt;T,&#8203;?,&#8203;<a href="ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;K,&#8203;V&gt;&gt;&nbsp;toImmutableMap&#8203;(java.util.function.Function&lt;? super T,&#8203;? extends K&gt;&nbsp;keyFunction,
+public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;K,&#8203;V&gt;&nbsp;java.util.stream.Collector&lt;T,&#8203;?,&#8203;<a href="ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;K,&#8203;V&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableBiMap.html#line.670">toImmutableMap</a>&#8203;(java.util.function.Function&lt;? super T,&#8203;? extends K&gt;&nbsp;keyFunction,
                                                                                                                                                         java.util.function.Function&lt;? super T,&#8203;? extends V&gt;&nbsp;valueFunction,
                                                                                                                                                         java.util.function.BinaryOperator&lt;V&gt;&nbsp;mergeFunction)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span></div>

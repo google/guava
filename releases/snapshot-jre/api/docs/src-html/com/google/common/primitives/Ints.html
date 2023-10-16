@@ -346,7 +346,7 @@
 <span class="sourceLineNo">337</span><a id="line.337"></a>
 <span class="sourceLineNo">338</span><a id="line.338">  private static final class IntConverter extends Converter&lt;String, Integer&gt;</a>
 <span class="sourceLineNo">339</span><a id="line.339">      implements Serializable {</a>
-<span class="sourceLineNo">340</span><a id="line.340">    static final IntConverter INSTANCE = new IntConverter();</a>
+<span class="sourceLineNo">340</span><a id="line.340">    static final Converter&lt;String, Integer&gt; INSTANCE = new IntConverter();</a>
 <span class="sourceLineNo">341</span><a id="line.341"></a>
 <span class="sourceLineNo">342</span><a id="line.342">    @Override</a>
 <span class="sourceLineNo">343</span><a id="line.343">    protected Integer doForward(String value) {</a>

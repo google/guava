@@ -687,7 +687,7 @@
 <span class="sourceLineNo">678</span><a id="line.678">   *</a>
 <span class="sourceLineNo">679</span><a id="line.679">   * &lt;p&gt;After calling this method, you may not call {@link #finishToFuture()}, {@link</a>
 <span class="sourceLineNo">680</span><a id="line.680">   * #finishToValueAndCloser(ValueAndCloserConsumer, Executor)}, or any other derivation method on</a>
-<span class="sourceLineNo">681</span><a id="line.681">   * this {@code ClosingFuture}.</a>
+<span class="sourceLineNo">681</span><a id="line.681">   * the original {@code ClosingFuture} instance.</a>
 <span class="sourceLineNo">682</span><a id="line.682">   *</a>
 <span class="sourceLineNo">683</span><a id="line.683">   * @param function transforms the value of this step to the value of the derived step</a>
 <span class="sourceLineNo">684</span><a id="line.684">   * @param executor executor to run the function in</a>
@@ -780,7 +780,7 @@
 <span class="sourceLineNo">771</span><a id="line.771">   *</a>
 <span class="sourceLineNo">772</span><a id="line.772">   * &lt;p&gt;After calling this method, you may not call {@link #finishToFuture()}, {@link</a>
 <span class="sourceLineNo">773</span><a id="line.773">   * #finishToValueAndCloser(ValueAndCloserConsumer, Executor)}, or any other derivation method on</a>
-<span class="sourceLineNo">774</span><a id="line.774">   * this {@code ClosingFuture}.</a>
+<span class="sourceLineNo">774</span><a id="line.774">   * the original {@code ClosingFuture} instance.</a>
 <span class="sourceLineNo">775</span><a id="line.775">   *</a>
 <span class="sourceLineNo">776</span><a id="line.776">   * @param function transforms the value of this step to a {@code ClosingFuture} with the value of</a>
 <span class="sourceLineNo">777</span><a id="line.777">   *     the derived step</a>
@@ -871,7 +871,7 @@
 <span class="sourceLineNo">862</span><a id="line.862">   *</a>
 <span class="sourceLineNo">863</span><a id="line.863">   * &lt;p&gt;After calling this method, you may not call {@link #finishToFuture()}, {@link</a>
 <span class="sourceLineNo">864</span><a id="line.864">   * #finishToValueAndCloser(ValueAndCloserConsumer, Executor)}, or any other derivation method on</a>
-<span class="sourceLineNo">865</span><a id="line.865">   * this {@code ClosingFuture}.</a>
+<span class="sourceLineNo">865</span><a id="line.865">   * the original {@code ClosingFuture} instance.</a>
 <span class="sourceLineNo">866</span><a id="line.866">   *</a>
 <span class="sourceLineNo">867</span><a id="line.867">   * @param exceptionType the exception type that triggers use of {@code fallback}. The exception</a>
 <span class="sourceLineNo">868</span><a id="line.868">   *     type is matched against this step's exception. "This step's exception" means the cause of</a>
@@ -964,7 +964,7 @@
 <span class="sourceLineNo">955</span><a id="line.955">   *</a>
 <span class="sourceLineNo">956</span><a id="line.956">   * &lt;p&gt;After calling this method, you may not call {@link #finishToFuture()}, {@link</a>
 <span class="sourceLineNo">957</span><a id="line.957">   * #finishToValueAndCloser(ValueAndCloserConsumer, Executor)}, or any other derivation method on</a>
-<span class="sourceLineNo">958</span><a id="line.958">   * this {@code ClosingFuture}.</a>
+<span class="sourceLineNo">958</span><a id="line.958">   * the original {@code ClosingFuture} instance.</a>
 <span class="sourceLineNo">959</span><a id="line.959">   *</a>
 <span class="sourceLineNo">960</span><a id="line.960">   * @param exceptionType the exception type that triggers use of {@code fallback}. The exception</a>
 <span class="sourceLineNo">961</span><a id="line.961">   *     type is matched against this step's exception. "This step's exception" means the cause of</a>
@@ -1021,7 +1021,7 @@
 <span class="sourceLineNo">1012</span><a id="line.1012">   *</a>
 <span class="sourceLineNo">1013</span><a id="line.1013">   * &lt;p&gt;After calling this method, you may not call {@link</a>
 <span class="sourceLineNo">1014</span><a id="line.1014">   * #finishToValueAndCloser(ValueAndCloserConsumer, Executor)}, this method, or any other</a>
-<span class="sourceLineNo">1015</span><a id="line.1015">   * derivation method on this {@code ClosingFuture}.</a>
+<span class="sourceLineNo">1015</span><a id="line.1015">   * derivation method on the original {@code ClosingFuture} instance.</a>
 <span class="sourceLineNo">1016</span><a id="line.1016">   *</a>
 <span class="sourceLineNo">1017</span><a id="line.1017">   * @return a {@link Future} that represents the final value or exception of the pipeline</a>
 <span class="sourceLineNo">1018</span><a id="line.1018">   */</a>
@@ -1066,7 +1066,7 @@
 <span class="sourceLineNo">1057</span><a id="line.1057">   * receiver can store the {@link ValueAndCloser} outside the receiver for later synchronous use.</a>
 <span class="sourceLineNo">1058</span><a id="line.1058">   *</a>
 <span class="sourceLineNo">1059</span><a id="line.1059">   * &lt;p&gt;After calling this method, you may not call {@link #finishToFuture()}, this method again, or</a>
-<span class="sourceLineNo">1060</span><a id="line.1060">   * any other derivation method on this {@code ClosingFuture}.</a>
+<span class="sourceLineNo">1060</span><a id="line.1060">   * any other derivation method on the original {@code ClosingFuture} instance.</a>
 <span class="sourceLineNo">1061</span><a id="line.1061">   *</a>
 <span class="sourceLineNo">1062</span><a id="line.1062">   * @param consumer a callback whose method will be called (using {@code executor}) when this</a>
 <span class="sourceLineNo">1063</span><a id="line.1063">   *     operation is done</a>

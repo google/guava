@@ -73,7 +73,7 @@
 <span class="sourceLineNo">064</span><a id="line.64">@GwtCompatible(serializable = true, emulated = true)</a>
 <span class="sourceLineNo">065</span><a id="line.65">@SuppressWarnings("serial") // we're overriding default serialization</a>
 <span class="sourceLineNo">066</span><a id="line.66">@ElementTypesAreNonnullByDefault</a>
-<span class="sourceLineNo">067</span><a id="line.67">public abstract class ImmutableSortedSet&lt;E&gt; extends ImmutableSortedSetFauxverideShim&lt;E&gt;</a>
+<span class="sourceLineNo">067</span><a id="line.67">public abstract class ImmutableSortedSet&lt;E&gt; extends ImmutableSet.CachingAsList&lt;E&gt;</a>
 <span class="sourceLineNo">068</span><a id="line.68">    implements NavigableSet&lt;E&gt;, SortedIterable&lt;E&gt; {</a>
 <span class="sourceLineNo">069</span><a id="line.69">  static final int SPLITERATOR_CHARACTERISTICS =</a>
 <span class="sourceLineNo">070</span><a id="line.70">      ImmutableSet.SPLITERATOR_CHARACTERISTICS | Spliterator.SORTED;</a>
@@ -863,7 +863,154 @@
 <span class="sourceLineNo">854</span><a id="line.854">  Object writeReplace() {</a>
 <span class="sourceLineNo">855</span><a id="line.855">    return new SerializedForm&lt;E&gt;(comparator, toArray());</a>
 <span class="sourceLineNo">856</span><a id="line.856">  }</a>
-<span class="sourceLineNo">857</span><a id="line.857">}</a>
+<span class="sourceLineNo">857</span><a id="line.857"></a>
+<span class="sourceLineNo">858</span><a id="line.858">  /**</a>
+<span class="sourceLineNo">859</span><a id="line.859">   * Not supported. Use {@link #toImmutableSortedSet} instead. This method exists only to hide</a>
+<span class="sourceLineNo">860</span><a id="line.860">   * {@link ImmutableSet#toImmutableSet} from consumers of {@code ImmutableSortedSet}.</a>
+<span class="sourceLineNo">861</span><a id="line.861">   *</a>
+<span class="sourceLineNo">862</span><a id="line.862">   * @throws UnsupportedOperationException always</a>
+<span class="sourceLineNo">863</span><a id="line.863">   * @deprecated Use {@link ImmutableSortedSet#toImmutableSortedSet}.</a>
+<span class="sourceLineNo">864</span><a id="line.864">   * @since 21.0</a>
+<span class="sourceLineNo">865</span><a id="line.865">   */</a>
+<span class="sourceLineNo">866</span><a id="line.866">  @DoNotCall("Use toImmutableSortedSet")</a>
+<span class="sourceLineNo">867</span><a id="line.867">  @Deprecated</a>
+<span class="sourceLineNo">868</span><a id="line.868">  public static &lt;E&gt; Collector&lt;E, ?, ImmutableSet&lt;E&gt;&gt; toImmutableSet() {</a>
+<span class="sourceLineNo">869</span><a id="line.869">    throw new UnsupportedOperationException();</a>
+<span class="sourceLineNo">870</span><a id="line.870">  }</a>
+<span class="sourceLineNo">871</span><a id="line.871"></a>
+<span class="sourceLineNo">872</span><a id="line.872">  /**</a>
+<span class="sourceLineNo">873</span><a id="line.873">   * Not supported. Use {@link #naturalOrder}, which offers better type-safety, instead. This method</a>
+<span class="sourceLineNo">874</span><a id="line.874">   * exists only to hide {@link ImmutableSet#builder} from consumers of {@code ImmutableSortedSet}.</a>
+<span class="sourceLineNo">875</span><a id="line.875">   *</a>
+<span class="sourceLineNo">876</span><a id="line.876">   * @throws UnsupportedOperationException always</a>
+<span class="sourceLineNo">877</span><a id="line.877">   * @deprecated Use {@link ImmutableSortedSet#naturalOrder}, which offers better type-safety.</a>
+<span class="sourceLineNo">878</span><a id="line.878">   */</a>
+<span class="sourceLineNo">879</span><a id="line.879">  @DoNotCall("Use naturalOrder")</a>
+<span class="sourceLineNo">880</span><a id="line.880">  @Deprecated</a>
+<span class="sourceLineNo">881</span><a id="line.881">  public static &lt;E&gt; ImmutableSortedSet.Builder&lt;E&gt; builder() {</a>
+<span class="sourceLineNo">882</span><a id="line.882">    throw new UnsupportedOperationException();</a>
+<span class="sourceLineNo">883</span><a id="line.883">  }</a>
+<span class="sourceLineNo">884</span><a id="line.884"></a>
+<span class="sourceLineNo">885</span><a id="line.885">  /**</a>
+<span class="sourceLineNo">886</span><a id="line.886">   * Not supported. This method exists only to hide {@link ImmutableSet#builderWithExpectedSize}</a>
+<span class="sourceLineNo">887</span><a id="line.887">   * from consumers of {@code ImmutableSortedSet}.</a>
+<span class="sourceLineNo">888</span><a id="line.888">   *</a>
+<span class="sourceLineNo">889</span><a id="line.889">   * @throws UnsupportedOperationException always</a>
+<span class="sourceLineNo">890</span><a id="line.890">   * @deprecated Not supported by ImmutableSortedSet.</a>
+<span class="sourceLineNo">891</span><a id="line.891">   */</a>
+<span class="sourceLineNo">892</span><a id="line.892">  @DoNotCall("Use naturalOrder (which does not accept an expected size)")</a>
+<span class="sourceLineNo">893</span><a id="line.893">  @Deprecated</a>
+<span class="sourceLineNo">894</span><a id="line.894">  public static &lt;E&gt; ImmutableSortedSet.Builder&lt;E&gt; builderWithExpectedSize(int expectedSize) {</a>
+<span class="sourceLineNo">895</span><a id="line.895">    throw new UnsupportedOperationException();</a>
+<span class="sourceLineNo">896</span><a id="line.896">  }</a>
+<span class="sourceLineNo">897</span><a id="line.897"></a>
+<span class="sourceLineNo">898</span><a id="line.898">  /**</a>
+<span class="sourceLineNo">899</span><a id="line.899">   * Not supported. &lt;b&gt;You are attempting to create a set that may contain a non-{@code Comparable}</a>
+<span class="sourceLineNo">900</span><a id="line.900">   * element.&lt;/b&gt; Proper calls will resolve to the version in {@code ImmutableSortedSet}, not this</a>
+<span class="sourceLineNo">901</span><a id="line.901">   * dummy version.</a>
+<span class="sourceLineNo">902</span><a id="line.902">   *</a>
+<span class="sourceLineNo">903</span><a id="line.903">   * @throws UnsupportedOperationException always</a>
+<span class="sourceLineNo">904</span><a id="line.904">   * @deprecated &lt;b&gt;Pass a parameter of type {@code Comparable} to use {@link</a>
+<span class="sourceLineNo">905</span><a id="line.905">   *     ImmutableSortedSet#of(Comparable)}.&lt;/b&gt;</a>
+<span class="sourceLineNo">906</span><a id="line.906">   */</a>
+<span class="sourceLineNo">907</span><a id="line.907">  @DoNotCall("Pass a parameter of type Comparable")</a>
+<span class="sourceLineNo">908</span><a id="line.908">  @Deprecated</a>
+<span class="sourceLineNo">909</span><a id="line.909">  public static &lt;E&gt; ImmutableSortedSet&lt;E&gt; of(E element) {</a>
+<span class="sourceLineNo">910</span><a id="line.910">    throw new UnsupportedOperationException();</a>
+<span class="sourceLineNo">911</span><a id="line.911">  }</a>
+<span class="sourceLineNo">912</span><a id="line.912"></a>
+<span class="sourceLineNo">913</span><a id="line.913">  /**</a>
+<span class="sourceLineNo">914</span><a id="line.914">   * Not supported. &lt;b&gt;You are attempting to create a set that may contain a non-{@code Comparable}</a>
+<span class="sourceLineNo">915</span><a id="line.915">   * element.&lt;/b&gt; Proper calls will resolve to the version in {@code ImmutableSortedSet}, not this</a>
+<span class="sourceLineNo">916</span><a id="line.916">   * dummy version.</a>
+<span class="sourceLineNo">917</span><a id="line.917">   *</a>
+<span class="sourceLineNo">918</span><a id="line.918">   * @throws UnsupportedOperationException always</a>
+<span class="sourceLineNo">919</span><a id="line.919">   * @deprecated &lt;b&gt;Pass the parameters of type {@code Comparable} to use {@link</a>
+<span class="sourceLineNo">920</span><a id="line.920">   *     ImmutableSortedSet#of(Comparable, Comparable)}.&lt;/b&gt;</a>
+<span class="sourceLineNo">921</span><a id="line.921">   */</a>
+<span class="sourceLineNo">922</span><a id="line.922">  @DoNotCall("Pass parameters of type Comparable")</a>
+<span class="sourceLineNo">923</span><a id="line.923">  @Deprecated</a>
+<span class="sourceLineNo">924</span><a id="line.924">  public static &lt;E&gt; ImmutableSortedSet&lt;E&gt; of(E e1, E e2) {</a>
+<span class="sourceLineNo">925</span><a id="line.925">    throw new UnsupportedOperationException();</a>
+<span class="sourceLineNo">926</span><a id="line.926">  }</a>
+<span class="sourceLineNo">927</span><a id="line.927"></a>
+<span class="sourceLineNo">928</span><a id="line.928">  /**</a>
+<span class="sourceLineNo">929</span><a id="line.929">   * Not supported. &lt;b&gt;You are attempting to create a set that may contain a non-{@code Comparable}</a>
+<span class="sourceLineNo">930</span><a id="line.930">   * element.&lt;/b&gt; Proper calls will resolve to the version in {@code ImmutableSortedSet}, not this</a>
+<span class="sourceLineNo">931</span><a id="line.931">   * dummy version.</a>
+<span class="sourceLineNo">932</span><a id="line.932">   *</a>
+<span class="sourceLineNo">933</span><a id="line.933">   * @throws UnsupportedOperationException always</a>
+<span class="sourceLineNo">934</span><a id="line.934">   * @deprecated &lt;b&gt;Pass the parameters of type {@code Comparable} to use {@link</a>
+<span class="sourceLineNo">935</span><a id="line.935">   *     ImmutableSortedSet#of(Comparable, Comparable, Comparable)}.&lt;/b&gt;</a>
+<span class="sourceLineNo">936</span><a id="line.936">   */</a>
+<span class="sourceLineNo">937</span><a id="line.937">  @DoNotCall("Pass parameters of type Comparable")</a>
+<span class="sourceLineNo">938</span><a id="line.938">  @Deprecated</a>
+<span class="sourceLineNo">939</span><a id="line.939">  public static &lt;E&gt; ImmutableSortedSet&lt;E&gt; of(E e1, E e2, E e3) {</a>
+<span class="sourceLineNo">940</span><a id="line.940">    throw new UnsupportedOperationException();</a>
+<span class="sourceLineNo">941</span><a id="line.941">  }</a>
+<span class="sourceLineNo">942</span><a id="line.942"></a>
+<span class="sourceLineNo">943</span><a id="line.943">  /**</a>
+<span class="sourceLineNo">944</span><a id="line.944">   * Not supported. &lt;b&gt;You are attempting to create a set that may contain a non-{@code Comparable}</a>
+<span class="sourceLineNo">945</span><a id="line.945">   * element.&lt;/b&gt; Proper calls will resolve to the version in {@code ImmutableSortedSet}, not this</a>
+<span class="sourceLineNo">946</span><a id="line.946">   * dummy version.</a>
+<span class="sourceLineNo">947</span><a id="line.947">   *</a>
+<span class="sourceLineNo">948</span><a id="line.948">   * @throws UnsupportedOperationException always</a>
+<span class="sourceLineNo">949</span><a id="line.949">   * @deprecated &lt;b&gt;Pass the parameters of type {@code Comparable} to use {@link</a>
+<span class="sourceLineNo">950</span><a id="line.950">   *     ImmutableSortedSet#of(Comparable, Comparable, Comparable, Comparable)}. &lt;/b&gt;</a>
+<span class="sourceLineNo">951</span><a id="line.951">   */</a>
+<span class="sourceLineNo">952</span><a id="line.952">  @DoNotCall("Pass parameters of type Comparable")</a>
+<span class="sourceLineNo">953</span><a id="line.953">  @Deprecated</a>
+<span class="sourceLineNo">954</span><a id="line.954">  public static &lt;E&gt; ImmutableSortedSet&lt;E&gt; of(E e1, E e2, E e3, E e4) {</a>
+<span class="sourceLineNo">955</span><a id="line.955">    throw new UnsupportedOperationException();</a>
+<span class="sourceLineNo">956</span><a id="line.956">  }</a>
+<span class="sourceLineNo">957</span><a id="line.957"></a>
+<span class="sourceLineNo">958</span><a id="line.958">  /**</a>
+<span class="sourceLineNo">959</span><a id="line.959">   * Not supported. &lt;b&gt;You are attempting to create a set that may contain a non-{@code Comparable}</a>
+<span class="sourceLineNo">960</span><a id="line.960">   * element.&lt;/b&gt; Proper calls will resolve to the version in {@code ImmutableSortedSet}, not this</a>
+<span class="sourceLineNo">961</span><a id="line.961">   * dummy version.</a>
+<span class="sourceLineNo">962</span><a id="line.962">   *</a>
+<span class="sourceLineNo">963</span><a id="line.963">   * @throws UnsupportedOperationException always</a>
+<span class="sourceLineNo">964</span><a id="line.964">   * @deprecated &lt;b&gt;Pass the parameters of type {@code Comparable} to use {@link</a>
+<span class="sourceLineNo">965</span><a id="line.965">   *     ImmutableSortedSet#of( Comparable, Comparable, Comparable, Comparable, Comparable)}. &lt;/b&gt;</a>
+<span class="sourceLineNo">966</span><a id="line.966">   */</a>
+<span class="sourceLineNo">967</span><a id="line.967">  @DoNotCall("Pass parameters of type Comparable")</a>
+<span class="sourceLineNo">968</span><a id="line.968">  @Deprecated</a>
+<span class="sourceLineNo">969</span><a id="line.969">  public static &lt;E&gt; ImmutableSortedSet&lt;E&gt; of(E e1, E e2, E e3, E e4, E e5) {</a>
+<span class="sourceLineNo">970</span><a id="line.970">    throw new UnsupportedOperationException();</a>
+<span class="sourceLineNo">971</span><a id="line.971">  }</a>
+<span class="sourceLineNo">972</span><a id="line.972"></a>
+<span class="sourceLineNo">973</span><a id="line.973">  /**</a>
+<span class="sourceLineNo">974</span><a id="line.974">   * Not supported. &lt;b&gt;You are attempting to create a set that may contain a non-{@code Comparable}</a>
+<span class="sourceLineNo">975</span><a id="line.975">   * element.&lt;/b&gt; Proper calls will resolve to the version in {@code ImmutableSortedSet}, not this</a>
+<span class="sourceLineNo">976</span><a id="line.976">   * dummy version.</a>
+<span class="sourceLineNo">977</span><a id="line.977">   *</a>
+<span class="sourceLineNo">978</span><a id="line.978">   * @throws UnsupportedOperationException always</a>
+<span class="sourceLineNo">979</span><a id="line.979">   * @deprecated &lt;b&gt;Pass the parameters of type {@code Comparable} to use {@link</a>
+<span class="sourceLineNo">980</span><a id="line.980">   *     ImmutableSortedSet#of(Comparable, Comparable, Comparable, Comparable, Comparable,</a>
+<span class="sourceLineNo">981</span><a id="line.981">   *     Comparable, Comparable...)}. &lt;/b&gt;</a>
+<span class="sourceLineNo">982</span><a id="line.982">   */</a>
+<span class="sourceLineNo">983</span><a id="line.983">  @DoNotCall("Pass parameters of type Comparable")</a>
+<span class="sourceLineNo">984</span><a id="line.984">  @Deprecated</a>
+<span class="sourceLineNo">985</span><a id="line.985">  public static &lt;E&gt; ImmutableSortedSet&lt;E&gt; of(E e1, E e2, E e3, E e4, E e5, E e6, E... remaining) {</a>
+<span class="sourceLineNo">986</span><a id="line.986">    throw new UnsupportedOperationException();</a>
+<span class="sourceLineNo">987</span><a id="line.987">  }</a>
+<span class="sourceLineNo">988</span><a id="line.988"></a>
+<span class="sourceLineNo">989</span><a id="line.989">  /**</a>
+<span class="sourceLineNo">990</span><a id="line.990">   * Not supported. &lt;b&gt;You are attempting to create a set that may contain non-{@code Comparable}</a>
+<span class="sourceLineNo">991</span><a id="line.991">   * elements.&lt;/b&gt; Proper calls will resolve to the version in {@code ImmutableSortedSet}, not this</a>
+<span class="sourceLineNo">992</span><a id="line.992">   * dummy version.</a>
+<span class="sourceLineNo">993</span><a id="line.993">   *</a>
+<span class="sourceLineNo">994</span><a id="line.994">   * @throws UnsupportedOperationException always</a>
+<span class="sourceLineNo">995</span><a id="line.995">   * @deprecated &lt;b&gt;Pass parameters of type {@code Comparable} to use {@link</a>
+<span class="sourceLineNo">996</span><a id="line.996">   *     ImmutableSortedSet#copyOf(Comparable[])}.&lt;/b&gt;</a>
+<span class="sourceLineNo">997</span><a id="line.997">   */</a>
+<span class="sourceLineNo">998</span><a id="line.998">  @DoNotCall("Pass parameters of type Comparable")</a>
+<span class="sourceLineNo">999</span><a id="line.999">  @Deprecated</a>
+<span class="sourceLineNo">1000</span><a id="line.1000">  // The usage of "Z" here works around bugs in Javadoc (JDK-8318093) and JDiff.</a>
+<span class="sourceLineNo">1001</span><a id="line.1001">  public static &lt;Z&gt; ImmutableSortedSet&lt;Z&gt; copyOf(Z[] elements) {</a>
+<span class="sourceLineNo">1002</span><a id="line.1002">    throw new UnsupportedOperationException();</a>
+<span class="sourceLineNo">1003</span><a id="line.1003">  }</a>
+<span class="sourceLineNo">1004</span><a id="line.1004">}</a>
 
 
 

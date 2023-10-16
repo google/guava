@@ -27,7 +27,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":41,"i1":41,"i2":9,"i3":9,"i4":9,"i5":9,"i6":41,"i7":9,"i8":10,"i9":10,"i10":6,"i11":41,"i12":41,"i13":41,"i14":41,"i15":41,"i16":41,"i17":6,"i18":6,"i19":10,"i20":10,"i21":10,"i22":10,"i23":10};
+var data = {"i0":41,"i1":9,"i2":9,"i3":9,"i4":9,"i5":9,"i6":10,"i7":10,"i8":6,"i9":6,"i10":6,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],2:["t2","Instance Methods"],4:["t3","Abstract Methods"],8:["t4","Concrete Methods"],32:["t6","Deprecated Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -230,15 +230,6 @@ extends <a href="ImmutableSortedSet.html" title="class in com.google.common.coll
 </td>
 </tr>
 <tr id="i1" class="rowColor">
-<td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="ImmutableSortedSet.Builder.html" title="class in com.google.common.collect">ImmutableSortedSet.Builder</a>&lt;E&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#builderWithExpectedSize(int)">builderWithExpectedSize</a></span>&#8203;(int&nbsp;expectedSize)</code></th>
-<td class="colLast">
-<div class="block"><span class="deprecatedLabel">Deprecated.</span>
-<div class="deprecationComment">Not supported by ImmutableSortedSet.</div>
-</div>
-</td>
-</tr>
-<tr id="i2" class="altColor">
 <td class="colFirst"><code>static <a href="ContiguousSet.html" title="class in com.google.common.collect">ContiguousSet</a>&lt;java.lang.Integer&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#closed(int,int)">closed</a></span>&#8203;(int&nbsp;lower,
       int&nbsp;upper)</code></th>
@@ -247,7 +238,7 @@ extends <a href="ImmutableSortedSet.html" title="class in com.google.common.coll
  (inclusive) to <code>upper</code> (inclusive).</div>
 </td>
 </tr>
-<tr id="i3" class="rowColor">
+<tr id="i2" class="altColor">
 <td class="colFirst"><code>static <a href="ContiguousSet.html" title="class in com.google.common.collect">ContiguousSet</a>&lt;java.lang.Long&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#closed(long,long)">closed</a></span>&#8203;(long&nbsp;lower,
       long&nbsp;upper)</code></th>
@@ -256,7 +247,7 @@ extends <a href="ImmutableSortedSet.html" title="class in com.google.common.coll
  (inclusive) to <code>upper</code> (inclusive).</div>
 </td>
 </tr>
-<tr id="i4" class="altColor">
+<tr id="i3" class="rowColor">
 <td class="colFirst"><code>static <a href="ContiguousSet.html" title="class in com.google.common.collect">ContiguousSet</a>&lt;java.lang.Integer&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#closedOpen(int,int)">closedOpen</a></span>&#8203;(int&nbsp;lower,
           int&nbsp;upper)</code></th>
@@ -265,7 +256,7 @@ extends <a href="ImmutableSortedSet.html" title="class in com.google.common.coll
  <code>upper</code> (exclusive).</div>
 </td>
 </tr>
-<tr id="i5" class="rowColor">
+<tr id="i4" class="altColor">
 <td class="colFirst"><code>static <a href="ContiguousSet.html" title="class in com.google.common.collect">ContiguousSet</a>&lt;java.lang.Long&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#closedOpen(long,long)">closedOpen</a></span>&#8203;(long&nbsp;lower,
           long&nbsp;upper)</code></th>
@@ -274,16 +265,7 @@ extends <a href="ImmutableSortedSet.html" title="class in com.google.common.coll
  <code>upper</code> (exclusive).</div>
 </td>
 </tr>
-<tr id="i6" class="altColor">
-<td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#copyOf(E%5B%5D)">copyOf</a></span>&#8203;(E[]&nbsp;elements)</code></th>
-<td class="colLast">
-<div class="block"><span class="deprecatedLabel">Deprecated.</span>
-<div class="deprecationComment"><b>Pass parameters of type <code>Comparable</code> to use <a href="ImmutableSortedSet.html#copyOf(E%5B%5D)"><code>ImmutableSortedSet.copyOf(Comparable[])</code></a>.</b></div>
-</div>
-</td>
-</tr>
-<tr id="i7" class="rowColor">
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code>static &lt;C extends java.lang.Comparable&gt;<br><a href="ContiguousSet.html" title="class in com.google.common.collect">ContiguousSet</a>&lt;C&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#create(com.google.common.collect.Range,com.google.common.collect.DiscreteDomain)">create</a></span>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&nbsp;range,
       <a href="DiscreteDomain.html" title="class in com.google.common.collect">DiscreteDomain</a>&lt;C&gt;&nbsp;domain)</code></th>
@@ -291,95 +273,24 @@ extends <a href="ImmutableSortedSet.html" title="class in com.google.common.coll
 <div class="block">Returns a <code>ContiguousSet</code> containing the same values in the given domain <a href="Range.html#contains(C)">contained</a> by the range.</div>
 </td>
 </tr>
-<tr id="i8" class="altColor">
+<tr id="i6" class="altColor">
 <td class="colFirst"><code><a href="ContiguousSet.html" title="class in com.google.common.collect">ContiguousSet</a>&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#headSet(C)">headSet</a></span>&#8203;(<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a>&nbsp;toElement)</code></th>
 </tr>
-<tr id="i9" class="rowColor">
+<tr id="i7" class="rowColor">
 <td class="colFirst"><code><a href="ContiguousSet.html" title="class in com.google.common.collect">ContiguousSet</a>&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#headSet(C,boolean)">headSet</a></span>&#8203;(<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a>&nbsp;toElement,
        boolean&nbsp;inclusive)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i10" class="altColor">
+<tr id="i8" class="altColor">
 <td class="colFirst"><code>abstract <a href="ContiguousSet.html" title="class in com.google.common.collect">ContiguousSet</a>&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#intersection(com.google.common.collect.ContiguousSet)">intersection</a></span>&#8203;(<a href="ContiguousSet.html" title="class in com.google.common.collect">ContiguousSet</a>&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a>&gt;&nbsp;other)</code></th>
 <td class="colLast">
 <div class="block">Returns the set of values that are contained in both this set and the other.</div>
 </td>
 </tr>
-<tr id="i11" class="rowColor">
-<td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#of(E)">of</a></span>&#8203;(E&nbsp;element)</code></th>
-<td class="colLast">
-<div class="block"><span class="deprecatedLabel">Deprecated.</span>
-<div class="deprecationComment"><b>Pass a parameter of type <code>Comparable</code> to use <a href="ImmutableSortedSet.html#of(E)"><code>ImmutableSortedSet.of(Comparable)</code></a>.</b></div>
-</div>
-</td>
-</tr>
-<tr id="i12" class="altColor">
-<td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#of(E,E)">of</a></span>&#8203;(E&nbsp;e1,
-  E&nbsp;e2)</code></th>
-<td class="colLast">
-<div class="block"><span class="deprecatedLabel">Deprecated.</span>
-<div class="deprecationComment"><b>Pass the parameters of type <code>Comparable</code> to use <a href="ImmutableSortedSet.html#of(E,E)"><code>ImmutableSortedSet.of(Comparable, Comparable)</code></a>.</b></div>
-</div>
-</td>
-</tr>
-<tr id="i13" class="rowColor">
-<td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#of(E,E,E)">of</a></span>&#8203;(E&nbsp;e1,
-  E&nbsp;e2,
-  E&nbsp;e3)</code></th>
-<td class="colLast">
-<div class="block"><span class="deprecatedLabel">Deprecated.</span>
-<div class="deprecationComment"><b>Pass the parameters of type <code>Comparable</code> to use <a href="ImmutableSortedSet.html#of(E,E,E)"><code>ImmutableSortedSet.of(Comparable, Comparable, Comparable)</code></a>.</b></div>
-</div>
-</td>
-</tr>
-<tr id="i14" class="altColor">
-<td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#of(E,E,E,E)">of</a></span>&#8203;(E&nbsp;e1,
-  E&nbsp;e2,
-  E&nbsp;e3,
-  E&nbsp;e4)</code></th>
-<td class="colLast">
-<div class="block"><span class="deprecatedLabel">Deprecated.</span>
-<div class="deprecationComment"><b>Pass the parameters of type <code>Comparable</code> to use <a href="ImmutableSortedSet.html#of(E,E,E,E)"><code>ImmutableSortedSet.of(Comparable, Comparable, Comparable, Comparable)</code></a>.</div>
-</div>
-</td>
-</tr>
-<tr id="i15" class="rowColor">
-<td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#of(E,E,E,E,E)">of</a></span>&#8203;(E&nbsp;e1,
-  E&nbsp;e2,
-  E&nbsp;e3,
-  E&nbsp;e4,
-  E&nbsp;e5)</code></th>
-<td class="colLast">
-<div class="block"><span class="deprecatedLabel">Deprecated.</span>
-<div class="deprecationComment"><b>Pass the parameters of type <code>Comparable</code> to use <a href="ImmutableSortedSet.html#of(E,E,E,E,E)"><code>ImmutableSortedSet.of( Comparable, Comparable, Comparable, Comparable, Comparable)</code></a>.</div>
-</div>
-</td>
-</tr>
-<tr id="i16" class="altColor">
-<td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#of(E,E,E,E,E,E,E...)">of</a></span>&#8203;(E&nbsp;e1,
-  E&nbsp;e2,
-  E&nbsp;e3,
-  E&nbsp;e4,
-  E&nbsp;e5,
-  E&nbsp;e6,
-  E...&nbsp;remaining)</code></th>
-<td class="colLast">
-<div class="block"><span class="deprecatedLabel">Deprecated.</span>
-<div class="deprecationComment"><b>Pass the parameters of type <code>Comparable</code> to use <a href="ImmutableSortedSet.html#of(E,E,E,E,E,E,E...)"><code>ImmutableSortedSet.of(Comparable, Comparable, Comparable, Comparable, Comparable,
-     Comparable, Comparable...)</code></a>.</div>
-</div>
-</td>
-</tr>
-<tr id="i17" class="rowColor">
+<tr id="i9" class="rowColor">
 <td class="colFirst"><code>abstract <a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#range()">range</a></span>()</code></th>
 <td class="colLast">
@@ -387,7 +298,7 @@ extends <a href="ImmutableSortedSet.html" title="class in com.google.common.coll
  contained in this set.</div>
 </td>
 </tr>
-<tr id="i18" class="altColor">
+<tr id="i10" class="altColor">
 <td class="colFirst"><code>abstract <a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#range(com.google.common.collect.BoundType,com.google.common.collect.BoundType)">range</a></span>&#8203;(<a href="BoundType.html" title="enum in com.google.common.collect">BoundType</a>&nbsp;lowerBoundType,
      <a href="BoundType.html" title="enum in com.google.common.collect">BoundType</a>&nbsp;upperBoundType)</code></th>
@@ -396,7 +307,7 @@ extends <a href="ImmutableSortedSet.html" title="class in com.google.common.coll
  <a href="Range.html#contains(C)">contained</a> within the range.</div>
 </td>
 </tr>
-<tr id="i19" class="rowColor">
+<tr id="i11" class="rowColor">
 <td class="colFirst"><code><a href="ContiguousSet.html" title="class in com.google.common.collect">ContiguousSet</a>&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#subSet(C,boolean,C,boolean)">subSet</a></span>&#8203;(<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a>&nbsp;fromElement,
       boolean&nbsp;fromInclusive,
@@ -404,22 +315,22 @@ extends <a href="ImmutableSortedSet.html" title="class in com.google.common.coll
       boolean&nbsp;toInclusive)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i20" class="altColor">
+<tr id="i12" class="altColor">
 <td class="colFirst"><code><a href="ContiguousSet.html" title="class in com.google.common.collect">ContiguousSet</a>&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#subSet(C,C)">subSet</a></span>&#8203;(<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a>&nbsp;fromElement,
       <a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a>&nbsp;toElement)</code></th>
 </tr>
-<tr id="i21" class="rowColor">
+<tr id="i13" class="rowColor">
 <td class="colFirst"><code><a href="ContiguousSet.html" title="class in com.google.common.collect">ContiguousSet</a>&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#tailSet(C)">tailSet</a></span>&#8203;(<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a>&nbsp;fromElement)</code></th>
 </tr>
-<tr id="i22" class="altColor">
+<tr id="i14" class="altColor">
 <td class="colFirst"><code><a href="ContiguousSet.html" title="class in com.google.common.collect">ContiguousSet</a>&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#tailSet(C,boolean)">tailSet</a></span>&#8203;(<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a>&nbsp;fromElement,
        boolean&nbsp;inclusive)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i23" class="rowColor">
+<tr id="i15" class="rowColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toString()">toString</a></span>()</code></th>
 <td class="colLast">
@@ -432,7 +343,7 @@ extends <a href="ImmutableSortedSet.html" title="class in com.google.common.coll
 <!--   -->
 </a>
 <h3>Methods inherited from class&nbsp;com.google.common.collect.<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a></h3>
-<code><a href="ImmutableSortedSet.html#ceiling(E)">ceiling</a>, <a href="ImmutableSortedSet.html#comparator()">comparator</a>, <a href="ImmutableSortedSet.html#copyOf(E%5B%5D)">copyOf</a>, <a href="ImmutableSortedSet.html#copyOf(java.lang.Iterable)">copyOf</a>, <a href="ImmutableSortedSet.html#copyOf(java.util.Collection)">copyOf</a>, <a href="ImmutableSortedSet.html#copyOf(java.util.Comparator,java.lang.Iterable)">copyOf</a>, <a href="ImmutableSortedSet.html#copyOf(java.util.Comparator,java.util.Collection)">copyOf</a>, <a href="ImmutableSortedSet.html#copyOf(java.util.Comparator,java.util.Iterator)">copyOf</a>, <a href="ImmutableSortedSet.html#copyOf(java.util.Iterator)">copyOf</a>, <a href="ImmutableSortedSet.html#copyOfSorted(java.util.SortedSet)">copyOfSorted</a>, <a href="ImmutableSortedSet.html#descendingIterator()">descendingIterator</a>, <a href="ImmutableSortedSet.html#descendingSet()">descendingSet</a>, <a href="ImmutableSortedSet.html#first()">first</a>, <a href="ImmutableSortedSet.html#floor(E)">floor</a>, <a href="ImmutableSortedSet.html#higher(E)">higher</a>, <a href="ImmutableSortedSet.html#iterator()">iterator</a>, <a href="ImmutableSortedSet.html#last()">last</a>, <a href="ImmutableSortedSet.html#lower(E)">lower</a>, <a href="ImmutableSortedSet.html#naturalOrder()">naturalOrder</a>, <a href="ImmutableSortedSet.html#of()">of</a>, <a href="ImmutableSortedSet.html#of(E)">of</a>, <a href="ImmutableSortedSet.html#of(E,E)">of</a>, <a href="ImmutableSortedSet.html#of(E,E,E)">of</a>, <a href="ImmutableSortedSet.html#of(E,E,E,E)">of</a>, <a href="ImmutableSortedSet.html#of(E,E,E,E,E)">of</a>, <a href="ImmutableSortedSet.html#of(E,E,E,E,E,E,E...)">of</a>, <a href="ImmutableSortedSet.html#orderedBy(java.util.Comparator)">orderedBy</a>, <a href="ImmutableSortedSet.html#pollFirst()">pollFirst</a>, <a href="ImmutableSortedSet.html#pollLast()">pollLast</a>, <a href="ImmutableSortedSet.html#reverseOrder()">reverseOrder</a></code></li>
+<code><a href="ImmutableSortedSet.html#builderWithExpectedSize(int)">builderWithExpectedSize</a>, <a href="ImmutableSortedSet.html#ceiling(E)">ceiling</a>, <a href="ImmutableSortedSet.html#comparator()">comparator</a>, <a href="ImmutableSortedSet.html#copyOf(E%5B%5D)">copyOf</a>, <a href="ImmutableSortedSet.html#copyOf(java.lang.Iterable)">copyOf</a>, <a href="ImmutableSortedSet.html#copyOf(java.util.Collection)">copyOf</a>, <a href="ImmutableSortedSet.html#copyOf(java.util.Comparator,java.lang.Iterable)">copyOf</a>, <a href="ImmutableSortedSet.html#copyOf(java.util.Comparator,java.util.Collection)">copyOf</a>, <a href="ImmutableSortedSet.html#copyOf(java.util.Comparator,java.util.Iterator)">copyOf</a>, <a href="ImmutableSortedSet.html#copyOf(java.util.Iterator)">copyOf</a>, <a href="ImmutableSortedSet.html#copyOf(Z%5B%5D)">copyOf</a>, <a href="ImmutableSortedSet.html#copyOfSorted(java.util.SortedSet)">copyOfSorted</a>, <a href="ImmutableSortedSet.html#descendingIterator()">descendingIterator</a>, <a href="ImmutableSortedSet.html#descendingSet()">descendingSet</a>, <a href="ImmutableSortedSet.html#first()">first</a>, <a href="ImmutableSortedSet.html#floor(E)">floor</a>, <a href="ImmutableSortedSet.html#higher(E)">higher</a>, <a href="ImmutableSortedSet.html#iterator()">iterator</a>, <a href="ImmutableSortedSet.html#last()">last</a>, <a href="ImmutableSortedSet.html#lower(E)">lower</a>, <a href="ImmutableSortedSet.html#naturalOrder()">naturalOrder</a>, <a href="ImmutableSortedSet.html#of()">of</a>, <a href="ImmutableSortedSet.html#of(E)">of</a>, <a href="ImmutableSortedSet.html#of(E,E)">of</a>, <a href="ImmutableSortedSet.html#of(E,E,E)">of</a>, <a href="ImmutableSortedSet.html#of(E,E,E,E)">of</a>, <a href="ImmutableSortedSet.html#of(E,E,E,E,E)">of</a>, <a href="ImmutableSortedSet.html#of(E,E,E,E,E,E,E...)">of</a>, <a href="ImmutableSortedSet.html#orderedBy(java.util.Comparator)">orderedBy</a>, <a href="ImmutableSortedSet.html#pollFirst()">pollFirst</a>, <a href="ImmutableSortedSet.html#pollLast()">pollLast</a>, <a href="ImmutableSortedSet.html#reverseOrder()">reverseOrder</a></code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a id="methods.inherited.from.class.com.google.common.collect.ImmutableSet">
@@ -816,7 +727,7 @@ public&nbsp;<a href="ContiguousSet.html" title="class in com.google.common.colle
 <a id="builder()">
 <!--   -->
 </a>
-<ul class="blockList">
+<ul class="blockListLast">
 <li class="blockList">
 <h4>builder</h4>
 <pre class="methodSignature">@Deprecated
@@ -827,196 +738,6 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedSet.Builder.html" titl
 <div class="block">Not supported. <code>ContiguousSet</code> instances are constructed with <a href="#create(com.google.common.collect.Range,com.google.common.collect.DiscreteDomain)"><code>create(com.google.common.collect.Range&lt;C&gt;, com.google.common.collect.DiscreteDomain&lt;C&gt;)</code></a>. This
  method exists only to hide <a href="ImmutableSet.html#builder()"><code>ImmutableSet.builder()</code></a> from consumers of <code>
  ContiguousSet</code>.</div>
-<dl>
-<dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.UnsupportedOperationException</code> - always</dd>
-</dl>
-</li>
-</ul>
-<a id="builderWithExpectedSize(int)">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>builderWithExpectedSize</h4>
-<pre class="methodSignature">@Deprecated
-public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedSet.Builder.html" title="class in com.google.common.collect">ImmutableSortedSet.Builder</a>&lt;E&gt;&nbsp;builderWithExpectedSize&#8203;(int&nbsp;expectedSize)</pre>
-<div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
-<div class="deprecationComment">Not supported by ImmutableSortedSet.</div>
-</div>
-<div class="block">Not supported. This method exists only to hide <a href="ImmutableSet.html#builderWithExpectedSize(int)"><code>ImmutableSet.builderWithExpectedSize(int)</code></a>
- from consumers of <code>ImmutableSortedSet</code>.</div>
-<dl>
-<dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.UnsupportedOperationException</code> - always</dd>
-</dl>
-</li>
-</ul>
-<a id="of(java.lang.Object)">
-<!--   -->
-</a><a id="of(E)">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>of</h4>
-<pre class="methodSignature">@Deprecated
-public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;&nbsp;of&#8203;(E&nbsp;element)</pre>
-<div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
-<div class="deprecationComment"><b>Pass a parameter of type <code>Comparable</code> to use <a href="ImmutableSortedSet.html#of(E)"><code>ImmutableSortedSet.of(Comparable)</code></a>.</b></div>
-</div>
-<div class="block">Not supported. <b>You are attempting to create a set that may contain a non-<code>Comparable</code>
- element.</b> Proper calls will resolve to the version in <code>ImmutableSortedSet</code>, not this
- dummy version.</div>
-<dl>
-<dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.UnsupportedOperationException</code> - always</dd>
-</dl>
-</li>
-</ul>
-<a id="of(java.lang.Object,java.lang.Object)">
-<!--   -->
-</a><a id="of(E,E)">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>of</h4>
-<pre class="methodSignature">@Deprecated
-public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;&nbsp;of&#8203;(E&nbsp;e1,
-                                           E&nbsp;e2)</pre>
-<div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
-<div class="deprecationComment"><b>Pass the parameters of type <code>Comparable</code> to use <a href="ImmutableSortedSet.html#of(E,E)"><code>ImmutableSortedSet.of(Comparable, Comparable)</code></a>.</b></div>
-</div>
-<div class="block">Not supported. <b>You are attempting to create a set that may contain a non-<code>Comparable</code>
- element.</b> Proper calls will resolve to the version in <code>ImmutableSortedSet</code>, not this
- dummy version.</div>
-<dl>
-<dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.UnsupportedOperationException</code> - always</dd>
-</dl>
-</li>
-</ul>
-<a id="of(java.lang.Object,java.lang.Object,java.lang.Object)">
-<!--   -->
-</a><a id="of(E,E,E)">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>of</h4>
-<pre class="methodSignature">@Deprecated
-public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;&nbsp;of&#8203;(E&nbsp;e1,
-                                           E&nbsp;e2,
-                                           E&nbsp;e3)</pre>
-<div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
-<div class="deprecationComment"><b>Pass the parameters of type <code>Comparable</code> to use <a href="ImmutableSortedSet.html#of(E,E,E)"><code>ImmutableSortedSet.of(Comparable, Comparable, Comparable)</code></a>.</b></div>
-</div>
-<div class="block">Not supported. <b>You are attempting to create a set that may contain a non-<code>Comparable</code>
- element.</b> Proper calls will resolve to the version in <code>ImmutableSortedSet</code>, not this
- dummy version.</div>
-<dl>
-<dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.UnsupportedOperationException</code> - always</dd>
-</dl>
-</li>
-</ul>
-<a id="of(java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object)">
-<!--   -->
-</a><a id="of(E,E,E,E)">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>of</h4>
-<pre class="methodSignature">@Deprecated
-public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;&nbsp;of&#8203;(E&nbsp;e1,
-                                           E&nbsp;e2,
-                                           E&nbsp;e3,
-                                           E&nbsp;e4)</pre>
-<div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
-<div class="deprecationComment"><b>Pass the parameters of type <code>Comparable</code> to use <a href="ImmutableSortedSet.html#of(E,E,E,E)"><code>ImmutableSortedSet.of(Comparable, Comparable, Comparable, Comparable)</code></a>. </b></div>
-</div>
-<div class="block">Not supported. <b>You are attempting to create a set that may contain a non-<code>Comparable</code>
- element.</b> Proper calls will resolve to the version in <code>ImmutableSortedSet</code>, not this
- dummy version.</div>
-<dl>
-<dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.UnsupportedOperationException</code> - always</dd>
-</dl>
-</li>
-</ul>
-<a id="of(java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object)">
-<!--   -->
-</a><a id="of(E,E,E,E,E)">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>of</h4>
-<pre class="methodSignature">@Deprecated
-public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;&nbsp;of&#8203;(E&nbsp;e1,
-                                           E&nbsp;e2,
-                                           E&nbsp;e3,
-                                           E&nbsp;e4,
-                                           E&nbsp;e5)</pre>
-<div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
-<div class="deprecationComment"><b>Pass the parameters of type <code>Comparable</code> to use <a href="ImmutableSortedSet.html#of(E,E,E,E,E)"><code>ImmutableSortedSet.of( Comparable, Comparable, Comparable, Comparable, Comparable)</code></a>. </b></div>
-</div>
-<div class="block">Not supported. <b>You are attempting to create a set that may contain a non-<code>Comparable</code>
- element.</b> Proper calls will resolve to the version in <code>ImmutableSortedSet</code>, not this
- dummy version.</div>
-<dl>
-<dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.UnsupportedOperationException</code> - always</dd>
-</dl>
-</li>
-</ul>
-<a id="of(java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object[])">
-<!--   -->
-</a><a id="of(E,E,E,E,E,E,E...)">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>of</h4>
-<pre class="methodSignature">@Deprecated
-public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;&nbsp;of&#8203;(E&nbsp;e1,
-                                           E&nbsp;e2,
-                                           E&nbsp;e3,
-                                           E&nbsp;e4,
-                                           E&nbsp;e5,
-                                           E&nbsp;e6,
-                                           E...&nbsp;remaining)</pre>
-<div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
-<div class="deprecationComment"><b>Pass the parameters of type <code>Comparable</code> to use <a href="ImmutableSortedSet.html#of(E,E,E,E,E,E,E...)"><code>ImmutableSortedSet.of(Comparable, Comparable, Comparable, Comparable, Comparable,
-     Comparable, Comparable...)</code></a>. </b></div>
-</div>
-<div class="block">Not supported. <b>You are attempting to create a set that may contain a non-<code>Comparable</code>
- element.</b> Proper calls will resolve to the version in <code>ImmutableSortedSet</code>, not this
- dummy version.</div>
-<dl>
-<dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.UnsupportedOperationException</code> - always</dd>
-</dl>
-</li>
-</ul>
-<a id="copyOf(java.lang.Object[])">
-<!--   -->
-</a><a id="copyOf(E[])">
-<!--   -->
-</a>
-<ul class="blockListLast">
-<li class="blockList">
-<h4>copyOf</h4>
-<pre class="methodSignature">@Deprecated
-public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;&nbsp;copyOf&#8203;(E[]&nbsp;elements)</pre>
-<div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
-<div class="deprecationComment"><b>Pass parameters of type <code>Comparable</code> to use <a href="ImmutableSortedSet.html#copyOf(E%5B%5D)"><code>ImmutableSortedSet.copyOf(Comparable[])</code></a>.</b></div>
-</div>
-<div class="block">Not supported. <b>You are attempting to create a set that may contain non-<code>Comparable</code>
- elements.</b> Proper calls will resolve to the version in <code>ImmutableSortedSet</code>, not this
- dummy version.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.UnsupportedOperationException</code> - always</dd>

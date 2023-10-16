@@ -906,7 +906,7 @@ public static&nbsp;&lt;C extends <a href="https://checkerframework.org/api/org/c
  about heavyweight listeners are also applicable to heavyweight functions passed to this method.
 
  <p>After calling this method, you may not call <a href="#finishToFuture()"><code>finishToFuture()</code></a>, <a href="#finishToValueAndCloser(com.google.common.util.concurrent.ClosingFuture.ValueAndCloserConsumer,java.util.concurrent.Executor)"><code>finishToValueAndCloser(ValueAndCloserConsumer, Executor)</code></a>, or any other derivation method on
- this <code>ClosingFuture</code>.</div>
+ the original <code>ClosingFuture</code> instance.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>function</code> - transforms the value of this step to the value of the derived step</dd>
@@ -989,7 +989,7 @@ public static&nbsp;&lt;C extends <a href="https://checkerframework.org/api/org/c
  responsible for completing the returned <code>ClosingFuture</code>.)
 
  <p>After calling this method, you may not call <a href="#finishToFuture()"><code>finishToFuture()</code></a>, <a href="#finishToValueAndCloser(com.google.common.util.concurrent.ClosingFuture.ValueAndCloserConsumer,java.util.concurrent.Executor)"><code>finishToValueAndCloser(ValueAndCloserConsumer, Executor)</code></a>, or any other derivation method on
- this <code>ClosingFuture</code>.</div>
+ the original <code>ClosingFuture</code> instance.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>function</code> - transforms the value of this step to a <code>ClosingFuture</code> with the value of
@@ -1068,7 +1068,7 @@ public static&nbsp;&lt;C extends <a href="https://checkerframework.org/api/org/c
  about heavyweight listeners are also applicable to heavyweight functions passed to this method.
 
  <p>After calling this method, you may not call <a href="#finishToFuture()"><code>finishToFuture()</code></a>, <a href="#finishToValueAndCloser(com.google.common.util.concurrent.ClosingFuture.ValueAndCloserConsumer,java.util.concurrent.Executor)"><code>finishToValueAndCloser(ValueAndCloserConsumer, Executor)</code></a>, or any other derivation method on
- this <code>ClosingFuture</code>.</div>
+ the original <code>ClosingFuture</code> instance.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>exceptionType</code> - the exception type that triggers use of <code>fallback</code>. The exception
@@ -1146,7 +1146,7 @@ public static&nbsp;&lt;C extends <a href="https://checkerframework.org/api/org/c
  responsible for completing the returned <code>ClosingFuture</code>.)
 
  <p>After calling this method, you may not call <a href="#finishToFuture()"><code>finishToFuture()</code></a>, <a href="#finishToValueAndCloser(com.google.common.util.concurrent.ClosingFuture.ValueAndCloserConsumer,java.util.concurrent.Executor)"><code>finishToValueAndCloser(ValueAndCloserConsumer, Executor)</code></a>, or any other derivation method on
- this <code>ClosingFuture</code>.</div>
+ the original <code>ClosingFuture</code> instance.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>exceptionType</code> - the exception type that triggers use of <code>fallback</code>. The exception
@@ -1181,7 +1181,7 @@ public static&nbsp;&lt;C extends <a href="https://checkerframework.org/api/org/c
  rather than once it has finished.
 
  <p>After calling this method, you may not call <a href="#finishToValueAndCloser(com.google.common.util.concurrent.ClosingFuture.ValueAndCloserConsumer,java.util.concurrent.Executor)"><code>finishToValueAndCloser(ValueAndCloserConsumer, Executor)</code></a>, this method, or any other
- derivation method on this <code>ClosingFuture</code>.</div>
+ derivation method on the original <code>ClosingFuture</code> instance.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a <code>Future</code> that represents the final value or exception of the pipeline</dd>
@@ -1201,7 +1201,7 @@ public static&nbsp;&lt;C extends <a href="https://checkerframework.org/api/org/c
  receiver can store the <a href="ClosingFuture.ValueAndCloser.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture.ValueAndCloser</code></a> outside the receiver for later synchronous use.
 
  <p>After calling this method, you may not call <a href="#finishToFuture()"><code>finishToFuture()</code></a>, this method again, or
- any other derivation method on this <code>ClosingFuture</code>.</div>
+ any other derivation method on the original <code>ClosingFuture</code> instance.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>consumer</code> - a callback whose method will be called (using <code>executor</code>) when this

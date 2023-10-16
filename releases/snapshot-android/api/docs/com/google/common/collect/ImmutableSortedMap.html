@@ -27,7 +27,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":41,"i1":41,"i2":10,"i3":10,"i4":10,"i5":9,"i6":9,"i7":9,"i8":9,"i9":9,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10,"i17":10,"i18":10,"i19":10,"i20":10,"i21":10,"i22":10,"i23":10,"i24":10,"i25":10,"i26":10,"i27":9,"i28":10,"i29":9,"i30":9,"i31":41,"i32":9,"i33":41,"i34":9,"i35":41,"i36":9,"i37":41,"i38":9,"i39":41,"i40":9,"i41":41,"i42":9,"i43":41,"i44":9,"i45":41,"i46":9,"i47":41,"i48":9,"i49":41,"i50":41,"i51":9,"i52":42,"i53":42,"i54":9,"i55":10,"i56":10,"i57":10,"i58":10,"i59":10,"i60":10};
+var data = {"i0":41,"i1":41,"i2":10,"i3":10,"i4":10,"i5":9,"i6":9,"i7":9,"i8":9,"i9":9,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10,"i17":10,"i18":10,"i19":10,"i20":10,"i21":10,"i22":10,"i23":10,"i24":10,"i25":10,"i26":10,"i27":9,"i28":10,"i29":9,"i30":9,"i31":9,"i32":9,"i33":9,"i34":9,"i35":9,"i36":9,"i37":9,"i38":9,"i39":9,"i40":41,"i41":9,"i42":42,"i43":42,"i44":9,"i45":10,"i46":10,"i47":10,"i48":10,"i49":10,"i50":10};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"],32:["t6","Deprecated Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -419,100 +419,104 @@ implements java.util.NavigableMap&lt;K,&#8203;V&gt;</pre>
 </td>
 </tr>
 <tr id="i31" class="rowColor">
-<td class="colFirst"><code>static &lt;K,&#8203;V&gt;<br><a href="ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;K,&#8203;V&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#of(K,V)">of</a></span>&#8203;(K&nbsp;k1,
-  V&nbsp;v1)</code></th>
-<td class="colLast">
-<div class="block"><span class="deprecatedLabel">Deprecated.</span>
-<div class="deprecationComment"><b>Pass a key of type <code>Comparable</code> to use <a href="#of(K,V)"><code>of(Comparable, Object)</code></a>.</b></div>
-</div>
-</td>
-</tr>
-<tr id="i32" class="altColor">
 <td class="colFirst"><code>static &lt;K extends java.lang.Comparable&lt;? super K&gt;,&#8203;V&gt;<br><a href="ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;K,&#8203;V&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#of(K,V,K,V)">of</a></span>&#8203;(K&nbsp;k1,
   V&nbsp;v1,
   K&nbsp;k2,
   V&nbsp;v2)</code></th>
+<td class="colLast">
+<div class="block">Returns an immutable sorted map containing the given entries, sorted by the natural ordering of
+ their keys.</div>
+</td>
+</tr>
+<tr id="i32" class="altColor">
+<td class="colFirst"><code>static &lt;K extends java.lang.Comparable&lt;? super K&gt;,&#8203;V&gt;<br><a href="ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;K,&#8203;V&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#of(K,V,K,V,K,V)">of</a></span>&#8203;(K&nbsp;k1,
+  V&nbsp;v1,
+  K&nbsp;k2,
+  V&nbsp;v2,
+  K&nbsp;k3,
+  V&nbsp;v3)</code></th>
 <td class="colLast">
 <div class="block">Returns an immutable sorted map containing the given entries, sorted by the natural ordering of
  their keys.</div>
 </td>
 </tr>
 <tr id="i33" class="rowColor">
-<td class="colFirst"><code>static &lt;K,&#8203;V&gt;<br><a href="ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;K,&#8203;V&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#of(K,V,K,V)">of</a></span>&#8203;(K&nbsp;k1,
-  V&nbsp;v1,
-  K&nbsp;k2,
-  V&nbsp;v2)</code></th>
-<td class="colLast">
-<div class="block"><span class="deprecatedLabel">Deprecated.</span>
-<div class="deprecationComment"><b>Pass keys of type <code>Comparable</code> to use <a href="#of(K,V,K,V)"><code>of(Comparable, Object, Comparable, Object)</code></a>.</b></div>
-</div>
-</td>
-</tr>
-<tr id="i34" class="altColor">
 <td class="colFirst"><code>static &lt;K extends java.lang.Comparable&lt;? super K&gt;,&#8203;V&gt;<br><a href="ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;K,&#8203;V&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#of(K,V,K,V,K,V)">of</a></span>&#8203;(K&nbsp;k1,
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#of(K,V,K,V,K,V,K,V)">of</a></span>&#8203;(K&nbsp;k1,
   V&nbsp;v1,
   K&nbsp;k2,
   V&nbsp;v2,
   K&nbsp;k3,
-  V&nbsp;v3)</code></th>
+  V&nbsp;v3,
+  K&nbsp;k4,
+  V&nbsp;v4)</code></th>
+<td class="colLast">
+<div class="block">Returns an immutable sorted map containing the given entries, sorted by the natural ordering of
+ their keys.</div>
+</td>
+</tr>
+<tr id="i34" class="altColor">
+<td class="colFirst"><code>static &lt;K extends java.lang.Comparable&lt;? super K&gt;,&#8203;V&gt;<br><a href="ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;K,&#8203;V&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#of(K,V,K,V,K,V,K,V,K,V)">of</a></span>&#8203;(K&nbsp;k1,
+  V&nbsp;v1,
+  K&nbsp;k2,
+  V&nbsp;v2,
+  K&nbsp;k3,
+  V&nbsp;v3,
+  K&nbsp;k4,
+  V&nbsp;v4,
+  K&nbsp;k5,
+  V&nbsp;v5)</code></th>
 <td class="colLast">
 <div class="block">Returns an immutable sorted map containing the given entries, sorted by the natural ordering of
  their keys.</div>
 </td>
 </tr>
 <tr id="i35" class="rowColor">
-<td class="colFirst"><code>static &lt;K,&#8203;V&gt;<br><a href="ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;K,&#8203;V&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#of(K,V,K,V,K,V)">of</a></span>&#8203;(K&nbsp;k1,
-  V&nbsp;v1,
-  K&nbsp;k2,
-  V&nbsp;v2,
-  K&nbsp;k3,
-  V&nbsp;v3)</code></th>
-<td class="colLast">
-<div class="block"><span class="deprecatedLabel">Deprecated.</span>
-<div class="deprecationComment"><b>Pass keys of type <code>Comparable</code> to use <a href="#of(K,V,K,V,K,V)"><code>of(Comparable, Object, Comparable, Object, Comparable, Object)</code></a>.</b></div>
-</div>
-</td>
-</tr>
-<tr id="i36" class="altColor">
 <td class="colFirst"><code>static &lt;K extends java.lang.Comparable&lt;? super K&gt;,&#8203;V&gt;<br><a href="ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;K,&#8203;V&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#of(K,V,K,V,K,V,K,V)">of</a></span>&#8203;(K&nbsp;k1,
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#of(K,V,K,V,K,V,K,V,K,V,K,V)">of</a></span>&#8203;(K&nbsp;k1,
   V&nbsp;v1,
   K&nbsp;k2,
   V&nbsp;v2,
   K&nbsp;k3,
   V&nbsp;v3,
   K&nbsp;k4,
-  V&nbsp;v4)</code></th>
+  V&nbsp;v4,
+  K&nbsp;k5,
+  V&nbsp;v5,
+  K&nbsp;k6,
+  V&nbsp;v6)</code></th>
+<td class="colLast">
+<div class="block">Returns an immutable sorted map containing the given entries, sorted by the natural ordering of
+ their keys.</div>
+</td>
+</tr>
+<tr id="i36" class="altColor">
+<td class="colFirst"><code>static &lt;K extends java.lang.Comparable&lt;? super K&gt;,&#8203;V&gt;<br><a href="ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;K,&#8203;V&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#of(K,V,K,V,K,V,K,V,K,V,K,V,K,V)">of</a></span>&#8203;(K&nbsp;k1,
+  V&nbsp;v1,
+  K&nbsp;k2,
+  V&nbsp;v2,
+  K&nbsp;k3,
+  V&nbsp;v3,
+  K&nbsp;k4,
+  V&nbsp;v4,
+  K&nbsp;k5,
+  V&nbsp;v5,
+  K&nbsp;k6,
+  V&nbsp;v6,
+  K&nbsp;k7,
+  V&nbsp;v7)</code></th>
 <td class="colLast">
 <div class="block">Returns an immutable sorted map containing the given entries, sorted by the natural ordering of
  their keys.</div>
 </td>
 </tr>
 <tr id="i37" class="rowColor">
-<td class="colFirst"><code>static &lt;K,&#8203;V&gt;<br><a href="ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;K,&#8203;V&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#of(K,V,K,V,K,V,K,V)">of</a></span>&#8203;(K&nbsp;k1,
-  V&nbsp;v1,
-  K&nbsp;k2,
-  V&nbsp;v2,
-  K&nbsp;k3,
-  V&nbsp;v3,
-  K&nbsp;k4,
-  V&nbsp;v4)</code></th>
-<td class="colLast">
-<div class="block"><span class="deprecatedLabel">Deprecated.</span>
-<div class="deprecationComment"><b>Pass keys of type <code>Comparable</code> to use <a href="#of(K,V,K,V,K,V,K,V)"><code>of(Comparable, Object, Comparable, Object, Comparable, Object,
-     Comparable, Object)</code></a>.</b></div>
-</div>
-</td>
-</tr>
-<tr id="i38" class="altColor">
 <td class="colFirst"><code>static &lt;K extends java.lang.Comparable&lt;? super K&gt;,&#8203;V&gt;<br><a href="ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;K,&#8203;V&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#of(K,V,K,V,K,V,K,V,K,V)">of</a></span>&#8203;(K&nbsp;k1,
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#of(K,V,K,V,K,V,K,V,K,V,K,V,K,V,K,V)">of</a></span>&#8203;(K&nbsp;k1,
   V&nbsp;v1,
   K&nbsp;k2,
   V&nbsp;v2,
@@ -521,15 +525,46 @@ implements java.util.NavigableMap&lt;K,&#8203;V&gt;</pre>
   K&nbsp;k4,
   V&nbsp;v4,
   K&nbsp;k5,
-  V&nbsp;v5)</code></th>
+  V&nbsp;v5,
+  K&nbsp;k6,
+  V&nbsp;v6,
+  K&nbsp;k7,
+  V&nbsp;v7,
+  K&nbsp;k8,
+  V&nbsp;v8)</code></th>
+<td class="colLast">
+<div class="block">Returns an immutable sorted map containing the given entries, sorted by the natural ordering of
+ their keys.</div>
+</td>
+</tr>
+<tr id="i38" class="altColor">
+<td class="colFirst"><code>static &lt;K extends java.lang.Comparable&lt;? super K&gt;,&#8203;V&gt;<br><a href="ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;K,&#8203;V&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#of(K,V,K,V,K,V,K,V,K,V,K,V,K,V,K,V,K,V)">of</a></span>&#8203;(K&nbsp;k1,
+  V&nbsp;v1,
+  K&nbsp;k2,
+  V&nbsp;v2,
+  K&nbsp;k3,
+  V&nbsp;v3,
+  K&nbsp;k4,
+  V&nbsp;v4,
+  K&nbsp;k5,
+  V&nbsp;v5,
+  K&nbsp;k6,
+  V&nbsp;v6,
+  K&nbsp;k7,
+  V&nbsp;v7,
+  K&nbsp;k8,
+  V&nbsp;v8,
+  K&nbsp;k9,
+  V&nbsp;v9)</code></th>
 <td class="colLast">
 <div class="block">Returns an immutable sorted map containing the given entries, sorted by the natural ordering of
  their keys.</div>
 </td>
 </tr>
 <tr id="i39" class="rowColor">
-<td class="colFirst"><code>static &lt;K,&#8203;V&gt;<br><a href="ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;K,&#8203;V&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#of(K,V,K,V,K,V,K,V,K,V)">of</a></span>&#8203;(K&nbsp;k1,
+<td class="colFirst"><code>static &lt;K extends java.lang.Comparable&lt;? super K&gt;,&#8203;V&gt;<br><a href="ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;K,&#8203;V&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#of(K,V,K,V,K,V,K,V,K,V,K,V,K,V,K,V,K,V,K,V)">of</a></span>&#8203;(K&nbsp;k1,
   V&nbsp;v1,
   K&nbsp;k2,
   V&nbsp;v2,
@@ -538,255 +573,23 @@ implements java.util.NavigableMap&lt;K,&#8203;V&gt;</pre>
   K&nbsp;k4,
   V&nbsp;v4,
   K&nbsp;k5,
-  V&nbsp;v5)</code></th>
+  V&nbsp;v5,
+  K&nbsp;k6,
+  V&nbsp;v6,
+  K&nbsp;k7,
+  V&nbsp;v7,
+  K&nbsp;k8,
+  V&nbsp;v8,
+  K&nbsp;k9,
+  V&nbsp;v9,
+  K&nbsp;k10,
+  V&nbsp;v10)</code></th>
 <td class="colLast">
-<div class="block"><span class="deprecatedLabel">Deprecated.</span>
-<div class="deprecationComment"><b>Pass keys of type <code>Comparable</code> to use <a href="#of(K,V,K,V,K,V,K,V,K,V)"><code>of(Comparable, Object, Comparable, Object, Comparable, Object,
-     Comparable, Object, Comparable, Object)</code></a>.</b></div>
-</div>
+<div class="block">Returns an immutable sorted map containing the given entries, sorted by the natural ordering of
+ their keys.</div>
 </td>
 </tr>
 <tr id="i40" class="altColor">
-<td class="colFirst"><code>static &lt;K extends java.lang.Comparable&lt;? super K&gt;,&#8203;V&gt;<br><a href="ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;K,&#8203;V&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#of(K,V,K,V,K,V,K,V,K,V,K,V)">of</a></span>&#8203;(K&nbsp;k1,
-  V&nbsp;v1,
-  K&nbsp;k2,
-  V&nbsp;v2,
-  K&nbsp;k3,
-  V&nbsp;v3,
-  K&nbsp;k4,
-  V&nbsp;v4,
-  K&nbsp;k5,
-  V&nbsp;v5,
-  K&nbsp;k6,
-  V&nbsp;v6)</code></th>
-<td class="colLast">
-<div class="block">Returns an immutable sorted map containing the given entries, sorted by the natural ordering of
- their keys.</div>
-</td>
-</tr>
-<tr id="i41" class="rowColor">
-<td class="colFirst"><code>static &lt;K,&#8203;V&gt;<br><a href="ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;K,&#8203;V&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#of(K,V,K,V,K,V,K,V,K,V,K,V)">of</a></span>&#8203;(K&nbsp;k1,
-  V&nbsp;v1,
-  K&nbsp;k2,
-  V&nbsp;v2,
-  K&nbsp;k3,
-  V&nbsp;v3,
-  K&nbsp;k4,
-  V&nbsp;v4,
-  K&nbsp;k5,
-  V&nbsp;v5,
-  K&nbsp;k6,
-  V&nbsp;v6)</code></th>
-<td class="colLast">
-<div class="block"><span class="deprecatedLabel">Deprecated.</span>
-<div class="deprecationComment"><b>Pass keys of type <code>Comparable</code> to use <a href="#of(K,V,K,V,K,V,K,V,K,V)"><code>of(Comparable, Object, Comparable, Object, Comparable, Object,
-     Comparable, Object, Comparable, Object)</code></a>.</b></div>
-</div>
-</td>
-</tr>
-<tr id="i42" class="altColor">
-<td class="colFirst"><code>static &lt;K extends java.lang.Comparable&lt;? super K&gt;,&#8203;V&gt;<br><a href="ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;K,&#8203;V&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#of(K,V,K,V,K,V,K,V,K,V,K,V,K,V)">of</a></span>&#8203;(K&nbsp;k1,
-  V&nbsp;v1,
-  K&nbsp;k2,
-  V&nbsp;v2,
-  K&nbsp;k3,
-  V&nbsp;v3,
-  K&nbsp;k4,
-  V&nbsp;v4,
-  K&nbsp;k5,
-  V&nbsp;v5,
-  K&nbsp;k6,
-  V&nbsp;v6,
-  K&nbsp;k7,
-  V&nbsp;v7)</code></th>
-<td class="colLast">
-<div class="block">Returns an immutable sorted map containing the given entries, sorted by the natural ordering of
- their keys.</div>
-</td>
-</tr>
-<tr id="i43" class="rowColor">
-<td class="colFirst"><code>static &lt;K,&#8203;V&gt;<br><a href="ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;K,&#8203;V&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#of(K,V,K,V,K,V,K,V,K,V,K,V,K,V)">of</a></span>&#8203;(K&nbsp;k1,
-  V&nbsp;v1,
-  K&nbsp;k2,
-  V&nbsp;v2,
-  K&nbsp;k3,
-  V&nbsp;v3,
-  K&nbsp;k4,
-  V&nbsp;v4,
-  K&nbsp;k5,
-  V&nbsp;v5,
-  K&nbsp;k6,
-  V&nbsp;v6,
-  K&nbsp;k7,
-  V&nbsp;v7)</code></th>
-<td class="colLast">
-<div class="block"><span class="deprecatedLabel">Deprecated.</span>
-<div class="deprecationComment"><b>Pass keys of type <code>Comparable</code> to use <a href="#of(K,V,K,V,K,V,K,V,K,V)"><code>of(Comparable, Object, Comparable, Object, Comparable, Object,
-     Comparable, Object, Comparable, Object)</code></a>.</b></div>
-</div>
-</td>
-</tr>
-<tr id="i44" class="altColor">
-<td class="colFirst"><code>static &lt;K extends java.lang.Comparable&lt;? super K&gt;,&#8203;V&gt;<br><a href="ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;K,&#8203;V&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#of(K,V,K,V,K,V,K,V,K,V,K,V,K,V,K,V)">of</a></span>&#8203;(K&nbsp;k1,
-  V&nbsp;v1,
-  K&nbsp;k2,
-  V&nbsp;v2,
-  K&nbsp;k3,
-  V&nbsp;v3,
-  K&nbsp;k4,
-  V&nbsp;v4,
-  K&nbsp;k5,
-  V&nbsp;v5,
-  K&nbsp;k6,
-  V&nbsp;v6,
-  K&nbsp;k7,
-  V&nbsp;v7,
-  K&nbsp;k8,
-  V&nbsp;v8)</code></th>
-<td class="colLast">
-<div class="block">Returns an immutable sorted map containing the given entries, sorted by the natural ordering of
- their keys.</div>
-</td>
-</tr>
-<tr id="i45" class="rowColor">
-<td class="colFirst"><code>static &lt;K,&#8203;V&gt;<br><a href="ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;K,&#8203;V&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#of(K,V,K,V,K,V,K,V,K,V,K,V,K,V,K,V)">of</a></span>&#8203;(K&nbsp;k1,
-  V&nbsp;v1,
-  K&nbsp;k2,
-  V&nbsp;v2,
-  K&nbsp;k3,
-  V&nbsp;v3,
-  K&nbsp;k4,
-  V&nbsp;v4,
-  K&nbsp;k5,
-  V&nbsp;v5,
-  K&nbsp;k6,
-  V&nbsp;v6,
-  K&nbsp;k7,
-  V&nbsp;v7,
-  K&nbsp;k8,
-  V&nbsp;v8)</code></th>
-<td class="colLast">
-<div class="block"><span class="deprecatedLabel">Deprecated.</span>
-<div class="deprecationComment"><b>Pass keys of type <code>Comparable</code> to use <a href="#of(K,V,K,V,K,V,K,V,K,V)"><code>of(Comparable, Object, Comparable, Object, Comparable, Object,
-     Comparable, Object, Comparable, Object)</code></a>.</b></div>
-</div>
-</td>
-</tr>
-<tr id="i46" class="altColor">
-<td class="colFirst"><code>static &lt;K extends java.lang.Comparable&lt;? super K&gt;,&#8203;V&gt;<br><a href="ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;K,&#8203;V&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#of(K,V,K,V,K,V,K,V,K,V,K,V,K,V,K,V,K,V)">of</a></span>&#8203;(K&nbsp;k1,
-  V&nbsp;v1,
-  K&nbsp;k2,
-  V&nbsp;v2,
-  K&nbsp;k3,
-  V&nbsp;v3,
-  K&nbsp;k4,
-  V&nbsp;v4,
-  K&nbsp;k5,
-  V&nbsp;v5,
-  K&nbsp;k6,
-  V&nbsp;v6,
-  K&nbsp;k7,
-  V&nbsp;v7,
-  K&nbsp;k8,
-  V&nbsp;v8,
-  K&nbsp;k9,
-  V&nbsp;v9)</code></th>
-<td class="colLast">
-<div class="block">Returns an immutable sorted map containing the given entries, sorted by the natural ordering of
- their keys.</div>
-</td>
-</tr>
-<tr id="i47" class="rowColor">
-<td class="colFirst"><code>static &lt;K,&#8203;V&gt;<br><a href="ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;K,&#8203;V&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#of(K,V,K,V,K,V,K,V,K,V,K,V,K,V,K,V,K,V)">of</a></span>&#8203;(K&nbsp;k1,
-  V&nbsp;v1,
-  K&nbsp;k2,
-  V&nbsp;v2,
-  K&nbsp;k3,
-  V&nbsp;v3,
-  K&nbsp;k4,
-  V&nbsp;v4,
-  K&nbsp;k5,
-  V&nbsp;v5,
-  K&nbsp;k6,
-  V&nbsp;v6,
-  K&nbsp;k7,
-  V&nbsp;v7,
-  K&nbsp;k8,
-  V&nbsp;v8,
-  K&nbsp;k9,
-  V&nbsp;v9)</code></th>
-<td class="colLast">
-<div class="block"><span class="deprecatedLabel">Deprecated.</span>
-<div class="deprecationComment"><b>Pass keys of type <code>Comparable</code> to use <a href="#of(K,V,K,V,K,V,K,V,K,V)"><code>of(Comparable, Object, Comparable, Object, Comparable, Object,
-     Comparable, Object, Comparable, Object)</code></a>.</b></div>
-</div>
-</td>
-</tr>
-<tr id="i48" class="altColor">
-<td class="colFirst"><code>static &lt;K extends java.lang.Comparable&lt;? super K&gt;,&#8203;V&gt;<br><a href="ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;K,&#8203;V&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#of(K,V,K,V,K,V,K,V,K,V,K,V,K,V,K,V,K,V,K,V)">of</a></span>&#8203;(K&nbsp;k1,
-  V&nbsp;v1,
-  K&nbsp;k2,
-  V&nbsp;v2,
-  K&nbsp;k3,
-  V&nbsp;v3,
-  K&nbsp;k4,
-  V&nbsp;v4,
-  K&nbsp;k5,
-  V&nbsp;v5,
-  K&nbsp;k6,
-  V&nbsp;v6,
-  K&nbsp;k7,
-  V&nbsp;v7,
-  K&nbsp;k8,
-  V&nbsp;v8,
-  K&nbsp;k9,
-  V&nbsp;v9,
-  K&nbsp;k10,
-  V&nbsp;v10)</code></th>
-<td class="colLast">
-<div class="block">Returns an immutable sorted map containing the given entries, sorted by the natural ordering of
- their keys.</div>
-</td>
-</tr>
-<tr id="i49" class="rowColor">
-<td class="colFirst"><code>static &lt;K,&#8203;V&gt;<br><a href="ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;K,&#8203;V&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#of(K,V,K,V,K,V,K,V,K,V,K,V,K,V,K,V,K,V,K,V)">of</a></span>&#8203;(K&nbsp;k1,
-  V&nbsp;v1,
-  K&nbsp;k2,
-  V&nbsp;v2,
-  K&nbsp;k3,
-  V&nbsp;v3,
-  K&nbsp;k4,
-  V&nbsp;v4,
-  K&nbsp;k5,
-  V&nbsp;v5,
-  K&nbsp;k6,
-  V&nbsp;v6,
-  K&nbsp;k7,
-  V&nbsp;v7,
-  K&nbsp;k8,
-  V&nbsp;v8,
-  K&nbsp;k9,
-  V&nbsp;v9,
-  K&nbsp;k10,
-  V&nbsp;v10)</code></th>
-<td class="colLast">
-<div class="block"><span class="deprecatedLabel">Deprecated.</span>
-<div class="deprecationComment"><b>Pass keys of type <code>Comparable</code> to use <a href="#of(K,V,K,V,K,V,K,V,K,V)"><code>of(Comparable, Object, Comparable, Object, Comparable, Object,
-     Comparable, Object, Comparable, Object)</code></a>.</b></div>
-</div>
-</td>
-</tr>
-<tr id="i50" class="altColor">
 <td class="colFirst"><code>static &lt;K,&#8203;V&gt;<br><a href="ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;K,&#8203;V&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#ofEntries(java.util.Map.Entry...)">ofEntries</a></span>&#8203;(java.util.Map.Entry&lt;? extends K,&#8203;? extends V&gt;...&nbsp;entries)</code></th>
 <td class="colLast">
@@ -795,14 +598,14 @@ implements java.util.NavigableMap&lt;K,&#8203;V&gt;</pre>
 </div>
 </td>
 </tr>
-<tr id="i51" class="rowColor">
+<tr id="i41" class="rowColor">
 <td class="colFirst"><code>static &lt;K,&#8203;V&gt;<br><a href="ImmutableSortedMap.Builder.html" title="class in com.google.common.collect">ImmutableSortedMap.Builder</a>&lt;K,&#8203;V&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#orderedBy(java.util.Comparator)">orderedBy</a></span>&#8203;(java.util.Comparator&lt;K&gt;&nbsp;comparator)</code></th>
 <td class="colLast">
 <div class="block">Returns a builder that creates immutable sorted maps with an explicit comparator.</div>
 </td>
 </tr>
-<tr id="i52" class="altColor">
+<tr id="i42" class="altColor">
 <td class="colFirst"><code>java.util.Map.Entry&lt;<a href="ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>,&#8203;<a href="ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#pollFirstEntry()">pollFirstEntry</a></span>()</code></th>
 <td class="colLast">
@@ -811,7 +614,7 @@ implements java.util.NavigableMap&lt;K,&#8203;V&gt;</pre>
 </div>
 </td>
 </tr>
-<tr id="i53" class="rowColor">
+<tr id="i43" class="rowColor">
 <td class="colFirst"><code>java.util.Map.Entry&lt;<a href="ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>,&#8203;<a href="ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#pollLastEntry()">pollLastEntry</a></span>()</code></th>
 <td class="colLast">
@@ -820,7 +623,7 @@ implements java.util.NavigableMap&lt;K,&#8203;V&gt;</pre>
 </div>
 </td>
 </tr>
-<tr id="i54" class="altColor">
+<tr id="i44" class="altColor">
 <td class="colFirst"><code>static &lt;K extends java.lang.Comparable&lt;?&gt;,&#8203;V&gt;<br><a href="ImmutableSortedMap.Builder.html" title="class in com.google.common.collect">ImmutableSortedMap.Builder</a>&lt;K,&#8203;V&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#reverseOrder()">reverseOrder</a></span>()</code></th>
 <td class="colLast">
@@ -828,12 +631,12 @@ implements java.util.NavigableMap&lt;K,&#8203;V&gt;</pre>
  their natural ordering.</div>
 </td>
 </tr>
-<tr id="i55" class="rowColor">
+<tr id="i45" class="rowColor">
 <td class="colFirst"><code>int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#size()">size</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i56" class="altColor">
+<tr id="i46" class="altColor">
 <td class="colFirst"><code><a href="ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;<a href="ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>,&#8203;<a href="ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#subMap(K,boolean,K,boolean)">subMap</a></span>&#8203;(<a href="ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>&nbsp;fromKey,
       boolean&nbsp;fromInclusive,
@@ -845,7 +648,7 @@ implements java.util.NavigableMap&lt;K,&#8203;V&gt;</pre>
  flags.</div>
 </td>
 </tr>
-<tr id="i57" class="rowColor">
+<tr id="i47" class="rowColor">
 <td class="colFirst"><code><a href="ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;<a href="ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>,&#8203;<a href="ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#subMap(K,K)">subMap</a></span>&#8203;(<a href="ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>&nbsp;fromKey,
       <a href="ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>&nbsp;toKey)</code></th>
@@ -854,7 +657,7 @@ implements java.util.NavigableMap&lt;K,&#8203;V&gt;</pre>
  from <code>fromKey</code>, inclusive, to <code>toKey</code>, exclusive.</div>
 </td>
 </tr>
-<tr id="i58" class="altColor">
+<tr id="i48" class="altColor">
 <td class="colFirst"><code><a href="ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;<a href="ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>,&#8203;<a href="ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#tailMap(K)">tailMap</a></span>&#8203;(<a href="ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>&nbsp;fromKey)</code></th>
 <td class="colLast">
@@ -862,7 +665,7 @@ implements java.util.NavigableMap&lt;K,&#8203;V&gt;</pre>
  greater than or equals to <code>fromKey</code>.</div>
 </td>
 </tr>
-<tr id="i59" class="rowColor">
+<tr id="i49" class="rowColor">
 <td class="colFirst"><code><a href="ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;<a href="ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>,&#8203;<a href="ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#tailMap(K,boolean)">tailMap</a></span>&#8203;(<a href="ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>&nbsp;fromKey,
        boolean&nbsp;inclusive)</code></th>
@@ -871,7 +674,7 @@ implements java.util.NavigableMap&lt;K,&#8203;V&gt;</pre>
  greater than (or equal to, if <code>inclusive</code>) <code>fromKey</code>.</div>
 </td>
 </tr>
-<tr id="i60" class="altColor">
+<tr id="i50" class="altColor">
 <td class="colFirst"><code><a href="ImmutableCollection.html" title="class in com.google.common.collect">ImmutableCollection</a>&lt;<a href="ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#values()">values</a></span>()</code></th>
 <td class="colLast">
@@ -1870,7 +1673,7 @@ public final&nbsp;java.util.Map.Entry&lt;<a href="ImmutableSortedMap.html" title
 <li class="blockList">
 <h4>builder</h4>
 <pre class="methodSignature">@Deprecated
-public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableSortedMap.Builder.html" title="class in com.google.common.collect">ImmutableSortedMap.Builder</a>&lt;K,&#8203;V&gt;&nbsp;builder()</pre>
+public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableSortedMap.Builder.html" title="class in com.google.common.collect">ImmutableSortedMap.Builder</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.1158">builder</a>()</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Use <a href="#naturalOrder()"><code>naturalOrder()</code></a>, which offers better type-safety.</div>
 </div>
@@ -1890,7 +1693,7 @@ public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableSortedMap.Builder.h
 <li class="blockList">
 <h4>builderWithExpectedSize</h4>
 <pre class="methodSignature">@Deprecated
-public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableSortedMap.Builder.html" title="class in com.google.common.collect">ImmutableSortedMap.Builder</a>&lt;K,&#8203;V&gt;&nbsp;builderWithExpectedSize&#8203;(int&nbsp;expectedSize)</pre>
+public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableSortedMap.Builder.html" title="class in com.google.common.collect">ImmutableSortedMap.Builder</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.1170">builderWithExpectedSize</a>&#8203;(int&nbsp;expectedSize)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Not supported for ImmutableSortedMap.</div>
 </div>
@@ -1910,7 +1713,7 @@ public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableSortedMap.Builder.h
 <li class="blockList">
 <h4>of</h4>
 <pre class="methodSignature">@Deprecated
-public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;K,&#8203;V&gt;&nbsp;of&#8203;(K&nbsp;k1,
+public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.1185">of</a>&#8203;(K&nbsp;k1,
                                                            V&nbsp;v1)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment"><b>Pass a key of type <code>Comparable</code> to use <a href="#of(K,V)"><code>of(Comparable, Object)</code></a>.</b></div>
@@ -1933,7 +1736,7 @@ public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableSortedMap.html" tit
 <li class="blockList">
 <h4>of</h4>
 <pre class="methodSignature">@Deprecated
-public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;K,&#8203;V&gt;&nbsp;of&#8203;(K&nbsp;k1,
+public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.1200">of</a>&#8203;(K&nbsp;k1,
                                                            V&nbsp;v1,
                                                            K&nbsp;k2,
                                                            V&nbsp;v2)</pre>
@@ -1958,7 +1761,7 @@ public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableSortedMap.html" tit
 <li class="blockList">
 <h4>of</h4>
 <pre class="methodSignature">@Deprecated
-public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;K,&#8203;V&gt;&nbsp;of&#8203;(K&nbsp;k1,
+public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.1215">of</a>&#8203;(K&nbsp;k1,
                                                            V&nbsp;v1,
                                                            K&nbsp;k2,
                                                            V&nbsp;v2,
@@ -1985,7 +1788,7 @@ public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableSortedMap.html" tit
 <li class="blockList">
 <h4>of</h4>
 <pre class="methodSignature">@Deprecated
-public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;K,&#8203;V&gt;&nbsp;of&#8203;(K&nbsp;k1,
+public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.1231">of</a>&#8203;(K&nbsp;k1,
                                                            V&nbsp;v1,
                                                            K&nbsp;k2,
                                                            V&nbsp;v2,
@@ -2015,7 +1818,7 @@ public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableSortedMap.html" tit
 <li class="blockList">
 <h4>of</h4>
 <pre class="methodSignature">@Deprecated
-public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;K,&#8203;V&gt;&nbsp;of&#8203;(K&nbsp;k1,
+public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.1247">of</a>&#8203;(K&nbsp;k1,
                                                            V&nbsp;v1,
                                                            K&nbsp;k2,
                                                            V&nbsp;v2,
@@ -2047,7 +1850,7 @@ public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableSortedMap.html" tit
 <li class="blockList">
 <h4>of</h4>
 <pre class="methodSignature">@Deprecated
-public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;K,&#8203;V&gt;&nbsp;of&#8203;(K&nbsp;k1,
+public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.1264">of</a>&#8203;(K&nbsp;k1,
                                                            V&nbsp;v1,
                                                            K&nbsp;k2,
                                                            V&nbsp;v2,
@@ -2081,7 +1884,7 @@ public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableSortedMap.html" tit
 <li class="blockList">
 <h4>of</h4>
 <pre class="methodSignature">@Deprecated
-public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;K,&#8203;V&gt;&nbsp;of&#8203;(K&nbsp;k1,
+public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.1281">of</a>&#8203;(K&nbsp;k1,
                                                            V&nbsp;v1,
                                                            K&nbsp;k2,
                                                            V&nbsp;v2,
@@ -2117,7 +1920,7 @@ public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableSortedMap.html" tit
 <li class="blockList">
 <h4>of</h4>
 <pre class="methodSignature">@Deprecated
-public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;K,&#8203;V&gt;&nbsp;of&#8203;(K&nbsp;k1,
+public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.1298">of</a>&#8203;(K&nbsp;k1,
                                                            V&nbsp;v1,
                                                            K&nbsp;k2,
                                                            V&nbsp;v2,
@@ -2155,7 +1958,7 @@ public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableSortedMap.html" tit
 <li class="blockList">
 <h4>of</h4>
 <pre class="methodSignature">@Deprecated
-public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;K,&#8203;V&gt;&nbsp;of&#8203;(K&nbsp;k1,
+public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.1330">of</a>&#8203;(K&nbsp;k1,
                                                            V&nbsp;v1,
                                                            K&nbsp;k2,
                                                            V&nbsp;v2,
@@ -2195,7 +1998,7 @@ public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableSortedMap.html" tit
 <li class="blockList">
 <h4>of</h4>
 <pre class="methodSignature">@Deprecated
-public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;K,&#8203;V&gt;&nbsp;of&#8203;(K&nbsp;k1,
+public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.1364">of</a>&#8203;(K&nbsp;k1,
                                                            V&nbsp;v1,
                                                            K&nbsp;k2,
                                                            V&nbsp;v2,
@@ -2235,7 +2038,7 @@ public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableSortedMap.html" tit
 <li class="blockList">
 <h4>ofEntries</h4>
 <pre class="methodSignature">@Deprecated
-public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;K,&#8203;V&gt;&nbsp;ofEntries&#8203;(java.util.Map.Entry&lt;? extends K,&#8203;? extends V&gt;...&nbsp;entries)</pre>
+public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.1395">ofEntries</a>&#8203;(java.util.Map.Entry&lt;? extends K,&#8203;? extends V&gt;...&nbsp;entries)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Use <code>ImmutableSortedMap.copyOf(ImmutableMap.ofEntries(...))</code>.</div>
 </div>
