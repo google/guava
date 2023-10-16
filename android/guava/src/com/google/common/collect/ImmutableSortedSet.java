@@ -893,7 +893,8 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSet<E>
    */
   @DoNotCall("Pass parameters of type Comparable")
   @Deprecated
-  public static <E> ImmutableSortedSet<E> copyOf(E[] elements) {
+  // The usage of "Z" here works around bugs in Javadoc (JDK-8318093) and JDiff.
+  public static <Z> ImmutableSortedSet<Z> copyOf(Z[] elements) {
     throw new UnsupportedOperationException();
   }
 }
