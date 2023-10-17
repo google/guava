@@ -1313,7 +1313,7 @@ public static&nbsp;&lt;B&gt;&nbsp;java.util.Set&lt;java.util.List&lt;B&gt;&gt;&n
 <li class="blockList">
 <h4>powerSet</h4>
 <pre class="methodSignature"><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../annotations/GwtCompatible.html#serializable()">serializable</a>=false)
-public static&nbsp;&lt;E&gt;&nbsp;java.util.Set&lt;java.util.Set&lt;E&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.1468">powerSet</a>&#8203;(java.util.Set&lt;E&gt;&nbsp;set)</pre>
+public static&nbsp;&lt;E&gt;&nbsp;java.util.Set&lt;java.util.Set&lt;E&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.1472">powerSet</a>&#8203;(java.util.Set&lt;E&gt;&nbsp;set)</pre>
 <div class="block">Returns the set of all possible subsets of <code>set</code>. For example, <code>
  powerSet(ImmutableSet.of(1, 2))</code> returns the set <code>{{}, {1}, {2}, {1, 2}}</code>.
 
@@ -1350,7 +1350,7 @@ public static&nbsp;&lt;E&gt;&nbsp;java.util.Set&lt;java.util.Set&lt;E&gt;&gt;&nb
 <ul class="blockList">
 <li class="blockList">
 <h4>combinations</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;java.util.Set&lt;java.util.Set&lt;E&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.1604">combinations</a>&#8203;(java.util.Set&lt;E&gt;&nbsp;set,
+<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;java.util.Set&lt;java.util.Set&lt;E&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.1608">combinations</a>&#8203;(java.util.Set&lt;E&gt;&nbsp;set,
                                                                int&nbsp;size)</pre>
 <div class="block">Returns the set of all subsets of <code>set</code> of size <code>size</code>. For example, <code>
  combinations(ImmutableSet.of(1, 2, 3), 2)</code> returns the set <code>{{1, 2}, {1, 3}, {2, 3}}</code>.
@@ -1387,7 +1387,7 @@ public static&nbsp;&lt;E&gt;&nbsp;java.util.Set&lt;java.util.Set&lt;E&gt;&gt;&nb
 <ul class="blockList">
 <li class="blockList">
 <h4>unmodifiableNavigableSet</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.util.NavigableSet&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.1747">unmodifiableNavigableSet</a>&#8203;(java.util.NavigableSet&lt;E&gt;&nbsp;set)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.util.NavigableSet&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.1751">unmodifiableNavigableSet</a>&#8203;(java.util.NavigableSet&lt;E&gt;&nbsp;set)</pre>
 <div class="block">Returns an unmodifiable view of the specified navigable set. This method allows modules to
  provide users with "read-only" access to internal navigable sets. Query operations on the
  returned set "read through" to the specified set, and attempts to modify the returned set,
@@ -1414,7 +1414,7 @@ public static&nbsp;&lt;E&gt;&nbsp;java.util.Set&lt;java.util.Set&lt;E&gt;&gt;&nb
 <li class="blockList">
 <h4>synchronizedNavigableSet</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.util.NavigableSet&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.1893">synchronizedNavigableSet</a>&#8203;(java.util.NavigableSet&lt;E&gt;&nbsp;navigableSet)</pre>
+public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.util.NavigableSet&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.1897">synchronizedNavigableSet</a>&#8203;(java.util.NavigableSet&lt;E&gt;&nbsp;navigableSet)</pre>
 <div class="block">Returns a synchronized (thread-safe) navigable set backed by the specified navigable set. In
  order to guarantee serial access, it is critical that <b>all</b> access to the backing
  navigable set is accomplished through the returned navigable set (or its views).
@@ -1473,7 +1473,7 @@ public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/c
 <li class="blockList">
 <h4>subSet</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;&lt;K extends java.lang.Comparable&lt;? super K&gt;&gt;&nbsp;java.util.NavigableSet&lt;K&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.2086">subSet</a>&#8203;(java.util.NavigableSet&lt;K&gt;&nbsp;set,
+public static&nbsp;&lt;K extends java.lang.Comparable&lt;? super K&gt;&gt;&nbsp;java.util.NavigableSet&lt;K&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.2090">subSet</a>&#8203;(java.util.NavigableSet&lt;K&gt;&nbsp;set,
                                                                                            <a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;K&gt;&nbsp;range)</pre>
 <div class="block">Returns a view of the portion of <code>set</code> whose elements are contained by <code>range</code>.
 
