@@ -751,6 +751,21 @@ public class SetsTest extends TestCase {
     assertFalse(actual.contains(list(3, 1)));
   }
 
+  public void testCartesianProduct_equals() {
+    Set<List<Integer>> cartesian = Sets.cartesianProduct(set(1, 2), set(3, 4));
+    ImmutableSet<List<Integer>> equivalent =
+        ImmutableSet.of(ImmutableList.of(1, 3), ImmutableList.of(1, 4), list(2, 3), list(2, 4));
+    ImmutableSet<List<Integer>> different1 =
+        ImmutableSet.of(ImmutableList.of(0, 3), ImmutableList.of(1, 4), list(2, 3), list(2, 4));
+    ImmutableSet<List<Integer>> different2 =
+        ImmutableSet.of(ImmutableList.of(1, 3), ImmutableList.of(1, 4), list(2, 3));
+    new EqualsTester()
+        .addEqualityGroup(cartesian, equivalent)
+        .addEqualityGroup(different1)
+        .addEqualityGroup(different2)
+        .testEquals();
+  }
+
   @SuppressWarnings("unchecked") // varargs!
   public void testCartesianProduct_unrelatedTypes() {
     Set<Integer> x = set(1, 2);

@@ -1415,7 +1415,11 @@ public final class Sets {
         CartesianSet<?> that = (CartesianSet<?>) object;
         return this.axes.equals(that.axes);
       }
-      return super.equals(object);
+      if (object instanceof Set) {
+        Set<?> that = (Set<?>) object;
+        return this.size() == that.size() && this.containsAll(that);
+      }
+      return false;
     }
 
     @Override
