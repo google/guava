@@ -30,7 +30,7 @@
           "group": "com.google.guava",
           "module": "failureaccess",
           "version": {
-            "requires": "1.0.1"
+            "requires": "1.0.2"
           }
         },
         {
@@ -103,7 +103,7 @@
           "group": "com.google.guava",
           "module": "failureaccess",
           "version": {
-            "requires": "1.0.1"
+            "requires": "1.0.2"
           }
         },
         {
@@ -169,7 +169,7 @@
           "group": "com.google.guava",
           "module": "failureaccess",
           "version": {
-            "requires": "1.0.1"
+            "requires": "1.0.2"
           }
         },
         {
@@ -242,7 +242,7 @@
           "group": "com.google.guava",
           "module": "failureaccess",
           "version": {
-            "requires": "1.0.1"
+            "requires": "1.0.2"
           }
         },
         {
