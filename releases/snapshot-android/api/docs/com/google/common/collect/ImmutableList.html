@@ -1096,11 +1096,17 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableList.html" title="class in c
 <ul class="blockList">
 <li class="blockList">
 <h4>subList</h4>
-<pre class="methodSignature">public&nbsp;<a href="ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.417">subList</a>&#8203;(int&nbsp;fromIndex,
+<pre class="methodSignature">public&nbsp;<a href="ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.423">subList</a>&#8203;(int&nbsp;fromIndex,
                                 int&nbsp;toIndex)</pre>
 <div class="block">Returns an immutable list of the elements between the specified <code>fromIndex</code>, inclusive,
  and <code>toIndex</code>, exclusive. (If <code>fromIndex</code> and <code>toIndex</code> are equal, the empty
- immutable list is returned.)</div>
+ immutable list is returned.)
+
+ <p><b>Note:</b> in almost all circumstances, the returned <a href="ImmutableList.html" title="class in com.google.common.collect"><code>ImmutableList</code></a> retains a
+ strong reference to <code>this</code>, which may prevent the original list from being garbage
+ collected. If you want the original list to be eligible for garbage collection, you should
+ create and use a copy of the sub list (e.g., <code>
+ ImmutableList.copyOf(originalList.subList(...))</code>).</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>subList</code>&nbsp;in interface&nbsp;<code>java.util.List&lt;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;</code></dd>
@@ -1115,7 +1121,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableList.html" title="class in c
 <h4>addAll</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 @Deprecated
-public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.493">addAll</a>&#8203;(int&nbsp;index,
+public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.499">addAll</a>&#8203;(int&nbsp;index,
                             java.util.Collection&lt;? extends <a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;&nbsp;newElements)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Unsupported operation.</div>
@@ -1139,7 +1145,7 @@ public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/c
 <h4>set</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 @Deprecated
-public final&nbsp;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.507">set</a>&#8203;(int&nbsp;index,
+public final&nbsp;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.513">set</a>&#8203;(int&nbsp;index,
                    <a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&nbsp;element)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Unsupported operation.</div>
@@ -1162,7 +1168,7 @@ public final&nbsp;<a href="ImmutableList.html" title="type parameter in Immutabl
 <li class="blockList">
 <h4>add</h4>
 <pre class="methodSignature">@Deprecated
-public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.521">add</a>&#8203;(int&nbsp;index,
+public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.527">add</a>&#8203;(int&nbsp;index,
                       <a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&nbsp;element)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Unsupported operation.</div>
@@ -1184,7 +1190,7 @@ public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/coll
 <h4>remove</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 @Deprecated
-public final&nbsp;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.534">remove</a>&#8203;(int&nbsp;index)</pre>
+public final&nbsp;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.540">remove</a>&#8203;(int&nbsp;index)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Unsupported operation.</div>
 </div>
@@ -1205,7 +1211,7 @@ public final&nbsp;<a href="ImmutableList.html" title="type parameter in Immutabl
 <h4>asList</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@InlineMe</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html?is-external=true#replacement()" title="class or interface in com.google.errorprone.annotations" class="externalLink">replacement</a>="this")
 @Deprecated
-public final&nbsp;<a href="ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.548">asList</a>()</pre>
+public final&nbsp;<a href="ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.554">asList</a>()</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">There is no reason to use this; it always returns <code>this</code>.</div>
 </div>
@@ -1224,7 +1230,7 @@ public final&nbsp;<a href="ImmutableList.html" title="class in com.google.common
 <ul class="blockList">
 <li class="blockList">
 <h4>reverse</h4>
-<pre class="methodSignature">public&nbsp;<a href="ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.572">reverse</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.578">reverse</a>()</pre>
 <div class="block">Returns a view of this immutable list in reverse order. For example, <code>ImmutableList.of(1,
  2, 3).reverse()</code> is equivalent to <code>ImmutableList.of(3, 2, 1)</code>.</div>
 <dl>
@@ -1241,7 +1247,7 @@ public final&nbsp;<a href="ImmutableList.html" title="class in com.google.common
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.636">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.642">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                       java.lang.Object&nbsp;obj)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
@@ -1259,7 +1265,7 @@ public final&nbsp;<a href="ImmutableList.html" title="class in com.google.common
 <ul class="blockList">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.641">hashCode</a>()</pre>
+<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.647">hashCode</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>hashCode</code>&nbsp;in interface&nbsp;<code>java.util.Collection&lt;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;</code></dd>
@@ -1276,7 +1282,7 @@ public final&nbsp;<a href="ImmutableList.html" title="class in com.google.common
 <ul class="blockList">
 <li class="blockList">
 <h4>builder</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableList.Builder.html" title="class in com.google.common.collect">ImmutableList.Builder</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.688">builder</a>()</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableList.Builder.html" title="class in com.google.common.collect">ImmutableList.Builder</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.694">builder</a>()</pre>
 <div class="block">Returns a new builder. The generated builder is equivalent to the builder created by the <a href="ImmutableList.Builder.html" title="class in com.google.common.collect"><code>ImmutableList.Builder</code></a> constructor.</div>
 </li>
 </ul>
@@ -1286,7 +1292,7 @@ public final&nbsp;<a href="ImmutableList.html" title="class in com.google.common
 <ul class="blockListLast">
 <li class="blockList">
 <h4>builderWithExpectedSize</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableList.Builder.html" title="class in com.google.common.collect">ImmutableList.Builder</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.704">builderWithExpectedSize</a>&#8203;(int&nbsp;expectedSize)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableList.Builder.html" title="class in com.google.common.collect">ImmutableList.Builder</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.710">builderWithExpectedSize</a>&#8203;(int&nbsp;expectedSize)</pre>
 <div class="block">Returns a new builder, expecting the specified number of elements to be added.
 
  <p>If <code>expectedSize</code> is exactly the number of elements added to the builder before <a href="ImmutableList.Builder.html#build()"><code>ImmutableList.Builder.build()</code></a> is called, the builder is likely to perform better than an unsized <a href="#builder()"><code>builder()</code></a> would have.
