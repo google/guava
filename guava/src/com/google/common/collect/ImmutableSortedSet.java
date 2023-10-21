@@ -732,6 +732,22 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSet.CachingAsList<E
   }
 
   /**
+   * @since NEXT. Note, however, that Java 21 users can call this method with any version of Guava.
+   */
+  @SuppressWarnings("MissingOverride") // only an override under JDK 21+
+  public final E getFirst() {
+    return first();
+  }
+
+  /**
+   * @since NEXT. Note, however, that Java 21 users can call this method with any version of Guava.
+   */
+  @SuppressWarnings("MissingOverride") // only an override under JDK 21+
+  public final E getLast() {
+    return last();
+  }
+
+  /**
    * Guaranteed to throw an exception and leave the set unmodified.
    *
    * @since 12.0
@@ -765,6 +781,68 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSet.CachingAsList<E
     throw new UnsupportedOperationException();
   }
 
+  /**
+   * Guaranteed to throw an exception and leave the set unmodified.
+   *
+   * @since NEXT
+   * @throws UnsupportedOperationException always
+   * @deprecated Unsupported operation.
+   */
+  @CanIgnoreReturnValue
+  @Deprecated
+  @SuppressWarnings("MissingOverride") // only an override under JDK 21+
+  @DoNotCall("Always throws UnsupportedOperationException")
+  @CheckForNull
+  public final E removeFirst() {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
+   * Guaranteed to throw an exception and leave the set unmodified.
+   *
+   * @since NEXT
+   * @throws UnsupportedOperationException always
+   * @deprecated Unsupported operation.
+   */
+  @CanIgnoreReturnValue
+  @Deprecated
+  @SuppressWarnings("MissingOverride") // only an override under JDK 21+
+  @DoNotCall("Always throws UnsupportedOperationException")
+  @CheckForNull
+  public final E removeLast() {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
+   * Guaranteed to throw an exception and leave the set unmodified.
+   *
+   * @since NEXT
+   * @throws UnsupportedOperationException always
+   * @deprecated Unsupported operation.
+   */
+  @Deprecated
+  @SuppressWarnings("MissingOverride") // only an override under JDK 21+
+  @DoNotCall("Always throws UnsupportedOperationException")
+  @CheckForNull
+  public final void addFirst(E e) {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
+   * Guaranteed to throw an exception and leave the set unmodified.
+   *
+   * @since NEXT
+   * @throws UnsupportedOperationException always
+   * @deprecated Unsupported operation.
+   */
+  @Deprecated
+  @SuppressWarnings("MissingOverride") // only an override under JDK 21+
+  @DoNotCall("Always throws UnsupportedOperationException")
+  @CheckForNull
+  public final void addLast(E e) {
+    throw new UnsupportedOperationException();
+  }
+
   @GwtIncompatible // NavigableSet
   @LazyInit
   @CheckForNull
@@ -781,6 +859,16 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSet.CachingAsList<E
       result.descendingSet = this;
     }
     return result;
+  }
+
+  /**
+   * @since NEXT. Note, however, that a variant of this method with return type {@link NavigableSet}
+   *     is available to Java 21 users with any version of Guava.
+   */
+  @GwtIncompatible // NavigableSet
+  @SuppressWarnings("MissingOverride") // only an override under JDK 21+
+  public final ImmutableSortedSet<E> reversed() {
+    return descendingSet();
   }
 
   // Most classes should implement this as new DescendingImmutableSortedSet<E>(this),
