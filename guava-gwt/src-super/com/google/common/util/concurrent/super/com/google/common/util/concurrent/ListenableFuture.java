@@ -35,8 +35,8 @@ public interface ListenableFuture<V extends @Nullable Object> extends Future<V>,
   @JsMethod
   @Override
   default <R extends @Nullable Object> IThenable<R> then(
-      @JsOptional IThenOnFulfilledCallbackFn<? super V, ? extends R> onFulfilled,
-      @JsOptional IThenOnRejectedCallbackFn<? extends R> onRejected) {
+      @JsOptional @Nullable IThenOnFulfilledCallbackFn<? super V, ? extends R> onFulfilled,
+      @JsOptional @Nullable IThenOnRejectedCallbackFn<? extends R> onRejected) {
     return new Promise<V>(
             (resolve, reject) -> {
               Futures.addCallback(
@@ -65,8 +65,8 @@ public interface ListenableFuture<V extends @Nullable Object> extends Future<V>,
 @JsType(isNative = true, namespace = JsPackage.GLOBAL, name = "IThenable")
 interface IThenable<T extends @Nullable Object> {
   <V extends @Nullable Object> IThenable<V> then(
-      @JsOptional IThenOnFulfilledCallbackFn<? super T, ? extends V> onFulfilled,
-      @JsOptional IThenOnRejectedCallbackFn<? extends V> onRejected);
+      @JsOptional @Nullable IThenOnFulfilledCallbackFn<? super T, ? extends V> onFulfilled,
+      @JsOptional @Nullable IThenOnRejectedCallbackFn<? extends V> onRejected);
 
   @JsFunction
   interface IThenOnFulfilledCallbackFn<T extends @Nullable Object, V extends @Nullable Object> {
@@ -102,6 +102,6 @@ class Promise<T extends @Nullable Object> implements IThenable<T> {
 
   @Override
   public native <V extends @Nullable Object> Promise<V> then(
-      @JsOptional IThenOnFulfilledCallbackFn<? super T, ? extends V> onFulfilled,
-      @JsOptional IThenOnRejectedCallbackFn<? extends V> onRejected);
+      @JsOptional @Nullable IThenOnFulfilledCallbackFn<? super T, ? extends V> onFulfilled,
+      @JsOptional @Nullable IThenOnRejectedCallbackFn<? extends V> onRejected);
 }
