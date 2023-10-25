@@ -504,4 +504,6 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
      */
     public abstract ImmutableCollection<E> build();
   }
+
+  private static final long serialVersionUID = 0xcafebabe;
 }

@@ -1396,6 +1396,7 @@ public class IterablesTest extends TestCase {
   }
 
   @GwtIncompatible // reflection
+  @AndroidIncompatible // see ImmutableTableTest.testNullPointerInstance
   public void testIterables_nullCheck() throws Exception {
     new ClassSanityTester()
         .forAllPublicStaticMethods(Iterables.class)

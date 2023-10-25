@@ -989,4 +989,6 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
       }
     }
   }
+
+  private static final long serialVersionUID = 0xcafebabe;
 }

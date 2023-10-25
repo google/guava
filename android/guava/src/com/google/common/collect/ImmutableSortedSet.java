@@ -985,4 +985,6 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSet<E>
   public static <Z> ImmutableSortedSet<Z> copyOf(Z[] elements) {
     throw new UnsupportedOperationException();
   }
+
+  private static final long serialVersionUID = 0xdecaf;
 }

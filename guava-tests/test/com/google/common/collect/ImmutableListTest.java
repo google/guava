@@ -460,6 +460,7 @@ public class ImmutableListTest extends TestCase {
   // Basic tests
 
   @GwtIncompatible // NullPointerTester
+  @AndroidIncompatible // see ImmutableTableTest.testNullPointerInstance
   public void testNullPointers() {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicStaticMethods(ImmutableList.class);
