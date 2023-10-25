@@ -136,7 +136,8 @@ final class SequentialExecutor implements Executor {
 
     try {
       executor.execute(worker);
-    } catch (RuntimeException | Error t) {
+    } catch (Throwable t) {
+      // Any Exception is either a RuntimeException or sneaky checked exception.
       synchronized (queue) {
         boolean removed =
             (workerRunningState == IDLE || workerRunningState == QUEUING)
@@ -202,6 +203,7 @@ final class SequentialExecutor implements Executor {
      * will still be present. If the composed Executor is an ExecutorService, it can respond to
      * shutdown() by returning tasks queued on that Thread after {@link #worker} drains the queue.
      */
+    @SuppressWarnings("CatchingUnchecked") // sneaky checked exception
     private void workOnQueue() {
       boolean interruptedDuringTask = false;
       boolean hasSetRunning = false;
@@ -235,7 +237,7 @@ final class SequentialExecutor implements Executor {
           interruptedDuringTask |= Thread.interrupted();
           try {
             task.run();
-          } catch (RuntimeException e) {
+          } catch (Exception e) { // sneaky checked exception
             log.log(Level.SEVERE, "Exception while executing runnable " + task, e);
           } finally {
             task = null;
