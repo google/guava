@@ -18,7 +18,7 @@ import jsinterop.annotations.JsMethod;
 import jsinterop.annotations.JsPackage;
 
 /** Web specializations for {@link Shorts} methods. */
-abstract class ShortsMethodsForWeb {
+public abstract class ShortsMethodsForWeb {
 
   @JsMethod(name = "Math.min", namespace = JsPackage.GLOBAL)
   public static native short min(short... array);
