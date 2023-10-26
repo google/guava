@@ -60,6 +60,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 @ElementTypesAreNonnullByDefault
 public abstract class ImmutableList<E> extends ImmutableCollection<E>
     implements List<E>, RandomAccess {
+
   /**
    * Returns the empty immutable list. This list behaves and performs comparably to {@link
    * Collections#emptyList}, and is preferable mainly for consistency and maintainability of your
@@ -816,4 +817,6 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
       return asImmutableList(contents, size);
     }
   }
+
+  private static final long serialVersionUID = 0xcafebabe;
 }

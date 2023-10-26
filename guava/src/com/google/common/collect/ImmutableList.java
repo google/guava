@@ -907,4 +907,6 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
       return asImmutableList(contents, size);
     }
   }
+
+  private static final long serialVersionUID = 0xcafebabe;
 }
