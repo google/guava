@@ -855,6 +855,25 @@ public final class HttpHeaders {
    * @since 32.0.0
    */
   public static final String OBSERVE_BROWSING_TOPICS = "Observe-Browsing-Topics";
+
+  /**
+   * The HTTP <a
+   * href="https://wicg.github.io/turtledove/#handling-direct-from-seller-signals">{@code
+   * Sec-Ad-Auction-Fetch}</a> header field name.
+   *
+   * @since NEXT
+   */
+  public static final String SEC_AD_AUCTION_FETCH = "Sec-Ad-Auction-Fetch";
+
+  /**
+   * The HTTP <a
+   * href="https://wicg.github.io/turtledove/#handling-direct-from-seller-signals">{@code
+   * Ad-Auction-Signals}</a> header field name.
+   *
+   * @since NEXT
+   */
+  public static final String AD_AUCTION_SIGNALS = "Ad-Auction-Signals";
+
   /**
    * The HTTP <a href="https://tools.ietf.org/html/rfc8586">{@code CDN-Loop}</a> header field name.
    *
