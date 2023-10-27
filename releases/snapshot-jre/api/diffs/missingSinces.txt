@@ -42,3 +42,5 @@ MISSING @SINCE TAG: com.google.common.collect.ImmutableSortedMap Method toImmuta
 OK: com.google.common.collect.ImmutableSortedMultiset Method toImmutableMultiset()
 OK: com.google.common.collect.ImmutableSortedMultiset Method toImmutableMultiset(java.util.function.Function<? super T, ? extends E>, java.util.function.ToIntFunction<? super T>)
 OK: com.google.common.collect.ImmutableSortedSet Method toImmutableSet()
+OK: com.google.common.net.HttpHeaders Field AD_AUCTION_SIGNALS
+OK: com.google.common.net.HttpHeaders Field SEC_AD_AUCTION_FETCH

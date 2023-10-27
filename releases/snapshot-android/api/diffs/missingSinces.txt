@@ -36,3 +36,5 @@ OK: com.google.common.collect.ImmutableSortedSet Method removeFirst()
 OK: com.google.common.collect.ImmutableSortedSet Method removeLast()
 OK: com.google.common.collect.ImmutableSortedSet Method reversed()
 NO DOC BLOCK: com.google.common.collect.ImmutableCollection Method spliterator()
+OK: com.google.common.net.HttpHeaders Field AD_AUCTION_SIGNALS
+OK: com.google.common.net.HttpHeaders Field SEC_AD_AUCTION_FETCH
