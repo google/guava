@@ -1133,4 +1133,6 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
   private void readObject(ObjectInputStream stream) throws InvalidObjectException {
     throw new InvalidObjectException("Use SerializedForm");
   }
+
+  private static final long serialVersionUID = 0xdecaf;
 }

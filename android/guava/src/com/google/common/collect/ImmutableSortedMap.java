@@ -1148,9 +1148,8 @@ public final class ImmutableSortedMap<K, V> extends ImmutableMap<K, V>
   private static final long serialVersionUID = 0;
 
   /**
-   * Not supported. Use {@link ImmutableSortedMap#naturalOrder}, which offers better type-safety,
-   * instead. This method exists only to hide {@link ImmutableMap#builder} from consumers of {@code
-   * ImmutableSortedMap}.
+   * Not supported. Use {@link #naturalOrder}, which offers better type-safety, instead. This method
+   * exists only to hide {@link ImmutableMap#builder} from consumers of {@code ImmutableSortedMap}.
    *
    * @throws UnsupportedOperationException always
    * @deprecated Use {@link ImmutableSortedMap#naturalOrder}, which offers better type-safety.

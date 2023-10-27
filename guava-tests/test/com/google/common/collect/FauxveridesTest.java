@@ -45,6 +45,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Chris Povirk
  */
 public class FauxveridesTest extends TestCase {
+  @AndroidIncompatible // similar to ImmutableTableTest.testNullPointerInstance
   public void testImmutableBiMap() {
     doHasAllFauxveridesTest(ImmutableBiMap.class, ImmutableMap.class);
   }
@@ -57,6 +58,7 @@ public class FauxveridesTest extends TestCase {
     doHasAllFauxveridesTest(ImmutableSetMultimap.class, ImmutableMultimap.class);
   }
 
+  @AndroidIncompatible // similar to ImmutableTableTest.testNullPointerInstance
   public void testImmutableSortedMap() {
     doHasAllFauxveridesTest(ImmutableSortedMap.class, ImmutableMap.class);
   }
