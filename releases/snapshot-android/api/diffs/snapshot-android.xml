@@ -21639,9 +21639,8 @@
       static="true" final="false" visibility="public"
       deprecated="Use {@link ImmutableSortedMap#naturalOrder}, which offers better type-safety.">
       <doc>
-      <![CDATA[Not supported. Use {@link ImmutableSortedMap#naturalOrder}, which offers better type-safety,
- instead. This method exists only to hide {@link ImmutableMap#builder} from consumers of {@code
- ImmutableSortedMap}.
+      <![CDATA[Not supported. Use {@link #naturalOrder}, which offers better type-safety, instead. This method
+ exists only to hide {@link ImmutableMap#builder} from consumers of {@code ImmutableSortedMap}.
 
  @throws UnsupportedOperationException always
  @deprecated Use {@link ImmutableSortedMap#naturalOrder}, which offers better type-safety.]]>
