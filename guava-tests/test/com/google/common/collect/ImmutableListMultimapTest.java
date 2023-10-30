@@ -605,6 +605,7 @@ public class ImmutableListMultimapTest extends TestCase {
   }
 
   @GwtIncompatible // reflection
+  @AndroidIncompatible // see ImmutableTableTest.testNullPointerInstance
   public void testNulls() throws Exception {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicStaticMethods(ImmutableListMultimap.class);

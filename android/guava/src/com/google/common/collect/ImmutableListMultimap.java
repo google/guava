@@ -196,6 +196,13 @@ public class ImmutableListMultimap<K, V> extends ImmutableMultimap<K, V>
       return this;
     }
 
+    @CanIgnoreReturnValue
+    @Override
+    Builder<K, V> combine(ImmutableMultimap.Builder<K, V> other) {
+      super.combine(other);
+      return this;
+    }
+
     /**
      * {@inheritDoc}
      *
@@ -217,13 +224,6 @@ public class ImmutableListMultimap<K, V> extends ImmutableMultimap<K, V>
     @Override
     public Builder<K, V> orderValuesBy(Comparator<? super V> valueComparator) {
       super.orderValuesBy(valueComparator);
-      return this;
-    }
-
-    @CanIgnoreReturnValue
-    @Override
-    Builder<K, V> combine(ImmutableMultimap.Builder<K, V> other) {
-      super.combine(other);
       return this;
     }
 

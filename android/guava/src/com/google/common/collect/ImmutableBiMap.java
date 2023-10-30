@@ -591,4 +591,6 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
   private void readObject(ObjectInputStream stream) throws InvalidObjectException {
     throw new InvalidObjectException("Use SerializedForm");
   }
+
+  private static final long serialVersionUID = 0xdecaf;
 }

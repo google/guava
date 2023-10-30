@@ -676,4 +676,6 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
           BinaryOperator<V> mergeFunction) {
     throw new UnsupportedOperationException();
   }
+
+  private static final long serialVersionUID = 0xcafebabe;
 }
