@@ -32,6 +32,8 @@ import java.util.List;
 import java.util.RandomAccess;
 import java.util.Spliterator;
 import java.util.Spliterators;
+import java.util.Random;
+
 import javax.annotation.CheckForNull;
 
 /**
@@ -820,6 +822,31 @@ public final class Ints extends IntsMethodsForWeb {
       return null;
     } else {
       return result.intValue();
+    }
+  }
+
+  private static void swap(int [] array, int i, int j) {
+    int temp = array[i];
+    array[i] = array[j];
+    array[j] = temp;
+  }
+
+  /**
+   * Shuffles the elements of an {@code int} array randomly.
+   * This is equivalent to {@code Collections.shuffle(Ints.asList(array))}
+   *
+   * @param array the int array to be shuffled.
+   * @throws NullPointerException if {@code array} is null.
+   * @author sagada
+   * @since 32.2.0
+   */
+  public static void shuffle(int [] array)
+  {
+    checkNotNull(array);
+    Random rnd = new Random();
+
+    for (int i = array.length; i > 1; i--) {
+      swap(array, i - 1, rnd.nextInt(i));
     }
   }
 }

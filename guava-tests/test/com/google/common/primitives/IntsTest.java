@@ -18,6 +18,7 @@ package com.google.common.primitives;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
+import static org.junit.Assert.assertNotEquals;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -712,5 +713,16 @@ public class IntsTest extends TestCase {
       fail("Expected NPE");
     } catch (NullPointerException expected) {
     }
+  }
+
+  public void testShuffle() {
+    int [] array = {0, 1, 2, 3, 4};
+    int [] copyArray = Arrays.copyOf(array, array.length);
+
+    Ints.shuffle(array);
+
+    assertThat(array).isNotEqualTo(copyArray);
+    assertThat(array.length).isEqualTo(copyArray.length);
+    assertThat(Arrays.asList(array).containsAll(Arrays.asList(copyArray)));
   }
 }
