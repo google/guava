@@ -724,7 +724,6 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSet<E>
   @Deprecated
   @SuppressWarnings("MissingOverride") // only an override under JDK 21+
   @DoNotCall("Always throws UnsupportedOperationException")
-  @CheckForNull
   public final E removeFirst() {
     throw new UnsupportedOperationException();
   }
@@ -740,7 +739,6 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSet<E>
   @Deprecated
   @SuppressWarnings("MissingOverride") // only an override under JDK 21+
   @DoNotCall("Always throws UnsupportedOperationException")
-  @CheckForNull
   public final E removeLast() {
     throw new UnsupportedOperationException();
   }
