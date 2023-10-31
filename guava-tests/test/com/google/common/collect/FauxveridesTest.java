@@ -50,10 +50,12 @@ public class FauxveridesTest extends TestCase {
     doHasAllFauxveridesTest(ImmutableBiMap.class, ImmutableMap.class);
   }
 
+  @AndroidIncompatible // similar to ImmutableTableTest.testNullPointerInstance
   public void testImmutableListMultimap() {
     doHasAllFauxveridesTest(ImmutableListMultimap.class, ImmutableMultimap.class);
   }
 
+  @AndroidIncompatible // similar to ImmutableTableTest.testNullPointerInstance
   public void testImmutableSetMultimap() {
     doHasAllFauxveridesTest(ImmutableSetMultimap.class, ImmutableMultimap.class);
   }
