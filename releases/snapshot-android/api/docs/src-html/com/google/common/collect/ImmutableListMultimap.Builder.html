@@ -205,34 +205,34 @@
 <span class="sourceLineNo">196</span><a id="line.196">      return this;</a>
 <span class="sourceLineNo">197</span><a id="line.197">    }</a>
 <span class="sourceLineNo">198</span><a id="line.198"></a>
-<span class="sourceLineNo">199</span><a id="line.199">    /**</a>
-<span class="sourceLineNo">200</span><a id="line.200">     * {@inheritDoc}</a>
-<span class="sourceLineNo">201</span><a id="line.201">     *</a>
-<span class="sourceLineNo">202</span><a id="line.202">     * @since 8.0</a>
-<span class="sourceLineNo">203</span><a id="line.203">     */</a>
-<span class="sourceLineNo">204</span><a id="line.204">    @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">205</span><a id="line.205">    @Override</a>
-<span class="sourceLineNo">206</span><a id="line.206">    public Builder&lt;K, V&gt; orderKeysBy(Comparator&lt;? super K&gt; keyComparator) {</a>
-<span class="sourceLineNo">207</span><a id="line.207">      super.orderKeysBy(keyComparator);</a>
-<span class="sourceLineNo">208</span><a id="line.208">      return this;</a>
-<span class="sourceLineNo">209</span><a id="line.209">    }</a>
-<span class="sourceLineNo">210</span><a id="line.210"></a>
-<span class="sourceLineNo">211</span><a id="line.211">    /**</a>
-<span class="sourceLineNo">212</span><a id="line.212">     * {@inheritDoc}</a>
-<span class="sourceLineNo">213</span><a id="line.213">     *</a>
-<span class="sourceLineNo">214</span><a id="line.214">     * @since 8.0</a>
-<span class="sourceLineNo">215</span><a id="line.215">     */</a>
-<span class="sourceLineNo">216</span><a id="line.216">    @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">217</span><a id="line.217">    @Override</a>
-<span class="sourceLineNo">218</span><a id="line.218">    public Builder&lt;K, V&gt; orderValuesBy(Comparator&lt;? super V&gt; valueComparator) {</a>
-<span class="sourceLineNo">219</span><a id="line.219">      super.orderValuesBy(valueComparator);</a>
-<span class="sourceLineNo">220</span><a id="line.220">      return this;</a>
-<span class="sourceLineNo">221</span><a id="line.221">    }</a>
-<span class="sourceLineNo">222</span><a id="line.222"></a>
+<span class="sourceLineNo">199</span><a id="line.199">    @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">200</span><a id="line.200">    @Override</a>
+<span class="sourceLineNo">201</span><a id="line.201">    Builder&lt;K, V&gt; combine(ImmutableMultimap.Builder&lt;K, V&gt; other) {</a>
+<span class="sourceLineNo">202</span><a id="line.202">      super.combine(other);</a>
+<span class="sourceLineNo">203</span><a id="line.203">      return this;</a>
+<span class="sourceLineNo">204</span><a id="line.204">    }</a>
+<span class="sourceLineNo">205</span><a id="line.205"></a>
+<span class="sourceLineNo">206</span><a id="line.206">    /**</a>
+<span class="sourceLineNo">207</span><a id="line.207">     * {@inheritDoc}</a>
+<span class="sourceLineNo">208</span><a id="line.208">     *</a>
+<span class="sourceLineNo">209</span><a id="line.209">     * @since 8.0</a>
+<span class="sourceLineNo">210</span><a id="line.210">     */</a>
+<span class="sourceLineNo">211</span><a id="line.211">    @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">212</span><a id="line.212">    @Override</a>
+<span class="sourceLineNo">213</span><a id="line.213">    public Builder&lt;K, V&gt; orderKeysBy(Comparator&lt;? super K&gt; keyComparator) {</a>
+<span class="sourceLineNo">214</span><a id="line.214">      super.orderKeysBy(keyComparator);</a>
+<span class="sourceLineNo">215</span><a id="line.215">      return this;</a>
+<span class="sourceLineNo">216</span><a id="line.216">    }</a>
+<span class="sourceLineNo">217</span><a id="line.217"></a>
+<span class="sourceLineNo">218</span><a id="line.218">    /**</a>
+<span class="sourceLineNo">219</span><a id="line.219">     * {@inheritDoc}</a>
+<span class="sourceLineNo">220</span><a id="line.220">     *</a>
+<span class="sourceLineNo">221</span><a id="line.221">     * @since 8.0</a>
+<span class="sourceLineNo">222</span><a id="line.222">     */</a>
 <span class="sourceLineNo">223</span><a id="line.223">    @CanIgnoreReturnValue</a>
 <span class="sourceLineNo">224</span><a id="line.224">    @Override</a>
-<span class="sourceLineNo">225</span><a id="line.225">    Builder&lt;K, V&gt; combine(ImmutableMultimap.Builder&lt;K, V&gt; other) {</a>
-<span class="sourceLineNo">226</span><a id="line.226">      super.combine(other);</a>
+<span class="sourceLineNo">225</span><a id="line.225">    public Builder&lt;K, V&gt; orderValuesBy(Comparator&lt;? super V&gt; valueComparator) {</a>
+<span class="sourceLineNo">226</span><a id="line.226">      super.orderValuesBy(valueComparator);</a>
 <span class="sourceLineNo">227</span><a id="line.227">      return this;</a>
 <span class="sourceLineNo">228</span><a id="line.228">    }</a>
 <span class="sourceLineNo">229</span><a id="line.229"></a>
