@@ -18,12 +18,16 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkElementIndex;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.BoundType.CLOSED;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
+import java.io.InvalidObjectException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.Collection;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import javax.annotation.CheckForNull;
 
 /**
  * An implementation of {@link ContiguousSet} that contains one or more elements.
@@ -32,6 +36,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  */
 @GwtCompatible(emulated = true)
 @SuppressWarnings("unchecked") // allow ungenerified Comparable types
+@ElementTypesAreNonnullByDefault
 final class RegularContiguousSet<C extends Comparable> extends ContiguousSet<C> {
   private final Range<C> range;
 
@@ -56,7 +61,7 @@ final class RegularContiguousSet<C extends Comparable> extends ContiguousSet<C> 
       C fromElement, boolean fromInclusive, C toElement, boolean toInclusive) {
     if (fromElement.compareTo(toElement) == 0 && !fromInclusive && !toInclusive) {
       // Range would reject our attempt to create (x, x).
-      return new EmptyContiguousSet<C>(domain);
+      return new EmptyContiguousSet<>(domain);
     }
     return intersectionInCurrentDomain(
         Range.range(
@@ -71,8 +76,9 @@ final class RegularContiguousSet<C extends Comparable> extends ContiguousSet<C> 
 
   @GwtIncompatible // not used by GWT emulation
   @Override
-  int indexOf(Object target) {
-    return contains(target) ? (int) domain.distance(first(), (C) target) : -1;
+  int indexOf(@CheckForNull Object target) {
+    // requireNonNull is safe because of the contains check.
+    return contains(target) ? (int) domain.distance(first(), (C) requireNonNull(target)) : -1;
   }
 
   @Override
@@ -81,6 +87,7 @@ final class RegularContiguousSet<C extends Comparable> extends ContiguousSet<C> 
       final C last = last();
 
       @Override
+      @CheckForNull
       protected C computeNext(C previous) {
         return equalsOrThrow(previous, last) ? null : domain.next(previous);
       }
@@ -94,13 +101,14 @@ final class RegularContiguousSet<C extends Comparable> extends ContiguousSet<C> 
       final C first = first();
 
       @Override
+      @CheckForNull
       protected C computeNext(C previous) {
         return equalsOrThrow(previous, first) ? null : domain.previous(previous);
       }
     };
   }
 
-  private static boolean equalsOrThrow(Comparable<?> left, @NullableDecl Comparable<?> right) {
+  private static boolean equalsOrThrow(Comparable<?> left, @CheckForNull Comparable<?> right) {
     return right != null && Range.compareOrThrow(left, right) == 0;
   }
 
@@ -111,12 +119,14 @@ final class RegularContiguousSet<C extends Comparable> extends ContiguousSet<C> 
 
   @Override
   public C first() {
-    return range.lowerBound.leastValueAbove(domain);
+    // requireNonNull is safe because we checked the range is not empty in ContiguousSet.create.
+    return requireNonNull(range.lowerBound.leastValueAbove(domain));
   }
 
   @Override
   public C last() {
-    return range.upperBound.greatestValueBelow(domain);
+    // requireNonNull is safe because we checked the range is not empty in ContiguousSet.create.
+    return requireNonNull(range.upperBound.greatestValueBelow(domain));
   }
 
   @Override
@@ -146,7 +156,7 @@ final class RegularContiguousSet<C extends Comparable> extends ContiguousSet<C> 
   }
 
   @Override
-  public boolean contains(@NullableDecl Object object) {
+  public boolean contains(@CheckForNull Object object) {
     if (object == null) {
       return false;
     }
@@ -174,8 +184,8 @@ final class RegularContiguousSet<C extends Comparable> extends ContiguousSet<C> 
     if (other.isEmpty()) {
       return other;
     } else {
-      C lowerEndpoint = Ordering.natural().max(this.first(), other.first());
-      C upperEndpoint = Ordering.natural().min(this.last(), other.last());
+      C lowerEndpoint = Ordering.<C>natural().max(this.first(), other.first());
+      C upperEndpoint = Ordering.<C>natural().min(this.last(), other.last());
       return (lowerEndpoint.compareTo(upperEndpoint) <= 0)
           ? ContiguousSet.create(Range.closed(lowerEndpoint, upperEndpoint), domain)
           : new EmptyContiguousSet<C>(domain);
@@ -195,7 +205,7 @@ final class RegularContiguousSet<C extends Comparable> extends ContiguousSet<C> 
   }
 
   @Override
-  public boolean equals(@NullableDecl Object object) {
+  public boolean equals(@CheckForNull Object object) {
     if (object == this) {
       return true;
     } else if (object instanceof RegularContiguousSet) {
@@ -214,6 +224,7 @@ final class RegularContiguousSet<C extends Comparable> extends ContiguousSet<C> 
   }
 
   @GwtIncompatible // serialization
+  @J2ktIncompatible
   private static final class SerializedForm<C extends Comparable> implements Serializable {
     final Range<C> range;
     final DiscreteDomain<C> domain;
@@ -224,14 +235,21 @@ final class RegularContiguousSet<C extends Comparable> extends ContiguousSet<C> 
     }
 
     private Object readResolve() {
-      return new RegularContiguousSet<C>(range, domain);
+      return new RegularContiguousSet<>(range, domain);
     }
   }
 
   @GwtIncompatible // serialization
+  @J2ktIncompatible
   @Override
   Object writeReplace() {
-    return new SerializedForm<C>(range, domain);
+    return new SerializedForm<>(range, domain);
+  }
+
+  @GwtIncompatible // serialization
+  @J2ktIncompatible
+  private void readObject(ObjectInputStream stream) throws InvalidObjectException {
+    throw new InvalidObjectException("Use SerializedForm");
   }
 
   private static final long serialVersionUID = 0;

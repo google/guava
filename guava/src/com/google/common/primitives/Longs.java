@@ -19,7 +19,6 @@ import static com.google.common.base.Preconditions.checkElementIndex;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkPositionIndexes;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Converter;
 import java.io.Serializable;
@@ -32,7 +31,7 @@ import java.util.List;
 import java.util.RandomAccess;
 import java.util.Spliterator;
 import java.util.Spliterators;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import javax.annotation.CheckForNull;
 
 /**
  * Static utility methods pertaining to {@code long} primitives, that are not already found in
@@ -45,6 +44,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 1.0
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public final class Longs {
   private Longs() {}
 
@@ -235,7 +235,6 @@ public final class Longs {
    * @throws IllegalArgumentException if {@code min > max}
    * @since 21.0
    */
-  @Beta
   public static long constrainToRange(long value, long min, long max) {
     checkArgument(min <= max, "min (%s) must be less than or equal to max (%s)", min, max);
     return Math.min(Math.max(value, min), max);
@@ -247,19 +246,29 @@ public final class Longs {
    *
    * @param arrays zero or more {@code long} arrays
    * @return a single array containing all the values from the source arrays, in order
+   * @throws IllegalArgumentException if the total number of elements in {@code arrays} does not fit
+   *     in an {@code int}
    */
   public static long[] concat(long[]... arrays) {
-    int length = 0;
+    long length = 0;
     for (long[] array : arrays) {
       length += array.length;
     }
-    long[] result = new long[length];
+    long[] result = new long[checkNoOverflow(length)];
     int pos = 0;
     for (long[] array : arrays) {
       System.arraycopy(array, 0, result, pos, array.length);
       pos += array.length;
     }
     return result;
+  }
+
+  private static int checkNoOverflow(long result) {
+    checkArgument(
+        result == (int) result,
+        "the total number of elements (%s) in the arrays must fit in an int",
+        result);
+    return (int) result;
   }
 
   /**
@@ -362,8 +371,8 @@ public final class Longs {
    * @throws NullPointerException if {@code string} is {@code null}
    * @since 14.0
    */
-  @Beta
-  public static @Nullable Long tryParse(String string) {
+  @CheckForNull
+  public static Long tryParse(String string) {
     return tryParse(string, 10);
   }
 
@@ -378,7 +387,7 @@ public final class Longs {
    * <p>Note that strings prefixed with ASCII {@code '+'} are rejected, even under JDK 7, despite
    * the change to {@link Long#parseLong(String, int)} for that version.
    *
-   * @param string the string representation of an long value
+   * @param string the string representation of a long value
    * @param radix the radix to use when parsing
    * @return the long value represented by {@code string} using {@code radix}, or {@code null} if
    *     {@code string} has a length of zero or cannot be parsed as a long value
@@ -387,8 +396,8 @@ public final class Longs {
    * @throws NullPointerException if {@code string} is {@code null}
    * @since 19.0
    */
-  @Beta
-  public static @Nullable Long tryParse(String string, int radix) {
+  @CheckForNull
+  public static Long tryParse(String string, int radix) {
     if (checkNotNull(string).isEmpty()) {
       return null;
     }
@@ -431,7 +440,7 @@ public final class Longs {
   }
 
   private static final class LongConverter extends Converter<String, Long> implements Serializable {
-    static final LongConverter INSTANCE = new LongConverter();
+    static final Converter<String, Long> INSTANCE = new LongConverter();
 
     @Override
     protected Long doForward(String value) {
@@ -466,7 +475,6 @@ public final class Longs {
    *
    * @since 16.0
    */
-  @Beta
   public static Converter<String, Long> stringConverter() {
     return LongConverter.INSTANCE;
   }
@@ -606,6 +614,56 @@ public final class Longs {
   }
 
   /**
+   * Performs a right rotation of {@code array} of "distance" places, so that the first element is
+   * moved to index "distance", and the element at index {@code i} ends up at index {@code (distance
+   * + i) mod array.length}. This is equivalent to {@code Collections.rotate(Longs.asList(array),
+   * distance)}, but is considerably faster and avoids allocation and garbage collection.
+   *
+   * <p>The provided "distance" may be negative, which will rotate left.
+   *
+   * @since 32.0.0
+   */
+  public static void rotate(long[] array, int distance) {
+    rotate(array, distance, 0, array.length);
+  }
+
+  /**
+   * Performs a right rotation of {@code array} between {@code fromIndex} inclusive and {@code
+   * toIndex} exclusive. This is equivalent to {@code
+   * Collections.rotate(Longs.asList(array).subList(fromIndex, toIndex), distance)}, but is
+   * considerably faster and avoids allocations and garbage collection.
+   *
+   * <p>The provided "distance" may be negative, which will rotate left.
+   *
+   * @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > array.length}, or
+   *     {@code toIndex > fromIndex}
+   * @since 32.0.0
+   */
+  public static void rotate(long[] array, int distance, int fromIndex, int toIndex) {
+    // See Ints.rotate for more details about possible algorithms here.
+    checkNotNull(array);
+    checkPositionIndexes(fromIndex, toIndex, array.length);
+    if (array.length <= 1) {
+      return;
+    }
+
+    int length = toIndex - fromIndex;
+    // Obtain m = (-distance mod length), a non-negative value less than "length". This is how many
+    // places left to rotate.
+    int m = -distance % length;
+    m = (m < 0) ? m + length : m;
+    // The current index of what will become the first element of the rotated section.
+    int newFirstIndex = m + fromIndex;
+    if (newFirstIndex == fromIndex) {
+      return;
+    }
+
+    reverse(array, fromIndex, newFirstIndex);
+    reverse(array, newFirstIndex, toIndex);
+    reverse(array, fromIndex, toIndex);
+  }
+
+  /**
    * Returns an array containing each value of {@code collection}, converted to a {@code long} value
    * in the manner of {@link Number#longValue}.
    *
@@ -641,6 +699,8 @@ public final class Longs {
    * <p>The returned list maintains the values, but not the identities, of {@code Long} objects
    * written to or read from it. For example, whether {@code list.get(0) == list.get(0)} is true for
    * the returned list is unspecified.
+   *
+   * <p>The returned list is serializable.
    *
    * <p><b>Note:</b> when possible, you should represent your data as an {@link ImmutableLongArray}
    * instead, which has an {@link ImmutableLongArray#asList asList} view.
@@ -694,13 +754,13 @@ public final class Longs {
     }
 
     @Override
-    public boolean contains(Object target) {
+    public boolean contains(@CheckForNull Object target) {
       // Overridden to prevent a ton of boxing
       return (target instanceof Long) && Longs.indexOf(array, (Long) target, start, end) != -1;
     }
 
     @Override
-    public int indexOf(Object target) {
+    public int indexOf(@CheckForNull Object target) {
       // Overridden to prevent a ton of boxing
       if (target instanceof Long) {
         int i = Longs.indexOf(array, (Long) target, start, end);
@@ -712,7 +772,7 @@ public final class Longs {
     }
 
     @Override
-    public int lastIndexOf(Object target) {
+    public int lastIndexOf(@CheckForNull Object target) {
       // Overridden to prevent a ton of boxing
       if (target instanceof Long) {
         int i = Longs.lastIndexOf(array, (Long) target, start, end);
@@ -743,7 +803,7 @@ public final class Longs {
     }
 
     @Override
-    public boolean equals(@Nullable Object object) {
+    public boolean equals(@CheckForNull Object object) {
       if (object == this) {
         return true;
       }

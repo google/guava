@@ -36,9 +36,7 @@ import com.google.common.testing.CollectorTester;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -49,6 +47,7 @@ import java.util.stream.Collector;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Tests for {@link ImmutableMultiset}.
@@ -62,7 +61,6 @@ public class ImmutableMultisetTest extends TestCase {
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTestSuite(ImmutableMultisetTest.class);
-    suite.addTestSuite(FloodingTest.class);
 
     suite.addTest(
         MultisetTestSuiteBuilder.using(
@@ -357,11 +355,11 @@ public class ImmutableMultisetTest extends TestCase {
       }
 
       @Override
-      public boolean equals(Object obj) {
+      public boolean equals(@Nullable Object obj) {
         return obj instanceof TypeWithDuplicates && ((TypeWithDuplicates) obj).a == a;
       }
 
-      public boolean fullEquals(TypeWithDuplicates other) {
+      public boolean fullEquals(@Nullable TypeWithDuplicates other) {
         return other != null && a == other.a && b == other.b;
       }
     }
@@ -580,6 +578,7 @@ public class ImmutableMultisetTest extends TestCase {
   }
 
   @GwtIncompatible // NullPointerTester
+  @AndroidIncompatible // see ImmutableTableTest.testNullPointerInstance
   public void testNullPointers() {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicStaticMethods(ImmutableMultiset.class);
@@ -666,58 +665,5 @@ public class ImmutableMultisetTest extends TestCase {
     builder.add("b");
     assertThat(builder.build().elementSet()).containsExactly("a", "c", "b").inOrder();
     assertThat(multiset.elementSet()).containsExactly("a", "c").inOrder();
-  }
-
-  public static class FloodingTest extends AbstractHashFloodingTest<Multiset<Object>> {
-    public FloodingTest() {
-      super(
-          Arrays.asList(ConstructionPathway.values()),
-          n -> n * Math.log(n),
-          ImmutableList.of(
-              QueryOp.create(
-                  "count",
-                  (ms, o) -> {
-                    int unused = ms.count(o);
-                  },
-                  Math::log)));
-    }
-
-    /** All the ways to create an ImmutableMultiset. */
-    enum ConstructionPathway implements Construction<Multiset<Object>> {
-      COPY_OF_COLLECTION {
-        @Override
-        public ImmutableMultiset<Object> create(List<?> keys) {
-          return ImmutableMultiset.copyOf(keys);
-        }
-      },
-      COPY_OF_ITERATOR {
-        @Override
-        public ImmutableMultiset<Object> create(List<?> keys) {
-          return ImmutableMultiset.copyOf(keys.iterator());
-        }
-      },
-      BUILDER_ADD_ENTRY_BY_ENTRY {
-        @Override
-        public ImmutableMultiset<Object> create(List<?> keys) {
-          ImmutableMultiset.Builder<Object> builder = ImmutableMultiset.builder();
-          for (Object o : keys) {
-            builder.add(o);
-          }
-          return builder.build();
-        }
-      },
-      BUILDER_ADD_ALL_COLLECTION {
-        @Override
-        public ImmutableMultiset<Object> create(List<?> keys) {
-          ImmutableMultiset.Builder<Object> builder = ImmutableMultiset.builder();
-          builder.addAll(keys);
-          return builder.build();
-        }
-      };
-
-      @CanIgnoreReturnValue
-      @Override
-      public abstract ImmutableMultiset<Object> create(List<?> keys);
-    }
   }
 }

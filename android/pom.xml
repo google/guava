@@ -14,11 +14,23 @@
   <properties>
     <!-- Override this with -Dtest.include="**/SomeTest.java" on the CLI -->
     <test.include>%regex[.*.class]</test.include>
-    <truth.version>1.0</truth.version>
-    <animal.sniffer.version>1.18</animal.sniffer.version>
-    <maven-javadoc-plugin.version>3.1.0</maven-javadoc-plugin.version>
-    <maven-source-plugin.version>3.2.0</maven-source-plugin.version>
+    <truth.version>1.1.3</truth.version>
+    <jsr305.version>3.0.2</jsr305.version>
+    <checker.version>3.37.0</checker.version>
+    <errorprone.version>2.21.1</errorprone.version>
+    <j2objc.version>2.8</j2objc.version>
+    <javac.version>9+181-r4173-1</javac.version>
+    <!-- Empty for all JDKs but 9-12 -->
+    <maven-javadoc-plugin.additionalJOptions></maven-javadoc-plugin.additionalJOptions>
+    <project.build.outputTimestamp>2023-02-01T00:00:00Z</project.build.outputTimestamp>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <test.add.opens></test.add.opens>
+    <module.status>integration</module.status>
+    <variant.jvmEnvironment>android</variant.jvmEnvironment>
+    <variant.jvmEnvironmentVariantName>android</variant.jvmEnvironmentVariantName>
+    <otherVariant.version>HEAD-jre-SNAPSHOT</otherVariant.version>
+    <otherVariant.jvmEnvironment>standard-jvm</otherVariant.jvmEnvironment>
+    <otherVariant.jvmEnvironmentVariantName>jre</otherVariant.jvmEnvironmentVariantName>
   </properties>
   <issueManagement>
     <system>GitHub Issues</system>
@@ -52,8 +64,8 @@
     </developer>
   </developers>
   <ciManagement>
-    <system>Travis CI</system>
-    <url>https://travis-ci.org/google/guava</url>
+    <system>GitHub Actions</system>
+    <url>https://github.com/google/guava/actions</url>
   </ciManagement>
   <modules>
     <module>guava</module>
@@ -67,11 +79,11 @@
     <testSourceDirectory>test</testSourceDirectory>
     <resources>
       <resource>
-        <directory>src</directory>
-        <excludes>
-          <exclude>**/*.java</exclude>
-          <exclude>**/*.sw*</exclude>
-        </excludes>
+        <directory>../..</directory>
+        <includes>
+          <include>LICENSE</include>
+        </includes>
+        <targetPath>META-INF</targetPath>
       </resource>
     </resources>
     <testResources>
@@ -84,7 +96,6 @@
     </testResources>
     <plugins>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-enforcer-plugin</artifactId>
         <executions>
           <execution>
@@ -105,10 +116,6 @@
           </execution>
         </executions>
       </plugin>
-      <plugin>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <version>${maven-javadoc-plugin.version}</version>
-      </plugin>
     </plugins>
     <pluginManagement>
       <plugins>
@@ -116,8 +123,37 @@
           <artifactId>maven-compiler-plugin</artifactId>
           <version>3.8.1</version>
           <configuration>
-            <source>1.7</source>
-            <target>1.7</target>
+            <source>1.8</source>
+            <target>1.8</target>
+            <encoding>UTF-8</encoding>
+            <parameters>true</parameters>
+            <compilerArgs>
+              <!--
+                   Make includes/excludes fully work:
+                   https://issues.apache.org/jira/browse/MCOMPILER-174
+
+                   (Compare what guava-gwt has to do for maven-javadoc-plugin.)
+              -->
+              <arg>-sourcepath</arg>
+              <arg>doesnotexist</arg>
+              <!-- https://errorprone.info/docs/installation#maven -->
+              <arg>-XDcompilePolicy=simple</arg>
+              <!-- -Xplugin:ErrorProne is set conditionally by a profile. -->
+            </compilerArgs>
+            <annotationProcessorPaths>
+              <path>
+                <groupId>com.google.errorprone</groupId>
+                <artifactId>error_prone_core</artifactId>
+                <version>2.16</version>
+              </path>
+            </annotationProcessorPaths>
+            <!-- Fork:
+
+                 - for JDK8 because we use a javac9 bootclasspath
+
+                 - for JDK9+ because we need args like add-exports
+                 -->
+            <fork>true</fork>
           </configuration>
         </plugin>
         <plugin>
@@ -126,27 +162,31 @@
         </plugin>
         <plugin>
           <artifactId>maven-source-plugin</artifactId>
-          <version>${maven-source-plugin.version}</version>
+          <version>3.3.0</version>
           <executions>
             <execution>
               <id>attach-sources</id>
-              <phase>post-integration-test</phase>
-              <goals><goal>jar</goal></goals>
+              <goals>
+                <goal>jar-no-fork</goal>
+              </goals>
             </execution>
           </executions>
         </plugin>
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>animal-sniffer-maven-plugin</artifactId>
-          <version>${animal.sniffer.version}</version>
+          <version>1.23</version>
           <configuration>
-            <annotations>com.google.common.util.concurrent.IgnoreJRERequirement</annotations>
+            <annotations>com.google.common.collect.IgnoreJRERequirement,com.google.common.hash.IgnoreJRERequirement,com.google.common.io.IgnoreJRERequirement,com.google.common.reflect.IgnoreJRERequirement,com.google.common.testing.IgnoreJRERequirement</annotations>
+            <checkTestClasses>true</checkTestClasses>
             <signature>
               <groupId>org.codehaus.mojo.signature</groupId>
               <artifactId>java16-sun</artifactId>
               <version>1.10</version>
             </signature>
             <ignores>
+              <!-- Allow requireNonNull: Android desugaring rewrites it (so it's safe for us to use), and it's useful for null checks. Note that this line allows *all* methods from java.util.Objects. That's the best that we can do with the configuration options that Animal Sniffer offers. -->
+              <ignore>java.util.Objects</ignore>
               <!-- Unsafe isn't part of the documented Java 6 API, but it is available.
                    And in cases where it's not, we have fallbacks. -->
               <ignore>sun.misc.Unsafe</ignore>
@@ -164,7 +204,7 @@
         </plugin>
         <plugin>
           <artifactId>maven-javadoc-plugin</artifactId>
-          <version>${maven-javadoc-plugin.version}</version>
+          <version>3.5.0</version>
           <configuration>
             <quiet>true</quiet>
             <notimestamp>true</notimestamp>
@@ -176,12 +216,12 @@
               <additionalOption>-Xdoclint:-html</additionalOption>
             </additionalOptions>
             <linksource>true</linksource>
-            <source>8</source>
+            <source>${java.specification.version}</source>
+            <additionalJOption>${maven-javadoc-plugin.additionalJOptions}</additionalJOption>
           </configuration>
           <executions>
             <execution>
               <id>attach-docs</id>
-              <phase>post-integration-test</phase>
               <goals><goal>jar</goal></goals>
             </execution>
           </executions>
@@ -214,13 +254,21 @@
             <runOrder>alphabetical</runOrder>
             <!-- Set max heap for tests. -->
             <!-- Catch dependencies on the default locale by setting it to hi-IN. -->
-            <argLine>-Xmx1536M -Duser.language=hi -Duser.country=IN</argLine>
+            <argLine>-Xmx1536M -Duser.language=hi -Duser.country=IN ${test.add.opens}</argLine>
           </configuration>
         </plugin>
         <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-enforcer-plugin</artifactId>
-          <version>3.0.0-M2</version>
+          <version>3.0.0-M3</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-resources-plugin</artifactId>
+          <version>3.3.1</version>
+        </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>build-helper-maven-plugin</artifactId>
+          <version>3.4.0</version>
         </plugin>
       </plugins>
     </pluginManagement>
@@ -247,73 +295,28 @@
       <dependency>
         <groupId>com.google.code.findbugs</groupId>
         <artifactId>jsr305</artifactId>
-        <version>3.0.2</version>
+        <version>${jsr305.version}</version>
       </dependency>
       <dependency>
         <groupId>org.checkerframework</groupId>
-        <artifactId>checker-compat-qual</artifactId>
-        <version>2.5.5</version>
+        <artifactId>checker-qual</artifactId>
+        <version>${checker.version}</version>
       </dependency>
       <dependency>
         <groupId>com.google.errorprone</groupId>
         <artifactId>error_prone_annotations</artifactId>
-        <version>2.3.4</version>
+        <version>${errorprone.version}</version>
       </dependency>
       <dependency>
         <groupId>com.google.j2objc</groupId>
         <artifactId>j2objc-annotations</artifactId>
-        <version>1.3</version>
+        <version>${j2objc.version}</version>
       </dependency>
-      <dependency>
-        <groupId>junit</groupId>
-        <artifactId>junit</artifactId>
-        <version>4.13</version>
-        <scope>test</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.easymock</groupId>
-        <artifactId>easymock</artifactId>
-        <version>3.0</version>
-        <scope>test</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.mockito</groupId>
-        <artifactId>mockito-core</artifactId>
-        <version>2.19.0</version>
-        <scope>test</scope>
-      </dependency>
-      <dependency>
-        <groupId>com.google.jimfs</groupId>
-        <artifactId>jimfs</artifactId>
-        <version>1.1</version>
-        <scope>test</scope>
-      </dependency>
-      <dependency>
-        <groupId>com.google.truth</groupId>
-        <artifactId>truth</artifactId>
-        <version>${truth.version}</version>
-        <scope>test</scope>
-        <exclusions>
-          <exclusion>
-            <!-- use the guava we're building. -->
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-          </exclusion>
-        </exclusions>
-      </dependency>
-      <dependency>
-        <groupId>com.google.caliper</groupId>
-        <artifactId>caliper</artifactId>
-        <version>1.0-beta-2</version>
-        <scope>test</scope>
-        <exclusions>
-          <exclusion>
-            <!-- use the guava we're building. -->
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-          </exclusion>
-        </exclusions>
-      </dependency>
+      <!--
+      We moved away from using dependencyManagement for test-only deps because of https://github.com/google/guava/issues/6654.
+      We could probably have resumed it after https://github.com/google/guava/pull/6664.
+      But it's always weird that published poms reference test-only libraries at all, so I'm not in any rush to do so.
+      -->
     </dependencies>
   </dependencyManagement>
   <profiles>
@@ -322,35 +325,8 @@
         <build>
           <plugins>
             <plugin>
-              <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-source-plugin</artifactId>
-              <version>${maven-source-plugin.version}</version>
-              <executions>
-                <execution>
-                  <id>attach-sources</id>
-                  <goals>
-                    <goal>jar-no-fork</goal>
-                  </goals>
-                </execution>
-              </executions>
-            </plugin>
-            <plugin>
-              <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-javadoc-plugin</artifactId>
-              <version>${maven-javadoc-plugin.version}</version>
-                <executions>
-                  <execution>
-                    <id>attach-javadocs</id>
-                    <goals>
-                      <goal>jar</goal>
-                    </goals>
-                </execution>
-              </executions>
-            </plugin>
-            <plugin>
-              <groupId>org.apache.maven.plugins</groupId>
               <artifactId>maven-gpg-plugin</artifactId>
-              <version>1.6</version>
+              <version>3.0.1</version>
               <executions>
                 <execution>
                   <id>sign-artifacts</id>
@@ -362,6 +338,129 @@
               </executions>
             </plugin>
           </plugins>
+      </build>
+    </profile>
+    <profile>
+      <!--
+          Passes JDK 11-12-specific `no-module-directories` flag to Javadoc tool,
+          which is required to make symbol search work correctly in the generated
+          pages.
+
+          This flag does not exist on 9-10 and 13+ (https://bugs.openjdk.java.net/browse/JDK-8215582).
+
+          Consider removing it once our release and test scripts are migrated to a recent JDK (17+).
+       -->
+      <id>javadocs-jdk11-12</id>
+      <activation>
+        <jdk>[11,13)</jdk>
+      </activation>
+      <properties>
+        <maven-javadoc-plugin.additionalJOptions>--no-module-directories</maven-javadoc-plugin.additionalJOptions>
+      </properties>
+    </profile>
+    <profile>
+      <id>open-jre-modules</id>
+      <activation>
+        <jdk>[9,]</jdk>
+      </activation>
+      <properties>
+        <!--
+            Some tests need reflective access to the internals of these packages. It is only the
+            tests themselves and not the code being tested that needs that access, though there's no
+            obvious way to ensure that.
+
+            We could consider arranging things so that only the tests we know need this would get
+            the add-opens. Right now that doesn't seem worth the effort, though.
+        -->
+        <test.add.opens>
+          --add-opens java.base/java.lang=ALL-UNNAMED
+          --add-opens java.base/java.util=ALL-UNNAMED
+          --add-opens java.base/sun.security.jca=ALL-UNNAMED
+        </test.add.opens>
+      </properties>
+    </profile>
+    <profile>
+      <id>javac9-for-jdk8</id>
+      <activation>
+        <jdk>1.8</jdk>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <configuration>
+              <!-- Under JDK8, we continue to use errorprone's javac9 (even
+                   though we don't run Error Prone itself, which no longer
+                   supports JDK8!).
+
+                   Why? At some point, presumably after
+                   https://github.com/google/guava/commit/e06a8cec65815599e510d7f9c1ea9d2a8eaa438a,
+                   builds with JDK8 began failing animal-sniffer with the error:
+
+                   Failed to check signatures: Bad class file .../CollectionFuture$ListFuture.class
+
+                   One way of dealing with that would be to disable
+                   animal-sniffer. And that would be fine for our -jre builds:
+                   If we're building with JDK8, then clearly we're sticking to
+                   JDK8 APIs. However, I assume (but did not confirm) that we'd
+                   have the same issue with our -android builds, which need
+                   animal-sniffer so that they can check that we're sticking to
+                   JDK6-like APIs.
+
+                   So instead, we use javac9, which doesn't lead to this error.
+              -->
+              <compilerArgs combine.children="append">
+                <arg>-J-Xbootclasspath/p:${settings.localRepository}/com/google/errorprone/javac/${javac.version}/javac-${javac.version}.jar</arg>
+              </compilerArgs>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>run-error-prone</id>
+      <activation>
+        <!--
+        Error Prone requires 11+: https://errorprone.info/docs/installation
+        We skip 12-15 because of https://github.com/google/error-prone/issues/3540.
+        -->
+        <jdk>[11,12),[16,)</jdk>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <configuration>
+              <compilerArgs combine.children="append">
+                <!-- https://errorprone.info/docs/installation#maven -->
+                <!-- TODO(cpovirk): Enable NullArgumentForNonNullParameter for
+                     prod code. It's disabled automatically for "test code"
+                     (which is good: our tests have intentional violations), but
+                     Error Prone doesn't know it's building test code unless we
+                     pass -XepCompilingTestOnlyCode, and that argument needs to
+                     be passed as part of the same <arg> as -Xplugin:ErrorProne,
+                     and I gave up trying to figure out how to do that for test
+                     compilation only. -->
+                <arg>-Xplugin:ErrorProne -Xep:NullArgumentForNonNullParameter:OFF -Xep:Java8ApiChecker:ERROR</arg>
+                <!-- https://github.com/google/error-prone/blob/f8e33bc460be82ab22256a7ef8b979d7a2cacaba/docs/installation.md#jdk-16 -->
+                <!-- TODO(cpovirk): Use .mvn/jvm.config instead (per
+                     https://errorprone.info/docs/installation#maven) if it can
+                     be made not to interfere with JDK8 or if we stop building
+                     with JDK8. -->
+                <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED</arg>
+                <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED</arg>
+                <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.main=ALL-UNNAMED</arg>
+                <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.model=ALL-UNNAMED</arg>
+                <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED</arg>
+                <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.processing=ALL-UNNAMED</arg>
+                <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED</arg>
+                <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED</arg>
+                <arg>-J--add-opens=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED</arg>
+                <arg>-J--add-opens=jdk.compiler/com.sun.tools.javac.comp=ALL-UNNAMED</arg>
+              </compilerArgs>
+            </configuration>
+          </plugin>
+        </plugins>
       </build>
     </profile>
   </profiles>

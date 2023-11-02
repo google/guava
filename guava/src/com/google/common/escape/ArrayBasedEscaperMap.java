@@ -16,7 +16,6 @@ package com.google.common.escape;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
 import java.util.Collections;
@@ -36,8 +35,8 @@ import java.util.Map;
  * @author David Beaumont
  * @since 15.0
  */
-@Beta
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public final class ArrayBasedEscaperMap {
   /**
    * Returns a new ArrayBasedEscaperMap for creating ArrayBasedCharEscaper or
@@ -73,7 +72,7 @@ public final class ArrayBasedEscaperMap {
     }
     char max = Collections.max(map.keySet());
     char[][] replacements = new char[max + 1][];
-    for (char c : map.keySet()) {
+    for (Character c : map.keySet()) {
       replacements[c] = map.get(c).toCharArray();
     }
     return replacements;

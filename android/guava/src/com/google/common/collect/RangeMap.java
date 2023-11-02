@@ -16,14 +16,13 @@
 
 package com.google.common.collect;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.DoNotMock;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.NoSuchElementException;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import javax.annotation.CheckForNull;
 
 /**
  * A mapping from disjoint nonempty ranges to non-null values. Queries look up the value associated
@@ -35,24 +34,29 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @author Louis Wasserman
  * @since 14.0
  */
-@Beta
 @DoNotMock("Use ImmutableRangeMap or TreeRangeMap")
 @GwtIncompatible
+@ElementTypesAreNonnullByDefault
 public interface RangeMap<K extends Comparable, V> {
+  /*
+   * TODO(cpovirk): These docs sometimes say "map" and sometimes say "range map." Pick one, or at
+   * least decide on a policy for when to use which.
+   */
+
   /**
    * Returns the value associated with the specified key, or {@code null} if there is no such value.
    *
    * <p>Specifically, if any range in this range map contains the specified key, the value
    * associated with that range is returned.
    */
-  @NullableDecl
+  @CheckForNull
   V get(K key);
 
   /**
    * Returns the range containing this key and its associated value, if such a range is present in
    * the range map, or {@code null} otherwise.
    */
-  @NullableDecl
+  @CheckForNull
   Entry<Range<K>, V> getEntry(K key);
 
   /**
@@ -95,7 +99,7 @@ public interface RangeMap<K extends Comparable, V> {
   void putCoalescing(Range<K> range, V value);
 
   /** Puts all the associations from {@code rangeMap} into this range map (optional operation). */
-  void putAll(RangeMap<K, V> rangeMap);
+  void putAll(RangeMap<K, ? extends V> rangeMap);
 
   /** Removes all associations from this range map (optional operation). */
   void clear();
@@ -146,6 +150,7 @@ public interface RangeMap<K extends Comparable, V> {
    * <p>The returned range map will throw an {@link IllegalArgumentException} on an attempt to
    * insert a range not {@linkplain Range#encloses(Range) enclosed} by {@code range}.
    */
+  // TODO(cpovirk): Consider documenting that IAE on the various methods that can throw it.
   RangeMap<K, V> subRangeMap(Range<K> range);
 
   /**
@@ -153,7 +158,7 @@ public interface RangeMap<K extends Comparable, V> {
    * #asMapOfRanges()}.
    */
   @Override
-  boolean equals(@NullableDecl Object o);
+  boolean equals(@CheckForNull Object o);
 
   /** Returns {@code asMapOfRanges().hashCode()}. */
   @Override

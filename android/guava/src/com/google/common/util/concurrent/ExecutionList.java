@@ -17,11 +17,12 @@ package com.google.common.util.concurrent;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.concurrent.GuardedBy;
 import java.util.concurrent.Executor;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import javax.annotation.CheckForNull;
 
 /**
  * A support class for {@code ListenableFuture} implementations to manage their listeners. An
@@ -39,7 +40,9 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @author Sven Mawson
  * @since 1.0
  */
+@J2ktIncompatible
 @GwtIncompatible
+@ElementTypesAreNonnullByDefault
 public final class ExecutionList {
   /** Logger to log exceptions caught when running runnables. */
   private static final Logger log = Logger.getLogger(ExecutionList.class.getName());
@@ -49,7 +52,7 @@ public final class ExecutionList {
    * RunnableExecutorPair#next} field.
    */
   @GuardedBy("this")
-  @NullableDecl
+  @CheckForNull
   private RunnableExecutorPair runnables;
 
   @GuardedBy("this")
@@ -154,9 +157,10 @@ public final class ExecutionList {
   private static final class RunnableExecutorPair {
     final Runnable runnable;
     final Executor executor;
-    @NullableDecl RunnableExecutorPair next;
+    @CheckForNull RunnableExecutorPair next;
 
-    RunnableExecutorPair(Runnable runnable, Executor executor, RunnableExecutorPair next) {
+    RunnableExecutorPair(
+        Runnable runnable, Executor executor, @CheckForNull RunnableExecutorPair next) {
       this.runnable = runnable;
       this.executor = executor;
       this.next = next;

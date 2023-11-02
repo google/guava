@@ -17,10 +17,12 @@ package com.google.common.util.concurrent;
 import static com.google.common.util.concurrent.Internal.toNanosSaturated;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import java.time.Duration;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A {@link ScheduledExecutorService} that returns {@link ListenableFuture} instances from its
@@ -31,7 +33,9 @@ import java.util.concurrent.TimeUnit;
  * @author Chris Povirk
  * @since 10.0
  */
+@J2ktIncompatible
 @GwtIncompatible
+@ElementTypesAreNonnullByDefault
 public interface ListeningScheduledExecutorService
     extends ScheduledExecutorService, ListeningExecutorService {
 
@@ -50,14 +54,16 @@ public interface ListeningScheduledExecutorService
 
   /** @since 15.0 (previously returned ScheduledFuture) */
   @Override
-  <V> ListenableScheduledFuture<V> schedule(Callable<V> callable, long delay, TimeUnit unit);
+  <V extends @Nullable Object> ListenableScheduledFuture<V> schedule(
+      Callable<V> callable, long delay, TimeUnit unit);
 
   /**
    * Duration-based overload of {@link #schedule(Callable, long, TimeUnit)}.
    *
    * @since 29.0
    */
-  default <V> ListenableScheduledFuture<V> schedule(Callable<V> callable, Duration delay) {
+  default <V extends @Nullable Object> ListenableScheduledFuture<V> schedule(
+      Callable<V> callable, Duration delay) {
     return schedule(callable, toNanosSaturated(delay), TimeUnit.NANOSECONDS);
   }
 

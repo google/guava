@@ -17,10 +17,12 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
-import java.lang.reflect.Array;
+import com.google.common.annotations.J2ktIncompatible;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Methods factored out so that they can be emulated differently in GWT.
@@ -28,12 +30,12 @@ import java.util.Set;
  * @author Hayward Chan
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 final class Platform {
-  private static final java.util.logging.Logger logger =
-      java.util.logging.Logger.getLogger(Platform.class.getName());
 
   /** Returns the platform preferred implementation of a map based on a hash table. */
-  static <K, V> Map<K, V> newHashMapWithExpectedSize(int expectedSize) {
+  static <K extends @Nullable Object, V extends @Nullable Object>
+      Map<K, V> newHashMapWithExpectedSize(int expectedSize) {
     return Maps.newHashMapWithExpectedSize(expectedSize);
   }
 
@@ -41,20 +43,26 @@ final class Platform {
    * Returns the platform preferred implementation of an insertion ordered map based on a hash
    * table.
    */
-  static <K, V> Map<K, V> newLinkedHashMapWithExpectedSize(int expectedSize) {
+  static <K extends @Nullable Object, V extends @Nullable Object>
+      Map<K, V> newLinkedHashMapWithExpectedSize(int expectedSize) {
     return Maps.newLinkedHashMapWithExpectedSize(expectedSize);
   }
 
   /** Returns the platform preferred implementation of a set based on a hash table. */
-  static <E> Set<E> newHashSetWithExpectedSize(int expectedSize) {
+  static <E extends @Nullable Object> Set<E> newHashSetWithExpectedSize(int expectedSize) {
     return Sets.newHashSetWithExpectedSize(expectedSize);
+  }
+
+  /** Returns the platform preferred implementation of a thread-safe hash set. */
+  static <E> Set<E> newConcurrentHashSet() {
+    return ConcurrentHashMap.newKeySet();
   }
 
   /**
    * Returns the platform preferred implementation of an insertion ordered set based on a hash
    * table.
    */
-  static <E> Set<E> newLinkedHashSetWithExpectedSize(int expectedSize) {
+  static <E extends @Nullable Object> Set<E> newLinkedHashSetWithExpectedSize(int expectedSize) {
     return Sets.newLinkedHashSetWithExpectedSize(expectedSize);
   }
 
@@ -62,7 +70,8 @@ final class Platform {
    * Returns the platform preferred map implementation that preserves insertion order when used only
    * for insertions.
    */
-  static <K, V> Map<K, V> preservesInsertionOrderOnPutsMap() {
+  static <K extends @Nullable Object, V extends @Nullable Object>
+      Map<K, V> preservesInsertionOrderOnPutsMap() {
     return Maps.newLinkedHashMap();
   }
 
@@ -70,7 +79,7 @@ final class Platform {
    * Returns the platform preferred set implementation that preserves insertion order when used only
    * for insertions.
    */
-  static <E> Set<E> preservesInsertionOrderOnAddsSet() {
+  static <E extends @Nullable Object> Set<E> preservesInsertionOrderOnAddsSet() {
     return Sets.newLinkedHashSet();
   }
 
@@ -80,18 +89,28 @@ final class Platform {
    * @param reference any array of the desired type
    * @param length the length of the new array
    */
-  static <T> T[] newArray(T[] reference, int length) {
-    Class<?> type = reference.getClass().getComponentType();
-
-    // the cast is safe because
-    // result.getClass() == reference.getClass().getComponentType()
-    @SuppressWarnings("unchecked")
-    T[] result = (T[]) Array.newInstance(type, length);
-    return result;
+  /*
+   * The new array contains nulls, even if the old array did not. If we wanted to be accurate, we
+   * would declare a return type of `@Nullable T[]`. However, we've decided not to think too hard
+   * about arrays for now, as they're a mess. (We previously discussed this in the review of
+   * ObjectArrays, which is the main caller of this method.)
+   */
+  static <T extends @Nullable Object> T[] newArray(T[] reference, int length) {
+    T[] empty = reference.length == 0 ? reference : Arrays.copyOf(reference, 0);
+    return Arrays.copyOf(empty, length);
   }
 
   /** Equivalent to Arrays.copyOfRange(source, from, to, arrayOfType.getClass()). */
-  static <T> T[] copy(Object[] source, int from, int to, T[] arrayOfType) {
+  /*
+   * Arrays are a mess from a nullness perspective, and Class instances for object-array types are
+   * even worse. For now, we just suppress and move on with our lives.
+   *
+   * - https://github.com/jspecify/jspecify/issues/65
+   *
+   * - https://github.com/jspecify/jdk/commit/71d826792b8c7ef95d492c50a274deab938f2552
+   */
+  @SuppressWarnings("nullness")
+  static <T extends @Nullable Object> T[] copy(Object[] source, int from, int to, T[] arrayOfType) {
     return Arrays.copyOfRange(source, from, to, (Class<? extends T[]>) arrayOfType.getClass());
   }
 
@@ -100,8 +119,13 @@ final class Platform {
    * GWT). This is sometimes acceptable, when only server-side code could generate enough volume
    * that reclamation becomes important.
    */
+  @J2ktIncompatible
   static MapMaker tryWeakKeys(MapMaker mapMaker) {
     return mapMaker.weakKeys();
+  }
+
+  static <E extends Enum<E>> Class<E> getDeclaringClassOrObjectForJ2cl(E e) {
+    return e.getDeclaringClass();
   }
 
   static int reduceIterationsIfGwt(int iterations) {
@@ -110,28 +134,6 @@ final class Platform {
 
   static int reduceExponentIfGwt(int exponent) {
     return exponent;
-  }
-
-  static void checkGwtRpcEnabled() {
-    String propertyName = "guava.gwt.emergency_reenable_rpc";
-
-    if (!Boolean.parseBoolean(System.getProperty(propertyName, "false"))) {
-      throw new UnsupportedOperationException(
-          com.google.common.base.Strings.lenientFormat(
-              "We are removing GWT-RPC support for Guava types. You can temporarily reenable"
-                  + " support by setting the system property %s to true. For more about system"
-                  + " properties, see %s. For more about Guava's GWT-RPC support, see %s.",
-              propertyName,
-              "https://stackoverflow.com/q/5189914/28465",
-              "https://groups.google.com/d/msg/guava-announce/zHZTFg7YF3o/rQNnwdHeEwAJ"));
-    }
-    logger.log(
-        java.util.logging.Level.WARNING,
-        "Later in 2020, we will remove GWT-RPC support for Guava types. You are seeing this"
-            + " warning because you are sending a Guava type over GWT-RPC, which will break. You"
-            + " can identify which type by looking at the class name in the attached stack trace.",
-        new Throwable());
-
   }
 
   private Platform() {}

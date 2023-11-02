@@ -30,6 +30,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import junit.framework.TestSuite;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Creates, based on your criteria, a JUnit test suite that exhaustively tests a SortedMap
@@ -88,12 +89,12 @@ public class SortedMapTestSuiteBuilder<K, V> extends MapTestSuiteBuilder<K, V> {
    * To avoid infinite recursion, test suites with these marker features won't have derived suites
    * created for them.
    */
-  enum NoRecurse implements Feature<Void> {
+  enum NoRecurse implements Feature<@Nullable Void> {
     SUBMAP,
     DESCENDING;
 
     @Override
-    public Set<Feature<? super Void>> getImpliedFeatures() {
+    public Set<Feature<? super @Nullable Void>> getImpliedFeatures() {
       return Collections.emptySet();
     }
   }
@@ -105,12 +106,12 @@ public class SortedMapTestSuiteBuilder<K, V> extends MapTestSuiteBuilder<K, V> {
    * these extreme values rather than relying on their regular sort ordering.
    */
   final TestSuite createSubmapSuite(
-      final FeatureSpecificTestSuiteBuilder<
+      FeatureSpecificTestSuiteBuilder<
               ?, ? extends OneSizeTestContainerGenerator<Map<K, V>, Entry<K, V>>>
           parentBuilder,
-      final Bound from,
-      final Bound to) {
-    final TestSortedMapGenerator<K, V> delegate =
+      Bound from,
+      Bound to) {
+    TestSortedMapGenerator<K, V> delegate =
         (TestSortedMapGenerator<K, V>) parentBuilder.getSubjectGenerator().getInnerGenerator();
 
     List<Feature<?>> features = new ArrayList<>();
@@ -121,6 +122,8 @@ public class SortedMapTestSuiteBuilder<K, V> extends MapTestSuiteBuilder<K, V> {
         .named(parentBuilder.getName() + " subMap " + from + "-" + to)
         .withFeatures(features)
         .suppressing(parentBuilder.getSuppressedTests())
+        .withSetUp(parentBuilder.getSetUp())
+        .withTearDown(parentBuilder.getTearDown())
         .createTestSuite();
   }
 

@@ -82,7 +82,6 @@ public class CompactLinkedHashMapTest extends TestCase {
                 CollectionFeature.KNOWN_ORDER)
             .createTestSuite());
     suite.addTestSuite(CompactLinkedHashMapTest.class);
-    suite.addTestSuite(FloodingTest.class);
     return suite;
   }
 
@@ -202,12 +201,4 @@ public class CompactLinkedHashMapTest extends TestCase {
     }
   }
 
-  public static class FloodingTest extends AbstractHashFloodingTest<Map<Object, Object>> {
-    public FloodingTest() {
-      super(
-          ImmutableList.of(Construction.mapFromKeys(CompactLinkedHashMap::create)),
-          n -> n * Math.log(n),
-          ImmutableList.of(QueryOp.MAP_GET));
-    }
-  }
 }

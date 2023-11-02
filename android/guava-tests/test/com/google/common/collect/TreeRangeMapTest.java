@@ -16,6 +16,7 @@ package com.google.common.collect;
 
 import static com.google.common.collect.BoundType.OPEN;
 import static com.google.common.collect.testing.Helpers.mapEntry;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.MapTestSuiteBuilder;
@@ -539,6 +540,7 @@ public class TreeRangeMapTest extends TestCase {
         rangeMap.asMapOfRanges());
   }
 
+
   public void testSubRangeMapExhaustive() {
     for (Range<Integer> range1 : RANGES) {
       for (Range<Integer> range2 : RANGES) {
@@ -616,14 +618,10 @@ public class TreeRangeMapTest extends TestCase {
             3),
         rangeMap.asMapOfRanges());
 
-    try {
-      sub.put(Range.open(9, 12), 5);
-      fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> sub.put(Range.open(9, 12), 5));
 
-    sub = sub.subRangeMap(Range.closedOpen(5, 5));
-    sub.put(Range.closedOpen(5, 5), 6); // should be a no-op
+    RangeMap<Integer, Integer> subSub = sub.subRangeMap(Range.closedOpen(5, 5));
+    subSub.put(Range.closedOpen(5, 5), 6); // should be a no-op
     assertEquals(
         ImmutableMap.of(
             Range.open(3, 7),
@@ -667,11 +665,7 @@ public class TreeRangeMapTest extends TestCase {
             3),
         rangeMap.asMapOfRanges());
 
-    try {
-      sub.putCoalescing(Range.open(9, 12), 5);
-      fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> sub.putCoalescing(Range.open(9, 12), 5));
   }
 
   public void testSubRangeMapRemove() {

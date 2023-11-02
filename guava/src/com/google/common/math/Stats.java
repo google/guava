@@ -24,8 +24,8 @@ import static java.lang.Double.NaN;
 import static java.lang.Double.doubleToLongBits;
 import static java.lang.Double.isNaN;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import java.io.Serializable;
@@ -36,7 +36,7 @@ import java.util.stream.Collector;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import javax.annotation.CheckForNull;
 
 /**
  * A bundle of statistical summary values -- sum, count, mean/average, min and max, and several
@@ -62,8 +62,9 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Kevin Bourrillion
  * @since 20.0
  */
-@Beta
+@J2ktIncompatible
 @GwtIncompatible
+@ElementTypesAreNonnullByDefault
 public final class Stats implements Serializable {
 
   private final long count;
@@ -125,9 +126,9 @@ public final class Stats implements Serializable {
    * @param values a series of values
    */
   public static Stats of(double... values) {
-    StatsAccumulator acummulator = new StatsAccumulator();
-    acummulator.addAll(values);
-    return acummulator.snapshot();
+    StatsAccumulator accumulator = new StatsAccumulator();
+    accumulator.addAll(values);
+    return accumulator.snapshot();
   }
 
   /**
@@ -136,9 +137,9 @@ public final class Stats implements Serializable {
    * @param values a series of values
    */
   public static Stats of(int... values) {
-    StatsAccumulator acummulator = new StatsAccumulator();
-    acummulator.addAll(values);
-    return acummulator.snapshot();
+    StatsAccumulator accumulator = new StatsAccumulator();
+    accumulator.addAll(values);
+    return accumulator.snapshot();
   }
 
   /**
@@ -148,9 +149,9 @@ public final class Stats implements Serializable {
    *     cause loss of precision for longs of magnitude over 2^53 (slightly over 9e15))
    */
   public static Stats of(long... values) {
-    StatsAccumulator acummulator = new StatsAccumulator();
-    acummulator.addAll(values);
-    return acummulator.snapshot();
+    StatsAccumulator accumulator = new StatsAccumulator();
+    accumulator.addAll(values);
+    return accumulator.snapshot();
   }
 
   /**
@@ -416,7 +417,7 @@ public final class Stats implements Serializable {
    * {@code strictfp}-like semantics.)
    */
   @Override
-  public boolean equals(@Nullable Object obj) {
+  public boolean equals(@CheckForNull Object obj) {
     if (obj == null) {
       return false;
     }
@@ -424,11 +425,11 @@ public final class Stats implements Serializable {
       return false;
     }
     Stats other = (Stats) obj;
-    return (count == other.count)
-        && (doubleToLongBits(mean) == doubleToLongBits(other.mean))
-        && (doubleToLongBits(sumOfSquaresOfDeltas) == doubleToLongBits(other.sumOfSquaresOfDeltas))
-        && (doubleToLongBits(min) == doubleToLongBits(other.min))
-        && (doubleToLongBits(max) == doubleToLongBits(other.max));
+    return count == other.count
+        && doubleToLongBits(mean) == doubleToLongBits(other.mean)
+        && doubleToLongBits(sumOfSquaresOfDeltas) == doubleToLongBits(other.sumOfSquaresOfDeltas)
+        && doubleToLongBits(min) == doubleToLongBits(other.min)
+        && doubleToLongBits(max) == doubleToLongBits(other.max);
   }
 
   /**

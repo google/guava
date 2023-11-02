@@ -19,6 +19,7 @@ package com.google.common.testing;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.base.Converter;
 import com.google.common.base.Function;
@@ -37,6 +38,7 @@ import com.google.common.collect.Table;
 import com.google.common.reflect.TypeToken;
 import com.google.common.testing.NullPointerTester.Visibility;
 import com.google.common.testing.anotherpackage.SomeClassThatDoesNotUseNullable;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.List;
@@ -54,6 +56,8 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Kevin Bourrillion
  * @author Mick Killianey
  */
+@SuppressWarnings("CheckReturnValue")
+@AndroidIncompatible // NullPointerTester refuses to run for c.g.c under Android
 public class NullPointerTesterTest extends TestCase {
 
   /** Non-NPE RuntimeException. */
@@ -382,7 +386,7 @@ public class NullPointerTesterTest extends TestCase {
     }
 
     /** Method that decides how to react to parameters. */
-    public void reactToNullParameters(Object first, Object second) {
+    public void reactToNullParameters(@Nullable Object first, @Nullable Object second) {
       if (first == null) {
         actionWhenFirstParamIsNull.act();
       }
@@ -961,6 +965,7 @@ public class NullPointerTesterTest extends TestCase {
 
     private final Map<Integer, Object> arguments = Maps.newHashMap();
 
+    @CanIgnoreReturnValue
     final DefaultValueChecker runTester() {
       new NullPointerTester().testInstanceMethods(this, Visibility.PACKAGE);
       return this;
@@ -1428,12 +1433,11 @@ public class NullPointerTesterTest extends TestCase {
   }
 
   public void testNonStaticInnerClass() {
-    try {
-      new NullPointerTester().testAllPublicConstructors(Inner.class);
-      fail();
-    } catch (IllegalArgumentException expected) {
-      assertThat(expected.getMessage()).contains("inner class");
-    }
+    IllegalArgumentException expected =
+        assertThrows(
+            IllegalArgumentException.class,
+            () -> new NullPointerTester().testAllPublicConstructors(Inner.class));
+    assertThat(expected.getMessage()).contains("inner class");
   }
 
   private static String rootLocaleFormat(String format, Object... args) {
@@ -1443,7 +1447,7 @@ public class NullPointerTesterTest extends TestCase {
   static class OverridesEquals {
     @SuppressWarnings("EqualsHashCode")
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(@Nullable Object o) {
       return true;
     }
   }
@@ -1482,5 +1486,48 @@ public class NullPointerTesterTest extends TestCase {
       return;
     }
     fail("Should detect problem in " + FailOnOneOfTwoConstructors.class.getSimpleName());
+  }
+
+  public static class NullBounds<T extends @Nullable Object, U extends T, X> {
+    boolean xWasCalled;
+
+    @SuppressWarnings("unused") // Called by reflection
+    public void x(X x) {
+      xWasCalled = true;
+      checkNotNull(x);
+    }
+
+    @SuppressWarnings("unused") // Called by reflection
+    public void t(T t) {
+      fail("Method with parameter <T extends @Nullable Object> should not be called");
+    }
+
+    @SuppressWarnings("unused") // Called by reflection
+    public void u(U u) {
+      fail(
+          "Method with parameter <U extends T> where <T extends @Nullable Object> should not be"
+              + " called");
+    }
+
+    @SuppressWarnings("unused") // Called by reflection
+    public <A extends @Nullable Object> void a(A a) {
+      fail("Method with parameter <A extends @Nullable Object> should not be called");
+    }
+
+    @SuppressWarnings("unused") // Called by reflection
+    public <A extends B, B extends @Nullable Object> void b(A a) {
+      fail(
+          "Method with parameter <A extends B> where <B extends @Nullable Object> should not be"
+              + " called");
+    }
+  }
+
+  public void testNullBounds() {
+    // NullBounds has methods whose parameters are type variables that have
+    // "extends @Nullable Object" as a bound. This test ensures that NullPointerTester considers
+    // those parameters to be @Nullable, so it won't call the methods.
+    NullBounds<?, ?, ?> nullBounds = new NullBounds<>();
+    new NullPointerTester().testAllPublicInstanceMethods(nullBounds);
+    assertThat(nullBounds.xWasCalled).isTrue();
   }
 }

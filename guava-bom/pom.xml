@@ -15,6 +15,7 @@
     <groupId>org.sonatype.oss</groupId>
     <artifactId>oss-parent</artifactId>
     <version>9</version>
+    <relativePath></relativePath>
   </parent>
 
   <name>Guava BOM</name>

@@ -119,13 +119,13 @@ public class SynchronizedTableTest extends AbstractTableTest {
     }
 
     @Override
-    public V get(Object rowKey, Object columnKey) {
+    public @Nullable V get(Object rowKey, Object columnKey) {
       assertTrue(Thread.holdsLock(mutex));
       return delegate.get(rowKey, columnKey);
     }
 
     @Override
-    public V put(R rowKey, C columnKey, V value) {
+    public @Nullable V put(R rowKey, C columnKey, V value) {
       assertTrue(Thread.holdsLock(mutex));
       return delegate.put(rowKey, columnKey, value);
     }
@@ -137,7 +137,7 @@ public class SynchronizedTableTest extends AbstractTableTest {
     }
 
     @Override
-    public V remove(Object rowKey, Object columnKey) {
+    public @Nullable V remove(Object rowKey, Object columnKey) {
       assertTrue(Thread.holdsLock(mutex));
       return delegate.remove(rowKey, columnKey);
     }

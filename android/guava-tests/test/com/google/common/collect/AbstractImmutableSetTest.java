@@ -33,6 +33,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Base class for {@link ImmutableSet} and {@link ImmutableSortedSet} tests.
@@ -59,7 +60,7 @@ public abstract class AbstractImmutableSetTest extends TestCase {
   protected abstract <E extends Comparable<? super E>> Set<E> of(
       E e1, E e2, E e3, E e4, E e5, E e6, E... rest);
 
-  protected abstract <E extends Comparable<? super E>> Set<E> copyOf(E[] elements);
+  protected abstract <E extends Comparable<? super E>> Set<E> copyOf(E @Nullable [] elements);
 
   protected abstract <E extends Comparable<? super E>> Set<E> copyOf(
       Collection<? extends E> elements);

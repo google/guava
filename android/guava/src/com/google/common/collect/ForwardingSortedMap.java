@@ -18,12 +18,12 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import java.util.Comparator;
 import java.util.NoSuchElementException;
 import java.util.SortedMap;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A sorted map which forwards all its method calls to another sorted map. Subclasses should
@@ -51,8 +51,9 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @since 2.0
  */
 @GwtCompatible
-public abstract class ForwardingSortedMap<K, V> extends ForwardingMap<K, V>
-    implements SortedMap<K, V> {
+@ElementTypesAreNonnullByDefault
+public abstract class ForwardingSortedMap<K extends @Nullable Object, V extends @Nullable Object>
+    extends ForwardingMap<K, V> implements SortedMap<K, V> {
   // TODO(lowasser): identify places where thread safety is actually lost
 
   /** Constructor for use by subclasses. */
@@ -62,32 +63,35 @@ public abstract class ForwardingSortedMap<K, V> extends ForwardingMap<K, V>
   protected abstract SortedMap<K, V> delegate();
 
   @Override
+  @CheckForNull
   public Comparator<? super K> comparator() {
     return delegate().comparator();
   }
 
   @Override
+  @ParametricNullness
   public K firstKey() {
     return delegate().firstKey();
   }
 
   @Override
-  public SortedMap<K, V> headMap(K toKey) {
+  public SortedMap<K, V> headMap(@ParametricNullness K toKey) {
     return delegate().headMap(toKey);
   }
 
   @Override
+  @ParametricNullness
   public K lastKey() {
     return delegate().lastKey();
   }
 
   @Override
-  public SortedMap<K, V> subMap(K fromKey, K toKey) {
+  public SortedMap<K, V> subMap(@ParametricNullness K fromKey, @ParametricNullness K toKey) {
     return delegate().subMap(fromKey, toKey);
   }
 
   @Override
-  public SortedMap<K, V> tailMap(K fromKey) {
+  public SortedMap<K, V> tailMap(@ParametricNullness K fromKey) {
     return delegate().tailMap(fromKey);
   }
 
@@ -98,7 +102,6 @@ public abstract class ForwardingSortedMap<K, V> extends ForwardingMap<K, V>
    *
    * @since 15.0
    */
-  @Beta
   protected class StandardKeySet extends Maps.SortedKeySet<K, V> {
     /** Constructor for use by subclasses. */
     public StandardKeySet() {
@@ -106,14 +109,14 @@ public abstract class ForwardingSortedMap<K, V> extends ForwardingMap<K, V>
     }
   }
 
-  // unsafe, but worst case is a CCE is thrown, which callers will be expecting
-  @SuppressWarnings("unchecked")
-  private int unsafeCompare(Object k1, Object k2) {
-    Comparator<? super K> comparator = comparator();
+  // unsafe, but worst case is a CCE or NPE is thrown, which callers will be expecting
+  @SuppressWarnings({"unchecked", "nullness"})
+  static int unsafeCompare(
+      @CheckForNull Comparator<?> comparator, @CheckForNull Object o1, @CheckForNull Object o2) {
     if (comparator == null) {
-      return ((Comparable<Object>) k1).compareTo(k2);
+      return ((Comparable<@Nullable Object>) o1).compareTo(o2);
     } else {
-      return ((Comparator<Object>) comparator).compare(k1, k2);
+      return ((Comparator<@Nullable Object>) comparator).compare(o1, o2);
     }
   }
 
@@ -125,14 +128,13 @@ public abstract class ForwardingSortedMap<K, V> extends ForwardingMap<K, V>
    * @since 7.0
    */
   @Override
-  @Beta
-  protected boolean standardContainsKey(@NullableDecl Object key) {
+  protected boolean standardContainsKey(@CheckForNull Object key) {
     try {
-      // any CCE will be caught
-      @SuppressWarnings("unchecked")
-      SortedMap<Object, V> self = (SortedMap<Object, V>) this;
+      // any CCE or NPE will be caught
+      @SuppressWarnings({"unchecked", "nullness"})
+      SortedMap<@Nullable Object, V> self = (SortedMap<@Nullable Object, V>) this;
       Object ceilingKey = self.tailMap(key).firstKey();
-      return unsafeCompare(ceilingKey, key) == 0;
+      return unsafeCompare(comparator(), ceilingKey, key) == 0;
     } catch (ClassCastException | NoSuchElementException | NullPointerException e) {
       return false;
     }
@@ -145,9 +147,8 @@ public abstract class ForwardingSortedMap<K, V> extends ForwardingMap<K, V>
    *
    * @since 7.0
    */
-  @Beta
   protected SortedMap<K, V> standardSubMap(K fromKey, K toKey) {
-    checkArgument(unsafeCompare(fromKey, toKey) <= 0, "fromKey must be <= toKey");
+    checkArgument(unsafeCompare(comparator(), fromKey, toKey) <= 0, "fromKey must be <= toKey");
     return tailMap(fromKey).headMap(toKey);
   }
 }

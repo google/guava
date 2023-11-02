@@ -20,6 +20,7 @@ import com.google.common.annotations.GwtCompatible;
 import java.util.Collections;
 import java.util.Map.Entry;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Tests for {@code AbstractMapEntry}.
@@ -28,8 +29,8 @@ import junit.framework.TestCase;
  */
 @GwtCompatible
 public class AbstractMapEntryTest extends TestCase {
-  private static final String NK = null;
-  private static final Integer NV = null;
+  private static final @Nullable String NK = null;
+  private static final @Nullable Integer NV = null;
 
   private static <K, V> Entry<K, V> entry(final K key, final V value) {
     return new AbstractMapEntry<K, V>() {
@@ -61,7 +62,8 @@ public class AbstractMapEntryTest extends TestCase {
 
   public void testEquals() {
     Entry<String, Integer> foo1 = entry("foo", 1);
-    assertEquals(foo1, foo1);
+    // Explicitly call `equals`; `assertEquals` might return fast
+    assertTrue(foo1.equals(foo1));
     assertEquals(control("foo", 1), foo1);
     assertEquals(control("bar", 2), entry("bar", 2));
     assertFalse(control("foo", 1).equals(entry("foo", 2)));

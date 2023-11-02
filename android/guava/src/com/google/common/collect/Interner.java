@@ -16,21 +16,25 @@
 
 package com.google.common.collect;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.DoNotMock;
 
 /**
- * Provides equivalent behavior to {@link String#intern} for other immutable types. Common
- * implementations are available from the {@link Interners} class.
+ * Provides similar behavior to {@link String#intern} for any immutable type. Common implementations
+ * are available from the {@link Interners} class.
+ *
+ * <p>Note that {@code String.intern()} has some well-known performance limitations, and should
+ * generally be avoided. Prefer {@link Interners#newWeakInterner} or another {@code Interner}
+ * implementation even for {@code String} interning.
  *
  * @author Kevin Bourrillion
  * @since 3.0
  */
-@Beta
 @DoNotMock("Use Interners.new*Interner")
+@J2ktIncompatible
 @GwtIncompatible
+@ElementTypesAreNonnullByDefault
 public interface Interner<E> {
   /**
    * Chooses and returns the representative instance for any of a collection of instances that are
@@ -44,6 +48,5 @@ public interface Interner<E> {
    *
    * @throws NullPointerException if {@code sample} is null
    */
-  @CanIgnoreReturnValue // TODO(cpovirk): Consider removing this?
   E intern(E sample);
 }

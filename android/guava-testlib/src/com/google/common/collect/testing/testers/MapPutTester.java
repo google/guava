@@ -28,6 +28,7 @@ import com.google.common.collect.testing.AbstractMapTester;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.lang.reflect.Method;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
@@ -245,6 +246,7 @@ public class MapPutTester<K, V> extends AbstractMapTester<K, V> {
     expectAdded(nullKeyValueEntry);
   }
 
+  @CanIgnoreReturnValue
   private V put(Entry<K, V> entry) {
     return getMap().put(entry.getKey(), entry.getValue());
   }

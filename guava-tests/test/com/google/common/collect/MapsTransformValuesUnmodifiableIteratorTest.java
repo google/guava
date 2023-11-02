@@ -340,22 +340,22 @@ public class MapsTransformValuesUnmodifiableIteratorTest extends MapInterfaceTes
   }
 
   public void testTransformEntrySetContains() {
-    Map<String, Boolean> underlying = Maps.newHashMap();
+    Map<@Nullable String, @Nullable Boolean> underlying = Maps.newHashMap();
     underlying.put("a", null);
     underlying.put("b", true);
     underlying.put(null, true);
 
-    Map<String, Boolean> map =
+    Map<@Nullable String, @Nullable Boolean> map =
         Maps.transformValues(
             underlying,
-            new Function<Boolean, Boolean>() {
+            new Function<@Nullable Boolean, @Nullable Boolean>() {
               @Override
-              public Boolean apply(@Nullable Boolean from) {
+              public @Nullable Boolean apply(@Nullable Boolean from) {
                 return (from == null) ? true : null;
               }
             });
 
-    Set<Entry<String, Boolean>> entries = map.entrySet();
+    Set<Entry<@Nullable String, @Nullable Boolean>> entries = map.entrySet();
     assertTrue(entries.contains(Maps.immutableEntry("a", true)));
     assertTrue(entries.contains(Maps.immutableEntry("b", (Boolean) null)));
     assertTrue(entries.contains(Maps.immutableEntry((String) null, (Boolean) null)));

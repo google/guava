@@ -30,8 +30,10 @@ import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.google.SetMultimapTestSuiteBuilder;
 import com.google.common.collect.testing.google.TestStringSetMultimapGenerator;
 import com.google.common.collect.testing.google.UnmodifiableCollectionTests;
+import com.google.common.primitives.Chars;
 import com.google.common.testing.CollectorTester;
 import com.google.common.testing.EqualsTester;
+import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
 import java.util.Arrays;
 import java.util.Collection;
@@ -427,7 +429,7 @@ public class ImmutableSetMultimapTest extends TestCase {
   public void testFlatteningToImmutableSetMultimap() {
     Collector<String, ?, ImmutableSetMultimap<Character, Character>> collector =
         ImmutableSetMultimap.flatteningToImmutableSetMultimap(
-            str -> str.charAt(0), str -> str.substring(1).chars().mapToObj(c -> (char) c));
+            str -> str.charAt(0), str -> Chars.asList(str.substring(1).toCharArray()).stream());
     BiPredicate<Multimap<?, ?>, Multimap<?, ?>> equivalence =
         Equivalence.equals()
             .onResultOf((Multimap<?, ?> mm) -> ImmutableList.copyOf(mm.asMap().entrySet()))
@@ -623,5 +625,15 @@ public class ImmutableSetMultimapTest extends TestCase {
         .put("bar", 2)
         .put("foo", 3)
         .build();
+  }
+
+  @GwtIncompatible // reflection
+  @AndroidIncompatible // see ImmutableTableTest.testNullPointerInstance
+  public void testNulls() throws Exception {
+    NullPointerTester tester = new NullPointerTester();
+    tester.testAllPublicStaticMethods(ImmutableSetMultimap.class);
+    tester.ignore(ImmutableSetMultimap.class.getMethod("get", Object.class));
+    tester.testAllPublicInstanceMethods(ImmutableSetMultimap.of());
+    tester.testAllPublicInstanceMethods(ImmutableSetMultimap.of("a", 1));
   }
 }

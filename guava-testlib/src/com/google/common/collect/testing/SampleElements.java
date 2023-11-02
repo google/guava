@@ -21,6 +21,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A container class for the five sample elements we need for testing.
@@ -143,7 +144,7 @@ public class SampleElements<E> implements Iterable<E> {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(@Nullable Object obj) {
       return obj instanceof Collider && ((Collider) obj).value == value;
     }
 

@@ -14,12 +14,14 @@
 
 package com.google.common.base;
 
+import static com.google.common.base.NullnessCasts.uncheckedCastNullableTToT;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -27,7 +29,8 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * reasons).
  */
 @GwtCompatible
-abstract class AbstractIterator<T> implements Iterator<T> {
+@ElementTypesAreNonnullByDefault
+abstract class AbstractIterator<T extends @Nullable Object> implements Iterator<T> {
   private State state = State.NOT_READY;
 
   protected AbstractIterator() {}
@@ -39,12 +42,14 @@ abstract class AbstractIterator<T> implements Iterator<T> {
     FAILED,
   }
 
-  private @Nullable T next;
+  @CheckForNull private T next;
 
+  @CheckForNull
   protected abstract T computeNext();
 
   @CanIgnoreReturnValue
-  protected final @Nullable T endOfData() {
+  @CheckForNull
+  protected final T endOfData() {
     state = State.DONE;
     return null;
   }
@@ -73,12 +78,14 @@ abstract class AbstractIterator<T> implements Iterator<T> {
   }
 
   @Override
+  @ParametricNullness
   public final T next() {
     if (!hasNext()) {
       throw new NoSuchElementException();
     }
     state = State.NOT_READY;
-    T result = next;
+    // Safe because hasNext() ensures that tryToComputeNext() has put a T into `next`.
+    T result = uncheckedCastNullableTToT(next);
     next = null;
     return result;
   }

@@ -22,18 +22,25 @@ import static com.google.common.graph.Graphs.checkNonNegative;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Optional;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.DoNotMock;
 
 /**
  * A builder for constructing instances of {@link MutableGraph} or {@link ImmutableGraph} with
  * user-defined properties.
  *
- * <p>A graph built by this class will have the following properties by default:
+ * <p>A {@code Graph} built by this class has the following default properties:
  *
  * <ul>
  *   <li>does not allow self-loops
- *   <li>orders {@link Graph#nodes()} in the order in which the elements were added
+ *   <li>orders {@link Graph#nodes()} in the order in which the elements were added (insertion
+ *       order)
  * </ul>
+ *
+ * <p>{@code Graph}s built by this class also guarantee that each collection-returning accessor
+ * returns a <b>(live) unmodifiable view</b>; see <a
+ * href="https://github.com/google/guava/wiki/GraphsExplained#accessor-behavior">the external
+ * documentation</a> for details.
  *
  * <p>Examples of use:
  *
@@ -64,6 +71,7 @@ import com.google.errorprone.annotations.DoNotMock;
  */
 @Beta
 @DoNotMock
+@ElementTypesAreNonnullByDefault
 public final class GraphBuilder<N> extends AbstractGraphBuilder<N> {
 
   /** Creates a new instance with the specified edge directionality. */
@@ -117,6 +125,7 @@ public final class GraphBuilder<N> extends AbstractGraphBuilder<N> {
    *
    * <p>The default value is {@code false}.
    */
+  @CanIgnoreReturnValue
   public GraphBuilder<N> allowsSelfLoops(boolean allowsSelfLoops) {
     this.allowsSelfLoops = allowsSelfLoops;
     return this;
@@ -127,6 +136,7 @@ public final class GraphBuilder<N> extends AbstractGraphBuilder<N> {
    *
    * @throws IllegalArgumentException if {@code expectedNodeCount} is negative
    */
+  @CanIgnoreReturnValue
   public GraphBuilder<N> expectedNodeCount(int expectedNodeCount) {
     this.expectedNodeCount = Optional.of(checkNonNegative(expectedNodeCount));
     return this;
@@ -170,7 +180,7 @@ public final class GraphBuilder<N> extends AbstractGraphBuilder<N> {
 
   /** Returns an empty {@link MutableGraph} with the properties of this {@link GraphBuilder}. */
   public <N1 extends N> MutableGraph<N1> build() {
-    return new StandardMutableGraph<N1>(this);
+    return new StandardMutableGraph<>(this);
   }
 
   GraphBuilder<N> copy() {

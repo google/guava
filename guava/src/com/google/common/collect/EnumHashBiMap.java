@@ -17,9 +17,11 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -27,6 +29,7 @@ import java.io.ObjectOutputStream;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
+import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -35,21 +38,25 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * EnumHashBiMap} and its inverse are both serializable.
  *
  * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#bimap"> {@code BiMap}</a>.
+ * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#bimap">{@code BiMap}</a>.
  *
  * @author Mike Bostock
  * @since 2.0
  */
 @GwtCompatible(emulated = true)
-public final class EnumHashBiMap<K extends Enum<K>, V> extends AbstractBiMap<K, V> {
-  private transient Class<K> keyType;
+@J2ktIncompatible
+@ElementTypesAreNonnullByDefault
+public final class EnumHashBiMap<K extends Enum<K>, V extends @Nullable Object>
+    extends AbstractBiMap<K, V> {
+  transient Class<K> keyTypeOrObjectUnderJ2cl;
 
   /**
    * Returns a new, empty {@code EnumHashBiMap} using the specified key type.
    *
    * @param keyType the key type
    */
-  public static <K extends Enum<K>, V> EnumHashBiMap<K, V> create(Class<K> keyType) {
+  public static <K extends Enum<K>, V extends @Nullable Object> EnumHashBiMap<K, V> create(
+      Class<K> keyType) {
     return new EnumHashBiMap<>(keyType);
   }
 
@@ -63,17 +70,17 @@ public final class EnumHashBiMap<K extends Enum<K>, V> extends AbstractBiMap<K, 
    * @throws IllegalArgumentException if map is not an {@code EnumBiMap} or an {@code EnumHashBiMap}
    *     instance and contains no mappings
    */
-  public static <K extends Enum<K>, V> EnumHashBiMap<K, V> create(Map<K, ? extends V> map) {
-    EnumHashBiMap<K, V> bimap = create(EnumBiMap.inferKeyType(map));
+  public static <K extends Enum<K>, V extends @Nullable Object> EnumHashBiMap<K, V> create(
+      Map<K, ? extends V> map) {
+    EnumHashBiMap<K, V> bimap = create(EnumBiMap.inferKeyTypeOrObjectUnderJ2cl(map));
     bimap.putAll(map);
     return bimap;
   }
 
   private EnumHashBiMap(Class<K> keyType) {
-    super(
-        new EnumMap<K, V>(keyType),
-        Maps.<V, K>newHashMapWithExpectedSize(keyType.getEnumConstants().length));
-    this.keyType = keyType;
+    super(new EnumMap<K, V>(keyType), new HashMap<V, K>());
+    // TODO: cpovirk - Pre-size the HashMap based on the number of enum values?
+    this.keyTypeOrObjectUnderJ2cl = keyType;
   }
 
   // Overriding these 3 methods to show that values may be null (but not keys)
@@ -85,19 +92,26 @@ public final class EnumHashBiMap<K extends Enum<K>, V> extends AbstractBiMap<K, 
 
   @CanIgnoreReturnValue
   @Override
-  public V put(K key, @Nullable V value) {
+  @SuppressWarnings("RedundantOverride") // b/192446478: RedundantOverride ignores some annotations.
+  // TODO(b/192446998): Remove this override after tools understand nullness better.
+  @CheckForNull
+  public V put(K key, @ParametricNullness V value) {
     return super.put(key, value);
   }
 
   @CanIgnoreReturnValue
   @Override
-  public V forcePut(K key, @Nullable V value) {
+  @SuppressWarnings("RedundantOverride") // b/192446478: RedundantOverride ignores some annotations.
+  // TODO(b/192446998): Remove this override after tools understand nullness better.
+  @CheckForNull
+  public V forcePut(K key, @ParametricNullness V value) {
     return super.forcePut(key, value);
   }
 
   /** Returns the associated key type. */
+  @GwtIncompatible
   public Class<K> keyType() {
-    return keyType;
+    return keyTypeOrObjectUnderJ2cl;
   }
 
   /**
@@ -107,7 +121,7 @@ public final class EnumHashBiMap<K extends Enum<K>, V> extends AbstractBiMap<K, 
   @GwtIncompatible // java.io.ObjectOutputStream
   private void writeObject(ObjectOutputStream stream) throws IOException {
     stream.defaultWriteObject();
-    stream.writeObject(keyType);
+    stream.writeObject(keyTypeOrObjectUnderJ2cl);
     Serialization.writeMap(this, stream);
   }
 
@@ -115,9 +129,13 @@ public final class EnumHashBiMap<K extends Enum<K>, V> extends AbstractBiMap<K, 
   @GwtIncompatible // java.io.ObjectInputStream
   private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
     stream.defaultReadObject();
-    keyType = (Class<K>) stream.readObject();
-    setDelegates(
-        new EnumMap<K, V>(keyType), new HashMap<V, K>(keyType.getEnumConstants().length * 3 / 2));
+    keyTypeOrObjectUnderJ2cl = (Class<K>) requireNonNull(stream.readObject());
+    /*
+     * TODO: cpovirk - Pre-size the HashMap based on the number of enum values? (But *not* based on
+     * the number of entries in the map, as that makes it easy for hostile inputs to trigger lots of
+     * allocation—not that any program should be deserializing hostile inputs to begin with!)
+     */
+    setDelegates(new EnumMap<K, V>(keyTypeOrObjectUnderJ2cl), new HashMap<V, K>());
     Serialization.populateMap(this, stream);
   }
 

@@ -252,7 +252,7 @@ public class ExecutionListBenchmark {
     final AtomicInteger integer = new AtomicInteger();
     // Execute a bunch of tasks to ensure that our threads are allocated and hot
     for (int i = 0; i < NUM_THREADS * 10; i++) {
-      @SuppressWarnings("unused") // go/futurereturn-lsc
+      @SuppressWarnings("unused") // https://errorprone.info/bugpattern/FutureReturnValueIgnored
       Future<?> possiblyIgnoredError =
           executorService.submit(
               new Runnable() {
@@ -334,10 +334,10 @@ public class ExecutionListBenchmark {
       list = impl.newExecutionList();
       listenerLatch = new CountDownLatch(numListeners * NUM_THREADS);
       for (int j = 0; j < NUM_THREADS; j++) {
-        @SuppressWarnings("unused") // go/futurereturn-lsc
+        @SuppressWarnings("unused") // https://errorprone.info/bugpattern/FutureReturnValueIgnored
         Future<?> possiblyIgnoredError = executorService.submit(addTask);
       }
-      @SuppressWarnings("unused") // go/futurereturn-lsc
+      @SuppressWarnings("unused") // https://errorprone.info/bugpattern/FutureReturnValueIgnored
       Future<?> possiblyIgnoredError = executorService.submit(executeTask);
       returnValue += (int) listenerLatch.getCount();
       listenerLatch.await();
@@ -360,10 +360,10 @@ public class ExecutionListBenchmark {
     for (int i = 0; i < reps; i++) {
       list = impl.newExecutionList();
       listenerLatch = new CountDownLatch(numListeners * NUM_THREADS);
-      @SuppressWarnings("unused") // go/futurereturn-lsc
+      @SuppressWarnings("unused") // https://errorprone.info/bugpattern/FutureReturnValueIgnored
       Future<?> possiblyIgnoredError = executorService.submit(executeTask);
       for (int j = 0; j < NUM_THREADS; j++) {
-        @SuppressWarnings("unused") // go/futurereturn-lsc
+        @SuppressWarnings("unused") // https://errorprone.info/bugpattern/FutureReturnValueIgnored
         Future<?> possiblyIgnoredError1 = executorService.submit(addTask);
       }
       returnValue += (int) listenerLatch.getCount();
@@ -440,7 +440,7 @@ public class ExecutionListBenchmark {
     static final Logger log = Logger.getLogger(NewExecutionListWithoutReverse.class.getName());
 
     @GuardedBy("this")
-    private RunnableExecutorPair runnables;
+    private @Nullable RunnableExecutorPair runnables;
 
     @GuardedBy("this")
     private boolean executed;
@@ -504,10 +504,10 @@ public class ExecutionListBenchmark {
     static final Logger log = Logger.getLogger(NewExecutionListQueue.class.getName());
 
     @GuardedBy("this")
-    private RunnableExecutorPair head;
+    private @Nullable RunnableExecutorPair head;
 
     @GuardedBy("this")
-    private RunnableExecutorPair tail;
+    private @Nullable RunnableExecutorPair tail;
 
     @GuardedBy("this")
     private boolean executed;
@@ -671,7 +671,7 @@ public class ExecutionListBenchmark {
       // Volatile because this is written on one thread and read on another with no synchronization.
       @Nullable volatile RunnableExecutorPair next;
 
-      RunnableExecutorPair(Runnable runnable, Executor executor) {
+      RunnableExecutorPair(@Nullable Runnable runnable, @Nullable Executor executor) {
         this.runnable = runnable;
         this.executor = executor;
       }

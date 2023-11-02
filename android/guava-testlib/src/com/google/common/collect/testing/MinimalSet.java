@@ -22,6 +22,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A simplistic set which implements the bare minimum so that it can be used in tests without
@@ -45,13 +46,13 @@ public class MinimalSet<E> extends MinimalCollection<E> implements Set<E> {
 
   public static <E> MinimalSet<E> ofClassAndContents(
       Class<? super E> type, E[] emptyArrayForContents, Iterable<? extends E> contents) {
-    List<E> setContents = new ArrayList<E>();
+    List<E> setContents = new ArrayList<>();
     for (E e : contents) {
       if (!setContents.contains(e)) {
         setContents.add(e);
       }
     }
-    return new MinimalSet<E>(type, setContents.toArray(emptyArrayForContents));
+    return new MinimalSet<>(type, setContents.toArray(emptyArrayForContents));
   }
 
   private MinimalSet(Class<? super E> type, E... contents) {
@@ -63,7 +64,7 @@ public class MinimalSet<E> extends MinimalCollection<E> implements Set<E> {
    */
 
   @Override
-  public boolean equals(Object object) {
+  public boolean equals(@Nullable Object object) {
     if (object instanceof Set) {
       Set<?> that = (Set<?>) object;
       return (this.size() == that.size()) && this.containsAll(that);

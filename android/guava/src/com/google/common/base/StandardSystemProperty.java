@@ -15,7 +15,8 @@
 package com.google.common.base;
 
 import com.google.common.annotations.GwtIncompatible;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import com.google.common.annotations.J2ktIncompatible;
+import javax.annotation.CheckForNull;
 
 /**
  * Represents a {@linkplain System#getProperties() standard system property}.
@@ -23,7 +24,9 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @author Kurt Alfred Kluever
  * @since 15.0
  */
+@J2ktIncompatible
 @GwtIncompatible // java.lang.System#getProperty
+@ElementTypesAreNonnullByDefault
 public enum StandardSystemProperty {
 
   /** Java Runtime Environment version. */
@@ -80,7 +83,15 @@ public enum StandardSystemProperty {
   /** Name of JIT compiler to use. */
   JAVA_COMPILER("java.compiler"),
 
-  /** Path of extension directory or directories. */
+  /**
+   * Path of extension directory or directories.
+   *
+   * @deprecated This property was <a
+   *     href="https://openjdk.java.net/jeps/220#Removed:-The-extension-mechanism">deprecated</a> in
+   *     Java 8 and removed in Java 9. We do not plan to remove this API from Guava, but if you are
+   *     using it, it is probably not doing what you want.
+   */
+  @Deprecated
   JAVA_EXT_DIRS("java.ext.dirs"),
 
   /** Operating system name. */
@@ -116,7 +127,7 @@ public enum StandardSystemProperty {
     this.key = key;
   }
 
-  /** Returns the key used to lookup this system property. */
+  /** Returns the key used to look up this system property. */
   public String key() {
     return key;
   }
@@ -124,8 +135,27 @@ public enum StandardSystemProperty {
   /**
    * Returns the current value for this system property by delegating to {@link
    * System#getProperty(String)}.
+   *
+   * <p>The value returned by this method is non-null except in rare circumstances:
+   *
+   * <ul>
+   *   <li>{@link #JAVA_EXT_DIRS} was deprecated in Java 8 and removed in Java 9. We have not
+   *       confirmed whether it is available under older versions.
+   *   <li>{@link #JAVA_COMPILER}, while still listed as required as of Java 15, is typically not
+   *       available even under older version.
+   *   <li>Any property may be cleared through APIs like {@link System#clearProperty}.
+   *   <li>Unusual environments like GWT may have their own special handling of system properties.
+   * </ul>
+   *
+   * <p>Note that {@code StandardSystemProperty} does not provide constants for more recently added
+   * properties, including:
+   *
+   * <ul>
+   *   <li>{@code java.vendor.version} (added in Java 11, listed as optional as of Java 13)
+   *   <li>{@code jdk.module.*} (added in Java 9, optional)
+   * </ul>
    */
-  @NullableDecl
+  @CheckForNull
   public String value() {
     return System.getProperty(key);
   }

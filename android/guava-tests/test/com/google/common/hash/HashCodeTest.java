@@ -17,6 +17,7 @@
 package com.google.common.hash;
 
 import static com.google.common.io.BaseEncoding.base16;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableList;
@@ -24,6 +25,7 @@ import com.google.common.io.BaseEncoding;
 import com.google.common.testing.ClassSanityTester;
 import java.util.Arrays;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Unit tests for {@link HashCode}.
@@ -229,42 +231,22 @@ public class HashCodeTest extends TestCase {
   }
 
   public void testFromStringFailsWithInvalidHexChar() {
-    try {
-      HashCode.fromString("7f8005ff0z");
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> HashCode.fromString("7f8005ff0z"));
   }
 
   public void testFromStringFailsWithUpperCaseString() {
     String string = Hashing.sha1().hashString("foo", Charsets.US_ASCII).toString().toUpperCase();
-    try {
-      HashCode.fromString(string);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> HashCode.fromString(string));
   }
 
   public void testFromStringFailsWithShortInputs() {
-    try {
-      HashCode.fromString("");
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
-    try {
-      HashCode.fromString("7");
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> HashCode.fromString(""));
+    assertThrows(IllegalArgumentException.class, () -> HashCode.fromString("7"));
     HashCode unused = HashCode.fromString("7f");
   }
 
   public void testFromStringFailsWithOddLengthInput() {
-    try {
-      HashCode.fromString("7f8");
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> HashCode.fromString("7f8"));
   }
 
   public void testIntWriteBytesTo() {
@@ -315,20 +297,12 @@ public class HashCodeTest extends TestCase {
 
   public void testWriteBytesToUndersizedArray() {
     byte[] dest = new byte[3];
-    try {
-      HASH_ABCD.writeBytesTo(dest, 0, 4);
-      fail();
-    } catch (IndexOutOfBoundsException expected) {
-    }
+    assertThrows(IndexOutOfBoundsException.class, () -> HASH_ABCD.writeBytesTo(dest, 0, 4));
   }
 
   public void testWriteBytesToUndersizedArrayLongMaxLength() {
     byte[] dest = new byte[3];
-    try {
-      HASH_ABCD.writeBytesTo(dest, 0, 5);
-      fail();
-    } catch (IndexOutOfBoundsException expected) {
-    }
+    assertThrows(IndexOutOfBoundsException.class, () -> HASH_ABCD.writeBytesTo(dest, 0, 5));
   }
 
   public void testWriteBytesToUndersizedArrayShortMaxLength() {
@@ -391,7 +365,7 @@ public class HashCodeTest extends TestCase {
     final Long asLong; // null means that asLong should throw an exception
     final String toString;
 
-    ExpectedHashCode(byte[] bytes, int asInt, Long asLong, String toString) {
+    ExpectedHashCode(byte[] bytes, int asInt, @Nullable Long asLong, String toString) {
       this.bytes = bytes;
       this.asInt = asInt;
       this.asLong = asLong;

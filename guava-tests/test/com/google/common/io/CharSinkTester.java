@@ -27,11 +27,11 @@ import junit.framework.TestSuite;
 
 /**
  * A generator of {@code TestSuite} instances for testing {@code CharSink} implementations.
- * Generates tests of a all methods on a {@code CharSink} given various inputs written to it.
+ * Generates tests of all methods on a {@code CharSink} given various inputs written to it.
  *
  * @author Colin Decker
  */
-@AndroidIncompatible // Android doesn't understand tests that lack default constructors.
+@AndroidIncompatible // TODO(b/230620681): Make this available (even though we won't run it).
 public class CharSinkTester extends SourceSinkTester<CharSink, String, CharSinkFactory> {
 
   private static final ImmutableList<Method> testMethods = getTestMethods(CharSinkTester.class);

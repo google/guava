@@ -18,6 +18,7 @@ import static com.google.common.util.concurrent.Futures.immediateFailedFuture;
 
 import com.google.common.annotations.GwtCompatible;
 import java.util.concurrent.Future;
+import javax.annotation.CheckForNull;
 
 /**
  * Classes and futures used in {@link FuturesGetCheckedTest} and {@link FuturesGetUncheckedTest}.
@@ -55,6 +56,47 @@ final class FuturesGetCheckedInputs {
   public static final class ExceptionWithPrivateConstructor extends Exception {
     private ExceptionWithPrivateConstructor(String message, Throwable cause) {
       super(message, cause);
+    }
+  }
+
+  public static final class ExceptionWithManyConstructorsButOnlyOneThrowable extends Exception {
+    @CheckForNull private Throwable antecedent;
+
+    public ExceptionWithManyConstructorsButOnlyOneThrowable(String message, String a1) {
+      super(message);
+    }
+
+    public ExceptionWithManyConstructorsButOnlyOneThrowable(String message, String a1, String a2) {
+      super(message);
+    }
+
+    public ExceptionWithManyConstructorsButOnlyOneThrowable(
+        String message, String a1, String a2, String a3) {
+      super(message);
+    }
+
+    public ExceptionWithManyConstructorsButOnlyOneThrowable(String message, Throwable antecedent) {
+      super(message);
+      this.antecedent = antecedent;
+    }
+
+    public ExceptionWithManyConstructorsButOnlyOneThrowable(
+        String message, String a1, String a2, String a3, String a4) {
+      super(message);
+    }
+
+    public ExceptionWithManyConstructorsButOnlyOneThrowable(
+        String message, String a1, String a2, String a3, String a4, String a5) {
+      super(message);
+    }
+
+    public ExceptionWithManyConstructorsButOnlyOneThrowable(
+        String message, String a1, String a2, String a3, String a4, String a5, String a6) {
+      super(message);
+    }
+
+    public Throwable getAntecedent() {
+      return antecedent;
     }
   }
 

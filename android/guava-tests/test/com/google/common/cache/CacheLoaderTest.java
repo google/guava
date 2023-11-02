@@ -18,10 +18,10 @@ package com.google.common.cache;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Lists;
+import com.google.common.collect.Queues;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
-import java.util.LinkedList;
+import java.util.Deque;
 import java.util.Map;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Future;
@@ -36,7 +36,7 @@ import junit.framework.TestCase;
 public class CacheLoaderTest extends TestCase {
 
   private static class QueuingExecutor implements Executor {
-    private LinkedList<Runnable> tasks = Lists.newLinkedList();
+    private final Deque<Runnable> tasks = Queues.newArrayDeque();
 
     @Override
     public void execute(Runnable task) {
@@ -78,10 +78,10 @@ public class CacheLoaderTest extends TestCase {
     assertEquals(0, reloadCount.get());
     assertEquals(0, loadAllCount.get());
 
-    baseLoader.load(new Object());
-    @SuppressWarnings("unused") // go/futurereturn-lsc
+    Object unused1 = baseLoader.load(new Object());
+    @SuppressWarnings("unused") // https://errorprone.info/bugpattern/FutureReturnValueIgnored
     Future<?> possiblyIgnoredError = baseLoader.reload(new Object(), new Object());
-    baseLoader.loadAll(ImmutableList.of(new Object()));
+    Map<Object, Object> unused2 = baseLoader.loadAll(ImmutableList.of(new Object()));
     assertEquals(1, loadCount.get());
     assertEquals(1, reloadCount.get());
     assertEquals(1, loadAllCount.get());
@@ -89,10 +89,10 @@ public class CacheLoaderTest extends TestCase {
     QueuingExecutor executor = new QueuingExecutor();
     CacheLoader<Object, Object> asyncReloader = CacheLoader.asyncReloading(baseLoader, executor);
 
-    asyncReloader.load(new Object());
-    @SuppressWarnings("unused") // go/futurereturn-lsc
+    Object unused3 = asyncReloader.load(new Object());
+    @SuppressWarnings("unused") // https://errorprone.info/bugpattern/FutureReturnValueIgnored
     Future<?> possiblyIgnoredError1 = asyncReloader.reload(new Object(), new Object());
-    asyncReloader.loadAll(ImmutableList.of(new Object()));
+    Map<Object, Object> unused4 = asyncReloader.loadAll(ImmutableList.of(new Object()));
     assertEquals(2, loadCount.get());
     assertEquals(1, reloadCount.get());
     assertEquals(2, loadAllCount.get());

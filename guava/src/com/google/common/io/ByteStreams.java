@@ -18,9 +18,11 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkPositionIndex;
 import static com.google.common.base.Preconditions.checkPositionIndexes;
+import static java.lang.Math.max;
+import static java.lang.Math.min;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.math.IntMath;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.ByteArrayInputStream;
@@ -30,8 +32,6 @@ import java.io.DataInputStream;
 import java.io.DataOutput;
 import java.io.DataOutputStream;
 import java.io.EOFException;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -42,7 +42,9 @@ import java.nio.channels.ReadableByteChannel;
 import java.nio.channels.WritableByteChannel;
 import java.util.ArrayDeque;
 import java.util.Arrays;
-import java.util.Deque;
+import java.util.Queue;
+import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Provides utility methods for working with byte arrays and I/O streams.
@@ -51,7 +53,9 @@ import java.util.Deque;
  * @author Colin Decker
  * @since 1.0
  */
+@J2ktIncompatible
 @GwtIncompatible
+@ElementTypesAreNonnullByDefault
 public final class ByteStreams {
 
   private static final int BUFFER_SIZE = 8192;
@@ -96,6 +100,9 @@ public final class ByteStreams {
    * Copies all bytes from the input stream to the output stream. Does not close or flush either
    * stream.
    *
+   * <p><b>Java 9 users and later:</b> this method should be treated as deprecated; use the
+   * equivalent {@link InputStream#transferTo} method instead.
+   *
    * @param from the input stream to read from
    * @param to the output stream to write to
    * @return the number of bytes copied
@@ -105,15 +112,6 @@ public final class ByteStreams {
   public static long copy(InputStream from, OutputStream to) throws IOException {
     checkNotNull(from);
     checkNotNull(to);
-
-    // Use java.nio.channels in case we're copying from file to file.
-    // Copying through channels happens ideally in the kernel space and therefore faster.
-    if (from instanceof FileInputStream && to instanceof FileOutputStream) {
-      FileChannel fromChannel = ((FileInputStream) from).getChannel();
-      FileChannel toChannel = ((FileOutputStream) to).getChannel();
-      return copyFileChannel(fromChannel, toChannel);
-    }
-
     byte[] buf = createBuffer();
     long total = 0;
     while (true) {
@@ -141,31 +139,28 @@ public final class ByteStreams {
     checkNotNull(from);
     checkNotNull(to);
     if (from instanceof FileChannel) {
-      return copyFileChannel((FileChannel) from, to);
+      FileChannel sourceChannel = (FileChannel) from;
+      long oldPosition = sourceChannel.position();
+      long position = oldPosition;
+      long copied;
+      do {
+        copied = sourceChannel.transferTo(position, ZERO_COPY_CHUNK_SIZE, to);
+        position += copied;
+        sourceChannel.position(position);
+      } while (copied > 0 || position < sourceChannel.size());
+      return position - oldPosition;
     }
 
     ByteBuffer buf = ByteBuffer.wrap(createBuffer());
     long total = 0;
     while (from.read(buf) != -1) {
-      buf.flip();
+      Java8Compatibility.flip(buf);
       while (buf.hasRemaining()) {
         total += to.write(buf);
       }
-      buf.clear();
+      Java8Compatibility.clear(buf);
     }
     return total;
-  }
-
-  private static long copyFileChannel(FileChannel from, WritableByteChannel to) throws IOException {
-    long oldPosition = from.position();
-    long position = oldPosition;
-    long copied;
-    do {
-      copied = from.transferTo(position, ZERO_COPY_CHUNK_SIZE, to);
-      position += copied;
-      from.position(position);
-    } while (copied > 0 || position < from.size());
-    return position - oldPosition;
   }
 
   /** Max array length on JVM. */
@@ -179,15 +174,20 @@ public final class ByteStreams {
    * a total combined length of {@code totalLen} bytes) followed by all bytes remaining in the given
    * input stream.
    */
-  private static byte[] toByteArrayInternal(InputStream in, Deque<byte[]> bufs, int totalLen)
+  private static byte[] toByteArrayInternal(InputStream in, Queue<byte[]> bufs, int totalLen)
       throws IOException {
-    // Starting with an 8k buffer, double the size of each sucessive buffer. Buffers are retained
-    // in a deque so that there's no copying between buffers while reading and so all of the bytes
-    // in each new allocated buffer are available for reading from the stream.
-    for (int bufSize = BUFFER_SIZE;
+    // Roughly size to match what has been read already. Some file systems, such as procfs, return 0
+    // as their length. These files are very small, so it's wasteful to allocate an 8KB buffer.
+    int initialBufferSize = min(BUFFER_SIZE, max(128, Integer.highestOneBit(totalLen) * 2));
+    // Starting with an 8k buffer, double the size of each successive buffer. Smaller buffers
+    // quadruple in size until they reach 8k, to minimize the number of small reads for longer
+    // streams. Buffers are retained in a deque so that there's no copying between buffers while
+    // reading and so all of the bytes in each new allocated buffer are available for reading from
+    // the stream.
+    for (int bufSize = initialBufferSize;
         totalLen < MAX_ARRAY_LEN;
-        bufSize = IntMath.saturatedMultiply(bufSize, 2)) {
-      byte[] buf = new byte[Math.min(bufSize, MAX_ARRAY_LEN - totalLen)];
+        bufSize = IntMath.saturatedMultiply(bufSize, bufSize < 4096 ? 4 : 2)) {
+      byte[] buf = new byte[min(bufSize, MAX_ARRAY_LEN - totalLen)];
       bufs.add(buf);
       int off = 0;
       while (off < buf.length) {
@@ -210,12 +210,19 @@ public final class ByteStreams {
     }
   }
 
-  private static byte[] combineBuffers(Deque<byte[]> bufs, int totalLen) {
-    byte[] result = new byte[totalLen];
-    int remaining = totalLen;
+  private static byte[] combineBuffers(Queue<byte[]> bufs, int totalLen) {
+    if (bufs.isEmpty()) {
+      return new byte[0];
+    }
+    byte[] result = bufs.remove();
+    if (result.length == totalLen) {
+      return result;
+    }
+    int remaining = totalLen - result.length;
+    result = Arrays.copyOf(result, totalLen);
     while (remaining > 0) {
-      byte[] buf = bufs.removeFirst();
-      int bytesToCopy = Math.min(remaining, buf.length);
+      byte[] buf = bufs.remove();
+      int bytesToCopy = min(remaining, buf.length);
       int resultOffset = totalLen - remaining;
       System.arraycopy(buf, 0, result, resultOffset, bytesToCopy);
       remaining -= bytesToCopy;
@@ -267,7 +274,7 @@ public final class ByteStreams {
     }
 
     // the stream was longer, so read the rest normally
-    Deque<byte[]> bufs = new ArrayDeque<byte[]>(TO_BYTE_ARRAY_DEQUE_SIZE + 2);
+    Queue<byte[]> bufs = new ArrayDeque<>(TO_BYTE_ARRAY_DEQUE_SIZE + 2);
     bufs.add(bytes);
     bufs.add(new byte[] {(byte) b});
     return toByteArrayInternal(in, bufs, bytes.length + 1);
@@ -280,7 +287,6 @@ public final class ByteStreams {
    * @since 20.0
    */
   @CanIgnoreReturnValue
-  @Beta
   public static long exhaust(InputStream in) throws IOException {
     long total = 0;
     long read;
@@ -295,7 +301,6 @@ public final class ByteStreams {
    * Returns a new {@link ByteArrayDataInput} instance to read from the {@code bytes} array from the
    * beginning.
    */
-  @Beta
   public static ByteArrayDataInput newDataInput(byte[] bytes) {
     return newDataInput(new ByteArrayInputStream(bytes));
   }
@@ -307,7 +312,6 @@ public final class ByteStreams {
    * @throws IndexOutOfBoundsException if {@code start} is negative or greater than the length of
    *     the array
    */
-  @Beta
   public static ByteArrayDataInput newDataInput(byte[] bytes, int start) {
     checkPositionIndex(start, bytes.length);
     return newDataInput(new ByteArrayInputStream(bytes, start, bytes.length - start));
@@ -320,7 +324,6 @@ public final class ByteStreams {
    *
    * @since 17.0
    */
-  @Beta
   public static ByteArrayDataInput newDataInput(ByteArrayInputStream byteArrayInputStream) {
     return new ByteArrayDataInputStream(checkNotNull(byteArrayInputStream));
   }
@@ -452,6 +455,7 @@ public final class ByteStreams {
     }
 
     @Override
+    @CheckForNull
     public String readLine() {
       try {
         return input.readLine();
@@ -471,7 +475,6 @@ public final class ByteStreams {
   }
 
   /** Returns a new {@link ByteArrayDataOutput} instance with a default size. */
-  @Beta
   public static ByteArrayDataOutput newDataOutput() {
     return newDataOutput(new ByteArrayOutputStream());
   }
@@ -482,7 +485,6 @@ public final class ByteStreams {
    *
    * @throws IllegalArgumentException if {@code size} is negative
    */
-  @Beta
   public static ByteArrayDataOutput newDataOutput(int size) {
     // When called at high frequency, boxing size generates too much garbage,
     // so avoid doing that if we can.
@@ -504,7 +506,6 @@ public final class ByteStreams {
    *
    * @since 17.0
    */
-  @Beta
   public static ByteArrayDataOutput newDataOutput(ByteArrayOutputStream byteArrayOutputStream) {
     return new ByteArrayDataOutputStream(checkNotNull(byteArrayOutputStream));
   }
@@ -667,6 +668,7 @@ public final class ByteStreams {
         @Override
         public void write(byte[] b, int off, int len) {
           checkNotNull(b);
+          checkPositionIndexes(off, off + len, b.length);
         }
 
         @Override
@@ -680,7 +682,6 @@ public final class ByteStreams {
    *
    * @since 14.0 (since 1.0 as com.google.common.io.NullOutputStream)
    */
-  @Beta
   public static OutputStream nullOutputStream() {
     return NULL_OUTPUT_STREAM;
   }
@@ -693,7 +694,6 @@ public final class ByteStreams {
    * @return a length-limited {@link InputStream}
    * @since 14.0 (since 1.0 as com.google.common.io.LimitInputStream)
    */
-  @Beta
   public static InputStream limit(InputStream in, long limit) {
     return new LimitedInputStream(in, limit);
   }
@@ -780,7 +780,6 @@ public final class ByteStreams {
    * @throws EOFException if this stream reaches the end before reading all the bytes.
    * @throws IOException if an I/O error occurs.
    */
-  @Beta
   public static void readFully(InputStream in, byte[] b) throws IOException {
     readFully(in, b, 0, b.length);
   }
@@ -797,7 +796,6 @@ public final class ByteStreams {
    * @throws EOFException if this stream reaches the end before reading all the bytes.
    * @throws IOException if an I/O error occurs.
    */
-  @Beta
   public static void readFully(InputStream in, byte[] b, int off, int len) throws IOException {
     int read = read(in, b, off, len);
     if (read != len) {
@@ -815,7 +813,6 @@ public final class ByteStreams {
    * @throws EOFException if this stream reaches the end before skipping all the bytes
    * @throws IOException if an I/O error occurs, or the stream does not support skipping
    */
-  @Beta
   public static void skipFully(InputStream in, long n) throws IOException {
     long skipped = skipUpTo(in, n);
     if (skipped < n) {
@@ -829,7 +826,7 @@ public final class ByteStreams {
    * either the full amount has been skipped or until the end of the stream is reached, whichever
    * happens first. Returns the total number of bytes skipped.
    */
-  static long skipUpTo(InputStream in, final long n) throws IOException {
+  static long skipUpTo(InputStream in, long n) throws IOException {
     long totalSkipped = 0;
     // A buffer is allocated if skipSafely does not skip any bytes.
     byte[] buf = null;
@@ -881,9 +878,10 @@ public final class ByteStreams {
    * @throws IOException if an I/O error occurs
    * @since 14.0
    */
-  @Beta
   @CanIgnoreReturnValue // some processors won't return a useful result
-  public static <T> T readBytes(InputStream input, ByteProcessor<T> processor) throws IOException {
+  @ParametricNullness
+  public static <T extends @Nullable Object> T readBytes(
+      InputStream input, ByteProcessor<T> processor) throws IOException {
     checkNotNull(input);
     checkNotNull(processor);
 
@@ -919,7 +917,6 @@ public final class ByteStreams {
    * @throws IndexOutOfBoundsException if {@code off} is negative, if {@code len} is negative, or if
    *     {@code off + len} is greater than {@code b.length}
    */
-  @Beta
   @CanIgnoreReturnValue
   // Sometimes you don't care how many bytes you actually read, I guess.
   // (You know that it's either going to read len bytes or stop at EOF.)

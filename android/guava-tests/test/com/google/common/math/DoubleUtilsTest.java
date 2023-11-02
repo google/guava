@@ -19,6 +19,7 @@ package com.google.common.math;
 import static com.google.common.math.MathTesting.ALL_BIGINTEGER_CANDIDATES;
 import static com.google.common.math.MathTesting.FINITE_DOUBLE_CANDIDATES;
 import static com.google.common.math.MathTesting.POSITIVE_FINITE_DOUBLE_CANDIDATES;
+import static org.junit.Assert.assertThrows;
 
 import java.lang.reflect.Method;
 import java.math.BigInteger;
@@ -65,11 +66,7 @@ public class DoubleUtilsTest extends TestCase {
     }
     assertEquals(Double.POSITIVE_INFINITY, DoubleUtils.ensureNonNegative(Double.POSITIVE_INFINITY));
     assertEquals(0.0, DoubleUtils.ensureNonNegative(Double.NEGATIVE_INFINITY));
-    try {
-      DoubleUtils.ensureNonNegative(Double.NaN);
-      fail("Expected IllegalArgumentException from ensureNonNegative(Double.NaN)");
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> DoubleUtils.ensureNonNegative(Double.NaN));
   }
 
   public void testOneBits() {

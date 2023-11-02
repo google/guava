@@ -15,6 +15,7 @@
 package com.google.common.base;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import java.io.Closeable;
 import java.io.FileNotFoundException;
@@ -27,7 +28,7 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import javax.annotation.CheckForNull;
 
 /**
  * A reference queue with an associated background thread that dequeues references and invokes
@@ -37,7 +38,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * finalized. If this object is garbage collected earlier, the backing thread will not invoke {@code
  * finalizeReferent()} on the remaining references.
  *
- * <p>As an example of how this is used, imagine you have a class {@code MyServer} that creates a a
+ * <p>As an example of how this is used, imagine you have a class {@code MyServer} that creates a
  * {@link java.net.ServerSocket ServerSocket}, and you would like to ensure that the {@code
  * ServerSocket} is closed even if the {@code MyServer} object is garbage-collected without calling
  * its {@code close} method. You <em>could</em> use a finalizer to accomplish this, but that has a
@@ -88,7 +89,9 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @author Bob Lee
  * @since 2.0
  */
+@J2ktIncompatible
 @GwtIncompatible
+@ElementTypesAreNonnullByDefault
 public class FinalizableReferenceQueue implements Closeable {
   /*
    * The Finalizer thread keeps a phantom reference to this object. When the client (for example, a
@@ -155,7 +158,7 @@ public class FinalizableReferenceQueue implements Closeable {
   public FinalizableReferenceQueue() {
     // We could start the finalizer lazily, but I'd rather it blow up early.
     queue = new ReferenceQueue<>();
-    frqRef = new PhantomReference<Object>(this, queue);
+    frqRef = new PhantomReference<>(this, queue);
     boolean threadStarted = false;
     try {
       startFinalizer.invoke(null, FinalizableReference.class, queue, frqRef);
@@ -228,7 +231,7 @@ public class FinalizableReferenceQueue implements Closeable {
      *
      * @throws SecurityException if we don't have the appropriate privileges
      */
-    @NullableDecl
+    @CheckForNull
     Class<?> loadFinalizer();
   }
 
@@ -242,7 +245,7 @@ public class FinalizableReferenceQueue implements Closeable {
     @VisibleForTesting static boolean disabled;
 
     @Override
-    @NullableDecl
+    @CheckForNull
     public Class<?> loadFinalizer() {
       if (disabled) {
         return null;
@@ -280,7 +283,7 @@ public class FinalizableReferenceQueue implements Closeable {
             + "issue, or move Guava to your system class path.";
 
     @Override
-    @NullableDecl
+    @CheckForNull
     public Class<?> loadFinalizer() {
       try {
         /*

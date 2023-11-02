@@ -22,7 +22,7 @@ import static com.google.common.collect.Maps.newTreeMap;
 import static java.util.Collections.singletonMap;
 import static java.util.Collections.unmodifiableSortedMap;
 
-import com.google.common.annotations.Beta;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Map;
@@ -67,7 +67,6 @@ public final class ImmutableSortedMap<K, V> extends ForwardingImmutableMap<K, V>
     this.sortedDelegate = delegate;
   }
 
-  @Beta
   public static <T, K, V> Collector<T, ?, ImmutableSortedMap<K, V>> toImmutableSortedMap(
       Comparator<? super K> comparator,
       Function<? super T, ? extends K> keyFunction,
@@ -75,7 +74,6 @@ public final class ImmutableSortedMap<K, V> extends ForwardingImmutableMap<K, V>
     return CollectCollectors.toImmutableSortedMap(comparator, keyFunction, valueFunction);
   }
 
-  @Beta
   public static <T, K, V> Collector<T, ?, ImmutableSortedMap<K, V>> toImmutableSortedMap(
       Comparator<? super K> comparator,
       Function<? super T, ? extends K> keyFunction,
@@ -129,6 +127,127 @@ public final class ImmutableSortedMap<K, V> extends ForwardingImmutableMap<K, V>
         .put(k3, v3)
         .put(k4, v4)
         .put(k5, v5)
+        .build();
+  }
+
+  public static <K extends Comparable<? super K>, V> ImmutableSortedMap<K, V> of(
+      K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5, K k6, V v6) {
+    return new Builder<K, V>(Ordering.natural())
+        .put(k1, v1)
+        .put(k2, v2)
+        .put(k3, v3)
+        .put(k4, v4)
+        .put(k5, v5)
+        .put(k6, v6)
+        .build();
+  }
+
+  public static <K extends Comparable<? super K>, V> ImmutableSortedMap<K, V> of(
+      K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5, K k6, V v6, K k7, V v7) {
+    return new Builder<K, V>(Ordering.natural())
+        .put(k1, v1)
+        .put(k2, v2)
+        .put(k3, v3)
+        .put(k4, v4)
+        .put(k5, v5)
+        .put(k6, v6)
+        .put(k7, v7)
+        .build();
+  }
+
+  public static <K extends Comparable<? super K>, V> ImmutableSortedMap<K, V> of(
+      K k1,
+      V v1,
+      K k2,
+      V v2,
+      K k3,
+      V v3,
+      K k4,
+      V v4,
+      K k5,
+      V v5,
+      K k6,
+      V v6,
+      K k7,
+      V v7,
+      K k8,
+      V v8) {
+    return new Builder<K, V>(Ordering.natural())
+        .put(k1, v1)
+        .put(k2, v2)
+        .put(k3, v3)
+        .put(k4, v4)
+        .put(k5, v5)
+        .put(k6, v6)
+        .put(k7, v7)
+        .put(k8, v8)
+        .build();
+  }
+
+  public static <K extends Comparable<? super K>, V> ImmutableSortedMap<K, V> of(
+      K k1,
+      V v1,
+      K k2,
+      V v2,
+      K k3,
+      V v3,
+      K k4,
+      V v4,
+      K k5,
+      V v5,
+      K k6,
+      V v6,
+      K k7,
+      V v7,
+      K k8,
+      V v8,
+      K k9,
+      V v9) {
+    return new Builder<K, V>(Ordering.natural())
+        .put(k1, v1)
+        .put(k2, v2)
+        .put(k3, v3)
+        .put(k4, v4)
+        .put(k5, v5)
+        .put(k6, v6)
+        .put(k7, v7)
+        .put(k8, v8)
+        .put(k9, v9)
+        .build();
+  }
+
+  public static <K extends Comparable<? super K>, V> ImmutableSortedMap<K, V> of(
+      K k1,
+      V v1,
+      K k2,
+      V v2,
+      K k3,
+      V v3,
+      K k4,
+      V v4,
+      K k5,
+      V v5,
+      K k6,
+      V v6,
+      K k7,
+      V v7,
+      K k8,
+      V v8,
+      K k9,
+      V v9,
+      K k10,
+      V v10) {
+    return new Builder<K, V>(Ordering.natural())
+        .put(k1, v1)
+        .put(k2, v2)
+        .put(k3, v3)
+        .put(k4, v4)
+        .put(k5, v5)
+        .put(k6, v6)
+        .put(k7, v7)
+        .put(k8, v8)
+        .put(k9, v9)
+        .put(k10, v10)
         .build();
   }
 
@@ -224,23 +343,27 @@ public final class ImmutableSortedMap<K, V> extends ForwardingImmutableMap<K, V>
       this.comparator = checkNotNull(comparator);
     }
 
+    @CanIgnoreReturnValue
     @Override
     public Builder<K, V> put(K key, V value) {
       entries.add(entryOf(key, value));
       return this;
     }
 
+    @CanIgnoreReturnValue
     @Override
     public Builder<K, V> put(Entry<? extends K, ? extends V> entry) {
       super.put(entry);
       return this;
     }
 
+    @CanIgnoreReturnValue
     @Override
     public Builder<K, V> putAll(Map<? extends K, ? extends V> map) {
       return putAll(map.entrySet());
     }
 
+    @CanIgnoreReturnValue
     @Override
     public Builder<K, V> putAll(Iterable<? extends Entry<? extends K, ? extends V>> entries) {
       for (Entry<? extends K, ? extends V> entry : entries) {
@@ -249,6 +372,7 @@ public final class ImmutableSortedMap<K, V> extends ForwardingImmutableMap<K, V>
       return this;
     }
 
+    @CanIgnoreReturnValue
     Builder<K, V> combine(Builder<K, V> other) {
       super.combine(other);
       return this;
@@ -261,6 +385,11 @@ public final class ImmutableSortedMap<K, V> extends ForwardingImmutableMap<K, V>
 
     @Override
     public ImmutableSortedMap<K, V> build() {
+      return buildOrThrow();
+    }
+
+    @Override
+    public ImmutableSortedMap<K, V> buildOrThrow() {
       SortedMap<K, V> delegate = newModifiableDelegate(comparator);
       for (Entry<? extends K, ? extends V> entry : entries) {
         putEntryWithChecks(delegate, entry);

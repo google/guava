@@ -18,6 +18,7 @@ package com.google.common.testing;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.base.Functions;
 import com.google.common.base.Optional;
@@ -45,6 +46,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *
  * @author Ben Yu
  */
+@AndroidIncompatible // NullPointerTester refuses to run for c.g.c under Android
 public class ClassSanityTesterTest extends TestCase {
 
   private final ClassSanityTester tester = new ClassSanityTester();
@@ -63,18 +65,22 @@ public class ClassSanityTesterTest extends TestCase {
         @SuppressWarnings("unused") @Nullable NoConstantEnum noConstant) {
       return new GoodEquals(a, b);
     }
+
     // instance method ignored
     public Object badIgnored() {
       return new BadEquals();
     }
+
     // primitive ignored
     public int returnsInt() {
       throw new UnsupportedOperationException();
     }
+
     // void ignored
     public void voidMethod() {
       throw new UnsupportedOperationException();
     }
+
     // non-public method ignored
     static Object badButNotPublic() {
       return new BadEquals();
@@ -212,11 +218,11 @@ public class ClassSanityTesterTest extends TestCase {
   @AndroidIncompatible // TODO(cpovirk): ClassNotFoundException... ClassSanityTesterTest$AnInterface
   public void testEqualsAndSerializableOnReturnValues_good() throws Exception {
     tester
-        .forAllPublicStaticMethods(GoodEqualsAndSerialiableFactory.class)
+        .forAllPublicStaticMethods(GoodEqualsAndSerializableFactory.class)
         .testEqualsAndSerializable();
   }
 
-  public static class GoodEqualsAndSerialiableFactory {
+  public static class GoodEqualsAndSerializableFactory {
     public static Object good(AnInterface s) {
       return Functions.constant(s);
     }
@@ -314,7 +320,7 @@ public class ClassSanityTesterTest extends TestCase {
     try {
       tester.testEquals(BadEquals.class);
     } catch (AssertionFailedError expected) {
-      assertThat(expected.getMessage()).contains("create(null)");
+      assertThat(expected).hasMessageThat().contains("create(null)");
       return;
     }
     fail("should have failed");
@@ -324,18 +330,16 @@ public class ClassSanityTesterTest extends TestCase {
     try {
       tester.testEquals(BadEqualsWithParameterizedType.class);
     } catch (AssertionFailedError expected) {
-      assertThat(expected.getMessage()).contains("create([[1]])");
+      assertThat(expected).hasMessageThat().contains("create([[1]])");
       return;
     }
     fail("should have failed");
   }
 
   public void testBadEquals_withSingleParameterValue() throws Exception {
-    try {
-      tester.doTestEquals(ConstructorParameterWithOptionalNotInstantiable.class);
-      fail();
-    } catch (ParameterHasNoDistinctValueException expected) {
-    }
+    assertThrows(
+        ParameterHasNoDistinctValueException.class,
+        () -> tester.doTestEquals(ConstructorParameterWithOptionalNotInstantiable.class));
   }
 
   public void testGoodReferentialEqualityComparison() throws Exception {
@@ -367,42 +371,33 @@ public class ClassSanityTesterTest extends TestCase {
     try {
       tester.testEquals(cls);
     } catch (AssertionFailedError expected) {
-      assertThat(expected.getMessage()).contains(cls.getSimpleName() + "(");
+      assertThat(expected).hasMessageThat().contains(cls.getSimpleName() + "(");
       return;
     }
     fail("should have failed for " + cls);
   }
 
   public void testParameterNotInstantiableForEqualsTest() throws Exception {
-    try {
-      tester.doTestEquals(ConstructorParameterNotInstantiable.class);
-      fail("should have failed");
-    } catch (ParameterNotInstantiableException expected) {
-    }
+    assertThrows(
+        ParameterNotInstantiableException.class,
+        () -> tester.doTestEquals(ConstructorParameterNotInstantiable.class));
   }
 
   public void testNoDistinctValueForEqualsTest() throws Exception {
-    try {
-      tester.doTestEquals(ConstructorParameterSingleValue.class);
-      fail("should have failed");
-    } catch (ParameterHasNoDistinctValueException expected) {
-    }
+    assertThrows(
+        ParameterHasNoDistinctValueException.class,
+        () -> tester.doTestEquals(ConstructorParameterSingleValue.class));
   }
 
   public void testConstructorThrowsForEqualsTest() throws Exception {
-    try {
-      tester.doTestEquals(ConstructorThrows.class);
-      fail("should have failed");
-    } catch (InvocationTargetException expected) {
-    }
+    assertThrows(
+        InvocationTargetException.class, () -> tester.doTestEquals(ConstructorThrows.class));
   }
 
   public void testFactoryMethodReturnsNullForEqualsTest() throws Exception {
-    try {
-      tester.doTestEquals(FactoryMethodReturnsNullAndAnnotated.class);
-      fail("should have failed");
-    } catch (FactoryMethodReturnsNullException expected) {
-    }
+    assertThrows(
+        FactoryMethodReturnsNullException.class,
+        () -> tester.doTestEquals(FactoryMethodReturnsNullAndAnnotated.class));
   }
 
   public void testFactoryMethodReturnsNullButNotAnnotatedInEqualsTest() throws Exception {
@@ -432,8 +427,8 @@ public class ClassSanityTesterTest extends TestCase {
     tester.testNulls(GoodNulls.class);
   }
 
-  public void testNoNullCheckNeededDespitNotInstantiable() throws Exception {
-    tester.doTestNulls(NoNullCheckNeededDespitNotInstantiable.class, Visibility.PACKAGE);
+  public void testNoNullCheckNeededDespiteNotInstantiable() throws Exception {
+    tester.doTestNulls(NoNullCheckNeededDespiteNotInstantiable.class, Visibility.PACKAGE);
   }
 
   public void testNulls_interface() {
@@ -482,20 +477,19 @@ public class ClassSanityTesterTest extends TestCase {
 
   public void testInstantiate_factoryMethodReturnsNullButNotAnnotated() throws Exception {
     try {
-      tester.instantiate(FactoryMethodReturnsNullButNotAnnotated.class);
+      FactoryMethodReturnsNullButNotAnnotated unused =
+          tester.instantiate(FactoryMethodReturnsNullButNotAnnotated.class);
     } catch (AssertionFailedError expected) {
-      assertThat(expected.getMessage()).contains("@Nullable");
+      assertThat(expected).hasMessageThat().contains("@Nullable");
       return;
     }
     fail("should have failed");
   }
 
   public void testInstantiate_factoryMethodReturnsNullAndAnnotated() throws Exception {
-    try {
-      tester.instantiate(FactoryMethodReturnsNullAndAnnotated.class);
-      fail("should have failed");
-    } catch (FactoryMethodReturnsNullException expected) {
-    }
+    assertThrows(
+        FactoryMethodReturnsNullException.class,
+        () -> tester.instantiate(FactoryMethodReturnsNullAndAnnotated.class));
   }
 
   public void testInstantiate_factoryMethodAcceptsNull() throws Exception {
@@ -545,11 +539,8 @@ public class ClassSanityTesterTest extends TestCase {
   }
 
   public void testSetDistinctValues_equalInstances() {
-    try {
-      tester.setDistinctValues(String.class, "", "");
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class, () -> tester.setDistinctValues(String.class, "", ""));
   }
 
   public void testInstantiate_setDistinctValues() throws Exception {
@@ -561,35 +552,25 @@ public class ClassSanityTesterTest extends TestCase {
   }
 
   public void testInstantiate_constructorThrows() throws Exception {
-    try {
-      tester.instantiate(ConstructorThrows.class);
-      fail();
-    } catch (InvocationTargetException expected) {
-    }
+    assertThrows(
+        InvocationTargetException.class, () -> tester.instantiate(ConstructorThrows.class));
   }
 
   public void testInstantiate_factoryMethodThrows() throws Exception {
-    try {
-      tester.instantiate(FactoryMethodThrows.class);
-      fail();
-    } catch (InvocationTargetException expected) {
-    }
+    assertThrows(
+        InvocationTargetException.class, () -> tester.instantiate(FactoryMethodThrows.class));
   }
 
   public void testInstantiate_constructorParameterNotInstantiable() throws Exception {
-    try {
-      tester.instantiate(ConstructorParameterNotInstantiable.class);
-      fail();
-    } catch (ParameterNotInstantiableException expected) {
-    }
+    assertThrows(
+        ParameterNotInstantiableException.class,
+        () -> tester.instantiate(ConstructorParameterNotInstantiable.class));
   }
 
   public void testInstantiate_factoryMethodParameterNotInstantiable() throws Exception {
-    try {
-      tester.instantiate(FactoryMethodParameterNotInstantiable.class);
-      fail();
-    } catch (ParameterNotInstantiableException expected) {
-    }
+    assertThrows(
+        ParameterNotInstantiableException.class,
+        () -> tester.instantiate(FactoryMethodParameterNotInstantiable.class));
   }
 
   public void testInstantiate_instantiableFactoryMethodChosen() throws Exception {
@@ -663,11 +644,9 @@ public class ClassSanityTesterTest extends TestCase {
   }
 
   public void testEquals_setOfNonInstantiable() throws Exception {
-    try {
-      new ClassSanityTester().doTestEquals(SetWrapper.class);
-      fail();
-    } catch (ParameterNotInstantiableException expected) {
-    }
+    assertThrows(
+        ParameterNotInstantiableException.class,
+        () -> new ClassSanityTester().doTestEquals(SetWrapper.class));
   }
 
   private abstract static class Wrapper {
@@ -810,8 +789,8 @@ public class ClassSanityTesterTest extends TestCase {
     }
 
     @Override
-    @SuppressWarnings("NumericEquality")
-    public boolean equals(Object obj) {
+    @SuppressWarnings({"BoxedPrimitiveEquality", "NumericEquality"})
+    public boolean equals(@Nullable Object obj) {
       if (obj instanceof SameIntegerInstance) {
         SameIntegerInstance that = (SameIntegerInstance) obj;
         return i == that.i;
@@ -833,8 +812,8 @@ public class ClassSanityTesterTest extends TestCase {
     }
 
     @Override
-    @SuppressWarnings("NumericEquality")
-    public boolean equals(Object obj) {
+    @SuppressWarnings({"BoxedPrimitiveEquality", "NumericEquality"})
+    public boolean equals(@Nullable Object obj) {
       if (obj instanceof SameLongInstance) {
         SameLongInstance that = (SameLongInstance) obj;
         return i == that.i;
@@ -856,8 +835,8 @@ public class ClassSanityTesterTest extends TestCase {
     }
 
     @Override
-    @SuppressWarnings("NumericEquality")
-    public boolean equals(Object obj) {
+    @SuppressWarnings({"BoxedPrimitiveEquality", "NumericEquality"})
+    public boolean equals(@Nullable Object obj) {
       if (obj instanceof SameFloatInstance) {
         SameFloatInstance that = (SameFloatInstance) obj;
         return i == that.i;
@@ -879,8 +858,8 @@ public class ClassSanityTesterTest extends TestCase {
     }
 
     @Override
-    @SuppressWarnings("NumericEquality")
-    public boolean equals(Object obj) {
+    @SuppressWarnings({"BoxedPrimitiveEquality", "NumericEquality"})
+    public boolean equals(@Nullable Object obj) {
       if (obj instanceof SameDoubleInstance) {
         SameDoubleInstance that = (SameDoubleInstance) obj;
         return i == that.i;
@@ -902,8 +881,8 @@ public class ClassSanityTesterTest extends TestCase {
     }
 
     @Override
-    @SuppressWarnings("NumericEquality")
-    public boolean equals(Object obj) {
+    @SuppressWarnings({"BoxedPrimitiveEquality", "NumericEquality"})
+    public boolean equals(@Nullable Object obj) {
       if (obj instanceof SameShortInstance) {
         SameShortInstance that = (SameShortInstance) obj;
         return i == that.i;
@@ -925,8 +904,8 @@ public class ClassSanityTesterTest extends TestCase {
     }
 
     @Override
-    @SuppressWarnings("NumericEquality")
-    public boolean equals(Object obj) {
+    @SuppressWarnings({"BoxedPrimitiveEquality", "NumericEquality"})
+    public boolean equals(@Nullable Object obj) {
       if (obj instanceof SameByteInstance) {
         SameByteInstance that = (SameByteInstance) obj;
         return i == that.i;
@@ -948,7 +927,8 @@ public class ClassSanityTesterTest extends TestCase {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    @SuppressWarnings("BoxedPrimitiveEquality")
+    public boolean equals(@Nullable Object obj) {
       if (obj instanceof SameCharacterInstance) {
         SameCharacterInstance that = (SameCharacterInstance) obj;
         return i == that.i;
@@ -970,7 +950,8 @@ public class ClassSanityTesterTest extends TestCase {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    @SuppressWarnings("BoxedPrimitiveEquality")
+    public boolean equals(@Nullable Object obj) {
       if (obj instanceof SameBooleanInstance) {
         SameBooleanInstance that = (SameBooleanInstance) obj;
         return i == that.i;
@@ -992,7 +973,7 @@ public class ClassSanityTesterTest extends TestCase {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(@Nullable Object obj) {
       if (obj instanceof SameStringInstance) {
         SameStringInstance that = (SameStringInstance) obj;
         return s == that.s;
@@ -1014,7 +995,7 @@ public class ClassSanityTesterTest extends TestCase {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(@Nullable Object obj) {
       if (obj instanceof SameObjectInstance) {
         SameObjectInstance that = (SameObjectInstance) obj;
         return s == that.s;
@@ -1036,7 +1017,7 @@ public class ClassSanityTesterTest extends TestCase {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(@Nullable Object obj) {
       if (obj instanceof SameInterfaceInstance) {
         SameInterfaceInstance that = (SameInterfaceInstance) obj;
         return s == that.s;
@@ -1058,7 +1039,7 @@ public class ClassSanityTesterTest extends TestCase {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(@Nullable Object obj) {
       if (obj instanceof SameListInstance) {
         SameListInstance that = (SameListInstance) obj;
         return s == that.s;
@@ -1090,7 +1071,7 @@ public class ClassSanityTesterTest extends TestCase {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(@Nullable Object obj) {
       if (obj instanceof UsesReferentialEquality) {
         UsesReferentialEquality that = (UsesReferentialEquality) obj;
         return s == that.s;
@@ -1112,7 +1093,7 @@ public class ClassSanityTesterTest extends TestCase {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(@Nullable Object obj) {
       if (obj instanceof UsesEnum) {
         UsesEnum that = (UsesEnum) obj;
         return s == that.s;
@@ -1160,9 +1141,9 @@ public class ClassSanityTesterTest extends TestCase {
     public void failsToRejectNull(@SuppressWarnings("unused") String s) {}
   }
 
-  public static class NoNullCheckNeededDespitNotInstantiable {
+  public static class NoNullCheckNeededDespiteNotInstantiable {
 
-    public NoNullCheckNeededDespitNotInstantiable(NotInstantiable x) {
+    public NoNullCheckNeededDespiteNotInstantiable(NotInstantiable x) {
       checkNotNull(x);
     }
 
@@ -1285,7 +1266,7 @@ public class ClassSanityTesterTest extends TestCase {
     public ConstructorParameterSingleValue(@SuppressWarnings("unused") Singleton s) {}
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(@Nullable Object obj) {
       return obj instanceof ConstructorParameterSingleValue;
     }
 

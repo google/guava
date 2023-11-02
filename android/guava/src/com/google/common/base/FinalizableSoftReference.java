@@ -15,8 +15,10 @@
 package com.google.common.base;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.SoftReference;
+import javax.annotation.CheckForNull;
 
 /**
  * Soft reference with a {@code finalizeReferent()} method which a background thread invokes after
@@ -26,7 +28,9 @@ import java.lang.ref.SoftReference;
  * @author Bob Lee
  * @since 2.0
  */
+@J2ktIncompatible
 @GwtIncompatible
+@ElementTypesAreNonnullByDefault
 public abstract class FinalizableSoftReference<T> extends SoftReference<T>
     implements FinalizableReference {
   /**
@@ -35,7 +39,7 @@ public abstract class FinalizableSoftReference<T> extends SoftReference<T>
    * @param referent to softly reference
    * @param queue that should finalize the referent
    */
-  protected FinalizableSoftReference(T referent, FinalizableReferenceQueue queue) {
+  protected FinalizableSoftReference(@CheckForNull T referent, FinalizableReferenceQueue queue) {
     super(referent, queue.queue);
     queue.cleanUp();
   }

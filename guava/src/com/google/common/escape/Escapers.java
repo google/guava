@@ -16,11 +16,11 @@ package com.google.common.escape;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.HashMap;
 import java.util.Map;
+import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -30,8 +30,8 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author David Beaumont
  * @since 15.0
  */
-@Beta
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public final class Escapers {
   private Escapers() {}
 
@@ -52,6 +52,7 @@ public final class Escapers {
         }
 
         @Override
+        @CheckForNull
         protected char[] escape(char c) {
           // TODO: Fix tests not to call this directly and make it throw an error.
           return null;
@@ -90,12 +91,11 @@ public final class Escapers {
    * @author David Beaumont
    * @since 15.0
    */
-  @Beta
   public static final class Builder {
     private final Map<Character, String> replacementMap = new HashMap<>();
     private char safeMin = Character.MIN_VALUE;
     private char safeMax = Character.MAX_VALUE;
-    private String unsafeReplacement = null;
+    @CheckForNull private String unsafeReplacement = null;
 
     // The constructor is exposed via the builder() method above.
     private Builder() {}
@@ -151,10 +151,12 @@ public final class Escapers {
     /** Returns a new escaper based on the current state of the builder. */
     public Escaper build() {
       return new ArrayBasedCharEscaper(replacementMap, safeMin, safeMax) {
+        @CheckForNull
         private final char[] replacementChars =
             unsafeReplacement != null ? unsafeReplacement.toCharArray() : null;
 
         @Override
+        @CheckForNull
         protected char[] escapeUnsafe(char c) {
           return replacementChars;
         }
@@ -184,7 +186,7 @@ public final class Escapers {
       return wrap((CharEscaper) escaper);
     }
     // In practice this shouldn't happen because it would be very odd not to
-    // extend either CharEscaper or UnicodeEscaper for non trivial cases.
+    // extend either CharEscaper or UnicodeEscaper for non-trivial cases.
     throw new IllegalArgumentException(
         "Cannot create a UnicodeEscaper from: " + escaper.getClass().getName());
   }
@@ -198,6 +200,7 @@ public final class Escapers {
    * @param c the character to escape if necessary
    * @return the replacement string, or {@code null} if no escaping was needed
    */
+  @CheckForNull
   public static String computeReplacement(CharEscaper escaper, char c) {
     return stringOrNull(escaper.escape(c));
   }
@@ -211,18 +214,21 @@ public final class Escapers {
    * @param cp the Unicode code point to escape if necessary
    * @return the replacement string, or {@code null} if no escaping was needed
    */
+  @CheckForNull
   public static String computeReplacement(UnicodeEscaper escaper, int cp) {
     return stringOrNull(escaper.escape(cp));
   }
 
-  private static String stringOrNull(char[] in) {
+  @CheckForNull
+  private static String stringOrNull(@CheckForNull char[] in) {
     return (in == null) ? null : new String(in);
   }
 
   /** Private helper to wrap a CharEscaper as a UnicodeEscaper. */
-  private static UnicodeEscaper wrap(final CharEscaper escaper) {
+  private static UnicodeEscaper wrap(CharEscaper escaper) {
     return new UnicodeEscaper() {
       @Override
+      @CheckForNull
       protected char[] escape(int cp) {
         // If a code point maps to a single character, just escape that.
         if (cp < Character.MIN_SUPPLEMENTARY_CODE_POINT) {

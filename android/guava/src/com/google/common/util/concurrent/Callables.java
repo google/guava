@@ -16,12 +16,12 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Supplier;
 import java.util.concurrent.Callable;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Static utility methods pertaining to the {@link Callable} interface.
@@ -30,17 +30,13 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @since 1.0
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public final class Callables {
   private Callables() {}
 
   /** Creates a {@code Callable} which immediately returns a preset value each time it is called. */
-  public static <T> Callable<T> returning(@NullableDecl final T value) {
-    return new Callable<T>() {
-      @Override
-      public T call() {
-        return value;
-      }
-    };
+  public static <T extends @Nullable Object> Callable<T> returning(@ParametricNullness T value) {
+    return () -> value;
   }
 
   /**
@@ -51,46 +47,38 @@ public final class Callables {
    *
    * @since 20.0
    */
-  @Beta
+  @J2ktIncompatible
   @GwtIncompatible
-  public static <T> AsyncCallable<T> asAsyncCallable(
-      final Callable<T> callable, final ListeningExecutorService listeningExecutorService) {
+  public static <T extends @Nullable Object> AsyncCallable<T> asAsyncCallable(
+      Callable<T> callable, ListeningExecutorService listeningExecutorService) {
     checkNotNull(callable);
     checkNotNull(listeningExecutorService);
-    return new AsyncCallable<T>() {
-      @Override
-      public ListenableFuture<T> call() throws Exception {
-        return listeningExecutorService.submit(callable);
-      }
-    };
+    return () -> listeningExecutorService.submit(callable);
   }
 
   /**
    * Wraps the given callable such that for the duration of {@link Callable#call} the thread that is
    * running will have the given name.
    *
-   *
    * @param callable The callable to wrap
    * @param nameSupplier The supplier of thread names, {@link Supplier#get get} will be called once
    *     for each invocation of the wrapped callable.
    */
+  @J2ktIncompatible
   @GwtIncompatible // threads
-  static <T> Callable<T> threadRenaming(
-      final Callable<T> callable, final Supplier<String> nameSupplier) {
+  static <T extends @Nullable Object> Callable<T> threadRenaming(
+      Callable<T> callable, Supplier<String> nameSupplier) {
     checkNotNull(nameSupplier);
     checkNotNull(callable);
-    return new Callable<T>() {
-      @Override
-      public T call() throws Exception {
-        Thread currentThread = Thread.currentThread();
-        String oldName = currentThread.getName();
-        boolean restoreName = trySetName(nameSupplier.get(), currentThread);
-        try {
-          return callable.call();
-        } finally {
-          if (restoreName) {
-            boolean unused = trySetName(oldName, currentThread);
-          }
+    return () -> {
+      Thread currentThread = Thread.currentThread();
+      String oldName = currentThread.getName();
+      boolean restoreName = trySetName(nameSupplier.get(), currentThread);
+      try {
+        return callable.call();
+      } finally {
+        if (restoreName) {
+          boolean unused = trySetName(oldName, currentThread);
         }
       }
     };
@@ -100,35 +88,33 @@ public final class Callables {
    * Wraps the given runnable such that for the duration of {@link Runnable#run} the thread that is
    * running with have the given name.
    *
-   *
    * @param task The Runnable to wrap
    * @param nameSupplier The supplier of thread names, {@link Supplier#get get} will be called once
    *     for each invocation of the wrapped callable.
    */
+  @J2ktIncompatible
   @GwtIncompatible // threads
-  static Runnable threadRenaming(final Runnable task, final Supplier<String> nameSupplier) {
+  static Runnable threadRenaming(Runnable task, Supplier<String> nameSupplier) {
     checkNotNull(nameSupplier);
     checkNotNull(task);
-    return new Runnable() {
-      @Override
-      public void run() {
-        Thread currentThread = Thread.currentThread();
-        String oldName = currentThread.getName();
-        boolean restoreName = trySetName(nameSupplier.get(), currentThread);
-        try {
-          task.run();
-        } finally {
-          if (restoreName) {
-            boolean unused = trySetName(oldName, currentThread);
-          }
+    return () -> {
+      Thread currentThread = Thread.currentThread();
+      String oldName = currentThread.getName();
+      boolean restoreName = trySetName(nameSupplier.get(), currentThread);
+      try {
+        task.run();
+      } finally {
+        if (restoreName) {
+          boolean unused = trySetName(oldName, currentThread);
         }
       }
     };
   }
 
   /** Tries to set name of the given {@link Thread}, returns true if successful. */
+  @J2ktIncompatible
   @GwtIncompatible // threads
-  private static boolean trySetName(final String threadName, Thread currentThread) {
+  private static boolean trySetName(String threadName, Thread currentThread) {
     /*
      * setName should usually succeed, but the security manager can prohibit it. Is there a way to
      * see if we have the modifyThread permission without catching an exception?

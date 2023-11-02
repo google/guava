@@ -17,6 +17,7 @@
 package com.google.common.collect.testing.features;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
@@ -28,7 +29,9 @@ import java.util.Collections;
 import java.util.Set;
 import junit.framework.TestCase;
 
-/** @author George van den Driessche */
+/**
+ * @author George van den Driessche
+ */
 // Enum values use constructors with generic varargs.
 @SuppressWarnings("unchecked")
 public class FeatureUtilTest extends TestCase {
@@ -232,27 +235,26 @@ public class FeatureUtilTest extends TestCase {
 
   @AndroidIncompatible // Android runs ExampleDerivedInterfaceTester directly if it exists
   public void testBuildTesterRequirements_classClassConflict() throws Exception {
-    try {
-      FeatureUtil.buildTesterRequirements(
-          ConflictingRequirementsExampleDerivedInterfaceTester.class);
-      fail("Expected ConflictingRequirementsException");
-    } catch (ConflictingRequirementsException e) {
-      assertThat(e.getConflicts()).contains(ExampleBaseFeature.BASE_FEATURE_1);
-      assertEquals(ConflictingRequirementsExampleDerivedInterfaceTester.class, e.getSource());
-    }
+    ConflictingRequirementsException e =
+        assertThrows(
+            ConflictingRequirementsException.class,
+            () ->
+                FeatureUtil.buildTesterRequirements(
+                    ConflictingRequirementsExampleDerivedInterfaceTester.class));
+    assertThat(e.getConflicts()).contains(ExampleBaseFeature.BASE_FEATURE_1);
+    assertEquals(ConflictingRequirementsExampleDerivedInterfaceTester.class, e.getSource());
   }
 
   @AndroidIncompatible // Android runs ExampleDerivedInterfaceTester directly if it exists
   public void testBuildTesterRequirements_methodClassConflict() throws Exception {
     final Method method =
         ExampleDerivedInterfaceTester.class.getMethod("testRequiringConflictingFeatures");
-    try {
-      FeatureUtil.buildTesterRequirements(method);
-      fail("Expected ConflictingRequirementsException");
-    } catch (ConflictingRequirementsException e) {
-      assertThat(e.getConflicts()).contains(ExampleBaseFeature.BASE_FEATURE_1);
-      assertEquals(method, e.getSource());
-    }
+    ConflictingRequirementsException e =
+        assertThrows(
+            ConflictingRequirementsException.class,
+            () -> FeatureUtil.buildTesterRequirements(method));
+    assertThat(e.getConflicts()).contains(ExampleBaseFeature.BASE_FEATURE_1);
+    assertEquals(method, e.getSource());
   }
 
   @AndroidIncompatible // Android runs ExampleDerivedInterfaceTester directly if it exists

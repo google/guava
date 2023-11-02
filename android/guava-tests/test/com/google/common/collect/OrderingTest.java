@@ -41,7 +41,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.RandomAccess;
 import junit.framework.TestCase;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Unit tests for {@code Ordering}.
@@ -159,6 +159,19 @@ public class OrderingTest extends TestCase {
     }
     reserializeAndAssert(c);
     assertEquals("Ordering.explicit([0])", c.toString());
+  }
+
+  public void testExplicitMax_b297601553() {
+    Ordering<Integer> c = Ordering.explicit(1, 2, 3);
+
+    // TODO(b/297601553): this should probably throw an CCE since 0 isn't explicitly listed
+    assertEquals(0, (int) c.max(asList(0)));
+    try {
+      c.max(asList(0, 1));
+      fail();
+    } catch (IncomparableValueException expected) {
+      assertEquals(0, expected.value);
+    }
   }
 
   public void testExplicit_two() {
@@ -833,7 +846,7 @@ public class OrderingTest extends TestCase {
     }
 
     @Override
-    public boolean equals(Object other) {
+    public boolean equals(@Nullable Object other) {
       return other instanceof NumberOrdering;
     }
 
@@ -1030,7 +1043,7 @@ public class OrderingTest extends TestCase {
             scenario.ordering.onResultOf(
                 new Function<Integer, T>() {
                   @Override
-                  public T apply(@NullableDecl Integer from) {
+                  public T apply(@Nullable Integer from) {
                     return scenario.strictlyOrderedList.get(from);
                   }
                 });

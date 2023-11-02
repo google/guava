@@ -52,7 +52,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -76,7 +75,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Unit test for {@code Sets}.
@@ -325,6 +324,7 @@ public class SetsTest extends TestCase {
     D
   }
 
+  @SuppressWarnings("DoNotCall")
   public void testImmutableEnumSet() {
     Set<SomeEnum> units = Sets.immutableEnumSet(SomeEnum.D, SomeEnum.B);
 
@@ -577,48 +577,56 @@ public class SetsTest extends TestCase {
     verifySetContents(set, SOME_COLLECTION);
   }
 
+  @GwtIncompatible // complementOf
   public void testComplementOfEnumSet() {
     Set<SomeEnum> units = EnumSet.of(SomeEnum.B, SomeEnum.D);
     EnumSet<SomeEnum> otherUnits = Sets.complementOf(units);
     verifySetContents(otherUnits, EnumSet.of(SomeEnum.A, SomeEnum.C));
   }
 
+  @GwtIncompatible // complementOf
   public void testComplementOfEnumSetWithType() {
     Set<SomeEnum> units = EnumSet.of(SomeEnum.B, SomeEnum.D);
     EnumSet<SomeEnum> otherUnits = Sets.complementOf(units, SomeEnum.class);
     verifySetContents(otherUnits, EnumSet.of(SomeEnum.A, SomeEnum.C));
   }
 
+  @GwtIncompatible // complementOf
   public void testComplementOfRegularSet() {
     Set<SomeEnum> units = Sets.newHashSet(SomeEnum.B, SomeEnum.D);
     EnumSet<SomeEnum> otherUnits = Sets.complementOf(units);
     verifySetContents(otherUnits, EnumSet.of(SomeEnum.A, SomeEnum.C));
   }
 
+  @GwtIncompatible // complementOf
   public void testComplementOfRegularSetWithType() {
     Set<SomeEnum> units = Sets.newHashSet(SomeEnum.B, SomeEnum.D);
     EnumSet<SomeEnum> otherUnits = Sets.complementOf(units, SomeEnum.class);
     verifySetContents(otherUnits, EnumSet.of(SomeEnum.A, SomeEnum.C));
   }
 
+  @GwtIncompatible // complementOf
   public void testComplementOfEmptySet() {
     Set<SomeEnum> noUnits = Collections.emptySet();
     EnumSet<SomeEnum> allUnits = Sets.complementOf(noUnits, SomeEnum.class);
     verifySetContents(EnumSet.allOf(SomeEnum.class), allUnits);
   }
 
+  @GwtIncompatible // complementOf
   public void testComplementOfFullSet() {
     Set<SomeEnum> allUnits = Sets.newHashSet(SomeEnum.values());
     EnumSet<SomeEnum> noUnits = Sets.complementOf(allUnits, SomeEnum.class);
     verifySetContents(noUnits, EnumSet.noneOf(SomeEnum.class));
   }
 
+  @GwtIncompatible // complementOf
   public void testComplementOfEmptyEnumSetWithoutType() {
     Set<SomeEnum> noUnits = EnumSet.noneOf(SomeEnum.class);
     EnumSet<SomeEnum> allUnits = Sets.complementOf(noUnits);
     verifySetContents(allUnits, EnumSet.allOf(SomeEnum.class));
   }
 
+  @GwtIncompatible // complementOf
   public void testComplementOfEmptySetWithoutTypeDoesntWork() {
     Set<SomeEnum> set = Collections.emptySet();
     try {
@@ -741,6 +749,21 @@ public class SetsTest extends TestCase {
     assertTrue(actual.contains(list(2, 3)));
     assertTrue(actual.contains(list(2, 4)));
     assertFalse(actual.contains(list(3, 1)));
+  }
+
+  public void testCartesianProduct_equals() {
+    Set<List<Integer>> cartesian = Sets.cartesianProduct(set(1, 2), set(3, 4));
+    ImmutableSet<List<Integer>> equivalent =
+        ImmutableSet.of(ImmutableList.of(1, 3), ImmutableList.of(1, 4), list(2, 3), list(2, 4));
+    ImmutableSet<List<Integer>> different1 =
+        ImmutableSet.of(ImmutableList.of(0, 3), ImmutableList.of(1, 4), list(2, 3), list(2, 4));
+    ImmutableSet<List<Integer>> different2 =
+        ImmutableSet.of(ImmutableList.of(1, 3), ImmutableList.of(1, 4), list(2, 3));
+    new EqualsTester()
+        .addEqualityGroup(cartesian, equivalent)
+        .addEqualityGroup(different1)
+        .addEqualityGroup(different2)
+        .testEquals();
   }
 
   @SuppressWarnings("unchecked") // varargs!
@@ -1076,7 +1099,7 @@ public class SetsTest extends TestCase {
    * same as the given comparator.
    */
   private static <E> void verifySortedSetContents(
-      SortedSet<E> set, Iterable<E> iterable, @NullableDecl Comparator<E> comparator) {
+      SortedSet<E> set, Iterable<E> iterable, @Nullable Comparator<E> comparator) {
     assertSame(comparator, set.comparator());
     verifySetContents(set, iterable);
   }
@@ -1096,47 +1119,6 @@ public class SetsTest extends TestCase {
       }
     }
     assertEquals(expected, set);
-  }
-
-  /** Simple base class to verify that we handle generics correctly. */
-  static class Base implements Comparable<Base>, Serializable {
-    private final String s;
-
-    public Base(String s) {
-      this.s = s;
-    }
-
-    @Override
-    public int hashCode() { // delegate to 's'
-      return s.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object other) {
-      if (other == null) {
-        return false;
-      } else if (other instanceof Base) {
-        return s.equals(((Base) other).s);
-      } else {
-        return false;
-      }
-    }
-
-    @Override
-    public int compareTo(Base o) {
-      return s.compareTo(o.s);
-    }
-
-    private static final long serialVersionUID = 0;
-  }
-
-  /** Simple derived class to verify that we handle generics correctly. */
-  static class Derived extends Base {
-    public Derived(String s) {
-      super(s);
-    }
-
-    private static final long serialVersionUID = 0;
   }
 
   @GwtIncompatible // NavigableSet

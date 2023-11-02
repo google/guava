@@ -21,11 +21,13 @@ import static com.google.common.io.TestOption.CLOSE_THROWS;
 import static com.google.common.io.TestOption.OPEN_THROWS;
 import static com.google.common.io.TestOption.READ_THROWS;
 import static com.google.common.io.TestOption.WRITE_THROWS;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.google.common.io.Closer.LoggingSuppressor;
 import com.google.common.testing.TestLogHandler;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -209,11 +211,7 @@ public class CharSourceTest extends IoTestCase {
   public void testClosesOnErrors_copyingToCharSinkThatThrows() {
     for (TestOption option : EnumSet.of(OPEN_THROWS, WRITE_THROWS, CLOSE_THROWS)) {
       TestCharSource okSource = new TestCharSource(STRING);
-      try {
-        okSource.copyTo(new TestCharSink(option));
-        fail();
-      } catch (IOException expected) {
-      }
+      assertThrows(IOException.class, () -> okSource.copyTo(new TestCharSink(option)));
       // ensure reader was closed IF it was opened (depends on implementation whether or not it's
       // opened at all if sink.newWriter() throws).
       assertTrue(
@@ -224,21 +222,13 @@ public class CharSourceTest extends IoTestCase {
 
   public void testClosesOnErrors_whenReadThrows() {
     TestCharSource failSource = new TestCharSource(STRING, READ_THROWS);
-    try {
-      failSource.copyTo(new TestCharSink());
-      fail();
-    } catch (IOException expected) {
-    }
+    assertThrows(IOException.class, () -> failSource.copyTo(new TestCharSink()));
     assertTrue(failSource.wasStreamClosed());
   }
 
   public void testClosesOnErrors_copyingToWriterThatThrows() {
     TestCharSource okSource = new TestCharSource(STRING);
-    try {
-      okSource.copyTo(new TestWriter(WRITE_THROWS));
-      fail();
-    } catch (IOException expected) {
-    }
+    assertThrows(IOException.class, () -> okSource.copyTo(new TestWriter(WRITE_THROWS)));
     assertTrue(okSource.wasStreamClosed());
   }
 
@@ -288,7 +278,7 @@ public class CharSourceTest extends IoTestCase {
       ImmutableSet.of(BROKEN_CLOSE_SINK, BROKEN_OPEN_SINK, BROKEN_WRITE_SINK);
 
   public void testCopyExceptions() {
-    if (!Closer.SuppressingSuppressor.isAvailable()) {
+    if (Closer.create().suppressor instanceof LoggingSuppressor) {
       // test that exceptions are logged
 
       TestLogHandler logHandler = new TestLogHandler();
@@ -361,7 +351,9 @@ public class CharSourceTest extends IoTestCase {
     }
   }
 
-  /** @return the number of exceptions that were suppressed on the expected thrown exception */
+  /**
+   * @return the number of exceptions that were suppressed on the expected thrown exception
+   */
   private static int runSuppressionFailureTest(CharSource in, CharSink out) {
     try {
       in.copyTo(out);

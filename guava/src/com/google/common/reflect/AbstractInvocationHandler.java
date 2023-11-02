@@ -14,11 +14,11 @@
 
 package com.google.common.reflect;
 
-import com.google.common.annotations.Beta;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.Arrays;
+import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -38,7 +38,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Ben Yu
  * @since 12.0
  */
-@Beta
+@ElementTypesAreNonnullByDefault
 public abstract class AbstractInvocationHandler implements InvocationHandler {
 
   private static final Object[] NO_ARGS = {};
@@ -59,7 +59,8 @@ public abstract class AbstractInvocationHandler implements InvocationHandler {
    * </ul>
    */
   @Override
-  public final Object invoke(Object proxy, Method method, Object @Nullable [] args)
+  @CheckForNull
+  public final Object invoke(Object proxy, Method method, @CheckForNull @Nullable Object[] args)
       throws Throwable {
     if (args == null) {
       args = NO_ARGS;
@@ -94,7 +95,8 @@ public abstract class AbstractInvocationHandler implements InvocationHandler {
    * <p>Unlike {@link #invoke}, {@code args} will never be null. When the method has no parameter,
    * an empty array is passed in.
    */
-  protected abstract Object handleInvocation(Object proxy, Method method, Object[] args)
+  @CheckForNull
+  protected abstract Object handleInvocation(Object proxy, Method method, @Nullable Object[] args)
       throws Throwable;
 
   /**
@@ -109,7 +111,7 @@ public abstract class AbstractInvocationHandler implements InvocationHandler {
    * <p>Subclasses can override this method to provide custom equality.
    */
   @Override
-  public boolean equals(Object obj) {
+  public boolean equals(@CheckForNull Object obj) {
     return super.equals(obj);
   }
 

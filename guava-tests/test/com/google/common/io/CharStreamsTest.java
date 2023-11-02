@@ -16,6 +16,8 @@
 
 package com.google.common.io;
 
+import static org.junit.Assert.assertThrows;
+
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import java.io.EOFException;
@@ -118,11 +120,7 @@ public class CharStreamsTest extends IoTestCase {
 
   public void testSkipFully_EOF() throws IOException {
     Reader reader = new StringReader("abcde");
-    try {
-      CharStreams.skipFully(reader, 6);
-      fail("expected EOFException");
-    } catch (EOFException expected) {
-    }
+    assertThrows(EOFException.class, () -> CharStreams.skipFully(reader, 6));
   }
 
   public void testSkipFully() throws IOException {
@@ -270,17 +268,9 @@ public class CharStreamsTest extends IoTestCase {
     nullWriter.append(null);
     nullWriter.append(null, 0, 4);
 
-    try {
-      nullWriter.append(null, -1, 4);
-      fail();
-    } catch (IndexOutOfBoundsException expected) {
-    }
+    assertThrows(IndexOutOfBoundsException.class, () -> nullWriter.append(null, -1, 4));
 
-    try {
-      nullWriter.append(null, 0, 5);
-      fail();
-    } catch (IndexOutOfBoundsException expected) {
-    }
+    assertThrows(IndexOutOfBoundsException.class, () -> nullWriter.append(null, 0, 5));
 
     // nothing really to assert?
     assertSame(CharStreams.nullWriter(), CharStreams.nullWriter());

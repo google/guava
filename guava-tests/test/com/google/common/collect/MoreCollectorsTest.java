@@ -57,6 +57,14 @@ public class MoreCollectorsTest extends TestCase {
     }
   }
 
+  public void testToOptionalMultipleWithNull() {
+    try {
+      Stream.of(1, null).collect(MoreCollectors.toOptional());
+      fail("Expected NullPointerException");
+    } catch (NullPointerException expected) {
+    }
+  }
+
   public void testToOptionalMany() {
     try {
       Stream.of(1, 2, 3, 4, 5, 6).collect(MoreCollectors.toOptional());

@@ -14,16 +14,16 @@
 
 package com.google.common.util.concurrent;
 
-import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
-
 import com.google.common.base.Function;
 import java.util.concurrent.Executor;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Hidden superclass of {@link Futures} that provides us a place to declare special GWT versions of
  * the {@link Futures#catching(ListenableFuture, Class, com.google.common.base.Function)
  * Futures.catching} family of methods. Those versions have slightly different signatures.
  */
+@ElementTypesAreNonnullByDefault
 abstract class GwtFuturesCatchingSpecialization {
   /*
    * In the GWT versions of the methods (below), every exceptionType parameter is required to be
@@ -31,16 +31,7 @@ abstract class GwtFuturesCatchingSpecialization {
    * your own instanceof tests.
    */
 
-  /** @deprecated Use the overload that requires an executor. */
-  @Deprecated
-  public static <V> ListenableFuture<V> catching(
-      ListenableFuture<? extends V> input,
-      Class<Throwable> exceptionType,
-      Function<? super Throwable, ? extends V> fallback) {
-    return AbstractCatchingFuture.create(input, exceptionType, fallback, directExecutor());
-  }
-
-  public static <V> ListenableFuture<V> catching(
+  public static <V extends @Nullable Object> ListenableFuture<V> catching(
       ListenableFuture<? extends V> input,
       Class<Throwable> exceptionType,
       Function<? super Throwable, ? extends V> fallback,
@@ -48,16 +39,7 @@ abstract class GwtFuturesCatchingSpecialization {
     return AbstractCatchingFuture.create(input, exceptionType, fallback, executor);
   }
 
-  /** @deprecated Use the overload that requires an executor. */
-  @Deprecated
-  public static <V> ListenableFuture<V> catchingAsync(
-      ListenableFuture<? extends V> input,
-      Class<Throwable> exceptionType,
-      AsyncFunction<? super Throwable, ? extends V> fallback) {
-    return AbstractCatchingFuture.create(input, exceptionType, fallback, directExecutor());
-  }
-
-  public static <V> ListenableFuture<V> catchingAsync(
+  public static <V extends @Nullable Object> ListenableFuture<V> catchingAsync(
       ListenableFuture<? extends V> input,
       Class<Throwable> exceptionType,
       AsyncFunction<? super Throwable, ? extends V> fallback,

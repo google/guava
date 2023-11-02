@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -279,11 +280,7 @@ public class ImmutableSetTest extends AbstractImmutableSetTest {
     assertEquals(1 << 30, ImmutableSet.chooseTableSize((1 << 30) - 1));
 
     // Now we've gone too far
-    try {
-      ImmutableSet.chooseTableSize(1 << 30);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> ImmutableSet.chooseTableSize(1 << 30));
   }
 
   @GwtIncompatible // RegularImmutableSet.table not in emulation
@@ -319,6 +316,14 @@ public class ImmutableSetTest extends AbstractImmutableSetTest {
     ImmutableSortedSet<String> sortedSet = ImmutableSortedSet.of("a");
     ImmutableSet<String> copy = ImmutableSet.copyOf(sortedSet);
     assertNotSame(sortedSet, copy);
+  }
+
+  // TODO(b/172823566): Use mainline testToImmutableSet once CollectorTester is usable to java7.
+  public void testToImmutableSet_java7() {
+    ImmutableSet.Builder<String> zis = ImmutableSet.<String>builder().add("a", "b", "a");
+    ImmutableSet.Builder<String> zat = ImmutableSet.<String>builder().add("c", "b", "d", "c");
+    ImmutableSet<String> set = zis.combine(zat).build();
+    assertThat(set).containsExactly("a", "b", "c", "d").inOrder();
   }
 
   @GwtIncompatible // GWT is single threaded

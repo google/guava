@@ -28,6 +28,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.function.BiConsumer;
+import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -134,13 +135,16 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *
  * <h3>Implementations</h3>
  *
- * <p>As always, prefer the immutable implementations, {@link ImmutableListMultimap} and {@link
- * ImmutableSetMultimap}. General-purpose mutable implementations are listed above under "All Known
- * Implementing Classes". You can also create a <i>custom</i> multimap, backed by any {@code Map}
- * and {@link Collection} types, using the {@link Multimaps#newMultimap Multimaps.newMultimap}
- * family of methods. Finally, another popular way to obtain a multimap is using {@link
- * Multimaps#index Multimaps.index}. See the {@link Multimaps} class for these and other static
- * utilities related to multimaps.
+ * <ul>
+ *   <li>{@link ImmutableListMultimap}
+ *   <li>{@link ImmutableSetMultimap}
+ *   <li>Configure your own mutable multimap with {@link MultimapBuilder}
+ *   <li>{@link LinkedListMultimap} (for one unusual kind of mutable {@code Multimap})
+ * </ul>
+ *
+ * Guava contains a number of other multimap implementations, such as {@link ArrayListMultimap}. In
+ * new code, we recommend using {@link MultimapBuilder} instead: It provides better control of how
+ * keys and values are stored.
  *
  * <h3>Other Notes</h3>
  *
@@ -153,15 +157,15 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * {@link UnsupportedOperationException}.
  *
  * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multimap"> {@code
- * Multimap}</a>.
+ * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multimap">{@code Multimap}</a>.
  *
  * @author Jared Levy
  * @since 2.0
  */
 @DoNotMock("Use ImmutableMultimap, HashMultimap, or another implementation")
 @GwtCompatible
-public interface Multimap<K, V> {
+@ElementTypesAreNonnullByDefault
+public interface Multimap<K extends @Nullable Object, V extends @Nullable Object> {
   // Query Operations
 
   /**
@@ -183,20 +187,21 @@ public interface Multimap<K, V> {
    * Returns {@code true} if this multimap contains at least one key-value pair with the key {@code
    * key}.
    */
-  boolean containsKey(@CompatibleWith("K") @Nullable Object key);
+  boolean containsKey(@CompatibleWith("K") @CheckForNull Object key);
 
   /**
    * Returns {@code true} if this multimap contains at least one key-value pair with the value
    * {@code value}.
    */
-  boolean containsValue(@CompatibleWith("V") @Nullable Object value);
+  boolean containsValue(@CompatibleWith("V") @CheckForNull Object value);
 
   /**
    * Returns {@code true} if this multimap contains at least one key-value pair with the key {@code
    * key} and the value {@code value}.
    */
   boolean containsEntry(
-      @CompatibleWith("K") @Nullable Object key, @CompatibleWith("V") @Nullable Object value);
+      @CompatibleWith("K") @CheckForNull Object key,
+      @CompatibleWith("V") @CheckForNull Object value);
 
   // Modification Operations
 
@@ -211,7 +216,7 @@ public interface Multimap<K, V> {
    *     multimap already contained the key-value pair and doesn't allow duplicates
    */
   @CanIgnoreReturnValue
-  boolean put(@Nullable K key, @Nullable V value);
+  boolean put(@ParametricNullness K key, @ParametricNullness V value);
 
   /**
    * Removes a single key-value pair with the key {@code key} and the value {@code value} from this
@@ -222,7 +227,8 @@ public interface Multimap<K, V> {
    */
   @CanIgnoreReturnValue
   boolean remove(
-      @CompatibleWith("K") @Nullable Object key, @CompatibleWith("V") @Nullable Object value);
+      @CompatibleWith("K") @CheckForNull Object key,
+      @CompatibleWith("V") @CheckForNull Object value);
 
   // Bulk Operations
 
@@ -241,7 +247,7 @@ public interface Multimap<K, V> {
    * @return {@code true} if the multimap changed
    */
   @CanIgnoreReturnValue
-  boolean putAll(@Nullable K key, Iterable<? extends V> values);
+  boolean putAll(@ParametricNullness K key, Iterable<? extends V> values);
 
   /**
    * Stores all key-value pairs of {@code multimap} in this multimap, in the order returned by
@@ -262,7 +268,7 @@ public interface Multimap<K, V> {
    *     no effect on the multimap.
    */
   @CanIgnoreReturnValue
-  Collection<V> replaceValues(@Nullable K key, Iterable<? extends V> values);
+  Collection<V> replaceValues(@ParametricNullness K key, Iterable<? extends V> values);
 
   /**
    * Removes all values associated with the key {@code key}.
@@ -274,7 +280,7 @@ public interface Multimap<K, V> {
    *     modifiable, but updating it will have no effect on the multimap.
    */
   @CanIgnoreReturnValue
-  Collection<V> removeAll(@CompatibleWith("K") @Nullable Object key);
+  Collection<V> removeAll(@CompatibleWith("K") @CheckForNull Object key);
 
   /** Removes all key-value pairs from the multimap, leaving it {@linkplain #isEmpty empty}. */
   void clear();
@@ -288,7 +294,7 @@ public interface Multimap<K, V> {
    *
    * <p>Changes to the returned collection will update the underlying multimap, and vice versa.
    */
-  Collection<V> get(@Nullable K key);
+  Collection<V> get(@ParametricNullness K key);
 
   /**
    * Returns a view collection of all <i>distinct</i> keys contained in this multimap. Note that the
@@ -370,7 +376,7 @@ public interface Multimap<K, V> {
    * multimaps are equal, because they both have empty {@link #asMap} views.
    */
   @Override
-  boolean equals(@Nullable Object obj);
+  boolean equals(@CheckForNull Object obj);
 
   /**
    * Returns the hash code for this multimap.

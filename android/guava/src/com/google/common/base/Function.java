@@ -15,8 +15,8 @@
 package com.google.common.base;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Determines an output value based on an input value; a pre-Java-8 version of {@link
@@ -44,7 +44,8 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @since 2.0
  */
 @GwtCompatible
-public interface Function<F, T> {
+@ElementTypesAreNonnullByDefault
+public interface Function<F extends @Nullable Object, T extends @Nullable Object> {
   /**
    * Returns the result of applying this function to {@code input}. This method is <i>generally
    * expected</i>, but not absolutely required, to have the following properties:
@@ -59,9 +60,8 @@ public interface Function<F, T> {
    * @throws NullPointerException if {@code input} is null and this function does not accept null
    *     arguments
    */
-  @CanIgnoreReturnValue // TODO(kevinb): remove this
-  @NullableDecl
-  T apply(@NullableDecl F input);
+  @ParametricNullness
+  T apply(@ParametricNullness F input);
 
   /**
    * <i>May</i> return {@code true} if {@code object} is a {@code Function} that behaves identically
@@ -75,5 +75,5 @@ public interface Function<F, T> {
    * disappear. It is best not to depend on it.
    */
   @Override
-  boolean equals(@NullableDecl Object object);
+  boolean equals(@CheckForNull Object object);
 }

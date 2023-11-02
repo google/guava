@@ -21,7 +21,6 @@ import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.util.concurrent.Futures.immediateFailedFuture;
 import static com.google.common.util.concurrent.Futures.immediateFuture;
 import static com.google.common.util.concurrent.FuturesGetChecked.checkExceptionClassValidity;
-import static com.google.common.util.concurrent.FuturesGetChecked.classValueValidator;
 import static com.google.common.util.concurrent.FuturesGetChecked.getChecked;
 import static com.google.common.util.concurrent.FuturesGetChecked.isCheckedException;
 import static com.google.common.util.concurrent.FuturesGetChecked.weakSetValidator;
@@ -34,7 +33,7 @@ import com.google.common.util.concurrent.FuturesGetChecked.GetCheckedTypeValidat
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.security.GeneralSecurityException;
-import java.security.acl.NotOwnerException;
+import java.security.KeyException;
 import java.util.List;
 import java.util.TooManyListenersException;
 import java.util.concurrent.BrokenBarrierException;
@@ -52,7 +51,7 @@ public class FuturesGetCheckedBenchmark {
     NON_CACHING_WITH_CONSTRUCTOR_CHECK(nonCachingWithConstructorCheckValidator()),
     NON_CACHING_WITHOUT_CONSTRUCTOR_CHECK(nonCachingWithoutConstructorCheckValidator()),
     WEAK_SET(weakSetValidator()),
-    CLASS_VALUE(classValueValidator());
+    ;
 
     final GetCheckedTypeValidator validator;
 
@@ -92,7 +91,7 @@ public class FuturesGetCheckedBenchmark {
           ExecutionException.class,
           GeneralSecurityException.class,
           InvalidPreferencesFormatException.class,
-          NotOwnerException.class,
+          KeyException.class,
           RefreshFailedException.class,
           TimeoutException.class,
           TooManyListenersException.class,

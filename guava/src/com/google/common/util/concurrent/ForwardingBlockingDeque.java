@@ -17,10 +17,12 @@
 package com.google.common.util.concurrent;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.ForwardingDeque;
 import java.util.Collection;
 import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.TimeUnit;
+import javax.annotation.CheckForNull;
 
 /**
  * A {@link BlockingDeque} which forwards all its method calls to another {@code BlockingDeque}.
@@ -43,7 +45,9 @@ import java.util.concurrent.TimeUnit;
  * @author Emily Soldal
  * @since 21.0 (since 14.0 as {@link com.google.common.collect.ForwardingBlockingDeque})
  */
+@J2ktIncompatible
 @GwtIncompatible
+@ElementTypesAreNonnullByDefault
 public abstract class ForwardingBlockingDeque<E> extends ForwardingDeque<E>
     implements BlockingDeque<E> {
 
@@ -89,11 +93,13 @@ public abstract class ForwardingBlockingDeque<E> extends ForwardingDeque<E>
   }
 
   @Override
+  @CheckForNull
   public E pollFirst(long timeout, TimeUnit unit) throws InterruptedException {
     return delegate().pollFirst(timeout, unit);
   }
 
   @Override
+  @CheckForNull
   public E pollLast(long timeout, TimeUnit unit) throws InterruptedException {
     return delegate().pollLast(timeout, unit);
   }
@@ -114,6 +120,7 @@ public abstract class ForwardingBlockingDeque<E> extends ForwardingDeque<E>
   }
 
   @Override
+  @CheckForNull
   public E poll(long timeout, TimeUnit unit) throws InterruptedException {
     return delegate().poll(timeout, unit);
   }

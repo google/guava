@@ -28,6 +28,7 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Base test case class for I/O tests.
@@ -92,7 +93,7 @@ public abstract class IoTestCase extends TestCase {
   }
 
   /** Returns the file with the given name under the testdata directory. */
-  protected final File getTestFile(String name) throws IOException {
+  protected final @Nullable File getTestFile(String name) throws IOException {
     File file = new File(getTestDir(), name);
     if (!file.exists()) {
       URL resourceUrl = IoTestCase.class.getResource("testdata/" + name);
@@ -137,18 +138,6 @@ public abstract class IoTestCase extends TestCase {
    */
   protected final File createTempFile() throws IOException {
     return File.createTempFile("test", null, getTempDir());
-  }
-
-  /**
-   * Creates a new temp file in the temp directory returned by {@link #getTempDir()}. The file will
-   * be deleted in the tear-down for this test.
-   *
-   * @param content which should be written to the file
-   */
-  protected final File createTempFile(byte[] content) throws IOException {
-    File file = File.createTempFile("test", null, getTempDir());
-    Files.write(content, file);
-    return file;
   }
 
   /** Returns a byte array of length size that has values 0 .. size - 1. */

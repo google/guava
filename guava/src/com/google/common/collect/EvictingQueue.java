@@ -19,8 +19,8 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.Serializable;
@@ -43,8 +43,8 @@ import java.util.Queue;
  * @author Kurt Alfred Kluever
  * @since 15.0
  */
-@Beta
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public final class EvictingQueue<E> extends ForwardingQueue<E> implements Serializable {
 
   private final Queue<E> delegate;
@@ -53,7 +53,7 @@ public final class EvictingQueue<E> extends ForwardingQueue<E> implements Serial
 
   private EvictingQueue(int maxSize) {
     checkArgument(maxSize >= 0, "maxSize (%s) must >= 0", maxSize);
-    this.delegate = new ArrayDeque<E>(maxSize);
+    this.delegate = new ArrayDeque<>(maxSize);
     this.maxSize = maxSize;
   }
 
@@ -64,7 +64,7 @@ public final class EvictingQueue<E> extends ForwardingQueue<E> implements Serial
    * queue.
    */
   public static <E> EvictingQueue<E> create(int maxSize) {
-    return new EvictingQueue<E>(maxSize);
+    return new EvictingQueue<>(maxSize);
   }
 
   /**
@@ -126,17 +126,20 @@ public final class EvictingQueue<E> extends ForwardingQueue<E> implements Serial
   }
 
   @Override
-  public boolean contains(Object object) {
-    return delegate().contains(checkNotNull(object));
+  @J2ktIncompatible // Incompatible return type change. Use inherited implementation
+  public Object[] toArray() {
+    /*
+     * If we could, we'd declare the no-arg `Collection.toArray()` to return "Object[] but elements
+     * have the same nullness as E." Since we can't, we declare it to return nullable elements, and
+     * we can override it in our non-null-guaranteeing subtypes to present a better signature to
+     * their users.
+     *
+     * However, the checker *we* use has this special knowledge about `Collection.toArray()` anyway,
+     * so in our implementation code, we can rely on that. That's why the expression below
+     * type-checks.
+     */
+    return super.toArray();
   }
-
-  @Override
-  @CanIgnoreReturnValue
-  public boolean remove(Object object) {
-    return delegate().remove(checkNotNull(object));
-  }
-
-  // TODO(kak): Do we want to checkNotNull each element in containsAll, removeAll, and retainAll?
 
   private static final long serialVersionUID = 0L;
 }

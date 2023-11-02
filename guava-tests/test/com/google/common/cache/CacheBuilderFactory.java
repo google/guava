@@ -125,10 +125,10 @@ class CacheBuilderFactory {
         }
       };
 
-  private static final Function<Optional<?>, Object> OPTIONAL_TO_NULLABLE =
-      new Function<Optional<?>, Object>() {
+  private static final Function<Optional<?>, @Nullable Object> OPTIONAL_TO_NULLABLE =
+      new Function<Optional<?>, @Nullable Object>() {
         @Override
-        public Object apply(Optional<?> optional) {
+        public @Nullable Object apply(Optional<?> optional) {
           return optional.orNull();
         }
       };
@@ -158,14 +158,14 @@ class CacheBuilderFactory {
   }
 
   private CacheBuilder<Object, Object> createCacheBuilder(
-      Integer concurrencyLevel,
-      Integer initialCapacity,
-      Integer maximumSize,
-      DurationSpec expireAfterWrite,
-      DurationSpec expireAfterAccess,
-      DurationSpec refresh,
-      Strength keyStrength,
-      Strength valueStrength) {
+      @Nullable Integer concurrencyLevel,
+      @Nullable Integer initialCapacity,
+      @Nullable Integer maximumSize,
+      @Nullable DurationSpec expireAfterWrite,
+      @Nullable DurationSpec expireAfterAccess,
+      @Nullable DurationSpec refresh,
+      @Nullable Strength keyStrength,
+      @Nullable Strength valueStrength) {
 
     CacheBuilder<Object, Object> builder = CacheBuilder.newBuilder();
     if (concurrencyLevel != null) {
@@ -214,7 +214,7 @@ class CacheBuilderFactory {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(@Nullable Object o) {
       if (o instanceof DurationSpec) {
         DurationSpec that = (DurationSpec) o;
         return unit.toNanos(duration) == that.unit.toNanos(that.duration);

@@ -17,15 +17,17 @@ package com.google.common.util.concurrent;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.util.concurrent.Platform.restoreInterruptIfIsInterruptedException;
 import static com.google.common.util.concurrent.Service.State.FAILED;
 import static com.google.common.util.concurrent.Service.State.NEW;
 import static com.google.common.util.concurrent.Service.State.RUNNING;
 import static com.google.common.util.concurrent.Service.State.STARTING;
 import static com.google.common.util.concurrent.Service.State.STOPPING;
 import static com.google.common.util.concurrent.Service.State.TERMINATED;
+import static java.util.Objects.requireNonNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.util.concurrent.Monitor.Guard;
 import com.google.common.util.concurrent.Service.State; // javadoc needs this
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -35,7 +37,7 @@ import com.google.j2objc.annotations.WeakOuter;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import javax.annotation.CheckForNull;
 
 /**
  * Base class for implementing services that can handle {@link #doStart} and {@link #doStop}
@@ -48,6 +50,8 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @since 1.0
  */
 @GwtIncompatible
+@J2ktIncompatible
+@ElementTypesAreNonnullByDefault
 public abstract class AbstractService implements Service {
   private static final ListenerCallQueue.Event<Listener> STARTING_EVENT =
       new ListenerCallQueue.Event<Listener>() {
@@ -169,7 +173,7 @@ public abstract class AbstractService implements Service {
 
     @Override
     public boolean isSatisfied() {
-      return state().isTerminal();
+      return state().compareTo(TERMINATED) >= 0;
     }
   }
 
@@ -234,7 +238,6 @@ public abstract class AbstractService implements Service {
    *
    * @since 27.0
    */
-  @Beta
   @ForOverride
   protected void doCancelStart() {}
 
@@ -247,6 +250,7 @@ public abstract class AbstractService implements Service {
         enqueueStartingEvent();
         doStart();
       } catch (Throwable startupFailure) {
+        restoreInterruptIfIsInterruptedException(startupFailure);
         notifyFailed(startupFailure);
       } finally {
         monitor.leave();
@@ -286,6 +290,7 @@ public abstract class AbstractService implements Service {
             throw new AssertionError("isStoppable is incorrectly implemented, saw: " + previous);
         }
       } catch (Throwable shutdownFailure) {
+        restoreInterruptIfIsInterruptedException(shutdownFailure);
         notifyFailed(shutdownFailure);
       } finally {
         monitor.leave();
@@ -314,7 +319,7 @@ public abstract class AbstractService implements Service {
         monitor.leave();
       }
     } else {
-      // It is possible due to races the we are currently in the expected state even though we
+      // It is possible due to races that we are currently in the expected state even though we
       // timed out. e.g. if we weren't event able to grab the lock within the timeout we would never
       // even check the guard. I don't think we care too much about this use case but it could lead
       // to a confusing error message.
@@ -341,7 +346,7 @@ public abstract class AbstractService implements Service {
         monitor.leave();
       }
     } else {
-      // It is possible due to races the we are currently in the expected state even though we
+      // It is possible due to races that we are currently in the expected state even though we
       // timed out. e.g. if we weren't event able to grab the lock within the timeout we would never
       // even check the guard. I don't think we care too much about this use case but it could lead
       // to a confusing error message.
@@ -575,20 +580,20 @@ public abstract class AbstractService implements Service {
      * The exception that caused this service to fail. This will be {@code null} unless the service
      * has failed.
      */
-    @NullableDecl final Throwable failure;
+    @CheckForNull final Throwable failure;
 
     StateSnapshot(State internalState) {
       this(internalState, false, null);
     }
 
     StateSnapshot(
-        State internalState, boolean shutdownWhenStartupFinishes, @NullableDecl Throwable failure) {
+        State internalState, boolean shutdownWhenStartupFinishes, @CheckForNull Throwable failure) {
       checkArgument(
           !shutdownWhenStartupFinishes || internalState == STARTING,
           "shutdownWhenStartupFinishes can only be set if state is STARTING. Got %s instead.",
           internalState);
       checkArgument(
-          !(failure != null ^ internalState == FAILED),
+          (failure != null) == (internalState == FAILED),
           "A failure cause should be set if and only if the state is failed.  Got %s and %s "
               + "instead.",
           internalState,
@@ -613,7 +618,8 @@ public abstract class AbstractService implements Service {
           state == FAILED,
           "failureCause() is only valid if the service has failed, service is %s",
           state);
-      return failure;
+      // requireNonNull is safe because the constructor requires a non-null cause with state=FAILED.
+      return requireNonNull(failure);
     }
   }
 }

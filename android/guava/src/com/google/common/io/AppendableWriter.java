@@ -17,11 +17,12 @@ package com.google.common.io;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import java.io.Closeable;
 import java.io.Flushable;
 import java.io.IOException;
 import java.io.Writer;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import javax.annotation.CheckForNull;
 
 /**
  * Writer that places all output on an {@link Appendable} target. If the target is {@link Flushable}
@@ -31,7 +32,9 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @author Sebastian Kanthak
  * @since 1.0
  */
+@J2ktIncompatible
 @GwtIncompatible
+@ElementTypesAreNonnullByDefault
 class AppendableWriter extends Writer {
   private final Appendable target;
   private boolean closed;
@@ -68,13 +71,15 @@ class AppendableWriter extends Writer {
   }
 
   @Override
-  public void write(@NullableDecl String str) throws IOException {
+  public void write(String str) throws IOException {
+    checkNotNull(str);
     checkNotClosed();
     target.append(str);
   }
 
   @Override
-  public void write(@NullableDecl String str, int off, int len) throws IOException {
+  public void write(String str, int off, int len) throws IOException {
+    checkNotNull(str);
     checkNotClosed();
     // tricky: append takes start, end pair...
     target.append(str, off, off + len);
@@ -104,14 +109,14 @@ class AppendableWriter extends Writer {
   }
 
   @Override
-  public Writer append(@NullableDecl CharSequence charSeq) throws IOException {
+  public Writer append(@CheckForNull CharSequence charSeq) throws IOException {
     checkNotClosed();
     target.append(charSeq);
     return this;
   }
 
   @Override
-  public Writer append(@NullableDecl CharSequence charSeq, int start, int end) throws IOException {
+  public Writer append(@CheckForNull CharSequence charSeq, int start, int end) throws IOException {
     checkNotClosed();
     target.append(charSeq, start, end);
     return this;

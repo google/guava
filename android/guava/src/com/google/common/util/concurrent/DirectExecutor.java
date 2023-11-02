@@ -22,6 +22,7 @@ import java.util.concurrent.Executor;
  * execute}.
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 enum DirectExecutor implements Executor {
   INSTANCE;
 

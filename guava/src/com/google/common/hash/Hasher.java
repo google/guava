@@ -18,6 +18,7 @@ import com.google.common.annotations.Beta;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A {@link PrimitiveSink} that can compute a hash code after reading the input. Each hasher should
@@ -53,41 +54,52 @@ import java.nio.charset.Charset;
  * @since 11.0
  */
 @Beta
-@CanIgnoreReturnValue
+@ElementTypesAreNonnullByDefault
 public interface Hasher extends PrimitiveSink {
+  @CanIgnoreReturnValue
   @Override
   Hasher putByte(byte b);
 
+  @CanIgnoreReturnValue
   @Override
   Hasher putBytes(byte[] bytes);
 
+  @CanIgnoreReturnValue
   @Override
   Hasher putBytes(byte[] bytes, int off, int len);
 
+  @CanIgnoreReturnValue
   @Override
   Hasher putBytes(ByteBuffer bytes);
 
+  @CanIgnoreReturnValue
   @Override
   Hasher putShort(short s);
 
+  @CanIgnoreReturnValue
   @Override
   Hasher putInt(int i);
 
+  @CanIgnoreReturnValue
   @Override
   Hasher putLong(long l);
 
   /** Equivalent to {@code putInt(Float.floatToRawIntBits(f))}. */
+  @CanIgnoreReturnValue
   @Override
   Hasher putFloat(float f);
 
   /** Equivalent to {@code putLong(Double.doubleToRawLongBits(d))}. */
+  @CanIgnoreReturnValue
   @Override
   Hasher putDouble(double d);
 
   /** Equivalent to {@code putByte(b ? (byte) 1 : (byte) 0)}. */
+  @CanIgnoreReturnValue
   @Override
   Hasher putBoolean(boolean b);
 
+  @CanIgnoreReturnValue
   @Override
   Hasher putChar(char c);
 
@@ -104,6 +116,7 @@ public interface Hasher extends PrimitiveSink {
    *
    * @since 15.0 (since 11.0 as putString(CharSequence)).
    */
+  @CanIgnoreReturnValue
   @Override
   Hasher putUnencodedChars(CharSequence charSequence);
 
@@ -115,11 +128,14 @@ public interface Hasher extends PrimitiveSink {
    * faster, produces the same output across Java releases, and hashes every {@code char} in the
    * input, even if some are invalid.
    */
+  @CanIgnoreReturnValue
   @Override
   Hasher putString(CharSequence charSequence, Charset charset);
 
   /** A simple convenience for {@code funnel.funnel(object, this)}. */
-  <T> Hasher putObject(T instance, Funnel<? super T> funnel);
+  @CanIgnoreReturnValue
+  <T extends @Nullable Object> Hasher putObject(
+      @ParametricNullness T instance, Funnel<? super T> funnel);
 
   /**
    * Computes a hash code based on the data that have been provided to this hasher. The result is

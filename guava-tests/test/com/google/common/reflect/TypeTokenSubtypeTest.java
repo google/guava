@@ -17,6 +17,7 @@
 package com.google.common.reflect;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.assertThrows;
 
 import java.io.Serializable;
 import java.util.Comparator;
@@ -39,38 +40,41 @@ public class TypeTokenSubtypeTest extends TestCase {
    * recursively bounded.
    */
   public void testRecursiveWildcardSubtypeBug() throws Exception {
-    try {
-      new RecursiveTypeBoundBugExample<>().testAllDeclarations();
-      fail();
-    } catch (Exception e) {
-      assertThat(e).hasCauseThat().isInstanceOf(AssertionError.class);
-    }
+    Exception e =
+        assertThrows(
+            Exception.class, () -> new RecursiveTypeBoundBugExample<>().testAllDeclarations());
+    assertThat(e).hasCauseThat().isInstanceOf(AssertionError.class);
   }
 
+  @SuppressWarnings("RestrictedApiChecker") // crashes under JDK8, which EP no longer supports
   public void testSubtypeOfInnerClass_nonStaticAnonymousClass() {
     TypeToken<?> supertype = new TypeToken<Mall<Outdoor>.Shop<Electronics>>() {};
     Class<?> subclass = new Mall<Outdoor>().new Shop<Electronics>() {}.getClass();
     assertTrue(TypeToken.of(subclass).isSubtypeOf(supertype));
   }
 
+  @SuppressWarnings("RestrictedApiChecker") // crashes under JDK8, which EP no longer supports
   public void testSubtypeOfInnerClass_nonStaticAnonymousClass_typeParameterOfOwnerTypeNotMatch() {
     TypeToken<?> supertype = new TypeToken<Mall<Outdoor>.Shop<Electronics>>() {};
     Class<?> subclass = new Mall<Indoor>().new Shop<Electronics>() {}.getClass();
     assertFalse(TypeToken.of(subclass).isSubtypeOf(supertype));
   }
 
+  @SuppressWarnings("RestrictedApiChecker") // crashes under JDK8, which EP no longer supports
   public void testSubtypeOfInnerClass_nonStaticAnonymousClass_typeParameterOfInnerTypeNotMatch() {
     TypeToken<?> supertype = new TypeToken<Mall<Outdoor>.Shop<Electronics>>() {};
     Class<?> subclass = new Mall<Outdoor>().new Shop<Grocery>() {}.getClass();
     assertFalse(TypeToken.of(subclass).isSubtypeOf(supertype));
   }
 
+  @SuppressWarnings("RestrictedApiChecker") // crashes under JDK8, which EP no longer supports
   public static void testSubtypeOfInnerClass_staticAnonymousClass() {
     TypeToken<?> supertype = new TypeToken<Mall<Outdoor>.Shop<Electronics>>() {};
     Class<?> subclass = new Mall<Outdoor>().new Shop<Electronics>() {}.getClass();
     assertTrue(TypeToken.of(subclass).isSubtypeOf(supertype));
   }
 
+  @SuppressWarnings("RestrictedApiChecker") // crashes under JDK8, which EP no longer supports
   public static void testSubtypeOfStaticAnonymousClass() {
     Class<?> superclass = new Mall<Outdoor>().new Shop<Electronics>() {}.getClass();
     assertTrue(TypeToken.of(superclass).isSubtypeOf(superclass));
@@ -79,6 +83,7 @@ public class TypeTokenSubtypeTest extends TestCase {
             .isSubtypeOf(superclass));
   }
 
+  @SuppressWarnings("RestrictedApiChecker") // crashes under JDK8, which EP no longer supports
   public void testSubtypeOfNonStaticAnonymousClass() {
     Class<?> superclass = new Mall<Outdoor>().new Shop<Electronics>() {}.getClass();
     assertTrue(TypeToken.of(superclass).isSubtypeOf(superclass));
@@ -90,11 +95,7 @@ public class TypeTokenSubtypeTest extends TestCase {
   public void testGetSubtypeOf_impossibleWildcard() {
     TypeToken<List<? extends Number>> numberList = new TypeToken<List<? extends Number>>() {};
     abstract class StringList implements List<String> {}
-    try {
-      numberList.getSubtype(StringList.class);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> numberList.getSubtype(StringList.class));
   }
 
   private static class OwnerTypeSubtypingTests extends SubtypeTester {
@@ -231,7 +232,7 @@ public class TypeTokenSubtypeTest extends TestCase {
     @TestSubtype(suppressGetSupertype = true, suppressGetSubtype = true)
     public List<RecursiveTypeBoundBugExample<?>> ifYouUseTheTypeVariableOnTheClassAndItIsRecursive(
         List<RecursiveTypeBoundBugExample<? extends RecursiveTypeBoundBugExample<T>>> arg) {
-      return notSubtype(arg); // isSubtype() currently incorectly considers it a subtype.
+      return notSubtype(arg); // isSubtype() currently incorrectly considers it a subtype.
     }
   }
 

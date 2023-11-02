@@ -18,9 +18,10 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.primitives.Ints;
+import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.util.Collection;
 import java.util.Map;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import javax.annotation.CheckForNull;
 
 /**
  * An implementation of ImmutableMultiset backed by a JDK Map and a list of entries. Used to protect
@@ -29,6 +30,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Louis Wasserman
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 final class JdkBackedImmutableMultiset<E> extends ImmutableMultiset<E> {
   private final Map<E, Integer> delegateMap;
   private final ImmutableList<Entry<E>> entries;
@@ -61,16 +63,16 @@ final class JdkBackedImmutableMultiset<E> extends ImmutableMultiset<E> {
   }
 
   @Override
-  public int count(@Nullable Object element) {
+  public int count(@CheckForNull Object element) {
     return delegateMap.getOrDefault(element, 0);
   }
 
-  private transient ImmutableSet<E> elementSet;
+  @LazyInit @CheckForNull private transient ImmutableSet<E> elementSet;
 
   @Override
   public ImmutableSet<E> elementSet() {
     ImmutableSet<E> result = elementSet;
-    return (result == null) ? elementSet = new ElementSet<E>(entries, this) : result;
+    return (result == null) ? elementSet = new ElementSet<>(entries, this) : result;
   }
 
   @Override

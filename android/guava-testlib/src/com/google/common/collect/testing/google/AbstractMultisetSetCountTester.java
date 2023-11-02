@@ -188,9 +188,9 @@ public abstract class AbstractMultisetSetCountTester<E> extends AbstractMultiset
 
   @CollectionFeature.Require({SUPPORTS_ADD, FAILS_FAST_ON_CONCURRENT_MODIFICATION})
   public void testSetCountZeroToOneConcurrentWithIteration() {
+    Iterator<E> iterator = collection.iterator();
+    assertSetCount(e3(), 1);
     try {
-      Iterator<E> iterator = collection.iterator();
-      assertSetCount(e3(), 1);
       iterator.next();
       fail("Expected ConcurrentModificationException");
     } catch (ConcurrentModificationException expected) {
@@ -200,9 +200,9 @@ public abstract class AbstractMultisetSetCountTester<E> extends AbstractMultiset
 
   @CollectionFeature.Require({SUPPORTS_ADD, FAILS_FAST_ON_CONCURRENT_MODIFICATION})
   public void testSetCountZeroToOneConcurrentWithEntrySetIteration() {
+    Iterator<Entry<E>> iterator = getMultiset().entrySet().iterator();
+    assertSetCount(e3(), 1);
     try {
-      Iterator<Entry<E>> iterator = getMultiset().entrySet().iterator();
-      assertSetCount(e3(), 1);
       iterator.next();
       fail("Expected ConcurrentModificationException");
     } catch (ConcurrentModificationException expected) {
@@ -248,9 +248,9 @@ public abstract class AbstractMultisetSetCountTester<E> extends AbstractMultiset
   @CollectionFeature.Require({SUPPORTS_REMOVE, FAILS_FAST_ON_CONCURRENT_MODIFICATION})
   @CollectionSize.Require(absent = ZERO)
   public void testSetCountOneToZeroConcurrentWithIteration() {
+    Iterator<E> iterator = collection.iterator();
+    assertSetCount(e0(), 0);
     try {
-      Iterator<E> iterator = collection.iterator();
-      assertSetCount(e0(), 0);
       iterator.next();
       fail("Expected ConcurrentModificationException");
     } catch (ConcurrentModificationException expected) {
@@ -261,9 +261,9 @@ public abstract class AbstractMultisetSetCountTester<E> extends AbstractMultiset
   @CollectionFeature.Require({SUPPORTS_REMOVE, FAILS_FAST_ON_CONCURRENT_MODIFICATION})
   @CollectionSize.Require(absent = ZERO)
   public void testSetCountOneToZeroConcurrentWithEntrySetIteration() {
+    Iterator<Entry<E>> iterator = getMultiset().entrySet().iterator();
+    assertSetCount(e0(), 0);
     try {
-      Iterator<Entry<E>> iterator = getMultiset().entrySet().iterator();
-      assertSetCount(e0(), 0);
       iterator.next();
       fail("Expected ConcurrentModificationException");
     } catch (ConcurrentModificationException expected) {

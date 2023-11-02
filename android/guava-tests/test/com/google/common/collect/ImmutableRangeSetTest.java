@@ -15,6 +15,7 @@
 package com.google.common.collect;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.NavigableSetTestSuiteBuilder;
@@ -312,6 +313,7 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
     assertEquals(expectedComplement, rangeSet.complement());
   }
 
+  @SuppressWarnings("DoNotCall")
   public void testAddUnsupported() {
     RangeSet<Integer> rangeSet =
         ImmutableRangeSet.<Integer>builder()
@@ -319,14 +321,10 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
             .add(Range.closedOpen(1, 3))
             .build();
 
-    try {
-      rangeSet.add(Range.open(3, 4));
-      fail();
-    } catch (UnsupportedOperationException expected) {
-      // success
-    }
+    assertThrows(UnsupportedOperationException.class, () -> rangeSet.add(Range.open(3, 4)));
   }
 
+  @SuppressWarnings("DoNotCall")
   public void testAddAllUnsupported() {
     RangeSet<Integer> rangeSet =
         ImmutableRangeSet.<Integer>builder()
@@ -334,14 +332,12 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
             .add(Range.closedOpen(1, 3))
             .build();
 
-    try {
-      rangeSet.addAll(ImmutableRangeSet.<Integer>of());
-      fail();
-    } catch (UnsupportedOperationException expected) {
-      // success
-    }
+    assertThrows(
+        UnsupportedOperationException.class,
+        () -> rangeSet.addAll(ImmutableRangeSet.<Integer>of()));
   }
 
+  @SuppressWarnings("DoNotCall")
   public void testRemoveUnsupported() {
     RangeSet<Integer> rangeSet =
         ImmutableRangeSet.<Integer>builder()
@@ -349,14 +345,10 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
             .add(Range.closedOpen(1, 3))
             .build();
 
-    try {
-      rangeSet.remove(Range.closed(6, 7));
-      fail();
-    } catch (UnsupportedOperationException expected) {
-      // success
-    }
+    assertThrows(UnsupportedOperationException.class, () -> rangeSet.remove(Range.closed(6, 7)));
   }
 
+  @SuppressWarnings("DoNotCall")
   public void testRemoveAllUnsupported() {
     RangeSet<Integer> rangeSet =
         ImmutableRangeSet.<Integer>builder()
@@ -364,19 +356,13 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
             .add(Range.closedOpen(1, 3))
             .build();
 
-    try {
-      rangeSet.removeAll(ImmutableRangeSet.<Integer>of());
-      fail();
-    } catch (UnsupportedOperationException expected) {
-      // success
-    }
+    assertThrows(
+        UnsupportedOperationException.class,
+        () -> rangeSet.removeAll(ImmutableRangeSet.<Integer>of()));
 
-    try {
-      rangeSet.removeAll(ImmutableRangeSet.of(Range.closed(6, 8)));
-      fail();
-    } catch (UnsupportedOperationException expected) {
-      // success
-    }
+    assertThrows(
+        UnsupportedOperationException.class,
+        () -> rangeSet.removeAll(ImmutableRangeSet.of(Range.closed(6, 8))));
   }
 
   @AndroidIncompatible // slow
@@ -424,11 +410,11 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
       }
 
       if (anyOverlaps) {
-        try {
-          RangeSet<Integer> copy = ImmutableRangeSet.copyOf(subset);
-          fail();
-        } catch (IllegalArgumentException expected) {
-        }
+        assertThrows(
+            IllegalArgumentException.class,
+            () -> {
+              RangeSet<Integer> copy = ImmutableRangeSet.copyOf(subset);
+            });
       } else {
         RangeSet<Integer> copy = ImmutableRangeSet.copyOf(subset);
         assertEquals(mutable, copy);
@@ -589,5 +575,24 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
         }
       }
     }
+  }
+
+  // TODO(b/172823566): Use mainline testToImmutableRangeSet once CollectorTester is usable to java7
+  public void testToImmutableRangeSet_java7_combine() {
+    Range<Integer> rangeOne = Range.closedOpen(1, 3);
+    Range<Integer> rangeTwo = Range.closedOpen(7, 9);
+    Range<Integer> rangeThree = Range.closedOpen(4, 5);
+    Range<Integer> rangeFour = Range.closedOpen(6, 7);
+
+    ImmutableRangeSet.Builder<Integer> zis =
+        ImmutableRangeSet.<Integer>builder().add(rangeOne).add(rangeTwo);
+    ImmutableRangeSet.Builder<Integer> zat =
+        ImmutableRangeSet.<Integer>builder().add(rangeThree).add(rangeFour);
+
+    ImmutableRangeSet<Integer> rangeSet = zis.combine(zat).build();
+
+    assertThat(rangeSet.asRanges())
+        .containsExactly(Range.closedOpen(1, 3), Range.closedOpen(4, 5), Range.closedOpen(6, 9))
+        .inOrder();
   }
 }

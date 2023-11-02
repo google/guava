@@ -21,9 +21,8 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.testing.FakeTicker;
-import java.time.Duration;
 import junit.framework.TestCase;
 
 /**
@@ -168,15 +167,7 @@ public class StopwatchTest extends TestCase {
     assertEquals(1, stopwatch.elapsed(MILLISECONDS));
   }
 
-  @GwtIncompatible
-  public void testElapsed_duration() {
-    stopwatch.start();
-    ticker.advance(999999);
-    assertEquals(Duration.ofNanos(999999), stopwatch.elapsed());
-    ticker.advance(1);
-    assertEquals(Duration.ofMillis(1), stopwatch.elapsed());
-  }
-
+  @J2ktIncompatible // TODO(b/259213718): Enable
   public void testToString() {
     stopwatch.start();
     assertEquals("0.000 ns", stopwatch.toString());

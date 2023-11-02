@@ -14,16 +14,18 @@
 
 package com.google.common.base;
 
+import static com.google.common.base.NullnessCasts.uncheckedCastNullableTToT;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.CheckReturnValue;
 import com.google.errorprone.annotations.ForOverride;
+import com.google.errorprone.annotations.InlineMe;
 import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.RetainedWith;
 import java.io.Serializable;
 import java.util.Iterator;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import javax.annotation.CheckForNull;
 
 /**
  * A function from {@code A} to {@code B} with an associated <i>reverse</i> function from {@code B}
@@ -54,7 +56,6 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * <i>missing</i> information and the other is not. The {@link #convert} method handles this null
  * behavior for all converters; implementations of {@link #doForward} and {@link #doBackward} are
  * guaranteed to never be passed {@code null}, and must never return {@code null}.
- *
  *
  * <h3>Common ways to use</h3>
  *
@@ -114,11 +115,36 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @since 16.0
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
+/*
+ * 1. The type parameter is <T> rather than <T extends @Nullable> so that we can use T in the
+ * doForward and doBackward methods to indicate that the parameter cannot be null. (We also take
+ * advantage of that for convertAll, as discussed on that method.)
+ *
+ * 2. The supertype of this class could be `Function<@Nullable A, @Nullable B>`, since
+ * Converter.apply (like Converter.convert) is capable of accepting null inputs. However, a
+ * supertype of `Function<A, B>` turns out to be massively more useful to callers in practice: They
+ * want their output to be non-null in operations like `stream.map(myConverter)`, and we can
+ * guarantee that as long as we also require the input type to be non-null[*] (which is a
+ * requirement that existing callers already fulfill).
+ *
+ * Disclaimer: Part of the reason that callers are so well adapted to `Function<A, B>` may be that
+ * that is how the signature looked even prior to this comment! So naturally any change can break
+ * existing users, but it can't *fix* existing users because any users who needed
+ * `Function<@Nullable A, @Nullable B>` already had to find a workaround. Still, there is a *ton* of
+ * fallout from trying to switch. I would be shocked if the switch would offer benefits to anywhere
+ * near enough users to justify the costs.
+ *
+ * Fortunately, if anyone does want to use a Converter as a `Function<@Nullable A, @Nullable B>`,
+ * it's easy to get one: `converter::convert`.
+ *
+ * [*] In annotating this class, we're ignoring LegacyConverter.
+ */
 public abstract class Converter<A, B> implements Function<A, B> {
   private final boolean handleNullAutomatically;
 
   // We lazily cache the reverse view to avoid allocating on every call to reverse().
-  @LazyInit @NullableDecl private transient Converter<B, A> reverse;
+  @LazyInit @RetainedWith @CheckForNull private transient Converter<B, A> reverse;
 
   /** Constructor for use by subclasses. */
   protected Converter() {
@@ -164,30 +190,65 @@ public abstract class Converter<A, B> implements Function<A, B> {
    *
    * @return the converted value; is null <i>if and only if</i> {@code a} is null
    */
-  @CanIgnoreReturnValue
-  @NullableDecl
-  public final B convert(@NullableDecl A a) {
+  @CheckForNull
+  public final B convert(@CheckForNull A a) {
     return correctedDoForward(a);
   }
 
-  @NullableDecl
-  B correctedDoForward(@NullableDecl A a) {
+  @CheckForNull
+  B correctedDoForward(@CheckForNull A a) {
     if (handleNullAutomatically) {
       // TODO(kevinb): we shouldn't be checking for a null result at runtime. Assert?
       return a == null ? null : checkNotNull(doForward(a));
     } else {
-      return doForward(a);
+      return unsafeDoForward(a);
     }
   }
 
-  @NullableDecl
-  A correctedDoBackward(@NullableDecl B b) {
+  @CheckForNull
+  A correctedDoBackward(@CheckForNull B b) {
     if (handleNullAutomatically) {
       // TODO(kevinb): we shouldn't be checking for a null result at runtime. Assert?
       return b == null ? null : checkNotNull(doBackward(b));
     } else {
-      return doBackward(b);
+      return unsafeDoBackward(b);
     }
+  }
+
+  /*
+   * LegacyConverter violates the contract of Converter by allowing its doForward and doBackward
+   * methods to accept null. We could avoid having unchecked casts in Converter.java itself if we
+   * could perform a cast to LegacyConverter, but we can't because it's an internal-only class.
+   *
+   * TODO(cpovirk): So make it part of the open-source build, albeit package-private there?
+   *
+   * So we use uncheckedCastNullableTToT here. This is a weird usage of that method: The method is
+   * documented as being for use with type parameters that have parametric nullness. But Converter's
+   * type parameters do not. Still, we use it here so that we can suppress a warning at a smaller
+   * level than the whole method but without performing a runtime null check. That way, we can still
+   * pass null inputs to LegacyConverter, and it can violate the contract of Converter.
+   *
+   * TODO(cpovirk): Could this be simplified if we modified implementations of LegacyConverter to
+   * override methods (probably called "unsafeDoForward" and "unsafeDoBackward") with the same
+   * signatures as the methods below, rather than overriding the same doForward and doBackward
+   * methods as implementations of normal converters do?
+   *
+   * But no matter what we do, it's worth remembering that the resulting code is going to be unsound
+   * in the presence of LegacyConverter, at least in the case of users who view the converter as a
+   * Function<A, B> or who call convertAll (and for any checkers that apply @PolyNull-like semantics
+   * to Converter.convert). So maybe we don't want to think too hard about how to prevent our
+   * checkers from issuing errors related to LegacyConverter, since it turns out that
+   * LegacyConverter does violate the assumptions we make elsewhere.
+   */
+
+  @CheckForNull
+  private B unsafeDoForward(@CheckForNull A a) {
+    return doForward(uncheckedCastNullableTToT(a));
+  }
+
+  @CheckForNull
+  private A unsafeDoBackward(@CheckForNull B b) {
+    return doBackward(uncheckedCastNullableTToT(b));
   }
 
   /**
@@ -198,8 +259,17 @@ public abstract class Converter<A, B> implements Function<A, B> {
    * a successful {@code remove()} call, {@code fromIterable} no longer contains the corresponding
    * element.
    */
-  @CanIgnoreReturnValue
-  public Iterable<B> convertAll(final Iterable<? extends A> fromIterable) {
+  /*
+   * Just as Converter could implement `Function<@Nullable A, @Nullable B>` instead of `Function<A,
+   * B>`, convertAll could accept and return iterables with nullable element types. In both cases,
+   * we've chosen to instead use a signature that benefits existing users -- and is still safe.
+   *
+   * For convertAll, I haven't looked as closely at *how* much existing users benefit, so we should
+   * keep an eye out for problems that new users encounter. Note also that convertAll could support
+   * both use cases by using @PolyNull. (By contrast, we can't use @PolyNull for our superinterface
+   * (`implements Function<@PolyNull A, @PolyNull B>`), at least as far as I know.)
+   */
+  public Iterable<B> convertAll(Iterable<? extends A> fromIterable) {
     checkNotNull(fromIterable, "fromIterable");
     return new Iterable<B>() {
       @Override
@@ -234,7 +304,7 @@ public abstract class Converter<A, B> implements Function<A, B> {
    *
    * <p><b>Note:</b> you should not override this method. It is non-final for legacy reasons.
    */
-  @CanIgnoreReturnValue
+  @CheckReturnValue
   public Converter<B, A> reverse() {
     Converter<B, A> result = reverse;
     return (result == null) ? reverse = new ReverseConverter<>(this) : result;
@@ -242,7 +312,7 @@ public abstract class Converter<A, B> implements Function<A, B> {
 
   private static final class ReverseConverter<A, B> extends Converter<B, A>
       implements Serializable {
-    @RetainedWith final Converter<A, B> original;
+    final Converter<A, B> original;
 
     ReverseConverter(Converter<A, B> original) {
       this.original = original;
@@ -266,14 +336,14 @@ public abstract class Converter<A, B> implements Function<A, B> {
     }
 
     @Override
-    @NullableDecl
-    A correctedDoForward(@NullableDecl B b) {
+    @CheckForNull
+    A correctedDoForward(@CheckForNull B b) {
       return original.correctedDoBackward(b);
     }
 
     @Override
-    @NullableDecl
-    B correctedDoBackward(@NullableDecl A a) {
+    @CheckForNull
+    B correctedDoBackward(@CheckForNull A a) {
       return original.correctedDoForward(a);
     }
 
@@ -283,7 +353,7 @@ public abstract class Converter<A, B> implements Function<A, B> {
     }
 
     @Override
-    public boolean equals(@NullableDecl Object object) {
+    public boolean equals(@CheckForNull Object object) {
       if (object instanceof ReverseConverter) {
         ReverseConverter<?, ?> that = (ReverseConverter<?, ?>) object;
         return this.original.equals(that.original);
@@ -348,19 +418,19 @@ public abstract class Converter<A, B> implements Function<A, B> {
     }
 
     @Override
-    @NullableDecl
-    C correctedDoForward(@NullableDecl A a) {
+    @CheckForNull
+    C correctedDoForward(@CheckForNull A a) {
       return second.correctedDoForward(first.correctedDoForward(a));
     }
 
     @Override
-    @NullableDecl
-    A correctedDoBackward(@NullableDecl C c) {
+    @CheckForNull
+    A correctedDoBackward(@CheckForNull C c) {
       return first.correctedDoBackward(second.correctedDoBackward(c));
     }
 
     @Override
-    public boolean equals(@NullableDecl Object object) {
+    public boolean equals(@CheckForNull Object object) {
       if (object instanceof ConverterComposition) {
         ConverterComposition<?, ?, ?> that = (ConverterComposition<?, ?, ?>) object;
         return this.first.equals(that.first) && this.second.equals(that.second);
@@ -386,9 +456,26 @@ public abstract class Converter<A, B> implements Function<A, B> {
    */
   @Deprecated
   @Override
-  @CanIgnoreReturnValue
-  @NullableDecl
-  public final B apply(@NullableDecl A a) {
+  @InlineMe(replacement = "this.convert(a)")
+  public final B apply(A a) {
+    /*
+     * Given that we declare this method as accepting and returning non-nullable values (because we
+     * implement Function<A, B>, as discussed in a class-level comment), it would make some sense to
+     * perform runtime null checks on the input and output. (That would also make NullPointerTester
+     * happy!) However, since we didn't do that for many years, we're not about to start now.
+     * (Runtime checks could be particularly bad for users of LegacyConverter.)
+     *
+     * Luckily, our nullness checker is smart enough to realize that `convert` has @PolyNull-like
+     * behavior, so it knows that `convert(a)` returns a non-nullable value, and we don't need to
+     * perform even a cast, much less a runtime check.
+     *
+     * All that said, don't forget that everyone should call converter.convert() instead of
+     * converter.apply(), anyway. If clients use only converter.convert(), then their nullness
+     * checkers are unlikely to ever look at the annotations on this declaration.
+     *
+     * Historical note: At one point, we'd declared this method as accepting and returning nullable
+     * values. For details on that, see earlier revisions of this file.
+     */
     return convert(a);
   }
 
@@ -404,7 +491,7 @@ public abstract class Converter<A, B> implements Function<A, B> {
    * interchangeable.
    */
   @Override
-  public boolean equals(@NullableDecl Object object) {
+  public boolean equals(@CheckForNull Object object) {
     return super.equals(object);
   }
 
@@ -453,7 +540,7 @@ public abstract class Converter<A, B> implements Function<A, B> {
     }
 
     @Override
-    public boolean equals(@NullableDecl Object object) {
+    public boolean equals(@CheckForNull Object object) {
       if (object instanceof FunctionBasedConverter) {
         FunctionBasedConverter<?, ?> that = (FunctionBasedConverter<?, ?>) object;
         return this.forwardFunction.equals(that.forwardFunction)
@@ -484,7 +571,7 @@ public abstract class Converter<A, B> implements Function<A, B> {
    * "pass-through type".
    */
   private static final class IdentityConverter<T> extends Converter<T, T> implements Serializable {
-    static final IdentityConverter<?> INSTANCE = new IdentityConverter<>();
+    static final Converter<?, ?> INSTANCE = new IdentityConverter<>();
 
     @Override
     protected T doForward(T t) {

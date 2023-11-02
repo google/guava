@@ -17,6 +17,7 @@
 package com.google.common.testing;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.testing.GcFinalization.FinalizationPredicate;
 import com.google.common.util.concurrent.SettableFuture;
@@ -25,6 +26,7 @@ import java.util.WeakHashMap;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicBoolean;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Tests for {@link GcFinalization}.
@@ -32,6 +34,7 @@ import junit.framework.TestCase;
  * @author Martin Buchholz
  * @author mike nonemacher
  */
+@AndroidIncompatible // depends on details of gc
 
 public class GcFinalizationTest extends TestCase {
 
@@ -54,7 +57,7 @@ public class GcFinalizationTest extends TestCase {
   }
 
   public void testAwaitDone_Future() {
-    final SettableFuture<Void> future = SettableFuture.create();
+    final SettableFuture<@Nullable Void> future = SettableFuture.create();
     Object x =
         new Object() {
           @Override
@@ -69,7 +72,7 @@ public class GcFinalizationTest extends TestCase {
   }
 
   public void testAwaitDone_Future_Cancel() {
-    final SettableFuture<Void> future = SettableFuture.create();
+    final SettableFuture<@Nullable Void> future = SettableFuture.create();
     Object x =
         new Object() {
           @Override
@@ -144,12 +147,9 @@ public class GcFinalizationTest extends TestCase {
     Interruptenator interruptenator = new Interruptenator(Thread.currentThread());
     try {
       final CountDownLatch latch = new CountDownLatch(1);
-      try {
-        GcFinalization.await(latch);
-        fail("should throw");
-      } catch (RuntimeException expected) {
-        assertWrapsInterruptedException(expected);
-      }
+      RuntimeException expected =
+          assertThrows(RuntimeException.class, () -> GcFinalization.await(latch));
+      assertWrapsInterruptedException(expected);
     } finally {
       interruptenator.shutdown();
       Thread.interrupted();
@@ -159,13 +159,10 @@ public class GcFinalizationTest extends TestCase {
   public void testAwaitDone_Future_Interrupted_Interrupted() {
     Interruptenator interruptenator = new Interruptenator(Thread.currentThread());
     try {
-      final SettableFuture<Void> future = SettableFuture.create();
-      try {
-        GcFinalization.awaitDone(future);
-        fail("should throw");
-      } catch (RuntimeException expected) {
-        assertWrapsInterruptedException(expected);
-      }
+      final SettableFuture<@Nullable Void> future = SettableFuture.create();
+      RuntimeException expected =
+          assertThrows(RuntimeException.class, () -> GcFinalization.awaitDone(future));
+      assertWrapsInterruptedException(expected);
     } finally {
       interruptenator.shutdown();
       Thread.interrupted();
@@ -176,12 +173,9 @@ public class GcFinalizationTest extends TestCase {
     Interruptenator interruptenator = new Interruptenator(Thread.currentThread());
     try {
       final WeakReference<Object> ref = new WeakReference<Object>(Boolean.TRUE);
-      try {
-        GcFinalization.awaitClear(ref);
-        fail("should throw");
-      } catch (RuntimeException expected) {
-        assertWrapsInterruptedException(expected);
-      }
+      RuntimeException expected =
+          assertThrows(RuntimeException.class, () -> GcFinalization.awaitClear(ref));
+      assertWrapsInterruptedException(expected);
     } finally {
       interruptenator.shutdown();
       Thread.interrupted();
@@ -191,17 +185,18 @@ public class GcFinalizationTest extends TestCase {
   public void testAwaitDone_FinalizationPredicate_Interrupted() {
     Interruptenator interruptenator = new Interruptenator(Thread.currentThread());
     try {
-      try {
-        GcFinalization.awaitDone(
-            new FinalizationPredicate() {
-              public boolean isDone() {
-                return false;
-              }
-            });
-        fail("should throw");
-      } catch (RuntimeException expected) {
-        assertWrapsInterruptedException(expected);
-      }
+      RuntimeException expected =
+          assertThrows(
+              RuntimeException.class,
+              () ->
+                  GcFinalization.awaitDone(
+                      new FinalizationPredicate() {
+                        @Override
+                        public boolean isDone() {
+                          return false;
+                        }
+                      }));
+      assertWrapsInterruptedException(expected);
     } finally {
       interruptenator.shutdown();
       Thread.interrupted();

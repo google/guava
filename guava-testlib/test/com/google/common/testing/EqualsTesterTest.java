@@ -23,6 +23,7 @@ import com.google.common.collect.Sets;
 import java.util.Set;
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Unit tests for {@link EqualsTester}.
@@ -114,7 +115,7 @@ public class EqualsTesterTest extends TestCase {
   }
 
   /** Test proper handling of case where an object is not equal to itself */
-  public void testNonreflexiveEquals() {
+  public void testNonReflexiveEquals() {
     Object obj = new NonReflexiveObject();
     equalsTester.addEqualityGroup(obj);
     try {
@@ -272,6 +273,15 @@ public class EqualsTesterTest extends TestCase {
         .testEquals();
   }
 
+  public void testEqualityBasedOnToString() {
+    try {
+      new EqualsTester().addEqualityGroup(new EqualsBasedOnToString("foo")).testEquals();
+      fail();
+    } catch (AssertionFailedError e) {
+      assertTrue(e.getMessage().contains("toString representation"));
+    }
+  }
+
   private static void assertErrorMessage(Throwable e, String message) {
     // TODO(kevinb): use a Truth assertion here
     if (!e.getMessage().contains(message)) {
@@ -293,7 +303,7 @@ public class EqualsTesterTest extends TestCase {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(@Nullable Object o) {
       if (!(o instanceof ValidTestObject)) {
         return false;
       }
@@ -328,7 +338,7 @@ public class EqualsTesterTest extends TestCase {
 
     @SuppressWarnings("EqualsHashCode")
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(@Nullable Object o) {
       if (!(o instanceof InvalidHashCodeObject)) {
         return false;
       }
@@ -347,7 +357,7 @@ public class EqualsTesterTest extends TestCase {
   private static class NonReflexiveObject {
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(@Nullable Object o) {
       return false;
     }
 
@@ -361,7 +371,7 @@ public class EqualsTesterTest extends TestCase {
   private static class InvalidEqualsNullObject {
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(@Nullable Object o) {
       return o == this || o == null;
     }
 
@@ -375,7 +385,7 @@ public class EqualsTesterTest extends TestCase {
   private static class InvalidEqualsIncompatibleClassObject {
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(@Nullable Object o) {
       return o != null;
     }
 
@@ -404,7 +414,7 @@ public class EqualsTesterTest extends TestCase {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(@Nullable Object obj) {
       if (obj instanceof NamedObject) {
         NamedObject that = (NamedObject) obj;
         return name.equals(that.name) || peerNames.contains(that.name);
@@ -420,6 +430,29 @@ public class EqualsTesterTest extends TestCase {
     @Override
     public String toString() {
       return name;
+    }
+  }
+
+  private static final class EqualsBasedOnToString {
+    private final String s;
+
+    private EqualsBasedOnToString(String s) {
+      this.s = s;
+    }
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+      return obj != null && obj.toString().equals(toString());
+    }
+
+    @Override
+    public int hashCode() {
+      return s.hashCode();
+    }
+
+    @Override
+    public String toString() {
+      return s;
     }
   }
 }

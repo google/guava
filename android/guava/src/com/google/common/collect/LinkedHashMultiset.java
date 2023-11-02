@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A {@code Multiset} implementation with predictable iteration order. Its iterator orders elements
@@ -26,18 +27,19 @@ import com.google.common.annotations.GwtCompatible;
  * element will appear at the end of the iteration.
  *
  * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multiset"> {@code
- * Multiset}</a>.
+ * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multiset">{@code Multiset}</a>.
  *
  * @author Kevin Bourrillion
  * @author Jared Levy
  * @since 2.0
  */
 @GwtCompatible(serializable = true, emulated = true)
-public final class LinkedHashMultiset<E> extends AbstractMapBasedMultiset<E> {
+@ElementTypesAreNonnullByDefault
+public final class LinkedHashMultiset<E extends @Nullable Object>
+    extends AbstractMapBasedMultiset<E> {
 
   /** Creates a new, empty {@code LinkedHashMultiset} using the default initial capacity. */
-  public static <E> LinkedHashMultiset<E> create() {
+  public static <E extends @Nullable Object> LinkedHashMultiset<E> create() {
     return create(ObjectCountHashMap.DEFAULT_SIZE);
   }
 
@@ -48,7 +50,7 @@ public final class LinkedHashMultiset<E> extends AbstractMapBasedMultiset<E> {
    * @param distinctElements the expected number of distinct elements
    * @throws IllegalArgumentException if {@code distinctElements} is negative
    */
-  public static <E> LinkedHashMultiset<E> create(int distinctElements) {
+  public static <E extends @Nullable Object> LinkedHashMultiset<E> create(int distinctElements) {
     return new LinkedHashMultiset<E>(distinctElements);
   }
 
@@ -59,7 +61,8 @@ public final class LinkedHashMultiset<E> extends AbstractMapBasedMultiset<E> {
    *
    * @param elements the elements that the multiset should contain
    */
-  public static <E> LinkedHashMultiset<E> create(Iterable<? extends E> elements) {
+  public static <E extends @Nullable Object> LinkedHashMultiset<E> create(
+      Iterable<? extends E> elements) {
     LinkedHashMultiset<E> multiset = create(Multisets.inferDistinctElements(elements));
     Iterables.addAll(multiset, elements);
     return multiset;
@@ -70,7 +73,7 @@ public final class LinkedHashMultiset<E> extends AbstractMapBasedMultiset<E> {
   }
 
   @Override
-  void init(int distinctElements) {
-    backingMap = new ObjectCountLinkedHashMap<>(distinctElements);
+  ObjectCountHashMap<E> newBackingMap(int distinctElements) {
+    return new ObjectCountLinkedHashMap<>(distinctElements);
   }
 }

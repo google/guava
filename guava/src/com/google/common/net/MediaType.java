@@ -21,11 +21,9 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Ascii;
 import com.google.common.base.CharMatcher;
-import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.base.Joiner.MapJoiner;
 import com.google.common.base.MoreObjects;
@@ -37,15 +35,15 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Multimaps;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.Immutable;
 import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.nio.charset.Charset;
 import java.nio.charset.IllegalCharsetNameException;
 import java.nio.charset.UnsupportedCharsetException;
-import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import javax.annotation.CheckForNull;
 
 /**
  * Represents an <a href="http://en.wikipedia.org/wiki/Internet_media_type">Internet Media Type</a>
@@ -72,9 +70,9 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 12.0
  * @author Gregory Kick
  */
-@Beta
 @GwtCompatible
 @Immutable
+@ElementTypesAreNonnullByDefault
 public final class MediaType {
   private static final String CHARSET_ATTRIBUTE = "charset";
   private static final ImmutableListMultimap<String, String> UTF_8_CONSTANT_PARAMETERS =
@@ -145,7 +143,7 @@ public final class MediaType {
   /**
    * Wildcard matching any "font" top-level media type.
    *
-   * @since NEXT
+   * @since 30.0
    */
   public static final MediaType ANY_FONT_TYPE = createConstant(FONT_TYPE, WILDCARD);
 
@@ -494,6 +492,13 @@ public final class MediaType {
   public static final MediaType JSON_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "json");
 
   /**
+   * For <a href="https://tools.ietf.org/html/7519">JWT objects using the compact Serialization</a>.
+   *
+   * @since 32.0.0
+   */
+  public static final MediaType JWT = createConstant(APPLICATION_TYPE, "jwt");
+
+  /**
    * The <a href="http://www.w3.org/TR/appmanifest/">Manifest for a web application</a>.
    *
    * @since 19.0
@@ -709,7 +714,7 @@ public final class MediaType {
    * A collection of font outlines as defined by <a href="https://tools.ietf.org/html/rfc8081">RFC
    * 8081</a>.
    *
-   * @since NEXT
+   * @since 30.0
    */
   public static final MediaType FONT_COLLECTION = createConstant(FONT_TYPE, "collection");
 
@@ -717,7 +722,7 @@ public final class MediaType {
    * <a href="https://en.wikipedia.org/wiki/OpenType">Open Type Font Format</a> (OTF) as defined by
    * <a href="https://tools.ietf.org/html/rfc8081">RFC 8081</a>.
    *
-   * @since NEXT
+   * @since 30.0
    */
   public static final MediaType FONT_OTF = createConstant(FONT_TYPE, "otf");
 
@@ -727,7 +732,7 @@ public final class MediaType {
    * type for SFNT, but {@link #SFNT application/font-sfnt} may be necessary in certain situations
    * for compatibility.
    *
-   * @since NEXT
+   * @since 30.0
    */
   public static final MediaType FONT_SFNT = createConstant(FONT_TYPE, "sfnt");
 
@@ -735,7 +740,7 @@ public final class MediaType {
    * <a href="https://en.wikipedia.org/wiki/TrueType">True Type Font Format</a> (TTF) as defined by
    * <a href="https://tools.ietf.org/html/rfc8081">RFC 8081</a>.
    *
-   * @since NEXT
+   * @since 30.0
    */
   public static final MediaType FONT_TTF = createConstant(FONT_TYPE, "ttf");
 
@@ -745,7 +750,7 @@ public final class MediaType {
    * type for SFNT, but {@link #WOFF application/font-woff} may be necessary in certain situations
    * for compatibility.
    *
-   * @since NEXT
+   * @since 30.0
    */
   public static final MediaType FONT_WOFF = createConstant(FONT_TYPE, "woff");
 
@@ -755,7 +760,7 @@ public final class MediaType {
    * media type for SFNT, but {@link #WOFF2 application/font-woff2} may be necessary in certain
    * situations for compatibility.
    *
-   * @since NEXT
+   * @since 30.0
    */
   public static final MediaType FONT_WOFF2 = createConstant(FONT_TYPE, "woff2");
 
@@ -763,11 +768,11 @@ public final class MediaType {
   private final String subtype;
   private final ImmutableListMultimap<String, String> parameters;
 
-  @LazyInit private String toString;
+  @LazyInit @CheckForNull private String toString;
 
   @LazyInit private int hashCode;
 
-  @LazyInit private Optional<Charset> parsedCharset;
+  @LazyInit @CheckForNull private Optional<Charset> parsedCharset;
 
   private MediaType(String type, String subtype, ImmutableListMultimap<String, String> parameters) {
     this.type = type;
@@ -791,14 +796,7 @@ public final class MediaType {
   }
 
   private Map<String, ImmutableMultiset<String>> parametersAsMap() {
-    return Maps.transformValues(
-        parameters.asMap(),
-        new Function<Collection<String>, ImmutableMultiset<String>>() {
-          @Override
-          public ImmutableMultiset<String> apply(Collection<String> input) {
-            return ImmutableMultiset.copyOf(input);
-          }
-        });
+    return Maps.transformValues(parameters.asMap(), ImmutableMultiset::copyOf);
   }
 
   /**
@@ -895,7 +893,7 @@ public final class MediaType {
    * one.
    *
    * <p>If a charset must be specified that is not supported on this JVM (and thus is not
-   * representable as a {@link Charset} instance, use {@link #withParameter}.
+   * representable as a {@link Charset} instance), use {@link #withParameter}.
    */
   public MediaType withCharset(Charset charset) {
     checkNotNull(charset);
@@ -1048,21 +1046,20 @@ public final class MediaType {
    *
    * @throws IllegalArgumentException if the input is not parsable
    */
+  @CanIgnoreReturnValue // TODO(b/219820829): consider removing
   public static MediaType parse(String input) {
     checkNotNull(input);
     Tokenizer tokenizer = new Tokenizer(input);
     try {
       String type = tokenizer.consumeToken(TOKEN_MATCHER);
-      tokenizer.consumeCharacter('/');
+      consumeSeparator(tokenizer, '/');
       String subtype = tokenizer.consumeToken(TOKEN_MATCHER);
       ImmutableListMultimap.Builder<String, String> parameters = ImmutableListMultimap.builder();
       while (tokenizer.hasMore()) {
-        tokenizer.consumeTokenIfPresent(LINEAR_WHITE_SPACE);
-        tokenizer.consumeCharacter(';');
-        tokenizer.consumeTokenIfPresent(LINEAR_WHITE_SPACE);
+        consumeSeparator(tokenizer, ';');
         String attribute = tokenizer.consumeToken(TOKEN_MATCHER);
-        tokenizer.consumeCharacter('=');
-        final String value;
+        consumeSeparator(tokenizer, '=');
+        String value;
         if ('"' == tokenizer.previewChar()) {
           tokenizer.consumeCharacter('"');
           StringBuilder valueBuilder = new StringBuilder();
@@ -1087,6 +1084,12 @@ public final class MediaType {
     }
   }
 
+  private static void consumeSeparator(Tokenizer tokenizer, char c) {
+    tokenizer.consumeTokenIfPresent(LINEAR_WHITE_SPACE);
+    tokenizer.consumeCharacter(c);
+    tokenizer.consumeTokenIfPresent(LINEAR_WHITE_SPACE);
+  }
+
   private static final class Tokenizer {
     final String input;
     int position = 0;
@@ -1095,6 +1098,7 @@ public final class MediaType {
       this.input = input;
     }
 
+    @CanIgnoreReturnValue
     String consumeTokenIfPresent(CharMatcher matcher) {
       checkState(hasMore());
       int startPosition = position;
@@ -1117,6 +1121,7 @@ public final class MediaType {
       return c;
     }
 
+    @CanIgnoreReturnValue
     char consumeCharacter(char c) {
       checkState(hasMore());
       checkState(previewChar() == c);
@@ -1135,7 +1140,7 @@ public final class MediaType {
   }
 
   @Override
-  public boolean equals(@Nullable Object obj) {
+  public boolean equals(@CheckForNull Object obj) {
     if (obj == this) {
       return true;
     } else if (obj instanceof MediaType) {
@@ -1184,14 +1189,10 @@ public final class MediaType {
       Multimap<String, String> quotedParameters =
           Multimaps.transformValues(
               parameters,
-              new Function<String, String>() {
-                @Override
-                public String apply(String value) {
-                  return (TOKEN_MATCHER.matchesAllOf(value) && !value.isEmpty())
+              (String value) ->
+                  (TOKEN_MATCHER.matchesAllOf(value) && !value.isEmpty())
                       ? value
-                      : escapeAndQuote(value);
-                }
-              });
+                      : escapeAndQuote(value));
       PARAMETER_JOINER.appendTo(builder, quotedParameters.entries());
     }
     return builder.toString();

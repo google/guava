@@ -53,6 +53,7 @@ import static java.util.Arrays.asList;
 import static java.util.concurrent.Executors.newSingleThreadExecutor;
 import static java.util.concurrent.Executors.newSingleThreadScheduledExecutor;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.NANOSECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.annotations.GwtCompatible;
@@ -89,7 +90,7 @@ import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Unit tests for {@link Futures}.
@@ -140,7 +141,7 @@ public class FuturesTest extends TestCase {
   }
 
   public void testImmediateVoidFuture() throws Exception {
-    ListenableFuture<Void> voidFuture = immediateVoidFuture();
+    ListenableFuture<@Nullable Void> voidFuture = immediateVoidFuture();
 
     assertThat(getDone(voidFuture)).isNull();
     assertThat(getDoneFromTimeoutOverload(voidFuture)).isNull();
@@ -387,7 +388,7 @@ public class FuturesTest extends TestCase {
         new AsyncFunction<Foo, Bar>() {
           @Override
           public ListenableFuture<Bar> apply(Foo unused) {
-            throw new AssertionFailedError("Unexpeted call to apply.");
+            throw new AssertionFailedError("Unexpected call to apply.");
           }
         };
     assertTrue(transformAsync(input, function, directExecutor()).cancel(false));
@@ -401,7 +402,7 @@ public class FuturesTest extends TestCase {
         new AsyncFunction<Foo, Bar>() {
           @Override
           public ListenableFuture<Bar> apply(Foo unused) {
-            throw new AssertionFailedError("Unexpeted call to apply.");
+            throw new AssertionFailedError("Unexpected call to apply.");
           }
         };
     assertTrue(transformAsync(input, function, directExecutor()).cancel(true));
@@ -410,7 +411,6 @@ public class FuturesTest extends TestCase {
   }
 
   @GwtIncompatible // threads
-
   public void testTransformAsync_interruptPropagatesToTransformingThread() throws Exception {
     SettableFuture<String> input = SettableFuture.create();
     final CountDownLatch inFunction = new CountDownLatch(1);
@@ -803,7 +803,6 @@ public class FuturesTest extends TestCase {
   }
 
   @GwtIncompatible // Threads
-
   public void testTransformAsync_functionToString() throws Exception {
     final CountDownLatch functionCalled = new CountDownLatch(1);
     final CountDownLatch functionBlocking = new CountDownLatch(1);
@@ -1132,7 +1131,6 @@ public class FuturesTest extends TestCase {
   }
 
   @GwtIncompatible // threads
-
   public void testCatchingAsync_interruptPropagatesToTransformingThread() throws Exception {
     SettableFuture<String> input = SettableFuture.create();
     final CountDownLatch inFunction = new CountDownLatch(1);
@@ -1172,7 +1170,6 @@ public class FuturesTest extends TestCase {
   }
 
   @GwtIncompatible // Threads
-
   public void testCatchingAsync_functionToString() throws Exception {
     final CountDownLatch functionCalled = new CountDownLatch(1);
     final CountDownLatch functionBlocking = new CountDownLatch(1);
@@ -1665,7 +1662,7 @@ public class FuturesTest extends TestCase {
   }
 
   private static <I, O> AsyncFunction<I, O> constantAsyncFunction(
-      final ListenableFuture<O> output) {
+      final @Nullable ListenableFuture<O> output) {
     return new AsyncFunction<I, O>() {
       @Override
       public ListenableFuture<O> apply(I input) {
@@ -1749,7 +1746,6 @@ public class FuturesTest extends TestCase {
   }
 
   @GwtIncompatible // threads
-
   public void testTransformAsync_asyncFunction_cancelledWhileApplyingFunction()
       throws InterruptedException, ExecutionException {
     final CountDownLatch inFunction = new CountDownLatch(1);
@@ -1784,7 +1780,6 @@ public class FuturesTest extends TestCase {
   }
 
   @GwtIncompatible // threads
-
   public void testTransformAsync_asyncFunction_cancelledBeforeApplyingFunction()
       throws InterruptedException {
     final AtomicBoolean functionCalled = new AtomicBoolean();
@@ -1858,7 +1853,6 @@ public class FuturesTest extends TestCase {
   }
 
   @GwtIncompatible // threads
-
   public void testSubmitAsync_asyncCallable_cancelledWhileApplyingFunction()
       throws InterruptedException, ExecutionException {
     final CountDownLatch inFunction = new CountDownLatch(1);
@@ -1892,7 +1886,6 @@ public class FuturesTest extends TestCase {
   }
 
   @GwtIncompatible // threads
-
   public void testSubmitAsync_asyncCallable_cancelledBeforeApplyingFunction()
       throws InterruptedException {
     final AtomicBoolean callableCalled = new AtomicBoolean();
@@ -1926,7 +1919,6 @@ public class FuturesTest extends TestCase {
   }
 
   @GwtIncompatible // threads
-
   public void testSubmitAsync_asyncCallable_returnsInterruptedFuture() throws InterruptedException {
     assertThat(Thread.interrupted()).isFalse();
     SettableFuture<Integer> cancelledFuture = SettableFuture.create();
@@ -1986,7 +1978,7 @@ public class FuturesTest extends TestCase {
             pendingRunnables.add(runnable);
           }
         };
-    ListenableFuture<Void> future = submit(runnable, executor);
+    ListenableFuture<@Nullable Void> future = submit(runnable, executor);
     assertThat(future.isDone()).isFalse();
     assertThat(executedRunnables).isEmpty();
     assertThat(pendingRunnables).hasSize(1);
@@ -2005,7 +1997,7 @@ public class FuturesTest extends TestCase {
             throw exception;
           }
         };
-    ListenableFuture<Void> future = submit(runnable, directExecutor());
+    ListenableFuture<@Nullable Void> future = submit(runnable, directExecutor());
     try {
       getDone(future);
       fail();
@@ -2015,7 +2007,6 @@ public class FuturesTest extends TestCase {
   }
 
   @GwtIncompatible // threads
-
   public void testScheduleAsync_asyncCallable_error() throws InterruptedException {
     final Error error = new Error("deliberate");
     AsyncCallable<Integer> callable =
@@ -2037,14 +2028,10 @@ public class FuturesTest extends TestCase {
   }
 
   @GwtIncompatible // threads
-
   public void testScheduleAsync_asyncCallable_nullInsteadOfFuture() throws Exception {
     ListenableFuture<?> chainedFuture =
         scheduleAsync(
-            constantAsyncCallable(null),
-            1,
-            TimeUnit.NANOSECONDS,
-            newSingleThreadScheduledExecutor());
+            constantAsyncCallable(null), 1, NANOSECONDS, newSingleThreadScheduledExecutor());
     try {
       chainedFuture.get();
       fail();
@@ -2059,7 +2046,6 @@ public class FuturesTest extends TestCase {
   }
 
   @GwtIncompatible // threads
-
   public void testScheduleAsync_asyncCallable_cancelledWhileApplyingFunction()
       throws InterruptedException, ExecutionException {
     final CountDownLatch inFunction = new CountDownLatch(1);
@@ -2075,7 +2061,7 @@ public class FuturesTest extends TestCase {
           }
         };
     ListenableFuture<Integer> future =
-        scheduleAsync(callable, 1, TimeUnit.NANOSECONDS, newSingleThreadScheduledExecutor());
+        scheduleAsync(callable, 1, NANOSECONDS, newSingleThreadScheduledExecutor());
     inFunction.await();
     future.cancel(false);
     callableDone.countDown();
@@ -2092,7 +2078,6 @@ public class FuturesTest extends TestCase {
   }
 
   @GwtIncompatible // threads
-
   public void testScheduleAsync_asyncCallable_cancelledBeforeCallingFunction()
       throws InterruptedException {
     final AtomicBoolean callableCalled = new AtomicBoolean();
@@ -2114,7 +2099,7 @@ public class FuturesTest extends TestCase {
             awaitUninterruptibly(beforeFunction);
           }
         });
-    ListenableFuture<Integer> future = scheduleAsync(callable, 1, TimeUnit.NANOSECONDS, executor);
+    ListenableFuture<Integer> future = scheduleAsync(callable, 1, NANOSECONDS, executor);
     future.cancel(false);
 
     // Unpause the executor.
@@ -2125,7 +2110,8 @@ public class FuturesTest extends TestCase {
     assertFalse(callableCalled.get());
   }
 
-  private static <T> AsyncCallable<T> constantAsyncCallable(final ListenableFuture<T> returnValue) {
+  private static <T> AsyncCallable<T> constantAsyncCallable(
+      final @Nullable ListenableFuture<T> returnValue) {
     return new AsyncCallable<T>() {
       @Override
       public ListenableFuture<T> call() {
@@ -2547,7 +2533,6 @@ public class FuturesTest extends TestCase {
   }
 
   @GwtIncompatible // threads
-
   public void testWhenAllComplete_noLeakInterruption() throws Exception {
     final SettableFuture<String> stringFuture = SettableFuture.create();
     AsyncCallable<String> combiner =
@@ -2591,7 +2576,6 @@ public class FuturesTest extends TestCase {
   }
 
   @GwtIncompatible // threads
-
   public void testWhenAllComplete_asyncResult() throws Exception {
     SettableFuture<Integer> futureInteger = SettableFuture.create();
     SettableFuture<Boolean> futureBoolean = SettableFuture.create();
@@ -2619,37 +2603,37 @@ public class FuturesTest extends TestCase {
     // Waiting on backing futures
     assertThat(futureResult.toString())
         .matches(
-            "\\S+CombinedFuture@\\w+\\[status=PENDING,"
-                + " info=\\[futures=\\[\\S+SettableFuture@\\w+\\[status=PENDING],"
-                + " \\S+SettableFuture@\\w+\\[status=PENDING]]]]");
+            "CombinedFuture@\\w+\\[status=PENDING,"
+                + " info=\\[futures=\\[SettableFuture@\\w+\\[status=PENDING],"
+                + " SettableFuture@\\w+\\[status=PENDING]]]]");
     Integer integerPartial = 1;
     futureInteger.set(integerPartial);
     assertThat(futureResult.toString())
         .matches(
-            "\\S+CombinedFuture@\\w+\\[status=PENDING,"
-                + " info=\\[futures=\\[\\S+SettableFuture@\\w+\\[status=SUCCESS, result=\\[1]],"
-                + " \\S+SettableFuture@\\w+\\[status=PENDING]]]]");
+            "CombinedFuture@\\w+\\[status=PENDING,"
+                + " info=\\[futures=\\[SettableFuture@\\w+\\[status=SUCCESS,"
+                + " result=\\[java.lang.Integer@\\w+]], SettableFuture@\\w+\\[status=PENDING]]]]");
 
     // Backing futures complete
     Boolean booleanPartial = true;
     futureBoolean.set(booleanPartial);
     // Once the backing futures are done there's a (brief) moment where we know nothing
-    assertThat(futureResult.toString()).matches("\\S+CombinedFuture@\\w+\\[status=PENDING]");
+    assertThat(futureResult.toString()).matches("CombinedFuture@\\w+\\[status=PENDING]");
     callableBlocking.countDown();
     // Need to wait for resultFuture to be returned.
     assertTrue(executor.awaitTermination(10, SECONDS));
     // But once the async function has returned a future we can include that in the toString
     assertThat(futureResult.toString())
         .matches(
-            "\\S+CombinedFuture@\\w+\\[status=PENDING,"
-                + " setFuture=\\[\\S+SettableFuture@\\w+\\[status=PENDING]]]");
+            "CombinedFuture@\\w+\\[status=PENDING,"
+                + " setFuture=\\[SettableFuture@\\w+\\[status=PENDING]]]");
 
     // Future complete
     resultOfCombiner.set(createCombinedResult(getDone(futureInteger), getDone(futureBoolean)));
     String expectedResult = createCombinedResult(integerPartial, booleanPartial);
     assertEquals(expectedResult, futureResult.get());
     assertThat(futureResult.toString())
-        .matches("\\S+CombinedFuture@\\w+\\[status=SUCCESS, result=\\[" + expectedResult + "]]");
+        .matches("CombinedFuture@\\w+\\[status=SUCCESS, result=\\[java.lang.String@\\w+]]");
   }
 
   public void testWhenAllComplete_asyncError() throws Exception {
@@ -2683,7 +2667,6 @@ public class FuturesTest extends TestCase {
   }
 
   @GwtIncompatible // threads
-
   public void testWhenAllComplete_cancelledNotInterrupted() throws Exception {
     SettableFuture<String> stringFuture = SettableFuture.create();
     SettableFuture<Boolean> booleanFuture = SettableFuture.create();
@@ -2722,7 +2705,6 @@ public class FuturesTest extends TestCase {
   }
 
   @GwtIncompatible // threads
-
   public void testWhenAllComplete_interrupted() throws Exception {
     SettableFuture<String> stringFuture = SettableFuture.create();
     SettableFuture<Boolean> booleanFuture = SettableFuture.create();
@@ -2815,7 +2797,6 @@ public class FuturesTest extends TestCase {
   }
 
   @GwtIncompatible // threads
-
   public void testWhenAllCompleteRunnable_resultCanceledWithoutInterrupt_doesNotInterruptRunnable()
       throws Exception {
     SettableFuture<String> stringFuture = SettableFuture.create();
@@ -2856,7 +2837,6 @@ public class FuturesTest extends TestCase {
   }
 
   @GwtIncompatible // threads
-
   public void testWhenAllCompleteRunnable_resultCanceledWithInterrupt_InterruptsRunnable()
       throws Exception {
     SettableFuture<String> stringFuture = SettableFuture.create();
@@ -3267,7 +3247,7 @@ public class FuturesTest extends TestCase {
       throw failureWithCause(e, "Unexpected exception");
     } finally {
       executor.shutdownNow();
-      // TODO(cpovirk: assertTrue(awaitTerminationUninterruptibly(executor, 10, SECONDS));
+      // TODO(cpovirk): assertTrue(awaitTerminationUninterruptibly(executor, 10, SECONDS));
     }
   }
 
@@ -3698,7 +3678,7 @@ public class FuturesTest extends TestCase {
   @GwtIncompatible // used only in GwtIncompatible tests
   private static class TestException extends Exception {
 
-    TestException(@NullableDecl Throwable cause) {
+    TestException(@Nullable Throwable cause) {
       super(cause);
     }
   }

@@ -16,6 +16,7 @@
 
 package com.google.common.base;
 
+import com.google.common.annotations.GwtIncompatible;
 import junit.framework.TestCase;
 
 /**
@@ -23,6 +24,7 @@ import junit.framework.TestCase;
  *
  * @author Jige Yu
  */
+@GwtIncompatible
 public class DefaultsTest extends TestCase {
   public void testGetDefaultValue() {
     assertEquals(false, Defaults.defaultValue(boolean.class).booleanValue());

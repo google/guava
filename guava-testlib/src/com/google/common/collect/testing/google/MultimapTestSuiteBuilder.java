@@ -116,6 +116,8 @@ public class MultimapTestSuiteBuilder<K, V, M extends Multimap<K, V>>
               .withFeatures(computeReserializedMultimapFeatures(parentBuilder.getFeatures()))
               .named(parentBuilder.getName() + " reserialized")
               .suppressing(parentBuilder.getSuppressedTests())
+              .withSetUp(parentBuilder.getSetUp())
+              .withTearDown(parentBuilder.getTearDown())
               .createTestSuite());
     }
 
@@ -124,6 +126,8 @@ public class MultimapTestSuiteBuilder<K, V, M extends Multimap<K, V>>
             .withFeatures(computeAsMapFeatures(parentBuilder.getFeatures()))
             .named(parentBuilder.getName() + ".asMap")
             .suppressing(parentBuilder.getSuppressedTests())
+            .withSetUp(parentBuilder.getSetUp())
+            .withTearDown(parentBuilder.getTearDown())
             .createTestSuite());
 
     derivedSuites.add(computeEntriesTestSuite(parentBuilder));
@@ -154,6 +158,8 @@ public class MultimapTestSuiteBuilder<K, V, M extends Multimap<K, V>>
         .withFeatures(computeEntriesFeatures(parentBuilder.getFeatures()))
         .named(parentBuilder.getName() + ".entries")
         .suppressing(parentBuilder.getSuppressedTests())
+        .withSetUp(parentBuilder.getSetUp())
+        .withTearDown(parentBuilder.getTearDown())
         .createTestSuite();
   }
 
@@ -165,6 +171,8 @@ public class MultimapTestSuiteBuilder<K, V, M extends Multimap<K, V>>
         .withFeatures(computeMultimapGetFeatures(parentBuilder.getFeatures()))
         .named(parentBuilder.getName() + ".get[key]")
         .suppressing(parentBuilder.getSuppressedTests())
+        .withSetUp(parentBuilder.getSetUp())
+        .withTearDown(parentBuilder.getTearDown())
         .createTestSuite();
   }
 
@@ -180,6 +188,8 @@ public class MultimapTestSuiteBuilder<K, V, M extends Multimap<K, V>>
           .withFeatures(features)
           .named(parentBuilder.getName() + ".asMap[].get[key]")
           .suppressing(parentBuilder.getSuppressedTests())
+          .withSetUp(parentBuilder.getSetUp())
+          .withTearDown(parentBuilder.getTearDown())
           .createTestSuite();
     }
   }
@@ -192,6 +202,8 @@ public class MultimapTestSuiteBuilder<K, V, M extends Multimap<K, V>>
         .withFeatures(computeKeysFeatures(parentBuilder.getFeatures()))
         .named(parentBuilder.getName() + ".keys")
         .suppressing(parentBuilder.getSuppressedTests())
+        .withSetUp(parentBuilder.getSetUp())
+        .withTearDown(parentBuilder.getTearDown())
         .createTestSuite();
   }
 

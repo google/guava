@@ -31,7 +31,7 @@ import java.nio.ByteOrder;
  *
  * @author Colin Decker
  */
-@CanIgnoreReturnValue
+@ElementTypesAreNonnullByDefault
 abstract class AbstractByteHasher extends AbstractHasher {
   private final ByteBuffer scratch = ByteBuffer.allocate(8).order(ByteOrder.LITTLE_ENDIAN);
 
@@ -54,7 +54,7 @@ abstract class AbstractByteHasher extends AbstractHasher {
   protected void update(ByteBuffer b) {
     if (b.hasArray()) {
       update(b.array(), b.arrayOffset() + b.position(), b.remaining());
-      b.position(b.limit());
+      Java8Compatibility.position(b, b.limit());
     } else {
       for (int remaining = b.remaining(); remaining > 0; remaining--) {
         update(b.get());
@@ -63,22 +63,25 @@ abstract class AbstractByteHasher extends AbstractHasher {
   }
 
   /** Updates the sink with the given number of bytes from the buffer. */
+  @CanIgnoreReturnValue
   private Hasher update(int bytes) {
     try {
       update(scratch.array(), 0, bytes);
     } finally {
-      scratch.clear();
+      Java8Compatibility.clear(scratch);
     }
     return this;
   }
 
   @Override
+  @CanIgnoreReturnValue
   public Hasher putByte(byte b) {
     update(b);
     return this;
   }
 
   @Override
+  @CanIgnoreReturnValue
   public Hasher putBytes(byte[] bytes) {
     checkNotNull(bytes);
     update(bytes);
@@ -86,6 +89,7 @@ abstract class AbstractByteHasher extends AbstractHasher {
   }
 
   @Override
+  @CanIgnoreReturnValue
   public Hasher putBytes(byte[] bytes, int off, int len) {
     checkPositionIndexes(off, off + len, bytes.length);
     update(bytes, off, len);
@@ -93,30 +97,35 @@ abstract class AbstractByteHasher extends AbstractHasher {
   }
 
   @Override
+  @CanIgnoreReturnValue
   public Hasher putBytes(ByteBuffer bytes) {
     update(bytes);
     return this;
   }
 
   @Override
+  @CanIgnoreReturnValue
   public Hasher putShort(short s) {
     scratch.putShort(s);
     return update(Shorts.BYTES);
   }
 
   @Override
+  @CanIgnoreReturnValue
   public Hasher putInt(int i) {
     scratch.putInt(i);
     return update(Ints.BYTES);
   }
 
   @Override
+  @CanIgnoreReturnValue
   public Hasher putLong(long l) {
     scratch.putLong(l);
     return update(Longs.BYTES);
   }
 
   @Override
+  @CanIgnoreReturnValue
   public Hasher putChar(char c) {
     scratch.putChar(c);
     return update(Chars.BYTES);

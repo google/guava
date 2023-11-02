@@ -44,7 +44,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReferenceArray;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A collection of utilities for {@link Cache} testing.
@@ -98,7 +98,7 @@ class CacheTesting {
   }
 
   /**
-   * Forces the segment containing the given {@code key} to expand (see {@link Segment#expand()}.
+   * Forces the segment containing the given {@code key} to expand (see {@link Segment#expand()}).
    */
   static <K, V> void forceExpandSegment(Cache<K, V> cache, K key) {
     checkNotNull(cache);
@@ -367,7 +367,7 @@ class CacheTesting {
   }
 
   interface Receiver<T> {
-    void accept(@NullableDecl T object);
+    void accept(@Nullable T object);
   }
 
   /**

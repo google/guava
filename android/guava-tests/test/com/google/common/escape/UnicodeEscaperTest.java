@@ -18,6 +18,7 @@ package com.google.common.escape;
 
 import com.google.common.annotations.GwtCompatible;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Tests for {@link UnicodeEscaper}.
@@ -39,7 +40,7 @@ public class UnicodeEscaperTest extends TestCase {
   private static final UnicodeEscaper NOP_ESCAPER =
       new UnicodeEscaper() {
         @Override
-        protected char[] escape(int c) {
+        protected char @Nullable [] escape(int c) {
           return null;
         }
       };
@@ -48,7 +49,7 @@ public class UnicodeEscaperTest extends TestCase {
   private static final UnicodeEscaper SIMPLE_ESCAPER =
       new UnicodeEscaper() {
         @Override
-        protected char[] escape(int cp) {
+        protected char @Nullable [] escape(int cp) {
           return ('a' <= cp && cp <= 'z') || ('A' <= cp && cp <= 'Z') || ('0' <= cp && cp <= '9')
               ? null
               : ("[" + String.valueOf(cp) + "]").toCharArray();
@@ -163,7 +164,7 @@ public class UnicodeEscaperTest extends TestCase {
         new UnicodeEscaper() {
           // Canonical escaper method that only escapes lower case ASCII letters.
           @Override
-          protected char[] escape(int cp) {
+          protected char @Nullable [] escape(int cp) {
             return ('a' <= cp && cp <= 'z') ? new char[] {Character.toUpperCase((char) cp)} : null;
           }
           // Inefficient implementation that defines all letters as escapable.

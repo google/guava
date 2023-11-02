@@ -17,6 +17,7 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.assertThrows;
 
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
@@ -44,11 +45,7 @@ public class SettableFutureTest extends TestCase {
   }
 
   public void testDefaultState() throws Exception {
-    try {
-      future.get(5, TimeUnit.MILLISECONDS);
-      fail();
-    } catch (TimeoutException expected) {
-    }
+    assertThrows(TimeoutException.class, () -> future.get(5, TimeUnit.MILLISECONDS));
   }
 
   public void testSetValue() throws Exception {
@@ -62,11 +59,7 @@ public class SettableFutureTest extends TestCase {
   }
 
   public void testSetFailureNull() throws Exception {
-    try {
-      future.setException(null);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> future.setException(null));
     assertFalse(future.isDone());
     assertTrue(future.setException(new Exception("failure")));
     tester.testFailedFuture("failure");
@@ -108,12 +101,8 @@ public class SettableFutureTest extends TestCase {
     // Check that the future has been set properly.
     assertTrue(future.isDone());
     assertFalse(future.isCancelled());
-    try {
-      future.get();
-      fail("Expected ExecutionException");
-    } catch (ExecutionException ee) {
-      assertThat(ee).hasCauseThat().isSameInstanceAs(e);
-    }
+    ExecutionException ee = assertThrows(ExecutionException.class, () -> future.get());
+    assertThat(ee).hasCauseThat().isSameInstanceAs(e);
   }
 
   public void testSetFuture() throws Exception {
@@ -127,12 +116,7 @@ public class SettableFutureTest extends TestCase {
     // Check that the future has been set properly.
     assertFalse(future.isDone());
     assertFalse(future.isCancelled());
-    try {
-      future.get(0, TimeUnit.MILLISECONDS);
-      fail("Expected TimeoutException");
-    } catch (TimeoutException expected) {
-      /* expected */
-    }
+    assertThrows(TimeoutException.class, () -> future.get(0, TimeUnit.MILLISECONDS));
     nested.set("foo");
     assertTrue(future.isDone());
     assertFalse(future.isCancelled());
@@ -154,12 +138,7 @@ public class SettableFutureTest extends TestCase {
     // Check that the future has been set properly.
     assertFalse(future.isDone());
     assertFalse(future.isCancelled());
-    try {
-      future.get(0, TimeUnit.MILLISECONDS);
-      fail("Expected TimeoutException");
-    } catch (TimeoutException expected) {
-      /* expected */
-    }
+    assertThrows(TimeoutException.class, () -> future.get(0, TimeUnit.MILLISECONDS));
     FooChild value = new FooChild();
     nested.set(value);
     assertTrue(future.isDone());
@@ -173,12 +152,7 @@ public class SettableFutureTest extends TestCase {
     async.setFuture(inner);
     inner.cancel(true);
     assertTrue(async.isCancelled());
-    try {
-      async.get();
-      fail("Expected CancellationException");
-    } catch (CancellationException expected) {
-      /* expected */
-    }
+    assertThrows(CancellationException.class, () -> async.get());
   }
 
   public void testCancel_resultCancelsInner_interrupted() throws Exception {
@@ -188,12 +162,7 @@ public class SettableFutureTest extends TestCase {
     async.cancel(true);
     assertTrue(inner.isCancelled());
     assertTrue(inner.wasInterrupted());
-    try {
-      inner.get();
-      fail("Expected CancellationException");
-    } catch (CancellationException expected) {
-      /* expected */
-    }
+    assertThrows(CancellationException.class, () -> inner.get());
   }
 
   public void testCancel_resultCancelsInner() throws Exception {
@@ -203,12 +172,7 @@ public class SettableFutureTest extends TestCase {
     async.cancel(false);
     assertTrue(inner.isCancelled());
     assertFalse(inner.wasInterrupted());
-    try {
-      inner.get();
-      fail("Expected CancellationException");
-    } catch (CancellationException expected) {
-      /* expected */
-    }
+    assertThrows(CancellationException.class, () -> inner.get());
   }
 
   public void testCancel_beforeSet() throws Exception {

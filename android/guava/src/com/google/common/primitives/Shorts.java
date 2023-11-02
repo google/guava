@@ -19,7 +19,6 @@ import static com.google.common.base.Preconditions.checkElementIndex;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkPositionIndexes;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Converter;
@@ -31,7 +30,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.RandomAccess;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import javax.annotation.CheckForNull;
 
 /**
  * Static utility methods pertaining to {@code short} primitives, that are not already found in
@@ -44,6 +43,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @since 1.0
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public final class Shorts extends ShortsMethodsForWeb {
   private Shorts() {}
 
@@ -265,7 +265,6 @@ public final class Shorts extends ShortsMethodsForWeb {
    * @throws IllegalArgumentException if {@code min > max}
    * @since 21.0
    */
-  @Beta
   public static short constrainToRange(short value, short min, short max) {
     checkArgument(min <= max, "min (%s) must be less than or equal to max (%s)", min, max);
     return value < min ? min : value < max ? value : max;
@@ -336,7 +335,7 @@ public final class Shorts extends ShortsMethodsForWeb {
 
   private static final class ShortConverter extends Converter<String, Short>
       implements Serializable {
-    static final ShortConverter INSTANCE = new ShortConverter();
+    static final Converter<String, Short> INSTANCE = new ShortConverter();
 
     @Override
     protected Short doForward(String value) {
@@ -371,7 +370,6 @@ public final class Shorts extends ShortsMethodsForWeb {
    *
    * @since 16.0
    */
-  @Beta
   public static Converter<String, Short> stringConverter() {
     return ShortConverter.INSTANCE;
   }
@@ -512,6 +510,56 @@ public final class Shorts extends ShortsMethodsForWeb {
   }
 
   /**
+   * Performs a right rotation of {@code array} of "distance" places, so that the first element is
+   * moved to index "distance", and the element at index {@code i} ends up at index {@code (distance
+   * + i) mod array.length}. This is equivalent to {@code Collections.rotate(Shorts.asList(array),
+   * distance)}, but is considerably faster and avoids allocation and garbage collection.
+   *
+   * <p>The provided "distance" may be negative, which will rotate left.
+   *
+   * @since 32.0.0
+   */
+  public static void rotate(short[] array, int distance) {
+    rotate(array, distance, 0, array.length);
+  }
+
+  /**
+   * Performs a right rotation of {@code array} between {@code fromIndex} inclusive and {@code
+   * toIndex} exclusive. This is equivalent to {@code
+   * Collections.rotate(Shorts.asList(array).subList(fromIndex, toIndex), distance)}, but is
+   * considerably faster and avoids allocations and garbage collection.
+   *
+   * <p>The provided "distance" may be negative, which will rotate left.
+   *
+   * @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > array.length}, or
+   *     {@code toIndex > fromIndex}
+   * @since 32.0.0
+   */
+  public static void rotate(short[] array, int distance, int fromIndex, int toIndex) {
+    // See Ints.rotate for more details about possible algorithms here.
+    checkNotNull(array);
+    checkPositionIndexes(fromIndex, toIndex, array.length);
+    if (array.length <= 1) {
+      return;
+    }
+
+    int length = toIndex - fromIndex;
+    // Obtain m = (-distance mod length), a non-negative value less than "length". This is how many
+    // places left to rotate.
+    int m = -distance % length;
+    m = (m < 0) ? m + length : m;
+    // The current index of what will become the first element of the rotated section.
+    int newFirstIndex = m + fromIndex;
+    if (newFirstIndex == fromIndex) {
+      return;
+    }
+
+    reverse(array, fromIndex, newFirstIndex);
+    reverse(array, newFirstIndex, toIndex);
+    reverse(array, fromIndex, toIndex);
+  }
+
+  /**
    * Returns an array containing each value of {@code collection}, converted to a {@code short}
    * value in the manner of {@link Number#shortValue}.
    *
@@ -547,6 +595,8 @@ public final class Shorts extends ShortsMethodsForWeb {
    * <p>The returned list maintains the values, but not the identities, of {@code Short} objects
    * written to or read from it. For example, whether {@code list.get(0) == list.get(0)} is true for
    * the returned list is unspecified.
+   *
+   * <p>The returned list is serializable.
    *
    * @param backingArray the array to back the list
    * @return a list view of the array
@@ -592,13 +642,13 @@ public final class Shorts extends ShortsMethodsForWeb {
     }
 
     @Override
-    public boolean contains(@NullableDecl Object target) {
+    public boolean contains(@CheckForNull Object target) {
       // Overridden to prevent a ton of boxing
       return (target instanceof Short) && Shorts.indexOf(array, (Short) target, start, end) != -1;
     }
 
     @Override
-    public int indexOf(@NullableDecl Object target) {
+    public int indexOf(@CheckForNull Object target) {
       // Overridden to prevent a ton of boxing
       if (target instanceof Short) {
         int i = Shorts.indexOf(array, (Short) target, start, end);
@@ -610,7 +660,7 @@ public final class Shorts extends ShortsMethodsForWeb {
     }
 
     @Override
-    public int lastIndexOf(@NullableDecl Object target) {
+    public int lastIndexOf(@CheckForNull Object target) {
       // Overridden to prevent a ton of boxing
       if (target instanceof Short) {
         int i = Shorts.lastIndexOf(array, (Short) target, start, end);
@@ -641,7 +691,7 @@ public final class Shorts extends ShortsMethodsForWeb {
     }
 
     @Override
-    public boolean equals(@NullableDecl Object object) {
+    public boolean equals(@CheckForNull Object object) {
       if (object == this) {
         return true;
       }

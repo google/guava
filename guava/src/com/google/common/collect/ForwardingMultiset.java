@@ -16,13 +16,13 @@
 
 package com.google.common.collect;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Objects;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Set;
+import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -48,7 +48,9 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 2.0
  */
 @GwtCompatible
-public abstract class ForwardingMultiset<E> extends ForwardingCollection<E> implements Multiset<E> {
+@ElementTypesAreNonnullByDefault
+public abstract class ForwardingMultiset<E extends @Nullable Object> extends ForwardingCollection<E>
+    implements Multiset<E> {
 
   /** Constructor for use by subclasses. */
   protected ForwardingMultiset() {}
@@ -57,19 +59,19 @@ public abstract class ForwardingMultiset<E> extends ForwardingCollection<E> impl
   protected abstract Multiset<E> delegate();
 
   @Override
-  public int count(Object element) {
+  public int count(@CheckForNull Object element) {
     return delegate().count(element);
   }
 
   @CanIgnoreReturnValue
   @Override
-  public int add(E element, int occurrences) {
+  public int add(@ParametricNullness E element, int occurrences) {
     return delegate().add(element, occurrences);
   }
 
   @CanIgnoreReturnValue
   @Override
-  public int remove(Object element, int occurrences) {
+  public int remove(@CheckForNull Object element, int occurrences) {
     return delegate().remove(element, occurrences);
   }
 
@@ -84,7 +86,7 @@ public abstract class ForwardingMultiset<E> extends ForwardingCollection<E> impl
   }
 
   @Override
-  public boolean equals(@Nullable Object object) {
+  public boolean equals(@CheckForNull Object object) {
     return object == this || delegate().equals(object);
   }
 
@@ -95,13 +97,13 @@ public abstract class ForwardingMultiset<E> extends ForwardingCollection<E> impl
 
   @CanIgnoreReturnValue
   @Override
-  public int setCount(E element, int count) {
+  public int setCount(@ParametricNullness E element, int count) {
     return delegate().setCount(element, count);
   }
 
   @CanIgnoreReturnValue
   @Override
-  public boolean setCount(E element, int oldCount, int newCount) {
+  public boolean setCount(@ParametricNullness E element, int oldCount, int newCount) {
     return delegate().setCount(element, oldCount, newCount);
   }
 
@@ -112,7 +114,7 @@ public abstract class ForwardingMultiset<E> extends ForwardingCollection<E> impl
    * @since 7.0
    */
   @Override
-  protected boolean standardContains(@Nullable Object object) {
+  protected boolean standardContains(@CheckForNull Object object) {
     return count(object) > 0;
   }
 
@@ -135,8 +137,7 @@ public abstract class ForwardingMultiset<E> extends ForwardingCollection<E> impl
    *
    * @since 7.0
    */
-  @Beta
-  protected int standardCount(@Nullable Object object) {
+  protected int standardCount(@CheckForNull Object object) {
     for (Entry<?> entry : this.entrySet()) {
       if (Objects.equal(entry.getElement(), object)) {
         return entry.getCount();
@@ -152,7 +153,7 @@ public abstract class ForwardingMultiset<E> extends ForwardingCollection<E> impl
    *
    * @since 7.0
    */
-  protected boolean standardAdd(E element) {
+  protected boolean standardAdd(@ParametricNullness E element) {
     add(element, 1);
     return true;
   }
@@ -164,7 +165,6 @@ public abstract class ForwardingMultiset<E> extends ForwardingCollection<E> impl
    *
    * @since 7.0
    */
-  @Beta
   @Override
   protected boolean standardAddAll(Collection<? extends E> elementsToAdd) {
     return Multisets.addAllImpl(this, elementsToAdd);
@@ -178,7 +178,7 @@ public abstract class ForwardingMultiset<E> extends ForwardingCollection<E> impl
    * @since 7.0
    */
   @Override
-  protected boolean standardRemove(Object element) {
+  protected boolean standardRemove(@CheckForNull Object element) {
     return remove(element, 1) > 0;
   }
 
@@ -214,7 +214,7 @@ public abstract class ForwardingMultiset<E> extends ForwardingCollection<E> impl
    *
    * @since 7.0
    */
-  protected int standardSetCount(E element, int count) {
+  protected int standardSetCount(@ParametricNullness E element, int count) {
     return Multisets.setCountImpl(this, element, count);
   }
 
@@ -225,7 +225,7 @@ public abstract class ForwardingMultiset<E> extends ForwardingCollection<E> impl
    *
    * @since 7.0
    */
-  protected boolean standardSetCount(E element, int oldCount, int newCount) {
+  protected boolean standardSetCount(@ParametricNullness E element, int oldCount, int newCount) {
     return Multisets.setCountImpl(this, element, oldCount, newCount);
   }
 
@@ -240,7 +240,6 @@ public abstract class ForwardingMultiset<E> extends ForwardingCollection<E> impl
    *
    * @since 10.0
    */
-  @Beta
   protected class StandardElementSet extends Multisets.ElementSet<E> {
     /** Constructor for use by subclasses. */
     public StandardElementSet() {}
@@ -285,7 +284,7 @@ public abstract class ForwardingMultiset<E> extends ForwardingCollection<E> impl
    *
    * @since 7.0
    */
-  protected boolean standardEquals(@Nullable Object object) {
+  protected boolean standardEquals(@CheckForNull Object object) {
     return Multisets.equalsImpl(this, object);
   }
 

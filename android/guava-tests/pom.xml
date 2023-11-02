@@ -27,7 +27,7 @@
     </dependency>
     <dependency>
       <groupId>org.checkerframework</groupId>
-      <artifactId>checker-compat-qual</artifactId>
+      <artifactId>checker-qual</artifactId>
     </dependency>
     <dependency>
       <groupId>com.google.errorprone</groupId>
@@ -36,26 +36,32 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.easymock</groupId>
-      <artifactId>easymock</artifactId>
+      <version>4.13.2</version>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-core</artifactId>
+      <version>4.11.0</version>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.google.truth</groupId>
       <artifactId>truth</artifactId>
+      <version>${truth.version}</version>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.google.jimfs</groupId>
       <artifactId>jimfs</artifactId>
+      <version>1.3.0</version>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.google.caliper</groupId>
       <artifactId>caliper</artifactId>
+      <version>1.0-beta-3</version>
+      <scope>test</scope>
     </dependency>
   </dependencies>
   <build>
@@ -80,13 +86,6 @@
         <artifactId>maven-jar-plugin</artifactId>
         <executions>
           <execution>
-            <id>default-jar</id>
-            <goals><goal>jar</goal></goals>
-            <configuration>
-              <skipIfEmpty>true</skipIfEmpty>
-            </configuration>
-          </execution>
-          <execution>
             <id>create-test-jar</id>
             <goals><goal>test-jar</goal></goals>
           </execution>
@@ -102,6 +101,9 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>animal-sniffer-maven-plugin</artifactId>
+        <configuration>
+          <checkTestClasses>false</checkTestClasses> <!-- TODO(cpovirk): Consider checking them. -->
+        </configuration>
       </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>

@@ -30,8 +30,8 @@ import static com.google.common.util.concurrent.Service.State.STOPPING;
 import static com.google.common.util.concurrent.Service.State.TERMINATED;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Function;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Stopwatch;
@@ -118,7 +118,9 @@ import java.util.logging.Logger;
  * @author Luke Sandberg
  * @since 14.0
  */
+@J2ktIncompatible
 @GwtIncompatible
+@ElementTypesAreNonnullByDefault
 public final class ServiceManager implements ServiceManagerBridge {
   private static final Logger logger = Logger.getLogger(ServiceManager.class.getName());
   private static final ListenerCallQueue.Event<Listener> HEALTHY_EVENT =
@@ -252,34 +254,6 @@ public final class ServiceManager implements ServiceManagerBridge {
   }
 
   /**
-   * Registers a {@link Listener} to be run when this {@link ServiceManager} changes state. The
-   * listener will not have previous state changes replayed, so it is suggested that listeners are
-   * added before any of the managed services are {@linkplain Service#startAsync started}.
-   *
-   * <p>{@code addListener} guarantees execution ordering across calls to a given listener but not
-   * across calls to multiple listeners. Specifically, a given listener will have its callbacks
-   * invoked in the same order as the underlying service enters those states. Additionally, at most
-   * one of the listener's callbacks will execute at once. However, multiple listeners' callbacks
-   * may execute concurrently, and listeners may execute in an order different from the one in which
-   * they were registered.
-   *
-   * <p>RuntimeExceptions thrown by a listener will be caught and logged.
-   *
-   * @param listener the listener to run when the manager changes state
-   * @since 15.0
-   * @deprecated Use {@linkplain #addListener(Listener, Executor) the overload that accepts an
-   *     executor}. For equivalent behavior, pass {@link MoreExecutors#directExecutor}. However,
-   *     consider whether another executor would be more appropriate, as discussed in the docs for
-   *     {@link ListenableFuture#addListener ListenableFuture.addListener}. This method is scheduled
-   *     for deletion in October 2020.
-   */
-  @Beta
-  @Deprecated
-  public void addListener(Listener listener) {
-    state.addListener(listener, directExecutor());
-  }
-
-  /**
    * Initiates service {@linkplain Service#startAsync startup} on all the services being managed. It
    * is only valid to call this method if all of the services are {@linkplain State#NEW new}.
    *
@@ -290,8 +264,7 @@ public final class ServiceManager implements ServiceManagerBridge {
   @CanIgnoreReturnValue
   public ServiceManager startAsync() {
     for (Service service : services) {
-      State state = service.state();
-      checkState(state == NEW, "Service %s is %s, cannot start it.", service, state);
+      checkState(service.state() == NEW, "Not all services are NEW, cannot start %s", this);
     }
     for (Service service : services) {
       try {
@@ -624,9 +597,9 @@ public final class ServiceManager implements ServiceManagerBridge {
         // N.B. There will only be an entry in the map if the service has started
         for (Entry<Service, Stopwatch> entry : startupTimers.entrySet()) {
           Service service = entry.getKey();
-          Stopwatch stopWatch = entry.getValue();
-          if (!stopWatch.isRunning() && !(service instanceof NoOpService)) {
-            loadTimes.add(Maps.immutableEntry(service, stopWatch.elapsed(MILLISECONDS)));
+          Stopwatch stopwatch = entry.getValue();
+          if (!stopwatch.isRunning() && !(service instanceof NoOpService)) {
+            loadTimes.add(Maps.immutableEntry(service, stopwatch.elapsed(MILLISECONDS)));
           }
         }
       } finally {

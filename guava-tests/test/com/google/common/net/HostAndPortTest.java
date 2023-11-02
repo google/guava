@@ -20,6 +20,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.SerializableTester;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Tests for {@link HostAndPort}
@@ -59,6 +60,13 @@ public class HostAndPortTest extends TestCase {
     checkFromStringCase("[2001::2]:85", 77, "2001::2", 85, true);
   }
 
+  public void testFromStringNonAsciiDigits() {
+    // Same as testFromStringUnusedDefaultPort but with Gujarati digits for port numbers.
+    checkFromStringCase("gmail.com:૮1", 77, null, -1, false);
+    checkFromStringCase("192.0.2.2:૮૩", 77, null, -1, false);
+    checkFromStringCase("[2001::2]:૮૫", 77, null, -1, false);
+  }
+
   public void testFromStringBadPort() {
     // Out-of-range ports.
     checkFromStringCase("google.com:65536", 1, null, 99, false);
@@ -92,10 +100,17 @@ public class HostAndPortTest extends TestCase {
     checkFromStringCase("\nOMG\t", 89, "\nOMG\t", 89, false);
   }
 
+  public void testFromStringParseableIncompleteAddresses() {
+    checkFromStringCase("1.2.3", 87, "1.2.3", 87, false);
+    checkFromStringCase("1.2.3:99", 87, "1.2.3", 99, true);
+    checkFromStringCase("2001:4860:4864:5", 87, "2001:4860:4864:5", 87, false);
+    checkFromStringCase("[2001:4860:4864:5]:99", 87, "2001:4860:4864:5", 99, true);
+  }
+
   private static void checkFromStringCase(
       String hpString,
       int defaultPort,
-      String expectHost,
+      @Nullable String expectHost,
       int expectPort,
       boolean expectHasExplicitPort) {
     HostAndPort hp;

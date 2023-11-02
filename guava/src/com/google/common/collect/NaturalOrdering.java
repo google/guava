@@ -19,45 +19,49 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.io.Serializable;
+import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** An ordering that uses the natural order of the values. */
 @GwtCompatible(serializable = true)
 @SuppressWarnings({"unchecked", "rawtypes"}) // TODO(kevinb): the right way to explain this??
-final class NaturalOrdering extends Ordering<Comparable> implements Serializable {
+@ElementTypesAreNonnullByDefault
+final class NaturalOrdering extends Ordering<Comparable<?>> implements Serializable {
   static final NaturalOrdering INSTANCE = new NaturalOrdering();
 
-  private transient @Nullable Ordering<Comparable> nullsFirst;
-  private transient @Nullable Ordering<Comparable> nullsLast;
+  // TODO: b/287198172 - Consider eagerly initializing these (but think about serialization).
+  @LazyInit @CheckForNull private transient Ordering<@Nullable Comparable<?>> nullsFirst;
+  @LazyInit @CheckForNull private transient Ordering<@Nullable Comparable<?>> nullsLast;
 
   @Override
-  public int compare(Comparable left, Comparable right) {
+  public int compare(Comparable<?> left, Comparable<?> right) {
     checkNotNull(left); // for GWT
     checkNotNull(right);
-    return left.compareTo(right);
+    return ((Comparable<Object>) left).compareTo(right);
   }
 
   @Override
-  public <S extends Comparable> Ordering<S> nullsFirst() {
-    Ordering<Comparable> result = nullsFirst;
+  public <S extends Comparable<?>> Ordering<@Nullable S> nullsFirst() {
+    Ordering<@Nullable Comparable<?>> result = nullsFirst;
     if (result == null) {
-      result = nullsFirst = super.nullsFirst();
+      result = nullsFirst = super.<Comparable<?>>nullsFirst();
     }
-    return (Ordering<S>) result;
+    return (Ordering<@Nullable S>) result;
   }
 
   @Override
-  public <S extends Comparable> Ordering<S> nullsLast() {
-    Ordering<Comparable> result = nullsLast;
+  public <S extends Comparable<?>> Ordering<@Nullable S> nullsLast() {
+    Ordering<@Nullable Comparable<?>> result = nullsLast;
     if (result == null) {
-      result = nullsLast = super.nullsLast();
+      result = nullsLast = super.<Comparable<?>>nullsLast();
     }
-    return (Ordering<S>) result;
+    return (Ordering<@Nullable S>) result;
   }
 
   @Override
-  public <S extends Comparable> Ordering<S> reverse() {
+  public <S extends Comparable<?>> Ordering<S> reverse() {
     return (Ordering<S>) ReverseNaturalOrdering.INSTANCE;
   }
 

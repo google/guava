@@ -35,6 +35,7 @@ import com.google.common.base.Supplier;
 import com.google.common.collect.Maps.EntryTransformer;
 import com.google.common.collect.testing.IteratorTester;
 import com.google.common.collect.testing.google.UnmodifiableCollectionTests;
+import com.google.common.primitives.Chars;
 import com.google.common.testing.CollectorTester;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
@@ -106,7 +107,7 @@ public class MultimapsTest extends TestCase {
     Collector<String, ?, ListMultimap<Character, Character>> collector =
         Multimaps.flatteningToMultimap(
             str -> str.charAt(0),
-            str -> str.substring(1).chars().mapToObj(c -> (char) c),
+            str -> Chars.asList(str.substring(1).toCharArray()).stream(),
             MultimapBuilder.linkedHashKeys().arrayListValues()::build);
     BiPredicate<Multimap<?, ?>, Multimap<?, ?>> equivalence =
         Equivalence.equals()
@@ -667,7 +668,8 @@ public class MultimapsTest extends TestCase {
     assertEquals("[3, 1, 4]", ummodifiable.get(Color.BLUE).toString());
 
     Collection<Integer> collection = multimap.get(Color.BLUE);
-    assertEquals(collection, collection);
+    // Explicitly call `equals`; `assertEquals` might return fast
+    assertTrue(collection.equals(collection));
 
     assertFalse(multimap.keySet() instanceof SortedSet);
     assertFalse(multimap.asMap() instanceof SortedMap);

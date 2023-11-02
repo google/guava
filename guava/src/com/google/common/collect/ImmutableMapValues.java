@@ -20,11 +20,12 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import java.io.Serializable;
 import java.util.Map.Entry;
 import java.util.Spliterator;
 import java.util.function.Consumer;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import javax.annotation.CheckForNull;
 
 /**
  * {@code values()} implementation for {@link ImmutableMap}.
@@ -33,6 +34,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Kevin Bourrillion
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 final class ImmutableMapValues<K, V> extends ImmutableCollection<V> {
   private final ImmutableMap<K, V> map;
 
@@ -68,7 +70,7 @@ final class ImmutableMapValues<K, V> extends ImmutableCollection<V> {
   }
 
   @Override
-  public boolean contains(@Nullable Object object) {
+  public boolean contains(@CheckForNull Object object) {
     return object != null && Iterators.contains(iterator(), object);
   }
 
@@ -100,13 +102,10 @@ final class ImmutableMapValues<K, V> extends ImmutableCollection<V> {
     map.forEach((k, v) -> action.accept(v));
   }
 
+  // No longer used for new writes, but kept so that old data can still be read.
   @GwtIncompatible // serialization
-  @Override
-  Object writeReplace() {
-    return new SerializedForm<V>(map);
-  }
-
-  @GwtIncompatible // serialization
+  @J2ktIncompatible
+  @SuppressWarnings("unused")
   private static class SerializedForm<V> implements Serializable {
     final ImmutableMap<?, V> map;
 

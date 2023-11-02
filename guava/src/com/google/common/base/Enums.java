@@ -16,8 +16,8 @@ package com.google.common.base;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import java.io.Serializable;
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
@@ -25,7 +25,7 @@ import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.WeakHashMap;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import javax.annotation.CheckForNull;
 
 /**
  * Utility methods for working with {@link Enum} instances.
@@ -33,7 +33,9 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Steve McKay
  * @since 9.0
  */
-@GwtCompatible(emulated = true)
+@GwtIncompatible
+@J2ktIncompatible
+@ElementTypesAreNonnullByDefault
 public final class Enums {
 
   private Enums() {}
@@ -47,7 +49,8 @@ public final class Enums {
    */
   @GwtIncompatible // reflection
   public static Field getField(Enum<?> enumValue) {
-    Class<?> clazz = enumValue.getDeclaringClass();
+    Class<?>
+        clazz = enumValue.getDeclaringClass();
     try {
       return clazz.getDeclaredField(enumValue.name());
     } catch (NoSuchFieldException impossible) {
@@ -97,17 +100,19 @@ public final class Enums {
   }
 
   /**
-   * Returns a converter that converts between strings and {@code enum} values of type {@code
-   * enumClass} using {@link Enum#valueOf(Class, String)} and {@link Enum#name()}. The converter
-   * will throw an {@code IllegalArgumentException} if the argument is not the name of any enum
-   * constant in the specified enum.
+   * Returns a serializable converter that converts between strings and {@code enum} values of type
+   * {@code enumClass} using {@link Enum#valueOf(Class, String)} and {@link Enum#name()}. The
+   * converter will throw an {@code IllegalArgumentException} if the argument is not the name of any
+   * enum constant in the specified enum.
    *
    * @since 16.0
    */
-  public static <T extends Enum<T>> Converter<String, T> stringConverter(final Class<T> enumClass) {
-    return new StringConverter<T>(enumClass);
+  @GwtIncompatible
+  public static <T extends Enum<T>> Converter<String, T> stringConverter(Class<T> enumClass) {
+    return new StringConverter<>(enumClass);
   }
 
+  @GwtIncompatible
   private static final class StringConverter<T extends Enum<T>> extends Converter<String, T>
       implements Serializable {
 
@@ -128,7 +133,7 @@ public final class Enums {
     }
 
     @Override
-    public boolean equals(@Nullable Object object) {
+    public boolean equals(@CheckForNull Object object) {
       if (object instanceof StringConverter) {
         StringConverter<?> that = (StringConverter<?>) object;
         return this.enumClass.equals(that.enumClass);

@@ -18,6 +18,7 @@ package com.google.common.reflect;
 
 import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.Lists;
 import com.google.common.testing.EqualsTester;
@@ -117,11 +118,9 @@ public class TypesTest extends TestCase {
   }
 
   public void testNewParameterizedType_ownerMismatch() {
-    try {
-      Types.newParameterizedTypeWithOwner(Number.class, List.class, String.class);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> Types.newParameterizedTypeWithOwner(Number.class, List.class, String.class));
   }
 
   public void testNewParameterizedType_ownerMissing() {
@@ -131,19 +130,15 @@ public class TypesTest extends TestCase {
   }
 
   public void testNewParameterizedType_invalidTypeParameters() {
-    try {
-      Types.newParameterizedTypeWithOwner(Map.class, Entry.class, String.class);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> Types.newParameterizedTypeWithOwner(Map.class, Entry.class, String.class));
   }
 
   public void testNewParameterizedType_primitiveTypeParameters() {
-    try {
-      Types.newParameterizedTypeWithOwner(Map.class, Entry.class, int.class, int.class);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> Types.newParameterizedTypeWithOwner(Map.class, Entry.class, int.class, int.class));
   }
 
   public void testNewArrayType() {
@@ -234,11 +229,7 @@ public class TypesTest extends TestCase {
   }
 
   public void testNewWildcardType_primitiveTypeBound() {
-    try {
-      Types.subtypeOf(int.class);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> Types.subtypeOf(int.class));
   }
 
   public void testNewWildcardType_serializable() {
@@ -301,19 +292,15 @@ public class TypesTest extends TestCase {
   }
 
   public void testNewTypeVariable_primitiveTypeBound() {
-    try {
-      Types.newArtificialTypeVariable(List.class, "E", int.class);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> Types.newArtificialTypeVariable(List.class, "E", int.class));
   }
 
   public void testNewTypeVariable_serializable() throws Exception {
-    try {
-      SerializableTester.reserialize(Types.newArtificialTypeVariable(List.class, "E"));
-      fail();
-    } catch (RuntimeException expected) {
-    }
+    assertThrows(
+        RuntimeException.class,
+        () -> SerializableTester.reserialize(Types.newArtificialTypeVariable(List.class, "E")));
   }
 
   private static <D extends GenericDeclaration> TypeVariable<D> withBounds(
@@ -372,11 +359,9 @@ public class TypesTest extends TestCase {
   }
 
   public void testNewParameterizedTypeWithWrongNumberOfTypeArguments() {
-    try {
-      Types.newParameterizedType(Map.class, String.class, Integer.class, Long.class);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> Types.newParameterizedType(Map.class, String.class, Integer.class, Long.class));
   }
 
   public void testToString() {

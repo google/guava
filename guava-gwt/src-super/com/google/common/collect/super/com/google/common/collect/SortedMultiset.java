@@ -16,7 +16,6 @@
 
 package com.google.common.collect;
 
-import com.google.common.annotations.Beta;
 import java.util.Comparator;
 import java.util.SortedSet;
 
@@ -27,7 +26,6 @@ import java.util.SortedSet;
  * @author Louis Wasserman
  * @since 11.0
  */
-@Beta
 public interface SortedMultiset<E> extends Multiset<E>, SortedIterable<E> {
   Comparator<? super E> comparator();
 

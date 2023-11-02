@@ -16,6 +16,8 @@
 
 package com.google.common.reflect;
 
+import static org.junit.Assert.assertThrows;
+
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
 import java.lang.reflect.Method;
@@ -38,11 +40,7 @@ public class TypeParameterTest extends TestCase {
   }
 
   public void testConcreteTypeRejected() {
-    try {
-      new TypeParameter<String>() {};
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> new TypeParameter<String>() {});
   }
 
   public <A, B> void testEquals() throws Exception {

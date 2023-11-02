@@ -20,14 +20,17 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 import static com.google.common.collect.ObjectArrays.checkElementNotNull;
+import static java.util.Objects.requireNonNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.RetainedWith;
+import java.io.InvalidObjectException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collection;
@@ -35,7 +38,9 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.SortedSet;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import java.util.Spliterator;
+import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A {@link Set} whose contents will never change, with many other important properties detailed at
@@ -45,10 +50,19 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  */
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // we're overriding default serialization
+@ElementTypesAreNonnullByDefault
 public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements Set<E> {
+  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
+  // @IgnoreJRERequirement is not necessary because this compiles down to a constant.
+  // (which is fortunate because Animal Sniffer doesn't look for @IgnoreJRERequirement on fields)
+  static final int SPLITERATOR_CHARACTERISTICS =
+      ImmutableCollection.SPLITERATOR_CHARACTERISTICS | Spliterator.DISTINCT;
+
   /**
    * Returns the empty immutable set. Preferred over {@link Collections#emptySet} for code
    * consistency, and because the return type conveys the immutability guarantee.
+   *
+   * <p><b>Performance note:</b> the instance returned is a singleton.
    */
   @SuppressWarnings({"unchecked"}) // fully variant implementation (never actually produces any Es)
   public static <E> ImmutableSet<E> of() {
@@ -138,13 +152,14 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    *
    * @throws NullPointerException if any of the first {@code n} elements of {@code elements} is null
    */
-  private static <E> ImmutableSet<E> construct(int n, Object... elements) {
+  private static <E> ImmutableSet<E> construct(int n, @Nullable Object... elements) {
     switch (n) {
       case 0:
         return of();
       case 1:
         @SuppressWarnings("unchecked") // safe; elements contains only E's
-        E elem = (E) elements[0];
+        // requireNonNull is safe because the first `n` elements are non-null.
+        E elem = (E) requireNonNull(elements[0]);
         return of(elem);
       default:
         // continue below to handle the general case
@@ -175,12 +190,14 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
     if (uniques == 1) {
       // There is only one element or elements are all duplicates
       @SuppressWarnings("unchecked") // we are careful to only pass in E
-      E element = (E) elements[0];
-      return new SingletonImmutableSet<E>(element, hashCode);
+      // requireNonNull is safe because the first `uniques` elements are non-null.
+      E element = (E) requireNonNull(elements[0]);
+      return new SingletonImmutableSet<E>(element);
     } else if (chooseTableSize(uniques) < tableSize / 2) {
       // Resize the table when the array includes too many duplicates.
       return construct(uniques, elements);
     } else {
+      @Nullable
       Object[] uniqueElements =
           shouldTrim(uniques, elements.length) ? Arrays.copyOf(elements, uniques) : elements;
       return new RegularImmutableSet<E>(uniqueElements, hashCode, table, mask, uniques);
@@ -315,10 +332,11 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
   }
 
   @Override
-  public boolean equals(@NullableDecl Object object) {
+  public boolean equals(@CheckForNull Object object) {
     if (object == this) {
       return true;
-    } else if (object instanceof ImmutableSet
+    }
+    if (object instanceof ImmutableSet
         && isHashCodeFast()
         && ((ImmutableSet<?>) object).isHashCodeFast()
         && hashCode() != object.hashCode()) {
@@ -337,7 +355,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
   @Override
   public abstract UnmodifiableIterator<E> iterator();
 
-  @LazyInit @RetainedWith @NullableDecl private transient ImmutableList<E> asList;
+  @LazyInit @RetainedWith @CheckForNull private transient ImmutableList<E> asList;
 
   @Override
   public ImmutableList<E> asList() {
@@ -356,6 +374,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    * static factories. This is necessary to ensure that the existence of a
    * particular implementation type is an implementation detail.
    */
+  @J2ktIncompatible // serialization
   private static class SerializedForm implements Serializable {
     final Object[] elements;
 
@@ -371,8 +390,14 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
   }
 
   @Override
+  @J2ktIncompatible // serialization
   Object writeReplace() {
     return new SerializedForm(toArray());
+  }
+
+  @J2ktIncompatible // serialization
+  private void readObject(ObjectInputStream stream) throws InvalidObjectException {
+    throw new InvalidObjectException("Use SerializedForm");
   }
 
   /**
@@ -395,7 +420,6 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    *
    * @since 23.1
    */
-  @Beta
   public static <E> Builder<E> builderWithExpectedSize(int expectedSize) {
     checkNonnegative(expectedSize, "expectedSize");
     return new Builder<E>(expectedSize);
@@ -420,7 +444,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    * @since 2.0
    */
   public static class Builder<E> extends ImmutableCollection.ArrayBasedBuilder<E> {
-    @NullableDecl @VisibleForTesting Object[] hashTable;
+    @VisibleForTesting @CheckForNull @Nullable Object[] hashTable;
     private int hashCode;
 
     /**
@@ -433,7 +457,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
 
     Builder(int capacity) {
       super(capacity);
-      this.hashTable = new Object[chooseTableSize(capacity)];
+      this.hashTable = new @Nullable Object[chooseTableSize(capacity)];
     }
 
     /**
@@ -467,8 +491,8 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
      * @return this {@code Builder} object
      * @throws NullPointerException if {@code elements} is null or contains a null element
      */
-    @CanIgnoreReturnValue
     @Override
+    @CanIgnoreReturnValue
     public Builder<E> add(E... elements) {
       if (hashTable != null) {
         for (E e : elements) {
@@ -481,6 +505,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
     }
 
     private void addDeduping(E element) {
+      requireNonNull(hashTable); // safe because we check for null before calling this method
       int mask = hashTable.length - 1;
       int hash = element.hashCode();
       for (int i = Hashing.smear(hash); ; i++) {
@@ -537,6 +562,20 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
       return this;
     }
 
+    @CanIgnoreReturnValue
+    @SuppressWarnings("unchecked") // ArrayBasedBuilder stores its elements as Object.
+    Builder<E> combine(Builder<E> other) {
+      if (hashTable != null) {
+        for (int i = 0; i < other.size; ++i) {
+          // requireNonNull is safe because the first `size` elements are non-null.
+          add((E) requireNonNull(other.contents[i]));
+        }
+      } else {
+        addAll(other.contents, other.size);
+      }
+      return this;
+    }
+
     /**
      * Returns a newly-created {@code ImmutableSet} based on the contents of the {@code Builder}.
      */
@@ -547,10 +586,15 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
         case 0:
           return of();
         case 1:
-          return (ImmutableSet<E>) of(contents[0]);
+          /*
+           * requireNonNull is safe because we ensure that the first `size` elements have been
+           * populated.
+           */
+          return (ImmutableSet<E>) of(requireNonNull(contents[0]));
         default:
           ImmutableSet<E> result;
           if (hashTable != null && chooseTableSize(size) == hashTable.length) {
+            @Nullable
             Object[] uniqueElements =
                 shouldTrim(size, contents.length) ? Arrays.copyOf(contents, size) : contents;
             result =
@@ -568,4 +612,6 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
       }
     }
   }
+
+  private static final long serialVersionUID = 0xdecaf;
 }

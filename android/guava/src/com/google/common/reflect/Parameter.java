@@ -15,13 +15,17 @@
 package com.google.common.reflect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
+import com.google.errorprone.annotations.DoNotCall;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import java.lang.reflect.AnnotatedType;
+import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Represents a method or constructor parameter.
@@ -29,7 +33,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @author Ben Yu
  * @since 14.0
  */
-@Beta
+@ElementTypesAreNonnullByDefault
 public final class Parameter implements AnnotatedElement {
 
   private final Invokable<?, ?> declaration;
@@ -37,12 +41,26 @@ public final class Parameter implements AnnotatedElement {
   private final TypeToken<?> type;
   private final ImmutableList<Annotation> annotations;
 
+  /**
+   * An {@link AnnotatedType} instance, or {@code null} under Android VMs (possible only when using
+   * the Android flavor of Guava). The field is declared with a type of {@code Object} to avoid
+   * compatibility problems on Android VMs. The corresponding accessor method, however, can have the
+   * more specific return type as long as users are careful to guard calls to it with version checks
+   * or reflection: Android VMs ignore the types of elements that aren't used.
+   */
+  private final @Nullable Object annotatedType;
+
   Parameter(
-      Invokable<?, ?> declaration, int position, TypeToken<?> type, Annotation[] annotations) {
+      Invokable<?, ?> declaration,
+      int position,
+      TypeToken<?> type,
+      Annotation[] annotations,
+      @Nullable Object annotatedType) {
     this.declaration = declaration;
     this.position = position;
     this.type = type;
     this.annotations = ImmutableList.copyOf(annotations);
+    this.annotatedType = annotatedType;
   }
 
   /** Returns the type of the parameter. */
@@ -61,7 +79,7 @@ public final class Parameter implements AnnotatedElement {
   }
 
   @Override
-  @NullableDecl
+  @CheckForNull
   public <A extends Annotation> A getAnnotation(Class<A> annotationType) {
     checkNotNull(annotationType);
     for (Annotation annotation : annotations) {
@@ -77,35 +95,62 @@ public final class Parameter implements AnnotatedElement {
     return getDeclaredAnnotations();
   }
 
-  /** @since 18.0 */
-  // @Override on JDK8
+  /**
+   * @since 18.0
+   */
+  @Override
   public <A extends Annotation> A[] getAnnotationsByType(Class<A> annotationType) {
     return getDeclaredAnnotationsByType(annotationType);
   }
 
   /** @since 18.0 */
-  // @Override on JDK8
   @Override
   public Annotation[] getDeclaredAnnotations() {
     return annotations.toArray(new Annotation[0]);
   }
 
-  /** @since 18.0 */
-  // @Override on JDK8
-  @NullableDecl
+  /**
+   * @since 18.0
+   */
+  @Override
+  @CheckForNull
   public <A extends Annotation> A getDeclaredAnnotation(Class<A> annotationType) {
     checkNotNull(annotationType);
     return FluentIterable.from(annotations).filter(annotationType).first().orNull();
   }
 
-  /** @since 18.0 */
-  // @Override on JDK8
+  /**
+   * @since 18.0
+   */
+  @Override
   public <A extends Annotation> A[] getDeclaredAnnotationsByType(Class<A> annotationType) {
-    return FluentIterable.from(annotations).filter(annotationType).toArray(annotationType);
+    @Nullable
+    A[] result = FluentIterable.from(annotations).filter(annotationType).toArray(annotationType);
+    @SuppressWarnings("nullness") // safe because the input list contains no nulls
+    A[] cast = (A[]) result;
+    return cast;
+  }
+
+  /**
+   * Returns the {@link AnnotatedType} of the parameter.
+   *
+   * <p>This method will fail if run under an Android VM.
+   *
+   * @since NEXT for guava-android (available since 25.1 in guava-jre)
+   * @deprecated This method does not work under Android VMs. It is safe to use from guava-jre, but
+   *     this copy in guava-android is not safe to use.
+   */
+  @Beta
+  @SuppressWarnings({"Java7ApiChecker", "AndroidJdkLibsChecker"})
+  @Deprecated
+  @DoNotCall("fails under Android VMs; do not use from guava-android")
+  @IgnoreJRERequirement
+  public AnnotatedType getAnnotatedType() {
+    return requireNonNull((AnnotatedType) annotatedType);
   }
 
   @Override
-  public boolean equals(@NullableDecl Object obj) {
+  public boolean equals(@CheckForNull Object obj) {
     if (obj instanceof Parameter) {
       Parameter that = (Parameter) obj;
       return position == that.position && declaration.equals(that.declaration);

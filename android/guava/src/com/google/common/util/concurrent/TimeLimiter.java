@@ -14,14 +14,16 @@
 
 package com.google.common.util.concurrent;
 
-import com.google.common.annotations.Beta;
+
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.DoNotMock;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Imposes a time limit on method calls.
@@ -30,10 +32,11 @@ import java.util.concurrent.TimeoutException;
  * @author Jens Nyman
  * @since 1.0
  */
-@Beta
 @DoNotMock("Use FakeTimeLimiter")
+@J2ktIncompatible
 @GwtIncompatible
 @SuppressWarnings("GoodTime") // should have java.time.Duration overloads
+@ElementTypesAreNonnullByDefault
 public interface TimeLimiter {
 
   /**
@@ -97,7 +100,9 @@ public interface TimeLimiter {
    * @since 22.0
    */
   @CanIgnoreReturnValue
-  <T> T callWithTimeout(Callable<T> callable, long timeoutDuration, TimeUnit timeoutUnit)
+  @ParametricNullness
+  <T extends @Nullable Object> T callWithTimeout(
+      Callable<T> callable, long timeoutDuration, TimeUnit timeoutUnit)
       throws TimeoutException, InterruptedException, ExecutionException;
 
   /**
@@ -120,7 +125,8 @@ public interface TimeLimiter {
    * @since 22.0
    */
   @CanIgnoreReturnValue
-  <T> T callUninterruptiblyWithTimeout(
+  @ParametricNullness
+  <T extends @Nullable Object> T callUninterruptiblyWithTimeout(
       Callable<T> callable, long timeoutDuration, TimeUnit timeoutUnit)
       throws TimeoutException, ExecutionException;
 

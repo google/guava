@@ -19,7 +19,7 @@ package com.google.common.graph;
 import com.google.common.annotations.Beta;
 import com.google.errorprone.annotations.DoNotMock;
 import java.util.Set;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import javax.annotation.CheckForNull;
 
 /**
  * An interface for <a
@@ -103,6 +103,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  */
 @Beta
 @DoNotMock("Use NetworkBuilder to create a real instance")
+@ElementTypesAreNonnullByDefault
 public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFunction<N> {
   //
   // Network-level accessors
@@ -281,9 +282,10 @@ public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFuncti
    *
    * <p>In an undirected network, this is equal to {@code edgesConnecting(nodeV, nodeU)}.
    *
-   * <p>The resulting set of edges will be parallel (i.e. have equal {@link #incidentNodes(Object)}.
-   * If this network does not {@link #allowsParallelEdges() allow parallel edges}, the resulting set
-   * will contain at most one edge (equivalent to {@code edgeConnecting(nodeU, nodeV).asSet()}).
+   * <p>The resulting set of edges will be parallel (i.e. have equal {@link
+   * #incidentNodes(Object)}). If this network does not {@link #allowsParallelEdges() allow parallel
+   * edges}, the resulting set will contain at most one edge (equivalent to {@code
+   * edgeConnecting(nodeU, nodeV).asSet()}).
    *
    * @throws IllegalArgumentException if {@code nodeU} or {@code nodeV} is not an element of this
    *     network
@@ -294,9 +296,10 @@ public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFuncti
    * Returns the set of edges that each directly connect {@code endpoints} (in the order, if any,
    * specified by {@code endpoints}).
    *
-   * <p>The resulting set of edges will be parallel (i.e. have equal {@link #incidentNodes(Object)}.
-   * If this network does not {@link #allowsParallelEdges() allow parallel edges}, the resulting set
-   * will contain at most one edge (equivalent to {@code edgeConnecting(endpoints).asSet()}).
+   * <p>The resulting set of edges will be parallel (i.e. have equal {@link
+   * #incidentNodes(Object)}). If this network does not {@link #allowsParallelEdges() allow parallel
+   * edges}, the resulting set will contain at most one edge (equivalent to {@code
+   * edgeConnecting(endpoints).asSet()}).
    *
    * <p>If this network is directed, {@code endpoints} must be ordered.
    *
@@ -318,7 +321,7 @@ public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFuncti
    *     network
    * @since 23.0
    */
-  @NullableDecl
+  @CheckForNull
   E edgeConnectingOrNull(N nodeU, N nodeV);
 
   /**
@@ -333,7 +336,7 @@ public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFuncti
    * @throws IllegalArgumentException if the endpoints are unordered and the graph is directed
    * @since 27.1
    */
-  @NullableDecl
+  @CheckForNull
   E edgeConnectingOrNull(EndpointPair<N> endpoints);
 
   /**
@@ -385,7 +388,7 @@ public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFuncti
    * <p>A reference implementation of this is provided by {@link AbstractNetwork#equals(Object)}.
    */
   @Override
-  boolean equals(@NullableDecl Object object);
+  boolean equals(@CheckForNull Object object);
 
   /**
    * Returns the hash code for this network. The hash code of a network is defined as the hash code

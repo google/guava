@@ -38,6 +38,25 @@ public class ImmutableTableTest extends AbstractTableReadTest {
     return builder.build();
   }
 
+  // TODO(b/172823566): Use mainline testToImmutableMap once CollectorTester is usable to java7.
+  public void testToImmutableTable_java7_combine() {
+    ImmutableTable.Builder<String, String, Integer> zis =
+        ImmutableTable.<String, String, Integer>builder().put("one", "uno", 1).put("two", "dos", 2);
+    ImmutableTable.Builder<String, String, Integer> zat =
+        ImmutableTable.<String, String, Integer>builder()
+            .put("one", "eins", 1)
+            .put("two", "twei", 2);
+    ImmutableTable<String, String, Integer> table = zis.combine(zat).build();
+    ImmutableTable<String, String, Integer> expected =
+        ImmutableTable.<String, String, Integer>builder()
+            .put("one", "uno", 1)
+            .put("two", "dos", 2)
+            .put("one", "eins", 1)
+            .put("two", "twei", 2)
+            .build();
+    assertThat(table).isEqualTo(expected);
+  }
+
   public void testBuilder() {
     ImmutableTable.Builder<Character, Integer, String> builder = new ImmutableTable.Builder<>();
     assertEquals(ImmutableTable.of(), builder.build());
@@ -459,5 +478,34 @@ public class ImmutableTableTest extends AbstractTableReadTest {
       builder.put(0, i, "bar");
     }
     assertTrue(builder.build() instanceof SparseImmutableTable);
+  }
+
+  @GwtIncompatible // NullPointerTester
+  @Override
+  public void testNullPointerInstance() {
+    if (isAndroid()) {
+      /*
+       * NPT fails under the old versions of Android we test under because it performs reflection on
+       * ImmutableTable, which declares static methods that refer to Collector, which is unavailable
+       * under such versions.
+       *
+       * We use a runtime check here instead of @AndroidIncompatible: @AndroidIncompatible operates
+       * by stripping annotated methods entirely, and if we strip this method, then JUnit would just
+       * run the supermethod as usual.
+       *
+       * TODO: b/292578973: Use @AndroidIncompatible if we change our system to keep the methods in
+       * place but to have the test runner skip them. However, note that if we choose to *both*
+       * strip the methods *and* have the test runner not run them (for some unusual cases in which
+       * we don't run the stripping test for technical reasons), then we'd be back to the problem
+       * described above, since the supermethod is *not* annotated @AndroidIncompatible (since it
+       * works fine with the other Table implementations).
+       */
+      return;
+    }
+    super.testNullPointerInstance();
+  }
+
+  private static boolean isAndroid() {
+    return System.getProperty("java.runtime.name", "").contains("Android");
   }
 }

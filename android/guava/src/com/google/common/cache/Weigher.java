@@ -23,6 +23,7 @@ import com.google.common.annotations.GwtCompatible;
  * @since 11.0
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public interface Weigher<K, V> {
 
   /**

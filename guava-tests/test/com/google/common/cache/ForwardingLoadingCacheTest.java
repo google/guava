@@ -34,7 +34,6 @@ public class ForwardingLoadingCacheTest extends TestCase {
   private LoadingCache<String, Boolean> forward;
   private LoadingCache<String, Boolean> mock;
 
-  // go/do-not-mock-common-types-lsc
   @SuppressWarnings({"unchecked", "DoNotMock"}) // mock
   @Override
   public void setUp() throws Exception {
@@ -91,7 +90,7 @@ public class ForwardingLoadingCacheTest extends TestCase {
 
   public void testSize() {
     when(mock.size()).thenReturn(0L);
-    forward.size();
+    long unused = forward.size();
   }
 
   public void testStats() {
@@ -113,7 +112,7 @@ public class ForwardingLoadingCacheTest extends TestCase {
   private static class OnlyGet<K, V> extends ForwardingLoadingCache<K, V> {
     @Override
     protected LoadingCache<K, V> delegate() {
-      return null;
+      throw new AssertionError();
     }
   }
 }

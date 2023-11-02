@@ -60,7 +60,7 @@ public class EscapersTest extends TestCase {
   }
 
   public void testBuilderCreatesIndependentEscapers() {
-    // Setup a simple builder and create the first escaper.
+    // Set up a simple builder and create the first escaper.
     Escapers.Builder builder = Escapers.builder();
     builder.setSafeRange('a', 'z');
     builder.setUnsafeReplacement("X");
@@ -85,7 +85,7 @@ public class EscapersTest extends TestCase {
                 .put('x', "<hello>".toCharArray())
                 .put('\uD800', "<hi>".toCharArray())
                 .put('\uDC00', "<lo>".toCharArray())
-                .build());
+                .buildOrThrow());
     UnicodeEscaper unicodeEscaper = Escapers.asUnicodeEscaper(charEscaper);
     EscaperAsserts.assertBasic(unicodeEscaper);
     assertEquals("<hello><hi><lo>", charEscaper.escape("x\uD800\uDC00"));
@@ -108,7 +108,7 @@ public class EscapersTest extends TestCase {
     }
   }
 
-  // A trival non-optimized escaper for testing.
+  // A trivial non-optimized escaper for testing.
   static CharEscaper createSimpleCharEscaper(final ImmutableMap<Character, char[]> replacementMap) {
     return new CharEscaper() {
       @Override
@@ -118,7 +118,7 @@ public class EscapersTest extends TestCase {
     };
   }
 
-  // A trival non-optimized escaper for testing.
+  // A trivial non-optimized escaper for testing.
   static UnicodeEscaper createSimpleUnicodeEscaper(
       final ImmutableMap<Integer, char[]> replacementMap) {
     return new UnicodeEscaper() {

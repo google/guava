@@ -25,10 +25,11 @@ import static java.lang.Math.min;
 import static java.math.RoundingMode.HALF_EVEN;
 import static java.math.RoundingMode.HALF_UP;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.primitives.Longs;
 import com.google.common.primitives.UnsignedLongs;
 import java.math.BigInteger;
 import java.math.RoundingMode;
@@ -48,6 +49,7 @@ import java.math.RoundingMode;
  * @since 11.0
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public final class LongMath {
   // NOTE: Whenever both tests are cheap and functional, it's faster to use &, | instead of &&, ||
 
@@ -62,7 +64,6 @@ public final class LongMath {
    *     long}, i.e. when {@code x > 2^62}
    * @since 20.0
    */
-  @Beta
   public static long ceilingPowerOfTwo(long x) {
     checkPositive("x", x);
     if (x > MAX_SIGNED_POWER_OF_TWO) {
@@ -78,7 +79,6 @@ public final class LongMath {
    * @throws IllegalArgumentException if {@code x <= 0}
    * @since 20.0
    */
-  @Beta
   public static long floorPowerOfTwo(long x) {
     checkPositive("x", x);
 
@@ -93,6 +93,7 @@ public final class LongMath {
    * <p>This differs from {@code Long.bitCount(x) == 1}, because {@code
    * Long.bitCount(Long.MIN_VALUE) == 1}, but {@link Long#MIN_VALUE} is not a power of two.
    */
+  @SuppressWarnings("ShortCircuitBoolean")
   public static boolean isPowerOfTwo(long x) {
     return x > 0 & (x & (x - 1)) == 0;
   }
@@ -140,10 +141,8 @@ public final class LongMath {
         // floor(2^(logFloor + 0.5))
         int logFloor = (Long.SIZE - 1) - leadingZeros;
         return logFloor + lessThanBranchFree(cmp, x);
-
-      default:
-        throw new AssertionError("impossible");
     }
+    throw new AssertionError("impossible");
   }
 
   /** The biggest half power of two that fits into an unsigned long */
@@ -156,6 +155,7 @@ public final class LongMath {
    * @throws ArithmeticException if {@code mode} is {@link RoundingMode#UNNECESSARY} and {@code x}
    *     is not a power of ten
    */
+  @J2ktIncompatible
   @GwtIncompatible // TODO
   @SuppressWarnings("fallthrough")
   // TODO(kevinb): remove after this warning is disabled globally
@@ -178,11 +178,11 @@ public final class LongMath {
       case HALF_EVEN:
         // sqrt(10) is irrational, so log10(x)-logFloor is never exactly 0.5
         return logFloor + lessThanBranchFree(halfPowersOf10[logFloor], x);
-      default:
-        throw new AssertionError();
     }
+    throw new AssertionError();
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // TODO
   static int log10Floor(long x) {
     /*
@@ -208,6 +208,7 @@ public final class LongMath {
     3, 2, 2, 2, 1, 1, 1, 0, 0, 0
   };
 
+  @J2ktIncompatible
   @GwtIncompatible // TODO
   @VisibleForTesting
   static final long[] powersOf10 = {
@@ -233,6 +234,7 @@ public final class LongMath {
   };
 
   // halfPowersOf10[i] = largest long less than 10^(i + 0.5)
+  @J2ktIncompatible
   @GwtIncompatible // TODO
   @VisibleForTesting
   static final long[] halfPowersOf10 = {
@@ -264,6 +266,7 @@ public final class LongMath {
    *
    * @throws IllegalArgumentException if {@code k < 0}
    */
+  @J2ktIncompatible
   @GwtIncompatible // TODO
   public static long pow(long b, int k) {
     checkNonNegative("exponent", k);
@@ -307,8 +310,8 @@ public final class LongMath {
    * @throws ArithmeticException if {@code mode} is {@link RoundingMode#UNNECESSARY} and {@code
    *     sqrt(x)} is not an integer
    */
+  @J2ktIncompatible
   @GwtIncompatible // TODO
-  @SuppressWarnings("fallthrough")
   public static long sqrt(long x, RoundingMode mode) {
     checkNonNegative("x", x);
     if (fitsInInt(x)) {
@@ -329,7 +332,7 @@ public final class LongMath {
      *          since (long) Math.sqrt(k * k) == k, as checked exhaustively in
      *          {@link LongMathTest#testSqrtOfPerfectSquareAsDoubleIsPerfect}
      */
-    long guess = (long) Math.sqrt(x);
+    long guess = (long) Math.sqrt((double) x);
     // Note: guess is always <= FLOOR_SQRT_MAX_LONG.
     long guessSquared = guess * guess;
     // Note (2013-2-26): benchmarks indicate that, inscrutably enough, using if statements is
@@ -367,9 +370,8 @@ public final class LongMath {
          * signed long, so lessThanBranchFree is safe for use.
          */
         return sqrtFloor + lessThanBranchFree(halfSquare, x);
-      default:
-        throw new AssertionError();
     }
+    throw new AssertionError();
   }
 
   /**
@@ -379,6 +381,7 @@ public final class LongMath {
    * @throws ArithmeticException if {@code q == 0}, or if {@code mode == UNNECESSARY} and {@code a}
    *     is not an integer multiple of {@code b}
    */
+  @J2ktIncompatible
   @GwtIncompatible // TODO
   @SuppressWarnings("fallthrough")
   public static long divide(long p, long q, RoundingMode mode) {
@@ -423,7 +426,7 @@ public final class LongMath {
         // subtracting two nonnegative longs can't overflow
         // cmpRemToHalfDivisor has the same sign as compare(abs(rem), abs(q) / 2).
         if (cmpRemToHalfDivisor == 0) { // exactly on the half mark
-          increment = (mode == HALF_UP | (mode == HALF_EVEN & (div & 1) != 0));
+          increment = (mode == HALF_UP || (mode == HALF_EVEN && (div & 1) != 0));
         } else {
           increment = cmpRemToHalfDivisor > 0; // closer to the UP value
         }
@@ -452,6 +455,7 @@ public final class LongMath {
    * @see <a href="http://docs.oracle.com/javase/specs/jls/se7/html/jls-15.html#jls-15.17.3">
    *     Remainder Operator</a>
    */
+  @J2ktIncompatible
   @GwtIncompatible // TODO
   public static int mod(long x, int m) {
     // Cast is safe because the result is guaranteed in the range [0, m)
@@ -476,6 +480,7 @@ public final class LongMath {
    * @see <a href="http://docs.oracle.com/javase/specs/jls/se7/html/jls-15.html#jls-15.17.3">
    *     Remainder Operator</a>
    */
+  @J2ktIncompatible
   @GwtIncompatible // TODO
   public static long mod(long x, long m) {
     if (m <= 0) {
@@ -541,7 +546,7 @@ public final class LongMath {
    *
    * @throws ArithmeticException if {@code a + b} overflows in signed {@code long} arithmetic
    */
-  @GwtIncompatible // TODO
+  @SuppressWarnings("ShortCircuitBoolean")
   public static long checkedAdd(long a, long b) {
     long result = a + b;
     checkNoOverflow((a ^ b) < 0 | (a ^ result) >= 0, "checkedAdd", a, b);
@@ -553,7 +558,9 @@ public final class LongMath {
    *
    * @throws ArithmeticException if {@code a - b} overflows in signed {@code long} arithmetic
    */
+  @J2ktIncompatible
   @GwtIncompatible // TODO
+  @SuppressWarnings("ShortCircuitBoolean")
   public static long checkedSubtract(long a, long b) {
     long result = a - b;
     checkNoOverflow((a ^ b) >= 0 | (a ^ result) >= 0, "checkedSubtract", a, b);
@@ -565,6 +572,7 @@ public final class LongMath {
    *
    * @throws ArithmeticException if {@code a * b} overflows in signed {@code long} arithmetic
    */
+  @SuppressWarnings("ShortCircuitBoolean")
   public static long checkedMultiply(long a, long b) {
     // Hacker's Delight, Section 2-12
     int leadingZeros =
@@ -598,7 +606,9 @@ public final class LongMath {
    * @throws ArithmeticException if {@code b} to the {@code k}th power overflows in signed {@code
    *     long} arithmetic
    */
+  @J2ktIncompatible
   @GwtIncompatible // TODO
+  @SuppressWarnings("ShortCircuitBoolean")
   public static long checkedPow(long b, int k) {
     checkNonNegative("exponent", k);
     if (b >= -2 & b <= 2) {
@@ -646,7 +656,7 @@ public final class LongMath {
    *
    * @since 20.0
    */
-  @Beta
+  @SuppressWarnings("ShortCircuitBoolean")
   public static long saturatedAdd(long a, long b) {
     long naiveSum = a + b;
     if ((a ^ b) < 0 | (a ^ naiveSum) >= 0) {
@@ -664,7 +674,7 @@ public final class LongMath {
    *
    * @since 20.0
    */
-  @Beta
+  @SuppressWarnings("ShortCircuitBoolean")
   public static long saturatedSubtract(long a, long b) {
     long naiveDifference = a - b;
     if ((a ^ b) >= 0 | (a ^ naiveDifference) >= 0) {
@@ -682,7 +692,7 @@ public final class LongMath {
    *
    * @since 20.0
    */
-  @Beta
+  @SuppressWarnings("ShortCircuitBoolean")
   public static long saturatedMultiply(long a, long b) {
     // see checkedMultiply for explanation
     int leadingZeros =
@@ -712,7 +722,7 @@ public final class LongMath {
    *
    * @since 20.0
    */
-  @Beta
+  @SuppressWarnings("ShortCircuitBoolean")
   public static long saturatedPow(long b, int k) {
     checkNonNegative("exponent", k);
     if (b >= -2 & b <= 2) {
@@ -739,7 +749,7 @@ public final class LongMath {
     }
     long accum = 1;
     // if b is negative and k is odd then the limit is MIN otherwise the limit is MAX
-    long limit = Long.MAX_VALUE + ((b >>> Long.SIZE - 1) & (k & 1));
+    long limit = Long.MAX_VALUE + ((b >>> (Long.SIZE - 1)) & (k & 1));
     while (true) {
       switch (k) {
         case 0:
@@ -769,6 +779,7 @@ public final class LongMath {
    *
    * @throws IllegalArgumentException if {@code n < 0}
    */
+  @J2ktIncompatible
   @GwtIncompatible // TODO
   public static long factorial(int n) {
     checkNonNegative("n", n);
@@ -977,7 +988,7 @@ public final class LongMath {
   }
 
   /*
-   * This bitmask is used as an optimization for cheaply testing for divisiblity by 2, 3, or 5.
+   * This bitmask is used as an optimization for cheaply testing for divisibility by 2, 3, or 5.
    * Each bit is set to 1 for all remainders that indicate divisibility by 2, 3, or 5, so
    * 1, 7, 11, 13, 17, 19, 23, 29 are set to 0. 30 and up don't matter because they won't be hit.
    */
@@ -997,15 +1008,36 @@ public final class LongMath {
    * @throws IllegalArgumentException if {@code n} is negative
    * @since 20.0
    */
+  @J2ktIncompatible
   @GwtIncompatible // TODO
-  @Beta
   public static boolean isPrime(long n) {
     if (n < 2) {
       checkNonNegative("n", n);
       return false;
     }
-    if (n == 2 || n == 3 || n == 5 || n == 7 || n == 11 || n == 13) {
-      return true;
+    if (n < 66) {
+      // Encode all primes less than 66 into mask without 0 and 1.
+      long mask =
+          (1L << (2 - 2))
+              | (1L << (3 - 2))
+              | (1L << (5 - 2))
+              | (1L << (7 - 2))
+              | (1L << (11 - 2))
+              | (1L << (13 - 2))
+              | (1L << (17 - 2))
+              | (1L << (19 - 2))
+              | (1L << (23 - 2))
+              | (1L << (29 - 2))
+              | (1L << (31 - 2))
+              | (1L << (37 - 2))
+              | (1L << (41 - 2))
+              | (1L << (43 - 2))
+              | (1L << (47 - 2))
+              | (1L << (53 - 2))
+              | (1L << (59 - 2))
+              | (1L << (61 - 2));
+      // Look up n within the mask.
+      return ((mask >> ((int) n - 2)) & 1) != 0;
     }
 
     if ((SIEVE_30 & (1 << (n % 30))) != 0) {
@@ -1069,10 +1101,10 @@ public final class LongMath {
       @Override
       long mulMod(long a, long b, long m) {
         /*
-         * NOTE(lowasser, 2015-Feb-12): Benchmarks suggest that changing this to
-         * UnsignedLongs.remainder and increasing the threshold to 2^32 doesn't pay for itself, and
-         * adding another enum constant hurts performance further -- I suspect because bimorphic
-         * implementation is a sweet spot for the JVM.
+         * lowasser, 2015-Feb-12: Benchmarks suggest that changing this to UnsignedLongs.remainder
+         * and increasing the threshold to 2^32 doesn't pay for itself, and adding another enum
+         * constant hurts performance further -- I suspect because bimorphic implementation is a
+         * sweet spot for the JVM.
          */
         return (a * b) % m;
       }
@@ -1093,7 +1125,7 @@ public final class LongMath {
       private long times2ToThe32Mod(long a, long m) {
         int remainingPowersOf2 = 32;
         do {
-          int shift = Math.min(remainingPowersOf2, Long.numberOfLeadingZeros(a));
+          int shift = min(remainingPowersOf2, Long.numberOfLeadingZeros(a));
           // shift is either the number of powers of 2 left to multiply a by, or the biggest shift
           // possible while keeping a in an unsigned long.
           a = UnsignedLongs.remainder(a << shift, m);
@@ -1201,6 +1233,127 @@ public final class LongMath {
       }
       return true;
     }
+  }
+
+  /**
+   * Returns {@code x}, rounded to a {@code double} with the specified rounding mode. If {@code x}
+   * is precisely representable as a {@code double}, its {@code double} value will be returned;
+   * otherwise, the rounding will choose between the two nearest representable values with {@code
+   * mode}.
+   *
+   * <p>For the case of {@link RoundingMode#HALF_EVEN}, this implementation uses the IEEE 754
+   * default rounding mode: if the two nearest representable values are equally near, the one with
+   * the least significant bit zero is chosen. (In such cases, both of the nearest representable
+   * values are even integers; this method returns the one that is a multiple of a greater power of
+   * two.)
+   *
+   * @throws ArithmeticException if {@code mode} is {@link RoundingMode#UNNECESSARY} and {@code x}
+   *     is not precisely representable as a {@code double}
+   * @since 30.0
+   */
+  @SuppressWarnings("deprecation")
+  @J2ktIncompatible
+  @GwtIncompatible
+  public static double roundToDouble(long x, RoundingMode mode) {
+    // Logic adapted from ToDoubleRounder.
+    double roundArbitrarily = (double) x;
+    long roundArbitrarilyAsLong = (long) roundArbitrarily;
+    int cmpXToRoundArbitrarily;
+
+    if (roundArbitrarilyAsLong == Long.MAX_VALUE) {
+      /*
+       * For most values, the conversion from roundArbitrarily to roundArbitrarilyAsLong is
+       * lossless. In that case we can compare x to roundArbitrarily using Longs.compare(x,
+       * roundArbitrarilyAsLong). The exception is for values where the conversion to double rounds
+       * up to give roundArbitrarily equal to 2^63, so the conversion back to long overflows and
+       * roundArbitrarilyAsLong is Long.MAX_VALUE. (This is the only way this condition can occur as
+       * otherwise the conversion back to long pads with zero bits.) In this case we know that
+       * roundArbitrarily > x. (This is important when x == Long.MAX_VALUE ==
+       * roundArbitrarilyAsLong.)
+       */
+      cmpXToRoundArbitrarily = -1;
+    } else {
+      cmpXToRoundArbitrarily = Longs.compare(x, roundArbitrarilyAsLong);
+    }
+
+    switch (mode) {
+      case UNNECESSARY:
+        checkRoundingUnnecessary(cmpXToRoundArbitrarily == 0);
+        return roundArbitrarily;
+      case FLOOR:
+        return (cmpXToRoundArbitrarily >= 0)
+            ? roundArbitrarily
+            : DoubleUtils.nextDown(roundArbitrarily);
+      case CEILING:
+        return (cmpXToRoundArbitrarily <= 0) ? roundArbitrarily : Math.nextUp(roundArbitrarily);
+      case DOWN:
+        if (x >= 0) {
+          return (cmpXToRoundArbitrarily >= 0)
+              ? roundArbitrarily
+              : DoubleUtils.nextDown(roundArbitrarily);
+        } else {
+          return (cmpXToRoundArbitrarily <= 0) ? roundArbitrarily : Math.nextUp(roundArbitrarily);
+        }
+      case UP:
+        if (x >= 0) {
+          return (cmpXToRoundArbitrarily <= 0) ? roundArbitrarily : Math.nextUp(roundArbitrarily);
+        } else {
+          return (cmpXToRoundArbitrarily >= 0)
+              ? roundArbitrarily
+              : DoubleUtils.nextDown(roundArbitrarily);
+        }
+      case HALF_DOWN:
+      case HALF_UP:
+      case HALF_EVEN:
+        {
+          long roundFloor;
+          double roundFloorAsDouble;
+          long roundCeiling;
+          double roundCeilingAsDouble;
+
+          if (cmpXToRoundArbitrarily >= 0) {
+            roundFloorAsDouble = roundArbitrarily;
+            roundFloor = roundArbitrarilyAsLong;
+            roundCeilingAsDouble = Math.nextUp(roundArbitrarily);
+            roundCeiling = (long) Math.ceil(roundCeilingAsDouble);
+          } else {
+            roundCeilingAsDouble = roundArbitrarily;
+            roundCeiling = roundArbitrarilyAsLong;
+            roundFloorAsDouble = DoubleUtils.nextDown(roundArbitrarily);
+            roundFloor = (long) Math.floor(roundFloorAsDouble);
+          }
+
+          long deltaToFloor = x - roundFloor;
+          long deltaToCeiling = roundCeiling - x;
+
+          if (roundCeiling == Long.MAX_VALUE) {
+            // correct for Long.MAX_VALUE as discussed above: roundCeilingAsDouble must be 2^63, but
+            // roundCeiling is 2^63-1.
+            deltaToCeiling++;
+          }
+
+          int diff = Longs.compare(deltaToFloor, deltaToCeiling);
+          if (diff < 0) { // closer to floor
+            return roundFloorAsDouble;
+          } else if (diff > 0) { // closer to ceiling
+            return roundCeilingAsDouble;
+          }
+          // halfway between the representable values; do the half-whatever logic
+          switch (mode) {
+            case HALF_EVEN:
+              return ((DoubleUtils.getSignificand(roundFloorAsDouble) & 1L) == 0)
+                  ? roundFloorAsDouble
+                  : roundCeilingAsDouble;
+            case HALF_DOWN:
+              return (x >= 0) ? roundFloorAsDouble : roundCeilingAsDouble;
+            case HALF_UP:
+              return (x >= 0) ? roundCeilingAsDouble : roundFloorAsDouble;
+            default:
+              throw new AssertionError("impossible");
+          }
+        }
+    }
+    throw new AssertionError("impossible");
   }
 
   private LongMath() {}

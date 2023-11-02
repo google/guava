@@ -22,8 +22,9 @@ import static com.google.common.primitives.UnsignedInts.toLong;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import java.math.BigInteger;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import javax.annotation.CheckForNull;
 
 /**
  * A wrapper class for unsigned {@code int} values, supporting arithmetic operations.
@@ -39,6 +40,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @since 11.0
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public final class UnsignedInteger extends Number implements Comparable<UnsignedInteger> {
   public static final UnsignedInteger ZERO = fromIntBits(0);
   public static final UnsignedInteger ONE = fromIntBits(1);
@@ -142,6 +144,7 @@ public final class UnsignedInteger extends Number implements Comparable<Unsigned
    *
    * @since 14.0
    */
+  @J2ktIncompatible
   @GwtIncompatible // Does not truncate correctly
   public UnsignedInteger times(UnsignedInteger val) {
     // TODO(lowasser): make this GWT-compatible
@@ -226,7 +229,7 @@ public final class UnsignedInteger extends Number implements Comparable<Unsigned
   }
 
   @Override
-  public boolean equals(@NullableDecl Object obj) {
+  public boolean equals(@CheckForNull Object obj) {
     if (obj instanceof UnsignedInteger) {
       UnsignedInteger other = (UnsignedInteger) obj;
       return value == other.value;
