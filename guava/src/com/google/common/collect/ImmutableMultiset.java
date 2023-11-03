@@ -660,4 +660,6 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
 
     private static final long serialVersionUID = 0;
   }
+
+  private static final long serialVersionUID = 0xcafebabe;
 }
