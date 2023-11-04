@@ -692,9 +692,9 @@
 <span class="sourceLineNo">683</span><a id="line.683">  }</a>
 <span class="sourceLineNo">684</span><a id="line.684"></a>
 <span class="sourceLineNo">685</span><a id="line.685">  /**</a>
-<span class="sourceLineNo">686</span><a id="line.686">   * Not supported. Use {@link ImmutableSortedMultiset#naturalOrder}, which offers better</a>
-<span class="sourceLineNo">687</span><a id="line.687">   * type-safety, instead. This method exists only to hide {@link ImmutableMultiset#builder} from</a>
-<span class="sourceLineNo">688</span><a id="line.688">   * consumers of {@code ImmutableSortedMultiset}.</a>
+<span class="sourceLineNo">686</span><a id="line.686">   * Not supported. Use {@link #naturalOrder}, which offers better type-safety, instead. This method</a>
+<span class="sourceLineNo">687</span><a id="line.687">   * exists only to hide {@link ImmutableMultiset#builder} from consumers of {@code</a>
+<span class="sourceLineNo">688</span><a id="line.688">   * ImmutableSortedMultiset}.</a>
 <span class="sourceLineNo">689</span><a id="line.689">   *</a>
 <span class="sourceLineNo">690</span><a id="line.690">   * @throws UnsupportedOperationException always</a>
 <span class="sourceLineNo">691</span><a id="line.691">   * @deprecated Use {@link ImmutableSortedMultiset#naturalOrder}, which offers better type-safety.</a>
@@ -813,7 +813,9 @@
 <span class="sourceLineNo">804</span><a id="line.804">  public static &lt;Z&gt; ImmutableSortedMultiset&lt;Z&gt; copyOf(Z[] elements) {</a>
 <span class="sourceLineNo">805</span><a id="line.805">    throw new UnsupportedOperationException();</a>
 <span class="sourceLineNo">806</span><a id="line.806">  }</a>
-<span class="sourceLineNo">807</span><a id="line.807">}</a>
+<span class="sourceLineNo">807</span><a id="line.807"></a>
+<span class="sourceLineNo">808</span><a id="line.808">  private static final long serialVersionUID = 0xdecaf;</a>
+<span class="sourceLineNo">809</span><a id="line.809">}</a>
 
 
 
