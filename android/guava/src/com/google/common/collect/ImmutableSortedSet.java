@@ -62,6 +62,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 @ElementTypesAreNonnullByDefault
 public abstract class ImmutableSortedSet<E> extends ImmutableSet<E>
     implements NavigableSet<E>, SortedIterable<E> {
+
   static <E> RegularImmutableSortedSet<E> emptySet(Comparator<? super E> comparator) {
     if (Ordering.natural().equals(comparator)) {
       return (RegularImmutableSortedSet<E>) RegularImmutableSortedSet.NATURAL_EMPTY_SET;
@@ -851,9 +852,8 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSet<E>
   }
 
   /**
-   * Not supported. Use {@link ImmutableSortedSet#naturalOrder}, which offers better type-safety,
-   * instead. This method exists only to hide {@link ImmutableSet#builder} from consumers of {@code
-   * ImmutableSortedSet}.
+   * Not supported. Use {@link #naturalOrder}, which offers better type-safety, instead. This method
+   * exists only to hide {@link ImmutableSet#builder} from consumers of {@code ImmutableSortedSet}.
    *
    * @throws UnsupportedOperationException always
    * @deprecated Use {@link ImmutableSortedSet#naturalOrder}, which offers better type-safety.

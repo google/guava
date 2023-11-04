@@ -683,9 +683,9 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableMultiset<E>
   }
 
   /**
-   * Not supported. Use {@link ImmutableSortedMultiset#naturalOrder}, which offers better
-   * type-safety, instead. This method exists only to hide {@link ImmutableMultiset#builder} from
-   * consumers of {@code ImmutableSortedMultiset}.
+   * Not supported. Use {@link #naturalOrder}, which offers better type-safety, instead. This method
+   * exists only to hide {@link ImmutableMultiset#builder} from consumers of {@code
+   * ImmutableSortedMultiset}.
    *
    * @throws UnsupportedOperationException always
    * @deprecated Use {@link ImmutableSortedMultiset#naturalOrder}, which offers better type-safety.
@@ -804,4 +804,6 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableMultiset<E>
   public static <Z> ImmutableSortedMultiset<Z> copyOf(Z[] elements) {
     throw new UnsupportedOperationException();
   }
+
+  private static final long serialVersionUID = 0xdecaf;
 }

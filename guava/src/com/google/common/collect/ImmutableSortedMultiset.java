@@ -762,4 +762,6 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableMultiset<E>
   public static <Z> ImmutableSortedMultiset<Z> copyOf(Z[] elements) {
     throw new UnsupportedOperationException();
   }
+
+  private static final long serialVersionUID = 0xcafebabe;
 }

@@ -56,6 +56,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 @ElementTypesAreNonnullByDefault
 public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializationDependencies<E>
     implements Multiset<E> {
+
   /**
    * Returns the empty immutable multiset.
    *
@@ -636,4 +637,6 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
       return new RegularImmutableMultiset<E>(contents);
     }
   }
+
+  private static final long serialVersionUID = 0xdecaf;
 }
