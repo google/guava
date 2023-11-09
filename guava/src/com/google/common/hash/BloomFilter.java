@@ -633,4 +633,6 @@ public final class BloomFilter<T extends @Nullable Object> implements Predicate<
       throw new IOException(message, e);
     }
   }
+
+  private static final long serialVersionUID = 0xcafebabe;
 }

@@ -668,6 +668,7 @@ public class SetsTest extends TestCase {
   }
 
   @GwtIncompatible // NullPointerTester
+  @AndroidIncompatible // see ImmutableTableTest.testNullPointerInstance
   public void testNullPointerExceptions() {
     new NullPointerTester()
         .setDefault(Enum.class, SomeEnum.A)

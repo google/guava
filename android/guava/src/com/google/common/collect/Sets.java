@@ -1641,6 +1641,7 @@ public final class Sets {
               if (bitToFlip == index.size()) {
                 return endOfData();
               }
+
               /*
                * The current set in sorted order looks like
                * {firstSetBit, firstSetBit + 1, ..., bitToFlip - 1, ...}

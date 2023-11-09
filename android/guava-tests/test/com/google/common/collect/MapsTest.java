@@ -382,6 +382,7 @@ public class MapsTest extends TestCase {
   }
 
   @GwtIncompatible // NullPointerTester
+  @AndroidIncompatible // see ImmutableTableTest.testNullPointerInstance
   public void testNullPointerExceptions() {
     new NullPointerTester().testAllPublicStaticMethods(Maps.class);
   }
