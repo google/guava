@@ -24092,22 +24092,6 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
     </method>
-    <method name="getFirst" return="E"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="true" visibility="public"
-      deprecated="not deprecated">
-      <doc>
-      <![CDATA[@since NEXT. Note, however, that Java 21 users can call this method with any version of Guava.]]>
-      </doc>
-    </method>
-    <method name="getLast" return="E"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="true" visibility="public"
-      deprecated="not deprecated">
-      <doc>
-      <![CDATA[@since NEXT. Note, however, that Java 21 users can call this method with any version of Guava.]]>
-      </doc>
-    </method>
     <method name="pollFirst" return="E"
       abstract="false" native="false" synchronized="false"
       static="false" final="true" visibility="public"
@@ -24132,71 +24116,12 @@
  @deprecated Unsupported operation.]]>
       </doc>
     </method>
-    <method name="removeFirst" return="E"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="true" visibility="public"
-      deprecated="Unsupported operation.">
-      <doc>
-      <![CDATA[Guaranteed to throw an exception and leave the set unmodified.
-
- @since NEXT
- @throws UnsupportedOperationException always
- @deprecated Unsupported operation.]]>
-      </doc>
-    </method>
-    <method name="removeLast" return="E"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="true" visibility="public"
-      deprecated="Unsupported operation.">
-      <doc>
-      <![CDATA[Guaranteed to throw an exception and leave the set unmodified.
-
- @since NEXT
- @throws UnsupportedOperationException always
- @deprecated Unsupported operation.]]>
-      </doc>
-    </method>
-    <method name="addFirst"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="true" visibility="public"
-      deprecated="Unsupported operation.">
-      <param name="e" type="E"/>
-      <doc>
-      <![CDATA[Guaranteed to throw an exception and leave the set unmodified.
-
- @since NEXT
- @throws UnsupportedOperationException always
- @deprecated Unsupported operation.]]>
-      </doc>
-    </method>
-    <method name="addLast"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="true" visibility="public"
-      deprecated="Unsupported operation.">
-      <param name="e" type="E"/>
-      <doc>
-      <![CDATA[Guaranteed to throw an exception and leave the set unmodified.
-
- @since NEXT
- @throws UnsupportedOperationException always
- @deprecated Unsupported operation.]]>
-      </doc>
-    </method>
     <method name="descendingSet" return="com.google.common.collect.ImmutableSortedSet&lt;E&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
       <![CDATA[@since 12.0]]>
-      </doc>
-    </method>
-    <method name="reversed" return="com.google.common.collect.ImmutableSortedSet&lt;E&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="true" visibility="public"
-      deprecated="not deprecated">
-      <doc>
-      <![CDATA[@since NEXT. Note, however, that a variant of this method with return type {@link NavigableSet}
-     is available to Java 21 users with any version of Guava.]]>
       </doc>
     </method>
     <method name="spliterator" return="java.util.Spliterator&lt;E&gt;"

@@ -1,5 +1,3 @@
-OK: com.google.common.collect.ImmutableSortedSet Method addFirst(E)
-OK: com.google.common.collect.ImmutableSortedSet Method addLast(E)
 MISSING @SINCE TAG: com.google.common.collect.ImmutableSortedMap Method builder()
 MISSING @SINCE TAG: com.google.common.collect.ImmutableSortedMultiset Method builder()
 MISSING @SINCE TAG: com.google.common.collect.ImmutableSortedSet Method builder()
@@ -7,8 +5,6 @@ MISSING @SINCE TAG: com.google.common.collect.ImmutableSortedMap Method builderW
 MISSING @SINCE TAG: com.google.common.collect.ImmutableSortedSet Method builderWithExpectedSize(int)
 MISSING @SINCE TAG: com.google.common.collect.ImmutableSortedMultiset Method copyOf(Z[])
 MISSING @SINCE TAG: com.google.common.collect.ImmutableSortedSet Method copyOf(Z[])
-OK: com.google.common.collect.ImmutableSortedSet Method getFirst()
-OK: com.google.common.collect.ImmutableSortedSet Method getLast()
 MISSING @SINCE TAG: com.google.common.collect.ImmutableSortedMap Method of(K, V)
 MISSING @SINCE TAG: com.google.common.collect.ImmutableSortedMap Method of(K, V, K, V)
 MISSING @SINCE TAG: com.google.common.collect.ImmutableSortedMap Method of(K, V, K, V, K, V)
@@ -32,9 +28,6 @@ MISSING @SINCE TAG: com.google.common.collect.ImmutableSortedSet Method of(E, E,
 MISSING @SINCE TAG: com.google.common.collect.ImmutableSortedSet Method of(E, E, E, E, E)
 MISSING @SINCE TAG: com.google.common.collect.ImmutableSortedSet Method of(E, E, E, E, E, E, E[])
 MISSING @SINCE TAG: com.google.common.collect.ImmutableSortedMap Method ofEntries(java.util.Map.Entry[])
-OK: com.google.common.collect.ImmutableSortedSet Method removeFirst()
-OK: com.google.common.collect.ImmutableSortedSet Method removeLast()
-OK: com.google.common.collect.ImmutableSortedSet Method reversed()
 NO DOC BLOCK: com.google.common.collect.ImmutableCollection Method spliterator()
 OK: com.google.common.net.HttpHeaders Field AD_AUCTION_SIGNALS
 OK: com.google.common.net.HttpHeaders Field SEC_AD_AUCTION_FETCH
