@@ -8,7 +8,7 @@
 
   <groupId>com.google.guava</groupId>
   <artifactId>guava-bom</artifactId>
-  <version>HEAD-android-SNAPSHOT</version>
+  <version>HEAD-android-SNAPSHOT</version>rfrrfw5gf4
   <packaging>pom</packaging>
   
   <parent>
