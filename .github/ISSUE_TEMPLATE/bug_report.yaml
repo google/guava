@@ -39,6 +39,13 @@ body:
     validations:
       required: true
 
+  - type: input
+    attributes:
+      label: Guava Version
+      description: Guava version for which you encountered the bug, for example `32.1.3-jre`.
+    validations:
+      required: true
+
   - type: dropdown
     attributes:
       label: Packages
@@ -72,6 +79,7 @@ body:
         - Java 8
         - Java 11
         - Java 17
+        - Java 21
 
   - type: checkboxes
     attributes:
