@@ -15,15 +15,11 @@
 package com.google.common.reflect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static java.util.Objects.requireNonNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
-import com.google.errorprone.annotations.DoNotCall;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
-import java.lang.reflect.AnnotatedType;
 import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -42,7 +38,7 @@ public final class Parameter implements AnnotatedElement {
   private final ImmutableList<Annotation> annotations;
 
   /**
-   * An {@link AnnotatedType} instance, or {@code null} under Android VMs (possible only when using
+   * An {@code AnnotatedType} instance, or {@code null} under Android VMs (possible only when using
    * the Android flavor of Guava). The field is declared with a type of {@code Object} to avoid
    * compatibility problems on Android VMs. The corresponding accessor method, however, can have the
    * more specific return type as long as users are careful to guard calls to it with version checks
@@ -129,24 +125,6 @@ public final class Parameter implements AnnotatedElement {
     @SuppressWarnings("nullness") // safe because the input list contains no nulls
     A[] cast = (A[]) result;
     return cast;
-  }
-
-  /**
-   * Returns the {@link AnnotatedType} of the parameter.
-   *
-   * <p>This method will fail if run under an Android VM.
-   *
-   * @since NEXT for guava-android (available since 25.1 in guava-jre)
-   * @deprecated This method does not work under Android VMs. It is safe to use from guava-jre, but
-   *     this copy in guava-android is not safe to use.
-   */
-  @Beta
-  @SuppressWarnings({"Java7ApiChecker", "AndroidJdkLibsChecker"})
-  @Deprecated
-  @DoNotCall("fails under Android VMs; do not use from guava-android")
-  @IgnoreJRERequirement
-  public AnnotatedType getAnnotatedType() {
-    return requireNonNull((AnnotatedType) annotatedType);
   }
 
   @Override

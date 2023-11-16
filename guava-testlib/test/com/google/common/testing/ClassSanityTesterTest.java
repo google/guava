@@ -46,7 +46,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *
  * @author Ben Yu
  */
-@AndroidIncompatible // NullPointerTester refuses to run for c.g.c under Android
 public class ClassSanityTesterTest extends TestCase {
 
   private final ClassSanityTester tester = new ClassSanityTester();

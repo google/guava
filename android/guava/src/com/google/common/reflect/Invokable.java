@@ -16,14 +16,11 @@ package com.google.common.reflect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import com.google.errorprone.annotations.DoNotCall;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.AnnotatedElement;
-import java.lang.reflect.AnnotatedType;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Member;
@@ -278,7 +275,7 @@ public abstract class Invokable<T, R> implements AnnotatedElement, Member {
     Type[] parameterTypes = getGenericParameterTypes();
     Annotation[][] annotations = getParameterAnnotations();
     @Nullable Object[] annotatedTypes =
-        ANNOTATED_TYPE_EXISTS ? getAnnotatedParameterTypes() : new Object[parameterTypes.length];
+        new Object[parameterTypes.length];
     ImmutableList.Builder<Parameter> builder = ImmutableList.builder();
     for (int i = 0; i < parameterTypes.length; i++) {
       builder.add(
@@ -343,32 +340,12 @@ public abstract class Invokable<T, R> implements AnnotatedElement, Member {
 
   abstract Type[] getGenericParameterTypes();
 
-  @SuppressWarnings({"Java7ApiChecker", "AndroidJdkLibsChecker"})
-  @IgnoreJRERequirement
-  abstract AnnotatedType[] getAnnotatedParameterTypes();
-
   /** This should never return a type that's not a subtype of Throwable. */
   abstract Type[] getGenericExceptionTypes();
 
   abstract Annotation[][] getParameterAnnotations();
 
   abstract Type getGenericReturnType();
-
-  /**
-   * Returns the {@link AnnotatedType} for the return type.
-   *
-   * <p>This method will fail if run under an Android VM.
-   *
-   * @since NEXT for guava-android (available since 14.0 in guava-jre)
-   * @deprecated This method does not work under Android VMs. It is safe to use from guava-jre, but
-   *     this copy in guava-android is not safe to use.
-   */
-  @SuppressWarnings({"Java7ApiChecker", "AndroidJdkLibsChecker"})
-  @DoNotCall("fails under Android VMs; do not use from guava-android")
-  @Deprecated
-  @IgnoreJRERequirement
-  @Beta
-  public abstract AnnotatedType getAnnotatedReturnType();
 
   static class MethodInvokable<T> extends Invokable<T, Object> {
 
@@ -394,21 +371,6 @@ public abstract class Invokable<T, R> implements AnnotatedElement, Member {
     @Override
     Type[] getGenericParameterTypes() {
       return method.getGenericParameterTypes();
-    }
-
-    @Override
-    @SuppressWarnings({"Java7ApiChecker", "AndroidJdkLibsChecker"})
-    @IgnoreJRERequirement
-    AnnotatedType[] getAnnotatedParameterTypes() {
-      return method.getAnnotatedParameterTypes();
-    }
-
-    @Override
-    @SuppressWarnings({"Java7ApiChecker", "AndroidJdkLibsChecker", "DoNotCall"})
-    @DoNotCall
-    @IgnoreJRERequirement
-    public AnnotatedType getAnnotatedReturnType() {
-      return method.getAnnotatedReturnType();
     }
 
     @Override
@@ -486,21 +448,6 @@ public abstract class Invokable<T, R> implements AnnotatedElement, Member {
         }
       }
       return types;
-    }
-
-    @Override
-    @SuppressWarnings({"Java7ApiChecker", "AndroidJdkLibsChecker"})
-    @IgnoreJRERequirement
-    AnnotatedType[] getAnnotatedParameterTypes() {
-      return constructor.getAnnotatedParameterTypes();
-    }
-
-    @Override
-    @SuppressWarnings({"Java7ApiChecker", "AndroidJdkLibsChecker", "DoNotCall"})
-    @DoNotCall
-    @IgnoreJRERequirement
-    public AnnotatedType getAnnotatedReturnType() {
-      return constructor.getAnnotatedReturnType();
     }
 
     @Override

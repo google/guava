@@ -35,7 +35,6 @@ import com.google.common.reflect.Reflection;
 import com.google.common.reflect.TypeToken;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.lang.annotation.Annotation;
-import java.lang.reflect.AnnotatedType;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Member;
@@ -43,7 +42,6 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.lang.reflect.TypeVariable;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
@@ -353,9 +351,9 @@ public final class NullPointerTester {
       @Nullable Object instance, Invokable<?, ?> invokable, int paramIndex, Class<?> testedClass) {
     /*
      * com.google.common is starting to rely on type-use annotations, which aren't visible under
-     * Android VMs. So we skip testing there.
+     * Android VMs and in open-source guava-android. So we skip testing there.
      */
-    if (isAndroid() && Reflection.getPackageName(testedClass).startsWith("com.google.common")) {
+    if (Reflection.getPackageName(testedClass).startsWith("com.google.common")) {
       return;
     }
     if (isPrimitiveOrNullable(invokable.getParameters().get(paramIndex))) {
@@ -612,39 +610,19 @@ public final class NullPointerTester {
    * don't know that anyone uses it there, anyway.
    */
   private enum NullnessAnnotationReader {
-    // Usages (which are unsafe only for Android) are guarded by the annotatedTypeExists() check.
-    @SuppressWarnings({"Java7ApiChecker", "AndroidApiChecker", "DoNotCall", "deprecation"})
+    @SuppressWarnings("Java7ApiChecker")
     FROM_DECLARATION_AND_TYPE_USE_ANNOTATIONS {
       @Override
-      @IgnoreJRERequirement
       boolean isNullable(Invokable<?, ?> invokable) {
         return FROM_DECLARATION_ANNOTATIONS_ONLY.isNullable(invokable)
-            || containsNullable(invokable.getAnnotatedReturnType().getAnnotations());
+        ;
         // TODO(cpovirk): Should we also check isNullableTypeVariable?
       }
 
       @Override
-      @IgnoreJRERequirement
       boolean isNullable(Parameter param) {
         return FROM_DECLARATION_ANNOTATIONS_ONLY.isNullable(param)
-            || containsNullable(param.getAnnotatedType().getAnnotations())
-            || isNullableTypeVariable(param.getAnnotatedType().getType());
-      }
-
-      @IgnoreJRERequirement
-      boolean isNullableTypeVariable(Type type) {
-        if (!(type instanceof TypeVariable)) {
-          return false;
-        }
-        TypeVariable<?> typeVar = (TypeVariable<?>) type;
-        for (AnnotatedType bound : typeVar.getAnnotatedBounds()) {
-          // Until Java 15, the isNullableTypeVariable case here won't help:
-          // https://bugs.openjdk.java.net/browse/JDK-8202469
-          if (containsNullable(bound.getAnnotations()) || isNullableTypeVariable(bound.getType())) {
-            return true;
-          }
-        }
-        return false;
+        ;
       }
     },
     FROM_DECLARATION_ANNOTATIONS_ONLY {
@@ -662,10 +640,5 @@ public final class NullPointerTester {
     abstract boolean isNullable(Invokable<?, ?> invokable);
 
     abstract boolean isNullable(Parameter param);
-  }
-
-  private static boolean isAndroid() {
-    // Arguably it would make more sense to test "can we see type-use annotations" directly....
-    return checkNotNull(System.getProperty("java.runtime.name", "")).contains("Android");
   }
 }

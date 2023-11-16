@@ -57,7 +57,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Mick Killianey
  */
 @SuppressWarnings("CheckReturnValue")
-@AndroidIncompatible // NullPointerTester refuses to run for c.g.c under Android
 public class NullPointerTesterTest extends TestCase {
 
   /** Non-NPE RuntimeException. */
