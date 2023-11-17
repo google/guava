@@ -9,8 +9,8 @@ body:
 
 
         Be aware, though: most feature requests are not accepted, even if they're suggested by
-        a full-time Guava team member. [Feedback](http://stackoverflow.com/a/4543114/869736) from
-        our users indicates that they really appreciate Guava's high power-to-weight ratio. It's
+        a full-time Guava team member. [Feedback](https://stackoverflow.com/a/4543114) from our
+        users indicates that they really appreciate Guava's high power-to-weight ratio. It's
         important to us to keep Guava as easy to use and understand as we can. That means boiling
         features down to compact but powerful abstractions, and controlling feature bloat carefully.
 

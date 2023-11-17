@@ -21,7 +21,7 @@ for it.
 If the feature has merit, it will go through a thorough process of API design
 and review. Any code should come after this.
 
-[APIs]: http://en.wikipedia.org/wiki/Application_programming_interface
+[APIs]: https://en.wikipedia.org/wiki/Application_programming_interface
 [issue]: https://github.com/google/guava/issues
 
 Pull requests
@@ -53,7 +53,7 @@ Guidelines for any code contributions:
      [well-formed commit message][] for the change.
 
 [Java style guide]: https://google.github.io/styleguide/javaguide.html
-[well-formed commit message]: http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html
+[well-formed commit message]: https://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html
 
 #### Merging pull requests ####
 

@@ -80,7 +80,7 @@ flavor.
 ## Learn about Guava
 
 -   Our users' guide, [Guava Explained]
--   [A nice collection](http://www.tfnico.com/presentations/google-guava) of
+-   [A nice collection](https://www.tfnico.com/presentations/google-guava) of
     other helpful links
 
 ## Links
@@ -88,8 +88,8 @@ flavor.
 -   [GitHub project](https://github.com/google/guava)
 -   [Issue tracker: Report a defect or feature request](https://github.com/google/guava/issues/new)
 -   [StackOverflow: Ask "how-to" and "why-didn't-it-work" questions](https://stackoverflow.com/questions/ask?tags=guava+java)
--   [guava-announce: Announcements of releases and upcoming significant changes](http://groups.google.com/group/guava-announce)
--   [guava-discuss: For open-ended questions and discussion](http://groups.google.com/group/guava-discuss)
+-   [guava-announce: Announcements of releases and upcoming significant changes](https://groups.google.com/group/guava-announce)
+-   [guava-discuss: For open-ended questions and discussion](https://groups.google.com/group/guava-discuss)
 
 ## IMPORTANT WARNINGS
 
