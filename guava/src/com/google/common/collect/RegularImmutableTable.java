@@ -18,6 +18,8 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.j2objc.annotations.WeakOuter;
 import java.util.Collections;
 import java.util.Comparator;
@@ -69,6 +71,15 @@ abstract class RegularImmutableTable<R, C, V> extends ImmutableTable<R, C, V> {
     boolean isPartialView() {
       return false;
     }
+
+    // redeclare to help optimizers with b/310253115
+    @SuppressWarnings("RedundantOverride")
+    @Override
+    @J2ktIncompatible // serialization
+    @GwtIncompatible // serialization
+    Object writeReplace() {
+      return super.writeReplace();
+    }
   }
 
   abstract V getValue(int iterationIndex);
@@ -93,6 +104,15 @@ abstract class RegularImmutableTable<R, C, V> extends ImmutableTable<R, C, V> {
     @Override
     boolean isPartialView() {
       return true;
+    }
+
+    // redeclare to help optimizers with b/310253115
+    @SuppressWarnings("RedundantOverride")
+    @Override
+    @J2ktIncompatible // serialization
+    @GwtIncompatible // serialization
+    Object writeReplace() {
+      return super.writeReplace();
     }
   }
 
@@ -181,4 +201,10 @@ abstract class RegularImmutableTable<R, C, V> extends ImmutableTable<R, C, V> {
         newValue,
         existingValue);
   }
+
+  // redeclare to satisfy our test for b/310253115
+  @Override
+  @J2ktIncompatible // serialization
+  @GwtIncompatible // serialization
+  abstract Object writeReplace();
 }

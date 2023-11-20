@@ -22,6 +22,7 @@ import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import java.util.AbstractMap;
@@ -435,6 +436,14 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
         public boolean isPartialView() {
           return true;
         }
+
+        // redeclare to help optimizers with b/310253115
+        @SuppressWarnings("RedundantOverride")
+        @Override
+        @J2ktIncompatible // serialization
+        Object writeReplace() {
+          return super.writeReplace();
+        }
       };
     }
 
@@ -457,6 +466,15 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
     @Override
     public int size() {
       return size;
+    }
+
+    // redeclare to help optimizers with b/310253115
+    @SuppressWarnings("RedundantOverride")
+    @Override
+    @J2ktIncompatible // serialization
+    @GwtIncompatible // serialization
+    Object writeReplace() {
+      return super.writeReplace();
     }
   }
 
@@ -494,6 +512,13 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
     @Override
     public int size() {
       return size;
+    }
+
+    // redeclare to help optimizers with b/310253115
+    @SuppressWarnings("RedundantOverride")
+    @Override
+    Object writeReplace() {
+      return super.writeReplace();
     }
   }
 
@@ -535,6 +560,15 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
     public int size() {
       return map.size();
     }
+
+    // redeclare to help optimizers with b/310253115
+    @SuppressWarnings("RedundantOverride")
+    @Override
+    @J2ktIncompatible // serialization
+    @GwtIncompatible // serialization
+    Object writeReplace() {
+      return super.writeReplace();
+    }
   }
 
   @SuppressWarnings("unchecked")
@@ -546,6 +580,15 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
   @Override
   boolean isPartialView() {
     return false;
+  }
+
+  // redeclare to help optimizers with b/310253115
+  @SuppressWarnings("RedundantOverride")
+  @Override
+  @J2ktIncompatible // serialization
+  @GwtIncompatible // serialization
+  Object writeReplace() {
+    return super.writeReplace();
   }
 
   // This class is never actually serialized directly, but we have to make the

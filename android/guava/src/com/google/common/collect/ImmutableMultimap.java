@@ -576,6 +576,15 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
       return false;
     }
 
+    // redeclare to help optimizers with b/310253115
+    @SuppressWarnings("RedundantOverride")
+    @Override
+    @J2ktIncompatible // serialization
+    @GwtIncompatible // serialization
+    Object writeReplace() {
+      return super.writeReplace();
+    }
+
     private static final long serialVersionUID = 0;
   }
 
@@ -755,6 +764,15 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
     @Override
     boolean isPartialView() {
       return true;
+    }
+
+    // redeclare to help optimizers with b/310253115
+    @SuppressWarnings("RedundantOverride")
+    @Override
+    @J2ktIncompatible // serialization
+    @GwtIncompatible // serialization
+    Object writeReplace() {
+      return super.writeReplace();
     }
 
     @J2ktIncompatible // serialization

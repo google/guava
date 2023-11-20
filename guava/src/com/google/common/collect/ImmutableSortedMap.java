@@ -23,6 +23,7 @@ import static com.google.common.collect.Maps.keyOrNull;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.DoNotCall;
@@ -844,12 +845,30 @@ public final class ImmutableSortedMap<K, V> extends ImmutableMap<K, V>
           ImmutableCollection<Entry<K, V>> delegateCollection() {
             return EntrySet.this;
           }
+
+          // redeclare to help optimizers with b/310253115
+          @SuppressWarnings("RedundantOverride")
+          @Override
+          @J2ktIncompatible // serialization
+          @GwtIncompatible // serialization
+          Object writeReplace() {
+            return super.writeReplace();
+          }
         };
       }
 
       @Override
       ImmutableMap<K, V> map() {
         return ImmutableSortedMap.this;
+      }
+
+      // redeclare to help optimizers with b/310253115
+      @SuppressWarnings("RedundantOverride")
+      @Override
+      @J2ktIncompatible // serialization
+      @GwtIncompatible // serialization
+      Object writeReplace() {
+        return super.writeReplace();
       }
     }
     return isEmpty() ? ImmutableSet.<Entry<K, V>>of() : new EntrySet();
