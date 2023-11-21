@@ -42,7 +42,6 @@ import java.util.Deque;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.NoSuchElementException;
 import java.util.PriorityQueue;
 import java.util.Queue;
@@ -1443,10 +1442,5 @@ public final class Iterators {
       toRemove.remove();
       toRemove = null;
     }
-  }
-
-  /** Used to avoid http://bugs.sun.com/view_bug.do?bug_id=6558557 */
-  static <T extends @Nullable Object> ListIterator<T> cast(Iterator<T> iterator) {
-    return (ListIterator<T>) iterator;
   }
 }

@@ -122,7 +122,7 @@ public final class Multimaps {
           java.util.function.Function<? super T, ? extends K> keyFunction,
           java.util.function.Function<? super T, ? extends V> valueFunction,
           java.util.function.Supplier<M> multimapSupplier) {
-    return CollectCollectors.toMultimap(keyFunction, valueFunction, multimapSupplier);
+    return CollectCollectors.<T, K, V, M>toMultimap(keyFunction, valueFunction, multimapSupplier);
   }
 
   /**
@@ -167,7 +167,8 @@ public final class Multimaps {
           java.util.function.Function<? super T, ? extends K> keyFunction,
           java.util.function.Function<? super T, ? extends Stream<? extends V>> valueFunction,
           java.util.function.Supplier<M> multimapSupplier) {
-    return CollectCollectors.flatteningToMultimap(keyFunction, valueFunction, multimapSupplier);
+    return CollectCollectors.<T, K, V, M>flatteningToMultimap(
+        keyFunction, valueFunction, multimapSupplier);
   }
 
   /**

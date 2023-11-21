@@ -147,6 +147,7 @@ public final class CollectorTester<
    */
   @SafeVarargs
   @CanIgnoreReturnValue
+  @SuppressWarnings("nullness") // TODO(cpovirk): Remove after we fix whatever the bug is.
   public final CollectorTester<T, A, R> expectCollects(R expectedResult, T... inputs) {
     List<T> list = Arrays.asList(inputs);
     doExpectCollects(expectedResult, list);
