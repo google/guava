@@ -577,8 +577,8 @@
 <span class="sourceLineNo">568</span><a id="line.568">   *</a>
 <span class="sourceLineNo">569</span><a id="line.569">   * @param weigher the weigher to use in calculating the weight of cache entries</a>
 <span class="sourceLineNo">570</span><a id="line.570">   * @return this {@code CacheBuilder} instance (for chaining)</a>
-<span class="sourceLineNo">571</span><a id="line.571">   * @throws IllegalArgumentException if {@code size} is negative</a>
-<span class="sourceLineNo">572</span><a id="line.572">   * @throws IllegalStateException if a maximum size was already set</a>
+<span class="sourceLineNo">571</span><a id="line.571">   * @throws IllegalStateException if a weigher was already set or {@link #maximumSize(long)} was</a>
+<span class="sourceLineNo">572</span><a id="line.572">   *     previously called</a>
 <span class="sourceLineNo">573</span><a id="line.573">   * @since 11.0</a>
 <span class="sourceLineNo">574</span><a id="line.574">   */</a>
 <span class="sourceLineNo">575</span><a id="line.575">  @GwtIncompatible // To be supported</a>
