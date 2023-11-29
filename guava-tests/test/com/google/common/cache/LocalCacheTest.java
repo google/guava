@@ -2689,11 +2689,10 @@ public class LocalCacheTest extends TestCase {
     assertEquals(localCacheTwo.ticker, localCacheThree.ticker);
   }
 
-  public void testRecursiveLoad() throws ExecutionException, InterruptedException {
+  public void testLoadDifferentKeyInLoader() throws ExecutionException, InterruptedException {
     LocalCache<String, String> cache = makeLocalCache(createCacheBuilder());
     String key1 = "key1";
     String key2 = "key2";
-    String key3 = "key3";
 
     assertEquals(key2, cache.get(key1, new CacheLoader<String, String>() {
       @Override
@@ -2702,15 +2701,49 @@ public class LocalCacheTest extends TestCase {
       }
     }));
 
+
+  }
+
+  public void testRecursiveLoad() throws InterruptedException {
+    LocalCache<String, String> cache = makeLocalCache(createCacheBuilder());
+    String key = "key";
+    CacheLoader<String, String> loader = new CacheLoader<String, String>() {
+      @Override
+      public String load(String key) throws Exception {
+        return cache.get(key, identityLoader()); // recursive load, this should fail
+      }
+    };
+    testLoadThrows(key, cache, loader);
+  }
+
+  public void testRecursiveLoadWithProxy() throws InterruptedException
+  {
+    String key = "key";
+    String otherKey = "otherKey";
+    LocalCache<String, String> cache = makeLocalCache(createCacheBuilder());
+    CacheLoader<String, String> loader = new CacheLoader<String, String>() {
+      @Override
+      public String load(String key) throws Exception {
+        return cache.get(key, identityLoader()); // recursive load, this should fail
+      }
+    };
+    CacheLoader<String, String> proxyLoader = new CacheLoader<String, String>() {
+      @Override
+      public String load(String key) throws Exception {
+        return cache.get(otherKey, loader); // recursive load, this should fail
+      }
+    };
+    testLoadThrows(key, cache, proxyLoader);
+  }
+
+  // utility methods
+
+  private void testLoadThrows(String key, LocalCache<String, String> cache, CacheLoader<String,String> loader) throws InterruptedException
+  {
     CountDownLatch doneSignal = new CountDownLatch(1);
     Thread thread = new Thread(() -> {
       try {
-        cache.get(key3, new CacheLoader<String, String>() {
-          @Override
-          public String load(String key) throws Exception {
-            return cache.get(key3, identityLoader()); // recursive load, this should fail
-          }
-        });
+        cache.get(key, loader);
       } catch(UncheckedExecutionException | ExecutionException e) {
         doneSignal.countDown();
       }
@@ -2726,8 +2759,6 @@ public class LocalCacheTest extends TestCase {
       fail(builder.toString());
     }
   }
-
-  // utility methods
 
   /**
    * Returns an iterable containing all combinations of maximumSize, expireAfterAccess/Write,
