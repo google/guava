@@ -2724,13 +2724,13 @@ public class LocalCacheTest extends TestCase {
     CacheLoader<String, String> loader = new CacheLoader<String, String>() {
       @Override
       public String load(String key) throws Exception {
-        return cache.get(key, identityLoader()); // recursive load, this should fail
+        return cache.get(key, identityLoader()); // recursive load (same as the initial one), this should fail
       }
     };
     CacheLoader<String, String> proxyLoader = new CacheLoader<String, String>() {
       @Override
       public String load(String key) throws Exception {
-        return cache.get(otherKey, loader); // recursive load, this should fail
+        return cache.get(otherKey, loader); // loads another key, is ok
       }
     };
     testLoadThrows(key, cache, proxyLoader);

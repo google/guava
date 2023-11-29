@@ -2184,12 +2184,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
 
       if (createNewEntry) {
         try {
-          // Synchronizes on the entry to allow failing fast when a recursive load is
-          // detected. This may be circumvented when an entry is copied, but will fail fast most
-          // of the time.
-          synchronized (e) {
-            return loadSync(key, hash, loadingValueReference, loader);
-          }
+          return loadSync(key, hash, loadingValueReference, loader);
         } finally {
           statsCounter.recordMisses(1);
         }
@@ -2205,7 +2200,14 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
         throw new AssertionError();
       }
 
-      checkState(!Thread.holdsLock(e), "Recursive load of: %s", key);
+      if (e.getValueReference() instanceof LoadingValueReference) {
+        // if the entry is still loading, we check whether the thread that
+        // is loading the entry is our current thread
+        // which would mean that we both load and wait for the entry
+        // in this case we fail fast instead of deadlocking
+        LoadingValueReference<K,V> le = (LoadingValueReference<K, V>)e.getValueReference();
+        checkState(le.getLoader() != Thread.currentThread(), "Recursive load of: %s", key);
+      }
       // don't consider expiration as we're concurrent with loading
       try {
         V value = valueReference.waitForValue();
@@ -3517,12 +3519,15 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     final SettableFuture<V> futureValue = SettableFuture.create();
     final Stopwatch stopwatch = Stopwatch.createUnstarted();
 
+    final Thread loader;
+
     public LoadingValueReference() {
       this(null);
     }
 
     public LoadingValueReference(@CheckForNull ValueReference<K, V> oldValue) {
       this.oldValue = (oldValue == null) ? LocalCache.unset() : oldValue;
+      this.loader = Thread.currentThread();
     }
 
     @Override
@@ -3646,6 +3651,9 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     public ValueReference<K, V> copyFor(
         ReferenceQueue<V> queue, @CheckForNull V value, ReferenceEntry<K, V> entry) {
       return this;
+    }
+    Thread getLoader() {
+      return this.loader;
     }
   }
 
