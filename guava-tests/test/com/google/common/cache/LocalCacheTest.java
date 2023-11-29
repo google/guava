@@ -58,6 +58,7 @@ import com.google.common.testing.FakeTicker;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
 import com.google.common.testing.TestLogHandler;
+import com.google.common.util.concurrent.UncheckedExecutionException;
 import java.io.Serializable;
 import java.lang.ref.Reference;
 import java.lang.ref.ReferenceQueue;
@@ -2686,6 +2687,44 @@ public class LocalCacheTest extends TestCase {
     assertEquals(localCacheTwo.expireAfterWriteNanos, localCacheThree.expireAfterWriteNanos);
     assertEquals(localCacheTwo.removalListener, localCacheThree.removalListener);
     assertEquals(localCacheTwo.ticker, localCacheThree.ticker);
+  }
+
+  public void testRecursiveLoad() throws ExecutionException, InterruptedException {
+    LocalCache<String, String> cache = makeLocalCache(createCacheBuilder());
+    String key1 = "key1";
+    String key2 = "key2";
+    String key3 = "key3";
+
+    assertEquals(key2, cache.get(key1, new CacheLoader<String, String>() {
+      @Override
+      public String load(String key) throws Exception {
+        return cache.get(key2, identityLoader()); // loads a different key, should work
+      }
+    }));
+
+    CountDownLatch doneSignal = new CountDownLatch(1);
+    Thread thread = new Thread(() -> {
+      try {
+        cache.get(key3, new CacheLoader<String, String>() {
+          @Override
+          public String load(String key) throws Exception {
+            return cache.get(key3, identityLoader()); // recursive load, this should fail
+          }
+        });
+      } catch(UncheckedExecutionException | ExecutionException e) {
+        doneSignal.countDown();
+      }
+    });
+    thread.start();
+
+    boolean done = doneSignal.await(1, TimeUnit.SECONDS);
+    if (!done) {
+      StringBuilder builder = new StringBuilder();
+      for (StackTraceElement trace : thread.getStackTrace()) {
+        builder.append("\tat ").append(trace).append('\n');
+      }
+      fail(builder.toString());
+    }
   }
 
   // utility methods
