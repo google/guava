@@ -639,39 +639,48 @@
 <span class="sourceLineNo">630</span><a id="line.630">    public int size() {</a>
 <span class="sourceLineNo">631</span><a id="line.631">      return entries.size();</a>
 <span class="sourceLineNo">632</span><a id="line.632">    }</a>
-<span class="sourceLineNo">633</span><a id="line.633">  }</a>
-<span class="sourceLineNo">634</span><a id="line.634"></a>
-<span class="sourceLineNo">635</span><a id="line.635">  @J2ktIncompatible</a>
-<span class="sourceLineNo">636</span><a id="line.636">  static final class SerializedForm implements Serializable {</a>
-<span class="sourceLineNo">637</span><a id="line.637">    final Object[] elements;</a>
-<span class="sourceLineNo">638</span><a id="line.638">    final int[] counts;</a>
-<span class="sourceLineNo">639</span><a id="line.639"></a>
-<span class="sourceLineNo">640</span><a id="line.640">    // "extends Object" works around https://github.com/typetools/checker-framework/issues/3013</a>
-<span class="sourceLineNo">641</span><a id="line.641">    SerializedForm(Multiset&lt;? extends Object&gt; multiset) {</a>
-<span class="sourceLineNo">642</span><a id="line.642">      int distinct = multiset.entrySet().size();</a>
-<span class="sourceLineNo">643</span><a id="line.643">      elements = new Object[distinct];</a>
-<span class="sourceLineNo">644</span><a id="line.644">      counts = new int[distinct];</a>
-<span class="sourceLineNo">645</span><a id="line.645">      int i = 0;</a>
-<span class="sourceLineNo">646</span><a id="line.646">      for (Entry&lt;? extends Object&gt; entry : multiset.entrySet()) {</a>
-<span class="sourceLineNo">647</span><a id="line.647">        elements[i] = entry.getElement();</a>
-<span class="sourceLineNo">648</span><a id="line.648">        counts[i] = entry.getCount();</a>
-<span class="sourceLineNo">649</span><a id="line.649">        i++;</a>
-<span class="sourceLineNo">650</span><a id="line.650">      }</a>
-<span class="sourceLineNo">651</span><a id="line.651">    }</a>
-<span class="sourceLineNo">652</span><a id="line.652"></a>
-<span class="sourceLineNo">653</span><a id="line.653">    Object readResolve() {</a>
-<span class="sourceLineNo">654</span><a id="line.654">      LinkedHashMultiset&lt;Object&gt; multiset = LinkedHashMultiset.create(elements.length);</a>
-<span class="sourceLineNo">655</span><a id="line.655">      for (int i = 0; i &lt; elements.length; i++) {</a>
-<span class="sourceLineNo">656</span><a id="line.656">        multiset.add(elements[i], counts[i]);</a>
-<span class="sourceLineNo">657</span><a id="line.657">      }</a>
-<span class="sourceLineNo">658</span><a id="line.658">      return ImmutableMultiset.copyOf(multiset);</a>
-<span class="sourceLineNo">659</span><a id="line.659">    }</a>
-<span class="sourceLineNo">660</span><a id="line.660"></a>
-<span class="sourceLineNo">661</span><a id="line.661">    private static final long serialVersionUID = 0;</a>
-<span class="sourceLineNo">662</span><a id="line.662">  }</a>
-<span class="sourceLineNo">663</span><a id="line.663"></a>
-<span class="sourceLineNo">664</span><a id="line.664">  private static final long serialVersionUID = 0xcafebabe;</a>
-<span class="sourceLineNo">665</span><a id="line.665">}</a>
+<span class="sourceLineNo">633</span><a id="line.633"></a>
+<span class="sourceLineNo">634</span><a id="line.634">    // redeclare to help optimizers with b/310253115</a>
+<span class="sourceLineNo">635</span><a id="line.635">    @SuppressWarnings("RedundantOverride")</a>
+<span class="sourceLineNo">636</span><a id="line.636">    @Override</a>
+<span class="sourceLineNo">637</span><a id="line.637">    @J2ktIncompatible // serialization</a>
+<span class="sourceLineNo">638</span><a id="line.638">    @GwtIncompatible // serialization</a>
+<span class="sourceLineNo">639</span><a id="line.639">    Object writeReplace() {</a>
+<span class="sourceLineNo">640</span><a id="line.640">      return super.writeReplace();</a>
+<span class="sourceLineNo">641</span><a id="line.641">    }</a>
+<span class="sourceLineNo">642</span><a id="line.642">  }</a>
+<span class="sourceLineNo">643</span><a id="line.643"></a>
+<span class="sourceLineNo">644</span><a id="line.644">  @J2ktIncompatible</a>
+<span class="sourceLineNo">645</span><a id="line.645">  static final class SerializedForm implements Serializable {</a>
+<span class="sourceLineNo">646</span><a id="line.646">    final Object[] elements;</a>
+<span class="sourceLineNo">647</span><a id="line.647">    final int[] counts;</a>
+<span class="sourceLineNo">648</span><a id="line.648"></a>
+<span class="sourceLineNo">649</span><a id="line.649">    // "extends Object" works around https://github.com/typetools/checker-framework/issues/3013</a>
+<span class="sourceLineNo">650</span><a id="line.650">    SerializedForm(Multiset&lt;? extends Object&gt; multiset) {</a>
+<span class="sourceLineNo">651</span><a id="line.651">      int distinct = multiset.entrySet().size();</a>
+<span class="sourceLineNo">652</span><a id="line.652">      elements = new Object[distinct];</a>
+<span class="sourceLineNo">653</span><a id="line.653">      counts = new int[distinct];</a>
+<span class="sourceLineNo">654</span><a id="line.654">      int i = 0;</a>
+<span class="sourceLineNo">655</span><a id="line.655">      for (Entry&lt;? extends Object&gt; entry : multiset.entrySet()) {</a>
+<span class="sourceLineNo">656</span><a id="line.656">        elements[i] = entry.getElement();</a>
+<span class="sourceLineNo">657</span><a id="line.657">        counts[i] = entry.getCount();</a>
+<span class="sourceLineNo">658</span><a id="line.658">        i++;</a>
+<span class="sourceLineNo">659</span><a id="line.659">      }</a>
+<span class="sourceLineNo">660</span><a id="line.660">    }</a>
+<span class="sourceLineNo">661</span><a id="line.661"></a>
+<span class="sourceLineNo">662</span><a id="line.662">    Object readResolve() {</a>
+<span class="sourceLineNo">663</span><a id="line.663">      LinkedHashMultiset&lt;Object&gt; multiset = LinkedHashMultiset.create(elements.length);</a>
+<span class="sourceLineNo">664</span><a id="line.664">      for (int i = 0; i &lt; elements.length; i++) {</a>
+<span class="sourceLineNo">665</span><a id="line.665">        multiset.add(elements[i], counts[i]);</a>
+<span class="sourceLineNo">666</span><a id="line.666">      }</a>
+<span class="sourceLineNo">667</span><a id="line.667">      return ImmutableMultiset.copyOf(multiset);</a>
+<span class="sourceLineNo">668</span><a id="line.668">    }</a>
+<span class="sourceLineNo">669</span><a id="line.669"></a>
+<span class="sourceLineNo">670</span><a id="line.670">    private static final long serialVersionUID = 0;</a>
+<span class="sourceLineNo">671</span><a id="line.671">  }</a>
+<span class="sourceLineNo">672</span><a id="line.672"></a>
+<span class="sourceLineNo">673</span><a id="line.673">  private static final long serialVersionUID = 0xcafebabe;</a>
+<span class="sourceLineNo">674</span><a id="line.674">}</a>
 
 
 

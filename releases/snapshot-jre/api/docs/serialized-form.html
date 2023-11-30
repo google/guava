@@ -314,6 +314,16 @@ private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/ArrayListMult
 <h3>Class <a href="com/google/common/collect/ContiguousSet.html" title="class in com.google.common.collect">com.google.common.collect.ContiguousSet</a> extends <a href="com/google/common/collect/ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="com/google/common/collect/ContiguousSet.html" title="type parameter in ContiguousSet">C</a> extends java.lang.Comparable&gt; implements Serializable</h3>
 <ul class="blockList">
 <li class="blockList">
+<h3>Serialization Methods</h3>
+<ul class="blockList">
+<li class="blockListLast">
+<h4>writeReplace</h4>
+<pre class="methodSignature"><a href="com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
+java.lang.Object&nbsp;<a href="src-html/com/google/common/collect/ContiguousSet.html#line.265">writeReplace</a>()</pre>
+</li>
+</ul>
+</li>
+<li class="blockList">
 <h3>Serialized Fields</h3>
 <ul class="blockList">
 <li class="blockListLast">
@@ -670,7 +680,7 @@ private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/HashMultiset.
 <ul class="blockList">
 <li class="blockList">
 <h4>readObject</h4>
-<pre class="methodSignature">private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/ImmutableCollection.html#line.400">readObject</a>&#8203;(java.io.ObjectInputStream&nbsp;stream)
+<pre class="methodSignature">private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/ImmutableCollection.html#line.402">readObject</a>&#8203;(java.io.ObjectInputStream&nbsp;stream)
                  throws java.io.InvalidObjectException</pre>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
@@ -679,7 +689,8 @@ private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/HashMultiset.
 </li>
 <li class="blockListLast">
 <h4>writeReplace</h4>
-<pre class="methodSignature">java.lang.Object&nbsp;<a href="src-html/com/google/common/collect/ImmutableCollection.html#line.394">writeReplace</a>()</pre>
+<pre class="methodSignature"><a href="com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
+java.lang.Object&nbsp;<a href="src-html/com/google/common/collect/ImmutableCollection.html#line.395">writeReplace</a>()</pre>
 </li>
 </ul>
 </li>
@@ -699,7 +710,7 @@ private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/HashMultiset.
 <ul class="blockList">
 <li class="blockList">
 <h4>readObject</h4>
-<pre class="methodSignature">private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/ImmutableList.html#line.726">readObject</a>&#8203;(java.io.ObjectInputStream&nbsp;stream)
+<pre class="methodSignature">private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/ImmutableList.html#line.745">readObject</a>&#8203;(java.io.ObjectInputStream&nbsp;stream)
                  throws java.io.InvalidObjectException</pre>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
@@ -708,7 +719,8 @@ private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/HashMultiset.
 </li>
 <li class="blockListLast">
 <h4>writeReplace</h4>
-<pre class="methodSignature">java.lang.Object&nbsp;<a href="src-html/com/google/common/collect/ImmutableList.html#line.731">writeReplace</a>()</pre>
+<pre class="methodSignature"><a href="com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
+java.lang.Object&nbsp;<a href="src-html/com/google/common/collect/ImmutableList.html#line.750">writeReplace</a>()</pre>
 </li>
 </ul>
 </li>
@@ -769,7 +781,7 @@ private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/ImmutableList
 <ul class="blockList">
 <li class="blockList">
 <h4>readObject</h4>
-<pre class="methodSignature">private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/ImmutableMap.html#line.1286">readObject</a>&#8203;(java.io.ObjectInputStream&nbsp;stream)
+<pre class="methodSignature">private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/ImmutableMap.html#line.1314">readObject</a>&#8203;(java.io.ObjectInputStream&nbsp;stream)
                  throws java.io.InvalidObjectException</pre>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
@@ -778,7 +790,7 @@ private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/ImmutableList
 </li>
 <li class="blockListLast">
 <h4>writeReplace</h4>
-<pre class="methodSignature">java.lang.Object&nbsp;<a href="src-html/com/google/common/collect/ImmutableMap.html#line.1281">writeReplace</a>()</pre>
+<pre class="methodSignature">java.lang.Object&nbsp;<a href="src-html/com/google/common/collect/ImmutableMap.html#line.1309">writeReplace</a>()</pre>
 <div class="block">Returns a serializable form of this object. Non-public subclasses should not override this
  method. Publicly-accessible subclasses must override this method and should return a subclass
  of SerializedForm whose readResolve() method returns objects of the subclass type.</div>
@@ -841,7 +853,7 @@ java.lang.Object&nbsp;<a href="src-html/com/google/common/collect/ImmutableMulti
 <ul class="blockList">
 <li class="blockList">
 <h4>readObject</h4>
-<pre class="methodSignature">private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/ImmutableRangeMap.html#line.443">readObject</a>&#8203;(java.io.ObjectInputStream&nbsp;stream)
+<pre class="methodSignature">private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/ImmutableRangeMap.html#line.459">readObject</a>&#8203;(java.io.ObjectInputStream&nbsp;stream)
                  throws java.io.InvalidObjectException</pre>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
@@ -850,7 +862,7 @@ java.lang.Object&nbsp;<a href="src-html/com/google/common/collect/ImmutableMulti
 </li>
 <li class="blockListLast">
 <h4>writeReplace</h4>
-<pre class="methodSignature">java.lang.Object&nbsp;<a href="src-html/com/google/common/collect/ImmutableRangeMap.html#line.439">writeReplace</a>()</pre>
+<pre class="methodSignature">java.lang.Object&nbsp;<a href="src-html/com/google/common/collect/ImmutableRangeMap.html#line.455">writeReplace</a>()</pre>
 </li>
 </ul>
 </li>
@@ -866,7 +878,7 @@ java.lang.Object&nbsp;<a href="src-html/com/google/common/collect/ImmutableMulti
 <ul class="blockList">
 <li class="blockList">
 <h4>readObject</h4>
-<pre class="methodSignature">private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/ImmutableRangeSet.html#line.854">readObject</a>&#8203;(java.io.ObjectInputStream&nbsp;stream)
+<pre class="methodSignature">private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/ImmutableRangeSet.html#line.871">readObject</a>&#8203;(java.io.ObjectInputStream&nbsp;stream)
                  throws java.io.InvalidObjectException</pre>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
@@ -875,7 +887,7 @@ java.lang.Object&nbsp;<a href="src-html/com/google/common/collect/ImmutableMulti
 </li>
 <li class="blockListLast">
 <h4>writeReplace</h4>
-<pre class="methodSignature">java.lang.Object&nbsp;<a href="src-html/com/google/common/collect/ImmutableRangeSet.html#line.849">writeReplace</a>()</pre>
+<pre class="methodSignature">java.lang.Object&nbsp;<a href="src-html/com/google/common/collect/ImmutableRangeSet.html#line.866">writeReplace</a>()</pre>
 </li>
 </ul>
 </li>
@@ -895,7 +907,7 @@ java.lang.Object&nbsp;<a href="src-html/com/google/common/collect/ImmutableMulti
 <ul class="blockList">
 <li class="blockList">
 <h4>readObject</h4>
-<pre class="methodSignature">private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/ImmutableSet.html#line.430">readObject</a>&#8203;(java.io.ObjectInputStream&nbsp;stream)
+<pre class="methodSignature">private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/ImmutableSet.html#line.458">readObject</a>&#8203;(java.io.ObjectInputStream&nbsp;stream)
                  throws java.io.InvalidObjectException</pre>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
@@ -904,7 +916,7 @@ java.lang.Object&nbsp;<a href="src-html/com/google/common/collect/ImmutableMulti
 </li>
 <li class="blockListLast">
 <h4>writeReplace</h4>
-<pre class="methodSignature">java.lang.Object&nbsp;<a href="src-html/com/google/common/collect/ImmutableSet.html#line.424">writeReplace</a>()</pre>
+<pre class="methodSignature">java.lang.Object&nbsp;<a href="src-html/com/google/common/collect/ImmutableSet.html#line.452">writeReplace</a>()</pre>
 </li>
 </ul>
 </li>
@@ -925,7 +937,7 @@ java.lang.Object&nbsp;<a href="src-html/com/google/common/collect/ImmutableMulti
 <li class="blockList">
 <h4>readObject</h4>
 <pre class="methodSignature"><a href="com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/ImmutableSetMultimap.html#line.604">readObject</a>&#8203;(java.io.ObjectInputStream&nbsp;stream)
+private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/ImmutableSetMultimap.html#line.613">readObject</a>&#8203;(java.io.ObjectInputStream&nbsp;stream)
                  throws java.io.IOException,
                         java.lang.ClassNotFoundException</pre>
 <dl>
@@ -937,7 +949,7 @@ private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/ImmutableSetM
 <li class="blockListLast">
 <h4>writeObject</h4>
 <pre class="methodSignature"><a href="com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/ImmutableSetMultimap.html#line.582">writeObject</a>&#8203;(java.io.ObjectOutputStream&nbsp;stream)
+private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/ImmutableSetMultimap.html#line.591">writeObject</a>&#8203;(java.io.ObjectOutputStream&nbsp;stream)
                   throws java.io.IOException</pre>
 <dl>
 <dt><span class="simpleTagLabel">Serial Data:</span></dt>
@@ -965,7 +977,7 @@ private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/ImmutableSetM
 <ul class="blockList">
 <li class="blockList">
 <h4>readObject</h4>
-<pre class="methodSignature">private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/ImmutableSortedMap.html#line.1162">readObject</a>&#8203;(java.io.ObjectInputStream&nbsp;stream)
+<pre class="methodSignature">private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/ImmutableSortedMap.html#line.1181">readObject</a>&#8203;(java.io.ObjectInputStream&nbsp;stream)
                  throws java.io.InvalidObjectException</pre>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
@@ -974,7 +986,7 @@ private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/ImmutableSetM
 </li>
 <li class="blockListLast">
 <h4>writeReplace</h4>
-<pre class="methodSignature">java.lang.Object&nbsp;<a href="src-html/com/google/common/collect/ImmutableSortedMap.html#line.1156">writeReplace</a>()</pre>
+<pre class="methodSignature">java.lang.Object&nbsp;<a href="src-html/com/google/common/collect/ImmutableSortedMap.html#line.1175">writeReplace</a>()</pre>
 </li>
 </ul>
 </li>
@@ -1053,7 +1065,7 @@ private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/ImmutableSetM
 <li class="blockList">
 <h4>readObject</h4>
 <pre class="methodSignature"><a href="com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/ImmutableTable.html#line.510">readObject</a>&#8203;(java.io.ObjectInputStream&nbsp;stream)
+private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/ImmutableTable.html#line.507">readObject</a>&#8203;(java.io.ObjectInputStream&nbsp;stream)
                  throws java.io.InvalidObjectException</pre>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
@@ -1062,7 +1074,8 @@ private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/ImmutableTabl
 </li>
 <li class="blockListLast">
 <h4>writeReplace</h4>
-<pre class="methodSignature">final&nbsp;java.lang.Object&nbsp;<a href="src-html/com/google/common/collect/ImmutableTable.html#line.506">writeReplace</a>()</pre>
+<pre class="methodSignature"><a href="com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
+abstract&nbsp;java.lang.Object&nbsp;<a href="src-html/com/google/common/collect/ImmutableTable.html#line.503">writeReplace</a>()</pre>
 </li>
 </ul>
 </li>

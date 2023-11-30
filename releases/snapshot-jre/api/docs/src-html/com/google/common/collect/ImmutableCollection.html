@@ -28,494 +28,496 @@
 <span class="sourceLineNo">019</span><a id="line.19">import static com.google.common.base.Preconditions.checkNotNull;</a>
 <span class="sourceLineNo">020</span><a id="line.20"></a>
 <span class="sourceLineNo">021</span><a id="line.21">import com.google.common.annotations.GwtCompatible;</a>
-<span class="sourceLineNo">022</span><a id="line.22">import com.google.common.annotations.J2ktIncompatible;</a>
-<span class="sourceLineNo">023</span><a id="line.23">import com.google.errorprone.annotations.CanIgnoreReturnValue;</a>
-<span class="sourceLineNo">024</span><a id="line.24">import com.google.errorprone.annotations.DoNotCall;</a>
-<span class="sourceLineNo">025</span><a id="line.25">import com.google.errorprone.annotations.DoNotMock;</a>
-<span class="sourceLineNo">026</span><a id="line.26">import java.io.InvalidObjectException;</a>
-<span class="sourceLineNo">027</span><a id="line.27">import java.io.ObjectInputStream;</a>
-<span class="sourceLineNo">028</span><a id="line.28">import java.io.Serializable;</a>
-<span class="sourceLineNo">029</span><a id="line.29">import java.util.AbstractCollection;</a>
-<span class="sourceLineNo">030</span><a id="line.30">import java.util.Collection;</a>
-<span class="sourceLineNo">031</span><a id="line.31">import java.util.Collections;</a>
-<span class="sourceLineNo">032</span><a id="line.32">import java.util.HashSet;</a>
-<span class="sourceLineNo">033</span><a id="line.33">import java.util.Iterator;</a>
-<span class="sourceLineNo">034</span><a id="line.34">import java.util.List;</a>
-<span class="sourceLineNo">035</span><a id="line.35">import java.util.Spliterator;</a>
-<span class="sourceLineNo">036</span><a id="line.36">import java.util.Spliterators;</a>
-<span class="sourceLineNo">037</span><a id="line.37">import java.util.function.Predicate;</a>
-<span class="sourceLineNo">038</span><a id="line.38">import javax.annotation.CheckForNull;</a>
-<span class="sourceLineNo">039</span><a id="line.39">import org.checkerframework.checker.nullness.qual.Nullable;</a>
-<span class="sourceLineNo">040</span><a id="line.40"></a>
-<span class="sourceLineNo">041</span><a id="line.41">/**</a>
-<span class="sourceLineNo">042</span><a id="line.42"> * A {@link Collection} whose contents will never change, and which offers a few additional</a>
-<span class="sourceLineNo">043</span><a id="line.43"> * guarantees detailed below.</a>
-<span class="sourceLineNo">044</span><a id="line.44"> *</a>
-<span class="sourceLineNo">045</span><a id="line.45"> * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; avoid &lt;i&gt;direct&lt;/i&gt; usage of {@link ImmutableCollection} as a type (just as</a>
-<span class="sourceLineNo">046</span><a id="line.46"> * with {@link Collection} itself). Prefer subtypes such as {@link ImmutableSet} or {@link</a>
-<span class="sourceLineNo">047</span><a id="line.47"> * ImmutableList}, which have well-defined {@link #equals} semantics, thus avoiding a common source</a>
-<span class="sourceLineNo">048</span><a id="line.48"> * of bugs and confusion.</a>
-<span class="sourceLineNo">049</span><a id="line.49"> *</a>
-<span class="sourceLineNo">050</span><a id="line.50"> * &lt;h3&gt;About &lt;i&gt;all&lt;/i&gt; {@code Immutable-} collections&lt;/h3&gt;</a>
-<span class="sourceLineNo">051</span><a id="line.51"> *</a>
-<span class="sourceLineNo">052</span><a id="line.52"> * &lt;p&gt;The remainder of this documentation applies to every public {@code Immutable-} type in this</a>
-<span class="sourceLineNo">053</span><a id="line.53"> * package, whether it is a subtype of {@code ImmutableCollection} or not.</a>
-<span class="sourceLineNo">054</span><a id="line.54"> *</a>
-<span class="sourceLineNo">055</span><a id="line.55"> * &lt;h4&gt;Guarantees&lt;/h4&gt;</a>
-<span class="sourceLineNo">056</span><a id="line.56"> *</a>
-<span class="sourceLineNo">057</span><a id="line.57"> * &lt;p&gt;Each makes the following guarantees:</a>
-<span class="sourceLineNo">058</span><a id="line.58"> *</a>
-<span class="sourceLineNo">059</span><a id="line.59"> * &lt;ul&gt;</a>
-<span class="sourceLineNo">060</span><a id="line.60"> *   &lt;li&gt;&lt;b&gt;Shallow immutability.&lt;/b&gt; Elements can never be added, removed or replaced in this</a>
-<span class="sourceLineNo">061</span><a id="line.61"> *       collection. This is a stronger guarantee than that of {@link</a>
-<span class="sourceLineNo">062</span><a id="line.62"> *       Collections#unmodifiableCollection}, whose contents change whenever the wrapped collection</a>
-<span class="sourceLineNo">063</span><a id="line.63"> *       is modified.</a>
-<span class="sourceLineNo">064</span><a id="line.64"> *   &lt;li&gt;&lt;b&gt;Null-hostility.&lt;/b&gt; This collection will never contain a null element.</a>
-<span class="sourceLineNo">065</span><a id="line.65"> *   &lt;li&gt;&lt;b&gt;Deterministic iteration.&lt;/b&gt; The iteration order is always well-defined, depending on</a>
-<span class="sourceLineNo">066</span><a id="line.66"> *       how the collection was created. Typically this is insertion order unless an explicit</a>
-<span class="sourceLineNo">067</span><a id="line.67"> *       ordering is otherwise specified (e.g. {@link ImmutableSortedSet#naturalOrder}). See the</a>
-<span class="sourceLineNo">068</span><a id="line.68"> *       appropriate factory method for details. View collections such as {@link</a>
-<span class="sourceLineNo">069</span><a id="line.69"> *       ImmutableMultiset#elementSet} iterate in the same order as the parent, except as noted.</a>
-<span class="sourceLineNo">070</span><a id="line.70"> *   &lt;li&gt;&lt;b&gt;Thread safety.&lt;/b&gt; It is safe to access this collection concurrently from multiple</a>
-<span class="sourceLineNo">071</span><a id="line.71"> *       threads.</a>
-<span class="sourceLineNo">072</span><a id="line.72"> *   &lt;li&gt;&lt;b&gt;Integrity.&lt;/b&gt; This type cannot be subclassed outside this package (which would allow</a>
-<span class="sourceLineNo">073</span><a id="line.73"> *       these guarantees to be violated).</a>
-<span class="sourceLineNo">074</span><a id="line.74"> * &lt;/ul&gt;</a>
-<span class="sourceLineNo">075</span><a id="line.75"> *</a>
-<span class="sourceLineNo">076</span><a id="line.76"> * &lt;h4&gt;"Interfaces", not implementations&lt;/h4&gt;</a>
-<span class="sourceLineNo">077</span><a id="line.77"> *</a>
-<span class="sourceLineNo">078</span><a id="line.78"> * &lt;p&gt;These are classes instead of interfaces to prevent external subtyping, but should be thought</a>
-<span class="sourceLineNo">079</span><a id="line.79"> * of as interfaces in every important sense. Each public class such as {@link ImmutableSet} is a</a>
-<span class="sourceLineNo">080</span><a id="line.80"> * &lt;i&gt;type&lt;/i&gt; offering meaningful behavioral guarantees. This is substantially different from the</a>
-<span class="sourceLineNo">081</span><a id="line.81"> * case of (say) {@link HashSet}, which is an &lt;i&gt;implementation&lt;/i&gt;, with semantics that were</a>
-<span class="sourceLineNo">082</span><a id="line.82"> * largely defined by its supertype.</a>
-<span class="sourceLineNo">083</span><a id="line.83"> *</a>
-<span class="sourceLineNo">084</span><a id="line.84"> * &lt;p&gt;For field types and method return types, you should generally use the immutable type (such as</a>
-<span class="sourceLineNo">085</span><a id="line.85"> * {@link ImmutableList}) instead of the general collection interface type (such as {@link List}).</a>
-<span class="sourceLineNo">086</span><a id="line.86"> * This communicates to your callers all of the semantic guarantees listed above, which is almost</a>
-<span class="sourceLineNo">087</span><a id="line.87"> * always very useful information.</a>
-<span class="sourceLineNo">088</span><a id="line.88"> *</a>
-<span class="sourceLineNo">089</span><a id="line.89"> * &lt;p&gt;On the other hand, a &lt;i&gt;parameter&lt;/i&gt; type of {@link ImmutableList} is generally a nuisance to</a>
-<span class="sourceLineNo">090</span><a id="line.90"> * callers. Instead, accept {@link Iterable} and have your method or constructor body pass it to the</a>
-<span class="sourceLineNo">091</span><a id="line.91"> * appropriate {@code copyOf} method itself.</a>
-<span class="sourceLineNo">092</span><a id="line.92"> *</a>
-<span class="sourceLineNo">093</span><a id="line.93"> * &lt;p&gt;Expressing the immutability guarantee directly in the type that user code references is a</a>
-<span class="sourceLineNo">094</span><a id="line.94"> * powerful advantage. Although Java offers certain immutable collection factory methods, such as</a>
-<span class="sourceLineNo">095</span><a id="line.95"> * {@link Collections#singleton(Object)} and &lt;a</a>
-<span class="sourceLineNo">096</span><a id="line.96"> * href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html#immutable"&gt;{@code Set.of}&lt;/a&gt;,</a>
-<span class="sourceLineNo">097</span><a id="line.97"> * we recommend using &lt;i&gt;these&lt;/i&gt; classes instead for this reason (as well as for consistency).</a>
-<span class="sourceLineNo">098</span><a id="line.98"> *</a>
-<span class="sourceLineNo">099</span><a id="line.99"> * &lt;h4&gt;Creation&lt;/h4&gt;</a>
-<span class="sourceLineNo">100</span><a id="line.100"> *</a>
-<span class="sourceLineNo">101</span><a id="line.101"> * &lt;p&gt;Except for logically "abstract" types like {@code ImmutableCollection} itself, each {@code</a>
-<span class="sourceLineNo">102</span><a id="line.102"> * Immutable} type provides the static operations you need to obtain instances of that type. These</a>
-<span class="sourceLineNo">103</span><a id="line.103"> * usually include:</a>
-<span class="sourceLineNo">104</span><a id="line.104"> *</a>
-<span class="sourceLineNo">105</span><a id="line.105"> * &lt;ul&gt;</a>
-<span class="sourceLineNo">106</span><a id="line.106"> *   &lt;li&gt;Static methods named {@code of}, accepting an explicit list of elements or entries.</a>
-<span class="sourceLineNo">107</span><a id="line.107"> *   &lt;li&gt;Static methods named {@code copyOf} (or {@code copyOfSorted}), accepting an existing</a>
-<span class="sourceLineNo">108</span><a id="line.108"> *       collection whose contents should be copied.</a>
-<span class="sourceLineNo">109</span><a id="line.109"> *   &lt;li&gt;A static nested {@code Builder} class which can be used to populate a new immutable</a>
-<span class="sourceLineNo">110</span><a id="line.110"> *       instance.</a>
-<span class="sourceLineNo">111</span><a id="line.111"> * &lt;/ul&gt;</a>
-<span class="sourceLineNo">112</span><a id="line.112"> *</a>
-<span class="sourceLineNo">113</span><a id="line.113"> * &lt;h4&gt;Warnings&lt;/h4&gt;</a>
-<span class="sourceLineNo">114</span><a id="line.114"> *</a>
-<span class="sourceLineNo">115</span><a id="line.115"> * &lt;ul&gt;</a>
-<span class="sourceLineNo">116</span><a id="line.116"> *   &lt;li&gt;&lt;b&gt;Warning:&lt;/b&gt; as with any collection, it is almost always a bad idea to modify an element</a>
-<span class="sourceLineNo">117</span><a id="line.117"> *       (in a way that affects its {@link Object#equals} behavior) while it is contained in a</a>
-<span class="sourceLineNo">118</span><a id="line.118"> *       collection. Undefined behavior and bugs will result. It's generally best to avoid using</a>
-<span class="sourceLineNo">119</span><a id="line.119"> *       mutable objects as elements at all, as many users may expect your "immutable" object to be</a>
-<span class="sourceLineNo">120</span><a id="line.120"> *       &lt;i&gt;deeply&lt;/i&gt; immutable.</a>
-<span class="sourceLineNo">121</span><a id="line.121"> * &lt;/ul&gt;</a>
-<span class="sourceLineNo">122</span><a id="line.122"> *</a>
-<span class="sourceLineNo">123</span><a id="line.123"> * &lt;h4&gt;Performance notes&lt;/h4&gt;</a>
-<span class="sourceLineNo">124</span><a id="line.124"> *</a>
-<span class="sourceLineNo">125</span><a id="line.125"> * &lt;ul&gt;</a>
-<span class="sourceLineNo">126</span><a id="line.126"> *   &lt;li&gt;Implementations can be generally assumed to prioritize memory efficiency, then speed of</a>
-<span class="sourceLineNo">127</span><a id="line.127"> *       access, and lastly speed of creation.</a>
-<span class="sourceLineNo">128</span><a id="line.128"> *   &lt;li&gt;The {@code copyOf} methods will sometimes recognize that the actual copy operation is</a>
-<span class="sourceLineNo">129</span><a id="line.129"> *       unnecessary; for example, {@code copyOf(copyOf(anArrayList))} should copy the data only</a>
-<span class="sourceLineNo">130</span><a id="line.130"> *       once. This reduces the expense of habitually making defensive copies at API boundaries.</a>
-<span class="sourceLineNo">131</span><a id="line.131"> *       However, the precise conditions for skipping the copy operation are undefined.</a>
-<span class="sourceLineNo">132</span><a id="line.132"> *   &lt;li&gt;&lt;b&gt;Warning:&lt;/b&gt; a view collection such as {@link ImmutableMap#keySet} or {@link</a>
-<span class="sourceLineNo">133</span><a id="line.133"> *       ImmutableList#subList} may retain a reference to the entire data set, preventing it from</a>
-<span class="sourceLineNo">134</span><a id="line.134"> *       being garbage collected. If some of the data is no longer reachable through other means,</a>
-<span class="sourceLineNo">135</span><a id="line.135"> *       this constitutes a memory leak. Pass the view collection to the appropriate {@code copyOf}</a>
-<span class="sourceLineNo">136</span><a id="line.136"> *       method to obtain a correctly-sized copy.</a>
-<span class="sourceLineNo">137</span><a id="line.137"> *   &lt;li&gt;The performance of using the associated {@code Builder} class can be assumed to be no</a>
-<span class="sourceLineNo">138</span><a id="line.138"> *       worse, and possibly better, than creating a mutable collection and copying it.</a>
-<span class="sourceLineNo">139</span><a id="line.139"> *   &lt;li&gt;Implementations generally do not cache hash codes. If your element or key type has a slow</a>
-<span class="sourceLineNo">140</span><a id="line.140"> *       {@code hashCode} implementation, it should cache it itself.</a>
-<span class="sourceLineNo">141</span><a id="line.141"> * &lt;/ul&gt;</a>
-<span class="sourceLineNo">142</span><a id="line.142"> *</a>
-<span class="sourceLineNo">143</span><a id="line.143"> * &lt;h4&gt;Example usage&lt;/h4&gt;</a>
-<span class="sourceLineNo">144</span><a id="line.144"> *</a>
-<span class="sourceLineNo">145</span><a id="line.145"> * &lt;pre&gt;{@code</a>
-<span class="sourceLineNo">146</span><a id="line.146"> * class Foo {</a>
-<span class="sourceLineNo">147</span><a id="line.147"> *   private static final ImmutableSet&lt;String&gt; RESERVED_CODES =</a>
-<span class="sourceLineNo">148</span><a id="line.148"> *       ImmutableSet.of("AZ", "CQ", "ZX");</a>
-<span class="sourceLineNo">149</span><a id="line.149"> *</a>
-<span class="sourceLineNo">150</span><a id="line.150"> *   private final ImmutableSet&lt;String&gt; codes;</a>
-<span class="sourceLineNo">151</span><a id="line.151"> *</a>
-<span class="sourceLineNo">152</span><a id="line.152"> *   public Foo(Iterable&lt;String&gt; codes) {</a>
-<span class="sourceLineNo">153</span><a id="line.153"> *     this.codes = ImmutableSet.copyOf(codes);</a>
-<span class="sourceLineNo">154</span><a id="line.154"> *     checkArgument(Collections.disjoint(this.codes, RESERVED_CODES));</a>
-<span class="sourceLineNo">155</span><a id="line.155"> *   }</a>
-<span class="sourceLineNo">156</span><a id="line.156"> * }</a>
-<span class="sourceLineNo">157</span><a id="line.157"> * }&lt;/pre&gt;</a>
-<span class="sourceLineNo">158</span><a id="line.158"> *</a>
-<span class="sourceLineNo">159</span><a id="line.159"> * &lt;h3&gt;See also&lt;/h3&gt;</a>
-<span class="sourceLineNo">160</span><a id="line.160"> *</a>
-<span class="sourceLineNo">161</span><a id="line.161"> * &lt;p&gt;See the Guava User Guide article on &lt;a href=</a>
-<span class="sourceLineNo">162</span><a id="line.162"> * "https://github.com/google/guava/wiki/ImmutableCollectionsExplained"&gt;immutable collections&lt;/a&gt;.</a>
-<span class="sourceLineNo">163</span><a id="line.163"> *</a>
-<span class="sourceLineNo">164</span><a id="line.164"> * @since 2.0</a>
-<span class="sourceLineNo">165</span><a id="line.165"> */</a>
-<span class="sourceLineNo">166</span><a id="line.166">@DoNotMock("Use ImmutableList.of or another implementation")</a>
-<span class="sourceLineNo">167</span><a id="line.167">@GwtCompatible(emulated = true)</a>
-<span class="sourceLineNo">168</span><a id="line.168">@SuppressWarnings("serial") // we're overriding default serialization</a>
-<span class="sourceLineNo">169</span><a id="line.169">@ElementTypesAreNonnullByDefault</a>
-<span class="sourceLineNo">170</span><a id="line.170">// TODO(kevinb): I think we should push everything down to "BaseImmutableCollection" or something,</a>
-<span class="sourceLineNo">171</span><a id="line.171">// just to do everything we can to emphasize the "practically an interface" nature of this class.</a>
-<span class="sourceLineNo">172</span><a id="line.172">public abstract class ImmutableCollection&lt;E&gt; extends AbstractCollection&lt;E&gt; implements Serializable {</a>
-<span class="sourceLineNo">173</span><a id="line.173">  /*</a>
-<span class="sourceLineNo">174</span><a id="line.174">   * We expect SIZED (and SUBSIZED, if applicable) to be added by the spliterator factory methods.</a>
-<span class="sourceLineNo">175</span><a id="line.175">   * These are properties of the collection as a whole; SIZED and SUBSIZED are more properties of</a>
-<span class="sourceLineNo">176</span><a id="line.176">   * the spliterator implementation.</a>
-<span class="sourceLineNo">177</span><a id="line.177">   */</a>
-<span class="sourceLineNo">178</span><a id="line.178">  static final int SPLITERATOR_CHARACTERISTICS =</a>
-<span class="sourceLineNo">179</span><a id="line.179">      Spliterator.IMMUTABLE | Spliterator.NONNULL | Spliterator.ORDERED;</a>
-<span class="sourceLineNo">180</span><a id="line.180"></a>
-<span class="sourceLineNo">181</span><a id="line.181">  ImmutableCollection() {}</a>
-<span class="sourceLineNo">182</span><a id="line.182"></a>
-<span class="sourceLineNo">183</span><a id="line.183">  /** Returns an unmodifiable iterator across the elements in this collection. */</a>
-<span class="sourceLineNo">184</span><a id="line.184">  @Override</a>
-<span class="sourceLineNo">185</span><a id="line.185">  public abstract UnmodifiableIterator&lt;E&gt; iterator();</a>
-<span class="sourceLineNo">186</span><a id="line.186"></a>
-<span class="sourceLineNo">187</span><a id="line.187">  @Override</a>
-<span class="sourceLineNo">188</span><a id="line.188">  public Spliterator&lt;E&gt; spliterator() {</a>
-<span class="sourceLineNo">189</span><a id="line.189">    return Spliterators.spliterator(this, SPLITERATOR_CHARACTERISTICS);</a>
-<span class="sourceLineNo">190</span><a id="line.190">  }</a>
-<span class="sourceLineNo">191</span><a id="line.191"></a>
-<span class="sourceLineNo">192</span><a id="line.192">  private static final Object[] EMPTY_ARRAY = {};</a>
-<span class="sourceLineNo">193</span><a id="line.193"></a>
-<span class="sourceLineNo">194</span><a id="line.194">  @Override</a>
-<span class="sourceLineNo">195</span><a id="line.195">  @J2ktIncompatible // Incompatible return type change. Use inherited (unoptimized) implementation</a>
-<span class="sourceLineNo">196</span><a id="line.196">  public final Object[] toArray() {</a>
-<span class="sourceLineNo">197</span><a id="line.197">    return toArray(EMPTY_ARRAY);</a>
-<span class="sourceLineNo">198</span><a id="line.198">  }</a>
-<span class="sourceLineNo">199</span><a id="line.199"></a>
-<span class="sourceLineNo">200</span><a id="line.200">  @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">201</span><a id="line.201">  @Override</a>
-<span class="sourceLineNo">202</span><a id="line.202">  /*</a>
-<span class="sourceLineNo">203</span><a id="line.203">   * This suppression is here for two reasons:</a>
-<span class="sourceLineNo">204</span><a id="line.204">   *</a>
-<span class="sourceLineNo">205</span><a id="line.205">   * 1. b/192354773 in our checker affects toArray declarations.</a>
-<span class="sourceLineNo">206</span><a id="line.206">   *</a>
-<span class="sourceLineNo">207</span><a id="line.207">   * 2. `other[size] = null` is unsound. We could "fix" this by requiring callers to pass in an</a>
-<span class="sourceLineNo">208</span><a id="line.208">   * array with a nullable element type. But probably they usually want an array with a non-nullable</a>
-<span class="sourceLineNo">209</span><a id="line.209">   * type. That said, we could *accept* a `@Nullable T[]` (which, given that we treat arrays as</a>
-<span class="sourceLineNo">210</span><a id="line.210">   * covariant, would still permit a plain `T[]`) and return a plain `T[]`. But of course that would</a>
-<span class="sourceLineNo">211</span><a id="line.211">   * require its own suppression, since it is also unsound. toArray(T[]) is just a mess from a</a>
-<span class="sourceLineNo">212</span><a id="line.212">   * nullness perspective. The signature below at least has the virtue of being relatively simple.</a>
-<span class="sourceLineNo">213</span><a id="line.213">   */</a>
-<span class="sourceLineNo">214</span><a id="line.214">  @SuppressWarnings("nullness")</a>
-<span class="sourceLineNo">215</span><a id="line.215">  public final &lt;T extends @Nullable Object&gt; T[] toArray(T[] other) {</a>
-<span class="sourceLineNo">216</span><a id="line.216">    checkNotNull(other);</a>
-<span class="sourceLineNo">217</span><a id="line.217">    int size = size();</a>
-<span class="sourceLineNo">218</span><a id="line.218"></a>
-<span class="sourceLineNo">219</span><a id="line.219">    if (other.length &lt; size) {</a>
-<span class="sourceLineNo">220</span><a id="line.220">      Object[] internal = internalArray();</a>
-<span class="sourceLineNo">221</span><a id="line.221">      if (internal != null) {</a>
-<span class="sourceLineNo">222</span><a id="line.222">        return Platform.copy(internal, internalArrayStart(), internalArrayEnd(), other);</a>
-<span class="sourceLineNo">223</span><a id="line.223">      }</a>
-<span class="sourceLineNo">224</span><a id="line.224">      other = ObjectArrays.newArray(other, size);</a>
-<span class="sourceLineNo">225</span><a id="line.225">    } else if (other.length &gt; size) {</a>
-<span class="sourceLineNo">226</span><a id="line.226">      other[size] = null;</a>
-<span class="sourceLineNo">227</span><a id="line.227">    }</a>
-<span class="sourceLineNo">228</span><a id="line.228">    copyIntoArray(other, 0);</a>
-<span class="sourceLineNo">229</span><a id="line.229">    return other;</a>
-<span class="sourceLineNo">230</span><a id="line.230">  }</a>
-<span class="sourceLineNo">231</span><a id="line.231"></a>
-<span class="sourceLineNo">232</span><a id="line.232">  /** If this collection is backed by an array of its elements in insertion order, returns it. */</a>
-<span class="sourceLineNo">233</span><a id="line.233">  @CheckForNull</a>
-<span class="sourceLineNo">234</span><a id="line.234">  Object[] internalArray() {</a>
-<span class="sourceLineNo">235</span><a id="line.235">    return null;</a>
-<span class="sourceLineNo">236</span><a id="line.236">  }</a>
-<span class="sourceLineNo">237</span><a id="line.237"></a>
-<span class="sourceLineNo">238</span><a id="line.238">  /**</a>
-<span class="sourceLineNo">239</span><a id="line.239">   * If this collection is backed by an array of its elements in insertion order, returns the offset</a>
-<span class="sourceLineNo">240</span><a id="line.240">   * where this collection's elements start.</a>
-<span class="sourceLineNo">241</span><a id="line.241">   */</a>
-<span class="sourceLineNo">242</span><a id="line.242">  int internalArrayStart() {</a>
-<span class="sourceLineNo">243</span><a id="line.243">    throw new UnsupportedOperationException();</a>
-<span class="sourceLineNo">244</span><a id="line.244">  }</a>
-<span class="sourceLineNo">245</span><a id="line.245"></a>
-<span class="sourceLineNo">246</span><a id="line.246">  /**</a>
-<span class="sourceLineNo">247</span><a id="line.247">   * If this collection is backed by an array of its elements in insertion order, returns the offset</a>
-<span class="sourceLineNo">248</span><a id="line.248">   * where this collection's elements end.</a>
-<span class="sourceLineNo">249</span><a id="line.249">   */</a>
-<span class="sourceLineNo">250</span><a id="line.250">  int internalArrayEnd() {</a>
-<span class="sourceLineNo">251</span><a id="line.251">    throw new UnsupportedOperationException();</a>
-<span class="sourceLineNo">252</span><a id="line.252">  }</a>
-<span class="sourceLineNo">253</span><a id="line.253"></a>
-<span class="sourceLineNo">254</span><a id="line.254">  @Override</a>
-<span class="sourceLineNo">255</span><a id="line.255">  public abstract boolean contains(@CheckForNull Object object);</a>
-<span class="sourceLineNo">256</span><a id="line.256"></a>
-<span class="sourceLineNo">257</span><a id="line.257">  /**</a>
-<span class="sourceLineNo">258</span><a id="line.258">   * Guaranteed to throw an exception and leave the collection unmodified.</a>
-<span class="sourceLineNo">259</span><a id="line.259">   *</a>
-<span class="sourceLineNo">260</span><a id="line.260">   * @throws UnsupportedOperationException always</a>
-<span class="sourceLineNo">261</span><a id="line.261">   * @deprecated Unsupported operation.</a>
-<span class="sourceLineNo">262</span><a id="line.262">   */</a>
-<span class="sourceLineNo">263</span><a id="line.263">  @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">264</span><a id="line.264">  @Deprecated</a>
-<span class="sourceLineNo">265</span><a id="line.265">  @Override</a>
-<span class="sourceLineNo">266</span><a id="line.266">  @DoNotCall("Always throws UnsupportedOperationException")</a>
-<span class="sourceLineNo">267</span><a id="line.267">  public final boolean add(E e) {</a>
-<span class="sourceLineNo">268</span><a id="line.268">    throw new UnsupportedOperationException();</a>
-<span class="sourceLineNo">269</span><a id="line.269">  }</a>
-<span class="sourceLineNo">270</span><a id="line.270"></a>
-<span class="sourceLineNo">271</span><a id="line.271">  /**</a>
-<span class="sourceLineNo">272</span><a id="line.272">   * Guaranteed to throw an exception and leave the collection unmodified.</a>
-<span class="sourceLineNo">273</span><a id="line.273">   *</a>
-<span class="sourceLineNo">274</span><a id="line.274">   * @throws UnsupportedOperationException always</a>
-<span class="sourceLineNo">275</span><a id="line.275">   * @deprecated Unsupported operation.</a>
-<span class="sourceLineNo">276</span><a id="line.276">   */</a>
-<span class="sourceLineNo">277</span><a id="line.277">  @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">278</span><a id="line.278">  @Deprecated</a>
-<span class="sourceLineNo">279</span><a id="line.279">  @Override</a>
-<span class="sourceLineNo">280</span><a id="line.280">  @DoNotCall("Always throws UnsupportedOperationException")</a>
-<span class="sourceLineNo">281</span><a id="line.281">  public final boolean remove(@CheckForNull Object object) {</a>
-<span class="sourceLineNo">282</span><a id="line.282">    throw new UnsupportedOperationException();</a>
-<span class="sourceLineNo">283</span><a id="line.283">  }</a>
-<span class="sourceLineNo">284</span><a id="line.284"></a>
-<span class="sourceLineNo">285</span><a id="line.285">  /**</a>
-<span class="sourceLineNo">286</span><a id="line.286">   * Guaranteed to throw an exception and leave the collection unmodified.</a>
-<span class="sourceLineNo">287</span><a id="line.287">   *</a>
-<span class="sourceLineNo">288</span><a id="line.288">   * @throws UnsupportedOperationException always</a>
-<span class="sourceLineNo">289</span><a id="line.289">   * @deprecated Unsupported operation.</a>
-<span class="sourceLineNo">290</span><a id="line.290">   */</a>
-<span class="sourceLineNo">291</span><a id="line.291">  @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">292</span><a id="line.292">  @Deprecated</a>
-<span class="sourceLineNo">293</span><a id="line.293">  @Override</a>
-<span class="sourceLineNo">294</span><a id="line.294">  @DoNotCall("Always throws UnsupportedOperationException")</a>
-<span class="sourceLineNo">295</span><a id="line.295">  public final boolean addAll(Collection&lt;? extends E&gt; newElements) {</a>
-<span class="sourceLineNo">296</span><a id="line.296">    throw new UnsupportedOperationException();</a>
-<span class="sourceLineNo">297</span><a id="line.297">  }</a>
-<span class="sourceLineNo">298</span><a id="line.298"></a>
-<span class="sourceLineNo">299</span><a id="line.299">  /**</a>
-<span class="sourceLineNo">300</span><a id="line.300">   * Guaranteed to throw an exception and leave the collection unmodified.</a>
-<span class="sourceLineNo">301</span><a id="line.301">   *</a>
-<span class="sourceLineNo">302</span><a id="line.302">   * @throws UnsupportedOperationException always</a>
-<span class="sourceLineNo">303</span><a id="line.303">   * @deprecated Unsupported operation.</a>
-<span class="sourceLineNo">304</span><a id="line.304">   */</a>
-<span class="sourceLineNo">305</span><a id="line.305">  @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">306</span><a id="line.306">  @Deprecated</a>
-<span class="sourceLineNo">307</span><a id="line.307">  @Override</a>
-<span class="sourceLineNo">308</span><a id="line.308">  @DoNotCall("Always throws UnsupportedOperationException")</a>
-<span class="sourceLineNo">309</span><a id="line.309">  public final boolean removeAll(Collection&lt;?&gt; oldElements) {</a>
-<span class="sourceLineNo">310</span><a id="line.310">    throw new UnsupportedOperationException();</a>
-<span class="sourceLineNo">311</span><a id="line.311">  }</a>
-<span class="sourceLineNo">312</span><a id="line.312"></a>
-<span class="sourceLineNo">313</span><a id="line.313">  /**</a>
-<span class="sourceLineNo">314</span><a id="line.314">   * Guaranteed to throw an exception and leave the collection unmodified.</a>
-<span class="sourceLineNo">315</span><a id="line.315">   *</a>
-<span class="sourceLineNo">316</span><a id="line.316">   * @throws UnsupportedOperationException always</a>
-<span class="sourceLineNo">317</span><a id="line.317">   * @deprecated Unsupported operation.</a>
-<span class="sourceLineNo">318</span><a id="line.318">   */</a>
-<span class="sourceLineNo">319</span><a id="line.319">  @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">320</span><a id="line.320">  @Deprecated</a>
-<span class="sourceLineNo">321</span><a id="line.321">  @Override</a>
-<span class="sourceLineNo">322</span><a id="line.322">  @DoNotCall("Always throws UnsupportedOperationException")</a>
-<span class="sourceLineNo">323</span><a id="line.323">  public final boolean removeIf(Predicate&lt;? super E&gt; filter) {</a>
-<span class="sourceLineNo">324</span><a id="line.324">    throw new UnsupportedOperationException();</a>
-<span class="sourceLineNo">325</span><a id="line.325">  }</a>
-<span class="sourceLineNo">326</span><a id="line.326"></a>
-<span class="sourceLineNo">327</span><a id="line.327">  /**</a>
-<span class="sourceLineNo">328</span><a id="line.328">   * Guaranteed to throw an exception and leave the collection unmodified.</a>
-<span class="sourceLineNo">329</span><a id="line.329">   *</a>
-<span class="sourceLineNo">330</span><a id="line.330">   * @throws UnsupportedOperationException always</a>
-<span class="sourceLineNo">331</span><a id="line.331">   * @deprecated Unsupported operation.</a>
-<span class="sourceLineNo">332</span><a id="line.332">   */</a>
-<span class="sourceLineNo">333</span><a id="line.333">  @Deprecated</a>
-<span class="sourceLineNo">334</span><a id="line.334">  @Override</a>
-<span class="sourceLineNo">335</span><a id="line.335">  @DoNotCall("Always throws UnsupportedOperationException")</a>
-<span class="sourceLineNo">336</span><a id="line.336">  public final boolean retainAll(Collection&lt;?&gt; elementsToKeep) {</a>
-<span class="sourceLineNo">337</span><a id="line.337">    throw new UnsupportedOperationException();</a>
-<span class="sourceLineNo">338</span><a id="line.338">  }</a>
-<span class="sourceLineNo">339</span><a id="line.339"></a>
-<span class="sourceLineNo">340</span><a id="line.340">  /**</a>
-<span class="sourceLineNo">341</span><a id="line.341">   * Guaranteed to throw an exception and leave the collection unmodified.</a>
-<span class="sourceLineNo">342</span><a id="line.342">   *</a>
-<span class="sourceLineNo">343</span><a id="line.343">   * @throws UnsupportedOperationException always</a>
-<span class="sourceLineNo">344</span><a id="line.344">   * @deprecated Unsupported operation.</a>
-<span class="sourceLineNo">345</span><a id="line.345">   */</a>
-<span class="sourceLineNo">346</span><a id="line.346">  @Deprecated</a>
-<span class="sourceLineNo">347</span><a id="line.347">  @Override</a>
-<span class="sourceLineNo">348</span><a id="line.348">  @DoNotCall("Always throws UnsupportedOperationException")</a>
-<span class="sourceLineNo">349</span><a id="line.349">  public final void clear() {</a>
-<span class="sourceLineNo">350</span><a id="line.350">    throw new UnsupportedOperationException();</a>
-<span class="sourceLineNo">351</span><a id="line.351">  }</a>
-<span class="sourceLineNo">352</span><a id="line.352"></a>
-<span class="sourceLineNo">353</span><a id="line.353">  /**</a>
-<span class="sourceLineNo">354</span><a id="line.354">   * Returns an {@code ImmutableList} containing the same elements, in the same order, as this</a>
-<span class="sourceLineNo">355</span><a id="line.355">   * collection.</a>
-<span class="sourceLineNo">356</span><a id="line.356">   *</a>
-<span class="sourceLineNo">357</span><a id="line.357">   * &lt;p&gt;&lt;b&gt;Performance note:&lt;/b&gt; in most cases this method can return quickly without actually</a>
-<span class="sourceLineNo">358</span><a id="line.358">   * copying anything. The exact circumstances under which the copy is performed are undefined and</a>
-<span class="sourceLineNo">359</span><a id="line.359">   * subject to change.</a>
-<span class="sourceLineNo">360</span><a id="line.360">   *</a>
-<span class="sourceLineNo">361</span><a id="line.361">   * @since 2.0</a>
-<span class="sourceLineNo">362</span><a id="line.362">   */</a>
-<span class="sourceLineNo">363</span><a id="line.363">  public ImmutableList&lt;E&gt; asList() {</a>
-<span class="sourceLineNo">364</span><a id="line.364">    switch (size()) {</a>
-<span class="sourceLineNo">365</span><a id="line.365">      case 0:</a>
-<span class="sourceLineNo">366</span><a id="line.366">        return ImmutableList.of();</a>
-<span class="sourceLineNo">367</span><a id="line.367">      case 1:</a>
-<span class="sourceLineNo">368</span><a id="line.368">        return ImmutableList.of(iterator().next());</a>
-<span class="sourceLineNo">369</span><a id="line.369">      default:</a>
-<span class="sourceLineNo">370</span><a id="line.370">        return new RegularImmutableAsList&lt;E&gt;(this, toArray());</a>
-<span class="sourceLineNo">371</span><a id="line.371">    }</a>
-<span class="sourceLineNo">372</span><a id="line.372">  }</a>
-<span class="sourceLineNo">373</span><a id="line.373"></a>
-<span class="sourceLineNo">374</span><a id="line.374">  /**</a>
-<span class="sourceLineNo">375</span><a id="line.375">   * Returns {@code true} if this immutable collection's implementation contains references to</a>
-<span class="sourceLineNo">376</span><a id="line.376">   * user-created objects that aren't accessible via this collection's methods. This is generally</a>
-<span class="sourceLineNo">377</span><a id="line.377">   * used to determine whether {@code copyOf} implementations should make an explicit copy to avoid</a>
-<span class="sourceLineNo">378</span><a id="line.378">   * memory leaks.</a>
-<span class="sourceLineNo">379</span><a id="line.379">   */</a>
-<span class="sourceLineNo">380</span><a id="line.380">  abstract boolean isPartialView();</a>
-<span class="sourceLineNo">381</span><a id="line.381"></a>
-<span class="sourceLineNo">382</span><a id="line.382">  /**</a>
-<span class="sourceLineNo">383</span><a id="line.383">   * Copies the contents of this immutable collection into the specified array at the specified</a>
-<span class="sourceLineNo">384</span><a id="line.384">   * offset. Returns {@code offset + size()}.</a>
-<span class="sourceLineNo">385</span><a id="line.385">   */</a>
-<span class="sourceLineNo">386</span><a id="line.386">  @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">387</span><a id="line.387">  int copyIntoArray(@Nullable Object[] dst, int offset) {</a>
-<span class="sourceLineNo">388</span><a id="line.388">    for (E e : this) {</a>
-<span class="sourceLineNo">389</span><a id="line.389">      dst[offset++] = e;</a>
-<span class="sourceLineNo">390</span><a id="line.390">    }</a>
-<span class="sourceLineNo">391</span><a id="line.391">    return offset;</a>
-<span class="sourceLineNo">392</span><a id="line.392">  }</a>
-<span class="sourceLineNo">393</span><a id="line.393"></a>
-<span class="sourceLineNo">394</span><a id="line.394">  @J2ktIncompatible // serialization</a>
-<span class="sourceLineNo">395</span><a id="line.395">  Object writeReplace() {</a>
-<span class="sourceLineNo">396</span><a id="line.396">    // We serialize by default to ImmutableList, the simplest thing that works.</a>
-<span class="sourceLineNo">397</span><a id="line.397">    return new ImmutableList.SerializedForm(toArray());</a>
-<span class="sourceLineNo">398</span><a id="line.398">  }</a>
-<span class="sourceLineNo">399</span><a id="line.399"></a>
-<span class="sourceLineNo">400</span><a id="line.400">  @J2ktIncompatible // serialization</a>
-<span class="sourceLineNo">401</span><a id="line.401">  private void readObject(ObjectInputStream stream) throws InvalidObjectException {</a>
-<span class="sourceLineNo">402</span><a id="line.402">    throw new InvalidObjectException("Use SerializedForm");</a>
-<span class="sourceLineNo">403</span><a id="line.403">  }</a>
-<span class="sourceLineNo">404</span><a id="line.404"></a>
-<span class="sourceLineNo">405</span><a id="line.405">  /**</a>
-<span class="sourceLineNo">406</span><a id="line.406">   * Abstract base class for builders of {@link ImmutableCollection} types.</a>
-<span class="sourceLineNo">407</span><a id="line.407">   *</a>
-<span class="sourceLineNo">408</span><a id="line.408">   * @since 10.0</a>
-<span class="sourceLineNo">409</span><a id="line.409">   */</a>
-<span class="sourceLineNo">410</span><a id="line.410">  @DoNotMock</a>
-<span class="sourceLineNo">411</span><a id="line.411">  public abstract static class Builder&lt;E&gt; {</a>
-<span class="sourceLineNo">412</span><a id="line.412">    static final int DEFAULT_INITIAL_CAPACITY = 4;</a>
-<span class="sourceLineNo">413</span><a id="line.413"></a>
-<span class="sourceLineNo">414</span><a id="line.414">    static int expandedCapacity(int oldCapacity, int minCapacity) {</a>
-<span class="sourceLineNo">415</span><a id="line.415">      if (minCapacity &lt; 0) {</a>
-<span class="sourceLineNo">416</span><a id="line.416">        throw new AssertionError("cannot store more than MAX_VALUE elements");</a>
-<span class="sourceLineNo">417</span><a id="line.417">      }</a>
-<span class="sourceLineNo">418</span><a id="line.418">      // careful of overflow!</a>
-<span class="sourceLineNo">419</span><a id="line.419">      int newCapacity = oldCapacity + (oldCapacity &gt;&gt; 1) + 1;</a>
-<span class="sourceLineNo">420</span><a id="line.420">      if (newCapacity &lt; minCapacity) {</a>
-<span class="sourceLineNo">421</span><a id="line.421">        newCapacity = Integer.highestOneBit(minCapacity - 1) &lt;&lt; 1;</a>
-<span class="sourceLineNo">422</span><a id="line.422">      }</a>
-<span class="sourceLineNo">423</span><a id="line.423">      if (newCapacity &lt; 0) {</a>
-<span class="sourceLineNo">424</span><a id="line.424">        newCapacity = Integer.MAX_VALUE;</a>
-<span class="sourceLineNo">425</span><a id="line.425">        // guaranteed to be &gt;= newCapacity</a>
-<span class="sourceLineNo">426</span><a id="line.426">      }</a>
-<span class="sourceLineNo">427</span><a id="line.427">      return newCapacity;</a>
-<span class="sourceLineNo">428</span><a id="line.428">    }</a>
-<span class="sourceLineNo">429</span><a id="line.429"></a>
-<span class="sourceLineNo">430</span><a id="line.430">    Builder() {}</a>
+<span class="sourceLineNo">022</span><a id="line.22">import com.google.common.annotations.GwtIncompatible;</a>
+<span class="sourceLineNo">023</span><a id="line.23">import com.google.common.annotations.J2ktIncompatible;</a>
+<span class="sourceLineNo">024</span><a id="line.24">import com.google.errorprone.annotations.CanIgnoreReturnValue;</a>
+<span class="sourceLineNo">025</span><a id="line.25">import com.google.errorprone.annotations.DoNotCall;</a>
+<span class="sourceLineNo">026</span><a id="line.26">import com.google.errorprone.annotations.DoNotMock;</a>
+<span class="sourceLineNo">027</span><a id="line.27">import java.io.InvalidObjectException;</a>
+<span class="sourceLineNo">028</span><a id="line.28">import java.io.ObjectInputStream;</a>
+<span class="sourceLineNo">029</span><a id="line.29">import java.io.Serializable;</a>
+<span class="sourceLineNo">030</span><a id="line.30">import java.util.AbstractCollection;</a>
+<span class="sourceLineNo">031</span><a id="line.31">import java.util.Collection;</a>
+<span class="sourceLineNo">032</span><a id="line.32">import java.util.Collections;</a>
+<span class="sourceLineNo">033</span><a id="line.33">import java.util.HashSet;</a>
+<span class="sourceLineNo">034</span><a id="line.34">import java.util.Iterator;</a>
+<span class="sourceLineNo">035</span><a id="line.35">import java.util.List;</a>
+<span class="sourceLineNo">036</span><a id="line.36">import java.util.Spliterator;</a>
+<span class="sourceLineNo">037</span><a id="line.37">import java.util.Spliterators;</a>
+<span class="sourceLineNo">038</span><a id="line.38">import java.util.function.Predicate;</a>
+<span class="sourceLineNo">039</span><a id="line.39">import javax.annotation.CheckForNull;</a>
+<span class="sourceLineNo">040</span><a id="line.40">import org.checkerframework.checker.nullness.qual.Nullable;</a>
+<span class="sourceLineNo">041</span><a id="line.41"></a>
+<span class="sourceLineNo">042</span><a id="line.42">/**</a>
+<span class="sourceLineNo">043</span><a id="line.43"> * A {@link Collection} whose contents will never change, and which offers a few additional</a>
+<span class="sourceLineNo">044</span><a id="line.44"> * guarantees detailed below.</a>
+<span class="sourceLineNo">045</span><a id="line.45"> *</a>
+<span class="sourceLineNo">046</span><a id="line.46"> * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; avoid &lt;i&gt;direct&lt;/i&gt; usage of {@link ImmutableCollection} as a type (just as</a>
+<span class="sourceLineNo">047</span><a id="line.47"> * with {@link Collection} itself). Prefer subtypes such as {@link ImmutableSet} or {@link</a>
+<span class="sourceLineNo">048</span><a id="line.48"> * ImmutableList}, which have well-defined {@link #equals} semantics, thus avoiding a common source</a>
+<span class="sourceLineNo">049</span><a id="line.49"> * of bugs and confusion.</a>
+<span class="sourceLineNo">050</span><a id="line.50"> *</a>
+<span class="sourceLineNo">051</span><a id="line.51"> * &lt;h3&gt;About &lt;i&gt;all&lt;/i&gt; {@code Immutable-} collections&lt;/h3&gt;</a>
+<span class="sourceLineNo">052</span><a id="line.52"> *</a>
+<span class="sourceLineNo">053</span><a id="line.53"> * &lt;p&gt;The remainder of this documentation applies to every public {@code Immutable-} type in this</a>
+<span class="sourceLineNo">054</span><a id="line.54"> * package, whether it is a subtype of {@code ImmutableCollection} or not.</a>
+<span class="sourceLineNo">055</span><a id="line.55"> *</a>
+<span class="sourceLineNo">056</span><a id="line.56"> * &lt;h4&gt;Guarantees&lt;/h4&gt;</a>
+<span class="sourceLineNo">057</span><a id="line.57"> *</a>
+<span class="sourceLineNo">058</span><a id="line.58"> * &lt;p&gt;Each makes the following guarantees:</a>
+<span class="sourceLineNo">059</span><a id="line.59"> *</a>
+<span class="sourceLineNo">060</span><a id="line.60"> * &lt;ul&gt;</a>
+<span class="sourceLineNo">061</span><a id="line.61"> *   &lt;li&gt;&lt;b&gt;Shallow immutability.&lt;/b&gt; Elements can never be added, removed or replaced in this</a>
+<span class="sourceLineNo">062</span><a id="line.62"> *       collection. This is a stronger guarantee than that of {@link</a>
+<span class="sourceLineNo">063</span><a id="line.63"> *       Collections#unmodifiableCollection}, whose contents change whenever the wrapped collection</a>
+<span class="sourceLineNo">064</span><a id="line.64"> *       is modified.</a>
+<span class="sourceLineNo">065</span><a id="line.65"> *   &lt;li&gt;&lt;b&gt;Null-hostility.&lt;/b&gt; This collection will never contain a null element.</a>
+<span class="sourceLineNo">066</span><a id="line.66"> *   &lt;li&gt;&lt;b&gt;Deterministic iteration.&lt;/b&gt; The iteration order is always well-defined, depending on</a>
+<span class="sourceLineNo">067</span><a id="line.67"> *       how the collection was created. Typically this is insertion order unless an explicit</a>
+<span class="sourceLineNo">068</span><a id="line.68"> *       ordering is otherwise specified (e.g. {@link ImmutableSortedSet#naturalOrder}). See the</a>
+<span class="sourceLineNo">069</span><a id="line.69"> *       appropriate factory method for details. View collections such as {@link</a>
+<span class="sourceLineNo">070</span><a id="line.70"> *       ImmutableMultiset#elementSet} iterate in the same order as the parent, except as noted.</a>
+<span class="sourceLineNo">071</span><a id="line.71"> *   &lt;li&gt;&lt;b&gt;Thread safety.&lt;/b&gt; It is safe to access this collection concurrently from multiple</a>
+<span class="sourceLineNo">072</span><a id="line.72"> *       threads.</a>
+<span class="sourceLineNo">073</span><a id="line.73"> *   &lt;li&gt;&lt;b&gt;Integrity.&lt;/b&gt; This type cannot be subclassed outside this package (which would allow</a>
+<span class="sourceLineNo">074</span><a id="line.74"> *       these guarantees to be violated).</a>
+<span class="sourceLineNo">075</span><a id="line.75"> * &lt;/ul&gt;</a>
+<span class="sourceLineNo">076</span><a id="line.76"> *</a>
+<span class="sourceLineNo">077</span><a id="line.77"> * &lt;h4&gt;"Interfaces", not implementations&lt;/h4&gt;</a>
+<span class="sourceLineNo">078</span><a id="line.78"> *</a>
+<span class="sourceLineNo">079</span><a id="line.79"> * &lt;p&gt;These are classes instead of interfaces to prevent external subtyping, but should be thought</a>
+<span class="sourceLineNo">080</span><a id="line.80"> * of as interfaces in every important sense. Each public class such as {@link ImmutableSet} is a</a>
+<span class="sourceLineNo">081</span><a id="line.81"> * &lt;i&gt;type&lt;/i&gt; offering meaningful behavioral guarantees. This is substantially different from the</a>
+<span class="sourceLineNo">082</span><a id="line.82"> * case of (say) {@link HashSet}, which is an &lt;i&gt;implementation&lt;/i&gt;, with semantics that were</a>
+<span class="sourceLineNo">083</span><a id="line.83"> * largely defined by its supertype.</a>
+<span class="sourceLineNo">084</span><a id="line.84"> *</a>
+<span class="sourceLineNo">085</span><a id="line.85"> * &lt;p&gt;For field types and method return types, you should generally use the immutable type (such as</a>
+<span class="sourceLineNo">086</span><a id="line.86"> * {@link ImmutableList}) instead of the general collection interface type (such as {@link List}).</a>
+<span class="sourceLineNo">087</span><a id="line.87"> * This communicates to your callers all of the semantic guarantees listed above, which is almost</a>
+<span class="sourceLineNo">088</span><a id="line.88"> * always very useful information.</a>
+<span class="sourceLineNo">089</span><a id="line.89"> *</a>
+<span class="sourceLineNo">090</span><a id="line.90"> * &lt;p&gt;On the other hand, a &lt;i&gt;parameter&lt;/i&gt; type of {@link ImmutableList} is generally a nuisance to</a>
+<span class="sourceLineNo">091</span><a id="line.91"> * callers. Instead, accept {@link Iterable} and have your method or constructor body pass it to the</a>
+<span class="sourceLineNo">092</span><a id="line.92"> * appropriate {@code copyOf} method itself.</a>
+<span class="sourceLineNo">093</span><a id="line.93"> *</a>
+<span class="sourceLineNo">094</span><a id="line.94"> * &lt;p&gt;Expressing the immutability guarantee directly in the type that user code references is a</a>
+<span class="sourceLineNo">095</span><a id="line.95"> * powerful advantage. Although Java offers certain immutable collection factory methods, such as</a>
+<span class="sourceLineNo">096</span><a id="line.96"> * {@link Collections#singleton(Object)} and &lt;a</a>
+<span class="sourceLineNo">097</span><a id="line.97"> * href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html#immutable"&gt;{@code Set.of}&lt;/a&gt;,</a>
+<span class="sourceLineNo">098</span><a id="line.98"> * we recommend using &lt;i&gt;these&lt;/i&gt; classes instead for this reason (as well as for consistency).</a>
+<span class="sourceLineNo">099</span><a id="line.99"> *</a>
+<span class="sourceLineNo">100</span><a id="line.100"> * &lt;h4&gt;Creation&lt;/h4&gt;</a>
+<span class="sourceLineNo">101</span><a id="line.101"> *</a>
+<span class="sourceLineNo">102</span><a id="line.102"> * &lt;p&gt;Except for logically "abstract" types like {@code ImmutableCollection} itself, each {@code</a>
+<span class="sourceLineNo">103</span><a id="line.103"> * Immutable} type provides the static operations you need to obtain instances of that type. These</a>
+<span class="sourceLineNo">104</span><a id="line.104"> * usually include:</a>
+<span class="sourceLineNo">105</span><a id="line.105"> *</a>
+<span class="sourceLineNo">106</span><a id="line.106"> * &lt;ul&gt;</a>
+<span class="sourceLineNo">107</span><a id="line.107"> *   &lt;li&gt;Static methods named {@code of}, accepting an explicit list of elements or entries.</a>
+<span class="sourceLineNo">108</span><a id="line.108"> *   &lt;li&gt;Static methods named {@code copyOf} (or {@code copyOfSorted}), accepting an existing</a>
+<span class="sourceLineNo">109</span><a id="line.109"> *       collection whose contents should be copied.</a>
+<span class="sourceLineNo">110</span><a id="line.110"> *   &lt;li&gt;A static nested {@code Builder} class which can be used to populate a new immutable</a>
+<span class="sourceLineNo">111</span><a id="line.111"> *       instance.</a>
+<span class="sourceLineNo">112</span><a id="line.112"> * &lt;/ul&gt;</a>
+<span class="sourceLineNo">113</span><a id="line.113"> *</a>
+<span class="sourceLineNo">114</span><a id="line.114"> * &lt;h4&gt;Warnings&lt;/h4&gt;</a>
+<span class="sourceLineNo">115</span><a id="line.115"> *</a>
+<span class="sourceLineNo">116</span><a id="line.116"> * &lt;ul&gt;</a>
+<span class="sourceLineNo">117</span><a id="line.117"> *   &lt;li&gt;&lt;b&gt;Warning:&lt;/b&gt; as with any collection, it is almost always a bad idea to modify an element</a>
+<span class="sourceLineNo">118</span><a id="line.118"> *       (in a way that affects its {@link Object#equals} behavior) while it is contained in a</a>
+<span class="sourceLineNo">119</span><a id="line.119"> *       collection. Undefined behavior and bugs will result. It's generally best to avoid using</a>
+<span class="sourceLineNo">120</span><a id="line.120"> *       mutable objects as elements at all, as many users may expect your "immutable" object to be</a>
+<span class="sourceLineNo">121</span><a id="line.121"> *       &lt;i&gt;deeply&lt;/i&gt; immutable.</a>
+<span class="sourceLineNo">122</span><a id="line.122"> * &lt;/ul&gt;</a>
+<span class="sourceLineNo">123</span><a id="line.123"> *</a>
+<span class="sourceLineNo">124</span><a id="line.124"> * &lt;h4&gt;Performance notes&lt;/h4&gt;</a>
+<span class="sourceLineNo">125</span><a id="line.125"> *</a>
+<span class="sourceLineNo">126</span><a id="line.126"> * &lt;ul&gt;</a>
+<span class="sourceLineNo">127</span><a id="line.127"> *   &lt;li&gt;Implementations can be generally assumed to prioritize memory efficiency, then speed of</a>
+<span class="sourceLineNo">128</span><a id="line.128"> *       access, and lastly speed of creation.</a>
+<span class="sourceLineNo">129</span><a id="line.129"> *   &lt;li&gt;The {@code copyOf} methods will sometimes recognize that the actual copy operation is</a>
+<span class="sourceLineNo">130</span><a id="line.130"> *       unnecessary; for example, {@code copyOf(copyOf(anArrayList))} should copy the data only</a>
+<span class="sourceLineNo">131</span><a id="line.131"> *       once. This reduces the expense of habitually making defensive copies at API boundaries.</a>
+<span class="sourceLineNo">132</span><a id="line.132"> *       However, the precise conditions for skipping the copy operation are undefined.</a>
+<span class="sourceLineNo">133</span><a id="line.133"> *   &lt;li&gt;&lt;b&gt;Warning:&lt;/b&gt; a view collection such as {@link ImmutableMap#keySet} or {@link</a>
+<span class="sourceLineNo">134</span><a id="line.134"> *       ImmutableList#subList} may retain a reference to the entire data set, preventing it from</a>
+<span class="sourceLineNo">135</span><a id="line.135"> *       being garbage collected. If some of the data is no longer reachable through other means,</a>
+<span class="sourceLineNo">136</span><a id="line.136"> *       this constitutes a memory leak. Pass the view collection to the appropriate {@code copyOf}</a>
+<span class="sourceLineNo">137</span><a id="line.137"> *       method to obtain a correctly-sized copy.</a>
+<span class="sourceLineNo">138</span><a id="line.138"> *   &lt;li&gt;The performance of using the associated {@code Builder} class can be assumed to be no</a>
+<span class="sourceLineNo">139</span><a id="line.139"> *       worse, and possibly better, than creating a mutable collection and copying it.</a>
+<span class="sourceLineNo">140</span><a id="line.140"> *   &lt;li&gt;Implementations generally do not cache hash codes. If your element or key type has a slow</a>
+<span class="sourceLineNo">141</span><a id="line.141"> *       {@code hashCode} implementation, it should cache it itself.</a>
+<span class="sourceLineNo">142</span><a id="line.142"> * &lt;/ul&gt;</a>
+<span class="sourceLineNo">143</span><a id="line.143"> *</a>
+<span class="sourceLineNo">144</span><a id="line.144"> * &lt;h4&gt;Example usage&lt;/h4&gt;</a>
+<span class="sourceLineNo">145</span><a id="line.145"> *</a>
+<span class="sourceLineNo">146</span><a id="line.146"> * &lt;pre&gt;{@code</a>
+<span class="sourceLineNo">147</span><a id="line.147"> * class Foo {</a>
+<span class="sourceLineNo">148</span><a id="line.148"> *   private static final ImmutableSet&lt;String&gt; RESERVED_CODES =</a>
+<span class="sourceLineNo">149</span><a id="line.149"> *       ImmutableSet.of("AZ", "CQ", "ZX");</a>
+<span class="sourceLineNo">150</span><a id="line.150"> *</a>
+<span class="sourceLineNo">151</span><a id="line.151"> *   private final ImmutableSet&lt;String&gt; codes;</a>
+<span class="sourceLineNo">152</span><a id="line.152"> *</a>
+<span class="sourceLineNo">153</span><a id="line.153"> *   public Foo(Iterable&lt;String&gt; codes) {</a>
+<span class="sourceLineNo">154</span><a id="line.154"> *     this.codes = ImmutableSet.copyOf(codes);</a>
+<span class="sourceLineNo">155</span><a id="line.155"> *     checkArgument(Collections.disjoint(this.codes, RESERVED_CODES));</a>
+<span class="sourceLineNo">156</span><a id="line.156"> *   }</a>
+<span class="sourceLineNo">157</span><a id="line.157"> * }</a>
+<span class="sourceLineNo">158</span><a id="line.158"> * }&lt;/pre&gt;</a>
+<span class="sourceLineNo">159</span><a id="line.159"> *</a>
+<span class="sourceLineNo">160</span><a id="line.160"> * &lt;h3&gt;See also&lt;/h3&gt;</a>
+<span class="sourceLineNo">161</span><a id="line.161"> *</a>
+<span class="sourceLineNo">162</span><a id="line.162"> * &lt;p&gt;See the Guava User Guide article on &lt;a href=</a>
+<span class="sourceLineNo">163</span><a id="line.163"> * "https://github.com/google/guava/wiki/ImmutableCollectionsExplained"&gt;immutable collections&lt;/a&gt;.</a>
+<span class="sourceLineNo">164</span><a id="line.164"> *</a>
+<span class="sourceLineNo">165</span><a id="line.165"> * @since 2.0</a>
+<span class="sourceLineNo">166</span><a id="line.166"> */</a>
+<span class="sourceLineNo">167</span><a id="line.167">@DoNotMock("Use ImmutableList.of or another implementation")</a>
+<span class="sourceLineNo">168</span><a id="line.168">@GwtCompatible(emulated = true)</a>
+<span class="sourceLineNo">169</span><a id="line.169">@SuppressWarnings("serial") // we're overriding default serialization</a>
+<span class="sourceLineNo">170</span><a id="line.170">@ElementTypesAreNonnullByDefault</a>
+<span class="sourceLineNo">171</span><a id="line.171">// TODO(kevinb): I think we should push everything down to "BaseImmutableCollection" or something,</a>
+<span class="sourceLineNo">172</span><a id="line.172">// just to do everything we can to emphasize the "practically an interface" nature of this class.</a>
+<span class="sourceLineNo">173</span><a id="line.173">public abstract class ImmutableCollection&lt;E&gt; extends AbstractCollection&lt;E&gt; implements Serializable {</a>
+<span class="sourceLineNo">174</span><a id="line.174">  /*</a>
+<span class="sourceLineNo">175</span><a id="line.175">   * We expect SIZED (and SUBSIZED, if applicable) to be added by the spliterator factory methods.</a>
+<span class="sourceLineNo">176</span><a id="line.176">   * These are properties of the collection as a whole; SIZED and SUBSIZED are more properties of</a>
+<span class="sourceLineNo">177</span><a id="line.177">   * the spliterator implementation.</a>
+<span class="sourceLineNo">178</span><a id="line.178">   */</a>
+<span class="sourceLineNo">179</span><a id="line.179">  static final int SPLITERATOR_CHARACTERISTICS =</a>
+<span class="sourceLineNo">180</span><a id="line.180">      Spliterator.IMMUTABLE | Spliterator.NONNULL | Spliterator.ORDERED;</a>
+<span class="sourceLineNo">181</span><a id="line.181"></a>
+<span class="sourceLineNo">182</span><a id="line.182">  ImmutableCollection() {}</a>
+<span class="sourceLineNo">183</span><a id="line.183"></a>
+<span class="sourceLineNo">184</span><a id="line.184">  /** Returns an unmodifiable iterator across the elements in this collection. */</a>
+<span class="sourceLineNo">185</span><a id="line.185">  @Override</a>
+<span class="sourceLineNo">186</span><a id="line.186">  public abstract UnmodifiableIterator&lt;E&gt; iterator();</a>
+<span class="sourceLineNo">187</span><a id="line.187"></a>
+<span class="sourceLineNo">188</span><a id="line.188">  @Override</a>
+<span class="sourceLineNo">189</span><a id="line.189">  public Spliterator&lt;E&gt; spliterator() {</a>
+<span class="sourceLineNo">190</span><a id="line.190">    return Spliterators.spliterator(this, SPLITERATOR_CHARACTERISTICS);</a>
+<span class="sourceLineNo">191</span><a id="line.191">  }</a>
+<span class="sourceLineNo">192</span><a id="line.192"></a>
+<span class="sourceLineNo">193</span><a id="line.193">  private static final Object[] EMPTY_ARRAY = {};</a>
+<span class="sourceLineNo">194</span><a id="line.194"></a>
+<span class="sourceLineNo">195</span><a id="line.195">  @Override</a>
+<span class="sourceLineNo">196</span><a id="line.196">  @J2ktIncompatible // Incompatible return type change. Use inherited (unoptimized) implementation</a>
+<span class="sourceLineNo">197</span><a id="line.197">  public final Object[] toArray() {</a>
+<span class="sourceLineNo">198</span><a id="line.198">    return toArray(EMPTY_ARRAY);</a>
+<span class="sourceLineNo">199</span><a id="line.199">  }</a>
+<span class="sourceLineNo">200</span><a id="line.200"></a>
+<span class="sourceLineNo">201</span><a id="line.201">  @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">202</span><a id="line.202">  @Override</a>
+<span class="sourceLineNo">203</span><a id="line.203">  /*</a>
+<span class="sourceLineNo">204</span><a id="line.204">   * This suppression is here for two reasons:</a>
+<span class="sourceLineNo">205</span><a id="line.205">   *</a>
+<span class="sourceLineNo">206</span><a id="line.206">   * 1. b/192354773 in our checker affects toArray declarations.</a>
+<span class="sourceLineNo">207</span><a id="line.207">   *</a>
+<span class="sourceLineNo">208</span><a id="line.208">   * 2. `other[size] = null` is unsound. We could "fix" this by requiring callers to pass in an</a>
+<span class="sourceLineNo">209</span><a id="line.209">   * array with a nullable element type. But probably they usually want an array with a non-nullable</a>
+<span class="sourceLineNo">210</span><a id="line.210">   * type. That said, we could *accept* a `@Nullable T[]` (which, given that we treat arrays as</a>
+<span class="sourceLineNo">211</span><a id="line.211">   * covariant, would still permit a plain `T[]`) and return a plain `T[]`. But of course that would</a>
+<span class="sourceLineNo">212</span><a id="line.212">   * require its own suppression, since it is also unsound. toArray(T[]) is just a mess from a</a>
+<span class="sourceLineNo">213</span><a id="line.213">   * nullness perspective. The signature below at least has the virtue of being relatively simple.</a>
+<span class="sourceLineNo">214</span><a id="line.214">   */</a>
+<span class="sourceLineNo">215</span><a id="line.215">  @SuppressWarnings("nullness")</a>
+<span class="sourceLineNo">216</span><a id="line.216">  public final &lt;T extends @Nullable Object&gt; T[] toArray(T[] other) {</a>
+<span class="sourceLineNo">217</span><a id="line.217">    checkNotNull(other);</a>
+<span class="sourceLineNo">218</span><a id="line.218">    int size = size();</a>
+<span class="sourceLineNo">219</span><a id="line.219"></a>
+<span class="sourceLineNo">220</span><a id="line.220">    if (other.length &lt; size) {</a>
+<span class="sourceLineNo">221</span><a id="line.221">      Object[] internal = internalArray();</a>
+<span class="sourceLineNo">222</span><a id="line.222">      if (internal != null) {</a>
+<span class="sourceLineNo">223</span><a id="line.223">        return Platform.copy(internal, internalArrayStart(), internalArrayEnd(), other);</a>
+<span class="sourceLineNo">224</span><a id="line.224">      }</a>
+<span class="sourceLineNo">225</span><a id="line.225">      other = ObjectArrays.newArray(other, size);</a>
+<span class="sourceLineNo">226</span><a id="line.226">    } else if (other.length &gt; size) {</a>
+<span class="sourceLineNo">227</span><a id="line.227">      other[size] = null;</a>
+<span class="sourceLineNo">228</span><a id="line.228">    }</a>
+<span class="sourceLineNo">229</span><a id="line.229">    copyIntoArray(other, 0);</a>
+<span class="sourceLineNo">230</span><a id="line.230">    return other;</a>
+<span class="sourceLineNo">231</span><a id="line.231">  }</a>
+<span class="sourceLineNo">232</span><a id="line.232"></a>
+<span class="sourceLineNo">233</span><a id="line.233">  /** If this collection is backed by an array of its elements in insertion order, returns it. */</a>
+<span class="sourceLineNo">234</span><a id="line.234">  @CheckForNull</a>
+<span class="sourceLineNo">235</span><a id="line.235">  Object[] internalArray() {</a>
+<span class="sourceLineNo">236</span><a id="line.236">    return null;</a>
+<span class="sourceLineNo">237</span><a id="line.237">  }</a>
+<span class="sourceLineNo">238</span><a id="line.238"></a>
+<span class="sourceLineNo">239</span><a id="line.239">  /**</a>
+<span class="sourceLineNo">240</span><a id="line.240">   * If this collection is backed by an array of its elements in insertion order, returns the offset</a>
+<span class="sourceLineNo">241</span><a id="line.241">   * where this collection's elements start.</a>
+<span class="sourceLineNo">242</span><a id="line.242">   */</a>
+<span class="sourceLineNo">243</span><a id="line.243">  int internalArrayStart() {</a>
+<span class="sourceLineNo">244</span><a id="line.244">    throw new UnsupportedOperationException();</a>
+<span class="sourceLineNo">245</span><a id="line.245">  }</a>
+<span class="sourceLineNo">246</span><a id="line.246"></a>
+<span class="sourceLineNo">247</span><a id="line.247">  /**</a>
+<span class="sourceLineNo">248</span><a id="line.248">   * If this collection is backed by an array of its elements in insertion order, returns the offset</a>
+<span class="sourceLineNo">249</span><a id="line.249">   * where this collection's elements end.</a>
+<span class="sourceLineNo">250</span><a id="line.250">   */</a>
+<span class="sourceLineNo">251</span><a id="line.251">  int internalArrayEnd() {</a>
+<span class="sourceLineNo">252</span><a id="line.252">    throw new UnsupportedOperationException();</a>
+<span class="sourceLineNo">253</span><a id="line.253">  }</a>
+<span class="sourceLineNo">254</span><a id="line.254"></a>
+<span class="sourceLineNo">255</span><a id="line.255">  @Override</a>
+<span class="sourceLineNo">256</span><a id="line.256">  public abstract boolean contains(@CheckForNull Object object);</a>
+<span class="sourceLineNo">257</span><a id="line.257"></a>
+<span class="sourceLineNo">258</span><a id="line.258">  /**</a>
+<span class="sourceLineNo">259</span><a id="line.259">   * Guaranteed to throw an exception and leave the collection unmodified.</a>
+<span class="sourceLineNo">260</span><a id="line.260">   *</a>
+<span class="sourceLineNo">261</span><a id="line.261">   * @throws UnsupportedOperationException always</a>
+<span class="sourceLineNo">262</span><a id="line.262">   * @deprecated Unsupported operation.</a>
+<span class="sourceLineNo">263</span><a id="line.263">   */</a>
+<span class="sourceLineNo">264</span><a id="line.264">  @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">265</span><a id="line.265">  @Deprecated</a>
+<span class="sourceLineNo">266</span><a id="line.266">  @Override</a>
+<span class="sourceLineNo">267</span><a id="line.267">  @DoNotCall("Always throws UnsupportedOperationException")</a>
+<span class="sourceLineNo">268</span><a id="line.268">  public final boolean add(E e) {</a>
+<span class="sourceLineNo">269</span><a id="line.269">    throw new UnsupportedOperationException();</a>
+<span class="sourceLineNo">270</span><a id="line.270">  }</a>
+<span class="sourceLineNo">271</span><a id="line.271"></a>
+<span class="sourceLineNo">272</span><a id="line.272">  /**</a>
+<span class="sourceLineNo">273</span><a id="line.273">   * Guaranteed to throw an exception and leave the collection unmodified.</a>
+<span class="sourceLineNo">274</span><a id="line.274">   *</a>
+<span class="sourceLineNo">275</span><a id="line.275">   * @throws UnsupportedOperationException always</a>
+<span class="sourceLineNo">276</span><a id="line.276">   * @deprecated Unsupported operation.</a>
+<span class="sourceLineNo">277</span><a id="line.277">   */</a>
+<span class="sourceLineNo">278</span><a id="line.278">  @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">279</span><a id="line.279">  @Deprecated</a>
+<span class="sourceLineNo">280</span><a id="line.280">  @Override</a>
+<span class="sourceLineNo">281</span><a id="line.281">  @DoNotCall("Always throws UnsupportedOperationException")</a>
+<span class="sourceLineNo">282</span><a id="line.282">  public final boolean remove(@CheckForNull Object object) {</a>
+<span class="sourceLineNo">283</span><a id="line.283">    throw new UnsupportedOperationException();</a>
+<span class="sourceLineNo">284</span><a id="line.284">  }</a>
+<span class="sourceLineNo">285</span><a id="line.285"></a>
+<span class="sourceLineNo">286</span><a id="line.286">  /**</a>
+<span class="sourceLineNo">287</span><a id="line.287">   * Guaranteed to throw an exception and leave the collection unmodified.</a>
+<span class="sourceLineNo">288</span><a id="line.288">   *</a>
+<span class="sourceLineNo">289</span><a id="line.289">   * @throws UnsupportedOperationException always</a>
+<span class="sourceLineNo">290</span><a id="line.290">   * @deprecated Unsupported operation.</a>
+<span class="sourceLineNo">291</span><a id="line.291">   */</a>
+<span class="sourceLineNo">292</span><a id="line.292">  @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">293</span><a id="line.293">  @Deprecated</a>
+<span class="sourceLineNo">294</span><a id="line.294">  @Override</a>
+<span class="sourceLineNo">295</span><a id="line.295">  @DoNotCall("Always throws UnsupportedOperationException")</a>
+<span class="sourceLineNo">296</span><a id="line.296">  public final boolean addAll(Collection&lt;? extends E&gt; newElements) {</a>
+<span class="sourceLineNo">297</span><a id="line.297">    throw new UnsupportedOperationException();</a>
+<span class="sourceLineNo">298</span><a id="line.298">  }</a>
+<span class="sourceLineNo">299</span><a id="line.299"></a>
+<span class="sourceLineNo">300</span><a id="line.300">  /**</a>
+<span class="sourceLineNo">301</span><a id="line.301">   * Guaranteed to throw an exception and leave the collection unmodified.</a>
+<span class="sourceLineNo">302</span><a id="line.302">   *</a>
+<span class="sourceLineNo">303</span><a id="line.303">   * @throws UnsupportedOperationException always</a>
+<span class="sourceLineNo">304</span><a id="line.304">   * @deprecated Unsupported operation.</a>
+<span class="sourceLineNo">305</span><a id="line.305">   */</a>
+<span class="sourceLineNo">306</span><a id="line.306">  @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">307</span><a id="line.307">  @Deprecated</a>
+<span class="sourceLineNo">308</span><a id="line.308">  @Override</a>
+<span class="sourceLineNo">309</span><a id="line.309">  @DoNotCall("Always throws UnsupportedOperationException")</a>
+<span class="sourceLineNo">310</span><a id="line.310">  public final boolean removeAll(Collection&lt;?&gt; oldElements) {</a>
+<span class="sourceLineNo">311</span><a id="line.311">    throw new UnsupportedOperationException();</a>
+<span class="sourceLineNo">312</span><a id="line.312">  }</a>
+<span class="sourceLineNo">313</span><a id="line.313"></a>
+<span class="sourceLineNo">314</span><a id="line.314">  /**</a>
+<span class="sourceLineNo">315</span><a id="line.315">   * Guaranteed to throw an exception and leave the collection unmodified.</a>
+<span class="sourceLineNo">316</span><a id="line.316">   *</a>
+<span class="sourceLineNo">317</span><a id="line.317">   * @throws UnsupportedOperationException always</a>
+<span class="sourceLineNo">318</span><a id="line.318">   * @deprecated Unsupported operation.</a>
+<span class="sourceLineNo">319</span><a id="line.319">   */</a>
+<span class="sourceLineNo">320</span><a id="line.320">  @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">321</span><a id="line.321">  @Deprecated</a>
+<span class="sourceLineNo">322</span><a id="line.322">  @Override</a>
+<span class="sourceLineNo">323</span><a id="line.323">  @DoNotCall("Always throws UnsupportedOperationException")</a>
+<span class="sourceLineNo">324</span><a id="line.324">  public final boolean removeIf(Predicate&lt;? super E&gt; filter) {</a>
+<span class="sourceLineNo">325</span><a id="line.325">    throw new UnsupportedOperationException();</a>
+<span class="sourceLineNo">326</span><a id="line.326">  }</a>
+<span class="sourceLineNo">327</span><a id="line.327"></a>
+<span class="sourceLineNo">328</span><a id="line.328">  /**</a>
+<span class="sourceLineNo">329</span><a id="line.329">   * Guaranteed to throw an exception and leave the collection unmodified.</a>
+<span class="sourceLineNo">330</span><a id="line.330">   *</a>
+<span class="sourceLineNo">331</span><a id="line.331">   * @throws UnsupportedOperationException always</a>
+<span class="sourceLineNo">332</span><a id="line.332">   * @deprecated Unsupported operation.</a>
+<span class="sourceLineNo">333</span><a id="line.333">   */</a>
+<span class="sourceLineNo">334</span><a id="line.334">  @Deprecated</a>
+<span class="sourceLineNo">335</span><a id="line.335">  @Override</a>
+<span class="sourceLineNo">336</span><a id="line.336">  @DoNotCall("Always throws UnsupportedOperationException")</a>
+<span class="sourceLineNo">337</span><a id="line.337">  public final boolean retainAll(Collection&lt;?&gt; elementsToKeep) {</a>
+<span class="sourceLineNo">338</span><a id="line.338">    throw new UnsupportedOperationException();</a>
+<span class="sourceLineNo">339</span><a id="line.339">  }</a>
+<span class="sourceLineNo">340</span><a id="line.340"></a>
+<span class="sourceLineNo">341</span><a id="line.341">  /**</a>
+<span class="sourceLineNo">342</span><a id="line.342">   * Guaranteed to throw an exception and leave the collection unmodified.</a>
+<span class="sourceLineNo">343</span><a id="line.343">   *</a>
+<span class="sourceLineNo">344</span><a id="line.344">   * @throws UnsupportedOperationException always</a>
+<span class="sourceLineNo">345</span><a id="line.345">   * @deprecated Unsupported operation.</a>
+<span class="sourceLineNo">346</span><a id="line.346">   */</a>
+<span class="sourceLineNo">347</span><a id="line.347">  @Deprecated</a>
+<span class="sourceLineNo">348</span><a id="line.348">  @Override</a>
+<span class="sourceLineNo">349</span><a id="line.349">  @DoNotCall("Always throws UnsupportedOperationException")</a>
+<span class="sourceLineNo">350</span><a id="line.350">  public final void clear() {</a>
+<span class="sourceLineNo">351</span><a id="line.351">    throw new UnsupportedOperationException();</a>
+<span class="sourceLineNo">352</span><a id="line.352">  }</a>
+<span class="sourceLineNo">353</span><a id="line.353"></a>
+<span class="sourceLineNo">354</span><a id="line.354">  /**</a>
+<span class="sourceLineNo">355</span><a id="line.355">   * Returns an {@code ImmutableList} containing the same elements, in the same order, as this</a>
+<span class="sourceLineNo">356</span><a id="line.356">   * collection.</a>
+<span class="sourceLineNo">357</span><a id="line.357">   *</a>
+<span class="sourceLineNo">358</span><a id="line.358">   * &lt;p&gt;&lt;b&gt;Performance note:&lt;/b&gt; in most cases this method can return quickly without actually</a>
+<span class="sourceLineNo">359</span><a id="line.359">   * copying anything. The exact circumstances under which the copy is performed are undefined and</a>
+<span class="sourceLineNo">360</span><a id="line.360">   * subject to change.</a>
+<span class="sourceLineNo">361</span><a id="line.361">   *</a>
+<span class="sourceLineNo">362</span><a id="line.362">   * @since 2.0</a>
+<span class="sourceLineNo">363</span><a id="line.363">   */</a>
+<span class="sourceLineNo">364</span><a id="line.364">  public ImmutableList&lt;E&gt; asList() {</a>
+<span class="sourceLineNo">365</span><a id="line.365">    switch (size()) {</a>
+<span class="sourceLineNo">366</span><a id="line.366">      case 0:</a>
+<span class="sourceLineNo">367</span><a id="line.367">        return ImmutableList.of();</a>
+<span class="sourceLineNo">368</span><a id="line.368">      case 1:</a>
+<span class="sourceLineNo">369</span><a id="line.369">        return ImmutableList.of(iterator().next());</a>
+<span class="sourceLineNo">370</span><a id="line.370">      default:</a>
+<span class="sourceLineNo">371</span><a id="line.371">        return new RegularImmutableAsList&lt;E&gt;(this, toArray());</a>
+<span class="sourceLineNo">372</span><a id="line.372">    }</a>
+<span class="sourceLineNo">373</span><a id="line.373">  }</a>
+<span class="sourceLineNo">374</span><a id="line.374"></a>
+<span class="sourceLineNo">375</span><a id="line.375">  /**</a>
+<span class="sourceLineNo">376</span><a id="line.376">   * Returns {@code true} if this immutable collection's implementation contains references to</a>
+<span class="sourceLineNo">377</span><a id="line.377">   * user-created objects that aren't accessible via this collection's methods. This is generally</a>
+<span class="sourceLineNo">378</span><a id="line.378">   * used to determine whether {@code copyOf} implementations should make an explicit copy to avoid</a>
+<span class="sourceLineNo">379</span><a id="line.379">   * memory leaks.</a>
+<span class="sourceLineNo">380</span><a id="line.380">   */</a>
+<span class="sourceLineNo">381</span><a id="line.381">  abstract boolean isPartialView();</a>
+<span class="sourceLineNo">382</span><a id="line.382"></a>
+<span class="sourceLineNo">383</span><a id="line.383">  /**</a>
+<span class="sourceLineNo">384</span><a id="line.384">   * Copies the contents of this immutable collection into the specified array at the specified</a>
+<span class="sourceLineNo">385</span><a id="line.385">   * offset. Returns {@code offset + size()}.</a>
+<span class="sourceLineNo">386</span><a id="line.386">   */</a>
+<span class="sourceLineNo">387</span><a id="line.387">  @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">388</span><a id="line.388">  int copyIntoArray(@Nullable Object[] dst, int offset) {</a>
+<span class="sourceLineNo">389</span><a id="line.389">    for (E e : this) {</a>
+<span class="sourceLineNo">390</span><a id="line.390">      dst[offset++] = e;</a>
+<span class="sourceLineNo">391</span><a id="line.391">    }</a>
+<span class="sourceLineNo">392</span><a id="line.392">    return offset;</a>
+<span class="sourceLineNo">393</span><a id="line.393">  }</a>
+<span class="sourceLineNo">394</span><a id="line.394"></a>
+<span class="sourceLineNo">395</span><a id="line.395">  @J2ktIncompatible // serialization</a>
+<span class="sourceLineNo">396</span><a id="line.396">  @GwtIncompatible // serialization</a>
+<span class="sourceLineNo">397</span><a id="line.397">  Object writeReplace() {</a>
+<span class="sourceLineNo">398</span><a id="line.398">    // We serialize by default to ImmutableList, the simplest thing that works.</a>
+<span class="sourceLineNo">399</span><a id="line.399">    return new ImmutableList.SerializedForm(toArray());</a>
+<span class="sourceLineNo">400</span><a id="line.400">  }</a>
+<span class="sourceLineNo">401</span><a id="line.401"></a>
+<span class="sourceLineNo">402</span><a id="line.402">  @J2ktIncompatible // serialization</a>
+<span class="sourceLineNo">403</span><a id="line.403">  private void readObject(ObjectInputStream stream) throws InvalidObjectException {</a>
+<span class="sourceLineNo">404</span><a id="line.404">    throw new InvalidObjectException("Use SerializedForm");</a>
+<span class="sourceLineNo">405</span><a id="line.405">  }</a>
+<span class="sourceLineNo">406</span><a id="line.406"></a>
+<span class="sourceLineNo">407</span><a id="line.407">  /**</a>
+<span class="sourceLineNo">408</span><a id="line.408">   * Abstract base class for builders of {@link ImmutableCollection} types.</a>
+<span class="sourceLineNo">409</span><a id="line.409">   *</a>
+<span class="sourceLineNo">410</span><a id="line.410">   * @since 10.0</a>
+<span class="sourceLineNo">411</span><a id="line.411">   */</a>
+<span class="sourceLineNo">412</span><a id="line.412">  @DoNotMock</a>
+<span class="sourceLineNo">413</span><a id="line.413">  public abstract static class Builder&lt;E&gt; {</a>
+<span class="sourceLineNo">414</span><a id="line.414">    static final int DEFAULT_INITIAL_CAPACITY = 4;</a>
+<span class="sourceLineNo">415</span><a id="line.415"></a>
+<span class="sourceLineNo">416</span><a id="line.416">    static int expandedCapacity(int oldCapacity, int minCapacity) {</a>
+<span class="sourceLineNo">417</span><a id="line.417">      if (minCapacity &lt; 0) {</a>
+<span class="sourceLineNo">418</span><a id="line.418">        throw new AssertionError("cannot store more than MAX_VALUE elements");</a>
+<span class="sourceLineNo">419</span><a id="line.419">      }</a>
+<span class="sourceLineNo">420</span><a id="line.420">      // careful of overflow!</a>
+<span class="sourceLineNo">421</span><a id="line.421">      int newCapacity = oldCapacity + (oldCapacity &gt;&gt; 1) + 1;</a>
+<span class="sourceLineNo">422</span><a id="line.422">      if (newCapacity &lt; minCapacity) {</a>
+<span class="sourceLineNo">423</span><a id="line.423">        newCapacity = Integer.highestOneBit(minCapacity - 1) &lt;&lt; 1;</a>
+<span class="sourceLineNo">424</span><a id="line.424">      }</a>
+<span class="sourceLineNo">425</span><a id="line.425">      if (newCapacity &lt; 0) {</a>
+<span class="sourceLineNo">426</span><a id="line.426">        newCapacity = Integer.MAX_VALUE;</a>
+<span class="sourceLineNo">427</span><a id="line.427">        // guaranteed to be &gt;= newCapacity</a>
+<span class="sourceLineNo">428</span><a id="line.428">      }</a>
+<span class="sourceLineNo">429</span><a id="line.429">      return newCapacity;</a>
+<span class="sourceLineNo">430</span><a id="line.430">    }</a>
 <span class="sourceLineNo">431</span><a id="line.431"></a>
-<span class="sourceLineNo">432</span><a id="line.432">    /**</a>
-<span class="sourceLineNo">433</span><a id="line.433">     * Adds {@code element} to the {@code ImmutableCollection} being built.</a>
-<span class="sourceLineNo">434</span><a id="line.434">     *</a>
-<span class="sourceLineNo">435</span><a id="line.435">     * &lt;p&gt;Note that each builder class covariantly returns its own type from this method.</a>
+<span class="sourceLineNo">432</span><a id="line.432">    Builder() {}</a>
+<span class="sourceLineNo">433</span><a id="line.433"></a>
+<span class="sourceLineNo">434</span><a id="line.434">    /**</a>
+<span class="sourceLineNo">435</span><a id="line.435">     * Adds {@code element} to the {@code ImmutableCollection} being built.</a>
 <span class="sourceLineNo">436</span><a id="line.436">     *</a>
-<span class="sourceLineNo">437</span><a id="line.437">     * @param element the element to add</a>
-<span class="sourceLineNo">438</span><a id="line.438">     * @return this {@code Builder} instance</a>
-<span class="sourceLineNo">439</span><a id="line.439">     * @throws NullPointerException if {@code element} is null</a>
-<span class="sourceLineNo">440</span><a id="line.440">     */</a>
-<span class="sourceLineNo">441</span><a id="line.441">    @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">442</span><a id="line.442">    public abstract Builder&lt;E&gt; add(E element);</a>
-<span class="sourceLineNo">443</span><a id="line.443"></a>
-<span class="sourceLineNo">444</span><a id="line.444">    /**</a>
-<span class="sourceLineNo">445</span><a id="line.445">     * Adds each element of {@code elements} to the {@code ImmutableCollection} being built.</a>
-<span class="sourceLineNo">446</span><a id="line.446">     *</a>
-<span class="sourceLineNo">447</span><a id="line.447">     * &lt;p&gt;Note that each builder class overrides this method in order to covariantly return its own</a>
-<span class="sourceLineNo">448</span><a id="line.448">     * type.</a>
-<span class="sourceLineNo">449</span><a id="line.449">     *</a>
-<span class="sourceLineNo">450</span><a id="line.450">     * @param elements the elements to add</a>
-<span class="sourceLineNo">451</span><a id="line.451">     * @return this {@code Builder} instance</a>
-<span class="sourceLineNo">452</span><a id="line.452">     * @throws NullPointerException if {@code elements} is null or contains a null element</a>
-<span class="sourceLineNo">453</span><a id="line.453">     */</a>
-<span class="sourceLineNo">454</span><a id="line.454">    @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">455</span><a id="line.455">    public Builder&lt;E&gt; add(E... elements) {</a>
-<span class="sourceLineNo">456</span><a id="line.456">      for (E element : elements) {</a>
-<span class="sourceLineNo">457</span><a id="line.457">        add(element);</a>
-<span class="sourceLineNo">458</span><a id="line.458">      }</a>
-<span class="sourceLineNo">459</span><a id="line.459">      return this;</a>
-<span class="sourceLineNo">460</span><a id="line.460">    }</a>
-<span class="sourceLineNo">461</span><a id="line.461"></a>
-<span class="sourceLineNo">462</span><a id="line.462">    /**</a>
-<span class="sourceLineNo">463</span><a id="line.463">     * Adds each element of {@code elements} to the {@code ImmutableCollection} being built.</a>
-<span class="sourceLineNo">464</span><a id="line.464">     *</a>
-<span class="sourceLineNo">465</span><a id="line.465">     * &lt;p&gt;Note that each builder class overrides this method in order to covariantly return its own</a>
-<span class="sourceLineNo">466</span><a id="line.466">     * type.</a>
-<span class="sourceLineNo">467</span><a id="line.467">     *</a>
-<span class="sourceLineNo">468</span><a id="line.468">     * @param elements the elements to add</a>
-<span class="sourceLineNo">469</span><a id="line.469">     * @return this {@code Builder} instance</a>
-<span class="sourceLineNo">470</span><a id="line.470">     * @throws NullPointerException if {@code elements} is null or contains a null element</a>
-<span class="sourceLineNo">471</span><a id="line.471">     */</a>
-<span class="sourceLineNo">472</span><a id="line.472">    @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">473</span><a id="line.473">    public Builder&lt;E&gt; addAll(Iterable&lt;? extends E&gt; elements) {</a>
-<span class="sourceLineNo">474</span><a id="line.474">      for (E element : elements) {</a>
-<span class="sourceLineNo">475</span><a id="line.475">        add(element);</a>
-<span class="sourceLineNo">476</span><a id="line.476">      }</a>
-<span class="sourceLineNo">477</span><a id="line.477">      return this;</a>
-<span class="sourceLineNo">478</span><a id="line.478">    }</a>
-<span class="sourceLineNo">479</span><a id="line.479"></a>
-<span class="sourceLineNo">480</span><a id="line.480">    /**</a>
-<span class="sourceLineNo">481</span><a id="line.481">     * Adds each element of {@code elements} to the {@code ImmutableCollection} being built.</a>
-<span class="sourceLineNo">482</span><a id="line.482">     *</a>
-<span class="sourceLineNo">483</span><a id="line.483">     * &lt;p&gt;Note that each builder class overrides this method in order to covariantly return its own</a>
-<span class="sourceLineNo">484</span><a id="line.484">     * type.</a>
-<span class="sourceLineNo">485</span><a id="line.485">     *</a>
-<span class="sourceLineNo">486</span><a id="line.486">     * @param elements the elements to add</a>
-<span class="sourceLineNo">487</span><a id="line.487">     * @return this {@code Builder} instance</a>
-<span class="sourceLineNo">488</span><a id="line.488">     * @throws NullPointerException if {@code elements} is null or contains a null element</a>
-<span class="sourceLineNo">489</span><a id="line.489">     */</a>
-<span class="sourceLineNo">490</span><a id="line.490">    @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">491</span><a id="line.491">    public Builder&lt;E&gt; addAll(Iterator&lt;? extends E&gt; elements) {</a>
-<span class="sourceLineNo">492</span><a id="line.492">      while (elements.hasNext()) {</a>
-<span class="sourceLineNo">493</span><a id="line.493">        add(elements.next());</a>
-<span class="sourceLineNo">494</span><a id="line.494">      }</a>
-<span class="sourceLineNo">495</span><a id="line.495">      return this;</a>
-<span class="sourceLineNo">496</span><a id="line.496">    }</a>
-<span class="sourceLineNo">497</span><a id="line.497"></a>
-<span class="sourceLineNo">498</span><a id="line.498">    /**</a>
-<span class="sourceLineNo">499</span><a id="line.499">     * Returns a newly-created {@code ImmutableCollection} of the appropriate type, containing the</a>
-<span class="sourceLineNo">500</span><a id="line.500">     * elements provided to this builder.</a>
-<span class="sourceLineNo">501</span><a id="line.501">     *</a>
-<span class="sourceLineNo">502</span><a id="line.502">     * &lt;p&gt;Note that each builder class covariantly returns the appropriate type of {@code</a>
-<span class="sourceLineNo">503</span><a id="line.503">     * ImmutableCollection} from this method.</a>
-<span class="sourceLineNo">504</span><a id="line.504">     */</a>
-<span class="sourceLineNo">505</span><a id="line.505">    public abstract ImmutableCollection&lt;E&gt; build();</a>
-<span class="sourceLineNo">506</span><a id="line.506">  }</a>
-<span class="sourceLineNo">507</span><a id="line.507"></a>
-<span class="sourceLineNo">508</span><a id="line.508">  private static final long serialVersionUID = 0xcafebabe;</a>
-<span class="sourceLineNo">509</span><a id="line.509">}</a>
+<span class="sourceLineNo">437</span><a id="line.437">     * &lt;p&gt;Note that each builder class covariantly returns its own type from this method.</a>
+<span class="sourceLineNo">438</span><a id="line.438">     *</a>
+<span class="sourceLineNo">439</span><a id="line.439">     * @param element the element to add</a>
+<span class="sourceLineNo">440</span><a id="line.440">     * @return this {@code Builder} instance</a>
+<span class="sourceLineNo">441</span><a id="line.441">     * @throws NullPointerException if {@code element} is null</a>
+<span class="sourceLineNo">442</span><a id="line.442">     */</a>
+<span class="sourceLineNo">443</span><a id="line.443">    @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">444</span><a id="line.444">    public abstract Builder&lt;E&gt; add(E element);</a>
+<span class="sourceLineNo">445</span><a id="line.445"></a>
+<span class="sourceLineNo">446</span><a id="line.446">    /**</a>
+<span class="sourceLineNo">447</span><a id="line.447">     * Adds each element of {@code elements} to the {@code ImmutableCollection} being built.</a>
+<span class="sourceLineNo">448</span><a id="line.448">     *</a>
+<span class="sourceLineNo">449</span><a id="line.449">     * &lt;p&gt;Note that each builder class overrides this method in order to covariantly return its own</a>
+<span class="sourceLineNo">450</span><a id="line.450">     * type.</a>
+<span class="sourceLineNo">451</span><a id="line.451">     *</a>
+<span class="sourceLineNo">452</span><a id="line.452">     * @param elements the elements to add</a>
+<span class="sourceLineNo">453</span><a id="line.453">     * @return this {@code Builder} instance</a>
+<span class="sourceLineNo">454</span><a id="line.454">     * @throws NullPointerException if {@code elements} is null or contains a null element</a>
+<span class="sourceLineNo">455</span><a id="line.455">     */</a>
+<span class="sourceLineNo">456</span><a id="line.456">    @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">457</span><a id="line.457">    public Builder&lt;E&gt; add(E... elements) {</a>
+<span class="sourceLineNo">458</span><a id="line.458">      for (E element : elements) {</a>
+<span class="sourceLineNo">459</span><a id="line.459">        add(element);</a>
+<span class="sourceLineNo">460</span><a id="line.460">      }</a>
+<span class="sourceLineNo">461</span><a id="line.461">      return this;</a>
+<span class="sourceLineNo">462</span><a id="line.462">    }</a>
+<span class="sourceLineNo">463</span><a id="line.463"></a>
+<span class="sourceLineNo">464</span><a id="line.464">    /**</a>
+<span class="sourceLineNo">465</span><a id="line.465">     * Adds each element of {@code elements} to the {@code ImmutableCollection} being built.</a>
+<span class="sourceLineNo">466</span><a id="line.466">     *</a>
+<span class="sourceLineNo">467</span><a id="line.467">     * &lt;p&gt;Note that each builder class overrides this method in order to covariantly return its own</a>
+<span class="sourceLineNo">468</span><a id="line.468">     * type.</a>
+<span class="sourceLineNo">469</span><a id="line.469">     *</a>
+<span class="sourceLineNo">470</span><a id="line.470">     * @param elements the elements to add</a>
+<span class="sourceLineNo">471</span><a id="line.471">     * @return this {@code Builder} instance</a>
+<span class="sourceLineNo">472</span><a id="line.472">     * @throws NullPointerException if {@code elements} is null or contains a null element</a>
+<span class="sourceLineNo">473</span><a id="line.473">     */</a>
+<span class="sourceLineNo">474</span><a id="line.474">    @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">475</span><a id="line.475">    public Builder&lt;E&gt; addAll(Iterable&lt;? extends E&gt; elements) {</a>
+<span class="sourceLineNo">476</span><a id="line.476">      for (E element : elements) {</a>
+<span class="sourceLineNo">477</span><a id="line.477">        add(element);</a>
+<span class="sourceLineNo">478</span><a id="line.478">      }</a>
+<span class="sourceLineNo">479</span><a id="line.479">      return this;</a>
+<span class="sourceLineNo">480</span><a id="line.480">    }</a>
+<span class="sourceLineNo">481</span><a id="line.481"></a>
+<span class="sourceLineNo">482</span><a id="line.482">    /**</a>
+<span class="sourceLineNo">483</span><a id="line.483">     * Adds each element of {@code elements} to the {@code ImmutableCollection} being built.</a>
+<span class="sourceLineNo">484</span><a id="line.484">     *</a>
+<span class="sourceLineNo">485</span><a id="line.485">     * &lt;p&gt;Note that each builder class overrides this method in order to covariantly return its own</a>
+<span class="sourceLineNo">486</span><a id="line.486">     * type.</a>
+<span class="sourceLineNo">487</span><a id="line.487">     *</a>
+<span class="sourceLineNo">488</span><a id="line.488">     * @param elements the elements to add</a>
+<span class="sourceLineNo">489</span><a id="line.489">     * @return this {@code Builder} instance</a>
+<span class="sourceLineNo">490</span><a id="line.490">     * @throws NullPointerException if {@code elements} is null or contains a null element</a>
+<span class="sourceLineNo">491</span><a id="line.491">     */</a>
+<span class="sourceLineNo">492</span><a id="line.492">    @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">493</span><a id="line.493">    public Builder&lt;E&gt; addAll(Iterator&lt;? extends E&gt; elements) {</a>
+<span class="sourceLineNo">494</span><a id="line.494">      while (elements.hasNext()) {</a>
+<span class="sourceLineNo">495</span><a id="line.495">        add(elements.next());</a>
+<span class="sourceLineNo">496</span><a id="line.496">      }</a>
+<span class="sourceLineNo">497</span><a id="line.497">      return this;</a>
+<span class="sourceLineNo">498</span><a id="line.498">    }</a>
+<span class="sourceLineNo">499</span><a id="line.499"></a>
+<span class="sourceLineNo">500</span><a id="line.500">    /**</a>
+<span class="sourceLineNo">501</span><a id="line.501">     * Returns a newly-created {@code ImmutableCollection} of the appropriate type, containing the</a>
+<span class="sourceLineNo">502</span><a id="line.502">     * elements provided to this builder.</a>
+<span class="sourceLineNo">503</span><a id="line.503">     *</a>
+<span class="sourceLineNo">504</span><a id="line.504">     * &lt;p&gt;Note that each builder class covariantly returns the appropriate type of {@code</a>
+<span class="sourceLineNo">505</span><a id="line.505">     * ImmutableCollection} from this method.</a>
+<span class="sourceLineNo">506</span><a id="line.506">     */</a>
+<span class="sourceLineNo">507</span><a id="line.507">    public abstract ImmutableCollection&lt;E&gt; build();</a>
+<span class="sourceLineNo">508</span><a id="line.508">  }</a>
+<span class="sourceLineNo">509</span><a id="line.509"></a>
+<span class="sourceLineNo">510</span><a id="line.510">  private static final long serialVersionUID = 0xcafebabe;</a>
+<span class="sourceLineNo">511</span><a id="line.511">}</a>
 
 
 

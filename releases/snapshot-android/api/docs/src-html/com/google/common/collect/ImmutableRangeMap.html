@@ -348,81 +348,97 @@
 <span class="sourceLineNo">339</span><a id="line.339">          boolean isPartialView() {</a>
 <span class="sourceLineNo">340</span><a id="line.340">            return true;</a>
 <span class="sourceLineNo">341</span><a id="line.341">          }</a>
-<span class="sourceLineNo">342</span><a id="line.342">        };</a>
-<span class="sourceLineNo">343</span><a id="line.343">    final ImmutableRangeMap&lt;K, V&gt; outer = this;</a>
-<span class="sourceLineNo">344</span><a id="line.344">    return new ImmutableRangeMap&lt;K, V&gt;(subRanges, values.subList(lowerIndex, upperIndex)) {</a>
-<span class="sourceLineNo">345</span><a id="line.345">      @Override</a>
-<span class="sourceLineNo">346</span><a id="line.346">      public ImmutableRangeMap&lt;K, V&gt; subRangeMap(Range&lt;K&gt; subRange) {</a>
-<span class="sourceLineNo">347</span><a id="line.347">        if (range.isConnected(subRange)) {</a>
-<span class="sourceLineNo">348</span><a id="line.348">          return outer.subRangeMap(subRange.intersection(range));</a>
-<span class="sourceLineNo">349</span><a id="line.349">        } else {</a>
-<span class="sourceLineNo">350</span><a id="line.350">          return ImmutableRangeMap.of();</a>
-<span class="sourceLineNo">351</span><a id="line.351">        }</a>
-<span class="sourceLineNo">352</span><a id="line.352">      }</a>
-<span class="sourceLineNo">353</span><a id="line.353">    };</a>
-<span class="sourceLineNo">354</span><a id="line.354">  }</a>
-<span class="sourceLineNo">355</span><a id="line.355"></a>
-<span class="sourceLineNo">356</span><a id="line.356">  @Override</a>
-<span class="sourceLineNo">357</span><a id="line.357">  public int hashCode() {</a>
-<span class="sourceLineNo">358</span><a id="line.358">    return asMapOfRanges().hashCode();</a>
-<span class="sourceLineNo">359</span><a id="line.359">  }</a>
-<span class="sourceLineNo">360</span><a id="line.360"></a>
-<span class="sourceLineNo">361</span><a id="line.361">  @Override</a>
-<span class="sourceLineNo">362</span><a id="line.362">  public boolean equals(@CheckForNull Object o) {</a>
-<span class="sourceLineNo">363</span><a id="line.363">    if (o instanceof RangeMap) {</a>
-<span class="sourceLineNo">364</span><a id="line.364">      RangeMap&lt;?, ?&gt; rangeMap = (RangeMap&lt;?, ?&gt;) o;</a>
-<span class="sourceLineNo">365</span><a id="line.365">      return asMapOfRanges().equals(rangeMap.asMapOfRanges());</a>
-<span class="sourceLineNo">366</span><a id="line.366">    }</a>
-<span class="sourceLineNo">367</span><a id="line.367">    return false;</a>
-<span class="sourceLineNo">368</span><a id="line.368">  }</a>
-<span class="sourceLineNo">369</span><a id="line.369"></a>
-<span class="sourceLineNo">370</span><a id="line.370">  @Override</a>
-<span class="sourceLineNo">371</span><a id="line.371">  public String toString() {</a>
-<span class="sourceLineNo">372</span><a id="line.372">    return asMapOfRanges().toString();</a>
-<span class="sourceLineNo">373</span><a id="line.373">  }</a>
-<span class="sourceLineNo">374</span><a id="line.374"></a>
-<span class="sourceLineNo">375</span><a id="line.375">  /**</a>
-<span class="sourceLineNo">376</span><a id="line.376">   * This class is used to serialize ImmutableRangeMap instances. Serializes the {@link</a>
-<span class="sourceLineNo">377</span><a id="line.377">   * #asMapOfRanges()} form.</a>
-<span class="sourceLineNo">378</span><a id="line.378">   */</a>
-<span class="sourceLineNo">379</span><a id="line.379">  private static class SerializedForm&lt;K extends Comparable&lt;?&gt;, V&gt; implements Serializable {</a>
-<span class="sourceLineNo">380</span><a id="line.380"></a>
-<span class="sourceLineNo">381</span><a id="line.381">    private final ImmutableMap&lt;Range&lt;K&gt;, V&gt; mapOfRanges;</a>
-<span class="sourceLineNo">382</span><a id="line.382"></a>
-<span class="sourceLineNo">383</span><a id="line.383">    SerializedForm(ImmutableMap&lt;Range&lt;K&gt;, V&gt; mapOfRanges) {</a>
-<span class="sourceLineNo">384</span><a id="line.384">      this.mapOfRanges = mapOfRanges;</a>
-<span class="sourceLineNo">385</span><a id="line.385">    }</a>
-<span class="sourceLineNo">386</span><a id="line.386"></a>
-<span class="sourceLineNo">387</span><a id="line.387">    Object readResolve() {</a>
-<span class="sourceLineNo">388</span><a id="line.388">      if (mapOfRanges.isEmpty()) {</a>
-<span class="sourceLineNo">389</span><a id="line.389">        return of();</a>
-<span class="sourceLineNo">390</span><a id="line.390">      } else {</a>
-<span class="sourceLineNo">391</span><a id="line.391">        return createRangeMap();</a>
-<span class="sourceLineNo">392</span><a id="line.392">      }</a>
-<span class="sourceLineNo">393</span><a id="line.393">    }</a>
-<span class="sourceLineNo">394</span><a id="line.394"></a>
-<span class="sourceLineNo">395</span><a id="line.395">    Object createRangeMap() {</a>
-<span class="sourceLineNo">396</span><a id="line.396">      Builder&lt;K, V&gt; builder = new Builder&lt;&gt;();</a>
-<span class="sourceLineNo">397</span><a id="line.397">      for (Entry&lt;Range&lt;K&gt;, V&gt; entry : mapOfRanges.entrySet()) {</a>
-<span class="sourceLineNo">398</span><a id="line.398">        builder.put(entry.getKey(), entry.getValue());</a>
-<span class="sourceLineNo">399</span><a id="line.399">      }</a>
-<span class="sourceLineNo">400</span><a id="line.400">      return builder.build();</a>
+<span class="sourceLineNo">342</span><a id="line.342"></a>
+<span class="sourceLineNo">343</span><a id="line.343">          // redeclare to help optimizers with b/310253115</a>
+<span class="sourceLineNo">344</span><a id="line.344">          @SuppressWarnings("RedundantOverride")</a>
+<span class="sourceLineNo">345</span><a id="line.345">          @Override</a>
+<span class="sourceLineNo">346</span><a id="line.346">          @J2ktIncompatible // serialization</a>
+<span class="sourceLineNo">347</span><a id="line.347">          Object writeReplace() {</a>
+<span class="sourceLineNo">348</span><a id="line.348">            return super.writeReplace();</a>
+<span class="sourceLineNo">349</span><a id="line.349">          }</a>
+<span class="sourceLineNo">350</span><a id="line.350">        };</a>
+<span class="sourceLineNo">351</span><a id="line.351">    final ImmutableRangeMap&lt;K, V&gt; outer = this;</a>
+<span class="sourceLineNo">352</span><a id="line.352">    return new ImmutableRangeMap&lt;K, V&gt;(subRanges, values.subList(lowerIndex, upperIndex)) {</a>
+<span class="sourceLineNo">353</span><a id="line.353">      @Override</a>
+<span class="sourceLineNo">354</span><a id="line.354">      public ImmutableRangeMap&lt;K, V&gt; subRangeMap(Range&lt;K&gt; subRange) {</a>
+<span class="sourceLineNo">355</span><a id="line.355">        if (range.isConnected(subRange)) {</a>
+<span class="sourceLineNo">356</span><a id="line.356">          return outer.subRangeMap(subRange.intersection(range));</a>
+<span class="sourceLineNo">357</span><a id="line.357">        } else {</a>
+<span class="sourceLineNo">358</span><a id="line.358">          return ImmutableRangeMap.of();</a>
+<span class="sourceLineNo">359</span><a id="line.359">        }</a>
+<span class="sourceLineNo">360</span><a id="line.360">      }</a>
+<span class="sourceLineNo">361</span><a id="line.361"></a>
+<span class="sourceLineNo">362</span><a id="line.362">      // redeclare to help optimizers with b/310253115</a>
+<span class="sourceLineNo">363</span><a id="line.363">      @SuppressWarnings("RedundantOverride")</a>
+<span class="sourceLineNo">364</span><a id="line.364">      @Override</a>
+<span class="sourceLineNo">365</span><a id="line.365">      @J2ktIncompatible // serialization</a>
+<span class="sourceLineNo">366</span><a id="line.366">      Object writeReplace() {</a>
+<span class="sourceLineNo">367</span><a id="line.367">        return super.writeReplace();</a>
+<span class="sourceLineNo">368</span><a id="line.368">      }</a>
+<span class="sourceLineNo">369</span><a id="line.369">    };</a>
+<span class="sourceLineNo">370</span><a id="line.370">  }</a>
+<span class="sourceLineNo">371</span><a id="line.371"></a>
+<span class="sourceLineNo">372</span><a id="line.372">  @Override</a>
+<span class="sourceLineNo">373</span><a id="line.373">  public int hashCode() {</a>
+<span class="sourceLineNo">374</span><a id="line.374">    return asMapOfRanges().hashCode();</a>
+<span class="sourceLineNo">375</span><a id="line.375">  }</a>
+<span class="sourceLineNo">376</span><a id="line.376"></a>
+<span class="sourceLineNo">377</span><a id="line.377">  @Override</a>
+<span class="sourceLineNo">378</span><a id="line.378">  public boolean equals(@CheckForNull Object o) {</a>
+<span class="sourceLineNo">379</span><a id="line.379">    if (o instanceof RangeMap) {</a>
+<span class="sourceLineNo">380</span><a id="line.380">      RangeMap&lt;?, ?&gt; rangeMap = (RangeMap&lt;?, ?&gt;) o;</a>
+<span class="sourceLineNo">381</span><a id="line.381">      return asMapOfRanges().equals(rangeMap.asMapOfRanges());</a>
+<span class="sourceLineNo">382</span><a id="line.382">    }</a>
+<span class="sourceLineNo">383</span><a id="line.383">    return false;</a>
+<span class="sourceLineNo">384</span><a id="line.384">  }</a>
+<span class="sourceLineNo">385</span><a id="line.385"></a>
+<span class="sourceLineNo">386</span><a id="line.386">  @Override</a>
+<span class="sourceLineNo">387</span><a id="line.387">  public String toString() {</a>
+<span class="sourceLineNo">388</span><a id="line.388">    return asMapOfRanges().toString();</a>
+<span class="sourceLineNo">389</span><a id="line.389">  }</a>
+<span class="sourceLineNo">390</span><a id="line.390"></a>
+<span class="sourceLineNo">391</span><a id="line.391">  /**</a>
+<span class="sourceLineNo">392</span><a id="line.392">   * This class is used to serialize ImmutableRangeMap instances. Serializes the {@link</a>
+<span class="sourceLineNo">393</span><a id="line.393">   * #asMapOfRanges()} form.</a>
+<span class="sourceLineNo">394</span><a id="line.394">   */</a>
+<span class="sourceLineNo">395</span><a id="line.395">  private static class SerializedForm&lt;K extends Comparable&lt;?&gt;, V&gt; implements Serializable {</a>
+<span class="sourceLineNo">396</span><a id="line.396"></a>
+<span class="sourceLineNo">397</span><a id="line.397">    private final ImmutableMap&lt;Range&lt;K&gt;, V&gt; mapOfRanges;</a>
+<span class="sourceLineNo">398</span><a id="line.398"></a>
+<span class="sourceLineNo">399</span><a id="line.399">    SerializedForm(ImmutableMap&lt;Range&lt;K&gt;, V&gt; mapOfRanges) {</a>
+<span class="sourceLineNo">400</span><a id="line.400">      this.mapOfRanges = mapOfRanges;</a>
 <span class="sourceLineNo">401</span><a id="line.401">    }</a>
 <span class="sourceLineNo">402</span><a id="line.402"></a>
-<span class="sourceLineNo">403</span><a id="line.403">    private static final long serialVersionUID = 0;</a>
-<span class="sourceLineNo">404</span><a id="line.404">  }</a>
-<span class="sourceLineNo">405</span><a id="line.405"></a>
-<span class="sourceLineNo">406</span><a id="line.406">  Object writeReplace() {</a>
-<span class="sourceLineNo">407</span><a id="line.407">    return new SerializedForm&lt;&gt;(asMapOfRanges());</a>
-<span class="sourceLineNo">408</span><a id="line.408">  }</a>
-<span class="sourceLineNo">409</span><a id="line.409"></a>
-<span class="sourceLineNo">410</span><a id="line.410">  @J2ktIncompatible // java.io.ObjectInputStream</a>
-<span class="sourceLineNo">411</span><a id="line.411">  private void readObject(ObjectInputStream stream) throws InvalidObjectException {</a>
-<span class="sourceLineNo">412</span><a id="line.412">    throw new InvalidObjectException("Use SerializedForm");</a>
-<span class="sourceLineNo">413</span><a id="line.413">  }</a>
-<span class="sourceLineNo">414</span><a id="line.414"></a>
-<span class="sourceLineNo">415</span><a id="line.415">  private static final long serialVersionUID = 0;</a>
-<span class="sourceLineNo">416</span><a id="line.416">}</a>
+<span class="sourceLineNo">403</span><a id="line.403">    Object readResolve() {</a>
+<span class="sourceLineNo">404</span><a id="line.404">      if (mapOfRanges.isEmpty()) {</a>
+<span class="sourceLineNo">405</span><a id="line.405">        return of();</a>
+<span class="sourceLineNo">406</span><a id="line.406">      } else {</a>
+<span class="sourceLineNo">407</span><a id="line.407">        return createRangeMap();</a>
+<span class="sourceLineNo">408</span><a id="line.408">      }</a>
+<span class="sourceLineNo">409</span><a id="line.409">    }</a>
+<span class="sourceLineNo">410</span><a id="line.410"></a>
+<span class="sourceLineNo">411</span><a id="line.411">    Object createRangeMap() {</a>
+<span class="sourceLineNo">412</span><a id="line.412">      Builder&lt;K, V&gt; builder = new Builder&lt;&gt;();</a>
+<span class="sourceLineNo">413</span><a id="line.413">      for (Entry&lt;Range&lt;K&gt;, V&gt; entry : mapOfRanges.entrySet()) {</a>
+<span class="sourceLineNo">414</span><a id="line.414">        builder.put(entry.getKey(), entry.getValue());</a>
+<span class="sourceLineNo">415</span><a id="line.415">      }</a>
+<span class="sourceLineNo">416</span><a id="line.416">      return builder.build();</a>
+<span class="sourceLineNo">417</span><a id="line.417">    }</a>
+<span class="sourceLineNo">418</span><a id="line.418"></a>
+<span class="sourceLineNo">419</span><a id="line.419">    private static final long serialVersionUID = 0;</a>
+<span class="sourceLineNo">420</span><a id="line.420">  }</a>
+<span class="sourceLineNo">421</span><a id="line.421"></a>
+<span class="sourceLineNo">422</span><a id="line.422">  Object writeReplace() {</a>
+<span class="sourceLineNo">423</span><a id="line.423">    return new SerializedForm&lt;&gt;(asMapOfRanges());</a>
+<span class="sourceLineNo">424</span><a id="line.424">  }</a>
+<span class="sourceLineNo">425</span><a id="line.425"></a>
+<span class="sourceLineNo">426</span><a id="line.426">  @J2ktIncompatible // java.io.ObjectInputStream</a>
+<span class="sourceLineNo">427</span><a id="line.427">  private void readObject(ObjectInputStream stream) throws InvalidObjectException {</a>
+<span class="sourceLineNo">428</span><a id="line.428">    throw new InvalidObjectException("Use SerializedForm");</a>
+<span class="sourceLineNo">429</span><a id="line.429">  }</a>
+<span class="sourceLineNo">430</span><a id="line.430"></a>
+<span class="sourceLineNo">431</span><a id="line.431">  private static final long serialVersionUID = 0;</a>
+<span class="sourceLineNo">432</span><a id="line.432">}</a>
 
 
 

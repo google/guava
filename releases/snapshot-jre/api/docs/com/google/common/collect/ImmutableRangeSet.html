@@ -796,7 +796,7 @@ public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/Im
 <ul class="blockList">
 <li class="blockList">
 <h4>complement</h4>
-<pre class="methodSignature">public&nbsp;<a href="ImmutableRangeSet.html" title="class in com.google.common.collect">ImmutableRangeSet</a>&lt;<a href="ImmutableRangeSet.html" title="type parameter in ImmutableRangeSet">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.html#line.373">complement</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="ImmutableRangeSet.html" title="class in com.google.common.collect">ImmutableRangeSet</a>&lt;<a href="ImmutableRangeSet.html" title="type parameter in ImmutableRangeSet">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.html#line.381">complement</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="RangeSet.html#complement()">RangeSet</a></code></span></div>
 <div class="block">Returns a view of the complement of this <code>RangeSet</code>.
 
@@ -814,7 +814,7 @@ public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/Im
 <ul class="blockList">
 <li class="blockList">
 <h4>union</h4>
-<pre class="methodSignature">public&nbsp;<a href="ImmutableRangeSet.html" title="class in com.google.common.collect">ImmutableRangeSet</a>&lt;<a href="ImmutableRangeSet.html" title="type parameter in ImmutableRangeSet">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.html#line.397">union</a>&#8203;(<a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;<a href="ImmutableRangeSet.html" title="type parameter in ImmutableRangeSet">C</a>&gt;&nbsp;other)</pre>
+<pre class="methodSignature">public&nbsp;<a href="ImmutableRangeSet.html" title="class in com.google.common.collect">ImmutableRangeSet</a>&lt;<a href="ImmutableRangeSet.html" title="type parameter in ImmutableRangeSet">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.html#line.405">union</a>&#8203;(<a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;<a href="ImmutableRangeSet.html" title="type parameter in ImmutableRangeSet">C</a>&gt;&nbsp;other)</pre>
 <div class="block">Returns a new range set consisting of the union of this range set and <code>other</code>.
 
  <p>This is essentially the same as <code>TreeRangeSet.create(this).addAll(other)</code> except it
@@ -831,7 +831,7 @@ public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/Im
 <ul class="blockList">
 <li class="blockList">
 <h4>intersection</h4>
-<pre class="methodSignature">public&nbsp;<a href="ImmutableRangeSet.html" title="class in com.google.common.collect">ImmutableRangeSet</a>&lt;<a href="ImmutableRangeSet.html" title="type parameter in ImmutableRangeSet">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.html#line.410">intersection</a>&#8203;(<a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;<a href="ImmutableRangeSet.html" title="type parameter in ImmutableRangeSet">C</a>&gt;&nbsp;other)</pre>
+<pre class="methodSignature">public&nbsp;<a href="ImmutableRangeSet.html" title="class in com.google.common.collect">ImmutableRangeSet</a>&lt;<a href="ImmutableRangeSet.html" title="type parameter in ImmutableRangeSet">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.html#line.418">intersection</a>&#8203;(<a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;<a href="ImmutableRangeSet.html" title="type parameter in ImmutableRangeSet">C</a>&gt;&nbsp;other)</pre>
 <div class="block">Returns a new range set consisting of the intersection of this range set and <code>other</code>.
 
  <p>This is essentially the same as <code>
@@ -849,7 +849,7 @@ public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/Im
 <ul class="blockList">
 <li class="blockList">
 <h4>difference</h4>
-<pre class="methodSignature">public&nbsp;<a href="ImmutableRangeSet.html" title="class in com.google.common.collect">ImmutableRangeSet</a>&lt;<a href="ImmutableRangeSet.html" title="type parameter in ImmutableRangeSet">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.html#line.424">difference</a>&#8203;(<a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;<a href="ImmutableRangeSet.html" title="type parameter in ImmutableRangeSet">C</a>&gt;&nbsp;other)</pre>
+<pre class="methodSignature">public&nbsp;<a href="ImmutableRangeSet.html" title="class in com.google.common.collect">ImmutableRangeSet</a>&lt;<a href="ImmutableRangeSet.html" title="type parameter in ImmutableRangeSet">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.html#line.432">difference</a>&#8203;(<a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;<a href="ImmutableRangeSet.html" title="type parameter in ImmutableRangeSet">C</a>&gt;&nbsp;other)</pre>
 <div class="block">Returns a new range set consisting of the difference of this range set and <code>other</code>.
 
  <p>This is essentially the same as <code>TreeRangeSet.create(this).removeAll(other)</code> except it
@@ -866,7 +866,7 @@ public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/Im
 <ul class="blockList">
 <li class="blockList">
 <h4>subRangeSet</h4>
-<pre class="methodSignature">public&nbsp;<a href="ImmutableRangeSet.html" title="class in com.google.common.collect">ImmutableRangeSet</a>&lt;<a href="ImmutableRangeSet.html" title="type parameter in ImmutableRangeSet">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.html#line.495">subRangeSet</a>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="ImmutableRangeSet.html" title="type parameter in ImmutableRangeSet">C</a>&gt;&nbsp;range)</pre>
+<pre class="methodSignature">public&nbsp;<a href="ImmutableRangeSet.html" title="class in com.google.common.collect">ImmutableRangeSet</a>&lt;<a href="ImmutableRangeSet.html" title="type parameter in ImmutableRangeSet">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.html#line.512">subRangeSet</a>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="ImmutableRangeSet.html" title="type parameter in ImmutableRangeSet">C</a>&gt;&nbsp;range)</pre>
 <div class="block">Returns a view of the intersection of this range set with the given range.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
@@ -880,7 +880,7 @@ public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/Im
 <ul class="blockList">
 <li class="blockList">
 <h4>asSet</h4>
-<pre class="methodSignature">public&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="ImmutableRangeSet.html" title="type parameter in ImmutableRangeSet">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.html#line.527">asSet</a>&#8203;(<a href="DiscreteDomain.html" title="class in com.google.common.collect">DiscreteDomain</a>&lt;<a href="ImmutableRangeSet.html" title="type parameter in ImmutableRangeSet">C</a>&gt;&nbsp;domain)</pre>
+<pre class="methodSignature">public&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="ImmutableRangeSet.html" title="type parameter in ImmutableRangeSet">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.html#line.544">asSet</a>&#8203;(<a href="DiscreteDomain.html" title="class in com.google.common.collect">DiscreteDomain</a>&lt;<a href="ImmutableRangeSet.html" title="type parameter in ImmutableRangeSet">C</a>&gt;&nbsp;domain)</pre>
 <div class="block">Returns an <a href="ImmutableSortedSet.html" title="class in com.google.common.collect"><code>ImmutableSortedSet</code></a> containing the same values in the given domain
  <a href="RangeSet.html#contains(C)">contained</a> by this range set.
 
@@ -907,7 +907,7 @@ public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/Im
 <ul class="blockList">
 <li class="blockList">
 <h4>builder</h4>
-<pre class="methodSignature">public static&nbsp;&lt;C extends java.lang.Comparable&lt;?&gt;&gt;&nbsp;<a href="ImmutableRangeSet.Builder.html" title="class in com.google.common.collect">ImmutableRangeSet.Builder</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.html#line.730">builder</a>()</pre>
+<pre class="methodSignature">public static&nbsp;&lt;C extends java.lang.Comparable&lt;?&gt;&gt;&nbsp;<a href="ImmutableRangeSet.Builder.html" title="class in com.google.common.collect">ImmutableRangeSet.Builder</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.html#line.747">builder</a>()</pre>
 <div class="block">Returns a new builder for an immutable range set.</div>
 </li>
 </ul>

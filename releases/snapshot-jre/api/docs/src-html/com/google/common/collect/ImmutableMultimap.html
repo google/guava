@@ -587,216 +587,234 @@
 <span class="sourceLineNo">578</span><a id="line.578">      return false;</a>
 <span class="sourceLineNo">579</span><a id="line.579">    }</a>
 <span class="sourceLineNo">580</span><a id="line.580"></a>
-<span class="sourceLineNo">581</span><a id="line.581">    private static final long serialVersionUID = 0;</a>
-<span class="sourceLineNo">582</span><a id="line.582">  }</a>
-<span class="sourceLineNo">583</span><a id="line.583"></a>
-<span class="sourceLineNo">584</span><a id="line.584">  @Override</a>
-<span class="sourceLineNo">585</span><a id="line.585">  UnmodifiableIterator&lt;Entry&lt;K, V&gt;&gt; entryIterator() {</a>
-<span class="sourceLineNo">586</span><a id="line.586">    return new UnmodifiableIterator&lt;Entry&lt;K, V&gt;&gt;() {</a>
-<span class="sourceLineNo">587</span><a id="line.587">      final Iterator&lt;? extends Entry&lt;K, ? extends ImmutableCollection&lt;V&gt;&gt;&gt; asMapItr =</a>
-<span class="sourceLineNo">588</span><a id="line.588">          map.entrySet().iterator();</a>
-<span class="sourceLineNo">589</span><a id="line.589">      @CheckForNull K currentKey = null;</a>
-<span class="sourceLineNo">590</span><a id="line.590">      Iterator&lt;V&gt; valueItr = Iterators.emptyIterator();</a>
-<span class="sourceLineNo">591</span><a id="line.591"></a>
-<span class="sourceLineNo">592</span><a id="line.592">      @Override</a>
-<span class="sourceLineNo">593</span><a id="line.593">      public boolean hasNext() {</a>
-<span class="sourceLineNo">594</span><a id="line.594">        return valueItr.hasNext() || asMapItr.hasNext();</a>
-<span class="sourceLineNo">595</span><a id="line.595">      }</a>
-<span class="sourceLineNo">596</span><a id="line.596"></a>
-<span class="sourceLineNo">597</span><a id="line.597">      @Override</a>
-<span class="sourceLineNo">598</span><a id="line.598">      public Entry&lt;K, V&gt; next() {</a>
-<span class="sourceLineNo">599</span><a id="line.599">        if (!valueItr.hasNext()) {</a>
-<span class="sourceLineNo">600</span><a id="line.600">          Entry&lt;K, ? extends ImmutableCollection&lt;V&gt;&gt; entry = asMapItr.next();</a>
-<span class="sourceLineNo">601</span><a id="line.601">          currentKey = entry.getKey();</a>
-<span class="sourceLineNo">602</span><a id="line.602">          valueItr = entry.getValue().iterator();</a>
-<span class="sourceLineNo">603</span><a id="line.603">        }</a>
-<span class="sourceLineNo">604</span><a id="line.604">        /*</a>
-<span class="sourceLineNo">605</span><a id="line.605">         * requireNonNull is safe: The first call to this method always enters the !hasNext() case</a>
-<span class="sourceLineNo">606</span><a id="line.606">         * and populates currentKey, after which it's never cleared.</a>
-<span class="sourceLineNo">607</span><a id="line.607">         */</a>
-<span class="sourceLineNo">608</span><a id="line.608">        return immutableEntry(requireNonNull(currentKey), valueItr.next());</a>
-<span class="sourceLineNo">609</span><a id="line.609">      }</a>
-<span class="sourceLineNo">610</span><a id="line.610">    };</a>
-<span class="sourceLineNo">611</span><a id="line.611">  }</a>
-<span class="sourceLineNo">612</span><a id="line.612"></a>
-<span class="sourceLineNo">613</span><a id="line.613">  @Override</a>
-<span class="sourceLineNo">614</span><a id="line.614">  Spliterator&lt;Entry&lt;K, V&gt;&gt; entrySpliterator() {</a>
-<span class="sourceLineNo">615</span><a id="line.615">    return CollectSpliterators.flatMap(</a>
-<span class="sourceLineNo">616</span><a id="line.616">        asMap().entrySet().spliterator(),</a>
-<span class="sourceLineNo">617</span><a id="line.617">        keyToValueCollectionEntry -&gt; {</a>
-<span class="sourceLineNo">618</span><a id="line.618">          K key = keyToValueCollectionEntry.getKey();</a>
-<span class="sourceLineNo">619</span><a id="line.619">          Collection&lt;V&gt; valueCollection = keyToValueCollectionEntry.getValue();</a>
-<span class="sourceLineNo">620</span><a id="line.620">          return CollectSpliterators.map(</a>
-<span class="sourceLineNo">621</span><a id="line.621">              valueCollection.spliterator(), (V value) -&gt; Maps.immutableEntry(key, value));</a>
-<span class="sourceLineNo">622</span><a id="line.622">        },</a>
-<span class="sourceLineNo">623</span><a id="line.623">        Spliterator.SIZED | (this instanceof SetMultimap ? Spliterator.DISTINCT : 0),</a>
-<span class="sourceLineNo">624</span><a id="line.624">        size());</a>
-<span class="sourceLineNo">625</span><a id="line.625">  }</a>
-<span class="sourceLineNo">626</span><a id="line.626"></a>
-<span class="sourceLineNo">627</span><a id="line.627">  @Override</a>
-<span class="sourceLineNo">628</span><a id="line.628">  public void forEach(BiConsumer&lt;? super K, ? super V&gt; action) {</a>
-<span class="sourceLineNo">629</span><a id="line.629">    checkNotNull(action);</a>
-<span class="sourceLineNo">630</span><a id="line.630">    asMap()</a>
-<span class="sourceLineNo">631</span><a id="line.631">        .forEach(</a>
-<span class="sourceLineNo">632</span><a id="line.632">            (key, valueCollection) -&gt; valueCollection.forEach(value -&gt; action.accept(key, value)));</a>
-<span class="sourceLineNo">633</span><a id="line.633">  }</a>
-<span class="sourceLineNo">634</span><a id="line.634"></a>
-<span class="sourceLineNo">635</span><a id="line.635">  /**</a>
-<span class="sourceLineNo">636</span><a id="line.636">   * Returns an immutable multiset containing all the keys in this multimap, in the same order and</a>
-<span class="sourceLineNo">637</span><a id="line.637">   * with the same frequencies as they appear in this multimap; to get only a single occurrence of</a>
-<span class="sourceLineNo">638</span><a id="line.638">   * each key, use {@link #keySet}.</a>
-<span class="sourceLineNo">639</span><a id="line.639">   */</a>
-<span class="sourceLineNo">640</span><a id="line.640">  @Override</a>
-<span class="sourceLineNo">641</span><a id="line.641">  public ImmutableMultiset&lt;K&gt; keys() {</a>
-<span class="sourceLineNo">642</span><a id="line.642">    return (ImmutableMultiset&lt;K&gt;) super.keys();</a>
-<span class="sourceLineNo">643</span><a id="line.643">  }</a>
-<span class="sourceLineNo">644</span><a id="line.644"></a>
-<span class="sourceLineNo">645</span><a id="line.645">  @Override</a>
-<span class="sourceLineNo">646</span><a id="line.646">  ImmutableMultiset&lt;K&gt; createKeys() {</a>
-<span class="sourceLineNo">647</span><a id="line.647">    return new Keys();</a>
-<span class="sourceLineNo">648</span><a id="line.648">  }</a>
-<span class="sourceLineNo">649</span><a id="line.649"></a>
-<span class="sourceLineNo">650</span><a id="line.650">  @SuppressWarnings("serial") // Uses writeReplace, not default serialization</a>
-<span class="sourceLineNo">651</span><a id="line.651">  @WeakOuter</a>
-<span class="sourceLineNo">652</span><a id="line.652">  class Keys extends ImmutableMultiset&lt;K&gt; {</a>
-<span class="sourceLineNo">653</span><a id="line.653">    @Override</a>
-<span class="sourceLineNo">654</span><a id="line.654">    public boolean contains(@CheckForNull Object object) {</a>
-<span class="sourceLineNo">655</span><a id="line.655">      return containsKey(object);</a>
-<span class="sourceLineNo">656</span><a id="line.656">    }</a>
-<span class="sourceLineNo">657</span><a id="line.657"></a>
-<span class="sourceLineNo">658</span><a id="line.658">    @Override</a>
-<span class="sourceLineNo">659</span><a id="line.659">    public int count(@CheckForNull Object element) {</a>
-<span class="sourceLineNo">660</span><a id="line.660">      Collection&lt;V&gt; values = map.get(element);</a>
-<span class="sourceLineNo">661</span><a id="line.661">      return (values == null) ? 0 : values.size();</a>
-<span class="sourceLineNo">662</span><a id="line.662">    }</a>
-<span class="sourceLineNo">663</span><a id="line.663"></a>
-<span class="sourceLineNo">664</span><a id="line.664">    @Override</a>
-<span class="sourceLineNo">665</span><a id="line.665">    public ImmutableSet&lt;K&gt; elementSet() {</a>
-<span class="sourceLineNo">666</span><a id="line.666">      return keySet();</a>
-<span class="sourceLineNo">667</span><a id="line.667">    }</a>
-<span class="sourceLineNo">668</span><a id="line.668"></a>
-<span class="sourceLineNo">669</span><a id="line.669">    @Override</a>
-<span class="sourceLineNo">670</span><a id="line.670">    public int size() {</a>
-<span class="sourceLineNo">671</span><a id="line.671">      return ImmutableMultimap.this.size();</a>
-<span class="sourceLineNo">672</span><a id="line.672">    }</a>
-<span class="sourceLineNo">673</span><a id="line.673"></a>
-<span class="sourceLineNo">674</span><a id="line.674">    @Override</a>
-<span class="sourceLineNo">675</span><a id="line.675">    Multiset.Entry&lt;K&gt; getEntry(int index) {</a>
-<span class="sourceLineNo">676</span><a id="line.676">      Map.Entry&lt;K, ? extends Collection&lt;V&gt;&gt; entry = map.entrySet().asList().get(index);</a>
-<span class="sourceLineNo">677</span><a id="line.677">      return Multisets.immutableEntry(entry.getKey(), entry.getValue().size());</a>
-<span class="sourceLineNo">678</span><a id="line.678">    }</a>
-<span class="sourceLineNo">679</span><a id="line.679"></a>
-<span class="sourceLineNo">680</span><a id="line.680">    @Override</a>
-<span class="sourceLineNo">681</span><a id="line.681">    boolean isPartialView() {</a>
-<span class="sourceLineNo">682</span><a id="line.682">      return true;</a>
-<span class="sourceLineNo">683</span><a id="line.683">    }</a>
-<span class="sourceLineNo">684</span><a id="line.684"></a>
-<span class="sourceLineNo">685</span><a id="line.685">    @GwtIncompatible</a>
-<span class="sourceLineNo">686</span><a id="line.686">    @J2ktIncompatible</a>
-<span class="sourceLineNo">687</span><a id="line.687">    @Override</a>
-<span class="sourceLineNo">688</span><a id="line.688">    Object writeReplace() {</a>
-<span class="sourceLineNo">689</span><a id="line.689">      return new KeysSerializedForm(ImmutableMultimap.this);</a>
-<span class="sourceLineNo">690</span><a id="line.690">    }</a>
-<span class="sourceLineNo">691</span><a id="line.691"></a>
-<span class="sourceLineNo">692</span><a id="line.692">    @GwtIncompatible</a>
-<span class="sourceLineNo">693</span><a id="line.693">    @J2ktIncompatible</a>
-<span class="sourceLineNo">694</span><a id="line.694">    private void readObject(ObjectInputStream stream) throws InvalidObjectException {</a>
-<span class="sourceLineNo">695</span><a id="line.695">      throw new InvalidObjectException("Use KeysSerializedForm");</a>
-<span class="sourceLineNo">696</span><a id="line.696">    }</a>
-<span class="sourceLineNo">697</span><a id="line.697">  }</a>
-<span class="sourceLineNo">698</span><a id="line.698"></a>
-<span class="sourceLineNo">699</span><a id="line.699">  @GwtIncompatible</a>
-<span class="sourceLineNo">700</span><a id="line.700">  @J2ktIncompatible</a>
-<span class="sourceLineNo">701</span><a id="line.701">  private static final class KeysSerializedForm implements Serializable {</a>
-<span class="sourceLineNo">702</span><a id="line.702">    final ImmutableMultimap&lt;?, ?&gt; multimap;</a>
-<span class="sourceLineNo">703</span><a id="line.703"></a>
-<span class="sourceLineNo">704</span><a id="line.704">    KeysSerializedForm(ImmutableMultimap&lt;?, ?&gt; multimap) {</a>
-<span class="sourceLineNo">705</span><a id="line.705">      this.multimap = multimap;</a>
-<span class="sourceLineNo">706</span><a id="line.706">    }</a>
+<span class="sourceLineNo">581</span><a id="line.581">    // redeclare to help optimizers with b/310253115</a>
+<span class="sourceLineNo">582</span><a id="line.582">    @SuppressWarnings("RedundantOverride")</a>
+<span class="sourceLineNo">583</span><a id="line.583">    @Override</a>
+<span class="sourceLineNo">584</span><a id="line.584">    @J2ktIncompatible // serialization</a>
+<span class="sourceLineNo">585</span><a id="line.585">    @GwtIncompatible // serialization</a>
+<span class="sourceLineNo">586</span><a id="line.586">    Object writeReplace() {</a>
+<span class="sourceLineNo">587</span><a id="line.587">      return super.writeReplace();</a>
+<span class="sourceLineNo">588</span><a id="line.588">    }</a>
+<span class="sourceLineNo">589</span><a id="line.589"></a>
+<span class="sourceLineNo">590</span><a id="line.590">    private static final long serialVersionUID = 0;</a>
+<span class="sourceLineNo">591</span><a id="line.591">  }</a>
+<span class="sourceLineNo">592</span><a id="line.592"></a>
+<span class="sourceLineNo">593</span><a id="line.593">  @Override</a>
+<span class="sourceLineNo">594</span><a id="line.594">  UnmodifiableIterator&lt;Entry&lt;K, V&gt;&gt; entryIterator() {</a>
+<span class="sourceLineNo">595</span><a id="line.595">    return new UnmodifiableIterator&lt;Entry&lt;K, V&gt;&gt;() {</a>
+<span class="sourceLineNo">596</span><a id="line.596">      final Iterator&lt;? extends Entry&lt;K, ? extends ImmutableCollection&lt;V&gt;&gt;&gt; asMapItr =</a>
+<span class="sourceLineNo">597</span><a id="line.597">          map.entrySet().iterator();</a>
+<span class="sourceLineNo">598</span><a id="line.598">      @CheckForNull K currentKey = null;</a>
+<span class="sourceLineNo">599</span><a id="line.599">      Iterator&lt;V&gt; valueItr = Iterators.emptyIterator();</a>
+<span class="sourceLineNo">600</span><a id="line.600"></a>
+<span class="sourceLineNo">601</span><a id="line.601">      @Override</a>
+<span class="sourceLineNo">602</span><a id="line.602">      public boolean hasNext() {</a>
+<span class="sourceLineNo">603</span><a id="line.603">        return valueItr.hasNext() || asMapItr.hasNext();</a>
+<span class="sourceLineNo">604</span><a id="line.604">      }</a>
+<span class="sourceLineNo">605</span><a id="line.605"></a>
+<span class="sourceLineNo">606</span><a id="line.606">      @Override</a>
+<span class="sourceLineNo">607</span><a id="line.607">      public Entry&lt;K, V&gt; next() {</a>
+<span class="sourceLineNo">608</span><a id="line.608">        if (!valueItr.hasNext()) {</a>
+<span class="sourceLineNo">609</span><a id="line.609">          Entry&lt;K, ? extends ImmutableCollection&lt;V&gt;&gt; entry = asMapItr.next();</a>
+<span class="sourceLineNo">610</span><a id="line.610">          currentKey = entry.getKey();</a>
+<span class="sourceLineNo">611</span><a id="line.611">          valueItr = entry.getValue().iterator();</a>
+<span class="sourceLineNo">612</span><a id="line.612">        }</a>
+<span class="sourceLineNo">613</span><a id="line.613">        /*</a>
+<span class="sourceLineNo">614</span><a id="line.614">         * requireNonNull is safe: The first call to this method always enters the !hasNext() case</a>
+<span class="sourceLineNo">615</span><a id="line.615">         * and populates currentKey, after which it's never cleared.</a>
+<span class="sourceLineNo">616</span><a id="line.616">         */</a>
+<span class="sourceLineNo">617</span><a id="line.617">        return immutableEntry(requireNonNull(currentKey), valueItr.next());</a>
+<span class="sourceLineNo">618</span><a id="line.618">      }</a>
+<span class="sourceLineNo">619</span><a id="line.619">    };</a>
+<span class="sourceLineNo">620</span><a id="line.620">  }</a>
+<span class="sourceLineNo">621</span><a id="line.621"></a>
+<span class="sourceLineNo">622</span><a id="line.622">  @Override</a>
+<span class="sourceLineNo">623</span><a id="line.623">  Spliterator&lt;Entry&lt;K, V&gt;&gt; entrySpliterator() {</a>
+<span class="sourceLineNo">624</span><a id="line.624">    return CollectSpliterators.flatMap(</a>
+<span class="sourceLineNo">625</span><a id="line.625">        asMap().entrySet().spliterator(),</a>
+<span class="sourceLineNo">626</span><a id="line.626">        keyToValueCollectionEntry -&gt; {</a>
+<span class="sourceLineNo">627</span><a id="line.627">          K key = keyToValueCollectionEntry.getKey();</a>
+<span class="sourceLineNo">628</span><a id="line.628">          Collection&lt;V&gt; valueCollection = keyToValueCollectionEntry.getValue();</a>
+<span class="sourceLineNo">629</span><a id="line.629">          return CollectSpliterators.map(</a>
+<span class="sourceLineNo">630</span><a id="line.630">              valueCollection.spliterator(), (V value) -&gt; Maps.immutableEntry(key, value));</a>
+<span class="sourceLineNo">631</span><a id="line.631">        },</a>
+<span class="sourceLineNo">632</span><a id="line.632">        Spliterator.SIZED | (this instanceof SetMultimap ? Spliterator.DISTINCT : 0),</a>
+<span class="sourceLineNo">633</span><a id="line.633">        size());</a>
+<span class="sourceLineNo">634</span><a id="line.634">  }</a>
+<span class="sourceLineNo">635</span><a id="line.635"></a>
+<span class="sourceLineNo">636</span><a id="line.636">  @Override</a>
+<span class="sourceLineNo">637</span><a id="line.637">  public void forEach(BiConsumer&lt;? super K, ? super V&gt; action) {</a>
+<span class="sourceLineNo">638</span><a id="line.638">    checkNotNull(action);</a>
+<span class="sourceLineNo">639</span><a id="line.639">    asMap()</a>
+<span class="sourceLineNo">640</span><a id="line.640">        .forEach(</a>
+<span class="sourceLineNo">641</span><a id="line.641">            (key, valueCollection) -&gt; valueCollection.forEach(value -&gt; action.accept(key, value)));</a>
+<span class="sourceLineNo">642</span><a id="line.642">  }</a>
+<span class="sourceLineNo">643</span><a id="line.643"></a>
+<span class="sourceLineNo">644</span><a id="line.644">  /**</a>
+<span class="sourceLineNo">645</span><a id="line.645">   * Returns an immutable multiset containing all the keys in this multimap, in the same order and</a>
+<span class="sourceLineNo">646</span><a id="line.646">   * with the same frequencies as they appear in this multimap; to get only a single occurrence of</a>
+<span class="sourceLineNo">647</span><a id="line.647">   * each key, use {@link #keySet}.</a>
+<span class="sourceLineNo">648</span><a id="line.648">   */</a>
+<span class="sourceLineNo">649</span><a id="line.649">  @Override</a>
+<span class="sourceLineNo">650</span><a id="line.650">  public ImmutableMultiset&lt;K&gt; keys() {</a>
+<span class="sourceLineNo">651</span><a id="line.651">    return (ImmutableMultiset&lt;K&gt;) super.keys();</a>
+<span class="sourceLineNo">652</span><a id="line.652">  }</a>
+<span class="sourceLineNo">653</span><a id="line.653"></a>
+<span class="sourceLineNo">654</span><a id="line.654">  @Override</a>
+<span class="sourceLineNo">655</span><a id="line.655">  ImmutableMultiset&lt;K&gt; createKeys() {</a>
+<span class="sourceLineNo">656</span><a id="line.656">    return new Keys();</a>
+<span class="sourceLineNo">657</span><a id="line.657">  }</a>
+<span class="sourceLineNo">658</span><a id="line.658"></a>
+<span class="sourceLineNo">659</span><a id="line.659">  @SuppressWarnings("serial") // Uses writeReplace, not default serialization</a>
+<span class="sourceLineNo">660</span><a id="line.660">  @WeakOuter</a>
+<span class="sourceLineNo">661</span><a id="line.661">  class Keys extends ImmutableMultiset&lt;K&gt; {</a>
+<span class="sourceLineNo">662</span><a id="line.662">    @Override</a>
+<span class="sourceLineNo">663</span><a id="line.663">    public boolean contains(@CheckForNull Object object) {</a>
+<span class="sourceLineNo">664</span><a id="line.664">      return containsKey(object);</a>
+<span class="sourceLineNo">665</span><a id="line.665">    }</a>
+<span class="sourceLineNo">666</span><a id="line.666"></a>
+<span class="sourceLineNo">667</span><a id="line.667">    @Override</a>
+<span class="sourceLineNo">668</span><a id="line.668">    public int count(@CheckForNull Object element) {</a>
+<span class="sourceLineNo">669</span><a id="line.669">      Collection&lt;V&gt; values = map.get(element);</a>
+<span class="sourceLineNo">670</span><a id="line.670">      return (values == null) ? 0 : values.size();</a>
+<span class="sourceLineNo">671</span><a id="line.671">    }</a>
+<span class="sourceLineNo">672</span><a id="line.672"></a>
+<span class="sourceLineNo">673</span><a id="line.673">    @Override</a>
+<span class="sourceLineNo">674</span><a id="line.674">    public ImmutableSet&lt;K&gt; elementSet() {</a>
+<span class="sourceLineNo">675</span><a id="line.675">      return keySet();</a>
+<span class="sourceLineNo">676</span><a id="line.676">    }</a>
+<span class="sourceLineNo">677</span><a id="line.677"></a>
+<span class="sourceLineNo">678</span><a id="line.678">    @Override</a>
+<span class="sourceLineNo">679</span><a id="line.679">    public int size() {</a>
+<span class="sourceLineNo">680</span><a id="line.680">      return ImmutableMultimap.this.size();</a>
+<span class="sourceLineNo">681</span><a id="line.681">    }</a>
+<span class="sourceLineNo">682</span><a id="line.682"></a>
+<span class="sourceLineNo">683</span><a id="line.683">    @Override</a>
+<span class="sourceLineNo">684</span><a id="line.684">    Multiset.Entry&lt;K&gt; getEntry(int index) {</a>
+<span class="sourceLineNo">685</span><a id="line.685">      Map.Entry&lt;K, ? extends Collection&lt;V&gt;&gt; entry = map.entrySet().asList().get(index);</a>
+<span class="sourceLineNo">686</span><a id="line.686">      return Multisets.immutableEntry(entry.getKey(), entry.getValue().size());</a>
+<span class="sourceLineNo">687</span><a id="line.687">    }</a>
+<span class="sourceLineNo">688</span><a id="line.688"></a>
+<span class="sourceLineNo">689</span><a id="line.689">    @Override</a>
+<span class="sourceLineNo">690</span><a id="line.690">    boolean isPartialView() {</a>
+<span class="sourceLineNo">691</span><a id="line.691">      return true;</a>
+<span class="sourceLineNo">692</span><a id="line.692">    }</a>
+<span class="sourceLineNo">693</span><a id="line.693"></a>
+<span class="sourceLineNo">694</span><a id="line.694">    @GwtIncompatible</a>
+<span class="sourceLineNo">695</span><a id="line.695">    @J2ktIncompatible</a>
+<span class="sourceLineNo">696</span><a id="line.696">    @Override</a>
+<span class="sourceLineNo">697</span><a id="line.697">    Object writeReplace() {</a>
+<span class="sourceLineNo">698</span><a id="line.698">      return new KeysSerializedForm(ImmutableMultimap.this);</a>
+<span class="sourceLineNo">699</span><a id="line.699">    }</a>
+<span class="sourceLineNo">700</span><a id="line.700"></a>
+<span class="sourceLineNo">701</span><a id="line.701">    @GwtIncompatible</a>
+<span class="sourceLineNo">702</span><a id="line.702">    @J2ktIncompatible</a>
+<span class="sourceLineNo">703</span><a id="line.703">    private void readObject(ObjectInputStream stream) throws InvalidObjectException {</a>
+<span class="sourceLineNo">704</span><a id="line.704">      throw new InvalidObjectException("Use KeysSerializedForm");</a>
+<span class="sourceLineNo">705</span><a id="line.705">    }</a>
+<span class="sourceLineNo">706</span><a id="line.706">  }</a>
 <span class="sourceLineNo">707</span><a id="line.707"></a>
-<span class="sourceLineNo">708</span><a id="line.708">    Object readResolve() {</a>
-<span class="sourceLineNo">709</span><a id="line.709">      return multimap.keys();</a>
-<span class="sourceLineNo">710</span><a id="line.710">    }</a>
-<span class="sourceLineNo">711</span><a id="line.711">  }</a>
+<span class="sourceLineNo">708</span><a id="line.708">  @GwtIncompatible</a>
+<span class="sourceLineNo">709</span><a id="line.709">  @J2ktIncompatible</a>
+<span class="sourceLineNo">710</span><a id="line.710">  private static final class KeysSerializedForm implements Serializable {</a>
+<span class="sourceLineNo">711</span><a id="line.711">    final ImmutableMultimap&lt;?, ?&gt; multimap;</a>
 <span class="sourceLineNo">712</span><a id="line.712"></a>
-<span class="sourceLineNo">713</span><a id="line.713">  /**</a>
-<span class="sourceLineNo">714</span><a id="line.714">   * Returns an immutable collection of the values in this multimap. Its iterator traverses the</a>
-<span class="sourceLineNo">715</span><a id="line.715">   * values for the first key, the values for the second key, and so on.</a>
-<span class="sourceLineNo">716</span><a id="line.716">   */</a>
-<span class="sourceLineNo">717</span><a id="line.717">  @Override</a>
-<span class="sourceLineNo">718</span><a id="line.718">  public ImmutableCollection&lt;V&gt; values() {</a>
-<span class="sourceLineNo">719</span><a id="line.719">    return (ImmutableCollection&lt;V&gt;) super.values();</a>
+<span class="sourceLineNo">713</span><a id="line.713">    KeysSerializedForm(ImmutableMultimap&lt;?, ?&gt; multimap) {</a>
+<span class="sourceLineNo">714</span><a id="line.714">      this.multimap = multimap;</a>
+<span class="sourceLineNo">715</span><a id="line.715">    }</a>
+<span class="sourceLineNo">716</span><a id="line.716"></a>
+<span class="sourceLineNo">717</span><a id="line.717">    Object readResolve() {</a>
+<span class="sourceLineNo">718</span><a id="line.718">      return multimap.keys();</a>
+<span class="sourceLineNo">719</span><a id="line.719">    }</a>
 <span class="sourceLineNo">720</span><a id="line.720">  }</a>
 <span class="sourceLineNo">721</span><a id="line.721"></a>
-<span class="sourceLineNo">722</span><a id="line.722">  @Override</a>
-<span class="sourceLineNo">723</span><a id="line.723">  ImmutableCollection&lt;V&gt; createValues() {</a>
-<span class="sourceLineNo">724</span><a id="line.724">    return new Values&lt;&gt;(this);</a>
-<span class="sourceLineNo">725</span><a id="line.725">  }</a>
-<span class="sourceLineNo">726</span><a id="line.726"></a>
-<span class="sourceLineNo">727</span><a id="line.727">  @Override</a>
-<span class="sourceLineNo">728</span><a id="line.728">  UnmodifiableIterator&lt;V&gt; valueIterator() {</a>
-<span class="sourceLineNo">729</span><a id="line.729">    return new UnmodifiableIterator&lt;V&gt;() {</a>
-<span class="sourceLineNo">730</span><a id="line.730">      Iterator&lt;? extends ImmutableCollection&lt;V&gt;&gt; valueCollectionItr = map.values().iterator();</a>
-<span class="sourceLineNo">731</span><a id="line.731">      Iterator&lt;V&gt; valueItr = Iterators.emptyIterator();</a>
-<span class="sourceLineNo">732</span><a id="line.732"></a>
-<span class="sourceLineNo">733</span><a id="line.733">      @Override</a>
-<span class="sourceLineNo">734</span><a id="line.734">      public boolean hasNext() {</a>
-<span class="sourceLineNo">735</span><a id="line.735">        return valueItr.hasNext() || valueCollectionItr.hasNext();</a>
-<span class="sourceLineNo">736</span><a id="line.736">      }</a>
-<span class="sourceLineNo">737</span><a id="line.737"></a>
-<span class="sourceLineNo">738</span><a id="line.738">      @Override</a>
-<span class="sourceLineNo">739</span><a id="line.739">      public V next() {</a>
-<span class="sourceLineNo">740</span><a id="line.740">        if (!valueItr.hasNext()) {</a>
-<span class="sourceLineNo">741</span><a id="line.741">          valueItr = valueCollectionItr.next().iterator();</a>
-<span class="sourceLineNo">742</span><a id="line.742">        }</a>
-<span class="sourceLineNo">743</span><a id="line.743">        return valueItr.next();</a>
-<span class="sourceLineNo">744</span><a id="line.744">      }</a>
-<span class="sourceLineNo">745</span><a id="line.745">    };</a>
-<span class="sourceLineNo">746</span><a id="line.746">  }</a>
-<span class="sourceLineNo">747</span><a id="line.747"></a>
-<span class="sourceLineNo">748</span><a id="line.748">  private static final class Values&lt;K, V&gt; extends ImmutableCollection&lt;V&gt; {</a>
-<span class="sourceLineNo">749</span><a id="line.749">    @Weak private final transient ImmutableMultimap&lt;K, V&gt; multimap;</a>
-<span class="sourceLineNo">750</span><a id="line.750"></a>
-<span class="sourceLineNo">751</span><a id="line.751">    Values(ImmutableMultimap&lt;K, V&gt; multimap) {</a>
-<span class="sourceLineNo">752</span><a id="line.752">      this.multimap = multimap;</a>
-<span class="sourceLineNo">753</span><a id="line.753">    }</a>
-<span class="sourceLineNo">754</span><a id="line.754"></a>
-<span class="sourceLineNo">755</span><a id="line.755">    @Override</a>
-<span class="sourceLineNo">756</span><a id="line.756">    public boolean contains(@CheckForNull Object object) {</a>
-<span class="sourceLineNo">757</span><a id="line.757">      return multimap.containsValue(object);</a>
-<span class="sourceLineNo">758</span><a id="line.758">    }</a>
+<span class="sourceLineNo">722</span><a id="line.722">  /**</a>
+<span class="sourceLineNo">723</span><a id="line.723">   * Returns an immutable collection of the values in this multimap. Its iterator traverses the</a>
+<span class="sourceLineNo">724</span><a id="line.724">   * values for the first key, the values for the second key, and so on.</a>
+<span class="sourceLineNo">725</span><a id="line.725">   */</a>
+<span class="sourceLineNo">726</span><a id="line.726">  @Override</a>
+<span class="sourceLineNo">727</span><a id="line.727">  public ImmutableCollection&lt;V&gt; values() {</a>
+<span class="sourceLineNo">728</span><a id="line.728">    return (ImmutableCollection&lt;V&gt;) super.values();</a>
+<span class="sourceLineNo">729</span><a id="line.729">  }</a>
+<span class="sourceLineNo">730</span><a id="line.730"></a>
+<span class="sourceLineNo">731</span><a id="line.731">  @Override</a>
+<span class="sourceLineNo">732</span><a id="line.732">  ImmutableCollection&lt;V&gt; createValues() {</a>
+<span class="sourceLineNo">733</span><a id="line.733">    return new Values&lt;&gt;(this);</a>
+<span class="sourceLineNo">734</span><a id="line.734">  }</a>
+<span class="sourceLineNo">735</span><a id="line.735"></a>
+<span class="sourceLineNo">736</span><a id="line.736">  @Override</a>
+<span class="sourceLineNo">737</span><a id="line.737">  UnmodifiableIterator&lt;V&gt; valueIterator() {</a>
+<span class="sourceLineNo">738</span><a id="line.738">    return new UnmodifiableIterator&lt;V&gt;() {</a>
+<span class="sourceLineNo">739</span><a id="line.739">      Iterator&lt;? extends ImmutableCollection&lt;V&gt;&gt; valueCollectionItr = map.values().iterator();</a>
+<span class="sourceLineNo">740</span><a id="line.740">      Iterator&lt;V&gt; valueItr = Iterators.emptyIterator();</a>
+<span class="sourceLineNo">741</span><a id="line.741"></a>
+<span class="sourceLineNo">742</span><a id="line.742">      @Override</a>
+<span class="sourceLineNo">743</span><a id="line.743">      public boolean hasNext() {</a>
+<span class="sourceLineNo">744</span><a id="line.744">        return valueItr.hasNext() || valueCollectionItr.hasNext();</a>
+<span class="sourceLineNo">745</span><a id="line.745">      }</a>
+<span class="sourceLineNo">746</span><a id="line.746"></a>
+<span class="sourceLineNo">747</span><a id="line.747">      @Override</a>
+<span class="sourceLineNo">748</span><a id="line.748">      public V next() {</a>
+<span class="sourceLineNo">749</span><a id="line.749">        if (!valueItr.hasNext()) {</a>
+<span class="sourceLineNo">750</span><a id="line.750">          valueItr = valueCollectionItr.next().iterator();</a>
+<span class="sourceLineNo">751</span><a id="line.751">        }</a>
+<span class="sourceLineNo">752</span><a id="line.752">        return valueItr.next();</a>
+<span class="sourceLineNo">753</span><a id="line.753">      }</a>
+<span class="sourceLineNo">754</span><a id="line.754">    };</a>
+<span class="sourceLineNo">755</span><a id="line.755">  }</a>
+<span class="sourceLineNo">756</span><a id="line.756"></a>
+<span class="sourceLineNo">757</span><a id="line.757">  private static final class Values&lt;K, V&gt; extends ImmutableCollection&lt;V&gt; {</a>
+<span class="sourceLineNo">758</span><a id="line.758">    @Weak private final transient ImmutableMultimap&lt;K, V&gt; multimap;</a>
 <span class="sourceLineNo">759</span><a id="line.759"></a>
-<span class="sourceLineNo">760</span><a id="line.760">    @Override</a>
-<span class="sourceLineNo">761</span><a id="line.761">    public UnmodifiableIterator&lt;V&gt; iterator() {</a>
-<span class="sourceLineNo">762</span><a id="line.762">      return multimap.valueIterator();</a>
-<span class="sourceLineNo">763</span><a id="line.763">    }</a>
-<span class="sourceLineNo">764</span><a id="line.764"></a>
-<span class="sourceLineNo">765</span><a id="line.765">    @GwtIncompatible // not present in emulated superclass</a>
-<span class="sourceLineNo">766</span><a id="line.766">    @Override</a>
-<span class="sourceLineNo">767</span><a id="line.767">    int copyIntoArray(@Nullable Object[] dst, int offset) {</a>
-<span class="sourceLineNo">768</span><a id="line.768">      for (ImmutableCollection&lt;V&gt; valueCollection : multimap.map.values()) {</a>
-<span class="sourceLineNo">769</span><a id="line.769">        offset = valueCollection.copyIntoArray(dst, offset);</a>
-<span class="sourceLineNo">770</span><a id="line.770">      }</a>
-<span class="sourceLineNo">771</span><a id="line.771">      return offset;</a>
+<span class="sourceLineNo">760</span><a id="line.760">    Values(ImmutableMultimap&lt;K, V&gt; multimap) {</a>
+<span class="sourceLineNo">761</span><a id="line.761">      this.multimap = multimap;</a>
+<span class="sourceLineNo">762</span><a id="line.762">    }</a>
+<span class="sourceLineNo">763</span><a id="line.763"></a>
+<span class="sourceLineNo">764</span><a id="line.764">    @Override</a>
+<span class="sourceLineNo">765</span><a id="line.765">    public boolean contains(@CheckForNull Object object) {</a>
+<span class="sourceLineNo">766</span><a id="line.766">      return multimap.containsValue(object);</a>
+<span class="sourceLineNo">767</span><a id="line.767">    }</a>
+<span class="sourceLineNo">768</span><a id="line.768"></a>
+<span class="sourceLineNo">769</span><a id="line.769">    @Override</a>
+<span class="sourceLineNo">770</span><a id="line.770">    public UnmodifiableIterator&lt;V&gt; iterator() {</a>
+<span class="sourceLineNo">771</span><a id="line.771">      return multimap.valueIterator();</a>
 <span class="sourceLineNo">772</span><a id="line.772">    }</a>
 <span class="sourceLineNo">773</span><a id="line.773"></a>
-<span class="sourceLineNo">774</span><a id="line.774">    @Override</a>
-<span class="sourceLineNo">775</span><a id="line.775">    public int size() {</a>
-<span class="sourceLineNo">776</span><a id="line.776">      return multimap.size();</a>
-<span class="sourceLineNo">777</span><a id="line.777">    }</a>
-<span class="sourceLineNo">778</span><a id="line.778"></a>
-<span class="sourceLineNo">779</span><a id="line.779">    @Override</a>
-<span class="sourceLineNo">780</span><a id="line.780">    boolean isPartialView() {</a>
-<span class="sourceLineNo">781</span><a id="line.781">      return true;</a>
-<span class="sourceLineNo">782</span><a id="line.782">    }</a>
-<span class="sourceLineNo">783</span><a id="line.783"></a>
-<span class="sourceLineNo">784</span><a id="line.784">    @J2ktIncompatible // serialization</a>
-<span class="sourceLineNo">785</span><a id="line.785">    private static final long serialVersionUID = 0;</a>
-<span class="sourceLineNo">786</span><a id="line.786">  }</a>
+<span class="sourceLineNo">774</span><a id="line.774">    @GwtIncompatible // not present in emulated superclass</a>
+<span class="sourceLineNo">775</span><a id="line.775">    @Override</a>
+<span class="sourceLineNo">776</span><a id="line.776">    int copyIntoArray(@Nullable Object[] dst, int offset) {</a>
+<span class="sourceLineNo">777</span><a id="line.777">      for (ImmutableCollection&lt;V&gt; valueCollection : multimap.map.values()) {</a>
+<span class="sourceLineNo">778</span><a id="line.778">        offset = valueCollection.copyIntoArray(dst, offset);</a>
+<span class="sourceLineNo">779</span><a id="line.779">      }</a>
+<span class="sourceLineNo">780</span><a id="line.780">      return offset;</a>
+<span class="sourceLineNo">781</span><a id="line.781">    }</a>
+<span class="sourceLineNo">782</span><a id="line.782"></a>
+<span class="sourceLineNo">783</span><a id="line.783">    @Override</a>
+<span class="sourceLineNo">784</span><a id="line.784">    public int size() {</a>
+<span class="sourceLineNo">785</span><a id="line.785">      return multimap.size();</a>
+<span class="sourceLineNo">786</span><a id="line.786">    }</a>
 <span class="sourceLineNo">787</span><a id="line.787"></a>
-<span class="sourceLineNo">788</span><a id="line.788">  @J2ktIncompatible // serialization</a>
-<span class="sourceLineNo">789</span><a id="line.789">  private static final long serialVersionUID = 0;</a>
-<span class="sourceLineNo">790</span><a id="line.790">}</a>
+<span class="sourceLineNo">788</span><a id="line.788">    @Override</a>
+<span class="sourceLineNo">789</span><a id="line.789">    boolean isPartialView() {</a>
+<span class="sourceLineNo">790</span><a id="line.790">      return true;</a>
+<span class="sourceLineNo">791</span><a id="line.791">    }</a>
+<span class="sourceLineNo">792</span><a id="line.792"></a>
+<span class="sourceLineNo">793</span><a id="line.793">    // redeclare to help optimizers with b/310253115</a>
+<span class="sourceLineNo">794</span><a id="line.794">    @SuppressWarnings("RedundantOverride")</a>
+<span class="sourceLineNo">795</span><a id="line.795">    @Override</a>
+<span class="sourceLineNo">796</span><a id="line.796">    @J2ktIncompatible // serialization</a>
+<span class="sourceLineNo">797</span><a id="line.797">    @GwtIncompatible // serialization</a>
+<span class="sourceLineNo">798</span><a id="line.798">    Object writeReplace() {</a>
+<span class="sourceLineNo">799</span><a id="line.799">      return super.writeReplace();</a>
+<span class="sourceLineNo">800</span><a id="line.800">    }</a>
+<span class="sourceLineNo">801</span><a id="line.801"></a>
+<span class="sourceLineNo">802</span><a id="line.802">    @J2ktIncompatible // serialization</a>
+<span class="sourceLineNo">803</span><a id="line.803">    private static final long serialVersionUID = 0;</a>
+<span class="sourceLineNo">804</span><a id="line.804">  }</a>
+<span class="sourceLineNo">805</span><a id="line.805"></a>
+<span class="sourceLineNo">806</span><a id="line.806">  @J2ktIncompatible // serialization</a>
+<span class="sourceLineNo">807</span><a id="line.807">  private static final long serialVersionUID = 0;</a>
+<span class="sourceLineNo">808</span><a id="line.808">}</a>
 
 
 

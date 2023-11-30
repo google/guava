@@ -454,76 +454,73 @@
 <span class="sourceLineNo">445</span><a id="line.445">    throw new UnsupportedOperationException();</a>
 <span class="sourceLineNo">446</span><a id="line.446">  }</a>
 <span class="sourceLineNo">447</span><a id="line.447"></a>
-<span class="sourceLineNo">448</span><a id="line.448">  /** Creates the common serialized form for this table. */</a>
-<span class="sourceLineNo">449</span><a id="line.449">  abstract SerializedForm createSerializedForm();</a>
-<span class="sourceLineNo">450</span><a id="line.450"></a>
-<span class="sourceLineNo">451</span><a id="line.451">  /**</a>
-<span class="sourceLineNo">452</span><a id="line.452">   * Serialized type for all ImmutableTable instances. It captures the logical contents and</a>
-<span class="sourceLineNo">453</span><a id="line.453">   * preserves iteration order of all views.</a>
-<span class="sourceLineNo">454</span><a id="line.454">   */</a>
-<span class="sourceLineNo">455</span><a id="line.455">  static final class SerializedForm implements Serializable {</a>
-<span class="sourceLineNo">456</span><a id="line.456">    private final Object[] rowKeys;</a>
-<span class="sourceLineNo">457</span><a id="line.457">    private final Object[] columnKeys;</a>
-<span class="sourceLineNo">458</span><a id="line.458"></a>
-<span class="sourceLineNo">459</span><a id="line.459">    private final Object[] cellValues;</a>
-<span class="sourceLineNo">460</span><a id="line.460">    private final int[] cellRowIndices;</a>
-<span class="sourceLineNo">461</span><a id="line.461">    private final int[] cellColumnIndices;</a>
-<span class="sourceLineNo">462</span><a id="line.462"></a>
-<span class="sourceLineNo">463</span><a id="line.463">    private SerializedForm(</a>
-<span class="sourceLineNo">464</span><a id="line.464">        Object[] rowKeys,</a>
-<span class="sourceLineNo">465</span><a id="line.465">        Object[] columnKeys,</a>
-<span class="sourceLineNo">466</span><a id="line.466">        Object[] cellValues,</a>
-<span class="sourceLineNo">467</span><a id="line.467">        int[] cellRowIndices,</a>
-<span class="sourceLineNo">468</span><a id="line.468">        int[] cellColumnIndices) {</a>
-<span class="sourceLineNo">469</span><a id="line.469">      this.rowKeys = rowKeys;</a>
-<span class="sourceLineNo">470</span><a id="line.470">      this.columnKeys = columnKeys;</a>
-<span class="sourceLineNo">471</span><a id="line.471">      this.cellValues = cellValues;</a>
-<span class="sourceLineNo">472</span><a id="line.472">      this.cellRowIndices = cellRowIndices;</a>
-<span class="sourceLineNo">473</span><a id="line.473">      this.cellColumnIndices = cellColumnIndices;</a>
-<span class="sourceLineNo">474</span><a id="line.474">    }</a>
-<span class="sourceLineNo">475</span><a id="line.475"></a>
-<span class="sourceLineNo">476</span><a id="line.476">    static SerializedForm create(</a>
-<span class="sourceLineNo">477</span><a id="line.477">        ImmutableTable&lt;?, ?, ?&gt; table, int[] cellRowIndices, int[] cellColumnIndices) {</a>
-<span class="sourceLineNo">478</span><a id="line.478">      return new SerializedForm(</a>
-<span class="sourceLineNo">479</span><a id="line.479">          table.rowKeySet().toArray(),</a>
-<span class="sourceLineNo">480</span><a id="line.480">          table.columnKeySet().toArray(),</a>
-<span class="sourceLineNo">481</span><a id="line.481">          table.values().toArray(),</a>
-<span class="sourceLineNo">482</span><a id="line.482">          cellRowIndices,</a>
-<span class="sourceLineNo">483</span><a id="line.483">          cellColumnIndices);</a>
-<span class="sourceLineNo">484</span><a id="line.484">    }</a>
-<span class="sourceLineNo">485</span><a id="line.485"></a>
-<span class="sourceLineNo">486</span><a id="line.486">    Object readResolve() {</a>
-<span class="sourceLineNo">487</span><a id="line.487">      if (cellValues.length == 0) {</a>
-<span class="sourceLineNo">488</span><a id="line.488">        return of();</a>
+<span class="sourceLineNo">448</span><a id="line.448">  /**</a>
+<span class="sourceLineNo">449</span><a id="line.449">   * Serialized type for all ImmutableTable instances. It captures the logical contents and</a>
+<span class="sourceLineNo">450</span><a id="line.450">   * preserves iteration order of all views.</a>
+<span class="sourceLineNo">451</span><a id="line.451">   */</a>
+<span class="sourceLineNo">452</span><a id="line.452">  static final class SerializedForm implements Serializable {</a>
+<span class="sourceLineNo">453</span><a id="line.453">    private final Object[] rowKeys;</a>
+<span class="sourceLineNo">454</span><a id="line.454">    private final Object[] columnKeys;</a>
+<span class="sourceLineNo">455</span><a id="line.455"></a>
+<span class="sourceLineNo">456</span><a id="line.456">    private final Object[] cellValues;</a>
+<span class="sourceLineNo">457</span><a id="line.457">    private final int[] cellRowIndices;</a>
+<span class="sourceLineNo">458</span><a id="line.458">    private final int[] cellColumnIndices;</a>
+<span class="sourceLineNo">459</span><a id="line.459"></a>
+<span class="sourceLineNo">460</span><a id="line.460">    private SerializedForm(</a>
+<span class="sourceLineNo">461</span><a id="line.461">        Object[] rowKeys,</a>
+<span class="sourceLineNo">462</span><a id="line.462">        Object[] columnKeys,</a>
+<span class="sourceLineNo">463</span><a id="line.463">        Object[] cellValues,</a>
+<span class="sourceLineNo">464</span><a id="line.464">        int[] cellRowIndices,</a>
+<span class="sourceLineNo">465</span><a id="line.465">        int[] cellColumnIndices) {</a>
+<span class="sourceLineNo">466</span><a id="line.466">      this.rowKeys = rowKeys;</a>
+<span class="sourceLineNo">467</span><a id="line.467">      this.columnKeys = columnKeys;</a>
+<span class="sourceLineNo">468</span><a id="line.468">      this.cellValues = cellValues;</a>
+<span class="sourceLineNo">469</span><a id="line.469">      this.cellRowIndices = cellRowIndices;</a>
+<span class="sourceLineNo">470</span><a id="line.470">      this.cellColumnIndices = cellColumnIndices;</a>
+<span class="sourceLineNo">471</span><a id="line.471">    }</a>
+<span class="sourceLineNo">472</span><a id="line.472"></a>
+<span class="sourceLineNo">473</span><a id="line.473">    static SerializedForm create(</a>
+<span class="sourceLineNo">474</span><a id="line.474">        ImmutableTable&lt;?, ?, ?&gt; table, int[] cellRowIndices, int[] cellColumnIndices) {</a>
+<span class="sourceLineNo">475</span><a id="line.475">      return new SerializedForm(</a>
+<span class="sourceLineNo">476</span><a id="line.476">          table.rowKeySet().toArray(),</a>
+<span class="sourceLineNo">477</span><a id="line.477">          table.columnKeySet().toArray(),</a>
+<span class="sourceLineNo">478</span><a id="line.478">          table.values().toArray(),</a>
+<span class="sourceLineNo">479</span><a id="line.479">          cellRowIndices,</a>
+<span class="sourceLineNo">480</span><a id="line.480">          cellColumnIndices);</a>
+<span class="sourceLineNo">481</span><a id="line.481">    }</a>
+<span class="sourceLineNo">482</span><a id="line.482"></a>
+<span class="sourceLineNo">483</span><a id="line.483">    Object readResolve() {</a>
+<span class="sourceLineNo">484</span><a id="line.484">      if (cellValues.length == 0) {</a>
+<span class="sourceLineNo">485</span><a id="line.485">        return of();</a>
+<span class="sourceLineNo">486</span><a id="line.486">      }</a>
+<span class="sourceLineNo">487</span><a id="line.487">      if (cellValues.length == 1) {</a>
+<span class="sourceLineNo">488</span><a id="line.488">        return of(rowKeys[0], columnKeys[0], cellValues[0]);</a>
 <span class="sourceLineNo">489</span><a id="line.489">      }</a>
-<span class="sourceLineNo">490</span><a id="line.490">      if (cellValues.length == 1) {</a>
-<span class="sourceLineNo">491</span><a id="line.491">        return of(rowKeys[0], columnKeys[0], cellValues[0]);</a>
-<span class="sourceLineNo">492</span><a id="line.492">      }</a>
-<span class="sourceLineNo">493</span><a id="line.493">      ImmutableList.Builder&lt;Cell&lt;Object, Object, Object&gt;&gt; cellListBuilder =</a>
-<span class="sourceLineNo">494</span><a id="line.494">          new ImmutableList.Builder&lt;&gt;(cellValues.length);</a>
-<span class="sourceLineNo">495</span><a id="line.495">      for (int i = 0; i &lt; cellValues.length; i++) {</a>
-<span class="sourceLineNo">496</span><a id="line.496">        cellListBuilder.add(</a>
-<span class="sourceLineNo">497</span><a id="line.497">            cellOf(rowKeys[cellRowIndices[i]], columnKeys[cellColumnIndices[i]], cellValues[i]));</a>
-<span class="sourceLineNo">498</span><a id="line.498">      }</a>
-<span class="sourceLineNo">499</span><a id="line.499">      return RegularImmutableTable.forOrderedComponents(</a>
-<span class="sourceLineNo">500</span><a id="line.500">          cellListBuilder.build(), ImmutableSet.copyOf(rowKeys), ImmutableSet.copyOf(columnKeys));</a>
-<span class="sourceLineNo">501</span><a id="line.501">    }</a>
+<span class="sourceLineNo">490</span><a id="line.490">      ImmutableList.Builder&lt;Cell&lt;Object, Object, Object&gt;&gt; cellListBuilder =</a>
+<span class="sourceLineNo">491</span><a id="line.491">          new ImmutableList.Builder&lt;&gt;(cellValues.length);</a>
+<span class="sourceLineNo">492</span><a id="line.492">      for (int i = 0; i &lt; cellValues.length; i++) {</a>
+<span class="sourceLineNo">493</span><a id="line.493">        cellListBuilder.add(</a>
+<span class="sourceLineNo">494</span><a id="line.494">            cellOf(rowKeys[cellRowIndices[i]], columnKeys[cellColumnIndices[i]], cellValues[i]));</a>
+<span class="sourceLineNo">495</span><a id="line.495">      }</a>
+<span class="sourceLineNo">496</span><a id="line.496">      return RegularImmutableTable.forOrderedComponents(</a>
+<span class="sourceLineNo">497</span><a id="line.497">          cellListBuilder.build(), ImmutableSet.copyOf(rowKeys), ImmutableSet.copyOf(columnKeys));</a>
+<span class="sourceLineNo">498</span><a id="line.498">    }</a>
+<span class="sourceLineNo">499</span><a id="line.499"></a>
+<span class="sourceLineNo">500</span><a id="line.500">    private static final long serialVersionUID = 0;</a>
+<span class="sourceLineNo">501</span><a id="line.501">  }</a>
 <span class="sourceLineNo">502</span><a id="line.502"></a>
-<span class="sourceLineNo">503</span><a id="line.503">    private static final long serialVersionUID = 0;</a>
-<span class="sourceLineNo">504</span><a id="line.504">  }</a>
-<span class="sourceLineNo">505</span><a id="line.505"></a>
-<span class="sourceLineNo">506</span><a id="line.506">  final Object writeReplace() {</a>
-<span class="sourceLineNo">507</span><a id="line.507">    return createSerializedForm();</a>
-<span class="sourceLineNo">508</span><a id="line.508">  }</a>
-<span class="sourceLineNo">509</span><a id="line.509"></a>
-<span class="sourceLineNo">510</span><a id="line.510">  @GwtIncompatible // serialization</a>
-<span class="sourceLineNo">511</span><a id="line.511">  @J2ktIncompatible</a>
-<span class="sourceLineNo">512</span><a id="line.512">  private void readObject(ObjectInputStream stream) throws InvalidObjectException {</a>
-<span class="sourceLineNo">513</span><a id="line.513">    throw new InvalidObjectException("Use SerializedForm");</a>
-<span class="sourceLineNo">514</span><a id="line.514">  }</a>
-<span class="sourceLineNo">515</span><a id="line.515"></a>
-<span class="sourceLineNo">516</span><a id="line.516">  private static final long serialVersionUID = 0xcafebabe;</a>
-<span class="sourceLineNo">517</span><a id="line.517">}</a>
+<span class="sourceLineNo">503</span><a id="line.503">  @J2ktIncompatible // serialization</a>
+<span class="sourceLineNo">504</span><a id="line.504">  @GwtIncompatible // serialization</a>
+<span class="sourceLineNo">505</span><a id="line.505">  abstract Object writeReplace();</a>
+<span class="sourceLineNo">506</span><a id="line.506"></a>
+<span class="sourceLineNo">507</span><a id="line.507">  @GwtIncompatible // serialization</a>
+<span class="sourceLineNo">508</span><a id="line.508">  @J2ktIncompatible</a>
+<span class="sourceLineNo">509</span><a id="line.509">  private void readObject(ObjectInputStream stream) throws InvalidObjectException {</a>
+<span class="sourceLineNo">510</span><a id="line.510">    throw new InvalidObjectException("Use SerializedForm");</a>
+<span class="sourceLineNo">511</span><a id="line.511">  }</a>
+<span class="sourceLineNo">512</span><a id="line.512"></a>
+<span class="sourceLineNo">513</span><a id="line.513">  private static final long serialVersionUID = 0xcafebabe;</a>
+<span class="sourceLineNo">514</span><a id="line.514">}</a>
 
 
 

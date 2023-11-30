@@ -477,103 +477,112 @@
 <span class="sourceLineNo">468</span><a id="line.468">    boolean isPartialView() {</a>
 <span class="sourceLineNo">469</span><a id="line.469">      return false;</a>
 <span class="sourceLineNo">470</span><a id="line.470">    }</a>
-<span class="sourceLineNo">471</span><a id="line.471">  }</a>
-<span class="sourceLineNo">472</span><a id="line.472"></a>
-<span class="sourceLineNo">473</span><a id="line.473">  private static &lt;V&gt; ImmutableSet&lt;V&gt; valueSet(</a>
-<span class="sourceLineNo">474</span><a id="line.474">      @CheckForNull Comparator&lt;? super V&gt; valueComparator, Collection&lt;? extends V&gt; values) {</a>
-<span class="sourceLineNo">475</span><a id="line.475">    return (valueComparator == null)</a>
-<span class="sourceLineNo">476</span><a id="line.476">        ? ImmutableSet.copyOf(values)</a>
-<span class="sourceLineNo">477</span><a id="line.477">        : ImmutableSortedSet.copyOf(valueComparator, values);</a>
-<span class="sourceLineNo">478</span><a id="line.478">  }</a>
-<span class="sourceLineNo">479</span><a id="line.479"></a>
-<span class="sourceLineNo">480</span><a id="line.480">  private static &lt;V&gt; ImmutableSet&lt;V&gt; emptySet(@CheckForNull Comparator&lt;? super V&gt; valueComparator) {</a>
-<span class="sourceLineNo">481</span><a id="line.481">    return (valueComparator == null)</a>
-<span class="sourceLineNo">482</span><a id="line.482">        ? ImmutableSet.&lt;V&gt;of()</a>
-<span class="sourceLineNo">483</span><a id="line.483">        : ImmutableSortedSet.&lt;V&gt;emptySet(valueComparator);</a>
-<span class="sourceLineNo">484</span><a id="line.484">  }</a>
-<span class="sourceLineNo">485</span><a id="line.485"></a>
-<span class="sourceLineNo">486</span><a id="line.486">  private static &lt;V&gt; ImmutableSet.Builder&lt;V&gt; valuesBuilder(</a>
-<span class="sourceLineNo">487</span><a id="line.487">      @CheckForNull Comparator&lt;? super V&gt; valueComparator) {</a>
-<span class="sourceLineNo">488</span><a id="line.488">    return (valueComparator == null)</a>
-<span class="sourceLineNo">489</span><a id="line.489">        ? new ImmutableSet.Builder&lt;V&gt;()</a>
-<span class="sourceLineNo">490</span><a id="line.490">        : new ImmutableSortedSet.Builder&lt;V&gt;(valueComparator);</a>
-<span class="sourceLineNo">491</span><a id="line.491">  }</a>
-<span class="sourceLineNo">492</span><a id="line.492"></a>
-<span class="sourceLineNo">493</span><a id="line.493">  /**</a>
-<span class="sourceLineNo">494</span><a id="line.494">   * @serialData number of distinct keys, and then for each distinct key: the key, the number of</a>
-<span class="sourceLineNo">495</span><a id="line.495">   *     values for that key, and the key's values</a>
-<span class="sourceLineNo">496</span><a id="line.496">   */</a>
-<span class="sourceLineNo">497</span><a id="line.497">  @GwtIncompatible // java.io.ObjectOutputStream</a>
-<span class="sourceLineNo">498</span><a id="line.498">  @J2ktIncompatible</a>
-<span class="sourceLineNo">499</span><a id="line.499">  private void writeObject(ObjectOutputStream stream) throws IOException {</a>
-<span class="sourceLineNo">500</span><a id="line.500">    stream.defaultWriteObject();</a>
-<span class="sourceLineNo">501</span><a id="line.501">    stream.writeObject(valueComparator());</a>
-<span class="sourceLineNo">502</span><a id="line.502">    Serialization.writeMultimap(this, stream);</a>
-<span class="sourceLineNo">503</span><a id="line.503">  }</a>
-<span class="sourceLineNo">504</span><a id="line.504"></a>
-<span class="sourceLineNo">505</span><a id="line.505">  @CheckForNull</a>
-<span class="sourceLineNo">506</span><a id="line.506">  Comparator&lt;? super V&gt; valueComparator() {</a>
-<span class="sourceLineNo">507</span><a id="line.507">    return emptySet instanceof ImmutableSortedSet</a>
-<span class="sourceLineNo">508</span><a id="line.508">        ? ((ImmutableSortedSet&lt;V&gt;) emptySet).comparator()</a>
-<span class="sourceLineNo">509</span><a id="line.509">        : null;</a>
-<span class="sourceLineNo">510</span><a id="line.510">  }</a>
-<span class="sourceLineNo">511</span><a id="line.511"></a>
-<span class="sourceLineNo">512</span><a id="line.512">  @GwtIncompatible // java serialization</a>
-<span class="sourceLineNo">513</span><a id="line.513">  @J2ktIncompatible</a>
-<span class="sourceLineNo">514</span><a id="line.514">  private static final class SetFieldSettersHolder {</a>
-<span class="sourceLineNo">515</span><a id="line.515">    static final Serialization.FieldSetter&lt;ImmutableSetMultimap&gt; EMPTY_SET_FIELD_SETTER =</a>
-<span class="sourceLineNo">516</span><a id="line.516">        Serialization.getFieldSetter(ImmutableSetMultimap.class, "emptySet");</a>
-<span class="sourceLineNo">517</span><a id="line.517">  }</a>
-<span class="sourceLineNo">518</span><a id="line.518"></a>
-<span class="sourceLineNo">519</span><a id="line.519">  @GwtIncompatible // java.io.ObjectInputStream</a>
-<span class="sourceLineNo">520</span><a id="line.520">  @J2ktIncompatible</a>
-<span class="sourceLineNo">521</span><a id="line.521">  // Serialization type safety is at the caller's mercy.</a>
-<span class="sourceLineNo">522</span><a id="line.522">  @SuppressWarnings("unchecked")</a>
-<span class="sourceLineNo">523</span><a id="line.523">  private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {</a>
-<span class="sourceLineNo">524</span><a id="line.524">    stream.defaultReadObject();</a>
-<span class="sourceLineNo">525</span><a id="line.525">    Comparator&lt;Object&gt; valueComparator = (Comparator&lt;Object&gt;) stream.readObject();</a>
-<span class="sourceLineNo">526</span><a id="line.526">    int keyCount = stream.readInt();</a>
-<span class="sourceLineNo">527</span><a id="line.527">    if (keyCount &lt; 0) {</a>
-<span class="sourceLineNo">528</span><a id="line.528">      throw new InvalidObjectException("Invalid key count " + keyCount);</a>
-<span class="sourceLineNo">529</span><a id="line.529">    }</a>
-<span class="sourceLineNo">530</span><a id="line.530">    ImmutableMap.Builder&lt;Object, ImmutableSet&lt;Object&gt;&gt; builder = ImmutableMap.builder();</a>
-<span class="sourceLineNo">531</span><a id="line.531">    int tmpSize = 0;</a>
-<span class="sourceLineNo">532</span><a id="line.532"></a>
-<span class="sourceLineNo">533</span><a id="line.533">    for (int i = 0; i &lt; keyCount; i++) {</a>
-<span class="sourceLineNo">534</span><a id="line.534">      Object key = requireNonNull(stream.readObject());</a>
-<span class="sourceLineNo">535</span><a id="line.535">      int valueCount = stream.readInt();</a>
-<span class="sourceLineNo">536</span><a id="line.536">      if (valueCount &lt;= 0) {</a>
-<span class="sourceLineNo">537</span><a id="line.537">        throw new InvalidObjectException("Invalid value count " + valueCount);</a>
-<span class="sourceLineNo">538</span><a id="line.538">      }</a>
-<span class="sourceLineNo">539</span><a id="line.539"></a>
-<span class="sourceLineNo">540</span><a id="line.540">      ImmutableSet.Builder&lt;Object&gt; valuesBuilder = valuesBuilder(valueComparator);</a>
-<span class="sourceLineNo">541</span><a id="line.541">      for (int j = 0; j &lt; valueCount; j++) {</a>
-<span class="sourceLineNo">542</span><a id="line.542">        valuesBuilder.add(requireNonNull(stream.readObject()));</a>
-<span class="sourceLineNo">543</span><a id="line.543">      }</a>
-<span class="sourceLineNo">544</span><a id="line.544">      ImmutableSet&lt;Object&gt; valueSet = valuesBuilder.build();</a>
-<span class="sourceLineNo">545</span><a id="line.545">      if (valueSet.size() != valueCount) {</a>
-<span class="sourceLineNo">546</span><a id="line.546">        throw new InvalidObjectException("Duplicate key-value pairs exist for key " + key);</a>
+<span class="sourceLineNo">471</span><a id="line.471"></a>
+<span class="sourceLineNo">472</span><a id="line.472">    // redeclare to help optimizers with b/310253115</a>
+<span class="sourceLineNo">473</span><a id="line.473">    @SuppressWarnings("RedundantOverride")</a>
+<span class="sourceLineNo">474</span><a id="line.474">    @Override</a>
+<span class="sourceLineNo">475</span><a id="line.475">    @J2ktIncompatible // serialization</a>
+<span class="sourceLineNo">476</span><a id="line.476">    @GwtIncompatible // serialization</a>
+<span class="sourceLineNo">477</span><a id="line.477">    Object writeReplace() {</a>
+<span class="sourceLineNo">478</span><a id="line.478">      return super.writeReplace();</a>
+<span class="sourceLineNo">479</span><a id="line.479">    }</a>
+<span class="sourceLineNo">480</span><a id="line.480">  }</a>
+<span class="sourceLineNo">481</span><a id="line.481"></a>
+<span class="sourceLineNo">482</span><a id="line.482">  private static &lt;V&gt; ImmutableSet&lt;V&gt; valueSet(</a>
+<span class="sourceLineNo">483</span><a id="line.483">      @CheckForNull Comparator&lt;? super V&gt; valueComparator, Collection&lt;? extends V&gt; values) {</a>
+<span class="sourceLineNo">484</span><a id="line.484">    return (valueComparator == null)</a>
+<span class="sourceLineNo">485</span><a id="line.485">        ? ImmutableSet.copyOf(values)</a>
+<span class="sourceLineNo">486</span><a id="line.486">        : ImmutableSortedSet.copyOf(valueComparator, values);</a>
+<span class="sourceLineNo">487</span><a id="line.487">  }</a>
+<span class="sourceLineNo">488</span><a id="line.488"></a>
+<span class="sourceLineNo">489</span><a id="line.489">  private static &lt;V&gt; ImmutableSet&lt;V&gt; emptySet(@CheckForNull Comparator&lt;? super V&gt; valueComparator) {</a>
+<span class="sourceLineNo">490</span><a id="line.490">    return (valueComparator == null)</a>
+<span class="sourceLineNo">491</span><a id="line.491">        ? ImmutableSet.&lt;V&gt;of()</a>
+<span class="sourceLineNo">492</span><a id="line.492">        : ImmutableSortedSet.&lt;V&gt;emptySet(valueComparator);</a>
+<span class="sourceLineNo">493</span><a id="line.493">  }</a>
+<span class="sourceLineNo">494</span><a id="line.494"></a>
+<span class="sourceLineNo">495</span><a id="line.495">  private static &lt;V&gt; ImmutableSet.Builder&lt;V&gt; valuesBuilder(</a>
+<span class="sourceLineNo">496</span><a id="line.496">      @CheckForNull Comparator&lt;? super V&gt; valueComparator) {</a>
+<span class="sourceLineNo">497</span><a id="line.497">    return (valueComparator == null)</a>
+<span class="sourceLineNo">498</span><a id="line.498">        ? new ImmutableSet.Builder&lt;V&gt;()</a>
+<span class="sourceLineNo">499</span><a id="line.499">        : new ImmutableSortedSet.Builder&lt;V&gt;(valueComparator);</a>
+<span class="sourceLineNo">500</span><a id="line.500">  }</a>
+<span class="sourceLineNo">501</span><a id="line.501"></a>
+<span class="sourceLineNo">502</span><a id="line.502">  /**</a>
+<span class="sourceLineNo">503</span><a id="line.503">   * @serialData number of distinct keys, and then for each distinct key: the key, the number of</a>
+<span class="sourceLineNo">504</span><a id="line.504">   *     values for that key, and the key's values</a>
+<span class="sourceLineNo">505</span><a id="line.505">   */</a>
+<span class="sourceLineNo">506</span><a id="line.506">  @GwtIncompatible // java.io.ObjectOutputStream</a>
+<span class="sourceLineNo">507</span><a id="line.507">  @J2ktIncompatible</a>
+<span class="sourceLineNo">508</span><a id="line.508">  private void writeObject(ObjectOutputStream stream) throws IOException {</a>
+<span class="sourceLineNo">509</span><a id="line.509">    stream.defaultWriteObject();</a>
+<span class="sourceLineNo">510</span><a id="line.510">    stream.writeObject(valueComparator());</a>
+<span class="sourceLineNo">511</span><a id="line.511">    Serialization.writeMultimap(this, stream);</a>
+<span class="sourceLineNo">512</span><a id="line.512">  }</a>
+<span class="sourceLineNo">513</span><a id="line.513"></a>
+<span class="sourceLineNo">514</span><a id="line.514">  @CheckForNull</a>
+<span class="sourceLineNo">515</span><a id="line.515">  Comparator&lt;? super V&gt; valueComparator() {</a>
+<span class="sourceLineNo">516</span><a id="line.516">    return emptySet instanceof ImmutableSortedSet</a>
+<span class="sourceLineNo">517</span><a id="line.517">        ? ((ImmutableSortedSet&lt;V&gt;) emptySet).comparator()</a>
+<span class="sourceLineNo">518</span><a id="line.518">        : null;</a>
+<span class="sourceLineNo">519</span><a id="line.519">  }</a>
+<span class="sourceLineNo">520</span><a id="line.520"></a>
+<span class="sourceLineNo">521</span><a id="line.521">  @GwtIncompatible // java serialization</a>
+<span class="sourceLineNo">522</span><a id="line.522">  @J2ktIncompatible</a>
+<span class="sourceLineNo">523</span><a id="line.523">  private static final class SetFieldSettersHolder {</a>
+<span class="sourceLineNo">524</span><a id="line.524">    static final Serialization.FieldSetter&lt;ImmutableSetMultimap&gt; EMPTY_SET_FIELD_SETTER =</a>
+<span class="sourceLineNo">525</span><a id="line.525">        Serialization.getFieldSetter(ImmutableSetMultimap.class, "emptySet");</a>
+<span class="sourceLineNo">526</span><a id="line.526">  }</a>
+<span class="sourceLineNo">527</span><a id="line.527"></a>
+<span class="sourceLineNo">528</span><a id="line.528">  @GwtIncompatible // java.io.ObjectInputStream</a>
+<span class="sourceLineNo">529</span><a id="line.529">  @J2ktIncompatible</a>
+<span class="sourceLineNo">530</span><a id="line.530">  // Serialization type safety is at the caller's mercy.</a>
+<span class="sourceLineNo">531</span><a id="line.531">  @SuppressWarnings("unchecked")</a>
+<span class="sourceLineNo">532</span><a id="line.532">  private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {</a>
+<span class="sourceLineNo">533</span><a id="line.533">    stream.defaultReadObject();</a>
+<span class="sourceLineNo">534</span><a id="line.534">    Comparator&lt;Object&gt; valueComparator = (Comparator&lt;Object&gt;) stream.readObject();</a>
+<span class="sourceLineNo">535</span><a id="line.535">    int keyCount = stream.readInt();</a>
+<span class="sourceLineNo">536</span><a id="line.536">    if (keyCount &lt; 0) {</a>
+<span class="sourceLineNo">537</span><a id="line.537">      throw new InvalidObjectException("Invalid key count " + keyCount);</a>
+<span class="sourceLineNo">538</span><a id="line.538">    }</a>
+<span class="sourceLineNo">539</span><a id="line.539">    ImmutableMap.Builder&lt;Object, ImmutableSet&lt;Object&gt;&gt; builder = ImmutableMap.builder();</a>
+<span class="sourceLineNo">540</span><a id="line.540">    int tmpSize = 0;</a>
+<span class="sourceLineNo">541</span><a id="line.541"></a>
+<span class="sourceLineNo">542</span><a id="line.542">    for (int i = 0; i &lt; keyCount; i++) {</a>
+<span class="sourceLineNo">543</span><a id="line.543">      Object key = requireNonNull(stream.readObject());</a>
+<span class="sourceLineNo">544</span><a id="line.544">      int valueCount = stream.readInt();</a>
+<span class="sourceLineNo">545</span><a id="line.545">      if (valueCount &lt;= 0) {</a>
+<span class="sourceLineNo">546</span><a id="line.546">        throw new InvalidObjectException("Invalid value count " + valueCount);</a>
 <span class="sourceLineNo">547</span><a id="line.547">      }</a>
-<span class="sourceLineNo">548</span><a id="line.548">      builder.put(key, valueSet);</a>
-<span class="sourceLineNo">549</span><a id="line.549">      tmpSize += valueCount;</a>
-<span class="sourceLineNo">550</span><a id="line.550">    }</a>
-<span class="sourceLineNo">551</span><a id="line.551"></a>
-<span class="sourceLineNo">552</span><a id="line.552">    ImmutableMap&lt;Object, ImmutableSet&lt;Object&gt;&gt; tmpMap;</a>
-<span class="sourceLineNo">553</span><a id="line.553">    try {</a>
-<span class="sourceLineNo">554</span><a id="line.554">      tmpMap = builder.buildOrThrow();</a>
-<span class="sourceLineNo">555</span><a id="line.555">    } catch (IllegalArgumentException e) {</a>
-<span class="sourceLineNo">556</span><a id="line.556">      throw (InvalidObjectException) new InvalidObjectException(e.getMessage()).initCause(e);</a>
-<span class="sourceLineNo">557</span><a id="line.557">    }</a>
-<span class="sourceLineNo">558</span><a id="line.558"></a>
-<span class="sourceLineNo">559</span><a id="line.559">    FieldSettersHolder.MAP_FIELD_SETTER.set(this, tmpMap);</a>
-<span class="sourceLineNo">560</span><a id="line.560">    FieldSettersHolder.SIZE_FIELD_SETTER.set(this, tmpSize);</a>
-<span class="sourceLineNo">561</span><a id="line.561">    SetFieldSettersHolder.EMPTY_SET_FIELD_SETTER.set(this, emptySet(valueComparator));</a>
-<span class="sourceLineNo">562</span><a id="line.562">  }</a>
-<span class="sourceLineNo">563</span><a id="line.563"></a>
-<span class="sourceLineNo">564</span><a id="line.564">  @GwtIncompatible // not needed in emulated source.</a>
-<span class="sourceLineNo">565</span><a id="line.565">  @J2ktIncompatible</a>
-<span class="sourceLineNo">566</span><a id="line.566">  private static final long serialVersionUID = 0;</a>
-<span class="sourceLineNo">567</span><a id="line.567">}</a>
+<span class="sourceLineNo">548</span><a id="line.548"></a>
+<span class="sourceLineNo">549</span><a id="line.549">      ImmutableSet.Builder&lt;Object&gt; valuesBuilder = valuesBuilder(valueComparator);</a>
+<span class="sourceLineNo">550</span><a id="line.550">      for (int j = 0; j &lt; valueCount; j++) {</a>
+<span class="sourceLineNo">551</span><a id="line.551">        valuesBuilder.add(requireNonNull(stream.readObject()));</a>
+<span class="sourceLineNo">552</span><a id="line.552">      }</a>
+<span class="sourceLineNo">553</span><a id="line.553">      ImmutableSet&lt;Object&gt; valueSet = valuesBuilder.build();</a>
+<span class="sourceLineNo">554</span><a id="line.554">      if (valueSet.size() != valueCount) {</a>
+<span class="sourceLineNo">555</span><a id="line.555">        throw new InvalidObjectException("Duplicate key-value pairs exist for key " + key);</a>
+<span class="sourceLineNo">556</span><a id="line.556">      }</a>
+<span class="sourceLineNo">557</span><a id="line.557">      builder.put(key, valueSet);</a>
+<span class="sourceLineNo">558</span><a id="line.558">      tmpSize += valueCount;</a>
+<span class="sourceLineNo">559</span><a id="line.559">    }</a>
+<span class="sourceLineNo">560</span><a id="line.560"></a>
+<span class="sourceLineNo">561</span><a id="line.561">    ImmutableMap&lt;Object, ImmutableSet&lt;Object&gt;&gt; tmpMap;</a>
+<span class="sourceLineNo">562</span><a id="line.562">    try {</a>
+<span class="sourceLineNo">563</span><a id="line.563">      tmpMap = builder.buildOrThrow();</a>
+<span class="sourceLineNo">564</span><a id="line.564">    } catch (IllegalArgumentException e) {</a>
+<span class="sourceLineNo">565</span><a id="line.565">      throw (InvalidObjectException) new InvalidObjectException(e.getMessage()).initCause(e);</a>
+<span class="sourceLineNo">566</span><a id="line.566">    }</a>
+<span class="sourceLineNo">567</span><a id="line.567"></a>
+<span class="sourceLineNo">568</span><a id="line.568">    FieldSettersHolder.MAP_FIELD_SETTER.set(this, tmpMap);</a>
+<span class="sourceLineNo">569</span><a id="line.569">    FieldSettersHolder.SIZE_FIELD_SETTER.set(this, tmpSize);</a>
+<span class="sourceLineNo">570</span><a id="line.570">    SetFieldSettersHolder.EMPTY_SET_FIELD_SETTER.set(this, emptySet(valueComparator));</a>
+<span class="sourceLineNo">571</span><a id="line.571">  }</a>
+<span class="sourceLineNo">572</span><a id="line.572"></a>
+<span class="sourceLineNo">573</span><a id="line.573">  @GwtIncompatible // not needed in emulated source.</a>
+<span class="sourceLineNo">574</span><a id="line.574">  @J2ktIncompatible</a>
+<span class="sourceLineNo">575</span><a id="line.575">  private static final long serialVersionUID = 0;</a>
+<span class="sourceLineNo">576</span><a id="line.576">}</a>
 
 
 
