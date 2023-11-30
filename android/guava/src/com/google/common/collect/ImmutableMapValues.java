@@ -88,6 +88,15 @@ final class ImmutableMapValues<K, V> extends ImmutableCollection<V> {
       public int size() {
         return entryList.size();
       }
+
+      // redeclare to help optimizers with b/310253115
+      @SuppressWarnings("RedundantOverride")
+      @Override
+      @J2ktIncompatible // serialization
+      @GwtIncompatible // serialization
+      Object writeReplace() {
+        return super.writeReplace();
+      }
     };
   }
 

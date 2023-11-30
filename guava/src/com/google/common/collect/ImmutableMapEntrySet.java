@@ -80,6 +80,15 @@ abstract class ImmutableMapEntrySet<K, V> extends ImmutableSet.CachingAsList<Ent
     ImmutableList<Entry<K, V>> createAsList() {
       return new RegularImmutableAsList<>(this, entries);
     }
+
+    // redeclare to help optimizers with b/310253115
+    @SuppressWarnings("RedundantOverride")
+    @Override
+    @J2ktIncompatible // serialization
+    @GwtIncompatible // serialization
+    Object writeReplace() {
+      return super.writeReplace();
+    }
   }
 
   ImmutableMapEntrySet() {}

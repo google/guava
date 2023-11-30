@@ -630,6 +630,15 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
     public int size() {
       return entries.size();
     }
+
+    // redeclare to help optimizers with b/310253115
+    @SuppressWarnings("RedundantOverride")
+    @Override
+    @J2ktIncompatible // serialization
+    @GwtIncompatible // serialization
+    Object writeReplace() {
+      return super.writeReplace();
+    }
   }
 
   @J2ktIncompatible

@@ -445,9 +445,6 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V>
     throw new UnsupportedOperationException();
   }
 
-  /** Creates the common serialized form for this table. */
-  abstract SerializedForm createSerializedForm();
-
   /**
    * Serialized type for all ImmutableTable instances. It captures the logical contents and
    * preserves iteration order of all views.
@@ -503,9 +500,9 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V>
     private static final long serialVersionUID = 0;
   }
 
-  final Object writeReplace() {
-    return createSerializedForm();
-  }
+  @J2ktIncompatible // serialization
+  @GwtIncompatible // serialization
+  abstract Object writeReplace();
 
   @GwtIncompatible // serialization
   @J2ktIncompatible
