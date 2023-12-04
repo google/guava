@@ -519,811 +519,813 @@
 <span class="sourceLineNo">510</span><a id="line.510">      private O applyTransformation(I input) throws ExecutionException {</a>
 <span class="sourceLineNo">511</span><a id="line.511">        try {</a>
 <span class="sourceLineNo">512</span><a id="line.512">          return function.apply(input);</a>
-<span class="sourceLineNo">513</span><a id="line.513">        } catch (RuntimeException | Error t) {</a>
-<span class="sourceLineNo">514</span><a id="line.514">          throw new ExecutionException(t);</a>
-<span class="sourceLineNo">515</span><a id="line.515">        }</a>
-<span class="sourceLineNo">516</span><a id="line.516">      }</a>
-<span class="sourceLineNo">517</span><a id="line.517">    };</a>
-<span class="sourceLineNo">518</span><a id="line.518">  }</a>
-<span class="sourceLineNo">519</span><a id="line.519"></a>
-<span class="sourceLineNo">520</span><a id="line.520">  /**</a>
-<span class="sourceLineNo">521</span><a id="line.521">   * Creates a new {@code ListenableFuture} whose value is a list containing the values of all its</a>
-<span class="sourceLineNo">522</span><a id="line.522">   * input futures, if all succeed.</a>
-<span class="sourceLineNo">523</span><a id="line.523">   *</a>
-<span class="sourceLineNo">524</span><a id="line.524">   * &lt;p&gt;The list of results is in the same order as the input list.</a>
-<span class="sourceLineNo">525</span><a id="line.525">   *</a>
-<span class="sourceLineNo">526</span><a id="line.526">   * &lt;p&gt;This differs from {@link #successfulAsList(ListenableFuture[])} in that it will return a</a>
-<span class="sourceLineNo">527</span><a id="line.527">   * failed future if any of the items fails.</a>
-<span class="sourceLineNo">528</span><a id="line.528">   *</a>
-<span class="sourceLineNo">529</span><a id="line.529">   * &lt;p&gt;Canceling this future will attempt to cancel all the component futures, and if any of the</a>
-<span class="sourceLineNo">530</span><a id="line.530">   * provided futures fails or is canceled, this one is, too.</a>
-<span class="sourceLineNo">531</span><a id="line.531">   *</a>
-<span class="sourceLineNo">532</span><a id="line.532">   * @param futures futures to combine</a>
-<span class="sourceLineNo">533</span><a id="line.533">   * @return a future that provides a list of the results of the component futures</a>
-<span class="sourceLineNo">534</span><a id="line.534">   * @since 10.0</a>
-<span class="sourceLineNo">535</span><a id="line.535">   */</a>
-<span class="sourceLineNo">536</span><a id="line.536">  @SafeVarargs</a>
-<span class="sourceLineNo">537</span><a id="line.537">  public static &lt;V extends @Nullable Object&gt; ListenableFuture&lt;List&lt;V&gt;&gt; allAsList(</a>
-<span class="sourceLineNo">538</span><a id="line.538">      ListenableFuture&lt;? extends V&gt;... futures) {</a>
-<span class="sourceLineNo">539</span><a id="line.539">    ListenableFuture&lt;List&lt;@Nullable V&gt;&gt; nullable =</a>
-<span class="sourceLineNo">540</span><a id="line.540">        new ListFuture&lt;V&gt;(ImmutableList.copyOf(futures), true);</a>
-<span class="sourceLineNo">541</span><a id="line.541">    // allAsList ensures that it fills the output list with V instances.</a>
-<span class="sourceLineNo">542</span><a id="line.542">    @SuppressWarnings("nullness")</a>
-<span class="sourceLineNo">543</span><a id="line.543">    ListenableFuture&lt;List&lt;V&gt;&gt; nonNull = nullable;</a>
-<span class="sourceLineNo">544</span><a id="line.544">    return nonNull;</a>
-<span class="sourceLineNo">545</span><a id="line.545">  }</a>
-<span class="sourceLineNo">546</span><a id="line.546"></a>
-<span class="sourceLineNo">547</span><a id="line.547">  /**</a>
-<span class="sourceLineNo">548</span><a id="line.548">   * Creates a new {@code ListenableFuture} whose value is a list containing the values of all its</a>
-<span class="sourceLineNo">549</span><a id="line.549">   * input futures, if all succeed.</a>
-<span class="sourceLineNo">550</span><a id="line.550">   *</a>
-<span class="sourceLineNo">551</span><a id="line.551">   * &lt;p&gt;The list of results is in the same order as the input list.</a>
-<span class="sourceLineNo">552</span><a id="line.552">   *</a>
-<span class="sourceLineNo">553</span><a id="line.553">   * &lt;p&gt;This differs from {@link #successfulAsList(Iterable)} in that it will return a failed future</a>
-<span class="sourceLineNo">554</span><a id="line.554">   * if any of the items fails.</a>
-<span class="sourceLineNo">555</span><a id="line.555">   *</a>
-<span class="sourceLineNo">556</span><a id="line.556">   * &lt;p&gt;Canceling this future will attempt to cancel all the component futures, and if any of the</a>
-<span class="sourceLineNo">557</span><a id="line.557">   * provided futures fails or is canceled, this one is, too.</a>
-<span class="sourceLineNo">558</span><a id="line.558">   *</a>
-<span class="sourceLineNo">559</span><a id="line.559">   * @param futures futures to combine</a>
-<span class="sourceLineNo">560</span><a id="line.560">   * @return a future that provides a list of the results of the component futures</a>
-<span class="sourceLineNo">561</span><a id="line.561">   * @since 10.0</a>
-<span class="sourceLineNo">562</span><a id="line.562">   */</a>
-<span class="sourceLineNo">563</span><a id="line.563">  public static &lt;V extends @Nullable Object&gt; ListenableFuture&lt;List&lt;V&gt;&gt; allAsList(</a>
-<span class="sourceLineNo">564</span><a id="line.564">      Iterable&lt;? extends ListenableFuture&lt;? extends V&gt;&gt; futures) {</a>
-<span class="sourceLineNo">565</span><a id="line.565">    ListenableFuture&lt;List&lt;@Nullable V&gt;&gt; nullable =</a>
-<span class="sourceLineNo">566</span><a id="line.566">        new ListFuture&lt;V&gt;(ImmutableList.copyOf(futures), true);</a>
-<span class="sourceLineNo">567</span><a id="line.567">    // allAsList ensures that it fills the output list with V instances.</a>
-<span class="sourceLineNo">568</span><a id="line.568">    @SuppressWarnings("nullness")</a>
-<span class="sourceLineNo">569</span><a id="line.569">    ListenableFuture&lt;List&lt;V&gt;&gt; nonNull = nullable;</a>
-<span class="sourceLineNo">570</span><a id="line.570">    return nonNull;</a>
-<span class="sourceLineNo">571</span><a id="line.571">  }</a>
-<span class="sourceLineNo">572</span><a id="line.572"></a>
-<span class="sourceLineNo">573</span><a id="line.573">  /**</a>
-<span class="sourceLineNo">574</span><a id="line.574">   * Creates a {@link FutureCombiner} that processes the completed futures whether or not they're</a>
-<span class="sourceLineNo">575</span><a id="line.575">   * successful.</a>
-<span class="sourceLineNo">576</span><a id="line.576">   *</a>
-<span class="sourceLineNo">577</span><a id="line.577">   * &lt;p&gt;Any failures from the input futures will not be propagated to the returned future.</a>
-<span class="sourceLineNo">578</span><a id="line.578">   *</a>
-<span class="sourceLineNo">579</span><a id="line.579">   * @since 20.0</a>
-<span class="sourceLineNo">580</span><a id="line.580">   */</a>
-<span class="sourceLineNo">581</span><a id="line.581">  @SafeVarargs</a>
-<span class="sourceLineNo">582</span><a id="line.582">  public static &lt;V extends @Nullable Object&gt; FutureCombiner&lt;V&gt; whenAllComplete(</a>
-<span class="sourceLineNo">583</span><a id="line.583">      ListenableFuture&lt;? extends V&gt;... futures) {</a>
-<span class="sourceLineNo">584</span><a id="line.584">    return new FutureCombiner&lt;V&gt;(false, ImmutableList.copyOf(futures));</a>
-<span class="sourceLineNo">585</span><a id="line.585">  }</a>
-<span class="sourceLineNo">586</span><a id="line.586"></a>
-<span class="sourceLineNo">587</span><a id="line.587">  /**</a>
-<span class="sourceLineNo">588</span><a id="line.588">   * Creates a {@link FutureCombiner} that processes the completed futures whether or not they're</a>
-<span class="sourceLineNo">589</span><a id="line.589">   * successful.</a>
-<span class="sourceLineNo">590</span><a id="line.590">   *</a>
-<span class="sourceLineNo">591</span><a id="line.591">   * &lt;p&gt;Any failures from the input futures will not be propagated to the returned future.</a>
-<span class="sourceLineNo">592</span><a id="line.592">   *</a>
-<span class="sourceLineNo">593</span><a id="line.593">   * @since 20.0</a>
-<span class="sourceLineNo">594</span><a id="line.594">   */</a>
-<span class="sourceLineNo">595</span><a id="line.595">  public static &lt;V extends @Nullable Object&gt; FutureCombiner&lt;V&gt; whenAllComplete(</a>
-<span class="sourceLineNo">596</span><a id="line.596">      Iterable&lt;? extends ListenableFuture&lt;? extends V&gt;&gt; futures) {</a>
-<span class="sourceLineNo">597</span><a id="line.597">    return new FutureCombiner&lt;V&gt;(false, ImmutableList.copyOf(futures));</a>
-<span class="sourceLineNo">598</span><a id="line.598">  }</a>
-<span class="sourceLineNo">599</span><a id="line.599"></a>
-<span class="sourceLineNo">600</span><a id="line.600">  /**</a>
-<span class="sourceLineNo">601</span><a id="line.601">   * Creates a {@link FutureCombiner} requiring that all passed in futures are successful.</a>
-<span class="sourceLineNo">602</span><a id="line.602">   *</a>
-<span class="sourceLineNo">603</span><a id="line.603">   * &lt;p&gt;If any input fails, the returned future fails immediately.</a>
-<span class="sourceLineNo">604</span><a id="line.604">   *</a>
-<span class="sourceLineNo">605</span><a id="line.605">   * @since 20.0</a>
-<span class="sourceLineNo">606</span><a id="line.606">   */</a>
-<span class="sourceLineNo">607</span><a id="line.607">  @SafeVarargs</a>
-<span class="sourceLineNo">608</span><a id="line.608">  public static &lt;V extends @Nullable Object&gt; FutureCombiner&lt;V&gt; whenAllSucceed(</a>
-<span class="sourceLineNo">609</span><a id="line.609">      ListenableFuture&lt;? extends V&gt;... futures) {</a>
-<span class="sourceLineNo">610</span><a id="line.610">    return new FutureCombiner&lt;V&gt;(true, ImmutableList.copyOf(futures));</a>
-<span class="sourceLineNo">611</span><a id="line.611">  }</a>
-<span class="sourceLineNo">612</span><a id="line.612"></a>
-<span class="sourceLineNo">613</span><a id="line.613">  /**</a>
-<span class="sourceLineNo">614</span><a id="line.614">   * Creates a {@link FutureCombiner} requiring that all passed in futures are successful.</a>
-<span class="sourceLineNo">615</span><a id="line.615">   *</a>
-<span class="sourceLineNo">616</span><a id="line.616">   * &lt;p&gt;If any input fails, the returned future fails immediately.</a>
-<span class="sourceLineNo">617</span><a id="line.617">   *</a>
-<span class="sourceLineNo">618</span><a id="line.618">   * @since 20.0</a>
-<span class="sourceLineNo">619</span><a id="line.619">   */</a>
-<span class="sourceLineNo">620</span><a id="line.620">  public static &lt;V extends @Nullable Object&gt; FutureCombiner&lt;V&gt; whenAllSucceed(</a>
-<span class="sourceLineNo">621</span><a id="line.621">      Iterable&lt;? extends ListenableFuture&lt;? extends V&gt;&gt; futures) {</a>
-<span class="sourceLineNo">622</span><a id="line.622">    return new FutureCombiner&lt;V&gt;(true, ImmutableList.copyOf(futures));</a>
-<span class="sourceLineNo">623</span><a id="line.623">  }</a>
-<span class="sourceLineNo">624</span><a id="line.624"></a>
-<span class="sourceLineNo">625</span><a id="line.625">  /**</a>
-<span class="sourceLineNo">626</span><a id="line.626">   * A helper to create a new {@code ListenableFuture} whose result is generated from a combination</a>
-<span class="sourceLineNo">627</span><a id="line.627">   * of input futures.</a>
-<span class="sourceLineNo">628</span><a id="line.628">   *</a>
-<span class="sourceLineNo">629</span><a id="line.629">   * &lt;p&gt;See {@link #whenAllComplete} and {@link #whenAllSucceed} for how to instantiate this class.</a>
-<span class="sourceLineNo">630</span><a id="line.630">   *</a>
-<span class="sourceLineNo">631</span><a id="line.631">   * &lt;p&gt;Example:</a>
-<span class="sourceLineNo">632</span><a id="line.632">   *</a>
-<span class="sourceLineNo">633</span><a id="line.633">   * &lt;pre&gt;{@code</a>
-<span class="sourceLineNo">634</span><a id="line.634">   * final ListenableFuture&lt;Instant&gt; loginDateFuture =</a>
-<span class="sourceLineNo">635</span><a id="line.635">   *     loginService.findLastLoginDate(username);</a>
-<span class="sourceLineNo">636</span><a id="line.636">   * final ListenableFuture&lt;List&lt;String&gt;&gt; recentCommandsFuture =</a>
-<span class="sourceLineNo">637</span><a id="line.637">   *     recentCommandsService.findRecentCommands(username);</a>
-<span class="sourceLineNo">638</span><a id="line.638">   * ListenableFuture&lt;UsageHistory&gt; usageFuture =</a>
-<span class="sourceLineNo">639</span><a id="line.639">   *     Futures.whenAllSucceed(loginDateFuture, recentCommandsFuture)</a>
-<span class="sourceLineNo">640</span><a id="line.640">   *         .call(</a>
-<span class="sourceLineNo">641</span><a id="line.641">   *             () -&gt;</a>
-<span class="sourceLineNo">642</span><a id="line.642">   *                 new UsageHistory(</a>
-<span class="sourceLineNo">643</span><a id="line.643">   *                     username,</a>
-<span class="sourceLineNo">644</span><a id="line.644">   *                     Futures.getDone(loginDateFuture),</a>
-<span class="sourceLineNo">645</span><a id="line.645">   *                     Futures.getDone(recentCommandsFuture)),</a>
-<span class="sourceLineNo">646</span><a id="line.646">   *             executor);</a>
-<span class="sourceLineNo">647</span><a id="line.647">   * }&lt;/pre&gt;</a>
-<span class="sourceLineNo">648</span><a id="line.648">   *</a>
-<span class="sourceLineNo">649</span><a id="line.649">   * @since 20.0</a>
-<span class="sourceLineNo">650</span><a id="line.650">   */</a>
-<span class="sourceLineNo">651</span><a id="line.651">  @GwtCompatible</a>
-<span class="sourceLineNo">652</span><a id="line.652">  public static final class FutureCombiner&lt;V extends @Nullable Object&gt; {</a>
-<span class="sourceLineNo">653</span><a id="line.653">    private final boolean allMustSucceed;</a>
-<span class="sourceLineNo">654</span><a id="line.654">    private final ImmutableList&lt;ListenableFuture&lt;? extends V&gt;&gt; futures;</a>
-<span class="sourceLineNo">655</span><a id="line.655"></a>
-<span class="sourceLineNo">656</span><a id="line.656">    private FutureCombiner(</a>
-<span class="sourceLineNo">657</span><a id="line.657">        boolean allMustSucceed, ImmutableList&lt;ListenableFuture&lt;? extends V&gt;&gt; futures) {</a>
-<span class="sourceLineNo">658</span><a id="line.658">      this.allMustSucceed = allMustSucceed;</a>
-<span class="sourceLineNo">659</span><a id="line.659">      this.futures = futures;</a>
-<span class="sourceLineNo">660</span><a id="line.660">    }</a>
-<span class="sourceLineNo">661</span><a id="line.661"></a>
-<span class="sourceLineNo">662</span><a id="line.662">    /**</a>
-<span class="sourceLineNo">663</span><a id="line.663">     * Creates the {@link ListenableFuture} which will return the result of calling {@link</a>
-<span class="sourceLineNo">664</span><a id="line.664">     * AsyncCallable#call} in {@code combiner} when all futures complete, using the specified {@code</a>
-<span class="sourceLineNo">665</span><a id="line.665">     * executor}.</a>
-<span class="sourceLineNo">666</span><a id="line.666">     *</a>
-<span class="sourceLineNo">667</span><a id="line.667">     * &lt;p&gt;If the combiner throws a {@code CancellationException}, the returned future will be</a>
-<span class="sourceLineNo">668</span><a id="line.668">     * cancelled.</a>
-<span class="sourceLineNo">669</span><a id="line.669">     *</a>
-<span class="sourceLineNo">670</span><a id="line.670">     * &lt;p&gt;If the combiner throws an {@code ExecutionException}, the cause of the thrown {@code</a>
-<span class="sourceLineNo">671</span><a id="line.671">     * ExecutionException} will be extracted and returned as the cause of the new {@code</a>
-<span class="sourceLineNo">672</span><a id="line.672">     * ExecutionException} that gets thrown by the returned combined future.</a>
-<span class="sourceLineNo">673</span><a id="line.673">     *</a>
-<span class="sourceLineNo">674</span><a id="line.674">     * &lt;p&gt;Canceling this future will attempt to cancel all the component futures.</a>
-<span class="sourceLineNo">675</span><a id="line.675">     *</a>
-<span class="sourceLineNo">676</span><a id="line.676">     * @return a future whose result is based on {@code combiner} (or based on the input futures</a>
-<span class="sourceLineNo">677</span><a id="line.677">     *     passed to {@code whenAllSucceed}, if that is the method you used to create this {@code</a>
-<span class="sourceLineNo">678</span><a id="line.678">     *     FutureCombiner}). Even if you don't care about the value of the future, you should</a>
-<span class="sourceLineNo">679</span><a id="line.679">     *     typically check whether it failed: See &lt;a</a>
-<span class="sourceLineNo">680</span><a id="line.680">     *     href="https://errorprone.info/bugpattern/FutureReturnValueIgnored"&gt;https://errorprone.info/bugpattern/FutureReturnValueIgnored&lt;/a&gt;.</a>
-<span class="sourceLineNo">681</span><a id="line.681">     */</a>
-<span class="sourceLineNo">682</span><a id="line.682">    public &lt;C extends @Nullable Object&gt; ListenableFuture&lt;C&gt; callAsync(</a>
-<span class="sourceLineNo">683</span><a id="line.683">        AsyncCallable&lt;C&gt; combiner, Executor executor) {</a>
-<span class="sourceLineNo">684</span><a id="line.684">      return new CombinedFuture&lt;C&gt;(futures, allMustSucceed, executor, combiner);</a>
-<span class="sourceLineNo">685</span><a id="line.685">    }</a>
-<span class="sourceLineNo">686</span><a id="line.686"></a>
-<span class="sourceLineNo">687</span><a id="line.687">    /**</a>
-<span class="sourceLineNo">688</span><a id="line.688">     * Creates the {@link ListenableFuture} which will return the result of calling {@link</a>
-<span class="sourceLineNo">689</span><a id="line.689">     * Callable#call} in {@code combiner} when all futures complete, using the specified {@code</a>
-<span class="sourceLineNo">690</span><a id="line.690">     * executor}.</a>
-<span class="sourceLineNo">691</span><a id="line.691">     *</a>
-<span class="sourceLineNo">692</span><a id="line.692">     * &lt;p&gt;If the combiner throws a {@code CancellationException}, the returned future will be</a>
-<span class="sourceLineNo">693</span><a id="line.693">     * cancelled.</a>
-<span class="sourceLineNo">694</span><a id="line.694">     *</a>
-<span class="sourceLineNo">695</span><a id="line.695">     * &lt;p&gt;If the combiner throws an {@code ExecutionException}, the cause of the thrown {@code</a>
-<span class="sourceLineNo">696</span><a id="line.696">     * ExecutionException} will be extracted and returned as the cause of the new {@code</a>
-<span class="sourceLineNo">697</span><a id="line.697">     * ExecutionException} that gets thrown by the returned combined future.</a>
-<span class="sourceLineNo">698</span><a id="line.698">     *</a>
-<span class="sourceLineNo">699</span><a id="line.699">     * &lt;p&gt;Canceling this future will attempt to cancel all the component futures.</a>
-<span class="sourceLineNo">700</span><a id="line.700">     *</a>
-<span class="sourceLineNo">701</span><a id="line.701">     * @return a future whose result is based on {@code combiner} (or based on the input futures</a>
-<span class="sourceLineNo">702</span><a id="line.702">     *     passed to {@code whenAllSucceed}, if that is the method you used to create this {@code</a>
-<span class="sourceLineNo">703</span><a id="line.703">     *     FutureCombiner}). Even if you don't care about the value of the future, you should</a>
-<span class="sourceLineNo">704</span><a id="line.704">     *     typically check whether it failed: See &lt;a</a>
-<span class="sourceLineNo">705</span><a id="line.705">     *     href="https://errorprone.info/bugpattern/FutureReturnValueIgnored"&gt;https://errorprone.info/bugpattern/FutureReturnValueIgnored&lt;/a&gt;.</a>
-<span class="sourceLineNo">706</span><a id="line.706">     */</a>
-<span class="sourceLineNo">707</span><a id="line.707">    public &lt;C extends @Nullable Object&gt; ListenableFuture&lt;C&gt; call(</a>
-<span class="sourceLineNo">708</span><a id="line.708">        Callable&lt;C&gt; combiner, Executor executor) {</a>
-<span class="sourceLineNo">709</span><a id="line.709">      return new CombinedFuture&lt;C&gt;(futures, allMustSucceed, executor, combiner);</a>
-<span class="sourceLineNo">710</span><a id="line.710">    }</a>
-<span class="sourceLineNo">711</span><a id="line.711"></a>
-<span class="sourceLineNo">712</span><a id="line.712">    /**</a>
-<span class="sourceLineNo">713</span><a id="line.713">     * Creates the {@link ListenableFuture} which will return the result of running {@code combiner}</a>
-<span class="sourceLineNo">714</span><a id="line.714">     * when all Futures complete. {@code combiner} will run using {@code executor}.</a>
-<span class="sourceLineNo">715</span><a id="line.715">     *</a>
-<span class="sourceLineNo">716</span><a id="line.716">     * &lt;p&gt;If the combiner throws a {@code CancellationException}, the returned future will be</a>
-<span class="sourceLineNo">717</span><a id="line.717">     * cancelled.</a>
-<span class="sourceLineNo">718</span><a id="line.718">     *</a>
-<span class="sourceLineNo">719</span><a id="line.719">     * &lt;p&gt;Canceling this Future will attempt to cancel all the component futures.</a>
-<span class="sourceLineNo">720</span><a id="line.720">     *</a>
-<span class="sourceLineNo">721</span><a id="line.721">     * @since 23.6</a>
-<span class="sourceLineNo">722</span><a id="line.722">     * @return a future whose result is based on {@code combiner} (or based on the input futures</a>
-<span class="sourceLineNo">723</span><a id="line.723">     *     passed to {@code whenAllSucceed}, if that is the method you used to create this {@code</a>
-<span class="sourceLineNo">724</span><a id="line.724">     *     FutureCombiner}). Even though the future never produces a value other than {@code null},</a>
-<span class="sourceLineNo">725</span><a id="line.725">     *     you should typically check whether it failed: See &lt;a</a>
-<span class="sourceLineNo">726</span><a id="line.726">     *     href="https://errorprone.info/bugpattern/FutureReturnValueIgnored"&gt;https://errorprone.info/bugpattern/FutureReturnValueIgnored&lt;/a&gt;.</a>
-<span class="sourceLineNo">727</span><a id="line.727">     */</a>
-<span class="sourceLineNo">728</span><a id="line.728">    public ListenableFuture&lt;?&gt; run(final Runnable combiner, Executor executor) {</a>
-<span class="sourceLineNo">729</span><a id="line.729">      return call(</a>
-<span class="sourceLineNo">730</span><a id="line.730">          new Callable&lt;@Nullable Void&gt;() {</a>
-<span class="sourceLineNo">731</span><a id="line.731">            @Override</a>
-<span class="sourceLineNo">732</span><a id="line.732">            @CheckForNull</a>
-<span class="sourceLineNo">733</span><a id="line.733">            public Void call() throws Exception {</a>
-<span class="sourceLineNo">734</span><a id="line.734">              combiner.run();</a>
-<span class="sourceLineNo">735</span><a id="line.735">              return null;</a>
-<span class="sourceLineNo">736</span><a id="line.736">            }</a>
-<span class="sourceLineNo">737</span><a id="line.737">          },</a>
-<span class="sourceLineNo">738</span><a id="line.738">          executor);</a>
-<span class="sourceLineNo">739</span><a id="line.739">    }</a>
-<span class="sourceLineNo">740</span><a id="line.740">  }</a>
-<span class="sourceLineNo">741</span><a id="line.741"></a>
-<span class="sourceLineNo">742</span><a id="line.742">  /**</a>
-<span class="sourceLineNo">743</span><a id="line.743">   * Returns a {@code ListenableFuture} whose result is set from the supplied future when it</a>
-<span class="sourceLineNo">744</span><a id="line.744">   * completes. Cancelling the supplied future will also cancel the returned future, but cancelling</a>
-<span class="sourceLineNo">745</span><a id="line.745">   * the returned future will have no effect on the supplied future.</a>
-<span class="sourceLineNo">746</span><a id="line.746">   *</a>
-<span class="sourceLineNo">747</span><a id="line.747">   * @since 15.0</a>
-<span class="sourceLineNo">748</span><a id="line.748">   */</a>
-<span class="sourceLineNo">749</span><a id="line.749">  public static &lt;V extends @Nullable Object&gt; ListenableFuture&lt;V&gt; nonCancellationPropagating(</a>
-<span class="sourceLineNo">750</span><a id="line.750">      ListenableFuture&lt;V&gt; future) {</a>
-<span class="sourceLineNo">751</span><a id="line.751">    if (future.isDone()) {</a>
-<span class="sourceLineNo">752</span><a id="line.752">      return future;</a>
-<span class="sourceLineNo">753</span><a id="line.753">    }</a>
-<span class="sourceLineNo">754</span><a id="line.754">    NonCancellationPropagatingFuture&lt;V&gt; output = new NonCancellationPropagatingFuture&lt;&gt;(future);</a>
-<span class="sourceLineNo">755</span><a id="line.755">    future.addListener(output, directExecutor());</a>
-<span class="sourceLineNo">756</span><a id="line.756">    return output;</a>
-<span class="sourceLineNo">757</span><a id="line.757">  }</a>
-<span class="sourceLineNo">758</span><a id="line.758"></a>
-<span class="sourceLineNo">759</span><a id="line.759">  /** A wrapped future that does not propagate cancellation to its delegate. */</a>
-<span class="sourceLineNo">760</span><a id="line.760">  private static final class NonCancellationPropagatingFuture&lt;V extends @Nullable Object&gt;</a>
-<span class="sourceLineNo">761</span><a id="line.761">      extends AbstractFuture.TrustedFuture&lt;V&gt; implements Runnable {</a>
-<span class="sourceLineNo">762</span><a id="line.762">    @CheckForNull private ListenableFuture&lt;V&gt; delegate;</a>
-<span class="sourceLineNo">763</span><a id="line.763"></a>
-<span class="sourceLineNo">764</span><a id="line.764">    NonCancellationPropagatingFuture(final ListenableFuture&lt;V&gt; delegate) {</a>
-<span class="sourceLineNo">765</span><a id="line.765">      this.delegate = delegate;</a>
-<span class="sourceLineNo">766</span><a id="line.766">    }</a>
-<span class="sourceLineNo">767</span><a id="line.767"></a>
-<span class="sourceLineNo">768</span><a id="line.768">    @Override</a>
-<span class="sourceLineNo">769</span><a id="line.769">    public void run() {</a>
-<span class="sourceLineNo">770</span><a id="line.770">      // This prevents cancellation from propagating because we don't call setFuture(delegate) until</a>
-<span class="sourceLineNo">771</span><a id="line.771">      // delegate is already done, so calling cancel() on this future won't affect it.</a>
-<span class="sourceLineNo">772</span><a id="line.772">      ListenableFuture&lt;V&gt; localDelegate = delegate;</a>
-<span class="sourceLineNo">773</span><a id="line.773">      if (localDelegate != null) {</a>
-<span class="sourceLineNo">774</span><a id="line.774">        setFuture(localDelegate);</a>
-<span class="sourceLineNo">775</span><a id="line.775">      }</a>
-<span class="sourceLineNo">776</span><a id="line.776">    }</a>
-<span class="sourceLineNo">777</span><a id="line.777"></a>
-<span class="sourceLineNo">778</span><a id="line.778">    @Override</a>
-<span class="sourceLineNo">779</span><a id="line.779">    @CheckForNull</a>
-<span class="sourceLineNo">780</span><a id="line.780">    protected String pendingToString() {</a>
-<span class="sourceLineNo">781</span><a id="line.781">      ListenableFuture&lt;V&gt; localDelegate = delegate;</a>
-<span class="sourceLineNo">782</span><a id="line.782">      if (localDelegate != null) {</a>
-<span class="sourceLineNo">783</span><a id="line.783">        return "delegate=[" + localDelegate + "]";</a>
-<span class="sourceLineNo">784</span><a id="line.784">      }</a>
-<span class="sourceLineNo">785</span><a id="line.785">      return null;</a>
-<span class="sourceLineNo">786</span><a id="line.786">    }</a>
-<span class="sourceLineNo">787</span><a id="line.787"></a>
-<span class="sourceLineNo">788</span><a id="line.788">    @Override</a>
-<span class="sourceLineNo">789</span><a id="line.789">    protected void afterDone() {</a>
-<span class="sourceLineNo">790</span><a id="line.790">      delegate = null;</a>
-<span class="sourceLineNo">791</span><a id="line.791">    }</a>
-<span class="sourceLineNo">792</span><a id="line.792">  }</a>
-<span class="sourceLineNo">793</span><a id="line.793"></a>
-<span class="sourceLineNo">794</span><a id="line.794">  /**</a>
-<span class="sourceLineNo">795</span><a id="line.795">   * Creates a new {@code ListenableFuture} whose value is a list containing the values of all its</a>
-<span class="sourceLineNo">796</span><a id="line.796">   * successful input futures. The list of results is in the same order as the input list, and if</a>
-<span class="sourceLineNo">797</span><a id="line.797">   * any of the provided futures fails or is canceled, its corresponding position will contain</a>
-<span class="sourceLineNo">798</span><a id="line.798">   * {@code null} (which is indistinguishable from the future having a successful value of {@code</a>
-<span class="sourceLineNo">799</span><a id="line.799">   * null}).</a>
-<span class="sourceLineNo">800</span><a id="line.800">   *</a>
-<span class="sourceLineNo">801</span><a id="line.801">   * &lt;p&gt;The list of results is in the same order as the input list.</a>
-<span class="sourceLineNo">802</span><a id="line.802">   *</a>
-<span class="sourceLineNo">803</span><a id="line.803">   * &lt;p&gt;This differs from {@link #allAsList(ListenableFuture[])} in that it's tolerant of failed</a>
-<span class="sourceLineNo">804</span><a id="line.804">   * futures for any of the items, representing them as {@code null} in the result list.</a>
-<span class="sourceLineNo">805</span><a id="line.805">   *</a>
-<span class="sourceLineNo">806</span><a id="line.806">   * &lt;p&gt;Canceling this future will attempt to cancel all the component futures.</a>
-<span class="sourceLineNo">807</span><a id="line.807">   *</a>
-<span class="sourceLineNo">808</span><a id="line.808">   * @param futures futures to combine</a>
-<span class="sourceLineNo">809</span><a id="line.809">   * @return a future that provides a list of the results of the component futures</a>
-<span class="sourceLineNo">810</span><a id="line.810">   * @since 10.0</a>
-<span class="sourceLineNo">811</span><a id="line.811">   */</a>
-<span class="sourceLineNo">812</span><a id="line.812">  @SafeVarargs</a>
-<span class="sourceLineNo">813</span><a id="line.813">  public static &lt;V extends @Nullable Object&gt; ListenableFuture&lt;List&lt;@Nullable V&gt;&gt; successfulAsList(</a>
-<span class="sourceLineNo">814</span><a id="line.814">      ListenableFuture&lt;? extends V&gt;... futures) {</a>
-<span class="sourceLineNo">815</span><a id="line.815">    /*</a>
-<span class="sourceLineNo">816</span><a id="line.816">     * Another way to express this signature would be to bound &lt;V&gt; by @NonNull and accept</a>
-<span class="sourceLineNo">817</span><a id="line.817">     * LF&lt;? extends @Nullable V&gt;. That might be better: There's currently no difference between the</a>
-<span class="sourceLineNo">818</span><a id="line.818">     * outputs users get when calling this with &lt;Foo&gt; and calling it with &lt;@Nullable Foo&gt;. The only</a>
-<span class="sourceLineNo">819</span><a id="line.819">     * difference is that calling it with &lt;Foo&gt; won't work when an input Future has a @Nullable</a>
-<span class="sourceLineNo">820</span><a id="line.820">     * type. So why even make that error possible by giving callers the choice?</a>
-<span class="sourceLineNo">821</span><a id="line.821">     *</a>
-<span class="sourceLineNo">822</span><a id="line.822">     * On the other hand, the current signature is consistent with the similar allAsList method. And</a>
-<span class="sourceLineNo">823</span><a id="line.823">     * eventually this method may go away entirely in favor of an API like</a>
-<span class="sourceLineNo">824</span><a id="line.824">     * whenAllComplete().collectSuccesses(). That API would have a signature more like the current</a>
-<span class="sourceLineNo">825</span><a id="line.825">     * one.</a>
-<span class="sourceLineNo">826</span><a id="line.826">     */</a>
-<span class="sourceLineNo">827</span><a id="line.827">    return new ListFuture&lt;V&gt;(ImmutableList.copyOf(futures), false);</a>
-<span class="sourceLineNo">828</span><a id="line.828">  }</a>
-<span class="sourceLineNo">829</span><a id="line.829"></a>
-<span class="sourceLineNo">830</span><a id="line.830">  /**</a>
-<span class="sourceLineNo">831</span><a id="line.831">   * Creates a new {@code ListenableFuture} whose value is a list containing the values of all its</a>
-<span class="sourceLineNo">832</span><a id="line.832">   * successful input futures. The list of results is in the same order as the input list, and if</a>
-<span class="sourceLineNo">833</span><a id="line.833">   * any of the provided futures fails or is canceled, its corresponding position will contain</a>
-<span class="sourceLineNo">834</span><a id="line.834">   * {@code null} (which is indistinguishable from the future having a successful value of {@code</a>
-<span class="sourceLineNo">835</span><a id="line.835">   * null}).</a>
-<span class="sourceLineNo">836</span><a id="line.836">   *</a>
-<span class="sourceLineNo">837</span><a id="line.837">   * &lt;p&gt;The list of results is in the same order as the input list.</a>
-<span class="sourceLineNo">838</span><a id="line.838">   *</a>
-<span class="sourceLineNo">839</span><a id="line.839">   * &lt;p&gt;This differs from {@link #allAsList(Iterable)} in that it's tolerant of failed futures for</a>
-<span class="sourceLineNo">840</span><a id="line.840">   * any of the items, representing them as {@code null} in the result list.</a>
-<span class="sourceLineNo">841</span><a id="line.841">   *</a>
-<span class="sourceLineNo">842</span><a id="line.842">   * &lt;p&gt;Canceling this future will attempt to cancel all the component futures.</a>
-<span class="sourceLineNo">843</span><a id="line.843">   *</a>
-<span class="sourceLineNo">844</span><a id="line.844">   * @param futures futures to combine</a>
-<span class="sourceLineNo">845</span><a id="line.845">   * @return a future that provides a list of the results of the component futures</a>
-<span class="sourceLineNo">846</span><a id="line.846">   * @since 10.0</a>
-<span class="sourceLineNo">847</span><a id="line.847">   */</a>
-<span class="sourceLineNo">848</span><a id="line.848">  public static &lt;V extends @Nullable Object&gt; ListenableFuture&lt;List&lt;@Nullable V&gt;&gt; successfulAsList(</a>
-<span class="sourceLineNo">849</span><a id="line.849">      Iterable&lt;? extends ListenableFuture&lt;? extends V&gt;&gt; futures) {</a>
-<span class="sourceLineNo">850</span><a id="line.850">    return new ListFuture&lt;V&gt;(ImmutableList.copyOf(futures), false);</a>
-<span class="sourceLineNo">851</span><a id="line.851">  }</a>
-<span class="sourceLineNo">852</span><a id="line.852"></a>
-<span class="sourceLineNo">853</span><a id="line.853">  /**</a>
-<span class="sourceLineNo">854</span><a id="line.854">   * Returns a list of delegate futures that correspond to the futures received in the order that</a>
-<span class="sourceLineNo">855</span><a id="line.855">   * they complete. Delegate futures return the same value or throw the same exception as the</a>
-<span class="sourceLineNo">856</span><a id="line.856">   * corresponding input future returns/throws.</a>
-<span class="sourceLineNo">857</span><a id="line.857">   *</a>
-<span class="sourceLineNo">858</span><a id="line.858">   * &lt;p&gt;"In the order that they complete" means, for practical purposes, about what you would</a>
-<span class="sourceLineNo">859</span><a id="line.859">   * expect, but there are some subtleties. First, we do guarantee that, if the output future at</a>
-<span class="sourceLineNo">860</span><a id="line.860">   * index n is done, the output future at index n-1 is also done. (But as usual with futures, some</a>
-<span class="sourceLineNo">861</span><a id="line.861">   * listeners for future n may complete before some for future n-1.) However, it is possible, if</a>
-<span class="sourceLineNo">862</span><a id="line.862">   * one input completes with result X and another later with result Y, for Y to come before X in</a>
-<span class="sourceLineNo">863</span><a id="line.863">   * the output future list. (Such races are impossible to solve without global synchronization of</a>
-<span class="sourceLineNo">864</span><a id="line.864">   * all future completions. And they should have little practical impact.)</a>
-<span class="sourceLineNo">865</span><a id="line.865">   *</a>
-<span class="sourceLineNo">866</span><a id="line.866">   * &lt;p&gt;Cancelling a delegate future propagates to input futures once all the delegates complete,</a>
-<span class="sourceLineNo">867</span><a id="line.867">   * either from cancellation or because an input future has completed. If N futures are passed in,</a>
-<span class="sourceLineNo">868</span><a id="line.868">   * and M delegates are cancelled, the remaining M input futures will be cancelled once N - M of</a>
-<span class="sourceLineNo">869</span><a id="line.869">   * the input futures complete. If all the delegates are cancelled, all the input futures will be</a>
-<span class="sourceLineNo">870</span><a id="line.870">   * too.</a>
-<span class="sourceLineNo">871</span><a id="line.871">   *</a>
-<span class="sourceLineNo">872</span><a id="line.872">   * @since 17.0</a>
-<span class="sourceLineNo">873</span><a id="line.873">   */</a>
-<span class="sourceLineNo">874</span><a id="line.874">  public static &lt;T extends @Nullable Object&gt; ImmutableList&lt;ListenableFuture&lt;T&gt;&gt; inCompletionOrder(</a>
-<span class="sourceLineNo">875</span><a id="line.875">      Iterable&lt;? extends ListenableFuture&lt;? extends T&gt;&gt; futures) {</a>
-<span class="sourceLineNo">876</span><a id="line.876">    ListenableFuture&lt;? extends T&gt;[] copy = gwtCompatibleToArray(futures);</a>
-<span class="sourceLineNo">877</span><a id="line.877">    final InCompletionOrderState&lt;T&gt; state = new InCompletionOrderState&lt;&gt;(copy);</a>
-<span class="sourceLineNo">878</span><a id="line.878">    ImmutableList.Builder&lt;AbstractFuture&lt;T&gt;&gt; delegatesBuilder =</a>
-<span class="sourceLineNo">879</span><a id="line.879">        ImmutableList.builderWithExpectedSize(copy.length);</a>
-<span class="sourceLineNo">880</span><a id="line.880">    for (int i = 0; i &lt; copy.length; i++) {</a>
-<span class="sourceLineNo">881</span><a id="line.881">      delegatesBuilder.add(new InCompletionOrderFuture&lt;T&gt;(state));</a>
-<span class="sourceLineNo">882</span><a id="line.882">    }</a>
-<span class="sourceLineNo">883</span><a id="line.883"></a>
-<span class="sourceLineNo">884</span><a id="line.884">    final ImmutableList&lt;AbstractFuture&lt;T&gt;&gt; delegates = delegatesBuilder.build();</a>
-<span class="sourceLineNo">885</span><a id="line.885">    for (int i = 0; i &lt; copy.length; i++) {</a>
-<span class="sourceLineNo">886</span><a id="line.886">      final int localI = i;</a>
-<span class="sourceLineNo">887</span><a id="line.887">      copy[i].addListener(() -&gt; state.recordInputCompletion(delegates, localI), directExecutor());</a>
-<span class="sourceLineNo">888</span><a id="line.888">    }</a>
-<span class="sourceLineNo">889</span><a id="line.889"></a>
-<span class="sourceLineNo">890</span><a id="line.890">    @SuppressWarnings("unchecked")</a>
-<span class="sourceLineNo">891</span><a id="line.891">    ImmutableList&lt;ListenableFuture&lt;T&gt;&gt; delegatesCast = (ImmutableList) delegates;</a>
-<span class="sourceLineNo">892</span><a id="line.892">    return delegatesCast;</a>
-<span class="sourceLineNo">893</span><a id="line.893">  }</a>
-<span class="sourceLineNo">894</span><a id="line.894"></a>
-<span class="sourceLineNo">895</span><a id="line.895">  /** Can't use Iterables.toArray because it's not gwt compatible */</a>
-<span class="sourceLineNo">896</span><a id="line.896">  @SuppressWarnings("unchecked")</a>
-<span class="sourceLineNo">897</span><a id="line.897">  private static &lt;T extends @Nullable Object&gt; ListenableFuture&lt;? extends T&gt;[] gwtCompatibleToArray(</a>
-<span class="sourceLineNo">898</span><a id="line.898">      Iterable&lt;? extends ListenableFuture&lt;? extends T&gt;&gt; futures) {</a>
-<span class="sourceLineNo">899</span><a id="line.899">    final Collection&lt;ListenableFuture&lt;? extends T&gt;&gt; collection;</a>
-<span class="sourceLineNo">900</span><a id="line.900">    if (futures instanceof Collection) {</a>
-<span class="sourceLineNo">901</span><a id="line.901">      collection = (Collection&lt;ListenableFuture&lt;? extends T&gt;&gt;) futures;</a>
-<span class="sourceLineNo">902</span><a id="line.902">    } else {</a>
-<span class="sourceLineNo">903</span><a id="line.903">      collection = ImmutableList.copyOf(futures);</a>
-<span class="sourceLineNo">904</span><a id="line.904">    }</a>
-<span class="sourceLineNo">905</span><a id="line.905">    return (ListenableFuture&lt;? extends T&gt;[]) collection.toArray(new ListenableFuture&lt;?&gt;[0]);</a>
-<span class="sourceLineNo">906</span><a id="line.906">  }</a>
-<span class="sourceLineNo">907</span><a id="line.907"></a>
-<span class="sourceLineNo">908</span><a id="line.908">  // This can't be a TrustedFuture, because TrustedFuture has clever optimizations that</a>
-<span class="sourceLineNo">909</span><a id="line.909">  // mean cancel won't be called if this Future is passed into setFuture, and then</a>
-<span class="sourceLineNo">910</span><a id="line.910">  // cancelled.</a>
-<span class="sourceLineNo">911</span><a id="line.911">  private static final class InCompletionOrderFuture&lt;T extends @Nullable Object&gt;</a>
-<span class="sourceLineNo">912</span><a id="line.912">      extends AbstractFuture&lt;T&gt; {</a>
-<span class="sourceLineNo">913</span><a id="line.913">    @CheckForNull private InCompletionOrderState&lt;T&gt; state;</a>
-<span class="sourceLineNo">914</span><a id="line.914"></a>
-<span class="sourceLineNo">915</span><a id="line.915">    private InCompletionOrderFuture(InCompletionOrderState&lt;T&gt; state) {</a>
-<span class="sourceLineNo">916</span><a id="line.916">      this.state = state;</a>
-<span class="sourceLineNo">917</span><a id="line.917">    }</a>
-<span class="sourceLineNo">918</span><a id="line.918"></a>
-<span class="sourceLineNo">919</span><a id="line.919">    @Override</a>
-<span class="sourceLineNo">920</span><a id="line.920">    public boolean cancel(boolean interruptIfRunning) {</a>
-<span class="sourceLineNo">921</span><a id="line.921">      InCompletionOrderState&lt;T&gt; localState = state;</a>
-<span class="sourceLineNo">922</span><a id="line.922">      if (super.cancel(interruptIfRunning)) {</a>
-<span class="sourceLineNo">923</span><a id="line.923">        /*</a>
-<span class="sourceLineNo">924</span><a id="line.924">         * requireNonNull is generally safe: If cancel succeeded, then this Future was still</a>
-<span class="sourceLineNo">925</span><a id="line.925">         * pending, so its `state` field hasn't been nulled out yet.</a>
-<span class="sourceLineNo">926</span><a id="line.926">         *</a>
-<span class="sourceLineNo">927</span><a id="line.927">         * OK, it's technically possible for this to fail in the presence of unsafe publishing, as</a>
-<span class="sourceLineNo">928</span><a id="line.928">         * discussed in the comments in TimeoutFuture. TODO(cpovirk): Maybe check for null before</a>
-<span class="sourceLineNo">929</span><a id="line.929">         * calling recordOutputCancellation?</a>
-<span class="sourceLineNo">930</span><a id="line.930">         */</a>
-<span class="sourceLineNo">931</span><a id="line.931">        requireNonNull(localState).recordOutputCancellation(interruptIfRunning);</a>
-<span class="sourceLineNo">932</span><a id="line.932">        return true;</a>
-<span class="sourceLineNo">933</span><a id="line.933">      }</a>
-<span class="sourceLineNo">934</span><a id="line.934">      return false;</a>
-<span class="sourceLineNo">935</span><a id="line.935">    }</a>
-<span class="sourceLineNo">936</span><a id="line.936"></a>
-<span class="sourceLineNo">937</span><a id="line.937">    @Override</a>
-<span class="sourceLineNo">938</span><a id="line.938">    protected void afterDone() {</a>
-<span class="sourceLineNo">939</span><a id="line.939">      state = null;</a>
-<span class="sourceLineNo">940</span><a id="line.940">    }</a>
-<span class="sourceLineNo">941</span><a id="line.941"></a>
-<span class="sourceLineNo">942</span><a id="line.942">    @Override</a>
-<span class="sourceLineNo">943</span><a id="line.943">    @CheckForNull</a>
-<span class="sourceLineNo">944</span><a id="line.944">    protected String pendingToString() {</a>
-<span class="sourceLineNo">945</span><a id="line.945">      InCompletionOrderState&lt;T&gt; localState = state;</a>
-<span class="sourceLineNo">946</span><a id="line.946">      if (localState != null) {</a>
-<span class="sourceLineNo">947</span><a id="line.947">        // Don't print the actual array! We don't want inCompletionOrder(list).toString() to have</a>
-<span class="sourceLineNo">948</span><a id="line.948">        // quadratic output.</a>
-<span class="sourceLineNo">949</span><a id="line.949">        return "inputCount=["</a>
-<span class="sourceLineNo">950</span><a id="line.950">            + localState.inputFutures.length</a>
-<span class="sourceLineNo">951</span><a id="line.951">            + "], remaining=["</a>
-<span class="sourceLineNo">952</span><a id="line.952">            + localState.incompleteOutputCount.get()</a>
-<span class="sourceLineNo">953</span><a id="line.953">            + "]";</a>
-<span class="sourceLineNo">954</span><a id="line.954">      }</a>
-<span class="sourceLineNo">955</span><a id="line.955">      return null;</a>
-<span class="sourceLineNo">956</span><a id="line.956">    }</a>
-<span class="sourceLineNo">957</span><a id="line.957">  }</a>
-<span class="sourceLineNo">958</span><a id="line.958"></a>
-<span class="sourceLineNo">959</span><a id="line.959">  private static final class InCompletionOrderState&lt;T extends @Nullable Object&gt; {</a>
-<span class="sourceLineNo">960</span><a id="line.960">    // A happens-before edge between the writes of these fields and their reads exists, because</a>
-<span class="sourceLineNo">961</span><a id="line.961">    // in order to read these fields, the corresponding write to incompleteOutputCount must have</a>
-<span class="sourceLineNo">962</span><a id="line.962">    // been read.</a>
-<span class="sourceLineNo">963</span><a id="line.963">    private boolean wasCancelled = false;</a>
-<span class="sourceLineNo">964</span><a id="line.964">    private boolean shouldInterrupt = true;</a>
-<span class="sourceLineNo">965</span><a id="line.965">    private final AtomicInteger incompleteOutputCount;</a>
-<span class="sourceLineNo">966</span><a id="line.966">    // We set the elements of the array to null as they complete.</a>
-<span class="sourceLineNo">967</span><a id="line.967">    private final @Nullable ListenableFuture&lt;? extends T&gt;[] inputFutures;</a>
-<span class="sourceLineNo">968</span><a id="line.968">    private volatile int delegateIndex = 0;</a>
-<span class="sourceLineNo">969</span><a id="line.969"></a>
-<span class="sourceLineNo">970</span><a id="line.970">    private InCompletionOrderState(ListenableFuture&lt;? extends T&gt;[] inputFutures) {</a>
-<span class="sourceLineNo">971</span><a id="line.971">      this.inputFutures = inputFutures;</a>
-<span class="sourceLineNo">972</span><a id="line.972">      incompleteOutputCount = new AtomicInteger(inputFutures.length);</a>
-<span class="sourceLineNo">973</span><a id="line.973">    }</a>
-<span class="sourceLineNo">974</span><a id="line.974"></a>
-<span class="sourceLineNo">975</span><a id="line.975">    private void recordOutputCancellation(boolean interruptIfRunning) {</a>
-<span class="sourceLineNo">976</span><a id="line.976">      wasCancelled = true;</a>
-<span class="sourceLineNo">977</span><a id="line.977">      // If all the futures were cancelled with interruption, cancel the input futures</a>
-<span class="sourceLineNo">978</span><a id="line.978">      // with interruption; otherwise cancel without</a>
-<span class="sourceLineNo">979</span><a id="line.979">      if (!interruptIfRunning) {</a>
-<span class="sourceLineNo">980</span><a id="line.980">        shouldInterrupt = false;</a>
-<span class="sourceLineNo">981</span><a id="line.981">      }</a>
-<span class="sourceLineNo">982</span><a id="line.982">      recordCompletion();</a>
-<span class="sourceLineNo">983</span><a id="line.983">    }</a>
-<span class="sourceLineNo">984</span><a id="line.984"></a>
-<span class="sourceLineNo">985</span><a id="line.985">    private void recordInputCompletion(</a>
-<span class="sourceLineNo">986</span><a id="line.986">        ImmutableList&lt;AbstractFuture&lt;T&gt;&gt; delegates, int inputFutureIndex) {</a>
-<span class="sourceLineNo">987</span><a id="line.987">      /*</a>
-<span class="sourceLineNo">988</span><a id="line.988">       * requireNonNull is safe because we accepted an Iterable of non-null Future instances, and we</a>
-<span class="sourceLineNo">989</span><a id="line.989">       * don't overwrite an element in the array until after reading it.</a>
-<span class="sourceLineNo">990</span><a id="line.990">       */</a>
-<span class="sourceLineNo">991</span><a id="line.991">      ListenableFuture&lt;? extends T&gt; inputFuture = requireNonNull(inputFutures[inputFutureIndex]);</a>
-<span class="sourceLineNo">992</span><a id="line.992">      // Null out our reference to this future, so it can be GCed</a>
-<span class="sourceLineNo">993</span><a id="line.993">      inputFutures[inputFutureIndex] = null;</a>
-<span class="sourceLineNo">994</span><a id="line.994">      for (int i = delegateIndex; i &lt; delegates.size(); i++) {</a>
-<span class="sourceLineNo">995</span><a id="line.995">        if (delegates.get(i).setFuture(inputFuture)) {</a>
-<span class="sourceLineNo">996</span><a id="line.996">          recordCompletion();</a>
-<span class="sourceLineNo">997</span><a id="line.997">          // this is technically unnecessary, but should speed up later accesses</a>
-<span class="sourceLineNo">998</span><a id="line.998">          delegateIndex = i + 1;</a>
-<span class="sourceLineNo">999</span><a id="line.999">          return;</a>
-<span class="sourceLineNo">1000</span><a id="line.1000">        }</a>
-<span class="sourceLineNo">1001</span><a id="line.1001">      }</a>
-<span class="sourceLineNo">1002</span><a id="line.1002">      // If all the delegates were complete, no reason for the next listener to have to</a>
-<span class="sourceLineNo">1003</span><a id="line.1003">      // go through the whole list. Avoids O(n^2) behavior when the entire output list is</a>
-<span class="sourceLineNo">1004</span><a id="line.1004">      // cancelled.</a>
-<span class="sourceLineNo">1005</span><a id="line.1005">      delegateIndex = delegates.size();</a>
-<span class="sourceLineNo">1006</span><a id="line.1006">    }</a>
-<span class="sourceLineNo">1007</span><a id="line.1007"></a>
-<span class="sourceLineNo">1008</span><a id="line.1008">    private void recordCompletion() {</a>
-<span class="sourceLineNo">1009</span><a id="line.1009">      if (incompleteOutputCount.decrementAndGet() == 0 &amp;&amp; wasCancelled) {</a>
-<span class="sourceLineNo">1010</span><a id="line.1010">        for (ListenableFuture&lt;? extends T&gt; toCancel : inputFutures) {</a>
-<span class="sourceLineNo">1011</span><a id="line.1011">          if (toCancel != null) {</a>
-<span class="sourceLineNo">1012</span><a id="line.1012">            toCancel.cancel(shouldInterrupt);</a>
-<span class="sourceLineNo">1013</span><a id="line.1013">          }</a>
-<span class="sourceLineNo">1014</span><a id="line.1014">        }</a>
-<span class="sourceLineNo">1015</span><a id="line.1015">      }</a>
-<span class="sourceLineNo">1016</span><a id="line.1016">    }</a>
-<span class="sourceLineNo">1017</span><a id="line.1017">  }</a>
-<span class="sourceLineNo">1018</span><a id="line.1018"></a>
-<span class="sourceLineNo">1019</span><a id="line.1019">  /**</a>
-<span class="sourceLineNo">1020</span><a id="line.1020">   * Registers separate success and failure callbacks to be run when the {@code Future}'s</a>
-<span class="sourceLineNo">1021</span><a id="line.1021">   * computation is {@linkplain java.util.concurrent.Future#isDone() complete} or, if the</a>
-<span class="sourceLineNo">1022</span><a id="line.1022">   * computation is already complete, immediately.</a>
-<span class="sourceLineNo">1023</span><a id="line.1023">   *</a>
-<span class="sourceLineNo">1024</span><a id="line.1024">   * &lt;p&gt;The callback is run on {@code executor}. There is no guaranteed ordering of execution of</a>
-<span class="sourceLineNo">1025</span><a id="line.1025">   * callbacks, but any callback added through this method is guaranteed to be called once the</a>
-<span class="sourceLineNo">1026</span><a id="line.1026">   * computation is complete.</a>
-<span class="sourceLineNo">1027</span><a id="line.1027">   *</a>
-<span class="sourceLineNo">1028</span><a id="line.1028">   * &lt;p&gt;Exceptions thrown by a {@code callback} will be propagated up to the executor. Any exception</a>
-<span class="sourceLineNo">1029</span><a id="line.1029">   * thrown during {@code Executor.execute} (e.g., a {@code RejectedExecutionException} or an</a>
-<span class="sourceLineNo">1030</span><a id="line.1030">   * exception thrown by {@linkplain MoreExecutors#directExecutor direct execution}) will be caught</a>
-<span class="sourceLineNo">1031</span><a id="line.1031">   * and logged.</a>
-<span class="sourceLineNo">1032</span><a id="line.1032">   *</a>
-<span class="sourceLineNo">1033</span><a id="line.1033">   * &lt;p&gt;Example:</a>
-<span class="sourceLineNo">1034</span><a id="line.1034">   *</a>
-<span class="sourceLineNo">1035</span><a id="line.1035">   * &lt;pre&gt;{@code</a>
-<span class="sourceLineNo">1036</span><a id="line.1036">   * ListenableFuture&lt;QueryResult&gt; future = ...;</a>
-<span class="sourceLineNo">1037</span><a id="line.1037">   * Executor e = ...</a>
-<span class="sourceLineNo">1038</span><a id="line.1038">   * addCallback(future,</a>
-<span class="sourceLineNo">1039</span><a id="line.1039">   *     new FutureCallback&lt;QueryResult&gt;() {</a>
-<span class="sourceLineNo">1040</span><a id="line.1040">   *       public void onSuccess(QueryResult result) {</a>
-<span class="sourceLineNo">1041</span><a id="line.1041">   *         storeInCache(result);</a>
-<span class="sourceLineNo">1042</span><a id="line.1042">   *       }</a>
-<span class="sourceLineNo">1043</span><a id="line.1043">   *       public void onFailure(Throwable t) {</a>
-<span class="sourceLineNo">1044</span><a id="line.1044">   *         reportError(t);</a>
-<span class="sourceLineNo">1045</span><a id="line.1045">   *       }</a>
-<span class="sourceLineNo">1046</span><a id="line.1046">   *     }, e);</a>
-<span class="sourceLineNo">1047</span><a id="line.1047">   * }&lt;/pre&gt;</a>
-<span class="sourceLineNo">1048</span><a id="line.1048">   *</a>
-<span class="sourceLineNo">1049</span><a id="line.1049">   * &lt;p&gt;When selecting an executor, note that {@code directExecutor} is dangerous in some cases. See</a>
-<span class="sourceLineNo">1050</span><a id="line.1050">   * the warnings the {@link MoreExecutors#directExecutor} documentation.</a>
-<span class="sourceLineNo">1051</span><a id="line.1051">   *</a>
-<span class="sourceLineNo">1052</span><a id="line.1052">   * &lt;p&gt;For a more general interface to attach a completion listener to a {@code Future}, see {@link</a>
-<span class="sourceLineNo">1053</span><a id="line.1053">   * ListenableFuture#addListener addListener}.</a>
-<span class="sourceLineNo">1054</span><a id="line.1054">   *</a>
-<span class="sourceLineNo">1055</span><a id="line.1055">   * @param future The future attach the callback to.</a>
-<span class="sourceLineNo">1056</span><a id="line.1056">   * @param callback The callback to invoke when {@code future} is completed.</a>
-<span class="sourceLineNo">1057</span><a id="line.1057">   * @param executor The executor to run {@code callback} when the future completes.</a>
-<span class="sourceLineNo">1058</span><a id="line.1058">   * @since 10.0</a>
-<span class="sourceLineNo">1059</span><a id="line.1059">   */</a>
-<span class="sourceLineNo">1060</span><a id="line.1060">  public static &lt;V extends @Nullable Object&gt; void addCallback(</a>
-<span class="sourceLineNo">1061</span><a id="line.1061">      final ListenableFuture&lt;V&gt; future,</a>
-<span class="sourceLineNo">1062</span><a id="line.1062">      final FutureCallback&lt;? super V&gt; callback,</a>
-<span class="sourceLineNo">1063</span><a id="line.1063">      Executor executor) {</a>
-<span class="sourceLineNo">1064</span><a id="line.1064">    Preconditions.checkNotNull(callback);</a>
-<span class="sourceLineNo">1065</span><a id="line.1065">    future.addListener(new CallbackListener&lt;V&gt;(future, callback), executor);</a>
-<span class="sourceLineNo">1066</span><a id="line.1066">  }</a>
-<span class="sourceLineNo">1067</span><a id="line.1067"></a>
-<span class="sourceLineNo">1068</span><a id="line.1068">  /** See {@link #addCallback(ListenableFuture, FutureCallback, Executor)} for behavioral notes. */</a>
-<span class="sourceLineNo">1069</span><a id="line.1069">  private static final class CallbackListener&lt;V extends @Nullable Object&gt; implements Runnable {</a>
-<span class="sourceLineNo">1070</span><a id="line.1070">    final Future&lt;V&gt; future;</a>
-<span class="sourceLineNo">1071</span><a id="line.1071">    final FutureCallback&lt;? super V&gt; callback;</a>
-<span class="sourceLineNo">1072</span><a id="line.1072"></a>
-<span class="sourceLineNo">1073</span><a id="line.1073">    CallbackListener(Future&lt;V&gt; future, FutureCallback&lt;? super V&gt; callback) {</a>
-<span class="sourceLineNo">1074</span><a id="line.1074">      this.future = future;</a>
-<span class="sourceLineNo">1075</span><a id="line.1075">      this.callback = callback;</a>
-<span class="sourceLineNo">1076</span><a id="line.1076">    }</a>
-<span class="sourceLineNo">1077</span><a id="line.1077"></a>
-<span class="sourceLineNo">1078</span><a id="line.1078">    @Override</a>
-<span class="sourceLineNo">1079</span><a id="line.1079">    public void run() {</a>
-<span class="sourceLineNo">1080</span><a id="line.1080">      if (future instanceof InternalFutureFailureAccess) {</a>
-<span class="sourceLineNo">1081</span><a id="line.1081">        Throwable failure =</a>
-<span class="sourceLineNo">1082</span><a id="line.1082">            InternalFutures.tryInternalFastPathGetFailure((InternalFutureFailureAccess) future);</a>
-<span class="sourceLineNo">1083</span><a id="line.1083">        if (failure != null) {</a>
-<span class="sourceLineNo">1084</span><a id="line.1084">          callback.onFailure(failure);</a>
-<span class="sourceLineNo">1085</span><a id="line.1085">          return;</a>
-<span class="sourceLineNo">1086</span><a id="line.1086">        }</a>
-<span class="sourceLineNo">1087</span><a id="line.1087">      }</a>
-<span class="sourceLineNo">1088</span><a id="line.1088">      final V value;</a>
-<span class="sourceLineNo">1089</span><a id="line.1089">      try {</a>
-<span class="sourceLineNo">1090</span><a id="line.1090">        value = getDone(future);</a>
-<span class="sourceLineNo">1091</span><a id="line.1091">      } catch (ExecutionException e) {</a>
-<span class="sourceLineNo">1092</span><a id="line.1092">        callback.onFailure(e.getCause());</a>
-<span class="sourceLineNo">1093</span><a id="line.1093">        return;</a>
-<span class="sourceLineNo">1094</span><a id="line.1094">      } catch (RuntimeException | Error e) {</a>
-<span class="sourceLineNo">1095</span><a id="line.1095">        callback.onFailure(e);</a>
-<span class="sourceLineNo">1096</span><a id="line.1096">        return;</a>
-<span class="sourceLineNo">1097</span><a id="line.1097">      }</a>
-<span class="sourceLineNo">1098</span><a id="line.1098">      callback.onSuccess(value);</a>
-<span class="sourceLineNo">1099</span><a id="line.1099">    }</a>
-<span class="sourceLineNo">1100</span><a id="line.1100"></a>
-<span class="sourceLineNo">1101</span><a id="line.1101">    @Override</a>
-<span class="sourceLineNo">1102</span><a id="line.1102">    public String toString() {</a>
-<span class="sourceLineNo">1103</span><a id="line.1103">      return MoreObjects.toStringHelper(this).addValue(callback).toString();</a>
-<span class="sourceLineNo">1104</span><a id="line.1104">    }</a>
-<span class="sourceLineNo">1105</span><a id="line.1105">  }</a>
-<span class="sourceLineNo">1106</span><a id="line.1106"></a>
-<span class="sourceLineNo">1107</span><a id="line.1107">  /**</a>
-<span class="sourceLineNo">1108</span><a id="line.1108">   * Returns the result of the input {@code Future}, which must have already completed.</a>
-<span class="sourceLineNo">1109</span><a id="line.1109">   *</a>
-<span class="sourceLineNo">1110</span><a id="line.1110">   * &lt;p&gt;The benefits of this method are twofold. First, the name "getDone" suggests to readers that</a>
-<span class="sourceLineNo">1111</span><a id="line.1111">   * the {@code Future} is already done. Second, if buggy code calls {@code getDone} on a {@code</a>
-<span class="sourceLineNo">1112</span><a id="line.1112">   * Future} that is still pending, the program will throw instead of block. This can be important</a>
-<span class="sourceLineNo">1113</span><a id="line.1113">   * for APIs like {@link #whenAllComplete whenAllComplete(...)}{@code .}{@link</a>
-<span class="sourceLineNo">1114</span><a id="line.1114">   * FutureCombiner#call(Callable, Executor) call(...)}, where it is easy to use a new input from</a>
-<span class="sourceLineNo">1115</span><a id="line.1115">   * the {@code call} implementation but forget to add it to the arguments of {@code</a>
-<span class="sourceLineNo">1116</span><a id="line.1116">   * whenAllComplete}.</a>
-<span class="sourceLineNo">1117</span><a id="line.1117">   *</a>
-<span class="sourceLineNo">1118</span><a id="line.1118">   * &lt;p&gt;If you are looking for a method to determine whether a given {@code Future} is done, use the</a>
-<span class="sourceLineNo">1119</span><a id="line.1119">   * instance method {@link Future#isDone()}.</a>
-<span class="sourceLineNo">1120</span><a id="line.1120">   *</a>
-<span class="sourceLineNo">1121</span><a id="line.1121">   * @throws ExecutionException if the {@code Future} failed with an exception</a>
-<span class="sourceLineNo">1122</span><a id="line.1122">   * @throws CancellationException if the {@code Future} was cancelled</a>
-<span class="sourceLineNo">1123</span><a id="line.1123">   * @throws IllegalStateException if the {@code Future} is not done</a>
-<span class="sourceLineNo">1124</span><a id="line.1124">   * @since 20.0</a>
-<span class="sourceLineNo">1125</span><a id="line.1125">   */</a>
-<span class="sourceLineNo">1126</span><a id="line.1126">  @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">1127</span><a id="line.1127">  // TODO(cpovirk): Consider calling getDone() in our own code.</a>
-<span class="sourceLineNo">1128</span><a id="line.1128">  @ParametricNullness</a>
-<span class="sourceLineNo">1129</span><a id="line.1129">  public static &lt;V extends @Nullable Object&gt; V getDone(Future&lt;V&gt; future) throws ExecutionException {</a>
-<span class="sourceLineNo">1130</span><a id="line.1130">    /*</a>
-<span class="sourceLineNo">1131</span><a id="line.1131">     * We throw IllegalStateException, since the call could succeed later. Perhaps we "should" throw</a>
-<span class="sourceLineNo">1132</span><a id="line.1132">     * IllegalArgumentException, since the call could succeed with a different argument. Those</a>
-<span class="sourceLineNo">1133</span><a id="line.1133">     * exceptions' docs suggest that either is acceptable. Google's Java Practices page recommends</a>
-<span class="sourceLineNo">1134</span><a id="line.1134">     * IllegalArgumentException here, in part to keep its recommendation simple: Static methods</a>
-<span class="sourceLineNo">1135</span><a id="line.1135">     * should throw IllegalStateException only when they use static state.</a>
-<span class="sourceLineNo">1136</span><a id="line.1136">     *</a>
-<span class="sourceLineNo">1137</span><a id="line.1137">     * Why do we deviate here? The answer: We want for fluentFuture.getDone() to throw the same</a>
-<span class="sourceLineNo">1138</span><a id="line.1138">     * exception as Futures.getDone(fluentFuture).</a>
-<span class="sourceLineNo">1139</span><a id="line.1139">     */</a>
-<span class="sourceLineNo">1140</span><a id="line.1140">    checkState(future.isDone(), "Future was expected to be done: %s", future);</a>
-<span class="sourceLineNo">1141</span><a id="line.1141">    return getUninterruptibly(future);</a>
-<span class="sourceLineNo">1142</span><a id="line.1142">  }</a>
-<span class="sourceLineNo">1143</span><a id="line.1143"></a>
-<span class="sourceLineNo">1144</span><a id="line.1144">  /**</a>
-<span class="sourceLineNo">1145</span><a id="line.1145">   * Returns the result of {@link Future#get()}, converting most exceptions to a new instance of the</a>
-<span class="sourceLineNo">1146</span><a id="line.1146">   * given checked exception type. This reduces boilerplate for a common use of {@code Future} in</a>
-<span class="sourceLineNo">1147</span><a id="line.1147">   * which it is unnecessary to programmatically distinguish between exception types or to extract</a>
-<span class="sourceLineNo">1148</span><a id="line.1148">   * other information from the exception instance.</a>
-<span class="sourceLineNo">1149</span><a id="line.1149">   *</a>
-<span class="sourceLineNo">1150</span><a id="line.1150">   * &lt;p&gt;Exceptions from {@code Future.get} are treated as follows:</a>
+<span class="sourceLineNo">513</span><a id="line.513">        } catch (Throwable t) {</a>
+<span class="sourceLineNo">514</span><a id="line.514">          // Any Exception is either a RuntimeException or sneaky checked exception.</a>
+<span class="sourceLineNo">515</span><a id="line.515">          throw new ExecutionException(t);</a>
+<span class="sourceLineNo">516</span><a id="line.516">        }</a>
+<span class="sourceLineNo">517</span><a id="line.517">      }</a>
+<span class="sourceLineNo">518</span><a id="line.518">    };</a>
+<span class="sourceLineNo">519</span><a id="line.519">  }</a>
+<span class="sourceLineNo">520</span><a id="line.520"></a>
+<span class="sourceLineNo">521</span><a id="line.521">  /**</a>
+<span class="sourceLineNo">522</span><a id="line.522">   * Creates a new {@code ListenableFuture} whose value is a list containing the values of all its</a>
+<span class="sourceLineNo">523</span><a id="line.523">   * input futures, if all succeed.</a>
+<span class="sourceLineNo">524</span><a id="line.524">   *</a>
+<span class="sourceLineNo">525</span><a id="line.525">   * &lt;p&gt;The list of results is in the same order as the input list.</a>
+<span class="sourceLineNo">526</span><a id="line.526">   *</a>
+<span class="sourceLineNo">527</span><a id="line.527">   * &lt;p&gt;This differs from {@link #successfulAsList(ListenableFuture[])} in that it will return a</a>
+<span class="sourceLineNo">528</span><a id="line.528">   * failed future if any of the items fails.</a>
+<span class="sourceLineNo">529</span><a id="line.529">   *</a>
+<span class="sourceLineNo">530</span><a id="line.530">   * &lt;p&gt;Canceling this future will attempt to cancel all the component futures, and if any of the</a>
+<span class="sourceLineNo">531</span><a id="line.531">   * provided futures fails or is canceled, this one is, too.</a>
+<span class="sourceLineNo">532</span><a id="line.532">   *</a>
+<span class="sourceLineNo">533</span><a id="line.533">   * @param futures futures to combine</a>
+<span class="sourceLineNo">534</span><a id="line.534">   * @return a future that provides a list of the results of the component futures</a>
+<span class="sourceLineNo">535</span><a id="line.535">   * @since 10.0</a>
+<span class="sourceLineNo">536</span><a id="line.536">   */</a>
+<span class="sourceLineNo">537</span><a id="line.537">  @SafeVarargs</a>
+<span class="sourceLineNo">538</span><a id="line.538">  public static &lt;V extends @Nullable Object&gt; ListenableFuture&lt;List&lt;V&gt;&gt; allAsList(</a>
+<span class="sourceLineNo">539</span><a id="line.539">      ListenableFuture&lt;? extends V&gt;... futures) {</a>
+<span class="sourceLineNo">540</span><a id="line.540">    ListenableFuture&lt;List&lt;@Nullable V&gt;&gt; nullable =</a>
+<span class="sourceLineNo">541</span><a id="line.541">        new ListFuture&lt;V&gt;(ImmutableList.copyOf(futures), true);</a>
+<span class="sourceLineNo">542</span><a id="line.542">    // allAsList ensures that it fills the output list with V instances.</a>
+<span class="sourceLineNo">543</span><a id="line.543">    @SuppressWarnings("nullness")</a>
+<span class="sourceLineNo">544</span><a id="line.544">    ListenableFuture&lt;List&lt;V&gt;&gt; nonNull = nullable;</a>
+<span class="sourceLineNo">545</span><a id="line.545">    return nonNull;</a>
+<span class="sourceLineNo">546</span><a id="line.546">  }</a>
+<span class="sourceLineNo">547</span><a id="line.547"></a>
+<span class="sourceLineNo">548</span><a id="line.548">  /**</a>
+<span class="sourceLineNo">549</span><a id="line.549">   * Creates a new {@code ListenableFuture} whose value is a list containing the values of all its</a>
+<span class="sourceLineNo">550</span><a id="line.550">   * input futures, if all succeed.</a>
+<span class="sourceLineNo">551</span><a id="line.551">   *</a>
+<span class="sourceLineNo">552</span><a id="line.552">   * &lt;p&gt;The list of results is in the same order as the input list.</a>
+<span class="sourceLineNo">553</span><a id="line.553">   *</a>
+<span class="sourceLineNo">554</span><a id="line.554">   * &lt;p&gt;This differs from {@link #successfulAsList(Iterable)} in that it will return a failed future</a>
+<span class="sourceLineNo">555</span><a id="line.555">   * if any of the items fails.</a>
+<span class="sourceLineNo">556</span><a id="line.556">   *</a>
+<span class="sourceLineNo">557</span><a id="line.557">   * &lt;p&gt;Canceling this future will attempt to cancel all the component futures, and if any of the</a>
+<span class="sourceLineNo">558</span><a id="line.558">   * provided futures fails or is canceled, this one is, too.</a>
+<span class="sourceLineNo">559</span><a id="line.559">   *</a>
+<span class="sourceLineNo">560</span><a id="line.560">   * @param futures futures to combine</a>
+<span class="sourceLineNo">561</span><a id="line.561">   * @return a future that provides a list of the results of the component futures</a>
+<span class="sourceLineNo">562</span><a id="line.562">   * @since 10.0</a>
+<span class="sourceLineNo">563</span><a id="line.563">   */</a>
+<span class="sourceLineNo">564</span><a id="line.564">  public static &lt;V extends @Nullable Object&gt; ListenableFuture&lt;List&lt;V&gt;&gt; allAsList(</a>
+<span class="sourceLineNo">565</span><a id="line.565">      Iterable&lt;? extends ListenableFuture&lt;? extends V&gt;&gt; futures) {</a>
+<span class="sourceLineNo">566</span><a id="line.566">    ListenableFuture&lt;List&lt;@Nullable V&gt;&gt; nullable =</a>
+<span class="sourceLineNo">567</span><a id="line.567">        new ListFuture&lt;V&gt;(ImmutableList.copyOf(futures), true);</a>
+<span class="sourceLineNo">568</span><a id="line.568">    // allAsList ensures that it fills the output list with V instances.</a>
+<span class="sourceLineNo">569</span><a id="line.569">    @SuppressWarnings("nullness")</a>
+<span class="sourceLineNo">570</span><a id="line.570">    ListenableFuture&lt;List&lt;V&gt;&gt; nonNull = nullable;</a>
+<span class="sourceLineNo">571</span><a id="line.571">    return nonNull;</a>
+<span class="sourceLineNo">572</span><a id="line.572">  }</a>
+<span class="sourceLineNo">573</span><a id="line.573"></a>
+<span class="sourceLineNo">574</span><a id="line.574">  /**</a>
+<span class="sourceLineNo">575</span><a id="line.575">   * Creates a {@link FutureCombiner} that processes the completed futures whether or not they're</a>
+<span class="sourceLineNo">576</span><a id="line.576">   * successful.</a>
+<span class="sourceLineNo">577</span><a id="line.577">   *</a>
+<span class="sourceLineNo">578</span><a id="line.578">   * &lt;p&gt;Any failures from the input futures will not be propagated to the returned future.</a>
+<span class="sourceLineNo">579</span><a id="line.579">   *</a>
+<span class="sourceLineNo">580</span><a id="line.580">   * @since 20.0</a>
+<span class="sourceLineNo">581</span><a id="line.581">   */</a>
+<span class="sourceLineNo">582</span><a id="line.582">  @SafeVarargs</a>
+<span class="sourceLineNo">583</span><a id="line.583">  public static &lt;V extends @Nullable Object&gt; FutureCombiner&lt;V&gt; whenAllComplete(</a>
+<span class="sourceLineNo">584</span><a id="line.584">      ListenableFuture&lt;? extends V&gt;... futures) {</a>
+<span class="sourceLineNo">585</span><a id="line.585">    return new FutureCombiner&lt;V&gt;(false, ImmutableList.copyOf(futures));</a>
+<span class="sourceLineNo">586</span><a id="line.586">  }</a>
+<span class="sourceLineNo">587</span><a id="line.587"></a>
+<span class="sourceLineNo">588</span><a id="line.588">  /**</a>
+<span class="sourceLineNo">589</span><a id="line.589">   * Creates a {@link FutureCombiner} that processes the completed futures whether or not they're</a>
+<span class="sourceLineNo">590</span><a id="line.590">   * successful.</a>
+<span class="sourceLineNo">591</span><a id="line.591">   *</a>
+<span class="sourceLineNo">592</span><a id="line.592">   * &lt;p&gt;Any failures from the input futures will not be propagated to the returned future.</a>
+<span class="sourceLineNo">593</span><a id="line.593">   *</a>
+<span class="sourceLineNo">594</span><a id="line.594">   * @since 20.0</a>
+<span class="sourceLineNo">595</span><a id="line.595">   */</a>
+<span class="sourceLineNo">596</span><a id="line.596">  public static &lt;V extends @Nullable Object&gt; FutureCombiner&lt;V&gt; whenAllComplete(</a>
+<span class="sourceLineNo">597</span><a id="line.597">      Iterable&lt;? extends ListenableFuture&lt;? extends V&gt;&gt; futures) {</a>
+<span class="sourceLineNo">598</span><a id="line.598">    return new FutureCombiner&lt;V&gt;(false, ImmutableList.copyOf(futures));</a>
+<span class="sourceLineNo">599</span><a id="line.599">  }</a>
+<span class="sourceLineNo">600</span><a id="line.600"></a>
+<span class="sourceLineNo">601</span><a id="line.601">  /**</a>
+<span class="sourceLineNo">602</span><a id="line.602">   * Creates a {@link FutureCombiner} requiring that all passed in futures are successful.</a>
+<span class="sourceLineNo">603</span><a id="line.603">   *</a>
+<span class="sourceLineNo">604</span><a id="line.604">   * &lt;p&gt;If any input fails, the returned future fails immediately.</a>
+<span class="sourceLineNo">605</span><a id="line.605">   *</a>
+<span class="sourceLineNo">606</span><a id="line.606">   * @since 20.0</a>
+<span class="sourceLineNo">607</span><a id="line.607">   */</a>
+<span class="sourceLineNo">608</span><a id="line.608">  @SafeVarargs</a>
+<span class="sourceLineNo">609</span><a id="line.609">  public static &lt;V extends @Nullable Object&gt; FutureCombiner&lt;V&gt; whenAllSucceed(</a>
+<span class="sourceLineNo">610</span><a id="line.610">      ListenableFuture&lt;? extends V&gt;... futures) {</a>
+<span class="sourceLineNo">611</span><a id="line.611">    return new FutureCombiner&lt;V&gt;(true, ImmutableList.copyOf(futures));</a>
+<span class="sourceLineNo">612</span><a id="line.612">  }</a>
+<span class="sourceLineNo">613</span><a id="line.613"></a>
+<span class="sourceLineNo">614</span><a id="line.614">  /**</a>
+<span class="sourceLineNo">615</span><a id="line.615">   * Creates a {@link FutureCombiner} requiring that all passed in futures are successful.</a>
+<span class="sourceLineNo">616</span><a id="line.616">   *</a>
+<span class="sourceLineNo">617</span><a id="line.617">   * &lt;p&gt;If any input fails, the returned future fails immediately.</a>
+<span class="sourceLineNo">618</span><a id="line.618">   *</a>
+<span class="sourceLineNo">619</span><a id="line.619">   * @since 20.0</a>
+<span class="sourceLineNo">620</span><a id="line.620">   */</a>
+<span class="sourceLineNo">621</span><a id="line.621">  public static &lt;V extends @Nullable Object&gt; FutureCombiner&lt;V&gt; whenAllSucceed(</a>
+<span class="sourceLineNo">622</span><a id="line.622">      Iterable&lt;? extends ListenableFuture&lt;? extends V&gt;&gt; futures) {</a>
+<span class="sourceLineNo">623</span><a id="line.623">    return new FutureCombiner&lt;V&gt;(true, ImmutableList.copyOf(futures));</a>
+<span class="sourceLineNo">624</span><a id="line.624">  }</a>
+<span class="sourceLineNo">625</span><a id="line.625"></a>
+<span class="sourceLineNo">626</span><a id="line.626">  /**</a>
+<span class="sourceLineNo">627</span><a id="line.627">   * A helper to create a new {@code ListenableFuture} whose result is generated from a combination</a>
+<span class="sourceLineNo">628</span><a id="line.628">   * of input futures.</a>
+<span class="sourceLineNo">629</span><a id="line.629">   *</a>
+<span class="sourceLineNo">630</span><a id="line.630">   * &lt;p&gt;See {@link #whenAllComplete} and {@link #whenAllSucceed} for how to instantiate this class.</a>
+<span class="sourceLineNo">631</span><a id="line.631">   *</a>
+<span class="sourceLineNo">632</span><a id="line.632">   * &lt;p&gt;Example:</a>
+<span class="sourceLineNo">633</span><a id="line.633">   *</a>
+<span class="sourceLineNo">634</span><a id="line.634">   * &lt;pre&gt;{@code</a>
+<span class="sourceLineNo">635</span><a id="line.635">   * final ListenableFuture&lt;Instant&gt; loginDateFuture =</a>
+<span class="sourceLineNo">636</span><a id="line.636">   *     loginService.findLastLoginDate(username);</a>
+<span class="sourceLineNo">637</span><a id="line.637">   * final ListenableFuture&lt;List&lt;String&gt;&gt; recentCommandsFuture =</a>
+<span class="sourceLineNo">638</span><a id="line.638">   *     recentCommandsService.findRecentCommands(username);</a>
+<span class="sourceLineNo">639</span><a id="line.639">   * ListenableFuture&lt;UsageHistory&gt; usageFuture =</a>
+<span class="sourceLineNo">640</span><a id="line.640">   *     Futures.whenAllSucceed(loginDateFuture, recentCommandsFuture)</a>
+<span class="sourceLineNo">641</span><a id="line.641">   *         .call(</a>
+<span class="sourceLineNo">642</span><a id="line.642">   *             () -&gt;</a>
+<span class="sourceLineNo">643</span><a id="line.643">   *                 new UsageHistory(</a>
+<span class="sourceLineNo">644</span><a id="line.644">   *                     username,</a>
+<span class="sourceLineNo">645</span><a id="line.645">   *                     Futures.getDone(loginDateFuture),</a>
+<span class="sourceLineNo">646</span><a id="line.646">   *                     Futures.getDone(recentCommandsFuture)),</a>
+<span class="sourceLineNo">647</span><a id="line.647">   *             executor);</a>
+<span class="sourceLineNo">648</span><a id="line.648">   * }&lt;/pre&gt;</a>
+<span class="sourceLineNo">649</span><a id="line.649">   *</a>
+<span class="sourceLineNo">650</span><a id="line.650">   * @since 20.0</a>
+<span class="sourceLineNo">651</span><a id="line.651">   */</a>
+<span class="sourceLineNo">652</span><a id="line.652">  @GwtCompatible</a>
+<span class="sourceLineNo">653</span><a id="line.653">  public static final class FutureCombiner&lt;V extends @Nullable Object&gt; {</a>
+<span class="sourceLineNo">654</span><a id="line.654">    private final boolean allMustSucceed;</a>
+<span class="sourceLineNo">655</span><a id="line.655">    private final ImmutableList&lt;ListenableFuture&lt;? extends V&gt;&gt; futures;</a>
+<span class="sourceLineNo">656</span><a id="line.656"></a>
+<span class="sourceLineNo">657</span><a id="line.657">    private FutureCombiner(</a>
+<span class="sourceLineNo">658</span><a id="line.658">        boolean allMustSucceed, ImmutableList&lt;ListenableFuture&lt;? extends V&gt;&gt; futures) {</a>
+<span class="sourceLineNo">659</span><a id="line.659">      this.allMustSucceed = allMustSucceed;</a>
+<span class="sourceLineNo">660</span><a id="line.660">      this.futures = futures;</a>
+<span class="sourceLineNo">661</span><a id="line.661">    }</a>
+<span class="sourceLineNo">662</span><a id="line.662"></a>
+<span class="sourceLineNo">663</span><a id="line.663">    /**</a>
+<span class="sourceLineNo">664</span><a id="line.664">     * Creates the {@link ListenableFuture} which will return the result of calling {@link</a>
+<span class="sourceLineNo">665</span><a id="line.665">     * AsyncCallable#call} in {@code combiner} when all futures complete, using the specified {@code</a>
+<span class="sourceLineNo">666</span><a id="line.666">     * executor}.</a>
+<span class="sourceLineNo">667</span><a id="line.667">     *</a>
+<span class="sourceLineNo">668</span><a id="line.668">     * &lt;p&gt;If the combiner throws a {@code CancellationException}, the returned future will be</a>
+<span class="sourceLineNo">669</span><a id="line.669">     * cancelled.</a>
+<span class="sourceLineNo">670</span><a id="line.670">     *</a>
+<span class="sourceLineNo">671</span><a id="line.671">     * &lt;p&gt;If the combiner throws an {@code ExecutionException}, the cause of the thrown {@code</a>
+<span class="sourceLineNo">672</span><a id="line.672">     * ExecutionException} will be extracted and returned as the cause of the new {@code</a>
+<span class="sourceLineNo">673</span><a id="line.673">     * ExecutionException} that gets thrown by the returned combined future.</a>
+<span class="sourceLineNo">674</span><a id="line.674">     *</a>
+<span class="sourceLineNo">675</span><a id="line.675">     * &lt;p&gt;Canceling this future will attempt to cancel all the component futures.</a>
+<span class="sourceLineNo">676</span><a id="line.676">     *</a>
+<span class="sourceLineNo">677</span><a id="line.677">     * @return a future whose result is based on {@code combiner} (or based on the input futures</a>
+<span class="sourceLineNo">678</span><a id="line.678">     *     passed to {@code whenAllSucceed}, if that is the method you used to create this {@code</a>
+<span class="sourceLineNo">679</span><a id="line.679">     *     FutureCombiner}). Even if you don't care about the value of the future, you should</a>
+<span class="sourceLineNo">680</span><a id="line.680">     *     typically check whether it failed: See &lt;a</a>
+<span class="sourceLineNo">681</span><a id="line.681">     *     href="https://errorprone.info/bugpattern/FutureReturnValueIgnored"&gt;https://errorprone.info/bugpattern/FutureReturnValueIgnored&lt;/a&gt;.</a>
+<span class="sourceLineNo">682</span><a id="line.682">     */</a>
+<span class="sourceLineNo">683</span><a id="line.683">    public &lt;C extends @Nullable Object&gt; ListenableFuture&lt;C&gt; callAsync(</a>
+<span class="sourceLineNo">684</span><a id="line.684">        AsyncCallable&lt;C&gt; combiner, Executor executor) {</a>
+<span class="sourceLineNo">685</span><a id="line.685">      return new CombinedFuture&lt;C&gt;(futures, allMustSucceed, executor, combiner);</a>
+<span class="sourceLineNo">686</span><a id="line.686">    }</a>
+<span class="sourceLineNo">687</span><a id="line.687"></a>
+<span class="sourceLineNo">688</span><a id="line.688">    /**</a>
+<span class="sourceLineNo">689</span><a id="line.689">     * Creates the {@link ListenableFuture} which will return the result of calling {@link</a>
+<span class="sourceLineNo">690</span><a id="line.690">     * Callable#call} in {@code combiner} when all futures complete, using the specified {@code</a>
+<span class="sourceLineNo">691</span><a id="line.691">     * executor}.</a>
+<span class="sourceLineNo">692</span><a id="line.692">     *</a>
+<span class="sourceLineNo">693</span><a id="line.693">     * &lt;p&gt;If the combiner throws a {@code CancellationException}, the returned future will be</a>
+<span class="sourceLineNo">694</span><a id="line.694">     * cancelled.</a>
+<span class="sourceLineNo">695</span><a id="line.695">     *</a>
+<span class="sourceLineNo">696</span><a id="line.696">     * &lt;p&gt;If the combiner throws an {@code ExecutionException}, the cause of the thrown {@code</a>
+<span class="sourceLineNo">697</span><a id="line.697">     * ExecutionException} will be extracted and returned as the cause of the new {@code</a>
+<span class="sourceLineNo">698</span><a id="line.698">     * ExecutionException} that gets thrown by the returned combined future.</a>
+<span class="sourceLineNo">699</span><a id="line.699">     *</a>
+<span class="sourceLineNo">700</span><a id="line.700">     * &lt;p&gt;Canceling this future will attempt to cancel all the component futures.</a>
+<span class="sourceLineNo">701</span><a id="line.701">     *</a>
+<span class="sourceLineNo">702</span><a id="line.702">     * @return a future whose result is based on {@code combiner} (or based on the input futures</a>
+<span class="sourceLineNo">703</span><a id="line.703">     *     passed to {@code whenAllSucceed}, if that is the method you used to create this {@code</a>
+<span class="sourceLineNo">704</span><a id="line.704">     *     FutureCombiner}). Even if you don't care about the value of the future, you should</a>
+<span class="sourceLineNo">705</span><a id="line.705">     *     typically check whether it failed: See &lt;a</a>
+<span class="sourceLineNo">706</span><a id="line.706">     *     href="https://errorprone.info/bugpattern/FutureReturnValueIgnored"&gt;https://errorprone.info/bugpattern/FutureReturnValueIgnored&lt;/a&gt;.</a>
+<span class="sourceLineNo">707</span><a id="line.707">     */</a>
+<span class="sourceLineNo">708</span><a id="line.708">    public &lt;C extends @Nullable Object&gt; ListenableFuture&lt;C&gt; call(</a>
+<span class="sourceLineNo">709</span><a id="line.709">        Callable&lt;C&gt; combiner, Executor executor) {</a>
+<span class="sourceLineNo">710</span><a id="line.710">      return new CombinedFuture&lt;C&gt;(futures, allMustSucceed, executor, combiner);</a>
+<span class="sourceLineNo">711</span><a id="line.711">    }</a>
+<span class="sourceLineNo">712</span><a id="line.712"></a>
+<span class="sourceLineNo">713</span><a id="line.713">    /**</a>
+<span class="sourceLineNo">714</span><a id="line.714">     * Creates the {@link ListenableFuture} which will return the result of running {@code combiner}</a>
+<span class="sourceLineNo">715</span><a id="line.715">     * when all Futures complete. {@code combiner} will run using {@code executor}.</a>
+<span class="sourceLineNo">716</span><a id="line.716">     *</a>
+<span class="sourceLineNo">717</span><a id="line.717">     * &lt;p&gt;If the combiner throws a {@code CancellationException}, the returned future will be</a>
+<span class="sourceLineNo">718</span><a id="line.718">     * cancelled.</a>
+<span class="sourceLineNo">719</span><a id="line.719">     *</a>
+<span class="sourceLineNo">720</span><a id="line.720">     * &lt;p&gt;Canceling this Future will attempt to cancel all the component futures.</a>
+<span class="sourceLineNo">721</span><a id="line.721">     *</a>
+<span class="sourceLineNo">722</span><a id="line.722">     * @since 23.6</a>
+<span class="sourceLineNo">723</span><a id="line.723">     * @return a future whose result is based on {@code combiner} (or based on the input futures</a>
+<span class="sourceLineNo">724</span><a id="line.724">     *     passed to {@code whenAllSucceed}, if that is the method you used to create this {@code</a>
+<span class="sourceLineNo">725</span><a id="line.725">     *     FutureCombiner}). Even though the future never produces a value other than {@code null},</a>
+<span class="sourceLineNo">726</span><a id="line.726">     *     you should typically check whether it failed: See &lt;a</a>
+<span class="sourceLineNo">727</span><a id="line.727">     *     href="https://errorprone.info/bugpattern/FutureReturnValueIgnored"&gt;https://errorprone.info/bugpattern/FutureReturnValueIgnored&lt;/a&gt;.</a>
+<span class="sourceLineNo">728</span><a id="line.728">     */</a>
+<span class="sourceLineNo">729</span><a id="line.729">    public ListenableFuture&lt;?&gt; run(final Runnable combiner, Executor executor) {</a>
+<span class="sourceLineNo">730</span><a id="line.730">      return call(</a>
+<span class="sourceLineNo">731</span><a id="line.731">          new Callable&lt;@Nullable Void&gt;() {</a>
+<span class="sourceLineNo">732</span><a id="line.732">            @Override</a>
+<span class="sourceLineNo">733</span><a id="line.733">            @CheckForNull</a>
+<span class="sourceLineNo">734</span><a id="line.734">            public Void call() throws Exception {</a>
+<span class="sourceLineNo">735</span><a id="line.735">              combiner.run();</a>
+<span class="sourceLineNo">736</span><a id="line.736">              return null;</a>
+<span class="sourceLineNo">737</span><a id="line.737">            }</a>
+<span class="sourceLineNo">738</span><a id="line.738">          },</a>
+<span class="sourceLineNo">739</span><a id="line.739">          executor);</a>
+<span class="sourceLineNo">740</span><a id="line.740">    }</a>
+<span class="sourceLineNo">741</span><a id="line.741">  }</a>
+<span class="sourceLineNo">742</span><a id="line.742"></a>
+<span class="sourceLineNo">743</span><a id="line.743">  /**</a>
+<span class="sourceLineNo">744</span><a id="line.744">   * Returns a {@code ListenableFuture} whose result is set from the supplied future when it</a>
+<span class="sourceLineNo">745</span><a id="line.745">   * completes. Cancelling the supplied future will also cancel the returned future, but cancelling</a>
+<span class="sourceLineNo">746</span><a id="line.746">   * the returned future will have no effect on the supplied future.</a>
+<span class="sourceLineNo">747</span><a id="line.747">   *</a>
+<span class="sourceLineNo">748</span><a id="line.748">   * @since 15.0</a>
+<span class="sourceLineNo">749</span><a id="line.749">   */</a>
+<span class="sourceLineNo">750</span><a id="line.750">  public static &lt;V extends @Nullable Object&gt; ListenableFuture&lt;V&gt; nonCancellationPropagating(</a>
+<span class="sourceLineNo">751</span><a id="line.751">      ListenableFuture&lt;V&gt; future) {</a>
+<span class="sourceLineNo">752</span><a id="line.752">    if (future.isDone()) {</a>
+<span class="sourceLineNo">753</span><a id="line.753">      return future;</a>
+<span class="sourceLineNo">754</span><a id="line.754">    }</a>
+<span class="sourceLineNo">755</span><a id="line.755">    NonCancellationPropagatingFuture&lt;V&gt; output = new NonCancellationPropagatingFuture&lt;&gt;(future);</a>
+<span class="sourceLineNo">756</span><a id="line.756">    future.addListener(output, directExecutor());</a>
+<span class="sourceLineNo">757</span><a id="line.757">    return output;</a>
+<span class="sourceLineNo">758</span><a id="line.758">  }</a>
+<span class="sourceLineNo">759</span><a id="line.759"></a>
+<span class="sourceLineNo">760</span><a id="line.760">  /** A wrapped future that does not propagate cancellation to its delegate. */</a>
+<span class="sourceLineNo">761</span><a id="line.761">  private static final class NonCancellationPropagatingFuture&lt;V extends @Nullable Object&gt;</a>
+<span class="sourceLineNo">762</span><a id="line.762">      extends AbstractFuture.TrustedFuture&lt;V&gt; implements Runnable {</a>
+<span class="sourceLineNo">763</span><a id="line.763">    @CheckForNull private ListenableFuture&lt;V&gt; delegate;</a>
+<span class="sourceLineNo">764</span><a id="line.764"></a>
+<span class="sourceLineNo">765</span><a id="line.765">    NonCancellationPropagatingFuture(final ListenableFuture&lt;V&gt; delegate) {</a>
+<span class="sourceLineNo">766</span><a id="line.766">      this.delegate = delegate;</a>
+<span class="sourceLineNo">767</span><a id="line.767">    }</a>
+<span class="sourceLineNo">768</span><a id="line.768"></a>
+<span class="sourceLineNo">769</span><a id="line.769">    @Override</a>
+<span class="sourceLineNo">770</span><a id="line.770">    public void run() {</a>
+<span class="sourceLineNo">771</span><a id="line.771">      // This prevents cancellation from propagating because we don't call setFuture(delegate) until</a>
+<span class="sourceLineNo">772</span><a id="line.772">      // delegate is already done, so calling cancel() on this future won't affect it.</a>
+<span class="sourceLineNo">773</span><a id="line.773">      ListenableFuture&lt;V&gt; localDelegate = delegate;</a>
+<span class="sourceLineNo">774</span><a id="line.774">      if (localDelegate != null) {</a>
+<span class="sourceLineNo">775</span><a id="line.775">        setFuture(localDelegate);</a>
+<span class="sourceLineNo">776</span><a id="line.776">      }</a>
+<span class="sourceLineNo">777</span><a id="line.777">    }</a>
+<span class="sourceLineNo">778</span><a id="line.778"></a>
+<span class="sourceLineNo">779</span><a id="line.779">    @Override</a>
+<span class="sourceLineNo">780</span><a id="line.780">    @CheckForNull</a>
+<span class="sourceLineNo">781</span><a id="line.781">    protected String pendingToString() {</a>
+<span class="sourceLineNo">782</span><a id="line.782">      ListenableFuture&lt;V&gt; localDelegate = delegate;</a>
+<span class="sourceLineNo">783</span><a id="line.783">      if (localDelegate != null) {</a>
+<span class="sourceLineNo">784</span><a id="line.784">        return "delegate=[" + localDelegate + "]";</a>
+<span class="sourceLineNo">785</span><a id="line.785">      }</a>
+<span class="sourceLineNo">786</span><a id="line.786">      return null;</a>
+<span class="sourceLineNo">787</span><a id="line.787">    }</a>
+<span class="sourceLineNo">788</span><a id="line.788"></a>
+<span class="sourceLineNo">789</span><a id="line.789">    @Override</a>
+<span class="sourceLineNo">790</span><a id="line.790">    protected void afterDone() {</a>
+<span class="sourceLineNo">791</span><a id="line.791">      delegate = null;</a>
+<span class="sourceLineNo">792</span><a id="line.792">    }</a>
+<span class="sourceLineNo">793</span><a id="line.793">  }</a>
+<span class="sourceLineNo">794</span><a id="line.794"></a>
+<span class="sourceLineNo">795</span><a id="line.795">  /**</a>
+<span class="sourceLineNo">796</span><a id="line.796">   * Creates a new {@code ListenableFuture} whose value is a list containing the values of all its</a>
+<span class="sourceLineNo">797</span><a id="line.797">   * successful input futures. The list of results is in the same order as the input list, and if</a>
+<span class="sourceLineNo">798</span><a id="line.798">   * any of the provided futures fails or is canceled, its corresponding position will contain</a>
+<span class="sourceLineNo">799</span><a id="line.799">   * {@code null} (which is indistinguishable from the future having a successful value of {@code</a>
+<span class="sourceLineNo">800</span><a id="line.800">   * null}).</a>
+<span class="sourceLineNo">801</span><a id="line.801">   *</a>
+<span class="sourceLineNo">802</span><a id="line.802">   * &lt;p&gt;The list of results is in the same order as the input list.</a>
+<span class="sourceLineNo">803</span><a id="line.803">   *</a>
+<span class="sourceLineNo">804</span><a id="line.804">   * &lt;p&gt;This differs from {@link #allAsList(ListenableFuture[])} in that it's tolerant of failed</a>
+<span class="sourceLineNo">805</span><a id="line.805">   * futures for any of the items, representing them as {@code null} in the result list.</a>
+<span class="sourceLineNo">806</span><a id="line.806">   *</a>
+<span class="sourceLineNo">807</span><a id="line.807">   * &lt;p&gt;Canceling this future will attempt to cancel all the component futures.</a>
+<span class="sourceLineNo">808</span><a id="line.808">   *</a>
+<span class="sourceLineNo">809</span><a id="line.809">   * @param futures futures to combine</a>
+<span class="sourceLineNo">810</span><a id="line.810">   * @return a future that provides a list of the results of the component futures</a>
+<span class="sourceLineNo">811</span><a id="line.811">   * @since 10.0</a>
+<span class="sourceLineNo">812</span><a id="line.812">   */</a>
+<span class="sourceLineNo">813</span><a id="line.813">  @SafeVarargs</a>
+<span class="sourceLineNo">814</span><a id="line.814">  public static &lt;V extends @Nullable Object&gt; ListenableFuture&lt;List&lt;@Nullable V&gt;&gt; successfulAsList(</a>
+<span class="sourceLineNo">815</span><a id="line.815">      ListenableFuture&lt;? extends V&gt;... futures) {</a>
+<span class="sourceLineNo">816</span><a id="line.816">    /*</a>
+<span class="sourceLineNo">817</span><a id="line.817">     * Another way to express this signature would be to bound &lt;V&gt; by @NonNull and accept</a>
+<span class="sourceLineNo">818</span><a id="line.818">     * LF&lt;? extends @Nullable V&gt;. That might be better: There's currently no difference between the</a>
+<span class="sourceLineNo">819</span><a id="line.819">     * outputs users get when calling this with &lt;Foo&gt; and calling it with &lt;@Nullable Foo&gt;. The only</a>
+<span class="sourceLineNo">820</span><a id="line.820">     * difference is that calling it with &lt;Foo&gt; won't work when an input Future has a @Nullable</a>
+<span class="sourceLineNo">821</span><a id="line.821">     * type. So why even make that error possible by giving callers the choice?</a>
+<span class="sourceLineNo">822</span><a id="line.822">     *</a>
+<span class="sourceLineNo">823</span><a id="line.823">     * On the other hand, the current signature is consistent with the similar allAsList method. And</a>
+<span class="sourceLineNo">824</span><a id="line.824">     * eventually this method may go away entirely in favor of an API like</a>
+<span class="sourceLineNo">825</span><a id="line.825">     * whenAllComplete().collectSuccesses(). That API would have a signature more like the current</a>
+<span class="sourceLineNo">826</span><a id="line.826">     * one.</a>
+<span class="sourceLineNo">827</span><a id="line.827">     */</a>
+<span class="sourceLineNo">828</span><a id="line.828">    return new ListFuture&lt;V&gt;(ImmutableList.copyOf(futures), false);</a>
+<span class="sourceLineNo">829</span><a id="line.829">  }</a>
+<span class="sourceLineNo">830</span><a id="line.830"></a>
+<span class="sourceLineNo">831</span><a id="line.831">  /**</a>
+<span class="sourceLineNo">832</span><a id="line.832">   * Creates a new {@code ListenableFuture} whose value is a list containing the values of all its</a>
+<span class="sourceLineNo">833</span><a id="line.833">   * successful input futures. The list of results is in the same order as the input list, and if</a>
+<span class="sourceLineNo">834</span><a id="line.834">   * any of the provided futures fails or is canceled, its corresponding position will contain</a>
+<span class="sourceLineNo">835</span><a id="line.835">   * {@code null} (which is indistinguishable from the future having a successful value of {@code</a>
+<span class="sourceLineNo">836</span><a id="line.836">   * null}).</a>
+<span class="sourceLineNo">837</span><a id="line.837">   *</a>
+<span class="sourceLineNo">838</span><a id="line.838">   * &lt;p&gt;The list of results is in the same order as the input list.</a>
+<span class="sourceLineNo">839</span><a id="line.839">   *</a>
+<span class="sourceLineNo">840</span><a id="line.840">   * &lt;p&gt;This differs from {@link #allAsList(Iterable)} in that it's tolerant of failed futures for</a>
+<span class="sourceLineNo">841</span><a id="line.841">   * any of the items, representing them as {@code null} in the result list.</a>
+<span class="sourceLineNo">842</span><a id="line.842">   *</a>
+<span class="sourceLineNo">843</span><a id="line.843">   * &lt;p&gt;Canceling this future will attempt to cancel all the component futures.</a>
+<span class="sourceLineNo">844</span><a id="line.844">   *</a>
+<span class="sourceLineNo">845</span><a id="line.845">   * @param futures futures to combine</a>
+<span class="sourceLineNo">846</span><a id="line.846">   * @return a future that provides a list of the results of the component futures</a>
+<span class="sourceLineNo">847</span><a id="line.847">   * @since 10.0</a>
+<span class="sourceLineNo">848</span><a id="line.848">   */</a>
+<span class="sourceLineNo">849</span><a id="line.849">  public static &lt;V extends @Nullable Object&gt; ListenableFuture&lt;List&lt;@Nullable V&gt;&gt; successfulAsList(</a>
+<span class="sourceLineNo">850</span><a id="line.850">      Iterable&lt;? extends ListenableFuture&lt;? extends V&gt;&gt; futures) {</a>
+<span class="sourceLineNo">851</span><a id="line.851">    return new ListFuture&lt;V&gt;(ImmutableList.copyOf(futures), false);</a>
+<span class="sourceLineNo">852</span><a id="line.852">  }</a>
+<span class="sourceLineNo">853</span><a id="line.853"></a>
+<span class="sourceLineNo">854</span><a id="line.854">  /**</a>
+<span class="sourceLineNo">855</span><a id="line.855">   * Returns a list of delegate futures that correspond to the futures received in the order that</a>
+<span class="sourceLineNo">856</span><a id="line.856">   * they complete. Delegate futures return the same value or throw the same exception as the</a>
+<span class="sourceLineNo">857</span><a id="line.857">   * corresponding input future returns/throws.</a>
+<span class="sourceLineNo">858</span><a id="line.858">   *</a>
+<span class="sourceLineNo">859</span><a id="line.859">   * &lt;p&gt;"In the order that they complete" means, for practical purposes, about what you would</a>
+<span class="sourceLineNo">860</span><a id="line.860">   * expect, but there are some subtleties. First, we do guarantee that, if the output future at</a>
+<span class="sourceLineNo">861</span><a id="line.861">   * index n is done, the output future at index n-1 is also done. (But as usual with futures, some</a>
+<span class="sourceLineNo">862</span><a id="line.862">   * listeners for future n may complete before some for future n-1.) However, it is possible, if</a>
+<span class="sourceLineNo">863</span><a id="line.863">   * one input completes with result X and another later with result Y, for Y to come before X in</a>
+<span class="sourceLineNo">864</span><a id="line.864">   * the output future list. (Such races are impossible to solve without global synchronization of</a>
+<span class="sourceLineNo">865</span><a id="line.865">   * all future completions. And they should have little practical impact.)</a>
+<span class="sourceLineNo">866</span><a id="line.866">   *</a>
+<span class="sourceLineNo">867</span><a id="line.867">   * &lt;p&gt;Cancelling a delegate future propagates to input futures once all the delegates complete,</a>
+<span class="sourceLineNo">868</span><a id="line.868">   * either from cancellation or because an input future has completed. If N futures are passed in,</a>
+<span class="sourceLineNo">869</span><a id="line.869">   * and M delegates are cancelled, the remaining M input futures will be cancelled once N - M of</a>
+<span class="sourceLineNo">870</span><a id="line.870">   * the input futures complete. If all the delegates are cancelled, all the input futures will be</a>
+<span class="sourceLineNo">871</span><a id="line.871">   * too.</a>
+<span class="sourceLineNo">872</span><a id="line.872">   *</a>
+<span class="sourceLineNo">873</span><a id="line.873">   * @since 17.0</a>
+<span class="sourceLineNo">874</span><a id="line.874">   */</a>
+<span class="sourceLineNo">875</span><a id="line.875">  public static &lt;T extends @Nullable Object&gt; ImmutableList&lt;ListenableFuture&lt;T&gt;&gt; inCompletionOrder(</a>
+<span class="sourceLineNo">876</span><a id="line.876">      Iterable&lt;? extends ListenableFuture&lt;? extends T&gt;&gt; futures) {</a>
+<span class="sourceLineNo">877</span><a id="line.877">    ListenableFuture&lt;? extends T&gt;[] copy = gwtCompatibleToArray(futures);</a>
+<span class="sourceLineNo">878</span><a id="line.878">    final InCompletionOrderState&lt;T&gt; state = new InCompletionOrderState&lt;&gt;(copy);</a>
+<span class="sourceLineNo">879</span><a id="line.879">    ImmutableList.Builder&lt;AbstractFuture&lt;T&gt;&gt; delegatesBuilder =</a>
+<span class="sourceLineNo">880</span><a id="line.880">        ImmutableList.builderWithExpectedSize(copy.length);</a>
+<span class="sourceLineNo">881</span><a id="line.881">    for (int i = 0; i &lt; copy.length; i++) {</a>
+<span class="sourceLineNo">882</span><a id="line.882">      delegatesBuilder.add(new InCompletionOrderFuture&lt;T&gt;(state));</a>
+<span class="sourceLineNo">883</span><a id="line.883">    }</a>
+<span class="sourceLineNo">884</span><a id="line.884"></a>
+<span class="sourceLineNo">885</span><a id="line.885">    final ImmutableList&lt;AbstractFuture&lt;T&gt;&gt; delegates = delegatesBuilder.build();</a>
+<span class="sourceLineNo">886</span><a id="line.886">    for (int i = 0; i &lt; copy.length; i++) {</a>
+<span class="sourceLineNo">887</span><a id="line.887">      final int localI = i;</a>
+<span class="sourceLineNo">888</span><a id="line.888">      copy[i].addListener(() -&gt; state.recordInputCompletion(delegates, localI), directExecutor());</a>
+<span class="sourceLineNo">889</span><a id="line.889">    }</a>
+<span class="sourceLineNo">890</span><a id="line.890"></a>
+<span class="sourceLineNo">891</span><a id="line.891">    @SuppressWarnings("unchecked")</a>
+<span class="sourceLineNo">892</span><a id="line.892">    ImmutableList&lt;ListenableFuture&lt;T&gt;&gt; delegatesCast = (ImmutableList) delegates;</a>
+<span class="sourceLineNo">893</span><a id="line.893">    return delegatesCast;</a>
+<span class="sourceLineNo">894</span><a id="line.894">  }</a>
+<span class="sourceLineNo">895</span><a id="line.895"></a>
+<span class="sourceLineNo">896</span><a id="line.896">  /** Can't use Iterables.toArray because it's not gwt compatible */</a>
+<span class="sourceLineNo">897</span><a id="line.897">  @SuppressWarnings("unchecked")</a>
+<span class="sourceLineNo">898</span><a id="line.898">  private static &lt;T extends @Nullable Object&gt; ListenableFuture&lt;? extends T&gt;[] gwtCompatibleToArray(</a>
+<span class="sourceLineNo">899</span><a id="line.899">      Iterable&lt;? extends ListenableFuture&lt;? extends T&gt;&gt; futures) {</a>
+<span class="sourceLineNo">900</span><a id="line.900">    final Collection&lt;ListenableFuture&lt;? extends T&gt;&gt; collection;</a>
+<span class="sourceLineNo">901</span><a id="line.901">    if (futures instanceof Collection) {</a>
+<span class="sourceLineNo">902</span><a id="line.902">      collection = (Collection&lt;ListenableFuture&lt;? extends T&gt;&gt;) futures;</a>
+<span class="sourceLineNo">903</span><a id="line.903">    } else {</a>
+<span class="sourceLineNo">904</span><a id="line.904">      collection = ImmutableList.copyOf(futures);</a>
+<span class="sourceLineNo">905</span><a id="line.905">    }</a>
+<span class="sourceLineNo">906</span><a id="line.906">    return (ListenableFuture&lt;? extends T&gt;[]) collection.toArray(new ListenableFuture&lt;?&gt;[0]);</a>
+<span class="sourceLineNo">907</span><a id="line.907">  }</a>
+<span class="sourceLineNo">908</span><a id="line.908"></a>
+<span class="sourceLineNo">909</span><a id="line.909">  // This can't be a TrustedFuture, because TrustedFuture has clever optimizations that</a>
+<span class="sourceLineNo">910</span><a id="line.910">  // mean cancel won't be called if this Future is passed into setFuture, and then</a>
+<span class="sourceLineNo">911</span><a id="line.911">  // cancelled.</a>
+<span class="sourceLineNo">912</span><a id="line.912">  private static final class InCompletionOrderFuture&lt;T extends @Nullable Object&gt;</a>
+<span class="sourceLineNo">913</span><a id="line.913">      extends AbstractFuture&lt;T&gt; {</a>
+<span class="sourceLineNo">914</span><a id="line.914">    @CheckForNull private InCompletionOrderState&lt;T&gt; state;</a>
+<span class="sourceLineNo">915</span><a id="line.915"></a>
+<span class="sourceLineNo">916</span><a id="line.916">    private InCompletionOrderFuture(InCompletionOrderState&lt;T&gt; state) {</a>
+<span class="sourceLineNo">917</span><a id="line.917">      this.state = state;</a>
+<span class="sourceLineNo">918</span><a id="line.918">    }</a>
+<span class="sourceLineNo">919</span><a id="line.919"></a>
+<span class="sourceLineNo">920</span><a id="line.920">    @Override</a>
+<span class="sourceLineNo">921</span><a id="line.921">    public boolean cancel(boolean interruptIfRunning) {</a>
+<span class="sourceLineNo">922</span><a id="line.922">      InCompletionOrderState&lt;T&gt; localState = state;</a>
+<span class="sourceLineNo">923</span><a id="line.923">      if (super.cancel(interruptIfRunning)) {</a>
+<span class="sourceLineNo">924</span><a id="line.924">        /*</a>
+<span class="sourceLineNo">925</span><a id="line.925">         * requireNonNull is generally safe: If cancel succeeded, then this Future was still</a>
+<span class="sourceLineNo">926</span><a id="line.926">         * pending, so its `state` field hasn't been nulled out yet.</a>
+<span class="sourceLineNo">927</span><a id="line.927">         *</a>
+<span class="sourceLineNo">928</span><a id="line.928">         * OK, it's technically possible for this to fail in the presence of unsafe publishing, as</a>
+<span class="sourceLineNo">929</span><a id="line.929">         * discussed in the comments in TimeoutFuture. TODO(cpovirk): Maybe check for null before</a>
+<span class="sourceLineNo">930</span><a id="line.930">         * calling recordOutputCancellation?</a>
+<span class="sourceLineNo">931</span><a id="line.931">         */</a>
+<span class="sourceLineNo">932</span><a id="line.932">        requireNonNull(localState).recordOutputCancellation(interruptIfRunning);</a>
+<span class="sourceLineNo">933</span><a id="line.933">        return true;</a>
+<span class="sourceLineNo">934</span><a id="line.934">      }</a>
+<span class="sourceLineNo">935</span><a id="line.935">      return false;</a>
+<span class="sourceLineNo">936</span><a id="line.936">    }</a>
+<span class="sourceLineNo">937</span><a id="line.937"></a>
+<span class="sourceLineNo">938</span><a id="line.938">    @Override</a>
+<span class="sourceLineNo">939</span><a id="line.939">    protected void afterDone() {</a>
+<span class="sourceLineNo">940</span><a id="line.940">      state = null;</a>
+<span class="sourceLineNo">941</span><a id="line.941">    }</a>
+<span class="sourceLineNo">942</span><a id="line.942"></a>
+<span class="sourceLineNo">943</span><a id="line.943">    @Override</a>
+<span class="sourceLineNo">944</span><a id="line.944">    @CheckForNull</a>
+<span class="sourceLineNo">945</span><a id="line.945">    protected String pendingToString() {</a>
+<span class="sourceLineNo">946</span><a id="line.946">      InCompletionOrderState&lt;T&gt; localState = state;</a>
+<span class="sourceLineNo">947</span><a id="line.947">      if (localState != null) {</a>
+<span class="sourceLineNo">948</span><a id="line.948">        // Don't print the actual array! We don't want inCompletionOrder(list).toString() to have</a>
+<span class="sourceLineNo">949</span><a id="line.949">        // quadratic output.</a>
+<span class="sourceLineNo">950</span><a id="line.950">        return "inputCount=["</a>
+<span class="sourceLineNo">951</span><a id="line.951">            + localState.inputFutures.length</a>
+<span class="sourceLineNo">952</span><a id="line.952">            + "], remaining=["</a>
+<span class="sourceLineNo">953</span><a id="line.953">            + localState.incompleteOutputCount.get()</a>
+<span class="sourceLineNo">954</span><a id="line.954">            + "]";</a>
+<span class="sourceLineNo">955</span><a id="line.955">      }</a>
+<span class="sourceLineNo">956</span><a id="line.956">      return null;</a>
+<span class="sourceLineNo">957</span><a id="line.957">    }</a>
+<span class="sourceLineNo">958</span><a id="line.958">  }</a>
+<span class="sourceLineNo">959</span><a id="line.959"></a>
+<span class="sourceLineNo">960</span><a id="line.960">  private static final class InCompletionOrderState&lt;T extends @Nullable Object&gt; {</a>
+<span class="sourceLineNo">961</span><a id="line.961">    // A happens-before edge between the writes of these fields and their reads exists, because</a>
+<span class="sourceLineNo">962</span><a id="line.962">    // in order to read these fields, the corresponding write to incompleteOutputCount must have</a>
+<span class="sourceLineNo">963</span><a id="line.963">    // been read.</a>
+<span class="sourceLineNo">964</span><a id="line.964">    private boolean wasCancelled = false;</a>
+<span class="sourceLineNo">965</span><a id="line.965">    private boolean shouldInterrupt = true;</a>
+<span class="sourceLineNo">966</span><a id="line.966">    private final AtomicInteger incompleteOutputCount;</a>
+<span class="sourceLineNo">967</span><a id="line.967">    // We set the elements of the array to null as they complete.</a>
+<span class="sourceLineNo">968</span><a id="line.968">    private final @Nullable ListenableFuture&lt;? extends T&gt;[] inputFutures;</a>
+<span class="sourceLineNo">969</span><a id="line.969">    private volatile int delegateIndex = 0;</a>
+<span class="sourceLineNo">970</span><a id="line.970"></a>
+<span class="sourceLineNo">971</span><a id="line.971">    private InCompletionOrderState(ListenableFuture&lt;? extends T&gt;[] inputFutures) {</a>
+<span class="sourceLineNo">972</span><a id="line.972">      this.inputFutures = inputFutures;</a>
+<span class="sourceLineNo">973</span><a id="line.973">      incompleteOutputCount = new AtomicInteger(inputFutures.length);</a>
+<span class="sourceLineNo">974</span><a id="line.974">    }</a>
+<span class="sourceLineNo">975</span><a id="line.975"></a>
+<span class="sourceLineNo">976</span><a id="line.976">    private void recordOutputCancellation(boolean interruptIfRunning) {</a>
+<span class="sourceLineNo">977</span><a id="line.977">      wasCancelled = true;</a>
+<span class="sourceLineNo">978</span><a id="line.978">      // If all the futures were cancelled with interruption, cancel the input futures</a>
+<span class="sourceLineNo">979</span><a id="line.979">      // with interruption; otherwise cancel without</a>
+<span class="sourceLineNo">980</span><a id="line.980">      if (!interruptIfRunning) {</a>
+<span class="sourceLineNo">981</span><a id="line.981">        shouldInterrupt = false;</a>
+<span class="sourceLineNo">982</span><a id="line.982">      }</a>
+<span class="sourceLineNo">983</span><a id="line.983">      recordCompletion();</a>
+<span class="sourceLineNo">984</span><a id="line.984">    }</a>
+<span class="sourceLineNo">985</span><a id="line.985"></a>
+<span class="sourceLineNo">986</span><a id="line.986">    private void recordInputCompletion(</a>
+<span class="sourceLineNo">987</span><a id="line.987">        ImmutableList&lt;AbstractFuture&lt;T&gt;&gt; delegates, int inputFutureIndex) {</a>
+<span class="sourceLineNo">988</span><a id="line.988">      /*</a>
+<span class="sourceLineNo">989</span><a id="line.989">       * requireNonNull is safe because we accepted an Iterable of non-null Future instances, and we</a>
+<span class="sourceLineNo">990</span><a id="line.990">       * don't overwrite an element in the array until after reading it.</a>
+<span class="sourceLineNo">991</span><a id="line.991">       */</a>
+<span class="sourceLineNo">992</span><a id="line.992">      ListenableFuture&lt;? extends T&gt; inputFuture = requireNonNull(inputFutures[inputFutureIndex]);</a>
+<span class="sourceLineNo">993</span><a id="line.993">      // Null out our reference to this future, so it can be GCed</a>
+<span class="sourceLineNo">994</span><a id="line.994">      inputFutures[inputFutureIndex] = null;</a>
+<span class="sourceLineNo">995</span><a id="line.995">      for (int i = delegateIndex; i &lt; delegates.size(); i++) {</a>
+<span class="sourceLineNo">996</span><a id="line.996">        if (delegates.get(i).setFuture(inputFuture)) {</a>
+<span class="sourceLineNo">997</span><a id="line.997">          recordCompletion();</a>
+<span class="sourceLineNo">998</span><a id="line.998">          // this is technically unnecessary, but should speed up later accesses</a>
+<span class="sourceLineNo">999</span><a id="line.999">          delegateIndex = i + 1;</a>
+<span class="sourceLineNo">1000</span><a id="line.1000">          return;</a>
+<span class="sourceLineNo">1001</span><a id="line.1001">        }</a>
+<span class="sourceLineNo">1002</span><a id="line.1002">      }</a>
+<span class="sourceLineNo">1003</span><a id="line.1003">      // If all the delegates were complete, no reason for the next listener to have to</a>
+<span class="sourceLineNo">1004</span><a id="line.1004">      // go through the whole list. Avoids O(n^2) behavior when the entire output list is</a>
+<span class="sourceLineNo">1005</span><a id="line.1005">      // cancelled.</a>
+<span class="sourceLineNo">1006</span><a id="line.1006">      delegateIndex = delegates.size();</a>
+<span class="sourceLineNo">1007</span><a id="line.1007">    }</a>
+<span class="sourceLineNo">1008</span><a id="line.1008"></a>
+<span class="sourceLineNo">1009</span><a id="line.1009">    private void recordCompletion() {</a>
+<span class="sourceLineNo">1010</span><a id="line.1010">      if (incompleteOutputCount.decrementAndGet() == 0 &amp;&amp; wasCancelled) {</a>
+<span class="sourceLineNo">1011</span><a id="line.1011">        for (ListenableFuture&lt;? extends T&gt; toCancel : inputFutures) {</a>
+<span class="sourceLineNo">1012</span><a id="line.1012">          if (toCancel != null) {</a>
+<span class="sourceLineNo">1013</span><a id="line.1013">            toCancel.cancel(shouldInterrupt);</a>
+<span class="sourceLineNo">1014</span><a id="line.1014">          }</a>
+<span class="sourceLineNo">1015</span><a id="line.1015">        }</a>
+<span class="sourceLineNo">1016</span><a id="line.1016">      }</a>
+<span class="sourceLineNo">1017</span><a id="line.1017">    }</a>
+<span class="sourceLineNo">1018</span><a id="line.1018">  }</a>
+<span class="sourceLineNo">1019</span><a id="line.1019"></a>
+<span class="sourceLineNo">1020</span><a id="line.1020">  /**</a>
+<span class="sourceLineNo">1021</span><a id="line.1021">   * Registers separate success and failure callbacks to be run when the {@code Future}'s</a>
+<span class="sourceLineNo">1022</span><a id="line.1022">   * computation is {@linkplain java.util.concurrent.Future#isDone() complete} or, if the</a>
+<span class="sourceLineNo">1023</span><a id="line.1023">   * computation is already complete, immediately.</a>
+<span class="sourceLineNo">1024</span><a id="line.1024">   *</a>
+<span class="sourceLineNo">1025</span><a id="line.1025">   * &lt;p&gt;The callback is run on {@code executor}. There is no guaranteed ordering of execution of</a>
+<span class="sourceLineNo">1026</span><a id="line.1026">   * callbacks, but any callback added through this method is guaranteed to be called once the</a>
+<span class="sourceLineNo">1027</span><a id="line.1027">   * computation is complete.</a>
+<span class="sourceLineNo">1028</span><a id="line.1028">   *</a>
+<span class="sourceLineNo">1029</span><a id="line.1029">   * &lt;p&gt;Exceptions thrown by a {@code callback} will be propagated up to the executor. Any exception</a>
+<span class="sourceLineNo">1030</span><a id="line.1030">   * thrown during {@code Executor.execute} (e.g., a {@code RejectedExecutionException} or an</a>
+<span class="sourceLineNo">1031</span><a id="line.1031">   * exception thrown by {@linkplain MoreExecutors#directExecutor direct execution}) will be caught</a>
+<span class="sourceLineNo">1032</span><a id="line.1032">   * and logged.</a>
+<span class="sourceLineNo">1033</span><a id="line.1033">   *</a>
+<span class="sourceLineNo">1034</span><a id="line.1034">   * &lt;p&gt;Example:</a>
+<span class="sourceLineNo">1035</span><a id="line.1035">   *</a>
+<span class="sourceLineNo">1036</span><a id="line.1036">   * &lt;pre&gt;{@code</a>
+<span class="sourceLineNo">1037</span><a id="line.1037">   * ListenableFuture&lt;QueryResult&gt; future = ...;</a>
+<span class="sourceLineNo">1038</span><a id="line.1038">   * Executor e = ...</a>
+<span class="sourceLineNo">1039</span><a id="line.1039">   * addCallback(future,</a>
+<span class="sourceLineNo">1040</span><a id="line.1040">   *     new FutureCallback&lt;QueryResult&gt;() {</a>
+<span class="sourceLineNo">1041</span><a id="line.1041">   *       public void onSuccess(QueryResult result) {</a>
+<span class="sourceLineNo">1042</span><a id="line.1042">   *         storeInCache(result);</a>
+<span class="sourceLineNo">1043</span><a id="line.1043">   *       }</a>
+<span class="sourceLineNo">1044</span><a id="line.1044">   *       public void onFailure(Throwable t) {</a>
+<span class="sourceLineNo">1045</span><a id="line.1045">   *         reportError(t);</a>
+<span class="sourceLineNo">1046</span><a id="line.1046">   *       }</a>
+<span class="sourceLineNo">1047</span><a id="line.1047">   *     }, e);</a>
+<span class="sourceLineNo">1048</span><a id="line.1048">   * }&lt;/pre&gt;</a>
+<span class="sourceLineNo">1049</span><a id="line.1049">   *</a>
+<span class="sourceLineNo">1050</span><a id="line.1050">   * &lt;p&gt;When selecting an executor, note that {@code directExecutor} is dangerous in some cases. See</a>
+<span class="sourceLineNo">1051</span><a id="line.1051">   * the warnings the {@link MoreExecutors#directExecutor} documentation.</a>
+<span class="sourceLineNo">1052</span><a id="line.1052">   *</a>
+<span class="sourceLineNo">1053</span><a id="line.1053">   * &lt;p&gt;For a more general interface to attach a completion listener to a {@code Future}, see {@link</a>
+<span class="sourceLineNo">1054</span><a id="line.1054">   * ListenableFuture#addListener addListener}.</a>
+<span class="sourceLineNo">1055</span><a id="line.1055">   *</a>
+<span class="sourceLineNo">1056</span><a id="line.1056">   * @param future The future attach the callback to.</a>
+<span class="sourceLineNo">1057</span><a id="line.1057">   * @param callback The callback to invoke when {@code future} is completed.</a>
+<span class="sourceLineNo">1058</span><a id="line.1058">   * @param executor The executor to run {@code callback} when the future completes.</a>
+<span class="sourceLineNo">1059</span><a id="line.1059">   * @since 10.0</a>
+<span class="sourceLineNo">1060</span><a id="line.1060">   */</a>
+<span class="sourceLineNo">1061</span><a id="line.1061">  public static &lt;V extends @Nullable Object&gt; void addCallback(</a>
+<span class="sourceLineNo">1062</span><a id="line.1062">      final ListenableFuture&lt;V&gt; future,</a>
+<span class="sourceLineNo">1063</span><a id="line.1063">      final FutureCallback&lt;? super V&gt; callback,</a>
+<span class="sourceLineNo">1064</span><a id="line.1064">      Executor executor) {</a>
+<span class="sourceLineNo">1065</span><a id="line.1065">    Preconditions.checkNotNull(callback);</a>
+<span class="sourceLineNo">1066</span><a id="line.1066">    future.addListener(new CallbackListener&lt;V&gt;(future, callback), executor);</a>
+<span class="sourceLineNo">1067</span><a id="line.1067">  }</a>
+<span class="sourceLineNo">1068</span><a id="line.1068"></a>
+<span class="sourceLineNo">1069</span><a id="line.1069">  /** See {@link #addCallback(ListenableFuture, FutureCallback, Executor)} for behavioral notes. */</a>
+<span class="sourceLineNo">1070</span><a id="line.1070">  private static final class CallbackListener&lt;V extends @Nullable Object&gt; implements Runnable {</a>
+<span class="sourceLineNo">1071</span><a id="line.1071">    final Future&lt;V&gt; future;</a>
+<span class="sourceLineNo">1072</span><a id="line.1072">    final FutureCallback&lt;? super V&gt; callback;</a>
+<span class="sourceLineNo">1073</span><a id="line.1073"></a>
+<span class="sourceLineNo">1074</span><a id="line.1074">    CallbackListener(Future&lt;V&gt; future, FutureCallback&lt;? super V&gt; callback) {</a>
+<span class="sourceLineNo">1075</span><a id="line.1075">      this.future = future;</a>
+<span class="sourceLineNo">1076</span><a id="line.1076">      this.callback = callback;</a>
+<span class="sourceLineNo">1077</span><a id="line.1077">    }</a>
+<span class="sourceLineNo">1078</span><a id="line.1078"></a>
+<span class="sourceLineNo">1079</span><a id="line.1079">    @Override</a>
+<span class="sourceLineNo">1080</span><a id="line.1080">    public void run() {</a>
+<span class="sourceLineNo">1081</span><a id="line.1081">      if (future instanceof InternalFutureFailureAccess) {</a>
+<span class="sourceLineNo">1082</span><a id="line.1082">        Throwable failure =</a>
+<span class="sourceLineNo">1083</span><a id="line.1083">            InternalFutures.tryInternalFastPathGetFailure((InternalFutureFailureAccess) future);</a>
+<span class="sourceLineNo">1084</span><a id="line.1084">        if (failure != null) {</a>
+<span class="sourceLineNo">1085</span><a id="line.1085">          callback.onFailure(failure);</a>
+<span class="sourceLineNo">1086</span><a id="line.1086">          return;</a>
+<span class="sourceLineNo">1087</span><a id="line.1087">        }</a>
+<span class="sourceLineNo">1088</span><a id="line.1088">      }</a>
+<span class="sourceLineNo">1089</span><a id="line.1089">      final V value;</a>
+<span class="sourceLineNo">1090</span><a id="line.1090">      try {</a>
+<span class="sourceLineNo">1091</span><a id="line.1091">        value = getDone(future);</a>
+<span class="sourceLineNo">1092</span><a id="line.1092">      } catch (ExecutionException e) {</a>
+<span class="sourceLineNo">1093</span><a id="line.1093">        callback.onFailure(e.getCause());</a>
+<span class="sourceLineNo">1094</span><a id="line.1094">        return;</a>
+<span class="sourceLineNo">1095</span><a id="line.1095">      } catch (Throwable e) {</a>
+<span class="sourceLineNo">1096</span><a id="line.1096">        // Any Exception is either a RuntimeException or sneaky checked exception.</a>
+<span class="sourceLineNo">1097</span><a id="line.1097">        callback.onFailure(e);</a>
+<span class="sourceLineNo">1098</span><a id="line.1098">        return;</a>
+<span class="sourceLineNo">1099</span><a id="line.1099">      }</a>
+<span class="sourceLineNo">1100</span><a id="line.1100">      callback.onSuccess(value);</a>
+<span class="sourceLineNo">1101</span><a id="line.1101">    }</a>
+<span class="sourceLineNo">1102</span><a id="line.1102"></a>
+<span class="sourceLineNo">1103</span><a id="line.1103">    @Override</a>
+<span class="sourceLineNo">1104</span><a id="line.1104">    public String toString() {</a>
+<span class="sourceLineNo">1105</span><a id="line.1105">      return MoreObjects.toStringHelper(this).addValue(callback).toString();</a>
+<span class="sourceLineNo">1106</span><a id="line.1106">    }</a>
+<span class="sourceLineNo">1107</span><a id="line.1107">  }</a>
+<span class="sourceLineNo">1108</span><a id="line.1108"></a>
+<span class="sourceLineNo">1109</span><a id="line.1109">  /**</a>
+<span class="sourceLineNo">1110</span><a id="line.1110">   * Returns the result of the input {@code Future}, which must have already completed.</a>
+<span class="sourceLineNo">1111</span><a id="line.1111">   *</a>
+<span class="sourceLineNo">1112</span><a id="line.1112">   * &lt;p&gt;The benefits of this method are twofold. First, the name "getDone" suggests to readers that</a>
+<span class="sourceLineNo">1113</span><a id="line.1113">   * the {@code Future} is already done. Second, if buggy code calls {@code getDone} on a {@code</a>
+<span class="sourceLineNo">1114</span><a id="line.1114">   * Future} that is still pending, the program will throw instead of block. This can be important</a>
+<span class="sourceLineNo">1115</span><a id="line.1115">   * for APIs like {@link #whenAllComplete whenAllComplete(...)}{@code .}{@link</a>
+<span class="sourceLineNo">1116</span><a id="line.1116">   * FutureCombiner#call(Callable, Executor) call(...)}, where it is easy to use a new input from</a>
+<span class="sourceLineNo">1117</span><a id="line.1117">   * the {@code call} implementation but forget to add it to the arguments of {@code</a>
+<span class="sourceLineNo">1118</span><a id="line.1118">   * whenAllComplete}.</a>
+<span class="sourceLineNo">1119</span><a id="line.1119">   *</a>
+<span class="sourceLineNo">1120</span><a id="line.1120">   * &lt;p&gt;If you are looking for a method to determine whether a given {@code Future} is done, use the</a>
+<span class="sourceLineNo">1121</span><a id="line.1121">   * instance method {@link Future#isDone()}.</a>
+<span class="sourceLineNo">1122</span><a id="line.1122">   *</a>
+<span class="sourceLineNo">1123</span><a id="line.1123">   * @throws ExecutionException if the {@code Future} failed with an exception</a>
+<span class="sourceLineNo">1124</span><a id="line.1124">   * @throws CancellationException if the {@code Future} was cancelled</a>
+<span class="sourceLineNo">1125</span><a id="line.1125">   * @throws IllegalStateException if the {@code Future} is not done</a>
+<span class="sourceLineNo">1126</span><a id="line.1126">   * @since 20.0</a>
+<span class="sourceLineNo">1127</span><a id="line.1127">   */</a>
+<span class="sourceLineNo">1128</span><a id="line.1128">  @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">1129</span><a id="line.1129">  // TODO(cpovirk): Consider calling getDone() in our own code.</a>
+<span class="sourceLineNo">1130</span><a id="line.1130">  @ParametricNullness</a>
+<span class="sourceLineNo">1131</span><a id="line.1131">  public static &lt;V extends @Nullable Object&gt; V getDone(Future&lt;V&gt; future) throws ExecutionException {</a>
+<span class="sourceLineNo">1132</span><a id="line.1132">    /*</a>
+<span class="sourceLineNo">1133</span><a id="line.1133">     * We throw IllegalStateException, since the call could succeed later. Perhaps we "should" throw</a>
+<span class="sourceLineNo">1134</span><a id="line.1134">     * IllegalArgumentException, since the call could succeed with a different argument. Those</a>
+<span class="sourceLineNo">1135</span><a id="line.1135">     * exceptions' docs suggest that either is acceptable. Google's Java Practices page recommends</a>
+<span class="sourceLineNo">1136</span><a id="line.1136">     * IllegalArgumentException here, in part to keep its recommendation simple: Static methods</a>
+<span class="sourceLineNo">1137</span><a id="line.1137">     * should throw IllegalStateException only when they use static state.</a>
+<span class="sourceLineNo">1138</span><a id="line.1138">     *</a>
+<span class="sourceLineNo">1139</span><a id="line.1139">     * Why do we deviate here? The answer: We want for fluentFuture.getDone() to throw the same</a>
+<span class="sourceLineNo">1140</span><a id="line.1140">     * exception as Futures.getDone(fluentFuture).</a>
+<span class="sourceLineNo">1141</span><a id="line.1141">     */</a>
+<span class="sourceLineNo">1142</span><a id="line.1142">    checkState(future.isDone(), "Future was expected to be done: %s", future);</a>
+<span class="sourceLineNo">1143</span><a id="line.1143">    return getUninterruptibly(future);</a>
+<span class="sourceLineNo">1144</span><a id="line.1144">  }</a>
+<span class="sourceLineNo">1145</span><a id="line.1145"></a>
+<span class="sourceLineNo">1146</span><a id="line.1146">  /**</a>
+<span class="sourceLineNo">1147</span><a id="line.1147">   * Returns the result of {@link Future#get()}, converting most exceptions to a new instance of the</a>
+<span class="sourceLineNo">1148</span><a id="line.1148">   * given checked exception type. This reduces boilerplate for a common use of {@code Future} in</a>
+<span class="sourceLineNo">1149</span><a id="line.1149">   * which it is unnecessary to programmatically distinguish between exception types or to extract</a>
+<span class="sourceLineNo">1150</span><a id="line.1150">   * other information from the exception instance.</a>
 <span class="sourceLineNo">1151</span><a id="line.1151">   *</a>
-<span class="sourceLineNo">1152</span><a id="line.1152">   * &lt;ul&gt;</a>
-<span class="sourceLineNo">1153</span><a id="line.1153">   *   &lt;li&gt;Any {@link ExecutionException} has its &lt;i&gt;cause&lt;/i&gt; wrapped in an {@code X} if the cause</a>
-<span class="sourceLineNo">1154</span><a id="line.1154">   *       is a checked exception, an {@link UncheckedExecutionException} if the cause is a {@code</a>
-<span class="sourceLineNo">1155</span><a id="line.1155">   *       RuntimeException}, or an {@link ExecutionError} if the cause is an {@code Error}.</a>
-<span class="sourceLineNo">1156</span><a id="line.1156">   *   &lt;li&gt;Any {@link InterruptedException} is wrapped in an {@code X} (after restoring the</a>
-<span class="sourceLineNo">1157</span><a id="line.1157">   *       interrupt).</a>
-<span class="sourceLineNo">1158</span><a id="line.1158">   *   &lt;li&gt;Any {@link CancellationException} is propagated untouched, as is any other {@link</a>
-<span class="sourceLineNo">1159</span><a id="line.1159">   *       RuntimeException} (though {@code get} implementations are discouraged from throwing such</a>
-<span class="sourceLineNo">1160</span><a id="line.1160">   *       exceptions).</a>
-<span class="sourceLineNo">1161</span><a id="line.1161">   * &lt;/ul&gt;</a>
-<span class="sourceLineNo">1162</span><a id="line.1162">   *</a>
-<span class="sourceLineNo">1163</span><a id="line.1163">   * &lt;p&gt;The overall principle is to continue to treat every checked exception as a checked</a>
-<span class="sourceLineNo">1164</span><a id="line.1164">   * exception, every unchecked exception as an unchecked exception, and every error as an error. In</a>
-<span class="sourceLineNo">1165</span><a id="line.1165">   * addition, the cause of any {@code ExecutionException} is wrapped in order to ensure that the</a>
-<span class="sourceLineNo">1166</span><a id="line.1166">   * new stack trace matches that of the current thread.</a>
-<span class="sourceLineNo">1167</span><a id="line.1167">   *</a>
-<span class="sourceLineNo">1168</span><a id="line.1168">   * &lt;p&gt;Instances of {@code exceptionClass} are created by choosing an arbitrary public constructor</a>
-<span class="sourceLineNo">1169</span><a id="line.1169">   * that accepts zero or more arguments, all of type {@code String} or {@code Throwable}</a>
-<span class="sourceLineNo">1170</span><a id="line.1170">   * (preferring constructors with at least one {@code String}, then preferring constructors with at</a>
-<span class="sourceLineNo">1171</span><a id="line.1171">   * least one {@code Throwable}) and calling the constructor via reflection. If the exception did</a>
-<span class="sourceLineNo">1172</span><a id="line.1172">   * not already have a cause, one is set by calling {@link Throwable#initCause(Throwable)} on it.</a>
-<span class="sourceLineNo">1173</span><a id="line.1173">   * If no such constructor exists, an {@code IllegalArgumentException} is thrown.</a>
-<span class="sourceLineNo">1174</span><a id="line.1174">   *</a>
-<span class="sourceLineNo">1175</span><a id="line.1175">   * @throws X if {@code get} throws any checked exception except for an {@code ExecutionException}</a>
-<span class="sourceLineNo">1176</span><a id="line.1176">   *     whose cause is not itself a checked exception</a>
-<span class="sourceLineNo">1177</span><a id="line.1177">   * @throws UncheckedExecutionException if {@code get} throws an {@code ExecutionException} with a</a>
-<span class="sourceLineNo">1178</span><a id="line.1178">   *     {@code RuntimeException} as its cause</a>
-<span class="sourceLineNo">1179</span><a id="line.1179">   * @throws ExecutionError if {@code get} throws an {@code ExecutionException} with an {@code</a>
-<span class="sourceLineNo">1180</span><a id="line.1180">   *     Error} as its cause</a>
-<span class="sourceLineNo">1181</span><a id="line.1181">   * @throws CancellationException if {@code get} throws a {@code CancellationException}</a>
-<span class="sourceLineNo">1182</span><a id="line.1182">   * @throws IllegalArgumentException if {@code exceptionClass} extends {@code RuntimeException} or</a>
-<span class="sourceLineNo">1183</span><a id="line.1183">   *     does not have a suitable constructor</a>
-<span class="sourceLineNo">1184</span><a id="line.1184">   * @since 19.0 (in 10.0 as {@code get})</a>
-<span class="sourceLineNo">1185</span><a id="line.1185">   */</a>
-<span class="sourceLineNo">1186</span><a id="line.1186">  @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">1187</span><a id="line.1187">  @J2ktIncompatible</a>
-<span class="sourceLineNo">1188</span><a id="line.1188">  @GwtIncompatible // reflection</a>
-<span class="sourceLineNo">1189</span><a id="line.1189">  @ParametricNullness</a>
-<span class="sourceLineNo">1190</span><a id="line.1190">  public static &lt;V extends @Nullable Object, X extends Exception&gt; V getChecked(</a>
-<span class="sourceLineNo">1191</span><a id="line.1191">      Future&lt;V&gt; future, Class&lt;X&gt; exceptionClass) throws X {</a>
-<span class="sourceLineNo">1192</span><a id="line.1192">    return FuturesGetChecked.getChecked(future, exceptionClass);</a>
-<span class="sourceLineNo">1193</span><a id="line.1193">  }</a>
-<span class="sourceLineNo">1194</span><a id="line.1194"></a>
-<span class="sourceLineNo">1195</span><a id="line.1195">  /**</a>
-<span class="sourceLineNo">1196</span><a id="line.1196">   * Returns the result of {@link Future#get(long, TimeUnit)}, converting most exceptions to a new</a>
-<span class="sourceLineNo">1197</span><a id="line.1197">   * instance of the given checked exception type. This reduces boilerplate for a common use of</a>
-<span class="sourceLineNo">1198</span><a id="line.1198">   * {@code Future} in which it is unnecessary to programmatically distinguish between exception</a>
-<span class="sourceLineNo">1199</span><a id="line.1199">   * types or to extract other information from the exception instance.</a>
-<span class="sourceLineNo">1200</span><a id="line.1200">   *</a>
-<span class="sourceLineNo">1201</span><a id="line.1201">   * &lt;p&gt;Exceptions from {@code Future.get} are treated as follows:</a>
+<span class="sourceLineNo">1152</span><a id="line.1152">   * &lt;p&gt;Exceptions from {@code Future.get} are treated as follows:</a>
+<span class="sourceLineNo">1153</span><a id="line.1153">   *</a>
+<span class="sourceLineNo">1154</span><a id="line.1154">   * &lt;ul&gt;</a>
+<span class="sourceLineNo">1155</span><a id="line.1155">   *   &lt;li&gt;Any {@link ExecutionException} has its &lt;i&gt;cause&lt;/i&gt; wrapped in an {@code X} if the cause</a>
+<span class="sourceLineNo">1156</span><a id="line.1156">   *       is a checked exception, an {@link UncheckedExecutionException} if the cause is a {@code</a>
+<span class="sourceLineNo">1157</span><a id="line.1157">   *       RuntimeException}, or an {@link ExecutionError} if the cause is an {@code Error}.</a>
+<span class="sourceLineNo">1158</span><a id="line.1158">   *   &lt;li&gt;Any {@link InterruptedException} is wrapped in an {@code X} (after restoring the</a>
+<span class="sourceLineNo">1159</span><a id="line.1159">   *       interrupt).</a>
+<span class="sourceLineNo">1160</span><a id="line.1160">   *   &lt;li&gt;Any {@link CancellationException} is propagated untouched, as is any other {@link</a>
+<span class="sourceLineNo">1161</span><a id="line.1161">   *       RuntimeException} (though {@code get} implementations are discouraged from throwing such</a>
+<span class="sourceLineNo">1162</span><a id="line.1162">   *       exceptions).</a>
+<span class="sourceLineNo">1163</span><a id="line.1163">   * &lt;/ul&gt;</a>
+<span class="sourceLineNo">1164</span><a id="line.1164">   *</a>
+<span class="sourceLineNo">1165</span><a id="line.1165">   * &lt;p&gt;The overall principle is to continue to treat every checked exception as a checked</a>
+<span class="sourceLineNo">1166</span><a id="line.1166">   * exception, every unchecked exception as an unchecked exception, and every error as an error. In</a>
+<span class="sourceLineNo">1167</span><a id="line.1167">   * addition, the cause of any {@code ExecutionException} is wrapped in order to ensure that the</a>
+<span class="sourceLineNo">1168</span><a id="line.1168">   * new stack trace matches that of the current thread.</a>
+<span class="sourceLineNo">1169</span><a id="line.1169">   *</a>
+<span class="sourceLineNo">1170</span><a id="line.1170">   * &lt;p&gt;Instances of {@code exceptionClass} are created by choosing an arbitrary public constructor</a>
+<span class="sourceLineNo">1171</span><a id="line.1171">   * that accepts zero or more arguments, all of type {@code String} or {@code Throwable}</a>
+<span class="sourceLineNo">1172</span><a id="line.1172">   * (preferring constructors with at least one {@code String}, then preferring constructors with at</a>
+<span class="sourceLineNo">1173</span><a id="line.1173">   * least one {@code Throwable}) and calling the constructor via reflection. If the exception did</a>
+<span class="sourceLineNo">1174</span><a id="line.1174">   * not already have a cause, one is set by calling {@link Throwable#initCause(Throwable)} on it.</a>
+<span class="sourceLineNo">1175</span><a id="line.1175">   * If no such constructor exists, an {@code IllegalArgumentException} is thrown.</a>
+<span class="sourceLineNo">1176</span><a id="line.1176">   *</a>
+<span class="sourceLineNo">1177</span><a id="line.1177">   * @throws X if {@code get} throws any checked exception except for an {@code ExecutionException}</a>
+<span class="sourceLineNo">1178</span><a id="line.1178">   *     whose cause is not itself a checked exception</a>
+<span class="sourceLineNo">1179</span><a id="line.1179">   * @throws UncheckedExecutionException if {@code get} throws an {@code ExecutionException} with a</a>
+<span class="sourceLineNo">1180</span><a id="line.1180">   *     {@code RuntimeException} as its cause</a>
+<span class="sourceLineNo">1181</span><a id="line.1181">   * @throws ExecutionError if {@code get} throws an {@code ExecutionException} with an {@code</a>
+<span class="sourceLineNo">1182</span><a id="line.1182">   *     Error} as its cause</a>
+<span class="sourceLineNo">1183</span><a id="line.1183">   * @throws CancellationException if {@code get} throws a {@code CancellationException}</a>
+<span class="sourceLineNo">1184</span><a id="line.1184">   * @throws IllegalArgumentException if {@code exceptionClass} extends {@code RuntimeException} or</a>
+<span class="sourceLineNo">1185</span><a id="line.1185">   *     does not have a suitable constructor</a>
+<span class="sourceLineNo">1186</span><a id="line.1186">   * @since 19.0 (in 10.0 as {@code get})</a>
+<span class="sourceLineNo">1187</span><a id="line.1187">   */</a>
+<span class="sourceLineNo">1188</span><a id="line.1188">  @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">1189</span><a id="line.1189">  @J2ktIncompatible</a>
+<span class="sourceLineNo">1190</span><a id="line.1190">  @GwtIncompatible // reflection</a>
+<span class="sourceLineNo">1191</span><a id="line.1191">  @ParametricNullness</a>
+<span class="sourceLineNo">1192</span><a id="line.1192">  public static &lt;V extends @Nullable Object, X extends Exception&gt; V getChecked(</a>
+<span class="sourceLineNo">1193</span><a id="line.1193">      Future&lt;V&gt; future, Class&lt;X&gt; exceptionClass) throws X {</a>
+<span class="sourceLineNo">1194</span><a id="line.1194">    return FuturesGetChecked.getChecked(future, exceptionClass);</a>
+<span class="sourceLineNo">1195</span><a id="line.1195">  }</a>
+<span class="sourceLineNo">1196</span><a id="line.1196"></a>
+<span class="sourceLineNo">1197</span><a id="line.1197">  /**</a>
+<span class="sourceLineNo">1198</span><a id="line.1198">   * Returns the result of {@link Future#get(long, TimeUnit)}, converting most exceptions to a new</a>
+<span class="sourceLineNo">1199</span><a id="line.1199">   * instance of the given checked exception type. This reduces boilerplate for a common use of</a>
+<span class="sourceLineNo">1200</span><a id="line.1200">   * {@code Future} in which it is unnecessary to programmatically distinguish between exception</a>
+<span class="sourceLineNo">1201</span><a id="line.1201">   * types or to extract other information from the exception instance.</a>
 <span class="sourceLineNo">1202</span><a id="line.1202">   *</a>
-<span class="sourceLineNo">1203</span><a id="line.1203">   * &lt;ul&gt;</a>
-<span class="sourceLineNo">1204</span><a id="line.1204">   *   &lt;li&gt;Any {@link ExecutionException} has its &lt;i&gt;cause&lt;/i&gt; wrapped in an {@code X} if the cause</a>
-<span class="sourceLineNo">1205</span><a id="line.1205">   *       is a checked exception, an {@link UncheckedExecutionException} if the cause is a {@code</a>
-<span class="sourceLineNo">1206</span><a id="line.1206">   *       RuntimeException}, or an {@link ExecutionError} if the cause is an {@code Error}.</a>
-<span class="sourceLineNo">1207</span><a id="line.1207">   *   &lt;li&gt;Any {@link InterruptedException} is wrapped in an {@code X} (after restoring the</a>
-<span class="sourceLineNo">1208</span><a id="line.1208">   *       interrupt).</a>
-<span class="sourceLineNo">1209</span><a id="line.1209">   *   &lt;li&gt;Any {@link TimeoutException} is wrapped in an {@code X}.</a>
-<span class="sourceLineNo">1210</span><a id="line.1210">   *   &lt;li&gt;Any {@link CancellationException} is propagated untouched, as is any other {@link</a>
-<span class="sourceLineNo">1211</span><a id="line.1211">   *       RuntimeException} (though {@code get} implementations are discouraged from throwing such</a>
-<span class="sourceLineNo">1212</span><a id="line.1212">   *       exceptions).</a>
-<span class="sourceLineNo">1213</span><a id="line.1213">   * &lt;/ul&gt;</a>
-<span class="sourceLineNo">1214</span><a id="line.1214">   *</a>
-<span class="sourceLineNo">1215</span><a id="line.1215">   * &lt;p&gt;The overall principle is to continue to treat every checked exception as a checked</a>
-<span class="sourceLineNo">1216</span><a id="line.1216">   * exception, every unchecked exception as an unchecked exception, and every error as an error. In</a>
-<span class="sourceLineNo">1217</span><a id="line.1217">   * addition, the cause of any {@code ExecutionException} is wrapped in order to ensure that the</a>
-<span class="sourceLineNo">1218</span><a id="line.1218">   * new stack trace matches that of the current thread.</a>
-<span class="sourceLineNo">1219</span><a id="line.1219">   *</a>
-<span class="sourceLineNo">1220</span><a id="line.1220">   * &lt;p&gt;Instances of {@code exceptionClass} are created by choosing an arbitrary public constructor</a>
-<span class="sourceLineNo">1221</span><a id="line.1221">   * that accepts zero or more arguments, all of type {@code String} or {@code Throwable}</a>
-<span class="sourceLineNo">1222</span><a id="line.1222">   * (preferring constructors with at least one {@code String}, then preferring constructors with at</a>
-<span class="sourceLineNo">1223</span><a id="line.1223">   * least one {@code Throwable}) and calling the constructor via reflection. If the exception did</a>
-<span class="sourceLineNo">1224</span><a id="line.1224">   * not already have a cause, one is set by calling {@link Throwable#initCause(Throwable)} on it.</a>
-<span class="sourceLineNo">1225</span><a id="line.1225">   * If no such constructor exists, an {@code IllegalArgumentException} is thrown.</a>
-<span class="sourceLineNo">1226</span><a id="line.1226">   *</a>
-<span class="sourceLineNo">1227</span><a id="line.1227">   * @throws X if {@code get} throws any checked exception except for an {@code ExecutionException}</a>
-<span class="sourceLineNo">1228</span><a id="line.1228">   *     whose cause is not itself a checked exception</a>
-<span class="sourceLineNo">1229</span><a id="line.1229">   * @throws UncheckedExecutionException if {@code get} throws an {@code ExecutionException} with a</a>
-<span class="sourceLineNo">1230</span><a id="line.1230">   *     {@code RuntimeException} as its cause</a>
-<span class="sourceLineNo">1231</span><a id="line.1231">   * @throws ExecutionError if {@code get} throws an {@code ExecutionException} with an {@code</a>
-<span class="sourceLineNo">1232</span><a id="line.1232">   *     Error} as its cause</a>
-<span class="sourceLineNo">1233</span><a id="line.1233">   * @throws CancellationException if {@code get} throws a {@code CancellationException}</a>
-<span class="sourceLineNo">1234</span><a id="line.1234">   * @throws IllegalArgumentException if {@code exceptionClass} extends {@code RuntimeException} or</a>
-<span class="sourceLineNo">1235</span><a id="line.1235">   *     does not have a suitable constructor</a>
-<span class="sourceLineNo">1236</span><a id="line.1236">   * @since 19.0 (in 10.0 as {@code get} and with different parameter order)</a>
-<span class="sourceLineNo">1237</span><a id="line.1237">   */</a>
-<span class="sourceLineNo">1238</span><a id="line.1238">  @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">1239</span><a id="line.1239">  @J2ktIncompatible</a>
-<span class="sourceLineNo">1240</span><a id="line.1240">  @GwtIncompatible // reflection</a>
-<span class="sourceLineNo">1241</span><a id="line.1241">  @SuppressWarnings("GoodTime") // should accept a java.time.Duration</a>
-<span class="sourceLineNo">1242</span><a id="line.1242">  @ParametricNullness</a>
-<span class="sourceLineNo">1243</span><a id="line.1243">  public static &lt;V extends @Nullable Object, X extends Exception&gt; V getChecked(</a>
-<span class="sourceLineNo">1244</span><a id="line.1244">      Future&lt;V&gt; future, Class&lt;X&gt; exceptionClass, long timeout, TimeUnit unit) throws X {</a>
-<span class="sourceLineNo">1245</span><a id="line.1245">    return FuturesGetChecked.getChecked(future, exceptionClass, timeout, unit);</a>
-<span class="sourceLineNo">1246</span><a id="line.1246">  }</a>
-<span class="sourceLineNo">1247</span><a id="line.1247"></a>
-<span class="sourceLineNo">1248</span><a id="line.1248">  /**</a>
-<span class="sourceLineNo">1249</span><a id="line.1249">   * Returns the result of calling {@link Future#get()} uninterruptibly on a task known not to throw</a>
-<span class="sourceLineNo">1250</span><a id="line.1250">   * a checked exception. This makes {@code Future} more suitable for lightweight, fast-running</a>
-<span class="sourceLineNo">1251</span><a id="line.1251">   * tasks that, barring bugs in the code, will not fail. This gives it exception-handling behavior</a>
-<span class="sourceLineNo">1252</span><a id="line.1252">   * similar to that of {@code ForkJoinTask.join}.</a>
-<span class="sourceLineNo">1253</span><a id="line.1253">   *</a>
-<span class="sourceLineNo">1254</span><a id="line.1254">   * &lt;p&gt;Exceptions from {@code Future.get} are treated as follows:</a>
+<span class="sourceLineNo">1203</span><a id="line.1203">   * &lt;p&gt;Exceptions from {@code Future.get} are treated as follows:</a>
+<span class="sourceLineNo">1204</span><a id="line.1204">   *</a>
+<span class="sourceLineNo">1205</span><a id="line.1205">   * &lt;ul&gt;</a>
+<span class="sourceLineNo">1206</span><a id="line.1206">   *   &lt;li&gt;Any {@link ExecutionException} has its &lt;i&gt;cause&lt;/i&gt; wrapped in an {@code X} if the cause</a>
+<span class="sourceLineNo">1207</span><a id="line.1207">   *       is a checked exception, an {@link UncheckedExecutionException} if the cause is a {@code</a>
+<span class="sourceLineNo">1208</span><a id="line.1208">   *       RuntimeException}, or an {@link ExecutionError} if the cause is an {@code Error}.</a>
+<span class="sourceLineNo">1209</span><a id="line.1209">   *   &lt;li&gt;Any {@link InterruptedException} is wrapped in an {@code X} (after restoring the</a>
+<span class="sourceLineNo">1210</span><a id="line.1210">   *       interrupt).</a>
+<span class="sourceLineNo">1211</span><a id="line.1211">   *   &lt;li&gt;Any {@link TimeoutException} is wrapped in an {@code X}.</a>
+<span class="sourceLineNo">1212</span><a id="line.1212">   *   &lt;li&gt;Any {@link CancellationException} is propagated untouched, as is any other {@link</a>
+<span class="sourceLineNo">1213</span><a id="line.1213">   *       RuntimeException} (though {@code get} implementations are discouraged from throwing such</a>
+<span class="sourceLineNo">1214</span><a id="line.1214">   *       exceptions).</a>
+<span class="sourceLineNo">1215</span><a id="line.1215">   * &lt;/ul&gt;</a>
+<span class="sourceLineNo">1216</span><a id="line.1216">   *</a>
+<span class="sourceLineNo">1217</span><a id="line.1217">   * &lt;p&gt;The overall principle is to continue to treat every checked exception as a checked</a>
+<span class="sourceLineNo">1218</span><a id="line.1218">   * exception, every unchecked exception as an unchecked exception, and every error as an error. In</a>
+<span class="sourceLineNo">1219</span><a id="line.1219">   * addition, the cause of any {@code ExecutionException} is wrapped in order to ensure that the</a>
+<span class="sourceLineNo">1220</span><a id="line.1220">   * new stack trace matches that of the current thread.</a>
+<span class="sourceLineNo">1221</span><a id="line.1221">   *</a>
+<span class="sourceLineNo">1222</span><a id="line.1222">   * &lt;p&gt;Instances of {@code exceptionClass} are created by choosing an arbitrary public constructor</a>
+<span class="sourceLineNo">1223</span><a id="line.1223">   * that accepts zero or more arguments, all of type {@code String} or {@code Throwable}</a>
+<span class="sourceLineNo">1224</span><a id="line.1224">   * (preferring constructors with at least one {@code String}, then preferring constructors with at</a>
+<span class="sourceLineNo">1225</span><a id="line.1225">   * least one {@code Throwable}) and calling the constructor via reflection. If the exception did</a>
+<span class="sourceLineNo">1226</span><a id="line.1226">   * not already have a cause, one is set by calling {@link Throwable#initCause(Throwable)} on it.</a>
+<span class="sourceLineNo">1227</span><a id="line.1227">   * If no such constructor exists, an {@code IllegalArgumentException} is thrown.</a>
+<span class="sourceLineNo">1228</span><a id="line.1228">   *</a>
+<span class="sourceLineNo">1229</span><a id="line.1229">   * @throws X if {@code get} throws any checked exception except for an {@code ExecutionException}</a>
+<span class="sourceLineNo">1230</span><a id="line.1230">   *     whose cause is not itself a checked exception</a>
+<span class="sourceLineNo">1231</span><a id="line.1231">   * @throws UncheckedExecutionException if {@code get} throws an {@code ExecutionException} with a</a>
+<span class="sourceLineNo">1232</span><a id="line.1232">   *     {@code RuntimeException} as its cause</a>
+<span class="sourceLineNo">1233</span><a id="line.1233">   * @throws ExecutionError if {@code get} throws an {@code ExecutionException} with an {@code</a>
+<span class="sourceLineNo">1234</span><a id="line.1234">   *     Error} as its cause</a>
+<span class="sourceLineNo">1235</span><a id="line.1235">   * @throws CancellationException if {@code get} throws a {@code CancellationException}</a>
+<span class="sourceLineNo">1236</span><a id="line.1236">   * @throws IllegalArgumentException if {@code exceptionClass} extends {@code RuntimeException} or</a>
+<span class="sourceLineNo">1237</span><a id="line.1237">   *     does not have a suitable constructor</a>
+<span class="sourceLineNo">1238</span><a id="line.1238">   * @since 19.0 (in 10.0 as {@code get} and with different parameter order)</a>
+<span class="sourceLineNo">1239</span><a id="line.1239">   */</a>
+<span class="sourceLineNo">1240</span><a id="line.1240">  @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">1241</span><a id="line.1241">  @J2ktIncompatible</a>
+<span class="sourceLineNo">1242</span><a id="line.1242">  @GwtIncompatible // reflection</a>
+<span class="sourceLineNo">1243</span><a id="line.1243">  @SuppressWarnings("GoodTime") // should accept a java.time.Duration</a>
+<span class="sourceLineNo">1244</span><a id="line.1244">  @ParametricNullness</a>
+<span class="sourceLineNo">1245</span><a id="line.1245">  public static &lt;V extends @Nullable Object, X extends Exception&gt; V getChecked(</a>
+<span class="sourceLineNo">1246</span><a id="line.1246">      Future&lt;V&gt; future, Class&lt;X&gt; exceptionClass, long timeout, TimeUnit unit) throws X {</a>
+<span class="sourceLineNo">1247</span><a id="line.1247">    return FuturesGetChecked.getChecked(future, exceptionClass, timeout, unit);</a>
+<span class="sourceLineNo">1248</span><a id="line.1248">  }</a>
+<span class="sourceLineNo">1249</span><a id="line.1249"></a>
+<span class="sourceLineNo">1250</span><a id="line.1250">  /**</a>
+<span class="sourceLineNo">1251</span><a id="line.1251">   * Returns the result of calling {@link Future#get()} uninterruptibly on a task known not to throw</a>
+<span class="sourceLineNo">1252</span><a id="line.1252">   * a checked exception. This makes {@code Future} more suitable for lightweight, fast-running</a>
+<span class="sourceLineNo">1253</span><a id="line.1253">   * tasks that, barring bugs in the code, will not fail. This gives it exception-handling behavior</a>
+<span class="sourceLineNo">1254</span><a id="line.1254">   * similar to that of {@code ForkJoinTask.join}.</a>
 <span class="sourceLineNo">1255</span><a id="line.1255">   *</a>
-<span class="sourceLineNo">1256</span><a id="line.1256">   * &lt;ul&gt;</a>
-<span class="sourceLineNo">1257</span><a id="line.1257">   *   &lt;li&gt;Any {@link ExecutionException} has its &lt;i&gt;cause&lt;/i&gt; wrapped in an {@link</a>
-<span class="sourceLineNo">1258</span><a id="line.1258">   *       UncheckedExecutionException} (if the cause is an {@code Exception}) or {@link</a>
-<span class="sourceLineNo">1259</span><a id="line.1259">   *       ExecutionError} (if the cause is an {@code Error}).</a>
-<span class="sourceLineNo">1260</span><a id="line.1260">   *   &lt;li&gt;Any {@link InterruptedException} causes a retry of the {@code get} call. The interrupt is</a>
-<span class="sourceLineNo">1261</span><a id="line.1261">   *       restored before {@code getUnchecked} returns.</a>
-<span class="sourceLineNo">1262</span><a id="line.1262">   *   &lt;li&gt;Any {@link CancellationException} is propagated untouched. So is any other {@link</a>
-<span class="sourceLineNo">1263</span><a id="line.1263">   *       RuntimeException} ({@code get} implementations are discouraged from throwing such</a>
-<span class="sourceLineNo">1264</span><a id="line.1264">   *       exceptions).</a>
-<span class="sourceLineNo">1265</span><a id="line.1265">   * &lt;/ul&gt;</a>
-<span class="sourceLineNo">1266</span><a id="line.1266">   *</a>
-<span class="sourceLineNo">1267</span><a id="line.1267">   * &lt;p&gt;The overall principle is to eliminate all checked exceptions: to loop to avoid {@code</a>
-<span class="sourceLineNo">1268</span><a id="line.1268">   * InterruptedException}, to pass through {@code CancellationException}, and to wrap any exception</a>
-<span class="sourceLineNo">1269</span><a id="line.1269">   * from the underlying computation in an {@code UncheckedExecutionException} or {@code</a>
-<span class="sourceLineNo">1270</span><a id="line.1270">   * ExecutionError}.</a>
-<span class="sourceLineNo">1271</span><a id="line.1271">   *</a>
-<span class="sourceLineNo">1272</span><a id="line.1272">   * &lt;p&gt;For an uninterruptible {@code get} that preserves other exceptions, see {@link</a>
-<span class="sourceLineNo">1273</span><a id="line.1273">   * Uninterruptibles#getUninterruptibly(Future)}.</a>
-<span class="sourceLineNo">1274</span><a id="line.1274">   *</a>
-<span class="sourceLineNo">1275</span><a id="line.1275">   * @throws UncheckedExecutionException if {@code get} throws an {@code ExecutionException} with an</a>
-<span class="sourceLineNo">1276</span><a id="line.1276">   *     {@code Exception} as its cause</a>
-<span class="sourceLineNo">1277</span><a id="line.1277">   * @throws ExecutionError if {@code get} throws an {@code ExecutionException} with an {@code</a>
-<span class="sourceLineNo">1278</span><a id="line.1278">   *     Error} as its cause</a>
-<span class="sourceLineNo">1279</span><a id="line.1279">   * @throws CancellationException if {@code get} throws a {@code CancellationException}</a>
-<span class="sourceLineNo">1280</span><a id="line.1280">   * @since 10.0</a>
-<span class="sourceLineNo">1281</span><a id="line.1281">   */</a>
-<span class="sourceLineNo">1282</span><a id="line.1282">  @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">1283</span><a id="line.1283">  @ParametricNullness</a>
-<span class="sourceLineNo">1284</span><a id="line.1284">  public static &lt;V extends @Nullable Object&gt; V getUnchecked(Future&lt;V&gt; future) {</a>
-<span class="sourceLineNo">1285</span><a id="line.1285">    checkNotNull(future);</a>
-<span class="sourceLineNo">1286</span><a id="line.1286">    try {</a>
-<span class="sourceLineNo">1287</span><a id="line.1287">      return getUninterruptibly(future);</a>
-<span class="sourceLineNo">1288</span><a id="line.1288">    } catch (ExecutionException e) {</a>
-<span class="sourceLineNo">1289</span><a id="line.1289">      wrapAndThrowUnchecked(e.getCause());</a>
-<span class="sourceLineNo">1290</span><a id="line.1290">      throw new AssertionError();</a>
-<span class="sourceLineNo">1291</span><a id="line.1291">    }</a>
-<span class="sourceLineNo">1292</span><a id="line.1292">  }</a>
-<span class="sourceLineNo">1293</span><a id="line.1293"></a>
-<span class="sourceLineNo">1294</span><a id="line.1294">  private static void wrapAndThrowUnchecked(Throwable cause) {</a>
-<span class="sourceLineNo">1295</span><a id="line.1295">    if (cause instanceof Error) {</a>
-<span class="sourceLineNo">1296</span><a id="line.1296">      throw new ExecutionError((Error) cause);</a>
-<span class="sourceLineNo">1297</span><a id="line.1297">    }</a>
-<span class="sourceLineNo">1298</span><a id="line.1298">    /*</a>
-<span class="sourceLineNo">1299</span><a id="line.1299">     * It's an Exception. (Or it's a non-Error, non-Exception Throwable. From my survey of such</a>
-<span class="sourceLineNo">1300</span><a id="line.1300">     * classes, I believe that most users intended to extend Exception, so we'll treat it like an</a>
-<span class="sourceLineNo">1301</span><a id="line.1301">     * Exception.)</a>
-<span class="sourceLineNo">1302</span><a id="line.1302">     */</a>
-<span class="sourceLineNo">1303</span><a id="line.1303">    throw new UncheckedExecutionException(cause);</a>
-<span class="sourceLineNo">1304</span><a id="line.1304">  }</a>
-<span class="sourceLineNo">1305</span><a id="line.1305"></a>
-<span class="sourceLineNo">1306</span><a id="line.1306">  /*</a>
-<span class="sourceLineNo">1307</span><a id="line.1307">   * Arguably we don't need a timed getUnchecked because any operation slow enough to require a</a>
-<span class="sourceLineNo">1308</span><a id="line.1308">   * timeout is heavyweight enough to throw a checked exception and therefore be inappropriate to</a>
-<span class="sourceLineNo">1309</span><a id="line.1309">   * use with getUnchecked. Further, it's not clear that converting the checked TimeoutException to</a>
-<span class="sourceLineNo">1310</span><a id="line.1310">   * a RuntimeException -- especially to an UncheckedExecutionException, since it wasn't thrown by</a>
-<span class="sourceLineNo">1311</span><a id="line.1311">   * the computation -- makes sense, and if we don't convert it, the user still has to write a</a>
-<span class="sourceLineNo">1312</span><a id="line.1312">   * try-catch block.</a>
-<span class="sourceLineNo">1313</span><a id="line.1313">   *</a>
-<span class="sourceLineNo">1314</span><a id="line.1314">   * If you think you would use this method, let us know. You might also look into the</a>
-<span class="sourceLineNo">1315</span><a id="line.1315">   * Fork-Join framework: http://docs.oracle.com/javase/tutorial/essential/concurrency/forkjoin.html</a>
-<span class="sourceLineNo">1316</span><a id="line.1316">   */</a>
-<span class="sourceLineNo">1317</span><a id="line.1317">}</a>
+<span class="sourceLineNo">1256</span><a id="line.1256">   * &lt;p&gt;Exceptions from {@code Future.get} are treated as follows:</a>
+<span class="sourceLineNo">1257</span><a id="line.1257">   *</a>
+<span class="sourceLineNo">1258</span><a id="line.1258">   * &lt;ul&gt;</a>
+<span class="sourceLineNo">1259</span><a id="line.1259">   *   &lt;li&gt;Any {@link ExecutionException} has its &lt;i&gt;cause&lt;/i&gt; wrapped in an {@link</a>
+<span class="sourceLineNo">1260</span><a id="line.1260">   *       UncheckedExecutionException} (if the cause is an {@code Exception}) or {@link</a>
+<span class="sourceLineNo">1261</span><a id="line.1261">   *       ExecutionError} (if the cause is an {@code Error}).</a>
+<span class="sourceLineNo">1262</span><a id="line.1262">   *   &lt;li&gt;Any {@link InterruptedException} causes a retry of the {@code get} call. The interrupt is</a>
+<span class="sourceLineNo">1263</span><a id="line.1263">   *       restored before {@code getUnchecked} returns.</a>
+<span class="sourceLineNo">1264</span><a id="line.1264">   *   &lt;li&gt;Any {@link CancellationException} is propagated untouched. So is any other {@link</a>
+<span class="sourceLineNo">1265</span><a id="line.1265">   *       RuntimeException} ({@code get} implementations are discouraged from throwing such</a>
+<span class="sourceLineNo">1266</span><a id="line.1266">   *       exceptions).</a>
+<span class="sourceLineNo">1267</span><a id="line.1267">   * &lt;/ul&gt;</a>
+<span class="sourceLineNo">1268</span><a id="line.1268">   *</a>
+<span class="sourceLineNo">1269</span><a id="line.1269">   * &lt;p&gt;The overall principle is to eliminate all checked exceptions: to loop to avoid {@code</a>
+<span class="sourceLineNo">1270</span><a id="line.1270">   * InterruptedException}, to pass through {@code CancellationException}, and to wrap any exception</a>
+<span class="sourceLineNo">1271</span><a id="line.1271">   * from the underlying computation in an {@code UncheckedExecutionException} or {@code</a>
+<span class="sourceLineNo">1272</span><a id="line.1272">   * ExecutionError}.</a>
+<span class="sourceLineNo">1273</span><a id="line.1273">   *</a>
+<span class="sourceLineNo">1274</span><a id="line.1274">   * &lt;p&gt;For an uninterruptible {@code get} that preserves other exceptions, see {@link</a>
+<span class="sourceLineNo">1275</span><a id="line.1275">   * Uninterruptibles#getUninterruptibly(Future)}.</a>
+<span class="sourceLineNo">1276</span><a id="line.1276">   *</a>
+<span class="sourceLineNo">1277</span><a id="line.1277">   * @throws UncheckedExecutionException if {@code get} throws an {@code ExecutionException} with an</a>
+<span class="sourceLineNo">1278</span><a id="line.1278">   *     {@code Exception} as its cause</a>
+<span class="sourceLineNo">1279</span><a id="line.1279">   * @throws ExecutionError if {@code get} throws an {@code ExecutionException} with an {@code</a>
+<span class="sourceLineNo">1280</span><a id="line.1280">   *     Error} as its cause</a>
+<span class="sourceLineNo">1281</span><a id="line.1281">   * @throws CancellationException if {@code get} throws a {@code CancellationException}</a>
+<span class="sourceLineNo">1282</span><a id="line.1282">   * @since 10.0</a>
+<span class="sourceLineNo">1283</span><a id="line.1283">   */</a>
+<span class="sourceLineNo">1284</span><a id="line.1284">  @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">1285</span><a id="line.1285">  @ParametricNullness</a>
+<span class="sourceLineNo">1286</span><a id="line.1286">  public static &lt;V extends @Nullable Object&gt; V getUnchecked(Future&lt;V&gt; future) {</a>
+<span class="sourceLineNo">1287</span><a id="line.1287">    checkNotNull(future);</a>
+<span class="sourceLineNo">1288</span><a id="line.1288">    try {</a>
+<span class="sourceLineNo">1289</span><a id="line.1289">      return getUninterruptibly(future);</a>
+<span class="sourceLineNo">1290</span><a id="line.1290">    } catch (ExecutionException e) {</a>
+<span class="sourceLineNo">1291</span><a id="line.1291">      wrapAndThrowUnchecked(e.getCause());</a>
+<span class="sourceLineNo">1292</span><a id="line.1292">      throw new AssertionError();</a>
+<span class="sourceLineNo">1293</span><a id="line.1293">    }</a>
+<span class="sourceLineNo">1294</span><a id="line.1294">  }</a>
+<span class="sourceLineNo">1295</span><a id="line.1295"></a>
+<span class="sourceLineNo">1296</span><a id="line.1296">  private static void wrapAndThrowUnchecked(Throwable cause) {</a>
+<span class="sourceLineNo">1297</span><a id="line.1297">    if (cause instanceof Error) {</a>
+<span class="sourceLineNo">1298</span><a id="line.1298">      throw new ExecutionError((Error) cause);</a>
+<span class="sourceLineNo">1299</span><a id="line.1299">    }</a>
+<span class="sourceLineNo">1300</span><a id="line.1300">    /*</a>
+<span class="sourceLineNo">1301</span><a id="line.1301">     * It's an Exception. (Or it's a non-Error, non-Exception Throwable. From my survey of such</a>
+<span class="sourceLineNo">1302</span><a id="line.1302">     * classes, I believe that most users intended to extend Exception, so we'll treat it like an</a>
+<span class="sourceLineNo">1303</span><a id="line.1303">     * Exception.)</a>
+<span class="sourceLineNo">1304</span><a id="line.1304">     */</a>
+<span class="sourceLineNo">1305</span><a id="line.1305">    throw new UncheckedExecutionException(cause);</a>
+<span class="sourceLineNo">1306</span><a id="line.1306">  }</a>
+<span class="sourceLineNo">1307</span><a id="line.1307"></a>
+<span class="sourceLineNo">1308</span><a id="line.1308">  /*</a>
+<span class="sourceLineNo">1309</span><a id="line.1309">   * Arguably we don't need a timed getUnchecked because any operation slow enough to require a</a>
+<span class="sourceLineNo">1310</span><a id="line.1310">   * timeout is heavyweight enough to throw a checked exception and therefore be inappropriate to</a>
+<span class="sourceLineNo">1311</span><a id="line.1311">   * use with getUnchecked. Further, it's not clear that converting the checked TimeoutException to</a>
+<span class="sourceLineNo">1312</span><a id="line.1312">   * a RuntimeException -- especially to an UncheckedExecutionException, since it wasn't thrown by</a>
+<span class="sourceLineNo">1313</span><a id="line.1313">   * the computation -- makes sense, and if we don't convert it, the user still has to write a</a>
+<span class="sourceLineNo">1314</span><a id="line.1314">   * try-catch block.</a>
+<span class="sourceLineNo">1315</span><a id="line.1315">   *</a>
+<span class="sourceLineNo">1316</span><a id="line.1316">   * If you think you would use this method, let us know. You might also look into the</a>
+<span class="sourceLineNo">1317</span><a id="line.1317">   * Fork-Join framework: http://docs.oracle.com/javase/tutorial/essential/concurrency/forkjoin.html</a>
+<span class="sourceLineNo">1318</span><a id="line.1318">   */</a>
+<span class="sourceLineNo">1319</span><a id="line.1319">}</a>
 
 
 

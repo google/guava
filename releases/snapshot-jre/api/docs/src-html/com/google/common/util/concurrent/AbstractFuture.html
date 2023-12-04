@@ -876,704 +876,714 @@
 <span class="sourceLineNo">867</span><a id="line.867">        // since all we are doing is unpacking a completed future which should be fast.</a>
 <span class="sourceLineNo">868</span><a id="line.868">        try {</a>
 <span class="sourceLineNo">869</span><a id="line.869">          future.addListener(valueToSet, DirectExecutor.INSTANCE);</a>
-<span class="sourceLineNo">870</span><a id="line.870">        } catch (RuntimeException | Error t) {</a>
-<span class="sourceLineNo">871</span><a id="line.871">          // addListener has thrown an exception! SetFuture.run can't throw any exceptions so this</a>
-<span class="sourceLineNo">872</span><a id="line.872">          // must have been caused by addListener itself. The most likely explanation is a</a>
-<span class="sourceLineNo">873</span><a id="line.873">          // misconfigured mock. Try to switch to Failure.</a>
-<span class="sourceLineNo">874</span><a id="line.874">          Failure failure;</a>
-<span class="sourceLineNo">875</span><a id="line.875">          try {</a>
-<span class="sourceLineNo">876</span><a id="line.876">            failure = new Failure(t);</a>
-<span class="sourceLineNo">877</span><a id="line.877">          } catch (RuntimeException | Error oomMostLikely) {</a>
-<span class="sourceLineNo">878</span><a id="line.878">            failure = Failure.FALLBACK_INSTANCE;</a>
-<span class="sourceLineNo">879</span><a id="line.879">          }</a>
-<span class="sourceLineNo">880</span><a id="line.880">          // Note: The only way this CAS could fail is if cancel() has raced with us. That is ok.</a>
-<span class="sourceLineNo">881</span><a id="line.881">          boolean unused = ATOMIC_HELPER.casValue(this, valueToSet, failure);</a>
-<span class="sourceLineNo">882</span><a id="line.882">        }</a>
-<span class="sourceLineNo">883</span><a id="line.883">        return true;</a>
-<span class="sourceLineNo">884</span><a id="line.884">      }</a>
-<span class="sourceLineNo">885</span><a id="line.885">      localValue = value; // we lost the cas, fall through and maybe cancel</a>
-<span class="sourceLineNo">886</span><a id="line.886">    }</a>
-<span class="sourceLineNo">887</span><a id="line.887">    // The future has already been set to something. If it is cancellation we should cancel the</a>
-<span class="sourceLineNo">888</span><a id="line.888">    // incoming future.</a>
-<span class="sourceLineNo">889</span><a id="line.889">    if (localValue instanceof Cancellation) {</a>
-<span class="sourceLineNo">890</span><a id="line.890">      // we don't care if it fails, this is best-effort.</a>
-<span class="sourceLineNo">891</span><a id="line.891">      future.cancel(((Cancellation) localValue).wasInterrupted);</a>
-<span class="sourceLineNo">892</span><a id="line.892">    }</a>
-<span class="sourceLineNo">893</span><a id="line.893">    return false;</a>
-<span class="sourceLineNo">894</span><a id="line.894">  }</a>
-<span class="sourceLineNo">895</span><a id="line.895"></a>
-<span class="sourceLineNo">896</span><a id="line.896">  /**</a>
-<span class="sourceLineNo">897</span><a id="line.897">   * Returns a value that satisfies the contract of the {@link #value} field based on the state of</a>
-<span class="sourceLineNo">898</span><a id="line.898">   * given future.</a>
-<span class="sourceLineNo">899</span><a id="line.899">   *</a>
-<span class="sourceLineNo">900</span><a id="line.900">   * &lt;p&gt;This is approximately the inverse of {@link #getDoneValue(Object)}</a>
-<span class="sourceLineNo">901</span><a id="line.901">   */</a>
-<span class="sourceLineNo">902</span><a id="line.902">  private static Object getFutureValue(ListenableFuture&lt;?&gt; future) {</a>
-<span class="sourceLineNo">903</span><a id="line.903">    if (future instanceof Trusted) {</a>
-<span class="sourceLineNo">904</span><a id="line.904">      // Break encapsulation for TrustedFuture instances since we know that subclasses cannot</a>
-<span class="sourceLineNo">905</span><a id="line.905">      // override .get() (since it is final) and therefore this is equivalent to calling .get()</a>
-<span class="sourceLineNo">906</span><a id="line.906">      // and unpacking the exceptions like we do below (just much faster because it is a single</a>
-<span class="sourceLineNo">907</span><a id="line.907">      // field read instead of a read, several branches and possibly creating exceptions).</a>
-<span class="sourceLineNo">908</span><a id="line.908">      Object v = ((AbstractFuture&lt;?&gt;) future).value;</a>
-<span class="sourceLineNo">909</span><a id="line.909">      if (v instanceof Cancellation) {</a>
-<span class="sourceLineNo">910</span><a id="line.910">        // If the other future was interrupted, clear the interrupted bit while preserving the cause</a>
-<span class="sourceLineNo">911</span><a id="line.911">        // this will make it consistent with how non-trustedfutures work which cannot propagate the</a>
-<span class="sourceLineNo">912</span><a id="line.912">        // wasInterrupted bit</a>
-<span class="sourceLineNo">913</span><a id="line.913">        Cancellation c = (Cancellation) v;</a>
-<span class="sourceLineNo">914</span><a id="line.914">        if (c.wasInterrupted) {</a>
-<span class="sourceLineNo">915</span><a id="line.915">          v =</a>
-<span class="sourceLineNo">916</span><a id="line.916">              c.cause != null</a>
-<span class="sourceLineNo">917</span><a id="line.917">                  ? new Cancellation(/* wasInterrupted= */ false, c.cause)</a>
-<span class="sourceLineNo">918</span><a id="line.918">                  : Cancellation.CAUSELESS_CANCELLED;</a>
-<span class="sourceLineNo">919</span><a id="line.919">        }</a>
-<span class="sourceLineNo">920</span><a id="line.920">      }</a>
-<span class="sourceLineNo">921</span><a id="line.921">      // requireNonNull is safe as long as we call this method only on completed futures.</a>
-<span class="sourceLineNo">922</span><a id="line.922">      return requireNonNull(v);</a>
-<span class="sourceLineNo">923</span><a id="line.923">    }</a>
-<span class="sourceLineNo">924</span><a id="line.924">    if (future instanceof InternalFutureFailureAccess) {</a>
-<span class="sourceLineNo">925</span><a id="line.925">      Throwable throwable =</a>
-<span class="sourceLineNo">926</span><a id="line.926">          InternalFutures.tryInternalFastPathGetFailure((InternalFutureFailureAccess) future);</a>
-<span class="sourceLineNo">927</span><a id="line.927">      if (throwable != null) {</a>
-<span class="sourceLineNo">928</span><a id="line.928">        return new Failure(throwable);</a>
-<span class="sourceLineNo">929</span><a id="line.929">      }</a>
-<span class="sourceLineNo">930</span><a id="line.930">    }</a>
-<span class="sourceLineNo">931</span><a id="line.931">    boolean wasCancelled = future.isCancelled();</a>
-<span class="sourceLineNo">932</span><a id="line.932">    // Don't allocate a CancellationException if it's not necessary</a>
-<span class="sourceLineNo">933</span><a id="line.933">    if (!GENERATE_CANCELLATION_CAUSES &amp; wasCancelled) {</a>
-<span class="sourceLineNo">934</span><a id="line.934">      /*</a>
-<span class="sourceLineNo">935</span><a id="line.935">       * requireNonNull is safe because we've initialized CAUSELESS_CANCELLED if</a>
-<span class="sourceLineNo">936</span><a id="line.936">       * !GENERATE_CANCELLATION_CAUSES.</a>
-<span class="sourceLineNo">937</span><a id="line.937">       */</a>
-<span class="sourceLineNo">938</span><a id="line.938">      return requireNonNull(Cancellation.CAUSELESS_CANCELLED);</a>
-<span class="sourceLineNo">939</span><a id="line.939">    }</a>
-<span class="sourceLineNo">940</span><a id="line.940">    // Otherwise calculate the value by calling .get()</a>
-<span class="sourceLineNo">941</span><a id="line.941">    try {</a>
-<span class="sourceLineNo">942</span><a id="line.942">      Object v = getUninterruptibly(future);</a>
-<span class="sourceLineNo">943</span><a id="line.943">      if (wasCancelled) {</a>
-<span class="sourceLineNo">944</span><a id="line.944">        return new Cancellation(</a>
-<span class="sourceLineNo">945</span><a id="line.945">            false,</a>
-<span class="sourceLineNo">946</span><a id="line.946">            new IllegalArgumentException(</a>
-<span class="sourceLineNo">947</span><a id="line.947">                "get() did not throw CancellationException, despite reporting "</a>
-<span class="sourceLineNo">948</span><a id="line.948">                    + "isCancelled() == true: "</a>
-<span class="sourceLineNo">949</span><a id="line.949">                    + future));</a>
-<span class="sourceLineNo">950</span><a id="line.950">      }</a>
-<span class="sourceLineNo">951</span><a id="line.951">      return v == null ? NULL : v;</a>
-<span class="sourceLineNo">952</span><a id="line.952">    } catch (ExecutionException exception) {</a>
-<span class="sourceLineNo">953</span><a id="line.953">      if (wasCancelled) {</a>
-<span class="sourceLineNo">954</span><a id="line.954">        return new Cancellation(</a>
-<span class="sourceLineNo">955</span><a id="line.955">            false,</a>
-<span class="sourceLineNo">956</span><a id="line.956">            new IllegalArgumentException(</a>
-<span class="sourceLineNo">957</span><a id="line.957">                "get() did not throw CancellationException, despite reporting "</a>
-<span class="sourceLineNo">958</span><a id="line.958">                    + "isCancelled() == true: "</a>
-<span class="sourceLineNo">959</span><a id="line.959">                    + future,</a>
-<span class="sourceLineNo">960</span><a id="line.960">                exception));</a>
-<span class="sourceLineNo">961</span><a id="line.961">      }</a>
-<span class="sourceLineNo">962</span><a id="line.962">      return new Failure(exception.getCause());</a>
-<span class="sourceLineNo">963</span><a id="line.963">    } catch (CancellationException cancellation) {</a>
-<span class="sourceLineNo">964</span><a id="line.964">      if (!wasCancelled) {</a>
-<span class="sourceLineNo">965</span><a id="line.965">        return new Failure(</a>
-<span class="sourceLineNo">966</span><a id="line.966">            new IllegalArgumentException(</a>
-<span class="sourceLineNo">967</span><a id="line.967">                "get() threw CancellationException, despite reporting isCancelled() == false: "</a>
-<span class="sourceLineNo">968</span><a id="line.968">                    + future,</a>
-<span class="sourceLineNo">969</span><a id="line.969">                cancellation));</a>
-<span class="sourceLineNo">970</span><a id="line.970">      }</a>
-<span class="sourceLineNo">971</span><a id="line.971">      return new Cancellation(false, cancellation);</a>
-<span class="sourceLineNo">972</span><a id="line.972">    } catch (RuntimeException | Error t) {</a>
-<span class="sourceLineNo">973</span><a id="line.973">      return new Failure(t);</a>
-<span class="sourceLineNo">974</span><a id="line.974">    }</a>
-<span class="sourceLineNo">975</span><a id="line.975">  }</a>
-<span class="sourceLineNo">976</span><a id="line.976"></a>
-<span class="sourceLineNo">977</span><a id="line.977">  /**</a>
-<span class="sourceLineNo">978</span><a id="line.978">   * An inlined private copy of {@link Uninterruptibles#getUninterruptibly} used to break an</a>
-<span class="sourceLineNo">979</span><a id="line.979">   * internal dependency on other /util/concurrent classes.</a>
-<span class="sourceLineNo">980</span><a id="line.980">   */</a>
-<span class="sourceLineNo">981</span><a id="line.981">  @ParametricNullness</a>
-<span class="sourceLineNo">982</span><a id="line.982">  private static &lt;V extends @Nullable Object&gt; V getUninterruptibly(Future&lt;V&gt; future)</a>
-<span class="sourceLineNo">983</span><a id="line.983">      throws ExecutionException {</a>
-<span class="sourceLineNo">984</span><a id="line.984">    boolean interrupted = false;</a>
-<span class="sourceLineNo">985</span><a id="line.985">    try {</a>
-<span class="sourceLineNo">986</span><a id="line.986">      while (true) {</a>
-<span class="sourceLineNo">987</span><a id="line.987">        try {</a>
-<span class="sourceLineNo">988</span><a id="line.988">          return future.get();</a>
-<span class="sourceLineNo">989</span><a id="line.989">        } catch (InterruptedException e) {</a>
-<span class="sourceLineNo">990</span><a id="line.990">          interrupted = true;</a>
-<span class="sourceLineNo">991</span><a id="line.991">        }</a>
-<span class="sourceLineNo">992</span><a id="line.992">      }</a>
-<span class="sourceLineNo">993</span><a id="line.993">    } finally {</a>
-<span class="sourceLineNo">994</span><a id="line.994">      if (interrupted) {</a>
-<span class="sourceLineNo">995</span><a id="line.995">        Thread.currentThread().interrupt();</a>
-<span class="sourceLineNo">996</span><a id="line.996">      }</a>
-<span class="sourceLineNo">997</span><a id="line.997">    }</a>
-<span class="sourceLineNo">998</span><a id="line.998">  }</a>
-<span class="sourceLineNo">999</span><a id="line.999"></a>
-<span class="sourceLineNo">1000</span><a id="line.1000">  /** Unblocks all threads and runs all listeners. */</a>
-<span class="sourceLineNo">1001</span><a id="line.1001">  private static void complete(AbstractFuture&lt;?&gt; param, boolean callInterruptTask) {</a>
-<span class="sourceLineNo">1002</span><a id="line.1002">    // Declare a "true" local variable so that the Checker Framework will infer nullness.</a>
-<span class="sourceLineNo">1003</span><a id="line.1003">    AbstractFuture&lt;?&gt; future = param;</a>
-<span class="sourceLineNo">1004</span><a id="line.1004"></a>
-<span class="sourceLineNo">1005</span><a id="line.1005">    Listener next = null;</a>
-<span class="sourceLineNo">1006</span><a id="line.1006">    outer:</a>
-<span class="sourceLineNo">1007</span><a id="line.1007">    while (true) {</a>
-<span class="sourceLineNo">1008</span><a id="line.1008">      future.releaseWaiters();</a>
-<span class="sourceLineNo">1009</span><a id="line.1009">      /*</a>
-<span class="sourceLineNo">1010</span><a id="line.1010">       * We call interruptTask() immediately before afterDone() so that migrating between the two</a>
-<span class="sourceLineNo">1011</span><a id="line.1011">       * can be a no-op.</a>
-<span class="sourceLineNo">1012</span><a id="line.1012">       */</a>
-<span class="sourceLineNo">1013</span><a id="line.1013">      if (callInterruptTask) {</a>
-<span class="sourceLineNo">1014</span><a id="line.1014">        future.interruptTask();</a>
-<span class="sourceLineNo">1015</span><a id="line.1015">        /*</a>
-<span class="sourceLineNo">1016</span><a id="line.1016">         * Interruption doesn't propagate through a SetFuture chain (see getFutureValue), so don't</a>
-<span class="sourceLineNo">1017</span><a id="line.1017">         * invoke interruptTask on any subsequent futures.</a>
-<span class="sourceLineNo">1018</span><a id="line.1018">         */</a>
-<span class="sourceLineNo">1019</span><a id="line.1019">        callInterruptTask = false;</a>
-<span class="sourceLineNo">1020</span><a id="line.1020">      }</a>
-<span class="sourceLineNo">1021</span><a id="line.1021">      // We call this before the listeners in order to avoid needing to manage a separate stack data</a>
-<span class="sourceLineNo">1022</span><a id="line.1022">      // structure for them.  Also, some implementations rely on this running prior to listeners</a>
-<span class="sourceLineNo">1023</span><a id="line.1023">      // so that the cleanup work is visible to listeners.</a>
-<span class="sourceLineNo">1024</span><a id="line.1024">      // afterDone() should be generally fast and only used for cleanup work... but in theory can</a>
-<span class="sourceLineNo">1025</span><a id="line.1025">      // also be recursive and create StackOverflowErrors</a>
-<span class="sourceLineNo">1026</span><a id="line.1026">      future.afterDone();</a>
-<span class="sourceLineNo">1027</span><a id="line.1027">      // push the current set of listeners onto next</a>
-<span class="sourceLineNo">1028</span><a id="line.1028">      next = future.clearListeners(next);</a>
-<span class="sourceLineNo">1029</span><a id="line.1029">      future = null;</a>
-<span class="sourceLineNo">1030</span><a id="line.1030">      while (next != null) {</a>
-<span class="sourceLineNo">1031</span><a id="line.1031">        Listener curr = next;</a>
-<span class="sourceLineNo">1032</span><a id="line.1032">        next = next.next;</a>
-<span class="sourceLineNo">1033</span><a id="line.1033">        /*</a>
-<span class="sourceLineNo">1034</span><a id="line.1034">         * requireNonNull is safe because the listener stack never contains TOMBSTONE until after</a>
-<span class="sourceLineNo">1035</span><a id="line.1035">         * clearListeners.</a>
-<span class="sourceLineNo">1036</span><a id="line.1036">         */</a>
-<span class="sourceLineNo">1037</span><a id="line.1037">        Runnable task = requireNonNull(curr.task);</a>
-<span class="sourceLineNo">1038</span><a id="line.1038">        if (task instanceof SetFuture) {</a>
-<span class="sourceLineNo">1039</span><a id="line.1039">          SetFuture&lt;?&gt; setFuture = (SetFuture&lt;?&gt;) task;</a>
-<span class="sourceLineNo">1040</span><a id="line.1040">          // We unwind setFuture specifically to avoid StackOverflowErrors in the case of long</a>
-<span class="sourceLineNo">1041</span><a id="line.1041">          // chains of SetFutures</a>
-<span class="sourceLineNo">1042</span><a id="line.1042">          // Handling this special case is important because there is no way to pass an executor to</a>
-<span class="sourceLineNo">1043</span><a id="line.1043">          // setFuture, so a user couldn't break the chain by doing this themselves.  It is also</a>
-<span class="sourceLineNo">1044</span><a id="line.1044">          // potentially common if someone writes a recursive Futures.transformAsync transformer.</a>
-<span class="sourceLineNo">1045</span><a id="line.1045">          future = setFuture.owner;</a>
-<span class="sourceLineNo">1046</span><a id="line.1046">          if (future.value == setFuture) {</a>
-<span class="sourceLineNo">1047</span><a id="line.1047">            Object valueToSet = getFutureValue(setFuture.future);</a>
-<span class="sourceLineNo">1048</span><a id="line.1048">            if (ATOMIC_HELPER.casValue(future, setFuture, valueToSet)) {</a>
-<span class="sourceLineNo">1049</span><a id="line.1049">              continue outer;</a>
-<span class="sourceLineNo">1050</span><a id="line.1050">            }</a>
-<span class="sourceLineNo">1051</span><a id="line.1051">          }</a>
-<span class="sourceLineNo">1052</span><a id="line.1052">          // otherwise the future we were trying to set is already done.</a>
-<span class="sourceLineNo">1053</span><a id="line.1053">        } else {</a>
-<span class="sourceLineNo">1054</span><a id="line.1054">          /*</a>
-<span class="sourceLineNo">1055</span><a id="line.1055">           * requireNonNull is safe because the listener stack never contains TOMBSTONE until after</a>
-<span class="sourceLineNo">1056</span><a id="line.1056">           * clearListeners.</a>
-<span class="sourceLineNo">1057</span><a id="line.1057">           */</a>
-<span class="sourceLineNo">1058</span><a id="line.1058">          executeListener(task, requireNonNull(curr.executor));</a>
-<span class="sourceLineNo">1059</span><a id="line.1059">        }</a>
-<span class="sourceLineNo">1060</span><a id="line.1060">      }</a>
-<span class="sourceLineNo">1061</span><a id="line.1061">      break;</a>
-<span class="sourceLineNo">1062</span><a id="line.1062">    }</a>
-<span class="sourceLineNo">1063</span><a id="line.1063">  }</a>
-<span class="sourceLineNo">1064</span><a id="line.1064"></a>
-<span class="sourceLineNo">1065</span><a id="line.1065">  /**</a>
-<span class="sourceLineNo">1066</span><a id="line.1066">   * Callback method that is called exactly once after the future is completed.</a>
-<span class="sourceLineNo">1067</span><a id="line.1067">   *</a>
-<span class="sourceLineNo">1068</span><a id="line.1068">   * &lt;p&gt;If {@link #interruptTask} is also run during completion, {@link #afterDone} runs after it.</a>
+<span class="sourceLineNo">870</span><a id="line.870">        } catch (Throwable t) {</a>
+<span class="sourceLineNo">871</span><a id="line.871">          // Any Exception is either a RuntimeException or sneaky checked exception.</a>
+<span class="sourceLineNo">872</span><a id="line.872">          //</a>
+<span class="sourceLineNo">873</span><a id="line.873">          // addListener has thrown an exception! SetFuture.run can't throw any exceptions so this</a>
+<span class="sourceLineNo">874</span><a id="line.874">          // must have been caused by addListener itself. The most likely explanation is a</a>
+<span class="sourceLineNo">875</span><a id="line.875">          // misconfigured mock. Try to switch to Failure.</a>
+<span class="sourceLineNo">876</span><a id="line.876">          Failure failure;</a>
+<span class="sourceLineNo">877</span><a id="line.877">          try {</a>
+<span class="sourceLineNo">878</span><a id="line.878">            failure = new Failure(t);</a>
+<span class="sourceLineNo">879</span><a id="line.879">          } catch (RuntimeException | Error oomMostLikely) {</a>
+<span class="sourceLineNo">880</span><a id="line.880">            failure = Failure.FALLBACK_INSTANCE;</a>
+<span class="sourceLineNo">881</span><a id="line.881">          }</a>
+<span class="sourceLineNo">882</span><a id="line.882">          // Note: The only way this CAS could fail is if cancel() has raced with us. That is ok.</a>
+<span class="sourceLineNo">883</span><a id="line.883">          boolean unused = ATOMIC_HELPER.casValue(this, valueToSet, failure);</a>
+<span class="sourceLineNo">884</span><a id="line.884">        }</a>
+<span class="sourceLineNo">885</span><a id="line.885">        return true;</a>
+<span class="sourceLineNo">886</span><a id="line.886">      }</a>
+<span class="sourceLineNo">887</span><a id="line.887">      localValue = value; // we lost the cas, fall through and maybe cancel</a>
+<span class="sourceLineNo">888</span><a id="line.888">    }</a>
+<span class="sourceLineNo">889</span><a id="line.889">    // The future has already been set to something. If it is cancellation we should cancel the</a>
+<span class="sourceLineNo">890</span><a id="line.890">    // incoming future.</a>
+<span class="sourceLineNo">891</span><a id="line.891">    if (localValue instanceof Cancellation) {</a>
+<span class="sourceLineNo">892</span><a id="line.892">      // we don't care if it fails, this is best-effort.</a>
+<span class="sourceLineNo">893</span><a id="line.893">      future.cancel(((Cancellation) localValue).wasInterrupted);</a>
+<span class="sourceLineNo">894</span><a id="line.894">    }</a>
+<span class="sourceLineNo">895</span><a id="line.895">    return false;</a>
+<span class="sourceLineNo">896</span><a id="line.896">  }</a>
+<span class="sourceLineNo">897</span><a id="line.897"></a>
+<span class="sourceLineNo">898</span><a id="line.898">  /**</a>
+<span class="sourceLineNo">899</span><a id="line.899">   * Returns a value that satisfies the contract of the {@link #value} field based on the state of</a>
+<span class="sourceLineNo">900</span><a id="line.900">   * given future.</a>
+<span class="sourceLineNo">901</span><a id="line.901">   *</a>
+<span class="sourceLineNo">902</span><a id="line.902">   * &lt;p&gt;This is approximately the inverse of {@link #getDoneValue(Object)}</a>
+<span class="sourceLineNo">903</span><a id="line.903">   */</a>
+<span class="sourceLineNo">904</span><a id="line.904">  private static Object getFutureValue(ListenableFuture&lt;?&gt; future) {</a>
+<span class="sourceLineNo">905</span><a id="line.905">    if (future instanceof Trusted) {</a>
+<span class="sourceLineNo">906</span><a id="line.906">      // Break encapsulation for TrustedFuture instances since we know that subclasses cannot</a>
+<span class="sourceLineNo">907</span><a id="line.907">      // override .get() (since it is final) and therefore this is equivalent to calling .get()</a>
+<span class="sourceLineNo">908</span><a id="line.908">      // and unpacking the exceptions like we do below (just much faster because it is a single</a>
+<span class="sourceLineNo">909</span><a id="line.909">      // field read instead of a read, several branches and possibly creating exceptions).</a>
+<span class="sourceLineNo">910</span><a id="line.910">      Object v = ((AbstractFuture&lt;?&gt;) future).value;</a>
+<span class="sourceLineNo">911</span><a id="line.911">      if (v instanceof Cancellation) {</a>
+<span class="sourceLineNo">912</span><a id="line.912">        // If the other future was interrupted, clear the interrupted bit while preserving the cause</a>
+<span class="sourceLineNo">913</span><a id="line.913">        // this will make it consistent with how non-trustedfutures work which cannot propagate the</a>
+<span class="sourceLineNo">914</span><a id="line.914">        // wasInterrupted bit</a>
+<span class="sourceLineNo">915</span><a id="line.915">        Cancellation c = (Cancellation) v;</a>
+<span class="sourceLineNo">916</span><a id="line.916">        if (c.wasInterrupted) {</a>
+<span class="sourceLineNo">917</span><a id="line.917">          v =</a>
+<span class="sourceLineNo">918</span><a id="line.918">              c.cause != null</a>
+<span class="sourceLineNo">919</span><a id="line.919">                  ? new Cancellation(/* wasInterrupted= */ false, c.cause)</a>
+<span class="sourceLineNo">920</span><a id="line.920">                  : Cancellation.CAUSELESS_CANCELLED;</a>
+<span class="sourceLineNo">921</span><a id="line.921">        }</a>
+<span class="sourceLineNo">922</span><a id="line.922">      }</a>
+<span class="sourceLineNo">923</span><a id="line.923">      // requireNonNull is safe as long as we call this method only on completed futures.</a>
+<span class="sourceLineNo">924</span><a id="line.924">      return requireNonNull(v);</a>
+<span class="sourceLineNo">925</span><a id="line.925">    }</a>
+<span class="sourceLineNo">926</span><a id="line.926">    if (future instanceof InternalFutureFailureAccess) {</a>
+<span class="sourceLineNo">927</span><a id="line.927">      Throwable throwable =</a>
+<span class="sourceLineNo">928</span><a id="line.928">          InternalFutures.tryInternalFastPathGetFailure((InternalFutureFailureAccess) future);</a>
+<span class="sourceLineNo">929</span><a id="line.929">      if (throwable != null) {</a>
+<span class="sourceLineNo">930</span><a id="line.930">        return new Failure(throwable);</a>
+<span class="sourceLineNo">931</span><a id="line.931">      }</a>
+<span class="sourceLineNo">932</span><a id="line.932">    }</a>
+<span class="sourceLineNo">933</span><a id="line.933">    boolean wasCancelled = future.isCancelled();</a>
+<span class="sourceLineNo">934</span><a id="line.934">    // Don't allocate a CancellationException if it's not necessary</a>
+<span class="sourceLineNo">935</span><a id="line.935">    if (!GENERATE_CANCELLATION_CAUSES &amp; wasCancelled) {</a>
+<span class="sourceLineNo">936</span><a id="line.936">      /*</a>
+<span class="sourceLineNo">937</span><a id="line.937">       * requireNonNull is safe because we've initialized CAUSELESS_CANCELLED if</a>
+<span class="sourceLineNo">938</span><a id="line.938">       * !GENERATE_CANCELLATION_CAUSES.</a>
+<span class="sourceLineNo">939</span><a id="line.939">       */</a>
+<span class="sourceLineNo">940</span><a id="line.940">      return requireNonNull(Cancellation.CAUSELESS_CANCELLED);</a>
+<span class="sourceLineNo">941</span><a id="line.941">    }</a>
+<span class="sourceLineNo">942</span><a id="line.942">    // Otherwise calculate the value by calling .get()</a>
+<span class="sourceLineNo">943</span><a id="line.943">    try {</a>
+<span class="sourceLineNo">944</span><a id="line.944">      Object v = getUninterruptibly(future);</a>
+<span class="sourceLineNo">945</span><a id="line.945">      if (wasCancelled) {</a>
+<span class="sourceLineNo">946</span><a id="line.946">        return new Cancellation(</a>
+<span class="sourceLineNo">947</span><a id="line.947">            false,</a>
+<span class="sourceLineNo">948</span><a id="line.948">            new IllegalArgumentException(</a>
+<span class="sourceLineNo">949</span><a id="line.949">                "get() did not throw CancellationException, despite reporting "</a>
+<span class="sourceLineNo">950</span><a id="line.950">                    + "isCancelled() == true: "</a>
+<span class="sourceLineNo">951</span><a id="line.951">                    + future));</a>
+<span class="sourceLineNo">952</span><a id="line.952">      }</a>
+<span class="sourceLineNo">953</span><a id="line.953">      return v == null ? NULL : v;</a>
+<span class="sourceLineNo">954</span><a id="line.954">    } catch (ExecutionException exception) {</a>
+<span class="sourceLineNo">955</span><a id="line.955">      if (wasCancelled) {</a>
+<span class="sourceLineNo">956</span><a id="line.956">        return new Cancellation(</a>
+<span class="sourceLineNo">957</span><a id="line.957">            false,</a>
+<span class="sourceLineNo">958</span><a id="line.958">            new IllegalArgumentException(</a>
+<span class="sourceLineNo">959</span><a id="line.959">                "get() did not throw CancellationException, despite reporting "</a>
+<span class="sourceLineNo">960</span><a id="line.960">                    + "isCancelled() == true: "</a>
+<span class="sourceLineNo">961</span><a id="line.961">                    + future,</a>
+<span class="sourceLineNo">962</span><a id="line.962">                exception));</a>
+<span class="sourceLineNo">963</span><a id="line.963">      }</a>
+<span class="sourceLineNo">964</span><a id="line.964">      return new Failure(exception.getCause());</a>
+<span class="sourceLineNo">965</span><a id="line.965">    } catch (CancellationException cancellation) {</a>
+<span class="sourceLineNo">966</span><a id="line.966">      if (!wasCancelled) {</a>
+<span class="sourceLineNo">967</span><a id="line.967">        return new Failure(</a>
+<span class="sourceLineNo">968</span><a id="line.968">            new IllegalArgumentException(</a>
+<span class="sourceLineNo">969</span><a id="line.969">                "get() threw CancellationException, despite reporting isCancelled() == false: "</a>
+<span class="sourceLineNo">970</span><a id="line.970">                    + future,</a>
+<span class="sourceLineNo">971</span><a id="line.971">                cancellation));</a>
+<span class="sourceLineNo">972</span><a id="line.972">      }</a>
+<span class="sourceLineNo">973</span><a id="line.973">      return new Cancellation(false, cancellation);</a>
+<span class="sourceLineNo">974</span><a id="line.974">    } catch (RuntimeException | Error t) {</a>
+<span class="sourceLineNo">975</span><a id="line.975">      return new Failure(t);</a>
+<span class="sourceLineNo">976</span><a id="line.976">    }</a>
+<span class="sourceLineNo">977</span><a id="line.977">  }</a>
+<span class="sourceLineNo">978</span><a id="line.978"></a>
+<span class="sourceLineNo">979</span><a id="line.979">  /**</a>
+<span class="sourceLineNo">980</span><a id="line.980">   * An inlined private copy of {@link Uninterruptibles#getUninterruptibly} used to break an</a>
+<span class="sourceLineNo">981</span><a id="line.981">   * internal dependency on other /util/concurrent classes.</a>
+<span class="sourceLineNo">982</span><a id="line.982">   */</a>
+<span class="sourceLineNo">983</span><a id="line.983">  @ParametricNullness</a>
+<span class="sourceLineNo">984</span><a id="line.984">  private static &lt;V extends @Nullable Object&gt; V getUninterruptibly(Future&lt;V&gt; future)</a>
+<span class="sourceLineNo">985</span><a id="line.985">      throws ExecutionException {</a>
+<span class="sourceLineNo">986</span><a id="line.986">    boolean interrupted = false;</a>
+<span class="sourceLineNo">987</span><a id="line.987">    try {</a>
+<span class="sourceLineNo">988</span><a id="line.988">      while (true) {</a>
+<span class="sourceLineNo">989</span><a id="line.989">        try {</a>
+<span class="sourceLineNo">990</span><a id="line.990">          return future.get();</a>
+<span class="sourceLineNo">991</span><a id="line.991">        } catch (InterruptedException e) {</a>
+<span class="sourceLineNo">992</span><a id="line.992">          interrupted = true;</a>
+<span class="sourceLineNo">993</span><a id="line.993">        }</a>
+<span class="sourceLineNo">994</span><a id="line.994">      }</a>
+<span class="sourceLineNo">995</span><a id="line.995">    } finally {</a>
+<span class="sourceLineNo">996</span><a id="line.996">      if (interrupted) {</a>
+<span class="sourceLineNo">997</span><a id="line.997">        Thread.currentThread().interrupt();</a>
+<span class="sourceLineNo">998</span><a id="line.998">      }</a>
+<span class="sourceLineNo">999</span><a id="line.999">    }</a>
+<span class="sourceLineNo">1000</span><a id="line.1000">  }</a>
+<span class="sourceLineNo">1001</span><a id="line.1001"></a>
+<span class="sourceLineNo">1002</span><a id="line.1002">  /** Unblocks all threads and runs all listeners. */</a>
+<span class="sourceLineNo">1003</span><a id="line.1003">  private static void complete(AbstractFuture&lt;?&gt; param, boolean callInterruptTask) {</a>
+<span class="sourceLineNo">1004</span><a id="line.1004">    // Declare a "true" local variable so that the Checker Framework will infer nullness.</a>
+<span class="sourceLineNo">1005</span><a id="line.1005">    AbstractFuture&lt;?&gt; future = param;</a>
+<span class="sourceLineNo">1006</span><a id="line.1006"></a>
+<span class="sourceLineNo">1007</span><a id="line.1007">    Listener next = null;</a>
+<span class="sourceLineNo">1008</span><a id="line.1008">    outer:</a>
+<span class="sourceLineNo">1009</span><a id="line.1009">    while (true) {</a>
+<span class="sourceLineNo">1010</span><a id="line.1010">      future.releaseWaiters();</a>
+<span class="sourceLineNo">1011</span><a id="line.1011">      /*</a>
+<span class="sourceLineNo">1012</span><a id="line.1012">       * We call interruptTask() immediately before afterDone() so that migrating between the two</a>
+<span class="sourceLineNo">1013</span><a id="line.1013">       * can be a no-op.</a>
+<span class="sourceLineNo">1014</span><a id="line.1014">       */</a>
+<span class="sourceLineNo">1015</span><a id="line.1015">      if (callInterruptTask) {</a>
+<span class="sourceLineNo">1016</span><a id="line.1016">        future.interruptTask();</a>
+<span class="sourceLineNo">1017</span><a id="line.1017">        /*</a>
+<span class="sourceLineNo">1018</span><a id="line.1018">         * Interruption doesn't propagate through a SetFuture chain (see getFutureValue), so don't</a>
+<span class="sourceLineNo">1019</span><a id="line.1019">         * invoke interruptTask on any subsequent futures.</a>
+<span class="sourceLineNo">1020</span><a id="line.1020">         */</a>
+<span class="sourceLineNo">1021</span><a id="line.1021">        callInterruptTask = false;</a>
+<span class="sourceLineNo">1022</span><a id="line.1022">      }</a>
+<span class="sourceLineNo">1023</span><a id="line.1023">      // We call this before the listeners in order to avoid needing to manage a separate stack data</a>
+<span class="sourceLineNo">1024</span><a id="line.1024">      // structure for them.  Also, some implementations rely on this running prior to listeners</a>
+<span class="sourceLineNo">1025</span><a id="line.1025">      // so that the cleanup work is visible to listeners.</a>
+<span class="sourceLineNo">1026</span><a id="line.1026">      // afterDone() should be generally fast and only used for cleanup work... but in theory can</a>
+<span class="sourceLineNo">1027</span><a id="line.1027">      // also be recursive and create StackOverflowErrors</a>
+<span class="sourceLineNo">1028</span><a id="line.1028">      future.afterDone();</a>
+<span class="sourceLineNo">1029</span><a id="line.1029">      // push the current set of listeners onto next</a>
+<span class="sourceLineNo">1030</span><a id="line.1030">      next = future.clearListeners(next);</a>
+<span class="sourceLineNo">1031</span><a id="line.1031">      future = null;</a>
+<span class="sourceLineNo">1032</span><a id="line.1032">      while (next != null) {</a>
+<span class="sourceLineNo">1033</span><a id="line.1033">        Listener curr = next;</a>
+<span class="sourceLineNo">1034</span><a id="line.1034">        next = next.next;</a>
+<span class="sourceLineNo">1035</span><a id="line.1035">        /*</a>
+<span class="sourceLineNo">1036</span><a id="line.1036">         * requireNonNull is safe because the listener stack never contains TOMBSTONE until after</a>
+<span class="sourceLineNo">1037</span><a id="line.1037">         * clearListeners.</a>
+<span class="sourceLineNo">1038</span><a id="line.1038">         */</a>
+<span class="sourceLineNo">1039</span><a id="line.1039">        Runnable task = requireNonNull(curr.task);</a>
+<span class="sourceLineNo">1040</span><a id="line.1040">        if (task instanceof SetFuture) {</a>
+<span class="sourceLineNo">1041</span><a id="line.1041">          SetFuture&lt;?&gt; setFuture = (SetFuture&lt;?&gt;) task;</a>
+<span class="sourceLineNo">1042</span><a id="line.1042">          // We unwind setFuture specifically to avoid StackOverflowErrors in the case of long</a>
+<span class="sourceLineNo">1043</span><a id="line.1043">          // chains of SetFutures</a>
+<span class="sourceLineNo">1044</span><a id="line.1044">          // Handling this special case is important because there is no way to pass an executor to</a>
+<span class="sourceLineNo">1045</span><a id="line.1045">          // setFuture, so a user couldn't break the chain by doing this themselves.  It is also</a>
+<span class="sourceLineNo">1046</span><a id="line.1046">          // potentially common if someone writes a recursive Futures.transformAsync transformer.</a>
+<span class="sourceLineNo">1047</span><a id="line.1047">          future = setFuture.owner;</a>
+<span class="sourceLineNo">1048</span><a id="line.1048">          if (future.value == setFuture) {</a>
+<span class="sourceLineNo">1049</span><a id="line.1049">            Object valueToSet = getFutureValue(setFuture.future);</a>
+<span class="sourceLineNo">1050</span><a id="line.1050">            if (ATOMIC_HELPER.casValue(future, setFuture, valueToSet)) {</a>
+<span class="sourceLineNo">1051</span><a id="line.1051">              continue outer;</a>
+<span class="sourceLineNo">1052</span><a id="line.1052">            }</a>
+<span class="sourceLineNo">1053</span><a id="line.1053">          }</a>
+<span class="sourceLineNo">1054</span><a id="line.1054">          // otherwise the future we were trying to set is already done.</a>
+<span class="sourceLineNo">1055</span><a id="line.1055">        } else {</a>
+<span class="sourceLineNo">1056</span><a id="line.1056">          /*</a>
+<span class="sourceLineNo">1057</span><a id="line.1057">           * requireNonNull is safe because the listener stack never contains TOMBSTONE until after</a>
+<span class="sourceLineNo">1058</span><a id="line.1058">           * clearListeners.</a>
+<span class="sourceLineNo">1059</span><a id="line.1059">           */</a>
+<span class="sourceLineNo">1060</span><a id="line.1060">          executeListener(task, requireNonNull(curr.executor));</a>
+<span class="sourceLineNo">1061</span><a id="line.1061">        }</a>
+<span class="sourceLineNo">1062</span><a id="line.1062">      }</a>
+<span class="sourceLineNo">1063</span><a id="line.1063">      break;</a>
+<span class="sourceLineNo">1064</span><a id="line.1064">    }</a>
+<span class="sourceLineNo">1065</span><a id="line.1065">  }</a>
+<span class="sourceLineNo">1066</span><a id="line.1066"></a>
+<span class="sourceLineNo">1067</span><a id="line.1067">  /**</a>
+<span class="sourceLineNo">1068</span><a id="line.1068">   * Callback method that is called exactly once after the future is completed.</a>
 <span class="sourceLineNo">1069</span><a id="line.1069">   *</a>
-<span class="sourceLineNo">1070</span><a id="line.1070">   * &lt;p&gt;The default implementation of this method in {@code AbstractFuture} does nothing. This is</a>
-<span class="sourceLineNo">1071</span><a id="line.1071">   * intended for very lightweight cleanup work, for example, timing statistics or clearing fields.</a>
-<span class="sourceLineNo">1072</span><a id="line.1072">   * If your task does anything heavier consider, just using a listener with an executor.</a>
-<span class="sourceLineNo">1073</span><a id="line.1073">   *</a>
-<span class="sourceLineNo">1074</span><a id="line.1074">   * @since 20.0</a>
-<span class="sourceLineNo">1075</span><a id="line.1075">   */</a>
-<span class="sourceLineNo">1076</span><a id="line.1076">  @ForOverride</a>
-<span class="sourceLineNo">1077</span><a id="line.1077">  protected void afterDone() {}</a>
-<span class="sourceLineNo">1078</span><a id="line.1078"></a>
-<span class="sourceLineNo">1079</span><a id="line.1079">  // TODO(b/114236866): Inherit doc from InternalFutureFailureAccess. Also, -link to its URL.</a>
-<span class="sourceLineNo">1080</span><a id="line.1080">  /**</a>
-<span class="sourceLineNo">1081</span><a id="line.1081">   * Usually returns {@code null} but, if this {@code Future} has failed, may &lt;i&gt;optionally&lt;/i&gt;</a>
-<span class="sourceLineNo">1082</span><a id="line.1082">   * return the cause of the failure. "Failure" means specifically "completed with an exception"; it</a>
-<span class="sourceLineNo">1083</span><a id="line.1083">   * does not include "was cancelled." To be explicit: If this method returns a non-null value,</a>
-<span class="sourceLineNo">1084</span><a id="line.1084">   * then:</a>
-<span class="sourceLineNo">1085</span><a id="line.1085">   *</a>
-<span class="sourceLineNo">1086</span><a id="line.1086">   * &lt;ul&gt;</a>
-<span class="sourceLineNo">1087</span><a id="line.1087">   *   &lt;li&gt;{@code isDone()} must return {@code true}</a>
-<span class="sourceLineNo">1088</span><a id="line.1088">   *   &lt;li&gt;{@code isCancelled()} must return {@code false}</a>
-<span class="sourceLineNo">1089</span><a id="line.1089">   *   &lt;li&gt;{@code get()} must not block, and it must throw an {@code ExecutionException} with the</a>
-<span class="sourceLineNo">1090</span><a id="line.1090">   *       return value of this method as its cause</a>
-<span class="sourceLineNo">1091</span><a id="line.1091">   * &lt;/ul&gt;</a>
-<span class="sourceLineNo">1092</span><a id="line.1092">   *</a>
-<span class="sourceLineNo">1093</span><a id="line.1093">   * &lt;p&gt;This method is {@code protected} so that classes like {@code</a>
-<span class="sourceLineNo">1094</span><a id="line.1094">   * com.google.common.util.concurrent.SettableFuture} do not expose it to their users as an</a>
-<span class="sourceLineNo">1095</span><a id="line.1095">   * instance method. In the unlikely event that you need to call this method, call {@link</a>
-<span class="sourceLineNo">1096</span><a id="line.1096">   * InternalFutures#tryInternalFastPathGetFailure(InternalFutureFailureAccess)}.</a>
-<span class="sourceLineNo">1097</span><a id="line.1097">   *</a>
-<span class="sourceLineNo">1098</span><a id="line.1098">   * @since 27.0</a>
-<span class="sourceLineNo">1099</span><a id="line.1099">   */</a>
-<span class="sourceLineNo">1100</span><a id="line.1100">  @Override</a>
-<span class="sourceLineNo">1101</span><a id="line.1101">  /*</a>
-<span class="sourceLineNo">1102</span><a id="line.1102">   * We should annotate the superclass, InternalFutureFailureAccess, to say that its copy of this</a>
-<span class="sourceLineNo">1103</span><a id="line.1103">   * method returns @Nullable, too. However, we're not sure if we want to make any changes to that</a>
-<span class="sourceLineNo">1104</span><a id="line.1104">   * class, since it's in a separate artifact that we planned to release only a single version of.</a>
-<span class="sourceLineNo">1105</span><a id="line.1105">   */</a>
-<span class="sourceLineNo">1106</span><a id="line.1106">  @CheckForNull</a>
-<span class="sourceLineNo">1107</span><a id="line.1107">  protected final Throwable tryInternalFastPathGetFailure() {</a>
-<span class="sourceLineNo">1108</span><a id="line.1108">    if (this instanceof Trusted) {</a>
-<span class="sourceLineNo">1109</span><a id="line.1109">      Object obj = value;</a>
-<span class="sourceLineNo">1110</span><a id="line.1110">      if (obj instanceof Failure) {</a>
-<span class="sourceLineNo">1111</span><a id="line.1111">        return ((Failure) obj).exception;</a>
-<span class="sourceLineNo">1112</span><a id="line.1112">      }</a>
-<span class="sourceLineNo">1113</span><a id="line.1113">    }</a>
-<span class="sourceLineNo">1114</span><a id="line.1114">    return null;</a>
-<span class="sourceLineNo">1115</span><a id="line.1115">  }</a>
-<span class="sourceLineNo">1116</span><a id="line.1116"></a>
-<span class="sourceLineNo">1117</span><a id="line.1117">  /**</a>
-<span class="sourceLineNo">1118</span><a id="line.1118">   * If this future has been cancelled (and possibly interrupted), cancels (and possibly interrupts)</a>
-<span class="sourceLineNo">1119</span><a id="line.1119">   * the given future (if available).</a>
-<span class="sourceLineNo">1120</span><a id="line.1120">   */</a>
-<span class="sourceLineNo">1121</span><a id="line.1121">  final void maybePropagateCancellationTo(@CheckForNull Future&lt;?&gt; related) {</a>
-<span class="sourceLineNo">1122</span><a id="line.1122">    if (related != null &amp; isCancelled()) {</a>
-<span class="sourceLineNo">1123</span><a id="line.1123">      related.cancel(wasInterrupted());</a>
-<span class="sourceLineNo">1124</span><a id="line.1124">    }</a>
-<span class="sourceLineNo">1125</span><a id="line.1125">  }</a>
-<span class="sourceLineNo">1126</span><a id="line.1126"></a>
-<span class="sourceLineNo">1127</span><a id="line.1127">  /** Releases all threads in the {@link #waiters} list, and clears the list. */</a>
-<span class="sourceLineNo">1128</span><a id="line.1128">  private void releaseWaiters() {</a>
-<span class="sourceLineNo">1129</span><a id="line.1129">    Waiter head = ATOMIC_HELPER.gasWaiters(this, Waiter.TOMBSTONE);</a>
-<span class="sourceLineNo">1130</span><a id="line.1130">    for (Waiter currentWaiter = head; currentWaiter != null; currentWaiter = currentWaiter.next) {</a>
-<span class="sourceLineNo">1131</span><a id="line.1131">      currentWaiter.unpark();</a>
-<span class="sourceLineNo">1132</span><a id="line.1132">    }</a>
-<span class="sourceLineNo">1133</span><a id="line.1133">  }</a>
-<span class="sourceLineNo">1134</span><a id="line.1134"></a>
-<span class="sourceLineNo">1135</span><a id="line.1135">  /**</a>
-<span class="sourceLineNo">1136</span><a id="line.1136">   * Clears the {@link #listeners} list and prepends its contents to {@code onto}, least recently</a>
-<span class="sourceLineNo">1137</span><a id="line.1137">   * added first.</a>
-<span class="sourceLineNo">1138</span><a id="line.1138">   */</a>
-<span class="sourceLineNo">1139</span><a id="line.1139">  @CheckForNull</a>
-<span class="sourceLineNo">1140</span><a id="line.1140">  private Listener clearListeners(@CheckForNull Listener onto) {</a>
-<span class="sourceLineNo">1141</span><a id="line.1141">    // We need to</a>
-<span class="sourceLineNo">1142</span><a id="line.1142">    // 1. atomically swap the listeners with TOMBSTONE, this is because addListener uses that</a>
-<span class="sourceLineNo">1143</span><a id="line.1143">    //    to synchronize with us</a>
-<span class="sourceLineNo">1144</span><a id="line.1144">    // 2. reverse the linked list, because despite our rather clear contract, people depend on us</a>
-<span class="sourceLineNo">1145</span><a id="line.1145">    //    executing listeners in the order they were added</a>
-<span class="sourceLineNo">1146</span><a id="line.1146">    // 3. push all the items onto 'onto' and return the new head of the stack</a>
-<span class="sourceLineNo">1147</span><a id="line.1147">    Listener head = ATOMIC_HELPER.gasListeners(this, Listener.TOMBSTONE);</a>
-<span class="sourceLineNo">1148</span><a id="line.1148">    Listener reversedList = onto;</a>
-<span class="sourceLineNo">1149</span><a id="line.1149">    while (head != null) {</a>
-<span class="sourceLineNo">1150</span><a id="line.1150">      Listener tmp = head;</a>
-<span class="sourceLineNo">1151</span><a id="line.1151">      head = head.next;</a>
-<span class="sourceLineNo">1152</span><a id="line.1152">      tmp.next = reversedList;</a>
-<span class="sourceLineNo">1153</span><a id="line.1153">      reversedList = tmp;</a>
-<span class="sourceLineNo">1154</span><a id="line.1154">    }</a>
-<span class="sourceLineNo">1155</span><a id="line.1155">    return reversedList;</a>
-<span class="sourceLineNo">1156</span><a id="line.1156">  }</a>
-<span class="sourceLineNo">1157</span><a id="line.1157"></a>
-<span class="sourceLineNo">1158</span><a id="line.1158">  // TODO(user): move parts into a default method on ListenableFuture?</a>
-<span class="sourceLineNo">1159</span><a id="line.1159">  @Override</a>
-<span class="sourceLineNo">1160</span><a id="line.1160">  public String toString() {</a>
-<span class="sourceLineNo">1161</span><a id="line.1161">    // TODO(cpovirk): Presize to something plausible?</a>
-<span class="sourceLineNo">1162</span><a id="line.1162">    StringBuilder builder = new StringBuilder();</a>
-<span class="sourceLineNo">1163</span><a id="line.1163">    if (getClass().getName().startsWith("com.google.common.util.concurrent.")) {</a>
-<span class="sourceLineNo">1164</span><a id="line.1164">      builder.append(getClass().getSimpleName());</a>
-<span class="sourceLineNo">1165</span><a id="line.1165">    } else {</a>
-<span class="sourceLineNo">1166</span><a id="line.1166">      builder.append(getClass().getName());</a>
-<span class="sourceLineNo">1167</span><a id="line.1167">    }</a>
-<span class="sourceLineNo">1168</span><a id="line.1168">    builder.append('@').append(toHexString(identityHashCode(this))).append("[status=");</a>
-<span class="sourceLineNo">1169</span><a id="line.1169">    if (isCancelled()) {</a>
-<span class="sourceLineNo">1170</span><a id="line.1170">      builder.append("CANCELLED");</a>
-<span class="sourceLineNo">1171</span><a id="line.1171">    } else if (isDone()) {</a>
-<span class="sourceLineNo">1172</span><a id="line.1172">      addDoneString(builder);</a>
-<span class="sourceLineNo">1173</span><a id="line.1173">    } else {</a>
-<span class="sourceLineNo">1174</span><a id="line.1174">      addPendingString(builder); // delegates to addDoneString if future completes midway</a>
-<span class="sourceLineNo">1175</span><a id="line.1175">    }</a>
-<span class="sourceLineNo">1176</span><a id="line.1176">    return builder.append("]").toString();</a>
-<span class="sourceLineNo">1177</span><a id="line.1177">  }</a>
-<span class="sourceLineNo">1178</span><a id="line.1178"></a>
-<span class="sourceLineNo">1179</span><a id="line.1179">  /**</a>
-<span class="sourceLineNo">1180</span><a id="line.1180">   * Provide a human-readable explanation of why this future has not yet completed.</a>
-<span class="sourceLineNo">1181</span><a id="line.1181">   *</a>
-<span class="sourceLineNo">1182</span><a id="line.1182">   * @return null if an explanation cannot be provided (e.g. because the future is done).</a>
-<span class="sourceLineNo">1183</span><a id="line.1183">   * @since 23.0</a>
-<span class="sourceLineNo">1184</span><a id="line.1184">   */</a>
-<span class="sourceLineNo">1185</span><a id="line.1185">  @CheckForNull</a>
-<span class="sourceLineNo">1186</span><a id="line.1186">  protected String pendingToString() {</a>
-<span class="sourceLineNo">1187</span><a id="line.1187">    // TODO(diamondm) consider moving this into addPendingString so it's always in the output</a>
-<span class="sourceLineNo">1188</span><a id="line.1188">    if (this instanceof ScheduledFuture) {</a>
-<span class="sourceLineNo">1189</span><a id="line.1189">      return "remaining delay=["</a>
-<span class="sourceLineNo">1190</span><a id="line.1190">          + ((ScheduledFuture) this).getDelay(TimeUnit.MILLISECONDS)</a>
-<span class="sourceLineNo">1191</span><a id="line.1191">          + " ms]";</a>
-<span class="sourceLineNo">1192</span><a id="line.1192">    }</a>
-<span class="sourceLineNo">1193</span><a id="line.1193">    return null;</a>
-<span class="sourceLineNo">1194</span><a id="line.1194">  }</a>
-<span class="sourceLineNo">1195</span><a id="line.1195"></a>
-<span class="sourceLineNo">1196</span><a id="line.1196">  private void addPendingString(StringBuilder builder) {</a>
-<span class="sourceLineNo">1197</span><a id="line.1197">    // Capture current builder length so it can be truncated if this future ends up completing while</a>
-<span class="sourceLineNo">1198</span><a id="line.1198">    // the toString is being calculated</a>
-<span class="sourceLineNo">1199</span><a id="line.1199">    int truncateLength = builder.length();</a>
-<span class="sourceLineNo">1200</span><a id="line.1200"></a>
-<span class="sourceLineNo">1201</span><a id="line.1201">    builder.append("PENDING");</a>
-<span class="sourceLineNo">1202</span><a id="line.1202"></a>
-<span class="sourceLineNo">1203</span><a id="line.1203">    Object localValue = value;</a>
-<span class="sourceLineNo">1204</span><a id="line.1204">    if (localValue instanceof SetFuture) {</a>
-<span class="sourceLineNo">1205</span><a id="line.1205">      builder.append(", setFuture=[");</a>
-<span class="sourceLineNo">1206</span><a id="line.1206">      appendUserObject(builder, ((SetFuture) localValue).future);</a>
-<span class="sourceLineNo">1207</span><a id="line.1207">      builder.append("]");</a>
-<span class="sourceLineNo">1208</span><a id="line.1208">    } else {</a>
-<span class="sourceLineNo">1209</span><a id="line.1209">      String pendingDescription;</a>
-<span class="sourceLineNo">1210</span><a id="line.1210">      try {</a>
-<span class="sourceLineNo">1211</span><a id="line.1211">        pendingDescription = Strings.emptyToNull(pendingToString());</a>
-<span class="sourceLineNo">1212</span><a id="line.1212">      } catch (RuntimeException | StackOverflowError e) {</a>
-<span class="sourceLineNo">1213</span><a id="line.1213">        // Don't call getMessage or toString() on the exception, in case the exception thrown by the</a>
-<span class="sourceLineNo">1214</span><a id="line.1214">        // subclass is implemented with bugs similar to the subclass.</a>
-<span class="sourceLineNo">1215</span><a id="line.1215">        pendingDescription = "Exception thrown from implementation: " + e.getClass();</a>
-<span class="sourceLineNo">1216</span><a id="line.1216">      }</a>
-<span class="sourceLineNo">1217</span><a id="line.1217">      if (pendingDescription != null) {</a>
-<span class="sourceLineNo">1218</span><a id="line.1218">        builder.append(", info=[").append(pendingDescription).append("]");</a>
-<span class="sourceLineNo">1219</span><a id="line.1219">      }</a>
-<span class="sourceLineNo">1220</span><a id="line.1220">    }</a>
-<span class="sourceLineNo">1221</span><a id="line.1221"></a>
-<span class="sourceLineNo">1222</span><a id="line.1222">    // The future may complete while calculating the toString, so we check once more to see if the</a>
-<span class="sourceLineNo">1223</span><a id="line.1223">    // future is done</a>
-<span class="sourceLineNo">1224</span><a id="line.1224">    if (isDone()) {</a>
-<span class="sourceLineNo">1225</span><a id="line.1225">      // Truncate anything that was appended before realizing this future is done</a>
-<span class="sourceLineNo">1226</span><a id="line.1226">      builder.delete(truncateLength, builder.length());</a>
-<span class="sourceLineNo">1227</span><a id="line.1227">      addDoneString(builder);</a>
-<span class="sourceLineNo">1228</span><a id="line.1228">    }</a>
-<span class="sourceLineNo">1229</span><a id="line.1229">  }</a>
-<span class="sourceLineNo">1230</span><a id="line.1230"></a>
-<span class="sourceLineNo">1231</span><a id="line.1231">  private void addDoneString(StringBuilder builder) {</a>
-<span class="sourceLineNo">1232</span><a id="line.1232">    try {</a>
-<span class="sourceLineNo">1233</span><a id="line.1233">      V value = getUninterruptibly(this);</a>
-<span class="sourceLineNo">1234</span><a id="line.1234">      builder.append("SUCCESS, result=[");</a>
-<span class="sourceLineNo">1235</span><a id="line.1235">      appendResultObject(builder, value);</a>
-<span class="sourceLineNo">1236</span><a id="line.1236">      builder.append("]");</a>
-<span class="sourceLineNo">1237</span><a id="line.1237">    } catch (ExecutionException e) {</a>
-<span class="sourceLineNo">1238</span><a id="line.1238">      builder.append("FAILURE, cause=[").append(e.getCause()).append("]");</a>
-<span class="sourceLineNo">1239</span><a id="line.1239">    } catch (CancellationException e) {</a>
-<span class="sourceLineNo">1240</span><a id="line.1240">      builder.append("CANCELLED"); // shouldn't be reachable</a>
-<span class="sourceLineNo">1241</span><a id="line.1241">    } catch (RuntimeException e) {</a>
-<span class="sourceLineNo">1242</span><a id="line.1242">      builder.append("UNKNOWN, cause=[").append(e.getClass()).append(" thrown from get()]");</a>
-<span class="sourceLineNo">1243</span><a id="line.1243">    }</a>
-<span class="sourceLineNo">1244</span><a id="line.1244">  }</a>
-<span class="sourceLineNo">1245</span><a id="line.1245"></a>
-<span class="sourceLineNo">1246</span><a id="line.1246">  /**</a>
-<span class="sourceLineNo">1247</span><a id="line.1247">   * Any object can be the result of a Future, and not every object has a reasonable toString()</a>
-<span class="sourceLineNo">1248</span><a id="line.1248">   * implementation. Using a reconstruction of the default Object.toString() prevents OOMs and stack</a>
-<span class="sourceLineNo">1249</span><a id="line.1249">   * overflows, and helps avoid sensitive data inadvertently ending up in exception messages.</a>
-<span class="sourceLineNo">1250</span><a id="line.1250">   */</a>
-<span class="sourceLineNo">1251</span><a id="line.1251">  private void appendResultObject(StringBuilder builder, @CheckForNull Object o) {</a>
-<span class="sourceLineNo">1252</span><a id="line.1252">    if (o == null) {</a>
-<span class="sourceLineNo">1253</span><a id="line.1253">      builder.append("null");</a>
-<span class="sourceLineNo">1254</span><a id="line.1254">    } else if (o == this) {</a>
-<span class="sourceLineNo">1255</span><a id="line.1255">      builder.append("this future");</a>
-<span class="sourceLineNo">1256</span><a id="line.1256">    } else {</a>
-<span class="sourceLineNo">1257</span><a id="line.1257">      builder</a>
-<span class="sourceLineNo">1258</span><a id="line.1258">          .append(o.getClass().getName())</a>
-<span class="sourceLineNo">1259</span><a id="line.1259">          .append("@")</a>
-<span class="sourceLineNo">1260</span><a id="line.1260">          .append(Integer.toHexString(System.identityHashCode(o)));</a>
-<span class="sourceLineNo">1261</span><a id="line.1261">    }</a>
-<span class="sourceLineNo">1262</span><a id="line.1262">  }</a>
-<span class="sourceLineNo">1263</span><a id="line.1263"></a>
-<span class="sourceLineNo">1264</span><a id="line.1264">  /** Helper for printing user supplied objects into our toString method. */</a>
-<span class="sourceLineNo">1265</span><a id="line.1265">  private void appendUserObject(StringBuilder builder, @CheckForNull Object o) {</a>
-<span class="sourceLineNo">1266</span><a id="line.1266">    // This is some basic recursion detection for when people create cycles via set/setFuture or</a>
-<span class="sourceLineNo">1267</span><a id="line.1267">    // when deep chains of futures exist resulting in a StackOverflowException. We could detect</a>
-<span class="sourceLineNo">1268</span><a id="line.1268">    // arbitrary cycles using a thread local but this should be a good enough solution (it is also</a>
-<span class="sourceLineNo">1269</span><a id="line.1269">    // what jdk collections do in these cases)</a>
-<span class="sourceLineNo">1270</span><a id="line.1270">    try {</a>
-<span class="sourceLineNo">1271</span><a id="line.1271">      if (o == this) {</a>
-<span class="sourceLineNo">1272</span><a id="line.1272">        builder.append("this future");</a>
-<span class="sourceLineNo">1273</span><a id="line.1273">      } else {</a>
-<span class="sourceLineNo">1274</span><a id="line.1274">        builder.append(o);</a>
-<span class="sourceLineNo">1275</span><a id="line.1275">      }</a>
-<span class="sourceLineNo">1276</span><a id="line.1276">    } catch (RuntimeException | StackOverflowError e) {</a>
-<span class="sourceLineNo">1277</span><a id="line.1277">      // Don't call getMessage or toString() on the exception, in case the exception thrown by the</a>
-<span class="sourceLineNo">1278</span><a id="line.1278">      // user object is implemented with bugs similar to the user object.</a>
-<span class="sourceLineNo">1279</span><a id="line.1279">      builder.append("Exception thrown from implementation: ").append(e.getClass());</a>
-<span class="sourceLineNo">1280</span><a id="line.1280">    }</a>
-<span class="sourceLineNo">1281</span><a id="line.1281">  }</a>
-<span class="sourceLineNo">1282</span><a id="line.1282"></a>
-<span class="sourceLineNo">1283</span><a id="line.1283">  /**</a>
-<span class="sourceLineNo">1284</span><a id="line.1284">   * Submits the given runnable to the given {@link Executor} catching and logging all {@linkplain</a>
-<span class="sourceLineNo">1285</span><a id="line.1285">   * RuntimeException runtime exceptions} thrown by the executor.</a>
-<span class="sourceLineNo">1286</span><a id="line.1286">   */</a>
-<span class="sourceLineNo">1287</span><a id="line.1287">  private static void executeListener(Runnable runnable, Executor executor) {</a>
-<span class="sourceLineNo">1288</span><a id="line.1288">    try {</a>
-<span class="sourceLineNo">1289</span><a id="line.1289">      executor.execute(runnable);</a>
-<span class="sourceLineNo">1290</span><a id="line.1290">    } catch (RuntimeException e) {</a>
-<span class="sourceLineNo">1291</span><a id="line.1291">      // Log it and keep going -- bad runnable and/or executor. Don't punish the other runnables if</a>
-<span class="sourceLineNo">1292</span><a id="line.1292">      // we're given a bad one. We only catch RuntimeException because we want Errors to propagate</a>
-<span class="sourceLineNo">1293</span><a id="line.1293">      // up.</a>
-<span class="sourceLineNo">1294</span><a id="line.1294">      LoggerHolder.log.log(</a>
-<span class="sourceLineNo">1295</span><a id="line.1295">          Level.SEVERE,</a>
-<span class="sourceLineNo">1296</span><a id="line.1296">          "RuntimeException while executing runnable " + runnable + " with executor " + executor,</a>
-<span class="sourceLineNo">1297</span><a id="line.1297">          e);</a>
-<span class="sourceLineNo">1298</span><a id="line.1298">    }</a>
-<span class="sourceLineNo">1299</span><a id="line.1299">  }</a>
-<span class="sourceLineNo">1300</span><a id="line.1300"></a>
-<span class="sourceLineNo">1301</span><a id="line.1301">  private abstract static class AtomicHelper {</a>
-<span class="sourceLineNo">1302</span><a id="line.1302">    /** Non-volatile write of the thread to the {@link Waiter#thread} field. */</a>
-<span class="sourceLineNo">1303</span><a id="line.1303">    abstract void putThread(Waiter waiter, Thread newValue);</a>
-<span class="sourceLineNo">1304</span><a id="line.1304"></a>
-<span class="sourceLineNo">1305</span><a id="line.1305">    /** Non-volatile write of the waiter to the {@link Waiter#next} field. */</a>
-<span class="sourceLineNo">1306</span><a id="line.1306">    abstract void putNext(Waiter waiter, @CheckForNull Waiter newValue);</a>
-<span class="sourceLineNo">1307</span><a id="line.1307"></a>
-<span class="sourceLineNo">1308</span><a id="line.1308">    /** Performs a CAS operation on the {@link #waiters} field. */</a>
-<span class="sourceLineNo">1309</span><a id="line.1309">    abstract boolean casWaiters(</a>
-<span class="sourceLineNo">1310</span><a id="line.1310">        AbstractFuture&lt;?&gt; future, @CheckForNull Waiter expect, @CheckForNull Waiter update);</a>
-<span class="sourceLineNo">1311</span><a id="line.1311"></a>
-<span class="sourceLineNo">1312</span><a id="line.1312">    /** Performs a CAS operation on the {@link #listeners} field. */</a>
-<span class="sourceLineNo">1313</span><a id="line.1313">    abstract boolean casListeners(</a>
-<span class="sourceLineNo">1314</span><a id="line.1314">        AbstractFuture&lt;?&gt; future, @CheckForNull Listener expect, Listener update);</a>
-<span class="sourceLineNo">1315</span><a id="line.1315"></a>
-<span class="sourceLineNo">1316</span><a id="line.1316">    /** Performs a GAS operation on the {@link #waiters} field. */</a>
-<span class="sourceLineNo">1317</span><a id="line.1317">    abstract Waiter gasWaiters(AbstractFuture&lt;?&gt; future, Waiter update);</a>
-<span class="sourceLineNo">1318</span><a id="line.1318"></a>
-<span class="sourceLineNo">1319</span><a id="line.1319">    /** Performs a GAS operation on the {@link #listeners} field. */</a>
-<span class="sourceLineNo">1320</span><a id="line.1320">    abstract Listener gasListeners(AbstractFuture&lt;?&gt; future, Listener update);</a>
+<span class="sourceLineNo">1070</span><a id="line.1070">   * &lt;p&gt;If {@link #interruptTask} is also run during completion, {@link #afterDone} runs after it.</a>
+<span class="sourceLineNo">1071</span><a id="line.1071">   *</a>
+<span class="sourceLineNo">1072</span><a id="line.1072">   * &lt;p&gt;The default implementation of this method in {@code AbstractFuture} does nothing. This is</a>
+<span class="sourceLineNo">1073</span><a id="line.1073">   * intended for very lightweight cleanup work, for example, timing statistics or clearing fields.</a>
+<span class="sourceLineNo">1074</span><a id="line.1074">   * If your task does anything heavier consider, just using a listener with an executor.</a>
+<span class="sourceLineNo">1075</span><a id="line.1075">   *</a>
+<span class="sourceLineNo">1076</span><a id="line.1076">   * @since 20.0</a>
+<span class="sourceLineNo">1077</span><a id="line.1077">   */</a>
+<span class="sourceLineNo">1078</span><a id="line.1078">  @ForOverride</a>
+<span class="sourceLineNo">1079</span><a id="line.1079">  protected void afterDone() {}</a>
+<span class="sourceLineNo">1080</span><a id="line.1080"></a>
+<span class="sourceLineNo">1081</span><a id="line.1081">  // TODO(b/114236866): Inherit doc from InternalFutureFailureAccess. Also, -link to its URL.</a>
+<span class="sourceLineNo">1082</span><a id="line.1082">  /**</a>
+<span class="sourceLineNo">1083</span><a id="line.1083">   * Usually returns {@code null} but, if this {@code Future} has failed, may &lt;i&gt;optionally&lt;/i&gt;</a>
+<span class="sourceLineNo">1084</span><a id="line.1084">   * return the cause of the failure. "Failure" means specifically "completed with an exception"; it</a>
+<span class="sourceLineNo">1085</span><a id="line.1085">   * does not include "was cancelled." To be explicit: If this method returns a non-null value,</a>
+<span class="sourceLineNo">1086</span><a id="line.1086">   * then:</a>
+<span class="sourceLineNo">1087</span><a id="line.1087">   *</a>
+<span class="sourceLineNo">1088</span><a id="line.1088">   * &lt;ul&gt;</a>
+<span class="sourceLineNo">1089</span><a id="line.1089">   *   &lt;li&gt;{@code isDone()} must return {@code true}</a>
+<span class="sourceLineNo">1090</span><a id="line.1090">   *   &lt;li&gt;{@code isCancelled()} must return {@code false}</a>
+<span class="sourceLineNo">1091</span><a id="line.1091">   *   &lt;li&gt;{@code get()} must not block, and it must throw an {@code ExecutionException} with the</a>
+<span class="sourceLineNo">1092</span><a id="line.1092">   *       return value of this method as its cause</a>
+<span class="sourceLineNo">1093</span><a id="line.1093">   * &lt;/ul&gt;</a>
+<span class="sourceLineNo">1094</span><a id="line.1094">   *</a>
+<span class="sourceLineNo">1095</span><a id="line.1095">   * &lt;p&gt;This method is {@code protected} so that classes like {@code</a>
+<span class="sourceLineNo">1096</span><a id="line.1096">   * com.google.common.util.concurrent.SettableFuture} do not expose it to their users as an</a>
+<span class="sourceLineNo">1097</span><a id="line.1097">   * instance method. In the unlikely event that you need to call this method, call {@link</a>
+<span class="sourceLineNo">1098</span><a id="line.1098">   * InternalFutures#tryInternalFastPathGetFailure(InternalFutureFailureAccess)}.</a>
+<span class="sourceLineNo">1099</span><a id="line.1099">   *</a>
+<span class="sourceLineNo">1100</span><a id="line.1100">   * @since 27.0</a>
+<span class="sourceLineNo">1101</span><a id="line.1101">   */</a>
+<span class="sourceLineNo">1102</span><a id="line.1102">  @Override</a>
+<span class="sourceLineNo">1103</span><a id="line.1103">  /*</a>
+<span class="sourceLineNo">1104</span><a id="line.1104">   * We should annotate the superclass, InternalFutureFailureAccess, to say that its copy of this</a>
+<span class="sourceLineNo">1105</span><a id="line.1105">   * method returns @Nullable, too. However, we're not sure if we want to make any changes to that</a>
+<span class="sourceLineNo">1106</span><a id="line.1106">   * class, since it's in a separate artifact that we planned to release only a single version of.</a>
+<span class="sourceLineNo">1107</span><a id="line.1107">   */</a>
+<span class="sourceLineNo">1108</span><a id="line.1108">  @CheckForNull</a>
+<span class="sourceLineNo">1109</span><a id="line.1109">  protected final Throwable tryInternalFastPathGetFailure() {</a>
+<span class="sourceLineNo">1110</span><a id="line.1110">    if (this instanceof Trusted) {</a>
+<span class="sourceLineNo">1111</span><a id="line.1111">      Object obj = value;</a>
+<span class="sourceLineNo">1112</span><a id="line.1112">      if (obj instanceof Failure) {</a>
+<span class="sourceLineNo">1113</span><a id="line.1113">        return ((Failure) obj).exception;</a>
+<span class="sourceLineNo">1114</span><a id="line.1114">      }</a>
+<span class="sourceLineNo">1115</span><a id="line.1115">    }</a>
+<span class="sourceLineNo">1116</span><a id="line.1116">    return null;</a>
+<span class="sourceLineNo">1117</span><a id="line.1117">  }</a>
+<span class="sourceLineNo">1118</span><a id="line.1118"></a>
+<span class="sourceLineNo">1119</span><a id="line.1119">  /**</a>
+<span class="sourceLineNo">1120</span><a id="line.1120">   * If this future has been cancelled (and possibly interrupted), cancels (and possibly interrupts)</a>
+<span class="sourceLineNo">1121</span><a id="line.1121">   * the given future (if available).</a>
+<span class="sourceLineNo">1122</span><a id="line.1122">   */</a>
+<span class="sourceLineNo">1123</span><a id="line.1123">  final void maybePropagateCancellationTo(@CheckForNull Future&lt;?&gt; related) {</a>
+<span class="sourceLineNo">1124</span><a id="line.1124">    if (related != null &amp; isCancelled()) {</a>
+<span class="sourceLineNo">1125</span><a id="line.1125">      related.cancel(wasInterrupted());</a>
+<span class="sourceLineNo">1126</span><a id="line.1126">    }</a>
+<span class="sourceLineNo">1127</span><a id="line.1127">  }</a>
+<span class="sourceLineNo">1128</span><a id="line.1128"></a>
+<span class="sourceLineNo">1129</span><a id="line.1129">  /** Releases all threads in the {@link #waiters} list, and clears the list. */</a>
+<span class="sourceLineNo">1130</span><a id="line.1130">  private void releaseWaiters() {</a>
+<span class="sourceLineNo">1131</span><a id="line.1131">    Waiter head = ATOMIC_HELPER.gasWaiters(this, Waiter.TOMBSTONE);</a>
+<span class="sourceLineNo">1132</span><a id="line.1132">    for (Waiter currentWaiter = head; currentWaiter != null; currentWaiter = currentWaiter.next) {</a>
+<span class="sourceLineNo">1133</span><a id="line.1133">      currentWaiter.unpark();</a>
+<span class="sourceLineNo">1134</span><a id="line.1134">    }</a>
+<span class="sourceLineNo">1135</span><a id="line.1135">  }</a>
+<span class="sourceLineNo">1136</span><a id="line.1136"></a>
+<span class="sourceLineNo">1137</span><a id="line.1137">  /**</a>
+<span class="sourceLineNo">1138</span><a id="line.1138">   * Clears the {@link #listeners} list and prepends its contents to {@code onto}, least recently</a>
+<span class="sourceLineNo">1139</span><a id="line.1139">   * added first.</a>
+<span class="sourceLineNo">1140</span><a id="line.1140">   */</a>
+<span class="sourceLineNo">1141</span><a id="line.1141">  @CheckForNull</a>
+<span class="sourceLineNo">1142</span><a id="line.1142">  private Listener clearListeners(@CheckForNull Listener onto) {</a>
+<span class="sourceLineNo">1143</span><a id="line.1143">    // We need to</a>
+<span class="sourceLineNo">1144</span><a id="line.1144">    // 1. atomically swap the listeners with TOMBSTONE, this is because addListener uses that</a>
+<span class="sourceLineNo">1145</span><a id="line.1145">    //    to synchronize with us</a>
+<span class="sourceLineNo">1146</span><a id="line.1146">    // 2. reverse the linked list, because despite our rather clear contract, people depend on us</a>
+<span class="sourceLineNo">1147</span><a id="line.1147">    //    executing listeners in the order they were added</a>
+<span class="sourceLineNo">1148</span><a id="line.1148">    // 3. push all the items onto 'onto' and return the new head of the stack</a>
+<span class="sourceLineNo">1149</span><a id="line.1149">    Listener head = ATOMIC_HELPER.gasListeners(this, Listener.TOMBSTONE);</a>
+<span class="sourceLineNo">1150</span><a id="line.1150">    Listener reversedList = onto;</a>
+<span class="sourceLineNo">1151</span><a id="line.1151">    while (head != null) {</a>
+<span class="sourceLineNo">1152</span><a id="line.1152">      Listener tmp = head;</a>
+<span class="sourceLineNo">1153</span><a id="line.1153">      head = head.next;</a>
+<span class="sourceLineNo">1154</span><a id="line.1154">      tmp.next = reversedList;</a>
+<span class="sourceLineNo">1155</span><a id="line.1155">      reversedList = tmp;</a>
+<span class="sourceLineNo">1156</span><a id="line.1156">    }</a>
+<span class="sourceLineNo">1157</span><a id="line.1157">    return reversedList;</a>
+<span class="sourceLineNo">1158</span><a id="line.1158">  }</a>
+<span class="sourceLineNo">1159</span><a id="line.1159"></a>
+<span class="sourceLineNo">1160</span><a id="line.1160">  // TODO(user): move parts into a default method on ListenableFuture?</a>
+<span class="sourceLineNo">1161</span><a id="line.1161">  @Override</a>
+<span class="sourceLineNo">1162</span><a id="line.1162">  public String toString() {</a>
+<span class="sourceLineNo">1163</span><a id="line.1163">    // TODO(cpovirk): Presize to something plausible?</a>
+<span class="sourceLineNo">1164</span><a id="line.1164">    StringBuilder builder = new StringBuilder();</a>
+<span class="sourceLineNo">1165</span><a id="line.1165">    if (getClass().getName().startsWith("com.google.common.util.concurrent.")) {</a>
+<span class="sourceLineNo">1166</span><a id="line.1166">      builder.append(getClass().getSimpleName());</a>
+<span class="sourceLineNo">1167</span><a id="line.1167">    } else {</a>
+<span class="sourceLineNo">1168</span><a id="line.1168">      builder.append(getClass().getName());</a>
+<span class="sourceLineNo">1169</span><a id="line.1169">    }</a>
+<span class="sourceLineNo">1170</span><a id="line.1170">    builder.append('@').append(toHexString(identityHashCode(this))).append("[status=");</a>
+<span class="sourceLineNo">1171</span><a id="line.1171">    if (isCancelled()) {</a>
+<span class="sourceLineNo">1172</span><a id="line.1172">      builder.append("CANCELLED");</a>
+<span class="sourceLineNo">1173</span><a id="line.1173">    } else if (isDone()) {</a>
+<span class="sourceLineNo">1174</span><a id="line.1174">      addDoneString(builder);</a>
+<span class="sourceLineNo">1175</span><a id="line.1175">    } else {</a>
+<span class="sourceLineNo">1176</span><a id="line.1176">      addPendingString(builder); // delegates to addDoneString if future completes midway</a>
+<span class="sourceLineNo">1177</span><a id="line.1177">    }</a>
+<span class="sourceLineNo">1178</span><a id="line.1178">    return builder.append("]").toString();</a>
+<span class="sourceLineNo">1179</span><a id="line.1179">  }</a>
+<span class="sourceLineNo">1180</span><a id="line.1180"></a>
+<span class="sourceLineNo">1181</span><a id="line.1181">  /**</a>
+<span class="sourceLineNo">1182</span><a id="line.1182">   * Provide a human-readable explanation of why this future has not yet completed.</a>
+<span class="sourceLineNo">1183</span><a id="line.1183">   *</a>
+<span class="sourceLineNo">1184</span><a id="line.1184">   * @return null if an explanation cannot be provided (e.g. because the future is done).</a>
+<span class="sourceLineNo">1185</span><a id="line.1185">   * @since 23.0</a>
+<span class="sourceLineNo">1186</span><a id="line.1186">   */</a>
+<span class="sourceLineNo">1187</span><a id="line.1187">  @CheckForNull</a>
+<span class="sourceLineNo">1188</span><a id="line.1188">  protected String pendingToString() {</a>
+<span class="sourceLineNo">1189</span><a id="line.1189">    // TODO(diamondm) consider moving this into addPendingString so it's always in the output</a>
+<span class="sourceLineNo">1190</span><a id="line.1190">    if (this instanceof ScheduledFuture) {</a>
+<span class="sourceLineNo">1191</span><a id="line.1191">      return "remaining delay=["</a>
+<span class="sourceLineNo">1192</span><a id="line.1192">          + ((ScheduledFuture) this).getDelay(TimeUnit.MILLISECONDS)</a>
+<span class="sourceLineNo">1193</span><a id="line.1193">          + " ms]";</a>
+<span class="sourceLineNo">1194</span><a id="line.1194">    }</a>
+<span class="sourceLineNo">1195</span><a id="line.1195">    return null;</a>
+<span class="sourceLineNo">1196</span><a id="line.1196">  }</a>
+<span class="sourceLineNo">1197</span><a id="line.1197"></a>
+<span class="sourceLineNo">1198</span><a id="line.1198">  @SuppressWarnings("CatchingUnchecked") // sneaky checked exception</a>
+<span class="sourceLineNo">1199</span><a id="line.1199">  private void addPendingString(StringBuilder builder) {</a>
+<span class="sourceLineNo">1200</span><a id="line.1200">    // Capture current builder length so it can be truncated if this future ends up completing while</a>
+<span class="sourceLineNo">1201</span><a id="line.1201">    // the toString is being calculated</a>
+<span class="sourceLineNo">1202</span><a id="line.1202">    int truncateLength = builder.length();</a>
+<span class="sourceLineNo">1203</span><a id="line.1203"></a>
+<span class="sourceLineNo">1204</span><a id="line.1204">    builder.append("PENDING");</a>
+<span class="sourceLineNo">1205</span><a id="line.1205"></a>
+<span class="sourceLineNo">1206</span><a id="line.1206">    Object localValue = value;</a>
+<span class="sourceLineNo">1207</span><a id="line.1207">    if (localValue instanceof SetFuture) {</a>
+<span class="sourceLineNo">1208</span><a id="line.1208">      builder.append(", setFuture=[");</a>
+<span class="sourceLineNo">1209</span><a id="line.1209">      appendUserObject(builder, ((SetFuture) localValue).future);</a>
+<span class="sourceLineNo">1210</span><a id="line.1210">      builder.append("]");</a>
+<span class="sourceLineNo">1211</span><a id="line.1211">    } else {</a>
+<span class="sourceLineNo">1212</span><a id="line.1212">      String pendingDescription;</a>
+<span class="sourceLineNo">1213</span><a id="line.1213">      try {</a>
+<span class="sourceLineNo">1214</span><a id="line.1214">        pendingDescription = Strings.emptyToNull(pendingToString());</a>
+<span class="sourceLineNo">1215</span><a id="line.1215">      } catch (Exception | StackOverflowError e) {</a>
+<span class="sourceLineNo">1216</span><a id="line.1216">        // Any Exception is either a RuntimeException or sneaky checked exception.</a>
+<span class="sourceLineNo">1217</span><a id="line.1217">        //</a>
+<span class="sourceLineNo">1218</span><a id="line.1218">        // Don't call getMessage or toString() on the exception, in case the exception thrown by the</a>
+<span class="sourceLineNo">1219</span><a id="line.1219">        // subclass is implemented with bugs similar to the subclass.</a>
+<span class="sourceLineNo">1220</span><a id="line.1220">        pendingDescription = "Exception thrown from implementation: " + e.getClass();</a>
+<span class="sourceLineNo">1221</span><a id="line.1221">      }</a>
+<span class="sourceLineNo">1222</span><a id="line.1222">      if (pendingDescription != null) {</a>
+<span class="sourceLineNo">1223</span><a id="line.1223">        builder.append(", info=[").append(pendingDescription).append("]");</a>
+<span class="sourceLineNo">1224</span><a id="line.1224">      }</a>
+<span class="sourceLineNo">1225</span><a id="line.1225">    }</a>
+<span class="sourceLineNo">1226</span><a id="line.1226"></a>
+<span class="sourceLineNo">1227</span><a id="line.1227">    // The future may complete while calculating the toString, so we check once more to see if the</a>
+<span class="sourceLineNo">1228</span><a id="line.1228">    // future is done</a>
+<span class="sourceLineNo">1229</span><a id="line.1229">    if (isDone()) {</a>
+<span class="sourceLineNo">1230</span><a id="line.1230">      // Truncate anything that was appended before realizing this future is done</a>
+<span class="sourceLineNo">1231</span><a id="line.1231">      builder.delete(truncateLength, builder.length());</a>
+<span class="sourceLineNo">1232</span><a id="line.1232">      addDoneString(builder);</a>
+<span class="sourceLineNo">1233</span><a id="line.1233">    }</a>
+<span class="sourceLineNo">1234</span><a id="line.1234">  }</a>
+<span class="sourceLineNo">1235</span><a id="line.1235"></a>
+<span class="sourceLineNo">1236</span><a id="line.1236">  @SuppressWarnings("CatchingUnchecked") // sneaky checked exception</a>
+<span class="sourceLineNo">1237</span><a id="line.1237">  private void addDoneString(StringBuilder builder) {</a>
+<span class="sourceLineNo">1238</span><a id="line.1238">    try {</a>
+<span class="sourceLineNo">1239</span><a id="line.1239">      V value = getUninterruptibly(this);</a>
+<span class="sourceLineNo">1240</span><a id="line.1240">      builder.append("SUCCESS, result=[");</a>
+<span class="sourceLineNo">1241</span><a id="line.1241">      appendResultObject(builder, value);</a>
+<span class="sourceLineNo">1242</span><a id="line.1242">      builder.append("]");</a>
+<span class="sourceLineNo">1243</span><a id="line.1243">    } catch (ExecutionException e) {</a>
+<span class="sourceLineNo">1244</span><a id="line.1244">      builder.append("FAILURE, cause=[").append(e.getCause()).append("]");</a>
+<span class="sourceLineNo">1245</span><a id="line.1245">    } catch (CancellationException e) {</a>
+<span class="sourceLineNo">1246</span><a id="line.1246">      builder.append("CANCELLED"); // shouldn't be reachable</a>
+<span class="sourceLineNo">1247</span><a id="line.1247">    } catch (Exception e) { // sneaky checked exception</a>
+<span class="sourceLineNo">1248</span><a id="line.1248">      builder.append("UNKNOWN, cause=[").append(e.getClass()).append(" thrown from get()]");</a>
+<span class="sourceLineNo">1249</span><a id="line.1249">    }</a>
+<span class="sourceLineNo">1250</span><a id="line.1250">  }</a>
+<span class="sourceLineNo">1251</span><a id="line.1251"></a>
+<span class="sourceLineNo">1252</span><a id="line.1252">  /**</a>
+<span class="sourceLineNo">1253</span><a id="line.1253">   * Any object can be the result of a Future, and not every object has a reasonable toString()</a>
+<span class="sourceLineNo">1254</span><a id="line.1254">   * implementation. Using a reconstruction of the default Object.toString() prevents OOMs and stack</a>
+<span class="sourceLineNo">1255</span><a id="line.1255">   * overflows, and helps avoid sensitive data inadvertently ending up in exception messages.</a>
+<span class="sourceLineNo">1256</span><a id="line.1256">   */</a>
+<span class="sourceLineNo">1257</span><a id="line.1257">  private void appendResultObject(StringBuilder builder, @CheckForNull Object o) {</a>
+<span class="sourceLineNo">1258</span><a id="line.1258">    if (o == null) {</a>
+<span class="sourceLineNo">1259</span><a id="line.1259">      builder.append("null");</a>
+<span class="sourceLineNo">1260</span><a id="line.1260">    } else if (o == this) {</a>
+<span class="sourceLineNo">1261</span><a id="line.1261">      builder.append("this future");</a>
+<span class="sourceLineNo">1262</span><a id="line.1262">    } else {</a>
+<span class="sourceLineNo">1263</span><a id="line.1263">      builder</a>
+<span class="sourceLineNo">1264</span><a id="line.1264">          .append(o.getClass().getName())</a>
+<span class="sourceLineNo">1265</span><a id="line.1265">          .append("@")</a>
+<span class="sourceLineNo">1266</span><a id="line.1266">          .append(Integer.toHexString(System.identityHashCode(o)));</a>
+<span class="sourceLineNo">1267</span><a id="line.1267">    }</a>
+<span class="sourceLineNo">1268</span><a id="line.1268">  }</a>
+<span class="sourceLineNo">1269</span><a id="line.1269"></a>
+<span class="sourceLineNo">1270</span><a id="line.1270">  /** Helper for printing user supplied objects into our toString method. */</a>
+<span class="sourceLineNo">1271</span><a id="line.1271">  @SuppressWarnings("CatchingUnchecked") // sneaky checked exception</a>
+<span class="sourceLineNo">1272</span><a id="line.1272">  private void appendUserObject(StringBuilder builder, @CheckForNull Object o) {</a>
+<span class="sourceLineNo">1273</span><a id="line.1273">    // This is some basic recursion detection for when people create cycles via set/setFuture or</a>
+<span class="sourceLineNo">1274</span><a id="line.1274">    // when deep chains of futures exist resulting in a StackOverflowException. We could detect</a>
+<span class="sourceLineNo">1275</span><a id="line.1275">    // arbitrary cycles using a thread local but this should be a good enough solution (it is also</a>
+<span class="sourceLineNo">1276</span><a id="line.1276">    // what jdk collections do in these cases)</a>
+<span class="sourceLineNo">1277</span><a id="line.1277">    try {</a>
+<span class="sourceLineNo">1278</span><a id="line.1278">      if (o == this) {</a>
+<span class="sourceLineNo">1279</span><a id="line.1279">        builder.append("this future");</a>
+<span class="sourceLineNo">1280</span><a id="line.1280">      } else {</a>
+<span class="sourceLineNo">1281</span><a id="line.1281">        builder.append(o);</a>
+<span class="sourceLineNo">1282</span><a id="line.1282">      }</a>
+<span class="sourceLineNo">1283</span><a id="line.1283">    } catch (Exception | StackOverflowError e) {</a>
+<span class="sourceLineNo">1284</span><a id="line.1284">      // Any Exception is either a RuntimeException or sneaky checked exception.</a>
+<span class="sourceLineNo">1285</span><a id="line.1285">      //</a>
+<span class="sourceLineNo">1286</span><a id="line.1286">      // Don't call getMessage or toString() on the exception, in case the exception thrown by the</a>
+<span class="sourceLineNo">1287</span><a id="line.1287">      // user object is implemented with bugs similar to the user object.</a>
+<span class="sourceLineNo">1288</span><a id="line.1288">      builder.append("Exception thrown from implementation: ").append(e.getClass());</a>
+<span class="sourceLineNo">1289</span><a id="line.1289">    }</a>
+<span class="sourceLineNo">1290</span><a id="line.1290">  }</a>
+<span class="sourceLineNo">1291</span><a id="line.1291"></a>
+<span class="sourceLineNo">1292</span><a id="line.1292">  /**</a>
+<span class="sourceLineNo">1293</span><a id="line.1293">   * Submits the given runnable to the given {@link Executor} catching and logging all {@linkplain</a>
+<span class="sourceLineNo">1294</span><a id="line.1294">   * RuntimeException runtime exceptions} thrown by the executor.</a>
+<span class="sourceLineNo">1295</span><a id="line.1295">   */</a>
+<span class="sourceLineNo">1296</span><a id="line.1296">  @SuppressWarnings("CatchingUnchecked") // sneaky checked exception</a>
+<span class="sourceLineNo">1297</span><a id="line.1297">  private static void executeListener(Runnable runnable, Executor executor) {</a>
+<span class="sourceLineNo">1298</span><a id="line.1298">    try {</a>
+<span class="sourceLineNo">1299</span><a id="line.1299">      executor.execute(runnable);</a>
+<span class="sourceLineNo">1300</span><a id="line.1300">    } catch (Exception e) { // sneaky checked exception</a>
+<span class="sourceLineNo">1301</span><a id="line.1301">      // Log it and keep going -- bad runnable and/or executor. Don't punish the other runnables if</a>
+<span class="sourceLineNo">1302</span><a id="line.1302">      // we're given a bad one. We only catch RuntimeException because we want Errors to propagate</a>
+<span class="sourceLineNo">1303</span><a id="line.1303">      // up.</a>
+<span class="sourceLineNo">1304</span><a id="line.1304">      LoggerHolder.log.log(</a>
+<span class="sourceLineNo">1305</span><a id="line.1305">          Level.SEVERE,</a>
+<span class="sourceLineNo">1306</span><a id="line.1306">          "RuntimeException while executing runnable " + runnable + " with executor " + executor,</a>
+<span class="sourceLineNo">1307</span><a id="line.1307">          e);</a>
+<span class="sourceLineNo">1308</span><a id="line.1308">    }</a>
+<span class="sourceLineNo">1309</span><a id="line.1309">  }</a>
+<span class="sourceLineNo">1310</span><a id="line.1310"></a>
+<span class="sourceLineNo">1311</span><a id="line.1311">  private abstract static class AtomicHelper {</a>
+<span class="sourceLineNo">1312</span><a id="line.1312">    /** Non-volatile write of the thread to the {@link Waiter#thread} field. */</a>
+<span class="sourceLineNo">1313</span><a id="line.1313">    abstract void putThread(Waiter waiter, Thread newValue);</a>
+<span class="sourceLineNo">1314</span><a id="line.1314"></a>
+<span class="sourceLineNo">1315</span><a id="line.1315">    /** Non-volatile write of the waiter to the {@link Waiter#next} field. */</a>
+<span class="sourceLineNo">1316</span><a id="line.1316">    abstract void putNext(Waiter waiter, @CheckForNull Waiter newValue);</a>
+<span class="sourceLineNo">1317</span><a id="line.1317"></a>
+<span class="sourceLineNo">1318</span><a id="line.1318">    /** Performs a CAS operation on the {@link #waiters} field. */</a>
+<span class="sourceLineNo">1319</span><a id="line.1319">    abstract boolean casWaiters(</a>
+<span class="sourceLineNo">1320</span><a id="line.1320">        AbstractFuture&lt;?&gt; future, @CheckForNull Waiter expect, @CheckForNull Waiter update);</a>
 <span class="sourceLineNo">1321</span><a id="line.1321"></a>
-<span class="sourceLineNo">1322</span><a id="line.1322">    /** Performs a CAS operation on the {@link #value} field. */</a>
-<span class="sourceLineNo">1323</span><a id="line.1323">    abstract boolean casValue(AbstractFuture&lt;?&gt; future, @CheckForNull Object expect, Object update);</a>
-<span class="sourceLineNo">1324</span><a id="line.1324">  }</a>
+<span class="sourceLineNo">1322</span><a id="line.1322">    /** Performs a CAS operation on the {@link #listeners} field. */</a>
+<span class="sourceLineNo">1323</span><a id="line.1323">    abstract boolean casListeners(</a>
+<span class="sourceLineNo">1324</span><a id="line.1324">        AbstractFuture&lt;?&gt; future, @CheckForNull Listener expect, Listener update);</a>
 <span class="sourceLineNo">1325</span><a id="line.1325"></a>
-<span class="sourceLineNo">1326</span><a id="line.1326">  /**</a>
-<span class="sourceLineNo">1327</span><a id="line.1327">   * {@link AtomicHelper} based on {@link sun.misc.Unsafe}.</a>
-<span class="sourceLineNo">1328</span><a id="line.1328">   *</a>
-<span class="sourceLineNo">1329</span><a id="line.1329">   * &lt;p&gt;Static initialization of this class will fail if the {@link sun.misc.Unsafe} object cannot</a>
-<span class="sourceLineNo">1330</span><a id="line.1330">   * be accessed.</a>
-<span class="sourceLineNo">1331</span><a id="line.1331">   */</a>
-<span class="sourceLineNo">1332</span><a id="line.1332">  @SuppressWarnings("sunapi")</a>
-<span class="sourceLineNo">1333</span><a id="line.1333">  private static final class UnsafeAtomicHelper extends AtomicHelper {</a>
-<span class="sourceLineNo">1334</span><a id="line.1334">    static final sun.misc.Unsafe UNSAFE;</a>
-<span class="sourceLineNo">1335</span><a id="line.1335">    static final long LISTENERS_OFFSET;</a>
-<span class="sourceLineNo">1336</span><a id="line.1336">    static final long WAITERS_OFFSET;</a>
-<span class="sourceLineNo">1337</span><a id="line.1337">    static final long VALUE_OFFSET;</a>
-<span class="sourceLineNo">1338</span><a id="line.1338">    static final long WAITER_THREAD_OFFSET;</a>
-<span class="sourceLineNo">1339</span><a id="line.1339">    static final long WAITER_NEXT_OFFSET;</a>
-<span class="sourceLineNo">1340</span><a id="line.1340"></a>
-<span class="sourceLineNo">1341</span><a id="line.1341">    static {</a>
-<span class="sourceLineNo">1342</span><a id="line.1342">      sun.misc.Unsafe unsafe = null;</a>
-<span class="sourceLineNo">1343</span><a id="line.1343">      try {</a>
-<span class="sourceLineNo">1344</span><a id="line.1344">        unsafe = sun.misc.Unsafe.getUnsafe();</a>
-<span class="sourceLineNo">1345</span><a id="line.1345">      } catch (SecurityException tryReflectionInstead) {</a>
-<span class="sourceLineNo">1346</span><a id="line.1346">        try {</a>
-<span class="sourceLineNo">1347</span><a id="line.1347">          unsafe =</a>
-<span class="sourceLineNo">1348</span><a id="line.1348">              AccessController.doPrivileged(</a>
-<span class="sourceLineNo">1349</span><a id="line.1349">                  new PrivilegedExceptionAction&lt;sun.misc.Unsafe&gt;() {</a>
-<span class="sourceLineNo">1350</span><a id="line.1350">                    @Override</a>
-<span class="sourceLineNo">1351</span><a id="line.1351">                    public sun.misc.Unsafe run() throws Exception {</a>
-<span class="sourceLineNo">1352</span><a id="line.1352">                      Class&lt;sun.misc.Unsafe&gt; k = sun.misc.Unsafe.class;</a>
-<span class="sourceLineNo">1353</span><a id="line.1353">                      for (java.lang.reflect.Field f : k.getDeclaredFields()) {</a>
-<span class="sourceLineNo">1354</span><a id="line.1354">                        f.setAccessible(true);</a>
-<span class="sourceLineNo">1355</span><a id="line.1355">                        Object x = f.get(null);</a>
-<span class="sourceLineNo">1356</span><a id="line.1356">                        if (k.isInstance(x)) {</a>
-<span class="sourceLineNo">1357</span><a id="line.1357">                          return k.cast(x);</a>
-<span class="sourceLineNo">1358</span><a id="line.1358">                        }</a>
-<span class="sourceLineNo">1359</span><a id="line.1359">                      }</a>
-<span class="sourceLineNo">1360</span><a id="line.1360">                      throw new NoSuchFieldError("the Unsafe");</a>
-<span class="sourceLineNo">1361</span><a id="line.1361">                    }</a>
-<span class="sourceLineNo">1362</span><a id="line.1362">                  });</a>
-<span class="sourceLineNo">1363</span><a id="line.1363">        } catch (PrivilegedActionException e) {</a>
-<span class="sourceLineNo">1364</span><a id="line.1364">          throw new RuntimeException("Could not initialize intrinsics", e.getCause());</a>
-<span class="sourceLineNo">1365</span><a id="line.1365">        }</a>
-<span class="sourceLineNo">1366</span><a id="line.1366">      }</a>
-<span class="sourceLineNo">1367</span><a id="line.1367">      try {</a>
-<span class="sourceLineNo">1368</span><a id="line.1368">        Class&lt;?&gt; abstractFuture = AbstractFuture.class;</a>
-<span class="sourceLineNo">1369</span><a id="line.1369">        WAITERS_OFFSET = unsafe.objectFieldOffset(abstractFuture.getDeclaredField("waiters"));</a>
-<span class="sourceLineNo">1370</span><a id="line.1370">        LISTENERS_OFFSET = unsafe.objectFieldOffset(abstractFuture.getDeclaredField("listeners"));</a>
-<span class="sourceLineNo">1371</span><a id="line.1371">        VALUE_OFFSET = unsafe.objectFieldOffset(abstractFuture.getDeclaredField("value"));</a>
-<span class="sourceLineNo">1372</span><a id="line.1372">        WAITER_THREAD_OFFSET = unsafe.objectFieldOffset(Waiter.class.getDeclaredField("thread"));</a>
-<span class="sourceLineNo">1373</span><a id="line.1373">        WAITER_NEXT_OFFSET = unsafe.objectFieldOffset(Waiter.class.getDeclaredField("next"));</a>
-<span class="sourceLineNo">1374</span><a id="line.1374">        UNSAFE = unsafe;</a>
-<span class="sourceLineNo">1375</span><a id="line.1375">      } catch (NoSuchFieldException e) {</a>
-<span class="sourceLineNo">1376</span><a id="line.1376">        throw new RuntimeException(e);</a>
-<span class="sourceLineNo">1377</span><a id="line.1377">      } catch (RuntimeException e) {</a>
-<span class="sourceLineNo">1378</span><a id="line.1378">        throw e;</a>
-<span class="sourceLineNo">1379</span><a id="line.1379">      }</a>
-<span class="sourceLineNo">1380</span><a id="line.1380">    }</a>
-<span class="sourceLineNo">1381</span><a id="line.1381"></a>
-<span class="sourceLineNo">1382</span><a id="line.1382">    @Override</a>
-<span class="sourceLineNo">1383</span><a id="line.1383">    void putThread(Waiter waiter, Thread newValue) {</a>
-<span class="sourceLineNo">1384</span><a id="line.1384">      UNSAFE.putObject(waiter, WAITER_THREAD_OFFSET, newValue);</a>
-<span class="sourceLineNo">1385</span><a id="line.1385">    }</a>
-<span class="sourceLineNo">1386</span><a id="line.1386"></a>
-<span class="sourceLineNo">1387</span><a id="line.1387">    @Override</a>
-<span class="sourceLineNo">1388</span><a id="line.1388">    void putNext(Waiter waiter, @CheckForNull Waiter newValue) {</a>
-<span class="sourceLineNo">1389</span><a id="line.1389">      UNSAFE.putObject(waiter, WAITER_NEXT_OFFSET, newValue);</a>
+<span class="sourceLineNo">1326</span><a id="line.1326">    /** Performs a GAS operation on the {@link #waiters} field. */</a>
+<span class="sourceLineNo">1327</span><a id="line.1327">    abstract Waiter gasWaiters(AbstractFuture&lt;?&gt; future, Waiter update);</a>
+<span class="sourceLineNo">1328</span><a id="line.1328"></a>
+<span class="sourceLineNo">1329</span><a id="line.1329">    /** Performs a GAS operation on the {@link #listeners} field. */</a>
+<span class="sourceLineNo">1330</span><a id="line.1330">    abstract Listener gasListeners(AbstractFuture&lt;?&gt; future, Listener update);</a>
+<span class="sourceLineNo">1331</span><a id="line.1331"></a>
+<span class="sourceLineNo">1332</span><a id="line.1332">    /** Performs a CAS operation on the {@link #value} field. */</a>
+<span class="sourceLineNo">1333</span><a id="line.1333">    abstract boolean casValue(AbstractFuture&lt;?&gt; future, @CheckForNull Object expect, Object update);</a>
+<span class="sourceLineNo">1334</span><a id="line.1334">  }</a>
+<span class="sourceLineNo">1335</span><a id="line.1335"></a>
+<span class="sourceLineNo">1336</span><a id="line.1336">  /**</a>
+<span class="sourceLineNo">1337</span><a id="line.1337">   * {@link AtomicHelper} based on {@link sun.misc.Unsafe}.</a>
+<span class="sourceLineNo">1338</span><a id="line.1338">   *</a>
+<span class="sourceLineNo">1339</span><a id="line.1339">   * &lt;p&gt;Static initialization of this class will fail if the {@link sun.misc.Unsafe} object cannot</a>
+<span class="sourceLineNo">1340</span><a id="line.1340">   * be accessed.</a>
+<span class="sourceLineNo">1341</span><a id="line.1341">   */</a>
+<span class="sourceLineNo">1342</span><a id="line.1342">  @SuppressWarnings("sunapi")</a>
+<span class="sourceLineNo">1343</span><a id="line.1343">  private static final class UnsafeAtomicHelper extends AtomicHelper {</a>
+<span class="sourceLineNo">1344</span><a id="line.1344">    static final sun.misc.Unsafe UNSAFE;</a>
+<span class="sourceLineNo">1345</span><a id="line.1345">    static final long LISTENERS_OFFSET;</a>
+<span class="sourceLineNo">1346</span><a id="line.1346">    static final long WAITERS_OFFSET;</a>
+<span class="sourceLineNo">1347</span><a id="line.1347">    static final long VALUE_OFFSET;</a>
+<span class="sourceLineNo">1348</span><a id="line.1348">    static final long WAITER_THREAD_OFFSET;</a>
+<span class="sourceLineNo">1349</span><a id="line.1349">    static final long WAITER_NEXT_OFFSET;</a>
+<span class="sourceLineNo">1350</span><a id="line.1350"></a>
+<span class="sourceLineNo">1351</span><a id="line.1351">    static {</a>
+<span class="sourceLineNo">1352</span><a id="line.1352">      sun.misc.Unsafe unsafe = null;</a>
+<span class="sourceLineNo">1353</span><a id="line.1353">      try {</a>
+<span class="sourceLineNo">1354</span><a id="line.1354">        unsafe = sun.misc.Unsafe.getUnsafe();</a>
+<span class="sourceLineNo">1355</span><a id="line.1355">      } catch (SecurityException tryReflectionInstead) {</a>
+<span class="sourceLineNo">1356</span><a id="line.1356">        try {</a>
+<span class="sourceLineNo">1357</span><a id="line.1357">          unsafe =</a>
+<span class="sourceLineNo">1358</span><a id="line.1358">              AccessController.doPrivileged(</a>
+<span class="sourceLineNo">1359</span><a id="line.1359">                  new PrivilegedExceptionAction&lt;sun.misc.Unsafe&gt;() {</a>
+<span class="sourceLineNo">1360</span><a id="line.1360">                    @Override</a>
+<span class="sourceLineNo">1361</span><a id="line.1361">                    public sun.misc.Unsafe run() throws Exception {</a>
+<span class="sourceLineNo">1362</span><a id="line.1362">                      Class&lt;sun.misc.Unsafe&gt; k = sun.misc.Unsafe.class;</a>
+<span class="sourceLineNo">1363</span><a id="line.1363">                      for (java.lang.reflect.Field f : k.getDeclaredFields()) {</a>
+<span class="sourceLineNo">1364</span><a id="line.1364">                        f.setAccessible(true);</a>
+<span class="sourceLineNo">1365</span><a id="line.1365">                        Object x = f.get(null);</a>
+<span class="sourceLineNo">1366</span><a id="line.1366">                        if (k.isInstance(x)) {</a>
+<span class="sourceLineNo">1367</span><a id="line.1367">                          return k.cast(x);</a>
+<span class="sourceLineNo">1368</span><a id="line.1368">                        }</a>
+<span class="sourceLineNo">1369</span><a id="line.1369">                      }</a>
+<span class="sourceLineNo">1370</span><a id="line.1370">                      throw new NoSuchFieldError("the Unsafe");</a>
+<span class="sourceLineNo">1371</span><a id="line.1371">                    }</a>
+<span class="sourceLineNo">1372</span><a id="line.1372">                  });</a>
+<span class="sourceLineNo">1373</span><a id="line.1373">        } catch (PrivilegedActionException e) {</a>
+<span class="sourceLineNo">1374</span><a id="line.1374">          throw new RuntimeException("Could not initialize intrinsics", e.getCause());</a>
+<span class="sourceLineNo">1375</span><a id="line.1375">        }</a>
+<span class="sourceLineNo">1376</span><a id="line.1376">      }</a>
+<span class="sourceLineNo">1377</span><a id="line.1377">      try {</a>
+<span class="sourceLineNo">1378</span><a id="line.1378">        Class&lt;?&gt; abstractFuture = AbstractFuture.class;</a>
+<span class="sourceLineNo">1379</span><a id="line.1379">        WAITERS_OFFSET = unsafe.objectFieldOffset(abstractFuture.getDeclaredField("waiters"));</a>
+<span class="sourceLineNo">1380</span><a id="line.1380">        LISTENERS_OFFSET = unsafe.objectFieldOffset(abstractFuture.getDeclaredField("listeners"));</a>
+<span class="sourceLineNo">1381</span><a id="line.1381">        VALUE_OFFSET = unsafe.objectFieldOffset(abstractFuture.getDeclaredField("value"));</a>
+<span class="sourceLineNo">1382</span><a id="line.1382">        WAITER_THREAD_OFFSET = unsafe.objectFieldOffset(Waiter.class.getDeclaredField("thread"));</a>
+<span class="sourceLineNo">1383</span><a id="line.1383">        WAITER_NEXT_OFFSET = unsafe.objectFieldOffset(Waiter.class.getDeclaredField("next"));</a>
+<span class="sourceLineNo">1384</span><a id="line.1384">        UNSAFE = unsafe;</a>
+<span class="sourceLineNo">1385</span><a id="line.1385">      } catch (NoSuchFieldException e) {</a>
+<span class="sourceLineNo">1386</span><a id="line.1386">        throw new RuntimeException(e);</a>
+<span class="sourceLineNo">1387</span><a id="line.1387">      } catch (RuntimeException e) {</a>
+<span class="sourceLineNo">1388</span><a id="line.1388">        throw e;</a>
+<span class="sourceLineNo">1389</span><a id="line.1389">      }</a>
 <span class="sourceLineNo">1390</span><a id="line.1390">    }</a>
 <span class="sourceLineNo">1391</span><a id="line.1391"></a>
-<span class="sourceLineNo">1392</span><a id="line.1392">    /** Performs a CAS operation on the {@link #waiters} field. */</a>
-<span class="sourceLineNo">1393</span><a id="line.1393">    @Override</a>
-<span class="sourceLineNo">1394</span><a id="line.1394">    boolean casWaiters(</a>
-<span class="sourceLineNo">1395</span><a id="line.1395">        AbstractFuture&lt;?&gt; future, @CheckForNull Waiter expect, @CheckForNull Waiter update) {</a>
-<span class="sourceLineNo">1396</span><a id="line.1396">      return UNSAFE.compareAndSwapObject(future, WAITERS_OFFSET, expect, update);</a>
-<span class="sourceLineNo">1397</span><a id="line.1397">    }</a>
-<span class="sourceLineNo">1398</span><a id="line.1398"></a>
-<span class="sourceLineNo">1399</span><a id="line.1399">    /** Performs a CAS operation on the {@link #listeners} field. */</a>
-<span class="sourceLineNo">1400</span><a id="line.1400">    @Override</a>
-<span class="sourceLineNo">1401</span><a id="line.1401">    boolean casListeners(AbstractFuture&lt;?&gt; future, @CheckForNull Listener expect, Listener update) {</a>
-<span class="sourceLineNo">1402</span><a id="line.1402">      return UNSAFE.compareAndSwapObject(future, LISTENERS_OFFSET, expect, update);</a>
-<span class="sourceLineNo">1403</span><a id="line.1403">    }</a>
-<span class="sourceLineNo">1404</span><a id="line.1404"></a>
-<span class="sourceLineNo">1405</span><a id="line.1405">    /** Performs a GAS operation on the {@link #listeners} field. */</a>
-<span class="sourceLineNo">1406</span><a id="line.1406">    @Override</a>
-<span class="sourceLineNo">1407</span><a id="line.1407">    Listener gasListeners(AbstractFuture&lt;?&gt; future, Listener update) {</a>
-<span class="sourceLineNo">1408</span><a id="line.1408">      return (Listener) UNSAFE.getAndSetObject(future, LISTENERS_OFFSET, update);</a>
-<span class="sourceLineNo">1409</span><a id="line.1409">    }</a>
-<span class="sourceLineNo">1410</span><a id="line.1410"></a>
-<span class="sourceLineNo">1411</span><a id="line.1411">    /** Performs a GAS operation on the {@link #waiters} field. */</a>
-<span class="sourceLineNo">1412</span><a id="line.1412">    @Override</a>
-<span class="sourceLineNo">1413</span><a id="line.1413">    Waiter gasWaiters(AbstractFuture&lt;?&gt; future, Waiter update) {</a>
-<span class="sourceLineNo">1414</span><a id="line.1414">      return (Waiter) UNSAFE.getAndSetObject(future, WAITERS_OFFSET, update);</a>
-<span class="sourceLineNo">1415</span><a id="line.1415">    }</a>
-<span class="sourceLineNo">1416</span><a id="line.1416"></a>
-<span class="sourceLineNo">1417</span><a id="line.1417">    /** Performs a CAS operation on the {@link #value} field. */</a>
-<span class="sourceLineNo">1418</span><a id="line.1418">    @Override</a>
-<span class="sourceLineNo">1419</span><a id="line.1419">    boolean casValue(AbstractFuture&lt;?&gt; future, @CheckForNull Object expect, Object update) {</a>
-<span class="sourceLineNo">1420</span><a id="line.1420">      return UNSAFE.compareAndSwapObject(future, VALUE_OFFSET, expect, update);</a>
-<span class="sourceLineNo">1421</span><a id="line.1421">    }</a>
-<span class="sourceLineNo">1422</span><a id="line.1422">  }</a>
-<span class="sourceLineNo">1423</span><a id="line.1423"></a>
-<span class="sourceLineNo">1424</span><a id="line.1424">  /** {@link AtomicHelper} based on {@link AtomicReferenceFieldUpdater}. */</a>
-<span class="sourceLineNo">1425</span><a id="line.1425">  @SuppressWarnings("rawtypes")</a>
-<span class="sourceLineNo">1426</span><a id="line.1426">  private static final class SafeAtomicHelper extends AtomicHelper {</a>
-<span class="sourceLineNo">1427</span><a id="line.1427">    final AtomicReferenceFieldUpdater&lt;Waiter, Thread&gt; waiterThreadUpdater;</a>
-<span class="sourceLineNo">1428</span><a id="line.1428">    final AtomicReferenceFieldUpdater&lt;Waiter, Waiter&gt; waiterNextUpdater;</a>
-<span class="sourceLineNo">1429</span><a id="line.1429">    final AtomicReferenceFieldUpdater&lt;AbstractFuture, Waiter&gt; waitersUpdater;</a>
-<span class="sourceLineNo">1430</span><a id="line.1430">    final AtomicReferenceFieldUpdater&lt;AbstractFuture, Listener&gt; listenersUpdater;</a>
-<span class="sourceLineNo">1431</span><a id="line.1431">    final AtomicReferenceFieldUpdater&lt;AbstractFuture, Object&gt; valueUpdater;</a>
-<span class="sourceLineNo">1432</span><a id="line.1432"></a>
-<span class="sourceLineNo">1433</span><a id="line.1433">    SafeAtomicHelper(</a>
-<span class="sourceLineNo">1434</span><a id="line.1434">        AtomicReferenceFieldUpdater&lt;Waiter, Thread&gt; waiterThreadUpdater,</a>
-<span class="sourceLineNo">1435</span><a id="line.1435">        AtomicReferenceFieldUpdater&lt;Waiter, Waiter&gt; waiterNextUpdater,</a>
-<span class="sourceLineNo">1436</span><a id="line.1436">        AtomicReferenceFieldUpdater&lt;AbstractFuture, Waiter&gt; waitersUpdater,</a>
-<span class="sourceLineNo">1437</span><a id="line.1437">        AtomicReferenceFieldUpdater&lt;AbstractFuture, Listener&gt; listenersUpdater,</a>
-<span class="sourceLineNo">1438</span><a id="line.1438">        AtomicReferenceFieldUpdater&lt;AbstractFuture, Object&gt; valueUpdater) {</a>
-<span class="sourceLineNo">1439</span><a id="line.1439">      this.waiterThreadUpdater = waiterThreadUpdater;</a>
-<span class="sourceLineNo">1440</span><a id="line.1440">      this.waiterNextUpdater = waiterNextUpdater;</a>
-<span class="sourceLineNo">1441</span><a id="line.1441">      this.waitersUpdater = waitersUpdater;</a>
-<span class="sourceLineNo">1442</span><a id="line.1442">      this.listenersUpdater = listenersUpdater;</a>
-<span class="sourceLineNo">1443</span><a id="line.1443">      this.valueUpdater = valueUpdater;</a>
-<span class="sourceLineNo">1444</span><a id="line.1444">    }</a>
-<span class="sourceLineNo">1445</span><a id="line.1445"></a>
-<span class="sourceLineNo">1446</span><a id="line.1446">    @Override</a>
-<span class="sourceLineNo">1447</span><a id="line.1447">    void putThread(Waiter waiter, Thread newValue) {</a>
-<span class="sourceLineNo">1448</span><a id="line.1448">      waiterThreadUpdater.lazySet(waiter, newValue);</a>
-<span class="sourceLineNo">1449</span><a id="line.1449">    }</a>
-<span class="sourceLineNo">1450</span><a id="line.1450"></a>
-<span class="sourceLineNo">1451</span><a id="line.1451">    @Override</a>
-<span class="sourceLineNo">1452</span><a id="line.1452">    void putNext(Waiter waiter, @CheckForNull Waiter newValue) {</a>
-<span class="sourceLineNo">1453</span><a id="line.1453">      waiterNextUpdater.lazySet(waiter, newValue);</a>
+<span class="sourceLineNo">1392</span><a id="line.1392">    @Override</a>
+<span class="sourceLineNo">1393</span><a id="line.1393">    void putThread(Waiter waiter, Thread newValue) {</a>
+<span class="sourceLineNo">1394</span><a id="line.1394">      UNSAFE.putObject(waiter, WAITER_THREAD_OFFSET, newValue);</a>
+<span class="sourceLineNo">1395</span><a id="line.1395">    }</a>
+<span class="sourceLineNo">1396</span><a id="line.1396"></a>
+<span class="sourceLineNo">1397</span><a id="line.1397">    @Override</a>
+<span class="sourceLineNo">1398</span><a id="line.1398">    void putNext(Waiter waiter, @CheckForNull Waiter newValue) {</a>
+<span class="sourceLineNo">1399</span><a id="line.1399">      UNSAFE.putObject(waiter, WAITER_NEXT_OFFSET, newValue);</a>
+<span class="sourceLineNo">1400</span><a id="line.1400">    }</a>
+<span class="sourceLineNo">1401</span><a id="line.1401"></a>
+<span class="sourceLineNo">1402</span><a id="line.1402">    /** Performs a CAS operation on the {@link #waiters} field. */</a>
+<span class="sourceLineNo">1403</span><a id="line.1403">    @Override</a>
+<span class="sourceLineNo">1404</span><a id="line.1404">    boolean casWaiters(</a>
+<span class="sourceLineNo">1405</span><a id="line.1405">        AbstractFuture&lt;?&gt; future, @CheckForNull Waiter expect, @CheckForNull Waiter update) {</a>
+<span class="sourceLineNo">1406</span><a id="line.1406">      return UNSAFE.compareAndSwapObject(future, WAITERS_OFFSET, expect, update);</a>
+<span class="sourceLineNo">1407</span><a id="line.1407">    }</a>
+<span class="sourceLineNo">1408</span><a id="line.1408"></a>
+<span class="sourceLineNo">1409</span><a id="line.1409">    /** Performs a CAS operation on the {@link #listeners} field. */</a>
+<span class="sourceLineNo">1410</span><a id="line.1410">    @Override</a>
+<span class="sourceLineNo">1411</span><a id="line.1411">    boolean casListeners(AbstractFuture&lt;?&gt; future, @CheckForNull Listener expect, Listener update) {</a>
+<span class="sourceLineNo">1412</span><a id="line.1412">      return UNSAFE.compareAndSwapObject(future, LISTENERS_OFFSET, expect, update);</a>
+<span class="sourceLineNo">1413</span><a id="line.1413">    }</a>
+<span class="sourceLineNo">1414</span><a id="line.1414"></a>
+<span class="sourceLineNo">1415</span><a id="line.1415">    /** Performs a GAS operation on the {@link #listeners} field. */</a>
+<span class="sourceLineNo">1416</span><a id="line.1416">    @Override</a>
+<span class="sourceLineNo">1417</span><a id="line.1417">    Listener gasListeners(AbstractFuture&lt;?&gt; future, Listener update) {</a>
+<span class="sourceLineNo">1418</span><a id="line.1418">      return (Listener) UNSAFE.getAndSetObject(future, LISTENERS_OFFSET, update);</a>
+<span class="sourceLineNo">1419</span><a id="line.1419">    }</a>
+<span class="sourceLineNo">1420</span><a id="line.1420"></a>
+<span class="sourceLineNo">1421</span><a id="line.1421">    /** Performs a GAS operation on the {@link #waiters} field. */</a>
+<span class="sourceLineNo">1422</span><a id="line.1422">    @Override</a>
+<span class="sourceLineNo">1423</span><a id="line.1423">    Waiter gasWaiters(AbstractFuture&lt;?&gt; future, Waiter update) {</a>
+<span class="sourceLineNo">1424</span><a id="line.1424">      return (Waiter) UNSAFE.getAndSetObject(future, WAITERS_OFFSET, update);</a>
+<span class="sourceLineNo">1425</span><a id="line.1425">    }</a>
+<span class="sourceLineNo">1426</span><a id="line.1426"></a>
+<span class="sourceLineNo">1427</span><a id="line.1427">    /** Performs a CAS operation on the {@link #value} field. */</a>
+<span class="sourceLineNo">1428</span><a id="line.1428">    @Override</a>
+<span class="sourceLineNo">1429</span><a id="line.1429">    boolean casValue(AbstractFuture&lt;?&gt; future, @CheckForNull Object expect, Object update) {</a>
+<span class="sourceLineNo">1430</span><a id="line.1430">      return UNSAFE.compareAndSwapObject(future, VALUE_OFFSET, expect, update);</a>
+<span class="sourceLineNo">1431</span><a id="line.1431">    }</a>
+<span class="sourceLineNo">1432</span><a id="line.1432">  }</a>
+<span class="sourceLineNo">1433</span><a id="line.1433"></a>
+<span class="sourceLineNo">1434</span><a id="line.1434">  /** {@link AtomicHelper} based on {@link AtomicReferenceFieldUpdater}. */</a>
+<span class="sourceLineNo">1435</span><a id="line.1435">  @SuppressWarnings("rawtypes")</a>
+<span class="sourceLineNo">1436</span><a id="line.1436">  private static final class SafeAtomicHelper extends AtomicHelper {</a>
+<span class="sourceLineNo">1437</span><a id="line.1437">    final AtomicReferenceFieldUpdater&lt;Waiter, Thread&gt; waiterThreadUpdater;</a>
+<span class="sourceLineNo">1438</span><a id="line.1438">    final AtomicReferenceFieldUpdater&lt;Waiter, Waiter&gt; waiterNextUpdater;</a>
+<span class="sourceLineNo">1439</span><a id="line.1439">    final AtomicReferenceFieldUpdater&lt;AbstractFuture, Waiter&gt; waitersUpdater;</a>
+<span class="sourceLineNo">1440</span><a id="line.1440">    final AtomicReferenceFieldUpdater&lt;AbstractFuture, Listener&gt; listenersUpdater;</a>
+<span class="sourceLineNo">1441</span><a id="line.1441">    final AtomicReferenceFieldUpdater&lt;AbstractFuture, Object&gt; valueUpdater;</a>
+<span class="sourceLineNo">1442</span><a id="line.1442"></a>
+<span class="sourceLineNo">1443</span><a id="line.1443">    SafeAtomicHelper(</a>
+<span class="sourceLineNo">1444</span><a id="line.1444">        AtomicReferenceFieldUpdater&lt;Waiter, Thread&gt; waiterThreadUpdater,</a>
+<span class="sourceLineNo">1445</span><a id="line.1445">        AtomicReferenceFieldUpdater&lt;Waiter, Waiter&gt; waiterNextUpdater,</a>
+<span class="sourceLineNo">1446</span><a id="line.1446">        AtomicReferenceFieldUpdater&lt;AbstractFuture, Waiter&gt; waitersUpdater,</a>
+<span class="sourceLineNo">1447</span><a id="line.1447">        AtomicReferenceFieldUpdater&lt;AbstractFuture, Listener&gt; listenersUpdater,</a>
+<span class="sourceLineNo">1448</span><a id="line.1448">        AtomicReferenceFieldUpdater&lt;AbstractFuture, Object&gt; valueUpdater) {</a>
+<span class="sourceLineNo">1449</span><a id="line.1449">      this.waiterThreadUpdater = waiterThreadUpdater;</a>
+<span class="sourceLineNo">1450</span><a id="line.1450">      this.waiterNextUpdater = waiterNextUpdater;</a>
+<span class="sourceLineNo">1451</span><a id="line.1451">      this.waitersUpdater = waitersUpdater;</a>
+<span class="sourceLineNo">1452</span><a id="line.1452">      this.listenersUpdater = listenersUpdater;</a>
+<span class="sourceLineNo">1453</span><a id="line.1453">      this.valueUpdater = valueUpdater;</a>
 <span class="sourceLineNo">1454</span><a id="line.1454">    }</a>
 <span class="sourceLineNo">1455</span><a id="line.1455"></a>
 <span class="sourceLineNo">1456</span><a id="line.1456">    @Override</a>
-<span class="sourceLineNo">1457</span><a id="line.1457">    boolean casWaiters(</a>
-<span class="sourceLineNo">1458</span><a id="line.1458">        AbstractFuture&lt;?&gt; future, @CheckForNull Waiter expect, @CheckForNull Waiter update) {</a>
-<span class="sourceLineNo">1459</span><a id="line.1459">      return waitersUpdater.compareAndSet(future, expect, update);</a>
-<span class="sourceLineNo">1460</span><a id="line.1460">    }</a>
-<span class="sourceLineNo">1461</span><a id="line.1461"></a>
-<span class="sourceLineNo">1462</span><a id="line.1462">    @Override</a>
-<span class="sourceLineNo">1463</span><a id="line.1463">    boolean casListeners(AbstractFuture&lt;?&gt; future, @CheckForNull Listener expect, Listener update) {</a>
-<span class="sourceLineNo">1464</span><a id="line.1464">      return listenersUpdater.compareAndSet(future, expect, update);</a>
-<span class="sourceLineNo">1465</span><a id="line.1465">    }</a>
-<span class="sourceLineNo">1466</span><a id="line.1466"></a>
-<span class="sourceLineNo">1467</span><a id="line.1467">    /** Performs a GAS operation on the {@link #listeners} field. */</a>
-<span class="sourceLineNo">1468</span><a id="line.1468">    @Override</a>
-<span class="sourceLineNo">1469</span><a id="line.1469">    Listener gasListeners(AbstractFuture&lt;?&gt; future, Listener update) {</a>
-<span class="sourceLineNo">1470</span><a id="line.1470">      return listenersUpdater.getAndSet(future, update);</a>
-<span class="sourceLineNo">1471</span><a id="line.1471">    }</a>
-<span class="sourceLineNo">1472</span><a id="line.1472"></a>
-<span class="sourceLineNo">1473</span><a id="line.1473">    /** Performs a GAS operation on the {@link #waiters} field. */</a>
-<span class="sourceLineNo">1474</span><a id="line.1474">    @Override</a>
-<span class="sourceLineNo">1475</span><a id="line.1475">    Waiter gasWaiters(AbstractFuture&lt;?&gt; future, Waiter update) {</a>
-<span class="sourceLineNo">1476</span><a id="line.1476">      return waitersUpdater.getAndSet(future, update);</a>
-<span class="sourceLineNo">1477</span><a id="line.1477">    }</a>
-<span class="sourceLineNo">1478</span><a id="line.1478"></a>
-<span class="sourceLineNo">1479</span><a id="line.1479">    @Override</a>
-<span class="sourceLineNo">1480</span><a id="line.1480">    boolean casValue(AbstractFuture&lt;?&gt; future, @CheckForNull Object expect, Object update) {</a>
-<span class="sourceLineNo">1481</span><a id="line.1481">      return valueUpdater.compareAndSet(future, expect, update);</a>
-<span class="sourceLineNo">1482</span><a id="line.1482">    }</a>
-<span class="sourceLineNo">1483</span><a id="line.1483">  }</a>
-<span class="sourceLineNo">1484</span><a id="line.1484"></a>
-<span class="sourceLineNo">1485</span><a id="line.1485">  /**</a>
-<span class="sourceLineNo">1486</span><a id="line.1486">   * {@link AtomicHelper} based on {@code synchronized} and volatile writes.</a>
-<span class="sourceLineNo">1487</span><a id="line.1487">   *</a>
-<span class="sourceLineNo">1488</span><a id="line.1488">   * &lt;p&gt;This is an implementation of last resort for when certain basic VM features are broken (like</a>
-<span class="sourceLineNo">1489</span><a id="line.1489">   * AtomicReferenceFieldUpdater).</a>
-<span class="sourceLineNo">1490</span><a id="line.1490">   */</a>
-<span class="sourceLineNo">1491</span><a id="line.1491">  private static final class SynchronizedHelper extends AtomicHelper {</a>
-<span class="sourceLineNo">1492</span><a id="line.1492">    @Override</a>
-<span class="sourceLineNo">1493</span><a id="line.1493">    void putThread(Waiter waiter, Thread newValue) {</a>
-<span class="sourceLineNo">1494</span><a id="line.1494">      waiter.thread = newValue;</a>
-<span class="sourceLineNo">1495</span><a id="line.1495">    }</a>
-<span class="sourceLineNo">1496</span><a id="line.1496"></a>
-<span class="sourceLineNo">1497</span><a id="line.1497">    @Override</a>
-<span class="sourceLineNo">1498</span><a id="line.1498">    void putNext(Waiter waiter, @CheckForNull Waiter newValue) {</a>
-<span class="sourceLineNo">1499</span><a id="line.1499">      waiter.next = newValue;</a>
-<span class="sourceLineNo">1500</span><a id="line.1500">    }</a>
-<span class="sourceLineNo">1501</span><a id="line.1501"></a>
+<span class="sourceLineNo">1457</span><a id="line.1457">    void putThread(Waiter waiter, Thread newValue) {</a>
+<span class="sourceLineNo">1458</span><a id="line.1458">      waiterThreadUpdater.lazySet(waiter, newValue);</a>
+<span class="sourceLineNo">1459</span><a id="line.1459">    }</a>
+<span class="sourceLineNo">1460</span><a id="line.1460"></a>
+<span class="sourceLineNo">1461</span><a id="line.1461">    @Override</a>
+<span class="sourceLineNo">1462</span><a id="line.1462">    void putNext(Waiter waiter, @CheckForNull Waiter newValue) {</a>
+<span class="sourceLineNo">1463</span><a id="line.1463">      waiterNextUpdater.lazySet(waiter, newValue);</a>
+<span class="sourceLineNo">1464</span><a id="line.1464">    }</a>
+<span class="sourceLineNo">1465</span><a id="line.1465"></a>
+<span class="sourceLineNo">1466</span><a id="line.1466">    @Override</a>
+<span class="sourceLineNo">1467</span><a id="line.1467">    boolean casWaiters(</a>
+<span class="sourceLineNo">1468</span><a id="line.1468">        AbstractFuture&lt;?&gt; future, @CheckForNull Waiter expect, @CheckForNull Waiter update) {</a>
+<span class="sourceLineNo">1469</span><a id="line.1469">      return waitersUpdater.compareAndSet(future, expect, update);</a>
+<span class="sourceLineNo">1470</span><a id="line.1470">    }</a>
+<span class="sourceLineNo">1471</span><a id="line.1471"></a>
+<span class="sourceLineNo">1472</span><a id="line.1472">    @Override</a>
+<span class="sourceLineNo">1473</span><a id="line.1473">    boolean casListeners(AbstractFuture&lt;?&gt; future, @CheckForNull Listener expect, Listener update) {</a>
+<span class="sourceLineNo">1474</span><a id="line.1474">      return listenersUpdater.compareAndSet(future, expect, update);</a>
+<span class="sourceLineNo">1475</span><a id="line.1475">    }</a>
+<span class="sourceLineNo">1476</span><a id="line.1476"></a>
+<span class="sourceLineNo">1477</span><a id="line.1477">    /** Performs a GAS operation on the {@link #listeners} field. */</a>
+<span class="sourceLineNo">1478</span><a id="line.1478">    @Override</a>
+<span class="sourceLineNo">1479</span><a id="line.1479">    Listener gasListeners(AbstractFuture&lt;?&gt; future, Listener update) {</a>
+<span class="sourceLineNo">1480</span><a id="line.1480">      return listenersUpdater.getAndSet(future, update);</a>
+<span class="sourceLineNo">1481</span><a id="line.1481">    }</a>
+<span class="sourceLineNo">1482</span><a id="line.1482"></a>
+<span class="sourceLineNo">1483</span><a id="line.1483">    /** Performs a GAS operation on the {@link #waiters} field. */</a>
+<span class="sourceLineNo">1484</span><a id="line.1484">    @Override</a>
+<span class="sourceLineNo">1485</span><a id="line.1485">    Waiter gasWaiters(AbstractFuture&lt;?&gt; future, Waiter update) {</a>
+<span class="sourceLineNo">1486</span><a id="line.1486">      return waitersUpdater.getAndSet(future, update);</a>
+<span class="sourceLineNo">1487</span><a id="line.1487">    }</a>
+<span class="sourceLineNo">1488</span><a id="line.1488"></a>
+<span class="sourceLineNo">1489</span><a id="line.1489">    @Override</a>
+<span class="sourceLineNo">1490</span><a id="line.1490">    boolean casValue(AbstractFuture&lt;?&gt; future, @CheckForNull Object expect, Object update) {</a>
+<span class="sourceLineNo">1491</span><a id="line.1491">      return valueUpdater.compareAndSet(future, expect, update);</a>
+<span class="sourceLineNo">1492</span><a id="line.1492">    }</a>
+<span class="sourceLineNo">1493</span><a id="line.1493">  }</a>
+<span class="sourceLineNo">1494</span><a id="line.1494"></a>
+<span class="sourceLineNo">1495</span><a id="line.1495">  /**</a>
+<span class="sourceLineNo">1496</span><a id="line.1496">   * {@link AtomicHelper} based on {@code synchronized} and volatile writes.</a>
+<span class="sourceLineNo">1497</span><a id="line.1497">   *</a>
+<span class="sourceLineNo">1498</span><a id="line.1498">   * &lt;p&gt;This is an implementation of last resort for when certain basic VM features are broken (like</a>
+<span class="sourceLineNo">1499</span><a id="line.1499">   * AtomicReferenceFieldUpdater).</a>
+<span class="sourceLineNo">1500</span><a id="line.1500">   */</a>
+<span class="sourceLineNo">1501</span><a id="line.1501">  private static final class SynchronizedHelper extends AtomicHelper {</a>
 <span class="sourceLineNo">1502</span><a id="line.1502">    @Override</a>
-<span class="sourceLineNo">1503</span><a id="line.1503">    boolean casWaiters(</a>
-<span class="sourceLineNo">1504</span><a id="line.1504">        AbstractFuture&lt;?&gt; future, @CheckForNull Waiter expect, @CheckForNull Waiter update) {</a>
-<span class="sourceLineNo">1505</span><a id="line.1505">      synchronized (future) {</a>
-<span class="sourceLineNo">1506</span><a id="line.1506">        if (future.waiters == expect) {</a>
-<span class="sourceLineNo">1507</span><a id="line.1507">          future.waiters = update;</a>
-<span class="sourceLineNo">1508</span><a id="line.1508">          return true;</a>
-<span class="sourceLineNo">1509</span><a id="line.1509">        }</a>
-<span class="sourceLineNo">1510</span><a id="line.1510">        return false;</a>
-<span class="sourceLineNo">1511</span><a id="line.1511">      }</a>
-<span class="sourceLineNo">1512</span><a id="line.1512">    }</a>
-<span class="sourceLineNo">1513</span><a id="line.1513"></a>
-<span class="sourceLineNo">1514</span><a id="line.1514">    @Override</a>
-<span class="sourceLineNo">1515</span><a id="line.1515">    boolean casListeners(AbstractFuture&lt;?&gt; future, @CheckForNull Listener expect, Listener update) {</a>
-<span class="sourceLineNo">1516</span><a id="line.1516">      synchronized (future) {</a>
-<span class="sourceLineNo">1517</span><a id="line.1517">        if (future.listeners == expect) {</a>
-<span class="sourceLineNo">1518</span><a id="line.1518">          future.listeners = update;</a>
-<span class="sourceLineNo">1519</span><a id="line.1519">          return true;</a>
-<span class="sourceLineNo">1520</span><a id="line.1520">        }</a>
-<span class="sourceLineNo">1521</span><a id="line.1521">        return false;</a>
-<span class="sourceLineNo">1522</span><a id="line.1522">      }</a>
-<span class="sourceLineNo">1523</span><a id="line.1523">    }</a>
-<span class="sourceLineNo">1524</span><a id="line.1524"></a>
-<span class="sourceLineNo">1525</span><a id="line.1525">    /** Performs a GAS operation on the {@link #listeners} field. */</a>
-<span class="sourceLineNo">1526</span><a id="line.1526">    @Override</a>
-<span class="sourceLineNo">1527</span><a id="line.1527">    Listener gasListeners(AbstractFuture&lt;?&gt; future, Listener update) {</a>
-<span class="sourceLineNo">1528</span><a id="line.1528">      synchronized (future) {</a>
-<span class="sourceLineNo">1529</span><a id="line.1529">        Listener old = future.listeners;</a>
-<span class="sourceLineNo">1530</span><a id="line.1530">        if (old != update) {</a>
-<span class="sourceLineNo">1531</span><a id="line.1531">          future.listeners = update;</a>
-<span class="sourceLineNo">1532</span><a id="line.1532">        }</a>
-<span class="sourceLineNo">1533</span><a id="line.1533">        return old;</a>
-<span class="sourceLineNo">1534</span><a id="line.1534">      }</a>
-<span class="sourceLineNo">1535</span><a id="line.1535">    }</a>
-<span class="sourceLineNo">1536</span><a id="line.1536"></a>
-<span class="sourceLineNo">1537</span><a id="line.1537">    /** Performs a GAS operation on the {@link #waiters} field. */</a>
-<span class="sourceLineNo">1538</span><a id="line.1538">    @Override</a>
-<span class="sourceLineNo">1539</span><a id="line.1539">    Waiter gasWaiters(AbstractFuture&lt;?&gt; future, Waiter update) {</a>
-<span class="sourceLineNo">1540</span><a id="line.1540">      synchronized (future) {</a>
-<span class="sourceLineNo">1541</span><a id="line.1541">        Waiter old = future.waiters;</a>
-<span class="sourceLineNo">1542</span><a id="line.1542">        if (old != update) {</a>
-<span class="sourceLineNo">1543</span><a id="line.1543">          future.waiters = update;</a>
-<span class="sourceLineNo">1544</span><a id="line.1544">        }</a>
-<span class="sourceLineNo">1545</span><a id="line.1545">        return old;</a>
-<span class="sourceLineNo">1546</span><a id="line.1546">      }</a>
-<span class="sourceLineNo">1547</span><a id="line.1547">    }</a>
-<span class="sourceLineNo">1548</span><a id="line.1548"></a>
-<span class="sourceLineNo">1549</span><a id="line.1549">    @Override</a>
-<span class="sourceLineNo">1550</span><a id="line.1550">    boolean casValue(AbstractFuture&lt;?&gt; future, @CheckForNull Object expect, Object update) {</a>
-<span class="sourceLineNo">1551</span><a id="line.1551">      synchronized (future) {</a>
-<span class="sourceLineNo">1552</span><a id="line.1552">        if (future.value == expect) {</a>
-<span class="sourceLineNo">1553</span><a id="line.1553">          future.value = update;</a>
-<span class="sourceLineNo">1554</span><a id="line.1554">          return true;</a>
-<span class="sourceLineNo">1555</span><a id="line.1555">        }</a>
-<span class="sourceLineNo">1556</span><a id="line.1556">        return false;</a>
-<span class="sourceLineNo">1557</span><a id="line.1557">      }</a>
-<span class="sourceLineNo">1558</span><a id="line.1558">    }</a>
-<span class="sourceLineNo">1559</span><a id="line.1559">  }</a>
-<span class="sourceLineNo">1560</span><a id="line.1560"></a>
-<span class="sourceLineNo">1561</span><a id="line.1561">  private static CancellationException cancellationExceptionWithCause(</a>
-<span class="sourceLineNo">1562</span><a id="line.1562">      String message, @CheckForNull Throwable cause) {</a>
-<span class="sourceLineNo">1563</span><a id="line.1563">    CancellationException exception = new CancellationException(message);</a>
-<span class="sourceLineNo">1564</span><a id="line.1564">    exception.initCause(cause);</a>
-<span class="sourceLineNo">1565</span><a id="line.1565">    return exception;</a>
-<span class="sourceLineNo">1566</span><a id="line.1566">  }</a>
-<span class="sourceLineNo">1567</span><a id="line.1567">}</a>
+<span class="sourceLineNo">1503</span><a id="line.1503">    void putThread(Waiter waiter, Thread newValue) {</a>
+<span class="sourceLineNo">1504</span><a id="line.1504">      waiter.thread = newValue;</a>
+<span class="sourceLineNo">1505</span><a id="line.1505">    }</a>
+<span class="sourceLineNo">1506</span><a id="line.1506"></a>
+<span class="sourceLineNo">1507</span><a id="line.1507">    @Override</a>
+<span class="sourceLineNo">1508</span><a id="line.1508">    void putNext(Waiter waiter, @CheckForNull Waiter newValue) {</a>
+<span class="sourceLineNo">1509</span><a id="line.1509">      waiter.next = newValue;</a>
+<span class="sourceLineNo">1510</span><a id="line.1510">    }</a>
+<span class="sourceLineNo">1511</span><a id="line.1511"></a>
+<span class="sourceLineNo">1512</span><a id="line.1512">    @Override</a>
+<span class="sourceLineNo">1513</span><a id="line.1513">    boolean casWaiters(</a>
+<span class="sourceLineNo">1514</span><a id="line.1514">        AbstractFuture&lt;?&gt; future, @CheckForNull Waiter expect, @CheckForNull Waiter update) {</a>
+<span class="sourceLineNo">1515</span><a id="line.1515">      synchronized (future) {</a>
+<span class="sourceLineNo">1516</span><a id="line.1516">        if (future.waiters == expect) {</a>
+<span class="sourceLineNo">1517</span><a id="line.1517">          future.waiters = update;</a>
+<span class="sourceLineNo">1518</span><a id="line.1518">          return true;</a>
+<span class="sourceLineNo">1519</span><a id="line.1519">        }</a>
+<span class="sourceLineNo">1520</span><a id="line.1520">        return false;</a>
+<span class="sourceLineNo">1521</span><a id="line.1521">      }</a>
+<span class="sourceLineNo">1522</span><a id="line.1522">    }</a>
+<span class="sourceLineNo">1523</span><a id="line.1523"></a>
+<span class="sourceLineNo">1524</span><a id="line.1524">    @Override</a>
+<span class="sourceLineNo">1525</span><a id="line.1525">    boolean casListeners(AbstractFuture&lt;?&gt; future, @CheckForNull Listener expect, Listener update) {</a>
+<span class="sourceLineNo">1526</span><a id="line.1526">      synchronized (future) {</a>
+<span class="sourceLineNo">1527</span><a id="line.1527">        if (future.listeners == expect) {</a>
+<span class="sourceLineNo">1528</span><a id="line.1528">          future.listeners = update;</a>
+<span class="sourceLineNo">1529</span><a id="line.1529">          return true;</a>
+<span class="sourceLineNo">1530</span><a id="line.1530">        }</a>
+<span class="sourceLineNo">1531</span><a id="line.1531">        return false;</a>
+<span class="sourceLineNo">1532</span><a id="line.1532">      }</a>
+<span class="sourceLineNo">1533</span><a id="line.1533">    }</a>
+<span class="sourceLineNo">1534</span><a id="line.1534"></a>
+<span class="sourceLineNo">1535</span><a id="line.1535">    /** Performs a GAS operation on the {@link #listeners} field. */</a>
+<span class="sourceLineNo">1536</span><a id="line.1536">    @Override</a>
+<span class="sourceLineNo">1537</span><a id="line.1537">    Listener gasListeners(AbstractFuture&lt;?&gt; future, Listener update) {</a>
+<span class="sourceLineNo">1538</span><a id="line.1538">      synchronized (future) {</a>
+<span class="sourceLineNo">1539</span><a id="line.1539">        Listener old = future.listeners;</a>
+<span class="sourceLineNo">1540</span><a id="line.1540">        if (old != update) {</a>
+<span class="sourceLineNo">1541</span><a id="line.1541">          future.listeners = update;</a>
+<span class="sourceLineNo">1542</span><a id="line.1542">        }</a>
+<span class="sourceLineNo">1543</span><a id="line.1543">        return old;</a>
+<span class="sourceLineNo">1544</span><a id="line.1544">      }</a>
+<span class="sourceLineNo">1545</span><a id="line.1545">    }</a>
+<span class="sourceLineNo">1546</span><a id="line.1546"></a>
+<span class="sourceLineNo">1547</span><a id="line.1547">    /** Performs a GAS operation on the {@link #waiters} field. */</a>
+<span class="sourceLineNo">1548</span><a id="line.1548">    @Override</a>
+<span class="sourceLineNo">1549</span><a id="line.1549">    Waiter gasWaiters(AbstractFuture&lt;?&gt; future, Waiter update) {</a>
+<span class="sourceLineNo">1550</span><a id="line.1550">      synchronized (future) {</a>
+<span class="sourceLineNo">1551</span><a id="line.1551">        Waiter old = future.waiters;</a>
+<span class="sourceLineNo">1552</span><a id="line.1552">        if (old != update) {</a>
+<span class="sourceLineNo">1553</span><a id="line.1553">          future.waiters = update;</a>
+<span class="sourceLineNo">1554</span><a id="line.1554">        }</a>
+<span class="sourceLineNo">1555</span><a id="line.1555">        return old;</a>
+<span class="sourceLineNo">1556</span><a id="line.1556">      }</a>
+<span class="sourceLineNo">1557</span><a id="line.1557">    }</a>
+<span class="sourceLineNo">1558</span><a id="line.1558"></a>
+<span class="sourceLineNo">1559</span><a id="line.1559">    @Override</a>
+<span class="sourceLineNo">1560</span><a id="line.1560">    boolean casValue(AbstractFuture&lt;?&gt; future, @CheckForNull Object expect, Object update) {</a>
+<span class="sourceLineNo">1561</span><a id="line.1561">      synchronized (future) {</a>
+<span class="sourceLineNo">1562</span><a id="line.1562">        if (future.value == expect) {</a>
+<span class="sourceLineNo">1563</span><a id="line.1563">          future.value = update;</a>
+<span class="sourceLineNo">1564</span><a id="line.1564">          return true;</a>
+<span class="sourceLineNo">1565</span><a id="line.1565">        }</a>
+<span class="sourceLineNo">1566</span><a id="line.1566">        return false;</a>
+<span class="sourceLineNo">1567</span><a id="line.1567">      }</a>
+<span class="sourceLineNo">1568</span><a id="line.1568">    }</a>
+<span class="sourceLineNo">1569</span><a id="line.1569">  }</a>
+<span class="sourceLineNo">1570</span><a id="line.1570"></a>
+<span class="sourceLineNo">1571</span><a id="line.1571">  private static CancellationException cancellationExceptionWithCause(</a>
+<span class="sourceLineNo">1572</span><a id="line.1572">      String message, @CheckForNull Throwable cause) {</a>
+<span class="sourceLineNo">1573</span><a id="line.1573">    CancellationException exception = new CancellationException(message);</a>
+<span class="sourceLineNo">1574</span><a id="line.1574">    exception.initCause(cause);</a>
+<span class="sourceLineNo">1575</span><a id="line.1575">    return exception;</a>
+<span class="sourceLineNo">1576</span><a id="line.1576">  }</a>
+<span class="sourceLineNo">1577</span><a id="line.1577">}</a>
 
 
 

@@ -573,137 +573,139 @@
 <span class="sourceLineNo">564</span><a id="line.564">        lock.lock();</a>
 <span class="sourceLineNo">565</span><a id="line.565">        try {</a>
 <span class="sourceLineNo">566</span><a id="line.566">          toReturn = initializeOrUpdateCancellationDelegate(schedule);</a>
-<span class="sourceLineNo">567</span><a id="line.567">        } catch (RuntimeException | Error e) {</a>
-<span class="sourceLineNo">568</span><a id="line.568">          // If an exception is thrown by the subclass then we need to make sure that the service</a>
-<span class="sourceLineNo">569</span><a id="line.569">          // notices and transitions to the FAILED state. We do it by calling notifyFailed directly</a>
-<span class="sourceLineNo">570</span><a id="line.570">          // because the service does not monitor the state of the future so if the exception is not</a>
-<span class="sourceLineNo">571</span><a id="line.571">          // caught and forwarded to the service the task would stop executing but the service would</a>
-<span class="sourceLineNo">572</span><a id="line.572">          // have no idea.</a>
-<span class="sourceLineNo">573</span><a id="line.573">          // TODO(lukes): consider building everything in terms of ListenableScheduledFuture then</a>
-<span class="sourceLineNo">574</span><a id="line.574">          // the AbstractService could monitor the future directly. Rescheduling is still hard...</a>
-<span class="sourceLineNo">575</span><a id="line.575">          // but it would help with some of these lock ordering issues.</a>
-<span class="sourceLineNo">576</span><a id="line.576">          scheduleFailure = e;</a>
-<span class="sourceLineNo">577</span><a id="line.577">          toReturn = new FutureAsCancellable(immediateCancelledFuture());</a>
-<span class="sourceLineNo">578</span><a id="line.578">        } finally {</a>
-<span class="sourceLineNo">579</span><a id="line.579">          lock.unlock();</a>
-<span class="sourceLineNo">580</span><a id="line.580">        }</a>
-<span class="sourceLineNo">581</span><a id="line.581">        // Call notifyFailed outside the lock to avoid lock ordering issues.</a>
-<span class="sourceLineNo">582</span><a id="line.582">        if (scheduleFailure != null) {</a>
-<span class="sourceLineNo">583</span><a id="line.583">          service.notifyFailed(scheduleFailure);</a>
-<span class="sourceLineNo">584</span><a id="line.584">        }</a>
-<span class="sourceLineNo">585</span><a id="line.585">        return toReturn;</a>
-<span class="sourceLineNo">586</span><a id="line.586">      }</a>
-<span class="sourceLineNo">587</span><a id="line.587"></a>
-<span class="sourceLineNo">588</span><a id="line.588">      @GuardedBy("lock")</a>
-<span class="sourceLineNo">589</span><a id="line.589">      /*</a>
-<span class="sourceLineNo">590</span><a id="line.590">       * The GuardedBy checker warns us that we're not holding cancellationDelegate.lock. But in</a>
-<span class="sourceLineNo">591</span><a id="line.591">       * fact we are holding it because it is the same as this.lock, which we know we are holding,</a>
-<span class="sourceLineNo">592</span><a id="line.592">       * thanks to @GuardedBy above. (cancellationDelegate.lock is initialized to this.lock in the</a>
-<span class="sourceLineNo">593</span><a id="line.593">       * call to `new SupplantableFuture` below.)</a>
-<span class="sourceLineNo">594</span><a id="line.594">       */</a>
-<span class="sourceLineNo">595</span><a id="line.595">      @SuppressWarnings("GuardedBy")</a>
-<span class="sourceLineNo">596</span><a id="line.596">      private Cancellable initializeOrUpdateCancellationDelegate(Schedule schedule) {</a>
-<span class="sourceLineNo">597</span><a id="line.597">        if (cancellationDelegate == null) {</a>
-<span class="sourceLineNo">598</span><a id="line.598">          return cancellationDelegate = new SupplantableFuture(lock, submitToExecutor(schedule));</a>
-<span class="sourceLineNo">599</span><a id="line.599">        }</a>
-<span class="sourceLineNo">600</span><a id="line.600">        if (!cancellationDelegate.currentFuture.isCancelled()) {</a>
-<span class="sourceLineNo">601</span><a id="line.601">          cancellationDelegate.currentFuture = submitToExecutor(schedule);</a>
-<span class="sourceLineNo">602</span><a id="line.602">        }</a>
-<span class="sourceLineNo">603</span><a id="line.603">        return cancellationDelegate;</a>
-<span class="sourceLineNo">604</span><a id="line.604">      }</a>
-<span class="sourceLineNo">605</span><a id="line.605"></a>
-<span class="sourceLineNo">606</span><a id="line.606">      private ScheduledFuture&lt;@Nullable Void&gt; submitToExecutor(Schedule schedule) {</a>
-<span class="sourceLineNo">607</span><a id="line.607">        return executor.schedule(this, schedule.delay, schedule.unit);</a>
-<span class="sourceLineNo">608</span><a id="line.608">      }</a>
-<span class="sourceLineNo">609</span><a id="line.609">    }</a>
-<span class="sourceLineNo">610</span><a id="line.610"></a>
-<span class="sourceLineNo">611</span><a id="line.611">    /**</a>
-<span class="sourceLineNo">612</span><a id="line.612">     * Contains the most recently submitted {@code Future}, which may be cancelled or updated,</a>
-<span class="sourceLineNo">613</span><a id="line.613">     * always under a lock.</a>
-<span class="sourceLineNo">614</span><a id="line.614">     */</a>
-<span class="sourceLineNo">615</span><a id="line.615">    private static final class SupplantableFuture implements Cancellable {</a>
-<span class="sourceLineNo">616</span><a id="line.616">      private final ReentrantLock lock;</a>
-<span class="sourceLineNo">617</span><a id="line.617"></a>
-<span class="sourceLineNo">618</span><a id="line.618">      @GuardedBy("lock")</a>
-<span class="sourceLineNo">619</span><a id="line.619">      private Future&lt;@Nullable Void&gt; currentFuture;</a>
-<span class="sourceLineNo">620</span><a id="line.620"></a>
-<span class="sourceLineNo">621</span><a id="line.621">      SupplantableFuture(ReentrantLock lock, Future&lt;@Nullable Void&gt; currentFuture) {</a>
-<span class="sourceLineNo">622</span><a id="line.622">        this.lock = lock;</a>
-<span class="sourceLineNo">623</span><a id="line.623">        this.currentFuture = currentFuture;</a>
-<span class="sourceLineNo">624</span><a id="line.624">      }</a>
-<span class="sourceLineNo">625</span><a id="line.625"></a>
-<span class="sourceLineNo">626</span><a id="line.626">      @Override</a>
-<span class="sourceLineNo">627</span><a id="line.627">      public void cancel(boolean mayInterruptIfRunning) {</a>
-<span class="sourceLineNo">628</span><a id="line.628">        /*</a>
-<span class="sourceLineNo">629</span><a id="line.629">         * Lock to ensure that a task cannot be rescheduled while a cancel is ongoing.</a>
-<span class="sourceLineNo">630</span><a id="line.630">         *</a>
-<span class="sourceLineNo">631</span><a id="line.631">         * In theory, cancel() could execute arbitrary listeners -- bad to do while holding a lock.</a>
-<span class="sourceLineNo">632</span><a id="line.632">         * However, we don't expose currentFuture to users, so they can't attach listeners. And the</a>
-<span class="sourceLineNo">633</span><a id="line.633">         * Future might not even be a ListenableFuture, just a plain Future. That said, similar</a>
-<span class="sourceLineNo">634</span><a id="line.634">         * problems can exist with methods like FutureTask.done(), not to mention slow calls to</a>
-<span class="sourceLineNo">635</span><a id="line.635">         * Thread.interrupt() (as discussed in InterruptibleTask). At the end of the day, it's</a>
-<span class="sourceLineNo">636</span><a id="line.636">         * unlikely that cancel() will be slow, so we can probably get away with calling it while</a>
-<span class="sourceLineNo">637</span><a id="line.637">         * holding a lock. Still, it would be nice to avoid somehow.</a>
-<span class="sourceLineNo">638</span><a id="line.638">         */</a>
-<span class="sourceLineNo">639</span><a id="line.639">        lock.lock();</a>
-<span class="sourceLineNo">640</span><a id="line.640">        try {</a>
-<span class="sourceLineNo">641</span><a id="line.641">          currentFuture.cancel(mayInterruptIfRunning);</a>
-<span class="sourceLineNo">642</span><a id="line.642">        } finally {</a>
-<span class="sourceLineNo">643</span><a id="line.643">          lock.unlock();</a>
-<span class="sourceLineNo">644</span><a id="line.644">        }</a>
-<span class="sourceLineNo">645</span><a id="line.645">      }</a>
-<span class="sourceLineNo">646</span><a id="line.646"></a>
-<span class="sourceLineNo">647</span><a id="line.647">      @Override</a>
-<span class="sourceLineNo">648</span><a id="line.648">      public boolean isCancelled() {</a>
-<span class="sourceLineNo">649</span><a id="line.649">        lock.lock();</a>
-<span class="sourceLineNo">650</span><a id="line.650">        try {</a>
-<span class="sourceLineNo">651</span><a id="line.651">          return currentFuture.isCancelled();</a>
-<span class="sourceLineNo">652</span><a id="line.652">        } finally {</a>
-<span class="sourceLineNo">653</span><a id="line.653">          lock.unlock();</a>
-<span class="sourceLineNo">654</span><a id="line.654">        }</a>
-<span class="sourceLineNo">655</span><a id="line.655">      }</a>
-<span class="sourceLineNo">656</span><a id="line.656">    }</a>
-<span class="sourceLineNo">657</span><a id="line.657"></a>
-<span class="sourceLineNo">658</span><a id="line.658">    @Override</a>
-<span class="sourceLineNo">659</span><a id="line.659">    final Cancellable schedule(</a>
-<span class="sourceLineNo">660</span><a id="line.660">        AbstractService service, ScheduledExecutorService executor, Runnable runnable) {</a>
-<span class="sourceLineNo">661</span><a id="line.661">      return new ReschedulableCallable(service, executor, runnable).reschedule();</a>
-<span class="sourceLineNo">662</span><a id="line.662">    }</a>
-<span class="sourceLineNo">663</span><a id="line.663"></a>
-<span class="sourceLineNo">664</span><a id="line.664">    /**</a>
-<span class="sourceLineNo">665</span><a id="line.665">     * A value object that represents an absolute delay until a task should be invoked.</a>
-<span class="sourceLineNo">666</span><a id="line.666">     *</a>
-<span class="sourceLineNo">667</span><a id="line.667">     * @author Luke Sandberg</a>
-<span class="sourceLineNo">668</span><a id="line.668">     * @since 11.0</a>
-<span class="sourceLineNo">669</span><a id="line.669">     */</a>
-<span class="sourceLineNo">670</span><a id="line.670">    protected static final class Schedule {</a>
-<span class="sourceLineNo">671</span><a id="line.671"></a>
-<span class="sourceLineNo">672</span><a id="line.672">      private final long delay;</a>
-<span class="sourceLineNo">673</span><a id="line.673">      private final TimeUnit unit;</a>
-<span class="sourceLineNo">674</span><a id="line.674"></a>
-<span class="sourceLineNo">675</span><a id="line.675">      /**</a>
-<span class="sourceLineNo">676</span><a id="line.676">       * @param delay the time from now to delay execution</a>
-<span class="sourceLineNo">677</span><a id="line.677">       * @param unit the time unit of the delay parameter</a>
-<span class="sourceLineNo">678</span><a id="line.678">       */</a>
-<span class="sourceLineNo">679</span><a id="line.679">      public Schedule(long delay, TimeUnit unit) {</a>
-<span class="sourceLineNo">680</span><a id="line.680">        this.delay = delay;</a>
-<span class="sourceLineNo">681</span><a id="line.681">        this.unit = checkNotNull(unit);</a>
-<span class="sourceLineNo">682</span><a id="line.682">      }</a>
-<span class="sourceLineNo">683</span><a id="line.683">    }</a>
-<span class="sourceLineNo">684</span><a id="line.684"></a>
-<span class="sourceLineNo">685</span><a id="line.685">    /**</a>
-<span class="sourceLineNo">686</span><a id="line.686">     * Calculates the time at which to next invoke the task.</a>
-<span class="sourceLineNo">687</span><a id="line.687">     *</a>
-<span class="sourceLineNo">688</span><a id="line.688">     * &lt;p&gt;This is guaranteed to be called immediately after the task has completed an iteration and</a>
-<span class="sourceLineNo">689</span><a id="line.689">     * on the same thread as the previous execution of {@link</a>
-<span class="sourceLineNo">690</span><a id="line.690">     * AbstractScheduledService#runOneIteration}.</a>
-<span class="sourceLineNo">691</span><a id="line.691">     *</a>
-<span class="sourceLineNo">692</span><a id="line.692">     * @return a schedule that defines the delay before the next execution.</a>
-<span class="sourceLineNo">693</span><a id="line.693">     */</a>
-<span class="sourceLineNo">694</span><a id="line.694">    // TODO(cpovirk): @ForOverride</a>
-<span class="sourceLineNo">695</span><a id="line.695">    protected abstract Schedule getNextSchedule() throws Exception;</a>
-<span class="sourceLineNo">696</span><a id="line.696">  }</a>
-<span class="sourceLineNo">697</span><a id="line.697">}</a>
+<span class="sourceLineNo">567</span><a id="line.567">        } catch (Throwable e) {</a>
+<span class="sourceLineNo">568</span><a id="line.568">          // Any Exception is either a RuntimeException or sneaky checked exception.</a>
+<span class="sourceLineNo">569</span><a id="line.569">          //</a>
+<span class="sourceLineNo">570</span><a id="line.570">          // If an exception is thrown by the subclass then we need to make sure that the service</a>
+<span class="sourceLineNo">571</span><a id="line.571">          // notices and transitions to the FAILED state. We do it by calling notifyFailed directly</a>
+<span class="sourceLineNo">572</span><a id="line.572">          // because the service does not monitor the state of the future so if the exception is not</a>
+<span class="sourceLineNo">573</span><a id="line.573">          // caught and forwarded to the service the task would stop executing but the service would</a>
+<span class="sourceLineNo">574</span><a id="line.574">          // have no idea.</a>
+<span class="sourceLineNo">575</span><a id="line.575">          // TODO(lukes): consider building everything in terms of ListenableScheduledFuture then</a>
+<span class="sourceLineNo">576</span><a id="line.576">          // the AbstractService could monitor the future directly. Rescheduling is still hard...</a>
+<span class="sourceLineNo">577</span><a id="line.577">          // but it would help with some of these lock ordering issues.</a>
+<span class="sourceLineNo">578</span><a id="line.578">          scheduleFailure = e;</a>
+<span class="sourceLineNo">579</span><a id="line.579">          toReturn = new FutureAsCancellable(immediateCancelledFuture());</a>
+<span class="sourceLineNo">580</span><a id="line.580">        } finally {</a>
+<span class="sourceLineNo">581</span><a id="line.581">          lock.unlock();</a>
+<span class="sourceLineNo">582</span><a id="line.582">        }</a>
+<span class="sourceLineNo">583</span><a id="line.583">        // Call notifyFailed outside the lock to avoid lock ordering issues.</a>
+<span class="sourceLineNo">584</span><a id="line.584">        if (scheduleFailure != null) {</a>
+<span class="sourceLineNo">585</span><a id="line.585">          service.notifyFailed(scheduleFailure);</a>
+<span class="sourceLineNo">586</span><a id="line.586">        }</a>
+<span class="sourceLineNo">587</span><a id="line.587">        return toReturn;</a>
+<span class="sourceLineNo">588</span><a id="line.588">      }</a>
+<span class="sourceLineNo">589</span><a id="line.589"></a>
+<span class="sourceLineNo">590</span><a id="line.590">      @GuardedBy("lock")</a>
+<span class="sourceLineNo">591</span><a id="line.591">      /*</a>
+<span class="sourceLineNo">592</span><a id="line.592">       * The GuardedBy checker warns us that we're not holding cancellationDelegate.lock. But in</a>
+<span class="sourceLineNo">593</span><a id="line.593">       * fact we are holding it because it is the same as this.lock, which we know we are holding,</a>
+<span class="sourceLineNo">594</span><a id="line.594">       * thanks to @GuardedBy above. (cancellationDelegate.lock is initialized to this.lock in the</a>
+<span class="sourceLineNo">595</span><a id="line.595">       * call to `new SupplantableFuture` below.)</a>
+<span class="sourceLineNo">596</span><a id="line.596">       */</a>
+<span class="sourceLineNo">597</span><a id="line.597">      @SuppressWarnings("GuardedBy")</a>
+<span class="sourceLineNo">598</span><a id="line.598">      private Cancellable initializeOrUpdateCancellationDelegate(Schedule schedule) {</a>
+<span class="sourceLineNo">599</span><a id="line.599">        if (cancellationDelegate == null) {</a>
+<span class="sourceLineNo">600</span><a id="line.600">          return cancellationDelegate = new SupplantableFuture(lock, submitToExecutor(schedule));</a>
+<span class="sourceLineNo">601</span><a id="line.601">        }</a>
+<span class="sourceLineNo">602</span><a id="line.602">        if (!cancellationDelegate.currentFuture.isCancelled()) {</a>
+<span class="sourceLineNo">603</span><a id="line.603">          cancellationDelegate.currentFuture = submitToExecutor(schedule);</a>
+<span class="sourceLineNo">604</span><a id="line.604">        }</a>
+<span class="sourceLineNo">605</span><a id="line.605">        return cancellationDelegate;</a>
+<span class="sourceLineNo">606</span><a id="line.606">      }</a>
+<span class="sourceLineNo">607</span><a id="line.607"></a>
+<span class="sourceLineNo">608</span><a id="line.608">      private ScheduledFuture&lt;@Nullable Void&gt; submitToExecutor(Schedule schedule) {</a>
+<span class="sourceLineNo">609</span><a id="line.609">        return executor.schedule(this, schedule.delay, schedule.unit);</a>
+<span class="sourceLineNo">610</span><a id="line.610">      }</a>
+<span class="sourceLineNo">611</span><a id="line.611">    }</a>
+<span class="sourceLineNo">612</span><a id="line.612"></a>
+<span class="sourceLineNo">613</span><a id="line.613">    /**</a>
+<span class="sourceLineNo">614</span><a id="line.614">     * Contains the most recently submitted {@code Future}, which may be cancelled or updated,</a>
+<span class="sourceLineNo">615</span><a id="line.615">     * always under a lock.</a>
+<span class="sourceLineNo">616</span><a id="line.616">     */</a>
+<span class="sourceLineNo">617</span><a id="line.617">    private static final class SupplantableFuture implements Cancellable {</a>
+<span class="sourceLineNo">618</span><a id="line.618">      private final ReentrantLock lock;</a>
+<span class="sourceLineNo">619</span><a id="line.619"></a>
+<span class="sourceLineNo">620</span><a id="line.620">      @GuardedBy("lock")</a>
+<span class="sourceLineNo">621</span><a id="line.621">      private Future&lt;@Nullable Void&gt; currentFuture;</a>
+<span class="sourceLineNo">622</span><a id="line.622"></a>
+<span class="sourceLineNo">623</span><a id="line.623">      SupplantableFuture(ReentrantLock lock, Future&lt;@Nullable Void&gt; currentFuture) {</a>
+<span class="sourceLineNo">624</span><a id="line.624">        this.lock = lock;</a>
+<span class="sourceLineNo">625</span><a id="line.625">        this.currentFuture = currentFuture;</a>
+<span class="sourceLineNo">626</span><a id="line.626">      }</a>
+<span class="sourceLineNo">627</span><a id="line.627"></a>
+<span class="sourceLineNo">628</span><a id="line.628">      @Override</a>
+<span class="sourceLineNo">629</span><a id="line.629">      public void cancel(boolean mayInterruptIfRunning) {</a>
+<span class="sourceLineNo">630</span><a id="line.630">        /*</a>
+<span class="sourceLineNo">631</span><a id="line.631">         * Lock to ensure that a task cannot be rescheduled while a cancel is ongoing.</a>
+<span class="sourceLineNo">632</span><a id="line.632">         *</a>
+<span class="sourceLineNo">633</span><a id="line.633">         * In theory, cancel() could execute arbitrary listeners -- bad to do while holding a lock.</a>
+<span class="sourceLineNo">634</span><a id="line.634">         * However, we don't expose currentFuture to users, so they can't attach listeners. And the</a>
+<span class="sourceLineNo">635</span><a id="line.635">         * Future might not even be a ListenableFuture, just a plain Future. That said, similar</a>
+<span class="sourceLineNo">636</span><a id="line.636">         * problems can exist with methods like FutureTask.done(), not to mention slow calls to</a>
+<span class="sourceLineNo">637</span><a id="line.637">         * Thread.interrupt() (as discussed in InterruptibleTask). At the end of the day, it's</a>
+<span class="sourceLineNo">638</span><a id="line.638">         * unlikely that cancel() will be slow, so we can probably get away with calling it while</a>
+<span class="sourceLineNo">639</span><a id="line.639">         * holding a lock. Still, it would be nice to avoid somehow.</a>
+<span class="sourceLineNo">640</span><a id="line.640">         */</a>
+<span class="sourceLineNo">641</span><a id="line.641">        lock.lock();</a>
+<span class="sourceLineNo">642</span><a id="line.642">        try {</a>
+<span class="sourceLineNo">643</span><a id="line.643">          currentFuture.cancel(mayInterruptIfRunning);</a>
+<span class="sourceLineNo">644</span><a id="line.644">        } finally {</a>
+<span class="sourceLineNo">645</span><a id="line.645">          lock.unlock();</a>
+<span class="sourceLineNo">646</span><a id="line.646">        }</a>
+<span class="sourceLineNo">647</span><a id="line.647">      }</a>
+<span class="sourceLineNo">648</span><a id="line.648"></a>
+<span class="sourceLineNo">649</span><a id="line.649">      @Override</a>
+<span class="sourceLineNo">650</span><a id="line.650">      public boolean isCancelled() {</a>
+<span class="sourceLineNo">651</span><a id="line.651">        lock.lock();</a>
+<span class="sourceLineNo">652</span><a id="line.652">        try {</a>
+<span class="sourceLineNo">653</span><a id="line.653">          return currentFuture.isCancelled();</a>
+<span class="sourceLineNo">654</span><a id="line.654">        } finally {</a>
+<span class="sourceLineNo">655</span><a id="line.655">          lock.unlock();</a>
+<span class="sourceLineNo">656</span><a id="line.656">        }</a>
+<span class="sourceLineNo">657</span><a id="line.657">      }</a>
+<span class="sourceLineNo">658</span><a id="line.658">    }</a>
+<span class="sourceLineNo">659</span><a id="line.659"></a>
+<span class="sourceLineNo">660</span><a id="line.660">    @Override</a>
+<span class="sourceLineNo">661</span><a id="line.661">    final Cancellable schedule(</a>
+<span class="sourceLineNo">662</span><a id="line.662">        AbstractService service, ScheduledExecutorService executor, Runnable runnable) {</a>
+<span class="sourceLineNo">663</span><a id="line.663">      return new ReschedulableCallable(service, executor, runnable).reschedule();</a>
+<span class="sourceLineNo">664</span><a id="line.664">    }</a>
+<span class="sourceLineNo">665</span><a id="line.665"></a>
+<span class="sourceLineNo">666</span><a id="line.666">    /**</a>
+<span class="sourceLineNo">667</span><a id="line.667">     * A value object that represents an absolute delay until a task should be invoked.</a>
+<span class="sourceLineNo">668</span><a id="line.668">     *</a>
+<span class="sourceLineNo">669</span><a id="line.669">     * @author Luke Sandberg</a>
+<span class="sourceLineNo">670</span><a id="line.670">     * @since 11.0</a>
+<span class="sourceLineNo">671</span><a id="line.671">     */</a>
+<span class="sourceLineNo">672</span><a id="line.672">    protected static final class Schedule {</a>
+<span class="sourceLineNo">673</span><a id="line.673"></a>
+<span class="sourceLineNo">674</span><a id="line.674">      private final long delay;</a>
+<span class="sourceLineNo">675</span><a id="line.675">      private final TimeUnit unit;</a>
+<span class="sourceLineNo">676</span><a id="line.676"></a>
+<span class="sourceLineNo">677</span><a id="line.677">      /**</a>
+<span class="sourceLineNo">678</span><a id="line.678">       * @param delay the time from now to delay execution</a>
+<span class="sourceLineNo">679</span><a id="line.679">       * @param unit the time unit of the delay parameter</a>
+<span class="sourceLineNo">680</span><a id="line.680">       */</a>
+<span class="sourceLineNo">681</span><a id="line.681">      public Schedule(long delay, TimeUnit unit) {</a>
+<span class="sourceLineNo">682</span><a id="line.682">        this.delay = delay;</a>
+<span class="sourceLineNo">683</span><a id="line.683">        this.unit = checkNotNull(unit);</a>
+<span class="sourceLineNo">684</span><a id="line.684">      }</a>
+<span class="sourceLineNo">685</span><a id="line.685">    }</a>
+<span class="sourceLineNo">686</span><a id="line.686"></a>
+<span class="sourceLineNo">687</span><a id="line.687">    /**</a>
+<span class="sourceLineNo">688</span><a id="line.688">     * Calculates the time at which to next invoke the task.</a>
+<span class="sourceLineNo">689</span><a id="line.689">     *</a>
+<span class="sourceLineNo">690</span><a id="line.690">     * &lt;p&gt;This is guaranteed to be called immediately after the task has completed an iteration and</a>
+<span class="sourceLineNo">691</span><a id="line.691">     * on the same thread as the previous execution of {@link</a>
+<span class="sourceLineNo">692</span><a id="line.692">     * AbstractScheduledService#runOneIteration}.</a>
+<span class="sourceLineNo">693</span><a id="line.693">     *</a>
+<span class="sourceLineNo">694</span><a id="line.694">     * @return a schedule that defines the delay before the next execution.</a>
+<span class="sourceLineNo">695</span><a id="line.695">     */</a>
+<span class="sourceLineNo">696</span><a id="line.696">    // TODO(cpovirk): @ForOverride</a>
+<span class="sourceLineNo">697</span><a id="line.697">    protected abstract Schedule getNextSchedule() throws Exception;</a>
+<span class="sourceLineNo">698</span><a id="line.698">  }</a>
+<span class="sourceLineNo">699</span><a id="line.699">}</a>
 
 
 

@@ -1132,114 +1132,115 @@
 <span class="sourceLineNo">1123</span><a id="line.1123">  private boolean isSatisfied(Guard guard) {</a>
 <span class="sourceLineNo">1124</span><a id="line.1124">    try {</a>
 <span class="sourceLineNo">1125</span><a id="line.1125">      return guard.isSatisfied();</a>
-<span class="sourceLineNo">1126</span><a id="line.1126">    } catch (RuntimeException | Error throwable) {</a>
-<span class="sourceLineNo">1127</span><a id="line.1127">      signalAllWaiters();</a>
-<span class="sourceLineNo">1128</span><a id="line.1128">      throw throwable;</a>
-<span class="sourceLineNo">1129</span><a id="line.1129">    }</a>
-<span class="sourceLineNo">1130</span><a id="line.1130">  }</a>
-<span class="sourceLineNo">1131</span><a id="line.1131"></a>
-<span class="sourceLineNo">1132</span><a id="line.1132">  /** Signals all threads waiting on guards. */</a>
-<span class="sourceLineNo">1133</span><a id="line.1133">  @GuardedBy("lock")</a>
-<span class="sourceLineNo">1134</span><a id="line.1134">  private void signalAllWaiters() {</a>
-<span class="sourceLineNo">1135</span><a id="line.1135">    for (Guard guard = activeGuards; guard != null; guard = guard.next) {</a>
-<span class="sourceLineNo">1136</span><a id="line.1136">      guard.condition.signalAll();</a>
-<span class="sourceLineNo">1137</span><a id="line.1137">    }</a>
-<span class="sourceLineNo">1138</span><a id="line.1138">  }</a>
-<span class="sourceLineNo">1139</span><a id="line.1139"></a>
-<span class="sourceLineNo">1140</span><a id="line.1140">  /** Records that the current thread is about to wait on the specified guard. */</a>
-<span class="sourceLineNo">1141</span><a id="line.1141">  @GuardedBy("lock")</a>
-<span class="sourceLineNo">1142</span><a id="line.1142">  private void beginWaitingFor(Guard guard) {</a>
-<span class="sourceLineNo">1143</span><a id="line.1143">    int waiters = guard.waiterCount++;</a>
-<span class="sourceLineNo">1144</span><a id="line.1144">    if (waiters == 0) {</a>
-<span class="sourceLineNo">1145</span><a id="line.1145">      // push guard onto activeGuards</a>
-<span class="sourceLineNo">1146</span><a id="line.1146">      guard.next = activeGuards;</a>
-<span class="sourceLineNo">1147</span><a id="line.1147">      activeGuards = guard;</a>
-<span class="sourceLineNo">1148</span><a id="line.1148">    }</a>
-<span class="sourceLineNo">1149</span><a id="line.1149">  }</a>
-<span class="sourceLineNo">1150</span><a id="line.1150"></a>
-<span class="sourceLineNo">1151</span><a id="line.1151">  /** Records that the current thread is no longer waiting on the specified guard. */</a>
-<span class="sourceLineNo">1152</span><a id="line.1152">  @GuardedBy("lock")</a>
-<span class="sourceLineNo">1153</span><a id="line.1153">  private void endWaitingFor(Guard guard) {</a>
-<span class="sourceLineNo">1154</span><a id="line.1154">    int waiters = --guard.waiterCount;</a>
-<span class="sourceLineNo">1155</span><a id="line.1155">    if (waiters == 0) {</a>
-<span class="sourceLineNo">1156</span><a id="line.1156">      // unlink guard from activeGuards</a>
-<span class="sourceLineNo">1157</span><a id="line.1157">      for (Guard p = activeGuards, pred = null; ; pred = p, p = p.next) {</a>
-<span class="sourceLineNo">1158</span><a id="line.1158">        if (p == guard) {</a>
-<span class="sourceLineNo">1159</span><a id="line.1159">          if (pred == null) {</a>
-<span class="sourceLineNo">1160</span><a id="line.1160">            activeGuards = p.next;</a>
-<span class="sourceLineNo">1161</span><a id="line.1161">          } else {</a>
-<span class="sourceLineNo">1162</span><a id="line.1162">            pred.next = p.next;</a>
-<span class="sourceLineNo">1163</span><a id="line.1163">          }</a>
-<span class="sourceLineNo">1164</span><a id="line.1164">          p.next = null; // help GC</a>
-<span class="sourceLineNo">1165</span><a id="line.1165">          break;</a>
-<span class="sourceLineNo">1166</span><a id="line.1166">        }</a>
-<span class="sourceLineNo">1167</span><a id="line.1167">      }</a>
-<span class="sourceLineNo">1168</span><a id="line.1168">    }</a>
-<span class="sourceLineNo">1169</span><a id="line.1169">  }</a>
-<span class="sourceLineNo">1170</span><a id="line.1170"></a>
-<span class="sourceLineNo">1171</span><a id="line.1171">  /*</a>
-<span class="sourceLineNo">1172</span><a id="line.1172">   * Methods that loop waiting on a guard's condition until the guard is satisfied, while recording</a>
-<span class="sourceLineNo">1173</span><a id="line.1173">   * this fact so that other threads know to check our guard and signal us. It's caller's</a>
-<span class="sourceLineNo">1174</span><a id="line.1174">   * responsibility to ensure that the guard is *not* currently satisfied.</a>
-<span class="sourceLineNo">1175</span><a id="line.1175">   */</a>
-<span class="sourceLineNo">1176</span><a id="line.1176"></a>
-<span class="sourceLineNo">1177</span><a id="line.1177">  @GuardedBy("lock")</a>
-<span class="sourceLineNo">1178</span><a id="line.1178">  private void await(Guard guard, boolean signalBeforeWaiting) throws InterruptedException {</a>
-<span class="sourceLineNo">1179</span><a id="line.1179">    if (signalBeforeWaiting) {</a>
-<span class="sourceLineNo">1180</span><a id="line.1180">      signalNextWaiter();</a>
-<span class="sourceLineNo">1181</span><a id="line.1181">    }</a>
-<span class="sourceLineNo">1182</span><a id="line.1182">    beginWaitingFor(guard);</a>
-<span class="sourceLineNo">1183</span><a id="line.1183">    try {</a>
-<span class="sourceLineNo">1184</span><a id="line.1184">      do {</a>
-<span class="sourceLineNo">1185</span><a id="line.1185">        guard.condition.await();</a>
-<span class="sourceLineNo">1186</span><a id="line.1186">      } while (!guard.isSatisfied());</a>
-<span class="sourceLineNo">1187</span><a id="line.1187">    } finally {</a>
-<span class="sourceLineNo">1188</span><a id="line.1188">      endWaitingFor(guard);</a>
-<span class="sourceLineNo">1189</span><a id="line.1189">    }</a>
-<span class="sourceLineNo">1190</span><a id="line.1190">  }</a>
-<span class="sourceLineNo">1191</span><a id="line.1191"></a>
-<span class="sourceLineNo">1192</span><a id="line.1192">  @GuardedBy("lock")</a>
-<span class="sourceLineNo">1193</span><a id="line.1193">  private void awaitUninterruptibly(Guard guard, boolean signalBeforeWaiting) {</a>
-<span class="sourceLineNo">1194</span><a id="line.1194">    if (signalBeforeWaiting) {</a>
-<span class="sourceLineNo">1195</span><a id="line.1195">      signalNextWaiter();</a>
-<span class="sourceLineNo">1196</span><a id="line.1196">    }</a>
-<span class="sourceLineNo">1197</span><a id="line.1197">    beginWaitingFor(guard);</a>
-<span class="sourceLineNo">1198</span><a id="line.1198">    try {</a>
-<span class="sourceLineNo">1199</span><a id="line.1199">      do {</a>
-<span class="sourceLineNo">1200</span><a id="line.1200">        guard.condition.awaitUninterruptibly();</a>
-<span class="sourceLineNo">1201</span><a id="line.1201">      } while (!guard.isSatisfied());</a>
-<span class="sourceLineNo">1202</span><a id="line.1202">    } finally {</a>
-<span class="sourceLineNo">1203</span><a id="line.1203">      endWaitingFor(guard);</a>
-<span class="sourceLineNo">1204</span><a id="line.1204">    }</a>
-<span class="sourceLineNo">1205</span><a id="line.1205">  }</a>
-<span class="sourceLineNo">1206</span><a id="line.1206"></a>
-<span class="sourceLineNo">1207</span><a id="line.1207">  /** Caller should check before calling that guard is not satisfied. */</a>
-<span class="sourceLineNo">1208</span><a id="line.1208">  @GuardedBy("lock")</a>
-<span class="sourceLineNo">1209</span><a id="line.1209">  private boolean awaitNanos(Guard guard, long nanos, boolean signalBeforeWaiting)</a>
-<span class="sourceLineNo">1210</span><a id="line.1210">      throws InterruptedException {</a>
-<span class="sourceLineNo">1211</span><a id="line.1211">    boolean firstTime = true;</a>
-<span class="sourceLineNo">1212</span><a id="line.1212">    try {</a>
-<span class="sourceLineNo">1213</span><a id="line.1213">      do {</a>
-<span class="sourceLineNo">1214</span><a id="line.1214">        if (nanos &lt;= 0L) {</a>
-<span class="sourceLineNo">1215</span><a id="line.1215">          return false;</a>
-<span class="sourceLineNo">1216</span><a id="line.1216">        }</a>
-<span class="sourceLineNo">1217</span><a id="line.1217">        if (firstTime) {</a>
-<span class="sourceLineNo">1218</span><a id="line.1218">          if (signalBeforeWaiting) {</a>
-<span class="sourceLineNo">1219</span><a id="line.1219">            signalNextWaiter();</a>
-<span class="sourceLineNo">1220</span><a id="line.1220">          }</a>
-<span class="sourceLineNo">1221</span><a id="line.1221">          beginWaitingFor(guard);</a>
-<span class="sourceLineNo">1222</span><a id="line.1222">          firstTime = false;</a>
-<span class="sourceLineNo">1223</span><a id="line.1223">        }</a>
-<span class="sourceLineNo">1224</span><a id="line.1224">        nanos = guard.condition.awaitNanos(nanos);</a>
-<span class="sourceLineNo">1225</span><a id="line.1225">      } while (!guard.isSatisfied());</a>
-<span class="sourceLineNo">1226</span><a id="line.1226">      return true;</a>
-<span class="sourceLineNo">1227</span><a id="line.1227">    } finally {</a>
-<span class="sourceLineNo">1228</span><a id="line.1228">      if (!firstTime) {</a>
-<span class="sourceLineNo">1229</span><a id="line.1229">        endWaitingFor(guard);</a>
-<span class="sourceLineNo">1230</span><a id="line.1230">      }</a>
-<span class="sourceLineNo">1231</span><a id="line.1231">    }</a>
-<span class="sourceLineNo">1232</span><a id="line.1232">  }</a>
-<span class="sourceLineNo">1233</span><a id="line.1233">}</a>
+<span class="sourceLineNo">1126</span><a id="line.1126">    } catch (Throwable throwable) {</a>
+<span class="sourceLineNo">1127</span><a id="line.1127">      // Any Exception is either a RuntimeException or sneaky checked exception.</a>
+<span class="sourceLineNo">1128</span><a id="line.1128">      signalAllWaiters();</a>
+<span class="sourceLineNo">1129</span><a id="line.1129">      throw throwable;</a>
+<span class="sourceLineNo">1130</span><a id="line.1130">    }</a>
+<span class="sourceLineNo">1131</span><a id="line.1131">  }</a>
+<span class="sourceLineNo">1132</span><a id="line.1132"></a>
+<span class="sourceLineNo">1133</span><a id="line.1133">  /** Signals all threads waiting on guards. */</a>
+<span class="sourceLineNo">1134</span><a id="line.1134">  @GuardedBy("lock")</a>
+<span class="sourceLineNo">1135</span><a id="line.1135">  private void signalAllWaiters() {</a>
+<span class="sourceLineNo">1136</span><a id="line.1136">    for (Guard guard = activeGuards; guard != null; guard = guard.next) {</a>
+<span class="sourceLineNo">1137</span><a id="line.1137">      guard.condition.signalAll();</a>
+<span class="sourceLineNo">1138</span><a id="line.1138">    }</a>
+<span class="sourceLineNo">1139</span><a id="line.1139">  }</a>
+<span class="sourceLineNo">1140</span><a id="line.1140"></a>
+<span class="sourceLineNo">1141</span><a id="line.1141">  /** Records that the current thread is about to wait on the specified guard. */</a>
+<span class="sourceLineNo">1142</span><a id="line.1142">  @GuardedBy("lock")</a>
+<span class="sourceLineNo">1143</span><a id="line.1143">  private void beginWaitingFor(Guard guard) {</a>
+<span class="sourceLineNo">1144</span><a id="line.1144">    int waiters = guard.waiterCount++;</a>
+<span class="sourceLineNo">1145</span><a id="line.1145">    if (waiters == 0) {</a>
+<span class="sourceLineNo">1146</span><a id="line.1146">      // push guard onto activeGuards</a>
+<span class="sourceLineNo">1147</span><a id="line.1147">      guard.next = activeGuards;</a>
+<span class="sourceLineNo">1148</span><a id="line.1148">      activeGuards = guard;</a>
+<span class="sourceLineNo">1149</span><a id="line.1149">    }</a>
+<span class="sourceLineNo">1150</span><a id="line.1150">  }</a>
+<span class="sourceLineNo">1151</span><a id="line.1151"></a>
+<span class="sourceLineNo">1152</span><a id="line.1152">  /** Records that the current thread is no longer waiting on the specified guard. */</a>
+<span class="sourceLineNo">1153</span><a id="line.1153">  @GuardedBy("lock")</a>
+<span class="sourceLineNo">1154</span><a id="line.1154">  private void endWaitingFor(Guard guard) {</a>
+<span class="sourceLineNo">1155</span><a id="line.1155">    int waiters = --guard.waiterCount;</a>
+<span class="sourceLineNo">1156</span><a id="line.1156">    if (waiters == 0) {</a>
+<span class="sourceLineNo">1157</span><a id="line.1157">      // unlink guard from activeGuards</a>
+<span class="sourceLineNo">1158</span><a id="line.1158">      for (Guard p = activeGuards, pred = null; ; pred = p, p = p.next) {</a>
+<span class="sourceLineNo">1159</span><a id="line.1159">        if (p == guard) {</a>
+<span class="sourceLineNo">1160</span><a id="line.1160">          if (pred == null) {</a>
+<span class="sourceLineNo">1161</span><a id="line.1161">            activeGuards = p.next;</a>
+<span class="sourceLineNo">1162</span><a id="line.1162">          } else {</a>
+<span class="sourceLineNo">1163</span><a id="line.1163">            pred.next = p.next;</a>
+<span class="sourceLineNo">1164</span><a id="line.1164">          }</a>
+<span class="sourceLineNo">1165</span><a id="line.1165">          p.next = null; // help GC</a>
+<span class="sourceLineNo">1166</span><a id="line.1166">          break;</a>
+<span class="sourceLineNo">1167</span><a id="line.1167">        }</a>
+<span class="sourceLineNo">1168</span><a id="line.1168">      }</a>
+<span class="sourceLineNo">1169</span><a id="line.1169">    }</a>
+<span class="sourceLineNo">1170</span><a id="line.1170">  }</a>
+<span class="sourceLineNo">1171</span><a id="line.1171"></a>
+<span class="sourceLineNo">1172</span><a id="line.1172">  /*</a>
+<span class="sourceLineNo">1173</span><a id="line.1173">   * Methods that loop waiting on a guard's condition until the guard is satisfied, while recording</a>
+<span class="sourceLineNo">1174</span><a id="line.1174">   * this fact so that other threads know to check our guard and signal us. It's caller's</a>
+<span class="sourceLineNo">1175</span><a id="line.1175">   * responsibility to ensure that the guard is *not* currently satisfied.</a>
+<span class="sourceLineNo">1176</span><a id="line.1176">   */</a>
+<span class="sourceLineNo">1177</span><a id="line.1177"></a>
+<span class="sourceLineNo">1178</span><a id="line.1178">  @GuardedBy("lock")</a>
+<span class="sourceLineNo">1179</span><a id="line.1179">  private void await(Guard guard, boolean signalBeforeWaiting) throws InterruptedException {</a>
+<span class="sourceLineNo">1180</span><a id="line.1180">    if (signalBeforeWaiting) {</a>
+<span class="sourceLineNo">1181</span><a id="line.1181">      signalNextWaiter();</a>
+<span class="sourceLineNo">1182</span><a id="line.1182">    }</a>
+<span class="sourceLineNo">1183</span><a id="line.1183">    beginWaitingFor(guard);</a>
+<span class="sourceLineNo">1184</span><a id="line.1184">    try {</a>
+<span class="sourceLineNo">1185</span><a id="line.1185">      do {</a>
+<span class="sourceLineNo">1186</span><a id="line.1186">        guard.condition.await();</a>
+<span class="sourceLineNo">1187</span><a id="line.1187">      } while (!guard.isSatisfied());</a>
+<span class="sourceLineNo">1188</span><a id="line.1188">    } finally {</a>
+<span class="sourceLineNo">1189</span><a id="line.1189">      endWaitingFor(guard);</a>
+<span class="sourceLineNo">1190</span><a id="line.1190">    }</a>
+<span class="sourceLineNo">1191</span><a id="line.1191">  }</a>
+<span class="sourceLineNo">1192</span><a id="line.1192"></a>
+<span class="sourceLineNo">1193</span><a id="line.1193">  @GuardedBy("lock")</a>
+<span class="sourceLineNo">1194</span><a id="line.1194">  private void awaitUninterruptibly(Guard guard, boolean signalBeforeWaiting) {</a>
+<span class="sourceLineNo">1195</span><a id="line.1195">    if (signalBeforeWaiting) {</a>
+<span class="sourceLineNo">1196</span><a id="line.1196">      signalNextWaiter();</a>
+<span class="sourceLineNo">1197</span><a id="line.1197">    }</a>
+<span class="sourceLineNo">1198</span><a id="line.1198">    beginWaitingFor(guard);</a>
+<span class="sourceLineNo">1199</span><a id="line.1199">    try {</a>
+<span class="sourceLineNo">1200</span><a id="line.1200">      do {</a>
+<span class="sourceLineNo">1201</span><a id="line.1201">        guard.condition.awaitUninterruptibly();</a>
+<span class="sourceLineNo">1202</span><a id="line.1202">      } while (!guard.isSatisfied());</a>
+<span class="sourceLineNo">1203</span><a id="line.1203">    } finally {</a>
+<span class="sourceLineNo">1204</span><a id="line.1204">      endWaitingFor(guard);</a>
+<span class="sourceLineNo">1205</span><a id="line.1205">    }</a>
+<span class="sourceLineNo">1206</span><a id="line.1206">  }</a>
+<span class="sourceLineNo">1207</span><a id="line.1207"></a>
+<span class="sourceLineNo">1208</span><a id="line.1208">  /** Caller should check before calling that guard is not satisfied. */</a>
+<span class="sourceLineNo">1209</span><a id="line.1209">  @GuardedBy("lock")</a>
+<span class="sourceLineNo">1210</span><a id="line.1210">  private boolean awaitNanos(Guard guard, long nanos, boolean signalBeforeWaiting)</a>
+<span class="sourceLineNo">1211</span><a id="line.1211">      throws InterruptedException {</a>
+<span class="sourceLineNo">1212</span><a id="line.1212">    boolean firstTime = true;</a>
+<span class="sourceLineNo">1213</span><a id="line.1213">    try {</a>
+<span class="sourceLineNo">1214</span><a id="line.1214">      do {</a>
+<span class="sourceLineNo">1215</span><a id="line.1215">        if (nanos &lt;= 0L) {</a>
+<span class="sourceLineNo">1216</span><a id="line.1216">          return false;</a>
+<span class="sourceLineNo">1217</span><a id="line.1217">        }</a>
+<span class="sourceLineNo">1218</span><a id="line.1218">        if (firstTime) {</a>
+<span class="sourceLineNo">1219</span><a id="line.1219">          if (signalBeforeWaiting) {</a>
+<span class="sourceLineNo">1220</span><a id="line.1220">            signalNextWaiter();</a>
+<span class="sourceLineNo">1221</span><a id="line.1221">          }</a>
+<span class="sourceLineNo">1222</span><a id="line.1222">          beginWaitingFor(guard);</a>
+<span class="sourceLineNo">1223</span><a id="line.1223">          firstTime = false;</a>
+<span class="sourceLineNo">1224</span><a id="line.1224">        }</a>
+<span class="sourceLineNo">1225</span><a id="line.1225">        nanos = guard.condition.awaitNanos(nanos);</a>
+<span class="sourceLineNo">1226</span><a id="line.1226">      } while (!guard.isSatisfied());</a>
+<span class="sourceLineNo">1227</span><a id="line.1227">      return true;</a>
+<span class="sourceLineNo">1228</span><a id="line.1228">    } finally {</a>
+<span class="sourceLineNo">1229</span><a id="line.1229">      if (!firstTime) {</a>
+<span class="sourceLineNo">1230</span><a id="line.1230">        endWaitingFor(guard);</a>
+<span class="sourceLineNo">1231</span><a id="line.1231">      }</a>
+<span class="sourceLineNo">1232</span><a id="line.1232">    }</a>
+<span class="sourceLineNo">1233</span><a id="line.1233">  }</a>
+<span class="sourceLineNo">1234</span><a id="line.1234">}</a>
 
 
 
