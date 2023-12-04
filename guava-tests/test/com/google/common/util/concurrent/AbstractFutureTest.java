@@ -20,6 +20,7 @@ import static com.google.common.base.StandardSystemProperty.JAVA_SPECIFICATION_V
 import static com.google.common.base.StandardSystemProperty.OS_NAME;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
+import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static org.junit.Assert.assertThrows;
 
 import com.google.common.annotations.GwtIncompatible;
@@ -1054,6 +1055,25 @@ public class AbstractFutureTest extends TestCase {
     assertThat(ranImmediately.get()).isTrue();
     t.interrupt();
     t.join();
+  }
+
+  public void testCatchesUndeclaredThrowableFromListener() {
+    AbstractFuture<String> f = new AbstractFuture<String>() {};
+    f.set("foo");
+    f.addListener(() -> sneakyThrow(new SomeCheckedException()), directExecutor());
+  }
+
+  private static final class SomeCheckedException extends Exception {}
+
+  /** Throws an undeclared checked exception. */
+  private static void sneakyThrow(Throwable t) {
+    class SneakyThrower<T extends Throwable> {
+      @SuppressWarnings("unchecked") // intentionally unsafe for test
+      void throwIt(Throwable t) throws T {
+        throw (T) t;
+      }
+    }
+    new SneakyThrower<Error>().throwIt(t);
   }
 
   public void testTrustedGetFailure_Completed() {
