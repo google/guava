@@ -140,10 +140,11 @@ public final class ExecutionList {
    * Submits the given runnable to the given {@link Executor} catching and logging all {@linkplain
    * RuntimeException runtime exceptions} thrown by the executor.
    */
+  @SuppressWarnings("CatchingUnchecked") // sneaky checked exception
   private static void executeListener(Runnable runnable, Executor executor) {
     try {
       executor.execute(runnable);
-    } catch (RuntimeException e) {
+    } catch (Exception e) { // sneaky checked exception
       // Log it and keep going -- bad runnable and/or executor. Don't punish the other runnables if
       // we're given a bad one. We only catch RuntimeException because we want Errors to propagate
       // up.

@@ -42,12 +42,13 @@ class ImmediateFuture<V extends @Nullable Object> implements ListenableFuture<V>
   }
 
   @Override
+  @SuppressWarnings("CatchingUnchecked") // sneaky checked exception
   public void addListener(Runnable listener, Executor executor) {
     checkNotNull(listener, "Runnable was null.");
     checkNotNull(executor, "Executor was null.");
     try {
       executor.execute(listener);
-    } catch (RuntimeException e) {
+    } catch (Exception e) { // sneaky checked exception
       // ListenableFuture's contract is that it will not throw unchecked exceptions, so log the bad
       // runnable and/or executor and swallow it.
       log.log(

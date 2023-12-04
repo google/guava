@@ -678,7 +678,8 @@ public final class MoreExecutors {
       public void run() {
         try {
           delegate.run();
-        } catch (RuntimeException | Error t) {
+        } catch (Throwable t) {
+          // Any Exception is either a RuntimeException or sneaky checked exception.
           setException(t);
           throw t;
         }
