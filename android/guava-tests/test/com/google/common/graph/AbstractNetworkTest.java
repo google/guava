@@ -807,7 +807,7 @@ public abstract class AbstractNetworkTest {
      * synchronization actions.)
      *
      * All that said: I haven't actually managed to make this particular test produce a TSAN error
-     * for the field accesses in MapIteratorCache. This teset *has* found other TSAN errors,
+     * for the field accesses in MapIteratorCache. This test *has* found other TSAN errors,
      * including in MapRetrievalCache, so I'm not sure why this one is different. I did at least
      * confirm that my change to MapIteratorCache fixes the TSAN error in the (larger) test it was
      * originally reported in.
