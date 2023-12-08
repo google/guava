@@ -36,6 +36,10 @@ import java.util.Map;
 import java.util.NavigableMap;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import java.util.function.BinaryOperator;
+import java.util.function.Function;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -60,6 +64,46 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 @ElementTypesAreNonnullByDefault
 public final class ImmutableSortedMap<K, V> extends ImmutableMap<K, V>
     implements NavigableMap<K, V> {
+  /**
+   * Returns a {@link Collector} that accumulates elements into an {@code ImmutableSortedMap} whose
+   * keys and values are the result of applying the provided mapping functions to the input
+   * elements. The generated map is sorted by the specified comparator.
+   *
+   * <p>If the mapped keys contain duplicates (according to the specified comparator), an {@code
+   * IllegalArgumentException} is thrown when the collection operation is performed. (This differs
+   * from the {@code Collector} returned by {@link Collectors#toMap(Function, Function)}, which
+   * throws an {@code IllegalStateException}.)
+   */
+  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
+  @IgnoreJRERequirement // Users will use this only if they're already using streams.
+  static <T extends @Nullable Object, K, V>
+      Collector<T, ?, ImmutableSortedMap<K, V>> toImmutableSortedMap(
+          Comparator<? super K> comparator,
+          Function<? super T, ? extends K> keyFunction,
+          Function<? super T, ? extends V> valueFunction) {
+    return CollectCollectors.toImmutableSortedMap(comparator, keyFunction, valueFunction);
+  }
+
+  /**
+   * Returns a {@link Collector} that accumulates elements into an {@code ImmutableSortedMap} whose
+   * keys and values are the result of applying the provided mapping functions to the input
+   * elements.
+   *
+   * <p>If the mapped keys contain duplicates (according to the comparator), the values are merged
+   * using the specified merging function. Entries will appear in the encounter order of the first
+   * occurrence of the key.
+   */
+  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
+  @IgnoreJRERequirement // Users will use this only if they're already using streams.
+  static <T extends @Nullable Object, K, V>
+      Collector<T, ?, ImmutableSortedMap<K, V>> toImmutableSortedMap(
+          Comparator<? super K> comparator,
+          Function<? super T, ? extends K> keyFunction,
+          Function<? super T, ? extends V> valueFunction,
+          BinaryOperator<V> mergeFunction) {
+    return CollectCollectors.toImmutableSortedMap(
+        comparator, keyFunction, valueFunction, mergeFunction);
+  }
 
   /*
    * TODO(kevinb): Confirm that ImmutableSortedMap is faster to construct and
@@ -1165,6 +1209,43 @@ public final class ImmutableSortedMap<K, V> extends ImmutableMap<K, V>
   // This class is never actually serialized directly, but we have to make the
   // warning go away (and suppressing would suppress for all nested classes too)
   private static final long serialVersionUID = 0;
+
+  /**
+   * Not supported. Use {@link #toImmutableSortedMap}, which offers better type-safety, instead.
+   * This method exists only to hide {@link ImmutableMap#toImmutableMap} from consumers of {@code
+   * ImmutableSortedMap}.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated Use {@link ImmutableSortedMap#toImmutableSortedMap}.
+   */
+  @DoNotCall("Use toImmutableSortedMap")
+  @Deprecated
+  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
+  @IgnoreJRERequirement // Users will use this only if they're already using streams.
+  static <T extends @Nullable Object, K, V> Collector<T, ?, ImmutableMap<K, V>> toImmutableMap(
+      Function<? super T, ? extends K> keyFunction,
+      Function<? super T, ? extends V> valueFunction) {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
+   * Not supported. Use {@link #toImmutableSortedMap}, which offers better type-safety, instead.
+   * This method exists only to hide {@link ImmutableMap#toImmutableMap} from consumers of {@code
+   * ImmutableSortedMap}.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated Use {@link ImmutableSortedMap#toImmutableSortedMap}.
+   */
+  @DoNotCall("Use toImmutableSortedMap")
+  @Deprecated
+  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
+  @IgnoreJRERequirement // Users will use this only if they're already using streams.
+  static <T extends @Nullable Object, K, V> Collector<T, ?, ImmutableMap<K, V>> toImmutableMap(
+      Function<? super T, ? extends K> keyFunction,
+      Function<? super T, ? extends V> valueFunction,
+      BinaryOperator<V> mergeFunction) {
+    throw new UnsupportedOperationException();
+  }
 
   /**
    * Not supported. Use {@link #naturalOrder}, which offers better type-safety, instead. This method

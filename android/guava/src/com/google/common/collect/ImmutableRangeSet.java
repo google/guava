@@ -38,6 +38,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
+import java.util.stream.Collector;
 import javax.annotation.CheckForNull;
 
 /**
@@ -57,6 +58,18 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
 
   private static final ImmutableRangeSet<Comparable<?>> ALL =
       new ImmutableRangeSet<>(ImmutableList.of(Range.<Comparable<?>>all()));
+
+  /**
+   * Returns a {@code Collector} that accumulates the input elements into a new {@code
+   * ImmutableRangeSet}. As in {@link Builder}, overlapping ranges are not permitted and adjacent
+   * ranges will be merged.
+   */
+  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
+  @IgnoreJRERequirement // Users will use this only if they're already using streams.
+  static <E extends Comparable<? super E>>
+      Collector<Range<E>, ?, ImmutableRangeSet<E>> toImmutableRangeSet() {
+    return CollectCollectors.toImmutableRangeSet();
+  }
 
   /**
    * Returns an empty immutable range set.

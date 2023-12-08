@@ -36,6 +36,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.NavigableSet;
 import java.util.SortedSet;
+import java.util.stream.Collector;
 import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -62,6 +63,19 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 @ElementTypesAreNonnullByDefault
 public abstract class ImmutableSortedSet<E> extends ImmutableSet<E>
     implements NavigableSet<E>, SortedIterable<E> {
+  /**
+   * Returns a {@code Collector} that accumulates the input elements into a new {@code
+   * ImmutableSortedSet}, ordered by the specified comparator.
+   *
+   * <p>If the elements contain duplicates (according to the comparator), only the first duplicate
+   * in encounter order will appear in the result.
+   */
+  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
+  @IgnoreJRERequirement // Users will use this only if they're already using streams.
+  static <E> Collector<E, ?, ImmutableSortedSet<E>> toImmutableSortedSet(
+      Comparator<? super E> comparator) {
+    return CollectCollectors.toImmutableSortedSet(comparator);
+  }
 
   static <E> RegularImmutableSortedSet<E> emptySet(Comparator<? super E> comparator) {
     if (Ordering.natural().equals(comparator)) {
@@ -763,6 +777,21 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSet<E>
   @J2ktIncompatible // serialization
   Object writeReplace() {
     return new SerializedForm<E>(comparator, toArray());
+  }
+
+  /**
+   * Not supported. Use {@link #toImmutableSortedSet} instead. This method exists only to hide
+   * {@link ImmutableSet#toImmutableSet} from consumers of {@code ImmutableSortedSet}.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated Use {@link ImmutableSortedSet#toImmutableSortedSet}.
+   */
+  @DoNotCall("Use toImmutableSortedSet")
+  @Deprecated
+  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
+  @IgnoreJRERequirement // Users will use this only if they're already using streams.
+  static <E> Collector<E, ?, ImmutableSet<E>> toImmutableSet() {
+    throw new UnsupportedOperationException();
   }
 
   /**
