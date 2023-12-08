@@ -17131,11 +17131,6 @@
       <![CDATA[Returns an unmodifiable iterator across the elements in this collection.]]>
       </doc>
     </method>
-    <method name="spliterator" return="java.util.Spliterator&lt;E&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-    </method>
     <method name="toArray" return="java.lang.Object[]"
       abstract="false" native="false" synchronized="false"
       static="false" final="true" visibility="public"

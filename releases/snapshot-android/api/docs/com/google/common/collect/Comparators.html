@@ -133,7 +133,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <hr>
 <pre><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public final class <a href="../../../../src-html/com/google/common/collect/Comparators.html#line.41">Comparators</a>
+public final class <a href="../../../../src-html/com/google/common/collect/Comparators.html#line.44">Comparators</a>
 extends java.lang.Object</pre>
 <div class="block">Provides static methods for working with <code>Comparator</code> instances. For many other helpful
  comparator utilities, see either <code>Comparator</code> itself (for Java 8 or later), or <code>
@@ -262,7 +262,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>lexicographical</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;S extends T&gt;&nbsp;java.util.Comparator&lt;java.lang.Iterable&lt;S&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Comparators.html#line.60">lexicographical</a>&#8203;(java.util.Comparator&lt;T&gt;&nbsp;comparator)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;S extends T&gt;&nbsp;java.util.Comparator&lt;java.lang.Iterable&lt;S&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Comparators.html#line.63">lexicographical</a>&#8203;(java.util.Comparator&lt;T&gt;&nbsp;comparator)</pre>
 <div class="block">Returns a new comparator which sorts iterables by comparing corresponding elements pairwise
  until a nonzero result is found; imposes "dictionary order." If the end of one iterable is
  reached, but not the other, the shorter iterable is considered to be less than the longer one.
@@ -280,7 +280,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>isInOrder</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Comparators.html#line.70">isInOrder</a>&#8203;(java.lang.Iterable&lt;? extends T&gt;&nbsp;iterable,
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Comparators.html#line.73">isInOrder</a>&#8203;(java.lang.Iterable&lt;? extends T&gt;&nbsp;iterable,
                                                                        java.util.Comparator&lt;T&gt;&nbsp;comparator)</pre>
 <div class="block">Returns <code>true</code> if each element in <code>iterable</code> after the first is greater than or
  equal to the element that preceded it, according to the specified comparator. Note that this is
@@ -293,7 +293,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>isInStrictOrder</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Comparators.html#line.92">isInStrictOrder</a>&#8203;(java.lang.Iterable&lt;? extends T&gt;&nbsp;iterable,
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Comparators.html#line.95">isInStrictOrder</a>&#8203;(java.lang.Iterable&lt;? extends T&gt;&nbsp;iterable,
                                                                              java.util.Comparator&lt;T&gt;&nbsp;comparator)</pre>
 <div class="block">Returns <code>true</code> if each element in <code>iterable</code> after the first is <i>strictly</i>
  greater than the element that preceded it, according to the specified comparator. Note that
@@ -308,7 +308,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>min</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends java.lang.Comparable&lt;? super T&gt;&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/Comparators.html#line.122">min</a>&#8203;(T&nbsp;a,
+<pre class="methodSignature">public static&nbsp;&lt;T extends java.lang.Comparable&lt;? super T&gt;&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/Comparators.html#line.184">min</a>&#8203;(T&nbsp;a,
                                                                 T&nbsp;b)</pre>
 <div class="block">Returns the minimum of the two values. If the values compare as 0, the first is returned.
 
@@ -335,7 +335,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>min</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/Comparators.html#line.141">min</a>&#8203;(T&nbsp;a,
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/Comparators.html#line.203">min</a>&#8203;(T&nbsp;a,
                                                            T&nbsp;b,
                                                            java.util.Comparator&lt;T&gt;&nbsp;comparator)</pre>
 <div class="block">Returns the minimum of the two values, according to the given comparator. If the values compare
@@ -365,7 +365,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>max</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends java.lang.Comparable&lt;? super T&gt;&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/Comparators.html#line.160">max</a>&#8203;(T&nbsp;a,
+<pre class="methodSignature">public static&nbsp;&lt;T extends java.lang.Comparable&lt;? super T&gt;&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/Comparators.html#line.222">max</a>&#8203;(T&nbsp;a,
                                                                 T&nbsp;b)</pre>
 <div class="block">Returns the maximum of the two values. If the values compare as 0, the first is returned.
 
@@ -392,7 +392,7 @@ extends java.lang.Object</pre>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>max</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/Comparators.html#line.179">max</a>&#8203;(T&nbsp;a,
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/Comparators.html#line.241">max</a>&#8203;(T&nbsp;a,
                                                            T&nbsp;b,
                                                            java.util.Comparator&lt;T&gt;&nbsp;comparator)</pre>
 <div class="block">Returns the maximum of the two values, according to the given comparator. If the values compare
