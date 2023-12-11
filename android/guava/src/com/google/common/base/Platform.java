@@ -17,9 +17,6 @@ package com.google.common.base;
 import com.google.common.annotations.GwtCompatible;
 import java.lang.ref.WeakReference;
 import java.util.Locale;
-import java.util.ServiceConfigurationError;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import javax.annotation.CheckForNull;
 
@@ -31,7 +28,6 @@ import javax.annotation.CheckForNull;
 @GwtCompatible(emulated = true)
 @ElementTypesAreNonnullByDefault
 final class Platform {
-  private static final Logger logger = Logger.getLogger(Platform.class.getName());
   private static final PatternCompiler patternCompiler = loadPatternCompiler();
 
   private Platform() {}
@@ -90,10 +86,6 @@ final class Platform {
      * in Guava, at least for now).
      */
     return new JdkPatternCompiler();
-  }
-
-  private static void logPatternCompilerError(ServiceConfigurationError e) {
-    logger.log(Level.WARNING, "Error loading regex compiler, falling back to next option", e);
   }
 
   private static final class JdkPatternCompiler implements PatternCompiler {
