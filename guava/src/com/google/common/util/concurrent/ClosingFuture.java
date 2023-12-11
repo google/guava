@@ -2159,6 +2159,14 @@ public final class ClosingFuture<V extends @Nullable Object> {
             try {
               closeable.close();
             } catch (Exception e) {
+              /*
+               * In guava-jre, any kind of Exception may be thrown because `closeable` has type
+               * `AutoCloseable`.
+               *
+               * In guava-android, the only kinds of Exception that may be thrown are
+               * RuntimeException and IOException because `closeable` has type `Closeable`—except
+               * that we have to account for sneaky checked exception.
+               */
               restoreInterruptIfIsInterruptedException(e);
               logger.log(WARNING, "thrown by close()", e);
             }

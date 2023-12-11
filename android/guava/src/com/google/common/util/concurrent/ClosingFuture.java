@@ -32,6 +32,7 @@ import static com.google.common.util.concurrent.Futures.getDone;
 import static com.google.common.util.concurrent.Futures.immediateFuture;
 import static com.google.common.util.concurrent.Futures.nonCancellationPropagating;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
+import static com.google.common.util.concurrent.Platform.restoreInterruptIfIsInterruptedException;
 import static java.util.logging.Level.FINER;
 import static java.util.logging.Level.SEVERE;
 import static java.util.logging.Level.WARNING;
@@ -47,7 +48,6 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.DoNotMock;
 import com.google.j2objc.annotations.RetainedWith;
 import java.io.Closeable;
-import java.io.IOException;
 import java.util.IdentityHashMap;
 import java.util.Map;
 import java.util.concurrent.Callable;
@@ -2145,7 +2145,16 @@ public final class ClosingFuture<V extends @Nullable Object> {
           () -> {
             try {
               closeable.close();
-            } catch (IOException | RuntimeException e) {
+            } catch (Exception e) {
+              /*
+               * In guava-jre, any kind of Exception may be thrown because `closeable` has type
+               * `AutoCloseable`.
+               *
+               * In guava-android, the only kinds of Exception that may be thrown are
+               * RuntimeException and IOException because `closeable` has type `Closeable`—except
+               * that we have to account for sneaky checked exception.
+               */
+              restoreInterruptIfIsInterruptedException(e);
               logger.log(WARNING, "thrown by close()", e);
             }
           });
