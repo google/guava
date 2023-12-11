@@ -2168,159 +2168,167 @@
 <span class="sourceLineNo">2159</span><a id="line.2159">            try {</a>
 <span class="sourceLineNo">2160</span><a id="line.2160">              closeable.close();</a>
 <span class="sourceLineNo">2161</span><a id="line.2161">            } catch (Exception e) {</a>
-<span class="sourceLineNo">2162</span><a id="line.2162">              restoreInterruptIfIsInterruptedException(e);</a>
-<span class="sourceLineNo">2163</span><a id="line.2163">              logger.log(WARNING, "thrown by close()", e);</a>
-<span class="sourceLineNo">2164</span><a id="line.2164">            }</a>
-<span class="sourceLineNo">2165</span><a id="line.2165">          });</a>
-<span class="sourceLineNo">2166</span><a id="line.2166">    } catch (RejectedExecutionException e) {</a>
-<span class="sourceLineNo">2167</span><a id="line.2167">      if (logger.isLoggable(WARNING)) {</a>
-<span class="sourceLineNo">2168</span><a id="line.2168">        logger.log(</a>
-<span class="sourceLineNo">2169</span><a id="line.2169">            WARNING, String.format("while submitting close to %s; will close inline", executor), e);</a>
-<span class="sourceLineNo">2170</span><a id="line.2170">      }</a>
-<span class="sourceLineNo">2171</span><a id="line.2171">      closeQuietly(closeable, directExecutor());</a>
-<span class="sourceLineNo">2172</span><a id="line.2172">    }</a>
-<span class="sourceLineNo">2173</span><a id="line.2173">  }</a>
-<span class="sourceLineNo">2174</span><a id="line.2174"></a>
-<span class="sourceLineNo">2175</span><a id="line.2175">  private void checkAndUpdateState(State oldState, State newState) {</a>
-<span class="sourceLineNo">2176</span><a id="line.2176">    checkState(</a>
-<span class="sourceLineNo">2177</span><a id="line.2177">        compareAndUpdateState(oldState, newState),</a>
-<span class="sourceLineNo">2178</span><a id="line.2178">        "Expected state to be %s, but it was %s",</a>
-<span class="sourceLineNo">2179</span><a id="line.2179">        oldState,</a>
-<span class="sourceLineNo">2180</span><a id="line.2180">        newState);</a>
+<span class="sourceLineNo">2162</span><a id="line.2162">              /*</a>
+<span class="sourceLineNo">2163</span><a id="line.2163">               * In guava-jre, any kind of Exception may be thrown because `closeable` has type</a>
+<span class="sourceLineNo">2164</span><a id="line.2164">               * `AutoCloseable`.</a>
+<span class="sourceLineNo">2165</span><a id="line.2165">               *</a>
+<span class="sourceLineNo">2166</span><a id="line.2166">               * In guava-android, the only kinds of Exception that may be thrown are</a>
+<span class="sourceLineNo">2167</span><a id="line.2167">               * RuntimeException and IOException because `closeable` has type `Closeable`—except</a>
+<span class="sourceLineNo">2168</span><a id="line.2168">               * that we have to account for sneaky checked exception.</a>
+<span class="sourceLineNo">2169</span><a id="line.2169">               */</a>
+<span class="sourceLineNo">2170</span><a id="line.2170">              restoreInterruptIfIsInterruptedException(e);</a>
+<span class="sourceLineNo">2171</span><a id="line.2171">              logger.log(WARNING, "thrown by close()", e);</a>
+<span class="sourceLineNo">2172</span><a id="line.2172">            }</a>
+<span class="sourceLineNo">2173</span><a id="line.2173">          });</a>
+<span class="sourceLineNo">2174</span><a id="line.2174">    } catch (RejectedExecutionException e) {</a>
+<span class="sourceLineNo">2175</span><a id="line.2175">      if (logger.isLoggable(WARNING)) {</a>
+<span class="sourceLineNo">2176</span><a id="line.2176">        logger.log(</a>
+<span class="sourceLineNo">2177</span><a id="line.2177">            WARNING, String.format("while submitting close to %s; will close inline", executor), e);</a>
+<span class="sourceLineNo">2178</span><a id="line.2178">      }</a>
+<span class="sourceLineNo">2179</span><a id="line.2179">      closeQuietly(closeable, directExecutor());</a>
+<span class="sourceLineNo">2180</span><a id="line.2180">    }</a>
 <span class="sourceLineNo">2181</span><a id="line.2181">  }</a>
 <span class="sourceLineNo">2182</span><a id="line.2182"></a>
-<span class="sourceLineNo">2183</span><a id="line.2183">  private boolean compareAndUpdateState(State oldState, State newState) {</a>
-<span class="sourceLineNo">2184</span><a id="line.2184">    return state.compareAndSet(oldState, newState);</a>
-<span class="sourceLineNo">2185</span><a id="line.2185">  }</a>
-<span class="sourceLineNo">2186</span><a id="line.2186"></a>
-<span class="sourceLineNo">2187</span><a id="line.2187">  // TODO(dpb): Should we use a pair of ArrayLists instead of an IdentityHashMap?</a>
-<span class="sourceLineNo">2188</span><a id="line.2188">  private static final class CloseableList extends IdentityHashMap&lt;AutoCloseable, Executor&gt;</a>
-<span class="sourceLineNo">2189</span><a id="line.2189">      implements Closeable {</a>
-<span class="sourceLineNo">2190</span><a id="line.2190">    private final DeferredCloser closer = new DeferredCloser(this);</a>
-<span class="sourceLineNo">2191</span><a id="line.2191">    private volatile boolean closed;</a>
-<span class="sourceLineNo">2192</span><a id="line.2192">    @CheckForNull private volatile CountDownLatch whenClosed;</a>
-<span class="sourceLineNo">2193</span><a id="line.2193"></a>
-<span class="sourceLineNo">2194</span><a id="line.2194">    &lt;V extends @Nullable Object, U extends @Nullable Object&gt;</a>
-<span class="sourceLineNo">2195</span><a id="line.2195">        ListenableFuture&lt;U&gt; applyClosingFunction(</a>
-<span class="sourceLineNo">2196</span><a id="line.2196">            ClosingFunction&lt;? super V, U&gt; transformation, @ParametricNullness V input)</a>
-<span class="sourceLineNo">2197</span><a id="line.2197">            throws Exception {</a>
-<span class="sourceLineNo">2198</span><a id="line.2198">      // TODO(dpb): Consider ways to defer closing without creating a separate CloseableList.</a>
-<span class="sourceLineNo">2199</span><a id="line.2199">      CloseableList newCloseables = new CloseableList();</a>
-<span class="sourceLineNo">2200</span><a id="line.2200">      try {</a>
-<span class="sourceLineNo">2201</span><a id="line.2201">        return immediateFuture(transformation.apply(newCloseables.closer, input));</a>
-<span class="sourceLineNo">2202</span><a id="line.2202">      } finally {</a>
-<span class="sourceLineNo">2203</span><a id="line.2203">        add(newCloseables, directExecutor());</a>
-<span class="sourceLineNo">2204</span><a id="line.2204">      }</a>
-<span class="sourceLineNo">2205</span><a id="line.2205">    }</a>
-<span class="sourceLineNo">2206</span><a id="line.2206"></a>
-<span class="sourceLineNo">2207</span><a id="line.2207">    &lt;V extends @Nullable Object, U extends @Nullable Object&gt;</a>
-<span class="sourceLineNo">2208</span><a id="line.2208">        FluentFuture&lt;U&gt; applyAsyncClosingFunction(</a>
-<span class="sourceLineNo">2209</span><a id="line.2209">            AsyncClosingFunction&lt;V, U&gt; transformation, @ParametricNullness V input)</a>
-<span class="sourceLineNo">2210</span><a id="line.2210">            throws Exception {</a>
-<span class="sourceLineNo">2211</span><a id="line.2211">      // TODO(dpb): Consider ways to defer closing without creating a separate CloseableList.</a>
-<span class="sourceLineNo">2212</span><a id="line.2212">      CloseableList newCloseables = new CloseableList();</a>
-<span class="sourceLineNo">2213</span><a id="line.2213">      try {</a>
-<span class="sourceLineNo">2214</span><a id="line.2214">        ClosingFuture&lt;U&gt; closingFuture = transformation.apply(newCloseables.closer, input);</a>
-<span class="sourceLineNo">2215</span><a id="line.2215">        closingFuture.becomeSubsumedInto(newCloseables);</a>
-<span class="sourceLineNo">2216</span><a id="line.2216">        return closingFuture.future;</a>
-<span class="sourceLineNo">2217</span><a id="line.2217">      } finally {</a>
-<span class="sourceLineNo">2218</span><a id="line.2218">        add(newCloseables, directExecutor());</a>
-<span class="sourceLineNo">2219</span><a id="line.2219">      }</a>
-<span class="sourceLineNo">2220</span><a id="line.2220">    }</a>
-<span class="sourceLineNo">2221</span><a id="line.2221"></a>
-<span class="sourceLineNo">2222</span><a id="line.2222">    @Override</a>
-<span class="sourceLineNo">2223</span><a id="line.2223">    public void close() {</a>
-<span class="sourceLineNo">2224</span><a id="line.2224">      if (closed) {</a>
-<span class="sourceLineNo">2225</span><a id="line.2225">        return;</a>
-<span class="sourceLineNo">2226</span><a id="line.2226">      }</a>
-<span class="sourceLineNo">2227</span><a id="line.2227">      synchronized (this) {</a>
-<span class="sourceLineNo">2228</span><a id="line.2228">        if (closed) {</a>
-<span class="sourceLineNo">2229</span><a id="line.2229">          return;</a>
-<span class="sourceLineNo">2230</span><a id="line.2230">        }</a>
-<span class="sourceLineNo">2231</span><a id="line.2231">        closed = true;</a>
-<span class="sourceLineNo">2232</span><a id="line.2232">      }</a>
-<span class="sourceLineNo">2233</span><a id="line.2233">      for (Map.Entry&lt;AutoCloseable, Executor&gt; entry : entrySet()) {</a>
-<span class="sourceLineNo">2234</span><a id="line.2234">        closeQuietly(entry.getKey(), entry.getValue());</a>
-<span class="sourceLineNo">2235</span><a id="line.2235">      }</a>
-<span class="sourceLineNo">2236</span><a id="line.2236">      clear();</a>
-<span class="sourceLineNo">2237</span><a id="line.2237">      if (whenClosed != null) {</a>
-<span class="sourceLineNo">2238</span><a id="line.2238">        whenClosed.countDown();</a>
-<span class="sourceLineNo">2239</span><a id="line.2239">      }</a>
-<span class="sourceLineNo">2240</span><a id="line.2240">    }</a>
-<span class="sourceLineNo">2241</span><a id="line.2241"></a>
-<span class="sourceLineNo">2242</span><a id="line.2242">    void add(@CheckForNull AutoCloseable closeable, Executor executor) {</a>
-<span class="sourceLineNo">2243</span><a id="line.2243">      checkNotNull(executor);</a>
-<span class="sourceLineNo">2244</span><a id="line.2244">      if (closeable == null) {</a>
-<span class="sourceLineNo">2245</span><a id="line.2245">        return;</a>
-<span class="sourceLineNo">2246</span><a id="line.2246">      }</a>
-<span class="sourceLineNo">2247</span><a id="line.2247">      synchronized (this) {</a>
-<span class="sourceLineNo">2248</span><a id="line.2248">        if (!closed) {</a>
-<span class="sourceLineNo">2249</span><a id="line.2249">          put(closeable, executor);</a>
-<span class="sourceLineNo">2250</span><a id="line.2250">          return;</a>
-<span class="sourceLineNo">2251</span><a id="line.2251">        }</a>
-<span class="sourceLineNo">2252</span><a id="line.2252">      }</a>
-<span class="sourceLineNo">2253</span><a id="line.2253">      closeQuietly(closeable, executor);</a>
-<span class="sourceLineNo">2254</span><a id="line.2254">    }</a>
-<span class="sourceLineNo">2255</span><a id="line.2255"></a>
-<span class="sourceLineNo">2256</span><a id="line.2256">    /**</a>
-<span class="sourceLineNo">2257</span><a id="line.2257">     * Returns a latch that reaches zero when this objects' deferred closeables have been closed.</a>
-<span class="sourceLineNo">2258</span><a id="line.2258">     */</a>
-<span class="sourceLineNo">2259</span><a id="line.2259">    CountDownLatch whenClosedCountDown() {</a>
-<span class="sourceLineNo">2260</span><a id="line.2260">      if (closed) {</a>
-<span class="sourceLineNo">2261</span><a id="line.2261">        return new CountDownLatch(0);</a>
-<span class="sourceLineNo">2262</span><a id="line.2262">      }</a>
-<span class="sourceLineNo">2263</span><a id="line.2263">      synchronized (this) {</a>
-<span class="sourceLineNo">2264</span><a id="line.2264">        if (closed) {</a>
-<span class="sourceLineNo">2265</span><a id="line.2265">          return new CountDownLatch(0);</a>
-<span class="sourceLineNo">2266</span><a id="line.2266">        }</a>
-<span class="sourceLineNo">2267</span><a id="line.2267">        checkState(whenClosed == null);</a>
-<span class="sourceLineNo">2268</span><a id="line.2268">        return whenClosed = new CountDownLatch(1);</a>
-<span class="sourceLineNo">2269</span><a id="line.2269">      }</a>
-<span class="sourceLineNo">2270</span><a id="line.2270">    }</a>
-<span class="sourceLineNo">2271</span><a id="line.2271">  }</a>
-<span class="sourceLineNo">2272</span><a id="line.2272"></a>
-<span class="sourceLineNo">2273</span><a id="line.2273">  /**</a>
-<span class="sourceLineNo">2274</span><a id="line.2274">   * Returns an object that can be used to wait until this objects' deferred closeables have all had</a>
-<span class="sourceLineNo">2275</span><a id="line.2275">   * {@link Runnable}s that close them submitted to each one's closing {@link Executor}.</a>
-<span class="sourceLineNo">2276</span><a id="line.2276">   */</a>
-<span class="sourceLineNo">2277</span><a id="line.2277">  @VisibleForTesting</a>
-<span class="sourceLineNo">2278</span><a id="line.2278">  CountDownLatch whenClosedCountDown() {</a>
-<span class="sourceLineNo">2279</span><a id="line.2279">    return closeables.whenClosedCountDown();</a>
-<span class="sourceLineNo">2280</span><a id="line.2280">  }</a>
-<span class="sourceLineNo">2281</span><a id="line.2281"></a>
-<span class="sourceLineNo">2282</span><a id="line.2282">  /** The state of a {@link CloseableList}. */</a>
-<span class="sourceLineNo">2283</span><a id="line.2283">  enum State {</a>
-<span class="sourceLineNo">2284</span><a id="line.2284">    /** The {@link CloseableList} has not been subsumed or closed. */</a>
-<span class="sourceLineNo">2285</span><a id="line.2285">    OPEN,</a>
-<span class="sourceLineNo">2286</span><a id="line.2286"></a>
-<span class="sourceLineNo">2287</span><a id="line.2287">    /**</a>
-<span class="sourceLineNo">2288</span><a id="line.2288">     * The {@link CloseableList} has been subsumed into another. It may not be closed or subsumed</a>
-<span class="sourceLineNo">2289</span><a id="line.2289">     * into any other.</a>
-<span class="sourceLineNo">2290</span><a id="line.2290">     */</a>
-<span class="sourceLineNo">2291</span><a id="line.2291">    SUBSUMED,</a>
-<span class="sourceLineNo">2292</span><a id="line.2292"></a>
-<span class="sourceLineNo">2293</span><a id="line.2293">    /**</a>
-<span class="sourceLineNo">2294</span><a id="line.2294">     * Some {@link ListenableFuture} has a callback attached that will close the {@link</a>
-<span class="sourceLineNo">2295</span><a id="line.2295">     * CloseableList}, but it has not yet run. The {@link CloseableList} may not be subsumed.</a>
-<span class="sourceLineNo">2296</span><a id="line.2296">     */</a>
-<span class="sourceLineNo">2297</span><a id="line.2297">    WILL_CLOSE,</a>
-<span class="sourceLineNo">2298</span><a id="line.2298"></a>
-<span class="sourceLineNo">2299</span><a id="line.2299">    /**</a>
-<span class="sourceLineNo">2300</span><a id="line.2300">     * The callback that closes the {@link CloseableList} is running, but it has not completed. The</a>
-<span class="sourceLineNo">2301</span><a id="line.2301">     * {@link CloseableList} may not be subsumed.</a>
-<span class="sourceLineNo">2302</span><a id="line.2302">     */</a>
-<span class="sourceLineNo">2303</span><a id="line.2303">    CLOSING,</a>
-<span class="sourceLineNo">2304</span><a id="line.2304"></a>
-<span class="sourceLineNo">2305</span><a id="line.2305">    /** The {@link CloseableList} has been closed. It may not be further subsumed. */</a>
-<span class="sourceLineNo">2306</span><a id="line.2306">    CLOSED,</a>
-<span class="sourceLineNo">2307</span><a id="line.2307"></a>
-<span class="sourceLineNo">2308</span><a id="line.2308">    /**</a>
-<span class="sourceLineNo">2309</span><a id="line.2309">     * {@link ClosingFuture#finishToValueAndCloser(ValueAndCloserConsumer, Executor)} has been</a>
-<span class="sourceLineNo">2310</span><a id="line.2310">     * called. The step may not be further subsumed, nor may {@link #finishToFuture()} be called.</a>
-<span class="sourceLineNo">2311</span><a id="line.2311">     */</a>
-<span class="sourceLineNo">2312</span><a id="line.2312">    WILL_CREATE_VALUE_AND_CLOSER,</a>
-<span class="sourceLineNo">2313</span><a id="line.2313">  }</a>
-<span class="sourceLineNo">2314</span><a id="line.2314">}</a>
+<span class="sourceLineNo">2183</span><a id="line.2183">  private void checkAndUpdateState(State oldState, State newState) {</a>
+<span class="sourceLineNo">2184</span><a id="line.2184">    checkState(</a>
+<span class="sourceLineNo">2185</span><a id="line.2185">        compareAndUpdateState(oldState, newState),</a>
+<span class="sourceLineNo">2186</span><a id="line.2186">        "Expected state to be %s, but it was %s",</a>
+<span class="sourceLineNo">2187</span><a id="line.2187">        oldState,</a>
+<span class="sourceLineNo">2188</span><a id="line.2188">        newState);</a>
+<span class="sourceLineNo">2189</span><a id="line.2189">  }</a>
+<span class="sourceLineNo">2190</span><a id="line.2190"></a>
+<span class="sourceLineNo">2191</span><a id="line.2191">  private boolean compareAndUpdateState(State oldState, State newState) {</a>
+<span class="sourceLineNo">2192</span><a id="line.2192">    return state.compareAndSet(oldState, newState);</a>
+<span class="sourceLineNo">2193</span><a id="line.2193">  }</a>
+<span class="sourceLineNo">2194</span><a id="line.2194"></a>
+<span class="sourceLineNo">2195</span><a id="line.2195">  // TODO(dpb): Should we use a pair of ArrayLists instead of an IdentityHashMap?</a>
+<span class="sourceLineNo">2196</span><a id="line.2196">  private static final class CloseableList extends IdentityHashMap&lt;AutoCloseable, Executor&gt;</a>
+<span class="sourceLineNo">2197</span><a id="line.2197">      implements Closeable {</a>
+<span class="sourceLineNo">2198</span><a id="line.2198">    private final DeferredCloser closer = new DeferredCloser(this);</a>
+<span class="sourceLineNo">2199</span><a id="line.2199">    private volatile boolean closed;</a>
+<span class="sourceLineNo">2200</span><a id="line.2200">    @CheckForNull private volatile CountDownLatch whenClosed;</a>
+<span class="sourceLineNo">2201</span><a id="line.2201"></a>
+<span class="sourceLineNo">2202</span><a id="line.2202">    &lt;V extends @Nullable Object, U extends @Nullable Object&gt;</a>
+<span class="sourceLineNo">2203</span><a id="line.2203">        ListenableFuture&lt;U&gt; applyClosingFunction(</a>
+<span class="sourceLineNo">2204</span><a id="line.2204">            ClosingFunction&lt;? super V, U&gt; transformation, @ParametricNullness V input)</a>
+<span class="sourceLineNo">2205</span><a id="line.2205">            throws Exception {</a>
+<span class="sourceLineNo">2206</span><a id="line.2206">      // TODO(dpb): Consider ways to defer closing without creating a separate CloseableList.</a>
+<span class="sourceLineNo">2207</span><a id="line.2207">      CloseableList newCloseables = new CloseableList();</a>
+<span class="sourceLineNo">2208</span><a id="line.2208">      try {</a>
+<span class="sourceLineNo">2209</span><a id="line.2209">        return immediateFuture(transformation.apply(newCloseables.closer, input));</a>
+<span class="sourceLineNo">2210</span><a id="line.2210">      } finally {</a>
+<span class="sourceLineNo">2211</span><a id="line.2211">        add(newCloseables, directExecutor());</a>
+<span class="sourceLineNo">2212</span><a id="line.2212">      }</a>
+<span class="sourceLineNo">2213</span><a id="line.2213">    }</a>
+<span class="sourceLineNo">2214</span><a id="line.2214"></a>
+<span class="sourceLineNo">2215</span><a id="line.2215">    &lt;V extends @Nullable Object, U extends @Nullable Object&gt;</a>
+<span class="sourceLineNo">2216</span><a id="line.2216">        FluentFuture&lt;U&gt; applyAsyncClosingFunction(</a>
+<span class="sourceLineNo">2217</span><a id="line.2217">            AsyncClosingFunction&lt;V, U&gt; transformation, @ParametricNullness V input)</a>
+<span class="sourceLineNo">2218</span><a id="line.2218">            throws Exception {</a>
+<span class="sourceLineNo">2219</span><a id="line.2219">      // TODO(dpb): Consider ways to defer closing without creating a separate CloseableList.</a>
+<span class="sourceLineNo">2220</span><a id="line.2220">      CloseableList newCloseables = new CloseableList();</a>
+<span class="sourceLineNo">2221</span><a id="line.2221">      try {</a>
+<span class="sourceLineNo">2222</span><a id="line.2222">        ClosingFuture&lt;U&gt; closingFuture = transformation.apply(newCloseables.closer, input);</a>
+<span class="sourceLineNo">2223</span><a id="line.2223">        closingFuture.becomeSubsumedInto(newCloseables);</a>
+<span class="sourceLineNo">2224</span><a id="line.2224">        return closingFuture.future;</a>
+<span class="sourceLineNo">2225</span><a id="line.2225">      } finally {</a>
+<span class="sourceLineNo">2226</span><a id="line.2226">        add(newCloseables, directExecutor());</a>
+<span class="sourceLineNo">2227</span><a id="line.2227">      }</a>
+<span class="sourceLineNo">2228</span><a id="line.2228">    }</a>
+<span class="sourceLineNo">2229</span><a id="line.2229"></a>
+<span class="sourceLineNo">2230</span><a id="line.2230">    @Override</a>
+<span class="sourceLineNo">2231</span><a id="line.2231">    public void close() {</a>
+<span class="sourceLineNo">2232</span><a id="line.2232">      if (closed) {</a>
+<span class="sourceLineNo">2233</span><a id="line.2233">        return;</a>
+<span class="sourceLineNo">2234</span><a id="line.2234">      }</a>
+<span class="sourceLineNo">2235</span><a id="line.2235">      synchronized (this) {</a>
+<span class="sourceLineNo">2236</span><a id="line.2236">        if (closed) {</a>
+<span class="sourceLineNo">2237</span><a id="line.2237">          return;</a>
+<span class="sourceLineNo">2238</span><a id="line.2238">        }</a>
+<span class="sourceLineNo">2239</span><a id="line.2239">        closed = true;</a>
+<span class="sourceLineNo">2240</span><a id="line.2240">      }</a>
+<span class="sourceLineNo">2241</span><a id="line.2241">      for (Map.Entry&lt;AutoCloseable, Executor&gt; entry : entrySet()) {</a>
+<span class="sourceLineNo">2242</span><a id="line.2242">        closeQuietly(entry.getKey(), entry.getValue());</a>
+<span class="sourceLineNo">2243</span><a id="line.2243">      }</a>
+<span class="sourceLineNo">2244</span><a id="line.2244">      clear();</a>
+<span class="sourceLineNo">2245</span><a id="line.2245">      if (whenClosed != null) {</a>
+<span class="sourceLineNo">2246</span><a id="line.2246">        whenClosed.countDown();</a>
+<span class="sourceLineNo">2247</span><a id="line.2247">      }</a>
+<span class="sourceLineNo">2248</span><a id="line.2248">    }</a>
+<span class="sourceLineNo">2249</span><a id="line.2249"></a>
+<span class="sourceLineNo">2250</span><a id="line.2250">    void add(@CheckForNull AutoCloseable closeable, Executor executor) {</a>
+<span class="sourceLineNo">2251</span><a id="line.2251">      checkNotNull(executor);</a>
+<span class="sourceLineNo">2252</span><a id="line.2252">      if (closeable == null) {</a>
+<span class="sourceLineNo">2253</span><a id="line.2253">        return;</a>
+<span class="sourceLineNo">2254</span><a id="line.2254">      }</a>
+<span class="sourceLineNo">2255</span><a id="line.2255">      synchronized (this) {</a>
+<span class="sourceLineNo">2256</span><a id="line.2256">        if (!closed) {</a>
+<span class="sourceLineNo">2257</span><a id="line.2257">          put(closeable, executor);</a>
+<span class="sourceLineNo">2258</span><a id="line.2258">          return;</a>
+<span class="sourceLineNo">2259</span><a id="line.2259">        }</a>
+<span class="sourceLineNo">2260</span><a id="line.2260">      }</a>
+<span class="sourceLineNo">2261</span><a id="line.2261">      closeQuietly(closeable, executor);</a>
+<span class="sourceLineNo">2262</span><a id="line.2262">    }</a>
+<span class="sourceLineNo">2263</span><a id="line.2263"></a>
+<span class="sourceLineNo">2264</span><a id="line.2264">    /**</a>
+<span class="sourceLineNo">2265</span><a id="line.2265">     * Returns a latch that reaches zero when this objects' deferred closeables have been closed.</a>
+<span class="sourceLineNo">2266</span><a id="line.2266">     */</a>
+<span class="sourceLineNo">2267</span><a id="line.2267">    CountDownLatch whenClosedCountDown() {</a>
+<span class="sourceLineNo">2268</span><a id="line.2268">      if (closed) {</a>
+<span class="sourceLineNo">2269</span><a id="line.2269">        return new CountDownLatch(0);</a>
+<span class="sourceLineNo">2270</span><a id="line.2270">      }</a>
+<span class="sourceLineNo">2271</span><a id="line.2271">      synchronized (this) {</a>
+<span class="sourceLineNo">2272</span><a id="line.2272">        if (closed) {</a>
+<span class="sourceLineNo">2273</span><a id="line.2273">          return new CountDownLatch(0);</a>
+<span class="sourceLineNo">2274</span><a id="line.2274">        }</a>
+<span class="sourceLineNo">2275</span><a id="line.2275">        checkState(whenClosed == null);</a>
+<span class="sourceLineNo">2276</span><a id="line.2276">        return whenClosed = new CountDownLatch(1);</a>
+<span class="sourceLineNo">2277</span><a id="line.2277">      }</a>
+<span class="sourceLineNo">2278</span><a id="line.2278">    }</a>
+<span class="sourceLineNo">2279</span><a id="line.2279">  }</a>
+<span class="sourceLineNo">2280</span><a id="line.2280"></a>
+<span class="sourceLineNo">2281</span><a id="line.2281">  /**</a>
+<span class="sourceLineNo">2282</span><a id="line.2282">   * Returns an object that can be used to wait until this objects' deferred closeables have all had</a>
+<span class="sourceLineNo">2283</span><a id="line.2283">   * {@link Runnable}s that close them submitted to each one's closing {@link Executor}.</a>
+<span class="sourceLineNo">2284</span><a id="line.2284">   */</a>
+<span class="sourceLineNo">2285</span><a id="line.2285">  @VisibleForTesting</a>
+<span class="sourceLineNo">2286</span><a id="line.2286">  CountDownLatch whenClosedCountDown() {</a>
+<span class="sourceLineNo">2287</span><a id="line.2287">    return closeables.whenClosedCountDown();</a>
+<span class="sourceLineNo">2288</span><a id="line.2288">  }</a>
+<span class="sourceLineNo">2289</span><a id="line.2289"></a>
+<span class="sourceLineNo">2290</span><a id="line.2290">  /** The state of a {@link CloseableList}. */</a>
+<span class="sourceLineNo">2291</span><a id="line.2291">  enum State {</a>
+<span class="sourceLineNo">2292</span><a id="line.2292">    /** The {@link CloseableList} has not been subsumed or closed. */</a>
+<span class="sourceLineNo">2293</span><a id="line.2293">    OPEN,</a>
+<span class="sourceLineNo">2294</span><a id="line.2294"></a>
+<span class="sourceLineNo">2295</span><a id="line.2295">    /**</a>
+<span class="sourceLineNo">2296</span><a id="line.2296">     * The {@link CloseableList} has been subsumed into another. It may not be closed or subsumed</a>
+<span class="sourceLineNo">2297</span><a id="line.2297">     * into any other.</a>
+<span class="sourceLineNo">2298</span><a id="line.2298">     */</a>
+<span class="sourceLineNo">2299</span><a id="line.2299">    SUBSUMED,</a>
+<span class="sourceLineNo">2300</span><a id="line.2300"></a>
+<span class="sourceLineNo">2301</span><a id="line.2301">    /**</a>
+<span class="sourceLineNo">2302</span><a id="line.2302">     * Some {@link ListenableFuture} has a callback attached that will close the {@link</a>
+<span class="sourceLineNo">2303</span><a id="line.2303">     * CloseableList}, but it has not yet run. The {@link CloseableList} may not be subsumed.</a>
+<span class="sourceLineNo">2304</span><a id="line.2304">     */</a>
+<span class="sourceLineNo">2305</span><a id="line.2305">    WILL_CLOSE,</a>
+<span class="sourceLineNo">2306</span><a id="line.2306"></a>
+<span class="sourceLineNo">2307</span><a id="line.2307">    /**</a>
+<span class="sourceLineNo">2308</span><a id="line.2308">     * The callback that closes the {@link CloseableList} is running, but it has not completed. The</a>
+<span class="sourceLineNo">2309</span><a id="line.2309">     * {@link CloseableList} may not be subsumed.</a>
+<span class="sourceLineNo">2310</span><a id="line.2310">     */</a>
+<span class="sourceLineNo">2311</span><a id="line.2311">    CLOSING,</a>
+<span class="sourceLineNo">2312</span><a id="line.2312"></a>
+<span class="sourceLineNo">2313</span><a id="line.2313">    /** The {@link CloseableList} has been closed. It may not be further subsumed. */</a>
+<span class="sourceLineNo">2314</span><a id="line.2314">    CLOSED,</a>
+<span class="sourceLineNo">2315</span><a id="line.2315"></a>
+<span class="sourceLineNo">2316</span><a id="line.2316">    /**</a>
+<span class="sourceLineNo">2317</span><a id="line.2317">     * {@link ClosingFuture#finishToValueAndCloser(ValueAndCloserConsumer, Executor)} has been</a>
+<span class="sourceLineNo">2318</span><a id="line.2318">     * called. The step may not be further subsumed, nor may {@link #finishToFuture()} be called.</a>
+<span class="sourceLineNo">2319</span><a id="line.2319">     */</a>
+<span class="sourceLineNo">2320</span><a id="line.2320">    WILL_CREATE_VALUE_AND_CLOSER,</a>
+<span class="sourceLineNo">2321</span><a id="line.2321">  }</a>
+<span class="sourceLineNo">2322</span><a id="line.2322">}</a>
 
 
 
