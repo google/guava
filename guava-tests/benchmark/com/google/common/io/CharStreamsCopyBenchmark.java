@@ -38,7 +38,7 @@ public class CharStreamsCopyBenchmark {
     OLD {
       @Override
       long copy(Readable from, Appendable to) throws IOException {
-        CharBuffer buf = CharStreams.createBuffer();
+        CharBuffer buf = CharBuffer.allocate(4096);
         long total = 0;
         while (from.read(buf) != -1) {
           ((Buffer) buf).flip();

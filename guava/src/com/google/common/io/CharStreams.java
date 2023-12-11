@@ -48,15 +48,8 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 @ElementTypesAreNonnullByDefault
 public final class CharStreams {
 
-  // 2K chars (4K bytes)
-  private static final int DEFAULT_BUF_SIZE = 0x800;
-
-  /** Creates a new {@code CharBuffer} for buffering reads or writes. */
-  static CharBuffer createBuffer() {
-    return CharBuffer.allocate(DEFAULT_BUF_SIZE);
+  private CharStreams() {
   }
-
-  private CharStreams() {}
 
   /**
    * Copies all characters between the {@link Readable} and {@link Appendable} objects. Does not
@@ -83,12 +76,15 @@ public final class CharStreams {
     checkNotNull(from);
     checkNotNull(to);
     long total = 0;
-    CharBuffer buf = createBuffer();
-    while (from.read(buf) != -1) {
-      Java8Compatibility.flip(buf);
-      to.append(buf);
-      total += buf.remaining();
-      Java8Compatibility.clear(buf);
+    
+    try (TransferBuffer<char[]> buffer = TransferBuffer.getCharArrayTransferBuffer()) {
+        CharBuffer buf = CharBuffer.wrap(buffer.get());
+        while (from.read(buf) != -1) {
+          Java8Compatibility.flip(buf);
+          to.append(buf);
+          total += buf.remaining();
+          Java8Compatibility.clear(buf);
+        }
     }
     return total;
   }
@@ -115,14 +111,16 @@ public final class CharStreams {
   static long copyReaderToBuilder(Reader from, StringBuilder to) throws IOException {
     checkNotNull(from);
     checkNotNull(to);
-    char[] buf = new char[DEFAULT_BUF_SIZE];
-    int nRead;
-    long total = 0;
-    while ((nRead = from.read(buf)) != -1) {
-      to.append(buf, 0, nRead);
-      total += nRead;
+    try (TransferBuffer<char[]> buffer = TransferBuffer.getCharArrayTransferBuffer()) {
+      char[] buf = buffer.get();
+      int nRead;
+      long total = 0;
+      while ((nRead = from.read(buf)) != -1) {
+        to.append(buf, 0, nRead);
+        total += nRead;
+      }
+      return total;
     }
-    return total;
   }
 
   /**
@@ -143,14 +141,16 @@ public final class CharStreams {
   static long copyReaderToWriter(Reader from, Writer to) throws IOException {
     checkNotNull(from);
     checkNotNull(to);
-    char[] buf = new char[DEFAULT_BUF_SIZE];
-    int nRead;
-    long total = 0;
-    while ((nRead = from.read(buf)) != -1) {
-      to.write(buf, 0, nRead);
-      total += nRead;
+    try (TransferBuffer<char[]> buffer = TransferBuffer.getCharArrayTransferBuffer()) {
+      char[] buf = buffer.get();
+      int nRead;
+      long total = 0;
+      while ((nRead = from.read(buf)) != -1) {
+        to.write(buf, 0, nRead);
+        total += nRead;
+      }
+      return total;
     }
-    return total;
   }
 
   /**
@@ -240,12 +240,14 @@ public final class CharStreams {
   public static long exhaust(Readable readable) throws IOException {
     long total = 0;
     long read;
-    CharBuffer buf = createBuffer();
-    while ((read = readable.read(buf)) != -1) {
-      total += read;
-      Java8Compatibility.clear(buf);
+    try (TransferBuffer<char[]> buffer = TransferBuffer.getCharArrayTransferBuffer()) {
+      CharBuffer buf = CharBuffer.wrap(buffer.get());
+      while ((read = readable.read(buf)) != -1) {
+        total += read;
+        Java8Compatibility.clear(buf);
+      }
+      return total;
     }
-    return total;
   }
 
   /**

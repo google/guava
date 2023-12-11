@@ -16,7 +16,6 @@ package com.google.common.io;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.io.ByteStreams.createBuffer;
 import static com.google.common.io.ByteStreams.skipUpTo;
 
 import com.google.common.annotations.GwtIncompatible;
@@ -350,19 +349,28 @@ public abstract class ByteSource {
   public boolean contentEquals(ByteSource other) throws IOException {
     checkNotNull(other);
 
-    byte[] buf1 = createBuffer();
-    byte[] buf2 = createBuffer();
-
     Closer closer = Closer.create();
-    try {
+    try (TransferBuffer<byte[]> buffer = TransferBuffer.getByteArrayTransferBuffer()) {
+      byte[] bytes = buffer.get();
+      int bufferSize = bytes.length / 2;
+
       InputStream in1 = closer.register(openStream());
       InputStream in2 = closer.register(other.openStream());
       while (true) {
-        int read1 = ByteStreams.read(in1, buf1, 0, buf1.length);
-        int read2 = ByteStreams.read(in2, buf2, 0, buf2.length);
-        if (read1 != read2 || !Arrays.equals(buf1, buf2)) {
+        int read1 = ByteStreams.read(in1,  bytes, 0, bufferSize);
+        int read2 = ByteStreams.read(in2, bytes, bufferSize, bufferSize);
+
+        if (read1 != read2) {
           return false;
-        } else if (read1 != buf1.length) {
+        }
+
+        for (int i = 0; i < read1; i++) {
+          if (bytes[i] != bytes[i + bufferSize]) {
+            return false;
+          }
+        }
+
+        if (read1 != bufferSize) {
           return true;
         }
       }

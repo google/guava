@@ -60,11 +60,6 @@ public final class ByteStreams {
 
   private static final int BUFFER_SIZE = 8192;
 
-  /** Creates a new byte array for buffering reads or writes. */
-  static byte[] createBuffer() {
-    return new byte[BUFFER_SIZE];
-  }
-
   /**
    * There are three methods to implement {@link FileChannel#transferTo(long, long,
    * WritableByteChannel)}:
@@ -112,17 +107,20 @@ public final class ByteStreams {
   public static long copy(InputStream from, OutputStream to) throws IOException {
     checkNotNull(from);
     checkNotNull(to);
-    byte[] buf = createBuffer();
-    long total = 0;
-    while (true) {
-      int r = from.read(buf);
-      if (r == -1) {
-        break;
+
+    try (TransferBuffer<byte[]> buffer = TransferBuffer.getByteArrayTransferBuffer()) {
+      byte[] buf = buffer.get();
+      long total = 0;
+      while (true) {
+        int r = from.read(buf);
+        if (r == -1) {
+          break;
+        }
+        to.write(buf, 0, r);
+        total += r;
       }
-      to.write(buf, 0, r);
-      total += r;
+      return total;
     }
-    return total;
   }
 
   /**
@@ -151,16 +149,18 @@ public final class ByteStreams {
       return position - oldPosition;
     }
 
-    ByteBuffer buf = ByteBuffer.wrap(createBuffer());
-    long total = 0;
-    while (from.read(buf) != -1) {
-      Java8Compatibility.flip(buf);
-      while (buf.hasRemaining()) {
-        total += to.write(buf);
+    try (TransferBuffer<byte[]> buffer = TransferBuffer.getByteArrayTransferBuffer()) {
+      ByteBuffer buf = ByteBuffer.wrap(buffer.get());
+      long total = 0;
+      while (from.read(buf) != -1) {
+        Java8Compatibility.flip(buf);
+        while (buf.hasRemaining()) {
+          total += to.write(buf);
+        }
+        Java8Compatibility.clear(buf);
       }
-      Java8Compatibility.clear(buf);
+      return total;
     }
-    return total;
   }
 
   /** Max array length on JVM. */
@@ -290,11 +290,14 @@ public final class ByteStreams {
   public static long exhaust(InputStream in) throws IOException {
     long total = 0;
     long read;
-    byte[] buf = createBuffer();
-    while ((read = in.read(buf)) != -1) {
-      total += read;
+
+    try (TransferBuffer<byte[]> buffer = TransferBuffer.getByteArrayTransferBuffer()) {
+      byte[] buf = buffer.get();
+      while ((read = in.read(buf)) != -1) {
+        total += read;
+      }
+      return total;
     }
-    return total;
   }
 
   /**
@@ -828,33 +831,28 @@ public final class ByteStreams {
    */
   static long skipUpTo(InputStream in, long n) throws IOException {
     long totalSkipped = 0;
-    // A buffer is allocated if skipSafely does not skip any bytes.
-    byte[] buf = null;
+    try (TransferBuffer<byte[]> buffer = TransferBuffer.getByteArrayTransferBuffer()) {
+      byte[] buf = buffer.get();
 
-    while (totalSkipped < n) {
-      long remaining = n - totalSkipped;
-      long skipped = skipSafely(in, remaining);
+      while (totalSkipped < n) {
+        long remaining = n - totalSkipped;
+        long skipped = skipSafely(in, remaining);
 
-      if (skipped == 0) {
-        // Do a buffered read since skipSafely could return 0 repeatedly, for example if
-        // in.available() always returns 0 (the default).
-        int skip = (int) Math.min(remaining, BUFFER_SIZE);
-        if (buf == null) {
-          // Allocate a buffer bounded by the maximum size that can be requested, for
-          // example an array of BUFFER_SIZE is unnecessary when the value of remaining
-          // is smaller.
-          buf = new byte[skip];
+        if (skipped == 0) {
+          // Do a buffered read since skipSafely could return 0 repeatedly, for example if
+          // in.available() always returns 0 (the default).
+          int skip = (int) Math.min(remaining, buf.length);
+          if ((skipped = in.read(buf, 0, skip)) == -1) {
+            // Reached EOF
+            break;
+          }
         }
-        if ((skipped = in.read(buf, 0, skip)) == -1) {
-          // Reached EOF
-          break;
-        }
+
+        totalSkipped += skipped;
       }
 
-      totalSkipped += skipped;
+      return totalSkipped;
     }
-
-    return totalSkipped;
   }
 
   /**
@@ -885,12 +883,14 @@ public final class ByteStreams {
     checkNotNull(input);
     checkNotNull(processor);
 
-    byte[] buf = createBuffer();
-    int read;
-    do {
-      read = input.read(buf);
-    } while (read != -1 && processor.processBytes(buf, 0, read));
-    return processor.getResult();
+    try (TransferBuffer<byte[]> buffer = TransferBuffer.getByteArrayTransferBuffer()) {
+      byte[] buf = buffer.get();
+      int read;
+      do {
+        read = input.read(buf);
+      } while (read != -1 && processor.processBytes(buf, 0, read));
+      return processor.getResult();
+    }
   }
 
   /**
