@@ -18,7 +18,7 @@ import jsinterop.annotations.JsMethod;
 import jsinterop.annotations.JsPackage;
 
 /** Web specializations for {@link Floats} methods. */
-abstract class FloatsMethodsForWeb {
+public abstract class FloatsMethodsForWeb {
 
   @JsMethod(name = "Math.min", namespace = JsPackage.GLOBAL)
   public static native float min(float... array);

@@ -16,6 +16,7 @@ package com.google.common.base;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import java.nio.charset.Charset;
 
 /**
@@ -42,6 +43,7 @@ public final class Charsets {
    * java.nio.charset.StandardCharsets#US_ASCII} instead.
    *
    */
+  @J2ktIncompatible
   @GwtIncompatible // Charset not supported by GWT
   public static final Charset US_ASCII = Charset.forName("US-ASCII");
 
@@ -70,6 +72,7 @@ public final class Charsets {
    * java.nio.charset.StandardCharsets#UTF_16BE} instead.
    *
    */
+  @J2ktIncompatible
   @GwtIncompatible // Charset not supported by GWT
   public static final Charset UTF_16BE = Charset.forName("UTF-16BE");
 
@@ -80,6 +83,7 @@ public final class Charsets {
    * java.nio.charset.StandardCharsets#UTF_16LE} instead.
    *
    */
+  @J2ktIncompatible
   @GwtIncompatible // Charset not supported by GWT
   public static final Charset UTF_16LE = Charset.forName("UTF-16LE");
 
@@ -91,6 +95,7 @@ public final class Charsets {
    * java.nio.charset.StandardCharsets#UTF_16} instead.
    *
    */
+  @J2ktIncompatible
   @GwtIncompatible // Charset not supported by GWT
   public static final Charset UTF_16 = Charset.forName("UTF-16");
 

@@ -19,7 +19,6 @@ import static com.google.common.base.Preconditions.checkElementIndex;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkPositionIndexes;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import java.io.Serializable;
 import java.util.AbstractList;
@@ -80,7 +79,6 @@ public final class Booleans {
    *
    * @since 21.0
    */
-  @Beta
   public static Comparator<Boolean> trueFirst() {
     return BooleanComparator.TRUE_FIRST;
   }
@@ -93,7 +91,6 @@ public final class Booleans {
    *
    * @since 21.0
    */
-  @Beta
   public static Comparator<Boolean> falseFirst() {
     return BooleanComparator.FALSE_FIRST;
   }
@@ -361,9 +358,10 @@ public final class Booleans {
    * Arrays#asList(Object[])}. The list supports {@link List#set(int, Object)}, but any attempt to
    * set a value to {@code null} will result in a {@link NullPointerException}.
    *
-   * <p>The returned list maintains the values, but not the identities, of {@code Boolean} objects
-   * written to or read from it. For example, whether {@code list.get(0) == list.get(0)} is true for
-   * the returned list is unspecified.
+   * <p>There are at most two distinct objects in this list, {@code (Boolean) true} and {@code
+   * (Boolean) false}. Java guarantees that those are always represented by the same objects.
+   *
+   * <p>The returned list is serializable.
    *
    * @param backingArray the array to back the list
    * @return a list view of the array
@@ -510,7 +508,6 @@ public final class Booleans {
    *
    * @since 16.0
    */
-  @Beta
   public static int countTrue(boolean... values) {
     int count = 0;
     for (boolean value : values) {
@@ -550,5 +547,55 @@ public final class Booleans {
       array[i] = array[j];
       array[j] = tmp;
     }
+  }
+
+  /**
+   * Performs a right rotation of {@code array} of "distance" places, so that the first element is
+   * moved to index "distance", and the element at index {@code i} ends up at index {@code (distance
+   * + i) mod array.length}. This is equivalent to {@code Collections.rotate(Booleans.asList(array),
+   * distance)}, but is somewhat faster.
+   *
+   * <p>The provided "distance" may be negative, which will rotate left.
+   *
+   * @since 32.0.0
+   */
+  public static void rotate(boolean[] array, int distance) {
+    rotate(array, distance, 0, array.length);
+  }
+
+  /**
+   * Performs a right rotation of {@code array} between {@code fromIndex} inclusive and {@code
+   * toIndex} exclusive. This is equivalent to {@code
+   * Collections.rotate(Booleans.asList(array).subList(fromIndex, toIndex), distance)}, but is
+   * somewhat faster.
+   *
+   * <p>The provided "distance" may be negative, which will rotate left.
+   *
+   * @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > array.length}, or
+   *     {@code toIndex > fromIndex}
+   * @since 32.0.0
+   */
+  public static void rotate(boolean[] array, int distance, int fromIndex, int toIndex) {
+    // See Ints.rotate for more details about possible algorithms here.
+    checkNotNull(array);
+    checkPositionIndexes(fromIndex, toIndex, array.length);
+    if (array.length <= 1) {
+      return;
+    }
+
+    int length = toIndex - fromIndex;
+    // Obtain m = (-distance mod length), a non-negative value less than "length". This is how many
+    // places left to rotate.
+    int m = -distance % length;
+    m = (m < 0) ? m + length : m;
+    // The current index of what will become the first element of the rotated section.
+    int newFirstIndex = m + fromIndex;
+    if (newFirstIndex == fromIndex) {
+      return;
+    }
+
+    reverse(array, fromIndex, newFirstIndex);
+    reverse(array, newFirstIndex, toIndex);
+    reverse(array, fromIndex, toIndex);
   }
 }

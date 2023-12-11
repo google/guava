@@ -17,9 +17,10 @@
 package com.google.common.testing;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static java.util.Objects.requireNonNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Charsets;
 import com.google.common.base.Defaults;
@@ -74,6 +75,7 @@ import com.google.common.io.CharSource;
 import com.google.common.primitives.Primitives;
 import com.google.common.primitives.UnsignedInteger;
 import com.google.common.primitives.UnsignedLong;
+import com.google.errorprone.annotations.Keep;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -171,8 +173,9 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Ben Yu
  * @since 12.0
  */
-@Beta
 @GwtIncompatible
+@J2ktIncompatible
+@ElementTypesAreNonnullByDefault
 public final class ArbitraryInstances {
 
   private static final Ordering<Field> BY_FIELD_NAME =
@@ -360,7 +363,7 @@ public final class ArbitraryInstances {
     }
     if (type.isEnum()) {
       T[] enumConstants = type.getEnumConstants();
-      return (enumConstants.length == 0) ? null : enumConstants[0];
+      return (enumConstants == null || enumConstants.length == 0) ? null : enumConstants[0];
     }
     if (type.isArray()) {
       return createEmptyArray(type);
@@ -420,7 +423,8 @@ public final class ArbitraryInstances {
   }
 
   private static <T> T createEmptyArray(Class<T> arrayType) {
-    return arrayType.cast(Array.newInstance(arrayType.getComponentType(), 0));
+    // getComponentType() is non-null because we call createEmptyArray only with an array type.
+    return arrayType.cast(Array.newInstance(requireNonNull(arrayType.getComponentType()), 0));
   }
 
   // Internal implementations of some classes, with public default constructor that get() needs.
@@ -439,6 +443,7 @@ public final class ArbitraryInstances {
     }
 
     public static final class DeterministicRandom extends Random {
+      @Keep
       public DeterministicRandom() {
         super(0);
       }
@@ -506,11 +511,12 @@ public final class ArbitraryInstances {
   }
 
   // Always equal is a valid total ordering. And it works for any Object.
-  private static final class AlwaysEqual extends Ordering<Object> implements Serializable {
+  private static final class AlwaysEqual extends Ordering<@Nullable Object>
+      implements Serializable {
     private static final AlwaysEqual INSTANCE = new AlwaysEqual();
 
     @Override
-    public int compare(Object o1, Object o2) {
+    public int compare(@Nullable Object o1, @Nullable Object o2) {
       return 0;
     }
 

@@ -16,8 +16,10 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Throwables.throwIfUnchecked;
+import static com.google.common.util.concurrent.Platform.restoreInterruptIfIsInterruptedException;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Collection;
@@ -41,7 +43,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *
  * @author Chris Nokleberg
  */
-@CanIgnoreReturnValue // TODO(cpovirk): Consider being more strict.
+@J2ktIncompatible
 @GwtIncompatible
 @ElementTypesAreNonnullByDefault
 abstract class WrappingExecutorService implements ExecutorService {
@@ -62,16 +64,14 @@ abstract class WrappingExecutorService implements ExecutorService {
    * delegates to {@link #wrapTask(Callable)}.
    */
   protected Runnable wrapTask(Runnable command) {
-    final Callable<Object> wrapped = wrapTask(Executors.callable(command, null));
-    return new Runnable() {
-      @Override
-      public void run() {
-        try {
-          wrapped.call();
-        } catch (Exception e) {
-          throwIfUnchecked(e);
-          throw new RuntimeException(e);
-        }
+    Callable<Object> wrapped = wrapTask(Executors.callable(command, null));
+    return () -> {
+      try {
+        wrapped.call();
+      } catch (Exception e) {
+        restoreInterruptIfIsInterruptedException(e);
+        throwIfUnchecked(e);
+        throw new RuntimeException(e);
       }
     };
   }
@@ -146,6 +146,7 @@ abstract class WrappingExecutorService implements ExecutorService {
   }
 
   @Override
+  @CanIgnoreReturnValue
   public final List<Runnable> shutdownNow() {
     return delegate.shutdownNow();
   }

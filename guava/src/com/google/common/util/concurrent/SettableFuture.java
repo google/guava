@@ -40,7 +40,7 @@ public final class SettableFuture<V extends @Nullable Object>
    * Creates a new {@code SettableFuture} that can be completed or cancelled by a later method call.
    */
   public static <V extends @Nullable Object> SettableFuture<V> create() {
-    return new SettableFuture<V>();
+    return new SettableFuture<>();
   }
 
   @CanIgnoreReturnValue

@@ -38,6 +38,7 @@ import static com.google.common.util.concurrent.MoreExecutors.renamingDecorator;
 import static com.google.common.util.concurrent.MoreExecutors.shutdownAndAwaitTermination;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.junit.Assert.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -72,6 +73,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.mockito.InOrder;
 import org.mockito.Mockito;
 
@@ -87,7 +89,6 @@ public class MoreExecutorsTest extends JSR166TestCase {
         @Override
         public void run() {}
       };
-
 
   public void testDirectExecutorServiceServiceInThreadExecution() throws Exception {
     final ListeningExecutorService executor = newDirectExecutorService();
@@ -168,7 +169,6 @@ public class MoreExecutorsTest extends JSR166TestCase {
     assertEquals(10, threadLocalCount.get().intValue());
   }
 
-
   public void testDirectExecutorServiceServiceTermination() throws Exception {
     final ExecutorService executor = newDirectExecutorService();
     final CyclicBarrier barrier = new CyclicBarrier(2);
@@ -187,9 +187,9 @@ public class MoreExecutorsTest extends JSR166TestCase {
                 try {
                   Future<?> future =
                       executor.submit(
-                          new Callable<Void>() {
+                          new Callable<@Nullable Void>() {
                             @Override
-                            public Void call() throws Exception {
+                            public @Nullable Void call() throws Exception {
                               // WAIT #1
                               barrier.await(1, TimeUnit.SECONDS);
 
@@ -221,12 +221,7 @@ public class MoreExecutorsTest extends JSR166TestCase {
 
     executor.shutdown();
     assertTrue(executor.isShutdown());
-    try {
-      executor.submit(doNothingRunnable);
-      fail("Should have encountered RejectedExecutionException");
-    } catch (RejectedExecutionException ex) {
-      // good to go
-    }
+    assertThrows(RejectedExecutionException.class, () -> executor.submit(doNothingRunnable));
     assertFalse(executor.isTerminated());
 
     // WAIT #2
@@ -238,12 +233,7 @@ public class MoreExecutorsTest extends JSR166TestCase {
     assertTrue(executor.awaitTermination(1, TimeUnit.SECONDS));
     assertTrue(executor.awaitTermination(0, TimeUnit.SECONDS));
     assertTrue(executor.isShutdown());
-    try {
-      executor.submit(doNothingRunnable);
-      fail("Should have encountered RejectedExecutionException");
-    } catch (RejectedExecutionException ex) {
-      // good to go
-    }
+    assertThrows(RejectedExecutionException.class, () -> executor.submit(doNothingRunnable));
     assertTrue(executor.isTerminated());
 
     otherThread.join(1000);
@@ -259,7 +249,6 @@ public class MoreExecutorsTest extends JSR166TestCase {
    * Test for a bug where threads weren't getting signaled when shutdown was called, only when tasks
    * completed.
    */
-
   public void testDirectExecutorService_awaitTermination_missedSignal() {
     final ExecutorService service = MoreExecutors.newDirectExecutorService();
     Thread waiter =
@@ -311,11 +300,7 @@ public class MoreExecutorsTest extends JSR166TestCase {
   public void testExecuteAfterShutdown() {
     ExecutorService executor = newDirectExecutorService();
     executor.shutdown();
-    try {
-      executor.execute(EMPTY_RUNNABLE);
-      fail();
-    } catch (RejectedExecutionException expected) {
-    }
+    assertThrows(RejectedExecutionException.class, () -> executor.execute(EMPTY_RUNNABLE));
   }
 
   public <T> void testListeningExecutorServiceInvokeAllJavadocCodeCompiles() throws Exception {
@@ -342,6 +327,7 @@ public class MoreExecutorsTest extends JSR166TestCase {
      */
   }
 
+  @AndroidIncompatible // Mocking ExecutorService is forbidden there. TODO(b/218700094): Don't mock.
   public void testListeningDecorator_noWrapExecuteTask() {
     ExecutorService delegate = mock(ExecutorService.class);
     ListeningExecutorService service = listeningDecorator(delegate);
@@ -353,7 +339,6 @@ public class MoreExecutorsTest extends JSR166TestCase {
     service.execute(task);
     verify(delegate).execute(task);
   }
-
 
   public void testListeningDecorator_scheduleSuccess() throws Exception {
     final CountDownLatch completed = new CountDownLatch(1);
@@ -380,7 +365,6 @@ public class MoreExecutorsTest extends JSR166TestCase {
     assertEquals(0, delegate.getQueue().size());
   }
 
-
   public void testListeningDecorator_scheduleFailure() throws Exception {
     ScheduledThreadPoolExecutor delegate = new ScheduledThreadPoolExecutor(1);
     ListeningScheduledExecutorService service = listeningDecorator(delegate);
@@ -390,7 +374,6 @@ public class MoreExecutorsTest extends JSR166TestCase {
     assertExecutionException(future, ex);
     assertEquals(0, delegate.getQueue().size());
   }
-
 
   public void testListeningDecorator_schedulePeriodic() throws Exception {
     ScheduledThreadPoolExecutor delegate = new ScheduledThreadPoolExecutor(1);
@@ -411,7 +394,6 @@ public class MoreExecutorsTest extends JSR166TestCase {
     assertEquals(5, runnable.count);
     assertEquals(0, delegate.getQueue().size());
   }
-
 
   public void testListeningDecorator_cancelled() throws Exception {
     ScheduledThreadPoolExecutor delegate = new ScheduledThreadPoolExecutor(1);
@@ -566,7 +548,7 @@ public class MoreExecutorsTest extends JSR166TestCase {
     }
   }
 
-
+  @AndroidIncompatible // Mocking ExecutorService is forbidden there. TODO(b/218700094): Don't mock.
   public void testAddDelayedShutdownHook_success() throws InterruptedException {
     TestApplication application = new TestApplication();
     ExecutorService service = mock(ExecutorService.class);
@@ -578,7 +560,7 @@ public class MoreExecutorsTest extends JSR166TestCase {
     shutdownFirst.verify(service).awaitTermination(2, TimeUnit.SECONDS);
   }
 
-
+  @AndroidIncompatible // Mocking ExecutorService is forbidden there. TODO(b/218700094): Don't mock.
   public void testAddDelayedShutdownHook_interrupted() throws InterruptedException {
     TestApplication application = new TestApplication();
     ExecutorService service = mock(ExecutorService.class);
@@ -588,7 +570,6 @@ public class MoreExecutorsTest extends JSR166TestCase {
     verify(service).shutdown();
   }
 
-
   public void testGetExitingExecutorService_executorSetToUseDaemonThreads() {
     TestApplication application = new TestApplication();
     ThreadPoolExecutor executor =
@@ -597,7 +578,7 @@ public class MoreExecutorsTest extends JSR166TestCase {
     assertTrue(executor.getThreadFactory().newThread(EMPTY_RUNNABLE).isDaemon());
   }
 
-
+  @AndroidIncompatible // Mocking ExecutorService is forbidden there. TODO(b/218700094): Don't mock.
   public void testGetExitingExecutorService_executorDelegatesToOriginal() {
     TestApplication application = new TestApplication();
     ThreadPoolExecutor executor = mock(ThreadPoolExecutor.class);
@@ -607,7 +588,7 @@ public class MoreExecutorsTest extends JSR166TestCase {
     verify(executor).execute(EMPTY_RUNNABLE);
   }
 
-
+  @AndroidIncompatible // Mocking ExecutorService is forbidden there. TODO(b/218700094): Don't mock.
   public void testGetExitingExecutorService_shutdownHookRegistered() throws InterruptedException {
     TestApplication application = new TestApplication();
     ThreadPoolExecutor executor = mock(ThreadPoolExecutor.class);
@@ -618,7 +599,6 @@ public class MoreExecutorsTest extends JSR166TestCase {
     verify(executor).shutdown();
   }
 
-
   public void testGetExitingScheduledExecutorService_executorSetToUseDaemonThreads() {
     TestApplication application = new TestApplication();
     ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(1);
@@ -626,7 +606,7 @@ public class MoreExecutorsTest extends JSR166TestCase {
     assertTrue(executor.getThreadFactory().newThread(EMPTY_RUNNABLE).isDaemon());
   }
 
-
+  @AndroidIncompatible // Mocking ExecutorService is forbidden there. TODO(b/218700094): Don't mock.
   public void testGetExitingScheduledExecutorService_executorDelegatesToOriginal() {
     TestApplication application = new TestApplication();
     ScheduledThreadPoolExecutor executor = mock(ScheduledThreadPoolExecutor.class);
@@ -636,7 +616,7 @@ public class MoreExecutorsTest extends JSR166TestCase {
     verify(executor).execute(EMPTY_RUNNABLE);
   }
 
-
+  @AndroidIncompatible // Mocking ExecutorService is forbidden there. TODO(b/218700094): Don't mock.
   public void testGetScheduledExitingExecutorService_shutdownHookRegistered()
       throws InterruptedException {
     TestApplication application = new TestApplication();
@@ -669,7 +649,6 @@ public class MoreExecutorsTest extends JSR166TestCase {
     assertEquals(oldName, Thread.currentThread().getName());
   }
 
-
   public void testExecutors_nullCheck() throws Exception {
     new ClassSanityTester()
         .setDefault(RateLimiter.class, RateLimiter.create(1.0))
@@ -699,14 +678,13 @@ public class MoreExecutorsTest extends JSR166TestCase {
   /* Half of a 1-second timeout in nanoseconds */
   private static final long HALF_SECOND_NANOS = NANOSECONDS.convert(1L, SECONDS) / 2;
 
-
   public void testShutdownAndAwaitTermination_immediateShutdown() throws Exception {
     ExecutorService service = Executors.newSingleThreadExecutor();
     assertTrue(shutdownAndAwaitTermination(service, 1L, SECONDS));
     assertTrue(service.isTerminated());
   }
 
-
+  @AndroidIncompatible // Mocking ExecutorService is forbidden there. TODO(b/218700094): Don't mock.
   public void testShutdownAndAwaitTermination_immediateShutdownInternal() throws Exception {
     ExecutorService service = mock(ExecutorService.class);
     when(service.awaitTermination(HALF_SECOND_NANOS, NANOSECONDS)).thenReturn(true);
@@ -716,7 +694,7 @@ public class MoreExecutorsTest extends JSR166TestCase {
     verify(service).awaitTermination(HALF_SECOND_NANOS, NANOSECONDS);
   }
 
-
+  @AndroidIncompatible // Mocking ExecutorService is forbidden there. TODO(b/218700094): Don't mock.
   public void testShutdownAndAwaitTermination_forcedShutDownInternal() throws Exception {
     ExecutorService service = mock(ExecutorService.class);
     when(service.awaitTermination(HALF_SECOND_NANOS, NANOSECONDS))
@@ -729,7 +707,7 @@ public class MoreExecutorsTest extends JSR166TestCase {
     verify(service).shutdownNow();
   }
 
-
+  @AndroidIncompatible // Mocking ExecutorService is forbidden there. TODO(b/218700094): Don't mock.
   public void testShutdownAndAwaitTermination_nonTerminationInternal() throws Exception {
     ExecutorService service = mock(ExecutorService.class);
     when(service.awaitTermination(HALF_SECOND_NANOS, NANOSECONDS))
@@ -741,7 +719,7 @@ public class MoreExecutorsTest extends JSR166TestCase {
     verify(service).shutdownNow();
   }
 
-
+  @AndroidIncompatible // Mocking ExecutorService is forbidden there. TODO(b/218700094): Don't mock.
   public void testShutdownAndAwaitTermination_interruptedInternal() throws Exception {
     final ExecutorService service = mock(ExecutorService.class);
     when(service.awaitTermination(HALF_SECOND_NANOS, NANOSECONDS))

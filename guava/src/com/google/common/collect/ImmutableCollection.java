@@ -19,9 +19,13 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.DoNotCall;
 import com.google.errorprone.annotations.DoNotMock;
+import java.io.InvalidObjectException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.AbstractCollection;
 import java.util.Collection;
@@ -156,7 +160,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * <h3>See also</h3>
  *
  * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/ImmutableCollectionsExplained"> immutable collections</a>.
+ * "https://github.com/google/guava/wiki/ImmutableCollectionsExplained">immutable collections</a>.
  *
  * @since 2.0
  */
@@ -189,6 +193,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
   private static final Object[] EMPTY_ARRAY = {};
 
   @Override
+  @J2ktIncompatible // Incompatible return type change. Use inherited (unoptimized) implementation
   public final Object[] toArray() {
     return toArray(EMPTY_ARRAY);
   }
@@ -387,9 +392,16 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
     return offset;
   }
 
+  @J2ktIncompatible // serialization
+  @GwtIncompatible // serialization
   Object writeReplace() {
     // We serialize by default to ImmutableList, the simplest thing that works.
     return new ImmutableList.SerializedForm(toArray());
+  }
+
+  @J2ktIncompatible // serialization
+  private void readObject(ObjectInputStream stream) throws InvalidObjectException {
+    throw new InvalidObjectException("Use SerializedForm");
   }
 
   /**
@@ -494,4 +506,6 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
      */
     public abstract ImmutableCollection<E> build();
   }
+
+  private static final long serialVersionUID = 0xcafebabe;
 }

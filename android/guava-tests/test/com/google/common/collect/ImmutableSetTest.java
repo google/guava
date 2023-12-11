@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -279,11 +280,7 @@ public class ImmutableSetTest extends AbstractImmutableSetTest {
     assertEquals(1 << 30, ImmutableSet.chooseTableSize((1 << 30) - 1));
 
     // Now we've gone too far
-    try {
-      ImmutableSet.chooseTableSize(1 << 30);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> ImmutableSet.chooseTableSize(1 << 30));
   }
 
   @GwtIncompatible // RegularImmutableSet.table not in emulation

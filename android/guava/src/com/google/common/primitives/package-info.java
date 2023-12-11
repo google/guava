@@ -13,10 +13,10 @@
  */
 
 /**
- * Static utilities for working with the eight primitive types and {@code void}, and value types for
- * treating them as unsigned.
+ * Static utilities for the eight primitive types and {@code void}, and value types for treating
+ * them as unsigned or storing them in immutable arrays.
  *
- * <p>This package is a part of the open-source <a href="http://github.com/google/guava">Guava</a>
+ * <p>This package is a part of the open-source <a href="https://github.com/google/guava">Guava</a>
  * library.
  *
  * <p>See the Guava User Guide article on <a
@@ -24,40 +24,43 @@
  *
  * <h2>Contents</h2>
  *
- * <h3>General static utilities</h3>
+ * <h3>Value types</h3>
  *
  * <ul>
- *   <li>{@link com.google.common.primitives.Primitives}
+ *   <li>{@link ImmutableDoubleArray}
+ *   <li>{@link ImmutableIntArray}
+ *   <li>{@link ImmutableLongrray}
+ *   <li>{@link UnsignedInteger}
+ *   <li>{@link UnsignedLong}
  * </ul>
  *
  * <h3>Per-type static utilities</h3>
  *
  * <ul>
- *   <li>{@link com.google.common.primitives.Booleans}
- *   <li>{@link com.google.common.primitives.Bytes}
+ *   <li>{@link Booleans}
+ *   <li>{@link Bytes}
  *       <ul>
- *         <li>{@link com.google.common.primitives.SignedBytes}
- *         <li>{@link com.google.common.primitives.UnsignedBytes}
+ *         <li>{@link SignedBytes}
+ *         <li>{@link UnsignedBytes}
  *       </ul>
- *   <li>{@link com.google.common.primitives.Chars}
- *   <li>{@link com.google.common.primitives.Doubles}
- *   <li>{@link com.google.common.primitives.Floats}
- *   <li>{@link com.google.common.primitives.Ints}
+ *   <li>{@link Chars}
+ *   <li>{@link Doubles}
+ *   <li>{@link Floats}
+ *   <li>{@link Ints}
  *       <ul>
- *         <li>{@link com.google.common.primitives.UnsignedInts}
+ *         <li>{@link UnsignedInts}
  *       </ul>
- *   <li>{@link com.google.common.primitives.Longs}
+ *   <li>{@link Longs}
  *       <ul>
- *         <li>{@link com.google.common.primitives.UnsignedLongs}
+ *         <li>{@link UnsignedLongs}
  *       </ul>
- *   <li>{@link com.google.common.primitives.Shorts}
+ *   <li>{@link Shorts}
  * </ul>
  *
- * <h3>Value types</h3>
+ * <h3>General static utilities</h3>
  *
  * <ul>
- *   <li>{@link com.google.common.primitives.UnsignedInteger}
- *   <li>{@link com.google.common.primitives.UnsignedLong}
+ *   <li>{@link Primitives}
  * </ul>
  */
 @ParametersAreNonnullByDefault

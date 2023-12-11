@@ -17,10 +17,11 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.MoreObjects;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.DoNotCall;
@@ -51,7 +52,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * Undefined behavior and bugs will result.
  *
  * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/ImmutableCollectionsExplained"> immutable collections</a>.
+ * "https://github.com/google/guava/wiki/ImmutableCollectionsExplained">immutable collections</a>.
  *
  * @author Mike Ward
  * @since 2.0
@@ -278,7 +279,6 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
      * @since 19.0
      */
     @CanIgnoreReturnValue
-    @Beta
     @Override
     public Builder<K, V> putAll(Iterable<? extends Entry<? extends K, ? extends V>> entries) {
       super.putAll(entries);
@@ -401,7 +401,6 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
    * @throws NullPointerException if any key, value, or entry is null
    * @since 19.0
    */
-  @Beta
   public static <K, V> ImmutableSetMultimap<K, V> copyOf(
       Iterable<? extends Entry<? extends K, ? extends V>> entries) {
     return new Builder<K, V>().putAll(entries).build();
@@ -428,7 +427,7 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
       }
     }
 
-    return new ImmutableSetMultimap<>(builder.build(), size, valueComparator);
+    return new ImmutableSetMultimap<>(builder.buildOrThrow(), size, valueComparator);
   }
 
   /**
@@ -554,6 +553,15 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
     boolean isPartialView() {
       return false;
     }
+
+    // redeclare to help optimizers with b/310253115
+    @SuppressWarnings("RedundantOverride")
+    @Override
+    @J2ktIncompatible // serialization
+    @GwtIncompatible // serialization
+    Object writeReplace() {
+      return super.writeReplace();
+    }
   }
 
   private static <V> ImmutableSet<V> valueSet(
@@ -581,6 +589,7 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
    *     values for that key, and the key's values
    */
   @GwtIncompatible // java.io.ObjectOutputStream
+  @J2ktIncompatible
   private void writeObject(ObjectOutputStream stream) throws IOException {
     stream.defaultWriteObject();
     stream.writeObject(valueComparator());
@@ -595,12 +604,14 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
   }
 
   @GwtIncompatible // java serialization
+  @J2ktIncompatible
   private static final class SetFieldSettersHolder {
     static final Serialization.FieldSetter<ImmutableSetMultimap> EMPTY_SET_FIELD_SETTER =
         Serialization.getFieldSetter(ImmutableSetMultimap.class, "emptySet");
   }
 
   @GwtIncompatible // java.io.ObjectInputStream
+  @J2ktIncompatible
   // Serialization type safety is at the caller's mercy.
   @SuppressWarnings("unchecked")
   private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
@@ -614,7 +625,7 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
     int tmpSize = 0;
 
     for (int i = 0; i < keyCount; i++) {
-      Object key = stream.readObject();
+      Object key = requireNonNull(stream.readObject());
       int valueCount = stream.readInt();
       if (valueCount <= 0) {
         throw new InvalidObjectException("Invalid value count " + valueCount);
@@ -622,7 +633,7 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
 
       ImmutableSet.Builder<Object> valuesBuilder = valuesBuilder(valueComparator);
       for (int j = 0; j < valueCount; j++) {
-        valuesBuilder.add(stream.readObject());
+        valuesBuilder.add(requireNonNull(stream.readObject()));
       }
       ImmutableSet<Object> valueSet = valuesBuilder.build();
       if (valueSet.size() != valueCount) {
@@ -634,7 +645,7 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
 
     ImmutableMap<Object, ImmutableSet<Object>> tmpMap;
     try {
-      tmpMap = builder.build();
+      tmpMap = builder.buildOrThrow();
     } catch (IllegalArgumentException e) {
       throw (InvalidObjectException) new InvalidObjectException(e.getMessage()).initCause(e);
     }
@@ -645,5 +656,6 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
   }
 
   @GwtIncompatible // not needed in emulated source.
+  @J2ktIncompatible
   private static final long serialVersionUID = 0;
 }

@@ -16,7 +16,9 @@
 
 package com.google.common.util.concurrent;
 
+
 /** Methods factored out so that they can be emulated differently in GWT. */
+@ElementTypesAreNonnullByDefault
 final class Platform {
   static boolean isInstanceOfThrowableClass(Throwable t, Class<? extends Throwable> expectedClass) {
     /*
@@ -25,6 +27,8 @@ final class Platform {
      */
     return true;
   }
+
+  static void restoreInterruptIfIsInterruptedException(Throwable t) {}
 
   private Platform() {}
 }

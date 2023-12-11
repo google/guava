@@ -23,7 +23,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * An Iterator implementation which draws elements from a queue, removing them from the queue as it
- * iterates.
+ * iterates. This class is not thread safe.
  */
 @GwtCompatible
 @ElementTypesAreNonnullByDefault
@@ -36,7 +36,7 @@ final class ConsumingQueueIterator<T extends @Nullable Object> extends AbstractI
 
   @Override
   @CheckForNull
-  public T computeNext() {
+  protected T computeNext() {
     // TODO(b/192579700): Use a ternary once it no longer confuses our nullness checker.
     if (queue.isEmpty()) {
       return endOfData();

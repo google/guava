@@ -28,6 +28,7 @@ import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.SortedSet;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Unit tests for {@code TreeMultimap} with explicit comparators.
@@ -41,11 +42,11 @@ public class TreeMultimapExplicitTest extends TestCase {
    * Compare strings lengths, and if the lengths are equal compare the strings. A {@code null} is
    * less than any non-null value.
    */
-  private enum StringLength implements Comparator<String> {
+  private enum StringLength implements Comparator<@Nullable String> {
     COMPARATOR;
 
     @Override
-    public int compare(String first, String second) {
+    public int compare(@Nullable String first, @Nullable String second) {
       if (first == second) {
         return 0;
       } else if (first == null) {

@@ -27,7 +27,7 @@ import org.junit.Ignore;
 
 /**
  * A generic JUnit test which tests multiset-specific serialization. Can't be invoked directly;
- * please see {@link com.google.common.collect.testing.MultisetTestSuiteBuilder}.
+ * please see {@link MultisetTestSuiteBuilder}.
  *
  * @author Louis Wasserman
  */

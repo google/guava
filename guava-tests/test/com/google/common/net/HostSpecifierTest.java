@@ -92,8 +92,9 @@ public final class HostSpecifierTest extends TestCase {
   }
 
   private void assertGood(String spec) throws ParseException {
-    HostSpecifier.fromValid(spec); // Throws exception if not working correctly
-    HostSpecifier.from(spec);
+    // Throws exception if not working correctly
+    HostSpecifier unused = HostSpecifier.fromValid(spec);
+    unused = HostSpecifier.from(spec);
     assertTrue(HostSpecifier.isValid(spec));
   }
 

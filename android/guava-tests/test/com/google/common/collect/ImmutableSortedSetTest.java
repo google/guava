@@ -230,6 +230,7 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
   }
 
   @GwtIncompatible // NullPointerTester
+  @AndroidIncompatible // see ImmutableTableTest.testNullPointerInstance
   public void testNullPointers() {
     new NullPointerTester().testAllPublicStaticMethods(ImmutableSortedSet.class);
   }
@@ -954,7 +955,7 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
     assertEquals(list, copy);
   }
 
-  public void testAsListInconsistentComprator() {
+  public void testAsListInconsistentComparator() {
     ImmutableSet<String> set =
         ImmutableSortedSet.orderedBy(STRING_LENGTH)
             .add("in", "the", "quick", "jumped", "over", "a")

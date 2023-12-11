@@ -28,6 +28,15 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * that of its keys. This constraint enables bimaps to support an "inverse view", which is another
  * bimap containing the same entries as this bimap but with reversed keys and values.
  *
+ * <h3>Implementations</h3>
+ *
+ * <ul>
+ *   <li>{@link ImmutableBiMap}
+ *   <li>{@link HashBiMap}
+ *   <li>{@link EnumBiMap}
+ *   <li>{@link EnumHashBiMap}
+ * </ul>
+ *
  * <p>See the Guava User Guide article on <a href=
  * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#bimap">{@code BiMap}</a>.
  *

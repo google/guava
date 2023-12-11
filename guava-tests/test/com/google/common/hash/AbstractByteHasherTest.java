@@ -16,8 +16,8 @@ package com.google.common.hash;
 
 import static com.google.common.base.Charsets.UTF_16LE;
 import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertThrows;
 
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.ByteArrayOutputStream;
 import java.util.Random;
 import junit.framework.TestCase;
@@ -93,24 +93,11 @@ public class AbstractByteHasherTest extends TestCase {
 
   public void testCorrectExceptions() {
     TestHasher hasher = new TestHasher();
-    try {
-      hasher.putBytes(new byte[8], -1, 4);
-      fail();
-    } catch (IndexOutOfBoundsException expected) {
-    }
-    try {
-      hasher.putBytes(new byte[8], 0, 16);
-      fail();
-    } catch (IndexOutOfBoundsException expected) {
-    }
-    try {
-      hasher.putBytes(new byte[8], 0, -1);
-      fail();
-    } catch (IndexOutOfBoundsException expected) {
-    }
+    assertThrows(IndexOutOfBoundsException.class, () -> hasher.putBytes(new byte[8], -1, 4));
+    assertThrows(IndexOutOfBoundsException.class, () -> hasher.putBytes(new byte[8], 0, 16));
+    assertThrows(IndexOutOfBoundsException.class, () -> hasher.putBytes(new byte[8], 0, -1));
   }
 
-  @CanIgnoreReturnValue
   private class TestHasher extends AbstractByteHasher {
 
     private final ByteArrayOutputStream out = new ByteArrayOutputStream();

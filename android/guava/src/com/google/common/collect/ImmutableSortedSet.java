@@ -22,6 +22,7 @@ import static com.google.common.collect.ObjectArrays.checkElementsNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.DoNotCall;
 import com.google.errorprone.annotations.concurrent.LazyInit;
@@ -35,6 +36,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.NavigableSet;
 import java.util.SortedSet;
+import java.util.stream.Collector;
 import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -49,7 +51,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * collection will not correctly obey its specification.
  *
  * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/ImmutableCollectionsExplained"> immutable collections</a>.
+ * "https://github.com/google/guava/wiki/ImmutableCollectionsExplained">immutable collections</a>.
  *
  * @author Jared Levy
  * @author Louis Wasserman
@@ -59,8 +61,22 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // we're overriding default serialization
 @ElementTypesAreNonnullByDefault
-public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxverideShim<E>
+public abstract class ImmutableSortedSet<E> extends ImmutableSet<E>
     implements NavigableSet<E>, SortedIterable<E> {
+  /**
+   * Returns a {@code Collector} that accumulates the input elements into a new {@code
+   * ImmutableSortedSet}, ordered by the specified comparator.
+   *
+   * <p>If the elements contain duplicates (according to the comparator), only the first duplicate
+   * in encounter order will appear in the result.
+   */
+  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
+  @IgnoreJRERequirement // Users will use this only if they're already using streams.
+  static <E> Collector<E, ?, ImmutableSortedSet<E>> toImmutableSortedSet(
+      Comparator<? super E> comparator) {
+    return CollectCollectors.toImmutableSortedSet(comparator);
+  }
+
   static <E> RegularImmutableSortedSet<E> emptySet(Comparator<? super E> comparator) {
     if (Ordering.natural().equals(comparator)) {
       return (RegularImmutableSortedSet<E>) RegularImmutableSortedSet.NATURAL_EMPTY_SET;
@@ -627,21 +643,21 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
   @Override
   @CheckForNull
   public E lower(E e) {
-    return Iterators.getNext(headSet(e, false).descendingIterator(), null);
+    return Iterators.<@Nullable E>getNext(headSet(e, false).descendingIterator(), null);
   }
 
   /** @since 12.0 */
   @Override
   @CheckForNull
   public E floor(E e) {
-    return Iterators.getNext(headSet(e, true).descendingIterator(), null);
+    return Iterators.<@Nullable E>getNext(headSet(e, true).descendingIterator(), null);
   }
 
   /** @since 12.0 */
   @Override
   @CheckForNull
   public E ceiling(E e) {
-    return Iterables.getFirst(tailSet(e, true), null);
+    return Iterables.<@Nullable E>getFirst(tailSet(e, true), null);
   }
 
   /** @since 12.0 */
@@ -649,7 +665,7 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
   @Override
   @CheckForNull
   public E higher(E e) {
-    return Iterables.getFirst(tailSet(e, false), null);
+    return Iterables.<@Nullable E>getFirst(tailSet(e, false), null);
   }
 
   @Override
@@ -734,6 +750,7 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
    * only. This is necessary to ensure that the existence of a particular
    * implementation type is an implementation detail.
    */
+  @J2ktIncompatible // serialization
   private static class SerializedForm<E> implements Serializable {
     final Comparator<? super E> comparator;
     final Object[] elements;
@@ -751,12 +768,164 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
     private static final long serialVersionUID = 0;
   }
 
+  @J2ktIncompatible // serialization
   private void readObject(ObjectInputStream unused) throws InvalidObjectException {
     throw new InvalidObjectException("Use SerializedForm");
   }
 
   @Override
+  @J2ktIncompatible // serialization
   Object writeReplace() {
     return new SerializedForm<E>(comparator, toArray());
   }
+
+  /**
+   * Not supported. Use {@link #toImmutableSortedSet} instead. This method exists only to hide
+   * {@link ImmutableSet#toImmutableSet} from consumers of {@code ImmutableSortedSet}.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated Use {@link ImmutableSortedSet#toImmutableSortedSet}.
+   */
+  @DoNotCall("Use toImmutableSortedSet")
+  @Deprecated
+  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
+  @IgnoreJRERequirement // Users will use this only if they're already using streams.
+  static <E> Collector<E, ?, ImmutableSet<E>> toImmutableSet() {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
+   * Not supported. Use {@link #naturalOrder}, which offers better type-safety, instead. This method
+   * exists only to hide {@link ImmutableSet#builder} from consumers of {@code ImmutableSortedSet}.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated Use {@link ImmutableSortedSet#naturalOrder}, which offers better type-safety.
+   */
+  @DoNotCall("Use naturalOrder")
+  @Deprecated
+  public static <E> ImmutableSortedSet.Builder<E> builder() {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
+   * Not supported. This method exists only to hide {@link ImmutableSet#builderWithExpectedSize}
+   * from consumers of {@code ImmutableSortedSet}.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated Not supported by ImmutableSortedSet.
+   */
+  @DoNotCall("Use naturalOrder (which does not accept an expected size)")
+  @Deprecated
+  public static <E> ImmutableSortedSet.Builder<E> builderWithExpectedSize(int expectedSize) {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
+   * Not supported. <b>You are attempting to create a set that may contain a non-{@code Comparable}
+   * element.</b> Proper calls will resolve to the version in {@code ImmutableSortedSet}, not this
+   * dummy version.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated <b>Pass a parameter of type {@code Comparable} to use {@link
+   *     ImmutableSortedSet#of(Comparable)}.</b>
+   */
+  @DoNotCall("Pass a parameter of type Comparable")
+  @Deprecated
+  public static <E> ImmutableSortedSet<E> of(E element) {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
+   * Not supported. <b>You are attempting to create a set that may contain a non-{@code Comparable}
+   * element.</b> Proper calls will resolve to the version in {@code ImmutableSortedSet}, not this
+   * dummy version.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated <b>Pass the parameters of type {@code Comparable} to use {@link
+   *     ImmutableSortedSet#of(Comparable, Comparable)}.</b>
+   */
+  @DoNotCall("Pass parameters of type Comparable")
+  @Deprecated
+  public static <E> ImmutableSortedSet<E> of(E e1, E e2) {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
+   * Not supported. <b>You are attempting to create a set that may contain a non-{@code Comparable}
+   * element.</b> Proper calls will resolve to the version in {@code ImmutableSortedSet}, not this
+   * dummy version.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated <b>Pass the parameters of type {@code Comparable} to use {@link
+   *     ImmutableSortedSet#of(Comparable, Comparable, Comparable)}.</b>
+   */
+  @DoNotCall("Pass parameters of type Comparable")
+  @Deprecated
+  public static <E> ImmutableSortedSet<E> of(E e1, E e2, E e3) {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
+   * Not supported. <b>You are attempting to create a set that may contain a non-{@code Comparable}
+   * element.</b> Proper calls will resolve to the version in {@code ImmutableSortedSet}, not this
+   * dummy version.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated <b>Pass the parameters of type {@code Comparable} to use {@link
+   *     ImmutableSortedSet#of(Comparable, Comparable, Comparable, Comparable)}. </b>
+   */
+  @DoNotCall("Pass parameters of type Comparable")
+  @Deprecated
+  public static <E> ImmutableSortedSet<E> of(E e1, E e2, E e3, E e4) {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
+   * Not supported. <b>You are attempting to create a set that may contain a non-{@code Comparable}
+   * element.</b> Proper calls will resolve to the version in {@code ImmutableSortedSet}, not this
+   * dummy version.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated <b>Pass the parameters of type {@code Comparable} to use {@link
+   *     ImmutableSortedSet#of( Comparable, Comparable, Comparable, Comparable, Comparable)}. </b>
+   */
+  @DoNotCall("Pass parameters of type Comparable")
+  @Deprecated
+  public static <E> ImmutableSortedSet<E> of(E e1, E e2, E e3, E e4, E e5) {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
+   * Not supported. <b>You are attempting to create a set that may contain a non-{@code Comparable}
+   * element.</b> Proper calls will resolve to the version in {@code ImmutableSortedSet}, not this
+   * dummy version.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated <b>Pass the parameters of type {@code Comparable} to use {@link
+   *     ImmutableSortedSet#of(Comparable, Comparable, Comparable, Comparable, Comparable,
+   *     Comparable, Comparable...)}. </b>
+   */
+  @DoNotCall("Pass parameters of type Comparable")
+  @Deprecated
+  public static <E> ImmutableSortedSet<E> of(E e1, E e2, E e3, E e4, E e5, E e6, E... remaining) {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
+   * Not supported. <b>You are attempting to create a set that may contain non-{@code Comparable}
+   * elements.</b> Proper calls will resolve to the version in {@code ImmutableSortedSet}, not this
+   * dummy version.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated <b>Pass parameters of type {@code Comparable} to use {@link
+   *     ImmutableSortedSet#copyOf(Comparable[])}.</b>
+   */
+  @DoNotCall("Pass parameters of type Comparable")
+  @Deprecated
+  // The usage of "Z" here works around bugs in Javadoc (JDK-8318093) and JDiff.
+  public static <Z> ImmutableSortedSet<Z> copyOf(Z[] elements) {
+    throw new UnsupportedOperationException();
+  }
+
+  private static final long serialVersionUID = 0xdecaf;
 }

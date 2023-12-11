@@ -20,6 +20,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.SerializableTester;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Tests for {@link HostAndPort}
@@ -99,10 +100,17 @@ public class HostAndPortTest extends TestCase {
     checkFromStringCase("\nOMG\t", 89, "\nOMG\t", 89, false);
   }
 
+  public void testFromStringParseableIncompleteAddresses() {
+    checkFromStringCase("1.2.3", 87, "1.2.3", 87, false);
+    checkFromStringCase("1.2.3:99", 87, "1.2.3", 99, true);
+    checkFromStringCase("2001:4860:4864:5", 87, "2001:4860:4864:5", 87, false);
+    checkFromStringCase("[2001:4860:4864:5]:99", 87, "2001:4860:4864:5", 99, true);
+  }
+
   private static void checkFromStringCase(
       String hpString,
       int defaultPort,
-      String expectHost,
+      @Nullable String expectHost,
       int expectPort,
       boolean expectHasExplicitPort) {
     HostAndPort hp;

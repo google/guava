@@ -14,7 +14,6 @@
 
 package com.google.common.collect;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.DoNotMock;
 import java.util.NoSuchElementException;
@@ -43,13 +42,12 @@ import javax.annotation.CheckForNull;
  * <p>For a {@link Set} whose contents are specified by a {@link Range}, see {@link ContiguousSet}.
  *
  * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#rangeset"> RangeSets</a>.
+ * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#rangeset">RangeSets</a>.
  *
  * @author Kevin Bourrillion
  * @author Louis Wasserman
  * @since 14.0
  */
-@Beta
 @DoNotMock("Use ImmutableRangeSet or TreeRangeSet")
 @GwtIncompatible
 @ElementTypesAreNonnullByDefault

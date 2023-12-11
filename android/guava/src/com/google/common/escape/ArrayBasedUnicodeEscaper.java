@@ -16,7 +16,6 @@ package com.google.common.escape;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import java.util.Map;
 import javax.annotation.CheckForNull;
@@ -41,7 +40,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author David Beaumont
  * @since 15.0
  */
-@Beta
 @GwtCompatible
 @ElementTypesAreNonnullByDefault
 public abstract class ArrayBasedUnicodeEscaper extends UnicodeEscaper {
@@ -130,7 +128,7 @@ public abstract class ArrayBasedUnicodeEscaper extends UnicodeEscaper {
       this.safeMinChar = Character.MAX_VALUE;
       this.safeMaxChar = 0;
     } else {
-      // The safe range is non empty and contains values below the surrogate
+      // The safe range is non-empty and contains values below the surrogate
       // range but may extend above it. We may need to clip the maximum value.
       this.safeMinChar = (char) safeMin;
       this.safeMaxChar = (char) Math.min(safeMax, Character.MIN_HIGH_SURROGATE - 1);

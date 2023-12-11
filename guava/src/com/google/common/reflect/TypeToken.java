@@ -19,7 +19,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static java.util.Objects.requireNonNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Joiner;
 import com.google.common.base.Predicate;
@@ -32,6 +31,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
 import com.google.common.primitives.Primitives;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.GenericArrayType;
@@ -89,7 +89,7 @@ import javax.annotation.CheckForNull;
  *
  * <p>{@code TypeToken} is serializable when no type variable is contained in the type.
  *
- * <p>Note to Guice users: {@code} TypeToken is similar to Guice's {@code TypeLiteral} class except
+ * <p>Note to Guice users: {@code TypeToken} is similar to Guice's {@code TypeLiteral} class except
  * that it is serializable and offers numerous additional utility methods.
  *
  * @author Bob Lee
@@ -97,7 +97,6 @@ import javax.annotation.CheckForNull;
  * @author Ben Yu
  * @since 12.0
  */
-@Beta
 @SuppressWarnings("serial") // SimpleTypeToken is the serialized form.
 @ElementTypesAreNonnullByDefault
 public abstract class TypeToken<T> extends TypeCapture<T> implements Serializable {
@@ -105,10 +104,10 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
   private final Type runtimeType;
 
   /** Resolver for resolving parameter and field types with {@link #runtimeType} as context. */
-  @CheckForNull private transient TypeResolver invariantTypeResolver;
+  @LazyInit @CheckForNull private transient TypeResolver invariantTypeResolver;
 
   /** Resolver for resolving covariant types with {@link #runtimeType} as context. */
-  @CheckForNull private transient TypeResolver covariantTypeResolver;
+  @LazyInit @CheckForNull private transient TypeResolver covariantTypeResolver;
 
   /**
    * Constructs a new type token of {@code T}.
@@ -168,7 +167,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
 
   /** Returns an instance of type token that wraps {@code type}. */
   public static <T> TypeToken<T> of(Class<T> type) {
-    return new SimpleTypeToken<T>(type);
+    return new SimpleTypeToken<>(type);
   }
 
   /** Returns an instance of type token that wraps {@code type}. */
@@ -240,7 +239,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
                 ImmutableMap.of(
                     new TypeResolver.TypeVariableKey(typeParam.typeVariable), typeArg.runtimeType));
     // If there's any type error, we'd report now rather than later.
-    return new SimpleTypeToken<T>(resolver.resolveType(runtimeType));
+    return new SimpleTypeToken<>(resolver.resolveType(runtimeType));
   }
 
   /**
@@ -746,15 +745,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
       @SuppressWarnings({"unchecked", "rawtypes"})
       ImmutableList<Class<? super T>> collectedTypes =
           (ImmutableList) TypeCollector.FOR_RAW_TYPE.collectTypes(getRawTypes());
-      return FluentIterable.from(collectedTypes)
-          .filter(
-              new Predicate<Class<?>>() {
-                @Override
-                public boolean apply(Class<?> type) {
-                  return type.isInterface();
-                }
-              })
-          .toSet();
+      return FluentIterable.from(collectedTypes).filter(Class::isInterface).toSet();
     }
 
     @Override
@@ -1103,7 +1094,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
   }
 
   private ImmutableSet<Class<? super T>> getRawTypes() {
-    final ImmutableSet.Builder<Class<?>> builder = ImmutableSet.builder();
+    ImmutableSet.Builder<Class<?>> builder = ImmutableSet.builder();
     new TypeVisitor() {
       @Override
       void visitTypeVariable(TypeVariable<?> t) {
@@ -1323,7 +1314,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
   }
 
   /**
-   * Collects parent types from a sub type.
+   * Collects parent types from a subtype.
    *
    * @param <K> The type "kind". Either a TypeToken, or Class.
    */
@@ -1428,7 +1419,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
     }
 
     private static <K, V> ImmutableList<K> sortKeysByValue(
-        final Map<K, V> map, final Comparator<? super V> valueComparator) {
+        Map<K, V> map, Comparator<? super V> valueComparator) {
       Ordering<K> keyOrdering =
           new Ordering<K>() {
             @Override

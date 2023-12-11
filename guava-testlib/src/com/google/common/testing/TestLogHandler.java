@@ -16,7 +16,7 @@
 
 package com.google.common.testing;
 
-import com.google.common.annotations.Beta;
+
 import com.google.common.annotations.GwtCompatible;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -52,8 +52,8 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Kevin Bourrillion
  * @since 10.0
  */
-@Beta
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public class TestLogHandler extends Handler {
   /** We will keep a private list of all logged records */
   private final List<LogRecord> list = new ArrayList<>();
@@ -61,7 +61,9 @@ public class TestLogHandler extends Handler {
   /** Adds the most recently logged record to our list. */
   @Override
   public synchronized void publish(@Nullable LogRecord record) {
-    list.add(record);
+    if (record != null) {
+      list.add(record);
+    }
   }
 
   @Override

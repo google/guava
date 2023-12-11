@@ -19,6 +19,7 @@ import static com.google.common.util.concurrent.Futures.getDone;
 import static com.google.common.util.concurrent.MoreExecutors.rejectionPropagatingExecutor;
 import static com.google.common.util.concurrent.NullnessCasts.uncheckedCastNullableTToT;
 import static com.google.common.util.concurrent.Platform.isInstanceOfThrowableClass;
+import static com.google.common.util.concurrent.Platform.restoreInterruptIfIsInterruptedException;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Function;
@@ -107,7 +108,7 @@ abstract class AbstractCatchingFuture<
                     + e.getClass()
                     + " without a cause");
       }
-    } catch (Throwable e) { // this includes cancellation exception
+    } catch (RuntimeException | Error e) { // this includes cancellation exception
       throwable = e;
     }
 
@@ -132,6 +133,7 @@ abstract class AbstractCatchingFuture<
     try {
       fallbackResult = doFallback(localFallback, castThrowable);
     } catch (Throwable t) {
+      restoreInterruptIfIsInterruptedException(t);
       setException(t);
       return;
     } finally {

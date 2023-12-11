@@ -25,9 +25,9 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 import static com.google.common.collect.CollectPreconditions.checkRemove;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Function;
 import com.google.common.base.Objects;
@@ -56,7 +56,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * {@link Sets}, {@link Maps} and {@link Queues}.
  *
  * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/CollectionUtilitiesExplained#lists"> {@code Lists}</a>.
+ * "https://github.com/google/guava/wiki/CollectionUtilitiesExplained#lists">{@code Lists}</a>.
  *
  * @author Kevin Bourrillion
  * @author Mike Bostock
@@ -75,9 +75,9 @@ public final class Lists {
    *
    * <p><b>Note:</b> if mutability is not required, use {@link ImmutableList#of()} instead.
    *
-   * <p><b>Note for Java 7 and later:</b> this method is now unnecessary and should be treated as
-   * deprecated. Instead, use the {@code ArrayList} {@linkplain ArrayList#ArrayList() constructor}
-   * directly, taking advantage of the new <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+   * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
+   * use the {@code ArrayList} {@linkplain ArrayList#ArrayList() constructor} directly, taking
+   * advantage of <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
    */
   @GwtCompatible(serializable = true)
   public static <E extends @Nullable Object> ArrayList<E> newArrayList() {
@@ -117,10 +117,9 @@ public final class Lists {
    * ImmutableList#copyOf(Iterable)} instead. (Or, change {@code elements} to be a {@link
    * FluentIterable} and call {@code elements.toList()}.)
    *
-   * <p><b>Note for Java 7 and later:</b> if {@code elements} is a {@link Collection}, you don't
-   * need this method. Use the {@code ArrayList} {@linkplain ArrayList#ArrayList(Collection)
-   * constructor} directly, taking advantage of the new <a href="http://goo.gl/iz2Wi">"diamond"
-   * syntax</a>.
+   * <p><b>Note:</b> if {@code elements} is a {@link Collection}, you don't need this method. Use
+   * the {@code ArrayList} {@linkplain ArrayList#ArrayList(Collection) constructor} directly, taking
+   * advantage of <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
    */
   @GwtCompatible(serializable = true)
   public static <E extends @Nullable Object> ArrayList<E> newArrayList(
@@ -159,11 +158,11 @@ public final class Lists {
    * Creates an {@code ArrayList} instance backed by an array with the specified initial size;
    * simply delegates to {@link ArrayList#ArrayList(int)}.
    *
-   * <p><b>Note for Java 7 and later:</b> this method is now unnecessary and should be treated as
-   * deprecated. Instead, use {@code new }{@link ArrayList#ArrayList(int) ArrayList}{@code <>(int)}
-   * directly, taking advantage of the new <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
-   * (Unlike here, there is no risk of overload ambiguity, since the {@code ArrayList} constructors
-   * very wisely did not accept varargs.)
+   * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
+   * use {@code new }{@link ArrayList#ArrayList(int) ArrayList}{@code <>(int)} directly, taking
+   * advantage of <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>. (Unlike here, there is no risk
+   * of overload ambiguity, since the {@code ArrayList} constructors very wisely did not accept
+   * varargs.)
    *
    * @param initialArraySize the exact size of the initial backing array for the returned array list
    *     ({@code ArrayList} documentation calls this value the "capacity")
@@ -209,10 +208,9 @@ public final class Lists {
    * outperform {@code LinkedList} except in certain rare and specific situations. Unless you have
    * spent a lot of time benchmarking your specific needs, use one of those instead.
    *
-   * <p><b>Note for Java 7 and later:</b> this method is now unnecessary and should be treated as
-   * deprecated. Instead, use the {@code LinkedList} {@linkplain LinkedList#LinkedList()
-   * constructor} directly, taking advantage of the new <a href="http://goo.gl/iz2Wi">"diamond"
-   * syntax</a>.
+   * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
+   * use the {@code LinkedList} {@linkplain LinkedList#LinkedList() constructor} directly, taking
+   * advantage of <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
    */
   @GwtCompatible(serializable = true)
   public static <E extends @Nullable Object> LinkedList<E> newLinkedList() {
@@ -231,10 +229,9 @@ public final class Lists {
    * outperform {@code LinkedList} except in certain rare and specific situations. Unless you have
    * spent a lot of time benchmarking your specific needs, use one of those instead.
    *
-   * <p><b>Note for Java 7 and later:</b> if {@code elements} is a {@link Collection}, you don't
-   * need this method. Use the {@code LinkedList} {@linkplain LinkedList#LinkedList(Collection)
-   * constructor} directly, taking advantage of the new <a href="http://goo.gl/iz2Wi">"diamond"
-   * syntax</a>.
+   * <p><b>Note:</b> if {@code elements} is a {@link Collection}, you don't need this method. Use
+   * the {@code LinkedList} {@linkplain LinkedList#LinkedList(Collection) constructor} directly,
+   * taking advantage of <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
    */
   @GwtCompatible(serializable = true)
   public static <E extends @Nullable Object> LinkedList<E> newLinkedList(
@@ -253,6 +250,7 @@ public final class Lists {
    * @return a new, empty {@code CopyOnWriteArrayList}
    * @since 12.0
    */
+  @J2ktIncompatible
   @GwtIncompatible // CopyOnWriteArrayList
   public static <E extends @Nullable Object> CopyOnWriteArrayList<E> newCopyOnWriteArrayList() {
     return new CopyOnWriteArrayList<>();
@@ -265,6 +263,7 @@ public final class Lists {
    * @return a new {@code CopyOnWriteArrayList} containing those elements
    * @since 12.0
    */
+  @J2ktIncompatible
   @GwtIncompatible // CopyOnWriteArrayList
   public static <E extends @Nullable Object> CopyOnWriteArrayList<E> newCopyOnWriteArrayList(
       Iterable<? extends E> elements) {
@@ -340,7 +339,7 @@ public final class Lists {
       return (index == 0) ? first : rest[index - 1];
     }
 
-    private static final long serialVersionUID = 0;
+    @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   /** @see Lists#asList(Object, Object, Object[]) */
@@ -376,7 +375,7 @@ public final class Lists {
       }
     }
 
-    private static final long serialVersionUID = 0;
+    @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   /**
@@ -556,8 +555,8 @@ public final class Lists {
      * can be overkill. That's why we forward this call directly to the backing list.
      */
     @Override
-    public void clear() {
-      fromList.clear();
+    protected void removeRange(int fromIndex, int toIndex) {
+      fromList.subList(fromIndex, toIndex).clear();
     }
 
     @Override
@@ -597,9 +596,13 @@ public final class Lists {
       this.function = checkNotNull(function);
     }
 
+    /**
+     * The default implementation inherited is based on iteration and removal of each element which
+     * can be overkill. That's why we forward this call directly to the backing list.
+     */
     @Override
-    public void clear() {
-      fromList.clear();
+    protected void removeRange(int fromIndex, int toIndex) {
+      fromList.subList(fromIndex, toIndex).clear();
     }
 
     @Override
@@ -622,6 +625,8 @@ public final class Lists {
         }
       };
     }
+
+    // TODO: cpovirk - Why override `isEmpty` here but not in TransformingSequentialList?
 
     @Override
     public boolean isEmpty() {
@@ -717,7 +722,6 @@ public final class Lists {
    * @return an {@code List<Character>} view of the character sequence
    * @since 7.0
    */
-  @Beta
   public static List<Character> charactersOf(CharSequence sequence) {
     return new CharSequenceAsList(checkNotNull(sequence));
   }
@@ -761,6 +765,15 @@ public final class Lists {
     @Override
     public int size() {
       return string.length();
+    }
+
+    // redeclare to help optimizers with b/310253115
+    @SuppressWarnings("RedundantOverride")
+    @Override
+    @J2ktIncompatible // serialization
+    @GwtIncompatible // serialization
+    Object writeReplace() {
+      return super.writeReplace();
     }
   }
 
@@ -1093,7 +1106,7 @@ public final class Lists {
               return backingList.listIterator(index);
             }
 
-            private static final long serialVersionUID = 0;
+            @J2ktIncompatible private static final long serialVersionUID = 0;
           };
     } else {
       wrapper =
@@ -1103,7 +1116,7 @@ public final class Lists {
               return backingList.listIterator(index);
             }
 
-            private static final long serialVersionUID = 0;
+            @J2ktIncompatible private static final long serialVersionUID = 0;
           };
     }
     return wrapper.subList(fromIndex, toIndex);

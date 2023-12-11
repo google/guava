@@ -21,13 +21,16 @@ import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
 import static com.google.common.collect.Maps.immutableEntry;
 import static java.util.Objects.requireNonNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.DoNotCall;
 import com.google.errorprone.annotations.DoNotMock;
 import com.google.j2objc.annotations.Weak;
 import com.google.j2objc.annotations.WeakOuter;
+import java.io.InvalidObjectException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -63,7 +66,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * immediately after the last entry having that key.
  *
  * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/ImmutableCollectionsExplained"> immutable collections</a>.
+ * "https://github.com/google/guava/wiki/ImmutableCollectionsExplained">immutable collections</a>.
  *
  * @author Jared Levy
  * @since 2.0
@@ -192,7 +195,6 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
      * @since 19.0
      */
     @CanIgnoreReturnValue
-    @Beta
     public Builder<K, V> putAll(Iterable<? extends Entry<? extends K, ? extends V>> entries) {
       for (Entry<? extends K, ? extends V> entry : entries) {
         put(entry);
@@ -330,7 +332,6 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
    * @throws NullPointerException if any key, value, or entry is null
    * @since 19.0
    */
-  @Beta
   public static <K, V> ImmutableMultimap<K, V> copyOf(
       Iterable<? extends Entry<? extends K, ? extends V>> entries) {
     return ImmutableListMultimap.copyOf(entries);
@@ -343,6 +344,7 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
   // holder class makes sure they are not initialized unless an instance is
   // deserialized.
   @GwtIncompatible // java serialization is not supported
+  @J2ktIncompatible
   static class FieldSettersHolder {
     static final Serialization.FieldSetter<ImmutableMultimap> MAP_FIELD_SETTER =
         Serialization.getFieldSetter(ImmutableMultimap.class, "map");
@@ -366,6 +368,10 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
   @CanIgnoreReturnValue
   @Deprecated
   @Override
+  @DoNotCall("Always throws UnsupportedOperationException")
+  // DoNotCall wants this to be final, but we want to override it to return more specific types.
+  // Inheritance is closed, and all subtypes are @DoNotCall, so this is safe to suppress.
+  @SuppressWarnings("DoNotCall")
   public ImmutableCollection<V> removeAll(@CheckForNull Object key) {
     throw new UnsupportedOperationException();
   }
@@ -379,6 +385,10 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
   @CanIgnoreReturnValue
   @Deprecated
   @Override
+  @DoNotCall("Always throws UnsupportedOperationException")
+  // DoNotCall wants this to be final, but we want to override it to return more specific types.
+  // Inheritance is closed, and all subtypes are @DoNotCall, so this is safe to suppress.
+  @SuppressWarnings("DoNotCall")
   public ImmutableCollection<V> replaceValues(K key, Iterable<? extends V> values) {
     throw new UnsupportedOperationException();
   }
@@ -391,7 +401,8 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
    */
   @Deprecated
   @Override
-  public void clear() {
+  @DoNotCall("Always throws UnsupportedOperationException")
+  public final void clear() {
     throw new UnsupportedOperationException();
   }
 
@@ -420,7 +431,8 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
   @CanIgnoreReturnValue
   @Deprecated
   @Override
-  public boolean put(K key, V value) {
+  @DoNotCall("Always throws UnsupportedOperationException")
+  public final boolean put(K key, V value) {
     throw new UnsupportedOperationException();
   }
 
@@ -433,7 +445,8 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
   @CanIgnoreReturnValue
   @Deprecated
   @Override
-  public boolean putAll(K key, Iterable<? extends V> values) {
+  @DoNotCall("Always throws UnsupportedOperationException")
+  public final boolean putAll(K key, Iterable<? extends V> values) {
     throw new UnsupportedOperationException();
   }
 
@@ -446,7 +459,8 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
   @CanIgnoreReturnValue
   @Deprecated
   @Override
-  public boolean putAll(Multimap<? extends K, ? extends V> multimap) {
+  @DoNotCall("Always throws UnsupportedOperationException")
+  public final boolean putAll(Multimap<? extends K, ? extends V> multimap) {
     throw new UnsupportedOperationException();
   }
 
@@ -459,7 +473,8 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
   @CanIgnoreReturnValue
   @Deprecated
   @Override
-  public boolean remove(@CheckForNull Object key, @CheckForNull Object value) {
+  @DoNotCall("Always throws UnsupportedOperationException")
+  public final boolean remove(@CheckForNull Object key, @CheckForNull Object value) {
     throw new UnsupportedOperationException();
   }
 
@@ -561,6 +576,15 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
         return multimap.containsEntry(entry.getKey(), entry.getValue());
       }
       return false;
+    }
+
+    // redeclare to help optimizers with b/310253115
+    @SuppressWarnings("RedundantOverride")
+    @Override
+    @J2ktIncompatible // serialization
+    @GwtIncompatible // serialization
+    Object writeReplace() {
+      return super.writeReplace();
     }
 
     private static final long serialVersionUID = 0;
@@ -668,13 +692,21 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
     }
 
     @GwtIncompatible
+    @J2ktIncompatible
     @Override
     Object writeReplace() {
       return new KeysSerializedForm(ImmutableMultimap.this);
     }
+
+    @GwtIncompatible
+    @J2ktIncompatible
+    private void readObject(ObjectInputStream stream) throws InvalidObjectException {
+      throw new InvalidObjectException("Use KeysSerializedForm");
+    }
   }
 
   @GwtIncompatible
+  @J2ktIncompatible
   private static final class KeysSerializedForm implements Serializable {
     final ImmutableMultimap<?, ?> multimap;
 
@@ -758,8 +790,19 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
       return true;
     }
 
+    // redeclare to help optimizers with b/310253115
+    @SuppressWarnings("RedundantOverride")
+    @Override
+    @J2ktIncompatible // serialization
+    @GwtIncompatible // serialization
+    Object writeReplace() {
+      return super.writeReplace();
+    }
+
+    @J2ktIncompatible // serialization
     private static final long serialVersionUID = 0;
   }
 
+  @J2ktIncompatible // serialization
   private static final long serialVersionUID = 0;
 }

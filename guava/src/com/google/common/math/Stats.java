@@ -24,8 +24,8 @@ import static java.lang.Double.NaN;
 import static java.lang.Double.doubleToLongBits;
 import static java.lang.Double.isNaN;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import java.io.Serializable;
@@ -62,7 +62,7 @@ import javax.annotation.CheckForNull;
  * @author Kevin Bourrillion
  * @since 20.0
  */
-@Beta
+@J2ktIncompatible
 @GwtIncompatible
 @ElementTypesAreNonnullByDefault
 public final class Stats implements Serializable {
@@ -126,9 +126,9 @@ public final class Stats implements Serializable {
    * @param values a series of values
    */
   public static Stats of(double... values) {
-    StatsAccumulator acummulator = new StatsAccumulator();
-    acummulator.addAll(values);
-    return acummulator.snapshot();
+    StatsAccumulator accumulator = new StatsAccumulator();
+    accumulator.addAll(values);
+    return accumulator.snapshot();
   }
 
   /**
@@ -137,9 +137,9 @@ public final class Stats implements Serializable {
    * @param values a series of values
    */
   public static Stats of(int... values) {
-    StatsAccumulator acummulator = new StatsAccumulator();
-    acummulator.addAll(values);
-    return acummulator.snapshot();
+    StatsAccumulator accumulator = new StatsAccumulator();
+    accumulator.addAll(values);
+    return accumulator.snapshot();
   }
 
   /**
@@ -149,9 +149,9 @@ public final class Stats implements Serializable {
    *     cause loss of precision for longs of magnitude over 2^53 (slightly over 9e15))
    */
   public static Stats of(long... values) {
-    StatsAccumulator acummulator = new StatsAccumulator();
-    acummulator.addAll(values);
-    return acummulator.snapshot();
+    StatsAccumulator accumulator = new StatsAccumulator();
+    accumulator.addAll(values);
+    return accumulator.snapshot();
   }
 
   /**

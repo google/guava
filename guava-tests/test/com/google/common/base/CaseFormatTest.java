@@ -24,6 +24,7 @@ import static com.google.common.base.CaseFormat.UPPER_UNDERSCORE;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
 import junit.framework.TestCase;
@@ -46,6 +47,7 @@ public class CaseFormatTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // NullPointerTester
   public void testNullArguments() {
     NullPointerTester tester = new NullPointerTester();

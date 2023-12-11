@@ -14,8 +14,8 @@
 
 package com.google.common.io;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import java.io.Closeable;
 import java.io.IOException;
@@ -31,7 +31,7 @@ import javax.annotation.CheckForNull;
  * @author Michael Lancaster
  * @since 1.0
  */
-@Beta
+@J2ktIncompatible
 @GwtIncompatible
 @ElementTypesAreNonnullByDefault
 public final class Closeables {

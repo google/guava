@@ -58,6 +58,7 @@ import com.google.common.testing.FakeTicker;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
 import com.google.common.testing.TestLogHandler;
+import com.google.common.util.concurrent.UncheckedExecutionException;
 import java.io.Serializable;
 import java.lang.ref.Reference;
 import java.lang.ref.ReferenceQueue;
@@ -76,6 +77,7 @@ import java.util.logging.LogRecord;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** @author Charles Fry */
 @SuppressWarnings("GuardedBy") // TODO(b/35466881): Fix or suppress.
@@ -96,7 +98,6 @@ public class LocalCacheTest extends TestCase {
       return map;
     }
   }
-
 
   public static Test suite() {
     TestSuite suite = new TestSuite();
@@ -232,7 +233,7 @@ public class LocalCacheTest extends TestCase {
 
   private Throwable popLoggedThrowable() {
     List<LogRecord> logRecords = logHandler.getStoredLogRecords();
-    assertSame(1, logRecords.size());
+    assertEquals(1, logRecords.size());
     LogRecord logRecord = logRecords.get(0);
     logHandler.clear();
     return logRecord.getThrown();
@@ -330,7 +331,7 @@ public class LocalCacheTest extends TestCase {
   }
 
   public void testSetConcurrencyLevel() {
-    // round up to nearest power of two
+    // round up to the nearest power of two
 
     checkConcurrencyLevel(1, 1);
     checkConcurrencyLevel(2, 2);
@@ -349,7 +350,7 @@ public class LocalCacheTest extends TestCase {
   }
 
   public void testSetInitialCapacity() {
-    // share capacity over each segment, then round up to nearest power of two
+    // share capacity over each segment, then round up to the nearest power of two
 
     checkInitialCapacity(1, 0, 1);
     checkInitialCapacity(1, 1, 1);
@@ -701,7 +702,6 @@ public class LocalCacheTest extends TestCase {
     assertEquals(1, map.size());
   }
 
-
   public void testCopyEntry_computing() {
     final CountDownLatch startSignal = new CountDownLatch(1);
     final CountDownLatch computingSignal = new CountDownLatch(1);
@@ -802,7 +802,6 @@ public class LocalCacheTest extends TestCase {
     cache.remove(key);
     checkLogged(e);
   }
-
 
   public void testRemovalListener_replaced_computing() {
     final CountDownLatch startSignal = new CountDownLatch(1);
@@ -2641,7 +2640,85 @@ public class LocalCacheTest extends TestCase {
     assertEquals(localCacheTwo.ticker, localCacheThree.ticker);
   }
 
+  public void testLoadDifferentKeyInLoader() throws ExecutionException, InterruptedException {
+    LocalCache<String, String> cache = makeLocalCache(createCacheBuilder());
+    String key1 = "key1";
+    String key2 = "key2";
+
+    assertEquals(
+        key2,
+        cache.get(
+            key1,
+            new CacheLoader<String, String>() {
+              @Override
+              public String load(String key) throws Exception {
+                return cache.get(key2, identityLoader()); // loads a different key, should work
+              }
+            }));
+  }
+
+  public void testRecursiveLoad() throws InterruptedException {
+    LocalCache<String, String> cache = makeLocalCache(createCacheBuilder());
+    String key = "key";
+    CacheLoader<String, String> loader =
+        new CacheLoader<String, String>() {
+          @Override
+          public String load(String key) throws Exception {
+            return cache.get(key, identityLoader()); // recursive load, this should fail
+          }
+        };
+    testLoadThrows(key, cache, loader);
+  }
+
+  public void testRecursiveLoadWithProxy() throws InterruptedException {
+    String key = "key";
+    String otherKey = "otherKey";
+    LocalCache<String, String> cache = makeLocalCache(createCacheBuilder());
+    CacheLoader<String, String> loader =
+        new CacheLoader<String, String>() {
+          @Override
+          public String load(String key) throws Exception {
+            return cache.get(
+                key,
+                identityLoader()); // recursive load (same as the initial one), this should fail
+          }
+        };
+    CacheLoader<String, String> proxyLoader =
+        new CacheLoader<String, String>() {
+          @Override
+          public String load(String key) throws Exception {
+            return cache.get(otherKey, loader); // loads another key, is ok
+          }
+        };
+    testLoadThrows(key, cache, proxyLoader);
+  }
+
   // utility methods
+
+  private void testLoadThrows(
+      String key, LocalCache<String, String> cache, CacheLoader<String, String> loader)
+      throws InterruptedException {
+    CountDownLatch doneSignal = new CountDownLatch(1);
+    Thread thread =
+        new Thread(
+            () -> {
+              try {
+                cache.get(key, loader);
+              } catch (UncheckedExecutionException | ExecutionException e) {
+                doneSignal.countDown();
+              }
+            });
+    thread.start();
+
+    boolean done = doneSignal.await(1, TimeUnit.SECONDS);
+    if (!done) {
+      StringBuilder builder = new StringBuilder();
+      for (StackTraceElement trace : thread.getStackTrace()) {
+        builder.append("\tat ").append(trace).append('\n');
+      }
+      fail(builder.toString());
+    }
+  }
 
   /**
    * Returns an iterable containing all combinations of maximumSize, expireAfterAccess/Write,
@@ -2698,7 +2775,7 @@ public class LocalCacheTest extends TestCase {
   // entries and values
 
   private static <K, V> DummyEntry<K, V> createDummyEntry(
-      K key, int hash, V value, ReferenceEntry<K, V> next) {
+      K key, int hash, V value, @Nullable ReferenceEntry<K, V> next) {
     DummyEntry<K, V> entry = DummyEntry.create(key, hash, next);
     DummyValueReference<K, V> valueRef = DummyValueReference.create(value);
     entry.setValueReference(valueRef);
@@ -2706,7 +2783,7 @@ public class LocalCacheTest extends TestCase {
   }
 
   static class DummyEntry<K, V> implements ReferenceEntry<K, V> {
-    private K key;
+    private @Nullable K key;
     private final int hash;
     private final ReferenceEntry<K, V> next;
 
@@ -2716,7 +2793,8 @@ public class LocalCacheTest extends TestCase {
       this.next = next;
     }
 
-    public static <K, V> DummyEntry<K, V> create(K key, int hash, ReferenceEntry<K, V> next) {
+    public static <K, V> DummyEntry<K, V> create(
+        K key, int hash, @Nullable ReferenceEntry<K, V> next) {
       return new DummyEntry<>(key, hash, next);
     }
 
@@ -2825,7 +2903,7 @@ public class LocalCacheTest extends TestCase {
   }
 
   static class DummyValueReference<K, V> implements ValueReference<K, V> {
-    private V value;
+    private @Nullable V value;
     boolean loading = false;
 
     public DummyValueReference() {
@@ -2855,7 +2933,7 @@ public class LocalCacheTest extends TestCase {
     }
 
     @Override
-    public ReferenceEntry<K, V> getEntry() {
+    public @Nullable ReferenceEntry<K, V> getEntry() {
       return null;
     }
 
@@ -2905,7 +2983,7 @@ public class LocalCacheTest extends TestCase {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(@Nullable Object o) {
       return (o instanceof SerializableCacheLoader);
     }
   }
@@ -2921,7 +2999,7 @@ public class LocalCacheTest extends TestCase {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(@Nullable Object o) {
       return (o instanceof SerializableRemovalListener);
     }
   }
@@ -2938,7 +3016,7 @@ public class LocalCacheTest extends TestCase {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(@Nullable Object o) {
       return (o instanceof SerializableTicker);
     }
   }
@@ -2955,7 +3033,7 @@ public class LocalCacheTest extends TestCase {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(@Nullable Object o) {
       return (o instanceof SerializableWeigher);
     }
   }

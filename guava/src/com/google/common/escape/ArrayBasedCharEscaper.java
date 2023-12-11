@@ -16,7 +16,6 @@ package com.google.common.escape;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import java.util.Map;
 import javax.annotation.CheckForNull;
@@ -41,7 +40,6 @@ import javax.annotation.CheckForNull;
  * @author David Beaumont
  * @since 15.0
  */
-@Beta
 @GwtCompatible
 @ElementTypesAreNonnullByDefault
 public abstract class ArrayBasedCharEscaper extends CharEscaper {

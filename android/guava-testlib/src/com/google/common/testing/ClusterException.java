@@ -59,20 +59,21 @@ import java.util.Collections;
  * @author Luiz-Otavio Zorzella
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 final class ClusterException extends RuntimeException {
 
-  public final Collection<? extends Throwable> exceptions;
+  final Collection<? extends Throwable> exceptions;
 
   private ClusterException(Collection<? extends Throwable> exceptions) {
     super(
         exceptions.size() + " exceptions were thrown. The first exception is listed as a cause.",
         exceptions.iterator().next());
-    ArrayList<Throwable> temp = new ArrayList<>(exceptions);
+    ArrayList<? extends Throwable> temp = new ArrayList<>(exceptions);
     this.exceptions = Collections.unmodifiableCollection(temp);
   }
 
-  /** @see #create(Collection) */
-  public static RuntimeException create(Throwable... exceptions) {
+  /** See {@link #create(Collection)}. */
+  static RuntimeException create(Throwable... exceptions) {
     ArrayList<Throwable> temp = new ArrayList<>(Arrays.asList(exceptions));
     return create(temp);
   }
@@ -96,7 +97,7 @@ final class ClusterException extends RuntimeException {
    * @throws NullPointerException if {@code exceptions} is null
    * @throws IllegalArgumentException if {@code exceptions} is empty
    */
-  public static RuntimeException create(Collection<? extends Throwable> exceptions) {
+  static RuntimeException create(Collection<? extends Throwable> exceptions) {
     if (exceptions.size() == 0) {
       throw new IllegalArgumentException("Can't create an ExceptionCollection with no exceptions");
     }

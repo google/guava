@@ -20,8 +20,8 @@ import static com.google.common.primitives.Doubles.isFinite;
 import static java.lang.Double.NaN;
 import static java.lang.Double.isNaN;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import java.util.Iterator;
 
 /**
@@ -32,7 +32,7 @@ import java.util.Iterator;
  * @author Kevin Bourrillion
  * @since 20.0
  */
-@Beta
+@J2ktIncompatible
 @GwtIncompatible
 @ElementTypesAreNonnullByDefault
 public final class StatsAccumulator {

@@ -34,6 +34,7 @@ import com.google.common.collect.Maps.IteratorBasedAbstractMap;
 import com.google.common.collect.Maps.ViewCachingAbstractMap;
 import com.google.common.collect.Sets.ImprovedAbstractSet;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.WeakOuter;
 import java.io.Serializable;
 import java.util.Collection;
@@ -649,7 +650,7 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
     return rowMap().keySet();
   }
 
-  @CheckForNull private transient Set<C> columnKeySet;
+  @LazyInit @CheckForNull private transient Set<C> columnKeySet;
 
   /**
    * {@inheritDoc}
@@ -780,7 +781,7 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
     return super.values();
   }
 
-  @CheckForNull private transient Map<R, Map<C, V>> rowMap;
+  @LazyInit @CheckForNull private transient Map<R, Map<C, V>> rowMap;
 
   @Override
   public Map<R, Map<C, V>> rowMap() {
@@ -820,7 +821,7 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
     }
 
     @WeakOuter
-    class EntrySet extends TableSet<Entry<R, Map<C, V>>> {
+    private final class EntrySet extends TableSet<Entry<R, Map<C, V>>> {
       @Override
       public Iterator<Entry<R, Map<C, V>>> iterator() {
         return Maps.asMapEntryIterator(
@@ -862,7 +863,7 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
     }
   }
 
-  @CheckForNull private transient ColumnMap columnMap;
+  @LazyInit @CheckForNull private transient ColumnMap columnMap;
 
   @Override
   public Map<C, Map<R, V>> columnMap() {
@@ -909,7 +910,7 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
     }
 
     @WeakOuter
-    class ColumnMapEntrySet extends TableSet<Entry<C, Map<R, V>>> {
+    private final class ColumnMapEntrySet extends TableSet<Entry<C, Map<R, V>>> {
       @Override
       public Iterator<Entry<C, Map<R, V>>> iterator() {
         return Maps.asMapEntryIterator(
@@ -957,7 +958,7 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
       public boolean removeAll(Collection<?> c) {
         /*
          * We can't inherit the normal implementation (which calls
-         * Sets.removeAllImpl(Set, *Collection*) because, under some
+         * Sets.removeAllImpl(Set, *Collection*)) because, under some
          * circumstances, it attempts to call columnKeySet().iterator().remove,
          * which is unsupported.
          */

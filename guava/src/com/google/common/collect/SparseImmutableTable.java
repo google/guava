@@ -17,6 +17,8 @@ package com.google.common.collect;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.Immutable;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -82,14 +84,14 @@ final class SparseImmutableTable<R, C, V> extends RegularImmutableTable<R, C, V>
     for (Entry<R, Map<C, V>> row : rows.entrySet()) {
       rowBuilder.put(row.getKey(), ImmutableMap.copyOf(row.getValue()));
     }
-    this.rowMap = rowBuilder.build();
+    this.rowMap = rowBuilder.buildOrThrow();
 
     ImmutableMap.Builder<C, ImmutableMap<R, V>> columnBuilder =
         new ImmutableMap.Builder<>(columns.size());
     for (Entry<C, Map<R, V>> col : columns.entrySet()) {
       columnBuilder.put(col.getKey(), ImmutableMap.copyOf(col.getValue()));
     }
-    this.columnMap = columnBuilder.build();
+    this.columnMap = columnBuilder.buildOrThrow();
   }
 
   @Override
@@ -130,7 +132,9 @@ final class SparseImmutableTable<R, C, V> extends RegularImmutableTable<R, C, V>
   }
 
   @Override
-  SerializedForm createSerializedForm() {
+  @J2ktIncompatible // serialization
+  @GwtIncompatible // serialization
+  Object writeReplace() {
     Map<C, Integer> columnKeyToIndex = Maps.indexMap(columnKeySet());
     int[] cellColumnIndices = new int[cellSet().size()];
     int i = 0;

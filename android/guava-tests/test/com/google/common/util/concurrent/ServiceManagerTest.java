@@ -16,10 +16,13 @@
 
 package com.google.common.util.concurrent;
 
+import static com.google.common.base.StandardSystemProperty.JAVA_SPECIFICATION_VERSION;
+import static com.google.common.base.StandardSystemProperty.OS_NAME;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static java.util.Arrays.asList;
 import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -119,8 +122,11 @@ public class ServiceManagerTest extends TestCase {
     }
   }
 
-
   public void testServiceStartupTimes() {
+    if (isWindows() && isJava8()) {
+      // Flaky there: https://github.com/google/guava/pull/6731#issuecomment-1736298607
+      return;
+    }
     Service a = new NoOpDelayedService(150);
     Service b = new NoOpDelayedService(353);
     ServiceManager serviceManager = new ServiceManager(asList(a, b));
@@ -130,7 +136,6 @@ public class ServiceManagerTest extends TestCase {
     assertThat(startupTimes.get(a)).isAtLeast(150);
     assertThat(startupTimes.get(b)).isAtLeast(353);
   }
-
 
   public void testServiceStartupTimes_selfStartingServices() {
     // This tests to ensure that:
@@ -166,7 +171,6 @@ public class ServiceManagerTest extends TestCase {
     assertThat(startupTimes.get(b)).isNotNull();
   }
 
-
   public void testServiceStartStop() {
     Service a = new NoOpService();
     Service b = new NoOpService();
@@ -188,7 +192,6 @@ public class ServiceManagerTest extends TestCase {
     assertTrue(listener.failedServices.isEmpty());
   }
 
-
   public void testFailStart() throws Exception {
     Service a = new NoOpService();
     Service b = new FailStartService();
@@ -199,11 +202,7 @@ public class ServiceManagerTest extends TestCase {
     RecordingListener listener = new RecordingListener();
     manager.addListener(listener, directExecutor());
     assertState(manager, Service.State.NEW, a, b, c, d, e);
-    try {
-      manager.startAsync().awaitHealthy();
-      fail();
-    } catch (IllegalStateException expected) {
-    }
+    assertThrows(IllegalStateException.class, () -> manager.startAsync().awaitHealthy());
     assertFalse(listener.healthyCalled);
     assertState(manager, Service.State.RUNNING, a, c, e);
     assertEquals(ImmutableSet.of(b, d), listener.failedServices);
@@ -216,7 +215,6 @@ public class ServiceManagerTest extends TestCase {
     assertTrue(listener.stoppedCalled);
   }
 
-
   public void testFailRun() throws Exception {
     Service a = new NoOpService();
     Service b = new FailRunService();
@@ -224,11 +222,7 @@ public class ServiceManagerTest extends TestCase {
     RecordingListener listener = new RecordingListener();
     manager.addListener(listener, directExecutor());
     assertState(manager, Service.State.NEW, a, b);
-    try {
-      manager.startAsync().awaitHealthy();
-      fail();
-    } catch (IllegalStateException expected) {
-    }
+    assertThrows(IllegalStateException.class, () -> manager.startAsync().awaitHealthy());
     assertTrue(listener.healthyCalled);
     assertEquals(ImmutableSet.of(b), listener.failedServices);
 
@@ -238,7 +232,6 @@ public class ServiceManagerTest extends TestCase {
 
     assertTrue(listener.stoppedCalled);
   }
-
 
   public void testFailStop() throws Exception {
     Service a = new NoOpService();
@@ -268,24 +261,15 @@ public class ServiceManagerTest extends TestCase {
     assertThat(toString).contains("FailStartService");
   }
 
-
   public void testTimeouts() throws Exception {
     Service a = new NoOpDelayedService(50);
     ServiceManager manager = new ServiceManager(asList(a));
     manager.startAsync();
-    try {
-      manager.awaitHealthy(1, TimeUnit.MILLISECONDS);
-      fail();
-    } catch (TimeoutException expected) {
-    }
+    assertThrows(TimeoutException.class, () -> manager.awaitHealthy(1, TimeUnit.MILLISECONDS));
     manager.awaitHealthy(5, SECONDS); // no exception thrown
 
     manager.stopAsync();
-    try {
-      manager.awaitStopped(1, TimeUnit.MILLISECONDS);
-      fail();
-    } catch (TimeoutException expected) {
-    }
+    assertThrows(TimeoutException.class, () -> manager.awaitStopped(1, TimeUnit.MILLISECONDS));
     manager.awaitStopped(5, SECONDS); // no exception thrown
   }
 
@@ -298,11 +282,7 @@ public class ServiceManagerTest extends TestCase {
     ServiceManager manager = new ServiceManager(asList(a));
     RecordingListener listener = new RecordingListener();
     manager.addListener(listener, directExecutor());
-    try {
-      manager.startAsync().awaitHealthy();
-      fail();
-    } catch (IllegalStateException expected) {
-    }
+    assertThrows(IllegalStateException.class, () -> manager.startAsync().awaitHealthy());
     assertTrue(listener.stoppedCalled);
   }
 
@@ -315,11 +295,7 @@ public class ServiceManagerTest extends TestCase {
     ServiceManager manager = new ServiceManager(asList(a));
     RecordingListener listener = new RecordingListener();
     manager.addListener(listener, directExecutor());
-    try {
-      manager.startAsync().awaitHealthy();
-      fail();
-    } catch (IllegalStateException expected) {
-    }
+    assertThrows(IllegalStateException.class, () -> manager.startAsync().awaitHealthy());
     assertFalse(listener.healthyCalled);
   }
 
@@ -445,7 +421,6 @@ public class ServiceManagerTest extends TestCase {
    * Tests that a ServiceManager can be fully shut down if one of its failure listeners is slow or
    * even permanently blocked.
    */
-
   public void testListenerDeadlock() throws InterruptedException {
     final CountDownLatch failEnter = new CountDownLatch(1);
     final CountDownLatch failLeave = new CountDownLatch(1);
@@ -500,7 +475,7 @@ public class ServiceManagerTest extends TestCase {
           }
         };
     stoppingThread.start();
-    // this should be super fast since the only non stopped service is a NoOpService
+    // this should be super fast since the only non-stopped service is a NoOpService
     stoppingThread.join(1000);
     assertFalse("stopAsync has deadlocked!.", stoppingThread.isAlive());
     failLeave.countDown(); // release the background thread
@@ -519,11 +494,7 @@ public class ServiceManagerTest extends TestCase {
     logger.addHandler(logHandler);
     NoOpService service = new NoOpService();
     service.startAsync();
-    try {
-      new ServiceManager(Arrays.asList(service));
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> new ServiceManager(Arrays.asList(service)));
     service.stopAsync();
     // Nothing was logged!
     assertEquals(0, logHandler.getStoredLogRecords().size());
@@ -544,6 +515,7 @@ public class ServiceManagerTest extends TestCase {
             service1.startAsync();
             delegate.addListener(listener, executor);
           }
+
           // Delegates from here on down
           @Override
           public final Service startAsync() {
@@ -590,12 +562,11 @@ public class ServiceManagerTest extends TestCase {
             return delegate.failureCause();
           }
         };
-    try {
-      new ServiceManager(Arrays.asList(service1, service2));
-      fail();
-    } catch (IllegalArgumentException expected) {
-      assertThat(expected.getMessage()).contains("started transitioning asynchronously");
-    }
+    IllegalArgumentException expected =
+        assertThrows(
+            IllegalArgumentException.class,
+            () -> new ServiceManager(Arrays.asList(service1, service2)));
+    assertThat(expected.getMessage()).contains("started transitioning asynchronously");
   }
 
   /**
@@ -606,7 +577,6 @@ public class ServiceManagerTest extends TestCase {
    *
    * <p>Before the bug was fixed this test would fail at least 30% of the time.
    */
-
   public void testTransitionRace() throws TimeoutException {
     for (int k = 0; k < 1000; k++) {
       List<Service> services = Lists.newArrayList();
@@ -620,7 +590,7 @@ public class ServiceManagerTest extends TestCase {
   }
 
   /**
-   * This service will shutdown very quickly after stopAsync is called and uses a background thread
+   * This service will shut down very quickly after stopAsync is called and uses a background thread
    * so that we know that the stopping() listeners will execute on a different thread than the
    * terminated() listeners.
    */
@@ -674,5 +644,13 @@ public class ServiceManagerTest extends TestCase {
     public void failure(Service service) {
       failedServices.add(service);
     }
+  }
+
+  private static boolean isWindows() {
+    return OS_NAME.value().startsWith("Windows");
+  }
+
+  private static boolean isJava8() {
+    return JAVA_SPECIFICATION_VERSION.value().equals("1.8");
   }
 }

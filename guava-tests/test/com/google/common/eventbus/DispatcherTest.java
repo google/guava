@@ -31,7 +31,6 @@ import junit.framework.TestCase;
  *
  * @author Colin Decker
  */
-
 public class DispatcherTest extends TestCase {
 
   private final EventBus bus = new EventBus();

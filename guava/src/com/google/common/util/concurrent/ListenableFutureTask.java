@@ -18,6 +18,7 @@ import static java.lang.Math.min;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -40,6 +41,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Sven Mawson
  * @since 1.0
  */
+@J2ktIncompatible
 @GwtIncompatible
 @ElementTypesAreNonnullByDefault
 public class ListenableFutureTask<V extends @Nullable Object> extends FutureTask<V>
@@ -59,7 +61,7 @@ public class ListenableFutureTask<V extends @Nullable Object> extends FutureTask
    * @since 10.0
    */
   public static <V extends @Nullable Object> ListenableFutureTask<V> create(Callable<V> callable) {
-    return new ListenableFutureTask<V>(callable);
+    return new ListenableFutureTask<>(callable);
   }
 
   /**
@@ -74,7 +76,7 @@ public class ListenableFutureTask<V extends @Nullable Object> extends FutureTask
    */
   public static <V extends @Nullable Object> ListenableFutureTask<V> create(
       Runnable runnable, @ParametricNullness V result) {
-    return new ListenableFutureTask<V>(runnable, result);
+    return new ListenableFutureTask<>(runnable, result);
   }
 
   ListenableFutureTask(Callable<V> callable) {

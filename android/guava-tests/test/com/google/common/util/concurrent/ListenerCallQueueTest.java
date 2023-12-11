@@ -129,7 +129,6 @@ public class ListenerCallQueueTest extends TestCase {
         logHandler.getStoredLogRecords().get(0).getMessage());
   }
 
-
   public void testEnqueueAndDispatch_multithreaded() throws InterruptedException {
     Object listener = new Object();
     ExecutorService service = Executors.newFixedThreadPool(4);
@@ -152,7 +151,6 @@ public class ListenerCallQueueTest extends TestCase {
       service.shutdown();
     }
   }
-
 
   public void testEnqueueAndDispatch_multithreaded_withThrowingRunnable()
       throws InterruptedException {

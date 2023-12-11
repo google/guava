@@ -17,6 +17,7 @@ package com.google.common.util.concurrent;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Queues;
 import com.google.errorprone.annotations.concurrent.GuardedBy;
@@ -52,6 +53,7 @@ import java.util.logging.Logger;
  * the listeners can be delayed slightly so that locks can be dropped. Also, because {@link
  * #dispatch} is expected to be called concurrently, it is idempotent.
  */
+@J2ktIncompatible
 @GwtIncompatible
 @ElementTypesAreNonnullByDefault
 final class ListenerCallQueue<L> {
@@ -147,7 +149,7 @@ final class ListenerCallQueue<L> {
       this.executor = checkNotNull(executor);
     }
 
-    /** Enqueues a event to be run. */
+    /** Enqueues an event to be run. */
     synchronized void add(ListenerCallQueue.Event<L> event, Object label) {
       waitQueue.add(event);
       labelQueue.add(label);
@@ -157,6 +159,7 @@ final class ListenerCallQueue<L> {
      * Dispatches all listeners {@linkplain #enqueue enqueued} prior to this call, serially and in
      * order.
      */
+    @SuppressWarnings("CatchingUnchecked") // sneaky checked exception
     void dispatch() {
       boolean scheduleEventRunner = false;
       synchronized (this) {
@@ -168,7 +171,7 @@ final class ListenerCallQueue<L> {
       if (scheduleEventRunner) {
         try {
           executor.execute(this);
-        } catch (RuntimeException e) {
+        } catch (Exception e) { // sneaky checked exception
           // reset state in case of an error so that later dispatch calls will actually do something
           synchronized (this) {
             isThreadScheduled = false;
@@ -184,6 +187,7 @@ final class ListenerCallQueue<L> {
     }
 
     @Override
+    @SuppressWarnings("CatchingUnchecked") // sneaky checked exception
     public void run() {
       boolean stillRunning = true;
       try {
@@ -204,7 +208,7 @@ final class ListenerCallQueue<L> {
           // Always run while _not_ holding the lock, to avoid deadlocks.
           try {
             nextToRun.call(listener);
-          } catch (RuntimeException e) {
+          } catch (Exception e) { // sneaky checked exception
             // Log it and keep going.
             logger.log(
                 Level.SEVERE,

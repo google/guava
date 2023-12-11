@@ -22,11 +22,12 @@ import static com.google.common.base.Predicates.compose;
 import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 import static com.google.common.collect.NullnessCasts.uncheckedCastNullableTToT;
+import static java.util.Collections.singletonMap;
 import static java.util.Objects.requireNonNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Converter;
 import com.google.common.base.Equivalence;
 import com.google.common.base.Function;
@@ -37,6 +38,7 @@ import com.google.common.base.Predicates;
 import com.google.common.collect.MapDifference.ValueDifference;
 import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.RetainedWith;
 import com.google.j2objc.annotations.Weak;
 import com.google.j2objc.annotations.WeakOuter;
@@ -63,7 +65,10 @@ import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.function.BinaryOperator;
+import java.util.stream.Collector;
 import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -72,7 +77,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * and {@link Queues}.
  *
  * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/CollectionUtilitiesExplained#maps"> {@code Maps}</a>.
+ * "https://github.com/google/guava/wiki/CollectionUtilitiesExplained#maps">{@code Maps}</a>.
  *
  * @author Kevin Bourrillion
  * @author Mike Bostock
@@ -146,6 +151,7 @@ public final class Maps {
    * @since 14.0
    */
   @GwtCompatible(serializable = true)
+  @J2ktIncompatible
   public static <K extends Enum<K>, V> ImmutableMap<K, V> immutableEnumMap(
       Map<K, ? extends V> map) {
     if (map instanceof ImmutableEnumMap) {
@@ -161,9 +167,8 @@ public final class Maps {
     K key1 = entry1.getKey();
     V value1 = entry1.getValue();
     checkEntryNotNull(key1, value1);
-    Class<K> clazz = key1.getDeclaringClass();
-    EnumMap<K, V> enumMap = new EnumMap<>(clazz);
-    enumMap.put(key1, value1);
+    // Do something that works for j2cl, where we can't call getDeclaredClass():
+    EnumMap<K, V> enumMap = new EnumMap<>(singletonMap(key1, value1));
     while (entryItr.hasNext()) {
       Entry<K, ? extends V> entry = entryItr.next();
       K key = entry.getKey();
@@ -175,15 +180,57 @@ public final class Maps {
   }
 
   /**
+   * Returns a {@link Collector} that accumulates elements into an {@code ImmutableMap} whose keys
+   * and values are the result of applying the provided mapping functions to the input elements. The
+   * resulting implementation is specialized for enum key types. The returned map and its views will
+   * iterate over keys in their enum definition order, not encounter order.
+   *
+   * <p>If the mapped keys contain duplicates, an {@code IllegalArgumentException} is thrown when
+   * the collection operation is performed. (This differs from the {@code Collector} returned by
+   * {@link java.util.stream.Collectors#toMap(java.util.function.Function,
+   * java.util.function.Function) Collectors.toMap(Function, Function)}, which throws an {@code
+   * IllegalStateException}.)
+   */
+  @J2ktIncompatible
+  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
+  @IgnoreJRERequirement // Users will use this only if they're already using streams.
+  static <T extends @Nullable Object, K extends Enum<K>, V>
+      Collector<T, ?, ImmutableMap<K, V>> toImmutableEnumMap(
+          java.util.function.Function<? super T, ? extends K> keyFunction,
+          java.util.function.Function<? super T, ? extends V> valueFunction) {
+    return CollectCollectors.toImmutableEnumMap(keyFunction, valueFunction);
+  }
+
+  /**
+   * Returns a {@link Collector} that accumulates elements into an {@code ImmutableMap} whose keys
+   * and values are the result of applying the provided mapping functions to the input elements. The
+   * resulting implementation is specialized for enum key types. The returned map and its views will
+   * iterate over keys in their enum definition order, not encounter order.
+   *
+   * <p>If the mapped keys contain duplicates, the values are merged using the specified merging
+   * function.
+   */
+  @J2ktIncompatible
+  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
+  @IgnoreJRERequirement // Users will use this only if they're already using streams.
+  static <T extends @Nullable Object, K extends Enum<K>, V>
+      Collector<T, ?, ImmutableMap<K, V>> toImmutableEnumMap(
+          java.util.function.Function<? super T, ? extends K> keyFunction,
+          java.util.function.Function<? super T, ? extends V> valueFunction,
+          BinaryOperator<V> mergeFunction) {
+    return CollectCollectors.toImmutableEnumMap(keyFunction, valueFunction, mergeFunction);
+  }
+
+  /**
    * Creates a <i>mutable</i>, empty {@code HashMap} instance.
    *
    * <p><b>Note:</b> if mutability is not required, use {@link ImmutableMap#of()} instead.
    *
    * <p><b>Note:</b> if {@code K} is an {@code enum} type, use {@link #newEnumMap} instead.
    *
-   * <p><b>Note for Java 7 and later:</b> this method is now unnecessary and should be treated as
-   * deprecated. Instead, use the {@code HashMap} constructor directly, taking advantage of the new
-   * <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+   * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
+   * use the {@code HashMap} constructor directly, taking advantage of <a
+   * href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
    *
    * @return a new, empty {@code HashMap}
    */
@@ -199,9 +246,9 @@ public final class Maps {
    *
    * <p><b>Note:</b> if {@code K} is an {@link Enum} type, use {@link #newEnumMap} instead.
    *
-   * <p><b>Note for Java 7 and later:</b> this method is now unnecessary and should be treated as
-   * deprecated. Instead, use the {@code HashMap} constructor directly, taking advantage of the new
-   * <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+   * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
+   * use the {@code HashMap} constructor directly, taking advantage of <a
+   * href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
    *
    * @param map the mappings to be placed in the new map
    * @return a new {@code HashMap} initialized with the mappings from {@code map}
@@ -237,10 +284,19 @@ public final class Maps {
       return expectedSize + 1;
     }
     if (expectedSize < Ints.MAX_POWER_OF_TWO) {
-      // This is the calculation used in JDK8 to resize when a putAll
-      // happens; it seems to be the most conservative calculation we
-      // can make.  0.75 is the default load factor.
-      return (int) ((float) expectedSize / 0.75F + 1.0F);
+      // This seems to be consistent across JDKs. The capacity argument to HashMap and LinkedHashMap
+      // ends up being used to compute a "threshold" size, beyond which the internal table
+      // will be resized. That threshold is ceilingPowerOfTwo(capacity*loadFactor), where
+      // loadFactor is 0.75 by default. So with the calculation here we ensure that the
+      // threshold is equal to ceilingPowerOfTwo(expectedSize). There is a separate code
+      // path when the first operation on the new map is putAll(otherMap). There, prior to
+      // https://github.com/openjdk/jdk/commit/3e393047e12147a81e2899784b943923fc34da8e, a bug
+      // meant that sometimes a too-large threshold is calculated. However, this new threshold is
+      // independent of the initial capacity, except that it won't be lower than the threshold
+      // computed from that capacity. Because the internal table is only allocated on the first
+      // write, we won't see copying because of the new threshold. So it is always OK to use the
+      // calculation here.
+      return (int) Math.ceil(expectedSize / 0.75);
     }
     return Integer.MAX_VALUE; // any large value
   }
@@ -250,9 +306,9 @@ public final class Maps {
    *
    * <p><b>Note:</b> if mutability is not required, use {@link ImmutableMap#of()} instead.
    *
-   * <p><b>Note for Java 7 and later:</b> this method is now unnecessary and should be treated as
-   * deprecated. Instead, use the {@code LinkedHashMap} constructor directly, taking advantage of
-   * the new <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+   * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
+   * use the {@code LinkedHashMap} constructor directly, taking advantage of <a
+   * href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
    *
    * @return a new, empty {@code LinkedHashMap}
    */
@@ -267,9 +323,9 @@ public final class Maps {
    *
    * <p><b>Note:</b> if mutability is not required, use {@link ImmutableMap#copyOf(Map)} instead.
    *
-   * <p><b>Note for Java 7 and later:</b> this method is now unnecessary and should be treated as
-   * deprecated. Instead, use the {@code LinkedHashMap} constructor directly, taking advantage of
-   * the new <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+   * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
+   * use the {@code LinkedHashMap} constructor directly, taking advantage of <a
+   * href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
    *
    * @param map the mappings to be placed in the new map
    * @return a new, {@code LinkedHashMap} initialized with the mappings from {@code map}
@@ -311,9 +367,9 @@ public final class Maps {
    *
    * <p><b>Note:</b> if mutability is not required, use {@link ImmutableSortedMap#of()} instead.
    *
-   * <p><b>Note for Java 7 and later:</b> this method is now unnecessary and should be treated as
-   * deprecated. Instead, use the {@code TreeMap} constructor directly, taking advantage of the new
-   * <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+   * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
+   * use the {@code TreeMap} constructor directly, taking advantage of <a
+   * href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
    *
    * @return a new, empty {@code TreeMap}
    */
@@ -328,9 +384,9 @@ public final class Maps {
    * <p><b>Note:</b> if mutability is not required, use {@link
    * ImmutableSortedMap#copyOfSorted(SortedMap)} instead.
    *
-   * <p><b>Note for Java 7 and later:</b> this method is now unnecessary and should be treated as
-   * deprecated. Instead, use the {@code TreeMap} constructor directly, taking advantage of the new
-   * <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+   * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
+   * use the {@code TreeMap} constructor directly, taking advantage of <a
+   * href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
    *
    * @param map the sorted map whose mappings are to be placed in the new map and whose comparator
    *     is to be used to sort the new map
@@ -348,9 +404,9 @@ public final class Maps {
    * <p><b>Note:</b> if mutability is not required, use {@code
    * ImmutableSortedMap.orderedBy(comparator).build()} instead.
    *
-   * <p><b>Note for Java 7 and later:</b> this method is now unnecessary and should be treated as
-   * deprecated. Instead, use the {@code TreeMap} constructor directly, taking advantage of the new
-   * <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+   * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
+   * use the {@code TreeMap} constructor directly, taking advantage of <a
+   * href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
    *
    * @param comparator the comparator to sort the keys with
    * @return a new, empty {@code TreeMap}
@@ -379,9 +435,9 @@ public final class Maps {
   /**
    * Creates an {@code EnumMap} with the same mappings as the specified map.
    *
-   * <p><b>Note for Java 7 and later:</b> this method is now unnecessary and should be treated as
-   * deprecated. Instead, use the {@code EnumMap} constructor directly, taking advantage of the new
-   * <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+   * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
+   * use the {@code EnumMap} constructor directly, taking advantage of <a
+   * href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
    *
    * @param map the map from which to initialize this {@code EnumMap}
    * @return a new {@code EnumMap} initialized with the mappings from {@code map}
@@ -396,9 +452,9 @@ public final class Maps {
   /**
    * Creates an {@code IdentityHashMap} instance.
    *
-   * <p><b>Note for Java 7 and later:</b> this method is now unnecessary and should be treated as
-   * deprecated. Instead, use the {@code IdentityHashMap} constructor directly, taking advantage of
-   * the new <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+   * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
+   * use the {@code IdentityHashMap} constructor directly, taking advantage of <a
+   * href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
    *
    * @return a new, empty {@code IdentityHashMap}
    */
@@ -422,28 +478,15 @@ public final class Maps {
    * @param right the map to treat as the "right" map for purposes of comparison
    * @return the difference between the two maps
    */
-  @SuppressWarnings("unchecked")
   public static <K extends @Nullable Object, V extends @Nullable Object>
       MapDifference<K, V> difference(
           Map<? extends K, ? extends V> left, Map<? extends K, ? extends V> right) {
     if (left instanceof SortedMap) {
+      @SuppressWarnings("unchecked")
       SortedMap<K, ? extends V> sortedLeft = (SortedMap<K, ? extends V>) left;
       return difference(sortedLeft, right);
     }
-    /*
-     * This cast is safe: The Equivalence-accepting overload of difference() (which we call below)
-     * has a weird signature because Equivalence is itself a little weird. Still, we know that
-     * Equivalence.equals() can handle all inputs, and we know that the resulting MapDifference will
-     * contain only Ks and Vs (as opposed to possibly containing @Nullable objects even when K and V
-     * are *not* @Nullable).
-     *
-     * An alternative to suppressing the warning would be to inline the body of the other
-     * difference() method into this one.
-     */
-    @SuppressWarnings("nullness")
-    MapDifference<K, V> result =
-        (MapDifference<K, V>) difference(left, right, Equivalence.equals());
-    return result;
+    return difference(left, right, Equivalence.equals());
   }
 
   /**
@@ -460,36 +503,11 @@ public final class Maps {
    * @return the difference between the two maps
    * @since 10.0
    */
-  /*
-   * This method should really be annotated to accept maps with @Nullable value types. Fortunately,
-   * no existing Google callers appear to pass null values (much less pass null values *and* run a
-   * nullness checker).
-   *
-   * Still, if we decide that we want to make that work, we'd need to introduce a new type parameter
-   * for the Equivalence input type:
-   *
-   * <E, K extends @Nullable Object, V extends @Nullable E> ... difference(..., Equivalence<E> ...)
-   *
-   * Maybe we should, even though it will break source compatibility.
-   *
-   * Alternatively, this is a case in which it would be useful to be able to express Equivalence<?
-   * super @Nonnull T>).
-   *
-   * As things stand now, though, we have to either:
-   *
-   * - require non-null inputs so that we can guarantee non-null outputs
-   *
-   * - accept nullable inputs but force users to cope with nullable outputs
-   *
-   * And the non-null option is far more useful to existing users.
-   *
-   * (Vaguely related: Another thing we could consider is an overload that accepts a BiPredicate:
-   * https://github.com/google/guava/issues/3913)
-   */
-  public static <K extends @Nullable Object, V> MapDifference<K, V> difference(
-      Map<? extends K, ? extends V> left,
-      Map<? extends K, ? extends V> right,
-      Equivalence<? super V> valueEquivalence) {
+  public static <K extends @Nullable Object, V extends @Nullable Object>
+      MapDifference<K, V> difference(
+          Map<? extends K, ? extends V> left,
+          Map<? extends K, ? extends V> right,
+          Equivalence<? super @NonNull V> valueEquivalence) {
     Preconditions.checkNotNull(valueEquivalence);
 
     Map<K, V> onlyOnLeft = newLinkedHashMap();
@@ -528,6 +546,7 @@ public final class Maps {
     onlyOnRight.putAll(right); // will whittle it down
     SortedMap<K, V> onBoth = Maps.newTreeMap(comparator);
     SortedMap<K, MapDifference.ValueDifference<V>> differences = Maps.newTreeMap(comparator);
+
     doDifference(left, right, Equivalence.equals(), onlyOnLeft, onlyOnRight, onBoth, differences);
     return new SortedMapDifferenceImpl<>(onlyOnLeft, onlyOnRight, onBoth, differences);
   }
@@ -535,7 +554,7 @@ public final class Maps {
   private static <K extends @Nullable Object, V extends @Nullable Object> void doDifference(
       Map<? extends K, ? extends V> left,
       Map<? extends K, ? extends V> right,
-      Equivalence<? super V> valueEquivalence,
+      Equivalence<? super @NonNull V> valueEquivalence,
       Map<K, V> onlyOnLeft,
       Map<K, V> onlyOnRight,
       Map<K, V> onBoth,
@@ -1220,13 +1239,13 @@ public final class Maps {
   public static <K, V> ImmutableMap<K, V> toMap(
       Iterator<K> keys, Function<? super K, V> valueFunction) {
     checkNotNull(valueFunction);
-    // Using LHM instead of a builder so as not to fail on duplicate keys
-    Map<K, V> builder = newLinkedHashMap();
+    ImmutableMap.Builder<K, V> builder = ImmutableMap.builder();
     while (keys.hasNext()) {
       K key = keys.next();
       builder.put(key, valueFunction.apply(key));
     }
-    return ImmutableMap.copyOf(builder);
+    // Using buildKeepingLast() so as not to fail on duplicate keys
+    return builder.buildKeepingLast();
   }
 
   /**
@@ -1240,13 +1259,25 @@ public final class Maps {
    * ...
    * ImmutableSet<Color> allColors = ImmutableSet.of(red, green, blue);
    *
-   * Map<String, Color> colorForName =
-   *     uniqueIndex(allColors, toStringFunction());
+   * ImmutableMap<String, Color> colorForName =
+   *     uniqueIndex(allColors, c -> c.toString());
    * assertThat(colorForName).containsEntry("red", red);
    * }</pre>
    *
    * <p>If your index may associate multiple values with each key, use {@link
    * Multimaps#index(Iterable, Function) Multimaps.index}.
+   *
+   * <p><b>Note:</b> on Java 8 and later, it is usually better to use streams. For example:
+   *
+   * <pre>{@code
+   * import static com.google.common.collect.ImmutableMap.toImmutableMap;
+   * ...
+   * ImmutableMap<String, Color> colorForName =
+   *     allColors.stream().collect(toImmutableMap(c -> c.toString(), c -> c));
+   * }</pre>
+   *
+   * <p>Streams provide a more standard and flexible API and the lambdas make it clear what the keys
+   * and values in the map are.
    *
    * @param values the values to use when constructing the {@code Map}
    * @param keyFunction the function used to produce the key for each value
@@ -1260,7 +1291,12 @@ public final class Maps {
   @CanIgnoreReturnValue
   public static <K, V> ImmutableMap<K, V> uniqueIndex(
       Iterable<V> values, Function<? super V, K> keyFunction) {
-    // TODO(lowasser): consider presizing the builder if values is a Collection
+    if (values instanceof Collection) {
+      return uniqueIndex(
+          values.iterator(),
+          keyFunction,
+          ImmutableMap.builderWithExpectedSize(((Collection<?>) values).size()));
+    }
     return uniqueIndex(values.iterator(), keyFunction);
   }
 
@@ -1296,14 +1332,18 @@ public final class Maps {
   @CanIgnoreReturnValue
   public static <K, V> ImmutableMap<K, V> uniqueIndex(
       Iterator<V> values, Function<? super V, K> keyFunction) {
+    return uniqueIndex(values, keyFunction, ImmutableMap.builder());
+  }
+
+  private static <K, V> ImmutableMap<K, V> uniqueIndex(
+      Iterator<V> values, Function<? super V, K> keyFunction, ImmutableMap.Builder<K, V> builder) {
     checkNotNull(keyFunction);
-    ImmutableMap.Builder<K, V> builder = ImmutableMap.builder();
     while (values.hasNext()) {
       V value = values.next();
       builder.put(keyFunction.apply(value), value);
     }
     try {
-      return builder.build();
+      return builder.buildOrThrow();
     } catch (IllegalArgumentException duplicateKeys) {
       throw new IllegalArgumentException(
           duplicateKeys.getMessage()
@@ -1321,6 +1361,7 @@ public final class Maps {
    * @throws ClassCastException if any key in {@code properties} is not a {@code String}
    * @throws NullPointerException if any key or value in {@code properties} is null
    */
+  @J2ktIncompatible
   @GwtIncompatible // java.util.Properties
   public static ImmutableMap<String, String> fromProperties(Properties properties) {
     ImmutableMap.Builder<String, String> builder = ImmutableMap.builder();
@@ -1356,7 +1397,7 @@ public final class Maps {
       builder.put(key, requireNonNull(properties.getProperty(key)));
     }
 
-    return builder.build();
+    return builder.buildOrThrow();
   }
 
   /**
@@ -1392,7 +1433,7 @@ public final class Maps {
 
   /**
    * Returns an unmodifiable view of the specified map entry. The {@link Entry#setValue} operation
-   * throws an {@link UnsupportedOperationException}. This also has the side-effect of redefining
+   * throws an {@link UnsupportedOperationException}. This also has the side effect of redefining
    * {@code equals} to comply with the Entry contract, to avoid a possible nefarious implementation
    * of equals.
    *
@@ -1433,7 +1474,7 @@ public final class Maps {
     };
   }
 
-  /** @see Multimaps#unmodifiableEntries */
+  /** The implementation of {@link Multimaps#unmodifiableEntries}. */
   static class UnmodifiableEntries<K extends @Nullable Object, V extends @Nullable Object>
       extends ForwardingCollection<Entry<K, V>> {
     private final Collection<Entry<K, V>> entries;
@@ -1455,15 +1496,14 @@ public final class Maps {
     // See java.util.Collections.UnmodifiableEntrySet for details on attacks.
 
     @Override
-    public Object[] toArray() {
+    public @Nullable Object[] toArray() {
       /*
-       * standardToArray returns `@Nullable Object[]` rather than `Object[]` but only because it can
+       * standardToArray returns `@Nullable Object[]` rather than `Object[]` but because it can
        * be used with collections that may contain null. This collection never contains nulls, so we
-       * can treat it as a plain `Object[]`.
+       * could return `Object[]`. But this class is private and J2KT cannot change return types in
+       * overrides, so we declare `@Nullable Object[]` as the return type.
        */
-      @SuppressWarnings("nullness")
-      Object[] result = standardToArray();
-      return result;
+      return standardToArray();
     }
 
     @Override
@@ -1473,7 +1513,7 @@ public final class Maps {
     }
   }
 
-  /** @see Maps#unmodifiableEntrySet(Set) */
+  /** The implementation of {@link Maps#unmodifiableEntrySet(Set)}. */
   static class UnmodifiableEntrySet<K extends @Nullable Object, V extends @Nullable Object>
       extends UnmodifiableEntries<K, V> implements Set<Entry<K, V>> {
     UnmodifiableEntrySet(Set<Entry<K, V>> entries) {
@@ -1603,13 +1643,15 @@ public final class Maps {
     return new UnmodifiableBiMap<>(bimap, null);
   }
 
-  /** @see Maps#unmodifiableBiMap(BiMap) */
+  /**
+   * @see Maps#unmodifiableBiMap(BiMap)
+   */
   private static class UnmodifiableBiMap<K extends @Nullable Object, V extends @Nullable Object>
       extends ForwardingMap<K, V> implements BiMap<K, V>, Serializable {
     final Map<K, V> unmodifiableMap;
     final BiMap<? extends K, ? extends V> delegate;
-    @RetainedWith @CheckForNull BiMap<V, K> inverse;
-    @CheckForNull transient Set<V> values;
+    @LazyInit @RetainedWith @CheckForNull BiMap<V, K> inverse;
+    @LazyInit @CheckForNull transient Set<V> values;
 
     UnmodifiableBiMap(BiMap<? extends K, ? extends V> delegate, @CheckForNull BiMap<V, K> inverse) {
       unmodifiableMap = Collections.unmodifiableMap(delegate);
@@ -1962,6 +2004,7 @@ public final class Maps {
      * @throws NullPointerException if the key or value is null and this transformer does not accept
      *     null arguments
      */
+    @ParametricNullness
     V2 transformEntry(@ParametricNullness K key, @ParametricNullness V1 value);
   }
 
@@ -3452,7 +3495,7 @@ public final class Maps {
       throw new UnsupportedOperationException();
     }
 
-    @CheckForNull private transient UnmodifiableNavigableMap<K, V> descendingMap;
+    @LazyInit @CheckForNull private transient UnmodifiableNavigableMap<K, V> descendingMap;
 
     @Override
     public NavigableMap<K, V> descendingMap() {
@@ -3582,7 +3625,7 @@ public final class Maps {
      */
     abstract Set<Entry<K, V>> createEntrySet();
 
-    @CheckForNull private transient Set<Entry<K, V>> entrySet;
+    @LazyInit @CheckForNull private transient Set<Entry<K, V>> entrySet;
 
     @Override
     public Set<Entry<K, V>> entrySet() {
@@ -3590,7 +3633,7 @@ public final class Maps {
       return (result == null) ? entrySet = createEntrySet() : result;
     }
 
-    @CheckForNull private transient Set<K> keySet;
+    @LazyInit @CheckForNull private transient Set<K> keySet;
 
     @Override
     public Set<K> keySet() {
@@ -3602,7 +3645,7 @@ public final class Maps {
       return new KeySet<>(this);
     }
 
-    @CheckForNull private transient Collection<V> values;
+    @LazyInit @CheckForNull private transient Collection<V> values;
 
     @Override
     public Collection<V> values() {
@@ -4131,7 +4174,7 @@ public final class Maps {
       return forward();
     }
 
-    @CheckForNull private transient Comparator<? super K> comparator;
+    @LazyInit @CheckForNull private transient Comparator<? super K> comparator;
 
     @SuppressWarnings("unchecked")
     @Override
@@ -4241,7 +4284,7 @@ public final class Maps {
       return forward();
     }
 
-    @CheckForNull private transient Set<Entry<K, V>> entrySet;
+    @LazyInit @CheckForNull private transient Set<Entry<K, V>> entrySet;
 
     @Override
     public Set<Entry<K, V>> entrySet() {
@@ -4272,7 +4315,7 @@ public final class Maps {
       return navigableKeySet();
     }
 
-    @CheckForNull private transient NavigableSet<K> navigableKeySet;
+    @LazyInit @CheckForNull private transient NavigableSet<K> navigableKeySet;
 
     @Override
     public NavigableSet<K> navigableKeySet() {
@@ -4337,7 +4380,7 @@ public final class Maps {
     for (E e : list) {
       builder.put(e, i++);
     }
-    return builder.build();
+    return builder.buildOrThrow();
   }
 
   /**
@@ -4356,7 +4399,6 @@ public final class Maps {
    *
    * @since 20.0
    */
-  @Beta
   @GwtIncompatible // NavigableMap
   public static <K extends Comparable<? super K>, V extends @Nullable Object>
       NavigableMap<K, V> subMap(NavigableMap<K, V> map, Range<K> range) {

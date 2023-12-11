@@ -24,6 +24,7 @@ import static java.util.concurrent.Executors.newCachedThreadPool;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.base.Stopwatch;
 import java.util.Collection;
@@ -40,13 +41,13 @@ import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.TimeUnit;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Tests for {@link Queues}.
  *
  * @author Dimitris Andreou
  */
-
 public class QueuesTest extends TestCase {
   /*
    * All the following tests relate to BlockingQueue methods in Queues.
@@ -221,8 +222,9 @@ public class QueuesTest extends TestCase {
     @SuppressWarnings("unused") // https://errorprone.info/bugpattern/FutureReturnValueIgnored
     Future<?> possiblyIgnoredError =
         threadPool.submit(
-            new Callable<Void>() {
-              public Void call() throws InterruptedException {
+            new Callable<@Nullable Void>() {
+              @Override
+              public @Nullable Void call() throws InterruptedException {
                 new Producer(q, 50).call();
                 new Interrupter(mainThread).run();
                 new Producer(q, 50).call();
@@ -238,23 +240,13 @@ public class QueuesTest extends TestCase {
   }
 
   public void testNewLinkedBlockingDequeCapacity() {
-    try {
-      Queues.newLinkedBlockingDeque(0);
-      fail("Should have thrown IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-      // any capacity less than 1 should throw IllegalArgumentException
-    }
+    assertThrows(IllegalArgumentException.class, () -> Queues.newLinkedBlockingDeque(0));
     assertEquals(1, Queues.newLinkedBlockingDeque(1).remainingCapacity());
     assertEquals(11, Queues.newLinkedBlockingDeque(11).remainingCapacity());
   }
 
   public void testNewLinkedBlockingQueueCapacity() {
-    try {
-      Queues.newLinkedBlockingQueue(0);
-      fail("Should have thrown IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-      // any capacity less than 1 should throw IllegalArgumentException
-    }
+    assertThrows(IllegalArgumentException.class, () -> Queues.newLinkedBlockingQueue(0));
     assertEquals(1, Queues.newLinkedBlockingQueue(1).remainingCapacity());
     assertEquals(11, Queues.newLinkedBlockingQueue(11).remainingCapacity());
   }
@@ -303,7 +295,7 @@ public class QueuesTest extends TestCase {
     }
   }
 
-  private static class Producer implements Callable<Void> {
+  private static class Producer implements Callable<@Nullable Void> {
     final BlockingQueue<Object> q;
     final int elements;
     final CountDownLatch beganProducing = new CountDownLatch(1);
@@ -315,7 +307,7 @@ public class QueuesTest extends TestCase {
     }
 
     @Override
-    public Void call() throws InterruptedException {
+    public @Nullable Void call() throws InterruptedException {
       try {
         beganProducing.countDown();
         for (int i = 0; i < elements; i++) {

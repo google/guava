@@ -13,6 +13,7 @@
 
 package com.google.common.util.concurrent;
 
+import static java.lang.Math.max;
 
 /** Unit test for {@link AtomicDouble}. */
 public class AtomicDoubleTest extends JSR166TestCase {
@@ -97,7 +98,6 @@ public class AtomicDoubleTest extends JSR166TestCase {
   }
 
   /** compareAndSet in one thread enables another waiting for value to succeed */
-
   public void testCompareAndSetInMultipleThreads() throws Exception {
     final AtomicDouble at = new AtomicDouble(1.0);
     Thread t =
@@ -125,7 +125,8 @@ public class AtomicDoubleTest extends JSR166TestCase {
       assertBitEquals(prev, at.get());
       assertFalse(at.weakCompareAndSet(unused, x));
       assertBitEquals(prev, at.get());
-      while (!at.weakCompareAndSet(prev, x)) {;
+      while (!at.weakCompareAndSet(prev, x)) {
+        ;
       }
       assertBitEquals(x, at.get());
       prev = x;
@@ -162,6 +163,108 @@ public class AtomicDoubleTest extends JSR166TestCase {
         double z = a.addAndGet(y);
         assertBitEquals(x + y, z);
         assertBitEquals(x + y, a.get());
+      }
+    }
+  }
+
+  /** getAndAccumulate with sum adds given value to current, and returns previous value */
+  public void testGetAndAccumulateWithSum() {
+    for (double x : VALUES) {
+      for (double y : VALUES) {
+        AtomicDouble a = new AtomicDouble(x);
+        double z = a.getAndAccumulate(y, Double::sum);
+        assertBitEquals(x, z);
+        assertBitEquals(x + y, a.get());
+      }
+    }
+  }
+
+  /** getAndAccumulate with max stores max of given value to current, and returns previous value */
+  public void testGetAndAccumulateWithMax() {
+    for (double x : VALUES) {
+      for (double y : VALUES) {
+        AtomicDouble a = new AtomicDouble(x);
+        double z = a.getAndAccumulate(y, Double::max);
+        double expectedMax = max(x, y);
+        assertBitEquals(x, z);
+        assertBitEquals(expectedMax, a.get());
+      }
+    }
+  }
+
+  /** accumulateAndGet with sum adds given value to current, and returns current value */
+  public void testAccumulateAndGetWithSum() {
+    for (double x : VALUES) {
+      for (double y : VALUES) {
+        AtomicDouble a = new AtomicDouble(x);
+        double z = a.accumulateAndGet(y, Double::sum);
+        assertBitEquals(x + y, z);
+        assertBitEquals(x + y, a.get());
+      }
+    }
+  }
+
+  /** accumulateAndGet with max stores max of given value to current, and returns current value */
+  public void testAccumulateAndGetWithMax() {
+    for (double x : VALUES) {
+      for (double y : VALUES) {
+        AtomicDouble a = new AtomicDouble(x);
+        double z = a.accumulateAndGet(y, Double::max);
+        double expectedMax = max(x, y);
+        assertBitEquals(expectedMax, z);
+        assertBitEquals(expectedMax, a.get());
+      }
+    }
+  }
+
+  /** getAndUpdate with sum stores sum of given value to current, and returns previous value */
+  public void testGetAndUpdateWithSum() {
+    for (double x : VALUES) {
+      for (double y : VALUES) {
+        AtomicDouble a = new AtomicDouble(x);
+        double z = a.getAndUpdate(value -> value + y);
+        assertBitEquals(x, z);
+        assertBitEquals(x + y, a.get());
+      }
+    }
+  }
+
+  /**
+   * getAndUpdate with subtract stores subtraction of value from current, and returns previous value
+   */
+  public void testGetAndUpdateWithSubtract() {
+    for (double x : VALUES) {
+      for (double y : VALUES) {
+        AtomicDouble a = new AtomicDouble(x);
+        double z = a.getAndUpdate(value -> value - y);
+        assertBitEquals(x, z);
+        assertBitEquals(x - y, a.get());
+      }
+    }
+  }
+
+  /** updateAndGet with sum stores sum of given value to current, and returns current value */
+  public void testUpdateAndGetWithSum() {
+    for (double x : VALUES) {
+      for (double y : VALUES) {
+        AtomicDouble a = new AtomicDouble(x);
+        double z = a.updateAndGet(value -> value + y);
+        assertBitEquals(x + y, z);
+        assertBitEquals(x + y, a.get());
+      }
+    }
+  }
+
+  /**
+   * updateAndGet with subtract stores subtraction of value from current, and returns current value
+   */
+  public void testUpdateAndGetWithSubtract() {
+    for (double x : VALUES) {
+      for (double y : VALUES) {
+        AtomicDouble a = new AtomicDouble(x);
+        double z = a.updateAndGet(value -> value - y);
+        assertBitEquals(x - y, z);
+        assertBitEquals(x - y, a.get());
       }
     }
   }

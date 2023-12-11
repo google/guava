@@ -16,6 +16,7 @@ package com.google.common.io;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import java.io.Flushable;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -27,7 +28,7 @@ import java.util.logging.Logger;
  * @author Michael Lancaster
  * @since 1.0
  */
-@Beta
+@J2ktIncompatible
 @GwtIncompatible
 @ElementTypesAreNonnullByDefault
 public final class Flushables {
@@ -66,6 +67,7 @@ public final class Flushables {
    *
    * @param flushable the {@code Flushable} object to be flushed.
    */
+  @Beta
   public static void flushQuietly(Flushable flushable) {
     try {
       flush(flushable, true);

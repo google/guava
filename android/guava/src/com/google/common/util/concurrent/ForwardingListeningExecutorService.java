@@ -15,7 +15,7 @@
 package com.google.common.util.concurrent;
 
 import com.google.common.annotations.GwtIncompatible;
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.common.annotations.J2ktIncompatible;
 import java.util.concurrent.Callable;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -25,10 +25,14 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * executor service as desired per the <a
  * href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
  *
+ * <p><b>{@code default} method warning:</b> This class does <i>not</i> forward calls to {@code
+ * default} methods. Instead, it inherits their default implementations. When those implementations
+ * invoke methods, they invoke methods on the {@code ForwardingListeningExecutorService}.
+ *
  * @author Isaac Shum
  * @since 10.0
  */
-@CanIgnoreReturnValue // TODO(cpovirk): Consider being more strict.
+@J2ktIncompatible
 @GwtIncompatible
 @ElementTypesAreNonnullByDefault
 public abstract class ForwardingListeningExecutorService extends ForwardingExecutorService

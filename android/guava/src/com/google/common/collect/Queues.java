@@ -14,9 +14,9 @@
 
 package com.google.common.collect;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.ArrayDeque;
@@ -52,6 +52,7 @@ public final class Queues {
    * Creates an empty {@code ArrayBlockingQueue} with the given (fixed) capacity and nonfair access
    * policy.
    */
+  @J2ktIncompatible
   @GwtIncompatible // ArrayBlockingQueue
   public static <E> ArrayBlockingQueue<E> newArrayBlockingQueue(int capacity) {
     return new ArrayBlockingQueue<E>(capacity);
@@ -86,6 +87,7 @@ public final class Queues {
   // ConcurrentLinkedQueue
 
   /** Creates an empty {@code ConcurrentLinkedQueue}. */
+  @J2ktIncompatible
   @GwtIncompatible // ConcurrentLinkedQueue
   public static <E> ConcurrentLinkedQueue<E> newConcurrentLinkedQueue() {
     return new ConcurrentLinkedQueue<E>();
@@ -95,6 +97,7 @@ public final class Queues {
    * Creates a {@code ConcurrentLinkedQueue} containing the elements of the specified iterable, in
    * the order they are returned by the iterable's iterator.
    */
+  @J2ktIncompatible
   @GwtIncompatible // ConcurrentLinkedQueue
   public static <E> ConcurrentLinkedQueue<E> newConcurrentLinkedQueue(
       Iterable<? extends E> elements) {
@@ -113,6 +116,7 @@ public final class Queues {
    *
    * @since 12.0
    */
+  @J2ktIncompatible
   @GwtIncompatible // LinkedBlockingDeque
   public static <E> LinkedBlockingDeque<E> newLinkedBlockingDeque() {
     return new LinkedBlockingDeque<E>();
@@ -124,6 +128,7 @@ public final class Queues {
    * @throws IllegalArgumentException if {@code capacity} is less than 1
    * @since 12.0
    */
+  @J2ktIncompatible
   @GwtIncompatible // LinkedBlockingDeque
   public static <E> LinkedBlockingDeque<E> newLinkedBlockingDeque(int capacity) {
     return new LinkedBlockingDeque<E>(capacity);
@@ -136,6 +141,7 @@ public final class Queues {
    *
    * @since 12.0
    */
+  @J2ktIncompatible
   @GwtIncompatible // LinkedBlockingDeque
   public static <E> LinkedBlockingDeque<E> newLinkedBlockingDeque(Iterable<? extends E> elements) {
     if (elements instanceof Collection) {
@@ -149,6 +155,7 @@ public final class Queues {
   // LinkedBlockingQueue
 
   /** Creates an empty {@code LinkedBlockingQueue} with a capacity of {@link Integer#MAX_VALUE}. */
+  @J2ktIncompatible
   @GwtIncompatible // LinkedBlockingQueue
   public static <E> LinkedBlockingQueue<E> newLinkedBlockingQueue() {
     return new LinkedBlockingQueue<E>();
@@ -159,6 +166,7 @@ public final class Queues {
    *
    * @throws IllegalArgumentException if {@code capacity} is less than 1
    */
+  @J2ktIncompatible
   @GwtIncompatible // LinkedBlockingQueue
   public static <E> LinkedBlockingQueue<E> newLinkedBlockingQueue(int capacity) {
     return new LinkedBlockingQueue<E>(capacity);
@@ -172,6 +180,7 @@ public final class Queues {
    * @param elements the elements that the queue should contain, in order
    * @return a new {@code LinkedBlockingQueue} containing those elements
    */
+  @J2ktIncompatible
   @GwtIncompatible // LinkedBlockingQueue
   public static <E> LinkedBlockingQueue<E> newLinkedBlockingQueue(Iterable<? extends E> elements) {
     if (elements instanceof Collection) {
@@ -193,6 +202,7 @@ public final class Queues {
    * @since 11.0 (but the bound of {@code E} was changed from {@code Object} to {@code Comparable}
    *     in 15.0)
    */
+  @J2ktIncompatible
   @GwtIncompatible // PriorityBlockingQueue
   public static <E extends Comparable> PriorityBlockingQueue<E> newPriorityBlockingQueue() {
     return new PriorityBlockingQueue<E>();
@@ -207,6 +217,7 @@ public final class Queues {
    * @since 11.0 (but the bound of {@code E} was changed from {@code Object} to {@code Comparable}
    *     in 15.0)
    */
+  @J2ktIncompatible
   @GwtIncompatible // PriorityBlockingQueue
   public static <E extends Comparable> PriorityBlockingQueue<E> newPriorityBlockingQueue(
       Iterable<? extends E> elements) {
@@ -253,6 +264,7 @@ public final class Queues {
   // SynchronousQueue
 
   /** Creates an empty {@code SynchronousQueue} with nonfair access policy. */
+  @J2ktIncompatible
   @GwtIncompatible // SynchronousQueue
   public static <E> SynchronousQueue<E> newSynchronousQueue() {
     return new SynchronousQueue<E>();
@@ -270,8 +282,8 @@ public final class Queues {
    * @return the number of elements transferred
    * @throws InterruptedException if interrupted while waiting
    */
-  @Beta
   @CanIgnoreReturnValue
+  @J2ktIncompatible
   @GwtIncompatible // BlockingQueue
   @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public static <E> int drain(
@@ -318,8 +330,8 @@ public final class Queues {
    * @param unit a {@code TimeUnit} determining how to interpret the timeout parameter
    * @return the number of elements transferred
    */
-  @Beta
   @CanIgnoreReturnValue
+  @J2ktIncompatible
   @GwtIncompatible // BlockingQueue
   @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public static <E> int drainUninterruptibly(

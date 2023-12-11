@@ -23,6 +23,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** Implementation of {@link Futures#immediateFuture}. */
@@ -41,12 +42,13 @@ class ImmediateFuture<V extends @Nullable Object> implements ListenableFuture<V>
   }
 
   @Override
+  @SuppressWarnings("CatchingUnchecked") // sneaky checked exception
   public void addListener(Runnable listener, Executor executor) {
     checkNotNull(listener, "Runnable was null.");
     checkNotNull(executor, "Executor was null.");
     try {
       executor.execute(listener);
-    } catch (RuntimeException e) {
+    } catch (Exception e) { // sneaky checked exception
       // ListenableFuture's contract is that it will not throw unchecked exceptions, so log the bad
       // runnable and/or executor and swallow it.
       log.log(
@@ -98,6 +100,10 @@ class ImmediateFuture<V extends @Nullable Object> implements ListenableFuture<V>
   }
 
   static final class ImmediateCancelledFuture<V extends @Nullable Object> extends TrustedFuture<V> {
+    @CheckForNull
+    static final ImmediateCancelledFuture<Object> INSTANCE =
+        AbstractFuture.GENERATE_CANCELLATION_CAUSES ? null : new ImmediateCancelledFuture<>();
+
     ImmediateCancelledFuture() {
       cancel(false);
     }

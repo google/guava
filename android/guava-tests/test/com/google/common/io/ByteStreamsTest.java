@@ -17,6 +17,7 @@
 package com.google.common.io;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.base.Charsets;
 import java.io.ByteArrayInputStream;
@@ -76,47 +77,24 @@ public class ByteStreamsTest extends IoTestCase {
   public void testReadFully() throws IOException {
     byte[] b = new byte[10];
 
-    try {
-      ByteStreams.readFully(newTestStream(10), null, 0, 10);
-      fail("expected exception");
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(
+        NullPointerException.class, () -> ByteStreams.readFully(newTestStream(10), null, 0, 10));
 
-    try {
-      ByteStreams.readFully(null, b, 0, 10);
-      fail("expected exception");
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> ByteStreams.readFully(null, b, 0, 10));
 
-    try {
-      ByteStreams.readFully(newTestStream(10), b, -1, 10);
-      fail("expected exception");
-    } catch (IndexOutOfBoundsException expected) {
-    }
+    assertThrows(
+        IndexOutOfBoundsException.class, () -> ByteStreams.readFully(newTestStream(10), b, -1, 10));
 
-    try {
-      ByteStreams.readFully(newTestStream(10), b, 0, -1);
-      fail("expected exception");
-    } catch (IndexOutOfBoundsException expected) {
-    }
+    assertThrows(
+        IndexOutOfBoundsException.class, () -> ByteStreams.readFully(newTestStream(10), b, 0, -1));
 
-    try {
-      ByteStreams.readFully(newTestStream(10), b, 0, -1);
-      fail("expected exception");
-    } catch (IndexOutOfBoundsException expected) {
-    }
+    assertThrows(
+        IndexOutOfBoundsException.class, () -> ByteStreams.readFully(newTestStream(10), b, 0, -1));
 
-    try {
-      ByteStreams.readFully(newTestStream(10), b, 2, 10);
-      fail("expected exception");
-    } catch (IndexOutOfBoundsException expected) {
-    }
+    assertThrows(
+        IndexOutOfBoundsException.class, () -> ByteStreams.readFully(newTestStream(10), b, 2, 10));
 
-    try {
-      ByteStreams.readFully(newTestStream(5), b, 0, 10);
-      fail("expected exception");
-    } catch (EOFException expected) {
-    }
+    assertThrows(EOFException.class, () -> ByteStreams.readFully(newTestStream(5), b, 0, 10));
 
     Arrays.fill(b, (byte) 0);
     ByteStreams.readFully(newTestStream(10), b, 0, 0);
@@ -138,11 +116,7 @@ public class ByteStreamsTest extends IoTestCase {
     skipHelper(50, 50, new SlowSkipper(new ByteArrayInputStream(bytes), 1));
     skipHelper(50, 50, new SlowSkipper(new ByteArrayInputStream(bytes), 0));
     skipHelper(100, -1, new ByteArrayInputStream(bytes));
-    try {
-      skipHelper(101, 0, new ByteArrayInputStream(bytes));
-      fail("expected exception");
-    } catch (EOFException expected) {
-    }
+    assertThrows(EOFException.class, () -> skipHelper(101, 0, new ByteArrayInputStream(bytes)));
   }
 
   private static void skipHelper(long n, int expect, InputStream in) throws IOException {
@@ -156,22 +130,14 @@ public class ByteStreamsTest extends IoTestCase {
   public void testNewDataInput_empty() {
     byte[] b = new byte[0];
     ByteArrayDataInput in = ByteStreams.newDataInput(b);
-    try {
-      in.readInt();
-      fail("expected exception");
-    } catch (IllegalStateException expected) {
-    }
+    assertThrows(IllegalStateException.class, () -> in.readInt());
   }
 
   public void testNewDataInput_normal() {
     ByteArrayDataInput in = ByteStreams.newDataInput(bytes);
     assertEquals(0x12345678, in.readInt());
     assertEquals(0x76543210, in.readInt());
-    try {
-      in.readInt();
-      fail("expected exception");
-    } catch (IllegalStateException expected) {
-    }
+    assertThrows(IllegalStateException.class, () -> in.readInt());
   }
 
   public void testNewDataInput_readFully() {
@@ -184,12 +150,9 @@ public class ByteStreamsTest extends IoTestCase {
   public void testNewDataInput_readFullyAndThenSome() {
     ByteArrayDataInput in = ByteStreams.newDataInput(bytes);
     byte[] actual = new byte[bytes.length * 2];
-    try {
-      in.readFully(actual);
-      fail("expected exception");
-    } catch (IllegalStateException ex) {
-      assertThat(ex).hasCauseThat().isInstanceOf(EOFException.class);
-    }
+    IllegalStateException ex =
+        assertThrows(IllegalStateException.class, () -> in.readFully(actual));
+    assertThat(ex).hasCauseThat().isInstanceOf(EOFException.class);
   }
 
   public void testNewDataInput_readFullyWithOffset() {
@@ -266,12 +229,8 @@ public class ByteStreamsTest extends IoTestCase {
     for (byte aByte : bytes) {
       assertEquals(aByte, in.readByte());
     }
-    try {
-      in.readByte();
-      fail("expected exception");
-    } catch (IllegalStateException expected) {
-      assertThat(expected).hasCauseThat().isInstanceOf(EOFException.class);
-    }
+    IllegalStateException expected = assertThrows(IllegalStateException.class, () -> in.readByte());
+    assertThat(expected).hasCauseThat().isInstanceOf(EOFException.class);
   }
 
   public void testNewDataInput_readUnsignedByte() {
@@ -279,22 +238,15 @@ public class ByteStreamsTest extends IoTestCase {
     for (byte aByte : bytes) {
       assertEquals(aByte, in.readUnsignedByte());
     }
-    try {
-      in.readUnsignedByte();
-      fail("expected exception");
-    } catch (IllegalStateException expected) {
-      assertThat(expected).hasCauseThat().isInstanceOf(EOFException.class);
-    }
+    IllegalStateException expected =
+        assertThrows(IllegalStateException.class, () -> in.readUnsignedByte());
+    assertThat(expected).hasCauseThat().isInstanceOf(EOFException.class);
   }
 
   public void testNewDataInput_offset() {
     ByteArrayDataInput in = ByteStreams.newDataInput(bytes, 2);
     assertEquals(0x56787654, in.readInt());
-    try {
-      in.readInt();
-      fail("expected exception");
-    } catch (IllegalStateException expected) {
-    }
+    assertThrows(IllegalStateException.class, () -> in.readInt());
   }
 
   public void testNewDataInput_skip() {
@@ -380,7 +332,7 @@ public class ByteStreamsTest extends IoTestCase {
     assertThat(out.toByteArray()).isEqualTo(expected);
   }
 
-  @AndroidIncompatible // https://code.google.com/p/android/issues/detail?id=196848
+  @AndroidIncompatible // https://issuetracker.google.com/issues/37074504
   public void testUtf16Expected() {
     byte[] hardcodedExpected = utf16ExpectedWithBom;
     byte[] computedExpected = "r\u00C9sum\u00C9".getBytes(Charsets.UTF_16);
@@ -562,10 +514,23 @@ public class ByteStreamsTest extends IoTestCase {
     // write to the output stream
     nos.write('n');
     String test = "Test string for NullOutputStream";
-    nos.write(test.getBytes());
-    nos.write(test.getBytes(), 2, 10);
+    byte[] bytes = test.getBytes(Charsets.US_ASCII);
+    nos.write(bytes);
+    nos.write(bytes, 2, 10);
+    nos.write(bytes, bytes.length - 5, 5);
     // nothing really to assert?
     assertSame(ByteStreams.nullOutputStream(), ByteStreams.nullOutputStream());
+  }
+
+  public void testNullOutputStream_exceptions() throws Exception {
+    OutputStream nos = ByteStreams.nullOutputStream();
+    assertThrows(NullPointerException.class, () -> nos.write(null));
+    assertThrows(NullPointerException.class, () -> nos.write(null, 0, 1));
+    byte[] tenBytes = new byte[10];
+    assertThrows(IndexOutOfBoundsException.class, () -> nos.write(tenBytes, -1, 1));
+    assertThrows(IndexOutOfBoundsException.class, () -> nos.write(tenBytes, 1, -1));
+    assertThrows(IndexOutOfBoundsException.class, () -> nos.write(tenBytes, 9, 2));
+    assertThrows(IndexOutOfBoundsException.class, () -> nos.write(tenBytes, 9, 100));
   }
 
   public void testLimit() throws Exception {
@@ -642,23 +607,15 @@ public class ByteStreamsTest extends IoTestCase {
     InputStream bin = new ByteArrayInputStream(big);
     InputStream lin = ByteStreams.limit(bin, 2);
 
-    try {
-      lin.reset();
-      fail();
-    } catch (IOException expected) {
-      assertThat(expected).hasMessageThat().isEqualTo("Mark not set");
-    }
+    IOException expected = assertThrows(IOException.class, () -> lin.reset());
+    assertThat(expected).hasMessageThat().isEqualTo("Mark not set");
   }
 
   public void testLimit_markNotSupported() {
     InputStream lin = ByteStreams.limit(new UnmarkableInputStream(), 2);
 
-    try {
-      lin.reset();
-      fail();
-    } catch (IOException expected) {
-      assertThat(expected).hasMessageThat().isEqualTo("Mark not supported");
-    }
+    IOException expected = assertThrows(IOException.class, () -> lin.reset());
+    assertThat(expected).hasMessageThat().isEqualTo("Mark not supported");
   }
 
   private static class UnmarkableInputStream extends InputStream {

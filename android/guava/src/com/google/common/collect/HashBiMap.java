@@ -20,6 +20,7 @@ import static com.google.common.collect.NullnessCasts.unsafeNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Objects;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.concurrent.LazyInit;
@@ -46,7 +47,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * <p>This implementation guarantees insertion-based iteration order of its keys.
  *
  * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#bimap"> {@code BiMap} </a>.
+ * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#bimap">{@code BiMap} </a>.
  *
  * @author Louis Wasserman
  * @author Mike Bostock
@@ -749,7 +750,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
     }
   }
 
-  private transient Set<K> keySet;
+  @LazyInit private transient Set<K> keySet;
 
   @Override
   public Set<K> keySet() {
@@ -787,7 +788,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
     }
   }
 
-  private transient Set<V> valueSet;
+  @LazyInit private transient Set<V> valueSet;
 
   @Override
   public Set<V> values() {
@@ -825,7 +826,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
     }
   }
 
-  private transient Set<Entry<K, V>> entrySet;
+  @LazyInit private transient Set<Entry<K, V>> entrySet;
 
   @Override
   public Set<Entry<K, V>> entrySet() {
@@ -1134,12 +1135,14 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
    * @serialData the number of entries, first key, first value, second key, second value, and so on.
    */
   @GwtIncompatible // java.io.ObjectOutputStream
+  @J2ktIncompatible
   private void writeObject(ObjectOutputStream stream) throws IOException {
     stream.defaultWriteObject();
     Serialization.writeMap(this, stream);
   }
 
   @GwtIncompatible // java.io.ObjectInputStream
+  @J2ktIncompatible
   private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
     stream.defaultReadObject();
     int size = Serialization.readCount(stream);

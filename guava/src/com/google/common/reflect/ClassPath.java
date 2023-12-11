@@ -20,10 +20,8 @@ import static com.google.common.base.StandardSystemProperty.JAVA_CLASS_PATH;
 import static com.google.common.base.StandardSystemProperty.PATH_SEPARATOR;
 import static java.util.logging.Level.WARNING;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.CharMatcher;
-import com.google.common.base.Predicate;
 import com.google.common.base.Splitter;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
@@ -92,7 +90,6 @@ import javax.annotation.CheckForNull;
  * @author Ben Yu
  * @since 14.0
  */
-@Beta
 @ElementTypesAreNonnullByDefault
 public final class ClassPath {
   private static final Logger logger = Logger.getLogger(ClassPath.class.getName());
@@ -167,13 +164,7 @@ public final class ClassPath {
   public ImmutableSet<ClassInfo> getTopLevelClasses() {
     return FluentIterable.from(resources)
         .filter(ClassInfo.class)
-        .filter(
-            new Predicate<ClassInfo>() {
-              @Override
-              public boolean apply(ClassInfo info) {
-                return info.isTopLevel();
-              }
-            })
+        .filter(ClassInfo::isTopLevel)
         .toSet();
   }
 
@@ -211,7 +202,6 @@ public final class ClassPath {
    *
    * @since 14.0
    */
-  @Beta
   public static class ResourceInfo {
     private final File file;
     private final String resourceName;
@@ -307,7 +297,6 @@ public final class ClassPath {
    *
    * @since 14.0
    */
-  @Beta
   public static final class ClassInfo extends ResourceInfo {
     private final String className;
 

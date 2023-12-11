@@ -16,8 +16,8 @@
 
 package com.google.common.testing;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import junit.framework.Assert;
 import junit.framework.AssertionFailedError;
 
@@ -32,8 +32,8 @@ import junit.framework.AssertionFailedError;
  * @author Mike Bostock
  * @since 10.0
  */
-@Beta
 @GwtCompatible // but no-op!
+@ElementTypesAreNonnullByDefault
 public final class SerializableTester {
   private SerializableTester() {}
 
@@ -52,7 +52,7 @@ public final class SerializableTester {
    * @throws RuntimeException if the specified object was not successfully serialized or
    *     deserialized
    */
-  @SuppressWarnings("unchecked")
+  @CanIgnoreReturnValue
   public static <T> T reserialize(T object) {
     return Platform.reserialize(object);
   }
@@ -84,6 +84,7 @@ public final class SerializableTester {
    * @throws AssertionFailedError if the re-serialized object is not equal to the original object,
    *     or if the hashcodes are different.
    */
+  @CanIgnoreReturnValue
   public static <T> T reserializeAndAssert(T object) {
     T copy = reserialize(object);
     new EqualsTester().addEqualityGroup(object, copy).testEquals();

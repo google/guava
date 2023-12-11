@@ -18,10 +18,11 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.util.concurrent.Futures.immediateCancelledFuture;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
+import static com.google.common.util.concurrent.Platform.restoreInterruptIfIsInterruptedException;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtIncompatible;
-import com.google.common.base.Supplier;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.concurrent.GuardedBy;
 import com.google.j2objc.annotations.WeakOuter;
@@ -98,6 +99,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 11.0
  */
 @GwtIncompatible
+@J2ktIncompatible
 @ElementTypesAreNonnullByDefault
 public abstract class AbstractScheduledService implements Service {
   private static final Logger logger = Logger.getLogger(AbstractScheduledService.class.getName());
@@ -202,9 +204,11 @@ public abstract class AbstractScheduledService implements Service {
           }
           AbstractScheduledService.this.runOneIteration();
         } catch (Throwable t) {
+          restoreInterruptIfIsInterruptedException(t);
           try {
             shutDown();
           } catch (Exception ignored) {
+            restoreInterruptIfIsInterruptedException(ignored);
             logger.log(
                 Level.WARNING,
                 "Error while attempting to shut down the service after failure.",
@@ -224,32 +228,28 @@ public abstract class AbstractScheduledService implements Service {
     @Override
     protected final void doStart() {
       executorService =
-          MoreExecutors.renamingDecorator(
-              executor(),
-              new Supplier<String>() {
-                @Override
-                public String get() {
-                  return serviceName() + " " + state();
-                }
-              });
+          MoreExecutors.renamingDecorator(executor(), () -> serviceName() + " " + state());
       executorService.execute(
-          new Runnable() {
-            @Override
-            public void run() {
-              lock.lock();
-              try {
-                startUp();
-                runningTask = scheduler().schedule(delegate, executorService, task);
-                notifyStarted();
-              } catch (Throwable t) {
-                notifyFailed(t);
-                if (runningTask != null) {
-                  // prevent the task from running if possible
-                  runningTask.cancel(false);
-                }
-              } finally {
-                lock.unlock();
+          () -> {
+            lock.lock();
+            try {
+              startUp();
+              /*
+               * requireNonNull is safe because executorService is never cleared after the
+               * assignment above.
+               */
+              requireNonNull(executorService);
+              runningTask = scheduler().schedule(delegate, executorService, task);
+              notifyStarted();
+            } catch (Throwable t) {
+              restoreInterruptIfIsInterruptedException(t);
+              notifyFailed(t);
+              if (runningTask != null) {
+                // prevent the task from running if possible
+                runningTask.cancel(false);
               }
+            } finally {
+              lock.unlock();
             }
           });
     }
@@ -261,27 +261,25 @@ public abstract class AbstractScheduledService implements Service {
       requireNonNull(executorService);
       runningTask.cancel(false);
       executorService.execute(
-          new Runnable() {
-            @Override
-            public void run() {
+          () -> {
+            try {
+              lock.lock();
               try {
-                lock.lock();
-                try {
-                  if (state() != State.STOPPING) {
-                    // This means that the state has changed since we were scheduled. This implies
-                    // that an execution of runOneIteration has thrown an exception and we have
-                    // transitioned to a failed state, also this means that shutDown has already
-                    // been called, so we do not want to call it again.
-                    return;
-                  }
-                  shutDown();
-                } finally {
-                  lock.unlock();
+                if (state() != State.STOPPING) {
+                  // This means that the state has changed since we were scheduled. This implies
+                  // that an execution of runOneIteration has thrown an exception and we have
+                  // transitioned to a failed state, also this means that shutDown has already
+                  // been called, so we do not want to call it again.
+                  return;
                 }
-                notifyStopped();
-              } catch (Throwable t) {
-                notifyFailed(t);
+                shutDown();
+              } finally {
+                lock.unlock();
               }
+              notifyStopped();
+            } catch (Throwable t) {
+              restoreInterruptIfIsInterruptedException(t);
+              notifyFailed(t);
             }
           });
     }
@@ -347,7 +345,7 @@ public abstract class AbstractScheduledService implements Service {
     }
     final ScheduledExecutorService executor =
         Executors.newSingleThreadScheduledExecutor(new ThreadFactoryImpl());
-    // Add a listener to shutdown the executor after the service is stopped. This ensures that the
+    // Add a listener to shut down the executor after the service is stopped. This ensures that the
     // JVM shutdown will not be prevented from exiting after this service has stopped or failed.
     // Technically this listener is added after start() was called so it is a little gross, but it
     // is called within doStart() so we know that the service cannot terminate or fail concurrently
@@ -553,6 +551,7 @@ public abstract class AbstractScheduledService implements Service {
         try {
           schedule = CustomScheduler.this.getNextSchedule();
         } catch (Throwable t) {
+          restoreInterruptIfIsInterruptedException(t);
           service.notifyFailed(t);
           return new FutureAsCancellable(immediateCancelledFuture());
         }
@@ -566,6 +565,8 @@ public abstract class AbstractScheduledService implements Service {
         try {
           toReturn = initializeOrUpdateCancellationDelegate(schedule);
         } catch (Throwable e) {
+          // Any Exception is either a RuntimeException or sneaky checked exception.
+          //
           // If an exception is thrown by the subclass then we need to make sure that the service
           // notices and transitions to the FAILED state. We do it by calling notifyFailed directly
           // because the service does not monitor the state of the future so if the exception is not

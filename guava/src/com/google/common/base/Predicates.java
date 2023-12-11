@@ -16,9 +16,9 @@ package com.google.common.base;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -82,7 +82,7 @@ public final class Predicates {
    * false}.
    */
   public static <T extends @Nullable Object> Predicate<T> not(Predicate<T> predicate) {
-    return new NotPredicate<T>(predicate);
+    return new NotPredicate<>(predicate);
   }
 
   /**
@@ -94,7 +94,7 @@ public final class Predicates {
    */
   public static <T extends @Nullable Object> Predicate<T> and(
       Iterable<? extends Predicate<? super T>> components) {
-    return new AndPredicate<T>(defensiveCopy(components));
+    return new AndPredicate<>(defensiveCopy(components));
   }
 
   /**
@@ -116,7 +116,7 @@ public final class Predicates {
    */
   public static <T extends @Nullable Object> Predicate<T> and(
       Predicate<? super T> first, Predicate<? super T> second) {
-    return new AndPredicate<T>(Predicates.<T>asList(checkNotNull(first), checkNotNull(second)));
+    return new AndPredicate<>(Predicates.<T>asList(checkNotNull(first), checkNotNull(second)));
   }
 
   /**
@@ -128,7 +128,7 @@ public final class Predicates {
    */
   public static <T extends @Nullable Object> Predicate<T> or(
       Iterable<? extends Predicate<? super T>> components) {
-    return new OrPredicate<T>(defensiveCopy(components));
+    return new OrPredicate<>(defensiveCopy(components));
   }
 
   /**
@@ -150,7 +150,7 @@ public final class Predicates {
    */
   public static <T extends @Nullable Object> Predicate<T> or(
       Predicate<? super T> first, Predicate<? super T> second) {
-    return new OrPredicate<T>(Predicates.<T>asList(checkNotNull(first), checkNotNull(second)));
+    return new OrPredicate<>(Predicates.<T>asList(checkNotNull(first), checkNotNull(second)));
   }
 
   /**
@@ -195,8 +195,8 @@ public final class Predicates {
    *
    * @since 20.0 (since 10.0 under the incorrect name {@code assignableFrom})
    */
+  @J2ktIncompatible
   @GwtIncompatible // Class.isAssignableFrom
-  @Beta
   public static Predicate<Class<?>> subtypeOf(Class<?> clazz) {
     return new SubtypeOfPredicate(clazz);
   }
@@ -213,7 +213,7 @@ public final class Predicates {
    * @param target the collection that may contain the function input
    */
   public static <T extends @Nullable Object> Predicate<T> in(Collection<? extends T> target) {
-    return new InPredicate<T>(target);
+    return new InPredicate<>(target);
   }
 
   /**
@@ -235,6 +235,7 @@ public final class Predicates {
    * @throws IllegalArgumentException if the pattern is invalid
    * @since 3.0
    */
+  @J2ktIncompatible
   @GwtIncompatible // Only used by other GWT-incompatible code.
   public static Predicate<CharSequence> containsPattern(String pattern) {
     return new ContainsPatternFromStringPredicate(pattern);
@@ -247,6 +248,7 @@ public final class Predicates {
    *
    * @since 3.0
    */
+  @J2ktIncompatible
   @GwtIncompatible(value = "java.util.regex.Pattern")
   public static Predicate<CharSequence> contains(Pattern pattern) {
     return new ContainsPatternPredicate(new JdkPattern(pattern));
@@ -486,7 +488,9 @@ public final class Predicates {
     }
   }
 
-  /** @see Predicates#instanceOf(Class) */
+  /**
+   * @see Predicates#instanceOf(Class)
+   */
   @GwtIncompatible // Class.isInstance
   private static class InstanceOfPredicate<T extends @Nullable Object>
       implements Predicate<T>, Serializable {
@@ -520,10 +524,13 @@ public final class Predicates {
       return "Predicates.instanceOf(" + clazz.getName() + ")";
     }
 
-    private static final long serialVersionUID = 0;
+    @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
-  /** @see Predicates#subtypeOf(Class) */
+  /**
+   * @see Predicates#subtypeOf(Class)
+   */
+  @J2ktIncompatible
   @GwtIncompatible // Class.isAssignableFrom
   private static class SubtypeOfPredicate implements Predicate<Class<?>>, Serializable {
     private final Class<?> clazz;
@@ -638,7 +645,10 @@ public final class Predicates {
     private static final long serialVersionUID = 0;
   }
 
-  /** @see Predicates#contains(Pattern) */
+  /**
+   * @see Predicates#contains(Pattern)
+   */
+  @J2ktIncompatible
   @GwtIncompatible // Only used by other GWT-incompatible code.
   private static class ContainsPatternPredicate implements Predicate<CharSequence>, Serializable {
     final CommonPattern pattern;
@@ -686,7 +696,10 @@ public final class Predicates {
     private static final long serialVersionUID = 0;
   }
 
-  /** @see Predicates#containsPattern(String) */
+  /**
+   * @see Predicates#containsPattern(String)
+   */
+  @J2ktIncompatible
   @GwtIncompatible // Only used by other GWT-incompatible code.
   private static class ContainsPatternFromStringPredicate extends ContainsPatternPredicate {
 
@@ -713,7 +726,7 @@ public final class Predicates {
   }
 
   static <T> List<T> defensiveCopy(Iterable<T> iterable) {
-    ArrayList<T> list = new ArrayList<T>();
+    ArrayList<T> list = new ArrayList<>();
     for (T element : iterable) {
       list.add(checkNotNull(element));
     }

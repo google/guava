@@ -17,6 +17,7 @@
 package com.google.common.collect.testing;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.Serializable;
 import java.util.AbstractSet;
 import java.util.Collection;
@@ -28,6 +29,7 @@ import java.util.NavigableSet;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A wrapper around {@code TreeMap} that aggressively checks to see if keys are mutually comparable.
@@ -75,12 +77,12 @@ public final class SafeTreeMap<K, V> implements Serializable, NavigableMap<K, V>
   }
 
   @Override
-  public Entry<K, V> ceilingEntry(K key) {
+  public @Nullable Entry<K, V> ceilingEntry(K key) {
     return delegate.ceilingEntry(checkValid(key));
   }
 
   @Override
-  public K ceilingKey(K key) {
+  public @Nullable K ceilingKey(K key) {
     return delegate.ceilingKey(checkValid(key));
   }
 
@@ -162,7 +164,7 @@ public final class SafeTreeMap<K, V> implements Serializable, NavigableMap<K, V>
   }
 
   @Override
-  public Entry<K, V> firstEntry() {
+  public @Nullable Entry<K, V> firstEntry() {
     return delegate.firstEntry();
   }
 
@@ -172,17 +174,17 @@ public final class SafeTreeMap<K, V> implements Serializable, NavigableMap<K, V>
   }
 
   @Override
-  public Entry<K, V> floorEntry(K key) {
+  public @Nullable Entry<K, V> floorEntry(K key) {
     return delegate.floorEntry(checkValid(key));
   }
 
   @Override
-  public K floorKey(K key) {
+  public @Nullable K floorKey(K key) {
     return delegate.floorKey(checkValid(key));
   }
 
   @Override
-  public V get(Object key) {
+  public @Nullable V get(Object key) {
     return delegate.get(checkValid(key));
   }
 
@@ -197,12 +199,12 @@ public final class SafeTreeMap<K, V> implements Serializable, NavigableMap<K, V>
   }
 
   @Override
-  public Entry<K, V> higherEntry(K key) {
+  public @Nullable Entry<K, V> higherEntry(K key) {
     return delegate.higherEntry(checkValid(key));
   }
 
   @Override
-  public K higherKey(K key) {
+  public @Nullable K higherKey(K key) {
     return delegate.higherKey(checkValid(key));
   }
 
@@ -217,7 +219,7 @@ public final class SafeTreeMap<K, V> implements Serializable, NavigableMap<K, V>
   }
 
   @Override
-  public Entry<K, V> lastEntry() {
+  public @Nullable Entry<K, V> lastEntry() {
     return delegate.lastEntry();
   }
 
@@ -227,12 +229,12 @@ public final class SafeTreeMap<K, V> implements Serializable, NavigableMap<K, V>
   }
 
   @Override
-  public Entry<K, V> lowerEntry(K key) {
+  public @Nullable Entry<K, V> lowerEntry(K key) {
     return delegate.lowerEntry(checkValid(key));
   }
 
   @Override
-  public K lowerKey(K key) {
+  public @Nullable K lowerKey(K key) {
     return delegate.lowerKey(checkValid(key));
   }
 
@@ -242,17 +244,17 @@ public final class SafeTreeMap<K, V> implements Serializable, NavigableMap<K, V>
   }
 
   @Override
-  public Entry<K, V> pollFirstEntry() {
+  public @Nullable Entry<K, V> pollFirstEntry() {
     return delegate.pollFirstEntry();
   }
 
   @Override
-  public Entry<K, V> pollLastEntry() {
+  public @Nullable Entry<K, V> pollLastEntry() {
     return delegate.pollLastEntry();
   }
 
   @Override
-  public V put(K key, V value) {
+  public @Nullable V put(K key, V value) {
     return delegate.put(checkValid(key), value);
   }
 
@@ -265,7 +267,7 @@ public final class SafeTreeMap<K, V> implements Serializable, NavigableMap<K, V>
   }
 
   @Override
-  public V remove(Object key) {
+  public @Nullable V remove(Object key) {
     return delegate.remove(checkValid(key));
   }
 
@@ -300,16 +302,17 @@ public final class SafeTreeMap<K, V> implements Serializable, NavigableMap<K, V>
     return delegate.values();
   }
 
+  @CanIgnoreReturnValue
   private <T> T checkValid(T t) {
     // a ClassCastException is what's supposed to happen!
     @SuppressWarnings("unchecked")
     K k = (K) t;
-    comparator().compare(k, k);
+    int unused = comparator().compare(k, k);
     return t;
   }
 
   @Override
-  public boolean equals(Object obj) {
+  public boolean equals(@Nullable Object obj) {
     return delegate.equals(obj);
   }
 

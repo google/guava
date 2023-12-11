@@ -22,7 +22,6 @@ import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 import static com.google.common.collect.CollectPreconditions.checkRemove;
 import static java.util.Objects.requireNonNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Objects;
 import com.google.common.base.Predicate;
@@ -31,6 +30,7 @@ import com.google.common.collect.Multiset.Entry;
 import com.google.common.math.IntMath;
 import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collection;
@@ -39,6 +39,10 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.function.Supplier;
+import java.util.function.ToIntFunction;
+import java.util.stream.Collector;
 import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -46,7 +50,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * Provides static utility methods for creating and working with {@link Multiset} instances.
  *
  * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/CollectionUtilitiesExplained#multisets"> {@code
+ * "https://github.com/google/guava/wiki/CollectionUtilitiesExplained#multisets">{@code
  * Multisets}</a>.
  *
  * @author Kevin Bourrillion
@@ -58,6 +62,31 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 @ElementTypesAreNonnullByDefault
 public final class Multisets {
   private Multisets() {}
+
+  /**
+   * Returns a {@code Collector} that accumulates elements into a multiset created via the specified
+   * {@code Supplier}, whose elements are the result of applying {@code elementFunction} to the
+   * inputs, with counts equal to the result of applying {@code countFunction} to the inputs.
+   * Elements are added in encounter order.
+   *
+   * <p>If the mapped elements contain duplicates (according to {@link Object#equals}), the element
+   * will be added more than once, with the count summed over all appearances of the element.
+   *
+   * <p>Note that {@code stream.collect(toMultiset(function, e -> 1, supplier))} is equivalent to
+   * {@code stream.map(function).collect(Collectors.toCollection(supplier))}.
+   *
+   * <p>To collect to an {@link ImmutableMultiset}, use {@link
+   * ImmutableMultiset#toImmutableMultiset}.
+   */
+  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
+  @IgnoreJRERequirement // Users will use this only if they're already using streams.
+  static <T extends @Nullable Object, E extends @Nullable Object, M extends Multiset<E>>
+      Collector<T, ?, M> toMultiset(
+          Function<? super T, E> elementFunction,
+          ToIntFunction<? super T> countFunction,
+          Supplier<M> multisetSupplier) {
+    return CollectCollectors.toMultiset(elementFunction, countFunction, multisetSupplier);
+  }
 
   /**
    * Returns an unmodifiable view of the specified multiset. Query operations on the returned
@@ -105,7 +134,7 @@ public final class Multisets {
       return (Multiset<E>) delegate;
     }
 
-    @CheckForNull transient Set<E> elementSet;
+    @LazyInit @CheckForNull transient Set<E> elementSet;
 
     Set<E> createElementSet() {
       return Collections.<E>unmodifiableSet(delegate.elementSet());
@@ -117,7 +146,7 @@ public final class Multisets {
       return (es == null) ? elementSet = createElementSet() : es;
     }
 
-    @CheckForNull transient Set<Multiset.Entry<E>> entrySet;
+    @LazyInit @CheckForNull transient Set<Multiset.Entry<E>> entrySet;
 
     @SuppressWarnings("unchecked")
     @Override
@@ -141,7 +170,7 @@ public final class Multisets {
     }
 
     @Override
-    public int add(@ParametricNullness E element, int occurences) {
+    public int add(@ParametricNullness E element, int occurrences) {
       throw new UnsupportedOperationException();
     }
 
@@ -199,7 +228,6 @@ public final class Multisets {
    * @return an unmodifiable view of the multiset
    * @since 11.0
    */
-  @Beta
   public static <E extends @Nullable Object> SortedMultiset<E> unmodifiableSortedMultiset(
       SortedMultiset<E> sortedMultiset) {
     // it's in its own file so it can be emulated for GWT
@@ -274,7 +302,6 @@ public final class Multisets {
    *
    * @since 14.0
    */
-  @Beta
   public static <E extends @Nullable Object> Multiset<E> filter(
       Multiset<E> unfiltered, Predicate<? super E> predicate) {
     if (unfiltered instanceof FilteredMultiset) {
@@ -381,7 +408,6 @@ public final class Multisets {
    *
    * @since 14.0
    */
-  @Beta
   public static <E extends @Nullable Object> Multiset<E> union(
       final Multiset<? extends E> multiset1, final Multiset<? extends E> multiset2) {
     checkNotNull(multiset1);
@@ -511,7 +537,6 @@ public final class Multisets {
    *
    * @since 14.0
    */
-  @Beta
   public static <E extends @Nullable Object> Multiset<E> sum(
       final Multiset<? extends E> multiset1, final Multiset<? extends E> multiset2) {
     checkNotNull(multiset1);
@@ -589,7 +614,6 @@ public final class Multisets {
    *
    * @since 14.0
    */
-  @Beta
   public static <E extends @Nullable Object> Multiset<E> difference(
       final Multiset<E> multiset1, final Multiset<?> multiset2) {
     checkNotNull(multiset1);
@@ -1138,12 +1162,11 @@ public final class Multisets {
   }
 
   /**
-   * Returns a copy of {@code multiset} as an {@link ImmutableMultiset} whose iteration order is
-   * highest count first, with ties broken by the iteration order of the original multiset.
+   * Returns a copy of {@code multiset} as an {@link ImmutableMultiset} whose iteration order puts
+   * the highest count first, with ties broken by the iteration order of the original multiset.
    *
    * @since 11.0
    */
-  @Beta
   public static <E> ImmutableMultiset<E> copyHighestCountFirst(Multiset<E> multiset) {
     Entry<E>[] entries = (Entry<E>[]) multiset.entrySet().toArray(new Entry[0]);
     Arrays.sort(entries, DecreasingCount.INSTANCE);
@@ -1151,7 +1174,7 @@ public final class Multisets {
   }
 
   private static final class DecreasingCount implements Comparator<Entry<?>> {
-    static final DecreasingCount INSTANCE = new DecreasingCount();
+    static final Comparator<Entry<?>> INSTANCE = new DecreasingCount();
 
     @Override
     public int compare(Entry<?> entry1, Entry<?> entry2) {

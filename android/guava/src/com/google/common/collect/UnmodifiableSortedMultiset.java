@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.Multisets.UnmodifiableMultiset;
+import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.util.Comparator;
 import java.util.NavigableSet;
 import javax.annotation.CheckForNull;
@@ -58,13 +59,13 @@ final class UnmodifiableSortedMultiset<E extends @Nullable Object> extends Unmod
     return (NavigableSet<E>) super.elementSet();
   }
 
-  @CheckForNull private transient UnmodifiableSortedMultiset<E> descendingMultiset;
+  @LazyInit @CheckForNull private transient UnmodifiableSortedMultiset<E> descendingMultiset;
 
   @Override
   public SortedMultiset<E> descendingMultiset() {
     UnmodifiableSortedMultiset<E> result = descendingMultiset;
     if (result == null) {
-      result = new UnmodifiableSortedMultiset<E>(delegate().descendingMultiset());
+      result = new UnmodifiableSortedMultiset<>(delegate().descendingMultiset());
       result.descendingMultiset = this;
       return descendingMultiset = result;
     }

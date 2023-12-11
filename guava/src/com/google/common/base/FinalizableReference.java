@@ -15,6 +15,7 @@
 package com.google.common.base;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.DoNotMock;
 
 /**
@@ -25,6 +26,7 @@ import com.google.errorprone.annotations.DoNotMock;
  * @since 2.0
  */
 @DoNotMock("Use an instance of one of the Finalizable*Reference classes")
+@J2ktIncompatible
 @GwtIncompatible
 @ElementTypesAreNonnullByDefault
 public interface FinalizableReference {

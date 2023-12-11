@@ -20,6 +20,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static java.lang.Thread.currentThread;
 import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
@@ -330,7 +331,6 @@ public class AbstractServiceTest extends TestCase {
     }
   }
 
-
   public void testAwaitTerminated() throws Exception {
     final NoOpService service = new NoOpService();
     Thread waiter =
@@ -347,7 +347,6 @@ public class AbstractServiceTest extends TestCase {
     waiter.join(LONG_TIMEOUT_MILLIS); // ensure that the await in the other thread is triggered
     assertFalse(waiter.isAlive());
   }
-
 
   public void testAwaitTerminated_FailedService() throws Exception {
     final ManualSwitchedService service = new ManualSwitchedService();
@@ -376,7 +375,6 @@ public class AbstractServiceTest extends TestCase {
     assertThat(exception.get()).hasCauseThat().isEqualTo(EXCEPTION);
   }
 
-
   public void testThreadedServiceStartAndWaitStopAndWait() throws Throwable {
     ThreadedService service = new ThreadedService();
     RecordingListener listener = RecordingListener.record(service);
@@ -394,7 +392,6 @@ public class AbstractServiceTest extends TestCase {
         listener.getStateHistory());
   }
 
-
   public void testThreadedServiceStopIdempotence() throws Throwable {
     ThreadedService service = new ThreadedService();
 
@@ -409,7 +406,6 @@ public class AbstractServiceTest extends TestCase {
 
     throwIfSet(thrownByExecutionThread);
   }
-
 
   public void testThreadedServiceStopIdempotenceAfterWait() throws Throwable {
     ThreadedService service = new ThreadedService();
@@ -427,7 +423,6 @@ public class AbstractServiceTest extends TestCase {
 
     throwIfSet(thrownByExecutionThread);
   }
-
 
   public void testThreadedServiceStopIdempotenceDoubleWait() throws Throwable {
     ThreadedService service = new ThreadedService();
@@ -455,12 +450,9 @@ public class AbstractServiceTest extends TestCase {
     service.notifyFailed(new Exception("1"));
     service.notifyFailed(new Exception("2"));
     assertThat(service.failureCause()).hasMessageThat().isEqualTo("1");
-    try {
-      service.awaitRunning();
-      fail();
-    } catch (IllegalStateException e) {
-      assertThat(e).hasCauseThat().hasMessageThat().isEqualTo("1");
-    }
+    IllegalStateException e =
+        assertThrows(IllegalStateException.class, () -> service.awaitRunning());
+    assertThat(e).hasCauseThat().hasMessageThat().isEqualTo("1");
   }
 
   private class ThreadedService extends AbstractService {
@@ -537,11 +529,7 @@ public class AbstractServiceTest extends TestCase {
     service.stopAsync();
     assertEquals(State.TERMINATED, service.state());
 
-    try {
-      service.startAsync();
-      fail();
-    } catch (IllegalStateException expected) {
-    }
+    assertThrows(IllegalStateException.class, () -> service.startAsync());
     assertEquals(State.TERMINATED, Iterables.getOnlyElement(listener.getStateHistory()));
   }
 
@@ -549,13 +537,10 @@ public class AbstractServiceTest extends TestCase {
     StartFailingService service = new StartFailingService();
     RecordingListener listener = RecordingListener.record(service);
 
-    try {
-      service.startAsync().awaitRunning();
-      fail();
-    } catch (IllegalStateException e) {
-      assertEquals(EXCEPTION, service.failureCause());
-      assertThat(e).hasCauseThat().isEqualTo(EXCEPTION);
-    }
+    IllegalStateException e =
+        assertThrows(IllegalStateException.class, () -> service.startAsync().awaitRunning());
+    assertEquals(EXCEPTION, service.failureCause());
+    assertThat(e).hasCauseThat().isEqualTo(EXCEPTION);
     assertEquals(ImmutableList.of(State.STARTING, State.FAILED), listener.getStateHistory());
   }
 
@@ -564,13 +549,10 @@ public class AbstractServiceTest extends TestCase {
     RecordingListener listener = RecordingListener.record(service);
 
     service.startAsync().awaitRunning();
-    try {
-      service.stopAsync().awaitTerminated();
-      fail();
-    } catch (IllegalStateException e) {
-      assertEquals(EXCEPTION, service.failureCause());
-      assertThat(e).hasCauseThat().isEqualTo(EXCEPTION);
-    }
+    IllegalStateException e =
+        assertThrows(IllegalStateException.class, () -> service.stopAsync().awaitTerminated());
+    assertEquals(EXCEPTION, service.failureCause());
+    assertThat(e).hasCauseThat().isEqualTo(EXCEPTION);
     assertEquals(
         ImmutableList.of(State.STARTING, State.RUNNING, State.STOPPING, State.FAILED),
         listener.getStateHistory());
@@ -581,13 +563,10 @@ public class AbstractServiceTest extends TestCase {
     RecordingListener listener = RecordingListener.record(service);
 
     service.startAsync();
-    try {
-      service.awaitRunning();
-      fail();
-    } catch (IllegalStateException e) {
-      assertEquals(EXCEPTION, service.failureCause());
-      assertThat(e).hasCauseThat().isEqualTo(EXCEPTION);
-    }
+    IllegalStateException e =
+        assertThrows(IllegalStateException.class, () -> service.awaitRunning());
+    assertEquals(EXCEPTION, service.failureCause());
+    assertThat(e).hasCauseThat().isEqualTo(EXCEPTION);
     assertEquals(
         ImmutableList.of(State.STARTING, State.RUNNING, State.FAILED), listener.getStateHistory());
   }
@@ -596,13 +575,10 @@ public class AbstractServiceTest extends TestCase {
     StartThrowingService service = new StartThrowingService();
     RecordingListener listener = RecordingListener.record(service);
 
-    try {
-      service.startAsync().awaitRunning();
-      fail();
-    } catch (IllegalStateException e) {
-      assertEquals(service.exception, service.failureCause());
-      assertThat(e).hasCauseThat().isEqualTo(service.exception);
-    }
+    IllegalStateException e =
+        assertThrows(IllegalStateException.class, () -> service.startAsync().awaitRunning());
+    assertEquals(service.exception, service.failureCause());
+    assertThat(e).hasCauseThat().isEqualTo(service.exception);
     assertEquals(ImmutableList.of(State.STARTING, State.FAILED), listener.getStateHistory());
   }
 
@@ -611,13 +587,10 @@ public class AbstractServiceTest extends TestCase {
     RecordingListener listener = RecordingListener.record(service);
 
     service.startAsync().awaitRunning();
-    try {
-      service.stopAsync().awaitTerminated();
-      fail();
-    } catch (IllegalStateException e) {
-      assertEquals(service.exception, service.failureCause());
-      assertThat(e).hasCauseThat().isEqualTo(service.exception);
-    }
+    IllegalStateException e =
+        assertThrows(IllegalStateException.class, () -> service.stopAsync().awaitTerminated());
+    assertEquals(service.exception, service.failureCause());
+    assertThat(e).hasCauseThat().isEqualTo(service.exception);
     assertEquals(
         ImmutableList.of(State.STARTING, State.RUNNING, State.STOPPING, State.FAILED),
         listener.getStateHistory());
@@ -628,39 +601,24 @@ public class AbstractServiceTest extends TestCase {
     RecordingListener listener = RecordingListener.record(service);
 
     service.startAsync();
-    try {
-      service.awaitTerminated();
-      fail();
-    } catch (IllegalStateException e) {
-      assertEquals(service.exception, service.failureCause());
-      assertThat(e).hasCauseThat().isEqualTo(service.exception);
-    }
+    IllegalStateException e =
+        assertThrows(IllegalStateException.class, () -> service.awaitTerminated());
+    assertEquals(service.exception, service.failureCause());
+    assertThat(e).hasCauseThat().isEqualTo(service.exception);
     assertEquals(
         ImmutableList.of(State.STARTING, State.RUNNING, State.FAILED), listener.getStateHistory());
   }
 
   public void testFailureCause_throwsIfNotFailed() {
     StopFailingService service = new StopFailingService();
-    try {
-      service.failureCause();
-      fail();
-    } catch (IllegalStateException expected) {
-    }
+    assertThrows(IllegalStateException.class, () -> service.failureCause());
     service.startAsync().awaitRunning();
-    try {
-      service.failureCause();
-      fail();
-    } catch (IllegalStateException expected) {
-    }
-    try {
-      service.stopAsync().awaitTerminated();
-      fail();
-    } catch (IllegalStateException e) {
-      assertEquals(EXCEPTION, service.failureCause());
-      assertThat(e).hasCauseThat().isEqualTo(EXCEPTION);
-    }
+    assertThrows(IllegalStateException.class, () -> service.failureCause());
+    IllegalStateException e =
+        assertThrows(IllegalStateException.class, () -> service.stopAsync().awaitTerminated());
+    assertEquals(EXCEPTION, service.failureCause());
+    assertThat(e).hasCauseThat().isEqualTo(EXCEPTION);
   }
-
 
   public void testAddListenerAfterFailureDoesntCauseDeadlock() throws InterruptedException {
     final StartFailingService service = new StartFailingService();
@@ -681,7 +639,6 @@ public class AbstractServiceTest extends TestCase {
     assertFalse(thread + " is deadlocked", thread.isAlive());
   }
 
-
   public void testListenerDoesntDeadlockOnStartAndWaitFromRunning() throws Exception {
     final NoOpThreadedService service = new NoOpThreadedService();
     service.addListener(
@@ -695,7 +652,6 @@ public class AbstractServiceTest extends TestCase {
     service.startAsync().awaitRunning(LONG_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS);
     service.stopAsync();
   }
-
 
   public void testListenerDoesntDeadlockOnStopAndWaitFromTerminated() throws Exception {
     final NoOpThreadedService service = new NoOpThreadedService();
@@ -921,40 +877,24 @@ public class AbstractServiceTest extends TestCase {
 
   public void testNotifyStartedWhenNotStarting() {
     AbstractService service = new DefaultService();
-    try {
-      service.notifyStarted();
-      fail();
-    } catch (IllegalStateException expected) {
-    }
+    assertThrows(IllegalStateException.class, () -> service.notifyStarted());
   }
 
   public void testNotifyStoppedWhenNotRunning() {
     AbstractService service = new DefaultService();
-    try {
-      service.notifyStopped();
-      fail();
-    } catch (IllegalStateException expected) {
-    }
+    assertThrows(IllegalStateException.class, () -> service.notifyStopped());
   }
 
   public void testNotifyFailedWhenNotStarted() {
     AbstractService service = new DefaultService();
-    try {
-      service.notifyFailed(new Exception());
-      fail();
-    } catch (IllegalStateException expected) {
-    }
+    assertThrows(IllegalStateException.class, () -> service.notifyFailed(new Exception()));
   }
 
   public void testNotifyFailedWhenTerminated() {
     NoOpService service = new NoOpService();
     service.startAsync().awaitRunning();
     service.stopAsync().awaitTerminated();
-    try {
-      service.notifyFailed(new Exception());
-      fail();
-    } catch (IllegalStateException expected) {
-    }
+    assertThrows(IllegalStateException.class, () -> service.notifyFailed(new Exception()));
   }
 
   private static class DefaultService extends AbstractService {

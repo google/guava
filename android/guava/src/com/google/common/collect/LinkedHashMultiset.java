@@ -27,8 +27,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * element will appear at the end of the iteration.
  *
  * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multiset"> {@code
- * Multiset}</a>.
+ * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multiset">{@code Multiset}</a>.
  *
  * @author Kevin Bourrillion
  * @author Jared Levy

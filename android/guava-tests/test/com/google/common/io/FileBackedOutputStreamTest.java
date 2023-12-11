@@ -16,15 +16,24 @@
 
 package com.google.common.io;
 
+import static com.google.common.base.StandardSystemProperty.JAVA_IO_TMPDIR;
+import static com.google.common.base.StandardSystemProperty.OS_NAME;
+import static com.google.common.truth.Truth.assertThat;
+import static java.nio.file.attribute.PosixFilePermission.OWNER_READ;
+import static java.nio.file.attribute.PosixFilePermission.OWNER_WRITE;
+import static org.junit.Assert.assertThrows;
 
-import com.google.common.testing.GcFinalization;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.file.attribute.PosixFileAttributeView;
+import java.nio.file.attribute.PosixFileAttributes;
 import java.util.Arrays;
 
 /**
  * Unit tests for {@link FileBackedOutputStream}.
+ *
+ * <p>For a tiny bit more testing, see {@link FileBackedOutputStreamAndroidIncompatibleTest}.
  *
  * @author Chris Nokleberg
  */
@@ -61,10 +70,21 @@ public class FileBackedOutputStreamTest extends IoTestCase {
 
     // Write data to go over the threshold
     if (chunk2 > 0) {
+      if (JAVA_IO_TMPDIR.value().equals("/sdcard")) {
+        assertThrows(IOException.class, () -> write(out, data, chunk1, chunk2, singleByte));
+        return;
+      }
       write(out, data, chunk1, chunk2, singleByte);
       file = out.getFile();
       assertEquals(dataSize, file.length());
       assertTrue(file.exists());
+      assertThat(file.getName()).contains("FileBackedOutputStream");
+      if (!isAndroid() && !isWindows()) {
+        PosixFileAttributes attributes =
+            java.nio.file.Files.getFileAttributeView(file.toPath(), PosixFileAttributeView.class)
+                .readAttributes();
+        assertThat(attributes.permissions()).containsExactly(OWNER_READ, OWNER_WRITE);
+      }
     }
     out.close();
 
@@ -79,30 +99,6 @@ public class FileBackedOutputStreamTest extends IoTestCase {
   }
 
 
-  public void testFinalizeDeletesFile() throws Exception {
-    byte[] data = newPreFilledByteArray(100);
-    FileBackedOutputStream out = new FileBackedOutputStream(0, true);
-
-    write(out, data, 0, 100, true);
-    final File file = out.getFile();
-    assertEquals(100, file.length());
-    assertTrue(file.exists());
-    out.close();
-
-    // Make sure that finalize deletes the file
-    out = null;
-
-    // times out and throws RuntimeException on failure
-    GcFinalization.awaitDone(
-        new GcFinalization.FinalizationPredicate() {
-          @Override
-          public boolean isDone() {
-            return !file.exists();
-          }
-        });
-  }
-
-
   public void testThreshold_resetOnFinalize() throws Exception {
     testThreshold(0, 100, true, true);
     testThreshold(10, 100, true, true);
@@ -114,7 +110,7 @@ public class FileBackedOutputStreamTest extends IoTestCase {
     testThreshold(1000, 100, false, true);
   }
 
-  private static void write(OutputStream out, byte[] b, int off, int len, boolean singleByte)
+  static void write(OutputStream out, byte[] b, int off, int len, boolean singleByte)
       throws IOException {
     if (singleByte) {
       for (int i = off; i < off + len; i++) {
@@ -133,15 +129,15 @@ public class FileBackedOutputStreamTest extends IoTestCase {
     FileBackedOutputStream out = new FileBackedOutputStream(50);
     ByteSource source = out.asByteSource();
 
+    if (JAVA_IO_TMPDIR.value().equals("/sdcard")) {
+      assertThrows(IOException.class, () -> out.write(data));
+      return;
+    }
     out.write(data);
     assertTrue(Arrays.equals(data, source.read()));
 
     out.close();
-    try {
-      out.write(42);
-      fail("expected exception");
-    } catch (IOException expected) {
-    }
+    assertThrows(IOException.class, () -> out.write(42));
 
     // Verify that write had no effect
     assertTrue(Arrays.equals(data, source.read()));
@@ -163,5 +159,13 @@ public class FileBackedOutputStreamTest extends IoTestCase {
     assertTrue(Arrays.equals(data, source.read()));
 
     out.close();
+  }
+
+  private static boolean isAndroid() {
+    return System.getProperty("java.runtime.name", "").contains("Android");
+  }
+
+  private static boolean isWindows() {
+    return OS_NAME.value().startsWith("Windows");
   }
 }

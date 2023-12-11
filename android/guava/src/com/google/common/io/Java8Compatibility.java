@@ -15,12 +15,14 @@
 package com.google.common.io;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import java.nio.Buffer;
 
 /**
  * Wrappers around {@link Buffer} methods that are covariantly overridden in Java 9+. See
  * https://github.com/google/guava/issues/3990
  */
+@J2ktIncompatible
 @GwtIncompatible
 @ElementTypesAreNonnullByDefault
 final class Java8Compatibility {
@@ -36,8 +38,16 @@ final class Java8Compatibility {
     b.limit(limit);
   }
 
+  static void mark(Buffer b) {
+    b.mark();
+  }
+
   static void position(Buffer b, int position) {
     b.position(position);
+  }
+
+  static void reset(Buffer b) {
+    b.reset();
   }
 
   private Java8Compatibility() {}

@@ -18,7 +18,6 @@ package com.google.common.base;
 
 import static jsinterop.annotations.JsPackage.GLOBAL;
 
-import java.util.concurrent.TimeUnit;
 import jsinterop.annotations.JsMethod;
 import jsinterop.annotations.JsType;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -31,21 +30,6 @@ final class Platform {
     // choosing to turn .precomputed() into a no-op in GWT, because it doesn't
     // seem to be a worthwhile tradeoff in a browser.
     return matcher;
-  }
-
-  @SuppressWarnings("GoodTime") // reading system time without TimeSource
-  static long systemNanoTime() {
-    // System.nanoTime() is not available in GWT, so we get milliseconds
-    // and convert to nanos.
-    return TimeUnit.MILLISECONDS.toNanos(System.currentTimeMillis());
-  }
-
-  static <T extends Enum<T>> Optional<T> getEnumIfPresent(Class<T> enumClass, String value) {
-    try {
-      return Optional.of(Enum.valueOf(enumClass, value));
-    } catch (IllegalArgumentException iae) {
-      return Optional.absent();
-    }
   }
 
   static String formatCompact4Digits(double value) {
@@ -79,17 +63,6 @@ final class Platform {
   static boolean patternCompilerIsPcreLike() {
     throw new UnsupportedOperationException();
   }
-
-  /*
-   * We will eventually disable GWT-RPC on the server side, but we'll leave it nominally enabled on
-   * the client side. There's little practical difference: If it's disabled on the server, it won't
-   * work. It's just a matter of how quickly it fails. I'm not sure if failing on the client would
-   * be better or not, but it's harder: GWT's System.getProperty reads from a different property
-   * list than Java's, so anyone who needs to reenable GWT-RPC in an emergency would have to figure
-   * out how to set both properties. It's easier to have to set only one, and it might as well be
-   * the Java property, since Guava already reads another Java property.
-   */
-  static void checkGwtRpcEnabled() {}
 
   private Platform() {}
 }

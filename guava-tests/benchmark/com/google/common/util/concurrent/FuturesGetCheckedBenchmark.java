@@ -34,7 +34,7 @@ import com.google.common.util.concurrent.FuturesGetChecked.GetCheckedTypeValidat
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.security.GeneralSecurityException;
-import java.security.acl.NotOwnerException;
+import java.security.KeyException;
 import java.util.List;
 import java.util.TooManyListenersException;
 import java.util.concurrent.BrokenBarrierException;
@@ -93,7 +93,7 @@ public class FuturesGetCheckedBenchmark {
           ExecutionException.class,
           GeneralSecurityException.class,
           InvalidPreferencesFormatException.class,
-          NotOwnerException.class,
+          KeyException.class,
           RefreshFailedException.class,
           TimeoutException.class,
           TooManyListenersException.class,

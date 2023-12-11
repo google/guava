@@ -18,13 +18,12 @@ package com.google.common.io;
 
 import static com.google.common.base.CharMatcher.whitespace;
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableList;
 import com.google.common.testing.NullPointerTester;
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.DataInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -42,6 +41,7 @@ import junit.framework.TestSuite;
 
 public class ResourcesTest extends IoTestCase {
 
+  @AndroidIncompatible // wouldn't run anyway, but strip the source entirely because of b/230620681
   public static TestSuite suite() {
     TestSuite suite = new TestSuite();
     suite.addTest(
@@ -62,9 +62,9 @@ public class ResourcesTest extends IoTestCase {
     assertThat(Resources.toString(resource, Charsets.US_ASCII)).isNotEqualTo(I18N);
   }
 
-  public void testToToByteArray() throws IOException {
-    byte[] data = Resources.toByteArray(classfile(Resources.class));
-    assertEquals(0xCAFEBABE, new DataInputStream(new ByteArrayInputStream(data)).readInt());
+  public void testToByteArray() throws IOException {
+    URL resource = getClass().getResource("testdata/i18n.txt");
+    assertThat(Resources.toByteArray(resource)).isEqualTo(I18N.getBytes(Charsets.UTF_8));
   }
 
   public void testReadLines() throws IOException {
@@ -105,12 +105,10 @@ public class ResourcesTest extends IoTestCase {
   }
 
   public void testGetResource_notFound() {
-    try {
-      Resources.getResource("no such resource");
-      fail();
-    } catch (IllegalArgumentException e) {
-      assertThat(e).hasMessageThat().isEqualTo("resource no such resource not found.");
-    }
+    IllegalArgumentException e =
+        assertThrows(
+            IllegalArgumentException.class, () -> Resources.getResource("no such resource"));
+    assertThat(e).hasMessageThat().isEqualTo("resource no such resource not found.");
   }
 
   public void testGetResource() {
@@ -118,16 +116,15 @@ public class ResourcesTest extends IoTestCase {
   }
 
   public void testGetResource_relativePath_notFound() {
-    try {
-      Resources.getResource(getClass(), "com/google/common/io/testdata/i18n.txt");
-      fail();
-    } catch (IllegalArgumentException e) {
-      assertThat(e)
-          .hasMessageThat()
-          .isEqualTo(
-              "resource com/google/common/io/testdata/i18n.txt"
-                  + " relative to com.google.common.io.ResourcesTest not found.");
-    }
+    IllegalArgumentException e =
+        assertThrows(
+            IllegalArgumentException.class,
+            () -> Resources.getResource(getClass(), "com/google/common/io/testdata/i18n.txt"));
+    assertThat(e)
+        .hasMessageThat()
+        .isEqualTo(
+            "resource com/google/common/io/testdata/i18n.txt"
+                + " relative to com.google.common.io.ResourcesTest not found.");
   }
 
   public void testGetResource_relativePath() {
@@ -146,11 +143,7 @@ public class ResourcesTest extends IoTestCase {
     // First check that we can't find it without setting the context loader.
     // This is a sanity check that the test doesn't spuriously pass because
     // the resource is visible to the system class loader.
-    try {
-      Resources.getResource(tempFile.getName());
-      fail("Should get IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> Resources.getResource(tempFile.getName()));
 
     // Now set the context loader to one that should find the resource.
     URL baseUrl = tempFile.getParentFile().toURI().toURL();
@@ -160,7 +153,7 @@ public class ResourcesTest extends IoTestCase {
       Thread.currentThread().setContextClassLoader(loader);
       URL url = Resources.getResource(tempFile.getName());
       String text = Resources.toString(url, Charsets.UTF_8);
-      assertEquals("rud a chur ar an méar fhada\n", text);
+      assertEquals("rud a chur ar an méar fhada" + System.lineSeparator(), text);
     } finally {
       Thread.currentThread().setContextClassLoader(oldContextLoader);
     }
@@ -171,16 +164,13 @@ public class ResourcesTest extends IoTestCase {
     try {
       Thread.currentThread().setContextClassLoader(null);
       assertNotNull(Resources.getResource("com/google/common/io/testdata/i18n.txt"));
-      try {
-        Resources.getResource("no such resource");
-        fail("Should get IllegalArgumentException");
-      } catch (IllegalArgumentException expected) {
-      }
+      assertThrows(IllegalArgumentException.class, () -> Resources.getResource("no such resource"));
     } finally {
       Thread.currentThread().setContextClassLoader(oldContextLoader);
     }
   }
 
+  @AndroidIncompatible // .class files aren't available
   public void testNulls() {
     new NullPointerTester()
         .setDefault(URL.class, classfile(ResourcesTest.class))

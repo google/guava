@@ -18,8 +18,8 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.io.ByteStreams.skipUpTo;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Ascii;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
@@ -72,6 +72,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 14.0
  * @author Colin Decker
  */
+@J2ktIncompatible
 @GwtIncompatible
 @ElementTypesAreNonnullByDefault
 public abstract class ByteSource {
@@ -177,7 +178,6 @@ public abstract class ByteSource {
    *
    * @since 19.0
    */
-  @Beta
   public Optional<Long> sizeIfKnown() {
     return Optional.absent();
   }
@@ -313,8 +313,8 @@ public abstract class ByteSource {
    *     processor} throws an {@code IOException}
    * @since 16.0
    */
-  @Beta
   @CanIgnoreReturnValue // some processors won't return a useful result
+  @ParametricNullness
   public <T extends @Nullable Object> T read(ByteProcessor<T> processor) throws IOException {
     checkNotNull(processor);
 
@@ -579,7 +579,9 @@ public abstract class ByteSource {
     }
   }
 
-  private static class ByteArrayByteSource extends ByteSource {
+  private static class ByteArrayByteSource extends
+      ByteSource
+  {
 
     final byte[] bytes;
     final int offset;
@@ -602,7 +604,7 @@ public abstract class ByteSource {
     }
 
     @Override
-    public InputStream openBufferedStream() throws IOException {
+    public InputStream openBufferedStream() {
       return openStream();
     }
 

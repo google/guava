@@ -21,14 +21,14 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import jsinterop.annotations.JsMethod;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Minimal GWT emulation of {@code com.google.common.collect.Platform}.
- *
- * <p><strong>This .java file should never be consumed by javac.</strong>
  *
  * @author Hayward Chan
  */
@@ -74,13 +74,8 @@ final class Platform {
   }
 
   static <T> T[] newArray(T[] reference, int length) {
-    T[] clone = Arrays.copyOf(reference, 0);
-    resizeArray(clone, length);
-    return clone;
-  }
-
-  private static void resizeArray(Object array, int newSize) {
-    ((NativeArray) array).setLength(newSize);
+    T[] empty = reference.length == 0 ? reference : Arrays.copyOf(reference, 0);
+    return Arrays.copyOf(empty, length);
   }
 
   /** Equivalent to Arrays.copyOfRange(source, from, to, arrayOfType.getClass()). */
@@ -101,6 +96,33 @@ final class Platform {
     return mapMaker;
   }
 
+  static <E extends Enum<E>> Class<E> getDeclaringClassOrObjectForJ2cl(E e) {
+    Class<E> classOrNull = getDeclaringClassOrNullForJ2cl(e);
+    @SuppressWarnings("unchecked")
+    Class<E> result = classOrNull == null ? (Class<E>) (Class<?>) Object.class : classOrNull;
+    return result;
+  }
+
+  /*
+   * If I understand correctly:
+   *
+   * This needs to be a @JsMethod so that J2CL knows to look for a JavaScript implemention of
+   * it in Platform.native.js. (The JavaScript implementation inline below is visible to *GWT*, but
+   * *J2CL* doesn't look at it.)
+   *
+   * However, once it's a @JsMethod, GWT produces a warning. That's because (a) the *other* purpose
+   * of @JsMethod is to make a method *callable* from JavaScript and (b) this method would not be
+   * useful to call from vanilla JavaScript because it returns an instance of Class, which can't be
+   * converted to a standard JavaScript type. (Contrast to something like String or boolean.) Since
+   * we're not calling it from JavaScript, we suppress the warning.
+   */
+  @JsMethod
+  @SuppressWarnings("unusable-by-js")
+  private static native <E extends Enum<E>> @Nullable Class<E> getDeclaringClassOrNullForJ2cl(
+      E e) /*-{
+    return e.@java.lang.Enum::getDeclaringClass()();
+  }-*/;
+
   static int reduceIterationsIfGwt(int iterations) {
     return iterations / 10;
   }
@@ -108,17 +130,6 @@ final class Platform {
   static int reduceExponentIfGwt(int exponent) {
     return exponent / 2;
   }
-
-  /*
-   * We will eventually disable GWT-RPC on the server side, but we'll leave it nominally enabled on
-   * the client side. There's little practical difference: If it's disabled on the server, it won't
-   * work. It's just a matter of how quickly it fails. I'm not sure if failing on the client would
-   * be better or not, but it's harder: GWT's System.getProperty reads from a different property
-   * list than Java's, so anyone who needs to reenable GWT-RPC in an emergency would have to figure
-   * out how to set both properties. It's easier to have to set only one, and it might as well be
-   * the Java property, since Guava already reads another Java property.
-   */
-  static void checkGwtRpcEnabled() {}
 
   private Platform() {}
 }

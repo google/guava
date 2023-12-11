@@ -27,7 +27,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * An iterator that supports a one-element lookahead while iterating.
  *
  * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/CollectionHelpersExplained#peekingiterator"> {@code
+ * "https://github.com/google/guava/wiki/CollectionHelpersExplained#peekingiterator">{@code
  * PeekingIterator}</a>.
  *
  * @author Mick Killianey

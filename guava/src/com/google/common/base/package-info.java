@@ -15,45 +15,46 @@
 /**
  * Basic utility libraries and interfaces.
  *
- * <p>This package is a part of the open-source <a href="http://github.com/google/guava">Guava</a>
+ * <p>This package is a part of the open-source <a href="https://github.com/google/guava">Guava</a>
  * library.
  *
  * <h2>Contents</h2>
  *
- * <h3>String-related utilities</h3>
+ * The classes in this package that are most commonly useful are:
+ *
+ * <h3>String utilities</h3>
  *
  * <ul>
- *   <li>{@link com.google.common.base.Ascii}
- *   <li>{@link com.google.common.base.CaseFormat}
- *   <li>{@link com.google.common.base.CharMatcher}
- *   <li>{@link com.google.common.base.Charsets}
- *   <li>{@link com.google.common.base.Joiner}
- *   <li>{@link com.google.common.base.Splitter}
- *   <li>{@link com.google.common.base.Strings}
+ *   <li>{@link Ascii}
+ *   <li>{@link CaseFormat}
+ *   <li>{@link CharMatcher}
+ *   <li>{@link Splitter}
+ *   <li>{@link Strings}
  * </ul>
  *
  * <h3>Function types</h3>
  *
  * <ul>
- *   <li>{@link com.google.common.base.Function}, {@link com.google.common.base.Functions}
- *   <li>{@link com.google.common.base.Predicate}, {@link com.google.common.base.Predicates}
- *   <li>{@link com.google.common.base.Equivalence}
- *   <li>{@link com.google.common.base.Converter}
- *   <li>{@link com.google.common.base.Supplier}, {@link com.google.common.base.Suppliers}
+ *   <li>{@link Converter}
+ *   <li>{@link Equivalence}
  * </ul>
  *
  * <h3>Other</h3>
  *
  * <ul>
- *   <li>{@link com.google.common.base.Defaults}
- *   <li>{@link com.google.common.base.Enums}
- *   <li>{@link com.google.common.base.Objects}
- *   <li>{@link com.google.common.base.Optional}
- *   <li>{@link com.google.common.base.Preconditions}
- *   <li>{@link com.google.common.base.Stopwatch}
- *   <li>{@link com.google.common.base.Throwables}
+ *   <li>{@link Enums}
+ *   <li>{@link MoreObjects}
+ *   <li>{@link Preconditions}
+ *   <li>{@link StandardSystemProperty}
+ *   <li>{@link Stopwatch}
+ *   <li>{@link Throwables}
+ *   <li>{@link Verify}
  * </ul>
  *
+ * <h3>The rest</h3>
+ *
+ * This package also contains some classes with niche use cases (e.g., {@link Utf8} and {@link
+ * Defaults}), as well as a number of classes that have been superseded by additions to the JDK.
  */
 @CheckReturnValue
 @ParametersAreNonnullByDefault

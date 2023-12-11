@@ -18,6 +18,7 @@ package com.google.common.hash;
 
 import static com.google.common.base.Charsets.UTF_8;
 import static java.util.Arrays.asList;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableTable;
@@ -125,6 +126,15 @@ public class HashingTest extends TestCase {
         Hashing.sipHash24().toString());
   }
 
+  public void testFingerprint2011() {
+    HashTestUtils.check2BitAvalanche(Hashing.fingerprint2011(), 100, 0.4);
+    HashTestUtils.checkAvalanche(Hashing.fingerprint2011(), 100, 0.4);
+    HashTestUtils.checkNo2BitCharacteristics(Hashing.fingerprint2011());
+    HashTestUtils.checkNoFunnels(Hashing.fingerprint2011());
+    HashTestUtils.assertInvariants(Hashing.fingerprint2011());
+    assertEquals("Hashing.fingerprint2011()", Hashing.fingerprint2011().toString());
+  }
+
   @AndroidIncompatible // slow TODO(cpovirk): Maybe just reduce iterations under Android.
   public void testGoodFastHash() {
     for (int i = 1; i < 200; i += 17) {
@@ -210,11 +220,7 @@ public class HashingTest extends TestCase {
   private static final int MAX_SHARDS = 500;
 
   public void testConsistentHash_outOfRange() {
-    try {
-      Hashing.consistentHash(5L, 0);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> Hashing.consistentHash(5L, 0));
   }
 
   public void testConsistentHash_ofHashCode() {
@@ -251,20 +257,19 @@ public class HashingTest extends TestCase {
   private static final long RANDOM_SEED = 177L;
 
   public void testCombineOrdered_empty() {
-    try {
-      Hashing.combineOrdered(Collections.<HashCode>emptySet());
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> Hashing.combineOrdered(Collections.<HashCode>emptySet()));
   }
 
   public void testCombineOrdered_differentBitLengths() {
-    try {
-      HashCode unused =
-          Hashing.combineOrdered(ImmutableList.of(HashCode.fromInt(32), HashCode.fromLong(32L)));
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> {
+          HashCode unused =
+              Hashing.combineOrdered(
+                  ImmutableList.of(HashCode.fromInt(32), HashCode.fromLong(32L)));
+        });
   }
 
   public void testCombineOrdered() {
@@ -296,20 +301,19 @@ public class HashingTest extends TestCase {
   }
 
   public void testCombineUnordered_empty() {
-    try {
-      Hashing.combineUnordered(Collections.<HashCode>emptySet());
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> Hashing.combineUnordered(Collections.<HashCode>emptySet()));
   }
 
   public void testCombineUnordered_differentBitLengths() {
-    try {
-      HashCode unused =
-          Hashing.combineUnordered(ImmutableList.of(HashCode.fromInt(32), HashCode.fromLong(32L)));
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> {
+          HashCode unused =
+              Hashing.combineUnordered(
+                  ImmutableList.of(HashCode.fromInt(32), HashCode.fromLong(32L)));
+        });
   }
 
   public void testCombineUnordered() {
@@ -432,6 +436,9 @@ public class HashingTest extends TestCase {
           .put(Hashing.murmur3_32(), EMPTY_STRING, "00000000")
           .put(Hashing.murmur3_32(), TQBFJOTLD, "23f74f2e")
           .put(Hashing.murmur3_32(), TQBFJOTLDP, "fc8bc4d5")
+          .put(Hashing.murmur3_32_fixed(), EMPTY_STRING, "00000000")
+          .put(Hashing.murmur3_32_fixed(), TQBFJOTLD, "23f74f2e")
+          .put(Hashing.murmur3_32_fixed(), TQBFJOTLDP, "fc8bc4d5")
           .put(Hashing.sha1(), EMPTY_STRING, "da39a3ee5e6b4b0d3255bfef95601890afd80709")
           .put(Hashing.sha1(), TQBFJOTLD, "2fd4e1c67a2d28fced849ee1bb76e7391b93eb12")
           .put(Hashing.sha1(), TQBFJOTLDP, "408d94384216f890ff7a0c3528e8bed1e0b01621")
@@ -489,6 +496,9 @@ public class HashingTest extends TestCase {
           .put(Hashing.farmHashFingerprint64(), EMPTY_STRING, "4f40902f3b6ae19a")
           .put(Hashing.farmHashFingerprint64(), TQBFJOTLD, "34511b3bf383beab")
           .put(Hashing.farmHashFingerprint64(), TQBFJOTLDP, "737d7e5f8660653e")
+          .put(Hashing.fingerprint2011(), EMPTY_STRING, "e365a64a907cad23")
+          .put(Hashing.fingerprint2011(), TQBFJOTLD, "c9688c84e813b089")
+          .put(Hashing.fingerprint2011(), TQBFJOTLDP, "a714d70f1d569cd0")
           .build();
 
   public void testAllHashFunctionsHaveKnownHashes() throws Exception {

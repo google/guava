@@ -16,7 +16,6 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Function;
@@ -33,6 +32,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.SortedSet;
 import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -162,7 +162,6 @@ public abstract class FluentIterable<E extends @Nullable Object> implements Iter
    *
    * @since 20.0 (since 18.0 as an overload of {@code of})
    */
-  @Beta
   public static <E extends @Nullable Object> FluentIterable<E> from(E[] elements) {
     return from(Arrays.asList(elements));
   }
@@ -195,7 +194,6 @@ public abstract class FluentIterable<E extends @Nullable Object> implements Iter
    *
    * @since 20.0
    */
-  @Beta
   public static <T extends @Nullable Object> FluentIterable<T> concat(
       Iterable<? extends T> a, Iterable<? extends T> b) {
     return concatNoDefensiveCopy(a, b);
@@ -214,7 +212,6 @@ public abstract class FluentIterable<E extends @Nullable Object> implements Iter
    *
    * @since 20.0
    */
-  @Beta
   public static <T extends @Nullable Object> FluentIterable<T> concat(
       Iterable<? extends T> a, Iterable<? extends T> b, Iterable<? extends T> c) {
     return concatNoDefensiveCopy(a, b, c);
@@ -234,7 +231,6 @@ public abstract class FluentIterable<E extends @Nullable Object> implements Iter
    *
    * @since 20.0
    */
-  @Beta
   public static <T extends @Nullable Object> FluentIterable<T> concat(
       Iterable<? extends T> a,
       Iterable<? extends T> b,
@@ -258,7 +254,6 @@ public abstract class FluentIterable<E extends @Nullable Object> implements Iter
    * @throws NullPointerException if any of the provided iterables is {@code null}
    * @since 20.0
    */
-  @Beta
   public static <T extends @Nullable Object> FluentIterable<T> concat(
       Iterable<? extends T>... inputs) {
     return concatNoDefensiveCopy(Arrays.copyOf(inputs, inputs.length));
@@ -278,14 +273,13 @@ public abstract class FluentIterable<E extends @Nullable Object> implements Iter
    *
    * @since 20.0
    */
-  @Beta
   public static <T extends @Nullable Object> FluentIterable<T> concat(
       final Iterable<? extends Iterable<? extends T>> inputs) {
     checkNotNull(inputs);
     return new FluentIterable<T>() {
       @Override
       public Iterator<T> iterator() {
-        return Iterators.concat(Iterators.transform(inputs.iterator(), Iterables.<T>toIterator()));
+        return Iterators.concat(Iterators.transform(inputs.iterator(), Iterable::iterator));
       }
     };
   }
@@ -318,7 +312,6 @@ public abstract class FluentIterable<E extends @Nullable Object> implements Iter
    *
    * @since 20.0
    */
-  @Beta
   public static <E extends @Nullable Object> FluentIterable<E> of() {
     return FluentIterable.from(Collections.<E>emptyList());
   }
@@ -331,7 +324,6 @@ public abstract class FluentIterable<E extends @Nullable Object> implements Iter
    *
    * @since 20.0
    */
-  @Beta
   public static <E extends @Nullable Object> FluentIterable<E> of(
       @ParametricNullness E element, E... elements) {
     return from(Lists.asList(element, elements));
@@ -400,7 +392,6 @@ public abstract class FluentIterable<E extends @Nullable Object> implements Iter
    *
    * @since 18.0
    */
-  @Beta
   public final FluentIterable<E> append(Iterable<? extends E> other) {
     return FluentIterable.concat(getDelegate(), other);
   }
@@ -413,7 +404,6 @@ public abstract class FluentIterable<E extends @Nullable Object> implements Iter
    *
    * @since 18.0
    */
-  @Beta
   public final FluentIterable<E> append(E... elements) {
     return FluentIterable.concat(getDelegate(), Arrays.asList(elements));
   }
@@ -475,8 +465,8 @@ public abstract class FluentIterable<E extends @Nullable Object> implements Iter
    * <p><b>{@code Stream} equivalent:</b> {@code stream.filter(predicate).findFirst()}.
    */
   @SuppressWarnings("nullness") // Unsafe, but we can't do much about it now.
-  public final Optional<E> firstMatch(Predicate<? super E> predicate) {
-    return Iterables.tryFind(getDelegate(), predicate);
+  public final Optional<@NonNull E> firstMatch(Predicate<? super E> predicate) {
+    return Iterables.<E>tryFind((Iterable<@NonNull E>) getDelegate(), predicate);
   }
 
   /**
@@ -523,9 +513,9 @@ public abstract class FluentIterable<E extends @Nullable Object> implements Iter
    *     iterator().next()} or {@link Iterables#getFirst} instead.
    */
   @SuppressWarnings("nullness") // Unsafe, but we can't do much about it now.
-  public final Optional<E> first() {
+  public final Optional<@NonNull E> first() {
     Iterator<E> iterator = getDelegate().iterator();
-    return iterator.hasNext() ? Optional.of(iterator.next()) : Optional.<E>absent();
+    return iterator.hasNext() ? Optional.of(iterator.next()) : Optional.absent();
   }
 
   /**
@@ -540,7 +530,7 @@ public abstract class FluentIterable<E extends @Nullable Object> implements Iter
    *     Iterables#getLast} instead.
    */
   @SuppressWarnings("nullness") // Unsafe, but we can't do much about it now.
-  public final Optional<E> last() {
+  public final Optional<@NonNull E> last() {
     // Iterables#getLast was inlined here so we don't have to throw/catch a NSEE
 
     // TODO(kevinb): Support a concurrently modified collection?
@@ -580,7 +570,7 @@ public abstract class FluentIterable<E extends @Nullable Object> implements Iter
    * iterable skips all of its elements.
    *
    * <p>Modifications to this fluent iterable before a call to {@code iterator()} are reflected in
-   * the returned fluent iterable. That is, the its iterator skips the first {@code numberToSkip}
+   * the returned fluent iterable. That is, the iterator skips the first {@code numberToSkip}
    * elements that exist when the iterator is created, not when {@code skip()} is called.
    *
    * <p>The returned fluent iterable's iterator supports {@code remove()} if the {@code Iterator} of
@@ -630,8 +620,8 @@ public abstract class FluentIterable<E extends @Nullable Object> implements Iter
    * @since 14.0 (since 12.0 as {@code toImmutableList()}).
    */
   @SuppressWarnings("nullness") // Unsafe, but we can't do much about it now.
-  public final ImmutableList<E> toList() {
-    return ImmutableList.copyOf(getDelegate());
+  public final ImmutableList<@NonNull E> toList() {
+    return ImmutableList.copyOf((Iterable<@NonNull E>) getDelegate());
   }
 
   /**
@@ -648,8 +638,8 @@ public abstract class FluentIterable<E extends @Nullable Object> implements Iter
    * @since 14.0 (since 13.0 as {@code toSortedImmutableList()}).
    */
   @SuppressWarnings("nullness") // Unsafe, but we can't do much about it now.
-  public final ImmutableList<E> toSortedList(Comparator<? super E> comparator) {
-    return Ordering.from(comparator).immutableSortedCopy(getDelegate());
+  public final ImmutableList<@NonNull E> toSortedList(Comparator<? super E> comparator) {
+    return Ordering.from(comparator).immutableSortedCopy((Iterable<@NonNull E>) getDelegate());
   }
 
   /**
@@ -663,8 +653,8 @@ public abstract class FluentIterable<E extends @Nullable Object> implements Iter
    * @since 14.0 (since 12.0 as {@code toImmutableSet()}).
    */
   @SuppressWarnings("nullness") // Unsafe, but we can't do much about it now.
-  public final ImmutableSet<E> toSet() {
-    return ImmutableSet.copyOf(getDelegate());
+  public final ImmutableSet<@NonNull E> toSet() {
+    return ImmutableSet.copyOf((Iterable<@NonNull E>) getDelegate());
   }
 
   /**
@@ -682,8 +672,8 @@ public abstract class FluentIterable<E extends @Nullable Object> implements Iter
    * @since 14.0 (since 12.0 as {@code toImmutableSortedSet()}).
    */
   @SuppressWarnings("nullness") // Unsafe, but we can't do much about it now.
-  public final ImmutableSortedSet<E> toSortedSet(Comparator<? super E> comparator) {
-    return ImmutableSortedSet.copyOf(comparator, getDelegate());
+  public final ImmutableSortedSet<@NonNull E> toSortedSet(Comparator<? super E> comparator) {
+    return ImmutableSortedSet.copyOf(comparator, (Iterable<@NonNull E>) getDelegate());
   }
 
   /**
@@ -696,8 +686,8 @@ public abstract class FluentIterable<E extends @Nullable Object> implements Iter
    * @since 19.0
    */
   @SuppressWarnings("nullness") // Unsafe, but we can't do much about it now.
-  public final ImmutableMultiset<E> toMultiset() {
-    return ImmutableMultiset.copyOf(getDelegate());
+  public final ImmutableMultiset<@NonNull E> toMultiset() {
+    return ImmutableMultiset.copyOf((Iterable<@NonNull E>) getDelegate());
   }
 
   /**
@@ -718,8 +708,8 @@ public abstract class FluentIterable<E extends @Nullable Object> implements Iter
    * @since 14.0
    */
   @SuppressWarnings("nullness") // Unsafe, but we can't do much about it now.
-  public final <V> ImmutableMap<E, V> toMap(Function<? super E, V> valueFunction) {
-    return Maps.toMap(getDelegate(), valueFunction);
+  public final <V> ImmutableMap<@NonNull E, V> toMap(Function<? super E, V> valueFunction) {
+    return Maps.toMap((Iterable<@NonNull E>) getDelegate(), valueFunction);
   }
 
   /**
@@ -741,8 +731,8 @@ public abstract class FluentIterable<E extends @Nullable Object> implements Iter
    * @since 14.0
    */
   @SuppressWarnings("nullness") // Unsafe, but we can't do much about it now.
-  public final <K> ImmutableListMultimap<K, E> index(Function<? super E, K> keyFunction) {
-    return Multimaps.index(getDelegate(), keyFunction);
+  public final <K> ImmutableListMultimap<K, @NonNull E> index(Function<? super E, K> keyFunction) {
+    return Multimaps.index((Iterable<@NonNull E>) getDelegate(), keyFunction);
   }
 
   /**
@@ -778,8 +768,8 @@ public abstract class FluentIterable<E extends @Nullable Object> implements Iter
    * @since 14.0
    */
   @SuppressWarnings("nullness") // Unsafe, but we can't do much about it now.
-  public final <K> ImmutableMap<K, E> uniqueIndex(Function<? super E, K> keyFunction) {
-    return Maps.uniqueIndex(getDelegate(), keyFunction);
+  public final <K> ImmutableMap<K, @NonNull E> uniqueIndex(Function<? super E, K> keyFunction) {
+    return Maps.uniqueIndex((Iterable<@NonNull E>) getDelegate(), keyFunction);
   }
 
   /**
@@ -795,16 +785,8 @@ public abstract class FluentIterable<E extends @Nullable Object> implements Iter
    *     copied
    */
   @GwtIncompatible // Array.newArray(Class, int)
-  /*
-   * Both the declaration of our Class<E> parameter and its usage in a call to Iterables.toArray
-   * produce a nullness error: E may be a nullable type, and our nullness checker has Class's type
-   * parameter bounded to non-null types. To avoid that, we'd use Class<@Nonnull E> if we could.
-   * (Granted, this is only one of many nullness-checking problems that arise from letting
-   * FluentIterable support null elements, and most of the other produce outright unsoundness.)
-   */
-  @SuppressWarnings("nullness")
-  public final @Nullable E[] toArray(Class<E> type) {
-    return Iterables.toArray(getDelegate(), type);
+  public final E[] toArray(Class<@NonNull E> type) {
+    return Iterables.<E>toArray(getDelegate(), type);
   }
 
   /**
@@ -842,7 +824,6 @@ public abstract class FluentIterable<E extends @Nullable Object> implements Iter
    *
    * @since 18.0
    */
-  @Beta
   public final String join(Joiner joiner) {
     return joiner.join(this);
   }

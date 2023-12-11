@@ -52,6 +52,7 @@ import java.util.function.BiPredicate;
 import java.util.stream.Collector;
 import junit.framework.Test;
 import junit.framework.TestSuite;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Unit tests for {@link ImmutableSortedSet}.
@@ -234,6 +235,7 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
   }
 
   @GwtIncompatible // NullPointerTester
+  @AndroidIncompatible // see ImmutableTableTest.testNullPointerInstance
   public void testNullPointers() {
     new NullPointerTester().testAllPublicStaticMethods(ImmutableSortedSet.class);
   }
@@ -754,7 +756,7 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
         return Integer.compare(a, o.a);
       }
 
-      public boolean fullEquals(TypeWithDuplicates other) {
+      public boolean fullEquals(@Nullable TypeWithDuplicates other) {
         return other != null && a == other.a && b == other.b;
       }
     }
@@ -1006,7 +1008,7 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
     assertTrue(copy instanceof ImmutableSortedAsList);
   }
 
-  public void testAsListInconsistentComprator() {
+  public void testAsListInconsistentComparator() {
     ImmutableSet<String> set =
         ImmutableSortedSet.orderedBy(STRING_LENGTH)
             .add("in", "the", "quick", "jumped", "over", "a")

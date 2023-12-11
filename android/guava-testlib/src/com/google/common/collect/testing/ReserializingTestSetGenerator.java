@@ -35,7 +35,7 @@ public class ReserializingTestSetGenerator<E> extends ReserializingTestCollectio
   }
 
   public static <E> TestSetGenerator<E> newInstance(TestSetGenerator<E> delegate) {
-    return new ReserializingTestSetGenerator<E>(delegate);
+    return new ReserializingTestSetGenerator<>(delegate);
   }
 
   @Override

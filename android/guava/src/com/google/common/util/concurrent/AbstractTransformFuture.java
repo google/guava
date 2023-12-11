@@ -17,6 +17,7 @@ package com.google.common.util.concurrent;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.util.concurrent.Futures.getDone;
 import static com.google.common.util.concurrent.MoreExecutors.rejectionPropagatingExecutor;
+import static com.google.common.util.concurrent.Platform.restoreInterruptIfIsInterruptedException;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Function;
@@ -121,6 +122,7 @@ abstract class AbstractTransformFuture<
     try {
       transformResult = doTransform(localFunction, sourceResult);
     } catch (Throwable t) {
+      restoreInterruptIfIsInterruptedException(t);
       // This exception is irrelevant in this thread, but useful for the client.
       setException(t);
       return;

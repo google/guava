@@ -51,8 +51,7 @@ public class AbstractIteratorTest extends TestCase {
               case 2:
                 return endOfData();
               default:
-                fail("Should not have been invoked again");
-                return null;
+                throw new AssertionError("Should not have been invoked again");
             }
           }
         };
@@ -97,8 +96,7 @@ public class AbstractIteratorTest extends TestCase {
               case 2:
                 return endOfData();
               default:
-                fail("Should not have been invoked again");
-                return null;
+                throw new AssertionError("Should not have been invoked again");
             }
           }
         };
@@ -139,6 +137,7 @@ public class AbstractIteratorTest extends TestCase {
 
 
   @GwtIncompatible // weak references
+  @AndroidIncompatible // depends on details of GC
   public void testFreesNextReference() {
     Iterator<Object> itr =
         new AbstractIterator<Object>() {
@@ -188,12 +187,12 @@ public class AbstractIteratorTest extends TestCase {
           @Override
           public Integer computeNext() {
             if (haveBeenCalled) {
-              fail("Should not have been called again");
+              throw new AssertionError("Should not have been called again");
             } else {
               haveBeenCalled = true;
               sneakyThrow(new SomeCheckedException());
+              throw new AssertionError(); // unreachable
             }
-            return null; // never reached
           }
         };
 
@@ -250,6 +249,7 @@ public class AbstractIteratorTest extends TestCase {
     }
   }
 
+  @SuppressWarnings("DoNotCall")
   public void testCantRemove() {
     Iterator<Integer> iter =
         new AbstractIterator<Integer>() {
@@ -280,7 +280,7 @@ public class AbstractIteratorTest extends TestCase {
           @Override
           protected Integer computeNext() {
             boolean unused = hasNext();
-            return null;
+            throw new AssertionError();
           }
         };
     try {
@@ -294,7 +294,7 @@ public class AbstractIteratorTest extends TestCase {
   // hasNext/next/peek), but we'll cop out for now, knowing that peek() and
   // next() both start by invoking hasNext() anyway.
 
-  /** Throws a undeclared checked exception. */
+  /** Throws an undeclared checked exception. */
   private static void sneakyThrow(Throwable t) {
     class SneakyThrower<T extends Throwable> {
       @SuppressWarnings("unchecked") // not really safe, but that's the point

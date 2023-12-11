@@ -19,12 +19,15 @@ package com.google.common.util.concurrent;
 import static com.google.common.collect.Sets.newHashSet;
 
 import java.util.Set;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** Emulation of AggregateFutureState. */
-abstract class AggregateFutureState<OutputT> extends AbstractFuture.TrustedFuture<OutputT> {
+@ElementTypesAreNonnullByDefault
+abstract class AggregateFutureState<OutputT extends @Nullable Object>
+    extends AbstractFuture.TrustedFuture<OutputT> {
   // Lazily initialized the first time we see an exception; not released until all the input futures
   // & this future completes. Released when the future releases the reference to the running state
-  private Set<Throwable> seenExceptions = null;
+  private @Nullable Set<Throwable> seenExceptions = null;
   private int remaining;
 
   AggregateFutureState(int remainingFutures) {

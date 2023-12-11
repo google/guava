@@ -35,6 +35,7 @@ import java.util.concurrent.FutureTask;
 import java.util.concurrent.TimeUnit;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Generated tests for {@link Monitor}.
@@ -46,7 +47,6 @@ import junit.framework.TestSuite;
  *
  * @author Justin T. Sampson
  */
-
 public class GeneratedMonitorTest extends TestCase {
 
   public static TestSuite suite() {
@@ -461,7 +461,11 @@ public class GeneratedMonitorTest extends TestCase {
   private final CountDownLatch callCompletedLatch;
 
   private GeneratedMonitorTest(
-      Method method, Scenario scenario, boolean fair, Timeout timeout, Outcome expectedOutcome) {
+      Method method,
+      Scenario scenario,
+      boolean fair,
+      @Nullable Timeout timeout,
+      Outcome expectedOutcome) {
     super(nameFor(method, scenario, fair, timeout, expectedOutcome));
     this.method = method;
     this.scenario = scenario;
@@ -495,7 +499,7 @@ public class GeneratedMonitorTest extends TestCase {
             runChosenTest();
           }
         };
-    final FutureTask<Void> task = new FutureTask<>(runChosenTest, null);
+    final FutureTask<@Nullable Void> task = new FutureTask<>(runChosenTest, null);
     startThread(
         new Runnable() {
           @Override

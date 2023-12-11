@@ -16,7 +16,6 @@ package com.google.common.base;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.DoNotMock;
 import java.io.Serializable;
@@ -51,6 +50,9 @@ import javax.annotation.CheckForNull;
  *
  * <p>This class is not intended as a direct analogue of any existing "option" or "maybe" construct
  * from other programming environments, though it may bear some similarities.
+ *
+ * <p>An instance of this class is serializable if its reference is absent or is a serializable
+ * object.
  *
  * <p><b>Comparison to {@code java.util.Optional} (JDK 8 and higher):</b> A new {@code Optional}
  * class was added for Java 8. The two classes are extremely similar, but incompatible (they cannot
@@ -197,7 +199,6 @@ public abstract class Optional<T> implements Serializable {
    * @throws NullPointerException if this optional's value is absent and the supplier returns {@code
    *     null}
    */
-  @Beta
   public abstract T or(Supplier<? extends T> supplier);
 
   /**
@@ -289,7 +290,6 @@ public abstract class Optional<T> implements Serializable {
    *
    * @since 11.0 (generics widened in 13.0)
    */
-  @Beta
   public static <T> Iterable<T> presentInstances(
       final Iterable<? extends Optional<? extends T>> optionals) {
     checkNotNull(optionals);

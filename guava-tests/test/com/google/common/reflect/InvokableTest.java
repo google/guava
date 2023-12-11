@@ -17,6 +17,7 @@
 package com.google.common.reflect;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
@@ -49,9 +50,9 @@ public class InvokableTest extends TestCase {
   public void testApiCompatibleWithAccessibleObject() {
     ImmutableSet<String> invokableMethods =
         publicMethodSignatures(Invokable.class, ImmutableSet.<String>of());
-    ImmutableSet<String> accesibleObjectMethods =
+    ImmutableSet<String> accessibleObjectMethods =
         publicMethodSignatures(AccessibleObject.class, ImmutableSet.of("canAccess"));
-    assertThat(invokableMethods).containsAtLeastElementsIn(accesibleObjectMethods);
+    assertThat(invokableMethods).containsAtLeastElementsIn(accessibleObjectMethods);
     Class<?> genericDeclaration;
     try {
       genericDeclaration = Class.forName("java.lang.reflect.GenericDeclaration");
@@ -285,11 +286,7 @@ public class InvokableTest extends TestCase {
 
   public void testConstructor_invalidReturning() throws Exception {
     Invokable<?, Prepender> delegate = Prepender.constructor(String.class, int.class);
-    try {
-      delegate.returning(SubPrepender.class);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> delegate.returning(SubPrepender.class));
   }
 
   public void testStaticMethod_returnType() throws Exception {
@@ -352,11 +349,9 @@ public class InvokableTest extends TestCase {
 
   public void testStaticMethod_invalidReturning() throws Exception {
     Invokable<?, Object> delegate = Prepender.method("prepend", String.class, Iterable.class);
-    try {
-      delegate.returning(new TypeToken<Iterable<Integer>>() {});
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> delegate.returning(new TypeToken<Iterable<Integer>>() {}));
   }
 
   public void testInstanceMethod_returnType() throws Exception {
@@ -414,11 +409,9 @@ public class InvokableTest extends TestCase {
 
   public void testInstanceMethod_invalidReturning() throws Exception {
     Invokable<?, Object> delegate = Prepender.method("prepend", Iterable.class);
-    try {
-      delegate.returning(new TypeToken<Iterable<Integer>>() {});
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> delegate.returning(new TypeToken<Iterable<Integer>>() {}));
   }
 
   public void testPrivateInstanceMethod_isOverridable() throws Exception {
@@ -453,7 +446,7 @@ public class InvokableTest extends TestCase {
 
   static class Foo {}
 
-  public void testConstructor_isOverridablel() throws Exception {
+  public void testConstructor_isOverridable() throws Exception {
     Invokable<?, ?> delegate = Invokable.from(Foo.class.getDeclaredConstructor());
     assertFalse(delegate.isOverridable());
     assertFalse(delegate.isVarArgs());
@@ -601,7 +594,7 @@ public class InvokableTest extends TestCase {
   }
 
   public void testAnonymousClassInConstructor() {
-    new AnonymousClassInConstructor();
+    AnonymousClassInConstructor unused = new AnonymousClassInConstructor();
   }
 
   private static class AnonymousClassInConstructor {
@@ -621,7 +614,7 @@ public class InvokableTest extends TestCase {
   }
 
   public void testLocalClassInInstanceInitializer() {
-    new LocalClassInInstanceInitializer();
+    LocalClassInInstanceInitializer unused = new LocalClassInInstanceInitializer();
   }
 
   private static class LocalClassInInstanceInitializer {
@@ -633,7 +626,7 @@ public class InvokableTest extends TestCase {
   }
 
   public void testLocalClassInStaticInitializer() {
-    new LocalClassInStaticInitializer();
+    LocalClassInStaticInitializer unused = new LocalClassInStaticInitializer();
   }
 
   private static class LocalClassInStaticInitializer {
@@ -645,7 +638,8 @@ public class InvokableTest extends TestCase {
   }
 
   public void testLocalClassWithSeeminglyHiddenThisInStaticInitializer_BUG() {
-    new LocalClassWithSeeminglyHiddenThisInStaticInitializer();
+    LocalClassWithSeeminglyHiddenThisInStaticInitializer unused =
+        new LocalClassWithSeeminglyHiddenThisInStaticInitializer();
   }
 
   /**
@@ -732,7 +726,7 @@ public class InvokableTest extends TestCase {
     private final String prefix;
     private final int times;
 
-    Prepender(@NotBlank String prefix, int times) throws NullPointerException {
+    Prepender(@NotBlank @Nullable String prefix, int times) throws NullPointerException {
       this.prefix = prefix;
       this.times = times;
     }

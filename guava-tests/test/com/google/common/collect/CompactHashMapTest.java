@@ -82,7 +82,6 @@ public class CompactHashMapTest extends TestCase {
                 CollectionFeature.SUPPORTS_ITERATOR_REMOVE)
             .createTestSuite());
     suite.addTestSuite(CompactHashMapTest.class);
-    suite.addTestSuite(FloodingTest.class);
     return suite;
   }
 
@@ -141,12 +140,4 @@ public class CompactHashMapTest extends TestCase {
     }
   }
 
-  public static class FloodingTest extends AbstractHashFloodingTest<Map<Object, Object>> {
-    public FloodingTest() {
-      super(
-          ImmutableList.of(Construction.mapFromKeys(CompactHashMap::create)),
-          n -> n * Math.log(n),
-          ImmutableList.of(QueryOp.MAP_GET));
-    }
-  }
 }

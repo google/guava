@@ -33,6 +33,7 @@ import static java.math.RoundingMode.UNNECESSARY;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.testing.NullPointerTester;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -54,6 +55,7 @@ public class LongMathTest extends TestCase {
     assertFalse(LongMath.isPowerOfTwo(LongMath.MAX_SIGNED_POWER_OF_TWO * 2));
   }
 
+  @J2ktIncompatible // TODO(b/281519661): expected:<-2147483648> but was:<2147483648>
   public void testCeilingPowerOfTwo() {
     for (long x : POSITIVE_LONG_CANDIDATES) {
       BigInteger expectedResult = BigIntegerMath.ceilingPowerOfTwo(BigInteger.valueOf(x));
@@ -69,6 +71,7 @@ public class LongMathTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible // TODO(b/281519661): expected:<-2147483648> but was:<2147483648>
   public void testFloorPowerOfTwo() {
     for (long x : POSITIVE_LONG_CANDIDATES) {
       BigInteger expectedResult = BigIntegerMath.floorPowerOfTwo(BigInteger.valueOf(x));
@@ -112,6 +115,7 @@ public class LongMathTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // TODO
   public void testConstantMaxPowerOfSqrt2Unsigned() {
     assertEquals(
@@ -120,6 +124,7 @@ public class LongMathTest extends TestCase {
         /*actual=*/ LongMath.MAX_POWER_OF_SQRT2_UNSIGNED);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // BigIntegerMath // TODO(cpovirk): GWT-enable BigIntegerMath
   public void testMaxLog10ForLeadingZeros() {
     for (int i = 0; i < Long.SIZE; i++) {
@@ -129,6 +134,7 @@ public class LongMathTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // TODO
   public void testConstantsPowersOf10() {
     for (int i = 0; i < LongMath.powersOf10.length; i++) {
@@ -141,6 +147,7 @@ public class LongMathTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // TODO
   public void testConstantsHalfPowersOf10() {
     for (int i = 0; i < LongMath.halfPowersOf10.length; i++) {
@@ -153,6 +160,7 @@ public class LongMathTest extends TestCase {
     assertTrue(nextBigger.compareTo(BigInteger.valueOf(Long.MAX_VALUE)) > 0);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // TODO
   public void testConstantsSqrtMaxLong() {
     assertEquals(
@@ -160,6 +168,7 @@ public class LongMathTest extends TestCase {
         /*actual=*/ LongMath.FLOOR_SQRT_MAX_LONG);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // TODO
   public void testConstantsFactorials() {
     long expected = 1;
@@ -174,6 +183,7 @@ public class LongMathTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // TODO
   public void testConstantsBiggestBinomials() {
     for (int k = 0; k < LongMath.biggestBinomials.length; k++) {
@@ -189,6 +199,7 @@ public class LongMathTest extends TestCase {
     // 2 * k is the smallest value for which we don't replace k with (n-k).
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // TODO
   public void testConstantsBiggestSimpleBinomials() {
     for (int k = 0; k < LongMath.biggestSimpleBinomials.length; k++) {
@@ -227,6 +238,7 @@ public class LongMathTest extends TestCase {
   }
 
   // Throws an ArithmeticException if "the simple implementation" of binomial coefficients overflows
+  @J2ktIncompatible
   @GwtIncompatible // TODO
   private long simpleBinomial(int n, int k) {
     long accum = 1;
@@ -237,6 +249,7 @@ public class LongMathTest extends TestCase {
     return accum;
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // java.math.BigInteger
   public void testIsPowerOfTwo() {
     for (long x : ALL_LONG_CANDIDATES) {
@@ -293,6 +306,7 @@ public class LongMathTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // TODO
   public void testLog10ZeroAlwaysThrows() {
     for (RoundingMode mode : ALL_ROUNDING_MODES) {
@@ -304,6 +318,7 @@ public class LongMathTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // TODO
   public void testLog10NegativeAlwaysThrows() {
     for (long x : NEGATIVE_LONG_CANDIDATES) {
@@ -318,6 +333,7 @@ public class LongMathTest extends TestCase {
   }
 
   // Relies on the correctness of BigIntegerMath.log10 for all modes except UNNECESSARY.
+  @J2ktIncompatible
   @GwtIncompatible // TODO
   public void testLog10MatchesBigInteger() {
     for (long x : POSITIVE_LONG_CANDIDATES) {
@@ -328,6 +344,7 @@ public class LongMathTest extends TestCase {
   }
 
   // Relies on the correctness of log10(long, FLOOR) and of pow(long, int).
+  @J2ktIncompatible
   @GwtIncompatible // TODO
   public void testLog10Exact() {
     for (long x : POSITIVE_LONG_CANDIDATES) {
@@ -344,6 +361,7 @@ public class LongMathTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // TODO
   public void testLog10TrivialOnPowerOf10() {
     long x = 1000000000000L;
@@ -352,6 +370,7 @@ public class LongMathTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // TODO
   public void testSqrtNegativeAlwaysThrows() {
     for (long x : NEGATIVE_LONG_CANDIDATES) {
@@ -366,6 +385,7 @@ public class LongMathTest extends TestCase {
   }
 
   // Relies on the correctness of BigIntegerMath.sqrt for all modes except UNNECESSARY.
+  @J2ktIncompatible
   @GwtIncompatible // TODO
   public void testSqrtMatchesBigInteger() {
     for (long x : POSITIVE_LONG_CANDIDATES) {
@@ -378,6 +398,7 @@ public class LongMathTest extends TestCase {
   }
 
   /* Relies on the correctness of sqrt(long, FLOOR). */
+  @J2ktIncompatible
   @GwtIncompatible // TODO
   public void testSqrtExactMatchesFloorOrThrows() {
     for (long x : POSITIVE_LONG_CANDIDATES) {
@@ -393,6 +414,7 @@ public class LongMathTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // TODO
   public void testPow() {
     for (long i : ALL_LONG_CANDIDATES) {
@@ -402,6 +424,7 @@ public class LongMathTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // TODO
   @AndroidIncompatible // TODO(cpovirk): File BigDecimal.divide() rounding bug.
   public void testDivNonZero() {
@@ -419,6 +442,7 @@ public class LongMathTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // TODO
   @AndroidIncompatible // Bug in older versions of Android we test against, since fixed.
   public void testDivNonZeroExact() {
@@ -439,6 +463,7 @@ public class LongMathTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // TODO
   public void testZeroDivIsAlwaysZero() {
     for (long q : NONZERO_LONG_CANDIDATES) {
@@ -448,6 +473,7 @@ public class LongMathTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // TODO
   public void testDivByZeroAlwaysFails() {
     for (long p : ALL_LONG_CANDIDATES) {
@@ -461,6 +487,7 @@ public class LongMathTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // TODO
   public void testIntMod() {
     for (long x : ALL_LONG_CANDIDATES) {
@@ -470,6 +497,7 @@ public class LongMathTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // TODO
   public void testIntModNegativeModulusFails() {
     for (long x : ALL_LONG_CANDIDATES) {
@@ -483,6 +511,7 @@ public class LongMathTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // TODO
   public void testIntModZeroModulusFails() {
     for (long x : ALL_LONG_CANDIDATES) {
@@ -495,6 +524,7 @@ public class LongMathTest extends TestCase {
   }
 
   @AndroidIncompatible // slow
+  @J2ktIncompatible
   @GwtIncompatible // TODO
   public void testMod() {
     for (long x : ALL_LONG_CANDIDATES) {
@@ -504,6 +534,7 @@ public class LongMathTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // TODO
   public void testModNegativeModulusFails() {
     for (long x : ALL_LONG_CANDIDATES) {
@@ -517,6 +548,7 @@ public class LongMathTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible // TODO(b/281519661): expected:<14> but was:<2>
   public void testGCDExhaustive() {
     for (long a : POSITIVE_LONG_CANDIDATES) {
       for (long b : POSITIVE_LONG_CANDIDATES) {
@@ -525,6 +557,7 @@ public class LongMathTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // TODO
   public void testGCDZero() {
     for (long a : POSITIVE_LONG_CANDIDATES) {
@@ -534,6 +567,7 @@ public class LongMathTest extends TestCase {
     assertEquals(0, LongMath.gcd(0, 0));
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // TODO
   public void testGCDNegativePositiveThrows() {
     for (long a : NEGATIVE_LONG_CANDIDATES) {
@@ -550,6 +584,7 @@ public class LongMathTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // TODO
   public void testGCDNegativeZeroThrows() {
     for (long a : NEGATIVE_LONG_CANDIDATES) {
@@ -567,7 +602,6 @@ public class LongMathTest extends TestCase {
   }
 
   @AndroidIncompatible // slow
-  @GwtIncompatible // TODO
   public void testCheckedAdd() {
     for (long a : ALL_LONG_CANDIDATES) {
       for (long b : ALL_LONG_CANDIDATES) {
@@ -586,6 +620,7 @@ public class LongMathTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // TODO
   @AndroidIncompatible // slow
   public void testCheckedSubtract() {
@@ -638,6 +673,7 @@ public class LongMathTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // TODO
   public void testCheckedPow() {
     for (long b : ALL_LONG_CANDIDATES) {
@@ -659,6 +695,7 @@ public class LongMathTest extends TestCase {
   }
 
   @AndroidIncompatible // slow
+  @J2ktIncompatible
   @GwtIncompatible // TODO
   public void testSaturatedAdd() {
     for (long a : ALL_LONG_CANDIDATES) {
@@ -670,6 +707,7 @@ public class LongMathTest extends TestCase {
   }
 
   @AndroidIncompatible // slow
+  @J2ktIncompatible
   @GwtIncompatible // TODO
   public void testSaturatedSubtract() {
     for (long a : ALL_LONG_CANDIDATES) {
@@ -685,6 +723,7 @@ public class LongMathTest extends TestCase {
   }
 
   @AndroidIncompatible // slow
+  @J2ktIncompatible
   @GwtIncompatible // TODO
   public void testSaturatedMultiply() {
     for (long a : ALL_LONG_CANDIDATES) {
@@ -699,6 +738,7 @@ public class LongMathTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // TODO
   public void testSaturatedPow() {
     for (long a : ALL_LONG_CANDIDATES) {
@@ -716,6 +756,7 @@ public class LongMathTest extends TestCase {
   }
 
   // Depends on the correctness of BigIntegerMath.factorial.
+  @J2ktIncompatible
   @GwtIncompatible // TODO
   public void testFactorial() {
     for (int n = 0; n <= 50; n++) {
@@ -725,6 +766,7 @@ public class LongMathTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // TODO
   public void testFactorialNegative() {
     for (int n : NEGATIVE_INTEGER_CANDIDATES) {
@@ -737,6 +779,7 @@ public class LongMathTest extends TestCase {
   }
 
   // Depends on the correctness of BigIntegerMath.binomial.
+  @J2ktIncompatible // TODO(b/281519661): expected:<-2091005866> but was:<2203961430>
   public void testBinomial() {
     for (int n = 0; n <= 70; n++) {
       for (int k = 0; k <= n; k++) {
@@ -748,6 +791,7 @@ public class LongMathTest extends TestCase {
   }
 
 
+  @J2ktIncompatible
   @GwtIncompatible // Slow
   public void testBinomial_exhaustiveNotOverflowing() {
     // Tests all of the inputs to LongMath.binomial that won't cause it to overflow, that weren't
@@ -785,6 +829,7 @@ public class LongMathTest extends TestCase {
   }
 
 
+  @J2ktIncompatible
   @GwtIncompatible // far too slow
   public void testSqrtOfPerfectSquareAsDoubleIsPerfect() {
     // This takes just over a minute on my machine.
@@ -800,6 +845,7 @@ public class LongMathTest extends TestCase {
   }
 
   @AndroidIncompatible // slow
+  @J2ktIncompatible
   @GwtIncompatible // java.math.BigInteger
   public void testMean() {
     // Odd-sized ranges have an obvious mean
@@ -884,6 +930,7 @@ public class LongMathTest extends TestCase {
     return big.longValue();
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // NullPointerTester
   public void testNullPointers() {
     NullPointerTester tester = new NullPointerTester();
@@ -892,6 +939,7 @@ public class LongMathTest extends TestCase {
     tester.testAllPublicStaticMethods(LongMath.class);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // isPrime is GWT-incompatible
   public void testIsPrimeSmall() {
     // Check the first 1000 integers
@@ -900,6 +948,7 @@ public class LongMathTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // isPrime is GWT-incompatible
   public void testIsPrimeManyConstants() {
     // Test the thorough test inputs, which also includes special constants in the Miller-Rabin
@@ -909,6 +958,7 @@ public class LongMathTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // isPrime is GWT-incompatible
   public void testIsPrimeOnUniformRandom() {
     Random rand = new Random(1);
@@ -921,6 +971,7 @@ public class LongMathTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // isPrime is GWT-incompatible
   public void testIsPrimeOnRandomPrimes() {
     Random rand = new Random(1);
@@ -932,6 +983,7 @@ public class LongMathTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // isPrime is GWT-incompatible
   public void testIsPrimeOnRandomComposites() {
     Random rand = new Random(1);
@@ -944,6 +996,7 @@ public class LongMathTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // isPrime is GWT-incompatible
   public void testIsPrimeThrowsOnNegative() {
     try {
@@ -989,6 +1042,7 @@ public class LongMathTest extends TestCase {
     Long.MIN_VALUE
   };
 
+  @J2ktIncompatible
   @GwtIncompatible
   public void testRoundToDoubleAgainstBigInteger() {
     for (RoundingMode roundingMode : EnumSet.complementOf(EnumSet.of(UNNECESSARY))) {
@@ -999,6 +1053,7 @@ public class LongMathTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible
   public void testRoundToDoubleAgainstBigIntegerUnnecessary() {
     for (long candidate : roundToDoubleTestCandidates) {

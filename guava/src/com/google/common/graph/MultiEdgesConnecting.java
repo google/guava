@@ -48,7 +48,7 @@ abstract class MultiEdgesConnecting<E> extends AbstractSet<E> {
 
   @Override
   public UnmodifiableIterator<E> iterator() {
-    final Iterator<? extends Entry<E, ?>> entries = outEdgeToNode.entrySet().iterator();
+    Iterator<? extends Entry<E, ?>> entries = outEdgeToNode.entrySet().iterator();
     return new AbstractIterator<E>() {
       @Override
       @CheckForNull

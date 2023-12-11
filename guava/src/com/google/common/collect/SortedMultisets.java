@@ -128,7 +128,7 @@ final class SortedMultisets {
 
     @Override
     public NavigableSet<E> descendingSet() {
-      return new NavigableElementSet<E>(multiset().descendingMultiset());
+      return new NavigableElementSet<>(multiset().descendingMultiset());
     }
 
     @Override
@@ -154,7 +154,7 @@ final class SortedMultisets {
         boolean fromInclusive,
         @ParametricNullness E toElement,
         boolean toInclusive) {
-      return new NavigableElementSet<E>(
+      return new NavigableElementSet<>(
           multiset()
               .subMultiset(
                   fromElement, BoundType.forBoolean(fromInclusive),
@@ -163,13 +163,13 @@ final class SortedMultisets {
 
     @Override
     public NavigableSet<E> headSet(@ParametricNullness E toElement, boolean inclusive) {
-      return new NavigableElementSet<E>(
+      return new NavigableElementSet<>(
           multiset().headMultiset(toElement, BoundType.forBoolean(inclusive)));
     }
 
     @Override
     public NavigableSet<E> tailSet(@ParametricNullness E fromElement, boolean inclusive) {
-      return new NavigableElementSet<E>(
+      return new NavigableElementSet<>(
           multiset().tailMultiset(fromElement, BoundType.forBoolean(inclusive)));
     }
   }

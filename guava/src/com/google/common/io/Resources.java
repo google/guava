@@ -17,8 +17,8 @@ package com.google.common.io;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Charsets;
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.Lists;
@@ -36,14 +36,12 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * methods use {@link URL} parameters, they are usually not appropriate for HTTP or other
  * non-classpath resources.
  *
- * <p>All method parameters must be non-null unless documented otherwise.
- *
  * @author Chris Nokleberg
  * @author Ben Yu
  * @author Colin Decker
  * @since 1.0
  */
-@Beta
+@J2ktIncompatible
 @GwtIncompatible
 @ElementTypesAreNonnullByDefault
 public final class Resources {

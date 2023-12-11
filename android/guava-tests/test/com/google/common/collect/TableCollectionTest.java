@@ -35,17 +35,16 @@ import com.google.common.collect.testing.TestStringSortedSetGenerator;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.Feature;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.SortedMap;
 import java.util.SortedSet;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Collection tests for {@link Table} implementations.
@@ -78,35 +77,6 @@ public class TableCollectionTest extends TestCase {
   @GwtIncompatible // suite
   public static Test suite() {
     TestSuite suite = new TestSuite();
-    suite.addTestSuite(ArrayRowTests.class);
-    suite.addTestSuite(HashRowTests.class);
-    suite.addTestSuite(TreeRowTests.class);
-    suite.addTestSuite(TransposeRowTests.class);
-    suite.addTestSuite(TransformValueRowTests.class);
-    suite.addTestSuite(UnmodifiableHashRowTests.class);
-    suite.addTestSuite(UnmodifiableTreeRowTests.class);
-    suite.addTestSuite(ArrayColumnTests.class);
-    suite.addTestSuite(HashColumnTests.class);
-    suite.addTestSuite(TreeColumnTests.class);
-    suite.addTestSuite(TransposeColumnTests.class);
-    suite.addTestSuite(TransformValueColumnTests.class);
-    suite.addTestSuite(UnmodifiableHashColumnTests.class);
-    suite.addTestSuite(UnmodifiableTreeColumnTests.class);
-    suite.addTestSuite(ArrayRowMapTests.class);
-    suite.addTestSuite(HashRowMapTests.class);
-    suite.addTestSuite(TreeRowMapTests.class);
-    suite.addTestSuite(TreeRowMapHeadMapTests.class);
-    suite.addTestSuite(TreeRowMapTailMapTests.class);
-    suite.addTestSuite(TreeRowMapSubMapTests.class);
-    suite.addTestSuite(TransformValueRowMapTests.class);
-    suite.addTestSuite(UnmodifiableHashRowMapTests.class);
-    suite.addTestSuite(UnmodifiableTreeRowMapTests.class);
-    suite.addTestSuite(ArrayColumnMapTests.class);
-    suite.addTestSuite(HashColumnMapTests.class);
-    suite.addTestSuite(TreeColumnMapTests.class);
-    suite.addTestSuite(TransformValueColumnMapTests.class);
-    suite.addTestSuite(UnmodifiableHashColumnMapTests.class);
-    suite.addTestSuite(UnmodifiableTreeColumnMapTests.class);
 
     // Not testing rowKeySet() or columnKeySet() of Table.transformValues()
     // since the transformation doesn't affect the row and column key sets.
@@ -770,7 +740,7 @@ public class TableCollectionTest extends TestCase {
     }
   }
 
-  private abstract static class RowTests extends MapTests {
+  abstract static class RowTests extends MapTests {
     RowTests(
         boolean allowsNullValues,
         boolean supportsPut,
@@ -798,138 +768,15 @@ public class TableCollectionTest extends TestCase {
     }
   }
 
-  @GwtIncompatible // TODO(hhchan): ArrayTable
-  public static class ArrayRowTests extends RowTests {
-    public ArrayRowTests() {
-      super(true, true, false, false, false);
-    }
-
-    @Override
-    protected String getKeyNotInPopulatedMap() {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    protected Map<String, Integer> makeEmptyMap() {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    protected Table<Character, String, Integer> makeTable() {
-      return ArrayTable.create(
-          Arrays.asList('a', 'b', 'c'), Arrays.asList("one", "two", "three", "four"));
-    }
-  }
-
-  public static class HashRowTests extends RowTests {
-    public HashRowTests() {
-      super(false, true, true, true, true);
-    }
-
-    @Override
-    Table<Character, String, Integer> makeTable() {
-      return HashBasedTable.create();
-    }
-  }
-
-  public static class TreeRowTests extends RowTests {
-    public TreeRowTests() {
-      super(false, true, true, true, true);
-    }
-
-    @Override
-    Table<Character, String, Integer> makeTable() {
-      return TreeBasedTable.create();
-    }
-  }
-
-  public static class TransposeRowTests extends RowTests {
-    public TransposeRowTests() {
-      super(false, true, true, true, false);
-    }
-
-    @Override
-    Table<Character, String, Integer> makeTable() {
-      Table<String, Character, Integer> original = TreeBasedTable.create();
-      return Tables.transpose(original);
-    }
-  }
-
-  private static final Function<Integer, Integer> DIVIDE_BY_2 =
-      new Function<Integer, Integer>() {
+  static final Function<@Nullable Integer, @Nullable Integer> DIVIDE_BY_2 =
+      new Function<@Nullable Integer, @Nullable Integer>() {
         @Override
-        public Integer apply(Integer input) {
+        public @Nullable Integer apply(@Nullable Integer input) {
           return (input == null) ? null : input / 2;
         }
       };
 
-  public static class TransformValueRowTests extends RowTests {
-    public TransformValueRowTests() {
-      super(false, false, true, true, true);
-    }
-
-    @Override
-    Table<Character, String, Integer> makeTable() {
-      Table<Character, String, Integer> table = HashBasedTable.create();
-      return Tables.transformValues(table, DIVIDE_BY_2);
-    }
-
-    @Override
-    protected Map<String, Integer> makePopulatedMap() {
-      Table<Character, String, Integer> table = HashBasedTable.create();
-      table.put('a', "one", 2);
-      table.put('a', "two", 4);
-      table.put('a', "three", 6);
-      table.put('b', "four", 8);
-      return Tables.transformValues(table, DIVIDE_BY_2).row('a');
-    }
-  }
-
-  public static class UnmodifiableHashRowTests extends RowTests {
-    public UnmodifiableHashRowTests() {
-      super(false, false, false, false, false);
-    }
-
-    @Override
-    Table<Character, String, Integer> makeTable() {
-      Table<Character, String, Integer> table = HashBasedTable.create();
-      return Tables.unmodifiableTable(table);
-    }
-
-    @Override
-    protected Map<String, Integer> makePopulatedMap() {
-      Table<Character, String, Integer> table = HashBasedTable.create();
-      table.put('a', "one", 1);
-      table.put('a', "two", 2);
-      table.put('a', "three", 3);
-      table.put('b', "four", 4);
-      return Tables.unmodifiableTable(table).row('a');
-    }
-  }
-
-  public static class UnmodifiableTreeRowTests extends RowTests {
-    public UnmodifiableTreeRowTests() {
-      super(false, false, false, false, false);
-    }
-
-    @Override
-    Table<Character, String, Integer> makeTable() {
-      RowSortedTable<Character, String, Integer> table = TreeBasedTable.create();
-      return Tables.unmodifiableRowSortedTable(table);
-    }
-
-    @Override
-    protected Map<String, Integer> makePopulatedMap() {
-      RowSortedTable<Character, String, Integer> table = TreeBasedTable.create();
-      table.put('a', "one", 1);
-      table.put('a', "two", 2);
-      table.put('a', "three", 3);
-      table.put('b', "four", 4);
-      return Tables.unmodifiableRowSortedTable(table).row('a');
-    }
-  }
-
-  private abstract static class ColumnTests extends MapTests {
+  abstract static class ColumnTests extends MapTests {
     ColumnTests(
         boolean allowsNullValues,
         boolean supportsPut,
@@ -954,129 +801,6 @@ public class TableCollectionTest extends TestCase {
       table.put("three", 'a', 3);
       table.put("four", 'b', 4);
       return table.column('a');
-    }
-  }
-
-  @GwtIncompatible // TODO(hhchan): ArrayTable
-  public static class ArrayColumnTests extends ColumnTests {
-    public ArrayColumnTests() {
-      super(true, true, false, false, false);
-    }
-
-    @Override
-    protected String getKeyNotInPopulatedMap() {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    protected Map<String, Integer> makeEmptyMap() {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    Table<String, Character, Integer> makeTable() {
-      return ArrayTable.create(
-          Arrays.asList("one", "two", "three", "four"), Arrays.asList('a', 'b', 'c'));
-    }
-  }
-
-  public static class HashColumnTests extends ColumnTests {
-    public HashColumnTests() {
-      super(false, true, true, true, false);
-    }
-
-    @Override
-    Table<String, Character, Integer> makeTable() {
-      return HashBasedTable.create();
-    }
-  }
-
-  public static class TreeColumnTests extends ColumnTests {
-    public TreeColumnTests() {
-      super(false, true, true, true, false);
-    }
-
-    @Override
-    Table<String, Character, Integer> makeTable() {
-      return TreeBasedTable.create();
-    }
-  }
-
-  public static class TransposeColumnTests extends ColumnTests {
-    public TransposeColumnTests() {
-      super(false, true, true, true, true);
-    }
-
-    @Override
-    Table<String, Character, Integer> makeTable() {
-      Table<Character, String, Integer> original = TreeBasedTable.create();
-      return Tables.transpose(original);
-    }
-  }
-
-  public static class TransformValueColumnTests extends ColumnTests {
-    public TransformValueColumnTests() {
-      super(false, false, true, true, false);
-    }
-
-    @Override
-    Table<String, Character, Integer> makeTable() {
-      Table<String, Character, Integer> table = HashBasedTable.create();
-      return Tables.transformValues(table, DIVIDE_BY_2);
-    }
-
-    @Override
-    protected Map<String, Integer> makePopulatedMap() {
-      Table<String, Character, Integer> table = HashBasedTable.create();
-      table.put("one", 'a', 1);
-      table.put("two", 'a', 2);
-      table.put("three", 'a', 3);
-      table.put("four", 'b', 4);
-      return Tables.transformValues(table, DIVIDE_BY_2).column('a');
-    }
-  }
-
-  public static class UnmodifiableHashColumnTests extends ColumnTests {
-    public UnmodifiableHashColumnTests() {
-      super(false, false, false, false, false);
-    }
-
-    @Override
-    Table<String, Character, Integer> makeTable() {
-      Table<String, Character, Integer> table = HashBasedTable.create();
-      return Tables.unmodifiableTable(table);
-    }
-
-    @Override
-    protected Map<String, Integer> makePopulatedMap() {
-      Table<String, Character, Integer> table = HashBasedTable.create();
-      table.put("one", 'a', 1);
-      table.put("two", 'a', 2);
-      table.put("three", 'a', 3);
-      table.put("four", 'b', 4);
-      return Tables.unmodifiableTable(table).column('a');
-    }
-  }
-
-  public static class UnmodifiableTreeColumnTests extends ColumnTests {
-    public UnmodifiableTreeColumnTests() {
-      super(false, false, false, false, false);
-    }
-
-    @Override
-    Table<String, Character, Integer> makeTable() {
-      RowSortedTable<String, Character, Integer> table = TreeBasedTable.create();
-      return Tables.unmodifiableRowSortedTable(table);
-    }
-
-    @Override
-    protected Map<String, Integer> makePopulatedMap() {
-      RowSortedTable<String, Character, Integer> table = TreeBasedTable.create();
-      table.put("one", 'a', 1);
-      table.put("two", 'a', 2);
-      table.put("three", 'a', 3);
-      table.put("four", 'b', 4);
-      return Tables.unmodifiableRowSortedTable(table).column('a');
     }
   }
 
@@ -1136,7 +860,7 @@ public class TableCollectionTest extends TestCase {
     }
   }
 
-  private abstract static class RowMapTests extends MapMapTests {
+  abstract static class RowMapTests extends MapMapTests {
     RowMapTests(
         boolean allowsNullValues,
         boolean supportsRemove,
@@ -1166,208 +890,15 @@ public class TableCollectionTest extends TestCase {
     }
   }
 
-  @GwtIncompatible // TODO(hhchan): ArrayTable
-  public static class ArrayRowMapTests extends RowMapTests {
-    public ArrayRowMapTests() {
-      super(true, false, false, false);
-    }
-
-    @Override
-    Table<String, Integer, Character> makeTable() {
-      return ArrayTable.create(Arrays.asList("foo", "bar", "dog"), Arrays.asList(1, 2, 3));
-    }
-
-    @Override
-    protected Map<String, Map<Integer, Character>> makeEmptyMap() {
-      throw new UnsupportedOperationException();
-    }
-  }
-
-  public static class HashRowMapTests extends RowMapTests {
-    public HashRowMapTests() {
-      super(false, true, true, true);
-    }
-
-    @Override
-    Table<String, Integer, Character> makeTable() {
-      return HashBasedTable.create();
-    }
-  }
-
-  public static class TreeRowMapTests extends RowMapTests {
-    public TreeRowMapTests() {
-      super(false, true, true, true);
-    }
-
-    @Override
-    Table<String, Integer, Character> makeTable() {
-      return TreeBasedTable.create();
-    }
-  }
-
-  public static class TreeRowMapHeadMapTests extends RowMapTests {
-    public TreeRowMapHeadMapTests() {
-      super(false, true, true, true);
-    }
-
-    @Override
-    TreeBasedTable<String, Integer, Character> makeTable() {
-      TreeBasedTable<String, Integer, Character> table = TreeBasedTable.create();
-      table.put("z", 1, 'a');
-      return table;
-    }
-
-    @Override
-    protected Map<String, Map<Integer, Character>> makePopulatedMap() {
-      TreeBasedTable<String, Integer, Character> table = makeTable();
-      populateTable(table);
-      return table.rowMap().headMap("x");
-    }
-
-    @Override
-    protected Map<String, Map<Integer, Character>> makeEmptyMap() {
-      return makeTable().rowMap().headMap("x");
-    }
-
-    @Override
-    protected String getKeyNotInPopulatedMap() {
-      return "z";
-    }
-  }
-
-  public static class TreeRowMapTailMapTests extends RowMapTests {
-    public TreeRowMapTailMapTests() {
-      super(false, true, true, true);
-    }
-
-    @Override
-    TreeBasedTable<String, Integer, Character> makeTable() {
-      TreeBasedTable<String, Integer, Character> table = TreeBasedTable.create();
-      table.put("a", 1, 'a');
-      return table;
-    }
-
-    @Override
-    protected Map<String, Map<Integer, Character>> makePopulatedMap() {
-      TreeBasedTable<String, Integer, Character> table = makeTable();
-      populateTable(table);
-      return table.rowMap().tailMap("b");
-    }
-
-    @Override
-    protected Map<String, Map<Integer, Character>> makeEmptyMap() {
-      return makeTable().rowMap().tailMap("b");
-    }
-
-    @Override
-    protected String getKeyNotInPopulatedMap() {
-      return "a";
-    }
-  }
-
-  public static class TreeRowMapSubMapTests extends RowMapTests {
-    public TreeRowMapSubMapTests() {
-      super(false, true, true, true);
-    }
-
-    @Override
-    TreeBasedTable<String, Integer, Character> makeTable() {
-      TreeBasedTable<String, Integer, Character> table = TreeBasedTable.create();
-      table.put("a", 1, 'a');
-      table.put("z", 1, 'a');
-      return table;
-    }
-
-    @Override
-    protected Map<String, Map<Integer, Character>> makePopulatedMap() {
-      TreeBasedTable<String, Integer, Character> table = makeTable();
-      populateTable(table);
-      return table.rowMap().subMap("b", "x");
-    }
-
-    @Override
-    protected Map<String, Map<Integer, Character>> makeEmptyMap() {
-      return makeTable().rowMap().subMap("b", "x");
-    }
-
-    @Override
-    protected String getKeyNotInPopulatedMap() {
-      return "z";
-    }
-  }
-
-  private static final Function<String, Character> FIRST_CHARACTER =
-      new Function<String, Character>() {
+  static final Function<@Nullable String, @Nullable Character> FIRST_CHARACTER =
+      new Function<@Nullable String, @Nullable Character>() {
         @Override
-        public Character apply(String input) {
+        public @Nullable Character apply(@Nullable String input) {
           return input == null ? null : input.charAt(0);
         }
       };
 
-  public static class TransformValueRowMapTests extends RowMapTests {
-    public TransformValueRowMapTests() {
-      super(false, true, true, true);
-    }
-
-    @Override
-    Table<String, Integer, Character> makeTable() {
-      Table<String, Integer, String> original = HashBasedTable.create();
-      return Tables.transformValues(original, FIRST_CHARACTER);
-    }
-
-    @Override
-    protected Map<String, Map<Integer, Character>> makePopulatedMap() {
-      Table<String, Integer, String> table = HashBasedTable.create();
-      table.put("foo", 1, "apple");
-      table.put("bar", 1, "banana");
-      table.put("foo", 3, "cat");
-      return Tables.transformValues(table, FIRST_CHARACTER).rowMap();
-    }
-  }
-
-  public static class UnmodifiableHashRowMapTests extends RowMapTests {
-    public UnmodifiableHashRowMapTests() {
-      super(false, false, false, false);
-    }
-
-    @Override
-    Table<String, Integer, Character> makeTable() {
-      Table<String, Integer, Character> original = HashBasedTable.create();
-      return Tables.unmodifiableTable(original);
-    }
-
-    @Override
-    protected Map<String, Map<Integer, Character>> makePopulatedMap() {
-      Table<String, Integer, Character> table = HashBasedTable.create();
-      table.put("foo", 1, 'a');
-      table.put("bar", 1, 'b');
-      table.put("foo", 3, 'c');
-      return Tables.unmodifiableTable(table).rowMap();
-    }
-  }
-
-  public static class UnmodifiableTreeRowMapTests extends RowMapTests {
-    public UnmodifiableTreeRowMapTests() {
-      super(false, false, false, false);
-    }
-
-    @Override
-    RowSortedTable<String, Integer, Character> makeTable() {
-      RowSortedTable<String, Integer, Character> original = TreeBasedTable.create();
-      return Tables.unmodifiableRowSortedTable(original);
-    }
-
-    @Override
-    protected SortedMap<String, Map<Integer, Character>> makePopulatedMap() {
-      RowSortedTable<String, Integer, Character> table = TreeBasedTable.create();
-      table.put("foo", 1, 'a');
-      table.put("bar", 1, 'b');
-      table.put("foo", 3, 'c');
-      return Tables.unmodifiableRowSortedTable(table).rowMap();
-    }
-  }
-
-  private abstract static class ColumnMapTests extends MapMapTests {
+  abstract static class ColumnMapTests extends MapMapTests {
     ColumnMapTests(
         boolean allowsNullValues,
         boolean supportsRemove,
@@ -1390,108 +921,6 @@ public class TableCollectionTest extends TestCase {
     @Override
     protected Map<String, Map<Integer, Character>> makeEmptyMap() {
       return makeTable().columnMap();
-    }
-  }
-
-  @GwtIncompatible // TODO(hhchan): ArrayTable
-  public static class ArrayColumnMapTests extends ColumnMapTests {
-    public ArrayColumnMapTests() {
-      super(true, false, false, false);
-    }
-
-    @Override
-    Table<Integer, String, Character> makeTable() {
-      return ArrayTable.create(Arrays.asList(1, 2, 3), Arrays.asList("foo", "bar", "dog"));
-    }
-
-    @Override
-    protected Map<String, Map<Integer, Character>> makeEmptyMap() {
-      throw new UnsupportedOperationException();
-    }
-  }
-
-  public static class HashColumnMapTests extends ColumnMapTests {
-    public HashColumnMapTests() {
-      super(false, true, true, false);
-    }
-
-    @Override
-    Table<Integer, String, Character> makeTable() {
-      return HashBasedTable.create();
-    }
-  }
-
-  public static class TreeColumnMapTests extends ColumnMapTests {
-    public TreeColumnMapTests() {
-      super(false, true, true, false);
-    }
-
-    @Override
-    Table<Integer, String, Character> makeTable() {
-      return TreeBasedTable.create();
-    }
-  }
-
-  public static class TransformValueColumnMapTests extends ColumnMapTests {
-    public TransformValueColumnMapTests() {
-      super(false, true, true, false);
-    }
-
-    @Override
-    Table<Integer, String, Character> makeTable() {
-      Table<Integer, String, String> original = HashBasedTable.create();
-      return Tables.transformValues(original, FIRST_CHARACTER);
-    }
-
-    @Override
-    protected Map<String, Map<Integer, Character>> makePopulatedMap() {
-      Table<Integer, String, String> table = HashBasedTable.create();
-      table.put(1, "foo", "apple");
-      table.put(1, "bar", "banana");
-      table.put(3, "foo", "cat");
-      return Tables.transformValues(table, FIRST_CHARACTER).columnMap();
-    }
-  }
-
-  public static class UnmodifiableHashColumnMapTests extends ColumnMapTests {
-    public UnmodifiableHashColumnMapTests() {
-      super(false, false, false, false);
-    }
-
-    @Override
-    Table<Integer, String, Character> makeTable() {
-      Table<Integer, String, Character> original = HashBasedTable.create();
-      return Tables.unmodifiableTable(original);
-    }
-
-    @Override
-    protected Map<String, Map<Integer, Character>> makePopulatedMap() {
-      Table<Integer, String, Character> table = HashBasedTable.create();
-      table.put(1, "foo", 'a');
-      table.put(1, "bar", 'b');
-      table.put(3, "foo", 'c');
-      return Tables.unmodifiableTable(table).columnMap();
-    }
-  }
-
-  public static class UnmodifiableTreeColumnMapTests extends ColumnMapTests {
-    public UnmodifiableTreeColumnMapTests() {
-      super(false, false, false, false);
-    }
-
-    @Override
-    Table<Integer, String, Character> makeTable() {
-      RowSortedTable<Integer, String, Character> original = TreeBasedTable.create();
-      return Tables.unmodifiableRowSortedTable(original);
-    }
-
-    @Override
-    protected Map<String, Map<Integer, Character>> makePopulatedMap() {
-      RowSortedTable<Integer, String, Character> table = TreeBasedTable.create();
-      table.put(1, "foo", 'a');
-      table.put(1, "bar", 'b');
-      table.put(3, "foo", 'c');
-      return Tables.unmodifiableRowSortedTable(table).columnMap();
     }
   }
 }

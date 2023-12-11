@@ -20,6 +20,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.testing.Helpers.assertEqualIgnoringOrder;
 import static com.google.common.collect.testing.Helpers.assertEqualInOrder;
 import static com.google.common.collect.testing.Platform.format;
+import static java.util.Arrays.asList;
+import static java.util.Collections.unmodifiableSet;
+import static java.util.Comparator.naturalOrder;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
@@ -29,11 +32,13 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Ordering;
 import com.google.common.primitives.Ints;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.EnumSet;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.Spliterator;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -102,7 +107,7 @@ public final class SpliteratorTester<E> {
     }
 
     @Override
-    GeneralSpliterator<E> trySplit() {
+    @Nullable GeneralSpliterator<E> trySplit() {
       Spliterator<E> split = spliterator.trySplit();
       return split == null ? null : new GeneralSpliteratorOfObject<>(split);
     }
@@ -139,7 +144,7 @@ public final class SpliteratorTester<E> {
     }
 
     @Override
-    GeneralSpliterator<E> trySplit() {
+    @Nullable GeneralSpliterator<E> trySplit() {
       Spliterator.OfPrimitive<E, C, ?> split = spliterator.trySplit();
       return split == null ? null : new GeneralSpliteratorOfPrimitive<>(split, consumerizer);
     }
@@ -197,6 +202,9 @@ public final class SpliteratorTester<E> {
     };
 
     abstract <E> void forEach(GeneralSpliterator<E> spliterator, Consumer<? super E> consumer);
+
+    static final Set<SpliteratorDecompositionStrategy> ALL_STRATEGIES =
+        unmodifiableSet(new LinkedHashSet<>(asList(values())));
   }
 
   private static <E> @Nullable GeneralSpliterator<E> trySplitTestingSize(
@@ -274,10 +282,12 @@ public final class SpliteratorTester<E> {
   }
 
   @SafeVarargs
+  @CanIgnoreReturnValue
   public final Ordered expect(Object... elements) {
     return expect(Arrays.asList(elements));
   }
 
+  @CanIgnoreReturnValue
   public final Ordered expect(Iterable<?> elements) {
     List<List<E>> resultsForAllStrategies = new ArrayList<>();
     for (Supplier<GeneralSpliterator<E>> spliteratorSupplier : spliteratorSuppliers) {
@@ -285,7 +295,7 @@ public final class SpliteratorTester<E> {
       int characteristics = spliterator.characteristics();
       long estimatedSize = spliterator.estimateSize();
       for (SpliteratorDecompositionStrategy strategy :
-          EnumSet.allOf(SpliteratorDecompositionStrategy.class)) {
+          SpliteratorDecompositionStrategy.ALL_STRATEGIES) {
         List<E> resultsForStrategy = new ArrayList<>();
         strategy.forEach(spliteratorSupplier.get(), resultsForStrategy::add);
 
@@ -296,7 +306,7 @@ public final class SpliteratorTester<E> {
         if ((characteristics & Spliterator.SORTED) != 0) {
           Comparator<? super E> comparator = spliterator.getComparator();
           if (comparator == null) {
-            comparator = (Comparator) Comparator.naturalOrder();
+            comparator = (Comparator) naturalOrder();
           }
           assertTrue(Ordering.from(comparator).isOrdered(resultsForStrategy));
         }

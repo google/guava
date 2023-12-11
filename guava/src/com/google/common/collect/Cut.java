@@ -308,7 +308,7 @@ abstract class Cut<C extends Comparable> implements Comparable<Cut<C>>, Serializ
   }
 
   static <C extends Comparable> Cut<C> belowValue(C endpoint) {
-    return new BelowValue<C>(endpoint);
+    return new BelowValue<>(endpoint);
   }
 
   private static final class BelowValue<C extends Comparable> extends Cut<C> {
@@ -392,7 +392,7 @@ abstract class Cut<C extends Comparable> implements Comparable<Cut<C>>, Serializ
   }
 
   static <C extends Comparable> Cut<C> aboveValue(C endpoint) {
-    return new AboveValue<C>(endpoint);
+    return new AboveValue<>(endpoint);
   }
 
   private static final class AboveValue<C extends Comparable> extends Cut<C> {

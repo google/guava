@@ -19,8 +19,8 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.Serializable;
@@ -43,7 +43,6 @@ import java.util.Queue;
  * @author Kurt Alfred Kluever
  * @since 15.0
  */
-@Beta
 @GwtCompatible
 @ElementTypesAreNonnullByDefault
 public final class EvictingQueue<E> extends ForwardingQueue<E> implements Serializable {
@@ -54,7 +53,7 @@ public final class EvictingQueue<E> extends ForwardingQueue<E> implements Serial
 
   private EvictingQueue(int maxSize) {
     checkArgument(maxSize >= 0, "maxSize (%s) must >= 0", maxSize);
-    this.delegate = new ArrayDeque<E>(maxSize);
+    this.delegate = new ArrayDeque<>(maxSize);
     this.maxSize = maxSize;
   }
 
@@ -65,7 +64,7 @@ public final class EvictingQueue<E> extends ForwardingQueue<E> implements Serial
    * queue.
    */
   public static <E> EvictingQueue<E> create(int maxSize) {
-    return new EvictingQueue<E>(maxSize);
+    return new EvictingQueue<>(maxSize);
   }
 
   /**
@@ -127,6 +126,7 @@ public final class EvictingQueue<E> extends ForwardingQueue<E> implements Serial
   }
 
   @Override
+  @J2ktIncompatible // Incompatible return type change. Use inherited implementation
   public Object[] toArray() {
     /*
      * If we could, we'd declare the no-arg `Collection.toArray()` to return "Object[] but elements

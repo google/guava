@@ -15,6 +15,7 @@
 package com.google.common.base;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import java.io.Closeable;
 import java.io.FileNotFoundException;
@@ -88,6 +89,7 @@ import javax.annotation.CheckForNull;
  * @author Bob Lee
  * @since 2.0
  */
+@J2ktIncompatible
 @GwtIncompatible
 @ElementTypesAreNonnullByDefault
 public class FinalizableReferenceQueue implements Closeable {
@@ -156,7 +158,7 @@ public class FinalizableReferenceQueue implements Closeable {
   public FinalizableReferenceQueue() {
     // We could start the finalizer lazily, but I'd rather it blow up early.
     queue = new ReferenceQueue<>();
-    frqRef = new PhantomReference<Object>(this, queue);
+    frqRef = new PhantomReference<>(this, queue);
     boolean threadStarted = false;
     try {
       startFinalizer.invoke(null, FinalizableReference.class, queue, frqRef);

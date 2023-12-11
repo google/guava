@@ -26,6 +26,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Unit test for {@link FakeTicker}.
@@ -119,9 +120,9 @@ public class FakeTickerTest extends TestCase {
     int numberOfThreads = 64;
     runConcurrentTest(
         numberOfThreads,
-        new Callable<Void>() {
+        new Callable<@Nullable Void>() {
           @Override
-          public Void call() throws Exception {
+          public @Nullable Void call() throws Exception {
             // adds two nanoseconds to the ticker
             ticker.advance(1L);
             Thread.sleep(10);
@@ -143,10 +144,10 @@ public class FakeTickerTest extends TestCase {
     int numberOfThreads = 64;
     runConcurrentTest(
         numberOfThreads,
-        new Callable<Void>() {
+        new Callable<@Nullable Void>() {
           @Override
-          public Void call() throws Exception {
-            ticker.read();
+          public @Nullable Void call() throws Exception {
+            long unused = ticker.read();
             return null;
           }
         });
@@ -156,7 +157,7 @@ public class FakeTickerTest extends TestCase {
 
   /** Runs {@code callable} concurrently {@code numberOfThreads} times. */
   @GwtIncompatible // concurrency
-  private void runConcurrentTest(int numberOfThreads, final Callable<Void> callable)
+  private void runConcurrentTest(int numberOfThreads, final Callable<@Nullable Void> callable)
       throws Exception {
     ExecutorService executorService = Executors.newFixedThreadPool(numberOfThreads);
     final CountDownLatch startLatch = new CountDownLatch(numberOfThreads);
@@ -165,9 +166,9 @@ public class FakeTickerTest extends TestCase {
       @SuppressWarnings("unused") // https://errorprone.info/bugpattern/FutureReturnValueIgnored
       Future<?> possiblyIgnoredError =
           executorService.submit(
-              new Callable<Void>() {
+              new Callable<@Nullable Void>() {
                 @Override
-                public Void call() throws Exception {
+                public @Nullable Void call() throws Exception {
                   startLatch.countDown();
                   startLatch.await();
                   callable.call();

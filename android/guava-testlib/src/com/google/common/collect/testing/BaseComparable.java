@@ -18,6 +18,7 @@ package com.google.common.collect.testing;
 
 import com.google.common.annotations.GwtCompatible;
 import java.io.Serializable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Simple base class to verify that we handle generics correctly.
@@ -38,7 +39,7 @@ public class BaseComparable implements Comparable<BaseComparable>, Serializable 
   }
 
   @Override
-  public boolean equals(Object other) {
+  public boolean equals(@Nullable Object other) {
     if (other == null) {
       return false;
     } else if (other instanceof BaseComparable) {

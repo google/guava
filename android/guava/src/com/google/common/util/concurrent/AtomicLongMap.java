@@ -16,11 +16,12 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Function;
 import com.google.common.collect.Maps;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.Iterator;
@@ -43,6 +44,8 @@ import javax.annotation.CheckForNull;
  * <p>Instances of this class may be used by multiple threads concurrently. All operations are
  * atomic unless otherwise noted.
  *
+ * <p>Instances of this class are serializable if the keys are serializable.
+ *
  * <p><b>Note:</b> If your values are always positive and less than 2^31, you may wish to use a
  * {@link com.google.common.collect.Multiset} such as {@link
  * com.google.common.collect.ConcurrentHashMultiset} instead.
@@ -54,6 +57,7 @@ import javax.annotation.CheckForNull;
  * @since 11.0
  */
 @GwtCompatible
+@J2ktIncompatible
 @ElementTypesAreNonnullByDefault
 public final class AtomicLongMap<K> implements Serializable {
   private final ConcurrentHashMap<K, AtomicLong> map;
@@ -290,7 +294,6 @@ public final class AtomicLongMap<K> implements Serializable {
    *
    * @since 20.0
    */
-  @Beta
   @CanIgnoreReturnValue
   public boolean removeIfZero(K key) {
     return remove(key, 0);
@@ -326,7 +329,7 @@ public final class AtomicLongMap<K> implements Serializable {
     return sum;
   }
 
-  @CheckForNull private transient Map<K, Long> asMap;
+  @LazyInit @CheckForNull private transient Map<K, Long> asMap;
 
   /** Returns a live, read-only view of the map backing this {@code AtomicLongMap}. */
   public Map<K, Long> asMap() {

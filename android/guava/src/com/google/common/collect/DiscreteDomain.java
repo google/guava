@@ -37,7 +37,7 @@ import javax.annotation.CheckForNull;
  * represent partial domains such as "prime integers" or "strings of length 5."
  *
  * <p>See the Guava User Guide section on <a href=
- * "https://github.com/google/guava/wiki/RangesExplained#discrete-domains"> {@code
+ * "https://github.com/google/guava/wiki/RangesExplained#discrete-domains">{@code
  * DiscreteDomain}</a>.
  *
  * @author Kevin Bourrillion
@@ -49,6 +49,9 @@ public abstract class DiscreteDomain<C extends Comparable> {
 
   /**
    * Returns the discrete domain for values of type {@code Integer}.
+   *
+   * <p>This method always returns the same object. That object is serializable; deserializing it
+   * results in the same object too.
    *
    * @since 14.0 (since 10.0 as {@code DiscreteDomains.integers()})
    */
@@ -112,6 +115,9 @@ public abstract class DiscreteDomain<C extends Comparable> {
 
   /**
    * Returns the discrete domain for values of type {@code Long}.
+   *
+   * <p>This method always returns the same object. That object is serializable; deserializing it
+   * results in the same object too.
    *
    * @since 14.0 (since 10.0 as {@code DiscreteDomains.longs()})
    */
@@ -186,6 +192,9 @@ public abstract class DiscreteDomain<C extends Comparable> {
 
   /**
    * Returns the discrete domain for values of type {@code BigInteger}.
+   *
+   * <p>This method always returns the same object. That object is serializable; deserializing it
+   * results in the same object too.
    *
    * @since 15.0
    */

@@ -18,6 +18,8 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -25,6 +27,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collector;
+import jsinterop.annotations.JsMethod;
 
 /**
  * GWT emulated version of {@link com.google.common.collect.ImmutableSet}. For the unsorted sets,
@@ -83,6 +86,13 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
     return copyOf(all.iterator());
   }
 
+  /** ImmutableSet.of API that is friendly to use from JavaScript. */
+  @JsMethod(name = "of")
+  static <E> ImmutableSet<E> jsOf(E... elements) {
+    return copyOf(elements);
+  }
+
+  @JsMethod
   public static <E> ImmutableSet<E> copyOf(E[] elements) {
     checkNotNull(elements);
     switch (elements.length) {
@@ -174,6 +184,24 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
   @Override
   public abstract UnmodifiableIterator<E> iterator();
 
+  abstract static class CachingAsList<E> extends ImmutableSet<E> {
+    @LazyInit private transient ImmutableList<E> asList;
+
+    @Override
+    public ImmutableList<E> asList() {
+      ImmutableList<E> result = asList;
+      if (result == null) {
+        return asList = createAsList();
+      } else {
+        return result;
+      }
+    }
+
+    ImmutableList<E> createAsList() {
+      return new RegularImmutableAsList<E>(this, toArray());
+    }
+  }
+
   abstract static class Indexed<E> extends ImmutableSet<E> {
     abstract E get(int index);
 
@@ -218,12 +246,14 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
       this.contents = Lists.newArrayListWithCapacity(initialCapacity);
     }
 
+    @CanIgnoreReturnValue
     @Override
     public Builder<E> add(E element) {
       contents.add(checkNotNull(element));
       return this;
     }
 
+    @CanIgnoreReturnValue
     @Override
     public Builder<E> add(E... elements) {
       checkNotNull(elements); // for GWT
@@ -232,6 +262,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
       return this;
     }
 
+    @CanIgnoreReturnValue
     @Override
     public Builder<E> addAll(Iterable<? extends E> elements) {
       if (elements instanceof Collection) {
@@ -242,12 +273,14 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
       return this;
     }
 
+    @CanIgnoreReturnValue
     @Override
     public Builder<E> addAll(Iterator<? extends E> elements) {
       super.addAll(elements);
       return this;
     }
 
+    @CanIgnoreReturnValue
     Builder<E> combine(Builder<E> builder) {
       contents.addAll(builder.contents);
       return this;

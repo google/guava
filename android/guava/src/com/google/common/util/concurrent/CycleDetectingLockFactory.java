@@ -17,8 +17,8 @@ package com.google.common.util.concurrent;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static java.util.Objects.requireNonNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Preconditions;
@@ -27,7 +27,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.MapMaker;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.j2objc.annotations.Weak;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -160,8 +159,7 @@ import javax.annotation.CheckForNull;
  * @author Darick Tong
  * @since 13.0
  */
-@Beta
-@CanIgnoreReturnValue // TODO(cpovirk): Consider being more strict.
+@J2ktIncompatible
 @GwtIncompatible
 @ElementTypesAreNonnullByDefault
 public class CycleDetectingLockFactory {
@@ -173,7 +171,6 @@ public class CycleDetectingLockFactory {
    *
    * @since 13.0
    */
-  @Beta
   public interface Policy {
 
     /**
@@ -193,7 +190,6 @@ public class CycleDetectingLockFactory {
    *
    * @since 13.0
    */
-  @Beta
   public enum Policies implements Policy {
     /**
      * When potential deadlock is detected, this policy results in the throwing of the {@code
@@ -283,7 +279,7 @@ public class CycleDetectingLockFactory {
     checkNotNull(policy);
     @SuppressWarnings("unchecked")
     Map<E, LockGraphNode> lockGraphNodes = (Map<E, LockGraphNode>) getOrCreateNodes(enumClass);
-    return new WithExplicitOrdering<E>(policy, lockGraphNodes);
+    return new WithExplicitOrdering<>(policy, lockGraphNodes);
   }
 
   @SuppressWarnings("unchecked")
@@ -308,7 +304,7 @@ public class CycleDetectingLockFactory {
   static <E extends Enum<E>> Map<E, LockGraphNode> createNodes(Class<E> clazz) {
     EnumMap<E, LockGraphNode> map = Maps.newEnumMap(clazz);
     E[] keys = clazz.getEnumConstants();
-    final int numKeys = keys.length;
+    int numKeys = keys.length;
     ArrayList<LockGraphNode> nodes = Lists.newArrayListWithCapacity(numKeys);
     // Create a LockGraphNode for each enum value.
     for (E key : keys) {
@@ -394,7 +390,6 @@ public class CycleDetectingLockFactory {
    * @param <E> The Enum type representing the explicit lock ordering.
    * @since 13.0
    */
-  @Beta
   public static final class WithExplicitOrdering<E extends Enum<E>>
       extends CycleDetectingLockFactory {
 
@@ -534,7 +529,6 @@ public class CycleDetectingLockFactory {
    *
    * @since 13.0
    */
-  @Beta
   public static final class PotentialDeadlockException extends ExampleStackTrace {
 
     private final ExampleStackTrace conflictingStackTrace;

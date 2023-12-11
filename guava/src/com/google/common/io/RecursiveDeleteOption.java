@@ -16,8 +16,8 @@
 
 package com.google.common.io;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.j2objc.annotations.J2ObjCIncompatible;
 import java.nio.file.SecureDirectoryStream;
 
@@ -28,7 +28,7 @@ import java.nio.file.SecureDirectoryStream;
  * @since 21.0
  * @author Colin Decker
  */
-@Beta
+@J2ktIncompatible
 @GwtIncompatible
 @J2ObjCIncompatible // java.nio.file
 @ElementTypesAreNonnullByDefault

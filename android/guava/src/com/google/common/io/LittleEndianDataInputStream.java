@@ -14,8 +14,8 @@
 
 package com.google.common.io;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Preconditions;
 import com.google.common.primitives.Ints;
 import com.google.common.primitives.Longs;
@@ -39,7 +39,7 @@ import java.io.InputStream;
  * @author Keith Bottner
  * @since 8.0
  */
-@Beta
+@J2ktIncompatible
 @GwtIncompatible
 @ElementTypesAreNonnullByDefault
 public final class LittleEndianDataInputStream extends FilterInputStream implements DataInput {

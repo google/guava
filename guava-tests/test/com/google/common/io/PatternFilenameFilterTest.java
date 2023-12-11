@@ -16,6 +16,8 @@
 
 package com.google.common.io;
 
+import static org.junit.Assert.assertThrows;
+
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.NullPointerTester.Visibility;
 import java.io.File;
@@ -31,11 +33,7 @@ import junit.framework.TestCase;
 public class PatternFilenameFilterTest extends TestCase {
 
   public void testSyntaxException() {
-    try {
-      new PatternFilenameFilter("(");
-      fail("expected exception");
-    } catch (PatternSyntaxException expected) {
-    }
+    assertThrows(PatternSyntaxException.class, () -> new PatternFilenameFilter("("));
   }
 
   public void testAccept() {

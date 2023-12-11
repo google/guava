@@ -15,7 +15,7 @@
 package com.google.common.util.concurrent;
 
 import com.google.common.annotations.GwtIncompatible;
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.common.annotations.J2ktIncompatible;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -30,7 +30,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *
  * @author Luke Sandberg
  */
-@CanIgnoreReturnValue // TODO(cpovirk): Consider being more strict.
+@J2ktIncompatible
 @GwtIncompatible
 @ElementTypesAreNonnullByDefault
 abstract class WrappingScheduledExecutorService extends WrappingExecutorService

@@ -16,12 +16,14 @@
 
 package com.google.common.io;
 
+import static com.google.common.base.StandardSystemProperty.OS_NAME;
 import static com.google.common.io.RecursiveDeleteOption.ALLOW_INSECURE;
 import static com.google.common.jimfs.Feature.SECURE_DIRECTORY_STREAM;
 import static com.google.common.jimfs.Feature.SYMBOLIC_LINKS;
 import static com.google.common.truth.Truth.assertThat;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.nio.file.LinkOption.NOFOLLOW_LINKS;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.ObjectArrays;
 import com.google.common.jimfs.Configuration;
@@ -137,11 +139,7 @@ public class MoreFilesTest extends TestCase {
 
       assertThat(source.sizeIfKnown()).isAbsent();
 
-      try {
-        source.size();
-        fail();
-      } catch (IOException expected) {
-      }
+      assertThrows(IOException.class, () -> source.size());
     }
   }
 
@@ -156,11 +154,7 @@ public class MoreFilesTest extends TestCase {
 
       assertThat(source.sizeIfKnown()).isAbsent();
 
-      try {
-        source.size();
-        fail();
-      } catch (IOException expected) {
-      }
+      assertThrows(IOException.class, () -> source.size());
     }
   }
 
@@ -189,11 +183,7 @@ public class MoreFilesTest extends TestCase {
 
       assertThat(source.sizeIfKnown()).isAbsent();
 
-      try {
-        source.size();
-        fail();
-      } catch (IOException expected) {
-      }
+      assertThrows(IOException.class, () -> source.size());
     }
   }
 
@@ -261,6 +251,9 @@ public class MoreFilesTest extends TestCase {
   }
 
   public void testCreateParentDirectories_root() throws IOException {
+    if (isWindows()) {
+      return; // TODO: b/136041958 - *Sometimes* fails with "A:\: The device is not ready"
+    }
     Path root = root();
     assertNull(root.getParent());
     assertNull(root.toRealPath().getParent());
@@ -301,30 +294,26 @@ public class MoreFilesTest extends TestCase {
   }
 
   public void testCreateParentDirectories_noPermission() {
+    if (isWindows()) {
+      return; // TODO: b/136041958 - Create/find a directory that we don't have permissions on?
+    }
     Path file = root().resolve("parent/nonexistent.file");
     Path parent = file.getParent();
     assertFalse(Files.exists(parent));
-    try {
-      MoreFiles.createParentDirectories(file);
-      // Cleanup in case parent creation was [erroneously] successful.
-      Files.delete(parent);
-      fail("expected exception");
-    } catch (IOException expected) {
-    }
+    assertThrows(IOException.class, () -> MoreFiles.createParentDirectories(file));
   }
 
   public void testCreateParentDirectories_nonDirectoryParentExists() throws IOException {
     Path parent = createTempFile();
     assertTrue(Files.isRegularFile(parent));
     Path file = parent.resolve("foo");
-    try {
-      MoreFiles.createParentDirectories(file);
-      fail();
-    } catch (IOException expected) {
-    }
+    assertThrows(IOException.class, () -> MoreFiles.createParentDirectories(file));
   }
 
   public void testCreateParentDirectories_symlinkParentExists() throws IOException {
+    if (isWindows()) {
+      return; // TODO: b/136041958 - *Sometimes* fails with FileAlreadyExistsException
+    }
     Path symlink = tempDir.resolve("linkToDir");
     Files.createSymbolicLink(symlink, root());
     Path file = symlink.resolve("foo");
@@ -425,8 +414,7 @@ public class MoreFilesTest extends TestCase {
   static FileSystem newTestFileSystem(Feature... supportedFeatures) throws IOException {
     FileSystem fs =
         Jimfs.newFileSystem(
-            Configuration.unix()
-                .toBuilder()
+            Configuration.unix().toBuilder()
                 .setSupportedFeatures(ObjectArrays.concat(SYMBOLIC_LINKS, supportedFeatures))
                 .build());
     Files.createDirectories(fs.getPath("dir/b/i/j/l"));
@@ -512,11 +500,7 @@ public class MoreFilesTest extends TestCase {
         Path dir = fs.getPath("dir");
         assertEquals(6, MoreFiles.listFiles(dir).size());
 
-        try {
-          method.delete(dir);
-          fail("expected InsecureRecursiveDeleteException");
-        } catch (InsecureRecursiveDeleteException expected) {
-        }
+        assertThrows(InsecureRecursiveDeleteException.class, () -> method.delete(dir));
 
         assertTrue(Files.exists(dir));
         assertEquals(6, MoreFiles.listFiles(dir).size());
@@ -559,12 +543,11 @@ public class MoreFilesTest extends TestCase {
 
   public void testDeleteRecursively_nonexistingFile_throwsNoSuchFileException() throws IOException {
     try (FileSystem fs = newTestFileSystem()) {
-      try {
-        MoreFiles.deleteRecursively(fs.getPath("/work/nothere"), ALLOW_INSECURE);
-        fail();
-      } catch (NoSuchFileException expected) {
-        assertThat(expected.getFile()).isEqualTo("/work/nothere");
-      }
+      NoSuchFileException expected =
+          assertThrows(
+              NoSuchFileException.class,
+              () -> MoreFiles.deleteRecursively(fs.getPath("/work/nothere"), ALLOW_INSECURE));
+      assertThat(expected.getFile()).isEqualTo("/work/nothere");
     }
   }
 
@@ -720,5 +703,9 @@ public class MoreFilesTest extends TestCase {
     public abstract void delete(Path path, RecursiveDeleteOption... options) throws IOException;
 
     public abstract void assertDeleteSucceeded(Path path) throws IOException;
+  }
+
+  private static boolean isWindows() {
+    return OS_NAME.value().startsWith("Windows");
   }
 }

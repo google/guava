@@ -30,6 +30,7 @@ import static java.math.RoundingMode.UNNECESSARY;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.testing.NullPointerTester;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -110,6 +111,7 @@ public class IntMathTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // BigIntegerMath // TODO(cpovirk): GWT-enable BigIntegerMath
   public void testConstantMaxPowerOfSqrt2Unsigned() {
     assertEquals(
@@ -118,6 +120,7 @@ public class IntMathTest extends TestCase {
         /*actual=*/ IntMath.MAX_POWER_OF_SQRT2_UNSIGNED);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // pow()
   public void testConstantsPowersOf10() {
     for (int i = 0; i < IntMath.powersOf10.length - 1; i++) {
@@ -125,6 +128,7 @@ public class IntMathTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // BigIntegerMath // TODO(cpovirk): GWT-enable BigIntegerMath
   public void testMaxLog10ForLeadingZeros() {
     for (int i = 0; i < Integer.SIZE; i++) {
@@ -134,13 +138,15 @@ public class IntMathTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // BigIntegerMath // TODO(cpovirk): GWT-enable BigIntegerMath
   public void testConstantsHalfPowersOf10() {
     for (int i = 0; i < IntMath.halfPowersOf10.length; i++) {
-      assert IntMath.halfPowersOf10[i]
-          == Math.min(
+      assertEquals(
+          IntMath.halfPowersOf10[i],
+          Math.min(
               Integer.MAX_VALUE,
-              BigIntegerMath.sqrt(BigInteger.TEN.pow(2 * i + 1), FLOOR).longValue());
+              BigIntegerMath.sqrt(BigInteger.TEN.pow(2 * i + 1), FLOOR).longValue()));
     }
   }
 
@@ -159,6 +165,7 @@ public class IntMathTest extends TestCase {
                 2 * IntMath.biggestBinomials.length, IntMath.biggestBinomials.length)));
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // sqrt
   public void testPowersSqrtMaxInt() {
     assertEquals(
@@ -179,6 +186,7 @@ public class IntMathTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // java.math.BigInteger
   public void testIsPowerOfTwo() {
     for (int x : ALL_INTEGER_CANDIDATES) {
@@ -211,7 +219,7 @@ public class IntMathTest extends TestCase {
     }
   }
 
-  // Relies on the correctness of BigIntegrerMath.log2 for all modes except UNNECESSARY.
+  // Relies on the correctness of BigIntegerMath.log2 for all modes except UNNECESSARY.
   public void testLog2MatchesBigInteger() {
     for (int x : POSITIVE_INTEGER_CANDIDATES) {
       for (RoundingMode mode : ALL_SAFE_ROUNDING_MODES) {
@@ -234,6 +242,7 @@ public class IntMathTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // log10
   public void testLog10ZeroAlwaysThrows() {
     for (RoundingMode mode : ALL_ROUNDING_MODES) {
@@ -245,6 +254,7 @@ public class IntMathTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // log10
   public void testLog10NegativeAlwaysThrows() {
     for (int x : NEGATIVE_INTEGER_CANDIDATES) {
@@ -259,6 +269,7 @@ public class IntMathTest extends TestCase {
   }
 
   // Relies on the correctness of BigIntegerMath.log10 for all modes except UNNECESSARY.
+  @J2ktIncompatible
   @GwtIncompatible // BigIntegerMath // TODO(cpovirk): GWT-enable BigIntegerMath
   public void testLog10MatchesBigInteger() {
     for (int x : POSITIVE_INTEGER_CANDIDATES) {
@@ -270,6 +281,7 @@ public class IntMathTest extends TestCase {
   }
 
   // Relies on the correctness of log10(int, FLOOR) and of pow(int, int).
+  @J2ktIncompatible
   @GwtIncompatible // pow()
   public void testLog10Exact() {
     for (int x : POSITIVE_INTEGER_CANDIDATES) {
@@ -284,6 +296,7 @@ public class IntMathTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // log10
   public void testLog10TrivialOnPowerOfTen() {
     int x = 1000000;
@@ -293,6 +306,7 @@ public class IntMathTest extends TestCase {
   }
 
   // Simple test to cover sqrt(0) for all types and all modes.
+  @J2ktIncompatible
   @GwtIncompatible // sqrt
   public void testSqrtZeroAlwaysZero() {
     for (RoundingMode mode : ALL_ROUNDING_MODES) {
@@ -300,6 +314,7 @@ public class IntMathTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // sqrt
   public void testSqrtNegativeAlwaysThrows() {
     for (int x : NEGATIVE_INTEGER_CANDIDATES) {
@@ -314,6 +329,7 @@ public class IntMathTest extends TestCase {
   }
 
   /* Relies on the correctness of BigIntegerMath.sqrt for all modes except UNNECESSARY. */
+  @J2ktIncompatible
   @GwtIncompatible // BigIntegerMath // TODO(cpovirk): GWT-enable BigIntegerMath
   public void testSqrtMatchesBigInteger() {
     for (int x : POSITIVE_INTEGER_CANDIDATES) {
@@ -327,6 +343,7 @@ public class IntMathTest extends TestCase {
   }
 
   /* Relies on the correctness of sqrt(int, FLOOR). */
+  @J2ktIncompatible
   @GwtIncompatible // sqrt
   public void testSqrtExactMatchesFloorOrThrows() {
     for (int x : POSITIVE_INTEGER_CANDIDATES) {
@@ -342,6 +359,7 @@ public class IntMathTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // 2147483646^2 expected=4
   public void testPow() {
     for (int i : ALL_INTEGER_CANDIDATES) {
@@ -352,6 +370,7 @@ public class IntMathTest extends TestCase {
   }
 
   @AndroidIncompatible // slow
+  @J2ktIncompatible // TODO(b/281519661): Fails 2147483646/-2147483648 expected:<1> but was:<-1>
   public void testDivNonZero() {
     for (int p : NONZERO_INTEGER_CANDIDATES) {
       for (int q : NONZERO_INTEGER_CANDIDATES) {
@@ -548,6 +567,7 @@ public class IntMathTest extends TestCase {
   }
 
   @AndroidIncompatible // slow
+  @J2ktIncompatible
   @GwtIncompatible // TODO
   public void testSaturatedAdd() {
     for (int a : ALL_INTEGER_CANDIDATES) {
@@ -559,6 +579,7 @@ public class IntMathTest extends TestCase {
   }
 
   @AndroidIncompatible // slow
+  @J2ktIncompatible
   @GwtIncompatible // TODO
   public void testSaturatedSubtract() {
     for (int a : ALL_INTEGER_CANDIDATES) {
@@ -574,6 +595,7 @@ public class IntMathTest extends TestCase {
   }
 
   @AndroidIncompatible // slow
+  @J2ktIncompatible
   @GwtIncompatible // TODO
   public void testSaturatedMultiply() {
     for (int a : ALL_INTEGER_CANDIDATES) {
@@ -588,6 +610,7 @@ public class IntMathTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // TODO
   public void testSaturatedPow() {
     for (int a : ALL_INTEGER_CANDIDATES) {
@@ -673,6 +696,7 @@ public class IntMathTest extends TestCase {
   }
 
   @AndroidIncompatible // slow
+  @J2ktIncompatible
   @GwtIncompatible // java.math.BigInteger
   public void testMean() {
     // Odd-sized ranges have an obvious mean
@@ -744,6 +768,7 @@ public class IntMathTest extends TestCase {
     return big.bitLength() <= 31;
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // NullPointerTester
   public void testNullPointers() {
     NullPointerTester tester = new NullPointerTester();
@@ -751,6 +776,7 @@ public class IntMathTest extends TestCase {
     tester.testAllPublicStaticMethods(IntMath.class);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // isPrime is GWT-incompatible
   public void testIsPrime() {
     // Defer correctness tests to Long.isPrime

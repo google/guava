@@ -20,8 +20,8 @@ import static com.google.common.base.Predicates.and;
 import static com.google.common.base.Predicates.not;
 import static com.google.common.testing.AbstractPackageSanityTests.Chopper.suffix;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
@@ -101,11 +101,12 @@ import org.junit.Test;
  * @author Ben Yu
  * @since 14.0
  */
-@Beta
 // TODO: Switch to JUnit 4 and use @Parameterized and @BeforeClass
 // Note: @Test annotations are deliberate, as some subclasses specify @RunWith(JUnit4).
 @GwtIncompatible
+@J2ktIncompatible
 @J2ObjCIncompatible // com.google.common.reflect.ClassPath
+@ElementTypesAreNonnullByDefault
 public abstract class AbstractPackageSanityTests extends TestCase {
 
   /**
@@ -116,12 +117,7 @@ public abstract class AbstractPackageSanityTests extends TestCase {
    * @since 19.0
    */
   public static final Predicate<Class<?>> UNDERSCORE_IN_NAME =
-      new Predicate<Class<?>>() {
-        @Override
-        public boolean apply(Class<?> c) {
-          return c.getSimpleName().contains("_");
-        }
-      };
+      (Class<?> c) -> c.getSimpleName().contains("_");
 
   /* The names of the expected method that tests null checks. */
   private static final ImmutableList<String> NULL_TEST_METHOD_NAMES =
@@ -152,12 +148,7 @@ public abstract class AbstractPackageSanityTests extends TestCase {
   private final ClassSanityTester tester = new ClassSanityTester();
   private Visibility visibility = Visibility.PACKAGE;
   private Predicate<Class<?>> classFilter =
-      new Predicate<Class<?>>() {
-        @Override
-        public boolean apply(Class<?> cls) {
-          return visibility.isVisible(cls.getModifiers());
-        }
-      };
+      (Class<?> cls) -> visibility.isVisible(cls.getModifiers());
 
   /**
    * Restricts the sanity tests for public API only. By default, package-private API are also
@@ -335,7 +326,7 @@ public abstract class AbstractPackageSanityTests extends TestCase {
 
   /**
    * Finds the classes not ending with a test suffix and not covered by an explicit test whose name
-   * is {@code explicitTestName}.
+   * is {@code explicitTestNames}.
    */
   @VisibleForTesting
   List<Class<?>> findClassesToTest(
@@ -415,8 +406,8 @@ public abstract class AbstractPackageSanityTests extends TestCase {
 
   abstract static class Chopper {
 
-    final Chopper or(final Chopper you) {
-      final Chopper i = this;
+    final Chopper or(Chopper you) {
+      Chopper i = this;
       return new Chopper() {
         @Override
         Optional<String> chop(String str) {
@@ -427,7 +418,7 @@ public abstract class AbstractPackageSanityTests extends TestCase {
 
     abstract Optional<String> chop(String str);
 
-    static Chopper suffix(final String suffix) {
+    static Chopper suffix(String suffix) {
       return new Chopper() {
         @Override
         Optional<String> chop(String str) {

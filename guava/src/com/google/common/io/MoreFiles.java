@@ -21,12 +21,11 @@ import static com.google.common.collect.Iterables.getOnlyElement;
 import static java.nio.file.LinkOption.NOFOLLOW_LINKS;
 import static java.util.Objects.requireNonNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableList;
-import com.google.common.graph.SuccessorsFunction;
 import com.google.common.graph.Traverser;
 import com.google.j2objc.annotations.J2ObjCIncompatible;
 import java.io.IOException;
@@ -67,7 +66,7 @@ import javax.annotation.CheckForNull;
  * @since 21.0
  * @author Colin Decker
  */
-@Beta
+@J2ktIncompatible
 @GwtIncompatible
 @J2ObjCIncompatible // java.nio.file
 @ElementTypesAreNonnullByDefault
@@ -87,7 +86,9 @@ public final class MoreFiles {
     return new PathByteSource(path, options);
   }
 
-  private static final class PathByteSource extends ByteSource {
+  private static final class PathByteSource extends
+      ByteSource
+  {
 
     private static final LinkOption[] FOLLOW_LINKS = {};
 
@@ -170,7 +171,7 @@ public final class MoreFiles {
         // If no OpenOptions were passed, delegate to Files.lines, which could have performance
         // advantages. (If OpenOptions were passed we can't, because Files.lines doesn't have an
         // overload taking OpenOptions, meaning we can't guarantee the same behavior w.r.t. things
-        // like following/not following symlinks.
+        // like following/not following symlinks.)
         return new AsCharSource(charset) {
           @SuppressWarnings("FilesLinesLeak") // the user needs to close it in this case
           @Override
@@ -292,16 +293,8 @@ public final class MoreFiles {
    * @since 23.5
    */
   public static Traverser<Path> fileTraverser() {
-    return Traverser.forTree(FILE_TREE);
+    return Traverser.forTree(MoreFiles::fileTreeChildren);
   }
-
-  private static final SuccessorsFunction<Path> FILE_TREE =
-      new SuccessorsFunction<Path>() {
-        @Override
-        public Iterable<Path> successors(Path path) {
-          return fileTreeChildren(path);
-        }
-      };
 
   private static Iterable<Path> fileTreeChildren(Path dir) {
     if (Files.isDirectory(dir, NOFOLLOW_LINKS)) {

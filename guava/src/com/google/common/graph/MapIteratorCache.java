@@ -108,7 +108,7 @@ class MapIteratorCache<K, V> {
     return new AbstractSet<K>() {
       @Override
       public UnmodifiableIterator<K> iterator() {
-        final Iterator<Entry<K, V>> entryIterator = backingMap.entrySet().iterator();
+        Iterator<Entry<K, V>> entryIterator = backingMap.entrySet().iterator();
 
         return new UnmodifiableIterator<K>() {
           @Override

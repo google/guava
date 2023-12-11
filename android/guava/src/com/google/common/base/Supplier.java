@@ -15,7 +15,6 @@
 package com.google.common.base;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -54,7 +53,6 @@ public interface Supplier<T extends @Nullable Object> {
    *
    * @return an instance of the appropriate type
    */
-  @CanIgnoreReturnValue
   @ParametricNullness
   T get();
 }

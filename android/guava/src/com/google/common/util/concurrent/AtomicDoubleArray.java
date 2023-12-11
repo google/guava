@@ -17,6 +17,7 @@ import static java.lang.Double.doubleToRawLongBits;
 import static java.lang.Double.longBitsToDouble;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.primitives.ImmutableLongArray;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.concurrent.atomic.AtomicLongArray;
@@ -44,6 +45,7 @@ import java.util.concurrent.atomic.AtomicLongArray;
  * @since 11.0
  */
 @GwtIncompatible
+@J2ktIncompatible
 @ElementTypesAreNonnullByDefault
 public class AtomicDoubleArray implements java.io.Serializable {
   private static final long serialVersionUID = 0L;
@@ -69,7 +71,7 @@ public class AtomicDoubleArray implements java.io.Serializable {
    * @throws NullPointerException if array is null
    */
   public AtomicDoubleArray(double[] array) {
-    final int len = array.length;
+    int len = array.length;
     long[] longArray = new long[len];
     for (int i = 0; i < len; i++) {
       longArray[i] = doubleToRawLongBits(array[i]);
@@ -188,6 +190,7 @@ public class AtomicDoubleArray implements java.io.Serializable {
    * @param i the index
    * @param delta the value to add
    * @return the updated value
+   * @since 31.1
    */
   @CanIgnoreReturnValue
   public double addAndGet(int i, double delta) {

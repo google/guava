@@ -8,47 +8,57 @@ on:
     branches:
       - master
 
+permissions:
+  contents: read
+
 jobs:
   test:
-    name: "${{ matrix.root-pom }} on JDK ${{ matrix.java }}"
+    permissions:
+      actions: write  # for styfle/cancel-workflow-action to cancel/stop running workflows
+      contents: read  # for actions/checkout to fetch code
+    name: "${{ matrix.root-pom }} on JDK ${{ matrix.java }} on ${{ matrix.os }}"
     strategy:
       matrix:
-        java: [ 8, 11 ]
+        os: [ ubuntu-latest ]
+        java: [ 8, 11, 17 ]
         root-pom: [ 'pom.xml', 'android/pom.xml' ]
-    runs-on: ubuntu-latest
+        include:
+          - os: windows-latest
+            java: 17
+            root-pom: pom.xml
+    runs-on: ${{ matrix.os }}
     env:
       ROOT_POM: ${{ matrix.root-pom }}
     steps:
       # Cancel any previous runs for the same branch that are still running.
       - name: 'Cancel previous runs'
-        uses: styfle/cancel-workflow-action@0.9.1
+        uses: styfle/cancel-workflow-action@01ce38bf961b4e243a6342cbade0dbc8ba3f0432
         with:
           access_token: ${{ github.token }}
       - name: 'Check out repository'
-        uses: actions/checkout@v2.3.4
-      - name: 'Cache local Maven repository'
-        uses: actions/cache@v2.1.6
-        with:
-          path: ~/.m2/repository
-          key: maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            maven-
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
       - name: 'Set up JDK ${{ matrix.java }}'
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@387ac29b308b003ca37ba93a6cab5eb57c8f5f93
+
         with:
           java-version: ${{ matrix.java }}
           distribution: 'zulu'
+          cache: 'maven'
       - name: 'Install'
         shell: bash
-        run: mvn -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn install -U -DskipTests=true -f $ROOT_POM
+        run: ./mvnw -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn install -U -DskipTests=true -f $ROOT_POM
       - name: 'Test'
         shell: bash
-        run: mvn -B -P!standard-with-extra-repos verify -U -Dmaven.javadoc.skip=true -f $ROOT_POM
+        run: ./mvnw -B -P!standard-with-extra-repos verify -U -Dmaven.javadoc.skip=true -f $ROOT_POM
       - name: 'Print Surefire reports'
         # Note: Normally a step won't run if the job has failed, but this causes it to
         if: ${{ failure() }}
         shell: bash
         run: ./util/print_surefire_reports.sh
+      - name: 'Integration Test'
+        if: matrix.java == 11
+        shell: bash
+        run: util/gradle_integration_tests.sh
 
   publish_snapshot:
     name: 'Publish snapshot'
@@ -57,22 +67,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 'Check out repository'
-        uses: actions/checkout@v2.3.4
-      - name: 'Cache local Maven repository'
-        uses: actions/cache@v2.1.6
-        with:
-          path: ~/.m2/repository
-          key: maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            maven-
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
       - name: 'Set up JDK 11'
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@387ac29b308b003ca37ba93a6cab5eb57c8f5f93
+
         with:
           java-version: 11
           distribution: 'zulu'
           server-id: sonatype-nexus-snapshots
           server-username: CI_DEPLOY_USERNAME
           server-password: CI_DEPLOY_PASSWORD
+          cache: 'maven'
       - name: 'Publish'
         env:
           CI_DEPLOY_USERNAME: ${{ secrets.CI_DEPLOY_USERNAME }}
@@ -80,25 +85,22 @@ jobs:
         run: ./util/deploy_snapshot.sh
 
   generate_docs:
+    permissions:
+      contents: write
     name: 'Generate latest docs'
     needs: test
     if: github.event_name == 'push' && github.repository == 'google/guava'
     runs-on: ubuntu-latest
     steps:
       - name: 'Check out repository'
-        uses: actions/checkout@v2.3.4
-      - name: 'Cache local Maven repository'
-        uses: actions/cache@v2.1.6
-        with:
-          path: ~/.m2/repository
-          key: maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            maven-
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
       - name: 'Set up JDK 11'
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@387ac29b308b003ca37ba93a6cab5eb57c8f5f93
+
         with:
           java-version: 11
           distribution: 'zulu'
+          cache: 'maven'
       - name: 'Generate latest docs'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -22,17 +22,24 @@ import static com.google.common.graph.Graphs.checkNonNegative;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Optional;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 /**
  * A builder for constructing instances of {@link MutableValueGraph} or {@link ImmutableValueGraph}
  * with user-defined properties.
  *
- * <p>A graph built by this class will have the following properties by default:
+ * <p>A {@code ValueGraph} built by this class has the following default properties:
  *
  * <ul>
  *   <li>does not allow self-loops
- *   <li>orders {@link Graph#nodes()} in the order in which the elements were added
+ *   <li>orders {@link ValueGraph#nodes()} in the order in which the elements were added (insertion
+ *       order)
  * </ul>
+ *
+ * <p>{@code ValueGraph}s built by this class also guarantee that each collection-returning accessor
+ * returns a <b>(live) unmodifiable view</b>; see <a
+ * href="https://github.com/google/guava/wiki/GraphsExplained#accessor-behavior">the external
+ * documentation</a> for details.
  *
  * <p>Examples of use:
  *
@@ -122,6 +129,7 @@ public final class ValueGraphBuilder<N, V> extends AbstractGraphBuilder<N> {
    *
    * <p>The default value is {@code false}.
    */
+  @CanIgnoreReturnValue
   public ValueGraphBuilder<N, V> allowsSelfLoops(boolean allowsSelfLoops) {
     this.allowsSelfLoops = allowsSelfLoops;
     return this;
@@ -132,6 +140,7 @@ public final class ValueGraphBuilder<N, V> extends AbstractGraphBuilder<N> {
    *
    * @throws IllegalArgumentException if {@code expectedNodeCount} is negative
    */
+  @CanIgnoreReturnValue
   public ValueGraphBuilder<N, V> expectedNodeCount(int expectedNodeCount) {
     this.expectedNodeCount = Optional.of(checkNonNegative(expectedNodeCount));
     return this;

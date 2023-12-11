@@ -21,11 +21,9 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Ascii;
 import com.google.common.base.CharMatcher;
-import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.base.Joiner.MapJoiner;
 import com.google.common.base.MoreObjects;
@@ -37,12 +35,12 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Multimaps;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.Immutable;
 import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.nio.charset.Charset;
 import java.nio.charset.IllegalCharsetNameException;
 import java.nio.charset.UnsupportedCharsetException;
-import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
 import javax.annotation.CheckForNull;
@@ -72,7 +70,6 @@ import javax.annotation.CheckForNull;
  * @since 12.0
  * @author Gregory Kick
  */
-@Beta
 @GwtCompatible
 @Immutable
 @ElementTypesAreNonnullByDefault
@@ -495,6 +492,13 @@ public final class MediaType {
   public static final MediaType JSON_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "json");
 
   /**
+   * For <a href="https://tools.ietf.org/html/7519">JWT objects using the compact Serialization</a>.
+   *
+   * @since 32.0.0
+   */
+  public static final MediaType JWT = createConstant(APPLICATION_TYPE, "jwt");
+
+  /**
    * The <a href="http://www.w3.org/TR/appmanifest/">Manifest for a web application</a>.
    *
    * @since 19.0
@@ -792,14 +796,7 @@ public final class MediaType {
   }
 
   private Map<String, ImmutableMultiset<String>> parametersAsMap() {
-    return Maps.transformValues(
-        parameters.asMap(),
-        new Function<Collection<String>, ImmutableMultiset<String>>() {
-          @Override
-          public ImmutableMultiset<String> apply(Collection<String> input) {
-            return ImmutableMultiset.copyOf(input);
-          }
-        });
+    return Maps.transformValues(parameters.asMap(), ImmutableMultiset::copyOf);
   }
 
   /**
@@ -896,7 +893,7 @@ public final class MediaType {
    * one.
    *
    * <p>If a charset must be specified that is not supported on this JVM (and thus is not
-   * representable as a {@link Charset} instance, use {@link #withParameter}.
+   * representable as a {@link Charset} instance), use {@link #withParameter}.
    */
   public MediaType withCharset(Charset charset) {
     checkNotNull(charset);
@@ -1049,21 +1046,20 @@ public final class MediaType {
    *
    * @throws IllegalArgumentException if the input is not parsable
    */
+  @CanIgnoreReturnValue // TODO(b/219820829): consider removing
   public static MediaType parse(String input) {
     checkNotNull(input);
     Tokenizer tokenizer = new Tokenizer(input);
     try {
       String type = tokenizer.consumeToken(TOKEN_MATCHER);
-      tokenizer.consumeCharacter('/');
+      consumeSeparator(tokenizer, '/');
       String subtype = tokenizer.consumeToken(TOKEN_MATCHER);
       ImmutableListMultimap.Builder<String, String> parameters = ImmutableListMultimap.builder();
       while (tokenizer.hasMore()) {
-        tokenizer.consumeTokenIfPresent(LINEAR_WHITE_SPACE);
-        tokenizer.consumeCharacter(';');
-        tokenizer.consumeTokenIfPresent(LINEAR_WHITE_SPACE);
+        consumeSeparator(tokenizer, ';');
         String attribute = tokenizer.consumeToken(TOKEN_MATCHER);
-        tokenizer.consumeCharacter('=');
-        final String value;
+        consumeSeparator(tokenizer, '=');
+        String value;
         if ('"' == tokenizer.previewChar()) {
           tokenizer.consumeCharacter('"');
           StringBuilder valueBuilder = new StringBuilder();
@@ -1088,6 +1084,12 @@ public final class MediaType {
     }
   }
 
+  private static void consumeSeparator(Tokenizer tokenizer, char c) {
+    tokenizer.consumeTokenIfPresent(LINEAR_WHITE_SPACE);
+    tokenizer.consumeCharacter(c);
+    tokenizer.consumeTokenIfPresent(LINEAR_WHITE_SPACE);
+  }
+
   private static final class Tokenizer {
     final String input;
     int position = 0;
@@ -1096,6 +1098,7 @@ public final class MediaType {
       this.input = input;
     }
 
+    @CanIgnoreReturnValue
     String consumeTokenIfPresent(CharMatcher matcher) {
       checkState(hasMore());
       int startPosition = position;
@@ -1118,6 +1121,7 @@ public final class MediaType {
       return c;
     }
 
+    @CanIgnoreReturnValue
     char consumeCharacter(char c) {
       checkState(hasMore());
       checkState(previewChar() == c);
@@ -1185,14 +1189,10 @@ public final class MediaType {
       Multimap<String, String> quotedParameters =
           Multimaps.transformValues(
               parameters,
-              new Function<String, String>() {
-                @Override
-                public String apply(String value) {
-                  return (TOKEN_MATCHER.matchesAllOf(value) && !value.isEmpty())
+              (String value) ->
+                  (TOKEN_MATCHER.matchesAllOf(value) && !value.isEmpty())
                       ? value
-                      : escapeAndQuote(value);
-                }
-              });
+                      : escapeAndQuote(value));
       PARAMETER_JOINER.appendTo(builder, quotedParameters.entries());
     }
     return builder.toString();

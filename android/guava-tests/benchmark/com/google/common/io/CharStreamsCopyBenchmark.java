@@ -21,6 +21,7 @@ import com.google.caliper.api.VmOptions;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.nio.Buffer;
 import java.nio.CharBuffer;
 import java.util.Random;
 
@@ -40,10 +41,10 @@ public class CharStreamsCopyBenchmark {
         CharBuffer buf = CharStreams.createBuffer();
         long total = 0;
         while (from.read(buf) != -1) {
-          buf.flip();
+          ((Buffer) buf).flip();
           to.append(buf);
           total += buf.remaining();
-          buf.clear();
+          ((Buffer) buf).clear();
         }
         return total;
       }

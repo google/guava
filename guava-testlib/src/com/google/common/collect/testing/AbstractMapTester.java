@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 import java.util.Map.Entry;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.junit.Ignore;
 
 /**
@@ -72,8 +73,8 @@ public abstract class AbstractMapTester<K, V>
   /** @return an array of the proper size with {@code null} as the key of the middle element. */
   protected Entry<K, V>[] createArrayWithNullKey() {
     Entry<K, V>[] array = createSamplesArray();
-    final int nullKeyLocation = getNullLocation();
-    final Entry<K, V> oldEntry = array[nullKeyLocation];
+    int nullKeyLocation = getNullLocation();
+    Entry<K, V> oldEntry = array[nullKeyLocation];
     array[nullKeyLocation] = entry(null, oldEntry.getValue());
     return array;
   }
@@ -97,8 +98,8 @@ public abstract class AbstractMapTester<K, V>
   /** @return an array of the proper size with {@code null} as the value of the middle element. */
   protected Entry<K, V>[] createArrayWithNullValue() {
     Entry<K, V>[] array = createSamplesArray();
-    final int nullValueLocation = getNullLocation();
-    final Entry<K, V> oldEntry = array[nullValueLocation];
+    int nullValueLocation = getNullLocation();
+    Entry<K, V> oldEntry = array[nullValueLocation];
     array[nullValueLocation] = entry(oldEntry.getKey(), null);
     return array;
   }
@@ -167,7 +168,7 @@ public abstract class AbstractMapTester<K, V>
     }
   }
 
-  private static boolean equal(Object a, Object b) {
+  private static boolean equal(@Nullable Object a, @Nullable Object b) {
     return a == b || (a != null && a.equals(b));
   }
 

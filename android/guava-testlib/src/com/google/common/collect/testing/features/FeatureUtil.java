@@ -18,6 +18,7 @@ package com.google.common.collect.testing.features;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.Helpers;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
@@ -55,6 +56,7 @@ public class FeatureUtil {
    * @param features the set of features to expand
    * @return the same set of features, expanded with all implied features
    */
+  @CanIgnoreReturnValue
   public static Set<Feature<?>> addImpliedFeatures(Set<Feature<?>> features) {
     Queue<Feature<?>> queue = new ArrayDeque<>(features);
     while (!queue.isEmpty()) {
@@ -139,12 +141,12 @@ public class FeatureUtil {
    */
   static TesterRequirements buildTesterRequirements(Class<?> testerClass)
       throws ConflictingRequirementsException {
-    final TesterRequirements declaredRequirements = buildDeclaredTesterRequirements(testerClass);
+    TesterRequirements declaredRequirements = buildDeclaredTesterRequirements(testerClass);
     Class<?> baseClass = testerClass.getSuperclass();
     if (baseClass == null) {
       return declaredRequirements;
     } else {
-      final TesterRequirements clonedBaseRequirements =
+      TesterRequirements clonedBaseRequirements =
           new TesterRequirements(getTesterRequirements(baseClass));
       return incorporateRequirements(clonedBaseRequirements, declaredRequirements, testerClass);
     }
@@ -176,8 +178,8 @@ public class FeatureUtil {
   private static TesterRequirements buildTesterRequirements(Annotation testerAnnotation)
       throws ConflictingRequirementsException {
     Class<? extends Annotation> annotationClass = testerAnnotation.annotationType();
-    final Feature<?>[] presentFeatures;
-    final Feature<?>[] absentFeatures;
+    Feature<?>[] presentFeatures;
+    Feature<?>[] absentFeatures;
     try {
       presentFeatures = (Feature[]) annotationClass.getMethod("value").invoke(testerAnnotation);
       absentFeatures = (Feature[]) annotationClass.getMethod("absent").invoke(testerAnnotation);
@@ -254,6 +256,7 @@ public class FeatureUtil {
    * @throws ConflictingRequirementsException if the additional requirements are inconsistent with
    *     the existing requirements
    */
+  @CanIgnoreReturnValue
   private static TesterRequirements incorporateRequirements(
       TesterRequirements requirements, TesterRequirements moreRequirements, Object source)
       throws ConflictingRequirementsException {

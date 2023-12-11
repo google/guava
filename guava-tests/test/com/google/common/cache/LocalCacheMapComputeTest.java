@@ -17,6 +17,7 @@
 package com.google.common.cache;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.util.concurrent.UncheckedExecutionException;
 import java.util.ArrayList;
@@ -165,7 +166,7 @@ public class LocalCacheMapComputeTest extends TestCase {
         count,
         n -> {
           try {
-            cache.get(key, () -> key);
+            String unused = cache.get(key, () -> key);
             cache.asMap().compute(key, (k, v) -> null);
           } catch (ExecutionException e) {
             throw new UncheckedExecutionException(e);
@@ -180,20 +181,19 @@ public class LocalCacheMapComputeTest extends TestCase {
   }
 
   public void testComputeExceptionally() {
-    try {
-      doParallelCacheOp(
-          count,
-          n -> {
-            cache
-                .asMap()
-                .compute(
-                    key,
-                    (k, v) -> {
-                      throw new RuntimeException();
-                    });
-          });
-      fail("Should not get here");
-    } catch (RuntimeException ex) {
-    }
+    assertThrows(
+        RuntimeException.class,
+        () ->
+            doParallelCacheOp(
+                count,
+                n -> {
+                  cache
+                      .asMap()
+                      .compute(
+                          key,
+                          (k, v) -> {
+                            throw new RuntimeException();
+                          });
+                }));
   }
 }

@@ -61,7 +61,7 @@ abstract class AggregateFutureState<OutputT extends @Nullable Object>
           new SafeAtomicHelper(
               newUpdater(AggregateFutureState.class, Set.class, "seenExceptions"),
               newUpdater(AggregateFutureState.class, "remaining"));
-    } catch (Throwable reflectionFailure) {
+    } catch (RuntimeException | Error reflectionFailure) {
       // Some Android 5.0.x Samsung devices have bugs in JDK reflection APIs that cause
       // getDeclaredField to throw a NoSuchFieldException when the field is definitely there.
       // For these users fallback to a suboptimal implementation, based on synchronized. This will
@@ -159,7 +159,7 @@ abstract class AggregateFutureState<OutputT extends @Nullable Object>
   }
 
   private static final class SafeAtomicHelper extends AtomicHelper {
-    final AtomicReferenceFieldUpdater<AggregateFutureState<?>, Set<Throwable>>
+    final AtomicReferenceFieldUpdater<AggregateFutureState<?>, @Nullable Set<Throwable>>
         seenExceptionsUpdater;
 
     final AtomicIntegerFieldUpdater<AggregateFutureState<?>> remainingCountUpdater;
@@ -169,7 +169,7 @@ abstract class AggregateFutureState<OutputT extends @Nullable Object>
         AtomicReferenceFieldUpdater seenExceptionsUpdater,
         AtomicIntegerFieldUpdater remainingCountUpdater) {
       this.seenExceptionsUpdater =
-          (AtomicReferenceFieldUpdater<AggregateFutureState<?>, Set<Throwable>>)
+          (AtomicReferenceFieldUpdater<AggregateFutureState<?>, @Nullable Set<Throwable>>)
               seenExceptionsUpdater;
       this.remainingCountUpdater =
           (AtomicIntegerFieldUpdater<AggregateFutureState<?>>) remainingCountUpdater;

@@ -19,7 +19,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static java.util.Arrays.asList;
 
-import com.google.common.annotations.Beta;
 import com.google.common.base.Joiner;
 import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableMap;
@@ -43,7 +42,7 @@ import javax.annotation.CheckForNull;
  *
  * <p>Note that usually type mappings are already implied by the static type hierarchy (for example,
  * the {@code E} type variable declared by class {@code List} naturally maps to {@code String} in
- * the context of {@code class MyStringList implements List<String>}. In such case, prefer to use
+ * the context of {@code class MyStringList implements List<String>}). In such case, prefer to use
  * {@link TypeToken#resolveType} since it's simpler and more type safe. This class should only be
  * used when the type mapping isn't implied by the static type hierarchy, but provided through other
  * means such as an annotation or external configuration file.
@@ -51,7 +50,6 @@ import javax.annotation.CheckForNull;
  * @author Ben Yu
  * @since 15.0
  */
-@Beta
 @ElementTypesAreNonnullByDefault
 public final class TypeResolver {
 
@@ -123,7 +121,7 @@ public final class TypeResolver {
   }
 
   private static void populateTypeMappings(
-      final Map<TypeVariableKey, Type> mappings, final Type from, final Type to) {
+      Map<TypeVariableKey, Type> mappings, Type from, Type to) {
     if (from.equals(to)) {
       return;
     }
@@ -296,11 +294,11 @@ public final class TypeResolver {
         checkArgument(!variable.equalsType(type), "Type variable %s bound to itself", variable);
         builder.put(variable, type);
       }
-      return new TypeTable(builder.build());
+      return new TypeTable(builder.buildOrThrow());
     }
 
-    final Type resolve(final TypeVariable<?> var) {
-      final TypeTable unguarded = this;
+    final Type resolve(TypeVariable<?> var) {
+      TypeTable unguarded = this;
       TypeTable guarded =
           new TypeTable() {
             @Override
@@ -414,7 +412,7 @@ public final class TypeResolver {
       visit(t.getUpperBounds());
     }
 
-    private void map(final TypeVariableKey var, final Type arg) {
+    private void map(TypeVariableKey var, Type arg) {
       if (mappings.containsKey(var)) {
         // Mapping already established
         // This is possible when following both superClass -> enclosingClass
@@ -428,7 +426,7 @@ public final class TypeResolver {
         if (var.equalsType(t)) {
           // cycle detected, remove the entire cycle from the mapping so that
           // each type variable resolves deterministically to itself.
-          // Otherwise, a F -> T cycle will end up resolving both F and T
+          // Otherwise, an F -> T cycle will end up resolving both F and T
           // nondeterministically to either F or T.
           for (Type x = arg; x != null; x = mappings.remove(TypeVariableKey.forLookup(x))) {}
           return;
@@ -504,7 +502,7 @@ public final class TypeResolver {
       return Types.newArtificialTypeVariable(WildcardCapturer.class, name, upperBounds);
     }
 
-    private WildcardCapturer forTypeVariable(final TypeVariable<?> typeParam) {
+    private WildcardCapturer forTypeVariable(TypeVariable<?> typeParam) {
       return new WildcardCapturer(id) {
         @Override
         TypeVariable<?> captureAsTypeVariable(Type[] upperBounds) {

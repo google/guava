@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -34,6 +35,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Jared Levy
  */
 @GwtIncompatible
+@J2ktIncompatible
 @ElementTypesAreNonnullByDefault
 final class Serialization {
   private Serialization() {}
@@ -187,10 +189,10 @@ final class Serialization {
   }
 
   // Secret sauce for setting final fields; don't make it public.
-  static <T> FieldSetter<T> getFieldSetter(final Class<T> clazz, String fieldName) {
+  static <T> FieldSetter<T> getFieldSetter(Class<T> clazz, String fieldName) {
     try {
       Field field = clazz.getDeclaredField(fieldName);
-      return new FieldSetter<T>(field);
+      return new FieldSetter<>(field);
     } catch (NoSuchFieldException e) {
       throw new AssertionError(e); // programmer error
     }

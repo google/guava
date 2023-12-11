@@ -87,7 +87,7 @@ public class ImmutableGraph<N> extends ForwardingGraph<N> {
     for (N node : graph.nodes()) {
       nodeConnections.put(node, connectionsOf(graph, node));
     }
-    return nodeConnections.build();
+    return nodeConnections.buildOrThrow();
   }
 
   @SuppressWarnings("unchecked")

@@ -14,9 +14,10 @@
 
 package com.google.common.util.concurrent;
 
-import com.google.common.annotations.Beta;
+import static com.google.common.util.concurrent.Platform.restoreInterruptIfIsInterruptedException;
+
 import com.google.common.annotations.GwtIncompatible;
-import com.google.common.base.Supplier;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.time.Duration;
 import java.util.concurrent.Executor;
@@ -34,6 +35,7 @@ import java.util.logging.Logger;
  * @since 1.0
  */
 @GwtIncompatible
+@J2ktIncompatible
 @ElementTypesAreNonnullByDefault
 public abstract class AbstractExecutionThreadService implements Service {
   private static final Logger logger =
@@ -44,49 +46,41 @@ public abstract class AbstractExecutionThreadService implements Service {
       new AbstractService() {
         @Override
         protected final void doStart() {
-          Executor executor =
-              MoreExecutors.renamingDecorator(
-                  executor(),
-                  new Supplier<String>() {
-                    @Override
-                    public String get() {
-                      return serviceName();
-                    }
-                  });
+          Executor executor = MoreExecutors.renamingDecorator(executor(), () -> serviceName());
           executor.execute(
-              new Runnable() {
-                @Override
-                public void run() {
-                  try {
-                    startUp();
-                    notifyStarted();
-                    // If stopAsync() is called while starting we may be in the STOPPING state in
-                    // which case we should skip right down to shutdown.
-                    if (isRunning()) {
+              () -> {
+                try {
+                  startUp();
+                  notifyStarted();
+                  // If stopAsync() is called while starting we may be in the STOPPING state in
+                  // which case we should skip right down to shutdown.
+                  if (isRunning()) {
+                    try {
+                      AbstractExecutionThreadService.this.run();
+                    } catch (Throwable t) {
+                      restoreInterruptIfIsInterruptedException(t);
                       try {
-                        AbstractExecutionThreadService.this.run();
-                      } catch (Throwable t) {
-                        try {
-                          shutDown();
-                        } catch (Exception ignored) {
-                          // TODO(lukes): if guava ever moves to java7, this would be a good
-                          // candidate for a suppressed exception, or maybe we could generalize
-                          // Closer.Suppressor
-                          logger.log(
-                              Level.WARNING,
-                              "Error while attempting to shut down the service after failure.",
-                              ignored);
-                        }
-                        notifyFailed(t);
-                        return;
+                        shutDown();
+                      } catch (Exception ignored) {
+                        restoreInterruptIfIsInterruptedException(ignored);
+                        // TODO(lukes): if guava ever moves to java7, this would be a good
+                        // candidate for a suppressed exception, or maybe we could generalize
+                        // Closer.Suppressor
+                        logger.log(
+                            Level.WARNING,
+                            "Error while attempting to shut down the service after failure.",
+                            ignored);
                       }
+                      notifyFailed(t);
+                      return;
                     }
-
-                    shutDown();
-                    notifyStopped();
-                  } catch (Throwable t) {
-                    notifyFailed(t);
                   }
+
+                  shutDown();
+                  notifyStopped();
+                } catch (Throwable t) {
+                  restoreInterruptIfIsInterruptedException(t);
+                  notifyFailed(t);
                 }
               });
         }
@@ -148,7 +142,6 @@ public abstract class AbstractExecutionThreadService implements Service {
    * implementing {@code stopping}. Note, however, that {@code stopping} does not run at exactly the
    * same times as {@code triggerShutdown}.
    */
-  @Beta
   protected void triggerShutdown() {}
 
   /**
@@ -162,12 +155,7 @@ public abstract class AbstractExecutionThreadService implements Service {
    * to the string returned by {@link #serviceName}
    */
   protected Executor executor() {
-    return new Executor() {
-      @Override
-      public void execute(Runnable command) {
-        MoreExecutors.newThread(serviceName(), command).start();
-      }
-    };
+    return command -> MoreExecutors.newThread(serviceName(), command).start();
   }
 
   @Override

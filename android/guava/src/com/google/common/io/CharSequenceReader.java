@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkPositionIndexes;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.CharBuffer;
@@ -32,6 +33,7 @@ import javax.annotation.CheckForNull;
  * @author Colin Decker
  */
 // TODO(cgdecker): make this public? as a type, or a method in CharStreams?
+@J2ktIncompatible
 @GwtIncompatible
 @ElementTypesAreNonnullByDefault
 final class CharSequenceReader extends Reader {

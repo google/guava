@@ -25,7 +25,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.locks.AbstractQueuedSynchronizer;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** Utilities for the AbstractFutureBenchmarks */
 final class AbstractFutureBenchmarks {
@@ -218,7 +218,7 @@ final class AbstractFutureBenchmarks {
      * @return true if the state was successfully changed.
      */
     @CanIgnoreReturnValue
-    protected boolean set(@NullableDecl V value) {
+    protected boolean set(@Nullable V value) {
       boolean result = sync.set(value);
       if (result) {
         executionList.execute();
@@ -360,7 +360,7 @@ final class AbstractFutureBenchmarks {
       }
 
       /** Transition to the COMPLETED state and set the value. */
-      boolean set(@NullableDecl V v) {
+      boolean set(@Nullable V v) {
         return complete(v, null, COMPLETED);
       }
 
@@ -384,7 +384,7 @@ final class AbstractFutureBenchmarks {
        * @param t the exception to set as the result of the computation.
        * @param finalState the state to transition to.
        */
-      private boolean complete(@NullableDecl V v, @NullableDecl Throwable t, int finalState) {
+      private boolean complete(@Nullable V v, @Nullable Throwable t, int finalState) {
         boolean doCompletion = compareAndSetState(RUNNING, COMPLETING);
         if (doCompletion) {
           // If this thread successfully transitioned to COMPLETING, set the value
@@ -406,7 +406,7 @@ final class AbstractFutureBenchmarks {
     }
 
     static final CancellationException cancellationExceptionWithCause(
-        @NullableDecl String message, @NullableDecl Throwable cause) {
+        @Nullable String message, @Nullable Throwable cause) {
       CancellationException exception = new CancellationException(message);
       exception.initCause(cause);
       return exception;

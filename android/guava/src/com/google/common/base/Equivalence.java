@@ -20,6 +20,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.ForOverride;
 import java.io.Serializable;
 import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -150,10 +151,13 @@ public abstract class Equivalence<T> {
    * Object.equals()} such that {@code wrap(a).equals(wrap(b))} if and only if {@code equivalent(a,
    * b)}.
    *
+   * <p>The returned object is serializable if both this {@code Equivalence} and {@code reference}
+   * are serializable (including when {@code reference} is null).
+   *
    * @since 10.0
    */
   public final <S extends @Nullable T> Wrapper<S> wrap(@ParametricNullness S reference) {
-    return new Wrapper<S>(this, reference);
+    return new Wrapper<>(this, reference);
   }
 
   /**
@@ -177,10 +181,19 @@ public abstract class Equivalence<T> {
    * @since 10.0
    */
   public static final class Wrapper<T extends @Nullable Object> implements Serializable {
-    private final Equivalence<? super T> equivalence;
+    /*
+     * Equivalence's type argument is always non-nullable: Equivalence<Number>, never
+     * Equivalence<@Nullable Number>. That can still produce wrappers of various types --
+     * Wrapper<Number>, Wrapper<Integer>, Wrapper<@Nullable Integer>, etc. If we used just
+     * Equivalence<? super T> below, no type could satisfy both that bound and T's own
+     * bound. With this type, they have some overlap: in our example, Equivalence<Number>
+     * and Equivalence<Object>.
+     */
+    private final Equivalence<? super @NonNull T> equivalence;
+
     @ParametricNullness private final T reference;
 
-    private Wrapper(Equivalence<? super T> equivalence, @ParametricNullness T reference) {
+    private Wrapper(Equivalence<? super @NonNull T> equivalence, @ParametricNullness T reference) {
       this.equivalence = checkNotNull(equivalence);
       this.reference = reference;
     }
@@ -243,6 +256,8 @@ public abstract class Equivalence<T> {
    *
    * <p>Note that this method performs a similar function for equivalences as {@link
    * com.google.common.collect.Ordering#lexicographical} does for orderings.
+   *
+   * <p>The returned object is serializable if this object is serializable.
    *
    * @since 10.0
    */

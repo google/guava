@@ -47,7 +47,7 @@ public final class RemovalNotification<K, V>
    */
   public static <K, V> RemovalNotification<K, V> create(
       @CheckForNull K key, @CheckForNull V value, RemovalCause cause) {
-    return new RemovalNotification(key, value, cause);
+    return new RemovalNotification<>(key, value, cause);
   }
 
   private RemovalNotification(@CheckForNull K key, @CheckForNull V value, RemovalCause cause) {

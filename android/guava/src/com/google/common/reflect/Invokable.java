@@ -16,7 +16,6 @@ package com.google.common.reflect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.lang.annotation.Annotation;
@@ -62,7 +61,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 14.0 (no longer implements {@link AccessibleObject} or {@code GenericDeclaration} since
  *     31.0)
  */
-@Beta
 @ElementTypesAreNonnullByDefault
 public abstract class Invokable<T, R> implements AnnotatedElement, Member {
   private final AccessibleObject accessibleObject;
@@ -272,12 +270,17 @@ public abstract class Invokable<T, R> implements AnnotatedElement, Member {
    * of a non-static inner class, unlike {@link Constructor#getParameterTypes}, the hidden {@code
    * this} parameter of the enclosing class is excluded from the returned parameters.
    */
+  @IgnoreJRERequirement
   public final ImmutableList<Parameter> getParameters() {
     Type[] parameterTypes = getGenericParameterTypes();
     Annotation[][] annotations = getParameterAnnotations();
+    @Nullable Object[] annotatedTypes =
+        new Object[parameterTypes.length];
     ImmutableList.Builder<Parameter> builder = ImmutableList.builder();
     for (int i = 0; i < parameterTypes.length; i++) {
-      builder.add(new Parameter(this, i, TypeToken.of(parameterTypes[i]), annotations[i]));
+      builder.add(
+          new Parameter(
+              this, i, TypeToken.of(parameterTypes[i]), annotations[i], annotatedTypes[i]));
     }
     return builder.build();
   }
@@ -509,5 +512,16 @@ public abstract class Invokable<T, R> implements AnnotatedElement, Member {
             && !Modifier.isStatic(declaringClass.getModifiers());
       }
     }
+  }
+
+  private static final boolean ANNOTATED_TYPE_EXISTS = initAnnotatedTypeExists();
+
+  private static boolean initAnnotatedTypeExists() {
+    try {
+      Class.forName("java.lang.reflect.AnnotatedType");
+    } catch (ClassNotFoundException e) {
+      return false;
+    }
+    return true;
   }
 }

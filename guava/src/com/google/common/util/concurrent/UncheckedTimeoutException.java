@@ -15,6 +15,7 @@
 package com.google.common.util.concurrent;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import javax.annotation.CheckForNull;
 
 /**
@@ -23,6 +24,7 @@ import javax.annotation.CheckForNull;
  * @author Kevin Bourrillion
  * @since 1.0
  */
+@J2ktIncompatible
 @GwtIncompatible
 @ElementTypesAreNonnullByDefault
 public class UncheckedTimeoutException extends RuntimeException {

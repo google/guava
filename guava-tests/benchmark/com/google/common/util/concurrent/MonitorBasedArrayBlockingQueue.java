@@ -51,7 +51,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Justin T. Sampson
  * @param <E> the type of elements held in this collection
  */
-@CanIgnoreReturnValue
+// TODO(kak): consider removing some of the @CanIgnoreReturnValue annotations as appropriate
 public class MonitorBasedArrayBlockingQueue<E> extends AbstractQueue<E>
     implements BlockingQueue<E> {
 
@@ -213,6 +213,7 @@ public class MonitorBasedArrayBlockingQueue<E> extends AbstractQueue<E>
    * @throws IllegalStateException if this queue is full
    * @throws NullPointerException if the specified element is null
    */
+  @CanIgnoreReturnValue
   @Override
   public boolean add(E e) {
     return super.add(e);
@@ -226,6 +227,7 @@ public class MonitorBasedArrayBlockingQueue<E> extends AbstractQueue<E>
    *
    * @throws NullPointerException if the specified element is null
    */
+  @CanIgnoreReturnValue
   @Override
   public boolean offer(E e) {
     if (e == null) throw new NullPointerException();
@@ -249,6 +251,7 @@ public class MonitorBasedArrayBlockingQueue<E> extends AbstractQueue<E>
    * @throws InterruptedException {@inheritDoc}
    * @throws NullPointerException {@inheritDoc}
    */
+  @CanIgnoreReturnValue
   @Override
   public boolean offer(E e, long timeout, TimeUnit unit) throws InterruptedException {
 
@@ -285,8 +288,9 @@ public class MonitorBasedArrayBlockingQueue<E> extends AbstractQueue<E>
     }
   }
 
+  @CanIgnoreReturnValue
   @Override
-  public E poll() {
+  public @Nullable E poll() {
     final Monitor monitor = this.monitor;
     if (monitor.enterIf(notEmpty)) {
       try {
@@ -299,8 +303,9 @@ public class MonitorBasedArrayBlockingQueue<E> extends AbstractQueue<E>
     }
   }
 
+  @CanIgnoreReturnValue
   @Override
-  public E poll(long timeout, TimeUnit unit) throws InterruptedException {
+  public @Nullable E poll(long timeout, TimeUnit unit) throws InterruptedException {
     final Monitor monitor = this.monitor;
     if (monitor.enterWhen(notEmpty, timeout, unit)) {
       try {
@@ -313,6 +318,7 @@ public class MonitorBasedArrayBlockingQueue<E> extends AbstractQueue<E>
     }
   }
 
+  @CanIgnoreReturnValue
   @Override
   public E take() throws InterruptedException {
     final Monitor monitor = this.monitor;
@@ -324,8 +330,9 @@ public class MonitorBasedArrayBlockingQueue<E> extends AbstractQueue<E>
     }
   }
 
+  @CanIgnoreReturnValue
   @Override
-  public E peek() {
+  public @Nullable E peek() {
     final Monitor monitor = this.monitor;
     if (monitor.enterIf(notEmpty)) {
       try {
@@ -345,6 +352,7 @@ public class MonitorBasedArrayBlockingQueue<E> extends AbstractQueue<E>
    *
    * @return the number of elements in this queue
    */
+  @CanIgnoreReturnValue
   @Override
   public int size() {
     final Monitor monitor = this.monitor;
@@ -367,6 +375,7 @@ public class MonitorBasedArrayBlockingQueue<E> extends AbstractQueue<E>
    * inspecting {@code remainingCapacity} because it may be the case that another thread is about to
    * insert or remove an element.
    */
+  @CanIgnoreReturnValue
   @Override
   public int remainingCapacity() {
     final Monitor monitor = this.monitor;
@@ -387,6 +396,7 @@ public class MonitorBasedArrayBlockingQueue<E> extends AbstractQueue<E>
    * @param o element to be removed from this queue, if present
    * @return {@code true} if this queue changed as a result of the call
    */
+  @CanIgnoreReturnValue
   @Override
   public boolean remove(@Nullable Object o) {
     if (o == null) return false;
@@ -417,6 +427,7 @@ public class MonitorBasedArrayBlockingQueue<E> extends AbstractQueue<E>
    * @param o object to be checked for containment in this queue
    * @return {@code true} if this queue contains the specified element
    */
+  @CanIgnoreReturnValue
   @Override
   public boolean contains(@Nullable Object o) {
     if (o == null) return false;
@@ -447,6 +458,7 @@ public class MonitorBasedArrayBlockingQueue<E> extends AbstractQueue<E>
    *
    * @return an array containing all of the elements in this queue
    */
+  @CanIgnoreReturnValue
   @Override
   public Object[] toArray() {
     final E[] items = this.items;
@@ -495,6 +507,7 @@ public class MonitorBasedArrayBlockingQueue<E> extends AbstractQueue<E>
    *     the runtime type of every element in this queue
    * @throws NullPointerException if the specified array is null
    */
+  @CanIgnoreReturnValue
   @Override
   public <T> T[] toArray(T[] a) {
     final E[] items = this.items;
@@ -522,6 +535,7 @@ public class MonitorBasedArrayBlockingQueue<E> extends AbstractQueue<E>
     }
   }
 
+  @CanIgnoreReturnValue
   @Override
   public String toString() {
     final Monitor monitor = this.monitor;
@@ -563,6 +577,7 @@ public class MonitorBasedArrayBlockingQueue<E> extends AbstractQueue<E>
    * @throws NullPointerException {@inheritDoc}
    * @throws IllegalArgumentException {@inheritDoc}
    */
+  @CanIgnoreReturnValue
   @Override
   public int drainTo(Collection<? super E> c) {
     if (c == null) throw new NullPointerException();
@@ -597,6 +612,7 @@ public class MonitorBasedArrayBlockingQueue<E> extends AbstractQueue<E>
    * @throws NullPointerException {@inheritDoc}
    * @throws IllegalArgumentException {@inheritDoc}
    */
+  @CanIgnoreReturnValue
   @Override
   public int drainTo(Collection<? super E> c, int maxElements) {
     if (c == null) throw new NullPointerException();
@@ -634,6 +650,7 @@ public class MonitorBasedArrayBlockingQueue<E> extends AbstractQueue<E>
    *
    * @return an iterator over the elements in this queue in proper sequence
    */
+  @CanIgnoreReturnValue
   @Override
   public Iterator<E> iterator() {
     final Monitor monitor = this.monitor;
@@ -655,7 +672,7 @@ public class MonitorBasedArrayBlockingQueue<E> extends AbstractQueue<E>
      * we must return it in the following next() call even if it was in the process of being removed
      * when hasNext() was called.
      */
-    private E nextItem;
+    private @Nullable E nextItem;
 
     /**
      * Index of element returned by most recent call to next. Reset to -1 if this element is deleted

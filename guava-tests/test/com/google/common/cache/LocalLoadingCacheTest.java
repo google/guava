@@ -157,7 +157,7 @@ public class LocalLoadingCacheTest extends TestCase {
     assertThat(map).containsEntry(three, one);
     assertThat(map).containsEntry(one, two);
 
-    // TODO(user): Confirm with fry@ that this is a reasonable substitute.
+    // TODO(cgruber): Confirm with fry@ that this is a reasonable substitute.
     // Set<Entry<Object, Object>> entries = map.entrySet();
     // assertThat(entries).containsExactly(
     //    Maps.immutableEntry(three, one), Maps.immutableEntry(one, two));
@@ -293,7 +293,6 @@ public class LocalLoadingCacheTest extends TestCase {
     assertFalse(segment.recencyQueue.isEmpty());
   }
 
-
   public void testRecursiveComputation() throws InterruptedException {
     final AtomicReference<LoadingCache<Integer, String>> cacheRef = new AtomicReference<>();
     CacheLoader<Integer, String> recursiveLoader =
@@ -324,7 +323,7 @@ public class LocalLoadingCacheTest extends TestCase {
     recursiveCache = CacheBuilder.newBuilder().weakKeys().weakValues().build(recursiveLoader);
     cacheRef.set(recursiveCache);
 
-    // tells the test when the compution has completed
+    // tells the test when the computation has completed
     final CountDownLatch doneSignal = new CountDownLatch(1);
 
     Thread thread =

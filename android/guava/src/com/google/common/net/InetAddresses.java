@@ -17,13 +17,14 @@ package com.google.common.net;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.MoreObjects;
 import com.google.common.hash.Hashing;
 import com.google.common.io.ByteStreams;
 import com.google.common.primitives.Ints;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.math.BigInteger;
 import java.net.Inet4Address;
 import java.net.Inet6Address;
@@ -95,7 +96,7 @@ import javax.annotation.CheckForNull;
  * @author Erik Kline
  * @since 5.0
  */
-@Beta
+@J2ktIncompatible
 @GwtIncompatible
 @ElementTypesAreNonnullByDefault
 public final class InetAddresses {
@@ -144,6 +145,7 @@ public final class InetAddresses {
    * @return {@link InetAddress} representing the argument
    * @throws IllegalArgumentException if the argument is not a valid IP string literal
    */
+  @CanIgnoreReturnValue // TODO(b/219820829): consider removing
   public static InetAddress forString(String ipString) {
     byte[] addr = ipStringToBytes(ipString);
 
@@ -522,7 +524,7 @@ public final class InetAddresses {
    * want to accept ASCII digits only, you can use something like {@code
    * CharMatcher.ascii().matchesAllOf(ipString)}.
    *
-   * @param hostAddr A RFC 3986 section 3.2.2 encoded IPv4 or IPv6 address
+   * @param hostAddr an RFC 3986 section 3.2.2 encoded IPv4 or IPv6 address
    * @return an InetAddress representing the address in {@code hostAddr}
    * @throws IllegalArgumentException if {@code hostAddr} is not a valid IPv4 address, or IPv6
    *     address surrounded by square brackets
@@ -667,7 +669,6 @@ public final class InetAddresses {
    *
    * @since 5.0
    */
-  @Beta
   public static final class TeredoInfo {
     private final Inet4Address server;
     private final Inet4Address client;
@@ -943,7 +944,7 @@ public final class InetAddresses {
     }
 
     // Many strategies for hashing are possible. This might suffice for now.
-    int coercedHash = Hashing.murmur3_32().hashLong(addressAsLong).asInt();
+    int coercedHash = Hashing.murmur3_32_fixed().hashLong(addressAsLong).asInt();
 
     // Squash into 224/4 Multicast and 240/4 Reserved space (i.e. 224/3).
     coercedHash |= 0xe0000000;
@@ -1027,7 +1028,7 @@ public final class InetAddresses {
 
   /**
    * Converts a BigInteger to either an IPv4 or IPv6 address. If the IP is IPv4, it must be
-   * constrainted to 32 bits, otherwise it is constrained to 128 bits.
+   * constrained to 32 bits, otherwise it is constrained to 128 bits.
    *
    * @param address the address represented as a big integer
    * @param isIpv6 whether the created address should be IPv4 or IPv6

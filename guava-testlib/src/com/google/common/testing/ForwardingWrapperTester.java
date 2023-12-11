@@ -22,19 +22,21 @@ import static com.google.common.base.Throwables.throwIfUnchecked;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.fail;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Throwables;
 import com.google.common.collect.Lists;
 import com.google.common.reflect.AbstractInvocationHandler;
 import com.google.common.reflect.Reflection;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Tester to ensure forwarding wrapper works by delegating calls to the corresponding method with
@@ -53,8 +55,9 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author Ben Yu
  * @since 14.0
  */
-@Beta
 @GwtIncompatible
+@J2ktIncompatible
+@ElementTypesAreNonnullByDefault
 public final class ForwardingWrapperTester {
 
   private boolean testsEquals = false;
@@ -63,6 +66,7 @@ public final class ForwardingWrapperTester {
    * Asks for {@link Object#equals} and {@link Object#hashCode} to be tested. That is, forwarding
    * wrappers of equal instances should be equal.
    */
+  @CanIgnoreReturnValue
   public ForwardingWrapperTester includingEquals() {
     this.testsEquals = true;
     return this;
@@ -129,7 +133,7 @@ public final class ForwardingWrapperTester {
 
   private static <T> void testExceptionPropagation(
       Class<T> interfaceType, Method method, Function<? super T, ? extends T> wrapperFunction) {
-    final RuntimeException exception = new RuntimeException();
+    RuntimeException exception = new RuntimeException();
     T proxy =
         Reflection.newProxy(
             interfaceType,
@@ -173,9 +177,9 @@ public final class ForwardingWrapperTester {
         wrapperFunction.apply(proxy).toString());
   }
 
-  private static Object[] getParameterValues(Method method) {
+  private static @Nullable Object[] getParameterValues(Method method) {
     FreshValueGenerator paramValues = new FreshValueGenerator();
-    final List<Object> passedArgs = Lists.newArrayList();
+    List<@Nullable Object> passedArgs = Lists.newArrayList();
     for (Class<?> paramType : method.getParameterTypes()) {
       passedArgs.add(paramValues.generateFresh(paramType));
     }
@@ -187,8 +191,8 @@ public final class ForwardingWrapperTester {
 
     private final Class<T> interfaceType;
     private final Method method;
-    private final Object[] passedArgs;
-    private final Object returnValue;
+    private final @Nullable Object[] passedArgs;
+    private final @Nullable Object returnValue;
     private final AtomicInteger called = new AtomicInteger();
 
     InteractionTester(Class<T> interfaceType, Method method) {
@@ -199,8 +203,8 @@ public final class ForwardingWrapperTester {
     }
 
     @Override
-    protected Object handleInvocation(Object p, Method calledMethod, Object[] args)
-        throws Throwable {
+    protected @Nullable Object handleInvocation(
+        Object p, Method calledMethod, @Nullable Object[] args) throws Throwable {
       assertEquals(method, calledMethod);
       assertEquals(method + " invoked more than once.", 0, called.get());
       for (int i = 0; i < passedArgs.length; i++) {

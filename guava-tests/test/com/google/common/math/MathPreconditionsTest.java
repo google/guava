@@ -103,7 +103,7 @@ public class MathPreconditionsTest extends TestCase {
     }
   }
 
-  public void testCheckPositive_postiveBigInteger() {
+  public void testCheckPositive_positiveBigInteger() {
     MathPreconditions.checkPositive("BigInteger", BigInteger.ONE);
   }
 
@@ -251,7 +251,7 @@ public class MathPreconditionsTest extends TestCase {
     }
   }
 
-  public void testCheckRoundingUnnnecessary_success() {
+  public void testCheckRoundingUnnecessary_success() {
     MathPreconditions.checkRoundingUnnecessary(true);
   }
 

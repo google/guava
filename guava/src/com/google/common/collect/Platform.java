@@ -17,7 +17,7 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
-import java.lang.reflect.Array;
+import com.google.common.annotations.J2ktIncompatible;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
@@ -32,8 +32,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 @GwtCompatible(emulated = true)
 @ElementTypesAreNonnullByDefault
 final class Platform {
-  private static final java.util.logging.Logger logger =
-      java.util.logging.Logger.getLogger(Platform.class.getName());
 
   /** Returns the platform preferred implementation of a map based on a hash table. */
   static <K extends @Nullable Object, V extends @Nullable Object>
@@ -98,13 +96,8 @@ final class Platform {
    * ObjectArrays, which is the main caller of this method.)
    */
   static <T extends @Nullable Object> T[] newArray(T[] reference, int length) {
-    Class<?> type = reference.getClass().getComponentType();
-
-    // the cast is safe because
-    // result.getClass() == reference.getClass().getComponentType()
-    @SuppressWarnings("unchecked")
-    T[] result = (T[]) Array.newInstance(type, length);
-    return result;
+    T[] empty = reference.length == 0 ? reference : Arrays.copyOf(reference, 0);
+    return Arrays.copyOf(empty, length);
   }
 
   /** Equivalent to Arrays.copyOfRange(source, from, to, arrayOfType.getClass()). */
@@ -126,8 +119,13 @@ final class Platform {
    * GWT). This is sometimes acceptable, when only server-side code could generate enough volume
    * that reclamation becomes important.
    */
+  @J2ktIncompatible
   static MapMaker tryWeakKeys(MapMaker mapMaker) {
     return mapMaker.weakKeys();
+  }
+
+  static <E extends Enum<E>> Class<E> getDeclaringClassOrObjectForJ2cl(E e) {
+    return e.getDeclaringClass();
   }
 
   static int reduceIterationsIfGwt(int iterations) {
@@ -136,27 +134,6 @@ final class Platform {
 
   static int reduceExponentIfGwt(int exponent) {
     return exponent;
-  }
-
-  static void checkGwtRpcEnabled() {
-    String propertyName = "guava.gwt.emergency_reenable_rpc";
-
-    if (!Boolean.parseBoolean(System.getProperty(propertyName, "false"))) {
-      throw new UnsupportedOperationException(
-          com.google.common.base.Strings.lenientFormat(
-              "We are removing GWT-RPC support for Guava types. You can temporarily reenable"
-                  + " support by setting the system property %s to true. For more about system"
-                  + " properties, see %s. For more about Guava's GWT-RPC support, see %s.",
-              propertyName,
-              "https://stackoverflow.com/q/5189914/28465",
-              "https://groups.google.com/d/msg/guava-announce/zHZTFg7YF3o/rQNnwdHeEwAJ"));
-    }
-    logger.log(
-        java.util.logging.Level.WARNING,
-        "Later in 2020, we will remove GWT-RPC support for Guava types. You are seeing this"
-            + " warning because you are sending a Guava type over GWT-RPC, which will break. You"
-            + " can identify which type by looking at the class name in the attached stack trace.",
-        new Throwable());
   }
 
   private Platform() {}

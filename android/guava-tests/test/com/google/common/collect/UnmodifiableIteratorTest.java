@@ -29,6 +29,7 @@ import junit.framework.TestCase;
 @GwtCompatible
 public class UnmodifiableIteratorTest extends TestCase {
 
+  @SuppressWarnings("DoNotCall")
   public void testRemove() {
     final String[] array = {"a", "b", "c"};
 

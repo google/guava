@@ -19,8 +19,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkPositionIndexes;
 import static java.util.Objects.requireNonNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.nio.ByteOrder;
@@ -43,6 +43,7 @@ import sun.misc.Unsafe;
  * @author Louis Wasserman
  * @since 1.0
  */
+@J2ktIncompatible
 @GwtIncompatible
 @ElementTypesAreNonnullByDefault
 public final class UnsignedBytes {
@@ -167,7 +168,6 @@ public final class UnsignedBytes {
    *
    * @since 13.0
    */
-  @Beta
   public static String toString(byte x) {
     return toString(x, 10);
   }
@@ -182,7 +182,6 @@ public final class UnsignedBytes {
    *     and {@link Character#MAX_RADIX}.
    * @since 13.0
    */
-  @Beta
   public static String toString(byte x, int radix) {
     checkArgument(
         radix >= Character.MIN_RADIX && radix <= Character.MAX_RADIX,
@@ -201,7 +200,6 @@ public final class UnsignedBytes {
    *     Byte#parseByte(String)})
    * @since 13.0
    */
-  @Beta
   @CanIgnoreReturnValue
   public static byte parseUnsignedByte(String string) {
     return parseUnsignedByte(string, 10);
@@ -219,7 +217,6 @@ public final class UnsignedBytes {
    *     Byte#parseByte(String)})
    * @since 13.0
    */
-  @Beta
   @CanIgnoreReturnValue
   public static byte parseUnsignedByte(String string, int radix) {
     int parse = Integer.parseInt(checkNotNull(string), radix);
@@ -365,7 +362,7 @@ public final class UnsignedBytes {
 
       @Override
       public int compare(byte[] left, byte[] right) {
-        final int stride = 8;
+        int stride = 8;
         int minLength = Math.min(left.length, right.length);
         int strideLimit = minLength & ~(stride - 1);
         int i;

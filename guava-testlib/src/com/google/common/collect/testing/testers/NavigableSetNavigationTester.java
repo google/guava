@@ -20,6 +20,7 @@ import static com.google.common.collect.testing.features.CollectionFeature.SUPPO
 import static com.google.common.collect.testing.features.CollectionSize.ONE;
 import static com.google.common.collect.testing.features.CollectionSize.SEVERAL;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.Helpers;
@@ -128,11 +129,7 @@ public class NavigableSetNavigationTester<E> extends AbstractSetTester<E> {
 
   @CollectionFeature.Require(absent = SUPPORTS_REMOVE)
   public void testPollFirstUnsupported() {
-    try {
-      navigableSet.pollFirst();
-      fail();
-    } catch (UnsupportedOperationException e) {
-    }
+    assertThrows(UnsupportedOperationException.class, () -> navigableSet.pollFirst());
   }
 
   @CollectionSize.Require(SEVERAL)
@@ -209,16 +206,12 @@ public class NavigableSetNavigationTester<E> extends AbstractSetTester<E> {
 
   @CollectionFeature.Require(absent = SUPPORTS_REMOVE)
   public void testPollLastUnsupported() {
-    try {
-      navigableSet.pollLast();
-      fail();
-    } catch (UnsupportedOperationException e) {
-    }
+    assertThrows(UnsupportedOperationException.class, () -> navigableSet.pollLast());
   }
 
   @CollectionSize.Require(SEVERAL)
   public void testDescendingNavigation() {
-    List<E> descending = new ArrayList<E>();
+    List<E> descending = new ArrayList<>();
     for (Iterator<E> i = navigableSet.descendingIterator(); i.hasNext(); ) {
       descending.add(i.next());
     }

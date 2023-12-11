@@ -22,6 +22,9 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
+import java.io.InvalidObjectException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.annotation.CheckForNull;
@@ -58,7 +61,7 @@ final class RegularContiguousSet<C extends Comparable> extends ContiguousSet<C> 
       C fromElement, boolean fromInclusive, C toElement, boolean toInclusive) {
     if (fromElement.compareTo(toElement) == 0 && !fromInclusive && !toInclusive) {
       // Range would reject our attempt to create (x, x).
-      return new EmptyContiguousSet<C>(domain);
+      return new EmptyContiguousSet<>(domain);
     }
     return intersectionInCurrentDomain(
         Range.range(
@@ -140,6 +143,15 @@ final class RegularContiguousSet<C extends Comparable> extends ContiguousSet<C> 
           checkElementIndex(i, size());
           return domain.offset(first(), i);
         }
+
+        // redeclare to help optimizers with b/310253115
+        @SuppressWarnings("RedundantOverride")
+        @Override
+        @J2ktIncompatible // serialization
+        @GwtIncompatible // serialization
+        Object writeReplace() {
+          return super.writeReplace();
+        }
       };
     } else {
       return super.createAsList();
@@ -181,8 +193,8 @@ final class RegularContiguousSet<C extends Comparable> extends ContiguousSet<C> 
     if (other.isEmpty()) {
       return other;
     } else {
-      C lowerEndpoint = Ordering.natural().max(this.first(), other.first());
-      C upperEndpoint = Ordering.natural().min(this.last(), other.last());
+      C lowerEndpoint = Ordering.<C>natural().max(this.first(), other.first());
+      C upperEndpoint = Ordering.<C>natural().min(this.last(), other.last());
       return (lowerEndpoint.compareTo(upperEndpoint) <= 0)
           ? ContiguousSet.create(Range.closed(lowerEndpoint, upperEndpoint), domain)
           : new EmptyContiguousSet<C>(domain);
@@ -221,6 +233,7 @@ final class RegularContiguousSet<C extends Comparable> extends ContiguousSet<C> 
   }
 
   @GwtIncompatible // serialization
+  @J2ktIncompatible
   private static final class SerializedForm<C extends Comparable> implements Serializable {
     final Range<C> range;
     final DiscreteDomain<C> domain;
@@ -231,14 +244,21 @@ final class RegularContiguousSet<C extends Comparable> extends ContiguousSet<C> 
     }
 
     private Object readResolve() {
-      return new RegularContiguousSet<C>(range, domain);
+      return new RegularContiguousSet<>(range, domain);
     }
   }
 
   @GwtIncompatible // serialization
+  @J2ktIncompatible
   @Override
   Object writeReplace() {
-    return new SerializedForm<C>(range, domain);
+    return new SerializedForm<>(range, domain);
+  }
+
+  @GwtIncompatible // serialization
+  @J2ktIncompatible
+  private void readObject(ObjectInputStream stream) throws InvalidObjectException {
+    throw new InvalidObjectException("Use SerializedForm");
   }
 
   private static final long serialVersionUID = 0;

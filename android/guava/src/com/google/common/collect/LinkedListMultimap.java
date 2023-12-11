@@ -23,6 +23,7 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.j2objc.annotations.WeakOuter;
 import java.io.IOException;
@@ -88,8 +89,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * with a call to {@link Multimaps#synchronizedListMultimap}.
  *
  * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multimap"> {@code
- * Multimap}</a>.
+ * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multimap">{@code Multimap}</a>.
  *
  * @author Mike Bostock
  * @since 2.0
@@ -105,7 +105,7 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
    * ValueForKeyIterator} in constant time.
    */
 
-  private static final class Node<K extends @Nullable Object, V extends @Nullable Object>
+  static final class Node<K extends @Nullable Object, V extends @Nullable Object>
       extends AbstractMapEntry<K, V> {
     @ParametricNullness final K key;
     @ParametricNullness V value;
@@ -212,7 +212,7 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
   /**
    * Adds a new node for the specified key-value pair before the specified {@code nextSibling}
    * element, or at the end of the list if {@code nextSibling} is null. Note: if {@code nextSibling}
-   * is specified, it MUST be for an node for the same {@code key}!
+   * is specified, it MUST be for a node for the same {@code key}!
    */
   @CanIgnoreReturnValue
   private Node<K, V> addNode(
@@ -677,7 +677,7 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
    */
   @CanIgnoreReturnValue
   @Override
-  public List<V> removeAll(@Nullable Object key) {
+  public List<V> removeAll(@CheckForNull Object key) {
     /*
      * Safe because all we do is remove values for the key, not add them. (If we wanted to make sure
      * to call getCopy and removeAllNodes only with a true K, then we could check containsKey first.
@@ -854,6 +854,7 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
    *     from the entries() ordering
    */
   @GwtIncompatible // java.io.ObjectOutputStream
+  @J2ktIncompatible
   private void writeObject(ObjectOutputStream stream) throws IOException {
     stream.defaultWriteObject();
     stream.writeInt(size());
@@ -864,6 +865,7 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
   }
 
   @GwtIncompatible // java.io.ObjectInputStream
+  @J2ktIncompatible
   private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
     stream.defaultReadObject();
     keyToKeyList = CompactLinkedHashMap.create();
@@ -878,5 +880,6 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
   }
 
   @GwtIncompatible // java serialization not supported
+  @J2ktIncompatible
   private static final long serialVersionUID = 0;
 }

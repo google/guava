@@ -20,14 +20,16 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Collections2.FilteredCollection;
 import com.google.common.math.IntMath;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.DoNotCall;
+import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.io.Serializable;
 import java.util.AbstractSet;
 import java.util.Arrays;
@@ -48,7 +50,9 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.stream.Collector;
 import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -56,7 +60,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * {@link Lists}, {@link Maps} and {@link Queues}.
  *
  * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/CollectionUtilitiesExplained#sets"> {@code Sets}</a>.
+ * "https://github.com/google/guava/wiki/CollectionUtilitiesExplained#sets">{@code Sets}</a>.
  *
  * @author Kevin Bourrillion
  * @author Jared Levy
@@ -137,6 +141,17 @@ public final class Sets {
   }
 
   /**
+   * Returns a {@code Collector} that accumulates the input elements into a new {@code ImmutableSet}
+   * with an implementation specialized for enums. Unlike {@link ImmutableSet#toImmutableSet}, the
+   * resulting set will iterate over elements in their enum definition order, not encounter order.
+   */
+  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
+  @IgnoreJRERequirement // Users will use this only if they're already using streams.
+  static <E extends Enum<E>> Collector<E, ?, ImmutableSet<E>> toImmutableEnumSet() {
+    return CollectCollectors.toImmutableEnumSet();
+  }
+
+  /**
    * Returns a new, <i>mutable</i> {@code EnumSet} instance containing the given elements in their
    * natural order. This method behaves identically to {@link EnumSet#copyOf(Collection)}, but also
    * accepts non-{@code Collection} iterables and empty iterables.
@@ -158,9 +173,9 @@ public final class Sets {
    * using a {@code LinkedHashSet} instead, at the cost of increased memory footprint, to get
    * deterministic iteration behavior.
    *
-   * <p><b>Note for Java 7 and later:</b> this method is now unnecessary and should be treated as
-   * deprecated. Instead, use the {@code HashSet} constructor directly, taking advantage of the new
-   * <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+   * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
+   * use the {@code HashSet} constructor directly, taking advantage of <a
+   * href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
    */
   public static <E extends @Nullable Object> HashSet<E> newHashSet() {
     return new HashSet<E>();
@@ -197,9 +212,9 @@ public final class Sets {
    * <p><b>Note:</b> if {@code E} is an {@link Enum} type, use {@link #newEnumSet(Iterable, Class)}
    * instead.
    *
-   * <p><b>Note for Java 7 and later:</b> if {@code elements} is a {@link Collection}, you don't
-   * need this method. Instead, use the {@code HashSet} constructor directly, taking advantage of
-   * the new <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+   * <p><b>Note:</b> if {@code elements} is a {@link Collection}, you don't need this method.
+   * Instead, use the {@code HashSet} constructor directly, taking advantage of <a
+   * href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
    *
    * <p>Overall, this method is not very useful and will likely be deprecated in the future.
    */
@@ -284,9 +299,9 @@ public final class Sets {
    *
    * <p><b>Note:</b> if mutability is not required, use {@link ImmutableSet#of()} instead.
    *
-   * <p><b>Note for Java 7 and later:</b> this method is now unnecessary and should be treated as
-   * deprecated. Instead, use the {@code LinkedHashSet} constructor directly, taking advantage of
-   * the new <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+   * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
+   * use the {@code LinkedHashSet} constructor directly, taking advantage of <a
+   * href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
    *
    * @return a new, empty {@code LinkedHashSet}
    */
@@ -300,9 +315,9 @@ public final class Sets {
    * <p><b>Note:</b> if mutability is not required and the elements are non-null, use {@link
    * ImmutableSet#copyOf(Iterable)} instead.
    *
-   * <p><b>Note for Java 7 and later:</b> if {@code elements} is a {@link Collection}, you don't
-   * need this method. Instead, use the {@code LinkedHashSet} constructor directly, taking advantage
-   * of the new <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+   * <p><b>Note:</b> if {@code elements} is a {@link Collection}, you don't need this method.
+   * Instead, use the {@code LinkedHashSet} constructor directly, taking advantage of <a
+   * href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
    *
    * <p>Overall, this method is not very useful and will likely be deprecated in the future.
    *
@@ -344,9 +359,9 @@ public final class Sets {
    *
    * <p><b>Note:</b> if mutability is not required, use {@link ImmutableSortedSet#of()} instead.
    *
-   * <p><b>Note for Java 7 and later:</b> this method is now unnecessary and should be treated as
-   * deprecated. Instead, use the {@code TreeSet} constructor directly, taking advantage of the new
-   * <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+   * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
+   * use the {@code TreeSet} constructor directly, taking advantage of <a
+   * href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
    *
    * @return a new, empty {@code TreeSet}
    */
@@ -365,9 +380,9 @@ public final class Sets {
    * method has different behavior than {@link TreeSet#TreeSet(SortedSet)}, which returns a {@code
    * TreeSet} with that comparator.
    *
-   * <p><b>Note for Java 7 and later:</b> this method is now unnecessary and should be treated as
-   * deprecated. Instead, use the {@code TreeSet} constructor directly, taking advantage of the new
-   * <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+   * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
+   * use the {@code TreeSet} constructor directly, taking advantage of <a
+   * href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
    *
    * <p>This method is just a small convenience for creating an empty set and then calling {@link
    * Iterables#addAll}. This method is not very useful and will likely be deprecated in the future.
@@ -387,11 +402,11 @@ public final class Sets {
    * <p><b>Note:</b> if mutability is not required, use {@code
    * ImmutableSortedSet.orderedBy(comparator).build()} instead.
    *
-   * <p><b>Note for Java 7 and later:</b> this method is now unnecessary and should be treated as
-   * deprecated. Instead, use the {@code TreeSet} constructor directly, taking advantage of the new
-   * <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>. One caveat to this is that the {@code
-   * TreeSet} constructor uses a null {@code Comparator} to mean "natural ordering," whereas this
-   * factory rejects null. Clean your code accordingly.
+   * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
+   * use the {@code TreeSet} constructor directly, taking advantage of <a
+   * href="http://goo.gl/iz2Wi">"diamond" syntax</a>. One caveat to this is that the {@code TreeSet}
+   * constructor uses a null {@code Comparator} to mean "natural ordering," whereas this factory
+   * rejects null. Clean your code accordingly.
    *
    * @param comparator the comparator to use to sort the set
    * @return a new, empty {@code TreeSet}
@@ -424,6 +439,7 @@ public final class Sets {
    * @return a new, empty {@code CopyOnWriteArraySet}
    * @since 12.0
    */
+  @J2ktIncompatible
   @GwtIncompatible // CopyOnWriteArraySet
   public static <E extends @Nullable Object> CopyOnWriteArraySet<E> newCopyOnWriteArraySet() {
     return new CopyOnWriteArraySet<E>();
@@ -436,6 +452,7 @@ public final class Sets {
    * @return a new {@code CopyOnWriteArraySet} containing those elements
    * @since 12.0
    */
+  @J2ktIncompatible
   @GwtIncompatible // CopyOnWriteArraySet
   public static <E extends @Nullable Object> CopyOnWriteArraySet<E> newCopyOnWriteArraySet(
       Iterable<? extends E> elements) {
@@ -461,6 +478,8 @@ public final class Sets {
    * @throws IllegalArgumentException if {@code collection} is not an {@code EnumSet} instance and
    *     contains no elements
    */
+  @J2ktIncompatible
+  @GwtIncompatible
   public static <E extends Enum<E>> EnumSet<E> complementOf(Collection<E> collection) {
     if (collection instanceof EnumSet) {
       return EnumSet.complementOf((EnumSet<E>) collection);
@@ -481,6 +500,7 @@ public final class Sets {
    * @return a new, modifiable {@code EnumSet} initially containing all the values of the enum not
    *     present in the given collection
    */
+  @GwtIncompatible
   public static <E extends Enum<E>> EnumSet<E> complementOf(
       Collection<E> collection, Class<E> type) {
     checkNotNull(collection);
@@ -489,6 +509,7 @@ public final class Sets {
         : makeComplementByHand(collection, type);
   }
 
+  @GwtIncompatible
   private static <E extends Enum<E>> EnumSet<E> makeComplementByHand(
       Collection<E> collection, Class<E> type) {
     EnumSet<E> result = EnumSet.allOf(type);
@@ -552,8 +573,8 @@ public final class Sets {
      * that is inconsistent with {@link Object#equals(Object)}.
      */
     @SuppressWarnings("nullness") // Unsafe, but we can't fix it now.
-    public ImmutableSet<E> immutableCopy() {
-      return ImmutableSet.copyOf(this);
+    public ImmutableSet<@NonNull E> immutableCopy() {
+      return ImmutableSet.copyOf((SetView<@NonNull E>) this);
     }
 
     /**
@@ -580,6 +601,7 @@ public final class Sets {
     @CanIgnoreReturnValue
     @Deprecated
     @Override
+    @DoNotCall("Always throws UnsupportedOperationException")
     public final boolean add(@ParametricNullness E e) {
       throw new UnsupportedOperationException();
     }
@@ -593,6 +615,7 @@ public final class Sets {
     @CanIgnoreReturnValue
     @Deprecated
     @Override
+    @DoNotCall("Always throws UnsupportedOperationException")
     public final boolean remove(@CheckForNull Object object) {
       throw new UnsupportedOperationException();
     }
@@ -606,6 +629,7 @@ public final class Sets {
     @CanIgnoreReturnValue
     @Deprecated
     @Override
+    @DoNotCall("Always throws UnsupportedOperationException")
     public final boolean addAll(Collection<? extends E> newElements) {
       throw new UnsupportedOperationException();
     }
@@ -619,6 +643,7 @@ public final class Sets {
     @CanIgnoreReturnValue
     @Deprecated
     @Override
+    @DoNotCall("Always throws UnsupportedOperationException")
     public final boolean removeAll(Collection<?> oldElements) {
       throw new UnsupportedOperationException();
     }
@@ -632,6 +657,7 @@ public final class Sets {
     @CanIgnoreReturnValue
     @Deprecated
     @Override
+    @DoNotCall("Always throws UnsupportedOperationException")
     public final boolean retainAll(Collection<?> elementsToKeep) {
       throw new UnsupportedOperationException();
     }
@@ -644,6 +670,7 @@ public final class Sets {
      */
     @Deprecated
     @Override
+    @DoNotCall("Always throws UnsupportedOperationException")
     public final void clear() {
       throw new UnsupportedOperationException();
     }
@@ -725,9 +752,13 @@ public final class Sets {
       }
 
       @Override
-      @SuppressWarnings("nullness") // see supertype
-      public ImmutableSet<E> immutableCopy() {
-        return new ImmutableSet.Builder<E>().addAll(set1).addAll(set2).build();
+      @SuppressWarnings({"nullness", "unchecked"}) // see supertype
+      public ImmutableSet<@NonNull E> immutableCopy() {
+        ImmutableSet.Builder<@NonNull E> builder =
+            new ImmutableSet.Builder<@NonNull E>()
+                .addAll((Iterable<@NonNull E>) set1)
+                .addAll((Iterable<@NonNull E>) set2);
+        return (ImmutableSet<@NonNull E>) builder.build();
       }
     };
   }
@@ -1355,6 +1386,15 @@ public final class Sets {
             boolean isPartialView() {
               return true;
             }
+
+            // redeclare to help optimizers with b/310253115
+            @SuppressWarnings("RedundantOverride")
+            @Override
+            @J2ktIncompatible // serialization
+            @GwtIncompatible // serialization
+            Object writeReplace() {
+              return super.writeReplace();
+            }
           };
       return new CartesianSet<E>(axes, new CartesianList<E>(listAxes));
     }
@@ -1396,7 +1436,11 @@ public final class Sets {
         CartesianSet<?> that = (CartesianSet<?>) object;
         return this.axes.equals(that.axes);
       }
-      return super.equals(object);
+      if (object instanceof Set) {
+        Set<?> that = (Set<?>) object;
+        return this.size() == that.size() && this.containsAll(that);
+      }
+      return false;
     }
 
     @Override
@@ -1582,7 +1626,6 @@ public final class Sets {
    * @throws NullPointerException if {@code set} is or contains {@code null}
    * @since 23.0
    */
-  @Beta
   public static <E> Set<Set<E>> combinations(Set<E> set, final int size) {
     final ImmutableMap<E, Integer> index = Maps.indexMap(set);
     checkNonnegative(size, "size");
@@ -1619,6 +1662,7 @@ public final class Sets {
               if (bitToFlip == index.size()) {
                 return endOfData();
               }
+
               /*
                * The current set in sorted order looks like
                * {firstSetBit, firstSetBit + 1, ..., bitToFlip - 1, ...}
@@ -1720,6 +1764,8 @@ public final class Sets {
    * <p>The returned navigable set will be serializable if the specified navigable set is
    * serializable.
    *
+   * <p><b>Java 8 users and later:</b> Prefer {@link Collections#unmodifiableNavigableSet}.
+   *
    * @param set the navigable set for which an unmodifiable view is to be returned
    * @return an unmodifiable view of the specified navigable set
    * @since 12.0
@@ -1783,7 +1829,7 @@ public final class Sets {
       throw new UnsupportedOperationException();
     }
 
-    @CheckForNull private transient UnmodifiableNavigableSet<E> descendingSet;
+    @LazyInit @CheckForNull private transient UnmodifiableNavigableSet<E> descendingSet;
 
     @Override
     public NavigableSet<E> descendingSet() {
@@ -1863,6 +1909,8 @@ public final class Sets {
    *
    * <p>The returned navigable set will be serializable if the specified navigable set is
    * serializable.
+   *
+   * <p><b>Java 8 users and later:</b> Prefer {@link Collections#synchronizedNavigableSet}.
    *
    * @param navigableSet the navigable set to be "wrapped" in a synchronized navigable set.
    * @return a synchronized view of the specified navigable set.
@@ -2061,7 +2109,6 @@ public final class Sets {
    *
    * @since 20.0
    */
-  @Beta
   @GwtIncompatible // NavigableSet
   public static <K extends Comparable<? super K>> NavigableSet<K> subSet(
       NavigableSet<K> set, Range<K> range) {

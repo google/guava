@@ -17,6 +17,7 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.testing.TearDown;
 import com.google.common.testing.TearDownStack;
@@ -68,7 +69,6 @@ public class AbstractExecutionThreadServiceTest extends TestCase {
         thrownByExecutionThread);
   }
 
-
   public void testServiceStartStop() throws Exception {
     WaitOnRunService service = new WaitOnRunService();
     assertFalse(service.startUpCalled);
@@ -85,7 +85,6 @@ public class AbstractExecutionThreadServiceTest extends TestCase {
     executionThread.join();
   }
 
-
   public void testServiceStopIdempotence() throws Exception {
     WaitOnRunService service = new WaitOnRunService();
 
@@ -101,7 +100,6 @@ public class AbstractExecutionThreadServiceTest extends TestCase {
 
     executionThread.join();
   }
-
 
   public void testServiceExitingOnItsOwn() throws Exception {
     WaitOnRunService service = new WaitOnRunService();
@@ -173,18 +171,14 @@ public class AbstractExecutionThreadServiceTest extends TestCase {
     }
   }
 
-
   public void testServiceThrowOnStartUp() throws Exception {
     ThrowOnStartUpService service = new ThrowOnStartUpService();
     assertFalse(service.startUpCalled);
 
     service.startAsync();
-    try {
-      service.awaitRunning();
-      fail();
-    } catch (IllegalStateException expected) {
-      assertThat(expected).hasCauseThat().hasMessageThat().isEqualTo("kaboom!");
-    }
+    IllegalStateException expected =
+        assertThrows(IllegalStateException.class, () -> service.awaitRunning());
+    assertThat(expected).hasCauseThat().hasMessageThat().isEqualTo("kaboom!");
     executionThread.join();
 
     assertTrue(service.startUpCalled);
@@ -212,38 +206,29 @@ public class AbstractExecutionThreadServiceTest extends TestCase {
     }
   }
 
-
   public void testServiceThrowOnRun() throws Exception {
     ThrowOnRunService service = new ThrowOnRunService();
 
     service.startAsync();
-    try {
-      service.awaitTerminated();
-      fail();
-    } catch (IllegalStateException expected) {
-      executionThread.join();
-      assertThat(expected).hasCauseThat().isEqualTo(service.failureCause());
-      assertThat(expected).hasCauseThat().hasMessageThat().isEqualTo("kaboom!");
-    }
+    IllegalStateException expected =
+        assertThrows(IllegalStateException.class, () -> service.awaitTerminated());
+    executionThread.join();
+    assertThat(expected).hasCauseThat().isEqualTo(service.failureCause());
+    assertThat(expected).hasCauseThat().hasMessageThat().isEqualTo("kaboom!");
     assertTrue(service.shutDownCalled);
     assertEquals(Service.State.FAILED, service.state());
   }
-
 
   public void testServiceThrowOnRunAndThenAgainOnShutDown() throws Exception {
     ThrowOnRunService service = new ThrowOnRunService();
     service.throwOnShutDown = true;
 
     service.startAsync();
-    try {
-      service.awaitTerminated();
-      fail();
-    } catch (IllegalStateException expected) {
-      executionThread.join();
-      assertThat(expected).hasCauseThat().isEqualTo(service.failureCause());
-      assertThat(expected).hasCauseThat().hasMessageThat().isEqualTo("kaboom!");
-    }
-
+    IllegalStateException expected =
+        assertThrows(IllegalStateException.class, () -> service.awaitTerminated());
+    executionThread.join();
+    assertThat(expected).hasCauseThat().isEqualTo(service.failureCause());
+    assertThat(expected).hasCauseThat().hasMessageThat().isEqualTo("kaboom!");
     assertTrue(service.shutDownCalled);
     assertEquals(Service.State.FAILED, service.state());
   }
@@ -270,7 +255,6 @@ public class AbstractExecutionThreadServiceTest extends TestCase {
       return exceptionCatchingExecutor;
     }
   }
-
 
   public void testServiceThrowOnShutDown() throws Exception {
     ThrowOnShutDown service = new ThrowOnShutDown();
@@ -310,12 +294,11 @@ public class AbstractExecutionThreadServiceTest extends TestCase {
   public void testServiceTimeoutOnStartUp() throws Exception {
     TimeoutOnStartUp service = new TimeoutOnStartUp();
 
-    try {
-      service.startAsync().awaitRunning(1, TimeUnit.MILLISECONDS);
-      fail();
-    } catch (TimeoutException e) {
-      assertThat(e.getMessage()).contains(Service.State.STARTING.toString());
-    }
+    TimeoutException e =
+        assertThrows(
+            TimeoutException.class,
+            () -> service.startAsync().awaitRunning(1, TimeUnit.MILLISECONDS));
+    assertThat(e.getMessage()).contains(Service.State.STARTING.toString());
   }
 
   private class TimeoutOnStartUp extends AbstractExecutionThreadService {
@@ -330,7 +313,6 @@ public class AbstractExecutionThreadServiceTest extends TestCase {
     @Override
     protected void run() throws Exception {}
   }
-
 
   public void testStopWhileStarting_runNotCalled() throws Exception {
     final CountDownLatch started = new CountDownLatch(1);
@@ -361,7 +343,6 @@ public class AbstractExecutionThreadServiceTest extends TestCase {
     assertEquals(0, service.shutdownCalled);
   }
 
-
   public void testDefaultService() throws InterruptedException {
     WaitOnRunService service = new WaitOnRunService();
     service.startAsync().awaitRunning();
@@ -386,14 +367,13 @@ public class AbstractExecutionThreadServiceTest extends TestCase {
             return "Foo";
           }
         };
-    try {
-      service.startAsync().awaitRunning(1, TimeUnit.MILLISECONDS);
-      fail("Expected timeout");
-    } catch (TimeoutException e) {
-      assertThat(e)
-          .hasMessageThat()
-          .isEqualTo("Timed out waiting for Foo [STARTING] to reach the RUNNING state.");
-    }
+    TimeoutException e =
+        assertThrows(
+            TimeoutException.class,
+            () -> service.startAsync().awaitRunning(1, TimeUnit.MILLISECONDS));
+    assertThat(e)
+        .hasMessageThat()
+        .isEqualTo("Timed out waiting for Foo [STARTING] to reach the RUNNING state.");
   }
 
   private class FakeService extends AbstractExecutionThreadService implements TearDown {

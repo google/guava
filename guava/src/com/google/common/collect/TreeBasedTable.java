@@ -21,7 +21,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.base.Function;
 import com.google.common.base.Supplier;
 import java.io.Serializable;
 import java.util.Comparator;
@@ -60,7 +59,7 @@ import javax.annotation.CheckForNull;
  * concurrently and one of the threads modifies the table, it must be synchronized externally.
  *
  * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#table"> {@code Table}</a>.
+ * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#table">{@code Table}</a>.
  *
  * @author Jared Levy
  * @author Louis Wasserman
@@ -313,18 +312,12 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
   /** Overridden column iterator to return columns values in globally sorted order. */
   @Override
   Iterator<C> createColumnKeyIterator() {
-    final Comparator<? super C> comparator = columnComparator();
+    Comparator<? super C> comparator = columnComparator();
 
-    final Iterator<C> merged =
+    Iterator<C> merged =
         Iterators.mergeSorted(
             Iterables.transform(
-                backingMap.values(),
-                new Function<Map<C, V>, Iterator<C>>() {
-                  @Override
-                  public Iterator<C> apply(Map<C, V> input) {
-                    return input.keySet().iterator();
-                  }
-                }),
+                backingMap.values(), (Map<C, V> input) -> input.keySet().iterator()),
             comparator);
 
     return new AbstractIterator<C>() {

@@ -31,6 +31,7 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.Stack;
 import junit.framework.AssertionFailedError;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Most of the logic for {@link IteratorTester} and {@link ListIteratorTester}.
@@ -146,9 +147,9 @@ abstract class AbstractIteratorTester<E, I extends Iterator<E>> {
      * {@link #previousElements} if the reverse is true, or -- overriding both of these -- {@code
      * null} if {@code remove()} or {@code add()} has been called more recently than either. We use
      * this to determine which stack to pop from on a call to {@code remove()} (or to pop from and
-     * push to on a call to {@code set()}.
+     * push to on a call to {@code set()}).
      */
-    Stack<E> stackWithLastReturnedElementAtTop = null;
+    @Nullable Stack<E> stackWithLastReturnedElementAtTop = null;
 
     MultiExceptionListIterator(List<E> expectedElements) {
       Helpers.addAll(nextElements, Helpers.reverse(expectedElements));
@@ -363,7 +364,7 @@ abstract class AbstractIteratorTester<E, I extends Iterator<E>> {
   }
 
   private interface IteratorOperation {
-    Object execute(Iterator<?> iterator);
+    @Nullable Object execute(Iterator<?> iterator);
   }
 
   /**
@@ -449,7 +450,7 @@ abstract class AbstractIteratorTester<E, I extends Iterator<E>> {
   private static final IteratorOperation REMOVE_METHOD =
       new IteratorOperation() {
         @Override
-        public Object execute(Iterator<?> iterator) {
+        public @Nullable Object execute(Iterator<?> iterator) {
           iterator.remove();
           return null;
         }
@@ -475,7 +476,7 @@ abstract class AbstractIteratorTester<E, I extends Iterator<E>> {
     final Object toInsert = elementsToInsert.next();
     return new IteratorOperation() {
       @Override
-      public Object execute(Iterator<?> iterator) {
+      public @Nullable Object execute(Iterator<?> iterator) {
         @SuppressWarnings("unchecked")
         ListIterator<Object> rawIterator = (ListIterator<Object>) iterator;
         rawIterator.add(toInsert);
@@ -488,7 +489,7 @@ abstract class AbstractIteratorTester<E, I extends Iterator<E>> {
     final E toInsert = elementsToInsert.next();
     return new IteratorOperation() {
       @Override
-      public Object execute(Iterator<?> iterator) {
+      public @Nullable Object execute(Iterator<?> iterator) {
         @SuppressWarnings("unchecked")
         ListIterator<E> li = (ListIterator<E>) iterator;
         li.set(toInsert);

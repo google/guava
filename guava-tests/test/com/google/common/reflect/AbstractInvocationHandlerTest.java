@@ -26,6 +26,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.List;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Tests for {@link AbstractInvocationHandler}.
@@ -136,7 +137,7 @@ public class AbstractInvocationHandlerTest extends TestCase {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(@Nullable Object obj) {
       if (obj instanceof DelegatingInvocationHandlerWithEquals) {
         DelegatingInvocationHandlerWithEquals that = (DelegatingInvocationHandlerWithEquals) obj;
         return delegate.equals(that.delegate);

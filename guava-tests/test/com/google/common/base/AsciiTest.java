@@ -18,6 +18,7 @@ package com.google.common.base;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import junit.framework.TestCase;
 
 /**
@@ -54,8 +55,8 @@ public class AsciiTest extends TestCase {
   public void testCharsIgnored() {
     for (char c : IGNORED.toCharArray()) {
       String str = String.valueOf(c);
-      assertTrue(str, c == Ascii.toLowerCase(c));
-      assertTrue(str, c == Ascii.toUpperCase(c));
+      assertEquals(str, c, Ascii.toLowerCase(c));
+      assertEquals(str, c, Ascii.toUpperCase(c));
       assertFalse(str, Ascii.isLowerCase(c));
       assertFalse(str, Ascii.isUpperCase(c));
     }
@@ -98,27 +99,26 @@ public class AsciiTest extends TestCase {
   }
 
   public void testTruncateIllegalArguments() {
-    String truncated = null;
     try {
-      truncated = Ascii.truncate("foobar", 2, "...");
+      Ascii.truncate("foobar", 2, "...");
       fail();
     } catch (IllegalArgumentException expected) {
     }
 
     try {
-      truncated = Ascii.truncate("foobar", 8, "1234567890");
+      Ascii.truncate("foobar", 8, "1234567890");
       fail();
     } catch (IllegalArgumentException expected) {
     }
 
     try {
-      truncated = Ascii.truncate("foobar", -1, "...");
+      Ascii.truncate("foobar", -1, "...");
       fail();
     } catch (IllegalArgumentException expected) {
     }
 
     try {
-      truncated = Ascii.truncate("foobar", -1, "");
+      Ascii.truncate("foobar", -1, "");
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -139,6 +139,7 @@ public class AsciiTest extends TestCase {
     assertFalse(Ascii.equalsIgnoreCase("[", "{"));
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // String.toUpperCase() has browser semantics
   public void testEqualsIgnoreCaseUnicodeEquivalence() {
     // Note that it's possible in future that the JDK's idea to toUpperCase() or equalsIgnoreCase()

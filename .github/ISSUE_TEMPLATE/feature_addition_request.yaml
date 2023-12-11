@@ -1,0 +1,156 @@
+name: Feature Addition Request
+description: I want to add a new feature
+labels: ["type=addition"]
+body:
+  - type: markdown
+    attributes:
+      value: >
+        Filing feature requests is one of the most popular ways to contribute to Guava.
+
+
+        Be aware, though: most feature requests are not accepted, even if they're suggested by
+        a full-time Guava team member. [Feedback](https://stackoverflow.com/a/4543114) from our
+        users indicates that they really appreciate Guava's high power-to-weight ratio. It's
+        important to us to keep Guava as easy to use and understand as we can. That means boiling
+        features down to compact but powerful abstractions, and controlling feature bloat carefully.
+
+
+        Guava's main yardstick for evaluating proposed features can be summed up as [utility times
+        ubiquity](https://github.com/google/guava/wiki/PhilosophyExplained#utility-times-ubiquity).
+
+
+        #### Utility: compare with alternatives
+
+
+        There is always *some* alternative to adding a new feature to Guava, even if it's just
+        forking Guava yourself.
+
+
+        We want to see that new features have some significant advantage over the alternatives.
+        These advantages can take
+        [many forms](https://github.com/google/guava/wiki/PhilosophyExplained#utility), but taking
+        the time to discuss them in detail will make it much clearer why this feature should be
+        added to Guava.
+
+
+        Please fill out the following fields to give us a better understanding of your proposed
+        feature and its potential value for other Guava users.
+
+  - type: textarea
+    attributes:
+      label: 1. What are you trying to do?
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: 2. What's the best code you can write to accomplish that without the new feature?
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: 3. What would that same code look like if we added your feature?
+    validations:
+      required: true
+
+  - type: markdown
+    attributes:
+      value: >
+        Comparing two approaches to a use case side by side can make it easier to examine the
+        differences between them.
+
+
+        Additionally, it's very useful to us if you can provide a "straw API" &mdash; what the
+        method signatures would look like, for example, even if the method and class names are still
+        in flux. This can make the feature you're suggesting much clearer to us.
+
+  - type: textarea
+    attributes:
+      label: (Optional) What would the method signatures for your feature look like?
+      placeholder: |
+        e.g.,
+        public static <E> ImmutableList<E> of();
+        public static <E> ImmutableList<E> of(E element);
+        public static <E> ImmutableList<E> of(E e1, E e2);
+        ...
+      render: java
+    validations:
+      required: false
+
+  - type: markdown
+    attributes:
+      value: >
+        #### Ubiquity: provide concrete use cases
+
+
+        Did you *actually* encounter the need for this feature in a real-world scenario, or is it
+        just a feature that seems like a sensible addition to Guava?
+
+
+        Before new features get added to Guava, we really want to be sure that it's for a use case
+        that actually comes up in the real world. We want to hear the real-world use case so the
+        community can discuss and debate whether this feature is actually the *best* way to address
+        the real use case, or whether or not a different abstraction might be more appropriate.
+
+
+        It's okay if you can't provide complete context on a use case. We understand if you are not
+        able to discuss the full details of what you're working on.
+
+
+        But Guava aims to provide features that are useful across boundaries of projects, companies,
+        or even industries &mdash; utilities useful for a sizable proportion of all Java programmers
+        everywhere. If you can give enough detail such that any of us can imagine coming across
+        a similar need in our own work, that's extremely helpful in studying how broadly useful the
+        feature will be.
+
+  - type: textarea
+    attributes:
+      label: Concrete Use Cases
+      description: Please provide use cases that actually came up in the real world.
+    validations:
+      required: true
+
+  - type: dropdown
+    attributes:
+      label: Packages
+      description: Please select all of the packages that are relevant to this feature request.
+      multiple: true
+      options:
+        - com.google.common.annotations
+        - com.google.common.base
+        - com.google.common.cache
+        - com.google.common.collect
+        - com.google.common.escape
+        - com.google.common.eventbus
+        - com.google.common.graph
+        - com.google.common.hash
+        - com.google.common.io
+        - com.google.common.math
+        - com.google.common.net
+        - com.google.common.primitives
+        - com.google.common.reflect
+        - com.google.common.testing
+        - com.google.common.util.concurrent
+
+  - type: checkboxes
+    attributes:
+      label: Checklist
+      options:
+        - label: >
+            I agree to follow the
+            [code of conduct](https://github.com/google/.github/blob/master/CODE_OF_CONDUCT.md).
+          required: true
+        - label: >
+            I have read and understood the [contribution
+            guidelines](https://github.com/google/guava/wiki/HowToContribute#feature-requests).
+          required: true
+        - label: >
+            I have read and understood
+            [Guava's philosophy](https://github.com/google/guava/wiki/PhilosophyExplained), and
+            I strongly believe that this proposal aligns with it.
+          required: true
+        - label: >
+            I have visited the [idea graveyard](https://github.com/google/guava/wiki/IdeaGraveyard),
+            and did not see anything similar to this idea.
+          required: true

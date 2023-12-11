@@ -17,6 +17,7 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
+import static org.junit.Assert.assertThrows;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.CountDownLatch;
@@ -80,7 +81,6 @@ public class ListenableFutureTaskTest extends TestCase {
     super.tearDown();
   }
 
-
   public void testListenerDoesNotRunUntilTaskCompletes() throws Exception {
 
     // Test default state of not started.
@@ -106,7 +106,6 @@ public class ListenableFutureTaskTest extends TestCase {
     assertFalse(task.isCancelled());
   }
 
-
   public void testListenerCalledOnException() throws Exception {
     throwException = true;
 
@@ -115,12 +114,9 @@ public class ListenableFutureTaskTest extends TestCase {
     runLatch.await();
     taskLatch.countDown();
 
-    try {
-      task.get(5, TimeUnit.SECONDS);
-      fail("Should have propagated the failure.");
-    } catch (ExecutionException e) {
-      assertEquals(IllegalStateException.class, e.getCause().getClass());
-    }
+    ExecutionException e =
+        assertThrows(ExecutionException.class, () -> task.get(5, TimeUnit.SECONDS));
+    assertEquals(IllegalStateException.class, e.getCause().getClass());
 
     assertTrue(listenerLatch.await(5, TimeUnit.SECONDS));
     assertTrue(task.isDone());
@@ -141,7 +137,6 @@ public class ListenableFutureTaskTest extends TestCase {
     // Make sure we didn't run anything.
     assertEquals(1, runLatch.getCount());
   }
-
 
   public void testListenerCalledOnCancelFromRunning() throws Exception {
     exec.execute(task);

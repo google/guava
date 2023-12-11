@@ -79,7 +79,12 @@ public final class Functions {
     }
   }
 
-  /** Returns the identity function. */
+  /**
+   * Returns the identity function.
+   *
+   * <p><b>Discouraged:</b> Prefer using a lambda like {@code v -> v}, which is shorter and often
+   * more readable.
+   */
   // implementation is "fully variant"; E has become a "pass-through" type
   @SuppressWarnings("unchecked")
   public static <E extends @Nullable Object> Function<E, E> identity() {
@@ -288,7 +293,7 @@ public final class Functions {
    */
   public static <T extends @Nullable Object> Function<T, Boolean> forPredicate(
       Predicate<T> predicate) {
-    return new PredicateFunction<T>(predicate);
+    return new PredicateFunction<>(predicate);
   }
 
   /** @see Functions#forPredicate */

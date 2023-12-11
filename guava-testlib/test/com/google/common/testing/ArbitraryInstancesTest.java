@@ -17,6 +17,7 @@
 package com.google.common.testing;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Charsets;
@@ -131,6 +132,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Unit test for {@link ArbitraryInstances}.
@@ -285,11 +287,7 @@ public class ArbitraryInstancesTest extends TestCase {
     Comparable<Object> comparable = ArbitraryInstances.get(Comparable.class);
     assertEquals(0, comparable.compareTo(comparable));
     assertTrue(comparable.compareTo("") > 0);
-    try {
-      comparable.compareTo(null);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> comparable.compareTo(null));
   }
 
   public void testGet_array() {
@@ -481,7 +479,7 @@ public class ArbitraryInstancesTest extends TestCase {
   }
 
   public static class WithNullConstant {
-    public static final WithNullConstant NULL = null;
+    public static final @Nullable WithNullConstant NULL = null;
 
     private WithNullConstant() {}
   }
@@ -504,7 +502,7 @@ public class ArbitraryInstancesTest extends TestCase {
   private static class FirstConstantIsNull {
     // To test that null constant is ignored
     @SuppressWarnings("unused")
-    public static final FirstConstantIsNull FIRST = null;
+    public static final @Nullable FirstConstantIsNull FIRST = null;
 
     public static final FirstConstantIsNull SECOND = new FirstConstantIsNull();
   }

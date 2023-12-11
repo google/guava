@@ -16,7 +16,6 @@
 
 package com.google.common.collect;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Objects;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -163,7 +162,6 @@ public abstract class ForwardingMap<K extends @Nullable Object, V extends @Nulla
    *
    * @since 7.0
    */
-  @Beta
   @CheckForNull
   protected V standardRemove(@CheckForNull Object key) {
     Iterator<Entry<K, V>> entryIterator = entrySet().iterator();
@@ -198,7 +196,6 @@ public abstract class ForwardingMap<K extends @Nullable Object, V extends @Nulla
    *
    * @since 10.0
    */
-  @Beta
   protected class StandardKeySet extends Maps.KeySet<K, V> {
     /** Constructor for use by subclasses. */
     public StandardKeySet() {
@@ -213,7 +210,6 @@ public abstract class ForwardingMap<K extends @Nullable Object, V extends @Nulla
    *
    * @since 7.0
    */
-  @Beta
   protected boolean standardContainsKey(@CheckForNull Object key) {
     return Maps.containsKeyImpl(this, key);
   }
@@ -227,7 +223,6 @@ public abstract class ForwardingMap<K extends @Nullable Object, V extends @Nulla
    *
    * @since 10.0
    */
-  @Beta
   protected class StandardValues extends Maps.Values<K, V> {
     /** Constructor for use by subclasses. */
     public StandardValues() {
@@ -255,10 +250,9 @@ public abstract class ForwardingMap<K extends @Nullable Object, V extends @Nulla
    *
    * @since 10.0
    */
-  @Beta
   protected abstract class StandardEntrySet extends Maps.EntrySet<K, V> {
     /** Constructor for use by subclasses. */
-    public StandardEntrySet() {}
+    protected StandardEntrySet() {}
 
     @Override
     Map<K, V> map() {

@@ -70,7 +70,7 @@ abstract class AbstractCompositeHashFunction extends AbstractHashFunction {
     return fromHashers(hashers);
   }
 
-  private Hasher fromHashers(final Hasher[] hashers) {
+  private Hasher fromHashers(Hasher[] hashers) {
     return new Hasher() {
       @Override
       public Hasher putByte(byte b) {

@@ -21,16 +21,23 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.DoNotCall;
 import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.WeakOuter;
+import java.io.InvalidObjectException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.function.ToIntFunction;
+import java.util.stream.Collector;
 import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A {@link Multiset} whose contents will never change, with many other important properties
@@ -41,7 +48,7 @@ import javax.annotation.CheckForNull;
  * element when the multiset was created.
  *
  * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/ImmutableCollectionsExplained"> immutable collections</a>.
+ * "https://github.com/google/guava/wiki/ImmutableCollectionsExplained">immutable collections</a>.
  *
  * @author Jared Levy
  * @author Louis Wasserman
@@ -52,6 +59,34 @@ import javax.annotation.CheckForNull;
 @ElementTypesAreNonnullByDefault
 public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializationDependencies<E>
     implements Multiset<E> {
+
+  /**
+   * Returns a {@code Collector} that accumulates the input elements into a new {@code
+   * ImmutableMultiset}. Elements iterate in order by the <i>first</i> appearance of that element in
+   * encounter order.
+   */
+  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
+  @IgnoreJRERequirement // Users will use this only if they're already using streams.
+  static <E> Collector<E, ?, ImmutableMultiset<E>> toImmutableMultiset() {
+    return CollectCollectors.toImmutableMultiset(Function.identity(), e -> 1);
+  }
+
+  /**
+   * Returns a {@code Collector} that accumulates elements into an {@code ImmutableMultiset} whose
+   * elements are the result of applying {@code elementFunction} to the inputs, with counts equal to
+   * the result of applying {@code countFunction} to the inputs.
+   *
+   * <p>If the mapped elements contain duplicates (according to {@link Object#equals}), the first
+   * occurrence in encounter order appears in the resulting multiset, with count equal to the sum of
+   * the outputs of {@code countFunction.applyAsInt(t)} for each {@code t} mapped to that element.
+   */
+  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
+  @IgnoreJRERequirement // Users will use this only if they're already using streams.
+  static <T extends @Nullable Object, E> Collector<T, ?, ImmutableMultiset<E>> toImmutableMultiset(
+      Function<? super T, ? extends E> elementFunction, ToIntFunction<? super T> countFunction) {
+    return CollectCollectors.toImmutableMultiset(elementFunction, countFunction);
+  }
+
   /**
    * Returns the empty immutable multiset.
    *
@@ -282,7 +317,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
 
   @GwtIncompatible // not present in emulated superclass
   @Override
-  int copyIntoArray(Object[] dst, int offset) {
+  int copyIntoArray(@Nullable Object[] dst, int offset) {
     for (Multiset.Entry<E> entry : entrySet()) {
       Arrays.fill(dst, offset, offset + entry.getCount(), entry.getElement());
       offset += entry.getCount();
@@ -359,15 +394,23 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
     }
 
     @GwtIncompatible
+    @J2ktIncompatible
     @Override
     Object writeReplace() {
       return new EntrySetSerializedForm<E>(ImmutableMultiset.this);
     }
 
-    private static final long serialVersionUID = 0;
+    @GwtIncompatible
+    @J2ktIncompatible
+    private void readObject(ObjectInputStream stream) throws InvalidObjectException {
+      throw new InvalidObjectException("Use EntrySetSerializedForm");
+    }
+
+    @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   @GwtIncompatible
+  @J2ktIncompatible
   static class EntrySetSerializedForm<E> implements Serializable {
     final ImmutableMultiset<E> multiset;
 
@@ -381,8 +424,15 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
   }
 
   @GwtIncompatible
+  @J2ktIncompatible
   @Override
   abstract Object writeReplace();
+
+  @GwtIncompatible
+  @J2ktIncompatible
+  private void readObject(ObjectInputStream stream) throws InvalidObjectException {
+    throw new InvalidObjectException("Use SerializedForm");
+  }
 
   /**
    * Returns a new builder. The generated builder is equivalent to the builder created by the {@link
@@ -617,4 +667,6 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
       return new RegularImmutableMultiset<E>(contents);
     }
   }
+
+  private static final long serialVersionUID = 0xdecaf;
 }

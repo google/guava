@@ -22,6 +22,7 @@ import com.google.common.collect.testing.testers.QueueOfferTester;
 import com.google.common.collect.testing.testers.QueuePeekTester;
 import com.google.common.collect.testing.testers.QueuePollTester;
 import com.google.common.collect.testing.testers.QueueRemoveTester;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,6 +46,7 @@ public final class QueueTestSuiteBuilder<E>
    * collection that's both a queue and a list, to avoid running the common collection tests twice.
    * By default, collection tests do run.
    */
+  @CanIgnoreReturnValue
   public QueueTestSuiteBuilder<E> skipCollectionTests() {
     runCollectionTests = false;
     return this;
