@@ -16,8 +16,8 @@
     <test.include>%regex[.*.class]</test.include>
     <truth.version>1.1.3</truth.version>
     <jsr305.version>3.0.2</jsr305.version>
-    <checker.version>3.37.0</checker.version>
-    <errorprone.version>2.21.1</errorprone.version>
+    <checker.version>3.41.0</checker.version>
+    <errorprone.version>2.23.0</errorprone.version>
     <j2objc.version>2.8</j2objc.version>
     <javac.version>9+181-r4173-1</javac.version>
     <!-- Empty for all JDKs but 9-12 -->
@@ -144,7 +144,7 @@
               <path>
                 <groupId>com.google.errorprone</groupId>
                 <artifactId>error_prone_core</artifactId>
-                <version>2.16</version>
+                <version>2.23.0</version>
               </path>
             </annotationProcessorPaths>
             <!-- Fork:
