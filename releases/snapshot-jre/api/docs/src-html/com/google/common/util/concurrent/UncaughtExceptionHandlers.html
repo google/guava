@@ -30,66 +30,69 @@
 <span class="sourceLineNo">021</span><a id="line.21">import com.google.common.annotations.VisibleForTesting;</a>
 <span class="sourceLineNo">022</span><a id="line.22">import java.lang.Thread.UncaughtExceptionHandler;</a>
 <span class="sourceLineNo">023</span><a id="line.23">import java.util.Locale;</a>
-<span class="sourceLineNo">024</span><a id="line.24">import java.util.logging.Logger;</a>
-<span class="sourceLineNo">025</span><a id="line.25"></a>
-<span class="sourceLineNo">026</span><a id="line.26">/**</a>
-<span class="sourceLineNo">027</span><a id="line.27"> * Factories for {@link UncaughtExceptionHandler} instances.</a>
-<span class="sourceLineNo">028</span><a id="line.28"> *</a>
-<span class="sourceLineNo">029</span><a id="line.29"> * @author Gregory Kick</a>
-<span class="sourceLineNo">030</span><a id="line.30"> * @since 8.0</a>
-<span class="sourceLineNo">031</span><a id="line.31"> */</a>
-<span class="sourceLineNo">032</span><a id="line.32">@J2ktIncompatible</a>
-<span class="sourceLineNo">033</span><a id="line.33">@GwtIncompatible</a>
-<span class="sourceLineNo">034</span><a id="line.34">@ElementTypesAreNonnullByDefault</a>
-<span class="sourceLineNo">035</span><a id="line.35">public final class UncaughtExceptionHandlers {</a>
-<span class="sourceLineNo">036</span><a id="line.36">  private UncaughtExceptionHandlers() {}</a>
-<span class="sourceLineNo">037</span><a id="line.37"></a>
-<span class="sourceLineNo">038</span><a id="line.38">  /**</a>
-<span class="sourceLineNo">039</span><a id="line.39">   * Returns an exception handler that exits the system. This is particularly useful for the main</a>
-<span class="sourceLineNo">040</span><a id="line.40">   * thread, which may start up other, non-daemon threads, but fail to fully initialize the</a>
-<span class="sourceLineNo">041</span><a id="line.41">   * application successfully.</a>
-<span class="sourceLineNo">042</span><a id="line.42">   *</a>
-<span class="sourceLineNo">043</span><a id="line.43">   * &lt;p&gt;Example usage:</a>
-<span class="sourceLineNo">044</span><a id="line.44">   *</a>
-<span class="sourceLineNo">045</span><a id="line.45">   * &lt;pre&gt;</a>
-<span class="sourceLineNo">046</span><a id="line.46">   * public static void main(String[] args) {</a>
-<span class="sourceLineNo">047</span><a id="line.47">   *   Thread.currentThread().setUncaughtExceptionHandler(UncaughtExceptionHandlers.systemExit());</a>
-<span class="sourceLineNo">048</span><a id="line.48">   *   ...</a>
-<span class="sourceLineNo">049</span><a id="line.49">   * &lt;/pre&gt;</a>
-<span class="sourceLineNo">050</span><a id="line.50">   *</a>
-<span class="sourceLineNo">051</span><a id="line.51">   * &lt;p&gt;The returned handler logs any exception at severity {@code SEVERE} and then shuts down the</a>
-<span class="sourceLineNo">052</span><a id="line.52">   * process with an exit status of 1, indicating abnormal termination.</a>
-<span class="sourceLineNo">053</span><a id="line.53">   */</a>
-<span class="sourceLineNo">054</span><a id="line.54">  public static UncaughtExceptionHandler systemExit() {</a>
-<span class="sourceLineNo">055</span><a id="line.55">    return new Exiter(Runtime.getRuntime());</a>
-<span class="sourceLineNo">056</span><a id="line.56">  }</a>
-<span class="sourceLineNo">057</span><a id="line.57"></a>
-<span class="sourceLineNo">058</span><a id="line.58">  @VisibleForTesting</a>
-<span class="sourceLineNo">059</span><a id="line.59">  static final class Exiter implements UncaughtExceptionHandler {</a>
-<span class="sourceLineNo">060</span><a id="line.60">    private static final Logger logger = Logger.getLogger(Exiter.class.getName());</a>
-<span class="sourceLineNo">061</span><a id="line.61"></a>
-<span class="sourceLineNo">062</span><a id="line.62">    private final Runtime runtime;</a>
-<span class="sourceLineNo">063</span><a id="line.63"></a>
-<span class="sourceLineNo">064</span><a id="line.64">    Exiter(Runtime runtime) {</a>
-<span class="sourceLineNo">065</span><a id="line.65">      this.runtime = runtime;</a>
-<span class="sourceLineNo">066</span><a id="line.66">    }</a>
-<span class="sourceLineNo">067</span><a id="line.67"></a>
-<span class="sourceLineNo">068</span><a id="line.68">    @Override</a>
-<span class="sourceLineNo">069</span><a id="line.69">    public void uncaughtException(Thread t, Throwable e) {</a>
-<span class="sourceLineNo">070</span><a id="line.70">      try {</a>
-<span class="sourceLineNo">071</span><a id="line.71">        logger.log(</a>
-<span class="sourceLineNo">072</span><a id="line.72">            SEVERE, String.format(Locale.ROOT, "Caught an exception in %s.  Shutting down.", t), e);</a>
-<span class="sourceLineNo">073</span><a id="line.73">      } catch (RuntimeException | Error errorInLogging) {</a>
-<span class="sourceLineNo">074</span><a id="line.74">        // If logging fails, e.g. due to missing memory, at least try to log the</a>
-<span class="sourceLineNo">075</span><a id="line.75">        // message and the cause for the failed logging.</a>
-<span class="sourceLineNo">076</span><a id="line.76">        System.err.println(e.getMessage());</a>
-<span class="sourceLineNo">077</span><a id="line.77">        System.err.println(errorInLogging.getMessage());</a>
-<span class="sourceLineNo">078</span><a id="line.78">      } finally {</a>
-<span class="sourceLineNo">079</span><a id="line.79">        runtime.exit(1);</a>
-<span class="sourceLineNo">080</span><a id="line.80">      }</a>
-<span class="sourceLineNo">081</span><a id="line.81">    }</a>
-<span class="sourceLineNo">082</span><a id="line.82">  }</a>
-<span class="sourceLineNo">083</span><a id="line.83">}</a>
+<span class="sourceLineNo">024</span><a id="line.24"></a>
+<span class="sourceLineNo">025</span><a id="line.25">/**</a>
+<span class="sourceLineNo">026</span><a id="line.26"> * Factories for {@link UncaughtExceptionHandler} instances.</a>
+<span class="sourceLineNo">027</span><a id="line.27"> *</a>
+<span class="sourceLineNo">028</span><a id="line.28"> * @author Gregory Kick</a>
+<span class="sourceLineNo">029</span><a id="line.29"> * @since 8.0</a>
+<span class="sourceLineNo">030</span><a id="line.30"> */</a>
+<span class="sourceLineNo">031</span><a id="line.31">@J2ktIncompatible</a>
+<span class="sourceLineNo">032</span><a id="line.32">@GwtIncompatible</a>
+<span class="sourceLineNo">033</span><a id="line.33">@ElementTypesAreNonnullByDefault</a>
+<span class="sourceLineNo">034</span><a id="line.34">public final class UncaughtExceptionHandlers {</a>
+<span class="sourceLineNo">035</span><a id="line.35">  private UncaughtExceptionHandlers() {}</a>
+<span class="sourceLineNo">036</span><a id="line.36"></a>
+<span class="sourceLineNo">037</span><a id="line.37">  /**</a>
+<span class="sourceLineNo">038</span><a id="line.38">   * Returns an exception handler that exits the system. This is particularly useful for the main</a>
+<span class="sourceLineNo">039</span><a id="line.39">   * thread, which may start up other, non-daemon threads, but fail to fully initialize the</a>
+<span class="sourceLineNo">040</span><a id="line.40">   * application successfully.</a>
+<span class="sourceLineNo">041</span><a id="line.41">   *</a>
+<span class="sourceLineNo">042</span><a id="line.42">   * &lt;p&gt;Example usage:</a>
+<span class="sourceLineNo">043</span><a id="line.43">   *</a>
+<span class="sourceLineNo">044</span><a id="line.44">   * &lt;pre&gt;</a>
+<span class="sourceLineNo">045</span><a id="line.45">   * public static void main(String[] args) {</a>
+<span class="sourceLineNo">046</span><a id="line.46">   *   Thread.currentThread().setUncaughtExceptionHandler(UncaughtExceptionHandlers.systemExit());</a>
+<span class="sourceLineNo">047</span><a id="line.47">   *   ...</a>
+<span class="sourceLineNo">048</span><a id="line.48">   * &lt;/pre&gt;</a>
+<span class="sourceLineNo">049</span><a id="line.49">   *</a>
+<span class="sourceLineNo">050</span><a id="line.50">   * &lt;p&gt;The returned handler logs any exception at severity {@code SEVERE} and then shuts down the</a>
+<span class="sourceLineNo">051</span><a id="line.51">   * process with an exit status of 1, indicating abnormal termination.</a>
+<span class="sourceLineNo">052</span><a id="line.52">   */</a>
+<span class="sourceLineNo">053</span><a id="line.53">  public static UncaughtExceptionHandler systemExit() {</a>
+<span class="sourceLineNo">054</span><a id="line.54">    return new Exiter(Runtime.getRuntime());</a>
+<span class="sourceLineNo">055</span><a id="line.55">  }</a>
+<span class="sourceLineNo">056</span><a id="line.56"></a>
+<span class="sourceLineNo">057</span><a id="line.57">  @VisibleForTesting</a>
+<span class="sourceLineNo">058</span><a id="line.58">  static final class Exiter implements UncaughtExceptionHandler {</a>
+<span class="sourceLineNo">059</span><a id="line.59">    private static final LazyLogger logger = new LazyLogger(Exiter.class);</a>
+<span class="sourceLineNo">060</span><a id="line.60"></a>
+<span class="sourceLineNo">061</span><a id="line.61">    private final Runtime runtime;</a>
+<span class="sourceLineNo">062</span><a id="line.62"></a>
+<span class="sourceLineNo">063</span><a id="line.63">    Exiter(Runtime runtime) {</a>
+<span class="sourceLineNo">064</span><a id="line.64">      this.runtime = runtime;</a>
+<span class="sourceLineNo">065</span><a id="line.65">    }</a>
+<span class="sourceLineNo">066</span><a id="line.66"></a>
+<span class="sourceLineNo">067</span><a id="line.67">    @Override</a>
+<span class="sourceLineNo">068</span><a id="line.68">    public void uncaughtException(Thread t, Throwable e) {</a>
+<span class="sourceLineNo">069</span><a id="line.69">      try {</a>
+<span class="sourceLineNo">070</span><a id="line.70">        logger</a>
+<span class="sourceLineNo">071</span><a id="line.71">            .get()</a>
+<span class="sourceLineNo">072</span><a id="line.72">            .log(</a>
+<span class="sourceLineNo">073</span><a id="line.73">                SEVERE,</a>
+<span class="sourceLineNo">074</span><a id="line.74">                String.format(Locale.ROOT, "Caught an exception in %s.  Shutting down.", t),</a>
+<span class="sourceLineNo">075</span><a id="line.75">                e);</a>
+<span class="sourceLineNo">076</span><a id="line.76">      } catch (RuntimeException | Error errorInLogging) {</a>
+<span class="sourceLineNo">077</span><a id="line.77">        // If logging fails, e.g. due to missing memory, at least try to log the</a>
+<span class="sourceLineNo">078</span><a id="line.78">        // message and the cause for the failed logging.</a>
+<span class="sourceLineNo">079</span><a id="line.79">        System.err.println(e.getMessage());</a>
+<span class="sourceLineNo">080</span><a id="line.80">        System.err.println(errorInLogging.getMessage());</a>
+<span class="sourceLineNo">081</span><a id="line.81">      } finally {</a>
+<span class="sourceLineNo">082</span><a id="line.82">        runtime.exit(1);</a>
+<span class="sourceLineNo">083</span><a id="line.83">      }</a>
+<span class="sourceLineNo">084</span><a id="line.84">    }</a>
+<span class="sourceLineNo">085</span><a id="line.85">  }</a>
+<span class="sourceLineNo">086</span><a id="line.86">}</a>
 
 
 

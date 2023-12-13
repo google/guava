@@ -137,7 +137,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <hr>
 <pre><a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public class <a href="../../../../../src-html/com/google/common/util/concurrent/CycleDetectingLockFactory.html#line.162">CycleDetectingLockFactory</a>
+public class <a href="../../../../../src-html/com/google/common/util/concurrent/CycleDetectingLockFactory.html#line.161">CycleDetectingLockFactory</a>
 extends java.lang.Object</pre>
 <div class="block">The <code>CycleDetectingLockFactory</code> creates <code>ReentrantLock</code> instances and <code>ReentrantReadWriteLock</code> instances that detect potential deadlock by checking for cycles in lock
  acquisition order.
@@ -396,7 +396,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>newInstance</h4>
-<pre class="methodSignature">public static&nbsp;<a href="CycleDetectingLockFactory.html" title="class in com.google.common.util.concurrent">CycleDetectingLockFactory</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/CycleDetectingLockFactory.html#line.233">newInstance</a>&#8203;(<a href="CycleDetectingLockFactory.Policy.html" title="interface in com.google.common.util.concurrent">CycleDetectingLockFactory.Policy</a>&nbsp;policy)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="CycleDetectingLockFactory.html" title="class in com.google.common.util.concurrent">CycleDetectingLockFactory</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/CycleDetectingLockFactory.html#line.232">newInstance</a>&#8203;(<a href="CycleDetectingLockFactory.Policy.html" title="interface in com.google.common.util.concurrent">CycleDetectingLockFactory.Policy</a>&nbsp;policy)</pre>
 <div class="block">Creates a new factory with the specified policy.</div>
 </li>
 </ul>
@@ -406,7 +406,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>newReentrantLock</h4>
-<pre class="methodSignature">public&nbsp;java.util.concurrent.locks.ReentrantLock&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/CycleDetectingLockFactory.html#line.238">newReentrantLock</a>&#8203;(java.lang.String&nbsp;lockName)</pre>
+<pre class="methodSignature">public&nbsp;java.util.concurrent.locks.ReentrantLock&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/CycleDetectingLockFactory.html#line.237">newReentrantLock</a>&#8203;(java.lang.String&nbsp;lockName)</pre>
 <div class="block">Equivalent to <code>newReentrantLock(lockName, false)</code>.</div>
 </li>
 </ul>
@@ -416,7 +416,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>newReentrantLock</h4>
-<pre class="methodSignature">public&nbsp;java.util.concurrent.locks.ReentrantLock&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/CycleDetectingLockFactory.html#line.246">newReentrantLock</a>&#8203;(java.lang.String&nbsp;lockName,
+<pre class="methodSignature">public&nbsp;java.util.concurrent.locks.ReentrantLock&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/CycleDetectingLockFactory.html#line.245">newReentrantLock</a>&#8203;(java.lang.String&nbsp;lockName,
                                                                  boolean&nbsp;fair)</pre>
 <div class="block">Creates a <code>ReentrantLock</code> with the given fairness policy. The <code>lockName</code> is used in
  the warning or exception output to help identify the locks involved in the detected deadlock.</div>
@@ -428,7 +428,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>newReentrantReadWriteLock</h4>
-<pre class="methodSignature">public&nbsp;java.util.concurrent.locks.ReentrantReadWriteLock&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/CycleDetectingLockFactory.html#line.253">newReentrantReadWriteLock</a>&#8203;(java.lang.String&nbsp;lockName)</pre>
+<pre class="methodSignature">public&nbsp;java.util.concurrent.locks.ReentrantReadWriteLock&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/CycleDetectingLockFactory.html#line.252">newReentrantReadWriteLock</a>&#8203;(java.lang.String&nbsp;lockName)</pre>
 <div class="block">Equivalent to <code>newReentrantReadWriteLock(lockName, false)</code>.</div>
 </li>
 </ul>
@@ -438,7 +438,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>newReentrantReadWriteLock</h4>
-<pre class="methodSignature">public&nbsp;java.util.concurrent.locks.ReentrantReadWriteLock&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/CycleDetectingLockFactory.html#line.262">newReentrantReadWriteLock</a>&#8203;(java.lang.String&nbsp;lockName,
+<pre class="methodSignature">public&nbsp;java.util.concurrent.locks.ReentrantReadWriteLock&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/CycleDetectingLockFactory.html#line.261">newReentrantReadWriteLock</a>&#8203;(java.lang.String&nbsp;lockName,
                                                                                    boolean&nbsp;fair)</pre>
 <div class="block">Creates a <code>ReentrantReadWriteLock</code> with the given fairness policy. The <code>lockName</code>
  is used in the warning or exception output to help identify the locks involved in the detected
@@ -451,7 +451,7 @@ extends java.lang.Object</pre>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>newInstanceWithExplicitOrdering</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E extends java.lang.Enum&lt;E&gt;&gt;&nbsp;<a href="CycleDetectingLockFactory.WithExplicitOrdering.html" title="class in com.google.common.util.concurrent">CycleDetectingLockFactory.WithExplicitOrdering</a>&lt;E&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/CycleDetectingLockFactory.html#line.274">newInstanceWithExplicitOrdering</a>&#8203;(java.lang.Class&lt;E&gt;&nbsp;enumClass,
+<pre class="methodSignature">public static&nbsp;&lt;E extends java.lang.Enum&lt;E&gt;&gt;&nbsp;<a href="CycleDetectingLockFactory.WithExplicitOrdering.html" title="class in com.google.common.util.concurrent">CycleDetectingLockFactory.WithExplicitOrdering</a>&lt;E&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/CycleDetectingLockFactory.html#line.273">newInstanceWithExplicitOrdering</a>&#8203;(java.lang.Class&lt;E&gt;&nbsp;enumClass,
                                                                                                                               <a href="CycleDetectingLockFactory.Policy.html" title="interface in com.google.common.util.concurrent">CycleDetectingLockFactory.Policy</a>&nbsp;policy)</pre>
 <div class="block">Creates a <code>CycleDetectingLockFactory.WithExplicitOrdering&lt;E&gt;</code>.</div>
 </li>

@@ -136,7 +136,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><a href="ServiceManager.html" title="class in com.google.common.util.concurrent">ServiceManager</a></dd>
 </dl>
 <hr>
-<pre>public abstract static class <a href="../../../../../src-html/com/google/common/util/concurrent/ServiceManager.html#line.160">ServiceManager.Listener</a>
+<pre>public abstract static class <a href="../../../../../src-html/com/google/common/util/concurrent/ServiceManager.html#line.159">ServiceManager.Listener</a>
 extends java.lang.Object</pre>
 <div class="block">A listener for the aggregate state changes of the services that are under management. Users
  that need to listen to more fine-grained events (such as when each particular <a href="Service.html" title="interface in com.google.common.util.concurrent">service</a> starts, or terminates), should attach <a href="Service.Listener.html" title="class in com.google.common.util.concurrent">service
@@ -240,7 +240,7 @@ extends java.lang.Object</pre>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>Listener</h4>
-<pre>public&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ServiceManager.Listener.html#line.160">Listener</a>()</pre>
+<pre>public&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ServiceManager.Listener.html#line.159">Listener</a>()</pre>
 </li>
 </ul>
 </li>
@@ -259,7 +259,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>healthy</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ServiceManager.Listener.html#line.169">healthy</a>()</pre>
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ServiceManager.Listener.html#line.168">healthy</a>()</pre>
 <div class="block">Called when the service initially becomes healthy.
 
  <p>This will be called at most once after all the services have entered the <a href="Service.State.html#RUNNING">running</a> state. If any services fail during start up or <a href="Service.State.html#FAILED">fail</a>/<a href="Service.State.html#TERMINATED">terminate</a> before all other services have
@@ -272,7 +272,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>stopped</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ServiceManager.Listener.html#line.175">stopped</a>()</pre>
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ServiceManager.Listener.html#line.174">stopped</a>()</pre>
 <div class="block">Called when the all of the component services have reached a terminal state, either
  <a href="Service.State.html#TERMINATED">terminated</a> or <a href="Service.State.html#FAILED">failed</a>.</div>
 </li>
@@ -283,7 +283,7 @@ extends java.lang.Object</pre>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>failure</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ServiceManager.Listener.html#line.182">failure</a>&#8203;(<a href="Service.html" title="interface in com.google.common.util.concurrent">Service</a>&nbsp;service)</pre>
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ServiceManager.Listener.html#line.181">failure</a>&#8203;(<a href="Service.html" title="interface in com.google.common.util.concurrent">Service</a>&nbsp;service)</pre>
 <div class="block">Called when a component service has <a href="Service.State.html#FAILED">failed</a>.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
