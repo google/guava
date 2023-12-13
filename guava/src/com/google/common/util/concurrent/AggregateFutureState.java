@@ -25,7 +25,6 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -51,7 +50,7 @@ abstract class AggregateFutureState<OutputT extends @Nullable Object>
 
   private static final AtomicHelper ATOMIC_HELPER;
 
-  private static final Logger log = Logger.getLogger(AggregateFutureState.class.getName());
+  private static final LazyLogger log = new LazyLogger(AggregateFutureState.class);
 
   static {
     AtomicHelper helper;
@@ -73,7 +72,7 @@ abstract class AggregateFutureState<OutputT extends @Nullable Object>
     // Log after all static init is finished; if an installed logger uses any Futures methods, it
     // shouldn't break in cases where reflection is missing/broken.
     if (thrownReflectionFailure != null) {
-      log.log(Level.SEVERE, "SafeAtomicHelper is broken!", thrownReflectionFailure);
+      log.get().log(Level.SEVERE, "SafeAtomicHelper is broken!", thrownReflectionFailure);
     }
   }
 

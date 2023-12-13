@@ -21,7 +21,6 @@ import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.concurrent.GuardedBy;
 import java.util.concurrent.Executor;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.annotation.CheckForNull;
 
 /**
@@ -45,7 +44,7 @@ import javax.annotation.CheckForNull;
 @ElementTypesAreNonnullByDefault
 public final class ExecutionList {
   /** Logger to log exceptions caught when running runnables. */
-  private static final Logger log = Logger.getLogger(ExecutionList.class.getName());
+  private static final LazyLogger log = new LazyLogger(ExecutionList.class);
 
   /**
    * The runnable, executor pairs to execute. This acts as a stack threaded through the {@link
@@ -148,10 +147,14 @@ public final class ExecutionList {
       // Log it and keep going -- bad runnable and/or executor. Don't punish the other runnables if
       // we're given a bad one. We only catch RuntimeException because we want Errors to propagate
       // up.
-      log.log(
-          Level.SEVERE,
-          "RuntimeException while executing runnable " + runnable + " with executor " + executor,
-          e);
+      log.get()
+          .log(
+              Level.SEVERE,
+              "RuntimeException while executing runnable "
+                  + runnable
+                  + " with executor "
+                  + executor,
+              e);
     }
   }
 

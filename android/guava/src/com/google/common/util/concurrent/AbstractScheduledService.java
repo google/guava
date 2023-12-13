@@ -37,7 +37,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -102,7 +101,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 @J2ktIncompatible
 @ElementTypesAreNonnullByDefault
 public abstract class AbstractScheduledService implements Service {
-  private static final Logger logger = Logger.getLogger(AbstractScheduledService.class.getName());
+  private static final LazyLogger logger = new LazyLogger(AbstractScheduledService.class);
 
   /**
    * A scheduler defines the policy for how the {@link AbstractScheduledService} should run its
@@ -209,10 +208,12 @@ public abstract class AbstractScheduledService implements Service {
             shutDown();
           } catch (Exception ignored) {
             restoreInterruptIfIsInterruptedException(ignored);
-            logger.log(
-                Level.WARNING,
-                "Error while attempting to shut down the service after failure.",
-                ignored);
+            logger
+                .get()
+                .log(
+                    Level.WARNING,
+                    "Error while attempting to shut down the service after failure.",
+                    ignored);
           }
           notifyFailed(t);
           // requireNonNull is safe now, just as it was above.

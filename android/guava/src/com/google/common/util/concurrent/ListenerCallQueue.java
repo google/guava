@@ -27,7 +27,6 @@ import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.Executor;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * A list of listeners for implementing a concurrency friendly observable object.
@@ -58,7 +57,7 @@ import java.util.logging.Logger;
 @ElementTypesAreNonnullByDefault
 final class ListenerCallQueue<L> {
   // TODO(cpovirk): consider using the logger associated with listener.getClass().
-  private static final Logger logger = Logger.getLogger(ListenerCallQueue.class.getName());
+  private static final LazyLogger logger = new LazyLogger(ListenerCallQueue.class);
 
   // TODO(chrisn): promote AppendOnlyCollection for use here.
   private final List<PerListenerQueue<L>> listeners =
@@ -177,10 +176,12 @@ final class ListenerCallQueue<L> {
             isThreadScheduled = false;
           }
           // Log it and keep going.
-          logger.log(
-              Level.SEVERE,
-              "Exception while running callbacks for " + listener + " on " + executor,
-              e);
+          logger
+              .get()
+              .log(
+                  Level.SEVERE,
+                  "Exception while running callbacks for " + listener + " on " + executor,
+                  e);
           throw e;
         }
       }
@@ -210,10 +211,12 @@ final class ListenerCallQueue<L> {
             nextToRun.call(listener);
           } catch (Exception e) { // sneaky checked exception
             // Log it and keep going.
-            logger.log(
-                Level.SEVERE,
-                "Exception while executing callback: " + listener + " " + nextLabel,
-                e);
+            logger
+                .get()
+                .log(
+                    Level.SEVERE,
+                    "Exception while executing callback: " + listener + " " + nextLabel,
+                    e);
           }
         }
       } finally {

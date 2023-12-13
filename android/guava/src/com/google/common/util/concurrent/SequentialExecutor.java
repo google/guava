@@ -31,7 +31,6 @@ import java.util.Deque;
 import java.util.concurrent.Executor;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.annotation.CheckForNull;
 
 /**
@@ -52,7 +51,7 @@ import javax.annotation.CheckForNull;
 @GwtIncompatible
 @ElementTypesAreNonnullByDefault
 final class SequentialExecutor implements Executor {
-  private static final Logger log = Logger.getLogger(SequentialExecutor.class.getName());
+  private static final LazyLogger log = new LazyLogger(SequentialExecutor.class);
 
   enum WorkerRunningState {
     /** Runnable is not running and not queued for execution */
@@ -238,7 +237,7 @@ final class SequentialExecutor implements Executor {
           try {
             task.run();
           } catch (Exception e) { // sneaky checked exception
-            log.log(Level.SEVERE, "Exception while executing runnable " + task, e);
+            log.get().log(Level.SEVERE, "Exception while executing runnable " + task, e);
           } finally {
             task = null;
           }

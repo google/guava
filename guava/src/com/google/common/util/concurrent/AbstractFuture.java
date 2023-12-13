@@ -42,7 +42,6 @@ import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import java.util.concurrent.locks.LockSupport;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -141,11 +140,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
     }
   }
 
-  // Logger to log exceptions caught when running listeners.
-  // Holder class to delay initialization, for performance reasons.
-  private static final class LoggerHolder {
-    static final Logger log = Logger.getLogger(AbstractFuture.class.getName());
-  }
+  static final LazyLogger log = new LazyLogger(AbstractFuture.class);
 
   // A heuristic for timed gets. If the remaining timeout is less than this, spin instead of
   // blocking. This value is what AbstractQueuedSynchronizer uses.
@@ -192,9 +187,12 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
     // Log after all static init is finished; if an installed logger uses any Futures methods, it
     // shouldn't break in cases where reflection is missing/broken.
     if (thrownAtomicReferenceFieldUpdaterFailure != null) {
-      LoggerHolder.log.log(Level.SEVERE, "UnsafeAtomicHelper is broken!", thrownUnsafeFailure);
-      LoggerHolder.log.log(
-          Level.SEVERE, "SafeAtomicHelper is broken!", thrownAtomicReferenceFieldUpdaterFailure);
+      log.get().log(Level.SEVERE, "UnsafeAtomicHelper is broken!", thrownUnsafeFailure);
+      log.get()
+          .log(
+              Level.SEVERE,
+              "SafeAtomicHelper is broken!",
+              thrownAtomicReferenceFieldUpdaterFailure);
     }
   }
 
@@ -1301,10 +1299,14 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
       // Log it and keep going -- bad runnable and/or executor. Don't punish the other runnables if
       // we're given a bad one. We only catch RuntimeException because we want Errors to propagate
       // up.
-      LoggerHolder.log.log(
-          Level.SEVERE,
-          "RuntimeException while executing runnable " + runnable + " with executor " + executor,
-          e);
+      log.get()
+          .log(
+              Level.SEVERE,
+              "RuntimeException while executing runnable "
+                  + runnable
+                  + " with executor "
+                  + executor,
+              e);
     }
   }
 

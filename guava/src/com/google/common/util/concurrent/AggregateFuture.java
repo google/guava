@@ -30,7 +30,6 @@ import com.google.errorprone.annotations.OverridingMethodsMustInvokeSuper;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
-import java.util.logging.Logger;
 import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -44,7 +43,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 @ElementTypesAreNonnullByDefault
 abstract class AggregateFuture<InputT extends @Nullable Object, OutputT extends @Nullable Object>
     extends AggregateFutureState<OutputT> {
-  private static final Logger logger = Logger.getLogger(AggregateFuture.class.getName());
+  private static final LazyLogger logger = new LazyLogger(AggregateFuture.class);
 
   /**
    * The input futures. After {@link #init}, this field is read only by {@link #afterDone()} (to
@@ -230,7 +229,7 @@ abstract class AggregateFuture<InputT extends @Nullable Object, OutputT extends 
         (throwable instanceof Error)
             ? "Input Future failed with Error"
             : "Got more than one input Future failure. Logging failures after the first";
-    logger.log(SEVERE, message, throwable);
+    logger.get().log(SEVERE, message, throwable);
   }
 
   @Override
