@@ -117,13 +117,14 @@ public abstract class Invokable<T, R> implements AnnotatedElement, Member {
   }
 
   /** See {@link java.lang.reflect.AccessibleObject#trySetAccessible()}. */
+  @SuppressWarnings("CatchingUnchecked") // sneaky checked exception
   public final boolean trySetAccessible() {
     // We can't call accessibleObject.trySetAccessible since that was added in Java 9 and this code
     // should work on Java 8. So we emulate it this way.
     try {
       accessibleObject.setAccessible(true);
       return true;
-    } catch (RuntimeException e) {
+    } catch (Exception e) { // sneaky checked exception
       return false;
     }
   }

@@ -155,7 +155,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
 
     try {
       helper = new UnsafeAtomicHelper();
-    } catch (RuntimeException | Error unsafeFailure) {
+    } catch (Exception | Error unsafeFailure) { // sneaky checked exception
       thrownUnsafeFailure = unsafeFailure;
       // catch absolutely everything and fall through to our 'SafeAtomicHelper'
       // The access control checks that ARFU does means the caller class has to be AbstractFuture
@@ -168,7 +168,8 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
                 newUpdater(AbstractFuture.class, Waiter.class, "waiters"),
                 newUpdater(AbstractFuture.class, Listener.class, "listeners"),
                 newUpdater(AbstractFuture.class, Object.class, "value"));
-      } catch (RuntimeException | Error atomicReferenceFieldUpdaterFailure) {
+      } catch (Exception // sneaky checked exception
+          | Error atomicReferenceFieldUpdaterFailure) {
         // Some Android 5.0.x Samsung devices have bugs in JDK reflection APIs that cause
         // getDeclaredField to throw a NoSuchFieldException when the field is definitely there.
         // For these users fallback to a suboptimal implementation, based on synchronized. This will
@@ -874,7 +875,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
           Failure failure;
           try {
             failure = new Failure(t);
-          } catch (RuntimeException | Error oomMostLikely) {
+          } catch (Exception | Error oomMostLikely) { // sneaky checked exception
             failure = Failure.FALLBACK_INSTANCE;
           }
           // Note: The only way this CAS could fail is if cancel() has raced with us. That is ok.
@@ -969,7 +970,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
                 cancellation));
       }
       return new Cancellation(false, cancellation);
-    } catch (RuntimeException | Error t) {
+    } catch (Exception | Error t) { // sneaky checked exception
       return new Failure(t);
     }
   }
@@ -1386,8 +1387,6 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
         UNSAFE = unsafe;
       } catch (NoSuchFieldException e) {
         throw new RuntimeException(e);
-      } catch (RuntimeException e) {
-        throw e;
       }
     }
 

@@ -73,7 +73,7 @@ public final class UncaughtExceptionHandlers {
                 SEVERE,
                 String.format(Locale.ROOT, "Caught an exception in %s.  Shutting down.", t),
                 e);
-      } catch (RuntimeException | Error errorInLogging) {
+      } catch (Throwable errorInLogging) { // sneaky checked exception
         // If logging fails, e.g. due to missing memory, at least try to log the
         // message and the cause for the failed logging.
         System.err.println(e.getMessage());

@@ -66,6 +66,7 @@ abstract class AbstractTransformFuture<
   }
 
   @Override
+  @SuppressWarnings("CatchingUnchecked") // sneaky checked exception
   public final void run() {
     ListenableFuture<? extends I> localInputFuture = inputFuture;
     F localFunction = function;
@@ -104,7 +105,7 @@ abstract class AbstractTransformFuture<
       // Set the cause of the exception as this future's exception.
       setException(e.getCause());
       return;
-    } catch (RuntimeException e) {
+    } catch (Exception e) { // sneaky checked exception
       // Bug in inputFuture.get(). Propagate to the output Future so that its consumers don't hang.
       setException(e);
       return;

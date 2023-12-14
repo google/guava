@@ -707,7 +707,10 @@ public final class MoreExecutors {
    * An implementation of {@link ExecutorService#invokeAny} for {@link ListeningExecutorService}
    * implementations.
    */
-  @SuppressWarnings("GoodTime") // should accept a java.time.Duration
+  @SuppressWarnings({
+    "GoodTime", // should accept a java.time.Duration
+    "CatchingUnchecked", // sneaky checked exception
+  })
   @J2ktIncompatible
   @GwtIncompatible
   @ParametricNullness
@@ -770,7 +773,9 @@ public final class MoreExecutors {
             return f.get();
           } catch (ExecutionException eex) {
             ee = eex;
-          } catch (RuntimeException rex) {
+          } catch (InterruptedException iex) {
+            throw iex;
+          } catch (Exception rex) { // sneaky checked exception
             ee = new ExecutionException(rex);
           }
         }

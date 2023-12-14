@@ -60,7 +60,7 @@ abstract class AggregateFutureState<OutputT extends @Nullable Object>
           new SafeAtomicHelper(
               newUpdater(AggregateFutureState.class, Set.class, "seenExceptions"),
               newUpdater(AggregateFutureState.class, "remaining"));
-    } catch (RuntimeException | Error reflectionFailure) {
+    } catch (Throwable reflectionFailure) { // sneaky checked exception
       // Some Android 5.0.x Samsung devices have bugs in JDK reflection APIs that cause
       // getDeclaredField to throw a NoSuchFieldException when the field is definitely there.
       // For these users fallback to a suboptimal implementation, based on synchronized. This will

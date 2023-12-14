@@ -148,16 +148,17 @@ public final class Streams {
     return optional.isPresent() ? DoubleStream.of(optional.getAsDouble()) : DoubleStream.empty();
   }
 
+  @SuppressWarnings("CatchingUnchecked") // sneaky checked exception
   private static void closeAll(BaseStream<?, ?>[] toClose) {
-    // If one of the streams throws a RuntimeException, continue closing the others, then throw the
+    // If one of the streams throws an exception, continue closing the others, then throw the
     // exception later. If more than one stream throws an exception, the later ones are added to the
     // first as suppressed exceptions. We don't catch Error on the grounds that it should be allowed
     // to propagate immediately.
-    RuntimeException exception = null;
+    Exception exception = null;
     for (BaseStream<?, ?> stream : toClose) {
       try {
         stream.close();
-      } catch (RuntimeException e) {
+      } catch (Exception e) { // sneaky checked exception
         if (exception == null) {
           exception = e;
         } else {
@@ -166,8 +167,21 @@ public final class Streams {
       }
     }
     if (exception != null) {
-      throw exception;
+      // Normally this is a RuntimeException that doesn't need sneakyThrow.
+      // But theoretically we could see sneaky checked exception
+      sneakyThrow(exception);
     }
+  }
+
+  /** Throws an undeclared checked exception. */
+  private static void sneakyThrow(Throwable t) {
+    class SneakyThrower<T extends Throwable> {
+      @SuppressWarnings("unchecked") // not really safe, but that's the point
+      void throwIt(Throwable t) throws T {
+        throw (T) t;
+      }
+    }
+    new SneakyThrower<Error>().throwIt(t);
   }
 
   /**

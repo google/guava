@@ -496,13 +496,14 @@ public final class ClassSanityTester {
      * @return this tester
      */
     @CanIgnoreReturnValue
+    @SuppressWarnings("CatchingUnchecked") // sneaky checked exception
     public FactoryMethodReturnValueTester testSerializable() throws Exception {
       for (Invokable<?, ?> factory : getFactoriesToTest()) {
         Object instance = instantiate(factory);
         if (instance != null) {
           try {
             SerializableTester.reserialize(instance);
-          } catch (RuntimeException e) {
+          } catch (Exception e) { // sneaky checked exception
             AssertionError error =
                 new AssertionFailedError("Serialization failed on return value of " + factory);
             error.initCause(e.getCause());
@@ -522,6 +523,7 @@ public final class ClassSanityTester {
      * @return this tester
      */
     @CanIgnoreReturnValue
+    @SuppressWarnings("CatchingUnchecked") // sneaky checked exception
     public FactoryMethodReturnValueTester testEqualsAndSerializable() throws Exception {
       for (Invokable<?, ?> factory : getFactoriesToTest()) {
         try {
@@ -533,7 +535,7 @@ public final class ClassSanityTester {
         if (instance != null) {
           try {
             SerializableTester.reserializeAndAssert(instance);
-          } catch (RuntimeException e) {
+          } catch (Exception e) { // sneaky checked exception
             AssertionError error =
                 new AssertionFailedError("Serialization failed on return value of " + factory);
             error.initCause(e.getCause());
