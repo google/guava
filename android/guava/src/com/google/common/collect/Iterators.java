@@ -1106,24 +1106,36 @@ public final class Iterators {
    */
   public static <T extends @Nullable Object> UnmodifiableIterator<T> singletonIterator(
       @ParametricNullness T value) {
-    return new UnmodifiableIterator<T>() {
-      boolean done;
+    return new SingletonIterator<>(value);
+  }
 
-      @Override
-      public boolean hasNext() {
-        return !done;
-      }
+  private static final class SingletonIterator<T extends @Nullable Object>
+      extends UnmodifiableIterator<T> {
+    private static final Object SENTINEL = new Object();
 
-      @Override
-      @ParametricNullness
-      public T next() {
-        if (done) {
-          throw new NoSuchElementException();
-        }
-        done = true;
-        return value;
+    private Object valueOrSentinel;
+
+    SingletonIterator(T value) {
+      this.valueOrSentinel = value;
+    }
+
+    @Override
+    public boolean hasNext() {
+      return valueOrSentinel != SENTINEL;
+    }
+
+    @Override
+    @ParametricNullness
+    public T next() {
+      if (valueOrSentinel == SENTINEL) {
+        throw new NoSuchElementException();
       }
-    };
+      // The field held either a T or SENTINEL, and it turned out not to be SENTINEL.
+      @SuppressWarnings("unchecked")
+      T t = (T) valueOrSentinel;
+      valueOrSentinel = SENTINEL;
+      return t;
+    }
   }
 
   /**
