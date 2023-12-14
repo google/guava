@@ -40,8 +40,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 @SuppressWarnings("serial") // we're overriding default serialization
 public abstract class ImmutableList<E> extends ImmutableCollection<E>
     implements List<E>, RandomAccess {
-  static final ImmutableList<Object> EMPTY =
-      new RegularImmutableList<Object>(Collections.emptyList());
 
   ImmutableList() {}
 
@@ -52,7 +50,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
   // Casting to any type is safe because the list will never hold any elements.
   @SuppressWarnings("unchecked")
   public static <E> ImmutableList<E> of() {
-    return (ImmutableList<E>) EMPTY;
+    return (ImmutableList<E>) RegularImmutableList.EMPTY;
   }
 
   public static <E> ImmutableList<E> of(E element) {
