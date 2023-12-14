@@ -157,837 +157,851 @@
 <span class="sourceLineNo">148</span><a id="line.148">    return optional.isPresent() ? DoubleStream.of(optional.getAsDouble()) : DoubleStream.empty();</a>
 <span class="sourceLineNo">149</span><a id="line.149">  }</a>
 <span class="sourceLineNo">150</span><a id="line.150"></a>
-<span class="sourceLineNo">151</span><a id="line.151">  private static void closeAll(BaseStream&lt;?, ?&gt;[] toClose) {</a>
-<span class="sourceLineNo">152</span><a id="line.152">    // If one of the streams throws a RuntimeException, continue closing the others, then throw the</a>
-<span class="sourceLineNo">153</span><a id="line.153">    // exception later. If more than one stream throws an exception, the later ones are added to the</a>
-<span class="sourceLineNo">154</span><a id="line.154">    // first as suppressed exceptions. We don't catch Error on the grounds that it should be allowed</a>
-<span class="sourceLineNo">155</span><a id="line.155">    // to propagate immediately.</a>
-<span class="sourceLineNo">156</span><a id="line.156">    RuntimeException exception = null;</a>
-<span class="sourceLineNo">157</span><a id="line.157">    for (BaseStream&lt;?, ?&gt; stream : toClose) {</a>
-<span class="sourceLineNo">158</span><a id="line.158">      try {</a>
-<span class="sourceLineNo">159</span><a id="line.159">        stream.close();</a>
-<span class="sourceLineNo">160</span><a id="line.160">      } catch (RuntimeException e) {</a>
-<span class="sourceLineNo">161</span><a id="line.161">        if (exception == null) {</a>
-<span class="sourceLineNo">162</span><a id="line.162">          exception = e;</a>
-<span class="sourceLineNo">163</span><a id="line.163">        } else {</a>
-<span class="sourceLineNo">164</span><a id="line.164">          exception.addSuppressed(e);</a>
-<span class="sourceLineNo">165</span><a id="line.165">        }</a>
-<span class="sourceLineNo">166</span><a id="line.166">      }</a>
-<span class="sourceLineNo">167</span><a id="line.167">    }</a>
-<span class="sourceLineNo">168</span><a id="line.168">    if (exception != null) {</a>
-<span class="sourceLineNo">169</span><a id="line.169">      throw exception;</a>
-<span class="sourceLineNo">170</span><a id="line.170">    }</a>
-<span class="sourceLineNo">171</span><a id="line.171">  }</a>
-<span class="sourceLineNo">172</span><a id="line.172"></a>
-<span class="sourceLineNo">173</span><a id="line.173">  /**</a>
-<span class="sourceLineNo">174</span><a id="line.174">   * Returns a {@link Stream} containing the elements of the first stream, followed by the elements</a>
-<span class="sourceLineNo">175</span><a id="line.175">   * of the second stream, and so on.</a>
-<span class="sourceLineNo">176</span><a id="line.176">   *</a>
-<span class="sourceLineNo">177</span><a id="line.177">   * &lt;p&gt;This is equivalent to {@code Stream.of(streams).flatMap(stream -&gt; stream)}, but the returned</a>
-<span class="sourceLineNo">178</span><a id="line.178">   * stream may perform better.</a>
-<span class="sourceLineNo">179</span><a id="line.179">   *</a>
-<span class="sourceLineNo">180</span><a id="line.180">   * @see Stream#concat(Stream, Stream)</a>
-<span class="sourceLineNo">181</span><a id="line.181">   */</a>
-<span class="sourceLineNo">182</span><a id="line.182">  @SafeVarargs</a>
-<span class="sourceLineNo">183</span><a id="line.183">  public static &lt;T extends @Nullable Object&gt; Stream&lt;T&gt; concat(Stream&lt;? extends T&gt;... streams) {</a>
-<span class="sourceLineNo">184</span><a id="line.184">    // TODO(lowasser): consider an implementation that can support SUBSIZED</a>
-<span class="sourceLineNo">185</span><a id="line.185">    boolean isParallel = false;</a>
-<span class="sourceLineNo">186</span><a id="line.186">    int characteristics = Spliterator.ORDERED | Spliterator.SIZED | Spliterator.NONNULL;</a>
-<span class="sourceLineNo">187</span><a id="line.187">    long estimatedSize = 0L;</a>
-<span class="sourceLineNo">188</span><a id="line.188">    ImmutableList.Builder&lt;Spliterator&lt;? extends T&gt;&gt; splitrsBuilder =</a>
-<span class="sourceLineNo">189</span><a id="line.189">        new ImmutableList.Builder&lt;&gt;(streams.length);</a>
-<span class="sourceLineNo">190</span><a id="line.190">    for (Stream&lt;? extends T&gt; stream : streams) {</a>
-<span class="sourceLineNo">191</span><a id="line.191">      isParallel |= stream.isParallel();</a>
-<span class="sourceLineNo">192</span><a id="line.192">      Spliterator&lt;? extends T&gt; splitr = stream.spliterator();</a>
-<span class="sourceLineNo">193</span><a id="line.193">      splitrsBuilder.add(splitr);</a>
-<span class="sourceLineNo">194</span><a id="line.194">      characteristics &amp;= splitr.characteristics();</a>
-<span class="sourceLineNo">195</span><a id="line.195">      estimatedSize = LongMath.saturatedAdd(estimatedSize, splitr.estimateSize());</a>
-<span class="sourceLineNo">196</span><a id="line.196">    }</a>
-<span class="sourceLineNo">197</span><a id="line.197">    return StreamSupport.stream(</a>
-<span class="sourceLineNo">198</span><a id="line.198">            CollectSpliterators.flatMap(</a>
-<span class="sourceLineNo">199</span><a id="line.199">                splitrsBuilder.build().spliterator(),</a>
-<span class="sourceLineNo">200</span><a id="line.200">                splitr -&gt; (Spliterator&lt;T&gt;) splitr,</a>
-<span class="sourceLineNo">201</span><a id="line.201">                characteristics,</a>
-<span class="sourceLineNo">202</span><a id="line.202">                estimatedSize),</a>
-<span class="sourceLineNo">203</span><a id="line.203">            isParallel)</a>
-<span class="sourceLineNo">204</span><a id="line.204">        .onClose(() -&gt; closeAll(streams));</a>
-<span class="sourceLineNo">205</span><a id="line.205">  }</a>
-<span class="sourceLineNo">206</span><a id="line.206"></a>
-<span class="sourceLineNo">207</span><a id="line.207">  /**</a>
-<span class="sourceLineNo">208</span><a id="line.208">   * Returns an {@link IntStream} containing the elements of the first stream, followed by the</a>
-<span class="sourceLineNo">209</span><a id="line.209">   * elements of the second stream, and so on.</a>
-<span class="sourceLineNo">210</span><a id="line.210">   *</a>
-<span class="sourceLineNo">211</span><a id="line.211">   * &lt;p&gt;This is equivalent to {@code Stream.of(streams).flatMapToInt(stream -&gt; stream)}, but the</a>
-<span class="sourceLineNo">212</span><a id="line.212">   * returned stream may perform better.</a>
-<span class="sourceLineNo">213</span><a id="line.213">   *</a>
-<span class="sourceLineNo">214</span><a id="line.214">   * @see IntStream#concat(IntStream, IntStream)</a>
-<span class="sourceLineNo">215</span><a id="line.215">   */</a>
-<span class="sourceLineNo">216</span><a id="line.216">  public static IntStream concat(IntStream... streams) {</a>
-<span class="sourceLineNo">217</span><a id="line.217">    boolean isParallel = false;</a>
-<span class="sourceLineNo">218</span><a id="line.218">    int characteristics = Spliterator.ORDERED | Spliterator.SIZED | Spliterator.NONNULL;</a>
-<span class="sourceLineNo">219</span><a id="line.219">    long estimatedSize = 0L;</a>
-<span class="sourceLineNo">220</span><a id="line.220">    ImmutableList.Builder&lt;Spliterator.OfInt&gt; splitrsBuilder =</a>
-<span class="sourceLineNo">221</span><a id="line.221">        new ImmutableList.Builder&lt;&gt;(streams.length);</a>
-<span class="sourceLineNo">222</span><a id="line.222">    for (IntStream stream : streams) {</a>
-<span class="sourceLineNo">223</span><a id="line.223">      isParallel |= stream.isParallel();</a>
-<span class="sourceLineNo">224</span><a id="line.224">      Spliterator.OfInt splitr = stream.spliterator();</a>
-<span class="sourceLineNo">225</span><a id="line.225">      splitrsBuilder.add(splitr);</a>
-<span class="sourceLineNo">226</span><a id="line.226">      characteristics &amp;= splitr.characteristics();</a>
-<span class="sourceLineNo">227</span><a id="line.227">      estimatedSize = LongMath.saturatedAdd(estimatedSize, splitr.estimateSize());</a>
-<span class="sourceLineNo">228</span><a id="line.228">    }</a>
-<span class="sourceLineNo">229</span><a id="line.229">    return StreamSupport.intStream(</a>
-<span class="sourceLineNo">230</span><a id="line.230">            CollectSpliterators.flatMapToInt(</a>
-<span class="sourceLineNo">231</span><a id="line.231">                splitrsBuilder.build().spliterator(),</a>
-<span class="sourceLineNo">232</span><a id="line.232">                splitr -&gt; splitr,</a>
-<span class="sourceLineNo">233</span><a id="line.233">                characteristics,</a>
-<span class="sourceLineNo">234</span><a id="line.234">                estimatedSize),</a>
-<span class="sourceLineNo">235</span><a id="line.235">            isParallel)</a>
-<span class="sourceLineNo">236</span><a id="line.236">        .onClose(() -&gt; closeAll(streams));</a>
-<span class="sourceLineNo">237</span><a id="line.237">  }</a>
-<span class="sourceLineNo">238</span><a id="line.238"></a>
-<span class="sourceLineNo">239</span><a id="line.239">  /**</a>
-<span class="sourceLineNo">240</span><a id="line.240">   * Returns a {@link LongStream} containing the elements of the first stream, followed by the</a>
-<span class="sourceLineNo">241</span><a id="line.241">   * elements of the second stream, and so on.</a>
-<span class="sourceLineNo">242</span><a id="line.242">   *</a>
-<span class="sourceLineNo">243</span><a id="line.243">   * &lt;p&gt;This is equivalent to {@code Stream.of(streams).flatMapToLong(stream -&gt; stream)}, but the</a>
-<span class="sourceLineNo">244</span><a id="line.244">   * returned stream may perform better.</a>
-<span class="sourceLineNo">245</span><a id="line.245">   *</a>
-<span class="sourceLineNo">246</span><a id="line.246">   * @see LongStream#concat(LongStream, LongStream)</a>
-<span class="sourceLineNo">247</span><a id="line.247">   */</a>
-<span class="sourceLineNo">248</span><a id="line.248">  public static LongStream concat(LongStream... streams) {</a>
-<span class="sourceLineNo">249</span><a id="line.249">    boolean isParallel = false;</a>
-<span class="sourceLineNo">250</span><a id="line.250">    int characteristics = Spliterator.ORDERED | Spliterator.SIZED | Spliterator.NONNULL;</a>
-<span class="sourceLineNo">251</span><a id="line.251">    long estimatedSize = 0L;</a>
-<span class="sourceLineNo">252</span><a id="line.252">    ImmutableList.Builder&lt;Spliterator.OfLong&gt; splitrsBuilder =</a>
-<span class="sourceLineNo">253</span><a id="line.253">        new ImmutableList.Builder&lt;&gt;(streams.length);</a>
-<span class="sourceLineNo">254</span><a id="line.254">    for (LongStream stream : streams) {</a>
-<span class="sourceLineNo">255</span><a id="line.255">      isParallel |= stream.isParallel();</a>
-<span class="sourceLineNo">256</span><a id="line.256">      Spliterator.OfLong splitr = stream.spliterator();</a>
-<span class="sourceLineNo">257</span><a id="line.257">      splitrsBuilder.add(splitr);</a>
-<span class="sourceLineNo">258</span><a id="line.258">      characteristics &amp;= splitr.characteristics();</a>
-<span class="sourceLineNo">259</span><a id="line.259">      estimatedSize = LongMath.saturatedAdd(estimatedSize, splitr.estimateSize());</a>
-<span class="sourceLineNo">260</span><a id="line.260">    }</a>
-<span class="sourceLineNo">261</span><a id="line.261">    return StreamSupport.longStream(</a>
-<span class="sourceLineNo">262</span><a id="line.262">            CollectSpliterators.flatMapToLong(</a>
-<span class="sourceLineNo">263</span><a id="line.263">                splitrsBuilder.build().spliterator(),</a>
-<span class="sourceLineNo">264</span><a id="line.264">                splitr -&gt; splitr,</a>
-<span class="sourceLineNo">265</span><a id="line.265">                characteristics,</a>
-<span class="sourceLineNo">266</span><a id="line.266">                estimatedSize),</a>
-<span class="sourceLineNo">267</span><a id="line.267">            isParallel)</a>
-<span class="sourceLineNo">268</span><a id="line.268">        .onClose(() -&gt; closeAll(streams));</a>
-<span class="sourceLineNo">269</span><a id="line.269">  }</a>
-<span class="sourceLineNo">270</span><a id="line.270"></a>
-<span class="sourceLineNo">271</span><a id="line.271">  /**</a>
-<span class="sourceLineNo">272</span><a id="line.272">   * Returns a {@link DoubleStream} containing the elements of the first stream, followed by the</a>
-<span class="sourceLineNo">273</span><a id="line.273">   * elements of the second stream, and so on.</a>
-<span class="sourceLineNo">274</span><a id="line.274">   *</a>
-<span class="sourceLineNo">275</span><a id="line.275">   * &lt;p&gt;This is equivalent to {@code Stream.of(streams).flatMapToDouble(stream -&gt; stream)}, but the</a>
-<span class="sourceLineNo">276</span><a id="line.276">   * returned stream may perform better.</a>
-<span class="sourceLineNo">277</span><a id="line.277">   *</a>
-<span class="sourceLineNo">278</span><a id="line.278">   * @see DoubleStream#concat(DoubleStream, DoubleStream)</a>
-<span class="sourceLineNo">279</span><a id="line.279">   */</a>
-<span class="sourceLineNo">280</span><a id="line.280">  public static DoubleStream concat(DoubleStream... streams) {</a>
-<span class="sourceLineNo">281</span><a id="line.281">    boolean isParallel = false;</a>
-<span class="sourceLineNo">282</span><a id="line.282">    int characteristics = Spliterator.ORDERED | Spliterator.SIZED | Spliterator.NONNULL;</a>
-<span class="sourceLineNo">283</span><a id="line.283">    long estimatedSize = 0L;</a>
-<span class="sourceLineNo">284</span><a id="line.284">    ImmutableList.Builder&lt;Spliterator.OfDouble&gt; splitrsBuilder =</a>
-<span class="sourceLineNo">285</span><a id="line.285">        new ImmutableList.Builder&lt;&gt;(streams.length);</a>
-<span class="sourceLineNo">286</span><a id="line.286">    for (DoubleStream stream : streams) {</a>
-<span class="sourceLineNo">287</span><a id="line.287">      isParallel |= stream.isParallel();</a>
-<span class="sourceLineNo">288</span><a id="line.288">      Spliterator.OfDouble splitr = stream.spliterator();</a>
-<span class="sourceLineNo">289</span><a id="line.289">      splitrsBuilder.add(splitr);</a>
-<span class="sourceLineNo">290</span><a id="line.290">      characteristics &amp;= splitr.characteristics();</a>
-<span class="sourceLineNo">291</span><a id="line.291">      estimatedSize = LongMath.saturatedAdd(estimatedSize, splitr.estimateSize());</a>
-<span class="sourceLineNo">292</span><a id="line.292">    }</a>
-<span class="sourceLineNo">293</span><a id="line.293">    return StreamSupport.doubleStream(</a>
-<span class="sourceLineNo">294</span><a id="line.294">            CollectSpliterators.flatMapToDouble(</a>
-<span class="sourceLineNo">295</span><a id="line.295">                splitrsBuilder.build().spliterator(),</a>
-<span class="sourceLineNo">296</span><a id="line.296">                splitr -&gt; splitr,</a>
-<span class="sourceLineNo">297</span><a id="line.297">                characteristics,</a>
-<span class="sourceLineNo">298</span><a id="line.298">                estimatedSize),</a>
-<span class="sourceLineNo">299</span><a id="line.299">            isParallel)</a>
-<span class="sourceLineNo">300</span><a id="line.300">        .onClose(() -&gt; closeAll(streams));</a>
-<span class="sourceLineNo">301</span><a id="line.301">  }</a>
-<span class="sourceLineNo">302</span><a id="line.302"></a>
-<span class="sourceLineNo">303</span><a id="line.303">  /**</a>
-<span class="sourceLineNo">304</span><a id="line.304">   * Returns a stream in which each element is the result of passing the corresponding element of</a>
-<span class="sourceLineNo">305</span><a id="line.305">   * each of {@code streamA} and {@code streamB} to {@code function}.</a>
-<span class="sourceLineNo">306</span><a id="line.306">   *</a>
-<span class="sourceLineNo">307</span><a id="line.307">   * &lt;p&gt;For example:</a>
-<span class="sourceLineNo">308</span><a id="line.308">   *</a>
-<span class="sourceLineNo">309</span><a id="line.309">   * &lt;pre&gt;{@code</a>
-<span class="sourceLineNo">310</span><a id="line.310">   * Streams.zip(</a>
-<span class="sourceLineNo">311</span><a id="line.311">   *   Stream.of("foo1", "foo2", "foo3"),</a>
-<span class="sourceLineNo">312</span><a id="line.312">   *   Stream.of("bar1", "bar2"),</a>
-<span class="sourceLineNo">313</span><a id="line.313">   *   (arg1, arg2) -&gt; arg1 + ":" + arg2)</a>
-<span class="sourceLineNo">314</span><a id="line.314">   * }&lt;/pre&gt;</a>
-<span class="sourceLineNo">315</span><a id="line.315">   *</a>
-<span class="sourceLineNo">316</span><a id="line.316">   * &lt;p&gt;will return {@code Stream.of("foo1:bar1", "foo2:bar2")}.</a>
-<span class="sourceLineNo">317</span><a id="line.317">   *</a>
-<span class="sourceLineNo">318</span><a id="line.318">   * &lt;p&gt;The resulting stream will only be as long as the shorter of the two input streams; if one</a>
-<span class="sourceLineNo">319</span><a id="line.319">   * stream is longer, its extra elements will be ignored.</a>
+<span class="sourceLineNo">151</span><a id="line.151">  @SuppressWarnings("CatchingUnchecked") // sneaky checked exception</a>
+<span class="sourceLineNo">152</span><a id="line.152">  private static void closeAll(BaseStream&lt;?, ?&gt;[] toClose) {</a>
+<span class="sourceLineNo">153</span><a id="line.153">    // If one of the streams throws an exception, continue closing the others, then throw the</a>
+<span class="sourceLineNo">154</span><a id="line.154">    // exception later. If more than one stream throws an exception, the later ones are added to the</a>
+<span class="sourceLineNo">155</span><a id="line.155">    // first as suppressed exceptions. We don't catch Error on the grounds that it should be allowed</a>
+<span class="sourceLineNo">156</span><a id="line.156">    // to propagate immediately.</a>
+<span class="sourceLineNo">157</span><a id="line.157">    Exception exception = null;</a>
+<span class="sourceLineNo">158</span><a id="line.158">    for (BaseStream&lt;?, ?&gt; stream : toClose) {</a>
+<span class="sourceLineNo">159</span><a id="line.159">      try {</a>
+<span class="sourceLineNo">160</span><a id="line.160">        stream.close();</a>
+<span class="sourceLineNo">161</span><a id="line.161">      } catch (Exception e) { // sneaky checked exception</a>
+<span class="sourceLineNo">162</span><a id="line.162">        if (exception == null) {</a>
+<span class="sourceLineNo">163</span><a id="line.163">          exception = e;</a>
+<span class="sourceLineNo">164</span><a id="line.164">        } else {</a>
+<span class="sourceLineNo">165</span><a id="line.165">          exception.addSuppressed(e);</a>
+<span class="sourceLineNo">166</span><a id="line.166">        }</a>
+<span class="sourceLineNo">167</span><a id="line.167">      }</a>
+<span class="sourceLineNo">168</span><a id="line.168">    }</a>
+<span class="sourceLineNo">169</span><a id="line.169">    if (exception != null) {</a>
+<span class="sourceLineNo">170</span><a id="line.170">      // Normally this is a RuntimeException that doesn't need sneakyThrow.</a>
+<span class="sourceLineNo">171</span><a id="line.171">      // But theoretically we could see sneaky checked exception</a>
+<span class="sourceLineNo">172</span><a id="line.172">      sneakyThrow(exception);</a>
+<span class="sourceLineNo">173</span><a id="line.173">    }</a>
+<span class="sourceLineNo">174</span><a id="line.174">  }</a>
+<span class="sourceLineNo">175</span><a id="line.175"></a>
+<span class="sourceLineNo">176</span><a id="line.176">  /** Throws an undeclared checked exception. */</a>
+<span class="sourceLineNo">177</span><a id="line.177">  private static void sneakyThrow(Throwable t) {</a>
+<span class="sourceLineNo">178</span><a id="line.178">    class SneakyThrower&lt;T extends Throwable&gt; {</a>
+<span class="sourceLineNo">179</span><a id="line.179">      @SuppressWarnings("unchecked") // not really safe, but that's the point</a>
+<span class="sourceLineNo">180</span><a id="line.180">      void throwIt(Throwable t) throws T {</a>
+<span class="sourceLineNo">181</span><a id="line.181">        throw (T) t;</a>
+<span class="sourceLineNo">182</span><a id="line.182">      }</a>
+<span class="sourceLineNo">183</span><a id="line.183">    }</a>
+<span class="sourceLineNo">184</span><a id="line.184">    new SneakyThrower&lt;Error&gt;().throwIt(t);</a>
+<span class="sourceLineNo">185</span><a id="line.185">  }</a>
+<span class="sourceLineNo">186</span><a id="line.186"></a>
+<span class="sourceLineNo">187</span><a id="line.187">  /**</a>
+<span class="sourceLineNo">188</span><a id="line.188">   * Returns a {@link Stream} containing the elements of the first stream, followed by the elements</a>
+<span class="sourceLineNo">189</span><a id="line.189">   * of the second stream, and so on.</a>
+<span class="sourceLineNo">190</span><a id="line.190">   *</a>
+<span class="sourceLineNo">191</span><a id="line.191">   * &lt;p&gt;This is equivalent to {@code Stream.of(streams).flatMap(stream -&gt; stream)}, but the returned</a>
+<span class="sourceLineNo">192</span><a id="line.192">   * stream may perform better.</a>
+<span class="sourceLineNo">193</span><a id="line.193">   *</a>
+<span class="sourceLineNo">194</span><a id="line.194">   * @see Stream#concat(Stream, Stream)</a>
+<span class="sourceLineNo">195</span><a id="line.195">   */</a>
+<span class="sourceLineNo">196</span><a id="line.196">  @SafeVarargs</a>
+<span class="sourceLineNo">197</span><a id="line.197">  public static &lt;T extends @Nullable Object&gt; Stream&lt;T&gt; concat(Stream&lt;? extends T&gt;... streams) {</a>
+<span class="sourceLineNo">198</span><a id="line.198">    // TODO(lowasser): consider an implementation that can support SUBSIZED</a>
+<span class="sourceLineNo">199</span><a id="line.199">    boolean isParallel = false;</a>
+<span class="sourceLineNo">200</span><a id="line.200">    int characteristics = Spliterator.ORDERED | Spliterator.SIZED | Spliterator.NONNULL;</a>
+<span class="sourceLineNo">201</span><a id="line.201">    long estimatedSize = 0L;</a>
+<span class="sourceLineNo">202</span><a id="line.202">    ImmutableList.Builder&lt;Spliterator&lt;? extends T&gt;&gt; splitrsBuilder =</a>
+<span class="sourceLineNo">203</span><a id="line.203">        new ImmutableList.Builder&lt;&gt;(streams.length);</a>
+<span class="sourceLineNo">204</span><a id="line.204">    for (Stream&lt;? extends T&gt; stream : streams) {</a>
+<span class="sourceLineNo">205</span><a id="line.205">      isParallel |= stream.isParallel();</a>
+<span class="sourceLineNo">206</span><a id="line.206">      Spliterator&lt;? extends T&gt; splitr = stream.spliterator();</a>
+<span class="sourceLineNo">207</span><a id="line.207">      splitrsBuilder.add(splitr);</a>
+<span class="sourceLineNo">208</span><a id="line.208">      characteristics &amp;= splitr.characteristics();</a>
+<span class="sourceLineNo">209</span><a id="line.209">      estimatedSize = LongMath.saturatedAdd(estimatedSize, splitr.estimateSize());</a>
+<span class="sourceLineNo">210</span><a id="line.210">    }</a>
+<span class="sourceLineNo">211</span><a id="line.211">    return StreamSupport.stream(</a>
+<span class="sourceLineNo">212</span><a id="line.212">            CollectSpliterators.flatMap(</a>
+<span class="sourceLineNo">213</span><a id="line.213">                splitrsBuilder.build().spliterator(),</a>
+<span class="sourceLineNo">214</span><a id="line.214">                splitr -&gt; (Spliterator&lt;T&gt;) splitr,</a>
+<span class="sourceLineNo">215</span><a id="line.215">                characteristics,</a>
+<span class="sourceLineNo">216</span><a id="line.216">                estimatedSize),</a>
+<span class="sourceLineNo">217</span><a id="line.217">            isParallel)</a>
+<span class="sourceLineNo">218</span><a id="line.218">        .onClose(() -&gt; closeAll(streams));</a>
+<span class="sourceLineNo">219</span><a id="line.219">  }</a>
+<span class="sourceLineNo">220</span><a id="line.220"></a>
+<span class="sourceLineNo">221</span><a id="line.221">  /**</a>
+<span class="sourceLineNo">222</span><a id="line.222">   * Returns an {@link IntStream} containing the elements of the first stream, followed by the</a>
+<span class="sourceLineNo">223</span><a id="line.223">   * elements of the second stream, and so on.</a>
+<span class="sourceLineNo">224</span><a id="line.224">   *</a>
+<span class="sourceLineNo">225</span><a id="line.225">   * &lt;p&gt;This is equivalent to {@code Stream.of(streams).flatMapToInt(stream -&gt; stream)}, but the</a>
+<span class="sourceLineNo">226</span><a id="line.226">   * returned stream may perform better.</a>
+<span class="sourceLineNo">227</span><a id="line.227">   *</a>
+<span class="sourceLineNo">228</span><a id="line.228">   * @see IntStream#concat(IntStream, IntStream)</a>
+<span class="sourceLineNo">229</span><a id="line.229">   */</a>
+<span class="sourceLineNo">230</span><a id="line.230">  public static IntStream concat(IntStream... streams) {</a>
+<span class="sourceLineNo">231</span><a id="line.231">    boolean isParallel = false;</a>
+<span class="sourceLineNo">232</span><a id="line.232">    int characteristics = Spliterator.ORDERED | Spliterator.SIZED | Spliterator.NONNULL;</a>
+<span class="sourceLineNo">233</span><a id="line.233">    long estimatedSize = 0L;</a>
+<span class="sourceLineNo">234</span><a id="line.234">    ImmutableList.Builder&lt;Spliterator.OfInt&gt; splitrsBuilder =</a>
+<span class="sourceLineNo">235</span><a id="line.235">        new ImmutableList.Builder&lt;&gt;(streams.length);</a>
+<span class="sourceLineNo">236</span><a id="line.236">    for (IntStream stream : streams) {</a>
+<span class="sourceLineNo">237</span><a id="line.237">      isParallel |= stream.isParallel();</a>
+<span class="sourceLineNo">238</span><a id="line.238">      Spliterator.OfInt splitr = stream.spliterator();</a>
+<span class="sourceLineNo">239</span><a id="line.239">      splitrsBuilder.add(splitr);</a>
+<span class="sourceLineNo">240</span><a id="line.240">      characteristics &amp;= splitr.characteristics();</a>
+<span class="sourceLineNo">241</span><a id="line.241">      estimatedSize = LongMath.saturatedAdd(estimatedSize, splitr.estimateSize());</a>
+<span class="sourceLineNo">242</span><a id="line.242">    }</a>
+<span class="sourceLineNo">243</span><a id="line.243">    return StreamSupport.intStream(</a>
+<span class="sourceLineNo">244</span><a id="line.244">            CollectSpliterators.flatMapToInt(</a>
+<span class="sourceLineNo">245</span><a id="line.245">                splitrsBuilder.build().spliterator(),</a>
+<span class="sourceLineNo">246</span><a id="line.246">                splitr -&gt; splitr,</a>
+<span class="sourceLineNo">247</span><a id="line.247">                characteristics,</a>
+<span class="sourceLineNo">248</span><a id="line.248">                estimatedSize),</a>
+<span class="sourceLineNo">249</span><a id="line.249">            isParallel)</a>
+<span class="sourceLineNo">250</span><a id="line.250">        .onClose(() -&gt; closeAll(streams));</a>
+<span class="sourceLineNo">251</span><a id="line.251">  }</a>
+<span class="sourceLineNo">252</span><a id="line.252"></a>
+<span class="sourceLineNo">253</span><a id="line.253">  /**</a>
+<span class="sourceLineNo">254</span><a id="line.254">   * Returns a {@link LongStream} containing the elements of the first stream, followed by the</a>
+<span class="sourceLineNo">255</span><a id="line.255">   * elements of the second stream, and so on.</a>
+<span class="sourceLineNo">256</span><a id="line.256">   *</a>
+<span class="sourceLineNo">257</span><a id="line.257">   * &lt;p&gt;This is equivalent to {@code Stream.of(streams).flatMapToLong(stream -&gt; stream)}, but the</a>
+<span class="sourceLineNo">258</span><a id="line.258">   * returned stream may perform better.</a>
+<span class="sourceLineNo">259</span><a id="line.259">   *</a>
+<span class="sourceLineNo">260</span><a id="line.260">   * @see LongStream#concat(LongStream, LongStream)</a>
+<span class="sourceLineNo">261</span><a id="line.261">   */</a>
+<span class="sourceLineNo">262</span><a id="line.262">  public static LongStream concat(LongStream... streams) {</a>
+<span class="sourceLineNo">263</span><a id="line.263">    boolean isParallel = false;</a>
+<span class="sourceLineNo">264</span><a id="line.264">    int characteristics = Spliterator.ORDERED | Spliterator.SIZED | Spliterator.NONNULL;</a>
+<span class="sourceLineNo">265</span><a id="line.265">    long estimatedSize = 0L;</a>
+<span class="sourceLineNo">266</span><a id="line.266">    ImmutableList.Builder&lt;Spliterator.OfLong&gt; splitrsBuilder =</a>
+<span class="sourceLineNo">267</span><a id="line.267">        new ImmutableList.Builder&lt;&gt;(streams.length);</a>
+<span class="sourceLineNo">268</span><a id="line.268">    for (LongStream stream : streams) {</a>
+<span class="sourceLineNo">269</span><a id="line.269">      isParallel |= stream.isParallel();</a>
+<span class="sourceLineNo">270</span><a id="line.270">      Spliterator.OfLong splitr = stream.spliterator();</a>
+<span class="sourceLineNo">271</span><a id="line.271">      splitrsBuilder.add(splitr);</a>
+<span class="sourceLineNo">272</span><a id="line.272">      characteristics &amp;= splitr.characteristics();</a>
+<span class="sourceLineNo">273</span><a id="line.273">      estimatedSize = LongMath.saturatedAdd(estimatedSize, splitr.estimateSize());</a>
+<span class="sourceLineNo">274</span><a id="line.274">    }</a>
+<span class="sourceLineNo">275</span><a id="line.275">    return StreamSupport.longStream(</a>
+<span class="sourceLineNo">276</span><a id="line.276">            CollectSpliterators.flatMapToLong(</a>
+<span class="sourceLineNo">277</span><a id="line.277">                splitrsBuilder.build().spliterator(),</a>
+<span class="sourceLineNo">278</span><a id="line.278">                splitr -&gt; splitr,</a>
+<span class="sourceLineNo">279</span><a id="line.279">                characteristics,</a>
+<span class="sourceLineNo">280</span><a id="line.280">                estimatedSize),</a>
+<span class="sourceLineNo">281</span><a id="line.281">            isParallel)</a>
+<span class="sourceLineNo">282</span><a id="line.282">        .onClose(() -&gt; closeAll(streams));</a>
+<span class="sourceLineNo">283</span><a id="line.283">  }</a>
+<span class="sourceLineNo">284</span><a id="line.284"></a>
+<span class="sourceLineNo">285</span><a id="line.285">  /**</a>
+<span class="sourceLineNo">286</span><a id="line.286">   * Returns a {@link DoubleStream} containing the elements of the first stream, followed by the</a>
+<span class="sourceLineNo">287</span><a id="line.287">   * elements of the second stream, and so on.</a>
+<span class="sourceLineNo">288</span><a id="line.288">   *</a>
+<span class="sourceLineNo">289</span><a id="line.289">   * &lt;p&gt;This is equivalent to {@code Stream.of(streams).flatMapToDouble(stream -&gt; stream)}, but the</a>
+<span class="sourceLineNo">290</span><a id="line.290">   * returned stream may perform better.</a>
+<span class="sourceLineNo">291</span><a id="line.291">   *</a>
+<span class="sourceLineNo">292</span><a id="line.292">   * @see DoubleStream#concat(DoubleStream, DoubleStream)</a>
+<span class="sourceLineNo">293</span><a id="line.293">   */</a>
+<span class="sourceLineNo">294</span><a id="line.294">  public static DoubleStream concat(DoubleStream... streams) {</a>
+<span class="sourceLineNo">295</span><a id="line.295">    boolean isParallel = false;</a>
+<span class="sourceLineNo">296</span><a id="line.296">    int characteristics = Spliterator.ORDERED | Spliterator.SIZED | Spliterator.NONNULL;</a>
+<span class="sourceLineNo">297</span><a id="line.297">    long estimatedSize = 0L;</a>
+<span class="sourceLineNo">298</span><a id="line.298">    ImmutableList.Builder&lt;Spliterator.OfDouble&gt; splitrsBuilder =</a>
+<span class="sourceLineNo">299</span><a id="line.299">        new ImmutableList.Builder&lt;&gt;(streams.length);</a>
+<span class="sourceLineNo">300</span><a id="line.300">    for (DoubleStream stream : streams) {</a>
+<span class="sourceLineNo">301</span><a id="line.301">      isParallel |= stream.isParallel();</a>
+<span class="sourceLineNo">302</span><a id="line.302">      Spliterator.OfDouble splitr = stream.spliterator();</a>
+<span class="sourceLineNo">303</span><a id="line.303">      splitrsBuilder.add(splitr);</a>
+<span class="sourceLineNo">304</span><a id="line.304">      characteristics &amp;= splitr.characteristics();</a>
+<span class="sourceLineNo">305</span><a id="line.305">      estimatedSize = LongMath.saturatedAdd(estimatedSize, splitr.estimateSize());</a>
+<span class="sourceLineNo">306</span><a id="line.306">    }</a>
+<span class="sourceLineNo">307</span><a id="line.307">    return StreamSupport.doubleStream(</a>
+<span class="sourceLineNo">308</span><a id="line.308">            CollectSpliterators.flatMapToDouble(</a>
+<span class="sourceLineNo">309</span><a id="line.309">                splitrsBuilder.build().spliterator(),</a>
+<span class="sourceLineNo">310</span><a id="line.310">                splitr -&gt; splitr,</a>
+<span class="sourceLineNo">311</span><a id="line.311">                characteristics,</a>
+<span class="sourceLineNo">312</span><a id="line.312">                estimatedSize),</a>
+<span class="sourceLineNo">313</span><a id="line.313">            isParallel)</a>
+<span class="sourceLineNo">314</span><a id="line.314">        .onClose(() -&gt; closeAll(streams));</a>
+<span class="sourceLineNo">315</span><a id="line.315">  }</a>
+<span class="sourceLineNo">316</span><a id="line.316"></a>
+<span class="sourceLineNo">317</span><a id="line.317">  /**</a>
+<span class="sourceLineNo">318</span><a id="line.318">   * Returns a stream in which each element is the result of passing the corresponding element of</a>
+<span class="sourceLineNo">319</span><a id="line.319">   * each of {@code streamA} and {@code streamB} to {@code function}.</a>
 <span class="sourceLineNo">320</span><a id="line.320">   *</a>
-<span class="sourceLineNo">321</span><a id="line.321">   * &lt;p&gt;Note that if you are calling {@link Stream#forEach} on the resulting stream, you might want</a>
-<span class="sourceLineNo">322</span><a id="line.322">   * to consider using {@link #forEachPair} instead of this method.</a>
-<span class="sourceLineNo">323</span><a id="line.323">   *</a>
-<span class="sourceLineNo">324</span><a id="line.324">   * &lt;p&gt;&lt;b&gt;Performance note:&lt;/b&gt; The resulting stream is not &lt;a</a>
-<span class="sourceLineNo">325</span><a id="line.325">   * href="http://gee.cs.oswego.edu/dl/html/StreamParallelGuidance.html"&gt;efficiently splittable&lt;/a&gt;.</a>
-<span class="sourceLineNo">326</span><a id="line.326">   * This may harm parallel performance.</a>
-<span class="sourceLineNo">327</span><a id="line.327">   */</a>
-<span class="sourceLineNo">328</span><a id="line.328">  @Beta</a>
-<span class="sourceLineNo">329</span><a id="line.329">  public static &lt;A extends @Nullable Object, B extends @Nullable Object, R extends @Nullable Object&gt;</a>
-<span class="sourceLineNo">330</span><a id="line.330">      Stream&lt;R&gt; zip(</a>
-<span class="sourceLineNo">331</span><a id="line.331">          Stream&lt;A&gt; streamA, Stream&lt;B&gt; streamB, BiFunction&lt;? super A, ? super B, R&gt; function) {</a>
-<span class="sourceLineNo">332</span><a id="line.332">    checkNotNull(streamA);</a>
-<span class="sourceLineNo">333</span><a id="line.333">    checkNotNull(streamB);</a>
-<span class="sourceLineNo">334</span><a id="line.334">    checkNotNull(function);</a>
-<span class="sourceLineNo">335</span><a id="line.335">    boolean isParallel = streamA.isParallel() || streamB.isParallel(); // same as Stream.concat</a>
-<span class="sourceLineNo">336</span><a id="line.336">    Spliterator&lt;A&gt; splitrA = streamA.spliterator();</a>
-<span class="sourceLineNo">337</span><a id="line.337">    Spliterator&lt;B&gt; splitrB = streamB.spliterator();</a>
-<span class="sourceLineNo">338</span><a id="line.338">    int characteristics =</a>
-<span class="sourceLineNo">339</span><a id="line.339">        splitrA.characteristics()</a>
-<span class="sourceLineNo">340</span><a id="line.340">            &amp; splitrB.characteristics()</a>
-<span class="sourceLineNo">341</span><a id="line.341">            &amp; (Spliterator.SIZED | Spliterator.ORDERED);</a>
-<span class="sourceLineNo">342</span><a id="line.342">    Iterator&lt;A&gt; itrA = Spliterators.iterator(splitrA);</a>
-<span class="sourceLineNo">343</span><a id="line.343">    Iterator&lt;B&gt; itrB = Spliterators.iterator(splitrB);</a>
-<span class="sourceLineNo">344</span><a id="line.344">    return StreamSupport.stream(</a>
-<span class="sourceLineNo">345</span><a id="line.345">            new AbstractSpliterator&lt;R&gt;(</a>
-<span class="sourceLineNo">346</span><a id="line.346">                min(splitrA.estimateSize(), splitrB.estimateSize()), characteristics) {</a>
-<span class="sourceLineNo">347</span><a id="line.347">              @Override</a>
-<span class="sourceLineNo">348</span><a id="line.348">              public boolean tryAdvance(Consumer&lt;? super R&gt; action) {</a>
-<span class="sourceLineNo">349</span><a id="line.349">                if (itrA.hasNext() &amp;&amp; itrB.hasNext()) {</a>
-<span class="sourceLineNo">350</span><a id="line.350">                  action.accept(function.apply(itrA.next(), itrB.next()));</a>
-<span class="sourceLineNo">351</span><a id="line.351">                  return true;</a>
-<span class="sourceLineNo">352</span><a id="line.352">                }</a>
-<span class="sourceLineNo">353</span><a id="line.353">                return false;</a>
-<span class="sourceLineNo">354</span><a id="line.354">              }</a>
-<span class="sourceLineNo">355</span><a id="line.355">            },</a>
-<span class="sourceLineNo">356</span><a id="line.356">            isParallel)</a>
-<span class="sourceLineNo">357</span><a id="line.357">        .onClose(streamA::close)</a>
-<span class="sourceLineNo">358</span><a id="line.358">        .onClose(streamB::close);</a>
-<span class="sourceLineNo">359</span><a id="line.359">  }</a>
-<span class="sourceLineNo">360</span><a id="line.360"></a>
-<span class="sourceLineNo">361</span><a id="line.361">  /**</a>
-<span class="sourceLineNo">362</span><a id="line.362">   * Invokes {@code consumer} once for each pair of &lt;i&gt;corresponding&lt;/i&gt; elements in {@code streamA}</a>
-<span class="sourceLineNo">363</span><a id="line.363">   * and {@code streamB}. If one stream is longer than the other, the extra elements are silently</a>
-<span class="sourceLineNo">364</span><a id="line.364">   * ignored. Elements passed to the consumer are guaranteed to come from the same position in their</a>
-<span class="sourceLineNo">365</span><a id="line.365">   * respective source streams. For example:</a>
-<span class="sourceLineNo">366</span><a id="line.366">   *</a>
-<span class="sourceLineNo">367</span><a id="line.367">   * &lt;pre&gt;{@code</a>
-<span class="sourceLineNo">368</span><a id="line.368">   * Streams.forEachPair(</a>
-<span class="sourceLineNo">369</span><a id="line.369">   *   Stream.of("foo1", "foo2", "foo3"),</a>
-<span class="sourceLineNo">370</span><a id="line.370">   *   Stream.of("bar1", "bar2"),</a>
-<span class="sourceLineNo">371</span><a id="line.371">   *   (arg1, arg2) -&gt; System.out.println(arg1 + ":" + arg2)</a>
-<span class="sourceLineNo">372</span><a id="line.372">   * }&lt;/pre&gt;</a>
-<span class="sourceLineNo">373</span><a id="line.373">   *</a>
-<span class="sourceLineNo">374</span><a id="line.374">   * &lt;p&gt;will print:</a>
-<span class="sourceLineNo">375</span><a id="line.375">   *</a>
-<span class="sourceLineNo">376</span><a id="line.376">   * &lt;pre&gt;{@code</a>
-<span class="sourceLineNo">377</span><a id="line.377">   * foo1:bar1</a>
-<span class="sourceLineNo">378</span><a id="line.378">   * foo2:bar2</a>
-<span class="sourceLineNo">379</span><a id="line.379">   * }&lt;/pre&gt;</a>
+<span class="sourceLineNo">321</span><a id="line.321">   * &lt;p&gt;For example:</a>
+<span class="sourceLineNo">322</span><a id="line.322">   *</a>
+<span class="sourceLineNo">323</span><a id="line.323">   * &lt;pre&gt;{@code</a>
+<span class="sourceLineNo">324</span><a id="line.324">   * Streams.zip(</a>
+<span class="sourceLineNo">325</span><a id="line.325">   *   Stream.of("foo1", "foo2", "foo3"),</a>
+<span class="sourceLineNo">326</span><a id="line.326">   *   Stream.of("bar1", "bar2"),</a>
+<span class="sourceLineNo">327</span><a id="line.327">   *   (arg1, arg2) -&gt; arg1 + ":" + arg2)</a>
+<span class="sourceLineNo">328</span><a id="line.328">   * }&lt;/pre&gt;</a>
+<span class="sourceLineNo">329</span><a id="line.329">   *</a>
+<span class="sourceLineNo">330</span><a id="line.330">   * &lt;p&gt;will return {@code Stream.of("foo1:bar1", "foo2:bar2")}.</a>
+<span class="sourceLineNo">331</span><a id="line.331">   *</a>
+<span class="sourceLineNo">332</span><a id="line.332">   * &lt;p&gt;The resulting stream will only be as long as the shorter of the two input streams; if one</a>
+<span class="sourceLineNo">333</span><a id="line.333">   * stream is longer, its extra elements will be ignored.</a>
+<span class="sourceLineNo">334</span><a id="line.334">   *</a>
+<span class="sourceLineNo">335</span><a id="line.335">   * &lt;p&gt;Note that if you are calling {@link Stream#forEach} on the resulting stream, you might want</a>
+<span class="sourceLineNo">336</span><a id="line.336">   * to consider using {@link #forEachPair} instead of this method.</a>
+<span class="sourceLineNo">337</span><a id="line.337">   *</a>
+<span class="sourceLineNo">338</span><a id="line.338">   * &lt;p&gt;&lt;b&gt;Performance note:&lt;/b&gt; The resulting stream is not &lt;a</a>
+<span class="sourceLineNo">339</span><a id="line.339">   * href="http://gee.cs.oswego.edu/dl/html/StreamParallelGuidance.html"&gt;efficiently splittable&lt;/a&gt;.</a>
+<span class="sourceLineNo">340</span><a id="line.340">   * This may harm parallel performance.</a>
+<span class="sourceLineNo">341</span><a id="line.341">   */</a>
+<span class="sourceLineNo">342</span><a id="line.342">  @Beta</a>
+<span class="sourceLineNo">343</span><a id="line.343">  public static &lt;A extends @Nullable Object, B extends @Nullable Object, R extends @Nullable Object&gt;</a>
+<span class="sourceLineNo">344</span><a id="line.344">      Stream&lt;R&gt; zip(</a>
+<span class="sourceLineNo">345</span><a id="line.345">          Stream&lt;A&gt; streamA, Stream&lt;B&gt; streamB, BiFunction&lt;? super A, ? super B, R&gt; function) {</a>
+<span class="sourceLineNo">346</span><a id="line.346">    checkNotNull(streamA);</a>
+<span class="sourceLineNo">347</span><a id="line.347">    checkNotNull(streamB);</a>
+<span class="sourceLineNo">348</span><a id="line.348">    checkNotNull(function);</a>
+<span class="sourceLineNo">349</span><a id="line.349">    boolean isParallel = streamA.isParallel() || streamB.isParallel(); // same as Stream.concat</a>
+<span class="sourceLineNo">350</span><a id="line.350">    Spliterator&lt;A&gt; splitrA = streamA.spliterator();</a>
+<span class="sourceLineNo">351</span><a id="line.351">    Spliterator&lt;B&gt; splitrB = streamB.spliterator();</a>
+<span class="sourceLineNo">352</span><a id="line.352">    int characteristics =</a>
+<span class="sourceLineNo">353</span><a id="line.353">        splitrA.characteristics()</a>
+<span class="sourceLineNo">354</span><a id="line.354">            &amp; splitrB.characteristics()</a>
+<span class="sourceLineNo">355</span><a id="line.355">            &amp; (Spliterator.SIZED | Spliterator.ORDERED);</a>
+<span class="sourceLineNo">356</span><a id="line.356">    Iterator&lt;A&gt; itrA = Spliterators.iterator(splitrA);</a>
+<span class="sourceLineNo">357</span><a id="line.357">    Iterator&lt;B&gt; itrB = Spliterators.iterator(splitrB);</a>
+<span class="sourceLineNo">358</span><a id="line.358">    return StreamSupport.stream(</a>
+<span class="sourceLineNo">359</span><a id="line.359">            new AbstractSpliterator&lt;R&gt;(</a>
+<span class="sourceLineNo">360</span><a id="line.360">                min(splitrA.estimateSize(), splitrB.estimateSize()), characteristics) {</a>
+<span class="sourceLineNo">361</span><a id="line.361">              @Override</a>
+<span class="sourceLineNo">362</span><a id="line.362">              public boolean tryAdvance(Consumer&lt;? super R&gt; action) {</a>
+<span class="sourceLineNo">363</span><a id="line.363">                if (itrA.hasNext() &amp;&amp; itrB.hasNext()) {</a>
+<span class="sourceLineNo">364</span><a id="line.364">                  action.accept(function.apply(itrA.next(), itrB.next()));</a>
+<span class="sourceLineNo">365</span><a id="line.365">                  return true;</a>
+<span class="sourceLineNo">366</span><a id="line.366">                }</a>
+<span class="sourceLineNo">367</span><a id="line.367">                return false;</a>
+<span class="sourceLineNo">368</span><a id="line.368">              }</a>
+<span class="sourceLineNo">369</span><a id="line.369">            },</a>
+<span class="sourceLineNo">370</span><a id="line.370">            isParallel)</a>
+<span class="sourceLineNo">371</span><a id="line.371">        .onClose(streamA::close)</a>
+<span class="sourceLineNo">372</span><a id="line.372">        .onClose(streamB::close);</a>
+<span class="sourceLineNo">373</span><a id="line.373">  }</a>
+<span class="sourceLineNo">374</span><a id="line.374"></a>
+<span class="sourceLineNo">375</span><a id="line.375">  /**</a>
+<span class="sourceLineNo">376</span><a id="line.376">   * Invokes {@code consumer} once for each pair of &lt;i&gt;corresponding&lt;/i&gt; elements in {@code streamA}</a>
+<span class="sourceLineNo">377</span><a id="line.377">   * and {@code streamB}. If one stream is longer than the other, the extra elements are silently</a>
+<span class="sourceLineNo">378</span><a id="line.378">   * ignored. Elements passed to the consumer are guaranteed to come from the same position in their</a>
+<span class="sourceLineNo">379</span><a id="line.379">   * respective source streams. For example:</a>
 <span class="sourceLineNo">380</span><a id="line.380">   *</a>
-<span class="sourceLineNo">381</span><a id="line.381">   * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; If either supplied stream is a parallel stream, the same correspondence</a>
-<span class="sourceLineNo">382</span><a id="line.382">   * between elements will be made, but the order in which those pairs of elements are passed to the</a>
-<span class="sourceLineNo">383</span><a id="line.383">   * consumer is &lt;i&gt;not&lt;/i&gt; defined.</a>
-<span class="sourceLineNo">384</span><a id="line.384">   *</a>
-<span class="sourceLineNo">385</span><a id="line.385">   * &lt;p&gt;Note that many usages of this method can be replaced with simpler calls to {@link #zip}.</a>
-<span class="sourceLineNo">386</span><a id="line.386">   * This method behaves equivalently to {@linkplain #zip zipping} the stream elements into</a>
-<span class="sourceLineNo">387</span><a id="line.387">   * temporary pair objects and then using {@link Stream#forEach} on that stream.</a>
-<span class="sourceLineNo">388</span><a id="line.388">   *</a>
-<span class="sourceLineNo">389</span><a id="line.389">   * @since 22.0</a>
-<span class="sourceLineNo">390</span><a id="line.390">   */</a>
-<span class="sourceLineNo">391</span><a id="line.391">  @Beta</a>
-<span class="sourceLineNo">392</span><a id="line.392">  public static &lt;A extends @Nullable Object, B extends @Nullable Object&gt; void forEachPair(</a>
-<span class="sourceLineNo">393</span><a id="line.393">      Stream&lt;A&gt; streamA, Stream&lt;B&gt; streamB, BiConsumer&lt;? super A, ? super B&gt; consumer) {</a>
-<span class="sourceLineNo">394</span><a id="line.394">    checkNotNull(consumer);</a>
-<span class="sourceLineNo">395</span><a id="line.395"></a>
-<span class="sourceLineNo">396</span><a id="line.396">    if (streamA.isParallel() || streamB.isParallel()) {</a>
-<span class="sourceLineNo">397</span><a id="line.397">      zip(streamA, streamB, TemporaryPair::new).forEach(pair -&gt; consumer.accept(pair.a, pair.b));</a>
-<span class="sourceLineNo">398</span><a id="line.398">    } else {</a>
-<span class="sourceLineNo">399</span><a id="line.399">      Iterator&lt;A&gt; iterA = streamA.iterator();</a>
-<span class="sourceLineNo">400</span><a id="line.400">      Iterator&lt;B&gt; iterB = streamB.iterator();</a>
-<span class="sourceLineNo">401</span><a id="line.401">      while (iterA.hasNext() &amp;&amp; iterB.hasNext()) {</a>
-<span class="sourceLineNo">402</span><a id="line.402">        consumer.accept(iterA.next(), iterB.next());</a>
-<span class="sourceLineNo">403</span><a id="line.403">      }</a>
-<span class="sourceLineNo">404</span><a id="line.404">    }</a>
-<span class="sourceLineNo">405</span><a id="line.405">  }</a>
-<span class="sourceLineNo">406</span><a id="line.406"></a>
-<span class="sourceLineNo">407</span><a id="line.407">  // Use this carefully - it doesn't implement value semantics</a>
-<span class="sourceLineNo">408</span><a id="line.408">  private static class TemporaryPair&lt;A extends @Nullable Object, B extends @Nullable Object&gt; {</a>
-<span class="sourceLineNo">409</span><a id="line.409">    @ParametricNullness final A a;</a>
-<span class="sourceLineNo">410</span><a id="line.410">    @ParametricNullness final B b;</a>
-<span class="sourceLineNo">411</span><a id="line.411"></a>
-<span class="sourceLineNo">412</span><a id="line.412">    TemporaryPair(@ParametricNullness A a, @ParametricNullness B b) {</a>
-<span class="sourceLineNo">413</span><a id="line.413">      this.a = a;</a>
-<span class="sourceLineNo">414</span><a id="line.414">      this.b = b;</a>
-<span class="sourceLineNo">415</span><a id="line.415">    }</a>
-<span class="sourceLineNo">416</span><a id="line.416">  }</a>
-<span class="sourceLineNo">417</span><a id="line.417"></a>
-<span class="sourceLineNo">418</span><a id="line.418">  /**</a>
-<span class="sourceLineNo">419</span><a id="line.419">   * Returns a stream consisting of the results of applying the given function to the elements of</a>
-<span class="sourceLineNo">420</span><a id="line.420">   * {@code stream} and their indices in the stream. For example,</a>
-<span class="sourceLineNo">421</span><a id="line.421">   *</a>
-<span class="sourceLineNo">422</span><a id="line.422">   * &lt;pre&gt;{@code</a>
-<span class="sourceLineNo">423</span><a id="line.423">   * mapWithIndex(</a>
-<span class="sourceLineNo">424</span><a id="line.424">   *     Stream.of("a", "b", "c"),</a>
-<span class="sourceLineNo">425</span><a id="line.425">   *     (e, index) -&gt; index + ":" + e)</a>
-<span class="sourceLineNo">426</span><a id="line.426">   * }&lt;/pre&gt;</a>
-<span class="sourceLineNo">427</span><a id="line.427">   *</a>
-<span class="sourceLineNo">428</span><a id="line.428">   * &lt;p&gt;would return {@code Stream.of("0:a", "1:b", "2:c")}.</a>
-<span class="sourceLineNo">429</span><a id="line.429">   *</a>
-<span class="sourceLineNo">430</span><a id="line.430">   * &lt;p&gt;The resulting stream is &lt;a</a>
-<span class="sourceLineNo">431</span><a id="line.431">   * href="http://gee.cs.oswego.edu/dl/html/StreamParallelGuidance.html"&gt;efficiently splittable&lt;/a&gt;</a>
-<span class="sourceLineNo">432</span><a id="line.432">   * if and only if {@code stream} was efficiently splittable and its underlying spliterator</a>
-<span class="sourceLineNo">433</span><a id="line.433">   * reported {@link Spliterator#SUBSIZED}. This is generally the case if the underlying stream</a>
-<span class="sourceLineNo">434</span><a id="line.434">   * comes from a data structure supporting efficient indexed random access, typically an array or</a>
-<span class="sourceLineNo">435</span><a id="line.435">   * list.</a>
-<span class="sourceLineNo">436</span><a id="line.436">   *</a>
-<span class="sourceLineNo">437</span><a id="line.437">   * &lt;p&gt;The order of the resulting stream is defined if and only if the order of the original stream</a>
-<span class="sourceLineNo">438</span><a id="line.438">   * was defined.</a>
-<span class="sourceLineNo">439</span><a id="line.439">   */</a>
-<span class="sourceLineNo">440</span><a id="line.440">  public static &lt;T extends @Nullable Object, R extends @Nullable Object&gt; Stream&lt;R&gt; mapWithIndex(</a>
-<span class="sourceLineNo">441</span><a id="line.441">      Stream&lt;T&gt; stream, FunctionWithIndex&lt;? super T, ? extends R&gt; function) {</a>
-<span class="sourceLineNo">442</span><a id="line.442">    checkNotNull(stream);</a>
-<span class="sourceLineNo">443</span><a id="line.443">    checkNotNull(function);</a>
-<span class="sourceLineNo">444</span><a id="line.444">    boolean isParallel = stream.isParallel();</a>
-<span class="sourceLineNo">445</span><a id="line.445">    Spliterator&lt;T&gt; fromSpliterator = stream.spliterator();</a>
-<span class="sourceLineNo">446</span><a id="line.446"></a>
-<span class="sourceLineNo">447</span><a id="line.447">    if (!fromSpliterator.hasCharacteristics(Spliterator.SUBSIZED)) {</a>
-<span class="sourceLineNo">448</span><a id="line.448">      Iterator&lt;T&gt; fromIterator = Spliterators.iterator(fromSpliterator);</a>
-<span class="sourceLineNo">449</span><a id="line.449">      return StreamSupport.stream(</a>
-<span class="sourceLineNo">450</span><a id="line.450">              new AbstractSpliterator&lt;R&gt;(</a>
-<span class="sourceLineNo">451</span><a id="line.451">                  fromSpliterator.estimateSize(),</a>
-<span class="sourceLineNo">452</span><a id="line.452">                  fromSpliterator.characteristics() &amp; (Spliterator.ORDERED | Spliterator.SIZED)) {</a>
-<span class="sourceLineNo">453</span><a id="line.453">                long index = 0;</a>
-<span class="sourceLineNo">454</span><a id="line.454"></a>
-<span class="sourceLineNo">455</span><a id="line.455">                @Override</a>
-<span class="sourceLineNo">456</span><a id="line.456">                public boolean tryAdvance(Consumer&lt;? super R&gt; action) {</a>
-<span class="sourceLineNo">457</span><a id="line.457">                  if (fromIterator.hasNext()) {</a>
-<span class="sourceLineNo">458</span><a id="line.458">                    action.accept(function.apply(fromIterator.next(), index++));</a>
-<span class="sourceLineNo">459</span><a id="line.459">                    return true;</a>
-<span class="sourceLineNo">460</span><a id="line.460">                  }</a>
-<span class="sourceLineNo">461</span><a id="line.461">                  return false;</a>
-<span class="sourceLineNo">462</span><a id="line.462">                }</a>
-<span class="sourceLineNo">463</span><a id="line.463">              },</a>
-<span class="sourceLineNo">464</span><a id="line.464">              isParallel)</a>
-<span class="sourceLineNo">465</span><a id="line.465">          .onClose(stream::close);</a>
-<span class="sourceLineNo">466</span><a id="line.466">    }</a>
-<span class="sourceLineNo">467</span><a id="line.467">    class Splitr extends MapWithIndexSpliterator&lt;Spliterator&lt;T&gt;, R, Splitr&gt; implements Consumer&lt;T&gt; {</a>
-<span class="sourceLineNo">468</span><a id="line.468">      @CheckForNull T holder;</a>
-<span class="sourceLineNo">469</span><a id="line.469"></a>
-<span class="sourceLineNo">470</span><a id="line.470">      Splitr(Spliterator&lt;T&gt; splitr, long index) {</a>
-<span class="sourceLineNo">471</span><a id="line.471">        super(splitr, index);</a>
-<span class="sourceLineNo">472</span><a id="line.472">      }</a>
-<span class="sourceLineNo">473</span><a id="line.473"></a>
-<span class="sourceLineNo">474</span><a id="line.474">      @Override</a>
-<span class="sourceLineNo">475</span><a id="line.475">      public void accept(@ParametricNullness T t) {</a>
-<span class="sourceLineNo">476</span><a id="line.476">        this.holder = t;</a>
-<span class="sourceLineNo">477</span><a id="line.477">      }</a>
-<span class="sourceLineNo">478</span><a id="line.478"></a>
-<span class="sourceLineNo">479</span><a id="line.479">      @Override</a>
-<span class="sourceLineNo">480</span><a id="line.480">      public boolean tryAdvance(Consumer&lt;? super R&gt; action) {</a>
-<span class="sourceLineNo">481</span><a id="line.481">        if (fromSpliterator.tryAdvance(this)) {</a>
-<span class="sourceLineNo">482</span><a id="line.482">          try {</a>
-<span class="sourceLineNo">483</span><a id="line.483">            // The cast is safe because tryAdvance puts a T into `holder`.</a>
-<span class="sourceLineNo">484</span><a id="line.484">            action.accept(function.apply(uncheckedCastNullableTToT(holder), index++));</a>
-<span class="sourceLineNo">485</span><a id="line.485">            return true;</a>
-<span class="sourceLineNo">486</span><a id="line.486">          } finally {</a>
-<span class="sourceLineNo">487</span><a id="line.487">            holder = null;</a>
-<span class="sourceLineNo">488</span><a id="line.488">          }</a>
-<span class="sourceLineNo">489</span><a id="line.489">        }</a>
-<span class="sourceLineNo">490</span><a id="line.490">        return false;</a>
+<span class="sourceLineNo">381</span><a id="line.381">   * &lt;pre&gt;{@code</a>
+<span class="sourceLineNo">382</span><a id="line.382">   * Streams.forEachPair(</a>
+<span class="sourceLineNo">383</span><a id="line.383">   *   Stream.of("foo1", "foo2", "foo3"),</a>
+<span class="sourceLineNo">384</span><a id="line.384">   *   Stream.of("bar1", "bar2"),</a>
+<span class="sourceLineNo">385</span><a id="line.385">   *   (arg1, arg2) -&gt; System.out.println(arg1 + ":" + arg2)</a>
+<span class="sourceLineNo">386</span><a id="line.386">   * }&lt;/pre&gt;</a>
+<span class="sourceLineNo">387</span><a id="line.387">   *</a>
+<span class="sourceLineNo">388</span><a id="line.388">   * &lt;p&gt;will print:</a>
+<span class="sourceLineNo">389</span><a id="line.389">   *</a>
+<span class="sourceLineNo">390</span><a id="line.390">   * &lt;pre&gt;{@code</a>
+<span class="sourceLineNo">391</span><a id="line.391">   * foo1:bar1</a>
+<span class="sourceLineNo">392</span><a id="line.392">   * foo2:bar2</a>
+<span class="sourceLineNo">393</span><a id="line.393">   * }&lt;/pre&gt;</a>
+<span class="sourceLineNo">394</span><a id="line.394">   *</a>
+<span class="sourceLineNo">395</span><a id="line.395">   * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; If either supplied stream is a parallel stream, the same correspondence</a>
+<span class="sourceLineNo">396</span><a id="line.396">   * between elements will be made, but the order in which those pairs of elements are passed to the</a>
+<span class="sourceLineNo">397</span><a id="line.397">   * consumer is &lt;i&gt;not&lt;/i&gt; defined.</a>
+<span class="sourceLineNo">398</span><a id="line.398">   *</a>
+<span class="sourceLineNo">399</span><a id="line.399">   * &lt;p&gt;Note that many usages of this method can be replaced with simpler calls to {@link #zip}.</a>
+<span class="sourceLineNo">400</span><a id="line.400">   * This method behaves equivalently to {@linkplain #zip zipping} the stream elements into</a>
+<span class="sourceLineNo">401</span><a id="line.401">   * temporary pair objects and then using {@link Stream#forEach} on that stream.</a>
+<span class="sourceLineNo">402</span><a id="line.402">   *</a>
+<span class="sourceLineNo">403</span><a id="line.403">   * @since 22.0</a>
+<span class="sourceLineNo">404</span><a id="line.404">   */</a>
+<span class="sourceLineNo">405</span><a id="line.405">  @Beta</a>
+<span class="sourceLineNo">406</span><a id="line.406">  public static &lt;A extends @Nullable Object, B extends @Nullable Object&gt; void forEachPair(</a>
+<span class="sourceLineNo">407</span><a id="line.407">      Stream&lt;A&gt; streamA, Stream&lt;B&gt; streamB, BiConsumer&lt;? super A, ? super B&gt; consumer) {</a>
+<span class="sourceLineNo">408</span><a id="line.408">    checkNotNull(consumer);</a>
+<span class="sourceLineNo">409</span><a id="line.409"></a>
+<span class="sourceLineNo">410</span><a id="line.410">    if (streamA.isParallel() || streamB.isParallel()) {</a>
+<span class="sourceLineNo">411</span><a id="line.411">      zip(streamA, streamB, TemporaryPair::new).forEach(pair -&gt; consumer.accept(pair.a, pair.b));</a>
+<span class="sourceLineNo">412</span><a id="line.412">    } else {</a>
+<span class="sourceLineNo">413</span><a id="line.413">      Iterator&lt;A&gt; iterA = streamA.iterator();</a>
+<span class="sourceLineNo">414</span><a id="line.414">      Iterator&lt;B&gt; iterB = streamB.iterator();</a>
+<span class="sourceLineNo">415</span><a id="line.415">      while (iterA.hasNext() &amp;&amp; iterB.hasNext()) {</a>
+<span class="sourceLineNo">416</span><a id="line.416">        consumer.accept(iterA.next(), iterB.next());</a>
+<span class="sourceLineNo">417</span><a id="line.417">      }</a>
+<span class="sourceLineNo">418</span><a id="line.418">    }</a>
+<span class="sourceLineNo">419</span><a id="line.419">  }</a>
+<span class="sourceLineNo">420</span><a id="line.420"></a>
+<span class="sourceLineNo">421</span><a id="line.421">  // Use this carefully - it doesn't implement value semantics</a>
+<span class="sourceLineNo">422</span><a id="line.422">  private static class TemporaryPair&lt;A extends @Nullable Object, B extends @Nullable Object&gt; {</a>
+<span class="sourceLineNo">423</span><a id="line.423">    @ParametricNullness final A a;</a>
+<span class="sourceLineNo">424</span><a id="line.424">    @ParametricNullness final B b;</a>
+<span class="sourceLineNo">425</span><a id="line.425"></a>
+<span class="sourceLineNo">426</span><a id="line.426">    TemporaryPair(@ParametricNullness A a, @ParametricNullness B b) {</a>
+<span class="sourceLineNo">427</span><a id="line.427">      this.a = a;</a>
+<span class="sourceLineNo">428</span><a id="line.428">      this.b = b;</a>
+<span class="sourceLineNo">429</span><a id="line.429">    }</a>
+<span class="sourceLineNo">430</span><a id="line.430">  }</a>
+<span class="sourceLineNo">431</span><a id="line.431"></a>
+<span class="sourceLineNo">432</span><a id="line.432">  /**</a>
+<span class="sourceLineNo">433</span><a id="line.433">   * Returns a stream consisting of the results of applying the given function to the elements of</a>
+<span class="sourceLineNo">434</span><a id="line.434">   * {@code stream} and their indices in the stream. For example,</a>
+<span class="sourceLineNo">435</span><a id="line.435">   *</a>
+<span class="sourceLineNo">436</span><a id="line.436">   * &lt;pre&gt;{@code</a>
+<span class="sourceLineNo">437</span><a id="line.437">   * mapWithIndex(</a>
+<span class="sourceLineNo">438</span><a id="line.438">   *     Stream.of("a", "b", "c"),</a>
+<span class="sourceLineNo">439</span><a id="line.439">   *     (e, index) -&gt; index + ":" + e)</a>
+<span class="sourceLineNo">440</span><a id="line.440">   * }&lt;/pre&gt;</a>
+<span class="sourceLineNo">441</span><a id="line.441">   *</a>
+<span class="sourceLineNo">442</span><a id="line.442">   * &lt;p&gt;would return {@code Stream.of("0:a", "1:b", "2:c")}.</a>
+<span class="sourceLineNo">443</span><a id="line.443">   *</a>
+<span class="sourceLineNo">444</span><a id="line.444">   * &lt;p&gt;The resulting stream is &lt;a</a>
+<span class="sourceLineNo">445</span><a id="line.445">   * href="http://gee.cs.oswego.edu/dl/html/StreamParallelGuidance.html"&gt;efficiently splittable&lt;/a&gt;</a>
+<span class="sourceLineNo">446</span><a id="line.446">   * if and only if {@code stream} was efficiently splittable and its underlying spliterator</a>
+<span class="sourceLineNo">447</span><a id="line.447">   * reported {@link Spliterator#SUBSIZED}. This is generally the case if the underlying stream</a>
+<span class="sourceLineNo">448</span><a id="line.448">   * comes from a data structure supporting efficient indexed random access, typically an array or</a>
+<span class="sourceLineNo">449</span><a id="line.449">   * list.</a>
+<span class="sourceLineNo">450</span><a id="line.450">   *</a>
+<span class="sourceLineNo">451</span><a id="line.451">   * &lt;p&gt;The order of the resulting stream is defined if and only if the order of the original stream</a>
+<span class="sourceLineNo">452</span><a id="line.452">   * was defined.</a>
+<span class="sourceLineNo">453</span><a id="line.453">   */</a>
+<span class="sourceLineNo">454</span><a id="line.454">  public static &lt;T extends @Nullable Object, R extends @Nullable Object&gt; Stream&lt;R&gt; mapWithIndex(</a>
+<span class="sourceLineNo">455</span><a id="line.455">      Stream&lt;T&gt; stream, FunctionWithIndex&lt;? super T, ? extends R&gt; function) {</a>
+<span class="sourceLineNo">456</span><a id="line.456">    checkNotNull(stream);</a>
+<span class="sourceLineNo">457</span><a id="line.457">    checkNotNull(function);</a>
+<span class="sourceLineNo">458</span><a id="line.458">    boolean isParallel = stream.isParallel();</a>
+<span class="sourceLineNo">459</span><a id="line.459">    Spliterator&lt;T&gt; fromSpliterator = stream.spliterator();</a>
+<span class="sourceLineNo">460</span><a id="line.460"></a>
+<span class="sourceLineNo">461</span><a id="line.461">    if (!fromSpliterator.hasCharacteristics(Spliterator.SUBSIZED)) {</a>
+<span class="sourceLineNo">462</span><a id="line.462">      Iterator&lt;T&gt; fromIterator = Spliterators.iterator(fromSpliterator);</a>
+<span class="sourceLineNo">463</span><a id="line.463">      return StreamSupport.stream(</a>
+<span class="sourceLineNo">464</span><a id="line.464">              new AbstractSpliterator&lt;R&gt;(</a>
+<span class="sourceLineNo">465</span><a id="line.465">                  fromSpliterator.estimateSize(),</a>
+<span class="sourceLineNo">466</span><a id="line.466">                  fromSpliterator.characteristics() &amp; (Spliterator.ORDERED | Spliterator.SIZED)) {</a>
+<span class="sourceLineNo">467</span><a id="line.467">                long index = 0;</a>
+<span class="sourceLineNo">468</span><a id="line.468"></a>
+<span class="sourceLineNo">469</span><a id="line.469">                @Override</a>
+<span class="sourceLineNo">470</span><a id="line.470">                public boolean tryAdvance(Consumer&lt;? super R&gt; action) {</a>
+<span class="sourceLineNo">471</span><a id="line.471">                  if (fromIterator.hasNext()) {</a>
+<span class="sourceLineNo">472</span><a id="line.472">                    action.accept(function.apply(fromIterator.next(), index++));</a>
+<span class="sourceLineNo">473</span><a id="line.473">                    return true;</a>
+<span class="sourceLineNo">474</span><a id="line.474">                  }</a>
+<span class="sourceLineNo">475</span><a id="line.475">                  return false;</a>
+<span class="sourceLineNo">476</span><a id="line.476">                }</a>
+<span class="sourceLineNo">477</span><a id="line.477">              },</a>
+<span class="sourceLineNo">478</span><a id="line.478">              isParallel)</a>
+<span class="sourceLineNo">479</span><a id="line.479">          .onClose(stream::close);</a>
+<span class="sourceLineNo">480</span><a id="line.480">    }</a>
+<span class="sourceLineNo">481</span><a id="line.481">    class Splitr extends MapWithIndexSpliterator&lt;Spliterator&lt;T&gt;, R, Splitr&gt; implements Consumer&lt;T&gt; {</a>
+<span class="sourceLineNo">482</span><a id="line.482">      @CheckForNull T holder;</a>
+<span class="sourceLineNo">483</span><a id="line.483"></a>
+<span class="sourceLineNo">484</span><a id="line.484">      Splitr(Spliterator&lt;T&gt; splitr, long index) {</a>
+<span class="sourceLineNo">485</span><a id="line.485">        super(splitr, index);</a>
+<span class="sourceLineNo">486</span><a id="line.486">      }</a>
+<span class="sourceLineNo">487</span><a id="line.487"></a>
+<span class="sourceLineNo">488</span><a id="line.488">      @Override</a>
+<span class="sourceLineNo">489</span><a id="line.489">      public void accept(@ParametricNullness T t) {</a>
+<span class="sourceLineNo">490</span><a id="line.490">        this.holder = t;</a>
 <span class="sourceLineNo">491</span><a id="line.491">      }</a>
 <span class="sourceLineNo">492</span><a id="line.492"></a>
 <span class="sourceLineNo">493</span><a id="line.493">      @Override</a>
-<span class="sourceLineNo">494</span><a id="line.494">      Splitr createSplit(Spliterator&lt;T&gt; from, long i) {</a>
-<span class="sourceLineNo">495</span><a id="line.495">        return new Splitr(from, i);</a>
-<span class="sourceLineNo">496</span><a id="line.496">      }</a>
-<span class="sourceLineNo">497</span><a id="line.497">    }</a>
-<span class="sourceLineNo">498</span><a id="line.498">    return StreamSupport.stream(new Splitr(fromSpliterator, 0), isParallel).onClose(stream::close);</a>
-<span class="sourceLineNo">499</span><a id="line.499">  }</a>
-<span class="sourceLineNo">500</span><a id="line.500"></a>
-<span class="sourceLineNo">501</span><a id="line.501">  /**</a>
-<span class="sourceLineNo">502</span><a id="line.502">   * Returns a stream consisting of the results of applying the given function to the elements of</a>
-<span class="sourceLineNo">503</span><a id="line.503">   * {@code stream} and their indexes in the stream. For example,</a>
-<span class="sourceLineNo">504</span><a id="line.504">   *</a>
-<span class="sourceLineNo">505</span><a id="line.505">   * &lt;pre&gt;{@code</a>
-<span class="sourceLineNo">506</span><a id="line.506">   * mapWithIndex(</a>
-<span class="sourceLineNo">507</span><a id="line.507">   *     IntStream.of(10, 11, 12),</a>
-<span class="sourceLineNo">508</span><a id="line.508">   *     (e, index) -&gt; index + ":" + e)</a>
-<span class="sourceLineNo">509</span><a id="line.509">   * }&lt;/pre&gt;</a>
-<span class="sourceLineNo">510</span><a id="line.510">   *</a>
-<span class="sourceLineNo">511</span><a id="line.511">   * &lt;p&gt;...would return {@code Stream.of("0:10", "1:11", "2:12")}.</a>
-<span class="sourceLineNo">512</span><a id="line.512">   *</a>
-<span class="sourceLineNo">513</span><a id="line.513">   * &lt;p&gt;The resulting stream is &lt;a</a>
-<span class="sourceLineNo">514</span><a id="line.514">   * href="http://gee.cs.oswego.edu/dl/html/StreamParallelGuidance.html"&gt;efficiently splittable&lt;/a&gt;</a>
-<span class="sourceLineNo">515</span><a id="line.515">   * if and only if {@code stream} was efficiently splittable and its underlying spliterator</a>
-<span class="sourceLineNo">516</span><a id="line.516">   * reported {@link Spliterator#SUBSIZED}. This is generally the case if the underlying stream</a>
-<span class="sourceLineNo">517</span><a id="line.517">   * comes from a data structure supporting efficient indexed random access, typically an array or</a>
-<span class="sourceLineNo">518</span><a id="line.518">   * list.</a>
-<span class="sourceLineNo">519</span><a id="line.519">   *</a>
-<span class="sourceLineNo">520</span><a id="line.520">   * &lt;p&gt;The order of the resulting stream is defined if and only if the order of the original stream</a>
-<span class="sourceLineNo">521</span><a id="line.521">   * was defined.</a>
-<span class="sourceLineNo">522</span><a id="line.522">   */</a>
-<span class="sourceLineNo">523</span><a id="line.523">  public static &lt;R extends @Nullable Object&gt; Stream&lt;R&gt; mapWithIndex(</a>
-<span class="sourceLineNo">524</span><a id="line.524">      IntStream stream, IntFunctionWithIndex&lt;R&gt; function) {</a>
-<span class="sourceLineNo">525</span><a id="line.525">    checkNotNull(stream);</a>
-<span class="sourceLineNo">526</span><a id="line.526">    checkNotNull(function);</a>
-<span class="sourceLineNo">527</span><a id="line.527">    boolean isParallel = stream.isParallel();</a>
-<span class="sourceLineNo">528</span><a id="line.528">    Spliterator.OfInt fromSpliterator = stream.spliterator();</a>
-<span class="sourceLineNo">529</span><a id="line.529"></a>
-<span class="sourceLineNo">530</span><a id="line.530">    if (!fromSpliterator.hasCharacteristics(Spliterator.SUBSIZED)) {</a>
-<span class="sourceLineNo">531</span><a id="line.531">      PrimitiveIterator.OfInt fromIterator = Spliterators.iterator(fromSpliterator);</a>
-<span class="sourceLineNo">532</span><a id="line.532">      return StreamSupport.stream(</a>
-<span class="sourceLineNo">533</span><a id="line.533">              new AbstractSpliterator&lt;R&gt;(</a>
-<span class="sourceLineNo">534</span><a id="line.534">                  fromSpliterator.estimateSize(),</a>
-<span class="sourceLineNo">535</span><a id="line.535">                  fromSpliterator.characteristics() &amp; (Spliterator.ORDERED | Spliterator.SIZED)) {</a>
-<span class="sourceLineNo">536</span><a id="line.536">                long index = 0;</a>
-<span class="sourceLineNo">537</span><a id="line.537"></a>
-<span class="sourceLineNo">538</span><a id="line.538">                @Override</a>
-<span class="sourceLineNo">539</span><a id="line.539">                public boolean tryAdvance(Consumer&lt;? super R&gt; action) {</a>
-<span class="sourceLineNo">540</span><a id="line.540">                  if (fromIterator.hasNext()) {</a>
-<span class="sourceLineNo">541</span><a id="line.541">                    action.accept(function.apply(fromIterator.nextInt(), index++));</a>
-<span class="sourceLineNo">542</span><a id="line.542">                    return true;</a>
-<span class="sourceLineNo">543</span><a id="line.543">                  }</a>
-<span class="sourceLineNo">544</span><a id="line.544">                  return false;</a>
-<span class="sourceLineNo">545</span><a id="line.545">                }</a>
-<span class="sourceLineNo">546</span><a id="line.546">              },</a>
-<span class="sourceLineNo">547</span><a id="line.547">              isParallel)</a>
-<span class="sourceLineNo">548</span><a id="line.548">          .onClose(stream::close);</a>
-<span class="sourceLineNo">549</span><a id="line.549">    }</a>
-<span class="sourceLineNo">550</span><a id="line.550">    class Splitr extends MapWithIndexSpliterator&lt;Spliterator.OfInt, R, Splitr&gt;</a>
-<span class="sourceLineNo">551</span><a id="line.551">        implements IntConsumer, Spliterator&lt;R&gt; {</a>
-<span class="sourceLineNo">552</span><a id="line.552">      int holder;</a>
-<span class="sourceLineNo">553</span><a id="line.553"></a>
-<span class="sourceLineNo">554</span><a id="line.554">      Splitr(Spliterator.OfInt splitr, long index) {</a>
-<span class="sourceLineNo">555</span><a id="line.555">        super(splitr, index);</a>
-<span class="sourceLineNo">556</span><a id="line.556">      }</a>
-<span class="sourceLineNo">557</span><a id="line.557"></a>
-<span class="sourceLineNo">558</span><a id="line.558">      @Override</a>
-<span class="sourceLineNo">559</span><a id="line.559">      public void accept(int t) {</a>
-<span class="sourceLineNo">560</span><a id="line.560">        this.holder = t;</a>
-<span class="sourceLineNo">561</span><a id="line.561">      }</a>
-<span class="sourceLineNo">562</span><a id="line.562"></a>
-<span class="sourceLineNo">563</span><a id="line.563">      @Override</a>
-<span class="sourceLineNo">564</span><a id="line.564">      public boolean tryAdvance(Consumer&lt;? super R&gt; action) {</a>
-<span class="sourceLineNo">565</span><a id="line.565">        if (fromSpliterator.tryAdvance(this)) {</a>
-<span class="sourceLineNo">566</span><a id="line.566">          action.accept(function.apply(holder, index++));</a>
-<span class="sourceLineNo">567</span><a id="line.567">          return true;</a>
-<span class="sourceLineNo">568</span><a id="line.568">        }</a>
-<span class="sourceLineNo">569</span><a id="line.569">        return false;</a>
+<span class="sourceLineNo">494</span><a id="line.494">      public boolean tryAdvance(Consumer&lt;? super R&gt; action) {</a>
+<span class="sourceLineNo">495</span><a id="line.495">        if (fromSpliterator.tryAdvance(this)) {</a>
+<span class="sourceLineNo">496</span><a id="line.496">          try {</a>
+<span class="sourceLineNo">497</span><a id="line.497">            // The cast is safe because tryAdvance puts a T into `holder`.</a>
+<span class="sourceLineNo">498</span><a id="line.498">            action.accept(function.apply(uncheckedCastNullableTToT(holder), index++));</a>
+<span class="sourceLineNo">499</span><a id="line.499">            return true;</a>
+<span class="sourceLineNo">500</span><a id="line.500">          } finally {</a>
+<span class="sourceLineNo">501</span><a id="line.501">            holder = null;</a>
+<span class="sourceLineNo">502</span><a id="line.502">          }</a>
+<span class="sourceLineNo">503</span><a id="line.503">        }</a>
+<span class="sourceLineNo">504</span><a id="line.504">        return false;</a>
+<span class="sourceLineNo">505</span><a id="line.505">      }</a>
+<span class="sourceLineNo">506</span><a id="line.506"></a>
+<span class="sourceLineNo">507</span><a id="line.507">      @Override</a>
+<span class="sourceLineNo">508</span><a id="line.508">      Splitr createSplit(Spliterator&lt;T&gt; from, long i) {</a>
+<span class="sourceLineNo">509</span><a id="line.509">        return new Splitr(from, i);</a>
+<span class="sourceLineNo">510</span><a id="line.510">      }</a>
+<span class="sourceLineNo">511</span><a id="line.511">    }</a>
+<span class="sourceLineNo">512</span><a id="line.512">    return StreamSupport.stream(new Splitr(fromSpliterator, 0), isParallel).onClose(stream::close);</a>
+<span class="sourceLineNo">513</span><a id="line.513">  }</a>
+<span class="sourceLineNo">514</span><a id="line.514"></a>
+<span class="sourceLineNo">515</span><a id="line.515">  /**</a>
+<span class="sourceLineNo">516</span><a id="line.516">   * Returns a stream consisting of the results of applying the given function to the elements of</a>
+<span class="sourceLineNo">517</span><a id="line.517">   * {@code stream} and their indexes in the stream. For example,</a>
+<span class="sourceLineNo">518</span><a id="line.518">   *</a>
+<span class="sourceLineNo">519</span><a id="line.519">   * &lt;pre&gt;{@code</a>
+<span class="sourceLineNo">520</span><a id="line.520">   * mapWithIndex(</a>
+<span class="sourceLineNo">521</span><a id="line.521">   *     IntStream.of(10, 11, 12),</a>
+<span class="sourceLineNo">522</span><a id="line.522">   *     (e, index) -&gt; index + ":" + e)</a>
+<span class="sourceLineNo">523</span><a id="line.523">   * }&lt;/pre&gt;</a>
+<span class="sourceLineNo">524</span><a id="line.524">   *</a>
+<span class="sourceLineNo">525</span><a id="line.525">   * &lt;p&gt;...would return {@code Stream.of("0:10", "1:11", "2:12")}.</a>
+<span class="sourceLineNo">526</span><a id="line.526">   *</a>
+<span class="sourceLineNo">527</span><a id="line.527">   * &lt;p&gt;The resulting stream is &lt;a</a>
+<span class="sourceLineNo">528</span><a id="line.528">   * href="http://gee.cs.oswego.edu/dl/html/StreamParallelGuidance.html"&gt;efficiently splittable&lt;/a&gt;</a>
+<span class="sourceLineNo">529</span><a id="line.529">   * if and only if {@code stream} was efficiently splittable and its underlying spliterator</a>
+<span class="sourceLineNo">530</span><a id="line.530">   * reported {@link Spliterator#SUBSIZED}. This is generally the case if the underlying stream</a>
+<span class="sourceLineNo">531</span><a id="line.531">   * comes from a data structure supporting efficient indexed random access, typically an array or</a>
+<span class="sourceLineNo">532</span><a id="line.532">   * list.</a>
+<span class="sourceLineNo">533</span><a id="line.533">   *</a>
+<span class="sourceLineNo">534</span><a id="line.534">   * &lt;p&gt;The order of the resulting stream is defined if and only if the order of the original stream</a>
+<span class="sourceLineNo">535</span><a id="line.535">   * was defined.</a>
+<span class="sourceLineNo">536</span><a id="line.536">   */</a>
+<span class="sourceLineNo">537</span><a id="line.537">  public static &lt;R extends @Nullable Object&gt; Stream&lt;R&gt; mapWithIndex(</a>
+<span class="sourceLineNo">538</span><a id="line.538">      IntStream stream, IntFunctionWithIndex&lt;R&gt; function) {</a>
+<span class="sourceLineNo">539</span><a id="line.539">    checkNotNull(stream);</a>
+<span class="sourceLineNo">540</span><a id="line.540">    checkNotNull(function);</a>
+<span class="sourceLineNo">541</span><a id="line.541">    boolean isParallel = stream.isParallel();</a>
+<span class="sourceLineNo">542</span><a id="line.542">    Spliterator.OfInt fromSpliterator = stream.spliterator();</a>
+<span class="sourceLineNo">543</span><a id="line.543"></a>
+<span class="sourceLineNo">544</span><a id="line.544">    if (!fromSpliterator.hasCharacteristics(Spliterator.SUBSIZED)) {</a>
+<span class="sourceLineNo">545</span><a id="line.545">      PrimitiveIterator.OfInt fromIterator = Spliterators.iterator(fromSpliterator);</a>
+<span class="sourceLineNo">546</span><a id="line.546">      return StreamSupport.stream(</a>
+<span class="sourceLineNo">547</span><a id="line.547">              new AbstractSpliterator&lt;R&gt;(</a>
+<span class="sourceLineNo">548</span><a id="line.548">                  fromSpliterator.estimateSize(),</a>
+<span class="sourceLineNo">549</span><a id="line.549">                  fromSpliterator.characteristics() &amp; (Spliterator.ORDERED | Spliterator.SIZED)) {</a>
+<span class="sourceLineNo">550</span><a id="line.550">                long index = 0;</a>
+<span class="sourceLineNo">551</span><a id="line.551"></a>
+<span class="sourceLineNo">552</span><a id="line.552">                @Override</a>
+<span class="sourceLineNo">553</span><a id="line.553">                public boolean tryAdvance(Consumer&lt;? super R&gt; action) {</a>
+<span class="sourceLineNo">554</span><a id="line.554">                  if (fromIterator.hasNext()) {</a>
+<span class="sourceLineNo">555</span><a id="line.555">                    action.accept(function.apply(fromIterator.nextInt(), index++));</a>
+<span class="sourceLineNo">556</span><a id="line.556">                    return true;</a>
+<span class="sourceLineNo">557</span><a id="line.557">                  }</a>
+<span class="sourceLineNo">558</span><a id="line.558">                  return false;</a>
+<span class="sourceLineNo">559</span><a id="line.559">                }</a>
+<span class="sourceLineNo">560</span><a id="line.560">              },</a>
+<span class="sourceLineNo">561</span><a id="line.561">              isParallel)</a>
+<span class="sourceLineNo">562</span><a id="line.562">          .onClose(stream::close);</a>
+<span class="sourceLineNo">563</span><a id="line.563">    }</a>
+<span class="sourceLineNo">564</span><a id="line.564">    class Splitr extends MapWithIndexSpliterator&lt;Spliterator.OfInt, R, Splitr&gt;</a>
+<span class="sourceLineNo">565</span><a id="line.565">        implements IntConsumer, Spliterator&lt;R&gt; {</a>
+<span class="sourceLineNo">566</span><a id="line.566">      int holder;</a>
+<span class="sourceLineNo">567</span><a id="line.567"></a>
+<span class="sourceLineNo">568</span><a id="line.568">      Splitr(Spliterator.OfInt splitr, long index) {</a>
+<span class="sourceLineNo">569</span><a id="line.569">        super(splitr, index);</a>
 <span class="sourceLineNo">570</span><a id="line.570">      }</a>
 <span class="sourceLineNo">571</span><a id="line.571"></a>
 <span class="sourceLineNo">572</span><a id="line.572">      @Override</a>
-<span class="sourceLineNo">573</span><a id="line.573">      Splitr createSplit(Spliterator.OfInt from, long i) {</a>
-<span class="sourceLineNo">574</span><a id="line.574">        return new Splitr(from, i);</a>
+<span class="sourceLineNo">573</span><a id="line.573">      public void accept(int t) {</a>
+<span class="sourceLineNo">574</span><a id="line.574">        this.holder = t;</a>
 <span class="sourceLineNo">575</span><a id="line.575">      }</a>
-<span class="sourceLineNo">576</span><a id="line.576">    }</a>
-<span class="sourceLineNo">577</span><a id="line.577">    return StreamSupport.stream(new Splitr(fromSpliterator, 0), isParallel).onClose(stream::close);</a>
-<span class="sourceLineNo">578</span><a id="line.578">  }</a>
-<span class="sourceLineNo">579</span><a id="line.579"></a>
-<span class="sourceLineNo">580</span><a id="line.580">  /**</a>
-<span class="sourceLineNo">581</span><a id="line.581">   * Returns a stream consisting of the results of applying the given function to the elements of</a>
-<span class="sourceLineNo">582</span><a id="line.582">   * {@code stream} and their indexes in the stream. For example,</a>
-<span class="sourceLineNo">583</span><a id="line.583">   *</a>
-<span class="sourceLineNo">584</span><a id="line.584">   * &lt;pre&gt;{@code</a>
-<span class="sourceLineNo">585</span><a id="line.585">   * mapWithIndex(</a>
-<span class="sourceLineNo">586</span><a id="line.586">   *     LongStream.of(10, 11, 12),</a>
-<span class="sourceLineNo">587</span><a id="line.587">   *     (e, index) -&gt; index + ":" + e)</a>
-<span class="sourceLineNo">588</span><a id="line.588">   * }&lt;/pre&gt;</a>
-<span class="sourceLineNo">589</span><a id="line.589">   *</a>
-<span class="sourceLineNo">590</span><a id="line.590">   * &lt;p&gt;...would return {@code Stream.of("0:10", "1:11", "2:12")}.</a>
-<span class="sourceLineNo">591</span><a id="line.591">   *</a>
-<span class="sourceLineNo">592</span><a id="line.592">   * &lt;p&gt;The resulting stream is &lt;a</a>
-<span class="sourceLineNo">593</span><a id="line.593">   * href="http://gee.cs.oswego.edu/dl/html/StreamParallelGuidance.html"&gt;efficiently splittable&lt;/a&gt;</a>
-<span class="sourceLineNo">594</span><a id="line.594">   * if and only if {@code stream} was efficiently splittable and its underlying spliterator</a>
-<span class="sourceLineNo">595</span><a id="line.595">   * reported {@link Spliterator#SUBSIZED}. This is generally the case if the underlying stream</a>
-<span class="sourceLineNo">596</span><a id="line.596">   * comes from a data structure supporting efficient indexed random access, typically an array or</a>
-<span class="sourceLineNo">597</span><a id="line.597">   * list.</a>
-<span class="sourceLineNo">598</span><a id="line.598">   *</a>
-<span class="sourceLineNo">599</span><a id="line.599">   * &lt;p&gt;The order of the resulting stream is defined if and only if the order of the original stream</a>
-<span class="sourceLineNo">600</span><a id="line.600">   * was defined.</a>
-<span class="sourceLineNo">601</span><a id="line.601">   */</a>
-<span class="sourceLineNo">602</span><a id="line.602">  public static &lt;R extends @Nullable Object&gt; Stream&lt;R&gt; mapWithIndex(</a>
-<span class="sourceLineNo">603</span><a id="line.603">      LongStream stream, LongFunctionWithIndex&lt;R&gt; function) {</a>
-<span class="sourceLineNo">604</span><a id="line.604">    checkNotNull(stream);</a>
-<span class="sourceLineNo">605</span><a id="line.605">    checkNotNull(function);</a>
-<span class="sourceLineNo">606</span><a id="line.606">    boolean isParallel = stream.isParallel();</a>
-<span class="sourceLineNo">607</span><a id="line.607">    Spliterator.OfLong fromSpliterator = stream.spliterator();</a>
-<span class="sourceLineNo">608</span><a id="line.608"></a>
-<span class="sourceLineNo">609</span><a id="line.609">    if (!fromSpliterator.hasCharacteristics(Spliterator.SUBSIZED)) {</a>
-<span class="sourceLineNo">610</span><a id="line.610">      PrimitiveIterator.OfLong fromIterator = Spliterators.iterator(fromSpliterator);</a>
-<span class="sourceLineNo">611</span><a id="line.611">      return StreamSupport.stream(</a>
-<span class="sourceLineNo">612</span><a id="line.612">              new AbstractSpliterator&lt;R&gt;(</a>
-<span class="sourceLineNo">613</span><a id="line.613">                  fromSpliterator.estimateSize(),</a>
-<span class="sourceLineNo">614</span><a id="line.614">                  fromSpliterator.characteristics() &amp; (Spliterator.ORDERED | Spliterator.SIZED)) {</a>
-<span class="sourceLineNo">615</span><a id="line.615">                long index = 0;</a>
-<span class="sourceLineNo">616</span><a id="line.616"></a>
-<span class="sourceLineNo">617</span><a id="line.617">                @Override</a>
-<span class="sourceLineNo">618</span><a id="line.618">                public boolean tryAdvance(Consumer&lt;? super R&gt; action) {</a>
-<span class="sourceLineNo">619</span><a id="line.619">                  if (fromIterator.hasNext()) {</a>
-<span class="sourceLineNo">620</span><a id="line.620">                    action.accept(function.apply(fromIterator.nextLong(), index++));</a>
-<span class="sourceLineNo">621</span><a id="line.621">                    return true;</a>
-<span class="sourceLineNo">622</span><a id="line.622">                  }</a>
-<span class="sourceLineNo">623</span><a id="line.623">                  return false;</a>
-<span class="sourceLineNo">624</span><a id="line.624">                }</a>
-<span class="sourceLineNo">625</span><a id="line.625">              },</a>
-<span class="sourceLineNo">626</span><a id="line.626">              isParallel)</a>
-<span class="sourceLineNo">627</span><a id="line.627">          .onClose(stream::close);</a>
-<span class="sourceLineNo">628</span><a id="line.628">    }</a>
-<span class="sourceLineNo">629</span><a id="line.629">    class Splitr extends MapWithIndexSpliterator&lt;Spliterator.OfLong, R, Splitr&gt;</a>
-<span class="sourceLineNo">630</span><a id="line.630">        implements LongConsumer, Spliterator&lt;R&gt; {</a>
-<span class="sourceLineNo">631</span><a id="line.631">      long holder;</a>
-<span class="sourceLineNo">632</span><a id="line.632"></a>
-<span class="sourceLineNo">633</span><a id="line.633">      Splitr(Spliterator.OfLong splitr, long index) {</a>
-<span class="sourceLineNo">634</span><a id="line.634">        super(splitr, index);</a>
-<span class="sourceLineNo">635</span><a id="line.635">      }</a>
-<span class="sourceLineNo">636</span><a id="line.636"></a>
-<span class="sourceLineNo">637</span><a id="line.637">      @Override</a>
-<span class="sourceLineNo">638</span><a id="line.638">      public void accept(long t) {</a>
-<span class="sourceLineNo">639</span><a id="line.639">        this.holder = t;</a>
-<span class="sourceLineNo">640</span><a id="line.640">      }</a>
-<span class="sourceLineNo">641</span><a id="line.641"></a>
-<span class="sourceLineNo">642</span><a id="line.642">      @Override</a>
-<span class="sourceLineNo">643</span><a id="line.643">      public boolean tryAdvance(Consumer&lt;? super R&gt; action) {</a>
-<span class="sourceLineNo">644</span><a id="line.644">        if (fromSpliterator.tryAdvance(this)) {</a>
-<span class="sourceLineNo">645</span><a id="line.645">          action.accept(function.apply(holder, index++));</a>
-<span class="sourceLineNo">646</span><a id="line.646">          return true;</a>
-<span class="sourceLineNo">647</span><a id="line.647">        }</a>
-<span class="sourceLineNo">648</span><a id="line.648">        return false;</a>
+<span class="sourceLineNo">576</span><a id="line.576"></a>
+<span class="sourceLineNo">577</span><a id="line.577">      @Override</a>
+<span class="sourceLineNo">578</span><a id="line.578">      public boolean tryAdvance(Consumer&lt;? super R&gt; action) {</a>
+<span class="sourceLineNo">579</span><a id="line.579">        if (fromSpliterator.tryAdvance(this)) {</a>
+<span class="sourceLineNo">580</span><a id="line.580">          action.accept(function.apply(holder, index++));</a>
+<span class="sourceLineNo">581</span><a id="line.581">          return true;</a>
+<span class="sourceLineNo">582</span><a id="line.582">        }</a>
+<span class="sourceLineNo">583</span><a id="line.583">        return false;</a>
+<span class="sourceLineNo">584</span><a id="line.584">      }</a>
+<span class="sourceLineNo">585</span><a id="line.585"></a>
+<span class="sourceLineNo">586</span><a id="line.586">      @Override</a>
+<span class="sourceLineNo">587</span><a id="line.587">      Splitr createSplit(Spliterator.OfInt from, long i) {</a>
+<span class="sourceLineNo">588</span><a id="line.588">        return new Splitr(from, i);</a>
+<span class="sourceLineNo">589</span><a id="line.589">      }</a>
+<span class="sourceLineNo">590</span><a id="line.590">    }</a>
+<span class="sourceLineNo">591</span><a id="line.591">    return StreamSupport.stream(new Splitr(fromSpliterator, 0), isParallel).onClose(stream::close);</a>
+<span class="sourceLineNo">592</span><a id="line.592">  }</a>
+<span class="sourceLineNo">593</span><a id="line.593"></a>
+<span class="sourceLineNo">594</span><a id="line.594">  /**</a>
+<span class="sourceLineNo">595</span><a id="line.595">   * Returns a stream consisting of the results of applying the given function to the elements of</a>
+<span class="sourceLineNo">596</span><a id="line.596">   * {@code stream} and their indexes in the stream. For example,</a>
+<span class="sourceLineNo">597</span><a id="line.597">   *</a>
+<span class="sourceLineNo">598</span><a id="line.598">   * &lt;pre&gt;{@code</a>
+<span class="sourceLineNo">599</span><a id="line.599">   * mapWithIndex(</a>
+<span class="sourceLineNo">600</span><a id="line.600">   *     LongStream.of(10, 11, 12),</a>
+<span class="sourceLineNo">601</span><a id="line.601">   *     (e, index) -&gt; index + ":" + e)</a>
+<span class="sourceLineNo">602</span><a id="line.602">   * }&lt;/pre&gt;</a>
+<span class="sourceLineNo">603</span><a id="line.603">   *</a>
+<span class="sourceLineNo">604</span><a id="line.604">   * &lt;p&gt;...would return {@code Stream.of("0:10", "1:11", "2:12")}.</a>
+<span class="sourceLineNo">605</span><a id="line.605">   *</a>
+<span class="sourceLineNo">606</span><a id="line.606">   * &lt;p&gt;The resulting stream is &lt;a</a>
+<span class="sourceLineNo">607</span><a id="line.607">   * href="http://gee.cs.oswego.edu/dl/html/StreamParallelGuidance.html"&gt;efficiently splittable&lt;/a&gt;</a>
+<span class="sourceLineNo">608</span><a id="line.608">   * if and only if {@code stream} was efficiently splittable and its underlying spliterator</a>
+<span class="sourceLineNo">609</span><a id="line.609">   * reported {@link Spliterator#SUBSIZED}. This is generally the case if the underlying stream</a>
+<span class="sourceLineNo">610</span><a id="line.610">   * comes from a data structure supporting efficient indexed random access, typically an array or</a>
+<span class="sourceLineNo">611</span><a id="line.611">   * list.</a>
+<span class="sourceLineNo">612</span><a id="line.612">   *</a>
+<span class="sourceLineNo">613</span><a id="line.613">   * &lt;p&gt;The order of the resulting stream is defined if and only if the order of the original stream</a>
+<span class="sourceLineNo">614</span><a id="line.614">   * was defined.</a>
+<span class="sourceLineNo">615</span><a id="line.615">   */</a>
+<span class="sourceLineNo">616</span><a id="line.616">  public static &lt;R extends @Nullable Object&gt; Stream&lt;R&gt; mapWithIndex(</a>
+<span class="sourceLineNo">617</span><a id="line.617">      LongStream stream, LongFunctionWithIndex&lt;R&gt; function) {</a>
+<span class="sourceLineNo">618</span><a id="line.618">    checkNotNull(stream);</a>
+<span class="sourceLineNo">619</span><a id="line.619">    checkNotNull(function);</a>
+<span class="sourceLineNo">620</span><a id="line.620">    boolean isParallel = stream.isParallel();</a>
+<span class="sourceLineNo">621</span><a id="line.621">    Spliterator.OfLong fromSpliterator = stream.spliterator();</a>
+<span class="sourceLineNo">622</span><a id="line.622"></a>
+<span class="sourceLineNo">623</span><a id="line.623">    if (!fromSpliterator.hasCharacteristics(Spliterator.SUBSIZED)) {</a>
+<span class="sourceLineNo">624</span><a id="line.624">      PrimitiveIterator.OfLong fromIterator = Spliterators.iterator(fromSpliterator);</a>
+<span class="sourceLineNo">625</span><a id="line.625">      return StreamSupport.stream(</a>
+<span class="sourceLineNo">626</span><a id="line.626">              new AbstractSpliterator&lt;R&gt;(</a>
+<span class="sourceLineNo">627</span><a id="line.627">                  fromSpliterator.estimateSize(),</a>
+<span class="sourceLineNo">628</span><a id="line.628">                  fromSpliterator.characteristics() &amp; (Spliterator.ORDERED | Spliterator.SIZED)) {</a>
+<span class="sourceLineNo">629</span><a id="line.629">                long index = 0;</a>
+<span class="sourceLineNo">630</span><a id="line.630"></a>
+<span class="sourceLineNo">631</span><a id="line.631">                @Override</a>
+<span class="sourceLineNo">632</span><a id="line.632">                public boolean tryAdvance(Consumer&lt;? super R&gt; action) {</a>
+<span class="sourceLineNo">633</span><a id="line.633">                  if (fromIterator.hasNext()) {</a>
+<span class="sourceLineNo">634</span><a id="line.634">                    action.accept(function.apply(fromIterator.nextLong(), index++));</a>
+<span class="sourceLineNo">635</span><a id="line.635">                    return true;</a>
+<span class="sourceLineNo">636</span><a id="line.636">                  }</a>
+<span class="sourceLineNo">637</span><a id="line.637">                  return false;</a>
+<span class="sourceLineNo">638</span><a id="line.638">                }</a>
+<span class="sourceLineNo">639</span><a id="line.639">              },</a>
+<span class="sourceLineNo">640</span><a id="line.640">              isParallel)</a>
+<span class="sourceLineNo">641</span><a id="line.641">          .onClose(stream::close);</a>
+<span class="sourceLineNo">642</span><a id="line.642">    }</a>
+<span class="sourceLineNo">643</span><a id="line.643">    class Splitr extends MapWithIndexSpliterator&lt;Spliterator.OfLong, R, Splitr&gt;</a>
+<span class="sourceLineNo">644</span><a id="line.644">        implements LongConsumer, Spliterator&lt;R&gt; {</a>
+<span class="sourceLineNo">645</span><a id="line.645">      long holder;</a>
+<span class="sourceLineNo">646</span><a id="line.646"></a>
+<span class="sourceLineNo">647</span><a id="line.647">      Splitr(Spliterator.OfLong splitr, long index) {</a>
+<span class="sourceLineNo">648</span><a id="line.648">        super(splitr, index);</a>
 <span class="sourceLineNo">649</span><a id="line.649">      }</a>
 <span class="sourceLineNo">650</span><a id="line.650"></a>
 <span class="sourceLineNo">651</span><a id="line.651">      @Override</a>
-<span class="sourceLineNo">652</span><a id="line.652">      Splitr createSplit(Spliterator.OfLong from, long i) {</a>
-<span class="sourceLineNo">653</span><a id="line.653">        return new Splitr(from, i);</a>
+<span class="sourceLineNo">652</span><a id="line.652">      public void accept(long t) {</a>
+<span class="sourceLineNo">653</span><a id="line.653">        this.holder = t;</a>
 <span class="sourceLineNo">654</span><a id="line.654">      }</a>
-<span class="sourceLineNo">655</span><a id="line.655">    }</a>
-<span class="sourceLineNo">656</span><a id="line.656">    return StreamSupport.stream(new Splitr(fromSpliterator, 0), isParallel).onClose(stream::close);</a>
-<span class="sourceLineNo">657</span><a id="line.657">  }</a>
-<span class="sourceLineNo">658</span><a id="line.658"></a>
-<span class="sourceLineNo">659</span><a id="line.659">  /**</a>
-<span class="sourceLineNo">660</span><a id="line.660">   * Returns a stream consisting of the results of applying the given function to the elements of</a>
-<span class="sourceLineNo">661</span><a id="line.661">   * {@code stream} and their indexes in the stream. For example,</a>
-<span class="sourceLineNo">662</span><a id="line.662">   *</a>
-<span class="sourceLineNo">663</span><a id="line.663">   * &lt;pre&gt;{@code</a>
-<span class="sourceLineNo">664</span><a id="line.664">   * mapWithIndex(</a>
-<span class="sourceLineNo">665</span><a id="line.665">   *     DoubleStream.of(0.0, 1.0, 2.0)</a>
-<span class="sourceLineNo">666</span><a id="line.666">   *     (e, index) -&gt; index + ":" + e)</a>
-<span class="sourceLineNo">667</span><a id="line.667">   * }&lt;/pre&gt;</a>
-<span class="sourceLineNo">668</span><a id="line.668">   *</a>
-<span class="sourceLineNo">669</span><a id="line.669">   * &lt;p&gt;...would return {@code Stream.of("0:0.0", "1:1.0", "2:2.0")}.</a>
-<span class="sourceLineNo">670</span><a id="line.670">   *</a>
-<span class="sourceLineNo">671</span><a id="line.671">   * &lt;p&gt;The resulting stream is &lt;a</a>
-<span class="sourceLineNo">672</span><a id="line.672">   * href="http://gee.cs.oswego.edu/dl/html/StreamParallelGuidance.html"&gt;efficiently splittable&lt;/a&gt;</a>
-<span class="sourceLineNo">673</span><a id="line.673">   * if and only if {@code stream} was efficiently splittable and its underlying spliterator</a>
-<span class="sourceLineNo">674</span><a id="line.674">   * reported {@link Spliterator#SUBSIZED}. This is generally the case if the underlying stream</a>
-<span class="sourceLineNo">675</span><a id="line.675">   * comes from a data structure supporting efficient indexed random access, typically an array or</a>
-<span class="sourceLineNo">676</span><a id="line.676">   * list.</a>
-<span class="sourceLineNo">677</span><a id="line.677">   *</a>
-<span class="sourceLineNo">678</span><a id="line.678">   * &lt;p&gt;The order of the resulting stream is defined if and only if the order of the original stream</a>
-<span class="sourceLineNo">679</span><a id="line.679">   * was defined.</a>
-<span class="sourceLineNo">680</span><a id="line.680">   */</a>
-<span class="sourceLineNo">681</span><a id="line.681">  public static &lt;R extends @Nullable Object&gt; Stream&lt;R&gt; mapWithIndex(</a>
-<span class="sourceLineNo">682</span><a id="line.682">      DoubleStream stream, DoubleFunctionWithIndex&lt;R&gt; function) {</a>
-<span class="sourceLineNo">683</span><a id="line.683">    checkNotNull(stream);</a>
-<span class="sourceLineNo">684</span><a id="line.684">    checkNotNull(function);</a>
-<span class="sourceLineNo">685</span><a id="line.685">    boolean isParallel = stream.isParallel();</a>
-<span class="sourceLineNo">686</span><a id="line.686">    Spliterator.OfDouble fromSpliterator = stream.spliterator();</a>
-<span class="sourceLineNo">687</span><a id="line.687"></a>
-<span class="sourceLineNo">688</span><a id="line.688">    if (!fromSpliterator.hasCharacteristics(Spliterator.SUBSIZED)) {</a>
-<span class="sourceLineNo">689</span><a id="line.689">      PrimitiveIterator.OfDouble fromIterator = Spliterators.iterator(fromSpliterator);</a>
-<span class="sourceLineNo">690</span><a id="line.690">      return StreamSupport.stream(</a>
-<span class="sourceLineNo">691</span><a id="line.691">              new AbstractSpliterator&lt;R&gt;(</a>
-<span class="sourceLineNo">692</span><a id="line.692">                  fromSpliterator.estimateSize(),</a>
-<span class="sourceLineNo">693</span><a id="line.693">                  fromSpliterator.characteristics() &amp; (Spliterator.ORDERED | Spliterator.SIZED)) {</a>
-<span class="sourceLineNo">694</span><a id="line.694">                long index = 0;</a>
-<span class="sourceLineNo">695</span><a id="line.695"></a>
-<span class="sourceLineNo">696</span><a id="line.696">                @Override</a>
-<span class="sourceLineNo">697</span><a id="line.697">                public boolean tryAdvance(Consumer&lt;? super R&gt; action) {</a>
-<span class="sourceLineNo">698</span><a id="line.698">                  if (fromIterator.hasNext()) {</a>
-<span class="sourceLineNo">699</span><a id="line.699">                    action.accept(function.apply(fromIterator.nextDouble(), index++));</a>
-<span class="sourceLineNo">700</span><a id="line.700">                    return true;</a>
-<span class="sourceLineNo">701</span><a id="line.701">                  }</a>
-<span class="sourceLineNo">702</span><a id="line.702">                  return false;</a>
-<span class="sourceLineNo">703</span><a id="line.703">                }</a>
-<span class="sourceLineNo">704</span><a id="line.704">              },</a>
-<span class="sourceLineNo">705</span><a id="line.705">              isParallel)</a>
-<span class="sourceLineNo">706</span><a id="line.706">          .onClose(stream::close);</a>
-<span class="sourceLineNo">707</span><a id="line.707">    }</a>
-<span class="sourceLineNo">708</span><a id="line.708">    class Splitr extends MapWithIndexSpliterator&lt;Spliterator.OfDouble, R, Splitr&gt;</a>
-<span class="sourceLineNo">709</span><a id="line.709">        implements DoubleConsumer, Spliterator&lt;R&gt; {</a>
-<span class="sourceLineNo">710</span><a id="line.710">      double holder;</a>
-<span class="sourceLineNo">711</span><a id="line.711"></a>
-<span class="sourceLineNo">712</span><a id="line.712">      Splitr(Spliterator.OfDouble splitr, long index) {</a>
-<span class="sourceLineNo">713</span><a id="line.713">        super(splitr, index);</a>
-<span class="sourceLineNo">714</span><a id="line.714">      }</a>
-<span class="sourceLineNo">715</span><a id="line.715"></a>
-<span class="sourceLineNo">716</span><a id="line.716">      @Override</a>
-<span class="sourceLineNo">717</span><a id="line.717">      public void accept(double t) {</a>
-<span class="sourceLineNo">718</span><a id="line.718">        this.holder = t;</a>
-<span class="sourceLineNo">719</span><a id="line.719">      }</a>
-<span class="sourceLineNo">720</span><a id="line.720"></a>
-<span class="sourceLineNo">721</span><a id="line.721">      @Override</a>
-<span class="sourceLineNo">722</span><a id="line.722">      public boolean tryAdvance(Consumer&lt;? super R&gt; action) {</a>
-<span class="sourceLineNo">723</span><a id="line.723">        if (fromSpliterator.tryAdvance(this)) {</a>
-<span class="sourceLineNo">724</span><a id="line.724">          action.accept(function.apply(holder, index++));</a>
-<span class="sourceLineNo">725</span><a id="line.725">          return true;</a>
-<span class="sourceLineNo">726</span><a id="line.726">        }</a>
-<span class="sourceLineNo">727</span><a id="line.727">        return false;</a>
+<span class="sourceLineNo">655</span><a id="line.655"></a>
+<span class="sourceLineNo">656</span><a id="line.656">      @Override</a>
+<span class="sourceLineNo">657</span><a id="line.657">      public boolean tryAdvance(Consumer&lt;? super R&gt; action) {</a>
+<span class="sourceLineNo">658</span><a id="line.658">        if (fromSpliterator.tryAdvance(this)) {</a>
+<span class="sourceLineNo">659</span><a id="line.659">          action.accept(function.apply(holder, index++));</a>
+<span class="sourceLineNo">660</span><a id="line.660">          return true;</a>
+<span class="sourceLineNo">661</span><a id="line.661">        }</a>
+<span class="sourceLineNo">662</span><a id="line.662">        return false;</a>
+<span class="sourceLineNo">663</span><a id="line.663">      }</a>
+<span class="sourceLineNo">664</span><a id="line.664"></a>
+<span class="sourceLineNo">665</span><a id="line.665">      @Override</a>
+<span class="sourceLineNo">666</span><a id="line.666">      Splitr createSplit(Spliterator.OfLong from, long i) {</a>
+<span class="sourceLineNo">667</span><a id="line.667">        return new Splitr(from, i);</a>
+<span class="sourceLineNo">668</span><a id="line.668">      }</a>
+<span class="sourceLineNo">669</span><a id="line.669">    }</a>
+<span class="sourceLineNo">670</span><a id="line.670">    return StreamSupport.stream(new Splitr(fromSpliterator, 0), isParallel).onClose(stream::close);</a>
+<span class="sourceLineNo">671</span><a id="line.671">  }</a>
+<span class="sourceLineNo">672</span><a id="line.672"></a>
+<span class="sourceLineNo">673</span><a id="line.673">  /**</a>
+<span class="sourceLineNo">674</span><a id="line.674">   * Returns a stream consisting of the results of applying the given function to the elements of</a>
+<span class="sourceLineNo">675</span><a id="line.675">   * {@code stream} and their indexes in the stream. For example,</a>
+<span class="sourceLineNo">676</span><a id="line.676">   *</a>
+<span class="sourceLineNo">677</span><a id="line.677">   * &lt;pre&gt;{@code</a>
+<span class="sourceLineNo">678</span><a id="line.678">   * mapWithIndex(</a>
+<span class="sourceLineNo">679</span><a id="line.679">   *     DoubleStream.of(0.0, 1.0, 2.0)</a>
+<span class="sourceLineNo">680</span><a id="line.680">   *     (e, index) -&gt; index + ":" + e)</a>
+<span class="sourceLineNo">681</span><a id="line.681">   * }&lt;/pre&gt;</a>
+<span class="sourceLineNo">682</span><a id="line.682">   *</a>
+<span class="sourceLineNo">683</span><a id="line.683">   * &lt;p&gt;...would return {@code Stream.of("0:0.0", "1:1.0", "2:2.0")}.</a>
+<span class="sourceLineNo">684</span><a id="line.684">   *</a>
+<span class="sourceLineNo">685</span><a id="line.685">   * &lt;p&gt;The resulting stream is &lt;a</a>
+<span class="sourceLineNo">686</span><a id="line.686">   * href="http://gee.cs.oswego.edu/dl/html/StreamParallelGuidance.html"&gt;efficiently splittable&lt;/a&gt;</a>
+<span class="sourceLineNo">687</span><a id="line.687">   * if and only if {@code stream} was efficiently splittable and its underlying spliterator</a>
+<span class="sourceLineNo">688</span><a id="line.688">   * reported {@link Spliterator#SUBSIZED}. This is generally the case if the underlying stream</a>
+<span class="sourceLineNo">689</span><a id="line.689">   * comes from a data structure supporting efficient indexed random access, typically an array or</a>
+<span class="sourceLineNo">690</span><a id="line.690">   * list.</a>
+<span class="sourceLineNo">691</span><a id="line.691">   *</a>
+<span class="sourceLineNo">692</span><a id="line.692">   * &lt;p&gt;The order of the resulting stream is defined if and only if the order of the original stream</a>
+<span class="sourceLineNo">693</span><a id="line.693">   * was defined.</a>
+<span class="sourceLineNo">694</span><a id="line.694">   */</a>
+<span class="sourceLineNo">695</span><a id="line.695">  public static &lt;R extends @Nullable Object&gt; Stream&lt;R&gt; mapWithIndex(</a>
+<span class="sourceLineNo">696</span><a id="line.696">      DoubleStream stream, DoubleFunctionWithIndex&lt;R&gt; function) {</a>
+<span class="sourceLineNo">697</span><a id="line.697">    checkNotNull(stream);</a>
+<span class="sourceLineNo">698</span><a id="line.698">    checkNotNull(function);</a>
+<span class="sourceLineNo">699</span><a id="line.699">    boolean isParallel = stream.isParallel();</a>
+<span class="sourceLineNo">700</span><a id="line.700">    Spliterator.OfDouble fromSpliterator = stream.spliterator();</a>
+<span class="sourceLineNo">701</span><a id="line.701"></a>
+<span class="sourceLineNo">702</span><a id="line.702">    if (!fromSpliterator.hasCharacteristics(Spliterator.SUBSIZED)) {</a>
+<span class="sourceLineNo">703</span><a id="line.703">      PrimitiveIterator.OfDouble fromIterator = Spliterators.iterator(fromSpliterator);</a>
+<span class="sourceLineNo">704</span><a id="line.704">      return StreamSupport.stream(</a>
+<span class="sourceLineNo">705</span><a id="line.705">              new AbstractSpliterator&lt;R&gt;(</a>
+<span class="sourceLineNo">706</span><a id="line.706">                  fromSpliterator.estimateSize(),</a>
+<span class="sourceLineNo">707</span><a id="line.707">                  fromSpliterator.characteristics() &amp; (Spliterator.ORDERED | Spliterator.SIZED)) {</a>
+<span class="sourceLineNo">708</span><a id="line.708">                long index = 0;</a>
+<span class="sourceLineNo">709</span><a id="line.709"></a>
+<span class="sourceLineNo">710</span><a id="line.710">                @Override</a>
+<span class="sourceLineNo">711</span><a id="line.711">                public boolean tryAdvance(Consumer&lt;? super R&gt; action) {</a>
+<span class="sourceLineNo">712</span><a id="line.712">                  if (fromIterator.hasNext()) {</a>
+<span class="sourceLineNo">713</span><a id="line.713">                    action.accept(function.apply(fromIterator.nextDouble(), index++));</a>
+<span class="sourceLineNo">714</span><a id="line.714">                    return true;</a>
+<span class="sourceLineNo">715</span><a id="line.715">                  }</a>
+<span class="sourceLineNo">716</span><a id="line.716">                  return false;</a>
+<span class="sourceLineNo">717</span><a id="line.717">                }</a>
+<span class="sourceLineNo">718</span><a id="line.718">              },</a>
+<span class="sourceLineNo">719</span><a id="line.719">              isParallel)</a>
+<span class="sourceLineNo">720</span><a id="line.720">          .onClose(stream::close);</a>
+<span class="sourceLineNo">721</span><a id="line.721">    }</a>
+<span class="sourceLineNo">722</span><a id="line.722">    class Splitr extends MapWithIndexSpliterator&lt;Spliterator.OfDouble, R, Splitr&gt;</a>
+<span class="sourceLineNo">723</span><a id="line.723">        implements DoubleConsumer, Spliterator&lt;R&gt; {</a>
+<span class="sourceLineNo">724</span><a id="line.724">      double holder;</a>
+<span class="sourceLineNo">725</span><a id="line.725"></a>
+<span class="sourceLineNo">726</span><a id="line.726">      Splitr(Spliterator.OfDouble splitr, long index) {</a>
+<span class="sourceLineNo">727</span><a id="line.727">        super(splitr, index);</a>
 <span class="sourceLineNo">728</span><a id="line.728">      }</a>
 <span class="sourceLineNo">729</span><a id="line.729"></a>
 <span class="sourceLineNo">730</span><a id="line.730">      @Override</a>
-<span class="sourceLineNo">731</span><a id="line.731">      Splitr createSplit(Spliterator.OfDouble from, long i) {</a>
-<span class="sourceLineNo">732</span><a id="line.732">        return new Splitr(from, i);</a>
+<span class="sourceLineNo">731</span><a id="line.731">      public void accept(double t) {</a>
+<span class="sourceLineNo">732</span><a id="line.732">        this.holder = t;</a>
 <span class="sourceLineNo">733</span><a id="line.733">      }</a>
-<span class="sourceLineNo">734</span><a id="line.734">    }</a>
-<span class="sourceLineNo">735</span><a id="line.735">    return StreamSupport.stream(new Splitr(fromSpliterator, 0), isParallel).onClose(stream::close);</a>
-<span class="sourceLineNo">736</span><a id="line.736">  }</a>
-<span class="sourceLineNo">737</span><a id="line.737"></a>
-<span class="sourceLineNo">738</span><a id="line.738">  /**</a>
-<span class="sourceLineNo">739</span><a id="line.739">   * An analogue of {@link java.util.function.Function} also accepting an index.</a>
-<span class="sourceLineNo">740</span><a id="line.740">   *</a>
-<span class="sourceLineNo">741</span><a id="line.741">   * &lt;p&gt;This interface is only intended for use by callers of {@link #mapWithIndex(Stream,</a>
-<span class="sourceLineNo">742</span><a id="line.742">   * FunctionWithIndex)}.</a>
-<span class="sourceLineNo">743</span><a id="line.743">   *</a>
-<span class="sourceLineNo">744</span><a id="line.744">   * @since 21.0</a>
-<span class="sourceLineNo">745</span><a id="line.745">   */</a>
-<span class="sourceLineNo">746</span><a id="line.746">  public interface FunctionWithIndex&lt;T extends @Nullable Object, R extends @Nullable Object&gt; {</a>
-<span class="sourceLineNo">747</span><a id="line.747">    /** Applies this function to the given argument and its index within a stream. */</a>
-<span class="sourceLineNo">748</span><a id="line.748">    @ParametricNullness</a>
-<span class="sourceLineNo">749</span><a id="line.749">    R apply(@ParametricNullness T from, long index);</a>
+<span class="sourceLineNo">734</span><a id="line.734"></a>
+<span class="sourceLineNo">735</span><a id="line.735">      @Override</a>
+<span class="sourceLineNo">736</span><a id="line.736">      public boolean tryAdvance(Consumer&lt;? super R&gt; action) {</a>
+<span class="sourceLineNo">737</span><a id="line.737">        if (fromSpliterator.tryAdvance(this)) {</a>
+<span class="sourceLineNo">738</span><a id="line.738">          action.accept(function.apply(holder, index++));</a>
+<span class="sourceLineNo">739</span><a id="line.739">          return true;</a>
+<span class="sourceLineNo">740</span><a id="line.740">        }</a>
+<span class="sourceLineNo">741</span><a id="line.741">        return false;</a>
+<span class="sourceLineNo">742</span><a id="line.742">      }</a>
+<span class="sourceLineNo">743</span><a id="line.743"></a>
+<span class="sourceLineNo">744</span><a id="line.744">      @Override</a>
+<span class="sourceLineNo">745</span><a id="line.745">      Splitr createSplit(Spliterator.OfDouble from, long i) {</a>
+<span class="sourceLineNo">746</span><a id="line.746">        return new Splitr(from, i);</a>
+<span class="sourceLineNo">747</span><a id="line.747">      }</a>
+<span class="sourceLineNo">748</span><a id="line.748">    }</a>
+<span class="sourceLineNo">749</span><a id="line.749">    return StreamSupport.stream(new Splitr(fromSpliterator, 0), isParallel).onClose(stream::close);</a>
 <span class="sourceLineNo">750</span><a id="line.750">  }</a>
 <span class="sourceLineNo">751</span><a id="line.751"></a>
-<span class="sourceLineNo">752</span><a id="line.752">  private abstract static class MapWithIndexSpliterator&lt;</a>
-<span class="sourceLineNo">753</span><a id="line.753">          F extends Spliterator&lt;?&gt;,</a>
-<span class="sourceLineNo">754</span><a id="line.754">          R extends @Nullable Object,</a>
-<span class="sourceLineNo">755</span><a id="line.755">          S extends MapWithIndexSpliterator&lt;F, R, S&gt;&gt;</a>
-<span class="sourceLineNo">756</span><a id="line.756">      implements Spliterator&lt;R&gt; {</a>
-<span class="sourceLineNo">757</span><a id="line.757">    final F fromSpliterator;</a>
-<span class="sourceLineNo">758</span><a id="line.758">    long index;</a>
-<span class="sourceLineNo">759</span><a id="line.759"></a>
-<span class="sourceLineNo">760</span><a id="line.760">    MapWithIndexSpliterator(F fromSpliterator, long index) {</a>
-<span class="sourceLineNo">761</span><a id="line.761">      this.fromSpliterator = fromSpliterator;</a>
-<span class="sourceLineNo">762</span><a id="line.762">      this.index = index;</a>
-<span class="sourceLineNo">763</span><a id="line.763">    }</a>
-<span class="sourceLineNo">764</span><a id="line.764"></a>
-<span class="sourceLineNo">765</span><a id="line.765">    abstract S createSplit(F from, long i);</a>
-<span class="sourceLineNo">766</span><a id="line.766"></a>
-<span class="sourceLineNo">767</span><a id="line.767">    @Override</a>
-<span class="sourceLineNo">768</span><a id="line.768">    @CheckForNull</a>
-<span class="sourceLineNo">769</span><a id="line.769">    public S trySplit() {</a>
-<span class="sourceLineNo">770</span><a id="line.770">      Spliterator&lt;?&gt; splitOrNull = fromSpliterator.trySplit();</a>
-<span class="sourceLineNo">771</span><a id="line.771">      if (splitOrNull == null) {</a>
-<span class="sourceLineNo">772</span><a id="line.772">        return null;</a>
-<span class="sourceLineNo">773</span><a id="line.773">      }</a>
-<span class="sourceLineNo">774</span><a id="line.774">      @SuppressWarnings("unchecked")</a>
-<span class="sourceLineNo">775</span><a id="line.775">      F split = (F) splitOrNull;</a>
-<span class="sourceLineNo">776</span><a id="line.776">      S result = createSplit(split, index);</a>
-<span class="sourceLineNo">777</span><a id="line.777">      this.index += split.getExactSizeIfKnown();</a>
-<span class="sourceLineNo">778</span><a id="line.778">      return result;</a>
-<span class="sourceLineNo">779</span><a id="line.779">    }</a>
+<span class="sourceLineNo">752</span><a id="line.752">  /**</a>
+<span class="sourceLineNo">753</span><a id="line.753">   * An analogue of {@link java.util.function.Function} also accepting an index.</a>
+<span class="sourceLineNo">754</span><a id="line.754">   *</a>
+<span class="sourceLineNo">755</span><a id="line.755">   * &lt;p&gt;This interface is only intended for use by callers of {@link #mapWithIndex(Stream,</a>
+<span class="sourceLineNo">756</span><a id="line.756">   * FunctionWithIndex)}.</a>
+<span class="sourceLineNo">757</span><a id="line.757">   *</a>
+<span class="sourceLineNo">758</span><a id="line.758">   * @since 21.0</a>
+<span class="sourceLineNo">759</span><a id="line.759">   */</a>
+<span class="sourceLineNo">760</span><a id="line.760">  public interface FunctionWithIndex&lt;T extends @Nullable Object, R extends @Nullable Object&gt; {</a>
+<span class="sourceLineNo">761</span><a id="line.761">    /** Applies this function to the given argument and its index within a stream. */</a>
+<span class="sourceLineNo">762</span><a id="line.762">    @ParametricNullness</a>
+<span class="sourceLineNo">763</span><a id="line.763">    R apply(@ParametricNullness T from, long index);</a>
+<span class="sourceLineNo">764</span><a id="line.764">  }</a>
+<span class="sourceLineNo">765</span><a id="line.765"></a>
+<span class="sourceLineNo">766</span><a id="line.766">  private abstract static class MapWithIndexSpliterator&lt;</a>
+<span class="sourceLineNo">767</span><a id="line.767">          F extends Spliterator&lt;?&gt;,</a>
+<span class="sourceLineNo">768</span><a id="line.768">          R extends @Nullable Object,</a>
+<span class="sourceLineNo">769</span><a id="line.769">          S extends MapWithIndexSpliterator&lt;F, R, S&gt;&gt;</a>
+<span class="sourceLineNo">770</span><a id="line.770">      implements Spliterator&lt;R&gt; {</a>
+<span class="sourceLineNo">771</span><a id="line.771">    final F fromSpliterator;</a>
+<span class="sourceLineNo">772</span><a id="line.772">    long index;</a>
+<span class="sourceLineNo">773</span><a id="line.773"></a>
+<span class="sourceLineNo">774</span><a id="line.774">    MapWithIndexSpliterator(F fromSpliterator, long index) {</a>
+<span class="sourceLineNo">775</span><a id="line.775">      this.fromSpliterator = fromSpliterator;</a>
+<span class="sourceLineNo">776</span><a id="line.776">      this.index = index;</a>
+<span class="sourceLineNo">777</span><a id="line.777">    }</a>
+<span class="sourceLineNo">778</span><a id="line.778"></a>
+<span class="sourceLineNo">779</span><a id="line.779">    abstract S createSplit(F from, long i);</a>
 <span class="sourceLineNo">780</span><a id="line.780"></a>
 <span class="sourceLineNo">781</span><a id="line.781">    @Override</a>
-<span class="sourceLineNo">782</span><a id="line.782">    public long estimateSize() {</a>
-<span class="sourceLineNo">783</span><a id="line.783">      return fromSpliterator.estimateSize();</a>
-<span class="sourceLineNo">784</span><a id="line.784">    }</a>
-<span class="sourceLineNo">785</span><a id="line.785"></a>
-<span class="sourceLineNo">786</span><a id="line.786">    @Override</a>
-<span class="sourceLineNo">787</span><a id="line.787">    public int characteristics() {</a>
-<span class="sourceLineNo">788</span><a id="line.788">      return fromSpliterator.characteristics()</a>
-<span class="sourceLineNo">789</span><a id="line.789">          &amp; (Spliterator.ORDERED | Spliterator.SIZED | Spliterator.SUBSIZED);</a>
-<span class="sourceLineNo">790</span><a id="line.790">    }</a>
-<span class="sourceLineNo">791</span><a id="line.791">  }</a>
-<span class="sourceLineNo">792</span><a id="line.792"></a>
-<span class="sourceLineNo">793</span><a id="line.793">  /**</a>
-<span class="sourceLineNo">794</span><a id="line.794">   * An analogue of {@link java.util.function.IntFunction} also accepting an index.</a>
-<span class="sourceLineNo">795</span><a id="line.795">   *</a>
-<span class="sourceLineNo">796</span><a id="line.796">   * &lt;p&gt;This interface is only intended for use by callers of {@link #mapWithIndex(IntStream,</a>
-<span class="sourceLineNo">797</span><a id="line.797">   * IntFunctionWithIndex)}.</a>
-<span class="sourceLineNo">798</span><a id="line.798">   *</a>
-<span class="sourceLineNo">799</span><a id="line.799">   * @since 21.0</a>
-<span class="sourceLineNo">800</span><a id="line.800">   */</a>
-<span class="sourceLineNo">801</span><a id="line.801">  public interface IntFunctionWithIndex&lt;R extends @Nullable Object&gt; {</a>
-<span class="sourceLineNo">802</span><a id="line.802">    /** Applies this function to the given argument and its index within a stream. */</a>
-<span class="sourceLineNo">803</span><a id="line.803">    @ParametricNullness</a>
-<span class="sourceLineNo">804</span><a id="line.804">    R apply(int from, long index);</a>
+<span class="sourceLineNo">782</span><a id="line.782">    @CheckForNull</a>
+<span class="sourceLineNo">783</span><a id="line.783">    public S trySplit() {</a>
+<span class="sourceLineNo">784</span><a id="line.784">      Spliterator&lt;?&gt; splitOrNull = fromSpliterator.trySplit();</a>
+<span class="sourceLineNo">785</span><a id="line.785">      if (splitOrNull == null) {</a>
+<span class="sourceLineNo">786</span><a id="line.786">        return null;</a>
+<span class="sourceLineNo">787</span><a id="line.787">      }</a>
+<span class="sourceLineNo">788</span><a id="line.788">      @SuppressWarnings("unchecked")</a>
+<span class="sourceLineNo">789</span><a id="line.789">      F split = (F) splitOrNull;</a>
+<span class="sourceLineNo">790</span><a id="line.790">      S result = createSplit(split, index);</a>
+<span class="sourceLineNo">791</span><a id="line.791">      this.index += split.getExactSizeIfKnown();</a>
+<span class="sourceLineNo">792</span><a id="line.792">      return result;</a>
+<span class="sourceLineNo">793</span><a id="line.793">    }</a>
+<span class="sourceLineNo">794</span><a id="line.794"></a>
+<span class="sourceLineNo">795</span><a id="line.795">    @Override</a>
+<span class="sourceLineNo">796</span><a id="line.796">    public long estimateSize() {</a>
+<span class="sourceLineNo">797</span><a id="line.797">      return fromSpliterator.estimateSize();</a>
+<span class="sourceLineNo">798</span><a id="line.798">    }</a>
+<span class="sourceLineNo">799</span><a id="line.799"></a>
+<span class="sourceLineNo">800</span><a id="line.800">    @Override</a>
+<span class="sourceLineNo">801</span><a id="line.801">    public int characteristics() {</a>
+<span class="sourceLineNo">802</span><a id="line.802">      return fromSpliterator.characteristics()</a>
+<span class="sourceLineNo">803</span><a id="line.803">          &amp; (Spliterator.ORDERED | Spliterator.SIZED | Spliterator.SUBSIZED);</a>
+<span class="sourceLineNo">804</span><a id="line.804">    }</a>
 <span class="sourceLineNo">805</span><a id="line.805">  }</a>
 <span class="sourceLineNo">806</span><a id="line.806"></a>
 <span class="sourceLineNo">807</span><a id="line.807">  /**</a>
-<span class="sourceLineNo">808</span><a id="line.808">   * An analogue of {@link java.util.function.LongFunction} also accepting an index.</a>
+<span class="sourceLineNo">808</span><a id="line.808">   * An analogue of {@link java.util.function.IntFunction} also accepting an index.</a>
 <span class="sourceLineNo">809</span><a id="line.809">   *</a>
-<span class="sourceLineNo">810</span><a id="line.810">   * &lt;p&gt;This interface is only intended for use by callers of {@link #mapWithIndex(LongStream,</a>
-<span class="sourceLineNo">811</span><a id="line.811">   * LongFunctionWithIndex)}.</a>
+<span class="sourceLineNo">810</span><a id="line.810">   * &lt;p&gt;This interface is only intended for use by callers of {@link #mapWithIndex(IntStream,</a>
+<span class="sourceLineNo">811</span><a id="line.811">   * IntFunctionWithIndex)}.</a>
 <span class="sourceLineNo">812</span><a id="line.812">   *</a>
 <span class="sourceLineNo">813</span><a id="line.813">   * @since 21.0</a>
 <span class="sourceLineNo">814</span><a id="line.814">   */</a>
-<span class="sourceLineNo">815</span><a id="line.815">  public interface LongFunctionWithIndex&lt;R extends @Nullable Object&gt; {</a>
+<span class="sourceLineNo">815</span><a id="line.815">  public interface IntFunctionWithIndex&lt;R extends @Nullable Object&gt; {</a>
 <span class="sourceLineNo">816</span><a id="line.816">    /** Applies this function to the given argument and its index within a stream. */</a>
 <span class="sourceLineNo">817</span><a id="line.817">    @ParametricNullness</a>
-<span class="sourceLineNo">818</span><a id="line.818">    R apply(long from, long index);</a>
+<span class="sourceLineNo">818</span><a id="line.818">    R apply(int from, long index);</a>
 <span class="sourceLineNo">819</span><a id="line.819">  }</a>
 <span class="sourceLineNo">820</span><a id="line.820"></a>
 <span class="sourceLineNo">821</span><a id="line.821">  /**</a>
-<span class="sourceLineNo">822</span><a id="line.822">   * An analogue of {@link java.util.function.DoubleFunction} also accepting an index.</a>
+<span class="sourceLineNo">822</span><a id="line.822">   * An analogue of {@link java.util.function.LongFunction} also accepting an index.</a>
 <span class="sourceLineNo">823</span><a id="line.823">   *</a>
-<span class="sourceLineNo">824</span><a id="line.824">   * &lt;p&gt;This interface is only intended for use by callers of {@link #mapWithIndex(DoubleStream,</a>
-<span class="sourceLineNo">825</span><a id="line.825">   * DoubleFunctionWithIndex)}.</a>
+<span class="sourceLineNo">824</span><a id="line.824">   * &lt;p&gt;This interface is only intended for use by callers of {@link #mapWithIndex(LongStream,</a>
+<span class="sourceLineNo">825</span><a id="line.825">   * LongFunctionWithIndex)}.</a>
 <span class="sourceLineNo">826</span><a id="line.826">   *</a>
 <span class="sourceLineNo">827</span><a id="line.827">   * @since 21.0</a>
 <span class="sourceLineNo">828</span><a id="line.828">   */</a>
-<span class="sourceLineNo">829</span><a id="line.829">  public interface DoubleFunctionWithIndex&lt;R extends @Nullable Object&gt; {</a>
+<span class="sourceLineNo">829</span><a id="line.829">  public interface LongFunctionWithIndex&lt;R extends @Nullable Object&gt; {</a>
 <span class="sourceLineNo">830</span><a id="line.830">    /** Applies this function to the given argument and its index within a stream. */</a>
 <span class="sourceLineNo">831</span><a id="line.831">    @ParametricNullness</a>
-<span class="sourceLineNo">832</span><a id="line.832">    R apply(double from, long index);</a>
+<span class="sourceLineNo">832</span><a id="line.832">    R apply(long from, long index);</a>
 <span class="sourceLineNo">833</span><a id="line.833">  }</a>
 <span class="sourceLineNo">834</span><a id="line.834"></a>
 <span class="sourceLineNo">835</span><a id="line.835">  /**</a>
-<span class="sourceLineNo">836</span><a id="line.836">   * Returns the last element of the specified stream, or {@link java.util.Optional#empty} if the</a>
-<span class="sourceLineNo">837</span><a id="line.837">   * stream is empty.</a>
-<span class="sourceLineNo">838</span><a id="line.838">   *</a>
-<span class="sourceLineNo">839</span><a id="line.839">   * &lt;p&gt;Equivalent to {@code stream.reduce((a, b) -&gt; b)}, but may perform significantly better. This</a>
-<span class="sourceLineNo">840</span><a id="line.840">   * method's runtime will be between O(log n) and O(n), performing better on &lt;a</a>
-<span class="sourceLineNo">841</span><a id="line.841">   * href="http://gee.cs.oswego.edu/dl/html/StreamParallelGuidance.html"&gt;efficiently splittable&lt;/a&gt;</a>
-<span class="sourceLineNo">842</span><a id="line.842">   * streams.</a>
-<span class="sourceLineNo">843</span><a id="line.843">   *</a>
-<span class="sourceLineNo">844</span><a id="line.844">   * &lt;p&gt;If the stream has nondeterministic order, this has equivalent semantics to {@link</a>
-<span class="sourceLineNo">845</span><a id="line.845">   * Stream#findAny} (which you might as well use).</a>
-<span class="sourceLineNo">846</span><a id="line.846">   *</a>
-<span class="sourceLineNo">847</span><a id="line.847">   * @see Stream#findFirst()</a>
-<span class="sourceLineNo">848</span><a id="line.848">   * @throws NullPointerException if the last element of the stream is null</a>
-<span class="sourceLineNo">849</span><a id="line.849">   */</a>
-<span class="sourceLineNo">850</span><a id="line.850">  /*</a>
-<span class="sourceLineNo">851</span><a id="line.851">   * By declaring &lt;T&gt; instead of &lt;T extends @Nullable Object&gt;, we declare this method as requiring a</a>
-<span class="sourceLineNo">852</span><a id="line.852">   * stream whose elements are non-null. However, the method goes out of its way to still handle</a>
-<span class="sourceLineNo">853</span><a id="line.853">   * nulls in the stream. This means that the method can safely be used with a stream that contains</a>
-<span class="sourceLineNo">854</span><a id="line.854">   * nulls as long as the *last* element is *not* null.</a>
-<span class="sourceLineNo">855</span><a id="line.855">   *</a>
-<span class="sourceLineNo">856</span><a id="line.856">   * (To "go out of its way," the method tracks a `set` bit so that it can distinguish "the final</a>
-<span class="sourceLineNo">857</span><a id="line.857">   * split has a last element of null, so throw NPE" from "the final split was empty, so look for an</a>
-<span class="sourceLineNo">858</span><a id="line.858">   * element in the prior one.")</a>
-<span class="sourceLineNo">859</span><a id="line.859">   */</a>
-<span class="sourceLineNo">860</span><a id="line.860">  public static &lt;T&gt; java.util.Optional&lt;T&gt; findLast(Stream&lt;T&gt; stream) {</a>
-<span class="sourceLineNo">861</span><a id="line.861">    class OptionalState {</a>
-<span class="sourceLineNo">862</span><a id="line.862">      boolean set = false;</a>
-<span class="sourceLineNo">863</span><a id="line.863">      @CheckForNull T value = null;</a>
-<span class="sourceLineNo">864</span><a id="line.864"></a>
-<span class="sourceLineNo">865</span><a id="line.865">      void set(T value) {</a>
-<span class="sourceLineNo">866</span><a id="line.866">        this.set = true;</a>
-<span class="sourceLineNo">867</span><a id="line.867">        this.value = value;</a>
-<span class="sourceLineNo">868</span><a id="line.868">      }</a>
-<span class="sourceLineNo">869</span><a id="line.869"></a>
-<span class="sourceLineNo">870</span><a id="line.870">      T get() {</a>
-<span class="sourceLineNo">871</span><a id="line.871">        /*</a>
-<span class="sourceLineNo">872</span><a id="line.872">         * requireNonNull is safe because we call get() only if we've previously called set().</a>
-<span class="sourceLineNo">873</span><a id="line.873">         *</a>
-<span class="sourceLineNo">874</span><a id="line.874">         * (For further discussion of nullness, see the comment above the method.)</a>
-<span class="sourceLineNo">875</span><a id="line.875">         */</a>
-<span class="sourceLineNo">876</span><a id="line.876">        return requireNonNull(value);</a>
-<span class="sourceLineNo">877</span><a id="line.877">      }</a>
-<span class="sourceLineNo">878</span><a id="line.878">    }</a>
-<span class="sourceLineNo">879</span><a id="line.879">    OptionalState state = new OptionalState();</a>
-<span class="sourceLineNo">880</span><a id="line.880"></a>
-<span class="sourceLineNo">881</span><a id="line.881">    Deque&lt;Spliterator&lt;T&gt;&gt; splits = new ArrayDeque&lt;&gt;();</a>
-<span class="sourceLineNo">882</span><a id="line.882">    splits.addLast(stream.spliterator());</a>
+<span class="sourceLineNo">836</span><a id="line.836">   * An analogue of {@link java.util.function.DoubleFunction} also accepting an index.</a>
+<span class="sourceLineNo">837</span><a id="line.837">   *</a>
+<span class="sourceLineNo">838</span><a id="line.838">   * &lt;p&gt;This interface is only intended for use by callers of {@link #mapWithIndex(DoubleStream,</a>
+<span class="sourceLineNo">839</span><a id="line.839">   * DoubleFunctionWithIndex)}.</a>
+<span class="sourceLineNo">840</span><a id="line.840">   *</a>
+<span class="sourceLineNo">841</span><a id="line.841">   * @since 21.0</a>
+<span class="sourceLineNo">842</span><a id="line.842">   */</a>
+<span class="sourceLineNo">843</span><a id="line.843">  public interface DoubleFunctionWithIndex&lt;R extends @Nullable Object&gt; {</a>
+<span class="sourceLineNo">844</span><a id="line.844">    /** Applies this function to the given argument and its index within a stream. */</a>
+<span class="sourceLineNo">845</span><a id="line.845">    @ParametricNullness</a>
+<span class="sourceLineNo">846</span><a id="line.846">    R apply(double from, long index);</a>
+<span class="sourceLineNo">847</span><a id="line.847">  }</a>
+<span class="sourceLineNo">848</span><a id="line.848"></a>
+<span class="sourceLineNo">849</span><a id="line.849">  /**</a>
+<span class="sourceLineNo">850</span><a id="line.850">   * Returns the last element of the specified stream, or {@link java.util.Optional#empty} if the</a>
+<span class="sourceLineNo">851</span><a id="line.851">   * stream is empty.</a>
+<span class="sourceLineNo">852</span><a id="line.852">   *</a>
+<span class="sourceLineNo">853</span><a id="line.853">   * &lt;p&gt;Equivalent to {@code stream.reduce((a, b) -&gt; b)}, but may perform significantly better. This</a>
+<span class="sourceLineNo">854</span><a id="line.854">   * method's runtime will be between O(log n) and O(n), performing better on &lt;a</a>
+<span class="sourceLineNo">855</span><a id="line.855">   * href="http://gee.cs.oswego.edu/dl/html/StreamParallelGuidance.html"&gt;efficiently splittable&lt;/a&gt;</a>
+<span class="sourceLineNo">856</span><a id="line.856">   * streams.</a>
+<span class="sourceLineNo">857</span><a id="line.857">   *</a>
+<span class="sourceLineNo">858</span><a id="line.858">   * &lt;p&gt;If the stream has nondeterministic order, this has equivalent semantics to {@link</a>
+<span class="sourceLineNo">859</span><a id="line.859">   * Stream#findAny} (which you might as well use).</a>
+<span class="sourceLineNo">860</span><a id="line.860">   *</a>
+<span class="sourceLineNo">861</span><a id="line.861">   * @see Stream#findFirst()</a>
+<span class="sourceLineNo">862</span><a id="line.862">   * @throws NullPointerException if the last element of the stream is null</a>
+<span class="sourceLineNo">863</span><a id="line.863">   */</a>
+<span class="sourceLineNo">864</span><a id="line.864">  /*</a>
+<span class="sourceLineNo">865</span><a id="line.865">   * By declaring &lt;T&gt; instead of &lt;T extends @Nullable Object&gt;, we declare this method as requiring a</a>
+<span class="sourceLineNo">866</span><a id="line.866">   * stream whose elements are non-null. However, the method goes out of its way to still handle</a>
+<span class="sourceLineNo">867</span><a id="line.867">   * nulls in the stream. This means that the method can safely be used with a stream that contains</a>
+<span class="sourceLineNo">868</span><a id="line.868">   * nulls as long as the *last* element is *not* null.</a>
+<span class="sourceLineNo">869</span><a id="line.869">   *</a>
+<span class="sourceLineNo">870</span><a id="line.870">   * (To "go out of its way," the method tracks a `set` bit so that it can distinguish "the final</a>
+<span class="sourceLineNo">871</span><a id="line.871">   * split has a last element of null, so throw NPE" from "the final split was empty, so look for an</a>
+<span class="sourceLineNo">872</span><a id="line.872">   * element in the prior one.")</a>
+<span class="sourceLineNo">873</span><a id="line.873">   */</a>
+<span class="sourceLineNo">874</span><a id="line.874">  public static &lt;T&gt; java.util.Optional&lt;T&gt; findLast(Stream&lt;T&gt; stream) {</a>
+<span class="sourceLineNo">875</span><a id="line.875">    class OptionalState {</a>
+<span class="sourceLineNo">876</span><a id="line.876">      boolean set = false;</a>
+<span class="sourceLineNo">877</span><a id="line.877">      @CheckForNull T value = null;</a>
+<span class="sourceLineNo">878</span><a id="line.878"></a>
+<span class="sourceLineNo">879</span><a id="line.879">      void set(T value) {</a>
+<span class="sourceLineNo">880</span><a id="line.880">        this.set = true;</a>
+<span class="sourceLineNo">881</span><a id="line.881">        this.value = value;</a>
+<span class="sourceLineNo">882</span><a id="line.882">      }</a>
 <span class="sourceLineNo">883</span><a id="line.883"></a>
-<span class="sourceLineNo">884</span><a id="line.884">    while (!splits.isEmpty()) {</a>
-<span class="sourceLineNo">885</span><a id="line.885">      Spliterator&lt;T&gt; spliterator = splits.removeLast();</a>
-<span class="sourceLineNo">886</span><a id="line.886"></a>
-<span class="sourceLineNo">887</span><a id="line.887">      if (spliterator.getExactSizeIfKnown() == 0) {</a>
-<span class="sourceLineNo">888</span><a id="line.888">        continue; // drop this split</a>
-<span class="sourceLineNo">889</span><a id="line.889">      }</a>
-<span class="sourceLineNo">890</span><a id="line.890"></a>
-<span class="sourceLineNo">891</span><a id="line.891">      // Many spliterators will have trySplits that are SUBSIZED even if they are not themselves</a>
-<span class="sourceLineNo">892</span><a id="line.892">      // SUBSIZED.</a>
-<span class="sourceLineNo">893</span><a id="line.893">      if (spliterator.hasCharacteristics(Spliterator.SUBSIZED)) {</a>
-<span class="sourceLineNo">894</span><a id="line.894">        // we can drill down to exactly the smallest nonempty spliterator</a>
-<span class="sourceLineNo">895</span><a id="line.895">        while (true) {</a>
-<span class="sourceLineNo">896</span><a id="line.896">          Spliterator&lt;T&gt; prefix = spliterator.trySplit();</a>
-<span class="sourceLineNo">897</span><a id="line.897">          if (prefix == null || prefix.getExactSizeIfKnown() == 0) {</a>
-<span class="sourceLineNo">898</span><a id="line.898">            break;</a>
-<span class="sourceLineNo">899</span><a id="line.899">          } else if (spliterator.getExactSizeIfKnown() == 0) {</a>
-<span class="sourceLineNo">900</span><a id="line.900">            spliterator = prefix;</a>
-<span class="sourceLineNo">901</span><a id="line.901">            break;</a>
-<span class="sourceLineNo">902</span><a id="line.902">          }</a>
-<span class="sourceLineNo">903</span><a id="line.903">        }</a>
+<span class="sourceLineNo">884</span><a id="line.884">      T get() {</a>
+<span class="sourceLineNo">885</span><a id="line.885">        /*</a>
+<span class="sourceLineNo">886</span><a id="line.886">         * requireNonNull is safe because we call get() only if we've previously called set().</a>
+<span class="sourceLineNo">887</span><a id="line.887">         *</a>
+<span class="sourceLineNo">888</span><a id="line.888">         * (For further discussion of nullness, see the comment above the method.)</a>
+<span class="sourceLineNo">889</span><a id="line.889">         */</a>
+<span class="sourceLineNo">890</span><a id="line.890">        return requireNonNull(value);</a>
+<span class="sourceLineNo">891</span><a id="line.891">      }</a>
+<span class="sourceLineNo">892</span><a id="line.892">    }</a>
+<span class="sourceLineNo">893</span><a id="line.893">    OptionalState state = new OptionalState();</a>
+<span class="sourceLineNo">894</span><a id="line.894"></a>
+<span class="sourceLineNo">895</span><a id="line.895">    Deque&lt;Spliterator&lt;T&gt;&gt; splits = new ArrayDeque&lt;&gt;();</a>
+<span class="sourceLineNo">896</span><a id="line.896">    splits.addLast(stream.spliterator());</a>
+<span class="sourceLineNo">897</span><a id="line.897"></a>
+<span class="sourceLineNo">898</span><a id="line.898">    while (!splits.isEmpty()) {</a>
+<span class="sourceLineNo">899</span><a id="line.899">      Spliterator&lt;T&gt; spliterator = splits.removeLast();</a>
+<span class="sourceLineNo">900</span><a id="line.900"></a>
+<span class="sourceLineNo">901</span><a id="line.901">      if (spliterator.getExactSizeIfKnown() == 0) {</a>
+<span class="sourceLineNo">902</span><a id="line.902">        continue; // drop this split</a>
+<span class="sourceLineNo">903</span><a id="line.903">      }</a>
 <span class="sourceLineNo">904</span><a id="line.904"></a>
-<span class="sourceLineNo">905</span><a id="line.905">        // spliterator is known to be nonempty now</a>
-<span class="sourceLineNo">906</span><a id="line.906">        spliterator.forEachRemaining(state::set);</a>
-<span class="sourceLineNo">907</span><a id="line.907">        return java.util.Optional.of(state.get());</a>
-<span class="sourceLineNo">908</span><a id="line.908">      }</a>
-<span class="sourceLineNo">909</span><a id="line.909"></a>
-<span class="sourceLineNo">910</span><a id="line.910">      Spliterator&lt;T&gt; prefix = spliterator.trySplit();</a>
-<span class="sourceLineNo">911</span><a id="line.911">      if (prefix == null || prefix.getExactSizeIfKnown() == 0) {</a>
-<span class="sourceLineNo">912</span><a id="line.912">        // we can't split this any further</a>
-<span class="sourceLineNo">913</span><a id="line.913">        spliterator.forEachRemaining(state::set);</a>
-<span class="sourceLineNo">914</span><a id="line.914">        if (state.set) {</a>
-<span class="sourceLineNo">915</span><a id="line.915">          return java.util.Optional.of(state.get());</a>
-<span class="sourceLineNo">916</span><a id="line.916">        }</a>
-<span class="sourceLineNo">917</span><a id="line.917">        // fall back to the last split</a>
-<span class="sourceLineNo">918</span><a id="line.918">        continue;</a>
-<span class="sourceLineNo">919</span><a id="line.919">      }</a>
-<span class="sourceLineNo">920</span><a id="line.920">      splits.addLast(prefix);</a>
-<span class="sourceLineNo">921</span><a id="line.921">      splits.addLast(spliterator);</a>
-<span class="sourceLineNo">922</span><a id="line.922">    }</a>
-<span class="sourceLineNo">923</span><a id="line.923">    return java.util.Optional.empty();</a>
-<span class="sourceLineNo">924</span><a id="line.924">  }</a>
-<span class="sourceLineNo">925</span><a id="line.925"></a>
-<span class="sourceLineNo">926</span><a id="line.926">  /**</a>
-<span class="sourceLineNo">927</span><a id="line.927">   * Returns the last element of the specified stream, or {@link OptionalInt#empty} if the stream is</a>
-<span class="sourceLineNo">928</span><a id="line.928">   * empty.</a>
-<span class="sourceLineNo">929</span><a id="line.929">   *</a>
-<span class="sourceLineNo">930</span><a id="line.930">   * &lt;p&gt;Equivalent to {@code stream.reduce((a, b) -&gt; b)}, but may perform significantly better. This</a>
-<span class="sourceLineNo">931</span><a id="line.931">   * method's runtime will be between O(log n) and O(n), performing better on &lt;a</a>
-<span class="sourceLineNo">932</span><a id="line.932">   * href="http://gee.cs.oswego.edu/dl/html/StreamParallelGuidance.html"&gt;efficiently splittable&lt;/a&gt;</a>
-<span class="sourceLineNo">933</span><a id="line.933">   * streams.</a>
-<span class="sourceLineNo">934</span><a id="line.934">   *</a>
-<span class="sourceLineNo">935</span><a id="line.935">   * @see IntStream#findFirst()</a>
-<span class="sourceLineNo">936</span><a id="line.936">   * @throws NullPointerException if the last element of the stream is null</a>
-<span class="sourceLineNo">937</span><a id="line.937">   */</a>
-<span class="sourceLineNo">938</span><a id="line.938">  public static OptionalInt findLast(IntStream stream) {</a>
-<span class="sourceLineNo">939</span><a id="line.939">    // findLast(Stream) does some allocation, so we might as well box some more</a>
-<span class="sourceLineNo">940</span><a id="line.940">    java.util.Optional&lt;Integer&gt; boxedLast = findLast(stream.boxed());</a>
-<span class="sourceLineNo">941</span><a id="line.941">    return boxedLast.map(OptionalInt::of).orElseGet(OptionalInt::empty);</a>
-<span class="sourceLineNo">942</span><a id="line.942">  }</a>
-<span class="sourceLineNo">943</span><a id="line.943"></a>
-<span class="sourceLineNo">944</span><a id="line.944">  /**</a>
-<span class="sourceLineNo">945</span><a id="line.945">   * Returns the last element of the specified stream, or {@link OptionalLong#empty} if the stream</a>
-<span class="sourceLineNo">946</span><a id="line.946">   * is empty.</a>
-<span class="sourceLineNo">947</span><a id="line.947">   *</a>
-<span class="sourceLineNo">948</span><a id="line.948">   * &lt;p&gt;Equivalent to {@code stream.reduce((a, b) -&gt; b)}, but may perform significantly better. This</a>
-<span class="sourceLineNo">949</span><a id="line.949">   * method's runtime will be between O(log n) and O(n), performing better on &lt;a</a>
-<span class="sourceLineNo">950</span><a id="line.950">   * href="http://gee.cs.oswego.edu/dl/html/StreamParallelGuidance.html"&gt;efficiently splittable&lt;/a&gt;</a>
-<span class="sourceLineNo">951</span><a id="line.951">   * streams.</a>
-<span class="sourceLineNo">952</span><a id="line.952">   *</a>
-<span class="sourceLineNo">953</span><a id="line.953">   * @see LongStream#findFirst()</a>
-<span class="sourceLineNo">954</span><a id="line.954">   * @throws NullPointerException if the last element of the stream is null</a>
-<span class="sourceLineNo">955</span><a id="line.955">   */</a>
-<span class="sourceLineNo">956</span><a id="line.956">  public static OptionalLong findLast(LongStream stream) {</a>
-<span class="sourceLineNo">957</span><a id="line.957">    // findLast(Stream) does some allocation, so we might as well box some more</a>
-<span class="sourceLineNo">958</span><a id="line.958">    java.util.Optional&lt;Long&gt; boxedLast = findLast(stream.boxed());</a>
-<span class="sourceLineNo">959</span><a id="line.959">    return boxedLast.map(OptionalLong::of).orElseGet(OptionalLong::empty);</a>
-<span class="sourceLineNo">960</span><a id="line.960">  }</a>
-<span class="sourceLineNo">961</span><a id="line.961"></a>
-<span class="sourceLineNo">962</span><a id="line.962">  /**</a>
-<span class="sourceLineNo">963</span><a id="line.963">   * Returns the last element of the specified stream, or {@link OptionalDouble#empty} if the stream</a>
-<span class="sourceLineNo">964</span><a id="line.964">   * is empty.</a>
-<span class="sourceLineNo">965</span><a id="line.965">   *</a>
-<span class="sourceLineNo">966</span><a id="line.966">   * &lt;p&gt;Equivalent to {@code stream.reduce((a, b) -&gt; b)}, but may perform significantly better. This</a>
-<span class="sourceLineNo">967</span><a id="line.967">   * method's runtime will be between O(log n) and O(n), performing better on &lt;a</a>
-<span class="sourceLineNo">968</span><a id="line.968">   * href="http://gee.cs.oswego.edu/dl/html/StreamParallelGuidance.html"&gt;efficiently splittable&lt;/a&gt;</a>
-<span class="sourceLineNo">969</span><a id="line.969">   * streams.</a>
-<span class="sourceLineNo">970</span><a id="line.970">   *</a>
-<span class="sourceLineNo">971</span><a id="line.971">   * @see DoubleStream#findFirst()</a>
-<span class="sourceLineNo">972</span><a id="line.972">   * @throws NullPointerException if the last element of the stream is null</a>
-<span class="sourceLineNo">973</span><a id="line.973">   */</a>
-<span class="sourceLineNo">974</span><a id="line.974">  public static OptionalDouble findLast(DoubleStream stream) {</a>
-<span class="sourceLineNo">975</span><a id="line.975">    // findLast(Stream) does some allocation, so we might as well box some more</a>
-<span class="sourceLineNo">976</span><a id="line.976">    java.util.Optional&lt;Double&gt; boxedLast = findLast(stream.boxed());</a>
-<span class="sourceLineNo">977</span><a id="line.977">    return boxedLast.map(OptionalDouble::of).orElseGet(OptionalDouble::empty);</a>
-<span class="sourceLineNo">978</span><a id="line.978">  }</a>
-<span class="sourceLineNo">979</span><a id="line.979"></a>
-<span class="sourceLineNo">980</span><a id="line.980">  private Streams() {}</a>
-<span class="sourceLineNo">981</span><a id="line.981">}</a>
+<span class="sourceLineNo">905</span><a id="line.905">      // Many spliterators will have trySplits that are SUBSIZED even if they are not themselves</a>
+<span class="sourceLineNo">906</span><a id="line.906">      // SUBSIZED.</a>
+<span class="sourceLineNo">907</span><a id="line.907">      if (spliterator.hasCharacteristics(Spliterator.SUBSIZED)) {</a>
+<span class="sourceLineNo">908</span><a id="line.908">        // we can drill down to exactly the smallest nonempty spliterator</a>
+<span class="sourceLineNo">909</span><a id="line.909">        while (true) {</a>
+<span class="sourceLineNo">910</span><a id="line.910">          Spliterator&lt;T&gt; prefix = spliterator.trySplit();</a>
+<span class="sourceLineNo">911</span><a id="line.911">          if (prefix == null || prefix.getExactSizeIfKnown() == 0) {</a>
+<span class="sourceLineNo">912</span><a id="line.912">            break;</a>
+<span class="sourceLineNo">913</span><a id="line.913">          } else if (spliterator.getExactSizeIfKnown() == 0) {</a>
+<span class="sourceLineNo">914</span><a id="line.914">            spliterator = prefix;</a>
+<span class="sourceLineNo">915</span><a id="line.915">            break;</a>
+<span class="sourceLineNo">916</span><a id="line.916">          }</a>
+<span class="sourceLineNo">917</span><a id="line.917">        }</a>
+<span class="sourceLineNo">918</span><a id="line.918"></a>
+<span class="sourceLineNo">919</span><a id="line.919">        // spliterator is known to be nonempty now</a>
+<span class="sourceLineNo">920</span><a id="line.920">        spliterator.forEachRemaining(state::set);</a>
+<span class="sourceLineNo">921</span><a id="line.921">        return java.util.Optional.of(state.get());</a>
+<span class="sourceLineNo">922</span><a id="line.922">      }</a>
+<span class="sourceLineNo">923</span><a id="line.923"></a>
+<span class="sourceLineNo">924</span><a id="line.924">      Spliterator&lt;T&gt; prefix = spliterator.trySplit();</a>
+<span class="sourceLineNo">925</span><a id="line.925">      if (prefix == null || prefix.getExactSizeIfKnown() == 0) {</a>
+<span class="sourceLineNo">926</span><a id="line.926">        // we can't split this any further</a>
+<span class="sourceLineNo">927</span><a id="line.927">        spliterator.forEachRemaining(state::set);</a>
+<span class="sourceLineNo">928</span><a id="line.928">        if (state.set) {</a>
+<span class="sourceLineNo">929</span><a id="line.929">          return java.util.Optional.of(state.get());</a>
+<span class="sourceLineNo">930</span><a id="line.930">        }</a>
+<span class="sourceLineNo">931</span><a id="line.931">        // fall back to the last split</a>
+<span class="sourceLineNo">932</span><a id="line.932">        continue;</a>
+<span class="sourceLineNo">933</span><a id="line.933">      }</a>
+<span class="sourceLineNo">934</span><a id="line.934">      splits.addLast(prefix);</a>
+<span class="sourceLineNo">935</span><a id="line.935">      splits.addLast(spliterator);</a>
+<span class="sourceLineNo">936</span><a id="line.936">    }</a>
+<span class="sourceLineNo">937</span><a id="line.937">    return java.util.Optional.empty();</a>
+<span class="sourceLineNo">938</span><a id="line.938">  }</a>
+<span class="sourceLineNo">939</span><a id="line.939"></a>
+<span class="sourceLineNo">940</span><a id="line.940">  /**</a>
+<span class="sourceLineNo">941</span><a id="line.941">   * Returns the last element of the specified stream, or {@link OptionalInt#empty} if the stream is</a>
+<span class="sourceLineNo">942</span><a id="line.942">   * empty.</a>
+<span class="sourceLineNo">943</span><a id="line.943">   *</a>
+<span class="sourceLineNo">944</span><a id="line.944">   * &lt;p&gt;Equivalent to {@code stream.reduce((a, b) -&gt; b)}, but may perform significantly better. This</a>
+<span class="sourceLineNo">945</span><a id="line.945">   * method's runtime will be between O(log n) and O(n), performing better on &lt;a</a>
+<span class="sourceLineNo">946</span><a id="line.946">   * href="http://gee.cs.oswego.edu/dl/html/StreamParallelGuidance.html"&gt;efficiently splittable&lt;/a&gt;</a>
+<span class="sourceLineNo">947</span><a id="line.947">   * streams.</a>
+<span class="sourceLineNo">948</span><a id="line.948">   *</a>
+<span class="sourceLineNo">949</span><a id="line.949">   * @see IntStream#findFirst()</a>
+<span class="sourceLineNo">950</span><a id="line.950">   * @throws NullPointerException if the last element of the stream is null</a>
+<span class="sourceLineNo">951</span><a id="line.951">   */</a>
+<span class="sourceLineNo">952</span><a id="line.952">  public static OptionalInt findLast(IntStream stream) {</a>
+<span class="sourceLineNo">953</span><a id="line.953">    // findLast(Stream) does some allocation, so we might as well box some more</a>
+<span class="sourceLineNo">954</span><a id="line.954">    java.util.Optional&lt;Integer&gt; boxedLast = findLast(stream.boxed());</a>
+<span class="sourceLineNo">955</span><a id="line.955">    return boxedLast.map(OptionalInt::of).orElseGet(OptionalInt::empty);</a>
+<span class="sourceLineNo">956</span><a id="line.956">  }</a>
+<span class="sourceLineNo">957</span><a id="line.957"></a>
+<span class="sourceLineNo">958</span><a id="line.958">  /**</a>
+<span class="sourceLineNo">959</span><a id="line.959">   * Returns the last element of the specified stream, or {@link OptionalLong#empty} if the stream</a>
+<span class="sourceLineNo">960</span><a id="line.960">   * is empty.</a>
+<span class="sourceLineNo">961</span><a id="line.961">   *</a>
+<span class="sourceLineNo">962</span><a id="line.962">   * &lt;p&gt;Equivalent to {@code stream.reduce((a, b) -&gt; b)}, but may perform significantly better. This</a>
+<span class="sourceLineNo">963</span><a id="line.963">   * method's runtime will be between O(log n) and O(n), performing better on &lt;a</a>
+<span class="sourceLineNo">964</span><a id="line.964">   * href="http://gee.cs.oswego.edu/dl/html/StreamParallelGuidance.html"&gt;efficiently splittable&lt;/a&gt;</a>
+<span class="sourceLineNo">965</span><a id="line.965">   * streams.</a>
+<span class="sourceLineNo">966</span><a id="line.966">   *</a>
+<span class="sourceLineNo">967</span><a id="line.967">   * @see LongStream#findFirst()</a>
+<span class="sourceLineNo">968</span><a id="line.968">   * @throws NullPointerException if the last element of the stream is null</a>
+<span class="sourceLineNo">969</span><a id="line.969">   */</a>
+<span class="sourceLineNo">970</span><a id="line.970">  public static OptionalLong findLast(LongStream stream) {</a>
+<span class="sourceLineNo">971</span><a id="line.971">    // findLast(Stream) does some allocation, so we might as well box some more</a>
+<span class="sourceLineNo">972</span><a id="line.972">    java.util.Optional&lt;Long&gt; boxedLast = findLast(stream.boxed());</a>
+<span class="sourceLineNo">973</span><a id="line.973">    return boxedLast.map(OptionalLong::of).orElseGet(OptionalLong::empty);</a>
+<span class="sourceLineNo">974</span><a id="line.974">  }</a>
+<span class="sourceLineNo">975</span><a id="line.975"></a>
+<span class="sourceLineNo">976</span><a id="line.976">  /**</a>
+<span class="sourceLineNo">977</span><a id="line.977">   * Returns the last element of the specified stream, or {@link OptionalDouble#empty} if the stream</a>
+<span class="sourceLineNo">978</span><a id="line.978">   * is empty.</a>
+<span class="sourceLineNo">979</span><a id="line.979">   *</a>
+<span class="sourceLineNo">980</span><a id="line.980">   * &lt;p&gt;Equivalent to {@code stream.reduce((a, b) -&gt; b)}, but may perform significantly better. This</a>
+<span class="sourceLineNo">981</span><a id="line.981">   * method's runtime will be between O(log n) and O(n), performing better on &lt;a</a>
+<span class="sourceLineNo">982</span><a id="line.982">   * href="http://gee.cs.oswego.edu/dl/html/StreamParallelGuidance.html"&gt;efficiently splittable&lt;/a&gt;</a>
+<span class="sourceLineNo">983</span><a id="line.983">   * streams.</a>
+<span class="sourceLineNo">984</span><a id="line.984">   *</a>
+<span class="sourceLineNo">985</span><a id="line.985">   * @see DoubleStream#findFirst()</a>
+<span class="sourceLineNo">986</span><a id="line.986">   * @throws NullPointerException if the last element of the stream is null</a>
+<span class="sourceLineNo">987</span><a id="line.987">   */</a>
+<span class="sourceLineNo">988</span><a id="line.988">  public static OptionalDouble findLast(DoubleStream stream) {</a>
+<span class="sourceLineNo">989</span><a id="line.989">    // findLast(Stream) does some allocation, so we might as well box some more</a>
+<span class="sourceLineNo">990</span><a id="line.990">    java.util.Optional&lt;Double&gt; boxedLast = findLast(stream.boxed());</a>
+<span class="sourceLineNo">991</span><a id="line.991">    return boxedLast.map(OptionalDouble::of).orElseGet(OptionalDouble::empty);</a>
+<span class="sourceLineNo">992</span><a id="line.992">  }</a>
+<span class="sourceLineNo">993</span><a id="line.993"></a>
+<span class="sourceLineNo">994</span><a id="line.994">  private Streams() {}</a>
+<span class="sourceLineNo">995</span><a id="line.995">}</a>
 
 
 

@@ -539,45 +539,48 @@
 <span class="sourceLineNo">530</span><a id="line.530">   * @throws IOException if the InputStream throws an {@code IOException}, or if its data does not</a>
 <span class="sourceLineNo">531</span><a id="line.531">   *     appear to be a BloomFilter serialized using the {@linkplain #writeTo(OutputStream)} method.</a>
 <span class="sourceLineNo">532</span><a id="line.532">   */</a>
-<span class="sourceLineNo">533</span><a id="line.533">  public static &lt;T extends @Nullable Object&gt; BloomFilter&lt;T&gt; readFrom(</a>
-<span class="sourceLineNo">534</span><a id="line.534">      InputStream in, Funnel&lt;? super T&gt; funnel) throws IOException {</a>
-<span class="sourceLineNo">535</span><a id="line.535">    checkNotNull(in, "InputStream");</a>
-<span class="sourceLineNo">536</span><a id="line.536">    checkNotNull(funnel, "Funnel");</a>
-<span class="sourceLineNo">537</span><a id="line.537">    int strategyOrdinal = -1;</a>
-<span class="sourceLineNo">538</span><a id="line.538">    int numHashFunctions = -1;</a>
-<span class="sourceLineNo">539</span><a id="line.539">    int dataLength = -1;</a>
-<span class="sourceLineNo">540</span><a id="line.540">    try {</a>
-<span class="sourceLineNo">541</span><a id="line.541">      DataInputStream din = new DataInputStream(in);</a>
-<span class="sourceLineNo">542</span><a id="line.542">      // currently this assumes there is no negative ordinal; will have to be updated if we</a>
-<span class="sourceLineNo">543</span><a id="line.543">      // add non-stateless strategies (for which we've reserved negative ordinals; see</a>
-<span class="sourceLineNo">544</span><a id="line.544">      // Strategy.ordinal()).</a>
-<span class="sourceLineNo">545</span><a id="line.545">      strategyOrdinal = din.readByte();</a>
-<span class="sourceLineNo">546</span><a id="line.546">      numHashFunctions = UnsignedBytes.toInt(din.readByte());</a>
-<span class="sourceLineNo">547</span><a id="line.547">      dataLength = din.readInt();</a>
-<span class="sourceLineNo">548</span><a id="line.548"></a>
-<span class="sourceLineNo">549</span><a id="line.549">      Strategy strategy = BloomFilterStrategies.values()[strategyOrdinal];</a>
-<span class="sourceLineNo">550</span><a id="line.550"></a>
-<span class="sourceLineNo">551</span><a id="line.551">      LockFreeBitArray dataArray = new LockFreeBitArray(LongMath.checkedMultiply(dataLength, 64L));</a>
-<span class="sourceLineNo">552</span><a id="line.552">      for (int i = 0; i &lt; dataLength; i++) {</a>
-<span class="sourceLineNo">553</span><a id="line.553">        dataArray.putData(i, din.readLong());</a>
-<span class="sourceLineNo">554</span><a id="line.554">      }</a>
-<span class="sourceLineNo">555</span><a id="line.555"></a>
-<span class="sourceLineNo">556</span><a id="line.556">      return new BloomFilter&lt;T&gt;(dataArray, numHashFunctions, funnel, strategy);</a>
-<span class="sourceLineNo">557</span><a id="line.557">    } catch (RuntimeException e) {</a>
-<span class="sourceLineNo">558</span><a id="line.558">      String message =</a>
-<span class="sourceLineNo">559</span><a id="line.559">          "Unable to deserialize BloomFilter from InputStream."</a>
-<span class="sourceLineNo">560</span><a id="line.560">              + " strategyOrdinal: "</a>
-<span class="sourceLineNo">561</span><a id="line.561">              + strategyOrdinal</a>
-<span class="sourceLineNo">562</span><a id="line.562">              + " numHashFunctions: "</a>
-<span class="sourceLineNo">563</span><a id="line.563">              + numHashFunctions</a>
-<span class="sourceLineNo">564</span><a id="line.564">              + " dataLength: "</a>
-<span class="sourceLineNo">565</span><a id="line.565">              + dataLength;</a>
-<span class="sourceLineNo">566</span><a id="line.566">      throw new IOException(message, e);</a>
-<span class="sourceLineNo">567</span><a id="line.567">    }</a>
-<span class="sourceLineNo">568</span><a id="line.568">  }</a>
-<span class="sourceLineNo">569</span><a id="line.569"></a>
-<span class="sourceLineNo">570</span><a id="line.570">  private static final long serialVersionUID = 0xdecaf;</a>
-<span class="sourceLineNo">571</span><a id="line.571">}</a>
+<span class="sourceLineNo">533</span><a id="line.533">  @SuppressWarnings("CatchingUnchecked") // sneaky checked exception</a>
+<span class="sourceLineNo">534</span><a id="line.534">  public static &lt;T extends @Nullable Object&gt; BloomFilter&lt;T&gt; readFrom(</a>
+<span class="sourceLineNo">535</span><a id="line.535">      InputStream in, Funnel&lt;? super T&gt; funnel) throws IOException {</a>
+<span class="sourceLineNo">536</span><a id="line.536">    checkNotNull(in, "InputStream");</a>
+<span class="sourceLineNo">537</span><a id="line.537">    checkNotNull(funnel, "Funnel");</a>
+<span class="sourceLineNo">538</span><a id="line.538">    int strategyOrdinal = -1;</a>
+<span class="sourceLineNo">539</span><a id="line.539">    int numHashFunctions = -1;</a>
+<span class="sourceLineNo">540</span><a id="line.540">    int dataLength = -1;</a>
+<span class="sourceLineNo">541</span><a id="line.541">    try {</a>
+<span class="sourceLineNo">542</span><a id="line.542">      DataInputStream din = new DataInputStream(in);</a>
+<span class="sourceLineNo">543</span><a id="line.543">      // currently this assumes there is no negative ordinal; will have to be updated if we</a>
+<span class="sourceLineNo">544</span><a id="line.544">      // add non-stateless strategies (for which we've reserved negative ordinals; see</a>
+<span class="sourceLineNo">545</span><a id="line.545">      // Strategy.ordinal()).</a>
+<span class="sourceLineNo">546</span><a id="line.546">      strategyOrdinal = din.readByte();</a>
+<span class="sourceLineNo">547</span><a id="line.547">      numHashFunctions = UnsignedBytes.toInt(din.readByte());</a>
+<span class="sourceLineNo">548</span><a id="line.548">      dataLength = din.readInt();</a>
+<span class="sourceLineNo">549</span><a id="line.549"></a>
+<span class="sourceLineNo">550</span><a id="line.550">      Strategy strategy = BloomFilterStrategies.values()[strategyOrdinal];</a>
+<span class="sourceLineNo">551</span><a id="line.551"></a>
+<span class="sourceLineNo">552</span><a id="line.552">      LockFreeBitArray dataArray = new LockFreeBitArray(LongMath.checkedMultiply(dataLength, 64L));</a>
+<span class="sourceLineNo">553</span><a id="line.553">      for (int i = 0; i &lt; dataLength; i++) {</a>
+<span class="sourceLineNo">554</span><a id="line.554">        dataArray.putData(i, din.readLong());</a>
+<span class="sourceLineNo">555</span><a id="line.555">      }</a>
+<span class="sourceLineNo">556</span><a id="line.556"></a>
+<span class="sourceLineNo">557</span><a id="line.557">      return new BloomFilter&lt;T&gt;(dataArray, numHashFunctions, funnel, strategy);</a>
+<span class="sourceLineNo">558</span><a id="line.558">    } catch (IOException e) {</a>
+<span class="sourceLineNo">559</span><a id="line.559">      throw e;</a>
+<span class="sourceLineNo">560</span><a id="line.560">    } catch (Exception e) { // sneaky checked exception</a>
+<span class="sourceLineNo">561</span><a id="line.561">      String message =</a>
+<span class="sourceLineNo">562</span><a id="line.562">          "Unable to deserialize BloomFilter from InputStream."</a>
+<span class="sourceLineNo">563</span><a id="line.563">              + " strategyOrdinal: "</a>
+<span class="sourceLineNo">564</span><a id="line.564">              + strategyOrdinal</a>
+<span class="sourceLineNo">565</span><a id="line.565">              + " numHashFunctions: "</a>
+<span class="sourceLineNo">566</span><a id="line.566">              + numHashFunctions</a>
+<span class="sourceLineNo">567</span><a id="line.567">              + " dataLength: "</a>
+<span class="sourceLineNo">568</span><a id="line.568">              + dataLength;</a>
+<span class="sourceLineNo">569</span><a id="line.569">      throw new IOException(message, e);</a>
+<span class="sourceLineNo">570</span><a id="line.570">    }</a>
+<span class="sourceLineNo">571</span><a id="line.571">  }</a>
+<span class="sourceLineNo">572</span><a id="line.572"></a>
+<span class="sourceLineNo">573</span><a id="line.573">  private static final long serialVersionUID = 0xdecaf;</a>
+<span class="sourceLineNo">574</span><a id="line.574">}</a>
 
 
 
