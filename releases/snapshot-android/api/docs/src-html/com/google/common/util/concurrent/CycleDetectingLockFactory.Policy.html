@@ -719,268 +719,270 @@
 <span class="sourceLineNo">710</span><a id="line.710">   */</a>
 <span class="sourceLineNo">711</span><a id="line.711">  private void aboutToAcquire(CycleDetectingLock lock) {</a>
 <span class="sourceLineNo">712</span><a id="line.712">    if (!lock.isAcquiredByCurrentThread()) {</a>
-<span class="sourceLineNo">713</span><a id="line.713">      ArrayList&lt;LockGraphNode&gt; acquiredLockList = acquiredLocks.get();</a>
-<span class="sourceLineNo">714</span><a id="line.714">      LockGraphNode node = lock.getLockGraphNode();</a>
-<span class="sourceLineNo">715</span><a id="line.715">      node.checkAcquiredLocks(policy, acquiredLockList);</a>
-<span class="sourceLineNo">716</span><a id="line.716">      acquiredLockList.add(node);</a>
-<span class="sourceLineNo">717</span><a id="line.717">    }</a>
-<span class="sourceLineNo">718</span><a id="line.718">  }</a>
-<span class="sourceLineNo">719</span><a id="line.719"></a>
-<span class="sourceLineNo">720</span><a id="line.720">  /**</a>
-<span class="sourceLineNo">721</span><a id="line.721">   * CycleDetectingLock implementations must call this method in a {@code finally} clause after any</a>
-<span class="sourceLineNo">722</span><a id="line.722">   * attempt to change the lock state, including both lock and unlock attempts. Failure to do so can</a>
-<span class="sourceLineNo">723</span><a id="line.723">   * result in corrupting the acquireLocks set.</a>
-<span class="sourceLineNo">724</span><a id="line.724">   */</a>
-<span class="sourceLineNo">725</span><a id="line.725">  private static void lockStateChanged(CycleDetectingLock lock) {</a>
-<span class="sourceLineNo">726</span><a id="line.726">    if (!lock.isAcquiredByCurrentThread()) {</a>
-<span class="sourceLineNo">727</span><a id="line.727">      ArrayList&lt;LockGraphNode&gt; acquiredLockList = acquiredLocks.get();</a>
-<span class="sourceLineNo">728</span><a id="line.728">      LockGraphNode node = lock.getLockGraphNode();</a>
-<span class="sourceLineNo">729</span><a id="line.729">      // Iterate in reverse because locks are usually locked/unlocked in a</a>
-<span class="sourceLineNo">730</span><a id="line.730">      // LIFO order.</a>
-<span class="sourceLineNo">731</span><a id="line.731">      for (int i = acquiredLockList.size() - 1; i &gt;= 0; i--) {</a>
-<span class="sourceLineNo">732</span><a id="line.732">        if (acquiredLockList.get(i) == node) {</a>
-<span class="sourceLineNo">733</span><a id="line.733">          acquiredLockList.remove(i);</a>
-<span class="sourceLineNo">734</span><a id="line.734">          break;</a>
-<span class="sourceLineNo">735</span><a id="line.735">        }</a>
-<span class="sourceLineNo">736</span><a id="line.736">      }</a>
-<span class="sourceLineNo">737</span><a id="line.737">    }</a>
-<span class="sourceLineNo">738</span><a id="line.738">  }</a>
-<span class="sourceLineNo">739</span><a id="line.739"></a>
-<span class="sourceLineNo">740</span><a id="line.740">  final class CycleDetectingReentrantLock extends ReentrantLock implements CycleDetectingLock {</a>
+<span class="sourceLineNo">713</span><a id="line.713">      // requireNonNull accommodates Android's @RecentlyNullable annotation on ThreadLocal.get</a>
+<span class="sourceLineNo">714</span><a id="line.714">      ArrayList&lt;LockGraphNode&gt; acquiredLockList = requireNonNull(acquiredLocks.get());</a>
+<span class="sourceLineNo">715</span><a id="line.715">      LockGraphNode node = lock.getLockGraphNode();</a>
+<span class="sourceLineNo">716</span><a id="line.716">      node.checkAcquiredLocks(policy, acquiredLockList);</a>
+<span class="sourceLineNo">717</span><a id="line.717">      acquiredLockList.add(node);</a>
+<span class="sourceLineNo">718</span><a id="line.718">    }</a>
+<span class="sourceLineNo">719</span><a id="line.719">  }</a>
+<span class="sourceLineNo">720</span><a id="line.720"></a>
+<span class="sourceLineNo">721</span><a id="line.721">  /**</a>
+<span class="sourceLineNo">722</span><a id="line.722">   * CycleDetectingLock implementations must call this method in a {@code finally} clause after any</a>
+<span class="sourceLineNo">723</span><a id="line.723">   * attempt to change the lock state, including both lock and unlock attempts. Failure to do so can</a>
+<span class="sourceLineNo">724</span><a id="line.724">   * result in corrupting the acquireLocks set.</a>
+<span class="sourceLineNo">725</span><a id="line.725">   */</a>
+<span class="sourceLineNo">726</span><a id="line.726">  private static void lockStateChanged(CycleDetectingLock lock) {</a>
+<span class="sourceLineNo">727</span><a id="line.727">    if (!lock.isAcquiredByCurrentThread()) {</a>
+<span class="sourceLineNo">728</span><a id="line.728">      // requireNonNull accommodates Android's @RecentlyNullable annotation on ThreadLocal.get</a>
+<span class="sourceLineNo">729</span><a id="line.729">      ArrayList&lt;LockGraphNode&gt; acquiredLockList = requireNonNull(acquiredLocks.get());</a>
+<span class="sourceLineNo">730</span><a id="line.730">      LockGraphNode node = lock.getLockGraphNode();</a>
+<span class="sourceLineNo">731</span><a id="line.731">      // Iterate in reverse because locks are usually locked/unlocked in a</a>
+<span class="sourceLineNo">732</span><a id="line.732">      // LIFO order.</a>
+<span class="sourceLineNo">733</span><a id="line.733">      for (int i = acquiredLockList.size() - 1; i &gt;= 0; i--) {</a>
+<span class="sourceLineNo">734</span><a id="line.734">        if (acquiredLockList.get(i) == node) {</a>
+<span class="sourceLineNo">735</span><a id="line.735">          acquiredLockList.remove(i);</a>
+<span class="sourceLineNo">736</span><a id="line.736">          break;</a>
+<span class="sourceLineNo">737</span><a id="line.737">        }</a>
+<span class="sourceLineNo">738</span><a id="line.738">      }</a>
+<span class="sourceLineNo">739</span><a id="line.739">    }</a>
+<span class="sourceLineNo">740</span><a id="line.740">  }</a>
 <span class="sourceLineNo">741</span><a id="line.741"></a>
-<span class="sourceLineNo">742</span><a id="line.742">    private final LockGraphNode lockGraphNode;</a>
+<span class="sourceLineNo">742</span><a id="line.742">  final class CycleDetectingReentrantLock extends ReentrantLock implements CycleDetectingLock {</a>
 <span class="sourceLineNo">743</span><a id="line.743"></a>
-<span class="sourceLineNo">744</span><a id="line.744">    private CycleDetectingReentrantLock(LockGraphNode lockGraphNode, boolean fair) {</a>
-<span class="sourceLineNo">745</span><a id="line.745">      super(fair);</a>
-<span class="sourceLineNo">746</span><a id="line.746">      this.lockGraphNode = Preconditions.checkNotNull(lockGraphNode);</a>
-<span class="sourceLineNo">747</span><a id="line.747">    }</a>
-<span class="sourceLineNo">748</span><a id="line.748"></a>
-<span class="sourceLineNo">749</span><a id="line.749">    ///// CycleDetectingLock methods. /////</a>
+<span class="sourceLineNo">744</span><a id="line.744">    private final LockGraphNode lockGraphNode;</a>
+<span class="sourceLineNo">745</span><a id="line.745"></a>
+<span class="sourceLineNo">746</span><a id="line.746">    private CycleDetectingReentrantLock(LockGraphNode lockGraphNode, boolean fair) {</a>
+<span class="sourceLineNo">747</span><a id="line.747">      super(fair);</a>
+<span class="sourceLineNo">748</span><a id="line.748">      this.lockGraphNode = Preconditions.checkNotNull(lockGraphNode);</a>
+<span class="sourceLineNo">749</span><a id="line.749">    }</a>
 <span class="sourceLineNo">750</span><a id="line.750"></a>
-<span class="sourceLineNo">751</span><a id="line.751">    @Override</a>
-<span class="sourceLineNo">752</span><a id="line.752">    public LockGraphNode getLockGraphNode() {</a>
-<span class="sourceLineNo">753</span><a id="line.753">      return lockGraphNode;</a>
-<span class="sourceLineNo">754</span><a id="line.754">    }</a>
-<span class="sourceLineNo">755</span><a id="line.755"></a>
-<span class="sourceLineNo">756</span><a id="line.756">    @Override</a>
-<span class="sourceLineNo">757</span><a id="line.757">    public boolean isAcquiredByCurrentThread() {</a>
-<span class="sourceLineNo">758</span><a id="line.758">      return isHeldByCurrentThread();</a>
-<span class="sourceLineNo">759</span><a id="line.759">    }</a>
-<span class="sourceLineNo">760</span><a id="line.760"></a>
-<span class="sourceLineNo">761</span><a id="line.761">    ///// Overridden ReentrantLock methods. /////</a>
+<span class="sourceLineNo">751</span><a id="line.751">    ///// CycleDetectingLock methods. /////</a>
+<span class="sourceLineNo">752</span><a id="line.752"></a>
+<span class="sourceLineNo">753</span><a id="line.753">    @Override</a>
+<span class="sourceLineNo">754</span><a id="line.754">    public LockGraphNode getLockGraphNode() {</a>
+<span class="sourceLineNo">755</span><a id="line.755">      return lockGraphNode;</a>
+<span class="sourceLineNo">756</span><a id="line.756">    }</a>
+<span class="sourceLineNo">757</span><a id="line.757"></a>
+<span class="sourceLineNo">758</span><a id="line.758">    @Override</a>
+<span class="sourceLineNo">759</span><a id="line.759">    public boolean isAcquiredByCurrentThread() {</a>
+<span class="sourceLineNo">760</span><a id="line.760">      return isHeldByCurrentThread();</a>
+<span class="sourceLineNo">761</span><a id="line.761">    }</a>
 <span class="sourceLineNo">762</span><a id="line.762"></a>
-<span class="sourceLineNo">763</span><a id="line.763">    @Override</a>
-<span class="sourceLineNo">764</span><a id="line.764">    public void lock() {</a>
-<span class="sourceLineNo">765</span><a id="line.765">      aboutToAcquire(this);</a>
-<span class="sourceLineNo">766</span><a id="line.766">      try {</a>
-<span class="sourceLineNo">767</span><a id="line.767">        super.lock();</a>
-<span class="sourceLineNo">768</span><a id="line.768">      } finally {</a>
-<span class="sourceLineNo">769</span><a id="line.769">        lockStateChanged(this);</a>
-<span class="sourceLineNo">770</span><a id="line.770">      }</a>
-<span class="sourceLineNo">771</span><a id="line.771">    }</a>
-<span class="sourceLineNo">772</span><a id="line.772"></a>
-<span class="sourceLineNo">773</span><a id="line.773">    @Override</a>
-<span class="sourceLineNo">774</span><a id="line.774">    public void lockInterruptibly() throws InterruptedException {</a>
-<span class="sourceLineNo">775</span><a id="line.775">      aboutToAcquire(this);</a>
-<span class="sourceLineNo">776</span><a id="line.776">      try {</a>
-<span class="sourceLineNo">777</span><a id="line.777">        super.lockInterruptibly();</a>
-<span class="sourceLineNo">778</span><a id="line.778">      } finally {</a>
-<span class="sourceLineNo">779</span><a id="line.779">        lockStateChanged(this);</a>
-<span class="sourceLineNo">780</span><a id="line.780">      }</a>
-<span class="sourceLineNo">781</span><a id="line.781">    }</a>
-<span class="sourceLineNo">782</span><a id="line.782"></a>
-<span class="sourceLineNo">783</span><a id="line.783">    @Override</a>
-<span class="sourceLineNo">784</span><a id="line.784">    public boolean tryLock() {</a>
-<span class="sourceLineNo">785</span><a id="line.785">      aboutToAcquire(this);</a>
-<span class="sourceLineNo">786</span><a id="line.786">      try {</a>
-<span class="sourceLineNo">787</span><a id="line.787">        return super.tryLock();</a>
-<span class="sourceLineNo">788</span><a id="line.788">      } finally {</a>
-<span class="sourceLineNo">789</span><a id="line.789">        lockStateChanged(this);</a>
-<span class="sourceLineNo">790</span><a id="line.790">      }</a>
-<span class="sourceLineNo">791</span><a id="line.791">    }</a>
-<span class="sourceLineNo">792</span><a id="line.792"></a>
-<span class="sourceLineNo">793</span><a id="line.793">    @Override</a>
-<span class="sourceLineNo">794</span><a id="line.794">    public boolean tryLock(long timeout, TimeUnit unit) throws InterruptedException {</a>
-<span class="sourceLineNo">795</span><a id="line.795">      aboutToAcquire(this);</a>
-<span class="sourceLineNo">796</span><a id="line.796">      try {</a>
-<span class="sourceLineNo">797</span><a id="line.797">        return super.tryLock(timeout, unit);</a>
-<span class="sourceLineNo">798</span><a id="line.798">      } finally {</a>
-<span class="sourceLineNo">799</span><a id="line.799">        lockStateChanged(this);</a>
-<span class="sourceLineNo">800</span><a id="line.800">      }</a>
-<span class="sourceLineNo">801</span><a id="line.801">    }</a>
-<span class="sourceLineNo">802</span><a id="line.802"></a>
-<span class="sourceLineNo">803</span><a id="line.803">    @Override</a>
-<span class="sourceLineNo">804</span><a id="line.804">    public void unlock() {</a>
-<span class="sourceLineNo">805</span><a id="line.805">      try {</a>
-<span class="sourceLineNo">806</span><a id="line.806">        super.unlock();</a>
-<span class="sourceLineNo">807</span><a id="line.807">      } finally {</a>
-<span class="sourceLineNo">808</span><a id="line.808">        lockStateChanged(this);</a>
-<span class="sourceLineNo">809</span><a id="line.809">      }</a>
-<span class="sourceLineNo">810</span><a id="line.810">    }</a>
-<span class="sourceLineNo">811</span><a id="line.811">  }</a>
-<span class="sourceLineNo">812</span><a id="line.812"></a>
-<span class="sourceLineNo">813</span><a id="line.813">  final class CycleDetectingReentrantReadWriteLock extends ReentrantReadWriteLock</a>
-<span class="sourceLineNo">814</span><a id="line.814">      implements CycleDetectingLock {</a>
-<span class="sourceLineNo">815</span><a id="line.815"></a>
-<span class="sourceLineNo">816</span><a id="line.816">    // These ReadLock/WriteLock implementations shadow those in the</a>
-<span class="sourceLineNo">817</span><a id="line.817">    // ReentrantReadWriteLock superclass. They are simply wrappers around the</a>
-<span class="sourceLineNo">818</span><a id="line.818">    // internal Sync object, so this is safe since the shadowed locks are never</a>
-<span class="sourceLineNo">819</span><a id="line.819">    // exposed or used.</a>
-<span class="sourceLineNo">820</span><a id="line.820">    private final CycleDetectingReentrantReadLock readLock;</a>
-<span class="sourceLineNo">821</span><a id="line.821">    private final CycleDetectingReentrantWriteLock writeLock;</a>
-<span class="sourceLineNo">822</span><a id="line.822"></a>
-<span class="sourceLineNo">823</span><a id="line.823">    private final LockGraphNode lockGraphNode;</a>
+<span class="sourceLineNo">763</span><a id="line.763">    ///// Overridden ReentrantLock methods. /////</a>
+<span class="sourceLineNo">764</span><a id="line.764"></a>
+<span class="sourceLineNo">765</span><a id="line.765">    @Override</a>
+<span class="sourceLineNo">766</span><a id="line.766">    public void lock() {</a>
+<span class="sourceLineNo">767</span><a id="line.767">      aboutToAcquire(this);</a>
+<span class="sourceLineNo">768</span><a id="line.768">      try {</a>
+<span class="sourceLineNo">769</span><a id="line.769">        super.lock();</a>
+<span class="sourceLineNo">770</span><a id="line.770">      } finally {</a>
+<span class="sourceLineNo">771</span><a id="line.771">        lockStateChanged(this);</a>
+<span class="sourceLineNo">772</span><a id="line.772">      }</a>
+<span class="sourceLineNo">773</span><a id="line.773">    }</a>
+<span class="sourceLineNo">774</span><a id="line.774"></a>
+<span class="sourceLineNo">775</span><a id="line.775">    @Override</a>
+<span class="sourceLineNo">776</span><a id="line.776">    public void lockInterruptibly() throws InterruptedException {</a>
+<span class="sourceLineNo">777</span><a id="line.777">      aboutToAcquire(this);</a>
+<span class="sourceLineNo">778</span><a id="line.778">      try {</a>
+<span class="sourceLineNo">779</span><a id="line.779">        super.lockInterruptibly();</a>
+<span class="sourceLineNo">780</span><a id="line.780">      } finally {</a>
+<span class="sourceLineNo">781</span><a id="line.781">        lockStateChanged(this);</a>
+<span class="sourceLineNo">782</span><a id="line.782">      }</a>
+<span class="sourceLineNo">783</span><a id="line.783">    }</a>
+<span class="sourceLineNo">784</span><a id="line.784"></a>
+<span class="sourceLineNo">785</span><a id="line.785">    @Override</a>
+<span class="sourceLineNo">786</span><a id="line.786">    public boolean tryLock() {</a>
+<span class="sourceLineNo">787</span><a id="line.787">      aboutToAcquire(this);</a>
+<span class="sourceLineNo">788</span><a id="line.788">      try {</a>
+<span class="sourceLineNo">789</span><a id="line.789">        return super.tryLock();</a>
+<span class="sourceLineNo">790</span><a id="line.790">      } finally {</a>
+<span class="sourceLineNo">791</span><a id="line.791">        lockStateChanged(this);</a>
+<span class="sourceLineNo">792</span><a id="line.792">      }</a>
+<span class="sourceLineNo">793</span><a id="line.793">    }</a>
+<span class="sourceLineNo">794</span><a id="line.794"></a>
+<span class="sourceLineNo">795</span><a id="line.795">    @Override</a>
+<span class="sourceLineNo">796</span><a id="line.796">    public boolean tryLock(long timeout, TimeUnit unit) throws InterruptedException {</a>
+<span class="sourceLineNo">797</span><a id="line.797">      aboutToAcquire(this);</a>
+<span class="sourceLineNo">798</span><a id="line.798">      try {</a>
+<span class="sourceLineNo">799</span><a id="line.799">        return super.tryLock(timeout, unit);</a>
+<span class="sourceLineNo">800</span><a id="line.800">      } finally {</a>
+<span class="sourceLineNo">801</span><a id="line.801">        lockStateChanged(this);</a>
+<span class="sourceLineNo">802</span><a id="line.802">      }</a>
+<span class="sourceLineNo">803</span><a id="line.803">    }</a>
+<span class="sourceLineNo">804</span><a id="line.804"></a>
+<span class="sourceLineNo">805</span><a id="line.805">    @Override</a>
+<span class="sourceLineNo">806</span><a id="line.806">    public void unlock() {</a>
+<span class="sourceLineNo">807</span><a id="line.807">      try {</a>
+<span class="sourceLineNo">808</span><a id="line.808">        super.unlock();</a>
+<span class="sourceLineNo">809</span><a id="line.809">      } finally {</a>
+<span class="sourceLineNo">810</span><a id="line.810">        lockStateChanged(this);</a>
+<span class="sourceLineNo">811</span><a id="line.811">      }</a>
+<span class="sourceLineNo">812</span><a id="line.812">    }</a>
+<span class="sourceLineNo">813</span><a id="line.813">  }</a>
+<span class="sourceLineNo">814</span><a id="line.814"></a>
+<span class="sourceLineNo">815</span><a id="line.815">  final class CycleDetectingReentrantReadWriteLock extends ReentrantReadWriteLock</a>
+<span class="sourceLineNo">816</span><a id="line.816">      implements CycleDetectingLock {</a>
+<span class="sourceLineNo">817</span><a id="line.817"></a>
+<span class="sourceLineNo">818</span><a id="line.818">    // These ReadLock/WriteLock implementations shadow those in the</a>
+<span class="sourceLineNo">819</span><a id="line.819">    // ReentrantReadWriteLock superclass. They are simply wrappers around the</a>
+<span class="sourceLineNo">820</span><a id="line.820">    // internal Sync object, so this is safe since the shadowed locks are never</a>
+<span class="sourceLineNo">821</span><a id="line.821">    // exposed or used.</a>
+<span class="sourceLineNo">822</span><a id="line.822">    private final CycleDetectingReentrantReadLock readLock;</a>
+<span class="sourceLineNo">823</span><a id="line.823">    private final CycleDetectingReentrantWriteLock writeLock;</a>
 <span class="sourceLineNo">824</span><a id="line.824"></a>
-<span class="sourceLineNo">825</span><a id="line.825">    private CycleDetectingReentrantReadWriteLock(LockGraphNode lockGraphNode, boolean fair) {</a>
-<span class="sourceLineNo">826</span><a id="line.826">      super(fair);</a>
-<span class="sourceLineNo">827</span><a id="line.827">      this.readLock = new CycleDetectingReentrantReadLock(this);</a>
-<span class="sourceLineNo">828</span><a id="line.828">      this.writeLock = new CycleDetectingReentrantWriteLock(this);</a>
-<span class="sourceLineNo">829</span><a id="line.829">      this.lockGraphNode = Preconditions.checkNotNull(lockGraphNode);</a>
-<span class="sourceLineNo">830</span><a id="line.830">    }</a>
-<span class="sourceLineNo">831</span><a id="line.831"></a>
-<span class="sourceLineNo">832</span><a id="line.832">    ///// Overridden ReentrantReadWriteLock methods. /////</a>
+<span class="sourceLineNo">825</span><a id="line.825">    private final LockGraphNode lockGraphNode;</a>
+<span class="sourceLineNo">826</span><a id="line.826"></a>
+<span class="sourceLineNo">827</span><a id="line.827">    private CycleDetectingReentrantReadWriteLock(LockGraphNode lockGraphNode, boolean fair) {</a>
+<span class="sourceLineNo">828</span><a id="line.828">      super(fair);</a>
+<span class="sourceLineNo">829</span><a id="line.829">      this.readLock = new CycleDetectingReentrantReadLock(this);</a>
+<span class="sourceLineNo">830</span><a id="line.830">      this.writeLock = new CycleDetectingReentrantWriteLock(this);</a>
+<span class="sourceLineNo">831</span><a id="line.831">      this.lockGraphNode = Preconditions.checkNotNull(lockGraphNode);</a>
+<span class="sourceLineNo">832</span><a id="line.832">    }</a>
 <span class="sourceLineNo">833</span><a id="line.833"></a>
-<span class="sourceLineNo">834</span><a id="line.834">    @Override</a>
-<span class="sourceLineNo">835</span><a id="line.835">    public ReadLock readLock() {</a>
-<span class="sourceLineNo">836</span><a id="line.836">      return readLock;</a>
-<span class="sourceLineNo">837</span><a id="line.837">    }</a>
-<span class="sourceLineNo">838</span><a id="line.838"></a>
-<span class="sourceLineNo">839</span><a id="line.839">    @Override</a>
-<span class="sourceLineNo">840</span><a id="line.840">    public WriteLock writeLock() {</a>
-<span class="sourceLineNo">841</span><a id="line.841">      return writeLock;</a>
-<span class="sourceLineNo">842</span><a id="line.842">    }</a>
-<span class="sourceLineNo">843</span><a id="line.843"></a>
-<span class="sourceLineNo">844</span><a id="line.844">    ///// CycleDetectingLock methods. /////</a>
+<span class="sourceLineNo">834</span><a id="line.834">    ///// Overridden ReentrantReadWriteLock methods. /////</a>
+<span class="sourceLineNo">835</span><a id="line.835"></a>
+<span class="sourceLineNo">836</span><a id="line.836">    @Override</a>
+<span class="sourceLineNo">837</span><a id="line.837">    public ReadLock readLock() {</a>
+<span class="sourceLineNo">838</span><a id="line.838">      return readLock;</a>
+<span class="sourceLineNo">839</span><a id="line.839">    }</a>
+<span class="sourceLineNo">840</span><a id="line.840"></a>
+<span class="sourceLineNo">841</span><a id="line.841">    @Override</a>
+<span class="sourceLineNo">842</span><a id="line.842">    public WriteLock writeLock() {</a>
+<span class="sourceLineNo">843</span><a id="line.843">      return writeLock;</a>
+<span class="sourceLineNo">844</span><a id="line.844">    }</a>
 <span class="sourceLineNo">845</span><a id="line.845"></a>
-<span class="sourceLineNo">846</span><a id="line.846">    @Override</a>
-<span class="sourceLineNo">847</span><a id="line.847">    public LockGraphNode getLockGraphNode() {</a>
-<span class="sourceLineNo">848</span><a id="line.848">      return lockGraphNode;</a>
-<span class="sourceLineNo">849</span><a id="line.849">    }</a>
-<span class="sourceLineNo">850</span><a id="line.850"></a>
-<span class="sourceLineNo">851</span><a id="line.851">    @Override</a>
-<span class="sourceLineNo">852</span><a id="line.852">    public boolean isAcquiredByCurrentThread() {</a>
-<span class="sourceLineNo">853</span><a id="line.853">      return isWriteLockedByCurrentThread() || getReadHoldCount() &gt; 0;</a>
-<span class="sourceLineNo">854</span><a id="line.854">    }</a>
-<span class="sourceLineNo">855</span><a id="line.855">  }</a>
-<span class="sourceLineNo">856</span><a id="line.856"></a>
-<span class="sourceLineNo">857</span><a id="line.857">  private class CycleDetectingReentrantReadLock extends ReentrantReadWriteLock.ReadLock {</a>
+<span class="sourceLineNo">846</span><a id="line.846">    ///// CycleDetectingLock methods. /////</a>
+<span class="sourceLineNo">847</span><a id="line.847"></a>
+<span class="sourceLineNo">848</span><a id="line.848">    @Override</a>
+<span class="sourceLineNo">849</span><a id="line.849">    public LockGraphNode getLockGraphNode() {</a>
+<span class="sourceLineNo">850</span><a id="line.850">      return lockGraphNode;</a>
+<span class="sourceLineNo">851</span><a id="line.851">    }</a>
+<span class="sourceLineNo">852</span><a id="line.852"></a>
+<span class="sourceLineNo">853</span><a id="line.853">    @Override</a>
+<span class="sourceLineNo">854</span><a id="line.854">    public boolean isAcquiredByCurrentThread() {</a>
+<span class="sourceLineNo">855</span><a id="line.855">      return isWriteLockedByCurrentThread() || getReadHoldCount() &gt; 0;</a>
+<span class="sourceLineNo">856</span><a id="line.856">    }</a>
+<span class="sourceLineNo">857</span><a id="line.857">  }</a>
 <span class="sourceLineNo">858</span><a id="line.858"></a>
-<span class="sourceLineNo">859</span><a id="line.859">    @Weak final CycleDetectingReentrantReadWriteLock readWriteLock;</a>
+<span class="sourceLineNo">859</span><a id="line.859">  private class CycleDetectingReentrantReadLock extends ReentrantReadWriteLock.ReadLock {</a>
 <span class="sourceLineNo">860</span><a id="line.860"></a>
-<span class="sourceLineNo">861</span><a id="line.861">    CycleDetectingReentrantReadLock(CycleDetectingReentrantReadWriteLock readWriteLock) {</a>
-<span class="sourceLineNo">862</span><a id="line.862">      super(readWriteLock);</a>
-<span class="sourceLineNo">863</span><a id="line.863">      this.readWriteLock = readWriteLock;</a>
-<span class="sourceLineNo">864</span><a id="line.864">    }</a>
-<span class="sourceLineNo">865</span><a id="line.865"></a>
-<span class="sourceLineNo">866</span><a id="line.866">    @Override</a>
-<span class="sourceLineNo">867</span><a id="line.867">    public void lock() {</a>
-<span class="sourceLineNo">868</span><a id="line.868">      aboutToAcquire(readWriteLock);</a>
-<span class="sourceLineNo">869</span><a id="line.869">      try {</a>
-<span class="sourceLineNo">870</span><a id="line.870">        super.lock();</a>
-<span class="sourceLineNo">871</span><a id="line.871">      } finally {</a>
-<span class="sourceLineNo">872</span><a id="line.872">        lockStateChanged(readWriteLock);</a>
-<span class="sourceLineNo">873</span><a id="line.873">      }</a>
-<span class="sourceLineNo">874</span><a id="line.874">    }</a>
-<span class="sourceLineNo">875</span><a id="line.875"></a>
-<span class="sourceLineNo">876</span><a id="line.876">    @Override</a>
-<span class="sourceLineNo">877</span><a id="line.877">    public void lockInterruptibly() throws InterruptedException {</a>
-<span class="sourceLineNo">878</span><a id="line.878">      aboutToAcquire(readWriteLock);</a>
-<span class="sourceLineNo">879</span><a id="line.879">      try {</a>
-<span class="sourceLineNo">880</span><a id="line.880">        super.lockInterruptibly();</a>
-<span class="sourceLineNo">881</span><a id="line.881">      } finally {</a>
-<span class="sourceLineNo">882</span><a id="line.882">        lockStateChanged(readWriteLock);</a>
-<span class="sourceLineNo">883</span><a id="line.883">      }</a>
-<span class="sourceLineNo">884</span><a id="line.884">    }</a>
-<span class="sourceLineNo">885</span><a id="line.885"></a>
-<span class="sourceLineNo">886</span><a id="line.886">    @Override</a>
-<span class="sourceLineNo">887</span><a id="line.887">    public boolean tryLock() {</a>
-<span class="sourceLineNo">888</span><a id="line.888">      aboutToAcquire(readWriteLock);</a>
-<span class="sourceLineNo">889</span><a id="line.889">      try {</a>
-<span class="sourceLineNo">890</span><a id="line.890">        return super.tryLock();</a>
-<span class="sourceLineNo">891</span><a id="line.891">      } finally {</a>
-<span class="sourceLineNo">892</span><a id="line.892">        lockStateChanged(readWriteLock);</a>
-<span class="sourceLineNo">893</span><a id="line.893">      }</a>
-<span class="sourceLineNo">894</span><a id="line.894">    }</a>
-<span class="sourceLineNo">895</span><a id="line.895"></a>
-<span class="sourceLineNo">896</span><a id="line.896">    @Override</a>
-<span class="sourceLineNo">897</span><a id="line.897">    public boolean tryLock(long timeout, TimeUnit unit) throws InterruptedException {</a>
-<span class="sourceLineNo">898</span><a id="line.898">      aboutToAcquire(readWriteLock);</a>
-<span class="sourceLineNo">899</span><a id="line.899">      try {</a>
-<span class="sourceLineNo">900</span><a id="line.900">        return super.tryLock(timeout, unit);</a>
-<span class="sourceLineNo">901</span><a id="line.901">      } finally {</a>
-<span class="sourceLineNo">902</span><a id="line.902">        lockStateChanged(readWriteLock);</a>
-<span class="sourceLineNo">903</span><a id="line.903">      }</a>
-<span class="sourceLineNo">904</span><a id="line.904">    }</a>
-<span class="sourceLineNo">905</span><a id="line.905"></a>
-<span class="sourceLineNo">906</span><a id="line.906">    @Override</a>
-<span class="sourceLineNo">907</span><a id="line.907">    public void unlock() {</a>
-<span class="sourceLineNo">908</span><a id="line.908">      try {</a>
-<span class="sourceLineNo">909</span><a id="line.909">        super.unlock();</a>
-<span class="sourceLineNo">910</span><a id="line.910">      } finally {</a>
-<span class="sourceLineNo">911</span><a id="line.911">        lockStateChanged(readWriteLock);</a>
-<span class="sourceLineNo">912</span><a id="line.912">      }</a>
-<span class="sourceLineNo">913</span><a id="line.913">    }</a>
-<span class="sourceLineNo">914</span><a id="line.914">  }</a>
-<span class="sourceLineNo">915</span><a id="line.915"></a>
-<span class="sourceLineNo">916</span><a id="line.916">  private class CycleDetectingReentrantWriteLock extends ReentrantReadWriteLock.WriteLock {</a>
+<span class="sourceLineNo">861</span><a id="line.861">    @Weak final CycleDetectingReentrantReadWriteLock readWriteLock;</a>
+<span class="sourceLineNo">862</span><a id="line.862"></a>
+<span class="sourceLineNo">863</span><a id="line.863">    CycleDetectingReentrantReadLock(CycleDetectingReentrantReadWriteLock readWriteLock) {</a>
+<span class="sourceLineNo">864</span><a id="line.864">      super(readWriteLock);</a>
+<span class="sourceLineNo">865</span><a id="line.865">      this.readWriteLock = readWriteLock;</a>
+<span class="sourceLineNo">866</span><a id="line.866">    }</a>
+<span class="sourceLineNo">867</span><a id="line.867"></a>
+<span class="sourceLineNo">868</span><a id="line.868">    @Override</a>
+<span class="sourceLineNo">869</span><a id="line.869">    public void lock() {</a>
+<span class="sourceLineNo">870</span><a id="line.870">      aboutToAcquire(readWriteLock);</a>
+<span class="sourceLineNo">871</span><a id="line.871">      try {</a>
+<span class="sourceLineNo">872</span><a id="line.872">        super.lock();</a>
+<span class="sourceLineNo">873</span><a id="line.873">      } finally {</a>
+<span class="sourceLineNo">874</span><a id="line.874">        lockStateChanged(readWriteLock);</a>
+<span class="sourceLineNo">875</span><a id="line.875">      }</a>
+<span class="sourceLineNo">876</span><a id="line.876">    }</a>
+<span class="sourceLineNo">877</span><a id="line.877"></a>
+<span class="sourceLineNo">878</span><a id="line.878">    @Override</a>
+<span class="sourceLineNo">879</span><a id="line.879">    public void lockInterruptibly() throws InterruptedException {</a>
+<span class="sourceLineNo">880</span><a id="line.880">      aboutToAcquire(readWriteLock);</a>
+<span class="sourceLineNo">881</span><a id="line.881">      try {</a>
+<span class="sourceLineNo">882</span><a id="line.882">        super.lockInterruptibly();</a>
+<span class="sourceLineNo">883</span><a id="line.883">      } finally {</a>
+<span class="sourceLineNo">884</span><a id="line.884">        lockStateChanged(readWriteLock);</a>
+<span class="sourceLineNo">885</span><a id="line.885">      }</a>
+<span class="sourceLineNo">886</span><a id="line.886">    }</a>
+<span class="sourceLineNo">887</span><a id="line.887"></a>
+<span class="sourceLineNo">888</span><a id="line.888">    @Override</a>
+<span class="sourceLineNo">889</span><a id="line.889">    public boolean tryLock() {</a>
+<span class="sourceLineNo">890</span><a id="line.890">      aboutToAcquire(readWriteLock);</a>
+<span class="sourceLineNo">891</span><a id="line.891">      try {</a>
+<span class="sourceLineNo">892</span><a id="line.892">        return super.tryLock();</a>
+<span class="sourceLineNo">893</span><a id="line.893">      } finally {</a>
+<span class="sourceLineNo">894</span><a id="line.894">        lockStateChanged(readWriteLock);</a>
+<span class="sourceLineNo">895</span><a id="line.895">      }</a>
+<span class="sourceLineNo">896</span><a id="line.896">    }</a>
+<span class="sourceLineNo">897</span><a id="line.897"></a>
+<span class="sourceLineNo">898</span><a id="line.898">    @Override</a>
+<span class="sourceLineNo">899</span><a id="line.899">    public boolean tryLock(long timeout, TimeUnit unit) throws InterruptedException {</a>
+<span class="sourceLineNo">900</span><a id="line.900">      aboutToAcquire(readWriteLock);</a>
+<span class="sourceLineNo">901</span><a id="line.901">      try {</a>
+<span class="sourceLineNo">902</span><a id="line.902">        return super.tryLock(timeout, unit);</a>
+<span class="sourceLineNo">903</span><a id="line.903">      } finally {</a>
+<span class="sourceLineNo">904</span><a id="line.904">        lockStateChanged(readWriteLock);</a>
+<span class="sourceLineNo">905</span><a id="line.905">      }</a>
+<span class="sourceLineNo">906</span><a id="line.906">    }</a>
+<span class="sourceLineNo">907</span><a id="line.907"></a>
+<span class="sourceLineNo">908</span><a id="line.908">    @Override</a>
+<span class="sourceLineNo">909</span><a id="line.909">    public void unlock() {</a>
+<span class="sourceLineNo">910</span><a id="line.910">      try {</a>
+<span class="sourceLineNo">911</span><a id="line.911">        super.unlock();</a>
+<span class="sourceLineNo">912</span><a id="line.912">      } finally {</a>
+<span class="sourceLineNo">913</span><a id="line.913">        lockStateChanged(readWriteLock);</a>
+<span class="sourceLineNo">914</span><a id="line.914">      }</a>
+<span class="sourceLineNo">915</span><a id="line.915">    }</a>
+<span class="sourceLineNo">916</span><a id="line.916">  }</a>
 <span class="sourceLineNo">917</span><a id="line.917"></a>
-<span class="sourceLineNo">918</span><a id="line.918">    @Weak final CycleDetectingReentrantReadWriteLock readWriteLock;</a>
+<span class="sourceLineNo">918</span><a id="line.918">  private class CycleDetectingReentrantWriteLock extends ReentrantReadWriteLock.WriteLock {</a>
 <span class="sourceLineNo">919</span><a id="line.919"></a>
-<span class="sourceLineNo">920</span><a id="line.920">    CycleDetectingReentrantWriteLock(CycleDetectingReentrantReadWriteLock readWriteLock) {</a>
-<span class="sourceLineNo">921</span><a id="line.921">      super(readWriteLock);</a>
-<span class="sourceLineNo">922</span><a id="line.922">      this.readWriteLock = readWriteLock;</a>
-<span class="sourceLineNo">923</span><a id="line.923">    }</a>
-<span class="sourceLineNo">924</span><a id="line.924"></a>
-<span class="sourceLineNo">925</span><a id="line.925">    @Override</a>
-<span class="sourceLineNo">926</span><a id="line.926">    public void lock() {</a>
-<span class="sourceLineNo">927</span><a id="line.927">      aboutToAcquire(readWriteLock);</a>
-<span class="sourceLineNo">928</span><a id="line.928">      try {</a>
-<span class="sourceLineNo">929</span><a id="line.929">        super.lock();</a>
-<span class="sourceLineNo">930</span><a id="line.930">      } finally {</a>
-<span class="sourceLineNo">931</span><a id="line.931">        lockStateChanged(readWriteLock);</a>
-<span class="sourceLineNo">932</span><a id="line.932">      }</a>
-<span class="sourceLineNo">933</span><a id="line.933">    }</a>
-<span class="sourceLineNo">934</span><a id="line.934"></a>
-<span class="sourceLineNo">935</span><a id="line.935">    @Override</a>
-<span class="sourceLineNo">936</span><a id="line.936">    public void lockInterruptibly() throws InterruptedException {</a>
-<span class="sourceLineNo">937</span><a id="line.937">      aboutToAcquire(readWriteLock);</a>
-<span class="sourceLineNo">938</span><a id="line.938">      try {</a>
-<span class="sourceLineNo">939</span><a id="line.939">        super.lockInterruptibly();</a>
-<span class="sourceLineNo">940</span><a id="line.940">      } finally {</a>
-<span class="sourceLineNo">941</span><a id="line.941">        lockStateChanged(readWriteLock);</a>
-<span class="sourceLineNo">942</span><a id="line.942">      }</a>
-<span class="sourceLineNo">943</span><a id="line.943">    }</a>
-<span class="sourceLineNo">944</span><a id="line.944"></a>
-<span class="sourceLineNo">945</span><a id="line.945">    @Override</a>
-<span class="sourceLineNo">946</span><a id="line.946">    public boolean tryLock() {</a>
-<span class="sourceLineNo">947</span><a id="line.947">      aboutToAcquire(readWriteLock);</a>
-<span class="sourceLineNo">948</span><a id="line.948">      try {</a>
-<span class="sourceLineNo">949</span><a id="line.949">        return super.tryLock();</a>
-<span class="sourceLineNo">950</span><a id="line.950">      } finally {</a>
-<span class="sourceLineNo">951</span><a id="line.951">        lockStateChanged(readWriteLock);</a>
-<span class="sourceLineNo">952</span><a id="line.952">      }</a>
-<span class="sourceLineNo">953</span><a id="line.953">    }</a>
-<span class="sourceLineNo">954</span><a id="line.954"></a>
-<span class="sourceLineNo">955</span><a id="line.955">    @Override</a>
-<span class="sourceLineNo">956</span><a id="line.956">    public boolean tryLock(long timeout, TimeUnit unit) throws InterruptedException {</a>
-<span class="sourceLineNo">957</span><a id="line.957">      aboutToAcquire(readWriteLock);</a>
-<span class="sourceLineNo">958</span><a id="line.958">      try {</a>
-<span class="sourceLineNo">959</span><a id="line.959">        return super.tryLock(timeout, unit);</a>
-<span class="sourceLineNo">960</span><a id="line.960">      } finally {</a>
-<span class="sourceLineNo">961</span><a id="line.961">        lockStateChanged(readWriteLock);</a>
-<span class="sourceLineNo">962</span><a id="line.962">      }</a>
-<span class="sourceLineNo">963</span><a id="line.963">    }</a>
-<span class="sourceLineNo">964</span><a id="line.964"></a>
-<span class="sourceLineNo">965</span><a id="line.965">    @Override</a>
-<span class="sourceLineNo">966</span><a id="line.966">    public void unlock() {</a>
-<span class="sourceLineNo">967</span><a id="line.967">      try {</a>
-<span class="sourceLineNo">968</span><a id="line.968">        super.unlock();</a>
-<span class="sourceLineNo">969</span><a id="line.969">      } finally {</a>
-<span class="sourceLineNo">970</span><a id="line.970">        lockStateChanged(readWriteLock);</a>
-<span class="sourceLineNo">971</span><a id="line.971">      }</a>
-<span class="sourceLineNo">972</span><a id="line.972">    }</a>
-<span class="sourceLineNo">973</span><a id="line.973">  }</a>
-<span class="sourceLineNo">974</span><a id="line.974">}</a>
+<span class="sourceLineNo">920</span><a id="line.920">    @Weak final CycleDetectingReentrantReadWriteLock readWriteLock;</a>
+<span class="sourceLineNo">921</span><a id="line.921"></a>
+<span class="sourceLineNo">922</span><a id="line.922">    CycleDetectingReentrantWriteLock(CycleDetectingReentrantReadWriteLock readWriteLock) {</a>
+<span class="sourceLineNo">923</span><a id="line.923">      super(readWriteLock);</a>
+<span class="sourceLineNo">924</span><a id="line.924">      this.readWriteLock = readWriteLock;</a>
+<span class="sourceLineNo">925</span><a id="line.925">    }</a>
+<span class="sourceLineNo">926</span><a id="line.926"></a>
+<span class="sourceLineNo">927</span><a id="line.927">    @Override</a>
+<span class="sourceLineNo">928</span><a id="line.928">    public void lock() {</a>
+<span class="sourceLineNo">929</span><a id="line.929">      aboutToAcquire(readWriteLock);</a>
+<span class="sourceLineNo">930</span><a id="line.930">      try {</a>
+<span class="sourceLineNo">931</span><a id="line.931">        super.lock();</a>
+<span class="sourceLineNo">932</span><a id="line.932">      } finally {</a>
+<span class="sourceLineNo">933</span><a id="line.933">        lockStateChanged(readWriteLock);</a>
+<span class="sourceLineNo">934</span><a id="line.934">      }</a>
+<span class="sourceLineNo">935</span><a id="line.935">    }</a>
+<span class="sourceLineNo">936</span><a id="line.936"></a>
+<span class="sourceLineNo">937</span><a id="line.937">    @Override</a>
+<span class="sourceLineNo">938</span><a id="line.938">    public void lockInterruptibly() throws InterruptedException {</a>
+<span class="sourceLineNo">939</span><a id="line.939">      aboutToAcquire(readWriteLock);</a>
+<span class="sourceLineNo">940</span><a id="line.940">      try {</a>
+<span class="sourceLineNo">941</span><a id="line.941">        super.lockInterruptibly();</a>
+<span class="sourceLineNo">942</span><a id="line.942">      } finally {</a>
+<span class="sourceLineNo">943</span><a id="line.943">        lockStateChanged(readWriteLock);</a>
+<span class="sourceLineNo">944</span><a id="line.944">      }</a>
+<span class="sourceLineNo">945</span><a id="line.945">    }</a>
+<span class="sourceLineNo">946</span><a id="line.946"></a>
+<span class="sourceLineNo">947</span><a id="line.947">    @Override</a>
+<span class="sourceLineNo">948</span><a id="line.948">    public boolean tryLock() {</a>
+<span class="sourceLineNo">949</span><a id="line.949">      aboutToAcquire(readWriteLock);</a>
+<span class="sourceLineNo">950</span><a id="line.950">      try {</a>
+<span class="sourceLineNo">951</span><a id="line.951">        return super.tryLock();</a>
+<span class="sourceLineNo">952</span><a id="line.952">      } finally {</a>
+<span class="sourceLineNo">953</span><a id="line.953">        lockStateChanged(readWriteLock);</a>
+<span class="sourceLineNo">954</span><a id="line.954">      }</a>
+<span class="sourceLineNo">955</span><a id="line.955">    }</a>
+<span class="sourceLineNo">956</span><a id="line.956"></a>
+<span class="sourceLineNo">957</span><a id="line.957">    @Override</a>
+<span class="sourceLineNo">958</span><a id="line.958">    public boolean tryLock(long timeout, TimeUnit unit) throws InterruptedException {</a>
+<span class="sourceLineNo">959</span><a id="line.959">      aboutToAcquire(readWriteLock);</a>
+<span class="sourceLineNo">960</span><a id="line.960">      try {</a>
+<span class="sourceLineNo">961</span><a id="line.961">        return super.tryLock(timeout, unit);</a>
+<span class="sourceLineNo">962</span><a id="line.962">      } finally {</a>
+<span class="sourceLineNo">963</span><a id="line.963">        lockStateChanged(readWriteLock);</a>
+<span class="sourceLineNo">964</span><a id="line.964">      }</a>
+<span class="sourceLineNo">965</span><a id="line.965">    }</a>
+<span class="sourceLineNo">966</span><a id="line.966"></a>
+<span class="sourceLineNo">967</span><a id="line.967">    @Override</a>
+<span class="sourceLineNo">968</span><a id="line.968">    public void unlock() {</a>
+<span class="sourceLineNo">969</span><a id="line.969">      try {</a>
+<span class="sourceLineNo">970</span><a id="line.970">        super.unlock();</a>
+<span class="sourceLineNo">971</span><a id="line.971">      } finally {</a>
+<span class="sourceLineNo">972</span><a id="line.972">        lockStateChanged(readWriteLock);</a>
+<span class="sourceLineNo">973</span><a id="line.973">      }</a>
+<span class="sourceLineNo">974</span><a id="line.974">    }</a>
+<span class="sourceLineNo">975</span><a id="line.975">  }</a>
+<span class="sourceLineNo">976</span><a id="line.976">}</a>
 
 
 
