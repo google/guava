@@ -80,7 +80,7 @@ final class Platform {
    * for insertions.
    */
   static <E extends @Nullable Object> Set<E> preservesInsertionOrderOnAddsSet() {
-    return Sets.newLinkedHashSet();
+    return CompactHashSet.create();
   }
 
   /**
