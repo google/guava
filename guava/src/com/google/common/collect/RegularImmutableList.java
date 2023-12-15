@@ -84,7 +84,7 @@ class RegularImmutableList<E> extends ImmutableList<E> {
   public UnmodifiableListIterator<E> listIterator(int index) {
     // for performance
     // The fake cast to E is safe because the creation methods only allow E's
-    return (UnmodifiableListIterator<E>) Iterators.forArray(array, 0, array.length, index);
+    return (UnmodifiableListIterator<E>) Iterators.forArrayWithPosition(array, index);
   }
 
   @Override

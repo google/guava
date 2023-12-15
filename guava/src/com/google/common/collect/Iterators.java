@@ -1055,47 +1055,40 @@ public final class Iterators {
    */
   @SafeVarargs
   public static <T extends @Nullable Object> UnmodifiableIterator<T> forArray(T... array) {
-    return forArray(array, 0, array.length, 0);
+    return forArrayWithPosition(array, 0);
   }
 
   /**
-   * Returns a list iterator containing the elements in the specified range of {@code array} in
-   * order, starting at the specified index.
+   * Returns a list iterator containing the elements in the specified {@code array} in order,
+   * starting at the specified {@code position}.
    *
    * <p>The {@code Iterable} equivalent of this method is {@code
-   * Arrays.asList(array).subList(offset, offset + length).listIterator(index)}.
+   * Arrays.asList(array).listIterator(position)}.
    */
-  static <T extends @Nullable Object> UnmodifiableListIterator<T> forArray(
-      T[] array, int offset, int length, int index) {
-    checkArgument(length >= 0);
-    int end = offset + length;
-
-    // Technically we should give a slightly more descriptive error on overflow
-    Preconditions.checkPositionIndexes(offset, end, array.length);
-    Preconditions.checkPositionIndex(index, length);
-    if (length == 0) {
+  static <T extends @Nullable Object> UnmodifiableListIterator<T> forArrayWithPosition(
+      T[] array, int position) {
+    if (array.length == 0) {
+      Preconditions.checkPositionIndex(position, array.length); // otherwise checked in ArrayItr
       return emptyListIterator();
     }
-    return new ArrayItr<>(array, offset, length, index);
+    return new ArrayItr<>(array, position);
   }
 
   private static final class ArrayItr<T extends @Nullable Object>
       extends AbstractIndexedListIterator<T> {
-    static final UnmodifiableListIterator<Object> EMPTY = new ArrayItr<>(new Object[0], 0, 0, 0);
+    static final UnmodifiableListIterator<Object> EMPTY = new ArrayItr<>(new Object[0], 0);
 
     private final T[] array;
-    private final int offset;
 
-    ArrayItr(T[] array, int offset, int length, int index) {
-      super(length, index);
+    ArrayItr(T[] array, int position) {
+      super(array.length, position);
       this.array = array;
-      this.offset = offset;
     }
 
     @Override
     @ParametricNullness
     protected T get(int index) {
-      return array[offset + index];
+      return array[index];
     }
   }
 
