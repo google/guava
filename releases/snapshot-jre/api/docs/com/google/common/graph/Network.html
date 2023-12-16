@@ -175,18 +175,18 @@ extends <a href="SuccessorsFunction.html" title="interface in com.google.common.
  create an instance of one of the built-in implementations of <code>Network</code>, use the <a href="NetworkBuilder.html" title="class in com.google.common.graph"><code>NetworkBuilder</code></a> class:
 
  <pre><code>
- MutableNetwork&lt;Integer, MyEdge&gt; graph = NetworkBuilder.directed().build();
+ MutableNetwork&lt;Integer, MyEdge&gt; network = NetworkBuilder.directed().build();
  </code></pre>
 
  <p><a href="NetworkBuilder.html#build()"><code>NetworkBuilder.build()</code></a> returns an instance of <a href="MutableNetwork.html" title="interface in com.google.common.graph"><code>MutableNetwork</code></a>, which is a
  subtype of <code>Network</code> that provides methods for adding and removing nodes and edges. If you
- do not need to mutate a graph (e.g. if you write a method than runs a read-only algorithm on the
- graph), you should use the non-mutating <a href="Network.html" title="interface in com.google.common.graph"><code>Network</code></a> interface, or an <a href="ImmutableNetwork.html" title="class in com.google.common.graph"><code>ImmutableNetwork</code></a>.
+ do not need to mutate a network (e.g. if you write a method than runs a read-only algorithm on
+ the network), you should use the non-mutating <a href="Network.html" title="interface in com.google.common.graph"><code>Network</code></a> interface, or an <a href="ImmutableNetwork.html" title="class in com.google.common.graph"><code>ImmutableNetwork</code></a>.
 
  <p>You can create an immutable copy of an existing <code>Network</code> using <a href="ImmutableNetwork.html#copyOf(com.google.common.graph.Network)"><code>ImmutableNetwork.copyOf(Network)</code></a>:
 
  <pre><code>
- ImmutableNetwork&lt;Integer, MyEdge&gt; immutableGraph = ImmutableNetwork.copyOf(graph);
+ ImmutableNetwork&lt;Integer, MyEdge&gt; immutableGraph = ImmutableNetwork.copyOf(network);
  </code></pre>
 
  <p>Instances of <a href="ImmutableNetwork.html" title="class in com.google.common.graph"><code>ImmutableNetwork</code></a> do not implement <a href="MutableNetwork.html" title="interface in com.google.common.graph"><code>MutableNetwork</code></a> (obviously!) and
@@ -238,15 +238,16 @@ extends <a href="SuccessorsFunction.html" title="interface in com.google.common.
 <td class="colFirst"><code>java.util.Set&lt;<a href="Network.html" title="type parameter in Network">E</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#adjacentEdges(E)">adjacentEdges</a></span>&#8203;(<a href="Network.html" title="type parameter in Network">E</a>&nbsp;edge)</code></th>
 <td class="colLast">
-<div class="block">Returns the edges which have an <a href="#incidentNodes(E)"><code>incident node</code></a> in common with
- <code>edge</code>.</div>
+<div class="block">Returns a live view of the edges which have an <a href="#incidentNodes(E)"><code>incident node</code></a> in
+ common with <code>edge</code>.</div>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>java.util.Set&lt;<a href="Network.html" title="type parameter in Network">N</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#adjacentNodes(N)">adjacentNodes</a></span>&#8203;(<a href="Network.html" title="type parameter in Network">N</a>&nbsp;node)</code></th>
 <td class="colLast">
-<div class="block">Returns the nodes which have an incident edge in common with <code>node</code> in this network.</div>
+<div class="block">Returns a live view of the nodes which have an incident edge in common with <code>node</code> in
+ this graph.</div>
 </td>
 </tr>
 <tr id="i2" class="altColor">
@@ -331,8 +332,8 @@ extends <a href="SuccessorsFunction.html" title="interface in com.google.common.
 <td class="colFirst"><code>java.util.Set&lt;<a href="Network.html" title="type parameter in Network">E</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#edgesConnecting(com.google.common.graph.EndpointPair)">edgesConnecting</a></span>&#8203;(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="Network.html" title="type parameter in Network">N</a>&gt;&nbsp;endpoints)</code></th>
 <td class="colLast">
-<div class="block">Returns the set of edges that each directly connect <code>endpoints</code> (in the order, if any,
- specified by <code>endpoints</code>).</div>
+<div class="block">Returns a live view of the set of edges that each directly connect <code>endpoints</code> (in the
+ order, if any, specified by <code>endpoints</code>).</div>
 </td>
 </tr>
 <tr id="i13" class="rowColor">
@@ -340,7 +341,8 @@ extends <a href="SuccessorsFunction.html" title="interface in com.google.common.
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#edgesConnecting(N,N)">edgesConnecting</a></span>&#8203;(<a href="Network.html" title="type parameter in Network">N</a>&nbsp;nodeU,
                <a href="Network.html" title="type parameter in Network">N</a>&nbsp;nodeV)</code></th>
 <td class="colLast">
-<div class="block">Returns the set of edges that each directly connect <code>nodeU</code> to <code>nodeV</code>.</div>
+<div class="block">Returns a live view of the set of edges that each directly connect <code>nodeU</code> to <code>
+ nodeV</code>.</div>
 </td>
 </tr>
 <tr id="i14" class="altColor">
@@ -378,8 +380,8 @@ extends <a href="SuccessorsFunction.html" title="interface in com.google.common.
 <td class="colFirst"><code>java.util.Set&lt;<a href="Network.html" title="type parameter in Network">E</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#incidentEdges(N)">incidentEdges</a></span>&#8203;(<a href="Network.html" title="type parameter in Network">N</a>&nbsp;node)</code></th>
 <td class="colLast">
-<div class="block">Returns the edges whose <a href="#incidentNodes(E)"><code>incident nodes</code></a> in this network include
- <code>node</code>.</div>
+<div class="block">Returns a live view of the edges whose <a href="#incidentNodes(E)"><code>incident nodes</code></a> in this
+ network include <code>node</code>.</div>
 </td>
 </tr>
 <tr id="i19" class="rowColor">
@@ -401,8 +403,8 @@ extends <a href="SuccessorsFunction.html" title="interface in com.google.common.
 <td class="colFirst"><code>java.util.Set&lt;<a href="Network.html" title="type parameter in Network">E</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#inEdges(N)">inEdges</a></span>&#8203;(<a href="Network.html" title="type parameter in Network">N</a>&nbsp;node)</code></th>
 <td class="colLast">
-<div class="block">Returns all edges in this network which can be traversed in the direction (if any) of the edge
- to end at <code>node</code>.</div>
+<div class="block">Returns a live view of all edges in this network which can be traversed in the direction (if
+ any) of the edge to end at <code>node</code>.</div>
 </td>
 </tr>
 <tr id="i22" class="altColor">
@@ -438,24 +440,24 @@ extends <a href="SuccessorsFunction.html" title="interface in com.google.common.
 <td class="colFirst"><code>java.util.Set&lt;<a href="Network.html" title="type parameter in Network">E</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#outEdges(N)">outEdges</a></span>&#8203;(<a href="Network.html" title="type parameter in Network">N</a>&nbsp;node)</code></th>
 <td class="colLast">
-<div class="block">Returns all edges in this network which can be traversed in the direction (if any) of the edge
- starting from <code>node</code>.</div>
+<div class="block">Returns a live view of all edges in this network which can be traversed in the direction (if
+ any) of the edge starting from <code>node</code>.</div>
 </td>
 </tr>
 <tr id="i27" class="rowColor">
 <td class="colFirst"><code>java.util.Set&lt;<a href="Network.html" title="type parameter in Network">N</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#predecessors(N)">predecessors</a></span>&#8203;(<a href="Network.html" title="type parameter in Network">N</a>&nbsp;node)</code></th>
 <td class="colLast">
-<div class="block">Returns all nodes in this network adjacent to <code>node</code> which can be reached by traversing
- <code>node</code>'s incoming edges <i>against</i> the direction (if any) of the edge.</div>
+<div class="block">Returns a live view of all nodes in this network adjacent to <code>node</code> which can be reached
+ by traversing <code>node</code>'s incoming edges <i>against</i> the direction (if any) of the edge.</div>
 </td>
 </tr>
 <tr id="i28" class="altColor">
 <td class="colFirst"><code>java.util.Set&lt;<a href="Network.html" title="type parameter in Network">N</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#successors(N)">successors</a></span>&#8203;(<a href="Network.html" title="type parameter in Network">N</a>&nbsp;node)</code></th>
 <td class="colLast">
-<div class="block">Returns all nodes in this network adjacent to <code>node</code> which can be reached by traversing
- <code>node</code>'s outgoing edges in the direction (if any) of the edge.</div>
+<div class="block">Returns a live view of all nodes in this network adjacent to <code>node</code> which can be reached
+ by traversing <code>node</code>'s outgoing edges in the direction (if any) of the edge.</div>
 </td>
 </tr>
 </table>
@@ -571,10 +573,23 @@ extends <a href="SuccessorsFunction.html" title="interface in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>adjacentNodes</h4>
-<pre class="methodSignature">java.util.Set&lt;<a href="Network.html" title="type parameter in Network">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.170">adjacentNodes</a>&#8203;(<a href="Network.html" title="type parameter in Network">N</a>&nbsp;node)</pre>
-<div class="block">Returns the nodes which have an incident edge in common with <code>node</code> in this network.
+<pre class="methodSignature">java.util.Set&lt;<a href="Network.html" title="type parameter in Network">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.183">adjacentNodes</a>&#8203;(<a href="Network.html" title="type parameter in Network">N</a>&nbsp;node)</pre>
+<div class="block">Returns a live view of the nodes which have an incident edge in common with <code>node</code> in
+ this graph.
 
- <p>This is equal to the union of <a href="#predecessors(N)"><code>predecessors(Object)</code></a> and <a href="#successors(N)"><code>successors(Object)</code></a>.</div>
+ <p>This is equal to the union of <a href="#predecessors(N)"><code>predecessors(Object)</code></a> and <a href="#successors(N)"><code>successors(Object)</code></a>.
+
+ <p>If <code>node</code> is removed from the network after this method is called, the <code>Set</code>
+ <code>view</code> returned by this method will be invalidated, and will throw <code>
+ IllegalStateException</code> if it is accessed in any way, with the following exceptions:
+
+ <ul>
+   <li><code>view.equals(view)</code> evaluates to <code>true</code> (but any other `equals()` expression
+       involving <code>view</code> will throw)
+   <li><code>hashCode()</code> does not throw
+   <li>if <code>node</code> is re-added to the network after having been removed, <code>view</code>'s
+       behavior is undefined
+ </ul></div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.IllegalArgumentException</code> - if <code>node</code> is not an element of this network</dd>
@@ -589,11 +604,15 @@ extends <a href="SuccessorsFunction.html" title="interface in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>predecessors</h4>
-<pre class="methodSignature">java.util.Set&lt;<a href="Network.html" title="type parameter in Network">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.180">predecessors</a>&#8203;(<a href="Network.html" title="type parameter in Network">N</a>&nbsp;node)</pre>
-<div class="block">Returns all nodes in this network adjacent to <code>node</code> which can be reached by traversing
- <code>node</code>'s incoming edges <i>against</i> the direction (if any) of the edge.
+<pre class="methodSignature">java.util.Set&lt;<a href="Network.html" title="type parameter in Network">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.197">predecessors</a>&#8203;(<a href="Network.html" title="type parameter in Network">N</a>&nbsp;node)</pre>
+<div class="block">Returns a live view of all nodes in this network adjacent to <code>node</code> which can be reached
+ by traversing <code>node</code>'s incoming edges <i>against</i> the direction (if any) of the edge.
 
- <p>In an undirected network, this is equivalent to <a href="#adjacentNodes(N)"><code>adjacentNodes(Object)</code></a>.</div>
+ <p>In an undirected network, this is equivalent to <a href="#adjacentNodes(N)"><code>adjacentNodes(Object)</code></a>.
+
+ <p>If <code>node</code> is removed from the network after this method is called, the `Set` returned
+ by this method will be invalidated, and will throw `IllegalStateException` if it is accessed in
+ any way.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="PredecessorsFunction.html#predecessors(N)">predecessors</a></code>&nbsp;in interface&nbsp;<code><a href="PredecessorsFunction.html" title="interface in com.google.common.graph">PredecessorsFunction</a>&lt;<a href="Network.html" title="type parameter in Network">N</a>&gt;</code></dd>
@@ -610,14 +629,26 @@ extends <a href="SuccessorsFunction.html" title="interface in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>successors</h4>
-<pre class="methodSignature">java.util.Set&lt;<a href="Network.html" title="type parameter in Network">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.194">successors</a>&#8203;(<a href="Network.html" title="type parameter in Network">N</a>&nbsp;node)</pre>
-<div class="block">Returns all nodes in this network adjacent to <code>node</code> which can be reached by traversing
- <code>node</code>'s outgoing edges in the direction (if any) of the edge.
+<pre class="methodSignature">java.util.Set&lt;<a href="Network.html" title="type parameter in Network">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.223">successors</a>&#8203;(<a href="Network.html" title="type parameter in Network">N</a>&nbsp;node)</pre>
+<div class="block">Returns a live view of all nodes in this network adjacent to <code>node</code> which can be reached
+ by traversing <code>node</code>'s outgoing edges in the direction (if any) of the edge.
 
  <p>In an undirected network, this is equivalent to <a href="#adjacentNodes(N)"><code>adjacentNodes(Object)</code></a>.
 
  <p>This is <i>not</i> the same as "all nodes reachable from <code>node</code> by following outgoing
- edges". For that functionality, see <a href="Graphs.html#reachableNodes(com.google.common.graph.Graph,N)"><code>Graphs.reachableNodes(Graph, Object)</code></a>.</div>
+ edges". For that functionality, see <a href="Graphs.html#reachableNodes(com.google.common.graph.Graph,N)"><code>Graphs.reachableNodes(Graph, Object)</code></a>.
+
+ <p>If <code>node</code> is removed from the network after this method is called, the <code>Set</code>
+ <code>view</code> returned by this method will be invalidated, and will throw <code>
+ IllegalStateException</code> if it is accessed in any way, with the following exceptions:
+
+ <ul>
+   <li><code>view.equals(view)</code> evaluates to <code>true</code> (but any other `equals()` expression
+       involving <code>view</code> will throw)
+   <li><code>hashCode()</code> does not throw
+   <li>if <code>node</code> is re-added to the network after having been removed, <code>view</code>'s
+       behavior is undefined
+ </ul></div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="SuccessorsFunction.html#successors(N)">successors</a></code>&nbsp;in interface&nbsp;<code><a href="SuccessorsFunction.html" title="interface in com.google.common.graph">SuccessorsFunction</a>&lt;<a href="Network.html" title="type parameter in Network">N</a>&gt;</code></dd>
@@ -634,14 +665,28 @@ extends <a href="SuccessorsFunction.html" title="interface in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>incidentEdges</h4>
-<pre class="methodSignature">java.util.Set&lt;<a href="Network.html" title="type parameter in Network">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.205">incidentEdges</a>&#8203;(<a href="Network.html" title="type parameter in Network">N</a>&nbsp;node)</pre>
-<div class="block">Returns the edges whose <a href="#incidentNodes(E)"><code>incident nodes</code></a> in this network include
- <code>node</code>.
+<pre class="methodSignature">java.util.Set&lt;<a href="Network.html" title="type parameter in Network">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.247">incidentEdges</a>&#8203;(<a href="Network.html" title="type parameter in Network">N</a>&nbsp;node)</pre>
+<div class="block">Returns a live view of the edges whose <a href="#incidentNodes(E)"><code>incident nodes</code></a> in this
+ network include <code>node</code>.
 
- <p>This is equal to the union of <a href="#inEdges(N)"><code>inEdges(Object)</code></a> and <a href="#outEdges(N)"><code>outEdges(Object)</code></a>.</div>
+ <p>This is equal to the union of <a href="#inEdges(N)"><code>inEdges(Object)</code></a> and <a href="#outEdges(N)"><code>outEdges(Object)</code></a>.
+
+ <p>If <code>node</code> is removed from the network after this method is called, the <code>Set</code>
+ <code>view</code> returned by this method will be invalidated, and will throw <code>
+ IllegalStateException</code> if it is accessed in any way, with the following exceptions:
+
+ <ul>
+   <li><code>view.equals(view)</code> evaluates to <code>true</code> (but any other `equals()` expression
+       involving <code>view</code> will throw)
+   <li><code>hashCode()</code> does not throw
+   <li>if <code>node</code> is re-added to the network after having been removed, <code>view</code>'s
+       behavior is undefined
+ </ul></div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.IllegalArgumentException</code> - if <code>node</code> is not an element of this network</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>24.0</dd>
 </dl>
 </li>
 </ul>
@@ -653,13 +698,25 @@ extends <a href="SuccessorsFunction.html" title="interface in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>inEdges</h4>
-<pre class="methodSignature">java.util.Set&lt;<a href="Network.html" title="type parameter in Network">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.217">inEdges</a>&#8203;(<a href="Network.html" title="type parameter in Network">N</a>&nbsp;node)</pre>
-<div class="block">Returns all edges in this network which can be traversed in the direction (if any) of the edge
- to end at <code>node</code>.
+<pre class="methodSignature">java.util.Set&lt;<a href="Network.html" title="type parameter in Network">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.271">inEdges</a>&#8203;(<a href="Network.html" title="type parameter in Network">N</a>&nbsp;node)</pre>
+<div class="block">Returns a live view of all edges in this network which can be traversed in the direction (if
+ any) of the edge to end at <code>node</code>.
 
  <p>In a directed network, an incoming edge's <a href="EndpointPair.html#target()"><code>EndpointPair.target()</code></a> equals <code>node</code>.
 
- <p>In an undirected network, this is equivalent to <a href="#incidentEdges(N)"><code>incidentEdges(Object)</code></a>.</div>
+ <p>In an undirected network, this is equivalent to <a href="#incidentEdges(N)"><code>incidentEdges(Object)</code></a>.
+
+ <p>If <code>node</code> is removed from the network after this method is called, the <code>Set</code>
+ <code>view</code> returned by this method will be invalidated, and will throw <code>
+ IllegalStateException</code> if it is accessed in any way, with the following exceptions:
+
+ <ul>
+   <li><code>view.equals(view)</code> evaluates to <code>true</code> (but any other `equals()` expression
+       involving <code>view</code> will throw)
+   <li><code>hashCode()</code> does not throw
+   <li>if <code>node</code> is re-added to the network after having been removed, <code>view</code>'s
+       behavior is undefined
+ </ul></div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.IllegalArgumentException</code> - if <code>node</code> is not an element of this network</dd>
@@ -674,13 +731,25 @@ extends <a href="SuccessorsFunction.html" title="interface in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>outEdges</h4>
-<pre class="methodSignature">java.util.Set&lt;<a href="Network.html" title="type parameter in Network">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.229">outEdges</a>&#8203;(<a href="Network.html" title="type parameter in Network">N</a>&nbsp;node)</pre>
-<div class="block">Returns all edges in this network which can be traversed in the direction (if any) of the edge
- starting from <code>node</code>.
+<pre class="methodSignature">java.util.Set&lt;<a href="Network.html" title="type parameter in Network">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.295">outEdges</a>&#8203;(<a href="Network.html" title="type parameter in Network">N</a>&nbsp;node)</pre>
+<div class="block">Returns a live view of all edges in this network which can be traversed in the direction (if
+ any) of the edge starting from <code>node</code>.
 
  <p>In a directed network, an outgoing edge's <a href="EndpointPair.html#source()"><code>EndpointPair.source()</code></a> equals <code>node</code>.
 
- <p>In an undirected network, this is equivalent to <a href="#incidentEdges(N)"><code>incidentEdges(Object)</code></a>.</div>
+ <p>In an undirected network, this is equivalent to <a href="#incidentEdges(N)"><code>incidentEdges(Object)</code></a>.
+
+ <p>If <code>node</code> is removed from the network after this method is called, the <code>Set</code>
+ <code>view</code> returned by this method will be invalidated, and will throw <code>
+ IllegalStateException</code> if it is accessed in any way, with the following exceptions:
+
+ <ul>
+   <li><code>view.equals(view)</code> evaluates to <code>true</code> (but any other `equals()` expression
+       involving <code>view</code> will throw)
+   <li><code>hashCode()</code> does not throw
+   <li>if <code>node</code> is re-added to the network after having been removed, <code>view</code>'s
+       behavior is undefined
+ </ul></div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.IllegalArgumentException</code> - if <code>node</code> is not an element of this network</dd>
@@ -695,7 +764,7 @@ extends <a href="SuccessorsFunction.html" title="interface in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>degree</h4>
-<pre class="methodSignature">int&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.244">degree</a>&#8203;(<a href="Network.html" title="type parameter in Network">N</a>&nbsp;node)</pre>
+<pre class="methodSignature">int&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.310">degree</a>&#8203;(<a href="Network.html" title="type parameter in Network">N</a>&nbsp;node)</pre>
 <div class="block">Returns the count of <code>node</code>'s <a href="#incidentEdges(N)"><code>incident edges</code></a>, counting
  self-loops twice (equivalently, the number of times an edge touches <code>node</code>).
 
@@ -719,7 +788,7 @@ extends <a href="SuccessorsFunction.html" title="interface in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>inDegree</h4>
-<pre class="methodSignature">int&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.254">inDegree</a>&#8203;(<a href="Network.html" title="type parameter in Network">N</a>&nbsp;node)</pre>
+<pre class="methodSignature">int&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.320">inDegree</a>&#8203;(<a href="Network.html" title="type parameter in Network">N</a>&nbsp;node)</pre>
 <div class="block">Returns the count of <code>node</code>'s <a href="#inEdges(N)"><code>incoming edges</code></a> in a directed
  network. In an undirected network, returns the <a href="#degree(N)"><code>degree(Object)</code></a>.
 
@@ -738,7 +807,7 @@ extends <a href="SuccessorsFunction.html" title="interface in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>outDegree</h4>
-<pre class="methodSignature">int&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.264">outDegree</a>&#8203;(<a href="Network.html" title="type parameter in Network">N</a>&nbsp;node)</pre>
+<pre class="methodSignature">int&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.330">outDegree</a>&#8203;(<a href="Network.html" title="type parameter in Network">N</a>&nbsp;node)</pre>
 <div class="block">Returns the count of <code>node</code>'s <a href="#outEdges(N)"><code>outgoing edges</code></a> in a directed
  network. In an undirected network, returns the <a href="#degree(N)"><code>degree(Object)</code></a>.
 
@@ -757,7 +826,7 @@ extends <a href="SuccessorsFunction.html" title="interface in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>incidentNodes</h4>
-<pre class="methodSignature"><a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="Network.html" title="type parameter in Network">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.271">incidentNodes</a>&#8203;(<a href="Network.html" title="type parameter in Network">E</a>&nbsp;edge)</pre>
+<pre class="methodSignature"><a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="Network.html" title="type parameter in Network">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.337">incidentNodes</a>&#8203;(<a href="Network.html" title="type parameter in Network">E</a>&nbsp;edge)</pre>
 <div class="block">Returns the nodes which are the endpoints of <code>edge</code> in this network.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
@@ -773,9 +842,21 @@ extends <a href="SuccessorsFunction.html" title="interface in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>adjacentEdges</h4>
-<pre class="methodSignature">java.util.Set&lt;<a href="Network.html" title="type parameter in Network">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.279">adjacentEdges</a>&#8203;(<a href="Network.html" title="type parameter in Network">E</a>&nbsp;edge)</pre>
-<div class="block">Returns the edges which have an <a href="#incidentNodes(E)"><code>incident node</code></a> in common with
- <code>edge</code>. An edge is not considered adjacent to itself.</div>
+<pre class="methodSignature">java.util.Set&lt;<a href="Network.html" title="type parameter in Network">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.357">adjacentEdges</a>&#8203;(<a href="Network.html" title="type parameter in Network">E</a>&nbsp;edge)</pre>
+<div class="block">Returns a live view of the edges which have an <a href="#incidentNodes(E)"><code>incident node</code></a> in
+ common with <code>edge</code>. An edge is not considered adjacent to itself.
+
+ <p>If <code>edge</code> is removed from the network after this method is called, the <code>Set</code>
+ <code>view</code> returned by this method will be invalidated, and will throw <code>
+ IllegalStateException</code> if it is accessed in any way, with the following exceptions:
+
+ <ul>
+   <li><code>view.equals(view)</code> evaluates to <code>true</code> (but any other `equals()` expression
+       involving <code>view</code> will throw)
+   <li><code>hashCode()</code> does not throw
+   <li>if <code>edge</code> is re-added to the network after having been removed, <code>view</code>'s
+       behavior is undefined
+ </ul></div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.IllegalArgumentException</code> - if <code>edge</code> is not an element of this network</dd>
@@ -790,15 +871,29 @@ extends <a href="SuccessorsFunction.html" title="interface in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>edgesConnecting</h4>
-<pre class="methodSignature">java.util.Set&lt;<a href="Network.html" title="type parameter in Network">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.294">edgesConnecting</a>&#8203;(<a href="Network.html" title="type parameter in Network">N</a>&nbsp;nodeU,
+<pre class="methodSignature">java.util.Set&lt;<a href="Network.html" title="type parameter in Network">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.386">edgesConnecting</a>&#8203;(<a href="Network.html" title="type parameter in Network">N</a>&nbsp;nodeU,
                                  <a href="Network.html" title="type parameter in Network">N</a>&nbsp;nodeV)</pre>
-<div class="block">Returns the set of edges that each directly connect <code>nodeU</code> to <code>nodeV</code>.
+<div class="block">Returns a live view of the set of edges that each directly connect <code>nodeU</code> to <code>
+ nodeV</code>.
 
  <p>In an undirected network, this is equal to <code>edgesConnecting(nodeV, nodeU)</code>.
 
  <p>The resulting set of edges will be parallel (i.e. have equal <a href="#incidentNodes(E)"><code>incidentNodes(Object)</code></a>). If this network does not <a href="#allowsParallelEdges()"><code>allow parallel
  edges</code></a>, the resulting set will contain at most one edge (equivalent to <code>
- edgeConnecting(nodeU, nodeV).asSet()</code>).</div>
+ edgeConnecting(nodeU, nodeV).asSet()</code>).
+
+ <p>If either <code>nodeU</code> or <code>nodeV</code> are removed from the network after this method is
+ called, the <code>Set</code> <code>view</code> returned by this method will be invalidated, and will
+ throw <code>IllegalStateException</code> if it is accessed in any way, with the following
+ exceptions:
+
+ <ul>
+   <li><code>view.equals(view)</code> evaluates to <code>true</code> (but any other `equals()` expression
+       involving <code>view</code> will throw)
+   <li><code>hashCode()</code> does not throw
+   <li>if <code>nodeU</code> or <code>nodeV</code> are re-added to the network after having been removed,
+       <code>view</code>'s behavior is undefined
+ </ul></div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.IllegalArgumentException</code> - if <code>nodeU</code> or <code>nodeV</code> is not an element of this
@@ -812,19 +907,32 @@ extends <a href="SuccessorsFunction.html" title="interface in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>edgesConnecting</h4>
-<pre class="methodSignature">java.util.Set&lt;<a href="Network.html" title="type parameter in Network">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.311">edgesConnecting</a>&#8203;(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="Network.html" title="type parameter in Network">N</a>&gt;&nbsp;endpoints)</pre>
-<div class="block">Returns the set of edges that each directly connect <code>endpoints</code> (in the order, if any,
- specified by <code>endpoints</code>).
+<pre class="methodSignature">java.util.Set&lt;<a href="Network.html" title="type parameter in Network">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.416">edgesConnecting</a>&#8203;(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="Network.html" title="type parameter in Network">N</a>&gt;&nbsp;endpoints)</pre>
+<div class="block">Returns a live view of the set of edges that each directly connect <code>endpoints</code> (in the
+ order, if any, specified by <code>endpoints</code>).
 
  <p>The resulting set of edges will be parallel (i.e. have equal <a href="#incidentNodes(E)"><code>incidentNodes(Object)</code></a>). If this network does not <a href="#allowsParallelEdges()"><code>allow parallel
  edges</code></a>, the resulting set will contain at most one edge (equivalent to <code>
  edgeConnecting(endpoints).asSet()</code>).
 
- <p>If this network is directed, <code>endpoints</code> must be ordered.</div>
+ <p>If this network is directed, <code>endpoints</code> must be ordered.
+
+ <p>If either element of <code>endpoints</code> is removed from the network after this method is
+ called, the <code>Set</code> <code>view</code> returned by this method will be invalidated, and will
+ throw <code>IllegalStateException</code> if it is accessed in any way, with the following
+ exceptions:
+
+ <ul>
+   <li><code>view.equals(view)</code> evaluates to <code>true</code> (but any other `equals()` expression
+       involving <code>view</code> will throw)
+   <li><code>hashCode()</code> does not throw
+   <li>if either endpoint is re-added to the network after having been removed, <code>view</code>'s
+       behavior is undefined
+ </ul></div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.IllegalArgumentException</code> - if either endpoint is not an element of this network</dd>
-<dd><code>java.lang.IllegalArgumentException</code> - if the endpoints are unordered and the graph is directed</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if the endpoints are unordered and the network is directed</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>27.1</dd>
 </dl>
@@ -838,7 +946,7 @@ extends <a href="SuccessorsFunction.html" title="interface in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>edgeConnecting</h4>
-<pre class="methodSignature">java.util.Optional&lt;<a href="Network.html" title="type parameter in Network">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.325">edgeConnecting</a>&#8203;(<a href="Network.html" title="type parameter in Network">N</a>&nbsp;nodeU,
+<pre class="methodSignature">java.util.Optional&lt;<a href="Network.html" title="type parameter in Network">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.430">edgeConnecting</a>&#8203;(<a href="Network.html" title="type parameter in Network">N</a>&nbsp;nodeU,
                                      <a href="Network.html" title="type parameter in Network">N</a>&nbsp;nodeV)</pre>
 <div class="block">Returns the single edge that directly connects <code>nodeU</code> to <code>nodeV</code>, if one is
  present, or <code>Optional.empty()</code> if no such edge exists.
@@ -861,18 +969,18 @@ extends <a href="SuccessorsFunction.html" title="interface in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>edgeConnecting</h4>
-<pre class="methodSignature">java.util.Optional&lt;<a href="Network.html" title="type parameter in Network">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.340">edgeConnecting</a>&#8203;(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="Network.html" title="type parameter in Network">N</a>&gt;&nbsp;endpoints)</pre>
+<pre class="methodSignature">java.util.Optional&lt;<a href="Network.html" title="type parameter in Network">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.445">edgeConnecting</a>&#8203;(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="Network.html" title="type parameter in Network">N</a>&gt;&nbsp;endpoints)</pre>
 <div class="block">Returns the single edge that directly connects <code>endpoints</code> (in the order, if any,
  specified by <code>endpoints</code>), if one is present, or <code>Optional.empty()</code> if no such edge
  exists.
 
- <p>If this graph is directed, the endpoints must be ordered.</div>
+ <p>If this network is directed, the endpoints must be ordered.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.IllegalArgumentException</code> - if there are multiple parallel edges connecting <code>nodeU</code>
      to <code>nodeV</code></dd>
 <dd><code>java.lang.IllegalArgumentException</code> - if either endpoint is not an element of this network</dd>
-<dd><code>java.lang.IllegalArgumentException</code> - if the endpoints are unordered and the graph is directed</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if the endpoints are unordered and the network is directed</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>27.1</dd>
 </dl>
@@ -887,7 +995,7 @@ extends <a href="SuccessorsFunction.html" title="interface in com.google.common.
 <li class="blockList">
 <h4>edgeConnectingOrNull</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-<a href="Network.html" title="type parameter in Network">E</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.354">edgeConnectingOrNull</a>&#8203;(<a href="Network.html" title="type parameter in Network">N</a>&nbsp;nodeU,
+<a href="Network.html" title="type parameter in Network">E</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.459">edgeConnectingOrNull</a>&#8203;(<a href="Network.html" title="type parameter in Network">N</a>&nbsp;nodeU,
                        <a href="Network.html" title="type parameter in Network">N</a>&nbsp;nodeV)</pre>
 <div class="block">Returns the single edge that directly connects <code>nodeU</code> to <code>nodeV</code>, if one is
  present, or <code>null</code> if no such edge exists.
@@ -911,17 +1019,17 @@ extends <a href="SuccessorsFunction.html" title="interface in com.google.common.
 <li class="blockList">
 <h4>edgeConnectingOrNull</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-<a href="Network.html" title="type parameter in Network">E</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.369">edgeConnectingOrNull</a>&#8203;(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="Network.html" title="type parameter in Network">N</a>&gt;&nbsp;endpoints)</pre>
+<a href="Network.html" title="type parameter in Network">E</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.474">edgeConnectingOrNull</a>&#8203;(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="Network.html" title="type parameter in Network">N</a>&gt;&nbsp;endpoints)</pre>
 <div class="block">Returns the single edge that directly connects <code>endpoints</code> (in the order, if any,
  specified by <code>endpoints</code>), if one is present, or <code>null</code> if no such edge exists.
 
- <p>If this graph is directed, the endpoints must be ordered.</div>
+ <p>If this network is directed, the endpoints must be ordered.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.IllegalArgumentException</code> - if there are multiple parallel edges connecting <code>nodeU</code>
      to <code>nodeV</code></dd>
 <dd><code>java.lang.IllegalArgumentException</code> - if either endpoint is not an element of this network</dd>
-<dd><code>java.lang.IllegalArgumentException</code> - if the endpoints are unordered and the graph is directed</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if the endpoints are unordered and the network is directed</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>27.1</dd>
 </dl>
@@ -935,13 +1043,13 @@ extends <a href="SuccessorsFunction.html" title="interface in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>hasEdgeConnecting</h4>
-<pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.381">hasEdgeConnecting</a>&#8203;(<a href="Network.html" title="type parameter in Network">N</a>&nbsp;nodeU,
+<pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.486">hasEdgeConnecting</a>&#8203;(<a href="Network.html" title="type parameter in Network">N</a>&nbsp;nodeU,
                           <a href="Network.html" title="type parameter in Network">N</a>&nbsp;nodeV)</pre>
 <div class="block">Returns true if there is an edge that directly connects <code>nodeU</code> to <code>nodeV</code>. This is
  equivalent to <code>nodes().contains(nodeU) &amp;&amp; successors(nodeU).contains(nodeV)</code>, and to
  <code>edgeConnectingOrNull(nodeU, nodeV) != null</code>.
 
- <p>In an undirected graph, this is equal to <code>hasEdgeConnecting(nodeV, nodeU)</code>.</div>
+ <p>In an undirected network, this is equal to <code>hasEdgeConnecting(nodeV, nodeU)</code>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>23.0</dd>
@@ -954,13 +1062,13 @@ extends <a href="SuccessorsFunction.html" title="interface in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>hasEdgeConnecting</h4>
-<pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.394">hasEdgeConnecting</a>&#8203;(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="Network.html" title="type parameter in Network">N</a>&gt;&nbsp;endpoints)</pre>
+<pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.499">hasEdgeConnecting</a>&#8203;(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="Network.html" title="type parameter in Network">N</a>&gt;&nbsp;endpoints)</pre>
 <div class="block">Returns true if there is an edge that directly connects <code>endpoints</code> (in the order, if
  any, specified by <code>endpoints</code>).
 
  <p>Unlike the other <code>EndpointPair</code>-accepting methods, this method does not throw if the
- endpoints are unordered and the graph is directed; it simply returns <code>false</code>. This is for
- consistency with <a href="Graph.html#hasEdgeConnecting(com.google.common.graph.EndpointPair)"><code>Graph.hasEdgeConnecting(EndpointPair)</code></a> and <a href="ValueGraph.html#hasEdgeConnecting(com.google.common.graph.EndpointPair)"><code>ValueGraph.hasEdgeConnecting(EndpointPair)</code></a>.</div>
+ endpoints are unordered and the network is directed; it simply returns <code>false</code>. This is
+ for consistency with <a href="Graph.html#hasEdgeConnecting(com.google.common.graph.EndpointPair)"><code>Graph.hasEdgeConnecting(EndpointPair)</code></a> and <a href="ValueGraph.html#hasEdgeConnecting(com.google.common.graph.EndpointPair)"><code>ValueGraph.hasEdgeConnecting(EndpointPair)</code></a>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>27.1</dd>
@@ -973,7 +1081,7 @@ extends <a href="SuccessorsFunction.html" title="interface in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.420">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+<pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.525">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                java.lang.Object&nbsp;object)</pre>
 <div class="block">Returns <code>true</code> iff <code>object</code> is a <a href="Network.html" title="interface in com.google.common.graph"><code>Network</code></a> that has the same elements and the
  same structural relationships as those in this network.
@@ -1005,7 +1113,7 @@ extends <a href="SuccessorsFunction.html" title="interface in com.google.common.
 <ul class="blockListLast">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre class="methodSignature">int&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.430">hashCode</a>()</pre>
+<pre class="methodSignature">int&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.535">hashCode</a>()</pre>
 <div class="block">Returns the hash code for this network. The hash code of a network is defined as the hash code
  of a map from each of its <a href="#edges()"><code>edges</code></a> to their <a href="#incidentNodes(E)"><code>incident nodes</code></a>.
 

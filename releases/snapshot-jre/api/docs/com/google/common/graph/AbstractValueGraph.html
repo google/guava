@@ -27,7 +27,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10};
+var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10,"i17":10,"i18":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -296,18 +296,31 @@ implements <a href="ValueGraph.html" title="interface in com.google.common.graph
 </td>
 </tr>
 <tr id="i14" class="altColor">
+<td class="colFirst"><code>protected &lt;T&gt;&nbsp;java.util.Set&lt;T&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#nodeInvalidatableSet(java.util.Set,N)">nodeInvalidatableSet</a></span>&#8203;(java.util.Set&lt;T&gt;&nbsp;set,
+                    N&nbsp;node)</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr id="i15" class="rowColor">
+<td class="colFirst"><code>protected &lt;T&gt;&nbsp;java.util.Set&lt;T&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#nodePairInvalidatableSet(java.util.Set,N,N)">nodePairInvalidatableSet</a></span>&#8203;(java.util.Set&lt;T&gt;&nbsp;set,
+                        N&nbsp;nodeU,
+                        N&nbsp;nodeV)</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr id="i16" class="altColor">
 <td class="colFirst"><code>int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#outDegree(N)">outDegree</a></span>&#8203;(N&nbsp;node)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i15" class="rowColor">
+<tr id="i17" class="rowColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toString()">toString</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns a string representation of this graph.</div>
 </td>
 </tr>
-<tr id="i16" class="altColor">
+<tr id="i18" class="altColor">
 <td class="colFirst"><code>protected void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#validateEndpoints(com.google.common.graph.EndpointPair)">validateEndpoints</a></span>&#8203;(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;?&gt;&nbsp;endpoints)</code></th>
 <td class="colLast">
@@ -599,12 +612,37 @@ implements <a href="ValueGraph.html" title="interface in com.google.common.graph
 <a id="isOrderingCompatible(com.google.common.graph.EndpointPair)">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>isOrderingCompatible</h4>
 <pre class="methodSignature">protected final&nbsp;boolean&nbsp;isOrderingCompatible&#8203;(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;?&gt;&nbsp;endpoints)</pre>
 <div class="block">Returns <code>true</code> iff <code>endpoints</code>' ordering is compatible with the directionality of
  this graph.</div>
+</li>
+</ul>
+<a id="nodeInvalidatableSet(java.util.Set,java.lang.Object)">
+<!--   -->
+</a><a id="nodeInvalidatableSet(java.util.Set,N)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>nodeInvalidatableSet</h4>
+<pre class="methodSignature">protected final&nbsp;&lt;T&gt;&nbsp;java.util.Set&lt;T&gt;&nbsp;nodeInvalidatableSet&#8203;(java.util.Set&lt;T&gt;&nbsp;set,
+                                                          N&nbsp;node)</pre>
+</li>
+</ul>
+<a id="nodePairInvalidatableSet(java.util.Set,java.lang.Object,java.lang.Object)">
+<!--   -->
+</a><a id="nodePairInvalidatableSet(java.util.Set,N,N)">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>nodePairInvalidatableSet</h4>
+<pre class="methodSignature">protected final&nbsp;&lt;T&gt;&nbsp;java.util.Set&lt;T&gt;&nbsp;nodePairInvalidatableSet&#8203;(java.util.Set&lt;T&gt;&nbsp;set,
+                                                              N&nbsp;nodeU,
+                                                              N&nbsp;nodeV)</pre>
 </li>
 </ul>
 </li>
