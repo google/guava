@@ -56,20 +56,20 @@ import javax.annotation.CheckForNull;
  * NetworkBuilder} class:
  *
  * <pre>{@code
- * MutableNetwork<Integer, MyEdge> graph = NetworkBuilder.directed().build();
+ * MutableNetwork<Integer, MyEdge> network = NetworkBuilder.directed().build();
  * }</pre>
  *
  * <p>{@link NetworkBuilder#build()} returns an instance of {@link MutableNetwork}, which is a
  * subtype of {@code Network} that provides methods for adding and removing nodes and edges. If you
- * do not need to mutate a graph (e.g. if you write a method than runs a read-only algorithm on the
- * graph), you should use the non-mutating {@link Network} interface, or an {@link
+ * do not need to mutate a network (e.g. if you write a method than runs a read-only algorithm on
+ * the network), you should use the non-mutating {@link Network} interface, or an {@link
  * ImmutableNetwork}.
  *
  * <p>You can create an immutable copy of an existing {@code Network} using {@link
  * ImmutableNetwork#copyOf(Network)}:
  *
  * <pre>{@code
- * ImmutableNetwork<Integer, MyEdge> immutableGraph = ImmutableNetwork.copyOf(graph);
+ * ImmutableNetwork<Integer, MyEdge> immutableGraph = ImmutableNetwork.copyOf(network);
  * }</pre>
  *
  * <p>Instances of {@link ImmutableNetwork} do not implement {@link MutableNetwork} (obviously!) and
@@ -160,19 +160,36 @@ public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFuncti
   //
 
   /**
-   * Returns the nodes which have an incident edge in common with {@code node} in this network.
+   * Returns a live view of the nodes which have an incident edge in common with {@code node} in
+   * this network.
    *
    * <p>This is equal to the union of {@link #predecessors(Object)} and {@link #successors(Object)}.
+   *
+   * <p>If {@code node} is removed from the network after this method is called, the {@code Set}
+   * {@code view} returned by this method will be invalidated, and will throw {@code
+   * IllegalStateException} if it is accessed in any way, with the following exceptions:
+   *
+   * <ul>
+   *   <li>{@code view.equals(view)} evaluates to {@code true} (but any other `equals()` expression
+   *       involving {@code view} will throw)
+   *   <li>{@code hashCode()} does not throw
+   *   <li>if {@code node} is re-added to the network after having been removed, {@code view}'s
+   *       behavior is undefined
+   * </ul>
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this network
    */
   Set<N> adjacentNodes(N node);
 
   /**
-   * Returns all nodes in this network adjacent to {@code node} which can be reached by traversing
-   * {@code node}'s incoming edges <i>against</i> the direction (if any) of the edge.
+   * Returns a live view of all nodes in this network adjacent to {@code node} which can be reached
+   * by traversing {@code node}'s incoming edges <i>against</i> the direction (if any) of the edge.
    *
    * <p>In an undirected network, this is equivalent to {@link #adjacentNodes(Object)}.
+   *
+   * <p>If {@code node} is removed from the network after this method is called, the `Set` returned
+   * by this method will be invalidated, and will throw `IllegalStateException` if it is accessed in
+   * any way.
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this network
    */
@@ -180,13 +197,25 @@ public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFuncti
   Set<N> predecessors(N node);
 
   /**
-   * Returns all nodes in this network adjacent to {@code node} which can be reached by traversing
-   * {@code node}'s outgoing edges in the direction (if any) of the edge.
+   * Returns a live view of all nodes in this network adjacent to {@code node} which can be reached
+   * by traversing {@code node}'s outgoing edges in the direction (if any) of the edge.
    *
    * <p>In an undirected network, this is equivalent to {@link #adjacentNodes(Object)}.
    *
    * <p>This is <i>not</i> the same as "all nodes reachable from {@code node} by following outgoing
    * edges". For that functionality, see {@link Graphs#reachableNodes(Graph, Object)}.
+   *
+   * <p>If {@code node} is removed from the network after this method is called, the {@code Set}
+   * {@code view} returned by this method will be invalidated, and will throw {@code
+   * IllegalStateException} if it is accessed in any way, with the following exceptions:
+   *
+   * <ul>
+   *   <li>{@code view.equals(view)} evaluates to {@code true} (but any other `equals()` expression
+   *       involving {@code view} will throw)
+   *   <li>{@code hashCode()} does not throw
+   *   <li>if {@code node} is re-added to the network after having been removed, {@code view}'s
+   *       behavior is undefined
+   * </ul>
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this network
    */
@@ -194,34 +223,71 @@ public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFuncti
   Set<N> successors(N node);
 
   /**
-   * Returns the edges whose {@link #incidentNodes(Object) incident nodes} in this network include
-   * {@code node}.
+   * Returns a live view of the edges whose {@link #incidentNodes(Object) incident nodes} in this
+   * network include {@code node}.
    *
    * <p>This is equal to the union of {@link #inEdges(Object)} and {@link #outEdges(Object)}.
    *
+   * <p>If {@code node} is removed from the network after this method is called, the {@code Set}
+   * {@code view} returned by this method will be invalidated, and will throw {@code
+   * IllegalStateException} if it is accessed in any way, with the following exceptions:
+   *
+   * <ul>
+   *   <li>{@code view.equals(view)} evaluates to {@code true} (but any other `equals()` expression
+   *       involving {@code view} will throw)
+   *   <li>{@code hashCode()} does not throw
+   *   <li>if {@code node} is re-added to the network after having been removed, {@code view}'s
+   *       behavior is undefined
+   * </ul>
+   *
    * @throws IllegalArgumentException if {@code node} is not an element of this network
+   * @since 24.0
    */
   Set<E> incidentEdges(N node);
 
   /**
-   * Returns all edges in this network which can be traversed in the direction (if any) of the edge
-   * to end at {@code node}.
+   * Returns a live view of all edges in this network which can be traversed in the direction (if
+   * any) of the edge to end at {@code node}.
    *
    * <p>In a directed network, an incoming edge's {@link EndpointPair#target()} equals {@code node}.
    *
    * <p>In an undirected network, this is equivalent to {@link #incidentEdges(Object)}.
+   *
+   * <p>If {@code node} is removed from the network after this method is called, the {@code Set}
+   * {@code view} returned by this method will be invalidated, and will throw {@code
+   * IllegalStateException} if it is accessed in any way, with the following exceptions:
+   *
+   * <ul>
+   *   <li>{@code view.equals(view)} evaluates to {@code true} (but any other `equals()` expression
+   *       involving {@code view} will throw)
+   *   <li>{@code hashCode()} does not throw
+   *   <li>if {@code node} is re-added to the network after having been removed, {@code view}'s
+   *       behavior is undefined
+   * </ul>
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this network
    */
   Set<E> inEdges(N node);
 
   /**
-   * Returns all edges in this network which can be traversed in the direction (if any) of the edge
-   * starting from {@code node}.
+   * Returns a live view of all edges in this network which can be traversed in the direction (if
+   * any) of the edge starting from {@code node}.
    *
    * <p>In a directed network, an outgoing edge's {@link EndpointPair#source()} equals {@code node}.
    *
    * <p>In an undirected network, this is equivalent to {@link #incidentEdges(Object)}.
+   *
+   * <p>If {@code node} is removed from the network after this method is called, the {@code Set}
+   * {@code view} returned by this method will be invalidated, and will throw {@code
+   * IllegalStateException} if it is accessed in any way, with the following exceptions:
+   *
+   * <ul>
+   *   <li>{@code view.equals(view)} evaluates to {@code true} (but any other `equals()` expression
+   *       involving {@code view} will throw)
+   *   <li>{@code hashCode()} does not throw
+   *   <li>if {@code node} is re-added to the network after having been removed, {@code view}'s
+   *       behavior is undefined
+   * </ul>
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this network
    */
@@ -270,15 +336,28 @@ public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFuncti
   EndpointPair<N> incidentNodes(E edge);
 
   /**
-   * Returns the edges which have an {@link #incidentNodes(Object) incident node} in common with
-   * {@code edge}. An edge is not considered adjacent to itself.
+   * Returns a live view of the edges which have an {@link #incidentNodes(Object) incident node} in
+   * common with {@code edge}. An edge is not considered adjacent to itself.
+   *
+   * <p>If {@code edge} is removed from the network after this method is called, the {@code Set}
+   * {@code view} returned by this method will be invalidated, and will throw {@code
+   * IllegalStateException} if it is accessed in any way, with the following exceptions:
+   *
+   * <ul>
+   *   <li>{@code view.equals(view)} evaluates to {@code true} (but any other `equals()` expression
+   *       involving {@code view} will throw)
+   *   <li>{@code hashCode()} does not throw
+   *   <li>if {@code edge} is re-added to the network after having been removed, {@code view}'s
+   *       behavior is undefined
+   * </ul>
    *
    * @throws IllegalArgumentException if {@code edge} is not an element of this network
    */
   Set<E> adjacentEdges(E edge);
 
   /**
-   * Returns the set of edges that each directly connect {@code nodeU} to {@code nodeV}.
+   * Returns a live view of the set of edges that each directly connect {@code nodeU} to {@code
+   * nodeV}.
    *
    * <p>In an undirected network, this is equal to {@code edgesConnecting(nodeV, nodeU)}.
    *
@@ -287,14 +366,27 @@ public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFuncti
    * edges}, the resulting set will contain at most one edge (equivalent to {@code
    * edgeConnecting(nodeU, nodeV).asSet()}).
    *
+   * <p>If either {@code nodeU} or {@code nodeV} are removed from the network after this method is
+   * called, the {@code Set} {@code view} returned by this method will be invalidated, and will
+   * throw {@code IllegalStateException} if it is accessed in any way, with the following
+   * exceptions:
+   *
+   * <ul>
+   *   <li>{@code view.equals(view)} evaluates to {@code true} (but any other `equals()` expression
+   *       involving {@code view} will throw)
+   *   <li>{@code hashCode()} does not throw
+   *   <li>if {@code nodeU} or {@code nodeV} are re-added to the network after having been removed,
+   *       {@code view}'s behavior is undefined
+   * </ul>
+   *
    * @throws IllegalArgumentException if {@code nodeU} or {@code nodeV} is not an element of this
    *     network
    */
   Set<E> edgesConnecting(N nodeU, N nodeV);
 
   /**
-   * Returns the set of edges that each directly connect {@code endpoints} (in the order, if any,
-   * specified by {@code endpoints}).
+   * Returns a live view of the set of edges that each directly connect {@code endpoints} (in the
+   * order, if any, specified by {@code endpoints}).
    *
    * <p>The resulting set of edges will be parallel (i.e. have equal {@link
    * #incidentNodes(Object)}). If this network does not {@link #allowsParallelEdges() allow parallel
@@ -303,8 +395,21 @@ public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFuncti
    *
    * <p>If this network is directed, {@code endpoints} must be ordered.
    *
+   * <p>If either element of {@code endpoints} is removed from the network after this method is
+   * called, the {@code Set} {@code view} returned by this method will be invalidated, and will
+   * throw {@code IllegalStateException} if it is accessed in any way, with the following
+   * exceptions:
+   *
+   * <ul>
+   *   <li>{@code view.equals(view)} evaluates to {@code true} (but any other `equals()` expression
+   *       involving {@code view} will throw)
+   *   <li>{@code hashCode()} does not throw
+   *   <li>if either endpoint is re-added to the network after having been removed, {@code view}'s
+   *       behavior is undefined
+   * </ul>
+   *
    * @throws IllegalArgumentException if either endpoint is not an element of this network
-   * @throws IllegalArgumentException if the endpoints are unordered and the graph is directed
+   * @throws IllegalArgumentException if the endpoints are unordered and the network is directed
    * @since 27.1
    */
   Set<E> edgesConnecting(EndpointPair<N> endpoints);
@@ -328,12 +433,12 @@ public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFuncti
    * Returns the single edge that directly connects {@code endpoints} (in the order, if any,
    * specified by {@code endpoints}), if one is present, or {@code null} if no such edge exists.
    *
-   * <p>If this graph is directed, the endpoints must be ordered.
+   * <p>If this network is directed, the endpoints must be ordered.
    *
    * @throws IllegalArgumentException if there are multiple parallel edges connecting {@code nodeU}
    *     to {@code nodeV}
    * @throws IllegalArgumentException if either endpoint is not an element of this network
-   * @throws IllegalArgumentException if the endpoints are unordered and the graph is directed
+   * @throws IllegalArgumentException if the endpoints are unordered and the network is directed
    * @since 27.1
    */
   @CheckForNull
@@ -344,7 +449,7 @@ public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFuncti
    * equivalent to {@code nodes().contains(nodeU) && successors(nodeU).contains(nodeV)}, and to
    * {@code edgeConnectingOrNull(nodeU, nodeV) != null}.
    *
-   * <p>In an undirected graph, this is equal to {@code hasEdgeConnecting(nodeV, nodeU)}.
+   * <p>In an undirected network, this is equal to {@code hasEdgeConnecting(nodeV, nodeU)}.
    *
    * @since 23.0
    */
@@ -355,8 +460,8 @@ public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFuncti
    * any, specified by {@code endpoints}).
    *
    * <p>Unlike the other {@code EndpointPair}-accepting methods, this method does not throw if the
-   * endpoints are unordered and the graph is directed; it simply returns {@code false}. This is for
-   * consistency with {@link Graph#hasEdgeConnecting(EndpointPair)} and {@link
+   * endpoints are unordered and the network is directed; it simply returns {@code false}. This is
+   * for consistency with {@link Graph#hasEdgeConnecting(EndpointPair)} and {@link
    * ValueGraph#hasEdgeConnecting(EndpointPair)}.
    *
    * @since 27.1
