@@ -18,11 +18,8 @@ package com.google.common.graph;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.graph.GraphConstants.EDGE_REMOVED_FROM_GRAPH;
 import static com.google.common.graph.GraphConstants.ENDPOINTS_MISMATCH;
 import static com.google.common.graph.GraphConstants.MULTIPLE_EDGES_CONNECTING;
-import static com.google.common.graph.GraphConstants.NODE_PAIR_REMOVED_FROM_GRAPH;
-import static com.google.common.graph.GraphConstants.NODE_REMOVED_FROM_GRAPH;
 import static java.util.Collections.unmodifiableSet;
 
 import com.google.common.annotations.Beta;
@@ -53,6 +50,7 @@ import javax.annotation.CheckForNull;
 @Beta
 @ElementTypesAreNonnullByDefault
 public abstract class AbstractNetwork<N, E> implements Network<N, E> {
+
   @Override
   public Graph<N> asGraph() {
     return new AbstractGraph<N>() {
@@ -162,20 +160,16 @@ public abstract class AbstractNetwork<N, E> implements Network<N, E> {
     EndpointPair<N> endpointPair = incidentNodes(edge); // Verifies that edge is in this network.
     Set<E> endpointPairIncidentEdges =
         Sets.union(incidentEdges(endpointPair.nodeU()), incidentEdges(endpointPair.nodeV()));
-    return edgeInvalidatableSet(
-        Sets.difference(endpointPairIncidentEdges, ImmutableSet.of(edge)), edge);
+    return Sets.difference(endpointPairIncidentEdges, ImmutableSet.of(edge));
   }
 
   @Override
   public Set<E> edgesConnecting(N nodeU, N nodeV) {
     Set<E> outEdgesU = outEdges(nodeU);
     Set<E> inEdgesV = inEdges(nodeV);
-    return nodePairInvalidatableSet(
-        outEdgesU.size() <= inEdgesV.size()
-            ? unmodifiableSet(Sets.filter(outEdgesU, connectedPredicate(nodeU, nodeV)))
-            : unmodifiableSet(Sets.filter(inEdgesV, connectedPredicate(nodeV, nodeU))),
-        nodeU,
-        nodeV);
+    return outEdgesU.size() <= inEdgesV.size()
+        ? unmodifiableSet(Sets.filter(outEdgesU, connectedPredicate(nodeU, nodeV)))
+        : unmodifiableSet(Sets.filter(inEdgesV, connectedPredicate(nodeV, nodeU)));
   }
 
   @Override
@@ -276,23 +270,6 @@ public abstract class AbstractNetwork<N, E> implements Network<N, E> {
         + nodes()
         + ", edges: "
         + edgeIncidentNodesMap(this);
-  }
-
-  protected final <T> Set<T> edgeInvalidatableSet(Set<T> set, E edge) {
-    return InvalidatableSet.of(
-        set, () -> edges().contains(edge), String.format(EDGE_REMOVED_FROM_GRAPH, edge));
-  }
-
-  protected final <T> Set<T> nodeInvalidatableSet(Set<T> set, N node) {
-    return InvalidatableSet.of(
-        set, () -> nodes().contains(node), String.format(NODE_REMOVED_FROM_GRAPH, node));
-  }
-
-  protected final <T> Set<T> nodePairInvalidatableSet(Set<T> set, N nodeU, N nodeV) {
-    return InvalidatableSet.of(
-        set,
-        () -> nodes().contains(nodeU) && nodes().contains(nodeV),
-        String.format(NODE_PAIR_REMOVED_FROM_GRAPH, nodeU, nodeV));
   }
 
   private static <N, E> Map<E, EndpointPair<N>> edgeIncidentNodesMap(final Network<N, E> network) {

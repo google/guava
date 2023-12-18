@@ -103,30 +103,29 @@ class StandardValueGraph<N, V> extends AbstractValueGraph<N, V> {
 
   @Override
   public Set<N> adjacentNodes(N node) {
-    return nodeInvalidatableSet(checkedConnections(node).adjacentNodes(), node);
+    return checkedConnections(node).adjacentNodes();
   }
 
   @Override
   public Set<N> predecessors(N node) {
-    return nodeInvalidatableSet(checkedConnections(node).predecessors(), node);
+    return checkedConnections(node).predecessors();
   }
 
   @Override
   public Set<N> successors(N node) {
-    return nodeInvalidatableSet(checkedConnections(node).successors(), node);
+    return checkedConnections(node).successors();
   }
 
   @Override
   public Set<EndpointPair<N>> incidentEdges(N node) {
     GraphConnections<N, V> connections = checkedConnections(node);
-    IncidentEdgeSet<N> incident =
-        new IncidentEdgeSet<N>(this, node) {
-          @Override
-          public Iterator<EndpointPair<N>> iterator() {
-            return connections.incidentEdgeIterator(node);
-          }
-        };
-    return nodeInvalidatableSet(incident, node);
+
+    return new IncidentEdgeSet<N>(this, node) {
+      @Override
+      public Iterator<EndpointPair<N>> iterator() {
+        return connections.incidentEdgeIterator(node);
+      }
+    };
   }
 
   @Override

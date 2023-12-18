@@ -130,7 +130,7 @@ class StandardNetwork<N, E> extends AbstractNetwork<N, E> {
 
   @Override
   public Set<E> incidentEdges(N node) {
-    return nodeInvalidatableSet(checkedConnections(node).incidentEdges(), node);
+    return checkedConnections(node).incidentEdges();
   }
 
   @Override
@@ -143,7 +143,7 @@ class StandardNetwork<N, E> extends AbstractNetwork<N, E> {
 
   @Override
   public Set<N> adjacentNodes(N node) {
-    return nodeInvalidatableSet(checkedConnections(node).adjacentNodes(), node);
+    return checkedConnections(node).adjacentNodes();
   }
 
   @Override
@@ -153,27 +153,27 @@ class StandardNetwork<N, E> extends AbstractNetwork<N, E> {
       return ImmutableSet.of();
     }
     checkArgument(containsNode(nodeV), NODE_NOT_IN_GRAPH, nodeV);
-    return nodePairInvalidatableSet(connectionsU.edgesConnecting(nodeV), nodeU, nodeV);
+    return connectionsU.edgesConnecting(nodeV);
   }
 
   @Override
   public Set<E> inEdges(N node) {
-    return nodeInvalidatableSet(checkedConnections(node).inEdges(), node);
+    return checkedConnections(node).inEdges();
   }
 
   @Override
   public Set<E> outEdges(N node) {
-    return nodeInvalidatableSet(checkedConnections(node).outEdges(), node);
+    return checkedConnections(node).outEdges();
   }
 
   @Override
   public Set<N> predecessors(N node) {
-    return nodeInvalidatableSet(checkedConnections(node).predecessors(), node);
+    return checkedConnections(node).predecessors();
   }
 
   @Override
   public Set<N> successors(N node) {
-    return nodeInvalidatableSet(checkedConnections(node).successors(), node);
+    return checkedConnections(node).successors();
   }
 
   final NetworkConnections<N, E> checkedConnections(N node) {
