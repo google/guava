@@ -165,192 +165,151 @@
 <span class="sourceLineNo">156</span><a id="line.156">  //</a>
 <span class="sourceLineNo">157</span><a id="line.157"></a>
 <span class="sourceLineNo">158</span><a id="line.158">  /**</a>
-<span class="sourceLineNo">159</span><a id="line.159">   * Returns a live view of the nodes which have an incident edge in common with {@code node} in</a>
-<span class="sourceLineNo">160</span><a id="line.160">   * this graph.</a>
-<span class="sourceLineNo">161</span><a id="line.161">   *</a>
-<span class="sourceLineNo">162</span><a id="line.162">   * &lt;p&gt;This is equal to the union of {@link #predecessors(Object)} and {@link #successors(Object)}.</a>
-<span class="sourceLineNo">163</span><a id="line.163">   *</a>
-<span class="sourceLineNo">164</span><a id="line.164">   * &lt;p&gt;If {@code node} is removed from the graph after this method is called, the {@code Set}</a>
-<span class="sourceLineNo">165</span><a id="line.165">   * {@code view} returned by this method will be invalidated, and will throw {@code</a>
-<span class="sourceLineNo">166</span><a id="line.166">   * IllegalStateException} if it is accessed in any way, with the following exceptions:</a>
-<span class="sourceLineNo">167</span><a id="line.167">   *</a>
-<span class="sourceLineNo">168</span><a id="line.168">   * &lt;ul&gt;</a>
-<span class="sourceLineNo">169</span><a id="line.169">   *   &lt;li&gt;{@code view.equals(view)} evaluates to {@code true} (but any other `equals()` expression</a>
-<span class="sourceLineNo">170</span><a id="line.170">   *       involving {@code view} will throw)</a>
-<span class="sourceLineNo">171</span><a id="line.171">   *   &lt;li&gt;{@code hashCode()} does not throw</a>
-<span class="sourceLineNo">172</span><a id="line.172">   *   &lt;li&gt;if {@code node} is re-added to the graph after having been removed, {@code view}'s</a>
-<span class="sourceLineNo">173</span><a id="line.173">   *       behavior is undefined</a>
-<span class="sourceLineNo">174</span><a id="line.174">   * &lt;/ul&gt;</a>
-<span class="sourceLineNo">175</span><a id="line.175">   *</a>
-<span class="sourceLineNo">176</span><a id="line.176">   * @throws IllegalArgumentException if {@code node} is not an element of this graph</a>
-<span class="sourceLineNo">177</span><a id="line.177">   */</a>
-<span class="sourceLineNo">178</span><a id="line.178">  @Override</a>
-<span class="sourceLineNo">179</span><a id="line.179">  Set&lt;N&gt; adjacentNodes(N node);</a>
-<span class="sourceLineNo">180</span><a id="line.180"></a>
-<span class="sourceLineNo">181</span><a id="line.181">  /**</a>
-<span class="sourceLineNo">182</span><a id="line.182">   * Returns a live view of all nodes in this graph adjacent to {@code node} which can be reached by</a>
-<span class="sourceLineNo">183</span><a id="line.183">   * traversing {@code node}'s incoming edges &lt;i&gt;against&lt;/i&gt; the direction (if any) of the edge.</a>
+<span class="sourceLineNo">159</span><a id="line.159">   * Returns the nodes which have an incident edge in common with {@code node} in this graph.</a>
+<span class="sourceLineNo">160</span><a id="line.160">   *</a>
+<span class="sourceLineNo">161</span><a id="line.161">   * &lt;p&gt;This is equal to the union of {@link #predecessors(Object)} and {@link #successors(Object)}.</a>
+<span class="sourceLineNo">162</span><a id="line.162">   *</a>
+<span class="sourceLineNo">163</span><a id="line.163">   * @throws IllegalArgumentException if {@code node} is not an element of this graph</a>
+<span class="sourceLineNo">164</span><a id="line.164">   */</a>
+<span class="sourceLineNo">165</span><a id="line.165">  @Override</a>
+<span class="sourceLineNo">166</span><a id="line.166">  Set&lt;N&gt; adjacentNodes(N node);</a>
+<span class="sourceLineNo">167</span><a id="line.167"></a>
+<span class="sourceLineNo">168</span><a id="line.168">  /**</a>
+<span class="sourceLineNo">169</span><a id="line.169">   * Returns all nodes in this graph adjacent to {@code node} which can be reached by traversing</a>
+<span class="sourceLineNo">170</span><a id="line.170">   * {@code node}'s incoming edges &lt;i&gt;against&lt;/i&gt; the direction (if any) of the edge.</a>
+<span class="sourceLineNo">171</span><a id="line.171">   *</a>
+<span class="sourceLineNo">172</span><a id="line.172">   * &lt;p&gt;In an undirected graph, this is equivalent to {@link #adjacentNodes(Object)}.</a>
+<span class="sourceLineNo">173</span><a id="line.173">   *</a>
+<span class="sourceLineNo">174</span><a id="line.174">   * @throws IllegalArgumentException if {@code node} is not an element of this graph</a>
+<span class="sourceLineNo">175</span><a id="line.175">   */</a>
+<span class="sourceLineNo">176</span><a id="line.176">  @Override</a>
+<span class="sourceLineNo">177</span><a id="line.177">  Set&lt;N&gt; predecessors(N node);</a>
+<span class="sourceLineNo">178</span><a id="line.178"></a>
+<span class="sourceLineNo">179</span><a id="line.179">  /**</a>
+<span class="sourceLineNo">180</span><a id="line.180">   * Returns all nodes in this graph adjacent to {@code node} which can be reached by traversing</a>
+<span class="sourceLineNo">181</span><a id="line.181">   * {@code node}'s outgoing edges in the direction (if any) of the edge.</a>
+<span class="sourceLineNo">182</span><a id="line.182">   *</a>
+<span class="sourceLineNo">183</span><a id="line.183">   * &lt;p&gt;In an undirected graph, this is equivalent to {@link #adjacentNodes(Object)}.</a>
 <span class="sourceLineNo">184</span><a id="line.184">   *</a>
-<span class="sourceLineNo">185</span><a id="line.185">   * &lt;p&gt;In an undirected graph, this is equivalent to {@link #adjacentNodes(Object)}.</a>
-<span class="sourceLineNo">186</span><a id="line.186">   *</a>
-<span class="sourceLineNo">187</span><a id="line.187">   * &lt;p&gt;If {@code node} is removed from the graph after this method is called, the `Set` returned by</a>
-<span class="sourceLineNo">188</span><a id="line.188">   * this method will be invalidated, and will throw `IllegalStateException` if it is accessed in</a>
-<span class="sourceLineNo">189</span><a id="line.189">   * any way.</a>
-<span class="sourceLineNo">190</span><a id="line.190">   *</a>
-<span class="sourceLineNo">191</span><a id="line.191">   * @throws IllegalArgumentException if {@code node} is not an element of this graph</a>
-<span class="sourceLineNo">192</span><a id="line.192">   */</a>
-<span class="sourceLineNo">193</span><a id="line.193">  @Override</a>
-<span class="sourceLineNo">194</span><a id="line.194">  Set&lt;N&gt; predecessors(N node);</a>
-<span class="sourceLineNo">195</span><a id="line.195"></a>
-<span class="sourceLineNo">196</span><a id="line.196">  /**</a>
-<span class="sourceLineNo">197</span><a id="line.197">   * Returns a live view of all nodes in this graph adjacent to {@code node} which can be reached by</a>
-<span class="sourceLineNo">198</span><a id="line.198">   * traversing {@code node}'s outgoing edges in the direction (if any) of the edge.</a>
-<span class="sourceLineNo">199</span><a id="line.199">   *</a>
-<span class="sourceLineNo">200</span><a id="line.200">   * &lt;p&gt;In an undirected graph, this is equivalent to {@link #adjacentNodes(Object)}.</a>
-<span class="sourceLineNo">201</span><a id="line.201">   *</a>
-<span class="sourceLineNo">202</span><a id="line.202">   * &lt;p&gt;This is &lt;i&gt;not&lt;/i&gt; the same as "all nodes reachable from {@code node} by following outgoing</a>
-<span class="sourceLineNo">203</span><a id="line.203">   * edges". For that functionality, see {@link Graphs#reachableNodes(Graph, Object)}.</a>
-<span class="sourceLineNo">204</span><a id="line.204">   *</a>
-<span class="sourceLineNo">205</span><a id="line.205">   * &lt;p&gt;If {@code node} is removed from the graph after this method is called, the {@code Set}</a>
-<span class="sourceLineNo">206</span><a id="line.206">   * {@code view} returned by this method will be invalidated, and will throw {@code</a>
-<span class="sourceLineNo">207</span><a id="line.207">   * IllegalStateException} if it is accessed in any way, with the following exceptions:</a>
-<span class="sourceLineNo">208</span><a id="line.208">   *</a>
-<span class="sourceLineNo">209</span><a id="line.209">   * &lt;ul&gt;</a>
-<span class="sourceLineNo">210</span><a id="line.210">   *   &lt;li&gt;{@code view.equals(view)} evaluates to {@code true} (but any other `equals()` expression</a>
-<span class="sourceLineNo">211</span><a id="line.211">   *       involving {@code view} will throw)</a>
-<span class="sourceLineNo">212</span><a id="line.212">   *   &lt;li&gt;{@code hashCode()} does not throw</a>
-<span class="sourceLineNo">213</span><a id="line.213">   *   &lt;li&gt;if {@code node} is re-added to the graph after having been removed, {@code view}'s</a>
-<span class="sourceLineNo">214</span><a id="line.214">   *       behavior is undefined</a>
-<span class="sourceLineNo">215</span><a id="line.215">   * &lt;/ul&gt;</a>
-<span class="sourceLineNo">216</span><a id="line.216">   *</a>
-<span class="sourceLineNo">217</span><a id="line.217">   * @throws IllegalArgumentException if {@code node} is not an element of this graph</a>
-<span class="sourceLineNo">218</span><a id="line.218">   */</a>
-<span class="sourceLineNo">219</span><a id="line.219">  @Override</a>
-<span class="sourceLineNo">220</span><a id="line.220">  Set&lt;N&gt; successors(N node);</a>
-<span class="sourceLineNo">221</span><a id="line.221"></a>
-<span class="sourceLineNo">222</span><a id="line.222">  /**</a>
-<span class="sourceLineNo">223</span><a id="line.223">   * Returns a live view of the edges in this graph whose endpoints include {@code node}.</a>
-<span class="sourceLineNo">224</span><a id="line.224">   *</a>
-<span class="sourceLineNo">225</span><a id="line.225">   * &lt;p&gt;This is equal to the union of incoming and outgoing edges.</a>
-<span class="sourceLineNo">226</span><a id="line.226">   *</a>
-<span class="sourceLineNo">227</span><a id="line.227">   * &lt;p&gt;If {@code node} is removed from the graph after this method is called, the {@code Set}</a>
-<span class="sourceLineNo">228</span><a id="line.228">   * {@code view} returned by this method will be invalidated, and will throw {@code</a>
-<span class="sourceLineNo">229</span><a id="line.229">   * IllegalStateException} if it is accessed in any way, with the following exceptions:</a>
-<span class="sourceLineNo">230</span><a id="line.230">   *</a>
-<span class="sourceLineNo">231</span><a id="line.231">   * &lt;ul&gt;</a>
-<span class="sourceLineNo">232</span><a id="line.232">   *   &lt;li&gt;{@code view.equals(view)} evaluates to {@code true} (but any other `equals()` expression</a>
-<span class="sourceLineNo">233</span><a id="line.233">   *       involving {@code view} will throw)</a>
-<span class="sourceLineNo">234</span><a id="line.234">   *   &lt;li&gt;{@code hashCode()} does not throw</a>
-<span class="sourceLineNo">235</span><a id="line.235">   *   &lt;li&gt;if {@code node} is re-added to the graph after having been removed, {@code view}'s</a>
-<span class="sourceLineNo">236</span><a id="line.236">   *       behavior is undefined</a>
-<span class="sourceLineNo">237</span><a id="line.237">   * &lt;/ul&gt;</a>
-<span class="sourceLineNo">238</span><a id="line.238">   *</a>
-<span class="sourceLineNo">239</span><a id="line.239">   * @throws IllegalArgumentException if {@code node} is not an element of this graph</a>
-<span class="sourceLineNo">240</span><a id="line.240">   * @since 24.0</a>
-<span class="sourceLineNo">241</span><a id="line.241">   */</a>
-<span class="sourceLineNo">242</span><a id="line.242">  @Override</a>
-<span class="sourceLineNo">243</span><a id="line.243">  Set&lt;EndpointPair&lt;N&gt;&gt; incidentEdges(N node);</a>
-<span class="sourceLineNo">244</span><a id="line.244"></a>
-<span class="sourceLineNo">245</span><a id="line.245">  /**</a>
-<span class="sourceLineNo">246</span><a id="line.246">   * Returns the count of {@code node}'s incident edges, counting self-loops twice (equivalently,</a>
-<span class="sourceLineNo">247</span><a id="line.247">   * the number of times an edge touches {@code node}).</a>
-<span class="sourceLineNo">248</span><a id="line.248">   *</a>
-<span class="sourceLineNo">249</span><a id="line.249">   * &lt;p&gt;For directed graphs, this is equal to {@code inDegree(node) + outDegree(node)}.</a>
-<span class="sourceLineNo">250</span><a id="line.250">   *</a>
-<span class="sourceLineNo">251</span><a id="line.251">   * &lt;p&gt;For undirected graphs, this is equal to {@code incidentEdges(node).size()} + (number of</a>
-<span class="sourceLineNo">252</span><a id="line.252">   * self-loops incident to {@code node}).</a>
-<span class="sourceLineNo">253</span><a id="line.253">   *</a>
-<span class="sourceLineNo">254</span><a id="line.254">   * &lt;p&gt;If the count is greater than {@code Integer.MAX_VALUE}, returns {@code Integer.MAX_VALUE}.</a>
-<span class="sourceLineNo">255</span><a id="line.255">   *</a>
-<span class="sourceLineNo">256</span><a id="line.256">   * @throws IllegalArgumentException if {@code node} is not an element of this graph</a>
-<span class="sourceLineNo">257</span><a id="line.257">   */</a>
-<span class="sourceLineNo">258</span><a id="line.258">  @Override</a>
-<span class="sourceLineNo">259</span><a id="line.259">  int degree(N node);</a>
-<span class="sourceLineNo">260</span><a id="line.260"></a>
-<span class="sourceLineNo">261</span><a id="line.261">  /**</a>
-<span class="sourceLineNo">262</span><a id="line.262">   * Returns the count of {@code node}'s incoming edges (equal to {@code predecessors(node).size()})</a>
-<span class="sourceLineNo">263</span><a id="line.263">   * in a directed graph. In an undirected graph, returns the {@link #degree(Object)}.</a>
-<span class="sourceLineNo">264</span><a id="line.264">   *</a>
-<span class="sourceLineNo">265</span><a id="line.265">   * &lt;p&gt;If the count is greater than {@code Integer.MAX_VALUE}, returns {@code Integer.MAX_VALUE}.</a>
-<span class="sourceLineNo">266</span><a id="line.266">   *</a>
-<span class="sourceLineNo">267</span><a id="line.267">   * @throws IllegalArgumentException if {@code node} is not an element of this graph</a>
-<span class="sourceLineNo">268</span><a id="line.268">   */</a>
-<span class="sourceLineNo">269</span><a id="line.269">  @Override</a>
-<span class="sourceLineNo">270</span><a id="line.270">  int inDegree(N node);</a>
-<span class="sourceLineNo">271</span><a id="line.271"></a>
-<span class="sourceLineNo">272</span><a id="line.272">  /**</a>
-<span class="sourceLineNo">273</span><a id="line.273">   * Returns the count of {@code node}'s outgoing edges (equal to {@code successors(node).size()})</a>
-<span class="sourceLineNo">274</span><a id="line.274">   * in a directed graph. In an undirected graph, returns the {@link #degree(Object)}.</a>
-<span class="sourceLineNo">275</span><a id="line.275">   *</a>
-<span class="sourceLineNo">276</span><a id="line.276">   * &lt;p&gt;If the count is greater than {@code Integer.MAX_VALUE}, returns {@code Integer.MAX_VALUE}.</a>
-<span class="sourceLineNo">277</span><a id="line.277">   *</a>
-<span class="sourceLineNo">278</span><a id="line.278">   * @throws IllegalArgumentException if {@code node} is not an element of this graph</a>
-<span class="sourceLineNo">279</span><a id="line.279">   */</a>
-<span class="sourceLineNo">280</span><a id="line.280">  @Override</a>
-<span class="sourceLineNo">281</span><a id="line.281">  int outDegree(N node);</a>
-<span class="sourceLineNo">282</span><a id="line.282"></a>
-<span class="sourceLineNo">283</span><a id="line.283">  /**</a>
-<span class="sourceLineNo">284</span><a id="line.284">   * Returns true if there is an edge that directly connects {@code nodeU} to {@code nodeV}. This is</a>
-<span class="sourceLineNo">285</span><a id="line.285">   * equivalent to {@code nodes().contains(nodeU) &amp;&amp; successors(nodeU).contains(nodeV)}.</a>
-<span class="sourceLineNo">286</span><a id="line.286">   *</a>
-<span class="sourceLineNo">287</span><a id="line.287">   * &lt;p&gt;In an undirected graph, this is equal to {@code hasEdgeConnecting(nodeV, nodeU)}.</a>
-<span class="sourceLineNo">288</span><a id="line.288">   *</a>
-<span class="sourceLineNo">289</span><a id="line.289">   * @since 23.0</a>
-<span class="sourceLineNo">290</span><a id="line.290">   */</a>
-<span class="sourceLineNo">291</span><a id="line.291">  @Override</a>
-<span class="sourceLineNo">292</span><a id="line.292">  boolean hasEdgeConnecting(N nodeU, N nodeV);</a>
-<span class="sourceLineNo">293</span><a id="line.293"></a>
-<span class="sourceLineNo">294</span><a id="line.294">  /**</a>
-<span class="sourceLineNo">295</span><a id="line.295">   * Returns true if there is an edge that directly connects {@code endpoints} (in the order, if</a>
-<span class="sourceLineNo">296</span><a id="line.296">   * any, specified by {@code endpoints}). This is equivalent to {@code</a>
-<span class="sourceLineNo">297</span><a id="line.297">   * edges().contains(endpoints)}.</a>
+<span class="sourceLineNo">185</span><a id="line.185">   * &lt;p&gt;This is &lt;i&gt;not&lt;/i&gt; the same as "all nodes reachable from {@code node} by following outgoing</a>
+<span class="sourceLineNo">186</span><a id="line.186">   * edges". For that functionality, see {@link Graphs#reachableNodes(Graph, Object)}.</a>
+<span class="sourceLineNo">187</span><a id="line.187">   *</a>
+<span class="sourceLineNo">188</span><a id="line.188">   * @throws IllegalArgumentException if {@code node} is not an element of this graph</a>
+<span class="sourceLineNo">189</span><a id="line.189">   */</a>
+<span class="sourceLineNo">190</span><a id="line.190">  @Override</a>
+<span class="sourceLineNo">191</span><a id="line.191">  Set&lt;N&gt; successors(N node);</a>
+<span class="sourceLineNo">192</span><a id="line.192"></a>
+<span class="sourceLineNo">193</span><a id="line.193">  /**</a>
+<span class="sourceLineNo">194</span><a id="line.194">   * Returns the edges in this graph whose endpoints include {@code node}.</a>
+<span class="sourceLineNo">195</span><a id="line.195">   *</a>
+<span class="sourceLineNo">196</span><a id="line.196">   * &lt;p&gt;This is equal to the union of incoming and outgoing edges.</a>
+<span class="sourceLineNo">197</span><a id="line.197">   *</a>
+<span class="sourceLineNo">198</span><a id="line.198">   * @throws IllegalArgumentException if {@code node} is not an element of this graph</a>
+<span class="sourceLineNo">199</span><a id="line.199">   * @since 24.0</a>
+<span class="sourceLineNo">200</span><a id="line.200">   */</a>
+<span class="sourceLineNo">201</span><a id="line.201">  @Override</a>
+<span class="sourceLineNo">202</span><a id="line.202">  Set&lt;EndpointPair&lt;N&gt;&gt; incidentEdges(N node);</a>
+<span class="sourceLineNo">203</span><a id="line.203"></a>
+<span class="sourceLineNo">204</span><a id="line.204">  /**</a>
+<span class="sourceLineNo">205</span><a id="line.205">   * Returns the count of {@code node}'s incident edges, counting self-loops twice (equivalently,</a>
+<span class="sourceLineNo">206</span><a id="line.206">   * the number of times an edge touches {@code node}).</a>
+<span class="sourceLineNo">207</span><a id="line.207">   *</a>
+<span class="sourceLineNo">208</span><a id="line.208">   * &lt;p&gt;For directed graphs, this is equal to {@code inDegree(node) + outDegree(node)}.</a>
+<span class="sourceLineNo">209</span><a id="line.209">   *</a>
+<span class="sourceLineNo">210</span><a id="line.210">   * &lt;p&gt;For undirected graphs, this is equal to {@code incidentEdges(node).size()} + (number of</a>
+<span class="sourceLineNo">211</span><a id="line.211">   * self-loops incident to {@code node}).</a>
+<span class="sourceLineNo">212</span><a id="line.212">   *</a>
+<span class="sourceLineNo">213</span><a id="line.213">   * &lt;p&gt;If the count is greater than {@code Integer.MAX_VALUE}, returns {@code Integer.MAX_VALUE}.</a>
+<span class="sourceLineNo">214</span><a id="line.214">   *</a>
+<span class="sourceLineNo">215</span><a id="line.215">   * @throws IllegalArgumentException if {@code node} is not an element of this graph</a>
+<span class="sourceLineNo">216</span><a id="line.216">   */</a>
+<span class="sourceLineNo">217</span><a id="line.217">  @Override</a>
+<span class="sourceLineNo">218</span><a id="line.218">  int degree(N node);</a>
+<span class="sourceLineNo">219</span><a id="line.219"></a>
+<span class="sourceLineNo">220</span><a id="line.220">  /**</a>
+<span class="sourceLineNo">221</span><a id="line.221">   * Returns the count of {@code node}'s incoming edges (equal to {@code predecessors(node).size()})</a>
+<span class="sourceLineNo">222</span><a id="line.222">   * in a directed graph. In an undirected graph, returns the {@link #degree(Object)}.</a>
+<span class="sourceLineNo">223</span><a id="line.223">   *</a>
+<span class="sourceLineNo">224</span><a id="line.224">   * &lt;p&gt;If the count is greater than {@code Integer.MAX_VALUE}, returns {@code Integer.MAX_VALUE}.</a>
+<span class="sourceLineNo">225</span><a id="line.225">   *</a>
+<span class="sourceLineNo">226</span><a id="line.226">   * @throws IllegalArgumentException if {@code node} is not an element of this graph</a>
+<span class="sourceLineNo">227</span><a id="line.227">   */</a>
+<span class="sourceLineNo">228</span><a id="line.228">  @Override</a>
+<span class="sourceLineNo">229</span><a id="line.229">  int inDegree(N node);</a>
+<span class="sourceLineNo">230</span><a id="line.230"></a>
+<span class="sourceLineNo">231</span><a id="line.231">  /**</a>
+<span class="sourceLineNo">232</span><a id="line.232">   * Returns the count of {@code node}'s outgoing edges (equal to {@code successors(node).size()})</a>
+<span class="sourceLineNo">233</span><a id="line.233">   * in a directed graph. In an undirected graph, returns the {@link #degree(Object)}.</a>
+<span class="sourceLineNo">234</span><a id="line.234">   *</a>
+<span class="sourceLineNo">235</span><a id="line.235">   * &lt;p&gt;If the count is greater than {@code Integer.MAX_VALUE}, returns {@code Integer.MAX_VALUE}.</a>
+<span class="sourceLineNo">236</span><a id="line.236">   *</a>
+<span class="sourceLineNo">237</span><a id="line.237">   * @throws IllegalArgumentException if {@code node} is not an element of this graph</a>
+<span class="sourceLineNo">238</span><a id="line.238">   */</a>
+<span class="sourceLineNo">239</span><a id="line.239">  @Override</a>
+<span class="sourceLineNo">240</span><a id="line.240">  int outDegree(N node);</a>
+<span class="sourceLineNo">241</span><a id="line.241"></a>
+<span class="sourceLineNo">242</span><a id="line.242">  /**</a>
+<span class="sourceLineNo">243</span><a id="line.243">   * Returns true if there is an edge that directly connects {@code nodeU} to {@code nodeV}. This is</a>
+<span class="sourceLineNo">244</span><a id="line.244">   * equivalent to {@code nodes().contains(nodeU) &amp;&amp; successors(nodeU).contains(nodeV)}.</a>
+<span class="sourceLineNo">245</span><a id="line.245">   *</a>
+<span class="sourceLineNo">246</span><a id="line.246">   * &lt;p&gt;In an undirected graph, this is equal to {@code hasEdgeConnecting(nodeV, nodeU)}.</a>
+<span class="sourceLineNo">247</span><a id="line.247">   *</a>
+<span class="sourceLineNo">248</span><a id="line.248">   * @since 23.0</a>
+<span class="sourceLineNo">249</span><a id="line.249">   */</a>
+<span class="sourceLineNo">250</span><a id="line.250">  @Override</a>
+<span class="sourceLineNo">251</span><a id="line.251">  boolean hasEdgeConnecting(N nodeU, N nodeV);</a>
+<span class="sourceLineNo">252</span><a id="line.252"></a>
+<span class="sourceLineNo">253</span><a id="line.253">  /**</a>
+<span class="sourceLineNo">254</span><a id="line.254">   * Returns true if there is an edge that directly connects {@code endpoints} (in the order, if</a>
+<span class="sourceLineNo">255</span><a id="line.255">   * any, specified by {@code endpoints}). This is equivalent to {@code</a>
+<span class="sourceLineNo">256</span><a id="line.256">   * edges().contains(endpoints)}.</a>
+<span class="sourceLineNo">257</span><a id="line.257">   *</a>
+<span class="sourceLineNo">258</span><a id="line.258">   * &lt;p&gt;Unlike the other {@code EndpointPair}-accepting methods, this method does not throw if the</a>
+<span class="sourceLineNo">259</span><a id="line.259">   * endpoints are unordered and the graph is directed; it simply returns {@code false}. This is for</a>
+<span class="sourceLineNo">260</span><a id="line.260">   * consistency with the behavior of {@link Collection#contains(Object)} (which does not generally</a>
+<span class="sourceLineNo">261</span><a id="line.261">   * throw if the object cannot be present in the collection), and the desire to have this method's</a>
+<span class="sourceLineNo">262</span><a id="line.262">   * behavior be compatible with {@code edges().contains(endpoints)}.</a>
+<span class="sourceLineNo">263</span><a id="line.263">   *</a>
+<span class="sourceLineNo">264</span><a id="line.264">   * @since 27.1</a>
+<span class="sourceLineNo">265</span><a id="line.265">   */</a>
+<span class="sourceLineNo">266</span><a id="line.266">  @Override</a>
+<span class="sourceLineNo">267</span><a id="line.267">  boolean hasEdgeConnecting(EndpointPair&lt;N&gt; endpoints);</a>
+<span class="sourceLineNo">268</span><a id="line.268"></a>
+<span class="sourceLineNo">269</span><a id="line.269">  //</a>
+<span class="sourceLineNo">270</span><a id="line.270">  // Graph identity</a>
+<span class="sourceLineNo">271</span><a id="line.271">  //</a>
+<span class="sourceLineNo">272</span><a id="line.272"></a>
+<span class="sourceLineNo">273</span><a id="line.273">  /**</a>
+<span class="sourceLineNo">274</span><a id="line.274">   * Returns {@code true} iff {@code object} is a {@link Graph} that has the same elements and the</a>
+<span class="sourceLineNo">275</span><a id="line.275">   * same structural relationships as those in this graph.</a>
+<span class="sourceLineNo">276</span><a id="line.276">   *</a>
+<span class="sourceLineNo">277</span><a id="line.277">   * &lt;p&gt;Thus, two graphs A and B are equal if &lt;b&gt;all&lt;/b&gt; of the following are true:</a>
+<span class="sourceLineNo">278</span><a id="line.278">   *</a>
+<span class="sourceLineNo">279</span><a id="line.279">   * &lt;ul&gt;</a>
+<span class="sourceLineNo">280</span><a id="line.280">   *   &lt;li&gt;A and B have equal {@link #isDirected() directedness}.</a>
+<span class="sourceLineNo">281</span><a id="line.281">   *   &lt;li&gt;A and B have equal {@link #nodes() node sets}.</a>
+<span class="sourceLineNo">282</span><a id="line.282">   *   &lt;li&gt;A and B have equal {@link #edges() edge sets}.</a>
+<span class="sourceLineNo">283</span><a id="line.283">   * &lt;/ul&gt;</a>
+<span class="sourceLineNo">284</span><a id="line.284">   *</a>
+<span class="sourceLineNo">285</span><a id="line.285">   * &lt;p&gt;Graph properties besides {@link #isDirected() directedness} do &lt;b&gt;not&lt;/b&gt; affect equality.</a>
+<span class="sourceLineNo">286</span><a id="line.286">   * For example, two graphs may be considered equal even if one allows self-loops and the other</a>
+<span class="sourceLineNo">287</span><a id="line.287">   * doesn't. Additionally, the order in which nodes or edges are added to the graph, and the order</a>
+<span class="sourceLineNo">288</span><a id="line.288">   * in which they are iterated over, are irrelevant.</a>
+<span class="sourceLineNo">289</span><a id="line.289">   *</a>
+<span class="sourceLineNo">290</span><a id="line.290">   * &lt;p&gt;A reference implementation of this is provided by {@link AbstractGraph#equals(Object)}.</a>
+<span class="sourceLineNo">291</span><a id="line.291">   */</a>
+<span class="sourceLineNo">292</span><a id="line.292">  @Override</a>
+<span class="sourceLineNo">293</span><a id="line.293">  boolean equals(@CheckForNull Object object);</a>
+<span class="sourceLineNo">294</span><a id="line.294"></a>
+<span class="sourceLineNo">295</span><a id="line.295">  /**</a>
+<span class="sourceLineNo">296</span><a id="line.296">   * Returns the hash code for this graph. The hash code of a graph is defined as the hash code of</a>
+<span class="sourceLineNo">297</span><a id="line.297">   * the set returned by {@link #edges()}.</a>
 <span class="sourceLineNo">298</span><a id="line.298">   *</a>
-<span class="sourceLineNo">299</span><a id="line.299">   * &lt;p&gt;Unlike the other {@code EndpointPair}-accepting methods, this method does not throw if the</a>
-<span class="sourceLineNo">300</span><a id="line.300">   * endpoints are unordered and the graph is directed; it simply returns {@code false}. This is for</a>
-<span class="sourceLineNo">301</span><a id="line.301">   * consistency with the behavior of {@link Collection#contains(Object)} (which does not generally</a>
-<span class="sourceLineNo">302</span><a id="line.302">   * throw if the object cannot be present in the collection), and the desire to have this method's</a>
-<span class="sourceLineNo">303</span><a id="line.303">   * behavior be compatible with {@code edges().contains(endpoints)}.</a>
-<span class="sourceLineNo">304</span><a id="line.304">   *</a>
-<span class="sourceLineNo">305</span><a id="line.305">   * @since 27.1</a>
-<span class="sourceLineNo">306</span><a id="line.306">   */</a>
-<span class="sourceLineNo">307</span><a id="line.307">  @Override</a>
-<span class="sourceLineNo">308</span><a id="line.308">  boolean hasEdgeConnecting(EndpointPair&lt;N&gt; endpoints);</a>
-<span class="sourceLineNo">309</span><a id="line.309"></a>
-<span class="sourceLineNo">310</span><a id="line.310">  //</a>
-<span class="sourceLineNo">311</span><a id="line.311">  // Graph identity</a>
-<span class="sourceLineNo">312</span><a id="line.312">  //</a>
-<span class="sourceLineNo">313</span><a id="line.313"></a>
-<span class="sourceLineNo">314</span><a id="line.314">  /**</a>
-<span class="sourceLineNo">315</span><a id="line.315">   * Returns {@code true} iff {@code object} is a {@link Graph} that has the same elements and the</a>
-<span class="sourceLineNo">316</span><a id="line.316">   * same structural relationships as those in this graph.</a>
-<span class="sourceLineNo">317</span><a id="line.317">   *</a>
-<span class="sourceLineNo">318</span><a id="line.318">   * &lt;p&gt;Thus, two graphs A and B are equal if &lt;b&gt;all&lt;/b&gt; of the following are true:</a>
-<span class="sourceLineNo">319</span><a id="line.319">   *</a>
-<span class="sourceLineNo">320</span><a id="line.320">   * &lt;ul&gt;</a>
-<span class="sourceLineNo">321</span><a id="line.321">   *   &lt;li&gt;A and B have equal {@link #isDirected() directedness}.</a>
-<span class="sourceLineNo">322</span><a id="line.322">   *   &lt;li&gt;A and B have equal {@link #nodes() node sets}.</a>
-<span class="sourceLineNo">323</span><a id="line.323">   *   &lt;li&gt;A and B have equal {@link #edges() edge sets}.</a>
-<span class="sourceLineNo">324</span><a id="line.324">   * &lt;/ul&gt;</a>
-<span class="sourceLineNo">325</span><a id="line.325">   *</a>
-<span class="sourceLineNo">326</span><a id="line.326">   * &lt;p&gt;Graph properties besides {@link #isDirected() directedness} do &lt;b&gt;not&lt;/b&gt; affect equality.</a>
-<span class="sourceLineNo">327</span><a id="line.327">   * For example, two graphs may be considered equal even if one allows self-loops and the other</a>
-<span class="sourceLineNo">328</span><a id="line.328">   * doesn't. Additionally, the order in which nodes or edges are added to the graph, and the order</a>
-<span class="sourceLineNo">329</span><a id="line.329">   * in which they are iterated over, are irrelevant.</a>
-<span class="sourceLineNo">330</span><a id="line.330">   *</a>
-<span class="sourceLineNo">331</span><a id="line.331">   * &lt;p&gt;A reference implementation of this is provided by {@link AbstractGraph#equals(Object)}.</a>
-<span class="sourceLineNo">332</span><a id="line.332">   */</a>
-<span class="sourceLineNo">333</span><a id="line.333">  @Override</a>
-<span class="sourceLineNo">334</span><a id="line.334">  boolean equals(@CheckForNull Object object);</a>
-<span class="sourceLineNo">335</span><a id="line.335"></a>
-<span class="sourceLineNo">336</span><a id="line.336">  /**</a>
-<span class="sourceLineNo">337</span><a id="line.337">   * Returns the hash code for this graph. The hash code of a graph is defined as the hash code of</a>
-<span class="sourceLineNo">338</span><a id="line.338">   * the set returned by {@link #edges()}.</a>
-<span class="sourceLineNo">339</span><a id="line.339">   *</a>
-<span class="sourceLineNo">340</span><a id="line.340">   * &lt;p&gt;A reference implementation of this is provided by {@link AbstractGraph#hashCode()}.</a>
-<span class="sourceLineNo">341</span><a id="line.341">   */</a>
-<span class="sourceLineNo">342</span><a id="line.342">  @Override</a>
-<span class="sourceLineNo">343</span><a id="line.343">  int hashCode();</a>
-<span class="sourceLineNo">344</span><a id="line.344">}</a>
+<span class="sourceLineNo">299</span><a id="line.299">   * &lt;p&gt;A reference implementation of this is provided by {@link AbstractGraph#hashCode()}.</a>
+<span class="sourceLineNo">300</span><a id="line.300">   */</a>
+<span class="sourceLineNo">301</span><a id="line.301">  @Override</a>
+<span class="sourceLineNo">302</span><a id="line.302">  int hashCode();</a>
+<span class="sourceLineNo">303</span><a id="line.303">}</a>
 
 
 

@@ -212,8 +212,7 @@ extends <a href="AbstractNetwork.html" title="class in com.google.common.graph">
 <td class="colFirst"><code>java.util.Set&lt;N&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#adjacentNodes(N)">adjacentNodes</a></span>&#8203;(N&nbsp;node)</code></th>
 <td class="colLast">
-<div class="block">Returns a live view of the nodes which have an incident edge in common with <code>node</code> in
- this graph.</div>
+<div class="block">Returns the nodes which have an incident edge in common with <code>node</code> in this network.</div>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
@@ -272,16 +271,15 @@ extends <a href="AbstractNetwork.html" title="class in com.google.common.graph">
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#edgesConnecting(N,N)">edgesConnecting</a></span>&#8203;(N&nbsp;nodeU,
                N&nbsp;nodeV)</code></th>
 <td class="colLast">
-<div class="block">Returns a live view of the set of edges that each directly connect <code>nodeU</code> to <code>
- nodeV</code>.</div>
+<div class="block">Returns the set of edges that each directly connect <code>nodeU</code> to <code>nodeV</code>.</div>
 </td>
 </tr>
 <tr id="i9" class="rowColor">
 <td class="colFirst"><code>java.util.Set&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#incidentEdges(N)">incidentEdges</a></span>&#8203;(N&nbsp;node)</code></th>
 <td class="colLast">
-<div class="block">Returns a live view of the edges whose <a href="Network.html#incidentNodes(E)"><code>incident nodes</code></a> in this
- network include <code>node</code>.</div>
+<div class="block">Returns the edges whose <a href="Network.html#incidentNodes(E)"><code>incident nodes</code></a> in this network include
+ <code>node</code>.</div>
 </td>
 </tr>
 <tr id="i10" class="altColor">
@@ -295,8 +293,8 @@ extends <a href="AbstractNetwork.html" title="class in com.google.common.graph">
 <td class="colFirst"><code>java.util.Set&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#inEdges(N)">inEdges</a></span>&#8203;(N&nbsp;node)</code></th>
 <td class="colLast">
-<div class="block">Returns a live view of all edges in this network which can be traversed in the direction (if
- any) of the edge to end at <code>node</code>.</div>
+<div class="block">Returns all edges in this network which can be traversed in the direction (if any) of the edge
+ to end at <code>node</code>.</div>
 </td>
 </tr>
 <tr id="i12" class="altColor">
@@ -324,24 +322,24 @@ extends <a href="AbstractNetwork.html" title="class in com.google.common.graph">
 <td class="colFirst"><code>java.util.Set&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#outEdges(N)">outEdges</a></span>&#8203;(N&nbsp;node)</code></th>
 <td class="colLast">
-<div class="block">Returns a live view of all edges in this network which can be traversed in the direction (if
- any) of the edge starting from <code>node</code>.</div>
+<div class="block">Returns all edges in this network which can be traversed in the direction (if any) of the edge
+ starting from <code>node</code>.</div>
 </td>
 </tr>
 <tr id="i16" class="altColor">
 <td class="colFirst"><code>java.util.Set&lt;N&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#predecessors(N)">predecessors</a></span>&#8203;(N&nbsp;node)</code></th>
 <td class="colLast">
-<div class="block">Returns a live view of all nodes in this network adjacent to <code>node</code> which can be reached
- by traversing <code>node</code>'s incoming edges <i>against</i> the direction (if any) of the edge.</div>
+<div class="block">Returns all nodes in this network adjacent to <code>node</code> which can be reached by traversing
+ <code>node</code>'s incoming edges <i>against</i> the direction (if any) of the edge.</div>
 </td>
 </tr>
 <tr id="i17" class="rowColor">
 <td class="colFirst"><code>java.util.Set&lt;N&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#successors(N)">successors</a></span>&#8203;(N&nbsp;node)</code></th>
 <td class="colLast">
-<div class="block">Returns a live view of all nodes in this network adjacent to <code>node</code> which can be reached
- by traversing <code>node</code>'s outgoing edges in the direction (if any) of the edge.</div>
+<div class="block">Returns all nodes in this network adjacent to <code>node</code> which can be reached by traversing
+ <code>node</code>'s outgoing edges in the direction (if any) of the edge.</div>
 </td>
 </tr>
 </table>
@@ -350,7 +348,7 @@ extends <a href="AbstractNetwork.html" title="class in com.google.common.graph">
 <!--   -->
 </a>
 <h3>Methods inherited from class&nbsp;com.google.common.graph.<a href="AbstractNetwork.html" title="class in com.google.common.graph">AbstractNetwork</a></h3>
-<code><a href="AbstractNetwork.html#adjacentEdges(E)">adjacentEdges</a>, <a href="AbstractNetwork.html#degree(N)">degree</a>, <a href="AbstractNetwork.html#edgeConnecting(com.google.common.graph.EndpointPair)">edgeConnecting</a>, <a href="AbstractNetwork.html#edgeConnecting(N,N)">edgeConnecting</a>, <a href="AbstractNetwork.html#edgeConnectingOrNull(com.google.common.graph.EndpointPair)">edgeConnectingOrNull</a>, <a href="AbstractNetwork.html#edgeConnectingOrNull(N,N)">edgeConnectingOrNull</a>, <a href="AbstractNetwork.html#edgeInvalidatableSet(java.util.Set,E)">edgeInvalidatableSet</a>, <a href="AbstractNetwork.html#edgesConnecting(com.google.common.graph.EndpointPair)">edgesConnecting</a>, <a href="AbstractNetwork.html#equals(java.lang.Object)">equals</a>, <a href="AbstractNetwork.html#hasEdgeConnecting(com.google.common.graph.EndpointPair)">hasEdgeConnecting</a>, <a href="AbstractNetwork.html#hasEdgeConnecting(N,N)">hasEdgeConnecting</a>, <a href="AbstractNetwork.html#hashCode()">hashCode</a>, <a href="AbstractNetwork.html#inDegree(N)">inDegree</a>, <a href="AbstractNetwork.html#isOrderingCompatible(com.google.common.graph.EndpointPair)">isOrderingCompatible</a>, <a href="AbstractNetwork.html#nodeInvalidatableSet(java.util.Set,N)">nodeInvalidatableSet</a>, <a href="AbstractNetwork.html#nodePairInvalidatableSet(java.util.Set,N,N)">nodePairInvalidatableSet</a>, <a href="AbstractNetwork.html#outDegree(N)">outDegree</a>, <a href="AbstractNetwork.html#toString()">toString</a>, <a href="AbstractNetwork.html#validateEndpoints(com.google.common.graph.EndpointPair)">validateEndpoints</a></code></li>
+<code><a href="AbstractNetwork.html#adjacentEdges(E)">adjacentEdges</a>, <a href="AbstractNetwork.html#degree(N)">degree</a>, <a href="AbstractNetwork.html#edgeConnecting(com.google.common.graph.EndpointPair)">edgeConnecting</a>, <a href="AbstractNetwork.html#edgeConnecting(N,N)">edgeConnecting</a>, <a href="AbstractNetwork.html#edgeConnectingOrNull(com.google.common.graph.EndpointPair)">edgeConnectingOrNull</a>, <a href="AbstractNetwork.html#edgeConnectingOrNull(N,N)">edgeConnectingOrNull</a>, <a href="AbstractNetwork.html#edgesConnecting(com.google.common.graph.EndpointPair)">edgesConnecting</a>, <a href="AbstractNetwork.html#equals(java.lang.Object)">equals</a>, <a href="AbstractNetwork.html#hasEdgeConnecting(com.google.common.graph.EndpointPair)">hasEdgeConnecting</a>, <a href="AbstractNetwork.html#hasEdgeConnecting(N,N)">hasEdgeConnecting</a>, <a href="AbstractNetwork.html#hashCode()">hashCode</a>, <a href="AbstractNetwork.html#inDegree(N)">inDegree</a>, <a href="AbstractNetwork.html#isOrderingCompatible(com.google.common.graph.EndpointPair)">isOrderingCompatible</a>, <a href="AbstractNetwork.html#outDegree(N)">outDegree</a>, <a href="AbstractNetwork.html#toString()">toString</a>, <a href="AbstractNetwork.html#validateEndpoints(com.google.common.graph.EndpointPair)">validateEndpoints</a></code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a id="methods.inherited.from.class.java.lang.Object">
@@ -511,22 +509,10 @@ public static&nbsp;&lt;N,&#8203;E&gt;&nbsp;<a href="ImmutableNetwork.html" title
 <h4>incidentEdges</h4>
 <pre class="methodSignature">public&nbsp;java.util.Set&lt;E&gt;&nbsp;incidentEdges&#8203;(N&nbsp;node)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Network.html#incidentEdges(N)">Network</a></code></span></div>
-<div class="block">Returns a live view of the edges whose <a href="Network.html#incidentNodes(E)"><code>incident nodes</code></a> in this
- network include <code>node</code>.
+<div class="block">Returns the edges whose <a href="Network.html#incidentNodes(E)"><code>incident nodes</code></a> in this network include
+ <code>node</code>.
 
- <p>This is equal to the union of <a href="Network.html#inEdges(N)"><code>Network.inEdges(Object)</code></a> and <a href="Network.html#outEdges(N)"><code>Network.outEdges(Object)</code></a>.
-
- <p>If <code>node</code> is removed from the network after this method is called, the <code>Set</code>
- <code>view</code> returned by this method will be invalidated, and will throw <code>
- IllegalStateException</code> if it is accessed in any way, with the following exceptions:
-
- <ul>
-   <li><code>view.equals(view)</code> evaluates to <code>true</code> (but any other `equals()` expression
-       involving <code>view</code> will throw)
-   <li><code>hashCode()</code> does not throw
-   <li>if <code>node</code> is re-added to the network after having been removed, <code>view</code>'s
-       behavior is undefined
- </ul></div>
+ <p>This is equal to the union of <a href="Network.html#inEdges(N)"><code>Network.inEdges(Object)</code></a> and <a href="Network.html#outEdges(N)"><code>Network.outEdges(Object)</code></a>.</div>
 </li>
 </ul>
 <a id="incidentNodes(java.lang.Object)">
@@ -552,22 +538,9 @@ public static&nbsp;&lt;N,&#8203;E&gt;&nbsp;<a href="ImmutableNetwork.html" title
 <h4>adjacentNodes</h4>
 <pre class="methodSignature">public&nbsp;java.util.Set&lt;N&gt;&nbsp;adjacentNodes&#8203;(N&nbsp;node)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Network.html#adjacentNodes(N)">Network</a></code></span></div>
-<div class="block">Returns a live view of the nodes which have an incident edge in common with <code>node</code> in
- this graph.
+<div class="block">Returns the nodes which have an incident edge in common with <code>node</code> in this network.
 
- <p>This is equal to the union of <a href="Network.html#predecessors(N)"><code>Network.predecessors(Object)</code></a> and <a href="Network.html#successors(N)"><code>Network.successors(Object)</code></a>.
-
- <p>If <code>node</code> is removed from the network after this method is called, the <code>Set</code>
- <code>view</code> returned by this method will be invalidated, and will throw <code>
- IllegalStateException</code> if it is accessed in any way, with the following exceptions:
-
- <ul>
-   <li><code>view.equals(view)</code> evaluates to <code>true</code> (but any other `equals()` expression
-       involving <code>view</code> will throw)
-   <li><code>hashCode()</code> does not throw
-   <li>if <code>node</code> is re-added to the network after having been removed, <code>view</code>'s
-       behavior is undefined
- </ul></div>
+ <p>This is equal to the union of <a href="Network.html#predecessors(N)"><code>Network.predecessors(Object)</code></a> and <a href="Network.html#successors(N)"><code>Network.successors(Object)</code></a>.</div>
 </li>
 </ul>
 <a id="edgesConnecting(java.lang.Object,java.lang.Object)">
@@ -581,27 +554,13 @@ public static&nbsp;&lt;N,&#8203;E&gt;&nbsp;<a href="ImmutableNetwork.html" title
 <pre class="methodSignature">public&nbsp;java.util.Set&lt;E&gt;&nbsp;edgesConnecting&#8203;(N&nbsp;nodeU,
                                         N&nbsp;nodeV)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Network.html#edgesConnecting(N,N)">Network</a></code></span></div>
-<div class="block">Returns a live view of the set of edges that each directly connect <code>nodeU</code> to <code>
- nodeV</code>.
+<div class="block">Returns the set of edges that each directly connect <code>nodeU</code> to <code>nodeV</code>.
 
  <p>In an undirected network, this is equal to <code>edgesConnecting(nodeV, nodeU)</code>.
 
  <p>The resulting set of edges will be parallel (i.e. have equal <a href="Network.html#incidentNodes(E)"><code>Network.incidentNodes(Object)</code></a>). If this network does not <a href="Network.html#allowsParallelEdges()"><code>allow parallel
  edges</code></a>, the resulting set will contain at most one edge (equivalent to <code>
- edgeConnecting(nodeU, nodeV).asSet()</code>).
-
- <p>If either <code>nodeU</code> or <code>nodeV</code> are removed from the network after this method is
- called, the <code>Set</code> <code>view</code> returned by this method will be invalidated, and will
- throw <code>IllegalStateException</code> if it is accessed in any way, with the following
- exceptions:
-
- <ul>
-   <li><code>view.equals(view)</code> evaluates to <code>true</code> (but any other `equals()` expression
-       involving <code>view</code> will throw)
-   <li><code>hashCode()</code> does not throw
-   <li>if <code>nodeU</code> or <code>nodeV</code> are re-added to the network after having been removed,
-       <code>view</code>'s behavior is undefined
- </ul></div>
+ edgeConnecting(nodeU, nodeV).asSet()</code>).</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="Network.html#edgesConnecting(N,N)">edgesConnecting</a></code>&nbsp;in interface&nbsp;<code><a href="Network.html" title="interface in com.google.common.graph">Network</a>&lt;N,&#8203;E&gt;</code></dd>
@@ -620,24 +579,12 @@ public static&nbsp;&lt;N,&#8203;E&gt;&nbsp;<a href="ImmutableNetwork.html" title
 <h4>inEdges</h4>
 <pre class="methodSignature">public&nbsp;java.util.Set&lt;E&gt;&nbsp;inEdges&#8203;(N&nbsp;node)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Network.html#inEdges(N)">Network</a></code></span></div>
-<div class="block">Returns a live view of all edges in this network which can be traversed in the direction (if
- any) of the edge to end at <code>node</code>.
+<div class="block">Returns all edges in this network which can be traversed in the direction (if any) of the edge
+ to end at <code>node</code>.
 
  <p>In a directed network, an incoming edge's <a href="EndpointPair.html#target()"><code>EndpointPair.target()</code></a> equals <code>node</code>.
 
- <p>In an undirected network, this is equivalent to <a href="Network.html#incidentEdges(N)"><code>Network.incidentEdges(Object)</code></a>.
-
- <p>If <code>node</code> is removed from the network after this method is called, the <code>Set</code>
- <code>view</code> returned by this method will be invalidated, and will throw <code>
- IllegalStateException</code> if it is accessed in any way, with the following exceptions:
-
- <ul>
-   <li><code>view.equals(view)</code> evaluates to <code>true</code> (but any other `equals()` expression
-       involving <code>view</code> will throw)
-   <li><code>hashCode()</code> does not throw
-   <li>if <code>node</code> is re-added to the network after having been removed, <code>view</code>'s
-       behavior is undefined
- </ul></div>
+ <p>In an undirected network, this is equivalent to <a href="Network.html#incidentEdges(N)"><code>Network.incidentEdges(Object)</code></a>.</div>
 </li>
 </ul>
 <a id="outEdges(java.lang.Object)">
@@ -650,24 +597,12 @@ public static&nbsp;&lt;N,&#8203;E&gt;&nbsp;<a href="ImmutableNetwork.html" title
 <h4>outEdges</h4>
 <pre class="methodSignature">public&nbsp;java.util.Set&lt;E&gt;&nbsp;outEdges&#8203;(N&nbsp;node)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Network.html#outEdges(N)">Network</a></code></span></div>
-<div class="block">Returns a live view of all edges in this network which can be traversed in the direction (if
- any) of the edge starting from <code>node</code>.
+<div class="block">Returns all edges in this network which can be traversed in the direction (if any) of the edge
+ starting from <code>node</code>.
 
  <p>In a directed network, an outgoing edge's <a href="EndpointPair.html#source()"><code>EndpointPair.source()</code></a> equals <code>node</code>.
 
- <p>In an undirected network, this is equivalent to <a href="Network.html#incidentEdges(N)"><code>Network.incidentEdges(Object)</code></a>.
-
- <p>If <code>node</code> is removed from the network after this method is called, the <code>Set</code>
- <code>view</code> returned by this method will be invalidated, and will throw <code>
- IllegalStateException</code> if it is accessed in any way, with the following exceptions:
-
- <ul>
-   <li><code>view.equals(view)</code> evaluates to <code>true</code> (but any other `equals()` expression
-       involving <code>view</code> will throw)
-   <li><code>hashCode()</code> does not throw
-   <li>if <code>node</code> is re-added to the network after having been removed, <code>view</code>'s
-       behavior is undefined
- </ul></div>
+ <p>In an undirected network, this is equivalent to <a href="Network.html#incidentEdges(N)"><code>Network.incidentEdges(Object)</code></a>.</div>
 </li>
 </ul>
 <a id="predecessors(java.lang.Object)">
@@ -680,14 +615,10 @@ public static&nbsp;&lt;N,&#8203;E&gt;&nbsp;<a href="ImmutableNetwork.html" title
 <h4>predecessors</h4>
 <pre class="methodSignature">public&nbsp;java.util.Set&lt;N&gt;&nbsp;predecessors&#8203;(N&nbsp;node)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Network.html#predecessors(N)">Network</a></code></span></div>
-<div class="block">Returns a live view of all nodes in this network adjacent to <code>node</code> which can be reached
- by traversing <code>node</code>'s incoming edges <i>against</i> the direction (if any) of the edge.
+<div class="block">Returns all nodes in this network adjacent to <code>node</code> which can be reached by traversing
+ <code>node</code>'s incoming edges <i>against</i> the direction (if any) of the edge.
 
- <p>In an undirected network, this is equivalent to <a href="Network.html#adjacentNodes(N)"><code>Network.adjacentNodes(Object)</code></a>.
-
- <p>If <code>node</code> is removed from the network after this method is called, the `Set` returned
- by this method will be invalidated, and will throw `IllegalStateException` if it is accessed in
- any way.</div>
+ <p>In an undirected network, this is equivalent to <a href="Network.html#adjacentNodes(N)"><code>Network.adjacentNodes(Object)</code></a>.</div>
 </li>
 </ul>
 <a id="successors(java.lang.Object)">
@@ -700,25 +631,13 @@ public static&nbsp;&lt;N,&#8203;E&gt;&nbsp;<a href="ImmutableNetwork.html" title
 <h4>successors</h4>
 <pre class="methodSignature">public&nbsp;java.util.Set&lt;N&gt;&nbsp;successors&#8203;(N&nbsp;node)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Network.html#successors(N)">Network</a></code></span></div>
-<div class="block">Returns a live view of all nodes in this network adjacent to <code>node</code> which can be reached
- by traversing <code>node</code>'s outgoing edges in the direction (if any) of the edge.
+<div class="block">Returns all nodes in this network adjacent to <code>node</code> which can be reached by traversing
+ <code>node</code>'s outgoing edges in the direction (if any) of the edge.
 
  <p>In an undirected network, this is equivalent to <a href="Network.html#adjacentNodes(N)"><code>Network.adjacentNodes(Object)</code></a>.
 
  <p>This is <i>not</i> the same as "all nodes reachable from <code>node</code> by following outgoing
- edges". For that functionality, see <a href="Graphs.html#reachableNodes(com.google.common.graph.Graph,N)"><code>Graphs.reachableNodes(Graph, Object)</code></a>.
-
- <p>If <code>node</code> is removed from the network after this method is called, the <code>Set</code>
- <code>view</code> returned by this method will be invalidated, and will throw <code>
- IllegalStateException</code> if it is accessed in any way, with the following exceptions:
-
- <ul>
-   <li><code>view.equals(view)</code> evaluates to <code>true</code> (but any other `equals()` expression
-       involving <code>view</code> will throw)
-   <li><code>hashCode()</code> does not throw
-   <li>if <code>node</code> is re-added to the network after having been removed, <code>view</code>'s
-       behavior is undefined
- </ul></div>
+ edges". For that functionality, see <a href="Graphs.html#reachableNodes(com.google.common.graph.Graph,N)"><code>Graphs.reachableNodes(Graph, Object)</code></a>.</div>
 </li>
 </ul>
 </li>

@@ -241,8 +241,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/ValueGrap
 <td class="colFirst"><code>java.util.Set&lt;<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#adjacentNodes(N)">adjacentNodes</a></span>&#8203;(<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;node)</code></th>
 <td class="colLast">
-<div class="block">Returns a live view of the nodes which have an incident edge in common with <code>node</code> in
- this graph.</div>
+<div class="block">Returns the nodes which have an incident edge in common with <code>node</code> in this graph.</div>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
@@ -336,7 +335,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/ValueGrap
 <td class="colFirst"><code>java.util.Set&lt;<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&gt;&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#incidentEdges(N)">incidentEdges</a></span>&#8203;(<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;node)</code></th>
 <td class="colLast">
-<div class="block">Returns a live view of the edges in this graph whose endpoints include <code>node</code>.</div>
+<div class="block">Returns the edges in this graph whose endpoints include <code>node</code>.</div>
 </td>
 </tr>
 <tr id="i13" class="rowColor">
@@ -380,16 +379,16 @@ public interface <a href="../../../../src-html/com/google/common/graph/ValueGrap
 <td class="colFirst"><code>java.util.Set&lt;<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#predecessors(N)">predecessors</a></span>&#8203;(<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;node)</code></th>
 <td class="colLast">
-<div class="block">Returns a live view of all nodes in this graph adjacent to <code>node</code> which can be reached by
- traversing <code>node</code>'s incoming edges <i>against</i> the direction (if any) of the edge.</div>
+<div class="block">Returns all nodes in this graph adjacent to <code>node</code> which can be reached by traversing
+ <code>node</code>'s incoming edges <i>against</i> the direction (if any) of the edge.</div>
 </td>
 </tr>
 <tr id="i19" class="rowColor">
 <td class="colFirst"><code>java.util.Set&lt;<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#successors(N)">successors</a></span>&#8203;(<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;node)</code></th>
 <td class="colLast">
-<div class="block">Returns a live view of all nodes in this graph adjacent to <code>node</code> which can be reached by
- traversing <code>node</code>'s outgoing edges in the direction (if any) of the edge.</div>
+<div class="block">Returns all nodes in this graph adjacent to <code>node</code> which can be reached by traversing
+ <code>node</code>'s outgoing edges in the direction (if any) of the edge.</div>
 </td>
 </tr>
 </table>
@@ -495,23 +494,10 @@ public interface <a href="../../../../src-html/com/google/common/graph/ValueGrap
 <ul class="blockList">
 <li class="blockList">
 <h4>adjacentNodes</h4>
-<pre class="methodSignature">java.util.Set&lt;<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.188">adjacentNodes</a>&#8203;(<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;node)</pre>
-<div class="block">Returns a live view of the nodes which have an incident edge in common with <code>node</code> in
- this graph.
+<pre class="methodSignature">java.util.Set&lt;<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.175">adjacentNodes</a>&#8203;(<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;node)</pre>
+<div class="block">Returns the nodes which have an incident edge in common with <code>node</code> in this graph.
 
- <p>This is equal to the union of <a href="#predecessors(N)"><code>predecessors(Object)</code></a> and <a href="#successors(N)"><code>successors(Object)</code></a>.
-
- <p>If <code>node</code> is removed from the graph after this method is called, the <code>Set</code>
- <code>view</code> returned by this method will be invalidated, and will throw <code>
- IllegalStateException</code> if it is accessed in any way, with the following exceptions:
-
- <ul>
-   <li><code>view.equals(view)</code> evaluates to <code>true</code> (but any other `equals()` expression
-       involving <code>view</code> will throw)
-   <li><code>hashCode()</code> does not throw
-   <li>if <code>node</code> is re-added to the graph after having been removed, <code>view</code>'s
-       behavior is undefined
- </ul></div>
+ <p>This is equal to the union of <a href="#predecessors(N)"><code>predecessors(Object)</code></a> and <a href="#successors(N)"><code>successors(Object)</code></a>.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.IllegalArgumentException</code> - if <code>node</code> is not an element of this graph</dd>
@@ -526,15 +512,11 @@ public interface <a href="../../../../src-html/com/google/common/graph/ValueGrap
 <ul class="blockList">
 <li class="blockList">
 <h4>predecessors</h4>
-<pre class="methodSignature">java.util.Set&lt;<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.203">predecessors</a>&#8203;(<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;node)</pre>
-<div class="block">Returns a live view of all nodes in this graph adjacent to <code>node</code> which can be reached by
- traversing <code>node</code>'s incoming edges <i>against</i> the direction (if any) of the edge.
+<pre class="methodSignature">java.util.Set&lt;<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.186">predecessors</a>&#8203;(<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;node)</pre>
+<div class="block">Returns all nodes in this graph adjacent to <code>node</code> which can be reached by traversing
+ <code>node</code>'s incoming edges <i>against</i> the direction (if any) of the edge.
 
- <p>In an undirected graph, this is equivalent to <a href="#adjacentNodes(N)"><code>adjacentNodes(Object)</code></a>.
-
- <p>If <code>node</code> is removed from the graph after this method is called, the `Set` returned by
- this method will be invalidated, and will throw `IllegalStateException` if it is accessed in
- any way.</div>
+ <p>In an undirected graph, this is equivalent to <a href="#adjacentNodes(N)"><code>adjacentNodes(Object)</code></a>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="PredecessorsFunction.html#predecessors(N)">predecessors</a></code>&nbsp;in interface&nbsp;<code><a href="PredecessorsFunction.html" title="interface in com.google.common.graph">PredecessorsFunction</a>&lt;<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&gt;</code></dd>
@@ -551,26 +533,14 @@ public interface <a href="../../../../src-html/com/google/common/graph/ValueGrap
 <ul class="blockList">
 <li class="blockList">
 <h4>successors</h4>
-<pre class="methodSignature">java.util.Set&lt;<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.229">successors</a>&#8203;(<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;node)</pre>
-<div class="block">Returns a live view of all nodes in this graph adjacent to <code>node</code> which can be reached by
- traversing <code>node</code>'s outgoing edges in the direction (if any) of the edge.
+<pre class="methodSignature">java.util.Set&lt;<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.200">successors</a>&#8203;(<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;node)</pre>
+<div class="block">Returns all nodes in this graph adjacent to <code>node</code> which can be reached by traversing
+ <code>node</code>'s outgoing edges in the direction (if any) of the edge.
 
  <p>In an undirected graph, this is equivalent to <a href="#adjacentNodes(N)"><code>adjacentNodes(Object)</code></a>.
 
  <p>This is <i>not</i> the same as "all nodes reachable from <code>node</code> by following outgoing
- edges". For that functionality, see <a href="Graphs.html#reachableNodes(com.google.common.graph.Graph,N)"><code>Graphs.reachableNodes(Graph, Object)</code></a>.
-
- <p>If <code>node</code> is removed from the graph after this method is called, the <code>Set</code>
- <code>view</code> returned by this method will be invalidated, and will throw <code>
- IllegalStateException</code> if it is accessed in any way, with the following exceptions:
-
- <ul>
-   <li><code>view.equals(view)</code> evaluates to <code>true</code> (but any other `equals()` expression
-       involving <code>view</code> will throw)
-   <li><code>hashCode()</code> does not throw
-   <li>if <code>node</code> is re-added to the graph after having been removed, <code>view</code>'s
-       behavior is undefined
- </ul></div>
+ edges". For that functionality, see <a href="Graphs.html#reachableNodes(com.google.common.graph.Graph,N)"><code>Graphs.reachableNodes(Graph, Object)</code></a>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="SuccessorsFunction.html#successors(N)">successors</a></code>&nbsp;in interface&nbsp;<code><a href="SuccessorsFunction.html" title="interface in com.google.common.graph">SuccessorsFunction</a>&lt;<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&gt;</code></dd>
@@ -587,22 +557,10 @@ public interface <a href="../../../../src-html/com/google/common/graph/ValueGrap
 <ul class="blockList">
 <li class="blockList">
 <h4>incidentEdges</h4>
-<pre class="methodSignature">java.util.Set&lt;<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.252">incidentEdges</a>&#8203;(<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;node)</pre>
-<div class="block">Returns a live view of the edges in this graph whose endpoints include <code>node</code>.
+<pre class="methodSignature">java.util.Set&lt;<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.211">incidentEdges</a>&#8203;(<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;node)</pre>
+<div class="block">Returns the edges in this graph whose endpoints include <code>node</code>.
 
- <p>This is equal to the union of incoming and outgoing edges.
-
- <p>If <code>node</code> is removed from the graph after this method is called, the <code>Set</code>
- <code>view</code> returned by this method will be invalidated, and will throw <code>
- IllegalStateException</code> if it is accessed in any way, with the following exceptions:
-
- <ul>
-   <li><code>view.equals(view)</code> evaluates to <code>true</code> (but any other `equals()` expression
-       involving <code>view</code> will throw)
-   <li><code>hashCode()</code> does not throw
-   <li>if <code>node</code> is re-added to the graph after having been removed, <code>view</code>'s
-       behavior is undefined
- </ul></div>
+ <p>This is equal to the union of incoming and outgoing edges.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.IllegalArgumentException</code> - if <code>node</code> is not an element of this graph</dd>
@@ -619,7 +577,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/ValueGrap
 <ul class="blockList">
 <li class="blockList">
 <h4>degree</h4>
-<pre class="methodSignature">int&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.268">degree</a>&#8203;(<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;node)</pre>
+<pre class="methodSignature">int&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.227">degree</a>&#8203;(<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;node)</pre>
 <div class="block">Returns the count of <code>node</code>'s incident edges, counting self-loops twice (equivalently,
  the number of times an edge touches <code>node</code>).
 
@@ -643,7 +601,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/ValueGrap
 <ul class="blockList">
 <li class="blockList">
 <h4>inDegree</h4>
-<pre class="methodSignature">int&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.279">inDegree</a>&#8203;(<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;node)</pre>
+<pre class="methodSignature">int&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.238">inDegree</a>&#8203;(<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;node)</pre>
 <div class="block">Returns the count of <code>node</code>'s incoming edges (equal to <code>predecessors(node).size()</code>)
  in a directed graph. In an undirected graph, returns the <a href="#degree(N)"><code>degree(Object)</code></a>.
 
@@ -662,7 +620,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/ValueGrap
 <ul class="blockList">
 <li class="blockList">
 <h4>outDegree</h4>
-<pre class="methodSignature">int&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.290">outDegree</a>&#8203;(<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;node)</pre>
+<pre class="methodSignature">int&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.249">outDegree</a>&#8203;(<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;node)</pre>
 <div class="block">Returns the count of <code>node</code>'s outgoing edges (equal to <code>successors(node).size()</code>)
  in a directed graph. In an undirected graph, returns the <a href="#degree(N)"><code>degree(Object)</code></a>.
 
@@ -681,7 +639,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/ValueGrap
 <ul class="blockList">
 <li class="blockList">
 <h4>hasEdgeConnecting</h4>
-<pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.301">hasEdgeConnecting</a>&#8203;(<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;nodeU,
+<pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.260">hasEdgeConnecting</a>&#8203;(<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;nodeU,
                           <a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;nodeV)</pre>
 <div class="block">Returns true if there is an edge that directly connects <code>nodeU</code> to <code>nodeV</code>. This is
  equivalent to <code>nodes().contains(nodeU) &amp;&amp; successors(nodeU).contains(nodeV)</code>.
@@ -699,7 +657,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/ValueGrap
 <ul class="blockList">
 <li class="blockList">
 <h4>hasEdgeConnecting</h4>
-<pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.317">hasEdgeConnecting</a>&#8203;(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&gt;&nbsp;endpoints)</pre>
+<pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.276">hasEdgeConnecting</a>&#8203;(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&gt;&nbsp;endpoints)</pre>
 <div class="block">Returns true if there is an edge that directly connects <code>endpoints</code> (in the order, if
  any, specified by <code>endpoints</code>). This is equivalent to <code>
  edges().contains(endpoints)</code>.
@@ -724,7 +682,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/ValueGrap
 <li class="blockList">
 <h4>edgeValueOrDefault</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-<a href="ValueGraph.html" title="type parameter in ValueGraph">V</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.330">edgeValueOrDefault</a>&#8203;(<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;nodeU,
+<a href="ValueGraph.html" title="type parameter in ValueGraph">V</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.289">edgeValueOrDefault</a>&#8203;(<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;nodeU,
                      <a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;nodeV,
                      <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                      <a href="ValueGraph.html" title="type parameter in ValueGraph">V</a>&nbsp;defaultValue)</pre>
@@ -749,7 +707,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/ValueGrap
 <li class="blockList">
 <h4>edgeValueOrDefault</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-<a href="ValueGraph.html" title="type parameter in ValueGraph">V</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.343">edgeValueOrDefault</a>&#8203;(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&gt;&nbsp;endpoints,
+<a href="ValueGraph.html" title="type parameter in ValueGraph">V</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.302">edgeValueOrDefault</a>&#8203;(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&gt;&nbsp;endpoints,
                      <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                      <a href="ValueGraph.html" title="type parameter in ValueGraph">V</a>&nbsp;defaultValue)</pre>
 <div class="block">Returns the value of the edge that connects <code>endpoints</code> (in the order, if any, specified
@@ -771,7 +729,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/ValueGrap
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.371">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+<pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.329">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                java.lang.Object&nbsp;object)</pre>
 <div class="block">Returns <code>true</code> iff <code>object</code> is a <a href="ValueGraph.html" title="interface in com.google.common.graph"><code>ValueGraph</code></a> that has the same elements and
  the same structural relationships as those in this graph.
@@ -782,8 +740,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/ValueGrap
    <li>A and B have equal <a href="#isDirected()"><code>directedness</code></a>.
    <li>A and B have equal <a href="#nodes()"><code>node sets</code></a>.
    <li>A and B have equal <a href="#edges()"><code>edge sets</code></a>.
-   <li>The <code>value</code> of a given edge is the same in both
-       A and B.
+   <li>The <code>value</code> of a given edge is the same in both A and B.
  </ul>
 
  <p>Graph properties besides <a href="#isDirected()"><code>directedness</code></a> do <b>not</b> affect equality.
@@ -804,7 +761,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/ValueGrap
 <ul class="blockListLast">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre class="methodSignature">int&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.381">hashCode</a>()</pre>
+<pre class="methodSignature">int&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.339">hashCode</a>()</pre>
 <div class="block">Returns the hash code for this graph. The hash code of a graph is defined as the hash code of a
  map from each of its <a href="#edges()"><code>edges</code></a> to the associated <code>edge value</code>.
 
