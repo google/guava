@@ -53983,7 +53983,7 @@
  href="https://wicg.github.io/turtledove/#handling-direct-from-seller-signals">{@code
  Sec-Ad-Auction-Fetch}</a> header field name.
 
- @since NEXT]]>
+ @since 33.0.0]]>
       </doc>
     </field>
     <field name="AD_AUCTION_SIGNALS" type="java.lang.String"
@@ -53995,7 +53995,7 @@
  href="https://wicg.github.io/turtledove/#handling-direct-from-seller-signals">{@code
  Ad-Auction-Signals}</a> header field name.
 
- @since NEXT]]>
+ @since 33.0.0]]>
       </doc>
     </field>
     <field name="CDN_LOOP" type="java.lang.String"
