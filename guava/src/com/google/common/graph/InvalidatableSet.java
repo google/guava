@@ -37,13 +37,8 @@ final class InvalidatableSet<E> extends ForwardingSet<E> {
     this.errorMessage = errorMessage;
   }
 
-  // Override hashCode() and equals() to access delegate directly (so that they don't trigger the
-  // validate() call via delegate()); it seems inappropriate to throw ISE on these methods.
-  //  @Override
-  //  public boolean equals(Object o) {
-  //    return delegate == o || delegate.equals(o);
-  //  }
-
+  // Override hashCode() to access delegate directly (so that it doesn't trigger the validate() call
+  // via delegate()); it seems inappropriate to throw ISE on this method.
   @Override
   public int hashCode() {
     return delegate.hashCode();
