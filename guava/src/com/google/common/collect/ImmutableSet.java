@@ -92,13 +92,20 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
     return new SingletonImmutableSet<E>(element);
   }
 
+  /*
+   * TODO: b/315526394 - Skip the Builder entirely for the of(...) methods, since we don't need to
+   * worry that we might trigger the fallback to the JDK-backed implementation? (The varargs one
+   * _could_, so we could keep it as it is. Or we could convince ourselves that hash flooding is
+   * unlikely in practice there, too.)
+   */
+
   /**
    * Returns an immutable set containing the given elements, minus duplicates, in the order each was
    * first specified. That is, if multiple elements are {@linkplain Object#equals equal}, all except
    * the first are ignored.
    */
   public static <E> ImmutableSet<E> of(E e1, E e2) {
-    return construct(2, 2, e1, e2);
+    return new RegularSetBuilderImpl<E>(2).add(e1).add(e2).review().build();
   }
 
   /**
@@ -107,7 +114,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    * the first are ignored.
    */
   public static <E> ImmutableSet<E> of(E e1, E e2, E e3) {
-    return construct(3, 3, e1, e2, e3);
+    return new RegularSetBuilderImpl<E>(3).add(e1).add(e2).add(e3).review().build();
   }
 
   /**
@@ -116,7 +123,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    * the first are ignored.
    */
   public static <E> ImmutableSet<E> of(E e1, E e2, E e3, E e4) {
-    return construct(4, 4, e1, e2, e3, e4);
+    return new RegularSetBuilderImpl<E>(4).add(e1).add(e2).add(e3).add(e4).review().build();
   }
 
   /**
@@ -125,7 +132,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    * the first are ignored.
    */
   public static <E> ImmutableSet<E> of(E e1, E e2, E e3, E e4, E e5) {
-    return construct(5, 5, e1, e2, e3, e4, e5);
+    return new RegularSetBuilderImpl<E>(5).add(e1).add(e2).add(e3).add(e4).add(e5).review().build();
   }
 
   /**
@@ -141,74 +148,12 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
   public static <E> ImmutableSet<E> of(E e1, E e2, E e3, E e4, E e5, E e6, E... others) {
     checkArgument(
         others.length <= Integer.MAX_VALUE - 6, "the total number of elements must fit in an int");
-    final int paramCount = 6;
-    Object[] elements = new Object[paramCount + others.length];
-    elements[0] = e1;
-    elements[1] = e2;
-    elements[2] = e3;
-    elements[3] = e4;
-    elements[4] = e5;
-    elements[5] = e6;
-    System.arraycopy(others, 0, elements, paramCount, others.length);
-    return construct(elements.length, elements.length, elements);
-  }
-
-  /**
-   * Constructs an {@code ImmutableSet} from the first {@code n} elements of the specified array,
-   * which we have no particular reason to believe does or does not contain duplicates. If {@code k}
-   * is the size of the returned {@code ImmutableSet}, then the unique elements of {@code elements}
-   * will be in the first {@code k} positions, and {@code elements[i] == null} for {@code k <= i <
-   * n}.
-   *
-   * <p>This may modify {@code elements}. Additionally, if {@code n == elements.length} and {@code
-   * elements} contains no duplicates, {@code elements} may be used without copying in the returned
-   * {@code ImmutableSet}, in which case the caller must not modify it.
-   *
-   * <p>{@code elements} may contain only values of type {@code E}.
-   *
-   * @throws NullPointerException if any of the first {@code n} elements of {@code elements} is null
-   */
-  private static <E> ImmutableSet<E> constructUnknownDuplication(int n, Object... elements) {
-    // Guess the size is "halfway between" all duplicates and no duplicates, on a log scale.
-    return construct(
-        n,
-        Math.max(
-            ImmutableCollection.Builder.DEFAULT_INITIAL_CAPACITY,
-            IntMath.sqrt(n, RoundingMode.CEILING)),
-        elements);
-  }
-
-  /**
-   * Constructs an {@code ImmutableSet} from the first {@code n} elements of the specified array. If
-   * {@code k} is the size of the returned {@code ImmutableSet}, then the unique elements of {@code
-   * elements} will be in the first {@code k} positions, and {@code elements[i] == null} for {@code
-   * k <= i < n}.
-   *
-   * <p>This may modify {@code elements}. Additionally, if {@code n == elements.length} and {@code
-   * elements} contains no duplicates, {@code elements} may be used without copying in the returned
-   * {@code ImmutableSet}, in which case it may no longer be modified.
-   *
-   * <p>{@code elements} may contain only values of type {@code E}.
-   *
-   * @throws NullPointerException if any of the first {@code n} elements of {@code elements} is null
-   */
-  private static <E> ImmutableSet<E> construct(int n, int expectedSize, Object... elements) {
-    switch (n) {
-      case 0:
-        return of();
-      case 1:
-        @SuppressWarnings("unchecked") // safe; elements contains only E's
-        E elem = (E) elements[0];
-        return of(elem);
-      default:
-        SetBuilderImpl<E> builder = new RegularSetBuilderImpl<E>(expectedSize);
-        for (int i = 0; i < n; i++) {
-          @SuppressWarnings("unchecked")
-          E e = (E) checkNotNull(elements[i]);
-          builder = builder.add(e);
-        }
-        return builder.review().build();
+    SetBuilderImpl<E> builder = new RegularSetBuilderImpl<E>(6 + others.length);
+    builder = builder.add(e1).add(e2).add(e3).add(e4).add(e5).add(e6);
+    for (int i = 0; i < others.length; i++) {
+      builder = builder.add(others[i]);
     }
+    return builder.review().build();
   }
 
   /**
@@ -238,13 +183,22 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
     } else if (elements instanceof EnumSet) {
       return copyOfEnumSet((EnumSet) elements);
     }
-    Object[] array = elements.toArray();
-    if (elements instanceof Set) {
-      // assume probably no duplicates (though it might be using different equality semantics)
-      return construct(array.length, array.length, array);
-    } else {
-      return constructUnknownDuplication(array.length, array);
+
+    int size = elements.size();
+    if (size == 0) {
+      // We avoid allocating anything.
+      return of();
     }
+    // Collection<E>.toArray() is required to contain only E instances, and all we do is read them.
+    E[] array = (E[]) elements.toArray();
+    /*
+     * For a Set, we guess that it contains no duplicates. That's just a guess for purpose of
+     * sizing; if the Set uses different equality semantics, it might contain duplicates according
+     * to equals(), and we will deduplicate those properly, albeit at some cost in allocations.
+     */
+    int expectedSize =
+        elements instanceof Set ? array.length : estimatedSizeForUnknownDuplication(array.length);
+    return fromArrayWithExpectedSize(array, expectedSize);
   }
 
   /**
@@ -292,13 +246,21 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    * @since 3.0
    */
   public static <E> ImmutableSet<E> copyOf(E[] elements) {
+    return fromArrayWithExpectedSize(elements, estimatedSizeForUnknownDuplication(elements.length));
+  }
+
+  private static <E> ImmutableSet<E> fromArrayWithExpectedSize(E[] elements, int expectedSize) {
     switch (elements.length) {
       case 0:
         return of();
       case 1:
         return of(elements[0]);
       default:
-        return constructUnknownDuplication(elements.length, elements.clone());
+        SetBuilderImpl<E> builder = new RegularSetBuilderImpl<E>(expectedSize);
+        for (int i = 0; i < elements.length; i++) {
+          builder = builder.add(elements[i]);
+        }
+        return builder.review().build();
     }
   }
 
@@ -1016,6 +978,17 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
               delegate, ImmutableList.asImmutableList(dedupedElements, distinct));
       }
     }
+  }
+
+  private static int estimatedSizeForUnknownDuplication(int inputElementsIncludingAnyDuplicates) {
+    if (inputElementsIncludingAnyDuplicates
+        < ImmutableCollection.Builder.DEFAULT_INITIAL_CAPACITY) {
+      return inputElementsIncludingAnyDuplicates;
+    }
+    // Guess the size is "halfway between" all duplicates and no duplicates, on a log scale.
+    return Math.max(
+        ImmutableCollection.Builder.DEFAULT_INITIAL_CAPACITY,
+        IntMath.sqrt(inputElementsIncludingAnyDuplicates, RoundingMode.CEILING));
   }
 
   private static final long serialVersionUID = 0xcafebabe;

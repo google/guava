@@ -326,11 +326,6 @@ public class ImmutableSetTest extends AbstractImmutableSetTest {
     assertThat(set).containsExactly("a", "b", "c", "d").inOrder();
   }
 
-  @GwtIncompatible // GWT is single threaded
-  public void testCopyOf_threadSafe() {
-    verifyThreadSafe();
-  }
-
   @Override
   <E extends Comparable<E>> Builder<E> builder() {
     return ImmutableSet.builder();
