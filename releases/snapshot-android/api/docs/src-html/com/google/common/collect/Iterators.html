@@ -1115,7 +1115,7 @@
 <span class="sourceLineNo">1106</span><a id="line.1106">      extends UnmodifiableIterator&lt;T&gt; {</a>
 <span class="sourceLineNo">1107</span><a id="line.1107">    private static final Object SENTINEL = new Object();</a>
 <span class="sourceLineNo">1108</span><a id="line.1108"></a>
-<span class="sourceLineNo">1109</span><a id="line.1109">    private Object valueOrSentinel;</a>
+<span class="sourceLineNo">1109</span><a id="line.1109">    private @Nullable Object valueOrSentinel;</a>
 <span class="sourceLineNo">1110</span><a id="line.1110"></a>
 <span class="sourceLineNo">1111</span><a id="line.1111">    SingletonIterator(T value) {</a>
 <span class="sourceLineNo">1112</span><a id="line.1112">      this.valueOrSentinel = value;</a>
