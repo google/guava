@@ -42,7 +42,6 @@ import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import java.util.concurrent.locks.LockSupport;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -141,8 +140,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
     }
   }
 
-  // Logger to log exceptions caught when running listeners.
-  private static final Logger log = Logger.getLogger(AbstractFuture.class.getName());
+  static final LazyLogger log = new LazyLogger(AbstractFuture.class);
 
   // A heuristic for timed gets. If the remaining timeout is less than this, spin instead of
   // blocking. This value is what AbstractQueuedSynchronizer uses.
@@ -157,7 +155,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
 
     try {
       helper = new UnsafeAtomicHelper();
-    } catch (RuntimeException | Error unsafeFailure) {
+    } catch (Exception | Error unsafeFailure) { // sneaky checked exception
       thrownUnsafeFailure = unsafeFailure;
       // catch absolutely everything and fall through to our 'SafeAtomicHelper'
       // The access control checks that ARFU does means the caller class has to be AbstractFuture
@@ -170,7 +168,8 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
                 newUpdater(AbstractFuture.class, Waiter.class, "waiters"),
                 newUpdater(AbstractFuture.class, Listener.class, "listeners"),
                 newUpdater(AbstractFuture.class, Object.class, "value"));
-      } catch (RuntimeException | Error atomicReferenceFieldUpdaterFailure) {
+      } catch (Exception // sneaky checked exception
+          | Error atomicReferenceFieldUpdaterFailure) {
         // Some Android 5.0.x Samsung devices have bugs in JDK reflection APIs that cause
         // getDeclaredField to throw a NoSuchFieldException when the field is definitely there.
         // For these users fallback to a suboptimal implementation, based on synchronized. This will
@@ -189,9 +188,12 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
     // Log after all static init is finished; if an installed logger uses any Futures methods, it
     // shouldn't break in cases where reflection is missing/broken.
     if (thrownAtomicReferenceFieldUpdaterFailure != null) {
-      log.log(Level.SEVERE, "UnsafeAtomicHelper is broken!", thrownUnsafeFailure);
-      log.log(
-          Level.SEVERE, "SafeAtomicHelper is broken!", thrownAtomicReferenceFieldUpdaterFailure);
+      log.get().log(Level.SEVERE, "UnsafeAtomicHelper is broken!", thrownUnsafeFailure);
+      log.get()
+          .log(
+              Level.SEVERE,
+              "SafeAtomicHelper is broken!",
+              thrownAtomicReferenceFieldUpdaterFailure);
     }
   }
 
@@ -864,14 +866,16 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
         // since all we are doing is unpacking a completed future which should be fast.
         try {
           future.addListener(valueToSet, DirectExecutor.INSTANCE);
-        } catch (RuntimeException | Error t) {
+        } catch (Throwable t) {
+          // Any Exception is either a RuntimeException or sneaky checked exception.
+          //
           // addListener has thrown an exception! SetFuture.run can't throw any exceptions so this
           // must have been caused by addListener itself. The most likely explanation is a
           // misconfigured mock. Try to switch to Failure.
           Failure failure;
           try {
             failure = new Failure(t);
-          } catch (RuntimeException | Error oomMostLikely) {
+          } catch (Exception | Error oomMostLikely) { // sneaky checked exception
             failure = Failure.FALLBACK_INSTANCE;
           }
           // Note: The only way this CAS could fail is if cancel() has raced with us. That is ok.
@@ -966,7 +970,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
                 cancellation));
       }
       return new Cancellation(false, cancellation);
-    } catch (RuntimeException | Error t) {
+    } catch (Exception | Error t) { // sneaky checked exception
       return new Failure(t);
     }
   }
@@ -1190,6 +1194,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
     return null;
   }
 
+  @SuppressWarnings("CatchingUnchecked") // sneaky checked exception
   private void addPendingString(StringBuilder builder) {
     // Capture current builder length so it can be truncated if this future ends up completing while
     // the toString is being calculated
@@ -1206,7 +1211,9 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
       String pendingDescription;
       try {
         pendingDescription = Strings.emptyToNull(pendingToString());
-      } catch (RuntimeException | StackOverflowError e) {
+      } catch (Exception | StackOverflowError e) {
+        // Any Exception is either a RuntimeException or sneaky checked exception.
+        //
         // Don't call getMessage or toString() on the exception, in case the exception thrown by the
         // subclass is implemented with bugs similar to the subclass.
         pendingDescription = "Exception thrown from implementation: " + e.getClass();
@@ -1225,6 +1232,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
     }
   }
 
+  @SuppressWarnings("CatchingUnchecked") // sneaky checked exception
   private void addDoneString(StringBuilder builder) {
     try {
       V value = getUninterruptibly(this);
@@ -1235,7 +1243,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
       builder.append("FAILURE, cause=[").append(e.getCause()).append("]");
     } catch (CancellationException e) {
       builder.append("CANCELLED"); // shouldn't be reachable
-    } catch (RuntimeException e) {
+    } catch (Exception e) { // sneaky checked exception
       builder.append("UNKNOWN, cause=[").append(e.getClass()).append(" thrown from get()]");
     }
   }
@@ -1259,6 +1267,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
   }
 
   /** Helper for printing user supplied objects into our toString method. */
+  @SuppressWarnings("CatchingUnchecked") // sneaky checked exception
   private void appendUserObject(StringBuilder builder, @CheckForNull Object o) {
     // This is some basic recursion detection for when people create cycles via set/setFuture or
     // when deep chains of futures exist resulting in a StackOverflowException. We could detect
@@ -1270,7 +1279,9 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
       } else {
         builder.append(o);
       }
-    } catch (RuntimeException | StackOverflowError e) {
+    } catch (Exception | StackOverflowError e) {
+      // Any Exception is either a RuntimeException or sneaky checked exception.
+      //
       // Don't call getMessage or toString() on the exception, in case the exception thrown by the
       // user object is implemented with bugs similar to the user object.
       builder.append("Exception thrown from implementation: ").append(e.getClass());
@@ -1281,17 +1292,22 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
    * Submits the given runnable to the given {@link Executor} catching and logging all {@linkplain
    * RuntimeException runtime exceptions} thrown by the executor.
    */
+  @SuppressWarnings("CatchingUnchecked") // sneaky checked exception
   private static void executeListener(Runnable runnable, Executor executor) {
     try {
       executor.execute(runnable);
-    } catch (RuntimeException e) {
+    } catch (Exception e) { // sneaky checked exception
       // Log it and keep going -- bad runnable and/or executor. Don't punish the other runnables if
       // we're given a bad one. We only catch RuntimeException because we want Errors to propagate
       // up.
-      log.log(
-          Level.SEVERE,
-          "RuntimeException while executing runnable " + runnable + " with executor " + executor,
-          e);
+      log.get()
+          .log(
+              Level.SEVERE,
+              "RuntimeException while executing runnable "
+                  + runnable
+                  + " with executor "
+                  + executor,
+              e);
     }
   }
 
@@ -1371,8 +1387,6 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
         UNSAFE = unsafe;
       } catch (NoSuchFieldException e) {
         throw new RuntimeException(e);
-      } catch (RuntimeException e) {
-        throw e;
       }
     }
 

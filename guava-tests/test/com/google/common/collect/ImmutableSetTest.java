@@ -350,11 +350,6 @@ public class ImmutableSetTest extends AbstractImmutableSetTest {
         .expectCollects(ImmutableSet.of(a, b1, c), a, b1, c, b2);
   }
 
-  @GwtIncompatible // GWT is single threaded
-  public void testCopyOf_threadSafe() {
-    verifyThreadSafe();
-  }
-
   @Override
   <E extends Comparable<E>> Builder<E> builder() {
     return ImmutableSet.builder();

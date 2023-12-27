@@ -861,7 +861,7 @@ public final class HttpHeaders {
    * href="https://wicg.github.io/turtledove/#handling-direct-from-seller-signals">{@code
    * Sec-Ad-Auction-Fetch}</a> header field name.
    *
-   * @since NEXT
+   * @since 33.0.0
    */
   public static final String SEC_AD_AUCTION_FETCH = "Sec-Ad-Auction-Fetch";
 
@@ -870,7 +870,7 @@ public final class HttpHeaders {
    * href="https://wicg.github.io/turtledove/#handling-direct-from-seller-signals">{@code
    * Ad-Auction-Signals}</a> header field name.
    *
-   * @since NEXT
+   * @since 33.0.0
    */
   public static final String AD_AUCTION_SIGNALS = "Ad-Auction-Signals";
 

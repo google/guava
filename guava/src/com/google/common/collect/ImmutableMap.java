@@ -23,6 +23,7 @@ import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -96,8 +97,11 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    * and values are the result of applying the provided mapping functions to the input elements.
    *
    * <p>If the mapped keys contain duplicates (according to {@link Object#equals(Object)}), the
-   * values are merged using the specified merging function. Entries will appear in the encounter
-   * order of the first occurrence of the key.
+   * values are merged using the specified merging function. If the merging function returns {@code
+   * null}, then the collector removes the value that has been computed for the key thus far (though
+   * future occurrences of the key would reinsert it).
+   *
+   * <p>Entries will appear in the encounter order of the first occurrence of the key.
    *
    * @since 21.0
    */
@@ -754,6 +758,15 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
         public UnmodifiableIterator<Entry<K, V>> iterator() {
           return entryIterator();
         }
+
+        // redeclare to help optimizers with b/310253115
+        @SuppressWarnings("RedundantOverride")
+        @Override
+        @J2ktIncompatible // serialization
+        @GwtIncompatible // serialization
+        Object writeReplace() {
+          return super.writeReplace();
+        }
       }
       return new EntrySetImpl();
     }
@@ -761,6 +774,15 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     @Override
     ImmutableCollection<V> createValues() {
       return new ImmutableMapValues<>(this);
+    }
+
+    // redeclare to help optimizers with b/310253115
+    @SuppressWarnings("RedundantOverride")
+    @Override
+    @J2ktIncompatible // serialization
+    @GwtIncompatible // serialization
+    Object writeReplace() {
+      return super.writeReplace();
     }
   }
 
@@ -1166,6 +1188,15 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
           };
         }
       };
+    }
+
+    // redeclare to help optimizers with b/310253115
+    @SuppressWarnings("RedundantOverride")
+    @Override
+    @J2ktIncompatible // serialization
+    @GwtIncompatible // serialization
+    Object writeReplace() {
+      return super.writeReplace();
     }
   }
 

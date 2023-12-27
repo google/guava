@@ -77,7 +77,8 @@ public final class Tables {
           java.util.function.Function<? super T, ? extends C> columnFunction,
           java.util.function.Function<? super T, ? extends V> valueFunction,
           java.util.function.Supplier<I> tableSupplier) {
-    return TableCollectors.toTable(rowFunction, columnFunction, valueFunction, tableSupplier);
+    return TableCollectors.<T, R, C, V, I>toTable(
+        rowFunction, columnFunction, valueFunction, tableSupplier);
   }
 
   /**
@@ -106,7 +107,7 @@ public final class Tables {
           java.util.function.Function<? super T, ? extends V> valueFunction,
           BinaryOperator<V> mergeFunction,
           java.util.function.Supplier<I> tableSupplier) {
-    return TableCollectors.toTable(
+    return TableCollectors.<T, R, C, V, I>toTable(
         rowFunction, columnFunction, valueFunction, mergeFunction, tableSupplier);
   }
 

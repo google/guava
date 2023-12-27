@@ -143,6 +143,15 @@ final class RegularContiguousSet<C extends Comparable> extends ContiguousSet<C> 
           checkElementIndex(i, size());
           return domain.offset(first(), i);
         }
+
+        // redeclare to help optimizers with b/310253115
+        @SuppressWarnings("RedundantOverride")
+        @Override
+        @J2ktIncompatible // serialization
+        @GwtIncompatible // serialization
+        Object writeReplace() {
+          return super.writeReplace();
+        }
       };
     } else {
       return super.createAsList();

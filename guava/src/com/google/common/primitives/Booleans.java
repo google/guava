@@ -74,8 +74,8 @@ public final class Booleans {
   /**
    * Returns a {@code Comparator<Boolean>} that sorts {@code true} before {@code false}.
    *
-   * <p>This is particularly useful in Java 8+ in combination with {@code Comparators.comparing},
-   * e.g. {@code Comparators.comparing(Foo::hasBar, trueFirst())}.
+   * <p>This is particularly useful in Java 8+ in combination with {@code Comparator.comparing},
+   * e.g. {@code Comparator.comparing(Foo::hasBar, trueFirst())}.
    *
    * @since 21.0
    */
@@ -86,8 +86,8 @@ public final class Booleans {
   /**
    * Returns a {@code Comparator<Boolean>} that sorts {@code false} before {@code true}.
    *
-   * <p>This is particularly useful in Java 8+ in combination with {@code Comparators.comparing},
-   * e.g. {@code Comparators.comparing(Foo::hasBar, falseFirst())}.
+   * <p>This is particularly useful in Java 8+ in combination with {@code Comparator.comparing},
+   * e.g. {@code Comparator.comparing(Foo::hasBar, falseFirst())}.
    *
    * @since 21.0
    */

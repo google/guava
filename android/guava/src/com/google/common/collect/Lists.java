@@ -766,6 +766,15 @@ public final class Lists {
     public int size() {
       return string.length();
     }
+
+    // redeclare to help optimizers with b/310253115
+    @SuppressWarnings("RedundantOverride")
+    @Override
+    @J2ktIncompatible // serialization
+    @GwtIncompatible // serialization
+    Object writeReplace() {
+      return super.writeReplace();
+    }
   }
 
   private static final class CharSequenceAsList extends AbstractList<Character> {

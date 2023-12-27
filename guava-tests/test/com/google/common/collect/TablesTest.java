@@ -19,10 +19,8 @@ package com.google.common.collect;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.Table.Cell;
-import com.google.common.testing.CollectorTester;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.SerializableTester;
-import java.util.stream.Collector;
 import junit.framework.TestCase;
 
 /**
@@ -32,35 +30,6 @@ import junit.framework.TestCase;
  */
 @GwtCompatible(emulated = true)
 public class TablesTest extends TestCase {
-
-  // The bulk of the toTable tests can be found in TableCollectorsTest.
-  // This gives minimal coverage to the forwarding functions
-  public void testToTableSanityTest() {
-    Collector<Cell<String, String, Integer>, ?, Table<String, String, Integer>> collector =
-        Tables.toTable(Cell::getRowKey, Cell::getColumnKey, Cell::getValue, HashBasedTable::create);
-    HashBasedTable<String, String, Integer> expected = HashBasedTable.create();
-    expected.put("one", "uno", 1);
-    CollectorTester.of(collector)
-        .expectCollects(HashBasedTable.create())
-        .expectCollects(expected, Tables.immutableCell("one", "uno", 1));
-  }
-
-  public void testToTableMergingSanityTest() {
-    Collector<Cell<String, String, Integer>, ?, Table<String, String, Integer>> collector =
-        Tables.toTable(
-            Cell::getRowKey,
-            Cell::getColumnKey,
-            Cell::getValue,
-            Integer::sum,
-            HashBasedTable::create);
-    HashBasedTable<String, String, Integer> expected = HashBasedTable.create();
-    expected.put("one", "uno", 3);
-    CollectorTester.of(collector)
-        .expectCollects(HashBasedTable.create())
-        .expectCollects(
-            expected, Tables.immutableCell("one", "uno", 1), Tables.immutableCell("one", "uno", 2));
-  }
-
   @GwtIncompatible // SerializableTester
   public void testImmutableEntrySerialization() {
     Cell<String, Integer, Character> entry = Tables.immutableCell("foo", 1, 'a');

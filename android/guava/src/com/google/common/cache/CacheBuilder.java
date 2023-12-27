@@ -568,8 +568,8 @@ public final class CacheBuilder<K, V> {
    *
    * @param weigher the weigher to use in calculating the weight of cache entries
    * @return this {@code CacheBuilder} instance (for chaining)
-   * @throws IllegalArgumentException if {@code size} is negative
-   * @throws IllegalStateException if a maximum size was already set
+   * @throws IllegalStateException if a weigher was already set or {@link #maximumSize(long)} was
+   *     previously called
    * @since 11.0
    */
   @GwtIncompatible // To be supported

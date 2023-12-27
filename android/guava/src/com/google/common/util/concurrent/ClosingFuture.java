@@ -32,6 +32,7 @@ import static com.google.common.util.concurrent.Futures.getDone;
 import static com.google.common.util.concurrent.Futures.immediateFuture;
 import static com.google.common.util.concurrent.Futures.nonCancellationPropagating;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
+import static com.google.common.util.concurrent.Platform.restoreInterruptIfIsInterruptedException;
 import static java.util.logging.Level.FINER;
 import static java.util.logging.Level.SEVERE;
 import static java.util.logging.Level.WARNING;
@@ -47,7 +48,6 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.DoNotMock;
 import com.google.j2objc.annotations.RetainedWith;
 import java.io.Closeable;
-import java.io.IOException;
 import java.util.IdentityHashMap;
 import java.util.Map;
 import java.util.concurrent.Callable;
@@ -58,7 +58,6 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Future;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.logging.Logger;
 import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -196,7 +195,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 // TODO(dpb): GWT compatibility.
 public final class ClosingFuture<V extends @Nullable Object> {
 
-  private static final Logger logger = Logger.getLogger(ClosingFuture.class.getName());
+  private static final LazyLogger logger = new LazyLogger(ClosingFuture.class);
 
   /**
    * An object that can capture objects to be closed later, when a {@link ClosingFuture} pipeline is
@@ -1018,7 +1017,7 @@ public final class ClosingFuture<V extends @Nullable Object> {
    */
   public FluentFuture<V> finishToFuture() {
     if (compareAndUpdateState(OPEN, WILL_CLOSE)) {
-      logger.log(FINER, "will close {0}", this);
+      logger.get().log(FINER, "will close {0}", this);
       future.addListener(
           new Runnable() {
             @Override
@@ -1118,7 +1117,7 @@ public final class ClosingFuture<V extends @Nullable Object> {
    */
   @CanIgnoreReturnValue
   public boolean cancel(boolean mayInterruptIfRunning) {
-    logger.log(FINER, "cancelling {0}", this);
+    logger.get().log(FINER, "cancelling {0}", this);
     boolean cancelled = future.cancel(mayInterruptIfRunning);
     if (cancelled) {
       close();
@@ -1127,7 +1126,7 @@ public final class ClosingFuture<V extends @Nullable Object> {
   }
 
   private void close() {
-    logger.log(FINER, "closing {0}", this);
+    logger.get().log(FINER, "closing {0}", this);
     closeables.close();
   }
 
@@ -2131,7 +2130,7 @@ public final class ClosingFuture<V extends @Nullable Object> {
   @Override
   protected void finalize() {
     if (state.get().equals(OPEN)) {
-      logger.log(SEVERE, "Uh oh! An open ClosingFuture has leaked and will close: {0}", this);
+      logger.get().log(SEVERE, "Uh oh! An open ClosingFuture has leaked and will close: {0}", this);
       FluentFuture<V> unused = finishToFuture();
     }
   }
@@ -2145,14 +2144,27 @@ public final class ClosingFuture<V extends @Nullable Object> {
           () -> {
             try {
               closeable.close();
-            } catch (IOException | RuntimeException e) {
-              logger.log(WARNING, "thrown by close()", e);
+            } catch (Exception e) {
+              /*
+               * In guava-jre, any kind of Exception may be thrown because `closeable` has type
+               * `AutoCloseable`.
+               *
+               * In guava-android, the only kinds of Exception that may be thrown are
+               * RuntimeException and IOException because `closeable` has type `Closeable`—except
+               * that we have to account for sneaky checked exception.
+               */
+              restoreInterruptIfIsInterruptedException(e);
+              logger.get().log(WARNING, "thrown by close()", e);
             }
           });
     } catch (RejectedExecutionException e) {
-      if (logger.isLoggable(WARNING)) {
-        logger.log(
-            WARNING, String.format("while submitting close to %s; will close inline", executor), e);
+      if (logger.get().isLoggable(WARNING)) {
+        logger
+            .get()
+            .log(
+                WARNING,
+                String.format("while submitting close to %s; will close inline", executor),
+                e);
       }
       closeQuietly(closeable, directExecutor());
     }

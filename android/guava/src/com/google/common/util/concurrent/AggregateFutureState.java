@@ -25,7 +25,6 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -51,7 +50,7 @@ abstract class AggregateFutureState<OutputT extends @Nullable Object>
 
   private static final AtomicHelper ATOMIC_HELPER;
 
-  private static final Logger log = Logger.getLogger(AggregateFutureState.class.getName());
+  private static final LazyLogger log = new LazyLogger(AggregateFutureState.class);
 
   static {
     AtomicHelper helper;
@@ -61,7 +60,7 @@ abstract class AggregateFutureState<OutputT extends @Nullable Object>
           new SafeAtomicHelper(
               newUpdater(AggregateFutureState.class, Set.class, "seenExceptions"),
               newUpdater(AggregateFutureState.class, "remaining"));
-    } catch (RuntimeException | Error reflectionFailure) {
+    } catch (Throwable reflectionFailure) { // sneaky checked exception
       // Some Android 5.0.x Samsung devices have bugs in JDK reflection APIs that cause
       // getDeclaredField to throw a NoSuchFieldException when the field is definitely there.
       // For these users fallback to a suboptimal implementation, based on synchronized. This will
@@ -73,7 +72,7 @@ abstract class AggregateFutureState<OutputT extends @Nullable Object>
     // Log after all static init is finished; if an installed logger uses any Futures methods, it
     // shouldn't break in cases where reflection is missing/broken.
     if (thrownReflectionFailure != null) {
-      log.log(Level.SEVERE, "SafeAtomicHelper is broken!", thrownReflectionFailure);
+      log.get().log(Level.SEVERE, "SafeAtomicHelper is broken!", thrownReflectionFailure);
     }
   }
 

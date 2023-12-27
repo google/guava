@@ -77,12 +77,13 @@ public final class FakeTimeLimiter implements TimeLimiter {
   }
 
   @Override
+  @SuppressWarnings("CatchingUnchecked") // sneaky checked exception
   public void runWithTimeout(Runnable runnable, long timeoutDuration, TimeUnit timeoutUnit) {
     checkNotNull(runnable);
     checkNotNull(timeoutUnit);
     try {
       runnable.run();
-    } catch (RuntimeException e) {
+    } catch (Exception e) { // sneaky checked exception
       throw new UncheckedExecutionException(e);
     } catch (Error e) {
       throw new ExecutionError(e);

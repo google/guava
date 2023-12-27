@@ -51,8 +51,14 @@ public class PackageSanityTests extends AbstractPackageSanityTests {
       NetworkBuilder.directed().<String, String>immutable().addNode("B").build();
 
   public PackageSanityTests() {
+    MutableNetwork<String, String> mutableNetworkA = NetworkBuilder.directed().build();
+    mutableNetworkA.addNode("a");
+    MutableNetwork<String, String> mutableNetworkB = NetworkBuilder.directed().build();
+    mutableNetworkB.addNode("b");
+
     setDistinctValues(AbstractGraphBuilder.class, GRAPH_BUILDER_A, GRAPH_BUILDER_B);
     setDistinctValues(Graph.class, IMMUTABLE_GRAPH_A, IMMUTABLE_GRAPH_B);
+    setDistinctValues(MutableNetwork.class, mutableNetworkA, mutableNetworkB);
     setDistinctValues(NetworkBuilder.class, NETWORK_BUILDER_A, NETWORK_BUILDER_B);
     setDistinctValues(Network.class, IMMUTABLE_NETWORK_A, IMMUTABLE_NETWORK_B);
     setDefault(EndpointPair.class, EndpointPair.ordered("A", "B"));

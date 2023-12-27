@@ -51,6 +51,8 @@ import java.util.NavigableSet;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.SortedSet;
+import java.util.stream.Collector;
+import java.util.stream.Stream;
 import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -71,6 +73,100 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 @ElementTypesAreNonnullByDefault
 public final class Multimaps {
   private Multimaps() {}
+
+  /**
+   * Returns a {@code Collector} accumulating entries into a {@code Multimap} generated from the
+   * specified supplier. The keys and values of the entries are the result of applying the provided
+   * mapping functions to the input elements, accumulated in the encounter order of the stream.
+   *
+   * <p>Example:
+   *
+   * <pre>{@code
+   * static final ListMultimap<Character, String> FIRST_LETTER_MULTIMAP =
+   *     Stream.of("banana", "apple", "carrot", "asparagus", "cherry")
+   *         .collect(
+   *             toMultimap(
+   *                  str -> str.charAt(0),
+   *                  str -> str.substring(1),
+   *                  MultimapBuilder.treeKeys().arrayListValues()::build));
+   *
+   * // is equivalent to
+   *
+   * static final ListMultimap<Character, String> FIRST_LETTER_MULTIMAP;
+   *
+   * static {
+   *     FIRST_LETTER_MULTIMAP = MultimapBuilder.treeKeys().arrayListValues().build();
+   *     FIRST_LETTER_MULTIMAP.put('b', "anana");
+   *     FIRST_LETTER_MULTIMAP.put('a', "pple");
+   *     FIRST_LETTER_MULTIMAP.put('a', "sparagus");
+   *     FIRST_LETTER_MULTIMAP.put('c', "arrot");
+   *     FIRST_LETTER_MULTIMAP.put('c', "herry");
+   * }
+   * }</pre>
+   *
+   * <p>To collect to an {@link ImmutableMultimap}, use either {@link
+   * ImmutableSetMultimap#toImmutableSetMultimap} or {@link
+   * ImmutableListMultimap#toImmutableListMultimap}.
+   */
+  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
+  @IgnoreJRERequirement // Users will use this only if they're already using streams.
+  static <
+          T extends @Nullable Object,
+          K extends @Nullable Object,
+          V extends @Nullable Object,
+          M extends Multimap<K, V>>
+      Collector<T, ?, M> toMultimap(
+          java.util.function.Function<? super T, ? extends K> keyFunction,
+          java.util.function.Function<? super T, ? extends V> valueFunction,
+          java.util.function.Supplier<M> multimapSupplier) {
+    return CollectCollectors.<T, K, V, M>toMultimap(keyFunction, valueFunction, multimapSupplier);
+  }
+
+  /**
+   * Returns a {@code Collector} accumulating entries into a {@code Multimap} generated from the
+   * specified supplier. Each input element is mapped to a key and a stream of values, each of which
+   * are put into the resulting {@code Multimap}, in the encounter order of the stream and the
+   * encounter order of the streams of values.
+   *
+   * <p>Example:
+   *
+   * <pre>{@code
+   * static final ListMultimap<Character, Character> FIRST_LETTER_MULTIMAP =
+   *     Stream.of("banana", "apple", "carrot", "asparagus", "cherry")
+   *         .collect(
+   *             flatteningToMultimap(
+   *                  str -> str.charAt(0),
+   *                  str -> str.substring(1).chars().mapToObj(c -> (char) c),
+   *                  MultimapBuilder.linkedHashKeys().arrayListValues()::build));
+   *
+   * // is equivalent to
+   *
+   * static final ListMultimap<Character, Character> FIRST_LETTER_MULTIMAP;
+   *
+   * static {
+   *     FIRST_LETTER_MULTIMAP = MultimapBuilder.linkedHashKeys().arrayListValues().build();
+   *     FIRST_LETTER_MULTIMAP.putAll('b', Arrays.asList('a', 'n', 'a', 'n', 'a'));
+   *     FIRST_LETTER_MULTIMAP.putAll('a', Arrays.asList('p', 'p', 'l', 'e'));
+   *     FIRST_LETTER_MULTIMAP.putAll('c', Arrays.asList('a', 'r', 'r', 'o', 't'));
+   *     FIRST_LETTER_MULTIMAP.putAll('a', Arrays.asList('s', 'p', 'a', 'r', 'a', 'g', 'u', 's'));
+   *     FIRST_LETTER_MULTIMAP.putAll('c', Arrays.asList('h', 'e', 'r', 'r', 'y'));
+   * }
+   * }</pre>
+   */
+  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
+  @IgnoreJRERequirement // Users will use this only if they're already using streams.
+  static <
+          T extends @Nullable Object,
+          K extends @Nullable Object,
+          V extends @Nullable Object,
+          M extends Multimap<K, V>>
+      Collector<T, ?, M> flatteningToMultimap(
+          java.util.function.Function<? super T, ? extends K> keyFunction,
+          java.util.function.Function<? super T, ? extends Stream<? extends V>> valueFunction,
+          java.util.function.Supplier<M> multimapSupplier) {
+    return CollectCollectors.<T, K, V, M>flatteningToMultimap(
+        keyFunction, valueFunction, multimapSupplier);
+  }
 
   /**
    * Creates a new {@code Multimap} backed by {@code map}, whose internal value collections are

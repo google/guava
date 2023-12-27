@@ -21,7 +21,6 @@ import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.Locale;
-import java.util.logging.Logger;
 
 /**
  * Factories for {@link UncaughtExceptionHandler} instances.
@@ -57,7 +56,7 @@ public final class UncaughtExceptionHandlers {
 
   @VisibleForTesting
   static final class Exiter implements UncaughtExceptionHandler {
-    private static final Logger logger = Logger.getLogger(Exiter.class.getName());
+    private static final LazyLogger logger = new LazyLogger(Exiter.class);
 
     private final Runtime runtime;
 
@@ -68,9 +67,13 @@ public final class UncaughtExceptionHandlers {
     @Override
     public void uncaughtException(Thread t, Throwable e) {
       try {
-        logger.log(
-            SEVERE, String.format(Locale.ROOT, "Caught an exception in %s.  Shutting down.", t), e);
-      } catch (RuntimeException | Error errorInLogging) {
+        logger
+            .get()
+            .log(
+                SEVERE,
+                String.format(Locale.ROOT, "Caught an exception in %s.  Shutting down.", t),
+                e);
+      } catch (Throwable errorInLogging) { // sneaky checked exception
         // If logging fails, e.g. due to missing memory, at least try to log the
         // message and the cause for the failed logging.
         System.err.println(e.getMessage());

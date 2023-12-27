@@ -20,6 +20,8 @@ import static com.google.common.base.Preconditions.checkElementIndex;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -85,4 +87,13 @@ class RegularImmutableList<E> extends ImmutableList<E> {
   }
 
   // TODO(lowasser): benchmark optimizations for equals() and see if they're worthwhile
+
+  // redeclare to help optimizers with b/310253115
+  @SuppressWarnings("RedundantOverride")
+  @Override
+  @J2ktIncompatible // serialization
+  @GwtIncompatible // serialization
+  Object writeReplace() {
+    return super.writeReplace();
+  }
 }

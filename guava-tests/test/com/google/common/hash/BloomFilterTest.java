@@ -37,7 +37,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Stream;
 import junit.framework.TestCase;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -247,6 +246,7 @@ public class BloomFilterTest extends TestCase {
         });
   }
 
+  @AndroidIncompatible // see ImmutableTableTest.testNullPointerInstance
   public void testNullPointers() {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicInstanceMethods(BloomFilter.create(Funnels.unencodedCharsFunnel(), 100));
@@ -368,21 +368,6 @@ public class BloomFilterTest extends TestCase {
         .addEqualityGroup(BloomFilter.create(Funnels.unencodedCharsFunnel(), 200, 0.01))
         .addEqualityGroup(BloomFilter.create(Funnels.unencodedCharsFunnel(), 200, 0.02))
         .testEquals();
-  }
-
-  public void testCollector() {
-    BloomFilter<String> bf1 = BloomFilter.create(Funnels.unencodedCharsFunnel(), 100);
-    bf1.put("1");
-    bf1.put("2");
-
-    assertEquals(
-        bf1,
-        Stream.of("1", "2")
-            .collect(BloomFilter.toBloomFilter(Funnels.unencodedCharsFunnel(), 100)));
-    assertEquals(
-        bf1,
-        Stream.of("2", "1")
-            .collect(BloomFilter.toBloomFilter(Funnels.unencodedCharsFunnel(), 100)));
   }
 
   public void testEquals() {

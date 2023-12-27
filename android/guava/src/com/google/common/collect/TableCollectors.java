@@ -93,7 +93,7 @@ final class TableCollectors {
           java.util.function.Function<? super T, ? extends C> columnFunction,
           java.util.function.Function<? super T, ? extends V> valueFunction,
           java.util.function.Supplier<I> tableSupplier) {
-    return toTable(
+    return TableCollectors.<T, R, C, V, I>toTable(
         rowFunction,
         columnFunction,
         valueFunction,

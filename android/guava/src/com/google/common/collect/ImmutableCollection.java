@@ -21,6 +21,7 @@ import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 import static com.google.common.collect.ObjectArrays.checkElementsNotNull;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.DoNotCall;
@@ -35,8 +36,6 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Spliterator;
-import java.util.Spliterators;
 import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -177,25 +176,12 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
    * These are properties of the collection as a whole; SIZED and SUBSIZED are more properties of
    * the spliterator implementation.
    */
-  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
-  // @IgnoreJRERequirement is not necessary because this compiles down to a constant.
-  // (which is fortunate because Animal Sniffer doesn't look for @IgnoreJRERequirement on fields)
-  static final int SPLITERATOR_CHARACTERISTICS =
-      Spliterator.IMMUTABLE | Spliterator.NONNULL | Spliterator.ORDERED;
 
   ImmutableCollection() {}
 
   /** Returns an unmodifiable iterator across the elements in this collection. */
   @Override
   public abstract UnmodifiableIterator<E> iterator();
-
-  @Override
-  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
-  @IgnoreJRERequirement // used only from APIs with Java 8 types in them
-  // (not used within guava-android as of this writing, but we include it in the jar as a test)
-  public Spliterator<E> spliterator() {
-    return Spliterators.spliterator(this, SPLITERATOR_CHARACTERISTICS);
-  }
 
   private static final Object[] EMPTY_ARRAY = {};
 
@@ -381,6 +367,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
   }
 
   @J2ktIncompatible // serialization
+  @GwtIncompatible // serialization
   Object writeReplace() {
     // We serialize by default to ImmutableList, the simplest thing that works.
     return new ImmutableList.SerializedForm(toArray());

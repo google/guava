@@ -224,7 +224,7 @@ final class FuturesGetChecked {
     try {
       Exception unused = newWithCause(exceptionClass, new Exception());
       return true;
-    } catch (RuntimeException | Error e) {
+    } catch (Throwable t) { // sneaky checked exception
       return false;
     }
   }
