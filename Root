@@ -1,0 +1,124 @@
+/* ------------------CSS Resets and Custom Variables--------------------- */
+
+:root {
+    --color-one: rgb(114, 110, 110);
+}
+
+*, ::after, ::before {
+    box-sizing: border-box;
+}
+
+body, h1, p, ul, h3 {
+    margin: 0;
+}
+
+body {
+    margin-top: 35px;
+    display: grid;
+    place-content: center;
+}
+
+/* -------------------Utility Classes----------------- */
+
+/* Layout and display */
+
+.text_center {
+    text-align: center;
+}
+
+.hide {
+    display: none;
+}
+
+.margin_auto {
+    margin: auto;
+}
+
+/* hover animation */
+.hover_cursor_pointer:hover {
+    cursor: pointer;
+}
+
+/* ---------------------Task Manager styles------------------- */
+
+.task-manager {
+    max-width: 275px;
+}
+
+.task-manager__title {
+    font-size: 3rem;
+    text-decoration: underline;
+}
+
+.disclaimer {
+    font-size: 13px;
+    margin-top: 20px;
+}
+
+input[type="text"] {
+    padding: 5px;
+}
+
+.task-list {
+    list-style: none;
+    padding: 20px 10px;
+    border: 1px dashed black;
+    margin: 20px 0;
+}
+
+.warning {
+    font-size: 15px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.task-list > .task  {
+    font-size: 17.5px;
+    padding: 4px 6px;
+    display: flex;
+    justify-content: space-between;
+}
+
+button, input:not(label > input) {
+    display: block;
+    width: 100%;
+}
+
+.add-task {
+    margin-top: 30px;
+}
+
+button {
+    padding: 6.5px 2px;
+    font-size: 15px;
+    margin-bottom: 12px;
+    border: 2.5px solid black;
+    border-radius: 11px;
+}
+
+button:hover {
+    text-decoration: underline;
+    font-size: bolder;
+    scale: 1.1;
+}
+
+/* -----------------------Info Panel styles-------------------------- */
+
+.info-panel {
+    max-width: 500px;
+}
+
+.info-panel__title {
+    margin: 15px 0 20px 0;
+    font-weight: bold;
+}
+
+.list {
+    padding: 35px;
+    list-style-type: decimal;
+    border: solid var(--color-one)  5px;
+}
+
+.list__info:not(.list > .list__info:last-child) {
+    margin-bottom: 15px;
+}
