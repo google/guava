@@ -140,7 +140,7 @@ public final class Suppliers {
           }
         }
       }
-      // This is safe because we checked `initialized.`
+      // This is safe because we checked `initialized`.
       return uncheckedCastNullableTToT(value);
     }
 
@@ -185,7 +185,7 @@ public final class Suppliers {
           }
         }
       }
-      // This is safe because we checked `delegate.`
+      // This is safe because we checked `delegate`.
       return uncheckedCastNullableTToT(value);
     }
 
@@ -268,7 +268,7 @@ public final class Suppliers {
           }
         }
       }
-      // This is safe because we checked `expirationNanos.`
+      // This is safe because we checked `expirationNanos`.
       return uncheckedCastNullableTToT(value);
     }
 
