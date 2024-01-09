@@ -701,4 +701,11 @@ public class RangeTest extends TestCase {
         .addEqualityGroup(Range.closedOpen(1, 7), Range.range(1, CLOSED, 7, OPEN))
         .testEquals();
   }
+
+  public void testConstrain_closed() {
+    assertThat(Range.closed(3, 7).constrain(5).equals(5));
+    assertThat(Range.closed(3, 7).constrain(7).equals(7));
+    assertThat(Range.closed(3, 7).constrain(9).equals(7));
+    assertThat(Range.closed(3, 7).constrain(1).equals(1));
+  }
 }
