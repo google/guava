@@ -27,7 +27,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":9,"i1":9,"i2":9,"i3":9,"i4":9,"i5":9,"i6":9};
+var data = {"i0":9,"i1":9,"i2":9,"i3":9,"i4":9,"i5":9};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -132,8 +132,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <hr>
-<pre><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../annotations/GwtCompatible.html#emulated()">emulated</a>=true)
-public final class <a href="../../../../src-html/com/google/common/base/Suppliers.html#line.42">Suppliers</a>
+<pre><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
+public final class <a href="../../../../src-html/com/google/common/base/Suppliers.html#line.37">Suppliers</a>
 extends java.lang.Object</pre>
 <div class="block">Useful suppliers.
 
@@ -192,28 +192,19 @@ extends java.lang.Object</pre>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#memoizeWithExpiration(com.google.common.base.Supplier,java.time.Duration)">memoizeWithExpiration</a></span>&#8203;(<a href="Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;&nbsp;delegate,
-                     java.time.Duration&nbsp;duration)</code></th>
-<td class="colLast">
-<div class="block">Returns a supplier that caches the instance supplied by the delegate and removes the cached
- value after the specified time has passed.</div>
-</td>
-</tr>
-<tr id="i4" class="altColor">
-<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#ofInstance(T)">ofInstance</a></span>&#8203;(T&nbsp;instance)</code></th>
 <td class="colLast">
 <div class="block">Returns a supplier that always supplies <code>instance</code>.</div>
 </td>
 </tr>
-<tr id="i5" class="rowColor">
+<tr id="i4" class="altColor">
 <td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="Function.html" title="interface in com.google.common.base">Function</a>&lt;<a href="Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;,&#8203;T&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#supplierFunction()">supplierFunction</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns a function that accepts a supplier and returns the result of invoking <a href="Supplier.html#get()"><code>Supplier.get()</code></a> on that supplier.</div>
 </td>
 </tr>
-<tr id="i6" class="altColor">
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#synchronizedSupplier(com.google.common.base.Supplier)">synchronizedSupplier</a></span>&#8203;(<a href="Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;&nbsp;delegate)</code></th>
 <td class="colLast">
@@ -251,7 +242,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>compose</h4>
-<pre class="methodSignature">public static&nbsp;&lt;F extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Suppliers.html#line.53">compose</a>&#8203;(<a href="Function.html" title="interface in com.google.common.base">Function</a>&lt;? super F,&#8203;T&gt;&nbsp;function,
+<pre class="methodSignature">public static&nbsp;&lt;F extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Suppliers.html#line.48">compose</a>&#8203;(<a href="Function.html" title="interface in com.google.common.base">Function</a>&lt;? super F,&#8203;T&gt;&nbsp;function,
                                                                                                                     <a href="Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;F&gt;&nbsp;supplier)</pre>
 <div class="block">Returns a new supplier which is the composition of the provided function and supplier. In other
  words, the new supplier's value will be computed by retrieving the value from <code>supplier</code>,
@@ -265,7 +256,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>memoize</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Suppliers.html#line.112">memoize</a>&#8203;(<a href="Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;&nbsp;delegate)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Suppliers.html#line.107">memoize</a>&#8203;(<a href="Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;&nbsp;delegate)</pre>
 <div class="block">Returns a supplier which caches the instance retrieved during the first call to <code>get()</code>
  and returns that value on subsequent calls to <code>get()</code>. See: <a href="http://en.wikipedia.org/wiki/Memoization">memoization</a>
 
@@ -287,7 +278,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>memoizeWithExpiration</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Suppliers.html#line.229">memoizeWithExpiration</a>&#8203;(<a href="Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;&nbsp;delegate,
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Suppliers.html#line.224">memoizeWithExpiration</a>&#8203;(<a href="Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;&nbsp;delegate,
                                                                                        long&nbsp;duration,
                                                                                        java.util.concurrent.TimeUnit&nbsp;unit)</pre>
 <div class="block">Returns a supplier that caches the instance supplied by the delegate and removes the cached
@@ -314,39 +305,6 @@ extends java.lang.Object</pre>
 </dl>
 </li>
 </ul>
-<a id="memoizeWithExpiration(com.google.common.base.Supplier,java.time.Duration)">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>memoizeWithExpiration</h4>
-<pre class="methodSignature"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-<a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Suppliers.html#line.257">memoizeWithExpiration</a>&#8203;(<a href="Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;&nbsp;delegate,
-                                                                                       java.time.Duration&nbsp;duration)</pre>
-<div class="block">Returns a supplier that caches the instance supplied by the delegate and removes the cached
- value after the specified time has passed. Subsequent calls to <code>get()</code> return the cached
- value if the expiration time has not passed. After the expiration time, a new value is
- retrieved, cached, and returned. See: <a href="http://en.wikipedia.org/wiki/Memoization">memoization</a>
-
- <p>The returned supplier is thread-safe. The supplier's serialized form does not contain the
- cached value, which will be recalculated when <code>get()</code> is called on the reserialized
- instance. The actual memoization does not happen when the underlying delegate throws an
- exception.
-
- <p>When the underlying delegate throws an exception then this memoizing supplier will keep
- delegating calls until it returns valid data.</div>
-<dl>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>duration</code> - the length of time after a value is created that it should stop being returned
-     by subsequent <code>get()</code> calls</dd>
-<dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.IllegalArgumentException</code> - if <code>duration</code> is not positive</dd>
-<dt><span class="simpleTagLabel">Since:</span></dt>
-<dd>NEXT</dd>
-</dl>
-</li>
-</ul>
 <a id="ofInstance(java.lang.Object)">
 <!--   -->
 </a><a id="ofInstance(T)">
@@ -355,7 +313,7 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>ofInstance</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Suppliers.html#line.323">ofInstance</a>&#8203;(T&nbsp;instance)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Suppliers.html#line.286">ofInstance</a>&#8203;(T&nbsp;instance)</pre>
 <div class="block">Returns a supplier that always supplies <code>instance</code>.</div>
 </li>
 </ul>
@@ -365,7 +323,7 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>synchronizedSupplier</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Suppliers.html#line.368">synchronizedSupplier</a>&#8203;(<a href="Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;&nbsp;delegate)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Suppliers.html#line.331">synchronizedSupplier</a>&#8203;(<a href="Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;&nbsp;delegate)</pre>
 <div class="block">Returns a supplier whose <code>get()</code> method synchronizes on <code>delegate</code> before calling
  it, making it thread-safe.</div>
 </li>
@@ -376,7 +334,7 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockListLast">
 <li class="blockList">
 <h4>supplierFunction</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="Function.html" title="interface in com.google.common.base">Function</a>&lt;<a href="Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;,&#8203;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Suppliers.html#line.405">supplierFunction</a>()</pre>
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="Function.html" title="interface in com.google.common.base">Function</a>&lt;<a href="Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;,&#8203;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Suppliers.html#line.368">supplierFunction</a>()</pre>
 <div class="block">Returns a function that accepts a supplier and returns the result of invoking <a href="Supplier.html#get()"><code>Supplier.get()</code></a> on that supplier.
 
  <p><b>Java 8 users:</b> use the method reference <code>Supplier::get</code> instead.</div>
