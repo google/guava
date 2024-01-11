@@ -14,13 +14,18 @@
 
 package com.google.common.base;
 
+import static com.google.common.base.Internal.toNanosSaturated;
 import static com.google.common.base.NullnessCasts.uncheckedCastNullableTToT;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import java.io.Serializable;
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -34,7 +39,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Harry Heymann
  * @since 2.0
  */
-@GwtCompatible
+@GwtCompatible(emulated = true)
 @ElementTypesAreNonnullByDefault
 public final class Suppliers {
   private Suppliers() {}
@@ -221,10 +226,46 @@ public final class Suppliers {
    * @throws IllegalArgumentException if {@code duration} is not positive
    * @since 2.0
    */
-  @SuppressWarnings("GoodTime") // should accept a java.time.Duration
+  @SuppressWarnings("GoodTime") // Prefer the Duration overload
   public static <T extends @Nullable Object> Supplier<T> memoizeWithExpiration(
       Supplier<T> delegate, long duration, TimeUnit unit) {
-    return new ExpiringMemoizingSupplier<>(delegate, duration, unit);
+    checkNotNull(delegate);
+    checkArgument(duration > 0, "duration (%s %s) must be > 0", duration, unit);
+    return new ExpiringMemoizingSupplier<>(delegate, unit.toNanos(duration));
+  }
+
+  /**
+   * Returns a supplier that caches the instance supplied by the delegate and removes the cached
+   * value after the specified time has passed. Subsequent calls to {@code get()} return the cached
+   * value if the expiration time has not passed. After the expiration time, a new value is
+   * retrieved, cached, and returned. See: <a
+   * href="http://en.wikipedia.org/wiki/Memoization">memoization</a>
+   *
+   * <p>The returned supplier is thread-safe. The supplier's serialized form does not contain the
+   * cached value, which will be recalculated when {@code get()} is called on the reserialized
+   * instance. The actual memoization does not happen when the underlying delegate throws an
+   * exception.
+   *
+   * <p>When the underlying delegate throws an exception then this memoizing supplier will keep
+   * delegating calls until it returns valid data.
+   *
+   * @param duration the length of time after a value is created that it should stop being returned
+   *     by subsequent {@code get()} calls
+   * @throws IllegalArgumentException if {@code duration} is not positive
+   * @since NEXT
+   */
+  @Beta // only until we're confident that Java 8 APIs are safe for our Android users
+  @J2ktIncompatible
+  @GwtIncompatible // java.time.Duration
+  @SuppressWarnings("Java7ApiChecker") // no more dangerous that wherever the user got the Duration
+  @IgnoreJRERequirement
+  public static <T extends @Nullable Object> Supplier<T> memoizeWithExpiration(
+      Supplier<T> delegate, Duration duration) {
+    checkNotNull(delegate);
+    // The alternative of `duration.compareTo(Duration.ZERO) > 0` causes J2ObjC trouble.
+    checkArgument(
+        !duration.isNegative() && !duration.isZero(), "duration (%s) must be > 0", duration);
+    return new ExpiringMemoizingSupplier<T>(delegate, toNanosSaturated(duration));
   }
 
   @VisibleForTesting
@@ -237,15 +278,13 @@ public final class Suppliers {
     // The special value 0 means "not yet initialized".
     transient volatile long expirationNanos;
 
-    ExpiringMemoizingSupplier(Supplier<T> delegate, long duration, TimeUnit unit) {
-      this.delegate = checkNotNull(delegate);
-      this.durationNanos = unit.toNanos(duration);
-      checkArgument(duration > 0, "duration (%s %s) must be > 0", duration, unit);
+    ExpiringMemoizingSupplier(Supplier<T> delegate, long durationNanos) {
+      this.delegate = delegate;
+      this.durationNanos = durationNanos;
     }
 
     @Override
     @ParametricNullness
-    @SuppressWarnings("GoodTime") // reading system time without TimeSource
     public T get() {
       // Another variant of Double Checked Locking.
       //
