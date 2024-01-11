@@ -170,12 +170,21 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="../Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Suppliers.</span><code><span class="memberNameLink"><a href="../Suppliers.html#memoizeWithExpiration(com.google.common.base.Supplier,java.time.Duration)">memoizeWithExpiration</a></span>&#8203;(<a href="../Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;&nbsp;delegate,
+                     java.time.Duration&nbsp;duration)</code></th>
+<td class="colLast">
+<div class="block">Returns a supplier that caches the instance supplied by the delegate and removes the cached
+ value after the specified time has passed.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="../Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Suppliers.</span><code><span class="memberNameLink"><a href="../Suppliers.html#ofInstance(T)">ofInstance</a></span>&#8203;(T&nbsp;instance)</code></th>
 <td class="colLast">
 <div class="block">Returns a supplier that always supplies <code>instance</code>.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="../Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Suppliers.</span><code><span class="memberNameLink"><a href="../Suppliers.html#synchronizedSupplier(com.google.common.base.Supplier)">synchronizedSupplier</a></span>&#8203;(<a href="../Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;&nbsp;delegate)</code></th>
 <td class="colLast">
@@ -244,13 +253,22 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </td>
 </tr>
 <tr class="altColor">
+<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="../Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Suppliers.</span><code><span class="memberNameLink"><a href="../Suppliers.html#memoizeWithExpiration(com.google.common.base.Supplier,java.time.Duration)">memoizeWithExpiration</a></span>&#8203;(<a href="../Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;&nbsp;delegate,
+                     java.time.Duration&nbsp;duration)</code></th>
+<td class="colLast">
+<div class="block">Returns a supplier that caches the instance supplied by the delegate and removes the cached
+ value after the specified time has passed.</div>
+</td>
+</tr>
+<tr class="rowColor">
 <td class="colFirst"><code>abstract <a href="../Optional.html" title="type parameter in Optional">T</a></code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Optional.</span><code><span class="memberNameLink"><a href="../Optional.html#or(com.google.common.base.Supplier)">or</a></span>&#8203;(<a href="../Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;? extends <a href="../Optional.html" title="type parameter in Optional">T</a>&gt;&nbsp;supplier)</code></th>
 <td class="colLast">
 <div class="block">Returns the contained instance if it is present; <code>supplier.get()</code> otherwise.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="../Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Suppliers.</span><code><span class="memberNameLink"><a href="../Suppliers.html#synchronizedSupplier(com.google.common.base.Supplier)">synchronizedSupplier</a></span>&#8203;(<a href="../Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;&nbsp;delegate)</code></th>
 <td class="colLast">
