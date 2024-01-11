@@ -953,7 +953,7 @@ public final class Streams {
   public static OptionalInt findLast(IntStream stream) {
     // findLast(Stream) does some allocation, so we might as well box some more
     java.util.Optional<Integer> boxedLast = findLast(stream.boxed());
-    return boxedLast.map(OptionalInt::of).orElseGet(OptionalInt::empty);
+    return boxedLast.map(OptionalInt::of).orElse(OptionalInt.empty());
   }
 
   /**
@@ -971,7 +971,7 @@ public final class Streams {
   public static OptionalLong findLast(LongStream stream) {
     // findLast(Stream) does some allocation, so we might as well box some more
     java.util.Optional<Long> boxedLast = findLast(stream.boxed());
-    return boxedLast.map(OptionalLong::of).orElseGet(OptionalLong::empty);
+    return boxedLast.map(OptionalLong::of).orElse(OptionalLong.empty());
   }
 
   /**
@@ -989,7 +989,7 @@ public final class Streams {
   public static OptionalDouble findLast(DoubleStream stream) {
     // findLast(Stream) does some allocation, so we might as well box some more
     java.util.Optional<Double> boxedLast = findLast(stream.boxed());
-    return boxedLast.map(OptionalDouble::of).orElseGet(OptionalDouble::empty);
+    return boxedLast.map(OptionalDouble::of).orElse(OptionalDouble.empty());
   }
 
   private Streams() {}
