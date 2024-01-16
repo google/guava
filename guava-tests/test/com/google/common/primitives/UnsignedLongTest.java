@@ -234,7 +234,6 @@ public class UnsignedLongTest extends TestCase {
     }
   }
 
-  @J2ktIncompatible // TODO(b/285538920): Wrong result for j2kt
   public void testMod() {
     for (long a : TEST_LONGS) {
       for (long b : TEST_LONGS) {

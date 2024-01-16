@@ -49,7 +49,6 @@ public class BooleansTest extends TestCase {
 
   private static final boolean[] VALUES = {false, true};
 
-  @J2ktIncompatible // TODO(b/285538920): Fix and enable.
   public void testHashCode() {
     assertThat(Booleans.hashCode(true)).isEqualTo(Boolean.TRUE.hashCode());
     assertThat(Booleans.hashCode(false)).isEqualTo(Boolean.FALSE.hashCode());
