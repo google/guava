@@ -17,7 +17,6 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.base.Strings.isNullOrEmpty;
 import static com.google.common.util.concurrent.Futures.getDone;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
@@ -238,11 +237,6 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
       return state == State.FAILURE ? throwable : null;
     }
     return null;
-  }
-
-  final Throwable trustedGetException() {
-    checkState(state == State.FAILURE);
-    return throwable;
   }
 
   final void maybePropagateCancellationTo(@Nullable Future<?> related) {
