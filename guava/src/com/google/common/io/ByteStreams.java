@@ -233,6 +233,8 @@ public final class ByteStreams {
   /**
    * Reads all bytes from an input stream into a byte array. Does not close the stream.
    *
+   * <p><b>Java 9+ users:</b> use {@code in#readAllBytes()} instead.
+   *
    * @param in the input stream to read from
    * @return a byte array containing all the bytes from the stream
    * @throws IOException if an I/O error occurs
