@@ -381,9 +381,11 @@ public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/io/
 <ul class="blockList">
 <li class="blockList">
 <h4>toByteArray</h4>
-<pre class="methodSignature">public static&nbsp;byte[]&nbsp;<a href="../../../../src-html/com/google/common/io/ByteStreams.html#line.240">toByteArray</a>&#8203;(java.io.InputStream&nbsp;in)
+<pre class="methodSignature">public static&nbsp;byte[]&nbsp;<a href="../../../../src-html/com/google/common/io/ByteStreams.html#line.242">toByteArray</a>&#8203;(java.io.InputStream&nbsp;in)
                           throws java.io.IOException</pre>
-<div class="block">Reads all bytes from an input stream into a byte array. Does not close the stream.</div>
+<div class="block">Reads all bytes from an input stream into a byte array. Does not close the stream.
+
+ <p><b>Java 9+ users:</b> use <code>in#readAllBytes()</code> instead.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>in</code> - the input stream to read from</dd>
@@ -401,7 +403,7 @@ public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/io/
 <li class="blockList">
 <h4>exhaust</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/io/ByteStreams.html#line.289">exhaust</a>&#8203;(java.io.InputStream&nbsp;in)
+public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/io/ByteStreams.html#line.291">exhaust</a>&#8203;(java.io.InputStream&nbsp;in)
                     throws java.io.IOException</pre>
 <div class="block">Reads and discards data from the given <code>InputStream</code> until the end of the stream is
  reached. Returns the total number of bytes read. Does not close the stream.</div>
@@ -419,7 +421,7 @@ public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/io/
 <ul class="blockList">
 <li class="blockList">
 <h4>newDataInput</h4>
-<pre class="methodSignature">public static&nbsp;<a href="ByteArrayDataInput.html" title="interface in com.google.common.io">ByteArrayDataInput</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteStreams.html#line.304">newDataInput</a>&#8203;(byte[]&nbsp;bytes)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="ByteArrayDataInput.html" title="interface in com.google.common.io">ByteArrayDataInput</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteStreams.html#line.306">newDataInput</a>&#8203;(byte[]&nbsp;bytes)</pre>
 <div class="block">Returns a new <a href="ByteArrayDataInput.html" title="interface in com.google.common.io"><code>ByteArrayDataInput</code></a> instance to read from the <code>bytes</code> array from the
  beginning.</div>
 </li>
@@ -430,7 +432,7 @@ public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/io/
 <ul class="blockList">
 <li class="blockList">
 <h4>newDataInput</h4>
-<pre class="methodSignature">public static&nbsp;<a href="ByteArrayDataInput.html" title="interface in com.google.common.io">ByteArrayDataInput</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteStreams.html#line.315">newDataInput</a>&#8203;(byte[]&nbsp;bytes,
+<pre class="methodSignature">public static&nbsp;<a href="ByteArrayDataInput.html" title="interface in com.google.common.io">ByteArrayDataInput</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteStreams.html#line.317">newDataInput</a>&#8203;(byte[]&nbsp;bytes,
                                               int&nbsp;start)</pre>
 <div class="block">Returns a new <a href="ByteArrayDataInput.html" title="interface in com.google.common.io"><code>ByteArrayDataInput</code></a> instance to read from the <code>bytes</code> array,
  starting at the given position.</div>
@@ -447,7 +449,7 @@ public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/io/
 <ul class="blockList">
 <li class="blockList">
 <h4>newDataInput</h4>
-<pre class="methodSignature">public static&nbsp;<a href="ByteArrayDataInput.html" title="interface in com.google.common.io">ByteArrayDataInput</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteStreams.html#line.327">newDataInput</a>&#8203;(java.io.ByteArrayInputStream&nbsp;byteArrayInputStream)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="ByteArrayDataInput.html" title="interface in com.google.common.io">ByteArrayDataInput</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteStreams.html#line.329">newDataInput</a>&#8203;(java.io.ByteArrayInputStream&nbsp;byteArrayInputStream)</pre>
 <div class="block">Returns a new <a href="ByteArrayDataInput.html" title="interface in com.google.common.io"><code>ByteArrayDataInput</code></a> instance to read from the given <code>
  ByteArrayInputStream</code>. The given input stream is not reset before being read from by the
  returned <code>ByteArrayDataInput</code>.</div>
@@ -463,7 +465,7 @@ public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/io/
 <ul class="blockList">
 <li class="blockList">
 <h4>newDataOutput</h4>
-<pre class="methodSignature">public static&nbsp;<a href="ByteArrayDataOutput.html" title="interface in com.google.common.io">ByteArrayDataOutput</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteStreams.html#line.478">newDataOutput</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="ByteArrayDataOutput.html" title="interface in com.google.common.io">ByteArrayDataOutput</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteStreams.html#line.480">newDataOutput</a>()</pre>
 <div class="block">Returns a new <a href="ByteArrayDataOutput.html" title="interface in com.google.common.io"><code>ByteArrayDataOutput</code></a> instance with a default size.</div>
 </li>
 </ul>
@@ -473,7 +475,7 @@ public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/io/
 <ul class="blockList">
 <li class="blockList">
 <h4>newDataOutput</h4>
-<pre class="methodSignature">public static&nbsp;<a href="ByteArrayDataOutput.html" title="interface in com.google.common.io">ByteArrayDataOutput</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteStreams.html#line.488">newDataOutput</a>&#8203;(int&nbsp;size)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="ByteArrayDataOutput.html" title="interface in com.google.common.io">ByteArrayDataOutput</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteStreams.html#line.490">newDataOutput</a>&#8203;(int&nbsp;size)</pre>
 <div class="block">Returns a new <a href="ByteArrayDataOutput.html" title="interface in com.google.common.io"><code>ByteArrayDataOutput</code></a> instance sized to hold <code>size</code> bytes before
  resizing.</div>
 <dl>
@@ -488,7 +490,7 @@ public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/io/
 <ul class="blockList">
 <li class="blockList">
 <h4>newDataOutput</h4>
-<pre class="methodSignature">public static&nbsp;<a href="ByteArrayDataOutput.html" title="interface in com.google.common.io">ByteArrayDataOutput</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteStreams.html#line.509">newDataOutput</a>&#8203;(java.io.ByteArrayOutputStream&nbsp;byteArrayOutputStream)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="ByteArrayDataOutput.html" title="interface in com.google.common.io">ByteArrayDataOutput</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteStreams.html#line.511">newDataOutput</a>&#8203;(java.io.ByteArrayOutputStream&nbsp;byteArrayOutputStream)</pre>
 <div class="block">Returns a new <a href="ByteArrayDataOutput.html" title="interface in com.google.common.io"><code>ByteArrayDataOutput</code></a> instance which writes to the given <code>
  ByteArrayOutputStream</code>. The given output stream is not reset before being written to by the
  returned <code>ByteArrayDataOutput</code> and new data will be appended to any existing content.
@@ -509,7 +511,7 @@ public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/io/
 <ul class="blockList">
 <li class="blockList">
 <h4>nullOutputStream</h4>
-<pre class="methodSignature">public static&nbsp;java.io.OutputStream&nbsp;<a href="../../../../src-html/com/google/common/io/ByteStreams.html#line.685">nullOutputStream</a>()</pre>
+<pre class="methodSignature">public static&nbsp;java.io.OutputStream&nbsp;<a href="../../../../src-html/com/google/common/io/ByteStreams.html#line.687">nullOutputStream</a>()</pre>
 <div class="block">Returns an <code>OutputStream</code> that simply discards written bytes.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -523,7 +525,7 @@ public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/io/
 <ul class="blockList">
 <li class="blockList">
 <h4>limit</h4>
-<pre class="methodSignature">public static&nbsp;java.io.InputStream&nbsp;<a href="../../../../src-html/com/google/common/io/ByteStreams.html#line.697">limit</a>&#8203;(java.io.InputStream&nbsp;in,
+<pre class="methodSignature">public static&nbsp;java.io.InputStream&nbsp;<a href="../../../../src-html/com/google/common/io/ByteStreams.html#line.699">limit</a>&#8203;(java.io.InputStream&nbsp;in,
                                         long&nbsp;limit)</pre>
 <div class="block">Wraps a <code>InputStream</code>, limiting the number of bytes which can be read.</div>
 <dl>
@@ -543,7 +545,7 @@ public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/io/
 <ul class="blockList">
 <li class="blockList">
 <h4>readFully</h4>
-<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/ByteStreams.html#line.783">readFully</a>&#8203;(java.io.InputStream&nbsp;in,
+<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/ByteStreams.html#line.785">readFully</a>&#8203;(java.io.InputStream&nbsp;in,
                              byte[]&nbsp;b)
                       throws java.io.IOException</pre>
 <div class="block">Attempts to read enough bytes from the stream to fill the given byte array, with the same
@@ -564,7 +566,7 @@ public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/io/
 <ul class="blockList">
 <li class="blockList">
 <h4>readFully</h4>
-<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/ByteStreams.html#line.799">readFully</a>&#8203;(java.io.InputStream&nbsp;in,
+<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/ByteStreams.html#line.801">readFully</a>&#8203;(java.io.InputStream&nbsp;in,
                              byte[]&nbsp;b,
                              int&nbsp;off,
                              int&nbsp;len)
@@ -590,7 +592,7 @@ public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/io/
 <ul class="blockList">
 <li class="blockList">
 <h4>skipFully</h4>
-<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/ByteStreams.html#line.816">skipFully</a>&#8203;(java.io.InputStream&nbsp;in,
+<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/ByteStreams.html#line.818">skipFully</a>&#8203;(java.io.InputStream&nbsp;in,
                              long&nbsp;n)
                       throws java.io.IOException</pre>
 <div class="block">Discards <code>n</code> bytes of data from the input stream. This method will block until the full
@@ -612,7 +614,7 @@ public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/io/
 <li class="blockList">
 <h4>readBytes</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/io/ByteStreams.html#line.881">readBytes</a>&#8203;(java.io.InputStream&nbsp;input,
+public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/io/ByteStreams.html#line.883">readBytes</a>&#8203;(java.io.InputStream&nbsp;input,
                                                                  <a href="ByteProcessor.html" title="interface in com.google.common.io">ByteProcessor</a>&lt;T&gt;&nbsp;processor)
                                                           throws java.io.IOException</pre>
 <div class="block">Process the bytes of the given input stream using the given processor.</div>
@@ -636,7 +638,7 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <li class="blockList">
 <h4>read</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/io/ByteStreams.html#line.920">read</a>&#8203;(java.io.InputStream&nbsp;in,
+public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/io/ByteStreams.html#line.922">read</a>&#8203;(java.io.InputStream&nbsp;in,
                        byte[]&nbsp;b,
                        int&nbsp;off,
                        int&nbsp;len)
