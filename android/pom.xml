@@ -22,7 +22,7 @@
     <javac.version>9+181-r4173-1</javac.version>
     <!-- Empty for all JDKs but 9-12 -->
     <maven-javadoc-plugin.additionalJOptions></maven-javadoc-plugin.additionalJOptions>
-    <project.build.outputTimestamp>2023-02-01T00:00:00Z</project.build.outputTimestamp>
+    <project.build.outputTimestamp>2024-01-02T00:00:00Z</project.build.outputTimestamp>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <test.add.opens></test.add.opens>
     <module.status>integration</module.status>
@@ -177,7 +177,7 @@
           <artifactId>animal-sniffer-maven-plugin</artifactId>
           <version>1.23</version>
           <configuration>
-            <annotations>com.google.common.collect.IgnoreJRERequirement,com.google.common.hash.IgnoreJRERequirement,com.google.common.io.IgnoreJRERequirement,com.google.common.reflect.IgnoreJRERequirement,com.google.common.testing.IgnoreJRERequirement</annotations>
+            <annotations>com.google.common.base.IgnoreJRERequirement,com.google.common.collect.IgnoreJRERequirement,com.google.common.hash.IgnoreJRERequirement,com.google.common.io.IgnoreJRERequirement,com.google.common.reflect.IgnoreJRERequirement,com.google.common.testing.IgnoreJRERequirement</annotations>
             <checkTestClasses>true</checkTestClasses>
             <signature>
               <groupId>com.toasttab.android</groupId>
