@@ -18,7 +18,6 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.CompatibleWith;
@@ -72,8 +71,17 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * element (in a way that affects its {@link Object#equals} behavior) while it is contained in a
  * multiset. Undefined behavior and bugs will result.
  *
- * <p>Common implementations include {@link ImmutableMultiset}, {@link HashMultiset}, and {@link
- * ConcurrentHashMultiset}.
+ * <h3>Implementations</h3>
+ *
+ * <ul>
+ *   <li>{@link ImmutableMultiset}
+ *   <li>{@link ImmutableSortedMultiset}
+ *   <li>{@link HashMultiset}
+ *   <li>{@link LinkedHashMultiset}
+ *   <li>{@link TreeMultiset}
+ *   <li>{@link EnumMultiset}
+ *   <li>{@link ConcurrentHashMultiset}
+ * </ul>
  *
  * <p>If your values may be zero, negative, or outside the range of an int, you may wish to use
  * {@link com.google.common.util.concurrent.AtomicLongMap} instead. Note, however, that unlike
@@ -339,7 +347,6 @@ public interface Multiset<E extends @Nullable Object> extends Collection<E> {
    *
    * @since 21.0
    */
-  @Beta
   default void forEachEntry(ObjIntConsumer<? super E> action) {
     checkNotNull(action);
     entrySet().forEach(entry -> action.accept(entry.getElement(), entry.getCount()));

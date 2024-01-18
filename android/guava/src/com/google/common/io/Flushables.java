@@ -28,7 +28,6 @@ import java.util.logging.Logger;
  * @author Michael Lancaster
  * @since 1.0
  */
-@Beta
 @J2ktIncompatible
 @GwtIncompatible
 @ElementTypesAreNonnullByDefault
@@ -68,6 +67,7 @@ public final class Flushables {
    *
    * @param flushable the {@code Flushable} object to be flushed.
    */
+  @Beta
   public static void flushQuietly(Flushable flushable) {
     try {
       flush(flushable, true);

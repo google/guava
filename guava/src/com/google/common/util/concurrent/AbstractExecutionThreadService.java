@@ -16,7 +16,6 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.util.concurrent.Platform.restoreInterruptIfIsInterruptedException;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -25,7 +24,6 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Base class for services that can implement {@link #startUp}, {@link #run} and {@link #shutDown}
@@ -39,8 +37,7 @@ import java.util.logging.Logger;
 @J2ktIncompatible
 @ElementTypesAreNonnullByDefault
 public abstract class AbstractExecutionThreadService implements Service {
-  private static final Logger logger =
-      Logger.getLogger(AbstractExecutionThreadService.class.getName());
+  private static final LazyLogger logger = new LazyLogger(AbstractExecutionThreadService.class);
 
   /* use AbstractService for state management */
   private final Service delegate =
@@ -67,10 +64,12 @@ public abstract class AbstractExecutionThreadService implements Service {
                         // TODO(lukes): if guava ever moves to java7, this would be a good
                         // candidate for a suppressed exception, or maybe we could generalize
                         // Closer.Suppressor
-                        logger.log(
-                            Level.WARNING,
-                            "Error while attempting to shut down the service after failure.",
-                            ignored);
+                        logger
+                            .get()
+                            .log(
+                                Level.WARNING,
+                                "Error while attempting to shut down the service after failure.",
+                                ignored);
                       }
                       notifyFailed(t);
                       return;
@@ -143,7 +142,6 @@ public abstract class AbstractExecutionThreadService implements Service {
    * implementing {@code stopping}. Note, however, that {@code stopping} does not run at exactly the
    * same times as {@code triggerShutdown}.
    */
-  @Beta
   protected void triggerShutdown() {}
 
   /**

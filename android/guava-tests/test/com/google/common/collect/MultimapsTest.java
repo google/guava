@@ -1000,6 +1000,7 @@ public class MultimapsTest extends TestCase {
   }
 
   @GwtIncompatible // NullPointerTester
+  @AndroidIncompatible // see ImmutableTableTest.testNullPointerInstance
   public void testNullPointers() {
     new NullPointerTester().testAllPublicStaticMethods(Multimaps.class);
   }

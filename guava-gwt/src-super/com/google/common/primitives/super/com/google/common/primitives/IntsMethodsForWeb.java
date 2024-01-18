@@ -18,7 +18,7 @@ import jsinterop.annotations.JsMethod;
 import jsinterop.annotations.JsPackage;
 
 /** Web specializations for {@link Ints} methods. */
-abstract class IntsMethodsForWeb {
+public abstract class IntsMethodsForWeb {
 
   @JsMethod(name = "Math.min", namespace = JsPackage.GLOBAL)
   public static native int min(int... array);

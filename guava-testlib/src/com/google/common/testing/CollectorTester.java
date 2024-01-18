@@ -24,7 +24,6 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.EnumSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.BiPredicate;
@@ -148,6 +147,7 @@ public final class CollectorTester<
    */
   @SafeVarargs
   @CanIgnoreReturnValue
+  @SuppressWarnings("nullness") // TODO(cpovirk): Remove after we fix whatever the bug is.
   public final CollectorTester<T, A, R> expectCollects(R expectedResult, T... inputs) {
     List<T> list = Arrays.asList(inputs);
     doExpectCollects(expectedResult, list);
@@ -159,7 +159,7 @@ public final class CollectorTester<
   }
 
   private void doExpectCollects(R expectedResult, List<T> inputs) {
-    for (CollectStrategy scheme : EnumSet.allOf(CollectStrategy.class)) {
+    for (CollectStrategy scheme : CollectStrategy.values()) {
       A finalAccum = scheme.result(collector, inputs);
       if (collector.characteristics().contains(Collector.Characteristics.IDENTITY_FINISH)) {
         assertEquivalent(expectedResult, (R) finalAccum);

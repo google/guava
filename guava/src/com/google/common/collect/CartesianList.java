@@ -17,6 +17,8 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkElementIndex;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.math.IntMath;
 import java.util.AbstractList;
 import java.util.List;
@@ -131,6 +133,15 @@ final class CartesianList<E> extends AbstractList<List<E>> implements RandomAcce
       @Override
       boolean isPartialView() {
         return true;
+      }
+
+      // redeclare to help optimizers with b/310253115
+      @SuppressWarnings("RedundantOverride")
+      @J2ktIncompatible // serialization
+      @Override
+      @GwtIncompatible // serialization
+      Object writeReplace() {
+        return super.writeReplace();
       }
     };
   }

@@ -97,7 +97,8 @@ public final class MutableClassToInstanceMap<B extends @Nullable Object>
       @Override
       @ParametricNullness
       public B setValue(@ParametricNullness B value) {
-        return super.setValue(cast(getKey(), value));
+        cast(getKey(), value);
+        return super.setValue(value);
       }
     };
   }
@@ -155,7 +156,8 @@ public final class MutableClassToInstanceMap<B extends @Nullable Object>
   @CanIgnoreReturnValue
   @CheckForNull
   public B put(Class<? extends @NonNull B> key, @ParametricNullness B value) {
-    return super.put(key, cast(key, value));
+    cast(key, value);
+    return super.put(key, value);
   }
 
   @Override
@@ -182,7 +184,7 @@ public final class MutableClassToInstanceMap<B extends @Nullable Object>
 
   @CanIgnoreReturnValue
   @CheckForNull
-  private static <B, T extends B> T cast(Class<@NonNull T> type, @CheckForNull B value) {
+  private static <T> T cast(Class<T> type, @CheckForNull Object value) {
     return Primitives.wrap(type).cast(value);
   }
 

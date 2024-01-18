@@ -16,6 +16,8 @@
 
 package com.google.common.eventbus;
 
+import static org.junit.Assert.assertThrows;
+
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import java.util.List;
@@ -194,12 +196,7 @@ public class EventBusTest extends TestCase {
   public void testUnregister() {
     StringCatcher catcher1 = new StringCatcher();
     StringCatcher catcher2 = new StringCatcher();
-    try {
-      bus.unregister(catcher1);
-      fail("Attempting to unregister an unregistered object succeeded");
-    } catch (IllegalArgumentException expected) {
-      // OK.
-    }
+    assertThrows(IllegalArgumentException.class, () -> bus.unregister(catcher1));
 
     bus.register(catcher1);
     bus.post(EVENT);
@@ -222,12 +219,7 @@ public class EventBusTest extends TestCase {
         "Shouldn't catch any more events when unregistered.", expectedEvents, catcher1.getEvents());
     assertEquals("Two correct events should be delivered.", expectedEvents, catcher2.getEvents());
 
-    try {
-      bus.unregister(catcher1);
-      fail("Attempting to unregister an unregistered object succeeded");
-    } catch (IllegalArgumentException expected) {
-      // OK.
-    }
+    assertThrows(IllegalArgumentException.class, () -> bus.unregister(catcher1));
 
     bus.unregister(catcher2);
     bus.post(EVENT);
@@ -293,11 +285,7 @@ public class EventBusTest extends TestCase {
       @Subscribe
       public void toInt(int i) {}
     }
-    try {
-      bus.register(new SubscribesToPrimitive());
-      fail("should have thrown");
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> bus.register(new SubscribesToPrimitive()));
   }
 
   /** Records thrown exception information. */

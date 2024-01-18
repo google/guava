@@ -83,7 +83,7 @@ import java.util.logging.Logger;
  *       to <a href="https://github.com/google/guava/issues/3311">more verbose</a>.
  * </ul>
  *
- -->
+
  *
  * <h2>EventBus Summary</h2>
  *

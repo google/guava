@@ -1013,7 +1013,8 @@ public final class Monitor {
   private boolean isSatisfied(Guard guard) {
     try {
       return guard.isSatisfied();
-    } catch (RuntimeException | Error throwable) {
+    } catch (Throwable throwable) {
+      // Any Exception is either a RuntimeException or sneaky checked exception.
       signalAllWaiters();
       throw throwable;
     }

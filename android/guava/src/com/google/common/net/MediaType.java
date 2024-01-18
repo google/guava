@@ -494,7 +494,7 @@ public final class MediaType {
   /**
    * For <a href="https://tools.ietf.org/html/7519">JWT objects using the compact Serialization</a>.
    *
-   * @since NEXT
+   * @since 32.0.0
    */
   public static final MediaType JWT = createConstant(APPLICATION_TYPE, "jwt");
 
@@ -1052,15 +1052,13 @@ public final class MediaType {
     Tokenizer tokenizer = new Tokenizer(input);
     try {
       String type = tokenizer.consumeToken(TOKEN_MATCHER);
-      tokenizer.consumeCharacter('/');
+      consumeSeparator(tokenizer, '/');
       String subtype = tokenizer.consumeToken(TOKEN_MATCHER);
       ImmutableListMultimap.Builder<String, String> parameters = ImmutableListMultimap.builder();
       while (tokenizer.hasMore()) {
-        tokenizer.consumeTokenIfPresent(LINEAR_WHITE_SPACE);
-        tokenizer.consumeCharacter(';');
-        tokenizer.consumeTokenIfPresent(LINEAR_WHITE_SPACE);
+        consumeSeparator(tokenizer, ';');
         String attribute = tokenizer.consumeToken(TOKEN_MATCHER);
-        tokenizer.consumeCharacter('=');
+        consumeSeparator(tokenizer, '=');
         String value;
         if ('"' == tokenizer.previewChar()) {
           tokenizer.consumeCharacter('"');
@@ -1084,6 +1082,12 @@ public final class MediaType {
     } catch (IllegalStateException e) {
       throw new IllegalArgumentException("Could not parse '" + input + "'", e);
     }
+  }
+
+  private static void consumeSeparator(Tokenizer tokenizer, char c) {
+    tokenizer.consumeTokenIfPresent(LINEAR_WHITE_SPACE);
+    tokenizer.consumeCharacter(c);
+    tokenizer.consumeTokenIfPresent(LINEAR_WHITE_SPACE);
   }
 
   private static final class Tokenizer {

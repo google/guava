@@ -19,9 +19,10 @@ package com.google.common.base;
 import static com.google.common.base.StandardSystemProperty.JAVA_CLASS_PATH;
 import static com.google.common.base.StandardSystemProperty.PATH_SEPARATOR;
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.assertThrows;
 
-import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.testing.GcFinalization;
@@ -44,7 +45,8 @@ import junit.framework.TestCase;
  *
  * @author Steve McKay
  */
-@GwtCompatible(emulated = true)
+@GwtIncompatible
+@J2ktIncompatible
 public class EnumsTest extends TestCase {
 
   private enum TestEnum {
@@ -80,6 +82,7 @@ public class EnumsTest extends TestCase {
   }
 
 
+  @J2ktIncompatible
   @GwtIncompatible // weak references
   @AndroidIncompatible // depends on details of GC and classloading
   public void testGetIfPresent_doesNotPreventClassUnloading() throws Exception {
@@ -92,6 +95,7 @@ public class EnumsTest extends TestCase {
   // new ClassLoader. If Enums.getIfPresent does caching that prevents the shadow TestEnum
   // (and therefore its ClassLoader) from being unloaded, then this WeakReference will never be
   // cleared.
+  @J2ktIncompatible
   @GwtIncompatible // weak references
   private WeakReference<?> doTestClassUnloading() throws Exception {
     URLClassLoader shadowLoader = new URLClassLoader(getClassPathUrls(), null);
@@ -113,6 +117,7 @@ public class EnumsTest extends TestCase {
     return new WeakReference<>(shadowLoader);
   }
 
+  @GwtIncompatible // stringConverter
   public void testStringConverter_convert() {
     Converter<String, TestEnum> converter = Enums.stringConverter(TestEnum.class);
     assertEquals(TestEnum.CHEETO, converter.convert("CHEETO"));
@@ -122,15 +127,13 @@ public class EnumsTest extends TestCase {
     assertNull(converter.reverse().convert(null));
   }
 
+  @GwtIncompatible // stringConverter
   public void testStringConverter_convertError() {
     Converter<String, TestEnum> converter = Enums.stringConverter(TestEnum.class);
-    try {
-      converter.convert("xxx");
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> converter.convert("xxx"));
   }
 
+  @GwtIncompatible // stringConverter
   public void testStringConverter_reverse() {
     Converter<String, TestEnum> converter = Enums.stringConverter(TestEnum.class);
     assertEquals("CHEETO", converter.reverse().convert(TestEnum.CHEETO));
@@ -138,19 +141,22 @@ public class EnumsTest extends TestCase {
     assertEquals("POODLE", converter.reverse().convert(TestEnum.POODLE));
   }
 
-  @GwtIncompatible // NullPointerTester
+  @J2ktIncompatible
+  @GwtIncompatible // stringConverter
   public void testStringConverter_nullPointerTester() throws Exception {
     Converter<String, TestEnum> converter = Enums.stringConverter(TestEnum.class);
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicInstanceMethods(converter);
   }
 
+  @GwtIncompatible // stringConverter
   public void testStringConverter_nullConversions() {
     Converter<String, TestEnum> converter = Enums.stringConverter(TestEnum.class);
     assertNull(converter.convert(null));
     assertNull(converter.reverse().convert(null));
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // Class.getName()
   public void testStringConverter_toString() {
     assertEquals(
@@ -158,10 +164,12 @@ public class EnumsTest extends TestCase {
         Enums.stringConverter(TestEnum.class).toString());
   }
 
+  @GwtIncompatible // stringConverter
   public void testStringConverter_serialization() {
     SerializableTester.reserializeAndAssert(Enums.stringConverter(TestEnum.class));
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // NullPointerTester
   public void testNullPointerExceptions() {
     NullPointerTester tester = new NullPointerTester();
@@ -177,6 +185,7 @@ public class EnumsTest extends TestCase {
     BAR
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // reflection
   public void testGetField() {
     Field foo = Enums.getField(AnEnum.FOO);
@@ -188,6 +197,7 @@ public class EnumsTest extends TestCase {
     assertFalse(bar.isAnnotationPresent(ExampleAnnotation.class));
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // Class.getClassLoader()
   private URL[] getClassPathUrls() {
     ClassLoader classLoader = getClass().getClassLoader();
@@ -201,6 +211,7 @@ public class EnumsTest extends TestCase {
    * System#getProperty system property}.
    */
   // TODO(b/65488446): Make this a public API.
+  @J2ktIncompatible
   @GwtIncompatible
   private static ImmutableList<URL> parseJavaClassPath() {
     ImmutableList.Builder<URL> urls = ImmutableList.builder();

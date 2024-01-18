@@ -16,8 +16,6 @@
 
 package com.google.common.net;
 
-import static com.google.common.base.Charsets.UTF_16;
-import static com.google.common.base.Charsets.UTF_8;
 import static com.google.common.net.MediaType.ANY_APPLICATION_TYPE;
 import static com.google.common.net.MediaType.ANY_AUDIO_TYPE;
 import static com.google.common.net.MediaType.ANY_IMAGE_TYPE;
@@ -31,6 +29,8 @@ import static com.google.common.truth.Truth.assertThat;
 import static java.lang.reflect.Modifier.isFinal;
 import static java.lang.reflect.Modifier.isPublic;
 import static java.lang.reflect.Modifier.isStatic;
+import static java.nio.charset.StandardCharsets.UTF_16;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
@@ -512,6 +512,14 @@ public class MediaTypeTest extends TestCase {
     }
   }
 
+  // https://github.com/google/guava/issues/6663
+  public void testParse_spaceInParameterSeparator() {
+    assertThat(MediaType.parse("text/plain; charset =utf-8").charset()).hasValue(UTF_8);
+    assertThat(MediaType.parse("text/plain; charset= utf-8").charset()).hasValue(UTF_8);
+    assertThat(MediaType.parse("text/plain; charset = utf-8").charset()).hasValue(UTF_8);
+    assertThat(MediaType.parse("text/plain;charset =utf-8").charset()).hasValue(UTF_8);
+  }
+
   public void testGetCharset() {
     assertThat(MediaType.parse("text/plain").charset()).isAbsent();
     assertThat(MediaType.parse("text/plain; charset=utf-8").charset()).hasValue(UTF_8);
@@ -556,6 +564,9 @@ public class MediaTypeTest extends TestCase {
             MediaType.create("TEXT", "PLAIN"),
             MediaType.parse("text/plain"),
             MediaType.parse("TEXT/PLAIN"),
+            MediaType.parse("text /plain"),
+            MediaType.parse("TEXT/ plain"),
+            MediaType.parse("text / plain"),
             MediaType.create("text", "plain").withParameter("a", "1").withoutParameters())
         .addEqualityGroup(
             MediaType.create("text", "plain").withCharset(UTF_8),
@@ -571,7 +582,11 @@ public class MediaTypeTest extends TestCase {
             MediaType.parse("text/plain; charset=\"utf-8\""),
             MediaType.parse("text/plain; charset=\"\\u\\tf-\\8\""),
             MediaType.parse("text/plain; charset=UTF-8"),
-            MediaType.parse("text/plain ; charset=utf-8"))
+            MediaType.parse("text/plain ; charset=utf-8"),
+            MediaType.parse("text/plain; charset =UTF-8"),
+            MediaType.parse("text/plain; charset= UTF-8"),
+            MediaType.parse("text/plain; charset  =  UTF-8"),
+            MediaType.parse("text/plain; charset=\tUTF-8"))
         .addEqualityGroup(MediaType.parse("text/plain; charset=utf-8; charset=utf-8"))
         .addEqualityGroup(
             MediaType.create("text", "plain").withParameter("a", "value"),

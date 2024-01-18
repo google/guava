@@ -19,6 +19,7 @@ package com.google.common.testing;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.base.Converter;
 import com.google.common.base.Function;
@@ -56,7 +57,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Mick Killianey
  */
 @SuppressWarnings("CheckReturnValue")
-@AndroidIncompatible // NullPointerTester refuses to run for c.g.c under Android
 public class NullPointerTesterTest extends TestCase {
 
   /** Non-NPE RuntimeException. */
@@ -1432,12 +1432,11 @@ public class NullPointerTesterTest extends TestCase {
   }
 
   public void testNonStaticInnerClass() {
-    try {
-      new NullPointerTester().testAllPublicConstructors(Inner.class);
-      fail();
-    } catch (IllegalArgumentException expected) {
-      assertThat(expected.getMessage()).contains("inner class");
-    }
+    IllegalArgumentException expected =
+        assertThrows(
+            IllegalArgumentException.class,
+            () -> new NullPointerTester().testAllPublicConstructors(Inner.class));
+    assertThat(expected.getMessage()).contains("inner class");
   }
 
   private static String rootLocaleFormat(String format, Object... args) {

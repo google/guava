@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 The Guava Authors
+ * Copyright 2019 The Guava Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -12,15 +12,19 @@
  * the License.
  */
 
-package com.google.common.primitives;
+package com.google.common.hash;
 
-import com.google.common.annotations.GwtCompatible;
+import static java.lang.annotation.ElementType.CONSTRUCTOR;
+import static java.lang.annotation.ElementType.METHOD;
+import static java.lang.annotation.ElementType.TYPE;
 
-/** Methods factored out so that they can be emulated differently in GWT. */
-@GwtCompatible(emulated = true)
+import java.lang.annotation.Target;
+
+/**
+ * Disables Animal Sniffer's checking of compatibility with older versions of Java/Android.
+ *
+ * <p>Each package's copy of this annotation needs to be listed in our {@code pom.xml}.
+ */
+@Target({METHOD, CONSTRUCTOR, TYPE})
 @ElementTypesAreNonnullByDefault
-final class Platform {
-  static void checkGwtRpcEnabled() {}
-
-  private Platform() {}
-}
+@interface IgnoreJRERequirement {}

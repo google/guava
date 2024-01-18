@@ -132,13 +132,16 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *
  * <h3>Implementations</h3>
  *
- * <p>As always, prefer the immutable implementations, {@link ImmutableListMultimap} and {@link
- * ImmutableSetMultimap}. General-purpose mutable implementations are listed above under "All Known
- * Implementing Classes". You can also create a <i>custom</i> multimap, backed by any {@code Map}
- * and {@link Collection} types, using the {@link Multimaps#newMultimap Multimaps.newMultimap}
- * family of methods. Finally, another popular way to obtain a multimap is using {@link
- * Multimaps#index Multimaps.index}. See the {@link Multimaps} class for these and other static
- * utilities related to multimaps.
+ * <ul>
+ *   <li>{@link ImmutableListMultimap}
+ *   <li>{@link ImmutableSetMultimap}
+ *   <li>Configure your own mutable multimap with {@link MultimapBuilder}
+ *   <li>{@link LinkedListMultimap} (for one unusual kind of mutable {@code Multimap})
+ * </ul>
+ *
+ * Guava contains a number of other multimap implementations, such as {@link ArrayListMultimap}. In
+ * new code, we recommend using {@link MultimapBuilder} instead: It provides better control of how
+ * keys and values are stored.
  *
  * <h3>Other Notes</h3>
  *

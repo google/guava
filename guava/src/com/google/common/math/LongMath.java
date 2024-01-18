@@ -25,7 +25,6 @@ import static java.lang.Math.min;
 import static java.math.RoundingMode.HALF_EVEN;
 import static java.math.RoundingMode.HALF_UP;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
@@ -65,7 +64,6 @@ public final class LongMath {
    *     long}, i.e. when {@code x > 2^62}
    * @since 20.0
    */
-  @Beta
   public static long ceilingPowerOfTwo(long x) {
     checkPositive("x", x);
     if (x > MAX_SIGNED_POWER_OF_TWO) {
@@ -81,7 +79,6 @@ public final class LongMath {
    * @throws IllegalArgumentException if {@code x <= 0}
    * @since 20.0
    */
-  @Beta
   public static long floorPowerOfTwo(long x) {
     checkPositive("x", x);
 
@@ -659,7 +656,6 @@ public final class LongMath {
    *
    * @since 20.0
    */
-  @Beta
   @SuppressWarnings("ShortCircuitBoolean")
   public static long saturatedAdd(long a, long b) {
     long naiveSum = a + b;
@@ -678,7 +674,6 @@ public final class LongMath {
    *
    * @since 20.0
    */
-  @Beta
   @SuppressWarnings("ShortCircuitBoolean")
   public static long saturatedSubtract(long a, long b) {
     long naiveDifference = a - b;
@@ -697,7 +692,6 @@ public final class LongMath {
    *
    * @since 20.0
    */
-  @Beta
   @SuppressWarnings("ShortCircuitBoolean")
   public static long saturatedMultiply(long a, long b) {
     // see checkedMultiply for explanation
@@ -728,7 +722,6 @@ public final class LongMath {
    *
    * @since 20.0
    */
-  @Beta
   @SuppressWarnings("ShortCircuitBoolean")
   public static long saturatedPow(long b, int k) {
     checkNonNegative("exponent", k);
@@ -1017,7 +1010,6 @@ public final class LongMath {
    */
   @J2ktIncompatible
   @GwtIncompatible // TODO
-  @Beta
   public static boolean isPrime(long n) {
     if (n < 2) {
       checkNonNegative("n", n);

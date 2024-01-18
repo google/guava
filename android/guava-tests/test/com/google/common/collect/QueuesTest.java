@@ -24,6 +24,7 @@ import static java.util.concurrent.Executors.newCachedThreadPool;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.base.Stopwatch;
 import java.util.Collection;
@@ -239,23 +240,13 @@ public class QueuesTest extends TestCase {
   }
 
   public void testNewLinkedBlockingDequeCapacity() {
-    try {
-      Queues.newLinkedBlockingDeque(0);
-      fail("Should have thrown IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-      // any capacity less than 1 should throw IllegalArgumentException
-    }
+    assertThrows(IllegalArgumentException.class, () -> Queues.newLinkedBlockingDeque(0));
     assertEquals(1, Queues.newLinkedBlockingDeque(1).remainingCapacity());
     assertEquals(11, Queues.newLinkedBlockingDeque(11).remainingCapacity());
   }
 
   public void testNewLinkedBlockingQueueCapacity() {
-    try {
-      Queues.newLinkedBlockingQueue(0);
-      fail("Should have thrown IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-      // any capacity less than 1 should throw IllegalArgumentException
-    }
+    assertThrows(IllegalArgumentException.class, () -> Queues.newLinkedBlockingQueue(0));
     assertEquals(1, Queues.newLinkedBlockingQueue(1).remainingCapacity());
     assertEquals(11, Queues.newLinkedBlockingQueue(11).remainingCapacity());
   }

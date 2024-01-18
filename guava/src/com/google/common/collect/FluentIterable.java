@@ -777,8 +777,8 @@ public abstract class FluentIterable<E extends @Nullable Object> implements Iter
    *     copied
    */
   @GwtIncompatible // Array.newArray(Class, int)
-  public final @Nullable E[] toArray(Class<@NonNull E> type) {
-    return Iterables.toArray(getDelegate(), type);
+  public final E[] toArray(Class<@NonNull E> type) {
+    return Iterables.<E>toArray(getDelegate(), type);
   }
 
   /**

@@ -19,6 +19,7 @@ package com.google.common.base;
 import static com.google.common.base.Functions.toStringFunction;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.primitives.Longs;
@@ -29,7 +30,7 @@ import java.util.List;
 import junit.framework.TestCase;
 
 /** Unit tests for {@link Converter}. */
-@GwtCompatible
+@GwtCompatible(emulated = true)
 public class ConverterTest extends TestCase {
 
   private static final Converter<String, Long> STR_TO_LONG =
@@ -111,6 +112,7 @@ public class ConverterTest extends TestCase {
     }
   }
 
+  @GwtIncompatible // J2CL generics problem
   public void testAndThen() {
     Converter<StringWrapper, String> first =
         new Converter<StringWrapper, String>() {
@@ -140,6 +142,7 @@ public class ConverterTest extends TestCase {
     assertEquals(first.andThen(STR_TO_LONG), first.andThen(STR_TO_LONG));
   }
 
+  @GwtIncompatible // J2CL generics problem
   public void testIdentityConverter() {
     Converter<String, String> stringIdentityConverter = Converter.identity();
 
@@ -213,6 +216,7 @@ public class ConverterTest extends TestCase {
     SerializableTester.reserializeAndAssert(reverseConverter);
   }
 
+  @GwtIncompatible // J2CL generics problem
   public void testSerialization_andThen() {
     Converter<String, Long> converterA = Longs.stringConverter();
     Converter<Long, String> reverseConverter = Longs.stringConverter().reverse();

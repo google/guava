@@ -349,7 +349,7 @@ final class CollectSpliterators {
      */
 
     @Override
-    public final boolean tryAdvance(Consumer<? super OutElementT> action) {
+    public /*non-final for J2KT*/ boolean tryAdvance(Consumer<? super OutElementT> action) {
       while (true) {
         if (prefix != null && prefix.tryAdvance(action)) {
           if (estimatedSize != Long.MAX_VALUE) {
@@ -366,7 +366,7 @@ final class CollectSpliterators {
     }
 
     @Override
-    public final void forEachRemaining(Consumer<? super OutElementT> action) {
+    public /*non-final for J2KT*/ void forEachRemaining(Consumer<? super OutElementT> action) {
       if (prefix != null) {
         prefix.forEachRemaining(action);
         prefix = null;

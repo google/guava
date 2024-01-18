@@ -79,7 +79,12 @@ public final class Functions {
     }
   }
 
-  /** Returns the identity function. */
+  /**
+   * Returns the identity function.
+   *
+   * <p><b>Discouraged:</b> Prefer using a lambda like {@code v -> v}, which is shorter and often
+   * more readable.
+   */
   // implementation is "fully variant"; E has become a "pass-through" type
   @SuppressWarnings("unchecked")
   public static <E extends @Nullable Object> Function<E, E> identity() {

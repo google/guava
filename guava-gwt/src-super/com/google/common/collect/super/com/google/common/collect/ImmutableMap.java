@@ -50,7 +50,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Hayward Chan
  */
 public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
-  static final ImmutableMap<Object, Object> EMPTY = new RegularImmutableMap<Object, Object>();
 
   abstract static class IteratorBasedImmutableMap<K, V> extends ImmutableMap<K, V> {
     abstract UnmodifiableIterator<Entry<K, V>> entryIterator();
@@ -92,7 +91,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
   }
 
   public static <K, V> ImmutableMap<K, V> of() {
-    return (ImmutableMap<K, V>) EMPTY;
+    return (ImmutableMap<K, V>) RegularImmutableMap.EMPTY;
   }
 
   public static <K, V> ImmutableMap<K, V> of(K k1, V v1) {

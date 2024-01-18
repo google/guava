@@ -16,7 +16,6 @@ package com.google.common.io;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
@@ -88,7 +87,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 14.0
  */
 // Coffee's for {@link Closer closers} only.
-@Beta
 @J2ktIncompatible
 @GwtIncompatible
 @ElementTypesAreNonnullByDefault

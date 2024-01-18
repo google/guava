@@ -17,6 +17,7 @@
 package com.google.common.reflect;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
@@ -65,6 +66,11 @@ public class TypeTokenTest extends TestCase {
   }
 
   public <T> void testVariableTypeTokenNotAllowed() {
+    /*
+     * We'd use assertThrows here, but that causes no exception to be thrown under Java 8,
+     * presumably because the ThrowingRunnable lambda triggers some kind of bug in Java 8's
+     * reflection implementation.
+     */
     try {
       new TypeToken<T>() {};
       fail();
@@ -1147,11 +1153,9 @@ public class TypeTokenTest extends TestCase {
 
   @SuppressWarnings({"rawtypes", "unchecked"}) // purpose is to test raw type
   public void testGetSupertype_notSupertype() {
-    try {
-      new TypeToken<List<String>>() {}.getSupertype((Class) String.class);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> new TypeToken<List<String>>() {}.getSupertype((Class) String.class));
   }
 
   public void testGetSupertype_fromArray() {
@@ -1235,11 +1239,7 @@ public class TypeTokenTest extends TestCase {
     TypeToken<? super Iterable<String>> type =
         (TypeToken<? super Iterable<String>>)
             TypeToken.of(Types.supertypeOf(new TypeToken<ImmutableList<String>>() {}.getType()));
-    try {
-      type.getSubtype(List.class);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> type.getSubtype(List.class));
   }
 
   public void testGetSubtype_fromWildcard_upperBounded() {
@@ -1247,14 +1247,15 @@ public class TypeTokenTest extends TestCase {
     TypeToken<? extends Iterable<String>> type =
         (TypeToken<? extends Iterable<String>>)
             TypeToken.of(Types.subtypeOf(new TypeToken<Iterable<String>>() {}.getType()));
-    try {
-      type.getSubtype(Iterable.class);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> type.getSubtype(Iterable.class));
   }
 
   public <T extends Iterable<String>> void testGetSubtype_fromTypeVariable() {
+    /*
+     * We'd use assertThrows here, but that causes capture() to return null under Java 8, presumably
+     * because the ThrowingRunnable lambda triggers some kind of bug in Java 8's reflection
+     * implementation.
+     */
     try {
       TypeToken.of(new TypeCapture<T>() {}.capture()).getSubtype(List.class);
       fail();
@@ -1450,13 +1451,12 @@ public class TypeTokenTest extends TestCase {
   @SuppressWarnings("unchecked") // To construct TypeToken<T> with TypeToken.of()
   public <T> void testWhere_circleRejected() {
     TypeToken<List<T>> type = new TypeToken<List<T>>() {};
-    try {
-      type.where(
-          new TypeParameter<T>() {},
-          (TypeToken<T>) TypeToken.of(new TypeCapture<T>() {}.capture()));
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class,
+        () ->
+            type.where(
+                new TypeParameter<T>() {},
+                (TypeToken<T>) TypeToken.of(new TypeCapture<T>() {}.capture())));
   }
 
   public void testWhere() {
@@ -1587,11 +1587,7 @@ public class TypeTokenTest extends TestCase {
 
   public void testMethod_notDeclaredByType() throws NoSuchMethodException {
     Method sizeMethod = Map.class.getMethod("size");
-    try {
-      TypeToken.of(List.class).method(sizeMethod);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> TypeToken.of(List.class).method(sizeMethod));
   }
 
   public void testMethod_declaredBySuperclass() throws Exception {
@@ -1654,20 +1650,14 @@ public class TypeTokenTest extends TestCase {
 
   public void testConstructor_notDeclaredByType() throws NoSuchMethodException {
     Constructor<String> constructor = String.class.getConstructor();
-    try {
-      TypeToken.of(Object.class).constructor(constructor);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class, () -> TypeToken.of(Object.class).constructor(constructor));
   }
 
   public void testConstructor_declaredBySuperclass() throws NoSuchMethodException {
     Constructor<Object> constructor = Object.class.getConstructor();
-    try {
-      TypeToken.of(String.class).constructor(constructor);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class, () -> TypeToken.of(String.class).constructor(constructor));
   }
 
   public void testConstructor_equals() throws NoSuchMethodException {
@@ -1840,19 +1830,13 @@ public class TypeTokenTest extends TestCase {
     reserialize(new TypeToken<Map<String, Integer>>() {});
     reserialize(new IKnowMyType<Map<? super String, ? extends int[]>>() {}.type());
     reserialize(TypeToken.of(new TypeCapture<B>() {}.capture()).getTypes().rawTypes());
-    try {
-      SerializableTester.reserialize(TypeToken.of(new TypeCapture<B>() {}.capture()));
-      fail();
-    } catch (RuntimeException expected) {
-    }
+    assertThrows(
+        RuntimeException.class,
+        () -> SerializableTester.reserialize(TypeToken.of(new TypeCapture<B>() {}.capture())));
   }
 
   public <A> void testSerializable_typeVariableNotSupported() {
-    try {
-      new ITryToSerializeMyTypeVariable<String>().go();
-      fail();
-    } catch (RuntimeException expected) {
-    }
+    assertThrows(RuntimeException.class, () -> new ITryToSerializeMyTypeVariable<String>().go());
   }
 
   private static class ITryToSerializeMyTypeVariable<T> {

@@ -95,6 +95,16 @@ public final class EqualsTester {
   /**
    * Adds {@code equalityGroup} with objects that are supposed to be equal to each other and not
    * equal to any other equality groups added to this tester.
+   *
+   * <p>The {@code @Nullable} annotations on the {@code equalityGroup} parameter imply that the
+   * objects, and the array itself, can be null. That is for programmer convenience, when the
+   * objects come from factory methods that are themselves {@code @Nullable}. In reality neither the
+   * array nor its contents can be null, but it is not useful to force the use of {@code
+   * requireNonNull} or the like just to assert that.
+   *
+   * <p>{@code EqualsTester} will always check that every object it is given returns false from
+   * {@code equals(null)}, so it is neither useful nor allowed to include a null value in any
+   * equality group.
    */
   @CanIgnoreReturnValue
   public EqualsTester addEqualityGroup(@Nullable Object @Nullable ... equalityGroup) {

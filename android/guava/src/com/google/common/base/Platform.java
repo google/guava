@@ -17,9 +17,6 @@ package com.google.common.base;
 import com.google.common.annotations.GwtCompatible;
 import java.lang.ref.WeakReference;
 import java.util.Locale;
-import java.util.ServiceConfigurationError;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import javax.annotation.CheckForNull;
 
@@ -31,16 +28,9 @@ import javax.annotation.CheckForNull;
 @GwtCompatible(emulated = true)
 @ElementTypesAreNonnullByDefault
 final class Platform {
-  private static final Logger logger = Logger.getLogger(Platform.class.getName());
   private static final PatternCompiler patternCompiler = loadPatternCompiler();
 
   private Platform() {}
-
-  /** Calls {@link System#nanoTime()}. */
-  @SuppressWarnings("GoodTime") // reading system time without TimeSource
-  static long systemNanoTime() {
-    return System.nanoTime();
-  }
 
   static CharMatcher precomputeCharMatcher(CharMatcher matcher) {
     return matcher.precomputedInternal();
@@ -98,10 +88,6 @@ final class Platform {
     return new JdkPatternCompiler();
   }
 
-  private static void logPatternCompilerError(ServiceConfigurationError e) {
-    logger.log(Level.WARNING, "Error loading regex compiler, falling back to next option", e);
-  }
-
   private static final class JdkPatternCompiler implements PatternCompiler {
     @Override
     public CommonPattern compile(String pattern) {
@@ -113,6 +99,4 @@ final class Platform {
       return true;
     }
   }
-
-  static void checkGwtRpcEnabled() {}
 }

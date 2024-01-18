@@ -58,7 +58,7 @@ abstract class AbstractIteratorTester<E, I extends Iterator<E>> {
     static final PermittedMetaException UOE_OR_ISE =
         new PermittedMetaException("UnsupportedOperationException or IllegalStateException") {
           @Override
-          boolean isPermitted(RuntimeException exception) {
+          boolean isPermitted(Exception exception) {
             return exception instanceof UnsupportedOperationException
                 || exception instanceof IllegalStateException;
           }
@@ -66,21 +66,21 @@ abstract class AbstractIteratorTester<E, I extends Iterator<E>> {
     static final PermittedMetaException UOE =
         new PermittedMetaException("UnsupportedOperationException") {
           @Override
-          boolean isPermitted(RuntimeException exception) {
+          boolean isPermitted(Exception exception) {
             return exception instanceof UnsupportedOperationException;
           }
         };
     static final PermittedMetaException ISE =
         new PermittedMetaException("IllegalStateException") {
           @Override
-          boolean isPermitted(RuntimeException exception) {
+          boolean isPermitted(Exception exception) {
             return exception instanceof IllegalStateException;
           }
         };
     static final PermittedMetaException NSEE =
         new PermittedMetaException("NoSuchElementException") {
           @Override
-          boolean isPermitted(RuntimeException exception) {
+          boolean isPermitted(Exception exception) {
             return exception instanceof NoSuchElementException;
           }
         };
@@ -89,9 +89,9 @@ abstract class AbstractIteratorTester<E, I extends Iterator<E>> {
       super(message);
     }
 
-    abstract boolean isPermitted(RuntimeException exception);
+    abstract boolean isPermitted(Exception exception);
 
-    void assertPermitted(RuntimeException exception) {
+    void assertPermitted(Exception exception) {
       if (!isPermitted(exception)) {
         String message =
             "Exception "
@@ -313,10 +313,11 @@ abstract class AbstractIteratorTester<E, I extends Iterator<E>> {
   protected void verify(List<E> elements) {}
 
   /** Executes the test. */
+  @SuppressWarnings("CatchingUnchecked") // sneaky checked exception
   public final void test() {
     try {
       recurse(0);
-    } catch (RuntimeException e) {
+    } catch (Exception e) { // sneaky checked exception
       throw new RuntimeException(Arrays.toString(stimuli), e);
     }
   }
@@ -372,16 +373,17 @@ abstract class AbstractIteratorTester<E, I extends Iterator<E>> {
    *
    * @see Stimulus#executeAndCompare(ListIterator, Iterator)
    */
+  @SuppressWarnings("CatchingUnchecked") // sneaky checked exception
   private <T extends Iterator<E>> void internalExecuteAndCompare(
       T reference, T target, IteratorOperation method) {
     Object referenceReturnValue = null;
     PermittedMetaException referenceException = null;
     Object targetReturnValue = null;
-    RuntimeException targetException = null;
+    Exception targetException = null;
 
     try {
       targetReturnValue = method.execute(target);
-    } catch (RuntimeException e) {
+    } catch (Exception e) { // sneaky checked exception
       targetException = e;
     }
 

@@ -17,10 +17,8 @@ package com.google.common.util.concurrent;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.util.concurrent.Uninterruptibles.getUninterruptibly;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -39,7 +37,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Sven Mawson
  * @since 10.0 (replacing {@code Futures.makeListenable}, which existed in 1.0)
  */
-@Beta
 @J2ktIncompatible
 @GwtIncompatible
 @ElementTypesAreNonnullByDefault
@@ -164,10 +161,11 @@ public final class JdkFutureAdapters {
                  * to return a proper ListenableFuture instead of using listenInPoolThread.
                  */
                 getUninterruptibly(delegate);
-              } catch (ExecutionException | RuntimeException | Error e) {
-                // (including CancellationException)
+              } catch (Throwable t) {
+                // (including CancellationException and sneaky checked exception)
                 // The task is presumably done, run the listeners.
-                // TODO(cpovirk): Do *something* in case of Error (and maybe RuntimeException)?
+                // TODO(cpovirk): Do *something* in case of Error (and maybe
+                // non-CancellationException, non-ExecutionException exceptions)?
               }
               executionList.execute();
             });

@@ -1,0 +1,13 @@
+name: "Validate Gradle Wrapper"
+on: [push, pull_request]
+
+permissions:
+  contents: read
+
+jobs:
+  validation:
+    name: "Validation"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+      - uses: gradle/wrapper-validation-action@56b90f209b02bf6d1deae490e9ef18b21a389cd4

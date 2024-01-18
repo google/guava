@@ -27,6 +27,7 @@ import static java.lang.Double.POSITIVE_INFINITY;
 import static java.math.RoundingMode.CEILING;
 import static java.math.RoundingMode.FLOOR;
 import static java.math.RoundingMode.UNNECESSARY;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -598,171 +599,103 @@ public class QuantilesTest extends TestCase {
   private static final ImmutableList<Double> EMPTY_DATASET = ImmutableList.of();
 
   public void testScale_zero() {
-    try {
-      Quantiles.scale(0);
-      fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> Quantiles.scale(0));
   }
 
   public void testScale_negative() {
-    try {
-      Quantiles.scale(-4);
-      fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> Quantiles.scale(-4));
   }
 
   public void testScale_index_negative() {
     Quantiles.Scale intermediate = Quantiles.scale(10);
-    try {
-      intermediate.index(-1);
-      fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> intermediate.index(-1));
   }
 
   public void testScale_index_tooHigh() {
     Quantiles.Scale intermediate = Quantiles.scale(10);
-    try {
-      intermediate.index(11);
-      fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> intermediate.index(11));
   }
 
   public void testScale_indexes_varargs_negative() {
     Quantiles.Scale intermediate = Quantiles.scale(10);
-    try {
-      intermediate.indexes(1, -1, 3);
-      fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> intermediate.indexes(1, -1, 3));
   }
 
   public void testScale_indexes_varargs_tooHigh() {
     Quantiles.Scale intermediate = Quantiles.scale(10);
-    try {
-      intermediate.indexes(1, 11, 3);
-      fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> intermediate.indexes(1, 11, 3));
   }
 
   public void testScale_indexes_collection_negative() {
     Quantiles.Scale intermediate = Quantiles.scale(10);
-    try {
-      intermediate.indexes(ImmutableList.of(1, -1, 3));
-      fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class, () -> intermediate.indexes(ImmutableList.of(1, -1, 3)));
   }
 
   public void testScale_indexes_collection_tooHigh() {
     Quantiles.Scale intermediate = Quantiles.scale(10);
-    try {
-      intermediate.indexes(ImmutableList.of(1, 11, 3));
-      fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class, () -> intermediate.indexes(ImmutableList.of(1, 11, 3)));
   }
 
   public void testScale_index_compute_doubleCollection_empty() {
     Quantiles.ScaleAndIndex intermediate = Quantiles.scale(10).index(3);
-    try {
-      intermediate.compute(EMPTY_DATASET);
-      fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> intermediate.compute(EMPTY_DATASET));
   }
 
   public void testScale_index_compute_doubleVarargs_empty() {
     Quantiles.ScaleAndIndex intermediate = Quantiles.scale(10).index(3);
-    try {
-      intermediate.compute(new double[] {});
-      fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> intermediate.compute(new double[] {}));
   }
 
   public void testScale_index_compute_longVarargs_empty() {
     Quantiles.ScaleAndIndex intermediate = Quantiles.scale(10).index(3);
-    try {
-      intermediate.compute(new long[] {});
-      fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> intermediate.compute(new long[] {}));
   }
 
   public void testScale_index_compute_intVarargs_empty() {
     Quantiles.ScaleAndIndex intermediate = Quantiles.scale(10).index(3);
-    try {
-      intermediate.compute(new int[] {});
-      fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> intermediate.compute(new int[] {}));
   }
 
   public void testScale_index_computeInPlace_empty() {
     Quantiles.ScaleAndIndex intermediate = Quantiles.scale(10).index(3);
-    try {
-      intermediate.computeInPlace(new double[] {});
-      fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class, () -> intermediate.computeInPlace(new double[] {}));
   }
 
   public void testScale_indexes_varargs_compute_doubleCollection_empty() {
     Quantiles.ScaleAndIndexes intermediate = Quantiles.scale(10).indexes(1, 3, 5);
-    try {
-      intermediate.compute(EMPTY_DATASET);
-      fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> intermediate.compute(EMPTY_DATASET));
   }
 
   public void testScale_indexes_varargs_compute_doubleVarargs_empty() {
     Quantiles.ScaleAndIndexes intermediate = Quantiles.scale(10).indexes(1, 3, 5);
-    try {
-      intermediate.compute(new double[] {});
-      fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> intermediate.compute(new double[] {}));
   }
 
   public void testScale_indexes_varargs_compute_longVarargs_empty() {
     Quantiles.ScaleAndIndexes intermediate = Quantiles.scale(10).indexes(1, 3, 5);
-    try {
-      intermediate.compute(new long[] {});
-      fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> intermediate.compute(new long[] {}));
   }
 
   public void testScale_indexes_varargs_compute_intVarargs_empty() {
     Quantiles.ScaleAndIndexes intermediate = Quantiles.scale(10).indexes(1, 3, 5);
-    try {
-      intermediate.compute(new int[] {});
-      fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> intermediate.compute(new int[] {}));
   }
 
   public void testScale_indexes_varargs_computeInPlace_empty() {
     Quantiles.ScaleAndIndexes intermediate = Quantiles.scale(10).indexes(1, 3, 5);
-    try {
-      intermediate.computeInPlace(new double[] {});
-      fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class, () -> intermediate.computeInPlace(new double[] {}));
   }
 
   public void testScale_indexes_indexes_computeInPlace_empty() {
     int[] emptyIndexes = {};
-    try {
-      Quantiles.ScaleAndIndexes unused = Quantiles.scale(10).indexes(emptyIndexes);
-      fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> {
+          Quantiles.ScaleAndIndexes unused = Quantiles.scale(10).indexes(emptyIndexes);
+        });
   }
 }

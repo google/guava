@@ -117,6 +117,10 @@ final class Platform {
     return mapMaker.weakKeys();
   }
 
+  static <E extends Enum<E>> Class<E> getDeclaringClassOrObjectForJ2cl(E e) {
+    return e.getDeclaringClass();
+  }
+
   static int reduceIterationsIfGwt(int iterations) {
     return iterations;
   }
@@ -124,8 +128,6 @@ final class Platform {
   static int reduceExponentIfGwt(int exponent) {
     return exponent;
   }
-
-  static void checkGwtRpcEnabled() {}
 
   private Platform() {}
 }

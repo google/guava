@@ -24,7 +24,6 @@ import static com.google.common.collect.CollectPreconditions.checkRemove;
 import static com.google.common.collect.NullnessCasts.uncheckedCastNullableTToT;
 import static java.util.Objects.requireNonNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Function;
@@ -43,11 +42,11 @@ import java.util.Deque;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.NoSuchElementException;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -345,10 +344,10 @@ public final class Iterators {
    * @return a newly-allocated array into which all the elements of the iterator have been copied
    */
   @GwtIncompatible // Array.newInstance(Class, int)
-  // For discussion of this signature, see the corresponding overload of *Iterables*.toArray.
-  public static <T> @Nullable T[] toArray(Iterator<? extends @Nullable T> iterator, Class<T> type) {
-    List<@Nullable T> list = Lists.newArrayList(iterator);
-    return Iterables.toArray(list, type);
+  public static <T extends @Nullable Object> T[] toArray(
+      Iterator<? extends T> iterator, Class<@NonNull T> type) {
+    List<T> list = Lists.newArrayList(iterator);
+    return Iterables.<T>toArray(list, type);
   }
 
   /**
@@ -1056,47 +1055,40 @@ public final class Iterators {
    */
   @SafeVarargs
   public static <T extends @Nullable Object> UnmodifiableIterator<T> forArray(T... array) {
-    return forArray(array, 0, array.length, 0);
+    return forArrayWithPosition(array, 0);
   }
 
   /**
-   * Returns a list iterator containing the elements in the specified range of {@code array} in
-   * order, starting at the specified index.
+   * Returns a list iterator containing the elements in the specified {@code array} in order,
+   * starting at the specified {@code position}.
    *
    * <p>The {@code Iterable} equivalent of this method is {@code
-   * Arrays.asList(array).subList(offset, offset + length).listIterator(index)}.
+   * Arrays.asList(array).listIterator(position)}.
    */
-  static <T extends @Nullable Object> UnmodifiableListIterator<T> forArray(
-      T[] array, int offset, int length, int index) {
-    checkArgument(length >= 0);
-    int end = offset + length;
-
-    // Technically we should give a slightly more descriptive error on overflow
-    Preconditions.checkPositionIndexes(offset, end, array.length);
-    Preconditions.checkPositionIndex(index, length);
-    if (length == 0) {
+  static <T extends @Nullable Object> UnmodifiableListIterator<T> forArrayWithPosition(
+      T[] array, int position) {
+    if (array.length == 0) {
+      Preconditions.checkPositionIndex(position, array.length); // otherwise checked in ArrayItr
       return emptyListIterator();
     }
-    return new ArrayItr<>(array, offset, length, index);
+    return new ArrayItr<>(array, position);
   }
 
   private static final class ArrayItr<T extends @Nullable Object>
       extends AbstractIndexedListIterator<T> {
-    static final UnmodifiableListIterator<Object> EMPTY = new ArrayItr<>(new Object[0], 0, 0, 0);
+    static final UnmodifiableListIterator<Object> EMPTY = new ArrayItr<>(new Object[0], 0);
 
     private final T[] array;
-    private final int offset;
 
-    ArrayItr(T[] array, int offset, int length, int index) {
-      super(length, index);
+    ArrayItr(T[] array, int position) {
+      super(array.length, position);
       this.array = array;
-      this.offset = offset;
     }
 
     @Override
     @ParametricNullness
     protected T get(int index) {
-      return array[offset + index];
+      return array[index];
     }
   }
 
@@ -1107,24 +1099,36 @@ public final class Iterators {
    */
   public static <T extends @Nullable Object> UnmodifiableIterator<T> singletonIterator(
       @ParametricNullness T value) {
-    return new UnmodifiableIterator<T>() {
-      boolean done;
+    return new SingletonIterator<>(value);
+  }
 
-      @Override
-      public boolean hasNext() {
-        return !done;
-      }
+  private static final class SingletonIterator<T extends @Nullable Object>
+      extends UnmodifiableIterator<T> {
+    private static final Object SENTINEL = new Object();
 
-      @Override
-      @ParametricNullness
-      public T next() {
-        if (done) {
-          throw new NoSuchElementException();
-        }
-        done = true;
-        return value;
+    private @Nullable Object valueOrSentinel;
+
+    SingletonIterator(T value) {
+      this.valueOrSentinel = value;
+    }
+
+    @Override
+    public boolean hasNext() {
+      return valueOrSentinel != SENTINEL;
+    }
+
+    @Override
+    @ParametricNullness
+    public T next() {
+      if (valueOrSentinel == SENTINEL) {
+        throw new NoSuchElementException();
       }
-    };
+      // The field held either a T or SENTINEL, and it turned out not to be SENTINEL.
+      @SuppressWarnings("unchecked")
+      T t = (T) valueOrSentinel;
+      valueOrSentinel = SENTINEL;
+      return t;
+    }
   }
 
   /**
@@ -1295,7 +1299,6 @@ public final class Iterators {
    *
    * @since 11.0
    */
-  @Beta
   public static <T extends @Nullable Object> UnmodifiableIterator<T> mergeSorted(
       Iterable<? extends Iterator<? extends T>> iterators, Comparator<? super T> comparator) {
     checkNotNull(iterators, "iterators");
@@ -1444,10 +1447,5 @@ public final class Iterators {
       toRemove.remove();
       toRemove = null;
     }
-  }
-
-  /** Used to avoid http://bugs.sun.com/view_bug.do?bug_id=6558557 */
-  static <T extends @Nullable Object> ListIterator<T> cast(Iterator<T> iterator) {
-    return (ListIterator<T>) iterator;
   }
 }

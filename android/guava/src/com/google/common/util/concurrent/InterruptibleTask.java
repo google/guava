@@ -23,6 +23,7 @@ import com.google.j2objc.annotations.ReflectionSupport;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.AbstractOwnableSynchronizer;
 import java.util.concurrent.locks.LockSupport;
+import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 @GwtCompatible(emulated = true)
@@ -234,6 +235,7 @@ abstract class InterruptibleTask<T extends @Nullable Object>
     }
 
     @VisibleForTesting
+    @CheckForNull
     Thread getOwner() {
       return super.getExclusiveOwnerThread();
     }

@@ -1,0 +1,83 @@
+name: Bug Report
+description: Something is not working as expected
+labels: ["type=defect"]
+body:
+  - type: markdown
+    attributes:
+      value: >
+        Thank you for filing a bug report. Please help us identify and resolve the bug by filling
+        out the following fields.
+
+  - type: textarea
+    attributes:
+      label: Description
+      description: Please describe the issue you encountered.
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Example
+      description: >
+        Please provide a [Short, Self Contained, Correct (Compilable), Example](http://sscce.org/)
+        demonstrating the bug.
+      render: java
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Expected Behavior
+      description: What did you expect to happen?
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Actual Behavior
+      description: What actually happened?
+    validations:
+      required: true
+
+  - type: dropdown
+    attributes:
+      label: Packages
+      description: If this issue is package-specific, then please select the relevant packages.
+      multiple: true
+      options:
+        - com.google.common.annotations
+        - com.google.common.base
+        - com.google.common.cache
+        - com.google.common.collect
+        - com.google.common.escape
+        - com.google.common.eventbus
+        - com.google.common.graph
+        - com.google.common.hash
+        - com.google.common.io
+        - com.google.common.math
+        - com.google.common.net
+        - com.google.common.primitives
+        - com.google.common.reflect
+        - com.google.common.testing
+        - com.google.common.util.concurrent
+
+  - type: dropdown
+    attributes:
+      label: Platforms
+      description: If this issue is platform-specific, then please select the relevant platforms.
+      multiple: true
+      options:
+        - Android
+        - GWT
+        - Java 8
+        - Java 11
+        - Java 17
+
+  - type: checkboxes
+    attributes:
+      label: Checklist
+      options:
+        - label: >
+            I agree to follow the
+            [code of conduct](https://github.com/google/.github/blob/master/CODE_OF_CONDUCT.md).
+          required: true

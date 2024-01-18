@@ -1119,6 +1119,11 @@ public class IteratorsTest extends TestCase {
       fail();
     } catch (NoSuchElementException expected) {
     }
+    try {
+      Iterators.forArrayWithPosition(array, 1);
+      fail();
+    } catch (IndexOutOfBoundsException expected) {
+    }
   }
 
   @SuppressWarnings("DoNotCall")
@@ -1142,33 +1147,26 @@ public class IteratorsTest extends TestCase {
     }
   }
 
-  public void testForArrayOffset() {
-    String[] array = {"foo", "bar", "cat", "dog"};
-    Iterator<String> iterator = Iterators.forArray(array, 1, 2, 0);
+  public void testForArrayWithPosition() {
+    String[] array = {"foo", "bar", "cat"};
+    Iterator<String> iterator = Iterators.forArrayWithPosition(array, 1);
     assertTrue(iterator.hasNext());
     assertEquals("bar", iterator.next());
     assertTrue(iterator.hasNext());
     assertEquals("cat", iterator.next());
     assertFalse(iterator.hasNext());
-    try {
-      Iterators.forArray(array, 2, 3, 0);
-      fail();
-    } catch (IndexOutOfBoundsException expected) {
-    }
   }
 
-  public void testForArrayLength0() {
+  public void testForArrayLengthWithPositionBoundaryCases() {
     String[] array = {"foo", "bar"};
-    assertFalse(Iterators.forArray(array, 0, 0, 0).hasNext());
-    assertFalse(Iterators.forArray(array, 1, 0, 0).hasNext());
-    assertFalse(Iterators.forArray(array, 2, 0, 0).hasNext());
+    assertFalse(Iterators.forArrayWithPosition(array, 2).hasNext());
     try {
-      Iterators.forArray(array, -1, 0, 0);
+      Iterators.forArrayWithPosition(array, -1);
       fail();
     } catch (IndexOutOfBoundsException expected) {
     }
     try {
-      Iterators.forArray(array, 3, 0, 0);
+      Iterators.forArrayWithPosition(array, 3);
       fail();
     } catch (IndexOutOfBoundsException expected) {
     }
@@ -1185,16 +1183,10 @@ public class IteratorsTest extends TestCase {
     }.test();
   }
 
-  @GwtIncompatible // unreasonably slow
-  public void testForArrayWithOffsetUsingTester() {
-    new IteratorTester<Integer>(
-        6, UNMODIFIABLE, asList(1, 2, 3), IteratorTester.KnownOrder.KNOWN_ORDER) {
-      @Override
-      protected Iterator<Integer> newTargetIterator() {
-        return Iterators.forArray(new Integer[] {0, 1, 2, 3, 4}, 1, 3, 0);
-      }
-    }.test();
-  }
+  /*
+   * TODO(cpovirk): Test forArray with ListIteratorTester (not just IteratorTester), including with
+   * a start position other than 0.
+   */
 
   public void testForEnumerationEmpty() {
     Enumeration<Integer> enumer = enumerate();

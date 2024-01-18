@@ -18,7 +18,7 @@ import jsinterop.annotations.JsMethod;
 import jsinterop.annotations.JsPackage;
 
 /** Web specializations for {@link Doubles} methods. */
-abstract class DoublesMethodsForWeb {
+public abstract class DoublesMethodsForWeb {
 
   @JsMethod(name = "Math.min", namespace = JsPackage.GLOBAL)
   public static native double min(double... array);

@@ -21,6 +21,7 @@ import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 import static com.google.common.collect.ObjectArrays.checkElementsNotNull;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.DoNotCall;
@@ -170,6 +171,11 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 // TODO(kevinb): I think we should push everything down to "BaseImmutableCollection" or something,
 // just to do everything we can to emphasize the "practically an interface" nature of this class.
 public abstract class ImmutableCollection<E> extends AbstractCollection<E> implements Serializable {
+  /*
+   * We expect SIZED (and SUBSIZED, if applicable) to be added by the spliterator factory methods.
+   * These are properties of the collection as a whole; SIZED and SUBSIZED are more properties of
+   * the spliterator implementation.
+   */
 
   ImmutableCollection() {}
 
@@ -361,6 +367,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
   }
 
   @J2ktIncompatible // serialization
+  @GwtIncompatible // serialization
   Object writeReplace() {
     // We serialize by default to ImmutableList, the simplest thing that works.
     return new ImmutableList.SerializedForm(toArray());
@@ -549,4 +556,6 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
       return this;
     }
   }
+
+  private static final long serialVersionUID = 0xdecaf;
 }

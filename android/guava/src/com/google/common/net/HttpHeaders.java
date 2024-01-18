@@ -320,7 +320,7 @@ public final class HttpHeaders {
    * The HTTP <a href="https://github.com/WICG/nav-speculation/blob/main/no-vary-search.md">{@code
    * No-Vary-Seearch}</a> header field name.
    *
-   * @since NEXT
+   * @since 32.0.0
    */
   public static final String NO_VARY_SEARCH = "No-Vary-Search";
   /**
@@ -378,7 +378,7 @@ public final class HttpHeaders {
    * href="https://developer.chrome.com/docs/privacy-sandbox/fenced-frame/#server-opt-in">fenced
    * frames</a>.
    *
-   * @since NEXT
+   * @since 32.0.0
    */
   public static final String SUPPORTS_LOADING_MODE = "Supports-Loading-Mode";
 
@@ -710,7 +710,7 @@ public final class HttpHeaders {
    * The HTTP <a href="https://wicg.github.io/ua-client-hints/#sec-ch-ua-wow64">{@code
    * Sec-CH-UA-WoW64}</a> header field name.
    *
-   * @since NEXT
+   * @since 32.0.0
    */
   public static final String SEC_CH_UA_WOW64 = "Sec-CH-UA-WoW64";
   /**
@@ -721,11 +721,18 @@ public final class HttpHeaders {
    */
   public static final String SEC_CH_UA_BITNESS = "Sec-CH-UA-Bitness";
   /**
+   * The HTTP <a href="https://wicg.github.io/ua-client-hints/#sec-ch-ua-form-factor">{@code
+   * Sec-CH-UA-Form-Factor}</a> header field name.
+   *
+   * @since 32.0.0
+   */
+  public static final String SEC_CH_UA_FORM_FACTOR = "Sec-CH-UA-Form-Factor";
+  /**
    * The HTTP <a
    * href="https://wicg.github.io/responsive-image-client-hints/#sec-ch-viewport-width">{@code
    * Sec-CH-Viewport-Width}</a> header field name.
    *
-   * @since NEXT
+   * @since 32.0.0
    */
   public static final String SEC_CH_VIEWPORT_WIDTH = "Sec-CH-Viewport-Width";
   /**
@@ -733,14 +740,14 @@ public final class HttpHeaders {
    * href="https://wicg.github.io/responsive-image-client-hints/#sec-ch-viewport-height">{@code
    * Sec-CH-Viewport-Height}</a> header field name.
    *
-   * @since NEXT
+   * @since 32.0.0
    */
   public static final String SEC_CH_VIEWPORT_HEIGHT = "Sec-CH-Viewport-Height";
   /**
    * The HTTP <a href="https://wicg.github.io/responsive-image-client-hints/#sec-ch-dpr">{@code
    * Sec-CH-DPR}</a> header field name.
    *
-   * @since NEXT
+   * @since 32.0.0
    */
   public static final String SEC_CH_DPR = "Sec-CH-DPR";
   /**
@@ -834,6 +841,39 @@ public final class HttpHeaders {
    * @since 28.0
    */
   public static final String SEC_WEBSOCKET_VERSION = "Sec-WebSocket-Version";
+  /**
+   * The HTTP <a href="https://patcg-individual-drafts.github.io/topics/">{@code
+   * Sec-Browsing-Topics}</a> header field name.
+   *
+   * @since 32.0.0
+   */
+  public static final String SEC_BROWSING_TOPICS = "Sec-Browsing-Topics";
+  /**
+   * The HTTP <a href="https://patcg-individual-drafts.github.io/topics/">{@code
+   * Observe-Browsing-Topics}</a> header field name.
+   *
+   * @since 32.0.0
+   */
+  public static final String OBSERVE_BROWSING_TOPICS = "Observe-Browsing-Topics";
+
+  /**
+   * The HTTP <a
+   * href="https://wicg.github.io/turtledove/#handling-direct-from-seller-signals">{@code
+   * Sec-Ad-Auction-Fetch}</a> header field name.
+   *
+   * @since 33.0.0
+   */
+  public static final String SEC_AD_AUCTION_FETCH = "Sec-Ad-Auction-Fetch";
+
+  /**
+   * The HTTP <a
+   * href="https://wicg.github.io/turtledove/#handling-direct-from-seller-signals">{@code
+   * Ad-Auction-Signals}</a> header field name.
+   *
+   * @since 33.0.0
+   */
+  public static final String AD_AUCTION_SIGNALS = "Ad-Auction-Signals";
+
   /**
    * The HTTP <a href="https://tools.ietf.org/html/rfc8586">{@code CDN-Loop}</a> header field name.
    *

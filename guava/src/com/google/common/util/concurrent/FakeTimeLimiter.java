@@ -17,7 +17,6 @@ package com.google.common.util.concurrent;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.util.concurrent.Platform.restoreInterruptIfIsInterruptedException;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -36,7 +35,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Jens Nyman
  * @since 1.0
  */
-@Beta
 @J2ktIncompatible
 @GwtIncompatible
 @ElementTypesAreNonnullByDefault
@@ -79,12 +77,13 @@ public final class FakeTimeLimiter implements TimeLimiter {
   }
 
   @Override
+  @SuppressWarnings("CatchingUnchecked") // sneaky checked exception
   public void runWithTimeout(Runnable runnable, long timeoutDuration, TimeUnit timeoutUnit) {
     checkNotNull(runnable);
     checkNotNull(timeoutUnit);
     try {
       runnable.run();
-    } catch (RuntimeException e) {
+    } catch (Exception e) { // sneaky checked exception
       throw new UncheckedExecutionException(e);
     } catch (Error e) {
       throw new ExecutionError(e);

@@ -21,6 +21,7 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.testing.FakeTicker;
 import junit.framework.TestCase;
 
@@ -166,6 +167,7 @@ public class StopwatchTest extends TestCase {
     assertEquals(1, stopwatch.elapsed(MILLISECONDS));
   }
 
+  @J2ktIncompatible // TODO(b/259213718): Enable
   public void testToString() {
     stopwatch.start();
     assertEquals("0.000 ns", stopwatch.toString());

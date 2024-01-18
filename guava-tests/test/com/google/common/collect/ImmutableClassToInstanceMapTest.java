@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import static com.google.common.collect.Maps.immutableEntry;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.testing.MapTestSuiteBuilder;
 import com.google.common.collect.testing.SampleElements;
@@ -116,19 +117,11 @@ public class ImmutableClassToInstanceMapTest extends TestCase {
 
   public void testCopyOf_map_nulls() {
     Map<Class<? extends Number>, Number> nullKey = Collections.singletonMap(null, (Number) 1.0);
-    try {
-      ImmutableClassToInstanceMap.copyOf(nullKey);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> ImmutableClassToInstanceMap.copyOf(nullKey));
 
     Map<? extends Class<? extends Number>, Number> nullValue =
         Collections.singletonMap(Number.class, null);
-    try {
-      ImmutableClassToInstanceMap.copyOf(nullValue);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> ImmutableClassToInstanceMap.copyOf(nullValue));
   }
 
   public void testCopyOf_imap_empty() {

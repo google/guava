@@ -18,6 +18,7 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.Lists;
 import java.util.List;
@@ -53,12 +54,9 @@ public class AbstractIdleServiceTest extends TestCase {
           }
         };
     assertEquals(0, service.startUpCalled);
-    try {
-      service.startAsync().awaitRunning();
-      fail();
-    } catch (RuntimeException e) {
-      assertThat(e).hasCauseThat().isSameInstanceAs(exception);
-    }
+    RuntimeException e =
+        assertThrows(RuntimeException.class, () -> service.startAsync().awaitRunning());
+    assertThat(e).hasCauseThat().isSameInstanceAs(exception);
     assertEquals(1, service.startUpCalled);
     assertEquals(Service.State.FAILED, service.state());
     assertThat(service.transitionStates).containsExactly(Service.State.STARTING);
@@ -100,12 +98,9 @@ public class AbstractIdleServiceTest extends TestCase {
     service.startAsync().awaitRunning();
     assertEquals(1, service.startUpCalled);
     assertEquals(0, service.shutDownCalled);
-    try {
-      service.stopAsync().awaitTerminated();
-      fail();
-    } catch (RuntimeException e) {
-      assertThat(e).hasCauseThat().isSameInstanceAs(exception);
-    }
+    RuntimeException e =
+        assertThrows(RuntimeException.class, () -> service.stopAsync().awaitTerminated());
+    assertThat(e).hasCauseThat().isSameInstanceAs(exception);
     assertEquals(1, service.startUpCalled);
     assertEquals(1, service.shutDownCalled);
     assertEquals(Service.State.FAILED, service.state());
@@ -140,14 +135,13 @@ public class AbstractIdleServiceTest extends TestCase {
             return "Foo";
           }
         };
-    try {
-      service.startAsync().awaitRunning(1, TimeUnit.MILLISECONDS);
-      fail("Expected timeout");
-    } catch (TimeoutException e) {
-      assertThat(e)
-          .hasMessageThat()
-          .isEqualTo("Timed out waiting for Foo [STARTING] to reach the RUNNING state.");
-    }
+    TimeoutException e =
+        assertThrows(
+            TimeoutException.class,
+            () -> service.startAsync().awaitRunning(1, TimeUnit.MILLISECONDS));
+    assertThat(e)
+        .hasMessageThat()
+        .isEqualTo("Timed out waiting for Foo [STARTING] to reach the RUNNING state.");
   }
 
   private static class TestService extends AbstractIdleService {
@@ -206,12 +200,9 @@ public class AbstractIdleServiceTest extends TestCase {
             throw exception;
           }
         };
-    try {
-      service.startAsync().awaitRunning();
-      fail();
-    } catch (RuntimeException e) {
-      assertThat(e).hasCauseThat().isSameInstanceAs(exception);
-    }
+    RuntimeException e =
+        assertThrows(RuntimeException.class, () -> service.startAsync().awaitRunning());
+    assertThat(e).hasCauseThat().isSameInstanceAs(exception);
     assertEquals(Service.State.FAILED, service.state());
   }
 
@@ -225,12 +216,9 @@ public class AbstractIdleServiceTest extends TestCase {
           }
         };
     service.startAsync().awaitRunning();
-    try {
-      service.stopAsync().awaitTerminated();
-      fail();
-    } catch (RuntimeException e) {
-      assertThat(e).hasCauseThat().isSameInstanceAs(exception);
-    }
+    RuntimeException e =
+        assertThrows(RuntimeException.class, () -> service.stopAsync().awaitTerminated());
+    assertThat(e).hasCauseThat().isSameInstanceAs(exception);
     assertEquals(Service.State.FAILED, service.state());
   }
 }

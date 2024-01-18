@@ -90,7 +90,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
     return bimap;
   }
 
-  private static final class BiEntry<K extends @Nullable Object, V extends @Nullable Object>
+  static final class BiEntry<K extends @Nullable Object, V extends @Nullable Object>
       extends ImmutableEntry<K, V> {
     final int keyHash;
     final int valueHash;
@@ -438,7 +438,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
     return size;
   }
 
-  abstract class Itr<T extends @Nullable Object> implements Iterator<T> {
+  private abstract class Itr<T extends @Nullable Object> implements Iterator<T> {
     @CheckForNull BiEntry<K, V> next = firstInKeyInsertionOrder;
     @CheckForNull BiEntry<K, V> toRemove = null;
     int expectedModCount = modCount;
@@ -531,7 +531,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
       }
 
       class MapEntry extends AbstractMapEntry<K, V> {
-        BiEntry<K, V> delegate;
+        private BiEntry<K, V> delegate;
 
         MapEntry(BiEntry<K, V> entry) {
           this.delegate = entry;
@@ -708,7 +708,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
         }
 
         class InverseEntry extends AbstractMapEntry<V, K> {
-          BiEntry<K, V> delegate;
+          private BiEntry<K, V> delegate;
 
           InverseEntry(BiEntry<K, V> entry) {
             this.delegate = entry;

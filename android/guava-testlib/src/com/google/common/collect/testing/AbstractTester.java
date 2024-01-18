@@ -17,6 +17,7 @@
 package com.google.common.collect.testing;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 import junit.framework.TestCase;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -31,7 +32,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *     parameterize the test.
  * @author George van den Driessche
  */
-@GwtCompatible
+@GwtCompatible(emulated = true)
 public class AbstractTester<G> extends TestCase {
   private G subjectGenerator;
   private String suiteName;
@@ -73,10 +74,12 @@ public class AbstractTester<G> extends TestCase {
   }
 
   /** Returns the name of the test method invoked by this test instance. */
+  @GwtIncompatible // not used under GWT, and super.getName() is not available under J2CL
   public final String getTestMethodName() {
     return super.getName();
   }
 
+  @GwtIncompatible // not used under GWT, and super.getName() is not available under J2CL
   @Override
   public String getName() {
     return Platform.format("%s[%s]", super.getName(), suiteName);

@@ -22,7 +22,6 @@ import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 import static com.google.common.collect.CollectPreconditions.checkRemove;
 import static java.util.Objects.requireNonNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Objects;
 import com.google.common.base.Predicate;
@@ -31,6 +30,7 @@ import com.google.common.collect.Multiset.Entry;
 import com.google.common.math.IntMath;
 import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collection;
@@ -135,7 +135,7 @@ public final class Multisets {
       return (Multiset<E>) delegate;
     }
 
-    @CheckForNull transient Set<E> elementSet;
+    @LazyInit @CheckForNull transient Set<E> elementSet;
 
     Set<E> createElementSet() {
       return Collections.<E>unmodifiableSet(delegate.elementSet());
@@ -147,7 +147,7 @@ public final class Multisets {
       return (es == null) ? elementSet = createElementSet() : es;
     }
 
-    @CheckForNull transient Set<Multiset.Entry<E>> entrySet;
+    @LazyInit @CheckForNull transient Set<Multiset.Entry<E>> entrySet;
 
     @SuppressWarnings("unchecked")
     @Override
@@ -196,6 +196,11 @@ public final class Multisets {
     }
 
     @Override
+    public boolean removeIf(java.util.function.Predicate<? super E> filter) {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
     public boolean retainAll(Collection<?> elementsToRetain) {
       throw new UnsupportedOperationException();
     }
@@ -229,7 +234,6 @@ public final class Multisets {
    * @return an unmodifiable view of the multiset
    * @since 11.0
    */
-  @Beta
   public static <E extends @Nullable Object> SortedMultiset<E> unmodifiableSortedMultiset(
       SortedMultiset<E> sortedMultiset) {
     // it's in its own file so it can be emulated for GWT
@@ -304,7 +308,6 @@ public final class Multisets {
    *
    * @since 14.0
    */
-  @Beta
   public static <E extends @Nullable Object> Multiset<E> filter(
       Multiset<E> unfiltered, Predicate<? super E> predicate) {
     if (unfiltered instanceof FilteredMultiset) {
@@ -411,7 +414,6 @@ public final class Multisets {
    *
    * @since 14.0
    */
-  @Beta
   public static <E extends @Nullable Object> Multiset<E> union(
       final Multiset<? extends E> multiset1, final Multiset<? extends E> multiset2) {
     checkNotNull(multiset1);
@@ -541,7 +543,6 @@ public final class Multisets {
    *
    * @since 14.0
    */
-  @Beta
   public static <E extends @Nullable Object> Multiset<E> sum(
       final Multiset<? extends E> multiset1, final Multiset<? extends E> multiset2) {
     checkNotNull(multiset1);
@@ -619,7 +620,6 @@ public final class Multisets {
    *
    * @since 14.0
    */
-  @Beta
   public static <E extends @Nullable Object> Multiset<E> difference(
       final Multiset<E> multiset1, final Multiset<?> multiset2) {
     checkNotNull(multiset1);
@@ -1164,7 +1164,6 @@ public final class Multisets {
    *
    * @since 11.0
    */
-  @Beta
   public static <E> ImmutableMultiset<E> copyHighestCountFirst(Multiset<E> multiset) {
     Entry<E>[] entries = (Entry<E>[]) multiset.entrySet().toArray(new Entry[0]);
     Arrays.sort(entries, DecreasingCount.INSTANCE);
@@ -1172,7 +1171,7 @@ public final class Multisets {
   }
 
   private static final class DecreasingCount implements Comparator<Entry<?>> {
-    static final DecreasingCount INSTANCE = new DecreasingCount();
+    static final Comparator<Entry<?>> INSTANCE = new DecreasingCount();
 
     @Override
     public int compare(Entry<?> entry1, Entry<?> entry2) {

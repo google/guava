@@ -352,13 +352,6 @@ public final class NullPointerTester {
    */
   private void testParameter(
       @Nullable Object instance, Invokable<?, ?> invokable, int paramIndex, Class<?> testedClass) {
-    /*
-     * com.google.common is starting to rely on type-use annotations, which aren't visible under
-     * Android VMs. So we skip testing there.
-     */
-    if (isAndroid() && Reflection.getPackageName(testedClass).startsWith("com.google.common")) {
-      return;
-    }
     if (isPrimitiveOrNullable(invokable.getParameters().get(paramIndex))) {
       return; // there's nothing to test
     }
@@ -504,8 +497,7 @@ public final class NullPointerTester {
   }
 
   private static final ImmutableSet<String> NULLABLE_ANNOTATION_SIMPLE_NAMES =
-      ImmutableSet.of(
-          "CheckForNull", "Nullable", "NullableDecl", "NullableType", "ParametricNullness");
+      ImmutableSet.of("CheckForNull", "Nullable", "NullableDecl", "NullableType");
 
   static boolean isNullable(Invokable<?, ?> invokable) {
     return NULLNESS_ANNOTATION_READER.isNullable(invokable);
@@ -606,19 +598,17 @@ public final class NullPointerTester {
    * Looks for declaration nullness annotations and, if supported, type-use nullness annotations.
    *
    * <p>Under Android VMs, the methods for retrieving type-use annotations don't exist. This means
-   * that {@link NullPointerException} may misbehave under Android when used on classes that rely on
+   * that {@link NullPointerTester} may misbehave under Android when used on classes that rely on
    * type-use annotations.
    *
    * <p>Under j2objc, the necessary APIs exist, but some (perhaps all) return stub values, like
-   * empty arrays. Presumably {@link NullPointerException} could likewise misbehave under j2objc,
-   * but I don't know that anyone uses it there, anyway.
+   * empty arrays. Presumably {@link NullPointerTester} could likewise misbehave under j2objc, but I
+   * don't know that anyone uses it there, anyway.
    */
   private enum NullnessAnnotationReader {
-    // Usages (which are unsafe only for Android) are guarded by the annotatedTypeExists() check.
-    @SuppressWarnings({"Java7ApiChecker", "AndroidApiChecker", "DoNotCall", "deprecation"})
+    @SuppressWarnings("Java7ApiChecker")
     FROM_DECLARATION_AND_TYPE_USE_ANNOTATIONS {
       @Override
-      @IgnoreJRERequirement
       boolean isNullable(Invokable<?, ?> invokable) {
         return FROM_DECLARATION_ANNOTATIONS_ONLY.isNullable(invokable)
             || containsNullable(invokable.getAnnotatedReturnType().getAnnotations());
@@ -626,14 +616,12 @@ public final class NullPointerTester {
       }
 
       @Override
-      @IgnoreJRERequirement
       boolean isNullable(Parameter param) {
         return FROM_DECLARATION_ANNOTATIONS_ONLY.isNullable(param)
             || containsNullable(param.getAnnotatedType().getAnnotations())
             || isNullableTypeVariable(param.getAnnotatedType().getType());
       }
 
-      @IgnoreJRERequirement
       boolean isNullableTypeVariable(Type type) {
         if (!(type instanceof TypeVariable)) {
           return false;
@@ -664,10 +652,5 @@ public final class NullPointerTester {
     abstract boolean isNullable(Invokable<?, ?> invokable);
 
     abstract boolean isNullable(Parameter param);
-  }
-
-  private static boolean isAndroid() {
-    // Arguably it would make more sense to test "can we see type-use annotations" directly....
-    return checkNotNull(System.getProperty("java.runtime.name", "")).contains("Android");
   }
 }

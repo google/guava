@@ -329,6 +329,7 @@ public abstract class BaseEncoding {
    *
    * @throws IllegalStateException if the alphabet used by this encoding contains mixed upper- and
    *     lower-case characters
+   * @since 32.0.0
    */
   public abstract BaseEncoding ignoreCase();
 
@@ -432,7 +433,7 @@ public abstract class BaseEncoding {
     return BASE16;
   }
 
-  private static final class Alphabet {
+  static final class Alphabet {
     private final String name;
     // this is meant to be immutable -- don't modify it!
     private final char[] chars;

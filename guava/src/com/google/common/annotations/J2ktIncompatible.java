@@ -23,7 +23,7 @@ import java.lang.annotation.Target;
  * The presence of this annotation on an API indicates that the method may <em>not</em> be used with
  * J2kt.
  *
- * @since NEXT
+ * @since 32.0.0
  */
 @Retention(RetentionPolicy.CLASS)
 @Target({ElementType.TYPE, ElementType.METHOD, ElementType.CONSTRUCTOR, ElementType.FIELD})

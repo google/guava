@@ -55,7 +55,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @GwtIncompatible // hasn't been tested yet
 @ElementTypesAreNonnullByDefault
-public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultisetFauxverideShim<E>
+public abstract class ImmutableSortedMultiset<E> extends ImmutableMultiset<E>
     implements SortedMultiset<E> {
   // TODO(lowasser): GWT compatibility
 
@@ -606,4 +606,162 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
   private void readObject(ObjectInputStream stream) throws InvalidObjectException {
     throw new InvalidObjectException("Use SerializedForm");
   }
+
+  /**
+   * Not supported. Use {@link #toImmutableSortedMultiset} instead. This method exists only to hide
+   * {@link ImmutableMultiset#toImmutableMultiset} from consumers of {@code
+   * ImmutableSortedMultiset}.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated Use {@link ImmutableSortedMultiset#toImmutableSortedMultiset}.
+   * @since 21.0
+   */
+  @DoNotCall("Use toImmutableSortedMultiset.")
+  @Deprecated
+  public static <E> Collector<E, ?, ImmutableMultiset<E>> toImmutableMultiset() {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
+   * Not supported. Use {@link #toImmutableSortedMultiset} instead. This method exists only to hide
+   * {@link ImmutableMultiset#toImmutableMultiset} from consumers of {@code
+   * ImmutableSortedMultiset}.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated Use {@link ImmutableSortedMultiset#toImmutableSortedMultiset}.
+   * @since 22.0
+   */
+  @DoNotCall("Use toImmutableSortedMultiset.")
+  @Deprecated
+  public static <T extends @Nullable Object, E>
+      Collector<T, ?, ImmutableMultiset<E>> toImmutableMultiset(
+          Function<? super T, ? extends E> elementFunction,
+          ToIntFunction<? super T> countFunction) {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
+   * Not supported. Use {@link #naturalOrder}, which offers better type-safety, instead. This method
+   * exists only to hide {@link ImmutableMultiset#builder} from consumers of {@code
+   * ImmutableSortedMultiset}.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated Use {@link ImmutableSortedMultiset#naturalOrder}, which offers better type-safety.
+   */
+  @DoNotCall("Use naturalOrder.")
+  @Deprecated
+  public static <E> ImmutableSortedMultiset.Builder<E> builder() {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
+   * Not supported. <b>You are attempting to create a multiset that may contain a non-{@code
+   * Comparable} element.</b> Proper calls will resolve to the version in {@code
+   * ImmutableSortedMultiset}, not this dummy version.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated <b>Pass a parameter of type {@code Comparable} to use {@link
+   *     ImmutableSortedMultiset#of(Comparable)}.</b>
+   */
+  @DoNotCall("Elements must be Comparable. (Or, pass a Comparator to orderedBy or copyOf.)")
+  @Deprecated
+  public static <E> ImmutableSortedMultiset<E> of(E element) {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
+   * Not supported. <b>You are attempting to create a multiset that may contain a non-{@code
+   * Comparable} element.</b> Proper calls will resolve to the version in {@code
+   * ImmutableSortedMultiset}, not this dummy version.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated <b>Pass the parameters of type {@code Comparable} to use {@link
+   *     ImmutableSortedMultiset#of(Comparable, Comparable)}.</b>
+   */
+  @DoNotCall("Elements must be Comparable. (Or, pass a Comparator to orderedBy or copyOf.)")
+  @Deprecated
+  public static <E> ImmutableSortedMultiset<E> of(E e1, E e2) {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
+   * Not supported. <b>You are attempting to create a multiset that may contain a non-{@code
+   * Comparable} element.</b> Proper calls will resolve to the version in {@code
+   * ImmutableSortedMultiset}, not this dummy version.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated <b>Pass the parameters of type {@code Comparable} to use {@link
+   *     ImmutableSortedMultiset#of(Comparable, Comparable, Comparable)}.</b>
+   */
+  @DoNotCall("Elements must be Comparable. (Or, pass a Comparator to orderedBy or copyOf.)")
+  @Deprecated
+  public static <E> ImmutableSortedMultiset<E> of(E e1, E e2, E e3) {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
+   * Not supported. <b>You are attempting to create a multiset that may contain a non-{@code
+   * Comparable} element.</b> Proper calls will resolve to the version in {@code
+   * ImmutableSortedMultiset}, not this dummy version.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated <b>Pass the parameters of type {@code Comparable} to use {@link
+   *     ImmutableSortedMultiset#of(Comparable, Comparable, Comparable, Comparable)}. </b>
+   */
+  @DoNotCall("Elements must be Comparable. (Or, pass a Comparator to orderedBy or copyOf.)")
+  @Deprecated
+  public static <E> ImmutableSortedMultiset<E> of(E e1, E e2, E e3, E e4) {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
+   * Not supported. <b>You are attempting to create a multiset that may contain a non-{@code
+   * Comparable} element.</b> Proper calls will resolve to the version in {@code
+   * ImmutableSortedMultiset}, not this dummy version.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated <b>Pass the parameters of type {@code Comparable} to use {@link
+   *     ImmutableSortedMultiset#of(Comparable, Comparable, Comparable, Comparable, Comparable)} .
+   *     </b>
+   */
+  @DoNotCall("Elements must be Comparable. (Or, pass a Comparator to orderedBy or copyOf.)")
+  @Deprecated
+  public static <E> ImmutableSortedMultiset<E> of(E e1, E e2, E e3, E e4, E e5) {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
+   * Not supported. <b>You are attempting to create a multiset that may contain a non-{@code
+   * Comparable} element.</b> Proper calls will resolve to the version in {@code
+   * ImmutableSortedMultiset}, not this dummy version.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated <b>Pass the parameters of type {@code Comparable} to use {@link
+   *     ImmutableSortedMultiset#of(Comparable, Comparable, Comparable, Comparable, Comparable,
+   *     Comparable, Comparable...)} . </b>
+   */
+  @DoNotCall("Elements must be Comparable. (Or, pass a Comparator to orderedBy or copyOf.)")
+  @Deprecated
+  public static <E> ImmutableSortedMultiset<E> of(
+      E e1, E e2, E e3, E e4, E e5, E e6, E... remaining) {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
+   * Not supported. <b>You are attempting to create a multiset that may contain non-{@code
+   * Comparable} elements.</b> Proper calls will resolve to the version in {@code
+   * ImmutableSortedMultiset}, not this dummy version.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated <b>Pass parameters of type {@code Comparable} to use {@link
+   *     ImmutableSortedMultiset#copyOf(Comparable[])}.</b>
+   */
+  @DoNotCall("Elements must be Comparable. (Or, pass a Comparator to orderedBy or copyOf.)")
+  @Deprecated
+  // The usage of "Z" here works around bugs in Javadoc (JDK-8318093) and JDiff.
+  public static <Z> ImmutableSortedMultiset<Z> copyOf(Z[] elements) {
+    throw new UnsupportedOperationException();
+  }
+
+  private static final long serialVersionUID = 0xcafebabe;
 }

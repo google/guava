@@ -15,6 +15,7 @@
 package com.google.common.collect;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.NavigableSetTestSuiteBuilder;
@@ -320,12 +321,7 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
             .add(Range.closedOpen(1, 3))
             .build();
 
-    try {
-      rangeSet.add(Range.open(3, 4));
-      fail();
-    } catch (UnsupportedOperationException expected) {
-      // success
-    }
+    assertThrows(UnsupportedOperationException.class, () -> rangeSet.add(Range.open(3, 4)));
   }
 
   @SuppressWarnings("DoNotCall")
@@ -336,12 +332,9 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
             .add(Range.closedOpen(1, 3))
             .build();
 
-    try {
-      rangeSet.addAll(ImmutableRangeSet.<Integer>of());
-      fail();
-    } catch (UnsupportedOperationException expected) {
-      // success
-    }
+    assertThrows(
+        UnsupportedOperationException.class,
+        () -> rangeSet.addAll(ImmutableRangeSet.<Integer>of()));
   }
 
   @SuppressWarnings("DoNotCall")
@@ -352,12 +345,7 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
             .add(Range.closedOpen(1, 3))
             .build();
 
-    try {
-      rangeSet.remove(Range.closed(6, 7));
-      fail();
-    } catch (UnsupportedOperationException expected) {
-      // success
-    }
+    assertThrows(UnsupportedOperationException.class, () -> rangeSet.remove(Range.closed(6, 7)));
   }
 
   @SuppressWarnings("DoNotCall")
@@ -368,19 +356,13 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
             .add(Range.closedOpen(1, 3))
             .build();
 
-    try {
-      rangeSet.removeAll(ImmutableRangeSet.<Integer>of());
-      fail();
-    } catch (UnsupportedOperationException expected) {
-      // success
-    }
+    assertThrows(
+        UnsupportedOperationException.class,
+        () -> rangeSet.removeAll(ImmutableRangeSet.<Integer>of()));
 
-    try {
-      rangeSet.removeAll(ImmutableRangeSet.of(Range.closed(6, 8)));
-      fail();
-    } catch (UnsupportedOperationException expected) {
-      // success
-    }
+    assertThrows(
+        UnsupportedOperationException.class,
+        () -> rangeSet.removeAll(ImmutableRangeSet.of(Range.closed(6, 8))));
   }
 
   @AndroidIncompatible // slow
@@ -428,11 +410,11 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
       }
 
       if (anyOverlaps) {
-        try {
-          RangeSet<Integer> copy = ImmutableRangeSet.copyOf(subset);
-          fail();
-        } catch (IllegalArgumentException expected) {
-        }
+        assertThrows(
+            IllegalArgumentException.class,
+            () -> {
+              RangeSet<Integer> copy = ImmutableRangeSet.copyOf(subset);
+            });
       } else {
         RangeSet<Integer> copy = ImmutableRangeSet.copyOf(subset);
         assertEquals(mutable, copy);

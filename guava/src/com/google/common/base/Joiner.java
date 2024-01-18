@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.util.AbstractList;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import javax.annotation.CheckForNull;
@@ -129,7 +130,9 @@ public class Joiner {
   @CanIgnoreReturnValue
   public final <A extends Appendable> A appendTo(A appendable, @Nullable Object[] parts)
       throws IOException {
-    return appendTo(appendable, Arrays.asList(parts));
+    @SuppressWarnings("nullness") // TODO: b/316358623 - Remove suppression after fixing checker
+    List<?> partsList = Arrays.<@Nullable Object>asList(parts);
+    return appendTo(appendable, partsList);
   }
 
   /** Appends to {@code appendable} the string representation of each of the remaining arguments. */
@@ -179,7 +182,9 @@ public class Joiner {
    */
   @CanIgnoreReturnValue
   public final StringBuilder appendTo(StringBuilder builder, @Nullable Object[] parts) {
-    return appendTo(builder, Arrays.asList(parts));
+    @SuppressWarnings("nullness") // TODO: b/316358623 - Remove suppression after fixing checker
+    List<?> partsList = Arrays.<@Nullable Object>asList(parts);
+    return appendTo(builder, partsList);
   }
 
   /**
@@ -219,7 +224,9 @@ public class Joiner {
    * previously configured separator between each.
    */
   public final String join(@Nullable Object[] parts) {
-    return join(Arrays.asList(parts));
+    @SuppressWarnings("nullness") // TODO: b/316358623 - Remove suppression after fixing checker
+    List<?> partsList = Arrays.<@Nullable Object>asList(parts);
+    return join(partsList);
   }
 
   /**

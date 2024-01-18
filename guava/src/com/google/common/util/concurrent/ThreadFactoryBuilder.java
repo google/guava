@@ -171,6 +171,8 @@ public final class ThreadFactoryBuilder {
       @Override
       public Thread newThread(Runnable runnable) {
         Thread thread = backingThreadFactory.newThread(runnable);
+        // TODO(b/139735208): Figure out what to do when the factory returns null.
+        requireNonNull(thread);
         if (nameFormat != null) {
           // requireNonNull is safe because we create `count` if (and only if) we have a nameFormat.
           thread.setName(format(nameFormat, requireNonNull(count).getAndIncrement()));

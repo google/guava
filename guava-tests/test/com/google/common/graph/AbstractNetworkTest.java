@@ -16,7 +16,6 @@
 
 package com.google.common.graph;
 
-import static com.google.common.graph.TestUtil.ERROR_NODE_NOT_IN_GRAPH;
 import static com.google.common.graph.TestUtil.assertEdgeNotInGraphErrorMessage;
 import static com.google.common.graph.TestUtil.assertNodeNotInGraphErrorMessage;
 import static com.google.common.graph.TestUtil.assertStronglyEquivalent;
@@ -25,6 +24,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 import static java.util.concurrent.Executors.newFixedThreadPool;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -423,12 +423,10 @@ public abstract class AbstractNetworkTest {
 
   @Test
   public void incidentEdges_nodeNotInGraph() {
-    try {
-      network.incidentEdges(NODE_NOT_IN_GRAPH);
-      fail(ERROR_NODE_NOT_IN_GRAPH);
-    } catch (IllegalArgumentException e) {
-      assertNodeNotInGraphErrorMessage(e);
-    }
+    IllegalArgumentException e =
+        assertThrows(
+            IllegalArgumentException.class, () -> network.incidentEdges(NODE_NOT_IN_GRAPH));
+    assertNodeNotInGraphErrorMessage(e);
   }
 
   @Test
@@ -439,12 +437,10 @@ public abstract class AbstractNetworkTest {
 
   @Test
   public void incidentNodes_edgeNotInGraph() {
-    try {
-      network.incidentNodes(EDGE_NOT_IN_GRAPH);
-      fail(ERROR_EDGE_NOT_IN_GRAPH);
-    } catch (IllegalArgumentException e) {
-      assertEdgeNotInGraphErrorMessage(e);
-    }
+    IllegalArgumentException e =
+        assertThrows(
+            IllegalArgumentException.class, () -> network.incidentNodes(EDGE_NOT_IN_GRAPH));
+    assertEdgeNotInGraphErrorMessage(e);
   }
 
   @Test
@@ -462,12 +458,10 @@ public abstract class AbstractNetworkTest {
 
   @Test
   public void adjacentNodes_nodeNotInGraph() {
-    try {
-      network.adjacentNodes(NODE_NOT_IN_GRAPH);
-      fail(ERROR_NODE_NOT_IN_GRAPH);
-    } catch (IllegalArgumentException e) {
-      assertNodeNotInGraphErrorMessage(e);
-    }
+    IllegalArgumentException e =
+        assertThrows(
+            IllegalArgumentException.class, () -> network.adjacentNodes(NODE_NOT_IN_GRAPH));
+    assertNodeNotInGraphErrorMessage(e);
   }
 
   @Test
@@ -488,12 +482,10 @@ public abstract class AbstractNetworkTest {
 
   @Test
   public void adjacentEdges_edgeNotInGraph() {
-    try {
-      network.adjacentEdges(EDGE_NOT_IN_GRAPH);
-      fail(ERROR_EDGE_NOT_IN_GRAPH);
-    } catch (IllegalArgumentException e) {
-      assertEdgeNotInGraphErrorMessage(e);
-    }
+    IllegalArgumentException e =
+        assertThrows(
+            IllegalArgumentException.class, () -> network.adjacentEdges(EDGE_NOT_IN_GRAPH));
+    assertEdgeNotInGraphErrorMessage(e);
   }
 
   @Test
@@ -519,24 +511,19 @@ public abstract class AbstractNetworkTest {
   public void edgesConnecting_nodesNotInGraph() {
     addNode(N1);
     addNode(N2);
-    try {
-      network.edgesConnecting(N1, NODE_NOT_IN_GRAPH);
-      fail(ERROR_NODE_NOT_IN_GRAPH);
-    } catch (IllegalArgumentException e) {
-      assertNodeNotInGraphErrorMessage(e);
-    }
-    try {
-      network.edgesConnecting(NODE_NOT_IN_GRAPH, N2);
-      fail(ERROR_NODE_NOT_IN_GRAPH);
-    } catch (IllegalArgumentException e) {
-      assertNodeNotInGraphErrorMessage(e);
-    }
-    try {
-      network.edgesConnecting(NODE_NOT_IN_GRAPH, NODE_NOT_IN_GRAPH);
-      fail(ERROR_NODE_NOT_IN_GRAPH);
-    } catch (IllegalArgumentException e) {
-      assertNodeNotInGraphErrorMessage(e);
-    }
+    IllegalArgumentException e =
+        assertThrows(
+            IllegalArgumentException.class, () -> network.edgesConnecting(N1, NODE_NOT_IN_GRAPH));
+    assertNodeNotInGraphErrorMessage(e);
+    e =
+        assertThrows(
+            IllegalArgumentException.class, () -> network.edgesConnecting(NODE_NOT_IN_GRAPH, N2));
+    assertNodeNotInGraphErrorMessage(e);
+    e =
+        assertThrows(
+            IllegalArgumentException.class,
+            () -> network.edgesConnecting(NODE_NOT_IN_GRAPH, NODE_NOT_IN_GRAPH));
+    assertNodeNotInGraphErrorMessage(e);
   }
 
   @Test
@@ -601,12 +588,9 @@ public abstract class AbstractNetworkTest {
 
   @Test
   public void inEdges_nodeNotInGraph() {
-    try {
-      network.inEdges(NODE_NOT_IN_GRAPH);
-      fail(ERROR_NODE_NOT_IN_GRAPH);
-    } catch (IllegalArgumentException e) {
-      assertNodeNotInGraphErrorMessage(e);
-    }
+    IllegalArgumentException e =
+        assertThrows(IllegalArgumentException.class, () -> network.inEdges(NODE_NOT_IN_GRAPH));
+    assertNodeNotInGraphErrorMessage(e);
   }
 
   @Test
@@ -617,12 +601,9 @@ public abstract class AbstractNetworkTest {
 
   @Test
   public void outEdges_nodeNotInGraph() {
-    try {
-      network.outEdges(NODE_NOT_IN_GRAPH);
-      fail(ERROR_NODE_NOT_IN_GRAPH);
-    } catch (IllegalArgumentException e) {
-      assertNodeNotInGraphErrorMessage(e);
-    }
+    IllegalArgumentException e =
+        assertThrows(IllegalArgumentException.class, () -> network.outEdges(NODE_NOT_IN_GRAPH));
+    assertNodeNotInGraphErrorMessage(e);
   }
 
   @Test
@@ -633,12 +614,9 @@ public abstract class AbstractNetworkTest {
 
   @Test
   public void predecessors_nodeNotInGraph() {
-    try {
-      network.predecessors(NODE_NOT_IN_GRAPH);
-      fail(ERROR_NODE_NOT_IN_GRAPH);
-    } catch (IllegalArgumentException e) {
-      assertNodeNotInGraphErrorMessage(e);
-    }
+    IllegalArgumentException e =
+        assertThrows(IllegalArgumentException.class, () -> network.predecessors(NODE_NOT_IN_GRAPH));
+    assertNodeNotInGraphErrorMessage(e);
   }
 
   @Test
@@ -649,12 +627,9 @@ public abstract class AbstractNetworkTest {
 
   @Test
   public void successors_nodeNotInGraph() {
-    try {
-      network.successors(NODE_NOT_IN_GRAPH);
-      fail(ERROR_NODE_NOT_IN_GRAPH);
-    } catch (IllegalArgumentException e) {
-      assertNodeNotInGraphErrorMessage(e);
-    }
+    IllegalArgumentException e =
+        assertThrows(IllegalArgumentException.class, () -> network.successors(NODE_NOT_IN_GRAPH));
+    assertNodeNotInGraphErrorMessage(e);
   }
 
   @Test
@@ -702,17 +677,16 @@ public abstract class AbstractNetworkTest {
   public void removeNode_queryAfterRemoval() {
     assume().that(graphIsMutable()).isTrue();
 
-    addNode(N1);
-    @SuppressWarnings("unused")
-    Set<Integer> unused =
-        networkAsMutableNetwork.adjacentNodes(N1); // ensure cache (if any) is populated
+    addEdge(N1, N2, E12);
+    Set<Integer> n1AdjacentNodes = networkAsMutableNetwork.adjacentNodes(N1);
+    Set<Integer> n2AdjacentNodes = networkAsMutableNetwork.adjacentNodes(N2);
     assertTrue(networkAsMutableNetwork.removeNode(N1));
-    try {
-      networkAsMutableNetwork.adjacentNodes(N1);
-      fail(ERROR_NODE_NOT_IN_GRAPH);
-    } catch (IllegalArgumentException e) {
-      assertNodeNotInGraphErrorMessage(e);
-    }
+    assertThat(n1AdjacentNodes).isEmpty();
+    assertThat(n2AdjacentNodes).isEmpty();
+    IllegalArgumentException e =
+        assertThrows(
+            IllegalArgumentException.class, () -> networkAsMutableNetwork.adjacentNodes(N1));
+    assertNodeNotInGraphErrorMessage(e);
   }
 
   @Test
@@ -757,12 +731,10 @@ public abstract class AbstractNetworkTest {
     EndpointPair<Integer> unused =
         networkAsMutableNetwork.incidentNodes(E12); // ensure cache (if any) is populated
     assertTrue(networkAsMutableNetwork.removeEdge(E12));
-    try {
-      networkAsMutableNetwork.incidentNodes(E12);
-      fail(ERROR_EDGE_NOT_IN_GRAPH);
-    } catch (IllegalArgumentException e) {
-      assertEdgeNotInGraphErrorMessage(e);
-    }
+    IllegalArgumentException e =
+        assertThrows(
+            IllegalArgumentException.class, () -> networkAsMutableNetwork.incidentNodes(E12));
+    assertEdgeNotInGraphErrorMessage(e);
   }
 
   @Test

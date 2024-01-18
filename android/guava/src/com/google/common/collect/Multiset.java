@@ -66,8 +66,17 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * element (in a way that affects its {@link Object#equals} behavior) while it is contained in a
  * multiset. Undefined behavior and bugs will result.
  *
- * <p>Common implementations include {@link ImmutableMultiset}, {@link HashMultiset}, and {@link
- * ConcurrentHashMultiset}.
+ * <h3>Implementations</h3>
+ *
+ * <ul>
+ *   <li>{@link ImmutableMultiset}
+ *   <li>{@link ImmutableSortedMultiset}
+ *   <li>{@link HashMultiset}
+ *   <li>{@link LinkedHashMultiset}
+ *   <li>{@link TreeMultiset}
+ *   <li>{@link EnumMultiset}
+ *   <li>{@link ConcurrentHashMultiset}
+ * </ul>
  *
  * <p>If your values may be zero, negative, or outside the range of an int, you may wish to use
  * {@link com.google.common.util.concurrent.AtomicLongMap} instead. Note, however, that unlike

@@ -26,7 +26,6 @@ import static com.google.common.util.concurrent.Service.State.STOPPING;
 import static com.google.common.util.concurrent.Service.State.TERMINATED;
 import static java.util.Objects.requireNonNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.util.concurrent.Monitor.Guard;
@@ -240,7 +239,6 @@ public abstract class AbstractService implements Service {
    *
    * @since 27.0
    */
-  @Beta
   @ForOverride
   protected void doCancelStart() {}
 
