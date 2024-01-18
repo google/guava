@@ -113,14 +113,6 @@ public final class SpliteratorTester<E> {
     }
   }
 
-  /*
-   * The AndroidJdkLibsChecker violation is informing us that this method isn't usable under
-   * Desugar. But we want to include it here for Nougat+ users -- and, mainly, for non-Android
-   * users. Fortunately, anyone who tries to use it under Desugar will presumably already see errors
-   * from creating the Spliterator.OfInt in the first place. So it's probably OK for us to suppress
-   * this particular violation.
-   */
-  @SuppressWarnings("AndroidJdkLibsChecker")
   private static final class GeneralSpliteratorOfPrimitive<E, C> extends GeneralSpliterator<E> {
     final Spliterator.OfPrimitive<E, C, ?> spliterator;
     final Function<Consumer<? super E>, C> consumerizer;
@@ -248,7 +240,6 @@ public final class SpliteratorTester<E> {
   }
 
   /** @since 28.1 */
-  @SuppressWarnings("AndroidJdkLibsChecker") // see comment on GeneralSpliteratorOfPrimitive
   public static SpliteratorTester<Integer> ofInt(Supplier<Spliterator.OfInt> spliteratorSupplier) {
     return new SpliteratorTester<>(
         ImmutableSet.of(
@@ -257,7 +248,6 @@ public final class SpliteratorTester<E> {
   }
 
   /** @since 28.1 */
-  @SuppressWarnings("AndroidJdkLibsChecker") // see comment on GeneralSpliteratorOfPrimitive
   public static SpliteratorTester<Long> ofLong(Supplier<Spliterator.OfLong> spliteratorSupplier) {
     return new SpliteratorTester<>(
         ImmutableSet.of(
@@ -266,7 +256,6 @@ public final class SpliteratorTester<E> {
   }
 
   /** @since 28.1 */
-  @SuppressWarnings("AndroidJdkLibsChecker") // see comment on GeneralSpliteratorOfPrimitive
   public static SpliteratorTester<Double> ofDouble(
       Supplier<Spliterator.OfDouble> spliteratorSupplier) {
     return new SpliteratorTester<>(
