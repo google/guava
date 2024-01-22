@@ -900,8 +900,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/graph/Network.html#adjacentEdges(E)">adjacentEdges(E)</a></span> - Method in interface com.google.common.graph.<a href="com/google/common/graph/Network.html" title="interface in com.google.common.graph">Network</a></dt>
 <dd>
-<div class="block">Returns the edges which have an <a href="com/google/common/graph/Network.html#incidentNodes(E)"><code>incident node</code></a> in common with
- <code>edge</code>.</div>
+<div class="block">Returns a live view of the edges which have an <a href="com/google/common/graph/Network.html#incidentNodes(E)"><code>incident node</code></a> in
+ common with <code>edge</code>.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/graph/EndpointPair.html#adjacentNode(N)">adjacentNode(N)</a></span> - Method in class com.google.common.graph.<a href="com/google/common/graph/EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a></dt>
 <dd>
@@ -909,15 +909,18 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/graph/Graph.html#adjacentNodes(N)">adjacentNodes(N)</a></span> - Method in interface com.google.common.graph.<a href="com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a></dt>
 <dd>
-<div class="block">Returns the nodes which have an incident edge in common with <code>node</code> in this graph.</div>
+<div class="block">Returns a live view of the nodes which have an incident edge in common with <code>node</code> in
+ this graph.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/graph/Network.html#adjacentNodes(N)">adjacentNodes(N)</a></span> - Method in interface com.google.common.graph.<a href="com/google/common/graph/Network.html" title="interface in com.google.common.graph">Network</a></dt>
 <dd>
-<div class="block">Returns the nodes which have an incident edge in common with <code>node</code> in this network.</div>
+<div class="block">Returns a live view of the nodes which have an incident edge in common with <code>node</code> in
+ this graph.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/graph/ValueGraph.html#adjacentNodes(N)">adjacentNodes(N)</a></span> - Method in interface com.google.common.graph.<a href="com/google/common/graph/ValueGraph.html" title="interface in com.google.common.graph">ValueGraph</a></dt>
 <dd>
-<div class="block">Returns the nodes which have an incident edge in common with <code>node</code> in this graph.</div>
+<div class="block">Returns a live view of the nodes which have an incident edge in common with <code>node</code> in
+ this graph.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/hash/Hashing.html#adler32()">adler32()</a></span> - Static method in class com.google.common.hash.<a href="com/google/common/hash/Hashing.html" title="class in com.google.common.hash">Hashing</a></dt>
 <dd>
@@ -5982,6 +5985,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Returns the single edge that directly connects <code>nodeU</code> to <code>nodeV</code>, if one is
  present, or <code>null</code> if no such edge exists.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/graph/AbstractNetwork.html#edgeInvalidatableSet(java.util.Set,E)">edgeInvalidatableSet(Set&lt;T&gt;, E)</a></span> - Method in class com.google.common.graph.<a href="com/google/common/graph/AbstractNetwork.html" title="class in com.google.common.graph">AbstractNetwork</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/graph/Network.html#edgeOrder()">edgeOrder()</a></span> - Method in interface com.google.common.graph.<a href="com/google/common/graph/Network.html" title="interface in com.google.common.graph">Network</a></dt>
 <dd>
 <div class="block">Returns the order of iteration for the elements of <a href="com/google/common/graph/Network.html#edges()"><code>Network.edges()</code></a>.</div>
@@ -6006,14 +6011,15 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/graph/Network.html#edgesConnecting(com.google.common.graph.EndpointPair)">edgesConnecting(EndpointPair&lt;N&gt;)</a></span> - Method in interface com.google.common.graph.<a href="com/google/common/graph/Network.html" title="interface in com.google.common.graph">Network</a></dt>
 <dd>
-<div class="block">Returns the set of edges that each directly connect <code>endpoints</code> (in the order, if any,
- specified by <code>endpoints</code>).</div>
+<div class="block">Returns a live view of the set of edges that each directly connect <code>endpoints</code> (in the
+ order, if any, specified by <code>endpoints</code>).</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/graph/AbstractNetwork.html#edgesConnecting(N,N)">edgesConnecting(N, N)</a></span> - Method in class com.google.common.graph.<a href="com/google/common/graph/AbstractNetwork.html" title="class in com.google.common.graph">AbstractNetwork</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/graph/Network.html#edgesConnecting(N,N)">edgesConnecting(N, N)</a></span> - Method in interface com.google.common.graph.<a href="com/google/common/graph/Network.html" title="interface in com.google.common.graph">Network</a></dt>
 <dd>
-<div class="block">Returns the set of edges that each directly connect <code>nodeU</code> to <code>nodeV</code>.</div>
+<div class="block">Returns a live view of the set of edges that each directly connect <code>nodeU</code> to <code>
+ nodeV</code>.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/graph/AbstractValueGraph.html#edgeValue(com.google.common.graph.EndpointPair)">edgeValue(EndpointPair&lt;N&gt;)</a></span> - Method in class com.google.common.graph.<a href="com/google/common/graph/AbstractValueGraph.html" title="class in com.google.common.graph">AbstractValueGraph</a></dt>
 <dd>&nbsp;</dd>
@@ -9932,16 +9938,16 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/graph/Graph.html#incidentEdges(N)">incidentEdges(N)</a></span> - Method in interface com.google.common.graph.<a href="com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a></dt>
 <dd>
-<div class="block">Returns the edges in this graph whose endpoints include <code>node</code>.</div>
+<div class="block">Returns a live view of the edges in this graph whose endpoints include <code>node</code>.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/graph/Network.html#incidentEdges(N)">incidentEdges(N)</a></span> - Method in interface com.google.common.graph.<a href="com/google/common/graph/Network.html" title="interface in com.google.common.graph">Network</a></dt>
 <dd>
-<div class="block">Returns the edges whose <a href="com/google/common/graph/Network.html#incidentNodes(E)"><code>incident nodes</code></a> in this network include
- <code>node</code>.</div>
+<div class="block">Returns a live view of the edges whose <a href="com/google/common/graph/Network.html#incidentNodes(E)"><code>incident nodes</code></a> in this
+ network include <code>node</code>.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/graph/ValueGraph.html#incidentEdges(N)">incidentEdges(N)</a></span> - Method in interface com.google.common.graph.<a href="com/google/common/graph/ValueGraph.html" title="interface in com.google.common.graph">ValueGraph</a></dt>
 <dd>
-<div class="block">Returns the edges in this graph whose endpoints include <code>node</code>.</div>
+<div class="block">Returns a live view of the edges in this graph whose endpoints include <code>node</code>.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/graph/Network.html#incidentNodes(E)">incidentNodes(E)</a></span> - Method in interface com.google.common.graph.<a href="com/google/common/graph/Network.html" title="interface in com.google.common.graph">Network</a></dt>
 <dd>
@@ -10135,8 +10141,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/graph/Network.html#inEdges(N)">inEdges(N)</a></span> - Method in interface com.google.common.graph.<a href="com/google/common/graph/Network.html" title="interface in com.google.common.graph">Network</a></dt>
 <dd>
-<div class="block">Returns all edges in this network which can be traversed in the direction (if any) of the edge
- to end at <code>node</code>.</div>
+<div class="block">Returns a live view of all edges in this network which can be traversed in the direction (if
+ any) of the edge to end at <code>node</code>.</div>
 </dd>
 <dt><a href="com/google/common/net/InetAddresses.html" title="class in com.google.common.net"><span class="typeNameLink">InetAddresses</span></a> - Class in <a href="com/google/common/net/package-summary.html">com.google.common.net</a></dt>
 <dd>
@@ -13073,6 +13079,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">The HTTP <a href="https://github.com/WICG/nav-speculation/blob/main/no-vary-search.md"><code>
  No-Vary-Seearch</code></a> header field name.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/graph/AbstractNetwork.html#nodeInvalidatableSet(java.util.Set,N)">nodeInvalidatableSet(Set&lt;T&gt;, N)</a></span> - Method in class com.google.common.graph.<a href="com/google/common/graph/AbstractNetwork.html" title="class in com.google.common.graph">AbstractNetwork</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/graph/Graph.html#nodeOrder()">nodeOrder()</a></span> - Method in interface com.google.common.graph.<a href="com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a></dt>
 <dd>
 <div class="block">Returns the order of iteration for the elements of <a href="com/google/common/graph/Graph.html#nodes()"><code>Graph.nodes()</code></a>.</div>
@@ -13097,6 +13105,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Specifies the order of iteration for the elements of <a href="com/google/common/graph/Graph.html#nodes()"><code>Graph.nodes()</code></a>.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/graph/AbstractNetwork.html#nodePairInvalidatableSet(java.util.Set,N,N)">nodePairInvalidatableSet(Set&lt;T&gt;, N, N)</a></span> - Method in class com.google.common.graph.<a href="com/google/common/graph/AbstractNetwork.html" title="class in com.google.common.graph">AbstractNetwork</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/graph/Graph.html#nodes()">nodes()</a></span> - Method in interface com.google.common.graph.<a href="com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a></dt>
 <dd>
 <div class="block">Returns all nodes in this graph, in the order specified by <a href="com/google/common/graph/Graph.html#nodeOrder()"><code>Graph.nodeOrder()</code></a>.</div>
@@ -14159,8 +14169,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/graph/Network.html#outEdges(N)">outEdges(N)</a></span> - Method in interface com.google.common.graph.<a href="com/google/common/graph/Network.html" title="interface in com.google.common.graph">Network</a></dt>
 <dd>
-<div class="block">Returns all edges in this network which can be traversed in the direction (if any) of the edge
- starting from <code>node</code>.</div>
+<div class="block">Returns a live view of all edges in this network which can be traversed in the direction (if
+ any) of the edge starting from <code>node</code>.</div>
 </dd>
 </dl>
 <a id="I:P">
@@ -14571,13 +14581,13 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/graph/Graph.html#predecessors(N)">predecessors(N)</a></span> - Method in interface com.google.common.graph.<a href="com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a></dt>
 <dd>
-<div class="block">Returns all nodes in this graph adjacent to <code>node</code> which can be reached by traversing
- <code>node</code>'s incoming edges <i>against</i> the direction (if any) of the edge.</div>
+<div class="block">Returns a live view of all nodes in this graph adjacent to <code>node</code> which can be reached by
+ traversing <code>node</code>'s incoming edges <i>against</i> the direction (if any) of the edge.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/graph/Network.html#predecessors(N)">predecessors(N)</a></span> - Method in interface com.google.common.graph.<a href="com/google/common/graph/Network.html" title="interface in com.google.common.graph">Network</a></dt>
 <dd>
-<div class="block">Returns all nodes in this network adjacent to <code>node</code> which can be reached by traversing
- <code>node</code>'s incoming edges <i>against</i> the direction (if any) of the edge.</div>
+<div class="block">Returns a live view of all nodes in this network adjacent to <code>node</code> which can be reached
+ by traversing <code>node</code>'s incoming edges <i>against</i> the direction (if any) of the edge.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/graph/PredecessorsFunction.html#predecessors(N)">predecessors(N)</a></span> - Method in interface com.google.common.graph.<a href="com/google/common/graph/PredecessorsFunction.html" title="interface in com.google.common.graph">PredecessorsFunction</a></dt>
 <dd>
@@ -14586,8 +14596,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/graph/ValueGraph.html#predecessors(N)">predecessors(N)</a></span> - Method in interface com.google.common.graph.<a href="com/google/common/graph/ValueGraph.html" title="interface in com.google.common.graph">ValueGraph</a></dt>
 <dd>
-<div class="block">Returns all nodes in this graph adjacent to <code>node</code> which can be reached by traversing
- <code>node</code>'s incoming edges <i>against</i> the direction (if any) of the edge.</div>
+<div class="block">Returns a live view of all nodes in this graph adjacent to <code>node</code> which can be reached by
+ traversing <code>node</code>'s incoming edges <i>against</i> the direction (if any) of the edge.</div>
 </dd>
 <dt><a href="com/google/common/graph/PredecessorsFunction.html" title="interface in com.google.common.graph"><span class="typeNameLink">PredecessorsFunction</span></a>&lt;<a href="com/google/common/graph/PredecessorsFunction.html" title="type parameter in PredecessorsFunction">N</a>&gt; - Interface in <a href="com/google/common/graph/package-summary.html">com.google.common.graph</a></dt>
 <dd>
@@ -18513,13 +18523,13 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/graph/Graph.html#successors(N)">successors(N)</a></span> - Method in interface com.google.common.graph.<a href="com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a></dt>
 <dd>
-<div class="block">Returns all nodes in this graph adjacent to <code>node</code> which can be reached by traversing
- <code>node</code>'s outgoing edges in the direction (if any) of the edge.</div>
+<div class="block">Returns a live view of all nodes in this graph adjacent to <code>node</code> which can be reached by
+ traversing <code>node</code>'s outgoing edges in the direction (if any) of the edge.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/graph/Network.html#successors(N)">successors(N)</a></span> - Method in interface com.google.common.graph.<a href="com/google/common/graph/Network.html" title="interface in com.google.common.graph">Network</a></dt>
 <dd>
-<div class="block">Returns all nodes in this network adjacent to <code>node</code> which can be reached by traversing
- <code>node</code>'s outgoing edges in the direction (if any) of the edge.</div>
+<div class="block">Returns a live view of all nodes in this network adjacent to <code>node</code> which can be reached
+ by traversing <code>node</code>'s outgoing edges in the direction (if any) of the edge.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/graph/SuccessorsFunction.html#successors(N)">successors(N)</a></span> - Method in interface com.google.common.graph.<a href="com/google/common/graph/SuccessorsFunction.html" title="interface in com.google.common.graph">SuccessorsFunction</a></dt>
 <dd>
@@ -18528,8 +18538,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/graph/ValueGraph.html#successors(N)">successors(N)</a></span> - Method in interface com.google.common.graph.<a href="com/google/common/graph/ValueGraph.html" title="interface in com.google.common.graph">ValueGraph</a></dt>
 <dd>
-<div class="block">Returns all nodes in this graph adjacent to <code>node</code> which can be reached by traversing
- <code>node</code>'s outgoing edges in the direction (if any) of the edge.</div>
+<div class="block">Returns a live view of all nodes in this graph adjacent to <code>node</code> which can be reached by
+ traversing <code>node</code>'s outgoing edges in the direction (if any) of the edge.</div>
 </dd>
 <dt><a href="com/google/common/graph/SuccessorsFunction.html" title="interface in com.google.common.graph"><span class="typeNameLink">SuccessorsFunction</span></a>&lt;<a href="com/google/common/graph/SuccessorsFunction.html" title="type parameter in SuccessorsFunction">N</a>&gt; - Interface in <a href="com/google/common/graph/package-summary.html">com.google.common.graph</a></dt>
 <dd>

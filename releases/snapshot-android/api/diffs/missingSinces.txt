@@ -1,1 +1,4 @@
+NO DOC BLOCK: com.google.common.graph.AbstractNetwork Method edgeInvalidatableSet(java.util.Set<T>, E)
 OK: com.google.common.base.Suppliers Method memoizeWithExpiration(com.google.common.base.Supplier<T>, java.time.Duration)
+NO DOC BLOCK: com.google.common.graph.AbstractNetwork Method nodeInvalidatableSet(java.util.Set<T>, N)
+NO DOC BLOCK: com.google.common.graph.AbstractNetwork Method nodePairInvalidatableSet(java.util.Set<T>, N, N)
