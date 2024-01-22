@@ -9,8 +9,8 @@ val expectedReducedRuntimeClasspathAndroidVersion =
     "guava-${guavaVersionJre.replace("jre", "android")}.jar",
     "failureaccess-1.0.2.jar",
     "jsr305-3.0.2.jar",
-    "checker-qual-3.41.0.jar",
-    "error_prone_annotations-2.23.0.jar",
+    "checker-qual-3.42.0.jar",
+    "error_prone_annotations-2.24.1.jar",
     "listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar"
   )
 val expectedReducedRuntimeClasspathJreVersion =
@@ -18,8 +18,8 @@ val expectedReducedRuntimeClasspathJreVersion =
     "guava-$guavaVersionJre.jar",
     "failureaccess-1.0.2.jar",
     "jsr305-3.0.2.jar",
-    "checker-qual-3.41.0.jar",
-    "error_prone_annotations-2.23.0.jar",
+    "checker-qual-3.42.0.jar",
+    "error_prone_annotations-2.24.1.jar",
     "listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar"
   )
 val expectedCompileClasspathAndroidVersion =
