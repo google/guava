@@ -89,14 +89,12 @@ public class CharsTest extends TestCase {
     }
   }
 
-  @J2ktIncompatible // TODO(b/285538920): Fix and enable.
   public void testCompare() {
     for (char x : VALUES) {
       for (char y : VALUES) {
-        // note: spec requires only that the sign is the same
         assertWithMessage(x + ", " + y)
-            .that(Chars.compare(x, y))
-            .isEqualTo(Character.valueOf(x).compareTo(y));
+            .that(Math.signum(Chars.compare(x, y)))
+            .isEqualTo(Math.signum(Character.valueOf(x).compareTo(y)));
       }
     }
   }
