@@ -23,7 +23,6 @@ import com.google.common.collect.testing.SpliteratorTester;
 import com.google.common.primitives.Doubles;
 import com.google.common.truth.IterableSubject;
 import com.google.common.truth.Truth;
-import com.google.common.truth.Truth8;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -80,16 +79,16 @@ public class StreamsTest extends TestCase {
   }
 
   public void testFindLast_refStream() {
-    Truth8.assertThat(findLast(Stream.of())).isEmpty();
-    Truth8.assertThat(findLast(Stream.of("a", "b", "c", "d"))).hasValue("d");
+    Truth.assertThat(findLast(Stream.of())).isEmpty();
+    Truth.assertThat(findLast(Stream.of("a", "b", "c", "d"))).hasValue("d");
 
     // test with a large, not-subsized Spliterator
     List<Integer> list =
         IntStream.rangeClosed(0, 10000).boxed().collect(Collectors.toCollection(LinkedList::new));
-    Truth8.assertThat(findLast(list.stream())).hasValue(10000);
+    Truth.assertThat(findLast(list.stream())).hasValue(10000);
 
     // no way to find out the stream is empty without walking its spliterator
-    Truth8.assertThat(findLast(list.stream().filter(i -> i < 0))).isEmpty();
+    Truth.assertThat(findLast(list.stream().filter(i -> i < 0))).isEmpty();
   }
 
   public void testFindLast_intStream() {
@@ -504,7 +503,7 @@ public class StreamsTest extends TestCase {
     // of course, this test doesn't prove that anything actually happened in parallel...
   }
 
-  // TODO(kevinb): switch to importing Truth's assertThat(Stream) if we get that added
+  // TODO: b/166630734 - switch to importing Truth's assertThat(IntStream), etc.
   private static IterableSubject assertThat(Stream<?> stream) {
     return Truth.assertThat(stream.toArray()).asList();
   }
