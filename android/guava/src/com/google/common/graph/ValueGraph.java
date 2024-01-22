@@ -17,7 +17,6 @@
 package com.google.common.graph;
 
 import com.google.common.annotations.Beta;
-import java.util.Collection;
 import java.util.Set;
 import javax.annotation.CheckForNull;
 
@@ -166,9 +165,22 @@ public interface ValueGraph<N, V> extends BaseGraph<N> {
   //
 
   /**
-   * Returns the nodes which have an incident edge in common with {@code node} in this graph.
+   * Returns a live view of the nodes which have an incident edge in common with {@code node} in
+   * this graph.
    *
    * <p>This is equal to the union of {@link #predecessors(Object)} and {@link #successors(Object)}.
+   *
+   * <p>If {@code node} is removed from the graph after this method is called, the {@code Set}
+   * {@code view} returned by this method will be invalidated, and will throw {@code
+   * IllegalStateException} if it is accessed in any way, with the following exceptions:
+   *
+   * <ul>
+   *   <li>{@code view.equals(view)} evaluates to {@code true} (but any other `equals()` expression
+   *       involving {@code view} will throw)
+   *   <li>{@code hashCode()} does not throw
+   *   <li>if {@code node} is re-added to the graph after having been removed, {@code view}'s
+   *       behavior is undefined
+   * </ul>
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this graph
    */
@@ -176,10 +188,14 @@ public interface ValueGraph<N, V> extends BaseGraph<N> {
   Set<N> adjacentNodes(N node);
 
   /**
-   * Returns all nodes in this graph adjacent to {@code node} which can be reached by traversing
-   * {@code node}'s incoming edges <i>against</i> the direction (if any) of the edge.
+   * Returns a live view of all nodes in this graph adjacent to {@code node} which can be reached by
+   * traversing {@code node}'s incoming edges <i>against</i> the direction (if any) of the edge.
    *
    * <p>In an undirected graph, this is equivalent to {@link #adjacentNodes(Object)}.
+   *
+   * <p>If {@code node} is removed from the graph after this method is called, the `Set` returned by
+   * this method will be invalidated, and will throw `IllegalStateException` if it is accessed in
+   * any way.
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this graph
    */
@@ -187,13 +203,25 @@ public interface ValueGraph<N, V> extends BaseGraph<N> {
   Set<N> predecessors(N node);
 
   /**
-   * Returns all nodes in this graph adjacent to {@code node} which can be reached by traversing
-   * {@code node}'s outgoing edges in the direction (if any) of the edge.
+   * Returns a live view of all nodes in this graph adjacent to {@code node} which can be reached by
+   * traversing {@code node}'s outgoing edges in the direction (if any) of the edge.
    *
    * <p>In an undirected graph, this is equivalent to {@link #adjacentNodes(Object)}.
    *
    * <p>This is <i>not</i> the same as "all nodes reachable from {@code node} by following outgoing
    * edges". For that functionality, see {@link Graphs#reachableNodes(Graph, Object)}.
+   *
+   * <p>If {@code node} is removed from the graph after this method is called, the {@code Set}
+   * {@code view} returned by this method will be invalidated, and will throw {@code
+   * IllegalStateException} if it is accessed in any way, with the following exceptions:
+   *
+   * <ul>
+   *   <li>{@code view.equals(view)} evaluates to {@code true} (but any other `equals()` expression
+   *       involving {@code view} will throw)
+   *   <li>{@code hashCode()} does not throw
+   *   <li>if {@code node} is re-added to the graph after having been removed, {@code view}'s
+   *       behavior is undefined
+   * </ul>
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this graph
    */
@@ -201,9 +229,21 @@ public interface ValueGraph<N, V> extends BaseGraph<N> {
   Set<N> successors(N node);
 
   /**
-   * Returns the edges in this graph whose endpoints include {@code node}.
+   * Returns a live view of the edges in this graph whose endpoints include {@code node}.
    *
    * <p>This is equal to the union of incoming and outgoing edges.
+   *
+   * <p>If {@code node} is removed from the graph after this method is called, the {@code Set}
+   * {@code view} returned by this method will be invalidated, and will throw {@code
+   * IllegalStateException} if it is accessed in any way, with the following exceptions:
+   *
+   * <ul>
+   *   <li>{@code view.equals(view)} evaluates to {@code true} (but any other `equals()` expression
+   *       involving {@code view} will throw)
+   *   <li>{@code hashCode()} does not throw
+   *   <li>if {@code node} is re-added to the graph after having been removed, {@code view}'s
+   *       behavior is undefined
+   * </ul>
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this graph
    * @since 24.0
@@ -316,7 +356,8 @@ public interface ValueGraph<N, V> extends BaseGraph<N> {
    *   <li>A and B have equal {@link #isDirected() directedness}.
    *   <li>A and B have equal {@link #nodes() node sets}.
    *   <li>A and B have equal {@link #edges() edge sets}.
-   *   <li>The {@link #edgeValue(Object, Object) value} of a given edge is the same in both A and B.
+   *   <li>The {@link #edgeValueOrDefault(N, N, V) value} of a given edge is the same in both A and
+   *       B.
    * </ul>
    *
    * <p>Graph properties besides {@link #isDirected() directedness} do <b>not</b> affect equality.
@@ -331,8 +372,8 @@ public interface ValueGraph<N, V> extends BaseGraph<N> {
 
   /**
    * Returns the hash code for this graph. The hash code of a graph is defined as the hash code of a
-   * map from each of its {@link #edges() edges} to the associated {@link #edgeValue(Object, Object)
-   * edge value}.
+   * map from each of its {@link #edges() edges} to the associated {@link #edgeValueOrDefault(N, N,
+   * V) edge value}.
    *
    * <p>A reference implementation of this is provided by {@link AbstractValueGraph#hashCode()}.
    */
