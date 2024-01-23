@@ -23,6 +23,7 @@ import java.util.Map;
  *
  * @author Hayward Chan
  */
+@ElementTypesAreNonnullByDefault
 final class RegularImmutableMap<K, V> extends ForwardingImmutableMap<K, V> {
 
   static final ImmutableMap<Object, Object> EMPTY = new RegularImmutableMap<Object, Object>();

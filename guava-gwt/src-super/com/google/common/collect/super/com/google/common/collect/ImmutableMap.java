@@ -49,6 +49,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @see ImmutableSortedMap
  * @author Hayward Chan
  */
+@ElementTypesAreNonnullByDefault
 public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
 
   abstract static class IteratorBasedImmutableMap<K, V> extends ImmutableMap<K, V> {
@@ -72,16 +73,18 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
 
   ImmutableMap() {}
 
-  public static <T, K, V> Collector<T, ?, ImmutableMap<K, V>> toImmutableMap(
-      Function<? super T, ? extends K> keyFunction,
-      Function<? super T, ? extends V> valueFunction) {
+  public static <T extends @Nullable Object, K, V>
+      Collector<T, ?, ImmutableMap<K, V>> toImmutableMap(
+          Function<? super T, ? extends K> keyFunction,
+          Function<? super T, ? extends V> valueFunction) {
     return CollectCollectors.toImmutableMap(keyFunction, valueFunction);
   }
 
-  public static <T, K, V> Collector<T, ?, ImmutableMap<K, V>> toImmutableMap(
-      Function<? super T, ? extends K> keyFunction,
-      Function<? super T, ? extends V> valueFunction,
-      BinaryOperator<V> mergeFunction) {
+  public static <T extends @Nullable Object, K, V>
+      Collector<T, ?, ImmutableMap<K, V>> toImmutableMap(
+          Function<? super T, ? extends K> keyFunction,
+          Function<? super T, ? extends V> valueFunction,
+          BinaryOperator<V> mergeFunction) {
     checkNotNull(keyFunction);
     checkNotNull(valueFunction);
     checkNotNull(mergeFunction);
@@ -255,7 +258,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
 
   public static class Builder<K, V> {
     final List<Entry<K, V>> entries;
-    Comparator<? super V> valueComparator;
+    @Nullable Comparator<? super V> valueComparator;
 
     public Builder() {
       this.entries = Lists.newArrayList();
@@ -407,11 +410,11 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
 
   abstract boolean isPartialView();
 
-  public final V put(K k, V v) {
+  public final @Nullable V put(K k, V v) {
     throw new UnsupportedOperationException();
   }
 
-  public final V remove(Object o) {
+  public final @Nullable V remove(Object o) {
     throw new UnsupportedOperationException();
   }
 
@@ -438,7 +441,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     return values().contains(value);
   }
 
-  private transient ImmutableSet<Entry<K, V>> cachedEntrySet = null;
+  private transient @Nullable ImmutableSet<Entry<K, V>> cachedEntrySet = null;
 
   public final ImmutableSet<Entry<K, V>> entrySet() {
     if (cachedEntrySet != null) {
@@ -449,7 +452,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
 
   abstract ImmutableSet<Entry<K, V>> createEntrySet();
 
-  private transient ImmutableSet<K> cachedKeySet = null;
+  private transient @Nullable ImmutableSet<K> cachedKeySet = null;
 
   public ImmutableSet<K> keySet() {
     if (cachedKeySet != null) {
@@ -481,7 +484,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     return CollectSpliterators.map(entrySet().spliterator(), Entry::getKey);
   }
 
-  private transient ImmutableCollection<V> cachedValues = null;
+  private transient @Nullable ImmutableCollection<V> cachedValues = null;
 
   public ImmutableCollection<V> values() {
     if (cachedValues != null) {
@@ -491,7 +494,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
   }
 
   // cached so that this.multimapView().inverse() only computes inverse once
-  private transient ImmutableSetMultimap<K, V> multimapView;
+  private transient @Nullable ImmutableSetMultimap<K, V> multimapView;
 
   public ImmutableSetMultimap<K, V> asMultimap() {
     ImmutableSetMultimap<K, V> result = multimapView;
@@ -519,7 +522,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     }
 
     @Override
-    public ImmutableSet<V> get(@Nullable Object key) {
+    public @Nullable ImmutableSet<V> get(@Nullable Object key) {
       V outerValue = ImmutableMap.this.get(key);
       return (outerValue == null) ? null : ImmutableSet.of(outerValue);
     }

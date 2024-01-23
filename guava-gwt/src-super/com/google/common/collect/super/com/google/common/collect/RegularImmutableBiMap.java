@@ -24,6 +24,7 @@ import java.util.HashMap;
  * @author Jared Levy
  * @author Hayward Chan
  */
+@ElementTypesAreNonnullByDefault
 @SuppressWarnings("serial")
 class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
   static final RegularImmutableBiMap<Object, Object> EMPTY =

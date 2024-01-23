@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collector;
 import jsinterop.annotations.JsMethod;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * GWT emulated version of {@link com.google.common.collect.ImmutableSet}. For the unsorted sets,
@@ -39,6 +40,7 @@ import jsinterop.annotations.JsMethod;
  * @see ImmutableSortedSet
  * @author Hayward Chan
  */
+@ElementTypesAreNonnullByDefault
 @SuppressWarnings("serial") // Serialization only done in GWT.
 public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements Set<E> {
   ImmutableSet() {}
@@ -170,7 +172,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
   }
 
   @Override
-  public boolean equals(Object obj) {
+  public boolean equals(@Nullable Object obj) {
     return Sets.equalsImpl(this, obj);
   }
 

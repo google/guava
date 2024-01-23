@@ -24,6 +24,7 @@ import java.util.Set;
  *
  * @author Hayward Chan
  */
+@ElementTypesAreNonnullByDefault
 final class ImmutableEnumSet<E> extends ForwardingImmutableSet<E> {
   static <E> ImmutableSet<E> asImmutable(Set<E> delegate) {
     switch (delegate.size()) {

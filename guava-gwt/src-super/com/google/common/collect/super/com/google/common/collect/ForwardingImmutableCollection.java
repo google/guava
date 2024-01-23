@@ -26,6 +26,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Hayward Chan
  */
 // TODO: Make this class GWT serializable.
+@ElementTypesAreNonnullByDefault
 class ForwardingImmutableCollection<E> extends ImmutableCollection<E> {
 
   final transient Collection<E> delegate;
@@ -64,7 +65,7 @@ class ForwardingImmutableCollection<E> extends ImmutableCollection<E> {
   }
 
   @Override
-  public <T> T[] toArray(T[] other) {
+  public <T extends @Nullable Object> T[] toArray(T[] other) {
     return delegate.toArray(other);
   }
 
