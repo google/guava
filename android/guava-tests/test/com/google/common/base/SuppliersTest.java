@@ -217,6 +217,7 @@ public class SuppliersTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // Thread.sleep
+  @SuppressWarnings("DoNotCall")
   public void testMemoizeWithExpiration_longTimeUnit() throws InterruptedException {
     CountingSupplier countingSupplier = new CountingSupplier();
 
@@ -238,6 +239,7 @@ public class SuppliersTest extends TestCase {
     checkExpiration(countingSupplier, memoizedSupplier);
   }
 
+  @SuppressWarnings("DoNotCall")
   public void testMemoizeWithExpiration_longTimeUnitNegative() throws InterruptedException {
     try {
       Supplier<String> unused = Suppliers.memoizeWithExpiration(() -> "", 0, TimeUnit.MILLISECONDS);
@@ -272,6 +274,7 @@ public class SuppliersTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // Thread.sleep, SerializationTester
+  @SuppressWarnings("DoNotCall")
   public void testMemoizeWithExpirationSerialized() throws InterruptedException {
     SerializableCountingSupplier countingSupplier = new SerializableCountingSupplier();
 
@@ -329,6 +332,7 @@ public class SuppliersTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // Thread
+  @SuppressWarnings("DoNotCall")
   public void testExpiringMemoizedSupplierThreadSafe() throws Throwable {
     Function<Supplier<Boolean>, Supplier<Boolean>> memoizer =
         new Function<Supplier<Boolean>, Supplier<Boolean>>() {
@@ -479,6 +483,7 @@ public class SuppliersTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // SerializationTester
+  @SuppressWarnings("DoNotCall")
   public void testSerialization() {
     assertEquals(Integer.valueOf(5), reserialize(Suppliers.ofInstance(5)).get());
     assertEquals(

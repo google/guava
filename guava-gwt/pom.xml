@@ -17,7 +17,7 @@
     This project includes GWT-friendly sources.
   </description>
   <properties>
-    <gwt.version>2.10.0</gwt.version>
+    <gwt.version>2.11.0</gwt.version>
     <gwt.plugin.version>2.10.0</gwt.plugin.version>
     <gwt.logLevel>WARN</gwt.logLevel>
   </properties>

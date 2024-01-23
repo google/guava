@@ -308,7 +308,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
       }
 
       @Override
-      void maybeThrowOnGet(Throwable cause) throws ExecutionException {
+      void maybeThrowOnGet(@Nullable Throwable cause) throws ExecutionException {
         throw new IllegalStateException("Cannot get() on a pending future.");
       }
 
@@ -324,7 +324,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
       }
 
       @Override
-      void maybeThrowOnGet(Throwable cause) throws ExecutionException {
+      void maybeThrowOnGet(@Nullable Throwable cause) throws ExecutionException {
         throw new IllegalStateException("Cannot get() on a pending future.");
       }
 
@@ -335,7 +335,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
     VALUE,
     FAILURE {
       @Override
-      void maybeThrowOnGet(Throwable cause) throws ExecutionException {
+      void maybeThrowOnGet(@Nullable Throwable cause) throws ExecutionException {
         throw new ExecutionException(cause);
       }
     },
@@ -346,7 +346,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
       }
 
       @Override
-      void maybeThrowOnGet(Throwable cause) throws ExecutionException {
+      void maybeThrowOnGet(@Nullable Throwable cause) throws ExecutionException {
         // TODO(cpovirk): chain in a CancellationException created at the cancel() call?
         throw new CancellationException();
       }
@@ -360,7 +360,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
       return false;
     }
 
-    void maybeThrowOnGet(Throwable cause) throws ExecutionException {}
+    void maybeThrowOnGet(@Nullable Throwable cause) throws ExecutionException {}
 
     boolean permitsPublicUserToTransitionTo(State state) {
       return false;

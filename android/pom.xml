@@ -14,10 +14,10 @@
   <properties>
     <!-- Override this with -Dtest.include="**/SomeTest.java" on the CLI -->
     <test.include>%regex[.*.class]</test.include>
-    <truth.version>1.2.0</truth.version>
+    <truth.version>1.3.0</truth.version>
     <jsr305.version>3.0.2</jsr305.version>
-    <checker.version>3.41.0</checker.version>
-    <errorprone.version>2.23.0</errorprone.version>
+    <checker.version>3.42.0</checker.version>
+    <errorprone.version>2.24.1</errorprone.version>
     <j2objc.version>2.8</j2objc.version>
     <javac.version>9+181-r4173-1</javac.version>
     <!-- Empty for all JDKs but 9-12 -->

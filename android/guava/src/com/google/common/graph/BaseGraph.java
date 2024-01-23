@@ -71,19 +71,44 @@ interface BaseGraph<N> extends SuccessorsFunction<N>, PredecessorsFunction<N> {
   //
 
   /**
-   * Returns the nodes which have an incident edge in common with {@code node} in this graph.
+   * Returns a live view of the nodes which have an incident edge in common with {@code node} in
+   * this graph.
    *
    * <p>This is equal to the union of {@link #predecessors(Object)} and {@link #successors(Object)}.
+   *
+   * <p>If {@code node} is removed from the graph after this method is called, the {@code Set}
+   * {@code view} returned by this method will be invalidated, and will throw {@code
+   * IllegalStateException} if it is accessed in any way, with the following exceptions:
+   *
+   * <ul>
+   *   <li>{@code view.equals(view)} evaluates to {@code true} (but any other `equals()` expression
+   *       involving {@code view} will throw)
+   *   <li>{@code hashCode()} does not throw
+   *   <li>if {@code node} is re-added to the graph after having been removed, {@code view}'s
+   *       behavior is undefined
+   * </ul>
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this graph
    */
   Set<N> adjacentNodes(N node);
 
   /**
-   * Returns all nodes in this graph adjacent to {@code node} which can be reached by traversing
-   * {@code node}'s incoming edges <i>against</i> the direction (if any) of the edge.
+   * Returns a live view of all nodes in this graph adjacent to {@code node} which can be reached by
+   * traversing {@code node}'s incoming edges <i>against</i> the direction (if any) of the edge.
    *
    * <p>In an undirected graph, this is equivalent to {@link #adjacentNodes(Object)}.
+   *
+   * <p>If {@code node} is removed from the graph after this method is called, the {@code Set}
+   * {@code view} returned by this method will be invalidated, and will throw {@code
+   * IllegalStateException} if it is accessed in any way, with the following exceptions:
+   *
+   * <ul>
+   *   <li>{@code view.equals(view)} evaluates to {@code true} (but any other `equals()` expression
+   *       involving {@code view} will throw)
+   *   <li>{@code hashCode()} does not throw
+   *   <li>if {@code node} is re-added to the graph after having been removed, {@code view}'s
+   *       behavior is undefined
+   * </ul>
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this graph
    */
@@ -91,13 +116,25 @@ interface BaseGraph<N> extends SuccessorsFunction<N>, PredecessorsFunction<N> {
   Set<N> predecessors(N node);
 
   /**
-   * Returns all nodes in this graph adjacent to {@code node} which can be reached by traversing
-   * {@code node}'s outgoing edges in the direction (if any) of the edge.
+   * Returns a live view of all nodes in this graph adjacent to {@code node} which can be reached by
+   * traversing {@code node}'s outgoing edges in the direction (if any) of the edge.
    *
    * <p>In an undirected graph, this is equivalent to {@link #adjacentNodes(Object)}.
    *
    * <p>This is <i>not</i> the same as "all nodes reachable from {@code node} by following outgoing
    * edges". For that functionality, see {@link Graphs#reachableNodes(Graph, Object)}.
+   *
+   * <p>If {@code node} is removed from the graph after this method is called, the {@code Set}
+   * {@code view} returned by this method will be invalidated, and will throw {@code
+   * IllegalStateException} if it is accessed in any way, with the following exceptions:
+   *
+   * <ul>
+   *   <li>{@code view.equals(view)} evaluates to {@code true} (but any other `equals()` expression
+   *       involving {@code view} will throw)
+   *   <li>{@code hashCode()} does not throw
+   *   <li>if {@code node} is re-added to the graph after having been removed, {@code view}'s
+   *       behavior is undefined
+   * </ul>
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this graph
    */
@@ -105,9 +142,21 @@ interface BaseGraph<N> extends SuccessorsFunction<N>, PredecessorsFunction<N> {
   Set<N> successors(N node);
 
   /**
-   * Returns the edges in this graph whose endpoints include {@code node}.
+   * Returns a live view of the edges in this graph whose endpoints include {@code node}.
    *
    * <p>This is equal to the union of incoming and outgoing edges.
+   *
+   * <p>If {@code node} is removed from the graph after this method is called, the {@code Set}
+   * {@code view} returned by this method will be invalidated, and will throw {@code
+   * IllegalStateException} if it is accessed in any way, with the following exceptions:
+   *
+   * <ul>
+   *   <li>{@code view.equals(view)} evaluates to {@code true} (but any other `equals()` expression
+   *       involving {@code view} will throw)
+   *   <li>{@code hashCode()} does not throw
+   *   <li>if {@code node} is re-added to the graph after having been removed, {@code view}'s
+   *       behavior is undefined
+   * </ul>
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this graph
    * @since 24.0
