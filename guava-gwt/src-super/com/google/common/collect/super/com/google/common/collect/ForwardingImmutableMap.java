@@ -92,12 +92,14 @@ public abstract class ForwardingImmutableMap<K, V> extends ImmutableMap<K, V> {
           }
 
           @Override
+          @SuppressWarnings("nullness") // b/192354773 in our checker affects toArray declarations
           public <T extends @Nullable Object> T[] toArray(T[] array) {
             T[] result = super.toArray(array);
             if (size() < result.length) {
               // It works around a GWT bug where elements after last is not
               // properly null'ed.
-              result[size()] = null;
+              @Nullable Object[] unsoundlyCovariantArray = result;
+              unsoundlyCovariantArray[size()] = null;
             }
             return result;
           }

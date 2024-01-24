@@ -262,10 +262,18 @@ public abstract class ImmutableSortedSet<E> extends ForwardingImmutableSet<E>
 
   @Override
   public Object[] toArray() {
-    return ObjectArrays.toArrayImpl(this);
+    /*
+     * ObjectArrays.toArrayImpl returns `@Nullable Object[]` rather than `Object[]` but only because
+     * it can be used with collections that may contain null. This collection is a collection of
+     * non-null elements, so we can treat it as a plain `Object[]`.
+     */
+    @SuppressWarnings("nullness")
+    Object[] result = ObjectArrays.toArrayImpl(this);
+    return result;
   }
 
   @Override
+  @SuppressWarnings("nullness") // b/192354773 in our checker affects toArray declarations
   public <T extends @Nullable Object> T[] toArray(T[] other) {
     return ObjectArrays.toArrayImpl(this, other);
   }

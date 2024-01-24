@@ -484,7 +484,9 @@ public final class ImmutableSortedMap<K, V> extends ForwardingImmutableMap<K, V>
     return newView(sortedDelegate.tailMap(fromKey));
   }
 
-  public ImmutableSortedMap<K, V> tailMap(K fromKey, boolean inclusive) {
+  public ImmutableSortedMap<K, V> tailMap(K fromKeyParam, boolean inclusive) {
+    // Declare a "true" local variable so that the Checker Framework will infer nullness.
+    K fromKey = fromKeyParam;
     checkNotNull(fromKey);
     if (!inclusive) {
       fromKey = higher(fromKey);
@@ -522,6 +524,6 @@ public final class ImmutableSortedMap<K, V> extends ForwardingImmutableMap<K, V>
   }
 
   private static <E> Comparator<@Nullable E> nullAccepting(Comparator<E> comparator) {
-    return Ordering.from(comparator).nullsFirst();
+    return Ordering.from(comparator).<E>nullsFirst();
   }
 }

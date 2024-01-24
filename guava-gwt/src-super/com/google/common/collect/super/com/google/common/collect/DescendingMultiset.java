@@ -150,6 +150,7 @@ abstract class DescendingMultiset<E extends @Nullable Object> extends Forwarding
   }
 
   @Override
+  @SuppressWarnings("nullness") // b/192354773 in our checker affects toArray declarations
   public <T extends @Nullable Object> T[] toArray(T[] array) {
     return standardToArray(array);
   }
