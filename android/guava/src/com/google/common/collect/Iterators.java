@@ -549,6 +549,7 @@ public final class Iterators {
    *
    * @throws NullPointerException if any of the provided iterators is null
    */
+  @SafeVarargs
   public static <T extends @Nullable Object> Iterator<T> concat(Iterator<? extends T>... inputs) {
     return concatNoDefensiveCopy(Arrays.copyOf(inputs, inputs.length));
   }
