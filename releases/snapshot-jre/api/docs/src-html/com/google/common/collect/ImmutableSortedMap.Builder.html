@@ -1477,11 +1477,12 @@
 <span class="sourceLineNo">1468</span><a id="line.1468">   */</a>
 <span class="sourceLineNo">1469</span><a id="line.1469">  @DoNotCall("ImmutableSortedMap.ofEntries not currently available; use ImmutableSortedMap.copyOf")</a>
 <span class="sourceLineNo">1470</span><a id="line.1470">  @Deprecated</a>
-<span class="sourceLineNo">1471</span><a id="line.1471">  public static &lt;K, V&gt; ImmutableSortedMap&lt;K, V&gt; ofEntries(</a>
-<span class="sourceLineNo">1472</span><a id="line.1472">      Entry&lt;? extends K, ? extends V&gt;... entries) {</a>
-<span class="sourceLineNo">1473</span><a id="line.1473">    throw new UnsupportedOperationException();</a>
-<span class="sourceLineNo">1474</span><a id="line.1474">  }</a>
-<span class="sourceLineNo">1475</span><a id="line.1475">}</a>
+<span class="sourceLineNo">1471</span><a id="line.1471">  @SafeVarargs</a>
+<span class="sourceLineNo">1472</span><a id="line.1472">  public static &lt;K, V&gt; ImmutableSortedMap&lt;K, V&gt; ofEntries(</a>
+<span class="sourceLineNo">1473</span><a id="line.1473">      Entry&lt;? extends K, ? extends V&gt;... entries) {</a>
+<span class="sourceLineNo">1474</span><a id="line.1474">    throw new UnsupportedOperationException();</a>
+<span class="sourceLineNo">1475</span><a id="line.1475">  }</a>
+<span class="sourceLineNo">1476</span><a id="line.1476">}</a>
 
 
 
