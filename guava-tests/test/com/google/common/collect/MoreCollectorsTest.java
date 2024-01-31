@@ -17,9 +17,9 @@
 package com.google.common.collect;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth8.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.truth.Truth8;
 import java.util.NoSuchElementException;
 import java.util.stream.Stream;
 import junit.framework.TestCase;
@@ -32,11 +32,11 @@ import junit.framework.TestCase;
 @GwtCompatible
 public class MoreCollectorsTest extends TestCase {
   public void testToOptionalEmpty() {
-    assertThat(Stream.empty().collect(MoreCollectors.toOptional())).isEmpty();
+    Truth8.assertThat(Stream.empty().collect(MoreCollectors.toOptional())).isEmpty();
   }
 
   public void testToOptionalSingleton() {
-    assertThat(Stream.of(1).collect(MoreCollectors.toOptional())).hasValue(1);
+    Truth8.assertThat(Stream.of(1).collect(MoreCollectors.toOptional())).hasValue(1);
   }
 
   public void testToOptionalNull() {
