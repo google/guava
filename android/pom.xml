@@ -14,7 +14,7 @@
   <properties>
     <!-- Override this with -Dtest.include="**/SomeTest.java" on the CLI -->
     <test.include>%regex[.*.class]</test.include>
-    <truth.version>1.3.0</truth.version>
+    <truth.version>1.4.0</truth.version>
     <jsr305.version>3.0.2</jsr305.version>
     <checker.version>3.42.0</checker.version>
     <errorprone.version>2.24.1</errorprone.version>

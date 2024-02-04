@@ -22,6 +22,7 @@ import static com.google.common.util.concurrent.Platform.restoreInterruptIfIsInt
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Function;
 import com.google.errorprone.annotations.ForOverride;
+import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
@@ -57,8 +58,8 @@ abstract class AbstractTransformFuture<
    * In certain circumstances, this field might theoretically not be visible to an afterDone() call
    * triggered by cancel(). For details, see the comments on the fields of TimeoutFuture.
    */
-  @CheckForNull ListenableFuture<? extends I> inputFuture;
-  @CheckForNull F function;
+  @CheckForNull @LazyInit ListenableFuture<? extends I> inputFuture;
+  @CheckForNull @LazyInit F function;
 
   AbstractTransformFuture(ListenableFuture<? extends I> inputFuture, F function) {
     this.inputFuture = checkNotNull(inputFuture);

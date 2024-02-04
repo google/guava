@@ -19,12 +19,14 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.util.Collections;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * GWT emulation of {@link SingletonImmutableBiMap}.
  *
  * @author Hayward Chan
  */
+@ElementTypesAreNonnullByDefault
 final class SingletonImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
 
   // These references are used both by the custom field serializer, and by the
@@ -36,7 +38,7 @@ final class SingletonImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
   K singleKey;
   V singleValue;
 
-  transient SingletonImmutableBiMap<V, K> inverse;
+  @Nullable transient SingletonImmutableBiMap<V, K> inverse;
 
   SingletonImmutableBiMap(K key, V value) {
     super(Collections.singletonMap(checkNotNull(key), checkNotNull(value)));

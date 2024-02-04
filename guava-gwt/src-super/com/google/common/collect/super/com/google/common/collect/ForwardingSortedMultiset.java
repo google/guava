@@ -17,6 +17,8 @@ package com.google.common.collect;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.SortedSet;
+import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A sorted multiset which forwards all its method calls to another sorted multiset. Subclasses
@@ -35,8 +37,9 @@ import java.util.SortedSet;
  *
  * @author Louis Wasserman
  */
-public abstract class ForwardingSortedMultiset<E> extends ForwardingMultiset<E>
-    implements SortedMultiset<E> {
+@ElementTypesAreNonnullByDefault
+public abstract class ForwardingSortedMultiset<E extends @Nullable Object>
+    extends ForwardingMultiset<E> implements SortedMultiset<E> {
   /** Constructor for use by subclasses. */
   protected ForwardingSortedMultiset() {}
 
@@ -97,6 +100,7 @@ public abstract class ForwardingSortedMultiset<E> extends ForwardingMultiset<E>
   }
 
   @Override
+  @CheckForNull
   public Entry<E> firstEntry() {
     return delegate().firstEntry();
   }
@@ -107,6 +111,7 @@ public abstract class ForwardingSortedMultiset<E> extends ForwardingMultiset<E>
    * <p>If you override {@link #entrySet()}, you may wish to override {@link #firstEntry()} to
    * forward to this implementation.
    */
+  @CheckForNull
   protected Entry<E> standardFirstEntry() {
     Iterator<Entry<E>> entryIterator = entrySet().iterator();
     if (!entryIterator.hasNext()) {
@@ -117,6 +122,7 @@ public abstract class ForwardingSortedMultiset<E> extends ForwardingMultiset<E>
   }
 
   @Override
+  @CheckForNull
   public Entry<E> lastEntry() {
     return delegate().lastEntry();
   }
@@ -128,6 +134,7 @@ public abstract class ForwardingSortedMultiset<E> extends ForwardingMultiset<E>
    * <p>If you override {@link #descendingMultiset} or {@link #entrySet()}, you may wish to override
    * {@link #firstEntry()} to forward to this implementation.
    */
+  @CheckForNull
   protected Entry<E> standardLastEntry() {
     Iterator<Entry<E>> entryIterator = descendingMultiset().entrySet().iterator();
     if (!entryIterator.hasNext()) {
@@ -138,6 +145,7 @@ public abstract class ForwardingSortedMultiset<E> extends ForwardingMultiset<E>
   }
 
   @Override
+  @CheckForNull
   public Entry<E> pollFirstEntry() {
     return delegate().pollFirstEntry();
   }
@@ -148,6 +156,7 @@ public abstract class ForwardingSortedMultiset<E> extends ForwardingMultiset<E>
    * <p>If you override {@link #entrySet()}, you may wish to override {@link #pollFirstEntry()} to
    * forward to this implementation.
    */
+  @CheckForNull
   protected Entry<E> standardPollFirstEntry() {
     Iterator<Entry<E>> entryIterator = entrySet().iterator();
     if (!entryIterator.hasNext()) {
@@ -160,6 +169,7 @@ public abstract class ForwardingSortedMultiset<E> extends ForwardingMultiset<E>
   }
 
   @Override
+  @CheckForNull
   public Entry<E> pollLastEntry() {
     return delegate().pollLastEntry();
   }
@@ -171,6 +181,7 @@ public abstract class ForwardingSortedMultiset<E> extends ForwardingMultiset<E>
    * <p>If you override {@link #descendingMultiset()} or {@link #entrySet()}, you may wish to
    * override {@link #pollLastEntry()} to forward to this implementation.
    */
+  @CheckForNull
   protected Entry<E> standardPollLastEntry() {
     Iterator<Entry<E>> entryIterator = descendingMultiset().entrySet().iterator();
     if (!entryIterator.hasNext()) {

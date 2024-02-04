@@ -235,13 +235,8 @@ public class MoreFilesTest extends TestCase {
     assertTrue(Files.exists(temp));
     Files.delete(temp);
     assertFalse(Files.exists(temp));
+
     MoreFiles.touch(temp);
-
-    if (isAndroid()) {
-      // TODO: b/317997723 - Test touch() more after it works under Android's library desugaring.
-      return;
-    }
-
     assertTrue(Files.exists(temp));
     MoreFiles.touch(temp);
     assertTrue(Files.exists(temp));

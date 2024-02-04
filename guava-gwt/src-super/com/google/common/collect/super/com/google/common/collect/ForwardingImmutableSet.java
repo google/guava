@@ -26,6 +26,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *
  * @author Hayward Chan
  */
+@ElementTypesAreNonnullByDefault
 @SuppressWarnings("serial") // Serialization only done in GWT.
 public abstract class ForwardingImmutableSet<E> extends ImmutableSet<E> {
   private final transient Set<E> delegate;
@@ -66,7 +67,7 @@ public abstract class ForwardingImmutableSet<E> extends ImmutableSet<E> {
   }
 
   @Override
-  public <T> T[] toArray(T[] other) {
+  public <T extends @Nullable Object> T[] toArray(T[] other) {
     return delegate.toArray(other);
   }
 

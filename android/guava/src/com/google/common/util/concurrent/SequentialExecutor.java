@@ -25,6 +25,7 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.concurrent.GuardedBy;
+import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.RetainedWith;
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -70,6 +71,7 @@ final class SequentialExecutor implements Executor {
   private final Deque<Runnable> queue = new ArrayDeque<>();
 
   /** see {@link WorkerRunningState} */
+  @LazyInit
   @GuardedBy("queue")
   private WorkerRunningState workerRunningState = IDLE;
 
