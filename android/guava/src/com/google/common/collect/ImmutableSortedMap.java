@@ -499,6 +499,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableMap<K, V>
     return fromEntries(comparator, sameComparator, entryArray, entryArray.length);
   }
 
+  @SuppressWarnings("nullness") // TODO: b/316358623 - Remove after checker fix.
   private static <K, V> ImmutableSortedMap<K, V> fromEntries(
       final Comparator<? super K> comparator,
       boolean sameComparator,
