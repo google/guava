@@ -30,7 +30,6 @@ import com.google.common.base.Predicates;
 import com.google.common.collect.testing.IteratorFeature;
 import com.google.common.collect.testing.IteratorTester;
 import com.google.common.testing.NullPointerTester;
-import com.google.common.truth.Truth8;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -923,9 +922,9 @@ public class FluentIterableTest extends TestCase {
    * just test that the toArray() contents are as expected.
    */
   public void testStream() {
-    Truth8.assertThat(FluentIterable.of().stream()).isEmpty();
-    Truth8.assertThat(FluentIterable.of("a").stream()).containsExactly("a");
-    Truth8.assertThat(FluentIterable.of(1, 2, 3).stream().filter(n -> n > 1)).containsExactly(2, 3);
+    assertThat(FluentIterable.of().stream()).isEmpty();
+    assertThat(FluentIterable.of("a").stream()).containsExactly("a");
+    assertThat(FluentIterable.of(1, 2, 3).stream().filter(n -> n > 1)).containsExactly(2, 3);
   }
 
   private static void assertCanIterateAgain(Iterable<?> iterable) {
