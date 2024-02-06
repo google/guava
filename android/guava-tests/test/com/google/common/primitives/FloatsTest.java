@@ -197,7 +197,6 @@ public class FloatsTest extends TestCase {
     assertThat(Floats.lastIndexOf(new float[] {NaN, 5f}, NaN)).isEqualTo(-1);
   }
 
-  @J2ktIncompatible
   @GwtIncompatible
   public void testMax_noArgs() {
     try {
@@ -220,7 +219,6 @@ public class FloatsTest extends TestCase {
     assertThat(Float.isNaN(Floats.max(VALUES))).isTrue();
   }
 
-  @J2ktIncompatible
   @GwtIncompatible
   public void testMin_noArgs() {
     try {
@@ -293,7 +291,6 @@ public class FloatsTest extends TestCase {
     }
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // Float.toString returns different value in GWT.
   public void testJoin() {
     assertThat(Floats.join(",", EMPTY)).isEmpty();
@@ -556,7 +553,7 @@ public class FloatsTest extends TestCase {
     assertThat(Floats.toArray(doubles)).isEqualTo(array);
   }
 
-  @J2ktIncompatible // b/285319375
+  @J2ktIncompatible // b/239034072: Kotlin varargs copy parameter arrays.
   public void testAsList_isAView() {
     float[] array = {(float) 0, (float) 1};
     List<Float> list = Floats.asList(array);

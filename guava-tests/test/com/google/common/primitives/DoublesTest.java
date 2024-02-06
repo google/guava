@@ -207,7 +207,6 @@ public class DoublesTest extends TestCase {
     assertThat(Doubles.lastIndexOf(new double[] {NaN, 5.0}, NaN)).isEqualTo(-1);
   }
 
-  @J2ktIncompatible
   @GwtIncompatible
   public void testMax_noArgs() {
     try {
@@ -231,7 +230,6 @@ public class DoublesTest extends TestCase {
     assertThat(Double.isNaN(Doubles.max(VALUES))).isTrue();
   }
 
-  @J2ktIncompatible
   @GwtIncompatible
   public void testMin_noArgs() {
     try {
@@ -307,7 +305,6 @@ public class DoublesTest extends TestCase {
     }
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // Double.toString returns different value in GWT.
   public void testJoin() {
     assertThat(Doubles.join(",", EMPTY)).isEmpty();
@@ -577,7 +574,7 @@ public class DoublesTest extends TestCase {
     assertThat(Doubles.toArray(doubles)).isEqualTo(array);
   }
 
-  @J2ktIncompatible // b/285319375
+  @J2ktIncompatible // b/239034072: Kotlin varargs copy parameter arrays.
   public void testAsList_isAView() {
     double[] array = {(double) 0, (double) 1};
     List<Double> list = Doubles.asList(array);
@@ -783,7 +780,6 @@ public class DoublesTest extends TestCase {
     assertThat(Doubles.stringConverter().reverse().convert(null)).isNull();
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // Double.toString returns different value in GWT.
   public void testStringConverter_reverse() {
     Converter<String, Double> converter = Doubles.stringConverter();

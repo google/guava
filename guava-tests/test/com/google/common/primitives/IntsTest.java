@@ -166,7 +166,6 @@ public class IntsTest extends TestCase {
         .isEqualTo(3);
   }
 
-  @J2ktIncompatible
   @GwtIncompatible
   public void testMax_noArgs() {
     try {
@@ -183,7 +182,6 @@ public class IntsTest extends TestCase {
         .isEqualTo((int) 9);
   }
 
-  @J2ktIncompatible
   @GwtIncompatible
   public void testMin_noArgs() {
     try {
@@ -539,7 +537,7 @@ public class IntsTest extends TestCase {
     assertThat(Ints.toArray(doubles)).isEqualTo(array);
   }
 
-  @J2ktIncompatible // b/285319375
+  @J2ktIncompatible // b/239034072: Kotlin varargs copy parameter arrays.
   public void testAsList_isAView() {
     int[] array = {(int) 0, (int) 1};
     List<Integer> list = Ints.asList(array);
