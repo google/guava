@@ -18,6 +18,7 @@ package com.google.common.testing;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import java.time.Duration;
 import java.util.EnumSet;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CountDownLatch;
@@ -43,6 +44,7 @@ public class FakeTickerTest extends TestCase {
   }
 
   @GwtIncompatible // java.time.Duration
+  @SuppressWarnings("Java7ApiChecker") // guava-android can rely on library desugaring now.
   public void testAdvance() {
     FakeTicker ticker = new FakeTicker();
     assertEquals(0, ticker.read());
@@ -50,7 +52,7 @@ public class FakeTickerTest extends TestCase {
     assertEquals(10, ticker.read());
     ticker.advance(1, TimeUnit.MILLISECONDS);
     assertEquals(1000010L, ticker.read());
-    ticker.advance(java.time.Duration.ofMillis(1));
+    ticker.advance(Duration.ofMillis(1));
     assertEquals(2000010L, ticker.read());
   }
 
@@ -81,8 +83,9 @@ public class FakeTickerTest extends TestCase {
   }
 
   @GwtIncompatible // java.time.Duration
+  @SuppressWarnings("Java7ApiChecker") // guava-android can rely on library desugaring now.
   public void testAutoIncrementStep_duration() {
-    FakeTicker ticker = new FakeTicker().setAutoIncrementStep(java.time.Duration.ofMillis(1));
+    FakeTicker ticker = new FakeTicker().setAutoIncrementStep(Duration.ofMillis(1));
     assertEquals(0, ticker.read());
     assertEquals(1000000, ticker.read());
     assertEquals(2000000, ticker.read());
