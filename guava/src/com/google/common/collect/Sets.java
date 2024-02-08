@@ -482,7 +482,7 @@ public final class Sets {
    *     contains no elements
    */
   @J2ktIncompatible
-  @GwtIncompatible
+  @GwtIncompatible // EnumSet.complementOf
   public static <E extends Enum<E>> EnumSet<E> complementOf(Collection<E> collection) {
     if (collection instanceof EnumSet) {
       return EnumSet.complementOf((EnumSet<E>) collection);
@@ -503,7 +503,8 @@ public final class Sets {
    * @return a new, modifiable {@code EnumSet} initially containing all the values of the enum not
    *     present in the given collection
    */
-  @GwtIncompatible
+  @J2ktIncompatible
+  @GwtIncompatible // EnumSet.complementOf
   public static <E extends Enum<E>> EnumSet<E> complementOf(
       Collection<E> collection, Class<E> type) {
     checkNotNull(collection);
@@ -512,6 +513,7 @@ public final class Sets {
         : makeComplementByHand(collection, type);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible
   private static <E extends Enum<E>> EnumSet<E> makeComplementByHand(
       Collection<E> collection, Class<E> type) {
