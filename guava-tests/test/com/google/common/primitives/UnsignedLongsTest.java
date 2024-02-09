@@ -195,7 +195,6 @@ public class UnsignedLongsTest extends TestCase {
     assertThat(UnsignedLongs.remainder(0xfffffffffffffffeL, 5)).isEqualTo(4);
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // Too slow in GWT (~3min fully optimized)
   public void testDivideRemainderEuclideanProperty() {
     // Use a seed so that the test is deterministic:
@@ -333,7 +332,6 @@ public class UnsignedLongsTest extends TestCase {
     }
   }
 
-  @J2ktIncompatible // TODO(b/285562794): Wrong result for j2kt
   public void testToString() {
     String[] tests = {
       "0",
