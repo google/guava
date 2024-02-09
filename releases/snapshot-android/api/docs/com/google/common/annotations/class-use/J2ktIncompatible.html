@@ -278,30 +278,6 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </tr>
 <tbody>
 <tr class="altColor">
-<td class="colFirst"><code>static <a href="../../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;java.lang.CharSequence&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Predicates.</span><code><span class="memberNameLink"><a href="../../base/Predicates.html#contains(java.util.regex.Pattern)">contains</a></span>&#8203;(java.util.regex.Pattern&nbsp;pattern)</code></th>
-<td class="colLast">
-<div class="block">Returns a predicate that evaluates to <code>true</code> if the <code>CharSequence</code> being tested
- contains any match for the given regular expression pattern.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code>static <a href="../../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;java.lang.CharSequence&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Predicates.</span><code><span class="memberNameLink"><a href="../../base/Predicates.html#containsPattern(java.lang.String)">containsPattern</a></span>&#8203;(java.lang.String&nbsp;pattern)</code></th>
-<td class="colLast">
-<div class="block">Returns a predicate that evaluates to <code>true</code> if the <code>CharSequence</code> being tested
- contains any match for the given regular expression pattern.</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>static &lt;X extends java.lang.Throwable&gt;<br>X</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Throwables.</span><code><span class="memberNameLink"><a href="../../base/Throwables.html#getCauseAs(java.lang.Throwable,java.lang.Class)">getCauseAs</a></span>&#8203;(java.lang.Throwable&nbsp;throwable,
-          java.lang.Class&lt;X&gt;&nbsp;expectedCauseType)</code></th>
-<td class="colLast">
-<div class="block">Returns <code>throwable</code>'s cause, cast to <code>expectedCauseType</code>.</div>
-</td>
-</tr>
-<tr class="rowColor">
 <td class="colFirst"><code>static java.util.List&lt;java.lang.StackTraceElement&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Throwables.</span><code><span class="memberNameLink"><a href="../../base/Throwables.html#lazyStackTrace(java.lang.Throwable)">lazyStackTrace</a></span>&#8203;(java.lang.Throwable&nbsp;throwable)</code></th>
 <td class="colLast">
@@ -311,7 +287,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static boolean</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Throwables.</span><code><span class="memberNameLink"><a href="../../base/Throwables.html#lazyStackTraceIsLazy()">lazyStackTraceIsLazy</a></span>()</code></th>
 <td class="colLast">
@@ -321,7 +297,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="../../base/Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Suppliers.</span><code><span class="memberNameLink"><a href="../../base/Suppliers.html#memoizeWithExpiration(com.google.common.base.Supplier,java.time.Duration)">memoizeWithExpiration</a></span>&#8203;(<a href="../../base/Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;&nbsp;delegate,
                      java.time.Duration&nbsp;duration)</code></th>
@@ -330,22 +306,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  value after the specified time has passed.</div>
 </td>
 </tr>
-<tr class="altColor">
-<td class="colFirst"><code>static <a href="../../base/Splitter.html" title="class in com.google.common.base">Splitter</a></code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Splitter.</span><code><span class="memberNameLink"><a href="../../base/Splitter.html#on(java.util.regex.Pattern)">on</a></span>&#8203;(java.util.regex.Pattern&nbsp;separatorPattern)</code></th>
-<td class="colLast">
-<div class="block">Returns a splitter that considers any subsequence matching <code>pattern</code> to be a separator.</div>
-</td>
-</tr>
 <tr class="rowColor">
-<td class="colFirst"><code>static <a href="../../base/Splitter.html" title="class in com.google.common.base">Splitter</a></code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Splitter.</span><code><span class="memberNameLink"><a href="../../base/Splitter.html#onPattern(java.lang.String)">onPattern</a></span>&#8203;(java.lang.String&nbsp;separatorPattern)</code></th>
-<td class="colLast">
-<div class="block">Returns a splitter that considers any subsequence matching a given pattern (regular expression)
- to be a separator.</div>
-</td>
-</tr>
-<tr class="altColor">
 <td class="colFirst"><code>static java.lang.RuntimeException</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Throwables.</span><code><span class="memberNameLink"><a href="../../base/Throwables.html#propagate(java.lang.Throwable)">propagate</a></span>&#8203;(java.lang.Throwable&nbsp;throwable)</code></th>
 <td class="colLast">
@@ -356,7 +317,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static &lt;X extends java.lang.Throwable&gt;<br>void</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Throwables.</span><code><span class="memberNameLink"><a href="../../base/Throwables.html#propagateIfInstanceOf(java.lang.Throwable,java.lang.Class)">propagateIfInstanceOf</a></span>&#8203;(java.lang.Throwable&nbsp;throwable,
                      java.lang.Class&lt;X&gt;&nbsp;declaredType)</code></th>
@@ -367,7 +328,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static void</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Throwables.</span><code><span class="memberNameLink"><a href="../../base/Throwables.html#propagateIfPossible(java.lang.Throwable)">propagateIfPossible</a></span>&#8203;(java.lang.Throwable&nbsp;throwable)</code></th>
 <td class="colLast">
@@ -377,7 +338,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static &lt;X extends java.lang.Throwable&gt;<br>void</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Throwables.</span><code><span class="memberNameLink"><a href="../../base/Throwables.html#propagateIfPossible(java.lang.Throwable,java.lang.Class)">propagateIfPossible</a></span>&#8203;(java.lang.Throwable&nbsp;throwable,
                    java.lang.Class&lt;X&gt;&nbsp;declaredType)</code></th>
@@ -385,7 +346,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Propagates <code>throwable</code> exactly as-is, if and only if it is an instance of <code>RuntimeException</code>, <code>Error</code>, or <code>declaredType</code>.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static &lt;X1 extends java.lang.Throwable,&#8203;X2 extends java.lang.Throwable&gt;<br>void</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Throwables.</span><code><span class="memberNameLink"><a href="../../base/Throwables.html#propagateIfPossible(java.lang.Throwable,java.lang.Class,java.lang.Class)">propagateIfPossible</a></span>&#8203;(java.lang.Throwable&nbsp;throwable,
                    java.lang.Class&lt;X1&gt;&nbsp;declaredType1,
@@ -394,20 +355,12 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Propagates <code>throwable</code> exactly as-is, if and only if it is an instance of <code>RuntimeException</code>, <code>Error</code>, <code>declaredType1</code>, or <code>declaredType2</code>.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static <a href="../../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;java.lang.Class&lt;?&gt;&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Predicates.</span><code><span class="memberNameLink"><a href="../../base/Predicates.html#subtypeOf(java.lang.Class)">subtypeOf</a></span>&#8203;(java.lang.Class&lt;?&gt;&nbsp;clazz)</code></th>
 <td class="colLast">
 <div class="block">Returns a predicate that evaluates to <code>true</code> if the class being tested is assignable to
  (is a subtype of) <code>clazz</code>.</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>static &lt;X extends java.lang.Throwable&gt;<br>void</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Throwables.</span><code><span class="memberNameLink"><a href="../../base/Throwables.html#throwIfInstanceOf(java.lang.Throwable,java.lang.Class)">throwIfInstanceOf</a></span>&#8203;(java.lang.Throwable&nbsp;throwable,
-                 java.lang.Class&lt;X&gt;&nbsp;declaredType)</code></th>
-<td class="colLast">
-<div class="block">Throws <code>throwable</code> if it is an instance of <code>declaredType</code>.</div>
 </td>
 </tr>
 </tbody>
