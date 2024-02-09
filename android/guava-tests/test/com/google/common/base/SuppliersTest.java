@@ -35,6 +35,7 @@ import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Tests com.google.common.base.Suppliers.
@@ -326,7 +327,7 @@ public class SuppliersTest extends TestCase {
   }
 
   public void testOfInstanceSuppliesNull() {
-    Supplier<Integer> nullSupplier = Suppliers.ofInstance(null);
+    Supplier<@Nullable Integer> nullSupplier = Suppliers.ofInstance(null);
     assertNull(nullSupplier.get());
   }
 

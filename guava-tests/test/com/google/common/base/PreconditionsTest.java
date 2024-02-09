@@ -42,7 +42,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Jared Levy
  */
 @ElementTypesAreNonnullByDefault
-@J2ktIncompatible // TODO(b/278877942): Enable
 @SuppressWarnings("LenientFormatStringValidation") // Intentional for testing
 @GwtCompatible(emulated = true)
 public class PreconditionsTest extends TestCase {
@@ -125,6 +124,7 @@ public class PreconditionsTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible // TODO(b/319404022): Allow passing null array as varargs
   public void testCheckArgument_singleNullArray_failure() {
     try {
       Preconditions.checkArgument(false, "A %s C", (Object[]) null);

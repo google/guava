@@ -70,7 +70,6 @@ public final class Throwables {
    *
    * @since 20.0
    */
-  @J2ktIncompatible
   @GwtIncompatible // Class.cast, Class.isInstance
   public static <X extends Throwable> void throwIfInstanceOf(
       Throwable throwable, Class<X> declaredType) throws X {
@@ -317,7 +316,6 @@ public final class Throwables {
    *     ClassCastException}'s cause is {@code throwable}.
    * @since 22.0
    */
-  @J2ktIncompatible
   @GwtIncompatible // Class.cast(Object)
   @CheckForNull
   public static <X extends Throwable> X getCauseAs(

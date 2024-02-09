@@ -18,7 +18,6 @@ package com.google.common.base;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-import com.google.common.annotations.J2ktIncompatible;
 import junit.framework.TestCase;
 
 /**
@@ -139,7 +138,6 @@ public class AsciiTest extends TestCase {
     assertFalse(Ascii.equalsIgnoreCase("[", "{"));
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // String.toUpperCase() has browser semantics
   public void testEqualsIgnoreCaseUnicodeEquivalence() {
     // Note that it's possible in future that the JDK's idea to toUpperCase() or equalsIgnoreCase()

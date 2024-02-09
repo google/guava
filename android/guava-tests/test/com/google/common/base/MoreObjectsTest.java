@@ -69,7 +69,6 @@ public class MoreObjectsTest extends TestCase {
         toTest);
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // Class names are obfuscated in GWT
   public void testConstructor_instance() {
     String toTest = MoreObjects.toStringHelper(this).toString();
@@ -81,7 +80,6 @@ public class MoreObjectsTest extends TestCase {
     assertTrue(toTest, toTest.matches(".*\\{\\}"));
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // Class names are obfuscated in GWT
   public void testConstructor_innerClass() {
     String toTest = MoreObjects.toStringHelper(new TestClass()).toString();
@@ -93,7 +91,6 @@ public class MoreObjectsTest extends TestCase {
     assertTrue(toTest, toTest.matches(".*\\{\\}"));
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // Class names are obfuscated in GWT
   public void testConstructor_anonymousClass() {
     String toTest = MoreObjects.toStringHelper(new Object() {}).toString();
@@ -105,7 +102,6 @@ public class MoreObjectsTest extends TestCase {
     assertTrue(toTest, toTest.matches(".*\\{\\}"));
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // Class names are obfuscated in GWT
   public void testConstructor_classObject() {
     String toTest = MoreObjects.toStringHelper(TestClass.class).toString();
@@ -122,7 +118,6 @@ public class MoreObjectsTest extends TestCase {
     assertEquals("FooBar{}", toTest);
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // Class names are obfuscated in GWT
   public void testToStringHelper_localInnerClass() {
     // Local inner classes have names ending like "Outer.$1Inner"
@@ -137,7 +132,6 @@ public class MoreObjectsTest extends TestCase {
     assertTrue(toTest, toTest.matches(".*\\{\\}"));
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // Class names are obfuscated in GWT
   public void testToStringHelper_localInnerNestedClass() {
     class LocalInnerClass {
@@ -157,7 +151,6 @@ public class MoreObjectsTest extends TestCase {
     assertTrue(toTest, toTest.matches(".*\\{\\}"));
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // Class names are obfuscated in GWT
   public void testToStringHelper_moreThanNineAnonymousClasses() {
     // The nth anonymous class has a name ending like "Outer.$n"
@@ -192,14 +185,12 @@ public class MoreObjectsTest extends TestCase {
   }
 
   // all remaining test are on an inner class with various fields
-  @J2ktIncompatible
   @GwtIncompatible // Class names are obfuscated in GWT
   public void testToString_oneField() {
     String toTest = MoreObjects.toStringHelper(new TestClass()).add("field1", "Hello").toString();
     assertEquals("TestClass{field1=Hello}", toTest);
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // Class names are obfuscated in GWT
   public void testToString_oneIntegerField() {
     String toTest =
@@ -207,7 +198,6 @@ public class MoreObjectsTest extends TestCase {
     assertEquals("TestClass{field1=42}", toTest);
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // Class names are obfuscated in GWT
   public void testToString_nullInteger() {
     String toTest =
@@ -232,7 +222,6 @@ public class MoreObjectsTest extends TestCase {
     assertTrue(toTest, toTest.matches(".*\\{field1\\=null\\}"));
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // Class names are obfuscated in GWT
   public void testToString_complexFields() {
     Map<String, Integer> map =
@@ -277,7 +266,6 @@ public class MoreObjectsTest extends TestCase {
     }
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // Class names are obfuscated in GWT
   public void testToString_addWithNullValue() {
     final String result = MoreObjects.toStringHelper(new TestClass()).add("Hello", null).toString();
@@ -290,7 +278,6 @@ public class MoreObjectsTest extends TestCase {
     assertTrue(result, result.matches(".*\\{Hello\\=null\\}"));
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // Class names are obfuscated in GWT
   public void testToString_ToStringTwice() {
     MoreObjects.ToStringHelper helper =
@@ -310,7 +297,6 @@ public class MoreObjectsTest extends TestCase {
     assertEquals(expected2, helper.toString());
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // Class names are obfuscated in GWT
   public void testToString_addValue() {
     String toTest =
@@ -338,7 +324,6 @@ public class MoreObjectsTest extends TestCase {
     assertTrue(toTest, toTest.matches(expected));
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // Class names are obfuscated in GWT
   public void testToString_addValueWithNullValue() {
     final String result =
@@ -364,7 +349,6 @@ public class MoreObjectsTest extends TestCase {
     assertTrue(result, result.matches(expected));
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // Class names are obfuscated in GWT
   public void testToStringOmitNullValues_oneField() {
     String toTest =
@@ -372,7 +356,6 @@ public class MoreObjectsTest extends TestCase {
     assertEquals("TestClass{}", toTest);
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // Class names are obfuscated in GWT
   public void testToStringOmitNullValues_manyFieldsFirstNull() {
     String toTest =
@@ -385,7 +368,6 @@ public class MoreObjectsTest extends TestCase {
     assertEquals("TestClass{field2=Googley, field3=World}", toTest);
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // Class names are obfuscated in GWT
   public void testToStringOmitNullValues_manyFieldsOmitAfterNull() {
     String toTest =
@@ -398,7 +380,6 @@ public class MoreObjectsTest extends TestCase {
     assertEquals("TestClass{field2=Googley, field3=World}", toTest);
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // Class names are obfuscated in GWT
   public void testToStringOmitNullValues_manyFieldsLastNull() {
     String toTest =
@@ -411,7 +392,6 @@ public class MoreObjectsTest extends TestCase {
     assertEquals("TestClass{field1=Hello, field2=Googley}", toTest);
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // Class names are obfuscated in GWT
   public void testToStringOmitNullValues_oneValue() {
     String toTest =
@@ -419,7 +399,6 @@ public class MoreObjectsTest extends TestCase {
     assertEquals("TestClass{}", toTest);
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // Class names are obfuscated in GWT
   public void testToStringOmitNullValues_manyValuesFirstNull() {
     String toTest =
@@ -432,7 +411,6 @@ public class MoreObjectsTest extends TestCase {
     assertEquals("TestClass{Googley, World}", toTest);
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // Class names are obfuscated in GWT
   public void testToStringOmitNullValues_manyValuesLastNull() {
     String toTest =
@@ -445,7 +423,6 @@ public class MoreObjectsTest extends TestCase {
     assertEquals("TestClass{Hello, Googley}", toTest);
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // Class names are obfuscated in GWT
   public void testToStringOmitNullValues_differentOrder() {
     String expected = "TestClass{field1=Hello, field2=Googley, field3=World}";
@@ -467,7 +444,6 @@ public class MoreObjectsTest extends TestCase {
     assertEquals(expected, toTest2);
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // Class names are obfuscated in GWT
   public void testToStringOmitNullValues_canBeCalledManyTimes() {
     String toTest =

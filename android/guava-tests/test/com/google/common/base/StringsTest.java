@@ -232,15 +232,19 @@ public class StringsTest extends TestCase {
     assertEquals("null [null, null]", Strings.lenientFormat("%s", null, null, null));
     assertEquals("null [5, 6]", Strings.lenientFormat(null, 5, 6));
     assertEquals("null", Strings.lenientFormat("%s", (Object) null));
+  }
+
+  @J2ktIncompatible // TODO(b/319404022): Allow passing null array as varargs
+  public void testLenientFormat_nullArrayVarargs() {
     assertEquals("(Object[])null", Strings.lenientFormat("%s", (Object[]) null));
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // GWT reflection includes less data
   public void testLenientFormat_badArgumentToString() {
     assertThat(Strings.lenientFormat("boiler %s plate", new ThrowsOnToString()))
         .matches(
-            "boiler <com\\.google\\.common\\.base\\.StringsTest\\$ThrowsOnToString@[0-9a-f]+ "
+            // J2kt nested class name does not use "$"
+            "boiler <com\\.google\\.common\\.base\\.StringsTest[.$]ThrowsOnToString@[0-9a-f]+ "
                 + "threw java\\.lang\\.UnsupportedOperationException> plate");
   }
 

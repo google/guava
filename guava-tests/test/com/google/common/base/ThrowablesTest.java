@@ -395,19 +395,16 @@ public class ThrowablesTest extends TestCase {
     assertThat(expected).hasCauseThat().isInstanceOf(SomeCheckedException.class);
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // throwIfInstanceOf
   public void testThrowIfInstanceOf_Unchecked() throws SomeCheckedException {
     throwIfInstanceOf(new SomeUncheckedException(), SomeCheckedException.class);
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // throwIfInstanceOf
   public void testThrowIfInstanceOf_CheckedDifferent() throws SomeCheckedException {
     throwIfInstanceOf(new SomeOtherCheckedException(), SomeCheckedException.class);
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // throwIfInstanceOf
   public void testThrowIfInstanceOf_CheckedSame() {
     assertThrows(
@@ -415,7 +412,6 @@ public class ThrowablesTest extends TestCase {
         () -> throwIfInstanceOf(new SomeCheckedException(), SomeCheckedException.class));
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // throwIfInstanceOf
   public void testThrowIfInstanceOf_CheckedSubclass() {
     assertThrows(
@@ -424,7 +420,7 @@ public class ThrowablesTest extends TestCase {
   }
 
   @J2ktIncompatible
-  @GwtIncompatible // throwIfInstanceOf
+  @GwtIncompatible // propagate]IfInstanceOf
   public void testPropagateIfInstanceOf_NoneThrown() throws SomeCheckedException {
     Sample sample =
         new Sample() {
@@ -444,7 +440,7 @@ public class ThrowablesTest extends TestCase {
   }
 
   @J2ktIncompatible
-  @GwtIncompatible // throwIfInstanceOf
+  @GwtIncompatible // propagateIfInstanceOf
   public void testPropagateIfInstanceOf_DeclaredThrown() {
     Sample sample =
         new Sample() {
@@ -464,7 +460,7 @@ public class ThrowablesTest extends TestCase {
   }
 
   @J2ktIncompatible
-  @GwtIncompatible // throwIfInstanceOf
+  @GwtIncompatible // propagateIfInstanceOf
   public void testPropagateIfInstanceOf_UncheckedThrown() throws SomeCheckedException {
     Sample sample =
         new Sample() {
@@ -484,7 +480,7 @@ public class ThrowablesTest extends TestCase {
   }
 
   @J2ktIncompatible
-  @GwtIncompatible // throwIfInstanceOf
+  @GwtIncompatible // propagateIfInstanceOf
   public void testPropagateIfInstanceOf_UndeclaredThrown() throws SomeCheckedException {
     Sample sample =
         new Sample() {
@@ -504,7 +500,6 @@ public class ThrowablesTest extends TestCase {
     assertThat(expected).hasCauseThat().isInstanceOf(SomeOtherCheckedException.class);
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // throwIfInstanceOf
   public void testThrowIfInstanceOf_null() throws SomeCheckedException {
     assertThrows(
@@ -512,7 +507,7 @@ public class ThrowablesTest extends TestCase {
   }
 
   @J2ktIncompatible
-  @GwtIncompatible // throwIfInstanceOf
+  @GwtIncompatible // propagateIfInstanceOf
   public void testPropageIfInstanceOf_null() throws SomeCheckedException {
     Throwables.propagateIfInstanceOf(null, SomeCheckedException.class);
   }
@@ -592,7 +587,7 @@ public class ThrowablesTest extends TestCase {
     throw new SomeUndeclaredCheckedException();
   }
 
-  @J2ktIncompatible
+  @J2ktIncompatible // Format does not match
   @GwtIncompatible // getStackTraceAsString(Throwable)
   public void testGetStackTraceAsString() {
     class StackTraceException extends Exception {
@@ -648,7 +643,6 @@ public class ThrowablesTest extends TestCase {
     }
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // Throwables.getCauseAs(Throwable, Class)
   public void testGetCauseAs() {
     SomeCheckedException cause = new SomeCheckedException();

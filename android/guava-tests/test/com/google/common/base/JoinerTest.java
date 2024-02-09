@@ -51,12 +51,13 @@ public class JoinerTest extends TestCase {
   private static final Iterable<Integer> ITERABLE_1 = Arrays.asList(1);
   private static final Iterable<Integer> ITERABLE_12 = Arrays.asList(1, 2);
   private static final Iterable<Integer> ITERABLE_123 = Arrays.asList(1, 2, 3);
-  private static final Iterable<Integer> ITERABLE_NULL = Arrays.asList((Integer) null);
-  private static final Iterable<Integer> ITERABLE_NULL_NULL = Arrays.asList((Integer) null, null);
-  private static final Iterable<Integer> ITERABLE_NULL_1 = Arrays.asList(null, 1);
-  private static final Iterable<Integer> ITERABLE_1_NULL = Arrays.asList(1, null);
-  private static final Iterable<Integer> ITERABLE_1_NULL_2 = Arrays.asList(1, null, 2);
-  private static final Iterable<Integer> ITERABLE_FOUR_NULLS =
+  private static final Iterable<@Nullable Integer> ITERABLE_NULL = Arrays.asList((Integer) null);
+  private static final Iterable<@Nullable Integer> ITERABLE_NULL_NULL =
+      Arrays.asList((Integer) null, null);
+  private static final Iterable<@Nullable Integer> ITERABLE_NULL_1 = Arrays.asList(null, 1);
+  private static final Iterable<@Nullable Integer> ITERABLE_1_NULL = Arrays.asList(1, null);
+  private static final Iterable<@Nullable Integer> ITERABLE_1_NULL_2 = Arrays.asList(1, null, 2);
+  private static final Iterable<@Nullable Integer> ITERABLE_FOUR_NULLS =
       Arrays.asList((Integer) null, null, null, null);
 
   public void testNoSpecialNullBehavior() {
@@ -247,7 +248,7 @@ public class JoinerTest extends TestCase {
     assertEquals("", j.join(ImmutableMap.of()));
     assertEquals(":", j.join(ImmutableMap.of("", "")));
 
-    Map<String, String> mapWithNulls = Maps.newLinkedHashMap();
+    Map<@Nullable String, @Nullable String> mapWithNulls = Maps.newLinkedHashMap();
     mapWithNulls.put("a", null);
     mapWithNulls.put(null, "b");
 
@@ -273,7 +274,7 @@ public class JoinerTest extends TestCase {
     assertEquals("1:a;1:b", j.join(ImmutableMultimap.of("1", "a", "1", "b").entries()));
     assertEquals("1:a;1:b", j.join(ImmutableMultimap.of("1", "a", "1", "b").entries().iterator()));
 
-    Map<String, String> mapWithNulls = Maps.newLinkedHashMap();
+    Map<@Nullable String, @Nullable String> mapWithNulls = Maps.newLinkedHashMap();
     mapWithNulls.put("a", null);
     mapWithNulls.put(null, "b");
     Set<Entry<String, String>> entriesWithNulls = mapWithNulls.entrySet();
@@ -363,7 +364,6 @@ public class JoinerTest extends TestCase {
     }
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // StringBuilder.append in GWT invokes Object.toString(), unlike the JRE version.
   public void testDontConvertCharSequenceToString() {
     assertEquals("foo,foo", Joiner.on(",").join(new DontStringMeBro(), new DontStringMeBro()));

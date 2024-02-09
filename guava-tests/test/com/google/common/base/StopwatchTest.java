@@ -167,7 +167,7 @@ public class StopwatchTest extends TestCase {
     assertEquals(1, stopwatch.elapsed(MILLISECONDS));
   }
 
-  @J2ktIncompatible // TODO(b/259213718): Enable
+  @J2ktIncompatible // TODO(b/259213718): Switch J2kt to String.format("%.4g") once that's supported
   public void testToString() {
     stopwatch.start();
     assertEquals("0.000 ns", stopwatch.toString());
