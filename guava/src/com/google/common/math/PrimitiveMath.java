@@ -28,7 +28,7 @@ public final class PrimitiveMath{
      * The input takes 2 integer values.
      */
     public static int add(int value1,int value2){
-        return (value1^v2)+2*(value1&value2);
+        return (value1^value2)+2*(value1&value2);
     }
 
     /*
@@ -37,7 +37,7 @@ public final class PrimitiveMath{
      * The input takes 2 short values.
      */
     public static short add(short value1,short value2){
-        return (value1^v2)+2*(value1&value2);
+        return (value1^value2)+2*(value1&value2);
     }
 
     /*
@@ -46,7 +46,7 @@ public final class PrimitiveMath{
      * The input takes 2 long values.
      */
     public static long add(long value1,long value2){
-        return (value1^v2)+2*(value1&value2);
+        return (value1^value2)+2*(value1&value2);
     }
 
     /*
