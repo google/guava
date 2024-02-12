@@ -18,8 +18,14 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.errorprone.annotations.Immutable;
+import com.google.j2objc.annotations.J2ObjCIncompatible;
 import java.io.Serializable;
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.MethodType;
+import java.nio.ByteBuffer;
 import java.util.zip.Checksum;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * {@link HashFunction} adapter for {@link Checksum} instances.
@@ -75,6 +81,14 @@ final class ChecksumHashFunction extends AbstractHashFunction implements Seriali
     }
 
     @Override
+    @J2ObjCIncompatible
+    protected void update(ByteBuffer b) {
+      if (!ChecksumMethodHandles.updateByteBuffer(checksum, b)) {
+        super.update(b);
+      }
+    }
+
+    @Override
     public HashCode hash() {
       long value = checksum.getValue();
       if (bits == 32) {
@@ -87,6 +101,48 @@ final class ChecksumHashFunction extends AbstractHashFunction implements Seriali
       } else {
         return HashCode.fromLong(value);
       }
+    }
+  }
+
+  @J2ObjCIncompatible
+  @SuppressWarnings("unused")
+  private static final class ChecksumMethodHandles {
+    private static final @Nullable MethodHandle UPDATE_BB = updateByteBuffer();
+
+    @IgnoreJRERequirement // https://github.com/mojohaus/animal-sniffer/issues/67
+    static boolean updateByteBuffer(Checksum cs, ByteBuffer bb) {
+      if (UPDATE_BB != null) {
+        try {
+          UPDATE_BB.invokeExact(cs, bb);
+        } catch (Error t) {
+          throw t;
+        } catch (Throwable t) {
+          throw new AssertionError(t);
+        }
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+    private static @Nullable MethodHandle updateByteBuffer() {
+      try {
+        Class<?> clazz = Class.forName("java.util.zip.Checksum");
+        return MethodHandles.lookup()
+            .findVirtual(clazz, "update", MethodType.methodType(void.class, ByteBuffer.class));
+      } catch (ClassNotFoundException e) {
+        throw new AssertionError(e);
+      } catch (IllegalAccessException e) {
+        // That API is public.
+        throw newLinkageError(e);
+      } catch (NoSuchMethodException e) {
+        // Only introduced in Java 9.
+        return null;
+      }
+    }
+
+    private static LinkageError newLinkageError(Throwable cause) {
+      return new LinkageError(cause.toString(), cause);
     }
   }
 
