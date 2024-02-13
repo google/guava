@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="ANSI"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
@@ -23,7 +23,7 @@
     <!-- Empty for all JDKs but 9-12 -->
     <maven-javadoc-plugin.additionalJOptions></maven-javadoc-plugin.additionalJOptions>
     <project.build.outputTimestamp>2024-01-02T00:00:00Z</project.build.outputTimestamp>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.build.sourceEncoding>ANSI</project.build.sourceEncoding>
     <test.add.opens></test.add.opens>
     <module.status>integration</module.status>
     <variant.jvmEnvironment>android</variant.jvmEnvironment>
@@ -125,7 +125,7 @@
           <configuration>
             <source>1.8</source>
             <target>1.8</target>
-            <encoding>UTF-8</encoding>
+            <encoding>ANSI</encoding>
             <parameters>true</parameters>
             <compilerArgs>
               <!--
@@ -207,9 +207,9 @@
           <configuration>
             <quiet>true</quiet>
             <notimestamp>true</notimestamp>
-            <encoding>UTF-8</encoding>
-            <docencoding>UTF-8</docencoding>
-            <charset>UTF-8</charset>
+            <encoding>ANSI</encoding>
+            <docencoding>ANSI</docencoding>
+            <charset>ANSI</charset>
             <additionalOptions>
               <additionalOption>-XDignore.symbol.file</additionalOption>
               <additionalOption>-Xdoclint:-html</additionalOption>
@@ -464,3 +464,4 @@
     </profile>
   </profiles>
 </project>
+</true>
