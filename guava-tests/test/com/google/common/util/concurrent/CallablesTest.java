@@ -20,6 +20,7 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
 import java.security.Permission;
@@ -36,6 +37,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 @GwtCompatible(emulated = true)
 public class CallablesTest extends TestCase {
 
+  @J2ktIncompatible // TODO(b/324550390): Enable
   public void testReturning() throws Exception {
     assertNull(Callables.returning(null).call());
 
@@ -46,6 +48,7 @@ public class CallablesTest extends TestCase {
     assertSame(value, callable.call());
   }
 
+  @J2ktIncompatible
   @GwtIncompatible
   public void testAsAsyncCallable() throws Exception {
     final String expected = "MyCallableString";
@@ -64,6 +67,7 @@ public class CallablesTest extends TestCase {
     assertSame(expected, future.get());
   }
 
+  @J2ktIncompatible
   @GwtIncompatible
   public void testAsAsyncCallable_exception() throws Exception {
     final Exception expected = new IllegalArgumentException();
@@ -87,6 +91,7 @@ public class CallablesTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // threads
   public void testRenaming() throws Exception {
     String oldName = Thread.currentThread().getName();
@@ -103,6 +108,7 @@ public class CallablesTest extends TestCase {
     assertEquals(oldName, Thread.currentThread().getName());
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // threads
   public void testRenaming_exceptionalReturn() throws Exception {
     String oldName = Thread.currentThread().getName();
@@ -124,6 +130,7 @@ public class CallablesTest extends TestCase {
     assertEquals(oldName, Thread.currentThread().getName());
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // threads
 
   public void testRenaming_noPermissions() throws Exception {

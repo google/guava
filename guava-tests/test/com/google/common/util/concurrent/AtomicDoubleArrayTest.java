@@ -17,6 +17,7 @@ import static java.lang.Math.max;
 import static org.junit.Assert.assertThrows;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.testing.NullPointerTester;
 import java.util.Arrays;
 
@@ -53,6 +54,7 @@ public class AtomicDoubleArrayTest extends JSR166TestCase {
     assertEquals(Double.doubleToRawLongBits(x), Double.doubleToRawLongBits(y));
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // NullPointerTester
   public void testNulls() {
     new NullPointerTester().testAllPublicStaticMethods(AtomicDoubleArray.class);
