@@ -38452,7 +38452,7 @@
   </class>
   <!-- end class com.google.common.graph.GraphBuilder -->
   <!-- start class com.google.common.graph.Graphs -->
-  <class name="Graphs" extends="java.lang.Object"
+  <class name="Graphs" extends="com.google.common.graph.GraphsBridgeMethods"
     abstract="false"
     static="false" final="true" visibility="public"
     deprecated="not deprecated">
@@ -38482,7 +38482,7 @@
  <p>This method will detect any non-empty cycle, including self-loops (a cycle of length 1).]]>
       </doc>
     </method>
-    <method name="transitiveClosure" return="com.google.common.graph.Graph&lt;N&gt;"
+    <method name="transitiveClosure" return="com.google.common.graph.ImmutableGraph&lt;N&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
@@ -38494,10 +38494,12 @@
 
  <p>This is a "snapshot" based on the current topology of {@code graph}, rather than a live view
  of the transitive closure of {@code graph}. In other words, the returned {@link Graph} will not
- be updated after modifications to {@code graph}.]]>
+ be updated after modifications to {@code graph}.
+
+ @since NEXT (present with return type {@code Graph} since 20.0)]]>
       </doc>
     </method>
-    <method name="reachableNodes" return="java.util.Set&lt;N&gt;"
+    <method name="reachableNodes" return="com.google.common.collect.ImmutableSet&lt;N&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
@@ -38512,7 +38514,8 @@
  of the set of nodes reachable from {@code node}. In other words, the returned {@link Set} will
  not be updated after modifications to {@code graph}.
 
- @throws IllegalArgumentException if {@code node} is not present in {@code graph}]]>
+ @throws IllegalArgumentException if {@code node} is not present in {@code graph}
+ @since NEXT (present with return type {@code Set} since 20.0)]]>
       </doc>
     </method>
     <method name="transpose" return="com.google.common.graph.Graph&lt;N&gt;"
