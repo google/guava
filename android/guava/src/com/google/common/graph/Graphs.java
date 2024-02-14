@@ -43,7 +43,7 @@ import javax.annotation.CheckForNull;
  */
 @Beta
 @ElementTypesAreNonnullByDefault
-public final class Graphs {
+public final class Graphs extends GraphsBridgeMethods {
 
   private Graphs() {}
 
@@ -146,10 +146,13 @@ public final class Graphs {
    * <p>This is a "snapshot" based on the current topology of {@code graph}, rather than a live view
    * of the transitive closure of {@code graph}. In other words, the returned {@link Graph} will not
    * be updated after modifications to {@code graph}.
+   *
+   * @since NEXT (present with return type {@code Graph} since 20.0)
    */
   // TODO(b/31438252): Consider potential optimizations for this algorithm.
-  public static <N> Graph<N> transitiveClosure(Graph<N> graph) {
-    MutableGraph<N> transitiveClosure = GraphBuilder.from(graph).allowsSelfLoops(true).build();
+  public static <N> ImmutableGraph<N> transitiveClosure(Graph<N> graph) {
+    ImmutableGraph.Builder<N> transitiveClosure =
+        GraphBuilder.from(graph).allowsSelfLoops(true).<N>immutable();
     // Every node is, at a minimum, reachable from itself. Since the resulting transitive closure
     // will have no isolated nodes, we can skip adding nodes explicitly and let putEdge() do it.
 
@@ -178,7 +181,7 @@ public final class Graphs {
       }
     }
 
-    return transitiveClosure;
+    return transitiveClosure.build();
   }
 
   /**
@@ -191,8 +194,9 @@ public final class Graphs {
    * not be updated after modifications to {@code graph}.
    *
    * @throws IllegalArgumentException if {@code node} is not present in {@code graph}
+   * @since NEXT (present with return type {@code Set} since 20.0)
    */
-  public static <N> Set<N> reachableNodes(Graph<N> graph, N node) {
+  public static <N> ImmutableSet<N> reachableNodes(Graph<N> graph, N node) {
     checkArgument(graph.nodes().contains(node), NODE_NOT_IN_GRAPH, node);
     return ImmutableSet.copyOf(Traverser.forGraph(graph).breadthFirst(node));
   }
