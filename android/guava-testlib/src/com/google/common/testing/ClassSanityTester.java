@@ -51,6 +51,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
+import javax.annotation.CheckForNull;
 import junit.framework.Assert;
 import junit.framework.AssertionFailedError;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -664,6 +665,7 @@ public final class ClassSanityTester {
     FreshValueGenerator generator =
         new FreshValueGenerator() {
           @Override
+          @CheckForNull
           Object interfaceMethodCalled(Class<?> interfaceType, Method method) {
             return getDummyValue(TypeToken.of(interfaceType).method(method).getReturnType());
           }
@@ -743,6 +745,7 @@ public final class ClassSanityTester {
     return args;
   }
 
+  @CheckForNull
   private <T> T getDummyValue(TypeToken<T> type) {
     Class<? super T> rawType = type.getRawType();
     @SuppressWarnings("unchecked") // Assume all default values are generics safe.

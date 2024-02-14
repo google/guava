@@ -30,6 +30,7 @@ import static com.google.common.util.concurrent.FuturesGetCheckedInputs.UNCHECKE
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.Future;
 import junit.framework.TestCase;
@@ -41,6 +42,7 @@ public class FuturesGetUncheckedTest extends TestCase {
     assertEquals("foo", getUnchecked(immediateFuture("foo")));
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // Thread.interrupt
   public void testGetUnchecked_interrupted() {
     Thread.currentThread().interrupt();

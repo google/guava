@@ -211,7 +211,7 @@ public class BytesTest extends TestCase {
     assertThat(Bytes.toArray(doubles)).isEqualTo(array);
   }
 
-  @J2ktIncompatible // TODO(b/278877942): Enable
+  @J2ktIncompatible // b/239034072: Kotlin varargs copy parameter arrays.
   public void testAsList_isAView() {
     byte[] array = {(byte) 0, (byte) 1};
     List<Byte> list = Bytes.asList(array);

@@ -196,6 +196,7 @@ public final class Sets {
    * asList}{@code (...))}, or for creating an empty set then calling {@link Collections#addAll}.
    * This method is not actually very useful and will likely be deprecated in the future.
    */
+  @SuppressWarnings("nullness") // TODO: b/316358623 - Remove after checker fix.
   public static <E extends @Nullable Object> HashSet<E> newHashSet(E... elements) {
     HashSet<E> set = newHashSetWithExpectedSize(elements.length);
     Collections.addAll(set, elements);
@@ -481,7 +482,7 @@ public final class Sets {
    *     contains no elements
    */
   @J2ktIncompatible
-  @GwtIncompatible
+  @GwtIncompatible // EnumSet.complementOf
   public static <E extends Enum<E>> EnumSet<E> complementOf(Collection<E> collection) {
     if (collection instanceof EnumSet) {
       return EnumSet.complementOf((EnumSet<E>) collection);
@@ -502,7 +503,8 @@ public final class Sets {
    * @return a new, modifiable {@code EnumSet} initially containing all the values of the enum not
    *     present in the given collection
    */
-  @GwtIncompatible
+  @J2ktIncompatible
+  @GwtIncompatible // EnumSet.complementOf
   public static <E extends Enum<E>> EnumSet<E> complementOf(
       Collection<E> collection, Class<E> type) {
     checkNotNull(collection);
@@ -511,6 +513,7 @@ public final class Sets {
         : makeComplementByHand(collection, type);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible
   private static <E extends Enum<E>> EnumSet<E> makeComplementByHand(
       Collection<E> collection, Class<E> type) {

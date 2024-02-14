@@ -19,7 +19,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-import com.google.common.annotations.J2ktIncompatible;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -212,7 +211,6 @@ public final class Splitter {
    * @return a splitter, with default settings, that uses this pattern
    * @throws IllegalArgumentException if {@code separatorPattern} matches the empty string
    */
-  @J2ktIncompatible
   @GwtIncompatible // java.util.regex
   public static Splitter on(Pattern separatorPattern) {
     return onPatternInternal(new JdkPattern(separatorPattern));
@@ -257,7 +255,6 @@ public final class Splitter {
    * @throws IllegalArgumentException if {@code separatorPattern} matches the empty string or is a
    *     malformed expression
    */
-  @J2ktIncompatible
   @GwtIncompatible // java.util.regex
   public static Splitter onPattern(String separatorPattern) {
     return onPatternInternal(Platform.compilePattern(separatorPattern));
@@ -332,7 +329,7 @@ public final class Splitter {
    * <p>For example, {@code Splitter.on(',').limit(3).split("a,b,c,d")} returns an iterable
    * containing {@code ["a", "b", "c,d"]}. When omitting empty strings, the omitted strings do not
    * count. Hence, {@code Splitter.on(',').limit(3).omitEmptyStrings().split("a,,,b,,,c,d")} returns
-   * an iterable containing {@code ["a", "b", "c,d"}. When trim is requested, all entries are
+   * an iterable containing {@code ["a", "b", "c,d"]}. When trim is requested, all entries are
    * trimmed, including the last. Hence {@code Splitter.on(',').limit(3).trimResults().split(" a , b
    * , c , d ")} results in {@code ["a", "b", "c , d"]}.
    *

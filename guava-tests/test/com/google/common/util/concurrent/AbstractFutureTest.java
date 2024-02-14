@@ -24,6 +24,7 @@ import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static org.junit.Assert.assertThrows;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Range;
 import com.google.common.collect.Sets;
@@ -841,6 +842,7 @@ public class AbstractFutureTest extends TestCase {
 
   // Verify that StackOverflowError in a long chain of SetFuture doesn't cause the entire toString
   // call to fail
+  @J2ktIncompatible
   @GwtIncompatible
   @AndroidIncompatible
   public void testSetFutureToString_stackOverflow() {

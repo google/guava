@@ -246,7 +246,6 @@ public class UnsignedIntsTest extends TestCase {
     }
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // Too slow in GWT (~3min fully optimized)
   public void testDivideRemainderEuclideanProperty() {
     // Use a seed so that the test is deterministic:

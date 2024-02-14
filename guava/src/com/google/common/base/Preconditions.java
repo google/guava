@@ -118,6 +118,8 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 public final class Preconditions {
   private Preconditions() {}
 
+  private interface Impossible {}
+
   /**
    * Ensures the truth of an expression involving one or more parameters to the calling method.
    *
@@ -438,7 +440,8 @@ public final class Preconditions {
    */
   public static void checkArgument(
       boolean expression,
-      String errorMessageTemplate,
+      // TODO: cl/604933487 - Make errorMessageTemplate consistently @CheckForNull across overloads.
+      @CheckForNull String errorMessageTemplate,
       @CheckForNull Object p1,
       @CheckForNull Object p2) {
     if (!expression) {

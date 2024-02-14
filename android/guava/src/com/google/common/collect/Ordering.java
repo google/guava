@@ -746,6 +746,7 @@ public abstract class Ordering<T extends @Nullable Object> implements Comparator
    * @throws IllegalArgumentException if {@code k} is negative
    * @since 8.0
    */
+  @SuppressWarnings("nullness") // TODO: b/316358623 - Remove after checker fix.
   public <E extends T> List<E> leastOf(Iterable<E> iterable, int k) {
     if (iterable instanceof Collection) {
       Collection<E> collection = (Collection<E>) iterable;
@@ -862,6 +863,7 @@ public abstract class Ordering<T extends @Nullable Object> implements Comparator
    * calling {@link Collections#sort(List)}.
    */
   // TODO(kevinb): rerun benchmarks including new options
+  @SuppressWarnings("nullness") // TODO: b/316358623 - Remove after checker fix.
   public <E extends T> List<E> sortedCopy(Iterable<E> elements) {
     @SuppressWarnings("unchecked") // does not escape, and contains only E's
     E[] array = (E[]) Iterables.toArray(elements);

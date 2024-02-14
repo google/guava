@@ -18,14 +18,12 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.math.MathPreconditions.checkRoundingUnnecessary;
 
 import com.google.common.annotations.GwtIncompatible;
-import com.google.common.annotations.J2ktIncompatible;
 import java.math.RoundingMode;
 
 /**
  * Helper type to implement rounding {@code X} to a representable {@code double} value according to
  * a {@link RoundingMode}.
  */
-@J2ktIncompatible
 @GwtIncompatible
 @ElementTypesAreNonnullByDefault
 abstract class ToDoubleRounder<X extends Number & Comparable<X>> {

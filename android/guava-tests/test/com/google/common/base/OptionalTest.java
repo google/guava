@@ -108,7 +108,7 @@ public final class OptionalTest extends TestCase {
   }
 
   public void testOr_nullSupplier_absent() {
-    Supplier<Object> nullSupplier = Suppliers.ofInstance(null);
+    Supplier<Object> nullSupplier = (Supplier<Object>) Suppliers.<@Nullable Object>ofInstance(null);
     Optional<Object> absentOptional = Optional.absent();
     try {
       absentOptional.or(nullSupplier);
@@ -119,7 +119,7 @@ public final class OptionalTest extends TestCase {
 
   @SuppressWarnings("OptionalOfRedundantMethod") // Unit tests for Optional
   public void testOr_nullSupplier_present() {
-    Supplier<String> nullSupplier = Suppliers.ofInstance(null);
+    Supplier<String> nullSupplier = (Supplier<String>) Suppliers.<@Nullable String>ofInstance(null);
     assertEquals("a", Optional.of("a").or(nullSupplier));
   }
 

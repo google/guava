@@ -163,6 +163,16 @@ public final class InternetDomainName {
   }
 
   /**
+   * Internal constructor that skips validations when creating an instance from parts of an
+   * already-validated InternetDomainName, as in {@link ancestor}.
+   */
+  private InternetDomainName(String name, ImmutableList<String> parts) {
+    checkArgument(!parts.isEmpty(), "Cannot create an InternetDomainName with zero parts.");
+    this.name = name;
+    this.parts = parts;
+  }
+
+  /**
    * The index in the {@link #parts()} list at which the public suffix begins. For example, for the
    * domain name {@code myblog.blogspot.co.uk}, the value would be 1 (the index of the {@code
    * blogspot} part). The value is negative (specifically, {@link #NO_SUFFIX_FOUND}) if no public
@@ -585,7 +595,17 @@ public final class InternetDomainName {
    * <p>TODO: Reasonable candidate for addition to public API.
    */
   private InternetDomainName ancestor(int levels) {
-    return from(DOT_JOINER.join(parts.subList(levels, parts.size())));
+    ImmutableList<String> ancestorParts = parts.subList(levels, parts.size());
+
+    // levels equals the number of dots that are getting clipped away, then add the length of each
+    // clipped part to get the length of the leading substring that is being removed.
+    int substringFrom = levels;
+    for (int i = 0; i < levels; i++) {
+      substringFrom += parts.get(i).length();
+    }
+    String ancestorName = name.substring(substringFrom);
+
+    return new InternetDomainName(ancestorName, ancestorParts);
   }
 
   /**

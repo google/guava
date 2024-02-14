@@ -23,7 +23,6 @@ import static java.util.concurrent.Executors.newFixedThreadPool;
 import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.truth.Truth8;
 import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CyclicBarrier;
@@ -183,14 +182,14 @@ public final class ValueGraphTest {
   public void edgeValue_directed_correct() {
     graph = ValueGraphBuilder.directed().build();
     graph.putEdgeValue(1, 2, "A");
-    Truth8.assertThat(graph.edgeValue(EndpointPair.ordered(1, 2))).hasValue("A");
+    assertThat(graph.edgeValue(EndpointPair.ordered(1, 2))).hasValue("A");
   }
 
   @Test
   public void edgeValue_directed_backwards() {
     graph = ValueGraphBuilder.directed().build();
     graph.putEdgeValue(1, 2, "A");
-    Truth8.assertThat(graph.edgeValue(EndpointPair.ordered(2, 1))).isEmpty();
+    assertThat(graph.edgeValue(EndpointPair.ordered(2, 1))).isEmpty();
   }
 
   @Test
@@ -211,14 +210,14 @@ public final class ValueGraphTest {
   public void edgeValue_undirected_correct() {
     graph = ValueGraphBuilder.undirected().build();
     graph.putEdgeValue(1, 2, "A");
-    Truth8.assertThat(graph.edgeValue(EndpointPair.unordered(1, 2))).hasValue("A");
+    assertThat(graph.edgeValue(EndpointPair.unordered(1, 2))).hasValue("A");
   }
 
   @Test
   public void edgeValue_undirected_backwards() {
     graph = ValueGraphBuilder.undirected().build();
     graph.putEdgeValue(1, 2, "A");
-    Truth8.assertThat(graph.edgeValue(EndpointPair.unordered(2, 1))).hasValue("A");
+    assertThat(graph.edgeValue(EndpointPair.unordered(2, 1))).hasValue("A");
   }
 
   @Test

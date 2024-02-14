@@ -104,6 +104,7 @@ class CompactHashSet<E extends @Nullable Object> extends AbstractSet<E> implemen
    * @return a new {@code CompactHashSet} containing those elements (minus duplicates)
    */
   @SafeVarargs
+  @SuppressWarnings("nullness") // TODO: b/316358623 - Remove after checker fix.
   public static <E extends @Nullable Object> CompactHashSet<E> create(E... elements) {
     CompactHashSet<E> set = createWithExpectedSize(elements.length);
     Collections.addAll(set, elements);
