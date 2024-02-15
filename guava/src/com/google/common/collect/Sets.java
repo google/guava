@@ -1042,7 +1042,7 @@ public final class Sets {
    * Predicates.instanceOf(ArrayList.class)}, which is inconsistent with equals. (See {@link
    * Iterables#filter(Iterable, Class)} for related functionality.)
    *
-   * <p><b>Java 8 users:</b> many use cases for this method are better addressed by {@link
+   * <p><b>Java 8+ users:</b> many use cases for this method are better addressed by {@link
    * java.util.stream.Stream#filter}. This method is not being deprecated, but we gently encourage
    * you to migrate to streams.
    */
@@ -1813,7 +1813,7 @@ public final class Sets {
    * <p>The returned navigable set will be serializable if the specified navigable set is
    * serializable.
    *
-   * <p><b>Java 8 users and later:</b> Prefer {@link Collections#unmodifiableNavigableSet}.
+   * <p><b>Java 8+ users and later:</b> Prefer {@link Collections#unmodifiableNavigableSet}.
    *
    * @param set the navigable set for which an unmodifiable view is to be returned
    * @return an unmodifiable view of the specified navigable set
@@ -1981,7 +1981,7 @@ public final class Sets {
    * <p>The returned navigable set will be serializable if the specified navigable set is
    * serializable.
    *
-   * <p><b>Java 8 users and later:</b> Prefer {@link Collections#synchronizedNavigableSet}.
+   * <p><b>Java 8+ users and later:</b> Prefer {@link Collections#synchronizedNavigableSet}.
    *
    * @param navigableSet the navigable set to be "wrapped" in a synchronized navigable set.
    * @return a synchronized view of the specified navigable set.

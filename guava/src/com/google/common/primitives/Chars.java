@@ -52,7 +52,7 @@ public final class Chars {
   /**
    * The number of bytes required to represent a primitive {@code char} value.
    *
-   * <p><b>Java 8 users:</b> use {@link Character#BYTES} instead.
+   * <p><b>Java 8+ users:</b> use {@link Character#BYTES} instead.
    */
   public static final int BYTES = Character.SIZE / Byte.SIZE;
 
@@ -60,7 +60,7 @@ public final class Chars {
    * Returns a hash code for {@code value}; equal to the result of invoking {@code ((Character)
    * value).hashCode()}.
    *
-   * <p><b>Java 8 users:</b> use {@link Character#hashCode(char)} instead.
+   * <p><b>Java 8+ users:</b> use {@link Character#hashCode(char)} instead.
    *
    * @param value a primitive {@code char} value
    * @return a hash code for the value
@@ -105,8 +105,8 @@ public final class Chars {
    * Compares the two specified {@code char} values. The sign of the value returned is the same as
    * that of {@code ((Character) a).compareTo(b)}.
    *
-   * <p><b>Note for Java 7 and later:</b> this method should be treated as deprecated; use the
-   * equivalent {@link Character#compare} method instead.
+   * <p><b>Java 7+ users:</b> this method should be treated as deprecated; use the equivalent {@link
+   * Character#compare} method instead.
    *
    * @param a the first {@code char} to compare
    * @param b the second {@code char} to compare

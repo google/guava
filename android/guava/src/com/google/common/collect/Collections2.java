@@ -41,10 +41,10 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 /**
  * Provides static methods for working with {@code Collection} instances.
  *
- * <p><b>Java 8 users:</b> several common uses for this class are now more comprehensively addressed
- * by the new {@link java.util.stream.Stream} library. Read the method documentation below for
- * comparisons. These methods are not being deprecated, but we gently encourage you to migrate to
- * streams.
+ * <p><b>Java 8+ users:</b> several common uses for this class are now more comprehensively
+ * addressed by the new {@link java.util.stream.Stream} library. Read the method documentation below
+ * for comparisons. These methods are not being deprecated, but we gently encourage you to migrate
+ * to streams.
  *
  * @author Chris Povirk
  * @author Mike Bostock

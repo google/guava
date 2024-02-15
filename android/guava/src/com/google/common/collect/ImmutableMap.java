@@ -884,7 +884,8 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    *
    * @since 23.5 (but since 21.0 in the JRE <a
    *     href="https://github.com/google/guava#guava-google-core-libraries-for-java">flavor</a>).
-   *     Note that API Level 24 users can call this method with any version of Guava.
+   *     Note, however, that Java 8+ users can call this method with any version and flavor of
+   *     Guava.
    */
   // @Override under Java 8 / API Level 24
   @CheckForNull

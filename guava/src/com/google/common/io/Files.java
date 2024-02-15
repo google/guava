@@ -424,10 +424,10 @@ public final class Files {
    *     context.getCacheDir()}), and create your own directory under that. (For example, you might
    *     use {@code new File(context.getCacheDir(), "directoryname").mkdir()}, or, if you need an
    *     arbitrary number of temporary directories, you might have to generate multiple directory
-   *     names in a loop until {@code mkdir()} returns {@code true}.) For developers on Java 7 or
-   *     later, use {@link java.nio.file.Files#createTempDirectory}, transforming it to a {@link
-   *     File} using {@link java.nio.file.Path#toFile() toFile()} if needed. To restrict permissions
-   *     as this method does, pass {@code
+   *     names in a loop until {@code mkdir()} returns {@code true}.) For Java 7+ users, prefer
+   *     {@link java.nio.file.Files#createTempDirectory}, transforming it to a {@link File} using
+   *     {@link java.nio.file.Path#toFile() toFile()} if needed. To restrict permissions as this
+   *     method does, pass {@code
    *     PosixFilePermissions.asFileAttribute(PosixFilePermissions.fromString("rwx------"))} to your
    *     call to {@code createTempDirectory}.
    */

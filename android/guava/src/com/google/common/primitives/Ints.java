@@ -50,7 +50,7 @@ public final class Ints extends IntsMethodsForWeb {
   /**
    * The number of bytes required to represent a primitive {@code int} value.
    *
-   * <p><b>Java 8 users:</b> use {@link Integer#BYTES} instead.
+   * <p><b>Java 8+ users:</b> use {@link Integer#BYTES} instead.
    */
   public static final int BYTES = Integer.SIZE / Byte.SIZE;
 
@@ -65,7 +65,7 @@ public final class Ints extends IntsMethodsForWeb {
    * Returns a hash code for {@code value}; equal to the result of invoking {@code ((Integer)
    * value).hashCode()}.
    *
-   * <p><b>Java 8 users:</b> use {@link Integer#hashCode(int)} instead.
+   * <p><b>Java 8+ users:</b> use {@link Integer#hashCode(int)} instead.
    *
    * @param value a primitive {@code int} value
    * @return a hash code for the value
@@ -110,8 +110,8 @@ public final class Ints extends IntsMethodsForWeb {
    * Compares the two specified {@code int} values. The sign of the value returned is the same as
    * that of {@code ((Integer) a).compareTo(b)}.
    *
-   * <p><b>Note for Java 7 and later:</b> this method should be treated as deprecated; use the
-   * equivalent {@link Integer#compare} method instead.
+   * <p><b>Java 7+ users:</b> this method should be treated as deprecated; use the equivalent {@link
+   * Integer#compare} method instead.
    *
    * @param a the first {@code int} to compare
    * @param b the second {@code int} to compare

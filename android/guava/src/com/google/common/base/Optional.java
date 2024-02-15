@@ -133,7 +133,7 @@ public abstract class Optional<T> implements Serializable {
    * {@link #or(Object)} or {@link #orNull} instead.
    *
    * <p><b>Comparison to {@code java.util.Optional}:</b> when the value is absent, this method
-   * throws {@link IllegalStateException}, whereas the Java 8 counterpart throws {@link
+   * throws {@link IllegalStateException}, whereas the {@code java.util} counterpart throws {@link
    * java.util.NoSuchElementException NoSuchElementException}.
    *
    * @throws IllegalStateException if the instance is absent ({@link #isPresent} returns {@code
@@ -194,7 +194,7 @@ public abstract class Optional<T> implements Serializable {
    *
    * <p><b>Comparison to {@code java.util.Optional}:</b> this method is similar to Java 8's {@code
    * Optional.orElseGet}, except when {@code supplier} returns {@code null}. In this case this
-   * method throws an exception, whereas the Java 8 method returns the {@code null} to the caller.
+   * method throws an exception, whereas the Java 8+ method returns the {@code null} to the caller.
    *
    * @throws NullPointerException if this optional's value is absent and the supplier returns {@code
    *     null}
@@ -242,7 +242,7 @@ public abstract class Optional<T> implements Serializable {
    *
    * <p><b>Comparison to {@code java.util.Optional}:</b> this method is similar to Java 8's {@code
    * Optional.map}, except when {@code function} returns {@code null}. In this case this method
-   * throws an exception, whereas the Java 8 method returns {@code Optional.absent()}.
+   * throws an exception, whereas the Java 8+ method returns {@code Optional.absent()}.
    *
    * @throws NullPointerException if the function returns {@code null}
    * @since 12.0
@@ -263,7 +263,7 @@ public abstract class Optional<T> implements Serializable {
    * Returns a hash code for this instance.
    *
    * <p><b>Comparison to {@code java.util.Optional}:</b> this class leaves the specific choice of
-   * hash code unspecified, unlike the Java 8 equivalent.
+   * hash code unspecified, unlike the Java 8+ equivalent.
    */
   @Override
   public abstract int hashCode();
@@ -272,7 +272,7 @@ public abstract class Optional<T> implements Serializable {
    * Returns a string representation for this instance.
    *
    * <p><b>Comparison to {@code java.util.Optional}:</b> this class leaves the specific string
-   * representation unspecified, unlike the Java 8 equivalent.
+   * representation unspecified, unlike the Java 8+ equivalent.
    */
   @Override
   public abstract String toString();

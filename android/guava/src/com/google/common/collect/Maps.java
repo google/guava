@@ -1267,7 +1267,7 @@ public final class Maps {
    * <p>If your index may associate multiple values with each key, use {@link
    * Multimaps#index(Iterable, Function) Multimaps.index}.
    *
-   * <p><b>Note:</b> on Java 8 and later, it is usually better to use streams. For example:
+   * <p><b>Note:</b> on Java 8+, it is usually better to use streams. For example:
    *
    * <pre>{@code
    * import static com.google.common.collect.ImmutableMap.toImmutableMap;

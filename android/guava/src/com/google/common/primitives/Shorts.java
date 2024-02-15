@@ -50,7 +50,7 @@ public final class Shorts extends ShortsMethodsForWeb {
   /**
    * The number of bytes required to represent a primitive {@code short} value.
    *
-   * <p><b>Java 8 users:</b> use {@link Short#BYTES} instead.
+   * <p><b>Java 8+ users:</b> use {@link Short#BYTES} instead.
    */
   public static final int BYTES = Short.SIZE / Byte.SIZE;
 
@@ -65,7 +65,7 @@ public final class Shorts extends ShortsMethodsForWeb {
    * Returns a hash code for {@code value}; equal to the result of invoking {@code ((Short)
    * value).hashCode()}.
    *
-   * <p><b>Java 8 users:</b> use {@link Short#hashCode(short)} instead.
+   * <p><b>Java 8+ users:</b> use {@link Short#hashCode(short)} instead.
    *
    * @param value a primitive {@code short} value
    * @return a hash code for the value
@@ -109,8 +109,8 @@ public final class Shorts extends ShortsMethodsForWeb {
    * Compares the two specified {@code short} values. The sign of the value returned is the same as
    * that of {@code ((Short) a).compareTo(b)}.
    *
-   * <p><b>Note for Java 7 and later:</b> this method should be treated as deprecated; use the
-   * equivalent {@link Short#compare} method instead.
+   * <p><b>Java 7+ users:</b> this method should be treated as deprecated; use the equivalent {@link
+   * Short#compare} method instead.
    *
    * @param a the first {@code short} to compare
    * @param b the second {@code short} to compare

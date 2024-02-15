@@ -525,7 +525,7 @@ public final class Lists {
    * serialize the copy. Other methods similar to this do not implement serialization at all for
    * this reason.
    *
-   * <p><b>Java 8 users:</b> many use cases for this method are better addressed by {@link
+   * <p><b>Java 8+ users:</b> many use cases for this method are better addressed by {@link
    * java.util.stream.Stream#map}. This method is not being deprecated, but we gently encourage you
    * to migrate to streams.
    */

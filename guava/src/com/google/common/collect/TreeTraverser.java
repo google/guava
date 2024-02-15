@@ -49,8 +49,8 @@ import javax.annotation.CheckForNull;
  *
  * <p>Null nodes are strictly forbidden.
  *
- * <p><b>For Java 8 users:</b> Because this is an abstract class, not an interface, you can't use a
- * lambda expression to extend it:
+ * <p>Because this is an abstract class, not an interface, you can't use a lambda expression to
+ * implement it:
  *
  * <pre>{@code
  * // won't work

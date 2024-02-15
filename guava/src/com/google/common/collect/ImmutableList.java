@@ -310,7 +310,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    * ImmutableSortedSet.copyOf(elements)}; if you want a {@code List} you can use its {@code
    * asList()} view.
    *
-   * <p><b>Java 8 users:</b> If you want to convert a {@link java.util.stream.Stream} to a sorted
+   * <p><b>Java 8+ users:</b> If you want to convert a {@link java.util.stream.Stream} to a sorted
    * {@code ImmutableList}, use {@code stream.sorted().collect(toImmutableList())}.
    *
    * @throws NullPointerException if any element in the input is null
@@ -333,7 +333,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    * ImmutableSortedSet.copyOf(comparator, elements)}; if you want a {@code List} you can use its
    * {@code asList()} view.
    *
-   * <p><b>Java 8 users:</b> If you want to convert a {@link java.util.stream.Stream} to a sorted
+   * <p><b>Java 8+ users:</b> If you want to convert a {@link java.util.stream.Stream} to a sorted
    * {@code ImmutableList}, use {@code stream.sorted(comparator).collect(toImmutableList())}.
    *
    * @throws NullPointerException if any element in the input is null
