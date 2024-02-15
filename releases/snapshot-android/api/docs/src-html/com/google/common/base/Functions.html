@@ -64,9 +64,9 @@
 <span class="sourceLineNo">055</span><a id="line.55">   * {@code equals}, {@code hashCode} or {@code toString} behavior of the returned function. A</a>
 <span class="sourceLineNo">056</span><a id="line.56">   * future migration to {@code java.util.function} will not preserve this behavior.</a>
 <span class="sourceLineNo">057</span><a id="line.57">   *</a>
-<span class="sourceLineNo">058</span><a id="line.58">   * &lt;p&gt;&lt;b&gt;For Java 8 users:&lt;/b&gt; use the method reference {@code Object::toString} instead. In the</a>
+<span class="sourceLineNo">058</span><a id="line.58">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; use the method reference {@code Object::toString} instead. In the</a>
 <span class="sourceLineNo">059</span><a id="line.59">   * future, when this class requires Java 8, this method will be deprecated. See {@link Function}</a>
-<span class="sourceLineNo">060</span><a id="line.60">   * for more important information about the Java 8 transition.</a>
+<span class="sourceLineNo">060</span><a id="line.60">   * for more important information about the Java 8+ transition.</a>
 <span class="sourceLineNo">061</span><a id="line.61">   */</a>
 <span class="sourceLineNo">062</span><a id="line.62">  public static Function&lt;Object, String&gt; toStringFunction() {</a>
 <span class="sourceLineNo">063</span><a id="line.63">    return ToStringFunction.INSTANCE;</a>
@@ -125,7 +125,7 @@
 <span class="sourceLineNo">116</span><a id="line.116">   * can use {@link com.google.common.collect.Maps#asConverter Maps.asConverter} instead to get a</a>
 <span class="sourceLineNo">117</span><a id="line.117">   * function that also supports reverse conversion.</a>
 <span class="sourceLineNo">118</span><a id="line.118">   *</a>
-<span class="sourceLineNo">119</span><a id="line.119">   * &lt;p&gt;&lt;b&gt;Java 8 users:&lt;/b&gt; if you are okay with {@code null} being returned for an unrecognized</a>
+<span class="sourceLineNo">119</span><a id="line.119">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; if you are okay with {@code null} being returned for an unrecognized</a>
 <span class="sourceLineNo">120</span><a id="line.120">   * key (instead of an exception being thrown), you can use the method reference {@code map::get}</a>
 <span class="sourceLineNo">121</span><a id="line.121">   * instead.</a>
 <span class="sourceLineNo">122</span><a id="line.122">   */</a>
@@ -139,7 +139,7 @@
 <span class="sourceLineNo">130</span><a id="line.130">   * this method returns {@code defaultValue} for all inputs that do not belong to the map's key</a>
 <span class="sourceLineNo">131</span><a id="line.131">   * set. See also {@link #forMap(Map)}, which throws an exception in this case.</a>
 <span class="sourceLineNo">132</span><a id="line.132">   *</a>
-<span class="sourceLineNo">133</span><a id="line.133">   * &lt;p&gt;&lt;b&gt;Java 8 users:&lt;/b&gt; you can just write the lambda expression {@code k -&gt;</a>
+<span class="sourceLineNo">133</span><a id="line.133">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; you can just write the lambda expression {@code k -&gt;</a>
 <span class="sourceLineNo">134</span><a id="line.134">   * map.getOrDefault(k, defaultValue)} instead.</a>
 <span class="sourceLineNo">135</span><a id="line.135">   *</a>
 <span class="sourceLineNo">136</span><a id="line.136">   * @param map source map that determines the function behavior</a>
@@ -239,7 +239,7 @@
 <span class="sourceLineNo">230</span><a id="line.230">   * Returns the composition of two functions. For {@code f: A-&gt;B} and {@code g: B-&gt;C}, composition</a>
 <span class="sourceLineNo">231</span><a id="line.231">   * is defined as the function h such that {@code h(a) == g(f(a))} for each {@code a}.</a>
 <span class="sourceLineNo">232</span><a id="line.232">   *</a>
-<span class="sourceLineNo">233</span><a id="line.233">   * &lt;p&gt;&lt;b&gt;Java 8 users:&lt;/b&gt; use {@code g.compose(f)} or (probably clearer) {@code f.andThen(g)}</a>
+<span class="sourceLineNo">233</span><a id="line.233">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; use {@code g.compose(f)} or (probably clearer) {@code f.andThen(g)}</a>
 <span class="sourceLineNo">234</span><a id="line.234">   * instead.</a>
 <span class="sourceLineNo">235</span><a id="line.235">   *</a>
 <span class="sourceLineNo">236</span><a id="line.236">   * @param g the second function to apply</a>
@@ -298,7 +298,7 @@
 <span class="sourceLineNo">289</span><a id="line.289">   * &lt;p&gt;The returned function is &lt;i&gt;consistent with equals&lt;/i&gt; (as documented at {@link</a>
 <span class="sourceLineNo">290</span><a id="line.290">   * Function#apply}) if and only if {@code predicate} is itself consistent with equals.</a>
 <span class="sourceLineNo">291</span><a id="line.291">   *</a>
-<span class="sourceLineNo">292</span><a id="line.292">   * &lt;p&gt;&lt;b&gt;Java 8 users:&lt;/b&gt; use the method reference {@code predicate::test} instead.</a>
+<span class="sourceLineNo">292</span><a id="line.292">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; use the method reference {@code predicate::test} instead.</a>
 <span class="sourceLineNo">293</span><a id="line.293">   */</a>
 <span class="sourceLineNo">294</span><a id="line.294">  public static &lt;T extends @Nullable Object&gt; Function&lt;T, Boolean&gt; forPredicate(</a>
 <span class="sourceLineNo">295</span><a id="line.295">      Predicate&lt;T&gt; predicate) {</a>
@@ -344,7 +344,7 @@
 <span class="sourceLineNo">335</span><a id="line.335">  /**</a>
 <span class="sourceLineNo">336</span><a id="line.336">   * Returns a function that ignores its input and always returns {@code value}.</a>
 <span class="sourceLineNo">337</span><a id="line.337">   *</a>
-<span class="sourceLineNo">338</span><a id="line.338">   * &lt;p&gt;&lt;b&gt;Java 8 users:&lt;/b&gt; use the lambda expression {@code o -&gt; value} instead.</a>
+<span class="sourceLineNo">338</span><a id="line.338">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; use the lambda expression {@code o -&gt; value} instead.</a>
 <span class="sourceLineNo">339</span><a id="line.339">   *</a>
 <span class="sourceLineNo">340</span><a id="line.340">   * @param value the constant value for the function to return</a>
 <span class="sourceLineNo">341</span><a id="line.341">   * @return a function that always returns {@code value}</a>
@@ -393,7 +393,7 @@
 <span class="sourceLineNo">384</span><a id="line.384">  /**</a>
 <span class="sourceLineNo">385</span><a id="line.385">   * Returns a function that ignores its input and returns the result of {@code supplier.get()}.</a>
 <span class="sourceLineNo">386</span><a id="line.386">   *</a>
-<span class="sourceLineNo">387</span><a id="line.387">   * &lt;p&gt;&lt;b&gt;Java 8 users:&lt;/b&gt; use the lambda expression {@code o -&gt; supplier.get()} instead.</a>
+<span class="sourceLineNo">387</span><a id="line.387">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; use the lambda expression {@code o -&gt; supplier.get()} instead.</a>
 <span class="sourceLineNo">388</span><a id="line.388">   *</a>
 <span class="sourceLineNo">389</span><a id="line.389">   * @since 10.0</a>
 <span class="sourceLineNo">390</span><a id="line.390">   */</a>

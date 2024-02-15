@@ -269,9 +269,9 @@ extends java.lang.Object</pre>
  <code>equals</code>, <code>hashCode</code> or <code>toString</code> behavior of the returned function. A
  future migration to <code>java.util.function</code> will not preserve this behavior.
 
- <p><b>For Java 8 users:</b> use the method reference <code>Object::toString</code> instead. In the
+ <p><b>Java 8+ users:</b> use the method reference <code>Object::toString</code> instead. In the
  future, when this class requires Java 8, this method will be deprecated. See <a href="Function.html" title="interface in com.google.common.base"><code>Function</code></a>
- for more important information about the Java 8 transition.</div>
+ for more important information about the Java 8+ transition.</div>
 </li>
 </ul>
 <a id="identity()">
@@ -300,7 +300,7 @@ extends java.lang.Object</pre>
  can use <a href="../collect/Maps.html#asConverter(com.google.common.collect.BiMap)"><code>Maps.asConverter</code></a> instead to get a
  function that also supports reverse conversion.
 
- <p><b>Java 8 users:</b> if you are okay with <code>null</code> being returned for an unrecognized
+ <p><b>Java 8+ users:</b> if you are okay with <code>null</code> being returned for an unrecognized
  key (instead of an exception being thrown), you can use the method reference <code>map::get</code>
  instead.</div>
 </li>
@@ -319,7 +319,7 @@ extends java.lang.Object</pre>
  this method returns <code>defaultValue</code> for all inputs that do not belong to the map's key
  set. See also <a href="#forMap(java.util.Map)"><code>forMap(Map)</code></a>, which throws an exception in this case.
 
- <p><b>Java 8 users:</b> you can just write the lambda expression <code>k -&gt;
+ <p><b>Java 8+ users:</b> you can just write the lambda expression <code>k -&gt;
  map.getOrDefault(k, defaultValue)</code> instead.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -342,7 +342,7 @@ extends java.lang.Object</pre>
 <div class="block">Returns the composition of two functions. For <code>f: A-&gt;B</code> and <code>g: B-&gt;C</code>, composition
  is defined as the function h such that <code>h(a) == g(f(a))</code> for each <code>a</code>.
 
- <p><b>Java 8 users:</b> use <code>g.compose(f)</code> or (probably clearer) <code>f.andThen(g)</code>
+ <p><b>Java 8+ users:</b> use <code>g.compose(f)</code> or (probably clearer) <code>f.andThen(g)</code>
  instead.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -366,7 +366,7 @@ extends java.lang.Object</pre>
 
  <p>The returned function is <i>consistent with equals</i> (as documented at <a href="Function.html#apply(F)"><code>Function.apply(F)</code></a>) if and only if <code>predicate</code> is itself consistent with equals.
 
- <p><b>Java 8 users:</b> use the method reference <code>predicate::test</code> instead.</div>
+ <p><b>Java 8+ users:</b> use the method reference <code>predicate::test</code> instead.</div>
 </li>
 </ul>
 <a id="constant(java.lang.Object)">
@@ -380,7 +380,7 @@ extends java.lang.Object</pre>
 <pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="Function.html" title="interface in com.google.common.base">Function</a>&lt;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Functions.html#line.343">constant</a>&#8203;(E&nbsp;value)</pre>
 <div class="block">Returns a function that ignores its input and always returns <code>value</code>.
 
- <p><b>Java 8 users:</b> use the lambda expression <code>o -&gt; value</code> instead.</div>
+ <p><b>Java 8+ users:</b> use the lambda expression <code>o -&gt; value</code> instead.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>value</code> - the constant value for the function to return</dd>
@@ -398,7 +398,7 @@ extends java.lang.Object</pre>
 <pre class="methodSignature">public static&nbsp;&lt;F extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="Function.html" title="interface in com.google.common.base">Function</a>&lt;F,&#8203;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Functions.html#line.391">forSupplier</a>&#8203;(<a href="Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;&nbsp;supplier)</pre>
 <div class="block">Returns a function that ignores its input and returns the result of <code>supplier.get()</code>.
 
- <p><b>Java 8 users:</b> use the lambda expression <code>o -&gt; supplier.get()</code> instead.</div>
+ <p><b>Java 8+ users:</b> use the lambda expression <code>o -&gt; supplier.get()</code> instead.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>10.0</dd>

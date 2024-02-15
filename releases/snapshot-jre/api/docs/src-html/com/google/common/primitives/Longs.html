@@ -60,7 +60,7 @@
 <span class="sourceLineNo">051</span><a id="line.51">  /**</a>
 <span class="sourceLineNo">052</span><a id="line.52">   * The number of bytes required to represent a primitive {@code long} value.</a>
 <span class="sourceLineNo">053</span><a id="line.53">   *</a>
-<span class="sourceLineNo">054</span><a id="line.54">   * &lt;p&gt;&lt;b&gt;Java 8 users:&lt;/b&gt; use {@link Long#BYTES} instead.</a>
+<span class="sourceLineNo">054</span><a id="line.54">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; use {@link Long#BYTES} instead.</a>
 <span class="sourceLineNo">055</span><a id="line.55">   */</a>
 <span class="sourceLineNo">056</span><a id="line.56">  public static final int BYTES = Long.SIZE / Byte.SIZE;</a>
 <span class="sourceLineNo">057</span><a id="line.57"></a>
@@ -79,7 +79,7 @@
 <span class="sourceLineNo">070</span><a id="line.70">   * might be different from {@code ((Long) value).hashCode()} in GWT because {@link</a>
 <span class="sourceLineNo">071</span><a id="line.71">   * Long#hashCode()} in GWT does not obey the JRE contract.</a>
 <span class="sourceLineNo">072</span><a id="line.72">   *</a>
-<span class="sourceLineNo">073</span><a id="line.73">   * &lt;p&gt;&lt;b&gt;Java 8 users:&lt;/b&gt; use {@link Long#hashCode(long)} instead.</a>
+<span class="sourceLineNo">073</span><a id="line.73">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; use {@link Long#hashCode(long)} instead.</a>
 <span class="sourceLineNo">074</span><a id="line.74">   *</a>
 <span class="sourceLineNo">075</span><a id="line.75">   * @param value a primitive {@code long} value</a>
 <span class="sourceLineNo">076</span><a id="line.76">   * @return a hash code for the value</a>
@@ -92,8 +92,8 @@
 <span class="sourceLineNo">083</span><a id="line.83">   * Compares the two specified {@code long} values. The sign of the value returned is the same as</a>
 <span class="sourceLineNo">084</span><a id="line.84">   * that of {@code ((Long) a).compareTo(b)}.</a>
 <span class="sourceLineNo">085</span><a id="line.85">   *</a>
-<span class="sourceLineNo">086</span><a id="line.86">   * &lt;p&gt;&lt;b&gt;Note for Java 7 and later:&lt;/b&gt; this method should be treated as deprecated; use the</a>
-<span class="sourceLineNo">087</span><a id="line.87">   * equivalent {@link Long#compare} method instead.</a>
+<span class="sourceLineNo">086</span><a id="line.86">   * &lt;p&gt;&lt;b&gt;Java 7+ users:&lt;/b&gt; this method should be treated as deprecated; use the equivalent {@link</a>
+<span class="sourceLineNo">087</span><a id="line.87">   * Long#compare} method instead.</a>
 <span class="sourceLineNo">088</span><a id="line.88">   *</a>
 <span class="sourceLineNo">089</span><a id="line.89">   * @param a the first {@code long} to compare</a>
 <span class="sourceLineNo">090</span><a id="line.90">   * @param b the second {@code long} to compare</a>

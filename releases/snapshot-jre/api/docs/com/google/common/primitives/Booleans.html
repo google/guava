@@ -389,7 +389,7 @@ extends java.lang.Object</pre>
 <div class="block">Returns a hash code for <code>value</code>; equal to the result of invoking <code>((Boolean)
  value).hashCode()</code>.
 
- <p><b>Java 8 users:</b> use <code>Boolean.hashCode(boolean)</code> instead.</div>
+ <p><b>Java 8+ users:</b> use <code>Boolean.hashCode(boolean)</code> instead.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>value</code> - a primitive <code>boolean</code> value</dd>
@@ -410,8 +410,7 @@ extends java.lang.Object</pre>
  considered less than <code>true</code>). The sign of the value returned is the same as that of
  <code>((Boolean) a).compareTo(b)</code>.
 
- <p><b>Note for Java 7 and later:</b> this method should be treated as deprecated; use the
- equivalent <code>Boolean.compare(boolean, boolean)</code> method instead.</div>
+ <p><b>Java 7+ users:</b> this method should be treated as deprecated; use the equivalent <code>Boolean.compare(boolean, boolean)</code> method instead.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>a</code> - the first <code>boolean</code> to compare</dd>

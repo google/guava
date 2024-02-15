@@ -1507,7 +1507,7 @@
       <doc>
       <![CDATA[US-ASCII: seven-bit ASCII, the Basic Latin block of the Unicode character set (ISO646-US).
 
- <p><b>Note for Java 7 and later:</b> this constant should be treated as deprecated; use {@link
+ <p><b>Java 7+ users:</b> this constant should be treated as deprecated; use {@link
  java.nio.charset.StandardCharsets#US_ASCII} instead.]]>
       </doc>
     </field>
@@ -1518,7 +1518,7 @@
       <doc>
       <![CDATA[ISO-8859-1: ISO Latin Alphabet Number 1 (ISO-LATIN-1).
 
- <p><b>Note for Java 7 and later:</b> this constant should be treated as deprecated; use {@link
+ <p><b>Java 7+ users:</b> this constant should be treated as deprecated; use {@link
  java.nio.charset.StandardCharsets#ISO_8859_1} instead.]]>
       </doc>
     </field>
@@ -1529,7 +1529,7 @@
       <doc>
       <![CDATA[UTF-8: eight-bit UCS Transformation Format.
 
- <p><b>Note for Java 7 and later:</b> this constant should be treated as deprecated; use {@link
+ <p><b>Java 7+ users:</b> this constant should be treated as deprecated; use {@link
  java.nio.charset.StandardCharsets#UTF_8} instead.]]>
       </doc>
     </field>
@@ -1540,7 +1540,7 @@
       <doc>
       <![CDATA[UTF-16BE: sixteen-bit UCS Transformation Format, big-endian byte order.
 
- <p><b>Note for Java 7 and later:</b> this constant should be treated as deprecated; use {@link
+ <p><b>Java 7+ users:</b> this constant should be treated as deprecated; use {@link
  java.nio.charset.StandardCharsets#UTF_16BE} instead.]]>
       </doc>
     </field>
@@ -1551,7 +1551,7 @@
       <doc>
       <![CDATA[UTF-16LE: sixteen-bit UCS Transformation Format, little-endian byte order.
 
- <p><b>Note for Java 7 and later:</b> this constant should be treated as deprecated; use {@link
+ <p><b>Java 7+ users:</b> this constant should be treated as deprecated; use {@link
  java.nio.charset.StandardCharsets#UTF_16LE} instead.]]>
       </doc>
     </field>
@@ -1563,7 +1563,7 @@
       <![CDATA[UTF-16: sixteen-bit UCS Transformation Format, byte order identified by an optional byte-order
  mark.
 
- <p><b>Note for Java 7 and later:</b> this constant should be treated as deprecated; use {@link
+ <p><b>Java 7+ users:</b> this constant should be treated as deprecated; use {@link
  java.nio.charset.StandardCharsets#UTF_16} instead.]]>
       </doc>
     </field>
@@ -1774,7 +1774,7 @@
        create a "fake" converter for a unit test. It is unnecessary (and confusing) to <i>mock</i>
        the {@code Converter} type using a mocking framework.
    <li>Extend this class and implement its {@link #doForward} and {@link #doBackward} methods.
-   <li><b>Java 8 users:</b> you may prefer to pass two lambda expressions or method references to
+   <li><b>Java 8+ users:</b> you may prefer to pass two lambda expressions or method references to
        the {@link #from from} factory method.
  </ul>
 
@@ -2438,9 +2438,9 @@
  {@code equals}, {@code hashCode} or {@code toString} behavior of the returned function. A
  future migration to {@code java.util.function} will not preserve this behavior.
 
- <p><b>For Java 8 users:</b> use the method reference {@code Object::toString} instead. In the
+ <p><b>Java 8+ users:</b> use the method reference {@code Object::toString} instead. In the
  future, when this class requires Java 8, this method will be deprecated. See {@link Function}
- for more important information about the Java 8 transition.]]>
+ for more important information about the Java 8+ transition.]]>
       </doc>
     </method>
     <method name="identity" return="com.google.common.base.Function&lt;E, E&gt;"
@@ -2468,7 +2468,7 @@
  can use {@link com.google.common.collect.Maps#asConverter Maps.asConverter} instead to get a
  function that also supports reverse conversion.
 
- <p><b>Java 8 users:</b> if you are okay with {@code null} being returned for an unrecognized
+ <p><b>Java 8+ users:</b> if you are okay with {@code null} being returned for an unrecognized
  key (instead of an exception being thrown), you can use the method reference {@code map::get}
  instead.]]>
       </doc>
@@ -2484,7 +2484,7 @@
  this method returns {@code defaultValue} for all inputs that do not belong to the map's key
  set. See also {@link #forMap(Map)}, which throws an exception in this case.
 
- <p><b>Java 8 users:</b> you can just write the lambda expression {@code k ->
+ <p><b>Java 8+ users:</b> you can just write the lambda expression {@code k ->
  map.getOrDefault(k, defaultValue)} instead.
 
  @param map source map that determines the function behavior
@@ -2503,7 +2503,7 @@
       <![CDATA[Returns the composition of two functions. For {@code f: A->B} and {@code g: B->C}, composition
  is defined as the function h such that {@code h(a) == g(f(a))} for each {@code a}.
 
- <p><b>Java 8 users:</b> use {@code g.compose(f)} or (probably clearer) {@code f.andThen(g)}
+ <p><b>Java 8+ users:</b> use {@code g.compose(f)} or (probably clearer) {@code f.andThen(g)}
  instead.
 
  @param g the second function to apply
@@ -2523,7 +2523,7 @@
  <p>The returned function is <i>consistent with equals</i> (as documented at {@link
  Function#apply}) if and only if {@code predicate} is itself consistent with equals.
 
- <p><b>Java 8 users:</b> use the method reference {@code predicate::test} instead.]]>
+ <p><b>Java 8+ users:</b> use the method reference {@code predicate::test} instead.]]>
       </doc>
     </method>
     <method name="constant" return="com.google.common.base.Function&lt;java.lang.Object, E&gt;"
@@ -2534,7 +2534,7 @@
       <doc>
       <![CDATA[Returns a function that ignores its input and always returns {@code value}.
 
- <p><b>Java 8 users:</b> use the lambda expression {@code o -> value} instead.
+ <p><b>Java 8+ users:</b> use the lambda expression {@code o -> value} instead.
 
  @param value the constant value for the function to return
  @return a function that always returns {@code value}]]>
@@ -2548,7 +2548,7 @@
       <doc>
       <![CDATA[Returns a function that ignores its input and returns the result of {@code supplier.get()}.
 
- <p><b>Java 8 users:</b> use the lambda expression {@code o -> supplier.get()} instead.
+ <p><b>Java 8+ users:</b> use the lambda expression {@code o -> supplier.get()} instead.
 
  @since 10.0]]>
       </doc>
@@ -3328,7 +3328,7 @@
  <p>This assumes that any non-null objects passed to this function conform to the {@code
  equals()} contract.
 
- <p><b>Note for Java 7 and later:</b> This method should be treated as deprecated; use {@link
+ <p><b>Java 7+ users:</b> This method should be treated as deprecated; use {@link
  java.util.Objects#equals} instead.]]>
       </doc>
     </method>
@@ -3355,7 +3355,7 @@
  <p><b>Warning:</b> When a single object is supplied, the returned hash code does not equal the
  hash code of that object.
 
- <p><b>Note for Java 7 and later:</b> This method should be treated as deprecated; use {@link
+ <p><b>Java 7+ users:</b> This method should be treated as deprecated; use {@link
  java.util.Objects#hash} instead.]]>
       </doc>
     </method>
@@ -3479,7 +3479,7 @@
  {@link #or(Object)} or {@link #orNull} instead.
 
  <p><b>Comparison to {@code java.util.Optional}:</b> when the value is absent, this method
- throws {@link IllegalStateException}, whereas the Java 8 counterpart throws {@link
+ throws {@link IllegalStateException}, whereas the {@code java.util} counterpart throws {@link
  java.util.NoSuchElementException NoSuchElementException}.
 
  @throws IllegalStateException if the instance is absent ({@link #isPresent} returns {@code
@@ -3552,7 +3552,7 @@
 
  <p><b>Comparison to {@code java.util.Optional}:</b> this method is similar to Java 8's {@code
  Optional.orElseGet}, except when {@code supplier} returns {@code null}. In this case this
- method throws an exception, whereas the Java 8 method returns the {@code null} to the caller.
+ method throws an exception, whereas the Java 8+ method returns the {@code null} to the caller.
 
  @throws NullPointerException if this optional's value is absent and the supplier returns {@code
      null}]]>
@@ -3609,7 +3609,7 @@
 
  <p><b>Comparison to {@code java.util.Optional}:</b> this method is similar to Java 8's {@code
  Optional.map}, except when {@code function} returns {@code null}. In this case this method
- throws an exception, whereas the Java 8 method returns {@code Optional.absent()}.
+ throws an exception, whereas the Java 8+ method returns {@code Optional.absent()}.
 
  @throws NullPointerException if the function returns {@code null}
  @since 12.0]]>
@@ -3636,7 +3636,7 @@
       <![CDATA[Returns a hash code for this instance.
 
  <p><b>Comparison to {@code java.util.Optional}:</b> this class leaves the specific choice of
- hash code unspecified, unlike the Java 8 equivalent.]]>
+ hash code unspecified, unlike the Java 8+ equivalent.]]>
       </doc>
     </method>
     <method name="toString" return="java.lang.String"
@@ -3647,7 +3647,7 @@
       <![CDATA[Returns a string representation for this instance.
 
  <p><b>Comparison to {@code java.util.Optional}:</b> this class leaves the specific string
- representation unspecified, unlike the Java 8 equivalent.]]>
+ representation unspecified, unlike the Java 8+ equivalent.]]>
       </doc>
     </method>
     <method name="presentInstances" return="java.lang.Iterable&lt;T&gt;"
@@ -5163,7 +5163,7 @@
       deprecated="not deprecated">
       <param name="input" type="T extends java.lang.Object"/>
       <doc>
-      <![CDATA[Returns the result of applying this predicate to {@code input} (Java 8 users, see notes in the
+      <![CDATA[Returns the result of applying this predicate to {@code input} (Java 8+ users, see notes in the
  class documentation above). This method is <i>generally expected</i>, but not absolutely
  required, to have the following properties:
 
@@ -5655,7 +5655,7 @@
       <doc>
       <![CDATA[Splits {@code sequence} into string components and makes them available through an {@link
  Iterator}, which may be lazily evaluated. If you want an eagerly computed {@link List}, use
- {@link #splitToList(CharSequence)}. Java 8 users may prefer {@link #splitToStream} instead.
+ {@link #splitToList(CharSequence)}. Java 8+ users may prefer {@link #splitToStream} instead.
 
  @param sequence the sequence of characters to split
  @return an iteration over the segments split from the parameter]]>
@@ -6451,7 +6451,7 @@
       <![CDATA[Returns a function that accepts a supplier and returns the result of invoking {@link
  Supplier#get} on that supplier.
 
- <p><b>Java 8 users:</b> use the method reference {@code Supplier::get} instead.
+ <p><b>Java 8+ users:</b> use the method reference {@code Supplier::get} instead.
 
  @since 8.0]]>
       </doc>
@@ -8543,10 +8543,10 @@
 
  <p>The successor to Guava's caching API is <a
  href="https://github.com/ben-manes/caffeine/wiki">Caffeine</a>. Its API is designed to make it a
- nearly drop-in replacement -- though it requires Java 8 APIs, is not available for Android or
- GWT/j2cl, and may have <a href="https://github.com/ben-manes/caffeine/wiki/Guava">different
- (usually better) behavior</a> when multiple threads attempt concurrent mutations. Its equivalent
- to {@code CacheBuilder} is its <a
+ nearly drop-in replacement. It requires Java 8+, and is not available for Android or GWT/J2CL,
+ and may have <a href="https://github.com/ben-manes/caffeine/wiki/Guava">different (usually
+ better) behavior</a> when multiple threads attempt concurrent mutations. Its equivalent to {@code
+ CacheBuilder} is its <a
  href="https://www.javadoc.io/doc/com.github.ben-manes.caffeine/caffeine/latest/com.github.benmanes.caffeine/com/github/benmanes/caffeine/cache/Caffeine.html">{@code
  Caffeine}</a> class. Caffeine offers better performance, more features (including asynchronous
  loading), and fewer <a
@@ -10792,10 +10792,10 @@
     <doc>
     <![CDATA[Provides static methods for working with {@code Collection} instances.
 
- <p><b>Java 8 users:</b> several common uses for this class are now more comprehensively addressed
- by the new {@link java.util.stream.Stream} library. Read the method documentation below for
- comparisons. These methods are not being deprecated, but we gently encourage you to migrate to
- streams.
+ <p><b>Java 8+ users:</b> several common uses for this class are now more comprehensively
+ addressed by the new {@link java.util.stream.Stream} library. Read the method documentation below
+ for comparisons. These methods are not being deprecated, but we gently encourage you to migrate
+ to streams.
 
  @author Chris Povirk
  @author Mike Bostock
@@ -11018,7 +11018,7 @@
     </method>
     <doc>
     <![CDATA[Provides static methods for working with {@link Comparator} instances. For many other helpful
- comparator utilities, see either {@code Comparator} itself (for Java 8 or later), or {@code
+ comparator utilities, see either {@code Comparator} itself (for Java 8+), or {@code
  com.google.common.collect.Ordering} (otherwise).
 
  <h3>Relationship to {@code Ordering}</h3>
@@ -18162,7 +18162,7 @@
  ImmutableSortedSet.copyOf(elements)}; if you want a {@code List} you can use its {@code
  asList()} view.
 
- <p><b>Java 8 users:</b> If you want to convert a {@link java.util.stream.Stream} to a sorted
+ <p><b>Java 8+ users:</b> If you want to convert a {@link java.util.stream.Stream} to a sorted
  {@code ImmutableList}, use {@code stream.sorted().collect(toImmutableList())}.
 
  @throws NullPointerException if any element in the input is null
@@ -18184,7 +18184,7 @@
  ImmutableSortedSet.copyOf(comparator, elements)}; if you want a {@code List} you can use its
  {@code asList()} view.
 
- <p><b>Java 8 users:</b> If you want to convert a {@link java.util.stream.Stream} to a sorted
+ <p><b>Java 8+ users:</b> If you want to convert a {@link java.util.stream.Stream} to a sorted
  {@code ImmutableList}, use {@code stream.sorted(comparator).collect(toImmutableList())}.
 
  @throws NullPointerException if any element in the input is null
@@ -19416,7 +19416,8 @@
       <doc>
       <![CDATA[@since 21.0 (but only since 23.5 in the Android <a
      href="https://github.com/google/guava#guava-google-core-libraries-for-java">flavor</a>).
-     Note, however, that Java 8 users can call this method with any version and flavor of Guava.]]>
+     Note, however, that Java 8+ users can call this method with any version and flavor of
+     Guava.]]>
       </doc>
     </method>
     <method name="entrySet" return="com.google.common.collect.ImmutableSet&lt;java.util.Map.Entry&lt;K, V&gt;&gt;"
@@ -25031,7 +25032,7 @@
  The behavior of this method is not specified if {@code predicate} is dependent on {@code
  removeFrom}.
 
- <p><b>Java 8 users:</b> if {@code removeFrom} is a {@link Collection}, use {@code
+ <p><b>Java 8+ users:</b> if {@code removeFrom} is a {@link Collection}, use {@code
  removeFrom.removeIf(predicate)} instead.
 
  @param removeFrom the iterable to (potentially) remove elements from
@@ -25075,7 +25076,7 @@
       <doc>
       <![CDATA[Returns the single element contained in {@code iterable}.
 
- <p><b>Java 8 users:</b> the {@code Stream} equivalent to this method is {@code
+ <p><b>Java 8+ users:</b> the {@code Stream} equivalent to this method is {@code
  stream.collect(MoreCollectors.onlyElement())}.
 
  @throws NoSuchElementException if the iterable is empty
@@ -25092,7 +25093,7 @@
       <![CDATA[Returns the single element contained in {@code iterable}, or {@code defaultValue} if the
  iterable is empty.
 
- <p><b>Java 8 users:</b> the {@code Stream} equivalent to this method is {@code
+ <p><b>Java 8+ users:</b> the {@code Stream} equivalent to this method is {@code
  stream.collect(MoreCollectors.toOptional()).orElse(defaultValue)}.
 
  @throws IllegalArgumentException if the iterator contains multiple elements]]>
@@ -25134,7 +25135,7 @@
       <![CDATA[Returns the number of elements in the specified iterable that equal the specified object. This
  implementation avoids a full iteration when the iterable is a {@link Multiset} or {@link Set}.
 
- <p><b>Java 8 users:</b> In most cases, the {@code Stream} equivalent of this method is {@code
+ <p><b>Java 8+ users:</b> In most cases, the {@code Stream} equivalent of this method is {@code
  stream.filter(element::equals).count()}. If {@code element} might be null, use {@code
  stream.filter(Predicate.isEqual(element)).count()} instead.
 
@@ -25162,7 +25163,7 @@
  <p>To cycle over the iterable {@code n} times, use the following: {@code
  Iterables.concat(Collections.nCopies(n, iterable))}
 
- <p><b>Java 8 users:</b> The {@code Stream} equivalent of this method is {@code
+ <p><b>Java 8+ users:</b> The {@code Stream} equivalent of this method is {@code
  Stream.generate(() -> iterable).flatMap(Streams::stream)}.]]>
       </doc>
     </method>
@@ -25187,8 +25188,8 @@
  <p>To cycle over the elements {@code n} times, use the following: {@code
  Iterables.concat(Collections.nCopies(n, Arrays.asList(elements)))}
 
- <p><b>Java 8 users:</b> If passing a single element {@code e}, the {@code Stream} equivalent of
- this method is {@code Stream.generate(() -> e)}. Otherwise, put the elements in a collection
+ <p><b>Java 8+ users:</b> If passing a single element {@code e}, the {@code Stream} equivalent
+ of this method is {@code Stream.generate(() -> e)}. Otherwise, put the elements in a collection
  and use {@code Stream.generate(() -> collection).flatMap(Collection::stream)}.]]>
       </doc>
     </method>
@@ -25206,8 +25207,8 @@
  <p>The returned iterable's iterator supports {@code remove()} when the corresponding input
  iterator supports it.
 
- <p><b>Java 8 users:</b> The {@code Stream} equivalent of this method is {@code Stream.concat(a,
- b)}.]]>
+ <p><b>Java 8+ users:</b> The {@code Stream} equivalent of this method is {@code
+ Stream.concat(a, b)}.]]>
       </doc>
     </method>
     <method name="concat" return="java.lang.Iterable&lt;T&gt;"
@@ -25225,7 +25226,7 @@
  <p>The returned iterable's iterator supports {@code remove()} when the corresponding input
  iterator supports it.
 
- <p><b>Java 8 users:</b> The {@code Stream} equivalent of this method is {@code
+ <p><b>Java 8+ users:</b> The {@code Stream} equivalent of this method is {@code
  Streams.concat(a, b, c)}.]]>
       </doc>
     </method>
@@ -25246,7 +25247,7 @@
  <p>The returned iterable's iterator supports {@code remove()} when the corresponding input
  iterator supports it.
 
- <p><b>Java 8 users:</b> The {@code Stream} equivalent of this method is {@code
+ <p><b>Java 8+ users:</b> The {@code Stream} equivalent of this method is {@code
  Streams.concat(a, b, c, d)}.]]>
       </doc>
     </method>
@@ -25263,7 +25264,7 @@
  <p>The returned iterable's iterator supports {@code remove()} when the corresponding input
  iterator supports it.
 
- <p><b>Java 8 users:</b> The {@code Stream} equivalent of this method is {@code
+ <p><b>Java 8+ users:</b> The {@code Stream} equivalent of this method is {@code
  Streams.concat(...)}.
 
  @throws NullPointerException if any of the provided iterables is null]]>
@@ -25283,7 +25284,7 @@
  iterator supports it. The methods of the returned iterable may throw {@code
  NullPointerException} if any of the input iterators is null.
 
- <p><b>Java 8 users:</b> The {@code Stream} equivalent of this method is {@code
+ <p><b>Java 8+ users:</b> The {@code Stream} equivalent of this method is {@code
  streamOfStreams.flatMap(s -> s)}.]]>
       </doc>
     </method>
@@ -25696,9 +25697,9 @@
  {@code Iterable}. Except as noted, each method has a corresponding {@link Iterator}-based method
  in the {@link Iterators} class.
 
- <p><b>Java 8 users:</b> several common uses for this class are now more comprehensively addressed
- by the new {@link java.util.stream.Stream} library. Read the method documentation below for
- comparisons. This class is not being deprecated, but we gently encourage you to migrate to
+ <p><b>Java 8+ users:</b> several common uses for this class are now more comprehensively
+ addressed by the new {@link java.util.stream.Stream} library. Read the method documentation below
+ for comparisons. This class is not being deprecated, but we gently encourage you to migrate to
  streams.
 
  <p><i>Performance notes:</i> Unless otherwise noted, all of the iterables produced in this class
@@ -27345,7 +27346,7 @@
  serialize the copy. Other methods similar to this do not implement serialization at all for
  this reason.
 
- <p><b>Java 8 users:</b> many use cases for this method are better addressed by {@link
+ <p><b>Java 8+ users:</b> many use cases for this method are better addressed by {@link
  java.util.stream.Stream#map}. This method is not being deprecated, but we gently encourage you
  to migrate to streams.]]>
       </doc>
@@ -28237,7 +28238,7 @@
  <p>If your index may associate multiple values with each key, use {@link
  Multimaps#index(Iterable, Function) Multimaps.index}.
 
- <p><b>Note:</b> on Java 8 and later, it is usually better to use streams. For example:
+ <p><b>Note:</b> on Java 8+, it is usually better to use streams. For example:
 
  <pre>{@code
  import static com.google.common.collect.ImmutableMap.toImmutableMap;
@@ -32392,7 +32393,7 @@
  <p>The type specification is {@code <C extends Comparable>}, instead of the technically correct
  {@code <C extends Comparable<? super C>>}, to support legacy types from before Java 5.
 
- <p><b>Java 8 users:</b> use {@link Comparator#naturalOrder} instead.]]>
+ <p><b>Java 8+ users:</b> use {@link Comparator#naturalOrder} instead.]]>
       </doc>
     </method>
     <method name="from" return="com.google.common.collect.Ordering&lt;T&gt;"
@@ -32408,7 +32409,7 @@
 
  <p>The returned object is serializable if {@code comparator} is serializable.
 
- <p><b>Java 8 users:</b> this class is now obsolete as explained in the class documentation, so
+ <p><b>Java 8+ users:</b> this class is now obsolete as explained in the class documentation, so
  there is no need to use this method.
 
  @param comparator the comparator that defines the order
@@ -32506,8 +32507,8 @@
 
  <p>The returned comparator is serializable.
 
- <p><b>Java 8 users:</b> Use the lambda expression {@code (a, b) -> 0} instead (in certain cases
- you may need to cast that to {@code Comparator<YourType>}).
+ <p><b>Java 8+ users:</b> Use the lambda expression {@code (a, b) -> 0} instead (in certain
+ cases you may need to cast that to {@code Comparator<YourType>}).
 
  @since 13.0]]>
       </doc>
@@ -32522,7 +32523,7 @@
 
  <p>The comparator is serializable.
 
- <p><b>Java 8 users:</b> Use {@code Comparator.comparing(Object::toString)} instead.]]>
+ <p><b>Java 8+ users:</b> Use {@code Comparator.comparing(Object::toString)} instead.]]>
       </doc>
     </method>
     <method name="arbitrary" return="com.google.common.collect.Ordering&lt;java.lang.Object&gt;"
@@ -32553,7 +32554,7 @@
       <![CDATA[Returns the reverse of this ordering; the {@code Ordering} equivalent to {@link
  Collections#reverseOrder(Comparator)}.
 
- <p><b>Java 8 users:</b> Use {@code thisComparator.reversed()} instead.]]>
+ <p><b>Java 8+ users:</b> Use {@code thisComparator.reversed()} instead.]]>
       </doc>
     </method>
     <method name="nullsFirst" return="com.google.common.collect.Ordering&lt;S&gt;"
@@ -32566,7 +32567,7 @@
 
  <p>The returned object is serializable if this object is serializable.
 
- <p><b>Java 8 users:</b> Use {@code Comparator.nullsFirst(thisComparator)} instead.]]>
+ <p><b>Java 8+ users:</b> Use {@code Comparator.nullsFirst(thisComparator)} instead.]]>
       </doc>
     </method>
     <method name="nullsLast" return="com.google.common.collect.Ordering&lt;S&gt;"
@@ -32579,7 +32580,7 @@
 
  <p>The returned object is serializable if this object is serializable.
 
- <p><b>Java 8 users:</b> Use {@code Comparator.nullsLast(thisComparator)} instead.]]>
+ <p><b>Java 8+ users:</b> Use {@code Comparator.nullsLast(thisComparator)} instead.]]>
       </doc>
     </method>
     <method name="onResultOf" return="com.google.common.collect.Ordering&lt;F&gt;"
@@ -32597,8 +32598,8 @@
      .onResultOf(Functions.toStringFunction())
  }</pre>
 
- <p><b>Java 8 users:</b> Use {@code Comparator.comparing(function, thisComparator)} instead (you
- can omit the comparator if it is the natural order).]]>
+ <p><b>Java 8+ users:</b> Use {@code Comparator.comparing(function, thisComparator)} instead
+ (you can omit the comparator if it is the natural order).]]>
       </doc>
     </method>
     <method name="compound" return="com.google.common.collect.Ordering&lt;U&gt;"
@@ -32618,7 +32619,7 @@
  <p>The returned object is serializable if this object and {@code secondaryComparator} are both
  serializable.
 
- <p><b>Java 8 users:</b> Use {@code thisComparator.thenComparing(secondaryComparator)} instead.
+ <p><b>Java 8+ users:</b> Use {@code thisComparator.thenComparing(secondaryComparator)} instead.
  Depending on what {@code secondaryComparator} is, one of the other overloads of {@code
  thenComparing} may be even more useful.]]>
       </doc>
@@ -32642,7 +32643,7 @@
  <p><b>Warning:</b> Supplying an argument with undefined iteration order, such as a {@link
  HashSet}, will produce non-deterministic results.
 
- <p><b>Java 8 users:</b> Use a chain of calls to {@link Comparator#thenComparing(Comparator)},
+ <p><b>Java 8+ users:</b> Use a chain of calls to {@link Comparator#thenComparing(Comparator)},
  or {@code comparatorCollection.stream().reduce(Comparator::thenComparing).get()} (if the
  collection might be empty, also provide a default comparator as the {@code identity} parameter
  to {@code reduce}).
@@ -32665,7 +32666,7 @@
  ordering.reverse().lexicographical()} (consider how each would order {@code [1]} and {@code [1,
  1]}).
 
- <p><b>Java 8 users:</b> Use {@link Comparators#lexicographical(Comparator)} instead.
+ <p><b>Java 8+ users:</b> Use {@link Comparators#lexicographical(Comparator)} instead.
 
  @since 2.0]]>
       </doc>
@@ -32687,7 +32688,7 @@
  least values, the first of those is returned. The iterator will be left exhausted: its {@code
  hasNext()} method will return {@code false}.
 
- <p><b>Java 8 users:</b> Use {@code Streams.stream(iterator).min(thisComparator).get()} instead
+ <p><b>Java 8+ users:</b> Use {@code Streams.stream(iterator).min(thisComparator).get()} instead
  (but note that it does not guarantee which tied minimum element is returned).
 
  @param iterator the iterator whose minimum element is to be determined
@@ -32706,7 +32707,7 @@
       <![CDATA[Returns the least of the specified values according to this ordering. If there are multiple
  least values, the first of those is returned.
 
- <p><b>Java 8 users:</b> If {@code iterable} is a {@link Collection}, use {@code
+ <p><b>Java 8+ users:</b> If {@code iterable} is a {@link Collection}, use {@code
  Collections.min(collection, thisComparator)} instead. Otherwise, use {@code
  Streams.stream(iterable).min(thisComparator).get()} instead. Note that these alternatives do
  not guarantee which tied minimum element is returned.
@@ -32751,7 +32752,7 @@
       <![CDATA[Returns the least of the specified values according to this ordering. If there are multiple
  least values, the first of those is returned.
 
- <p><b>Java 8 users:</b> Use {@code Collections.min(Arrays.asList(a, b, c...), thisComparator)}
+ <p><b>Java 8+ users:</b> Use {@code Collections.min(Arrays.asList(a, b, c...), thisComparator)}
  instead (but note that it does not guarantee which tied minimum element is returned).
 
  @param a value to compare, returned if less than or equal to the rest.
@@ -32772,7 +32773,7 @@
  greatest values, the first of those is returned. The iterator will be left exhausted: its
  {@code hasNext()} method will return {@code false}.
 
- <p><b>Java 8 users:</b> Use {@code Streams.stream(iterator).max(thisComparator).get()} instead
+ <p><b>Java 8+ users:</b> Use {@code Streams.stream(iterator).max(thisComparator).get()} instead
  (but note that it does not guarantee which tied maximum element is returned).
 
  @param iterator the iterator whose maximum element is to be determined
@@ -32791,7 +32792,7 @@
       <![CDATA[Returns the greatest of the specified values according to this ordering. If there are multiple
  greatest values, the first of those is returned.
 
- <p><b>Java 8 users:</b> If {@code iterable} is a {@link Collection}, use {@code
+ <p><b>Java 8+ users:</b> If {@code iterable} is a {@link Collection}, use {@code
  Collections.max(collection, thisComparator)} instead. Otherwise, use {@code
  Streams.stream(iterable).max(thisComparator).get()} instead. Note that these alternatives do
  not guarantee which tied maximum element is returned.
@@ -32836,7 +32837,7 @@
       <![CDATA[Returns the greatest of the specified values according to this ordering. If there are multiple
  greatest values, the first of those is returned.
 
- <p><b>Java 8 users:</b> Use {@code Collections.max(Arrays.asList(a, b, c...), thisComparator)}
+ <p><b>Java 8+ users:</b> Use {@code Collections.max(Arrays.asList(a, b, c...), thisComparator)}
  instead (but note that it does not guarantee which tied maximum element is returned).
 
  @param a value to compare, returned if greater than or equal to the rest.
@@ -32861,7 +32862,7 @@
  <p>The implementation does not necessarily use a <i>stable</i> sorting algorithm; when multiple
  elements are equivalent, it is undefined which will come first.
 
- <p><b>Java 8 users:</b> Use {@code Streams.stream(iterable).collect(Comparators.least(k,
+ <p><b>Java 8+ users:</b> Use {@code Streams.stream(iterable).collect(Comparators.least(k,
  thisComparator))} instead.
 
  @return an immutable {@code RandomAccess} list of the {@code k} least elements in ascending
@@ -32884,7 +32885,7 @@
  <p>The implementation does not necessarily use a <i>stable</i> sorting algorithm; when multiple
  elements are equivalent, it is undefined which will come first.
 
- <p><b>Java 8 users:</b> Use {@code Streams.stream(iterator).collect(Comparators.least(k,
+ <p><b>Java 8+ users:</b> Use {@code Streams.stream(iterator).collect(Comparators.least(k,
  thisComparator))} instead.
 
  @return an immutable {@code RandomAccess} list of the {@code k} least elements in ascending
@@ -32907,7 +32908,7 @@
  <p>The implementation does not necessarily use a <i>stable</i> sorting algorithm; when multiple
  elements are equivalent, it is undefined which will come first.
 
- <p><b>Java 8 users:</b> Use {@code Streams.stream(iterable).collect(Comparators.greatest(k,
+ <p><b>Java 8+ users:</b> Use {@code Streams.stream(iterable).collect(Comparators.greatest(k,
  thisComparator))} instead.
 
  @return an immutable {@code RandomAccess} list of the {@code k} greatest elements in
@@ -32930,7 +32931,7 @@
  <p>The implementation does not necessarily use a <i>stable</i> sorting algorithm; when multiple
  elements are equivalent, it is undefined which will come first.
 
- <p><b>Java 8 users:</b> Use {@code Streams.stream(iterator).collect(Comparators.greatest(k,
+ <p><b>Java 8+ users:</b> Use {@code Streams.stream(iterator).collect(Comparators.greatest(k,
  thisComparator))} instead.
 
  @return an immutable {@code RandomAccess} list of the {@code k} greatest elements in
@@ -32991,7 +32992,7 @@
  equal to the element that preceded it, according to this ordering. Note that this is always
  true when the iterable has fewer than two elements.
 
- <p><b>Java 8 users:</b> Use the equivalent {@link Comparators#isInOrder(Iterable, Comparator)}
+ <p><b>Java 8+ users:</b> Use the equivalent {@link Comparators#isInOrder(Iterable, Comparator)}
  instead, since the rest of {@code Ordering} is mostly obsolete (as explained in the class
  documentation).]]>
       </doc>
@@ -33006,7 +33007,7 @@
  greater than the element that preceded it, according to this ordering. Note that this is always
  true when the iterable has fewer than two elements.
 
- <p><b>Java 8 users:</b> Use the equivalent {@link Comparators#isInStrictOrder(Iterable,
+ <p><b>Java 8+ users:</b> Use the equivalent {@link Comparators#isInStrictOrder(Iterable,
  Comparator)} instead, since the rest of {@code Ordering} is mostly obsolete (as explained in
  the class documentation).]]>
       </doc>
@@ -33107,12 +33108,12 @@
  {@code function} can themselves be serialized, then {@code ordering.onResultOf(function)} can as
  well.
 
- <h3>For Java 8 users</h3>
+ <h3>Java 8+ users</h3>
 
- <p>If you are using Java 8, this class is now obsolete. Most of its functionality is now provided
- by {@link java.util.stream.Stream Stream} and by {@link Comparator} itself, and the rest can now
- be found as static methods in our new {@link Comparators} class. See each method below for
- further instructions. Whenever possible, you should change any references of type {@code
+ <p>If you are using Java 8+, this class is now obsolete. Most of its functionality is now
+ provided by {@link java.util.stream.Stream Stream} and by {@link Comparator} itself, and the rest
+ can now be found as static methods in our new {@link Comparators} class. See each method below
+ for further instructions. Whenever possible, you should change any references of type {@code
  Ordering} to be of type {@code Comparator} instead. However, at this time we have no plan to
  <i>deprecate</i> this class.
 
@@ -35342,7 +35343,7 @@
  Predicates.instanceOf(ArrayList.class)}, which is inconsistent with equals. (See {@link
  Iterables#filter(Iterable, Class)} for related functionality.)
 
- <p><b>Java 8 users:</b> many use cases for this method are better addressed by {@link
+ <p><b>Java 8+ users:</b> many use cases for this method are better addressed by {@link
  java.util.stream.Stream#filter}. This method is not being deprecated, but we gently encourage
  you to migrate to streams.]]>
       </doc>
@@ -35602,7 +35603,7 @@
  <p>The returned navigable set will be serializable if the specified navigable set is
  serializable.
 
- <p><b>Java 8 users and later:</b> Prefer {@link Collections#unmodifiableNavigableSet}.
+ <p><b>Java 8+ users and later:</b> Prefer {@link Collections#unmodifiableNavigableSet}.
 
  @param set the navigable set for which an unmodifiable view is to be returned
  @return an unmodifiable view of the specified navigable set
@@ -35655,7 +35656,7 @@
  <p>The returned navigable set will be serializable if the specified navigable set is
  serializable.
 
- <p><b>Java 8 users and later:</b> Prefer {@link Collections#synchronizedNavigableSet}.
+ <p><b>Java 8+ users and later:</b> Prefer {@link Collections#synchronizedNavigableSet}.
 
  @param navigableSet the navigable set to be "wrapped" in a synchronized navigable set.
  @return a synchronized view of the specified navigable set.
@@ -37974,8 +37975,8 @@
 
  <p>Null nodes are strictly forbidden.
 
- <p><b>For Java 8 users:</b> Because this is an abstract class, not an interface, you can't use a
- lambda expression to extend it:
+ <p>Because this is an abstract class, not an interface, you can't use a lambda expression to
+ implement it:
 
  <pre>{@code
  // won't work
@@ -48060,10 +48061,10 @@
      context.getCacheDir()}), and create your own directory under that. (For example, you might
      use {@code new File(context.getCacheDir(), quote_cHaRdirectorynamequote_cHaR).mkdir()}, or, if you need an
      arbitrary number of temporary directories, you might have to generate multiple directory
-     names in a loop until {@code mkdir()} returns {@code true}.) For developers on Java 7 or
-     later, use {@link java.nio.file.Files#createTempDirectory}, transforming it to a {@link
-     File} using {@link java.nio.file.Path#toFile() toFile()} if needed. To restrict permissions
-     as this method does, pass {@code
+     names in a loop until {@code mkdir()} returns {@code true}.) For Java 7+ users, prefer
+     {@link java.nio.file.Files#createTempDirectory}, transforming it to a {@link File} using
+     {@link java.nio.file.Path#toFile() toFile()} if needed. To restrict permissions as this
+     method does, pass {@code
      PosixFilePermissions.asFileAttribute(PosixFilePermissions.fromString(quote_cHaRrwx------quote_cHaR))} to your
      call to {@code createTempDirectory}.">
       <doc>
@@ -48098,10 +48099,10 @@
      context.getCacheDir()}), and create your own directory under that. (For example, you might
      use {@code new File(context.getCacheDir(), "directoryname").mkdir()}, or, if you need an
      arbitrary number of temporary directories, you might have to generate multiple directory
-     names in a loop until {@code mkdir()} returns {@code true}.) For developers on Java 7 or
-     later, use {@link java.nio.file.Files#createTempDirectory}, transforming it to a {@link
-     File} using {@link java.nio.file.Path#toFile() toFile()} if needed. To restrict permissions
-     as this method does, pass {@code
+     names in a loop until {@code mkdir()} returns {@code true}.) For Java 7+ users, prefer
+     {@link java.nio.file.Files#createTempDirectory}, transforming it to a {@link File} using
+     {@link java.nio.file.Path#toFile() toFile()} if needed. To restrict permissions as this
+     method does, pass {@code
      PosixFilePermissions.asFileAttribute(PosixFilePermissions.fromString("rwx------"))} to your
      call to {@code createTempDirectory}.]]>
       </doc>
@@ -52048,7 +52049,7 @@
  <p>Static convenience methods called {@code meanOf} are also provided for users who wish to
  calculate <i>only</i> the mean.
 
- <p><b>Java 8 users:</b> If you are not using any of the variance statistics, you may wish to use
+ <p><b>Java 8+ users:</b> If you are not using any of the variance statistics, you may wish to use
  built-in JDK libraries instead of this class.
 
  @author Pete Gillin
@@ -56755,7 +56756,7 @@
       <![CDATA[Returns a hash code for {@code value}; equal to the result of invoking {@code ((Boolean)
  value).hashCode()}.
 
- <p><b>Java 8 users:</b> use {@link Boolean#hashCode(boolean)} instead.
+ <p><b>Java 8+ users:</b> use {@link Boolean#hashCode(boolean)} instead.
 
  @param value a primitive {@code boolean} value
  @return a hash code for the value]]>
@@ -56772,8 +56773,8 @@
  considered less than {@code true}). The sign of the value returned is the same as that of
  {@code ((Boolean) a).compareTo(b)}.
 
- <p><b>Note for Java 7 and later:</b> this method should be treated as deprecated; use the
- equivalent {@link Boolean#compare} method instead.
+ <p><b>Java 7+ users:</b> this method should be treated as deprecated; use the equivalent {@link
+ Boolean#compare} method instead.
 
  @param a the first {@code boolean} to compare
  @param b the second {@code boolean} to compare
@@ -57062,7 +57063,7 @@
       <![CDATA[Returns a hash code for {@code value}; equal to the result of invoking {@code ((Byte)
  value).hashCode()}.
 
- <p><b>Java 8 users:</b> use {@link Byte#hashCode(byte)} instead.
+ <p><b>Java 8+ users:</b> use {@link Byte#hashCode(byte)} instead.
 
  @param value a primitive {@code byte} value
  @return a hash code for the value]]>
@@ -57298,7 +57299,7 @@
       <![CDATA[Returns a hash code for {@code value}; equal to the result of invoking {@code ((Character)
  value).hashCode()}.
 
- <p><b>Java 8 users:</b> use {@link Character#hashCode(char)} instead.
+ <p><b>Java 8+ users:</b> use {@link Character#hashCode(char)} instead.
 
  @param value a primitive {@code char} value
  @return a hash code for the value]]>
@@ -57342,8 +57343,8 @@
       <![CDATA[Compares the two specified {@code char} values. The sign of the value returned is the same as
  that of {@code ((Character) a).compareTo(b)}.
 
- <p><b>Note for Java 7 and later:</b> this method should be treated as deprecated; use the
- equivalent {@link Character#compare} method instead.
+ <p><b>Java 7+ users:</b> this method should be treated as deprecated; use the equivalent {@link
+ Character#compare} method instead.
 
  @param a the first {@code char} to compare
  @param b the second {@code char} to compare
@@ -57711,7 +57712,7 @@
       <doc>
       <![CDATA[The number of bytes required to represent a primitive {@code char} value.
 
- <p><b>Java 8 users:</b> use {@link Character#BYTES} instead.]]>
+ <p><b>Java 8+ users:</b> use {@link Character#BYTES} instead.]]>
       </doc>
     </field>
     <doc>
@@ -57743,7 +57744,7 @@
       <![CDATA[Returns a hash code for {@code value}; equal to the result of invoking {@code ((Double)
  value).hashCode()}.
 
- <p><b>Java 8 users:</b> use {@link Double#hashCode(double)} instead.
+ <p><b>Java 8+ users:</b> use {@link Double#hashCode(double)} instead.
 
  @param value a primitive {@code double} value
  @return a hash code for the value]]>
@@ -57779,7 +57780,7 @@
       <![CDATA[Returns {@code true} if {@code value} represents a real number. This is equivalent to, but not
  necessarily implemented as, {@code !(Double.isInfinite(value) || Double.isNaN(value))}.
 
- <p><b>Java 8 users:</b> use {@link Double#isFinite(double)} instead.
+ <p><b>Java 8+ users:</b> use {@link Double#isFinite(double)} instead.
 
  @since 10.0]]>
       </doc>
@@ -58158,7 +58159,7 @@
       <doc>
       <![CDATA[The number of bytes required to represent a primitive {@code double} value.
 
- <p><b>Java 8 users:</b> use {@link Double#BYTES} instead.
+ <p><b>Java 8+ users:</b> use {@link Double#BYTES} instead.
 
  @since 10.0]]>
       </doc>
@@ -58189,7 +58190,7 @@
       <![CDATA[Returns a hash code for {@code value}; equal to the result of invoking {@code ((Float)
  value).hashCode()}.
 
- <p><b>Java 8 users:</b> use {@link Float#hashCode(float)} instead.
+ <p><b>Java 8+ users:</b> use {@link Float#hashCode(float)} instead.
 
  @param value a primitive {@code float} value
  @return a hash code for the value]]>
@@ -58224,7 +58225,7 @@
       <![CDATA[Returns {@code true} if {@code value} represents a real number. This is equivalent to, but not
  necessarily implemented as, {@code !(Float.isInfinite(value) || Float.isNaN(value))}.
 
- <p><b>Java 8 users:</b> use {@link Float#isFinite(float)} instead.
+ <p><b>Java 8+ users:</b> use {@link Float#isFinite(float)} instead.
 
  @since 10.0]]>
       </doc>
@@ -58600,7 +58601,7 @@
       <doc>
       <![CDATA[The number of bytes required to represent a primitive {@code float} value.
 
- <p><b>Java 8 users:</b> use {@link Float#BYTES} instead.
+ <p><b>Java 8+ users:</b> use {@link Float#BYTES} instead.
 
  @since 10.0]]>
       </doc>
@@ -59974,7 +59975,7 @@
       <![CDATA[Returns a hash code for {@code value}; equal to the result of invoking {@code ((Integer)
  value).hashCode()}.
 
- <p><b>Java 8 users:</b> use {@link Integer#hashCode(int)} instead.
+ <p><b>Java 8+ users:</b> use {@link Integer#hashCode(int)} instead.
 
  @param value a primitive {@code int} value
  @return a hash code for the value]]>
@@ -60018,8 +60019,8 @@
       <![CDATA[Compares the two specified {@code int} values. The sign of the value returned is the same as
  that of {@code ((Integer) a).compareTo(b)}.
 
- <p><b>Note for Java 7 and later:</b> this method should be treated as deprecated; use the
- equivalent {@link Integer#compare} method instead.
+ <p><b>Java 7+ users:</b> this method should be treated as deprecated; use the equivalent {@link
+ Integer#compare} method instead.
 
  @param a the first {@code int} to compare
  @param b the second {@code int} to compare
@@ -60458,7 +60459,7 @@
       <doc>
       <![CDATA[The number of bytes required to represent a primitive {@code int} value.
 
- <p><b>Java 8 users:</b> use {@link Integer#BYTES} instead.]]>
+ <p><b>Java 8+ users:</b> use {@link Integer#BYTES} instead.]]>
       </doc>
     </field>
     <field name="MAX_POWER_OF_TWO" type="int"
@@ -60501,7 +60502,7 @@
  might be different from {@code ((Long) value).hashCode()} in GWT because {@link
  Long#hashCode()} in GWT does not obey the JRE contract.
 
- <p><b>Java 8 users:</b> use {@link Long#hashCode(long)} instead.
+ <p><b>Java 8+ users:</b> use {@link Long#hashCode(long)} instead.
 
  @param value a primitive {@code long} value
  @return a hash code for the value]]>
@@ -60517,8 +60518,8 @@
       <![CDATA[Compares the two specified {@code long} values. The sign of the value returned is the same as
  that of {@code ((Long) a).compareTo(b)}.
 
- <p><b>Note for Java 7 and later:</b> this method should be treated as deprecated; use the
- equivalent {@link Long#compare} method instead.
+ <p><b>Java 7+ users:</b> this method should be treated as deprecated; use the equivalent {@link
+ Long#compare} method instead.
 
  @param a the first {@code long} to compare
  @param b the second {@code long} to compare
@@ -60965,7 +60966,7 @@
       <doc>
       <![CDATA[The number of bytes required to represent a primitive {@code long} value.
 
- <p><b>Java 8 users:</b> use {@link Long#BYTES} instead.]]>
+ <p><b>Java 8+ users:</b> use {@link Long#BYTES} instead.]]>
       </doc>
     </field>
     <field name="MAX_POWER_OF_TWO" type="long"
@@ -61084,7 +61085,7 @@
       <![CDATA[Returns a hash code for {@code value}; equal to the result of invoking {@code ((Short)
  value).hashCode()}.
 
- <p><b>Java 8 users:</b> use {@link Short#hashCode(short)} instead.
+ <p><b>Java 8+ users:</b> use {@link Short#hashCode(short)} instead.
 
  @param value a primitive {@code short} value
  @return a hash code for the value]]>
@@ -61127,8 +61128,8 @@
       <![CDATA[Compares the two specified {@code short} values. The sign of the value returned is the same as
  that of {@code ((Short) a).compareTo(b)}.
 
- <p><b>Note for Java 7 and later:</b> this method should be treated as deprecated; use the
- equivalent {@link Short#compare} method instead.
+ <p><b>Java 7+ users:</b> this method should be treated as deprecated; use the equivalent {@link
+ Short#compare} method instead.
 
  @param a the first {@code short} to compare
  @param b the second {@code short} to compare
@@ -61514,7 +61515,7 @@
       <doc>
       <![CDATA[The number of bytes required to represent a primitive {@code short} value.
 
- <p><b>Java 8 users:</b> use {@link Short#BYTES} instead.]]>
+ <p><b>Java 8+ users:</b> use {@link Short#BYTES} instead.]]>
       </doc>
     </field>
     <field name="MAX_POWER_OF_TWO" type="short"
@@ -61713,7 +61714,7 @@
       <![CDATA[Returns the value of the given byte as an integer, when treated as unsigned. That is, returns
  {@code value + 256} if {@code value} is negative; {@code value} itself otherwise.
 
- <p><b>Java 8 users:</b> use {@link Byte#toUnsignedInt(byte)} instead.
+ <p><b>Java 8+ users:</b> use {@link Byte#toUnsignedInt(byte)} instead.
 
  @since 6.0]]>
       </doc>
@@ -62241,7 +62242,7 @@
       <![CDATA[Compares the two specified {@code int} values, treating them as unsigned values between {@code
  0} and {@code 2^32 - 1} inclusive.
 
- <p><b>Java 8 users:</b> use {@link Integer#compareUnsigned(int, int)} instead.
+ <p><b>Java 8+ users:</b> use {@link Integer#compareUnsigned(int, int)} instead.
 
  @param a the first unsigned {@code int} to compare
  @param b the second unsigned {@code int} to compare
@@ -62257,7 +62258,7 @@
       <doc>
       <![CDATA[Returns the value of the given {@code int} as a {@code long}, when treated as unsigned.
 
- <p><b>Java 8 users:</b> use {@link Integer#toUnsignedLong(int)} instead.]]>
+ <p><b>Java 8+ users:</b> use {@link Integer#toUnsignedLong(int)} instead.]]>
       </doc>
     </method>
     <method name="checkedCast" return="int"
@@ -62410,7 +62411,7 @@
       <![CDATA[Returns dividend / divisor, where the dividend and divisor are treated as unsigned 32-bit
  quantities.
 
- <p><b>Java 8 users:</b> use {@link Integer#divideUnsigned(int, int)} instead.
+ <p><b>Java 8+ users:</b> use {@link Integer#divideUnsigned(int, int)} instead.
 
  @param dividend the dividend (numerator)
  @param divisor the divisor (denominator)
@@ -62427,7 +62428,7 @@
       <![CDATA[Returns dividend % divisor, where the dividend and divisor are treated as unsigned 32-bit
  quantities.
 
- <p><b>Java 8 users:</b> use {@link Integer#remainderUnsigned(int, int)} instead.
+ <p><b>Java 8+ users:</b> use {@link Integer#remainderUnsigned(int, int)} instead.
 
  @param dividend the dividend (numerator)
  @param divisor the divisor (denominator)
@@ -62463,7 +62464,7 @@
       <doc>
       <![CDATA[Returns the unsigned {@code int} value represented by the given decimal string.
 
- <p><b>Java 8 users:</b> use {@link Integer#parseUnsignedInt(String)} instead.
+ <p><b>Java 8+ users:</b> use {@link Integer#parseUnsignedInt(String)} instead.
 
  @throws NumberFormatException if the string does not contain a valid unsigned {@code int} value
  @throws NullPointerException if {@code s} is null (in contrast to {@link
@@ -62479,7 +62480,7 @@
       <doc>
       <![CDATA[Returns the unsigned {@code int} value represented by a string with the given radix.
 
- <p><b>Java 8 users:</b> use {@link Integer#parseUnsignedInt(String, int)} instead.
+ <p><b>Java 8+ users:</b> use {@link Integer#parseUnsignedInt(String, int)} instead.
 
  @param string the string containing the unsigned integer representation to be parsed.
  @param radix the radix to use while parsing {@code s}; must be between {@link
@@ -62498,7 +62499,7 @@
       <doc>
       <![CDATA[Returns a string representation of x, where x is treated as unsigned.
 
- <p><b>Java 8 users:</b> use {@link Integer#toUnsignedString(int)} instead.]]>
+ <p><b>Java 8+ users:</b> use {@link Integer#toUnsignedString(int)} instead.]]>
       </doc>
     </method>
     <method name="toString" return="java.lang.String"
@@ -62511,7 +62512,7 @@
       <![CDATA[Returns a string representation of {@code x} for the given radix, where {@code x} is treated as
  unsigned.
 
- <p><b>Java 8 users:</b> use {@link Integer#toUnsignedString(int, int)} instead.
+ <p><b>Java 8+ users:</b> use {@link Integer#toUnsignedString(int, int)} instead.
 
  @param x the value to convert to a string.
  @param radix the radix to use while working with {@code x}
@@ -62806,7 +62807,7 @@
       <![CDATA[Compares the two specified {@code long} values, treating them as unsigned values between {@code
  0} and {@code 2^64 - 1} inclusive.
 
- <p><b>Java 8 users:</b> use {@link Long#compareUnsigned(long, long)} instead.
+ <p><b>Java 8+ users:</b> use {@link Long#compareUnsigned(long, long)} instead.
 
  @param a the first unsigned {@code long} to compare
  @param b the second unsigned {@code long} to compare
@@ -62934,7 +62935,7 @@
       <![CDATA[Returns dividend / divisor, where the dividend and divisor are treated as unsigned 64-bit
  quantities.
 
- <p><b>Java 8 users:</b> use {@link Long#divideUnsigned(long, long)} instead.
+ <p><b>Java 8+ users:</b> use {@link Long#divideUnsigned(long, long)} instead.
 
  @param dividend the dividend (numerator)
  @param divisor the divisor (denominator)
@@ -62951,7 +62952,7 @@
       <![CDATA[Returns dividend % divisor, where the dividend and divisor are treated as unsigned 64-bit
  quantities.
 
- <p><b>Java 8 users:</b> use {@link Long#remainderUnsigned(long, long)} instead.
+ <p><b>Java 8+ users:</b> use {@link Long#remainderUnsigned(long, long)} instead.
 
  @param dividend the dividend (numerator)
  @param divisor the divisor (denominator)
@@ -62967,7 +62968,7 @@
       <doc>
       <![CDATA[Returns the unsigned {@code long} value represented by the given decimal string.
 
- <p><b>Java 8 users:</b> use {@link Long#parseUnsignedLong(String)} instead.
+ <p><b>Java 8+ users:</b> use {@link Long#parseUnsignedLong(String)} instead.
 
  @throws NumberFormatException if the string does not contain a valid unsigned {@code long}
      value
@@ -62984,7 +62985,7 @@
       <doc>
       <![CDATA[Returns the unsigned {@code long} value represented by a string with the given radix.
 
- <p><b>Java 8 users:</b> use {@link Long#parseUnsignedLong(String, int)} instead.
+ <p><b>Java 8+ users:</b> use {@link Long#parseUnsignedLong(String, int)} instead.
 
  @param string the string containing the unsigned {@code long} representation to be parsed.
  @param radix the radix to use while parsing {@code string}
@@ -63025,7 +63026,7 @@
       <doc>
       <![CDATA[Returns a string representation of x, where x is treated as unsigned.
 
- <p><b>Java 8 users:</b> use {@link Long#toUnsignedString(long)} instead.]]>
+ <p><b>Java 8+ users:</b> use {@link Long#toUnsignedString(long)} instead.]]>
       </doc>
     </method>
     <method name="toString" return="java.lang.String"
@@ -63038,7 +63039,7 @@
       <![CDATA[Returns a string representation of {@code x} for the given radix, where {@code x} is treated as
  unsigned.
 
- <p><b>Java 8 users:</b> use {@link Long#toUnsignedString(long, int)} instead.
+ <p><b>Java 8+ users:</b> use {@link Long#toUnsignedString(long, int)} instead.
 
  @param x the value to convert to a string.
  @param radix the radix to use while working with {@code x}

@@ -450,7 +450,7 @@ extends java.lang.Object</pre>
 <pre>public static final&nbsp;int <a href="../../../../src-html/com/google/common/primitives/Shorts.html#line.55">BYTES</a></pre>
 <div class="block">The number of bytes required to represent a primitive <code>short</code> value.
 
- <p><b>Java 8 users:</b> use <code>Short.BYTES</code> instead.</div>
+ <p><b>Java 8+ users:</b> use <code>Short.BYTES</code> instead.</div>
 <dl>
 <dt><span class="seeLabel">See Also:</span></dt>
 <dd><a href="../../../../constant-values.html#com.google.common.primitives.Shorts.BYTES">Constant Field Values</a></dd>
@@ -493,7 +493,7 @@ extends java.lang.Object</pre>
 <div class="block">Returns a hash code for <code>value</code>; equal to the result of invoking <code>((Short)
  value).hashCode()</code>.
 
- <p><b>Java 8 users:</b> use <code>Short.hashCode(short)</code> instead.</div>
+ <p><b>Java 8+ users:</b> use <code>Short.hashCode(short)</code> instead.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>value</code> - a primitive <code>short</code> value</dd>
@@ -549,8 +549,7 @@ extends java.lang.Object</pre>
 <div class="block">Compares the two specified <code>short</code> values. The sign of the value returned is the same as
  that of <code>((Short) a).compareTo(b)</code>.
 
- <p><b>Note for Java 7 and later:</b> this method should be treated as deprecated; use the
- equivalent <code>Short.compare(short, short)</code> method instead.</div>
+ <p><b>Java 7+ users:</b> this method should be treated as deprecated; use the equivalent <code>Short.compare(short, short)</code> method instead.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>a</code> - the first <code>short</code> to compare</dd>

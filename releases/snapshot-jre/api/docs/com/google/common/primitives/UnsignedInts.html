@@ -364,7 +364,7 @@ extends java.lang.Object</pre>
 <div class="block">Compares the two specified <code>int</code> values, treating them as unsigned values between <code>
  0</code> and <code>2^32 - 1</code> inclusive.
 
- <p><b>Java 8 users:</b> use <code>Integer.compareUnsigned(int, int)</code> instead.</div>
+ <p><b>Java 8+ users:</b> use <code>Integer.compareUnsigned(int, int)</code> instead.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>a</code> - the first unsigned <code>int</code> to compare</dd>
@@ -384,7 +384,7 @@ extends java.lang.Object</pre>
 <pre class="methodSignature">public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedInts.html#line.78">toLong</a>&#8203;(int&nbsp;value)</pre>
 <div class="block">Returns the value of the given <code>int</code> as a <code>long</code>, when treated as unsigned.
 
- <p><b>Java 8 users:</b> use <code>Integer.toUnsignedLong(int)</code> instead.</div>
+ <p><b>Java 8+ users:</b> use <code>Integer.toUnsignedLong(int)</code> instead.</div>
 </li>
 </ul>
 <a id="checkedCast(long)">
@@ -575,7 +575,7 @@ extends java.lang.Object</pre>
 <div class="block">Returns dividend / divisor, where the dividend and divisor are treated as unsigned 32-bit
  quantities.
 
- <p><b>Java 8 users:</b> use <code>Integer.divideUnsigned(int, int)</code> instead.</div>
+ <p><b>Java 8+ users:</b> use <code>Integer.divideUnsigned(int, int)</code> instead.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>dividend</code> - the dividend (numerator)</dd>
@@ -596,7 +596,7 @@ extends java.lang.Object</pre>
 <div class="block">Returns dividend % divisor, where the dividend and divisor are treated as unsigned 32-bit
  quantities.
 
- <p><b>Java 8 users:</b> use <code>Integer.remainderUnsigned(int, int)</code> instead.</div>
+ <p><b>Java 8+ users:</b> use <code>Integer.remainderUnsigned(int, int)</code> instead.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>dividend</code> - the dividend (numerator)</dd>
@@ -642,7 +642,7 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/prim
 public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedInts.html#line.336">parseUnsignedInt</a>&#8203;(java.lang.String&nbsp;s)</pre>
 <div class="block">Returns the unsigned <code>int</code> value represented by the given decimal string.
 
- <p><b>Java 8 users:</b> use <code>Integer.parseUnsignedInt(String)</code> instead.</div>
+ <p><b>Java 8+ users:</b> use <code>Integer.parseUnsignedInt(String)</code> instead.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.NumberFormatException</code> - if the string does not contain a valid unsigned <code>int</code> value</dd>
@@ -661,7 +661,7 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/prim
                                    int&nbsp;radix)</pre>
 <div class="block">Returns the unsigned <code>int</code> value represented by a string with the given radix.
 
- <p><b>Java 8 users:</b> use <code>Integer.parseUnsignedInt(String, int)</code> instead.</div>
+ <p><b>Java 8+ users:</b> use <code>Integer.parseUnsignedInt(String, int)</code> instead.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>string</code> - the string containing the unsigned integer representation to be parsed.</dd>
@@ -682,7 +682,7 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/prim
 <pre class="methodSignature">public static&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedInts.html#line.370">toString</a>&#8203;(int&nbsp;x)</pre>
 <div class="block">Returns a string representation of x, where x is treated as unsigned.
 
- <p><b>Java 8 users:</b> use <code>Integer.toUnsignedString(int)</code> instead.</div>
+ <p><b>Java 8+ users:</b> use <code>Integer.toUnsignedString(int)</code> instead.</div>
 </li>
 </ul>
 <a id="toString(int,int)">
@@ -696,7 +696,7 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/prim
 <div class="block">Returns a string representation of <code>x</code> for the given radix, where <code>x</code> is treated as
  unsigned.
 
- <p><b>Java 8 users:</b> use <code>Integer.toUnsignedString(int, int)</code> instead.</div>
+ <p><b>Java 8+ users:</b> use <code>Integer.toUnsignedString(int, int)</code> instead.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>x</code> - the value to convert to a string.</dd>

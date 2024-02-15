@@ -184,7 +184,7 @@
 <span class="sourceLineNo">175</span><a id="line.175">   * {@link #or(Object)} or {@link #orNull} instead.</a>
 <span class="sourceLineNo">176</span><a id="line.176">   *</a>
 <span class="sourceLineNo">177</span><a id="line.177">   * &lt;p&gt;&lt;b&gt;Comparison to {@code java.util.Optional}:&lt;/b&gt; when the value is absent, this method</a>
-<span class="sourceLineNo">178</span><a id="line.178">   * throws {@link IllegalStateException}, whereas the Java 8 counterpart throws {@link</a>
+<span class="sourceLineNo">178</span><a id="line.178">   * throws {@link IllegalStateException}, whereas the {@code java.util} counterpart throws {@link</a>
 <span class="sourceLineNo">179</span><a id="line.179">   * java.util.NoSuchElementException NoSuchElementException}.</a>
 <span class="sourceLineNo">180</span><a id="line.180">   *</a>
 <span class="sourceLineNo">181</span><a id="line.181">   * @throws IllegalStateException if the instance is absent ({@link #isPresent} returns {@code</a>
@@ -245,7 +245,7 @@
 <span class="sourceLineNo">236</span><a id="line.236">   *</a>
 <span class="sourceLineNo">237</span><a id="line.237">   * &lt;p&gt;&lt;b&gt;Comparison to {@code java.util.Optional}:&lt;/b&gt; this method is similar to Java 8's {@code</a>
 <span class="sourceLineNo">238</span><a id="line.238">   * Optional.orElseGet}, except when {@code supplier} returns {@code null}. In this case this</a>
-<span class="sourceLineNo">239</span><a id="line.239">   * method throws an exception, whereas the Java 8 method returns the {@code null} to the caller.</a>
+<span class="sourceLineNo">239</span><a id="line.239">   * method throws an exception, whereas the Java 8+ method returns the {@code null} to the caller.</a>
 <span class="sourceLineNo">240</span><a id="line.240">   *</a>
 <span class="sourceLineNo">241</span><a id="line.241">   * @throws NullPointerException if this optional's value is absent and the supplier returns {@code</a>
 <span class="sourceLineNo">242</span><a id="line.242">   *     null}</a>
@@ -293,7 +293,7 @@
 <span class="sourceLineNo">284</span><a id="line.284">   *</a>
 <span class="sourceLineNo">285</span><a id="line.285">   * &lt;p&gt;&lt;b&gt;Comparison to {@code java.util.Optional}:&lt;/b&gt; this method is similar to Java 8's {@code</a>
 <span class="sourceLineNo">286</span><a id="line.286">   * Optional.map}, except when {@code function} returns {@code null}. In this case this method</a>
-<span class="sourceLineNo">287</span><a id="line.287">   * throws an exception, whereas the Java 8 method returns {@code Optional.absent()}.</a>
+<span class="sourceLineNo">287</span><a id="line.287">   * throws an exception, whereas the Java 8+ method returns {@code Optional.absent()}.</a>
 <span class="sourceLineNo">288</span><a id="line.288">   *</a>
 <span class="sourceLineNo">289</span><a id="line.289">   * @throws NullPointerException if the function returns {@code null}</a>
 <span class="sourceLineNo">290</span><a id="line.290">   * @since 12.0</a>
@@ -314,7 +314,7 @@
 <span class="sourceLineNo">305</span><a id="line.305">   * Returns a hash code for this instance.</a>
 <span class="sourceLineNo">306</span><a id="line.306">   *</a>
 <span class="sourceLineNo">307</span><a id="line.307">   * &lt;p&gt;&lt;b&gt;Comparison to {@code java.util.Optional}:&lt;/b&gt; this class leaves the specific choice of</a>
-<span class="sourceLineNo">308</span><a id="line.308">   * hash code unspecified, unlike the Java 8 equivalent.</a>
+<span class="sourceLineNo">308</span><a id="line.308">   * hash code unspecified, unlike the Java 8+ equivalent.</a>
 <span class="sourceLineNo">309</span><a id="line.309">   */</a>
 <span class="sourceLineNo">310</span><a id="line.310">  @Override</a>
 <span class="sourceLineNo">311</span><a id="line.311">  public abstract int hashCode();</a>
@@ -323,7 +323,7 @@
 <span class="sourceLineNo">314</span><a id="line.314">   * Returns a string representation for this instance.</a>
 <span class="sourceLineNo">315</span><a id="line.315">   *</a>
 <span class="sourceLineNo">316</span><a id="line.316">   * &lt;p&gt;&lt;b&gt;Comparison to {@code java.util.Optional}:&lt;/b&gt; this class leaves the specific string</a>
-<span class="sourceLineNo">317</span><a id="line.317">   * representation unspecified, unlike the Java 8 equivalent.</a>
+<span class="sourceLineNo">317</span><a id="line.317">   * representation unspecified, unlike the Java 8+ equivalent.</a>
 <span class="sourceLineNo">318</span><a id="line.318">   */</a>
 <span class="sourceLineNo">319</span><a id="line.319">  @Override</a>
 <span class="sourceLineNo">320</span><a id="line.320">  public abstract String toString();</a>

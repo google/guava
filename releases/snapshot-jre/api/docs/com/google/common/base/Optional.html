@@ -510,7 +510,7 @@ public static&nbsp;&lt;T&gt;&nbsp;java.util.Optional&lt;T&gt;&nbsp;<a href="../.
  <a href="#or(T)"><code>or(Object)</code></a> or <a href="#orNull()"><code>orNull()</code></a> instead.
 
  <p><b>Comparison to <code>java.util.Optional</code>:</b> when the value is absent, this method
- throws <code>IllegalStateException</code>, whereas the Java 8 counterpart throws <code>NoSuchElementException</code>.</div>
+ throws <code>IllegalStateException</code>, whereas the <code>java.util</code> counterpart throws <code>NoSuchElementException</code>.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.IllegalStateException</code> - if the instance is absent (<a href="#isPresent()"><code>isPresent()</code></a> returns <code>
@@ -588,7 +588,7 @@ public static&nbsp;&lt;T&gt;&nbsp;java.util.Optional&lt;T&gt;&nbsp;<a href="../.
 
  <p><b>Comparison to <code>java.util.Optional</code>:</b> this method is similar to Java 8's <code>
  Optional.orElseGet</code>, except when <code>supplier</code> returns <code>null</code>. In this case this
- method throws an exception, whereas the Java 8 method returns the <code>null</code> to the caller.</div>
+ method throws an exception, whereas the Java 8+ method returns the <code>null</code> to the caller.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.NullPointerException</code> - if this optional's value is absent and the supplier returns <code>
@@ -655,7 +655,7 @@ public abstract&nbsp;<a href="Optional.html" title="type parameter in Optional">
 
  <p><b>Comparison to <code>java.util.Optional</code>:</b> this method is similar to Java 8's <code>
  Optional.map</code>, except when <code>function</code> returns <code>null</code>. In this case this method
- throws an exception, whereas the Java 8 method returns <code>Optional.absent()</code>.</div>
+ throws an exception, whereas the Java 8+ method returns <code>Optional.absent()</code>.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.NullPointerException</code> - if the function returns <code>null</code></dd>
@@ -693,7 +693,7 @@ public abstract&nbsp;<a href="Optional.html" title="type parameter in Optional">
 <div class="block">Returns a hash code for this instance.
 
  <p><b>Comparison to <code>java.util.Optional</code>:</b> this class leaves the specific choice of
- hash code unspecified, unlike the Java 8 equivalent.</div>
+ hash code unspecified, unlike the Java 8+ equivalent.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code>hashCode</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
@@ -710,7 +710,7 @@ public abstract&nbsp;<a href="Optional.html" title="type parameter in Optional">
 <div class="block">Returns a string representation for this instance.
 
  <p><b>Comparison to <code>java.util.Optional</code>:</b> this class leaves the specific string
- representation unspecified, unlike the Java 8 equivalent.</div>
+ representation unspecified, unlike the Java 8+ equivalent.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code>toString</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>

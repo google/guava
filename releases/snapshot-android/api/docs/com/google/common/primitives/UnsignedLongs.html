@@ -387,7 +387,7 @@ extends java.lang.Object</pre>
 <div class="block">Compares the two specified <code>long</code> values, treating them as unsigned values between <code>
  0</code> and <code>2^64 - 1</code> inclusive.
 
- <p><b>Java 8 users:</b> use <code>Long.compareUnsigned(long, long)</code> instead.</div>
+ <p><b>Java 8+ users:</b> use <code>Long.compareUnsigned(long, long)</code> instead.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>a</code> - the first unsigned <code>long</code> to compare</dd>
@@ -545,7 +545,7 @@ extends java.lang.Object</pre>
 <div class="block">Returns dividend / divisor, where the dividend and divisor are treated as unsigned 64-bit
  quantities.
 
- <p><b>Java 8 users:</b> use <code>Long.divideUnsigned(long, long)</code> instead.</div>
+ <p><b>Java 8+ users:</b> use <code>Long.divideUnsigned(long, long)</code> instead.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>dividend</code> - the dividend (numerator)</dd>
@@ -566,7 +566,7 @@ extends java.lang.Object</pre>
 <div class="block">Returns dividend % divisor, where the dividend and divisor are treated as unsigned 64-bit
  quantities.
 
- <p><b>Java 8 users:</b> use <code>Long.remainderUnsigned(long, long)</code> instead.</div>
+ <p><b>Java 8+ users:</b> use <code>Long.remainderUnsigned(long, long)</code> instead.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>dividend</code> - the dividend (numerator)</dd>
@@ -588,7 +588,7 @@ extends java.lang.Object</pre>
 public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedLongs.html#line.317">parseUnsignedLong</a>&#8203;(java.lang.String&nbsp;string)</pre>
 <div class="block">Returns the unsigned <code>long</code> value represented by the given decimal string.
 
- <p><b>Java 8 users:</b> use <code>Long.parseUnsignedLong(String)</code> instead.</div>
+ <p><b>Java 8+ users:</b> use <code>Long.parseUnsignedLong(String)</code> instead.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.NumberFormatException</code> - if the string does not contain a valid unsigned <code>long</code>
@@ -608,7 +608,7 @@ public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/pri
                                      int&nbsp;radix)</pre>
 <div class="block">Returns the unsigned <code>long</code> value represented by a string with the given radix.
 
- <p><b>Java 8 users:</b> use <code>Long.parseUnsignedLong(String, int)</code> instead.</div>
+ <p><b>Java 8+ users:</b> use <code>Long.parseUnsignedLong(String, int)</code> instead.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>string</code> - the string containing the unsigned <code>long</code> representation to be parsed.</dd>
@@ -656,7 +656,7 @@ public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/pri
 <pre class="methodSignature">public static&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedLongs.html#line.440">toString</a>&#8203;(long&nbsp;x)</pre>
 <div class="block">Returns a string representation of x, where x is treated as unsigned.
 
- <p><b>Java 8 users:</b> use <code>Long.toUnsignedString(long)</code> instead.</div>
+ <p><b>Java 8+ users:</b> use <code>Long.toUnsignedString(long)</code> instead.</div>
 </li>
 </ul>
 <a id="toString(long,int)">
@@ -670,7 +670,7 @@ public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/pri
 <div class="block">Returns a string representation of <code>x</code> for the given radix, where <code>x</code> is treated as
  unsigned.
 
- <p><b>Java 8 users:</b> use <code>Long.toUnsignedString(long, int)</code> instead.</div>
+ <p><b>Java 8+ users:</b> use <code>Long.toUnsignedString(long, int)</code> instead.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>x</code> - the value to convert to a string.</dd>

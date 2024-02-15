@@ -263,7 +263,7 @@
 <span class="sourceLineNo">254</span><a id="line.254">   * @throws IllegalArgumentException if {@code duration} is not positive</a>
 <span class="sourceLineNo">255</span><a id="line.255">   * @since NEXT</a>
 <span class="sourceLineNo">256</span><a id="line.256">   */</a>
-<span class="sourceLineNo">257</span><a id="line.257">  @Beta // only until we're confident that Java 8 APIs are safe for our Android users</a>
+<span class="sourceLineNo">257</span><a id="line.257">  @Beta // only until we're confident that Java 8+ APIs are safe for our Android users</a>
 <span class="sourceLineNo">258</span><a id="line.258">  @J2ktIncompatible</a>
 <span class="sourceLineNo">259</span><a id="line.259">  @GwtIncompatible // java.time.Duration</a>
 <span class="sourceLineNo">260</span><a id="line.260">  @SuppressWarnings("Java7ApiChecker") // no more dangerous that wherever the user got the Duration</a>
@@ -409,7 +409,7 @@
 <span class="sourceLineNo">400</span><a id="line.400">   * Returns a function that accepts a supplier and returns the result of invoking {@link</a>
 <span class="sourceLineNo">401</span><a id="line.401">   * Supplier#get} on that supplier.</a>
 <span class="sourceLineNo">402</span><a id="line.402">   *</a>
-<span class="sourceLineNo">403</span><a id="line.403">   * &lt;p&gt;&lt;b&gt;Java 8 users:&lt;/b&gt; use the method reference {@code Supplier::get} instead.</a>
+<span class="sourceLineNo">403</span><a id="line.403">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; use the method reference {@code Supplier::get} instead.</a>
 <span class="sourceLineNo">404</span><a id="line.404">   *</a>
 <span class="sourceLineNo">405</span><a id="line.405">   * @since 8.0</a>
 <span class="sourceLineNo">406</span><a id="line.406">   */</a>

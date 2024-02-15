@@ -56,9 +56,9 @@
 <span class="sourceLineNo">047</span><a id="line.47"> * {@code Iterable}. Except as noted, each method has a corresponding {@link Iterator}-based method</a>
 <span class="sourceLineNo">048</span><a id="line.48"> * in the {@link Iterators} class.</a>
 <span class="sourceLineNo">049</span><a id="line.49"> *</a>
-<span class="sourceLineNo">050</span><a id="line.50"> * &lt;p&gt;&lt;b&gt;Java 8 users:&lt;/b&gt; several common uses for this class are now more comprehensively addressed</a>
-<span class="sourceLineNo">051</span><a id="line.51"> * by the new {@link java.util.stream.Stream} library. Read the method documentation below for</a>
-<span class="sourceLineNo">052</span><a id="line.52"> * comparisons. This class is not being deprecated, but we gently encourage you to migrate to</a>
+<span class="sourceLineNo">050</span><a id="line.50"> * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; several common uses for this class are now more comprehensively</a>
+<span class="sourceLineNo">051</span><a id="line.51"> * addressed by the new {@link java.util.stream.Stream} library. Read the method documentation below</a>
+<span class="sourceLineNo">052</span><a id="line.52"> * for comparisons. This class is not being deprecated, but we gently encourage you to migrate to</a>
 <span class="sourceLineNo">053</span><a id="line.53"> * streams.</a>
 <span class="sourceLineNo">054</span><a id="line.54"> *</a>
 <span class="sourceLineNo">055</span><a id="line.55"> * &lt;p&gt;&lt;i&gt;Performance notes:&lt;/i&gt; Unless otherwise noted, all of the iterables produced in this class</a>
@@ -196,7 +196,7 @@
 <span class="sourceLineNo">187</span><a id="line.187">   * The behavior of this method is not specified if {@code predicate} is dependent on {@code</a>
 <span class="sourceLineNo">188</span><a id="line.188">   * removeFrom}.</a>
 <span class="sourceLineNo">189</span><a id="line.189">   *</a>
-<span class="sourceLineNo">190</span><a id="line.190">   * &lt;p&gt;&lt;b&gt;Java 8 users:&lt;/b&gt; if {@code removeFrom} is a {@link Collection}, use {@code</a>
+<span class="sourceLineNo">190</span><a id="line.190">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; if {@code removeFrom} is a {@link Collection}, use {@code</a>
 <span class="sourceLineNo">191</span><a id="line.191">   * removeFrom.removeIf(predicate)} instead.</a>
 <span class="sourceLineNo">192</span><a id="line.192">   *</a>
 <span class="sourceLineNo">193</span><a id="line.193">   * @param removeFrom the iterable to (potentially) remove elements from</a>
@@ -261,7 +261,7 @@
 <span class="sourceLineNo">252</span><a id="line.252">  /**</a>
 <span class="sourceLineNo">253</span><a id="line.253">   * Returns the single element contained in {@code iterable}.</a>
 <span class="sourceLineNo">254</span><a id="line.254">   *</a>
-<span class="sourceLineNo">255</span><a id="line.255">   * &lt;p&gt;&lt;b&gt;Java 8 users:&lt;/b&gt; the {@code Stream} equivalent to this method is {@code</a>
+<span class="sourceLineNo">255</span><a id="line.255">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; the {@code Stream} equivalent to this method is {@code</a>
 <span class="sourceLineNo">256</span><a id="line.256">   * stream.collect(MoreCollectors.onlyElement())}.</a>
 <span class="sourceLineNo">257</span><a id="line.257">   *</a>
 <span class="sourceLineNo">258</span><a id="line.258">   * @throws NoSuchElementException if the iterable is empty</a>
@@ -276,7 +276,7 @@
 <span class="sourceLineNo">267</span><a id="line.267">   * Returns the single element contained in {@code iterable}, or {@code defaultValue} if the</a>
 <span class="sourceLineNo">268</span><a id="line.268">   * iterable is empty.</a>
 <span class="sourceLineNo">269</span><a id="line.269">   *</a>
-<span class="sourceLineNo">270</span><a id="line.270">   * &lt;p&gt;&lt;b&gt;Java 8 users:&lt;/b&gt; the {@code Stream} equivalent to this method is {@code</a>
+<span class="sourceLineNo">270</span><a id="line.270">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; the {@code Stream} equivalent to this method is {@code</a>
 <span class="sourceLineNo">271</span><a id="line.271">   * stream.collect(MoreCollectors.toOptional()).orElse(defaultValue)}.</a>
 <span class="sourceLineNo">272</span><a id="line.272">   *</a>
 <span class="sourceLineNo">273</span><a id="line.273">   * @throws IllegalArgumentException if the iterator contains multiple elements</a>
@@ -346,7 +346,7 @@
 <span class="sourceLineNo">337</span><a id="line.337">   * Returns the number of elements in the specified iterable that equal the specified object. This</a>
 <span class="sourceLineNo">338</span><a id="line.338">   * implementation avoids a full iteration when the iterable is a {@link Multiset} or {@link Set}.</a>
 <span class="sourceLineNo">339</span><a id="line.339">   *</a>
-<span class="sourceLineNo">340</span><a id="line.340">   * &lt;p&gt;&lt;b&gt;Java 8 users:&lt;/b&gt; In most cases, the {@code Stream} equivalent of this method is {@code</a>
+<span class="sourceLineNo">340</span><a id="line.340">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; In most cases, the {@code Stream} equivalent of this method is {@code</a>
 <span class="sourceLineNo">341</span><a id="line.341">   * stream.filter(element::equals).count()}. If {@code element} might be null, use {@code</a>
 <span class="sourceLineNo">342</span><a id="line.342">   * stream.filter(Predicate.isEqual(element)).count()} instead.</a>
 <span class="sourceLineNo">343</span><a id="line.343">   *</a>
@@ -377,7 +377,7 @@
 <span class="sourceLineNo">368</span><a id="line.368">   * &lt;p&gt;To cycle over the iterable {@code n} times, use the following: {@code</a>
 <span class="sourceLineNo">369</span><a id="line.369">   * Iterables.concat(Collections.nCopies(n, iterable))}</a>
 <span class="sourceLineNo">370</span><a id="line.370">   *</a>
-<span class="sourceLineNo">371</span><a id="line.371">   * &lt;p&gt;&lt;b&gt;Java 8 users:&lt;/b&gt; The {@code Stream} equivalent of this method is {@code</a>
+<span class="sourceLineNo">371</span><a id="line.371">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; The {@code Stream} equivalent of this method is {@code</a>
 <span class="sourceLineNo">372</span><a id="line.372">   * Stream.generate(() -&gt; iterable).flatMap(Streams::stream)}.</a>
 <span class="sourceLineNo">373</span><a id="line.373">   */</a>
 <span class="sourceLineNo">374</span><a id="line.374">  public static &lt;T extends @Nullable Object&gt; Iterable&lt;T&gt; cycle(final Iterable&lt;T&gt; iterable) {</a>
@@ -416,8 +416,8 @@
 <span class="sourceLineNo">407</span><a id="line.407">   * &lt;p&gt;To cycle over the elements {@code n} times, use the following: {@code</a>
 <span class="sourceLineNo">408</span><a id="line.408">   * Iterables.concat(Collections.nCopies(n, Arrays.asList(elements)))}</a>
 <span class="sourceLineNo">409</span><a id="line.409">   *</a>
-<span class="sourceLineNo">410</span><a id="line.410">   * &lt;p&gt;&lt;b&gt;Java 8 users:&lt;/b&gt; If passing a single element {@code e}, the {@code Stream} equivalent of</a>
-<span class="sourceLineNo">411</span><a id="line.411">   * this method is {@code Stream.generate(() -&gt; e)}. Otherwise, put the elements in a collection</a>
+<span class="sourceLineNo">410</span><a id="line.410">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; If passing a single element {@code e}, the {@code Stream} equivalent</a>
+<span class="sourceLineNo">411</span><a id="line.411">   * of this method is {@code Stream.generate(() -&gt; e)}. Otherwise, put the elements in a collection</a>
 <span class="sourceLineNo">412</span><a id="line.412">   * and use {@code Stream.generate(() -&gt; collection).flatMap(Collection::stream)}.</a>
 <span class="sourceLineNo">413</span><a id="line.413">   */</a>
 <span class="sourceLineNo">414</span><a id="line.414">  @SafeVarargs</a>
@@ -433,8 +433,8 @@
 <span class="sourceLineNo">424</span><a id="line.424">   * &lt;p&gt;The returned iterable's iterator supports {@code remove()} when the corresponding input</a>
 <span class="sourceLineNo">425</span><a id="line.425">   * iterator supports it.</a>
 <span class="sourceLineNo">426</span><a id="line.426">   *</a>
-<span class="sourceLineNo">427</span><a id="line.427">   * &lt;p&gt;&lt;b&gt;Java 8 users:&lt;/b&gt; The {@code Stream} equivalent of this method is {@code Stream.concat(a,</a>
-<span class="sourceLineNo">428</span><a id="line.428">   * b)}.</a>
+<span class="sourceLineNo">427</span><a id="line.427">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; The {@code Stream} equivalent of this method is {@code</a>
+<span class="sourceLineNo">428</span><a id="line.428">   * Stream.concat(a, b)}.</a>
 <span class="sourceLineNo">429</span><a id="line.429">   */</a>
 <span class="sourceLineNo">430</span><a id="line.430">  public static &lt;T extends @Nullable Object&gt; Iterable&lt;T&gt; concat(</a>
 <span class="sourceLineNo">431</span><a id="line.431">      Iterable&lt;? extends T&gt; a, Iterable&lt;? extends T&gt; b) {</a>
@@ -449,7 +449,7 @@
 <span class="sourceLineNo">440</span><a id="line.440">   * &lt;p&gt;The returned iterable's iterator supports {@code remove()} when the corresponding input</a>
 <span class="sourceLineNo">441</span><a id="line.441">   * iterator supports it.</a>
 <span class="sourceLineNo">442</span><a id="line.442">   *</a>
-<span class="sourceLineNo">443</span><a id="line.443">   * &lt;p&gt;&lt;b&gt;Java 8 users:&lt;/b&gt; The {@code Stream} equivalent of this method is {@code</a>
+<span class="sourceLineNo">443</span><a id="line.443">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; The {@code Stream} equivalent of this method is {@code</a>
 <span class="sourceLineNo">444</span><a id="line.444">   * Streams.concat(a, b, c)}.</a>
 <span class="sourceLineNo">445</span><a id="line.445">   */</a>
 <span class="sourceLineNo">446</span><a id="line.446">  public static &lt;T extends @Nullable Object&gt; Iterable&lt;T&gt; concat(</a>
@@ -466,7 +466,7 @@
 <span class="sourceLineNo">457</span><a id="line.457">   * &lt;p&gt;The returned iterable's iterator supports {@code remove()} when the corresponding input</a>
 <span class="sourceLineNo">458</span><a id="line.458">   * iterator supports it.</a>
 <span class="sourceLineNo">459</span><a id="line.459">   *</a>
-<span class="sourceLineNo">460</span><a id="line.460">   * &lt;p&gt;&lt;b&gt;Java 8 users:&lt;/b&gt; The {@code Stream} equivalent of this method is {@code</a>
+<span class="sourceLineNo">460</span><a id="line.460">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; The {@code Stream} equivalent of this method is {@code</a>
 <span class="sourceLineNo">461</span><a id="line.461">   * Streams.concat(a, b, c, d)}.</a>
 <span class="sourceLineNo">462</span><a id="line.462">   */</a>
 <span class="sourceLineNo">463</span><a id="line.463">  public static &lt;T extends @Nullable Object&gt; Iterable&lt;T&gt; concat(</a>
@@ -485,7 +485,7 @@
 <span class="sourceLineNo">476</span><a id="line.476">   * &lt;p&gt;The returned iterable's iterator supports {@code remove()} when the corresponding input</a>
 <span class="sourceLineNo">477</span><a id="line.477">   * iterator supports it.</a>
 <span class="sourceLineNo">478</span><a id="line.478">   *</a>
-<span class="sourceLineNo">479</span><a id="line.479">   * &lt;p&gt;&lt;b&gt;Java 8 users:&lt;/b&gt; The {@code Stream} equivalent of this method is {@code</a>
+<span class="sourceLineNo">479</span><a id="line.479">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; The {@code Stream} equivalent of this method is {@code</a>
 <span class="sourceLineNo">480</span><a id="line.480">   * Streams.concat(...)}.</a>
 <span class="sourceLineNo">481</span><a id="line.481">   *</a>
 <span class="sourceLineNo">482</span><a id="line.482">   * @throws NullPointerException if any of the provided iterables is null</a>
@@ -504,7 +504,7 @@
 <span class="sourceLineNo">495</span><a id="line.495">   * iterator supports it. The methods of the returned iterable may throw {@code</a>
 <span class="sourceLineNo">496</span><a id="line.496">   * NullPointerException} if any of the input iterators is null.</a>
 <span class="sourceLineNo">497</span><a id="line.497">   *</a>
-<span class="sourceLineNo">498</span><a id="line.498">   * &lt;p&gt;&lt;b&gt;Java 8 users:&lt;/b&gt; The {@code Stream} equivalent of this method is {@code</a>
+<span class="sourceLineNo">498</span><a id="line.498">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; The {@code Stream} equivalent of this method is {@code</a>
 <span class="sourceLineNo">499</span><a id="line.499">   * streamOfStreams.flatMap(s -&gt; s)}.</a>
 <span class="sourceLineNo">500</span><a id="line.500">   */</a>
 <span class="sourceLineNo">501</span><a id="line.501">  public static &lt;T extends @Nullable Object&gt; Iterable&lt;T&gt; concat(</a>

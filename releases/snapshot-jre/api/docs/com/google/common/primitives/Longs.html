@@ -457,7 +457,7 @@ extends java.lang.Object</pre>
 <pre>public static final&nbsp;int <a href="../../../../src-html/com/google/common/primitives/Longs.html#line.56">BYTES</a></pre>
 <div class="block">The number of bytes required to represent a primitive <code>long</code> value.
 
- <p><b>Java 8 users:</b> use <code>Long.BYTES</code> instead.</div>
+ <p><b>Java 8+ users:</b> use <code>Long.BYTES</code> instead.</div>
 <dl>
 <dt><span class="seeLabel">See Also:</span></dt>
 <dd><a href="../../../../constant-values.html#com.google.common.primitives.Longs.BYTES">Constant Field Values</a></dd>
@@ -503,7 +503,7 @@ extends java.lang.Object</pre>
  <p>This method always return the value specified by <code>Long.hashCode()</code> in java, which
  might be different from <code>((Long) value).hashCode()</code> in GWT because <code>Long.hashCode()</code> in GWT does not obey the JRE contract.
 
- <p><b>Java 8 users:</b> use <code>Long.hashCode(long)</code> instead.</div>
+ <p><b>Java 8+ users:</b> use <code>Long.hashCode(long)</code> instead.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>value</code> - a primitive <code>long</code> value</dd>
@@ -523,8 +523,7 @@ extends java.lang.Object</pre>
 <div class="block">Compares the two specified <code>long</code> values. The sign of the value returned is the same as
  that of <code>((Long) a).compareTo(b)</code>.
 
- <p><b>Note for Java 7 and later:</b> this method should be treated as deprecated; use the
- equivalent <code>Long.compare(long, long)</code> method instead.</div>
+ <p><b>Java 7+ users:</b> this method should be treated as deprecated; use the equivalent <code>Long.compare(long, long)</code> method instead.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>a</code> - the first <code>long</code> to compare</dd>

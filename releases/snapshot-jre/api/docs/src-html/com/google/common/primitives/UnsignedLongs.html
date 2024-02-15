@@ -76,7 +76,7 @@
 <span class="sourceLineNo">067</span><a id="line.67">   * Compares the two specified {@code long} values, treating them as unsigned values between {@code</a>
 <span class="sourceLineNo">068</span><a id="line.68">   * 0} and {@code 2^64 - 1} inclusive.</a>
 <span class="sourceLineNo">069</span><a id="line.69">   *</a>
-<span class="sourceLineNo">070</span><a id="line.70">   * &lt;p&gt;&lt;b&gt;Java 8 users:&lt;/b&gt; use {@link Long#compareUnsigned(long, long)} instead.</a>
+<span class="sourceLineNo">070</span><a id="line.70">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; use {@link Long#compareUnsigned(long, long)} instead.</a>
 <span class="sourceLineNo">071</span><a id="line.71">   *</a>
 <span class="sourceLineNo">072</span><a id="line.72">   * @param a the first unsigned {@code long} to compare</a>
 <span class="sourceLineNo">073</span><a id="line.73">   * @param b the second unsigned {@code long} to compare</a>
@@ -246,7 +246,7 @@
 <span class="sourceLineNo">237</span><a id="line.237">   * Returns dividend / divisor, where the dividend and divisor are treated as unsigned 64-bit</a>
 <span class="sourceLineNo">238</span><a id="line.238">   * quantities.</a>
 <span class="sourceLineNo">239</span><a id="line.239">   *</a>
-<span class="sourceLineNo">240</span><a id="line.240">   * &lt;p&gt;&lt;b&gt;Java 8 users:&lt;/b&gt; use {@link Long#divideUnsigned(long, long)} instead.</a>
+<span class="sourceLineNo">240</span><a id="line.240">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; use {@link Long#divideUnsigned(long, long)} instead.</a>
 <span class="sourceLineNo">241</span><a id="line.241">   *</a>
 <span class="sourceLineNo">242</span><a id="line.242">   * @param dividend the dividend (numerator)</a>
 <span class="sourceLineNo">243</span><a id="line.243">   * @param divisor the divisor (denominator)</a>
@@ -281,7 +281,7 @@
 <span class="sourceLineNo">272</span><a id="line.272">   * Returns dividend % divisor, where the dividend and divisor are treated as unsigned 64-bit</a>
 <span class="sourceLineNo">273</span><a id="line.273">   * quantities.</a>
 <span class="sourceLineNo">274</span><a id="line.274">   *</a>
-<span class="sourceLineNo">275</span><a id="line.275">   * &lt;p&gt;&lt;b&gt;Java 8 users:&lt;/b&gt; use {@link Long#remainderUnsigned(long, long)} instead.</a>
+<span class="sourceLineNo">275</span><a id="line.275">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; use {@link Long#remainderUnsigned(long, long)} instead.</a>
 <span class="sourceLineNo">276</span><a id="line.276">   *</a>
 <span class="sourceLineNo">277</span><a id="line.277">   * @param dividend the dividend (numerator)</a>
 <span class="sourceLineNo">278</span><a id="line.278">   * @param divisor the divisor (denominator)</a>
@@ -316,7 +316,7 @@
 <span class="sourceLineNo">307</span><a id="line.307">  /**</a>
 <span class="sourceLineNo">308</span><a id="line.308">   * Returns the unsigned {@code long} value represented by the given decimal string.</a>
 <span class="sourceLineNo">309</span><a id="line.309">   *</a>
-<span class="sourceLineNo">310</span><a id="line.310">   * &lt;p&gt;&lt;b&gt;Java 8 users:&lt;/b&gt; use {@link Long#parseUnsignedLong(String)} instead.</a>
+<span class="sourceLineNo">310</span><a id="line.310">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; use {@link Long#parseUnsignedLong(String)} instead.</a>
 <span class="sourceLineNo">311</span><a id="line.311">   *</a>
 <span class="sourceLineNo">312</span><a id="line.312">   * @throws NumberFormatException if the string does not contain a valid unsigned {@code long}</a>
 <span class="sourceLineNo">313</span><a id="line.313">   *     value</a>
@@ -331,7 +331,7 @@
 <span class="sourceLineNo">322</span><a id="line.322">  /**</a>
 <span class="sourceLineNo">323</span><a id="line.323">   * Returns the unsigned {@code long} value represented by a string with the given radix.</a>
 <span class="sourceLineNo">324</span><a id="line.324">   *</a>
-<span class="sourceLineNo">325</span><a id="line.325">   * &lt;p&gt;&lt;b&gt;Java 8 users:&lt;/b&gt; use {@link Long#parseUnsignedLong(String, int)} instead.</a>
+<span class="sourceLineNo">325</span><a id="line.325">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; use {@link Long#parseUnsignedLong(String, int)} instead.</a>
 <span class="sourceLineNo">326</span><a id="line.326">   *</a>
 <span class="sourceLineNo">327</span><a id="line.327">   * @param string the string containing the unsigned {@code long} representation to be parsed.</a>
 <span class="sourceLineNo">328</span><a id="line.328">   * @param radix the radix to use while parsing {@code string}</a>
@@ -444,7 +444,7 @@
 <span class="sourceLineNo">435</span><a id="line.435">  /**</a>
 <span class="sourceLineNo">436</span><a id="line.436">   * Returns a string representation of x, where x is treated as unsigned.</a>
 <span class="sourceLineNo">437</span><a id="line.437">   *</a>
-<span class="sourceLineNo">438</span><a id="line.438">   * &lt;p&gt;&lt;b&gt;Java 8 users:&lt;/b&gt; use {@link Long#toUnsignedString(long)} instead.</a>
+<span class="sourceLineNo">438</span><a id="line.438">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; use {@link Long#toUnsignedString(long)} instead.</a>
 <span class="sourceLineNo">439</span><a id="line.439">   */</a>
 <span class="sourceLineNo">440</span><a id="line.440">  public static String toString(long x) {</a>
 <span class="sourceLineNo">441</span><a id="line.441">    return toString(x, 10);</a>
@@ -454,7 +454,7 @@
 <span class="sourceLineNo">445</span><a id="line.445">   * Returns a string representation of {@code x} for the given radix, where {@code x} is treated as</a>
 <span class="sourceLineNo">446</span><a id="line.446">   * unsigned.</a>
 <span class="sourceLineNo">447</span><a id="line.447">   *</a>
-<span class="sourceLineNo">448</span><a id="line.448">   * &lt;p&gt;&lt;b&gt;Java 8 users:&lt;/b&gt; use {@link Long#toUnsignedString(long, int)} instead.</a>
+<span class="sourceLineNo">448</span><a id="line.448">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; use {@link Long#toUnsignedString(long, int)} instead.</a>
 <span class="sourceLineNo">449</span><a id="line.449">   *</a>
 <span class="sourceLineNo">450</span><a id="line.450">   * @param x the value to convert to a string.</a>
 <span class="sourceLineNo">451</span><a id="line.451">   * @param radix the radix to use while working with {@code x}</a>

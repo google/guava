@@ -1126,7 +1126,7 @@ public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/c
  <a href="../base/Predicate.html#apply(T)"><code>Predicate.apply(T)</code></a>. Do not provide a predicate such as <code>
  Predicates.instanceOf(ArrayList.class)</code>, which is inconsistent with equals. (See <a href="Iterables.html#filter(java.lang.Iterable,java.lang.Class)"><code>Iterables.filter(Iterable, Class)</code></a> for related functionality.)
 
- <p><b>Java 8 users:</b> many use cases for this method are better addressed by <code>Stream.filter(java.util.function.Predicate&lt;? super T&gt;)</code>. This method is not being deprecated, but we gently encourage
+ <p><b>Java 8+ users:</b> many use cases for this method are better addressed by <code>Stream.filter(java.util.function.Predicate&lt;? super T&gt;)</code>. This method is not being deprecated, but we gently encourage
  you to migrate to streams.</div>
 </li>
 </ul>
@@ -1420,7 +1420,7 @@ public static&nbsp;&lt;E&gt;&nbsp;java.util.Set&lt;java.util.Set&lt;E&gt;&gt;&nb
  <p>The returned navigable set will be serializable if the specified navigable set is
  serializable.
 
- <p><b>Java 8 users and later:</b> Prefer <code>Collections.unmodifiableNavigableSet(java.util.NavigableSet&lt;T&gt;)</code>.</div>
+ <p><b>Java 8+ users and later:</b> Prefer <code>Collections.unmodifiableNavigableSet(java.util.NavigableSet&lt;T&gt;)</code>.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>set</code> - the navigable set for which an unmodifiable view is to be returned</dd>
@@ -1479,7 +1479,7 @@ public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/c
  <p>The returned navigable set will be serializable if the specified navigable set is
  serializable.
 
- <p><b>Java 8 users and later:</b> Prefer <code>Collections.synchronizedNavigableSet(java.util.NavigableSet&lt;T&gt;)</code>.</div>
+ <p><b>Java 8+ users and later:</b> Prefer <code>Collections.synchronizedNavigableSet(java.util.NavigableSet&lt;T&gt;)</code>.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>navigableSet</code> - the navigable set to be "wrapped" in a synchronized navigable set.</dd>

@@ -139,9 +139,9 @@ extends java.lang.Object</pre>
  <code>Iterable</code>. Except as noted, each method has a corresponding <code>Iterator</code>-based method
  in the <a href="Iterators.html" title="class in com.google.common.collect"><code>Iterators</code></a> class.
 
- <p><b>Java 8 users:</b> several common uses for this class are now more comprehensively addressed
- by the new <code>Stream</code> library. Read the method documentation below for
- comparisons. This class is not being deprecated, but we gently encourage you to migrate to
+ <p><b>Java 8+ users:</b> several common uses for this class are now more comprehensively
+ addressed by the new <code>Stream</code> library. Read the method documentation below
+ for comparisons. This class is not being deprecated, but we gently encourage you to migrate to
  streams.
 
  <p><i>Performance notes:</i> Unless otherwise noted, all of the iterables produced in this class
@@ -656,7 +656,7 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
  The behavior of this method is not specified if <code>predicate</code> is dependent on <code>
  removeFrom</code>.
 
- <p><b>Java 8 users:</b> if <code>removeFrom</code> is a <code>Collection</code>, use <code>
+ <p><b>Java 8+ users:</b> if <code>removeFrom</code> is a <code>Collection</code>, use <code>
  removeFrom.removeIf(predicate)</code> instead.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -707,7 +707,7 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.261">getOnlyElement</a>&#8203;(java.lang.Iterable&lt;T&gt;&nbsp;iterable)</pre>
 <div class="block">Returns the single element contained in <code>iterable</code>.
 
- <p><b>Java 8 users:</b> the <code>Stream</code> equivalent to this method is <code>
+ <p><b>Java 8+ users:</b> the <code>Stream</code> equivalent to this method is <code>
  stream.collect(MoreCollectors.onlyElement())</code>.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
@@ -729,7 +729,7 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <div class="block">Returns the single element contained in <code>iterable</code>, or <code>defaultValue</code> if the
  iterable is empty.
 
- <p><b>Java 8 users:</b> the <code>Stream</code> equivalent to this method is <code>
+ <p><b>Java 8+ users:</b> the <code>Stream</code> equivalent to this method is <code>
  stream.collect(MoreCollectors.toOptional()).orElse(defaultValue)</code>.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
@@ -784,7 +784,7 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <div class="block">Returns the number of elements in the specified iterable that equal the specified object. This
  implementation avoids a full iteration when the iterable is a <a href="Multiset.html" title="interface in com.google.common.collect"><code>Multiset</code></a> or <code>Set</code>.
 
- <p><b>Java 8 users:</b> In most cases, the <code>Stream</code> equivalent of this method is <code>
+ <p><b>Java 8+ users:</b> In most cases, the <code>Stream</code> equivalent of this method is <code>
  stream.filter(element::equals).count()</code>. If <code>element</code> might be null, use <code>
  stream.filter(Predicate.isEqual(element)).count()</code> instead.</div>
 <dl>
@@ -815,7 +815,7 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
  <p>To cycle over the iterable <code>n</code> times, use the following: <code>
  Iterables.concat(Collections.nCopies(n, iterable))</code>
 
- <p><b>Java 8 users:</b> The <code>Stream</code> equivalent of this method is <code>
+ <p><b>Java 8+ users:</b> The <code>Stream</code> equivalent of this method is <code>
  Stream.generate(() -&gt; iterable).flatMap(Streams::stream)</code>.</div>
 </li>
 </ul>
@@ -844,8 +844,8 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
  <p>To cycle over the elements <code>n</code> times, use the following: <code>
  Iterables.concat(Collections.nCopies(n, Arrays.asList(elements)))</code>
 
- <p><b>Java 8 users:</b> If passing a single element <code>e</code>, the <code>Stream</code> equivalent of
- this method is <code>Stream.generate(() -&gt; e)</code>. Otherwise, put the elements in a collection
+ <p><b>Java 8+ users:</b> If passing a single element <code>e</code>, the <code>Stream</code> equivalent
+ of this method is <code>Stream.generate(() -&gt; e)</code>. Otherwise, put the elements in a collection
  and use <code>Stream.generate(() -&gt; collection).flatMap(Collection::stream)</code>.</div>
 </li>
 </ul>
@@ -864,8 +864,8 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
  <p>The returned iterable's iterator supports <code>remove()</code> when the corresponding input
  iterator supports it.
 
- <p><b>Java 8 users:</b> The <code>Stream</code> equivalent of this method is <code>Stream.concat(a,
- b)</code>.</div>
+ <p><b>Java 8+ users:</b> The <code>Stream</code> equivalent of this method is <code>
+ Stream.concat(a, b)</code>.</div>
 </li>
 </ul>
 <a id="concat(java.lang.Iterable,java.lang.Iterable,java.lang.Iterable)">
@@ -884,7 +884,7 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
  <p>The returned iterable's iterator supports <code>remove()</code> when the corresponding input
  iterator supports it.
 
- <p><b>Java 8 users:</b> The <code>Stream</code> equivalent of this method is <code>
+ <p><b>Java 8+ users:</b> The <code>Stream</code> equivalent of this method is <code>
  Streams.concat(a, b, c)</code>.</div>
 </li>
 </ul>
@@ -906,7 +906,7 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
  <p>The returned iterable's iterator supports <code>remove()</code> when the corresponding input
  iterator supports it.
 
- <p><b>Java 8 users:</b> The <code>Stream</code> equivalent of this method is <code>
+ <p><b>Java 8+ users:</b> The <code>Stream</code> equivalent of this method is <code>
  Streams.concat(a, b, c, d)</code>.</div>
 </li>
 </ul>
@@ -925,7 +925,7 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
  <p>The returned iterable's iterator supports <code>remove()</code> when the corresponding input
  iterator supports it.
 
- <p><b>Java 8 users:</b> The <code>Stream</code> equivalent of this method is <code>
+ <p><b>Java 8+ users:</b> The <code>Stream</code> equivalent of this method is <code>
  Streams.concat(...)</code>.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
@@ -948,7 +948,7 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
  iterator supports it. The methods of the returned iterable may throw <code>
  NullPointerException</code> if any of the input iterators is null.
 
- <p><b>Java 8 users:</b> The <code>Stream</code> equivalent of this method is <code>
+ <p><b>Java 8+ users:</b> The <code>Stream</code> equivalent of this method is <code>
  streamOfStreams.flatMap(s -&gt; s)</code>.</div>
 </li>
 </ul>

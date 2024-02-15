@@ -68,7 +68,7 @@
 <span class="sourceLineNo">059</span><a id="line.59">   * Compares the two specified {@code int} values, treating them as unsigned values between {@code</a>
 <span class="sourceLineNo">060</span><a id="line.60">   * 0} and {@code 2^32 - 1} inclusive.</a>
 <span class="sourceLineNo">061</span><a id="line.61">   *</a>
-<span class="sourceLineNo">062</span><a id="line.62">   * &lt;p&gt;&lt;b&gt;Java 8 users:&lt;/b&gt; use {@link Integer#compareUnsigned(int, int)} instead.</a>
+<span class="sourceLineNo">062</span><a id="line.62">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; use {@link Integer#compareUnsigned(int, int)} instead.</a>
 <span class="sourceLineNo">063</span><a id="line.63">   *</a>
 <span class="sourceLineNo">064</span><a id="line.64">   * @param a the first unsigned {@code int} to compare</a>
 <span class="sourceLineNo">065</span><a id="line.65">   * @param b the second unsigned {@code int} to compare</a>
@@ -82,7 +82,7 @@
 <span class="sourceLineNo">073</span><a id="line.73">  /**</a>
 <span class="sourceLineNo">074</span><a id="line.74">   * Returns the value of the given {@code int} as a {@code long}, when treated as unsigned.</a>
 <span class="sourceLineNo">075</span><a id="line.75">   *</a>
-<span class="sourceLineNo">076</span><a id="line.76">   * &lt;p&gt;&lt;b&gt;Java 8 users:&lt;/b&gt; use {@link Integer#toUnsignedLong(int)} instead.</a>
+<span class="sourceLineNo">076</span><a id="line.76">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; use {@link Integer#toUnsignedLong(int)} instead.</a>
 <span class="sourceLineNo">077</span><a id="line.77">   */</a>
 <span class="sourceLineNo">078</span><a id="line.78">  public static long toLong(int value) {</a>
 <span class="sourceLineNo">079</span><a id="line.79">    return value &amp; INT_MASK;</a>
@@ -280,7 +280,7 @@
 <span class="sourceLineNo">271</span><a id="line.271">   * Returns dividend / divisor, where the dividend and divisor are treated as unsigned 32-bit</a>
 <span class="sourceLineNo">272</span><a id="line.272">   * quantities.</a>
 <span class="sourceLineNo">273</span><a id="line.273">   *</a>
-<span class="sourceLineNo">274</span><a id="line.274">   * &lt;p&gt;&lt;b&gt;Java 8 users:&lt;/b&gt; use {@link Integer#divideUnsigned(int, int)} instead.</a>
+<span class="sourceLineNo">274</span><a id="line.274">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; use {@link Integer#divideUnsigned(int, int)} instead.</a>
 <span class="sourceLineNo">275</span><a id="line.275">   *</a>
 <span class="sourceLineNo">276</span><a id="line.276">   * @param dividend the dividend (numerator)</a>
 <span class="sourceLineNo">277</span><a id="line.277">   * @param divisor the divisor (denominator)</a>
@@ -294,7 +294,7 @@
 <span class="sourceLineNo">285</span><a id="line.285">   * Returns dividend % divisor, where the dividend and divisor are treated as unsigned 32-bit</a>
 <span class="sourceLineNo">286</span><a id="line.286">   * quantities.</a>
 <span class="sourceLineNo">287</span><a id="line.287">   *</a>
-<span class="sourceLineNo">288</span><a id="line.288">   * &lt;p&gt;&lt;b&gt;Java 8 users:&lt;/b&gt; use {@link Integer#remainderUnsigned(int, int)} instead.</a>
+<span class="sourceLineNo">288</span><a id="line.288">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; use {@link Integer#remainderUnsigned(int, int)} instead.</a>
 <span class="sourceLineNo">289</span><a id="line.289">   *</a>
 <span class="sourceLineNo">290</span><a id="line.290">   * @param dividend the dividend (numerator)</a>
 <span class="sourceLineNo">291</span><a id="line.291">   * @param divisor the divisor (denominator)</a>
@@ -336,7 +336,7 @@
 <span class="sourceLineNo">327</span><a id="line.327">  /**</a>
 <span class="sourceLineNo">328</span><a id="line.328">   * Returns the unsigned {@code int} value represented by the given decimal string.</a>
 <span class="sourceLineNo">329</span><a id="line.329">   *</a>
-<span class="sourceLineNo">330</span><a id="line.330">   * &lt;p&gt;&lt;b&gt;Java 8 users:&lt;/b&gt; use {@link Integer#parseUnsignedInt(String)} instead.</a>
+<span class="sourceLineNo">330</span><a id="line.330">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; use {@link Integer#parseUnsignedInt(String)} instead.</a>
 <span class="sourceLineNo">331</span><a id="line.331">   *</a>
 <span class="sourceLineNo">332</span><a id="line.332">   * @throws NumberFormatException if the string does not contain a valid unsigned {@code int} value</a>
 <span class="sourceLineNo">333</span><a id="line.333">   * @throws NullPointerException if {@code s} is null (in contrast to {@link</a>
@@ -350,7 +350,7 @@
 <span class="sourceLineNo">341</span><a id="line.341">  /**</a>
 <span class="sourceLineNo">342</span><a id="line.342">   * Returns the unsigned {@code int} value represented by a string with the given radix.</a>
 <span class="sourceLineNo">343</span><a id="line.343">   *</a>
-<span class="sourceLineNo">344</span><a id="line.344">   * &lt;p&gt;&lt;b&gt;Java 8 users:&lt;/b&gt; use {@link Integer#parseUnsignedInt(String, int)} instead.</a>
+<span class="sourceLineNo">344</span><a id="line.344">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; use {@link Integer#parseUnsignedInt(String, int)} instead.</a>
 <span class="sourceLineNo">345</span><a id="line.345">   *</a>
 <span class="sourceLineNo">346</span><a id="line.346">   * @param string the string containing the unsigned integer representation to be parsed.</a>
 <span class="sourceLineNo">347</span><a id="line.347">   * @param radix the radix to use while parsing {@code s}; must be between {@link</a>
@@ -374,7 +374,7 @@
 <span class="sourceLineNo">365</span><a id="line.365">  /**</a>
 <span class="sourceLineNo">366</span><a id="line.366">   * Returns a string representation of x, where x is treated as unsigned.</a>
 <span class="sourceLineNo">367</span><a id="line.367">   *</a>
-<span class="sourceLineNo">368</span><a id="line.368">   * &lt;p&gt;&lt;b&gt;Java 8 users:&lt;/b&gt; use {@link Integer#toUnsignedString(int)} instead.</a>
+<span class="sourceLineNo">368</span><a id="line.368">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; use {@link Integer#toUnsignedString(int)} instead.</a>
 <span class="sourceLineNo">369</span><a id="line.369">   */</a>
 <span class="sourceLineNo">370</span><a id="line.370">  public static String toString(int x) {</a>
 <span class="sourceLineNo">371</span><a id="line.371">    return toString(x, 10);</a>
@@ -384,7 +384,7 @@
 <span class="sourceLineNo">375</span><a id="line.375">   * Returns a string representation of {@code x} for the given radix, where {@code x} is treated as</a>
 <span class="sourceLineNo">376</span><a id="line.376">   * unsigned.</a>
 <span class="sourceLineNo">377</span><a id="line.377">   *</a>
-<span class="sourceLineNo">378</span><a id="line.378">   * &lt;p&gt;&lt;b&gt;Java 8 users:&lt;/b&gt; use {@link Integer#toUnsignedString(int, int)} instead.</a>
+<span class="sourceLineNo">378</span><a id="line.378">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; use {@link Integer#toUnsignedString(int, int)} instead.</a>
 <span class="sourceLineNo">379</span><a id="line.379">   *</a>
 <span class="sourceLineNo">380</span><a id="line.380">   * @param x the value to convert to a string.</a>
 <span class="sourceLineNo">381</span><a id="line.381">   * @param radix the radix to use while working with {@code x}</a>

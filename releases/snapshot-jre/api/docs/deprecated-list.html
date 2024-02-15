@@ -1099,9 +1099,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
      context.getCacheDir()</code>), and create your own directory under that. (For example, you might
      use <code>new File(context.getCacheDir(), "directoryname").mkdir()</code>, or, if you need an
      arbitrary number of temporary directories, you might have to generate multiple directory
-     names in a loop until <code>mkdir()</code> returns <code>true</code>.) For developers on Java 7 or
-     later, use <code>Files.createTempDirectory(java.nio.file.Path, java.lang.String, java.nio.file.attribute.FileAttribute&lt;?&gt;...)</code>, transforming it to a <code>File</code> using <code>toFile()</code> if needed. To restrict permissions
-     as this method does, pass <code>
+     names in a loop until <code>mkdir()</code> returns <code>true</code>.) For Java 7+ users, prefer
+     <code>Files.createTempDirectory(java.nio.file.Path, java.lang.String, java.nio.file.attribute.FileAttribute&lt;?&gt;...)</code>, transforming it to a <code>File</code> using
+     <code>toFile()</code> if needed. To restrict permissions as this
+     method does, pass <code>
      PosixFilePermissions.asFileAttribute(PosixFilePermissions.fromString("rwx------"))</code> to your
      call to <code>createTempDirectory</code>.</div>
 </td>

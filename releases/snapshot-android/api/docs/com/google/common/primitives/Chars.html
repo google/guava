@@ -441,7 +441,7 @@ extends java.lang.Object</pre>
 <pre>public static final&nbsp;int <a href="../../../../src-html/com/google/common/primitives/Chars.html#line.57">BYTES</a></pre>
 <div class="block">The number of bytes required to represent a primitive <code>char</code> value.
 
- <p><b>Java 8 users:</b> use <code>Character.BYTES</code> instead.</div>
+ <p><b>Java 8+ users:</b> use <code>Character.BYTES</code> instead.</div>
 <dl>
 <dt><span class="seeLabel">See Also:</span></dt>
 <dd><a href="../../../../constant-values.html#com.google.common.primitives.Chars.BYTES">Constant Field Values</a></dd>
@@ -468,7 +468,7 @@ extends java.lang.Object</pre>
 <div class="block">Returns a hash code for <code>value</code>; equal to the result of invoking <code>((Character)
  value).hashCode()</code>.
 
- <p><b>Java 8 users:</b> use <code>Character.hashCode(char)</code> instead.</div>
+ <p><b>Java 8+ users:</b> use <code>Character.hashCode(char)</code> instead.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>value</code> - a primitive <code>char</code> value</dd>
@@ -525,8 +525,7 @@ extends java.lang.Object</pre>
 <div class="block">Compares the two specified <code>char</code> values. The sign of the value returned is the same as
  that of <code>((Character) a).compareTo(b)</code>.
 
- <p><b>Note for Java 7 and later:</b> this method should be treated as deprecated; use the
- equivalent <code>Character.compare(char, char)</code> method instead.</div>
+ <p><b>Java 7+ users:</b> this method should be treated as deprecated; use the equivalent <code>Character.compare(char, char)</code> method instead.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>a</code> - the first <code>char</code> to compare</dd>
