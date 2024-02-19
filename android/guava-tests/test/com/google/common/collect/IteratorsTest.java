@@ -39,6 +39,7 @@ import com.google.common.collect.testing.TestStringListGenerator;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.ListFeature;
+import com.google.common.primitives.Ints;
 import com.google.common.testing.NullPointerTester;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -918,8 +919,9 @@ public class IteratorsTest extends TestCase {
     }
   }
 
-  private static Iterator<Integer> iterateOver(final Integer... values) {
-    return newArrayList(values).iterator();
+  private static Iterator<Integer> iterateOver(int... values) {
+    // Note: Ints.asList's iterator does not support remove which we need for testing.
+    return new ArrayList<>(Ints.asList(values)).iterator();
   }
 
   public void testElementsEqual() {
@@ -1274,8 +1276,8 @@ public class IteratorsTest extends TestCase {
     assertFalse(enumer.hasMoreElements());
   }
 
-  private static Enumeration<Integer> enumerate(Integer... ints) {
-    Vector<Integer> vector = new Vector<>(asList(ints));
+  private static Enumeration<Integer> enumerate(int... ints) {
+    Vector<Integer> vector = new Vector<>(Ints.asList(ints));
     return vector.elements();
   }
 
