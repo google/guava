@@ -151,7 +151,6 @@ public final class Maps {
    * @since 14.0
    */
   @GwtCompatible(serializable = true)
-  @J2ktIncompatible
   public static <K extends Enum<K>, V> ImmutableMap<K, V> immutableEnumMap(
       Map<K, ? extends V> map) {
     if (map instanceof ImmutableEnumMap) {
