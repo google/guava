@@ -63,6 +63,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @GwtCompatible(emulated = true)
 @SuppressWarnings("AlwaysThrows")
+@ElementTypesAreNonnullByDefault
 public class ImmutableSortedMapTest extends TestCase {
   // TODO: Avoid duplicating code in ImmutableMapTest
 

@@ -50,6 +50,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Jesse Wilson
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public class OrderingTest extends TestCase {
   // TODO(cpovirk): some of these are inexplicably slow (20-30s) under GWT
 

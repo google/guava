@@ -56,6 +56,7 @@ import junit.framework.TestSuite;
  * @author Sverre Sundsdal
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public class MinMaxPriorityQueueTest extends TestCase {
   private static final Ordering<Integer> SOME_COMPARATOR = Ordering.natural().reverse();
 

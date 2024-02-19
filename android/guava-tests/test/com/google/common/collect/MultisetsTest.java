@@ -36,6 +36,7 @@ import junit.framework.TestCase;
  * @author Louis Wasserman
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public class MultisetsTest extends TestCase {
 
   /* See MultisetsImmutableEntryTest for immutableEntry() tests. */

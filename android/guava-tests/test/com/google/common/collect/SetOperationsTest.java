@@ -38,6 +38,7 @@ import junit.framework.TestSuite;
  * @author Kevin Bourrillion
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public class SetOperationsTest extends TestCase {
   @J2ktIncompatible
   @GwtIncompatible // suite

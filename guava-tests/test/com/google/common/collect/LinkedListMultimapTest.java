@@ -55,6 +55,7 @@ import junit.framework.TestSuite;
  * @author Mike Bostock
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public class LinkedListMultimapTest extends TestCase {
 
   @J2ktIncompatible

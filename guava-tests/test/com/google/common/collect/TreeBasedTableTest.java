@@ -43,6 +43,7 @@ import junit.framework.TestSuite;
  * @author Louis Wasserman
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public class TreeBasedTableTest extends AbstractTableTest {
   @J2ktIncompatible
   @GwtIncompatible // suite

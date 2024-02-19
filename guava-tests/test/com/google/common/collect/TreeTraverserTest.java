@@ -31,6 +31,7 @@ import junit.framework.TestCase;
  * @author Louis Wasserman
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public class TreeTraverserTest extends TestCase {
   private static class Node {
     final char value;

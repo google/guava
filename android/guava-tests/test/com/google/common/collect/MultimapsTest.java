@@ -65,6 +65,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Jared Levy
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public class MultimapsTest extends TestCase {
 
   private static final Comparator<Integer> INT_COMPARATOR =

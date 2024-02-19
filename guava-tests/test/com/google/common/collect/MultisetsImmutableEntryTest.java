@@ -28,6 +28,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Mike Bostock
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public class MultisetsImmutableEntryTest extends TestCase {
   private static final @Nullable String NE = null;
 

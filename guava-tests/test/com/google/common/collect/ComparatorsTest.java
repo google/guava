@@ -36,6 +36,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Louis Wasserman
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public class ComparatorsTest extends TestCase {
   @SuppressWarnings("unchecked") // dang varargs
   public void testLexicographical() {

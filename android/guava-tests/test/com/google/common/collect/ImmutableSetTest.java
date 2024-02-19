@@ -51,6 +51,7 @@ import junit.framework.TestSuite;
  * @author Nick Kralevich
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public class ImmutableSetTest extends AbstractImmutableSetTest {
 
   @J2ktIncompatible

@@ -68,6 +68,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @GwtCompatible(emulated = true)
 @SuppressWarnings("AlwaysThrows")
+@ElementTypesAreNonnullByDefault
 public class ImmutableMapTest extends TestCase {
 
   @J2ktIncompatible

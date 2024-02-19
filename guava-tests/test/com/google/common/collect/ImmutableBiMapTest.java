@@ -54,6 +54,7 @@ import junit.framework.TestSuite;
  * @author Jared Levy
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public class ImmutableBiMapTest extends TestCase {
 
   // TODO: Reduce duplication of ImmutableMapTest code

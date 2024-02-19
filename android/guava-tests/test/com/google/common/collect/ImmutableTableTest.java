@@ -29,6 +29,7 @@ import com.google.common.testing.SerializableTester;
  * @author Gregory Kick
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public class ImmutableTableTest extends AbstractTableReadTest {
   @Override
   protected Table<String, Integer, Character> create(Object... data) {

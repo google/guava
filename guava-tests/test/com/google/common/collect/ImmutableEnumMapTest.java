@@ -47,6 +47,7 @@ import junit.framework.TestSuite;
  * @author Louis Wasserman
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public class ImmutableEnumMapTest extends TestCase {
   public static class ImmutableEnumMapGenerator extends TestEnumMapGenerator {
     @Override

@@ -42,6 +42,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @SuppressWarnings("serial") // No serialization is used in this test
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public class SimpleAbstractMultisetTest extends TestCase {
   @J2ktIncompatible
   @GwtIncompatible // suite

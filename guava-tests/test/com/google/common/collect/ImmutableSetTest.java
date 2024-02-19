@@ -57,6 +57,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Nick Kralevich
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public class ImmutableSetTest extends AbstractImmutableSetTest {
 
   @J2ktIncompatible

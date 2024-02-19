@@ -20,6 +20,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.TableCollectionTest.ColumnTests;
 
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public class TablesTransposeColumnTest extends ColumnTests {
   public TablesTransposeColumnTest() {
     super(false, true, true, true, true);

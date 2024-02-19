@@ -35,6 +35,7 @@ import junit.framework.TestCase;
  * @author Louis Wasserman
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public class MultimapBuilderTest extends TestCase {
 
   @GwtIncompatible // doesn't build without explicit type parameters on build() methods

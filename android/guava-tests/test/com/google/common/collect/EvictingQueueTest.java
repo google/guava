@@ -32,6 +32,7 @@ import junit.framework.TestCase;
  * @author Kurt Alfred Kluever
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public class EvictingQueueTest extends TestCase {
 
   public void testCreateWithNegativeSize() throws Exception {

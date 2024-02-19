@@ -43,6 +43,7 @@ import junit.framework.TestCase;
 
 /** Unit test for {@link Streams}. */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public class StreamsTest extends TestCase {
   /*
    * Full and proper black-box testing of a Stream-returning method is extremely involved, and is

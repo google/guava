@@ -35,6 +35,7 @@ import junit.framework.TestCase;
  * @author Jared Levy
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public class ImmutableMultimapTest extends TestCase {
 
   public void testBuilder_withImmutableEntry() {

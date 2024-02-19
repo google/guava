@@ -20,6 +20,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.TableCollectionTest.ColumnMapTests;
 
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public class TreeBasedTableColumnMapTest extends ColumnMapTests {
   public TreeBasedTableColumnMapTest() {
     super(false, true, true, false);

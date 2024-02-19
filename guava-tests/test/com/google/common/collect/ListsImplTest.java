@@ -36,6 +36,7 @@ import junit.framework.TestSuite;
 
 /** Tests the package level *impl methods directly using various types of lists. */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public class ListsImplTest extends TestCase {
 
   /** Describes how a list is modifiable */

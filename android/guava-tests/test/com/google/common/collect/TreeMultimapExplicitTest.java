@@ -36,6 +36,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Jared Levy
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public class TreeMultimapExplicitTest extends TestCase {
 
   /**

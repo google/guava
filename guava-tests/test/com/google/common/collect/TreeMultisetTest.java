@@ -48,6 +48,7 @@ import junit.framework.TestSuite;
  * @author Neal Kanodia
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public class TreeMultisetTest extends TestCase {
 
   @J2ktIncompatible

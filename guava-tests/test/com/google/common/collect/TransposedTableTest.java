@@ -24,6 +24,7 @@ import com.google.common.annotations.GwtCompatible;
  * @author Jared Levy
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public class TransposedTableTest extends AbstractTableTest {
 
   @Override

@@ -49,6 +49,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Jared Levy
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public class Collections2Test extends TestCase {
   @J2ktIncompatible
   @GwtIncompatible // suite

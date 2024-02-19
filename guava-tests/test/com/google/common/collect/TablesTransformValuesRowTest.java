@@ -21,6 +21,7 @@ import com.google.common.collect.TableCollectionTest.RowTests;
 import java.util.Map;
 
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public class TablesTransformValuesRowTest extends RowTests {
   public TablesTransformValuesRowTest() {
     super(false, false, true, true, true);

@@ -52,6 +52,7 @@ import junit.framework.TestSuite;
  * @author Jared Levy
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public class ImmutableListMultimapTest extends TestCase {
   public static class ImmutableListMultimapGenerator extends TestStringListMultimapGenerator {
     @Override

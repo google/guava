@@ -28,6 +28,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Mike Bostock
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public class AbstractMapEntryTest extends TestCase {
   private static final @Nullable String NK = null;
   private static final @Nullable Integer NV = null;

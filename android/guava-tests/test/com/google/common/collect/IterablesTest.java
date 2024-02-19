@@ -56,6 +56,7 @@ import junit.framework.TestCase;
  * @author Jared Levy
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public class IterablesTest extends TestCase {
 
   public void testSize0() {

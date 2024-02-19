@@ -66,6 +66,7 @@ import junit.framework.TestSuite;
  * @author Kevin Bourrillion
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public class IteratorsTest extends TestCase {
 
   @J2ktIncompatible

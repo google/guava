@@ -30,6 +30,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** Tests for {@link AbstractSequentialIterator}. */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public class AbstractSequentialIteratorTest extends TestCase {
   @GwtIncompatible // Too slow
   public void testDoublerExhaustive() {

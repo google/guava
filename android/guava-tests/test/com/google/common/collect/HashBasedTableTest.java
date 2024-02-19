@@ -30,6 +30,7 @@ import com.google.common.testing.SerializableTester;
  * @author Jared Levy
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public class HashBasedTableTest extends AbstractTableTest {
 
   @Override

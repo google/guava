@@ -40,6 +40,7 @@ import junit.framework.TestSuite;
  * @author Mike Bostock
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public class HashBiMapTest extends TestCase {
 
   public static final class HashBiMapGenerator extends TestStringBiMapGenerator {

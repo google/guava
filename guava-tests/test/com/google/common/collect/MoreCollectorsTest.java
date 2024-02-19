@@ -29,6 +29,7 @@ import junit.framework.TestCase;
  * @author Louis Wasserman
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public class MoreCollectorsTest extends TestCase {
   public void testToOptionalEmpty() {
     assertThat(Stream.empty().collect(MoreCollectors.toOptional())).isEmpty();

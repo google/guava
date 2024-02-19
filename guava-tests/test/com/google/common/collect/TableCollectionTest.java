@@ -54,6 +54,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Louis Wasserman
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public class TableCollectionTest extends TestCase {
 
   private static final Feature<?>[] COLLECTION_FEATURES = {

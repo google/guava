@@ -31,6 +31,7 @@ import junit.framework.TestCase;
 
 /** Unit tests for {@link TableCollectors}. */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public class TableCollectorsTest extends TestCase {
   public void testToImmutableTable() {
     Collector<Cell<String, String, Integer>, ?, ImmutableTable<String, String, Integer>> collector =

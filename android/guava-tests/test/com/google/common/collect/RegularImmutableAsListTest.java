@@ -23,6 +23,7 @@ import junit.framework.TestCase;
  * @author Louis Wasserman
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public class RegularImmutableAsListTest extends TestCase {
   /**
    * RegularImmutableAsList should assume its input is null-free without checking, because it only

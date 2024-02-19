@@ -28,6 +28,7 @@ import java.util.TreeMap;
  * @author George van den Driessche
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public class ForwardingSortedMapImplementsMapTest extends SortedMapInterfaceTest<String, Integer> {
 
   private static class SimpleForwardingSortedMap<K, V> extends ForwardingSortedMap<K, V> {

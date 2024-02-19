@@ -42,6 +42,7 @@ import junit.framework.TestCase;
  * @author Jared Levy
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public abstract class AbstractImmutableSetTest extends TestCase {
 
   protected abstract <E extends Comparable<? super E>> Set<E> of();

@@ -70,6 +70,7 @@ import junit.framework.TestCase;
  * @author Jared Levy
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public class MapsTest extends TestCase {
 
   private static final Comparator<Integer> SOME_COMPARATOR = Collections.reverseOrder();

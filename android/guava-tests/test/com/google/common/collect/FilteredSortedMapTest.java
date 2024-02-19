@@ -20,6 +20,7 @@ import com.google.common.annotations.GwtCompatible;
 import java.util.SortedMap;
 
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public class FilteredSortedMapTest extends AbstractFilteredMapTest {
   @Override
   SortedMap<String, Integer> createUnfiltered() {

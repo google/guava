@@ -22,6 +22,7 @@ import java.util.Map;
 import java.util.SortedMap;
 
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public class UnmodifiableRowSortedTableRowMapTest extends RowMapTests {
   public UnmodifiableRowSortedTableRowMapTest() {
     super(false, false, false, false);

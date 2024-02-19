@@ -36,6 +36,7 @@ import java.util.Map;
  * @author Jared Levy
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public class ArrayTableTest extends AbstractTableTest {
 
   @Override

@@ -88,6 +88,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Jared Levy
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public class SetsTest extends TestCase {
 
   private static final IteratorTester.KnownOrder KNOWN_ORDER =

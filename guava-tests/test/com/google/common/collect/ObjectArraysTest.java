@@ -33,6 +33,7 @@ import junit.framework.TestCase;
  * @author Kevin Bourrillion
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public class ObjectArraysTest extends TestCase {
 
   @J2ktIncompatible

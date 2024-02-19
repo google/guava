@@ -33,6 +33,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Isaac Shum
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 abstract class AbstractMapsTransformValuesTest extends MapInterfaceTest<String, String> {
   public AbstractMapsTransformValuesTest() {
     super(false, true, false, true, true);

@@ -29,6 +29,7 @@ import junit.framework.TestCase;
 
 /** Tests for {@code CollectSpliterators}. */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public class CollectSpliteratorsTest extends TestCase {
   public void testMap() {
     SpliteratorTester.of(

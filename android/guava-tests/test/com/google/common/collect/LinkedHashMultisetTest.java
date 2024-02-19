@@ -39,6 +39,7 @@ import junit.framework.TestSuite;
  * @author Kevin Bourrillion
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public class LinkedHashMultisetTest extends TestCase {
 
   @J2ktIncompatible

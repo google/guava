@@ -58,6 +58,7 @@ import junit.framework.TestSuite;
  * @author Jared Levy
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public class TreeMultimapNaturalTest extends TestCase {
 
   @J2ktIncompatible

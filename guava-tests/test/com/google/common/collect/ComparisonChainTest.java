@@ -37,6 +37,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Kevin Bourrillion
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public class ComparisonChainTest extends TestCase {
   private static final DontCompareMe DONT_COMPARE_ME = new DontCompareMe();
 

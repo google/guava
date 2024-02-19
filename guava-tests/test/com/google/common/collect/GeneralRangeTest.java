@@ -32,6 +32,7 @@ import junit.framework.TestCase;
  * @author Louis Wasserman
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public class GeneralRangeTest extends TestCase {
   private static final Ordering<Integer> ORDERING = Ordering.natural().nullsFirst();
 

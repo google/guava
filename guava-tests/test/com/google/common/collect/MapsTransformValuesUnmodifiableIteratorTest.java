@@ -34,6 +34,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Jared Levy
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public class MapsTransformValuesUnmodifiableIteratorTest extends MapInterfaceTest<String, String> {
   // TODO(jlevy): Move shared code of this class and MapsTransformValuesTest
   // to a superclass.

@@ -38,6 +38,7 @@ import junit.framework.TestCase;
  */
 @SuppressWarnings("serial") // No serialization is used in this test
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public class PeekingIteratorTest extends TestCase {
 
   /**
