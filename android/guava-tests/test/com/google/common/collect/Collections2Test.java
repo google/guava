@@ -25,6 +25,7 @@ import static java.util.Collections.nCopies;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Predicate;
 import com.google.common.collect.testing.CollectionTestSuiteBuilder;
 import com.google.common.collect.testing.TestStringCollectionGenerator;
@@ -49,6 +50,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @GwtCompatible(emulated = true)
 public class Collections2Test extends TestCase {
+  @J2ktIncompatible
   @GwtIncompatible // suite
   public static Test suite() {
     TestSuite suite = new TestSuite(Collections2Test.class.getSimpleName());
@@ -67,6 +69,7 @@ public class Collections2Test extends TestCase {
 
   static final Predicate<String> LENGTH_1 = input -> input.length() == 1;
 
+  @J2ktIncompatible
   @GwtIncompatible // suite
   private static Test testsForFilter() {
     return CollectionTestSuiteBuilder.using(
@@ -90,6 +93,7 @@ public class Collections2Test extends TestCase {
         .createTestSuite();
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // suite
   private static Test testsForFilterAll() {
     return CollectionTestSuiteBuilder.using(
@@ -111,6 +115,7 @@ public class Collections2Test extends TestCase {
         .createTestSuite();
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // suite
   private static Test testsForFilterLinkedList() {
     return CollectionTestSuiteBuilder.using(
@@ -134,6 +139,7 @@ public class Collections2Test extends TestCase {
         .createTestSuite();
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // suite
   private static Test testsForFilterNoNulls() {
     return CollectionTestSuiteBuilder.using(
@@ -157,6 +163,7 @@ public class Collections2Test extends TestCase {
         .createTestSuite();
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // suite
   private static Test testsForFilterFiltered() {
     return CollectionTestSuiteBuilder.using(
@@ -181,6 +188,7 @@ public class Collections2Test extends TestCase {
         .createTestSuite();
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // suite
   private static Test testsForTransform() {
     return CollectionTestSuiteBuilder.using(
@@ -204,6 +212,7 @@ public class Collections2Test extends TestCase {
         .createTestSuite();
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // NullPointerTester
   public void testNullPointerExceptions() {
     NullPointerTester tester = new NullPointerTester();

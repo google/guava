@@ -26,6 +26,7 @@ import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.testing.IteratorTester;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
@@ -53,6 +54,7 @@ import junit.framework.TestSuite;
 @GwtCompatible(emulated = true)
 public class LinkedHashMultimapTest extends TestCase {
 
+  @J2ktIncompatible
   @GwtIncompatible // suite
   public static Test suite() {
     TestSuite suite = new TestSuite();
@@ -136,6 +138,7 @@ public class LinkedHashMultimapTest extends TestCase {
     assertOrderingReadOnly(Multimaps.synchronizedMultimap(multimap));
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SeriazableTester
   public void testSerializationOrdering() {
     Multimap<String, Integer> multimap = initializeMultimap5();
@@ -143,6 +146,7 @@ public class LinkedHashMultimapTest extends TestCase {
     assertOrderingReadOnly(copy);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SeriazableTester
   public void testSerializationOrderingKeysAndEntries() {
     Multimap<String, Integer> multimap = LinkedHashMultimap.create();

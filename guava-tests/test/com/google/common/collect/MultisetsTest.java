@@ -20,6 +20,7 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.testing.DerivedComparable;
 import com.google.common.testing.CollectorTester;
 import com.google.common.testing.NullPointerTester;
@@ -293,6 +294,7 @@ public class MultisetsTest extends TestCase {
             Multisets.immutableEntry("c", 3));
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // NullPointerTester
   @AndroidIncompatible // see ImmutableTableTest.testNullPointerInstance
   public void testNullPointers() {

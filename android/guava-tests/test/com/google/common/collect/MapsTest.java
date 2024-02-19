@@ -26,6 +26,7 @@ import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Converter;
 import com.google.common.base.Equivalence;
 import com.google.common.base.Function;
@@ -114,6 +115,7 @@ public class MapsTest extends TestCase {
    *
    * <p>This test may fail miserably on non-OpenJDK environments...
    */
+  @J2ktIncompatible
   @GwtIncompatible // reflection
   @AndroidIncompatible // relies on assumptions about OpenJDK
   public void testNewHashMapWithExpectedSize_wontGrow() throws Exception {
@@ -131,6 +133,7 @@ public class MapsTest extends TestCase {
   }
 
   /** Same test as above but for newLinkedHashMapWithExpectedSize */
+  @J2ktIncompatible
   @GwtIncompatible // reflection
   @AndroidIncompatible // relies on assumptions about OpenJDK
   public void testNewLinkedHashMapWithExpectedSize_wontGrow() throws Exception {
@@ -145,6 +148,7 @@ public class MapsTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // reflection
   private static void assertWontGrow(
       int size,
@@ -185,6 +189,7 @@ public class MapsTest extends TestCase {
         .isAtMost(bucketsOf(referenceMap));
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // reflection
   private static int bucketsOf(HashMap<?, ?> hashMap) throws Exception {
     Field tableField = HashMap.class.getDeclaredField("table");
@@ -381,6 +386,7 @@ public class MapsTest extends TestCase {
     assertEquals(hashmap.toString(), Maps.toStringImpl(hashmap));
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // NullPointerTester
   @AndroidIncompatible // see ImmutableTableTest.testNullPointerInstance
   public void testNullPointerExceptions() {

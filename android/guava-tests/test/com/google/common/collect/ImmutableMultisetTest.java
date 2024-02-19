@@ -22,6 +22,7 @@ import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.testing.ListTestSuiteBuilder;
 import com.google.common.collect.testing.MinimalCollection;
 import com.google.common.collect.testing.SetTestSuiteBuilder;
@@ -53,6 +54,7 @@ import junit.framework.TestSuite;
 @GwtCompatible(emulated = true)
 public class ImmutableMultisetTest extends TestCase {
 
+  @J2ktIncompatible
   @GwtIncompatible // suite // TODO(cpovirk): add to collect/gwt/suites
   public static Test suite() {
     TestSuite suite = new TestSuite();
@@ -470,6 +472,7 @@ public class ImmutableMultisetTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // NullPointerTester
   @AndroidIncompatible // see ImmutableTableTest.testNullPointerInstance
   public void testNullPointers() {
@@ -477,12 +480,14 @@ public class ImmutableMultisetTest extends TestCase {
     tester.testAllPublicStaticMethods(ImmutableMultiset.class);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testSerialization_empty() {
     Collection<String> c = ImmutableMultiset.of();
     assertSame(c, SerializableTester.reserialize(c));
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testSerialization_multiple() {
     Collection<String> c = ImmutableMultiset.of("a", "b", "a");
@@ -490,6 +495,7 @@ public class ImmutableMultisetTest extends TestCase {
     assertThat(copy).containsExactly("a", "a", "b").inOrder();
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testSerialization_elementSet() {
     Multiset<String> c = ImmutableMultiset.of("a", "b", "a");
@@ -497,6 +503,7 @@ public class ImmutableMultisetTest extends TestCase {
     assertThat(copy).containsExactly("a", "b").inOrder();
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testSerialization_entrySet() {
     Multiset<String> c = ImmutableMultiset.of("a", "b", "c");
@@ -532,6 +539,7 @@ public class ImmutableMultisetTest extends TestCase {
     assertEquals(4, list.lastIndexOf("b"));
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testSerialization_asList() {
     ImmutableMultiset<String> multiset = ImmutableMultiset.of("a", "a", "b", "b", "b");

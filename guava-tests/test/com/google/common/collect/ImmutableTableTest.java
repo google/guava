@@ -20,6 +20,7 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.Table.Cell;
 import com.google.common.testing.CollectorTester;
 import com.google.common.testing.SerializableTester;
@@ -486,6 +487,7 @@ public class ImmutableTableTest extends AbstractTableReadTest {
     assertTrue(builder.build() instanceof SparseImmutableTable);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // NullPointerTester
   @Override
   public void testNullPointerInstance() {

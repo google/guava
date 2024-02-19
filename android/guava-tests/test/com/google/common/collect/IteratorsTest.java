@@ -29,6 +29,7 @@ import static java.util.Collections.singleton;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
@@ -67,6 +68,7 @@ import junit.framework.TestSuite;
 @GwtCompatible(emulated = true)
 public class IteratorsTest extends TestCase {
 
+  @J2ktIncompatible
   @GwtIncompatible // suite
   public static Test suite() {
     TestSuite suite = new TestSuite(IteratorsTest.class.getSimpleName());
@@ -892,6 +894,7 @@ public class IteratorsTest extends TestCase {
     assertFalse(changed);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // NullPointerTester
   public void testNullPointerExceptions() {
     NullPointerTester tester = new NullPointerTester();
@@ -1584,6 +1587,7 @@ public class IteratorsTest extends TestCase {
     assertEquals(newArrayList("b", "d"), list);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // ListTestSuiteBuilder
   private static Test testsForRemoveAllAndRetainAll() {
     return ListTestSuiteBuilder.using(

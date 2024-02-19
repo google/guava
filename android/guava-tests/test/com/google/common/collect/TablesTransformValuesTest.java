@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Function;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -51,6 +52,7 @@ public class TablesTransformValuesTest extends AbstractTableTest {
   }
 
   // Null support depends on the underlying table and function.
+  @J2ktIncompatible
   @GwtIncompatible // NullPointerTester
   @Override
   public void testNullPointerInstance() {}

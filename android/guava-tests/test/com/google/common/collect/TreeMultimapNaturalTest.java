@@ -21,6 +21,7 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.testing.DerivedComparable;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.NavigableMapTestSuiteBuilder;
@@ -59,6 +60,7 @@ import junit.framework.TestSuite;
 @GwtCompatible(emulated = true)
 public class TreeMultimapNaturalTest extends TestCase {
 
+  @J2ktIncompatible
   @GwtIncompatible // suite
   public static Test suite() {
     TestSuite suite = new TestSuite();
@@ -407,6 +409,7 @@ public class TreeMultimapNaturalTest extends TestCase {
     assertEquals(Ordering.natural(), multimap.valueComparator());
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testExplicitComparatorSerialization() {
     TreeMultimap<String, Integer> multimap = createPopulate();
@@ -417,6 +420,7 @@ public class TreeMultimapNaturalTest extends TestCase {
     assertEquals(multimap.valueComparator(), copy.valueComparator());
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testTreeMultimapDerived() {
     TreeMultimap<DerivedComparable, DerivedComparable> multimap = TreeMultimap.create();
@@ -443,6 +447,7 @@ public class TreeMultimapNaturalTest extends TestCase {
     SerializableTester.reserializeAndAssert(multimap);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testTreeMultimapNonGeneric() {
     TreeMultimap<LegacyComparable, LegacyComparable> multimap = TreeMultimap.create();
@@ -500,6 +505,7 @@ public class TreeMultimapNaturalTest extends TestCase {
     assertEquals(4, multimap.keys().size());
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // reflection
   public void testKeySetBridgeMethods() {
     for (Method m : TreeMultimap.class.getMethods()) {
@@ -510,6 +516,7 @@ public class TreeMultimapNaturalTest extends TestCase {
     fail("No bridge method found");
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // reflection
   public void testAsMapBridgeMethods() {
     for (Method m : TreeMultimap.class.getMethods()) {
@@ -519,6 +526,7 @@ public class TreeMultimapNaturalTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // reflection
   public void testGetBridgeMethods() {
     for (Method m : TreeMultimap.class.getMethods()) {

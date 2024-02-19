@@ -27,6 +27,7 @@ import static java.util.Collections.emptyList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
@@ -542,6 +543,7 @@ public class IterablesTest extends TestCase {
     for (@SuppressWarnings("unused") Object obj : iterable) {}
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // NullPointerTester
   public void testNullPointerExceptions() {
     NullPointerTester tester = new NullPointerTester();
@@ -1432,6 +1434,7 @@ public class IterablesTest extends TestCase {
     verifyMergeSorted(iterables, allIntegers);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // reflection
   @AndroidIncompatible // see ImmutableTableTest.testNullPointerInstance
   public void testIterables_nullCheck() throws Exception {

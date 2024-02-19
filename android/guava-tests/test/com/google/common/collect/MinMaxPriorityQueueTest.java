@@ -23,6 +23,7 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.testing.IteratorFeature;
 import com.google.common.collect.testing.IteratorTester;
 import com.google.common.collect.testing.QueueTestSuiteBuilder;
@@ -58,6 +59,7 @@ import junit.framework.TestSuite;
 public class MinMaxPriorityQueueTest extends TestCase {
   private static final Ordering<Integer> SOME_COMPARATOR = Ordering.natural().reverse();
 
+  @J2ktIncompatible
   @GwtIncompatible // suite
   public static Test suite() {
     TestSuite suite = new TestSuite();
@@ -886,6 +888,7 @@ public class MinMaxPriorityQueueTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // NullPointerTester
   public void testNullPointers() {
     NullPointerTester tester = new NullPointerTester();

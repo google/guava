@@ -20,6 +20,7 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.ImmutableSortedMap.Builder;
 import com.google.common.collect.testing.ListTestSuiteBuilder;
 import com.google.common.collect.testing.MapTestSuiteBuilder;
@@ -59,6 +60,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 public class ImmutableSortedMapTest extends TestCase {
   // TODO: Avoid duplicating code in ImmutableMapTest
 
+  @J2ktIncompatible
   @GwtIncompatible // suite
   public static Test suite() {
     TestSuite suite = new TestSuite();
@@ -658,6 +660,7 @@ public class ImmutableSortedMapTest extends TestCase {
     assertNull(map.get(null));
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // NullPointerTester
   @AndroidIncompatible // see ImmutableTableTest.testNullPointerInstance
   public void testNullPointers() {
@@ -742,6 +745,7 @@ public class ImmutableSortedMapTest extends TestCase {
     assertEquals(intMap.hashCode(), map.hashCode());
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testViewSerialization() {
     Map<String, Integer> map = ImmutableSortedMap.of("one", 1, "two", 2, "three", 3);

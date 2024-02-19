@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.testing.SampleElements;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
@@ -102,6 +103,7 @@ public class EnumHashBiMapTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // suite
   public static Test suite() {
     TestSuite suite = new TestSuite();
@@ -217,11 +219,13 @@ public class EnumHashBiMapTest extends TestCase {
     assertEquals(3, uniqueEntries.size());
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // serialize
   public void testSerializable() {
     SerializableTester.reserializeAndAssert(EnumHashBiMap.create(Currency.class));
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // reflection
   public void testNulls() {
     new NullPointerTester().testAllPublicStaticMethods(EnumHashBiMap.class);

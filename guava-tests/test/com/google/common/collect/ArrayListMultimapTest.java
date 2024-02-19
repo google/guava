@@ -21,6 +21,7 @@ import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
@@ -43,6 +44,7 @@ import junit.framework.TestSuite;
 public class ArrayListMultimapTest extends TestCase {
 
   @GwtIncompatible // suite
+  @J2ktIncompatible
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTest(

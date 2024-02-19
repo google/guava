@@ -22,6 +22,7 @@ import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.ListTestSuiteBuilder;
 import com.google.common.collect.testing.MinimalCollection;
@@ -56,6 +57,7 @@ import junit.framework.TestSuite;
 @GwtCompatible(emulated = true)
 public class ImmutableListTest extends TestCase {
 
+  @J2ktIncompatible
   @GwtIncompatible // suite
   public static Test suite() {
     TestSuite suite = new TestSuite();
@@ -461,6 +463,7 @@ public class ImmutableListTest extends TestCase {
 
   // Basic tests
 
+  @J2ktIncompatible
   @GwtIncompatible // NullPointerTester
   @AndroidIncompatible // see ImmutableTableTest.testNullPointerInstance
   public void testNullPointers() {
@@ -469,18 +472,21 @@ public class ImmutableListTest extends TestCase {
     tester.testAllPublicInstanceMethods(ImmutableList.of(1, 2, 3));
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testSerialization_empty() {
     Collection<String> c = ImmutableList.of();
     assertSame(c, SerializableTester.reserialize(c));
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testSerialization_singleton() {
     Collection<String> c = ImmutableList.of("a");
     SerializableTester.reserializeAndAssert(c);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testSerialization_multiple() {
     Collection<String> c = ImmutableList.of("a", "b", "c");

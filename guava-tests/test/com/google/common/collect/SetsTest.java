@@ -32,6 +32,7 @@ import static java.util.Collections.singleton;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Predicate;
 import com.google.common.collect.testing.AnEnum;
 import com.google.common.collect.testing.IteratorTester;
@@ -108,6 +109,7 @@ public class SetsTest extends TestCase {
 
   private static final Comparator<Integer> SOME_COMPARATOR = Collections.reverseOrder();
 
+  @J2ktIncompatible
   @GwtIncompatible // suite
   public static Test suite() {
     TestSuite suite = new TestSuite();
@@ -220,6 +222,7 @@ public class SetsTest extends TestCase {
     return suite;
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // suite
   private static Test testsForFilter() {
     return SetTestSuiteBuilder.using(
@@ -243,6 +246,7 @@ public class SetsTest extends TestCase {
         .createTestSuite();
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // suite
   private static Test testsForFilterNoNulls() {
     TestSuite suite = new TestSuite();
@@ -294,6 +298,7 @@ public class SetsTest extends TestCase {
     return suite;
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // suite
   private static Test testsForFilterFiltered() {
     return SetTestSuiteBuilder.using(
@@ -372,6 +377,7 @@ public class SetsTest extends TestCase {
     assertThat(set).containsExactly(SomeEnum.A, SomeEnum.B);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testImmutableEnumSet_serialized() {
     Set<SomeEnum> units = Sets.immutableEnumSet(SomeEnum.D, SomeEnum.B);
@@ -393,6 +399,7 @@ public class SetsTest extends TestCase {
     assertThat(two).containsExactly(SomeEnum.B, SomeEnum.D).inOrder();
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // java serialization not supported in GWT.
   public void testImmutableEnumSet_deserializationMakesDefensiveCopy() throws Exception {
     ImmutableSet<SomeEnum> original = Sets.immutableEnumSet(SomeEnum.A, SomeEnum.B);
@@ -408,6 +415,7 @@ public class SetsTest extends TestCase {
     assertTrue(deserialized.contains(SomeEnum.A));
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // java serialization not supported in GWT.
   private static byte[] serializeWithBackReference(Object original, int handleOffset)
       throws IOException {
@@ -667,6 +675,7 @@ public class SetsTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // NullPointerTester
   @AndroidIncompatible // see ImmutableTableTest.testNullPointerInstance
   public void testNullPointerExceptions() {
@@ -682,6 +691,7 @@ public class SetsTest extends TestCase {
     verifySetContents(set, SOME_COLLECTION);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testNewSetFromMapSerialization() {
     Set<Integer> set = Sets.newSetFromMap(new LinkedHashMap<Integer, Boolean>());

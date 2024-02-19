@@ -24,6 +24,7 @@ import static java.util.Collections.singletonList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Functions;
 import com.google.common.collect.testing.IteratorTester;
@@ -98,6 +99,7 @@ public class ListsTest extends TestCase {
     private static final long serialVersionUID = 0;
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // suite
   public static Test suite() {
     TestSuite suite = new TestSuite();
@@ -405,6 +407,7 @@ public class ListsTest extends TestCase {
     assertEquals(SOME_COLLECTION, list);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // NullPointerTester
   public void testNullPointerExceptions() {
     NullPointerTester tester = new NullPointerTester();
@@ -441,6 +444,7 @@ public class ListsTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testAsList1() {
     List<String> list = Lists.asList("foo", new String[] {"bar", "baz"});
@@ -499,6 +503,7 @@ public class ListsTest extends TestCase {
     }.test();
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testAsList2Small() {
     List<String> list = Lists.asList("foo", "bar", new String[0]);

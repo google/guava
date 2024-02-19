@@ -20,6 +20,7 @@ import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.testing.AnEnum;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
@@ -44,6 +45,7 @@ import junit.framework.TestSuite;
 @GwtCompatible(emulated = true)
 public class EnumMultisetTest extends TestCase {
 
+  @J2ktIncompatible
   @GwtIncompatible // suite
   public static Test suite() {
     TestSuite suite = new TestSuite();
@@ -159,6 +161,7 @@ public class EnumMultisetTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // reflection
   public void testEquals() throws Exception {
     new ClassSanityTester()
@@ -168,6 +171,7 @@ public class EnumMultisetTest extends TestCase {
         .testEquals();
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // reflection
   public void testNulls() throws Exception {
     new NullPointerTester()

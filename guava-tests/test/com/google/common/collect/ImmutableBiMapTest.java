@@ -21,6 +21,7 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Equivalence;
 import com.google.common.collect.ImmutableBiMap.Builder;
 import com.google.common.collect.testing.features.CollectionFeature;
@@ -57,6 +58,7 @@ public class ImmutableBiMapTest extends TestCase {
 
   // TODO: Reduce duplication of ImmutableMapTest code
 
+  @J2ktIncompatible
   @GwtIncompatible // suite
   public static Test suite() {
     TestSuite suite = new TestSuite();
@@ -668,12 +670,14 @@ public class ImmutableBiMapTest extends TestCase {
     assertSame(bimap, bimap.inverse().inverse());
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testEmptySerialization() {
     ImmutableBiMap<String, Integer> bimap = ImmutableBiMap.of();
     assertSame(bimap, SerializableTester.reserializeAndAssert(bimap));
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testSerialization() {
     ImmutableBiMap<String, Integer> bimap =
@@ -684,6 +688,7 @@ public class ImmutableBiMapTest extends TestCase {
     assertSame(copy, copy.inverse().inverse());
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testInverseSerialization() {
     ImmutableBiMap<String, Integer> bimap =

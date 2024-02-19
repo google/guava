@@ -23,6 +23,7 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.ImmutableSetMultimap.Builder;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.google.SetMultimapTestSuiteBuilder;
@@ -65,6 +66,7 @@ public class ImmutableSetMultimapTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // suite
   public static Test suite() {
     TestSuite suite = new TestSuite();
@@ -548,6 +550,7 @@ public class ImmutableSetMultimapTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testSerialization() {
     Multimap<String, Integer> multimap = createMultimap();
@@ -561,12 +564,14 @@ public class ImmutableSetMultimapTest extends TestCase {
     assertEquals(HashMultiset.create(multimap.values()), HashMultiset.create(valuesCopy));
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testEmptySerialization() {
     Multimap<String, Integer> multimap = ImmutableSetMultimap.of();
     assertSame(multimap, SerializableTester.reserialize(multimap));
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testSortedSerialization() {
     Multimap<String, Integer> multimap =
@@ -594,6 +599,7 @@ public class ImmutableSetMultimapTest extends TestCase {
         .build();
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // reflection
   @AndroidIncompatible // see ImmutableTableTest.testNullPointerInstance
   public void testNulls() throws Exception {

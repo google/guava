@@ -22,6 +22,7 @@ import static java.util.Collections.sort;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.testing.Helpers.NullsBeforeB;
 import com.google.common.collect.testing.NavigableSetTestSuiteBuilder;
 import com.google.common.collect.testing.TestStringSetGenerator;
@@ -49,6 +50,7 @@ import junit.framework.TestSuite;
 @GwtCompatible(emulated = true)
 public class TreeMultisetTest extends TestCase {
 
+  @J2ktIncompatible
   @GwtIncompatible // suite
   public static Test suite() {
     TestSuite suite = new TestSuite();
@@ -355,6 +357,7 @@ public class TreeMultisetTest extends TestCase {
     assertEquals(Integer.MAX_VALUE, ms.tailMultiset("a", CLOSED).size());
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // reflection
   @AndroidIncompatible // Reflection bug, or actual binary compatibility problem?
   public void testElementSetBridgeMethods() {
