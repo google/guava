@@ -191,7 +191,7 @@ public final class ArbitraryInstances {
    * in Android) requires a successful match in order to generate a {@code MatchResult}:
    * http://goo.gl/5VQFmC
    */
-  private static MatchResult newMatchResult() {
+  private static MatchResult createMatchResult() {
     Matcher matcher = Pattern.compile(".").matcher("X");
     matcher.find();
     return matcher.toMatchResult();
@@ -209,7 +209,7 @@ public final class ArbitraryInstances {
           .put(CharSequence.class, "")
           .put(String.class, "")
           .put(Pattern.class, Pattern.compile(""))
-          .put(MatchResult.class, newMatchResult())
+          .put(MatchResult.class, createMatchResult())
           .put(TimeUnit.class, TimeUnit.SECONDS)
           .put(Charset.class, Charsets.UTF_8)
           .put(Currency.class, Currency.getInstance(Locale.US))
