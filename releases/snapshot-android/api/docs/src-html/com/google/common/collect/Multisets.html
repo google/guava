@@ -1053,171 +1053,165 @@
 <span class="sourceLineNo">1044</span><a id="line.1044">    @Override</a>
 <span class="sourceLineNo">1045</span><a id="line.1045">    public boolean contains(@CheckForNull Object o) {</a>
 <span class="sourceLineNo">1046</span><a id="line.1046">      if (o instanceof Entry) {</a>
-<span class="sourceLineNo">1047</span><a id="line.1047">        /*</a>
-<span class="sourceLineNo">1048</span><a id="line.1048">         * The GWT compiler wrongly issues a warning here.</a>
-<span class="sourceLineNo">1049</span><a id="line.1049">         */</a>
-<span class="sourceLineNo">1050</span><a id="line.1050">        @SuppressWarnings("cast")</a>
-<span class="sourceLineNo">1051</span><a id="line.1051">        Entry&lt;?&gt; entry = (Entry&lt;?&gt;) o;</a>
-<span class="sourceLineNo">1052</span><a id="line.1052">        if (entry.getCount() &lt;= 0) {</a>
-<span class="sourceLineNo">1053</span><a id="line.1053">          return false;</a>
-<span class="sourceLineNo">1054</span><a id="line.1054">        }</a>
-<span class="sourceLineNo">1055</span><a id="line.1055">        int count = multiset().count(entry.getElement());</a>
-<span class="sourceLineNo">1056</span><a id="line.1056">        return count == entry.getCount();</a>
-<span class="sourceLineNo">1057</span><a id="line.1057">      }</a>
-<span class="sourceLineNo">1058</span><a id="line.1058">      return false;</a>
-<span class="sourceLineNo">1059</span><a id="line.1059">    }</a>
-<span class="sourceLineNo">1060</span><a id="line.1060"></a>
-<span class="sourceLineNo">1061</span><a id="line.1061">    // GWT compiler warning; see contains().</a>
-<span class="sourceLineNo">1062</span><a id="line.1062">    @SuppressWarnings("cast")</a>
-<span class="sourceLineNo">1063</span><a id="line.1063">    @Override</a>
-<span class="sourceLineNo">1064</span><a id="line.1064">    public boolean remove(@CheckForNull Object object) {</a>
-<span class="sourceLineNo">1065</span><a id="line.1065">      if (object instanceof Multiset.Entry) {</a>
-<span class="sourceLineNo">1066</span><a id="line.1066">        Entry&lt;?&gt; entry = (Entry&lt;?&gt;) object;</a>
-<span class="sourceLineNo">1067</span><a id="line.1067">        Object element = entry.getElement();</a>
-<span class="sourceLineNo">1068</span><a id="line.1068">        int entryCount = entry.getCount();</a>
-<span class="sourceLineNo">1069</span><a id="line.1069">        if (entryCount != 0) {</a>
-<span class="sourceLineNo">1070</span><a id="line.1070">          // Safe as long as we never add a new entry, which we won't.</a>
-<span class="sourceLineNo">1071</span><a id="line.1071">          // (Presumably it can still throw CCE/NPE but only if the underlying Multiset does.)</a>
-<span class="sourceLineNo">1072</span><a id="line.1072">          @SuppressWarnings({"unchecked", "nullness"})</a>
-<span class="sourceLineNo">1073</span><a id="line.1073">          Multiset&lt;@Nullable Object&gt; multiset = (Multiset&lt;@Nullable Object&gt;) multiset();</a>
-<span class="sourceLineNo">1074</span><a id="line.1074">          return multiset.setCount(element, entryCount, 0);</a>
-<span class="sourceLineNo">1075</span><a id="line.1075">        }</a>
-<span class="sourceLineNo">1076</span><a id="line.1076">      }</a>
-<span class="sourceLineNo">1077</span><a id="line.1077">      return false;</a>
-<span class="sourceLineNo">1078</span><a id="line.1078">    }</a>
+<span class="sourceLineNo">1047</span><a id="line.1047">        Entry&lt;?&gt; entry = (Entry&lt;?&gt;) o;</a>
+<span class="sourceLineNo">1048</span><a id="line.1048">        if (entry.getCount() &lt;= 0) {</a>
+<span class="sourceLineNo">1049</span><a id="line.1049">          return false;</a>
+<span class="sourceLineNo">1050</span><a id="line.1050">        }</a>
+<span class="sourceLineNo">1051</span><a id="line.1051">        int count = multiset().count(entry.getElement());</a>
+<span class="sourceLineNo">1052</span><a id="line.1052">        return count == entry.getCount();</a>
+<span class="sourceLineNo">1053</span><a id="line.1053">      }</a>
+<span class="sourceLineNo">1054</span><a id="line.1054">      return false;</a>
+<span class="sourceLineNo">1055</span><a id="line.1055">    }</a>
+<span class="sourceLineNo">1056</span><a id="line.1056"></a>
+<span class="sourceLineNo">1057</span><a id="line.1057">    @Override</a>
+<span class="sourceLineNo">1058</span><a id="line.1058">    public boolean remove(@CheckForNull Object object) {</a>
+<span class="sourceLineNo">1059</span><a id="line.1059">      if (object instanceof Multiset.Entry) {</a>
+<span class="sourceLineNo">1060</span><a id="line.1060">        Entry&lt;?&gt; entry = (Entry&lt;?&gt;) object;</a>
+<span class="sourceLineNo">1061</span><a id="line.1061">        Object element = entry.getElement();</a>
+<span class="sourceLineNo">1062</span><a id="line.1062">        int entryCount = entry.getCount();</a>
+<span class="sourceLineNo">1063</span><a id="line.1063">        if (entryCount != 0) {</a>
+<span class="sourceLineNo">1064</span><a id="line.1064">          // Safe as long as we never add a new entry, which we won't.</a>
+<span class="sourceLineNo">1065</span><a id="line.1065">          // (Presumably it can still throw CCE/NPE but only if the underlying Multiset does.)</a>
+<span class="sourceLineNo">1066</span><a id="line.1066">          @SuppressWarnings({"unchecked", "nullness"})</a>
+<span class="sourceLineNo">1067</span><a id="line.1067">          Multiset&lt;@Nullable Object&gt; multiset = (Multiset&lt;@Nullable Object&gt;) multiset();</a>
+<span class="sourceLineNo">1068</span><a id="line.1068">          return multiset.setCount(element, entryCount, 0);</a>
+<span class="sourceLineNo">1069</span><a id="line.1069">        }</a>
+<span class="sourceLineNo">1070</span><a id="line.1070">      }</a>
+<span class="sourceLineNo">1071</span><a id="line.1071">      return false;</a>
+<span class="sourceLineNo">1072</span><a id="line.1072">    }</a>
+<span class="sourceLineNo">1073</span><a id="line.1073"></a>
+<span class="sourceLineNo">1074</span><a id="line.1074">    @Override</a>
+<span class="sourceLineNo">1075</span><a id="line.1075">    public void clear() {</a>
+<span class="sourceLineNo">1076</span><a id="line.1076">      multiset().clear();</a>
+<span class="sourceLineNo">1077</span><a id="line.1077">    }</a>
+<span class="sourceLineNo">1078</span><a id="line.1078">  }</a>
 <span class="sourceLineNo">1079</span><a id="line.1079"></a>
-<span class="sourceLineNo">1080</span><a id="line.1080">    @Override</a>
-<span class="sourceLineNo">1081</span><a id="line.1081">    public void clear() {</a>
-<span class="sourceLineNo">1082</span><a id="line.1082">      multiset().clear();</a>
-<span class="sourceLineNo">1083</span><a id="line.1083">    }</a>
-<span class="sourceLineNo">1084</span><a id="line.1084">  }</a>
-<span class="sourceLineNo">1085</span><a id="line.1085"></a>
-<span class="sourceLineNo">1086</span><a id="line.1086">  /** An implementation of {@link Multiset#iterator}. */</a>
-<span class="sourceLineNo">1087</span><a id="line.1087">  static &lt;E extends @Nullable Object&gt; Iterator&lt;E&gt; iteratorImpl(Multiset&lt;E&gt; multiset) {</a>
-<span class="sourceLineNo">1088</span><a id="line.1088">    return new MultisetIteratorImpl&lt;E&gt;(multiset, multiset.entrySet().iterator());</a>
-<span class="sourceLineNo">1089</span><a id="line.1089">  }</a>
-<span class="sourceLineNo">1090</span><a id="line.1090"></a>
-<span class="sourceLineNo">1091</span><a id="line.1091">  static final class MultisetIteratorImpl&lt;E extends @Nullable Object&gt; implements Iterator&lt;E&gt; {</a>
-<span class="sourceLineNo">1092</span><a id="line.1092">    private final Multiset&lt;E&gt; multiset;</a>
-<span class="sourceLineNo">1093</span><a id="line.1093">    private final Iterator&lt;Entry&lt;E&gt;&gt; entryIterator;</a>
-<span class="sourceLineNo">1094</span><a id="line.1094">    @CheckForNull private Entry&lt;E&gt; currentEntry;</a>
+<span class="sourceLineNo">1080</span><a id="line.1080">  /** An implementation of {@link Multiset#iterator}. */</a>
+<span class="sourceLineNo">1081</span><a id="line.1081">  static &lt;E extends @Nullable Object&gt; Iterator&lt;E&gt; iteratorImpl(Multiset&lt;E&gt; multiset) {</a>
+<span class="sourceLineNo">1082</span><a id="line.1082">    return new MultisetIteratorImpl&lt;E&gt;(multiset, multiset.entrySet().iterator());</a>
+<span class="sourceLineNo">1083</span><a id="line.1083">  }</a>
+<span class="sourceLineNo">1084</span><a id="line.1084"></a>
+<span class="sourceLineNo">1085</span><a id="line.1085">  static final class MultisetIteratorImpl&lt;E extends @Nullable Object&gt; implements Iterator&lt;E&gt; {</a>
+<span class="sourceLineNo">1086</span><a id="line.1086">    private final Multiset&lt;E&gt; multiset;</a>
+<span class="sourceLineNo">1087</span><a id="line.1087">    private final Iterator&lt;Entry&lt;E&gt;&gt; entryIterator;</a>
+<span class="sourceLineNo">1088</span><a id="line.1088">    @CheckForNull private Entry&lt;E&gt; currentEntry;</a>
+<span class="sourceLineNo">1089</span><a id="line.1089"></a>
+<span class="sourceLineNo">1090</span><a id="line.1090">    /** Count of subsequent elements equal to current element */</a>
+<span class="sourceLineNo">1091</span><a id="line.1091">    private int laterCount;</a>
+<span class="sourceLineNo">1092</span><a id="line.1092"></a>
+<span class="sourceLineNo">1093</span><a id="line.1093">    /** Count of all elements equal to current element */</a>
+<span class="sourceLineNo">1094</span><a id="line.1094">    private int totalCount;</a>
 <span class="sourceLineNo">1095</span><a id="line.1095"></a>
-<span class="sourceLineNo">1096</span><a id="line.1096">    /** Count of subsequent elements equal to current element */</a>
-<span class="sourceLineNo">1097</span><a id="line.1097">    private int laterCount;</a>
-<span class="sourceLineNo">1098</span><a id="line.1098"></a>
-<span class="sourceLineNo">1099</span><a id="line.1099">    /** Count of all elements equal to current element */</a>
-<span class="sourceLineNo">1100</span><a id="line.1100">    private int totalCount;</a>
-<span class="sourceLineNo">1101</span><a id="line.1101"></a>
-<span class="sourceLineNo">1102</span><a id="line.1102">    private boolean canRemove;</a>
-<span class="sourceLineNo">1103</span><a id="line.1103"></a>
-<span class="sourceLineNo">1104</span><a id="line.1104">    MultisetIteratorImpl(Multiset&lt;E&gt; multiset, Iterator&lt;Entry&lt;E&gt;&gt; entryIterator) {</a>
-<span class="sourceLineNo">1105</span><a id="line.1105">      this.multiset = multiset;</a>
-<span class="sourceLineNo">1106</span><a id="line.1106">      this.entryIterator = entryIterator;</a>
-<span class="sourceLineNo">1107</span><a id="line.1107">    }</a>
-<span class="sourceLineNo">1108</span><a id="line.1108"></a>
-<span class="sourceLineNo">1109</span><a id="line.1109">    @Override</a>
-<span class="sourceLineNo">1110</span><a id="line.1110">    public boolean hasNext() {</a>
-<span class="sourceLineNo">1111</span><a id="line.1111">      return laterCount &gt; 0 || entryIterator.hasNext();</a>
-<span class="sourceLineNo">1112</span><a id="line.1112">    }</a>
-<span class="sourceLineNo">1113</span><a id="line.1113"></a>
-<span class="sourceLineNo">1114</span><a id="line.1114">    @Override</a>
-<span class="sourceLineNo">1115</span><a id="line.1115">    @ParametricNullness</a>
-<span class="sourceLineNo">1116</span><a id="line.1116">    public E next() {</a>
-<span class="sourceLineNo">1117</span><a id="line.1117">      if (!hasNext()) {</a>
-<span class="sourceLineNo">1118</span><a id="line.1118">        throw new NoSuchElementException();</a>
-<span class="sourceLineNo">1119</span><a id="line.1119">      }</a>
-<span class="sourceLineNo">1120</span><a id="line.1120">      if (laterCount == 0) {</a>
-<span class="sourceLineNo">1121</span><a id="line.1121">        currentEntry = entryIterator.next();</a>
-<span class="sourceLineNo">1122</span><a id="line.1122">        totalCount = laterCount = currentEntry.getCount();</a>
-<span class="sourceLineNo">1123</span><a id="line.1123">      }</a>
-<span class="sourceLineNo">1124</span><a id="line.1124">      laterCount--;</a>
-<span class="sourceLineNo">1125</span><a id="line.1125">      canRemove = true;</a>
-<span class="sourceLineNo">1126</span><a id="line.1126">      /*</a>
-<span class="sourceLineNo">1127</span><a id="line.1127">       * requireNonNull is safe because laterCount starts at 0, forcing us to initialize</a>
-<span class="sourceLineNo">1128</span><a id="line.1128">       * currentEntry above. After that, we never clear it.</a>
-<span class="sourceLineNo">1129</span><a id="line.1129">       */</a>
-<span class="sourceLineNo">1130</span><a id="line.1130">      return requireNonNull(currentEntry).getElement();</a>
-<span class="sourceLineNo">1131</span><a id="line.1131">    }</a>
-<span class="sourceLineNo">1132</span><a id="line.1132"></a>
-<span class="sourceLineNo">1133</span><a id="line.1133">    @Override</a>
-<span class="sourceLineNo">1134</span><a id="line.1134">    public void remove() {</a>
-<span class="sourceLineNo">1135</span><a id="line.1135">      checkRemove(canRemove);</a>
-<span class="sourceLineNo">1136</span><a id="line.1136">      if (totalCount == 1) {</a>
-<span class="sourceLineNo">1137</span><a id="line.1137">        entryIterator.remove();</a>
-<span class="sourceLineNo">1138</span><a id="line.1138">      } else {</a>
-<span class="sourceLineNo">1139</span><a id="line.1139">        /*</a>
-<span class="sourceLineNo">1140</span><a id="line.1140">         * requireNonNull is safe because canRemove is set to true only after we initialize</a>
-<span class="sourceLineNo">1141</span><a id="line.1141">         * currentEntry (which we never subsequently clear).</a>
-<span class="sourceLineNo">1142</span><a id="line.1142">         */</a>
-<span class="sourceLineNo">1143</span><a id="line.1143">        multiset.remove(requireNonNull(currentEntry).getElement());</a>
-<span class="sourceLineNo">1144</span><a id="line.1144">      }</a>
-<span class="sourceLineNo">1145</span><a id="line.1145">      totalCount--;</a>
-<span class="sourceLineNo">1146</span><a id="line.1146">      canRemove = false;</a>
-<span class="sourceLineNo">1147</span><a id="line.1147">    }</a>
-<span class="sourceLineNo">1148</span><a id="line.1148">  }</a>
-<span class="sourceLineNo">1149</span><a id="line.1149"></a>
-<span class="sourceLineNo">1150</span><a id="line.1150">  /** An implementation of {@link Multiset#size}. */</a>
-<span class="sourceLineNo">1151</span><a id="line.1151">  static int linearTimeSizeImpl(Multiset&lt;?&gt; multiset) {</a>
-<span class="sourceLineNo">1152</span><a id="line.1152">    long size = 0;</a>
-<span class="sourceLineNo">1153</span><a id="line.1153">    for (Entry&lt;?&gt; entry : multiset.entrySet()) {</a>
-<span class="sourceLineNo">1154</span><a id="line.1154">      size += entry.getCount();</a>
-<span class="sourceLineNo">1155</span><a id="line.1155">    }</a>
-<span class="sourceLineNo">1156</span><a id="line.1156">    return Ints.saturatedCast(size);</a>
-<span class="sourceLineNo">1157</span><a id="line.1157">  }</a>
-<span class="sourceLineNo">1158</span><a id="line.1158"></a>
-<span class="sourceLineNo">1159</span><a id="line.1159">  /** Used to avoid http://bugs.sun.com/view_bug.do?bug_id=6558557 */</a>
-<span class="sourceLineNo">1160</span><a id="line.1160">  static &lt;T extends @Nullable Object&gt; Multiset&lt;T&gt; cast(Iterable&lt;T&gt; iterable) {</a>
-<span class="sourceLineNo">1161</span><a id="line.1161">    return (Multiset&lt;T&gt;) iterable;</a>
-<span class="sourceLineNo">1162</span><a id="line.1162">  }</a>
-<span class="sourceLineNo">1163</span><a id="line.1163"></a>
-<span class="sourceLineNo">1164</span><a id="line.1164">  /**</a>
-<span class="sourceLineNo">1165</span><a id="line.1165">   * Returns a copy of {@code multiset} as an {@link ImmutableMultiset} whose iteration order puts</a>
-<span class="sourceLineNo">1166</span><a id="line.1166">   * the highest count first, with ties broken by the iteration order of the original multiset.</a>
-<span class="sourceLineNo">1167</span><a id="line.1167">   *</a>
-<span class="sourceLineNo">1168</span><a id="line.1168">   * @since 11.0</a>
-<span class="sourceLineNo">1169</span><a id="line.1169">   */</a>
-<span class="sourceLineNo">1170</span><a id="line.1170">  public static &lt;E&gt; ImmutableMultiset&lt;E&gt; copyHighestCountFirst(Multiset&lt;E&gt; multiset) {</a>
-<span class="sourceLineNo">1171</span><a id="line.1171">    Entry&lt;E&gt;[] entries = (Entry&lt;E&gt;[]) multiset.entrySet().toArray(new Entry[0]);</a>
-<span class="sourceLineNo">1172</span><a id="line.1172">    Arrays.sort(entries, DecreasingCount.INSTANCE);</a>
-<span class="sourceLineNo">1173</span><a id="line.1173">    return ImmutableMultiset.copyFromEntries(Arrays.asList(entries));</a>
-<span class="sourceLineNo">1174</span><a id="line.1174">  }</a>
-<span class="sourceLineNo">1175</span><a id="line.1175"></a>
-<span class="sourceLineNo">1176</span><a id="line.1176">  private static final class DecreasingCount implements Comparator&lt;Entry&lt;?&gt;&gt; {</a>
-<span class="sourceLineNo">1177</span><a id="line.1177">    static final Comparator&lt;Entry&lt;?&gt;&gt; INSTANCE = new DecreasingCount();</a>
+<span class="sourceLineNo">1096</span><a id="line.1096">    private boolean canRemove;</a>
+<span class="sourceLineNo">1097</span><a id="line.1097"></a>
+<span class="sourceLineNo">1098</span><a id="line.1098">    MultisetIteratorImpl(Multiset&lt;E&gt; multiset, Iterator&lt;Entry&lt;E&gt;&gt; entryIterator) {</a>
+<span class="sourceLineNo">1099</span><a id="line.1099">      this.multiset = multiset;</a>
+<span class="sourceLineNo">1100</span><a id="line.1100">      this.entryIterator = entryIterator;</a>
+<span class="sourceLineNo">1101</span><a id="line.1101">    }</a>
+<span class="sourceLineNo">1102</span><a id="line.1102"></a>
+<span class="sourceLineNo">1103</span><a id="line.1103">    @Override</a>
+<span class="sourceLineNo">1104</span><a id="line.1104">    public boolean hasNext() {</a>
+<span class="sourceLineNo">1105</span><a id="line.1105">      return laterCount &gt; 0 || entryIterator.hasNext();</a>
+<span class="sourceLineNo">1106</span><a id="line.1106">    }</a>
+<span class="sourceLineNo">1107</span><a id="line.1107"></a>
+<span class="sourceLineNo">1108</span><a id="line.1108">    @Override</a>
+<span class="sourceLineNo">1109</span><a id="line.1109">    @ParametricNullness</a>
+<span class="sourceLineNo">1110</span><a id="line.1110">    public E next() {</a>
+<span class="sourceLineNo">1111</span><a id="line.1111">      if (!hasNext()) {</a>
+<span class="sourceLineNo">1112</span><a id="line.1112">        throw new NoSuchElementException();</a>
+<span class="sourceLineNo">1113</span><a id="line.1113">      }</a>
+<span class="sourceLineNo">1114</span><a id="line.1114">      if (laterCount == 0) {</a>
+<span class="sourceLineNo">1115</span><a id="line.1115">        currentEntry = entryIterator.next();</a>
+<span class="sourceLineNo">1116</span><a id="line.1116">        totalCount = laterCount = currentEntry.getCount();</a>
+<span class="sourceLineNo">1117</span><a id="line.1117">      }</a>
+<span class="sourceLineNo">1118</span><a id="line.1118">      laterCount--;</a>
+<span class="sourceLineNo">1119</span><a id="line.1119">      canRemove = true;</a>
+<span class="sourceLineNo">1120</span><a id="line.1120">      /*</a>
+<span class="sourceLineNo">1121</span><a id="line.1121">       * requireNonNull is safe because laterCount starts at 0, forcing us to initialize</a>
+<span class="sourceLineNo">1122</span><a id="line.1122">       * currentEntry above. After that, we never clear it.</a>
+<span class="sourceLineNo">1123</span><a id="line.1123">       */</a>
+<span class="sourceLineNo">1124</span><a id="line.1124">      return requireNonNull(currentEntry).getElement();</a>
+<span class="sourceLineNo">1125</span><a id="line.1125">    }</a>
+<span class="sourceLineNo">1126</span><a id="line.1126"></a>
+<span class="sourceLineNo">1127</span><a id="line.1127">    @Override</a>
+<span class="sourceLineNo">1128</span><a id="line.1128">    public void remove() {</a>
+<span class="sourceLineNo">1129</span><a id="line.1129">      checkRemove(canRemove);</a>
+<span class="sourceLineNo">1130</span><a id="line.1130">      if (totalCount == 1) {</a>
+<span class="sourceLineNo">1131</span><a id="line.1131">        entryIterator.remove();</a>
+<span class="sourceLineNo">1132</span><a id="line.1132">      } else {</a>
+<span class="sourceLineNo">1133</span><a id="line.1133">        /*</a>
+<span class="sourceLineNo">1134</span><a id="line.1134">         * requireNonNull is safe because canRemove is set to true only after we initialize</a>
+<span class="sourceLineNo">1135</span><a id="line.1135">         * currentEntry (which we never subsequently clear).</a>
+<span class="sourceLineNo">1136</span><a id="line.1136">         */</a>
+<span class="sourceLineNo">1137</span><a id="line.1137">        multiset.remove(requireNonNull(currentEntry).getElement());</a>
+<span class="sourceLineNo">1138</span><a id="line.1138">      }</a>
+<span class="sourceLineNo">1139</span><a id="line.1139">      totalCount--;</a>
+<span class="sourceLineNo">1140</span><a id="line.1140">      canRemove = false;</a>
+<span class="sourceLineNo">1141</span><a id="line.1141">    }</a>
+<span class="sourceLineNo">1142</span><a id="line.1142">  }</a>
+<span class="sourceLineNo">1143</span><a id="line.1143"></a>
+<span class="sourceLineNo">1144</span><a id="line.1144">  /** An implementation of {@link Multiset#size}. */</a>
+<span class="sourceLineNo">1145</span><a id="line.1145">  static int linearTimeSizeImpl(Multiset&lt;?&gt; multiset) {</a>
+<span class="sourceLineNo">1146</span><a id="line.1146">    long size = 0;</a>
+<span class="sourceLineNo">1147</span><a id="line.1147">    for (Entry&lt;?&gt; entry : multiset.entrySet()) {</a>
+<span class="sourceLineNo">1148</span><a id="line.1148">      size += entry.getCount();</a>
+<span class="sourceLineNo">1149</span><a id="line.1149">    }</a>
+<span class="sourceLineNo">1150</span><a id="line.1150">    return Ints.saturatedCast(size);</a>
+<span class="sourceLineNo">1151</span><a id="line.1151">  }</a>
+<span class="sourceLineNo">1152</span><a id="line.1152"></a>
+<span class="sourceLineNo">1153</span><a id="line.1153">  /** Used to avoid http://bugs.sun.com/view_bug.do?bug_id=6558557 */</a>
+<span class="sourceLineNo">1154</span><a id="line.1154">  static &lt;T extends @Nullable Object&gt; Multiset&lt;T&gt; cast(Iterable&lt;T&gt; iterable) {</a>
+<span class="sourceLineNo">1155</span><a id="line.1155">    return (Multiset&lt;T&gt;) iterable;</a>
+<span class="sourceLineNo">1156</span><a id="line.1156">  }</a>
+<span class="sourceLineNo">1157</span><a id="line.1157"></a>
+<span class="sourceLineNo">1158</span><a id="line.1158">  /**</a>
+<span class="sourceLineNo">1159</span><a id="line.1159">   * Returns a copy of {@code multiset} as an {@link ImmutableMultiset} whose iteration order puts</a>
+<span class="sourceLineNo">1160</span><a id="line.1160">   * the highest count first, with ties broken by the iteration order of the original multiset.</a>
+<span class="sourceLineNo">1161</span><a id="line.1161">   *</a>
+<span class="sourceLineNo">1162</span><a id="line.1162">   * @since 11.0</a>
+<span class="sourceLineNo">1163</span><a id="line.1163">   */</a>
+<span class="sourceLineNo">1164</span><a id="line.1164">  public static &lt;E&gt; ImmutableMultiset&lt;E&gt; copyHighestCountFirst(Multiset&lt;E&gt; multiset) {</a>
+<span class="sourceLineNo">1165</span><a id="line.1165">    Entry&lt;E&gt;[] entries = (Entry&lt;E&gt;[]) multiset.entrySet().toArray(new Entry[0]);</a>
+<span class="sourceLineNo">1166</span><a id="line.1166">    Arrays.sort(entries, DecreasingCount.INSTANCE);</a>
+<span class="sourceLineNo">1167</span><a id="line.1167">    return ImmutableMultiset.copyFromEntries(Arrays.asList(entries));</a>
+<span class="sourceLineNo">1168</span><a id="line.1168">  }</a>
+<span class="sourceLineNo">1169</span><a id="line.1169"></a>
+<span class="sourceLineNo">1170</span><a id="line.1170">  private static final class DecreasingCount implements Comparator&lt;Entry&lt;?&gt;&gt; {</a>
+<span class="sourceLineNo">1171</span><a id="line.1171">    static final Comparator&lt;Entry&lt;?&gt;&gt; INSTANCE = new DecreasingCount();</a>
+<span class="sourceLineNo">1172</span><a id="line.1172"></a>
+<span class="sourceLineNo">1173</span><a id="line.1173">    @Override</a>
+<span class="sourceLineNo">1174</span><a id="line.1174">    public int compare(Entry&lt;?&gt; entry1, Entry&lt;?&gt; entry2) {</a>
+<span class="sourceLineNo">1175</span><a id="line.1175">      return entry2.getCount() - entry1.getCount(); // subtracting two nonnegative integers</a>
+<span class="sourceLineNo">1176</span><a id="line.1176">    }</a>
+<span class="sourceLineNo">1177</span><a id="line.1177">  }</a>
 <span class="sourceLineNo">1178</span><a id="line.1178"></a>
-<span class="sourceLineNo">1179</span><a id="line.1179">    @Override</a>
-<span class="sourceLineNo">1180</span><a id="line.1180">    public int compare(Entry&lt;?&gt; entry1, Entry&lt;?&gt; entry2) {</a>
-<span class="sourceLineNo">1181</span><a id="line.1181">      return entry2.getCount() - entry1.getCount(); // subtracting two nonnegative integers</a>
-<span class="sourceLineNo">1182</span><a id="line.1182">    }</a>
-<span class="sourceLineNo">1183</span><a id="line.1183">  }</a>
-<span class="sourceLineNo">1184</span><a id="line.1184"></a>
-<span class="sourceLineNo">1185</span><a id="line.1185">  /**</a>
-<span class="sourceLineNo">1186</span><a id="line.1186">   * An {@link AbstractMultiset} with additional default implementations, some of them linear-time</a>
-<span class="sourceLineNo">1187</span><a id="line.1187">   * implementations in terms of {@code elementSet} and {@code entrySet}.</a>
-<span class="sourceLineNo">1188</span><a id="line.1188">   */</a>
-<span class="sourceLineNo">1189</span><a id="line.1189">  private abstract static class ViewMultiset&lt;E extends @Nullable Object&gt;</a>
-<span class="sourceLineNo">1190</span><a id="line.1190">      extends AbstractMultiset&lt;E&gt; {</a>
-<span class="sourceLineNo">1191</span><a id="line.1191">    @Override</a>
-<span class="sourceLineNo">1192</span><a id="line.1192">    public int size() {</a>
-<span class="sourceLineNo">1193</span><a id="line.1193">      return linearTimeSizeImpl(this);</a>
-<span class="sourceLineNo">1194</span><a id="line.1194">    }</a>
-<span class="sourceLineNo">1195</span><a id="line.1195"></a>
-<span class="sourceLineNo">1196</span><a id="line.1196">    @Override</a>
-<span class="sourceLineNo">1197</span><a id="line.1197">    public void clear() {</a>
-<span class="sourceLineNo">1198</span><a id="line.1198">      elementSet().clear();</a>
-<span class="sourceLineNo">1199</span><a id="line.1199">    }</a>
-<span class="sourceLineNo">1200</span><a id="line.1200"></a>
-<span class="sourceLineNo">1201</span><a id="line.1201">    @Override</a>
-<span class="sourceLineNo">1202</span><a id="line.1202">    public Iterator&lt;E&gt; iterator() {</a>
-<span class="sourceLineNo">1203</span><a id="line.1203">      return iteratorImpl(this);</a>
-<span class="sourceLineNo">1204</span><a id="line.1204">    }</a>
-<span class="sourceLineNo">1205</span><a id="line.1205"></a>
-<span class="sourceLineNo">1206</span><a id="line.1206">    @Override</a>
-<span class="sourceLineNo">1207</span><a id="line.1207">    int distinctElements() {</a>
-<span class="sourceLineNo">1208</span><a id="line.1208">      return elementSet().size();</a>
-<span class="sourceLineNo">1209</span><a id="line.1209">    }</a>
-<span class="sourceLineNo">1210</span><a id="line.1210">  }</a>
-<span class="sourceLineNo">1211</span><a id="line.1211">}</a>
+<span class="sourceLineNo">1179</span><a id="line.1179">  /**</a>
+<span class="sourceLineNo">1180</span><a id="line.1180">   * An {@link AbstractMultiset} with additional default implementations, some of them linear-time</a>
+<span class="sourceLineNo">1181</span><a id="line.1181">   * implementations in terms of {@code elementSet} and {@code entrySet}.</a>
+<span class="sourceLineNo">1182</span><a id="line.1182">   */</a>
+<span class="sourceLineNo">1183</span><a id="line.1183">  private abstract static class ViewMultiset&lt;E extends @Nullable Object&gt;</a>
+<span class="sourceLineNo">1184</span><a id="line.1184">      extends AbstractMultiset&lt;E&gt; {</a>
+<span class="sourceLineNo">1185</span><a id="line.1185">    @Override</a>
+<span class="sourceLineNo">1186</span><a id="line.1186">    public int size() {</a>
+<span class="sourceLineNo">1187</span><a id="line.1187">      return linearTimeSizeImpl(this);</a>
+<span class="sourceLineNo">1188</span><a id="line.1188">    }</a>
+<span class="sourceLineNo">1189</span><a id="line.1189"></a>
+<span class="sourceLineNo">1190</span><a id="line.1190">    @Override</a>
+<span class="sourceLineNo">1191</span><a id="line.1191">    public void clear() {</a>
+<span class="sourceLineNo">1192</span><a id="line.1192">      elementSet().clear();</a>
+<span class="sourceLineNo">1193</span><a id="line.1193">    }</a>
+<span class="sourceLineNo">1194</span><a id="line.1194"></a>
+<span class="sourceLineNo">1195</span><a id="line.1195">    @Override</a>
+<span class="sourceLineNo">1196</span><a id="line.1196">    public Iterator&lt;E&gt; iterator() {</a>
+<span class="sourceLineNo">1197</span><a id="line.1197">      return iteratorImpl(this);</a>
+<span class="sourceLineNo">1198</span><a id="line.1198">    }</a>
+<span class="sourceLineNo">1199</span><a id="line.1199"></a>
+<span class="sourceLineNo">1200</span><a id="line.1200">    @Override</a>
+<span class="sourceLineNo">1201</span><a id="line.1201">    int distinctElements() {</a>
+<span class="sourceLineNo">1202</span><a id="line.1202">      return elementSet().size();</a>
+<span class="sourceLineNo">1203</span><a id="line.1203">    }</a>
+<span class="sourceLineNo">1204</span><a id="line.1204">  }</a>
+<span class="sourceLineNo">1205</span><a id="line.1205">}</a>
 
 
 
