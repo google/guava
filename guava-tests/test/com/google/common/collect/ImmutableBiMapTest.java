@@ -567,15 +567,14 @@ public class ImmutableBiMapTest extends TestCase {
   public void testEmpty() {
     ImmutableBiMap<String, Integer> bimap = ImmutableBiMap.of();
     assertEquals(Collections.<String, Integer>emptyMap(), bimap);
-    assertEquals(Collections.<String, Integer>emptyMap(), bimap.inverse());
+    assertEquals(Collections.<Integer, String>emptyMap(), bimap.inverse());
   }
 
   public void testFromHashMap() {
     Map<String, Integer> hashMap = Maps.newLinkedHashMap();
     hashMap.put("one", 1);
     hashMap.put("two", 2);
-    ImmutableBiMap<String, Integer> bimap =
-        ImmutableBiMap.copyOf(ImmutableMap.of("one", 1, "two", 2));
+    ImmutableBiMap<String, Integer> bimap = ImmutableBiMap.copyOf(hashMap);
     assertMapEquals(bimap, "one", 1, "two", 2);
     assertMapEquals(bimap.inverse(), 1, "one", 2, "two");
   }
