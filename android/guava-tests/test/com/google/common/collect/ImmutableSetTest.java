@@ -172,7 +172,6 @@ public class ImmutableSetTest extends AbstractImmutableSetTest {
     return ImmutableSet.of(e1, e2, e3, e4, e5);
   }
 
-  @SuppressWarnings("unchecked")
   @Override
   protected <E extends Comparable<? super E>> Set<E> of(
       E e1, E e2, E e3, E e4, E e5, E e6, E... rest) {

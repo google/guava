@@ -412,7 +412,6 @@ public class OrderingTest extends TestCase {
     assertEquals("Ordering.natural().reverse().onResultOf(StringLength)", comparator.toString());
   }
 
-  @SuppressWarnings("unchecked") // dang varargs
   public void testLexicographical() {
     Ordering<String> ordering = Ordering.natural();
     Ordering<Iterable<String>> lexy = ordering.lexicographical();
@@ -951,7 +950,7 @@ public class OrderingTest extends TestCase {
       assertTrue(ordering.isStrictlyOrdered(strictlyOrderedList));
     }
 
-    @SuppressWarnings("unchecked") // generic arrays and unchecked cast
+    // generic arrays and unchecked cast
     void testMinAndMax() {
       List<T> shuffledList = Lists.newArrayList(strictlyOrderedList);
       shuffledList = shuffledCopy(shuffledList, new Random(5));
@@ -1015,7 +1014,6 @@ public class OrderingTest extends TestCase {
     NULLS_FIRST {
       @Override
       <T> Scenario<?> mutate(Scenario<T> scenario) {
-        @SuppressWarnings("unchecked")
         List<T> newList = Lists.newArrayList((T) null);
         for (T t : scenario.strictlyOrderedList) {
           if (t != null) {

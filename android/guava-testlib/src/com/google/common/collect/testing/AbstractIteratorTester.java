@@ -541,7 +541,6 @@ abstract class AbstractIteratorTester<E, I extends Iterator<E>> {
         }
       };
 
-  @SuppressWarnings("unchecked")
   List<Stimulus<E, Iterator<E>>> iteratorStimuli() {
     return Arrays.asList(hasNext, next, remove);
   }
@@ -589,7 +588,6 @@ abstract class AbstractIteratorTester<E, I extends Iterator<E>> {
         }
       };
 
-  @SuppressWarnings("unchecked")
   List<Stimulus<E, ListIterator<E>>> listIteratorStimuli() {
     return Arrays.asList(hasPrevious, nextIndex, previousIndex, previous, add, set);
   }

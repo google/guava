@@ -36,7 +36,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 @ElementTypesAreNonnullByDefault
 @GwtCompatible(emulated = true)
 public class EquivalenceTest extends TestCase {
-  @SuppressWarnings("unchecked") // varargs
   public void testPairwiseEquivalent() {
     EquivalenceTester.of(Equivalence.equals().<String>pairwise())
         .addEquivalenceGroup(ImmutableList.<String>of())

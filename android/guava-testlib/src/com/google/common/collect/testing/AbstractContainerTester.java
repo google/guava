@@ -229,12 +229,10 @@ public abstract class AbstractContainerTester<C, E>
     return getNumElements() / 2;
   }
 
-  @SuppressWarnings("unchecked")
   protected MinimalCollection<E> createDisjointCollection() {
     return MinimalCollection.of(e3(), e4());
   }
 
-  @SuppressWarnings("unchecked")
   protected MinimalCollection<E> emptyCollection() {
     return MinimalCollection.<E>of();
   }

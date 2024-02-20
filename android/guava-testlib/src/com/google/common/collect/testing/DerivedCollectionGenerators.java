@@ -462,7 +462,6 @@ public final class DerivedCollectionGenerators {
 
       // derive values for inclusive filtering from the input samples
       SampleElements<Entry<K, V>> samples = delegate.samples();
-      @SuppressWarnings("unchecked") // no elements are inserted into the array
       List<Entry<K, V>> samplesList =
           Arrays.asList(samples.e0(), samples.e1(), samples.e2(), samples.e3(), samples.e4());
       Collections.sort(samplesList, entryComparator);

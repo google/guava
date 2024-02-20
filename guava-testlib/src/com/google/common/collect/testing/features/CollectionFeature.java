@@ -31,8 +31,6 @@ import java.util.SortedSet;
  *
  * @author George van den Driessche
  */
-// Enum values use constructors with generic varargs.
-@SuppressWarnings("unchecked")
 @GwtCompatible
 public enum CollectionFeature implements Feature<Collection> {
   /**

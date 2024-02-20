@@ -39,7 +39,6 @@ import org.junit.Ignore;
 @GwtCompatible(emulated = true)
 @Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class MultisetIteratorTester<E> extends AbstractMultisetTester<E> {
-  @SuppressWarnings("unchecked")
   @CollectionFeature.Require({SUPPORTS_ITERATOR_REMOVE, KNOWN_ORDER})
   public void testRemovingIteratorKnownOrder() {
     new IteratorTester<E>(
@@ -54,7 +53,6 @@ public class MultisetIteratorTester<E> extends AbstractMultisetTester<E> {
     }.test();
   }
 
-  @SuppressWarnings("unchecked")
   @CollectionFeature.Require(value = SUPPORTS_ITERATOR_REMOVE, absent = KNOWN_ORDER)
   public void testRemovingIteratorUnknownOrder() {
     new IteratorTester<E>(
@@ -69,7 +67,6 @@ public class MultisetIteratorTester<E> extends AbstractMultisetTester<E> {
     }.test();
   }
 
-  @SuppressWarnings("unchecked")
   @CollectionFeature.Require(value = KNOWN_ORDER, absent = SUPPORTS_ITERATOR_REMOVE)
   public void testIteratorKnownOrder() {
     new IteratorTester<E>(
@@ -84,7 +81,6 @@ public class MultisetIteratorTester<E> extends AbstractMultisetTester<E> {
     }.test();
   }
 
-  @SuppressWarnings("unchecked")
   @CollectionFeature.Require(absent = {SUPPORTS_ITERATOR_REMOVE, KNOWN_ORDER})
   public void testIteratorUnknownOrder() {
     new IteratorTester<E>(

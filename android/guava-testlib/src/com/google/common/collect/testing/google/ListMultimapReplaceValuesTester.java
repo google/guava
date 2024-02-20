@@ -34,7 +34,6 @@ import org.junit.Ignore;
 public class ListMultimapReplaceValuesTester<K, V> extends AbstractListMultimapTester<K, V> {
   @MapFeature.Require({SUPPORTS_PUT, SUPPORTS_REMOVE})
   public void testReplaceValuesPreservesOrder() {
-    @SuppressWarnings("unchecked")
     List<V> values = Arrays.asList(v3(), v1(), v4());
 
     for (K k : sampleKeys()) {

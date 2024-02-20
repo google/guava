@@ -1101,7 +1101,6 @@ public class FuturesTest extends TestCase {
   @J2ktIncompatible
   @GwtIncompatible // mocks
   // TODO(cpovirk): eliminate use of mocks
-  @SuppressWarnings("unchecked")
   public void testCatchingAsync_resultCancelledAfterFallback() throws Exception {
     final SettableFuture<Integer> secondary = SettableFuture.create();
     final RuntimeException raisedException = new RuntimeException();
@@ -2199,7 +2198,6 @@ public class FuturesTest extends TestCase {
     SettableFuture<String> future1 = SettableFuture.create();
     SettableFuture<String> future2 = SettableFuture.create();
     SettableFuture<String> future3 = SettableFuture.create();
-    @SuppressWarnings("unchecked") // array is never modified
     ListenableFuture<List<String>> compound = allAsList(future1, future2, future3);
 
     // Attach a listener
@@ -2233,7 +2231,6 @@ public class FuturesTest extends TestCase {
   public void testAllAsList_emptyArray() throws Exception {
     SingleCallListener listener = new SingleCallListener();
     listener.expectCall();
-    @SuppressWarnings("unchecked") // array is never modified
     ListenableFuture<List<String>> compound = allAsList();
     compound.addListener(listener, directExecutor());
     assertThat(getDone(compound)).isEmpty();
@@ -2244,7 +2241,6 @@ public class FuturesTest extends TestCase {
     SingleCallListener listener = new SingleCallListener();
     SettableFuture<String> future1 = SettableFuture.create();
     SettableFuture<String> future2 = SettableFuture.create();
-    @SuppressWarnings("unchecked") // array is never modified
     ListenableFuture<List<String>> compound = allAsList(future1, future2);
     compound.addListener(listener, directExecutor());
 
@@ -2309,7 +2305,6 @@ public class FuturesTest extends TestCase {
     SingleCallListener listener = new SingleCallListener();
     SettableFuture<String> future1 = SettableFuture.create();
     SettableFuture<String> future2 = SettableFuture.create();
-    @SuppressWarnings("unchecked") // array is never modified
     ListenableFuture<List<String>> compound = allAsList(future1, future2);
     compound.addListener(listener, directExecutor());
 
@@ -2329,7 +2324,6 @@ public class FuturesTest extends TestCase {
   public void testAllAsList_resultCancelled() throws Exception {
     SettableFuture<String> future1 = SettableFuture.create();
     SettableFuture<String> future2 = SettableFuture.create();
-    @SuppressWarnings("unchecked") // array is never modified
     ListenableFuture<List<String>> compound = allAsList(future1, future2);
 
     future2.set(DATA2);
@@ -2373,7 +2367,6 @@ public class FuturesTest extends TestCase {
   public void testAllAsList_resultInterrupted() throws Exception {
     SettableFuture<String> future1 = SettableFuture.create();
     SettableFuture<String> future2 = SettableFuture.create();
-    @SuppressWarnings("unchecked") // array is never modified
     ListenableFuture<List<String>> compound = allAsList(future1, future2);
 
     future2.set(DATA2);
@@ -2401,7 +2394,6 @@ public class FuturesTest extends TestCase {
     future2.set(DATA2);
     future3.set(DATA3);
 
-    @SuppressWarnings("unchecked") // array is never modified
     ListenableFuture<List<String>> compound = allAsList(future1, future2, future3);
 
     // Attach a listener
@@ -2416,7 +2408,6 @@ public class FuturesTest extends TestCase {
   }
 
   /** A single non-error failure is not logged because it is reported via the output future. */
-  @SuppressWarnings("unchecked")
   public void testAllAsList_logging_exception() throws Exception {
     try {
       getDone(allAsList(immediateFailedFuture(new MyException())));
@@ -2429,7 +2420,6 @@ public class FuturesTest extends TestCase {
   }
 
   /** Ensure that errors are always logged. */
-  @SuppressWarnings("unchecked")
   public void testAllAsList_logging_error() throws Exception {
     try {
       getDone(allAsList(immediateFailedFuture(new MyError())));
@@ -2443,7 +2433,6 @@ public class FuturesTest extends TestCase {
   }
 
   /** All as list will log extra exceptions that have already occurred. */
-  @SuppressWarnings("unchecked")
   public void testAllAsList_logging_multipleExceptions_alreadyDone() throws Exception {
     try {
       getDone(
@@ -2459,7 +2448,6 @@ public class FuturesTest extends TestCase {
   }
 
   /** All as list will log extra exceptions that occur later. */
-  @SuppressWarnings("unchecked")
   public void testAllAsList_logging_multipleExceptions_doneLater() throws Exception {
     SettableFuture<Object> future1 = SettableFuture.create();
     SettableFuture<Object> future2 = SettableFuture.create();
@@ -2482,7 +2470,6 @@ public class FuturesTest extends TestCase {
   }
 
   /** The same exception happening on multiple futures should not be logged. */
-  @SuppressWarnings("unchecked")
   public void testAllAsList_logging_same_exception() throws Exception {
     try {
       MyException sameInstance = new MyException();
@@ -2558,7 +2545,6 @@ public class FuturesTest extends TestCase {
   /**
    * Different exceptions happening on multiple futures with the same cause should not be logged.
    */
-  @SuppressWarnings("unchecked")
   public void testAllAsList_logging_same_cause() throws Exception {
     try {
       MyException exception1 = new MyException();
@@ -3438,7 +3424,6 @@ public class FuturesTest extends TestCase {
     SettableFuture<String> future1 = SettableFuture.create();
     SettableFuture<String> future2 = SettableFuture.create();
     SettableFuture<String> future3 = SettableFuture.create();
-    @SuppressWarnings("unchecked") // array is never modified
     ListenableFuture<List<String>> compound = successfulAsList(future1, future2, future3);
 
     // Attach a listener
@@ -3472,7 +3457,6 @@ public class FuturesTest extends TestCase {
   public void testSuccessfulAsList_emptyArray() throws Exception {
     SingleCallListener listener = new SingleCallListener();
     listener.expectCall();
-    @SuppressWarnings("unchecked") // array is never modified
     ListenableFuture<List<String>> compound = successfulAsList();
     compound.addListener(listener, directExecutor());
     assertThat(getDone(compound)).isEmpty();
@@ -3483,7 +3467,6 @@ public class FuturesTest extends TestCase {
     SingleCallListener listener = new SingleCallListener();
     SettableFuture<String> future1 = SettableFuture.create();
     SettableFuture<String> future2 = SettableFuture.create();
-    @SuppressWarnings("unchecked") // array is never modified
     ListenableFuture<List<String>> compound = successfulAsList(future1, future2);
     compound.addListener(listener, directExecutor());
 
@@ -3502,7 +3485,6 @@ public class FuturesTest extends TestCase {
     SingleCallListener listener = new SingleCallListener();
     SettableFuture<String> future1 = SettableFuture.create();
     SettableFuture<String> future2 = SettableFuture.create();
-    @SuppressWarnings("unchecked") // array is never modified
     ListenableFuture<List<String>> compound = successfulAsList(future1, future2);
     compound.addListener(listener, directExecutor());
 
@@ -3521,7 +3503,6 @@ public class FuturesTest extends TestCase {
     SingleCallListener listener = new SingleCallListener();
     SettableFuture<String> future1 = SettableFuture.create();
     SettableFuture<String> future2 = SettableFuture.create();
-    @SuppressWarnings("unchecked") // array is never modified
     ListenableFuture<List<String>> compound = successfulAsList(future1, future2);
     compound.addListener(listener, directExecutor());
 
@@ -3539,7 +3520,6 @@ public class FuturesTest extends TestCase {
   public void testSuccessfulAsList_resultCancelled() throws Exception {
     SettableFuture<String> future1 = SettableFuture.create();
     SettableFuture<String> future2 = SettableFuture.create();
-    @SuppressWarnings("unchecked") // array is never modified
     ListenableFuture<List<String>> compound = successfulAsList(future1, future2);
 
     future2.set(DATA2);
@@ -3576,7 +3556,6 @@ public class FuturesTest extends TestCase {
      */
     final SettableFuture<String> future1 = SettableFuture.create();
     final SettableFuture<String> future2 = SettableFuture.create();
-    @SuppressWarnings("unchecked") // array is never modified
     ListenableFuture<List<String>> compound = successfulAsList(future1, future2);
 
     future1.addListener(
@@ -3611,7 +3590,6 @@ public class FuturesTest extends TestCase {
   public void testSuccessfulAsList_resultInterrupted() throws Exception {
     SettableFuture<String> future1 = SettableFuture.create();
     SettableFuture<String> future2 = SettableFuture.create();
-    @SuppressWarnings("unchecked") // array is never modified
     ListenableFuture<List<String>> compound = successfulAsList(future1, future2);
 
     future2.set(DATA2);
@@ -3627,7 +3605,6 @@ public class FuturesTest extends TestCase {
     SettableFuture<String> future1 = SettableFuture.create();
     SettableFuture<String> future2 = SettableFuture.create();
     SettableFuture<String> future3 = SettableFuture.create();
-    @SuppressWarnings("unchecked") // array is never modified
     ListenableFuture<List<String>> compound = successfulAsList(future1, future2, future3);
     compound.addListener(listener, directExecutor());
 
@@ -3647,7 +3624,6 @@ public class FuturesTest extends TestCase {
 
   /** Non-Error exceptions are never logged. */
   @J2ktIncompatible // TODO(b/324550390): Enable
-  @SuppressWarnings("unchecked")
   public void testSuccessfulAsList_logging_exception() throws Exception {
     assertEquals(
         newArrayList((Object) null),
@@ -3671,7 +3647,6 @@ public class FuturesTest extends TestCase {
 
   /** Ensure that errors are always logged. */
   @J2ktIncompatible // TODO(b/324550390): Enable
-  @SuppressWarnings("unchecked")
   public void testSuccessfulAsList_logging_error() throws Exception {
     assertEquals(
         newArrayList((Object) null),

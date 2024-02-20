@@ -579,26 +579,22 @@ public class ListsTest extends TestCase {
     return ImmutableList.copyOf(elements);
   }
 
-  @SuppressWarnings("unchecked") // varargs!
   public void testCartesianProduct_binary1x1() {
     assertThat(Lists.cartesianProduct(list(1), list(2))).contains(list(1, 2));
   }
 
-  @SuppressWarnings("unchecked") // varargs!
   public void testCartesianProduct_binary1x2() {
     assertThat(Lists.cartesianProduct(list(1), list(2, 3)))
         .containsExactly(list(1, 2), list(1, 3))
         .inOrder();
   }
 
-  @SuppressWarnings("unchecked") // varargs!
   public void testCartesianProduct_binary2x2() {
     assertThat(Lists.cartesianProduct(list(1, 2), list(3, 4)))
         .containsExactly(list(1, 3), list(1, 4), list(2, 3), list(2, 4))
         .inOrder();
   }
 
-  @SuppressWarnings("unchecked") // varargs!
   public void testCartesianProduct_2x2x2() {
     assertThat(Lists.cartesianProduct(list(0, 1), list(0, 1), list(0, 1)))
         .containsExactly(
@@ -613,7 +609,6 @@ public class ListsTest extends TestCase {
         .inOrder();
   }
 
-  @SuppressWarnings("unchecked") // varargs!
   public void testCartesianProduct_contains() {
     List<List<Integer>> actual = Lists.cartesianProduct(list(1, 2), list(3, 4));
     assertTrue(actual.contains(list(1, 3)));
@@ -645,7 +640,6 @@ public class ListsTest extends TestCase {
     assertThat(actual.lastIndexOf(list(1, 1, 1))).isEqualTo(-1);
   }
 
-  @SuppressWarnings("unchecked") // varargs!
   public void testCartesianProduct_unrelatedTypes() {
     List<Integer> x = list(1, 2);
     List<String> y = list("3", "4");
@@ -660,7 +654,6 @@ public class ListsTest extends TestCase {
         .inOrder();
   }
 
-  @SuppressWarnings("unchecked") // varargs!
   public void testCartesianProductTooBig() {
     List<String> list = Collections.nCopies(10000, "foo");
     try {

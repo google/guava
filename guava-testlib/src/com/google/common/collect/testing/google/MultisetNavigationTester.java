@@ -79,7 +79,6 @@ public class MultisetNavigationTester<E> extends AbstractMultisetTester<E> {
   }
 
   /** Resets the contents of sortedMultiset to have entries a, c, for the navigation tests. */
-  @SuppressWarnings("unchecked")
   // Needed to stop Eclipse whining
   private void resetWithHole() {
     List<E> container = new ArrayList<>();
@@ -167,7 +166,6 @@ public class MultisetNavigationTester<E> extends AbstractMultisetTester<E> {
     assertEquals(a, sortedMultiset.firstEntry());
   }
 
-  @SuppressWarnings("unchecked")
   @CollectionFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(SEVERAL)
   public void testPollFirst() {
@@ -222,7 +220,6 @@ public class MultisetNavigationTester<E> extends AbstractMultisetTester<E> {
     assertEquals(c, sortedMultiset.lastEntry());
   }
 
-  @SuppressWarnings("unchecked")
   @CollectionFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(SEVERAL)
   public void testPollLast() {
@@ -453,7 +450,6 @@ public class MultisetNavigationTester<E> extends AbstractMultisetTester<E> {
     assertFalse(multiset.entrySet().iterator().hasNext());
   }
 
-  @SuppressWarnings("unchecked")
   public void testEmptyRangeSubMultisetSupportingAdd(SortedMultiset<E> multiset) {
     for (Entry<E> entry : Arrays.asList(a, b, c)) {
       expectAddFailure(multiset, entry);

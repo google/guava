@@ -140,7 +140,6 @@ public abstract class AbstractMapTester<K, V>
     }
   }
 
-  @SuppressWarnings("unchecked")
   @Override
   protected MinimalCollection<Entry<K, V>> createDisjointCollection() {
     return MinimalCollection.of(e3(), e4());

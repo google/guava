@@ -41,7 +41,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @GwtCompatible(emulated = true)
 @ElementTypesAreNonnullByDefault
-@SuppressWarnings("cast") // redundant casts are intentional and harmless
 public class CharsTest extends TestCase {
   private static final char[] EMPTY = {};
   private static final char[] ARRAY1 = {(char) 1};

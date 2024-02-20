@@ -680,34 +680,26 @@ public class SetsTest extends TestCase {
     }
   }
 
-  // TODO: the overwhelming number of suppressions below suggests that maybe
-  // it's not worth having a varargs form of this method at all...
-
   /** The 0-ary cartesian product is a single empty list. */
-  @SuppressWarnings("unchecked") // varargs!
   public void testCartesianProduct_zeroary() {
     assertThat(Sets.cartesianProduct()).containsExactly(list());
   }
 
   /** A unary cartesian product is one list of size 1 for each element in the input set. */
-  @SuppressWarnings("unchecked") // varargs!
   public void testCartesianProduct_unary() {
     assertThat(Sets.cartesianProduct(set(1, 2))).containsExactly(list(1), list(2));
   }
 
-  @SuppressWarnings("unchecked") // varargs!
   public void testCartesianProduct_binary0x0() {
     Set<Integer> mt = emptySet();
     assertEmpty(Sets.cartesianProduct(mt, mt));
   }
 
-  @SuppressWarnings("unchecked") // varargs!
   public void testCartesianProduct_binary0x1() {
     Set<Integer> mt = emptySet();
     assertEmpty(Sets.cartesianProduct(mt, set(1)));
   }
 
-  @SuppressWarnings("unchecked") // varargs!
   public void testCartesianProduct_binary1x0() {
     Set<Integer> mt = emptySet();
     assertEmpty(Sets.cartesianProduct(set(1), mt));
@@ -719,26 +711,22 @@ public class SetsTest extends TestCase {
     assertFalse(set.iterator().hasNext());
   }
 
-  @SuppressWarnings("unchecked") // varargs!
   public void testCartesianProduct_binary1x1() {
     assertThat(Sets.cartesianProduct(set(1), set(2))).contains(list(1, 2));
   }
 
-  @SuppressWarnings("unchecked") // varargs!
   public void testCartesianProduct_binary1x2() {
     assertThat(Sets.cartesianProduct(set(1), set(2, 3)))
         .containsExactly(list(1, 2), list(1, 3))
         .inOrder();
   }
 
-  @SuppressWarnings("unchecked") // varargs!
   public void testCartesianProduct_binary2x2() {
     assertThat(Sets.cartesianProduct(set(1, 2), set(3, 4)))
         .containsExactly(list(1, 3), list(1, 4), list(2, 3), list(2, 4))
         .inOrder();
   }
 
-  @SuppressWarnings("unchecked") // varargs!
   public void testCartesianProduct_2x2x2() {
     assertThat(Sets.cartesianProduct(set(0, 1), set(0, 1), set(0, 1)))
         .containsExactly(
@@ -753,7 +741,6 @@ public class SetsTest extends TestCase {
         .inOrder();
   }
 
-  @SuppressWarnings("unchecked") // varargs!
   public void testCartesianProduct_contains() {
     Set<List<Integer>> actual = Sets.cartesianProduct(set(1, 2), set(3, 4));
     assertTrue(actual.contains(list(1, 3)));
@@ -778,7 +765,6 @@ public class SetsTest extends TestCase {
         .testEquals();
   }
 
-  @SuppressWarnings("unchecked") // varargs!
   public void testCartesianProduct_unrelatedTypes() {
     Set<Integer> x = set(1, 2);
     Set<String> y = set("3", "4");
@@ -793,7 +779,6 @@ public class SetsTest extends TestCase {
         .inOrder();
   }
 
-  @SuppressWarnings("unchecked") // varargs!
   public void testCartesianProductTooBig() {
     Set<Integer> set = ContiguousSet.create(Range.closed(0, 10000), DiscreteDomain.integers());
     try {
@@ -803,7 +788,6 @@ public class SetsTest extends TestCase {
     }
   }
 
-  @SuppressWarnings("unchecked") // varargs!
   public void testCartesianProduct_hashCode() {
     // Run through the same cartesian products we tested above
 

@@ -334,7 +334,6 @@ public class LinkedListMultimapTest extends TestCase {
     assertEquals(3, (int) entryb.getValue());
   }
 
-  @SuppressWarnings("unchecked")
   @GwtIncompatible // unreasonably slow
   public void testEntriesIteration() {
     List<Entry<String, Integer>> addItems =
@@ -457,7 +456,6 @@ public class LinkedListMultimapTest extends TestCase {
     }.test();
   }
 
-  @SuppressWarnings("unchecked")
   @GwtIncompatible // unreasonably slow
   public void testAsSetIteration() {
     Set<Entry<String, Collection<Integer>>> set =

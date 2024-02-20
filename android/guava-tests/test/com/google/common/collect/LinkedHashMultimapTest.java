@@ -307,7 +307,6 @@ public class LinkedHashMultimapTest extends TestCase {
 
   @GwtIncompatible // unreasonably slow
   public void testEntriesIteration() {
-    @SuppressWarnings("unchecked")
     Set<Entry<String, Integer>> set =
         Sets.newLinkedHashSet(
             asList(
@@ -415,7 +414,6 @@ public class LinkedHashMultimapTest extends TestCase {
 
   @GwtIncompatible // unreasonably slow
   public void testAsSetIteration() {
-    @SuppressWarnings("unchecked")
     Set<Entry<String, Collection<Integer>>> set =
         newLinkedHashSet(
             asList(

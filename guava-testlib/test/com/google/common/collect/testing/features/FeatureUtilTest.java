@@ -32,8 +32,6 @@ import junit.framework.TestCase;
 /**
  * @author George van den Driessche
  */
-// Enum values use constructors with generic varargs.
-@SuppressWarnings("unchecked")
 public class FeatureUtilTest extends TestCase {
   interface ExampleBaseInterface {
     void behave();

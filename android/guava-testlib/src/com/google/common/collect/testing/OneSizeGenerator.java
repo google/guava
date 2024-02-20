@@ -67,7 +67,6 @@ public final class OneSizeGenerator<T, E> implements OneSizeTestContainerGenerat
   @Override
   public Collection<E> getSampleElements(int howMany) {
     SampleElements<E> samples = samples();
-    @SuppressWarnings("unchecked")
     List<E> allSampleElements =
         Arrays.asList(samples.e0(), samples.e1(), samples.e2(), samples.e3(), samples.e4());
     return new ArrayList<>(allSampleElements.subList(0, howMany));

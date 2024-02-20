@@ -57,7 +57,6 @@ public abstract class AbstractImmutableSetTest extends TestCase {
 
   protected abstract <E extends Comparable<? super E>> Set<E> of(E e1, E e2, E e3, E e4, E e5);
 
-  @SuppressWarnings("unchecked")
   protected abstract <E extends Comparable<? super E>> Set<E> of(
       E e1, E e2, E e3, E e4, E e5, E e6, E... rest);
 

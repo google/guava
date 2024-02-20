@@ -282,7 +282,6 @@ public abstract class Ordering<T extends @Nullable Object> implements Comparator
    * @since 13.0
    */
   @GwtCompatible(serializable = true)
-  @SuppressWarnings("unchecked")
   public static Ordering<@Nullable Object> allEqual() {
     return AllEqualOrdering.INSTANCE;
   }

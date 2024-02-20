@@ -35,7 +35,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 @GwtCompatible
 @ElementTypesAreNonnullByDefault
 public class ComparatorsTest extends TestCase {
-  @SuppressWarnings("unchecked") // dang varargs
   public void testLexicographical() {
     Comparator<String> comparator = Ordering.natural();
     Comparator<Iterable<String>> lexy = Comparators.lexicographical(comparator);

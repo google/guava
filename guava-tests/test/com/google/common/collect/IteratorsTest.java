@@ -719,7 +719,6 @@ public class IteratorsTest extends TestCase {
   @GwtIncompatible // slow (~5s)
   public void testConcatNoIteratorsYieldsEmpty() {
     new EmptyIteratorTester() {
-      @SuppressWarnings("unchecked")
       @Override
       protected Iterator<Integer> newTargetIterator() {
         return Iterators.concat();
@@ -730,7 +729,6 @@ public class IteratorsTest extends TestCase {
   @GwtIncompatible // slow (~5s)
   public void testConcatOneEmptyIteratorYieldsEmpty() {
     new EmptyIteratorTester() {
-      @SuppressWarnings("unchecked")
       @Override
       protected Iterator<Integer> newTargetIterator() {
         return Iterators.concat(iterateOver());
@@ -751,7 +749,6 @@ public class IteratorsTest extends TestCase {
   @GwtIncompatible // slow (~3s)
   public void testConcatSingletonYieldsSingleton() {
     new SingletonIteratorTester() {
-      @SuppressWarnings("unchecked")
       @Override
       protected Iterator<Integer> newTargetIterator() {
         return Iterators.concat(iterateOver(1));
@@ -823,7 +820,6 @@ public class IteratorsTest extends TestCase {
 
   /** Illustrates the somewhat bizarre behavior when a null is passed in. */
   public void testConcatContainingNull() {
-    @SuppressWarnings("unchecked")
     Iterator<Iterator<Integer>> input = asList(iterateOver(1, 2), null, iterateOver(3)).iterator();
     Iterator<Integer> result = Iterators.concat(input);
     assertEquals(1, (int) result.next());
@@ -841,7 +837,6 @@ public class IteratorsTest extends TestCase {
     // There is no way to get "through" to the 3.  Buh-bye
   }
 
-  @SuppressWarnings("unchecked")
   public void testConcatVarArgsContainingNull() {
     try {
       Iterators.concat(iterateOver(1, 2), null, iterateOver(3), iterateOver(4), iterateOver(5));

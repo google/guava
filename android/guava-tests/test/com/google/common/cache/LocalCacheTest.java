@@ -2724,7 +2724,6 @@ public class LocalCacheTest extends TestCase {
    * Returns an iterable containing all combinations of maximumSize, expireAfterAccess/Write,
    * weakKeys and weak/softValues.
    */
-  @SuppressWarnings("unchecked") // varargs
   private static Iterable<CacheBuilder<Object, Object>> allEntryTypeMakers() {
     List<CacheBuilder<Object, Object>> result = newArrayList(allKeyValueStrengthMakers());
     for (CacheBuilder<Object, Object> builder : allKeyValueStrengthMakers()) {
@@ -2746,7 +2745,6 @@ public class LocalCacheTest extends TestCase {
   }
 
   /** Returns an iterable containing all combinations of maximumSize and expireAfterAccess/Write. */
-  @SuppressWarnings("unchecked") // varargs
   static Iterable<CacheBuilder<Object, Object>> allEvictingMakers() {
     return ImmutableList.of(
         createCacheBuilder().maximumSize(SMALL_MAX_SIZE),
@@ -2761,7 +2759,6 @@ public class LocalCacheTest extends TestCase {
   }
 
   /** Returns an iterable containing all combinations weakKeys and weak/softValues. */
-  @SuppressWarnings("unchecked") // varargs
   private static Iterable<CacheBuilder<Object, Object>> allKeyValueStrengthMakers() {
     return ImmutableList.of(
         createCacheBuilder(),

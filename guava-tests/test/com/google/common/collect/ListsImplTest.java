@@ -276,7 +276,6 @@ public class ListsImplTest extends TestCase {
 
     @Override
     public <T> List<T> createList(Class<T> listType, Collection<? extends T> contents) {
-      @SuppressWarnings("unchecked") // safe by contract
       T[] array = Iterables.toArray(contents, listType);
       return Arrays.asList(array);
     }

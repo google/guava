@@ -1125,7 +1125,6 @@ public final class Sets {
    * @since 14.0
    */
   @GwtIncompatible // NavigableSet
-  @SuppressWarnings("unchecked")
   public static <E extends @Nullable Object> NavigableSet<E> filter(
       NavigableSet<E> unfiltered, Predicate<? super E> predicate) {
     if (unfiltered instanceof FilteredSet) {

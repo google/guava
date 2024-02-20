@@ -29,8 +29,6 @@ import java.util.Set;
  *
  * @author George van den Driessche
  */
-// Enum values use constructors with generic varargs.
-@SuppressWarnings("unchecked")
 @GwtCompatible
 public enum MapFeature implements Feature<Map> {
   /**

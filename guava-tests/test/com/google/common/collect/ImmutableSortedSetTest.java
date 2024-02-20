@@ -209,7 +209,6 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
     return ImmutableSortedSet.of(e1, e2, e3, e4, e5);
   }
 
-  @SuppressWarnings("unchecked")
   @Override
   protected <E extends Comparable<? super E>> SortedSet<E> of(
       E e1, E e2, E e3, E e4, E e5, E e6, E... rest) {
@@ -951,7 +950,6 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
   }
 
   public void testLegacyComparable_builder_natural() {
-    @SuppressWarnings("unchecked")
     // Note: IntelliJ wrongly reports an error for this statement
     ImmutableSortedSet.Builder<LegacyComparable> builder =
         ImmutableSortedSet.<LegacyComparable>naturalOrder();
@@ -965,7 +963,6 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
   }
 
   public void testLegacyComparable_builder_reverse() {
-    @SuppressWarnings("unchecked")
     // Note: IntelliJ wrongly reports an error for this statement
     ImmutableSortedSet.Builder<LegacyComparable> builder =
         ImmutableSortedSet.<LegacyComparable>reverseOrder();

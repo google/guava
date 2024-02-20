@@ -274,7 +274,6 @@ public class UnsignedBytesTest extends TestCase {
     assertThat(SerializableTester.reserialize(javaImpl)).isSameInstanceAs(javaImpl);
   }
 
-  @SuppressWarnings("unchecked")
   public void testLexicographicalComparatorLongInputs() {
     Random rnd = new Random();
     for (Comparator<byte[]> comparator :

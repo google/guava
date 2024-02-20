@@ -456,7 +456,6 @@ public class MultimapTestSuiteBuilder<K, V, M extends Multimap<K, V>>
       return multimapGenerator.create((Object[]) entries).values();
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public V[] createArray(int length) {
       return ((TestMultimapGenerator<K, V, M>) multimapGenerator.getInnerGenerator())
@@ -527,7 +526,6 @@ public class MultimapTestSuiteBuilder<K, V, M extends Multimap<K, V>>
           .iterator();
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public K[] createArray(int length) {
       return ((TestMultimapGenerator<K, V, M>) multimapGenerator.getInnerGenerator())

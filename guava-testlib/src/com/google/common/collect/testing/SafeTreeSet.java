@@ -92,7 +92,6 @@ public final class SafeTreeSet<E> implements Serializable, NavigableSet<E> {
     delegate.clear();
   }
 
-  @SuppressWarnings("unchecked")
   @Override
   public Comparator<? super E> comparator() {
     Comparator<? super E> comparator = delegate.comparator();
