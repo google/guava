@@ -59,6 +59,7 @@ import junit.framework.AssertionFailedError;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Unit test for {@code Iterators}.
@@ -516,9 +517,9 @@ public class IteratorsTest extends TestCase {
     Iterator<String> result =
         Iterators.transform(
             input,
-            new Function<Integer, String>() {
+            new Function<@Nullable Integer, String>() {
               @Override
-              public String apply(Integer from) {
+              public String apply(@Nullable Integer from) {
                 return String.valueOf(from);
               }
             });
@@ -1524,7 +1525,7 @@ public class IteratorsTest extends TestCase {
   }
 
   public void testFrequency() {
-    List<String> list = newArrayList("a", null, "b", null, "a", null);
+    List<@Nullable String> list = newArrayList("a", null, "b", null, "a", null);
     assertEquals(2, Iterators.frequency(list.iterator(), "a"));
     assertEquals(1, Iterators.frequency(list.iterator(), "b"));
     assertEquals(0, Iterators.frequency(list.iterator(), "c"));

@@ -22,6 +22,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.testing.SerializableTester;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Tests common methods in {@link ImmutableTable}
@@ -102,7 +103,7 @@ public class ImmutableTableTest extends AbstractTableReadTest {
   }
 
   private static class StringHolder {
-    String string;
+    @Nullable String string;
   }
 
   public void testBuilder_withMutableCell() {

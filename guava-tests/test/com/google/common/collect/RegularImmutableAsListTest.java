@@ -16,6 +16,7 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Tests for {@link RegularImmutableAsList}.
@@ -32,7 +33,7 @@ public class RegularImmutableAsListTest extends TestCase {
   public void testDoesntCheckForNull() {
     ImmutableSet<Integer> set = ImmutableSet.of(1, 2, 3);
     ImmutableList<Integer> unused =
-        new RegularImmutableAsList<Integer>(set, new Object[] {null, null, null});
+        new RegularImmutableAsList<Integer>(set, new @Nullable Object[] {null, null, null});
     // shouldn't throw!
   }
 }

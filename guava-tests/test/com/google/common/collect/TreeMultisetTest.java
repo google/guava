@@ -41,6 +41,7 @@ import java.util.SortedSet;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Unit test for {@link TreeMultiset}.
@@ -298,7 +299,7 @@ public class TreeMultisetTest extends TestCase {
     assertThat(ms).containsExactly(null, null, null, "a", "b", "b").inOrder();
     assertEquals(3, ms.count(null));
 
-    SortedSet<String> elementSet = ms.elementSet();
+    SortedSet<@Nullable String> elementSet = ms.elementSet();
     assertEquals(null, elementSet.first());
     assertEquals("b", elementSet.last());
     assertEquals(comparator, elementSet.comparator());

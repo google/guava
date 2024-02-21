@@ -482,7 +482,7 @@ public class Collections2Test extends TestCase {
   }
 
   public void testToStringImplWithNullEntries() throws Exception {
-    List<String> list = Lists.newArrayList();
+    List<@Nullable String> list = Lists.newArrayList();
     list.add("foo");
     list.add(null);
 

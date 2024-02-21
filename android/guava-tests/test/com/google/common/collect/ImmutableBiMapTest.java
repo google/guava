@@ -40,6 +40,7 @@ import java.util.Set;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Tests for {@link ImmutableBiMap}.
@@ -494,21 +495,22 @@ public class ImmutableBiMapTest extends TestCase {
   }
 
   public void testOfEntriesNull() {
-    Entry<Integer, Integer> nullKey = entry(null, 23);
+    Entry<@Nullable Integer, Integer> nullKey = entry(null, 23);
     try {
-      ImmutableBiMap.ofEntries(nullKey);
+      ImmutableBiMap.ofEntries((Entry<Integer, Integer>) nullKey);
       fail();
     } catch (NullPointerException expected) {
     }
-    Entry<Integer, Integer> nullValue = entry(23, null);
+    Entry<Integer, @Nullable Integer> nullValue =
+        ImmutableBiMapTest.<@Nullable Integer>entry(23, null);
     try {
-      ImmutableBiMap.ofEntries(nullValue);
+      ImmutableBiMap.ofEntries((Entry<Integer, Integer>) nullValue);
       fail();
     } catch (NullPointerException expected) {
     }
   }
 
-  private static <T> Entry<T, T> entry(T key, T value) {
+  private static <T extends @Nullable Object> Entry<T, T> entry(T key, T value) {
     return new AbstractMap.SimpleImmutableEntry<>(key, value);
   }
 

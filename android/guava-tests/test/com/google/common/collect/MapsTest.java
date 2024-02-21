@@ -61,6 +61,7 @@ import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.concurrent.ConcurrentMap;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Unit test for {@code Maps}.
@@ -372,7 +373,7 @@ public class MapsTest extends TestCase {
   }
 
   public void testToStringImplWithNullKeys() throws Exception {
-    Map<String, String> hashmap = Maps.newHashMap();
+    Map<@Nullable String, String> hashmap = Maps.newHashMap();
     hashmap.put("foo", "bar");
     hashmap.put(null, "baz");
 
@@ -380,7 +381,7 @@ public class MapsTest extends TestCase {
   }
 
   public void testToStringImplWithNullValues() throws Exception {
-    Map<String, String> hashmap = Maps.newHashMap();
+    Map<String, @Nullable String> hashmap = Maps.newHashMap();
     hashmap.put("foo", "bar");
     hashmap.put("baz", null);
 
@@ -956,9 +957,9 @@ public class MapsTest extends TestCase {
   }
 
   public void testToMapWithNullKeys() {
-    Iterable<String> strings = Arrays.asList("one", null, "three");
+    Iterable<@Nullable String> strings = Arrays.asList("one", null, "three");
     try {
-      Maps.toMap(strings, Functions.constant("foo"));
+      Maps.toMap((Iterable<String>) strings, Functions.constant("foo"));
       fail();
     } catch (NullPointerException expected) {
     }
@@ -1019,9 +1020,9 @@ public class MapsTest extends TestCase {
 
   /** Null values are not allowed. */
   public void testUniqueIndexNullValue() {
-    List<String> listWithNull = Lists.newArrayList((String) null);
+    List<@Nullable String> listWithNull = Lists.newArrayList((String) null);
     try {
-      Maps.uniqueIndex(listWithNull, Functions.constant(1));
+      Maps.uniqueIndex((List<String>) listWithNull, Functions.constant(1));
       fail();
     } catch (NullPointerException expected) {
     }
@@ -1192,12 +1193,12 @@ public class MapsTest extends TestCase {
   }
 
   public void testAsConverter_withNullMapping() throws Exception {
-    BiMap<String, Integer> biMap = HashBiMap.create();
+    BiMap<String, @Nullable Integer> biMap = HashBiMap.create();
     biMap.put("one", 1);
     biMap.put("two", 2);
     biMap.put("three", null);
     try {
-      Maps.asConverter(biMap).convert("three");
+      Maps.asConverter((BiMap<String, Integer>) biMap).convert("three");
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -1308,7 +1309,8 @@ public class MapsTest extends TestCase {
   }
 
   public void testImmutableEntryNull() {
-    Entry<String, Integer> e = Maps.immutableEntry((String) null, (Integer) null);
+    Entry<@Nullable String, @Nullable Integer> e =
+        Maps.immutableEntry((String) null, (Integer) null);
     assertNull(e.getKey());
     assertNull(e.getValue());
     try {

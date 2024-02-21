@@ -95,7 +95,8 @@ public class SimpleAbstractMultisetTest extends TestCase {
     assertTrue(multiset.contains("a"));
   }
 
-  private static class NoRemoveMultiset<E> extends AbstractMultiset<E> implements Serializable {
+  private static class NoRemoveMultiset<E extends @Nullable Object> extends AbstractMultiset<E>
+      implements Serializable {
     final Map<E, Integer> backingMap = Maps.newHashMap();
 
     @Override
@@ -119,7 +120,7 @@ public class SimpleAbstractMultisetTest extends TestCase {
     }
 
     @Override
-    public int add(@Nullable E element, int occurrences) {
+    public int add(E element, int occurrences) {
       checkArgument(occurrences >= 0);
       Integer frequency = backingMap.get(element);
       if (frequency == null) {

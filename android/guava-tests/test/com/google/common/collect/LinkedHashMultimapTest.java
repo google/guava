@@ -44,6 +44,7 @@ import java.util.Set;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Unit tests for {@code LinkedHashMultimap}.
@@ -207,7 +208,7 @@ public class LinkedHashMultimapTest extends TestCase {
   }
 
   public void testToStringNullExact() {
-    Multimap<String, Integer> multimap = LinkedHashMultimap.create();
+    Multimap<@Nullable String, @Nullable Integer> multimap = LinkedHashMultimap.create();
 
     multimap.put("foo", 3);
     multimap.put("foo", -1);
@@ -287,7 +288,7 @@ public class LinkedHashMultimapTest extends TestCase {
         MODIFIABLE,
         newLinkedHashSet(asList(2, 3, 4, 7, 8)),
         IteratorTester.KnownOrder.KNOWN_ORDER) {
-      private Multimap<String, Integer> multimap;
+      private @Nullable Multimap<String, Integer> multimap;
 
       @Override
       protected Iterator<Integer> newTargetIterator() {
@@ -318,7 +319,7 @@ public class LinkedHashMultimapTest extends TestCase {
 
     new IteratorTester<Entry<String, Integer>>(
         6, MODIFIABLE, set, IteratorTester.KnownOrder.KNOWN_ORDER) {
-      private Multimap<String, Integer> multimap;
+      private @Nullable Multimap<String, Integer> multimap;
 
       @Override
       protected Iterator<Entry<String, Integer>> newTargetIterator() {
@@ -343,7 +344,7 @@ public class LinkedHashMultimapTest extends TestCase {
         MODIFIABLE,
         newArrayList("foo", "foo", "bar", "bar", "foo"),
         IteratorTester.KnownOrder.KNOWN_ORDER) {
-      private Multimap<String, Integer> multimap;
+      private @Nullable Multimap<String, Integer> multimap;
 
       @Override
       protected Iterator<String> newTargetIterator() {
@@ -365,7 +366,7 @@ public class LinkedHashMultimapTest extends TestCase {
   public void testValuesIteration() {
     new IteratorTester<Integer>(
         6, MODIFIABLE, newArrayList(2, 3, 4, 5, 6), IteratorTester.KnownOrder.KNOWN_ORDER) {
-      private Multimap<String, Integer> multimap;
+      private @Nullable Multimap<String, Integer> multimap;
 
       @Override
       protected Iterator<Integer> newTargetIterator() {
@@ -390,7 +391,7 @@ public class LinkedHashMultimapTest extends TestCase {
         MODIFIABLE,
         newLinkedHashSet(asList("foo", "bar", "baz", "dog", "cat")),
         IteratorTester.KnownOrder.KNOWN_ORDER) {
-      private Multimap<String, Integer> multimap;
+      private @Nullable Multimap<String, Integer> multimap;
 
       @Override
       protected Iterator<String> newTargetIterator() {
@@ -424,7 +425,7 @@ public class LinkedHashMultimapTest extends TestCase {
                 Maps.immutableEntry("cat", (Collection<Integer>) Sets.newHashSet(12, 13, 14))));
     new IteratorTester<Entry<String, Collection<Integer>>>(
         6, MODIFIABLE, set, IteratorTester.KnownOrder.KNOWN_ORDER) {
-      private Multimap<String, Integer> multimap;
+      private @Nullable Multimap<String, Integer> multimap;
 
       @Override
       protected Iterator<Entry<String, Collection<Integer>>> newTargetIterator() {

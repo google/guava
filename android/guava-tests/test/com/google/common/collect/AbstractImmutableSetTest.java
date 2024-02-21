@@ -34,6 +34,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Base class for {@link ImmutableSet} and {@link ImmutableSortedSet} tests.
@@ -139,9 +140,9 @@ public abstract class AbstractImmutableSetTest extends TestCase {
   }
 
   public void testCopyOf_arrayContainingOnlyNull() {
-    String[] array = new String[] {null};
+    @Nullable String[] array = new @Nullable String[] {null};
     try {
-      copyOf(array);
+      copyOf((String[]) array);
       fail();
     } catch (NullPointerException expected) {
     }
@@ -176,9 +177,9 @@ public abstract class AbstractImmutableSetTest extends TestCase {
   }
 
   public void testCopyOf_collectionContainingNull() {
-    Collection<String> c = MinimalCollection.of("a", null, "b");
+    Collection<@Nullable String> c = MinimalCollection.of("a", null, "b");
     try {
-      copyOf(c);
+      copyOf((Collection<String>) c);
       fail();
     } catch (NullPointerException expected) {
     }
@@ -226,9 +227,9 @@ public abstract class AbstractImmutableSetTest extends TestCase {
   }
 
   public void testCopyOf_iteratorContainingNull() {
-    Iterator<String> c = Iterators.forArray("a", null, "b");
+    Iterator<@Nullable String> c = Iterators.forArray("a", null, "b");
     try {
-      copyOf(c);
+      copyOf((Iterator<String>) c);
       fail();
     } catch (NullPointerException expected) {
     }
@@ -455,16 +456,16 @@ public abstract class AbstractImmutableSetTest extends TestCase {
     }
 
     builder = this.<String>builder();
-    List<String> listWithNulls = asList("a", null, "b");
+    List<@Nullable String> listWithNulls = asList("a", null, "b");
     try {
-      builder.addAll(listWithNulls);
+      builder.addAll((List<String>) listWithNulls);
       fail("expected NullPointerException"); // COV_NF_LINE
     } catch (NullPointerException expected) {
     }
 
-    Iterable<String> iterableWithNulls = MinimalIterable.of("a", null, "b");
+    Iterable<@Nullable String> iterableWithNulls = MinimalIterable.of("a", null, "b");
     try {
-      builder.addAll(iterableWithNulls);
+      builder.addAll((Iterable<String>) iterableWithNulls);
       fail("expected NullPointerException"); // COV_NF_LINE
     } catch (NullPointerException expected) {
     }

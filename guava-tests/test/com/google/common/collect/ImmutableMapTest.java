@@ -325,7 +325,7 @@ public class ImmutableMapTest extends TestCase {
   }
 
   private static class StringHolder {
-    String string;
+    @Nullable String string;
   }
 
   public void testBuilder_withMutableEntry() {
@@ -1168,15 +1168,15 @@ public class ImmutableMapTest extends TestCase {
   }
 
   public void testOfEntriesNull() {
-    Entry<Integer, Integer> nullKey = entry(null, 23);
+    Entry<@Nullable Integer, @Nullable Integer> nullKey = entry(null, 23);
     try {
-      ImmutableMap.ofEntries(nullKey);
+      ImmutableMap.ofEntries((Entry<Integer, Integer>) nullKey);
       fail();
     } catch (NullPointerException expected) {
     }
-    Entry<Integer, Integer> nullValue = entry(23, null);
+    Entry<@Nullable Integer, @Nullable Integer> nullValue = entry(23, null);
     try {
-      ImmutableMap.ofEntries(nullValue);
+      ImmutableMap.ofEntries((Entry<Integer, Integer>) nullValue);
       fail();
     } catch (NullPointerException expected) {
     }
@@ -1194,7 +1194,7 @@ public class ImmutableMapTest extends TestCase {
     return map;
   }
 
-  private static <T> Entry<T, T> entry(T key, T value) {
+  private static <T extends @Nullable Object> Entry<T, T> entry(T key, T value) {
     return new AbstractMap.SimpleImmutableEntry<>(key, value);
   }
 

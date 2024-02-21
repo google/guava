@@ -115,14 +115,14 @@ abstract class AbstractMapsTransformValuesTest extends MapInterfaceTest<String, 
   }
 
   public void testTransformEqualityOfMapsWithNullValues() {
-    Map<String, String> underlying = Maps.newHashMap();
+    Map<String, @Nullable String> underlying = Maps.newHashMap();
     underlying.put("a", null);
     underlying.put("b", "");
 
     Map<String, Boolean> map =
         Maps.transformValues(
             underlying,
-            new Function<String, Boolean>() {
+            new Function<@Nullable String, Boolean>() {
               @Override
               public Boolean apply(@Nullable String from) {
                 return from == null;

@@ -39,6 +39,7 @@ import java.util.Map.Entry;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Tests for {@link ImmutableListMultimap}.
@@ -106,7 +107,7 @@ public class ImmutableListMultimapTest extends TestCase {
   }
 
   private static class StringHolder {
-    String string;
+    @Nullable String string;
   }
 
   public void testBuilder_withMutableEntry() {
@@ -216,8 +217,8 @@ public class ImmutableListMultimapTest extends TestCase {
   }
 
   public void testBuilderPutNullKey() {
-    Multimap<String, Integer> toPut = LinkedListMultimap.create();
-    toPut.put("foo", null);
+    Multimap<@Nullable String, Integer> toPut = LinkedListMultimap.create();
+    toPut.put(null, 1);
     ImmutableListMultimap.Builder<String, Integer> builder = ImmutableListMultimap.builder();
     try {
       builder.put(null, 1);
@@ -235,15 +236,15 @@ public class ImmutableListMultimapTest extends TestCase {
     } catch (NullPointerException expected) {
     }
     try {
-      builder.putAll(toPut);
+      builder.putAll((Multimap<String, Integer>) toPut);
       fail();
     } catch (NullPointerException expected) {
     }
   }
 
   public void testBuilderPutNullValue() {
-    Multimap<String, Integer> toPut = LinkedListMultimap.create();
-    toPut.put(null, 1);
+    Multimap<String, @Nullable Integer> toPut = LinkedListMultimap.create();
+    toPut.put("foo", null);
     ImmutableListMultimap.Builder<String, Integer> builder = ImmutableListMultimap.builder();
     try {
       builder.put("foo", null);
@@ -261,7 +262,7 @@ public class ImmutableListMultimapTest extends TestCase {
     } catch (NullPointerException expected) {
     }
     try {
-      builder.putAll(toPut);
+      builder.putAll((Multimap<String, Integer>) toPut);
       fail();
     } catch (NullPointerException expected) {
     }
@@ -372,10 +373,10 @@ public class ImmutableListMultimapTest extends TestCase {
   }
 
   public void testCopyOfNullKey() {
-    ArrayListMultimap<String, Integer> input = ArrayListMultimap.create();
+    ArrayListMultimap<@Nullable String, Integer> input = ArrayListMultimap.create();
     input.put(null, 1);
     try {
-      ImmutableListMultimap.copyOf(input);
+      ImmutableListMultimap.copyOf((ArrayListMultimap<String, Integer>) input);
       fail();
     } catch (NullPointerException expected) {
     }

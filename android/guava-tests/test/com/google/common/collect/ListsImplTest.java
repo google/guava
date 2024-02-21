@@ -33,6 +33,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** Tests the package level *impl methods directly using various types of lists. */
 @GwtCompatible(emulated = true)
@@ -96,7 +97,7 @@ public class ListsImplTest extends TestCase {
     return resultSuite;
   }
 
-  private ListExample example;
+  private @Nullable ListExample example;
 
   private ListExample getExample() {
     // because sometimes one version with a null example is created.
@@ -142,7 +143,7 @@ public class ListsImplTest extends TestCase {
     assertThat(Lists.equalsImpl(base, copy)).isTrue();
     assertThat(Lists.equalsImpl(base, otherType)).isTrue();
 
-    List<Object> unEqualItems =
+    List<@Nullable Object> unEqualItems =
         Arrays.asList(outOfOrder, diffValue, diffLength, empty, null, new Object());
     for (Object other : unEqualItems) {
       assertWithMessage("%s", other).that(Lists.equalsImpl(base, other)).isFalse();

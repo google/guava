@@ -25,6 +25,7 @@ import com.google.common.collect.Table.Cell;
 import com.google.common.testing.CollectorTester;
 import com.google.common.testing.SerializableTester;
 import java.util.stream.Collector;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Tests common methods in {@link ImmutableTable}
@@ -108,7 +109,7 @@ public class ImmutableTableTest extends AbstractTableReadTest {
   }
 
   private static class StringHolder {
-    String string;
+    @Nullable String string;
   }
 
   public void testBuilder_withMutableCell() {

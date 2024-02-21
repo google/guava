@@ -224,14 +224,14 @@ public class MapsTransformValuesUnmodifiableIteratorTest extends MapInterfaceTes
   }
 
   public void testTransformEqualityOfMapsWithNullValues() {
-    Map<String, String> underlying = Maps.newHashMap();
+    Map<String, @Nullable String> underlying = Maps.newHashMap();
     underlying.put("a", null);
     underlying.put("b", "");
 
-    Map<String, Boolean> map =
+    Map<@Nullable String, Boolean> map =
         Maps.transformValues(
             underlying,
-            new Function<String, Boolean>() {
+            new Function<@Nullable String, Boolean>() {
               @Override
               public Boolean apply(@Nullable String from) {
                 return from == null;

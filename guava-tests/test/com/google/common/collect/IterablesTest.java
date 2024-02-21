@@ -48,6 +48,7 @@ import java.util.Set;
 import java.util.SortedSet;
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Unit test for {@code Iterables}.
@@ -104,7 +105,7 @@ public class IterablesTest extends TestCase {
   }
 
   public void test_contains_null_set_yes() {
-    Iterable<String> set = Sets.newHashSet("a", null, "b");
+    Iterable<@Nullable String> set = Sets.newHashSet("a", null, "b");
     assertTrue(Iterables.contains(set, null));
   }
 
@@ -124,7 +125,7 @@ public class IterablesTest extends TestCase {
   }
 
   public void test_contains_nonnull_set_yes() {
-    Iterable<String> set = Sets.newHashSet("a", null, "b");
+    Iterable<@Nullable String> set = Sets.newHashSet("a", null, "b");
     assertTrue(Iterables.contains(set, "b"));
   }
 
@@ -329,13 +330,13 @@ public class IterablesTest extends TestCase {
   }
 
   public void testPoorlyBehavedTransform() {
-    List<String> input = asList("1", null, "3");
+    List<@Nullable String> input = asList("1", null, "3");
     Iterable<Integer> result =
         Iterables.transform(
             input,
-            new Function<String, Integer>() {
+            new Function<@Nullable String, Integer>() {
               @Override
-              public Integer apply(String from) {
+              public Integer apply(@Nullable String from) {
                 return Integer.valueOf(from);
               }
             });
@@ -351,13 +352,13 @@ public class IterablesTest extends TestCase {
   }
 
   public void testNullFriendlyTransform() {
-    List<Integer> input = asList(1, 2, null, 3);
+    List<@Nullable Integer> input = asList(1, 2, null, 3);
     Iterable<String> result =
         Iterables.transform(
             input,
-            new Function<Integer, String>() {
+            new Function<@Nullable Integer, String>() {
               @Override
-              public String apply(Integer from) {
+              public String apply(@Nullable Integer from) {
                 return String.valueOf(from);
               }
             });

@@ -48,6 +48,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Unit test for {@link MinMaxPriorityQueue}.
@@ -510,7 +511,7 @@ public class MinMaxPriorityQueueTest extends TestCase {
             IteratorFeature.MODIFIABLE,
             Lists.newLinkedList(values),
             IteratorTester.KnownOrder.UNKNOWN_ORDER) {
-          private MinMaxPriorityQueue<T> mmHeap;
+          private @Nullable MinMaxPriorityQueue<T> mmHeap;
 
           @Override
           protected Iterator<T> newTargetIterator() {
@@ -946,7 +947,8 @@ public class MinMaxPriorityQueueTest extends TestCase {
     }
   }
 
-  private static void assertEqualsUsingSeed(long seed, Object expected, Object actual) {
+  private static void assertEqualsUsingSeed(
+      long seed, @Nullable Object expected, @Nullable Object actual) {
     if (!equal(actual, expected)) {
       // fail(), but with the JUnit-supplied message.
       assertEquals("Using seed " + seed, expected, actual);
@@ -954,7 +956,7 @@ public class MinMaxPriorityQueueTest extends TestCase {
   }
 
   private static void assertEqualsUsingStartedWith(
-      Collection<?> startedWith, Object expected, Object actual) {
+      Collection<?> startedWith, @Nullable Object expected, @Nullable Object actual) {
     if (!equal(actual, expected)) {
       // fail(), but with the JUnit-supplied message.
       assertEquals("Started with " + startedWith, expected, actual);

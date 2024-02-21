@@ -29,6 +29,7 @@ import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
 import java.util.Arrays;
 import java.util.Map;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Test cases for {@link ArrayTable}.
@@ -161,7 +162,7 @@ public class ArrayTableTest extends AbstractTableTest {
   @Override
   public void testRow() {
     table = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
-    Map<Integer, Character> expected = Maps.newHashMap();
+    Map<Integer, @Nullable Character> expected = Maps.newHashMap();
     expected.put(1, 'a');
     expected.put(3, 'c');
     expected.put(2, null);
@@ -171,7 +172,7 @@ public class ArrayTableTest extends AbstractTableTest {
   @Override
   public void testColumn() {
     table = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
-    Map<String, Character> expected = Maps.newHashMap();
+    Map<String, @Nullable Character> expected = Maps.newHashMap();
     expected.put("foo", 'a');
     expected.put("bar", 'b');
     expected.put("cat", null);

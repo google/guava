@@ -28,6 +28,7 @@ import com.google.common.testing.NullPointerTester;
 import java.util.Arrays;
 import java.util.Map.Entry;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Tests for {@link ImmutableMultimap}.
@@ -59,7 +60,7 @@ public class ImmutableMultimapTest extends TestCase {
   }
 
   private static class StringHolder {
-    String string;
+    @Nullable String string;
   }
 
   public void testBuilder_withMutableEntry() {

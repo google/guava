@@ -45,6 +45,7 @@ import java.util.Set;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Tests for {@link ImmutableMultiset}.
@@ -208,9 +209,9 @@ public class ImmutableMultisetTest extends TestCase {
   }
 
   public void testCreation_arrayContainingOnlyNull() {
-    String[] array = new String[] {null};
+    @Nullable String[] array = new @Nullable String[] {null};
     try {
-      ImmutableMultiset.copyOf(array);
+      ImmutableMultiset.copyOf((String[]) array);
       fail();
     } catch (NullPointerException expected) {
     }
@@ -236,9 +237,9 @@ public class ImmutableMultisetTest extends TestCase {
   }
 
   public void testCopyOf_collectionContainingNull() {
-    Collection<String> c = MinimalCollection.of("a", null, "b");
+    Collection<@Nullable String> c = MinimalCollection.of("a", null, "b");
     try {
-      ImmutableMultiset.copyOf(c);
+      ImmutableMultiset.copyOf((Collection<String>) c);
       fail();
     } catch (NullPointerException expected) {
     }
@@ -421,9 +422,9 @@ public class ImmutableMultisetTest extends TestCase {
     }
 
     builder = ImmutableMultiset.builder();
-    List<String> listWithNulls = asList("a", null, "b");
+    List<@Nullable String> listWithNulls = asList("a", null, "b");
     try {
-      builder.addAll(listWithNulls);
+      builder.addAll((List<String>) listWithNulls);
       fail("expected NullPointerException");
     } catch (NullPointerException expected) {
     }

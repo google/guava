@@ -46,6 +46,7 @@ import java.util.List;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Unit test for {@link ImmutableList}.
@@ -241,9 +242,9 @@ public class ImmutableListTest extends TestCase {
   }
 
   public void testCopyOf_arrayContainingOnlyNull() {
-    String[] array = new String[] {null};
+    @Nullable String[] array = new @Nullable String[] {null};
     try {
-      ImmutableList.copyOf(array);
+      ImmutableList.copyOf((String[]) array);
       fail();
     } catch (NullPointerException expected) {
     }
@@ -273,9 +274,9 @@ public class ImmutableListTest extends TestCase {
   }
 
   public void testCopyOf_collectionContainingNull() {
-    Collection<String> c = MinimalCollection.of("a", null, "b");
+    Collection<@Nullable String> c = MinimalCollection.of("a", null, "b");
     try {
-      ImmutableList.copyOf(c);
+      ImmutableList.copyOf((Collection<String>) c);
       fail();
     } catch (NullPointerException expected) {
     }
@@ -300,9 +301,10 @@ public class ImmutableListTest extends TestCase {
   }
 
   public void testCopyOf_iteratorContainingNull() {
-    Iterator<String> iterator = asList("a", null, "b").iterator();
+    Iterator<@Nullable String> iterator =
+        Arrays.<@Nullable String>asList("a", null, "b").iterator();
     try {
-      ImmutableList.copyOf(iterator);
+      ImmutableList.copyOf((Iterator<String>) iterator);
       fail();
     } catch (NullPointerException expected) {
     }
@@ -367,10 +369,10 @@ public class ImmutableListTest extends TestCase {
   }
 
   public void testBuilderAddArrayHandlesNulls() {
-    String[] elements = {"a", null, "b"};
+    @Nullable String[] elements = new @Nullable String[] {"a", null, "b"};
     ImmutableList.Builder<String> builder = ImmutableList.builder();
     try {
-      builder.add(elements);
+      builder.add((String[]) elements);
       fail("Expected NullPointerException");
     } catch (NullPointerException expected) {
     }
@@ -388,10 +390,10 @@ public class ImmutableListTest extends TestCase {
   }
 
   public void testBuilderAddCollectionHandlesNulls() {
-    List<String> elements = Arrays.asList("a", null, "b");
+    List<@Nullable String> elements = Arrays.asList("a", null, "b");
     ImmutableList.Builder<String> builder = ImmutableList.builder();
     try {
-      builder.addAll(elements);
+      builder.addAll((List<String>) elements);
       fail("Expected NullPointerException");
     } catch (NullPointerException expected) {
     }
@@ -419,9 +421,9 @@ public class ImmutableListTest extends TestCase {
   }
 
   public void testSortedCopyOf_natural_containsNull() {
-    Collection<Integer> c = MinimalCollection.of(1, 3, null, 2);
+    Collection<@Nullable Integer> c = MinimalCollection.of(1, 3, null, 2);
     try {
-      ImmutableList.sortedCopyOf(c);
+      ImmutableList.sortedCopyOf((Collection<Integer>) c);
       fail("Expected NPE");
     } catch (NullPointerException expected) {
     }
@@ -446,9 +448,9 @@ public class ImmutableListTest extends TestCase {
   }
 
   public void testSortedCopyOf_containsNull() {
-    Collection<String> c = MinimalCollection.of("a", "b", "A", null, "c");
+    Collection<@Nullable String> c = MinimalCollection.of("a", "b", "A", null, "c");
     try {
-      ImmutableList.sortedCopyOf(String.CASE_INSENSITIVE_ORDER, c);
+      ImmutableList.sortedCopyOf(String.CASE_INSENSITIVE_ORDER, (Collection<String>) c);
       fail("Expected NPE");
     } catch (NullPointerException expected) {
     }
@@ -625,9 +627,9 @@ public class ImmutableListTest extends TestCase {
     }
 
     builder = ImmutableList.builder();
-    List<String> listWithNulls = asList("a", null, "b");
+    List<@Nullable String> listWithNulls = asList("a", null, "b");
     try {
-      builder.addAll(listWithNulls);
+      builder.addAll((List<String>) listWithNulls);
       fail("expected NullPointerException");
     } catch (NullPointerException expected) {
     }
@@ -640,9 +642,9 @@ public class ImmutableListTest extends TestCase {
     } catch (NullPointerException expected) {
     }
 
-    Iterable<String> iterableWithNulls = MinimalIterable.of("a", null, "b");
+    Iterable<@Nullable String> iterableWithNulls = MinimalIterable.of("a", null, "b");
     try {
-      builder.addAll(iterableWithNulls);
+      builder.addAll((Iterable<String>) iterableWithNulls);
       fail("expected NullPointerException");
     } catch (NullPointerException expected) {
     }
