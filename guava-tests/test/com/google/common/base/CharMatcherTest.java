@@ -735,7 +735,7 @@ public class CharMatcherTest extends TestCase {
       positive.add(c);
     }
     for (int c = 0; c <= Character.MAX_VALUE; c++) {
-      assertFalse(positive.contains(new Character((char) c)) ^ m.matches((char) c));
+      assertFalse(positive.contains(Character.valueOf((char) c)) ^ m.matches((char) c));
     }
   }
 

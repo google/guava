@@ -194,7 +194,7 @@ public class MoreObjectsTest extends TestCase {
   @GwtIncompatible // Class names are obfuscated in GWT
   public void testToString_oneIntegerField() {
     String toTest =
-        MoreObjects.toStringHelper(new TestClass()).add("field1", new Integer(42)).toString();
+        MoreObjects.toStringHelper(new TestClass()).add("field1", Integer.valueOf(42)).toString();
     assertEquals("TestClass{field1=42}", toTest);
   }
 
@@ -212,7 +212,7 @@ public class MoreObjectsTest extends TestCase {
 
   public void testToStringLenient_oneIntegerField() {
     String toTest =
-        MoreObjects.toStringHelper(new TestClass()).add("field1", new Integer(42)).toString();
+        MoreObjects.toStringHelper(new TestClass()).add("field1", Integer.valueOf(42)).toString();
     assertTrue(toTest, toTest.matches(".*\\{field1\\=42\\}"));
   }
 

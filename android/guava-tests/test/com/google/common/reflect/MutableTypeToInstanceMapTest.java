@@ -84,13 +84,13 @@ public class MutableTypeToInstanceMapTest extends TestCase {
   public void testPutThrows() {
     assertThrows(
         UnsupportedOperationException.class,
-        () -> map.put(TypeToken.of(Integer.class), new Integer(5)));
+        () -> map.put(TypeToken.of(Integer.class), Integer.valueOf(5)));
   }
 
   public void testPutAllThrows() {
     assertThrows(
         UnsupportedOperationException.class,
-        () -> map.putAll(ImmutableMap.of(TypeToken.of(Integer.class), new Integer(5))));
+        () -> map.putAll(ImmutableMap.of(TypeToken.of(Integer.class), Integer.valueOf(5))));
   }
 
   public void testEntrySetMutationThrows() {
@@ -120,9 +120,9 @@ public class MutableTypeToInstanceMapTest extends TestCase {
   }
 
   public void testPutAndGetInstance() {
-    assertNull(map.putInstance(Integer.class, new Integer(5)));
+    assertNull(map.putInstance(Integer.class, Integer.valueOf(5)));
 
-    Integer oldValue = map.putInstance(Integer.class, new Integer(7));
+    Integer oldValue = map.putInstance(Integer.class, Integer.valueOf(7));
     assertEquals(5, (int) oldValue);
 
     Integer newValue = map.getInstance(Integer.class);
@@ -134,7 +134,7 @@ public class MutableTypeToInstanceMapTest extends TestCase {
 
   public void testNull() {
     assertThrows(
-        NullPointerException.class, () -> map.putInstance((TypeToken) null, new Integer(1)));
+        NullPointerException.class, () -> map.putInstance((TypeToken) null, Integer.valueOf(1)));
     map.putInstance(Integer.class, null);
     assertTrue(map.containsKey(TypeToken.of(Integer.class)));
     assertTrue(map.entrySet().contains(immutableEntry(TypeToken.of(Integer.class), null)));
