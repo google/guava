@@ -190,7 +190,6 @@ public final class Maps {
    * java.util.function.Function) Collectors.toMap(Function, Function)}, which throws an {@code
    * IllegalStateException}.)
    */
-  @J2ktIncompatible
   @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
   static <T extends @Nullable Object, K extends Enum<K>, V>
@@ -209,7 +208,6 @@ public final class Maps {
    * <p>If the mapped keys contain duplicates, the values are merged using the specified merging
    * function.
    */
-  @J2ktIncompatible
   @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
   static <T extends @Nullable Object, K extends Enum<K>, V>

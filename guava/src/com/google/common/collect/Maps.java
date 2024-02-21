@@ -197,7 +197,6 @@ public final class Maps {
    *
    * @since 21.0
    */
-  @J2ktIncompatible
   public static <T extends @Nullable Object, K extends Enum<K>, V>
       Collector<T, ?, ImmutableMap<K, V>> toImmutableEnumMap(
           java.util.function.Function<? super T, ? extends K> keyFunction,
@@ -216,7 +215,6 @@ public final class Maps {
    *
    * @since 21.0
    */
-  @J2ktIncompatible
   public static <T extends @Nullable Object, K extends Enum<K>, V>
       Collector<T, ?, ImmutableMap<K, V>> toImmutableEnumMap(
           java.util.function.Function<? super T, ? extends K> keyFunction,
