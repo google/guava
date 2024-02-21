@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Creates map entries using sample keys and sample values.
@@ -28,7 +29,10 @@ import java.util.Set;
  * @author Jesse Wilson
  */
 @GwtCompatible
-public abstract class TestMapEntrySetGenerator<K, V> implements TestSetGenerator<Map.Entry<K, V>> {
+@ElementTypesAreNonnullByDefault
+public abstract class TestMapEntrySetGenerator<
+        K extends @Nullable Object, V extends @Nullable Object>
+    implements TestSetGenerator<Map.Entry<K, V>> {
   private final SampleElements<K> keys;
   private final SampleElements<V> values;
 

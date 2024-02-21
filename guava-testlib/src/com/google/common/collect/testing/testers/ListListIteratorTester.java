@@ -26,6 +26,7 @@ import static java.util.Collections.singleton;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.IteratorFeature;
 import com.google.common.collect.testing.ListIteratorTester;
@@ -36,6 +37,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.junit.Ignore;
 
 /**
@@ -47,7 +49,8 @@ import org.junit.Ignore;
  */
 @GwtCompatible(emulated = true)
 @Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
-public class ListListIteratorTester<E> extends AbstractListTester<E> {
+@ElementTypesAreNonnullByDefault
+public class ListListIteratorTester<E extends @Nullable Object> extends AbstractListTester<E> {
   @CollectionFeature.Require(absent = SUPPORTS_REMOVE)
   @ListFeature.Require(absent = {SUPPORTS_SET, SUPPORTS_ADD_WITH_INDEX})
   public void testListIterator_unmodifiable() {
@@ -111,6 +114,7 @@ public class ListListIteratorTester<E> extends AbstractListTester<E> {
    * FeatureSpecificTestSuiteBuilder.suppressing()} until <a
    * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6570575">Sun bug 6570575</a> is fixed.
    */
+  @J2ktIncompatible
   @GwtIncompatible // reflection
   public static Method getListIteratorFullyModifiableMethod() {
     return Helpers.getMethod(ListListIteratorTester.class, "testListIterator_fullyModifiable");
@@ -120,6 +124,7 @@ public class ListListIteratorTester<E> extends AbstractListTester<E> {
    * Returns the {@link Method} instance for {@link #testListIterator_unmodifiable()} so that it can
    * be suppressed in GWT tests.
    */
+  @J2ktIncompatible
   @GwtIncompatible // reflection
   public static Method getListIteratorUnmodifiableMethod() {
     return Helpers.getMethod(ListListIteratorTester.class, "testListIterator_unmodifiable");

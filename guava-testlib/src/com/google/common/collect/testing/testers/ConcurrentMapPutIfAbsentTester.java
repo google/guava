@@ -39,6 +39,7 @@ import org.junit.Ignore;
  */
 @GwtCompatible
 @Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
+@ElementTypesAreNonnullByDefault
 public class ConcurrentMapPutIfAbsentTester<K, V> extends AbstractMapTester<K, V> {
   @Override
   protected ConcurrentMap<K, V> getMap() {

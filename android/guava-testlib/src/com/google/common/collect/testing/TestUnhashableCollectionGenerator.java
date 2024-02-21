@@ -27,6 +27,7 @@ import java.util.List;
  * @author Regina O'Dell
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public abstract class TestUnhashableCollectionGenerator<T extends Collection<UnhashableObject>>
     implements TestCollectionGenerator<UnhashableObject> {
   @Override

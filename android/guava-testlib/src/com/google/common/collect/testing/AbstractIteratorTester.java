@@ -42,7 +42,8 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Chris Povirk
  */
 @GwtCompatible
-abstract class AbstractIteratorTester<E, I extends Iterator<E>> {
+@ElementTypesAreNonnullByDefault
+abstract class AbstractIteratorTester<E extends @Nullable Object, I extends Iterator<E>> {
   private Stimulus<E, ? super I>[] stimuli;
   private final Iterator<E> elementsToInsert;
   private final Set<IteratorFeature> features;
@@ -461,7 +462,7 @@ abstract class AbstractIteratorTester<E, I extends Iterator<E>> {
   private static final IteratorOperation NEXT_METHOD =
       new IteratorOperation() {
         @Override
-        public Object execute(Iterator<?> iterator) {
+        public @Nullable Object execute(Iterator<?> iterator) {
           return iterator.next();
         }
       };
@@ -469,7 +470,7 @@ abstract class AbstractIteratorTester<E, I extends Iterator<E>> {
   private static final IteratorOperation PREVIOUS_METHOD =
       new IteratorOperation() {
         @Override
-        public Object execute(Iterator<?> iterator) {
+        public @Nullable Object execute(Iterator<?> iterator) {
           return ((ListIterator<?>) iterator).previous();
         }
       };
@@ -500,7 +501,7 @@ abstract class AbstractIteratorTester<E, I extends Iterator<E>> {
     };
   }
 
-  abstract static class Stimulus<E, T extends Iterator<E>> {
+  abstract static class Stimulus<E extends @Nullable Object, T extends Iterator<E>> {
     private final String toString;
 
     protected Stimulus(String toString) {

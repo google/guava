@@ -32,6 +32,7 @@ import java.util.Map.Entry;
  * @author Louis Wasserman
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public abstract class TestStringBiMapGenerator implements TestBiMapGenerator<String, String> {
 
   @Override

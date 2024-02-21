@@ -29,6 +29,7 @@ import java.util.Map.Entry;
  * @author George van den Driessche
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public abstract class TestStringMapGenerator implements TestMapGenerator<String, String> {
 
   @Override

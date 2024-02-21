@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Generator for collection of a particular size.
@@ -29,7 +30,9 @@ import java.util.List;
  * @author George van den Driessche
  */
 @GwtCompatible
-public final class OneSizeGenerator<T, E> implements OneSizeTestContainerGenerator<T, E> {
+@ElementTypesAreNonnullByDefault
+public final class OneSizeGenerator<T, E extends @Nullable Object>
+    implements OneSizeTestContainerGenerator<T, E> {
   private final TestContainerGenerator<T, E> generator;
   private final CollectionSize collectionSize;
 

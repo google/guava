@@ -28,6 +28,7 @@ import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
 import java.util.Collection;
 import java.util.Map.Entry;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.junit.Ignore;
 
 /**
@@ -37,7 +38,9 @@ import org.junit.Ignore;
  */
 @GwtCompatible
 @Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
-public class MultimapSizeTester<K, V> extends AbstractMultimapTester<K, V, Multimap<K, V>> {
+@ElementTypesAreNonnullByDefault
+public class MultimapSizeTester<K extends @Nullable Object, V extends @Nullable Object>
+    extends AbstractMultimapTester<K, V, Multimap<K, V>> {
 
   public void testSize() {
     int expectedSize = getNumElements();

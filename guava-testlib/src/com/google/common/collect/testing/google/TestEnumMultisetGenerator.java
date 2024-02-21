@@ -30,6 +30,7 @@ import java.util.List;
  * @author Jared Levy
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public abstract class TestEnumMultisetGenerator implements TestMultisetGenerator<AnEnum> {
   @Override
   public SampleElements<AnEnum> samples() {

@@ -24,6 +24,7 @@ import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.testing.AbstractCollectionTester;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.features.CollectionFeature;
@@ -111,6 +112,7 @@ public class CollectionAddTester<E> extends AbstractCollectionTester<E> {
    * will be to permit them, as it seems more likely that code would depend on that behavior than on
    * the other. Thus, we say the bug is in add(), which fails to support null.
    */
+  @J2ktIncompatible
   @GwtIncompatible // reflection
   public static Method getAddNullSupportedMethod() {
     return Helpers.getMethod(CollectionAddTester.class, "testAdd_nullSupported");
@@ -122,6 +124,7 @@ public class CollectionAddTester<E> extends AbstractCollectionTester<E> {
    * FeatureSpecificTestSuiteBuilder.suppressing()} until <a
    * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=5045147">Sun bug 5045147</a> is fixed.
    */
+  @J2ktIncompatible
   @GwtIncompatible // reflection
   public static Method getAddNullUnsupportedMethod() {
     return Helpers.getMethod(CollectionAddTester.class, "testAdd_nullUnsupported");
@@ -133,6 +136,7 @@ public class CollectionAddTester<E> extends AbstractCollectionTester<E> {
    * what to do with <a href="http://goo.gl/qJBruX">{@code ConcurrentHashMap} support for {@code
    * entrySet().add()}</a>.
    */
+  @J2ktIncompatible
   @GwtIncompatible // reflection
   public static Method getAddUnsupportedNotPresentMethod() {
     return Helpers.getMethod(CollectionAddTester.class, "testAdd_unsupportedNotPresent");

@@ -22,6 +22,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -32,20 +33,21 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Regina O'Dell
  */
 @GwtCompatible
-public class MinimalSet<E> extends MinimalCollection<E> implements Set<E> {
+@ElementTypesAreNonnullByDefault
+public class MinimalSet<E extends @Nullable Object> extends MinimalCollection<E> implements Set<E> {
 
   @SuppressWarnings("unchecked") // empty Object[] as E[]
-  public static <E> MinimalSet<E> of(E... contents) {
+  public static <E extends @Nullable Object> MinimalSet<E> of(E... contents) {
     return ofClassAndContents(Object.class, (E[]) new Object[0], Arrays.asList(contents));
   }
 
   @SuppressWarnings("unchecked") // empty Object[] as E[]
-  public static <E> MinimalSet<E> from(Collection<? extends E> contents) {
+  public static <E extends @Nullable Object> MinimalSet<E> from(Collection<? extends E> contents) {
     return ofClassAndContents(Object.class, (E[]) new Object[0], contents);
   }
 
-  public static <E> MinimalSet<E> ofClassAndContents(
-      Class<? super E> type, E[] emptyArrayForContents, Iterable<? extends E> contents) {
+  public static <E extends @Nullable Object> MinimalSet<E> ofClassAndContents(
+      Class<? super @NonNull E> type, E[] emptyArrayForContents, Iterable<? extends E> contents) {
     List<E> setContents = new ArrayList<>();
     for (E e : contents) {
       if (!setContents.contains(e)) {
@@ -55,7 +57,7 @@ public class MinimalSet<E> extends MinimalCollection<E> implements Set<E> {
     return new MinimalSet<>(type, setContents.toArray(emptyArrayForContents));
   }
 
-  private MinimalSet(Class<? super E> type, E... contents) {
+  private MinimalSet(Class<? super @NonNull E> type, E... contents) {
     super(type, true, contents);
   }
 

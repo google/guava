@@ -37,6 +37,7 @@ import java.util.List;
  * @author Hayward Chan
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public final class ListGenerators {
 
   private ListGenerators() {}
