@@ -934,6 +934,7 @@ public class ListsTest extends TestCase {
     assertEquals(asList(3), partitions.get(1));
   }
 
+  @J2ktIncompatible // Arrays.asList(...).subList() doesn't implement RandomAccess in J2KT.
   @GwtIncompatible // ArrayList.subList doesn't implement RandomAccess in GWT.
   public void testPartitionRandomAccessTrue() {
     List<Integer> source = asList(1, 2, 3);

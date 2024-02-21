@@ -1034,8 +1034,8 @@ public class IteratorsTest extends TestCase {
     assertEquals(ImmutableList.of(3), first);
   }
 
-  @GwtIncompatible // ?
-  // TODO: Figure out why this is failing in GWT.
+  @J2ktIncompatible // Arrays.asList(...).subList() doesn't implement RandomAccess in J2KT.
+  @GwtIncompatible // Arrays.asList(...).subList() doesn't implement RandomAccess in GWT
   public void testPartitionRandomAccess() {
     Iterator<Integer> source = asList(1, 2, 3).iterator();
     Iterator<List<Integer>> partitions = Iterators.partition(source, 2);
