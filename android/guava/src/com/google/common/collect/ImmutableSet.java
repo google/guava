@@ -259,6 +259,11 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    * @throws NullPointerException if any of {@code elements} is null
    * @since 7.0 (source-compatible since 2.0)
    */
+  // This the best we could do to get copyOfEnumSet to compile in the mainline.
+  // The suppression also covers the cast to E[], discussed below.
+  // In the backport, we don't have those cases and thus don't need this suppression.
+  // We keep it to minimize diffs.
+  @SuppressWarnings("unchecked")
   public static <E> ImmutableSet<E> copyOf(Collection<? extends E> elements) {
     /*
      * TODO(lowasser): consider checking for ImmutableAsList here

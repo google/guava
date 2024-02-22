@@ -112,9 +112,9 @@ public final class ImmutableSortedMap<K, V> extends ImmutableMap<K, V>
    * TODO(kevinb): Confirm that ImmutableSortedMap is faster to construct and
    * uses less memory than TreeMap; then say so in the class Javadoc.
    */
-  private static final Comparator<Comparable> NATURAL_ORDER = Ordering.natural();
+  private static final Comparator<?> NATURAL_ORDER = Ordering.natural();
 
-  private static final ImmutableSortedMap<Comparable, Object> NATURAL_EMPTY_MAP =
+  private static final ImmutableSortedMap<Comparable<?>, Object> NATURAL_EMPTY_MAP =
       new ImmutableSortedMap<>(
           ImmutableSortedSet.emptySet(Ordering.natural()), ImmutableList.<Object>of());
 
@@ -157,7 +157,6 @@ public final class ImmutableSortedMap<K, V> extends ImmutableMap<K, V>
    *
    * @throws IllegalArgumentException if the two keys are equal according to their natural ordering
    */
-  @SuppressWarnings("unchecked")
   public static <K extends Comparable<? super K>, V> ImmutableSortedMap<K, V> of(
       K k1, V v1, K k2, V v2) {
     return fromEntries(entryOf(k1, v1), entryOf(k2, v2));
@@ -241,7 +240,6 @@ public final class ImmutableSortedMap<K, V> extends ImmutableMap<K, V>
    * @throws IllegalArgumentException if any two keys are equal according to their natural ordering
    * @since 31.0
    */
-  @SuppressWarnings("unchecked")
   public static <K extends Comparable<? super K>, V> ImmutableSortedMap<K, V> of(
       K k1,
       V v1,

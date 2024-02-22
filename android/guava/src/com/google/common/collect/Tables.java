@@ -314,21 +314,16 @@ public final class Tables {
       return original.values();
     }
 
-    // Will cast TRANSPOSE_CELL to a type that always succeeds
-    private static final Function TRANSPOSE_CELL =
-        new Function<Cell<?, ?, ?>, Cell<?, ?, ?>>() {
-          @Override
-          public Cell<?, ?, ?> apply(Cell<?, ?, ?> cell) {
-            return immutableCell(cell.getColumnKey(), cell.getRowKey(), cell.getValue());
-          }
-        };
-
-    @SuppressWarnings("unchecked")
     @Override
     Iterator<Cell<C, R, V>> cellIterator() {
-      return Iterators.transform(
-          original.cellSet().iterator(), (Function<Cell<R, C, V>, Cell<C, R, V>>) TRANSPOSE_CELL);
+      return Iterators.transform(original.cellSet().iterator(), Tables::transposeCell);
     }
+  }
+
+  private static <
+          R extends @Nullable Object, C extends @Nullable Object, V extends @Nullable Object>
+      Cell<C, R, V> transposeCell(Cell<R, C, V> cell) {
+    return immutableCell(cell.getColumnKey(), cell.getRowKey(), cell.getValue());
   }
 
   /**

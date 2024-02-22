@@ -75,6 +75,7 @@ public final class TreeMultiset<E extends @Nullable Object> extends AbstractSort
    * <p>The type specification is {@code <E extends Comparable>}, instead of the more specific
    * {@code <E extends Comparable<? super E>>}, to support classes defined without generics.
    */
+  @SuppressWarnings("rawtypes") // https://github.com/google/guava/issues/989
   public static <E extends Comparable> TreeMultiset<E> create() {
     return new TreeMultiset<E>(Ordering.natural());
   }
@@ -107,6 +108,7 @@ public final class TreeMultiset<E extends @Nullable Object> extends AbstractSort
    * <p>The type specification is {@code <E extends Comparable>}, instead of the more specific
    * {@code <E extends Comparable<? super E>>}, to support classes defined without generics.
    */
+  @SuppressWarnings("rawtypes") // https://github.com/google/guava/issues/989
   public static <E extends Comparable> TreeMultiset<E> create(Iterable<? extends E> elements) {
     TreeMultiset<E> multiset = create();
     Iterables.addAll(multiset, elements);

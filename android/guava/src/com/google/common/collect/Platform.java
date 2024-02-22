@@ -102,7 +102,11 @@ final class Platform {
    *
    * - https://github.com/jspecify/jdk/commit/71d826792b8c7ef95d492c50a274deab938f2552
    */
-  @SuppressWarnings("nullness")
+  /*
+   * TODO(cpovirk): Is the unchecked cast avoidable? Would System.arraycopy be similarly fast (if
+   * likewise not type-checked)? Could our single caller do something different?
+   */
+  @SuppressWarnings({"nullness", "unchecked"})
   static <T extends @Nullable Object> T[] copy(Object[] source, int from, int to, T[] arrayOfType) {
     return Arrays.copyOfRange(source, from, to, (Class<? extends T[]>) arrayOfType.getClass());
   }

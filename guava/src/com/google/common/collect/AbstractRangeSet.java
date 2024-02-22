@@ -22,6 +22,7 @@ import javax.annotation.CheckForNull;
  *
  * @author Louis Wasserman
  */
+@SuppressWarnings("rawtypes") // https://github.com/google/guava/issues/989
 @GwtIncompatible
 @ElementTypesAreNonnullByDefault
 abstract class AbstractRangeSet<C extends Comparable> implements RangeSet<C> {

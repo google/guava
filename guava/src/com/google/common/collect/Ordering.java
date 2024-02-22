@@ -160,7 +160,9 @@ public abstract class Ordering<T extends @Nullable Object> implements Comparator
    * <p><b>Java 8+ users:</b> use {@link Comparator#naturalOrder} instead.
    */
   @GwtCompatible(serializable = true)
-  @SuppressWarnings("unchecked") // TODO(kevinb): right way to explain this??
+  @SuppressWarnings({"unchecked", "rawtypes"})
+  // TODO(kevinb): right way to explain this??
+  // plus https://github.com/google/guava/issues/989
   public static <C extends Comparable> Ordering<C> natural() {
     return (Ordering<C>) NaturalOrdering.INSTANCE;
   }

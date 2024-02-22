@@ -81,6 +81,7 @@ public class TreeMultimap<K extends @Nullable Object, V extends @Nullable Object
   /**
    * Creates an empty {@code TreeMultimap} ordered by the natural ordering of its keys and values.
    */
+  @SuppressWarnings("rawtypes") // https://github.com/google/guava/issues/989
   public static <K extends Comparable, V extends Comparable> TreeMultimap<K, V> create() {
     return new TreeMultimap<>(Ordering.natural(), Ordering.natural());
   }
@@ -103,6 +104,7 @@ public class TreeMultimap<K extends @Nullable Object, V extends @Nullable Object
    *
    * @param multimap the multimap whose contents are copied to this multimap
    */
+  @SuppressWarnings("rawtypes") // https://github.com/google/guava/issues/989
   public static <K extends Comparable, V extends Comparable> TreeMultimap<K, V> create(
       Multimap<? extends K, ? extends V> multimap) {
     return new TreeMultimap<>(Ordering.natural(), Ordering.natural(), multimap);

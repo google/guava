@@ -375,6 +375,7 @@ public final class Maps {
    *
    * @return a new, empty {@code TreeMap}
    */
+  @SuppressWarnings("rawtypes") // https://github.com/google/guava/issues/989
   public static <K extends Comparable, V extends @Nullable Object> TreeMap<K, V> newTreeMap() {
     return new TreeMap<>();
   }

@@ -36,7 +36,7 @@ import javax.annotation.CheckForNull;
 final class RegularImmutableSortedMultiset<E> extends ImmutableSortedMultiset<E> {
   private static final long[] ZERO_CUMULATIVE_COUNTS = {0};
 
-  static final ImmutableSortedMultiset<Comparable> NATURAL_EMPTY_MULTISET =
+  static final ImmutableSortedMultiset<?> NATURAL_EMPTY_MULTISET =
       new RegularImmutableSortedMultiset<>(Ordering.natural());
 
   @VisibleForTesting final transient RegularImmutableSortedSet<E> elementSet;

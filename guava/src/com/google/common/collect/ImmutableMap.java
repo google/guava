@@ -722,6 +722,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
 
   private static <K extends Enum<K>, V> ImmutableMap<K, ? extends V> copyOfEnumMap(
       EnumMap<?, ? extends V> original) {
+    @SuppressWarnings("unchecked") // the best we could do to make copyOf(Map) compile
     EnumMap<K, V> copy = new EnumMap<>((EnumMap<K, ? extends V>) original);
     for (Entry<K, V> entry : copy.entrySet()) {
       checkEntryNotNull(entry.getKey(), entry.getValue());

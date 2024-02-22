@@ -76,6 +76,9 @@ final class RegularImmutableSet<E> extends ImmutableSet<E> {
     return size;
   }
 
+  // We're careful to put only E instances into the array in the mainline.
+  // (In the backport, we don't need this suppression, but we keep it to minimize diffs.)
+  @SuppressWarnings("unchecked")
   @Override
   public UnmodifiableIterator<E> iterator() {
     return asList().iterator();
