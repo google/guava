@@ -333,6 +333,7 @@ public final class UnsignedBytes {
        *
        * @return a sun.misc.Unsafe
        */
+      @SuppressWarnings("removal") // b/318391980
       private static sun.misc.Unsafe getUnsafe() {
         try {
           return sun.misc.Unsafe.getUnsafe();

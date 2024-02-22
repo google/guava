@@ -169,6 +169,7 @@ final class LittleEndianByteArray {
      *
      * @return an Unsafe instance if successful
      */
+    @SuppressWarnings("removal") // b/318391980
     private static Unsafe getUnsafe() {
       try {
         return Unsafe.getUnsafe();
