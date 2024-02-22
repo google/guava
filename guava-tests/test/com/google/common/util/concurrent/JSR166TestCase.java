@@ -500,12 +500,12 @@ abstract class JSR166TestCase extends TestCase {
   }
 
   /** Checks that future.get times out, with the default timeout of {@code timeoutMillis()}. */
-  void assertFutureTimesOut(Future future) {
+  void assertFutureTimesOut(Future<?> future) {
     assertFutureTimesOut(future, timeoutMillis());
   }
 
   /** Checks that future.get times out, with the given millisecond timeout. */
-  void assertFutureTimesOut(Future future, long timeoutMillis) {
+  void assertFutureTimesOut(Future<?> future, long timeoutMillis) {
     long startTime = System.nanoTime();
     try {
       future.get(timeoutMillis, MILLISECONDS);
@@ -831,7 +831,7 @@ abstract class JSR166TestCase extends TestCase {
     public void run() {}
   }
 
-  public static class NoOpCallable implements Callable {
+  public static class NoOpCallable implements Callable<Object> {
     @Override
     public Object call() {
       return Boolean.TRUE;
@@ -949,7 +949,7 @@ abstract class JSR166TestCase extends TestCase {
     }
   }
 
-  public class SmallCallable extends CheckedCallable {
+  public class SmallCallable extends CheckedCallable<Object> {
     @Override
     protected Object realCall() throws InterruptedException {
       delay(SMALL_DELAY_MS);
@@ -1096,7 +1096,7 @@ abstract class JSR166TestCase extends TestCase {
     }
   }
 
-  public static class TrackedCallable implements Callable {
+  public static class TrackedCallable implements Callable<Object> {
     public volatile boolean done = false;
 
     @Override
@@ -1170,7 +1170,7 @@ abstract class JSR166TestCase extends TestCase {
     }
   }
 
-  void checkEmpty(BlockingQueue q) {
+  void checkEmpty(BlockingQueue<?> q) {
     try {
       assertTrue(q.isEmpty());
       assertEquals(0, q.size());

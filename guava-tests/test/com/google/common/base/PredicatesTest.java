@@ -300,9 +300,9 @@ public class PredicatesTest extends TestCase {
     checkSerialization(Predicates.and(Arrays.asList(TRUE, FALSE)));
   }
 
-  @SuppressWarnings("unchecked") // varargs
   public void testAnd_arrayDefensivelyCopied() {
-    Predicate[] array = {Predicates.alwaysFalse()};
+    @SuppressWarnings("unchecked") // generic arrays
+    Predicate<Object>[] array = (Predicate<Object>[]) new Predicate<?>[] {Predicates.alwaysFalse()};
     Predicate<Object> predicate = Predicates.and(array);
     assertFalse(predicate.apply(1));
     array[0] = Predicates.alwaysTrue();
@@ -457,9 +457,9 @@ public class PredicatesTest extends TestCase {
     assertEquals(pre.apply(0), post.apply(0));
   }
 
-  @SuppressWarnings("unchecked") // varargs
   public void testOr_arrayDefensivelyCopied() {
-    Predicate[] array = {Predicates.alwaysFalse()};
+    @SuppressWarnings("unchecked") // generic arrays
+    Predicate<Object>[] array = (Predicate<Object>[]) new Predicate<?>[] {Predicates.alwaysFalse()};
     Predicate<Object> predicate = Predicates.or(array);
     assertFalse(predicate.apply(1));
     array[0] = Predicates.alwaysTrue();

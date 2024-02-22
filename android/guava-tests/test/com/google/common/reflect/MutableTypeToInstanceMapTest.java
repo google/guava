@@ -51,7 +51,7 @@ public class MutableTypeToInstanceMapTest extends TestCase {
                   // Other tests will verify what real, warning-free usage looks like
                   // but here we have to do some serious fudging
                   @Override
-                  @SuppressWarnings("unchecked")
+                  @SuppressWarnings({"unchecked", "rawtypes"})
                   public Map<TypeToken, Object> create(Object... elements) {
                     MutableTypeToInstanceMap<Object> map = new MutableTypeToInstanceMap<>();
                     for (Object object : elements) {
@@ -104,7 +104,7 @@ public class MutableTypeToInstanceMapTest extends TestCase {
   public void testEntrySetToArrayMutationThrows() {
     map.putInstance(String.class, "test");
     @SuppressWarnings("unchecked") // Should get a CCE later if cast is wrong
-    Entry<Object, Object> entry = (Entry<Object, Object>) map.entrySet().toArray()[0];
+    Entry<?, Object> entry = (Entry<?, Object>) map.entrySet().toArray()[0];
     assertEquals(TypeToken.of(String.class), entry.getKey());
     assertEquals("test", entry.getValue());
     assertThrows(UnsupportedOperationException.class, () -> entry.setValue(1));
@@ -113,7 +113,7 @@ public class MutableTypeToInstanceMapTest extends TestCase {
   public void testEntrySetToTypedArrayMutationThrows() {
     map.putInstance(String.class, "test");
     @SuppressWarnings("unchecked") // Should get a CCE later if cast is wrong
-    Entry<Object, Object> entry = map.entrySet().toArray(new Entry[0])[0];
+    Entry<?, Object> entry = (Entry<?, Object>) map.entrySet().toArray(new Entry<?, ?>[0])[0];
     assertEquals(TypeToken.of(String.class), entry.getKey());
     assertEquals("test", entry.getValue());
     assertThrows(UnsupportedOperationException.class, () -> entry.setValue(1));
@@ -134,7 +134,8 @@ public class MutableTypeToInstanceMapTest extends TestCase {
 
   public void testNull() {
     assertThrows(
-        NullPointerException.class, () -> map.putInstance((TypeToken) null, Integer.valueOf(1)));
+        NullPointerException.class,
+        () -> map.putInstance((TypeToken<Integer>) null, Integer.valueOf(1)));
     map.putInstance(Integer.class, null);
     assertTrue(map.containsKey(TypeToken.of(Integer.class)));
     assertTrue(map.entrySet().contains(immutableEntry(TypeToken.of(Integer.class), null)));
@@ -176,7 +177,8 @@ public class MutableTypeToInstanceMapTest extends TestCase {
 
   public void testGenericArrayType() {
     @SuppressWarnings("unchecked") // Trying to test generic array
-    ImmutableList<Integer>[] array = new ImmutableList[] {ImmutableList.of(1)};
+    ImmutableList<Integer>[] array =
+        (ImmutableList<Integer>[]) new ImmutableList<?>[] {ImmutableList.of(1)};
     TypeToken<ImmutableList<Integer>[]> type = new TypeToken<ImmutableList<Integer>[]>() {};
     map.putInstance(type, array);
     assertEquals(1, map.size());

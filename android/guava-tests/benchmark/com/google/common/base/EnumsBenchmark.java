@@ -32,17 +32,20 @@ public class EnumsBenchmark {
   @Param({"0.2", "0.8"})
   float hitRate;
 
+  // We could avoid the raw type here by initializing this with a ternary (? SmallEnum.class : ...).
+  // However, we end up needing a raw type in getIfPresent, as discussed there.
+  @SuppressWarnings("rawtypes")
   private Class<? extends Enum> enumType;
+
   private String[] sampleData;
 
   @BeforeExperiment
-  @SuppressWarnings("unchecked")
   void setUp() throws ClassNotFoundException {
     Preconditions.checkArgument(hitRate >= 0 && hitRate <= 1, "hitRate must be in the range [0,1]");
 
     enumType =
-        (Class<? extends Enum>)
-            Class.forName(EnumsBenchmark.class.getCanonicalName() + "$" + enumSize + "Enum");
+        Class.forName(EnumsBenchmark.class.getCanonicalName() + "$" + enumSize + "Enum")
+            .asSubclass(Enum.class);
 
     Enum<?>[] allConstants = enumType.getEnumConstants();
     List<String> hits = new ArrayList<>();
@@ -64,6 +67,8 @@ public class EnumsBenchmark {
     sampleData = sampleDataList.toArray(new String[sampleDataList.size()]);
   }
 
+  // Since we can't pass a concrete SomeEnum.class directly, we need to use a raw type.
+  @SuppressWarnings("unchecked")
   @Benchmark
   boolean getIfPresent(int repetitions) {
     boolean retVal = false;
