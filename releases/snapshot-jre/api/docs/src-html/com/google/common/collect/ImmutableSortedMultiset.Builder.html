@@ -222,7 +222,7 @@
 <span class="sourceLineNo">213</span><a id="line.213">    // Hack around E not being a subtype of Comparable.</a>
 <span class="sourceLineNo">214</span><a id="line.214">    // Unsafe, see ImmutableSortedMultisetFauxverideShim.</a>
 <span class="sourceLineNo">215</span><a id="line.215">    @SuppressWarnings("unchecked")</a>
-<span class="sourceLineNo">216</span><a id="line.216">    Ordering&lt;E&gt; naturalOrder = (Ordering&lt;E&gt;) Ordering.&lt;Comparable&gt;natural();</a>
+<span class="sourceLineNo">216</span><a id="line.216">    Ordering&lt;E&gt; naturalOrder = (Ordering&lt;E&gt;) Ordering.&lt;Comparable&lt;?&gt;&gt;natural();</a>
 <span class="sourceLineNo">217</span><a id="line.217">    return copyOf(naturalOrder, elements);</a>
 <span class="sourceLineNo">218</span><a id="line.218">  }</a>
 <span class="sourceLineNo">219</span><a id="line.219"></a>
@@ -240,7 +240,7 @@
 <span class="sourceLineNo">231</span><a id="line.231">    // Hack around E not being a subtype of Comparable.</a>
 <span class="sourceLineNo">232</span><a id="line.232">    // Unsafe, see ImmutableSortedMultisetFauxverideShim.</a>
 <span class="sourceLineNo">233</span><a id="line.233">    @SuppressWarnings("unchecked")</a>
-<span class="sourceLineNo">234</span><a id="line.234">    Ordering&lt;E&gt; naturalOrder = (Ordering&lt;E&gt;) Ordering.&lt;Comparable&gt;natural();</a>
+<span class="sourceLineNo">234</span><a id="line.234">    Ordering&lt;E&gt; naturalOrder = (Ordering&lt;E&gt;) Ordering.&lt;Comparable&lt;?&gt;&gt;natural();</a>
 <span class="sourceLineNo">235</span><a id="line.235">    return copyOf(naturalOrder, elements);</a>
 <span class="sourceLineNo">236</span><a id="line.236">  }</a>
 <span class="sourceLineNo">237</span><a id="line.237"></a>

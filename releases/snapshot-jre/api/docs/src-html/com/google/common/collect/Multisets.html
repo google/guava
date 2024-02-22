@@ -1168,47 +1168,49 @@
 <span class="sourceLineNo">1159</span><a id="line.1159">   * @since 11.0</a>
 <span class="sourceLineNo">1160</span><a id="line.1160">   */</a>
 <span class="sourceLineNo">1161</span><a id="line.1161">  public static &lt;E&gt; ImmutableMultiset&lt;E&gt; copyHighestCountFirst(Multiset&lt;E&gt; multiset) {</a>
-<span class="sourceLineNo">1162</span><a id="line.1162">    Entry&lt;E&gt;[] entries = (Entry&lt;E&gt;[]) multiset.entrySet().toArray(new Entry[0]);</a>
-<span class="sourceLineNo">1163</span><a id="line.1163">    Arrays.sort(entries, DecreasingCount.INSTANCE);</a>
-<span class="sourceLineNo">1164</span><a id="line.1164">    return ImmutableMultiset.copyFromEntries(Arrays.asList(entries));</a>
-<span class="sourceLineNo">1165</span><a id="line.1165">  }</a>
-<span class="sourceLineNo">1166</span><a id="line.1166"></a>
-<span class="sourceLineNo">1167</span><a id="line.1167">  private static final class DecreasingCount implements Comparator&lt;Entry&lt;?&gt;&gt; {</a>
-<span class="sourceLineNo">1168</span><a id="line.1168">    static final Comparator&lt;Entry&lt;?&gt;&gt; INSTANCE = new DecreasingCount();</a>
-<span class="sourceLineNo">1169</span><a id="line.1169"></a>
-<span class="sourceLineNo">1170</span><a id="line.1170">    @Override</a>
-<span class="sourceLineNo">1171</span><a id="line.1171">    public int compare(Entry&lt;?&gt; entry1, Entry&lt;?&gt; entry2) {</a>
-<span class="sourceLineNo">1172</span><a id="line.1172">      return entry2.getCount() - entry1.getCount(); // subtracting two nonnegative integers</a>
-<span class="sourceLineNo">1173</span><a id="line.1173">    }</a>
-<span class="sourceLineNo">1174</span><a id="line.1174">  }</a>
-<span class="sourceLineNo">1175</span><a id="line.1175"></a>
-<span class="sourceLineNo">1176</span><a id="line.1176">  /**</a>
-<span class="sourceLineNo">1177</span><a id="line.1177">   * An {@link AbstractMultiset} with additional default implementations, some of them linear-time</a>
-<span class="sourceLineNo">1178</span><a id="line.1178">   * implementations in terms of {@code elementSet} and {@code entrySet}.</a>
-<span class="sourceLineNo">1179</span><a id="line.1179">   */</a>
-<span class="sourceLineNo">1180</span><a id="line.1180">  private abstract static class ViewMultiset&lt;E extends @Nullable Object&gt;</a>
-<span class="sourceLineNo">1181</span><a id="line.1181">      extends AbstractMultiset&lt;E&gt; {</a>
-<span class="sourceLineNo">1182</span><a id="line.1182">    @Override</a>
-<span class="sourceLineNo">1183</span><a id="line.1183">    public int size() {</a>
-<span class="sourceLineNo">1184</span><a id="line.1184">      return linearTimeSizeImpl(this);</a>
-<span class="sourceLineNo">1185</span><a id="line.1185">    }</a>
-<span class="sourceLineNo">1186</span><a id="line.1186"></a>
-<span class="sourceLineNo">1187</span><a id="line.1187">    @Override</a>
-<span class="sourceLineNo">1188</span><a id="line.1188">    public void clear() {</a>
-<span class="sourceLineNo">1189</span><a id="line.1189">      elementSet().clear();</a>
-<span class="sourceLineNo">1190</span><a id="line.1190">    }</a>
-<span class="sourceLineNo">1191</span><a id="line.1191"></a>
-<span class="sourceLineNo">1192</span><a id="line.1192">    @Override</a>
-<span class="sourceLineNo">1193</span><a id="line.1193">    public Iterator&lt;E&gt; iterator() {</a>
-<span class="sourceLineNo">1194</span><a id="line.1194">      return iteratorImpl(this);</a>
-<span class="sourceLineNo">1195</span><a id="line.1195">    }</a>
-<span class="sourceLineNo">1196</span><a id="line.1196"></a>
-<span class="sourceLineNo">1197</span><a id="line.1197">    @Override</a>
-<span class="sourceLineNo">1198</span><a id="line.1198">    int distinctElements() {</a>
-<span class="sourceLineNo">1199</span><a id="line.1199">      return elementSet().size();</a>
-<span class="sourceLineNo">1200</span><a id="line.1200">    }</a>
-<span class="sourceLineNo">1201</span><a id="line.1201">  }</a>
-<span class="sourceLineNo">1202</span><a id="line.1202">}</a>
+<span class="sourceLineNo">1162</span><a id="line.1162">    @SuppressWarnings("unchecked") // generics+arrays</a>
+<span class="sourceLineNo">1163</span><a id="line.1163">    // TODO(cpovirk): Consider storing an Entry&lt;?&gt; instead of Entry&lt;E&gt;.</a>
+<span class="sourceLineNo">1164</span><a id="line.1164">    Entry&lt;E&gt;[] entries = (Entry&lt;E&gt;[]) multiset.entrySet().toArray((Entry&lt;E&gt;[]) new Entry&lt;?&gt;[0]);</a>
+<span class="sourceLineNo">1165</span><a id="line.1165">    Arrays.sort(entries, DecreasingCount.INSTANCE);</a>
+<span class="sourceLineNo">1166</span><a id="line.1166">    return ImmutableMultiset.copyFromEntries(Arrays.asList(entries));</a>
+<span class="sourceLineNo">1167</span><a id="line.1167">  }</a>
+<span class="sourceLineNo">1168</span><a id="line.1168"></a>
+<span class="sourceLineNo">1169</span><a id="line.1169">  private static final class DecreasingCount implements Comparator&lt;Entry&lt;?&gt;&gt; {</a>
+<span class="sourceLineNo">1170</span><a id="line.1170">    static final Comparator&lt;Entry&lt;?&gt;&gt; INSTANCE = new DecreasingCount();</a>
+<span class="sourceLineNo">1171</span><a id="line.1171"></a>
+<span class="sourceLineNo">1172</span><a id="line.1172">    @Override</a>
+<span class="sourceLineNo">1173</span><a id="line.1173">    public int compare(Entry&lt;?&gt; entry1, Entry&lt;?&gt; entry2) {</a>
+<span class="sourceLineNo">1174</span><a id="line.1174">      return entry2.getCount() - entry1.getCount(); // subtracting two nonnegative integers</a>
+<span class="sourceLineNo">1175</span><a id="line.1175">    }</a>
+<span class="sourceLineNo">1176</span><a id="line.1176">  }</a>
+<span class="sourceLineNo">1177</span><a id="line.1177"></a>
+<span class="sourceLineNo">1178</span><a id="line.1178">  /**</a>
+<span class="sourceLineNo">1179</span><a id="line.1179">   * An {@link AbstractMultiset} with additional default implementations, some of them linear-time</a>
+<span class="sourceLineNo">1180</span><a id="line.1180">   * implementations in terms of {@code elementSet} and {@code entrySet}.</a>
+<span class="sourceLineNo">1181</span><a id="line.1181">   */</a>
+<span class="sourceLineNo">1182</span><a id="line.1182">  private abstract static class ViewMultiset&lt;E extends @Nullable Object&gt;</a>
+<span class="sourceLineNo">1183</span><a id="line.1183">      extends AbstractMultiset&lt;E&gt; {</a>
+<span class="sourceLineNo">1184</span><a id="line.1184">    @Override</a>
+<span class="sourceLineNo">1185</span><a id="line.1185">    public int size() {</a>
+<span class="sourceLineNo">1186</span><a id="line.1186">      return linearTimeSizeImpl(this);</a>
+<span class="sourceLineNo">1187</span><a id="line.1187">    }</a>
+<span class="sourceLineNo">1188</span><a id="line.1188"></a>
+<span class="sourceLineNo">1189</span><a id="line.1189">    @Override</a>
+<span class="sourceLineNo">1190</span><a id="line.1190">    public void clear() {</a>
+<span class="sourceLineNo">1191</span><a id="line.1191">      elementSet().clear();</a>
+<span class="sourceLineNo">1192</span><a id="line.1192">    }</a>
+<span class="sourceLineNo">1193</span><a id="line.1193"></a>
+<span class="sourceLineNo">1194</span><a id="line.1194">    @Override</a>
+<span class="sourceLineNo">1195</span><a id="line.1195">    public Iterator&lt;E&gt; iterator() {</a>
+<span class="sourceLineNo">1196</span><a id="line.1196">      return iteratorImpl(this);</a>
+<span class="sourceLineNo">1197</span><a id="line.1197">    }</a>
+<span class="sourceLineNo">1198</span><a id="line.1198"></a>
+<span class="sourceLineNo">1199</span><a id="line.1199">    @Override</a>
+<span class="sourceLineNo">1200</span><a id="line.1200">    int distinctElements() {</a>
+<span class="sourceLineNo">1201</span><a id="line.1201">      return elementSet().size();</a>
+<span class="sourceLineNo">1202</span><a id="line.1202">    }</a>
+<span class="sourceLineNo">1203</span><a id="line.1203">  }</a>
+<span class="sourceLineNo">1204</span><a id="line.1204">}</a>
 
 
 

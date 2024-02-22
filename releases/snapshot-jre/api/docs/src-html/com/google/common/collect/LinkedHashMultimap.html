@@ -514,165 +514,166 @@
 <span class="sourceLineNo">505</span><a id="line.505">    private void rehashIfNecessary() {</a>
 <span class="sourceLineNo">506</span><a id="line.506">      if (Hashing.needsResizing(size, hashTable.length, VALUE_SET_LOAD_FACTOR)) {</a>
 <span class="sourceLineNo">507</span><a id="line.507">        @SuppressWarnings("unchecked")</a>
-<span class="sourceLineNo">508</span><a id="line.508">        ValueEntry&lt;K, V&gt;[] hashTable = new ValueEntry[this.hashTable.length * 2];</a>
-<span class="sourceLineNo">509</span><a id="line.509">        this.hashTable = hashTable;</a>
-<span class="sourceLineNo">510</span><a id="line.510">        int mask = hashTable.length - 1;</a>
-<span class="sourceLineNo">511</span><a id="line.511">        for (ValueSetLink&lt;K, V&gt; entry = firstEntry;</a>
-<span class="sourceLineNo">512</span><a id="line.512">            entry != this;</a>
-<span class="sourceLineNo">513</span><a id="line.513">            entry = entry.getSuccessorInValueSet()) {</a>
-<span class="sourceLineNo">514</span><a id="line.514">          ValueEntry&lt;K, V&gt; valueEntry = (ValueEntry&lt;K, V&gt;) entry;</a>
-<span class="sourceLineNo">515</span><a id="line.515">          int bucket = valueEntry.smearedValueHash &amp; mask;</a>
-<span class="sourceLineNo">516</span><a id="line.516">          valueEntry.nextInValueBucket = hashTable[bucket];</a>
-<span class="sourceLineNo">517</span><a id="line.517">          hashTable[bucket] = valueEntry;</a>
-<span class="sourceLineNo">518</span><a id="line.518">        }</a>
-<span class="sourceLineNo">519</span><a id="line.519">      }</a>
-<span class="sourceLineNo">520</span><a id="line.520">    }</a>
-<span class="sourceLineNo">521</span><a id="line.521"></a>
-<span class="sourceLineNo">522</span><a id="line.522">    @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">523</span><a id="line.523">    @Override</a>
-<span class="sourceLineNo">524</span><a id="line.524">    public boolean remove(@CheckForNull Object o) {</a>
-<span class="sourceLineNo">525</span><a id="line.525">      int smearedHash = Hashing.smearedHash(o);</a>
-<span class="sourceLineNo">526</span><a id="line.526">      int bucket = smearedHash &amp; mask();</a>
-<span class="sourceLineNo">527</span><a id="line.527">      ValueEntry&lt;K, V&gt; prev = null;</a>
-<span class="sourceLineNo">528</span><a id="line.528">      for (ValueEntry&lt;K, V&gt; entry = hashTable[bucket];</a>
-<span class="sourceLineNo">529</span><a id="line.529">          entry != null;</a>
-<span class="sourceLineNo">530</span><a id="line.530">          prev = entry, entry = entry.nextInValueBucket) {</a>
-<span class="sourceLineNo">531</span><a id="line.531">        if (entry.matchesValue(o, smearedHash)) {</a>
-<span class="sourceLineNo">532</span><a id="line.532">          if (prev == null) {</a>
-<span class="sourceLineNo">533</span><a id="line.533">            // first entry in the bucket</a>
-<span class="sourceLineNo">534</span><a id="line.534">            hashTable[bucket] = entry.nextInValueBucket;</a>
-<span class="sourceLineNo">535</span><a id="line.535">          } else {</a>
-<span class="sourceLineNo">536</span><a id="line.536">            prev.nextInValueBucket = entry.nextInValueBucket;</a>
-<span class="sourceLineNo">537</span><a id="line.537">          }</a>
-<span class="sourceLineNo">538</span><a id="line.538">          deleteFromValueSet(entry);</a>
-<span class="sourceLineNo">539</span><a id="line.539">          deleteFromMultimap(entry);</a>
-<span class="sourceLineNo">540</span><a id="line.540">          size--;</a>
-<span class="sourceLineNo">541</span><a id="line.541">          modCount++;</a>
-<span class="sourceLineNo">542</span><a id="line.542">          return true;</a>
-<span class="sourceLineNo">543</span><a id="line.543">        }</a>
-<span class="sourceLineNo">544</span><a id="line.544">      }</a>
-<span class="sourceLineNo">545</span><a id="line.545">      return false;</a>
-<span class="sourceLineNo">546</span><a id="line.546">    }</a>
-<span class="sourceLineNo">547</span><a id="line.547"></a>
-<span class="sourceLineNo">548</span><a id="line.548">    @Override</a>
-<span class="sourceLineNo">549</span><a id="line.549">    public void clear() {</a>
-<span class="sourceLineNo">550</span><a id="line.550">      Arrays.fill(hashTable, null);</a>
-<span class="sourceLineNo">551</span><a id="line.551">      size = 0;</a>
-<span class="sourceLineNo">552</span><a id="line.552">      for (ValueSetLink&lt;K, V&gt; entry = firstEntry;</a>
-<span class="sourceLineNo">553</span><a id="line.553">          entry != this;</a>
-<span class="sourceLineNo">554</span><a id="line.554">          entry = entry.getSuccessorInValueSet()) {</a>
-<span class="sourceLineNo">555</span><a id="line.555">        ValueEntry&lt;K, V&gt; valueEntry = (ValueEntry&lt;K, V&gt;) entry;</a>
-<span class="sourceLineNo">556</span><a id="line.556">        deleteFromMultimap(valueEntry);</a>
-<span class="sourceLineNo">557</span><a id="line.557">      }</a>
-<span class="sourceLineNo">558</span><a id="line.558">      succeedsInValueSet(this, this);</a>
-<span class="sourceLineNo">559</span><a id="line.559">      modCount++;</a>
-<span class="sourceLineNo">560</span><a id="line.560">    }</a>
-<span class="sourceLineNo">561</span><a id="line.561">  }</a>
-<span class="sourceLineNo">562</span><a id="line.562"></a>
-<span class="sourceLineNo">563</span><a id="line.563">  @Override</a>
-<span class="sourceLineNo">564</span><a id="line.564">  Iterator&lt;Entry&lt;K, V&gt;&gt; entryIterator() {</a>
-<span class="sourceLineNo">565</span><a id="line.565">    return new Iterator&lt;Entry&lt;K, V&gt;&gt;() {</a>
-<span class="sourceLineNo">566</span><a id="line.566">      ValueEntry&lt;K, V&gt; nextEntry = multimapHeaderEntry.getSuccessorInMultimap();</a>
-<span class="sourceLineNo">567</span><a id="line.567">      @CheckForNull ValueEntry&lt;K, V&gt; toRemove;</a>
-<span class="sourceLineNo">568</span><a id="line.568"></a>
-<span class="sourceLineNo">569</span><a id="line.569">      @Override</a>
-<span class="sourceLineNo">570</span><a id="line.570">      public boolean hasNext() {</a>
-<span class="sourceLineNo">571</span><a id="line.571">        return nextEntry != multimapHeaderEntry;</a>
-<span class="sourceLineNo">572</span><a id="line.572">      }</a>
-<span class="sourceLineNo">573</span><a id="line.573"></a>
-<span class="sourceLineNo">574</span><a id="line.574">      @Override</a>
-<span class="sourceLineNo">575</span><a id="line.575">      public Entry&lt;K, V&gt; next() {</a>
-<span class="sourceLineNo">576</span><a id="line.576">        if (!hasNext()) {</a>
-<span class="sourceLineNo">577</span><a id="line.577">          throw new NoSuchElementException();</a>
-<span class="sourceLineNo">578</span><a id="line.578">        }</a>
-<span class="sourceLineNo">579</span><a id="line.579">        ValueEntry&lt;K, V&gt; result = nextEntry;</a>
-<span class="sourceLineNo">580</span><a id="line.580">        toRemove = result;</a>
-<span class="sourceLineNo">581</span><a id="line.581">        nextEntry = nextEntry.getSuccessorInMultimap();</a>
-<span class="sourceLineNo">582</span><a id="line.582">        return result;</a>
-<span class="sourceLineNo">583</span><a id="line.583">      }</a>
-<span class="sourceLineNo">584</span><a id="line.584"></a>
-<span class="sourceLineNo">585</span><a id="line.585">      @Override</a>
-<span class="sourceLineNo">586</span><a id="line.586">      public void remove() {</a>
-<span class="sourceLineNo">587</span><a id="line.587">        checkState(toRemove != null, "no calls to next() since the last call to remove()");</a>
-<span class="sourceLineNo">588</span><a id="line.588">        LinkedHashMultimap.this.remove(toRemove.getKey(), toRemove.getValue());</a>
-<span class="sourceLineNo">589</span><a id="line.589">        toRemove = null;</a>
-<span class="sourceLineNo">590</span><a id="line.590">      }</a>
-<span class="sourceLineNo">591</span><a id="line.591">    };</a>
-<span class="sourceLineNo">592</span><a id="line.592">  }</a>
-<span class="sourceLineNo">593</span><a id="line.593"></a>
-<span class="sourceLineNo">594</span><a id="line.594">  @Override</a>
-<span class="sourceLineNo">595</span><a id="line.595">  Spliterator&lt;Entry&lt;K, V&gt;&gt; entrySpliterator() {</a>
-<span class="sourceLineNo">596</span><a id="line.596">    return Spliterators.spliterator(entries(), Spliterator.DISTINCT | Spliterator.ORDERED);</a>
-<span class="sourceLineNo">597</span><a id="line.597">  }</a>
-<span class="sourceLineNo">598</span><a id="line.598"></a>
-<span class="sourceLineNo">599</span><a id="line.599">  @Override</a>
-<span class="sourceLineNo">600</span><a id="line.600">  Iterator&lt;V&gt; valueIterator() {</a>
-<span class="sourceLineNo">601</span><a id="line.601">    return Maps.valueIterator(entryIterator());</a>
-<span class="sourceLineNo">602</span><a id="line.602">  }</a>
-<span class="sourceLineNo">603</span><a id="line.603"></a>
-<span class="sourceLineNo">604</span><a id="line.604">  @Override</a>
-<span class="sourceLineNo">605</span><a id="line.605">  Spliterator&lt;V&gt; valueSpliterator() {</a>
-<span class="sourceLineNo">606</span><a id="line.606">    return CollectSpliterators.map(entrySpliterator(), Entry::getValue);</a>
-<span class="sourceLineNo">607</span><a id="line.607">  }</a>
-<span class="sourceLineNo">608</span><a id="line.608"></a>
-<span class="sourceLineNo">609</span><a id="line.609">  @Override</a>
-<span class="sourceLineNo">610</span><a id="line.610">  public void clear() {</a>
-<span class="sourceLineNo">611</span><a id="line.611">    super.clear();</a>
-<span class="sourceLineNo">612</span><a id="line.612">    succeedsInMultimap(multimapHeaderEntry, multimapHeaderEntry);</a>
-<span class="sourceLineNo">613</span><a id="line.613">  }</a>
-<span class="sourceLineNo">614</span><a id="line.614"></a>
-<span class="sourceLineNo">615</span><a id="line.615">  /**</a>
-<span class="sourceLineNo">616</span><a id="line.616">   * @serialData the expected values per key, the number of distinct keys, the number of entries,</a>
-<span class="sourceLineNo">617</span><a id="line.617">   *     and the entries in order</a>
-<span class="sourceLineNo">618</span><a id="line.618">   */</a>
-<span class="sourceLineNo">619</span><a id="line.619">  @GwtIncompatible // java.io.ObjectOutputStream</a>
-<span class="sourceLineNo">620</span><a id="line.620">  @J2ktIncompatible</a>
-<span class="sourceLineNo">621</span><a id="line.621">  private void writeObject(ObjectOutputStream stream) throws IOException {</a>
-<span class="sourceLineNo">622</span><a id="line.622">    stream.defaultWriteObject();</a>
-<span class="sourceLineNo">623</span><a id="line.623">    stream.writeInt(keySet().size());</a>
-<span class="sourceLineNo">624</span><a id="line.624">    for (K key : keySet()) {</a>
-<span class="sourceLineNo">625</span><a id="line.625">      stream.writeObject(key);</a>
-<span class="sourceLineNo">626</span><a id="line.626">    }</a>
-<span class="sourceLineNo">627</span><a id="line.627">    stream.writeInt(size());</a>
-<span class="sourceLineNo">628</span><a id="line.628">    for (Entry&lt;K, V&gt; entry : entries()) {</a>
-<span class="sourceLineNo">629</span><a id="line.629">      stream.writeObject(entry.getKey());</a>
-<span class="sourceLineNo">630</span><a id="line.630">      stream.writeObject(entry.getValue());</a>
-<span class="sourceLineNo">631</span><a id="line.631">    }</a>
-<span class="sourceLineNo">632</span><a id="line.632">  }</a>
-<span class="sourceLineNo">633</span><a id="line.633"></a>
-<span class="sourceLineNo">634</span><a id="line.634">  @GwtIncompatible // java.io.ObjectInputStream</a>
-<span class="sourceLineNo">635</span><a id="line.635">  @J2ktIncompatible</a>
-<span class="sourceLineNo">636</span><a id="line.636">  private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {</a>
-<span class="sourceLineNo">637</span><a id="line.637">    stream.defaultReadObject();</a>
-<span class="sourceLineNo">638</span><a id="line.638">    multimapHeaderEntry = ValueEntry.newHeader();</a>
-<span class="sourceLineNo">639</span><a id="line.639">    succeedsInMultimap(multimapHeaderEntry, multimapHeaderEntry);</a>
-<span class="sourceLineNo">640</span><a id="line.640">    valueSetCapacity = DEFAULT_VALUE_SET_CAPACITY;</a>
-<span class="sourceLineNo">641</span><a id="line.641">    int distinctKeys = stream.readInt();</a>
-<span class="sourceLineNo">642</span><a id="line.642">    Map&lt;K, Collection&lt;V&gt;&gt; map = Platform.newLinkedHashMapWithExpectedSize(12);</a>
-<span class="sourceLineNo">643</span><a id="line.643">    for (int i = 0; i &lt; distinctKeys; i++) {</a>
-<span class="sourceLineNo">644</span><a id="line.644">      @SuppressWarnings("unchecked")</a>
-<span class="sourceLineNo">645</span><a id="line.645">      K key = (K) stream.readObject();</a>
-<span class="sourceLineNo">646</span><a id="line.646">      map.put(key, createCollection(key));</a>
-<span class="sourceLineNo">647</span><a id="line.647">    }</a>
-<span class="sourceLineNo">648</span><a id="line.648">    int entries = stream.readInt();</a>
-<span class="sourceLineNo">649</span><a id="line.649">    for (int i = 0; i &lt; entries; i++) {</a>
-<span class="sourceLineNo">650</span><a id="line.650">      @SuppressWarnings("unchecked")</a>
-<span class="sourceLineNo">651</span><a id="line.651">      K key = (K) stream.readObject();</a>
-<span class="sourceLineNo">652</span><a id="line.652">      @SuppressWarnings("unchecked")</a>
-<span class="sourceLineNo">653</span><a id="line.653">      V value = (V) stream.readObject();</a>
-<span class="sourceLineNo">654</span><a id="line.654">      /*</a>
-<span class="sourceLineNo">655</span><a id="line.655">       * requireNonNull is safe for a properly serialized multimap: We've already inserted a</a>
-<span class="sourceLineNo">656</span><a id="line.656">       * collection for each key that we expect.</a>
-<span class="sourceLineNo">657</span><a id="line.657">       */</a>
-<span class="sourceLineNo">658</span><a id="line.658">      requireNonNull(map.get(key)).add(value);</a>
-<span class="sourceLineNo">659</span><a id="line.659">    }</a>
-<span class="sourceLineNo">660</span><a id="line.660">    setMap(map);</a>
-<span class="sourceLineNo">661</span><a id="line.661">  }</a>
-<span class="sourceLineNo">662</span><a id="line.662"></a>
-<span class="sourceLineNo">663</span><a id="line.663">  @GwtIncompatible // java serialization not supported</a>
-<span class="sourceLineNo">664</span><a id="line.664">  @J2ktIncompatible</a>
-<span class="sourceLineNo">665</span><a id="line.665">  private static final long serialVersionUID = 1;</a>
-<span class="sourceLineNo">666</span><a id="line.666">}</a>
+<span class="sourceLineNo">508</span><a id="line.508">        ValueEntry&lt;K, V&gt;[] hashTable =</a>
+<span class="sourceLineNo">509</span><a id="line.509">            (ValueEntry&lt;K, V&gt;[]) new ValueEntry&lt;?, ?&gt;[this.hashTable.length * 2];</a>
+<span class="sourceLineNo">510</span><a id="line.510">        this.hashTable = hashTable;</a>
+<span class="sourceLineNo">511</span><a id="line.511">        int mask = hashTable.length - 1;</a>
+<span class="sourceLineNo">512</span><a id="line.512">        for (ValueSetLink&lt;K, V&gt; entry = firstEntry;</a>
+<span class="sourceLineNo">513</span><a id="line.513">            entry != this;</a>
+<span class="sourceLineNo">514</span><a id="line.514">            entry = entry.getSuccessorInValueSet()) {</a>
+<span class="sourceLineNo">515</span><a id="line.515">          ValueEntry&lt;K, V&gt; valueEntry = (ValueEntry&lt;K, V&gt;) entry;</a>
+<span class="sourceLineNo">516</span><a id="line.516">          int bucket = valueEntry.smearedValueHash &amp; mask;</a>
+<span class="sourceLineNo">517</span><a id="line.517">          valueEntry.nextInValueBucket = hashTable[bucket];</a>
+<span class="sourceLineNo">518</span><a id="line.518">          hashTable[bucket] = valueEntry;</a>
+<span class="sourceLineNo">519</span><a id="line.519">        }</a>
+<span class="sourceLineNo">520</span><a id="line.520">      }</a>
+<span class="sourceLineNo">521</span><a id="line.521">    }</a>
+<span class="sourceLineNo">522</span><a id="line.522"></a>
+<span class="sourceLineNo">523</span><a id="line.523">    @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">524</span><a id="line.524">    @Override</a>
+<span class="sourceLineNo">525</span><a id="line.525">    public boolean remove(@CheckForNull Object o) {</a>
+<span class="sourceLineNo">526</span><a id="line.526">      int smearedHash = Hashing.smearedHash(o);</a>
+<span class="sourceLineNo">527</span><a id="line.527">      int bucket = smearedHash &amp; mask();</a>
+<span class="sourceLineNo">528</span><a id="line.528">      ValueEntry&lt;K, V&gt; prev = null;</a>
+<span class="sourceLineNo">529</span><a id="line.529">      for (ValueEntry&lt;K, V&gt; entry = hashTable[bucket];</a>
+<span class="sourceLineNo">530</span><a id="line.530">          entry != null;</a>
+<span class="sourceLineNo">531</span><a id="line.531">          prev = entry, entry = entry.nextInValueBucket) {</a>
+<span class="sourceLineNo">532</span><a id="line.532">        if (entry.matchesValue(o, smearedHash)) {</a>
+<span class="sourceLineNo">533</span><a id="line.533">          if (prev == null) {</a>
+<span class="sourceLineNo">534</span><a id="line.534">            // first entry in the bucket</a>
+<span class="sourceLineNo">535</span><a id="line.535">            hashTable[bucket] = entry.nextInValueBucket;</a>
+<span class="sourceLineNo">536</span><a id="line.536">          } else {</a>
+<span class="sourceLineNo">537</span><a id="line.537">            prev.nextInValueBucket = entry.nextInValueBucket;</a>
+<span class="sourceLineNo">538</span><a id="line.538">          }</a>
+<span class="sourceLineNo">539</span><a id="line.539">          deleteFromValueSet(entry);</a>
+<span class="sourceLineNo">540</span><a id="line.540">          deleteFromMultimap(entry);</a>
+<span class="sourceLineNo">541</span><a id="line.541">          size--;</a>
+<span class="sourceLineNo">542</span><a id="line.542">          modCount++;</a>
+<span class="sourceLineNo">543</span><a id="line.543">          return true;</a>
+<span class="sourceLineNo">544</span><a id="line.544">        }</a>
+<span class="sourceLineNo">545</span><a id="line.545">      }</a>
+<span class="sourceLineNo">546</span><a id="line.546">      return false;</a>
+<span class="sourceLineNo">547</span><a id="line.547">    }</a>
+<span class="sourceLineNo">548</span><a id="line.548"></a>
+<span class="sourceLineNo">549</span><a id="line.549">    @Override</a>
+<span class="sourceLineNo">550</span><a id="line.550">    public void clear() {</a>
+<span class="sourceLineNo">551</span><a id="line.551">      Arrays.fill(hashTable, null);</a>
+<span class="sourceLineNo">552</span><a id="line.552">      size = 0;</a>
+<span class="sourceLineNo">553</span><a id="line.553">      for (ValueSetLink&lt;K, V&gt; entry = firstEntry;</a>
+<span class="sourceLineNo">554</span><a id="line.554">          entry != this;</a>
+<span class="sourceLineNo">555</span><a id="line.555">          entry = entry.getSuccessorInValueSet()) {</a>
+<span class="sourceLineNo">556</span><a id="line.556">        ValueEntry&lt;K, V&gt; valueEntry = (ValueEntry&lt;K, V&gt;) entry;</a>
+<span class="sourceLineNo">557</span><a id="line.557">        deleteFromMultimap(valueEntry);</a>
+<span class="sourceLineNo">558</span><a id="line.558">      }</a>
+<span class="sourceLineNo">559</span><a id="line.559">      succeedsInValueSet(this, this);</a>
+<span class="sourceLineNo">560</span><a id="line.560">      modCount++;</a>
+<span class="sourceLineNo">561</span><a id="line.561">    }</a>
+<span class="sourceLineNo">562</span><a id="line.562">  }</a>
+<span class="sourceLineNo">563</span><a id="line.563"></a>
+<span class="sourceLineNo">564</span><a id="line.564">  @Override</a>
+<span class="sourceLineNo">565</span><a id="line.565">  Iterator&lt;Entry&lt;K, V&gt;&gt; entryIterator() {</a>
+<span class="sourceLineNo">566</span><a id="line.566">    return new Iterator&lt;Entry&lt;K, V&gt;&gt;() {</a>
+<span class="sourceLineNo">567</span><a id="line.567">      ValueEntry&lt;K, V&gt; nextEntry = multimapHeaderEntry.getSuccessorInMultimap();</a>
+<span class="sourceLineNo">568</span><a id="line.568">      @CheckForNull ValueEntry&lt;K, V&gt; toRemove;</a>
+<span class="sourceLineNo">569</span><a id="line.569"></a>
+<span class="sourceLineNo">570</span><a id="line.570">      @Override</a>
+<span class="sourceLineNo">571</span><a id="line.571">      public boolean hasNext() {</a>
+<span class="sourceLineNo">572</span><a id="line.572">        return nextEntry != multimapHeaderEntry;</a>
+<span class="sourceLineNo">573</span><a id="line.573">      }</a>
+<span class="sourceLineNo">574</span><a id="line.574"></a>
+<span class="sourceLineNo">575</span><a id="line.575">      @Override</a>
+<span class="sourceLineNo">576</span><a id="line.576">      public Entry&lt;K, V&gt; next() {</a>
+<span class="sourceLineNo">577</span><a id="line.577">        if (!hasNext()) {</a>
+<span class="sourceLineNo">578</span><a id="line.578">          throw new NoSuchElementException();</a>
+<span class="sourceLineNo">579</span><a id="line.579">        }</a>
+<span class="sourceLineNo">580</span><a id="line.580">        ValueEntry&lt;K, V&gt; result = nextEntry;</a>
+<span class="sourceLineNo">581</span><a id="line.581">        toRemove = result;</a>
+<span class="sourceLineNo">582</span><a id="line.582">        nextEntry = nextEntry.getSuccessorInMultimap();</a>
+<span class="sourceLineNo">583</span><a id="line.583">        return result;</a>
+<span class="sourceLineNo">584</span><a id="line.584">      }</a>
+<span class="sourceLineNo">585</span><a id="line.585"></a>
+<span class="sourceLineNo">586</span><a id="line.586">      @Override</a>
+<span class="sourceLineNo">587</span><a id="line.587">      public void remove() {</a>
+<span class="sourceLineNo">588</span><a id="line.588">        checkState(toRemove != null, "no calls to next() since the last call to remove()");</a>
+<span class="sourceLineNo">589</span><a id="line.589">        LinkedHashMultimap.this.remove(toRemove.getKey(), toRemove.getValue());</a>
+<span class="sourceLineNo">590</span><a id="line.590">        toRemove = null;</a>
+<span class="sourceLineNo">591</span><a id="line.591">      }</a>
+<span class="sourceLineNo">592</span><a id="line.592">    };</a>
+<span class="sourceLineNo">593</span><a id="line.593">  }</a>
+<span class="sourceLineNo">594</span><a id="line.594"></a>
+<span class="sourceLineNo">595</span><a id="line.595">  @Override</a>
+<span class="sourceLineNo">596</span><a id="line.596">  Spliterator&lt;Entry&lt;K, V&gt;&gt; entrySpliterator() {</a>
+<span class="sourceLineNo">597</span><a id="line.597">    return Spliterators.spliterator(entries(), Spliterator.DISTINCT | Spliterator.ORDERED);</a>
+<span class="sourceLineNo">598</span><a id="line.598">  }</a>
+<span class="sourceLineNo">599</span><a id="line.599"></a>
+<span class="sourceLineNo">600</span><a id="line.600">  @Override</a>
+<span class="sourceLineNo">601</span><a id="line.601">  Iterator&lt;V&gt; valueIterator() {</a>
+<span class="sourceLineNo">602</span><a id="line.602">    return Maps.valueIterator(entryIterator());</a>
+<span class="sourceLineNo">603</span><a id="line.603">  }</a>
+<span class="sourceLineNo">604</span><a id="line.604"></a>
+<span class="sourceLineNo">605</span><a id="line.605">  @Override</a>
+<span class="sourceLineNo">606</span><a id="line.606">  Spliterator&lt;V&gt; valueSpliterator() {</a>
+<span class="sourceLineNo">607</span><a id="line.607">    return CollectSpliterators.map(entrySpliterator(), Entry::getValue);</a>
+<span class="sourceLineNo">608</span><a id="line.608">  }</a>
+<span class="sourceLineNo">609</span><a id="line.609"></a>
+<span class="sourceLineNo">610</span><a id="line.610">  @Override</a>
+<span class="sourceLineNo">611</span><a id="line.611">  public void clear() {</a>
+<span class="sourceLineNo">612</span><a id="line.612">    super.clear();</a>
+<span class="sourceLineNo">613</span><a id="line.613">    succeedsInMultimap(multimapHeaderEntry, multimapHeaderEntry);</a>
+<span class="sourceLineNo">614</span><a id="line.614">  }</a>
+<span class="sourceLineNo">615</span><a id="line.615"></a>
+<span class="sourceLineNo">616</span><a id="line.616">  /**</a>
+<span class="sourceLineNo">617</span><a id="line.617">   * @serialData the expected values per key, the number of distinct keys, the number of entries,</a>
+<span class="sourceLineNo">618</span><a id="line.618">   *     and the entries in order</a>
+<span class="sourceLineNo">619</span><a id="line.619">   */</a>
+<span class="sourceLineNo">620</span><a id="line.620">  @GwtIncompatible // java.io.ObjectOutputStream</a>
+<span class="sourceLineNo">621</span><a id="line.621">  @J2ktIncompatible</a>
+<span class="sourceLineNo">622</span><a id="line.622">  private void writeObject(ObjectOutputStream stream) throws IOException {</a>
+<span class="sourceLineNo">623</span><a id="line.623">    stream.defaultWriteObject();</a>
+<span class="sourceLineNo">624</span><a id="line.624">    stream.writeInt(keySet().size());</a>
+<span class="sourceLineNo">625</span><a id="line.625">    for (K key : keySet()) {</a>
+<span class="sourceLineNo">626</span><a id="line.626">      stream.writeObject(key);</a>
+<span class="sourceLineNo">627</span><a id="line.627">    }</a>
+<span class="sourceLineNo">628</span><a id="line.628">    stream.writeInt(size());</a>
+<span class="sourceLineNo">629</span><a id="line.629">    for (Entry&lt;K, V&gt; entry : entries()) {</a>
+<span class="sourceLineNo">630</span><a id="line.630">      stream.writeObject(entry.getKey());</a>
+<span class="sourceLineNo">631</span><a id="line.631">      stream.writeObject(entry.getValue());</a>
+<span class="sourceLineNo">632</span><a id="line.632">    }</a>
+<span class="sourceLineNo">633</span><a id="line.633">  }</a>
+<span class="sourceLineNo">634</span><a id="line.634"></a>
+<span class="sourceLineNo">635</span><a id="line.635">  @GwtIncompatible // java.io.ObjectInputStream</a>
+<span class="sourceLineNo">636</span><a id="line.636">  @J2ktIncompatible</a>
+<span class="sourceLineNo">637</span><a id="line.637">  private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {</a>
+<span class="sourceLineNo">638</span><a id="line.638">    stream.defaultReadObject();</a>
+<span class="sourceLineNo">639</span><a id="line.639">    multimapHeaderEntry = ValueEntry.newHeader();</a>
+<span class="sourceLineNo">640</span><a id="line.640">    succeedsInMultimap(multimapHeaderEntry, multimapHeaderEntry);</a>
+<span class="sourceLineNo">641</span><a id="line.641">    valueSetCapacity = DEFAULT_VALUE_SET_CAPACITY;</a>
+<span class="sourceLineNo">642</span><a id="line.642">    int distinctKeys = stream.readInt();</a>
+<span class="sourceLineNo">643</span><a id="line.643">    Map&lt;K, Collection&lt;V&gt;&gt; map = Platform.newLinkedHashMapWithExpectedSize(12);</a>
+<span class="sourceLineNo">644</span><a id="line.644">    for (int i = 0; i &lt; distinctKeys; i++) {</a>
+<span class="sourceLineNo">645</span><a id="line.645">      @SuppressWarnings("unchecked")</a>
+<span class="sourceLineNo">646</span><a id="line.646">      K key = (K) stream.readObject();</a>
+<span class="sourceLineNo">647</span><a id="line.647">      map.put(key, createCollection(key));</a>
+<span class="sourceLineNo">648</span><a id="line.648">    }</a>
+<span class="sourceLineNo">649</span><a id="line.649">    int entries = stream.readInt();</a>
+<span class="sourceLineNo">650</span><a id="line.650">    for (int i = 0; i &lt; entries; i++) {</a>
+<span class="sourceLineNo">651</span><a id="line.651">      @SuppressWarnings("unchecked")</a>
+<span class="sourceLineNo">652</span><a id="line.652">      K key = (K) stream.readObject();</a>
+<span class="sourceLineNo">653</span><a id="line.653">      @SuppressWarnings("unchecked")</a>
+<span class="sourceLineNo">654</span><a id="line.654">      V value = (V) stream.readObject();</a>
+<span class="sourceLineNo">655</span><a id="line.655">      /*</a>
+<span class="sourceLineNo">656</span><a id="line.656">       * requireNonNull is safe for a properly serialized multimap: We've already inserted a</a>
+<span class="sourceLineNo">657</span><a id="line.657">       * collection for each key that we expect.</a>
+<span class="sourceLineNo">658</span><a id="line.658">       */</a>
+<span class="sourceLineNo">659</span><a id="line.659">      requireNonNull(map.get(key)).add(value);</a>
+<span class="sourceLineNo">660</span><a id="line.660">    }</a>
+<span class="sourceLineNo">661</span><a id="line.661">    setMap(map);</a>
+<span class="sourceLineNo">662</span><a id="line.662">  }</a>
+<span class="sourceLineNo">663</span><a id="line.663"></a>
+<span class="sourceLineNo">664</span><a id="line.664">  @GwtIncompatible // java serialization not supported</a>
+<span class="sourceLineNo">665</span><a id="line.665">  @J2ktIncompatible</a>
+<span class="sourceLineNo">666</span><a id="line.666">  private static final long serialVersionUID = 1;</a>
+<span class="sourceLineNo">667</span><a id="line.667">}</a>
 
 
 

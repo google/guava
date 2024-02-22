@@ -102,258 +102,259 @@
 <span class="sourceLineNo">093</span><a id="line.93">   * instead of {@code R extends Comparable&lt;? super R&gt;}, and the same for {@code C}. That's</a>
 <span class="sourceLineNo">094</span><a id="line.94">   * necessary to support classes defined without generics.</a>
 <span class="sourceLineNo">095</span><a id="line.95">   */</a>
-<span class="sourceLineNo">096</span><a id="line.96">  public static &lt;R extends Comparable, C extends Comparable, V&gt; TreeBasedTable&lt;R, C, V&gt; create() {</a>
-<span class="sourceLineNo">097</span><a id="line.97">    return new TreeBasedTable&lt;&gt;(Ordering.natural(), Ordering.natural());</a>
-<span class="sourceLineNo">098</span><a id="line.98">  }</a>
-<span class="sourceLineNo">099</span><a id="line.99"></a>
-<span class="sourceLineNo">100</span><a id="line.100">  /**</a>
-<span class="sourceLineNo">101</span><a id="line.101">   * Creates an empty {@code TreeBasedTable} that is ordered by the specified comparators.</a>
-<span class="sourceLineNo">102</span><a id="line.102">   *</a>
-<span class="sourceLineNo">103</span><a id="line.103">   * @param rowComparator the comparator that orders the row keys</a>
-<span class="sourceLineNo">104</span><a id="line.104">   * @param columnComparator the comparator that orders the column keys</a>
-<span class="sourceLineNo">105</span><a id="line.105">   */</a>
-<span class="sourceLineNo">106</span><a id="line.106">  public static &lt;R, C, V&gt; TreeBasedTable&lt;R, C, V&gt; create(</a>
-<span class="sourceLineNo">107</span><a id="line.107">      Comparator&lt;? super R&gt; rowComparator, Comparator&lt;? super C&gt; columnComparator) {</a>
-<span class="sourceLineNo">108</span><a id="line.108">    checkNotNull(rowComparator);</a>
-<span class="sourceLineNo">109</span><a id="line.109">    checkNotNull(columnComparator);</a>
-<span class="sourceLineNo">110</span><a id="line.110">    return new TreeBasedTable&lt;&gt;(rowComparator, columnComparator);</a>
-<span class="sourceLineNo">111</span><a id="line.111">  }</a>
-<span class="sourceLineNo">112</span><a id="line.112"></a>
-<span class="sourceLineNo">113</span><a id="line.113">  /**</a>
-<span class="sourceLineNo">114</span><a id="line.114">   * Creates a {@code TreeBasedTable} with the same mappings and sort order as the specified {@code</a>
-<span class="sourceLineNo">115</span><a id="line.115">   * TreeBasedTable}.</a>
-<span class="sourceLineNo">116</span><a id="line.116">   */</a>
-<span class="sourceLineNo">117</span><a id="line.117">  public static &lt;R, C, V&gt; TreeBasedTable&lt;R, C, V&gt; create(TreeBasedTable&lt;R, C, ? extends V&gt; table) {</a>
-<span class="sourceLineNo">118</span><a id="line.118">    TreeBasedTable&lt;R, C, V&gt; result =</a>
-<span class="sourceLineNo">119</span><a id="line.119">        new TreeBasedTable&lt;&gt;(table.rowComparator(), table.columnComparator());</a>
-<span class="sourceLineNo">120</span><a id="line.120">    result.putAll(table);</a>
-<span class="sourceLineNo">121</span><a id="line.121">    return result;</a>
-<span class="sourceLineNo">122</span><a id="line.122">  }</a>
-<span class="sourceLineNo">123</span><a id="line.123"></a>
-<span class="sourceLineNo">124</span><a id="line.124">  TreeBasedTable(Comparator&lt;? super R&gt; rowComparator, Comparator&lt;? super C&gt; columnComparator) {</a>
-<span class="sourceLineNo">125</span><a id="line.125">    super(new TreeMap&lt;R, Map&lt;C, V&gt;&gt;(rowComparator), new Factory&lt;C, V&gt;(columnComparator));</a>
-<span class="sourceLineNo">126</span><a id="line.126">    this.columnComparator = columnComparator;</a>
-<span class="sourceLineNo">127</span><a id="line.127">  }</a>
-<span class="sourceLineNo">128</span><a id="line.128"></a>
-<span class="sourceLineNo">129</span><a id="line.129">  // TODO(jlevy): Move to StandardRowSortedTable?</a>
-<span class="sourceLineNo">130</span><a id="line.130"></a>
-<span class="sourceLineNo">131</span><a id="line.131">  /**</a>
-<span class="sourceLineNo">132</span><a id="line.132">   * Returns the comparator that orders the rows. With natural ordering, {@link Ordering#natural()}</a>
-<span class="sourceLineNo">133</span><a id="line.133">   * is returned.</a>
-<span class="sourceLineNo">134</span><a id="line.134">   *</a>
-<span class="sourceLineNo">135</span><a id="line.135">   * @deprecated Use {@code table.rowKeySet().comparator()} instead.</a>
-<span class="sourceLineNo">136</span><a id="line.136">   */</a>
-<span class="sourceLineNo">137</span><a id="line.137">  @Deprecated</a>
-<span class="sourceLineNo">138</span><a id="line.138">  public Comparator&lt;? super R&gt; rowComparator() {</a>
-<span class="sourceLineNo">139</span><a id="line.139">    /*</a>
-<span class="sourceLineNo">140</span><a id="line.140">     * requireNonNull is safe because the factories require non-null Comparators, which they pass on</a>
-<span class="sourceLineNo">141</span><a id="line.141">     * to the backing collections.</a>
-<span class="sourceLineNo">142</span><a id="line.142">     */</a>
-<span class="sourceLineNo">143</span><a id="line.143">    return requireNonNull(rowKeySet().comparator());</a>
-<span class="sourceLineNo">144</span><a id="line.144">  }</a>
-<span class="sourceLineNo">145</span><a id="line.145"></a>
-<span class="sourceLineNo">146</span><a id="line.146">  /**</a>
-<span class="sourceLineNo">147</span><a id="line.147">   * Returns the comparator that orders the columns. With natural ordering, {@link</a>
-<span class="sourceLineNo">148</span><a id="line.148">   * Ordering#natural()} is returned.</a>
-<span class="sourceLineNo">149</span><a id="line.149">   *</a>
-<span class="sourceLineNo">150</span><a id="line.150">   * @deprecated Store the {@link Comparator} alongside the {@link Table}. Or, if you know that the</a>
-<span class="sourceLineNo">151</span><a id="line.151">   *     {@link Table} contains at least one value, you can retrieve the {@link Comparator} with:</a>
-<span class="sourceLineNo">152</span><a id="line.152">   *     {@code ((SortedMap&lt;C, V&gt;) table.rowMap().values().iterator().next()).comparator();}.</a>
-<span class="sourceLineNo">153</span><a id="line.153">   */</a>
-<span class="sourceLineNo">154</span><a id="line.154">  @Deprecated</a>
-<span class="sourceLineNo">155</span><a id="line.155">  public Comparator&lt;? super C&gt; columnComparator() {</a>
-<span class="sourceLineNo">156</span><a id="line.156">    return columnComparator;</a>
-<span class="sourceLineNo">157</span><a id="line.157">  }</a>
-<span class="sourceLineNo">158</span><a id="line.158"></a>
-<span class="sourceLineNo">159</span><a id="line.159">  // TODO(lowasser): make column return a SortedMap</a>
-<span class="sourceLineNo">160</span><a id="line.160"></a>
-<span class="sourceLineNo">161</span><a id="line.161">  /**</a>
-<span class="sourceLineNo">162</span><a id="line.162">   * {@inheritDoc}</a>
-<span class="sourceLineNo">163</span><a id="line.163">   *</a>
-<span class="sourceLineNo">164</span><a id="line.164">   * &lt;p&gt;Because a {@code TreeBasedTable} has unique sorted values for a given row, this method</a>
-<span class="sourceLineNo">165</span><a id="line.165">   * returns a {@link SortedMap}, instead of the {@link Map} specified in the {@link Table}</a>
-<span class="sourceLineNo">166</span><a id="line.166">   * interface.</a>
-<span class="sourceLineNo">167</span><a id="line.167">   *</a>
-<span class="sourceLineNo">168</span><a id="line.168">   * @since 10.0 (&lt;a href="https://github.com/google/guava/wiki/Compatibility" &gt;mostly</a>
-<span class="sourceLineNo">169</span><a id="line.169">   *     source-compatible&lt;/a&gt; since 7.0)</a>
-<span class="sourceLineNo">170</span><a id="line.170">   */</a>
-<span class="sourceLineNo">171</span><a id="line.171">  @Override</a>
-<span class="sourceLineNo">172</span><a id="line.172">  public SortedMap&lt;C, V&gt; row(R rowKey) {</a>
-<span class="sourceLineNo">173</span><a id="line.173">    return new TreeRow(rowKey);</a>
-<span class="sourceLineNo">174</span><a id="line.174">  }</a>
-<span class="sourceLineNo">175</span><a id="line.175"></a>
-<span class="sourceLineNo">176</span><a id="line.176">  private class TreeRow extends Row implements SortedMap&lt;C, V&gt; {</a>
-<span class="sourceLineNo">177</span><a id="line.177">    @CheckForNull final C lowerBound;</a>
-<span class="sourceLineNo">178</span><a id="line.178">    @CheckForNull final C upperBound;</a>
-<span class="sourceLineNo">179</span><a id="line.179"></a>
-<span class="sourceLineNo">180</span><a id="line.180">    TreeRow(R rowKey) {</a>
-<span class="sourceLineNo">181</span><a id="line.181">      this(rowKey, null, null);</a>
-<span class="sourceLineNo">182</span><a id="line.182">    }</a>
-<span class="sourceLineNo">183</span><a id="line.183"></a>
-<span class="sourceLineNo">184</span><a id="line.184">    TreeRow(R rowKey, @CheckForNull C lowerBound, @CheckForNull C upperBound) {</a>
-<span class="sourceLineNo">185</span><a id="line.185">      super(rowKey);</a>
-<span class="sourceLineNo">186</span><a id="line.186">      this.lowerBound = lowerBound;</a>
-<span class="sourceLineNo">187</span><a id="line.187">      this.upperBound = upperBound;</a>
-<span class="sourceLineNo">188</span><a id="line.188">      checkArgument(</a>
-<span class="sourceLineNo">189</span><a id="line.189">          lowerBound == null || upperBound == null || compare(lowerBound, upperBound) &lt;= 0);</a>
-<span class="sourceLineNo">190</span><a id="line.190">    }</a>
-<span class="sourceLineNo">191</span><a id="line.191"></a>
-<span class="sourceLineNo">192</span><a id="line.192">    @Override</a>
-<span class="sourceLineNo">193</span><a id="line.193">    public SortedSet&lt;C&gt; keySet() {</a>
-<span class="sourceLineNo">194</span><a id="line.194">      return new Maps.SortedKeySet&lt;&gt;(this);</a>
-<span class="sourceLineNo">195</span><a id="line.195">    }</a>
-<span class="sourceLineNo">196</span><a id="line.196"></a>
-<span class="sourceLineNo">197</span><a id="line.197">    @Override</a>
-<span class="sourceLineNo">198</span><a id="line.198">    public Comparator&lt;? super C&gt; comparator() {</a>
-<span class="sourceLineNo">199</span><a id="line.199">      return columnComparator();</a>
-<span class="sourceLineNo">200</span><a id="line.200">    }</a>
-<span class="sourceLineNo">201</span><a id="line.201"></a>
-<span class="sourceLineNo">202</span><a id="line.202">    int compare(Object a, Object b) {</a>
-<span class="sourceLineNo">203</span><a id="line.203">      // pretend we can compare anything</a>
-<span class="sourceLineNo">204</span><a id="line.204">      @SuppressWarnings("unchecked")</a>
-<span class="sourceLineNo">205</span><a id="line.205">      Comparator&lt;Object&gt; cmp = (Comparator&lt;Object&gt;) comparator();</a>
-<span class="sourceLineNo">206</span><a id="line.206">      return cmp.compare(a, b);</a>
-<span class="sourceLineNo">207</span><a id="line.207">    }</a>
-<span class="sourceLineNo">208</span><a id="line.208"></a>
-<span class="sourceLineNo">209</span><a id="line.209">    boolean rangeContains(@CheckForNull Object o) {</a>
-<span class="sourceLineNo">210</span><a id="line.210">      return o != null</a>
-<span class="sourceLineNo">211</span><a id="line.211">          &amp;&amp; (lowerBound == null || compare(lowerBound, o) &lt;= 0)</a>
-<span class="sourceLineNo">212</span><a id="line.212">          &amp;&amp; (upperBound == null || compare(upperBound, o) &gt; 0);</a>
-<span class="sourceLineNo">213</span><a id="line.213">    }</a>
-<span class="sourceLineNo">214</span><a id="line.214"></a>
-<span class="sourceLineNo">215</span><a id="line.215">    @Override</a>
-<span class="sourceLineNo">216</span><a id="line.216">    public SortedMap&lt;C, V&gt; subMap(C fromKey, C toKey) {</a>
-<span class="sourceLineNo">217</span><a id="line.217">      checkArgument(rangeContains(checkNotNull(fromKey)) &amp;&amp; rangeContains(checkNotNull(toKey)));</a>
-<span class="sourceLineNo">218</span><a id="line.218">      return new TreeRow(rowKey, fromKey, toKey);</a>
-<span class="sourceLineNo">219</span><a id="line.219">    }</a>
-<span class="sourceLineNo">220</span><a id="line.220"></a>
-<span class="sourceLineNo">221</span><a id="line.221">    @Override</a>
-<span class="sourceLineNo">222</span><a id="line.222">    public SortedMap&lt;C, V&gt; headMap(C toKey) {</a>
-<span class="sourceLineNo">223</span><a id="line.223">      checkArgument(rangeContains(checkNotNull(toKey)));</a>
-<span class="sourceLineNo">224</span><a id="line.224">      return new TreeRow(rowKey, lowerBound, toKey);</a>
-<span class="sourceLineNo">225</span><a id="line.225">    }</a>
-<span class="sourceLineNo">226</span><a id="line.226"></a>
-<span class="sourceLineNo">227</span><a id="line.227">    @Override</a>
-<span class="sourceLineNo">228</span><a id="line.228">    public SortedMap&lt;C, V&gt; tailMap(C fromKey) {</a>
-<span class="sourceLineNo">229</span><a id="line.229">      checkArgument(rangeContains(checkNotNull(fromKey)));</a>
-<span class="sourceLineNo">230</span><a id="line.230">      return new TreeRow(rowKey, fromKey, upperBound);</a>
-<span class="sourceLineNo">231</span><a id="line.231">    }</a>
-<span class="sourceLineNo">232</span><a id="line.232"></a>
-<span class="sourceLineNo">233</span><a id="line.233">    @Override</a>
-<span class="sourceLineNo">234</span><a id="line.234">    public C firstKey() {</a>
-<span class="sourceLineNo">235</span><a id="line.235">      updateBackingRowMapField();</a>
-<span class="sourceLineNo">236</span><a id="line.236">      if (backingRowMap == null) {</a>
-<span class="sourceLineNo">237</span><a id="line.237">        throw new NoSuchElementException();</a>
-<span class="sourceLineNo">238</span><a id="line.238">      }</a>
-<span class="sourceLineNo">239</span><a id="line.239">      return ((SortedMap&lt;C, V&gt;) backingRowMap).firstKey();</a>
-<span class="sourceLineNo">240</span><a id="line.240">    }</a>
-<span class="sourceLineNo">241</span><a id="line.241"></a>
-<span class="sourceLineNo">242</span><a id="line.242">    @Override</a>
-<span class="sourceLineNo">243</span><a id="line.243">    public C lastKey() {</a>
-<span class="sourceLineNo">244</span><a id="line.244">      updateBackingRowMapField();</a>
-<span class="sourceLineNo">245</span><a id="line.245">      if (backingRowMap == null) {</a>
-<span class="sourceLineNo">246</span><a id="line.246">        throw new NoSuchElementException();</a>
-<span class="sourceLineNo">247</span><a id="line.247">      }</a>
-<span class="sourceLineNo">248</span><a id="line.248">      return ((SortedMap&lt;C, V&gt;) backingRowMap).lastKey();</a>
-<span class="sourceLineNo">249</span><a id="line.249">    }</a>
-<span class="sourceLineNo">250</span><a id="line.250"></a>
-<span class="sourceLineNo">251</span><a id="line.251">    @CheckForNull transient SortedMap&lt;C, V&gt; wholeRow;</a>
-<span class="sourceLineNo">252</span><a id="line.252"></a>
-<span class="sourceLineNo">253</span><a id="line.253">    // If the row was previously empty, we check if there's a new row here every time we're queried.</a>
-<span class="sourceLineNo">254</span><a id="line.254">    void updateWholeRowField() {</a>
-<span class="sourceLineNo">255</span><a id="line.255">      if (wholeRow == null || (wholeRow.isEmpty() &amp;&amp; backingMap.containsKey(rowKey))) {</a>
-<span class="sourceLineNo">256</span><a id="line.256">        wholeRow = (SortedMap&lt;C, V&gt;) backingMap.get(rowKey);</a>
-<span class="sourceLineNo">257</span><a id="line.257">      }</a>
-<span class="sourceLineNo">258</span><a id="line.258">    }</a>
-<span class="sourceLineNo">259</span><a id="line.259"></a>
-<span class="sourceLineNo">260</span><a id="line.260">    @Override</a>
-<span class="sourceLineNo">261</span><a id="line.261">    @CheckForNull</a>
-<span class="sourceLineNo">262</span><a id="line.262">    SortedMap&lt;C, V&gt; computeBackingRowMap() {</a>
-<span class="sourceLineNo">263</span><a id="line.263">      updateWholeRowField();</a>
-<span class="sourceLineNo">264</span><a id="line.264">      SortedMap&lt;C, V&gt; map = wholeRow;</a>
-<span class="sourceLineNo">265</span><a id="line.265">      if (map != null) {</a>
-<span class="sourceLineNo">266</span><a id="line.266">        if (lowerBound != null) {</a>
-<span class="sourceLineNo">267</span><a id="line.267">          map = map.tailMap(lowerBound);</a>
-<span class="sourceLineNo">268</span><a id="line.268">        }</a>
-<span class="sourceLineNo">269</span><a id="line.269">        if (upperBound != null) {</a>
-<span class="sourceLineNo">270</span><a id="line.270">          map = map.headMap(upperBound);</a>
-<span class="sourceLineNo">271</span><a id="line.271">        }</a>
-<span class="sourceLineNo">272</span><a id="line.272">        return map;</a>
-<span class="sourceLineNo">273</span><a id="line.273">      }</a>
-<span class="sourceLineNo">274</span><a id="line.274">      return null;</a>
-<span class="sourceLineNo">275</span><a id="line.275">    }</a>
-<span class="sourceLineNo">276</span><a id="line.276"></a>
-<span class="sourceLineNo">277</span><a id="line.277">    @Override</a>
-<span class="sourceLineNo">278</span><a id="line.278">    void maintainEmptyInvariant() {</a>
-<span class="sourceLineNo">279</span><a id="line.279">      updateWholeRowField();</a>
-<span class="sourceLineNo">280</span><a id="line.280">      if (wholeRow != null &amp;&amp; wholeRow.isEmpty()) {</a>
-<span class="sourceLineNo">281</span><a id="line.281">        backingMap.remove(rowKey);</a>
-<span class="sourceLineNo">282</span><a id="line.282">        wholeRow = null;</a>
-<span class="sourceLineNo">283</span><a id="line.283">        backingRowMap = null;</a>
-<span class="sourceLineNo">284</span><a id="line.284">      }</a>
-<span class="sourceLineNo">285</span><a id="line.285">    }</a>
-<span class="sourceLineNo">286</span><a id="line.286"></a>
-<span class="sourceLineNo">287</span><a id="line.287">    @Override</a>
-<span class="sourceLineNo">288</span><a id="line.288">    public boolean containsKey(@CheckForNull Object key) {</a>
-<span class="sourceLineNo">289</span><a id="line.289">      return rangeContains(key) &amp;&amp; super.containsKey(key);</a>
-<span class="sourceLineNo">290</span><a id="line.290">    }</a>
-<span class="sourceLineNo">291</span><a id="line.291"></a>
-<span class="sourceLineNo">292</span><a id="line.292">    @Override</a>
-<span class="sourceLineNo">293</span><a id="line.293">    @CheckForNull</a>
-<span class="sourceLineNo">294</span><a id="line.294">    public V put(C key, V value) {</a>
-<span class="sourceLineNo">295</span><a id="line.295">      checkArgument(rangeContains(checkNotNull(key)));</a>
-<span class="sourceLineNo">296</span><a id="line.296">      return super.put(key, value);</a>
-<span class="sourceLineNo">297</span><a id="line.297">    }</a>
-<span class="sourceLineNo">298</span><a id="line.298">  }</a>
-<span class="sourceLineNo">299</span><a id="line.299"></a>
-<span class="sourceLineNo">300</span><a id="line.300">  // rowKeySet() and rowMap() are defined here so they appear in the Javadoc.</a>
-<span class="sourceLineNo">301</span><a id="line.301"></a>
-<span class="sourceLineNo">302</span><a id="line.302">  @Override</a>
-<span class="sourceLineNo">303</span><a id="line.303">  public SortedSet&lt;R&gt; rowKeySet() {</a>
-<span class="sourceLineNo">304</span><a id="line.304">    return super.rowKeySet();</a>
-<span class="sourceLineNo">305</span><a id="line.305">  }</a>
-<span class="sourceLineNo">306</span><a id="line.306"></a>
-<span class="sourceLineNo">307</span><a id="line.307">  @Override</a>
-<span class="sourceLineNo">308</span><a id="line.308">  public SortedMap&lt;R, Map&lt;C, V&gt;&gt; rowMap() {</a>
-<span class="sourceLineNo">309</span><a id="line.309">    return super.rowMap();</a>
-<span class="sourceLineNo">310</span><a id="line.310">  }</a>
-<span class="sourceLineNo">311</span><a id="line.311"></a>
-<span class="sourceLineNo">312</span><a id="line.312">  /** Overridden column iterator to return columns values in globally sorted order. */</a>
-<span class="sourceLineNo">313</span><a id="line.313">  @Override</a>
-<span class="sourceLineNo">314</span><a id="line.314">  Iterator&lt;C&gt; createColumnKeyIterator() {</a>
-<span class="sourceLineNo">315</span><a id="line.315">    Comparator&lt;? super C&gt; comparator = columnComparator();</a>
-<span class="sourceLineNo">316</span><a id="line.316"></a>
-<span class="sourceLineNo">317</span><a id="line.317">    Iterator&lt;C&gt; merged =</a>
-<span class="sourceLineNo">318</span><a id="line.318">        Iterators.mergeSorted(</a>
-<span class="sourceLineNo">319</span><a id="line.319">            Iterables.transform(</a>
-<span class="sourceLineNo">320</span><a id="line.320">                backingMap.values(), (Map&lt;C, V&gt; input) -&gt; input.keySet().iterator()),</a>
-<span class="sourceLineNo">321</span><a id="line.321">            comparator);</a>
-<span class="sourceLineNo">322</span><a id="line.322"></a>
-<span class="sourceLineNo">323</span><a id="line.323">    return new AbstractIterator&lt;C&gt;() {</a>
-<span class="sourceLineNo">324</span><a id="line.324">      @CheckForNull C lastValue;</a>
-<span class="sourceLineNo">325</span><a id="line.325"></a>
-<span class="sourceLineNo">326</span><a id="line.326">      @Override</a>
-<span class="sourceLineNo">327</span><a id="line.327">      @CheckForNull</a>
-<span class="sourceLineNo">328</span><a id="line.328">      protected C computeNext() {</a>
-<span class="sourceLineNo">329</span><a id="line.329">        while (merged.hasNext()) {</a>
-<span class="sourceLineNo">330</span><a id="line.330">          C next = merged.next();</a>
-<span class="sourceLineNo">331</span><a id="line.331">          boolean duplicate = lastValue != null &amp;&amp; comparator.compare(next, lastValue) == 0;</a>
-<span class="sourceLineNo">332</span><a id="line.332"></a>
-<span class="sourceLineNo">333</span><a id="line.333">          // Keep looping till we find a non-duplicate value.</a>
-<span class="sourceLineNo">334</span><a id="line.334">          if (!duplicate) {</a>
-<span class="sourceLineNo">335</span><a id="line.335">            lastValue = next;</a>
-<span class="sourceLineNo">336</span><a id="line.336">            return lastValue;</a>
-<span class="sourceLineNo">337</span><a id="line.337">          }</a>
-<span class="sourceLineNo">338</span><a id="line.338">        }</a>
-<span class="sourceLineNo">339</span><a id="line.339"></a>
-<span class="sourceLineNo">340</span><a id="line.340">        lastValue = null; // clear reference to unused data</a>
-<span class="sourceLineNo">341</span><a id="line.341">        return endOfData();</a>
-<span class="sourceLineNo">342</span><a id="line.342">      }</a>
-<span class="sourceLineNo">343</span><a id="line.343">    };</a>
-<span class="sourceLineNo">344</span><a id="line.344">  }</a>
-<span class="sourceLineNo">345</span><a id="line.345"></a>
-<span class="sourceLineNo">346</span><a id="line.346">  private static final long serialVersionUID = 0;</a>
-<span class="sourceLineNo">347</span><a id="line.347">}</a>
+<span class="sourceLineNo">096</span><a id="line.96">  @SuppressWarnings("rawtypes") // https://github.com/google/guava/issues/989</a>
+<span class="sourceLineNo">097</span><a id="line.97">  public static &lt;R extends Comparable, C extends Comparable, V&gt; TreeBasedTable&lt;R, C, V&gt; create() {</a>
+<span class="sourceLineNo">098</span><a id="line.98">    return new TreeBasedTable&lt;&gt;(Ordering.natural(), Ordering.natural());</a>
+<span class="sourceLineNo">099</span><a id="line.99">  }</a>
+<span class="sourceLineNo">100</span><a id="line.100"></a>
+<span class="sourceLineNo">101</span><a id="line.101">  /**</a>
+<span class="sourceLineNo">102</span><a id="line.102">   * Creates an empty {@code TreeBasedTable} that is ordered by the specified comparators.</a>
+<span class="sourceLineNo">103</span><a id="line.103">   *</a>
+<span class="sourceLineNo">104</span><a id="line.104">   * @param rowComparator the comparator that orders the row keys</a>
+<span class="sourceLineNo">105</span><a id="line.105">   * @param columnComparator the comparator that orders the column keys</a>
+<span class="sourceLineNo">106</span><a id="line.106">   */</a>
+<span class="sourceLineNo">107</span><a id="line.107">  public static &lt;R, C, V&gt; TreeBasedTable&lt;R, C, V&gt; create(</a>
+<span class="sourceLineNo">108</span><a id="line.108">      Comparator&lt;? super R&gt; rowComparator, Comparator&lt;? super C&gt; columnComparator) {</a>
+<span class="sourceLineNo">109</span><a id="line.109">    checkNotNull(rowComparator);</a>
+<span class="sourceLineNo">110</span><a id="line.110">    checkNotNull(columnComparator);</a>
+<span class="sourceLineNo">111</span><a id="line.111">    return new TreeBasedTable&lt;&gt;(rowComparator, columnComparator);</a>
+<span class="sourceLineNo">112</span><a id="line.112">  }</a>
+<span class="sourceLineNo">113</span><a id="line.113"></a>
+<span class="sourceLineNo">114</span><a id="line.114">  /**</a>
+<span class="sourceLineNo">115</span><a id="line.115">   * Creates a {@code TreeBasedTable} with the same mappings and sort order as the specified {@code</a>
+<span class="sourceLineNo">116</span><a id="line.116">   * TreeBasedTable}.</a>
+<span class="sourceLineNo">117</span><a id="line.117">   */</a>
+<span class="sourceLineNo">118</span><a id="line.118">  public static &lt;R, C, V&gt; TreeBasedTable&lt;R, C, V&gt; create(TreeBasedTable&lt;R, C, ? extends V&gt; table) {</a>
+<span class="sourceLineNo">119</span><a id="line.119">    TreeBasedTable&lt;R, C, V&gt; result =</a>
+<span class="sourceLineNo">120</span><a id="line.120">        new TreeBasedTable&lt;&gt;(table.rowComparator(), table.columnComparator());</a>
+<span class="sourceLineNo">121</span><a id="line.121">    result.putAll(table);</a>
+<span class="sourceLineNo">122</span><a id="line.122">    return result;</a>
+<span class="sourceLineNo">123</span><a id="line.123">  }</a>
+<span class="sourceLineNo">124</span><a id="line.124"></a>
+<span class="sourceLineNo">125</span><a id="line.125">  TreeBasedTable(Comparator&lt;? super R&gt; rowComparator, Comparator&lt;? super C&gt; columnComparator) {</a>
+<span class="sourceLineNo">126</span><a id="line.126">    super(new TreeMap&lt;R, Map&lt;C, V&gt;&gt;(rowComparator), new Factory&lt;C, V&gt;(columnComparator));</a>
+<span class="sourceLineNo">127</span><a id="line.127">    this.columnComparator = columnComparator;</a>
+<span class="sourceLineNo">128</span><a id="line.128">  }</a>
+<span class="sourceLineNo">129</span><a id="line.129"></a>
+<span class="sourceLineNo">130</span><a id="line.130">  // TODO(jlevy): Move to StandardRowSortedTable?</a>
+<span class="sourceLineNo">131</span><a id="line.131"></a>
+<span class="sourceLineNo">132</span><a id="line.132">  /**</a>
+<span class="sourceLineNo">133</span><a id="line.133">   * Returns the comparator that orders the rows. With natural ordering, {@link Ordering#natural()}</a>
+<span class="sourceLineNo">134</span><a id="line.134">   * is returned.</a>
+<span class="sourceLineNo">135</span><a id="line.135">   *</a>
+<span class="sourceLineNo">136</span><a id="line.136">   * @deprecated Use {@code table.rowKeySet().comparator()} instead.</a>
+<span class="sourceLineNo">137</span><a id="line.137">   */</a>
+<span class="sourceLineNo">138</span><a id="line.138">  @Deprecated</a>
+<span class="sourceLineNo">139</span><a id="line.139">  public Comparator&lt;? super R&gt; rowComparator() {</a>
+<span class="sourceLineNo">140</span><a id="line.140">    /*</a>
+<span class="sourceLineNo">141</span><a id="line.141">     * requireNonNull is safe because the factories require non-null Comparators, which they pass on</a>
+<span class="sourceLineNo">142</span><a id="line.142">     * to the backing collections.</a>
+<span class="sourceLineNo">143</span><a id="line.143">     */</a>
+<span class="sourceLineNo">144</span><a id="line.144">    return requireNonNull(rowKeySet().comparator());</a>
+<span class="sourceLineNo">145</span><a id="line.145">  }</a>
+<span class="sourceLineNo">146</span><a id="line.146"></a>
+<span class="sourceLineNo">147</span><a id="line.147">  /**</a>
+<span class="sourceLineNo">148</span><a id="line.148">   * Returns the comparator that orders the columns. With natural ordering, {@link</a>
+<span class="sourceLineNo">149</span><a id="line.149">   * Ordering#natural()} is returned.</a>
+<span class="sourceLineNo">150</span><a id="line.150">   *</a>
+<span class="sourceLineNo">151</span><a id="line.151">   * @deprecated Store the {@link Comparator} alongside the {@link Table}. Or, if you know that the</a>
+<span class="sourceLineNo">152</span><a id="line.152">   *     {@link Table} contains at least one value, you can retrieve the {@link Comparator} with:</a>
+<span class="sourceLineNo">153</span><a id="line.153">   *     {@code ((SortedMap&lt;C, V&gt;) table.rowMap().values().iterator().next()).comparator();}.</a>
+<span class="sourceLineNo">154</span><a id="line.154">   */</a>
+<span class="sourceLineNo">155</span><a id="line.155">  @Deprecated</a>
+<span class="sourceLineNo">156</span><a id="line.156">  public Comparator&lt;? super C&gt; columnComparator() {</a>
+<span class="sourceLineNo">157</span><a id="line.157">    return columnComparator;</a>
+<span class="sourceLineNo">158</span><a id="line.158">  }</a>
+<span class="sourceLineNo">159</span><a id="line.159"></a>
+<span class="sourceLineNo">160</span><a id="line.160">  // TODO(lowasser): make column return a SortedMap</a>
+<span class="sourceLineNo">161</span><a id="line.161"></a>
+<span class="sourceLineNo">162</span><a id="line.162">  /**</a>
+<span class="sourceLineNo">163</span><a id="line.163">   * {@inheritDoc}</a>
+<span class="sourceLineNo">164</span><a id="line.164">   *</a>
+<span class="sourceLineNo">165</span><a id="line.165">   * &lt;p&gt;Because a {@code TreeBasedTable} has unique sorted values for a given row, this method</a>
+<span class="sourceLineNo">166</span><a id="line.166">   * returns a {@link SortedMap}, instead of the {@link Map} specified in the {@link Table}</a>
+<span class="sourceLineNo">167</span><a id="line.167">   * interface.</a>
+<span class="sourceLineNo">168</span><a id="line.168">   *</a>
+<span class="sourceLineNo">169</span><a id="line.169">   * @since 10.0 (&lt;a href="https://github.com/google/guava/wiki/Compatibility" &gt;mostly</a>
+<span class="sourceLineNo">170</span><a id="line.170">   *     source-compatible&lt;/a&gt; since 7.0)</a>
+<span class="sourceLineNo">171</span><a id="line.171">   */</a>
+<span class="sourceLineNo">172</span><a id="line.172">  @Override</a>
+<span class="sourceLineNo">173</span><a id="line.173">  public SortedMap&lt;C, V&gt; row(R rowKey) {</a>
+<span class="sourceLineNo">174</span><a id="line.174">    return new TreeRow(rowKey);</a>
+<span class="sourceLineNo">175</span><a id="line.175">  }</a>
+<span class="sourceLineNo">176</span><a id="line.176"></a>
+<span class="sourceLineNo">177</span><a id="line.177">  private class TreeRow extends Row implements SortedMap&lt;C, V&gt; {</a>
+<span class="sourceLineNo">178</span><a id="line.178">    @CheckForNull final C lowerBound;</a>
+<span class="sourceLineNo">179</span><a id="line.179">    @CheckForNull final C upperBound;</a>
+<span class="sourceLineNo">180</span><a id="line.180"></a>
+<span class="sourceLineNo">181</span><a id="line.181">    TreeRow(R rowKey) {</a>
+<span class="sourceLineNo">182</span><a id="line.182">      this(rowKey, null, null);</a>
+<span class="sourceLineNo">183</span><a id="line.183">    }</a>
+<span class="sourceLineNo">184</span><a id="line.184"></a>
+<span class="sourceLineNo">185</span><a id="line.185">    TreeRow(R rowKey, @CheckForNull C lowerBound, @CheckForNull C upperBound) {</a>
+<span class="sourceLineNo">186</span><a id="line.186">      super(rowKey);</a>
+<span class="sourceLineNo">187</span><a id="line.187">      this.lowerBound = lowerBound;</a>
+<span class="sourceLineNo">188</span><a id="line.188">      this.upperBound = upperBound;</a>
+<span class="sourceLineNo">189</span><a id="line.189">      checkArgument(</a>
+<span class="sourceLineNo">190</span><a id="line.190">          lowerBound == null || upperBound == null || compare(lowerBound, upperBound) &lt;= 0);</a>
+<span class="sourceLineNo">191</span><a id="line.191">    }</a>
+<span class="sourceLineNo">192</span><a id="line.192"></a>
+<span class="sourceLineNo">193</span><a id="line.193">    @Override</a>
+<span class="sourceLineNo">194</span><a id="line.194">    public SortedSet&lt;C&gt; keySet() {</a>
+<span class="sourceLineNo">195</span><a id="line.195">      return new Maps.SortedKeySet&lt;&gt;(this);</a>
+<span class="sourceLineNo">196</span><a id="line.196">    }</a>
+<span class="sourceLineNo">197</span><a id="line.197"></a>
+<span class="sourceLineNo">198</span><a id="line.198">    @Override</a>
+<span class="sourceLineNo">199</span><a id="line.199">    public Comparator&lt;? super C&gt; comparator() {</a>
+<span class="sourceLineNo">200</span><a id="line.200">      return columnComparator();</a>
+<span class="sourceLineNo">201</span><a id="line.201">    }</a>
+<span class="sourceLineNo">202</span><a id="line.202"></a>
+<span class="sourceLineNo">203</span><a id="line.203">    int compare(Object a, Object b) {</a>
+<span class="sourceLineNo">204</span><a id="line.204">      // pretend we can compare anything</a>
+<span class="sourceLineNo">205</span><a id="line.205">      @SuppressWarnings("unchecked")</a>
+<span class="sourceLineNo">206</span><a id="line.206">      Comparator&lt;Object&gt; cmp = (Comparator&lt;Object&gt;) comparator();</a>
+<span class="sourceLineNo">207</span><a id="line.207">      return cmp.compare(a, b);</a>
+<span class="sourceLineNo">208</span><a id="line.208">    }</a>
+<span class="sourceLineNo">209</span><a id="line.209"></a>
+<span class="sourceLineNo">210</span><a id="line.210">    boolean rangeContains(@CheckForNull Object o) {</a>
+<span class="sourceLineNo">211</span><a id="line.211">      return o != null</a>
+<span class="sourceLineNo">212</span><a id="line.212">          &amp;&amp; (lowerBound == null || compare(lowerBound, o) &lt;= 0)</a>
+<span class="sourceLineNo">213</span><a id="line.213">          &amp;&amp; (upperBound == null || compare(upperBound, o) &gt; 0);</a>
+<span class="sourceLineNo">214</span><a id="line.214">    }</a>
+<span class="sourceLineNo">215</span><a id="line.215"></a>
+<span class="sourceLineNo">216</span><a id="line.216">    @Override</a>
+<span class="sourceLineNo">217</span><a id="line.217">    public SortedMap&lt;C, V&gt; subMap(C fromKey, C toKey) {</a>
+<span class="sourceLineNo">218</span><a id="line.218">      checkArgument(rangeContains(checkNotNull(fromKey)) &amp;&amp; rangeContains(checkNotNull(toKey)));</a>
+<span class="sourceLineNo">219</span><a id="line.219">      return new TreeRow(rowKey, fromKey, toKey);</a>
+<span class="sourceLineNo">220</span><a id="line.220">    }</a>
+<span class="sourceLineNo">221</span><a id="line.221"></a>
+<span class="sourceLineNo">222</span><a id="line.222">    @Override</a>
+<span class="sourceLineNo">223</span><a id="line.223">    public SortedMap&lt;C, V&gt; headMap(C toKey) {</a>
+<span class="sourceLineNo">224</span><a id="line.224">      checkArgument(rangeContains(checkNotNull(toKey)));</a>
+<span class="sourceLineNo">225</span><a id="line.225">      return new TreeRow(rowKey, lowerBound, toKey);</a>
+<span class="sourceLineNo">226</span><a id="line.226">    }</a>
+<span class="sourceLineNo">227</span><a id="line.227"></a>
+<span class="sourceLineNo">228</span><a id="line.228">    @Override</a>
+<span class="sourceLineNo">229</span><a id="line.229">    public SortedMap&lt;C, V&gt; tailMap(C fromKey) {</a>
+<span class="sourceLineNo">230</span><a id="line.230">      checkArgument(rangeContains(checkNotNull(fromKey)));</a>
+<span class="sourceLineNo">231</span><a id="line.231">      return new TreeRow(rowKey, fromKey, upperBound);</a>
+<span class="sourceLineNo">232</span><a id="line.232">    }</a>
+<span class="sourceLineNo">233</span><a id="line.233"></a>
+<span class="sourceLineNo">234</span><a id="line.234">    @Override</a>
+<span class="sourceLineNo">235</span><a id="line.235">    public C firstKey() {</a>
+<span class="sourceLineNo">236</span><a id="line.236">      updateBackingRowMapField();</a>
+<span class="sourceLineNo">237</span><a id="line.237">      if (backingRowMap == null) {</a>
+<span class="sourceLineNo">238</span><a id="line.238">        throw new NoSuchElementException();</a>
+<span class="sourceLineNo">239</span><a id="line.239">      }</a>
+<span class="sourceLineNo">240</span><a id="line.240">      return ((SortedMap&lt;C, V&gt;) backingRowMap).firstKey();</a>
+<span class="sourceLineNo">241</span><a id="line.241">    }</a>
+<span class="sourceLineNo">242</span><a id="line.242"></a>
+<span class="sourceLineNo">243</span><a id="line.243">    @Override</a>
+<span class="sourceLineNo">244</span><a id="line.244">    public C lastKey() {</a>
+<span class="sourceLineNo">245</span><a id="line.245">      updateBackingRowMapField();</a>
+<span class="sourceLineNo">246</span><a id="line.246">      if (backingRowMap == null) {</a>
+<span class="sourceLineNo">247</span><a id="line.247">        throw new NoSuchElementException();</a>
+<span class="sourceLineNo">248</span><a id="line.248">      }</a>
+<span class="sourceLineNo">249</span><a id="line.249">      return ((SortedMap&lt;C, V&gt;) backingRowMap).lastKey();</a>
+<span class="sourceLineNo">250</span><a id="line.250">    }</a>
+<span class="sourceLineNo">251</span><a id="line.251"></a>
+<span class="sourceLineNo">252</span><a id="line.252">    @CheckForNull transient SortedMap&lt;C, V&gt; wholeRow;</a>
+<span class="sourceLineNo">253</span><a id="line.253"></a>
+<span class="sourceLineNo">254</span><a id="line.254">    // If the row was previously empty, we check if there's a new row here every time we're queried.</a>
+<span class="sourceLineNo">255</span><a id="line.255">    void updateWholeRowField() {</a>
+<span class="sourceLineNo">256</span><a id="line.256">      if (wholeRow == null || (wholeRow.isEmpty() &amp;&amp; backingMap.containsKey(rowKey))) {</a>
+<span class="sourceLineNo">257</span><a id="line.257">        wholeRow = (SortedMap&lt;C, V&gt;) backingMap.get(rowKey);</a>
+<span class="sourceLineNo">258</span><a id="line.258">      }</a>
+<span class="sourceLineNo">259</span><a id="line.259">    }</a>
+<span class="sourceLineNo">260</span><a id="line.260"></a>
+<span class="sourceLineNo">261</span><a id="line.261">    @Override</a>
+<span class="sourceLineNo">262</span><a id="line.262">    @CheckForNull</a>
+<span class="sourceLineNo">263</span><a id="line.263">    SortedMap&lt;C, V&gt; computeBackingRowMap() {</a>
+<span class="sourceLineNo">264</span><a id="line.264">      updateWholeRowField();</a>
+<span class="sourceLineNo">265</span><a id="line.265">      SortedMap&lt;C, V&gt; map = wholeRow;</a>
+<span class="sourceLineNo">266</span><a id="line.266">      if (map != null) {</a>
+<span class="sourceLineNo">267</span><a id="line.267">        if (lowerBound != null) {</a>
+<span class="sourceLineNo">268</span><a id="line.268">          map = map.tailMap(lowerBound);</a>
+<span class="sourceLineNo">269</span><a id="line.269">        }</a>
+<span class="sourceLineNo">270</span><a id="line.270">        if (upperBound != null) {</a>
+<span class="sourceLineNo">271</span><a id="line.271">          map = map.headMap(upperBound);</a>
+<span class="sourceLineNo">272</span><a id="line.272">        }</a>
+<span class="sourceLineNo">273</span><a id="line.273">        return map;</a>
+<span class="sourceLineNo">274</span><a id="line.274">      }</a>
+<span class="sourceLineNo">275</span><a id="line.275">      return null;</a>
+<span class="sourceLineNo">276</span><a id="line.276">    }</a>
+<span class="sourceLineNo">277</span><a id="line.277"></a>
+<span class="sourceLineNo">278</span><a id="line.278">    @Override</a>
+<span class="sourceLineNo">279</span><a id="line.279">    void maintainEmptyInvariant() {</a>
+<span class="sourceLineNo">280</span><a id="line.280">      updateWholeRowField();</a>
+<span class="sourceLineNo">281</span><a id="line.281">      if (wholeRow != null &amp;&amp; wholeRow.isEmpty()) {</a>
+<span class="sourceLineNo">282</span><a id="line.282">        backingMap.remove(rowKey);</a>
+<span class="sourceLineNo">283</span><a id="line.283">        wholeRow = null;</a>
+<span class="sourceLineNo">284</span><a id="line.284">        backingRowMap = null;</a>
+<span class="sourceLineNo">285</span><a id="line.285">      }</a>
+<span class="sourceLineNo">286</span><a id="line.286">    }</a>
+<span class="sourceLineNo">287</span><a id="line.287"></a>
+<span class="sourceLineNo">288</span><a id="line.288">    @Override</a>
+<span class="sourceLineNo">289</span><a id="line.289">    public boolean containsKey(@CheckForNull Object key) {</a>
+<span class="sourceLineNo">290</span><a id="line.290">      return rangeContains(key) &amp;&amp; super.containsKey(key);</a>
+<span class="sourceLineNo">291</span><a id="line.291">    }</a>
+<span class="sourceLineNo">292</span><a id="line.292"></a>
+<span class="sourceLineNo">293</span><a id="line.293">    @Override</a>
+<span class="sourceLineNo">294</span><a id="line.294">    @CheckForNull</a>
+<span class="sourceLineNo">295</span><a id="line.295">    public V put(C key, V value) {</a>
+<span class="sourceLineNo">296</span><a id="line.296">      checkArgument(rangeContains(checkNotNull(key)));</a>
+<span class="sourceLineNo">297</span><a id="line.297">      return super.put(key, value);</a>
+<span class="sourceLineNo">298</span><a id="line.298">    }</a>
+<span class="sourceLineNo">299</span><a id="line.299">  }</a>
+<span class="sourceLineNo">300</span><a id="line.300"></a>
+<span class="sourceLineNo">301</span><a id="line.301">  // rowKeySet() and rowMap() are defined here so they appear in the Javadoc.</a>
+<span class="sourceLineNo">302</span><a id="line.302"></a>
+<span class="sourceLineNo">303</span><a id="line.303">  @Override</a>
+<span class="sourceLineNo">304</span><a id="line.304">  public SortedSet&lt;R&gt; rowKeySet() {</a>
+<span class="sourceLineNo">305</span><a id="line.305">    return super.rowKeySet();</a>
+<span class="sourceLineNo">306</span><a id="line.306">  }</a>
+<span class="sourceLineNo">307</span><a id="line.307"></a>
+<span class="sourceLineNo">308</span><a id="line.308">  @Override</a>
+<span class="sourceLineNo">309</span><a id="line.309">  public SortedMap&lt;R, Map&lt;C, V&gt;&gt; rowMap() {</a>
+<span class="sourceLineNo">310</span><a id="line.310">    return super.rowMap();</a>
+<span class="sourceLineNo">311</span><a id="line.311">  }</a>
+<span class="sourceLineNo">312</span><a id="line.312"></a>
+<span class="sourceLineNo">313</span><a id="line.313">  /** Overridden column iterator to return columns values in globally sorted order. */</a>
+<span class="sourceLineNo">314</span><a id="line.314">  @Override</a>
+<span class="sourceLineNo">315</span><a id="line.315">  Iterator&lt;C&gt; createColumnKeyIterator() {</a>
+<span class="sourceLineNo">316</span><a id="line.316">    Comparator&lt;? super C&gt; comparator = columnComparator();</a>
+<span class="sourceLineNo">317</span><a id="line.317"></a>
+<span class="sourceLineNo">318</span><a id="line.318">    Iterator&lt;C&gt; merged =</a>
+<span class="sourceLineNo">319</span><a id="line.319">        Iterators.mergeSorted(</a>
+<span class="sourceLineNo">320</span><a id="line.320">            Iterables.transform(</a>
+<span class="sourceLineNo">321</span><a id="line.321">                backingMap.values(), (Map&lt;C, V&gt; input) -&gt; input.keySet().iterator()),</a>
+<span class="sourceLineNo">322</span><a id="line.322">            comparator);</a>
+<span class="sourceLineNo">323</span><a id="line.323"></a>
+<span class="sourceLineNo">324</span><a id="line.324">    return new AbstractIterator&lt;C&gt;() {</a>
+<span class="sourceLineNo">325</span><a id="line.325">      @CheckForNull C lastValue;</a>
+<span class="sourceLineNo">326</span><a id="line.326"></a>
+<span class="sourceLineNo">327</span><a id="line.327">      @Override</a>
+<span class="sourceLineNo">328</span><a id="line.328">      @CheckForNull</a>
+<span class="sourceLineNo">329</span><a id="line.329">      protected C computeNext() {</a>
+<span class="sourceLineNo">330</span><a id="line.330">        while (merged.hasNext()) {</a>
+<span class="sourceLineNo">331</span><a id="line.331">          C next = merged.next();</a>
+<span class="sourceLineNo">332</span><a id="line.332">          boolean duplicate = lastValue != null &amp;&amp; comparator.compare(next, lastValue) == 0;</a>
+<span class="sourceLineNo">333</span><a id="line.333"></a>
+<span class="sourceLineNo">334</span><a id="line.334">          // Keep looping till we find a non-duplicate value.</a>
+<span class="sourceLineNo">335</span><a id="line.335">          if (!duplicate) {</a>
+<span class="sourceLineNo">336</span><a id="line.336">            lastValue = next;</a>
+<span class="sourceLineNo">337</span><a id="line.337">            return lastValue;</a>
+<span class="sourceLineNo">338</span><a id="line.338">          }</a>
+<span class="sourceLineNo">339</span><a id="line.339">        }</a>
+<span class="sourceLineNo">340</span><a id="line.340"></a>
+<span class="sourceLineNo">341</span><a id="line.341">        lastValue = null; // clear reference to unused data</a>
+<span class="sourceLineNo">342</span><a id="line.342">        return endOfData();</a>
+<span class="sourceLineNo">343</span><a id="line.343">      }</a>
+<span class="sourceLineNo">344</span><a id="line.344">    };</a>
+<span class="sourceLineNo">345</span><a id="line.345">  }</a>
+<span class="sourceLineNo">346</span><a id="line.346"></a>
+<span class="sourceLineNo">347</span><a id="line.347">  private static final long serialVersionUID = 0;</a>
+<span class="sourceLineNo">348</span><a id="line.348">}</a>
 
 
 

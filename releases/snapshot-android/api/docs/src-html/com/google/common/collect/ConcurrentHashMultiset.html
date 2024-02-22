@@ -86,7 +86,7 @@
 <span class="sourceLineNo">077</span><a id="line.77">  // This constant allows the deserialization code to set a final field. This holder class</a>
 <span class="sourceLineNo">078</span><a id="line.78">  // makes sure it is not initialized unless an instance is deserialized.</a>
 <span class="sourceLineNo">079</span><a id="line.79">  private static class FieldSettersHolder {</a>
-<span class="sourceLineNo">080</span><a id="line.80">    static final FieldSetter&lt;ConcurrentHashMultiset&gt; COUNT_MAP_FIELD_SETTER =</a>
+<span class="sourceLineNo">080</span><a id="line.80">    static final FieldSetter&lt;? super ConcurrentHashMultiset&lt;?&gt;&gt; COUNT_MAP_FIELD_SETTER =</a>
 <span class="sourceLineNo">081</span><a id="line.81">        Serialization.getFieldSetter(ConcurrentHashMultiset.class, "countMap");</a>
 <span class="sourceLineNo">082</span><a id="line.82">  }</a>
 <span class="sourceLineNo">083</span><a id="line.83"></a>

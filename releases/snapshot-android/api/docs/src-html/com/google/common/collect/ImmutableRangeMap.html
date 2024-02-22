@@ -192,7 +192,7 @@
 <span class="sourceLineNo">183</span><a id="line.183">    int index =</a>
 <span class="sourceLineNo">184</span><a id="line.184">        SortedLists.binarySearch(</a>
 <span class="sourceLineNo">185</span><a id="line.185">            ranges,</a>
-<span class="sourceLineNo">186</span><a id="line.186">            Range.&lt;K&gt;lowerBoundFn(),</a>
+<span class="sourceLineNo">186</span><a id="line.186">            Range::lowerBound,</a>
 <span class="sourceLineNo">187</span><a id="line.187">            Cut.belowValue(key),</a>
 <span class="sourceLineNo">188</span><a id="line.188">            KeyPresentBehavior.ANY_PRESENT,</a>
 <span class="sourceLineNo">189</span><a id="line.189">            KeyAbsentBehavior.NEXT_LOWER);</a>
@@ -210,7 +210,7 @@
 <span class="sourceLineNo">201</span><a id="line.201">    int index =</a>
 <span class="sourceLineNo">202</span><a id="line.202">        SortedLists.binarySearch(</a>
 <span class="sourceLineNo">203</span><a id="line.203">            ranges,</a>
-<span class="sourceLineNo">204</span><a id="line.204">            Range.&lt;K&gt;lowerBoundFn(),</a>
+<span class="sourceLineNo">204</span><a id="line.204">            Range::lowerBound,</a>
 <span class="sourceLineNo">205</span><a id="line.205">            Cut.belowValue(key),</a>
 <span class="sourceLineNo">206</span><a id="line.206">            KeyPresentBehavior.ANY_PRESENT,</a>
 <span class="sourceLineNo">207</span><a id="line.207">            KeyAbsentBehavior.NEXT_LOWER);</a>
@@ -327,14 +327,14 @@
 <span class="sourceLineNo">318</span><a id="line.318">    int lowerIndex =</a>
 <span class="sourceLineNo">319</span><a id="line.319">        SortedLists.binarySearch(</a>
 <span class="sourceLineNo">320</span><a id="line.320">            ranges,</a>
-<span class="sourceLineNo">321</span><a id="line.321">            Range.&lt;K&gt;upperBoundFn(),</a>
+<span class="sourceLineNo">321</span><a id="line.321">            Range::upperBound,</a>
 <span class="sourceLineNo">322</span><a id="line.322">            range.lowerBound,</a>
 <span class="sourceLineNo">323</span><a id="line.323">            KeyPresentBehavior.FIRST_AFTER,</a>
 <span class="sourceLineNo">324</span><a id="line.324">            KeyAbsentBehavior.NEXT_HIGHER);</a>
 <span class="sourceLineNo">325</span><a id="line.325">    int upperIndex =</a>
 <span class="sourceLineNo">326</span><a id="line.326">        SortedLists.binarySearch(</a>
 <span class="sourceLineNo">327</span><a id="line.327">            ranges,</a>
-<span class="sourceLineNo">328</span><a id="line.328">            Range.&lt;K&gt;lowerBoundFn(),</a>
+<span class="sourceLineNo">328</span><a id="line.328">            Range::lowerBound,</a>
 <span class="sourceLineNo">329</span><a id="line.329">            range.upperBound,</a>
 <span class="sourceLineNo">330</span><a id="line.330">            KeyPresentBehavior.ANY_PRESENT,</a>
 <span class="sourceLineNo">331</span><a id="line.331">            KeyAbsentBehavior.NEXT_HIGHER);</a>

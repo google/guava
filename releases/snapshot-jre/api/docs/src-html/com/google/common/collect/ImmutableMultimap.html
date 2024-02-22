@@ -355,9 +355,9 @@
 <span class="sourceLineNo">346</span><a id="line.346">  @GwtIncompatible // java serialization is not supported</a>
 <span class="sourceLineNo">347</span><a id="line.347">  @J2ktIncompatible</a>
 <span class="sourceLineNo">348</span><a id="line.348">  static class FieldSettersHolder {</a>
-<span class="sourceLineNo">349</span><a id="line.349">    static final Serialization.FieldSetter&lt;ImmutableMultimap&gt; MAP_FIELD_SETTER =</a>
+<span class="sourceLineNo">349</span><a id="line.349">    static final Serialization.FieldSetter&lt;? super ImmutableMultimap&lt;?, ?&gt;&gt; MAP_FIELD_SETTER =</a>
 <span class="sourceLineNo">350</span><a id="line.350">        Serialization.getFieldSetter(ImmutableMultimap.class, "map");</a>
-<span class="sourceLineNo">351</span><a id="line.351">    static final Serialization.FieldSetter&lt;ImmutableMultimap&gt; SIZE_FIELD_SETTER =</a>
+<span class="sourceLineNo">351</span><a id="line.351">    static final Serialization.FieldSetter&lt;? super ImmutableMultimap&lt;?, ?&gt;&gt; SIZE_FIELD_SETTER =</a>
 <span class="sourceLineNo">352</span><a id="line.352">        Serialization.getFieldSetter(ImmutableMultimap.class, "size");</a>
 <span class="sourceLineNo">353</span><a id="line.353">  }</a>
 <span class="sourceLineNo">354</span><a id="line.354"></a>

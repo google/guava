@@ -439,7 +439,7 @@
 <span class="sourceLineNo">430</span><a id="line.430">    @Override</a>
 <span class="sourceLineNo">431</span><a id="line.431">    public &lt;K extends K0, V extends V0&gt; ListMultimap&lt;K, V&gt; build(</a>
 <span class="sourceLineNo">432</span><a id="line.432">        Multimap&lt;? extends K, ? extends V&gt; multimap) {</a>
-<span class="sourceLineNo">433</span><a id="line.433">      return (ListMultimap&lt;K, V&gt;) super.build(multimap);</a>
+<span class="sourceLineNo">433</span><a id="line.433">      return (ListMultimap&lt;K, V&gt;) super.&lt;K, V&gt;build(multimap);</a>
 <span class="sourceLineNo">434</span><a id="line.434">    }</a>
 <span class="sourceLineNo">435</span><a id="line.435">  }</a>
 <span class="sourceLineNo">436</span><a id="line.436"></a>
@@ -459,7 +459,7 @@
 <span class="sourceLineNo">450</span><a id="line.450">    @Override</a>
 <span class="sourceLineNo">451</span><a id="line.451">    public &lt;K extends K0, V extends V0&gt; SetMultimap&lt;K, V&gt; build(</a>
 <span class="sourceLineNo">452</span><a id="line.452">        Multimap&lt;? extends K, ? extends V&gt; multimap) {</a>
-<span class="sourceLineNo">453</span><a id="line.453">      return (SetMultimap&lt;K, V&gt;) super.build(multimap);</a>
+<span class="sourceLineNo">453</span><a id="line.453">      return (SetMultimap&lt;K, V&gt;) super.&lt;K, V&gt;build(multimap);</a>
 <span class="sourceLineNo">454</span><a id="line.454">    }</a>
 <span class="sourceLineNo">455</span><a id="line.455">  }</a>
 <span class="sourceLineNo">456</span><a id="line.456"></a>
@@ -479,7 +479,7 @@
 <span class="sourceLineNo">470</span><a id="line.470">    @Override</a>
 <span class="sourceLineNo">471</span><a id="line.471">    public &lt;K extends K0, V extends V0&gt; SortedSetMultimap&lt;K, V&gt; build(</a>
 <span class="sourceLineNo">472</span><a id="line.472">        Multimap&lt;? extends K, ? extends V&gt; multimap) {</a>
-<span class="sourceLineNo">473</span><a id="line.473">      return (SortedSetMultimap&lt;K, V&gt;) super.build(multimap);</a>
+<span class="sourceLineNo">473</span><a id="line.473">      return (SortedSetMultimap&lt;K, V&gt;) super.&lt;K, V&gt;build(multimap);</a>
 <span class="sourceLineNo">474</span><a id="line.474">    }</a>
 <span class="sourceLineNo">475</span><a id="line.475">  }</a>
 <span class="sourceLineNo">476</span><a id="line.476">}</a>
