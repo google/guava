@@ -144,7 +144,7 @@ public class TreeMultimapNaturalTest extends TestCase {
                   @SuppressWarnings("unchecked")
                   @Override
                   public Collection<String>[] createValueArray(int length) {
-                    return new Collection[length];
+                    return (Collection<String>[]) new Collection<?>[length];
                   }
 
                   @Override
@@ -164,7 +164,7 @@ public class TreeMultimapNaturalTest extends TestCase {
                   @SuppressWarnings("unchecked")
                   @Override
                   public Entry<String, Collection<String>>[] createArray(int length) {
-                    return new Entry[length];
+                    return (Entry<String, Collection<String>>[]) new Entry<?, ?>[length];
                   }
 
                   @Override

@@ -84,7 +84,7 @@ public class EnumHashBiMapTest extends TestCase {
     @SuppressWarnings("unchecked")
     @Override
     public Entry<Country, String>[] createArray(int length) {
-      return new Entry[length];
+      return (Entry<Country, String>[]) new Entry<?, ?>[length];
     }
 
     @Override

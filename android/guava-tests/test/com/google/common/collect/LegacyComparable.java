@@ -28,7 +28,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *
  * @author Kevin Bourrillion
  */
-@SuppressWarnings("ComparableType")
+@SuppressWarnings({"ComparableType", "rawtypes"}) // https://github.com/google/guava/issues/989
 @GwtCompatible
 @ElementTypesAreNonnullByDefault
 class LegacyComparable implements Comparable, Serializable {

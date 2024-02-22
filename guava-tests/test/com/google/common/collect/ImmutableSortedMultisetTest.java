@@ -21,7 +21,6 @@ import static org.junit.Assert.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import com.google.common.base.Function;
 import com.google.common.collect.Multiset.Entry;
 import com.google.common.collect.testing.ListTestSuiteBuilder;
 import com.google.common.collect.testing.MinimalCollection;
@@ -182,15 +181,7 @@ public class ImmutableSortedMultisetTest extends TestCase {
 
   public void testCreation_arrayOfArray() {
     Comparator<String[]> comparator =
-        Ordering.natural()
-            .lexicographical()
-            .onResultOf(
-                new Function<String[], Iterable<Comparable>>() {
-                  @Override
-                  public Iterable<Comparable> apply(String[] input) {
-                    return Arrays.<Comparable>asList(input);
-                  }
-                });
+        Ordering.natural().lexicographical().onResultOf(Arrays::asList);
     String[] array = new String[] {"a"};
     Multiset<String[]> multiset = ImmutableSortedMultiset.orderedBy(comparator).add(array).build();
     Multiset<String[]> expected = HashMultiset.create();

@@ -19,7 +19,7 @@ package com.google.common.collect;
 import static com.google.common.collect.Iterables.getOnlyElement;
 import static com.google.common.collect.Iterables.unmodifiableIterable;
 import static com.google.common.collect.Sets.newHashSet;
-import static java.lang.reflect.Proxy.newProxyInstance;
+import static com.google.common.reflect.Reflection.newProxy;
 import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtIncompatible;
@@ -191,11 +191,7 @@ public class ImmutableListCopyOfConcurrentlyModifiedInputTest extends TestCase {
 
     @SuppressWarnings("unchecked")
     ConcurrentlyMutatedList<Integer> list =
-        (ConcurrentlyMutatedList<Integer>)
-            newProxyInstance(
-                ImmutableListCopyOfConcurrentlyModifiedInputTest.class.getClassLoader(),
-                new Class[] {ConcurrentlyMutatedList.class},
-                invocationHandler);
+        newProxy(ConcurrentlyMutatedList.class, invocationHandler);
     return list;
   }
 }

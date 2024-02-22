@@ -133,7 +133,7 @@ public class MapsCollectionTest extends TestCase {
                   @SuppressWarnings("unchecked")
                   @Override
                   public Entry<String, Integer>[] createArray(int length) {
-                    return new Entry[length];
+                    return (Entry<String, Integer>[]) new Entry<?, ?>[length];
                   }
 
                   @Override
@@ -202,7 +202,7 @@ public class MapsCollectionTest extends TestCase {
                   @SuppressWarnings("unchecked")
                   @Override
                   public Entry<String, Integer>[] createArray(int length) {
-                    return new Entry[length];
+                    return (Entry<String, Integer>[]) new Entry<?, ?>[length];
                   }
 
                   @Override
@@ -269,7 +269,7 @@ public class MapsCollectionTest extends TestCase {
                   @SuppressWarnings("unchecked")
                   @Override
                   public Entry<String, Integer>[] createArray(int length) {
-                    return new Entry[length];
+                    return (Entry<String, Integer>[]) new Entry<?, ?>[length];
                   }
 
                   @Override

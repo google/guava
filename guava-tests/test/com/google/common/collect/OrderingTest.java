@@ -1060,7 +1060,7 @@ public class OrderingTest extends TestCase {
       }
     },
     COMPOUND_THIS_WITH_NATURAL {
-      @SuppressWarnings("unchecked") // raw array
+      @SuppressWarnings("unchecked") // generic arrays
       @Override
       <T extends @Nullable Object> Scenario<?> mutate(Scenario<T> scenario) {
         List<Composite<T>> composites = Lists.newArrayList();
@@ -1073,11 +1073,12 @@ public class OrderingTest extends TestCase {
                 .ordering
                 .onResultOf(Composite.<T>getValueFunction())
                 .compound(Ordering.natural());
-        return new Scenario<Composite<T>>(ordering, composites, new Composite[0]);
+        return new Scenario<Composite<T>>(
+            ordering, composites, (Composite<T>[]) new Composite<?>[0]);
       }
     },
     COMPOUND_NATURAL_WITH_THIS {
-      @SuppressWarnings("unchecked") // raw array
+      @SuppressWarnings("unchecked") // generic arrays
       @Override
       <T extends @Nullable Object> Scenario<?> mutate(Scenario<T> scenario) {
         List<Composite<T>> composites = Lists.newArrayList();
@@ -1090,11 +1091,12 @@ public class OrderingTest extends TestCase {
         Ordering<Composite<T>> ordering =
             Ordering.natural()
                 .compound(scenario.ordering.onResultOf(Composite.<T>getValueFunction()));
-        return new Scenario<Composite<T>>(ordering, composites, new Composite[0]);
+        return new Scenario<Composite<T>>(
+            ordering, composites, (Composite<T>[]) new Composite<?>[0]);
       }
     },
     LEXICOGRAPHICAL {
-      @SuppressWarnings("unchecked") // dang varargs
+      @SuppressWarnings("unchecked") // generic arrays
       @Override
       <T extends @Nullable Object> Scenario<?> mutate(Scenario<T> scenario) {
         List<Iterable<T>> words = Lists.newArrayList();
@@ -1106,7 +1108,7 @@ public class OrderingTest extends TestCase {
           }
         }
         return new Scenario<Iterable<T>>(
-            scenario.ordering.lexicographical(), words, new Iterable[0]);
+            scenario.ordering.lexicographical(), words, (Iterable<T>[]) new Iterable<?>[0]);
       }
     },
     ;

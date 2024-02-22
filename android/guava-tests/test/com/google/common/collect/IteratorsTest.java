@@ -679,7 +679,7 @@ public class IteratorsTest extends TestCase {
   }
 
   public void testCycleRemoveAfterHasNextExtraPicky() {
-    PickyIterable<String> iterable = new PickyIterable("a");
+    PickyIterable<String> iterable = new PickyIterable<>("a");
     Iterator<String> cycle = Iterators.cycle(iterable);
     assertTrue(cycle.hasNext());
     assertEquals("a", cycle.next());

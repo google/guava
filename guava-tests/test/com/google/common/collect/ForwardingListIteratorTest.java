@@ -33,10 +33,10 @@ public class ForwardingListIteratorTest extends TestCase {
     new ForwardingWrapperTester()
         .testForwarding(
             ListIterator.class,
-            new Function<ListIterator, ListIterator>() {
+            new Function<ListIterator, ListIterator<?>>() {
               @Override
-              public ListIterator apply(ListIterator delegate) {
-                return wrap(delegate);
+              public ListIterator<?> apply(ListIterator delegate) {
+                return wrap((ListIterator<?>) delegate);
               }
             });
   }

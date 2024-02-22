@@ -92,7 +92,7 @@ public class EnumBiMapTest extends TestCase {
     @SuppressWarnings("unchecked")
     @Override
     public Entry<Country, Currency>[] createArray(int length) {
-      return new Entry[length];
+      return (Entry<Country, Currency>[]) new Entry<?, ?>[length];
     }
 
     @Override

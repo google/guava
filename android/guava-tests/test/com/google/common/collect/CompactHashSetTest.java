@@ -69,12 +69,12 @@ public class CompactHashSetTest extends TestCase {
                 new TestStringSetGenerator() {
                   @Override
                   protected Set<String> create(String[] elements) {
-                    CompactHashSet set = CompactHashSet.create(Arrays.asList(elements));
+                    CompactHashSet<String> set = CompactHashSet.create(Arrays.asList(elements));
                     for (int i = 0; i < 100; i++) {
-                      set.add(i);
+                      set.add("extra" + i);
                     }
                     for (int i = 0; i < 100; i++) {
-                      set.remove(i);
+                      set.remove("extra" + i);
                     }
                     set.trimToSize();
                     return set;
