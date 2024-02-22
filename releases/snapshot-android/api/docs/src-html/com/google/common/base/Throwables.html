@@ -486,82 +486,84 @@
 <span class="sourceLineNo">477</span><a id="line.477">   * Returns the JavaLangAccess class that is present in all Sun JDKs. It is not allowed in</a>
 <span class="sourceLineNo">478</span><a id="line.478">   * AppEngine, and not present in non-Sun JDKs.</a>
 <span class="sourceLineNo">479</span><a id="line.479">   */</a>
-<span class="sourceLineNo">480</span><a id="line.480">  @J2ktIncompatible</a>
-<span class="sourceLineNo">481</span><a id="line.481">  @GwtIncompatible // java.lang.reflect</a>
-<span class="sourceLineNo">482</span><a id="line.482">  @CheckForNull</a>
-<span class="sourceLineNo">483</span><a id="line.483">  private static Object getJLA() {</a>
-<span class="sourceLineNo">484</span><a id="line.484">    try {</a>
-<span class="sourceLineNo">485</span><a id="line.485">      /*</a>
-<span class="sourceLineNo">486</span><a id="line.486">       * We load sun.misc.* classes using reflection since Android doesn't support these classes and</a>
-<span class="sourceLineNo">487</span><a id="line.487">       * would result in compilation failure if we directly refer to these classes.</a>
-<span class="sourceLineNo">488</span><a id="line.488">       */</a>
-<span class="sourceLineNo">489</span><a id="line.489">      Class&lt;?&gt; sharedSecrets = Class.forName(SHARED_SECRETS_CLASSNAME, false, null);</a>
-<span class="sourceLineNo">490</span><a id="line.490">      Method langAccess = sharedSecrets.getMethod("getJavaLangAccess");</a>
-<span class="sourceLineNo">491</span><a id="line.491">      return langAccess.invoke(null);</a>
-<span class="sourceLineNo">492</span><a id="line.492">    } catch (ThreadDeath death) {</a>
-<span class="sourceLineNo">493</span><a id="line.493">      throw death;</a>
-<span class="sourceLineNo">494</span><a id="line.494">    } catch (Throwable t) {</a>
-<span class="sourceLineNo">495</span><a id="line.495">      /*</a>
-<span class="sourceLineNo">496</span><a id="line.496">       * This is not one of AppEngine's allowed classes, so even in Sun JDKs, this can fail with</a>
-<span class="sourceLineNo">497</span><a id="line.497">       * a NoClassDefFoundError. Other apps might deny access to sun.misc packages.</a>
-<span class="sourceLineNo">498</span><a id="line.498">       */</a>
-<span class="sourceLineNo">499</span><a id="line.499">      return null;</a>
-<span class="sourceLineNo">500</span><a id="line.500">    }</a>
-<span class="sourceLineNo">501</span><a id="line.501">  }</a>
-<span class="sourceLineNo">502</span><a id="line.502"></a>
-<span class="sourceLineNo">503</span><a id="line.503">  /**</a>
-<span class="sourceLineNo">504</span><a id="line.504">   * Returns the Method that can be used to resolve an individual StackTraceElement, or null if that</a>
-<span class="sourceLineNo">505</span><a id="line.505">   * method cannot be found (it is only to be found in fairly recent JDKs).</a>
-<span class="sourceLineNo">506</span><a id="line.506">   */</a>
-<span class="sourceLineNo">507</span><a id="line.507">  @J2ktIncompatible</a>
-<span class="sourceLineNo">508</span><a id="line.508">  @GwtIncompatible // java.lang.reflect</a>
-<span class="sourceLineNo">509</span><a id="line.509">  @CheckForNull</a>
-<span class="sourceLineNo">510</span><a id="line.510">  private static Method getGetMethod() {</a>
-<span class="sourceLineNo">511</span><a id="line.511">    return getJlaMethod("getStackTraceElement", Throwable.class, int.class);</a>
-<span class="sourceLineNo">512</span><a id="line.512">  }</a>
-<span class="sourceLineNo">513</span><a id="line.513"></a>
-<span class="sourceLineNo">514</span><a id="line.514">  /**</a>
-<span class="sourceLineNo">515</span><a id="line.515">   * Returns the Method that can be used to return the size of a stack, or null if that method</a>
-<span class="sourceLineNo">516</span><a id="line.516">   * cannot be found (it is only to be found in fairly recent JDKs). Tries to test method {@link</a>
-<span class="sourceLineNo">517</span><a id="line.517">   * sun.misc.JavaLangAccess#getStackTraceDepth(Throwable) getStackTraceDepth} prior to return it</a>
-<span class="sourceLineNo">518</span><a id="line.518">   * (might fail some JDKs).</a>
-<span class="sourceLineNo">519</span><a id="line.519">   *</a>
-<span class="sourceLineNo">520</span><a id="line.520">   * &lt;p&gt;See &lt;a href="https://github.com/google/guava/issues/2887"&gt;Throwables#lazyStackTrace throws</a>
-<span class="sourceLineNo">521</span><a id="line.521">   * UnsupportedOperationException&lt;/a&gt;.</a>
-<span class="sourceLineNo">522</span><a id="line.522">   */</a>
-<span class="sourceLineNo">523</span><a id="line.523">  @J2ktIncompatible</a>
-<span class="sourceLineNo">524</span><a id="line.524">  @GwtIncompatible // java.lang.reflect</a>
-<span class="sourceLineNo">525</span><a id="line.525">  @CheckForNull</a>
-<span class="sourceLineNo">526</span><a id="line.526">  private static Method getSizeMethod(Object jla) {</a>
-<span class="sourceLineNo">527</span><a id="line.527">    try {</a>
-<span class="sourceLineNo">528</span><a id="line.528">      Method getStackTraceDepth = getJlaMethod("getStackTraceDepth", Throwable.class);</a>
-<span class="sourceLineNo">529</span><a id="line.529">      if (getStackTraceDepth == null) {</a>
-<span class="sourceLineNo">530</span><a id="line.530">        return null;</a>
-<span class="sourceLineNo">531</span><a id="line.531">      }</a>
-<span class="sourceLineNo">532</span><a id="line.532">      getStackTraceDepth.invoke(jla, new Throwable());</a>
-<span class="sourceLineNo">533</span><a id="line.533">      return getStackTraceDepth;</a>
-<span class="sourceLineNo">534</span><a id="line.534">    } catch (UnsupportedOperationException | IllegalAccessException | InvocationTargetException e) {</a>
-<span class="sourceLineNo">535</span><a id="line.535">      return null;</a>
-<span class="sourceLineNo">536</span><a id="line.536">    }</a>
-<span class="sourceLineNo">537</span><a id="line.537">  }</a>
-<span class="sourceLineNo">538</span><a id="line.538"></a>
-<span class="sourceLineNo">539</span><a id="line.539">  @J2ktIncompatible</a>
-<span class="sourceLineNo">540</span><a id="line.540">  @GwtIncompatible // java.lang.reflect</a>
-<span class="sourceLineNo">541</span><a id="line.541">  @CheckForNull</a>
-<span class="sourceLineNo">542</span><a id="line.542">  private static Method getJlaMethod(String name, Class&lt;?&gt;... parameterTypes) throws ThreadDeath {</a>
-<span class="sourceLineNo">543</span><a id="line.543">    try {</a>
-<span class="sourceLineNo">544</span><a id="line.544">      return Class.forName(JAVA_LANG_ACCESS_CLASSNAME, false, null).getMethod(name, parameterTypes);</a>
-<span class="sourceLineNo">545</span><a id="line.545">    } catch (ThreadDeath death) {</a>
-<span class="sourceLineNo">546</span><a id="line.546">      throw death;</a>
-<span class="sourceLineNo">547</span><a id="line.547">    } catch (Throwable t) {</a>
-<span class="sourceLineNo">548</span><a id="line.548">      /*</a>
-<span class="sourceLineNo">549</span><a id="line.549">       * Either the JavaLangAccess class itself is not found, or the method is not supported on the</a>
-<span class="sourceLineNo">550</span><a id="line.550">       * JVM.</a>
-<span class="sourceLineNo">551</span><a id="line.551">       */</a>
-<span class="sourceLineNo">552</span><a id="line.552">      return null;</a>
-<span class="sourceLineNo">553</span><a id="line.553">    }</a>
-<span class="sourceLineNo">554</span><a id="line.554">  }</a>
-<span class="sourceLineNo">555</span><a id="line.555">}</a>
+<span class="sourceLineNo">480</span><a id="line.480">  @SuppressWarnings("removal") // b/318391980</a>
+<span class="sourceLineNo">481</span><a id="line.481">  @J2ktIncompatible</a>
+<span class="sourceLineNo">482</span><a id="line.482">  @GwtIncompatible // java.lang.reflect</a>
+<span class="sourceLineNo">483</span><a id="line.483">  @CheckForNull</a>
+<span class="sourceLineNo">484</span><a id="line.484">  private static Object getJLA() {</a>
+<span class="sourceLineNo">485</span><a id="line.485">    try {</a>
+<span class="sourceLineNo">486</span><a id="line.486">      /*</a>
+<span class="sourceLineNo">487</span><a id="line.487">       * We load sun.misc.* classes using reflection since Android doesn't support these classes and</a>
+<span class="sourceLineNo">488</span><a id="line.488">       * would result in compilation failure if we directly refer to these classes.</a>
+<span class="sourceLineNo">489</span><a id="line.489">       */</a>
+<span class="sourceLineNo">490</span><a id="line.490">      Class&lt;?&gt; sharedSecrets = Class.forName(SHARED_SECRETS_CLASSNAME, false, null);</a>
+<span class="sourceLineNo">491</span><a id="line.491">      Method langAccess = sharedSecrets.getMethod("getJavaLangAccess");</a>
+<span class="sourceLineNo">492</span><a id="line.492">      return langAccess.invoke(null);</a>
+<span class="sourceLineNo">493</span><a id="line.493">    } catch (ThreadDeath death) {</a>
+<span class="sourceLineNo">494</span><a id="line.494">      throw death;</a>
+<span class="sourceLineNo">495</span><a id="line.495">    } catch (Throwable t) {</a>
+<span class="sourceLineNo">496</span><a id="line.496">      /*</a>
+<span class="sourceLineNo">497</span><a id="line.497">       * This is not one of AppEngine's allowed classes, so even in Sun JDKs, this can fail with</a>
+<span class="sourceLineNo">498</span><a id="line.498">       * a NoClassDefFoundError. Other apps might deny access to sun.misc packages.</a>
+<span class="sourceLineNo">499</span><a id="line.499">       */</a>
+<span class="sourceLineNo">500</span><a id="line.500">      return null;</a>
+<span class="sourceLineNo">501</span><a id="line.501">    }</a>
+<span class="sourceLineNo">502</span><a id="line.502">  }</a>
+<span class="sourceLineNo">503</span><a id="line.503"></a>
+<span class="sourceLineNo">504</span><a id="line.504">  /**</a>
+<span class="sourceLineNo">505</span><a id="line.505">   * Returns the Method that can be used to resolve an individual StackTraceElement, or null if that</a>
+<span class="sourceLineNo">506</span><a id="line.506">   * method cannot be found (it is only to be found in fairly recent JDKs).</a>
+<span class="sourceLineNo">507</span><a id="line.507">   */</a>
+<span class="sourceLineNo">508</span><a id="line.508">  @J2ktIncompatible</a>
+<span class="sourceLineNo">509</span><a id="line.509">  @GwtIncompatible // java.lang.reflect</a>
+<span class="sourceLineNo">510</span><a id="line.510">  @CheckForNull</a>
+<span class="sourceLineNo">511</span><a id="line.511">  private static Method getGetMethod() {</a>
+<span class="sourceLineNo">512</span><a id="line.512">    return getJlaMethod("getStackTraceElement", Throwable.class, int.class);</a>
+<span class="sourceLineNo">513</span><a id="line.513">  }</a>
+<span class="sourceLineNo">514</span><a id="line.514"></a>
+<span class="sourceLineNo">515</span><a id="line.515">  /**</a>
+<span class="sourceLineNo">516</span><a id="line.516">   * Returns the Method that can be used to return the size of a stack, or null if that method</a>
+<span class="sourceLineNo">517</span><a id="line.517">   * cannot be found (it is only to be found in fairly recent JDKs). Tries to test method {@link</a>
+<span class="sourceLineNo">518</span><a id="line.518">   * sun.misc.JavaLangAccess#getStackTraceDepth(Throwable) getStackTraceDepth} prior to return it</a>
+<span class="sourceLineNo">519</span><a id="line.519">   * (might fail some JDKs).</a>
+<span class="sourceLineNo">520</span><a id="line.520">   *</a>
+<span class="sourceLineNo">521</span><a id="line.521">   * &lt;p&gt;See &lt;a href="https://github.com/google/guava/issues/2887"&gt;Throwables#lazyStackTrace throws</a>
+<span class="sourceLineNo">522</span><a id="line.522">   * UnsupportedOperationException&lt;/a&gt;.</a>
+<span class="sourceLineNo">523</span><a id="line.523">   */</a>
+<span class="sourceLineNo">524</span><a id="line.524">  @J2ktIncompatible</a>
+<span class="sourceLineNo">525</span><a id="line.525">  @GwtIncompatible // java.lang.reflect</a>
+<span class="sourceLineNo">526</span><a id="line.526">  @CheckForNull</a>
+<span class="sourceLineNo">527</span><a id="line.527">  private static Method getSizeMethod(Object jla) {</a>
+<span class="sourceLineNo">528</span><a id="line.528">    try {</a>
+<span class="sourceLineNo">529</span><a id="line.529">      Method getStackTraceDepth = getJlaMethod("getStackTraceDepth", Throwable.class);</a>
+<span class="sourceLineNo">530</span><a id="line.530">      if (getStackTraceDepth == null) {</a>
+<span class="sourceLineNo">531</span><a id="line.531">        return null;</a>
+<span class="sourceLineNo">532</span><a id="line.532">      }</a>
+<span class="sourceLineNo">533</span><a id="line.533">      getStackTraceDepth.invoke(jla, new Throwable());</a>
+<span class="sourceLineNo">534</span><a id="line.534">      return getStackTraceDepth;</a>
+<span class="sourceLineNo">535</span><a id="line.535">    } catch (UnsupportedOperationException | IllegalAccessException | InvocationTargetException e) {</a>
+<span class="sourceLineNo">536</span><a id="line.536">      return null;</a>
+<span class="sourceLineNo">537</span><a id="line.537">    }</a>
+<span class="sourceLineNo">538</span><a id="line.538">  }</a>
+<span class="sourceLineNo">539</span><a id="line.539"></a>
+<span class="sourceLineNo">540</span><a id="line.540">  @SuppressWarnings("removal") // b/318391980</a>
+<span class="sourceLineNo">541</span><a id="line.541">  @J2ktIncompatible</a>
+<span class="sourceLineNo">542</span><a id="line.542">  @GwtIncompatible // java.lang.reflect</a>
+<span class="sourceLineNo">543</span><a id="line.543">  @CheckForNull</a>
+<span class="sourceLineNo">544</span><a id="line.544">  private static Method getJlaMethod(String name, Class&lt;?&gt;... parameterTypes) throws ThreadDeath {</a>
+<span class="sourceLineNo">545</span><a id="line.545">    try {</a>
+<span class="sourceLineNo">546</span><a id="line.546">      return Class.forName(JAVA_LANG_ACCESS_CLASSNAME, false, null).getMethod(name, parameterTypes);</a>
+<span class="sourceLineNo">547</span><a id="line.547">    } catch (ThreadDeath death) {</a>
+<span class="sourceLineNo">548</span><a id="line.548">      throw death;</a>
+<span class="sourceLineNo">549</span><a id="line.549">    } catch (Throwable t) {</a>
+<span class="sourceLineNo">550</span><a id="line.550">      /*</a>
+<span class="sourceLineNo">551</span><a id="line.551">       * Either the JavaLangAccess class itself is not found, or the method is not supported on the</a>
+<span class="sourceLineNo">552</span><a id="line.552">       * JVM.</a>
+<span class="sourceLineNo">553</span><a id="line.553">       */</a>
+<span class="sourceLineNo">554</span><a id="line.554">      return null;</a>
+<span class="sourceLineNo">555</span><a id="line.555">    }</a>
+<span class="sourceLineNo">556</span><a id="line.556">  }</a>
+<span class="sourceLineNo">557</span><a id="line.557">}</a>
 
 
 
