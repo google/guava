@@ -34,6 +34,7 @@ import com.google.common.base.Functions;
 import com.google.common.base.Predicates;
 import com.google.common.base.Supplier;
 import com.google.common.collect.Maps.EntryTransformer;
+import com.google.common.collect.MultimapBuilder.MultimapBuilderWithKeys;
 import com.google.common.collect.testing.IteratorTester;
 import com.google.common.collect.testing.google.UnmodifiableCollectionTests;
 import com.google.common.primitives.Chars;
@@ -83,7 +84,17 @@ public class MultimapsTest extends TestCase {
         Stream.of("foo", "bar", "quux")
             .collect(
                 Multimaps.toMultimap(
-                    String::length, s -> s, MultimapBuilder.treeKeys().arrayListValues()::build));
+                    String::length,
+                    s -> s,
+                    rawtypeToWildcard(MultimapBuilder.treeKeys()).arrayListValues()::build));
+  }
+
+  // J2kt maps rawtype Comparable to Comparable<*>, but types generally implement only
+  // Comparable<self>
+  @SuppressWarnings({"rawtypes", "unchecked"})
+  private static MultimapBuilderWithKeys<Comparable<?>> rawtypeToWildcard(
+      MultimapBuilderWithKeys<Comparable> builder) {
+    return (MultimapBuilderWithKeys) builder;
   }
 
   public void testToMultimap() {
