@@ -340,29 +340,29 @@ public final class Functions {
    * @param value the constant value for the function to return
    * @return a function that always returns {@code value}
    */
-  public static <E extends @Nullable Object> Function<@Nullable Object, E> constant(
-      @ParametricNullness E value) {
+  public static <F extends @Nullable Object, T extends @Nullable Object> Function<F, T> constant(
+      @ParametricNullness T value) {
     return new ConstantFunction<>(value);
   }
 
-  private static class ConstantFunction<E extends @Nullable Object>
-      implements Function<@Nullable Object, E>, Serializable {
-    @ParametricNullness private final E value;
+  private static class ConstantFunction<F extends @Nullable Object, T extends @Nullable Object>
+      implements Function<F, T>, Serializable {
+    @ParametricNullness private final T value;
 
-    public ConstantFunction(@ParametricNullness E value) {
+    public ConstantFunction(@ParametricNullness T value) {
       this.value = value;
     }
 
     @Override
     @ParametricNullness
-    public E apply(@CheckForNull Object from) {
+    public T apply(@CheckForNull Object from) {
       return value;
     }
 
     @Override
     public boolean equals(@CheckForNull Object obj) {
       if (obj instanceof ConstantFunction) {
-        ConstantFunction<?> that = (ConstantFunction<?>) obj;
+        ConstantFunction<?, ?> that = (ConstantFunction<?, ?>) obj;
         return Objects.equal(value, that.value);
       }
       return false;

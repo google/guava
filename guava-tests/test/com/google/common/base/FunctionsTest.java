@@ -350,11 +350,11 @@ public class FunctionsTest extends TestCase {
   }
 
   public void testConstant() {
-    Function<@Nullable Object, Object> f = Functions.<Object>constant("correct");
+    Function<@Nullable Object, Object> f = Functions.constant("correct");
     assertEquals("correct", f.apply(new Object()));
     assertEquals("correct", f.apply(null));
 
-    Function<@Nullable Object, @Nullable String> g = Functions.constant(null);
+    Function<@Nullable Integer, @Nullable String> g = Functions.constant(null);
     assertEquals(null, g.apply(2));
     assertEquals(null, g.apply(null));
 
@@ -366,7 +366,7 @@ public class FunctionsTest extends TestCase {
         .testEquals();
 
     new EqualsTester()
-        .addEqualityGroup(g, Functions.<@Nullable Object>constant(null))
+        .addEqualityGroup(g, Functions.constant(null))
         .addEqualityGroup(Functions.constant("incorrect"))
         .addEqualityGroup(Functions.toStringFunction())
         .addEqualityGroup(f)
