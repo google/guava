@@ -311,7 +311,12 @@ public final class SpliteratorTester<E extends @Nullable Object> {
         if ((characteristics & Spliterator.SORTED) != 0) {
           Comparator<? super E> comparator = spliterator.getComparator();
           if (comparator == null) {
-            comparator = (Comparator<? super E>) Comparator.<Comparable>naturalOrder();
+            // A sorted spliterator with no comparator is already using natural order.
+            // (We could probably find a way to avoid rawtypes here if we wanted.)
+            @SuppressWarnings({"unchecked", "rawtypes"})
+            Comparator<? super E> naturalOrder =
+                (Comparator<? super E>) Comparator.<Comparable>naturalOrder();
+            comparator = naturalOrder;
           }
           assertTrue(Ordering.from(comparator).isOrdered(resultsForStrategy));
         }

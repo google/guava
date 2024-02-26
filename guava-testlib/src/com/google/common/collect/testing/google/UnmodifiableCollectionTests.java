@@ -49,6 +49,8 @@ public class UnmodifiableCollectionTests {
 
   public static void assertMapEntryIsUnmodifiable(Entry<?, ?> entry) {
     try {
+      // fine because the call is going to fail without modifying the entry
+      @SuppressWarnings("unchecked")
       Entry<?, @Nullable Object> nullableValueEntry = (Entry<?, @Nullable Object>) entry;
       nullableValueEntry.setValue(null);
       fail("setValue on unmodifiable Map.Entry succeeded");

@@ -58,7 +58,7 @@ public abstract class TestMapEntrySetGenerator<
   @Override
   @SuppressWarnings("unchecked") // generic arrays make typesafety sad
   public Entry<K, V>[] createArray(int length) {
-    return new Entry[length];
+    return (Entry<K, V>[]) new Entry<?, ?>[length];
   }
 
   /** Returns the original element list, unchanged. */

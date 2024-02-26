@@ -37,6 +37,7 @@ public class ConcurrentNavigableMapTestSuiteBuilder<K, V>
     return result;
   }
 
+  @SuppressWarnings("rawtypes") // class literals
   @Override
   protected List<Class<? extends AbstractTester>> getTesters() {
     List<Class<? extends AbstractTester>> testers = Helpers.copyToList(super.getTesters());

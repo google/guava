@@ -129,7 +129,7 @@ public class MapGenerators {
     @SuppressWarnings("unchecked")
     @Override
     public Entry<String, Integer>[] createArray(int length) {
-      return new Entry[length];
+      return (Entry<String, Integer>[]) new Entry<?, ?>[length];
     }
 
     @Override

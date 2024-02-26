@@ -45,7 +45,7 @@ public abstract class TestEnumMapGenerator implements TestMapGenerator<AnEnum, S
   @Override
   public final Map<AnEnum, String> create(Object... entries) {
     @SuppressWarnings("unchecked")
-    Entry<AnEnum, String>[] array = new Entry[entries.length];
+    Entry<AnEnum, String>[] array = (Entry<AnEnum, String>[]) new Entry<?, ?>[entries.length];
     int i = 0;
     for (Object o : entries) {
       @SuppressWarnings("unchecked")
@@ -60,7 +60,7 @@ public abstract class TestEnumMapGenerator implements TestMapGenerator<AnEnum, S
   @Override
   @SuppressWarnings("unchecked")
   public final Entry<AnEnum, String>[] createArray(int length) {
-    return new Entry[length];
+    return (Entry<AnEnum, String>[]) new Entry<?, ?>[length];
   }
 
   @Override

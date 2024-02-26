@@ -268,7 +268,7 @@ abstract class AbstractIteratorTester<E extends @Nullable Object, I extends Iter
     UNKNOWN_ORDER
   }
 
-  @SuppressWarnings("unchecked") // creating array of generic class Stimulus
+  @SuppressWarnings("unchecked") // TODO(cpovirk): Stop using arrays.
   AbstractIteratorTester(
       int steps,
       Iterable<E> elementsToInsertIterable,
@@ -278,7 +278,7 @@ abstract class AbstractIteratorTester<E extends @Nullable Object, I extends Iter
       int startIndex) {
     // periodically we should manually try (steps * 3 / 2) here; all tests but
     // one should still pass (testVerifyGetsCalled()).
-    stimuli = new Stimulus[steps];
+    stimuli = (Stimulus<E, ? super I>[]) new Stimulus<?, ?>[steps];
     if (!elementsToInsertIterable.iterator().hasNext()) {
       throw new IllegalArgumentException();
     }
@@ -429,6 +429,7 @@ abstract class AbstractIteratorTester<E extends @Nullable Object, I extends Iter
          * doesn't recognize this kind of cast as unchecked cast. Neither does
          * Eclipse 3.4. Right now, this suppression is mostly unnecessary.
          */
+        @SuppressWarnings("unchecked")
         MultiExceptionListIterator multiExceptionListIterator =
             (MultiExceptionListIterator) reference;
         multiExceptionListIterator.promoteToNext(targetReturnValueFromNext);

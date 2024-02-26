@@ -128,7 +128,7 @@ public final class DerivedGoogleCollectionGenerators {
     @SuppressWarnings("unchecked")
     @Override
     public Entry<V, K>[] createArray(int length) {
-      return new Entry[length];
+      return (Entry<V, K>[]) new Entry<?, ?>[length];
     }
 
     @Override

@@ -31,6 +31,7 @@ import java.util.SortedSet;
  *
  * @author George van den Driessche
  */
+@SuppressWarnings("rawtypes") // maybe avoidable if we rework the whole package?
 @GwtCompatible
 public enum CollectionFeature implements Feature<Collection> {
   /**

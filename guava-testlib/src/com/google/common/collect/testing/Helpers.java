@@ -468,19 +468,11 @@ public class Helpers {
     return list;
   }
 
-  private static final Comparator<Comparable> NATURAL_ORDER =
-      new Comparator<Comparable>() {
-        @SuppressWarnings("unchecked") // assume any Comparable is Comparable<Self>
-        @Override
-        public int compare(Comparable left, Comparable right) {
-          return left.compareTo(right);
-        }
-      };
-
+  @SuppressWarnings("rawtypes") // https://github.com/google/guava/issues/989
   public static <K extends Comparable, V extends @Nullable Object>
       Iterable<Entry<K, V>> orderEntriesByKey(List<Entry<K, V>> insertionOrder) {
     @SuppressWarnings("unchecked") // assume any Comparable is Comparable<Self>
-    Comparator<? super K> keyComparator = (Comparator<? super K>) NATURAL_ORDER;
+    Comparator<? super K> keyComparator = (Comparator<? super K>) Comparable::compareTo;
     sort(insertionOrder, Helpers.entryComparator(keyComparator));
     return insertionOrder;
   }

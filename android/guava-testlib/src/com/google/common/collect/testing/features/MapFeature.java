@@ -29,6 +29,7 @@ import java.util.Set;
  *
  * @author George van den Driessche
  */
+@SuppressWarnings("rawtypes") // maybe avoidable if we rework the whole package?
 @GwtCompatible
 public enum MapFeature implements Feature<Map> {
   /**
