@@ -493,7 +493,7 @@ public class IteratorsTest extends TestCase {
   }
 
   public void testPoorlyBehavedTransform() {
-    Iterator<String> input = asList("1", null, "3").iterator();
+    Iterator<String> input = asList("1", "not a number", "3").iterator();
     Iterator<Integer> result =
         Iterators.transform(
             input,

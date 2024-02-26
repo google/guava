@@ -301,13 +301,13 @@ public class IterablesTest extends TestCase {
   }
 
   public void testPoorlyBehavedTransform() {
-    List<@Nullable String> input = asList("1", null, "3");
+    List<String> input = asList("1", "not a number", "3");
     Iterable<Integer> result =
         Iterables.transform(
             input,
-            new Function<@Nullable String, Integer>() {
+            new Function<String, Integer>() {
               @Override
-              public Integer apply(@Nullable String from) {
+              public Integer apply(String from) {
                 return Integer.valueOf(from);
               }
             });
