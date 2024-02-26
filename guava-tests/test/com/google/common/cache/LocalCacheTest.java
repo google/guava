@@ -58,6 +58,8 @@ import com.google.common.testing.FakeTicker;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
 import com.google.common.testing.TestLogHandler;
+import com.google.common.util.concurrent.ListenableFuture;
+import com.google.common.util.concurrent.ListenableFutureTask;
 import com.google.common.util.concurrent.UncheckedExecutionException;
 import java.io.Serializable;
 import java.lang.ref.Reference;
@@ -70,8 +72,12 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
 import java.util.Set;
+import java.util.concurrent.Callable;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.logging.LogRecord;
@@ -247,6 +253,11 @@ public class LocalCacheTest extends TestCase {
   private static <K, V> LocalCache<K, V> makeLocalCache(
       CacheBuilder<? super K, ? super V> builder) {
     return new LocalCache<>(builder, null);
+  }
+
+  private static <K, V> LocalCache<K, V> makeLocalCache(
+          CacheBuilder<? super K, ? super V> builder, CacheLoader<? super K, V> loader) {
+    return new LocalCache<>(builder, loader);
   }
 
   private static CacheBuilder<Object, Object> createCacheBuilder() {
@@ -511,6 +522,46 @@ public class LocalCacheTest extends TestCase {
     LocalCache<Object, Object> map =
         makeLocalCache(createCacheBuilder().refreshAfterWrite(duration, unit));
     assertEquals(unit.toNanos(duration), map.refreshNanos);
+  }
+
+  public void testLongAsyncRefresh() throws Exception {
+    ExecutorService refreshExecutor = Executors.newSingleThreadExecutor();
+    CacheBuilder<Object, Object> builder = createCacheBuilder()
+        .expireAfterWrite(100, TimeUnit.MILLISECONDS)
+        .refreshAfterWrite(5, TimeUnit.MILLISECONDS);
+
+    CacheLoader<String, String> loader =
+        new CacheLoader<String, String>() {
+          @Override
+          public String load(String key) throws Exception {
+            return key + "Load";
+          }
+
+          @Override
+          public ListenableFuture<String> reload(String key, String oldValue) throws Exception {
+            ListenableFutureTask<String> task = ListenableFutureTask.create(
+              () -> {
+                // mimic reload time to be long
+                Thread.sleep(500);
+                return key + "Reload";
+              }
+            );
+            refreshExecutor.submit(task);
+            return task;
+          }
+        };
+    LocalCache<String, String> map = makeLocalCache(builder, loader);
+    long end = System.currentTimeMillis() + 1000L;
+    boolean isFirstTime = true;
+    do {
+      if (isFirstTime) {
+        assertEquals("testLoad", map.getOrLoad("test"));
+        isFirstTime = false;
+      } else {
+        map.getOrLoad("test");
+      }
+    } while ( System.currentTimeMillis() < end );
+    assertEquals("testReload", map.getOrLoad("test"));
   }
 
   public void testSetRemovalListener() {
