@@ -396,12 +396,14 @@ public class ListsTest extends TestCase {
     assertEquals(SOME_COLLECTION, list);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // CopyOnWriteArrayList
   public void testNewCOWALEmpty() {
     CopyOnWriteArrayList<Integer> list = Lists.newCopyOnWriteArrayList();
     assertEquals(Collections.emptyList(), list);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // CopyOnWriteArrayList
   public void testNewCOWALFromIterable() {
     CopyOnWriteArrayList<Integer> list = Lists.newCopyOnWriteArrayList(SOME_ITERABLE);

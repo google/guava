@@ -41,6 +41,7 @@ import junit.framework.TestSuite;
  *
  * @author Mike Bostock
  */
+@J2ktIncompatible // EnumHashBiMap
 @GwtCompatible(emulated = true)
 public class EnumHashBiMapTest extends TestCase {
   private enum Currency {

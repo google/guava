@@ -218,6 +218,7 @@ public class OrderingTest extends TestCase {
 
   // A more limited test than the one that follows, but this one uses the
   // actual public API.
+  @J2ktIncompatible // Ordering.arbitrary
   public void testArbitrary_withoutCollisions() {
     List<Object> list = Lists.newArrayList();
     for (int i = 0; i < 50; i++) {
@@ -234,6 +235,7 @@ public class OrderingTest extends TestCase {
     assertEquals("Ordering.arbitrary()", arbitrary.toString());
   }
 
+  @J2ktIncompatible // ArbitraryOrdering
   public void testArbitrary_withCollisions() {
     List<Integer> list = Lists.newArrayList();
     for (int i = 0; i < 50; i++) {
@@ -887,6 +889,7 @@ public class OrderingTest extends TestCase {
     testExhaustively(Ordering.from(String.CASE_INSENSITIVE_ORDER), "A", "b", "C", "d");
   }
 
+  @J2ktIncompatible // Ordering.arbitrary
   @GwtIncompatible // too slow
   public void testCombinationsExhaustively_startingFromArbitrary() {
     Ordering<Object> arbitrary = Ordering.arbitrary();

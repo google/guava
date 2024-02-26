@@ -605,18 +605,21 @@ public class SetsTest extends TestCase {
     assertEquals(2, set.size());
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // CopyOnWriteArraySet
   public void testNewCOWASEmpty() {
     CopyOnWriteArraySet<Integer> set = Sets.newCopyOnWriteArraySet();
     verifySetContents(set, EMPTY_COLLECTION);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // CopyOnWriteArraySet
   public void testNewCOWASFromIterable() {
     CopyOnWriteArraySet<Integer> set = Sets.newCopyOnWriteArraySet(SOME_ITERABLE);
     verifySetContents(set, SOME_COLLECTION);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // complementOf
   public void testComplementOfEnumSet() {
     Set<SomeEnum> units = EnumSet.of(SomeEnum.B, SomeEnum.D);
@@ -624,6 +627,7 @@ public class SetsTest extends TestCase {
     verifySetContents(otherUnits, EnumSet.of(SomeEnum.A, SomeEnum.C));
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // complementOf
   public void testComplementOfEnumSetWithType() {
     Set<SomeEnum> units = EnumSet.of(SomeEnum.B, SomeEnum.D);
@@ -631,6 +635,7 @@ public class SetsTest extends TestCase {
     verifySetContents(otherUnits, EnumSet.of(SomeEnum.A, SomeEnum.C));
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // complementOf
   public void testComplementOfRegularSet() {
     Set<SomeEnum> units = Sets.newHashSet(SomeEnum.B, SomeEnum.D);
@@ -638,6 +643,7 @@ public class SetsTest extends TestCase {
     verifySetContents(otherUnits, EnumSet.of(SomeEnum.A, SomeEnum.C));
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // complementOf
   public void testComplementOfRegularSetWithType() {
     Set<SomeEnum> units = Sets.newHashSet(SomeEnum.B, SomeEnum.D);
@@ -645,6 +651,7 @@ public class SetsTest extends TestCase {
     verifySetContents(otherUnits, EnumSet.of(SomeEnum.A, SomeEnum.C));
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // complementOf
   public void testComplementOfEmptySet() {
     Set<SomeEnum> noUnits = Collections.emptySet();
@@ -652,6 +659,7 @@ public class SetsTest extends TestCase {
     verifySetContents(EnumSet.allOf(SomeEnum.class), allUnits);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // complementOf
   public void testComplementOfFullSet() {
     Set<SomeEnum> allUnits = Sets.newHashSet(SomeEnum.values());
@@ -659,6 +667,7 @@ public class SetsTest extends TestCase {
     verifySetContents(noUnits, EnumSet.noneOf(SomeEnum.class));
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // complementOf
   public void testComplementOfEmptyEnumSetWithoutType() {
     Set<SomeEnum> noUnits = EnumSet.noneOf(SomeEnum.class);
@@ -666,6 +675,7 @@ public class SetsTest extends TestCase {
     verifySetContents(allUnits, EnumSet.allOf(SomeEnum.class));
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // complementOf
   public void testComplementOfEmptySetWithoutTypeDoesntWork() {
     Set<SomeEnum> set = Collections.emptySet();

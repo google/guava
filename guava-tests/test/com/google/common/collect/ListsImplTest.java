@@ -104,12 +104,14 @@ public class ListsImplTest extends TestCase {
     return example == null ? new ImmutableListExample("test") : example;
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // not used under GWT, and super.getName() is not available under J2CL
   @Override
   public String getName() {
     return example == null ? super.getName() : buildTestName();
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // not used under GWT, and super.getName() is not available under J2CL
   private String buildTestName() {
     return super.getName() + ":" + example.getName();
@@ -294,6 +296,7 @@ public class ListsImplTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // CopyOnWriteArrayList
   private static final class CopyOnWriteListExample extends ListExample {
 

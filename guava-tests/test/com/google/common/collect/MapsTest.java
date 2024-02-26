@@ -1038,6 +1038,7 @@ public class MapsTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // Maps.fromProperties
   @SuppressWarnings("deprecation") // StringBufferInputStream
   public void testFromProperties() throws IOException {
@@ -1087,6 +1088,7 @@ public class MapsTest extends TestCase {
     assertNotSame(System.getProperty("java.version"), result.get("java.version"));
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // Maps.fromProperties
   @SuppressWarnings("serial") // never serialized
   public void testFromPropertiesNullKey() {
@@ -1107,6 +1109,7 @@ public class MapsTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // Maps.fromProperties
   @SuppressWarnings("serial") // never serialized
   public void testFromPropertiesNonStringKeys() {

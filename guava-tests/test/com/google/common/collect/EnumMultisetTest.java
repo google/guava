@@ -43,6 +43,7 @@ import junit.framework.TestSuite;
  * @author Jared Levy
  */
 @GwtCompatible(emulated = true)
+@J2ktIncompatible // EnumMultiset
 public class EnumMultisetTest extends TestCase {
 
   @J2ktIncompatible

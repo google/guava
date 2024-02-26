@@ -48,6 +48,7 @@ import junit.framework.TestSuite;
  * @author Mike Bostock
  * @author Jared Levy
  */
+@J2ktIncompatible // EnumBimap
 @GwtCompatible(emulated = true)
 @ElementTypesAreNonnullByDefault
 public class EnumBiMapTest extends TestCase {
@@ -290,6 +291,7 @@ public class EnumBiMapTest extends TestCase {
     assertEquals(3, uniqueEntries.size());
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // serialization
   public void testSerializable() {
     SerializableTester.reserializeAndAssert(
