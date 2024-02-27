@@ -96,6 +96,9 @@ public class MinMaxPriorityQueueTest extends TestCase {
     assertSame(SOME_COMPARATOR, queue.comparator());
   }
 
+  // We use the rawtypeToWildcard "cast" to make the test work with J2KT in other tests. Leaving one
+  // test without that cast to verify that using the raw Comparable works outside J2KT.
+  @J2ktIncompatible // J2KT's translation of raw Comparable is not a supertype of Int translation
   public void testCreation_expectedSize() {
     MinMaxPriorityQueue<Integer> queue = MinMaxPriorityQueue.expectedSize(8).create();
     assertEquals(8, queue.capacity());
@@ -112,7 +115,8 @@ public class MinMaxPriorityQueueTest extends TestCase {
   }
 
   public void testCreation_maximumSize() {
-    MinMaxPriorityQueue<Integer> queue = MinMaxPriorityQueue.maximumSize(42).create();
+    MinMaxPriorityQueue<Integer> queue =
+        rawtypeToWildcard(MinMaxPriorityQueue.maximumSize(42)).create();
     assertEquals(11, queue.capacity());
     assertEquals(42, queue.maximumSize);
     checkNatural(queue);
@@ -128,7 +132,7 @@ public class MinMaxPriorityQueueTest extends TestCase {
 
   public void testCreation_expectedSize_maximumSize() {
     MinMaxPriorityQueue<Integer> queue =
-        MinMaxPriorityQueue.expectedSize(8).maximumSize(42).create();
+        rawtypeToWildcard(MinMaxPriorityQueue.expectedSize(8)).maximumSize(42).create();
     assertEquals(8, queue.capacity());
     assertEquals(42, queue.maximumSize);
     checkNatural(queue);
@@ -154,7 +158,8 @@ public class MinMaxPriorityQueueTest extends TestCase {
   }
 
   public void testCreation_expectedSize_withContents() {
-    MinMaxPriorityQueue<Integer> queue = MinMaxPriorityQueue.expectedSize(8).create(NUMBERS);
+    MinMaxPriorityQueue<Integer> queue =
+        rawtypeToWildcard(MinMaxPriorityQueue.expectedSize(8)).create(NUMBERS);
     assertEquals(6, queue.size());
     assertEquals(8, queue.capacity());
     checkUnbounded(queue);
@@ -162,7 +167,8 @@ public class MinMaxPriorityQueueTest extends TestCase {
   }
 
   public void testCreation_maximumSize_withContents() {
-    MinMaxPriorityQueue<Integer> queue = MinMaxPriorityQueue.maximumSize(42).create(NUMBERS);
+    MinMaxPriorityQueue<Integer> queue =
+        rawtypeToWildcard(MinMaxPriorityQueue.maximumSize(42)).create(NUMBERS);
     assertEquals(6, queue.size());
     assertEquals(11, queue.capacity());
     assertEquals(42, queue.maximumSize);
@@ -198,7 +204,8 @@ public class MinMaxPriorityQueueTest extends TestCase {
     Random random = new Random(0);
     int heapSize = 99;
     int numberOfModifications = 100;
-    MinMaxPriorityQueue<Integer> mmHeap = MinMaxPriorityQueue.expectedSize(heapSize).create();
+    MinMaxPriorityQueue<Integer> mmHeap =
+        rawtypeToWildcard(MinMaxPriorityQueue.expectedSize(heapSize)).create();
     /*
      * this map would contain the same exact elements as the MinMaxHeap; the
      * value in the map is the number of occurrences of the key.
@@ -470,7 +477,8 @@ public class MinMaxPriorityQueueTest extends TestCase {
   }
 
   public void testRemoveFromStringHeap() {
-    MinMaxPriorityQueue<String> mmHeap = MinMaxPriorityQueue.expectedSize(5).create();
+    MinMaxPriorityQueue<String> mmHeap =
+        rawtypeToWildcard(MinMaxPriorityQueue.expectedSize(5)).create();
     Collections.addAll(mmHeap, "foo", "bar", "foobar", "barfoo", "larry", "sergey", "eric");
     assertTrue("Heap is not intact initially", mmHeap.isIntact());
     assertEquals("bar", mmHeap.peek());
@@ -487,7 +495,7 @@ public class MinMaxPriorityQueueTest extends TestCase {
 
   public void testCreateWithOrdering() {
     MinMaxPriorityQueue<String> mmHeap =
-        MinMaxPriorityQueue.orderedBy(Ordering.natural().reverse()).create();
+        MinMaxPriorityQueue.orderedBy(Ordering.<String>natural().reverse()).create();
     Collections.addAll(mmHeap, "foo", "bar", "foobar", "barfoo", "larry", "sergey", "eric");
     assertTrue("Heap is not intact initially", mmHeap.isIntact());
     assertEquals("sergey", mmHeap.peek());
@@ -496,7 +504,9 @@ public class MinMaxPriorityQueueTest extends TestCase {
 
   public void testCreateWithCapacityAndOrdering() {
     MinMaxPriorityQueue<Integer> mmHeap =
-        MinMaxPriorityQueue.orderedBy(Ordering.natural().reverse()).expectedSize(5).create();
+        MinMaxPriorityQueue.orderedBy(Ordering.<Integer>natural().reverse())
+            .expectedSize(5)
+            .create();
     Collections.addAll(mmHeap, 1, 7, 2, 56, 2, 5, 23, 68, 0, 3);
     assertTrue("Heap is not intact initially", mmHeap.isIntact());
     assertEquals(68, (int) mmHeap.peek());
@@ -546,7 +556,8 @@ public class MinMaxPriorityQueueTest extends TestCase {
     Random random = new Random(seed);
     int heapSize = 999;
     int numberOfModifications = reduceIterationsIfGwt(500);
-    MinMaxPriorityQueue<Integer> mmHeap = MinMaxPriorityQueue.expectedSize(heapSize).create();
+    MinMaxPriorityQueue<Integer> mmHeap =
+        rawtypeToWildcard(MinMaxPriorityQueue.expectedSize(heapSize)).create();
     for (int i = 0; i < heapSize; i++) {
       mmHeap.add(random.nextInt());
     }
@@ -961,5 +972,13 @@ public class MinMaxPriorityQueueTest extends TestCase {
       // fail(), but with the JUnit-supplied message.
       assertEquals("Started with " + startedWith, expected, actual);
     }
+  }
+
+  // J2kt cannot translate the Comparable rawtype in a usable way (it becomes Comparable<Object>
+  // but types are typically only Comparable to themselves).
+  @SuppressWarnings({"rawtypes", "unchecked"})
+  private static MinMaxPriorityQueue.Builder<Comparable<?>> rawtypeToWildcard(
+      MinMaxPriorityQueue.Builder<Comparable> builder) {
+    return (MinMaxPriorityQueue.Builder) builder;
   }
 }
