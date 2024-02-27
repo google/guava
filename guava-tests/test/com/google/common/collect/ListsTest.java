@@ -996,6 +996,7 @@ public class ListsTest extends TestCase {
   }
 
   @GwtIncompatible // cannot do such a big explicit copy
+  @J2ktIncompatible // too slow
   public void testPartitionSize_2() {
     assertEquals(2, Lists.partition(Collections.nCopies(0x40000001, 1), 0x40000000).size());
   }

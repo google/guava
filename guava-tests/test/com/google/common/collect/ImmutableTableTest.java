@@ -477,6 +477,7 @@ public class ImmutableTableTest extends AbstractTableReadTest {
     assertThat(copy.columnKeySet()).containsExactlyElementsIn(original.columnKeySet()).inOrder();
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // Mind-bogglingly slow in GWT
   @AndroidIncompatible // slow
   public void testOverflowCondition() {

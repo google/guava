@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.testing.MapInterfaceTest;
 import com.google.common.collect.testing.SortedMapInterfaceTest;
 import java.util.SortedMap;
@@ -73,6 +74,7 @@ public class ForwardingSortedMapImplementsMapTest extends SortedMapInterfaceTest
     return -1;
   }
 
+  @J2ktIncompatible // https://youtrack.jetbrains.com/issue/KT-58242/ undefined behavior (crash)
   @Override
   public void testContainsKey() {
     try {
@@ -81,6 +83,7 @@ public class ForwardingSortedMapImplementsMapTest extends SortedMapInterfaceTest
     }
   }
 
+  @J2ktIncompatible // https://youtrack.jetbrains.com/issue/KT-58242/ undefined behavior (crash)
   @Override
   public void testEntrySetContainsEntryIncompatibleKey() {
     try {
