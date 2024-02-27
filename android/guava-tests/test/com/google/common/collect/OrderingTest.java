@@ -42,6 +42,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.RandomAccess;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -916,7 +917,7 @@ public class OrderingTest extends TestCase {
 
     // shoot me, but I didn't want to deal with wildcards through the whole test
     @SuppressWarnings("unchecked")
-    Scenario<T> starter = new Scenario<>((Ordering) ordering, list, emptyArray);
+    Scenario<T> starter = new Scenario<>((Ordering<T>) ordering, list, emptyArray);
     verifyScenario(starter, 0);
   }
 
@@ -1000,7 +1001,8 @@ public class OrderingTest extends TestCase {
       assertEquals(strictlyOrderedList, ordering.sortedCopy(shuffledList));
 
       if (!strictlyOrderedList.contains(null)) {
-        assertEquals(strictlyOrderedList, ordering.immutableSortedCopy(shuffledList));
+        List<@NonNull T> nonNullShuffledList = (List<@NonNull T>) shuffledList;
+        assertEquals(strictlyOrderedList, ordering.immutableSortedCopy(nonNullShuffledList));
       }
     }
   }
