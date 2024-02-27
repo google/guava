@@ -55,7 +55,7 @@ public class LocalCache<K, V> implements ConcurrentMap<K, V> {
 
   private final LinkedHashMap<K, Timestamped<V>> cachingHashMap;
   private final CacheLoader<? super K, V> loader;
-  private final RemovalListener removalListener;
+  private final RemovalListener<? super K, ? super V> removalListener;
   private final StatsCounter statsCounter;
   private final Ticker ticker;
   private final long expireAfterWrite;
@@ -107,7 +107,11 @@ public class LocalCache<K, V> implements ConcurrentMap<K, V> {
     } else {
       statsCounter.recordEviction();
       statsCounter.recordMisses(1);
-      alertListenerIfPresent(key, value.getValue(), RemovalCause.EXPIRED);
+      // `key` was in the cache, so it's a K.
+      // (Or it's a weird case like a LinkedList in a Cache<ArrayList, ...>, but *shrug*.)
+      @SuppressWarnings("unchecked")
+      K castKey = (K) key;
+      alertListenerIfPresent(castKey, value.getValue(), RemovalCause.EXPIRED);
       cachingHashMap.remove(key);
       return null;
     }
@@ -132,13 +136,17 @@ public class LocalCache<K, V> implements ConcurrentMap<K, V> {
     Timestamped<V> stamped = cachingHashMap.remove(key);
     if (stamped != null) {
       V value = stamped.getValue();
+      // `key` was in the cache, so it's a K.
+      // (Or it's a weird case like a LinkedList in a Cache<ArrayList, ...>, but *shrug*.)
+      @SuppressWarnings("unchecked")
+      K castKey = (K) key;
 
       if (!isExpired(stamped)) {
-        alertListenerIfPresent(key, value, RemovalCause.EXPLICIT);
+        alertListenerIfPresent(castKey, value, RemovalCause.EXPLICIT);
         return value;
       }
 
-      alertListenerIfPresent(key, value, RemovalCause.EXPIRED);
+      alertListenerIfPresent(castKey, value, RemovalCause.EXPIRED);
     }
     return null;
   }
@@ -173,7 +181,14 @@ public class LocalCache<K, V> implements ConcurrentMap<K, V> {
   @Override
   public boolean remove(Object key, Object value) {
     if (value.equals(get(key))) {
-      alertListenerIfPresent(key, value, RemovalCause.EXPLICIT);
+      // `key` was in the cache, so it's a K.
+      // (Or it's a weird case like a LinkedList in a Cache<ArrayList, ...>, but *shrug*.)
+      @SuppressWarnings("unchecked")
+      K castKey = (K) key;
+      @SuppressWarnings("unchecked") // similar to the above
+      V castValue = (V) value;
+
+      alertListenerIfPresent(castKey, castValue, RemovalCause.EXPLICIT);
       remove(key);
       return true;
     }
@@ -240,29 +255,19 @@ public class LocalCache<K, V> implements ConcurrentMap<K, V> {
     return ticker.read();
   }
 
-  private void alertListenerIfPresent(Object key, Object value, RemovalCause cause) {
+  private void alertListenerIfPresent(K key, V value, RemovalCause cause) {
     if (removalListener != null) {
       removalListener.onRemoval(RemovalNotification.create(key, value, cause));
     }
   }
 
   @SuppressWarnings("GoodTime") // timestamps as numeric primitives
-  private V load(Object key) throws ExecutionException {
+  private V load(K key) throws ExecutionException {
     long startTime = ticker.read();
     V calculatedValue;
     try {
-      /*
-       * This cast isn't safe, but we can rely on the fact that K is almost always passed to
-       * Map.get(), and tools like IDEs and Findbugs can catch situations where this isn't the
-       * case.
-       *
-       * The alternative is to add an overloaded method, but the chances of a user calling get()
-       * instead of the new API and the risks inherent in adding a new API outweigh this little
-       * hole.
-       */
-      K castKey = (K) key;
-      calculatedValue = loader.load(castKey);
-      put(castKey, calculatedValue);
+      calculatedValue = loader.load(key);
+      put(key, calculatedValue);
     } catch (RuntimeException e) {
       statsCounter.recordLoadException(ticker.read() - startTime);
       throw new UncheckedExecutionException(e);
@@ -292,7 +297,12 @@ public class LocalCache<K, V> implements ConcurrentMap<K, V> {
       value.updateTimestamp();
       return value.getValue();
     } else {
-      alertListenerIfPresent(key, value.getValue(), RemovalCause.EXPIRED);
+      // `key` was in the cache, so it's a K.
+      // (Or it's a weird case like a LinkedList in a Cache<ArrayList, ...>, but *shrug*.)
+      @SuppressWarnings("unchecked")
+      K castKey = (K) key;
+
+      alertListenerIfPresent(castKey, value.getValue(), RemovalCause.EXPIRED);
       cachingHashMap.remove(key);
       return null;
     }
@@ -473,7 +483,7 @@ public class LocalCache<K, V> implements ConcurrentMap<K, V> {
   private class CapacityEnforcingLinkedHashMap<K, V> extends LinkedHashMap<K, Timestamped<V>> {
 
     private final StatsCounter statsCounter;
-    private final RemovalListener removalListener;
+    private final @Nullable RemovalListener<? super K, ? super V> removalListener;
     private final long maximumSize;
 
     public CapacityEnforcingLinkedHashMap(
@@ -482,7 +492,7 @@ public class LocalCache<K, V> implements ConcurrentMap<K, V> {
         boolean accessOrder,
         long maximumSize,
         StatsCounter statsCounter,
-        @Nullable RemovalListener removalListener) {
+        @Nullable RemovalListener<? super K, ? super V> removalListener) {
       super(initialCapacity, loadFactor, accessOrder);
       this.maximumSize = maximumSize;
       this.statsCounter = statsCounter;

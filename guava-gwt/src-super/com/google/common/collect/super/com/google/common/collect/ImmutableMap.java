@@ -93,6 +93,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
         ImmutableMap::copyOf);
   }
 
+  @SuppressWarnings("unchecked") // An empty map works for all types.
   public static <K, V> ImmutableMap<K, V> of() {
     return (ImmutableMap<K, V>) RegularImmutableMap.EMPTY;
   }
@@ -240,7 +241,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
 
   @SafeVarargs
   public static <K, V> ImmutableMap<K, V> ofEntries(Entry<? extends K, ? extends V>... entries) {
-    return new RegularImmutableMap(entries);
+    return new RegularImmutableMap<>(entries);
   }
 
   public static <K, V> Builder<K, V> builder() {
@@ -360,8 +361,8 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
         Entry<? extends K, ? extends V> entry = getOnlyElement(entries);
         return of((K) entry.getKey(), (V) entry.getValue());
       default:
-        @SuppressWarnings("unchecked")
-        Entry<K, V>[] entryArray = entries.toArray(new Entry[entries.size()]);
+        @SuppressWarnings("unchecked") // TODO(cpovirk): Consider storing an Entry<?, ?>[].
+        Entry<K, V>[] entryArray = entries.toArray((Entry<K, V>[]) new Entry<?, ?>[entries.size()]);
         return new RegularImmutableMap<K, V>(throwIfDuplicateKeys, entryArray);
     }
   }
@@ -377,8 +378,9 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
         checkNotNull(entry.getKey());
         checkNotNull(entry.getValue());
       }
-      @SuppressWarnings("unchecked")
+      @SuppressWarnings({"unchecked", "rawtypes"})
       // immutable collections are safe for covariant casts
+      // and getting the generics right for EnumMap is difficult to impossible
       ImmutableMap<K, V> result = ImmutableEnumMap.asImmutable(new EnumMap(enumMap));
       return result;
     }
