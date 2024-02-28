@@ -21,6 +21,7 @@ import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Objects;
 import com.google.common.collect.Table.Cell;
 import com.google.common.testing.EqualsTester;
@@ -28,6 +29,7 @@ import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
 import java.util.Arrays;
 import java.util.Map;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Test cases for {@link ArrayTable}.
@@ -35,6 +37,7 @@ import java.util.Map;
  * @author Jared Levy
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public class ArrayTableTest extends AbstractTableTest {
 
   @Override
@@ -159,7 +162,7 @@ public class ArrayTableTest extends AbstractTableTest {
   @Override
   public void testRow() {
     table = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
-    Map<Integer, Character> expected = Maps.newHashMap();
+    Map<Integer, @Nullable Character> expected = Maps.newHashMap();
     expected.put(1, 'a');
     expected.put(3, 'c');
     expected.put(2, null);
@@ -169,7 +172,7 @@ public class ArrayTableTest extends AbstractTableTest {
   @Override
   public void testColumn() {
     table = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
-    Map<String, Character> expected = Maps.newHashMap();
+    Map<String, @Nullable Character> expected = Maps.newHashMap();
     expected.put("foo", 'a');
     expected.put("bar", 'b');
     expected.put("cat", null);
@@ -290,6 +293,7 @@ public class ArrayTableTest extends AbstractTableTest {
     SerializableTester.reserializeAndAssert(table);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // reflection
   public void testNullPointerStatic() {
     new NullPointerTester().testAllPublicStaticMethods(ArrayTable.class);
@@ -519,11 +523,13 @@ public class ArrayTableTest extends AbstractTableTest {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // reflection
   public void testNulls() {
     new NullPointerTester().testAllPublicInstanceMethods(create());
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // serialize
   public void testSerializable() {
     SerializableTester.reserializeAndAssert(create());

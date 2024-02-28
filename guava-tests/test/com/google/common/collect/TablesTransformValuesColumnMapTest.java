@@ -23,6 +23,7 @@ import com.google.common.collect.TableCollectionTest.ColumnMapTests;
 import java.util.Map;
 
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public class TablesTransformValuesColumnMapTest extends ColumnMapTests {
   public TablesTransformValuesColumnMapTest() {
     super(false, true, true, false);

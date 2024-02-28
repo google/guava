@@ -841,7 +841,6 @@ public class MapMakerInternalMapTest extends TestCase {
         Object valueTwo = new Object();
 
         map.put(keyOne, valueOne);
-        @SuppressWarnings("unchecked")
         WeakValueEntry<Object, Object, ?> entry =
             (WeakValueEntry<Object, Object, ?>) segment.getEntry(keyOne, hashOne);
         WeakValueReference<Object, Object, ?> valueReference = entry.getValueReference();
@@ -902,7 +901,6 @@ public class MapMakerInternalMapTest extends TestCase {
         Object keyTwo = new Object();
 
         map.put(keyOne, valueOne);
-        @SuppressWarnings("unchecked")
         WeakValueEntry<Object, Object, ?> entry =
             (WeakValueEntry<Object, Object, ?>) segment.getEntry(keyOne, hashOne);
         WeakValueReference<Object, Object, ?> valueReference = entry.getValueReference();

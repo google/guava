@@ -119,6 +119,7 @@ final class TopKSelector<
    */
   @CheckForNull private T threshold;
 
+  @SuppressWarnings("unchecked") // TODO(cpovirk): Consider storing Object[] instead of T[].
   private TopKSelector(Comparator<? super T> comparator, int k) {
     this.comparator = checkNotNull(comparator, "comparator");
     this.k = k;

@@ -21,6 +21,7 @@ import junit.framework.TestCase;
 
 /** Tests for {@code Hashing}. */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public class HashingTest extends TestCase {
   public void testSmear() {
     assertEquals(1459320713, smear(754102528));

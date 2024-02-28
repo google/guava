@@ -22,6 +22,7 @@ import com.google.common.annotations.GwtCompatible;
 import java.util.NoSuchElementException;
 import java.util.stream.Stream;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Tests for {@code MoreCollectors}.
@@ -29,6 +30,7 @@ import junit.framework.TestCase;
  * @author Louis Wasserman
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public class MoreCollectorsTest extends TestCase {
   public void testToOptionalEmpty() {
     assertThat(Stream.empty().collect(MoreCollectors.toOptional())).isEmpty();
@@ -39,7 +41,7 @@ public class MoreCollectorsTest extends TestCase {
   }
 
   public void testToOptionalNull() {
-    Stream<Object> stream = Stream.of((Object) null);
+    Stream<@Nullable Object> stream = Stream.of((Object) null);
     try {
       stream.collect(MoreCollectors.toOptional());
       fail("Expected NullPointerException");

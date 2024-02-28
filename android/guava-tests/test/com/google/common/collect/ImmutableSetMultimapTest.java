@@ -23,6 +23,7 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.ImmutableSetMultimap.Builder;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.google.SetMultimapTestSuiteBuilder;
@@ -38,6 +39,7 @@ import java.util.Map.Entry;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Tests for {@link ImmutableSetMultimap}.
@@ -45,6 +47,7 @@ import junit.framework.TestSuite;
  * @author Mike Ward
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public class ImmutableSetMultimapTest extends TestCase {
   private static final class ImmutableSetMultimapGenerator extends TestStringSetMultimapGenerator {
     @Override
@@ -65,6 +68,7 @@ public class ImmutableSetMultimapTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // suite
   public static Test suite() {
     TestSuite suite = new TestSuite();
@@ -103,7 +107,7 @@ public class ImmutableSetMultimapTest extends TestCase {
   }
 
   private static class StringHolder {
-    String string;
+    @Nullable String string;
   }
 
   public void testBuilder_withMutableEntry() {
@@ -201,8 +205,8 @@ public class ImmutableSetMultimapTest extends TestCase {
   }
 
   public void testBuilderPutNullKey() {
-    Multimap<String, Integer> toPut = LinkedListMultimap.create();
-    toPut.put("foo", null);
+    Multimap<@Nullable String, Integer> toPut = LinkedListMultimap.create();
+    toPut.put(null, 1);
     ImmutableSetMultimap.Builder<String, Integer> builder = ImmutableSetMultimap.builder();
     try {
       builder.put(null, 1);
@@ -220,15 +224,15 @@ public class ImmutableSetMultimapTest extends TestCase {
     } catch (NullPointerException expected) {
     }
     try {
-      builder.putAll(toPut);
+      builder.putAll((Multimap<String, Integer>) toPut);
       fail();
     } catch (NullPointerException expected) {
     }
   }
 
   public void testBuilderPutNullValue() {
-    Multimap<String, Integer> toPut = LinkedListMultimap.create();
-    toPut.put(null, 1);
+    Multimap<String, @Nullable Integer> toPut = LinkedListMultimap.create();
+    toPut.put("foo", null);
     ImmutableSetMultimap.Builder<String, Integer> builder = ImmutableSetMultimap.builder();
     try {
       builder.put("foo", null);
@@ -246,7 +250,7 @@ public class ImmutableSetMultimapTest extends TestCase {
     } catch (NullPointerException expected) {
     }
     try {
-      builder.putAll(toPut);
+      builder.putAll((Multimap<String, Integer>) toPut);
       fail();
     } catch (NullPointerException expected) {
     }
@@ -382,10 +386,10 @@ public class ImmutableSetMultimapTest extends TestCase {
   }
 
   public void testCopyOfNullKey() {
-    HashMultimap<String, Integer> input = HashMultimap.create();
+    HashMultimap<@Nullable String, Integer> input = HashMultimap.create();
     input.put(null, 1);
     try {
-      ImmutableSetMultimap.copyOf(input);
+      ImmutableSetMultimap.copyOf((Multimap<String, Integer>) input);
       fail();
     } catch (NullPointerException expected) {
     }
@@ -548,6 +552,7 @@ public class ImmutableSetMultimapTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testSerialization() {
     Multimap<String, Integer> multimap = createMultimap();
@@ -561,12 +566,14 @@ public class ImmutableSetMultimapTest extends TestCase {
     assertEquals(HashMultiset.create(multimap.values()), HashMultiset.create(valuesCopy));
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testEmptySerialization() {
     Multimap<String, Integer> multimap = ImmutableSetMultimap.of();
     assertSame(multimap, SerializableTester.reserialize(multimap));
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testSortedSerialization() {
     Multimap<String, Integer> multimap =
@@ -594,6 +601,7 @@ public class ImmutableSetMultimapTest extends TestCase {
         .build();
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // reflection
   @AndroidIncompatible // see ImmutableTableTest.testNullPointerInstance
   public void testNulls() throws Exception {

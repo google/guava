@@ -25,6 +25,7 @@ import static java.util.Comparator.naturalOrder;
 import static java.util.Comparator.nullsLast;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.primitives.Booleans;
 import java.util.Comparator;
 import junit.framework.AssertionFailedError;
@@ -37,6 +38,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Kevin Bourrillion
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public class ComparisonChainTest extends TestCase {
   private static final DontCompareMe DONT_COMPARE_ME = new DontCompareMe();
 
@@ -156,6 +158,7 @@ public class ComparisonChainTest extends TestCase {
   }
 
   /** Validates that the Comparator equivalent we document is correct. */
+  @J2ktIncompatible // TODO b/315311435 - J2kt cannot emulate Comparator<C>.<U>thenComparing()
   public void testComparatorEquivalent() {
     Comparator<Foo> comparatorUsingComparisonChain =
         (a, b) ->

@@ -28,11 +28,13 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Mike Bostock
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public class AbstractMapEntryTest extends TestCase {
   private static final @Nullable String NK = null;
   private static final @Nullable Integer NV = null;
 
-  private static <K, V> Entry<K, V> entry(final K key, final V value) {
+  private static <K extends @Nullable Object, V extends @Nullable Object> Entry<K, V> entry(
+      final K key, final V value) {
     return new AbstractMapEntry<K, V>() {
       @Override
       public K getKey() {
@@ -46,7 +48,8 @@ public class AbstractMapEntryTest extends TestCase {
     };
   }
 
-  private static <K, V> Entry<K, V> control(K key, V value) {
+  private static <K extends @Nullable Object, V extends @Nullable Object> Entry<K, V> control(
+      K key, V value) {
     return Collections.singletonMap(key, value).entrySet().iterator().next();
   }
 

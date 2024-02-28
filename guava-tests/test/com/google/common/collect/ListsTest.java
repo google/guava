@@ -24,6 +24,7 @@ import static java.util.Collections.singletonList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Functions;
 import com.google.common.collect.testing.IteratorTester;
@@ -59,6 +60,7 @@ import junit.framework.TestSuite;
  * @author Jared Levy
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public class ListsTest extends TestCase {
 
   private static final Collection<Integer> SOME_COLLECTION = asList(0, 1, 1);
@@ -98,6 +100,7 @@ public class ListsTest extends TestCase {
     private static final long serialVersionUID = 0;
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // suite
   public static Test suite() {
     TestSuite suite = new TestSuite();
@@ -393,18 +396,21 @@ public class ListsTest extends TestCase {
     assertEquals(SOME_COLLECTION, list);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // CopyOnWriteArrayList
   public void testNewCOWALEmpty() {
     CopyOnWriteArrayList<Integer> list = Lists.newCopyOnWriteArrayList();
     assertEquals(Collections.emptyList(), list);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // CopyOnWriteArrayList
   public void testNewCOWALFromIterable() {
     CopyOnWriteArrayList<Integer> list = Lists.newCopyOnWriteArrayList(SOME_ITERABLE);
     assertEquals(SOME_COLLECTION, list);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // NullPointerTester
   public void testNullPointerExceptions() {
     NullPointerTester tester = new NullPointerTester();
@@ -441,6 +447,7 @@ public class ListsTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testAsList1() {
     List<String> list = Lists.asList("foo", new String[] {"bar", "baz"});
@@ -499,6 +506,7 @@ public class ListsTest extends TestCase {
     }.test();
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testAsList2Small() {
     List<String> list = Lists.asList("foo", "bar", new String[0]);
@@ -573,26 +581,22 @@ public class ListsTest extends TestCase {
     return ImmutableList.copyOf(elements);
   }
 
-  @SuppressWarnings("unchecked") // varargs!
   public void testCartesianProduct_binary1x1() {
     assertThat(Lists.cartesianProduct(list(1), list(2))).contains(list(1, 2));
   }
 
-  @SuppressWarnings("unchecked") // varargs!
   public void testCartesianProduct_binary1x2() {
     assertThat(Lists.cartesianProduct(list(1), list(2, 3)))
         .containsExactly(list(1, 2), list(1, 3))
         .inOrder();
   }
 
-  @SuppressWarnings("unchecked") // varargs!
   public void testCartesianProduct_binary2x2() {
     assertThat(Lists.cartesianProduct(list(1, 2), list(3, 4)))
         .containsExactly(list(1, 3), list(1, 4), list(2, 3), list(2, 4))
         .inOrder();
   }
 
-  @SuppressWarnings("unchecked") // varargs!
   public void testCartesianProduct_2x2x2() {
     assertThat(Lists.cartesianProduct(list(0, 1), list(0, 1), list(0, 1)))
         .containsExactly(
@@ -607,7 +611,6 @@ public class ListsTest extends TestCase {
         .inOrder();
   }
 
-  @SuppressWarnings("unchecked") // varargs!
   public void testCartesianProduct_contains() {
     List<List<Integer>> actual = Lists.cartesianProduct(list(1, 2), list(3, 4));
     assertTrue(actual.contains(list(1, 3)));
@@ -639,7 +642,6 @@ public class ListsTest extends TestCase {
     assertThat(actual.lastIndexOf(list(1, 1, 1))).isEqualTo(-1);
   }
 
-  @SuppressWarnings("unchecked") // varargs!
   public void testCartesianProduct_unrelatedTypes() {
     List<Integer> x = list(1, 2);
     List<String> y = list("3", "4");
@@ -654,7 +656,6 @@ public class ListsTest extends TestCase {
         .inOrder();
   }
 
-  @SuppressWarnings("unchecked") // varargs!
   public void testCartesianProductTooBig() {
     List<String> list = Collections.nCopies(10000, "foo");
     try {
@@ -935,6 +936,7 @@ public class ListsTest extends TestCase {
     assertEquals(asList(3), partitions.get(1));
   }
 
+  @J2ktIncompatible // Arrays.asList(...).subList() doesn't implement RandomAccess in J2KT.
   @GwtIncompatible // ArrayList.subList doesn't implement RandomAccess in GWT.
   public void testPartitionRandomAccessTrue() {
     List<Integer> source = asList(1, 2, 3);
@@ -994,6 +996,7 @@ public class ListsTest extends TestCase {
   }
 
   @GwtIncompatible // cannot do such a big explicit copy
+  @J2ktIncompatible // too slow
   public void testPartitionSize_2() {
     assertEquals(2, Lists.partition(Collections.nCopies(0x40000001, 1), 0x40000000).size());
   }

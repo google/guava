@@ -20,7 +20,9 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.testing.SerializableTester;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Tests common methods in {@link ImmutableTable}
@@ -28,6 +30,7 @@ import com.google.common.testing.SerializableTester;
  * @author Gregory Kick
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public class ImmutableTableTest extends AbstractTableReadTest {
   @Override
   protected Table<String, Integer, Character> create(Object... data) {
@@ -100,7 +103,7 @@ public class ImmutableTableTest extends AbstractTableReadTest {
   }
 
   private static class StringHolder {
-    String string;
+    @Nullable String string;
   }
 
   public void testBuilder_withMutableCell() {
@@ -468,6 +471,7 @@ public class ImmutableTableTest extends AbstractTableReadTest {
     assertThat(copy.columnKeySet()).containsExactlyElementsIn(original.columnKeySet()).inOrder();
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // Mind-bogglingly slow in GWT
   @AndroidIncompatible // slow
   public void testOverflowCondition() {
@@ -480,6 +484,7 @@ public class ImmutableTableTest extends AbstractTableReadTest {
     assertTrue(builder.build() instanceof SparseImmutableTable);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // NullPointerTester
   @Override
   public void testNullPointerInstance() {

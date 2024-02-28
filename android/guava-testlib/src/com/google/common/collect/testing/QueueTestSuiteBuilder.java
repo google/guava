@@ -52,6 +52,7 @@ public final class QueueTestSuiteBuilder<E>
     return this;
   }
 
+  @SuppressWarnings("rawtypes") // class literals
   @Override
   protected List<Class<? extends AbstractTester>> getTesters() {
     List<Class<? extends AbstractTester>> testers = new ArrayList<>();

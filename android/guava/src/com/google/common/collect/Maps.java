@@ -151,7 +151,6 @@ public final class Maps {
    * @since 14.0
    */
   @GwtCompatible(serializable = true)
-  @J2ktIncompatible
   public static <K extends Enum<K>, V> ImmutableMap<K, V> immutableEnumMap(
       Map<K, ? extends V> map) {
     if (map instanceof ImmutableEnumMap) {
@@ -191,7 +190,6 @@ public final class Maps {
    * java.util.function.Function) Collectors.toMap(Function, Function)}, which throws an {@code
    * IllegalStateException}.)
    */
-  @J2ktIncompatible
   @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
   static <T extends @Nullable Object, K extends Enum<K>, V>
@@ -210,7 +208,6 @@ public final class Maps {
    * <p>If the mapped keys contain duplicates, the values are merged using the specified merging
    * function.
    */
-  @J2ktIncompatible
   @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
   static <T extends @Nullable Object, K extends Enum<K>, V>
@@ -373,6 +370,7 @@ public final class Maps {
    *
    * @return a new, empty {@code TreeMap}
    */
+  @SuppressWarnings("rawtypes") // https://github.com/google/guava/issues/989
   public static <K extends Comparable, V extends @Nullable Object> TreeMap<K, V> newTreeMap() {
     return new TreeMap<>();
   }
@@ -1267,7 +1265,7 @@ public final class Maps {
    * <p>If your index may associate multiple values with each key, use {@link
    * Multimaps#index(Iterable, Function) Multimaps.index}.
    *
-   * <p><b>Note:</b> on Java 8 and later, it is usually better to use streams. For example:
+   * <p><b>Note:</b> on Java 8+, it is usually better to use streams. For example:
    *
    * <pre>{@code
    * import static com.google.common.collect.ImmutableMap.toImmutableMap;

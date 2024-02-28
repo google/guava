@@ -156,7 +156,7 @@ public class ToStringHelperTest extends TestCase {
   @GwtIncompatible // Class names are obfuscated in GWT
   public void testToString_oneIntegerField() {
     String toTest =
-        MoreObjects.toStringHelper(new TestClass()).add("field1", new Integer(42)).toString();
+        MoreObjects.toStringHelper(new TestClass()).add("field1", Integer.valueOf(42)).toString();
     assertEquals("TestClass{field1=42}", toTest);
   }
 
@@ -174,7 +174,7 @@ public class ToStringHelperTest extends TestCase {
 
   public void testToStringLenient_oneIntegerField() {
     String toTest =
-        MoreObjects.toStringHelper(new TestClass()).add("field1", new Integer(42)).toString();
+        MoreObjects.toStringHelper(new TestClass()).add("field1", Integer.valueOf(42)).toString();
     assertTrue(toTest, toTest.matches(".*\\{field1\\=42\\}"));
   }
 
@@ -186,7 +186,6 @@ public class ToStringHelperTest extends TestCase {
 
   @GwtIncompatible // Class names are obfuscated in GWT
   public void testToString_complexFields() {
-
     Map<String, Integer> map =
         ImmutableMap.<String, Integer>builder().put("abc", 1).put("def", 2).put("ghi", 3).build();
     String toTest =
@@ -203,7 +202,6 @@ public class ToStringHelperTest extends TestCase {
   }
 
   public void testToStringLenient_complexFields() {
-
     Map<String, Integer> map =
         ImmutableMap.<String, Integer>builder().put("abc", 1).put("def", 2).put("ghi", 3).build();
     String toTest =
@@ -421,6 +419,25 @@ public class ToStringHelperTest extends TestCase {
             .add("field3", "World")
             .toString();
     assertEquals("TestClass{field1=Hello, field2=Googley, field3=World}", toTest);
+  }
+
+  public void testToStringHelperWithArrays() {
+    String[] strings = {"hello", "world"};
+    int[] ints = {2, 42};
+    Object[] objects = {"obj"};
+    String[] arrayWithNull = {null};
+    Object[] empty = {};
+    String toTest =
+        MoreObjects.toStringHelper("TSH")
+            .add("strings", strings)
+            .add("ints", ints)
+            .add("objects", objects)
+            .add("arrayWithNull", arrayWithNull)
+            .add("empty", empty)
+            .toString();
+    assertEquals(
+        "TSH{strings=[hello, world], ints=[2, 42], objects=[obj], arrayWithNull=[null], empty=[]}",
+        toTest);
   }
 
   /** Test class for testing formatting of inner classes. */

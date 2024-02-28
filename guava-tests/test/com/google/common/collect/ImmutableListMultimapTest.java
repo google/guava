@@ -24,6 +24,7 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Equivalence;
 import com.google.common.collect.ImmutableListMultimap.Builder;
 import com.google.common.collect.testing.features.CollectionSize;
@@ -44,6 +45,7 @@ import java.util.stream.Collector;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Tests for {@link ImmutableListMultimap}.
@@ -51,6 +53,7 @@ import junit.framework.TestSuite;
  * @author Jared Levy
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public class ImmutableListMultimapTest extends TestCase {
   public static class ImmutableListMultimapGenerator extends TestStringListMultimapGenerator {
     @Override
@@ -71,6 +74,7 @@ public class ImmutableListMultimapTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // suite
   public static Test suite() {
     TestSuite suite = new TestSuite();
@@ -109,7 +113,7 @@ public class ImmutableListMultimapTest extends TestCase {
   }
 
   private static class StringHolder {
-    String string;
+    @Nullable String string;
   }
 
   public void testBuilder_withMutableEntry() {
@@ -219,8 +223,8 @@ public class ImmutableListMultimapTest extends TestCase {
   }
 
   public void testBuilderPutNullKey() {
-    Multimap<String, Integer> toPut = LinkedListMultimap.create();
-    toPut.put("foo", null);
+    Multimap<@Nullable String, Integer> toPut = LinkedListMultimap.create();
+    toPut.put(null, 1);
     ImmutableListMultimap.Builder<String, Integer> builder = ImmutableListMultimap.builder();
     try {
       builder.put(null, 1);
@@ -238,15 +242,15 @@ public class ImmutableListMultimapTest extends TestCase {
     } catch (NullPointerException expected) {
     }
     try {
-      builder.putAll(toPut);
+      builder.putAll((Multimap<String, Integer>) toPut);
       fail();
     } catch (NullPointerException expected) {
     }
   }
 
   public void testBuilderPutNullValue() {
-    Multimap<String, Integer> toPut = LinkedListMultimap.create();
-    toPut.put(null, 1);
+    Multimap<String, @Nullable Integer> toPut = LinkedListMultimap.create();
+    toPut.put("foo", null);
     ImmutableListMultimap.Builder<String, Integer> builder = ImmutableListMultimap.builder();
     try {
       builder.put("foo", null);
@@ -264,7 +268,7 @@ public class ImmutableListMultimapTest extends TestCase {
     } catch (NullPointerException expected) {
     }
     try {
-      builder.putAll(toPut);
+      builder.putAll((Multimap<String, Integer>) toPut);
       fail();
     } catch (NullPointerException expected) {
     }
@@ -375,10 +379,10 @@ public class ImmutableListMultimapTest extends TestCase {
   }
 
   public void testCopyOfNullKey() {
-    ArrayListMultimap<String, Integer> input = ArrayListMultimap.create();
+    ArrayListMultimap<@Nullable String, Integer> input = ArrayListMultimap.create();
     input.put(null, 1);
     try {
-      ImmutableListMultimap.copyOf(input);
+      ImmutableListMultimap.copyOf((ArrayListMultimap<String, Integer>) input);
       fail();
     } catch (NullPointerException expected) {
     }
@@ -585,6 +589,7 @@ public class ImmutableListMultimapTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testSerialization() {
     Multimap<String, Integer> multimap = createMultimap();
@@ -598,12 +603,14 @@ public class ImmutableListMultimapTest extends TestCase {
     assertEquals(HashMultiset.create(multimap.values()), HashMultiset.create(valuesCopy));
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testEmptySerialization() {
     Multimap<String, Integer> multimap = ImmutableListMultimap.of();
     assertSame(multimap, SerializableTester.reserialize(multimap));
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // reflection
   @AndroidIncompatible // see ImmutableTableTest.testNullPointerInstance
   public void testNulls() throws Exception {

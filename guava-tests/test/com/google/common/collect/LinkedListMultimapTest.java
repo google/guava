@@ -27,6 +27,7 @@ import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.testing.IteratorTester;
 import com.google.common.collect.testing.ListIteratorTester;
 import com.google.common.collect.testing.features.CollectionFeature;
@@ -47,6 +48,7 @@ import java.util.Set;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Tests for {@code LinkedListMultimap}.
@@ -54,8 +56,10 @@ import junit.framework.TestSuite;
  * @author Mike Bostock
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public class LinkedListMultimapTest extends TestCase {
 
+  @J2ktIncompatible
   @GwtIncompatible // suite
   public static Test suite() {
     TestSuite suite = new TestSuite();
@@ -331,7 +335,6 @@ public class LinkedListMultimapTest extends TestCase {
     assertEquals(3, (int) entryb.getValue());
   }
 
-  @SuppressWarnings("unchecked")
   @GwtIncompatible // unreasonably slow
   public void testEntriesIteration() {
     List<Entry<String, Integer>> addItems =
@@ -350,7 +353,7 @@ public class LinkedListMultimapTest extends TestCase {
               Maps.immutableEntry("foo", 6));
       new ListIteratorTester<Entry<String, Integer>>(
           3, addItems, ImmutableList.of(SUPPORTS_REMOVE), list, startIndex) {
-        private LinkedListMultimap<String, Integer> multimap;
+        private @Nullable LinkedListMultimap<String, Integer> multimap;
 
         @Override
         protected ListIterator<Entry<String, Integer>> newTargetIterator() {
@@ -376,7 +379,7 @@ public class LinkedListMultimapTest extends TestCase {
         MODIFIABLE,
         newArrayList("foo", "foo", "bar", "bar", "foo"),
         IteratorTester.KnownOrder.KNOWN_ORDER) {
-      private Multimap<String, Integer> multimap;
+      private @Nullable Multimap<String, Integer> multimap;
 
       @Override
       protected Iterator<String> newTargetIterator() {
@@ -405,7 +408,7 @@ public class LinkedListMultimapTest extends TestCase {
           ImmutableList.of(SUPPORTS_REMOVE, SUPPORTS_SET),
           Lists.newArrayList(2, 3, 4, 5, 6),
           startIndex) {
-        private LinkedListMultimap<String, Integer> multimap;
+        private @Nullable LinkedListMultimap<String, Integer> multimap;
 
         @Override
         protected ListIterator<Integer> newTargetIterator() {
@@ -432,7 +435,7 @@ public class LinkedListMultimapTest extends TestCase {
         MODIFIABLE,
         newLinkedHashSet(asList("foo", "bar", "baz", "dog", "cat")),
         IteratorTester.KnownOrder.KNOWN_ORDER) {
-      private Multimap<String, Integer> multimap;
+      private @Nullable Multimap<String, Integer> multimap;
 
       @Override
       protected Iterator<String> newTargetIterator() {
@@ -454,7 +457,6 @@ public class LinkedListMultimapTest extends TestCase {
     }.test();
   }
 
-  @SuppressWarnings("unchecked")
   @GwtIncompatible // unreasonably slow
   public void testAsSetIteration() {
     Set<Entry<String, Collection<Integer>>> set =
@@ -468,7 +470,7 @@ public class LinkedListMultimapTest extends TestCase {
 
     new IteratorTester<Entry<String, Collection<Integer>>>(
         6, MODIFIABLE, set, IteratorTester.KnownOrder.KNOWN_ORDER) {
-      private Multimap<String, Integer> multimap;
+      private @Nullable Multimap<String, Integer> multimap;
 
       @Override
       protected Iterator<Entry<String, Collection<Integer>>> newTargetIterator() {

@@ -606,8 +606,9 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
   @GwtIncompatible // java serialization
   @J2ktIncompatible
   private static final class SetFieldSettersHolder {
-    static final Serialization.FieldSetter<ImmutableSetMultimap> EMPTY_SET_FIELD_SETTER =
-        Serialization.getFieldSetter(ImmutableSetMultimap.class, "emptySet");
+    static final Serialization.FieldSetter<? super ImmutableSetMultimap<?, ?>>
+        EMPTY_SET_FIELD_SETTER =
+            Serialization.getFieldSetter(ImmutableSetMultimap.class, "emptySet");
   }
 
   @GwtIncompatible // java.io.ObjectInputStream

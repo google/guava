@@ -25,12 +25,15 @@ import com.google.common.base.MoreObjects;
 import com.google.common.collect.Table.Cell;
 import com.google.common.testing.CollectorTester;
 import java.util.function.BiPredicate;
+import java.util.function.BinaryOperator;
 import java.util.stream.Collector;
 import java.util.stream.Stream;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** Unit tests for {@link TableCollectors}. */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public class TableCollectorsTest extends TestCase {
   public void testToImmutableTable() {
     Collector<Cell<String, String, Integer>, ?, ImmutableTable<String, String, Integer>> collector =
@@ -190,12 +193,15 @@ public class TableCollectorsTest extends TestCase {
   }
 
   public void testToTableNullMerge() {
+    // TODO github.com/google/guava/issues/6824 - the null merge feature is not compatible with the
+    // current nullness annotation of the mergeFunction parameter. Work around with casts.
+    BinaryOperator<@Nullable Integer> mergeFunction = (v1, v2) -> null;
     Collector<Cell<String, String, Integer>, ?, Table<String, String, Integer>> collector =
         TableCollectors.toTable(
             Cell::getRowKey,
             Cell::getColumnKey,
             Cell::getValue,
-            (Integer v1, Integer v2) -> null,
+            (BinaryOperator<Integer>) mergeFunction,
             HashBasedTable::create);
     BiPredicate<Table<String, String, Integer>, Table<String, String, Integer>> equivalence =
         pairwiseOnResultOf(Table::cellSet);

@@ -31,6 +31,7 @@ import java.util.Map.Entry;
  * @author Hayward Chan
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public class BiMapGenerators {
   public static class ImmutableBiMapGenerator extends TestStringBiMapGenerator {
     @Override

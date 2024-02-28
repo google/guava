@@ -99,7 +99,7 @@ public final class Booleans {
    * Returns a hash code for {@code value}; equal to the result of invoking {@code ((Boolean)
    * value).hashCode()}.
    *
-   * <p><b>Java 8 users:</b> use {@link Boolean#hashCode(boolean)} instead.
+   * <p><b>Java 8+ users:</b> use {@link Boolean#hashCode(boolean)} instead.
    *
    * @param value a primitive {@code boolean} value
    * @return a hash code for the value
@@ -113,8 +113,8 @@ public final class Booleans {
    * considered less than {@code true}). The sign of the value returned is the same as that of
    * {@code ((Boolean) a).compareTo(b)}.
    *
-   * <p><b>Note for Java 7 and later:</b> this method should be treated as deprecated; use the
-   * equivalent {@link Boolean#compare} method instead.
+   * <p><b>Java 7+ users:</b> this method should be treated as deprecated; use the equivalent {@link
+   * Boolean#compare} method instead.
    *
    * @param a the first {@code boolean} to compare
    * @param b the second {@code boolean} to compare

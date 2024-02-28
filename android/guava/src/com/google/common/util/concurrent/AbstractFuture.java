@@ -1342,7 +1342,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
    * <p>Static initialization of this class will fail if the {@link sun.misc.Unsafe} object cannot
    * be accessed.
    */
-  @SuppressWarnings("sunapi")
+  @SuppressWarnings({"sunapi", "removal"}) // b/318391980
   private static final class UnsafeAtomicHelper extends AtomicHelper {
     static final sun.misc.Unsafe UNSAFE;
     static final long LISTENERS_OFFSET;

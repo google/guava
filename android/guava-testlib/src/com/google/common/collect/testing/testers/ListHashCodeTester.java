@@ -18,6 +18,7 @@ package com.google.common.collect.testing.testers;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.testing.Helpers;
 import java.lang.reflect.Method;
 import org.junit.Ignore;
@@ -45,6 +46,7 @@ public class ListHashCodeTester<E> extends AbstractListTester<E> {
    * Returns the {@link Method} instance for {@link #testHashCode()} so that list tests on
    * unhashable objects can suppress it with {@code FeatureSpecificTestSuiteBuilder.suppressing()}.
    */
+  @J2ktIncompatible
   @GwtIncompatible // reflection
   public static Method getHashCodeMethod() {
     return Helpers.getMethod(ListHashCodeTester.class, "testHashCode");

@@ -368,7 +368,6 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
 
   @AndroidIncompatible // slow
   public void testExhaustive() {
-    @SuppressWarnings("unchecked")
     ImmutableSet<Range<Integer>> ranges =
         ImmutableSet.of(
             Range.<Integer>all(),

@@ -379,6 +379,7 @@ class FreshValueGenerator {
     return freshness.get();
   }
 
+  @SuppressWarnings("removal") // b/321209431 -- maybe just use valueOf here?
   @Generates
   Integer generateInteger() {
     return new Integer(generateInt());
@@ -389,6 +390,7 @@ class FreshValueGenerator {
     return generateInt();
   }
 
+  @SuppressWarnings("removal") // b/321209431 -- maybe just use valueOf here?
   @Generates
   Long generateLongObject() {
     return new Long(generateLong());
@@ -399,6 +401,7 @@ class FreshValueGenerator {
     return generateInt();
   }
 
+  @SuppressWarnings("removal") // b/321209431 -- maybe just use valueOf here?
   @Generates
   Float generateFloatObject() {
     return new Float(generateFloat());
@@ -409,6 +412,7 @@ class FreshValueGenerator {
     return generateInt();
   }
 
+  @SuppressWarnings("removal") // b/321209431 -- maybe just use valueOf here?
   @Generates
   Double generateDoubleObject() {
     return new Double(generateDouble());
@@ -419,6 +423,7 @@ class FreshValueGenerator {
     return (short) generateInt();
   }
 
+  @SuppressWarnings("removal") // b/321209431 -- maybe just use valueOf here?
   @Generates
   Short generateShortObject() {
     return new Short(generateShort());
@@ -429,6 +434,7 @@ class FreshValueGenerator {
     return (byte) generateInt();
   }
 
+  @SuppressWarnings("removal") // b/321209431 -- maybe just use valueOf here?
   @Generates
   Byte generateByteObject() {
     return new Byte(generateByte());
@@ -439,6 +445,7 @@ class FreshValueGenerator {
     return generateString().charAt(0);
   }
 
+  @SuppressWarnings("removal") // b/321209431 -- maybe just use valueOf here?
   @Generates
   Character generateCharacter() {
     return new Character(generateChar());
@@ -449,6 +456,7 @@ class FreshValueGenerator {
     return generateInt() % 2 == 0;
   }
 
+  @SuppressWarnings("removal") // b/321209431 -- maybe just use valueOf here?
   @Generates
   Boolean generateBooleanObject() {
     return new Boolean(generateBoolean());

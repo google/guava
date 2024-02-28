@@ -24,6 +24,7 @@ import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.testing.AbstractCollectionTester;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.SpliteratorTester;
@@ -82,12 +83,14 @@ public class CollectionSpliteratorTester<E> extends AbstractCollectionTester<E> 
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // reflection
   public static Method getSpliteratorNotImmutableCollectionAllowsAddMethod() {
     return Helpers.getMethod(
         CollectionSpliteratorTester.class, "testSpliteratorNotImmutable_CollectionAllowsAdd");
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // reflection
   public static Method getSpliteratorNotImmutableCollectionAllowsRemoveMethod() {
     return Helpers.getMethod(

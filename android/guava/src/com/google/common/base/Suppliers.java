@@ -254,7 +254,7 @@ public final class Suppliers {
    * @throws IllegalArgumentException if {@code duration} is not positive
    * @since NEXT
    */
-  @Beta // only until we're confident that Java 8 APIs are safe for our Android users
+  @Beta // only until we're confident that Java 8+ APIs are safe for our Android users
   @J2ktIncompatible
   @GwtIncompatible // java.time.Duration
   @SuppressWarnings("Java7ApiChecker") // no more dangerous that wherever the user got the Duration
@@ -400,7 +400,7 @@ public final class Suppliers {
    * Returns a function that accepts a supplier and returns the result of invoking {@link
    * Supplier#get} on that supplier.
    *
-   * <p><b>Java 8 users:</b> use the method reference {@code Supplier::get} instead.
+   * <p><b>Java 8+ users:</b> use the method reference {@code Supplier::get} instead.
    *
    * @since 8.0
    */

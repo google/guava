@@ -21,6 +21,7 @@ import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.testing.ListTestSuiteBuilder;
 import com.google.common.collect.testing.NavigableSetTestSuiteBuilder;
 import com.google.common.collect.testing.features.CollectionFeature;
@@ -55,8 +56,10 @@ import junit.framework.TestSuite;
  * @author Jared Levy
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
 
+  @J2ktIncompatible
   @GwtIncompatible // suite
   public static Test suite() {
     TestSuite suite = new TestSuite();
@@ -201,7 +204,6 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
     return ImmutableSortedSet.of(e1, e2, e3, e4, e5);
   }
 
-  @SuppressWarnings("unchecked")
   @Override
   protected <E extends Comparable<? super E>> SortedSet<E> of(
       E e1, E e2, E e3, E e4, E e5, E e6, E... rest) {
@@ -229,6 +231,7 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
     return ImmutableSortedSet.copyOf(elements);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // NullPointerTester
   @AndroidIncompatible // see ImmutableTableTest.testNullPointerInstance
   public void testNullPointers() {
@@ -273,6 +276,7 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testEmpty_serialization() {
     SortedSet<String> set = of();
@@ -321,6 +325,7 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
     assertEquals("e", set.last());
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testSingle_serialization() {
     SortedSet<String> set = of("e");
@@ -420,6 +425,7 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testOf_subSetSerialization() {
     SortedSet<String> set = of("e", "f", "b", "d", "c");
@@ -436,6 +442,7 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
     assertEquals("f", set.last());
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testOf_serialization() {
     SortedSet<String> set = of("e", "f", "b", "d", "c");
@@ -557,6 +564,7 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
     assertEquals("jumped", set.last());
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testExplicitEmpty_serialization() {
     SortedSet<String> set = ImmutableSortedSet.orderedBy(STRING_LENGTH).build();
@@ -566,6 +574,7 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
     assertSame(set.comparator(), copy.comparator());
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testExplicit_serialization() {
     SortedSet<String> set =
@@ -815,6 +824,7 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
     assertFalse(set.containsAll(Sets.newTreeSet(asList("f", "d", "a"))));
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testDifferentComparator_serialization() {
     // don't use Collections.reverseOrder(); it didn't reserialize to the same instance in JDK5
@@ -889,7 +899,6 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
   }
 
   public void testLegacyComparable_builder_natural() {
-    @SuppressWarnings("unchecked")
     // Note: IntelliJ wrongly reports an error for this statement
     ImmutableSortedSet.Builder<LegacyComparable> builder =
         ImmutableSortedSet.<LegacyComparable>naturalOrder();
@@ -903,7 +912,6 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
   }
 
   public void testLegacyComparable_builder_reverse() {
-    @SuppressWarnings("unchecked")
     // Note: IntelliJ wrongly reports an error for this statement
     ImmutableSortedSet.Builder<LegacyComparable> builder =
         ImmutableSortedSet.<LegacyComparable>reverseOrder();
@@ -932,6 +940,7 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
     assertSame(list, ImmutableList.copyOf(set));
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester, ImmutableSortedAsList
   public void testAsListReturnTypeAndSerialization() {
     ImmutableSet<String> set = ImmutableSortedSet.of("a", "e", "i", "o", "u");
@@ -947,6 +956,7 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
     assertEquals(list, ImmutableList.copyOf(set));
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester, ImmutableSortedAsList
   public void testSubsetAsListReturnTypeAndSerialization() {
     ImmutableSet<String> set = ImmutableSortedSet.of("a", "e", "i", "o", "u").subSet("c", "r");

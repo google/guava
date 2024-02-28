@@ -27,6 +27,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.SortedSet;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.junit.Ignore;
 
 /**
@@ -38,13 +39,14 @@ import org.junit.Ignore;
  */
 @GwtCompatible
 @Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
-public class SortedSetNavigationTester<E> extends AbstractSetTester<E> {
+@ElementTypesAreNonnullByDefault
+public class SortedSetNavigationTester<E extends @Nullable Object> extends AbstractSetTester<E> {
 
   private SortedSet<E> sortedSet;
   private List<E> values;
-  private E a;
-  private E b;
-  private E c;
+  private @Nullable E a;
+  private @Nullable E b;
+  private @Nullable E c;
 
   @Override
   public void setUp() throws Exception {

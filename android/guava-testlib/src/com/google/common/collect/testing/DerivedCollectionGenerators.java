@@ -33,6 +33,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Derived suite generators, split out of the suite builders so that they are available to GWT.
@@ -40,8 +41,9 @@ import java.util.SortedSet;
  * @author George van den Driessche
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public final class DerivedCollectionGenerators {
-  public static class MapEntrySetGenerator<K, V>
+  public static class MapEntrySetGenerator<K extends @Nullable Object, V extends @Nullable Object>
       implements TestSetGenerator<Entry<K, V>>, DerivedGenerator {
     private final OneSizeTestContainerGenerator<Map<K, V>, Entry<K, V>> mapGenerator;
 
@@ -79,8 +81,9 @@ public final class DerivedCollectionGenerators {
   // TODO: investigate some API changes to SampleElements that would tidy up
   // parts of the following classes.
 
-  static <K, V> TestSetGenerator<K> keySetGenerator(
-      OneSizeTestContainerGenerator<Map<K, V>, Entry<K, V>> mapGenerator) {
+  static <K extends @Nullable Object, V extends @Nullable Object>
+      TestSetGenerator<K> keySetGenerator(
+          OneSizeTestContainerGenerator<Map<K, V>, Entry<K, V>> mapGenerator) {
     TestContainerGenerator<Map<K, V>, Entry<K, V>> generator = mapGenerator.getInnerGenerator();
     if (generator instanceof TestSortedMapGenerator
         && ((TestSortedMapGenerator<K, V>) generator).create().keySet() instanceof SortedSet) {
@@ -90,7 +93,8 @@ public final class DerivedCollectionGenerators {
     }
   }
 
-  public static class MapKeySetGenerator<K, V> implements TestSetGenerator<K>, DerivedGenerator {
+  public static class MapKeySetGenerator<K extends @Nullable Object, V extends @Nullable Object>
+      implements TestSetGenerator<K>, DerivedGenerator {
     private final OneSizeTestContainerGenerator<Map<K, V>, Entry<K, V>> mapGenerator;
     private final SampleElements<K> samples;
 
@@ -159,8 +163,9 @@ public final class DerivedCollectionGenerators {
     }
   }
 
-  public static class MapSortedKeySetGenerator<K, V> extends MapKeySetGenerator<K, V>
-      implements TestSortedSetGenerator<K>, DerivedGenerator {
+  public static class MapSortedKeySetGenerator<
+          K extends @Nullable Object, V extends @Nullable Object>
+      extends MapKeySetGenerator<K, V> implements TestSortedSetGenerator<K>, DerivedGenerator {
     private final TestSortedMapGenerator<K, V> delegate;
 
     public MapSortedKeySetGenerator(
@@ -195,7 +200,8 @@ public final class DerivedCollectionGenerators {
     }
   }
 
-  public static class MapValueCollectionGenerator<K, V>
+  public static class MapValueCollectionGenerator<
+          K extends @Nullable Object, V extends @Nullable Object>
       implements TestCollectionGenerator<V>, DerivedGenerator {
     private final OneSizeTestContainerGenerator<Map<K, V>, Entry<K, V>> mapGenerator;
     private final SampleElements<V> samples;
@@ -276,7 +282,8 @@ public final class DerivedCollectionGenerators {
   }
 
   // TODO(cpovirk): could something like this be used elsewhere, e.g., ReserializedListGenerator?
-  static class ForwardingTestMapGenerator<K, V> implements TestMapGenerator<K, V> {
+  static class ForwardingTestMapGenerator<K extends @Nullable Object, V extends @Nullable Object>
+      implements TestMapGenerator<K, V> {
     TestMapGenerator<K, V> delegate;
 
     ForwardingTestMapGenerator(TestMapGenerator<K, V> delegate) {
@@ -321,7 +328,8 @@ public final class DerivedCollectionGenerators {
     NO_BOUND;
   }
 
-  public static class SortedSetSubsetTestSetGenerator<E> implements TestSortedSetGenerator<E> {
+  public static class SortedSetSubsetTestSetGenerator<E extends @Nullable Object>
+      implements TestSortedSetGenerator<E> {
     final Bound to;
     final Bound from;
     final E firstInclusive;
@@ -397,7 +405,7 @@ public final class DerivedCollectionGenerators {
       }
 
       // the regular values should be visible after filtering
-      List<Object> allEntries = new ArrayList<>();
+      List<@Nullable Object> allEntries = new ArrayList<>();
       allEntries.addAll(extremeValues);
       allEntries.addAll(normalValues);
       SortedSet<E> set = delegate.create(allEntries.toArray());
@@ -443,8 +451,9 @@ public final class DerivedCollectionGenerators {
    * TODO(cpovirk): surely we can find a less ugly solution than a class that accepts 3 parameters,
    * exposes as many getters, does work in the constructor, and has both a superclass and a subclass
    */
-  public static class SortedMapSubmapTestMapGenerator<K, V> extends ForwardingTestMapGenerator<K, V>
-      implements TestSortedMapGenerator<K, V> {
+  public static class SortedMapSubmapTestMapGenerator<
+          K extends @Nullable Object, V extends @Nullable Object>
+      extends ForwardingTestMapGenerator<K, V> implements TestSortedMapGenerator<K, V> {
     final Bound to;
     final Bound from;
     final K firstInclusive;
@@ -462,7 +471,6 @@ public final class DerivedCollectionGenerators {
 
       // derive values for inclusive filtering from the input samples
       SampleElements<Entry<K, V>> samples = delegate.samples();
-      @SuppressWarnings("unchecked") // no elements are inserted into the array
       List<Entry<K, V>> samplesList =
           Arrays.asList(samples.e0(), samples.e1(), samples.e2(), samples.e3(), samples.e4());
       Collections.sort(samplesList, entryComparator);

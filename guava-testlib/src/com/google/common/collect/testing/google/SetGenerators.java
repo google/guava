@@ -59,6 +59,7 @@ import java.util.SortedSet;
  * @author Hayward Chan
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public class SetGenerators {
 
   public static class ImmutableSetCopyOfGenerator extends TestStringSetGenerator {
@@ -400,7 +401,7 @@ public class SetGenerators {
     /** Sorts the elements in reverse natural order. */
     @Override
     public List<Integer> order(List<Integer> insertionOrder) {
-      Collections.sort(insertionOrder, Ordering.natural().reverse());
+      Collections.sort(insertionOrder, Ordering.<Integer>natural().reverse());
       return insertionOrder;
     }
   }

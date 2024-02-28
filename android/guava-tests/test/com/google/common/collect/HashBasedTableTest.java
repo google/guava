@@ -20,6 +20,7 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
 
@@ -29,6 +30,7 @@ import com.google.common.testing.SerializableTester;
  * @author Jared Levy
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public class HashBasedTableTest extends AbstractTableTest {
 
   @Override
@@ -91,12 +93,14 @@ public class HashBasedTableTest extends AbstractTableTest {
     assertEquals((Character) 'a', copy.get("foo", 1));
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testSerialization() {
     table = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
     SerializableTester.reserializeAndAssert(table);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // NullPointerTester
   public void testNullPointerStatic() {
     new NullPointerTester().testAllPublicStaticMethods(HashBasedTable.class);

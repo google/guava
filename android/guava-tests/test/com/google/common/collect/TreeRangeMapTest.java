@@ -70,7 +70,7 @@ public class TreeRangeMapTest extends TestCase {
                   @SuppressWarnings("unchecked")
                   @Override
                   public Entry<Range<Integer>, String>[] createArray(int length) {
-                    return new Entry[length];
+                    return (Entry<Range<Integer>, String>[]) new Entry<?, ?>[length];
                   }
 
                   @Override
@@ -82,7 +82,7 @@ public class TreeRangeMapTest extends TestCase {
                   @SuppressWarnings("unchecked")
                   @Override
                   public Range<Integer>[] createKeyArray(int length) {
-                    return new Range[length];
+                    return (Range<Integer>[]) new Range<?>[length];
                   }
 
                   @Override
@@ -126,7 +126,7 @@ public class TreeRangeMapTest extends TestCase {
                   @SuppressWarnings("unchecked")
                   @Override
                   public Entry<Range<Integer>, String>[] createArray(int length) {
-                    return new Entry[length];
+                    return (Entry<Range<Integer>, String>[]) new Entry<?, ?>[length];
                   }
 
                   @Override
@@ -138,7 +138,7 @@ public class TreeRangeMapTest extends TestCase {
                   @SuppressWarnings("unchecked")
                   @Override
                   public Range<Integer>[] createKeyArray(int length) {
-                    return new Range[length];
+                    return (Range<Integer>[]) new Range<?>[length];
                   }
 
                   @Override
@@ -181,7 +181,7 @@ public class TreeRangeMapTest extends TestCase {
                   @SuppressWarnings("unchecked")
                   @Override
                   public Entry<Range<Integer>, String>[] createArray(int length) {
-                    return new Entry[length];
+                    return (Entry<Range<Integer>, String>[]) new Entry<?, ?>[length];
                   }
 
                   @Override
@@ -196,7 +196,7 @@ public class TreeRangeMapTest extends TestCase {
                   @SuppressWarnings("unchecked")
                   @Override
                   public Range<Integer>[] createKeyArray(int length) {
-                    return new Range[length];
+                    return (Range<Integer>[]) new Range<?>[length];
                   }
 
                   @Override
@@ -240,7 +240,7 @@ public class TreeRangeMapTest extends TestCase {
                   @SuppressWarnings("unchecked")
                   @Override
                   public Entry<Range<Integer>, String>[] createArray(int length) {
-                    return new Entry[length];
+                    return (Entry<Range<Integer>, String>[]) new Entry<?, ?>[length];
                   }
 
                   @Override
@@ -255,7 +255,7 @@ public class TreeRangeMapTest extends TestCase {
                   @SuppressWarnings("unchecked")
                   @Override
                   public Range<Integer>[] createKeyArray(int length) {
-                    return new Range[length];
+                    return (Range<Integer>[]) new Range<?>[length];
                   }
 
                   @Override

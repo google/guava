@@ -182,7 +182,7 @@ public final class MutableClassToInstanceMap<B extends @Nullable Object>
   }
 
   private Object writeReplace() {
-    return new SerializedForm(delegate());
+    return new SerializedForm<>(delegate());
   }
 
   private void readObject(ObjectInputStream stream) throws InvalidObjectException {

@@ -505,7 +505,8 @@ public final class LinkedHashMultimap<K extends @Nullable Object, V extends @Nul
     private void rehashIfNecessary() {
       if (Hashing.needsResizing(size, hashTable.length, VALUE_SET_LOAD_FACTOR)) {
         @SuppressWarnings("unchecked")
-        ValueEntry<K, V>[] hashTable = new ValueEntry[this.hashTable.length * 2];
+        ValueEntry<K, V>[] hashTable =
+            (ValueEntry<K, V>[]) new ValueEntry<?, ?>[this.hashTable.length * 2];
         this.hashTable = hashTable;
         int mask = hashTable.length - 1;
         for (ValueSetLink<K, V> entry = firstEntry;

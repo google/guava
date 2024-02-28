@@ -21,6 +21,7 @@ import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.testing.AbstractCollectionTester;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.WrongType;
@@ -194,6 +195,7 @@ public class CollectionToArrayTester<E> extends AbstractCollectionTester<E> {
    * FeatureSpecificTestSuiteBuilder.suppressing()} until <a
    * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6260652">Sun bug 6260652</a> is fixed.
    */
+  @J2ktIncompatible
   @GwtIncompatible // reflection
   public static Method getToArrayIsPlainObjectArrayMethod() {
     return Helpers.getMethod(CollectionToArrayTester.class, "testToArray_isPlainObjectArray");

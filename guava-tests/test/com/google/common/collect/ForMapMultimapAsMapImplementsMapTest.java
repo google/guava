@@ -28,6 +28,7 @@ import java.util.Map;
  * @author Jared Levy
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public class ForMapMultimapAsMapImplementsMapTest extends AbstractMultimapAsMapImplementsMapTest {
 
   public ForMapMultimapAsMapImplementsMapTest() {

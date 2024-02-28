@@ -228,7 +228,6 @@ public class InvokableTest extends TestCase {
   }
 
   public void testConstructor_returnType_hasTypeParameter() throws Exception {
-    @SuppressWarnings("rawtypes") // Foo.class for Foo<T> is always raw type
     Class<WithConstructorAndTypeParameter> type = WithConstructorAndTypeParameter.class;
     @SuppressWarnings("rawtypes") // Foo.class
     Constructor<WithConstructorAndTypeParameter> constructor = type.getDeclaredConstructor();

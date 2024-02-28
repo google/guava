@@ -28,6 +28,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map.Entry;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.junit.Ignore;
 
 /**
@@ -37,7 +38,9 @@ import org.junit.Ignore;
  */
 @GwtCompatible
 @Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
-public abstract class AbstractMultimapTester<K, V, M extends Multimap<K, V>>
+@ElementTypesAreNonnullByDefault
+public abstract class AbstractMultimapTester<
+        K extends @Nullable Object, V extends @Nullable Object, M extends Multimap<K, V>>
     extends AbstractContainerTester<M, Entry<K, V>> {
 
   private M multimap;
@@ -46,7 +49,9 @@ public abstract class AbstractMultimapTester<K, V, M extends Multimap<K, V>>
     return multimap;
   }
 
-  /** @return an array of the proper size with {@code null} as the key of the middle element. */
+  /**
+   * @return an array of the proper size with {@code null} as the key of the middle element.
+   */
   protected Entry<K, V>[] createArrayWithNullKey() {
     Entry<K, V>[] array = createSamplesArray();
     int nullKeyLocation = getNullLocation();
@@ -55,7 +60,9 @@ public abstract class AbstractMultimapTester<K, V, M extends Multimap<K, V>>
     return array;
   }
 
-  /** @return an array of the proper size with {@code null} as the value of the middle element. */
+  /**
+   * @return an array of the proper size with {@code null} as the value of the middle element.
+   */
   protected Entry<K, V>[] createArrayWithNullValue() {
     Entry<K, V>[] array = createSamplesArray();
     int nullValueLocation = getNullLocation();
@@ -134,7 +141,9 @@ public abstract class AbstractMultimapTester<K, V, M extends Multimap<K, V>>
     return multimap;
   }
 
-  /** @see AbstractContainerTester#resetContainer() */
+  /**
+   * @see AbstractContainerTester#resetContainer()
+   */
   protected void resetCollection() {
     resetContainer();
   }
@@ -143,7 +152,7 @@ public abstract class AbstractMultimapTester<K, V, M extends Multimap<K, V>>
     assertGet(key, Arrays.asList(values));
   }
 
-  protected void assertGet(K key, Collection<V> values) {
+  protected void assertGet(K key, Collection<? extends V> values) {
     assertEqualIgnoringOrder(values, multimap().get(key));
 
     if (!values.isEmpty()) {

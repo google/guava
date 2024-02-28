@@ -42,8 +42,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *
  * @author George van den Driessche
  */
-// Enum values use constructors with generic varargs.
-@SuppressWarnings("unchecked")
+@SuppressWarnings("rawtypes") // maybe avoidable if we rework the whole package?
 @GwtCompatible
 public enum CollectionSize implements Feature<Collection>, Comparable<CollectionSize> {
   /** Test an empty collection. */

@@ -53,13 +53,12 @@ public abstract class ImmutableSortedSet<E> extends ForwardingImmutableSet<E>
     throw new UnsupportedOperationException();
   }
 
-  // TODO: Can we find a way to remove this @SuppressWarnings even for eclipse?
-  @SuppressWarnings("unchecked")
-  private static final Comparator NATURAL_ORDER = Ordering.natural();
+  private static final Comparator<?> NATURAL_ORDER = Ordering.natural();
 
   @SuppressWarnings("unchecked")
   private static final ImmutableSortedSet<Object> NATURAL_EMPTY_SET =
-      new RegularImmutableSortedSet<Object>(new TreeSet<Object>(NATURAL_ORDER), false);
+      new RegularImmutableSortedSet<Object>(
+          new TreeSet<Object>((Comparator<Object>) NATURAL_ORDER), false);
 
   static <E> ImmutableSortedSet<E> emptySet(Comparator<? super E> comparator) {
     checkNotNull(comparator);
@@ -113,7 +112,7 @@ public abstract class ImmutableSortedSet<E> extends ForwardingImmutableSet<E>
     Collections.addAll(all, e1, e2, e3, e4, e5, e6);
     Collections.addAll(all, remaining);
     // This is messed up. See TODO at top of file.
-    return ofInternal(Ordering.natural(), (E[]) all.toArray(new Comparable[0]));
+    return ofInternal(Ordering.natural(), (E[]) all.toArray(new Comparable<?>[0]));
   }
 
   private static <E> ImmutableSortedSet<E> ofInternal(
@@ -132,16 +131,22 @@ public abstract class ImmutableSortedSet<E> extends ForwardingImmutableSet<E>
     }
   }
 
+  // Unsafe, see ImmutableSortedSetFauxverideShim.
+  @SuppressWarnings("unchecked")
   public static <E> ImmutableSortedSet<E> copyOf(Collection<? extends E> elements) {
-    return copyOfInternal((Ordering<E>) Ordering.natural(), (Collection) elements, false);
+    return copyOfInternal((Ordering<E>) Ordering.natural(), (Collection<E>) elements, false);
   }
 
+  // Unsafe, see ImmutableSortedSetFauxverideShim.
+  @SuppressWarnings("unchecked")
   public static <E> ImmutableSortedSet<E> copyOf(Iterable<? extends E> elements) {
-    return copyOfInternal((Ordering<E>) Ordering.natural(), (Iterable) elements, false);
+    return copyOfInternal((Ordering<E>) Ordering.natural(), (Iterable<E>) elements, false);
   }
 
+  // Unsafe, see ImmutableSortedSetFauxverideShim.
+  @SuppressWarnings("unchecked")
   public static <E> ImmutableSortedSet<E> copyOf(Iterator<? extends E> elements) {
-    return copyOfInternal((Ordering<E>) Ordering.natural(), (Iterator) elements);
+    return copyOfInternal((Ordering<E>) Ordering.natural(), (Iterator<E>) elements);
   }
 
   public static <E extends Comparable<? super E>> ImmutableSortedSet<E> copyOf(E[] elements) {
@@ -166,11 +171,12 @@ public abstract class ImmutableSortedSet<E> extends ForwardingImmutableSet<E>
     return copyOfInternal(comparator, elements);
   }
 
+  // We use NATURAL_ORDER only if the input was already using natural ordering.
   @SuppressWarnings("unchecked")
   public static <E> ImmutableSortedSet<E> copyOfSorted(SortedSet<E> sortedSet) {
     Comparator<? super E> comparator = sortedSet.comparator();
     if (comparator == null) {
-      comparator = NATURAL_ORDER;
+      comparator = (Comparator<? super E>) NATURAL_ORDER;
     }
     return copyOfInternal(comparator, sortedSet.iterator());
   }

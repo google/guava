@@ -28,6 +28,7 @@ import java.util.Map;
  * @author Louis Wasserman
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public abstract class AbstractTableTest extends AbstractTableReadTest {
 
   protected void populate(Table<String, Integer, Character> table, Object... data) {

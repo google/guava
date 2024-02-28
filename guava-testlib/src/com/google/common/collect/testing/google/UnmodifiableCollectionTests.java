@@ -35,6 +35,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A series of tests that support asserting that collections cannot be modified, either through
@@ -43,11 +44,15 @@ import java.util.Set;
  * @author Robert Konigsberg
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public class UnmodifiableCollectionTests {
 
   public static void assertMapEntryIsUnmodifiable(Entry<?, ?> entry) {
     try {
-      entry.setValue(null);
+      // fine because the call is going to fail without modifying the entry
+      @SuppressWarnings("unchecked")
+      Entry<?, @Nullable Object> nullableValueEntry = (Entry<?, @Nullable Object>) entry;
+      nullableValueEntry.setValue(null);
       fail("setValue on unmodifiable Map.Entry succeeded");
     } catch (UnsupportedOperationException expected) {
     }
@@ -109,7 +114,8 @@ public class UnmodifiableCollectionTests {
    * @param sampleElement an element of the same type as that contained by {@code collection}.
    *     {@code collection} may or may not have {@code sampleElement} as a member.
    */
-  public static <E> void assertCollectionIsUnmodifiable(Collection<E> collection, E sampleElement) {
+  public static <E extends @Nullable Object> void assertCollectionIsUnmodifiable(
+      Collection<E> collection, E sampleElement) {
     Collection<E> siblingCollection = new ArrayList<>();
     siblingCollection.add(sampleElement);
 
@@ -181,7 +187,8 @@ public class UnmodifiableCollectionTests {
    * @param sampleElement an element of the same type as that contained by {@code set}. {@code set}
    *     may or may not have {@code sampleElement} as a member.
    */
-  public static <E> void assertSetIsUnmodifiable(Set<E> set, E sampleElement) {
+  public static <E extends @Nullable Object> void assertSetIsUnmodifiable(
+      Set<E> set, E sampleElement) {
     assertCollectionIsUnmodifiable(set, sampleElement);
   }
 
@@ -201,7 +208,8 @@ public class UnmodifiableCollectionTests {
    * @param sampleElement an element of the same type as that contained by {@code multiset}. {@code
    *     multiset} may or may not have {@code sampleElement} as a member.
    */
-  public static <E> void assertMultisetIsUnmodifiable(Multiset<E> multiset, E sampleElement) {
+  public static <E extends @Nullable Object> void assertMultisetIsUnmodifiable(
+      Multiset<E> multiset, E sampleElement) {
     Multiset<E> copy = LinkedHashMultiset.create(multiset);
     assertCollectionsAreEquivalent(multiset, copy);
 
@@ -268,8 +276,8 @@ public class UnmodifiableCollectionTests {
    * @param sampleValue a key of the same type as that contained by {@code multimap}. {@code
    *     multimap} may or may not have {@code sampleValue} as a key.
    */
-  public static <K, V> void assertMultimapIsUnmodifiable(
-      Multimap<K, V> multimap, K sampleKey, V sampleValue) {
+  public static <K extends @Nullable Object, V extends @Nullable Object>
+      void assertMultimapIsUnmodifiable(Multimap<K, V> multimap, K sampleKey, V sampleValue) {
     List<Entry<K, V>> originalEntries =
         Collections.unmodifiableList(Lists.newArrayList(multimap.entries()));
 
@@ -408,13 +416,13 @@ public class UnmodifiableCollectionTests {
     assertMultimapRemainsUnmodified(multimap, originalEntries);
   }
 
-  private static <E> void assertCollectionsAreEquivalent(
+  private static <E extends @Nullable Object> void assertCollectionsAreEquivalent(
       Collection<E> expected, Collection<E> actual) {
     assertIteratorsInOrder(expected.iterator(), actual.iterator());
   }
 
-  private static <K, V> void assertMultimapRemainsUnmodified(
-      Multimap<K, V> expected, List<Entry<K, V>> actual) {
+  private static <K extends @Nullable Object, V extends @Nullable Object>
+      void assertMultimapRemainsUnmodified(Multimap<K, V> expected, List<Entry<K, V>> actual) {
     assertIteratorsInOrder(expected.entries().iterator(), actual.iterator());
   }
 }

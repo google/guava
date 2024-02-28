@@ -29,7 +29,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Provides static methods for working with {@link Comparator} instances. For many other helpful
- * comparator utilities, see either {@code Comparator} itself (for Java 8 or later), or {@code
+ * comparator utilities, see either {@code Comparator} itself (for Java 8+), or {@code
  * com.google.common.collect.Ordering} (otherwise).
  *
  * <h3>Relationship to {@code Ordering}</h3>

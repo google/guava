@@ -29,6 +29,7 @@ import java.util.SortedMap;
  * @author Chris Povirk
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public abstract class TestStringSortedMapGenerator extends TestStringMapGenerator
     implements TestSortedMapGenerator<String, String> {
   @Override

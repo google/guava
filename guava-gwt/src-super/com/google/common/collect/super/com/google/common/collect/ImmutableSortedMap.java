@@ -46,7 +46,7 @@ public final class ImmutableSortedMap<K, V> extends ForwardingImmutableMap<K, V>
     implements SortedMap<K, V> {
 
   @SuppressWarnings("unchecked")
-  static final Comparator NATURAL_ORDER = Ordering.natural();
+  static final Comparator<?> NATURAL_ORDER = Ordering.natural();
 
   // This reference is only used by GWT compiler to infer the keys and values
   // of the map that needs to be serialized.
@@ -94,10 +94,10 @@ public final class ImmutableSortedMap<K, V> extends ForwardingImmutableMap<K, V>
         ImmutableSortedMap::copyOfSorted);
   }
 
-  // Casting to any type is safe because the set will never hold any elements.
+  // unsafe, comparator() returns a comparator on the specified type
   @SuppressWarnings("unchecked")
   public static <K, V> ImmutableSortedMap<K, V> of() {
-    return new Builder<K, V>(NATURAL_ORDER).build();
+    return new Builder<K, V>((Comparator<K>) NATURAL_ORDER).build();
   }
 
   public static <K extends Comparable<? super K>, V> ImmutableSortedMap<K, V> of(K k1, V v1) {
@@ -256,8 +256,10 @@ public final class ImmutableSortedMap<K, V> extends ForwardingImmutableMap<K, V>
         .build();
   }
 
+  // Unsafe, see ImmutableSortedMapFauxverideShim.
+  @SuppressWarnings("unchecked")
   public static <K, V> ImmutableSortedMap<K, V> copyOf(Map<? extends K, ? extends V> map) {
-    return copyOfInternal((Map) map, (Ordering<K>) Ordering.natural());
+    return copyOfInternal((Map<K, V>) map, (Ordering<K>) Ordering.natural());
   }
 
   public static <K, V> ImmutableSortedMap<K, V> copyOf(
@@ -265,9 +267,11 @@ public final class ImmutableSortedMap<K, V> extends ForwardingImmutableMap<K, V>
     return copyOfInternal(map, checkNotNull(comparator));
   }
 
+  // Unsafe, see ImmutableSortedMapFauxverideShim.
+  @SuppressWarnings("unchecked")
   public static <K, V> ImmutableSortedMap<K, V> copyOf(
       Iterable<? extends Entry<? extends K, ? extends V>> entries) {
-    return new Builder<K, V>(NATURAL_ORDER).putAll(entries).build();
+    return new Builder<K, V>((Comparator<K>) NATURAL_ORDER).putAll(entries).build();
   }
 
   public static <K, V> ImmutableSortedMap<K, V> copyOf(
@@ -281,7 +285,7 @@ public final class ImmutableSortedMap<K, V> extends ForwardingImmutableMap<K, V>
     // even though K doesn't explicitly implement Comparable.
     @SuppressWarnings("unchecked")
     Comparator<? super K> comparator =
-        (map.comparator() == null) ? NATURAL_ORDER : map.comparator();
+        (map.comparator() == null) ? (Comparator<? super K>) NATURAL_ORDER : map.comparator();
     return copyOfInternal(map, comparator);
   }
 

@@ -20,6 +20,7 @@ import static com.google.common.collect.testing.features.CollectionFeature.KNOWN
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.Multiset.Entry;
 import com.google.common.collect.Multisets;
 import com.google.common.collect.testing.Helpers;
@@ -69,6 +70,7 @@ public class MultisetForEachEntryTester<E> extends AbstractMultisetTester<E> {
    * Returns {@link Method} instances for the remove tests that assume multisets support duplicates
    * so that the test of {@code Multisets.forSet()} can suppress them.
    */
+  @J2ktIncompatible
   @GwtIncompatible // reflection
   public static List<Method> getForEachEntryDuplicateInitializingMethods() {
     return Arrays.asList(

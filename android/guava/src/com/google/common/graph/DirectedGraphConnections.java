@@ -432,7 +432,6 @@ final class DirectedGraphConnections<N, V> implements GraphConnections<N, V> {
     return (V) value;
   }
 
-  @SuppressWarnings("unchecked")
   @Override
   public void removePredecessor(N node) {
     checkNotNull(node);

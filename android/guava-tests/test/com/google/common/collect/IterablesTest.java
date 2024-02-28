@@ -27,6 +27,7 @@ import static java.util.Collections.emptyList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
@@ -47,6 +48,7 @@ import java.util.Set;
 import java.util.SortedSet;
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Unit test for {@code Iterables}.
@@ -55,6 +57,7 @@ import junit.framework.TestCase;
  * @author Jared Levy
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public class IterablesTest extends TestCase {
 
   public void testSize0() {
@@ -102,7 +105,7 @@ public class IterablesTest extends TestCase {
   }
 
   public void test_contains_null_set_yes() {
-    Iterable<String> set = Sets.newHashSet("a", null, "b");
+    Iterable<@Nullable String> set = Sets.newHashSet("a", null, "b");
     assertTrue(Iterables.contains(set, null));
   }
 
@@ -122,7 +125,7 @@ public class IterablesTest extends TestCase {
   }
 
   public void test_contains_nonnull_set_yes() {
-    Iterable<String> set = Sets.newHashSet("a", null, "b");
+    Iterable<@Nullable String> set = Sets.newHashSet("a", null, "b");
     assertTrue(Iterables.contains(set, "b"));
   }
 
@@ -298,7 +301,7 @@ public class IterablesTest extends TestCase {
   }
 
   public void testPoorlyBehavedTransform() {
-    List<String> input = asList("1", null, "3");
+    List<String> input = asList("1", "not a number", "3");
     Iterable<Integer> result =
         Iterables.transform(
             input,
@@ -320,13 +323,13 @@ public class IterablesTest extends TestCase {
   }
 
   public void testNullFriendlyTransform() {
-    List<Integer> input = asList(1, 2, null, 3);
+    List<@Nullable Integer> input = asList(1, 2, null, 3);
     Iterable<String> result =
         Iterables.transform(
             input,
-            new Function<Integer, String>() {
+            new Function<@Nullable Integer, String>() {
               @Override
-              public String apply(Integer from) {
+              public String apply(@Nullable Integer from) {
                 return String.valueOf(from);
               }
             });
@@ -364,7 +367,6 @@ public class IterablesTest extends TestCase {
     List<Integer> list1 = newArrayList(1);
     List<Integer> list2 = newArrayList(4);
 
-    @SuppressWarnings("unchecked")
     List<List<Integer>> input = newArrayList(list1, list2);
 
     Iterable<Integer> result = Iterables.concat(input);
@@ -386,7 +388,6 @@ public class IterablesTest extends TestCase {
     List<Integer> list3 = newArrayList(7, 8);
     List<Integer> list4 = newArrayList(9);
     List<Integer> list5 = newArrayList(10);
-    @SuppressWarnings("unchecked")
     Iterable<Integer> result = Iterables.concat(list1, list2, list3, list4, list5);
     assertEquals(asList(1, 4, 7, 8, 9, 10), newArrayList(result));
     assertEquals("[1, 4, 7, 8, 9, 10]", result.toString());
@@ -452,8 +453,8 @@ public class IterablesTest extends TestCase {
     assertEquals(ImmutableList.of(3, 4), first);
   }
 
-  @GwtIncompatible // ?
-  // TODO: Figure out why this is failing in GWT.
+  @J2ktIncompatible // Arrays.asList(...).subList() doesn't implement RandomAccess in J2KT.
+  @GwtIncompatible // Arrays.asList(...).subList doesn't implement RandomAccess in GWT
   public void testPartitionRandomAccessInput() {
     Iterable<Integer> source = asList(1, 2, 3);
     Iterable<List<Integer>> partitions = Iterables.partition(source, 2);
@@ -462,8 +463,8 @@ public class IterablesTest extends TestCase {
     assertTrue(iterator.next() instanceof RandomAccess);
   }
 
-  @GwtIncompatible // ?
-  // TODO: Figure out why this is failing in GWT.
+  @J2ktIncompatible // Arrays.asList(...).subList() doesn't implement RandomAccess in J2KT.
+  @GwtIncompatible // Arrays.asList(...).subList() doesn't implement RandomAccess in GWT
   public void testPartitionNonRandomAccessInput() {
     Iterable<Integer> source = Lists.newLinkedList(asList(1, 2, 3));
     Iterable<List<Integer>> partitions = Iterables.partition(source, 2);
@@ -513,6 +514,7 @@ public class IterablesTest extends TestCase {
     for (@SuppressWarnings("unused") Object obj : iterable) {}
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // NullPointerTester
   public void testNullPointerExceptions() {
     NullPointerTester tester = new NullPointerTester();
@@ -1395,6 +1397,7 @@ public class IterablesTest extends TestCase {
     verifyMergeSorted(iterables, allIntegers);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // reflection
   @AndroidIncompatible // see ImmutableTableTest.testNullPointerInstance
   public void testIterables_nullCheck() throws Exception {

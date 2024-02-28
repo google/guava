@@ -92,7 +92,7 @@ public class EventBusTest extends TestCase {
 
     // Two additional event types: Object and Comparable<?> (played by Integer)
     Object objEvent = new Object();
-    Object compEvent = new Integer(6);
+    Object compEvent = 6;
 
     bus.post(EVENT);
     bus.post(objEvent);

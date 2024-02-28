@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
 import java.util.AbstractList;
@@ -31,6 +32,7 @@ import junit.framework.TestCase;
  * @author Kurt Alfred Kluever
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public class EvictingQueueTest extends TestCase {
 
   public void testCreateWithNegativeSize() throws Exception {
@@ -187,6 +189,7 @@ public class EvictingQueueTest extends TestCase {
     assertTrue(queue.isEmpty());
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // NullPointerTester
   public void testNullPointerExceptions() {
     NullPointerTester tester = new NullPointerTester();

@@ -375,7 +375,7 @@ public class MultimapsCollectionTest extends TestCase {
     @SuppressWarnings("unchecked")
     @Override
     public Entry<String, String>[] createArray(int length) {
-      return new Entry[length];
+      return (Entry<String, String>[]) new Entry<?, ?>[length];
     }
 
     @Override
@@ -494,7 +494,7 @@ public class MultimapsCollectionTest extends TestCase {
     @SuppressWarnings("unchecked")
     @Override
     public Entry<String, Integer>[] createArray(int length) {
-      return new Entry[length];
+      return (Entry<String, Integer>[]) new Entry<?, ?>[length];
     }
 
     @Override

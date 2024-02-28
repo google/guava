@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Derived suite generators for Guava collection interfaces, split out of the suite builders so that
@@ -39,8 +40,10 @@ import java.util.Set;
  * @author Louis Wasserman
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public final class DerivedGoogleCollectionGenerators {
-  public static class MapGenerator<K, V> implements TestMapGenerator<K, V>, DerivedGenerator {
+  public static class MapGenerator<K extends @Nullable Object, V extends @Nullable Object>
+      implements TestMapGenerator<K, V>, DerivedGenerator {
 
     private final OneSizeTestContainerGenerator<BiMap<K, V>, Entry<K, V>> generator;
 
@@ -87,7 +90,7 @@ public final class DerivedGoogleCollectionGenerators {
     }
   }
 
-  public static class InverseBiMapGenerator<K, V>
+  public static class InverseBiMapGenerator<K extends @Nullable Object, V extends @Nullable Object>
       implements TestBiMapGenerator<V, K>, DerivedGenerator {
 
     private final OneSizeTestContainerGenerator<BiMap<K, V>, Entry<K, V>> generator;
@@ -125,7 +128,7 @@ public final class DerivedGoogleCollectionGenerators {
     @SuppressWarnings("unchecked")
     @Override
     public Entry<V, K>[] createArray(int length) {
-      return new Entry[length];
+      return (Entry<V, K>[]) new Entry<?, ?>[length];
     }
 
     @Override
@@ -151,7 +154,7 @@ public final class DerivedGoogleCollectionGenerators {
     }
   }
 
-  public static class BiMapValueSetGenerator<K, V>
+  public static class BiMapValueSetGenerator<K extends @Nullable Object, V extends @Nullable Object>
       implements TestSetGenerator<V>, DerivedGenerator {
     private final OneSizeTestContainerGenerator<BiMap<K, V>, Entry<K, V>> mapGenerator;
     private final SampleElements<V> samples;

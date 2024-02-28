@@ -67,7 +67,7 @@ public final class UnsignedLongs {
    * Compares the two specified {@code long} values, treating them as unsigned values between {@code
    * 0} and {@code 2^64 - 1} inclusive.
    *
-   * <p><b>Java 8 users:</b> use {@link Long#compareUnsigned(long, long)} instead.
+   * <p><b>Java 8+ users:</b> use {@link Long#compareUnsigned(long, long)} instead.
    *
    * @param a the first unsigned {@code long} to compare
    * @param b the second unsigned {@code long} to compare
@@ -237,7 +237,7 @@ public final class UnsignedLongs {
    * Returns dividend / divisor, where the dividend and divisor are treated as unsigned 64-bit
    * quantities.
    *
-   * <p><b>Java 8 users:</b> use {@link Long#divideUnsigned(long, long)} instead.
+   * <p><b>Java 8+ users:</b> use {@link Long#divideUnsigned(long, long)} instead.
    *
    * @param dividend the dividend (numerator)
    * @param divisor the divisor (denominator)
@@ -272,7 +272,7 @@ public final class UnsignedLongs {
    * Returns dividend % divisor, where the dividend and divisor are treated as unsigned 64-bit
    * quantities.
    *
-   * <p><b>Java 8 users:</b> use {@link Long#remainderUnsigned(long, long)} instead.
+   * <p><b>Java 8+ users:</b> use {@link Long#remainderUnsigned(long, long)} instead.
    *
    * @param dividend the dividend (numerator)
    * @param divisor the divisor (denominator)
@@ -307,7 +307,7 @@ public final class UnsignedLongs {
   /**
    * Returns the unsigned {@code long} value represented by the given decimal string.
    *
-   * <p><b>Java 8 users:</b> use {@link Long#parseUnsignedLong(String)} instead.
+   * <p><b>Java 8+ users:</b> use {@link Long#parseUnsignedLong(String)} instead.
    *
    * @throws NumberFormatException if the string does not contain a valid unsigned {@code long}
    *     value
@@ -322,7 +322,7 @@ public final class UnsignedLongs {
   /**
    * Returns the unsigned {@code long} value represented by a string with the given radix.
    *
-   * <p><b>Java 8 users:</b> use {@link Long#parseUnsignedLong(String, int)} instead.
+   * <p><b>Java 8+ users:</b> use {@link Long#parseUnsignedLong(String, int)} instead.
    *
    * @param string the string containing the unsigned {@code long} representation to be parsed.
    * @param radix the radix to use while parsing {@code string}
@@ -435,7 +435,7 @@ public final class UnsignedLongs {
   /**
    * Returns a string representation of x, where x is treated as unsigned.
    *
-   * <p><b>Java 8 users:</b> use {@link Long#toUnsignedString(long)} instead.
+   * <p><b>Java 8+ users:</b> use {@link Long#toUnsignedString(long)} instead.
    */
   public static String toString(long x) {
     return toString(x, 10);
@@ -445,7 +445,7 @@ public final class UnsignedLongs {
    * Returns a string representation of {@code x} for the given radix, where {@code x} is treated as
    * unsigned.
    *
-   * <p><b>Java 8 users:</b> use {@link Long#toUnsignedString(long, int)} instead.
+   * <p><b>Java 8+ users:</b> use {@link Long#toUnsignedString(long, int)} instead.
    *
    * @param x the value to convert to a string.
    * @param radix the radix to use while working with {@code x}

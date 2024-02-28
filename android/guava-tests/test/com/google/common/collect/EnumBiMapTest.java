@@ -21,6 +21,7 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.SampleElements;
 import com.google.common.collect.testing.features.CollectionFeature;
@@ -47,7 +48,9 @@ import junit.framework.TestSuite;
  * @author Mike Bostock
  * @author Jared Levy
  */
+@J2ktIncompatible // EnumBimap
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public class EnumBiMapTest extends TestCase {
   private enum Currency {
     DOLLAR,
@@ -90,7 +93,7 @@ public class EnumBiMapTest extends TestCase {
     @SuppressWarnings("unchecked")
     @Override
     public Entry<Country, Currency>[] createArray(int length) {
-      return new Entry[length];
+      return (Entry<Country, Currency>[]) new Entry<?, ?>[length];
     }
 
     @Override
@@ -109,6 +112,7 @@ public class EnumBiMapTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // suite
   public static Test suite() {
     TestSuite suite = new TestSuite();
@@ -287,12 +291,14 @@ public class EnumBiMapTest extends TestCase {
     assertEquals(3, uniqueEntries.size());
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // serialization
   public void testSerializable() {
     SerializableTester.reserializeAndAssert(
         EnumBiMap.create(ImmutableMap.of(Currency.DOLLAR, Country.CANADA)));
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // reflection
   public void testNulls() {
     new NullPointerTester().testAllPublicStaticMethods(EnumBiMap.class);

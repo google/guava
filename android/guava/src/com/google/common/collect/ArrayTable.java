@@ -131,6 +131,7 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, @Nullable V>
    *
    * @throws NullPointerException if {@code table} has a null key
    */
+  @SuppressWarnings("unchecked") // TODO(cpovirk): Make constructor accept wildcard types?
   public static <R, C, V> ArrayTable<R, C, V> create(Table<R, C, ? extends @Nullable V> table) {
     return (table instanceof ArrayTable)
         ? new ArrayTable<R, C, V>((ArrayTable<R, C, V>) table)

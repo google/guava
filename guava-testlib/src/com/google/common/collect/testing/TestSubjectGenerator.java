@@ -17,6 +17,7 @@
 package com.google.common.collect.testing;
 
 import com.google.common.annotations.GwtCompatible;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * To be implemented by test generators that can produce test subjects without requiring any
@@ -26,6 +27,7 @@ import com.google.common.annotations.GwtCompatible;
  * @author George van den Driessche
  */
 @GwtCompatible
-public interface TestSubjectGenerator<T> {
+@ElementTypesAreNonnullByDefault
+public interface TestSubjectGenerator<T extends @Nullable Object> {
   T createTestSubject();
 }

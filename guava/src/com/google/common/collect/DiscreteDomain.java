@@ -43,6 +43,7 @@ import javax.annotation.CheckForNull;
  * @author Kevin Bourrillion
  * @since 10.0
  */
+@SuppressWarnings("rawtypes") // https://github.com/google/guava/issues/989
 @GwtCompatible
 @ElementTypesAreNonnullByDefault
 public abstract class DiscreteDomain<C extends Comparable> {

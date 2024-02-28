@@ -167,7 +167,6 @@ public class SortedMapNavigationTester<K, V> extends AbstractMapTester<K, V> {
 
   @CollectionSize.Require(absent = ZERO)
   public void testOrderedByComparator() {
-    @SuppressWarnings("unchecked")
     Comparator<? super K> comparator = navigableMap.comparator();
     if (comparator == null) {
       comparator =

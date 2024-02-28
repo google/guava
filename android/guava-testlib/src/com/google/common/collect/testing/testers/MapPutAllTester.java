@@ -25,6 +25,7 @@ import static java.util.Collections.singletonList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.testing.AbstractMapTester;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.MinimalCollection;
@@ -38,6 +39,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.junit.Ignore;
 
 /**
@@ -47,10 +49,11 @@ import org.junit.Ignore;
  * @author Chris Povirk
  * @author Kevin Bourrillion
  */
-@SuppressWarnings("unchecked") // too many "unchecked generic array creations"
 @GwtCompatible(emulated = true)
 @Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
-public class MapPutAllTester<K, V> extends AbstractMapTester<K, V> {
+@ElementTypesAreNonnullByDefault
+public class MapPutAllTester<K extends @Nullable Object, V extends @Nullable Object>
+    extends AbstractMapTester<K, V> {
   private List<Entry<K, V>> containsNullKey;
   private List<Entry<K, V>> containsNullValue;
 
@@ -196,6 +199,7 @@ public class MapPutAllTester<K, V> extends AbstractMapTester<K, V> {
    * can suppress it with {@code FeatureSpecificTestSuiteBuilder.suppressing()} until <a
    * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=5045147">Sun bug 5045147</a> is fixed.
    */
+  @J2ktIncompatible
   @GwtIncompatible // reflection
   public static Method getPutAllNullKeyUnsupportedMethod() {
     return Helpers.getMethod(MapPutAllTester.class, "testPutAll_nullKeyUnsupported");

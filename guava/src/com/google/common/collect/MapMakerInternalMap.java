@@ -1169,7 +1169,7 @@ class MapMakerInternalMap<
 
   @SuppressWarnings("unchecked")
   final Segment<K, V, E, S>[] newSegmentArray(int ssize) {
-    return new Segment[ssize];
+    return (Segment<K, V, E, S>[]) new Segment<?, ?, ?, ?>[ssize];
   }
 
   // Inner Classes

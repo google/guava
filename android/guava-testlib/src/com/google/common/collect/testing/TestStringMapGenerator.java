@@ -29,6 +29,7 @@ import java.util.Map.Entry;
  * @author George van den Driessche
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public abstract class TestStringMapGenerator implements TestMapGenerator<String, String> {
 
   @Override
@@ -44,7 +45,7 @@ public abstract class TestStringMapGenerator implements TestMapGenerator<String,
   @Override
   public Map<String, String> create(Object... entries) {
     @SuppressWarnings("unchecked")
-    Entry<String, String>[] array = new Entry[entries.length];
+    Entry<String, String>[] array = (Entry<String, String>[]) new Entry<?, ?>[entries.length];
     int i = 0;
     for (Object o : entries) {
       @SuppressWarnings("unchecked")
@@ -59,7 +60,7 @@ public abstract class TestStringMapGenerator implements TestMapGenerator<String,
   @Override
   @SuppressWarnings("unchecked")
   public final Entry<String, String>[] createArray(int length) {
-    return new Entry[length];
+    return (Entry<String, String>[]) new Entry<?, ?>[length];
   }
 
   @Override

@@ -38,7 +38,6 @@ import org.junit.Ignore;
 @GwtCompatible
 @Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class ListMultimapRemoveTester<K, V> extends AbstractListMultimapTester<K, V> {
-  @SuppressWarnings("unchecked")
   @MapFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(SEVERAL)
   public void testMultimapRemoveDeletesFirstOccurrence() {
@@ -49,7 +48,6 @@ public class ListMultimapRemoveTester<K, V> extends AbstractListMultimapTester<K
     assertContentsInOrder(list, v1(), v0());
   }
 
-  @SuppressWarnings("unchecked")
   @MapFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(SEVERAL)
   public void testRemoveAtIndexFromGetPropagates() {
@@ -66,7 +64,6 @@ public class ListMultimapRemoveTester<K, V> extends AbstractListMultimapTester<K
     }
   }
 
-  @SuppressWarnings("unchecked")
   @MapFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(SEVERAL)
   public void testRemoveAtIndexFromAsMapPropagates() {
@@ -84,7 +81,6 @@ public class ListMultimapRemoveTester<K, V> extends AbstractListMultimapTester<K
     }
   }
 
-  @SuppressWarnings("unchecked")
   @MapFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(SEVERAL)
   public void testRemoveAtIndexFromAsMapEntrySetPropagates() {

@@ -29,6 +29,7 @@ import junit.framework.TestCase;
  * @author Jared Levy
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public class TablesTest extends TestCase {
 
   @GwtIncompatible // SerializableTester

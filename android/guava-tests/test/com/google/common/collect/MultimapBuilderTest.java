@@ -18,7 +18,9 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.MultimapBuilder.MultimapBuilderWithKeys;
+import com.google.common.collect.MultimapBuilder.SortedSetMultimapBuilder;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
@@ -27,6 +29,7 @@ import java.math.RoundingMode;
 import java.util.SortedMap;
 import java.util.SortedSet;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Tests for {@link MultimapBuilder}.
@@ -34,8 +37,10 @@ import junit.framework.TestCase;
  * @author Louis Wasserman
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public class MultimapBuilderTest extends TestCase {
 
+  @J2ktIncompatible
   @GwtIncompatible // doesn't build without explicit type parameters on build() methods
   public void testGenerics() {
     ListMultimap<String, Integer> a = MultimapBuilder.hashKeys().arrayListValues().build();
@@ -48,13 +53,15 @@ public class MultimapBuilderTest extends TestCase {
     ListMultimap<String, Integer> a =
         MultimapBuilder.hashKeys().arrayListValues().<String, Integer>build();
     SortedSetMultimap<String, Integer> b =
-        MultimapBuilder.linkedHashKeys().treeSetValues().<String, Integer>build();
+        rawtypeToWildcard(MultimapBuilder.linkedHashKeys().treeSetValues())
+            .<String, Integer>build();
     SetMultimap<String, Integer> c =
         MultimapBuilder.treeKeys(String.CASE_INSENSITIVE_ORDER)
             .hashSetValues()
             .<String, Integer>build();
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // doesn't build without explicit type parameters on build() methods
   public void testTreeKeys() {
     ListMultimap<String, Integer> multimap = MultimapBuilder.treeKeys().arrayListValues().build();
@@ -64,11 +71,27 @@ public class MultimapBuilderTest extends TestCase {
 
   public void testTreeKeys_gwtCompatible() {
     ListMultimap<String, Integer> multimap =
-        MultimapBuilder.treeKeys().arrayListValues().<String, Integer>build();
+        rawtypeToWildcard(MultimapBuilder.treeKeys()).arrayListValues().<String, Integer>build();
     assertTrue(multimap.keySet() instanceof SortedSet);
     assertTrue(multimap.asMap() instanceof SortedMap);
   }
 
+  // J2kt cannot translate the Comparable rawtype in a usable way (it becomes Comparable<Object>
+  // but types are typically only Comparable to themselves).
+  @SuppressWarnings({"rawtypes", "unchecked"})
+  private static MultimapBuilderWithKeys<Comparable<?>> rawtypeToWildcard(
+      MultimapBuilderWithKeys<Comparable> treeKeys) {
+    return (MultimapBuilderWithKeys) treeKeys;
+  }
+
+  @SuppressWarnings({"rawtypes", "unchecked"})
+  private static <K extends @Nullable Object>
+      SortedSetMultimapBuilder<K, Comparable<?>> rawtypeToWildcard(
+          SortedSetMultimapBuilder<K, Comparable> setMultimapBuilder) {
+    return (SortedSetMultimapBuilder) setMultimapBuilder;
+  }
+
+  @J2ktIncompatible
   @GwtIncompatible // serialization
   public void testSerialization() throws Exception {
     for (MultimapBuilderWithKeys<?> builderWithKeys :
@@ -93,6 +116,7 @@ public class MultimapBuilderTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // serialization
   private static void reserializeAndAssert(Object object) throws Exception {
     Object copy = reserialize(object);
@@ -100,6 +124,7 @@ public class MultimapBuilderTest extends TestCase {
     assertEquals(object.getClass(), copy.getClass());
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // serialization
   private static Object reserialize(Object object) throws Exception {
     ByteArrayOutputStream bytes = new ByteArrayOutputStream();

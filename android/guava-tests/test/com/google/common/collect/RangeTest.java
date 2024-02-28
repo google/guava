@@ -33,6 +33,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Unit test for {@link Range}.
@@ -40,6 +41,7 @@ import junit.framework.TestCase;
  * @author Kevin Bourrillion
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public class RangeTest extends TestCase {
   public void testOpen() {
     Range<Integer> range = Range.open(4, 8);
@@ -674,15 +676,15 @@ public class RangeTest extends TestCase {
   }
 
   public void testEncloseAll_nullValue() {
-    List<Integer> nullFirst = Lists.newArrayList(null, 0);
+    List<@Nullable Integer> nullFirst = Lists.newArrayList(null, 0);
     try {
-      Range.encloseAll(nullFirst);
+      Range.encloseAll((List<Integer>) nullFirst);
       fail();
     } catch (NullPointerException expected) {
     }
-    List<Integer> nullNotFirst = Lists.newArrayList(0, null);
+    List<@Nullable Integer> nullNotFirst = Lists.newArrayList(0, null);
     try {
-      Range.encloseAll(nullNotFirst);
+      Range.encloseAll((List<Integer>) nullNotFirst);
       fail();
     } catch (NullPointerException expected) {
     }

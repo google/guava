@@ -27,12 +27,14 @@ import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Equivalence;
 import com.google.common.base.Function;
 import com.google.common.base.Functions;
 import com.google.common.base.Predicates;
 import com.google.common.base.Supplier;
 import com.google.common.collect.Maps.EntryTransformer;
+import com.google.common.collect.MultimapBuilder.MultimapBuilderWithKeys;
 import com.google.common.collect.testing.IteratorTester;
 import com.google.common.collect.testing.google.UnmodifiableCollectionTests;
 import com.google.common.primitives.Chars;
@@ -71,6 +73,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Jared Levy
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public class MultimapsTest extends TestCase {
 
   private static final Comparator<Integer> INT_COMPARATOR =
@@ -81,7 +84,17 @@ public class MultimapsTest extends TestCase {
         Stream.of("foo", "bar", "quux")
             .collect(
                 Multimaps.toMultimap(
-                    String::length, s -> s, MultimapBuilder.treeKeys().arrayListValues()::build));
+                    String::length,
+                    s -> s,
+                    rawtypeToWildcard(MultimapBuilder.treeKeys()).arrayListValues()::build));
+  }
+
+  // J2kt maps rawtype Comparable to Comparable<*>, but types generally implement only
+  // Comparable<self>
+  @SuppressWarnings({"rawtypes", "unchecked"})
+  private static MultimapBuilderWithKeys<Comparable<?>> rawtypeToWildcard(
+      MultimapBuilderWithKeys<Comparable> builder) {
+    return (MultimapBuilderWithKeys) builder;
   }
 
   public void testToMultimap() {
@@ -169,6 +182,7 @@ public class MultimapsTest extends TestCase {
     checkUnmodifiableMultimap(ArrayListMultimap.<String, Integer>create(), true);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testSerializingUnmodifiableArrayListMultimap() {
     Multimap<String, Integer> unmodifiable =
@@ -199,6 +213,7 @@ public class MultimapsTest extends TestCase {
     checkUnmodifiableMultimap(HashMultimap.<String, Integer>create(), false);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testSerializingUnmodifiableHashMultimap() {
     Multimap<String, Integer> unmodifiable =
@@ -211,6 +226,7 @@ public class MultimapsTest extends TestCase {
     checkUnmodifiableMultimap(TreeMultimap.<String, Integer>create(), false, "null", 42);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testSerializingUnmodifiableTreeMultimap() {
     Multimap<String, Integer> unmodifiable =
@@ -224,6 +240,7 @@ public class MultimapsTest extends TestCase {
         Multimaps.synchronizedListMultimap(ArrayListMultimap.<String, Integer>create()), true);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testSerializingUnmodifiableSynchronizedArrayListMultimap() {
     Multimap<String, Integer> unmodifiable =
@@ -241,6 +258,7 @@ public class MultimapsTest extends TestCase {
         Multimaps.synchronizedSetMultimap(HashMultimap.<String, Integer>create()), false);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testSerializingUnmodifiableSynchronizedHashMultimap() {
     Multimap<String, Integer> unmodifiable =
@@ -261,6 +279,7 @@ public class MultimapsTest extends TestCase {
     assertSame(INT_COMPARATOR, multimap.valueComparator());
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testSerializingUnmodifiableSynchronizedTreeMultimap() {
     TreeMultimap<String, Integer> delegate =
@@ -506,6 +525,7 @@ public class MultimapsTest extends TestCase {
     assertEquals(multimapView, ArrayListMultimap.create());
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testForMapSerialization() {
     Map<String, Integer> map = Maps.newHashMap();
@@ -689,6 +709,7 @@ public class MultimapsTest extends TestCase {
     assertTrue(multimap.get(Color.BLUE) instanceof List);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testNewMultimapSerialization() {
     CountingSupplier<Queue<Integer>> factory = new QueueSupplier();
@@ -724,6 +745,7 @@ public class MultimapsTest extends TestCase {
     assertTrue(multimap.asMap() instanceof SortedMap);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testNewListMultimapSerialization() {
     CountingSupplier<LinkedList<Integer>> factory = new ListSupplier();
@@ -755,6 +777,7 @@ public class MultimapsTest extends TestCase {
     assertEquals(Sets.newHashSet(4, 3, 1), multimap.get(Color.BLUE));
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testNewSetMultimapSerialization() {
     CountingSupplier<Set<Integer>> factory = new SetSupplier();
@@ -788,6 +811,7 @@ public class MultimapsTest extends TestCase {
     assertEquals(INT_COMPARATOR, multimap.valueComparator());
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testNewSortedSetMultimapSerialization() {
     CountingSupplier<TreeSet<Integer>> factory = new SortedSetSupplier();
@@ -1057,6 +1081,7 @@ public class MultimapsTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // NullPointerTester
   @AndroidIncompatible // see ImmutableTableTest.testNullPointerInstance
   public void testNullPointers() {

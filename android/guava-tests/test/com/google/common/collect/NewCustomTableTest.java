@@ -29,6 +29,7 @@ import java.util.TreeMap;
  * @author Jared Levy
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public class NewCustomTableTest extends AbstractTableTest {
 
   @Override

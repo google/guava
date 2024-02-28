@@ -26,6 +26,7 @@ import java.util.List;
  * @author Kevin Bourrillion
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public abstract class TestCollidingSetGenerator implements TestSetGenerator<Object> {
   @Override
   public SampleElements<Object> samples() {

@@ -26,6 +26,7 @@ import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.Multiset;
 import com.google.common.collect.Multiset.Entry;
 import com.google.common.collect.testing.Helpers;
@@ -384,6 +385,7 @@ public abstract class AbstractMultisetSetCountTester<E> extends AbstractMultiset
    * Returns {@link Method} instances for the {@code setCount()} tests that assume multisets support
    * duplicates so that the test of {@code Multisets.forSet()} can suppress them.
    */
+  @J2ktIncompatible
   @GwtIncompatible // reflection
   public static List<Method> getSetCountDuplicateInitializingMethods() {
     return Arrays.asList(
@@ -392,6 +394,7 @@ public abstract class AbstractMultisetSetCountTester<E> extends AbstractMultiset
         getMethod("testSetCount_threeToOne_supported"));
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // reflection
   private static Method getMethod(String methodName) {
     return Helpers.getMethod(AbstractMultisetSetCountTester.class, methodName);

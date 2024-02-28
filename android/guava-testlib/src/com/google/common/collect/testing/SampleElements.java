@@ -29,7 +29,8 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Kevin Bourrillion
  */
 @GwtCompatible
-public class SampleElements<E> implements Iterable<E> {
+@ElementTypesAreNonnullByDefault
+public class SampleElements<E extends @Nullable Object> implements Iterable<E> {
   // TODO: rename e3, e4 => missing1, missing2
   private final E e0;
   private final E e1;
@@ -89,8 +90,8 @@ public class SampleElements<E> implements Iterable<E> {
     }
   }
 
-  public static <K, V> SampleElements<Entry<K, V>> mapEntries(
-      SampleElements<K> keys, SampleElements<V> values) {
+  public static <K extends @Nullable Object, V extends @Nullable Object>
+      SampleElements<Entry<K, V>> mapEntries(SampleElements<K> keys, SampleElements<V> values) {
     return new SampleElements<>(
         Helpers.mapEntry(keys.e0(), values.e0()),
         Helpers.mapEntry(keys.e1(), values.e1()),

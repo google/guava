@@ -160,7 +160,9 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
       case 0:
         return of();
       case 1:
-        return of((E) elements[0]);
+        @SuppressWarnings("unchecked") // safe because it came from `collection`
+        E element = (E) elements[0];
+        return of(element);
       default:
         return new RegularImmutableList<E>(ImmutableList.<E>nullCheckedList(elements));
     }
@@ -193,8 +195,8 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
 
   public static <E extends Comparable<? super E>> ImmutableList<E> sortedCopyOf(
       Iterable<? extends E> elements) {
-    Comparable[] array = Iterables.toArray(elements, new Comparable[0]);
-    checkElementsNotNull(array);
+    Comparable<?>[] array = Iterables.toArray(elements, new Comparable<?>[0]);
+    checkElementsNotNull((Object[]) array);
     Arrays.sort(array);
     return asImmutableList(array);
   }

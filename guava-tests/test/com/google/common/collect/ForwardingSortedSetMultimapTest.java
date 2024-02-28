@@ -33,10 +33,10 @@ public class ForwardingSortedSetMultimapTest extends TestCase {
     new ForwardingWrapperTester()
         .testForwarding(
             SortedSetMultimap.class,
-            new Function<SortedSetMultimap, SortedSetMultimap>() {
+            new Function<SortedSetMultimap, SortedSetMultimap<?, ?>>() {
               @Override
-              public SortedSetMultimap apply(SortedSetMultimap delegate) {
-                return wrap(delegate);
+              public SortedSetMultimap<?, ?> apply(SortedSetMultimap delegate) {
+                return wrap((SortedSetMultimap<?, ?>) delegate);
               }
             });
   }

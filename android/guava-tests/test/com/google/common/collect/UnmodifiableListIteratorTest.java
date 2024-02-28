@@ -28,6 +28,7 @@ import junit.framework.TestCase;
  * @author Louis Wasserman
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public class UnmodifiableListIteratorTest extends TestCase {
   @SuppressWarnings("DoNotCall")
   public void testRemove() {

@@ -52,7 +52,7 @@ public final class Bytes {
    * Returns a hash code for {@code value}; equal to the result of invoking {@code ((Byte)
    * value).hashCode()}.
    *
-   * <p><b>Java 8 users:</b> use {@link Byte#hashCode(byte)} instead.
+   * <p><b>Java 8+ users:</b> use {@link Byte#hashCode(byte)} instead.
    *
    * @param value a primitive {@code byte} value
    * @return a hash code for the value

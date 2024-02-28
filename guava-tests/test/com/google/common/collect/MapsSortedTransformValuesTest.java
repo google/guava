@@ -27,6 +27,7 @@ import java.util.SortedMap;
  * @author Louis Wasserman
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public class MapsSortedTransformValuesTest extends AbstractMapsTransformValuesTest {
   @Override
   protected SortedMap<String, String> makeEmptyMap() {

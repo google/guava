@@ -22,6 +22,7 @@ import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.testing.ListTestSuiteBuilder;
 import com.google.common.collect.testing.MinimalCollection;
 import com.google.common.collect.testing.SetTestSuiteBuilder;
@@ -44,6 +45,7 @@ import java.util.Set;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Tests for {@link ImmutableMultiset}.
@@ -51,8 +53,10 @@ import junit.framework.TestSuite;
  * @author Jared Levy
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public class ImmutableMultisetTest extends TestCase {
 
+  @J2ktIncompatible
   @GwtIncompatible // suite // TODO(cpovirk): add to collect/gwt/suites
   public static Test suite() {
     TestSuite suite = new TestSuite();
@@ -205,9 +209,9 @@ public class ImmutableMultisetTest extends TestCase {
   }
 
   public void testCreation_arrayContainingOnlyNull() {
-    String[] array = new String[] {null};
+    @Nullable String[] array = new @Nullable String[] {null};
     try {
-      ImmutableMultiset.copyOf(array);
+      ImmutableMultiset.copyOf((String[]) array);
       fail();
     } catch (NullPointerException expected) {
     }
@@ -233,9 +237,9 @@ public class ImmutableMultisetTest extends TestCase {
   }
 
   public void testCopyOf_collectionContainingNull() {
-    Collection<String> c = MinimalCollection.of("a", null, "b");
+    Collection<@Nullable String> c = MinimalCollection.of("a", null, "b");
     try {
-      ImmutableMultiset.copyOf(c);
+      ImmutableMultiset.copyOf((Collection<String>) c);
       fail();
     } catch (NullPointerException expected) {
     }
@@ -418,9 +422,9 @@ public class ImmutableMultisetTest extends TestCase {
     }
 
     builder = ImmutableMultiset.builder();
-    List<String> listWithNulls = asList("a", null, "b");
+    List<@Nullable String> listWithNulls = asList("a", null, "b");
     try {
-      builder.addAll(listWithNulls);
+      builder.addAll((List<String>) listWithNulls);
       fail("expected NullPointerException");
     } catch (NullPointerException expected) {
     }
@@ -470,6 +474,7 @@ public class ImmutableMultisetTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // NullPointerTester
   @AndroidIncompatible // see ImmutableTableTest.testNullPointerInstance
   public void testNullPointers() {
@@ -477,12 +482,14 @@ public class ImmutableMultisetTest extends TestCase {
     tester.testAllPublicStaticMethods(ImmutableMultiset.class);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testSerialization_empty() {
     Collection<String> c = ImmutableMultiset.of();
     assertSame(c, SerializableTester.reserialize(c));
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testSerialization_multiple() {
     Collection<String> c = ImmutableMultiset.of("a", "b", "a");
@@ -490,6 +497,7 @@ public class ImmutableMultisetTest extends TestCase {
     assertThat(copy).containsExactly("a", "a", "b").inOrder();
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testSerialization_elementSet() {
     Multiset<String> c = ImmutableMultiset.of("a", "b", "a");
@@ -497,6 +505,7 @@ public class ImmutableMultisetTest extends TestCase {
     assertThat(copy).containsExactly("a", "b").inOrder();
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testSerialization_entrySet() {
     Multiset<String> c = ImmutableMultiset.of("a", "b", "c");
@@ -532,6 +541,7 @@ public class ImmutableMultisetTest extends TestCase {
     assertEquals(4, list.lastIndexOf("b"));
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testSerialization_asList() {
     ImmutableMultiset<String> multiset = ImmutableMultiset.of("a", "a", "b", "b", "b");

@@ -42,7 +42,8 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Chris Povirk
  */
 @GwtCompatible
-abstract class AbstractIteratorTester<E, I extends Iterator<E>> {
+@ElementTypesAreNonnullByDefault
+abstract class AbstractIteratorTester<E extends @Nullable Object, I extends Iterator<E>> {
   private Stimulus<E, ? super I>[] stimuli;
   private final Iterator<E> elementsToInsert;
   private final Set<IteratorFeature> features;
@@ -267,7 +268,7 @@ abstract class AbstractIteratorTester<E, I extends Iterator<E>> {
     UNKNOWN_ORDER
   }
 
-  @SuppressWarnings("unchecked") // creating array of generic class Stimulus
+  @SuppressWarnings("unchecked") // TODO(cpovirk): Stop using arrays.
   AbstractIteratorTester(
       int steps,
       Iterable<E> elementsToInsertIterable,
@@ -277,7 +278,7 @@ abstract class AbstractIteratorTester<E, I extends Iterator<E>> {
       int startIndex) {
     // periodically we should manually try (steps * 3 / 2) here; all tests but
     // one should still pass (testVerifyGetsCalled()).
-    stimuli = new Stimulus[steps];
+    stimuli = (Stimulus<E, ? super I>[]) new Stimulus<?, ?>[steps];
     if (!elementsToInsertIterable.iterator().hasNext()) {
       throw new IllegalArgumentException();
     }
@@ -412,6 +413,7 @@ abstract class AbstractIteratorTester<E, I extends Iterator<E>> {
          * doesn't recognize this kind of cast as unchecked cast. Neither does
          * Eclipse 3.4. Right now, this suppression is mostly unnecessary.
          */
+        @SuppressWarnings("unchecked")
         MultiExceptionListIterator multiExceptionListIterator =
             (MultiExceptionListIterator) reference;
         multiExceptionListIterator.promoteToNext(targetReturnValueFromNext);
@@ -461,7 +463,7 @@ abstract class AbstractIteratorTester<E, I extends Iterator<E>> {
   private static final IteratorOperation NEXT_METHOD =
       new IteratorOperation() {
         @Override
-        public Object execute(Iterator<?> iterator) {
+        public @Nullable Object execute(Iterator<?> iterator) {
           return iterator.next();
         }
       };
@@ -469,7 +471,7 @@ abstract class AbstractIteratorTester<E, I extends Iterator<E>> {
   private static final IteratorOperation PREVIOUS_METHOD =
       new IteratorOperation() {
         @Override
-        public Object execute(Iterator<?> iterator) {
+        public @Nullable Object execute(Iterator<?> iterator) {
           return ((ListIterator<?>) iterator).previous();
         }
       };
@@ -500,7 +502,7 @@ abstract class AbstractIteratorTester<E, I extends Iterator<E>> {
     };
   }
 
-  abstract static class Stimulus<E, T extends Iterator<E>> {
+  abstract static class Stimulus<E extends @Nullable Object, T extends Iterator<E>> {
     private final String toString;
 
     protected Stimulus(String toString) {
@@ -541,7 +543,6 @@ abstract class AbstractIteratorTester<E, I extends Iterator<E>> {
         }
       };
 
-  @SuppressWarnings("unchecked")
   List<Stimulus<E, Iterator<E>>> iteratorStimuli() {
     return Arrays.asList(hasNext, next, remove);
   }
@@ -589,7 +590,6 @@ abstract class AbstractIteratorTester<E, I extends Iterator<E>> {
         }
       };
 
-  @SuppressWarnings("unchecked")
   List<Stimulus<E, ListIterator<E>>> listIteratorStimuli() {
     return Arrays.asList(hasPrevious, nextIndex, previousIndex, previous, add, set);
   }

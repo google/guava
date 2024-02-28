@@ -1378,7 +1378,9 @@ public class TypeTokenTest extends TestCase {
   }
 
   public void testGetSubtype_genericSubtypeOfRawTypeWithFewerTypeParameters() {
+    @SuppressWarnings("rawtypes") // test of raw types
     TypeToken<List> supertype = new TypeToken<List>() {};
+    @SuppressWarnings("rawtypes") // test of raw types
     TypeToken<MySpecialList> subtype = new TypeToken<MySpecialList>() {};
     assertTrue(subtype.isSubtypeOf(supertype));
     Class<?> actualSubtype = (Class<?>) supertype.getSubtype(subtype.getRawType()).getType();

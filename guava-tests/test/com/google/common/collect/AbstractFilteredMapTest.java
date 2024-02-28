@@ -25,6 +25,7 @@ import junit.framework.TestCase;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 abstract class AbstractFilteredMapTest extends TestCase {
   private static final Predicate<@Nullable String> NOT_LENGTH_3 =
       input -> input == null || input.length() != 3;

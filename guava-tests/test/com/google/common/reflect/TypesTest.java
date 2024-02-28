@@ -145,6 +145,7 @@ public class TypesTest extends TestCase {
     Type jvmType1 = new TypeCapture<List<String>[]>() {}.capture();
     GenericArrayType ourType1 =
         (GenericArrayType) Types.newArrayType(Types.newParameterizedType(List.class, String.class));
+    @SuppressWarnings("rawtypes") // test of raw types
     Type jvmType2 = new TypeCapture<List[]>() {}.capture();
     Type ourType2 = Types.newArrayType(List.class);
     new EqualsTester()

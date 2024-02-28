@@ -39,6 +39,7 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 import java.util.Set;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.junit.Ignore;
 
 /**
@@ -49,7 +50,9 @@ import org.junit.Ignore;
  */
 @GwtCompatible(emulated = true)
 @Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
-public class CollectionIteratorTester<E> extends AbstractCollectionTester<E> {
+@ElementTypesAreNonnullByDefault
+public class CollectionIteratorTester<E extends @Nullable Object>
+    extends AbstractCollectionTester<E> {
   public void testIterator() {
     List<E> iteratorElements = new ArrayList<>();
     for (E element : collection) { // uses iterator()

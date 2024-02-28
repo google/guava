@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Creates map entries using sample keys and sample values.
@@ -28,7 +29,10 @@ import java.util.Set;
  * @author Jesse Wilson
  */
 @GwtCompatible
-public abstract class TestMapEntrySetGenerator<K, V> implements TestSetGenerator<Map.Entry<K, V>> {
+@ElementTypesAreNonnullByDefault
+public abstract class TestMapEntrySetGenerator<
+        K extends @Nullable Object, V extends @Nullable Object>
+    implements TestSetGenerator<Map.Entry<K, V>> {
   private final SampleElements<K> keys;
   private final SampleElements<V> values;
 
@@ -54,7 +58,7 @@ public abstract class TestMapEntrySetGenerator<K, V> implements TestSetGenerator
   @Override
   @SuppressWarnings("unchecked") // generic arrays make typesafety sad
   public Entry<K, V>[] createArray(int length) {
-    return new Entry[length];
+    return (Entry<K, V>[]) new Entry<?, ?>[length];
   }
 
   /** Returns the original element list, unchanged. */

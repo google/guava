@@ -46,6 +46,7 @@ import java.util.Map.Entry;
  * @author Hayward Chan
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public class MapGenerators {
   public static class ImmutableMapGenerator extends TestStringMapGenerator {
     @Override
@@ -128,7 +129,7 @@ public class MapGenerators {
     @SuppressWarnings("unchecked")
     @Override
     public Entry<String, Integer>[] createArray(int length) {
-      return new Entry[length];
+      return (Entry<String, Integer>[]) new Entry<?, ?>[length];
     }
 
     @Override
@@ -232,7 +233,7 @@ public class MapGenerators {
 
     @Override
     @SuppressWarnings({"unchecked", "rawtypes"}) // needed for arrays
-    public ImmutableSet<Integer>[] createValueArray(int length) {
+    public Collection<Integer>[] createValueArray(int length) {
       return new ImmutableSet[length];
     }
   }

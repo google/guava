@@ -43,6 +43,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Jared Levy
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public abstract class AbstractImmutableSetTest extends TestCase {
 
   protected abstract <E extends Comparable<? super E>> Set<E> of();
@@ -57,11 +58,10 @@ public abstract class AbstractImmutableSetTest extends TestCase {
 
   protected abstract <E extends Comparable<? super E>> Set<E> of(E e1, E e2, E e3, E e4, E e5);
 
-  @SuppressWarnings("unchecked")
   protected abstract <E extends Comparable<? super E>> Set<E> of(
       E e1, E e2, E e3, E e4, E e5, E e6, E... rest);
 
-  protected abstract <E extends Comparable<? super E>> Set<E> copyOf(E @Nullable [] elements);
+  protected abstract <E extends Comparable<? super E>> Set<E> copyOf(E[] elements);
 
   protected abstract <E extends Comparable<? super E>> Set<E> copyOf(
       Collection<? extends E> elements);
@@ -140,9 +140,9 @@ public abstract class AbstractImmutableSetTest extends TestCase {
   }
 
   public void testCopyOf_arrayContainingOnlyNull() {
-    String[] array = new String[] {null};
+    @Nullable String[] array = new @Nullable String[] {null};
     try {
-      copyOf(array);
+      copyOf((String[]) array);
       fail();
     } catch (NullPointerException expected) {
     }
@@ -177,9 +177,9 @@ public abstract class AbstractImmutableSetTest extends TestCase {
   }
 
   public void testCopyOf_collectionContainingNull() {
-    Collection<String> c = MinimalCollection.of("a", null, "b");
+    Collection<@Nullable String> c = MinimalCollection.of("a", null, "b");
     try {
-      copyOf(c);
+      copyOf((Collection<String>) c);
       fail();
     } catch (NullPointerException expected) {
     }
@@ -227,9 +227,9 @@ public abstract class AbstractImmutableSetTest extends TestCase {
   }
 
   public void testCopyOf_iteratorContainingNull() {
-    Iterator<String> c = Iterators.forArray("a", null, "b");
+    Iterator<@Nullable String> c = Iterators.forArray("a", null, "b");
     try {
-      copyOf(c);
+      copyOf((Iterator<String>) c);
       fail();
     } catch (NullPointerException expected) {
     }
@@ -456,16 +456,16 @@ public abstract class AbstractImmutableSetTest extends TestCase {
     }
 
     builder = this.<String>builder();
-    List<String> listWithNulls = asList("a", null, "b");
+    List<@Nullable String> listWithNulls = asList("a", null, "b");
     try {
-      builder.addAll(listWithNulls);
+      builder.addAll((List<String>) listWithNulls);
       fail("expected NullPointerException"); // COV_NF_LINE
     } catch (NullPointerException expected) {
     }
 
-    Iterable<String> iterableWithNulls = MinimalIterable.of("a", null, "b");
+    Iterable<@Nullable String> iterableWithNulls = MinimalIterable.of("a", null, "b");
     try {
-      builder.addAll(iterableWithNulls);
+      builder.addAll((Iterable<String>) iterableWithNulls);
       fail("expected NullPointerException"); // COV_NF_LINE
     } catch (NullPointerException expected) {
     }

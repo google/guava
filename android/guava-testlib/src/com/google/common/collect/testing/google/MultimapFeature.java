@@ -31,8 +31,7 @@ import java.util.Set;
  *
  * @author Louis Wasserman
  */
-// Enum values use constructors with generic varargs.
-@SuppressWarnings("unchecked")
+@SuppressWarnings("rawtypes") // maybe avoidable if we rework the whole package?
 @GwtCompatible
 public enum MultimapFeature implements Feature<Multimap> {
   VALUE_COLLECTIONS_SUPPORT_ITERATOR_REMOVE;

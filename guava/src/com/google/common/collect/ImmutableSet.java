@@ -168,6 +168,11 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    * @throws NullPointerException if any of {@code elements} is null
    * @since 7.0 (source-compatible since 2.0)
    */
+  // This the best we could do to get copyOfEnumSet to compile in the mainline.
+  // The suppression also covers the cast to E[], discussed below.
+  // In the backport, we don't have those cases and thus don't need this suppression.
+  // We keep it to minimize diffs.
+  @SuppressWarnings("unchecked")
   public static <E> ImmutableSet<E> copyOf(Collection<? extends E> elements) {
     /*
      * TODO(lowasser): consider checking for ImmutableAsList here
@@ -181,7 +186,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
         return set;
       }
     } else if (elements instanceof EnumSet) {
-      return copyOfEnumSet((EnumSet) elements);
+      return copyOfEnumSet((EnumSet<?>) elements);
     }
 
     int size = elements.size();
@@ -190,6 +195,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
       return of();
     }
     // Collection<E>.toArray() is required to contain only E instances, and all we do is read them.
+    // TODO(cpovirk): Consider using Object[] anyway.
     E[] array = (E[]) elements.toArray();
     /*
      * For a Set, we guess that it contains no duplicates. That's just a guess for purpose of
@@ -264,9 +270,9 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
     }
   }
 
-  @SuppressWarnings("rawtypes") // necessary to compile against Java 8
-  private static ImmutableSet copyOfEnumSet(EnumSet enumSet) {
-    return ImmutableEnumSet.asImmutable(EnumSet.copyOf(enumSet));
+  @SuppressWarnings({"rawtypes", "unchecked"}) // necessary to compile against Java 8
+  private static ImmutableSet copyOfEnumSet(EnumSet<?> enumSet) {
+    return ImmutableEnumSet.asImmutable(EnumSet.copyOf((EnumSet) enumSet));
   }
 
   ImmutableSet() {}

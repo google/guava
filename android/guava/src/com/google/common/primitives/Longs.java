@@ -49,7 +49,7 @@ public final class Longs {
   /**
    * The number of bytes required to represent a primitive {@code long} value.
    *
-   * <p><b>Java 8 users:</b> use {@link Long#BYTES} instead.
+   * <p><b>Java 8+ users:</b> use {@link Long#BYTES} instead.
    */
   public static final int BYTES = Long.SIZE / Byte.SIZE;
 
@@ -68,7 +68,7 @@ public final class Longs {
    * might be different from {@code ((Long) value).hashCode()} in GWT because {@link
    * Long#hashCode()} in GWT does not obey the JRE contract.
    *
-   * <p><b>Java 8 users:</b> use {@link Long#hashCode(long)} instead.
+   * <p><b>Java 8+ users:</b> use {@link Long#hashCode(long)} instead.
    *
    * @param value a primitive {@code long} value
    * @return a hash code for the value
@@ -81,8 +81,8 @@ public final class Longs {
    * Compares the two specified {@code long} values. The sign of the value returned is the same as
    * that of {@code ((Long) a).compareTo(b)}.
    *
-   * <p><b>Note for Java 7 and later:</b> this method should be treated as deprecated; use the
-   * equivalent {@link Long#compare} method instead.
+   * <p><b>Java 7+ users:</b> this method should be treated as deprecated; use the equivalent {@link
+   * Long#compare} method instead.
    *
    * @param a the first {@code long} to compare
    * @param b the second {@code long} to compare
