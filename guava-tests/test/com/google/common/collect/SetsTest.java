@@ -361,11 +361,13 @@ public class SetsTest extends TestCase {
     assertThat(units).isEmpty();
   }
 
-  public <A> void testToImmutableEnumSetReused() {
-    // An unchecked cast lets us refer to the accumulator as an A and invoke the callbacks manually
-    @SuppressWarnings("unchecked")
-    Collector<SomeEnum, A, ImmutableSet<SomeEnum>> collector =
-        (Collector) Sets.<SomeEnum>toImmutableEnumSet();
+  public void testToImmutableEnumSetReused() {
+    // The method call lets us capture the accumulator as an A and invoke the callbacks manually
+    genericTestToImmutableEnumSetReused(Sets.<SomeEnum>toImmutableEnumSet());
+  }
+
+  private static <A extends @Nullable Object> void genericTestToImmutableEnumSetReused(
+      Collector<SomeEnum, A, ImmutableSet<SomeEnum>> collector) {
     A accumulator = collector.supplier().get();
     BiConsumer<A, SomeEnum> adder = collector.accumulator();
     adder.accept(accumulator, SomeEnum.A);
@@ -1069,7 +1071,8 @@ public class SetsTest extends TestCase {
     };
   }
 
-  private static void assertPowerSetHashCode(int expected, Set<?> elements) {
+  // TODO b/327389044 - `Set<? extends Object> elements` should be enough but J2KT needs the <E>
+  private static <E> void assertPowerSetHashCode(int expected, Set<E> elements) {
     assertEquals(expected, powerSet(elements).hashCode());
   }
 

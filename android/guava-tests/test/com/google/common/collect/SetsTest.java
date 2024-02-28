@@ -1038,7 +1038,8 @@ public class SetsTest extends TestCase {
     };
   }
 
-  private static void assertPowerSetHashCode(int expected, Set<?> elements) {
+  // TODO b/327389044 - `Set<? extends Object> elements` should be enough but J2KT needs the <E>
+  private static <E> void assertPowerSetHashCode(int expected, Set<E> elements) {
     assertEquals(expected, powerSet(elements).hashCode());
   }
 
