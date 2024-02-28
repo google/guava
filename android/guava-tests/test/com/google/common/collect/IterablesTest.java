@@ -1159,30 +1159,6 @@ public class IterablesTest extends TestCase {
   // Iterable.  Those returned by Iterators.filter() and Iterables.filter()
   // are not tested because they are unmodifiable.
 
-  public void testIterableWithToString() {
-    assertEquals("[]", create().toString());
-    assertEquals("[a]", create("a").toString());
-    assertEquals("[a, b, c]", create("a", "b", "c").toString());
-    assertEquals("[c, a, a]", create("c", "a", "a").toString());
-  }
-
-  public void testIterableWithToStringNull() {
-    assertEquals("[null]", create((String) null).toString());
-    assertEquals("[null, null]", create(null, null).toString());
-    assertEquals("[, null, a]", create("", null, "a").toString());
-  }
-
-  /** Returns a new iterable over the specified strings. */
-  private static <T extends @Nullable Object> Iterable<T> create(T... ts) {
-    final List<T> list = asList(ts);
-    return new FluentIterable<T>() {
-      @Override
-      public Iterator<T> iterator() {
-        return list.iterator();
-      }
-    };
-  }
-
   public void testConsumingIterable() {
     // Test data
     List<String> list = Lists.newArrayList(asList("a", "b"));

@@ -941,7 +941,7 @@ public class MultimapsTest extends TestCase {
     }
   }
 
-  private static void foo(Object o) {}
+  private static void foo(Object unused) {}
 
   public void testFilteredKeysSetMultimapReplaceValues() {
     SetMultimap<String, Integer> multimap = LinkedHashMultimap.create();
