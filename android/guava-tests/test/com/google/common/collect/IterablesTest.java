@@ -94,11 +94,11 @@ public class IterablesTest extends TestCase {
     assertEquals(5, Iterables.size(collection));
   }
 
-  private static Iterable<String> iterable(String... elements) {
-    final List<String> list = asList(elements);
-    return new Iterable<String>() {
+  private static <T extends @Nullable Object> Iterable<T> iterable(T... elements) {
+    final List<T> list = asList(elements);
+    return new Iterable<T>() {
       @Override
-      public Iterator<String> iterator() {
+      public Iterator<T> iterator() {
         return list.iterator();
       }
     };
@@ -115,7 +115,7 @@ public class IterablesTest extends TestCase {
   }
 
   public void test_contains_null_iterable_yes() {
-    Iterable<String> set = iterable("a", null, "b");
+    Iterable<@Nullable String> set = iterable("a", null, "b");
     assertTrue(Iterables.contains(set, null));
   }
 
@@ -135,7 +135,7 @@ public class IterablesTest extends TestCase {
   }
 
   public void test_contains_nonnull_iterable_yes() {
-    Iterable<String> set = iterable("a", null, "b");
+    Iterable<@Nullable String> set = iterable("a", null, "b");
     assertTrue(Iterables.contains(set, "b"));
   }
 
@@ -477,7 +477,7 @@ public class IterablesTest extends TestCase {
 
   public void testPaddedPartition_basic() {
     List<Integer> list = asList(1, 2, 3, 4, 5);
-    Iterable<List<Integer>> partitions = Iterables.paddedPartition(list, 2);
+    Iterable<List<@Nullable Integer>> partitions = Iterables.paddedPartition(list, 2);
     assertEquals(3, Iterables.size(partitions));
     assertEquals(asList(5, null), Iterables.getLast(partitions));
   }
@@ -1173,11 +1173,11 @@ public class IterablesTest extends TestCase {
   }
 
   /** Returns a new iterable over the specified strings. */
-  private static Iterable<String> create(String... strings) {
-    final List<String> list = asList(strings);
-    return new FluentIterable<String>() {
+  private static <T extends @Nullable Object> Iterable<T> create(T... ts) {
+    final List<T> list = asList(ts);
+    return new FluentIterable<T>() {
       @Override
-      public Iterator<String> iterator() {
+      public Iterator<T> iterator() {
         return list.iterator();
       }
     };
