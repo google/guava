@@ -575,621 +575,624 @@
 <span class="sourceLineNo">566</span><a id="line.566">    }</a>
 <span class="sourceLineNo">567</span><a id="line.567"></a>
 <span class="sourceLineNo">568</span><a id="line.568">    @Override</a>
-<span class="sourceLineNo">569</span><a id="line.569">    public ListIterator&lt;T&gt; listIterator(final int index) {</a>
-<span class="sourceLineNo">570</span><a id="line.570">      return new TransformedListIterator&lt;F, T&gt;(fromList.listIterator(index)) {</a>
-<span class="sourceLineNo">571</span><a id="line.571">        @Override</a>
-<span class="sourceLineNo">572</span><a id="line.572">        @ParametricNullness</a>
-<span class="sourceLineNo">573</span><a id="line.573">        T transform(@ParametricNullness F from) {</a>
-<span class="sourceLineNo">574</span><a id="line.574">          return function.apply(from);</a>
-<span class="sourceLineNo">575</span><a id="line.575">        }</a>
-<span class="sourceLineNo">576</span><a id="line.576">      };</a>
-<span class="sourceLineNo">577</span><a id="line.577">    }</a>
-<span class="sourceLineNo">578</span><a id="line.578"></a>
-<span class="sourceLineNo">579</span><a id="line.579">    private static final long serialVersionUID = 0;</a>
-<span class="sourceLineNo">580</span><a id="line.580">  }</a>
-<span class="sourceLineNo">581</span><a id="line.581"></a>
-<span class="sourceLineNo">582</span><a id="line.582">  /**</a>
-<span class="sourceLineNo">583</span><a id="line.583">   * Implementation of a transforming random access list. We try to make as many of these methods</a>
-<span class="sourceLineNo">584</span><a id="line.584">   * pass-through to the source list as possible so that the performance characteristics of the</a>
-<span class="sourceLineNo">585</span><a id="line.585">   * source list and transformed list are similar.</a>
-<span class="sourceLineNo">586</span><a id="line.586">   *</a>
-<span class="sourceLineNo">587</span><a id="line.587">   * @see Lists#transform</a>
-<span class="sourceLineNo">588</span><a id="line.588">   */</a>
-<span class="sourceLineNo">589</span><a id="line.589">  private static class TransformingRandomAccessList&lt;</a>
-<span class="sourceLineNo">590</span><a id="line.590">          F extends @Nullable Object, T extends @Nullable Object&gt;</a>
-<span class="sourceLineNo">591</span><a id="line.591">      extends AbstractList&lt;T&gt; implements RandomAccess, Serializable {</a>
-<span class="sourceLineNo">592</span><a id="line.592">    final List&lt;F&gt; fromList;</a>
-<span class="sourceLineNo">593</span><a id="line.593">    final Function&lt;? super F, ? extends T&gt; function;</a>
-<span class="sourceLineNo">594</span><a id="line.594"></a>
-<span class="sourceLineNo">595</span><a id="line.595">    TransformingRandomAccessList(List&lt;F&gt; fromList, Function&lt;? super F, ? extends T&gt; function) {</a>
-<span class="sourceLineNo">596</span><a id="line.596">      this.fromList = checkNotNull(fromList);</a>
-<span class="sourceLineNo">597</span><a id="line.597">      this.function = checkNotNull(function);</a>
-<span class="sourceLineNo">598</span><a id="line.598">    }</a>
+<span class="sourceLineNo">569</span><a id="line.569">    public boolean isEmpty() {</a>
+<span class="sourceLineNo">570</span><a id="line.570">      return fromList.isEmpty();</a>
+<span class="sourceLineNo">571</span><a id="line.571">    }</a>
+<span class="sourceLineNo">572</span><a id="line.572"></a>
+<span class="sourceLineNo">573</span><a id="line.573">    @Override</a>
+<span class="sourceLineNo">574</span><a id="line.574">    public ListIterator&lt;T&gt; listIterator(final int index) {</a>
+<span class="sourceLineNo">575</span><a id="line.575">      return new TransformedListIterator&lt;F, T&gt;(fromList.listIterator(index)) {</a>
+<span class="sourceLineNo">576</span><a id="line.576">        @Override</a>
+<span class="sourceLineNo">577</span><a id="line.577">        @ParametricNullness</a>
+<span class="sourceLineNo">578</span><a id="line.578">        T transform(@ParametricNullness F from) {</a>
+<span class="sourceLineNo">579</span><a id="line.579">          return function.apply(from);</a>
+<span class="sourceLineNo">580</span><a id="line.580">        }</a>
+<span class="sourceLineNo">581</span><a id="line.581">      };</a>
+<span class="sourceLineNo">582</span><a id="line.582">    }</a>
+<span class="sourceLineNo">583</span><a id="line.583"></a>
+<span class="sourceLineNo">584</span><a id="line.584">    private static final long serialVersionUID = 0;</a>
+<span class="sourceLineNo">585</span><a id="line.585">  }</a>
+<span class="sourceLineNo">586</span><a id="line.586"></a>
+<span class="sourceLineNo">587</span><a id="line.587">  /**</a>
+<span class="sourceLineNo">588</span><a id="line.588">   * Implementation of a transforming random access list. We try to make as many of these methods</a>
+<span class="sourceLineNo">589</span><a id="line.589">   * pass-through to the source list as possible so that the performance characteristics of the</a>
+<span class="sourceLineNo">590</span><a id="line.590">   * source list and transformed list are similar.</a>
+<span class="sourceLineNo">591</span><a id="line.591">   *</a>
+<span class="sourceLineNo">592</span><a id="line.592">   * @see Lists#transform</a>
+<span class="sourceLineNo">593</span><a id="line.593">   */</a>
+<span class="sourceLineNo">594</span><a id="line.594">  private static class TransformingRandomAccessList&lt;</a>
+<span class="sourceLineNo">595</span><a id="line.595">          F extends @Nullable Object, T extends @Nullable Object&gt;</a>
+<span class="sourceLineNo">596</span><a id="line.596">      extends AbstractList&lt;T&gt; implements RandomAccess, Serializable {</a>
+<span class="sourceLineNo">597</span><a id="line.597">    final List&lt;F&gt; fromList;</a>
+<span class="sourceLineNo">598</span><a id="line.598">    final Function&lt;? super F, ? extends T&gt; function;</a>
 <span class="sourceLineNo">599</span><a id="line.599"></a>
-<span class="sourceLineNo">600</span><a id="line.600">    /**</a>
-<span class="sourceLineNo">601</span><a id="line.601">     * The default implementation inherited is based on iteration and removal of each element which</a>
-<span class="sourceLineNo">602</span><a id="line.602">     * can be overkill. That's why we forward this call directly to the backing list.</a>
-<span class="sourceLineNo">603</span><a id="line.603">     */</a>
-<span class="sourceLineNo">604</span><a id="line.604">    @Override</a>
-<span class="sourceLineNo">605</span><a id="line.605">    protected void removeRange(int fromIndex, int toIndex) {</a>
-<span class="sourceLineNo">606</span><a id="line.606">      fromList.subList(fromIndex, toIndex).clear();</a>
-<span class="sourceLineNo">607</span><a id="line.607">    }</a>
-<span class="sourceLineNo">608</span><a id="line.608"></a>
+<span class="sourceLineNo">600</span><a id="line.600">    TransformingRandomAccessList(List&lt;F&gt; fromList, Function&lt;? super F, ? extends T&gt; function) {</a>
+<span class="sourceLineNo">601</span><a id="line.601">      this.fromList = checkNotNull(fromList);</a>
+<span class="sourceLineNo">602</span><a id="line.602">      this.function = checkNotNull(function);</a>
+<span class="sourceLineNo">603</span><a id="line.603">    }</a>
+<span class="sourceLineNo">604</span><a id="line.604"></a>
+<span class="sourceLineNo">605</span><a id="line.605">    /**</a>
+<span class="sourceLineNo">606</span><a id="line.606">     * The default implementation inherited is based on iteration and removal of each element which</a>
+<span class="sourceLineNo">607</span><a id="line.607">     * can be overkill. That's why we forward this call directly to the backing list.</a>
+<span class="sourceLineNo">608</span><a id="line.608">     */</a>
 <span class="sourceLineNo">609</span><a id="line.609">    @Override</a>
-<span class="sourceLineNo">610</span><a id="line.610">    @ParametricNullness</a>
-<span class="sourceLineNo">611</span><a id="line.611">    public T get(int index) {</a>
-<span class="sourceLineNo">612</span><a id="line.612">      return function.apply(fromList.get(index));</a>
-<span class="sourceLineNo">613</span><a id="line.613">    }</a>
-<span class="sourceLineNo">614</span><a id="line.614"></a>
-<span class="sourceLineNo">615</span><a id="line.615">    @Override</a>
-<span class="sourceLineNo">616</span><a id="line.616">    public Iterator&lt;T&gt; iterator() {</a>
-<span class="sourceLineNo">617</span><a id="line.617">      return listIterator();</a>
+<span class="sourceLineNo">610</span><a id="line.610">    protected void removeRange(int fromIndex, int toIndex) {</a>
+<span class="sourceLineNo">611</span><a id="line.611">      fromList.subList(fromIndex, toIndex).clear();</a>
+<span class="sourceLineNo">612</span><a id="line.612">    }</a>
+<span class="sourceLineNo">613</span><a id="line.613"></a>
+<span class="sourceLineNo">614</span><a id="line.614">    @Override</a>
+<span class="sourceLineNo">615</span><a id="line.615">    @ParametricNullness</a>
+<span class="sourceLineNo">616</span><a id="line.616">    public T get(int index) {</a>
+<span class="sourceLineNo">617</span><a id="line.617">      return function.apply(fromList.get(index));</a>
 <span class="sourceLineNo">618</span><a id="line.618">    }</a>
 <span class="sourceLineNo">619</span><a id="line.619"></a>
 <span class="sourceLineNo">620</span><a id="line.620">    @Override</a>
-<span class="sourceLineNo">621</span><a id="line.621">    public ListIterator&lt;T&gt; listIterator(int index) {</a>
-<span class="sourceLineNo">622</span><a id="line.622">      return new TransformedListIterator&lt;F, T&gt;(fromList.listIterator(index)) {</a>
-<span class="sourceLineNo">623</span><a id="line.623">        @Override</a>
-<span class="sourceLineNo">624</span><a id="line.624">        T transform(F from) {</a>
-<span class="sourceLineNo">625</span><a id="line.625">          return function.apply(from);</a>
-<span class="sourceLineNo">626</span><a id="line.626">        }</a>
-<span class="sourceLineNo">627</span><a id="line.627">      };</a>
-<span class="sourceLineNo">628</span><a id="line.628">    }</a>
-<span class="sourceLineNo">629</span><a id="line.629"></a>
-<span class="sourceLineNo">630</span><a id="line.630">    // TODO: cpovirk - Why override `isEmpty` here but not in TransformingSequentialList?</a>
-<span class="sourceLineNo">631</span><a id="line.631"></a>
-<span class="sourceLineNo">632</span><a id="line.632">    @Override</a>
-<span class="sourceLineNo">633</span><a id="line.633">    public boolean isEmpty() {</a>
-<span class="sourceLineNo">634</span><a id="line.634">      return fromList.isEmpty();</a>
-<span class="sourceLineNo">635</span><a id="line.635">    }</a>
-<span class="sourceLineNo">636</span><a id="line.636"></a>
-<span class="sourceLineNo">637</span><a id="line.637">    @Override</a>
-<span class="sourceLineNo">638</span><a id="line.638">    public T remove(int index) {</a>
-<span class="sourceLineNo">639</span><a id="line.639">      return function.apply(fromList.remove(index));</a>
-<span class="sourceLineNo">640</span><a id="line.640">    }</a>
-<span class="sourceLineNo">641</span><a id="line.641"></a>
-<span class="sourceLineNo">642</span><a id="line.642">    @Override</a>
-<span class="sourceLineNo">643</span><a id="line.643">    public int size() {</a>
-<span class="sourceLineNo">644</span><a id="line.644">      return fromList.size();</a>
-<span class="sourceLineNo">645</span><a id="line.645">    }</a>
-<span class="sourceLineNo">646</span><a id="line.646"></a>
-<span class="sourceLineNo">647</span><a id="line.647">    private static final long serialVersionUID = 0;</a>
-<span class="sourceLineNo">648</span><a id="line.648">  }</a>
+<span class="sourceLineNo">621</span><a id="line.621">    public Iterator&lt;T&gt; iterator() {</a>
+<span class="sourceLineNo">622</span><a id="line.622">      return listIterator();</a>
+<span class="sourceLineNo">623</span><a id="line.623">    }</a>
+<span class="sourceLineNo">624</span><a id="line.624"></a>
+<span class="sourceLineNo">625</span><a id="line.625">    @Override</a>
+<span class="sourceLineNo">626</span><a id="line.626">    public ListIterator&lt;T&gt; listIterator(int index) {</a>
+<span class="sourceLineNo">627</span><a id="line.627">      return new TransformedListIterator&lt;F, T&gt;(fromList.listIterator(index)) {</a>
+<span class="sourceLineNo">628</span><a id="line.628">        @Override</a>
+<span class="sourceLineNo">629</span><a id="line.629">        T transform(F from) {</a>
+<span class="sourceLineNo">630</span><a id="line.630">          return function.apply(from);</a>
+<span class="sourceLineNo">631</span><a id="line.631">        }</a>
+<span class="sourceLineNo">632</span><a id="line.632">      };</a>
+<span class="sourceLineNo">633</span><a id="line.633">    }</a>
+<span class="sourceLineNo">634</span><a id="line.634"></a>
+<span class="sourceLineNo">635</span><a id="line.635">    @Override</a>
+<span class="sourceLineNo">636</span><a id="line.636">    public boolean isEmpty() {</a>
+<span class="sourceLineNo">637</span><a id="line.637">      return fromList.isEmpty();</a>
+<span class="sourceLineNo">638</span><a id="line.638">    }</a>
+<span class="sourceLineNo">639</span><a id="line.639"></a>
+<span class="sourceLineNo">640</span><a id="line.640">    @Override</a>
+<span class="sourceLineNo">641</span><a id="line.641">    public T remove(int index) {</a>
+<span class="sourceLineNo">642</span><a id="line.642">      return function.apply(fromList.remove(index));</a>
+<span class="sourceLineNo">643</span><a id="line.643">    }</a>
+<span class="sourceLineNo">644</span><a id="line.644"></a>
+<span class="sourceLineNo">645</span><a id="line.645">    @Override</a>
+<span class="sourceLineNo">646</span><a id="line.646">    public int size() {</a>
+<span class="sourceLineNo">647</span><a id="line.647">      return fromList.size();</a>
+<span class="sourceLineNo">648</span><a id="line.648">    }</a>
 <span class="sourceLineNo">649</span><a id="line.649"></a>
-<span class="sourceLineNo">650</span><a id="line.650">  /**</a>
-<span class="sourceLineNo">651</span><a id="line.651">   * Returns consecutive {@linkplain List#subList(int, int) sublists} of a list, each of the same</a>
-<span class="sourceLineNo">652</span><a id="line.652">   * size (the final list may be smaller). For example, partitioning a list containing {@code [a, b,</a>
-<span class="sourceLineNo">653</span><a id="line.653">   * c, d, e]} with a partition size of 3 yields {@code [[a, b, c], [d, e]]} -- an outer list</a>
-<span class="sourceLineNo">654</span><a id="line.654">   * containing two inner lists of three and two elements, all in the original order.</a>
-<span class="sourceLineNo">655</span><a id="line.655">   *</a>
-<span class="sourceLineNo">656</span><a id="line.656">   * &lt;p&gt;The outer list is unmodifiable, but reflects the latest state of the source list. The inner</a>
-<span class="sourceLineNo">657</span><a id="line.657">   * lists are sublist views of the original list, produced on demand using {@link List#subList(int,</a>
-<span class="sourceLineNo">658</span><a id="line.658">   * int)}, and are subject to all the usual caveats about modification as explained in that API.</a>
-<span class="sourceLineNo">659</span><a id="line.659">   *</a>
-<span class="sourceLineNo">660</span><a id="line.660">   * @param list the list to return consecutive sublists of</a>
-<span class="sourceLineNo">661</span><a id="line.661">   * @param size the desired size of each sublist (the last may be smaller)</a>
-<span class="sourceLineNo">662</span><a id="line.662">   * @return a list of consecutive sublists</a>
-<span class="sourceLineNo">663</span><a id="line.663">   * @throws IllegalArgumentException if {@code partitionSize} is nonpositive</a>
-<span class="sourceLineNo">664</span><a id="line.664">   */</a>
-<span class="sourceLineNo">665</span><a id="line.665">  public static &lt;T extends @Nullable Object&gt; List&lt;List&lt;T&gt;&gt; partition(List&lt;T&gt; list, int size) {</a>
-<span class="sourceLineNo">666</span><a id="line.666">    checkNotNull(list);</a>
-<span class="sourceLineNo">667</span><a id="line.667">    checkArgument(size &gt; 0);</a>
-<span class="sourceLineNo">668</span><a id="line.668">    return (list instanceof RandomAccess)</a>
-<span class="sourceLineNo">669</span><a id="line.669">        ? new RandomAccessPartition&lt;&gt;(list, size)</a>
-<span class="sourceLineNo">670</span><a id="line.670">        : new Partition&lt;&gt;(list, size);</a>
-<span class="sourceLineNo">671</span><a id="line.671">  }</a>
-<span class="sourceLineNo">672</span><a id="line.672"></a>
-<span class="sourceLineNo">673</span><a id="line.673">  private static class Partition&lt;T extends @Nullable Object&gt; extends AbstractList&lt;List&lt;T&gt;&gt; {</a>
-<span class="sourceLineNo">674</span><a id="line.674">    final List&lt;T&gt; list;</a>
-<span class="sourceLineNo">675</span><a id="line.675">    final int size;</a>
-<span class="sourceLineNo">676</span><a id="line.676"></a>
-<span class="sourceLineNo">677</span><a id="line.677">    Partition(List&lt;T&gt; list, int size) {</a>
-<span class="sourceLineNo">678</span><a id="line.678">      this.list = list;</a>
-<span class="sourceLineNo">679</span><a id="line.679">      this.size = size;</a>
-<span class="sourceLineNo">680</span><a id="line.680">    }</a>
-<span class="sourceLineNo">681</span><a id="line.681"></a>
-<span class="sourceLineNo">682</span><a id="line.682">    @Override</a>
-<span class="sourceLineNo">683</span><a id="line.683">    public List&lt;T&gt; get(int index) {</a>
-<span class="sourceLineNo">684</span><a id="line.684">      checkElementIndex(index, size());</a>
-<span class="sourceLineNo">685</span><a id="line.685">      int start = index * size;</a>
-<span class="sourceLineNo">686</span><a id="line.686">      int end = Math.min(start + size, list.size());</a>
-<span class="sourceLineNo">687</span><a id="line.687">      return list.subList(start, end);</a>
-<span class="sourceLineNo">688</span><a id="line.688">    }</a>
-<span class="sourceLineNo">689</span><a id="line.689"></a>
-<span class="sourceLineNo">690</span><a id="line.690">    @Override</a>
-<span class="sourceLineNo">691</span><a id="line.691">    public int size() {</a>
-<span class="sourceLineNo">692</span><a id="line.692">      return IntMath.divide(list.size(), size, RoundingMode.CEILING);</a>
-<span class="sourceLineNo">693</span><a id="line.693">    }</a>
-<span class="sourceLineNo">694</span><a id="line.694"></a>
-<span class="sourceLineNo">695</span><a id="line.695">    @Override</a>
-<span class="sourceLineNo">696</span><a id="line.696">    public boolean isEmpty() {</a>
-<span class="sourceLineNo">697</span><a id="line.697">      return list.isEmpty();</a>
-<span class="sourceLineNo">698</span><a id="line.698">    }</a>
-<span class="sourceLineNo">699</span><a id="line.699">  }</a>
-<span class="sourceLineNo">700</span><a id="line.700"></a>
-<span class="sourceLineNo">701</span><a id="line.701">  private static class RandomAccessPartition&lt;T extends @Nullable Object&gt; extends Partition&lt;T&gt;</a>
-<span class="sourceLineNo">702</span><a id="line.702">      implements RandomAccess {</a>
-<span class="sourceLineNo">703</span><a id="line.703">    RandomAccessPartition(List&lt;T&gt; list, int size) {</a>
-<span class="sourceLineNo">704</span><a id="line.704">      super(list, size);</a>
-<span class="sourceLineNo">705</span><a id="line.705">    }</a>
-<span class="sourceLineNo">706</span><a id="line.706">  }</a>
-<span class="sourceLineNo">707</span><a id="line.707"></a>
-<span class="sourceLineNo">708</span><a id="line.708">  /**</a>
-<span class="sourceLineNo">709</span><a id="line.709">   * Returns a view of the specified string as an immutable list of {@code Character} values.</a>
-<span class="sourceLineNo">710</span><a id="line.710">   *</a>
-<span class="sourceLineNo">711</span><a id="line.711">   * @since 7.0</a>
-<span class="sourceLineNo">712</span><a id="line.712">   */</a>
-<span class="sourceLineNo">713</span><a id="line.713">  public static ImmutableList&lt;Character&gt; charactersOf(String string) {</a>
-<span class="sourceLineNo">714</span><a id="line.714">    return new StringAsImmutableList(checkNotNull(string));</a>
-<span class="sourceLineNo">715</span><a id="line.715">  }</a>
-<span class="sourceLineNo">716</span><a id="line.716"></a>
-<span class="sourceLineNo">717</span><a id="line.717">  /**</a>
-<span class="sourceLineNo">718</span><a id="line.718">   * Returns a view of the specified {@code CharSequence} as a {@code List&lt;Character&gt;}, viewing</a>
-<span class="sourceLineNo">719</span><a id="line.719">   * {@code sequence} as a sequence of Unicode code units. The view does not support any</a>
-<span class="sourceLineNo">720</span><a id="line.720">   * modification operations, but reflects any changes to the underlying character sequence.</a>
-<span class="sourceLineNo">721</span><a id="line.721">   *</a>
-<span class="sourceLineNo">722</span><a id="line.722">   * @param sequence the character sequence to view as a {@code List} of characters</a>
-<span class="sourceLineNo">723</span><a id="line.723">   * @return an {@code List&lt;Character&gt;} view of the character sequence</a>
-<span class="sourceLineNo">724</span><a id="line.724">   * @since 7.0</a>
-<span class="sourceLineNo">725</span><a id="line.725">   */</a>
-<span class="sourceLineNo">726</span><a id="line.726">  public static List&lt;Character&gt; charactersOf(CharSequence sequence) {</a>
-<span class="sourceLineNo">727</span><a id="line.727">    return new CharSequenceAsList(checkNotNull(sequence));</a>
-<span class="sourceLineNo">728</span><a id="line.728">  }</a>
-<span class="sourceLineNo">729</span><a id="line.729"></a>
-<span class="sourceLineNo">730</span><a id="line.730">  @SuppressWarnings("serial") // serialized using ImmutableList serialization</a>
-<span class="sourceLineNo">731</span><a id="line.731">  private static final class StringAsImmutableList extends ImmutableList&lt;Character&gt; {</a>
+<span class="sourceLineNo">650</span><a id="line.650">    private static final long serialVersionUID = 0;</a>
+<span class="sourceLineNo">651</span><a id="line.651">  }</a>
+<span class="sourceLineNo">652</span><a id="line.652"></a>
+<span class="sourceLineNo">653</span><a id="line.653">  /**</a>
+<span class="sourceLineNo">654</span><a id="line.654">   * Returns consecutive {@linkplain List#subList(int, int) sublists} of a list, each of the same</a>
+<span class="sourceLineNo">655</span><a id="line.655">   * size (the final list may be smaller). For example, partitioning a list containing {@code [a, b,</a>
+<span class="sourceLineNo">656</span><a id="line.656">   * c, d, e]} with a partition size of 3 yields {@code [[a, b, c], [d, e]]} -- an outer list</a>
+<span class="sourceLineNo">657</span><a id="line.657">   * containing two inner lists of three and two elements, all in the original order.</a>
+<span class="sourceLineNo">658</span><a id="line.658">   *</a>
+<span class="sourceLineNo">659</span><a id="line.659">   * &lt;p&gt;The outer list is unmodifiable, but reflects the latest state of the source list. The inner</a>
+<span class="sourceLineNo">660</span><a id="line.660">   * lists are sublist views of the original list, produced on demand using {@link List#subList(int,</a>
+<span class="sourceLineNo">661</span><a id="line.661">   * int)}, and are subject to all the usual caveats about modification as explained in that API.</a>
+<span class="sourceLineNo">662</span><a id="line.662">   *</a>
+<span class="sourceLineNo">663</span><a id="line.663">   * @param list the list to return consecutive sublists of</a>
+<span class="sourceLineNo">664</span><a id="line.664">   * @param size the desired size of each sublist (the last may be smaller)</a>
+<span class="sourceLineNo">665</span><a id="line.665">   * @return a list of consecutive sublists</a>
+<span class="sourceLineNo">666</span><a id="line.666">   * @throws IllegalArgumentException if {@code partitionSize} is nonpositive</a>
+<span class="sourceLineNo">667</span><a id="line.667">   */</a>
+<span class="sourceLineNo">668</span><a id="line.668">  public static &lt;T extends @Nullable Object&gt; List&lt;List&lt;T&gt;&gt; partition(List&lt;T&gt; list, int size) {</a>
+<span class="sourceLineNo">669</span><a id="line.669">    checkNotNull(list);</a>
+<span class="sourceLineNo">670</span><a id="line.670">    checkArgument(size &gt; 0);</a>
+<span class="sourceLineNo">671</span><a id="line.671">    return (list instanceof RandomAccess)</a>
+<span class="sourceLineNo">672</span><a id="line.672">        ? new RandomAccessPartition&lt;&gt;(list, size)</a>
+<span class="sourceLineNo">673</span><a id="line.673">        : new Partition&lt;&gt;(list, size);</a>
+<span class="sourceLineNo">674</span><a id="line.674">  }</a>
+<span class="sourceLineNo">675</span><a id="line.675"></a>
+<span class="sourceLineNo">676</span><a id="line.676">  private static class Partition&lt;T extends @Nullable Object&gt; extends AbstractList&lt;List&lt;T&gt;&gt; {</a>
+<span class="sourceLineNo">677</span><a id="line.677">    final List&lt;T&gt; list;</a>
+<span class="sourceLineNo">678</span><a id="line.678">    final int size;</a>
+<span class="sourceLineNo">679</span><a id="line.679"></a>
+<span class="sourceLineNo">680</span><a id="line.680">    Partition(List&lt;T&gt; list, int size) {</a>
+<span class="sourceLineNo">681</span><a id="line.681">      this.list = list;</a>
+<span class="sourceLineNo">682</span><a id="line.682">      this.size = size;</a>
+<span class="sourceLineNo">683</span><a id="line.683">    }</a>
+<span class="sourceLineNo">684</span><a id="line.684"></a>
+<span class="sourceLineNo">685</span><a id="line.685">    @Override</a>
+<span class="sourceLineNo">686</span><a id="line.686">    public List&lt;T&gt; get(int index) {</a>
+<span class="sourceLineNo">687</span><a id="line.687">      checkElementIndex(index, size());</a>
+<span class="sourceLineNo">688</span><a id="line.688">      int start = index * size;</a>
+<span class="sourceLineNo">689</span><a id="line.689">      int end = Math.min(start + size, list.size());</a>
+<span class="sourceLineNo">690</span><a id="line.690">      return list.subList(start, end);</a>
+<span class="sourceLineNo">691</span><a id="line.691">    }</a>
+<span class="sourceLineNo">692</span><a id="line.692"></a>
+<span class="sourceLineNo">693</span><a id="line.693">    @Override</a>
+<span class="sourceLineNo">694</span><a id="line.694">    public int size() {</a>
+<span class="sourceLineNo">695</span><a id="line.695">      return IntMath.divide(list.size(), size, RoundingMode.CEILING);</a>
+<span class="sourceLineNo">696</span><a id="line.696">    }</a>
+<span class="sourceLineNo">697</span><a id="line.697"></a>
+<span class="sourceLineNo">698</span><a id="line.698">    @Override</a>
+<span class="sourceLineNo">699</span><a id="line.699">    public boolean isEmpty() {</a>
+<span class="sourceLineNo">700</span><a id="line.700">      return list.isEmpty();</a>
+<span class="sourceLineNo">701</span><a id="line.701">    }</a>
+<span class="sourceLineNo">702</span><a id="line.702">  }</a>
+<span class="sourceLineNo">703</span><a id="line.703"></a>
+<span class="sourceLineNo">704</span><a id="line.704">  private static class RandomAccessPartition&lt;T extends @Nullable Object&gt; extends Partition&lt;T&gt;</a>
+<span class="sourceLineNo">705</span><a id="line.705">      implements RandomAccess {</a>
+<span class="sourceLineNo">706</span><a id="line.706">    RandomAccessPartition(List&lt;T&gt; list, int size) {</a>
+<span class="sourceLineNo">707</span><a id="line.707">      super(list, size);</a>
+<span class="sourceLineNo">708</span><a id="line.708">    }</a>
+<span class="sourceLineNo">709</span><a id="line.709">  }</a>
+<span class="sourceLineNo">710</span><a id="line.710"></a>
+<span class="sourceLineNo">711</span><a id="line.711">  /**</a>
+<span class="sourceLineNo">712</span><a id="line.712">   * Returns a view of the specified string as an immutable list of {@code Character} values.</a>
+<span class="sourceLineNo">713</span><a id="line.713">   *</a>
+<span class="sourceLineNo">714</span><a id="line.714">   * @since 7.0</a>
+<span class="sourceLineNo">715</span><a id="line.715">   */</a>
+<span class="sourceLineNo">716</span><a id="line.716">  public static ImmutableList&lt;Character&gt; charactersOf(String string) {</a>
+<span class="sourceLineNo">717</span><a id="line.717">    return new StringAsImmutableList(checkNotNull(string));</a>
+<span class="sourceLineNo">718</span><a id="line.718">  }</a>
+<span class="sourceLineNo">719</span><a id="line.719"></a>
+<span class="sourceLineNo">720</span><a id="line.720">  /**</a>
+<span class="sourceLineNo">721</span><a id="line.721">   * Returns a view of the specified {@code CharSequence} as a {@code List&lt;Character&gt;}, viewing</a>
+<span class="sourceLineNo">722</span><a id="line.722">   * {@code sequence} as a sequence of Unicode code units. The view does not support any</a>
+<span class="sourceLineNo">723</span><a id="line.723">   * modification operations, but reflects any changes to the underlying character sequence.</a>
+<span class="sourceLineNo">724</span><a id="line.724">   *</a>
+<span class="sourceLineNo">725</span><a id="line.725">   * @param sequence the character sequence to view as a {@code List} of characters</a>
+<span class="sourceLineNo">726</span><a id="line.726">   * @return an {@code List&lt;Character&gt;} view of the character sequence</a>
+<span class="sourceLineNo">727</span><a id="line.727">   * @since 7.0</a>
+<span class="sourceLineNo">728</span><a id="line.728">   */</a>
+<span class="sourceLineNo">729</span><a id="line.729">  public static List&lt;Character&gt; charactersOf(CharSequence sequence) {</a>
+<span class="sourceLineNo">730</span><a id="line.730">    return new CharSequenceAsList(checkNotNull(sequence));</a>
+<span class="sourceLineNo">731</span><a id="line.731">  }</a>
 <span class="sourceLineNo">732</span><a id="line.732"></a>
-<span class="sourceLineNo">733</span><a id="line.733">    private final String string;</a>
-<span class="sourceLineNo">734</span><a id="line.734"></a>
-<span class="sourceLineNo">735</span><a id="line.735">    StringAsImmutableList(String string) {</a>
-<span class="sourceLineNo">736</span><a id="line.736">      this.string = string;</a>
-<span class="sourceLineNo">737</span><a id="line.737">    }</a>
-<span class="sourceLineNo">738</span><a id="line.738"></a>
-<span class="sourceLineNo">739</span><a id="line.739">    @Override</a>
-<span class="sourceLineNo">740</span><a id="line.740">    public int indexOf(@CheckForNull Object object) {</a>
-<span class="sourceLineNo">741</span><a id="line.741">      return (object instanceof Character) ? string.indexOf((Character) object) : -1;</a>
-<span class="sourceLineNo">742</span><a id="line.742">    }</a>
-<span class="sourceLineNo">743</span><a id="line.743"></a>
-<span class="sourceLineNo">744</span><a id="line.744">    @Override</a>
-<span class="sourceLineNo">745</span><a id="line.745">    public int lastIndexOf(@CheckForNull Object object) {</a>
-<span class="sourceLineNo">746</span><a id="line.746">      return (object instanceof Character) ? string.lastIndexOf((Character) object) : -1;</a>
-<span class="sourceLineNo">747</span><a id="line.747">    }</a>
-<span class="sourceLineNo">748</span><a id="line.748"></a>
-<span class="sourceLineNo">749</span><a id="line.749">    @Override</a>
-<span class="sourceLineNo">750</span><a id="line.750">    public ImmutableList&lt;Character&gt; subList(int fromIndex, int toIndex) {</a>
-<span class="sourceLineNo">751</span><a id="line.751">      checkPositionIndexes(fromIndex, toIndex, size()); // for GWT</a>
-<span class="sourceLineNo">752</span><a id="line.752">      return charactersOf(string.substring(fromIndex, toIndex));</a>
-<span class="sourceLineNo">753</span><a id="line.753">    }</a>
-<span class="sourceLineNo">754</span><a id="line.754"></a>
-<span class="sourceLineNo">755</span><a id="line.755">    @Override</a>
-<span class="sourceLineNo">756</span><a id="line.756">    boolean isPartialView() {</a>
-<span class="sourceLineNo">757</span><a id="line.757">      return false;</a>
-<span class="sourceLineNo">758</span><a id="line.758">    }</a>
-<span class="sourceLineNo">759</span><a id="line.759"></a>
-<span class="sourceLineNo">760</span><a id="line.760">    @Override</a>
-<span class="sourceLineNo">761</span><a id="line.761">    public Character get(int index) {</a>
-<span class="sourceLineNo">762</span><a id="line.762">      checkElementIndex(index, size()); // for GWT</a>
-<span class="sourceLineNo">763</span><a id="line.763">      return string.charAt(index);</a>
-<span class="sourceLineNo">764</span><a id="line.764">    }</a>
-<span class="sourceLineNo">765</span><a id="line.765"></a>
-<span class="sourceLineNo">766</span><a id="line.766">    @Override</a>
-<span class="sourceLineNo">767</span><a id="line.767">    public int size() {</a>
-<span class="sourceLineNo">768</span><a id="line.768">      return string.length();</a>
-<span class="sourceLineNo">769</span><a id="line.769">    }</a>
-<span class="sourceLineNo">770</span><a id="line.770"></a>
-<span class="sourceLineNo">771</span><a id="line.771">    // redeclare to help optimizers with b/310253115</a>
-<span class="sourceLineNo">772</span><a id="line.772">    @SuppressWarnings("RedundantOverride")</a>
-<span class="sourceLineNo">773</span><a id="line.773">    @Override</a>
-<span class="sourceLineNo">774</span><a id="line.774">    @J2ktIncompatible // serialization</a>
-<span class="sourceLineNo">775</span><a id="line.775">    @GwtIncompatible // serialization</a>
-<span class="sourceLineNo">776</span><a id="line.776">    Object writeReplace() {</a>
-<span class="sourceLineNo">777</span><a id="line.777">      return super.writeReplace();</a>
-<span class="sourceLineNo">778</span><a id="line.778">    }</a>
-<span class="sourceLineNo">779</span><a id="line.779">  }</a>
-<span class="sourceLineNo">780</span><a id="line.780"></a>
-<span class="sourceLineNo">781</span><a id="line.781">  private static final class CharSequenceAsList extends AbstractList&lt;Character&gt; {</a>
-<span class="sourceLineNo">782</span><a id="line.782">    private final CharSequence sequence;</a>
+<span class="sourceLineNo">733</span><a id="line.733">  @SuppressWarnings("serial") // serialized using ImmutableList serialization</a>
+<span class="sourceLineNo">734</span><a id="line.734">  private static final class StringAsImmutableList extends ImmutableList&lt;Character&gt; {</a>
+<span class="sourceLineNo">735</span><a id="line.735"></a>
+<span class="sourceLineNo">736</span><a id="line.736">    private final String string;</a>
+<span class="sourceLineNo">737</span><a id="line.737"></a>
+<span class="sourceLineNo">738</span><a id="line.738">    StringAsImmutableList(String string) {</a>
+<span class="sourceLineNo">739</span><a id="line.739">      this.string = string;</a>
+<span class="sourceLineNo">740</span><a id="line.740">    }</a>
+<span class="sourceLineNo">741</span><a id="line.741"></a>
+<span class="sourceLineNo">742</span><a id="line.742">    @Override</a>
+<span class="sourceLineNo">743</span><a id="line.743">    public int indexOf(@CheckForNull Object object) {</a>
+<span class="sourceLineNo">744</span><a id="line.744">      return (object instanceof Character) ? string.indexOf((Character) object) : -1;</a>
+<span class="sourceLineNo">745</span><a id="line.745">    }</a>
+<span class="sourceLineNo">746</span><a id="line.746"></a>
+<span class="sourceLineNo">747</span><a id="line.747">    @Override</a>
+<span class="sourceLineNo">748</span><a id="line.748">    public int lastIndexOf(@CheckForNull Object object) {</a>
+<span class="sourceLineNo">749</span><a id="line.749">      return (object instanceof Character) ? string.lastIndexOf((Character) object) : -1;</a>
+<span class="sourceLineNo">750</span><a id="line.750">    }</a>
+<span class="sourceLineNo">751</span><a id="line.751"></a>
+<span class="sourceLineNo">752</span><a id="line.752">    @Override</a>
+<span class="sourceLineNo">753</span><a id="line.753">    public ImmutableList&lt;Character&gt; subList(int fromIndex, int toIndex) {</a>
+<span class="sourceLineNo">754</span><a id="line.754">      checkPositionIndexes(fromIndex, toIndex, size()); // for GWT</a>
+<span class="sourceLineNo">755</span><a id="line.755">      return charactersOf(string.substring(fromIndex, toIndex));</a>
+<span class="sourceLineNo">756</span><a id="line.756">    }</a>
+<span class="sourceLineNo">757</span><a id="line.757"></a>
+<span class="sourceLineNo">758</span><a id="line.758">    @Override</a>
+<span class="sourceLineNo">759</span><a id="line.759">    boolean isPartialView() {</a>
+<span class="sourceLineNo">760</span><a id="line.760">      return false;</a>
+<span class="sourceLineNo">761</span><a id="line.761">    }</a>
+<span class="sourceLineNo">762</span><a id="line.762"></a>
+<span class="sourceLineNo">763</span><a id="line.763">    @Override</a>
+<span class="sourceLineNo">764</span><a id="line.764">    public Character get(int index) {</a>
+<span class="sourceLineNo">765</span><a id="line.765">      checkElementIndex(index, size()); // for GWT</a>
+<span class="sourceLineNo">766</span><a id="line.766">      return string.charAt(index);</a>
+<span class="sourceLineNo">767</span><a id="line.767">    }</a>
+<span class="sourceLineNo">768</span><a id="line.768"></a>
+<span class="sourceLineNo">769</span><a id="line.769">    @Override</a>
+<span class="sourceLineNo">770</span><a id="line.770">    public int size() {</a>
+<span class="sourceLineNo">771</span><a id="line.771">      return string.length();</a>
+<span class="sourceLineNo">772</span><a id="line.772">    }</a>
+<span class="sourceLineNo">773</span><a id="line.773"></a>
+<span class="sourceLineNo">774</span><a id="line.774">    // redeclare to help optimizers with b/310253115</a>
+<span class="sourceLineNo">775</span><a id="line.775">    @SuppressWarnings("RedundantOverride")</a>
+<span class="sourceLineNo">776</span><a id="line.776">    @Override</a>
+<span class="sourceLineNo">777</span><a id="line.777">    @J2ktIncompatible // serialization</a>
+<span class="sourceLineNo">778</span><a id="line.778">    @GwtIncompatible // serialization</a>
+<span class="sourceLineNo">779</span><a id="line.779">    Object writeReplace() {</a>
+<span class="sourceLineNo">780</span><a id="line.780">      return super.writeReplace();</a>
+<span class="sourceLineNo">781</span><a id="line.781">    }</a>
+<span class="sourceLineNo">782</span><a id="line.782">  }</a>
 <span class="sourceLineNo">783</span><a id="line.783"></a>
-<span class="sourceLineNo">784</span><a id="line.784">    CharSequenceAsList(CharSequence sequence) {</a>
-<span class="sourceLineNo">785</span><a id="line.785">      this.sequence = sequence;</a>
-<span class="sourceLineNo">786</span><a id="line.786">    }</a>
-<span class="sourceLineNo">787</span><a id="line.787"></a>
-<span class="sourceLineNo">788</span><a id="line.788">    @Override</a>
-<span class="sourceLineNo">789</span><a id="line.789">    public Character get(int index) {</a>
-<span class="sourceLineNo">790</span><a id="line.790">      checkElementIndex(index, size()); // for GWT</a>
-<span class="sourceLineNo">791</span><a id="line.791">      return sequence.charAt(index);</a>
-<span class="sourceLineNo">792</span><a id="line.792">    }</a>
-<span class="sourceLineNo">793</span><a id="line.793"></a>
-<span class="sourceLineNo">794</span><a id="line.794">    @Override</a>
-<span class="sourceLineNo">795</span><a id="line.795">    public int size() {</a>
-<span class="sourceLineNo">796</span><a id="line.796">      return sequence.length();</a>
-<span class="sourceLineNo">797</span><a id="line.797">    }</a>
-<span class="sourceLineNo">798</span><a id="line.798">  }</a>
-<span class="sourceLineNo">799</span><a id="line.799"></a>
-<span class="sourceLineNo">800</span><a id="line.800">  /**</a>
-<span class="sourceLineNo">801</span><a id="line.801">   * Returns a reversed view of the specified list. For example, {@code</a>
-<span class="sourceLineNo">802</span><a id="line.802">   * Lists.reverse(Arrays.asList(1, 2, 3))} returns a list containing {@code 3, 2, 1}. The returned</a>
-<span class="sourceLineNo">803</span><a id="line.803">   * list is backed by this list, so changes in the returned list are reflected in this list, and</a>
-<span class="sourceLineNo">804</span><a id="line.804">   * vice-versa. The returned list supports all of the optional list operations supported by this</a>
-<span class="sourceLineNo">805</span><a id="line.805">   * list.</a>
-<span class="sourceLineNo">806</span><a id="line.806">   *</a>
-<span class="sourceLineNo">807</span><a id="line.807">   * &lt;p&gt;The returned list is random-access if the specified list is random access.</a>
-<span class="sourceLineNo">808</span><a id="line.808">   *</a>
-<span class="sourceLineNo">809</span><a id="line.809">   * @since 7.0</a>
-<span class="sourceLineNo">810</span><a id="line.810">   */</a>
-<span class="sourceLineNo">811</span><a id="line.811">  public static &lt;T extends @Nullable Object&gt; List&lt;T&gt; reverse(List&lt;T&gt; list) {</a>
-<span class="sourceLineNo">812</span><a id="line.812">    if (list instanceof ImmutableList) {</a>
-<span class="sourceLineNo">813</span><a id="line.813">      // Avoid nullness warnings.</a>
-<span class="sourceLineNo">814</span><a id="line.814">      List&lt;?&gt; reversed = ((ImmutableList&lt;?&gt;) list).reverse();</a>
-<span class="sourceLineNo">815</span><a id="line.815">      @SuppressWarnings("unchecked")</a>
-<span class="sourceLineNo">816</span><a id="line.816">      List&lt;T&gt; result = (List&lt;T&gt;) reversed;</a>
-<span class="sourceLineNo">817</span><a id="line.817">      return result;</a>
-<span class="sourceLineNo">818</span><a id="line.818">    } else if (list instanceof ReverseList) {</a>
-<span class="sourceLineNo">819</span><a id="line.819">      return ((ReverseList&lt;T&gt;) list).getForwardList();</a>
-<span class="sourceLineNo">820</span><a id="line.820">    } else if (list instanceof RandomAccess) {</a>
-<span class="sourceLineNo">821</span><a id="line.821">      return new RandomAccessReverseList&lt;&gt;(list);</a>
-<span class="sourceLineNo">822</span><a id="line.822">    } else {</a>
-<span class="sourceLineNo">823</span><a id="line.823">      return new ReverseList&lt;&gt;(list);</a>
-<span class="sourceLineNo">824</span><a id="line.824">    }</a>
-<span class="sourceLineNo">825</span><a id="line.825">  }</a>
-<span class="sourceLineNo">826</span><a id="line.826"></a>
-<span class="sourceLineNo">827</span><a id="line.827">  private static class ReverseList&lt;T extends @Nullable Object&gt; extends AbstractList&lt;T&gt; {</a>
-<span class="sourceLineNo">828</span><a id="line.828">    private final List&lt;T&gt; forwardList;</a>
+<span class="sourceLineNo">784</span><a id="line.784">  private static final class CharSequenceAsList extends AbstractList&lt;Character&gt; {</a>
+<span class="sourceLineNo">785</span><a id="line.785">    private final CharSequence sequence;</a>
+<span class="sourceLineNo">786</span><a id="line.786"></a>
+<span class="sourceLineNo">787</span><a id="line.787">    CharSequenceAsList(CharSequence sequence) {</a>
+<span class="sourceLineNo">788</span><a id="line.788">      this.sequence = sequence;</a>
+<span class="sourceLineNo">789</span><a id="line.789">    }</a>
+<span class="sourceLineNo">790</span><a id="line.790"></a>
+<span class="sourceLineNo">791</span><a id="line.791">    @Override</a>
+<span class="sourceLineNo">792</span><a id="line.792">    public Character get(int index) {</a>
+<span class="sourceLineNo">793</span><a id="line.793">      checkElementIndex(index, size()); // for GWT</a>
+<span class="sourceLineNo">794</span><a id="line.794">      return sequence.charAt(index);</a>
+<span class="sourceLineNo">795</span><a id="line.795">    }</a>
+<span class="sourceLineNo">796</span><a id="line.796"></a>
+<span class="sourceLineNo">797</span><a id="line.797">    @Override</a>
+<span class="sourceLineNo">798</span><a id="line.798">    public int size() {</a>
+<span class="sourceLineNo">799</span><a id="line.799">      return sequence.length();</a>
+<span class="sourceLineNo">800</span><a id="line.800">    }</a>
+<span class="sourceLineNo">801</span><a id="line.801">  }</a>
+<span class="sourceLineNo">802</span><a id="line.802"></a>
+<span class="sourceLineNo">803</span><a id="line.803">  /**</a>
+<span class="sourceLineNo">804</span><a id="line.804">   * Returns a reversed view of the specified list. For example, {@code</a>
+<span class="sourceLineNo">805</span><a id="line.805">   * Lists.reverse(Arrays.asList(1, 2, 3))} returns a list containing {@code 3, 2, 1}. The returned</a>
+<span class="sourceLineNo">806</span><a id="line.806">   * list is backed by this list, so changes in the returned list are reflected in this list, and</a>
+<span class="sourceLineNo">807</span><a id="line.807">   * vice-versa. The returned list supports all of the optional list operations supported by this</a>
+<span class="sourceLineNo">808</span><a id="line.808">   * list.</a>
+<span class="sourceLineNo">809</span><a id="line.809">   *</a>
+<span class="sourceLineNo">810</span><a id="line.810">   * &lt;p&gt;The returned list is random-access if the specified list is random access.</a>
+<span class="sourceLineNo">811</span><a id="line.811">   *</a>
+<span class="sourceLineNo">812</span><a id="line.812">   * @since 7.0</a>
+<span class="sourceLineNo">813</span><a id="line.813">   */</a>
+<span class="sourceLineNo">814</span><a id="line.814">  public static &lt;T extends @Nullable Object&gt; List&lt;T&gt; reverse(List&lt;T&gt; list) {</a>
+<span class="sourceLineNo">815</span><a id="line.815">    if (list instanceof ImmutableList) {</a>
+<span class="sourceLineNo">816</span><a id="line.816">      // Avoid nullness warnings.</a>
+<span class="sourceLineNo">817</span><a id="line.817">      List&lt;?&gt; reversed = ((ImmutableList&lt;?&gt;) list).reverse();</a>
+<span class="sourceLineNo">818</span><a id="line.818">      @SuppressWarnings("unchecked")</a>
+<span class="sourceLineNo">819</span><a id="line.819">      List&lt;T&gt; result = (List&lt;T&gt;) reversed;</a>
+<span class="sourceLineNo">820</span><a id="line.820">      return result;</a>
+<span class="sourceLineNo">821</span><a id="line.821">    } else if (list instanceof ReverseList) {</a>
+<span class="sourceLineNo">822</span><a id="line.822">      return ((ReverseList&lt;T&gt;) list).getForwardList();</a>
+<span class="sourceLineNo">823</span><a id="line.823">    } else if (list instanceof RandomAccess) {</a>
+<span class="sourceLineNo">824</span><a id="line.824">      return new RandomAccessReverseList&lt;&gt;(list);</a>
+<span class="sourceLineNo">825</span><a id="line.825">    } else {</a>
+<span class="sourceLineNo">826</span><a id="line.826">      return new ReverseList&lt;&gt;(list);</a>
+<span class="sourceLineNo">827</span><a id="line.827">    }</a>
+<span class="sourceLineNo">828</span><a id="line.828">  }</a>
 <span class="sourceLineNo">829</span><a id="line.829"></a>
-<span class="sourceLineNo">830</span><a id="line.830">    ReverseList(List&lt;T&gt; forwardList) {</a>
-<span class="sourceLineNo">831</span><a id="line.831">      this.forwardList = checkNotNull(forwardList);</a>
-<span class="sourceLineNo">832</span><a id="line.832">    }</a>
-<span class="sourceLineNo">833</span><a id="line.833"></a>
-<span class="sourceLineNo">834</span><a id="line.834">    List&lt;T&gt; getForwardList() {</a>
-<span class="sourceLineNo">835</span><a id="line.835">      return forwardList;</a>
-<span class="sourceLineNo">836</span><a id="line.836">    }</a>
-<span class="sourceLineNo">837</span><a id="line.837"></a>
-<span class="sourceLineNo">838</span><a id="line.838">    private int reverseIndex(int index) {</a>
-<span class="sourceLineNo">839</span><a id="line.839">      int size = size();</a>
-<span class="sourceLineNo">840</span><a id="line.840">      checkElementIndex(index, size);</a>
-<span class="sourceLineNo">841</span><a id="line.841">      return (size - 1) - index;</a>
-<span class="sourceLineNo">842</span><a id="line.842">    }</a>
-<span class="sourceLineNo">843</span><a id="line.843"></a>
-<span class="sourceLineNo">844</span><a id="line.844">    private int reversePosition(int index) {</a>
-<span class="sourceLineNo">845</span><a id="line.845">      int size = size();</a>
-<span class="sourceLineNo">846</span><a id="line.846">      checkPositionIndex(index, size);</a>
-<span class="sourceLineNo">847</span><a id="line.847">      return size - index;</a>
-<span class="sourceLineNo">848</span><a id="line.848">    }</a>
-<span class="sourceLineNo">849</span><a id="line.849"></a>
-<span class="sourceLineNo">850</span><a id="line.850">    @Override</a>
-<span class="sourceLineNo">851</span><a id="line.851">    public void add(int index, @ParametricNullness T element) {</a>
-<span class="sourceLineNo">852</span><a id="line.852">      forwardList.add(reversePosition(index), element);</a>
-<span class="sourceLineNo">853</span><a id="line.853">    }</a>
-<span class="sourceLineNo">854</span><a id="line.854"></a>
-<span class="sourceLineNo">855</span><a id="line.855">    @Override</a>
-<span class="sourceLineNo">856</span><a id="line.856">    public void clear() {</a>
-<span class="sourceLineNo">857</span><a id="line.857">      forwardList.clear();</a>
-<span class="sourceLineNo">858</span><a id="line.858">    }</a>
-<span class="sourceLineNo">859</span><a id="line.859"></a>
-<span class="sourceLineNo">860</span><a id="line.860">    @Override</a>
-<span class="sourceLineNo">861</span><a id="line.861">    @ParametricNullness</a>
-<span class="sourceLineNo">862</span><a id="line.862">    public T remove(int index) {</a>
-<span class="sourceLineNo">863</span><a id="line.863">      return forwardList.remove(reverseIndex(index));</a>
-<span class="sourceLineNo">864</span><a id="line.864">    }</a>
-<span class="sourceLineNo">865</span><a id="line.865"></a>
-<span class="sourceLineNo">866</span><a id="line.866">    @Override</a>
-<span class="sourceLineNo">867</span><a id="line.867">    protected void removeRange(int fromIndex, int toIndex) {</a>
-<span class="sourceLineNo">868</span><a id="line.868">      subList(fromIndex, toIndex).clear();</a>
-<span class="sourceLineNo">869</span><a id="line.869">    }</a>
-<span class="sourceLineNo">870</span><a id="line.870"></a>
-<span class="sourceLineNo">871</span><a id="line.871">    @Override</a>
-<span class="sourceLineNo">872</span><a id="line.872">    @ParametricNullness</a>
-<span class="sourceLineNo">873</span><a id="line.873">    public T set(int index, @ParametricNullness T element) {</a>
-<span class="sourceLineNo">874</span><a id="line.874">      return forwardList.set(reverseIndex(index), element);</a>
-<span class="sourceLineNo">875</span><a id="line.875">    }</a>
-<span class="sourceLineNo">876</span><a id="line.876"></a>
-<span class="sourceLineNo">877</span><a id="line.877">    @Override</a>
-<span class="sourceLineNo">878</span><a id="line.878">    @ParametricNullness</a>
-<span class="sourceLineNo">879</span><a id="line.879">    public T get(int index) {</a>
-<span class="sourceLineNo">880</span><a id="line.880">      return forwardList.get(reverseIndex(index));</a>
-<span class="sourceLineNo">881</span><a id="line.881">    }</a>
-<span class="sourceLineNo">882</span><a id="line.882"></a>
-<span class="sourceLineNo">883</span><a id="line.883">    @Override</a>
-<span class="sourceLineNo">884</span><a id="line.884">    public int size() {</a>
-<span class="sourceLineNo">885</span><a id="line.885">      return forwardList.size();</a>
-<span class="sourceLineNo">886</span><a id="line.886">    }</a>
-<span class="sourceLineNo">887</span><a id="line.887"></a>
-<span class="sourceLineNo">888</span><a id="line.888">    @Override</a>
-<span class="sourceLineNo">889</span><a id="line.889">    public List&lt;T&gt; subList(int fromIndex, int toIndex) {</a>
-<span class="sourceLineNo">890</span><a id="line.890">      checkPositionIndexes(fromIndex, toIndex, size());</a>
-<span class="sourceLineNo">891</span><a id="line.891">      return reverse(forwardList.subList(reversePosition(toIndex), reversePosition(fromIndex)));</a>
-<span class="sourceLineNo">892</span><a id="line.892">    }</a>
-<span class="sourceLineNo">893</span><a id="line.893"></a>
-<span class="sourceLineNo">894</span><a id="line.894">    @Override</a>
-<span class="sourceLineNo">895</span><a id="line.895">    public Iterator&lt;T&gt; iterator() {</a>
-<span class="sourceLineNo">896</span><a id="line.896">      return listIterator();</a>
-<span class="sourceLineNo">897</span><a id="line.897">    }</a>
-<span class="sourceLineNo">898</span><a id="line.898"></a>
-<span class="sourceLineNo">899</span><a id="line.899">    @Override</a>
-<span class="sourceLineNo">900</span><a id="line.900">    public ListIterator&lt;T&gt; listIterator(int index) {</a>
-<span class="sourceLineNo">901</span><a id="line.901">      int start = reversePosition(index);</a>
-<span class="sourceLineNo">902</span><a id="line.902">      final ListIterator&lt;T&gt; forwardIterator = forwardList.listIterator(start);</a>
-<span class="sourceLineNo">903</span><a id="line.903">      return new ListIterator&lt;T&gt;() {</a>
-<span class="sourceLineNo">904</span><a id="line.904"></a>
-<span class="sourceLineNo">905</span><a id="line.905">        boolean canRemoveOrSet;</a>
-<span class="sourceLineNo">906</span><a id="line.906"></a>
-<span class="sourceLineNo">907</span><a id="line.907">        @Override</a>
-<span class="sourceLineNo">908</span><a id="line.908">        public void add(@ParametricNullness T e) {</a>
-<span class="sourceLineNo">909</span><a id="line.909">          forwardIterator.add(e);</a>
-<span class="sourceLineNo">910</span><a id="line.910">          forwardIterator.previous();</a>
-<span class="sourceLineNo">911</span><a id="line.911">          canRemoveOrSet = false;</a>
-<span class="sourceLineNo">912</span><a id="line.912">        }</a>
-<span class="sourceLineNo">913</span><a id="line.913"></a>
-<span class="sourceLineNo">914</span><a id="line.914">        @Override</a>
-<span class="sourceLineNo">915</span><a id="line.915">        public boolean hasNext() {</a>
-<span class="sourceLineNo">916</span><a id="line.916">          return forwardIterator.hasPrevious();</a>
-<span class="sourceLineNo">917</span><a id="line.917">        }</a>
-<span class="sourceLineNo">918</span><a id="line.918"></a>
-<span class="sourceLineNo">919</span><a id="line.919">        @Override</a>
-<span class="sourceLineNo">920</span><a id="line.920">        public boolean hasPrevious() {</a>
-<span class="sourceLineNo">921</span><a id="line.921">          return forwardIterator.hasNext();</a>
-<span class="sourceLineNo">922</span><a id="line.922">        }</a>
-<span class="sourceLineNo">923</span><a id="line.923"></a>
-<span class="sourceLineNo">924</span><a id="line.924">        @Override</a>
-<span class="sourceLineNo">925</span><a id="line.925">        @ParametricNullness</a>
-<span class="sourceLineNo">926</span><a id="line.926">        public T next() {</a>
-<span class="sourceLineNo">927</span><a id="line.927">          if (!hasNext()) {</a>
-<span class="sourceLineNo">928</span><a id="line.928">            throw new NoSuchElementException();</a>
-<span class="sourceLineNo">929</span><a id="line.929">          }</a>
-<span class="sourceLineNo">930</span><a id="line.930">          canRemoveOrSet = true;</a>
-<span class="sourceLineNo">931</span><a id="line.931">          return forwardIterator.previous();</a>
-<span class="sourceLineNo">932</span><a id="line.932">        }</a>
-<span class="sourceLineNo">933</span><a id="line.933"></a>
-<span class="sourceLineNo">934</span><a id="line.934">        @Override</a>
-<span class="sourceLineNo">935</span><a id="line.935">        public int nextIndex() {</a>
-<span class="sourceLineNo">936</span><a id="line.936">          return reversePosition(forwardIterator.nextIndex());</a>
-<span class="sourceLineNo">937</span><a id="line.937">        }</a>
-<span class="sourceLineNo">938</span><a id="line.938"></a>
-<span class="sourceLineNo">939</span><a id="line.939">        @Override</a>
-<span class="sourceLineNo">940</span><a id="line.940">        @ParametricNullness</a>
-<span class="sourceLineNo">941</span><a id="line.941">        public T previous() {</a>
-<span class="sourceLineNo">942</span><a id="line.942">          if (!hasPrevious()) {</a>
-<span class="sourceLineNo">943</span><a id="line.943">            throw new NoSuchElementException();</a>
-<span class="sourceLineNo">944</span><a id="line.944">          }</a>
-<span class="sourceLineNo">945</span><a id="line.945">          canRemoveOrSet = true;</a>
-<span class="sourceLineNo">946</span><a id="line.946">          return forwardIterator.next();</a>
-<span class="sourceLineNo">947</span><a id="line.947">        }</a>
-<span class="sourceLineNo">948</span><a id="line.948"></a>
-<span class="sourceLineNo">949</span><a id="line.949">        @Override</a>
-<span class="sourceLineNo">950</span><a id="line.950">        public int previousIndex() {</a>
-<span class="sourceLineNo">951</span><a id="line.951">          return nextIndex() - 1;</a>
-<span class="sourceLineNo">952</span><a id="line.952">        }</a>
-<span class="sourceLineNo">953</span><a id="line.953"></a>
-<span class="sourceLineNo">954</span><a id="line.954">        @Override</a>
-<span class="sourceLineNo">955</span><a id="line.955">        public void remove() {</a>
-<span class="sourceLineNo">956</span><a id="line.956">          checkRemove(canRemoveOrSet);</a>
-<span class="sourceLineNo">957</span><a id="line.957">          forwardIterator.remove();</a>
-<span class="sourceLineNo">958</span><a id="line.958">          canRemoveOrSet = false;</a>
-<span class="sourceLineNo">959</span><a id="line.959">        }</a>
-<span class="sourceLineNo">960</span><a id="line.960"></a>
-<span class="sourceLineNo">961</span><a id="line.961">        @Override</a>
-<span class="sourceLineNo">962</span><a id="line.962">        public void set(@ParametricNullness T e) {</a>
-<span class="sourceLineNo">963</span><a id="line.963">          checkState(canRemoveOrSet);</a>
-<span class="sourceLineNo">964</span><a id="line.964">          forwardIterator.set(e);</a>
-<span class="sourceLineNo">965</span><a id="line.965">        }</a>
-<span class="sourceLineNo">966</span><a id="line.966">      };</a>
-<span class="sourceLineNo">967</span><a id="line.967">    }</a>
-<span class="sourceLineNo">968</span><a id="line.968">  }</a>
-<span class="sourceLineNo">969</span><a id="line.969"></a>
-<span class="sourceLineNo">970</span><a id="line.970">  private static class RandomAccessReverseList&lt;T extends @Nullable Object&gt; extends ReverseList&lt;T&gt;</a>
-<span class="sourceLineNo">971</span><a id="line.971">      implements RandomAccess {</a>
-<span class="sourceLineNo">972</span><a id="line.972">    RandomAccessReverseList(List&lt;T&gt; forwardList) {</a>
-<span class="sourceLineNo">973</span><a id="line.973">      super(forwardList);</a>
-<span class="sourceLineNo">974</span><a id="line.974">    }</a>
-<span class="sourceLineNo">975</span><a id="line.975">  }</a>
-<span class="sourceLineNo">976</span><a id="line.976"></a>
-<span class="sourceLineNo">977</span><a id="line.977">  /** An implementation of {@link List#hashCode()}. */</a>
-<span class="sourceLineNo">978</span><a id="line.978">  static int hashCodeImpl(List&lt;?&gt; list) {</a>
-<span class="sourceLineNo">979</span><a id="line.979">    // TODO(lowasser): worth optimizing for RandomAccess?</a>
-<span class="sourceLineNo">980</span><a id="line.980">    int hashCode = 1;</a>
-<span class="sourceLineNo">981</span><a id="line.981">    for (Object o : list) {</a>
-<span class="sourceLineNo">982</span><a id="line.982">      hashCode = 31 * hashCode + (o == null ? 0 : o.hashCode());</a>
-<span class="sourceLineNo">983</span><a id="line.983"></a>
-<span class="sourceLineNo">984</span><a id="line.984">      hashCode = ~~hashCode;</a>
-<span class="sourceLineNo">985</span><a id="line.985">      // needed to deal with GWT integer overflow</a>
-<span class="sourceLineNo">986</span><a id="line.986">    }</a>
-<span class="sourceLineNo">987</span><a id="line.987">    return hashCode;</a>
-<span class="sourceLineNo">988</span><a id="line.988">  }</a>
-<span class="sourceLineNo">989</span><a id="line.989"></a>
-<span class="sourceLineNo">990</span><a id="line.990">  /** An implementation of {@link List#equals(Object)}. */</a>
-<span class="sourceLineNo">991</span><a id="line.991">  static boolean equalsImpl(List&lt;?&gt; thisList, @CheckForNull Object other) {</a>
-<span class="sourceLineNo">992</span><a id="line.992">    if (other == checkNotNull(thisList)) {</a>
-<span class="sourceLineNo">993</span><a id="line.993">      return true;</a>
-<span class="sourceLineNo">994</span><a id="line.994">    }</a>
-<span class="sourceLineNo">995</span><a id="line.995">    if (!(other instanceof List)) {</a>
-<span class="sourceLineNo">996</span><a id="line.996">      return false;</a>
+<span class="sourceLineNo">830</span><a id="line.830">  private static class ReverseList&lt;T extends @Nullable Object&gt; extends AbstractList&lt;T&gt; {</a>
+<span class="sourceLineNo">831</span><a id="line.831">    private final List&lt;T&gt; forwardList;</a>
+<span class="sourceLineNo">832</span><a id="line.832"></a>
+<span class="sourceLineNo">833</span><a id="line.833">    ReverseList(List&lt;T&gt; forwardList) {</a>
+<span class="sourceLineNo">834</span><a id="line.834">      this.forwardList = checkNotNull(forwardList);</a>
+<span class="sourceLineNo">835</span><a id="line.835">    }</a>
+<span class="sourceLineNo">836</span><a id="line.836"></a>
+<span class="sourceLineNo">837</span><a id="line.837">    List&lt;T&gt; getForwardList() {</a>
+<span class="sourceLineNo">838</span><a id="line.838">      return forwardList;</a>
+<span class="sourceLineNo">839</span><a id="line.839">    }</a>
+<span class="sourceLineNo">840</span><a id="line.840"></a>
+<span class="sourceLineNo">841</span><a id="line.841">    private int reverseIndex(int index) {</a>
+<span class="sourceLineNo">842</span><a id="line.842">      int size = size();</a>
+<span class="sourceLineNo">843</span><a id="line.843">      checkElementIndex(index, size);</a>
+<span class="sourceLineNo">844</span><a id="line.844">      return (size - 1) - index;</a>
+<span class="sourceLineNo">845</span><a id="line.845">    }</a>
+<span class="sourceLineNo">846</span><a id="line.846"></a>
+<span class="sourceLineNo">847</span><a id="line.847">    private int reversePosition(int index) {</a>
+<span class="sourceLineNo">848</span><a id="line.848">      int size = size();</a>
+<span class="sourceLineNo">849</span><a id="line.849">      checkPositionIndex(index, size);</a>
+<span class="sourceLineNo">850</span><a id="line.850">      return size - index;</a>
+<span class="sourceLineNo">851</span><a id="line.851">    }</a>
+<span class="sourceLineNo">852</span><a id="line.852"></a>
+<span class="sourceLineNo">853</span><a id="line.853">    @Override</a>
+<span class="sourceLineNo">854</span><a id="line.854">    public void add(int index, @ParametricNullness T element) {</a>
+<span class="sourceLineNo">855</span><a id="line.855">      forwardList.add(reversePosition(index), element);</a>
+<span class="sourceLineNo">856</span><a id="line.856">    }</a>
+<span class="sourceLineNo">857</span><a id="line.857"></a>
+<span class="sourceLineNo">858</span><a id="line.858">    @Override</a>
+<span class="sourceLineNo">859</span><a id="line.859">    public void clear() {</a>
+<span class="sourceLineNo">860</span><a id="line.860">      forwardList.clear();</a>
+<span class="sourceLineNo">861</span><a id="line.861">    }</a>
+<span class="sourceLineNo">862</span><a id="line.862"></a>
+<span class="sourceLineNo">863</span><a id="line.863">    @Override</a>
+<span class="sourceLineNo">864</span><a id="line.864">    @ParametricNullness</a>
+<span class="sourceLineNo">865</span><a id="line.865">    public T remove(int index) {</a>
+<span class="sourceLineNo">866</span><a id="line.866">      return forwardList.remove(reverseIndex(index));</a>
+<span class="sourceLineNo">867</span><a id="line.867">    }</a>
+<span class="sourceLineNo">868</span><a id="line.868"></a>
+<span class="sourceLineNo">869</span><a id="line.869">    @Override</a>
+<span class="sourceLineNo">870</span><a id="line.870">    protected void removeRange(int fromIndex, int toIndex) {</a>
+<span class="sourceLineNo">871</span><a id="line.871">      subList(fromIndex, toIndex).clear();</a>
+<span class="sourceLineNo">872</span><a id="line.872">    }</a>
+<span class="sourceLineNo">873</span><a id="line.873"></a>
+<span class="sourceLineNo">874</span><a id="line.874">    @Override</a>
+<span class="sourceLineNo">875</span><a id="line.875">    @ParametricNullness</a>
+<span class="sourceLineNo">876</span><a id="line.876">    public T set(int index, @ParametricNullness T element) {</a>
+<span class="sourceLineNo">877</span><a id="line.877">      return forwardList.set(reverseIndex(index), element);</a>
+<span class="sourceLineNo">878</span><a id="line.878">    }</a>
+<span class="sourceLineNo">879</span><a id="line.879"></a>
+<span class="sourceLineNo">880</span><a id="line.880">    @Override</a>
+<span class="sourceLineNo">881</span><a id="line.881">    @ParametricNullness</a>
+<span class="sourceLineNo">882</span><a id="line.882">    public T get(int index) {</a>
+<span class="sourceLineNo">883</span><a id="line.883">      return forwardList.get(reverseIndex(index));</a>
+<span class="sourceLineNo">884</span><a id="line.884">    }</a>
+<span class="sourceLineNo">885</span><a id="line.885"></a>
+<span class="sourceLineNo">886</span><a id="line.886">    @Override</a>
+<span class="sourceLineNo">887</span><a id="line.887">    public int size() {</a>
+<span class="sourceLineNo">888</span><a id="line.888">      return forwardList.size();</a>
+<span class="sourceLineNo">889</span><a id="line.889">    }</a>
+<span class="sourceLineNo">890</span><a id="line.890"></a>
+<span class="sourceLineNo">891</span><a id="line.891">    @Override</a>
+<span class="sourceLineNo">892</span><a id="line.892">    public List&lt;T&gt; subList(int fromIndex, int toIndex) {</a>
+<span class="sourceLineNo">893</span><a id="line.893">      checkPositionIndexes(fromIndex, toIndex, size());</a>
+<span class="sourceLineNo">894</span><a id="line.894">      return reverse(forwardList.subList(reversePosition(toIndex), reversePosition(fromIndex)));</a>
+<span class="sourceLineNo">895</span><a id="line.895">    }</a>
+<span class="sourceLineNo">896</span><a id="line.896"></a>
+<span class="sourceLineNo">897</span><a id="line.897">    @Override</a>
+<span class="sourceLineNo">898</span><a id="line.898">    public Iterator&lt;T&gt; iterator() {</a>
+<span class="sourceLineNo">899</span><a id="line.899">      return listIterator();</a>
+<span class="sourceLineNo">900</span><a id="line.900">    }</a>
+<span class="sourceLineNo">901</span><a id="line.901"></a>
+<span class="sourceLineNo">902</span><a id="line.902">    @Override</a>
+<span class="sourceLineNo">903</span><a id="line.903">    public ListIterator&lt;T&gt; listIterator(int index) {</a>
+<span class="sourceLineNo">904</span><a id="line.904">      int start = reversePosition(index);</a>
+<span class="sourceLineNo">905</span><a id="line.905">      final ListIterator&lt;T&gt; forwardIterator = forwardList.listIterator(start);</a>
+<span class="sourceLineNo">906</span><a id="line.906">      return new ListIterator&lt;T&gt;() {</a>
+<span class="sourceLineNo">907</span><a id="line.907"></a>
+<span class="sourceLineNo">908</span><a id="line.908">        boolean canRemoveOrSet;</a>
+<span class="sourceLineNo">909</span><a id="line.909"></a>
+<span class="sourceLineNo">910</span><a id="line.910">        @Override</a>
+<span class="sourceLineNo">911</span><a id="line.911">        public void add(@ParametricNullness T e) {</a>
+<span class="sourceLineNo">912</span><a id="line.912">          forwardIterator.add(e);</a>
+<span class="sourceLineNo">913</span><a id="line.913">          forwardIterator.previous();</a>
+<span class="sourceLineNo">914</span><a id="line.914">          canRemoveOrSet = false;</a>
+<span class="sourceLineNo">915</span><a id="line.915">        }</a>
+<span class="sourceLineNo">916</span><a id="line.916"></a>
+<span class="sourceLineNo">917</span><a id="line.917">        @Override</a>
+<span class="sourceLineNo">918</span><a id="line.918">        public boolean hasNext() {</a>
+<span class="sourceLineNo">919</span><a id="line.919">          return forwardIterator.hasPrevious();</a>
+<span class="sourceLineNo">920</span><a id="line.920">        }</a>
+<span class="sourceLineNo">921</span><a id="line.921"></a>
+<span class="sourceLineNo">922</span><a id="line.922">        @Override</a>
+<span class="sourceLineNo">923</span><a id="line.923">        public boolean hasPrevious() {</a>
+<span class="sourceLineNo">924</span><a id="line.924">          return forwardIterator.hasNext();</a>
+<span class="sourceLineNo">925</span><a id="line.925">        }</a>
+<span class="sourceLineNo">926</span><a id="line.926"></a>
+<span class="sourceLineNo">927</span><a id="line.927">        @Override</a>
+<span class="sourceLineNo">928</span><a id="line.928">        @ParametricNullness</a>
+<span class="sourceLineNo">929</span><a id="line.929">        public T next() {</a>
+<span class="sourceLineNo">930</span><a id="line.930">          if (!hasNext()) {</a>
+<span class="sourceLineNo">931</span><a id="line.931">            throw new NoSuchElementException();</a>
+<span class="sourceLineNo">932</span><a id="line.932">          }</a>
+<span class="sourceLineNo">933</span><a id="line.933">          canRemoveOrSet = true;</a>
+<span class="sourceLineNo">934</span><a id="line.934">          return forwardIterator.previous();</a>
+<span class="sourceLineNo">935</span><a id="line.935">        }</a>
+<span class="sourceLineNo">936</span><a id="line.936"></a>
+<span class="sourceLineNo">937</span><a id="line.937">        @Override</a>
+<span class="sourceLineNo">938</span><a id="line.938">        public int nextIndex() {</a>
+<span class="sourceLineNo">939</span><a id="line.939">          return reversePosition(forwardIterator.nextIndex());</a>
+<span class="sourceLineNo">940</span><a id="line.940">        }</a>
+<span class="sourceLineNo">941</span><a id="line.941"></a>
+<span class="sourceLineNo">942</span><a id="line.942">        @Override</a>
+<span class="sourceLineNo">943</span><a id="line.943">        @ParametricNullness</a>
+<span class="sourceLineNo">944</span><a id="line.944">        public T previous() {</a>
+<span class="sourceLineNo">945</span><a id="line.945">          if (!hasPrevious()) {</a>
+<span class="sourceLineNo">946</span><a id="line.946">            throw new NoSuchElementException();</a>
+<span class="sourceLineNo">947</span><a id="line.947">          }</a>
+<span class="sourceLineNo">948</span><a id="line.948">          canRemoveOrSet = true;</a>
+<span class="sourceLineNo">949</span><a id="line.949">          return forwardIterator.next();</a>
+<span class="sourceLineNo">950</span><a id="line.950">        }</a>
+<span class="sourceLineNo">951</span><a id="line.951"></a>
+<span class="sourceLineNo">952</span><a id="line.952">        @Override</a>
+<span class="sourceLineNo">953</span><a id="line.953">        public int previousIndex() {</a>
+<span class="sourceLineNo">954</span><a id="line.954">          return nextIndex() - 1;</a>
+<span class="sourceLineNo">955</span><a id="line.955">        }</a>
+<span class="sourceLineNo">956</span><a id="line.956"></a>
+<span class="sourceLineNo">957</span><a id="line.957">        @Override</a>
+<span class="sourceLineNo">958</span><a id="line.958">        public void remove() {</a>
+<span class="sourceLineNo">959</span><a id="line.959">          checkRemove(canRemoveOrSet);</a>
+<span class="sourceLineNo">960</span><a id="line.960">          forwardIterator.remove();</a>
+<span class="sourceLineNo">961</span><a id="line.961">          canRemoveOrSet = false;</a>
+<span class="sourceLineNo">962</span><a id="line.962">        }</a>
+<span class="sourceLineNo">963</span><a id="line.963"></a>
+<span class="sourceLineNo">964</span><a id="line.964">        @Override</a>
+<span class="sourceLineNo">965</span><a id="line.965">        public void set(@ParametricNullness T e) {</a>
+<span class="sourceLineNo">966</span><a id="line.966">          checkState(canRemoveOrSet);</a>
+<span class="sourceLineNo">967</span><a id="line.967">          forwardIterator.set(e);</a>
+<span class="sourceLineNo">968</span><a id="line.968">        }</a>
+<span class="sourceLineNo">969</span><a id="line.969">      };</a>
+<span class="sourceLineNo">970</span><a id="line.970">    }</a>
+<span class="sourceLineNo">971</span><a id="line.971">  }</a>
+<span class="sourceLineNo">972</span><a id="line.972"></a>
+<span class="sourceLineNo">973</span><a id="line.973">  private static class RandomAccessReverseList&lt;T extends @Nullable Object&gt; extends ReverseList&lt;T&gt;</a>
+<span class="sourceLineNo">974</span><a id="line.974">      implements RandomAccess {</a>
+<span class="sourceLineNo">975</span><a id="line.975">    RandomAccessReverseList(List&lt;T&gt; forwardList) {</a>
+<span class="sourceLineNo">976</span><a id="line.976">      super(forwardList);</a>
+<span class="sourceLineNo">977</span><a id="line.977">    }</a>
+<span class="sourceLineNo">978</span><a id="line.978">  }</a>
+<span class="sourceLineNo">979</span><a id="line.979"></a>
+<span class="sourceLineNo">980</span><a id="line.980">  /** An implementation of {@link List#hashCode()}. */</a>
+<span class="sourceLineNo">981</span><a id="line.981">  static int hashCodeImpl(List&lt;?&gt; list) {</a>
+<span class="sourceLineNo">982</span><a id="line.982">    // TODO(lowasser): worth optimizing for RandomAccess?</a>
+<span class="sourceLineNo">983</span><a id="line.983">    int hashCode = 1;</a>
+<span class="sourceLineNo">984</span><a id="line.984">    for (Object o : list) {</a>
+<span class="sourceLineNo">985</span><a id="line.985">      hashCode = 31 * hashCode + (o == null ? 0 : o.hashCode());</a>
+<span class="sourceLineNo">986</span><a id="line.986"></a>
+<span class="sourceLineNo">987</span><a id="line.987">      hashCode = ~~hashCode;</a>
+<span class="sourceLineNo">988</span><a id="line.988">      // needed to deal with GWT integer overflow</a>
+<span class="sourceLineNo">989</span><a id="line.989">    }</a>
+<span class="sourceLineNo">990</span><a id="line.990">    return hashCode;</a>
+<span class="sourceLineNo">991</span><a id="line.991">  }</a>
+<span class="sourceLineNo">992</span><a id="line.992"></a>
+<span class="sourceLineNo">993</span><a id="line.993">  /** An implementation of {@link List#equals(Object)}. */</a>
+<span class="sourceLineNo">994</span><a id="line.994">  static boolean equalsImpl(List&lt;?&gt; thisList, @CheckForNull Object other) {</a>
+<span class="sourceLineNo">995</span><a id="line.995">    if (other == checkNotNull(thisList)) {</a>
+<span class="sourceLineNo">996</span><a id="line.996">      return true;</a>
 <span class="sourceLineNo">997</span><a id="line.997">    }</a>
-<span class="sourceLineNo">998</span><a id="line.998">    List&lt;?&gt; otherList = (List&lt;?&gt;) other;</a>
-<span class="sourceLineNo">999</span><a id="line.999">    int size = thisList.size();</a>
-<span class="sourceLineNo">1000</span><a id="line.1000">    if (size != otherList.size()) {</a>
-<span class="sourceLineNo">1001</span><a id="line.1001">      return false;</a>
-<span class="sourceLineNo">1002</span><a id="line.1002">    }</a>
-<span class="sourceLineNo">1003</span><a id="line.1003">    if (thisList instanceof RandomAccess &amp;&amp; otherList instanceof RandomAccess) {</a>
-<span class="sourceLineNo">1004</span><a id="line.1004">      // avoid allocation and use the faster loop</a>
-<span class="sourceLineNo">1005</span><a id="line.1005">      for (int i = 0; i &lt; size; i++) {</a>
-<span class="sourceLineNo">1006</span><a id="line.1006">        if (!Objects.equal(thisList.get(i), otherList.get(i))) {</a>
-<span class="sourceLineNo">1007</span><a id="line.1007">          return false;</a>
-<span class="sourceLineNo">1008</span><a id="line.1008">        }</a>
-<span class="sourceLineNo">1009</span><a id="line.1009">      }</a>
-<span class="sourceLineNo">1010</span><a id="line.1010">      return true;</a>
-<span class="sourceLineNo">1011</span><a id="line.1011">    } else {</a>
-<span class="sourceLineNo">1012</span><a id="line.1012">      return Iterators.elementsEqual(thisList.iterator(), otherList.iterator());</a>
-<span class="sourceLineNo">1013</span><a id="line.1013">    }</a>
-<span class="sourceLineNo">1014</span><a id="line.1014">  }</a>
-<span class="sourceLineNo">1015</span><a id="line.1015"></a>
-<span class="sourceLineNo">1016</span><a id="line.1016">  /** An implementation of {@link List#addAll(int, Collection)}. */</a>
-<span class="sourceLineNo">1017</span><a id="line.1017">  static &lt;E extends @Nullable Object&gt; boolean addAllImpl(</a>
-<span class="sourceLineNo">1018</span><a id="line.1018">      List&lt;E&gt; list, int index, Iterable&lt;? extends E&gt; elements) {</a>
-<span class="sourceLineNo">1019</span><a id="line.1019">    boolean changed = false;</a>
-<span class="sourceLineNo">1020</span><a id="line.1020">    ListIterator&lt;E&gt; listIterator = list.listIterator(index);</a>
-<span class="sourceLineNo">1021</span><a id="line.1021">    for (E e : elements) {</a>
-<span class="sourceLineNo">1022</span><a id="line.1022">      listIterator.add(e);</a>
-<span class="sourceLineNo">1023</span><a id="line.1023">      changed = true;</a>
-<span class="sourceLineNo">1024</span><a id="line.1024">    }</a>
-<span class="sourceLineNo">1025</span><a id="line.1025">    return changed;</a>
-<span class="sourceLineNo">1026</span><a id="line.1026">  }</a>
-<span class="sourceLineNo">1027</span><a id="line.1027"></a>
-<span class="sourceLineNo">1028</span><a id="line.1028">  /** An implementation of {@link List#indexOf(Object)}. */</a>
-<span class="sourceLineNo">1029</span><a id="line.1029">  static int indexOfImpl(List&lt;?&gt; list, @CheckForNull Object element) {</a>
-<span class="sourceLineNo">1030</span><a id="line.1030">    if (list instanceof RandomAccess) {</a>
-<span class="sourceLineNo">1031</span><a id="line.1031">      return indexOfRandomAccess(list, element);</a>
-<span class="sourceLineNo">1032</span><a id="line.1032">    } else {</a>
-<span class="sourceLineNo">1033</span><a id="line.1033">      ListIterator&lt;?&gt; listIterator = list.listIterator();</a>
-<span class="sourceLineNo">1034</span><a id="line.1034">      while (listIterator.hasNext()) {</a>
-<span class="sourceLineNo">1035</span><a id="line.1035">        if (Objects.equal(element, listIterator.next())) {</a>
-<span class="sourceLineNo">1036</span><a id="line.1036">          return listIterator.previousIndex();</a>
-<span class="sourceLineNo">1037</span><a id="line.1037">        }</a>
-<span class="sourceLineNo">1038</span><a id="line.1038">      }</a>
-<span class="sourceLineNo">1039</span><a id="line.1039">      return -1;</a>
-<span class="sourceLineNo">1040</span><a id="line.1040">    }</a>
-<span class="sourceLineNo">1041</span><a id="line.1041">  }</a>
-<span class="sourceLineNo">1042</span><a id="line.1042"></a>
-<span class="sourceLineNo">1043</span><a id="line.1043">  private static int indexOfRandomAccess(List&lt;?&gt; list, @CheckForNull Object element) {</a>
-<span class="sourceLineNo">1044</span><a id="line.1044">    int size = list.size();</a>
-<span class="sourceLineNo">1045</span><a id="line.1045">    if (element == null) {</a>
-<span class="sourceLineNo">1046</span><a id="line.1046">      for (int i = 0; i &lt; size; i++) {</a>
-<span class="sourceLineNo">1047</span><a id="line.1047">        if (list.get(i) == null) {</a>
-<span class="sourceLineNo">1048</span><a id="line.1048">          return i;</a>
-<span class="sourceLineNo">1049</span><a id="line.1049">        }</a>
-<span class="sourceLineNo">1050</span><a id="line.1050">      }</a>
-<span class="sourceLineNo">1051</span><a id="line.1051">    } else {</a>
-<span class="sourceLineNo">1052</span><a id="line.1052">      for (int i = 0; i &lt; size; i++) {</a>
-<span class="sourceLineNo">1053</span><a id="line.1053">        if (element.equals(list.get(i))) {</a>
-<span class="sourceLineNo">1054</span><a id="line.1054">          return i;</a>
-<span class="sourceLineNo">1055</span><a id="line.1055">        }</a>
-<span class="sourceLineNo">1056</span><a id="line.1056">      }</a>
-<span class="sourceLineNo">1057</span><a id="line.1057">    }</a>
-<span class="sourceLineNo">1058</span><a id="line.1058">    return -1;</a>
-<span class="sourceLineNo">1059</span><a id="line.1059">  }</a>
-<span class="sourceLineNo">1060</span><a id="line.1060"></a>
-<span class="sourceLineNo">1061</span><a id="line.1061">  /** An implementation of {@link List#lastIndexOf(Object)}. */</a>
-<span class="sourceLineNo">1062</span><a id="line.1062">  static int lastIndexOfImpl(List&lt;?&gt; list, @CheckForNull Object element) {</a>
-<span class="sourceLineNo">1063</span><a id="line.1063">    if (list instanceof RandomAccess) {</a>
-<span class="sourceLineNo">1064</span><a id="line.1064">      return lastIndexOfRandomAccess(list, element);</a>
-<span class="sourceLineNo">1065</span><a id="line.1065">    } else {</a>
-<span class="sourceLineNo">1066</span><a id="line.1066">      ListIterator&lt;?&gt; listIterator = list.listIterator(list.size());</a>
-<span class="sourceLineNo">1067</span><a id="line.1067">      while (listIterator.hasPrevious()) {</a>
-<span class="sourceLineNo">1068</span><a id="line.1068">        if (Objects.equal(element, listIterator.previous())) {</a>
-<span class="sourceLineNo">1069</span><a id="line.1069">          return listIterator.nextIndex();</a>
-<span class="sourceLineNo">1070</span><a id="line.1070">        }</a>
-<span class="sourceLineNo">1071</span><a id="line.1071">      }</a>
-<span class="sourceLineNo">1072</span><a id="line.1072">      return -1;</a>
-<span class="sourceLineNo">1073</span><a id="line.1073">    }</a>
-<span class="sourceLineNo">1074</span><a id="line.1074">  }</a>
-<span class="sourceLineNo">1075</span><a id="line.1075"></a>
-<span class="sourceLineNo">1076</span><a id="line.1076">  private static int lastIndexOfRandomAccess(List&lt;?&gt; list, @CheckForNull Object element) {</a>
-<span class="sourceLineNo">1077</span><a id="line.1077">    if (element == null) {</a>
-<span class="sourceLineNo">1078</span><a id="line.1078">      for (int i = list.size() - 1; i &gt;= 0; i--) {</a>
-<span class="sourceLineNo">1079</span><a id="line.1079">        if (list.get(i) == null) {</a>
-<span class="sourceLineNo">1080</span><a id="line.1080">          return i;</a>
-<span class="sourceLineNo">1081</span><a id="line.1081">        }</a>
-<span class="sourceLineNo">1082</span><a id="line.1082">      }</a>
-<span class="sourceLineNo">1083</span><a id="line.1083">    } else {</a>
-<span class="sourceLineNo">1084</span><a id="line.1084">      for (int i = list.size() - 1; i &gt;= 0; i--) {</a>
-<span class="sourceLineNo">1085</span><a id="line.1085">        if (element.equals(list.get(i))) {</a>
-<span class="sourceLineNo">1086</span><a id="line.1086">          return i;</a>
-<span class="sourceLineNo">1087</span><a id="line.1087">        }</a>
-<span class="sourceLineNo">1088</span><a id="line.1088">      }</a>
-<span class="sourceLineNo">1089</span><a id="line.1089">    }</a>
-<span class="sourceLineNo">1090</span><a id="line.1090">    return -1;</a>
-<span class="sourceLineNo">1091</span><a id="line.1091">  }</a>
-<span class="sourceLineNo">1092</span><a id="line.1092"></a>
-<span class="sourceLineNo">1093</span><a id="line.1093">  /** Returns an implementation of {@link List#listIterator(int)}. */</a>
-<span class="sourceLineNo">1094</span><a id="line.1094">  static &lt;E extends @Nullable Object&gt; ListIterator&lt;E&gt; listIteratorImpl(List&lt;E&gt; list, int index) {</a>
-<span class="sourceLineNo">1095</span><a id="line.1095">    return new AbstractListWrapper&lt;&gt;(list).listIterator(index);</a>
-<span class="sourceLineNo">1096</span><a id="line.1096">  }</a>
-<span class="sourceLineNo">1097</span><a id="line.1097"></a>
-<span class="sourceLineNo">1098</span><a id="line.1098">  /** An implementation of {@link List#subList(int, int)}. */</a>
-<span class="sourceLineNo">1099</span><a id="line.1099">  static &lt;E extends @Nullable Object&gt; List&lt;E&gt; subListImpl(</a>
-<span class="sourceLineNo">1100</span><a id="line.1100">      final List&lt;E&gt; list, int fromIndex, int toIndex) {</a>
-<span class="sourceLineNo">1101</span><a id="line.1101">    List&lt;E&gt; wrapper;</a>
-<span class="sourceLineNo">1102</span><a id="line.1102">    if (list instanceof RandomAccess) {</a>
-<span class="sourceLineNo">1103</span><a id="line.1103">      wrapper =</a>
-<span class="sourceLineNo">1104</span><a id="line.1104">          new RandomAccessListWrapper&lt;E&gt;(list) {</a>
-<span class="sourceLineNo">1105</span><a id="line.1105">            @Override</a>
-<span class="sourceLineNo">1106</span><a id="line.1106">            public ListIterator&lt;E&gt; listIterator(int index) {</a>
-<span class="sourceLineNo">1107</span><a id="line.1107">              return backingList.listIterator(index);</a>
-<span class="sourceLineNo">1108</span><a id="line.1108">            }</a>
-<span class="sourceLineNo">1109</span><a id="line.1109"></a>
-<span class="sourceLineNo">1110</span><a id="line.1110">            @J2ktIncompatible private static final long serialVersionUID = 0;</a>
-<span class="sourceLineNo">1111</span><a id="line.1111">          };</a>
-<span class="sourceLineNo">1112</span><a id="line.1112">    } else {</a>
-<span class="sourceLineNo">1113</span><a id="line.1113">      wrapper =</a>
-<span class="sourceLineNo">1114</span><a id="line.1114">          new AbstractListWrapper&lt;E&gt;(list) {</a>
-<span class="sourceLineNo">1115</span><a id="line.1115">            @Override</a>
-<span class="sourceLineNo">1116</span><a id="line.1116">            public ListIterator&lt;E&gt; listIterator(int index) {</a>
-<span class="sourceLineNo">1117</span><a id="line.1117">              return backingList.listIterator(index);</a>
-<span class="sourceLineNo">1118</span><a id="line.1118">            }</a>
-<span class="sourceLineNo">1119</span><a id="line.1119"></a>
-<span class="sourceLineNo">1120</span><a id="line.1120">            @J2ktIncompatible private static final long serialVersionUID = 0;</a>
-<span class="sourceLineNo">1121</span><a id="line.1121">          };</a>
-<span class="sourceLineNo">1122</span><a id="line.1122">    }</a>
-<span class="sourceLineNo">1123</span><a id="line.1123">    return wrapper.subList(fromIndex, toIndex);</a>
-<span class="sourceLineNo">1124</span><a id="line.1124">  }</a>
-<span class="sourceLineNo">1125</span><a id="line.1125"></a>
-<span class="sourceLineNo">1126</span><a id="line.1126">  private static class AbstractListWrapper&lt;E extends @Nullable Object&gt; extends AbstractList&lt;E&gt; {</a>
-<span class="sourceLineNo">1127</span><a id="line.1127">    final List&lt;E&gt; backingList;</a>
+<span class="sourceLineNo">998</span><a id="line.998">    if (!(other instanceof List)) {</a>
+<span class="sourceLineNo">999</span><a id="line.999">      return false;</a>
+<span class="sourceLineNo">1000</span><a id="line.1000">    }</a>
+<span class="sourceLineNo">1001</span><a id="line.1001">    List&lt;?&gt; otherList = (List&lt;?&gt;) other;</a>
+<span class="sourceLineNo">1002</span><a id="line.1002">    int size = thisList.size();</a>
+<span class="sourceLineNo">1003</span><a id="line.1003">    if (size != otherList.size()) {</a>
+<span class="sourceLineNo">1004</span><a id="line.1004">      return false;</a>
+<span class="sourceLineNo">1005</span><a id="line.1005">    }</a>
+<span class="sourceLineNo">1006</span><a id="line.1006">    if (thisList instanceof RandomAccess &amp;&amp; otherList instanceof RandomAccess) {</a>
+<span class="sourceLineNo">1007</span><a id="line.1007">      // avoid allocation and use the faster loop</a>
+<span class="sourceLineNo">1008</span><a id="line.1008">      for (int i = 0; i &lt; size; i++) {</a>
+<span class="sourceLineNo">1009</span><a id="line.1009">        if (!Objects.equal(thisList.get(i), otherList.get(i))) {</a>
+<span class="sourceLineNo">1010</span><a id="line.1010">          return false;</a>
+<span class="sourceLineNo">1011</span><a id="line.1011">        }</a>
+<span class="sourceLineNo">1012</span><a id="line.1012">      }</a>
+<span class="sourceLineNo">1013</span><a id="line.1013">      return true;</a>
+<span class="sourceLineNo">1014</span><a id="line.1014">    } else {</a>
+<span class="sourceLineNo">1015</span><a id="line.1015">      return Iterators.elementsEqual(thisList.iterator(), otherList.iterator());</a>
+<span class="sourceLineNo">1016</span><a id="line.1016">    }</a>
+<span class="sourceLineNo">1017</span><a id="line.1017">  }</a>
+<span class="sourceLineNo">1018</span><a id="line.1018"></a>
+<span class="sourceLineNo">1019</span><a id="line.1019">  /** An implementation of {@link List#addAll(int, Collection)}. */</a>
+<span class="sourceLineNo">1020</span><a id="line.1020">  static &lt;E extends @Nullable Object&gt; boolean addAllImpl(</a>
+<span class="sourceLineNo">1021</span><a id="line.1021">      List&lt;E&gt; list, int index, Iterable&lt;? extends E&gt; elements) {</a>
+<span class="sourceLineNo">1022</span><a id="line.1022">    boolean changed = false;</a>
+<span class="sourceLineNo">1023</span><a id="line.1023">    ListIterator&lt;E&gt; listIterator = list.listIterator(index);</a>
+<span class="sourceLineNo">1024</span><a id="line.1024">    for (E e : elements) {</a>
+<span class="sourceLineNo">1025</span><a id="line.1025">      listIterator.add(e);</a>
+<span class="sourceLineNo">1026</span><a id="line.1026">      changed = true;</a>
+<span class="sourceLineNo">1027</span><a id="line.1027">    }</a>
+<span class="sourceLineNo">1028</span><a id="line.1028">    return changed;</a>
+<span class="sourceLineNo">1029</span><a id="line.1029">  }</a>
+<span class="sourceLineNo">1030</span><a id="line.1030"></a>
+<span class="sourceLineNo">1031</span><a id="line.1031">  /** An implementation of {@link List#indexOf(Object)}. */</a>
+<span class="sourceLineNo">1032</span><a id="line.1032">  static int indexOfImpl(List&lt;?&gt; list, @CheckForNull Object element) {</a>
+<span class="sourceLineNo">1033</span><a id="line.1033">    if (list instanceof RandomAccess) {</a>
+<span class="sourceLineNo">1034</span><a id="line.1034">      return indexOfRandomAccess(list, element);</a>
+<span class="sourceLineNo">1035</span><a id="line.1035">    } else {</a>
+<span class="sourceLineNo">1036</span><a id="line.1036">      ListIterator&lt;?&gt; listIterator = list.listIterator();</a>
+<span class="sourceLineNo">1037</span><a id="line.1037">      while (listIterator.hasNext()) {</a>
+<span class="sourceLineNo">1038</span><a id="line.1038">        if (Objects.equal(element, listIterator.next())) {</a>
+<span class="sourceLineNo">1039</span><a id="line.1039">          return listIterator.previousIndex();</a>
+<span class="sourceLineNo">1040</span><a id="line.1040">        }</a>
+<span class="sourceLineNo">1041</span><a id="line.1041">      }</a>
+<span class="sourceLineNo">1042</span><a id="line.1042">      return -1;</a>
+<span class="sourceLineNo">1043</span><a id="line.1043">    }</a>
+<span class="sourceLineNo">1044</span><a id="line.1044">  }</a>
+<span class="sourceLineNo">1045</span><a id="line.1045"></a>
+<span class="sourceLineNo">1046</span><a id="line.1046">  private static int indexOfRandomAccess(List&lt;?&gt; list, @CheckForNull Object element) {</a>
+<span class="sourceLineNo">1047</span><a id="line.1047">    int size = list.size();</a>
+<span class="sourceLineNo">1048</span><a id="line.1048">    if (element == null) {</a>
+<span class="sourceLineNo">1049</span><a id="line.1049">      for (int i = 0; i &lt; size; i++) {</a>
+<span class="sourceLineNo">1050</span><a id="line.1050">        if (list.get(i) == null) {</a>
+<span class="sourceLineNo">1051</span><a id="line.1051">          return i;</a>
+<span class="sourceLineNo">1052</span><a id="line.1052">        }</a>
+<span class="sourceLineNo">1053</span><a id="line.1053">      }</a>
+<span class="sourceLineNo">1054</span><a id="line.1054">    } else {</a>
+<span class="sourceLineNo">1055</span><a id="line.1055">      for (int i = 0; i &lt; size; i++) {</a>
+<span class="sourceLineNo">1056</span><a id="line.1056">        if (element.equals(list.get(i))) {</a>
+<span class="sourceLineNo">1057</span><a id="line.1057">          return i;</a>
+<span class="sourceLineNo">1058</span><a id="line.1058">        }</a>
+<span class="sourceLineNo">1059</span><a id="line.1059">      }</a>
+<span class="sourceLineNo">1060</span><a id="line.1060">    }</a>
+<span class="sourceLineNo">1061</span><a id="line.1061">    return -1;</a>
+<span class="sourceLineNo">1062</span><a id="line.1062">  }</a>
+<span class="sourceLineNo">1063</span><a id="line.1063"></a>
+<span class="sourceLineNo">1064</span><a id="line.1064">  /** An implementation of {@link List#lastIndexOf(Object)}. */</a>
+<span class="sourceLineNo">1065</span><a id="line.1065">  static int lastIndexOfImpl(List&lt;?&gt; list, @CheckForNull Object element) {</a>
+<span class="sourceLineNo">1066</span><a id="line.1066">    if (list instanceof RandomAccess) {</a>
+<span class="sourceLineNo">1067</span><a id="line.1067">      return lastIndexOfRandomAccess(list, element);</a>
+<span class="sourceLineNo">1068</span><a id="line.1068">    } else {</a>
+<span class="sourceLineNo">1069</span><a id="line.1069">      ListIterator&lt;?&gt; listIterator = list.listIterator(list.size());</a>
+<span class="sourceLineNo">1070</span><a id="line.1070">      while (listIterator.hasPrevious()) {</a>
+<span class="sourceLineNo">1071</span><a id="line.1071">        if (Objects.equal(element, listIterator.previous())) {</a>
+<span class="sourceLineNo">1072</span><a id="line.1072">          return listIterator.nextIndex();</a>
+<span class="sourceLineNo">1073</span><a id="line.1073">        }</a>
+<span class="sourceLineNo">1074</span><a id="line.1074">      }</a>
+<span class="sourceLineNo">1075</span><a id="line.1075">      return -1;</a>
+<span class="sourceLineNo">1076</span><a id="line.1076">    }</a>
+<span class="sourceLineNo">1077</span><a id="line.1077">  }</a>
+<span class="sourceLineNo">1078</span><a id="line.1078"></a>
+<span class="sourceLineNo">1079</span><a id="line.1079">  private static int lastIndexOfRandomAccess(List&lt;?&gt; list, @CheckForNull Object element) {</a>
+<span class="sourceLineNo">1080</span><a id="line.1080">    if (element == null) {</a>
+<span class="sourceLineNo">1081</span><a id="line.1081">      for (int i = list.size() - 1; i &gt;= 0; i--) {</a>
+<span class="sourceLineNo">1082</span><a id="line.1082">        if (list.get(i) == null) {</a>
+<span class="sourceLineNo">1083</span><a id="line.1083">          return i;</a>
+<span class="sourceLineNo">1084</span><a id="line.1084">        }</a>
+<span class="sourceLineNo">1085</span><a id="line.1085">      }</a>
+<span class="sourceLineNo">1086</span><a id="line.1086">    } else {</a>
+<span class="sourceLineNo">1087</span><a id="line.1087">      for (int i = list.size() - 1; i &gt;= 0; i--) {</a>
+<span class="sourceLineNo">1088</span><a id="line.1088">        if (element.equals(list.get(i))) {</a>
+<span class="sourceLineNo">1089</span><a id="line.1089">          return i;</a>
+<span class="sourceLineNo">1090</span><a id="line.1090">        }</a>
+<span class="sourceLineNo">1091</span><a id="line.1091">      }</a>
+<span class="sourceLineNo">1092</span><a id="line.1092">    }</a>
+<span class="sourceLineNo">1093</span><a id="line.1093">    return -1;</a>
+<span class="sourceLineNo">1094</span><a id="line.1094">  }</a>
+<span class="sourceLineNo">1095</span><a id="line.1095"></a>
+<span class="sourceLineNo">1096</span><a id="line.1096">  /** Returns an implementation of {@link List#listIterator(int)}. */</a>
+<span class="sourceLineNo">1097</span><a id="line.1097">  static &lt;E extends @Nullable Object&gt; ListIterator&lt;E&gt; listIteratorImpl(List&lt;E&gt; list, int index) {</a>
+<span class="sourceLineNo">1098</span><a id="line.1098">    return new AbstractListWrapper&lt;&gt;(list).listIterator(index);</a>
+<span class="sourceLineNo">1099</span><a id="line.1099">  }</a>
+<span class="sourceLineNo">1100</span><a id="line.1100"></a>
+<span class="sourceLineNo">1101</span><a id="line.1101">  /** An implementation of {@link List#subList(int, int)}. */</a>
+<span class="sourceLineNo">1102</span><a id="line.1102">  static &lt;E extends @Nullable Object&gt; List&lt;E&gt; subListImpl(</a>
+<span class="sourceLineNo">1103</span><a id="line.1103">      final List&lt;E&gt; list, int fromIndex, int toIndex) {</a>
+<span class="sourceLineNo">1104</span><a id="line.1104">    List&lt;E&gt; wrapper;</a>
+<span class="sourceLineNo">1105</span><a id="line.1105">    if (list instanceof RandomAccess) {</a>
+<span class="sourceLineNo">1106</span><a id="line.1106">      wrapper =</a>
+<span class="sourceLineNo">1107</span><a id="line.1107">          new RandomAccessListWrapper&lt;E&gt;(list) {</a>
+<span class="sourceLineNo">1108</span><a id="line.1108">            @Override</a>
+<span class="sourceLineNo">1109</span><a id="line.1109">            public ListIterator&lt;E&gt; listIterator(int index) {</a>
+<span class="sourceLineNo">1110</span><a id="line.1110">              return backingList.listIterator(index);</a>
+<span class="sourceLineNo">1111</span><a id="line.1111">            }</a>
+<span class="sourceLineNo">1112</span><a id="line.1112"></a>
+<span class="sourceLineNo">1113</span><a id="line.1113">            @J2ktIncompatible private static final long serialVersionUID = 0;</a>
+<span class="sourceLineNo">1114</span><a id="line.1114">          };</a>
+<span class="sourceLineNo">1115</span><a id="line.1115">    } else {</a>
+<span class="sourceLineNo">1116</span><a id="line.1116">      wrapper =</a>
+<span class="sourceLineNo">1117</span><a id="line.1117">          new AbstractListWrapper&lt;E&gt;(list) {</a>
+<span class="sourceLineNo">1118</span><a id="line.1118">            @Override</a>
+<span class="sourceLineNo">1119</span><a id="line.1119">            public ListIterator&lt;E&gt; listIterator(int index) {</a>
+<span class="sourceLineNo">1120</span><a id="line.1120">              return backingList.listIterator(index);</a>
+<span class="sourceLineNo">1121</span><a id="line.1121">            }</a>
+<span class="sourceLineNo">1122</span><a id="line.1122"></a>
+<span class="sourceLineNo">1123</span><a id="line.1123">            @J2ktIncompatible private static final long serialVersionUID = 0;</a>
+<span class="sourceLineNo">1124</span><a id="line.1124">          };</a>
+<span class="sourceLineNo">1125</span><a id="line.1125">    }</a>
+<span class="sourceLineNo">1126</span><a id="line.1126">    return wrapper.subList(fromIndex, toIndex);</a>
+<span class="sourceLineNo">1127</span><a id="line.1127">  }</a>
 <span class="sourceLineNo">1128</span><a id="line.1128"></a>
-<span class="sourceLineNo">1129</span><a id="line.1129">    AbstractListWrapper(List&lt;E&gt; backingList) {</a>
-<span class="sourceLineNo">1130</span><a id="line.1130">      this.backingList = checkNotNull(backingList);</a>
-<span class="sourceLineNo">1131</span><a id="line.1131">    }</a>
-<span class="sourceLineNo">1132</span><a id="line.1132"></a>
-<span class="sourceLineNo">1133</span><a id="line.1133">    @Override</a>
-<span class="sourceLineNo">1134</span><a id="line.1134">    public void add(int index, @ParametricNullness E element) {</a>
-<span class="sourceLineNo">1135</span><a id="line.1135">      backingList.add(index, element);</a>
-<span class="sourceLineNo">1136</span><a id="line.1136">    }</a>
-<span class="sourceLineNo">1137</span><a id="line.1137"></a>
-<span class="sourceLineNo">1138</span><a id="line.1138">    @Override</a>
-<span class="sourceLineNo">1139</span><a id="line.1139">    public boolean addAll(int index, Collection&lt;? extends E&gt; c) {</a>
-<span class="sourceLineNo">1140</span><a id="line.1140">      return backingList.addAll(index, c);</a>
-<span class="sourceLineNo">1141</span><a id="line.1141">    }</a>
-<span class="sourceLineNo">1142</span><a id="line.1142"></a>
-<span class="sourceLineNo">1143</span><a id="line.1143">    @Override</a>
-<span class="sourceLineNo">1144</span><a id="line.1144">    @ParametricNullness</a>
-<span class="sourceLineNo">1145</span><a id="line.1145">    public E get(int index) {</a>
-<span class="sourceLineNo">1146</span><a id="line.1146">      return backingList.get(index);</a>
-<span class="sourceLineNo">1147</span><a id="line.1147">    }</a>
-<span class="sourceLineNo">1148</span><a id="line.1148"></a>
-<span class="sourceLineNo">1149</span><a id="line.1149">    @Override</a>
-<span class="sourceLineNo">1150</span><a id="line.1150">    @ParametricNullness</a>
-<span class="sourceLineNo">1151</span><a id="line.1151">    public E remove(int index) {</a>
-<span class="sourceLineNo">1152</span><a id="line.1152">      return backingList.remove(index);</a>
-<span class="sourceLineNo">1153</span><a id="line.1153">    }</a>
-<span class="sourceLineNo">1154</span><a id="line.1154"></a>
-<span class="sourceLineNo">1155</span><a id="line.1155">    @Override</a>
-<span class="sourceLineNo">1156</span><a id="line.1156">    @ParametricNullness</a>
-<span class="sourceLineNo">1157</span><a id="line.1157">    public E set(int index, @ParametricNullness E element) {</a>
-<span class="sourceLineNo">1158</span><a id="line.1158">      return backingList.set(index, element);</a>
-<span class="sourceLineNo">1159</span><a id="line.1159">    }</a>
-<span class="sourceLineNo">1160</span><a id="line.1160"></a>
-<span class="sourceLineNo">1161</span><a id="line.1161">    @Override</a>
-<span class="sourceLineNo">1162</span><a id="line.1162">    public boolean contains(@CheckForNull Object o) {</a>
-<span class="sourceLineNo">1163</span><a id="line.1163">      return backingList.contains(o);</a>
-<span class="sourceLineNo">1164</span><a id="line.1164">    }</a>
-<span class="sourceLineNo">1165</span><a id="line.1165"></a>
-<span class="sourceLineNo">1166</span><a id="line.1166">    @Override</a>
-<span class="sourceLineNo">1167</span><a id="line.1167">    public int size() {</a>
-<span class="sourceLineNo">1168</span><a id="line.1168">      return backingList.size();</a>
-<span class="sourceLineNo">1169</span><a id="line.1169">    }</a>
-<span class="sourceLineNo">1170</span><a id="line.1170">  }</a>
-<span class="sourceLineNo">1171</span><a id="line.1171"></a>
-<span class="sourceLineNo">1172</span><a id="line.1172">  private static class RandomAccessListWrapper&lt;E extends @Nullable Object&gt;</a>
-<span class="sourceLineNo">1173</span><a id="line.1173">      extends AbstractListWrapper&lt;E&gt; implements RandomAccess {</a>
-<span class="sourceLineNo">1174</span><a id="line.1174">    RandomAccessListWrapper(List&lt;E&gt; backingList) {</a>
-<span class="sourceLineNo">1175</span><a id="line.1175">      super(backingList);</a>
-<span class="sourceLineNo">1176</span><a id="line.1176">    }</a>
-<span class="sourceLineNo">1177</span><a id="line.1177">  }</a>
-<span class="sourceLineNo">1178</span><a id="line.1178"></a>
-<span class="sourceLineNo">1179</span><a id="line.1179">  /** Used to avoid http://bugs.sun.com/view_bug.do?bug_id=6558557 */</a>
-<span class="sourceLineNo">1180</span><a id="line.1180">  static &lt;T extends @Nullable Object&gt; List&lt;T&gt; cast(Iterable&lt;T&gt; iterable) {</a>
-<span class="sourceLineNo">1181</span><a id="line.1181">    return (List&lt;T&gt;) iterable;</a>
-<span class="sourceLineNo">1182</span><a id="line.1182">  }</a>
-<span class="sourceLineNo">1183</span><a id="line.1183">}</a>
+<span class="sourceLineNo">1129</span><a id="line.1129">  private static class AbstractListWrapper&lt;E extends @Nullable Object&gt; extends AbstractList&lt;E&gt; {</a>
+<span class="sourceLineNo">1130</span><a id="line.1130">    final List&lt;E&gt; backingList;</a>
+<span class="sourceLineNo">1131</span><a id="line.1131"></a>
+<span class="sourceLineNo">1132</span><a id="line.1132">    AbstractListWrapper(List&lt;E&gt; backingList) {</a>
+<span class="sourceLineNo">1133</span><a id="line.1133">      this.backingList = checkNotNull(backingList);</a>
+<span class="sourceLineNo">1134</span><a id="line.1134">    }</a>
+<span class="sourceLineNo">1135</span><a id="line.1135"></a>
+<span class="sourceLineNo">1136</span><a id="line.1136">    @Override</a>
+<span class="sourceLineNo">1137</span><a id="line.1137">    public void add(int index, @ParametricNullness E element) {</a>
+<span class="sourceLineNo">1138</span><a id="line.1138">      backingList.add(index, element);</a>
+<span class="sourceLineNo">1139</span><a id="line.1139">    }</a>
+<span class="sourceLineNo">1140</span><a id="line.1140"></a>
+<span class="sourceLineNo">1141</span><a id="line.1141">    @Override</a>
+<span class="sourceLineNo">1142</span><a id="line.1142">    public boolean addAll(int index, Collection&lt;? extends E&gt; c) {</a>
+<span class="sourceLineNo">1143</span><a id="line.1143">      return backingList.addAll(index, c);</a>
+<span class="sourceLineNo">1144</span><a id="line.1144">    }</a>
+<span class="sourceLineNo">1145</span><a id="line.1145"></a>
+<span class="sourceLineNo">1146</span><a id="line.1146">    @Override</a>
+<span class="sourceLineNo">1147</span><a id="line.1147">    @ParametricNullness</a>
+<span class="sourceLineNo">1148</span><a id="line.1148">    public E get(int index) {</a>
+<span class="sourceLineNo">1149</span><a id="line.1149">      return backingList.get(index);</a>
+<span class="sourceLineNo">1150</span><a id="line.1150">    }</a>
+<span class="sourceLineNo">1151</span><a id="line.1151"></a>
+<span class="sourceLineNo">1152</span><a id="line.1152">    @Override</a>
+<span class="sourceLineNo">1153</span><a id="line.1153">    @ParametricNullness</a>
+<span class="sourceLineNo">1154</span><a id="line.1154">    public E remove(int index) {</a>
+<span class="sourceLineNo">1155</span><a id="line.1155">      return backingList.remove(index);</a>
+<span class="sourceLineNo">1156</span><a id="line.1156">    }</a>
+<span class="sourceLineNo">1157</span><a id="line.1157"></a>
+<span class="sourceLineNo">1158</span><a id="line.1158">    @Override</a>
+<span class="sourceLineNo">1159</span><a id="line.1159">    @ParametricNullness</a>
+<span class="sourceLineNo">1160</span><a id="line.1160">    public E set(int index, @ParametricNullness E element) {</a>
+<span class="sourceLineNo">1161</span><a id="line.1161">      return backingList.set(index, element);</a>
+<span class="sourceLineNo">1162</span><a id="line.1162">    }</a>
+<span class="sourceLineNo">1163</span><a id="line.1163"></a>
+<span class="sourceLineNo">1164</span><a id="line.1164">    @Override</a>
+<span class="sourceLineNo">1165</span><a id="line.1165">    public boolean contains(@CheckForNull Object o) {</a>
+<span class="sourceLineNo">1166</span><a id="line.1166">      return backingList.contains(o);</a>
+<span class="sourceLineNo">1167</span><a id="line.1167">    }</a>
+<span class="sourceLineNo">1168</span><a id="line.1168"></a>
+<span class="sourceLineNo">1169</span><a id="line.1169">    @Override</a>
+<span class="sourceLineNo">1170</span><a id="line.1170">    public int size() {</a>
+<span class="sourceLineNo">1171</span><a id="line.1171">      return backingList.size();</a>
+<span class="sourceLineNo">1172</span><a id="line.1172">    }</a>
+<span class="sourceLineNo">1173</span><a id="line.1173">  }</a>
+<span class="sourceLineNo">1174</span><a id="line.1174"></a>
+<span class="sourceLineNo">1175</span><a id="line.1175">  private static class RandomAccessListWrapper&lt;E extends @Nullable Object&gt;</a>
+<span class="sourceLineNo">1176</span><a id="line.1176">      extends AbstractListWrapper&lt;E&gt; implements RandomAccess {</a>
+<span class="sourceLineNo">1177</span><a id="line.1177">    RandomAccessListWrapper(List&lt;E&gt; backingList) {</a>
+<span class="sourceLineNo">1178</span><a id="line.1178">      super(backingList);</a>
+<span class="sourceLineNo">1179</span><a id="line.1179">    }</a>
+<span class="sourceLineNo">1180</span><a id="line.1180">  }</a>
+<span class="sourceLineNo">1181</span><a id="line.1181"></a>
+<span class="sourceLineNo">1182</span><a id="line.1182">  /** Used to avoid http://bugs.sun.com/view_bug.do?bug_id=6558557 */</a>
+<span class="sourceLineNo">1183</span><a id="line.1183">  static &lt;T extends @Nullable Object&gt; List&lt;T&gt; cast(Iterable&lt;T&gt; iterable) {</a>
+<span class="sourceLineNo">1184</span><a id="line.1184">    return (List&lt;T&gt;) iterable;</a>
+<span class="sourceLineNo">1185</span><a id="line.1185">  }</a>
+<span class="sourceLineNo">1186</span><a id="line.1186">}</a>
 
 
 
