@@ -528,7 +528,39 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, @Nullable V>
     return set(rowIndex, columnIndex, null);
   }
 
-  // TODO(jlevy): Add eraseRow and eraseColumn methods?
+  /**
+   * Associates the value {@code null} with the entire row for the specified key, assuming key is valid. If
+   * key is null or isn't among the keys provided during construction, this method has no effect.
+   *
+   * @param rowKey row key of row to be erased
+   * @since NEXT
+   */
+  public void eraseRow(@NullableDecl Object rowKey) {
+    Integer rowIndex = rowKeyToIndex.get(rowKey);
+    if (rowIndex == null) {
+      return;
+    }
+    checkElementIndex(rowIndex, rowList.size());
+    Arrays.fill(array[rowIndex], null);
+  }
+
+  /**
+   * Associates the value {@code null} with the entire column for the specified key, assuming key is valid. If
+   * key is null or isn't among the keys provided during construction, this method has no effect.
+   *
+   * @param columnKey column key of column to be erased
+   * @since NEXT
+   */
+  public void eraseColumn(@NullableDecl Object columnKey) {
+    Integer columnIndex = columnKeyToIndex.get(columnKey);
+    if (columnIndex == null) {
+      return;
+    }
+    checkElementIndex(columnIndex, columnList.size());
+    for (int i = 0; i < rowList.size(); i++) {
+      set(i, columnIndex, null);
+    }
+  }
 
   @Override
   public int size() {

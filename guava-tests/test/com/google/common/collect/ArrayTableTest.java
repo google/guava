@@ -220,7 +220,7 @@ public class ArrayTableTest extends AbstractTableTest {
 
   public void testCreateEmptyRowsXColumns() {
     ArrayTable<String, String, Character> table =
-        ArrayTable.create(Arrays.<String>asList(), Arrays.<String>asList());
+        ArrayTable.create(Arrays.asList(), Arrays.asList());
     assertThat(table).isEmpty();
     assertThat(table).hasSize(0);
     assertThat(table.columnKeyList()).isEmpty();
@@ -237,7 +237,7 @@ public class ArrayTableTest extends AbstractTableTest {
   @GwtIncompatible // toArray
   public void testEmptyToArry() {
     ArrayTable<String, String, Character> table =
-        ArrayTable.create(Arrays.<String>asList(), Arrays.<String>asList());
+        ArrayTable.create(Arrays.asList(), Arrays.asList());
     assertThat(table.toArray(Character.class)).asList().isEmpty();
   }
 
@@ -282,7 +282,7 @@ public class ArrayTableTest extends AbstractTableTest {
 
   public void testCreateCopyEmptyArrayTable() {
     Table<String, Integer, Character> original =
-        ArrayTable.create(Arrays.<String>asList(), Arrays.<Integer>asList());
+        ArrayTable.create(Arrays.asList(), Arrays.asList());
     ArrayTable<String, Integer, Character> copy = ArrayTable.create(original);
     assertThat(copy).isEqualTo(original);
     assertThat(copy).isEmpty();
@@ -454,6 +454,54 @@ public class ArrayTableTest extends AbstractTableTest {
     assertNull(table.erase("bar", 5));
     assertNull(table.erase(null, 1));
     assertNull(table.erase("bar", null));
+  }
+
+  public void testEraseRow() {
+    ArrayTable<String, Integer, Character> table =
+            create("foo", 1, 'a', "foo", 2, 'b', "foo", 3, 'c', "bar", 1, 'd', "bar", 2, 'e', "bar", 3, 'f');
+    assertEquals((Character) 'a', table.get("foo", 1));
+    assertEquals((Character) 'b', table.get("foo", 2));
+    assertEquals((Character) 'c', table.get("foo", 3));
+    table.eraseRow("foo");
+    assertNull(table.get("foo", 1));
+    assertNull(table.get("foo", 2));
+    assertNull(table.get("foo", 3));
+    assertTrue(table.containsRow("foo"));
+    assertEquals(9, table.size());
+    assertEquals((Character) 'd', table.get("bar", 1));
+    assertEquals((Character) 'e', table.get("bar", 2));
+    assertEquals((Character) 'f', table.get("bar", 3));
+    table.eraseRow("bar");
+    assertNull(table.get("bar", 1));
+    assertNull(table.get("bar", 2));
+    assertNull(table.get("bar", 3));
+    assertEquals(9, table.size());
+  }
+
+  public void testEraseColumn() {
+      ArrayTable<String, Integer, Character> table =
+              create("foo", 1, 'a', "foo", 2, 'b', "foo", 3, 'c', "bar", 1, 'd', "bar", 2, 'e', "bar", 3, 'f');
+    assertEquals((Character) 'a', table.get("foo", 1));
+    assertEquals((Character) 'd', table.get("bar", 1));
+    table.eraseColumn(1);
+    assertNull(table.get("foo", 1));
+    assertNull(table.get("bar", 1));
+    assertTrue(table.containsColumn(1));
+    assertEquals(9, table.size());
+    assertEquals((Character) 'b', table.get("foo", 2));
+    assertEquals((Character) 'e', table.get("bar", 2));
+    table.eraseColumn(2);
+    assertNull(table.get("foo", 2));
+    assertNull(table.get("bar", 2));
+    assertTrue(table.containsColumn(2));
+    assertEquals(9, table.size());
+    assertEquals((Character) 'c', table.get("foo", 3));
+    assertEquals((Character) 'f', table.get("bar", 3));
+    table.eraseColumn(3);
+    assertNull(table.get("foo", 3));
+    assertNull(table.get("bar", 3));
+    assertTrue(table.containsColumn(3));
+    assertEquals(9, table.size());
   }
 
   @GwtIncompatible // ArrayTable.toArray(Class)
