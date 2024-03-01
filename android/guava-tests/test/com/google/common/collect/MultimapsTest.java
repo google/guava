@@ -922,7 +922,13 @@ public class MultimapsTest extends TestCase {
     assertEquals("{a=[a1, a4, a4], b=[b6]}", transformed.toString());
   }
 
-  public <K, V> void testSynchronizedMultimapSampleCodeCompilation() {
+  public void testSynchronizedMultimapSampleCodeCompilation() {
+    // Extra indirection for J2KT, to avoid error: not enough information to infer type variable K
+    this.<@Nullable Object, @Nullable Object>genericTestSynchronizedMultimapSampleCodeCompilation();
+  }
+
+  private <K extends @Nullable Object, V extends @Nullable Object>
+      void genericTestSynchronizedMultimapSampleCodeCompilation() {
     K key = null;
 
     Multimap<K, V> multimap = Multimaps.synchronizedMultimap(HashMultimap.<K, V>create());
@@ -935,7 +941,7 @@ public class MultimapsTest extends TestCase {
     }
   }
 
-  private static void foo(Object o) {}
+  private static void foo(Object unused) {}
 
   public void testFilteredKeysSetMultimapReplaceValues() {
     SetMultimap<String, Integer> multimap = LinkedHashMultimap.create();

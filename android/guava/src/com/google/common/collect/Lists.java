@@ -566,6 +566,11 @@ public final class Lists {
     }
 
     @Override
+    public boolean isEmpty() {
+      return fromList.isEmpty();
+    }
+
+    @Override
     public ListIterator<T> listIterator(final int index) {
       return new TransformedListIterator<F, T>(fromList.listIterator(index)) {
         @Override
@@ -626,8 +631,6 @@ public final class Lists {
         }
       };
     }
-
-    // TODO: cpovirk - Why override `isEmpty` here but not in TransformingSequentialList?
 
     @Override
     public boolean isEmpty() {

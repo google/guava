@@ -624,7 +624,6 @@ public class DoublesTest extends TestCase {
     }
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // Doubles.tryParse
   private static void checkTryParse(String input) {
     Double expected = referenceTryParse(input);
@@ -643,7 +642,6 @@ public class DoublesTest extends TestCase {
     }
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // Doubles.tryParse
   private static void checkTryParse(double expected, String input) {
     assertThat(Doubles.tryParse(input)).isEqualTo(Double.valueOf(expected));
@@ -653,7 +651,6 @@ public class DoublesTest extends TestCase {
                 Doubles.FLOATING_POINT_PATTERN.pattern(), Doubles.FLOATING_POINT_PATTERN.flags()));
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // Doubles.tryParse
   public void testTryParseHex() {
     for (String signChar : ImmutableList.of("", "+", "-")) {
@@ -675,7 +672,6 @@ public class DoublesTest extends TestCase {
   }
 
   @AndroidIncompatible // slow
-  @J2ktIncompatible
   @GwtIncompatible // Doubles.tryParse
   public void testTryParseAllCodePoints() {
     // Exercise non-ASCII digit test cases and the like.
@@ -686,7 +682,6 @@ public class DoublesTest extends TestCase {
     }
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // Doubles.tryParse
   public void testTryParseOfToStringIsOriginal() {
     for (double d : NUMBERS) {
@@ -694,7 +689,7 @@ public class DoublesTest extends TestCase {
     }
   }
 
-  @J2ktIncompatible
+  @J2ktIncompatible // hexadecimal doubles
   @GwtIncompatible // Doubles.tryParse
   public void testTryParseOfToHexStringIsOriginal() {
     for (double d : NUMBERS) {
@@ -702,7 +697,6 @@ public class DoublesTest extends TestCase {
     }
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // Doubles.tryParse
   public void testTryParseNaN() {
     checkTryParse("NaN");
@@ -710,7 +704,6 @@ public class DoublesTest extends TestCase {
     checkTryParse("-NaN");
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // Doubles.tryParse
   public void testTryParseInfinity() {
     checkTryParse(Double.POSITIVE_INFINITY, "Infinity");
@@ -735,7 +728,6 @@ public class DoublesTest extends TestCase {
     "InfinityF"
   };
 
-  @J2ktIncompatible
   @GwtIncompatible // Doubles.tryParse
   public void testTryParseFailures() {
     for (String badInput : BAD_TRY_PARSE_INPUTS) {
@@ -797,7 +789,6 @@ public class DoublesTest extends TestCase {
     tester.testAllPublicInstanceMethods(Doubles.stringConverter());
   }
 
-  @J2ktIncompatible
   @GwtIncompatible
   public void testTryParse_withNullNoGwt() {
     assertThat(Doubles.tryParse("null")).isNull();

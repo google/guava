@@ -1735,15 +1735,15 @@ public final class Maps {
       throw new UnsupportedOperationException();
     }
 
-    /*
-     * TODO(cpovirk): Uncomment the @NonNull annotations below once our JDK stubs and J2KT
-     * emulations include them.
-     */
     @Override
     @CheckForNull
+    /*
+     * Our checker arguably should produce a nullness error here until we see @NonNull in JDK APIs.
+     * But it doesn't, which may be a sign that we still permit parameter contravariance in some
+     * cases?
+     */
     public V computeIfPresent(
-        K key,
-        BiFunction<? super K, ? super /*@NonNull*/ V, ? extends @Nullable V> remappingFunction) {
+        K key, BiFunction<? super K, ? super @NonNull V, ? extends @Nullable V> remappingFunction) {
       throw new UnsupportedOperationException();
     }
 
@@ -1757,11 +1757,11 @@ public final class Maps {
 
     @Override
     @CheckForNull
+    @SuppressWarnings("nullness") // TODO(b/262880368): Remove once we see @NonNull in JDK APIs
     public V merge(
         K key,
-        /*@NonNull*/ V value,
-        BiFunction<? super /*@NonNull*/ V, ? super /*@NonNull*/ V, ? extends @Nullable V>
-            function) {
+        @NonNull V value,
+        BiFunction<? super @NonNull V, ? super @NonNull V, ? extends @Nullable V> function) {
       throw new UnsupportedOperationException();
     }
 
@@ -3659,9 +3659,13 @@ public final class Maps {
      */
     @Override
     @CheckForNull
+    /*
+     * Our checker arguably should produce a nullness error here until we see @NonNull in JDK APIs.
+     * But it doesn't, which may be a sign that we still permit parameter contravariance in some
+     * cases?
+     */
     public V computeIfPresent(
-        K key,
-        BiFunction<? super K, ? super /*@NonNull*/ V, ? extends @Nullable V> remappingFunction) {
+        K key, BiFunction<? super K, ? super @NonNull V, ? extends @Nullable V> remappingFunction) {
       throw new UnsupportedOperationException();
     }
 
@@ -3675,11 +3679,11 @@ public final class Maps {
 
     @Override
     @CheckForNull
+    @SuppressWarnings("nullness") // TODO(b/262880368): Remove once we see @NonNull in JDK APIs
     public V merge(
         K key,
-        /*@NonNull*/ V value,
-        BiFunction<? super /*@NonNull*/ V, ? super /*@NonNull*/ V, ? extends @Nullable V>
-            function) {
+        @NonNull V value,
+        BiFunction<? super @NonNull V, ? super @NonNull V, ? extends @Nullable V> function) {
       throw new UnsupportedOperationException();
     }
 

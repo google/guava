@@ -748,6 +748,16 @@ public class ListsTest extends TestCase {
     assertFalse(list instanceof RandomAccess);
   }
 
+  public void testTransformRandomAccessIsNotEmpty() {
+    List<String> transformedList = Lists.transform(SOME_LIST, SOME_FUNCTION);
+    assertFalse(transformedList.isEmpty());
+  }
+
+  public void testTransformSequentialIsNotEmpty() {
+    List<String> transformedList = Lists.transform(SOME_SEQUENTIAL_LIST, SOME_FUNCTION);
+    assertFalse(transformedList.isEmpty());
+  }
+
   public void testTransformListIteratorRandomAccess() {
     List<Integer> fromList = Lists.newArrayList(SOME_LIST);
     List<String> list = Lists.transform(fromList, SOME_FUNCTION);

@@ -315,7 +315,6 @@ public class ShortsTest extends TestCase {
     assertThat(Shorts.join("", (short) 1, (short) 2, (short) 3)).isEqualTo("123");
   }
 
-  @J2ktIncompatible // TODO(b/285297472): Enable
   public void testLexicographicalComparator() {
     List<short[]> ordered =
         Arrays.asList(
