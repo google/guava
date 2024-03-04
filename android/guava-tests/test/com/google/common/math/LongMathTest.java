@@ -786,6 +786,7 @@ public class LongMathTest extends TestCase {
   }
 
 
+  @J2ktIncompatible // slow enough to cause flakiness
   @GwtIncompatible // far too slow
   public void testSqrtOfPerfectSquareAsDoubleIsPerfect() {
     // This takes just over a minute on my machine.
