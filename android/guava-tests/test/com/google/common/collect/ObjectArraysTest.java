@@ -150,7 +150,9 @@ public class ObjectArraysTest extends TestCase {
   private void doTestToArrayImpl2(List<Integer> list, Integer[] array1, boolean expectModify) {
     Integer[] starting = Arrays.copyOf(array1, array1.length);
     Integer[] array2 = Arrays.copyOf(array1, array1.length);
-    Object[] reference = list.toArray(array1);
+    // TODO b/283448200 - Remove temporary variable when Kotlin smartcast issue is resolved.
+    Integer[] array1Tmp = array1;
+    Object[] reference = list.toArray(array1Tmp);
 
     Object[] target = ObjectArrays.toArrayImpl(list, array2);
 
