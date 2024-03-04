@@ -338,7 +338,7 @@ public class MultimapsTest extends TestCase {
     return unmodifiable;
   }
 
-  private static <T> void assertUnmodifiableIterableInTandem(
+  private static <T extends @Nullable Object> void assertUnmodifiableIterableInTandem(
       Iterable<T> unmodifiable, Iterable<T> modifiable) {
     UnmodifiableCollectionTests.assertIteratorIsUnmodifiable(unmodifiable.iterator());
     UnmodifiableCollectionTests.assertIteratorsInOrder(
@@ -510,7 +510,7 @@ public class MultimapsTest extends TestCase {
     IteratorTester<Integer> tester =
         new IteratorTester<Integer>(
             4, MODIFIABLE, newHashSet(1), IteratorTester.KnownOrder.KNOWN_ORDER) {
-          private Multimap<String, Integer> multimap;
+          private @Nullable Multimap<String, Integer> multimap;
 
           @Override
           protected Iterator<Integer> newTargetIterator() {
@@ -809,9 +809,9 @@ public class MultimapsTest extends TestCase {
   }
 
   public void testIndex_nullValue() {
-    List<Integer> values = Arrays.asList(1, null);
+    List<@Nullable Integer> values = Arrays.asList(1, null);
     try {
-      Multimaps.index(values, Functions.identity());
+      Multimaps.index((List<Integer>) values, Functions.identity());
       fail();
     } catch (NullPointerException expected) {
     }

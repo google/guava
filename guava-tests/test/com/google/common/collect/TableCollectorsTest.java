@@ -260,7 +260,8 @@ public class TableCollectorsTest extends TestCase {
 
   // This function specifically returns a BiPredicate, because Guava7’s Equivalence class does not
   // actually implement BiPredicate, and CollectorTests expects a BiPredicate.
-  static <C, E, R extends Iterable<E>> BiPredicate<C, C> pairwiseOnResultOf(Function<C, R> arg) {
+  static <C, E extends @Nullable Object, R extends Iterable<E>>
+      BiPredicate<C, C> pairwiseOnResultOf(Function<C, R> arg) {
     Equivalence<C> equivalence = Equivalence.equals().<E>pairwise().onResultOf(arg);
     return equivalence::equivalent;
   }

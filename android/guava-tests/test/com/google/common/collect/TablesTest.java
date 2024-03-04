@@ -22,6 +22,7 @@ import com.google.common.collect.Table.Cell;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.SerializableTester;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Tests for {@link Tables}.
@@ -42,7 +43,8 @@ public class TablesTest extends TestCase {
     Cell<String, Integer, Character> entry = Tables.immutableCell("foo", 1, 'a');
     assertEquals("(foo,1)=a", entry.toString());
 
-    Cell<String, Integer, Character> nullEntry = Tables.immutableCell(null, null, null);
+    Cell<@Nullable String, @Nullable Integer, @Nullable Character> nullEntry =
+        Tables.immutableCell(null, null, null);
     assertEquals("(null,null)=null", nullEntry.toString());
   }
 
