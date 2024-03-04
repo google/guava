@@ -332,7 +332,7 @@ public class MultimapsTest extends TestCase {
    * multimap must support null keys and values.
    */
   private static void checkUnmodifiableMultimap(
-      Multimap<String, Integer> multimap, boolean permitsDuplicates) {
+      Multimap<@Nullable String, @Nullable Integer> multimap, boolean permitsDuplicates) {
     checkUnmodifiableMultimap(multimap, permitsDuplicates, null, null);
   }
 
@@ -342,7 +342,7 @@ public class MultimapsTest extends TestCase {
    * involving nulls.
    */
   private static void checkUnmodifiableMultimap(
-      Multimap<String, Integer> multimap,
+      Multimap<@Nullable String, @Nullable Integer> multimap,
       boolean permitsDuplicates,
       @Nullable String nullKey,
       @Nullable Integer nullValue) {
@@ -371,8 +371,8 @@ public class MultimapsTest extends TestCase {
   }
 
   /** Prepares the multimap for unmodifiable tests, returning an unmodifiable view of the map. */
-  private static Multimap<String, Integer> prepareUnmodifiableTests(
-      Multimap<String, Integer> multimap,
+  private static Multimap<@Nullable String, @Nullable Integer> prepareUnmodifiableTests(
+      Multimap<@Nullable String, @Nullable Integer> multimap,
       boolean permitsDuplicates,
       @Nullable String nullKey,
       @Nullable Integer nullValue) {
@@ -393,14 +393,19 @@ public class MultimapsTest extends TestCase {
       assertEquals(8, multimap.size());
     }
 
-    Multimap<String, Integer> unmodifiable;
+    Multimap<@Nullable String, @Nullable Integer> unmodifiable;
     if (multimap instanceof SortedSetMultimap) {
       unmodifiable =
-          Multimaps.unmodifiableSortedSetMultimap((SortedSetMultimap<String, Integer>) multimap);
+          Multimaps.unmodifiableSortedSetMultimap(
+              (SortedSetMultimap<@Nullable String, @Nullable Integer>) multimap);
     } else if (multimap instanceof SetMultimap) {
-      unmodifiable = Multimaps.unmodifiableSetMultimap((SetMultimap<String, Integer>) multimap);
+      unmodifiable =
+          Multimaps.unmodifiableSetMultimap(
+              (SetMultimap<@Nullable String, @Nullable Integer>) multimap);
     } else if (multimap instanceof ListMultimap) {
-      unmodifiable = Multimaps.unmodifiableListMultimap((ListMultimap<String, Integer>) multimap);
+      unmodifiable =
+          Multimaps.unmodifiableListMultimap(
+              (ListMultimap<@Nullable String, @Nullable Integer>) multimap);
     } else {
       unmodifiable = Multimaps.unmodifiableMultimap(multimap);
     }
