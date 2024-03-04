@@ -211,12 +211,13 @@ public class TableCollectorsTest extends TestCase {
   }
 
   public void testToTableNullValues() {
-    Collector<Cell<String, String, Integer>, ?, Table<String, String, Integer>> collector =
-        TableCollectors.toTable(
-            Cell::getRowKey,
-            Cell::getColumnKey,
-            Cell::getValue,
-            () -> ArrayTable.create(ImmutableList.of("one"), ImmutableList.of("uno")));
+    Collector<Cell<String, String, Integer>, ?, Table<String, String, @Nullable Integer>>
+        collector =
+            TableCollectors.toTable(
+                Cell::getRowKey,
+                Cell::getColumnKey,
+                Cell::getValue,
+                () -> ArrayTable.create(ImmutableList.of("one"), ImmutableList.of("uno")));
     try {
       Stream.of(immutableCell("one", "uno", (Integer) null)).collect(collector);
       fail("Expected NullPointerException");

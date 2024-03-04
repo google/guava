@@ -31,7 +31,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @GwtCompatible(emulated = true)
 @ElementTypesAreNonnullByDefault
-public class TablesTransformValuesTest extends AbstractTableTest {
+public class TablesTransformValuesTest extends AbstractTableTest<Character> {
 
   private static final Function<@Nullable String, @Nullable Character> FIRST_CHARACTER =
       new Function<@Nullable String, @Nullable Character>() {
@@ -42,7 +42,7 @@ public class TablesTransformValuesTest extends AbstractTableTest {
       };
 
   @Override
-  protected Table<String, Integer, Character> create(Object... data) {
+  protected Table<String, Integer, Character> create(@Nullable Object... data) {
     Table<String, Integer, String> table = HashBasedTable.create();
     checkArgument(data.length % 3 == 0);
     for (int i = 0; i < data.length; i += 3) {

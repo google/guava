@@ -23,6 +23,7 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Test cases for {@link HashBasedTable}.
@@ -31,10 +32,10 @@ import com.google.common.testing.SerializableTester;
  */
 @GwtCompatible(emulated = true)
 @ElementTypesAreNonnullByDefault
-public class HashBasedTableTest extends AbstractTableTest {
+public class HashBasedTableTest extends AbstractTableTest<Character> {
 
   @Override
-  protected Table<String, Integer, Character> create(Object... data) {
+  protected Table<String, Integer, Character> create(@Nullable Object... data) {
     Table<String, Integer, Character> table = HashBasedTable.create();
     table.put("foo", 4, 'a');
     table.put("cat", 1, 'b');

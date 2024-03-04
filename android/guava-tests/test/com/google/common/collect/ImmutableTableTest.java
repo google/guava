@@ -31,9 +31,9 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @GwtCompatible(emulated = true)
 @ElementTypesAreNonnullByDefault
-public class ImmutableTableTest extends AbstractTableReadTest {
+public class ImmutableTableTest extends AbstractTableReadTest<Character> {
   @Override
-  protected Table<String, Integer, Character> create(Object... data) {
+  protected Table<String, Integer, Character> create(@Nullable Object... data) {
     ImmutableTable.Builder<String, Integer, Character> builder = ImmutableTable.builder();
     for (int i = 0; i < data.length; i = i + 3) {
       builder.put((String) data[i], (Integer) data[i + 1], (Character) data[i + 2]);
