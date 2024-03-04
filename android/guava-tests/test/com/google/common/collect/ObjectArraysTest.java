@@ -22,7 +22,6 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.testing.NullPointerTester;
-import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 import junit.framework.TestCase;
@@ -58,6 +57,7 @@ public class ObjectArraysTest extends TestCase {
     assertNull(array[0]);
   }
 
+  @J2ktIncompatible // Array<String>::class literal not available in Kotlin KMP
   @GwtIncompatible // ObjectArrays.newArray(Class, int)
   public void testNewArray_fromClass_OfArray() {
     String[][] array = ObjectArrays.newArray(String[].class, 1);
@@ -117,8 +117,8 @@ public class ObjectArraysTest extends TestCase {
 
   @GwtIncompatible // ObjectArrays.concat(Object[], Object[], Class)
   public void testConcatWithMoreGeneralType() {
-    Serializable[] result = ObjectArrays.concat(new String[0], new String[0], Serializable.class);
-    assertEquals(Serializable[].class, result.getClass());
+    CharSequence[] result = ObjectArrays.concat(new String[0], new String[0], CharSequence.class);
+    assertEquals(CharSequence[].class, result.getClass());
   }
 
   public void testToArrayImpl1() {
