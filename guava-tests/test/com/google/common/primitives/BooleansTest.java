@@ -576,16 +576,16 @@ public class BooleansTest extends TestCase {
 
   public void testAsListCanonicalValues() {
     List<Boolean> list = Booleans.asList(true, false);
-    assertThat(list.get(0)).isSameInstanceAs(true);
-    assertThat(list.get(1)).isSameInstanceAs(false);
+    assertThat(list.get(0)).isSameInstanceAs(Boolean.TRUE);
+    assertThat(list.get(1)).isSameInstanceAs(Boolean.FALSE);
     @SuppressWarnings("deprecation")
-    Boolean anotherTrue = true;
+    Boolean anotherTrue = new Boolean(true); // intentionally calls `new Boolean(...)`
     @SuppressWarnings("deprecation")
-    Boolean anotherFalse = false;
+    Boolean anotherFalse = new Boolean(false); // intentionally calls `new Boolean(...)`
     list.set(0, anotherTrue);
-    assertThat(list.get(0)).isSameInstanceAs(true);
+    assertThat(list.get(0)).isSameInstanceAs(Boolean.TRUE);
     list.set(1, anotherFalse);
-    assertThat(list.get(1)).isSameInstanceAs(false);
+    assertThat(list.get(1)).isSameInstanceAs(Boolean.FALSE);
   }
 
   public void testCountTrue() {
