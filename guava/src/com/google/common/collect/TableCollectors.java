@@ -83,7 +83,7 @@ final class TableCollectors {
           T extends @Nullable Object,
           R extends @Nullable Object,
           C extends @Nullable Object,
-          V extends @Nullable Object,
+          V,
           I extends Table<R, C, V>>
       Collector<T, ?, I> toTable(
           java.util.function.Function<? super T, ? extends R> rowFunction,
@@ -104,7 +104,7 @@ final class TableCollectors {
           T extends @Nullable Object,
           R extends @Nullable Object,
           C extends @Nullable Object,
-          V extends @Nullable Object,
+          V,
           I extends Table<R, C, V>>
       Collector<T, ?, I> toTable(
           java.util.function.Function<? super T, ? extends R> rowFunction,
