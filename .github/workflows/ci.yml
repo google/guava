@@ -32,13 +32,13 @@ jobs:
     steps:
       # Cancel any previous runs for the same branch that are still running.
       - name: 'Cancel previous runs'
-        uses: styfle/cancel-workflow-action@85880fa0301c86cca9da44039ee3bb12d3bedbfa
+        uses: styfle/cancel-workflow-action@85880fa0301c86cca9da44039ee3bb12d3bedbfa # 0.12.1
         with:
           access_token: ${{ github.token }}
       - name: 'Check out repository'
-        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
       - name: 'Set up JDK ${{ matrix.java }}'
-        uses: actions/setup-java@9704b39bf258b59bc04b50fa2dd55e9ed76b47a8
+        uses: actions/setup-java@9704b39bf258b59bc04b50fa2dd55e9ed76b47a8 # v4.1.0
 
         with:
           java-version: ${{ matrix.java }}
@@ -67,9 +67,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 'Check out repository'
-        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
       - name: 'Set up JDK 11'
-        uses: actions/setup-java@9704b39bf258b59bc04b50fa2dd55e9ed76b47a8
+        uses: actions/setup-java@9704b39bf258b59bc04b50fa2dd55e9ed76b47a8 # v4.1.0
 
         with:
           java-version: 11
@@ -93,9 +93,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 'Check out repository'
-        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
       - name: 'Set up JDK 11'
-        uses: actions/setup-java@9704b39bf258b59bc04b50fa2dd55e9ed76b47a8
+        uses: actions/setup-java@9704b39bf258b59bc04b50fa2dd55e9ed76b47a8 # v4.1.0
 
         with:
           java-version: 11
