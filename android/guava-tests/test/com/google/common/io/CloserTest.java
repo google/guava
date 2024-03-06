@@ -16,11 +16,12 @@
 
 package com.google.common.io;
 
+import static com.google.common.base.Throwables.throwIfInstanceOf;
+import static com.google.common.base.Throwables.throwIfUnchecked;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
-import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
@@ -447,7 +448,8 @@ public class CloserTest extends TestCase {
     public void close() throws IOException {
       closed = true;
       if (throwOnClose != null) {
-        Throwables.propagateIfPossible(throwOnClose, IOException.class);
+        throwIfInstanceOf(throwOnClose, IOException.class);
+        throwIfUnchecked(throwOnClose);
         throw new AssertionError(throwOnClose);
       }
     }
