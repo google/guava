@@ -14675,11 +14675,17 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/Throwables.html#propagateIfPossible(java.lang.Throwable,java.lang.Class)">propagateIfPossible(Throwable, Class&lt;X&gt;)</a></span> - Static method in class com.google.common.base.<a href="com/google/common/base/Throwables.html" title="class in com.google.common.base">Throwables</a></dt>
 <dd>
-<div class="block">Propagates <code>throwable</code> exactly as-is, if and only if it is an instance of <code>RuntimeException</code>, <code>Error</code>, or <code>declaredType</code>.</div>
+<div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
+<div class="deprecationComment">Use a combination of <a href="com/google/common/base/Throwables.html#throwIfInstanceOf(java.lang.Throwable,java.lang.Class)"><code>Throwables.throwIfInstanceOf(java.lang.Throwable, java.lang.Class&lt;X&gt;)</code></a> and <a href="com/google/common/base/Throwables.html#throwIfUnchecked(java.lang.Throwable)"><code>Throwables.throwIfUnchecked(java.lang.Throwable)</code></a>,
+     which togther provide the same behavior except that they reject <code>null</code>.</div>
+</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/Throwables.html#propagateIfPossible(java.lang.Throwable,java.lang.Class,java.lang.Class)">propagateIfPossible(Throwable, Class&lt;X1&gt;, Class&lt;X2&gt;)</a></span> - Static method in class com.google.common.base.<a href="com/google/common/base/Throwables.html" title="class in com.google.common.base">Throwables</a></dt>
 <dd>
-<div class="block">Propagates <code>throwable</code> exactly as-is, if and only if it is an instance of <code>RuntimeException</code>, <code>Error</code>, <code>declaredType1</code>, or <code>declaredType2</code>.</div>
+<div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
+<div class="deprecationComment">Use a combination of two calls to <a href="com/google/common/base/Throwables.html#throwIfInstanceOf(java.lang.Throwable,java.lang.Class)"><code>Throwables.throwIfInstanceOf(java.lang.Throwable, java.lang.Class&lt;X&gt;)</code></a> and one call to <a href="com/google/common/base/Throwables.html#throwIfUnchecked(java.lang.Throwable)"><code>Throwables.throwIfUnchecked(java.lang.Throwable)</code></a>, which togther provide the same behavior except that they reject <code>
+     null</code>.</div>
+</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/net/MediaType.html#PROTOBUF">PROTOBUF</a></span> - Static variable in class com.google.common.net.<a href="com/google/common/net/MediaType.html" title="class in com.google.common.net">MediaType</a></dt>
 <dd>

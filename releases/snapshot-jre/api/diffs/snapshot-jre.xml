@@ -6570,7 +6570,8 @@
     <method name="propagateIfPossible"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
-      deprecated="not deprecated">
+      deprecated="Use a combination of {@link #throwIfInstanceOf} and {@link #throwIfUnchecked},
+     which togther provide the same behavior except that they reject {@code null}.">
       <param name="throwable" type="java.lang.Throwable"/>
       <param name="declaredType" type="java.lang.Class&lt;X&gt;"/>
       <exception name="Throwable" type="java.lang.Throwable"/>
@@ -6582,13 +6583,17 @@
  #throwIfUnchecked}.
 
  @param throwable the Throwable to possibly propagate
- @param declaredType the single checked exception type declared by the calling method]]>
+ @param declaredType the single checked exception type declared by the calling method
+ @deprecated Use a combination of {@link #throwIfInstanceOf} and {@link #throwIfUnchecked},
+     which togther provide the same behavior except that they reject {@code null}.]]>
       </doc>
     </method>
     <method name="propagateIfPossible"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
-      deprecated="not deprecated">
+      deprecated="Use a combination of two calls to {@link #throwIfInstanceOf} and one call to {@link
+     #throwIfUnchecked}, which togther provide the same behavior except that they reject {@code
+     null}.">
       <param name="throwable" type="java.lang.Throwable"/>
       <param name="declaredType1" type="java.lang.Class&lt;X1&gt;"/>
       <param name="declaredType2" type="java.lang.Class&lt;X2&gt;"/>
@@ -6598,12 +6603,12 @@
       <![CDATA[Propagates {@code throwable} exactly as-is, if and only if it is an instance of {@link
  RuntimeException}, {@link Error}, {@code declaredType1}, or {@code declaredType2}.
 
- <p><b>Discouraged</b> in favor of calling {@link #throwIfInstanceOf} and {@link
- #throwIfUnchecked}.
-
  @param throwable the Throwable to possibly propagate
  @param declaredType1 any checked exception type declared by the calling method
- @param declaredType2 any other checked exception type declared by the calling method]]>
+ @param declaredType2 any other checked exception type declared by the calling method
+ @deprecated Use a combination of two calls to {@link #throwIfInstanceOf} and one call to {@link
+     #throwIfUnchecked}, which togther provide the same behavior except that they reject {@code
+     null}.]]>
       </doc>
     </method>
     <method name="propagate" return="java.lang.RuntimeException"

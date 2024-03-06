@@ -418,7 +418,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <th class="colSecond" scope="row"><span class="typeNameLabel">Throwables.</span><code><span class="memberNameLink"><a href="../../base/Throwables.html#propagateIfPossible(java.lang.Throwable,java.lang.Class)">propagateIfPossible</a></span>&#8203;(java.lang.Throwable&nbsp;throwable,
                    java.lang.Class&lt;X&gt;&nbsp;declaredType)</code></th>
 <td class="colLast">
-<div class="block">Propagates <code>throwable</code> exactly as-is, if and only if it is an instance of <code>RuntimeException</code>, <code>Error</code>, or <code>declaredType</code>.</div>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>
+<div class="deprecationComment">Use a combination of <a href="../../base/Throwables.html#throwIfInstanceOf(java.lang.Throwable,java.lang.Class)"><code>Throwables.throwIfInstanceOf(java.lang.Throwable, java.lang.Class&lt;X&gt;)</code></a> and <a href="../../base/Throwables.html#throwIfUnchecked(java.lang.Throwable)"><code>Throwables.throwIfUnchecked(java.lang.Throwable)</code></a>,
+     which togther provide the same behavior except that they reject <code>null</code>.</div>
+</div>
 </td>
 </tr>
 <tr class="altColor">
@@ -427,7 +430,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
                    java.lang.Class&lt;X1&gt;&nbsp;declaredType1,
                    java.lang.Class&lt;X2&gt;&nbsp;declaredType2)</code></th>
 <td class="colLast">
-<div class="block">Propagates <code>throwable</code> exactly as-is, if and only if it is an instance of <code>RuntimeException</code>, <code>Error</code>, <code>declaredType1</code>, or <code>declaredType2</code>.</div>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>
+<div class="deprecationComment">Use a combination of two calls to <a href="../../base/Throwables.html#throwIfInstanceOf(java.lang.Throwable,java.lang.Class)"><code>Throwables.throwIfInstanceOf(java.lang.Throwable, java.lang.Class&lt;X&gt;)</code></a> and one call to <a href="../../base/Throwables.html#throwIfUnchecked(java.lang.Throwable)"><code>Throwables.throwIfUnchecked(java.lang.Throwable)</code></a>, which togther provide the same behavior except that they reject <code>
+     null</code>.</div>
+</div>
 </td>
 </tr>
 <tr class="rowColor">

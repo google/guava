@@ -7,7 +7,7 @@
 <meta name="description" content="JDiff is a Javadoc doclet which generates an HTML report of all the packages, classes, constructors, methods, and fields which have been removed, added or changed in any way, including their documentation, when two APIs are compared.">
 <meta name="keywords" content="diff, jdiff, javadiff, java diff, java difference, API difference, difference between two APIs, API diff, Javadoc, doclet">
 <TITLE>
-com.google.common.base.Suppliers
+com.google.common.base.Throwables
 </TITLE>
 <LINK REL="stylesheet" TYPE="text/css" HREF="../stylesheet-jdiff.css" TITLE="Style">
 </HEAD>
@@ -18,7 +18,7 @@ com.google.common.base.Suppliers
     <TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
     <TABLE summary="Navigation bar" BORDER="0" CELLPADDING="0" CELLSPACING="3">
     <TR ALIGN="center" VALIGN="top">
-      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/base/Suppliers.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava HEAD-jre-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
+      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/base/Throwables.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava HEAD-android-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="changes-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="pkg_com.google.common.base.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
@@ -30,11 +30,11 @@ com.google.common.base.Suppliers
 </TR>
 <TR>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell2"><FONT SIZE="-2">
-&nbsp;<B>PREV CLASS</B>&nbsp;
-&nbsp;<A HREF="com.google.common.base.Throwables.html"><B>NEXT CLASS</B></A>
+&nbsp;<A HREF="com.google.common.base.Suppliers.html"><B>PREV CLASS</B></A>
+&nbsp;<B>NEXT CLASS</B>&nbsp;
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <A HREF=".." TARGET="_top"><B>FRAMES</B></A>  &nbsp;
-  &nbsp;<A HREF="com.google.common.base.Suppliers.html" TARGET="_top"><B>NO FRAMES</B></A></FONT></TD>
+  &nbsp;<A HREF="com.google.common.base.Throwables.html" TARGET="_top"><B>NO FRAMES</B></A></FONT></TD>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell3"><FONT SIZE="-2"> DETAIL: &nbsp;
 CONSTRUCTORS&nbsp;|&nbsp;
 <a href="#methods">METHODS</a>&nbsp;|&nbsp;
@@ -45,23 +45,35 @@ FIELDS
 <HR>
 <!-- End of nav bar -->
 <H2>
-Class com.google.common.base.<A HREF="../../docs/com/google/common/base/Suppliers.html" target="_top"><tt>Suppliers</tt></A>
+Class com.google.common.base.<A HREF="../../docs/com/google/common/base/Throwables.html" target="_top"><tt>Throwables</tt></A>
 </H2>
 <a NAME="constructors"></a>
 <a NAME="methods"></a>
 <p>
-<a NAME="Added"></a>
-<TABLE summary="Added Methods" BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="100%">
+<a NAME="Changed"></a>
+<TABLE summary="Changed Methods" BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="100%">
 <TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
-  <TD VALIGN="TOP" COLSPAN=2><FONT SIZE="+1"><B>Added Methods</B></FONT></TD>
+  <TD VALIGN="TOP" COLSPAN=3><FONT SIZE="+1"><B>Changed Methods</B></FONT></TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.base.Suppliers.memoizeWithExpiration_added(com.google.common.base.Supplier<T>, java.time.Duration)"></A>
-  <nobr><code>Supplier&lt;T&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/base/Suppliers.html#memoizeWithExpiration(com.google.common.base.Supplier<T>, java.time.Duration)" target="_top"><tt>memoizeWithExpiration</tt></A>(<code>Supplier&lt;T&gt;,</nobr> Duration<nobr><nobr></code>)</nobr>
+  <A NAME="com.google.common.base.Throwables.propagateIfPossible_changed(java.lang.Throwable, java.lang.Class<X>)"></A>
+  <nobr><code>void</code>&nbsp;<A HREF="../../docs/com/google/common/base/Throwables.html#propagateIfPossible(java.lang.Throwable, java.lang.Class<X>)" target="_top"><tt>propagateIfPossible</tt></A>(<code>Throwable,</nobr> Class&lt;X&gt;<nobr><nobr></code>)  </nobr>
   </TD>
-  <TD VALIGN="TOP">Returns a supplier that caches the instance supplied by the delegate and removes the cached
- value after the specified time has passed.</TD>
+  <TD VALIGN="TOP" WIDTH="30%">
+<b>Now deprecated</b>.<br>
+  </TD>
+  <TD VALIGN="TOP">Use a combination of {@link #throwIfInstanceOf} and {@link #throwIfUnchecked},      which togther provide the same behavior except that they reject {@code null}.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="com.google.common.base.Throwables.propagateIfPossible_changed(java.lang.Throwable, java.lang.Class<X1>, java.lang.Class<X2>)"></A>
+  <nobr><code>void</code>&nbsp;<A HREF="../../docs/com/google/common/base/Throwables.html#propagateIfPossible(java.lang.Throwable, java.lang.Class<X1>, java.lang.Class<X2>)" target="_top"><tt>propagateIfPossible</tt></A>(<code>Throwable,</nobr> Class&lt;X1&gt;<nobr>,</nobr> Class&lt;X2&gt;<nobr><nobr></code>)  </nobr>
+  </TD>
+  <TD VALIGN="TOP" WIDTH="30%">
+<b>Now deprecated</b>.<br>
+  </TD>
+  <TD VALIGN="TOP">Use a combination of two calls to {@link #throwIfInstanceOf} and one call to {@link      #throwIfUnchecked}, which togther provide the same behavior except that they reject {@code      null}.</TD>
 </TR>
 </TABLE>
 &nbsp;
@@ -73,7 +85,7 @@ Class com.google.common.base.<A HREF="../../docs/com/google/common/base/Supplier
     <TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
     <TABLE summary="Navigation bar" BORDER="0" CELLPADDING="0" CELLSPACING="3">
     <TR ALIGN="center" VALIGN="top">
-      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/base/Suppliers.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava HEAD-jre-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
+      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/base/Throwables.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava HEAD-android-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="changes-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="pkg_com.google.common.base.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
@@ -85,11 +97,11 @@ Class com.google.common.base.<A HREF="../../docs/com/google/common/base/Supplier
 </TR>
 <TR>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell2"><FONT SIZE="-2">
-&nbsp;<B>PREV CLASS</B>&nbsp;
-&nbsp;<A HREF="com.google.common.base.Throwables.html"><B>NEXT CLASS</B></A>
+&nbsp;<A HREF="com.google.common.base.Suppliers.html"><B>PREV CLASS</B></A>
+&nbsp;<B>NEXT CLASS</B>&nbsp;
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <A HREF=".." TARGET="_top"><B>FRAMES</B></A>  &nbsp;
-  &nbsp;<A HREF="com.google.common.base.Suppliers.html" TARGET="_top"><B>NO FRAMES</B></A></FONT></TD>
+  &nbsp;<A HREF="com.google.common.base.Throwables.html" TARGET="_top"><B>NO FRAMES</B></A></FONT></TD>
 <TD BGCOLOR="0xFFFFFF" CLASS="NavBarCell3"></TD>
 </TR>
 </TABLE>
