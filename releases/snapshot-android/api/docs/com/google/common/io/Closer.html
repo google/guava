@@ -137,7 +137,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <hr>
 <pre><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public final class <a href="../../../../src-html/com/google/common/io/Closer.html#line.90">Closer</a>
+public final class <a href="../../../../src-html/com/google/common/io/Closer.html#line.91">Closer</a>
 extends java.lang.Object
 implements java.io.Closeable</pre>
 <div class="block">A <code>Closeable</code> that collects <code>Closeable</code> resources and closes them all when it is
@@ -290,7 +290,7 @@ implements java.io.Closeable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre class="methodSignature">public static&nbsp;<a href="Closer.html" title="class in com.google.common.io">Closer</a>&nbsp;<a href="../../../../src-html/com/google/common/io/Closer.html#line.104">create</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="Closer.html" title="class in com.google.common.io">Closer</a>&nbsp;<a href="../../../../src-html/com/google/common/io/Closer.html#line.105">create</a>()</pre>
 <div class="block">Creates a new <a href="Closer.html" title="class in com.google.common.io"><code>Closer</code></a>.</div>
 </li>
 </ul>
@@ -303,7 +303,7 @@ implements java.io.Closeable</pre>
 <li class="blockList">
 <h4>register</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;&lt;C extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.io.Closeable&gt;&nbsp;C&nbsp;<a href="../../../../src-html/com/google/common/io/Closer.html#line.126">register</a>&#8203;(C&nbsp;closeable)</pre>
+public&nbsp;&lt;C extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.io.Closeable&gt;&nbsp;C&nbsp;<a href="../../../../src-html/com/google/common/io/Closer.html#line.127">register</a>&#8203;(C&nbsp;closeable)</pre>
 <div class="block">Registers the given <code>closeable</code> to be closed when this <code>Closer</code> is <a href="#close()">closed</a>.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -317,7 +317,7 @@ public&nbsp;&lt;C extends <a href="https://checkerframework.org/api/org/checkerf
 <ul class="blockList">
 <li class="blockList">
 <h4>rethrow</h4>
-<pre class="methodSignature">public&nbsp;java.lang.RuntimeException&nbsp;<a href="../../../../src-html/com/google/common/io/Closer.html#line.149">rethrow</a>&#8203;(java.lang.Throwable&nbsp;e)
+<pre class="methodSignature">public&nbsp;java.lang.RuntimeException&nbsp;<a href="../../../../src-html/com/google/common/io/Closer.html#line.150">rethrow</a>&#8203;(java.lang.Throwable&nbsp;e)
                                    throws java.io.IOException</pre>
 <div class="block">Stores the given throwable and rethrows it. It will be rethrown as is if it is an <code>
  IOException</code>, <code>RuntimeException</code> or <code>Error</code>. Otherwise, it will be rethrown wrapped
@@ -341,7 +341,7 @@ public&nbsp;&lt;C extends <a href="https://checkerframework.org/api/org/checkerf
 <ul class="blockList">
 <li class="blockList">
 <h4>rethrow</h4>
-<pre class="methodSignature">public&nbsp;&lt;X extends java.lang.Exception&gt;&nbsp;java.lang.RuntimeException&nbsp;<a href="../../../../src-html/com/google/common/io/Closer.html#line.170">rethrow</a>&#8203;(java.lang.Throwable&nbsp;e,
+<pre class="methodSignature">public&nbsp;&lt;X extends java.lang.Exception&gt;&nbsp;java.lang.RuntimeException&nbsp;<a href="../../../../src-html/com/google/common/io/Closer.html#line.172">rethrow</a>&#8203;(java.lang.Throwable&nbsp;e,
                                                                           java.lang.Class&lt;X&gt;&nbsp;declaredType)
                                                                    throws java.io.IOException,
                                                                           X extends java.lang.Exception</pre>
@@ -369,7 +369,7 @@ public&nbsp;&lt;C extends <a href="https://checkerframework.org/api/org/checkerf
 <ul class="blockList">
 <li class="blockList">
 <h4>rethrow</h4>
-<pre class="methodSignature">public&nbsp;&lt;X1 extends java.lang.Exception,&#8203;X2 extends java.lang.Exception&gt;&nbsp;java.lang.RuntimeException&nbsp;<a href="../../../../src-html/com/google/common/io/Closer.html#line.194">rethrow</a>&#8203;(java.lang.Throwable&nbsp;e,
+<pre class="methodSignature">public&nbsp;&lt;X1 extends java.lang.Exception,&#8203;X2 extends java.lang.Exception&gt;&nbsp;java.lang.RuntimeException&nbsp;<a href="../../../../src-html/com/google/common/io/Closer.html#line.197">rethrow</a>&#8203;(java.lang.Throwable&nbsp;e,
                                                                                                                 java.lang.Class&lt;X1&gt;&nbsp;declaredType1,
                                                                                                                 java.lang.Class&lt;X2&gt;&nbsp;declaredType2)
                                                                                                          throws java.io.IOException,
@@ -400,7 +400,7 @@ public&nbsp;&lt;C extends <a href="https://checkerframework.org/api/org/checkerf
 <ul class="blockListLast">
 <li class="blockList">
 <h4>close</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/Closer.html#line.210">close</a>()
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/Closer.html#line.215">close</a>()
            throws java.io.IOException</pre>
 <div class="block">Closes all <code>Closeable</code> instances that have been added to this <code>Closer</code>. If an
  exception was thrown in the try block and passed to one of the <code>exceptionThrown</code> methods,
