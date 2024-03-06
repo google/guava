@@ -389,10 +389,10 @@ public class ImmutableListMultimapTest extends TestCase {
   }
 
   public void testCopyOfNullValue() {
-    ArrayListMultimap<String, Integer> input = ArrayListMultimap.create();
-    input.putAll("foo", Arrays.asList(1, null, 3));
+    ArrayListMultimap<String, @Nullable Integer> input = ArrayListMultimap.create();
+    input.putAll("foo", Arrays.<@Nullable Integer>asList(1, null, 3));
     try {
-      ImmutableListMultimap.copyOf(input);
+      ImmutableListMultimap.copyOf((ArrayListMultimap<String, Integer>) input);
       fail();
     } catch (NullPointerException expected) {
     }

@@ -354,7 +354,7 @@ public class TreeMultimapNaturalTest extends TestCase {
   private static final Comparator<Double> KEY_COMPARATOR = Ordering.natural();
 
   private static final Comparator<Double> VALUE_COMPARATOR =
-      Ordering.natural().reverse().nullsFirst();
+      Ordering.<Double>natural().reverse().nullsFirst();
 
   /**
    * Test that creating one TreeMultimap from another does not copy the comparators from the source

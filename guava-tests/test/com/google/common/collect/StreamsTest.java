@@ -40,6 +40,7 @@ import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** Unit test for {@link Streams}. */
 @GwtCompatible(emulated = true)
@@ -307,7 +308,9 @@ public class StreamsTest extends TestCase {
 
   public void testMapWithIndex_unsizedSource() {
     testMapWithIndex(
-        elems -> Stream.of((Object) null).flatMap(unused -> ImmutableList.copyOf(elems).stream()));
+        elems ->
+            Stream.<@Nullable Object>of((Object) null)
+                .flatMap(unused -> ImmutableList.copyOf(elems).stream()));
   }
 
   public void testMapWithIndex_closeIsPropagated_sizedSource() {
@@ -316,7 +319,7 @@ public class StreamsTest extends TestCase {
 
   public void testMapWithIndex_closeIsPropagated_unsizedSource() {
     testMapWithIndex_closeIsPropagated(
-        Stream.of((Object) null).flatMap(unused -> Stream.of("a", "b", "c")));
+        Stream.<@Nullable Object>of((Object) null).flatMap(unused -> Stream.of("a", "b", "c")));
   }
 
   private void testMapWithIndex_closeIsPropagated(Stream<String> source) {

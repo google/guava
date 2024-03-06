@@ -35,7 +35,8 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 @GwtCompatible(emulated = true)
 @ElementTypesAreNonnullByDefault
 public class GeneralRangeTest extends TestCase {
-  private static final Ordering<@Nullable Integer> ORDERING = Ordering.natural().nullsFirst();
+  private static final Ordering<@Nullable Integer> ORDERING =
+      Ordering.<Integer>natural().<Integer>nullsFirst();
 
   private static final List<@Nullable Integer> IN_ORDER_VALUES = Arrays.asList(null, 1, 2, 3, 4, 5);
 
@@ -150,7 +151,7 @@ public class GeneralRangeTest extends TestCase {
 
     assertEquals(
         GeneralRange.range(ORDERING, 2, CLOSED, 4, OPEN),
-        range.intersect(GeneralRange.range(ORDERING, null, OPEN, 5, CLOSED)));
+        range.intersect(GeneralRange.<@Nullable Integer>range(ORDERING, null, OPEN, 5, CLOSED)));
 
     assertEquals(
         GeneralRange.range(ORDERING, 2, OPEN, 4, OPEN),

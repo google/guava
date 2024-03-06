@@ -179,7 +179,7 @@ public class IterablesTest extends TestCase {
 
   public void testGetOnlyElement_withDefault_empty_null() {
     Iterable<String> iterable = Collections.emptyList();
-    assertNull(Iterables.getOnlyElement(iterable, null));
+    assertNull(Iterables.<@Nullable String>getOnlyElement(iterable, null));
   }
 
   public void testGetOnlyElement_withDefault_multiple() {
@@ -479,7 +479,7 @@ public class IterablesTest extends TestCase {
     List<Integer> list = asList(1, 2, 3, 4, 5);
     Iterable<List<@Nullable Integer>> partitions = Iterables.paddedPartition(list, 2);
     assertEquals(3, Iterables.size(partitions));
-    assertEquals(asList(5, null), Iterables.getLast(partitions));
+    assertEquals(Arrays.<@Nullable Integer>asList(5, null), Iterables.getLast(partitions));
   }
 
   public void testPaddedPartitionRandomAccessInput() {
@@ -537,7 +537,7 @@ public class IterablesTest extends TestCase {
     assertFalse(Iterables.elementsEqual(a, b));
 
     // null versus non-null.
-    a = asList(4, 8, 15, null, 23, 42);
+    a = Arrays.<@Nullable Integer>asList(4, 8, 15, null, 23, 42);
     b = asList(4, 8, 15, 16, 23, 42);
     assertFalse(Iterables.elementsEqual(a, b));
     assertFalse(Iterables.elementsEqual(b, a));
@@ -824,7 +824,7 @@ public class IterablesTest extends TestCase {
 
   public void testGetFirst_withDefault_empty_null() {
     Iterable<String> iterable = Collections.emptyList();
-    assertNull(Iterables.getFirst(iterable, null));
+    assertNull(Iterables.<@Nullable String>getFirst(iterable, null));
   }
 
   public void testGetFirst_withDefault_multiple() {
@@ -863,7 +863,7 @@ public class IterablesTest extends TestCase {
 
   public void testGetLast_withDefault_empty_null() {
     Iterable<String> iterable = Collections.emptyList();
-    assertNull(Iterables.getLast(iterable, null));
+    assertNull(Iterables.<@Nullable String>getLast(iterable, null));
   }
 
   public void testGetLast_withDefault_multiple() {
@@ -1350,7 +1350,7 @@ public class IterablesTest extends TestCase {
         list.add(j);
         allIntegers.add(j);
       }
-      iterables.add(Ordering.natural().sortedCopy(list));
+      iterables.add(Ordering.<Integer>natural().sortedCopy(list));
     }
 
     verifyMergeSorted(iterables, allIntegers);
@@ -1367,7 +1367,7 @@ public class IterablesTest extends TestCase {
         list.add(j * i);
         allIntegers.add(j * i);
       }
-      iterables.add(Ordering.natural().sortedCopy(list));
+      iterables.add(Ordering.<Integer>natural().sortedCopy(list));
     }
 
     verifyMergeSorted(iterables, allIntegers);
@@ -1385,7 +1385,7 @@ public class IterablesTest extends TestCase {
 
   private static void verifyMergeSorted(
       Iterable<Iterable<Integer>> iterables, Iterable<Integer> unsortedExpected) {
-    Iterable<Integer> expected = Ordering.natural().sortedCopy(unsortedExpected);
+    Iterable<Integer> expected = Ordering.<Integer>natural().sortedCopy(unsortedExpected);
 
     Iterable<Integer> mergedIterator = Iterables.mergeSorted(iterables, Ordering.natural());
 

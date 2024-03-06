@@ -88,7 +88,8 @@ public class MoreCollectorsTest extends TestCase {
   }
 
   public void testOnlyElementNull() {
-    assertThat(Stream.of((Object) null).collect(MoreCollectors.onlyElement())).isNull();
+    assertThat(Stream.<@Nullable Object>of((Object) null).collect(MoreCollectors.onlyElement()))
+        .isNull();
   }
 
   public void testOnlyElementMultiple() {

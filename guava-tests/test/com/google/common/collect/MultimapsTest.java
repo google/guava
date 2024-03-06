@@ -179,7 +179,8 @@ public class MultimapsTest extends TestCase {
 
   @GwtIncompatible // slow (~10s)
   public void testUnmodifiableArrayListMultimap() {
-    checkUnmodifiableMultimap(ArrayListMultimap.<String, Integer>create(), true);
+    checkUnmodifiableMultimap(
+        ArrayListMultimap.<@Nullable String, @Nullable Integer>create(), true);
   }
 
   @J2ktIncompatible
@@ -210,7 +211,7 @@ public class MultimapsTest extends TestCase {
 
   @GwtIncompatible // slow (~10s)
   public void testUnmodifiableHashMultimap() {
-    checkUnmodifiableMultimap(HashMultimap.<String, Integer>create(), false);
+    checkUnmodifiableMultimap(HashMultimap.<@Nullable String, @Nullable Integer>create(), false);
   }
 
   @J2ktIncompatible
@@ -237,7 +238,9 @@ public class MultimapsTest extends TestCase {
   @GwtIncompatible // slow (~10s)
   public void testUnmodifiableSynchronizedArrayListMultimap() {
     checkUnmodifiableMultimap(
-        Multimaps.synchronizedListMultimap(ArrayListMultimap.<String, Integer>create()), true);
+        Multimaps.synchronizedListMultimap(
+            ArrayListMultimap.<@Nullable String, @Nullable Integer>create()),
+        true);
   }
 
   @J2ktIncompatible
@@ -255,7 +258,9 @@ public class MultimapsTest extends TestCase {
   @GwtIncompatible // slow (~10s)
   public void testUnmodifiableSynchronizedHashMultimap() {
     checkUnmodifiableMultimap(
-        Multimaps.synchronizedSetMultimap(HashMultimap.<String, Integer>create()), false);
+        Multimaps.synchronizedSetMultimap(
+            HashMultimap.<@Nullable String, @Nullable Integer>create()),
+        false);
   }
 
   @J2ktIncompatible

@@ -37,12 +37,12 @@ public class TopKSelectorTest extends TestCase {
 
   public void testNegativeK() {
     try {
-      TopKSelector.least(-1);
+      TopKSelector.<String>least(-1);
       fail();
     } catch (IllegalArgumentException expected) {
     }
     try {
-      TopKSelector.greatest(-1);
+      TopKSelector.<String>greatest(-1);
       fail();
     } catch (IllegalArgumentException expected) {
     }

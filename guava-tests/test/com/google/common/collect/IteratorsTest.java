@@ -162,7 +162,7 @@ public class IteratorsTest extends TestCase {
   }
 
   public void test_contains_nonnull_yes() {
-    Iterator<String> set = asList("a", null, "b").iterator();
+    Iterator<@Nullable String> set = Arrays.<@Nullable String>asList("a", null, "b").iterator();
     assertTrue(Iterators.contains(set, "b"));
   }
 
@@ -172,7 +172,7 @@ public class IteratorsTest extends TestCase {
   }
 
   public void test_contains_null_yes() {
-    Iterator<String> set = asList("a", null, "b").iterator();
+    Iterator<@Nullable String> set = Arrays.<@Nullable String>asList("a", null, "b").iterator();
     assertTrue(Iterators.contains(set, null));
   }
 
@@ -241,7 +241,7 @@ public class IteratorsTest extends TestCase {
 
   public void testGetOnlyElement_withDefault_empty_null() {
     Iterator<String> iterator = Iterators.emptyIterator();
-    assertNull(Iterators.getOnlyElement(iterator, null));
+    assertNull(Iterators.<@Nullable String>getOnlyElement(iterator, null));
   }
 
   public void testGetOnlyElement_withDefault_two() {
@@ -513,7 +513,7 @@ public class IteratorsTest extends TestCase {
   }
 
   public void testNullFriendlyTransform() {
-    Iterator<Integer> input = asList(1, 2, null, 3).iterator();
+    Iterator<@Nullable Integer> input = Arrays.<@Nullable Integer>asList(1, 2, null, 3).iterator();
     Iterator<String> result =
         Iterators.transform(
             input,
@@ -821,7 +821,10 @@ public class IteratorsTest extends TestCase {
 
   /** Illustrates the somewhat bizarre behavior when a null is passed in. */
   public void testConcatContainingNull() {
-    Iterator<Iterator<Integer>> input = asList(iterateOver(1, 2), null, iterateOver(3)).iterator();
+    Iterator<Iterator<Integer>> input =
+        (Iterator<Iterator<Integer>>)
+            Arrays.<@Nullable Iterator<Integer>>asList(iterateOver(1, 2), null, iterateOver(3))
+                .iterator();
     Iterator<Integer> result = Iterators.concat(input);
     assertEquals(1, (int) result.next());
     assertEquals(2, (int) result.next());
@@ -939,8 +942,8 @@ public class IteratorsTest extends TestCase {
     assertTrue(Iterators.elementsEqual(a.iterator(), b.iterator()));
 
     // The same, but with nulls.
-    a = asList(4, 8, null, 16, 23, 42);
-    b = asList(4, 8, null, 16, 23, 42);
+    a = Arrays.<@Nullable Integer>asList(4, 8, null, 16, 23, 42);
+    b = Arrays.<@Nullable Integer>asList(4, 8, null, 16, 23, 42);
     assertTrue(Iterators.elementsEqual(a.iterator(), b.iterator()));
 
     // Different Iterable types (still equal elements, though).
@@ -954,7 +957,7 @@ public class IteratorsTest extends TestCase {
     assertFalse(Iterators.elementsEqual(a.iterator(), b.iterator()));
 
     // null versus non-null.
-    a = asList(4, 8, 15, null, 23, 42);
+    a = Arrays.<@Nullable Integer>asList(4, 8, 15, null, 23, 42);
     b = asList(4, 8, 15, 16, 23, 42);
     assertFalse(Iterators.elementsEqual(a.iterator(), b.iterator()));
     assertFalse(Iterators.elementsEqual(b.iterator(), a.iterator()));
@@ -1072,17 +1075,17 @@ public class IteratorsTest extends TestCase {
     Iterator<List<Integer>> partitions = Iterators.paddedPartition(source, 2);
     assertTrue(partitions.hasNext());
     assertTrue(partitions.hasNext());
-    assertEquals(asList(1, null), partitions.next());
+    assertEquals(Arrays.<@Nullable Integer>asList(1, null), partitions.next());
     assertFalse(partitions.hasNext());
   }
 
   @GwtIncompatible // fairly slow (~50s)
   public void testPaddedPartition_general() {
+    ImmutableList<List<@Nullable Integer>> expectedElements =
+        ImmutableList.of(
+            asList(1, 2, 3), asList(4, 5, 6), Arrays.<@Nullable Integer>asList(7, null, null));
     new IteratorTester<List<Integer>>(
-        5,
-        IteratorFeature.UNMODIFIABLE,
-        ImmutableList.of(asList(1, 2, 3), asList(4, 5, 6), asList(7, null, null)),
-        IteratorTester.KnownOrder.KNOWN_ORDER) {
+        5, IteratorFeature.UNMODIFIABLE, expectedElements, IteratorTester.KnownOrder.KNOWN_ORDER) {
       @Override
       protected Iterator<List<Integer>> newTargetIterator() {
         Iterator<Integer> source = Iterators.forArray(1, 2, 3, 4, 5, 6, 7);
@@ -1287,7 +1290,8 @@ public class IteratorsTest extends TestCase {
   }
 
   public void testToStringWithNull() {
-    Iterator<String> iterator = Lists.newArrayList("hello", null, "world").iterator();
+    Iterator<@Nullable String> iterator =
+        Lists.<@Nullable String>newArrayList("hello", null, "world").iterator();
     assertEquals("[hello, null, world]", Iterators.toString(iterator));
   }
 
@@ -1355,7 +1359,7 @@ public class IteratorsTest extends TestCase {
 
   public void testGetNext_withDefault_empty_null() {
     Iterator<String> iterator = Iterators.emptyIterator();
-    assertNull(Iterators.getNext(iterator, null));
+    assertNull(Iterators.<@Nullable String>getNext(iterator, null));
   }
 
   public void testGetNext_withDefault_two() {
@@ -1391,7 +1395,7 @@ public class IteratorsTest extends TestCase {
 
   public void testGetLast_withDefault_empty_null() {
     Iterator<String> iterator = Iterators.emptyIterator();
-    assertNull(Iterators.getLast(iterator, null));
+    assertNull(Iterators.<@Nullable String>getLast(iterator, null));
   }
 
   public void testGetLast_withDefault_two() {
