@@ -635,9 +635,10 @@ public class ImmutableListTest extends TestCase {
     }
 
     builder = ImmutableList.builder();
-    Iterator<String> iteratorWithNulls = asList("a", null, "b").iterator();
+    Iterator<@Nullable String> iteratorWithNulls =
+        Arrays.<@Nullable String>asList("a", null, "b").iterator();
     try {
-      builder.addAll(iteratorWithNulls);
+      builder.addAll((Iterator<String>) iteratorWithNulls);
       fail("expected NullPointerException");
     } catch (NullPointerException expected) {
     }

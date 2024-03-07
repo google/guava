@@ -38,6 +38,7 @@ import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -282,9 +283,10 @@ public class ImmutableMultisetTest extends TestCase {
   }
 
   public void testCopyOf_multisetContainingNull() {
-    Multiset<String> c = HashMultiset.create(asList("a", null, "b"));
+    Multiset<@Nullable String> c =
+        HashMultiset.create(Arrays.<@Nullable String>asList("a", null, "b"));
     try {
-      ImmutableMultiset.copyOf(c);
+      ImmutableMultiset.copyOf((Multiset<String>) c);
       fail();
     } catch (NullPointerException expected) {
     }
@@ -309,9 +311,10 @@ public class ImmutableMultisetTest extends TestCase {
   }
 
   public void testCopyOf_iteratorContainingNull() {
-    Iterator<String> iterator = asList("a", null, "b").iterator();
+    Iterator<@Nullable String> iterator =
+        Arrays.<@Nullable String>asList("a", null, "b").iterator();
     try {
-      ImmutableMultiset.copyOf(iterator);
+      ImmutableMultiset.copyOf((Iterator<String>) iterator);
       fail();
     } catch (NullPointerException expected) {
     }
@@ -536,9 +539,10 @@ public class ImmutableMultisetTest extends TestCase {
     }
 
     builder = ImmutableMultiset.builder();
-    Multiset<String> multisetWithNull = LinkedHashMultiset.create(asList("a", null, "b"));
+    Multiset<@Nullable String> multisetWithNull =
+        LinkedHashMultiset.create(Arrays.<@Nullable String>asList("a", null, "b"));
     try {
-      builder.addAll(multisetWithNull);
+      builder.addAll((Multiset<String>) multisetWithNull);
       fail("expected NullPointerException");
     } catch (NullPointerException expected) {
     }

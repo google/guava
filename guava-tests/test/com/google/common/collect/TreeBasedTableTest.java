@@ -286,7 +286,7 @@ public class TreeBasedTableTest extends AbstractTableTest<Character> {
     table =
         create(
             String.CASE_INSENSITIVE_ORDER,
-            Ordering.natural().reverse(),
+            Ordering.<Integer>natural().reverse(),
             "a",
             2,
             'X',

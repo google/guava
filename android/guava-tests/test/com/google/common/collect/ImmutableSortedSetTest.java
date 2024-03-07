@@ -293,8 +293,8 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
     SortedSet<String> set = of("e");
     assertTrue(set.headSet("g") instanceof ImmutableSortedSet);
     assertThat(set.headSet("g")).contains("e");
-    assertSame(of(), set.headSet("c"));
-    assertSame(of(), set.headSet("e"));
+    assertSame(this.<String>of(), set.headSet("c"));
+    assertSame(this.<String>of(), set.headSet("e"));
   }
 
   public void testSingle_tailSet() {
@@ -302,7 +302,7 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
     assertTrue(set.tailSet("c") instanceof ImmutableSortedSet);
     assertThat(set.tailSet("c")).contains("e");
     assertThat(set.tailSet("e")).contains("e");
-    assertSame(of(), set.tailSet("g"));
+    assertSame(this.<String>of(), set.tailSet("g"));
   }
 
   public void testSingle_subSet() {
@@ -310,9 +310,9 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
     assertTrue(set.subSet("c", "g") instanceof ImmutableSortedSet);
     assertThat(set.subSet("c", "g")).contains("e");
     assertThat(set.subSet("e", "g")).contains("e");
-    assertSame(of(), set.subSet("f", "g"));
-    assertSame(of(), set.subSet("c", "e"));
-    assertSame(of(), set.subSet("c", "d"));
+    assertSame(this.<String>of(), set.subSet("f", "g"));
+    assertSame(this.<String>of(), set.subSet("c", "e"));
+    assertSame(this.<String>of(), set.subSet("c", "d"));
   }
 
   public void testSingle_first() {
@@ -398,8 +398,8 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
     assertTrue(set.headSet("e") instanceof ImmutableSortedSet);
     assertThat(set.headSet("e")).containsExactly("b", "c", "d").inOrder();
     assertThat(set.headSet("g")).containsExactly("b", "c", "d", "e", "f").inOrder();
-    assertSame(of(), set.headSet("a"));
-    assertSame(of(), set.headSet("b"));
+    assertSame(this.<String>of(), set.headSet("a"));
+    assertSame(this.<String>of(), set.headSet("b"));
   }
 
   public void testOf_tailSet() {
@@ -407,7 +407,7 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
     assertTrue(set.tailSet("e") instanceof ImmutableSortedSet);
     assertThat(set.tailSet("e")).containsExactly("e", "f").inOrder();
     assertThat(set.tailSet("a")).containsExactly("b", "c", "d", "e", "f").inOrder();
-    assertSame(of(), set.tailSet("g"));
+    assertSame(this.<String>of(), set.tailSet("g"));
   }
 
   public void testOf_subSet() {
@@ -415,9 +415,9 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
     assertTrue(set.subSet("c", "e") instanceof ImmutableSortedSet);
     assertThat(set.subSet("c", "e")).containsExactly("c", "d").inOrder();
     assertThat(set.subSet("a", "g")).containsExactly("b", "c", "d", "e", "f").inOrder();
-    assertSame(of(), set.subSet("a", "b"));
-    assertSame(of(), set.subSet("g", "h"));
-    assertSame(of(), set.subSet("c", "c"));
+    assertSame(this.<String>of(), set.subSet("a", "b"));
+    assertSame(this.<String>of(), set.subSet("g", "h"));
+    assertSame(this.<String>of(), set.subSet("c", "c"));
     try {
       set.subSet("e", "c");
       fail();
@@ -1138,7 +1138,7 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
       ImmutableList.of("one", "two", "three", "four", "five", "six", "seven");
 
   private static final ImmutableList<String> SORTED_NUMBER_NAMES =
-      Ordering.natural().immutableSortedCopy(NUMBER_NAMES);
+      Ordering.<String>natural().immutableSortedCopy(NUMBER_NAMES);
 
   private static class SelfComparableExample implements Comparable<SelfComparableExample> {
     @Override

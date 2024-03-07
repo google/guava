@@ -59,7 +59,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 @GwtCompatible(emulated = true)
 @ElementTypesAreNonnullByDefault
 public class MinMaxPriorityQueueTest extends TestCase {
-  private static final Ordering<Integer> SOME_COMPARATOR = Ordering.natural().reverse();
+  private static final Ordering<Integer> SOME_COMPARATOR = Ordering.<Integer>natural().reverse();
 
   @J2ktIncompatible
   @GwtIncompatible // suite
