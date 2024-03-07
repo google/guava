@@ -190,14 +190,22 @@ extends java.lang.RuntimeException</pre>
 <td class="colFirst"><code>protected </code></td>
 <th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E()">UncheckedExecutionException</a></span>()</code></th>
 <td class="colLast">
-<div class="block">Creates a new instance with <code>null</code> as its detail message.</div>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>
+<div class="deprecationComment">Prefer <a href="#%3Cinit%3E(java.lang.Throwable)">UncheckedExecutionException(java.lang.Throwable)</a> a constructor that
+     accepts a cause: Users of this class typically expect for instances to have a non-null
+     cause.</div>
+</div>
 </td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>protected </code></td>
 <th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(java.lang.String)">UncheckedExecutionException</a></span>&#8203;(java.lang.String&nbsp;message)</code></th>
 <td class="colLast">
-<div class="block">Creates a new instance with the given detail message.</div>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>
+<div class="deprecationComment">Prefer <a href="#%3Cinit%3E(java.lang.String,java.lang.Throwable)">UncheckedExecutionException(java.lang.String,java.lang.Throwable)</a> a constructor
+     that accepts a cause: Users of this class typically expect for instances to have a non-null
+     cause.</div>
+</div>
 </td>
 </tr>
 <tr class="altColor">
@@ -212,7 +220,7 @@ extends java.lang.RuntimeException</pre>
 <td class="colFirst"><code>&nbsp;</code></td>
 <th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(java.lang.Throwable)">UncheckedExecutionException</a></span>&#8203;(java.lang.Throwable&nbsp;cause)</code></th>
 <td class="colLast">
-<div class="block">Creates a new instance with the given cause.</div>
+<div class="block">Creates a new instance with <code>null</code> as its detail message and the given cause.</div>
 </td>
 </tr>
 </table>
@@ -262,8 +270,17 @@ extends java.lang.RuntimeException</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>UncheckedExecutionException</h4>
-<pre>protected&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/UncheckedExecutionException.html#line.45">UncheckedExecutionException</a>()</pre>
-<div class="block">Creates a new instance with <code>null</code> as its detail message.</div>
+<pre>@Deprecated
+protected&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/UncheckedExecutionException.html#line.58">UncheckedExecutionException</a>()</pre>
+<div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
+<div class="deprecationComment">Prefer <a href="#%3Cinit%3E(java.lang.Throwable)">UncheckedExecutionException(java.lang.Throwable)</a> a constructor that
+     accepts a cause: Users of this class typically expect for instances to have a non-null
+     cause. At the moment, you can <i>usually</i> still preserve behavior by passing an explicit
+     <code>null</code> cause. Note, however, that passing an explicit <code>null</code> cause prevents
+     anyone from calling <code>Throwable.initCause(java.lang.Throwable)</code> later, so it is not quite equivalent to using a
+     constructor that omits the cause.</div>
+</div>
+<div class="block">Creates a new instance with <code>null</code> as its detail message and no cause.</div>
 </li>
 </ul>
 <a id="&lt;init&gt;(java.lang.String)">
@@ -272,9 +289,18 @@ extends java.lang.RuntimeException</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>UncheckedExecutionException</h4>
-<pre>protected&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/UncheckedExecutionException.html#line.48">UncheckedExecutionException</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+<pre>@Deprecated
+protected&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/UncheckedExecutionException.html#line.71">UncheckedExecutionException</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                                       java.lang.String&nbsp;message)</pre>
-<div class="block">Creates a new instance with the given detail message.</div>
+<div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
+<div class="deprecationComment">Prefer <a href="#%3Cinit%3E(java.lang.String,java.lang.Throwable)">UncheckedExecutionException(java.lang.String,java.lang.Throwable)</a> a constructor
+     that accepts a cause: Users of this class typically expect for instances to have a non-null
+     cause. At the moment, you can <i>usually</i> still preserve behavior by passing an explicit
+     <code>null</code> cause. Note, however, that passing an explicit <code>null</code> cause prevents
+     anyone from calling <code>Throwable.initCause(java.lang.Throwable)</code> later, so it is not quite equivalent to using a
+     constructor that omits the cause.</div>
+</div>
+<div class="block">Creates a new instance with the given detail message and no cause.</div>
 </li>
 </ul>
 <a id="&lt;init&gt;(java.lang.String,java.lang.Throwable)">
@@ -283,11 +309,12 @@ extends java.lang.RuntimeException</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>UncheckedExecutionException</h4>
-<pre>public&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/UncheckedExecutionException.html#line.53">UncheckedExecutionException</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+<pre>public&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/UncheckedExecutionException.html#line.80">UncheckedExecutionException</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                                    java.lang.String&nbsp;message,
                                    <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                                    java.lang.Throwable&nbsp;cause)</pre>
-<div class="block">Creates a new instance with the given detail message and cause.</div>
+<div class="block">Creates a new instance with the given detail message and cause. Prefer to provide a
+ non-nullable <code>cause</code>, as many users expect to find one.</div>
 </li>
 </ul>
 <a id="&lt;init&gt;(java.lang.Throwable)">
@@ -296,9 +323,10 @@ extends java.lang.RuntimeException</pre>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>UncheckedExecutionException</h4>
-<pre>public&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/UncheckedExecutionException.html#line.58">UncheckedExecutionException</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+<pre>public&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/UncheckedExecutionException.html#line.88">UncheckedExecutionException</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                                    java.lang.Throwable&nbsp;cause)</pre>
-<div class="block">Creates a new instance with the given cause.</div>
+<div class="block">Creates a new instance with <code>null</code> as its detail message and the given cause. Prefer to
+ provide a non-nullable <code>cause</code>, as many users expect to find one.</div>
 </li>
 </ul>
 </li>

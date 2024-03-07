@@ -101,6 +101,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li><a href="#exception">Exceptions</a></li>
 <li><a href="#field">Fields</a></li>
 <li><a href="#method">Methods</a></li>
+<li><a href="#constructor">Constructors</a></li>
 <li><a href="#enum.constant">Enum Constants</a></li>
 </ul>
 </div>
@@ -1093,6 +1094,43 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <th class="colDeprecatedItemName" scope="row"><a href="com/google/common/util/concurrent/FluentFuture.html#from(com.google.common.util.concurrent.FluentFuture)">com.google.common.util.concurrent.FluentFuture.from&#8203;(FluentFuture&lt;V&gt;)</a></th>
 <td class="colLast">
 <div class="deprecationComment">no need to use this</div>
+</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+<a id="constructor">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<table class="deprecatedSummary">
+<caption><span>Constructors</span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colFirst" scope="col">Constructor</th>
+<th class="colLast" scope="col">Description</th>
+</tr>
+<tbody>
+<tr class="altColor">
+<th class="colDeprecatedItemName" scope="row"><a href="com/google/common/util/concurrent/ExecutionError.html#%3Cinit%3E()">com.google.common.util.concurrent.ExecutionError()</a></th>
+<td class="colLast">
+<div class="deprecationComment">Prefer <a href="com/google/common/util/concurrent/ExecutionError.html#%3Cinit%3E(java.lang.Error)">ExecutionError(java.lang.Error)</a> a constructor that accepts a cause: Users
+     of this class typically expect for instances to have a non-null cause. At the moment, you
+     can <i>usually</i> still preserve behavior by passing an explicit <code>null</code> cause. Note,
+     however, that passing an explicit <code>null</code> cause prevents anyone from calling <code>Throwable.initCause(java.lang.Throwable)</code> later, so it is not quite equivalent to using a constructor that omits the
+     cause.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<th class="colDeprecatedItemName" scope="row"><a href="com/google/common/util/concurrent/UncheckedExecutionException.html#%3Cinit%3E()">com.google.common.util.concurrent.UncheckedExecutionException()</a></th>
+<td class="colLast">
+<div class="deprecationComment">Prefer <a href="com/google/common/util/concurrent/UncheckedExecutionException.html#%3Cinit%3E(java.lang.Throwable)">UncheckedExecutionException(java.lang.Throwable)</a> a constructor that
+     accepts a cause: Users of this class typically expect for instances to have a non-null
+     cause. At the moment, you can <i>usually</i> still preserve behavior by passing an explicit
+     <code>null</code> cause. Note, however, that passing an explicit <code>null</code> cause prevents
+     anyone from calling <code>Throwable.initCause(java.lang.Throwable)</code> later, so it is not quite equivalent to using a
+     constructor that omits the cause.</div>
 </td>
 </tr>
 </tbody>

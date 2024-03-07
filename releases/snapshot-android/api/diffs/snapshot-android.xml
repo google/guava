@@ -66189,30 +66189,56 @@
     deprecated="not deprecated">
     <constructor name="ExecutionError"
       static="false" final="false" visibility="protected"
-      deprecated="not deprecated">
+      deprecated="Prefer {@linkplain ExecutionError(Error)} a constructor that accepts a cause: Users
+     of this class typically expect for instances to have a non-null cause. At the moment, you
+     can lEsS_tHaNi>usuallylEsS_tHaN/i> still preserve behavior by passing an explicit {@code null} cause. Note,
+     however, that passing an explicit {@code null} cause prevents anyone from calling {@link
+     #initCause} later, so it is not quite equivalent to using a constructor that omits the
+     cause.">
       <doc>
-      <![CDATA[Creates a new instance with {@code null} as its detail message.]]>
+      <![CDATA[Creates a new instance with {@code null} as its detail message and no cause.
+
+ @deprecated Prefer {@linkplain ExecutionError(Error)} a constructor that accepts a cause: Users
+     of this class typically expect for instances to have a non-null cause. At the moment, you
+     can <i>usually</i> still preserve behavior by passing an explicit {@code null} cause. Note,
+     however, that passing an explicit {@code null} cause prevents anyone from calling {@link
+     #initCause} later, so it is not quite equivalent to using a constructor that omits the
+     cause.]]>
       </doc>
     </constructor>
     <constructor name="ExecutionError" type="java.lang.String"
       static="false" final="false" visibility="protected"
-      deprecated="not deprecated">
+      deprecated="Prefer {@linkplain ExecutionError(String, Error)} a constructor that accepts a
+     cause: Users of this class typically expect for instances to have a non-null cause. At the
+     moment, you can lEsS_tHaNi>usuallylEsS_tHaN/i> still preserve behavior by passing an explicit {@code null}
+     cause. Note, however, that passing an explicit {@code null} cause prevents anyone from
+     calling {@link #initCause} later, so it is not quite equivalent to using a constructor that
+     omits the cause.">
       <doc>
-      <![CDATA[Creates a new instance with the given detail message.]]>
+      <![CDATA[Creates a new instance with the given detail message and no cause.
+
+ @deprecated Prefer {@linkplain ExecutionError(String, Error)} a constructor that accepts a
+     cause: Users of this class typically expect for instances to have a non-null cause. At the
+     moment, you can <i>usually</i> still preserve behavior by passing an explicit {@code null}
+     cause. Note, however, that passing an explicit {@code null} cause prevents anyone from
+     calling {@link #initCause} later, so it is not quite equivalent to using a constructor that
+     omits the cause.]]>
       </doc>
     </constructor>
     <constructor name="ExecutionError" type="java.lang.String, java.lang.Error"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Creates a new instance with the given detail message and cause.]]>
+      <![CDATA[Creates a new instance with the given detail message and cause. Prefer to provide a
+ non-nullable {@code cause}, as many users expect to find one.]]>
       </doc>
     </constructor>
     <constructor name="ExecutionError" type="java.lang.Error"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Creates a new instance with the given cause.]]>
+      <![CDATA[Creates a new instance with {@code null} as its detail message and the given cause. Prefer to
+ provide a non-nullable {@code cause}, as many users expect to find one.]]>
       </doc>
     </constructor>
     <doc>
@@ -71090,30 +71116,56 @@
     deprecated="not deprecated">
     <constructor name="UncheckedExecutionException"
       static="false" final="false" visibility="protected"
-      deprecated="not deprecated">
+      deprecated="Prefer {@linkplain UncheckedExecutionException(Throwable)} a constructor that
+     accepts a cause: Users of this class typically expect for instances to have a non-null
+     cause. At the moment, you can lEsS_tHaNi>usuallylEsS_tHaN/i> still preserve behavior by passing an explicit
+     {@code null} cause. Note, however, that passing an explicit {@code null} cause prevents
+     anyone from calling {@link #initCause} later, so it is not quite equivalent to using a
+     constructor that omits the cause.">
       <doc>
-      <![CDATA[Creates a new instance with {@code null} as its detail message.]]>
+      <![CDATA[Creates a new instance with {@code null} as its detail message and no cause.
+
+ @deprecated Prefer {@linkplain UncheckedExecutionException(Throwable)} a constructor that
+     accepts a cause: Users of this class typically expect for instances to have a non-null
+     cause. At the moment, you can <i>usually</i> still preserve behavior by passing an explicit
+     {@code null} cause. Note, however, that passing an explicit {@code null} cause prevents
+     anyone from calling {@link #initCause} later, so it is not quite equivalent to using a
+     constructor that omits the cause.]]>
       </doc>
     </constructor>
     <constructor name="UncheckedExecutionException" type="java.lang.String"
       static="false" final="false" visibility="protected"
-      deprecated="not deprecated">
+      deprecated="Prefer {@linkplain UncheckedExecutionException(String, Throwable)} a constructor
+     that accepts a cause: Users of this class typically expect for instances to have a non-null
+     cause. At the moment, you can lEsS_tHaNi>usuallylEsS_tHaN/i> still preserve behavior by passing an explicit
+     {@code null} cause. Note, however, that passing an explicit {@code null} cause prevents
+     anyone from calling {@link #initCause} later, so it is not quite equivalent to using a
+     constructor that omits the cause.">
       <doc>
-      <![CDATA[Creates a new instance with the given detail message.]]>
+      <![CDATA[Creates a new instance with the given detail message and no cause.
+
+ @deprecated Prefer {@linkplain UncheckedExecutionException(String, Throwable)} a constructor
+     that accepts a cause: Users of this class typically expect for instances to have a non-null
+     cause. At the moment, you can <i>usually</i> still preserve behavior by passing an explicit
+     {@code null} cause. Note, however, that passing an explicit {@code null} cause prevents
+     anyone from calling {@link #initCause} later, so it is not quite equivalent to using a
+     constructor that omits the cause.]]>
       </doc>
     </constructor>
     <constructor name="UncheckedExecutionException" type="java.lang.String, java.lang.Throwable"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Creates a new instance with the given detail message and cause.]]>
+      <![CDATA[Creates a new instance with the given detail message and cause. Prefer to provide a
+ non-nullable {@code cause}, as many users expect to find one.]]>
       </doc>
     </constructor>
     <constructor name="UncheckedExecutionException" type="java.lang.Throwable"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Creates a new instance with the given cause.]]>
+      <![CDATA[Creates a new instance with {@code null} as its detail message and the given cause. Prefer to
+ provide a non-nullable {@code cause}, as many users expect to find one.]]>
       </doc>
     </constructor>
     <doc>
