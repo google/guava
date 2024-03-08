@@ -59,21 +59,12 @@
     <plugins>
       <plugin>
         <artifactId>maven-jar-plugin</artifactId>
-        <configuration>
-          <archive>
-            <manifestEntries>
-              <Multi-Release>true</Multi-Release>
-            </manifestEntries>
-          </archive>
-          <!-- Exclude root `module-info.class` -->
-          <excludes>/module-info.class</excludes>
-        </configuration>
       </plugin>
       <plugin>
         <extensions>true</extensions>
         <groupId>org.apache.felix</groupId>
         <artifactId>maven-bundle-plugin</artifactId>
-        <version>5.1.8</version>
+        <version>5.1.9</version>
         <executions>
           <execution>
             <id>bundle-manifest</id>
@@ -88,6 +79,7 @@
             <Export-Package>
               !com.google.common.base.internal,
               !com.google.common.util.concurrent.internal,
+              !META-INF.*,
               com.google.common.*
             </Export-Package>
             <Import-Package>
@@ -111,6 +103,10 @@
               <excludes>
                 <exclude>module-info.java</exclude>
               </excludes>
+              <compilerArgs combine.children="append" combine.self="append">
+                <arg>-Xlint:-removal,-options</arg>
+                <arg>-XDignore.symbol.file</arg>
+              </compilerArgs>
             </configuration>
           </execution>
           <execution>
@@ -270,6 +266,51 @@
       </activation>
       <build>
         <plugins>
+          <plugin>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>compile-java-9</id>
+                <phase>compile</phase>
+                <configuration>
+                  <release>9</release>
+                  <compileSourceRoots>
+                    <compileSourceRoot>${project.basedir}/src</compileSourceRoot>
+                  </compileSourceRoots>
+
+                  <!--
+                    JPMS needs access to the module sources to complete a modular Java build. We also need to override
+                    the base compiler settings (in the root `pom.xml`) to enable MRJAR output.
+                  -->
+                  <compilerArgs combine.self="override" combine.children="append">
+                    <arg>-sourcepath</arg>
+                    <arg>${project.basedir}/src</arg>
+                    <arg>--add-reads=com.google.common=ALL-UNNAMED</arg>
+                    <!-- https://errorprone.info/docs/installation#maven -->
+                    <arg>-XDcompilePolicy=simple</arg>
+                    <arg>-Xlint:-removal,-options</arg>
+                  </compilerArgs>
+                  <multiReleaseOutput>true</multiReleaseOutput>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-jar-plugin</artifactId>
+            <configuration>
+              <excludes>
+                <exclude>/module-info.class</exclude>
+                <exclude>META-INF/versions/9/com/**/*.class</exclude>
+              </excludes>
+              <archive>
+                <manifestEntries>
+                  <Multi-Release>true</Multi-Release>
+                  <Add-Reads>ALL-UNNAMED</Add-Reads>
+                </manifestEntries>
+              </archive>
+            </configuration>
+          </plugin>
           <!--
             @TODO(sgammon): explain
           -->

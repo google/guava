@@ -135,6 +135,7 @@
               <!-- https://errorprone.info/docs/installation#maven -->
               <arg>-XDcompilePolicy=simple</arg>
               <!-- -Xplugin:ErrorProne is set conditionally by a profile. -->
+              <arg>-Xlint:-removal,-options</arg>
             </compilerArgs>
             <annotationProcessorPaths>
               <path>
@@ -154,7 +155,7 @@
         </plugin>
         <plugin>
           <artifactId>maven-jar-plugin</artifactId>
-          <version>3.2.0</version>
+          <version>3.3.0</version>
         </plugin>
         <plugin>
           <artifactId>maven-source-plugin</artifactId>
