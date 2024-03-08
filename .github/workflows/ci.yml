@@ -1,12 +1,8 @@
 name: CI
 
 on:
-  push:
-    branches:
-      - master
-  pull_request:
-    branches:
-      - master
+  workflow_call: {}
+  workflow_dispatch: {}
 
 permissions:
   contents: read
@@ -25,6 +21,11 @@ jobs:
         include:
           - os: windows-latest
             java: 17
+            mode: JRE
+            root-pom: pom.xml
+          - os: windows-latest
+            java: 17
+            mode: Android
             root-pom: pom.xml
     runs-on: ${{ matrix.os }}
     env:

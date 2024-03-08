@@ -1,18 +1,14 @@
 name: "Validate Gradle Wrapper"
 on:
-  push:
-    branches:
-      - master
-  pull_request:
-    branches:
-      - master
+  workflow_call: {}
+  workflow_dispatch: {}
 
 permissions:
   contents: read
 
 jobs:
   validation:
-    name: "Validation"
+    name: "Gradle Wrapper Validate"
     runs-on: ubuntu-latest
     steps:
       - name: Harden Runner
