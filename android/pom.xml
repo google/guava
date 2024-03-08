@@ -29,7 +29,7 @@
     <module.status>integration</module.status>
     <variant.jvmEnvironment>android</variant.jvmEnvironment>
     <variant.jvmEnvironmentVariantName>android</variant.jvmEnvironmentVariantName>
-    <otherVariant.version>HEAD-jre-SNAPSHOT</otherVariant.version>
+    <otherVariant.version>1.0-HEAD-jre-SNAPSHOT</otherVariant.version>
     <otherVariant.jvmEnvironment>standard-jvm</otherVariant.jvmEnvironment>
     <otherVariant.jvmEnvironmentVariantName>jre</otherVariant.jvmEnvironmentVariantName>
   </properties>
