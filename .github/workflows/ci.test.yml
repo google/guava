@@ -22,43 +22,8 @@
 name: Tests
 
 on:
-  workflow_call:
-    inputs:
-      provenance:
-        type: boolean
-        description: "Provenance"
-        default: false
-      provenance_publish:
-        type: boolean
-        description: "Publish: Provenance"
-        default: true
-      snapshot:
-        type: boolean
-        description: "Publish: Snapshot"
-        default: false
-      repository:
-        type: string
-        description: "Publish Repository"
-        default: "sonatype-nexus-snapshots"
-
-  workflow_dispatch:
-    inputs:
-      provenance:
-        type: boolean
-        description: "Provenance"
-        default: false
-      provenance_publish:
-        type: boolean
-        description: "Publish: Provenance"
-        default: false
-      snapshot:
-        type: boolean
-        description: "Publish: Snapshot"
-        default: true
-      repository:
-        type: string
-        description: "Publish Repository"
-        default: "sonatype-nexus-snapshots"
+  workflow_call: {}
+  workflow_dispatch: {}
 
 permissions:
   contents: read
