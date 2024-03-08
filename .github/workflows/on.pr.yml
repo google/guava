@@ -1,0 +1,46 @@
+name: PR
+
+on:
+  pull_request:
+    branches:
+      - master
+
+concurrency:
+  group: guava-pr-${{ github.event.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  ## Run main CI build and tests.
+  run-ci:
+    name: "Build & Test"
+    uses: ./.github/workflows/ci.yml
+    permissions:
+      actions: write
+      contents: write
+
+  ## Validate the Gradle Wrapper binary
+  checks-gradle-wrapper:
+    name: "Checks"
+    uses: ./.github/workflows/gradle-wrapper-validation.yml
+
+  ## Publish and check the dependency graph.
+  checks-dependency-graph:
+    name: "Checks"
+    uses: ./.github/workflows/dependency-review.yml
+    permissions:
+      contents: write
+      id-token: write
+    with:
+      review: true
+
+  ## Run CodeQL checks
+  checks-codeql:
+    name: "Checks"
+    uses: ./.github/workflows/codeql.yml
+    permissions:
+      actions: read
+      contents: read
+      security-events: write

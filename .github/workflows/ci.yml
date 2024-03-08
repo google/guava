@@ -1,12 +1,8 @@
 name: CI
 
 on:
-  push:
-    branches:
-      - master
-  pull_request:
-    branches:
-      - master
+  workflow_call: {}
+  workflow_dispatch: {}
 
 permissions:
   contents: read
@@ -21,14 +17,17 @@ jobs:
       matrix:
         os: [ ubuntu-latest ]
         java: [ 8, 11, 17, 21 ]
-        root-pom: [ 'pom.xml', 'android/pom.xml' ]
+        mode: [ 'JRE', 'Android' ]
         include:
           - os: windows-latest
             java: 21
-            root-pom: pom.xml
+            mode: JRE
+          - os: windows-latest
+            java: 21
+            mode: Android
     runs-on: ${{ matrix.os }}
     env:
-      ROOT_POM: ${{ matrix.root-pom }}
+      ROOT_POM: ${{ matrix.mode == 'Android' && 'android/pom.xml' || 'pom.xml' }}
     steps:
       - name: Harden Runner
         uses: step-security/harden-runner@63c24ba6bd7ba022e95695ff85de572c04a18142 # v2.7.0

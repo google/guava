@@ -1,10 +1,9 @@
 name: "CodeQL"
 
 on:
+  workflow_call: {}
+  workflow_dispatch: {}
   push:
-    branches: ["master"]
-  pull_request:
-    # The branches below must be a subset of the branches above
     branches: ["master"]
   schedule:
     - cron: "0 0 * * 1"
@@ -14,7 +13,7 @@ permissions:
 
 jobs:
   analyze:
-    name: Analyze
+    name: CodeQL Analysis
     runs-on: ubuntu-latest
     permissions:
       actions: read
@@ -37,10 +36,8 @@ jobs:
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
         with:
           persist-credentials: false
-
-      # Initializes the CodeQL tools for scanning.
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@928ff8c822d966a999092a6a35e32177899afb7c # v2.24.6
+        uses: github/codeql-action/init@8a470fddafa5cbb6266ee11b37ef4d8aae19c571 # v3.24.6
         with:
           languages: ${{ matrix.language }}
           # If you wish to specify custom queries, you can do so here or in a config file.
@@ -50,7 +47,7 @@ jobs:
       # Autobuild attempts to build any compiled languages  (C/C++, C#, or Java).
       # If this step fails, then you should remove it and run the build manually (see below)
       - name: Autobuild
-        uses: github/codeql-action/autobuild@928ff8c822d966a999092a6a35e32177899afb7c # v2.24.6
+        uses: github/codeql-action/autobuild@8a470fddafa5cbb6266ee11b37ef4d8aae19c571 # v3.24.6
 
       # ℹ️ Command-line programs to run using the OS shell.
       # 📚 See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsrun
@@ -63,6 +60,6 @@ jobs:
       #   ./location_of_script_within_repo/buildscript.sh
 
       - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@928ff8c822d966a999092a6a35e32177899afb7c # v2.24.6
+        uses: github/codeql-action/analyze@8a470fddafa5cbb6266ee11b37ef4d8aae19c571 # v3.24.6
         with:
           category: "/language:${{matrix.language}}"
