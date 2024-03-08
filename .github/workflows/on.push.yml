@@ -15,11 +15,15 @@ permissions:
 jobs:
   ## Run main CI build and tests.
   run-ci:
-    name: "Build & Test"
-    uses: ./.github/workflows/ci.yml
+    name: "Build"
+    uses: ./.github/workflows/ci.build.yml
     permissions:
       actions: write
       contents: write
+      id-token: write
+    with:
+      snapshot: github.repository == 'google/guava'
+      provenance: true
 
   ## Publish and check the dependency graph.
   checks-dependency-graph:

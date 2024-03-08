@@ -1,7 +1,13 @@
 name: "CodeQL"
 
 on:
-  workflow_call: {}
+  workflow_call:
+    inputs:
+      publish:
+        type: boolean
+        description: "Publish SARIF"
+        default: true
+
   workflow_dispatch: {}
   push:
     branches: ["master"]
