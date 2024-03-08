@@ -1,3 +1,16 @@
+# Guava GitHub CI
+# ---------------------------------------------------------------------------------------------------------------------
+# This workflow is called from `on.push.yml` and `on.pr.yml` to operate on Guava's dependency graph:
+#
+# - The dependency graph is calculated from pom.xml files
+# - The graph is then published to GitHub, and associated with the Guava repository
+# - When operating on a PR, Dependency Review can be invoked to check dependency changes
+#
+# ## Inputs
+#
+# See the set of input parameters underneath the `workflow_call` and `workflow_dispatch` hooks for ways this workflow
+# can be controlled when called.
+
 name: 'Dependency Graph'
 on:
   workflow_call:

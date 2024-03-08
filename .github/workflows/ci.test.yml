@@ -1,3 +1,24 @@
+# Guava GitHub CI
+# ---------------------------------------------------------------------------------------------------------------------
+# This is the main CI testsuite on GitHub for the Google Guava project. This workflow is not invoked directly; instead,
+# the `on.pr.yml` and `on.push.yml` workflows kick in on PR and push events, respectively, and call this workflow as a
+# Reusable Workflow.
+#
+# This workflow can be tested independently of the entrypoint flow through the `workflow_dispatch` hook, which adds a
+# button within the UI of the GitHub repository. You can trigger the workflow from here:
+#
+# https://github.com/google/guava/actions/workflows/ci.test.yml
+#
+# ## Inputs
+#
+# See the set of input parameters underneath the `workflow_call` and `workflow_dispatch` hooks for ways this workflow
+# can be controlled when called.
+#
+# ## Multi-OS and Multi-JVM Testing
+#
+# Guava is tested against each LTS release at JDK 8 through JDK 21, on Linux and on Windows (starting at JDK 17), and
+# in Android and JRE flavors.
+
 name: Tests
 
 on:
