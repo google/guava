@@ -249,11 +249,42 @@
   </build>
   <profiles>
     <profile>
+      <id>spdx</id>
+      <activation>
+        <jdk>11</jdk>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.spdx</groupId>
+            <artifactId>spdx-maven-plugin</artifactId>
+            <version>0.7.3</version>
+            <executions>
+              <execution>
+                <id>build-spdx</id>
+                <goals>
+                  <goal>createSPDX</goal>
+                </goals>
+              </execution>
+            </executions>
+            <configuration>
+              <useArtifactID>true</useArtifactID>
+              <includeTransitiveDependencies>false</includeTransitiveDependencies>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
       <id>srczip-parent</id>
       <activation>
         <file>
           <exists>${java.home}/../src.zip</exists>
         </file>
+        <property>
+          <name>maven.javadoc.skip</name>
+          <value>false</value>
+        </property>
       </activation>
       <dependencies>
         <dependency>
@@ -272,6 +303,10 @@
         <file>
           <exists>${java.home}/lib/src.zip</exists>
         </file>
+        <property>
+          <name>maven.javadoc.skip</name>
+          <value>false</value>
+        </property>
       </activation>
       <dependencies>
         <dependency>
