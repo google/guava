@@ -6,7 +6,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.google.guava</groupId>
   <artifactId>guava-parent</artifactId>
-  <version>HEAD-android-SNAPSHOT</version>
+  <version>1.0-HEAD-android-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Guava Maven Parent</name>
   <description>Parent for guava artifacts</description>

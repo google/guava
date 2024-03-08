@@ -6,7 +6,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.google.guava</groupId>
   <artifactId>guava-parent</artifactId>
-  <version>HEAD-jre-SNAPSHOT</version>
+  <version>1.0-HEAD-jre-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Guava Maven Parent</name>
   <description>Parent for guava artifacts</description>
@@ -125,21 +125,13 @@
       <plugins>
         <plugin>
           <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.8.1</version>
+          <version>3.12.1</version>
           <configuration>
             <source>1.8</source>
             <target>1.8</target>
             <encoding>UTF-8</encoding>
             <parameters>true</parameters>
-            <compilerArgs>
-              <!--
-                   Make includes/excludes fully work:
-                   https://issues.apache.org/jira/browse/MCOMPILER-174
-
-                   (Compare what guava-gwt has to do for maven-javadoc-plugin.)
-              -->
-              <arg>-sourcepath</arg>
-              <arg>doesnotexist</arg>
+            <compilerArgs combine.children="override">
               <!-- https://errorprone.info/docs/installation#maven -->
               <arg>-XDcompilePolicy=simple</arg>
               <!-- -Xplugin:ErrorProne is set conditionally by a profile. -->

@@ -6,7 +6,7 @@
   <parent>
     <groupId>com.google.guava</groupId>
     <artifactId>guava-parent</artifactId>
-    <version>HEAD-jre-SNAPSHOT</version>
+    <version>1.0-HEAD-jre-SNAPSHOT</version>
   </parent>
   <artifactId>guava</artifactId>
   <packaging>jar</packaging>
@@ -62,9 +62,11 @@
         <configuration>
           <archive>
             <manifestEntries>
-              <Automatic-Module-Name>com.google.common</Automatic-Module-Name>
+              <Multi-Release>true</Multi-Release>
             </manifestEntries>
           </archive>
+          <!-- Exclude root `module-info.class` -->
+          <excludes>/module-info.class</excludes>
         </configuration>
       </plugin>
       <plugin>
@@ -100,6 +102,44 @@
       </plugin>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>default-compile</id>
+            <configuration>
+              <source>1.8</source>
+              <target>1.8</target>
+              <excludes>
+                <exclude>module-info.java</exclude>
+              </excludes>
+            </configuration>
+          </execution>
+          <execution>
+            <id>compile-java-9</id>
+            <phase>compile</phase>
+            <goals>
+              <goal>compile</goal>
+            </goals>
+            <configuration>
+              <release>9</release>
+              <compileSourceRoots>
+                <compileSourceRoot>${project.basedir}/src</compileSourceRoot>
+              </compileSourceRoots>
+
+              <!--
+                JPMS needs access to the module sources to complete a modular Java build. We also need to override the
+                base compile settings (in the root `pom.xml`) to enable MRJAR output.
+              -->
+              <compilerArgs combine.self="override" combine.children="append">
+                <arg>-sourcepath</arg>
+                <arg>${project.basedir}/src</arg>
+                <arg>--add-reads=com.google.common=ALL-UNNAMED</arg>
+                <!-- https://errorprone.info/docs/installation#maven -->
+                <arg>-XDcompilePolicy=simple</arg>
+              </compilerArgs>
+              <multiReleaseOutput>true</multiReleaseOutput>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
       <plugin>
         <artifactId>maven-source-plugin</artifactId>
