@@ -7,7 +7,7 @@ val guavaVersionJre =
 val expectedReducedRuntimeClasspathAndroidVersion =
   setOf(
     "guava-${guavaVersionJre.replace("jre", "android")}.jar",
-    "failureaccess-1.0.2.jar",
+    "failureaccess-1.0.3.jar",
     "j2objc-annotations-3.0.0.jar",
     "jspecify-1.0.0.jar",
     "error_prone_annotations-2.36.0.jar",
@@ -16,7 +16,7 @@ val expectedReducedRuntimeClasspathAndroidVersion =
 val expectedReducedRuntimeClasspathJreVersion =
   setOf(
     "guava-$guavaVersionJre.jar",
-    "failureaccess-1.0.2.jar",
+    "failureaccess-1.0.3.jar",
     "j2objc-annotations-3.0.0.jar",
     "jspecify-1.0.0.jar",
     "error_prone_annotations-2.36.0.jar",

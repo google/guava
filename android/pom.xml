@@ -6,7 +6,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.google.guava</groupId>
   <artifactId>guava-parent</artifactId>
-  <version>HEAD-android-SNAPSHOT</version>
+  <version>1.0-HEAD-android-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Guava Maven Parent</name>
   <description>Parent for guava artifacts</description>
@@ -42,7 +42,7 @@
     <module.status>integration</module.status>
     <variant.jvmEnvironment>android</variant.jvmEnvironment>
     <variant.jvmEnvironmentVariantName>android</variant.jvmEnvironmentVariantName>
-    <otherVariant.version>HEAD-jre-SNAPSHOT</otherVariant.version>
+    <otherVariant.version>1.0-HEAD-jre-SNAPSHOT</otherVariant.version>
     <otherVariant.jvmEnvironment>standard-jvm</otherVariant.jvmEnvironment>
     <otherVariant.jvmEnvironmentVariantName>jre</otherVariant.jvmEnvironmentVariantName>
   </properties>
@@ -86,6 +86,7 @@
     <module>guava-bom</module>
     <module>guava-testlib</module>
     <module>guava-tests</module>
+    <module>../futures/failureaccess</module>
   </modules>
   <build>
     <!-- Handle where Guava deviates from Maven defaults -->
@@ -211,7 +212,7 @@
         </plugin>
         <plugin>
           <artifactId>maven-jar-plugin</artifactId>
-          <version>3.2.0</version>
+          <version>3.4.0</version>
         </plugin>
         <plugin>
           <artifactId>maven-javadoc-plugin</artifactId>
