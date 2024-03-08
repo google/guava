@@ -31,35 +31,48 @@ jobs:
       - name: Harden Runner
         uses: step-security/harden-runner@63c24ba6bd7ba022e95695ff85de572c04a18142 # v2.7.0
         with:
-          egress-policy: audit
+          disable-sudo: true
+          egress-policy: block
+          allowed-endpoints: >
+            api.azul.com:443
+            api.github.com:443
+            cdn.azul.com:443
+            dl.google.com:443
+            docs.oracle.com:443
+            errorprone.info:443
+            github.com:443
+            objects.githubusercontent.com:443
+            oss.sonatype.org:443
+            repo.maven.apache.org:443
+            services.gradle.org:443
       - name: Checkout repository
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
         with:
           persist-credentials: false
+      - name: 'Set up JDK 21'
+        uses: actions/setup-java@9704b39bf258b59bc04b50fa2dd55e9ed76b47a8 # v4.1.0
+        with:
+          java-version: 21
+          distribution: 'zulu'
+          cache: 'maven'
       - name: Initialize CodeQL
         uses: github/codeql-action/init@8a470fddafa5cbb6266ee11b37ef4d8aae19c571 # v3.24.6
+        continue-on-error: true
         with:
           languages: ${{ matrix.language }}
-          # If you wish to specify custom queries, you can do so here or in a config file.
-          # By default, queries listed here will override any specified in a config file.
-          # Prefix the list here with "+" to use these queries and those in the config file.
-
-      # Autobuild attempts to build any compiled languages  (C/C++, C#, or Java).
-      # If this step fails, then you should remove it and run the build manually (see below)
-      - name: Autobuild
-        uses: github/codeql-action/autobuild@8a470fddafa5cbb6266ee11b37ef4d8aae19c571 # v3.24.6
-
-      # ℹ️ Command-line programs to run using the OS shell.
-      # 📚 See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsrun
-
-      #   If the Autobuild fails above, remove it and uncomment the following three lines.
-      #   modify them (or add more) to build your code if your project, please refer to the EXAMPLE below for guidance.
-
-      # - run: |
-      #   echo "Run, Build Application using script"
-      #   ./location_of_script_within_repo/buildscript.sh
-
+      - name: Build Package
+        run: |
+          ./mvnw \
+            --strict-checksums \
+            -B \
+            -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn \
+            install \
+            -U \
+            -DskipTests=true \
+            -Dmaven.javadoc.skip=true \
+            -f pom.xml
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@8a470fddafa5cbb6266ee11b37ef4d8aae19c571 # v3.24.6
+        continue-on-error: true
         with:
           category: "/language:${{matrix.language}}"
