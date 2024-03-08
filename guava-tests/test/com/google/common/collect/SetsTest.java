@@ -894,7 +894,7 @@ public class SetsTest extends TestCase {
       assertTrue(powerSet.contains(subset));
     }
     assertFalse(powerSet.contains(ImmutableSet.of(1, 2, 4)));
-    assertFalse(powerSet.contains(singleton(null)));
+    assertFalse(powerSet.contains(Collections.<@Nullable Integer>singleton(null)));
     assertFalse(powerSet.contains(null));
     assertFalse(powerSet.contains((Object) "notASet"));
   }

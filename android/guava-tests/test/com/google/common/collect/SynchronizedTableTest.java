@@ -22,7 +22,7 @@ import java.util.Map;
 import java.util.Set;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
-public class SynchronizedTableTest extends AbstractTableTest {
+public class SynchronizedTableTest extends AbstractTableTest<Character> {
   private static final class TestTable<R, C, V> implements Table<R, C, V>, Serializable {
     final Table<R, C, V> delegate = HashBasedTable.create();
     public final Object mutex = new Integer(1); // something Serializable
@@ -164,7 +164,7 @@ public class SynchronizedTableTest extends AbstractTableTest {
   }
 
   @Override
-  protected Table<String, Integer, Character> create(Object... data) {
+  protected Table<String, Integer, Character> create(@Nullable Object... data) {
     TestTable<String, Integer, Character> table = new TestTable<>();
     Table<String, Integer, Character> synced = Synchronized.table(table, table.mutex);
     populate(synced, data);

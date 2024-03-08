@@ -150,10 +150,10 @@ public class TreeMultimapExplicitTest extends TestCase {
     TreeMultimap<@Nullable String, @Nullable Integer> multimap = createPopulate();
     assertThat(multimap.entries())
         .containsExactly(
-            Maps.immutableEntry((String) null, 7),
-            Maps.immutableEntry((String) null, 3),
-            Maps.immutableEntry((String) null, 1),
-            Maps.immutableEntry("tree", (Integer) null),
+            Maps.<@Nullable String, Integer>immutableEntry(null, 7),
+            Maps.<@Nullable String, Integer>immutableEntry(null, 3),
+            Maps.<@Nullable String, Integer>immutableEntry(null, 1),
+            Maps.<String, @Nullable Integer>immutableEntry("tree", null),
             Maps.immutableEntry("tree", 0),
             Maps.immutableEntry("google", 6),
             Maps.immutableEntry("google", 2))
@@ -193,7 +193,7 @@ public class TreeMultimapExplicitTest extends TestCase {
     assertEquals(null, keySet.first());
     assertEquals("google", keySet.last());
     assertEquals(StringLength.COMPARATOR, keySet.comparator());
-    assertEquals(Sets.newHashSet(null, "tree"), keySet.headSet("yahoo"));
+    assertEquals(Sets.<@Nullable String>newHashSet(null, "tree"), keySet.headSet("yahoo"));
     assertEquals(Sets.newHashSet("google"), keySet.tailSet("yahoo"));
     assertEquals(Sets.newHashSet("tree"), keySet.subSet("ask", "yahoo"));
   }

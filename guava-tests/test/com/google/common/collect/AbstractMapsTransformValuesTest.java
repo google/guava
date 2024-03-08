@@ -249,11 +249,12 @@ abstract class AbstractMapsTransformValuesTest extends MapInterfaceTest<String, 
 
     Set<Entry<@Nullable String, @Nullable Boolean>> entries = map.entrySet();
     assertTrue(entries.contains(Maps.immutableEntry("a", true)));
-    assertTrue(entries.contains(Maps.immutableEntry("b", (Boolean) null)));
-    assertTrue(entries.contains(Maps.immutableEntry((String) null, (Boolean) null)));
+    assertTrue(entries.contains(Maps.<String, @Nullable Boolean>immutableEntry("b", null)));
+    assertTrue(
+        entries.contains(Maps.<@Nullable String, @Nullable Boolean>immutableEntry(null, null)));
 
-    assertFalse(entries.contains(Maps.immutableEntry("c", (Boolean) null)));
-    assertFalse(entries.contains(Maps.immutableEntry((String) null, true)));
+    assertFalse(entries.contains(Maps.<String, @Nullable Boolean>immutableEntry("c", null)));
+    assertFalse(entries.contains(Maps.<@Nullable String, Boolean>immutableEntry(null, true)));
   }
 
   @Override

@@ -511,7 +511,7 @@ public class ImmutableSortedMapTest extends TestCase {
   }
 
   public void testCopyOfExplicitComparator() {
-    Comparator<String> comparator = Ordering.natural().reverse();
+    Comparator<String> comparator = Ordering.<String>natural().reverse();
     Map<String, Integer> original = new LinkedHashMap<>();
     original.put("one", 1);
     original.put("two", 2);
@@ -524,7 +524,7 @@ public class ImmutableSortedMapTest extends TestCase {
   }
 
   public void testCopyOfImmutableSortedSetDifferentComparator() {
-    Comparator<String> comparator = Ordering.natural().reverse();
+    Comparator<String> comparator = Ordering.<String>natural().reverse();
     Map<String, Integer> original = ImmutableSortedMap.of("one", 1, "two", 2, "three", 3);
     ImmutableSortedMap<String, Integer> copy = ImmutableSortedMap.copyOf(original, comparator);
     assertMapEquals(copy, "two", 2, "three", 3, "one", 1);
@@ -545,7 +545,7 @@ public class ImmutableSortedMapTest extends TestCase {
   }
 
   public void testCopyOfSortedExplicit() {
-    Comparator<String> comparator = Ordering.natural().reverse();
+    Comparator<String> comparator = Ordering.<String>natural().reverse();
     SortedMap<String, Integer> original = Maps.newTreeMap(comparator);
     original.put("one", 1);
     original.put("two", 2);
@@ -613,11 +613,11 @@ public class ImmutableSortedMapTest extends TestCase {
             .put("five", 5)
             .build();
     assertMapEquals(map, "two", 2, "three", 3, "one", 1, "four", 4, "five", 5);
-    assertEquals(Ordering.natural().reverse(), map.comparator());
+    assertEquals(Ordering.<String>natural().reverse(), map.comparator());
   }
 
   public void testBuilderComparator() {
-    Comparator<String> comparator = Ordering.natural().reverse();
+    Comparator<String> comparator = Ordering.<String>natural().reverse();
     ImmutableSortedMap<String, Integer> map =
         new ImmutableSortedMap.Builder<String, Integer>(comparator)
             .put("one", 1)

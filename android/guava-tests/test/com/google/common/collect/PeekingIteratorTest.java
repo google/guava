@@ -106,7 +106,7 @@ public class PeekingIteratorTest extends TestCase {
 
   @GwtIncompatible // works but takes 5 minutes to run
   public void testPeekingIteratorAcceptsNullElements() {
-    actsLikeIteratorHelper(Lists.newArrayList(null, "A", null));
+    actsLikeIteratorHelper(Lists.<@Nullable String>newArrayList(null, "A", null));
   }
 
   public void testPeekOnEmptyList() {

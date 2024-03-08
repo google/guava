@@ -396,10 +396,10 @@ public class ImmutableSetMultimapTest extends TestCase {
   }
 
   public void testCopyOfNullValue() {
-    HashMultimap<String, Integer> input = HashMultimap.create();
-    input.putAll("foo", Arrays.asList(1, null, 3));
+    HashMultimap<String, @Nullable Integer> input = HashMultimap.create();
+    input.putAll("foo", Arrays.<@Nullable Integer>asList(1, null, 3));
     try {
-      ImmutableSetMultimap.copyOf(input);
+      ImmutableSetMultimap.copyOf((Multimap<String, Integer>) input);
       fail();
     } catch (NullPointerException expected) {
     }

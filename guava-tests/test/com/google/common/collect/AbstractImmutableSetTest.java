@@ -75,7 +75,7 @@ public abstract class AbstractImmutableSetTest extends TestCase {
   public void testCreation_noArgs() {
     Set<String> set = of();
     assertEquals(Collections.<String>emptySet(), set);
-    assertSame(of(), set);
+    assertSame(this.<String>of(), set);
   }
 
   public void testCreation_oneElement() {
@@ -122,7 +122,7 @@ public abstract class AbstractImmutableSetTest extends TestCase {
     String[] array = new String[0];
     Set<String> set = copyOf(array);
     assertEquals(Collections.<String>emptySet(), set);
-    assertSame(of(), set);
+    assertSame(this.<String>of(), set);
   }
 
   public void testCopyOf_arrayOfOneElement() {
@@ -153,7 +153,7 @@ public abstract class AbstractImmutableSetTest extends TestCase {
     Collection<String> c = MinimalCollection.<String>of();
     Set<String> set = copyOf(c);
     assertEquals(Collections.<String>emptySet(), set);
-    assertSame(of(), set);
+    assertSame(this.<String>of(), set);
   }
 
   public void testCopyOf_collection_oneElement() {
@@ -203,7 +203,7 @@ public abstract class AbstractImmutableSetTest extends TestCase {
     Iterator<String> iterator = Iterators.emptyIterator();
     Set<String> set = copyOf(iterator);
     assertEquals(Collections.<String>emptySet(), set);
-    assertSame(of(), set);
+    assertSame(this.<String>of(), set);
   }
 
   public void testCopyOf_iterator_oneElement() {

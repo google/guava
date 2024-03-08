@@ -110,7 +110,8 @@ public class MultimapsTest extends TestCase {
 
   @GwtIncompatible // slow (~10s)
   public void testUnmodifiableArrayListMultimap() {
-    checkUnmodifiableMultimap(ArrayListMultimap.<String, Integer>create(), true);
+    checkUnmodifiableMultimap(
+        ArrayListMultimap.<@Nullable String, @Nullable Integer>create(), true);
   }
 
   @J2ktIncompatible
@@ -141,7 +142,7 @@ public class MultimapsTest extends TestCase {
 
   @GwtIncompatible // slow (~10s)
   public void testUnmodifiableHashMultimap() {
-    checkUnmodifiableMultimap(HashMultimap.<String, Integer>create(), false);
+    checkUnmodifiableMultimap(HashMultimap.<@Nullable String, @Nullable Integer>create(), false);
   }
 
   @J2ktIncompatible
@@ -168,7 +169,9 @@ public class MultimapsTest extends TestCase {
   @GwtIncompatible // slow (~10s)
   public void testUnmodifiableSynchronizedArrayListMultimap() {
     checkUnmodifiableMultimap(
-        Multimaps.synchronizedListMultimap(ArrayListMultimap.<String, Integer>create()), true);
+        Multimaps.synchronizedListMultimap(
+            ArrayListMultimap.<@Nullable String, @Nullable Integer>create()),
+        true);
   }
 
   @J2ktIncompatible
@@ -186,7 +189,9 @@ public class MultimapsTest extends TestCase {
   @GwtIncompatible // slow (~10s)
   public void testUnmodifiableSynchronizedHashMultimap() {
     checkUnmodifiableMultimap(
-        Multimaps.synchronizedSetMultimap(HashMultimap.<String, Integer>create()), false);
+        Multimaps.synchronizedSetMultimap(
+            HashMultimap.<@Nullable String, @Nullable Integer>create()),
+        false);
   }
 
   @J2ktIncompatible
@@ -263,7 +268,7 @@ public class MultimapsTest extends TestCase {
    * multimap must support null keys and values.
    */
   private static void checkUnmodifiableMultimap(
-      Multimap<String, Integer> multimap, boolean permitsDuplicates) {
+      Multimap<@Nullable String, @Nullable Integer> multimap, boolean permitsDuplicates) {
     checkUnmodifiableMultimap(multimap, permitsDuplicates, null, null);
   }
 
@@ -273,7 +278,7 @@ public class MultimapsTest extends TestCase {
    * involving nulls.
    */
   private static void checkUnmodifiableMultimap(
-      Multimap<String, Integer> multimap,
+      Multimap<@Nullable String, @Nullable Integer> multimap,
       boolean permitsDuplicates,
       @Nullable String nullKey,
       @Nullable Integer nullValue) {
@@ -302,8 +307,8 @@ public class MultimapsTest extends TestCase {
   }
 
   /** Prepares the multimap for unmodifiable tests, returning an unmodifiable view of the map. */
-  private static Multimap<String, Integer> prepareUnmodifiableTests(
-      Multimap<String, Integer> multimap,
+  private static Multimap<@Nullable String, @Nullable Integer> prepareUnmodifiableTests(
+      Multimap<@Nullable String, @Nullable Integer> multimap,
       boolean permitsDuplicates,
       @Nullable String nullKey,
       @Nullable Integer nullValue) {
@@ -324,21 +329,26 @@ public class MultimapsTest extends TestCase {
       assertEquals(8, multimap.size());
     }
 
-    Multimap<String, Integer> unmodifiable;
+    Multimap<@Nullable String, @Nullable Integer> unmodifiable;
     if (multimap instanceof SortedSetMultimap) {
       unmodifiable =
-          Multimaps.unmodifiableSortedSetMultimap((SortedSetMultimap<String, Integer>) multimap);
+          Multimaps.unmodifiableSortedSetMultimap(
+              (SortedSetMultimap<@Nullable String, @Nullable Integer>) multimap);
     } else if (multimap instanceof SetMultimap) {
-      unmodifiable = Multimaps.unmodifiableSetMultimap((SetMultimap<String, Integer>) multimap);
+      unmodifiable =
+          Multimaps.unmodifiableSetMultimap(
+              (SetMultimap<@Nullable String, @Nullable Integer>) multimap);
     } else if (multimap instanceof ListMultimap) {
-      unmodifiable = Multimaps.unmodifiableListMultimap((ListMultimap<String, Integer>) multimap);
+      unmodifiable =
+          Multimaps.unmodifiableListMultimap(
+              (ListMultimap<@Nullable String, @Nullable Integer>) multimap);
     } else {
       unmodifiable = Multimaps.unmodifiableMultimap(multimap);
     }
     return unmodifiable;
   }
 
-  private static <T> void assertUnmodifiableIterableInTandem(
+  private static <T extends @Nullable Object> void assertUnmodifiableIterableInTandem(
       Iterable<T> unmodifiable, Iterable<T> modifiable) {
     UnmodifiableCollectionTests.assertIteratorIsUnmodifiable(unmodifiable.iterator());
     UnmodifiableCollectionTests.assertIteratorsInOrder(
@@ -510,7 +520,7 @@ public class MultimapsTest extends TestCase {
     IteratorTester<Integer> tester =
         new IteratorTester<Integer>(
             4, MODIFIABLE, newHashSet(1), IteratorTester.KnownOrder.KNOWN_ORDER) {
-          private Multimap<String, Integer> multimap;
+          private @Nullable Multimap<String, Integer> multimap;
 
           @Override
           protected Iterator<Integer> newTargetIterator() {
@@ -809,9 +819,9 @@ public class MultimapsTest extends TestCase {
   }
 
   public void testIndex_nullValue() {
-    List<Integer> values = Arrays.asList(1, null);
+    List<@Nullable Integer> values = Arrays.asList(1, null);
     try {
-      Multimaps.index(values, Functions.identity());
+      Multimaps.index((List<Integer>) values, Functions.identity());
       fail();
     } catch (NullPointerException expected) {
     }

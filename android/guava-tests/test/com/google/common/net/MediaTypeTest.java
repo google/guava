@@ -35,6 +35,7 @@ import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
@@ -57,6 +58,7 @@ import junit.framework.TestCase;
  */
 @GwtCompatible(emulated = true)
 public class MediaTypeTest extends TestCase {
+  @J2ktIncompatible
   @GwtIncompatible // reflection
   public void testParse_useConstants() throws Exception {
     for (MediaType constant : getConstants()) {
@@ -64,6 +66,7 @@ public class MediaTypeTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // reflection
   public void testCreate_useConstants() throws Exception {
     for (MediaType constant : getConstants()) {
@@ -74,6 +77,7 @@ public class MediaTypeTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // reflection
   public void testConstants_charset() throws Exception {
     for (Field field : getConstantFields()) {
@@ -86,11 +90,13 @@ public class MediaTypeTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // reflection
   public void testConstants_areUnique() {
     assertThat(getConstants()).containsNoDuplicates();
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // reflection
   private static FluentIterable<Field> getConstantFields() {
     return FluentIterable.from(asList(MediaType.class.getDeclaredFields()))
@@ -107,6 +113,7 @@ public class MediaTypeTest extends TestCase {
             });
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // reflection
   private static FluentIterable<MediaType> getConstants() {
     return getConstantFields()
@@ -525,6 +532,7 @@ public class MediaTypeTest extends TestCase {
     assertThat(MediaType.parse("text/plain; charset=utf-8").charset()).hasValue(UTF_8);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // Non-UTF-8 Charset
   public void testGetCharset_utf16() {
     assertThat(MediaType.parse("text/plain; charset=utf-16").charset()).hasValue(UTF_16);
@@ -604,6 +612,7 @@ public class MediaTypeTest extends TestCase {
         .testEquals();
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // Non-UTF-8 Charset
   public void testEquals_nonUtf8Charsets() {
     new EqualsTester()
@@ -613,6 +622,7 @@ public class MediaTypeTest extends TestCase {
         .testEquals();
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // com.google.common.testing.NullPointerTester
   public void testNullPointer() {
     NullPointerTester tester = new NullPointerTester();

@@ -97,9 +97,9 @@ public class OrderingTest extends TestCase {
     // [[null, null], [null], [1, null, 2], [1, 1], [1, 2], [1], [2], [], null]
     assertThat(sorted)
         .containsExactly(
-            Lists.newArrayList(nullInt, nullInt),
-            Lists.newArrayList(nullInt),
-            Lists.newArrayList(1, null, 2),
+            Lists.<@Nullable Integer>newArrayList(nullInt, nullInt),
+            Lists.<@Nullable Integer>newArrayList(nullInt),
+            Lists.<@Nullable Integer>newArrayList(1, null, 2),
             Lists.newArrayList(1, 1),
             Lists.newArrayList(1, 2),
             Lists.newArrayList(1),
@@ -291,7 +291,7 @@ public class OrderingTest extends TestCase {
   }
 
   private static Ordering<String> byCharAt(int index) {
-    return Ordering.natural().onResultOf(CharAtFunction.values()[index]);
+    return Ordering.<Character>natural().onResultOf(CharAtFunction.values()[index]);
   }
 
   public void testCompound_static() {
@@ -385,18 +385,18 @@ public class OrderingTest extends TestCase {
     }
   }
 
-  private static final Ordering<Integer> DECREASING_INTEGER = Ordering.natural().reverse();
+  private static final Ordering<Integer> DECREASING_INTEGER = Ordering.<Integer>natural().reverse();
 
   public void testOnResultOf_natural() {
     Comparator<String> comparator =
-        Ordering.natural().onResultOf(StringLengthFunction.StringLength);
+        Ordering.<Integer>natural().onResultOf(StringLengthFunction.StringLength);
     assertTrue(comparator.compare("to", "be") == 0);
     assertTrue(comparator.compare("or", "not") < 0);
     assertTrue(comparator.compare("that", "to") > 0);
 
     new EqualsTester()
         .addEqualityGroup(
-            comparator, Ordering.natural().onResultOf(StringLengthFunction.StringLength))
+            comparator, Ordering.<Integer>natural().onResultOf(StringLengthFunction.StringLength))
         .addEqualityGroup(DECREASING_INTEGER)
         .testEquals();
     reserializeAndAssert(comparator);
@@ -440,8 +440,8 @@ public class OrderingTest extends TestCase {
   }
 
   public void testNullsFirst() {
-    Ordering<Integer> ordering = Ordering.natural().nullsFirst();
-    Helpers.testComparator(ordering, null, Integer.MIN_VALUE, 0, 1);
+    Ordering<@Nullable Integer> ordering = Ordering.<Integer>natural().<Integer>nullsFirst();
+    Helpers.<@Nullable Integer>testComparator(ordering, null, Integer.MIN_VALUE, 0, 1);
 
     new EqualsTester()
         .addEqualityGroup(ordering, Ordering.natural().nullsFirst())
@@ -451,8 +451,8 @@ public class OrderingTest extends TestCase {
   }
 
   public void testNullsLast() {
-    Ordering<Integer> ordering = Ordering.natural().nullsLast();
-    Helpers.testComparator(ordering, 0, 1, Integer.MAX_VALUE, null);
+    Ordering<@Nullable Integer> ordering = Ordering.<Integer>natural().<Integer>nullsLast();
+    Helpers.<@Nullable Integer>testComparator(ordering, 0, 1, Integer.MAX_VALUE, null);
 
     new EqualsTester()
         .addEqualityGroup(ordering, Ordering.natural().nullsLast())
@@ -467,9 +467,10 @@ public class OrderingTest extends TestCase {
   }
 
   public void testSortedCopy() {
-    List<Integer> unsortedInts = Collections.unmodifiableList(Arrays.asList(5, 0, 3, null, 0, 9));
-    List<Integer> sortedInts = numberOrdering.nullsLast().sortedCopy(unsortedInts);
-    assertEquals(Arrays.asList(0, 0, 3, 5, 9, null), sortedInts);
+    List<@Nullable Integer> unsortedInts =
+        Collections.unmodifiableList(Arrays.<@Nullable Integer>asList(5, 0, 3, null, 0, 9));
+    List<@Nullable Integer> sortedInts = numberOrdering.nullsLast().sortedCopy(unsortedInts);
+    assertEquals(Arrays.<@Nullable Integer>asList(0, 0, 3, 5, 9, null), sortedInts);
 
     assertEquals(
         Collections.emptyList(), numberOrdering.sortedCopy(Collections.<Integer>emptyList()));
@@ -484,9 +485,9 @@ public class OrderingTest extends TestCase {
         Collections.<Integer>emptyList(),
         numberOrdering.immutableSortedCopy(Collections.<Integer>emptyList()));
 
-    List<Integer> listWithNull = Arrays.asList(5, 3, null, 9);
+    List<@Nullable Integer> listWithNull = Arrays.asList(5, 3, null, 9);
     try {
-      Ordering.natural().nullsFirst().immutableSortedCopy(listWithNull);
+      Ordering.<Integer>natural().nullsFirst().immutableSortedCopy((List<Integer>) listWithNull);
       fail();
     } catch (NullPointerException expected) {
     }
@@ -599,16 +600,17 @@ public class OrderingTest extends TestCase {
   }
 
   public void testLeastOfIterable_simple_nMinusOne_withNullElement() {
-    List<Integer> list = Arrays.asList(3, null, 5, -1);
-    List<Integer> result = Ordering.natural().nullsLast().leastOf(list, list.size() - 1);
+    List<@Nullable Integer> list = Arrays.asList(3, null, 5, -1);
+    List<@Nullable Integer> result =
+        Ordering.<Integer>natural().nullsLast().leastOf(list, list.size() - 1);
     assertTrue(result instanceof RandomAccess);
     assertListImmutable(result);
     assertEquals(ImmutableList.of(-1, 3, 5), result);
   }
 
   public void testLeastOfIterator_simple_nMinusOne_withNullElement() {
-    Iterator<Integer> itr = Iterators.forArray(3, null, 5, -1);
-    List<Integer> result = Ordering.natural().nullsLast().leastOf(itr, 3);
+    Iterator<@Nullable Integer> itr = Iterators.forArray(3, null, 5, -1);
+    List<@Nullable Integer> result = Ordering.<Integer>natural().nullsLast().leastOf(itr, 3);
     assertTrue(result instanceof RandomAccess);
     assertListImmutable(result);
     assertEquals(ImmutableList.of(-1, 3, 5), result);
@@ -647,19 +649,21 @@ public class OrderingTest extends TestCase {
   }
 
   public void testLeastOfIterable_simple_n_withNullElement() {
-    List<Integer> list = Arrays.asList(3, 4, 5, null, -1);
-    List<Integer> result = Ordering.natural().nullsLast().leastOf(list, list.size());
+    List<@Nullable Integer> list = Arrays.asList(3, 4, 5, null, -1);
+    List<@Nullable Integer> result =
+        Ordering.<Integer>natural().nullsLast().leastOf(list, list.size());
     assertTrue(result instanceof RandomAccess);
     assertListImmutable(result);
-    assertEquals(Arrays.asList(-1, 3, 4, 5, null), result);
+    assertEquals(Arrays.<@Nullable Integer>asList(-1, 3, 4, 5, null), result);
   }
 
   public void testLeastOfIterator_simple_n_withNullElement() {
-    List<Integer> list = Arrays.asList(3, 4, 5, null, -1);
-    List<Integer> result = Ordering.natural().nullsLast().leastOf(list.iterator(), list.size());
+    List<@Nullable Integer> list = Arrays.asList(3, 4, 5, null, -1);
+    List<@Nullable Integer> result =
+        Ordering.<Integer>natural().nullsLast().leastOf(list.iterator(), list.size());
     assertTrue(result instanceof RandomAccess);
     assertListImmutable(result);
-    assertEquals(Arrays.asList(-1, 3, 4, 5, null), result);
+    assertEquals(Arrays.<@Nullable Integer>asList(-1, 3, 4, 5, null), result);
   }
 
   public void testLeastOfIterable_simple_nPlusOne() {
@@ -730,14 +734,15 @@ public class OrderingTest extends TestCase {
 
   public void testLeastOfIterableLargeK() {
     List<Integer> list = Arrays.asList(4, 2, 3, 5, 1);
-    assertEquals(Arrays.asList(1, 2, 3, 4, 5), Ordering.natural().leastOf(list, Integer.MAX_VALUE));
+    assertEquals(
+        Arrays.asList(1, 2, 3, 4, 5), Ordering.<Integer>natural().leastOf(list, Integer.MAX_VALUE));
   }
 
   public void testLeastOfIteratorLargeK() {
     List<Integer> list = Arrays.asList(4, 2, 3, 5, 1);
     assertEquals(
         Arrays.asList(1, 2, 3, 4, 5),
-        Ordering.natural().leastOf(list.iterator(), Integer.MAX_VALUE));
+        Ordering.<Integer>natural().leastOf(list.iterator(), Integer.MAX_VALUE));
   }
 
   public void testGreatestOfIterable_simple() {
@@ -1094,7 +1099,7 @@ public class OrderingTest extends TestCase {
           composites.add(new Composite<T>(t, 2));
         }
         Ordering<Composite<T>> ordering =
-            Ordering.natural()
+            Ordering.<Composite<T>>natural()
                 .compound(scenario.ordering.onResultOf(Composite.<T>getValueFunction()));
         return new Scenario<Composite<T>>(
             ordering, composites, (Composite<T>[]) new Composite<?>[0]);
