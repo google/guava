@@ -1,0 +1,33 @@
+name: 'Dependency Graph'
+on:
+  pull_request: {}
+  push:
+    branches:
+      - master
+
+permissions:
+  contents: read
+
+jobs:
+  dependency-review:
+    name: 'Dependency Graph'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read  # needed to check out the repository
+      id-token: write  # needed to exchange the graph publish token for an access token
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@63c24ba6bd7ba022e95695ff85de572c04a18142 # v2.7.0
+        with:
+          egress-policy: audit
+      - name: 'Checkout Repository'
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+      - name: Maven Dependency Tree Dependency Submission
+        uses: advanced-security/maven-dependency-submission-action@bfd2106013da0957cdede0b6c39fb5ca25ae375e # v4.0.2
+        with:
+          token: ${{ secrets.GH_GRAPH_PUBLISH_TOKEN }}
+      - name: 'Dependency Review'
+        uses: actions/dependency-review-action@9129d7d40b8c12c1ed0f60400d00c92d437adcce # v4.1.3
+        continue-on-error: true
+        with:
+          retry-on-snapshot-warnings: true
