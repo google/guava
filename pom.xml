@@ -274,6 +274,20 @@
           <artifactId>build-helper-maven-plugin</artifactId>
           <version>3.4.0</version>
         </plugin>
+        <plugin>
+          <artifactId>maven-gpg-plugin</artifactId>
+          <version>3.0.1</version>
+        </plugin>
+        <plugin>
+          <groupId>dev.sigstore</groupId>
+          <artifactId>sigstore-maven-plugin</artifactId>
+          <version>0.4.0</version>
+        </plugin>
+        <plugin>
+          <groupId>org.spdx</groupId>
+          <artifactId>spdx-maven-plugin</artifactId>
+          <version>0.7.3</version>
+        </plugin>
       </plugins>
     </pluginManagement>
   </build>
@@ -331,7 +345,6 @@
             <plugin>
               <groupId>dev.sigstore</groupId>
               <artifactId>sigstore-maven-plugin</artifactId>
-              <version>0.4.0</version>
               <executions>
                 <execution>
                   <id>sign</id>
@@ -343,7 +356,6 @@
             </plugin>
             <plugin>
               <artifactId>maven-gpg-plugin</artifactId>
-              <version>3.0.1</version>
               <executions>
                 <execution>
                   <id>sign-artifacts</id>
