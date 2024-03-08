@@ -30,6 +30,10 @@ jobs:
     env:
       ROOT_POM: ${{ matrix.root-pom }}
     steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@63c24ba6bd7ba022e95695ff85de572c04a18142 # v2.7.0
+        with:
+          egress-policy: audit
       # Cancel any previous runs for the same branch that are still running.
       - name: 'Cancel previous runs'
         uses: styfle/cancel-workflow-action@85880fa0301c86cca9da44039ee3bb12d3bedbfa # 0.12.1
@@ -37,9 +41,10 @@ jobs:
           access_token: ${{ github.token }}
       - name: 'Check out repository'
         uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633 # v4.1.2
+        with:
+          persist-credentials: false
       - name: 'Set up JDK ${{ matrix.java }}'
         uses: actions/setup-java@9704b39bf258b59bc04b50fa2dd55e9ed76b47a8 # v4.1.0
-
         with:
           java-version: ${{ matrix.java }}
           distribution: 'zulu'
@@ -66,6 +71,10 @@ jobs:
     if: github.event_name == 'push' && github.repository == 'google/guava'
     runs-on: ubuntu-latest
     steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@63c24ba6bd7ba022e95695ff85de572c04a18142 # v2.7.0
+        with:
+          egress-policy: audit
       - name: 'Check out repository'
         uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633 # v4.1.2
       - name: 'Set up JDK 21'
@@ -91,6 +100,10 @@ jobs:
     if: github.event_name == 'push' && github.repository == 'google/guava'
     runs-on: ubuntu-latest
     steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@63c24ba6bd7ba022e95695ff85de572c04a18142 # v2.7.0
+        with:
+          egress-policy: audit
       - name: 'Check out repository'
         uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633 # v4.1.2
       - name: 'Set up JDK 21'
