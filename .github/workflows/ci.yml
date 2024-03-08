@@ -12,12 +12,12 @@ jobs:
     permissions:
       actions: write  # for styfle/cancel-workflow-action to cancel/stop running workflows
       contents: read  # for actions/checkout to fetch code
-    name: "${{ matrix.root-pom }} on JDK ${{ matrix.java }} on ${{ matrix.os }}"
+    name: "JDK ${{ matrix.java }} / ${{ matrix.mode }} (${{ matrix.os }})"
     strategy:
       matrix:
         os: [ ubuntu-latest ]
         java: [ 8, 11, 17 ]
-        root-pom: [ 'pom.xml', 'android/pom.xml' ]
+        mode: [ 'JRE', 'Android' ]
         include:
           - os: windows-latest
             java: 17
@@ -29,17 +29,25 @@ jobs:
             root-pom: pom.xml
     runs-on: ${{ matrix.os }}
     env:
-      ROOT_POM: ${{ matrix.root-pom }}
+      ROOT_POM: ${{ matrix.root-pom == 'Android' && 'android/pom.xml' || 'pom.xml' }}
     steps:
-      # Cancel any previous runs for the same branch that are still running.
       - name: Harden Runner
         uses: step-security/harden-runner@63c24ba6bd7ba022e95695ff85de572c04a18142 # v2.7.0
         with:
-          egress-policy: audit
-      - name: 'Cancel previous runs'
-        uses: styfle/cancel-workflow-action@85880fa0301c86cca9da44039ee3bb12d3bedbfa # 0.12.1
-        with:
-          access_token: ${{ github.token }}
+          disable-sudo: true
+          egress-policy: block
+          allowed-endpoints: >
+            api.azul.com:443
+            api.github.com:443
+            cdn.azul.com:443
+            dl.google.com:443
+            docs.oracle.com:443
+            errorprone.info:443
+            github.com:443
+            objects.githubusercontent.com:443
+            oss.sonatype.org:443
+            repo.maven.apache.org:443
+            services.gradle.org:443
       - name: 'Check out repository'
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
         with:
