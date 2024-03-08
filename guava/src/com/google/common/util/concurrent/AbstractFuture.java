@@ -65,6 +65,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 1.0
  */
 @SuppressWarnings({
+  "removal",  // `AccessController` removal
   "ShortCircuitBoolean", // we use non-short circuiting comparisons intentionally
   "nullness", // TODO(b/147136275): Remove once our checker understands & and |.
 })
