@@ -25,6 +25,7 @@
     <project.build.outputTimestamp>2024-01-02T00:00:00Z</project.build.outputTimestamp>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <test.add.opens></test.add.opens>
+    <test.add.args></test.add.args>
     <module.status>integration</module.status>
     <variant.jvmEnvironment>android</variant.jvmEnvironment>
     <variant.jvmEnvironmentVariantName>android</variant.jvmEnvironmentVariantName>
@@ -253,7 +254,7 @@
             <runOrder>alphabetical</runOrder>
             <!-- Set max heap for tests. -->
             <!-- Catch dependencies on the default locale by setting it to hi-IN. -->
-            <argLine>-Xmx1536M -Duser.language=hi -Duser.country=IN ${test.add.opens}</argLine>
+            <argLine>-Xmx1536M -Duser.language=hi -Duser.country=IN ${test.add.args} ${test.add.opens}</argLine>
           </configuration>
         </plugin>
         <plugin>
@@ -461,6 +462,19 @@
           </plugin>
         </plugins>
       </build>
+    </profile>
+    <profile>
+      <id>javac-for-jvm18plus</id>
+      <activation>
+        <!--
+            To build and run the tests against JDK 18+, we need to pass java.security.manager=allow, to allow use of
+            the deprecated 'java.lang.SecurityManager' class.
+         -->
+        <jdk>[18,]</jdk>
+      </activation>
+      <properties>
+        <test.add.args>-Djava.security.manager=allow</test.add.args>
+      </properties>
     </profile>
   </profiles>
 </project>
