@@ -104,7 +104,6 @@
                 <exclude>module-info.java</exclude>
               </excludes>
               <compilerArgs combine.children="append" combine.self="append">
-                <arg>-Xlint:-removal,-options</arg>
                 <arg>-XDignore.symbol.file</arg>
               </compilerArgs>
             </configuration>
@@ -288,7 +287,8 @@
                     <arg>--add-reads=com.google.common=ALL-UNNAMED</arg>
                     <!-- https://errorprone.info/docs/installation#maven -->
                     <arg>-XDcompilePolicy=simple</arg>
-                    <arg>-Xlint:-removal,-options</arg>
+                    <arg>-Xlint:-removal</arg>
+                    <arg>-Xlint:-options</arg>
                   </compilerArgs>
                   <multiReleaseOutput>true</multiReleaseOutput>
                 </configuration>
