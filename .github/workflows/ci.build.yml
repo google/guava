@@ -78,15 +78,25 @@ jobs:
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
         with:
           persist-credentials: false
-      - name: 'Set up JDK 11'
+      - name: 'Set up JDK 21'
         uses: actions/setup-java@9704b39bf258b59bc04b50fa2dd55e9ed76b47a8 # v4.1.0
         with:
-          java-version: 11
+          java-version: 21
           distribution: 'zulu'
           cache: 'maven'
       - name: 'Install'
         shell: bash
-        run: ./mvnw --strict-checksums -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn install -U -DskipTests=true -f $ROOT_POM
+        run: |
+          ./mvnw \
+            --strict-checksums \
+            -B \
+            -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn \
+            install \
+            -U \
+            -DskipTests=true \
+            -Dmaven.javadoc.skip=false \
+            -Dgpg.skip \
+            -f $ROOT_POM
       - name: Generate hashes
         shell: bash
         id: hash
@@ -138,10 +148,10 @@ jobs:
           egress-policy: audit
       - name: 'Check out repository'
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
-      - name: 'Set up JDK 11'
+      - name: 'Set up JDK 21'
         uses: actions/setup-java@9704b39bf258b59bc04b50fa2dd55e9ed76b47a8 # v4.1.0
         with:
-          java-version: 11
+          java-version: 21
           distribution: 'zulu'
           server-id: ${{ inputs.repository }}
           server-username: CI_DEPLOY_USERNAME
@@ -171,10 +181,10 @@ jobs:
           egress-policy: audit
       - name: 'Check out repository'
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
-      - name: 'Set up JDK 11'
+      - name: 'Set up JDK 21'
         uses: actions/setup-java@9704b39bf258b59bc04b50fa2dd55e9ed76b47a8 # v4.1.0
         with:
-          java-version: 11
+          java-version: 21
           distribution: 'zulu'
           cache: 'maven'
       - name: 'Generate latest docs'
