@@ -135,7 +135,6 @@
               <!-- https://errorprone.info/docs/installation#maven -->
               <arg>-XDcompilePolicy=simple</arg>
               <!-- -Xplugin:ErrorProne is set conditionally by a profile. -->
-              <arg>-Xlint:-removal,-options</arg>
             </compilerArgs>
             <annotationProcessorPaths>
               <path>
@@ -486,7 +485,26 @@
       </build>
     </profile>
     <profile>
-      <id>javac-for-jvm18plus</id>
+      <id>jvm11plus</id>
+      <activation>
+        <jdk>[11,]</jdk>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <configuration>
+              <compilerArgs combine.self="append" combine.children="append">
+                <arg>-Xlint:-removal</arg>
+                <arg>-Xlint:-options</arg>
+              </compilerArgs>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>jvm18plus</id>
       <activation>
         <!--
             In order to build and run the tests against JDK 18+, we need to pass java.security.manager=allow, to make
