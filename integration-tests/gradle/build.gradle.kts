@@ -23,9 +23,9 @@ val expectedReducedRuntimeClasspathJreVersion =
     "listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar"
   )
 val expectedCompileClasspathAndroidVersion =
-  expectedReducedRuntimeClasspathAndroidVersion + setOf("j2objc-annotations-2.8.jar")
+  expectedReducedRuntimeClasspathAndroidVersion + setOf("j2objc-annotations-3.0.0.jar")
 val expectedCompileClasspathJreVersion =
-  expectedReducedRuntimeClasspathJreVersion + setOf("j2objc-annotations-2.8.jar")
+  expectedReducedRuntimeClasspathJreVersion + setOf("j2objc-annotations-3.0.0.jar")
 
 val extraLegacyDependencies = setOf("google-collections-1.0.jar")
 

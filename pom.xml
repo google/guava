@@ -18,7 +18,7 @@
     <jsr305.version>3.0.2</jsr305.version>
     <checker.version>3.42.0</checker.version>
     <errorprone.version>2.24.1</errorprone.version>
-    <j2objc.version>2.8</j2objc.version>
+    <j2objc.version>3.0.0</j2objc.version>
     <javac.version>9+181-r4173-1</javac.version>
     <!-- Empty for all JDKs but 9-12 -->
     <maven-javadoc-plugin.additionalJOptions></maven-javadoc-plugin.additionalJOptions>
