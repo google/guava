@@ -74,6 +74,16 @@
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>default-testCompile</id>
+            <configuration>
+              <compilerArgs>
+                <compilerArg>-Xlint:-removal</compilerArg>
+              </compilerArgs>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
       <plugin>
         <artifactId>maven-source-plugin</artifactId>

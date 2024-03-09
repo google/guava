@@ -23,6 +23,7 @@ module com.google.common {
   requires java.base;
   requires java.logging;
   requires jdk.unsupported;
+  requires com.google.common.util.concurrent.internal;
 
   exports com.google.common.annotations;
   exports com.google.common.base;

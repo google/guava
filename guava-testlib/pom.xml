@@ -61,9 +61,6 @@
   <build>
     <plugins>
       <plugin>
-        <artifactId>maven-compiler-plugin</artifactId>
-      </plugin>
-      <plugin>
         <artifactId>maven-source-plugin</artifactId>
         <executions>
           <execution>
@@ -91,6 +88,17 @@
       </plugin>
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>9</source>
+          <target>9</target>
+          <compilerArgs>
+            <compilerArg>--add-reads=com.google.common.testlib=ALL-UNNAMED</compilerArg>
+          </compilerArgs>
+        </configuration>
       </plugin>
     </plugins>
   </build>
