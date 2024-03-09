@@ -74,16 +74,6 @@
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>default-testCompile</id>
-            <configuration>
-              <compilerArgs>
-                <compilerArg>-Xlint:-removal</compilerArg>
-              </compilerArgs>
-            </configuration>
-          </execution>
-        </executions>
       </plugin>
       <plugin>
         <artifactId>maven-source-plugin</artifactId>
@@ -140,4 +130,25 @@
       </plugin>
     </plugins>
   </build>
+  <profiles>
+    <profile>
+      <id>jvm11plus</id>
+      <activation>
+        <jdk>[11,]</jdk>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <configuration>
+              <compilerArgs combine.self="append" combine.children="append">
+                <arg>-Xlint:-removal</arg>
+                <arg>-Xlint:-options</arg>
+              </compilerArgs>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 </project>
