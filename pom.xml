@@ -16,6 +16,8 @@
     <parallel>all</parallel>
     <perCoreThreadCount>false</perCoreThreadCount>
     <threadCount>48</threadCount>
+    <!-- SPDX and other build config -->
+    <guava.build.spdx>true</guava.build.spdx>
     <!-- Override this with -Dtest.include="**/SomeTest.java" on the CLI -->
     <test.include>%regex[.*.class]</test.include>
     <truth.version>1.4.2</truth.version>

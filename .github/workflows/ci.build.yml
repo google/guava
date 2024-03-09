@@ -116,6 +116,7 @@ jobs:
             -U \
             -DskipTests=true \
             -Dmaven.javadoc.skip=false \
+            -Dguava.build.spdx=true \
             -Dgpg.skip \
             -f $ROOT_POM
       - name: Generate hashes

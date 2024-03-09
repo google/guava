@@ -311,6 +311,20 @@
               </archive>
             </configuration>
           </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>spdx-sign</id>
+      <activation>
+        <jdk>[11,]</jdk>
+        <property>
+          <name>guava.build.spdx</name>
+          <value>true</value>
+        </property>
+      </activation>
+      <build>
+        <plugins>
           <!--
             @TODO(sgammon): explain
           -->
