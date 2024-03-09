@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -217,8 +218,8 @@ public class TreeMultimap<K extends @Nullable Object, V extends @Nullable Object
   @SuppressWarnings("unchecked") // reading data stored by writeObject
   private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
     stream.defaultReadObject();
-    keyComparator = checkNotNull((Comparator<? super K>) stream.readObject());
-    valueComparator = checkNotNull((Comparator<? super V>) stream.readObject());
+    keyComparator = requireNonNull((Comparator<? super K>) stream.readObject());
+    valueComparator = requireNonNull((Comparator<? super V>) stream.readObject());
     setMap(new TreeMap<K, Collection<V>>(keyComparator));
     Serialization.populateMultimap(this, stream);
   }

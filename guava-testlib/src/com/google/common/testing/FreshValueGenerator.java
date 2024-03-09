@@ -18,6 +18,7 @@ package com.google.common.testing;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Throwables.throwIfUnchecked;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
@@ -215,7 +216,7 @@ class FreshValueGenerator {
       return pickInstance(rawType.getEnumConstants(), null);
     }
     if (type.isArray()) {
-      TypeToken<?> componentType = checkNotNull(type.getComponentType());
+      TypeToken<?> componentType = requireNonNull(type.getComponentType());
       Object array = Array.newInstance(componentType.getRawType(), 1);
       Array.set(array, 0, generate(componentType));
       return array;
