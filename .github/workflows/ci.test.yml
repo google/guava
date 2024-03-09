@@ -101,6 +101,7 @@ jobs:
             -P!standard-with-extra-repos \
             verify \
             -U \
+            -Dgpg.skip \
             -Dguava.build.spdx=false \
             -Dmaven.javadoc.skip=true \
             -f $ROOT_POM
