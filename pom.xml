@@ -34,6 +34,10 @@
     <otherVariant.jvmEnvironmentVariantName>android</otherVariant.jvmEnvironmentVariantName>
     <publishing.repository.snapshots>https://oss.sonatype.org/content/repositories/snapshots/</publishing.repository.snapshots>
     <publishing.repository.releases>https://oss.sonatype.org/service/local/staging/deploy/maven2/</publishing.repository.releases>
+    <!-- Create checksums for lib targets on installation. See docs here:
+      https://maven.apache.org/plugins-archives/maven-install-plugin-2.4/examples/installing-checksums.html
+      -->
+    <createChecksum>true</createChecksum>
   </properties>
   <issueManagement>
     <system>GitHub Issues</system>
