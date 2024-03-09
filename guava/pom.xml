@@ -76,6 +76,8 @@
         </executions>
         <configuration>
           <instructions>
+            <_fixupmessages>^Classes found in the wrong directory: .*</_fixupmessages>
+            <_jpms-module-info>com.google.common</_jpms-module-info>
             <Export-Package>
               !com.google.common.base.internal,
               !com.google.common.util.concurrent.internal,
