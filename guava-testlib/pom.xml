@@ -85,6 +85,12 @@
       </plugin>
       <plugin>
         <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+          <source>${javadoc.specification.version}</source>
+          <additionalJOptions>
+            <additionalJOption>--add-reads=com.google.common.testlib=ALL-UNNAMED</additionalJOption>
+          </additionalJOptions>
+        </configuration>
       </plugin>
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>

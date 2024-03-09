@@ -26,6 +26,8 @@
     <errorprone.version>2.26.1</errorprone.version>
     <j2objc.version>3.0.0</j2objc.version>
     <javac.version>9+181-r4173-1</javac.version>
+    <!-- Javadoc is pinned to the latest LTS, otherwise there are doc redirect warnings. -->
+    <javadoc.specification.version>21</javadoc.specification.version>
     <!-- Empty for all JDKs but 9-12 -->
     <maven-javadoc-plugin.additionalJOptions></maven-javadoc-plugin.additionalJOptions>
     <project.build.outputTimestamp>2024-01-02T00:00:00Z</project.build.outputTimestamp>
@@ -55,7 +57,7 @@
   <licenses>
     <license>
       <name>Apache License, Version 2.0</name>
-      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
       <distribution>repo</distribution>
     </license>
   </licenses>
@@ -70,7 +72,7 @@
       <name>Kevin Bourrillion</name>
       <email>kevinb@google.com</email>
       <organization>Google</organization>
-      <organizationUrl>http://www.google.com</organizationUrl>
+      <organizationUrl>https://www.google.com</organizationUrl>
       <roles>
         <role>owner</role>
         <role>developer</role>
@@ -212,7 +214,7 @@
         </plugin>
         <plugin>
           <artifactId>maven-javadoc-plugin</artifactId>
-          <version>3.5.0</version>
+          <version>3.6.3</version>
           <configuration>
             <quiet>true</quiet>
             <notimestamp>true</notimestamp>
@@ -224,7 +226,7 @@
               <additionalOption>-Xdoclint:-html</additionalOption>
             </additionalOptions>
             <linksource>true</linksource>
-            <source>${java.specification.version}</source>
+            <source>${javadoc.specification.version}</source>
             <additionalJOption>${maven-javadoc-plugin.additionalJOptions}</additionalJOption>
           </configuration>
           <executions>

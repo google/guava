@@ -148,6 +148,7 @@
       <plugin>
         <artifactId>maven-javadoc-plugin</artifactId>
         <configuration>
+          <source>9</source>
           <!-- Passing `-subpackages com.google.common` breaks things, so we explicitly exclude everything else instead. -->
           <!-- excludePackageNames requires specification of packages separately from "all subpackages".
                https://issues.apache.org/jira/browse/MJAVADOC-584 -->
@@ -198,8 +199,12 @@
             </offlineLink>
             <!-- The JDK doc must be listed after JSR305 (and as an <offlineLink>, not a <link>) so that JSR305 "claims" javax.annotation. -->
             <offlineLink>
-              <url>https://docs.oracle.com/javase/9/docs/api/</url>
-              <location>https://docs.oracle.com/javase/9/docs/api/</location>
+              <url>https://docs.oracle.com/javase/21/docs/api/</url>
+              <location>https://docs.oracle.com/en/java/javase/21/docs/api/</location>
+            </offlineLink>
+            <offlineLink>
+              <url>https://docs.oracle.com/en/java/javase/21/docs/api/</url>
+              <location>https://docs.oracle.com/en/java/javase/21/docs/api/</location>
             </offlineLink>
             <!-- The Checker Framework likewise would claim javax.annotations, despite providing only a subset of the JSR305 annotations, so it must likewise come after JSR305. -->
             <offlineLink>
@@ -210,6 +215,7 @@
           <links>
             <link>https://errorprone.info/api/latest/</link>
           </links>
+          <doclint>all,-missing,-html,-accessibility</doclint>
           <overview>../overview.html</overview>
         </configuration>
       </plugin>

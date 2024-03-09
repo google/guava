@@ -967,7 +967,6 @@ public final class CacheBuilder<K, V> {
    *
    * @return the cache builder reference that should be used instead of {@code this} for any
    *     remaining configuration and cache building
-   * @return this {@code CacheBuilder} instance (for chaining)
    * @throws IllegalStateException if a removal listener was already set
    */
   public <K1 extends K, V1 extends V> CacheBuilder<K1, V1> removalListener(

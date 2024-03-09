@@ -161,8 +161,8 @@
             </offlineLink>
             <!-- The JDK doc must be listed after JSR305 (and as an <offlineLink>, not a <link>) so that JSR305 "claims" javax.annotation. -->
             <offlineLink>
-              <url>https://docs.oracle.com/javase/9/docs/api/</url>
-              <location>https://docs.oracle.com/javase/9/docs/api/</location>
+              <url>https://docs.oracle.com/javase/21/docs/api/</url>
+              <location>https://docs.oracle.com/en/java/javase/21/docs/api/</location>
             </offlineLink>
             <!-- The Checker Framework likewise would claim javax.annotations, despite providing only a subset of the JSR305 annotations, so it must likewise come after JSR305. -->
             <offlineLink>

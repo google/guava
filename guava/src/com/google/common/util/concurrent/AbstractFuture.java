@@ -427,7 +427,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
    * <p>The default {@link AbstractFuture} implementation throws {@code InterruptedException} if the
    * current thread is interrupted during the call, even if the value is already available.
    *
-   * @throws CancellationException {@inheritDoc}
+   * @throws CancellationException if the computation was cancelled
    */
   @CanIgnoreReturnValue
   @Override
@@ -540,7 +540,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
    * <p>The default {@link AbstractFuture} implementation throws {@code InterruptedException} if the
    * current thread is interrupted during the call, even if the value is already available.
    *
-   * @throws CancellationException {@inheritDoc}
+   * @throws CancellationException if the computation was cancelled
    */
   @CanIgnoreReturnValue
   @Override
