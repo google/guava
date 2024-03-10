@@ -236,7 +236,7 @@ public class ConcurrentHashMultisetBenchmark {
      */
     private List<E> snapshot() {
       List<E> list = Lists.newArrayListWithExpectedSize(size());
-      for (Multiset.Entry<E> entry : entrySet()) {
+      for (Entry<E> entry : entrySet()) {
         E element = entry.getElement();
         for (int i = entry.getCount(); i > 0; i--) {
           list.add(element);
@@ -446,7 +446,7 @@ public class ConcurrentHashMultisetBenchmark {
     private transient EntrySet entrySet;
 
     @Override
-    public Set<Multiset.Entry<E>> entrySet() {
+    public Set<Entry<E>> entrySet() {
       EntrySet result = entrySet;
       if (result == null) {
         entrySet = result = new EntrySet();
@@ -474,7 +474,7 @@ public class ConcurrentHashMultisetBenchmark {
         }
 
         @Override
-        public Multiset.Entry<E> next() {
+        public Entry<E> next() {
           Map.Entry<E, Integer> backingEntry = backingIterator.next();
           return Multisets.immutableEntry(backingEntry.getKey(), backingEntry.getValue());
         }
@@ -517,8 +517,8 @@ public class ConcurrentHashMultisetBenchmark {
         return snapshot().toArray(array);
       }
 
-      private List<Multiset.Entry<E>> snapshot() {
-        List<Multiset.Entry<E>> list = Lists.newArrayListWithExpectedSize(size());
+      private List<Entry<E>> snapshot() {
+        List<Entry<E>> list = Lists.newArrayListWithExpectedSize(size());
         // not Iterables.addAll(list, this), because that'll forward back here
         Iterators.addAll(list, iterator());
         return list;
@@ -527,7 +527,7 @@ public class ConcurrentHashMultisetBenchmark {
       @Override
       public boolean remove(Object object) {
         if (object instanceof Multiset.Entry) {
-          Multiset.Entry<?> entry = (Multiset.Entry<?>) object;
+          Entry<?> entry = (Entry<?>) object;
           Object element = entry.getElement();
           int entryCount = entry.getCount();
           return countMap.remove(element, entryCount);

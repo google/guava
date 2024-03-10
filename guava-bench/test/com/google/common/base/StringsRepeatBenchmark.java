@@ -21,7 +21,7 @@ import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 
 /**
- * Microbenchmark for {@link com.google.common.base.Strings#repeat}
+ * Microbenchmark for {@link Strings#repeat}
  *
  * @author Mike Cripps
  */

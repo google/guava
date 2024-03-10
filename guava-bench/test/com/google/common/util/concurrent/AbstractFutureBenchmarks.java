@@ -16,16 +16,13 @@
 
 package com.google.common.util.concurrent;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import java.util.concurrent.CancellationException;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Executor;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
-import java.util.concurrent.locks.AbstractQueuedSynchronizer;
 import org.checkerframework.checker.nullness.qual.Nullable;
+
+import java.util.concurrent.*;
+import java.util.concurrent.locks.AbstractQueuedSynchronizer;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /** Utilities for the AbstractFutureBenchmarks */
 final class AbstractFutureBenchmarks {
@@ -211,7 +208,7 @@ final class AbstractFutureBenchmarks {
 
     /**
      * Subclasses should invoke this method to set the result of the computation to {@code value}.
-     * This will set the state of the future to {@link OldAbstractFuture.Sync#COMPLETED} and invoke
+     * This will set the state of the future to {@link Sync#COMPLETED} and invoke
      * the listeners if the state was successfully changed.
      *
      * @param value the value that was the result of the task.
@@ -228,7 +225,7 @@ final class AbstractFutureBenchmarks {
 
     /**
      * Subclasses should invoke this method to set the result of the computation to an error, {@code
-     * throwable}. This will set the state of the future to {@link OldAbstractFuture.Sync#COMPLETED}
+     * throwable}. This will set the state of the future to {@link Sync#COMPLETED}
      * and invoke the listeners if the state was successfully changed.
      *
      * @param throwable the exception that the task failed with.

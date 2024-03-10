@@ -90,6 +90,7 @@
     <module>guava-gwt</module>
     <module>guava-testlib</module>
     <module>guava-tests</module>
+    <module>guava-bench</module>
   </modules>
   <build>
     <!-- Handle where Guava deviates from Maven defaults -->
@@ -303,6 +304,11 @@
         <plugin>
           <artifactId>maven-jacoco-plugin</artifactId>
           <version>0.8.11</version>
+        </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>exec-maven-plugin</artifactId>
+          <version>3.2.0</version>
         </plugin>
       </plugins>
     </pluginManagement>

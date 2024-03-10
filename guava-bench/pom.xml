@@ -7,12 +7,10 @@
     <artifactId>guava-parent</artifactId>
     <version>1.0-HEAD-jre-SNAPSHOT</version>
   </parent>
-  <artifactId>guava-tests</artifactId>
-  <name>Guava Unit Tests</name>
+  <artifactId>guava-bench</artifactId>
+  <name>Guava Benchmarks</name>
   <description>
-    The unit tests for the Guava libraries - separated into a
-    separate artifact to allow for the testlibs to depend on guava
-    itself.
+    Benchmarks for Guava, on JMH.
   </description>
   <dependencies>
     <dependency>
@@ -24,25 +22,22 @@
     <dependency>
       <groupId>com.google.code.findbugs</groupId>
       <artifactId>jsr305</artifactId>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.checkerframework</groupId>
       <artifactId>checker-qual</artifactId>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.google.errorprone</groupId>
       <artifactId>error_prone_annotations</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.13.2</version>
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.mockito</groupId>
-      <artifactId>mockito-core</artifactId>
-      <version>4.11.0</version>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>guava</artifactId>
+      <version>${project.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -64,9 +59,21 @@
       <scope>test</scope>
     </dependency>
     <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.13.2</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
       <groupId>com.google.caliper</groupId>
       <artifactId>caliper</artifactId>
       <version>1.0-beta-3</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.openjdk.jmh</groupId>
+      <artifactId>jmh-core</artifactId>
+      <version>1.37</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -74,19 +81,6 @@
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <artifactId>maven-source-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>attach-test-sources</id>
-            <phase>post-integration-test</phase>
-            <goals><goal>test-jar</goal></goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <artifactId>maven-surefire-plugin</artifactId>
       </plugin>
       <plugin>
         <artifactId>maven-jar-plugin</artifactId>
@@ -98,18 +92,21 @@
         </executions>
       </plugin>
       <plugin>
-        <artifactId>maven-deploy-plugin</artifactId>
-        <version>2.8.2</version>
-        <configuration>
-          <skip>true</skip>
-        </configuration>
-      </plugin>
-      <plugin>
         <groupId>org.codehaus.mojo</groupId>
-        <artifactId>animal-sniffer-maven-plugin</artifactId>
+        <artifactId>exec-maven-plugin</artifactId>
         <configuration>
-          <checkTestClasses>false</checkTestClasses> <!-- TODO(cpovirk): Consider checking them. -->
+          <mainClass>com.google.guava.benchmarks.Benchmarks</mainClass>
+          <classpathScope>test</classpathScope>
         </configuration>
+        <executions>
+          <execution>
+            <id>run-bench</id>
+            <phase>test</phase>
+            <goals>
+              <goal>java</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>

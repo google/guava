@@ -27,5 +27,6 @@ open module com.google.common.testlib {
   exports com.google.common.collect.testing.testers;
   exports com.google.common.escape.testing;
   exports com.google.common.testing;
+  exports com.google.common.testing.math;
   exports com.google.common.util.concurrent.testing;
 }
