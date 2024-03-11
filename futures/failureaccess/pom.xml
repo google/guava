@@ -5,10 +5,10 @@
   <parent>
     <groupId>com.google.guava</groupId>
     <artifactId>guava-parent</artifactId>
-    <version>26.0-android</version>
+    <version>1.0-HEAD-jre-SNAPSHOT</version>
   </parent>
   <artifactId>failureaccess</artifactId>
-  <version>1.0.2</version>
+  <version>1.0.3-jpms</version>
   <packaging>bundle</packaging>
   <name>Guava InternalFutureFailureAccess and InternalFutures</name>
   <description>
