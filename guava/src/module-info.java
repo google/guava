@@ -20,8 +20,8 @@
  * Google Guava
  */
 module com.google.common {
+  requires static jdk.unsupported;
   requires java.logging;
-  requires jdk.unsupported;
   requires com.google.common.util.concurrent.internal;
 
   exports com.google.common.annotations;
