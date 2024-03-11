@@ -16,7 +16,6 @@
  * Guava Testlib
  */
 open module com.google.common.testlib {
-  requires java.base;
   requires java.logging;
   requires com.google.common;
   requires com.google.common.util.concurrent.internal;

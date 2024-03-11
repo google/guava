@@ -16,6 +16,5 @@
  * Guava: Future Internals.
  */
 module com.google.common.util.concurrent.internal {
-  requires java.base;
   exports com.google.common.util.concurrent.internal;
 }
