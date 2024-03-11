@@ -25,6 +25,7 @@
     <checker.version>3.42.0</checker.version>
     <errorprone.version>2.26.1</errorprone.version>
     <j2objc.version>3.0.0</j2objc.version>
+    <failureaccess.version>1.0.2</failureaccess.version>
     <javac.version>9+181-r4173-1</javac.version>
     <!-- Javadoc is pinned to the latest LTS, otherwise there are doc redirect warnings. -->
     <javadoc.specification.version>21</javadoc.specification.version>
