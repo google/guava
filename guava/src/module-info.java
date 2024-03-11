@@ -40,5 +40,4 @@ module com.google.common {
   exports com.google.common.reflect;
   exports com.google.common.util.concurrent;
   exports com.google.common.xml;
-  exports com.google.thirdparty.publicsuffix;
 }
