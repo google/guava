@@ -10,7 +10,7 @@
   </parent>
   <artifactId>failureaccess</artifactId>
   <version>1.0.3-jpms</version>
-  <packaging>bundle</packaging>
+  <packaging>jar</packaging>
   <name>Guava InternalFutureFailureAccess and InternalFutures</name>
   <description>
     Contains
@@ -38,6 +38,9 @@
           </execution>
           <execution>
             <id>compile-java9</id>
+            <goals>
+              <goal>compile</goal>
+            </goals>
             <configuration>
               <release>9</release>
               <multiReleaseOutput>true</multiReleaseOutput>
@@ -49,12 +52,14 @@
         <artifactId>maven-jar-plugin</artifactId>
         <configuration>
           <archive>
+            <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
             <manifestEntries>
               <Multi-Release>true</Multi-Release>
             </manifestEntries>
           </archive>
           <excludes>
-            <exclude>META-INF/versions/9/com/**/*.java</exclude>
+            <exclude>/module-info.class</exclude>
+            <exclude>META-INF/versions/9/com/google/common/util/concurrent/internal/*.class</exclude>
           </excludes>
         </configuration>
       </plugin>
@@ -81,7 +86,8 @@
         </executions>
         <configuration>
           <instructions>
-            <Export-Package>com.google.common.util.concurrent.internal</Export-Package>
+            <_fixupmessages>^Classes found in the wrong directory: .*</_fixupmessages>
+            <Export-Package>com.google.common.util.concurrent.internal,!META-INF.*</Export-Package>
             <Bundle-DocURL>https://github.com/google/guava/</Bundle-DocURL>
           </instructions>
         </configuration>
