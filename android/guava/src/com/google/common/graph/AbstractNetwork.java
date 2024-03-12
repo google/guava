@@ -278,16 +278,34 @@ public abstract class AbstractNetwork<N, E> implements Network<N, E> {
         + edgeIncidentNodesMap(this);
   }
 
+  /**
+   * Returns a {@link Set} whose methods throw {@link IllegalStateException} when the given edge is
+   * not present in this network.
+   *
+   * @since NEXT
+   */
   protected final <T> Set<T> edgeInvalidatableSet(Set<T> set, E edge) {
     return InvalidatableSet.of(
         set, () -> edges().contains(edge), () -> String.format(EDGE_REMOVED_FROM_GRAPH, edge));
   }
 
+  /**
+   * Returns a {@link Set} whose methods throw {@link IllegalStateException} when the given node is
+   * not present in this network.
+   *
+   * @since NEXT
+   */
   protected final <T> Set<T> nodeInvalidatableSet(Set<T> set, N node) {
     return InvalidatableSet.of(
         set, () -> nodes().contains(node), () -> String.format(NODE_REMOVED_FROM_GRAPH, node));
   }
 
+  /**
+   * Returns a {@link Set} whose methods throw {@link IllegalStateException} when either of the
+   * given nodes is not present in this network.
+   *
+   * @since NEXT
+   */
   protected final <T> Set<T> nodePairInvalidatableSet(Set<T> set, N nodeU, N nodeV) {
     return InvalidatableSet.of(
         set,
