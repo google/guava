@@ -12,6 +12,10 @@
   <description>Parent for guava artifacts</description>
   <url>https://github.com/google/guava</url>
   <properties>
+    <!-- Enable parallel test execution -->
+    <parallel>all</parallel>
+    <perCoreThreadCount>false</perCoreThreadCount>
+    <threadCount>48</threadCount>
     <!-- Override this with -Dtest.include="**/SomeTest.java" on the CLI -->
     <test.include>%regex[.*.class]</test.include>
     <truth.version>1.4.2</truth.version>
@@ -31,6 +35,7 @@
     <otherVariant.version>HEAD-android-SNAPSHOT</otherVariant.version>
     <otherVariant.jvmEnvironment>android</otherVariant.jvmEnvironment>
     <otherVariant.jvmEnvironmentVariantName>android</otherVariant.jvmEnvironmentVariantName>
+    <surefire.rerunFailingTestsCount>3</surefire.rerunFailingTestsCount>
   </properties>
   <issueManagement>
     <system>GitHub Issues</system>
@@ -230,7 +235,7 @@
         </plugin>
         <plugin>
           <artifactId>maven-surefire-plugin</artifactId>
-          <version>2.7.2</version>
+          <version>3.2.5</version>
           <configuration>
             <includes>
               <include>${test.include}</include>
@@ -249,6 +254,8 @@
             <!-- Set max heap for tests. -->
             <!-- Catch dependencies on the default locale by setting it to hi-IN. -->
             <argLine>-Xmx1536M -Duser.language=hi -Duser.country=IN ${test.add.opens}</argLine>
+            <reuseForks>true</reuseForks>
+            <forkCount>2C</forkCount>
           </configuration>
         </plugin>
         <plugin>
