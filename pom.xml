@@ -25,6 +25,7 @@
     <project.build.outputTimestamp>2024-01-02T00:00:00Z</project.build.outputTimestamp>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <test.add.opens></test.add.opens>
+    <test.add.args></test.add.args>
     <module.status>integration</module.status>
     <variant.jvmEnvironment>standard-jvm</variant.jvmEnvironment>
     <variant.jvmEnvironmentVariantName>jre</variant.jvmEnvironmentVariantName>
@@ -177,6 +178,13 @@
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>animal-sniffer-maven-plugin</artifactId>
           <version>1.23</version>
+          <dependencies>
+            <dependency>
+              <groupId>org.ow2.asm</groupId>
+              <artifactId>asm</artifactId>
+              <version>9.6</version>
+            </dependency>
+          </dependencies>
           <configuration>
             <annotations>com.google.common.base.IgnoreJRERequirement,com.google.common.collect.IgnoreJRERequirement,com.google.common.hash.IgnoreJRERequirement,com.google.common.io.IgnoreJRERequirement,com.google.common.reflect.IgnoreJRERequirement,com.google.common.testing.IgnoreJRERequirement</annotations>
             <checkTestClasses>true</checkTestClasses>
@@ -248,7 +256,7 @@
             <runOrder>alphabetical</runOrder>
             <!-- Set max heap for tests. -->
             <!-- Catch dependencies on the default locale by setting it to hi-IN. -->
-            <argLine>-Xmx1536M -Duser.language=hi -Duser.country=IN ${test.add.opens}</argLine>
+            <argLine>-Xmx1536M -Duser.language=hi -Duser.country=IN ${test.add.args} ${test.add.opens}</argLine>
           </configuration>
         </plugin>
         <plugin>
@@ -456,6 +464,19 @@
           </plugin>
         </plugins>
       </build>
+    </profile>
+    <profile>
+      <id>javac-for-jvm18plus</id>
+      <activation>
+        <!--
+            In order to build and run the tests against JDK 18+, we need to pass java.security.manager=allow, to make
+            the deprecated 'java.lang.SecurityManager' available for use.
+         -->
+        <jdk>[18,]</jdk>
+      </activation>
+      <properties>
+        <test.add.args>-Djava.security.manager=allow</test.add.args>
+      </properties>
     </profile>
   </profiles>
 </project>
