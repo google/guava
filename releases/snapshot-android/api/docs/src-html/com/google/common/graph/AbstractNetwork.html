@@ -287,27 +287,45 @@
 <span class="sourceLineNo">278</span><a id="line.278">        + edgeIncidentNodesMap(this);</a>
 <span class="sourceLineNo">279</span><a id="line.279">  }</a>
 <span class="sourceLineNo">280</span><a id="line.280"></a>
-<span class="sourceLineNo">281</span><a id="line.281">  protected final &lt;T&gt; Set&lt;T&gt; edgeInvalidatableSet(Set&lt;T&gt; set, E edge) {</a>
-<span class="sourceLineNo">282</span><a id="line.282">    return InvalidatableSet.of(</a>
-<span class="sourceLineNo">283</span><a id="line.283">        set, () -&gt; edges().contains(edge), () -&gt; String.format(EDGE_REMOVED_FROM_GRAPH, edge));</a>
-<span class="sourceLineNo">284</span><a id="line.284">  }</a>
-<span class="sourceLineNo">285</span><a id="line.285"></a>
-<span class="sourceLineNo">286</span><a id="line.286">  protected final &lt;T&gt; Set&lt;T&gt; nodeInvalidatableSet(Set&lt;T&gt; set, N node) {</a>
-<span class="sourceLineNo">287</span><a id="line.287">    return InvalidatableSet.of(</a>
-<span class="sourceLineNo">288</span><a id="line.288">        set, () -&gt; nodes().contains(node), () -&gt; String.format(NODE_REMOVED_FROM_GRAPH, node));</a>
-<span class="sourceLineNo">289</span><a id="line.289">  }</a>
-<span class="sourceLineNo">290</span><a id="line.290"></a>
-<span class="sourceLineNo">291</span><a id="line.291">  protected final &lt;T&gt; Set&lt;T&gt; nodePairInvalidatableSet(Set&lt;T&gt; set, N nodeU, N nodeV) {</a>
-<span class="sourceLineNo">292</span><a id="line.292">    return InvalidatableSet.of(</a>
-<span class="sourceLineNo">293</span><a id="line.293">        set,</a>
-<span class="sourceLineNo">294</span><a id="line.294">        () -&gt; nodes().contains(nodeU) &amp;&amp; nodes().contains(nodeV),</a>
-<span class="sourceLineNo">295</span><a id="line.295">        () -&gt; String.format(NODE_PAIR_REMOVED_FROM_GRAPH, nodeU, nodeV));</a>
-<span class="sourceLineNo">296</span><a id="line.296">  }</a>
-<span class="sourceLineNo">297</span><a id="line.297"></a>
-<span class="sourceLineNo">298</span><a id="line.298">  private static &lt;N, E&gt; Map&lt;E, EndpointPair&lt;N&gt;&gt; edgeIncidentNodesMap(final Network&lt;N, E&gt; network) {</a>
-<span class="sourceLineNo">299</span><a id="line.299">    return Maps.asMap(network.edges(), network::incidentNodes);</a>
-<span class="sourceLineNo">300</span><a id="line.300">  }</a>
-<span class="sourceLineNo">301</span><a id="line.301">}</a>
+<span class="sourceLineNo">281</span><a id="line.281">  /**</a>
+<span class="sourceLineNo">282</span><a id="line.282">   * Returns a {@link Set} whose methods throw {@link IllegalStateException} when the given edge is</a>
+<span class="sourceLineNo">283</span><a id="line.283">   * not present in this network.</a>
+<span class="sourceLineNo">284</span><a id="line.284">   *</a>
+<span class="sourceLineNo">285</span><a id="line.285">   * @since NEXT</a>
+<span class="sourceLineNo">286</span><a id="line.286">   */</a>
+<span class="sourceLineNo">287</span><a id="line.287">  protected final &lt;T&gt; Set&lt;T&gt; edgeInvalidatableSet(Set&lt;T&gt; set, E edge) {</a>
+<span class="sourceLineNo">288</span><a id="line.288">    return InvalidatableSet.of(</a>
+<span class="sourceLineNo">289</span><a id="line.289">        set, () -&gt; edges().contains(edge), () -&gt; String.format(EDGE_REMOVED_FROM_GRAPH, edge));</a>
+<span class="sourceLineNo">290</span><a id="line.290">  }</a>
+<span class="sourceLineNo">291</span><a id="line.291"></a>
+<span class="sourceLineNo">292</span><a id="line.292">  /**</a>
+<span class="sourceLineNo">293</span><a id="line.293">   * Returns a {@link Set} whose methods throw {@link IllegalStateException} when the given node is</a>
+<span class="sourceLineNo">294</span><a id="line.294">   * not present in this network.</a>
+<span class="sourceLineNo">295</span><a id="line.295">   *</a>
+<span class="sourceLineNo">296</span><a id="line.296">   * @since NEXT</a>
+<span class="sourceLineNo">297</span><a id="line.297">   */</a>
+<span class="sourceLineNo">298</span><a id="line.298">  protected final &lt;T&gt; Set&lt;T&gt; nodeInvalidatableSet(Set&lt;T&gt; set, N node) {</a>
+<span class="sourceLineNo">299</span><a id="line.299">    return InvalidatableSet.of(</a>
+<span class="sourceLineNo">300</span><a id="line.300">        set, () -&gt; nodes().contains(node), () -&gt; String.format(NODE_REMOVED_FROM_GRAPH, node));</a>
+<span class="sourceLineNo">301</span><a id="line.301">  }</a>
+<span class="sourceLineNo">302</span><a id="line.302"></a>
+<span class="sourceLineNo">303</span><a id="line.303">  /**</a>
+<span class="sourceLineNo">304</span><a id="line.304">   * Returns a {@link Set} whose methods throw {@link IllegalStateException} when either of the</a>
+<span class="sourceLineNo">305</span><a id="line.305">   * given nodes is not present in this network.</a>
+<span class="sourceLineNo">306</span><a id="line.306">   *</a>
+<span class="sourceLineNo">307</span><a id="line.307">   * @since NEXT</a>
+<span class="sourceLineNo">308</span><a id="line.308">   */</a>
+<span class="sourceLineNo">309</span><a id="line.309">  protected final &lt;T&gt; Set&lt;T&gt; nodePairInvalidatableSet(Set&lt;T&gt; set, N nodeU, N nodeV) {</a>
+<span class="sourceLineNo">310</span><a id="line.310">    return InvalidatableSet.of(</a>
+<span class="sourceLineNo">311</span><a id="line.311">        set,</a>
+<span class="sourceLineNo">312</span><a id="line.312">        () -&gt; nodes().contains(nodeU) &amp;&amp; nodes().contains(nodeV),</a>
+<span class="sourceLineNo">313</span><a id="line.313">        () -&gt; String.format(NODE_PAIR_REMOVED_FROM_GRAPH, nodeU, nodeV));</a>
+<span class="sourceLineNo">314</span><a id="line.314">  }</a>
+<span class="sourceLineNo">315</span><a id="line.315"></a>
+<span class="sourceLineNo">316</span><a id="line.316">  private static &lt;N, E&gt; Map&lt;E, EndpointPair&lt;N&gt;&gt; edgeIncidentNodesMap(final Network&lt;N, E&gt; network) {</a>
+<span class="sourceLineNo">317</span><a id="line.317">    return Maps.asMap(network.edges(), network::incidentNodes);</a>
+<span class="sourceLineNo">318</span><a id="line.318">  }</a>
+<span class="sourceLineNo">319</span><a id="line.319">}</a>
 
 
 

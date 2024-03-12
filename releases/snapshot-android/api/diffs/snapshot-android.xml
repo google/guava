@@ -37573,6 +37573,12 @@
       deprecated="not deprecated">
       <param name="set" type="java.util.Set&lt;T&gt;"/>
       <param name="edge" type="E"/>
+      <doc>
+      <![CDATA[Returns a {@link Set} whose methods throw {@link IllegalStateException} when the given edge is
+ not present in this network.
+
+ @since NEXT]]>
+      </doc>
     </method>
     <method name="nodeInvalidatableSet" return="java.util.Set&lt;T&gt;"
       abstract="false" native="false" synchronized="false"
@@ -37580,6 +37586,12 @@
       deprecated="not deprecated">
       <param name="set" type="java.util.Set&lt;T&gt;"/>
       <param name="node" type="N"/>
+      <doc>
+      <![CDATA[Returns a {@link Set} whose methods throw {@link IllegalStateException} when the given node is
+ not present in this network.
+
+ @since NEXT]]>
+      </doc>
     </method>
     <method name="nodePairInvalidatableSet" return="java.util.Set&lt;T&gt;"
       abstract="false" native="false" synchronized="false"
@@ -37588,6 +37600,12 @@
       <param name="set" type="java.util.Set&lt;T&gt;"/>
       <param name="nodeU" type="N"/>
       <param name="nodeV" type="N"/>
+      <doc>
+      <![CDATA[Returns a {@link Set} whose methods throw {@link IllegalStateException} when either of the
+ given nodes is not present in this network.
+
+ @since NEXT]]>
+      </doc>
     </method>
     <doc>
     <![CDATA[This class provides a skeletal implementation of {@link Network}. It is recommended to extend

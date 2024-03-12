@@ -263,7 +263,10 @@ implements <a href="Network.html" title="interface in com.google.common.graph">N
 <td class="colFirst"><code>protected &lt;T&gt;&nbsp;java.util.Set&lt;T&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#edgeInvalidatableSet(java.util.Set,E)">edgeInvalidatableSet</a></span>&#8203;(java.util.Set&lt;T&gt;&nbsp;set,
                     <a href="AbstractNetwork.html" title="type parameter in AbstractNetwork">E</a>&nbsp;edge)</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Returns a <code>Set</code> whose methods throw <code>IllegalStateException</code> when the given edge is
+ not present in this network.</div>
+</td>
 </tr>
 <tr id="i8" class="altColor">
 <td class="colFirst"><code>java.util.Set&lt;<a href="AbstractNetwork.html" title="type parameter in AbstractNetwork">E</a>&gt;</code></td>
@@ -330,14 +333,20 @@ implements <a href="Network.html" title="interface in com.google.common.graph">N
 <td class="colFirst"><code>protected &lt;T&gt;&nbsp;java.util.Set&lt;T&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#nodeInvalidatableSet(java.util.Set,N)">nodeInvalidatableSet</a></span>&#8203;(java.util.Set&lt;T&gt;&nbsp;set,
                     <a href="AbstractNetwork.html" title="type parameter in AbstractNetwork">N</a>&nbsp;node)</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Returns a <code>Set</code> whose methods throw <code>IllegalStateException</code> when the given node is
+ not present in this network.</div>
+</td>
 </tr>
 <tr id="i17" class="rowColor">
 <td class="colFirst"><code>protected &lt;T&gt;&nbsp;java.util.Set&lt;T&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#nodePairInvalidatableSet(java.util.Set,N,N)">nodePairInvalidatableSet</a></span>&#8203;(java.util.Set&lt;T&gt;&nbsp;set,
                         <a href="AbstractNetwork.html" title="type parameter in AbstractNetwork">N</a>&nbsp;nodeU,
                         <a href="AbstractNetwork.html" title="type parameter in AbstractNetwork">N</a>&nbsp;nodeV)</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Returns a <code>Set</code> whose methods throw <code>IllegalStateException</code> when either of the
+ given nodes is not present in this network.</div>
+</td>
 </tr>
 <tr id="i18" class="altColor">
 <td class="colFirst"><code>int</code></td>
@@ -820,8 +829,14 @@ public&nbsp;<a href="AbstractNetwork.html" title="type parameter in AbstractNetw
 <ul class="blockList">
 <li class="blockList">
 <h4>edgeInvalidatableSet</h4>
-<pre class="methodSignature">protected final&nbsp;&lt;T&gt;&nbsp;java.util.Set&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractNetwork.html#line.293">edgeInvalidatableSet</a>&#8203;(java.util.Set&lt;T&gt;&nbsp;set,
+<pre class="methodSignature">protected final&nbsp;&lt;T&gt;&nbsp;java.util.Set&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractNetwork.html#line.299">edgeInvalidatableSet</a>&#8203;(java.util.Set&lt;T&gt;&nbsp;set,
                                                           <a href="AbstractNetwork.html" title="type parameter in AbstractNetwork">E</a>&nbsp;edge)</pre>
+<div class="block">Returns a <code>Set</code> whose methods throw <code>IllegalStateException</code> when the given edge is
+ not present in this network.</div>
+<dl>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>NEXT</dd>
+</dl>
 </li>
 </ul>
 <a id="nodeInvalidatableSet(java.util.Set,java.lang.Object)">
@@ -832,8 +847,14 @@ public&nbsp;<a href="AbstractNetwork.html" title="type parameter in AbstractNetw
 <ul class="blockList">
 <li class="blockList">
 <h4>nodeInvalidatableSet</h4>
-<pre class="methodSignature">protected final&nbsp;&lt;T&gt;&nbsp;java.util.Set&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractNetwork.html#line.298">nodeInvalidatableSet</a>&#8203;(java.util.Set&lt;T&gt;&nbsp;set,
+<pre class="methodSignature">protected final&nbsp;&lt;T&gt;&nbsp;java.util.Set&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractNetwork.html#line.310">nodeInvalidatableSet</a>&#8203;(java.util.Set&lt;T&gt;&nbsp;set,
                                                           <a href="AbstractNetwork.html" title="type parameter in AbstractNetwork">N</a>&nbsp;node)</pre>
+<div class="block">Returns a <code>Set</code> whose methods throw <code>IllegalStateException</code> when the given node is
+ not present in this network.</div>
+<dl>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>NEXT</dd>
+</dl>
 </li>
 </ul>
 <a id="nodePairInvalidatableSet(java.util.Set,java.lang.Object,java.lang.Object)">
@@ -844,9 +865,15 @@ public&nbsp;<a href="AbstractNetwork.html" title="type parameter in AbstractNetw
 <ul class="blockListLast">
 <li class="blockList">
 <h4>nodePairInvalidatableSet</h4>
-<pre class="methodSignature">protected final&nbsp;&lt;T&gt;&nbsp;java.util.Set&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractNetwork.html#line.303">nodePairInvalidatableSet</a>&#8203;(java.util.Set&lt;T&gt;&nbsp;set,
+<pre class="methodSignature">protected final&nbsp;&lt;T&gt;&nbsp;java.util.Set&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractNetwork.html#line.321">nodePairInvalidatableSet</a>&#8203;(java.util.Set&lt;T&gt;&nbsp;set,
                                                               <a href="AbstractNetwork.html" title="type parameter in AbstractNetwork">N</a>&nbsp;nodeU,
                                                               <a href="AbstractNetwork.html" title="type parameter in AbstractNetwork">N</a>&nbsp;nodeV)</pre>
+<div class="block">Returns a <code>Set</code> whose methods throw <code>IllegalStateException</code> when either of the
+ given nodes is not present in this network.</div>
+<dl>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>NEXT</dd>
+</dl>
 </li>
 </ul>
 </li>
