@@ -1,0 +1,47 @@
+# Guava GitHub CI
+# ---------------------------------------------------------------------------------------------------------------------
+# This is an entrypoint workflow which operates on pushed revisions to Guava; this workflow doesn't do much on its own.
+# Its job is to dispatch `on.build.yml` and check workflows, which can be found in this same directory.
+#
+# PR workflows are slightly different from push workflows (for example, the push workflow publishes snapshots). See the
+# `on.pr.yml` workflow. PR and push flows are designed to be invoked separately.
+
+name: Push
+
+on:
+  push:
+    branches:
+      - master
+
+concurrency:
+  group: guava-push-${{ github.sha }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  ## Run main CI build and tests.
+  run-ci:
+    name: "Build"
+    uses: ./.github/workflows/ci.build.yml
+    permissions:
+      actions: write
+      contents: write
+      id-token: write
+    with:
+      snapshot: github.repository == 'google/guava'
+      provenance: true
+
+  ## Publish and check the dependency graph.
+  checks-dependency-graph:
+    name: "Checks"
+    uses: ./.github/workflows/dependency-review.yml
+    permissions:
+      contents: write
+      id-token: write
+
+  ## Validate the Gradle Wrapper binary
+  checks-gradle-wrapper:
+    name: "Checks"
+    uses: ./.github/workflows/gradle-wrapper-validation.yml

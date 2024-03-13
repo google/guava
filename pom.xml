@@ -32,6 +32,8 @@
     <otherVariant.version>HEAD-android-SNAPSHOT</otherVariant.version>
     <otherVariant.jvmEnvironment>android</otherVariant.jvmEnvironment>
     <otherVariant.jvmEnvironmentVariantName>android</otherVariant.jvmEnvironmentVariantName>
+    <publishing.repository.snapshots>https://oss.sonatype.org/content/repositories/snapshots/</publishing.repository.snapshots>
+    <publishing.repository.releases>https://oss.sonatype.org/service/local/staging/deploy/maven2/</publishing.repository.releases>
   </properties>
   <issueManagement>
     <system>GitHub Issues</system>
@@ -272,6 +274,20 @@
           <artifactId>build-helper-maven-plugin</artifactId>
           <version>3.4.0</version>
         </plugin>
+        <plugin>
+          <artifactId>maven-gpg-plugin</artifactId>
+          <version>3.0.1</version>
+        </plugin>
+        <plugin>
+          <groupId>dev.sigstore</groupId>
+          <artifactId>sigstore-maven-plugin</artifactId>
+          <version>0.4.0</version>
+        </plugin>
+        <plugin>
+          <groupId>org.spdx</groupId>
+          <artifactId>spdx-maven-plugin</artifactId>
+          <version>0.7.3</version>
+        </plugin>
       </plugins>
     </pluginManagement>
   </build>
@@ -279,12 +295,12 @@
     <snapshotRepository>
       <id>sonatype-nexus-snapshots</id>
       <name>Sonatype Nexus Snapshots</name>
-      <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+      <url>${publishing.repository.snapshots}</url>
     </snapshotRepository>
     <repository>
       <id>sonatype-nexus-staging</id>
       <name>Nexus Release Repository</name>
-      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+      <url>${publishing.repository.releases}</url>
     </repository>
     <site>
       <id>guava-site</id>
@@ -327,8 +343,19 @@
         <build>
           <plugins>
             <plugin>
+              <groupId>dev.sigstore</groupId>
+              <artifactId>sigstore-maven-plugin</artifactId>
+              <executions>
+                <execution>
+                  <id>sign</id>
+                  <goals>
+                    <goal>sign</goal>
+                  </goals>
+                </execution>
+              </executions>
+            </plugin>
+            <plugin>
               <artifactId>maven-gpg-plugin</artifactId>
-              <version>3.0.1</version>
               <executions>
                 <execution>
                   <id>sign-artifacts</id>

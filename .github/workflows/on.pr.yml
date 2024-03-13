@@ -1,0 +1,70 @@
+# Guava GitHub CI
+# ---------------------------------------------------------------------------------------------------------------------
+# This is an entrypoint workflow which operates on pull requests; this workflow doesn't do much on its own. Its job is
+# to dispatch `on.build.yml` and check workflows, which can be found in this same directory.
+#
+# PR workflows are slightly different from push workflows (for example, they do not publish snapshots). See the
+# `on.push.yml` workflow. PR and push flows are designed to be invoked separately.
+
+name: PR
+
+on:
+  pull_request:
+    branches:
+      - master
+
+concurrency:
+  group: guava-pr-${{ github.event.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  ## Build the library and provenance material, but don't publish
+  build:
+    name: "Build"
+    uses: ./.github/workflows/ci.build.yml
+    permissions:
+      actions: write
+      contents: write
+      id-token: write
+    with:
+      provenance: ${{ github.event.pull_request.head.repo.full_name == 'google/guava' }}
+      provenance_publish: false
+      snapshot: false
+
+  ## Run main CI build and tests.
+  test:
+    name: "Tests"
+    uses: ./.github/workflows/ci.test.yml
+    permissions:
+      actions: write
+      contents: write
+      id-token: write
+
+  ## Validate the Gradle Wrapper binary
+  checks-gradle-wrapper:
+    name: "Checks"
+    uses: ./.github/workflows/gradle-wrapper-validation.yml
+
+  ## Publish and check the dependency graph.
+  checks-dependency-graph:
+    name: "Checks"
+    uses: ./.github/workflows/dependency-review.yml
+    permissions:
+      contents: write
+      id-token: write
+    with:
+      review: true
+
+  ## Run CodeQL checks
+  checks-codeql:
+    name: "Checks"
+    uses: ./.github/workflows/codeql.yml
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    with:
+      publish: ${{ github.event.pull_request.head.repo.full_name == 'google/guava' }}

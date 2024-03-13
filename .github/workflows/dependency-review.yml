@@ -1,0 +1,59 @@
+# Guava GitHub CI
+# ---------------------------------------------------------------------------------------------------------------------
+# This workflow is called from `on.push.yml` and `on.pr.yml` to operate on Guava's dependency graph:
+#
+# - The dependency graph is calculated from pom.xml files
+# - The graph is then published to GitHub, and associated with the Guava repository
+# - When operating on a PR, Dependency Review can be invoked to check dependency changes
+#
+# ## Inputs
+#
+# See the set of input parameters underneath the `workflow_call` and `workflow_dispatch` hooks for ways this workflow
+# can be controlled when called.
+
+name: 'Dependency Graph'
+on:
+  workflow_call:
+    inputs:
+      review:
+        type: boolean
+        description: "Dependency Review"
+        default: false
+  workflow_dispatch:
+    inputs:
+      review:
+        type: boolean
+        description: "Dependency Review"
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  dependency-review:
+    name: 'Dependency Graph'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write         # needed to post a dependency graph
+      id-token: write         # needed to exchange the graph publish token for an access token
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@63c24ba6bd7ba022e95695ff85de572c04a18142 # v2.7.0
+        with:
+          disable-sudo: true
+          egress-policy: block
+          allowed-endpoints: >
+            api.github.com:443
+            github.com:443
+            oss.sonatype.org:443
+            repo.maven.apache.org:443
+      - name: 'Checkout Repository'
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+      - name: Maven Dependency Tree Dependency Submission
+        continue-on-error: true
+        uses: advanced-security/maven-dependency-submission-action@bfd2106013da0957cdede0b6c39fb5ca25ae375e # v4.0.2
+      - name: 'Dependency Review'
+        uses: actions/dependency-review-action@9129d7d40b8c12c1ed0f60400d00c92d437adcce # v4.1.3
+        continue-on-error: true
+        with:
+          retry-on-snapshot-warnings: true

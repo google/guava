@@ -9,7 +9,7 @@
     <version>HEAD-jre-SNAPSHOT</version>
   </parent>
   <artifactId>guava</artifactId>
-  <packaging>bundle</packaging>
+  <packaging>jar</packaging>
   <name>Guava: Google Core Libraries for Java</name>
   <url>https://github.com/google/guava</url>
   <description>
@@ -222,4 +222,86 @@
       </plugin>
     </plugins>
   </build>
+  <profiles>
+    <profile>
+      <id>spdx</id>
+      <activation>
+        <jdk>[11,</jdk>
+      </activation>
+      <build>
+        <plugins>
+          <!--
+            @TODO(sgammon): explain
+          -->
+          <plugin>
+            <groupId>org.spdx</groupId>
+            <artifactId>spdx-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>build-spdx</id>
+                <phase>install</phase>
+                <goals>
+                  <goal>createSPDX</goal>
+                </goals>
+              </execution>
+            </executions>
+            <configuration>
+              <useArtifactID>true</useArtifactID>
+              <includeTransitiveDependencies>true</includeTransitiveDependencies>
+              <originator>Organization: Google, LLC</originator>
+              <copyrightText>Copyright (c) 2012-2024, The Guava Authors</copyrightText>
+              <defaultFileCopyright>Copyright (c) 2012-2024, The Guava Authors</defaultFileCopyright>
+              <defaultFileConcludedLicense>Apache-2.0</defaultFileConcludedLicense>
+              <creators><creator>Organization: Google, LLC</creator></creators>
+              <checksumAlgorithms>
+                <checksumAlgorithm>SHA256</checksumAlgorithm>
+              </checksumAlgorithms>
+            </configuration>
+          </plugin>
+          <!--
+            @TODO(sgammon): explain
+          -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-antrun-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>repack-spdx</id>
+                <phase>install</phase>
+                <goals>
+                  <goal>run</goal>
+                </goals>
+                <configuration>
+                  <target>
+                    <unzip src="${project.build.directory}/guava-${project.version}.jar" dest="${project.build.directory}/repack"/>
+                    <copy todir="${project.build.directory}/repack/META-INF/spdx">
+                      <fileset dir="${project.build.directory}/site" >
+                        <include name="*.spdx.json"/>
+                      </fileset>
+                    </copy>
+                    <zip basedir="${project.build.directory}/repack" destfile="${project.build.directory}/guava-${project.version}.jar"/>
+                  </target>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+          <!--
+            @TODO(sgammon): explain
+          -->
+          <plugin>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>default-gpg</id>
+                <phase>install</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 </project>

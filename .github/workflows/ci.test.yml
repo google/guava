@@ -1,0 +1,114 @@
+# Guava GitHub CI
+# ---------------------------------------------------------------------------------------------------------------------
+# This is the main CI testsuite on GitHub for the Google Guava project. This workflow is not invoked directly; instead,
+# the `on.pr.yml` and `on.push.yml` workflows kick in on PR and push events, respectively, and call this workflow as a
+# Reusable Workflow.
+#
+# This workflow can be tested independently of the entrypoint flow through the `workflow_dispatch` hook, which adds a
+# button within the UI of the GitHub repository. You can trigger the workflow from here:
+#
+# https://github.com/google/guava/actions/workflows/ci.test.yml
+#
+# ## Inputs
+#
+# See the set of input parameters underneath the `workflow_call` and `workflow_dispatch` hooks for ways this workflow
+# can be controlled when called.
+#
+# ## Multi-OS and Multi-JVM Testing
+#
+# Guava is tested against each LTS release at JDK 8 through JDK 21, on Linux and on Windows (starting at JDK 17), and
+# in Android and JRE flavors.
+
+name: Tests
+
+on:
+  workflow_call: {}
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    permissions:
+      contents: read  # for actions/checkout to fetch code
+    name: "JDK ${{ matrix.java }} ${{ matrix.mode }} (${{ matrix.os }})"
+    strategy:
+      matrix:
+        os: [ ubuntu-latest ]
+        java: [ 8, 11, 17, 21 ]
+        mode: [ 'JRE', 'Android' ]
+        include:
+          - os: windows-latest
+            java: 21
+            mode: JRE
+          - os: windows-latest
+            java: 21
+            mode: Android
+    runs-on: ${{ matrix.os }}
+    outputs:
+      hashes: ${{ steps.hash.outputs.hashes }}
+    env:
+      ROOT_POM: ${{ matrix.mode == 'Android' && 'android/pom.xml' || 'pom.xml' }}
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@63c24ba6bd7ba022e95695ff85de572c04a18142 # v2.7.0
+        with:
+          disable-sudo: true
+          egress-policy: block
+          allowed-endpoints: >
+            api.azul.com:443
+            api.github.com:443
+            cdn.azul.com:443
+            dl.google.com:443
+            docs.oracle.com:443
+            errorprone.info:443
+            github.com:443
+            objects.githubusercontent.com:443
+            oss.sonatype.org:443
+            repo.maven.apache.org:443
+            services.gradle.org:443
+      - name: 'Check out repository'
+        uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633 # v4.1.2
+        with:
+          persist-credentials: false
+      - name: 'Set up JDK ${{ matrix.java }}'
+        uses: actions/setup-java@9704b39bf258b59bc04b50fa2dd55e9ed76b47a8 # v4.1.0
+        with:
+          java-version: ${{ matrix.java }}
+          distribution: 'zulu'
+          cache: 'maven'
+      - name: 'Install'
+        shell: bash
+        run: |
+          ./mvnw \
+            --strict-checksums \
+            -B \
+            -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn \
+            install \
+            -U \
+            -DskipTests=true \
+            -Dgpg.skip \
+            -Dmaven.javadoc.skip=true \
+            -f $ROOT_POM
+      - name: 'Test'
+        shell: bash
+        run: |
+          ./mvnw \
+            --strict-checksums \
+            -B \
+            -P!standard-with-extra-repos \
+            verify \
+            -U \
+            -Dmaven.javadoc.skip=true \
+            -f $ROOT_POM
+      - name: 'Print Surefire reports'
+        # Note: Normally a step won't run if the job has failed, but this causes it to
+        if: ${{ failure() }}
+        shell: bash
+        run: ./util/print_surefire_reports.sh
+      - name: 'Integration Test'
+        if: matrix.java == 11
+        shell: bash
+        run: util/gradle_integration_tests.sh
+
