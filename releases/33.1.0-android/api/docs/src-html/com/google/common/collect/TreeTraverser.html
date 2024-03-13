@@ -1,0 +1,343 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<main role="main">
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span><a id="line.1">/*</a>
+<span class="sourceLineNo">002</span><a id="line.2"> * Copyright (C) 2012 The Guava Authors</a>
+<span class="sourceLineNo">003</span><a id="line.3"> *</a>
+<span class="sourceLineNo">004</span><a id="line.4"> * Licensed under the Apache License, Version 2.0 (the "License");</a>
+<span class="sourceLineNo">005</span><a id="line.5"> * you may not use this file except in compliance with the License.</a>
+<span class="sourceLineNo">006</span><a id="line.6"> * You may obtain a copy of the License at</a>
+<span class="sourceLineNo">007</span><a id="line.7"> *</a>
+<span class="sourceLineNo">008</span><a id="line.8"> * http://www.apache.org/licenses/LICENSE-2.0</a>
+<span class="sourceLineNo">009</span><a id="line.9"> *</a>
+<span class="sourceLineNo">010</span><a id="line.10"> * Unless required by applicable law or agreed to in writing, software</a>
+<span class="sourceLineNo">011</span><a id="line.11"> * distributed under the License is distributed on an "AS IS" BASIS,</a>
+<span class="sourceLineNo">012</span><a id="line.12"> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</a>
+<span class="sourceLineNo">013</span><a id="line.13"> * See the License for the specific language governing permissions and</a>
+<span class="sourceLineNo">014</span><a id="line.14"> * limitations under the License.</a>
+<span class="sourceLineNo">015</span><a id="line.15"> */</a>
+<span class="sourceLineNo">016</span><a id="line.16"></a>
+<span class="sourceLineNo">017</span><a id="line.17">package com.google.common.collect;</a>
+<span class="sourceLineNo">018</span><a id="line.18"></a>
+<span class="sourceLineNo">019</span><a id="line.19">import static com.google.common.base.Preconditions.checkNotNull;</a>
+<span class="sourceLineNo">020</span><a id="line.20"></a>
+<span class="sourceLineNo">021</span><a id="line.21">import com.google.common.annotations.Beta;</a>
+<span class="sourceLineNo">022</span><a id="line.22">import com.google.common.annotations.GwtCompatible;</a>
+<span class="sourceLineNo">023</span><a id="line.23">import com.google.common.base.Function;</a>
+<span class="sourceLineNo">024</span><a id="line.24">import java.util.ArrayDeque;</a>
+<span class="sourceLineNo">025</span><a id="line.25">import java.util.Deque;</a>
+<span class="sourceLineNo">026</span><a id="line.26">import java.util.Iterator;</a>
+<span class="sourceLineNo">027</span><a id="line.27">import java.util.Queue;</a>
+<span class="sourceLineNo">028</span><a id="line.28">import javax.annotation.CheckForNull;</a>
+<span class="sourceLineNo">029</span><a id="line.29"></a>
+<span class="sourceLineNo">030</span><a id="line.30">/**</a>
+<span class="sourceLineNo">031</span><a id="line.31"> * Views elements of a type {@code T} as nodes in a tree, and provides methods to traverse the trees</a>
+<span class="sourceLineNo">032</span><a id="line.32"> * induced by this traverser.</a>
+<span class="sourceLineNo">033</span><a id="line.33"> *</a>
+<span class="sourceLineNo">034</span><a id="line.34"> * &lt;p&gt;For example, the tree</a>
+<span class="sourceLineNo">035</span><a id="line.35"> *</a>
+<span class="sourceLineNo">036</span><a id="line.36"> * &lt;pre&gt;{@code</a>
+<span class="sourceLineNo">037</span><a id="line.37"> *        h</a>
+<span class="sourceLineNo">038</span><a id="line.38"> *      / | \</a>
+<span class="sourceLineNo">039</span><a id="line.39"> *     /  e  \</a>
+<span class="sourceLineNo">040</span><a id="line.40"> *    d       g</a>
+<span class="sourceLineNo">041</span><a id="line.41"> *   /|\      |</a>
+<span class="sourceLineNo">042</span><a id="line.42"> *  / | \     f</a>
+<span class="sourceLineNo">043</span><a id="line.43"> * a  b  c</a>
+<span class="sourceLineNo">044</span><a id="line.44"> * }&lt;/pre&gt;</a>
+<span class="sourceLineNo">045</span><a id="line.45"> *</a>
+<span class="sourceLineNo">046</span><a id="line.46"> * &lt;p&gt;can be iterated over in preorder (hdabcegf), postorder (abcdefgh), or breadth-first order</a>
+<span class="sourceLineNo">047</span><a id="line.47"> * (hdegabcf).</a>
+<span class="sourceLineNo">048</span><a id="line.48"> *</a>
+<span class="sourceLineNo">049</span><a id="line.49"> * &lt;p&gt;Null nodes are strictly forbidden.</a>
+<span class="sourceLineNo">050</span><a id="line.50"> *</a>
+<span class="sourceLineNo">051</span><a id="line.51"> * &lt;p&gt;Because this is an abstract class, not an interface, you can't use a lambda expression to</a>
+<span class="sourceLineNo">052</span><a id="line.52"> * implement it:</a>
+<span class="sourceLineNo">053</span><a id="line.53"> *</a>
+<span class="sourceLineNo">054</span><a id="line.54"> * &lt;pre&gt;{@code</a>
+<span class="sourceLineNo">055</span><a id="line.55"> * // won't work</a>
+<span class="sourceLineNo">056</span><a id="line.56"> * TreeTraverser&lt;NodeType&gt; traverser = node -&gt; node.getChildNodes();</a>
+<span class="sourceLineNo">057</span><a id="line.57"> * }&lt;/pre&gt;</a>
+<span class="sourceLineNo">058</span><a id="line.58"> *</a>
+<span class="sourceLineNo">059</span><a id="line.59"> * Instead, you can pass a lambda expression to the {@code using} factory method:</a>
+<span class="sourceLineNo">060</span><a id="line.60"> *</a>
+<span class="sourceLineNo">061</span><a id="line.61"> * &lt;pre&gt;{@code</a>
+<span class="sourceLineNo">062</span><a id="line.62"> * TreeTraverser&lt;NodeType&gt; traverser = TreeTraverser.using(node -&gt; node.getChildNodes());</a>
+<span class="sourceLineNo">063</span><a id="line.63"> * }&lt;/pre&gt;</a>
+<span class="sourceLineNo">064</span><a id="line.64"> *</a>
+<span class="sourceLineNo">065</span><a id="line.65"> * @author Louis Wasserman</a>
+<span class="sourceLineNo">066</span><a id="line.66"> * @since 15.0</a>
+<span class="sourceLineNo">067</span><a id="line.67"> * @deprecated Use {@link com.google.common.graph.Traverser} instead. All instance methods have</a>
+<span class="sourceLineNo">068</span><a id="line.68"> *     their equivalent on the result of {@code Traverser.forTree(tree)} where {@code tree}</a>
+<span class="sourceLineNo">069</span><a id="line.69"> *     implements {@code SuccessorsFunction}, which has a similar API as {@link #children} or can be</a>
+<span class="sourceLineNo">070</span><a id="line.70"> *     the same lambda function as passed into {@link #using(Function)}.</a>
+<span class="sourceLineNo">071</span><a id="line.71"> *     &lt;p&gt;This class is scheduled to be removed in October 2019.</a>
+<span class="sourceLineNo">072</span><a id="line.72"> */</a>
+<span class="sourceLineNo">073</span><a id="line.73">// TODO(b/68134636): Remove by 2019-10</a>
+<span class="sourceLineNo">074</span><a id="line.74">@Deprecated</a>
+<span class="sourceLineNo">075</span><a id="line.75">@Beta</a>
+<span class="sourceLineNo">076</span><a id="line.76">@GwtCompatible</a>
+<span class="sourceLineNo">077</span><a id="line.77">@ElementTypesAreNonnullByDefault</a>
+<span class="sourceLineNo">078</span><a id="line.78">public abstract class TreeTraverser&lt;T&gt; {</a>
+<span class="sourceLineNo">079</span><a id="line.79"></a>
+<span class="sourceLineNo">080</span><a id="line.80">  /**</a>
+<span class="sourceLineNo">081</span><a id="line.81">   * Returns a tree traverser that uses the given function to navigate from a node to its children.</a>
+<span class="sourceLineNo">082</span><a id="line.82">   * This is useful if the function instance already exists, or so that you can supply a lambda</a>
+<span class="sourceLineNo">083</span><a id="line.83">   * expressions. If those circumstances don't apply, you probably don't need to use this; subclass</a>
+<span class="sourceLineNo">084</span><a id="line.84">   * {@code TreeTraverser} and implement its {@link #children} method directly.</a>
+<span class="sourceLineNo">085</span><a id="line.85">   *</a>
+<span class="sourceLineNo">086</span><a id="line.86">   * @since 20.0</a>
+<span class="sourceLineNo">087</span><a id="line.87">   * @deprecated Use {@link com.google.common.graph.Traverser#forTree} instead. If you are using a</a>
+<span class="sourceLineNo">088</span><a id="line.88">   *     lambda, these methods have exactly the same signature.</a>
+<span class="sourceLineNo">089</span><a id="line.89">   */</a>
+<span class="sourceLineNo">090</span><a id="line.90">  @Deprecated</a>
+<span class="sourceLineNo">091</span><a id="line.91">  public static &lt;T&gt; TreeTraverser&lt;T&gt; using(</a>
+<span class="sourceLineNo">092</span><a id="line.92">      final Function&lt;T, ? extends Iterable&lt;T&gt;&gt; nodeToChildrenFunction) {</a>
+<span class="sourceLineNo">093</span><a id="line.93">    checkNotNull(nodeToChildrenFunction);</a>
+<span class="sourceLineNo">094</span><a id="line.94">    return new TreeTraverser&lt;T&gt;() {</a>
+<span class="sourceLineNo">095</span><a id="line.95">      @Override</a>
+<span class="sourceLineNo">096</span><a id="line.96">      public Iterable&lt;T&gt; children(T root) {</a>
+<span class="sourceLineNo">097</span><a id="line.97">        return nodeToChildrenFunction.apply(root);</a>
+<span class="sourceLineNo">098</span><a id="line.98">      }</a>
+<span class="sourceLineNo">099</span><a id="line.99">    };</a>
+<span class="sourceLineNo">100</span><a id="line.100">  }</a>
+<span class="sourceLineNo">101</span><a id="line.101"></a>
+<span class="sourceLineNo">102</span><a id="line.102">  /** Returns the children of the specified node. Must not contain null. */</a>
+<span class="sourceLineNo">103</span><a id="line.103">  public abstract Iterable&lt;T&gt; children(T root);</a>
+<span class="sourceLineNo">104</span><a id="line.104"></a>
+<span class="sourceLineNo">105</span><a id="line.105">  /**</a>
+<span class="sourceLineNo">106</span><a id="line.106">   * Returns an unmodifiable iterable over the nodes in a tree structure, using pre-order traversal.</a>
+<span class="sourceLineNo">107</span><a id="line.107">   * That is, each node's subtrees are traversed after the node itself is returned.</a>
+<span class="sourceLineNo">108</span><a id="line.108">   *</a>
+<span class="sourceLineNo">109</span><a id="line.109">   * &lt;p&gt;No guarantees are made about the behavior of the traversal when nodes change while iteration</a>
+<span class="sourceLineNo">110</span><a id="line.110">   * is in progress or when the iterators generated by {@link #children} are advanced.</a>
+<span class="sourceLineNo">111</span><a id="line.111">   *</a>
+<span class="sourceLineNo">112</span><a id="line.112">   * @deprecated Use {@link com.google.common.graph.Traverser#depthFirstPreOrder} instead, which has</a>
+<span class="sourceLineNo">113</span><a id="line.113">   *     the same behavior.</a>
+<span class="sourceLineNo">114</span><a id="line.114">   */</a>
+<span class="sourceLineNo">115</span><a id="line.115">  @Deprecated</a>
+<span class="sourceLineNo">116</span><a id="line.116">  public final FluentIterable&lt;T&gt; preOrderTraversal(final T root) {</a>
+<span class="sourceLineNo">117</span><a id="line.117">    checkNotNull(root);</a>
+<span class="sourceLineNo">118</span><a id="line.118">    return new FluentIterable&lt;T&gt;() {</a>
+<span class="sourceLineNo">119</span><a id="line.119">      @Override</a>
+<span class="sourceLineNo">120</span><a id="line.120">      public UnmodifiableIterator&lt;T&gt; iterator() {</a>
+<span class="sourceLineNo">121</span><a id="line.121">        return preOrderIterator(root);</a>
+<span class="sourceLineNo">122</span><a id="line.122">      }</a>
+<span class="sourceLineNo">123</span><a id="line.123">    };</a>
+<span class="sourceLineNo">124</span><a id="line.124">  }</a>
+<span class="sourceLineNo">125</span><a id="line.125"></a>
+<span class="sourceLineNo">126</span><a id="line.126">  UnmodifiableIterator&lt;T&gt; preOrderIterator(T root) {</a>
+<span class="sourceLineNo">127</span><a id="line.127">    return new PreOrderIterator(root);</a>
+<span class="sourceLineNo">128</span><a id="line.128">  }</a>
+<span class="sourceLineNo">129</span><a id="line.129"></a>
+<span class="sourceLineNo">130</span><a id="line.130">  private final class PreOrderIterator extends UnmodifiableIterator&lt;T&gt; {</a>
+<span class="sourceLineNo">131</span><a id="line.131">    private final Deque&lt;Iterator&lt;T&gt;&gt; stack;</a>
+<span class="sourceLineNo">132</span><a id="line.132"></a>
+<span class="sourceLineNo">133</span><a id="line.133">    PreOrderIterator(T root) {</a>
+<span class="sourceLineNo">134</span><a id="line.134">      this.stack = new ArrayDeque&lt;&gt;();</a>
+<span class="sourceLineNo">135</span><a id="line.135">      stack.addLast(Iterators.singletonIterator(checkNotNull(root)));</a>
+<span class="sourceLineNo">136</span><a id="line.136">    }</a>
+<span class="sourceLineNo">137</span><a id="line.137"></a>
+<span class="sourceLineNo">138</span><a id="line.138">    @Override</a>
+<span class="sourceLineNo">139</span><a id="line.139">    public boolean hasNext() {</a>
+<span class="sourceLineNo">140</span><a id="line.140">      return !stack.isEmpty();</a>
+<span class="sourceLineNo">141</span><a id="line.141">    }</a>
+<span class="sourceLineNo">142</span><a id="line.142"></a>
+<span class="sourceLineNo">143</span><a id="line.143">    @Override</a>
+<span class="sourceLineNo">144</span><a id="line.144">    public T next() {</a>
+<span class="sourceLineNo">145</span><a id="line.145">      Iterator&lt;T&gt; itr = stack.getLast(); // throws NSEE if empty</a>
+<span class="sourceLineNo">146</span><a id="line.146">      T result = checkNotNull(itr.next());</a>
+<span class="sourceLineNo">147</span><a id="line.147">      if (!itr.hasNext()) {</a>
+<span class="sourceLineNo">148</span><a id="line.148">        stack.removeLast();</a>
+<span class="sourceLineNo">149</span><a id="line.149">      }</a>
+<span class="sourceLineNo">150</span><a id="line.150">      Iterator&lt;T&gt; childItr = children(result).iterator();</a>
+<span class="sourceLineNo">151</span><a id="line.151">      if (childItr.hasNext()) {</a>
+<span class="sourceLineNo">152</span><a id="line.152">        stack.addLast(childItr);</a>
+<span class="sourceLineNo">153</span><a id="line.153">      }</a>
+<span class="sourceLineNo">154</span><a id="line.154">      return result;</a>
+<span class="sourceLineNo">155</span><a id="line.155">    }</a>
+<span class="sourceLineNo">156</span><a id="line.156">  }</a>
+<span class="sourceLineNo">157</span><a id="line.157"></a>
+<span class="sourceLineNo">158</span><a id="line.158">  /**</a>
+<span class="sourceLineNo">159</span><a id="line.159">   * Returns an unmodifiable iterable over the nodes in a tree structure, using post-order</a>
+<span class="sourceLineNo">160</span><a id="line.160">   * traversal. That is, each node's subtrees are traversed before the node itself is returned.</a>
+<span class="sourceLineNo">161</span><a id="line.161">   *</a>
+<span class="sourceLineNo">162</span><a id="line.162">   * &lt;p&gt;No guarantees are made about the behavior of the traversal when nodes change while iteration</a>
+<span class="sourceLineNo">163</span><a id="line.163">   * is in progress or when the iterators generated by {@link #children} are advanced.</a>
+<span class="sourceLineNo">164</span><a id="line.164">   *</a>
+<span class="sourceLineNo">165</span><a id="line.165">   * @deprecated Use {@link com.google.common.graph.Traverser#depthFirstPostOrder} instead, which</a>
+<span class="sourceLineNo">166</span><a id="line.166">   *     has the same behavior.</a>
+<span class="sourceLineNo">167</span><a id="line.167">   */</a>
+<span class="sourceLineNo">168</span><a id="line.168">  @Deprecated</a>
+<span class="sourceLineNo">169</span><a id="line.169">  public final FluentIterable&lt;T&gt; postOrderTraversal(final T root) {</a>
+<span class="sourceLineNo">170</span><a id="line.170">    checkNotNull(root);</a>
+<span class="sourceLineNo">171</span><a id="line.171">    return new FluentIterable&lt;T&gt;() {</a>
+<span class="sourceLineNo">172</span><a id="line.172">      @Override</a>
+<span class="sourceLineNo">173</span><a id="line.173">      public UnmodifiableIterator&lt;T&gt; iterator() {</a>
+<span class="sourceLineNo">174</span><a id="line.174">        return postOrderIterator(root);</a>
+<span class="sourceLineNo">175</span><a id="line.175">      }</a>
+<span class="sourceLineNo">176</span><a id="line.176">    };</a>
+<span class="sourceLineNo">177</span><a id="line.177">  }</a>
+<span class="sourceLineNo">178</span><a id="line.178"></a>
+<span class="sourceLineNo">179</span><a id="line.179">  UnmodifiableIterator&lt;T&gt; postOrderIterator(T root) {</a>
+<span class="sourceLineNo">180</span><a id="line.180">    return new PostOrderIterator(root);</a>
+<span class="sourceLineNo">181</span><a id="line.181">  }</a>
+<span class="sourceLineNo">182</span><a id="line.182"></a>
+<span class="sourceLineNo">183</span><a id="line.183">  private static final class PostOrderNode&lt;T&gt; {</a>
+<span class="sourceLineNo">184</span><a id="line.184">    final T root;</a>
+<span class="sourceLineNo">185</span><a id="line.185">    final Iterator&lt;T&gt; childIterator;</a>
+<span class="sourceLineNo">186</span><a id="line.186"></a>
+<span class="sourceLineNo">187</span><a id="line.187">    PostOrderNode(T root, Iterator&lt;T&gt; childIterator) {</a>
+<span class="sourceLineNo">188</span><a id="line.188">      this.root = checkNotNull(root);</a>
+<span class="sourceLineNo">189</span><a id="line.189">      this.childIterator = checkNotNull(childIterator);</a>
+<span class="sourceLineNo">190</span><a id="line.190">    }</a>
+<span class="sourceLineNo">191</span><a id="line.191">  }</a>
+<span class="sourceLineNo">192</span><a id="line.192"></a>
+<span class="sourceLineNo">193</span><a id="line.193">  private final class PostOrderIterator extends AbstractIterator&lt;T&gt; {</a>
+<span class="sourceLineNo">194</span><a id="line.194">    private final ArrayDeque&lt;PostOrderNode&lt;T&gt;&gt; stack;</a>
+<span class="sourceLineNo">195</span><a id="line.195"></a>
+<span class="sourceLineNo">196</span><a id="line.196">    PostOrderIterator(T root) {</a>
+<span class="sourceLineNo">197</span><a id="line.197">      this.stack = new ArrayDeque&lt;&gt;();</a>
+<span class="sourceLineNo">198</span><a id="line.198">      stack.addLast(expand(root));</a>
+<span class="sourceLineNo">199</span><a id="line.199">    }</a>
+<span class="sourceLineNo">200</span><a id="line.200"></a>
+<span class="sourceLineNo">201</span><a id="line.201">    @Override</a>
+<span class="sourceLineNo">202</span><a id="line.202">    @CheckForNull</a>
+<span class="sourceLineNo">203</span><a id="line.203">    protected T computeNext() {</a>
+<span class="sourceLineNo">204</span><a id="line.204">      while (!stack.isEmpty()) {</a>
+<span class="sourceLineNo">205</span><a id="line.205">        PostOrderNode&lt;T&gt; top = stack.getLast();</a>
+<span class="sourceLineNo">206</span><a id="line.206">        if (top.childIterator.hasNext()) {</a>
+<span class="sourceLineNo">207</span><a id="line.207">          T child = top.childIterator.next();</a>
+<span class="sourceLineNo">208</span><a id="line.208">          stack.addLast(expand(child));</a>
+<span class="sourceLineNo">209</span><a id="line.209">        } else {</a>
+<span class="sourceLineNo">210</span><a id="line.210">          stack.removeLast();</a>
+<span class="sourceLineNo">211</span><a id="line.211">          return top.root;</a>
+<span class="sourceLineNo">212</span><a id="line.212">        }</a>
+<span class="sourceLineNo">213</span><a id="line.213">      }</a>
+<span class="sourceLineNo">214</span><a id="line.214">      return endOfData();</a>
+<span class="sourceLineNo">215</span><a id="line.215">    }</a>
+<span class="sourceLineNo">216</span><a id="line.216"></a>
+<span class="sourceLineNo">217</span><a id="line.217">    private PostOrderNode&lt;T&gt; expand(T t) {</a>
+<span class="sourceLineNo">218</span><a id="line.218">      return new PostOrderNode&lt;T&gt;(t, children(t).iterator());</a>
+<span class="sourceLineNo">219</span><a id="line.219">    }</a>
+<span class="sourceLineNo">220</span><a id="line.220">  }</a>
+<span class="sourceLineNo">221</span><a id="line.221"></a>
+<span class="sourceLineNo">222</span><a id="line.222">  /**</a>
+<span class="sourceLineNo">223</span><a id="line.223">   * Returns an unmodifiable iterable over the nodes in a tree structure, using breadth-first</a>
+<span class="sourceLineNo">224</span><a id="line.224">   * traversal. That is, all the nodes of depth 0 are returned, then depth 1, then 2, and so on.</a>
+<span class="sourceLineNo">225</span><a id="line.225">   *</a>
+<span class="sourceLineNo">226</span><a id="line.226">   * &lt;p&gt;No guarantees are made about the behavior of the traversal when nodes change while iteration</a>
+<span class="sourceLineNo">227</span><a id="line.227">   * is in progress or when the iterators generated by {@link #children} are advanced.</a>
+<span class="sourceLineNo">228</span><a id="line.228">   *</a>
+<span class="sourceLineNo">229</span><a id="line.229">   * @deprecated Use {@link com.google.common.graph.Traverser#breadthFirst} instead, which has the</a>
+<span class="sourceLineNo">230</span><a id="line.230">   *     same behavior.</a>
+<span class="sourceLineNo">231</span><a id="line.231">   */</a>
+<span class="sourceLineNo">232</span><a id="line.232">  @Deprecated</a>
+<span class="sourceLineNo">233</span><a id="line.233">  public final FluentIterable&lt;T&gt; breadthFirstTraversal(final T root) {</a>
+<span class="sourceLineNo">234</span><a id="line.234">    checkNotNull(root);</a>
+<span class="sourceLineNo">235</span><a id="line.235">    return new FluentIterable&lt;T&gt;() {</a>
+<span class="sourceLineNo">236</span><a id="line.236">      @Override</a>
+<span class="sourceLineNo">237</span><a id="line.237">      public UnmodifiableIterator&lt;T&gt; iterator() {</a>
+<span class="sourceLineNo">238</span><a id="line.238">        return new BreadthFirstIterator(root);</a>
+<span class="sourceLineNo">239</span><a id="line.239">      }</a>
+<span class="sourceLineNo">240</span><a id="line.240">    };</a>
+<span class="sourceLineNo">241</span><a id="line.241">  }</a>
+<span class="sourceLineNo">242</span><a id="line.242"></a>
+<span class="sourceLineNo">243</span><a id="line.243">  private final class BreadthFirstIterator extends UnmodifiableIterator&lt;T&gt;</a>
+<span class="sourceLineNo">244</span><a id="line.244">      implements PeekingIterator&lt;T&gt; {</a>
+<span class="sourceLineNo">245</span><a id="line.245">    private final Queue&lt;T&gt; queue;</a>
+<span class="sourceLineNo">246</span><a id="line.246"></a>
+<span class="sourceLineNo">247</span><a id="line.247">    BreadthFirstIterator(T root) {</a>
+<span class="sourceLineNo">248</span><a id="line.248">      this.queue = new ArrayDeque&lt;T&gt;();</a>
+<span class="sourceLineNo">249</span><a id="line.249">      queue.add(root);</a>
+<span class="sourceLineNo">250</span><a id="line.250">    }</a>
+<span class="sourceLineNo">251</span><a id="line.251"></a>
+<span class="sourceLineNo">252</span><a id="line.252">    @Override</a>
+<span class="sourceLineNo">253</span><a id="line.253">    public boolean hasNext() {</a>
+<span class="sourceLineNo">254</span><a id="line.254">      return !queue.isEmpty();</a>
+<span class="sourceLineNo">255</span><a id="line.255">    }</a>
+<span class="sourceLineNo">256</span><a id="line.256"></a>
+<span class="sourceLineNo">257</span><a id="line.257">    @Override</a>
+<span class="sourceLineNo">258</span><a id="line.258">    public T peek() {</a>
+<span class="sourceLineNo">259</span><a id="line.259">      return queue.element();</a>
+<span class="sourceLineNo">260</span><a id="line.260">    }</a>
+<span class="sourceLineNo">261</span><a id="line.261"></a>
+<span class="sourceLineNo">262</span><a id="line.262">    @Override</a>
+<span class="sourceLineNo">263</span><a id="line.263">    public T next() {</a>
+<span class="sourceLineNo">264</span><a id="line.264">      T result = queue.remove();</a>
+<span class="sourceLineNo">265</span><a id="line.265">      Iterables.addAll(queue, children(result));</a>
+<span class="sourceLineNo">266</span><a id="line.266">      return result;</a>
+<span class="sourceLineNo">267</span><a id="line.267">    }</a>
+<span class="sourceLineNo">268</span><a id="line.268">  }</a>
+<span class="sourceLineNo">269</span><a id="line.269">}</a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</main>
+</body>
+</html>
