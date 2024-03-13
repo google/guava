@@ -156,7 +156,7 @@
 <span class="sourceLineNo">147</span><a id="line.147">   * of the transitive closure of {@code graph}. In other words, the returned {@link Graph} will not</a>
 <span class="sourceLineNo">148</span><a id="line.148">   * be updated after modifications to {@code graph}.</a>
 <span class="sourceLineNo">149</span><a id="line.149">   *</a>
-<span class="sourceLineNo">150</span><a id="line.150">   * @since NEXT (present with return type {@code Graph} since 20.0)</a>
+<span class="sourceLineNo">150</span><a id="line.150">   * @since 33.1.0 (present with return type {@code Graph} since 20.0)</a>
 <span class="sourceLineNo">151</span><a id="line.151">   */</a>
 <span class="sourceLineNo">152</span><a id="line.152">  // TODO(b/31438252): Consider potential optimizations for this algorithm.</a>
 <span class="sourceLineNo">153</span><a id="line.153">  public static &lt;N&gt; ImmutableGraph&lt;N&gt; transitiveClosure(Graph&lt;N&gt; graph) {</a>
@@ -203,7 +203,7 @@
 <span class="sourceLineNo">194</span><a id="line.194">   * not be updated after modifications to {@code graph}.</a>
 <span class="sourceLineNo">195</span><a id="line.195">   *</a>
 <span class="sourceLineNo">196</span><a id="line.196">   * @throws IllegalArgumentException if {@code node} is not present in {@code graph}</a>
-<span class="sourceLineNo">197</span><a id="line.197">   * @since NEXT (present with return type {@code Set} since 20.0)</a>
+<span class="sourceLineNo">197</span><a id="line.197">   * @since 33.1.0 (present with return type {@code Set} since 20.0)</a>
 <span class="sourceLineNo">198</span><a id="line.198">   */</a>
 <span class="sourceLineNo">199</span><a id="line.199">  public static &lt;N&gt; ImmutableSet&lt;N&gt; reachableNodes(Graph&lt;N&gt; graph, N node) {</a>
 <span class="sourceLineNo">200</span><a id="line.200">    checkArgument(graph.nodes().contains(node), NODE_NOT_IN_GRAPH, node);</a>

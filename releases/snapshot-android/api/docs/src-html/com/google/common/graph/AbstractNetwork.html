@@ -291,7 +291,7 @@
 <span class="sourceLineNo">282</span><a id="line.282">   * Returns a {@link Set} whose methods throw {@link IllegalStateException} when the given edge is</a>
 <span class="sourceLineNo">283</span><a id="line.283">   * not present in this network.</a>
 <span class="sourceLineNo">284</span><a id="line.284">   *</a>
-<span class="sourceLineNo">285</span><a id="line.285">   * @since NEXT</a>
+<span class="sourceLineNo">285</span><a id="line.285">   * @since 33.1.0</a>
 <span class="sourceLineNo">286</span><a id="line.286">   */</a>
 <span class="sourceLineNo">287</span><a id="line.287">  protected final &lt;T&gt; Set&lt;T&gt; edgeInvalidatableSet(Set&lt;T&gt; set, E edge) {</a>
 <span class="sourceLineNo">288</span><a id="line.288">    return InvalidatableSet.of(</a>
@@ -302,7 +302,7 @@
 <span class="sourceLineNo">293</span><a id="line.293">   * Returns a {@link Set} whose methods throw {@link IllegalStateException} when the given node is</a>
 <span class="sourceLineNo">294</span><a id="line.294">   * not present in this network.</a>
 <span class="sourceLineNo">295</span><a id="line.295">   *</a>
-<span class="sourceLineNo">296</span><a id="line.296">   * @since NEXT</a>
+<span class="sourceLineNo">296</span><a id="line.296">   * @since 33.1.0</a>
 <span class="sourceLineNo">297</span><a id="line.297">   */</a>
 <span class="sourceLineNo">298</span><a id="line.298">  protected final &lt;T&gt; Set&lt;T&gt; nodeInvalidatableSet(Set&lt;T&gt; set, N node) {</a>
 <span class="sourceLineNo">299</span><a id="line.299">    return InvalidatableSet.of(</a>
@@ -313,7 +313,7 @@
 <span class="sourceLineNo">304</span><a id="line.304">   * Returns a {@link Set} whose methods throw {@link IllegalStateException} when either of the</a>
 <span class="sourceLineNo">305</span><a id="line.305">   * given nodes is not present in this network.</a>
 <span class="sourceLineNo">306</span><a id="line.306">   *</a>
-<span class="sourceLineNo">307</span><a id="line.307">   * @since NEXT</a>
+<span class="sourceLineNo">307</span><a id="line.307">   * @since 33.1.0</a>
 <span class="sourceLineNo">308</span><a id="line.308">   */</a>
 <span class="sourceLineNo">309</span><a id="line.309">  protected final &lt;T&gt; Set&lt;T&gt; nodePairInvalidatableSet(Set&lt;T&gt; set, N nodeU, N nodeV) {</a>
 <span class="sourceLineNo">310</span><a id="line.310">    return InvalidatableSet.of(</a>
