@@ -6,12 +6,18 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.google.guava</groupId>
   <artifactId>guava-parent</artifactId>
-  <version>HEAD-jre-SNAPSHOT</version>
+  <version>1.0-HEAD-jre-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Guava Maven Parent</name>
   <description>Parent for guava artifacts</description>
   <url>https://github.com/google/guava</url>
   <properties>
+    <!-- Enable parallel test execution -->
+    <parallel>all</parallel>
+    <perCoreThreadCount>false</perCoreThreadCount>
+    <threadCount>48</threadCount>
+    <!-- SPDX and other build config -->
+    <guava.build.spdx>true</guava.build.spdx>
     <!-- Override this with -Dtest.include="**/SomeTest.java" on the CLI -->
     <test.include>%regex[.*.class]</test.include>
     <truth.version>1.4.2</truth.version>
@@ -19,7 +25,10 @@
     <checker.version>3.42.0</checker.version>
     <errorprone.version>2.26.1</errorprone.version>
     <j2objc.version>3.0.0</j2objc.version>
+    <failureaccess.version>1.0.2</failureaccess.version>
     <javac.version>9+181-r4173-1</javac.version>
+    <!-- Javadoc is pinned to the latest LTS, otherwise there are doc redirect warnings. -->
+    <javadoc.specification.version>21</javadoc.specification.version>
     <!-- Empty for all JDKs but 9-12 -->
     <maven-javadoc-plugin.additionalJOptions></maven-javadoc-plugin.additionalJOptions>
     <project.build.outputTimestamp>2024-01-02T00:00:00Z</project.build.outputTimestamp>
@@ -29,9 +38,17 @@
     <module.status>integration</module.status>
     <variant.jvmEnvironment>standard-jvm</variant.jvmEnvironment>
     <variant.jvmEnvironmentVariantName>jre</variant.jvmEnvironmentVariantName>
-    <otherVariant.version>HEAD-android-SNAPSHOT</otherVariant.version>
+    <otherVariant.version>1.0-HEAD-android-SNAPSHOT</otherVariant.version>
     <otherVariant.jvmEnvironment>android</otherVariant.jvmEnvironment>
     <otherVariant.jvmEnvironmentVariantName>android</otherVariant.jvmEnvironmentVariantName>
+    <publishing.repository.snapshots>https://oss.sonatype.org/content/repositories/snapshots/</publishing.repository.snapshots>
+    <publishing.repository.releases>https://oss.sonatype.org/service/local/staging/deploy/maven2/</publishing.repository.releases>
+    <!-- Create checksums for lib targets on installation. See docs here:
+      https://maven.apache.org/plugins-archives/maven-install-plugin-2.4/examples/installing-checksums.html
+      -->
+    <createChecksum>true</createChecksum>
+    <!-- Parallel test execution can cause some flaky tests; let's retry them. -->
+    <surefire.rerunFailingTestsCount>3</surefire.rerunFailingTestsCount>
   </properties>
   <issueManagement>
     <system>GitHub Issues</system>
@@ -41,7 +58,7 @@
   <licenses>
     <license>
       <name>Apache License, Version 2.0</name>
-      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
       <distribution>repo</distribution>
     </license>
   </licenses>
@@ -56,7 +73,7 @@
       <name>Kevin Bourrillion</name>
       <email>kevinb@google.com</email>
       <organization>Google</organization>
-      <organizationUrl>http://www.google.com</organizationUrl>
+      <organizationUrl>https://www.google.com</organizationUrl>
       <roles>
         <role>owner</role>
         <role>developer</role>
@@ -74,6 +91,7 @@
     <module>guava-gwt</module>
     <module>guava-testlib</module>
     <module>guava-tests</module>
+    <module>guava-bench</module>
   </modules>
   <build>
     <!-- Handle where Guava deviates from Maven defaults -->
@@ -123,21 +141,13 @@
       <plugins>
         <plugin>
           <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.8.1</version>
+          <version>3.12.1</version>
           <configuration>
             <source>1.8</source>
             <target>1.8</target>
             <encoding>UTF-8</encoding>
             <parameters>true</parameters>
-            <compilerArgs>
-              <!--
-                   Make includes/excludes fully work:
-                   https://issues.apache.org/jira/browse/MCOMPILER-174
-
-                   (Compare what guava-gwt has to do for maven-javadoc-plugin.)
-              -->
-              <arg>-sourcepath</arg>
-              <arg>doesnotexist</arg>
+            <compilerArgs combine.children="override">
               <!-- https://errorprone.info/docs/installation#maven -->
               <arg>-XDcompilePolicy=simple</arg>
               <!-- -Xplugin:ErrorProne is set conditionally by a profile. -->
@@ -160,7 +170,7 @@
         </plugin>
         <plugin>
           <artifactId>maven-jar-plugin</artifactId>
-          <version>3.2.0</version>
+          <version>3.3.0</version>
         </plugin>
         <plugin>
           <artifactId>maven-source-plugin</artifactId>
@@ -206,7 +216,7 @@
         </plugin>
         <plugin>
           <artifactId>maven-javadoc-plugin</artifactId>
-          <version>3.5.0</version>
+          <version>3.6.3</version>
           <configuration>
             <quiet>true</quiet>
             <notimestamp>true</notimestamp>
@@ -218,7 +228,7 @@
               <additionalOption>-Xdoclint:-html</additionalOption>
             </additionalOptions>
             <linksource>true</linksource>
-            <source>${java.specification.version}</source>
+            <source>${javadoc.specification.version}</source>
             <additionalJOption>${maven-javadoc-plugin.additionalJOptions}</additionalJOption>
           </configuration>
           <executions>
@@ -238,7 +248,7 @@
         </plugin>
         <plugin>
           <artifactId>maven-surefire-plugin</artifactId>
-          <version>2.7.2</version>
+          <version>3.2.5</version>
           <configuration>
             <includes>
               <include>${test.include}</include>
@@ -257,6 +267,8 @@
             <!-- Set max heap for tests. -->
             <!-- Catch dependencies on the default locale by setting it to hi-IN. -->
             <argLine>-Xmx1536M -Duser.language=hi -Duser.country=IN ${test.add.args} ${test.add.opens}</argLine>
+            <reuseForks>true</reuseForks>
+            <forkCount>2C</forkCount>
           </configuration>
         </plugin>
         <plugin>
@@ -272,6 +284,33 @@
           <artifactId>build-helper-maven-plugin</artifactId>
           <version>3.4.0</version>
         </plugin>
+        <plugin>
+          <artifactId>maven-gpg-plugin</artifactId>
+          <version>3.0.1</version>
+        </plugin>
+        <plugin>
+          <groupId>dev.sigstore</groupId>
+          <artifactId>sigstore-maven-plugin</artifactId>
+          <version>0.4.0</version>
+        </plugin>
+        <plugin>
+          <groupId>org.spdx</groupId>
+          <artifactId>spdx-maven-plugin</artifactId>
+          <version>0.7.3</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-jmod-plugin</artifactId>
+          <version>3.0.0-alpha-1</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-jacoco-plugin</artifactId>
+          <version>0.8.11</version>
+        </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>exec-maven-plugin</artifactId>
+          <version>3.2.0</version>
+        </plugin>
       </plugins>
     </pluginManagement>
   </build>
@@ -279,12 +318,12 @@
     <snapshotRepository>
       <id>sonatype-nexus-snapshots</id>
       <name>Sonatype Nexus Snapshots</name>
-      <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+      <url>${publishing.repository.snapshots}</url>
     </snapshotRepository>
     <repository>
       <id>sonatype-nexus-staging</id>
       <name>Nexus Release Repository</name>
-      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+      <url>${publishing.repository.releases}</url>
     </repository>
     <site>
       <id>guava-site</id>
@@ -327,8 +366,19 @@
         <build>
           <plugins>
             <plugin>
+              <groupId>dev.sigstore</groupId>
+              <artifactId>sigstore-maven-plugin</artifactId>
+              <executions>
+                <execution>
+                  <id>sign</id>
+                  <goals>
+                    <goal>sign</goal>
+                  </goals>
+                </execution>
+              </executions>
+            </plugin>
+            <plugin>
               <artifactId>maven-gpg-plugin</artifactId>
-              <version>3.0.1</version>
               <executions>
                 <execution>
                   <id>sign-artifacts</id>
@@ -466,7 +516,26 @@
       </build>
     </profile>
     <profile>
-      <id>javac-for-jvm18plus</id>
+      <id>jvm11plus</id>
+      <activation>
+        <jdk>[11,]</jdk>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <configuration>
+              <compilerArgs combine.self="append" combine.children="append">
+                <arg>-Xlint:-removal</arg>
+                <arg>-Xlint:-options</arg>
+              </compilerArgs>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>jvm18plus</id>
       <activation>
         <!--
             In order to build and run the tests against JDK 18+, we need to pass java.security.manager=allow, to make

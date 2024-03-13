@@ -14,9 +14,12 @@
  * limitations under the License.
  */
 
-package com.google.common.math;
+package com.google.common.testing.math;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.common.math.LongMath;
+import com.google.common.math.Quantiles;
+
 import java.math.RoundingMode;
 import java.util.Arrays;
 import java.util.Collection;
@@ -24,14 +27,14 @@ import java.util.Map;
 
 /**
  * Enumerates several algorithms providing equivalent functionality to {@link Quantiles}, for use in
- * the Quantiles Benchmark. These algorithms each calculate either a single quantile or multiple
- * quantiles. All algorithms modify the dataset they are given (the cost of a copy to avoid this
- * will be constant across algorithms).
+ * quantiles tests and benchmarks. These algorithms each calculate either a single quantile or
+ * multiple quantiles. All algorithms modify the dataset they are given (the cost of a copy to avoid
+ * this will be constant across algorithms).
  *
  * @author Pete Gillin
  * @since 20.0
  */
-enum QuantilesAlgorithm {
+public enum QuantilesAlgorithm {
 
   /**
    * Sorts the dataset, and picks values from it. When computing multiple quantiles, we sort once
@@ -40,13 +43,13 @@ enum QuantilesAlgorithm {
   SORTING {
 
     @Override
-    double singleQuantile(int index, int scale, double[] dataset) {
+    public double singleQuantile(int index, int scale, double[] dataset) {
       Arrays.sort(dataset);
       return singleQuantileFromSorted(index, scale, dataset);
     }
 
     @Override
-    Map<Integer, Double> multipleQuantiles(
+    public Map<Integer, Double> multipleQuantiles(
         Collection<Integer> indexes, int scale, double[] dataset) {
       Arrays.sort(dataset);
       ImmutableMap.Builder<Integer, Double> builder = ImmutableMap.builder();
@@ -76,7 +79,7 @@ enum QuantilesAlgorithm {
   QUICKSELECT {
 
     @Override
-    double singleQuantile(int index, int scale, double[] dataset) {
+    public double singleQuantile(int index, int scale, double[] dataset) {
       long numerator = (long) index * (dataset.length - 1);
       int positionFloor = (int) LongMath.divide(numerator, scale, RoundingMode.DOWN);
       int remainder = (int) (numerator - positionFloor * scale);
@@ -91,7 +94,7 @@ enum QuantilesAlgorithm {
     }
 
     @Override
-    Map<Integer, Double> multipleQuantiles(
+    public Map<Integer, Double> multipleQuantiles(
         Collection<Integer> indexes, int scale, double[] dataset) {
       ImmutableMap.Builder<Integer, Double> builder = ImmutableMap.builder();
       for (int index : indexes) {
@@ -105,12 +108,12 @@ enum QuantilesAlgorithm {
   TARGET {
 
     @Override
-    double singleQuantile(int index, int scale, double[] dataset) {
+    public double singleQuantile(int index, int scale, double[] dataset) {
       return Quantiles.scale(scale).index(index).computeInPlace(dataset);
     }
 
     @Override
-    Map<Integer, Double> multipleQuantiles(
+    public Map<Integer, Double> multipleQuantiles(
         Collection<Integer> indexes, int scale, double[] dataset) {
       return Quantiles.scale(scale).indexes(indexes).computeInPlace(dataset);
     }
@@ -121,13 +124,13 @@ enum QuantilesAlgorithm {
    * Calculates a single quantile. Equivalent to {@code
    * Quantiles.scale(scale).index(index).computeInPlace(dataset)}.
    */
-  abstract double singleQuantile(int index, int scale, double[] dataset);
+  public abstract double singleQuantile(int index, int scale, double[] dataset);
 
   /**
    * Calculates multiple quantiles. Equivalent to {@code
    * Quantiles.scale(scale).indexes(indexes).computeInPlace(dataset)}.
    */
-  abstract Map<Integer, Double> multipleQuantiles(
+  public abstract Map<Integer, Double> multipleQuantiles(
       Collection<Integer> indexes, int scale, double[] dataset);
 
   static double getMinValue(double[] array, int from) {

@@ -5,7 +5,7 @@
   <parent>
     <groupId>com.google.guava</groupId>
     <artifactId>guava-parent</artifactId>
-    <version>HEAD-jre-SNAPSHOT</version>
+    <version>1.0-HEAD-jre-SNAPSHOT</version>
   </parent>
   <artifactId>guava-testlib</artifactId>
   <name>Guava Testing Library</name>
@@ -61,9 +61,6 @@
   <build>
     <plugins>
       <plugin>
-        <artifactId>maven-compiler-plugin</artifactId>
-      </plugin>
-      <plugin>
         <artifactId>maven-source-plugin</artifactId>
         <executions>
           <execution>
@@ -88,10 +85,97 @@
       </plugin>
       <plugin>
         <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+          <source>${javadoc.specification.version}</source>
+          <additionalJOptions>
+            <additionalJOption>--add-reads=com.google.common.testlib=ALL-UNNAMED</additionalJOption>
+          </additionalJOptions>
+        </configuration>
       </plugin>
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>default-compile</id>
+            <configuration>
+              <source>1.8</source>
+              <target>1.8</target>
+              <excludes>
+                <exclude>module-info.java</exclude>
+              </excludes>
+              <compilerArgs combine.children="append" combine.self="append">
+                <arg>-XDignore.symbol.file</arg>
+              </compilerArgs>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
+  <profiles>
+    <profile>
+      <id>compile-jpms</id>
+      <activation>
+        <jdk>[9,]</jdk>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>compile-java9</id>
+                <phase>compile</phase>
+                <goals>
+                  <goal>compile</goal>
+                </goals>
+                <configuration>
+                  <release>9</release>
+                  <compileSourceRoots>
+                    <compileSourceRoot>${project.basedir}/src</compileSourceRoot>
+                  </compileSourceRoots>
+
+                  <!--
+                    JPMS needs access to the module sources to complete a modular Java build. We also need to override
+                    the base compiler settings (in the root `pom.xml`) to enable MRJAR output.
+                  -->
+                  <compilerArgs combine.self="override" combine.children="append">
+                    <arg>-sourcepath</arg>
+                    <arg>${project.basedir}/src</arg>
+                    <arg>--add-reads=com.google.common=ALL-UNNAMED</arg>
+                    <arg>--add-reads=com.google.common.testlib=ALL-UNNAMED</arg>
+                    <!-- https://errorprone.info/docs/installation#maven -->
+                    <arg>-XDcompilePolicy=simple</arg>
+                    <arg>-Xlint:-removal</arg>
+                    <arg>-Xlint:-options</arg>
+                  </compilerArgs>
+                  <fork>true</fork>
+                  <multiReleaseOutput>true</multiReleaseOutput>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-jar-plugin</artifactId>
+            <configuration>
+              <excludes>
+                <exclude>/module-info.class</exclude>
+                <exclude>META-INF/versions/9/com/**/*.class</exclude>
+              </excludes>
+              <archive>
+                <manifestEntries>
+                  <Multi-Release>true</Multi-Release>
+                </manifestEntries>
+              </archive>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 </project>

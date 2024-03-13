@@ -42,6 +42,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** Benchmarks for {@link ExecutionList}. */
 @VmOptions({"-Xms8g", "-Xmx8g"})
+@SuppressWarnings({"removal", "deprecation"})
 public class ExecutionListBenchmark {
   private static final int NUM_THREADS = 10; // make a param?
 
@@ -375,7 +376,7 @@ public class ExecutionListBenchmark {
   // This is the old implementation of ExecutionList using a LinkedList.
   private static final class OldExecutionList {
     static final Logger log = Logger.getLogger(OldExecutionList.class.getName());
-    final Queue<OldExecutionList.RunnableExecutorPair> runnables = Lists.newLinkedList();
+    final Queue<RunnableExecutorPair> runnables = Lists.newLinkedList();
     boolean executed = false;
 
     public void add(Runnable runnable, Executor executor) {

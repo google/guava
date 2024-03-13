@@ -6,10 +6,10 @@
   <parent>
     <groupId>com.google.guava</groupId>
     <artifactId>guava-parent</artifactId>
-    <version>HEAD-jre-SNAPSHOT</version>
+    <version>1.0-HEAD-jre-SNAPSHOT</version>
   </parent>
   <artifactId>guava</artifactId>
-  <packaging>bundle</packaging>
+  <packaging>jar</packaging>
   <name>Guava: Google Core Libraries for Java</name>
   <url>https://github.com/google/guava</url>
   <description>
@@ -21,7 +21,7 @@
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>failureaccess</artifactId>
-      <version>1.0.2</version>
+      <version>${failureaccess.version}</version>
     </dependency>
     <dependency>
       <groupId>com.google.guava</groupId>
@@ -31,18 +31,22 @@
     <dependency>
       <groupId>com.google.code.findbugs</groupId>
       <artifactId>jsr305</artifactId>
+      <version>${jsr305.version}</version>
     </dependency>
     <dependency>
       <groupId>org.checkerframework</groupId>
       <artifactId>checker-qual</artifactId>
+      <version>${checker.version}</version>
     </dependency>
     <dependency>
       <groupId>com.google.errorprone</groupId>
       <artifactId>error_prone_annotations</artifactId>
+      <version>${errorprone.version}</version>
     </dependency>
     <dependency>
       <groupId>com.google.j2objc</groupId>
       <artifactId>j2objc-annotations</artifactId>
+      <version>${j2objc.version}</version>
     </dependency>
   </dependencies>
   <build>
@@ -59,19 +63,12 @@
     <plugins>
       <plugin>
         <artifactId>maven-jar-plugin</artifactId>
-        <configuration>
-          <archive>
-            <manifestEntries>
-              <Automatic-Module-Name>com.google.common</Automatic-Module-Name>
-            </manifestEntries>
-          </archive>
-        </configuration>
       </plugin>
       <plugin>
         <extensions>true</extensions>
         <groupId>org.apache.felix</groupId>
         <artifactId>maven-bundle-plugin</artifactId>
-        <version>5.1.8</version>
+        <version>5.1.9</version>
         <executions>
           <execution>
             <id>bundle-manifest</id>
@@ -83,9 +80,12 @@
         </executions>
         <configuration>
           <instructions>
+            <_fixupmessages>^Classes found in the wrong directory: .*</_fixupmessages>
+            <_jpms-module-info>com.google.common</_jpms-module-info>
             <Export-Package>
               !com.google.common.base.internal,
               !com.google.common.util.concurrent.internal,
+              !META-INF.*,
               com.google.common.*
             </Export-Package>
             <Import-Package>
@@ -100,6 +100,47 @@
       </plugin>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>default-compile</id>
+            <configuration>
+              <source>1.8</source>
+              <target>1.8</target>
+              <excludes>
+                <exclude>module-info.java</exclude>
+              </excludes>
+              <compilerArgs combine.children="append" combine.self="append">
+                <arg>-XDignore.symbol.file</arg>
+              </compilerArgs>
+            </configuration>
+          </execution>
+          <execution>
+            <id>compile-java-9</id>
+            <phase>compile</phase>
+            <goals>
+              <goal>compile</goal>
+            </goals>
+            <configuration>
+              <release>9</release>
+              <compileSourceRoots>
+                <compileSourceRoot>${project.basedir}/src</compileSourceRoot>
+              </compileSourceRoots>
+
+              <!--
+                JPMS needs access to the module sources to complete a modular Java build. We also need to override the
+                base compile settings (in the root `pom.xml`) to enable MRJAR output.
+              -->
+              <compilerArgs combine.self="override" combine.children="append">
+                <arg>-sourcepath</arg>
+                <arg>${project.basedir}/src</arg>
+                <arg>--add-reads=com.google.common=ALL-UNNAMED</arg>
+                <!-- https://errorprone.info/docs/installation#maven -->
+                <arg>-XDcompilePolicy=simple</arg>
+              </compilerArgs>
+              <multiReleaseOutput>true</multiReleaseOutput>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
       <plugin>
         <artifactId>maven-source-plugin</artifactId>
@@ -111,6 +152,7 @@
       <plugin>
         <artifactId>maven-javadoc-plugin</artifactId>
         <configuration>
+          <source>9</source>
           <!-- Passing `-subpackages com.google.common` breaks things, so we explicitly exclude everything else instead. -->
           <!-- excludePackageNames requires specification of packages separately from "all subpackages".
                https://issues.apache.org/jira/browse/MJAVADOC-584 -->
@@ -161,8 +203,12 @@
             </offlineLink>
             <!-- The JDK doc must be listed after JSR305 (and as an <offlineLink>, not a <link>) so that JSR305 "claims" javax.annotation. -->
             <offlineLink>
-              <url>https://docs.oracle.com/javase/9/docs/api/</url>
-              <location>https://docs.oracle.com/javase/9/docs/api/</location>
+              <url>https://docs.oracle.com/javase/21/docs/api/</url>
+              <location>https://docs.oracle.com/en/java/javase/21/docs/api/</location>
+            </offlineLink>
+            <offlineLink>
+              <url>https://docs.oracle.com/en/java/javase/21/docs/api/</url>
+              <location>https://docs.oracle.com/en/java/javase/21/docs/api/</location>
             </offlineLink>
             <!-- The Checker Framework likewise would claim javax.annotations, despite providing only a subset of the JSR305 annotations, so it must likewise come after JSR305. -->
             <offlineLink>
@@ -173,6 +219,7 @@
           <links>
             <link>https://errorprone.info/api/latest/</link>
           </links>
+          <doclint>all,-missing,-html,-accessibility</doclint>
           <overview>../overview.html</overview>
         </configuration>
       </plugin>
@@ -222,4 +269,146 @@
       </plugin>
     </plugins>
   </build>
+  <profiles>
+    <profile>
+      <id>spdx</id>
+      <activation>
+        <jdk>[11,</jdk>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>compile-java-9</id>
+                <phase>compile</phase>
+                <configuration>
+                  <release>9</release>
+                  <compileSourceRoots>
+                    <compileSourceRoot>${project.basedir}/src</compileSourceRoot>
+                  </compileSourceRoots>
+
+                  <!--
+                    JPMS needs access to the module sources to complete a modular Java build. We also need to override
+                    the base compiler settings (in the root `pom.xml`) to enable MRJAR output.
+                  -->
+                  <compilerArgs combine.self="override" combine.children="append">
+                    <arg>-sourcepath</arg>
+                    <arg>${project.basedir}/src</arg>
+                    <arg>--add-reads=com.google.common=ALL-UNNAMED</arg>
+                    <!-- https://errorprone.info/docs/installation#maven -->
+                    <arg>-XDcompilePolicy=simple</arg>
+                    <arg>-Xlint:-removal</arg>
+                    <arg>-Xlint:-options</arg>
+                  </compilerArgs>
+                  <multiReleaseOutput>true</multiReleaseOutput>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-jar-plugin</artifactId>
+            <configuration>
+              <excludes>
+                <exclude>/module-info.class</exclude>
+                <exclude>META-INF/versions/9/com/**/*.class</exclude>
+              </excludes>
+              <archive>
+                <manifestEntries>
+                  <Multi-Release>true</Multi-Release>
+                  <Add-Reads>ALL-UNNAMED</Add-Reads>
+                </manifestEntries>
+              </archive>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>spdx-sign</id>
+      <activation>
+        <jdk>[11,]</jdk>
+        <property>
+          <name>guava.build.spdx</name>
+          <value>true</value>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <!--
+            @TODO(sgammon): explain
+          -->
+          <plugin>
+            <groupId>org.spdx</groupId>
+            <artifactId>spdx-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>build-spdx</id>
+                <phase>install</phase>
+                <goals>
+                  <goal>createSPDX</goal>
+                </goals>
+              </execution>
+            </executions>
+            <configuration>
+              <useArtifactID>true</useArtifactID>
+              <includeTransitiveDependencies>true</includeTransitiveDependencies>
+              <originator>Organization: Google, LLC</originator>
+              <copyrightText>Copyright (c) 2012-2024, The Guava Authors</copyrightText>
+              <defaultFileCopyright>Copyright (c) 2012-2024, The Guava Authors</defaultFileCopyright>
+              <defaultFileConcludedLicense>Apache-2.0</defaultFileConcludedLicense>
+              <creators><creator>Organization: Google, LLC</creator></creators>
+              <checksumAlgorithms>
+                <checksumAlgorithm>SHA256</checksumAlgorithm>
+              </checksumAlgorithms>
+            </configuration>
+          </plugin>
+          <!--
+            @TODO(sgammon): explain
+          -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-antrun-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>repack-spdx</id>
+                <phase>install</phase>
+                <goals>
+                  <goal>run</goal>
+                </goals>
+                <configuration>
+                  <target>
+                    <unzip src="${project.build.directory}/guava-${project.version}.jar" dest="${project.build.directory}/repack"/>
+                    <copy todir="${project.build.directory}/repack/META-INF/spdx">
+                      <fileset dir="${project.build.directory}/site" >
+                        <include name="*.spdx.json"/>
+                      </fileset>
+                    </copy>
+                    <zip basedir="${project.build.directory}/repack" destfile="${project.build.directory}/guava-${project.version}.jar"/>
+                  </target>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+          <!--
+            @TODO(sgammon): explain
+          -->
+          <plugin>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>default-gpg</id>
+                <phase>install</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 </project>

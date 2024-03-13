@@ -94,6 +94,7 @@ abstract class Striped64 extends Number {
    * <p>JVM intrinsics note: It would be possible to use a release-only form of CAS here, if it were
    * provided.
    */
+  @SuppressWarnings({"deprecation", "removal", "unused"})
   static final class Cell {
     volatile long p0, p1, p2, p3, p4, p5, p6;
     volatile long value;
@@ -103,7 +104,7 @@ abstract class Striped64 extends Number {
       value = x;
     }
 
-    final boolean cas(long cmp, long val) {
+    boolean cas(long cmp, long val) {
       return UNSAFE.compareAndSwapLong(this, valueOffset, cmp, val);
     }
 

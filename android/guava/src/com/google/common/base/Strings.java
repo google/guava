@@ -235,7 +235,7 @@ public final class Strings {
    * <p><b>Note:</b> For most string-formatting needs, use {@link String#format String.format},
    * {@link java.io.PrintWriter#format PrintWriter.format}, and related methods. These support the
    * full range of <a
-   * href="https://docs.oracle.com/javase/9/docs/api/java/util/Formatter.html#syntax">format
+   * href="https://docs.oracle.com/javase/21/docs/api/java/util/Formatter.html#syntax">format
    * specifiers</a>, and alert you to usage errors by throwing {@link
    * java.util.IllegalFormatException}.
    *

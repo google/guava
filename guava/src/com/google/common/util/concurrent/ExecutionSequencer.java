@@ -29,6 +29,7 @@ import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
+import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicReference;
 import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -37,7 +38,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * Serializes execution of tasks, somewhat like an "asynchronous {@code synchronized} block." Each
  * {@linkplain #submit enqueued} callable will not be submitted to its associated executor until the
  * previous callable has returned -- and, if the previous callable was an {@link AsyncCallable}, not
- * until the {@code Future} it returned is {@linkplain Future#isDone done} (successful, failed, or
+ * until the {@code Future} it returned is {@linkplain Future#isDone()} (successful, failed, or
  * cancelled).
  *
  * <p>This class serializes execution of <i>submitted</i> tasks but not any <i>listeners</i> of

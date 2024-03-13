@@ -27,7 +27,7 @@ import java.util.Set;
 import junit.framework.TestCase;
 
 /**
- * Tests that the different algorithms benchmarked in {@link QuantilesBenchmark} are actually all
+ * Tests that the different algorithms benchmarked in the Quantiles Benchmark are actually all
  * returning more-or-less the same answers.
  */
 public class QuantilesAlgorithmTest extends TestCase {

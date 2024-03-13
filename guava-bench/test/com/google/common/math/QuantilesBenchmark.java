@@ -23,6 +23,7 @@ import com.google.common.collect.ContiguousSet;
 import com.google.common.collect.DiscreteDomain;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Range;
+import com.google.common.testing.math.QuantilesAlgorithm;
 import java.util.Random;
 
 /** Benchmarks some algorithms providing the same functionality as {@link Quantiles}. */

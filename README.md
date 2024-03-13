@@ -71,7 +71,7 @@ consult the
 ## Snapshots and Documentation
 
 Snapshots of Guava built from the `master` branch are available through Maven
-using version `HEAD-jre-SNAPSHOT`, or `HEAD-android-SNAPSHOT` for the Android
+using version `1.0-HEAD-jre-SNAPSHOT`, or `1.0-HEAD-android-SNAPSHOT` for the Android
 flavor.
 
 -   Snapshot API Docs: [guava][guava-snapshot-api-docs]

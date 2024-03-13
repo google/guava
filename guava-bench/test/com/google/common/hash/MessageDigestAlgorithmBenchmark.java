@@ -24,7 +24,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Random;
 
 /**
- * Benchmarks for comparing {@link MessageDigest}s and {@link com.google.common.hash.HashFunction}s
+ * Benchmarks for comparing {@link MessageDigest}s and {@link HashFunction}s
  * that wrap {@link MessageDigest}s.
  *
  * <p>Parameters for the benchmark are:

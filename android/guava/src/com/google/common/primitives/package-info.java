@@ -29,7 +29,7 @@
  * <ul>
  *   <li>{@link ImmutableDoubleArray}
  *   <li>{@link ImmutableIntArray}
- *   <li>{@link ImmutableLongrray}
+ *   <li>{@link ImmutableLongArray}
  *   <li>{@link UnsignedInteger}
  *   <li>{@link UnsignedLong}
  * </ul>
