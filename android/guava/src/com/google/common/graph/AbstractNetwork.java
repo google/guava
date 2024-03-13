@@ -282,7 +282,7 @@ public abstract class AbstractNetwork<N, E> implements Network<N, E> {
    * Returns a {@link Set} whose methods throw {@link IllegalStateException} when the given edge is
    * not present in this network.
    *
-   * @since NEXT
+   * @since 33.1.0
    */
   protected final <T> Set<T> edgeInvalidatableSet(Set<T> set, E edge) {
     return InvalidatableSet.of(
@@ -293,7 +293,7 @@ public abstract class AbstractNetwork<N, E> implements Network<N, E> {
    * Returns a {@link Set} whose methods throw {@link IllegalStateException} when the given node is
    * not present in this network.
    *
-   * @since NEXT
+   * @since 33.1.0
    */
   protected final <T> Set<T> nodeInvalidatableSet(Set<T> set, N node) {
     return InvalidatableSet.of(
@@ -304,7 +304,7 @@ public abstract class AbstractNetwork<N, E> implements Network<N, E> {
    * Returns a {@link Set} whose methods throw {@link IllegalStateException} when either of the
    * given nodes is not present in this network.
    *
-   * @since NEXT
+   * @since 33.1.0
    */
   protected final <T> Set<T> nodePairInvalidatableSet(Set<T> set, N nodeU, N nodeV) {
     return InvalidatableSet.of(
