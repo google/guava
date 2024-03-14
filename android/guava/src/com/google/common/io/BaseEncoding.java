@@ -37,6 +37,7 @@ import java.io.Writer;
 import java.util.Arrays;
 import java.util.Objects;
 import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A binary encoding scheme for reversibly translating between byte sequences and printable ASCII
@@ -136,12 +137,8 @@ public abstract class BaseEncoding {
    * @since 15.0
    */
   public static final class DecodingException extends IOException {
-    DecodingException(String message) {
+    DecodingException(@Nullable String message) {
       super(message);
-    }
-
-    DecodingException(Throwable cause) {
-      super(cause);
     }
   }
 
