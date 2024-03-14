@@ -53887,6 +53887,18 @@
  @since 31.0]]>
       </doc>
     </field>
+    <field name="PERMISSIONS_POLICY_REPORT_ONLY" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[The HTTP <a
+ href="https://w3c.github.io/webappsec-permissions-policy/#permissions-policy-report-only-http-header-field">{@code
+ Permissions-Policy-Report-Only}</a> header field name.
+
+ @since NEXT]]>
+      </doc>
+    </field>
     <field name="SEC_CH_PREFERS_COLOR_SCHEME" type="java.lang.String"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"

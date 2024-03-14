@@ -632,264 +632,273 @@
 <span class="sourceLineNo">623</span><a id="line.623"></a>
 <span class="sourceLineNo">624</span><a id="line.624">  /**</a>
 <span class="sourceLineNo">625</span><a id="line.625">   * The HTTP &lt;a</a>
-<span class="sourceLineNo">626</span><a id="line.626">   * href="https://wicg.github.io/user-preference-media-features-headers/#sec-ch-prefers-color-scheme"&gt;{@code</a>
-<span class="sourceLineNo">627</span><a id="line.627">   * Sec-CH-Prefers-Color-Scheme}&lt;/a&gt; header field name.</a>
+<span class="sourceLineNo">626</span><a id="line.626">   * href="https://w3c.github.io/webappsec-permissions-policy/#permissions-policy-report-only-http-header-field"&gt;{@code</a>
+<span class="sourceLineNo">627</span><a id="line.627">   * Permissions-Policy-Report-Only}&lt;/a&gt; header field name.</a>
 <span class="sourceLineNo">628</span><a id="line.628">   *</a>
-<span class="sourceLineNo">629</span><a id="line.629">   * &lt;p&gt;This header is experimental.</a>
-<span class="sourceLineNo">630</span><a id="line.630">   *</a>
-<span class="sourceLineNo">631</span><a id="line.631">   * @since 31.0</a>
-<span class="sourceLineNo">632</span><a id="line.632">   */</a>
-<span class="sourceLineNo">633</span><a id="line.633">  public static final String SEC_CH_PREFERS_COLOR_SCHEME = "Sec-CH-Prefers-Color-Scheme";</a>
-<span class="sourceLineNo">634</span><a id="line.634"></a>
-<span class="sourceLineNo">635</span><a id="line.635">  /**</a>
-<span class="sourceLineNo">636</span><a id="line.636">   * The HTTP &lt;a</a>
-<span class="sourceLineNo">637</span><a id="line.637">   * href="https://www.rfc-editor.org/rfc/rfc8942#name-the-accept-ch-response-head"&gt;{@code</a>
-<span class="sourceLineNo">638</span><a id="line.638">   * Accept-CH}&lt;/a&gt; header field name.</a>
+<span class="sourceLineNo">629</span><a id="line.629">   * @since NEXT</a>
+<span class="sourceLineNo">630</span><a id="line.630">   */</a>
+<span class="sourceLineNo">631</span><a id="line.631">  public static final String PERMISSIONS_POLICY_REPORT_ONLY = "Permissions-Policy-Report-Only";</a>
+<span class="sourceLineNo">632</span><a id="line.632"></a>
+<span class="sourceLineNo">633</span><a id="line.633">  /**</a>
+<span class="sourceLineNo">634</span><a id="line.634">   * The HTTP &lt;a</a>
+<span class="sourceLineNo">635</span><a id="line.635">   * href="https://wicg.github.io/user-preference-media-features-headers/#sec-ch-prefers-color-scheme"&gt;{@code</a>
+<span class="sourceLineNo">636</span><a id="line.636">   * Sec-CH-Prefers-Color-Scheme}&lt;/a&gt; header field name.</a>
+<span class="sourceLineNo">637</span><a id="line.637">   *</a>
+<span class="sourceLineNo">638</span><a id="line.638">   * &lt;p&gt;This header is experimental.</a>
 <span class="sourceLineNo">639</span><a id="line.639">   *</a>
 <span class="sourceLineNo">640</span><a id="line.640">   * @since 31.0</a>
 <span class="sourceLineNo">641</span><a id="line.641">   */</a>
-<span class="sourceLineNo">642</span><a id="line.642">  public static final String ACCEPT_CH = "Accept-CH";</a>
-<span class="sourceLineNo">643</span><a id="line.643">  /**</a>
-<span class="sourceLineNo">644</span><a id="line.644">   * The HTTP &lt;a</a>
-<span class="sourceLineNo">645</span><a id="line.645">   * href="https://datatracker.ietf.org/doc/html/draft-davidben-http-client-hint-reliability-03.txt#section-3"&gt;{@code</a>
-<span class="sourceLineNo">646</span><a id="line.646">   * Critical-CH}&lt;/a&gt; header field name.</a>
-<span class="sourceLineNo">647</span><a id="line.647">   *</a>
-<span class="sourceLineNo">648</span><a id="line.648">   * @since 31.0</a>
-<span class="sourceLineNo">649</span><a id="line.649">   */</a>
-<span class="sourceLineNo">650</span><a id="line.650">  public static final String CRITICAL_CH = "Critical-CH";</a>
-<span class="sourceLineNo">651</span><a id="line.651"></a>
+<span class="sourceLineNo">642</span><a id="line.642">  public static final String SEC_CH_PREFERS_COLOR_SCHEME = "Sec-CH-Prefers-Color-Scheme";</a>
+<span class="sourceLineNo">643</span><a id="line.643"></a>
+<span class="sourceLineNo">644</span><a id="line.644">  /**</a>
+<span class="sourceLineNo">645</span><a id="line.645">   * The HTTP &lt;a</a>
+<span class="sourceLineNo">646</span><a id="line.646">   * href="https://www.rfc-editor.org/rfc/rfc8942#name-the-accept-ch-response-head"&gt;{@code</a>
+<span class="sourceLineNo">647</span><a id="line.647">   * Accept-CH}&lt;/a&gt; header field name.</a>
+<span class="sourceLineNo">648</span><a id="line.648">   *</a>
+<span class="sourceLineNo">649</span><a id="line.649">   * @since 31.0</a>
+<span class="sourceLineNo">650</span><a id="line.650">   */</a>
+<span class="sourceLineNo">651</span><a id="line.651">  public static final String ACCEPT_CH = "Accept-CH";</a>
 <span class="sourceLineNo">652</span><a id="line.652">  /**</a>
-<span class="sourceLineNo">653</span><a id="line.653">   * The HTTP &lt;a href="https://wicg.github.io/ua-client-hints/#sec-ch-ua"&gt;{@code Sec-CH-UA}&lt;/a&gt;</a>
-<span class="sourceLineNo">654</span><a id="line.654">   * header field name.</a>
-<span class="sourceLineNo">655</span><a id="line.655">   *</a>
-<span class="sourceLineNo">656</span><a id="line.656">   * @since 30.0</a>
-<span class="sourceLineNo">657</span><a id="line.657">   */</a>
-<span class="sourceLineNo">658</span><a id="line.658">  public static final String SEC_CH_UA = "Sec-CH-UA";</a>
-<span class="sourceLineNo">659</span><a id="line.659">  /**</a>
-<span class="sourceLineNo">660</span><a id="line.660">   * The HTTP &lt;a href="https://wicg.github.io/ua-client-hints/#sec-ch-ua-arch"&gt;{@code</a>
-<span class="sourceLineNo">661</span><a id="line.661">   * Sec-CH-UA-Arch}&lt;/a&gt; header field name.</a>
-<span class="sourceLineNo">662</span><a id="line.662">   *</a>
-<span class="sourceLineNo">663</span><a id="line.663">   * @since 30.0</a>
-<span class="sourceLineNo">664</span><a id="line.664">   */</a>
-<span class="sourceLineNo">665</span><a id="line.665">  public static final String SEC_CH_UA_ARCH = "Sec-CH-UA-Arch";</a>
-<span class="sourceLineNo">666</span><a id="line.666">  /**</a>
-<span class="sourceLineNo">667</span><a id="line.667">   * The HTTP &lt;a href="https://wicg.github.io/ua-client-hints/#sec-ch-ua-model"&gt;{@code</a>
-<span class="sourceLineNo">668</span><a id="line.668">   * Sec-CH-UA-Model}&lt;/a&gt; header field name.</a>
-<span class="sourceLineNo">669</span><a id="line.669">   *</a>
-<span class="sourceLineNo">670</span><a id="line.670">   * @since 30.0</a>
-<span class="sourceLineNo">671</span><a id="line.671">   */</a>
-<span class="sourceLineNo">672</span><a id="line.672">  public static final String SEC_CH_UA_MODEL = "Sec-CH-UA-Model";</a>
-<span class="sourceLineNo">673</span><a id="line.673">  /**</a>
-<span class="sourceLineNo">674</span><a id="line.674">   * The HTTP &lt;a href="https://wicg.github.io/ua-client-hints/#sec-ch-ua-platform"&gt;{@code</a>
-<span class="sourceLineNo">675</span><a id="line.675">   * Sec-CH-UA-Platform}&lt;/a&gt; header field name.</a>
-<span class="sourceLineNo">676</span><a id="line.676">   *</a>
-<span class="sourceLineNo">677</span><a id="line.677">   * @since 30.0</a>
-<span class="sourceLineNo">678</span><a id="line.678">   */</a>
-<span class="sourceLineNo">679</span><a id="line.679">  public static final String SEC_CH_UA_PLATFORM = "Sec-CH-UA-Platform";</a>
-<span class="sourceLineNo">680</span><a id="line.680">  /**</a>
-<span class="sourceLineNo">681</span><a id="line.681">   * The HTTP &lt;a href="https://wicg.github.io/ua-client-hints/#sec-ch-ua-platform-version"&gt;{@code</a>
-<span class="sourceLineNo">682</span><a id="line.682">   * Sec-CH-UA-Platform-Version}&lt;/a&gt; header field name.</a>
-<span class="sourceLineNo">683</span><a id="line.683">   *</a>
-<span class="sourceLineNo">684</span><a id="line.684">   * @since 30.0</a>
-<span class="sourceLineNo">685</span><a id="line.685">   */</a>
-<span class="sourceLineNo">686</span><a id="line.686">  public static final String SEC_CH_UA_PLATFORM_VERSION = "Sec-CH-UA-Platform-Version";</a>
-<span class="sourceLineNo">687</span><a id="line.687">  /**</a>
-<span class="sourceLineNo">688</span><a id="line.688">   * The HTTP &lt;a href="https://wicg.github.io/ua-client-hints/#sec-ch-ua-full-version"&gt;{@code</a>
-<span class="sourceLineNo">689</span><a id="line.689">   * Sec-CH-UA-Full-Version}&lt;/a&gt; header field name.</a>
-<span class="sourceLineNo">690</span><a id="line.690">   *</a>
-<span class="sourceLineNo">691</span><a id="line.691">   * @deprecated Prefer {@link SEC_CH_UA_FULL_VERSION_LIST}.</a>
-<span class="sourceLineNo">692</span><a id="line.692">   * @since 30.0</a>
-<span class="sourceLineNo">693</span><a id="line.693">   */</a>
-<span class="sourceLineNo">694</span><a id="line.694">  @Deprecated public static final String SEC_CH_UA_FULL_VERSION = "Sec-CH-UA-Full-Version";</a>
-<span class="sourceLineNo">695</span><a id="line.695">  /**</a>
-<span class="sourceLineNo">696</span><a id="line.696">   * The HTTP &lt;a href="https://wicg.github.io/ua-client-hints/#sec-ch-ua-full-version-list"&gt;{@code</a>
-<span class="sourceLineNo">697</span><a id="line.697">   * Sec-CH-UA-Full-Version}&lt;/a&gt; header field name.</a>
-<span class="sourceLineNo">698</span><a id="line.698">   *</a>
-<span class="sourceLineNo">699</span><a id="line.699">   * @since 31.1</a>
-<span class="sourceLineNo">700</span><a id="line.700">   */</a>
-<span class="sourceLineNo">701</span><a id="line.701">  public static final String SEC_CH_UA_FULL_VERSION_LIST = "Sec-CH-UA-Full-Version-List";</a>
-<span class="sourceLineNo">702</span><a id="line.702">  /**</a>
-<span class="sourceLineNo">703</span><a id="line.703">   * The HTTP &lt;a href="https://wicg.github.io/ua-client-hints/#sec-ch-ua-mobile"&gt;{@code</a>
-<span class="sourceLineNo">704</span><a id="line.704">   * Sec-CH-UA-Mobile}&lt;/a&gt; header field name.</a>
-<span class="sourceLineNo">705</span><a id="line.705">   *</a>
-<span class="sourceLineNo">706</span><a id="line.706">   * @since 30.0</a>
-<span class="sourceLineNo">707</span><a id="line.707">   */</a>
-<span class="sourceLineNo">708</span><a id="line.708">  public static final String SEC_CH_UA_MOBILE = "Sec-CH-UA-Mobile";</a>
-<span class="sourceLineNo">709</span><a id="line.709">  /**</a>
-<span class="sourceLineNo">710</span><a id="line.710">   * The HTTP &lt;a href="https://wicg.github.io/ua-client-hints/#sec-ch-ua-wow64"&gt;{@code</a>
-<span class="sourceLineNo">711</span><a id="line.711">   * Sec-CH-UA-WoW64}&lt;/a&gt; header field name.</a>
-<span class="sourceLineNo">712</span><a id="line.712">   *</a>
-<span class="sourceLineNo">713</span><a id="line.713">   * @since 32.0.0</a>
-<span class="sourceLineNo">714</span><a id="line.714">   */</a>
-<span class="sourceLineNo">715</span><a id="line.715">  public static final String SEC_CH_UA_WOW64 = "Sec-CH-UA-WoW64";</a>
-<span class="sourceLineNo">716</span><a id="line.716">  /**</a>
-<span class="sourceLineNo">717</span><a id="line.717">   * The HTTP &lt;a href="https://wicg.github.io/ua-client-hints/#sec-ch-ua-bitness"&gt;{@code</a>
-<span class="sourceLineNo">718</span><a id="line.718">   * Sec-CH-UA-Bitness}&lt;/a&gt; header field name.</a>
-<span class="sourceLineNo">719</span><a id="line.719">   *</a>
-<span class="sourceLineNo">720</span><a id="line.720">   * @since 31.0</a>
-<span class="sourceLineNo">721</span><a id="line.721">   */</a>
-<span class="sourceLineNo">722</span><a id="line.722">  public static final String SEC_CH_UA_BITNESS = "Sec-CH-UA-Bitness";</a>
-<span class="sourceLineNo">723</span><a id="line.723">  /**</a>
-<span class="sourceLineNo">724</span><a id="line.724">   * The HTTP &lt;a href="https://wicg.github.io/ua-client-hints/#sec-ch-ua-form-factor"&gt;{@code</a>
-<span class="sourceLineNo">725</span><a id="line.725">   * Sec-CH-UA-Form-Factor}&lt;/a&gt; header field name.</a>
-<span class="sourceLineNo">726</span><a id="line.726">   *</a>
-<span class="sourceLineNo">727</span><a id="line.727">   * @since 32.0.0</a>
-<span class="sourceLineNo">728</span><a id="line.728">   */</a>
-<span class="sourceLineNo">729</span><a id="line.729">  public static final String SEC_CH_UA_FORM_FACTOR = "Sec-CH-UA-Form-Factor";</a>
-<span class="sourceLineNo">730</span><a id="line.730">  /**</a>
-<span class="sourceLineNo">731</span><a id="line.731">   * The HTTP &lt;a</a>
-<span class="sourceLineNo">732</span><a id="line.732">   * href="https://wicg.github.io/responsive-image-client-hints/#sec-ch-viewport-width"&gt;{@code</a>
-<span class="sourceLineNo">733</span><a id="line.733">   * Sec-CH-Viewport-Width}&lt;/a&gt; header field name.</a>
-<span class="sourceLineNo">734</span><a id="line.734">   *</a>
-<span class="sourceLineNo">735</span><a id="line.735">   * @since 32.0.0</a>
-<span class="sourceLineNo">736</span><a id="line.736">   */</a>
-<span class="sourceLineNo">737</span><a id="line.737">  public static final String SEC_CH_VIEWPORT_WIDTH = "Sec-CH-Viewport-Width";</a>
-<span class="sourceLineNo">738</span><a id="line.738">  /**</a>
-<span class="sourceLineNo">739</span><a id="line.739">   * The HTTP &lt;a</a>
-<span class="sourceLineNo">740</span><a id="line.740">   * href="https://wicg.github.io/responsive-image-client-hints/#sec-ch-viewport-height"&gt;{@code</a>
-<span class="sourceLineNo">741</span><a id="line.741">   * Sec-CH-Viewport-Height}&lt;/a&gt; header field name.</a>
-<span class="sourceLineNo">742</span><a id="line.742">   *</a>
-<span class="sourceLineNo">743</span><a id="line.743">   * @since 32.0.0</a>
-<span class="sourceLineNo">744</span><a id="line.744">   */</a>
-<span class="sourceLineNo">745</span><a id="line.745">  public static final String SEC_CH_VIEWPORT_HEIGHT = "Sec-CH-Viewport-Height";</a>
-<span class="sourceLineNo">746</span><a id="line.746">  /**</a>
-<span class="sourceLineNo">747</span><a id="line.747">   * The HTTP &lt;a href="https://wicg.github.io/responsive-image-client-hints/#sec-ch-dpr"&gt;{@code</a>
-<span class="sourceLineNo">748</span><a id="line.748">   * Sec-CH-DPR}&lt;/a&gt; header field name.</a>
-<span class="sourceLineNo">749</span><a id="line.749">   *</a>
-<span class="sourceLineNo">750</span><a id="line.750">   * @since 32.0.0</a>
-<span class="sourceLineNo">751</span><a id="line.751">   */</a>
-<span class="sourceLineNo">752</span><a id="line.752">  public static final String SEC_CH_DPR = "Sec-CH-DPR";</a>
-<span class="sourceLineNo">753</span><a id="line.753">  /**</a>
-<span class="sourceLineNo">754</span><a id="line.754">   * The HTTP &lt;a href="https://w3c.github.io/webappsec-fetch-metadata/"&gt;{@code Sec-Fetch-Dest}&lt;/a&gt;</a>
-<span class="sourceLineNo">755</span><a id="line.755">   * header field name.</a>
-<span class="sourceLineNo">756</span><a id="line.756">   *</a>
-<span class="sourceLineNo">757</span><a id="line.757">   * @since 27.1</a>
-<span class="sourceLineNo">758</span><a id="line.758">   */</a>
-<span class="sourceLineNo">759</span><a id="line.759">  public static final String SEC_FETCH_DEST = "Sec-Fetch-Dest";</a>
-<span class="sourceLineNo">760</span><a id="line.760">  /**</a>
-<span class="sourceLineNo">761</span><a id="line.761">   * The HTTP &lt;a href="https://w3c.github.io/webappsec-fetch-metadata/"&gt;{@code Sec-Fetch-Mode}&lt;/a&gt;</a>
-<span class="sourceLineNo">762</span><a id="line.762">   * header field name.</a>
-<span class="sourceLineNo">763</span><a id="line.763">   *</a>
-<span class="sourceLineNo">764</span><a id="line.764">   * @since 27.1</a>
-<span class="sourceLineNo">765</span><a id="line.765">   */</a>
-<span class="sourceLineNo">766</span><a id="line.766">  public static final String SEC_FETCH_MODE = "Sec-Fetch-Mode";</a>
-<span class="sourceLineNo">767</span><a id="line.767">  /**</a>
-<span class="sourceLineNo">768</span><a id="line.768">   * The HTTP &lt;a href="https://w3c.github.io/webappsec-fetch-metadata/"&gt;{@code Sec-Fetch-Site}&lt;/a&gt;</a>
-<span class="sourceLineNo">769</span><a id="line.769">   * header field name.</a>
-<span class="sourceLineNo">770</span><a id="line.770">   *</a>
-<span class="sourceLineNo">771</span><a id="line.771">   * @since 27.1</a>
-<span class="sourceLineNo">772</span><a id="line.772">   */</a>
-<span class="sourceLineNo">773</span><a id="line.773">  public static final String SEC_FETCH_SITE = "Sec-Fetch-Site";</a>
-<span class="sourceLineNo">774</span><a id="line.774">  /**</a>
-<span class="sourceLineNo">775</span><a id="line.775">   * The HTTP &lt;a href="https://w3c.github.io/webappsec-fetch-metadata/"&gt;{@code Sec-Fetch-User}&lt;/a&gt;</a>
-<span class="sourceLineNo">776</span><a id="line.776">   * header field name.</a>
-<span class="sourceLineNo">777</span><a id="line.777">   *</a>
-<span class="sourceLineNo">778</span><a id="line.778">   * @since 27.1</a>
-<span class="sourceLineNo">779</span><a id="line.779">   */</a>
-<span class="sourceLineNo">780</span><a id="line.780">  public static final String SEC_FETCH_USER = "Sec-Fetch-User";</a>
-<span class="sourceLineNo">781</span><a id="line.781">  /**</a>
-<span class="sourceLineNo">782</span><a id="line.782">   * The HTTP &lt;a href="https://w3c.github.io/webappsec-fetch-metadata/"&gt;{@code Sec-Metadata}&lt;/a&gt;</a>
-<span class="sourceLineNo">783</span><a id="line.783">   * header field name.</a>
-<span class="sourceLineNo">784</span><a id="line.784">   *</a>
-<span class="sourceLineNo">785</span><a id="line.785">   * @since 26.0</a>
-<span class="sourceLineNo">786</span><a id="line.786">   */</a>
-<span class="sourceLineNo">787</span><a id="line.787">  public static final String SEC_METADATA = "Sec-Metadata";</a>
-<span class="sourceLineNo">788</span><a id="line.788">  /**</a>
-<span class="sourceLineNo">789</span><a id="line.789">   * The HTTP &lt;a href="https://tools.ietf.org/html/draft-ietf-tokbind-https"&gt;{@code</a>
-<span class="sourceLineNo">790</span><a id="line.790">   * Sec-Token-Binding}&lt;/a&gt; header field name.</a>
-<span class="sourceLineNo">791</span><a id="line.791">   *</a>
-<span class="sourceLineNo">792</span><a id="line.792">   * @since 25.1</a>
-<span class="sourceLineNo">793</span><a id="line.793">   */</a>
-<span class="sourceLineNo">794</span><a id="line.794">  public static final String SEC_TOKEN_BINDING = "Sec-Token-Binding";</a>
-<span class="sourceLineNo">795</span><a id="line.795">  /**</a>
-<span class="sourceLineNo">796</span><a id="line.796">   * The HTTP &lt;a href="https://tools.ietf.org/html/draft-ietf-tokbind-ttrp"&gt;{@code</a>
-<span class="sourceLineNo">797</span><a id="line.797">   * Sec-Provided-Token-Binding-ID}&lt;/a&gt; header field name.</a>
-<span class="sourceLineNo">798</span><a id="line.798">   *</a>
-<span class="sourceLineNo">799</span><a id="line.799">   * @since 25.1</a>
-<span class="sourceLineNo">800</span><a id="line.800">   */</a>
-<span class="sourceLineNo">801</span><a id="line.801">  public static final String SEC_PROVIDED_TOKEN_BINDING_ID = "Sec-Provided-Token-Binding-ID";</a>
-<span class="sourceLineNo">802</span><a id="line.802">  /**</a>
-<span class="sourceLineNo">803</span><a id="line.803">   * The HTTP &lt;a href="https://tools.ietf.org/html/draft-ietf-tokbind-ttrp"&gt;{@code</a>
-<span class="sourceLineNo">804</span><a id="line.804">   * Sec-Referred-Token-Binding-ID}&lt;/a&gt; header field name.</a>
-<span class="sourceLineNo">805</span><a id="line.805">   *</a>
-<span class="sourceLineNo">806</span><a id="line.806">   * @since 25.1</a>
-<span class="sourceLineNo">807</span><a id="line.807">   */</a>
-<span class="sourceLineNo">808</span><a id="line.808">  public static final String SEC_REFERRED_TOKEN_BINDING_ID = "Sec-Referred-Token-Binding-ID";</a>
-<span class="sourceLineNo">809</span><a id="line.809">  /**</a>
-<span class="sourceLineNo">810</span><a id="line.810">   * The HTTP &lt;a href="https://tools.ietf.org/html/rfc6455"&gt;{@code Sec-WebSocket-Accept}&lt;/a&gt; header</a>
-<span class="sourceLineNo">811</span><a id="line.811">   * field name.</a>
-<span class="sourceLineNo">812</span><a id="line.812">   *</a>
-<span class="sourceLineNo">813</span><a id="line.813">   * @since 28.0</a>
-<span class="sourceLineNo">814</span><a id="line.814">   */</a>
-<span class="sourceLineNo">815</span><a id="line.815">  public static final String SEC_WEBSOCKET_ACCEPT = "Sec-WebSocket-Accept";</a>
-<span class="sourceLineNo">816</span><a id="line.816">  /**</a>
-<span class="sourceLineNo">817</span><a id="line.817">   * The HTTP &lt;a href="https://tools.ietf.org/html/rfc6455"&gt;{@code Sec-WebSocket-Extensions}&lt;/a&gt;</a>
-<span class="sourceLineNo">818</span><a id="line.818">   * header field name.</a>
-<span class="sourceLineNo">819</span><a id="line.819">   *</a>
-<span class="sourceLineNo">820</span><a id="line.820">   * @since 28.0</a>
-<span class="sourceLineNo">821</span><a id="line.821">   */</a>
-<span class="sourceLineNo">822</span><a id="line.822">  public static final String SEC_WEBSOCKET_EXTENSIONS = "Sec-WebSocket-Extensions";</a>
-<span class="sourceLineNo">823</span><a id="line.823">  /**</a>
-<span class="sourceLineNo">824</span><a id="line.824">   * The HTTP &lt;a href="https://tools.ietf.org/html/rfc6455"&gt;{@code Sec-WebSocket-Key}&lt;/a&gt; header</a>
-<span class="sourceLineNo">825</span><a id="line.825">   * field name.</a>
-<span class="sourceLineNo">826</span><a id="line.826">   *</a>
-<span class="sourceLineNo">827</span><a id="line.827">   * @since 28.0</a>
-<span class="sourceLineNo">828</span><a id="line.828">   */</a>
-<span class="sourceLineNo">829</span><a id="line.829">  public static final String SEC_WEBSOCKET_KEY = "Sec-WebSocket-Key";</a>
-<span class="sourceLineNo">830</span><a id="line.830">  /**</a>
-<span class="sourceLineNo">831</span><a id="line.831">   * The HTTP &lt;a href="https://tools.ietf.org/html/rfc6455"&gt;{@code Sec-WebSocket-Protocol}&lt;/a&gt;</a>
-<span class="sourceLineNo">832</span><a id="line.832">   * header field name.</a>
-<span class="sourceLineNo">833</span><a id="line.833">   *</a>
-<span class="sourceLineNo">834</span><a id="line.834">   * @since 28.0</a>
-<span class="sourceLineNo">835</span><a id="line.835">   */</a>
-<span class="sourceLineNo">836</span><a id="line.836">  public static final String SEC_WEBSOCKET_PROTOCOL = "Sec-WebSocket-Protocol";</a>
-<span class="sourceLineNo">837</span><a id="line.837">  /**</a>
-<span class="sourceLineNo">838</span><a id="line.838">   * The HTTP &lt;a href="https://tools.ietf.org/html/rfc6455"&gt;{@code Sec-WebSocket-Version}&lt;/a&gt; header</a>
-<span class="sourceLineNo">839</span><a id="line.839">   * field name.</a>
-<span class="sourceLineNo">840</span><a id="line.840">   *</a>
-<span class="sourceLineNo">841</span><a id="line.841">   * @since 28.0</a>
-<span class="sourceLineNo">842</span><a id="line.842">   */</a>
-<span class="sourceLineNo">843</span><a id="line.843">  public static final String SEC_WEBSOCKET_VERSION = "Sec-WebSocket-Version";</a>
-<span class="sourceLineNo">844</span><a id="line.844">  /**</a>
-<span class="sourceLineNo">845</span><a id="line.845">   * The HTTP &lt;a href="https://patcg-individual-drafts.github.io/topics/"&gt;{@code</a>
-<span class="sourceLineNo">846</span><a id="line.846">   * Sec-Browsing-Topics}&lt;/a&gt; header field name.</a>
-<span class="sourceLineNo">847</span><a id="line.847">   *</a>
-<span class="sourceLineNo">848</span><a id="line.848">   * @since 32.0.0</a>
-<span class="sourceLineNo">849</span><a id="line.849">   */</a>
-<span class="sourceLineNo">850</span><a id="line.850">  public static final String SEC_BROWSING_TOPICS = "Sec-Browsing-Topics";</a>
-<span class="sourceLineNo">851</span><a id="line.851">  /**</a>
-<span class="sourceLineNo">852</span><a id="line.852">   * The HTTP &lt;a href="https://patcg-individual-drafts.github.io/topics/"&gt;{@code</a>
-<span class="sourceLineNo">853</span><a id="line.853">   * Observe-Browsing-Topics}&lt;/a&gt; header field name.</a>
-<span class="sourceLineNo">854</span><a id="line.854">   *</a>
-<span class="sourceLineNo">855</span><a id="line.855">   * @since 32.0.0</a>
-<span class="sourceLineNo">856</span><a id="line.856">   */</a>
-<span class="sourceLineNo">857</span><a id="line.857">  public static final String OBSERVE_BROWSING_TOPICS = "Observe-Browsing-Topics";</a>
-<span class="sourceLineNo">858</span><a id="line.858"></a>
-<span class="sourceLineNo">859</span><a id="line.859">  /**</a>
-<span class="sourceLineNo">860</span><a id="line.860">   * The HTTP &lt;a</a>
-<span class="sourceLineNo">861</span><a id="line.861">   * href="https://wicg.github.io/turtledove/#handling-direct-from-seller-signals"&gt;{@code</a>
-<span class="sourceLineNo">862</span><a id="line.862">   * Sec-Ad-Auction-Fetch}&lt;/a&gt; header field name.</a>
+<span class="sourceLineNo">653</span><a id="line.653">   * The HTTP &lt;a</a>
+<span class="sourceLineNo">654</span><a id="line.654">   * href="https://datatracker.ietf.org/doc/html/draft-davidben-http-client-hint-reliability-03.txt#section-3"&gt;{@code</a>
+<span class="sourceLineNo">655</span><a id="line.655">   * Critical-CH}&lt;/a&gt; header field name.</a>
+<span class="sourceLineNo">656</span><a id="line.656">   *</a>
+<span class="sourceLineNo">657</span><a id="line.657">   * @since 31.0</a>
+<span class="sourceLineNo">658</span><a id="line.658">   */</a>
+<span class="sourceLineNo">659</span><a id="line.659">  public static final String CRITICAL_CH = "Critical-CH";</a>
+<span class="sourceLineNo">660</span><a id="line.660"></a>
+<span class="sourceLineNo">661</span><a id="line.661">  /**</a>
+<span class="sourceLineNo">662</span><a id="line.662">   * The HTTP &lt;a href="https://wicg.github.io/ua-client-hints/#sec-ch-ua"&gt;{@code Sec-CH-UA}&lt;/a&gt;</a>
+<span class="sourceLineNo">663</span><a id="line.663">   * header field name.</a>
+<span class="sourceLineNo">664</span><a id="line.664">   *</a>
+<span class="sourceLineNo">665</span><a id="line.665">   * @since 30.0</a>
+<span class="sourceLineNo">666</span><a id="line.666">   */</a>
+<span class="sourceLineNo">667</span><a id="line.667">  public static final String SEC_CH_UA = "Sec-CH-UA";</a>
+<span class="sourceLineNo">668</span><a id="line.668">  /**</a>
+<span class="sourceLineNo">669</span><a id="line.669">   * The HTTP &lt;a href="https://wicg.github.io/ua-client-hints/#sec-ch-ua-arch"&gt;{@code</a>
+<span class="sourceLineNo">670</span><a id="line.670">   * Sec-CH-UA-Arch}&lt;/a&gt; header field name.</a>
+<span class="sourceLineNo">671</span><a id="line.671">   *</a>
+<span class="sourceLineNo">672</span><a id="line.672">   * @since 30.0</a>
+<span class="sourceLineNo">673</span><a id="line.673">   */</a>
+<span class="sourceLineNo">674</span><a id="line.674">  public static final String SEC_CH_UA_ARCH = "Sec-CH-UA-Arch";</a>
+<span class="sourceLineNo">675</span><a id="line.675">  /**</a>
+<span class="sourceLineNo">676</span><a id="line.676">   * The HTTP &lt;a href="https://wicg.github.io/ua-client-hints/#sec-ch-ua-model"&gt;{@code</a>
+<span class="sourceLineNo">677</span><a id="line.677">   * Sec-CH-UA-Model}&lt;/a&gt; header field name.</a>
+<span class="sourceLineNo">678</span><a id="line.678">   *</a>
+<span class="sourceLineNo">679</span><a id="line.679">   * @since 30.0</a>
+<span class="sourceLineNo">680</span><a id="line.680">   */</a>
+<span class="sourceLineNo">681</span><a id="line.681">  public static final String SEC_CH_UA_MODEL = "Sec-CH-UA-Model";</a>
+<span class="sourceLineNo">682</span><a id="line.682">  /**</a>
+<span class="sourceLineNo">683</span><a id="line.683">   * The HTTP &lt;a href="https://wicg.github.io/ua-client-hints/#sec-ch-ua-platform"&gt;{@code</a>
+<span class="sourceLineNo">684</span><a id="line.684">   * Sec-CH-UA-Platform}&lt;/a&gt; header field name.</a>
+<span class="sourceLineNo">685</span><a id="line.685">   *</a>
+<span class="sourceLineNo">686</span><a id="line.686">   * @since 30.0</a>
+<span class="sourceLineNo">687</span><a id="line.687">   */</a>
+<span class="sourceLineNo">688</span><a id="line.688">  public static final String SEC_CH_UA_PLATFORM = "Sec-CH-UA-Platform";</a>
+<span class="sourceLineNo">689</span><a id="line.689">  /**</a>
+<span class="sourceLineNo">690</span><a id="line.690">   * The HTTP &lt;a href="https://wicg.github.io/ua-client-hints/#sec-ch-ua-platform-version"&gt;{@code</a>
+<span class="sourceLineNo">691</span><a id="line.691">   * Sec-CH-UA-Platform-Version}&lt;/a&gt; header field name.</a>
+<span class="sourceLineNo">692</span><a id="line.692">   *</a>
+<span class="sourceLineNo">693</span><a id="line.693">   * @since 30.0</a>
+<span class="sourceLineNo">694</span><a id="line.694">   */</a>
+<span class="sourceLineNo">695</span><a id="line.695">  public static final String SEC_CH_UA_PLATFORM_VERSION = "Sec-CH-UA-Platform-Version";</a>
+<span class="sourceLineNo">696</span><a id="line.696">  /**</a>
+<span class="sourceLineNo">697</span><a id="line.697">   * The HTTP &lt;a href="https://wicg.github.io/ua-client-hints/#sec-ch-ua-full-version"&gt;{@code</a>
+<span class="sourceLineNo">698</span><a id="line.698">   * Sec-CH-UA-Full-Version}&lt;/a&gt; header field name.</a>
+<span class="sourceLineNo">699</span><a id="line.699">   *</a>
+<span class="sourceLineNo">700</span><a id="line.700">   * @deprecated Prefer {@link SEC_CH_UA_FULL_VERSION_LIST}.</a>
+<span class="sourceLineNo">701</span><a id="line.701">   * @since 30.0</a>
+<span class="sourceLineNo">702</span><a id="line.702">   */</a>
+<span class="sourceLineNo">703</span><a id="line.703">  @Deprecated public static final String SEC_CH_UA_FULL_VERSION = "Sec-CH-UA-Full-Version";</a>
+<span class="sourceLineNo">704</span><a id="line.704">  /**</a>
+<span class="sourceLineNo">705</span><a id="line.705">   * The HTTP &lt;a href="https://wicg.github.io/ua-client-hints/#sec-ch-ua-full-version-list"&gt;{@code</a>
+<span class="sourceLineNo">706</span><a id="line.706">   * Sec-CH-UA-Full-Version}&lt;/a&gt; header field name.</a>
+<span class="sourceLineNo">707</span><a id="line.707">   *</a>
+<span class="sourceLineNo">708</span><a id="line.708">   * @since 31.1</a>
+<span class="sourceLineNo">709</span><a id="line.709">   */</a>
+<span class="sourceLineNo">710</span><a id="line.710">  public static final String SEC_CH_UA_FULL_VERSION_LIST = "Sec-CH-UA-Full-Version-List";</a>
+<span class="sourceLineNo">711</span><a id="line.711">  /**</a>
+<span class="sourceLineNo">712</span><a id="line.712">   * The HTTP &lt;a href="https://wicg.github.io/ua-client-hints/#sec-ch-ua-mobile"&gt;{@code</a>
+<span class="sourceLineNo">713</span><a id="line.713">   * Sec-CH-UA-Mobile}&lt;/a&gt; header field name.</a>
+<span class="sourceLineNo">714</span><a id="line.714">   *</a>
+<span class="sourceLineNo">715</span><a id="line.715">   * @since 30.0</a>
+<span class="sourceLineNo">716</span><a id="line.716">   */</a>
+<span class="sourceLineNo">717</span><a id="line.717">  public static final String SEC_CH_UA_MOBILE = "Sec-CH-UA-Mobile";</a>
+<span class="sourceLineNo">718</span><a id="line.718">  /**</a>
+<span class="sourceLineNo">719</span><a id="line.719">   * The HTTP &lt;a href="https://wicg.github.io/ua-client-hints/#sec-ch-ua-wow64"&gt;{@code</a>
+<span class="sourceLineNo">720</span><a id="line.720">   * Sec-CH-UA-WoW64}&lt;/a&gt; header field name.</a>
+<span class="sourceLineNo">721</span><a id="line.721">   *</a>
+<span class="sourceLineNo">722</span><a id="line.722">   * @since 32.0.0</a>
+<span class="sourceLineNo">723</span><a id="line.723">   */</a>
+<span class="sourceLineNo">724</span><a id="line.724">  public static final String SEC_CH_UA_WOW64 = "Sec-CH-UA-WoW64";</a>
+<span class="sourceLineNo">725</span><a id="line.725">  /**</a>
+<span class="sourceLineNo">726</span><a id="line.726">   * The HTTP &lt;a href="https://wicg.github.io/ua-client-hints/#sec-ch-ua-bitness"&gt;{@code</a>
+<span class="sourceLineNo">727</span><a id="line.727">   * Sec-CH-UA-Bitness}&lt;/a&gt; header field name.</a>
+<span class="sourceLineNo">728</span><a id="line.728">   *</a>
+<span class="sourceLineNo">729</span><a id="line.729">   * @since 31.0</a>
+<span class="sourceLineNo">730</span><a id="line.730">   */</a>
+<span class="sourceLineNo">731</span><a id="line.731">  public static final String SEC_CH_UA_BITNESS = "Sec-CH-UA-Bitness";</a>
+<span class="sourceLineNo">732</span><a id="line.732">  /**</a>
+<span class="sourceLineNo">733</span><a id="line.733">   * The HTTP &lt;a href="https://wicg.github.io/ua-client-hints/#sec-ch-ua-form-factor"&gt;{@code</a>
+<span class="sourceLineNo">734</span><a id="line.734">   * Sec-CH-UA-Form-Factor}&lt;/a&gt; header field name.</a>
+<span class="sourceLineNo">735</span><a id="line.735">   *</a>
+<span class="sourceLineNo">736</span><a id="line.736">   * @since 32.0.0</a>
+<span class="sourceLineNo">737</span><a id="line.737">   */</a>
+<span class="sourceLineNo">738</span><a id="line.738">  public static final String SEC_CH_UA_FORM_FACTOR = "Sec-CH-UA-Form-Factor";</a>
+<span class="sourceLineNo">739</span><a id="line.739">  /**</a>
+<span class="sourceLineNo">740</span><a id="line.740">   * The HTTP &lt;a</a>
+<span class="sourceLineNo">741</span><a id="line.741">   * href="https://wicg.github.io/responsive-image-client-hints/#sec-ch-viewport-width"&gt;{@code</a>
+<span class="sourceLineNo">742</span><a id="line.742">   * Sec-CH-Viewport-Width}&lt;/a&gt; header field name.</a>
+<span class="sourceLineNo">743</span><a id="line.743">   *</a>
+<span class="sourceLineNo">744</span><a id="line.744">   * @since 32.0.0</a>
+<span class="sourceLineNo">745</span><a id="line.745">   */</a>
+<span class="sourceLineNo">746</span><a id="line.746">  public static final String SEC_CH_VIEWPORT_WIDTH = "Sec-CH-Viewport-Width";</a>
+<span class="sourceLineNo">747</span><a id="line.747">  /**</a>
+<span class="sourceLineNo">748</span><a id="line.748">   * The HTTP &lt;a</a>
+<span class="sourceLineNo">749</span><a id="line.749">   * href="https://wicg.github.io/responsive-image-client-hints/#sec-ch-viewport-height"&gt;{@code</a>
+<span class="sourceLineNo">750</span><a id="line.750">   * Sec-CH-Viewport-Height}&lt;/a&gt; header field name.</a>
+<span class="sourceLineNo">751</span><a id="line.751">   *</a>
+<span class="sourceLineNo">752</span><a id="line.752">   * @since 32.0.0</a>
+<span class="sourceLineNo">753</span><a id="line.753">   */</a>
+<span class="sourceLineNo">754</span><a id="line.754">  public static final String SEC_CH_VIEWPORT_HEIGHT = "Sec-CH-Viewport-Height";</a>
+<span class="sourceLineNo">755</span><a id="line.755">  /**</a>
+<span class="sourceLineNo">756</span><a id="line.756">   * The HTTP &lt;a href="https://wicg.github.io/responsive-image-client-hints/#sec-ch-dpr"&gt;{@code</a>
+<span class="sourceLineNo">757</span><a id="line.757">   * Sec-CH-DPR}&lt;/a&gt; header field name.</a>
+<span class="sourceLineNo">758</span><a id="line.758">   *</a>
+<span class="sourceLineNo">759</span><a id="line.759">   * @since 32.0.0</a>
+<span class="sourceLineNo">760</span><a id="line.760">   */</a>
+<span class="sourceLineNo">761</span><a id="line.761">  public static final String SEC_CH_DPR = "Sec-CH-DPR";</a>
+<span class="sourceLineNo">762</span><a id="line.762">  /**</a>
+<span class="sourceLineNo">763</span><a id="line.763">   * The HTTP &lt;a href="https://w3c.github.io/webappsec-fetch-metadata/"&gt;{@code Sec-Fetch-Dest}&lt;/a&gt;</a>
+<span class="sourceLineNo">764</span><a id="line.764">   * header field name.</a>
+<span class="sourceLineNo">765</span><a id="line.765">   *</a>
+<span class="sourceLineNo">766</span><a id="line.766">   * @since 27.1</a>
+<span class="sourceLineNo">767</span><a id="line.767">   */</a>
+<span class="sourceLineNo">768</span><a id="line.768">  public static final String SEC_FETCH_DEST = "Sec-Fetch-Dest";</a>
+<span class="sourceLineNo">769</span><a id="line.769">  /**</a>
+<span class="sourceLineNo">770</span><a id="line.770">   * The HTTP &lt;a href="https://w3c.github.io/webappsec-fetch-metadata/"&gt;{@code Sec-Fetch-Mode}&lt;/a&gt;</a>
+<span class="sourceLineNo">771</span><a id="line.771">   * header field name.</a>
+<span class="sourceLineNo">772</span><a id="line.772">   *</a>
+<span class="sourceLineNo">773</span><a id="line.773">   * @since 27.1</a>
+<span class="sourceLineNo">774</span><a id="line.774">   */</a>
+<span class="sourceLineNo">775</span><a id="line.775">  public static final String SEC_FETCH_MODE = "Sec-Fetch-Mode";</a>
+<span class="sourceLineNo">776</span><a id="line.776">  /**</a>
+<span class="sourceLineNo">777</span><a id="line.777">   * The HTTP &lt;a href="https://w3c.github.io/webappsec-fetch-metadata/"&gt;{@code Sec-Fetch-Site}&lt;/a&gt;</a>
+<span class="sourceLineNo">778</span><a id="line.778">   * header field name.</a>
+<span class="sourceLineNo">779</span><a id="line.779">   *</a>
+<span class="sourceLineNo">780</span><a id="line.780">   * @since 27.1</a>
+<span class="sourceLineNo">781</span><a id="line.781">   */</a>
+<span class="sourceLineNo">782</span><a id="line.782">  public static final String SEC_FETCH_SITE = "Sec-Fetch-Site";</a>
+<span class="sourceLineNo">783</span><a id="line.783">  /**</a>
+<span class="sourceLineNo">784</span><a id="line.784">   * The HTTP &lt;a href="https://w3c.github.io/webappsec-fetch-metadata/"&gt;{@code Sec-Fetch-User}&lt;/a&gt;</a>
+<span class="sourceLineNo">785</span><a id="line.785">   * header field name.</a>
+<span class="sourceLineNo">786</span><a id="line.786">   *</a>
+<span class="sourceLineNo">787</span><a id="line.787">   * @since 27.1</a>
+<span class="sourceLineNo">788</span><a id="line.788">   */</a>
+<span class="sourceLineNo">789</span><a id="line.789">  public static final String SEC_FETCH_USER = "Sec-Fetch-User";</a>
+<span class="sourceLineNo">790</span><a id="line.790">  /**</a>
+<span class="sourceLineNo">791</span><a id="line.791">   * The HTTP &lt;a href="https://w3c.github.io/webappsec-fetch-metadata/"&gt;{@code Sec-Metadata}&lt;/a&gt;</a>
+<span class="sourceLineNo">792</span><a id="line.792">   * header field name.</a>
+<span class="sourceLineNo">793</span><a id="line.793">   *</a>
+<span class="sourceLineNo">794</span><a id="line.794">   * @since 26.0</a>
+<span class="sourceLineNo">795</span><a id="line.795">   */</a>
+<span class="sourceLineNo">796</span><a id="line.796">  public static final String SEC_METADATA = "Sec-Metadata";</a>
+<span class="sourceLineNo">797</span><a id="line.797">  /**</a>
+<span class="sourceLineNo">798</span><a id="line.798">   * The HTTP &lt;a href="https://tools.ietf.org/html/draft-ietf-tokbind-https"&gt;{@code</a>
+<span class="sourceLineNo">799</span><a id="line.799">   * Sec-Token-Binding}&lt;/a&gt; header field name.</a>
+<span class="sourceLineNo">800</span><a id="line.800">   *</a>
+<span class="sourceLineNo">801</span><a id="line.801">   * @since 25.1</a>
+<span class="sourceLineNo">802</span><a id="line.802">   */</a>
+<span class="sourceLineNo">803</span><a id="line.803">  public static final String SEC_TOKEN_BINDING = "Sec-Token-Binding";</a>
+<span class="sourceLineNo">804</span><a id="line.804">  /**</a>
+<span class="sourceLineNo">805</span><a id="line.805">   * The HTTP &lt;a href="https://tools.ietf.org/html/draft-ietf-tokbind-ttrp"&gt;{@code</a>
+<span class="sourceLineNo">806</span><a id="line.806">   * Sec-Provided-Token-Binding-ID}&lt;/a&gt; header field name.</a>
+<span class="sourceLineNo">807</span><a id="line.807">   *</a>
+<span class="sourceLineNo">808</span><a id="line.808">   * @since 25.1</a>
+<span class="sourceLineNo">809</span><a id="line.809">   */</a>
+<span class="sourceLineNo">810</span><a id="line.810">  public static final String SEC_PROVIDED_TOKEN_BINDING_ID = "Sec-Provided-Token-Binding-ID";</a>
+<span class="sourceLineNo">811</span><a id="line.811">  /**</a>
+<span class="sourceLineNo">812</span><a id="line.812">   * The HTTP &lt;a href="https://tools.ietf.org/html/draft-ietf-tokbind-ttrp"&gt;{@code</a>
+<span class="sourceLineNo">813</span><a id="line.813">   * Sec-Referred-Token-Binding-ID}&lt;/a&gt; header field name.</a>
+<span class="sourceLineNo">814</span><a id="line.814">   *</a>
+<span class="sourceLineNo">815</span><a id="line.815">   * @since 25.1</a>
+<span class="sourceLineNo">816</span><a id="line.816">   */</a>
+<span class="sourceLineNo">817</span><a id="line.817">  public static final String SEC_REFERRED_TOKEN_BINDING_ID = "Sec-Referred-Token-Binding-ID";</a>
+<span class="sourceLineNo">818</span><a id="line.818">  /**</a>
+<span class="sourceLineNo">819</span><a id="line.819">   * The HTTP &lt;a href="https://tools.ietf.org/html/rfc6455"&gt;{@code Sec-WebSocket-Accept}&lt;/a&gt; header</a>
+<span class="sourceLineNo">820</span><a id="line.820">   * field name.</a>
+<span class="sourceLineNo">821</span><a id="line.821">   *</a>
+<span class="sourceLineNo">822</span><a id="line.822">   * @since 28.0</a>
+<span class="sourceLineNo">823</span><a id="line.823">   */</a>
+<span class="sourceLineNo">824</span><a id="line.824">  public static final String SEC_WEBSOCKET_ACCEPT = "Sec-WebSocket-Accept";</a>
+<span class="sourceLineNo">825</span><a id="line.825">  /**</a>
+<span class="sourceLineNo">826</span><a id="line.826">   * The HTTP &lt;a href="https://tools.ietf.org/html/rfc6455"&gt;{@code Sec-WebSocket-Extensions}&lt;/a&gt;</a>
+<span class="sourceLineNo">827</span><a id="line.827">   * header field name.</a>
+<span class="sourceLineNo">828</span><a id="line.828">   *</a>
+<span class="sourceLineNo">829</span><a id="line.829">   * @since 28.0</a>
+<span class="sourceLineNo">830</span><a id="line.830">   */</a>
+<span class="sourceLineNo">831</span><a id="line.831">  public static final String SEC_WEBSOCKET_EXTENSIONS = "Sec-WebSocket-Extensions";</a>
+<span class="sourceLineNo">832</span><a id="line.832">  /**</a>
+<span class="sourceLineNo">833</span><a id="line.833">   * The HTTP &lt;a href="https://tools.ietf.org/html/rfc6455"&gt;{@code Sec-WebSocket-Key}&lt;/a&gt; header</a>
+<span class="sourceLineNo">834</span><a id="line.834">   * field name.</a>
+<span class="sourceLineNo">835</span><a id="line.835">   *</a>
+<span class="sourceLineNo">836</span><a id="line.836">   * @since 28.0</a>
+<span class="sourceLineNo">837</span><a id="line.837">   */</a>
+<span class="sourceLineNo">838</span><a id="line.838">  public static final String SEC_WEBSOCKET_KEY = "Sec-WebSocket-Key";</a>
+<span class="sourceLineNo">839</span><a id="line.839">  /**</a>
+<span class="sourceLineNo">840</span><a id="line.840">   * The HTTP &lt;a href="https://tools.ietf.org/html/rfc6455"&gt;{@code Sec-WebSocket-Protocol}&lt;/a&gt;</a>
+<span class="sourceLineNo">841</span><a id="line.841">   * header field name.</a>
+<span class="sourceLineNo">842</span><a id="line.842">   *</a>
+<span class="sourceLineNo">843</span><a id="line.843">   * @since 28.0</a>
+<span class="sourceLineNo">844</span><a id="line.844">   */</a>
+<span class="sourceLineNo">845</span><a id="line.845">  public static final String SEC_WEBSOCKET_PROTOCOL = "Sec-WebSocket-Protocol";</a>
+<span class="sourceLineNo">846</span><a id="line.846">  /**</a>
+<span class="sourceLineNo">847</span><a id="line.847">   * The HTTP &lt;a href="https://tools.ietf.org/html/rfc6455"&gt;{@code Sec-WebSocket-Version}&lt;/a&gt; header</a>
+<span class="sourceLineNo">848</span><a id="line.848">   * field name.</a>
+<span class="sourceLineNo">849</span><a id="line.849">   *</a>
+<span class="sourceLineNo">850</span><a id="line.850">   * @since 28.0</a>
+<span class="sourceLineNo">851</span><a id="line.851">   */</a>
+<span class="sourceLineNo">852</span><a id="line.852">  public static final String SEC_WEBSOCKET_VERSION = "Sec-WebSocket-Version";</a>
+<span class="sourceLineNo">853</span><a id="line.853">  /**</a>
+<span class="sourceLineNo">854</span><a id="line.854">   * The HTTP &lt;a href="https://patcg-individual-drafts.github.io/topics/"&gt;{@code</a>
+<span class="sourceLineNo">855</span><a id="line.855">   * Sec-Browsing-Topics}&lt;/a&gt; header field name.</a>
+<span class="sourceLineNo">856</span><a id="line.856">   *</a>
+<span class="sourceLineNo">857</span><a id="line.857">   * @since 32.0.0</a>
+<span class="sourceLineNo">858</span><a id="line.858">   */</a>
+<span class="sourceLineNo">859</span><a id="line.859">  public static final String SEC_BROWSING_TOPICS = "Sec-Browsing-Topics";</a>
+<span class="sourceLineNo">860</span><a id="line.860">  /**</a>
+<span class="sourceLineNo">861</span><a id="line.861">   * The HTTP &lt;a href="https://patcg-individual-drafts.github.io/topics/"&gt;{@code</a>
+<span class="sourceLineNo">862</span><a id="line.862">   * Observe-Browsing-Topics}&lt;/a&gt; header field name.</a>
 <span class="sourceLineNo">863</span><a id="line.863">   *</a>
-<span class="sourceLineNo">864</span><a id="line.864">   * @since 33.0.0</a>
+<span class="sourceLineNo">864</span><a id="line.864">   * @since 32.0.0</a>
 <span class="sourceLineNo">865</span><a id="line.865">   */</a>
-<span class="sourceLineNo">866</span><a id="line.866">  public static final String SEC_AD_AUCTION_FETCH = "Sec-Ad-Auction-Fetch";</a>
+<span class="sourceLineNo">866</span><a id="line.866">  public static final String OBSERVE_BROWSING_TOPICS = "Observe-Browsing-Topics";</a>
 <span class="sourceLineNo">867</span><a id="line.867"></a>
 <span class="sourceLineNo">868</span><a id="line.868">  /**</a>
 <span class="sourceLineNo">869</span><a id="line.869">   * The HTTP &lt;a</a>
 <span class="sourceLineNo">870</span><a id="line.870">   * href="https://wicg.github.io/turtledove/#handling-direct-from-seller-signals"&gt;{@code</a>
-<span class="sourceLineNo">871</span><a id="line.871">   * Ad-Auction-Signals}&lt;/a&gt; header field name.</a>
+<span class="sourceLineNo">871</span><a id="line.871">   * Sec-Ad-Auction-Fetch}&lt;/a&gt; header field name.</a>
 <span class="sourceLineNo">872</span><a id="line.872">   *</a>
 <span class="sourceLineNo">873</span><a id="line.873">   * @since 33.0.0</a>
 <span class="sourceLineNo">874</span><a id="line.874">   */</a>
-<span class="sourceLineNo">875</span><a id="line.875">  public static final String AD_AUCTION_SIGNALS = "Ad-Auction-Signals";</a>
+<span class="sourceLineNo">875</span><a id="line.875">  public static final String SEC_AD_AUCTION_FETCH = "Sec-Ad-Auction-Fetch";</a>
 <span class="sourceLineNo">876</span><a id="line.876"></a>
 <span class="sourceLineNo">877</span><a id="line.877">  /**</a>
-<span class="sourceLineNo">878</span><a id="line.878">   * The HTTP &lt;a href="https://tools.ietf.org/html/rfc8586"&gt;{@code CDN-Loop}&lt;/a&gt; header field name.</a>
-<span class="sourceLineNo">879</span><a id="line.879">   *</a>
-<span class="sourceLineNo">880</span><a id="line.880">   * @since 28.0</a>
-<span class="sourceLineNo">881</span><a id="line.881">   */</a>
-<span class="sourceLineNo">882</span><a id="line.882">  public static final String CDN_LOOP = "CDN-Loop";</a>
-<span class="sourceLineNo">883</span><a id="line.883">}</a>
+<span class="sourceLineNo">878</span><a id="line.878">   * The HTTP &lt;a</a>
+<span class="sourceLineNo">879</span><a id="line.879">   * href="https://wicg.github.io/turtledove/#handling-direct-from-seller-signals"&gt;{@code</a>
+<span class="sourceLineNo">880</span><a id="line.880">   * Ad-Auction-Signals}&lt;/a&gt; header field name.</a>
+<span class="sourceLineNo">881</span><a id="line.881">   *</a>
+<span class="sourceLineNo">882</span><a id="line.882">   * @since 33.0.0</a>
+<span class="sourceLineNo">883</span><a id="line.883">   */</a>
+<span class="sourceLineNo">884</span><a id="line.884">  public static final String AD_AUCTION_SIGNALS = "Ad-Auction-Signals";</a>
+<span class="sourceLineNo">885</span><a id="line.885"></a>
+<span class="sourceLineNo">886</span><a id="line.886">  /**</a>
+<span class="sourceLineNo">887</span><a id="line.887">   * The HTTP &lt;a href="https://tools.ietf.org/html/rfc8586"&gt;{@code CDN-Loop}&lt;/a&gt; header field name.</a>
+<span class="sourceLineNo">888</span><a id="line.888">   *</a>
+<span class="sourceLineNo">889</span><a id="line.889">   * @since 28.0</a>
+<span class="sourceLineNo">890</span><a id="line.890">   */</a>
+<span class="sourceLineNo">891</span><a id="line.891">  public static final String CDN_LOOP = "CDN-Loop";</a>
+<span class="sourceLineNo">892</span><a id="line.892">}</a>
 
 
 
