@@ -620,7 +620,7 @@
 <span class="sourceLineNo">611</span><a id="line.611">    }</a>
 <span class="sourceLineNo">612</span><a id="line.612">  }</a>
 <span class="sourceLineNo">613</span><a id="line.613"></a>
-<span class="sourceLineNo">614</span><a id="line.614">  static class StandardBaseEncoding extends BaseEncoding {</a>
+<span class="sourceLineNo">614</span><a id="line.614">  private static class StandardBaseEncoding extends BaseEncoding {</a>
 <span class="sourceLineNo">615</span><a id="line.615">    final Alphabet alphabet;</a>
 <span class="sourceLineNo">616</span><a id="line.616"></a>
 <span class="sourceLineNo">617</span><a id="line.617">    @CheckForNull final Character paddingChar;</a>
@@ -957,7 +957,7 @@
 <span class="sourceLineNo">948</span><a id="line.948">    }</a>
 <span class="sourceLineNo">949</span><a id="line.949">  }</a>
 <span class="sourceLineNo">950</span><a id="line.950"></a>
-<span class="sourceLineNo">951</span><a id="line.951">  static final class Base16Encoding extends StandardBaseEncoding {</a>
+<span class="sourceLineNo">951</span><a id="line.951">  private static final class Base16Encoding extends StandardBaseEncoding {</a>
 <span class="sourceLineNo">952</span><a id="line.952">    final char[] encoding = new char[512];</a>
 <span class="sourceLineNo">953</span><a id="line.953"></a>
 <span class="sourceLineNo">954</span><a id="line.954">    Base16Encoding(String name, String alphabetChars) {</a>
@@ -1004,7 +1004,7 @@
 <span class="sourceLineNo">995</span><a id="line.995">    }</a>
 <span class="sourceLineNo">996</span><a id="line.996">  }</a>
 <span class="sourceLineNo">997</span><a id="line.997"></a>
-<span class="sourceLineNo">998</span><a id="line.998">  static final class Base64Encoding extends StandardBaseEncoding {</a>
+<span class="sourceLineNo">998</span><a id="line.998">  private static final class Base64Encoding extends StandardBaseEncoding {</a>
 <span class="sourceLineNo">999</span><a id="line.999">    Base64Encoding(String name, String alphabetChars, @CheckForNull Character paddingChar) {</a>
 <span class="sourceLineNo">1000</span><a id="line.1000">      this(new Alphabet(name, alphabetChars.toCharArray()), paddingChar);</a>
 <span class="sourceLineNo">1001</span><a id="line.1001">    }</a>
