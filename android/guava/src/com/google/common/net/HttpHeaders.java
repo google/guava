@@ -884,6 +884,14 @@ public final class HttpHeaders {
   public static final String AD_AUCTION_SIGNALS = "Ad-Auction-Signals";
 
   /**
+   * The HTTP <a href="https://wicg.github.io/turtledove/#http-headerdef-ad-auction-allowed">{@code
+   * Ad-Auction-Allowed}</a> header field name.
+   *
+   * @since NEXT
+   */
+  public static final String AD_AUCTION_ALLOWED = "Ad-Auction-Allowed";
+
+  /**
    * The HTTP <a href="https://tools.ietf.org/html/rfc8586">{@code CDN-Loop}</a> header field name.
    *
    * @since 28.0
