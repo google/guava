@@ -623,6 +623,15 @@ public final class HttpHeaders {
 
   /**
    * The HTTP <a
+   * href="https://w3c.github.io/webappsec-permissions-policy/#permissions-policy-report-only-http-header-field">{@code
+   * Permissions-Policy-Report-Only}</a> header field name.
+   *
+   * @since NEXT
+   */
+  public static final String PERMISSIONS_POLICY_REPORT_ONLY = "Permissions-Policy-Report-Only";
+
+  /**
+   * The HTTP <a
    * href="https://wicg.github.io/user-preference-media-features-headers/#sec-ch-prefers-color-scheme">{@code
    * Sec-CH-Prefers-Color-Scheme}</a> header field name.
    *

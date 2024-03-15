@@ -64,7 +64,7 @@ public class FakeTicker extends Ticker {
   /**
    * Advances the ticker value by {@code duration}.
    *
-   * @since NEXT (but since 28.0 in the JRE <a
+   * @since 33.1.0 (but since 28.0 in the JRE <a
    *     href="https://github.com/google/guava#guava-google-core-libraries-for-java">flavor</a>)
    */
   @GwtIncompatible
@@ -97,7 +97,7 @@ public class FakeTicker extends Ticker {
    * <p>The default behavior is to auto increment by zero. i.e: The ticker is left unchanged when
    * queried.
    *
-   * @since NEXT (but since 28.0 in the JRE <a
+   * @since 33.1.0 (but since 28.0 in the JRE <a
    *     href="https://github.com/google/guava#guava-google-core-libraries-for-java">flavor</a>)
    */
   @GwtIncompatible

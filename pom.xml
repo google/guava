@@ -17,14 +17,15 @@
     <truth.version>1.4.2</truth.version>
     <jsr305.version>3.0.2</jsr305.version>
     <checker.version>3.42.0</checker.version>
-    <errorprone.version>2.24.1</errorprone.version>
-    <j2objc.version>2.8</j2objc.version>
+    <errorprone.version>2.26.1</errorprone.version>
+    <j2objc.version>3.0.0</j2objc.version>
     <javac.version>9+181-r4173-1</javac.version>
     <!-- Empty for all JDKs but 9-12 -->
     <maven-javadoc-plugin.additionalJOptions></maven-javadoc-plugin.additionalJOptions>
     <project.build.outputTimestamp>2024-01-02T00:00:00Z</project.build.outputTimestamp>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <test.add.opens></test.add.opens>
+    <test.add.args></test.add.args>
     <module.status>integration</module.status>
     <variant.jvmEnvironment>standard-jvm</variant.jvmEnvironment>
     <variant.jvmEnvironmentVariantName>jre</variant.jvmEnvironmentVariantName>
@@ -177,6 +178,13 @@
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>animal-sniffer-maven-plugin</artifactId>
           <version>1.23</version>
+          <dependencies>
+            <dependency>
+              <groupId>org.ow2.asm</groupId>
+              <artifactId>asm</artifactId>
+              <version>9.6</version>
+            </dependency>
+          </dependencies>
           <configuration>
             <annotations>com.google.common.base.IgnoreJRERequirement,com.google.common.collect.IgnoreJRERequirement,com.google.common.hash.IgnoreJRERequirement,com.google.common.io.IgnoreJRERequirement,com.google.common.reflect.IgnoreJRERequirement,com.google.common.testing.IgnoreJRERequirement</annotations>
             <checkTestClasses>true</checkTestClasses>
@@ -248,7 +256,7 @@
             <runOrder>alphabetical</runOrder>
             <!-- Set max heap for tests. -->
             <!-- Catch dependencies on the default locale by setting it to hi-IN. -->
-            <argLine>-Xmx1536M -Duser.language=hi -Duser.country=IN ${test.add.opens}</argLine>
+            <argLine>-Xmx1536M -Duser.language=hi -Duser.country=IN ${test.add.args} ${test.add.opens}</argLine>
           </configuration>
         </plugin>
         <plugin>
@@ -456,6 +464,19 @@
           </plugin>
         </plugins>
       </build>
+    </profile>
+    <profile>
+      <id>javac-for-jvm18plus</id>
+      <activation>
+        <!--
+            In order to build and run the tests against JDK 18+, we need to pass java.security.manager=allow, to make
+            the deprecated 'java.lang.SecurityManager' available for use.
+         -->
+        <jdk>[18,]</jdk>
+      </activation>
+      <properties>
+        <test.add.args>-Djava.security.manager=allow</test.add.args>
+      </properties>
     </profile>
   </profiles>
 </project>

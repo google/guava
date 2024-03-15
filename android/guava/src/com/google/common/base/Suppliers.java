@@ -252,7 +252,7 @@ public final class Suppliers {
    * @param duration the length of time after a value is created that it should stop being returned
    *     by subsequent {@code get()} calls
    * @throws IllegalArgumentException if {@code duration} is not positive
-   * @since NEXT
+   * @since 33.1.0
    */
   @Beta // only until we're confident that Java 8+ APIs are safe for our Android users
   @J2ktIncompatible

@@ -10,7 +10,7 @@ val expectedReducedRuntimeClasspathAndroidVersion =
     "failureaccess-1.0.2.jar",
     "jsr305-3.0.2.jar",
     "checker-qual-3.42.0.jar",
-    "error_prone_annotations-2.24.1.jar",
+    "error_prone_annotations-2.26.1.jar",
     "listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar"
   )
 val expectedReducedRuntimeClasspathJreVersion =
@@ -19,13 +19,13 @@ val expectedReducedRuntimeClasspathJreVersion =
     "failureaccess-1.0.2.jar",
     "jsr305-3.0.2.jar",
     "checker-qual-3.42.0.jar",
-    "error_prone_annotations-2.24.1.jar",
+    "error_prone_annotations-2.26.1.jar",
     "listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar"
   )
 val expectedCompileClasspathAndroidVersion =
-  expectedReducedRuntimeClasspathAndroidVersion + setOf("j2objc-annotations-2.8.jar")
+  expectedReducedRuntimeClasspathAndroidVersion + setOf("j2objc-annotations-3.0.0.jar")
 val expectedCompileClasspathJreVersion =
-  expectedReducedRuntimeClasspathJreVersion + setOf("j2objc-annotations-2.8.jar")
+  expectedReducedRuntimeClasspathJreVersion + setOf("j2objc-annotations-3.0.0.jar")
 
 val extraLegacyDependencies = setOf("google-collections-1.0.jar")
 

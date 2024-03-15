@@ -25,9 +25,12 @@ import static com.google.common.cache.TestingCacheLoaders.identityLoader;
 import static com.google.common.cache.TestingRemovalListeners.countingRemovalListener;
 import static com.google.common.cache.TestingRemovalListeners.queuingRemovalListener;
 import static com.google.common.cache.TestingWeighers.constantWeigher;
-import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Maps.immutableEntry;
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.util.concurrent.MoreExecutors.listeningDecorator;
+import static java.lang.Thread.State.WAITING;
+import static java.util.concurrent.Executors.newSingleThreadExecutor;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -47,6 +50,7 @@ import com.google.common.cache.TestingRemovalListeners.QueuingRemovalListener;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.testing.ConcurrentMapTestSuiteBuilder;
@@ -58,10 +62,14 @@ import com.google.common.testing.FakeTicker;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
 import com.google.common.testing.TestLogHandler;
+import com.google.common.util.concurrent.ListenableFuture;
+import com.google.common.util.concurrent.ListeningExecutorService;
+import com.google.common.util.concurrent.SettableFuture;
 import com.google.common.util.concurrent.UncheckedExecutionException;
 import java.io.Serializable;
 import java.lang.ref.Reference;
 import java.lang.ref.ReferenceQueue;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -247,10 +255,23 @@ public class LocalCacheTest extends TestCase {
     assertSame(t, popLoggedThrowable());
   }
 
+  /*
+   * TODO(cpovirk): Can we replace makeLocalCache with a call to builder.build()? Some tests may
+   * need access to LocalCache APIs, but maybe we can at least make makeLocalCache use
+   * builder.build() and then cast?
+   */
+
   private static <K, V> LocalCache<K, V> makeLocalCache(
       CacheBuilder<? super K, ? super V> builder) {
     return new LocalCache<>(builder, null);
   }
+
+  private static <K, V> LocalCache<K, V> makeLocalCache(
+      CacheBuilder<? super K, ? super V> builder, CacheLoader<? super K, V> loader) {
+    return new LocalCache<>(builder, loader);
+  }
+
+  // TODO(cpovirk): Inline createCacheBuilder()?
 
   private static CacheBuilder<Object, Object> createCacheBuilder() {
     return CacheBuilder.newBuilder();
@@ -516,6 +537,57 @@ public class LocalCacheTest extends TestCase {
     assertEquals(unit.toNanos(duration), map.refreshNanos);
   }
 
+  public void testLongAsyncRefresh() throws Exception {
+    FakeTicker ticker = new FakeTicker();
+    CountDownLatch reloadStarted = new CountDownLatch(1);
+    SettableFuture<Thread> threadAboutToBlockForRefresh = SettableFuture.create();
+
+    ListeningExecutorService refreshExecutor = listeningDecorator(newSingleThreadExecutor());
+    try {
+      CacheBuilder<Object, Object> builder =
+          createCacheBuilder()
+              .expireAfterWrite(100, MILLISECONDS)
+              .refreshAfterWrite(5, MILLISECONDS)
+              .ticker(ticker);
+
+      CacheLoader<String, String> loader =
+          new CacheLoader<String, String>() {
+            @Override
+            public String load(String key) {
+              return key + "Load";
+            }
+
+            @Override
+            public ListenableFuture<String> reload(String key, String oldValue) {
+              return refreshExecutor.submit(
+                  () -> {
+                    reloadStarted.countDown();
+
+                    Thread blockingForRefresh = threadAboutToBlockForRefresh.get();
+                    while (blockingForRefresh.isAlive()
+                        && blockingForRefresh.getState() != WAITING) {
+                      Thread.yield();
+                    }
+
+                    return key + "Reload";
+                  });
+            }
+          };
+      LocalCache<String, String> cache = makeLocalCache(builder, loader);
+
+      assertThat(cache.getOrLoad("test")).isEqualTo("testLoad");
+
+      ticker.advance(10, MILLISECONDS); // so that the next call will trigger refresh
+      assertThat(cache.getOrLoad("test")).isEqualTo("testLoad");
+      reloadStarted.await();
+      ticker.advance(500, MILLISECONDS); // so that the entry expires during the reload
+      threadAboutToBlockForRefresh.set(Thread.currentThread());
+      assertThat(cache.getOrLoad("test")).isEqualTo("testReload");
+    } finally {
+      refreshExecutor.shutdown();
+    }
+  }
+
   public void testSetRemovalListener() {
     RemovalListener<Object, Object> testListener = TestingRemovalListeners.nullRemovalListener();
     LocalCache<Object, Object> map =
@@ -584,7 +656,7 @@ public class LocalCacheTest extends TestCase {
 
       // access some of the elements
       Random random = new Random();
-      List<ReferenceEntry<Object, Object>> reads = Lists.newArrayList();
+      List<ReferenceEntry<Object, Object>> reads = new ArrayList<>();
       Iterator<ReferenceEntry<Object, Object>> i = readOrder.iterator();
       while (i.hasNext()) {
         ReferenceEntry<Object, Object> entry = i.next();
@@ -2097,7 +2169,7 @@ public class LocalCacheTest extends TestCase {
 
       // access some of the elements
       Random random = new Random();
-      List<ReferenceEntry<Object, Object>> reads = Lists.newArrayList();
+      List<ReferenceEntry<Object, Object>> reads = new ArrayList<>();
       Iterator<ReferenceEntry<Object, Object>> i = readOrder.iterator();
       while (i.hasNext()) {
         ReferenceEntry<Object, Object> entry = i.next();
@@ -2138,7 +2210,7 @@ public class LocalCacheTest extends TestCase {
 
       // access some of the elements
       Random random = new Random();
-      List<ReferenceEntry<Object, Object>> reads = Lists.newArrayList();
+      List<ReferenceEntry<Object, Object>> reads = new ArrayList<>();
       Iterator<ReferenceEntry<Object, Object>> i = readOrder.iterator();
       while (i.hasNext()) {
         ReferenceEntry<Object, Object> entry = i.next();
@@ -2179,7 +2251,7 @@ public class LocalCacheTest extends TestCase {
 
       // access some of the elements
       Random random = new Random();
-      List<ReferenceEntry<Object, Object>> writes = Lists.newArrayList();
+      List<ReferenceEntry<Object, Object>> writes = new ArrayList<>();
       Iterator<ReferenceEntry<Object, Object>> i = writeOrder.iterator();
       while (i.hasNext()) {
         ReferenceEntry<Object, Object> entry = i.next();
@@ -2725,7 +2797,8 @@ public class LocalCacheTest extends TestCase {
    * weakKeys and weak/softValues.
    */
   private static Iterable<CacheBuilder<Object, Object>> allEntryTypeMakers() {
-    List<CacheBuilder<Object, Object>> result = newArrayList(allKeyValueStrengthMakers());
+    List<CacheBuilder<Object, Object>> result = new ArrayList<>();
+    Iterables.addAll(result, allKeyValueStrengthMakers());
     for (CacheBuilder<Object, Object> builder : allKeyValueStrengthMakers()) {
       result.add(builder.maximumSize(SMALL_MAX_SIZE));
     }
