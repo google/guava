@@ -51705,6 +51705,17 @@
  @since 33.0.0]]>
       </doc>
     </field>
+    <field name="AD_AUCTION_ALLOWED" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[The HTTP <a href="https://wicg.github.io/turtledove/#http-headerdef-ad-auction-allowed">{@code
+ Ad-Auction-Allowed}</a> header field name.
+
+ @since NEXT]]>
+      </doc>
+    </field>
     <field name="CDN_LOOP" type="java.lang.String"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"

@@ -1,1 +1,2 @@
+OK: com.google.common.net.HttpHeaders Field AD_AUCTION_ALLOWED
 OK: com.google.common.net.HttpHeaders Field PERMISSIONS_POLICY_REPORT_ONLY
