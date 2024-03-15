@@ -611,7 +611,7 @@ public abstract class BaseEncoding {
     }
   }
 
-  static class StandardBaseEncoding extends BaseEncoding {
+  private static class StandardBaseEncoding extends BaseEncoding {
     final Alphabet alphabet;
 
     @CheckForNull final Character paddingChar;
@@ -948,7 +948,7 @@ public abstract class BaseEncoding {
     }
   }
 
-  static final class Base16Encoding extends StandardBaseEncoding {
+  private static final class Base16Encoding extends StandardBaseEncoding {
     final char[] encoding = new char[512];
 
     Base16Encoding(String name, String alphabetChars) {
@@ -995,7 +995,7 @@ public abstract class BaseEncoding {
     }
   }
 
-  static final class Base64Encoding extends StandardBaseEncoding {
+  private static final class Base64Encoding extends StandardBaseEncoding {
     Base64Encoding(String name, String alphabetChars, @CheckForNull Character paddingChar) {
       this(new Alphabet(name, alphabetChars.toCharArray()), paddingChar);
     }
