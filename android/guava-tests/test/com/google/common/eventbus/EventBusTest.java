@@ -121,7 +121,7 @@ public class EventBusTest extends TestCase {
     final RecordingSubscriberExceptionHandler handler = new RecordingSubscriberExceptionHandler();
     final EventBus eventBus = new EventBus(handler);
     final RuntimeException exception =
-        new RuntimeException("but culottes have a tendancy to ride up!");
+        new RuntimeException("but culottes have a tendency to ride up!");
     final Object subscriber =
         new Object() {
           @Subscribe
