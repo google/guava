@@ -42,6 +42,6 @@ jobs:
       uses: microsoft/security-devops-action@v1.10.0
       id: msdo
     - name: Upload results to Security tab
-      uses: github/codeql-action/upload-sarif@v2
+      uses: github/codeql-action/upload-sarif@v3
       with:
         sarif_file: ${{ steps.msdo.outputs.sarifFile }}
