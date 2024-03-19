@@ -27,114 +27,116 @@
 <span class="sourceLineNo">018</span><a id="line.18"></a>
 <span class="sourceLineNo">019</span><a id="line.19">import com.google.common.annotations.GwtCompatible;</a>
 <span class="sourceLineNo">020</span><a id="line.20">import com.google.common.base.Objects;</a>
-<span class="sourceLineNo">021</span><a id="line.21">import java.util.Map;</a>
-<span class="sourceLineNo">022</span><a id="line.22">import java.util.Map.Entry;</a>
-<span class="sourceLineNo">023</span><a id="line.23">import javax.annotation.CheckForNull;</a>
-<span class="sourceLineNo">024</span><a id="line.24">import org.checkerframework.checker.nullness.qual.Nullable;</a>
-<span class="sourceLineNo">025</span><a id="line.25"></a>
-<span class="sourceLineNo">026</span><a id="line.26">/**</a>
-<span class="sourceLineNo">027</span><a id="line.27"> * A map entry which forwards all its method calls to another map entry. Subclasses should override</a>
-<span class="sourceLineNo">028</span><a id="line.28"> * one or more methods to modify the behavior of the backing map entry as desired per the &lt;a</a>
-<span class="sourceLineNo">029</span><a id="line.29"> * href="http://en.wikipedia.org/wiki/Decorator_pattern"&gt;decorator pattern&lt;/a&gt;.</a>
-<span class="sourceLineNo">030</span><a id="line.30"> *</a>
-<span class="sourceLineNo">031</span><a id="line.31"> * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; The methods of {@code ForwardingMapEntry} forward &lt;i&gt;indiscriminately&lt;/i&gt; to</a>
-<span class="sourceLineNo">032</span><a id="line.32"> * the methods of the delegate. For example, overriding {@link #getValue} alone &lt;i&gt;will not&lt;/i&gt;</a>
-<span class="sourceLineNo">033</span><a id="line.33"> * change the behavior of {@link #equals}, which can lead to unexpected behavior. In this case, you</a>
-<span class="sourceLineNo">034</span><a id="line.34"> * should override {@code equals} as well, either providing your own implementation, or delegating</a>
-<span class="sourceLineNo">035</span><a id="line.35"> * to the provided {@code standardEquals} method.</a>
-<span class="sourceLineNo">036</span><a id="line.36"> *</a>
-<span class="sourceLineNo">037</span><a id="line.37"> * &lt;p&gt;Each of the {@code standard} methods, where appropriate, use {@link Objects#equal} to test</a>
-<span class="sourceLineNo">038</span><a id="line.38"> * equality for both keys and values. This may not be the desired behavior for map implementations</a>
-<span class="sourceLineNo">039</span><a id="line.39"> * that use non-standard notions of key equality, such as the entry of a {@code SortedMap} whose</a>
-<span class="sourceLineNo">040</span><a id="line.40"> * comparator is not consistent with {@code equals}.</a>
-<span class="sourceLineNo">041</span><a id="line.41"> *</a>
-<span class="sourceLineNo">042</span><a id="line.42"> * &lt;p&gt;The {@code standard} methods are not guaranteed to be thread-safe, even when all of the</a>
-<span class="sourceLineNo">043</span><a id="line.43"> * methods that they depend on are thread-safe.</a>
-<span class="sourceLineNo">044</span><a id="line.44"> *</a>
-<span class="sourceLineNo">045</span><a id="line.45"> * @author Mike Bostock</a>
-<span class="sourceLineNo">046</span><a id="line.46"> * @author Louis Wasserman</a>
-<span class="sourceLineNo">047</span><a id="line.47"> * @since 2.0</a>
-<span class="sourceLineNo">048</span><a id="line.48"> */</a>
-<span class="sourceLineNo">049</span><a id="line.49">@GwtCompatible</a>
-<span class="sourceLineNo">050</span><a id="line.50">@ElementTypesAreNonnullByDefault</a>
-<span class="sourceLineNo">051</span><a id="line.51">public abstract class ForwardingMapEntry&lt;K extends @Nullable Object, V extends @Nullable Object&gt;</a>
-<span class="sourceLineNo">052</span><a id="line.52">    extends ForwardingObject implements Map.Entry&lt;K, V&gt; {</a>
-<span class="sourceLineNo">053</span><a id="line.53">  // TODO(lowasser): identify places where thread safety is actually lost</a>
-<span class="sourceLineNo">054</span><a id="line.54"></a>
-<span class="sourceLineNo">055</span><a id="line.55">  /** Constructor for use by subclasses. */</a>
-<span class="sourceLineNo">056</span><a id="line.56">  protected ForwardingMapEntry() {}</a>
-<span class="sourceLineNo">057</span><a id="line.57"></a>
-<span class="sourceLineNo">058</span><a id="line.58">  @Override</a>
-<span class="sourceLineNo">059</span><a id="line.59">  protected abstract Entry&lt;K, V&gt; delegate();</a>
-<span class="sourceLineNo">060</span><a id="line.60"></a>
-<span class="sourceLineNo">061</span><a id="line.61">  @Override</a>
-<span class="sourceLineNo">062</span><a id="line.62">  @ParametricNullness</a>
-<span class="sourceLineNo">063</span><a id="line.63">  public K getKey() {</a>
-<span class="sourceLineNo">064</span><a id="line.64">    return delegate().getKey();</a>
-<span class="sourceLineNo">065</span><a id="line.65">  }</a>
-<span class="sourceLineNo">066</span><a id="line.66"></a>
-<span class="sourceLineNo">067</span><a id="line.67">  @Override</a>
-<span class="sourceLineNo">068</span><a id="line.68">  @ParametricNullness</a>
-<span class="sourceLineNo">069</span><a id="line.69">  public V getValue() {</a>
-<span class="sourceLineNo">070</span><a id="line.70">    return delegate().getValue();</a>
-<span class="sourceLineNo">071</span><a id="line.71">  }</a>
-<span class="sourceLineNo">072</span><a id="line.72"></a>
-<span class="sourceLineNo">073</span><a id="line.73">  @Override</a>
-<span class="sourceLineNo">074</span><a id="line.74">  @ParametricNullness</a>
-<span class="sourceLineNo">075</span><a id="line.75">  public V setValue(@ParametricNullness V value) {</a>
-<span class="sourceLineNo">076</span><a id="line.76">    return delegate().setValue(value);</a>
-<span class="sourceLineNo">077</span><a id="line.77">  }</a>
-<span class="sourceLineNo">078</span><a id="line.78"></a>
-<span class="sourceLineNo">079</span><a id="line.79">  @Override</a>
-<span class="sourceLineNo">080</span><a id="line.80">  public boolean equals(@CheckForNull Object object) {</a>
-<span class="sourceLineNo">081</span><a id="line.81">    return delegate().equals(object);</a>
-<span class="sourceLineNo">082</span><a id="line.82">  }</a>
-<span class="sourceLineNo">083</span><a id="line.83"></a>
-<span class="sourceLineNo">084</span><a id="line.84">  @Override</a>
-<span class="sourceLineNo">085</span><a id="line.85">  public int hashCode() {</a>
-<span class="sourceLineNo">086</span><a id="line.86">    return delegate().hashCode();</a>
-<span class="sourceLineNo">087</span><a id="line.87">  }</a>
-<span class="sourceLineNo">088</span><a id="line.88"></a>
-<span class="sourceLineNo">089</span><a id="line.89">  /**</a>
-<span class="sourceLineNo">090</span><a id="line.90">   * A sensible definition of {@link #equals(Object)} in terms of {@link #getKey()} and {@link</a>
-<span class="sourceLineNo">091</span><a id="line.91">   * #getValue()}. If you override either of these methods, you may wish to override {@link</a>
-<span class="sourceLineNo">092</span><a id="line.92">   * #equals(Object)} to forward to this implementation.</a>
-<span class="sourceLineNo">093</span><a id="line.93">   *</a>
-<span class="sourceLineNo">094</span><a id="line.94">   * @since 7.0</a>
-<span class="sourceLineNo">095</span><a id="line.95">   */</a>
-<span class="sourceLineNo">096</span><a id="line.96">  protected boolean standardEquals(@CheckForNull Object object) {</a>
-<span class="sourceLineNo">097</span><a id="line.97">    if (object instanceof Entry) {</a>
-<span class="sourceLineNo">098</span><a id="line.98">      Entry&lt;?, ?&gt; that = (Entry&lt;?, ?&gt;) object;</a>
-<span class="sourceLineNo">099</span><a id="line.99">      return Objects.equal(this.getKey(), that.getKey())</a>
-<span class="sourceLineNo">100</span><a id="line.100">          &amp;&amp; Objects.equal(this.getValue(), that.getValue());</a>
-<span class="sourceLineNo">101</span><a id="line.101">    }</a>
-<span class="sourceLineNo">102</span><a id="line.102">    return false;</a>
-<span class="sourceLineNo">103</span><a id="line.103">  }</a>
-<span class="sourceLineNo">104</span><a id="line.104"></a>
-<span class="sourceLineNo">105</span><a id="line.105">  /**</a>
-<span class="sourceLineNo">106</span><a id="line.106">   * A sensible definition of {@link #hashCode()} in terms of {@link #getKey()} and {@link</a>
-<span class="sourceLineNo">107</span><a id="line.107">   * #getValue()}. If you override either of these methods, you may wish to override {@link</a>
-<span class="sourceLineNo">108</span><a id="line.108">   * #hashCode()} to forward to this implementation.</a>
-<span class="sourceLineNo">109</span><a id="line.109">   *</a>
-<span class="sourceLineNo">110</span><a id="line.110">   * @since 7.0</a>
-<span class="sourceLineNo">111</span><a id="line.111">   */</a>
-<span class="sourceLineNo">112</span><a id="line.112">  protected int standardHashCode() {</a>
-<span class="sourceLineNo">113</span><a id="line.113">    K k = getKey();</a>
-<span class="sourceLineNo">114</span><a id="line.114">    V v = getValue();</a>
-<span class="sourceLineNo">115</span><a id="line.115">    return ((k == null) ? 0 : k.hashCode()) ^ ((v == null) ? 0 : v.hashCode());</a>
-<span class="sourceLineNo">116</span><a id="line.116">  }</a>
-<span class="sourceLineNo">117</span><a id="line.117"></a>
-<span class="sourceLineNo">118</span><a id="line.118">  /**</a>
-<span class="sourceLineNo">119</span><a id="line.119">   * A sensible definition of {@link #toString} in terms of {@link #getKey} and {@link #getValue}.</a>
-<span class="sourceLineNo">120</span><a id="line.120">   * If you override either of these methods, you may wish to override {@link #equals} to forward to</a>
-<span class="sourceLineNo">121</span><a id="line.121">   * this implementation.</a>
-<span class="sourceLineNo">122</span><a id="line.122">   *</a>
-<span class="sourceLineNo">123</span><a id="line.123">   * @since 7.0</a>
-<span class="sourceLineNo">124</span><a id="line.124">   */</a>
-<span class="sourceLineNo">125</span><a id="line.125">  protected String standardToString() {</a>
-<span class="sourceLineNo">126</span><a id="line.126">    return getKey() + "=" + getValue();</a>
-<span class="sourceLineNo">127</span><a id="line.127">  }</a>
-<span class="sourceLineNo">128</span><a id="line.128">}</a>
+<span class="sourceLineNo">021</span><a id="line.21">import com.google.errorprone.annotations.CanIgnoreReturnValue;</a>
+<span class="sourceLineNo">022</span><a id="line.22">import java.util.Map;</a>
+<span class="sourceLineNo">023</span><a id="line.23">import java.util.Map.Entry;</a>
+<span class="sourceLineNo">024</span><a id="line.24">import javax.annotation.CheckForNull;</a>
+<span class="sourceLineNo">025</span><a id="line.25">import org.checkerframework.checker.nullness.qual.Nullable;</a>
+<span class="sourceLineNo">026</span><a id="line.26"></a>
+<span class="sourceLineNo">027</span><a id="line.27">/**</a>
+<span class="sourceLineNo">028</span><a id="line.28"> * A map entry which forwards all its method calls to another map entry. Subclasses should override</a>
+<span class="sourceLineNo">029</span><a id="line.29"> * one or more methods to modify the behavior of the backing map entry as desired per the &lt;a</a>
+<span class="sourceLineNo">030</span><a id="line.30"> * href="http://en.wikipedia.org/wiki/Decorator_pattern"&gt;decorator pattern&lt;/a&gt;.</a>
+<span class="sourceLineNo">031</span><a id="line.31"> *</a>
+<span class="sourceLineNo">032</span><a id="line.32"> * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; The methods of {@code ForwardingMapEntry} forward &lt;i&gt;indiscriminately&lt;/i&gt; to</a>
+<span class="sourceLineNo">033</span><a id="line.33"> * the methods of the delegate. For example, overriding {@link #getValue} alone &lt;i&gt;will not&lt;/i&gt;</a>
+<span class="sourceLineNo">034</span><a id="line.34"> * change the behavior of {@link #equals}, which can lead to unexpected behavior. In this case, you</a>
+<span class="sourceLineNo">035</span><a id="line.35"> * should override {@code equals} as well, either providing your own implementation, or delegating</a>
+<span class="sourceLineNo">036</span><a id="line.36"> * to the provided {@code standardEquals} method.</a>
+<span class="sourceLineNo">037</span><a id="line.37"> *</a>
+<span class="sourceLineNo">038</span><a id="line.38"> * &lt;p&gt;Each of the {@code standard} methods, where appropriate, use {@link Objects#equal} to test</a>
+<span class="sourceLineNo">039</span><a id="line.39"> * equality for both keys and values. This may not be the desired behavior for map implementations</a>
+<span class="sourceLineNo">040</span><a id="line.40"> * that use non-standard notions of key equality, such as the entry of a {@code SortedMap} whose</a>
+<span class="sourceLineNo">041</span><a id="line.41"> * comparator is not consistent with {@code equals}.</a>
+<span class="sourceLineNo">042</span><a id="line.42"> *</a>
+<span class="sourceLineNo">043</span><a id="line.43"> * &lt;p&gt;The {@code standard} methods are not guaranteed to be thread-safe, even when all of the</a>
+<span class="sourceLineNo">044</span><a id="line.44"> * methods that they depend on are thread-safe.</a>
+<span class="sourceLineNo">045</span><a id="line.45"> *</a>
+<span class="sourceLineNo">046</span><a id="line.46"> * @author Mike Bostock</a>
+<span class="sourceLineNo">047</span><a id="line.47"> * @author Louis Wasserman</a>
+<span class="sourceLineNo">048</span><a id="line.48"> * @since 2.0</a>
+<span class="sourceLineNo">049</span><a id="line.49"> */</a>
+<span class="sourceLineNo">050</span><a id="line.50">@GwtCompatible</a>
+<span class="sourceLineNo">051</span><a id="line.51">@ElementTypesAreNonnullByDefault</a>
+<span class="sourceLineNo">052</span><a id="line.52">public abstract class ForwardingMapEntry&lt;K extends @Nullable Object, V extends @Nullable Object&gt;</a>
+<span class="sourceLineNo">053</span><a id="line.53">    extends ForwardingObject implements Map.Entry&lt;K, V&gt; {</a>
+<span class="sourceLineNo">054</span><a id="line.54">  // TODO(lowasser): identify places where thread safety is actually lost</a>
+<span class="sourceLineNo">055</span><a id="line.55"></a>
+<span class="sourceLineNo">056</span><a id="line.56">  /** Constructor for use by subclasses. */</a>
+<span class="sourceLineNo">057</span><a id="line.57">  protected ForwardingMapEntry() {}</a>
+<span class="sourceLineNo">058</span><a id="line.58"></a>
+<span class="sourceLineNo">059</span><a id="line.59">  @Override</a>
+<span class="sourceLineNo">060</span><a id="line.60">  protected abstract Entry&lt;K, V&gt; delegate();</a>
+<span class="sourceLineNo">061</span><a id="line.61"></a>
+<span class="sourceLineNo">062</span><a id="line.62">  @Override</a>
+<span class="sourceLineNo">063</span><a id="line.63">  @ParametricNullness</a>
+<span class="sourceLineNo">064</span><a id="line.64">  public K getKey() {</a>
+<span class="sourceLineNo">065</span><a id="line.65">    return delegate().getKey();</a>
+<span class="sourceLineNo">066</span><a id="line.66">  }</a>
+<span class="sourceLineNo">067</span><a id="line.67"></a>
+<span class="sourceLineNo">068</span><a id="line.68">  @Override</a>
+<span class="sourceLineNo">069</span><a id="line.69">  @ParametricNullness</a>
+<span class="sourceLineNo">070</span><a id="line.70">  public V getValue() {</a>
+<span class="sourceLineNo">071</span><a id="line.71">    return delegate().getValue();</a>
+<span class="sourceLineNo">072</span><a id="line.72">  }</a>
+<span class="sourceLineNo">073</span><a id="line.73"></a>
+<span class="sourceLineNo">074</span><a id="line.74">  @Override</a>
+<span class="sourceLineNo">075</span><a id="line.75">  @ParametricNullness</a>
+<span class="sourceLineNo">076</span><a id="line.76">  @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">077</span><a id="line.77">  public V setValue(@ParametricNullness V value) {</a>
+<span class="sourceLineNo">078</span><a id="line.78">    return delegate().setValue(value);</a>
+<span class="sourceLineNo">079</span><a id="line.79">  }</a>
+<span class="sourceLineNo">080</span><a id="line.80"></a>
+<span class="sourceLineNo">081</span><a id="line.81">  @Override</a>
+<span class="sourceLineNo">082</span><a id="line.82">  public boolean equals(@CheckForNull Object object) {</a>
+<span class="sourceLineNo">083</span><a id="line.83">    return delegate().equals(object);</a>
+<span class="sourceLineNo">084</span><a id="line.84">  }</a>
+<span class="sourceLineNo">085</span><a id="line.85"></a>
+<span class="sourceLineNo">086</span><a id="line.86">  @Override</a>
+<span class="sourceLineNo">087</span><a id="line.87">  public int hashCode() {</a>
+<span class="sourceLineNo">088</span><a id="line.88">    return delegate().hashCode();</a>
+<span class="sourceLineNo">089</span><a id="line.89">  }</a>
+<span class="sourceLineNo">090</span><a id="line.90"></a>
+<span class="sourceLineNo">091</span><a id="line.91">  /**</a>
+<span class="sourceLineNo">092</span><a id="line.92">   * A sensible definition of {@link #equals(Object)} in terms of {@link #getKey()} and {@link</a>
+<span class="sourceLineNo">093</span><a id="line.93">   * #getValue()}. If you override either of these methods, you may wish to override {@link</a>
+<span class="sourceLineNo">094</span><a id="line.94">   * #equals(Object)} to forward to this implementation.</a>
+<span class="sourceLineNo">095</span><a id="line.95">   *</a>
+<span class="sourceLineNo">096</span><a id="line.96">   * @since 7.0</a>
+<span class="sourceLineNo">097</span><a id="line.97">   */</a>
+<span class="sourceLineNo">098</span><a id="line.98">  protected boolean standardEquals(@CheckForNull Object object) {</a>
+<span class="sourceLineNo">099</span><a id="line.99">    if (object instanceof Entry) {</a>
+<span class="sourceLineNo">100</span><a id="line.100">      Entry&lt;?, ?&gt; that = (Entry&lt;?, ?&gt;) object;</a>
+<span class="sourceLineNo">101</span><a id="line.101">      return Objects.equal(this.getKey(), that.getKey())</a>
+<span class="sourceLineNo">102</span><a id="line.102">          &amp;&amp; Objects.equal(this.getValue(), that.getValue());</a>
+<span class="sourceLineNo">103</span><a id="line.103">    }</a>
+<span class="sourceLineNo">104</span><a id="line.104">    return false;</a>
+<span class="sourceLineNo">105</span><a id="line.105">  }</a>
+<span class="sourceLineNo">106</span><a id="line.106"></a>
+<span class="sourceLineNo">107</span><a id="line.107">  /**</a>
+<span class="sourceLineNo">108</span><a id="line.108">   * A sensible definition of {@link #hashCode()} in terms of {@link #getKey()} and {@link</a>
+<span class="sourceLineNo">109</span><a id="line.109">   * #getValue()}. If you override either of these methods, you may wish to override {@link</a>
+<span class="sourceLineNo">110</span><a id="line.110">   * #hashCode()} to forward to this implementation.</a>
+<span class="sourceLineNo">111</span><a id="line.111">   *</a>
+<span class="sourceLineNo">112</span><a id="line.112">   * @since 7.0</a>
+<span class="sourceLineNo">113</span><a id="line.113">   */</a>
+<span class="sourceLineNo">114</span><a id="line.114">  protected int standardHashCode() {</a>
+<span class="sourceLineNo">115</span><a id="line.115">    K k = getKey();</a>
+<span class="sourceLineNo">116</span><a id="line.116">    V v = getValue();</a>
+<span class="sourceLineNo">117</span><a id="line.117">    return ((k == null) ? 0 : k.hashCode()) ^ ((v == null) ? 0 : v.hashCode());</a>
+<span class="sourceLineNo">118</span><a id="line.118">  }</a>
+<span class="sourceLineNo">119</span><a id="line.119"></a>
+<span class="sourceLineNo">120</span><a id="line.120">  /**</a>
+<span class="sourceLineNo">121</span><a id="line.121">   * A sensible definition of {@link #toString} in terms of {@link #getKey} and {@link #getValue}.</a>
+<span class="sourceLineNo">122</span><a id="line.122">   * If you override either of these methods, you may wish to override {@link #equals} to forward to</a>
+<span class="sourceLineNo">123</span><a id="line.123">   * this implementation.</a>
+<span class="sourceLineNo">124</span><a id="line.124">   *</a>
+<span class="sourceLineNo">125</span><a id="line.125">   * @since 7.0</a>
+<span class="sourceLineNo">126</span><a id="line.126">   */</a>
+<span class="sourceLineNo">127</span><a id="line.127">  protected String standardToString() {</a>
+<span class="sourceLineNo">128</span><a id="line.128">    return getKey() + "=" + getValue();</a>
+<span class="sourceLineNo">129</span><a id="line.129">  }</a>
+<span class="sourceLineNo">130</span><a id="line.130">}</a>
 
 
 
