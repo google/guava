@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
@@ -24,6 +25,10 @@ import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.Table.Cell;
 import com.google.common.testing.CollectorTester;
 import com.google.common.testing.SerializableTester;
+
+import java.util.List;
+import java.util.Random;
+import java.util.UUID;
 import java.util.stream.Collector;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -208,6 +213,26 @@ public class ImmutableTableTest extends AbstractTableReadTest<Character> {
     // iteration ordering, row has an inconsistent ordering.
     assertThat(table.row('b').keySet()).containsExactly(1, 2).inOrder();
     assertThat(ImmutableTable.copyOf(table).row('b').keySet()).containsExactly(2, 1).inOrder();
+  }
+
+  public void testAvoidCopyOfForImmutableBuiltByCollector() {
+    ImmutableTable<String, Integer, String> table =
+        processList(newArrayList("x", "r", "c", "b", "e", "c", "e", "r"));
+
+    assertThat(table).isInstanceOf(SparseImmutableTable.class);
+    assertThat(table.rowMap()).isSameInstanceAs(table.rowMap());
+  }
+
+  public ImmutableTable<String, Integer, String> processList(List<String> strings) {
+    return strings.stream()
+        .map(text -> ImmutableTable.of(text, new Random().nextInt(), UUID.randomUUID().toString()))
+        .flatMap(table -> table.cellSet().stream())
+        .collect(ImmutableTable.toImmutableTable(
+            Table.Cell::getRowKey,
+            Table.Cell::getColumnKey,
+            Table.Cell::getValue,
+            String::concat
+        ));
   }
 
   public void testCopyOfSparse() {
