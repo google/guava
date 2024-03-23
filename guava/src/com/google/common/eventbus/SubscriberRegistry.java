@@ -162,14 +162,25 @@ final class SubscriberRegistry {
    * Returns all subscribers for the given listener grouped by the type of event they subscribe to.
    */
   private Multimap<Class<?>, Subscriber> findAllSubscribers(Object listener) {
-    Multimap<Class<?>, Subscriber> methodsInListener = HashMultimap.create();
-    Class<?> clazz = listener.getClass();
-    for (Method method : getAnnotatedMethods(clazz)) {
-      Class<?>[] parameterTypes = method.getParameterTypes();
-      Class<?> eventType = parameterTypes[0];
-      methodsInListener.put(eventType, Subscriber.create(bus, listener, method));
+    if(listener instanceof Class){
+      Multimap<Class<?>, Subscriber> methodsInListener = HashMultimap.create();
+      Class<?> clazz = (Class<?>)listener;
+      for (Method method : getAnnotatedMethods(clazz)) {
+        Class<?>[] parameterTypes = method.getParameterTypes();
+        Class<?> eventType = parameterTypes[0];
+        methodsInListener.put(eventType, Subscriber.create(bus, null, method));
+      }
+      return methodsInListener;
+    }else{
+      Multimap<Class<?>, Subscriber> methodsInListener = HashMultimap.create();
+      Class<?> clazz = listener.getClass();
+      for (Method method : getAnnotatedMethods(clazz)) {
+        Class<?>[] parameterTypes = method.getParameterTypes();
+        Class<?> eventType = parameterTypes[0];
+        methodsInListener.put(eventType, Subscriber.create(bus, listener, method));
+      }
+      return methodsInListener;
     }
-    return methodsInListener;
   }
 
   private static ImmutableList<Method> getAnnotatedMethods(Class<?> clazz) {
