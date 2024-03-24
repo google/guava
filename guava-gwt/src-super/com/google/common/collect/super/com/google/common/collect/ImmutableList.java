@@ -188,7 +188,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    *
    * <p>The array must be internally created.
    */
-  @SuppressWarnings("unchecked") // caller is reponsible for getting this right
+  @SuppressWarnings("unchecked") // caller is responsible for getting this right
   static <E> ImmutableList<E> asImmutableList(Object[] elements) {
     return unsafeDelegateList((List) Arrays.asList(elements));
   }
