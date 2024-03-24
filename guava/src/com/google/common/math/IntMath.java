@@ -392,7 +392,12 @@ public final class IntMath {
     int result = x % m;
     return (result >= 0) ? result : result + m;
   }
-
+    public static int lcm(int a, int b){
+    /*
+    Returns least common multiple of two numbers. Uses gcd method of this library.
+    */
+    return a * (b / gcd(a, b));
+    }
   /**
    * Returns the greatest common divisor of {@code a, b}. Returns {@code 0} if {@code a == 0 && b ==
    * 0}.
