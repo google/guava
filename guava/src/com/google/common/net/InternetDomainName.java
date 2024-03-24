@@ -65,9 +65,11 @@ import javax.annotation.CheckForNull;
  * be reflected in the result of {@link #equals(Object)}.
  *
  * <p><a href="http://en.wikipedia.org/wiki/Internationalized_domain_name">Internationalized domain
- * names</a> such as {@code 网络.cn} are supported, as are the equivalent <a
+ * names (IDN)</a> such as {@code 网络.cn} are supported, as are the equivalent <a
  * href="http://en.wikipedia.org/wiki/Internationalized_domain_name">IDNA Punycode-encoded</a>
- * versions.
+ * versions. However, IDN are not validated against <a href="http://www.ietf.org/rfc/rfc5890.txt">
+ * RFC 5890</a> ("Internationalized Domain Names for Applications"), therefore using another
+ * library for IDN validation may be required.
  *
  * @author Catherine Berry
  * @since 5.0
@@ -241,8 +243,8 @@ public final class InternetDomainName {
 
   /**
    * Returns an instance of {@link InternetDomainName} after lenient validation. Specifically,
-   * validation against <a href="http://www.ietf.org/rfc/rfc3490.txt">RFC 3490</a>
-   * ("Internationalizing Domain Names in Applications") is skipped, while validation against <a
+   * validation against <a href="http://www.ietf.org/rfc/rfc5890.txt">RFC 5890</a>
+   * ("Internationalized Domain Names for Applications") is skipped, while validation against <a
    * href="http://www.ietf.org/rfc/rfc1035.txt">RFC 1035</a> is relaxed in the following ways:
    *
    * <ul>
@@ -623,8 +625,8 @@ public final class InternetDomainName {
 
   /**
    * Indicates whether the argument is a syntactically valid domain name using lenient validation.
-   * Specifically, validation against <a href="http://www.ietf.org/rfc/rfc3490.txt">RFC 3490</a>
-   * ("Internationalizing Domain Names in Applications") is skipped.
+   * Specifically, validation against <a href="http://www.ietf.org/rfc/rfc5890.txt">RFC 5890</a>
+   * ("Internationalized Domain Names for Applications") is skipped.
    *
    * <p>The following two code snippets are equivalent:
    *
