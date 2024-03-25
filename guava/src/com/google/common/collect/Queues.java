@@ -19,9 +19,11 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+
 import java.util.ArrayDeque;
 import java.util.Collection;
 import java.util.Deque;
+import java.util.Iterator;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -489,5 +491,182 @@ public final class Queues {
    */
   public static <E extends @Nullable Object> Deque<E> synchronizedDeque(Deque<E> deque) {
     return Synchronized.deque(deque, null);
+  }
+  
+  /**
+   * Creates a reversed view of {@code deque}.
+   * 
+   * @param deque the deque to be wrapped in a reversed view
+   * @return a reversed view of the specified deque
+   */
+  public static <E> Deque<E> reversedDeque(Deque<E> deque) {
+    if (deque instanceof ReversedDeque) {
+      return ((ReversedDeque<E>)deque).delegate();
+    }
+    return new ReversedDeque<>(deque);
+  }
+  
+  private static class ReversedDeque<E> extends ForwardingDeque<E> {
+
+    private final Deque<E> deque;
+    
+    ReversedDeque(Deque<E> deque) {
+      Preconditions.checkNotNull(deque);
+      this.deque = deque;
+    }
+
+    @Override
+    protected Deque<E> delegate() {
+      return deque;
+    }
+    
+    // Deque methods
+    
+    @Override
+    public void addFirst(E e) {
+      delegate().addLast(e);
+    }
+
+    @Override
+    public void addLast(E e) {
+      delegate().addLast(e);
+    }
+
+    @Override
+    public E removeFirst() {
+      return delegate().removeLast();
+    }
+
+    @Override
+    public E removeLast() {
+      return delegate().removeLast();
+    }
+
+    @Override
+    public E getFirst() {
+      return delegate().getLast();
+    }
+
+    @Override
+    public E getLast() {
+      return delegate().getFirst();
+    }
+
+    @Override
+    public boolean offerFirst(E e) {
+      return delegate().offerLast(e);
+    }
+
+    @Override
+    public boolean offerLast(E e) {
+      return delegate().offerFirst(e);
+    }
+
+    @Override
+    public E pollFirst() {
+      return delegate().pollLast();
+    }
+
+    @Override
+    public E pollLast() {
+      return delegate().pollFirst();
+    }
+
+    @Override
+    public E peekFirst() {
+      return delegate().peekLast();
+    }
+
+    @Override
+    public E peekLast() {
+      return delegate().peekFirst();
+    }
+    
+    // Queue methods
+
+    @Override
+    public boolean add(E element) {
+      delegate().addFirst(element);
+      return true;
+    }
+
+    @Override
+    public boolean offer(E o) {
+      return delegate().offerFirst(o);
+    }
+
+    @Override
+    public E remove() {
+      return delegate().removeLast();
+    }
+
+    @Override
+    public E poll() {
+      return delegate().pollLast();
+    }
+
+    @Override
+    public E element() {
+      return delegate().getLast();
+    }
+
+    @Override
+    public E peek() {
+      return delegate().peekLast();
+    }
+    
+    // Stack methods
+
+    @Override
+    public void push(E e) {
+      delegate().addLast(e);
+    }
+
+    @Override
+    public E pop() {
+      return delegate().removeLast();
+    }
+
+    @Override
+    public boolean removeFirstOccurrence(Object o) {
+      return delegate().removeLastOccurrence(o);
+    }
+
+    @Override
+    public boolean removeLastOccurrence(Object o) {
+      return delegate().removeFirstOccurrence(o);
+    }
+
+    @Override
+    public Iterator<E> iterator() {
+      return delegate().descendingIterator();
+    }
+
+    @Override
+    public Iterator<E> descendingIterator() {
+      return delegate().iterator();
+    }
+    
+    // Collection methods
+
+    @Override
+    public boolean addAll(Collection<? extends E> collection) {
+      boolean changed = false;
+      for(E element: collection) {
+        changed |= add(element);
+      }
+      return changed;
+    }
+
+    @Override
+    public boolean remove(Object object) {
+      return delegate().removeLastOccurrence(object);
+    }
+    
+    @Override
+    public String toString() {
+      return "Queues.reversedDeque("+deque+")";
+    }
+    
   }
 }
