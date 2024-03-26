@@ -125,7 +125,7 @@ class CompactLinkedHashMap<K extends @Nullable Object, V extends @Nullable Objec
 
   @Override
   Map<K, V> createHashFloodingResistantDelegate(int tableSize) {
-    return new LinkedHashMap<K, V>(tableSize, 1.0f, accessOrder);
+    return new LinkedHashMap<>(tableSize, 1.0f, accessOrder);
   }
 
   @Override

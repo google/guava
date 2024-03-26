@@ -683,7 +683,7 @@ public final class Maps {
 
     static <V extends @Nullable Object> ValueDifference<V> create(
         @ParametricNullness V left, @ParametricNullness V right) {
-      return new ValueDifferenceImpl<V>(left, right);
+      return new ValueDifferenceImpl<>(left, right);
     }
 
     private ValueDifferenceImpl(@ParametricNullness V left, @ParametricNullness V right) {

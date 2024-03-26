@@ -775,7 +775,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableMap<K, V>
                 Arrays.binarySearch((K[]) sortedKeys, (K) requireNonNull(keys[i]), comparator);
             sortedValues[index] = requireNonNull(values[i]);
           }
-          return new ImmutableSortedMap<K, V>(
+          return new ImmutableSortedMap<>(
               new RegularImmutableSortedSet<K>(
                   ImmutableList.<K>asImmutableList(sortedKeys), comparator),
               ImmutableList.<V>asImmutableList(sortedValues));

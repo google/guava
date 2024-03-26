@@ -90,7 +90,7 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
   public static <K, V> ImmutableBiMap<K, V> of(K k1, V v1, K k2, V v2) {
     checkEntryNotNull(k1, v1);
     checkEntryNotNull(k2, v2);
-    return new RegularImmutableBiMap<K, V>(new Object[] {k1, v1, k2, v2}, 2);
+    return new RegularImmutableBiMap<>(new Object[] {k1, v1, k2, v2}, 2);
   }
 
   /**
@@ -102,7 +102,7 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
     checkEntryNotNull(k1, v1);
     checkEntryNotNull(k2, v2);
     checkEntryNotNull(k3, v3);
-    return new RegularImmutableBiMap<K, V>(new Object[] {k1, v1, k2, v2, k3, v3}, 3);
+    return new RegularImmutableBiMap<>(new Object[] {k1, v1, k2, v2, k3, v3}, 3);
   }
 
   /**
@@ -115,7 +115,7 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
     checkEntryNotNull(k2, v2);
     checkEntryNotNull(k3, v3);
     checkEntryNotNull(k4, v4);
-    return new RegularImmutableBiMap<K, V>(new Object[] {k1, v1, k2, v2, k3, v3, k4, v4}, 4);
+    return new RegularImmutableBiMap<>(new Object[] {k1, v1, k2, v2, k3, v3, k4, v4}, 4);
   }
 
   /**
@@ -130,7 +130,7 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
     checkEntryNotNull(k3, v3);
     checkEntryNotNull(k4, v4);
     checkEntryNotNull(k5, v5);
-    return new RegularImmutableBiMap<K, V>(
+    return new RegularImmutableBiMap<>(
         new Object[] {k1, v1, k2, v2, k3, v3, k4, v4, k5, v5}, 5);
   }
 
@@ -148,7 +148,7 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
     checkEntryNotNull(k4, v4);
     checkEntryNotNull(k5, v5);
     checkEntryNotNull(k6, v6);
-    return new RegularImmutableBiMap<K, V>(
+    return new RegularImmutableBiMap<>(
         new Object[] {k1, v1, k2, v2, k3, v3, k4, v4, k5, v5, k6, v6}, 6);
   }
   /**
@@ -166,7 +166,7 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
     checkEntryNotNull(k5, v5);
     checkEntryNotNull(k6, v6);
     checkEntryNotNull(k7, v7);
-    return new RegularImmutableBiMap<K, V>(
+    return new RegularImmutableBiMap<>(
         new Object[] {k1, v1, k2, v2, k3, v3, k4, v4, k5, v5, k6, v6, k7, v7}, 7);
   }
   /**
@@ -200,7 +200,7 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
     checkEntryNotNull(k6, v6);
     checkEntryNotNull(k7, v7);
     checkEntryNotNull(k8, v8);
-    return new RegularImmutableBiMap<K, V>(
+    return new RegularImmutableBiMap<>(
         new Object[] {k1, v1, k2, v2, k3, v3, k4, v4, k5, v5, k6, v6, k7, v7, k8, v8}, 8);
   }
   /**
@@ -237,7 +237,7 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
     checkEntryNotNull(k7, v7);
     checkEntryNotNull(k8, v8);
     checkEntryNotNull(k9, v9);
-    return new RegularImmutableBiMap<K, V>(
+    return new RegularImmutableBiMap<>(
         new Object[] {k1, v1, k2, v2, k3, v3, k4, v4, k5, v5, k6, v6, k7, v7, k8, v8, k9, v9}, 9);
   }
   /**
@@ -277,7 +277,7 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
     checkEntryNotNull(k8, v8);
     checkEntryNotNull(k9, v9);
     checkEntryNotNull(k10, v10);
-    return new RegularImmutableBiMap<K, V>(
+    return new RegularImmutableBiMap<>(
         new Object[] {
           k1, v1, k2, v2, k3, v3, k4, v4, k5, v5, k6, v6, k7, v7, k8, v8, k9, v9, k10, v10
         },
@@ -477,7 +477,7 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
         sortEntries(alternatingKeysAndValues, size, valueComparator);
       }
       entriesUsed = true;
-      return new RegularImmutableBiMap<K, V>(alternatingKeysAndValues, size);
+      return new RegularImmutableBiMap<>(alternatingKeysAndValues, size);
     }
 
     /**

@@ -1223,7 +1223,7 @@ public final class Multimaps {
 
     @Override
     public Set<V> removeAll(@CheckForNull Object key) {
-      Set<V> values = new HashSet<V>(2);
+      Set<V> values = new HashSet<>(2);
       if (!map.containsKey(key)) {
         return values;
       }

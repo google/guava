@@ -139,7 +139,7 @@ public final class BloomFilter<T extends @Nullable Object> implements Predicate<
    * @since 12.0
    */
   public BloomFilter<T> copy() {
-    return new BloomFilter<T>(bits.copy(), numHashFunctions, funnel, strategy);
+    return new BloomFilter<>(bits.copy(), numHashFunctions, funnel, strategy);
   }
 
   /**
@@ -436,7 +436,7 @@ public final class BloomFilter<T extends @Nullable Object> implements Predicate<
     long numBits = optimalNumOfBits(expectedInsertions, fpp);
     int numHashFunctions = optimalNumOfHashFunctions(expectedInsertions, numBits);
     try {
-      return new BloomFilter<T>(new LockFreeBitArray(numBits), numHashFunctions, funnel, strategy);
+      return new BloomFilter<>(new LockFreeBitArray(numBits), numHashFunctions, funnel, strategy);
     } catch (IllegalArgumentException e) {
       throw new IllegalArgumentException("Could not create BloomFilter of " + numBits + " bits", e);
     }
@@ -621,7 +621,7 @@ public final class BloomFilter<T extends @Nullable Object> implements Predicate<
         dataArray.putData(i, din.readLong());
       }
 
-      return new BloomFilter<T>(dataArray, numHashFunctions, funnel, strategy);
+      return new BloomFilter<>(dataArray, numHashFunctions, funnel, strategy);
     } catch (IOException e) {
       throw e;
     } catch (Exception e) { // sneaky checked exception

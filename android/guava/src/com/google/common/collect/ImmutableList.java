@@ -359,7 +359,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
     if (length == 0) {
       return of();
     }
-    return new RegularImmutableList<E>(elements, length);
+    return new RegularImmutableList<>(elements, length);
   }
 
   ImmutableList() {}
@@ -383,13 +383,13 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
     if (isEmpty()) {
       return (UnmodifiableListIterator<E>) EMPTY_ITR;
     } else {
-      return new Itr<E>(this, index);
+      return new Itr<>(this, index);
     }
   }
 
   /** A singleton implementation of iterator() for the empty ImmutableList. */
   private static final UnmodifiableListIterator<Object> EMPTY_ITR =
-      new Itr<Object>(RegularImmutableList.EMPTY, 0);
+      new Itr<>(RegularImmutableList.EMPTY, 0);
 
   static class Itr<E> extends AbstractIndexedListIterator<E> {
     private final ImmutableList<E> list;
@@ -724,7 +724,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    * Builder} constructor.
    */
   public static <E> Builder<E> builder() {
-    return new Builder<E>();
+    return new Builder<>();
   }
 
   /**
@@ -741,7 +741,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    */
   public static <E> Builder<E> builderWithExpectedSize(int expectedSize) {
     checkNonnegative(expectedSize, "expectedSize");
-    return new ImmutableList.Builder<E>(expectedSize);
+    return new ImmutableList.Builder<>(expectedSize);
   }
 
   /**

@@ -109,7 +109,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
       // requireNonNull is safe because the first `2*n` elements have been filled in.
       checkEntryNotNull(
           requireNonNull(alternatingKeysAndValues[0]), requireNonNull(alternatingKeysAndValues[1]));
-      return new RegularImmutableMap<K, V>(null, alternatingKeysAndValues, 1);
+      return new RegularImmutableMap<>(null, alternatingKeysAndValues, 1);
     }
     checkPositionIndex(n, alternatingKeysAndValues.length >> 1);
     int tableSize = ImmutableSet.chooseTableSize(n);
@@ -133,7 +133,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
     } else {
       hashTable = hashTablePlus;
     }
-    return new RegularImmutableMap<K, V>(hashTable, alternatingKeysAndValues, n);
+    return new RegularImmutableMap<>(hashTable, alternatingKeysAndValues, n);
   }
 
   /**
@@ -424,7 +424,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
           K key = (K) requireNonNull(alternatingKeysAndValues[2 * index + keyOffset]);
           @SuppressWarnings("unchecked")
           V value = (V) requireNonNull(alternatingKeysAndValues[2 * index + (keyOffset ^ 1)]);
-          return new AbstractMap.SimpleImmutableEntry<K, V>(key, value);
+          return new AbstractMap.SimpleImmutableEntry<>(key, value);
         }
 
         @Override
@@ -483,7 +483,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
     @SuppressWarnings("unchecked")
     ImmutableList<K> keyList =
         (ImmutableList<K>) new KeysOrValuesAsList(alternatingKeysAndValues, 0, size);
-    return new KeySet<K>(this, keyList);
+    return new KeySet<>(this, keyList);
   }
 
   static final class KeysOrValuesAsList extends ImmutableList<Object> {

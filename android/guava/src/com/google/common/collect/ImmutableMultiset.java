@@ -187,7 +187,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
       }
     }
     ImmutableMultiset.Builder<E> builder =
-        new ImmutableMultiset.Builder<E>(Multisets.inferDistinctElements(elements));
+        new ImmutableMultiset.Builder<>(Multisets.inferDistinctElements(elements));
     builder.addAll(elements);
     return builder.build();
   }
@@ -208,7 +208,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
 
   static <E> ImmutableMultiset<E> copyFromEntries(
       Collection<? extends Entry<? extends E>> entries) {
-    ImmutableMultiset.Builder<E> builder = new ImmutableMultiset.Builder<E>(entries.size());
+    ImmutableMultiset.Builder<E> builder = new ImmutableMultiset.Builder<>(entries.size());
     for (Entry<? extends E> entry : entries) {
       builder.addCopies(entry.getElement(), entry.getCount());
     }
@@ -439,7 +439,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
    * Builder} constructor.
    */
   public static <E> Builder<E> builder() {
-    return new Builder<E>();
+    return new Builder<>();
   }
 
   /**
@@ -543,7 +543,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
         return this;
       }
       if (buildInvoked) {
-        contents = new ObjectCountHashMap<E>(contents);
+        contents = new ObjectCountHashMap<>(contents);
         isLinkedHash = false;
       }
       buildInvoked = false;
@@ -566,12 +566,12 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
     public Builder<E> setCount(E element, int count) {
       requireNonNull(contents); // see the comment on the field
       if (count == 0 && !isLinkedHash) {
-        contents = new ObjectCountLinkedHashMap<E>(contents);
+        contents = new ObjectCountLinkedHashMap<>(contents);
         isLinkedHash = true;
         // to preserve insertion order through deletions, we have to switch to an actual linked
         // implementation at least for now, but this should be a super rare case
       } else if (buildInvoked) {
-        contents = new ObjectCountHashMap<E>(contents);
+        contents = new ObjectCountHashMap<>(contents);
         isLinkedHash = false;
       }
       buildInvoked = false;
@@ -659,12 +659,12 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
       if (isLinkedHash) {
         // we need ObjectCountHashMap-backed contents, with its keys and values array in direct
         // insertion order
-        contents = new ObjectCountHashMap<E>(contents);
+        contents = new ObjectCountHashMap<>(contents);
         isLinkedHash = false;
       }
       buildInvoked = true;
       // contents is now ObjectCountHashMap, but still guaranteed to be in insertion order!
-      return new RegularImmutableMultiset<E>(contents);
+      return new RegularImmutableMultiset<>(contents);
     }
   }
 

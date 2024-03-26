@@ -116,7 +116,7 @@ final class RegularImmutableSortedMultiset<E> extends ImmutableSortedMultiset<E>
       return this;
     } else {
       RegularImmutableSortedSet<E> subElementSet = elementSet.getSubSet(from, to);
-      return new RegularImmutableSortedMultiset<E>(
+      return new RegularImmutableSortedMultiset<>(
           subElementSet, cumulativeCounts, offset + from, to - from);
     }
   }
