@@ -587,7 +587,7 @@ public class TestsForMapsInJavaUtil {
   }
 
   static <T> Comparator<T> arbitraryNullFriendlyComparator() {
-    return new NullFriendlyComparator<T>();
+    return new NullFriendlyComparator<>();
   }
 
   private static final class NullFriendlyComparator<T> implements Comparator<T>, Serializable {

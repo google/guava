@@ -51,7 +51,7 @@ public final class EnumMultiset<E extends Enum<E>> extends AbstractMultiset<E>
     implements Serializable {
   /** Creates an empty {@code EnumMultiset}. */
   public static <E extends Enum<E>> EnumMultiset<E> create(Class<E> type) {
-    return new EnumMultiset<E>(type);
+    return new EnumMultiset<>(type);
   }
 
   /**

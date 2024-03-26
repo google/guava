@@ -671,7 +671,7 @@ public final class MoreExecutors {
         Callable<V> callable, long delay, TimeUnit unit) {
       TrustedListenableFutureTask<V> task = TrustedListenableFutureTask.create(callable);
       ScheduledFuture<?> scheduled = delegate.schedule(task, delay, unit);
-      return new ListenableScheduledTask<V>(task, scheduled);
+      return new ListenableScheduledTask<>(task, scheduled);
     }
 
     @Override

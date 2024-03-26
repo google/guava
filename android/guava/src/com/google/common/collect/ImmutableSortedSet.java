@@ -84,7 +84,7 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSet<E>
           (RegularImmutableSortedSet<E>) RegularImmutableSortedSet.NATURAL_EMPTY_SET;
       return result;
     } else {
-      return new RegularImmutableSortedSet<E>(ImmutableList.<E>of(), comparator);
+      return new RegularImmutableSortedSet<>(ImmutableList.<E>of(), comparator);
     }
   }
 
@@ -100,7 +100,7 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSet<E>
 
   /** Returns an immutable sorted set containing a single element. */
   public static <E extends Comparable<? super E>> ImmutableSortedSet<E> of(E element) {
-    return new RegularImmutableSortedSet<E>(ImmutableList.of(element), Ordering.natural());
+    return new RegularImmutableSortedSet<>(ImmutableList.of(element), Ordering.natural());
   }
 
   /**
@@ -344,7 +344,7 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSet<E>
     if (list.isEmpty()) {
       return emptySet(comparator);
     } else {
-      return new RegularImmutableSortedSet<E>(list, comparator);
+      return new RegularImmutableSortedSet<>(list, comparator);
     }
   }
 
@@ -380,7 +380,7 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSet<E>
       // large array relative to the number of elements, so we cap the ratio.
       contents = Arrays.copyOf(contents, uniques);
     }
-    return new RegularImmutableSortedSet<E>(
+    return new RegularImmutableSortedSet<>(
         ImmutableList.<E>asImmutableList(contents, uniques), comparator);
   }
 
@@ -393,7 +393,7 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSet<E>
    * @throws NullPointerException if {@code comparator} is null
    */
   public static <E> Builder<E> orderedBy(Comparator<E> comparator) {
-    return new Builder<E>(comparator);
+    return new Builder<>(comparator);
   }
 
   /**
@@ -401,7 +401,7 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSet<E>
    * of their natural ordering.
    */
   public static <E extends Comparable<?>> Builder<E> reverseOrder() {
-    return new Builder<E>(Collections.reverseOrder());
+    return new Builder<>(Collections.reverseOrder());
   }
 
   /**
@@ -411,7 +411,7 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSet<E>
    * implement {@link Comparable}.
    */
   public static <E extends Comparable<?>> Builder<E> naturalOrder() {
-    return new Builder<E>(Ordering.natural());
+    return new Builder<>(Ordering.natural());
   }
 
   /**

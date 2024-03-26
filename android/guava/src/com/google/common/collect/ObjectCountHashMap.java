@@ -44,7 +44,7 @@ class ObjectCountHashMap<K extends @Nullable Object> {
 
   /** Creates an empty {@code ObjectCountHashMap} instance. */
   static <K extends @Nullable Object> ObjectCountHashMap<K> create() {
-    return new ObjectCountHashMap<K>();
+    return new ObjectCountHashMap<>();
   }
 
   /**
@@ -58,7 +58,7 @@ class ObjectCountHashMap<K extends @Nullable Object> {
    */
   static <K extends @Nullable Object> ObjectCountHashMap<K> createWithExpectedSize(
       int expectedSize) {
-    return new ObjectCountHashMap<K>(expectedSize);
+    return new ObjectCountHashMap<>(expectedSize);
   }
 
   private static final int MAXIMUM_CAPACITY = 1 << 30;

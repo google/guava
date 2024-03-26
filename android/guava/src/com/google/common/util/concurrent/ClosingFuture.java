@@ -406,7 +406,7 @@ public final class ClosingFuture<V extends @Nullable Object> {
    * when the pipeline is done, use {@link #submit(ClosingCallable, Executor)} instead.
    */
   public static <V extends @Nullable Object> ClosingFuture<V> from(ListenableFuture<V> future) {
-    return new ClosingFuture<V>(future);
+    return new ClosingFuture<>(future);
   }
 
   /**

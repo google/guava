@@ -89,7 +89,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    * type conveys the immutability guarantee.
    */
   public static <E> ImmutableSet<E> of(E element) {
-    return new SingletonImmutableSet<E>(element);
+    return new SingletonImmutableSet<>(element);
   }
 
   /*
@@ -148,7 +148,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
   public static <E> ImmutableSet<E> of(E e1, E e2, E e3, E e4, E e5, E e6, E... others) {
     checkArgument(
         others.length <= Integer.MAX_VALUE - 6, "the total number of elements must fit in an int");
-    SetBuilderImpl<E> builder = new RegularSetBuilderImpl<E>(6 + others.length);
+    SetBuilderImpl<E> builder = new RegularSetBuilderImpl<>(6 + others.length);
     builder = builder.add(e1).add(e2).add(e3).add(e4).add(e5).add(e6);
     for (int i = 0; i < others.length; i++) {
       builder = builder.add(others[i]);
@@ -262,7 +262,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
       case 1:
         return of(elements[0]);
       default:
-        SetBuilderImpl<E> builder = new RegularSetBuilderImpl<E>(expectedSize);
+        SetBuilderImpl<E> builder = new RegularSetBuilderImpl<>(expectedSize);
         for (int i = 0; i < elements.length; i++) {
           builder = builder.add(elements[i]);
         }
@@ -321,7 +321,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
     }
 
     ImmutableList<E> createAsList() {
-      return new RegularImmutableAsList<E>(this, toArray());
+      return new RegularImmutableAsList<>(this, toArray());
     }
 
     // redeclare to help optimizers with b/310253115
@@ -433,7 +433,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    * Builder} constructor.
    */
   public static <E> Builder<E> builder() {
-    return new Builder<E>();
+    return new Builder<>();
   }
 
   /**
@@ -450,7 +450,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    */
   public static <E> Builder<E> builderWithExpectedSize(int expectedSize) {
     checkNonnegative(expectedSize, "expectedSize");
-    return new Builder<E>(expectedSize);
+    return new Builder<>(expectedSize);
   }
 
   /**
@@ -486,7 +486,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
 
     Builder(int capacity) {
       if (capacity > 0) {
-        impl = new RegularSetBuilderImpl<E>(capacity);
+        impl = new RegularSetBuilderImpl<>(capacity);
       } else {
         impl = EmptySetBuilderImpl.instance();
       }
@@ -499,7 +499,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
     @VisibleForTesting
     void forceJdk() {
       requireNonNull(impl); // see the comment on the field
-      this.impl = new JdkBackedSetBuilderImpl<E>(impl);
+      this.impl = new JdkBackedSetBuilderImpl<>(impl);
     }
 
     final void copyIfNecessary() {
@@ -783,7 +783,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
 
     @Override
     SetBuilderImpl<E> copy() {
-      return new RegularSetBuilderImpl<E>(this);
+      return new RegularSetBuilderImpl<>(this);
     }
 
     @Override
@@ -821,7 +821,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
               (distinct == dedupedElements.length)
                   ? dedupedElements
                   : Arrays.copyOf(dedupedElements, distinct);
-          return new RegularImmutableSet<E>(
+          return new RegularImmutableSet<>(
               elements, hashCode, requireNonNull(hashTable), hashTable.length - 1);
       }
     }
@@ -980,7 +980,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
            */
           return of(requireNonNull(dedupedElements[0]));
         default:
-          return new JdkBackedImmutableSet<E>(
+          return new JdkBackedImmutableSet<>(
               delegate, ImmutableList.asImmutableList(dedupedElements, distinct));
       }
     }

@@ -88,7 +88,7 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
     }
     Map<Range<K>, ? extends V> map = rangeMap.asMapOfRanges();
     ImmutableList.Builder<Range<K>> rangesBuilder = new ImmutableList.Builder<>(map.size());
-    ImmutableList.Builder<V> valuesBuilder = new ImmutableList.Builder<V>(map.size());
+    ImmutableList.Builder<V> valuesBuilder = new ImmutableList.Builder<>(map.size());
     for (Entry<Range<K>, ? extends V> entry : map.entrySet()) {
       rangesBuilder.add(entry.getKey());
       valuesBuilder.add(entry.getValue());
@@ -152,7 +152,7 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
     public ImmutableRangeMap<K, V> build() {
       Collections.sort(entries, Range.<K>rangeLexOrdering().onKeys());
       ImmutableList.Builder<Range<K>> rangesBuilder = new ImmutableList.Builder<>(entries.size());
-      ImmutableList.Builder<V> valuesBuilder = new ImmutableList.Builder<V>(entries.size());
+      ImmutableList.Builder<V> valuesBuilder = new ImmutableList.Builder<>(entries.size());
       for (int i = 0; i < entries.size(); i++) {
         Range<K> range = entries.get(i).getKey();
         if (i > 0) {

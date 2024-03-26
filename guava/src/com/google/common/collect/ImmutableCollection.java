@@ -368,7 +368,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
       case 1:
         return ImmutableList.of(iterator().next());
       default:
-        return new RegularImmutableAsList<E>(this, toArray());
+        return new RegularImmutableAsList<>(this, toArray());
     }
   }
 

@@ -130,7 +130,7 @@ class RegularImmutableMultiset<E> extends ImmutableMultiset<E> {
 
     Object readResolve() {
       ImmutableMultiset.Builder<Object> builder =
-          new ImmutableMultiset.Builder<Object>(elements.length);
+          new ImmutableMultiset.Builder<>(elements.length);
       for (int i = 0; i < elements.length; i++) {
         builder.addCopies(elements[i], counts[i]);
       }

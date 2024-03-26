@@ -106,7 +106,7 @@ public final class Predicates {
    */
   @SafeVarargs
   public static <T extends @Nullable Object> Predicate<T> and(Predicate<? super T>... components) {
-    return new AndPredicate<T>(defensiveCopy(components));
+    return new AndPredicate<>(defensiveCopy(components));
   }
 
   /**
@@ -140,7 +140,7 @@ public final class Predicates {
    */
   @SafeVarargs
   public static <T extends @Nullable Object> Predicate<T> or(Predicate<? super T>... components) {
-    return new OrPredicate<T>(defensiveCopy(components));
+    return new OrPredicate<>(defensiveCopy(components));
   }
 
   /**

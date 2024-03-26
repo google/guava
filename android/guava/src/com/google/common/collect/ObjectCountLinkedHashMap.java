@@ -32,7 +32,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 class ObjectCountLinkedHashMap<K extends @Nullable Object> extends ObjectCountHashMap<K> {
   /** Creates an empty {@code ObjectCountLinkedHashMap} instance. */
   static <K extends @Nullable Object> ObjectCountLinkedHashMap<K> create() {
-    return new ObjectCountLinkedHashMap<K>();
+    return new ObjectCountLinkedHashMap<>();
   }
 
   /**
@@ -46,7 +46,7 @@ class ObjectCountLinkedHashMap<K extends @Nullable Object> extends ObjectCountHa
    */
   static <K extends @Nullable Object> ObjectCountLinkedHashMap<K> createWithExpectedSize(
       int expectedSize) {
-    return new ObjectCountLinkedHashMap<K>(expectedSize);
+    return new ObjectCountLinkedHashMap<>(expectedSize);
   }
 
   private static final int ENDPOINT = -2;

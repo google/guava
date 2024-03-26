@@ -98,7 +98,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    * @throws NullPointerException if {@code element} is null
    */
   public static <E> ImmutableList<E> of(E element) {
-    return new SingletonImmutableList<E>(element);
+    return new SingletonImmutableList<>(element);
   }
 
   /**
@@ -387,7 +387,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
         @SuppressWarnings("nullness")
         Object[] elementsWithoutTrailingNulls =
             length < elements.length ? Arrays.copyOf(elements, length) : elements;
-        return new RegularImmutableList<E>(elementsWithoutTrailingNulls);
+        return new RegularImmutableList<>(elementsWithoutTrailingNulls);
     }
   }
 
@@ -759,7 +759,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    * Builder} constructor.
    */
   public static <E> Builder<E> builder() {
-    return new Builder<E>();
+    return new Builder<>();
   }
 
   /**
@@ -776,7 +776,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    */
   public static <E> Builder<E> builderWithExpectedSize(int expectedSize) {
     checkNonnegative(expectedSize, "expectedSize");
-    return new ImmutableList.Builder<E>(expectedSize);
+    return new ImmutableList.Builder<>(expectedSize);
   }
 
   /**

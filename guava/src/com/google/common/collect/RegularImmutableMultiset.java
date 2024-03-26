@@ -73,7 +73,7 @@ class RegularImmutableMultiset<E> extends ImmutableMultiset<E> {
         newEntry =
             canReuseEntry ? (ImmutableEntry<E>) entry : new ImmutableEntry<E>(element, count);
       } else {
-        newEntry = new NonTerminalEntry<E>(element, count, bucketHead);
+        newEntry = new NonTerminalEntry<>(element, count, bucketHead);
       }
       hashCode += hash ^ count;
       entryArray[index++] = newEntry;
@@ -184,7 +184,7 @@ class RegularImmutableMultiset<E> extends ImmutableMultiset<E> {
   @Override
   public ImmutableSet<E> elementSet() {
     ImmutableSet<E> result = elementSet;
-    return (result == null) ? elementSet = new ElementSet<E>(Arrays.asList(entries), this) : result;
+    return (result == null) ? elementSet = new ElementSet<>(Arrays.asList(entries), this) : result;
   }
 
   @Override

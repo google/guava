@@ -651,7 +651,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
         Object key = requireNonNull(alternatingKeysAndValues[2 * i]);
         @SuppressWarnings("unchecked")
         V value = (V) requireNonNull(alternatingKeysAndValues[2 * i + 1]);
-        entries[i] = new AbstractMap.SimpleImmutableEntry<Object, V>(key, value);
+        entries[i] = new AbstractMap.SimpleImmutableEntry<>(key, value);
       }
       Arrays.sort(
           entries, 0, size, Ordering.from(valueComparator).onResultOf(Maps.<V>valueFunction()));
@@ -743,7 +743,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
         (entries instanceof Collection)
             ? ((Collection<?>) entries).size()
             : ImmutableCollection.Builder.DEFAULT_INITIAL_CAPACITY;
-    ImmutableMap.Builder<K, V> builder = new ImmutableMap.Builder<K, V>(initialCapacity);
+    ImmutableMap.Builder<K, V> builder = new ImmutableMap.Builder<>(initialCapacity);
     builder.putAll(entries);
     return builder.build();
   }

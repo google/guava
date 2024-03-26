@@ -82,7 +82,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    * type conveys the immutability guarantee.
    */
   public static <E> ImmutableSet<E> of(E element) {
-    return new SingletonImmutableSet<E>(element);
+    return new SingletonImmutableSet<>(element);
   }
 
   /**
@@ -199,7 +199,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
       @SuppressWarnings("unchecked") // we are careful to only pass in E
       // requireNonNull is safe because the first `uniques` elements are non-null.
       E element = (E) requireNonNull(elements[0]);
-      return new SingletonImmutableSet<E>(element);
+      return new SingletonImmutableSet<>(element);
     } else if (chooseTableSize(uniques) < tableSize / 2) {
       // Resize the table when the array includes too many duplicates.
       return construct(uniques, elements);
@@ -207,7 +207,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
       @Nullable
       Object[] uniqueElements =
           shouldTrim(uniques, elements.length) ? Arrays.copyOf(elements, uniques) : elements;
-      return new RegularImmutableSet<E>(uniqueElements, hashCode, table, mask, uniques);
+      return new RegularImmutableSet<>(uniqueElements, hashCode, table, mask, uniques);
     }
   }
 
@@ -417,7 +417,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    * Builder} constructor.
    */
   public static <E> Builder<E> builder() {
-    return new Builder<E>();
+    return new Builder<>();
   }
 
   /**
@@ -434,7 +434,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    */
   public static <E> Builder<E> builderWithExpectedSize(int expectedSize) {
     checkNonnegative(expectedSize, "expectedSize");
-    return new Builder<E>(expectedSize);
+    return new Builder<>(expectedSize);
   }
 
   /**
@@ -610,7 +610,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
             Object[] uniqueElements =
                 shouldTrim(size, contents.length) ? Arrays.copyOf(contents, size) : contents;
             result =
-                new RegularImmutableSet<E>(
+                new RegularImmutableSet<>(
                     uniqueElements, hashCode, hashTable, hashTable.length - 1, size);
           } else {
             result = construct(size, contents);

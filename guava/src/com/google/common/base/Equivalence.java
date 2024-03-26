@@ -287,7 +287,7 @@ public abstract class Equivalence<T> implements BiPredicate<@Nullable T, @Nullab
    * @since 10.0
    */
   public final Predicate<@Nullable T> equivalentTo(@CheckForNull T target) {
-    return new EquivalentToPredicate<T>(this, target);
+    return new EquivalentToPredicate<>(this, target);
   }
 
   private static final class EquivalentToPredicate<T>

@@ -58,7 +58,7 @@ public final class MutableClassToInstanceMap<B extends @Nullable Object>
    * default initial capacity and load factor.
    */
   public static <B extends @Nullable Object> MutableClassToInstanceMap<B> create() {
-    return new MutableClassToInstanceMap<B>(new HashMap<Class<? extends @NonNull B>, B>());
+    return new MutableClassToInstanceMap<>(new HashMap<Class<? extends @NonNull B>, B>());
   }
 
   /**
@@ -68,7 +68,7 @@ public final class MutableClassToInstanceMap<B extends @Nullable Object>
    */
   public static <B extends @Nullable Object> MutableClassToInstanceMap<B> create(
       Map<Class<? extends @NonNull B>, B> backingMap) {
-    return new MutableClassToInstanceMap<B>(backingMap);
+    return new MutableClassToInstanceMap<>(backingMap);
   }
 
   private final Map<Class<? extends @NonNull B>, B> delegate;

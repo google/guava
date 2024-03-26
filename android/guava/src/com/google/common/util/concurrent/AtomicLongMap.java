@@ -68,7 +68,7 @@ public final class AtomicLongMap<K> implements Serializable {
 
   /** Creates an {@code AtomicLongMap}. */
   public static <K> AtomicLongMap<K> create() {
-    return new AtomicLongMap<K>(new ConcurrentHashMap<K, AtomicLong>());
+    return new AtomicLongMap<>(new ConcurrentHashMap<K, AtomicLong>());
   }
 
   /** Creates an {@code AtomicLongMap} with the same mappings as the specified {@code Map}. */

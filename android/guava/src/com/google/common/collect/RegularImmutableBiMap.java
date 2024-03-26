@@ -61,7 +61,7 @@ final class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
     Object valueHashTable =
         RegularImmutableMap.createHashTableOrThrow(alternatingKeysAndValues, size, tableSize, 1);
     this.inverse =
-        new RegularImmutableBiMap<V, K>(valueHashTable, alternatingKeysAndValues, size, this);
+        new RegularImmutableBiMap<>(valueHashTable, alternatingKeysAndValues, size, this);
   }
 
   /** V-to-K constructor. */

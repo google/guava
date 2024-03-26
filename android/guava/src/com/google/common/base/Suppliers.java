@@ -265,7 +265,7 @@ public final class Suppliers {
     // The alternative of `duration.compareTo(Duration.ZERO) > 0` causes J2ObjC trouble.
     checkArgument(
         !duration.isNegative() && !duration.isZero(), "duration (%s) must be > 0", duration);
-    return new ExpiringMemoizingSupplier<T>(delegate, toNanosSaturated(duration));
+    return new ExpiringMemoizingSupplier<>(delegate, toNanosSaturated(duration));
   }
 
   @VisibleForTesting
