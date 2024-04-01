@@ -268,8 +268,6 @@ public final class Multimaps {
     }
 
     @Override
-    // https://github.com/typetools/checker-framework/issues/3022
-    @SuppressWarnings("argument.type.incompatible")
     Collection<V> wrapCollection(K key, Collection<V> collection) {
       if (collection instanceof List) {
         return wrapList(key, (List<V>) collection, null);

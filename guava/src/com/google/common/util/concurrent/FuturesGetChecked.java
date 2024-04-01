@@ -192,9 +192,7 @@ final class FuturesGetChecked {
       try {
         Class<?> theClass = Class.forName(CLASS_VALUE_VALIDATOR_NAME);
         // requireNonNull is safe because the class is an enum.
-        // Inlining this causes a crash: https://github.com/typetools/checker-framework/issues/3020
-        Object[] constants = requireNonNull(theClass.getEnumConstants());
-        return (GetCheckedTypeValidator) constants[0];
+        return (GetCheckedTypeValidator) requireNonNull(theClass.getEnumConstants())[0];
       } catch (Throwable t) { // ensure we really catch *everything*
         return weakSetValidator();
       }

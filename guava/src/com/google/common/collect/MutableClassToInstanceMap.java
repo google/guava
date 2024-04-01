@@ -82,27 +82,17 @@ public final class MutableClassToInstanceMap<B extends @NonNull Object>
    */
   private static <B extends @NonNull Object> Entry<Class<? extends B>, @Nullable B> checkedEntry(
       Entry<Class<? extends B>, @Nullable B> entry) {
-    return new CheckedEntry<>(entry);
-  }
+    return new ForwardingMapEntry<Class<? extends B>, @Nullable B>() {
+      @Override
+      protected Entry<Class<? extends B>, @Nullable B> delegate() {
+        return entry;
+      }
 
-  // Not an anonymous class to avoid https://github.com/typetools/checker-framework/issues/3021
-  private static final class CheckedEntry<B extends @NonNull Object>
-      extends ForwardingMapEntry<Class<? extends B>, @Nullable B> {
-    private final Entry<Class<? extends B>, @Nullable B> entry;
-
-    CheckedEntry(Entry<Class<? extends B>, @Nullable B> entry) {
-      this.entry = entry;
-    }
-
-    @Override
-    protected Entry<Class<? extends B>, @Nullable B> delegate() {
-      return entry;
-    }
-
-    @Override
-    public @Nullable B setValue(@Nullable B value) {
-      return super.setValue(cast(getKey(), value));
-    }
+      @Override
+      public @Nullable B setValue(@Nullable B value) {
+        return super.setValue(cast(getKey(), value));
+      }
+    };
   }
 
   @Override
