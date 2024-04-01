@@ -224,7 +224,7 @@ public abstract class Ordering<T extends @Nullable Object> implements Comparator
   // TODO(kevinb): provide replacement
   @GwtCompatible(serializable = true)
   public static <T> Ordering<T> explicit(List<T> valuesInOrder) {
-    return new ExplicitOrdering<T>(valuesInOrder);
+    return new ExplicitOrdering<>(valuesInOrder);
   }
 
   /**
@@ -411,7 +411,7 @@ public abstract class Ordering<T extends @Nullable Object> implements Comparator
   // Ordering<String> o = Ordering.<String>natural().reverse();
   @GwtCompatible(serializable = true)
   public <S extends T> Ordering<S> reverse() {
-    return new ReverseOrdering<S>(this);
+    return new ReverseOrdering<>(this);
   }
 
   /**
@@ -484,7 +484,7 @@ public abstract class Ordering<T extends @Nullable Object> implements Comparator
    */
   @GwtCompatible(serializable = true)
   public <U extends T> Ordering<U> compound(Comparator<? super U> secondaryComparator) {
-    return new CompoundOrdering<U>(this, checkNotNull(secondaryComparator));
+    return new CompoundOrdering<>(this, checkNotNull(secondaryComparator));
   }
 
   /**
@@ -511,7 +511,7 @@ public abstract class Ordering<T extends @Nullable Object> implements Comparator
   @GwtCompatible(serializable = true)
   public static <T extends @Nullable Object> Ordering<T> compound(
       Iterable<? extends Comparator<? super T>> comparators) {
-    return new CompoundOrdering<T>(comparators);
+    return new CompoundOrdering<>(comparators);
   }
 
   /**

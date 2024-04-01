@@ -358,7 +358,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
    * @since 2.0
    */
   public ImmutableList<E> asList() {
-    return isEmpty() ? ImmutableList.<E>of() : ImmutableList.<E>asImmutableList(toArray());
+    return isEmpty() ? ImmutableList.of() : ImmutableList.asImmutableList(toArray());
   }
 
   /**

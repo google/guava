@@ -166,7 +166,7 @@ public final class Graphs extends GraphsBridgeMethods {
     } else {
       // An optimization for the undirected case: for every node B reachable from node A,
       // node A and node B have the same reachability set.
-      Set<N> visitedNodes = new HashSet<N>();
+      Set<N> visitedNodes = new HashSet<>();
       for (N node : graph.nodes()) {
         if (!visitedNodes.contains(node)) {
           Set<N> reachableNodes = reachableNodes(graph, node);
@@ -218,7 +218,7 @@ public final class Graphs extends GraphsBridgeMethods {
       return ((TransposedGraph<N>) graph).graph;
     }
 
-    return new TransposedGraph<N>(graph);
+    return new TransposedGraph<>(graph);
   }
 
   /**

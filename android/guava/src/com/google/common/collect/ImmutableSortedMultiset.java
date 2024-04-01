@@ -137,7 +137,7 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableMultiset<E>
     RegularImmutableSortedSet<E> elementSet =
         (RegularImmutableSortedSet<E>) ImmutableSortedSet.of(element);
     long[] cumulativeCounts = {0, 1};
-    return new RegularImmutableSortedMultiset<E>(elementSet, cumulativeCounts, 0, 1);
+    return new RegularImmutableSortedMultiset<>(elementSet, cumulativeCounts, 0, 1);
   }
 
   /**
@@ -316,7 +316,7 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableMultiset<E>
     if (entries.isEmpty()) {
       return emptyMultiset(comparator);
     }
-    ImmutableList.Builder<E> elementsBuilder = new ImmutableList.Builder<E>(entries.size());
+    ImmutableList.Builder<E> elementsBuilder = new ImmutableList.Builder<>(entries.size());
     long[] cumulativeCounts = new long[entries.size() + 1];
     int i = 0;
     for (Entry<E> entry : entries) {
@@ -324,7 +324,7 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableMultiset<E>
       cumulativeCounts[i + 1] = cumulativeCounts[i] + entry.getCount();
       i++;
     }
-    return new RegularImmutableSortedMultiset<E>(
+    return new RegularImmutableSortedMultiset<>(
         new RegularImmutableSortedSet<E>(elementsBuilder.build(), comparator),
         cumulativeCounts,
         0,
@@ -336,7 +336,7 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableMultiset<E>
     if (Ordering.natural().equals(comparator)) {
       return (ImmutableSortedMultiset<E>) RegularImmutableSortedMultiset.NATURAL_EMPTY_MULTISET;
     } else {
-      return new RegularImmutableSortedMultiset<E>(comparator);
+      return new RegularImmutableSortedMultiset<>(comparator);
     }
   }
 
@@ -424,7 +424,7 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableMultiset<E>
    * @throws NullPointerException if {@code comparator} is null
    */
   public static <E> Builder<E> orderedBy(Comparator<E> comparator) {
-    return new Builder<E>(comparator);
+    return new Builder<>(comparator);
   }
 
   /**
@@ -436,7 +436,7 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableMultiset<E>
    * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6468354">bug 6468354</a>.
    */
   public static <E extends Comparable<?>> Builder<E> reverseOrder() {
-    return new Builder<E>(Ordering.<E>natural().reverse());
+    return new Builder<>(Ordering.<E>natural().reverse());
   }
 
   /**
@@ -450,7 +450,7 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableMultiset<E>
    * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6468354">bug 6468354</a>.
    */
   public static <E extends Comparable<?>> Builder<E> naturalOrder() {
-    return new Builder<E>(Ordering.natural());
+    return new Builder<>(Ordering.natural());
   }
 
   /**

@@ -439,7 +439,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
    * Builder} constructor.
    */
   public static <E> Builder<E> builder() {
-    return new Builder<E>();
+    return new Builder<>();
   }
 
   /**

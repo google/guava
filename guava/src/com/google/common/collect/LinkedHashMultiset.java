@@ -46,7 +46,7 @@ public final class LinkedHashMultiset<E extends @Nullable Object>
 
   /** Creates a new, empty {@code LinkedHashMultiset} using the default initial capacity. */
   public static <E extends @Nullable Object> LinkedHashMultiset<E> create() {
-    return new LinkedHashMultiset<E>();
+    return new LinkedHashMultiset<>();
   }
 
   /**
@@ -57,7 +57,7 @@ public final class LinkedHashMultiset<E extends @Nullable Object>
    * @throws IllegalArgumentException if {@code distinctElements} is negative
    */
   public static <E extends @Nullable Object> LinkedHashMultiset<E> create(int distinctElements) {
-    return new LinkedHashMultiset<E>(distinctElements);
+    return new LinkedHashMultiset<>(distinctElements);
   }
 
   /**

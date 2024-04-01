@@ -82,7 +82,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    * type conveys the immutability guarantee.
    */
   public static <E> ImmutableSet<E> of(E element) {
-    return new SingletonImmutableSet<E>(element);
+    return new SingletonImmutableSet<>(element);
   }
 
   /**
@@ -417,7 +417,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    * Builder} constructor.
    */
   public static <E> Builder<E> builder() {
-    return new Builder<E>();
+    return new Builder<>();
   }
 
   /**
@@ -434,7 +434,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    */
   public static <E> Builder<E> builderWithExpectedSize(int expectedSize) {
     checkNonnegative(expectedSize, "expectedSize");
-    return new Builder<E>(expectedSize);
+    return new Builder<>(expectedSize);
   }
 
   /**

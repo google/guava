@@ -137,12 +137,14 @@ abstract class AbstractIteratorTester<E extends @Nullable Object, I extends Iter
      * The elements to be returned by future calls to {@code next()}, with the first at the top of
      * the stack.
      */
-    final Stack<E> nextElements = new Stack<E>();
+    final Stack<E> nextElements = new Stack<>();
+
     /**
      * The elements to be returned by future calls to {@code previous()}, with the first at the top
      * of the stack.
      */
-    final Stack<E> previousElements = new Stack<E>();
+    final Stack<E> previousElements = new Stack<>();
+
     /**
      * {@link #nextElements} if {@code next()} was called more recently then {@code previous},
      * {@link #previousElements} if the reverse is true, or -- overriding both of these -- {@code
@@ -256,7 +258,7 @@ abstract class AbstractIteratorTester<E extends @Nullable Object, I extends Iter
     }
 
     private List<E> getElements() {
-      List<E> elements = new ArrayList<E>();
+      List<E> elements = new ArrayList<>();
       Helpers.addAll(elements, previousElements);
       Helpers.addAll(elements, Helpers.reverse(nextElements));
       return elements;
@@ -325,7 +327,7 @@ abstract class AbstractIteratorTester<E extends @Nullable Object, I extends Iter
 
   public void testForEachRemaining() {
     for (int i = 0; i < expectedElements.size() - 1; i++) {
-      List<E> targetElements = new ArrayList<E>();
+      List<E> targetElements = new ArrayList<>();
       Iterator<E> iterator = newTargetIterator();
       for (int j = 0; j < i; j++) {
         targetElements.add(iterator.next());

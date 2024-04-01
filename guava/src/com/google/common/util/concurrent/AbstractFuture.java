@@ -860,7 +860,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
         }
         return false;
       }
-      SetFuture<V> valueToSet = new SetFuture<V>(this, future);
+      SetFuture<V> valueToSet = new SetFuture<>(this, future);
       if (ATOMIC_HELPER.casValue(this, null, valueToSet)) {
         // the listener is responsible for calling completeWithFuture, directExecutor is appropriate
         // since all we are doing is unpacking a completed future which should be fast.
