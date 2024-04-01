@@ -233,7 +233,7 @@
 <span class="sourceLineNo">224</span><a id="line.224">  // TODO(kevinb): provide replacement</a>
 <span class="sourceLineNo">225</span><a id="line.225">  @GwtCompatible(serializable = true)</a>
 <span class="sourceLineNo">226</span><a id="line.226">  public static &lt;T&gt; Ordering&lt;T&gt; explicit(List&lt;T&gt; valuesInOrder) {</a>
-<span class="sourceLineNo">227</span><a id="line.227">    return new ExplicitOrdering&lt;T&gt;(valuesInOrder);</a>
+<span class="sourceLineNo">227</span><a id="line.227">    return new ExplicitOrdering&lt;&gt;(valuesInOrder);</a>
 <span class="sourceLineNo">228</span><a id="line.228">  }</a>
 <span class="sourceLineNo">229</span><a id="line.229"></a>
 <span class="sourceLineNo">230</span><a id="line.230">  /**</a>
@@ -420,7 +420,7 @@
 <span class="sourceLineNo">411</span><a id="line.411">  // Ordering&lt;String&gt; o = Ordering.&lt;String&gt;natural().reverse();</a>
 <span class="sourceLineNo">412</span><a id="line.412">  @GwtCompatible(serializable = true)</a>
 <span class="sourceLineNo">413</span><a id="line.413">  public &lt;S extends T&gt; Ordering&lt;S&gt; reverse() {</a>
-<span class="sourceLineNo">414</span><a id="line.414">    return new ReverseOrdering&lt;S&gt;(this);</a>
+<span class="sourceLineNo">414</span><a id="line.414">    return new ReverseOrdering&lt;&gt;(this);</a>
 <span class="sourceLineNo">415</span><a id="line.415">  }</a>
 <span class="sourceLineNo">416</span><a id="line.416"></a>
 <span class="sourceLineNo">417</span><a id="line.417">  /**</a>
@@ -493,7 +493,7 @@
 <span class="sourceLineNo">484</span><a id="line.484">   */</a>
 <span class="sourceLineNo">485</span><a id="line.485">  @GwtCompatible(serializable = true)</a>
 <span class="sourceLineNo">486</span><a id="line.486">  public &lt;U extends T&gt; Ordering&lt;U&gt; compound(Comparator&lt;? super U&gt; secondaryComparator) {</a>
-<span class="sourceLineNo">487</span><a id="line.487">    return new CompoundOrdering&lt;U&gt;(this, checkNotNull(secondaryComparator));</a>
+<span class="sourceLineNo">487</span><a id="line.487">    return new CompoundOrdering&lt;&gt;(this, checkNotNull(secondaryComparator));</a>
 <span class="sourceLineNo">488</span><a id="line.488">  }</a>
 <span class="sourceLineNo">489</span><a id="line.489"></a>
 <span class="sourceLineNo">490</span><a id="line.490">  /**</a>
@@ -520,7 +520,7 @@
 <span class="sourceLineNo">511</span><a id="line.511">  @GwtCompatible(serializable = true)</a>
 <span class="sourceLineNo">512</span><a id="line.512">  public static &lt;T extends @Nullable Object&gt; Ordering&lt;T&gt; compound(</a>
 <span class="sourceLineNo">513</span><a id="line.513">      Iterable&lt;? extends Comparator&lt;? super T&gt;&gt; comparators) {</a>
-<span class="sourceLineNo">514</span><a id="line.514">    return new CompoundOrdering&lt;T&gt;(comparators);</a>
+<span class="sourceLineNo">514</span><a id="line.514">    return new CompoundOrdering&lt;&gt;(comparators);</a>
 <span class="sourceLineNo">515</span><a id="line.515">  }</a>
 <span class="sourceLineNo">516</span><a id="line.516"></a>
 <span class="sourceLineNo">517</span><a id="line.517">  /**</a>

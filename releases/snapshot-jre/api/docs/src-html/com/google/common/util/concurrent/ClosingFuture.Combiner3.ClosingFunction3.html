@@ -419,7 +419,7 @@
 <span class="sourceLineNo">410</span><a id="line.410">   * when the pipeline is done, use {@link #submit(ClosingCallable, Executor)} instead.</a>
 <span class="sourceLineNo">411</span><a id="line.411">   */</a>
 <span class="sourceLineNo">412</span><a id="line.412">  public static &lt;V extends @Nullable Object&gt; ClosingFuture&lt;V&gt; from(ListenableFuture&lt;V&gt; future) {</a>
-<span class="sourceLineNo">413</span><a id="line.413">    return new ClosingFuture&lt;V&gt;(future);</a>
+<span class="sourceLineNo">413</span><a id="line.413">    return new ClosingFuture&lt;&gt;(future);</a>
 <span class="sourceLineNo">414</span><a id="line.414">  }</a>
 <span class="sourceLineNo">415</span><a id="line.415"></a>
 <span class="sourceLineNo">416</span><a id="line.416">  /**</a>

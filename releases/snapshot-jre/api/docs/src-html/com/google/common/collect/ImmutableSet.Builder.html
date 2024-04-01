@@ -98,7 +98,7 @@
 <span class="sourceLineNo">089</span><a id="line.89">   * type conveys the immutability guarantee.</a>
 <span class="sourceLineNo">090</span><a id="line.90">   */</a>
 <span class="sourceLineNo">091</span><a id="line.91">  public static &lt;E&gt; ImmutableSet&lt;E&gt; of(E element) {</a>
-<span class="sourceLineNo">092</span><a id="line.92">    return new SingletonImmutableSet&lt;E&gt;(element);</a>
+<span class="sourceLineNo">092</span><a id="line.92">    return new SingletonImmutableSet&lt;&gt;(element);</a>
 <span class="sourceLineNo">093</span><a id="line.93">  }</a>
 <span class="sourceLineNo">094</span><a id="line.94"></a>
 <span class="sourceLineNo">095</span><a id="line.95">  /*</a>
@@ -157,7 +157,7 @@
 <span class="sourceLineNo">148</span><a id="line.148">  public static &lt;E&gt; ImmutableSet&lt;E&gt; of(E e1, E e2, E e3, E e4, E e5, E e6, E... others) {</a>
 <span class="sourceLineNo">149</span><a id="line.149">    checkArgument(</a>
 <span class="sourceLineNo">150</span><a id="line.150">        others.length &lt;= Integer.MAX_VALUE - 6, "the total number of elements must fit in an int");</a>
-<span class="sourceLineNo">151</span><a id="line.151">    SetBuilderImpl&lt;E&gt; builder = new RegularSetBuilderImpl&lt;E&gt;(6 + others.length);</a>
+<span class="sourceLineNo">151</span><a id="line.151">    SetBuilderImpl&lt;E&gt; builder = new RegularSetBuilderImpl&lt;&gt;(6 + others.length);</a>
 <span class="sourceLineNo">152</span><a id="line.152">    builder = builder.add(e1).add(e2).add(e3).add(e4).add(e5).add(e6);</a>
 <span class="sourceLineNo">153</span><a id="line.153">    for (int i = 0; i &lt; others.length; i++) {</a>
 <span class="sourceLineNo">154</span><a id="line.154">      builder = builder.add(others[i]);</a>
@@ -271,7 +271,7 @@
 <span class="sourceLineNo">262</span><a id="line.262">      case 1:</a>
 <span class="sourceLineNo">263</span><a id="line.263">        return of(elements[0]);</a>
 <span class="sourceLineNo">264</span><a id="line.264">      default:</a>
-<span class="sourceLineNo">265</span><a id="line.265">        SetBuilderImpl&lt;E&gt; builder = new RegularSetBuilderImpl&lt;E&gt;(expectedSize);</a>
+<span class="sourceLineNo">265</span><a id="line.265">        SetBuilderImpl&lt;E&gt; builder = new RegularSetBuilderImpl&lt;&gt;(expectedSize);</a>
 <span class="sourceLineNo">266</span><a id="line.266">        for (int i = 0; i &lt; elements.length; i++) {</a>
 <span class="sourceLineNo">267</span><a id="line.267">          builder = builder.add(elements[i]);</a>
 <span class="sourceLineNo">268</span><a id="line.268">        }</a>
@@ -330,7 +330,7 @@
 <span class="sourceLineNo">321</span><a id="line.321">    }</a>
 <span class="sourceLineNo">322</span><a id="line.322"></a>
 <span class="sourceLineNo">323</span><a id="line.323">    ImmutableList&lt;E&gt; createAsList() {</a>
-<span class="sourceLineNo">324</span><a id="line.324">      return new RegularImmutableAsList&lt;E&gt;(this, toArray());</a>
+<span class="sourceLineNo">324</span><a id="line.324">      return new RegularImmutableAsList&lt;&gt;(this, toArray());</a>
 <span class="sourceLineNo">325</span><a id="line.325">    }</a>
 <span class="sourceLineNo">326</span><a id="line.326"></a>
 <span class="sourceLineNo">327</span><a id="line.327">    // redeclare to help optimizers with b/310253115</a>
@@ -442,7 +442,7 @@
 <span class="sourceLineNo">433</span><a id="line.433">   * Builder} constructor.</a>
 <span class="sourceLineNo">434</span><a id="line.434">   */</a>
 <span class="sourceLineNo">435</span><a id="line.435">  public static &lt;E&gt; Builder&lt;E&gt; builder() {</a>
-<span class="sourceLineNo">436</span><a id="line.436">    return new Builder&lt;E&gt;();</a>
+<span class="sourceLineNo">436</span><a id="line.436">    return new Builder&lt;&gt;();</a>
 <span class="sourceLineNo">437</span><a id="line.437">  }</a>
 <span class="sourceLineNo">438</span><a id="line.438"></a>
 <span class="sourceLineNo">439</span><a id="line.439">  /**</a>
@@ -459,7 +459,7 @@
 <span class="sourceLineNo">450</span><a id="line.450">   */</a>
 <span class="sourceLineNo">451</span><a id="line.451">  public static &lt;E&gt; Builder&lt;E&gt; builderWithExpectedSize(int expectedSize) {</a>
 <span class="sourceLineNo">452</span><a id="line.452">    checkNonnegative(expectedSize, "expectedSize");</a>
-<span class="sourceLineNo">453</span><a id="line.453">    return new Builder&lt;E&gt;(expectedSize);</a>
+<span class="sourceLineNo">453</span><a id="line.453">    return new Builder&lt;&gt;(expectedSize);</a>
 <span class="sourceLineNo">454</span><a id="line.454">  }</a>
 <span class="sourceLineNo">455</span><a id="line.455"></a>
 <span class="sourceLineNo">456</span><a id="line.456">  /**</a>
@@ -495,7 +495,7 @@
 <span class="sourceLineNo">486</span><a id="line.486"></a>
 <span class="sourceLineNo">487</span><a id="line.487">    Builder(int capacity) {</a>
 <span class="sourceLineNo">488</span><a id="line.488">      if (capacity &gt; 0) {</a>
-<span class="sourceLineNo">489</span><a id="line.489">        impl = new RegularSetBuilderImpl&lt;E&gt;(capacity);</a>
+<span class="sourceLineNo">489</span><a id="line.489">        impl = new RegularSetBuilderImpl&lt;&gt;(capacity);</a>
 <span class="sourceLineNo">490</span><a id="line.490">      } else {</a>
 <span class="sourceLineNo">491</span><a id="line.491">        impl = EmptySetBuilderImpl.instance();</a>
 <span class="sourceLineNo">492</span><a id="line.492">      }</a>
@@ -508,7 +508,7 @@
 <span class="sourceLineNo">499</span><a id="line.499">    @VisibleForTesting</a>
 <span class="sourceLineNo">500</span><a id="line.500">    void forceJdk() {</a>
 <span class="sourceLineNo">501</span><a id="line.501">      requireNonNull(impl); // see the comment on the field</a>
-<span class="sourceLineNo">502</span><a id="line.502">      this.impl = new JdkBackedSetBuilderImpl&lt;E&gt;(impl);</a>
+<span class="sourceLineNo">502</span><a id="line.502">      this.impl = new JdkBackedSetBuilderImpl&lt;&gt;(impl);</a>
 <span class="sourceLineNo">503</span><a id="line.503">    }</a>
 <span class="sourceLineNo">504</span><a id="line.504"></a>
 <span class="sourceLineNo">505</span><a id="line.505">    final void copyIfNecessary() {</a>
@@ -792,7 +792,7 @@
 <span class="sourceLineNo">783</span><a id="line.783"></a>
 <span class="sourceLineNo">784</span><a id="line.784">    @Override</a>
 <span class="sourceLineNo">785</span><a id="line.785">    SetBuilderImpl&lt;E&gt; copy() {</a>
-<span class="sourceLineNo">786</span><a id="line.786">      return new RegularSetBuilderImpl&lt;E&gt;(this);</a>
+<span class="sourceLineNo">786</span><a id="line.786">      return new RegularSetBuilderImpl&lt;&gt;(this);</a>
 <span class="sourceLineNo">787</span><a id="line.787">    }</a>
 <span class="sourceLineNo">788</span><a id="line.788"></a>
 <span class="sourceLineNo">789</span><a id="line.789">    @Override</a>
@@ -830,7 +830,7 @@
 <span class="sourceLineNo">821</span><a id="line.821">              (distinct == dedupedElements.length)</a>
 <span class="sourceLineNo">822</span><a id="line.822">                  ? dedupedElements</a>
 <span class="sourceLineNo">823</span><a id="line.823">                  : Arrays.copyOf(dedupedElements, distinct);</a>
-<span class="sourceLineNo">824</span><a id="line.824">          return new RegularImmutableSet&lt;E&gt;(</a>
+<span class="sourceLineNo">824</span><a id="line.824">          return new RegularImmutableSet&lt;&gt;(</a>
 <span class="sourceLineNo">825</span><a id="line.825">              elements, hashCode, requireNonNull(hashTable), hashTable.length - 1);</a>
 <span class="sourceLineNo">826</span><a id="line.826">      }</a>
 <span class="sourceLineNo">827</span><a id="line.827">    }</a>
@@ -989,7 +989,7 @@
 <span class="sourceLineNo">980</span><a id="line.980">           */</a>
 <span class="sourceLineNo">981</span><a id="line.981">          return of(requireNonNull(dedupedElements[0]));</a>
 <span class="sourceLineNo">982</span><a id="line.982">        default:</a>
-<span class="sourceLineNo">983</span><a id="line.983">          return new JdkBackedImmutableSet&lt;E&gt;(</a>
+<span class="sourceLineNo">983</span><a id="line.983">          return new JdkBackedImmutableSet&lt;&gt;(</a>
 <span class="sourceLineNo">984</span><a id="line.984">              delegate, ImmutableList.asImmutableList(dedupedElements, distinct));</a>
 <span class="sourceLineNo">985</span><a id="line.985">      }</a>
 <span class="sourceLineNo">986</span><a id="line.986">    }</a>

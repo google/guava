@@ -284,7 +284,7 @@
 <span class="sourceLineNo">275</span><a id="line.275">   * @since 10.0</a>
 <span class="sourceLineNo">276</span><a id="line.276">   */</a>
 <span class="sourceLineNo">277</span><a id="line.277">  public final Predicate&lt;@Nullable T&gt; equivalentTo(@CheckForNull T target) {</a>
-<span class="sourceLineNo">278</span><a id="line.278">    return new EquivalentToPredicate&lt;T&gt;(this, target);</a>
+<span class="sourceLineNo">278</span><a id="line.278">    return new EquivalentToPredicate&lt;&gt;(this, target);</a>
 <span class="sourceLineNo">279</span><a id="line.279">  }</a>
 <span class="sourceLineNo">280</span><a id="line.280"></a>
 <span class="sourceLineNo">281</span><a id="line.281">  private static final class EquivalentToPredicate&lt;T&gt;</a>

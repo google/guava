@@ -170,7 +170,7 @@
 <span class="sourceLineNo">161</span><a id="line.161">  public static &lt;V extends @Nullable Object&gt; ListenableFuture&lt;V&gt; immediateFailedFuture(</a>
 <span class="sourceLineNo">162</span><a id="line.162">      Throwable throwable) {</a>
 <span class="sourceLineNo">163</span><a id="line.163">    checkNotNull(throwable);</a>
-<span class="sourceLineNo">164</span><a id="line.164">    return new ImmediateFailedFuture&lt;V&gt;(throwable);</a>
+<span class="sourceLineNo">164</span><a id="line.164">    return new ImmediateFailedFuture&lt;&gt;(throwable);</a>
 <span class="sourceLineNo">165</span><a id="line.165">  }</a>
 <span class="sourceLineNo">166</span><a id="line.166"></a>
 <span class="sourceLineNo">167</span><a id="line.167">  /**</a>
@@ -593,7 +593,7 @@
 <span class="sourceLineNo">584</span><a id="line.584">  @SafeVarargs</a>
 <span class="sourceLineNo">585</span><a id="line.585">  public static &lt;V extends @Nullable Object&gt; FutureCombiner&lt;V&gt; whenAllComplete(</a>
 <span class="sourceLineNo">586</span><a id="line.586">      ListenableFuture&lt;? extends V&gt;... futures) {</a>
-<span class="sourceLineNo">587</span><a id="line.587">    return new FutureCombiner&lt;V&gt;(false, ImmutableList.copyOf(futures));</a>
+<span class="sourceLineNo">587</span><a id="line.587">    return new FutureCombiner&lt;&gt;(false, ImmutableList.copyOf(futures));</a>
 <span class="sourceLineNo">588</span><a id="line.588">  }</a>
 <span class="sourceLineNo">589</span><a id="line.589"></a>
 <span class="sourceLineNo">590</span><a id="line.590">  /**</a>
@@ -606,7 +606,7 @@
 <span class="sourceLineNo">597</span><a id="line.597">   */</a>
 <span class="sourceLineNo">598</span><a id="line.598">  public static &lt;V extends @Nullable Object&gt; FutureCombiner&lt;V&gt; whenAllComplete(</a>
 <span class="sourceLineNo">599</span><a id="line.599">      Iterable&lt;? extends ListenableFuture&lt;? extends V&gt;&gt; futures) {</a>
-<span class="sourceLineNo">600</span><a id="line.600">    return new FutureCombiner&lt;V&gt;(false, ImmutableList.copyOf(futures));</a>
+<span class="sourceLineNo">600</span><a id="line.600">    return new FutureCombiner&lt;&gt;(false, ImmutableList.copyOf(futures));</a>
 <span class="sourceLineNo">601</span><a id="line.601">  }</a>
 <span class="sourceLineNo">602</span><a id="line.602"></a>
 <span class="sourceLineNo">603</span><a id="line.603">  /**</a>
@@ -619,7 +619,7 @@
 <span class="sourceLineNo">610</span><a id="line.610">  @SafeVarargs</a>
 <span class="sourceLineNo">611</span><a id="line.611">  public static &lt;V extends @Nullable Object&gt; FutureCombiner&lt;V&gt; whenAllSucceed(</a>
 <span class="sourceLineNo">612</span><a id="line.612">      ListenableFuture&lt;? extends V&gt;... futures) {</a>
-<span class="sourceLineNo">613</span><a id="line.613">    return new FutureCombiner&lt;V&gt;(true, ImmutableList.copyOf(futures));</a>
+<span class="sourceLineNo">613</span><a id="line.613">    return new FutureCombiner&lt;&gt;(true, ImmutableList.copyOf(futures));</a>
 <span class="sourceLineNo">614</span><a id="line.614">  }</a>
 <span class="sourceLineNo">615</span><a id="line.615"></a>
 <span class="sourceLineNo">616</span><a id="line.616">  /**</a>
@@ -631,7 +631,7 @@
 <span class="sourceLineNo">622</span><a id="line.622">   */</a>
 <span class="sourceLineNo">623</span><a id="line.623">  public static &lt;V extends @Nullable Object&gt; FutureCombiner&lt;V&gt; whenAllSucceed(</a>
 <span class="sourceLineNo">624</span><a id="line.624">      Iterable&lt;? extends ListenableFuture&lt;? extends V&gt;&gt; futures) {</a>
-<span class="sourceLineNo">625</span><a id="line.625">    return new FutureCombiner&lt;V&gt;(true, ImmutableList.copyOf(futures));</a>
+<span class="sourceLineNo">625</span><a id="line.625">    return new FutureCombiner&lt;&gt;(true, ImmutableList.copyOf(futures));</a>
 <span class="sourceLineNo">626</span><a id="line.626">  }</a>
 <span class="sourceLineNo">627</span><a id="line.627"></a>
 <span class="sourceLineNo">628</span><a id="line.628">  /**</a>
@@ -693,7 +693,7 @@
 <span class="sourceLineNo">684</span><a id="line.684">     */</a>
 <span class="sourceLineNo">685</span><a id="line.685">    public &lt;C extends @Nullable Object&gt; ListenableFuture&lt;C&gt; callAsync(</a>
 <span class="sourceLineNo">686</span><a id="line.686">        AsyncCallable&lt;C&gt; combiner, Executor executor) {</a>
-<span class="sourceLineNo">687</span><a id="line.687">      return new CombinedFuture&lt;C&gt;(futures, allMustSucceed, executor, combiner);</a>
+<span class="sourceLineNo">687</span><a id="line.687">      return new CombinedFuture&lt;&gt;(futures, allMustSucceed, executor, combiner);</a>
 <span class="sourceLineNo">688</span><a id="line.688">    }</a>
 <span class="sourceLineNo">689</span><a id="line.689"></a>
 <span class="sourceLineNo">690</span><a id="line.690">    /**</a>
@@ -718,7 +718,7 @@
 <span class="sourceLineNo">709</span><a id="line.709">     */</a>
 <span class="sourceLineNo">710</span><a id="line.710">    public &lt;C extends @Nullable Object&gt; ListenableFuture&lt;C&gt; call(</a>
 <span class="sourceLineNo">711</span><a id="line.711">        Callable&lt;C&gt; combiner, Executor executor) {</a>
-<span class="sourceLineNo">712</span><a id="line.712">      return new CombinedFuture&lt;C&gt;(futures, allMustSucceed, executor, combiner);</a>
+<span class="sourceLineNo">712</span><a id="line.712">      return new CombinedFuture&lt;&gt;(futures, allMustSucceed, executor, combiner);</a>
 <span class="sourceLineNo">713</span><a id="line.713">    }</a>
 <span class="sourceLineNo">714</span><a id="line.714"></a>
 <span class="sourceLineNo">715</span><a id="line.715">    /**</a>

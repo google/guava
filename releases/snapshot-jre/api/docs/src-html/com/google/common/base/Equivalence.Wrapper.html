@@ -296,7 +296,7 @@
 <span class="sourceLineNo">287</span><a id="line.287">   * @since 10.0</a>
 <span class="sourceLineNo">288</span><a id="line.288">   */</a>
 <span class="sourceLineNo">289</span><a id="line.289">  public final Predicate&lt;@Nullable T&gt; equivalentTo(@CheckForNull T target) {</a>
-<span class="sourceLineNo">290</span><a id="line.290">    return new EquivalentToPredicate&lt;T&gt;(this, target);</a>
+<span class="sourceLineNo">290</span><a id="line.290">    return new EquivalentToPredicate&lt;&gt;(this, target);</a>
 <span class="sourceLineNo">291</span><a id="line.291">  }</a>
 <span class="sourceLineNo">292</span><a id="line.292"></a>
 <span class="sourceLineNo">293</span><a id="line.293">  private static final class EquivalentToPredicate&lt;T&gt;</a>

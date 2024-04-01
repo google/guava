@@ -64,7 +64,7 @@
 <span class="sourceLineNo">055</span><a id="line.55">  @J2ktIncompatible</a>
 <span class="sourceLineNo">056</span><a id="line.56">  @GwtIncompatible // ArrayBlockingQueue</a>
 <span class="sourceLineNo">057</span><a id="line.57">  public static &lt;E&gt; ArrayBlockingQueue&lt;E&gt; newArrayBlockingQueue(int capacity) {</a>
-<span class="sourceLineNo">058</span><a id="line.58">    return new ArrayBlockingQueue&lt;E&gt;(capacity);</a>
+<span class="sourceLineNo">058</span><a id="line.58">    return new ArrayBlockingQueue&lt;&gt;(capacity);</a>
 <span class="sourceLineNo">059</span><a id="line.59">  }</a>
 <span class="sourceLineNo">060</span><a id="line.60"></a>
 <span class="sourceLineNo">061</span><a id="line.61">  // ArrayDeque</a>
@@ -75,7 +75,7 @@
 <span class="sourceLineNo">066</span><a id="line.66">   * @since 12.0</a>
 <span class="sourceLineNo">067</span><a id="line.67">   */</a>
 <span class="sourceLineNo">068</span><a id="line.68">  public static &lt;E&gt; ArrayDeque&lt;E&gt; newArrayDeque() {</a>
-<span class="sourceLineNo">069</span><a id="line.69">    return new ArrayDeque&lt;E&gt;();</a>
+<span class="sourceLineNo">069</span><a id="line.69">    return new ArrayDeque&lt;&gt;();</a>
 <span class="sourceLineNo">070</span><a id="line.70">  }</a>
 <span class="sourceLineNo">071</span><a id="line.71"></a>
 <span class="sourceLineNo">072</span><a id="line.72">  /**</a>
@@ -86,9 +86,9 @@
 <span class="sourceLineNo">077</span><a id="line.77">   */</a>
 <span class="sourceLineNo">078</span><a id="line.78">  public static &lt;E&gt; ArrayDeque&lt;E&gt; newArrayDeque(Iterable&lt;? extends E&gt; elements) {</a>
 <span class="sourceLineNo">079</span><a id="line.79">    if (elements instanceof Collection) {</a>
-<span class="sourceLineNo">080</span><a id="line.80">      return new ArrayDeque&lt;E&gt;((Collection&lt;? extends E&gt;) elements);</a>
+<span class="sourceLineNo">080</span><a id="line.80">      return new ArrayDeque&lt;&gt;((Collection&lt;? extends E&gt;) elements);</a>
 <span class="sourceLineNo">081</span><a id="line.81">    }</a>
-<span class="sourceLineNo">082</span><a id="line.82">    ArrayDeque&lt;E&gt; deque = new ArrayDeque&lt;E&gt;();</a>
+<span class="sourceLineNo">082</span><a id="line.82">    ArrayDeque&lt;E&gt; deque = new ArrayDeque&lt;&gt;();</a>
 <span class="sourceLineNo">083</span><a id="line.83">    Iterables.addAll(deque, elements);</a>
 <span class="sourceLineNo">084</span><a id="line.84">    return deque;</a>
 <span class="sourceLineNo">085</span><a id="line.85">  }</a>
@@ -99,7 +99,7 @@
 <span class="sourceLineNo">090</span><a id="line.90">  @J2ktIncompatible</a>
 <span class="sourceLineNo">091</span><a id="line.91">  @GwtIncompatible // ConcurrentLinkedQueue</a>
 <span class="sourceLineNo">092</span><a id="line.92">  public static &lt;E&gt; ConcurrentLinkedQueue&lt;E&gt; newConcurrentLinkedQueue() {</a>
-<span class="sourceLineNo">093</span><a id="line.93">    return new ConcurrentLinkedQueue&lt;E&gt;();</a>
+<span class="sourceLineNo">093</span><a id="line.93">    return new ConcurrentLinkedQueue&lt;&gt;();</a>
 <span class="sourceLineNo">094</span><a id="line.94">  }</a>
 <span class="sourceLineNo">095</span><a id="line.95"></a>
 <span class="sourceLineNo">096</span><a id="line.96">  /**</a>
@@ -111,9 +111,9 @@
 <span class="sourceLineNo">102</span><a id="line.102">  public static &lt;E&gt; ConcurrentLinkedQueue&lt;E&gt; newConcurrentLinkedQueue(</a>
 <span class="sourceLineNo">103</span><a id="line.103">      Iterable&lt;? extends E&gt; elements) {</a>
 <span class="sourceLineNo">104</span><a id="line.104">    if (elements instanceof Collection) {</a>
-<span class="sourceLineNo">105</span><a id="line.105">      return new ConcurrentLinkedQueue&lt;E&gt;((Collection&lt;? extends E&gt;) elements);</a>
+<span class="sourceLineNo">105</span><a id="line.105">      return new ConcurrentLinkedQueue&lt;&gt;((Collection&lt;? extends E&gt;) elements);</a>
 <span class="sourceLineNo">106</span><a id="line.106">    }</a>
-<span class="sourceLineNo">107</span><a id="line.107">    ConcurrentLinkedQueue&lt;E&gt; queue = new ConcurrentLinkedQueue&lt;E&gt;();</a>
+<span class="sourceLineNo">107</span><a id="line.107">    ConcurrentLinkedQueue&lt;E&gt; queue = new ConcurrentLinkedQueue&lt;&gt;();</a>
 <span class="sourceLineNo">108</span><a id="line.108">    Iterables.addAll(queue, elements);</a>
 <span class="sourceLineNo">109</span><a id="line.109">    return queue;</a>
 <span class="sourceLineNo">110</span><a id="line.110">  }</a>
@@ -128,7 +128,7 @@
 <span class="sourceLineNo">119</span><a id="line.119">  @J2ktIncompatible</a>
 <span class="sourceLineNo">120</span><a id="line.120">  @GwtIncompatible // LinkedBlockingDeque</a>
 <span class="sourceLineNo">121</span><a id="line.121">  public static &lt;E&gt; LinkedBlockingDeque&lt;E&gt; newLinkedBlockingDeque() {</a>
-<span class="sourceLineNo">122</span><a id="line.122">    return new LinkedBlockingDeque&lt;E&gt;();</a>
+<span class="sourceLineNo">122</span><a id="line.122">    return new LinkedBlockingDeque&lt;&gt;();</a>
 <span class="sourceLineNo">123</span><a id="line.123">  }</a>
 <span class="sourceLineNo">124</span><a id="line.124"></a>
 <span class="sourceLineNo">125</span><a id="line.125">  /**</a>
@@ -140,7 +140,7 @@
 <span class="sourceLineNo">131</span><a id="line.131">  @J2ktIncompatible</a>
 <span class="sourceLineNo">132</span><a id="line.132">  @GwtIncompatible // LinkedBlockingDeque</a>
 <span class="sourceLineNo">133</span><a id="line.133">  public static &lt;E&gt; LinkedBlockingDeque&lt;E&gt; newLinkedBlockingDeque(int capacity) {</a>
-<span class="sourceLineNo">134</span><a id="line.134">    return new LinkedBlockingDeque&lt;E&gt;(capacity);</a>
+<span class="sourceLineNo">134</span><a id="line.134">    return new LinkedBlockingDeque&lt;&gt;(capacity);</a>
 <span class="sourceLineNo">135</span><a id="line.135">  }</a>
 <span class="sourceLineNo">136</span><a id="line.136"></a>
 <span class="sourceLineNo">137</span><a id="line.137">  /**</a>
@@ -154,9 +154,9 @@
 <span class="sourceLineNo">145</span><a id="line.145">  @GwtIncompatible // LinkedBlockingDeque</a>
 <span class="sourceLineNo">146</span><a id="line.146">  public static &lt;E&gt; LinkedBlockingDeque&lt;E&gt; newLinkedBlockingDeque(Iterable&lt;? extends E&gt; elements) {</a>
 <span class="sourceLineNo">147</span><a id="line.147">    if (elements instanceof Collection) {</a>
-<span class="sourceLineNo">148</span><a id="line.148">      return new LinkedBlockingDeque&lt;E&gt;((Collection&lt;? extends E&gt;) elements);</a>
+<span class="sourceLineNo">148</span><a id="line.148">      return new LinkedBlockingDeque&lt;&gt;((Collection&lt;? extends E&gt;) elements);</a>
 <span class="sourceLineNo">149</span><a id="line.149">    }</a>
-<span class="sourceLineNo">150</span><a id="line.150">    LinkedBlockingDeque&lt;E&gt; deque = new LinkedBlockingDeque&lt;E&gt;();</a>
+<span class="sourceLineNo">150</span><a id="line.150">    LinkedBlockingDeque&lt;E&gt; deque = new LinkedBlockingDeque&lt;&gt;();</a>
 <span class="sourceLineNo">151</span><a id="line.151">    Iterables.addAll(deque, elements);</a>
 <span class="sourceLineNo">152</span><a id="line.152">    return deque;</a>
 <span class="sourceLineNo">153</span><a id="line.153">  }</a>
@@ -167,7 +167,7 @@
 <span class="sourceLineNo">158</span><a id="line.158">  @J2ktIncompatible</a>
 <span class="sourceLineNo">159</span><a id="line.159">  @GwtIncompatible // LinkedBlockingQueue</a>
 <span class="sourceLineNo">160</span><a id="line.160">  public static &lt;E&gt; LinkedBlockingQueue&lt;E&gt; newLinkedBlockingQueue() {</a>
-<span class="sourceLineNo">161</span><a id="line.161">    return new LinkedBlockingQueue&lt;E&gt;();</a>
+<span class="sourceLineNo">161</span><a id="line.161">    return new LinkedBlockingQueue&lt;&gt;();</a>
 <span class="sourceLineNo">162</span><a id="line.162">  }</a>
 <span class="sourceLineNo">163</span><a id="line.163"></a>
 <span class="sourceLineNo">164</span><a id="line.164">  /**</a>
@@ -178,7 +178,7 @@
 <span class="sourceLineNo">169</span><a id="line.169">  @J2ktIncompatible</a>
 <span class="sourceLineNo">170</span><a id="line.170">  @GwtIncompatible // LinkedBlockingQueue</a>
 <span class="sourceLineNo">171</span><a id="line.171">  public static &lt;E&gt; LinkedBlockingQueue&lt;E&gt; newLinkedBlockingQueue(int capacity) {</a>
-<span class="sourceLineNo">172</span><a id="line.172">    return new LinkedBlockingQueue&lt;E&gt;(capacity);</a>
+<span class="sourceLineNo">172</span><a id="line.172">    return new LinkedBlockingQueue&lt;&gt;(capacity);</a>
 <span class="sourceLineNo">173</span><a id="line.173">  }</a>
 <span class="sourceLineNo">174</span><a id="line.174"></a>
 <span class="sourceLineNo">175</span><a id="line.175">  /**</a>
@@ -193,9 +193,9 @@
 <span class="sourceLineNo">184</span><a id="line.184">  @GwtIncompatible // LinkedBlockingQueue</a>
 <span class="sourceLineNo">185</span><a id="line.185">  public static &lt;E&gt; LinkedBlockingQueue&lt;E&gt; newLinkedBlockingQueue(Iterable&lt;? extends E&gt; elements) {</a>
 <span class="sourceLineNo">186</span><a id="line.186">    if (elements instanceof Collection) {</a>
-<span class="sourceLineNo">187</span><a id="line.187">      return new LinkedBlockingQueue&lt;E&gt;((Collection&lt;? extends E&gt;) elements);</a>
+<span class="sourceLineNo">187</span><a id="line.187">      return new LinkedBlockingQueue&lt;&gt;((Collection&lt;? extends E&gt;) elements);</a>
 <span class="sourceLineNo">188</span><a id="line.188">    }</a>
-<span class="sourceLineNo">189</span><a id="line.189">    LinkedBlockingQueue&lt;E&gt; queue = new LinkedBlockingQueue&lt;E&gt;();</a>
+<span class="sourceLineNo">189</span><a id="line.189">    LinkedBlockingQueue&lt;E&gt; queue = new LinkedBlockingQueue&lt;&gt;();</a>
 <span class="sourceLineNo">190</span><a id="line.190">    Iterables.addAll(queue, elements);</a>
 <span class="sourceLineNo">191</span><a id="line.191">    return queue;</a>
 <span class="sourceLineNo">192</span><a id="line.192">  }</a>
@@ -215,7 +215,7 @@
 <span class="sourceLineNo">206</span><a id="line.206">  @J2ktIncompatible</a>
 <span class="sourceLineNo">207</span><a id="line.207">  @GwtIncompatible // PriorityBlockingQueue</a>
 <span class="sourceLineNo">208</span><a id="line.208">  public static &lt;E extends Comparable&gt; PriorityBlockingQueue&lt;E&gt; newPriorityBlockingQueue() {</a>
-<span class="sourceLineNo">209</span><a id="line.209">    return new PriorityBlockingQueue&lt;E&gt;();</a>
+<span class="sourceLineNo">209</span><a id="line.209">    return new PriorityBlockingQueue&lt;&gt;();</a>
 <span class="sourceLineNo">210</span><a id="line.210">  }</a>
 <span class="sourceLineNo">211</span><a id="line.211"></a>
 <span class="sourceLineNo">212</span><a id="line.212">  /**</a>
@@ -233,9 +233,9 @@
 <span class="sourceLineNo">224</span><a id="line.224">  public static &lt;E extends Comparable&gt; PriorityBlockingQueue&lt;E&gt; newPriorityBlockingQueue(</a>
 <span class="sourceLineNo">225</span><a id="line.225">      Iterable&lt;? extends E&gt; elements) {</a>
 <span class="sourceLineNo">226</span><a id="line.226">    if (elements instanceof Collection) {</a>
-<span class="sourceLineNo">227</span><a id="line.227">      return new PriorityBlockingQueue&lt;E&gt;((Collection&lt;? extends E&gt;) elements);</a>
+<span class="sourceLineNo">227</span><a id="line.227">      return new PriorityBlockingQueue&lt;&gt;((Collection&lt;? extends E&gt;) elements);</a>
 <span class="sourceLineNo">228</span><a id="line.228">    }</a>
-<span class="sourceLineNo">229</span><a id="line.229">    PriorityBlockingQueue&lt;E&gt; queue = new PriorityBlockingQueue&lt;E&gt;();</a>
+<span class="sourceLineNo">229</span><a id="line.229">    PriorityBlockingQueue&lt;E&gt; queue = new PriorityBlockingQueue&lt;&gt;();</a>
 <span class="sourceLineNo">230</span><a id="line.230">    Iterables.addAll(queue, elements);</a>
 <span class="sourceLineNo">231</span><a id="line.231">    return queue;</a>
 <span class="sourceLineNo">232</span><a id="line.232">  }</a>
@@ -251,7 +251,7 @@
 <span class="sourceLineNo">242</span><a id="line.242">   */</a>
 <span class="sourceLineNo">243</span><a id="line.243">  @SuppressWarnings("rawtypes") // https://github.com/google/guava/issues/989</a>
 <span class="sourceLineNo">244</span><a id="line.244">  public static &lt;E extends Comparable&gt; PriorityQueue&lt;E&gt; newPriorityQueue() {</a>
-<span class="sourceLineNo">245</span><a id="line.245">    return new PriorityQueue&lt;E&gt;();</a>
+<span class="sourceLineNo">245</span><a id="line.245">    return new PriorityQueue&lt;&gt;();</a>
 <span class="sourceLineNo">246</span><a id="line.246">  }</a>
 <span class="sourceLineNo">247</span><a id="line.247"></a>
 <span class="sourceLineNo">248</span><a id="line.248">  /**</a>
@@ -267,9 +267,9 @@
 <span class="sourceLineNo">258</span><a id="line.258">  public static &lt;E extends Comparable&gt; PriorityQueue&lt;E&gt; newPriorityQueue(</a>
 <span class="sourceLineNo">259</span><a id="line.259">      Iterable&lt;? extends E&gt; elements) {</a>
 <span class="sourceLineNo">260</span><a id="line.260">    if (elements instanceof Collection) {</a>
-<span class="sourceLineNo">261</span><a id="line.261">      return new PriorityQueue&lt;E&gt;((Collection&lt;? extends E&gt;) elements);</a>
+<span class="sourceLineNo">261</span><a id="line.261">      return new PriorityQueue&lt;&gt;((Collection&lt;? extends E&gt;) elements);</a>
 <span class="sourceLineNo">262</span><a id="line.262">    }</a>
-<span class="sourceLineNo">263</span><a id="line.263">    PriorityQueue&lt;E&gt; queue = new PriorityQueue&lt;E&gt;();</a>
+<span class="sourceLineNo">263</span><a id="line.263">    PriorityQueue&lt;E&gt; queue = new PriorityQueue&lt;&gt;();</a>
 <span class="sourceLineNo">264</span><a id="line.264">    Iterables.addAll(queue, elements);</a>
 <span class="sourceLineNo">265</span><a id="line.265">    return queue;</a>
 <span class="sourceLineNo">266</span><a id="line.266">  }</a>
@@ -280,7 +280,7 @@
 <span class="sourceLineNo">271</span><a id="line.271">  @J2ktIncompatible</a>
 <span class="sourceLineNo">272</span><a id="line.272">  @GwtIncompatible // SynchronousQueue</a>
 <span class="sourceLineNo">273</span><a id="line.273">  public static &lt;E&gt; SynchronousQueue&lt;E&gt; newSynchronousQueue() {</a>
-<span class="sourceLineNo">274</span><a id="line.274">    return new SynchronousQueue&lt;E&gt;();</a>
+<span class="sourceLineNo">274</span><a id="line.274">    return new SynchronousQueue&lt;&gt;();</a>
 <span class="sourceLineNo">275</span><a id="line.275">  }</a>
 <span class="sourceLineNo">276</span><a id="line.276"></a>
 <span class="sourceLineNo">277</span><a id="line.277">  /**</a>

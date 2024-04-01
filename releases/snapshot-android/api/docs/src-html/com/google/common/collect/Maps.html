@@ -692,7 +692,7 @@
 <span class="sourceLineNo">683</span><a id="line.683"></a>
 <span class="sourceLineNo">684</span><a id="line.684">    static &lt;V extends @Nullable Object&gt; ValueDifference&lt;V&gt; create(</a>
 <span class="sourceLineNo">685</span><a id="line.685">        @ParametricNullness V left, @ParametricNullness V right) {</a>
-<span class="sourceLineNo">686</span><a id="line.686">      return new ValueDifferenceImpl&lt;V&gt;(left, right);</a>
+<span class="sourceLineNo">686</span><a id="line.686">      return new ValueDifferenceImpl&lt;&gt;(left, right);</a>
 <span class="sourceLineNo">687</span><a id="line.687">    }</a>
 <span class="sourceLineNo">688</span><a id="line.688"></a>
 <span class="sourceLineNo">689</span><a id="line.689">    private ValueDifferenceImpl(@ParametricNullness V left, @ParametricNullness V right) {</a>

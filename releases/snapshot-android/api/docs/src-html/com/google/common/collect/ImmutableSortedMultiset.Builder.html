@@ -146,7 +146,7 @@
 <span class="sourceLineNo">137</span><a id="line.137">    RegularImmutableSortedSet&lt;E&gt; elementSet =</a>
 <span class="sourceLineNo">138</span><a id="line.138">        (RegularImmutableSortedSet&lt;E&gt;) ImmutableSortedSet.of(element);</a>
 <span class="sourceLineNo">139</span><a id="line.139">    long[] cumulativeCounts = {0, 1};</a>
-<span class="sourceLineNo">140</span><a id="line.140">    return new RegularImmutableSortedMultiset&lt;E&gt;(elementSet, cumulativeCounts, 0, 1);</a>
+<span class="sourceLineNo">140</span><a id="line.140">    return new RegularImmutableSortedMultiset&lt;&gt;(elementSet, cumulativeCounts, 0, 1);</a>
 <span class="sourceLineNo">141</span><a id="line.141">  }</a>
 <span class="sourceLineNo">142</span><a id="line.142"></a>
 <span class="sourceLineNo">143</span><a id="line.143">  /**</a>
@@ -325,7 +325,7 @@
 <span class="sourceLineNo">316</span><a id="line.316">    if (entries.isEmpty()) {</a>
 <span class="sourceLineNo">317</span><a id="line.317">      return emptyMultiset(comparator);</a>
 <span class="sourceLineNo">318</span><a id="line.318">    }</a>
-<span class="sourceLineNo">319</span><a id="line.319">    ImmutableList.Builder&lt;E&gt; elementsBuilder = new ImmutableList.Builder&lt;E&gt;(entries.size());</a>
+<span class="sourceLineNo">319</span><a id="line.319">    ImmutableList.Builder&lt;E&gt; elementsBuilder = new ImmutableList.Builder&lt;&gt;(entries.size());</a>
 <span class="sourceLineNo">320</span><a id="line.320">    long[] cumulativeCounts = new long[entries.size() + 1];</a>
 <span class="sourceLineNo">321</span><a id="line.321">    int i = 0;</a>
 <span class="sourceLineNo">322</span><a id="line.322">    for (Entry&lt;E&gt; entry : entries) {</a>
@@ -333,7 +333,7 @@
 <span class="sourceLineNo">324</span><a id="line.324">      cumulativeCounts[i + 1] = cumulativeCounts[i] + entry.getCount();</a>
 <span class="sourceLineNo">325</span><a id="line.325">      i++;</a>
 <span class="sourceLineNo">326</span><a id="line.326">    }</a>
-<span class="sourceLineNo">327</span><a id="line.327">    return new RegularImmutableSortedMultiset&lt;E&gt;(</a>
+<span class="sourceLineNo">327</span><a id="line.327">    return new RegularImmutableSortedMultiset&lt;&gt;(</a>
 <span class="sourceLineNo">328</span><a id="line.328">        new RegularImmutableSortedSet&lt;E&gt;(elementsBuilder.build(), comparator),</a>
 <span class="sourceLineNo">329</span><a id="line.329">        cumulativeCounts,</a>
 <span class="sourceLineNo">330</span><a id="line.330">        0,</a>
@@ -345,7 +345,7 @@
 <span class="sourceLineNo">336</span><a id="line.336">    if (Ordering.natural().equals(comparator)) {</a>
 <span class="sourceLineNo">337</span><a id="line.337">      return (ImmutableSortedMultiset&lt;E&gt;) RegularImmutableSortedMultiset.NATURAL_EMPTY_MULTISET;</a>
 <span class="sourceLineNo">338</span><a id="line.338">    } else {</a>
-<span class="sourceLineNo">339</span><a id="line.339">      return new RegularImmutableSortedMultiset&lt;E&gt;(comparator);</a>
+<span class="sourceLineNo">339</span><a id="line.339">      return new RegularImmutableSortedMultiset&lt;&gt;(comparator);</a>
 <span class="sourceLineNo">340</span><a id="line.340">    }</a>
 <span class="sourceLineNo">341</span><a id="line.341">  }</a>
 <span class="sourceLineNo">342</span><a id="line.342"></a>
@@ -433,7 +433,7 @@
 <span class="sourceLineNo">424</span><a id="line.424">   * @throws NullPointerException if {@code comparator} is null</a>
 <span class="sourceLineNo">425</span><a id="line.425">   */</a>
 <span class="sourceLineNo">426</span><a id="line.426">  public static &lt;E&gt; Builder&lt;E&gt; orderedBy(Comparator&lt;E&gt; comparator) {</a>
-<span class="sourceLineNo">427</span><a id="line.427">    return new Builder&lt;E&gt;(comparator);</a>
+<span class="sourceLineNo">427</span><a id="line.427">    return new Builder&lt;&gt;(comparator);</a>
 <span class="sourceLineNo">428</span><a id="line.428">  }</a>
 <span class="sourceLineNo">429</span><a id="line.429"></a>
 <span class="sourceLineNo">430</span><a id="line.430">  /**</a>
@@ -445,7 +445,7 @@
 <span class="sourceLineNo">436</span><a id="line.436">   * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6468354"&gt;bug 6468354&lt;/a&gt;.</a>
 <span class="sourceLineNo">437</span><a id="line.437">   */</a>
 <span class="sourceLineNo">438</span><a id="line.438">  public static &lt;E extends Comparable&lt;?&gt;&gt; Builder&lt;E&gt; reverseOrder() {</a>
-<span class="sourceLineNo">439</span><a id="line.439">    return new Builder&lt;E&gt;(Ordering.&lt;E&gt;natural().reverse());</a>
+<span class="sourceLineNo">439</span><a id="line.439">    return new Builder&lt;&gt;(Ordering.&lt;E&gt;natural().reverse());</a>
 <span class="sourceLineNo">440</span><a id="line.440">  }</a>
 <span class="sourceLineNo">441</span><a id="line.441"></a>
 <span class="sourceLineNo">442</span><a id="line.442">  /**</a>
@@ -459,7 +459,7 @@
 <span class="sourceLineNo">450</span><a id="line.450">   * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6468354"&gt;bug 6468354&lt;/a&gt;.</a>
 <span class="sourceLineNo">451</span><a id="line.451">   */</a>
 <span class="sourceLineNo">452</span><a id="line.452">  public static &lt;E extends Comparable&lt;?&gt;&gt; Builder&lt;E&gt; naturalOrder() {</a>
-<span class="sourceLineNo">453</span><a id="line.453">    return new Builder&lt;E&gt;(Ordering.natural());</a>
+<span class="sourceLineNo">453</span><a id="line.453">    return new Builder&lt;&gt;(Ordering.natural());</a>
 <span class="sourceLineNo">454</span><a id="line.454">  }</a>
 <span class="sourceLineNo">455</span><a id="line.455"></a>
 <span class="sourceLineNo">456</span><a id="line.456">  /**</a>

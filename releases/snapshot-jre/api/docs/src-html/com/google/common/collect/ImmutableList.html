@@ -107,7 +107,7 @@
 <span class="sourceLineNo">098</span><a id="line.98">   * @throws NullPointerException if {@code element} is null</a>
 <span class="sourceLineNo">099</span><a id="line.99">   */</a>
 <span class="sourceLineNo">100</span><a id="line.100">  public static &lt;E&gt; ImmutableList&lt;E&gt; of(E element) {</a>
-<span class="sourceLineNo">101</span><a id="line.101">    return new SingletonImmutableList&lt;E&gt;(element);</a>
+<span class="sourceLineNo">101</span><a id="line.101">    return new SingletonImmutableList&lt;&gt;(element);</a>
 <span class="sourceLineNo">102</span><a id="line.102">  }</a>
 <span class="sourceLineNo">103</span><a id="line.103"></a>
 <span class="sourceLineNo">104</span><a id="line.104">  /**</a>
@@ -396,7 +396,7 @@
 <span class="sourceLineNo">387</span><a id="line.387">        @SuppressWarnings("nullness")</a>
 <span class="sourceLineNo">388</span><a id="line.388">        Object[] elementsWithoutTrailingNulls =</a>
 <span class="sourceLineNo">389</span><a id="line.389">            length &lt; elements.length ? Arrays.copyOf(elements, length) : elements;</a>
-<span class="sourceLineNo">390</span><a id="line.390">        return new RegularImmutableList&lt;E&gt;(elementsWithoutTrailingNulls);</a>
+<span class="sourceLineNo">390</span><a id="line.390">        return new RegularImmutableList&lt;&gt;(elementsWithoutTrailingNulls);</a>
 <span class="sourceLineNo">391</span><a id="line.391">    }</a>
 <span class="sourceLineNo">392</span><a id="line.392">  }</a>
 <span class="sourceLineNo">393</span><a id="line.393"></a>
@@ -768,7 +768,7 @@
 <span class="sourceLineNo">759</span><a id="line.759">   * Builder} constructor.</a>
 <span class="sourceLineNo">760</span><a id="line.760">   */</a>
 <span class="sourceLineNo">761</span><a id="line.761">  public static &lt;E&gt; Builder&lt;E&gt; builder() {</a>
-<span class="sourceLineNo">762</span><a id="line.762">    return new Builder&lt;E&gt;();</a>
+<span class="sourceLineNo">762</span><a id="line.762">    return new Builder&lt;&gt;();</a>
 <span class="sourceLineNo">763</span><a id="line.763">  }</a>
 <span class="sourceLineNo">764</span><a id="line.764"></a>
 <span class="sourceLineNo">765</span><a id="line.765">  /**</a>
@@ -785,7 +785,7 @@
 <span class="sourceLineNo">776</span><a id="line.776">   */</a>
 <span class="sourceLineNo">777</span><a id="line.777">  public static &lt;E&gt; Builder&lt;E&gt; builderWithExpectedSize(int expectedSize) {</a>
 <span class="sourceLineNo">778</span><a id="line.778">    checkNonnegative(expectedSize, "expectedSize");</a>
-<span class="sourceLineNo">779</span><a id="line.779">    return new ImmutableList.Builder&lt;E&gt;(expectedSize);</a>
+<span class="sourceLineNo">779</span><a id="line.779">    return new ImmutableList.Builder&lt;&gt;(expectedSize);</a>
 <span class="sourceLineNo">780</span><a id="line.780">  }</a>
 <span class="sourceLineNo">781</span><a id="line.781"></a>
 <span class="sourceLineNo">782</span><a id="line.782">  /**</a>

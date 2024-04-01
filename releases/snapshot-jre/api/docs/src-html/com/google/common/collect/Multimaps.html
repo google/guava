@@ -1232,7 +1232,7 @@
 <span class="sourceLineNo">1223</span><a id="line.1223"></a>
 <span class="sourceLineNo">1224</span><a id="line.1224">    @Override</a>
 <span class="sourceLineNo">1225</span><a id="line.1225">    public Set&lt;V&gt; removeAll(@CheckForNull Object key) {</a>
-<span class="sourceLineNo">1226</span><a id="line.1226">      Set&lt;V&gt; values = new HashSet&lt;V&gt;(2);</a>
+<span class="sourceLineNo">1226</span><a id="line.1226">      Set&lt;V&gt; values = new HashSet&lt;&gt;(2);</a>
 <span class="sourceLineNo">1227</span><a id="line.1227">      if (!map.containsKey(key)) {</a>
 <span class="sourceLineNo">1228</span><a id="line.1228">        return values;</a>
 <span class="sourceLineNo">1229</span><a id="line.1229">      }</a>

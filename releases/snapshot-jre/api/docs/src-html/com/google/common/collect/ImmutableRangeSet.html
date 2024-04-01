@@ -102,7 +102,7 @@
 <span class="sourceLineNo">093</span><a id="line.93">    } else if (range.equals(Range.all())) {</a>
 <span class="sourceLineNo">094</span><a id="line.94">      return all();</a>
 <span class="sourceLineNo">095</span><a id="line.95">    } else {</a>
-<span class="sourceLineNo">096</span><a id="line.96">      return new ImmutableRangeSet&lt;C&gt;(ImmutableList.of(range));</a>
+<span class="sourceLineNo">096</span><a id="line.96">      return new ImmutableRangeSet&lt;&gt;(ImmutableList.of(range));</a>
 <span class="sourceLineNo">097</span><a id="line.97">    }</a>
 <span class="sourceLineNo">098</span><a id="line.98">  }</a>
 <span class="sourceLineNo">099</span><a id="line.99"></a>
@@ -127,7 +127,7 @@
 <span class="sourceLineNo">118</span><a id="line.118">        return immutableRangeSet;</a>
 <span class="sourceLineNo">119</span><a id="line.119">      }</a>
 <span class="sourceLineNo">120</span><a id="line.120">    }</a>
-<span class="sourceLineNo">121</span><a id="line.121">    return new ImmutableRangeSet&lt;C&gt;(ImmutableList.copyOf(rangeSet.asRanges()));</a>
+<span class="sourceLineNo">121</span><a id="line.121">    return new ImmutableRangeSet&lt;&gt;(ImmutableList.copyOf(rangeSet.asRanges()));</a>
 <span class="sourceLineNo">122</span><a id="line.122">  }</a>
 <span class="sourceLineNo">123</span><a id="line.123"></a>
 <span class="sourceLineNo">124</span><a id="line.124">  /**</a>
@@ -399,7 +399,7 @@
 <span class="sourceLineNo">390</span><a id="line.390">      return complement = of();</a>
 <span class="sourceLineNo">391</span><a id="line.391">    } else {</a>
 <span class="sourceLineNo">392</span><a id="line.392">      ImmutableList&lt;Range&lt;C&gt;&gt; complementRanges = new ComplementRanges();</a>
-<span class="sourceLineNo">393</span><a id="line.393">      result = complement = new ImmutableRangeSet&lt;C&gt;(complementRanges, this);</a>
+<span class="sourceLineNo">393</span><a id="line.393">      result = complement = new ImmutableRangeSet&lt;&gt;(complementRanges, this);</a>
 <span class="sourceLineNo">394</span><a id="line.394">    }</a>
 <span class="sourceLineNo">395</span><a id="line.395">    return result;</a>
 <span class="sourceLineNo">396</span><a id="line.396">  }</a>
@@ -526,7 +526,7 @@
 <span class="sourceLineNo">517</span><a id="line.517">      if (range.encloses(span)) {</a>
 <span class="sourceLineNo">518</span><a id="line.518">        return this;</a>
 <span class="sourceLineNo">519</span><a id="line.519">      } else if (range.isConnected(span)) {</a>
-<span class="sourceLineNo">520</span><a id="line.520">        return new ImmutableRangeSet&lt;C&gt;(intersectRanges(range));</a>
+<span class="sourceLineNo">520</span><a id="line.520">        return new ImmutableRangeSet&lt;&gt;(intersectRanges(range));</a>
 <span class="sourceLineNo">521</span><a id="line.521">      }</a>
 <span class="sourceLineNo">522</span><a id="line.522">    }</a>
 <span class="sourceLineNo">523</span><a id="line.523">    return of();</a>
@@ -704,7 +704,7 @@
 <span class="sourceLineNo">695</span><a id="line.695"></a>
 <span class="sourceLineNo">696</span><a id="line.696">    @Override</a>
 <span class="sourceLineNo">697</span><a id="line.697">    ImmutableSortedSet&lt;C&gt; createDescendingSet() {</a>
-<span class="sourceLineNo">698</span><a id="line.698">      return new DescendingImmutableSortedSet&lt;C&gt;(this);</a>
+<span class="sourceLineNo">698</span><a id="line.698">      return new DescendingImmutableSortedSet&lt;&gt;(this);</a>
 <span class="sourceLineNo">699</span><a id="line.699">    }</a>
 <span class="sourceLineNo">700</span><a id="line.700"></a>
 <span class="sourceLineNo">701</span><a id="line.701">    @Override</a>
@@ -755,7 +755,7 @@
 <span class="sourceLineNo">746</span><a id="line.746"></a>
 <span class="sourceLineNo">747</span><a id="line.747">  /** Returns a new builder for an immutable range set. */</a>
 <span class="sourceLineNo">748</span><a id="line.748">  public static &lt;C extends Comparable&lt;?&gt;&gt; Builder&lt;C&gt; builder() {</a>
-<span class="sourceLineNo">749</span><a id="line.749">    return new Builder&lt;C&gt;();</a>
+<span class="sourceLineNo">749</span><a id="line.749">    return new Builder&lt;&gt;();</a>
 <span class="sourceLineNo">750</span><a id="line.750">  }</a>
 <span class="sourceLineNo">751</span><a id="line.751"></a>
 <span class="sourceLineNo">752</span><a id="line.752">  /**</a>
@@ -850,7 +850,7 @@
 <span class="sourceLineNo">841</span><a id="line.841">          &amp;&amp; Iterables.getOnlyElement(mergedRanges).equals(Range.all())) {</a>
 <span class="sourceLineNo">842</span><a id="line.842">        return all();</a>
 <span class="sourceLineNo">843</span><a id="line.843">      } else {</a>
-<span class="sourceLineNo">844</span><a id="line.844">        return new ImmutableRangeSet&lt;C&gt;(mergedRanges);</a>
+<span class="sourceLineNo">844</span><a id="line.844">        return new ImmutableRangeSet&lt;&gt;(mergedRanges);</a>
 <span class="sourceLineNo">845</span><a id="line.845">      }</a>
 <span class="sourceLineNo">846</span><a id="line.846">    }</a>
 <span class="sourceLineNo">847</span><a id="line.847">  }</a>

@@ -114,7 +114,7 @@
 <span class="sourceLineNo">105</span><a id="line.105">   * @throws NullPointerException if {@code reference} is null</a>
 <span class="sourceLineNo">106</span><a id="line.106">   */</a>
 <span class="sourceLineNo">107</span><a id="line.107">  public static &lt;T&gt; Optional&lt;T&gt; of(T reference) {</a>
-<span class="sourceLineNo">108</span><a id="line.108">    return new Present&lt;T&gt;(checkNotNull(reference));</a>
+<span class="sourceLineNo">108</span><a id="line.108">    return new Present&lt;&gt;(checkNotNull(reference));</a>
 <span class="sourceLineNo">109</span><a id="line.109">  }</a>
 <span class="sourceLineNo">110</span><a id="line.110"></a>
 <span class="sourceLineNo">111</span><a id="line.111">  /**</a>

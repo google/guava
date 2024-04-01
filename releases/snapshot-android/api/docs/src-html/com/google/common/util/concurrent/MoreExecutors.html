@@ -619,7 +619,7 @@
 <span class="sourceLineNo">610</span><a id="line.610">        Callable&lt;V&gt; callable, long delay, TimeUnit unit) {</a>
 <span class="sourceLineNo">611</span><a id="line.611">      TrustedListenableFutureTask&lt;V&gt; task = TrustedListenableFutureTask.create(callable);</a>
 <span class="sourceLineNo">612</span><a id="line.612">      ScheduledFuture&lt;?&gt; scheduled = delegate.schedule(task, delay, unit);</a>
-<span class="sourceLineNo">613</span><a id="line.613">      return new ListenableScheduledTask&lt;V&gt;(task, scheduled);</a>
+<span class="sourceLineNo">613</span><a id="line.613">      return new ListenableScheduledTask&lt;&gt;(task, scheduled);</a>
 <span class="sourceLineNo">614</span><a id="line.614">    }</a>
 <span class="sourceLineNo">615</span><a id="line.615"></a>
 <span class="sourceLineNo">616</span><a id="line.616">    @Override</a>

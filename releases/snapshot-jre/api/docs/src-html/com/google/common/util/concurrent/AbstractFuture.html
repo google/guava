@@ -869,7 +869,7 @@
 <span class="sourceLineNo">860</span><a id="line.860">        }</a>
 <span class="sourceLineNo">861</span><a id="line.861">        return false;</a>
 <span class="sourceLineNo">862</span><a id="line.862">      }</a>
-<span class="sourceLineNo">863</span><a id="line.863">      SetFuture&lt;V&gt; valueToSet = new SetFuture&lt;V&gt;(this, future);</a>
+<span class="sourceLineNo">863</span><a id="line.863">      SetFuture&lt;V&gt; valueToSet = new SetFuture&lt;&gt;(this, future);</a>
 <span class="sourceLineNo">864</span><a id="line.864">      if (ATOMIC_HELPER.casValue(this, null, valueToSet)) {</a>
 <span class="sourceLineNo">865</span><a id="line.865">        // the listener is responsible for calling completeWithFuture, directExecutor is appropriate</a>
 <span class="sourceLineNo">866</span><a id="line.866">        // since all we are doing is unpacking a completed future which should be fast.</a>

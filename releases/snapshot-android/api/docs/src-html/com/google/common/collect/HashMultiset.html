@@ -54,7 +54,7 @@
 <span class="sourceLineNo">045</span><a id="line.45">   * @throws IllegalArgumentException if {@code distinctElements} is negative</a>
 <span class="sourceLineNo">046</span><a id="line.46">   */</a>
 <span class="sourceLineNo">047</span><a id="line.47">  public static &lt;E extends @Nullable Object&gt; HashMultiset&lt;E&gt; create(int distinctElements) {</a>
-<span class="sourceLineNo">048</span><a id="line.48">    return new HashMultiset&lt;E&gt;(distinctElements);</a>
+<span class="sourceLineNo">048</span><a id="line.48">    return new HashMultiset&lt;&gt;(distinctElements);</a>
 <span class="sourceLineNo">049</span><a id="line.49">  }</a>
 <span class="sourceLineNo">050</span><a id="line.50"></a>
 <span class="sourceLineNo">051</span><a id="line.51">  /**</a>

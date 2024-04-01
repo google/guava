@@ -733,7 +733,7 @@
 <span class="sourceLineNo">724</span><a id="line.724">   * Builder} constructor.</a>
 <span class="sourceLineNo">725</span><a id="line.725">   */</a>
 <span class="sourceLineNo">726</span><a id="line.726">  public static &lt;E&gt; Builder&lt;E&gt; builder() {</a>
-<span class="sourceLineNo">727</span><a id="line.727">    return new Builder&lt;E&gt;();</a>
+<span class="sourceLineNo">727</span><a id="line.727">    return new Builder&lt;&gt;();</a>
 <span class="sourceLineNo">728</span><a id="line.728">  }</a>
 <span class="sourceLineNo">729</span><a id="line.729"></a>
 <span class="sourceLineNo">730</span><a id="line.730">  /**</a>
@@ -750,7 +750,7 @@
 <span class="sourceLineNo">741</span><a id="line.741">   */</a>
 <span class="sourceLineNo">742</span><a id="line.742">  public static &lt;E&gt; Builder&lt;E&gt; builderWithExpectedSize(int expectedSize) {</a>
 <span class="sourceLineNo">743</span><a id="line.743">    checkNonnegative(expectedSize, "expectedSize");</a>
-<span class="sourceLineNo">744</span><a id="line.744">    return new ImmutableList.Builder&lt;E&gt;(expectedSize);</a>
+<span class="sourceLineNo">744</span><a id="line.744">    return new ImmutableList.Builder&lt;&gt;(expectedSize);</a>
 <span class="sourceLineNo">745</span><a id="line.745">  }</a>
 <span class="sourceLineNo">746</span><a id="line.746"></a>
 <span class="sourceLineNo">747</span><a id="line.747">  /**</a>

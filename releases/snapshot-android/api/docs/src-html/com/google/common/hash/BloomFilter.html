@@ -147,7 +147,7 @@
 <span class="sourceLineNo">138</span><a id="line.138">   * @since 12.0</a>
 <span class="sourceLineNo">139</span><a id="line.139">   */</a>
 <span class="sourceLineNo">140</span><a id="line.140">  public BloomFilter&lt;T&gt; copy() {</a>
-<span class="sourceLineNo">141</span><a id="line.141">    return new BloomFilter&lt;T&gt;(bits.copy(), numHashFunctions, funnel, strategy);</a>
+<span class="sourceLineNo">141</span><a id="line.141">    return new BloomFilter&lt;&gt;(bits.copy(), numHashFunctions, funnel, strategy);</a>
 <span class="sourceLineNo">142</span><a id="line.142">  }</a>
 <span class="sourceLineNo">143</span><a id="line.143"></a>
 <span class="sourceLineNo">144</span><a id="line.144">  /**</a>
@@ -378,7 +378,7 @@
 <span class="sourceLineNo">369</span><a id="line.369">    long numBits = optimalNumOfBits(expectedInsertions, fpp);</a>
 <span class="sourceLineNo">370</span><a id="line.370">    int numHashFunctions = optimalNumOfHashFunctions(expectedInsertions, numBits);</a>
 <span class="sourceLineNo">371</span><a id="line.371">    try {</a>
-<span class="sourceLineNo">372</span><a id="line.372">      return new BloomFilter&lt;T&gt;(new LockFreeBitArray(numBits), numHashFunctions, funnel, strategy);</a>
+<span class="sourceLineNo">372</span><a id="line.372">      return new BloomFilter&lt;&gt;(new LockFreeBitArray(numBits), numHashFunctions, funnel, strategy);</a>
 <span class="sourceLineNo">373</span><a id="line.373">    } catch (IllegalArgumentException e) {</a>
 <span class="sourceLineNo">374</span><a id="line.374">      throw new IllegalArgumentException("Could not create BloomFilter of " + numBits + " bits", e);</a>
 <span class="sourceLineNo">375</span><a id="line.375">    }</a>
@@ -563,7 +563,7 @@
 <span class="sourceLineNo">554</span><a id="line.554">        dataArray.putData(i, din.readLong());</a>
 <span class="sourceLineNo">555</span><a id="line.555">      }</a>
 <span class="sourceLineNo">556</span><a id="line.556"></a>
-<span class="sourceLineNo">557</span><a id="line.557">      return new BloomFilter&lt;T&gt;(dataArray, numHashFunctions, funnel, strategy);</a>
+<span class="sourceLineNo">557</span><a id="line.557">      return new BloomFilter&lt;&gt;(dataArray, numHashFunctions, funnel, strategy);</a>
 <span class="sourceLineNo">558</span><a id="line.558">    } catch (IOException e) {</a>
 <span class="sourceLineNo">559</span><a id="line.559">      throw e;</a>
 <span class="sourceLineNo">560</span><a id="line.560">    } catch (Exception e) { // sneaky checked exception</a>

@@ -84,7 +84,7 @@
 <span class="sourceLineNo">075</span><a id="line.75">   */</a>
 <span class="sourceLineNo">076</span><a id="line.76">  @SuppressWarnings("rawtypes") // https://github.com/google/guava/issues/989</a>
 <span class="sourceLineNo">077</span><a id="line.77">  public static &lt;E extends Comparable&gt; TreeMultiset&lt;E&gt; create() {</a>
-<span class="sourceLineNo">078</span><a id="line.78">    return new TreeMultiset&lt;E&gt;(Ordering.natural());</a>
+<span class="sourceLineNo">078</span><a id="line.78">    return new TreeMultiset&lt;&gt;(Ordering.natural());</a>
 <span class="sourceLineNo">079</span><a id="line.79">  }</a>
 <span class="sourceLineNo">080</span><a id="line.80"></a>
 <span class="sourceLineNo">081</span><a id="line.81">  /**</a>
@@ -275,7 +275,7 @@
 <span class="sourceLineNo">266</span><a id="line.266">    AvlNode&lt;E&gt; root = rootReference.get();</a>
 <span class="sourceLineNo">267</span><a id="line.267">    if (root == null) {</a>
 <span class="sourceLineNo">268</span><a id="line.268">      int unused = comparator().compare(element, element);</a>
-<span class="sourceLineNo">269</span><a id="line.269">      AvlNode&lt;E&gt; newRoot = new AvlNode&lt;E&gt;(element, occurrences);</a>
+<span class="sourceLineNo">269</span><a id="line.269">      AvlNode&lt;E&gt; newRoot = new AvlNode&lt;&gt;(element, occurrences);</a>
 <span class="sourceLineNo">270</span><a id="line.270">      successor(header, newRoot, header);</a>
 <span class="sourceLineNo">271</span><a id="line.271">      rootReference.checkAndSet(root, newRoot);</a>
 <span class="sourceLineNo">272</span><a id="line.272">      return 0;</a>
@@ -548,7 +548,7 @@
 <span class="sourceLineNo">539</span><a id="line.539"></a>
 <span class="sourceLineNo">540</span><a id="line.540">  @Override</a>
 <span class="sourceLineNo">541</span><a id="line.541">  public SortedMultiset&lt;E&gt; headMultiset(@ParametricNullness E upperBound, BoundType boundType) {</a>
-<span class="sourceLineNo">542</span><a id="line.542">    return new TreeMultiset&lt;E&gt;(</a>
+<span class="sourceLineNo">542</span><a id="line.542">    return new TreeMultiset&lt;&gt;(</a>
 <span class="sourceLineNo">543</span><a id="line.543">        rootReference,</a>
 <span class="sourceLineNo">544</span><a id="line.544">        range.intersect(GeneralRange.upTo(comparator(), upperBound, boundType)),</a>
 <span class="sourceLineNo">545</span><a id="line.545">        header);</a>
@@ -556,7 +556,7 @@
 <span class="sourceLineNo">547</span><a id="line.547"></a>
 <span class="sourceLineNo">548</span><a id="line.548">  @Override</a>
 <span class="sourceLineNo">549</span><a id="line.549">  public SortedMultiset&lt;E&gt; tailMultiset(@ParametricNullness E lowerBound, BoundType boundType) {</a>
-<span class="sourceLineNo">550</span><a id="line.550">    return new TreeMultiset&lt;E&gt;(</a>
+<span class="sourceLineNo">550</span><a id="line.550">    return new TreeMultiset&lt;&gt;(</a>
 <span class="sourceLineNo">551</span><a id="line.551">        rootReference,</a>
 <span class="sourceLineNo">552</span><a id="line.552">        range.intersect(GeneralRange.downTo(comparator(), lowerBound, boundType)),</a>
 <span class="sourceLineNo">553</span><a id="line.553">        header);</a>
@@ -656,7 +656,7 @@
 <span class="sourceLineNo">647</span><a id="line.647">    }</a>
 <span class="sourceLineNo">648</span><a id="line.648"></a>
 <span class="sourceLineNo">649</span><a id="line.649">    private AvlNode&lt;E&gt; addRightChild(@ParametricNullness E e, int count) {</a>
-<span class="sourceLineNo">650</span><a id="line.650">      right = new AvlNode&lt;E&gt;(e, count);</a>
+<span class="sourceLineNo">650</span><a id="line.650">      right = new AvlNode&lt;&gt;(e, count);</a>
 <span class="sourceLineNo">651</span><a id="line.651">      successor(this, right, succ());</a>
 <span class="sourceLineNo">652</span><a id="line.652">      height = Math.max(2, height);</a>
 <span class="sourceLineNo">653</span><a id="line.653">      distinctElements++;</a>
@@ -665,7 +665,7 @@
 <span class="sourceLineNo">656</span><a id="line.656">    }</a>
 <span class="sourceLineNo">657</span><a id="line.657"></a>
 <span class="sourceLineNo">658</span><a id="line.658">    private AvlNode&lt;E&gt; addLeftChild(@ParametricNullness E e, int count) {</a>
-<span class="sourceLineNo">659</span><a id="line.659">      left = new AvlNode&lt;E&gt;(e, count);</a>
+<span class="sourceLineNo">659</span><a id="line.659">      left = new AvlNode&lt;&gt;(e, count);</a>
 <span class="sourceLineNo">660</span><a id="line.660">      successor(pred(), left, this);</a>
 <span class="sourceLineNo">661</span><a id="line.661">      height = Math.max(2, height);</a>
 <span class="sourceLineNo">662</span><a id="line.662">      distinctElements++;</a>

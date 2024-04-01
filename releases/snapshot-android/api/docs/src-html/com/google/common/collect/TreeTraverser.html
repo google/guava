@@ -224,7 +224,7 @@
 <span class="sourceLineNo">215</span><a id="line.215">    }</a>
 <span class="sourceLineNo">216</span><a id="line.216"></a>
 <span class="sourceLineNo">217</span><a id="line.217">    private PostOrderNode&lt;T&gt; expand(T t) {</a>
-<span class="sourceLineNo">218</span><a id="line.218">      return new PostOrderNode&lt;T&gt;(t, children(t).iterator());</a>
+<span class="sourceLineNo">218</span><a id="line.218">      return new PostOrderNode&lt;&gt;(t, children(t).iterator());</a>
 <span class="sourceLineNo">219</span><a id="line.219">    }</a>
 <span class="sourceLineNo">220</span><a id="line.220">  }</a>
 <span class="sourceLineNo">221</span><a id="line.221"></a>
@@ -254,7 +254,7 @@
 <span class="sourceLineNo">245</span><a id="line.245">    private final Queue&lt;T&gt; queue;</a>
 <span class="sourceLineNo">246</span><a id="line.246"></a>
 <span class="sourceLineNo">247</span><a id="line.247">    BreadthFirstIterator(T root) {</a>
-<span class="sourceLineNo">248</span><a id="line.248">      this.queue = new ArrayDeque&lt;T&gt;();</a>
+<span class="sourceLineNo">248</span><a id="line.248">      this.queue = new ArrayDeque&lt;&gt;();</a>
 <span class="sourceLineNo">249</span><a id="line.249">      queue.add(root);</a>
 <span class="sourceLineNo">250</span><a id="line.250">    }</a>
 <span class="sourceLineNo">251</span><a id="line.251"></a>

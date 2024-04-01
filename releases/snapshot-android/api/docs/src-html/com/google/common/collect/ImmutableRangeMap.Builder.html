@@ -97,7 +97,7 @@
 <span class="sourceLineNo">088</span><a id="line.88">    }</a>
 <span class="sourceLineNo">089</span><a id="line.89">    Map&lt;Range&lt;K&gt;, ? extends V&gt; map = rangeMap.asMapOfRanges();</a>
 <span class="sourceLineNo">090</span><a id="line.90">    ImmutableList.Builder&lt;Range&lt;K&gt;&gt; rangesBuilder = new ImmutableList.Builder&lt;&gt;(map.size());</a>
-<span class="sourceLineNo">091</span><a id="line.91">    ImmutableList.Builder&lt;V&gt; valuesBuilder = new ImmutableList.Builder&lt;V&gt;(map.size());</a>
+<span class="sourceLineNo">091</span><a id="line.91">    ImmutableList.Builder&lt;V&gt; valuesBuilder = new ImmutableList.Builder&lt;&gt;(map.size());</a>
 <span class="sourceLineNo">092</span><a id="line.92">    for (Entry&lt;Range&lt;K&gt;, ? extends V&gt; entry : map.entrySet()) {</a>
 <span class="sourceLineNo">093</span><a id="line.93">      rangesBuilder.add(entry.getKey());</a>
 <span class="sourceLineNo">094</span><a id="line.94">      valuesBuilder.add(entry.getValue());</a>
@@ -161,7 +161,7 @@
 <span class="sourceLineNo">152</span><a id="line.152">    public ImmutableRangeMap&lt;K, V&gt; build() {</a>
 <span class="sourceLineNo">153</span><a id="line.153">      Collections.sort(entries, Range.&lt;K&gt;rangeLexOrdering().onKeys());</a>
 <span class="sourceLineNo">154</span><a id="line.154">      ImmutableList.Builder&lt;Range&lt;K&gt;&gt; rangesBuilder = new ImmutableList.Builder&lt;&gt;(entries.size());</a>
-<span class="sourceLineNo">155</span><a id="line.155">      ImmutableList.Builder&lt;V&gt; valuesBuilder = new ImmutableList.Builder&lt;V&gt;(entries.size());</a>
+<span class="sourceLineNo">155</span><a id="line.155">      ImmutableList.Builder&lt;V&gt; valuesBuilder = new ImmutableList.Builder&lt;&gt;(entries.size());</a>
 <span class="sourceLineNo">156</span><a id="line.156">      for (int i = 0; i &lt; entries.size(); i++) {</a>
 <span class="sourceLineNo">157</span><a id="line.157">        Range&lt;K&gt; range = entries.get(i).getKey();</a>
 <span class="sourceLineNo">158</span><a id="line.158">        if (i &gt; 0) {</a>

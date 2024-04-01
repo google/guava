@@ -93,7 +93,7 @@
 <span class="sourceLineNo">084</span><a id="line.84">          (RegularImmutableSortedSet&lt;E&gt;) RegularImmutableSortedSet.NATURAL_EMPTY_SET;</a>
 <span class="sourceLineNo">085</span><a id="line.85">      return result;</a>
 <span class="sourceLineNo">086</span><a id="line.86">    } else {</a>
-<span class="sourceLineNo">087</span><a id="line.87">      return new RegularImmutableSortedSet&lt;E&gt;(ImmutableList.&lt;E&gt;of(), comparator);</a>
+<span class="sourceLineNo">087</span><a id="line.87">      return new RegularImmutableSortedSet&lt;&gt;(ImmutableList.of(), comparator);</a>
 <span class="sourceLineNo">088</span><a id="line.88">    }</a>
 <span class="sourceLineNo">089</span><a id="line.89">  }</a>
 <span class="sourceLineNo">090</span><a id="line.90"></a>
@@ -109,7 +109,7 @@
 <span class="sourceLineNo">100</span><a id="line.100"></a>
 <span class="sourceLineNo">101</span><a id="line.101">  /** Returns an immutable sorted set containing a single element. */</a>
 <span class="sourceLineNo">102</span><a id="line.102">  public static &lt;E extends Comparable&lt;? super E&gt;&gt; ImmutableSortedSet&lt;E&gt; of(E element) {</a>
-<span class="sourceLineNo">103</span><a id="line.103">    return new RegularImmutableSortedSet&lt;E&gt;(ImmutableList.of(element), Ordering.natural());</a>
+<span class="sourceLineNo">103</span><a id="line.103">    return new RegularImmutableSortedSet&lt;&gt;(ImmutableList.of(element), Ordering.natural());</a>
 <span class="sourceLineNo">104</span><a id="line.104">  }</a>
 <span class="sourceLineNo">105</span><a id="line.105"></a>
 <span class="sourceLineNo">106</span><a id="line.106">  /**</a>
@@ -353,7 +353,7 @@
 <span class="sourceLineNo">344</span><a id="line.344">    if (list.isEmpty()) {</a>
 <span class="sourceLineNo">345</span><a id="line.345">      return emptySet(comparator);</a>
 <span class="sourceLineNo">346</span><a id="line.346">    } else {</a>
-<span class="sourceLineNo">347</span><a id="line.347">      return new RegularImmutableSortedSet&lt;E&gt;(list, comparator);</a>
+<span class="sourceLineNo">347</span><a id="line.347">      return new RegularImmutableSortedSet&lt;&gt;(list, comparator);</a>
 <span class="sourceLineNo">348</span><a id="line.348">    }</a>
 <span class="sourceLineNo">349</span><a id="line.349">  }</a>
 <span class="sourceLineNo">350</span><a id="line.350"></a>
@@ -402,7 +402,7 @@
 <span class="sourceLineNo">393</span><a id="line.393">   * @throws NullPointerException if {@code comparator} is null</a>
 <span class="sourceLineNo">394</span><a id="line.394">   */</a>
 <span class="sourceLineNo">395</span><a id="line.395">  public static &lt;E&gt; Builder&lt;E&gt; orderedBy(Comparator&lt;E&gt; comparator) {</a>
-<span class="sourceLineNo">396</span><a id="line.396">    return new Builder&lt;E&gt;(comparator);</a>
+<span class="sourceLineNo">396</span><a id="line.396">    return new Builder&lt;&gt;(comparator);</a>
 <span class="sourceLineNo">397</span><a id="line.397">  }</a>
 <span class="sourceLineNo">398</span><a id="line.398"></a>
 <span class="sourceLineNo">399</span><a id="line.399">  /**</a>
@@ -410,7 +410,7 @@
 <span class="sourceLineNo">401</span><a id="line.401">   * of their natural ordering.</a>
 <span class="sourceLineNo">402</span><a id="line.402">   */</a>
 <span class="sourceLineNo">403</span><a id="line.403">  public static &lt;E extends Comparable&lt;?&gt;&gt; Builder&lt;E&gt; reverseOrder() {</a>
-<span class="sourceLineNo">404</span><a id="line.404">    return new Builder&lt;E&gt;(Collections.reverseOrder());</a>
+<span class="sourceLineNo">404</span><a id="line.404">    return new Builder&lt;&gt;(Collections.reverseOrder());</a>
 <span class="sourceLineNo">405</span><a id="line.405">  }</a>
 <span class="sourceLineNo">406</span><a id="line.406"></a>
 <span class="sourceLineNo">407</span><a id="line.407">  /**</a>
@@ -420,7 +420,7 @@
 <span class="sourceLineNo">411</span><a id="line.411">   * implement {@link Comparable}.</a>
 <span class="sourceLineNo">412</span><a id="line.412">   */</a>
 <span class="sourceLineNo">413</span><a id="line.413">  public static &lt;E extends Comparable&lt;?&gt;&gt; Builder&lt;E&gt; naturalOrder() {</a>
-<span class="sourceLineNo">414</span><a id="line.414">    return new Builder&lt;E&gt;(Ordering.natural());</a>
+<span class="sourceLineNo">414</span><a id="line.414">    return new Builder&lt;&gt;(Ordering.natural());</a>
 <span class="sourceLineNo">415</span><a id="line.415">  }</a>
 <span class="sourceLineNo">416</span><a id="line.416"></a>
 <span class="sourceLineNo">417</span><a id="line.417">  /**</a>

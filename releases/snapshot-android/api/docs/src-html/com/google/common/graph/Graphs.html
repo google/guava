@@ -175,7 +175,7 @@
 <span class="sourceLineNo">166</span><a id="line.166">    } else {</a>
 <span class="sourceLineNo">167</span><a id="line.167">      // An optimization for the undirected case: for every node B reachable from node A,</a>
 <span class="sourceLineNo">168</span><a id="line.168">      // node A and node B have the same reachability set.</a>
-<span class="sourceLineNo">169</span><a id="line.169">      Set&lt;N&gt; visitedNodes = new HashSet&lt;N&gt;();</a>
+<span class="sourceLineNo">169</span><a id="line.169">      Set&lt;N&gt; visitedNodes = new HashSet&lt;&gt;();</a>
 <span class="sourceLineNo">170</span><a id="line.170">      for (N node : graph.nodes()) {</a>
 <span class="sourceLineNo">171</span><a id="line.171">        if (!visitedNodes.contains(node)) {</a>
 <span class="sourceLineNo">172</span><a id="line.172">          Set&lt;N&gt; reachableNodes = reachableNodes(graph, node);</a>
@@ -227,7 +227,7 @@
 <span class="sourceLineNo">218</span><a id="line.218">      return ((TransposedGraph&lt;N&gt;) graph).graph;</a>
 <span class="sourceLineNo">219</span><a id="line.219">    }</a>
 <span class="sourceLineNo">220</span><a id="line.220"></a>
-<span class="sourceLineNo">221</span><a id="line.221">    return new TransposedGraph&lt;N&gt;(graph);</a>
+<span class="sourceLineNo">221</span><a id="line.221">    return new TransposedGraph&lt;&gt;(graph);</a>
 <span class="sourceLineNo">222</span><a id="line.222">  }</a>
 <span class="sourceLineNo">223</span><a id="line.223"></a>
 <span class="sourceLineNo">224</span><a id="line.224">  /**</a>

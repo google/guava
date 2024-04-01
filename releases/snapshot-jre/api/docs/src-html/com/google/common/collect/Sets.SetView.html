@@ -189,7 +189,7 @@
 <span class="sourceLineNo">180</span><a id="line.180">   * href="http://goo.gl/iz2Wi"&gt;"diamond" syntax&lt;/a&gt;.</a>
 <span class="sourceLineNo">181</span><a id="line.181">   */</a>
 <span class="sourceLineNo">182</span><a id="line.182">  public static &lt;E extends @Nullable Object&gt; HashSet&lt;E&gt; newHashSet() {</a>
-<span class="sourceLineNo">183</span><a id="line.183">    return new HashSet&lt;E&gt;();</a>
+<span class="sourceLineNo">183</span><a id="line.183">    return new HashSet&lt;&gt;();</a>
 <span class="sourceLineNo">184</span><a id="line.184">  }</a>
 <span class="sourceLineNo">185</span><a id="line.185"></a>
 <span class="sourceLineNo">186</span><a id="line.186">  /**</a>
@@ -268,7 +268,7 @@
 <span class="sourceLineNo">259</span><a id="line.259">   */</a>
 <span class="sourceLineNo">260</span><a id="line.260">  public static &lt;E extends @Nullable Object&gt; HashSet&lt;E&gt; newHashSetWithExpectedSize(</a>
 <span class="sourceLineNo">261</span><a id="line.261">      int expectedSize) {</a>
-<span class="sourceLineNo">262</span><a id="line.262">    return new HashSet&lt;E&gt;(Maps.capacity(expectedSize));</a>
+<span class="sourceLineNo">262</span><a id="line.262">    return new HashSet&lt;&gt;(Maps.capacity(expectedSize));</a>
 <span class="sourceLineNo">263</span><a id="line.263">  }</a>
 <span class="sourceLineNo">264</span><a id="line.264"></a>
 <span class="sourceLineNo">265</span><a id="line.265">  /**</a>
@@ -318,7 +318,7 @@
 <span class="sourceLineNo">309</span><a id="line.309">   * @return a new, empty {@code LinkedHashSet}</a>
 <span class="sourceLineNo">310</span><a id="line.310">   */</a>
 <span class="sourceLineNo">311</span><a id="line.311">  public static &lt;E extends @Nullable Object&gt; LinkedHashSet&lt;E&gt; newLinkedHashSet() {</a>
-<span class="sourceLineNo">312</span><a id="line.312">    return new LinkedHashSet&lt;E&gt;();</a>
+<span class="sourceLineNo">312</span><a id="line.312">    return new LinkedHashSet&lt;&gt;();</a>
 <span class="sourceLineNo">313</span><a id="line.313">  }</a>
 <span class="sourceLineNo">314</span><a id="line.314"></a>
 <span class="sourceLineNo">315</span><a id="line.315">  /**</a>
@@ -339,7 +339,7 @@
 <span class="sourceLineNo">330</span><a id="line.330">  public static &lt;E extends @Nullable Object&gt; LinkedHashSet&lt;E&gt; newLinkedHashSet(</a>
 <span class="sourceLineNo">331</span><a id="line.331">      Iterable&lt;? extends E&gt; elements) {</a>
 <span class="sourceLineNo">332</span><a id="line.332">    if (elements instanceof Collection) {</a>
-<span class="sourceLineNo">333</span><a id="line.333">      return new LinkedHashSet&lt;E&gt;((Collection&lt;? extends E&gt;) elements);</a>
+<span class="sourceLineNo">333</span><a id="line.333">      return new LinkedHashSet&lt;&gt;((Collection&lt;? extends E&gt;) elements);</a>
 <span class="sourceLineNo">334</span><a id="line.334">    }</a>
 <span class="sourceLineNo">335</span><a id="line.335">    LinkedHashSet&lt;E&gt; set = newLinkedHashSet();</a>
 <span class="sourceLineNo">336</span><a id="line.336">    Iterables.addAll(set, elements);</a>
@@ -360,7 +360,7 @@
 <span class="sourceLineNo">351</span><a id="line.351">   */</a>
 <span class="sourceLineNo">352</span><a id="line.352">  public static &lt;E extends @Nullable Object&gt; LinkedHashSet&lt;E&gt; newLinkedHashSetWithExpectedSize(</a>
 <span class="sourceLineNo">353</span><a id="line.353">      int expectedSize) {</a>
-<span class="sourceLineNo">354</span><a id="line.354">    return new LinkedHashSet&lt;E&gt;(Maps.capacity(expectedSize));</a>
+<span class="sourceLineNo">354</span><a id="line.354">    return new LinkedHashSet&lt;&gt;(Maps.capacity(expectedSize));</a>
 <span class="sourceLineNo">355</span><a id="line.355">  }</a>
 <span class="sourceLineNo">356</span><a id="line.356"></a>
 <span class="sourceLineNo">357</span><a id="line.357">  // TreeSet</a>
@@ -379,7 +379,7 @@
 <span class="sourceLineNo">370</span><a id="line.370">   */</a>
 <span class="sourceLineNo">371</span><a id="line.371">  @SuppressWarnings("rawtypes") // https://github.com/google/guava/issues/989</a>
 <span class="sourceLineNo">372</span><a id="line.372">  public static &lt;E extends Comparable&gt; TreeSet&lt;E&gt; newTreeSet() {</a>
-<span class="sourceLineNo">373</span><a id="line.373">    return new TreeSet&lt;E&gt;();</a>
+<span class="sourceLineNo">373</span><a id="line.373">    return new TreeSet&lt;&gt;();</a>
 <span class="sourceLineNo">374</span><a id="line.374">  }</a>
 <span class="sourceLineNo">375</span><a id="line.375"></a>
 <span class="sourceLineNo">376</span><a id="line.376">  /**</a>
@@ -428,7 +428,7 @@
 <span class="sourceLineNo">419</span><a id="line.419">   */</a>
 <span class="sourceLineNo">420</span><a id="line.420">  public static &lt;E extends @Nullable Object&gt; TreeSet&lt;E&gt; newTreeSet(</a>
 <span class="sourceLineNo">421</span><a id="line.421">      Comparator&lt;? super E&gt; comparator) {</a>
-<span class="sourceLineNo">422</span><a id="line.422">    return new TreeSet&lt;E&gt;(checkNotNull(comparator));</a>
+<span class="sourceLineNo">422</span><a id="line.422">    return new TreeSet&lt;&gt;(checkNotNull(comparator));</a>
 <span class="sourceLineNo">423</span><a id="line.423">  }</a>
 <span class="sourceLineNo">424</span><a id="line.424"></a>
 <span class="sourceLineNo">425</span><a id="line.425">  /**</a>
@@ -456,7 +456,7 @@
 <span class="sourceLineNo">447</span><a id="line.447">  @J2ktIncompatible</a>
 <span class="sourceLineNo">448</span><a id="line.448">  @GwtIncompatible // CopyOnWriteArraySet</a>
 <span class="sourceLineNo">449</span><a id="line.449">  public static &lt;E extends @Nullable Object&gt; CopyOnWriteArraySet&lt;E&gt; newCopyOnWriteArraySet() {</a>
-<span class="sourceLineNo">450</span><a id="line.450">    return new CopyOnWriteArraySet&lt;E&gt;();</a>
+<span class="sourceLineNo">450</span><a id="line.450">    return new CopyOnWriteArraySet&lt;&gt;();</a>
 <span class="sourceLineNo">451</span><a id="line.451">  }</a>
 <span class="sourceLineNo">452</span><a id="line.452"></a>
 <span class="sourceLineNo">453</span><a id="line.453">  /**</a>
@@ -476,7 +476,7 @@
 <span class="sourceLineNo">467</span><a id="line.467">        (elements instanceof Collection)</a>
 <span class="sourceLineNo">468</span><a id="line.468">            ? (Collection&lt;? extends E&gt;) elements</a>
 <span class="sourceLineNo">469</span><a id="line.469">            : Lists.newArrayList(elements);</a>
-<span class="sourceLineNo">470</span><a id="line.470">    return new CopyOnWriteArraySet&lt;E&gt;(elementsCollection);</a>
+<span class="sourceLineNo">470</span><a id="line.470">    return new CopyOnWriteArraySet&lt;&gt;(elementsCollection);</a>
 <span class="sourceLineNo">471</span><a id="line.471">  }</a>
 <span class="sourceLineNo">472</span><a id="line.472"></a>
 <span class="sourceLineNo">473</span><a id="line.473">  /**</a>
@@ -1067,11 +1067,11 @@
 <span class="sourceLineNo">1058</span><a id="line.1058">      // Support clear(), removeAll(), and retainAll() when filtering a filtered</a>
 <span class="sourceLineNo">1059</span><a id="line.1059">      // collection.</a>
 <span class="sourceLineNo">1060</span><a id="line.1060">      FilteredSet&lt;E&gt; filtered = (FilteredSet&lt;E&gt;) unfiltered;</a>
-<span class="sourceLineNo">1061</span><a id="line.1061">      Predicate&lt;E&gt; combinedPredicate = Predicates.&lt;E&gt;and(filtered.predicate, predicate);</a>
-<span class="sourceLineNo">1062</span><a id="line.1062">      return new FilteredSet&lt;E&gt;((Set&lt;E&gt;) filtered.unfiltered, combinedPredicate);</a>
+<span class="sourceLineNo">1061</span><a id="line.1061">      Predicate&lt;E&gt; combinedPredicate = Predicates.and(filtered.predicate, predicate);</a>
+<span class="sourceLineNo">1062</span><a id="line.1062">      return new FilteredSet&lt;&gt;((Set&lt;E&gt;) filtered.unfiltered, combinedPredicate);</a>
 <span class="sourceLineNo">1063</span><a id="line.1063">    }</a>
 <span class="sourceLineNo">1064</span><a id="line.1064"></a>
-<span class="sourceLineNo">1065</span><a id="line.1065">    return new FilteredSet&lt;E&gt;(checkNotNull(unfiltered), checkNotNull(predicate));</a>
+<span class="sourceLineNo">1065</span><a id="line.1065">    return new FilteredSet&lt;&gt;(checkNotNull(unfiltered), checkNotNull(predicate));</a>
 <span class="sourceLineNo">1066</span><a id="line.1066">  }</a>
 <span class="sourceLineNo">1067</span><a id="line.1067"></a>
 <span class="sourceLineNo">1068</span><a id="line.1068">  /**</a>
@@ -1104,11 +1104,11 @@
 <span class="sourceLineNo">1095</span><a id="line.1095">      // Support clear(), removeAll(), and retainAll() when filtering a filtered</a>
 <span class="sourceLineNo">1096</span><a id="line.1096">      // collection.</a>
 <span class="sourceLineNo">1097</span><a id="line.1097">      FilteredSet&lt;E&gt; filtered = (FilteredSet&lt;E&gt;) unfiltered;</a>
-<span class="sourceLineNo">1098</span><a id="line.1098">      Predicate&lt;E&gt; combinedPredicate = Predicates.&lt;E&gt;and(filtered.predicate, predicate);</a>
-<span class="sourceLineNo">1099</span><a id="line.1099">      return new FilteredSortedSet&lt;E&gt;((SortedSet&lt;E&gt;) filtered.unfiltered, combinedPredicate);</a>
+<span class="sourceLineNo">1098</span><a id="line.1098">      Predicate&lt;E&gt; combinedPredicate = Predicates.and(filtered.predicate, predicate);</a>
+<span class="sourceLineNo">1099</span><a id="line.1099">      return new FilteredSortedSet&lt;&gt;((SortedSet&lt;E&gt;) filtered.unfiltered, combinedPredicate);</a>
 <span class="sourceLineNo">1100</span><a id="line.1100">    }</a>
 <span class="sourceLineNo">1101</span><a id="line.1101"></a>
-<span class="sourceLineNo">1102</span><a id="line.1102">    return new FilteredSortedSet&lt;E&gt;(checkNotNull(unfiltered), checkNotNull(predicate));</a>
+<span class="sourceLineNo">1102</span><a id="line.1102">    return new FilteredSortedSet&lt;&gt;(checkNotNull(unfiltered), checkNotNull(predicate));</a>
 <span class="sourceLineNo">1103</span><a id="line.1103">  }</a>
 <span class="sourceLineNo">1104</span><a id="line.1104"></a>
 <span class="sourceLineNo">1105</span><a id="line.1105">  /**</a>
@@ -1142,11 +1142,11 @@
 <span class="sourceLineNo">1133</span><a id="line.1133">      // Support clear(), removeAll(), and retainAll() when filtering a filtered</a>
 <span class="sourceLineNo">1134</span><a id="line.1134">      // collection.</a>
 <span class="sourceLineNo">1135</span><a id="line.1135">      FilteredSet&lt;E&gt; filtered = (FilteredSet&lt;E&gt;) unfiltered;</a>
-<span class="sourceLineNo">1136</span><a id="line.1136">      Predicate&lt;E&gt; combinedPredicate = Predicates.&lt;E&gt;and(filtered.predicate, predicate);</a>
-<span class="sourceLineNo">1137</span><a id="line.1137">      return new FilteredNavigableSet&lt;E&gt;((NavigableSet&lt;E&gt;) filtered.unfiltered, combinedPredicate);</a>
+<span class="sourceLineNo">1136</span><a id="line.1136">      Predicate&lt;E&gt; combinedPredicate = Predicates.and(filtered.predicate, predicate);</a>
+<span class="sourceLineNo">1137</span><a id="line.1137">      return new FilteredNavigableSet&lt;&gt;((NavigableSet&lt;E&gt;) filtered.unfiltered, combinedPredicate);</a>
 <span class="sourceLineNo">1138</span><a id="line.1138">    }</a>
 <span class="sourceLineNo">1139</span><a id="line.1139"></a>
-<span class="sourceLineNo">1140</span><a id="line.1140">    return new FilteredNavigableSet&lt;E&gt;(checkNotNull(unfiltered), checkNotNull(predicate));</a>
+<span class="sourceLineNo">1140</span><a id="line.1140">    return new FilteredNavigableSet&lt;&gt;(checkNotNull(unfiltered), checkNotNull(predicate));</a>
 <span class="sourceLineNo">1141</span><a id="line.1141">  }</a>
 <span class="sourceLineNo">1142</span><a id="line.1142"></a>
 <span class="sourceLineNo">1143</span><a id="line.1143">  private static class FilteredSet&lt;E extends @Nullable Object&gt; extends FilteredCollection&lt;E&gt;</a>
@@ -1181,18 +1181,18 @@
 <span class="sourceLineNo">1172</span><a id="line.1172"></a>
 <span class="sourceLineNo">1173</span><a id="line.1173">    @Override</a>
 <span class="sourceLineNo">1174</span><a id="line.1174">    public SortedSet&lt;E&gt; subSet(@ParametricNullness E fromElement, @ParametricNullness E toElement) {</a>
-<span class="sourceLineNo">1175</span><a id="line.1175">      return new FilteredSortedSet&lt;E&gt;(</a>
+<span class="sourceLineNo">1175</span><a id="line.1175">      return new FilteredSortedSet&lt;&gt;(</a>
 <span class="sourceLineNo">1176</span><a id="line.1176">          ((SortedSet&lt;E&gt;) unfiltered).subSet(fromElement, toElement), predicate);</a>
 <span class="sourceLineNo">1177</span><a id="line.1177">    }</a>
 <span class="sourceLineNo">1178</span><a id="line.1178"></a>
 <span class="sourceLineNo">1179</span><a id="line.1179">    @Override</a>
 <span class="sourceLineNo">1180</span><a id="line.1180">    public SortedSet&lt;E&gt; headSet(@ParametricNullness E toElement) {</a>
-<span class="sourceLineNo">1181</span><a id="line.1181">      return new FilteredSortedSet&lt;E&gt;(((SortedSet&lt;E&gt;) unfiltered).headSet(toElement), predicate);</a>
+<span class="sourceLineNo">1181</span><a id="line.1181">      return new FilteredSortedSet&lt;&gt;(((SortedSet&lt;E&gt;) unfiltered).headSet(toElement), predicate);</a>
 <span class="sourceLineNo">1182</span><a id="line.1182">    }</a>
 <span class="sourceLineNo">1183</span><a id="line.1183"></a>
 <span class="sourceLineNo">1184</span><a id="line.1184">    @Override</a>
 <span class="sourceLineNo">1185</span><a id="line.1185">    public SortedSet&lt;E&gt; tailSet(@ParametricNullness E fromElement) {</a>
-<span class="sourceLineNo">1186</span><a id="line.1186">      return new FilteredSortedSet&lt;E&gt;(((SortedSet&lt;E&gt;) unfiltered).tailSet(fromElement), predicate);</a>
+<span class="sourceLineNo">1186</span><a id="line.1186">      return new FilteredSortedSet&lt;&gt;(((SortedSet&lt;E&gt;) unfiltered).tailSet(fromElement), predicate);</a>
 <span class="sourceLineNo">1187</span><a id="line.1187">    }</a>
 <span class="sourceLineNo">1188</span><a id="line.1188"></a>
 <span class="sourceLineNo">1189</span><a id="line.1189">    @Override</a>
@@ -1622,7 +1622,7 @@
 <span class="sourceLineNo">1613</span><a id="line.1613">      return new AbstractIndexedListIterator&lt;Set&lt;E&gt;&gt;(size()) {</a>
 <span class="sourceLineNo">1614</span><a id="line.1614">        @Override</a>
 <span class="sourceLineNo">1615</span><a id="line.1615">        protected Set&lt;E&gt; get(final int setBits) {</a>
-<span class="sourceLineNo">1616</span><a id="line.1616">          return new SubSet&lt;E&gt;(inputSet, setBits);</a>
+<span class="sourceLineNo">1616</span><a id="line.1616">          return new SubSet&lt;&gt;(inputSet, setBits);</a>
 <span class="sourceLineNo">1617</span><a id="line.1617">        }</a>
 <span class="sourceLineNo">1618</span><a id="line.1618">      };</a>
 <span class="sourceLineNo">1619</span><a id="line.1619">    }</a>
@@ -1834,7 +1834,7 @@
 <span class="sourceLineNo">1825</span><a id="line.1825">    if (set instanceof ImmutableCollection || set instanceof UnmodifiableNavigableSet) {</a>
 <span class="sourceLineNo">1826</span><a id="line.1826">      return set;</a>
 <span class="sourceLineNo">1827</span><a id="line.1827">    }</a>
-<span class="sourceLineNo">1828</span><a id="line.1828">    return new UnmodifiableNavigableSet&lt;E&gt;(set);</a>
+<span class="sourceLineNo">1828</span><a id="line.1828">    return new UnmodifiableNavigableSet&lt;&gt;(set);</a>
 <span class="sourceLineNo">1829</span><a id="line.1829">  }</a>
 <span class="sourceLineNo">1830</span><a id="line.1830"></a>
 <span class="sourceLineNo">1831</span><a id="line.1831">  static final class UnmodifiableNavigableSet&lt;E extends @Nullable Object&gt;</a>
@@ -1916,7 +1916,7 @@
 <span class="sourceLineNo">1907</span><a id="line.1907">    public NavigableSet&lt;E&gt; descendingSet() {</a>
 <span class="sourceLineNo">1908</span><a id="line.1908">      UnmodifiableNavigableSet&lt;E&gt; result = descendingSet;</a>
 <span class="sourceLineNo">1909</span><a id="line.1909">      if (result == null) {</a>
-<span class="sourceLineNo">1910</span><a id="line.1910">        result = descendingSet = new UnmodifiableNavigableSet&lt;E&gt;(delegate.descendingSet());</a>
+<span class="sourceLineNo">1910</span><a id="line.1910">        result = descendingSet = new UnmodifiableNavigableSet&lt;&gt;(delegate.descendingSet());</a>
 <span class="sourceLineNo">1911</span><a id="line.1911">        result.descendingSet = this;</a>
 <span class="sourceLineNo">1912</span><a id="line.1912">      }</a>
 <span class="sourceLineNo">1913</span><a id="line.1913">      return result;</a>

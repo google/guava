@@ -91,7 +91,7 @@
 <span class="sourceLineNo">082</span><a id="line.82">   * type conveys the immutability guarantee.</a>
 <span class="sourceLineNo">083</span><a id="line.83">   */</a>
 <span class="sourceLineNo">084</span><a id="line.84">  public static &lt;E&gt; ImmutableSet&lt;E&gt; of(E element) {</a>
-<span class="sourceLineNo">085</span><a id="line.85">    return new SingletonImmutableSet&lt;E&gt;(element);</a>
+<span class="sourceLineNo">085</span><a id="line.85">    return new SingletonImmutableSet&lt;&gt;(element);</a>
 <span class="sourceLineNo">086</span><a id="line.86">  }</a>
 <span class="sourceLineNo">087</span><a id="line.87"></a>
 <span class="sourceLineNo">088</span><a id="line.88">  /**</a>
@@ -426,7 +426,7 @@
 <span class="sourceLineNo">417</span><a id="line.417">   * Builder} constructor.</a>
 <span class="sourceLineNo">418</span><a id="line.418">   */</a>
 <span class="sourceLineNo">419</span><a id="line.419">  public static &lt;E&gt; Builder&lt;E&gt; builder() {</a>
-<span class="sourceLineNo">420</span><a id="line.420">    return new Builder&lt;E&gt;();</a>
+<span class="sourceLineNo">420</span><a id="line.420">    return new Builder&lt;&gt;();</a>
 <span class="sourceLineNo">421</span><a id="line.421">  }</a>
 <span class="sourceLineNo">422</span><a id="line.422"></a>
 <span class="sourceLineNo">423</span><a id="line.423">  /**</a>
@@ -443,7 +443,7 @@
 <span class="sourceLineNo">434</span><a id="line.434">   */</a>
 <span class="sourceLineNo">435</span><a id="line.435">  public static &lt;E&gt; Builder&lt;E&gt; builderWithExpectedSize(int expectedSize) {</a>
 <span class="sourceLineNo">436</span><a id="line.436">    checkNonnegative(expectedSize, "expectedSize");</a>
-<span class="sourceLineNo">437</span><a id="line.437">    return new Builder&lt;E&gt;(expectedSize);</a>
+<span class="sourceLineNo">437</span><a id="line.437">    return new Builder&lt;&gt;(expectedSize);</a>
 <span class="sourceLineNo">438</span><a id="line.438">  }</a>
 <span class="sourceLineNo">439</span><a id="line.439"></a>
 <span class="sourceLineNo">440</span><a id="line.440">  /**</a>

@@ -115,7 +115,7 @@
 <span class="sourceLineNo">106</span><a id="line.106">      Multiset&lt;E&gt; result = (Multiset&lt;E&gt;) multiset;</a>
 <span class="sourceLineNo">107</span><a id="line.107">      return result;</a>
 <span class="sourceLineNo">108</span><a id="line.108">    }</a>
-<span class="sourceLineNo">109</span><a id="line.109">    return new UnmodifiableMultiset&lt;E&gt;(checkNotNull(multiset));</a>
+<span class="sourceLineNo">109</span><a id="line.109">    return new UnmodifiableMultiset&lt;&gt;(checkNotNull(multiset));</a>
 <span class="sourceLineNo">110</span><a id="line.110">  }</a>
 <span class="sourceLineNo">111</span><a id="line.111"></a>
 <span class="sourceLineNo">112</span><a id="line.112">  /**</a>
@@ -246,7 +246,7 @@
 <span class="sourceLineNo">237</span><a id="line.237">  public static &lt;E extends @Nullable Object&gt; SortedMultiset&lt;E&gt; unmodifiableSortedMultiset(</a>
 <span class="sourceLineNo">238</span><a id="line.238">      SortedMultiset&lt;E&gt; sortedMultiset) {</a>
 <span class="sourceLineNo">239</span><a id="line.239">    // it's in its own file so it can be emulated for GWT</a>
-<span class="sourceLineNo">240</span><a id="line.240">    return new UnmodifiableSortedMultiset&lt;E&gt;(checkNotNull(sortedMultiset));</a>
+<span class="sourceLineNo">240</span><a id="line.240">    return new UnmodifiableSortedMultiset&lt;&gt;(checkNotNull(sortedMultiset));</a>
 <span class="sourceLineNo">241</span><a id="line.241">  }</a>
 <span class="sourceLineNo">242</span><a id="line.242"></a>
 <span class="sourceLineNo">243</span><a id="line.243">  /**</a>
@@ -259,7 +259,7 @@
 <span class="sourceLineNo">250</span><a id="line.250">   */</a>
 <span class="sourceLineNo">251</span><a id="line.251">  public static &lt;E extends @Nullable Object&gt; Multiset.Entry&lt;E&gt; immutableEntry(</a>
 <span class="sourceLineNo">252</span><a id="line.252">      @ParametricNullness E e, int n) {</a>
-<span class="sourceLineNo">253</span><a id="line.253">    return new ImmutableEntry&lt;E&gt;(e, n);</a>
+<span class="sourceLineNo">253</span><a id="line.253">    return new ImmutableEntry&lt;&gt;(e, n);</a>
 <span class="sourceLineNo">254</span><a id="line.254">  }</a>
 <span class="sourceLineNo">255</span><a id="line.255"></a>
 <span class="sourceLineNo">256</span><a id="line.256">  static class ImmutableEntry&lt;E extends @Nullable Object&gt; extends AbstractEntry&lt;E&gt;</a>
@@ -323,10 +323,10 @@
 <span class="sourceLineNo">314</span><a id="line.314">      // Support clear(), removeAll(), and retainAll() when filtering a filtered</a>
 <span class="sourceLineNo">315</span><a id="line.315">      // collection.</a>
 <span class="sourceLineNo">316</span><a id="line.316">      FilteredMultiset&lt;E&gt; filtered = (FilteredMultiset&lt;E&gt;) unfiltered;</a>
-<span class="sourceLineNo">317</span><a id="line.317">      Predicate&lt;E&gt; combinedPredicate = Predicates.&lt;E&gt;and(filtered.predicate, predicate);</a>
-<span class="sourceLineNo">318</span><a id="line.318">      return new FilteredMultiset&lt;E&gt;(filtered.unfiltered, combinedPredicate);</a>
+<span class="sourceLineNo">317</span><a id="line.317">      Predicate&lt;E&gt; combinedPredicate = Predicates.and(filtered.predicate, predicate);</a>
+<span class="sourceLineNo">318</span><a id="line.318">      return new FilteredMultiset&lt;&gt;(filtered.unfiltered, combinedPredicate);</a>
 <span class="sourceLineNo">319</span><a id="line.319">    }</a>
-<span class="sourceLineNo">320</span><a id="line.320">    return new FilteredMultiset&lt;E&gt;(unfiltered, predicate);</a>
+<span class="sourceLineNo">320</span><a id="line.320">    return new FilteredMultiset&lt;&gt;(unfiltered, predicate);</a>
 <span class="sourceLineNo">321</span><a id="line.321">  }</a>
 <span class="sourceLineNo">322</span><a id="line.322"></a>
 <span class="sourceLineNo">323</span><a id="line.323">  private static final class FilteredMultiset&lt;E extends @Nullable Object&gt; extends ViewMultiset&lt;E&gt; {</a>
@@ -1074,7 +1074,7 @@
 <span class="sourceLineNo">1065</span><a id="line.1065"></a>
 <span class="sourceLineNo">1066</span><a id="line.1066">  /** An implementation of {@link Multiset#iterator}. */</a>
 <span class="sourceLineNo">1067</span><a id="line.1067">  static &lt;E extends @Nullable Object&gt; Iterator&lt;E&gt; iteratorImpl(Multiset&lt;E&gt; multiset) {</a>
-<span class="sourceLineNo">1068</span><a id="line.1068">    return new MultisetIteratorImpl&lt;E&gt;(multiset, multiset.entrySet().iterator());</a>
+<span class="sourceLineNo">1068</span><a id="line.1068">    return new MultisetIteratorImpl&lt;&gt;(multiset, multiset.entrySet().iterator());</a>
 <span class="sourceLineNo">1069</span><a id="line.1069">  }</a>
 <span class="sourceLineNo">1070</span><a id="line.1070"></a>
 <span class="sourceLineNo">1071</span><a id="line.1071">  static final class MultisetIteratorImpl&lt;E extends @Nullable Object&gt; implements Iterator&lt;E&gt; {</a>
