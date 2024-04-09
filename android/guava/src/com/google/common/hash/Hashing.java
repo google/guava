@@ -282,7 +282,7 @@ public final class Hashing {
    * MD5 (128 hash bits) hash function and the given secret key.
    *
    * <p>If you are designing a new system that needs HMAC, prefer {@link #hmacSha256} or other
-   * future-proof algorithsm <a
+   * future-proof algorithms <a
    * href="https://datatracker.ietf.org/doc/html/rfc6151#section-2.3">over {@code hmacMd5}</a>.
    *
    * @param key the secret key
@@ -299,7 +299,7 @@ public final class Hashing {
    * and the MD5 algorithm.
    *
    * <p>If you are designing a new system that needs HMAC, prefer {@link #hmacSha256} or other
-   * future-proof algorithsm <a
+   * future-proof algorithms <a
    * href="https://datatracker.ietf.org/doc/html/rfc6151#section-2.3">over {@code hmacMd5}</a>.
    *
    * @param key the key material of the secret key
