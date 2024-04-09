@@ -189,8 +189,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
       return copyOfEnumSet((EnumSet<?>) elements);
     }
 
-    int size = elements.size();
-    if (size == 0) {
+    if (elements.isEmpty()) {
       // We avoid allocating anything.
       return of();
     }
