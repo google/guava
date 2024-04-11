@@ -227,7 +227,7 @@ public final class Comparators {
    */
   @ParametricNullness
   public static <T extends @Nullable Object> T min(
-      @ParametricNullness T a, @ParametricNullness T b, Comparator<T> comparator) {
+      @ParametricNullness T a, @ParametricNullness T b, Comparator<? super T> comparator) {
     return (comparator.compare(a, b) <= 0) ? a : b;
   }
 
@@ -265,7 +265,7 @@ public final class Comparators {
    */
   @ParametricNullness
   public static <T extends @Nullable Object> T max(
-      @ParametricNullness T a, @ParametricNullness T b, Comparator<T> comparator) {
+      @ParametricNullness T a, @ParametricNullness T b, Comparator<? super T> comparator) {
     return (comparator.compare(a, b) >= 0) ? a : b;
   }
 }
