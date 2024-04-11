@@ -10961,7 +10961,7 @@
       deprecated="not deprecated">
       <param name="a" type="T extends java.lang.Object"/>
       <param name="b" type="T extends java.lang.Object"/>
-      <param name="comparator" type="java.util.Comparator&lt;T&gt;"/>
+      <param name="comparator" type="java.util.Comparator&lt;? super T&gt;"/>
       <doc>
       <![CDATA[Returns the minimum of the two values, according to the given comparator. If the values compare
  as equal, the first is returned.
@@ -11004,7 +11004,7 @@
       deprecated="not deprecated">
       <param name="a" type="T extends java.lang.Object"/>
       <param name="b" type="T extends java.lang.Object"/>
-      <param name="comparator" type="java.util.Comparator&lt;T&gt;"/>
+      <param name="comparator" type="java.util.Comparator&lt;? super T&gt;"/>
       <doc>
       <![CDATA[Returns the maximum of the two values, according to the given comparator. If the values compare
  as equal, the first is returned.

@@ -246,7 +246,7 @@ extends java.lang.Object</pre>
 <td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>T</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#max(T,T,java.util.Comparator)">max</a></span>&#8203;(T&nbsp;a,
    T&nbsp;b,
-   java.util.Comparator&lt;T&gt;&nbsp;comparator)</code></th>
+   java.util.Comparator&lt;? super T&gt;&nbsp;comparator)</code></th>
 <td class="colLast">
 <div class="block">Returns the maximum of the two values, according to the given comparator.</div>
 </td>
@@ -263,7 +263,7 @@ extends java.lang.Object</pre>
 <td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>T</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#min(T,T,java.util.Comparator)">min</a></span>&#8203;(T&nbsp;a,
    T&nbsp;b,
-   java.util.Comparator&lt;T&gt;&nbsp;comparator)</code></th>
+   java.util.Comparator&lt;? super T&gt;&nbsp;comparator)</code></th>
 <td class="colLast">
 <div class="block">Returns the minimum of the two values, according to the given comparator.</div>
 </td>
@@ -467,7 +467,7 @@ extends java.lang.Object</pre>
 <h4>min</h4>
 <pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/Comparators.html#line.228">min</a>&#8203;(T&nbsp;a,
                                                            T&nbsp;b,
-                                                           java.util.Comparator&lt;T&gt;&nbsp;comparator)</pre>
+                                                           java.util.Comparator&lt;? super T&gt;&nbsp;comparator)</pre>
 <div class="block">Returns the minimum of the two values, according to the given comparator. If the values compare
  as equal, the first is returned.
 
@@ -524,7 +524,7 @@ extends java.lang.Object</pre>
 <h4>max</h4>
 <pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/Comparators.html#line.266">max</a>&#8203;(T&nbsp;a,
                                                            T&nbsp;b,
-                                                           java.util.Comparator&lt;T&gt;&nbsp;comparator)</pre>
+                                                           java.util.Comparator&lt;? super T&gt;&nbsp;comparator)</pre>
 <div class="block">Returns the maximum of the two values, according to the given comparator. If the values compare
  as equal, the first is returned.
 
