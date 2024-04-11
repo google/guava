@@ -52,6 +52,16 @@
       <artifactId>guava</artifactId>
       <version>${project.version}</version>
     </dependency>
+    <!-- We redeclare the j2objc-annotations dependency from `guava`: Our Gradle
+         Module Metadata hides the dependency declared in `guava` from runtime
+         configurations downstream, and GWT uses the runtime configuration for
+         its builds. Thus, GWT doesn't get j2objc-annotations transitively, in
+         contrast to the other deps of `guava`, which it does get transitively.
+         (Arguably we should redeclare *all* the `guava` deps here.) -->
+    <dependency>
+      <groupId>com.google.j2objc</groupId>
+      <artifactId>j2objc-annotations</artifactId>
+    </dependency>
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava-testlib</artifactId>
