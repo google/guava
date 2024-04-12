@@ -334,9 +334,10 @@ public final class Hashing {
    * @param key the key material of the secret key
    * @since 20.0
    */
-  public static HashFunction hmacSha1(byte[] key) {
-    return hmacSha1(new SecretKeySpec(checkNotNull(key), "HmacSHA1"));
-  }
+  public static HashFunction hmacSha256(byte[] key) {
+    return hmacSha256(new SecretKeySpec(checkNotNull(key), "HmacSHA256"));
+}
+
 
   /**
    * Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using the
