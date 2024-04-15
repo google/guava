@@ -42,7 +42,17 @@ final class Platform {
 
   static <T extends Enum<T>> Optional<T> getEnumIfPresent(Class<T> enumClass, String value) {
     WeakReference<? extends Enum<?>> ref = Enums.getEnumConstants(enumClass).get(value);
-    return ref == null ? Optional.<T>absent() : Optional.of(enumClass.cast(ref.get()));
+    /*
+     * We use `fromNullable` instead of `of` because `WeakReference.get()` has a nullable return
+     * type.
+     *
+     * In practice, we are very unlikely to see `null`: The `WeakReference` to the enum constant
+     * won't be cleared as long as the enum constant is referenced somewhere, and the enum constant
+     * is referenced somewhere for as long as the enum class is loaded. *Maybe in theory* the enum
+     * class could be unloaded after the above call to `getEnumConstants` but before we call
+     * `get()`, but that is vanishingly unlikely.
+     */
+    return ref == null ? Optional.absent() : Optional.fromNullable(enumClass.cast(ref.get()));
   }
 
   static String formatCompact4Digits(double value) {
