@@ -820,14 +820,12 @@ public class ListsTest extends TestCase {
     try {
       iterator.add("1");
       fail("transformed list iterator is addable");
-    } catch (UnsupportedOperationException expected) {
-    } catch (IllegalStateException expected) {
+    } catch (UnsupportedOperationException | IllegalStateException expected) {
     }
     try {
       iterator.set("1");
       fail("transformed list iterator is settable");
-    } catch (UnsupportedOperationException expected) {
-    } catch (IllegalStateException expected) {
+    } catch (UnsupportedOperationException | IllegalStateException expected) {
     }
   }
 

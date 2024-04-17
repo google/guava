@@ -515,37 +515,7 @@ class FreshValueGenerator {
 
   @Generates
   Currency generateCurrency() {
-    try {
-      Method method = Currency.class.getMethod("getAvailableCurrencies");
-      @SuppressWarnings("unchecked") // getAvailableCurrencies() returns Set<Currency>.
-      Set<Currency> currencies = (Set<Currency>) method.invoke(null);
-      return pickInstance(currencies, Currency.getInstance(Locale.US));
-      /*
-       * Do not merge the 2 catch blocks below. javac would infer a type of
-       * ReflectiveOperationException, which Animal Sniffer would reject. (Old versions of
-       * Android don't *seem* to mind, but there might be edge cases of which we're unaware.)
-       */
-    } catch (NoSuchMethodException notJava7) {
-      return preJava7FreshCurrency();
-    } catch (InvocationTargetException notJava7) {
-      return preJava7FreshCurrency();
-    } catch (IllegalAccessException impossible) {
-      throw new AssertionError(impossible);
-    }
-  }
-
-  private Currency preJava7FreshCurrency() {
-    for (Set<Locale> uselessLocales = Sets.newHashSet(); ; ) {
-      Locale locale = generateLocale();
-      if (uselessLocales.contains(locale)) { // exhausted all locales
-        return Currency.getInstance(Locale.US);
-      }
-      try {
-        return Currency.getInstance(locale);
-      } catch (IllegalArgumentException e) {
-        uselessLocales.add(locale);
-      }
-    }
+    return pickInstance(Currency.getAvailableCurrencies(), Currency.getInstance(Locale.US));
   }
 
   // common.base
