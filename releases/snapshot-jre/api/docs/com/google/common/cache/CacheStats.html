@@ -476,11 +476,11 @@ extends java.lang.Object</pre>
 <h4>loadSuccessCount</h4>
 <pre class="methodSignature">public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheStats.html#line.175">loadSuccessCount</a>()</pre>
 <div class="block">Returns the number of times <a href="Cache.html" title="interface in com.google.common.cache"><code>Cache</code></a> lookup methods have successfully loaded a new value.
- This is usually incremented in conjunction with <a href="#missCount"><code>missCount</code></a>, though <code>missCount</code> is
- also incremented when an exception is encountered during cache loading (see <a href="#loadExceptionCount"><code>loadExceptionCount</code></a>). Multiple concurrent misses for the same key will result in a single load
+ This is usually incremented in conjunction with <code>missCount</code>, though <code>missCount</code> is
+ also incremented when an exception is encountered during cache loading (see <code>loadExceptionCount</code>). Multiple concurrent misses for the same key will result in a single load
  operation. This may be incremented not in conjunction with <code>missCount</code> if the load occurs
  as a result of a refresh or if the cache loader returned more items than was requested. <code>
- missCount</code> may also be incremented not in conjunction with this (nor <a href="#loadExceptionCount"><code>loadExceptionCount</code></a>) on calls to <code>getIfPresent</code>.</div>
+ missCount</code> may also be incremented not in conjunction with this (nor <code>loadExceptionCount</code>) on calls to <code>getIfPresent</code>.</div>
 </li>
 </ul>
 <a id="loadExceptionCount()">
@@ -492,10 +492,10 @@ extends java.lang.Object</pre>
 <pre class="methodSignature">public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheStats.html#line.189">loadExceptionCount</a>()</pre>
 <div class="block">Returns the number of times <a href="Cache.html" title="interface in com.google.common.cache"><code>Cache</code></a> lookup methods threw an exception while loading a new
  value. This is usually incremented in conjunction with <code>missCount</code>, though <code>
- missCount</code> is also incremented when cache loading completes successfully (see <a href="#loadSuccessCount"><code>loadSuccessCount</code></a>). Multiple concurrent misses for the same key will result in a single load
+ missCount</code> is also incremented when cache loading completes successfully (see <code>loadSuccessCount</code>). Multiple concurrent misses for the same key will result in a single load
  operation. This may be incremented not in conjunction with <code>missCount</code> if the load occurs
  as a result of a refresh or if the cache loader returned more items than was requested. <code>
- missCount</code> may also be incremented not in conjunction with this (nor <a href="#loadSuccessCount"><code>loadSuccessCount</code></a>)
+ missCount</code> may also be incremented not in conjunction with this (nor <code>loadSuccessCount</code>)
  on calls to <code>getIfPresent</code>.</div>
 </li>
 </ul>

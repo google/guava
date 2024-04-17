@@ -185,7 +185,7 @@ extends java.util.AbstractQueue&lt;E&gt;</pre>
        significantly worse than a <code>PriorityQueue</code> with manual eviction above the maximum
        size. In many cases <a href="Ordering.html#leastOf(java.lang.Iterable,int)"><code>Ordering.leastOf(java.lang.Iterable&lt;E&gt;, int)</code></a> may work for your use case with significantly
        improved (and asymptotically superior) performance.
-   <li>The retrieval operations <a href="#peek()"><code>peek()</code></a>, <a href="#peekFirst()"><code>peekFirst()</code></a>, <a href="#peekLast()"><code>peekLast()</code></a>, <code>AbstractQueue.element()</code>, and <a href="#size"><code>size</code></a> are constant-time.
+   <li>The retrieval operations <a href="#peek()"><code>peek()</code></a>, <a href="#peekFirst()"><code>peekFirst()</code></a>, <a href="#peekLast()"><code>peekLast()</code></a>, <code>AbstractQueue.element()</code>, and <code>size</code> are constant-time.
    <li>The enqueuing and dequeuing operations (<a href="#offer(E)"><code>offer(E)</code></a>, <a href="#add(E)"><code>add(E)</code></a>, and all the forms of
        <a href="#poll()"><code>poll()</code></a> and <code>AbstractQueue.remove()</code>) run in <code>O(log n) time</code>.
    <li>The <code>AbstractCollection.remove(Object)</code> and <code>AbstractCollection.contains(java.lang.Object)</code> operations require linear (<code>O(n)</code>)

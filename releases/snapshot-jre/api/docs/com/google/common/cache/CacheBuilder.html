@@ -251,7 +251,7 @@ extends java.lang.Object</pre>
  <p>Certain cache configurations will result in the accrual of periodic maintenance tasks which
  will be performed during write operations, or during occasional read operations in the absence of
  writes. The <a href="Cache.html#cleanUp()"><code>Cache.cleanUp()</code></a> method of the returned cache will also perform maintenance, but
- calling it should not be necessary with a high throughput cache. Only caches built with <a href="#removalListener"><code>removalListener</code></a>, <a href="#expireAfterWrite(java.time.Duration)"><code>expireAfterWrite</code></a>, <a href="#expireAfterAccess(java.time.Duration)"><code>expireAfterAccess</code></a>, <a href="#weakKeys()"><code>weakKeys</code></a>, <a href="#weakValues()"><code>weakValues</code></a>, or <a href="#softValues()"><code>softValues</code></a> perform periodic maintenance.
+ calling it should not be necessary with a high throughput cache. Only caches built with <code>removalListener</code>, <a href="#expireAfterWrite(java.time.Duration)"><code>expireAfterWrite</code></a>, <a href="#expireAfterAccess(java.time.Duration)"><code>expireAfterAccess</code></a>, <a href="#weakKeys()"><code>weakKeys</code></a>, <a href="#weakValues()"><code>weakValues</code></a>, or <a href="#softValues()"><code>softValues</code></a> perform periodic maintenance.
 
  <p>The caches produced by <code>CacheBuilder</code> are serializable, and the deserialized caches
  retain all the configuration properties of the original cache. Note that the serialized form does
@@ -616,7 +616,7 @@ public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache"
  <p>If <code>maximumSize</code> is zero, elements will be evicted immediately after being loaded into
  cache. This can be useful in testing, or to disable caching temporarily.
 
- <p>This feature cannot be used in conjunction with <a href="#maximumWeight"><code>maximumWeight</code></a>.</div>
+ <p>This feature cannot be used in conjunction with <code>maximumWeight</code>.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>maximumSize</code> - the maximum size of the cache</dd>
@@ -638,8 +638,8 @@ public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache"
 <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,&#8203;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.533">maximumWeight</a>&#8203;(long&nbsp;maximumWeight)</pre>
 <div class="block">Specifies the maximum weight of entries the cache may contain. Weight is determined using the
- <a href="Weigher.html" title="interface in com.google.common.cache"><code>Weigher</code></a> specified with <a href="#weigher"><code>weigher</code></a>, and use of this method requires a
- corresponding call to <a href="#weigher"><code>weigher</code></a> prior to calling <a href="#build(com.google.common.cache.CacheLoader)"><code>build(com.google.common.cache.CacheLoader&lt;? super K1, V1&gt;)</code></a>.
+ <a href="Weigher.html" title="interface in com.google.common.cache"><code>Weigher</code></a> specified with <code>weigher</code>, and use of this method requires a
+ corresponding call to <code>weigher</code> prior to calling <a href="#build(com.google.common.cache.CacheLoader)"><code>build(com.google.common.cache.CacheLoader&lt;? super K1, V1&gt;)</code></a>.
 
  <p>Note that the cache <b>may evict an entry before this limit is exceeded</b>. For example, in
  the current implementation, when <code>concurrencyLevel</code> is greater than <code>1</code>, each
@@ -655,7 +655,7 @@ public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache"
  <p>Note that weight is only used to determine whether the cache is over capacity; it has no
  effect on selecting which entry should be evicted next.
 
- <p>This feature cannot be used in conjunction with <a href="#maximumSize"><code>maximumSize</code></a>.</div>
+ <p>This feature cannot be used in conjunction with <code>maximumSize</code>.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>maximumWeight</code> - the maximum total weight of entries the cache may contain</dd>
@@ -705,7 +705,7 @@ public&nbsp;&lt;K1 extends <a href="CacheBuilder.html" title="type parameter in 
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>this <code>CacheBuilder</code> instance (for chaining)</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.IllegalStateException</code> - if a weigher was already set or <a href="#maximumSize"><code>maximumSize</code></a> was
+<dd><code>java.lang.IllegalStateException</code> - if a weigher was already set or <code>maximumSize</code> was
      previously called</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>11.0</dd>

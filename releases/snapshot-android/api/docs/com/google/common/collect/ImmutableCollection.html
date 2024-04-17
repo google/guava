@@ -236,7 +236,7 @@ implements java.io.Serializable</pre>
        unnecessary; for example, <code>copyOf(copyOf(anArrayList))</code> should copy the data only
        once. This reduces the expense of habitually making defensive copies at API boundaries.
        However, the precise conditions for skipping the copy operation are undefined.
-   <li><b>Warning:</b> a view collection such as <a href="ImmutableMap.html#keySet"><code>ImmutableMap.keySet</code></a> or <a href="ImmutableList.html#subList(int,int)"><code>ImmutableList.subList(int, int)</code></a> may retain a reference to the entire data set, preventing it from
+   <li><b>Warning:</b> a view collection such as <code>ImmutableMap.keySet</code> or <a href="ImmutableList.html#subList(int,int)"><code>ImmutableList.subList(int, int)</code></a> may retain a reference to the entire data set, preventing it from
        being garbage collected. If some of the data is no longer reachable through other means,
        this constitutes a memory leak. Pass the view collection to the appropriate <code>copyOf</code>
        method to obtain a correctly-sized copy.

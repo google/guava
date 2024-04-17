@@ -1152,7 +1152,7 @@ public final&nbsp;&lt;T&gt;&nbsp;<a href="FluentIterable.html" title="class in c
  proper sequence.
 
  <p><b><code>Stream</code> equivalent:</b> <code>ImmutableList.copyOf(stream.iterator())</code>, or pass
- <a href="ImmutableList.html#toImmutableList()"><code>ImmutableList.toImmutableList()</code></a> to <code>stream.collect()</code>.</div>
+ <code>ImmutableList.toImmutableList()</code> to <code>stream.collect()</code>.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.NullPointerException</code> - if any element is <code>null</code></dd>
@@ -1173,7 +1173,7 @@ public final&nbsp;&lt;T&gt;&nbsp;<a href="FluentIterable.html" title="class in c
  ImmutableList</code> sorted by its natural ordering, use <code>toSortedList(Ordering.natural())</code>.
 
  <p><b><code>Stream</code> equivalent:</b> <code>
- ImmutableList.copyOf(stream.sorted(comparator).iterator())</code>, or pass <a href="ImmutableList.html#toImmutableList()"><code>ImmutableList.toImmutableList()</code></a> to <code>stream.sorted(comparator).collect()</code>.</div>
+ ImmutableList.copyOf(stream.sorted(comparator).iterator())</code>, or pass <code>ImmutableList.toImmutableList()</code> to <code>stream.sorted(comparator).collect()</code>.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>comparator</code> - the function by which to sort list elements</dd>
@@ -1195,7 +1195,7 @@ public final&nbsp;&lt;T&gt;&nbsp;<a href="FluentIterable.html" title="class in c
  duplicates removed.
 
  <p><b><code>Stream</code> equivalent:</b> <code>ImmutableSet.copyOf(stream.iterator())</code>, or pass
- <a href="ImmutableSet.html#toImmutableSet()"><code>ImmutableSet.toImmutableSet()</code></a> to <code>stream.collect()</code>.</div>
+ <code>ImmutableSet.toImmutableSet()</code> to <code>stream.collect()</code>.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.NullPointerException</code> - if any element is <code>null</code></dd>
@@ -1217,7 +1217,7 @@ public final&nbsp;&lt;T&gt;&nbsp;<a href="FluentIterable.html" title="class in c
  by its natural ordering, use <code>toSortedSet(Ordering.natural())</code>.
 
  <p><b><code>Stream</code> equivalent:</b> <code>ImmutableSortedSet.copyOf(comparator,
- stream.iterator())</code>, or pass <a href="ImmutableSortedSet.html#toImmutableSortedSet(java.util.Comparator)"><code>ImmutableSortedSet.toImmutableSortedSet(java.util.Comparator&lt;? super E&gt;)</code></a> to <code>
+ stream.iterator())</code>, or pass <code>ImmutableSortedSet.toImmutableSortedSet(java.util.Comparator&lt;? super E&gt;)</code> to <code>
  stream.collect()</code>.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -1239,7 +1239,7 @@ public final&nbsp;&lt;T&gt;&nbsp;<a href="FluentIterable.html" title="class in c
 <div class="block">Returns an <code>ImmutableMultiset</code> containing all of the elements from this fluent iterable.
 
  <p><b><code>Stream</code> equivalent:</b> <code>ImmutableMultiset.copyOf(stream.iterator())</code>, or
- pass <a href="ImmutableMultiset.html#toImmutableMultiset()"><code>ImmutableMultiset.toImmutableMultiset()</code></a> to <code>stream.collect()</code>.</div>
+ pass <code>ImmutableMultiset.toImmutableMultiset()</code> to <code>stream.collect()</code>.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.NullPointerException</code> - if any element is null</dd>

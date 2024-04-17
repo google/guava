@@ -209,7 +209,7 @@ extends <a href="AbstractGraph.html" title="class in com.google.common.graph">Ab
 </tr>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>java.util.Set&lt;N&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#adjacentNodes(N)">adjacentNodes</a></span>&#8203;(N&nbsp;node)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink">adjacentNodes</span>&#8203;(N&nbsp;node)</code></th>
 <td class="colLast">
 <div class="block">Returns a live view of the nodes which have an incident edge in common with <code>node</code> in
  this graph.</div>
@@ -217,7 +217,7 @@ extends <a href="AbstractGraph.html" title="class in com.google.common.graph">Ab
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#allowsSelfLoops()">allowsSelfLoops</a></span>()</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink">allowsSelfLoops</span>()</code></th>
 <td class="colLast">
 <div class="block">Returns true if this graph allows self-loops (edges that connect a node to itself).</div>
 </td>
@@ -240,7 +240,7 @@ extends <a href="AbstractGraph.html" title="class in com.google.common.graph">Ab
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code>int</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#degree(N)">degree</a></span>&#8203;(N&nbsp;node)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink">degree</span>&#8203;(N&nbsp;node)</code></th>
 <td class="colLast">
 <div class="block">Returns the count of <code>node</code>'s incident edges, counting self-loops twice (equivalently,
  the number of times an edge touches <code>node</code>).</div>
@@ -248,7 +248,7 @@ extends <a href="AbstractGraph.html" title="class in com.google.common.graph">Ab
 </tr>
 <tr id="i5" class="rowColor">
 <td class="colFirst"><code>protected long</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#edgeCount()">edgeCount</a></span>()</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink">edgeCount</span>()</code></th>
 <td class="colLast">
 <div class="block">Defer to <code>BaseGraph.edges()</code> (based on <a href="Graph.html#successors(N)"><code>Graph.successors(Object)</code></a>) for full edges()
  implementation.</div>
@@ -256,7 +256,7 @@ extends <a href="AbstractGraph.html" title="class in com.google.common.graph">Ab
 </tr>
 <tr id="i6" class="altColor">
 <td class="colFirst"><code>java.util.Set&lt;<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;N&gt;&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#edges()">edges</a></span>()</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink">edges</span>()</code></th>
 <td class="colLast">
 <div class="block">An implementation of <code>BaseGraph.edges()</code> defined in terms of <a href="Graph.html#nodes()"><code>Graph.nodes()</code></a> and
  <a href="SuccessorsFunction.html#successors(N)"><code>SuccessorsFunction.successors(Object)</code></a>.</div>
@@ -264,7 +264,7 @@ extends <a href="AbstractGraph.html" title="class in com.google.common.graph">Ab
 </tr>
 <tr id="i7" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#hasEdgeConnecting(com.google.common.graph.EndpointPair)">hasEdgeConnecting</a></span>&#8203;(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;N&gt;&nbsp;endpoints)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink">hasEdgeConnecting</span>&#8203;(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;N&gt;&nbsp;endpoints)</code></th>
 <td class="colLast">
 <div class="block">Returns true if there is an edge that directly connects <code>endpoints</code> (in the order, if
  any, specified by <code>endpoints</code>).</div>
@@ -272,7 +272,7 @@ extends <a href="AbstractGraph.html" title="class in com.google.common.graph">Ab
 </tr>
 <tr id="i8" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#hasEdgeConnecting(N,N)">hasEdgeConnecting</a></span>&#8203;(N&nbsp;nodeU,
+<th class="colSecond" scope="row"><code><span class="memberNameLink">hasEdgeConnecting</span>&#8203;(N&nbsp;nodeU,
                  N&nbsp;nodeV)</code></th>
 <td class="colLast">
 <div class="block">Returns true if there is an edge that directly connects <code>nodeU</code> to <code>nodeV</code>.</div>
@@ -288,14 +288,14 @@ extends <a href="AbstractGraph.html" title="class in com.google.common.graph">Ab
 </tr>
 <tr id="i10" class="altColor">
 <td class="colFirst"><code>java.util.Set&lt;<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;N&gt;&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#incidentEdges(N)">incidentEdges</a></span>&#8203;(N&nbsp;node)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink">incidentEdges</span>&#8203;(N&nbsp;node)</code></th>
 <td class="colLast">
 <div class="block">Returns a live view of the edges in this graph whose endpoints include <code>node</code>.</div>
 </td>
 </tr>
 <tr id="i11" class="rowColor">
 <td class="colFirst"><code>int</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#inDegree(N)">inDegree</a></span>&#8203;(N&nbsp;node)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink">inDegree</span>&#8203;(N&nbsp;node)</code></th>
 <td class="colLast">
 <div class="block">Returns the count of <code>node</code>'s incoming edges (equal to <code>predecessors(node).size()</code>)
  in a directed graph.</div>
@@ -303,14 +303,14 @@ extends <a href="AbstractGraph.html" title="class in com.google.common.graph">Ab
 </tr>
 <tr id="i12" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isDirected()">isDirected</a></span>()</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink">isDirected</span>()</code></th>
 <td class="colLast">
 <div class="block">Returns true if the edges in this graph are directed.</div>
 </td>
 </tr>
 <tr id="i13" class="rowColor">
 <td class="colFirst"><code>protected boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isOrderingCompatible(com.google.common.graph.EndpointPair)">isOrderingCompatible</a></span>&#8203;(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;?&gt;&nbsp;endpoints)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink">isOrderingCompatible</span>&#8203;(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;?&gt;&nbsp;endpoints)</code></th>
 <td class="colLast">
 <div class="block">Returns <code>true</code> iff <code>endpoints</code>' ordering is compatible with the directionality of
  this graph.</div>
@@ -318,34 +318,34 @@ extends <a href="AbstractGraph.html" title="class in com.google.common.graph">Ab
 </tr>
 <tr id="i14" class="altColor">
 <td class="colFirst"><code>protected &lt;T&gt;&nbsp;java.util.Set&lt;T&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#nodeInvalidatableSet(java.util.Set,N)">nodeInvalidatableSet</a></span>&#8203;(java.util.Set&lt;T&gt;&nbsp;set,
+<th class="colSecond" scope="row"><code><span class="memberNameLink">nodeInvalidatableSet</span>&#8203;(java.util.Set&lt;T&gt;&nbsp;set,
                     N&nbsp;node)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i15" class="rowColor">
 <td class="colFirst"><code><a href="ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a>&lt;N&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#nodeOrder()">nodeOrder</a></span>()</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink">nodeOrder</span>()</code></th>
 <td class="colLast">
 <div class="block">Returns the order of iteration for the elements of <a href="Graph.html#nodes()"><code>Graph.nodes()</code></a>.</div>
 </td>
 </tr>
 <tr id="i16" class="altColor">
 <td class="colFirst"><code>protected &lt;T&gt;&nbsp;java.util.Set&lt;T&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#nodePairInvalidatableSet(java.util.Set,N,N)">nodePairInvalidatableSet</a></span>&#8203;(java.util.Set&lt;T&gt;&nbsp;set,
+<th class="colSecond" scope="row"><code><span class="memberNameLink">nodePairInvalidatableSet</span>&#8203;(java.util.Set&lt;T&gt;&nbsp;set,
                         N&nbsp;nodeU,
                         N&nbsp;nodeV)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i17" class="rowColor">
 <td class="colFirst"><code>java.util.Set&lt;N&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#nodes()">nodes</a></span>()</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink">nodes</span>()</code></th>
 <td class="colLast">
 <div class="block">Returns all nodes in this graph, in the order specified by <a href="Graph.html#nodeOrder()"><code>Graph.nodeOrder()</code></a>.</div>
 </td>
 </tr>
 <tr id="i18" class="altColor">
 <td class="colFirst"><code>int</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#outDegree(N)">outDegree</a></span>&#8203;(N&nbsp;node)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink">outDegree</span>&#8203;(N&nbsp;node)</code></th>
 <td class="colLast">
 <div class="block">Returns the count of <code>node</code>'s outgoing edges (equal to <code>successors(node).size()</code>)
  in a directed graph.</div>
@@ -353,7 +353,7 @@ extends <a href="AbstractGraph.html" title="class in com.google.common.graph">Ab
 </tr>
 <tr id="i19" class="rowColor">
 <td class="colFirst"><code>java.util.Set&lt;N&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#predecessors(N)">predecessors</a></span>&#8203;(N&nbsp;node)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink">predecessors</span>&#8203;(N&nbsp;node)</code></th>
 <td class="colLast">
 <div class="block">Returns a live view of all nodes in this graph adjacent to <code>node</code> which can be reached by
  traversing <code>node</code>'s incoming edges <i>against</i> the direction (if any) of the edge.</div>
@@ -361,7 +361,7 @@ extends <a href="AbstractGraph.html" title="class in com.google.common.graph">Ab
 </tr>
 <tr id="i20" class="altColor">
 <td class="colFirst"><code>java.util.Set&lt;N&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#successors(N)">successors</a></span>&#8203;(N&nbsp;node)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink">successors</span>&#8203;(N&nbsp;node)</code></th>
 <td class="colLast">
 <div class="block">Returns a live view of all nodes in this graph adjacent to <code>node</code> which can be reached by
  traversing <code>node</code>'s outgoing edges in the direction (if any) of the edge.</div>
@@ -369,7 +369,7 @@ extends <a href="AbstractGraph.html" title="class in com.google.common.graph">Ab
 </tr>
 <tr id="i21" class="rowColor">
 <td class="colFirst"><code>protected void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#validateEndpoints(com.google.common.graph.EndpointPair)">validateEndpoints</a></span>&#8203;(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;?&gt;&nbsp;endpoints)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink">validateEndpoints</span>&#8203;(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;?&gt;&nbsp;endpoints)</code></th>
 <td class="colLast">
 <div class="block">Throws <code>IllegalArgumentException</code> if the ordering of <code>endpoints</code> is not compatible
  with the directionality of this graph.</div>

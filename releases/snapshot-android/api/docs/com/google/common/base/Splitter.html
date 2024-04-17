@@ -495,7 +495,7 @@ public static&nbsp;<a href="Splitter.html" title="class in com.google.common.bas
  Splitter.fixedLength(2).split("abcde")</code> returns an iterable containing <code>["ab", "cd",
  "e"]</code>. The last piece can be smaller than <code>length</code> but will never be empty.
 
- <p><b>Note:</b> if <a href="#fixedLength(int)"><code>fixedLength(int)</code></a> is used in conjunction with <a href="#limit"><code>limit</code></a>, the final
+ <p><b>Note:</b> if <a href="#fixedLength(int)"><code>fixedLength(int)</code></a> is used in conjunction with <code>limit</code>, the final
  split piece <i>may be longer than the specified fixed length</i>. This is because the splitter
  will <i>stop splitting when the limit is reached</i>, and just return the final piece as-is.
 

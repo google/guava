@@ -210,19 +210,19 @@ implements <a href="ValueGraph.html" title="interface in com.google.common.graph
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>int</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#degree(N)">degree</a></span>&#8203;(N&nbsp;node)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink">degree</span>&#8203;(N&nbsp;node)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>protected long</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#edgeCount()">edgeCount</a></span>()</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink">edgeCount</span>()</code></th>
 <td class="colLast">
 <div class="block">Returns the number of edges in this graph; used to calculate the size of <a href="Graph.html#edges()"><code>Graph.edges()</code></a>.</div>
 </td>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>java.util.Set&lt;<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;N&gt;&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#edges()">edges</a></span>()</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink">edges</span>()</code></th>
 <td class="colLast">
 <div class="block">An implementation of <code>BaseGraph.edges()</code> defined in terms of <a href="Graph.html#nodes()"><code>Graph.nodes()</code></a> and
  <a href="SuccessorsFunction.html#successors(N)"><code>SuccessorsFunction.successors(Object)</code></a>.</div>
@@ -238,12 +238,12 @@ implements <a href="ValueGraph.html" title="interface in com.google.common.graph
 </tr>
 <tr id="i5" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#hasEdgeConnecting(com.google.common.graph.EndpointPair)">hasEdgeConnecting</a></span>&#8203;(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;N&gt;&nbsp;endpoints)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink">hasEdgeConnecting</span>&#8203;(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;N&gt;&nbsp;endpoints)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i6" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#hasEdgeConnecting(N,N)">hasEdgeConnecting</a></span>&#8203;(N&nbsp;nodeU,
+<th class="colSecond" scope="row"><code><span class="memberNameLink">hasEdgeConnecting</span>&#8203;(N&nbsp;nodeU,
                  N&nbsp;nodeV)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
@@ -256,22 +256,22 @@ implements <a href="ValueGraph.html" title="interface in com.google.common.graph
 </tr>
 <tr id="i8" class="altColor">
 <td class="colFirst"><code><a href="ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a>&lt;N&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#incidentEdgeOrder()">incidentEdgeOrder</a></span>()</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink">incidentEdgeOrder</span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i9" class="rowColor">
 <td class="colFirst"><code>java.util.Set&lt;<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;N&gt;&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#incidentEdges(N)">incidentEdges</a></span>&#8203;(N&nbsp;node)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink">incidentEdges</span>&#8203;(N&nbsp;node)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i10" class="altColor">
 <td class="colFirst"><code>int</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#inDegree(N)">inDegree</a></span>&#8203;(N&nbsp;node)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink">inDegree</span>&#8203;(N&nbsp;node)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i11" class="rowColor">
 <td class="colFirst"><code>protected boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isOrderingCompatible(com.google.common.graph.EndpointPair)">isOrderingCompatible</a></span>&#8203;(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;?&gt;&nbsp;endpoints)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink">isOrderingCompatible</span>&#8203;(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;?&gt;&nbsp;endpoints)</code></th>
 <td class="colLast">
 <div class="block">Returns <code>true</code> iff <code>endpoints</code>' ordering is compatible with the directionality of
  this graph.</div>
@@ -279,20 +279,20 @@ implements <a href="ValueGraph.html" title="interface in com.google.common.graph
 </tr>
 <tr id="i12" class="altColor">
 <td class="colFirst"><code>protected &lt;T&gt;&nbsp;java.util.Set&lt;T&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#nodeInvalidatableSet(java.util.Set,N)">nodeInvalidatableSet</a></span>&#8203;(java.util.Set&lt;T&gt;&nbsp;set,
+<th class="colSecond" scope="row"><code><span class="memberNameLink">nodeInvalidatableSet</span>&#8203;(java.util.Set&lt;T&gt;&nbsp;set,
                     N&nbsp;node)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i13" class="rowColor">
 <td class="colFirst"><code>protected &lt;T&gt;&nbsp;java.util.Set&lt;T&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#nodePairInvalidatableSet(java.util.Set,N,N)">nodePairInvalidatableSet</a></span>&#8203;(java.util.Set&lt;T&gt;&nbsp;set,
+<th class="colSecond" scope="row"><code><span class="memberNameLink">nodePairInvalidatableSet</span>&#8203;(java.util.Set&lt;T&gt;&nbsp;set,
                         N&nbsp;nodeU,
                         N&nbsp;nodeV)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i14" class="altColor">
 <td class="colFirst"><code>int</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#outDegree(N)">outDegree</a></span>&#8203;(N&nbsp;node)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink">outDegree</span>&#8203;(N&nbsp;node)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i15" class="rowColor">
@@ -304,7 +304,7 @@ implements <a href="ValueGraph.html" title="interface in com.google.common.graph
 </tr>
 <tr id="i16" class="altColor">
 <td class="colFirst"><code>protected void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#validateEndpoints(com.google.common.graph.EndpointPair)">validateEndpoints</a></span>&#8203;(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;?&gt;&nbsp;endpoints)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink">validateEndpoints</span>&#8203;(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;?&gt;&nbsp;endpoints)</code></th>
 <td class="colLast">
 <div class="block">Throws <code>IllegalArgumentException</code> if the ordering of <code>endpoints</code> is not compatible
  with the directionality of this graph.</div>
