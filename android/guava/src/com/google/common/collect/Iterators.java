@@ -1105,30 +1105,31 @@ public final class Iterators {
 
   private static final class SingletonIterator<T extends @Nullable Object>
       extends UnmodifiableIterator<T> {
-    private static final Object SENTINEL = new Object();
-
-    private @Nullable Object valueOrSentinel;
+    private @Nullable Object valueOrThis;
 
     SingletonIterator(T value) {
-      this.valueOrSentinel = value;
+      this.valueOrThis = value;
     }
 
     @Override
     public boolean hasNext() {
-      return valueOrSentinel != SENTINEL;
+      return valueOrThis != this;
     }
 
     @Override
     @ParametricNullness
     public T next() {
-      if (valueOrSentinel == SENTINEL) {
-        throw new NoSuchElementException();
+      Object result = valueOrThis;
+      valueOrThis = this;
+      // We put the common case first, even though it's unlikely to matter if the code is run much:
+      // https://shipilev.net/jvm/anatomy-quarks/28-frequency-based-code-layout/
+      if (result != this) {
+        // The field held either a `T` or `this`, and it turned out not to be `this`.
+        @SuppressWarnings("unchecked")
+        T t = (T) result;
+        return t;
       }
-      // The field held either a T or SENTINEL, and it turned out not to be SENTINEL.
-      @SuppressWarnings("unchecked")
-      T t = (T) valueOrSentinel;
-      valueOrSentinel = SENTINEL;
-      return t;
+      throw new NoSuchElementException();
     }
   }
 
