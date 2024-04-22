@@ -154,32 +154,31 @@
 <span class="sourceLineNo">145</span><a id="line.145">      executor.execute(runnable);</a>
 <span class="sourceLineNo">146</span><a id="line.146">    } catch (Exception e) { // sneaky checked exception</a>
 <span class="sourceLineNo">147</span><a id="line.147">      // Log it and keep going -- bad runnable and/or executor. Don't punish the other runnables if</a>
-<span class="sourceLineNo">148</span><a id="line.148">      // we're given a bad one. We only catch RuntimeException because we want Errors to propagate</a>
-<span class="sourceLineNo">149</span><a id="line.149">      // up.</a>
-<span class="sourceLineNo">150</span><a id="line.150">      log.get()</a>
-<span class="sourceLineNo">151</span><a id="line.151">          .log(</a>
-<span class="sourceLineNo">152</span><a id="line.152">              Level.SEVERE,</a>
-<span class="sourceLineNo">153</span><a id="line.153">              "RuntimeException while executing runnable "</a>
-<span class="sourceLineNo">154</span><a id="line.154">                  + runnable</a>
-<span class="sourceLineNo">155</span><a id="line.155">                  + " with executor "</a>
-<span class="sourceLineNo">156</span><a id="line.156">                  + executor,</a>
-<span class="sourceLineNo">157</span><a id="line.157">              e);</a>
-<span class="sourceLineNo">158</span><a id="line.158">    }</a>
-<span class="sourceLineNo">159</span><a id="line.159">  }</a>
-<span class="sourceLineNo">160</span><a id="line.160"></a>
-<span class="sourceLineNo">161</span><a id="line.161">  private static final class RunnableExecutorPair {</a>
-<span class="sourceLineNo">162</span><a id="line.162">    final Runnable runnable;</a>
-<span class="sourceLineNo">163</span><a id="line.163">    final Executor executor;</a>
-<span class="sourceLineNo">164</span><a id="line.164">    @CheckForNull RunnableExecutorPair next;</a>
-<span class="sourceLineNo">165</span><a id="line.165"></a>
-<span class="sourceLineNo">166</span><a id="line.166">    RunnableExecutorPair(</a>
-<span class="sourceLineNo">167</span><a id="line.167">        Runnable runnable, Executor executor, @CheckForNull RunnableExecutorPair next) {</a>
-<span class="sourceLineNo">168</span><a id="line.168">      this.runnable = runnable;</a>
-<span class="sourceLineNo">169</span><a id="line.169">      this.executor = executor;</a>
-<span class="sourceLineNo">170</span><a id="line.170">      this.next = next;</a>
-<span class="sourceLineNo">171</span><a id="line.171">    }</a>
-<span class="sourceLineNo">172</span><a id="line.172">  }</a>
-<span class="sourceLineNo">173</span><a id="line.173">}</a>
+<span class="sourceLineNo">148</span><a id="line.148">      // we're given a bad one. We only catch Exception because we want Errors to propagate up.</a>
+<span class="sourceLineNo">149</span><a id="line.149">      log.get()</a>
+<span class="sourceLineNo">150</span><a id="line.150">          .log(</a>
+<span class="sourceLineNo">151</span><a id="line.151">              Level.SEVERE,</a>
+<span class="sourceLineNo">152</span><a id="line.152">              "RuntimeException while executing runnable "</a>
+<span class="sourceLineNo">153</span><a id="line.153">                  + runnable</a>
+<span class="sourceLineNo">154</span><a id="line.154">                  + " with executor "</a>
+<span class="sourceLineNo">155</span><a id="line.155">                  + executor,</a>
+<span class="sourceLineNo">156</span><a id="line.156">              e);</a>
+<span class="sourceLineNo">157</span><a id="line.157">    }</a>
+<span class="sourceLineNo">158</span><a id="line.158">  }</a>
+<span class="sourceLineNo">159</span><a id="line.159"></a>
+<span class="sourceLineNo">160</span><a id="line.160">  private static final class RunnableExecutorPair {</a>
+<span class="sourceLineNo">161</span><a id="line.161">    final Runnable runnable;</a>
+<span class="sourceLineNo">162</span><a id="line.162">    final Executor executor;</a>
+<span class="sourceLineNo">163</span><a id="line.163">    @CheckForNull RunnableExecutorPair next;</a>
+<span class="sourceLineNo">164</span><a id="line.164"></a>
+<span class="sourceLineNo">165</span><a id="line.165">    RunnableExecutorPair(</a>
+<span class="sourceLineNo">166</span><a id="line.166">        Runnable runnable, Executor executor, @CheckForNull RunnableExecutorPair next) {</a>
+<span class="sourceLineNo">167</span><a id="line.167">      this.runnable = runnable;</a>
+<span class="sourceLineNo">168</span><a id="line.168">      this.executor = executor;</a>
+<span class="sourceLineNo">169</span><a id="line.169">      this.next = next;</a>
+<span class="sourceLineNo">170</span><a id="line.170">    }</a>
+<span class="sourceLineNo">171</span><a id="line.171">  }</a>
+<span class="sourceLineNo">172</span><a id="line.172">}</a>
 
 
 
