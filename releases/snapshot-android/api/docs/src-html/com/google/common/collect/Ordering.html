@@ -578,7 +578,7 @@
 <span class="sourceLineNo">569</span><a id="line.569">    E minSoFar = iterator.next();</a>
 <span class="sourceLineNo">570</span><a id="line.570"></a>
 <span class="sourceLineNo">571</span><a id="line.571">    while (iterator.hasNext()) {</a>
-<span class="sourceLineNo">572</span><a id="line.572">      minSoFar = min(minSoFar, iterator.next());</a>
+<span class="sourceLineNo">572</span><a id="line.572">      minSoFar = this.&lt;E&gt;min(minSoFar, iterator.next());</a>
 <span class="sourceLineNo">573</span><a id="line.573">    }</a>
 <span class="sourceLineNo">574</span><a id="line.574"></a>
 <span class="sourceLineNo">575</span><a id="line.575">    return minSoFar;</a>
@@ -669,7 +669,7 @@
 <span class="sourceLineNo">660</span><a id="line.660">    E maxSoFar = iterator.next();</a>
 <span class="sourceLineNo">661</span><a id="line.661"></a>
 <span class="sourceLineNo">662</span><a id="line.662">    while (iterator.hasNext()) {</a>
-<span class="sourceLineNo">663</span><a id="line.663">      maxSoFar = max(maxSoFar, iterator.next());</a>
+<span class="sourceLineNo">663</span><a id="line.663">      maxSoFar = this.&lt;E&gt;max(maxSoFar, iterator.next());</a>
 <span class="sourceLineNo">664</span><a id="line.664">    }</a>
 <span class="sourceLineNo">665</span><a id="line.665"></a>
 <span class="sourceLineNo">666</span><a id="line.666">    return maxSoFar;</a>

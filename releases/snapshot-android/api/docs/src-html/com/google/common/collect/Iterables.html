@@ -715,7 +715,7 @@
 <span class="sourceLineNo">706</span><a id="line.706">      Iterable&lt;? extends T&gt; iterable,</a>
 <span class="sourceLineNo">707</span><a id="line.707">      Predicate&lt;? super T&gt; predicate,</a>
 <span class="sourceLineNo">708</span><a id="line.708">      @CheckForNull T defaultValue) {</a>
-<span class="sourceLineNo">709</span><a id="line.709">    return Iterators.find(iterable.iterator(), predicate, defaultValue);</a>
+<span class="sourceLineNo">709</span><a id="line.709">    return Iterators.&lt;T&gt;find(iterable.iterator(), predicate, defaultValue);</a>
 <span class="sourceLineNo">710</span><a id="line.710">  }</a>
 <span class="sourceLineNo">711</span><a id="line.711"></a>
 <span class="sourceLineNo">712</span><a id="line.712">  /**</a>
