@@ -686,7 +686,7 @@ public final class Iterables {
       Iterable<? extends T> iterable,
       Predicate<? super T> predicate,
       @CheckForNull T defaultValue) {
-    return Iterators.find(iterable.iterator(), predicate, defaultValue);
+    return Iterators.<T>find(iterable.iterator(), predicate, defaultValue);
   }
 
   /**

@@ -432,6 +432,8 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
         }
 
         @Override
+        // https://github.com/jspecify/jspecify-reference-checker/issues/162
+        @SuppressWarnings("nullness")
         public void merge(
             Range<Comparable<?>> range,
             @CheckForNull Object value,
