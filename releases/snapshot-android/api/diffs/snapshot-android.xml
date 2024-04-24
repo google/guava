@@ -1942,7 +1942,13 @@
       <param name="a" type="T"/>
       <param name="b" type="T"/>
       <doc>
-      <![CDATA[@since 10.0 (previously, subclasses would override equivalent())]]>
+      <![CDATA[Implemented by the user to determine whether {@code a} and {@code b} are considered equivalent,
+ subject to the requirements specified in {@link #equivalent}.
+
+ <p>This method should not be called except by {@link #equivalent}. When {@link #equivalent}
+ calls this method, {@code a} and {@code b} are guaranteed to be distinct, non-null instances.
+
+ @since 10.0 (previously, subclasses would override equivalent())]]>
       </doc>
     </method>
     <method name="hash" return="int"
