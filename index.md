@@ -118,7 +118,7 @@ flavor.
     on Linux, with some additional testing on newer JDKs and on Windows. Some
     features, especially in `com.google.common.io`, may not work correctly in
     non-Linux environments. For the Android flavor, our unit tests also run on
-    API level 19 (KitKat).
+    API level 21 (Lollipop).
 
 [guava-snapshot-api-docs]: https://guava.dev/releases/snapshot-jre/api/docs/
 [guava-snapshot-api-diffs]: https://guava.dev/releases/snapshot-jre/api/diffs/
