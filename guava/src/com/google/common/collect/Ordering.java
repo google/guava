@@ -569,7 +569,7 @@ public abstract class Ordering<T extends @Nullable Object> implements Comparator
     E minSoFar = iterator.next();
 
     while (iterator.hasNext()) {
-      minSoFar = min(minSoFar, iterator.next());
+      minSoFar = this.<E>min(minSoFar, iterator.next());
     }
 
     return minSoFar;
@@ -660,7 +660,7 @@ public abstract class Ordering<T extends @Nullable Object> implements Comparator
     E maxSoFar = iterator.next();
 
     while (iterator.hasNext()) {
-      maxSoFar = max(maxSoFar, iterator.next());
+      maxSoFar = this.<E>max(maxSoFar, iterator.next());
     }
 
     return maxSoFar;

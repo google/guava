@@ -3325,7 +3325,8 @@ public final class Maps {
       return new Predicate<Entry<V, K>>() {
         @Override
         public boolean apply(Entry<V, K> input) {
-          return forwardPredicate.apply(Maps.immutableEntry(input.getValue(), input.getKey()));
+          return forwardPredicate.apply(
+              Maps.<K, V>immutableEntry(input.getValue(), input.getKey()));
         }
       };
     }

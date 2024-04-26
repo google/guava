@@ -45,7 +45,11 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
-/** Tester for {@code Spliterator} implementations. */
+/**
+ * Tester for {@code Spliterator} implementations.
+ *
+ * @since 21.0
+ */
 @GwtCompatible
 @ElementTypesAreNonnullByDefault
 public final class SpliteratorTester<E extends @Nullable Object> {

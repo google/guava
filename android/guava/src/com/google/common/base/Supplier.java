@@ -46,7 +46,8 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @GwtCompatible
 @ElementTypesAreNonnullByDefault
-public interface Supplier<T extends @Nullable Object> {
+public interface Supplier<T extends @Nullable Object>
+{
   /**
    * Retrieves an instance of the appropriate type. The returned object may or may not be a new
    * instance, depending on the implementation.

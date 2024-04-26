@@ -876,6 +876,15 @@ public final class HttpHeaders {
 
   /**
    * The HTTP <a
+   * href="https://privacycg.github.io/gpc-spec/#the-sec-gpc-header-field-for-http-requests">{@code
+   * Sec-GPC}</a> header field name.
+   *
+   * @since NEXT
+   */
+  public static final String SEC_GPC = "Sec-GPC";
+
+  /**
+   * The HTTP <a
    * href="https://wicg.github.io/turtledove/#handling-direct-from-seller-signals">{@code
    * Ad-Auction-Signals}</a> header field name.
    *
