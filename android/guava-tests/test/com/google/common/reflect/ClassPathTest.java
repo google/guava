@@ -539,7 +539,7 @@ public class ClassPathTest extends TestCase {
     Closer closer = Closer.create();
     try {
       FileOutputStream fileOut = closer.register(new FileOutputStream(jarFile));
-      JarOutputStream jarOut = closer.register(new JarOutputStream(fileOut));
+      JarOutputStream jarOut = closer.register(new JarOutputStream(fileOut, manifest));
       for (String entry : entries) {
         jarOut.putNextEntry(new ZipEntry(entry));
         Resources.copy(ClassPathTest.class.getResource(entry), jarOut);
