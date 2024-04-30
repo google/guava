@@ -22,6 +22,7 @@ import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 import static com.google.common.collect.CollectPreconditions.checkRemove;
 import static java.util.Objects.requireNonNull;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Objects;
 import com.google.common.base.Predicate;
@@ -77,10 +78,13 @@ public final class Multisets {
    *
    * <p>To collect to an {@link ImmutableMultiset}, use {@link
    * ImmutableMultiset#toImmutableMultiset}.
+   *
+   * @since NEXT (available since 22.0 in guava-jre)
    */
   @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
-  static <T extends @Nullable Object, E extends @Nullable Object, M extends Multiset<E>>
+  @Beta // TODO: b/288085449 - Remove.
+  public static <T extends @Nullable Object, E extends @Nullable Object, M extends Multiset<E>>
       Collector<T, ?, M> toMultiset(
           Function<? super T, E> elementFunction,
           ToIntFunction<? super T> countFunction,

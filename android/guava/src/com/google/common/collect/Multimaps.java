@@ -22,6 +22,7 @@ import static com.google.common.collect.CollectPreconditions.checkRemove;
 import static com.google.common.collect.NullnessCasts.uncheckedCastNullableTToT;
 import static java.util.Objects.requireNonNull;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
@@ -107,10 +108,13 @@ public final class Multimaps {
    * <p>To collect to an {@link ImmutableMultimap}, use either {@link
    * ImmutableSetMultimap#toImmutableSetMultimap} or {@link
    * ImmutableListMultimap#toImmutableListMultimap}.
+   *
+   * @since NEXT (available since 21.0 in guava-jre)
    */
   @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
-  static <
+  @Beta // TODO: b/288085449 - Remove.
+  public static <
           T extends @Nullable Object,
           K extends @Nullable Object,
           V extends @Nullable Object,
@@ -152,10 +156,13 @@ public final class Multimaps {
    *     FIRST_LETTER_MULTIMAP.putAll('c', Arrays.asList('h', 'e', 'r', 'r', 'y'));
    * }
    * }</pre>
+   *
+   * @since NEXT (available since 21.0 in guava-jre)
    */
   @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
-  static <
+  @Beta // TODO: b/288085449 - Remove.
+  public static <
           T extends @Nullable Object,
           K extends @Nullable Object,
           V extends @Nullable Object,

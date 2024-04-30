@@ -19,6 +19,7 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -127,10 +128,12 @@ public final class Comparators {
    * log n) time and O(n) space.
    *
    * @throws IllegalArgumentException if {@code k < 0}
+   * @since NEXT (available since 22.0 in guava-jre)
    */
   @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
-  static <T extends @Nullable Object> Collector<T, ?, List<T>> least(
+  @Beta // TODO: b/288085449 - Remove.
+  public static <T extends @Nullable Object> Collector<T, ?, List<T>> least(
       int k, Comparator<? super T> comparator) {
     checkNonnegative(k, "k");
     checkNotNull(comparator);
@@ -160,10 +163,12 @@ public final class Comparators {
    * takes O(n log n) time and O(n) space.
    *
    * @throws IllegalArgumentException if {@code k < 0}
+   * @since NEXT (available since 22.0 in guava-jre)
    */
   @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
-  static <T extends @Nullable Object> Collector<T, ?, List<T>> greatest(
+  @Beta // TODO: b/288085449 - Remove.
+  public static <T extends @Nullable Object> Collector<T, ?, List<T>> greatest(
       int k, Comparator<? super T> comparator) {
     return least(k, comparator.reversed());
   }

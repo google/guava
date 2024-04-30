@@ -19,6 +19,7 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static java.util.Objects.requireNonNull;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
@@ -64,10 +65,13 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
    * Returns a {@code Collector} that accumulates the input elements into a new {@code
    * ImmutableMultiset}. Elements iterate in order by the <i>first</i> appearance of that element in
    * encounter order.
+   *
+   * @since NEXT (available since 21.0 in guava-jre)
    */
   @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
-  static <E> Collector<E, ?, ImmutableMultiset<E>> toImmutableMultiset() {
+  @Beta // TODO: b/288085449 - Remove.
+  public static <E> Collector<E, ?, ImmutableMultiset<E>> toImmutableMultiset() {
     return CollectCollectors.toImmutableMultiset(Function.identity(), e -> 1);
   }
 
@@ -79,11 +83,16 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
    * <p>If the mapped elements contain duplicates (according to {@link Object#equals}), the first
    * occurrence in encounter order appears in the resulting multiset, with count equal to the sum of
    * the outputs of {@code countFunction.applyAsInt(t)} for each {@code t} mapped to that element.
+   *
+   * @since NEXT (available since 22.0 in guava-jre)
    */
   @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
-  static <T extends @Nullable Object, E> Collector<T, ?, ImmutableMultiset<E>> toImmutableMultiset(
-      Function<? super T, ? extends E> elementFunction, ToIntFunction<? super T> countFunction) {
+  @Beta // TODO: b/288085449 - Remove.
+  public static <T extends @Nullable Object, E>
+      Collector<T, ?, ImmutableMultiset<E>> toImmutableMultiset(
+          Function<? super T, ? extends E> elementFunction,
+          ToIntFunction<? super T> countFunction) {
     return CollectCollectors.toImmutableMultiset(elementFunction, countFunction);
   }
 

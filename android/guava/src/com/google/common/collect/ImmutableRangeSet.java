@@ -22,6 +22,7 @@ import static com.google.common.collect.SortedLists.KeyAbsentBehavior.NEXT_LOWER
 import static com.google.common.collect.SortedLists.KeyPresentBehavior.ANY_PRESENT;
 import static java.util.Objects.requireNonNull;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.SortedLists.KeyAbsentBehavior;
@@ -64,10 +65,13 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
    * Returns a {@code Collector} that accumulates the input elements into a new {@code
    * ImmutableRangeSet}. As in {@link Builder}, overlapping ranges are not permitted and adjacent
    * ranges will be merged.
+   *
+   * @since NEXT (available since 23.1 in guava-jre)
    */
   @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
-  static <E extends Comparable<? super E>>
+  @Beta // TODO: b/288085449 - Remove.
+  public static <E extends Comparable<? super E>>
       Collector<Range<E>, ?, ImmutableRangeSet<E>> toImmutableRangeSet() {
     return CollectCollectors.toImmutableRangeSet();
   }

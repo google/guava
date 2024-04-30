@@ -22,6 +22,7 @@ import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 import static java.util.Objects.requireNonNull;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
@@ -79,12 +80,16 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    * IllegalArgumentException} is thrown when the collection operation is performed. (This differs
    * from the {@code Collector} returned by {@link Collectors#toMap(Function, Function)}, which
    * throws an {@code IllegalStateException}.)
+   *
+   * @since NEXT (available since 21.0 in guava-jre)
    */
   @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
-  static <T extends @Nullable Object, K, V> Collector<T, ?, ImmutableMap<K, V>> toImmutableMap(
-      Function<? super T, ? extends K> keyFunction,
-      Function<? super T, ? extends V> valueFunction) {
+  @Beta // TODO: b/288085449 - Remove.
+  public static <T extends @Nullable Object, K, V>
+      Collector<T, ?, ImmutableMap<K, V>> toImmutableMap(
+          Function<? super T, ? extends K> keyFunction,
+          Function<? super T, ? extends V> valueFunction) {
     return CollectCollectors.toImmutableMap(keyFunction, valueFunction);
   }
 
@@ -98,13 +103,17 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    * future occurrences of the key would reinsert it).
    *
    * <p>Entries will appear in the encounter order of the first occurrence of the key.
+   *
+   * @since NEXT (available since 21.0 in guava-jre)
    */
   @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
-  static <T extends @Nullable Object, K, V> Collector<T, ?, ImmutableMap<K, V>> toImmutableMap(
-      Function<? super T, ? extends K> keyFunction,
-      Function<? super T, ? extends V> valueFunction,
-      BinaryOperator<V> mergeFunction) {
+  @Beta // TODO: b/288085449 - Remove.
+  public static <T extends @Nullable Object, K, V>
+      Collector<T, ?, ImmutableMap<K, V>> toImmutableMap(
+          Function<? super T, ? extends K> keyFunction,
+          Function<? super T, ? extends V> valueFunction,
+          BinaryOperator<V> mergeFunction) {
     return CollectCollectors.toImmutableMap(keyFunction, valueFunction, mergeFunction);
   }
 

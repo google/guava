@@ -25,6 +25,7 @@ import static com.google.common.collect.NullnessCasts.uncheckedCastNullableTToT;
 import static java.util.Collections.singletonMap;
 import static java.util.Objects.requireNonNull;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
@@ -189,10 +190,13 @@ public final class Maps {
    * {@link java.util.stream.Collectors#toMap(java.util.function.Function,
    * java.util.function.Function) Collectors.toMap(Function, Function)}, which throws an {@code
    * IllegalStateException}.)
+   *
+   * @since NEXT (available since 21.0 in guava-jre)
    */
   @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
-  static <T extends @Nullable Object, K extends Enum<K>, V>
+  @Beta // TODO: b/288085449 - Remove.
+  public static <T extends @Nullable Object, K extends Enum<K>, V>
       Collector<T, ?, ImmutableMap<K, V>> toImmutableEnumMap(
           java.util.function.Function<? super T, ? extends K> keyFunction,
           java.util.function.Function<? super T, ? extends V> valueFunction) {
@@ -207,10 +211,13 @@ public final class Maps {
    *
    * <p>If the mapped keys contain duplicates, the values are merged using the specified merging
    * function.
+   *
+   * @since NEXT (available since 21.0 in guava-jre)
    */
   @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
-  static <T extends @Nullable Object, K extends Enum<K>, V>
+  @Beta // TODO: b/288085449 - Remove.
+  public static <T extends @Nullable Object, K extends Enum<K>, V>
       Collector<T, ?, ImmutableMap<K, V>> toImmutableEnumMap(
           java.util.function.Function<? super T, ? extends K> keyFunction,
           java.util.function.Function<? super T, ? extends V> valueFunction,

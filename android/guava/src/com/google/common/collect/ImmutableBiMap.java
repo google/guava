@@ -19,6 +19,7 @@ package com.google.common.collect;
 import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -56,12 +57,16 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
    * Object#equals(Object)}), an {@code IllegalArgumentException} is thrown when the collection
    * operation is performed. (This differs from the {@code Collector} returned by {@link
    * Collectors#toMap(Function, Function)}, which throws an {@code IllegalStateException}.)
+   *
+   * @since NEXT (available since 21.0 in guava-jre)
    */
   @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
-  static <T extends @Nullable Object, K, V> Collector<T, ?, ImmutableBiMap<K, V>> toImmutableBiMap(
-      Function<? super T, ? extends K> keyFunction,
-      Function<? super T, ? extends V> valueFunction) {
+  @Beta // TODO: b/288085449 - Remove.
+  public static <T extends @Nullable Object, K, V>
+      Collector<T, ?, ImmutableBiMap<K, V>> toImmutableBiMap(
+          Function<? super T, ? extends K> keyFunction,
+          Function<? super T, ? extends V> valueFunction) {
     return CollectCollectors.toImmutableBiMap(keyFunction, valueFunction);
   }
 
@@ -621,14 +626,17 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
    *
    * @throws UnsupportedOperationException always
    * @deprecated Use {@link ImmutableBiMap#toImmutableBiMap}.
+   * @since NEXT (available since 21.0 in guava-jre)
    */
   @Deprecated
   @DoNotCall("Use toImmutableBiMap")
   @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
-  static <T extends @Nullable Object, K, V> Collector<T, ?, ImmutableMap<K, V>> toImmutableMap(
-      Function<? super T, ? extends K> keyFunction,
-      Function<? super T, ? extends V> valueFunction) {
+  @Beta // TODO: b/288085449 - Remove.
+  public static <T extends @Nullable Object, K, V>
+      Collector<T, ?, ImmutableMap<K, V>> toImmutableMap(
+          Function<? super T, ? extends K> keyFunction,
+          Function<? super T, ? extends V> valueFunction) {
     throw new UnsupportedOperationException();
   }
 
@@ -639,15 +647,18 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
    *
    * @throws UnsupportedOperationException always
    * @deprecated
+   * @since NEXT (available since 21.0 in guava-jre)
    */
   @Deprecated
   @DoNotCall("Use toImmutableBiMap")
   @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
-  static <T extends @Nullable Object, K, V> Collector<T, ?, ImmutableMap<K, V>> toImmutableMap(
-      Function<? super T, ? extends K> keyFunction,
-      Function<? super T, ? extends V> valueFunction,
-      BinaryOperator<V> mergeFunction) {
+  @Beta // TODO: b/288085449 - Remove.
+  public static <T extends @Nullable Object, K, V>
+      Collector<T, ?, ImmutableMap<K, V>> toImmutableMap(
+          Function<? super T, ? extends K> keyFunction,
+          Function<? super T, ? extends V> valueFunction,
+          BinaryOperator<V> mergeFunction) {
     throw new UnsupportedOperationException();
   }
 

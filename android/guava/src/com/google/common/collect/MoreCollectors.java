@@ -19,6 +19,7 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static java.util.Collections.emptyList;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,12 +34,14 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * with a {@code com.google.common} type.
  *
  * @author Louis Wasserman
+ * @since NEXT (available since 21.0 in guava-jre)
  */
 @GwtCompatible
 @ElementTypesAreNonnullByDefault
 @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
 @IgnoreJRERequirement // Users will use this only if they're already using streams.
-final class MoreCollectors {
+@Beta // TODO: b/288085449 - Remove.
+public final class MoreCollectors {
 
   /*
    * TODO(lowasser): figure out if we can convert this to a concurrent AtomicReference-based

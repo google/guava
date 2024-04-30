@@ -22,6 +22,7 @@ import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 import static com.google.common.collect.ObjectArrays.checkElementNotNull;
 import static java.util.Objects.requireNonNull;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
@@ -58,10 +59,13 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    * ImmutableSet}. Elements appear in the resulting set in the encounter order of the stream; if
    * the stream contains duplicates (according to {@link Object#equals(Object)}), only the first
    * duplicate in encounter order will appear in the result.
+   *
+   * @since NEXT (available since 21.0 in guava-jre)
    */
   @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
-  static <E> Collector<E, ?, ImmutableSet<E>> toImmutableSet() {
+  @Beta // TODO: b/288085449 - Remove.
+  public static <E> Collector<E, ?, ImmutableSet<E>> toImmutableSet() {
     return CollectCollectors.toImmutableSet();
   }
 

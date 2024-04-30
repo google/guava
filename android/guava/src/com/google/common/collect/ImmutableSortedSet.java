@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.ObjectArrays.checkElementsNotNull;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
@@ -69,10 +70,13 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSet<E>
    *
    * <p>If the elements contain duplicates (according to the comparator), only the first duplicate
    * in encounter order will appear in the result.
+   *
+   * @since NEXT (available since 21.0 in guava-jre)
    */
   @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
-  static <E> Collector<E, ?, ImmutableSortedSet<E>> toImmutableSortedSet(
+  @Beta // TODO: b/288085449 - Remove.
+  public static <E> Collector<E, ?, ImmutableSortedSet<E>> toImmutableSortedSet(
       Comparator<? super E> comparator) {
     return CollectCollectors.toImmutableSortedSet(comparator);
   }
@@ -793,12 +797,14 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSet<E>
    *
    * @throws UnsupportedOperationException always
    * @deprecated Use {@link ImmutableSortedSet#toImmutableSortedSet}.
+   * @since NEXT (available since 21.0 in guava-jre)
    */
   @DoNotCall("Use toImmutableSortedSet")
   @Deprecated
   @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
-  static <E> Collector<E, ?, ImmutableSet<E>> toImmutableSet() {
+  @Beta // TODO: b/288085449 - Remove.
+  public static <E> Collector<E, ?, ImmutableSet<E>> toImmutableSet() {
     throw new UnsupportedOperationException();
   }
 

@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
@@ -144,10 +145,13 @@ public final class Sets {
    * Returns a {@code Collector} that accumulates the input elements into a new {@code ImmutableSet}
    * with an implementation specialized for enums. Unlike {@link ImmutableSet#toImmutableSet}, the
    * resulting set will iterate over elements in their enum definition order, not encounter order.
+   *
+   * @since NEXT (available since 21.0 in guava-jre)
    */
   @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
-  static <E extends Enum<E>> Collector<E, ?, ImmutableSet<E>> toImmutableEnumSet() {
+  @Beta // TODO: b/288085449 - Remove.
+  public static <E extends Enum<E>> Collector<E, ?, ImmutableSet<E>> toImmutableEnumSet() {
     return CollectCollectors.toImmutableEnumSet();
   }
 

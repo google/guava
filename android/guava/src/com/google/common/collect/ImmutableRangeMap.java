@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkElementIndex;
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.SortedLists.KeyAbsentBehavior;
@@ -55,10 +56,13 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
   /**
    * Returns a {@code Collector} that accumulates the input elements into a new {@code
    * ImmutableRangeMap}. As in {@link Builder}, overlapping ranges are not permitted.
+   *
+   * @since NEXT (available since 23.1 in guava-jre)
    */
   @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
-  static <T extends @Nullable Object, K extends Comparable<? super K>, V>
+  @Beta // TODO: b/288085449 - Remove.
+  public static <T extends @Nullable Object, K extends Comparable<? super K>, V>
       Collector<T, ?, ImmutableRangeMap<K, V>> toImmutableRangeMap(
           Function<? super T, Range<K>> keyFunction,
           Function<? super T, ? extends V> valueFunction) {

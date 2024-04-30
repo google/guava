@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
@@ -60,10 +61,13 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V>
    *
    * <p>The returned {@code Collector} will throw a {@code NullPointerException} at collection time
    * if the row, column, or value functions return null on any input.
+   *
+   * @since NEXT (available since 21.0 in guava-jre)
    */
   @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
-  static <T extends @Nullable Object, R, C, V>
+  @Beta // TODO: b/288085449 - Remove.
+  public static <T extends @Nullable Object, R, C, V>
       Collector<T, ?, ImmutableTable<R, C, V>> toImmutableTable(
           Function<? super T, ? extends R> rowFunction,
           Function<? super T, ? extends C> columnFunction,
@@ -79,10 +83,13 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V>
    *
    * <p>The returned {@code Collector} will throw a {@code NullPointerException} at collection time
    * if the row, column, value, or merging functions return null on any input.
+   *
+   * @since NEXT (available since 21.0 in guava-jre)
    */
   @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
-  static <T extends @Nullable Object, R, C, V>
+  @Beta // TODO: b/288085449 - Remove.
+  public static <T extends @Nullable Object, R, C, V>
       Collector<T, ?, ImmutableTable<R, C, V>> toImmutableTable(
           Function<? super T, ? extends R> rowFunction,
           Function<? super T, ? extends C> columnFunction,

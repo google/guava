@@ -17,6 +17,7 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
@@ -67,10 +68,13 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableMultiset<E>
    *
    * <p><b>Warning:</b> {@code comparator} should be <i>consistent with {@code equals}</i> as
    * explained in the {@link Comparator} documentation.
+   *
+   * @since NEXT (available since 21.0 in guava-jre)
    */
   @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
-  static <E> Collector<E, ?, ImmutableSortedMultiset<E>> toImmutableSortedMultiset(
+  @Beta // TODO: b/288085449 - Remove.
+  public static <E> Collector<E, ?, ImmutableSortedMultiset<E>> toImmutableSortedMultiset(
       Comparator<? super E> comparator) {
     return toImmutableSortedMultiset(comparator, Function.identity(), e -> 1);
   }
@@ -83,10 +87,13 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableMultiset<E>
    * <p>If the mapped elements contain duplicates (according to {@code comparator}), the first
    * occurrence in encounter order appears in the resulting multiset, with count equal to the sum of
    * the outputs of {@code countFunction.applyAsInt(t)} for each {@code t} mapped to that element.
+   *
+   * @since NEXT (available since 22.0 in guava-jre)
    */
   @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
-  static <T extends @Nullable Object, E>
+  @Beta // TODO: b/288085449 - Remove.
+  public static <T extends @Nullable Object, E>
       Collector<T, ?, ImmutableSortedMultiset<E>> toImmutableSortedMultiset(
           Comparator<? super E> comparator,
           Function<? super T, ? extends E> elementFunction,
@@ -753,12 +760,14 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableMultiset<E>
    *
    * @throws UnsupportedOperationException always
    * @deprecated Use {@link ImmutableSortedMultiset#toImmutableSortedMultiset}.
+   * @since NEXT (available since 21.0 in guava-jre)
    */
   @DoNotCall("Use toImmutableSortedMultiset.")
   @Deprecated
   @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
-  static <E> Collector<E, ?, ImmutableMultiset<E>> toImmutableMultiset() {
+  @Beta // TODO: b/288085449 - Remove.
+  public static <E> Collector<E, ?, ImmutableMultiset<E>> toImmutableMultiset() {
     throw new UnsupportedOperationException();
   }
 
@@ -769,13 +778,17 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableMultiset<E>
    *
    * @throws UnsupportedOperationException always
    * @deprecated Use {@link ImmutableSortedMultiset#toImmutableSortedMultiset}.
+   * @since NEXT (available since 22.0 in guava-jre)
    */
   @DoNotCall("Use toImmutableSortedMultiset.")
   @Deprecated
   @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
-  static <T extends @Nullable Object, E> Collector<T, ?, ImmutableMultiset<E>> toImmutableMultiset(
-      Function<? super T, ? extends E> elementFunction, ToIntFunction<? super T> countFunction) {
+  @Beta // TODO: b/288085449 - Remove.
+  public static <T extends @Nullable Object, E>
+      Collector<T, ?, ImmutableMultiset<E>> toImmutableMultiset(
+          Function<? super T, ? extends E> elementFunction,
+          ToIntFunction<? super T> countFunction) {
     throw new UnsupportedOperationException();
   }
 

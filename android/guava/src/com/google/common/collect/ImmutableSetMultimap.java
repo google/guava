@@ -19,6 +19,7 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static java.util.Objects.requireNonNull;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
@@ -86,10 +87,13 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
    *         .putAll('c', "arrot", "herry")
    *         .build();
    * }</pre>
+   *
+   * @since NEXT (available since 21.0 in guava-jre)
    */
   @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
-  static <T extends @Nullable Object, K, V>
+  @Beta // TODO: b/288085449 - Remove.
+  public static <T extends @Nullable Object, K, V>
       Collector<T, ?, ImmutableSetMultimap<K, V>> toImmutableSetMultimap(
           Function<? super T, ? extends K> keyFunction,
           Function<? super T, ? extends V> valueFunction) {
@@ -133,10 +137,13 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
    *         .build();
    * }
    * }</pre>
+   *
+   * @since NEXT (available since 21.0 in guava-jre)
    */
   @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
-  static <T extends @Nullable Object, K, V>
+  @Beta // TODO: b/288085449 - Remove.
+  public static <T extends @Nullable Object, K, V>
       Collector<T, ?, ImmutableSetMultimap<K, V>> flatteningToImmutableSetMultimap(
           Function<? super T, ? extends K> keyFunction,
           Function<? super T, ? extends Stream<? extends V>> valuesFunction) {

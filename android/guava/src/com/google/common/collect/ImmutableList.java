@@ -25,6 +25,7 @@ import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 import static com.google.common.collect.ObjectArrays.checkElementsNotNull;
 import static com.google.common.collect.RegularImmutableList.EMPTY;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
@@ -66,10 +67,13 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
   /**
    * Returns a {@code Collector} that accumulates the input elements into a new {@code
    * ImmutableList}, in encounter order.
+   *
+   * @since NEXT (available since 21.0 in guava-jre)
    */
   @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
-  static <E> Collector<E, ?, ImmutableList<E>> toImmutableList() {
+  @Beta // TODO: b/288085449 - Remove.
+  public static <E> Collector<E, ?, ImmutableList<E>> toImmutableList() {
     return CollectCollectors.toImmutableList();
   }
 

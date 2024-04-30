@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.NullnessCasts.uncheckedCastNullableTToT;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Objects;
@@ -62,10 +63,13 @@ public final class Tables {
    * is thrown when the collection operation is performed.
    *
    * <p>To collect to an {@link ImmutableTable}, use {@link ImmutableTable#toImmutableTable}.
+   *
+   * @since NEXT (available since 21.0 in guava-jre)
    */
   @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
-  static <
+  @Beta // TODO: b/288085449 - Remove.
+  public static <
           T extends @Nullable Object,
           R extends @Nullable Object,
           C extends @Nullable Object,
@@ -91,10 +95,13 @@ public final class Tables {
    * BinaryOperator, java.util.function.Supplier)}, this Collector throws a {@code
    * NullPointerException} on null values returned from {@code valueFunction}, and treats nulls
    * returned from {@code mergeFunction} as removals of that row/column pair.
+   *
+   * @since NEXT (available since 21.0 in guava-jre)
    */
   @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
-  static <
+  @Beta // TODO: b/288085449 - Remove.
+  public static <
           T extends @Nullable Object,
           R extends @Nullable Object,
           C extends @Nullable Object,
