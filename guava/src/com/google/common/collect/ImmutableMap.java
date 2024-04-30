@@ -562,8 +562,11 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
         if (!throwIfDuplicateKeys) {
           // We want to retain only the last-put value for any given key, before sorting.
           // This could be improved, but orderEntriesByValue is rather rarely used anyway.
-          nonNullEntries = lastEntryForEachKey(nonNullEntries, size);
-          localSize = nonNullEntries.length;
+          Entry<K, V>[] lastEntryForEachKey = lastEntryForEachKey(nonNullEntries, size);
+          if (lastEntryForEachKey != null) {
+            nonNullEntries = lastEntryForEachKey;
+            localSize = lastEntryForEachKey.length;
+          }
         }
         Arrays.sort(
             nonNullEntries,
@@ -640,6 +643,13 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
       }
     }
 
+    /**
+     * Scans the first {@code size} elements of {@code entries} looking for duplicate keys. If
+     * duplicates are found, a new correctly-sized array is returned with the same elements (up to
+     * {@code size}), except containing only the last occurrence of each duplicate key. Otherwise
+     * {@code null} is returned.
+     */
+    @CheckForNull
     private static <K, V> Entry<K, V>[] lastEntryForEachKey(Entry<K, V>[] entries, int size) {
       Set<K> seen = new HashSet<>();
       BitSet dups = new BitSet(); // slots that are overridden by a later duplicate key
@@ -649,7 +659,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
         }
       }
       if (dups.isEmpty()) {
-        return entries;
+        return null;
       }
       @SuppressWarnings({"rawtypes", "unchecked"})
       Entry<K, V>[] newEntries = new Entry[size - dups.cardinality()];
