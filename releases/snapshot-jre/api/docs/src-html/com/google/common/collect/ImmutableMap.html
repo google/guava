@@ -571,764 +571,774 @@
 <span class="sourceLineNo">562</span><a id="line.562">        if (!throwIfDuplicateKeys) {</a>
 <span class="sourceLineNo">563</span><a id="line.563">          // We want to retain only the last-put value for any given key, before sorting.</a>
 <span class="sourceLineNo">564</span><a id="line.564">          // This could be improved, but orderEntriesByValue is rather rarely used anyway.</a>
-<span class="sourceLineNo">565</span><a id="line.565">          nonNullEntries = lastEntryForEachKey(nonNullEntries, size);</a>
-<span class="sourceLineNo">566</span><a id="line.566">          localSize = nonNullEntries.length;</a>
-<span class="sourceLineNo">567</span><a id="line.567">        }</a>
-<span class="sourceLineNo">568</span><a id="line.568">        Arrays.sort(</a>
-<span class="sourceLineNo">569</span><a id="line.569">            nonNullEntries,</a>
-<span class="sourceLineNo">570</span><a id="line.570">            0,</a>
-<span class="sourceLineNo">571</span><a id="line.571">            localSize,</a>
-<span class="sourceLineNo">572</span><a id="line.572">            Ordering.from(valueComparator).onResultOf(Maps.&lt;V&gt;valueFunction()));</a>
-<span class="sourceLineNo">573</span><a id="line.573">        localEntries = (@Nullable Entry&lt;K, V&gt;[]) nonNullEntries;</a>
-<span class="sourceLineNo">574</span><a id="line.574">      }</a>
-<span class="sourceLineNo">575</span><a id="line.575">      entriesUsed = true;</a>
-<span class="sourceLineNo">576</span><a id="line.576">      return RegularImmutableMap.fromEntryArray(localSize, localEntries, throwIfDuplicateKeys);</a>
-<span class="sourceLineNo">577</span><a id="line.577">    }</a>
-<span class="sourceLineNo">578</span><a id="line.578"></a>
-<span class="sourceLineNo">579</span><a id="line.579">    /**</a>
-<span class="sourceLineNo">580</span><a id="line.580">     * Returns a newly-created immutable map. The iteration order of the returned map is the order</a>
-<span class="sourceLineNo">581</span><a id="line.581">     * in which entries were inserted into the builder, unless {@link #orderEntriesByValue} was</a>
-<span class="sourceLineNo">582</span><a id="line.582">     * called, in which case entries are sorted by value.</a>
-<span class="sourceLineNo">583</span><a id="line.583">     *</a>
-<span class="sourceLineNo">584</span><a id="line.584">     * &lt;p&gt;Prefer the equivalent method {@link #buildOrThrow()} to make it explicit that the method</a>
-<span class="sourceLineNo">585</span><a id="line.585">     * will throw an exception if there are duplicate keys. The {@code build()} method will soon be</a>
-<span class="sourceLineNo">586</span><a id="line.586">     * deprecated.</a>
-<span class="sourceLineNo">587</span><a id="line.587">     *</a>
-<span class="sourceLineNo">588</span><a id="line.588">     * @throws IllegalArgumentException if duplicate keys were added</a>
-<span class="sourceLineNo">589</span><a id="line.589">     */</a>
-<span class="sourceLineNo">590</span><a id="line.590">    public ImmutableMap&lt;K, V&gt; build() {</a>
-<span class="sourceLineNo">591</span><a id="line.591">      return buildOrThrow();</a>
-<span class="sourceLineNo">592</span><a id="line.592">    }</a>
-<span class="sourceLineNo">593</span><a id="line.593"></a>
-<span class="sourceLineNo">594</span><a id="line.594">    /**</a>
-<span class="sourceLineNo">595</span><a id="line.595">     * Returns a newly-created immutable map, or throws an exception if any key was added more than</a>
-<span class="sourceLineNo">596</span><a id="line.596">     * once. The iteration order of the returned map is the order in which entries were inserted</a>
-<span class="sourceLineNo">597</span><a id="line.597">     * into the builder, unless {@link #orderEntriesByValue} was called, in which case entries are</a>
-<span class="sourceLineNo">598</span><a id="line.598">     * sorted by value.</a>
-<span class="sourceLineNo">599</span><a id="line.599">     *</a>
-<span class="sourceLineNo">600</span><a id="line.600">     * @throws IllegalArgumentException if duplicate keys were added</a>
-<span class="sourceLineNo">601</span><a id="line.601">     * @since 31.0</a>
-<span class="sourceLineNo">602</span><a id="line.602">     */</a>
-<span class="sourceLineNo">603</span><a id="line.603">    public ImmutableMap&lt;K, V&gt; buildOrThrow() {</a>
-<span class="sourceLineNo">604</span><a id="line.604">      return build(true);</a>
-<span class="sourceLineNo">605</span><a id="line.605">    }</a>
-<span class="sourceLineNo">606</span><a id="line.606"></a>
-<span class="sourceLineNo">607</span><a id="line.607">    /**</a>
-<span class="sourceLineNo">608</span><a id="line.608">     * Returns a newly-created immutable map, using the last value for any key that was added more</a>
-<span class="sourceLineNo">609</span><a id="line.609">     * than once. The iteration order of the returned map is the order in which entries were</a>
-<span class="sourceLineNo">610</span><a id="line.610">     * inserted into the builder, unless {@link #orderEntriesByValue} was called, in which case</a>
-<span class="sourceLineNo">611</span><a id="line.611">     * entries are sorted by value. If a key was added more than once, it appears in iteration order</a>
-<span class="sourceLineNo">612</span><a id="line.612">     * based on the first time it was added, again unless {@link #orderEntriesByValue} was called.</a>
-<span class="sourceLineNo">613</span><a id="line.613">     *</a>
-<span class="sourceLineNo">614</span><a id="line.614">     * &lt;p&gt;In the current implementation, all values associated with a given key are stored in the</a>
-<span class="sourceLineNo">615</span><a id="line.615">     * {@code Builder} object, even though only one of them will be used in the built map. If there</a>
-<span class="sourceLineNo">616</span><a id="line.616">     * can be many repeated keys, it may be more space-efficient to use a {@link</a>
-<span class="sourceLineNo">617</span><a id="line.617">     * java.util.LinkedHashMap LinkedHashMap} and {@link ImmutableMap#copyOf(Map)} rather than</a>
-<span class="sourceLineNo">618</span><a id="line.618">     * {@code ImmutableMap.Builder}.</a>
-<span class="sourceLineNo">619</span><a id="line.619">     *</a>
-<span class="sourceLineNo">620</span><a id="line.620">     * @since 31.1</a>
-<span class="sourceLineNo">621</span><a id="line.621">     */</a>
-<span class="sourceLineNo">622</span><a id="line.622">    public ImmutableMap&lt;K, V&gt; buildKeepingLast() {</a>
-<span class="sourceLineNo">623</span><a id="line.623">      return build(false);</a>
-<span class="sourceLineNo">624</span><a id="line.624">    }</a>
-<span class="sourceLineNo">625</span><a id="line.625"></a>
-<span class="sourceLineNo">626</span><a id="line.626">    @VisibleForTesting // only for testing JDK backed implementation</a>
-<span class="sourceLineNo">627</span><a id="line.627">    ImmutableMap&lt;K, V&gt; buildJdkBacked() {</a>
-<span class="sourceLineNo">628</span><a id="line.628">      checkState(</a>
-<span class="sourceLineNo">629</span><a id="line.629">          valueComparator == null, "buildJdkBacked is only for testing; can't use valueComparator");</a>
-<span class="sourceLineNo">630</span><a id="line.630">      switch (size) {</a>
-<span class="sourceLineNo">631</span><a id="line.631">        case 0:</a>
-<span class="sourceLineNo">632</span><a id="line.632">          return of();</a>
-<span class="sourceLineNo">633</span><a id="line.633">        case 1:</a>
-<span class="sourceLineNo">634</span><a id="line.634">          // requireNonNull is safe because the first `size` elements have been filled in.</a>
-<span class="sourceLineNo">635</span><a id="line.635">          Entry&lt;K, V&gt; onlyEntry = requireNonNull(entries[0]);</a>
-<span class="sourceLineNo">636</span><a id="line.636">          return of(onlyEntry.getKey(), onlyEntry.getValue());</a>
-<span class="sourceLineNo">637</span><a id="line.637">        default:</a>
-<span class="sourceLineNo">638</span><a id="line.638">          entriesUsed = true;</a>
-<span class="sourceLineNo">639</span><a id="line.639">          return JdkBackedImmutableMap.create(size, entries, /* throwIfDuplicateKeys= */ true);</a>
-<span class="sourceLineNo">640</span><a id="line.640">      }</a>
-<span class="sourceLineNo">641</span><a id="line.641">    }</a>
-<span class="sourceLineNo">642</span><a id="line.642"></a>
-<span class="sourceLineNo">643</span><a id="line.643">    private static &lt;K, V&gt; Entry&lt;K, V&gt;[] lastEntryForEachKey(Entry&lt;K, V&gt;[] entries, int size) {</a>
-<span class="sourceLineNo">644</span><a id="line.644">      Set&lt;K&gt; seen = new HashSet&lt;&gt;();</a>
-<span class="sourceLineNo">645</span><a id="line.645">      BitSet dups = new BitSet(); // slots that are overridden by a later duplicate key</a>
-<span class="sourceLineNo">646</span><a id="line.646">      for (int i = size - 1; i &gt;= 0; i--) {</a>
-<span class="sourceLineNo">647</span><a id="line.647">        if (!seen.add(entries[i].getKey())) {</a>
-<span class="sourceLineNo">648</span><a id="line.648">          dups.set(i);</a>
-<span class="sourceLineNo">649</span><a id="line.649">        }</a>
-<span class="sourceLineNo">650</span><a id="line.650">      }</a>
-<span class="sourceLineNo">651</span><a id="line.651">      if (dups.isEmpty()) {</a>
-<span class="sourceLineNo">652</span><a id="line.652">        return entries;</a>
-<span class="sourceLineNo">653</span><a id="line.653">      }</a>
-<span class="sourceLineNo">654</span><a id="line.654">      @SuppressWarnings({"rawtypes", "unchecked"})</a>
-<span class="sourceLineNo">655</span><a id="line.655">      Entry&lt;K, V&gt;[] newEntries = new Entry[size - dups.cardinality()];</a>
-<span class="sourceLineNo">656</span><a id="line.656">      for (int inI = 0, outI = 0; inI &lt; size; inI++) {</a>
-<span class="sourceLineNo">657</span><a id="line.657">        if (!dups.get(inI)) {</a>
-<span class="sourceLineNo">658</span><a id="line.658">          newEntries[outI++] = entries[inI];</a>
+<span class="sourceLineNo">565</span><a id="line.565">          Entry&lt;K, V&gt;[] lastEntryForEachKey = lastEntryForEachKey(nonNullEntries, size);</a>
+<span class="sourceLineNo">566</span><a id="line.566">          if (lastEntryForEachKey != null) {</a>
+<span class="sourceLineNo">567</span><a id="line.567">            nonNullEntries = lastEntryForEachKey;</a>
+<span class="sourceLineNo">568</span><a id="line.568">            localSize = lastEntryForEachKey.length;</a>
+<span class="sourceLineNo">569</span><a id="line.569">          }</a>
+<span class="sourceLineNo">570</span><a id="line.570">        }</a>
+<span class="sourceLineNo">571</span><a id="line.571">        Arrays.sort(</a>
+<span class="sourceLineNo">572</span><a id="line.572">            nonNullEntries,</a>
+<span class="sourceLineNo">573</span><a id="line.573">            0,</a>
+<span class="sourceLineNo">574</span><a id="line.574">            localSize,</a>
+<span class="sourceLineNo">575</span><a id="line.575">            Ordering.from(valueComparator).onResultOf(Maps.&lt;V&gt;valueFunction()));</a>
+<span class="sourceLineNo">576</span><a id="line.576">        localEntries = (@Nullable Entry&lt;K, V&gt;[]) nonNullEntries;</a>
+<span class="sourceLineNo">577</span><a id="line.577">      }</a>
+<span class="sourceLineNo">578</span><a id="line.578">      entriesUsed = true;</a>
+<span class="sourceLineNo">579</span><a id="line.579">      return RegularImmutableMap.fromEntryArray(localSize, localEntries, throwIfDuplicateKeys);</a>
+<span class="sourceLineNo">580</span><a id="line.580">    }</a>
+<span class="sourceLineNo">581</span><a id="line.581"></a>
+<span class="sourceLineNo">582</span><a id="line.582">    /**</a>
+<span class="sourceLineNo">583</span><a id="line.583">     * Returns a newly-created immutable map. The iteration order of the returned map is the order</a>
+<span class="sourceLineNo">584</span><a id="line.584">     * in which entries were inserted into the builder, unless {@link #orderEntriesByValue} was</a>
+<span class="sourceLineNo">585</span><a id="line.585">     * called, in which case entries are sorted by value.</a>
+<span class="sourceLineNo">586</span><a id="line.586">     *</a>
+<span class="sourceLineNo">587</span><a id="line.587">     * &lt;p&gt;Prefer the equivalent method {@link #buildOrThrow()} to make it explicit that the method</a>
+<span class="sourceLineNo">588</span><a id="line.588">     * will throw an exception if there are duplicate keys. The {@code build()} method will soon be</a>
+<span class="sourceLineNo">589</span><a id="line.589">     * deprecated.</a>
+<span class="sourceLineNo">590</span><a id="line.590">     *</a>
+<span class="sourceLineNo">591</span><a id="line.591">     * @throws IllegalArgumentException if duplicate keys were added</a>
+<span class="sourceLineNo">592</span><a id="line.592">     */</a>
+<span class="sourceLineNo">593</span><a id="line.593">    public ImmutableMap&lt;K, V&gt; build() {</a>
+<span class="sourceLineNo">594</span><a id="line.594">      return buildOrThrow();</a>
+<span class="sourceLineNo">595</span><a id="line.595">    }</a>
+<span class="sourceLineNo">596</span><a id="line.596"></a>
+<span class="sourceLineNo">597</span><a id="line.597">    /**</a>
+<span class="sourceLineNo">598</span><a id="line.598">     * Returns a newly-created immutable map, or throws an exception if any key was added more than</a>
+<span class="sourceLineNo">599</span><a id="line.599">     * once. The iteration order of the returned map is the order in which entries were inserted</a>
+<span class="sourceLineNo">600</span><a id="line.600">     * into the builder, unless {@link #orderEntriesByValue} was called, in which case entries are</a>
+<span class="sourceLineNo">601</span><a id="line.601">     * sorted by value.</a>
+<span class="sourceLineNo">602</span><a id="line.602">     *</a>
+<span class="sourceLineNo">603</span><a id="line.603">     * @throws IllegalArgumentException if duplicate keys were added</a>
+<span class="sourceLineNo">604</span><a id="line.604">     * @since 31.0</a>
+<span class="sourceLineNo">605</span><a id="line.605">     */</a>
+<span class="sourceLineNo">606</span><a id="line.606">    public ImmutableMap&lt;K, V&gt; buildOrThrow() {</a>
+<span class="sourceLineNo">607</span><a id="line.607">      return build(true);</a>
+<span class="sourceLineNo">608</span><a id="line.608">    }</a>
+<span class="sourceLineNo">609</span><a id="line.609"></a>
+<span class="sourceLineNo">610</span><a id="line.610">    /**</a>
+<span class="sourceLineNo">611</span><a id="line.611">     * Returns a newly-created immutable map, using the last value for any key that was added more</a>
+<span class="sourceLineNo">612</span><a id="line.612">     * than once. The iteration order of the returned map is the order in which entries were</a>
+<span class="sourceLineNo">613</span><a id="line.613">     * inserted into the builder, unless {@link #orderEntriesByValue} was called, in which case</a>
+<span class="sourceLineNo">614</span><a id="line.614">     * entries are sorted by value. If a key was added more than once, it appears in iteration order</a>
+<span class="sourceLineNo">615</span><a id="line.615">     * based on the first time it was added, again unless {@link #orderEntriesByValue} was called.</a>
+<span class="sourceLineNo">616</span><a id="line.616">     *</a>
+<span class="sourceLineNo">617</span><a id="line.617">     * &lt;p&gt;In the current implementation, all values associated with a given key are stored in the</a>
+<span class="sourceLineNo">618</span><a id="line.618">     * {@code Builder} object, even though only one of them will be used in the built map. If there</a>
+<span class="sourceLineNo">619</span><a id="line.619">     * can be many repeated keys, it may be more space-efficient to use a {@link</a>
+<span class="sourceLineNo">620</span><a id="line.620">     * java.util.LinkedHashMap LinkedHashMap} and {@link ImmutableMap#copyOf(Map)} rather than</a>
+<span class="sourceLineNo">621</span><a id="line.621">     * {@code ImmutableMap.Builder}.</a>
+<span class="sourceLineNo">622</span><a id="line.622">     *</a>
+<span class="sourceLineNo">623</span><a id="line.623">     * @since 31.1</a>
+<span class="sourceLineNo">624</span><a id="line.624">     */</a>
+<span class="sourceLineNo">625</span><a id="line.625">    public ImmutableMap&lt;K, V&gt; buildKeepingLast() {</a>
+<span class="sourceLineNo">626</span><a id="line.626">      return build(false);</a>
+<span class="sourceLineNo">627</span><a id="line.627">    }</a>
+<span class="sourceLineNo">628</span><a id="line.628"></a>
+<span class="sourceLineNo">629</span><a id="line.629">    @VisibleForTesting // only for testing JDK backed implementation</a>
+<span class="sourceLineNo">630</span><a id="line.630">    ImmutableMap&lt;K, V&gt; buildJdkBacked() {</a>
+<span class="sourceLineNo">631</span><a id="line.631">      checkState(</a>
+<span class="sourceLineNo">632</span><a id="line.632">          valueComparator == null, "buildJdkBacked is only for testing; can't use valueComparator");</a>
+<span class="sourceLineNo">633</span><a id="line.633">      switch (size) {</a>
+<span class="sourceLineNo">634</span><a id="line.634">        case 0:</a>
+<span class="sourceLineNo">635</span><a id="line.635">          return of();</a>
+<span class="sourceLineNo">636</span><a id="line.636">        case 1:</a>
+<span class="sourceLineNo">637</span><a id="line.637">          // requireNonNull is safe because the first `size` elements have been filled in.</a>
+<span class="sourceLineNo">638</span><a id="line.638">          Entry&lt;K, V&gt; onlyEntry = requireNonNull(entries[0]);</a>
+<span class="sourceLineNo">639</span><a id="line.639">          return of(onlyEntry.getKey(), onlyEntry.getValue());</a>
+<span class="sourceLineNo">640</span><a id="line.640">        default:</a>
+<span class="sourceLineNo">641</span><a id="line.641">          entriesUsed = true;</a>
+<span class="sourceLineNo">642</span><a id="line.642">          return JdkBackedImmutableMap.create(size, entries, /* throwIfDuplicateKeys= */ true);</a>
+<span class="sourceLineNo">643</span><a id="line.643">      }</a>
+<span class="sourceLineNo">644</span><a id="line.644">    }</a>
+<span class="sourceLineNo">645</span><a id="line.645"></a>
+<span class="sourceLineNo">646</span><a id="line.646">    /**</a>
+<span class="sourceLineNo">647</span><a id="line.647">     * Scans the first {@code size} elements of {@code entries} looking for duplicate keys. If</a>
+<span class="sourceLineNo">648</span><a id="line.648">     * duplicates are found, a new correctly-sized array is returned with the same elements (up to</a>
+<span class="sourceLineNo">649</span><a id="line.649">     * {@code size}), except containing only the last occurrence of each duplicate key. Otherwise</a>
+<span class="sourceLineNo">650</span><a id="line.650">     * {@code null} is returned.</a>
+<span class="sourceLineNo">651</span><a id="line.651">     */</a>
+<span class="sourceLineNo">652</span><a id="line.652">    @CheckForNull</a>
+<span class="sourceLineNo">653</span><a id="line.653">    private static &lt;K, V&gt; Entry&lt;K, V&gt;[] lastEntryForEachKey(Entry&lt;K, V&gt;[] entries, int size) {</a>
+<span class="sourceLineNo">654</span><a id="line.654">      Set&lt;K&gt; seen = new HashSet&lt;&gt;();</a>
+<span class="sourceLineNo">655</span><a id="line.655">      BitSet dups = new BitSet(); // slots that are overridden by a later duplicate key</a>
+<span class="sourceLineNo">656</span><a id="line.656">      for (int i = size - 1; i &gt;= 0; i--) {</a>
+<span class="sourceLineNo">657</span><a id="line.657">        if (!seen.add(entries[i].getKey())) {</a>
+<span class="sourceLineNo">658</span><a id="line.658">          dups.set(i);</a>
 <span class="sourceLineNo">659</span><a id="line.659">        }</a>
 <span class="sourceLineNo">660</span><a id="line.660">      }</a>
-<span class="sourceLineNo">661</span><a id="line.661">      return newEntries;</a>
-<span class="sourceLineNo">662</span><a id="line.662">    }</a>
-<span class="sourceLineNo">663</span><a id="line.663">  }</a>
-<span class="sourceLineNo">664</span><a id="line.664"></a>
-<span class="sourceLineNo">665</span><a id="line.665">  /**</a>
-<span class="sourceLineNo">666</span><a id="line.666">   * Returns an immutable map containing the same entries as {@code map}. The returned map iterates</a>
-<span class="sourceLineNo">667</span><a id="line.667">   * over entries in the same order as the {@code entrySet} of the original map. If {@code map}</a>
-<span class="sourceLineNo">668</span><a id="line.668">   * somehow contains entries with duplicate keys (for example, if it is a {@code SortedMap} whose</a>
-<span class="sourceLineNo">669</span><a id="line.669">   * comparator is not &lt;i&gt;consistent with equals&lt;/i&gt;), the results of this method are undefined.</a>
-<span class="sourceLineNo">670</span><a id="line.670">   *</a>
-<span class="sourceLineNo">671</span><a id="line.671">   * &lt;p&gt;Despite the method name, this method attempts to avoid actually copying the data when it is</a>
-<span class="sourceLineNo">672</span><a id="line.672">   * safe to do so. The exact circumstances under which a copy will or will not be performed are</a>
-<span class="sourceLineNo">673</span><a id="line.673">   * undocumented and subject to change.</a>
-<span class="sourceLineNo">674</span><a id="line.674">   *</a>
-<span class="sourceLineNo">675</span><a id="line.675">   * @throws NullPointerException if any key or value in {@code map} is null</a>
-<span class="sourceLineNo">676</span><a id="line.676">   */</a>
-<span class="sourceLineNo">677</span><a id="line.677">  public static &lt;K, V&gt; ImmutableMap&lt;K, V&gt; copyOf(Map&lt;? extends K, ? extends V&gt; map) {</a>
-<span class="sourceLineNo">678</span><a id="line.678">    if ((map instanceof ImmutableMap) &amp;&amp; !(map instanceof SortedMap)) {</a>
-<span class="sourceLineNo">679</span><a id="line.679">      @SuppressWarnings("unchecked") // safe since map is not writable</a>
-<span class="sourceLineNo">680</span><a id="line.680">      ImmutableMap&lt;K, V&gt; kvMap = (ImmutableMap&lt;K, V&gt;) map;</a>
-<span class="sourceLineNo">681</span><a id="line.681">      if (!kvMap.isPartialView()) {</a>
-<span class="sourceLineNo">682</span><a id="line.682">        return kvMap;</a>
-<span class="sourceLineNo">683</span><a id="line.683">      }</a>
-<span class="sourceLineNo">684</span><a id="line.684">    } else if (map instanceof EnumMap) {</a>
-<span class="sourceLineNo">685</span><a id="line.685">      @SuppressWarnings("unchecked") // safe since map is not writable</a>
-<span class="sourceLineNo">686</span><a id="line.686">      ImmutableMap&lt;K, V&gt; kvMap =</a>
-<span class="sourceLineNo">687</span><a id="line.687">          (ImmutableMap&lt;K, V&gt;)</a>
-<span class="sourceLineNo">688</span><a id="line.688">              copyOfEnumMap(</a>
-<span class="sourceLineNo">689</span><a id="line.689">                  (EnumMap&lt;?, ? extends V&gt;) map); // hide K (violates bounds) from J2KT, preserve V.</a>
-<span class="sourceLineNo">690</span><a id="line.690">      return kvMap;</a>
-<span class="sourceLineNo">691</span><a id="line.691">    }</a>
-<span class="sourceLineNo">692</span><a id="line.692">    return copyOf(map.entrySet());</a>
-<span class="sourceLineNo">693</span><a id="line.693">  }</a>
-<span class="sourceLineNo">694</span><a id="line.694"></a>
-<span class="sourceLineNo">695</span><a id="line.695">  /**</a>
-<span class="sourceLineNo">696</span><a id="line.696">   * Returns an immutable map containing the specified entries. The returned map iterates over</a>
-<span class="sourceLineNo">697</span><a id="line.697">   * entries in the same order as the original iterable.</a>
-<span class="sourceLineNo">698</span><a id="line.698">   *</a>
-<span class="sourceLineNo">699</span><a id="line.699">   * @throws NullPointerException if any key, value, or entry is null</a>
-<span class="sourceLineNo">700</span><a id="line.700">   * @throws IllegalArgumentException if two entries have the same key</a>
-<span class="sourceLineNo">701</span><a id="line.701">   * @since 19.0</a>
-<span class="sourceLineNo">702</span><a id="line.702">   */</a>
-<span class="sourceLineNo">703</span><a id="line.703">  public static &lt;K, V&gt; ImmutableMap&lt;K, V&gt; copyOf(</a>
-<span class="sourceLineNo">704</span><a id="line.704">      Iterable&lt;? extends Entry&lt;? extends K, ? extends V&gt;&gt; entries) {</a>
-<span class="sourceLineNo">705</span><a id="line.705">    @SuppressWarnings("unchecked") // we'll only be using getKey and getValue, which are covariant</a>
-<span class="sourceLineNo">706</span><a id="line.706">    Entry&lt;K, V&gt;[] entryArray = (Entry&lt;K, V&gt;[]) Iterables.toArray(entries, EMPTY_ENTRY_ARRAY);</a>
-<span class="sourceLineNo">707</span><a id="line.707">    switch (entryArray.length) {</a>
-<span class="sourceLineNo">708</span><a id="line.708">      case 0:</a>
-<span class="sourceLineNo">709</span><a id="line.709">        return of();</a>
-<span class="sourceLineNo">710</span><a id="line.710">      case 1:</a>
-<span class="sourceLineNo">711</span><a id="line.711">        // requireNonNull is safe because the first `size` elements have been filled in.</a>
-<span class="sourceLineNo">712</span><a id="line.712">        Entry&lt;K, V&gt; onlyEntry = requireNonNull(entryArray[0]);</a>
-<span class="sourceLineNo">713</span><a id="line.713">        return of(onlyEntry.getKey(), onlyEntry.getValue());</a>
-<span class="sourceLineNo">714</span><a id="line.714">      default:</a>
-<span class="sourceLineNo">715</span><a id="line.715">        /*</a>
-<span class="sourceLineNo">716</span><a id="line.716">         * The current implementation will end up using entryArray directly, though it will write</a>
-<span class="sourceLineNo">717</span><a id="line.717">         * over the (arbitrary, potentially mutable) Entry objects actually stored in entryArray.</a>
-<span class="sourceLineNo">718</span><a id="line.718">         */</a>
-<span class="sourceLineNo">719</span><a id="line.719">        return RegularImmutableMap.fromEntries(entryArray);</a>
-<span class="sourceLineNo">720</span><a id="line.720">    }</a>
-<span class="sourceLineNo">721</span><a id="line.721">  }</a>
-<span class="sourceLineNo">722</span><a id="line.722"></a>
-<span class="sourceLineNo">723</span><a id="line.723">  private static &lt;K extends Enum&lt;K&gt;, V&gt; ImmutableMap&lt;K, ? extends V&gt; copyOfEnumMap(</a>
-<span class="sourceLineNo">724</span><a id="line.724">      EnumMap&lt;?, ? extends V&gt; original) {</a>
-<span class="sourceLineNo">725</span><a id="line.725">    @SuppressWarnings("unchecked") // the best we could do to make copyOf(Map) compile</a>
-<span class="sourceLineNo">726</span><a id="line.726">    EnumMap&lt;K, V&gt; copy = new EnumMap&lt;&gt;((EnumMap&lt;K, ? extends V&gt;) original);</a>
-<span class="sourceLineNo">727</span><a id="line.727">    for (Entry&lt;K, V&gt; entry : copy.entrySet()) {</a>
-<span class="sourceLineNo">728</span><a id="line.728">      checkEntryNotNull(entry.getKey(), entry.getValue());</a>
-<span class="sourceLineNo">729</span><a id="line.729">    }</a>
-<span class="sourceLineNo">730</span><a id="line.730">    return ImmutableEnumMap.asImmutable(copy);</a>
+<span class="sourceLineNo">661</span><a id="line.661">      if (dups.isEmpty()) {</a>
+<span class="sourceLineNo">662</span><a id="line.662">        return null;</a>
+<span class="sourceLineNo">663</span><a id="line.663">      }</a>
+<span class="sourceLineNo">664</span><a id="line.664">      @SuppressWarnings({"rawtypes", "unchecked"})</a>
+<span class="sourceLineNo">665</span><a id="line.665">      Entry&lt;K, V&gt;[] newEntries = new Entry[size - dups.cardinality()];</a>
+<span class="sourceLineNo">666</span><a id="line.666">      for (int inI = 0, outI = 0; inI &lt; size; inI++) {</a>
+<span class="sourceLineNo">667</span><a id="line.667">        if (!dups.get(inI)) {</a>
+<span class="sourceLineNo">668</span><a id="line.668">          newEntries[outI++] = entries[inI];</a>
+<span class="sourceLineNo">669</span><a id="line.669">        }</a>
+<span class="sourceLineNo">670</span><a id="line.670">      }</a>
+<span class="sourceLineNo">671</span><a id="line.671">      return newEntries;</a>
+<span class="sourceLineNo">672</span><a id="line.672">    }</a>
+<span class="sourceLineNo">673</span><a id="line.673">  }</a>
+<span class="sourceLineNo">674</span><a id="line.674"></a>
+<span class="sourceLineNo">675</span><a id="line.675">  /**</a>
+<span class="sourceLineNo">676</span><a id="line.676">   * Returns an immutable map containing the same entries as {@code map}. The returned map iterates</a>
+<span class="sourceLineNo">677</span><a id="line.677">   * over entries in the same order as the {@code entrySet} of the original map. If {@code map}</a>
+<span class="sourceLineNo">678</span><a id="line.678">   * somehow contains entries with duplicate keys (for example, if it is a {@code SortedMap} whose</a>
+<span class="sourceLineNo">679</span><a id="line.679">   * comparator is not &lt;i&gt;consistent with equals&lt;/i&gt;), the results of this method are undefined.</a>
+<span class="sourceLineNo">680</span><a id="line.680">   *</a>
+<span class="sourceLineNo">681</span><a id="line.681">   * &lt;p&gt;Despite the method name, this method attempts to avoid actually copying the data when it is</a>
+<span class="sourceLineNo">682</span><a id="line.682">   * safe to do so. The exact circumstances under which a copy will or will not be performed are</a>
+<span class="sourceLineNo">683</span><a id="line.683">   * undocumented and subject to change.</a>
+<span class="sourceLineNo">684</span><a id="line.684">   *</a>
+<span class="sourceLineNo">685</span><a id="line.685">   * @throws NullPointerException if any key or value in {@code map} is null</a>
+<span class="sourceLineNo">686</span><a id="line.686">   */</a>
+<span class="sourceLineNo">687</span><a id="line.687">  public static &lt;K, V&gt; ImmutableMap&lt;K, V&gt; copyOf(Map&lt;? extends K, ? extends V&gt; map) {</a>
+<span class="sourceLineNo">688</span><a id="line.688">    if ((map instanceof ImmutableMap) &amp;&amp; !(map instanceof SortedMap)) {</a>
+<span class="sourceLineNo">689</span><a id="line.689">      @SuppressWarnings("unchecked") // safe since map is not writable</a>
+<span class="sourceLineNo">690</span><a id="line.690">      ImmutableMap&lt;K, V&gt; kvMap = (ImmutableMap&lt;K, V&gt;) map;</a>
+<span class="sourceLineNo">691</span><a id="line.691">      if (!kvMap.isPartialView()) {</a>
+<span class="sourceLineNo">692</span><a id="line.692">        return kvMap;</a>
+<span class="sourceLineNo">693</span><a id="line.693">      }</a>
+<span class="sourceLineNo">694</span><a id="line.694">    } else if (map instanceof EnumMap) {</a>
+<span class="sourceLineNo">695</span><a id="line.695">      @SuppressWarnings("unchecked") // safe since map is not writable</a>
+<span class="sourceLineNo">696</span><a id="line.696">      ImmutableMap&lt;K, V&gt; kvMap =</a>
+<span class="sourceLineNo">697</span><a id="line.697">          (ImmutableMap&lt;K, V&gt;)</a>
+<span class="sourceLineNo">698</span><a id="line.698">              copyOfEnumMap(</a>
+<span class="sourceLineNo">699</span><a id="line.699">                  (EnumMap&lt;?, ? extends V&gt;) map); // hide K (violates bounds) from J2KT, preserve V.</a>
+<span class="sourceLineNo">700</span><a id="line.700">      return kvMap;</a>
+<span class="sourceLineNo">701</span><a id="line.701">    }</a>
+<span class="sourceLineNo">702</span><a id="line.702">    return copyOf(map.entrySet());</a>
+<span class="sourceLineNo">703</span><a id="line.703">  }</a>
+<span class="sourceLineNo">704</span><a id="line.704"></a>
+<span class="sourceLineNo">705</span><a id="line.705">  /**</a>
+<span class="sourceLineNo">706</span><a id="line.706">   * Returns an immutable map containing the specified entries. The returned map iterates over</a>
+<span class="sourceLineNo">707</span><a id="line.707">   * entries in the same order as the original iterable.</a>
+<span class="sourceLineNo">708</span><a id="line.708">   *</a>
+<span class="sourceLineNo">709</span><a id="line.709">   * @throws NullPointerException if any key, value, or entry is null</a>
+<span class="sourceLineNo">710</span><a id="line.710">   * @throws IllegalArgumentException if two entries have the same key</a>
+<span class="sourceLineNo">711</span><a id="line.711">   * @since 19.0</a>
+<span class="sourceLineNo">712</span><a id="line.712">   */</a>
+<span class="sourceLineNo">713</span><a id="line.713">  public static &lt;K, V&gt; ImmutableMap&lt;K, V&gt; copyOf(</a>
+<span class="sourceLineNo">714</span><a id="line.714">      Iterable&lt;? extends Entry&lt;? extends K, ? extends V&gt;&gt; entries) {</a>
+<span class="sourceLineNo">715</span><a id="line.715">    @SuppressWarnings("unchecked") // we'll only be using getKey and getValue, which are covariant</a>
+<span class="sourceLineNo">716</span><a id="line.716">    Entry&lt;K, V&gt;[] entryArray = (Entry&lt;K, V&gt;[]) Iterables.toArray(entries, EMPTY_ENTRY_ARRAY);</a>
+<span class="sourceLineNo">717</span><a id="line.717">    switch (entryArray.length) {</a>
+<span class="sourceLineNo">718</span><a id="line.718">      case 0:</a>
+<span class="sourceLineNo">719</span><a id="line.719">        return of();</a>
+<span class="sourceLineNo">720</span><a id="line.720">      case 1:</a>
+<span class="sourceLineNo">721</span><a id="line.721">        // requireNonNull is safe because the first `size` elements have been filled in.</a>
+<span class="sourceLineNo">722</span><a id="line.722">        Entry&lt;K, V&gt; onlyEntry = requireNonNull(entryArray[0]);</a>
+<span class="sourceLineNo">723</span><a id="line.723">        return of(onlyEntry.getKey(), onlyEntry.getValue());</a>
+<span class="sourceLineNo">724</span><a id="line.724">      default:</a>
+<span class="sourceLineNo">725</span><a id="line.725">        /*</a>
+<span class="sourceLineNo">726</span><a id="line.726">         * The current implementation will end up using entryArray directly, though it will write</a>
+<span class="sourceLineNo">727</span><a id="line.727">         * over the (arbitrary, potentially mutable) Entry objects actually stored in entryArray.</a>
+<span class="sourceLineNo">728</span><a id="line.728">         */</a>
+<span class="sourceLineNo">729</span><a id="line.729">        return RegularImmutableMap.fromEntries(entryArray);</a>
+<span class="sourceLineNo">730</span><a id="line.730">    }</a>
 <span class="sourceLineNo">731</span><a id="line.731">  }</a>
 <span class="sourceLineNo">732</span><a id="line.732"></a>
-<span class="sourceLineNo">733</span><a id="line.733">  static final Entry&lt;?, ?&gt;[] EMPTY_ENTRY_ARRAY = new Entry&lt;?, ?&gt;[0];</a>
-<span class="sourceLineNo">734</span><a id="line.734"></a>
-<span class="sourceLineNo">735</span><a id="line.735">  abstract static class IteratorBasedImmutableMap&lt;K, V&gt; extends ImmutableMap&lt;K, V&gt; {</a>
-<span class="sourceLineNo">736</span><a id="line.736">    abstract UnmodifiableIterator&lt;Entry&lt;K, V&gt;&gt; entryIterator();</a>
-<span class="sourceLineNo">737</span><a id="line.737"></a>
-<span class="sourceLineNo">738</span><a id="line.738">    Spliterator&lt;Entry&lt;K, V&gt;&gt; entrySpliterator() {</a>
-<span class="sourceLineNo">739</span><a id="line.739">      return Spliterators.spliterator(</a>
-<span class="sourceLineNo">740</span><a id="line.740">          entryIterator(),</a>
-<span class="sourceLineNo">741</span><a id="line.741">          size(),</a>
-<span class="sourceLineNo">742</span><a id="line.742">          Spliterator.DISTINCT | Spliterator.NONNULL | Spliterator.IMMUTABLE | Spliterator.ORDERED);</a>
-<span class="sourceLineNo">743</span><a id="line.743">    }</a>
+<span class="sourceLineNo">733</span><a id="line.733">  private static &lt;K extends Enum&lt;K&gt;, V&gt; ImmutableMap&lt;K, ? extends V&gt; copyOfEnumMap(</a>
+<span class="sourceLineNo">734</span><a id="line.734">      EnumMap&lt;?, ? extends V&gt; original) {</a>
+<span class="sourceLineNo">735</span><a id="line.735">    @SuppressWarnings("unchecked") // the best we could do to make copyOf(Map) compile</a>
+<span class="sourceLineNo">736</span><a id="line.736">    EnumMap&lt;K, V&gt; copy = new EnumMap&lt;&gt;((EnumMap&lt;K, ? extends V&gt;) original);</a>
+<span class="sourceLineNo">737</span><a id="line.737">    for (Entry&lt;K, V&gt; entry : copy.entrySet()) {</a>
+<span class="sourceLineNo">738</span><a id="line.738">      checkEntryNotNull(entry.getKey(), entry.getValue());</a>
+<span class="sourceLineNo">739</span><a id="line.739">    }</a>
+<span class="sourceLineNo">740</span><a id="line.740">    return ImmutableEnumMap.asImmutable(copy);</a>
+<span class="sourceLineNo">741</span><a id="line.741">  }</a>
+<span class="sourceLineNo">742</span><a id="line.742"></a>
+<span class="sourceLineNo">743</span><a id="line.743">  static final Entry&lt;?, ?&gt;[] EMPTY_ENTRY_ARRAY = new Entry&lt;?, ?&gt;[0];</a>
 <span class="sourceLineNo">744</span><a id="line.744"></a>
-<span class="sourceLineNo">745</span><a id="line.745">    @Override</a>
-<span class="sourceLineNo">746</span><a id="line.746">    ImmutableSet&lt;K&gt; createKeySet() {</a>
-<span class="sourceLineNo">747</span><a id="line.747">      return new ImmutableMapKeySet&lt;&gt;(this);</a>
-<span class="sourceLineNo">748</span><a id="line.748">    }</a>
-<span class="sourceLineNo">749</span><a id="line.749"></a>
-<span class="sourceLineNo">750</span><a id="line.750">    @Override</a>
-<span class="sourceLineNo">751</span><a id="line.751">    ImmutableSet&lt;Entry&lt;K, V&gt;&gt; createEntrySet() {</a>
-<span class="sourceLineNo">752</span><a id="line.752">      class EntrySetImpl extends ImmutableMapEntrySet&lt;K, V&gt; {</a>
-<span class="sourceLineNo">753</span><a id="line.753">        @Override</a>
-<span class="sourceLineNo">754</span><a id="line.754">        ImmutableMap&lt;K, V&gt; map() {</a>
-<span class="sourceLineNo">755</span><a id="line.755">          return IteratorBasedImmutableMap.this;</a>
-<span class="sourceLineNo">756</span><a id="line.756">        }</a>
-<span class="sourceLineNo">757</span><a id="line.757"></a>
-<span class="sourceLineNo">758</span><a id="line.758">        @Override</a>
-<span class="sourceLineNo">759</span><a id="line.759">        public UnmodifiableIterator&lt;Entry&lt;K, V&gt;&gt; iterator() {</a>
-<span class="sourceLineNo">760</span><a id="line.760">          return entryIterator();</a>
-<span class="sourceLineNo">761</span><a id="line.761">        }</a>
-<span class="sourceLineNo">762</span><a id="line.762"></a>
-<span class="sourceLineNo">763</span><a id="line.763">        // redeclare to help optimizers with b/310253115</a>
-<span class="sourceLineNo">764</span><a id="line.764">        @SuppressWarnings("RedundantOverride")</a>
-<span class="sourceLineNo">765</span><a id="line.765">        @Override</a>
-<span class="sourceLineNo">766</span><a id="line.766">        @J2ktIncompatible // serialization</a>
-<span class="sourceLineNo">767</span><a id="line.767">        @GwtIncompatible // serialization</a>
-<span class="sourceLineNo">768</span><a id="line.768">        Object writeReplace() {</a>
-<span class="sourceLineNo">769</span><a id="line.769">          return super.writeReplace();</a>
-<span class="sourceLineNo">770</span><a id="line.770">        }</a>
-<span class="sourceLineNo">771</span><a id="line.771">      }</a>
-<span class="sourceLineNo">772</span><a id="line.772">      return new EntrySetImpl();</a>
-<span class="sourceLineNo">773</span><a id="line.773">    }</a>
-<span class="sourceLineNo">774</span><a id="line.774"></a>
-<span class="sourceLineNo">775</span><a id="line.775">    @Override</a>
-<span class="sourceLineNo">776</span><a id="line.776">    ImmutableCollection&lt;V&gt; createValues() {</a>
-<span class="sourceLineNo">777</span><a id="line.777">      return new ImmutableMapValues&lt;&gt;(this);</a>
-<span class="sourceLineNo">778</span><a id="line.778">    }</a>
-<span class="sourceLineNo">779</span><a id="line.779"></a>
-<span class="sourceLineNo">780</span><a id="line.780">    // redeclare to help optimizers with b/310253115</a>
-<span class="sourceLineNo">781</span><a id="line.781">    @SuppressWarnings("RedundantOverride")</a>
-<span class="sourceLineNo">782</span><a id="line.782">    @Override</a>
-<span class="sourceLineNo">783</span><a id="line.783">    @J2ktIncompatible // serialization</a>
-<span class="sourceLineNo">784</span><a id="line.784">    @GwtIncompatible // serialization</a>
-<span class="sourceLineNo">785</span><a id="line.785">    Object writeReplace() {</a>
-<span class="sourceLineNo">786</span><a id="line.786">      return super.writeReplace();</a>
-<span class="sourceLineNo">787</span><a id="line.787">    }</a>
-<span class="sourceLineNo">788</span><a id="line.788">  }</a>
+<span class="sourceLineNo">745</span><a id="line.745">  abstract static class IteratorBasedImmutableMap&lt;K, V&gt; extends ImmutableMap&lt;K, V&gt; {</a>
+<span class="sourceLineNo">746</span><a id="line.746">    abstract UnmodifiableIterator&lt;Entry&lt;K, V&gt;&gt; entryIterator();</a>
+<span class="sourceLineNo">747</span><a id="line.747"></a>
+<span class="sourceLineNo">748</span><a id="line.748">    Spliterator&lt;Entry&lt;K, V&gt;&gt; entrySpliterator() {</a>
+<span class="sourceLineNo">749</span><a id="line.749">      return Spliterators.spliterator(</a>
+<span class="sourceLineNo">750</span><a id="line.750">          entryIterator(),</a>
+<span class="sourceLineNo">751</span><a id="line.751">          size(),</a>
+<span class="sourceLineNo">752</span><a id="line.752">          Spliterator.DISTINCT | Spliterator.NONNULL | Spliterator.IMMUTABLE | Spliterator.ORDERED);</a>
+<span class="sourceLineNo">753</span><a id="line.753">    }</a>
+<span class="sourceLineNo">754</span><a id="line.754"></a>
+<span class="sourceLineNo">755</span><a id="line.755">    @Override</a>
+<span class="sourceLineNo">756</span><a id="line.756">    ImmutableSet&lt;K&gt; createKeySet() {</a>
+<span class="sourceLineNo">757</span><a id="line.757">      return new ImmutableMapKeySet&lt;&gt;(this);</a>
+<span class="sourceLineNo">758</span><a id="line.758">    }</a>
+<span class="sourceLineNo">759</span><a id="line.759"></a>
+<span class="sourceLineNo">760</span><a id="line.760">    @Override</a>
+<span class="sourceLineNo">761</span><a id="line.761">    ImmutableSet&lt;Entry&lt;K, V&gt;&gt; createEntrySet() {</a>
+<span class="sourceLineNo">762</span><a id="line.762">      class EntrySetImpl extends ImmutableMapEntrySet&lt;K, V&gt; {</a>
+<span class="sourceLineNo">763</span><a id="line.763">        @Override</a>
+<span class="sourceLineNo">764</span><a id="line.764">        ImmutableMap&lt;K, V&gt; map() {</a>
+<span class="sourceLineNo">765</span><a id="line.765">          return IteratorBasedImmutableMap.this;</a>
+<span class="sourceLineNo">766</span><a id="line.766">        }</a>
+<span class="sourceLineNo">767</span><a id="line.767"></a>
+<span class="sourceLineNo">768</span><a id="line.768">        @Override</a>
+<span class="sourceLineNo">769</span><a id="line.769">        public UnmodifiableIterator&lt;Entry&lt;K, V&gt;&gt; iterator() {</a>
+<span class="sourceLineNo">770</span><a id="line.770">          return entryIterator();</a>
+<span class="sourceLineNo">771</span><a id="line.771">        }</a>
+<span class="sourceLineNo">772</span><a id="line.772"></a>
+<span class="sourceLineNo">773</span><a id="line.773">        // redeclare to help optimizers with b/310253115</a>
+<span class="sourceLineNo">774</span><a id="line.774">        @SuppressWarnings("RedundantOverride")</a>
+<span class="sourceLineNo">775</span><a id="line.775">        @Override</a>
+<span class="sourceLineNo">776</span><a id="line.776">        @J2ktIncompatible // serialization</a>
+<span class="sourceLineNo">777</span><a id="line.777">        @GwtIncompatible // serialization</a>
+<span class="sourceLineNo">778</span><a id="line.778">        Object writeReplace() {</a>
+<span class="sourceLineNo">779</span><a id="line.779">          return super.writeReplace();</a>
+<span class="sourceLineNo">780</span><a id="line.780">        }</a>
+<span class="sourceLineNo">781</span><a id="line.781">      }</a>
+<span class="sourceLineNo">782</span><a id="line.782">      return new EntrySetImpl();</a>
+<span class="sourceLineNo">783</span><a id="line.783">    }</a>
+<span class="sourceLineNo">784</span><a id="line.784"></a>
+<span class="sourceLineNo">785</span><a id="line.785">    @Override</a>
+<span class="sourceLineNo">786</span><a id="line.786">    ImmutableCollection&lt;V&gt; createValues() {</a>
+<span class="sourceLineNo">787</span><a id="line.787">      return new ImmutableMapValues&lt;&gt;(this);</a>
+<span class="sourceLineNo">788</span><a id="line.788">    }</a>
 <span class="sourceLineNo">789</span><a id="line.789"></a>
-<span class="sourceLineNo">790</span><a id="line.790">  ImmutableMap() {}</a>
-<span class="sourceLineNo">791</span><a id="line.791"></a>
-<span class="sourceLineNo">792</span><a id="line.792">  /**</a>
-<span class="sourceLineNo">793</span><a id="line.793">   * Guaranteed to throw an exception and leave the map unmodified.</a>
-<span class="sourceLineNo">794</span><a id="line.794">   *</a>
-<span class="sourceLineNo">795</span><a id="line.795">   * @throws UnsupportedOperationException always</a>
-<span class="sourceLineNo">796</span><a id="line.796">   * @deprecated Unsupported operation.</a>
-<span class="sourceLineNo">797</span><a id="line.797">   */</a>
-<span class="sourceLineNo">798</span><a id="line.798">  @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">799</span><a id="line.799">  @Deprecated</a>
-<span class="sourceLineNo">800</span><a id="line.800">  @Override</a>
-<span class="sourceLineNo">801</span><a id="line.801">  @DoNotCall("Always throws UnsupportedOperationException")</a>
-<span class="sourceLineNo">802</span><a id="line.802">  @CheckForNull</a>
-<span class="sourceLineNo">803</span><a id="line.803">  public final V put(K k, V v) {</a>
-<span class="sourceLineNo">804</span><a id="line.804">    throw new UnsupportedOperationException();</a>
-<span class="sourceLineNo">805</span><a id="line.805">  }</a>
-<span class="sourceLineNo">806</span><a id="line.806"></a>
-<span class="sourceLineNo">807</span><a id="line.807">  /**</a>
-<span class="sourceLineNo">808</span><a id="line.808">   * Guaranteed to throw an exception and leave the map unmodified.</a>
-<span class="sourceLineNo">809</span><a id="line.809">   *</a>
-<span class="sourceLineNo">810</span><a id="line.810">   * @throws UnsupportedOperationException always</a>
-<span class="sourceLineNo">811</span><a id="line.811">   * @deprecated Unsupported operation.</a>
-<span class="sourceLineNo">812</span><a id="line.812">   */</a>
-<span class="sourceLineNo">813</span><a id="line.813">  @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">814</span><a id="line.814">  @Deprecated</a>
-<span class="sourceLineNo">815</span><a id="line.815">  @Override</a>
-<span class="sourceLineNo">816</span><a id="line.816">  @DoNotCall("Always throws UnsupportedOperationException")</a>
-<span class="sourceLineNo">817</span><a id="line.817">  @CheckForNull</a>
-<span class="sourceLineNo">818</span><a id="line.818">  public final V putIfAbsent(K key, V value) {</a>
-<span class="sourceLineNo">819</span><a id="line.819">    throw new UnsupportedOperationException();</a>
-<span class="sourceLineNo">820</span><a id="line.820">  }</a>
-<span class="sourceLineNo">821</span><a id="line.821"></a>
-<span class="sourceLineNo">822</span><a id="line.822">  /**</a>
-<span class="sourceLineNo">823</span><a id="line.823">   * Guaranteed to throw an exception and leave the map unmodified.</a>
-<span class="sourceLineNo">824</span><a id="line.824">   *</a>
-<span class="sourceLineNo">825</span><a id="line.825">   * @throws UnsupportedOperationException always</a>
-<span class="sourceLineNo">826</span><a id="line.826">   * @deprecated Unsupported operation.</a>
-<span class="sourceLineNo">827</span><a id="line.827">   */</a>
-<span class="sourceLineNo">828</span><a id="line.828">  @Deprecated</a>
-<span class="sourceLineNo">829</span><a id="line.829">  @Override</a>
-<span class="sourceLineNo">830</span><a id="line.830">  @DoNotCall("Always throws UnsupportedOperationException")</a>
-<span class="sourceLineNo">831</span><a id="line.831">  public final boolean replace(K key, V oldValue, V newValue) {</a>
-<span class="sourceLineNo">832</span><a id="line.832">    throw new UnsupportedOperationException();</a>
-<span class="sourceLineNo">833</span><a id="line.833">  }</a>
-<span class="sourceLineNo">834</span><a id="line.834"></a>
-<span class="sourceLineNo">835</span><a id="line.835">  /**</a>
-<span class="sourceLineNo">836</span><a id="line.836">   * Guaranteed to throw an exception and leave the map unmodified.</a>
-<span class="sourceLineNo">837</span><a id="line.837">   *</a>
-<span class="sourceLineNo">838</span><a id="line.838">   * @throws UnsupportedOperationException always</a>
-<span class="sourceLineNo">839</span><a id="line.839">   * @deprecated Unsupported operation.</a>
-<span class="sourceLineNo">840</span><a id="line.840">   */</a>
-<span class="sourceLineNo">841</span><a id="line.841">  @Deprecated</a>
-<span class="sourceLineNo">842</span><a id="line.842">  @Override</a>
-<span class="sourceLineNo">843</span><a id="line.843">  @CheckForNull</a>
-<span class="sourceLineNo">844</span><a id="line.844">  @DoNotCall("Always throws UnsupportedOperationException")</a>
-<span class="sourceLineNo">845</span><a id="line.845">  public final V replace(K key, V value) {</a>
-<span class="sourceLineNo">846</span><a id="line.846">    throw new UnsupportedOperationException();</a>
-<span class="sourceLineNo">847</span><a id="line.847">  }</a>
-<span class="sourceLineNo">848</span><a id="line.848"></a>
-<span class="sourceLineNo">849</span><a id="line.849">  /**</a>
-<span class="sourceLineNo">850</span><a id="line.850">   * Guaranteed to throw an exception and leave the map unmodified.</a>
-<span class="sourceLineNo">851</span><a id="line.851">   *</a>
-<span class="sourceLineNo">852</span><a id="line.852">   * @throws UnsupportedOperationException always</a>
-<span class="sourceLineNo">853</span><a id="line.853">   * @deprecated Unsupported operation.</a>
-<span class="sourceLineNo">854</span><a id="line.854">   */</a>
-<span class="sourceLineNo">855</span><a id="line.855">  @Deprecated</a>
-<span class="sourceLineNo">856</span><a id="line.856">  @Override</a>
-<span class="sourceLineNo">857</span><a id="line.857">  @DoNotCall("Always throws UnsupportedOperationException")</a>
-<span class="sourceLineNo">858</span><a id="line.858">  public final V computeIfAbsent(K key, Function&lt;? super K, ? extends V&gt; mappingFunction) {</a>
-<span class="sourceLineNo">859</span><a id="line.859">    throw new UnsupportedOperationException();</a>
-<span class="sourceLineNo">860</span><a id="line.860">  }</a>
-<span class="sourceLineNo">861</span><a id="line.861"></a>
-<span class="sourceLineNo">862</span><a id="line.862">  /**</a>
-<span class="sourceLineNo">863</span><a id="line.863">   * Guaranteed to throw an exception and leave the map unmodified.</a>
-<span class="sourceLineNo">864</span><a id="line.864">   *</a>
-<span class="sourceLineNo">865</span><a id="line.865">   * @throws UnsupportedOperationException always</a>
-<span class="sourceLineNo">866</span><a id="line.866">   * @deprecated Unsupported operation.</a>
-<span class="sourceLineNo">867</span><a id="line.867">   */</a>
-<span class="sourceLineNo">868</span><a id="line.868">  @Deprecated</a>
-<span class="sourceLineNo">869</span><a id="line.869">  @Override</a>
-<span class="sourceLineNo">870</span><a id="line.870">  @DoNotCall("Always throws UnsupportedOperationException")</a>
-<span class="sourceLineNo">871</span><a id="line.871">  @CheckForNull</a>
-<span class="sourceLineNo">872</span><a id="line.872">  public final V computeIfPresent(</a>
-<span class="sourceLineNo">873</span><a id="line.873">      K key, BiFunction&lt;? super K, ? super V, ? extends @Nullable V&gt; remappingFunction) {</a>
-<span class="sourceLineNo">874</span><a id="line.874">    throw new UnsupportedOperationException();</a>
-<span class="sourceLineNo">875</span><a id="line.875">  }</a>
-<span class="sourceLineNo">876</span><a id="line.876"></a>
-<span class="sourceLineNo">877</span><a id="line.877">  /**</a>
-<span class="sourceLineNo">878</span><a id="line.878">   * Guaranteed to throw an exception and leave the map unmodified.</a>
-<span class="sourceLineNo">879</span><a id="line.879">   *</a>
-<span class="sourceLineNo">880</span><a id="line.880">   * @throws UnsupportedOperationException always</a>
-<span class="sourceLineNo">881</span><a id="line.881">   * @deprecated Unsupported operation.</a>
-<span class="sourceLineNo">882</span><a id="line.882">   */</a>
-<span class="sourceLineNo">883</span><a id="line.883">  @Deprecated</a>
-<span class="sourceLineNo">884</span><a id="line.884">  @Override</a>
-<span class="sourceLineNo">885</span><a id="line.885">  @DoNotCall("Always throws UnsupportedOperationException")</a>
-<span class="sourceLineNo">886</span><a id="line.886">  @CheckForNull</a>
-<span class="sourceLineNo">887</span><a id="line.887">  public final V compute(</a>
-<span class="sourceLineNo">888</span><a id="line.888">      K key, BiFunction&lt;? super K, ? super @Nullable V, ? extends @Nullable V&gt; remappingFunction) {</a>
-<span class="sourceLineNo">889</span><a id="line.889">    throw new UnsupportedOperationException();</a>
-<span class="sourceLineNo">890</span><a id="line.890">  }</a>
-<span class="sourceLineNo">891</span><a id="line.891"></a>
-<span class="sourceLineNo">892</span><a id="line.892">  /**</a>
-<span class="sourceLineNo">893</span><a id="line.893">   * Guaranteed to throw an exception and leave the map unmodified.</a>
-<span class="sourceLineNo">894</span><a id="line.894">   *</a>
-<span class="sourceLineNo">895</span><a id="line.895">   * @throws UnsupportedOperationException always</a>
-<span class="sourceLineNo">896</span><a id="line.896">   * @deprecated Unsupported operation.</a>
-<span class="sourceLineNo">897</span><a id="line.897">   */</a>
-<span class="sourceLineNo">898</span><a id="line.898">  @Deprecated</a>
-<span class="sourceLineNo">899</span><a id="line.899">  @Override</a>
-<span class="sourceLineNo">900</span><a id="line.900">  @DoNotCall("Always throws UnsupportedOperationException")</a>
-<span class="sourceLineNo">901</span><a id="line.901">  @CheckForNull</a>
-<span class="sourceLineNo">902</span><a id="line.902">  public final V merge(</a>
-<span class="sourceLineNo">903</span><a id="line.903">      K key, V value, BiFunction&lt;? super V, ? super V, ? extends @Nullable V&gt; function) {</a>
-<span class="sourceLineNo">904</span><a id="line.904">    throw new UnsupportedOperationException();</a>
-<span class="sourceLineNo">905</span><a id="line.905">  }</a>
-<span class="sourceLineNo">906</span><a id="line.906"></a>
-<span class="sourceLineNo">907</span><a id="line.907">  /**</a>
-<span class="sourceLineNo">908</span><a id="line.908">   * Guaranteed to throw an exception and leave the map unmodified.</a>
-<span class="sourceLineNo">909</span><a id="line.909">   *</a>
-<span class="sourceLineNo">910</span><a id="line.910">   * @throws UnsupportedOperationException always</a>
-<span class="sourceLineNo">911</span><a id="line.911">   * @deprecated Unsupported operation.</a>
-<span class="sourceLineNo">912</span><a id="line.912">   */</a>
-<span class="sourceLineNo">913</span><a id="line.913">  @Deprecated</a>
-<span class="sourceLineNo">914</span><a id="line.914">  @Override</a>
-<span class="sourceLineNo">915</span><a id="line.915">  @DoNotCall("Always throws UnsupportedOperationException")</a>
-<span class="sourceLineNo">916</span><a id="line.916">  public final void putAll(Map&lt;? extends K, ? extends V&gt; map) {</a>
-<span class="sourceLineNo">917</span><a id="line.917">    throw new UnsupportedOperationException();</a>
-<span class="sourceLineNo">918</span><a id="line.918">  }</a>
-<span class="sourceLineNo">919</span><a id="line.919"></a>
-<span class="sourceLineNo">920</span><a id="line.920">  /**</a>
-<span class="sourceLineNo">921</span><a id="line.921">   * Guaranteed to throw an exception and leave the map unmodified.</a>
-<span class="sourceLineNo">922</span><a id="line.922">   *</a>
-<span class="sourceLineNo">923</span><a id="line.923">   * @throws UnsupportedOperationException always</a>
-<span class="sourceLineNo">924</span><a id="line.924">   * @deprecated Unsupported operation.</a>
-<span class="sourceLineNo">925</span><a id="line.925">   */</a>
-<span class="sourceLineNo">926</span><a id="line.926">  @Deprecated</a>
-<span class="sourceLineNo">927</span><a id="line.927">  @Override</a>
-<span class="sourceLineNo">928</span><a id="line.928">  @DoNotCall("Always throws UnsupportedOperationException")</a>
-<span class="sourceLineNo">929</span><a id="line.929">  public final void replaceAll(BiFunction&lt;? super K, ? super V, ? extends V&gt; function) {</a>
-<span class="sourceLineNo">930</span><a id="line.930">    throw new UnsupportedOperationException();</a>
-<span class="sourceLineNo">931</span><a id="line.931">  }</a>
-<span class="sourceLineNo">932</span><a id="line.932"></a>
-<span class="sourceLineNo">933</span><a id="line.933">  /**</a>
-<span class="sourceLineNo">934</span><a id="line.934">   * Guaranteed to throw an exception and leave the map unmodified.</a>
-<span class="sourceLineNo">935</span><a id="line.935">   *</a>
-<span class="sourceLineNo">936</span><a id="line.936">   * @throws UnsupportedOperationException always</a>
-<span class="sourceLineNo">937</span><a id="line.937">   * @deprecated Unsupported operation.</a>
-<span class="sourceLineNo">938</span><a id="line.938">   */</a>
-<span class="sourceLineNo">939</span><a id="line.939">  @Deprecated</a>
-<span class="sourceLineNo">940</span><a id="line.940">  @Override</a>
-<span class="sourceLineNo">941</span><a id="line.941">  @DoNotCall("Always throws UnsupportedOperationException")</a>
-<span class="sourceLineNo">942</span><a id="line.942">  @CheckForNull</a>
-<span class="sourceLineNo">943</span><a id="line.943">  public final V remove(@CheckForNull Object o) {</a>
-<span class="sourceLineNo">944</span><a id="line.944">    throw new UnsupportedOperationException();</a>
-<span class="sourceLineNo">945</span><a id="line.945">  }</a>
-<span class="sourceLineNo">946</span><a id="line.946"></a>
-<span class="sourceLineNo">947</span><a id="line.947">  /**</a>
-<span class="sourceLineNo">948</span><a id="line.948">   * Guaranteed to throw an exception and leave the map unmodified.</a>
-<span class="sourceLineNo">949</span><a id="line.949">   *</a>
-<span class="sourceLineNo">950</span><a id="line.950">   * @throws UnsupportedOperationException always</a>
-<span class="sourceLineNo">951</span><a id="line.951">   * @deprecated Unsupported operation.</a>
-<span class="sourceLineNo">952</span><a id="line.952">   */</a>
-<span class="sourceLineNo">953</span><a id="line.953">  @Deprecated</a>
-<span class="sourceLineNo">954</span><a id="line.954">  @Override</a>
-<span class="sourceLineNo">955</span><a id="line.955">  @DoNotCall("Always throws UnsupportedOperationException")</a>
-<span class="sourceLineNo">956</span><a id="line.956">  public final boolean remove(@CheckForNull Object key, @CheckForNull Object value) {</a>
-<span class="sourceLineNo">957</span><a id="line.957">    throw new UnsupportedOperationException();</a>
-<span class="sourceLineNo">958</span><a id="line.958">  }</a>
-<span class="sourceLineNo">959</span><a id="line.959"></a>
-<span class="sourceLineNo">960</span><a id="line.960">  /**</a>
-<span class="sourceLineNo">961</span><a id="line.961">   * Guaranteed to throw an exception and leave the map unmodified.</a>
-<span class="sourceLineNo">962</span><a id="line.962">   *</a>
-<span class="sourceLineNo">963</span><a id="line.963">   * @throws UnsupportedOperationException always</a>
-<span class="sourceLineNo">964</span><a id="line.964">   * @deprecated Unsupported operation.</a>
-<span class="sourceLineNo">965</span><a id="line.965">   */</a>
-<span class="sourceLineNo">966</span><a id="line.966">  @Deprecated</a>
-<span class="sourceLineNo">967</span><a id="line.967">  @Override</a>
-<span class="sourceLineNo">968</span><a id="line.968">  @DoNotCall("Always throws UnsupportedOperationException")</a>
-<span class="sourceLineNo">969</span><a id="line.969">  public final void clear() {</a>
-<span class="sourceLineNo">970</span><a id="line.970">    throw new UnsupportedOperationException();</a>
-<span class="sourceLineNo">971</span><a id="line.971">  }</a>
-<span class="sourceLineNo">972</span><a id="line.972"></a>
-<span class="sourceLineNo">973</span><a id="line.973">  @Override</a>
-<span class="sourceLineNo">974</span><a id="line.974">  public boolean isEmpty() {</a>
-<span class="sourceLineNo">975</span><a id="line.975">    return size() == 0;</a>
-<span class="sourceLineNo">976</span><a id="line.976">  }</a>
-<span class="sourceLineNo">977</span><a id="line.977"></a>
-<span class="sourceLineNo">978</span><a id="line.978">  @Override</a>
-<span class="sourceLineNo">979</span><a id="line.979">  public boolean containsKey(@CheckForNull Object key) {</a>
-<span class="sourceLineNo">980</span><a id="line.980">    return get(key) != null;</a>
+<span class="sourceLineNo">790</span><a id="line.790">    // redeclare to help optimizers with b/310253115</a>
+<span class="sourceLineNo">791</span><a id="line.791">    @SuppressWarnings("RedundantOverride")</a>
+<span class="sourceLineNo">792</span><a id="line.792">    @Override</a>
+<span class="sourceLineNo">793</span><a id="line.793">    @J2ktIncompatible // serialization</a>
+<span class="sourceLineNo">794</span><a id="line.794">    @GwtIncompatible // serialization</a>
+<span class="sourceLineNo">795</span><a id="line.795">    Object writeReplace() {</a>
+<span class="sourceLineNo">796</span><a id="line.796">      return super.writeReplace();</a>
+<span class="sourceLineNo">797</span><a id="line.797">    }</a>
+<span class="sourceLineNo">798</span><a id="line.798">  }</a>
+<span class="sourceLineNo">799</span><a id="line.799"></a>
+<span class="sourceLineNo">800</span><a id="line.800">  ImmutableMap() {}</a>
+<span class="sourceLineNo">801</span><a id="line.801"></a>
+<span class="sourceLineNo">802</span><a id="line.802">  /**</a>
+<span class="sourceLineNo">803</span><a id="line.803">   * Guaranteed to throw an exception and leave the map unmodified.</a>
+<span class="sourceLineNo">804</span><a id="line.804">   *</a>
+<span class="sourceLineNo">805</span><a id="line.805">   * @throws UnsupportedOperationException always</a>
+<span class="sourceLineNo">806</span><a id="line.806">   * @deprecated Unsupported operation.</a>
+<span class="sourceLineNo">807</span><a id="line.807">   */</a>
+<span class="sourceLineNo">808</span><a id="line.808">  @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">809</span><a id="line.809">  @Deprecated</a>
+<span class="sourceLineNo">810</span><a id="line.810">  @Override</a>
+<span class="sourceLineNo">811</span><a id="line.811">  @DoNotCall("Always throws UnsupportedOperationException")</a>
+<span class="sourceLineNo">812</span><a id="line.812">  @CheckForNull</a>
+<span class="sourceLineNo">813</span><a id="line.813">  public final V put(K k, V v) {</a>
+<span class="sourceLineNo">814</span><a id="line.814">    throw new UnsupportedOperationException();</a>
+<span class="sourceLineNo">815</span><a id="line.815">  }</a>
+<span class="sourceLineNo">816</span><a id="line.816"></a>
+<span class="sourceLineNo">817</span><a id="line.817">  /**</a>
+<span class="sourceLineNo">818</span><a id="line.818">   * Guaranteed to throw an exception and leave the map unmodified.</a>
+<span class="sourceLineNo">819</span><a id="line.819">   *</a>
+<span class="sourceLineNo">820</span><a id="line.820">   * @throws UnsupportedOperationException always</a>
+<span class="sourceLineNo">821</span><a id="line.821">   * @deprecated Unsupported operation.</a>
+<span class="sourceLineNo">822</span><a id="line.822">   */</a>
+<span class="sourceLineNo">823</span><a id="line.823">  @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">824</span><a id="line.824">  @Deprecated</a>
+<span class="sourceLineNo">825</span><a id="line.825">  @Override</a>
+<span class="sourceLineNo">826</span><a id="line.826">  @DoNotCall("Always throws UnsupportedOperationException")</a>
+<span class="sourceLineNo">827</span><a id="line.827">  @CheckForNull</a>
+<span class="sourceLineNo">828</span><a id="line.828">  public final V putIfAbsent(K key, V value) {</a>
+<span class="sourceLineNo">829</span><a id="line.829">    throw new UnsupportedOperationException();</a>
+<span class="sourceLineNo">830</span><a id="line.830">  }</a>
+<span class="sourceLineNo">831</span><a id="line.831"></a>
+<span class="sourceLineNo">832</span><a id="line.832">  /**</a>
+<span class="sourceLineNo">833</span><a id="line.833">   * Guaranteed to throw an exception and leave the map unmodified.</a>
+<span class="sourceLineNo">834</span><a id="line.834">   *</a>
+<span class="sourceLineNo">835</span><a id="line.835">   * @throws UnsupportedOperationException always</a>
+<span class="sourceLineNo">836</span><a id="line.836">   * @deprecated Unsupported operation.</a>
+<span class="sourceLineNo">837</span><a id="line.837">   */</a>
+<span class="sourceLineNo">838</span><a id="line.838">  @Deprecated</a>
+<span class="sourceLineNo">839</span><a id="line.839">  @Override</a>
+<span class="sourceLineNo">840</span><a id="line.840">  @DoNotCall("Always throws UnsupportedOperationException")</a>
+<span class="sourceLineNo">841</span><a id="line.841">  public final boolean replace(K key, V oldValue, V newValue) {</a>
+<span class="sourceLineNo">842</span><a id="line.842">    throw new UnsupportedOperationException();</a>
+<span class="sourceLineNo">843</span><a id="line.843">  }</a>
+<span class="sourceLineNo">844</span><a id="line.844"></a>
+<span class="sourceLineNo">845</span><a id="line.845">  /**</a>
+<span class="sourceLineNo">846</span><a id="line.846">   * Guaranteed to throw an exception and leave the map unmodified.</a>
+<span class="sourceLineNo">847</span><a id="line.847">   *</a>
+<span class="sourceLineNo">848</span><a id="line.848">   * @throws UnsupportedOperationException always</a>
+<span class="sourceLineNo">849</span><a id="line.849">   * @deprecated Unsupported operation.</a>
+<span class="sourceLineNo">850</span><a id="line.850">   */</a>
+<span class="sourceLineNo">851</span><a id="line.851">  @Deprecated</a>
+<span class="sourceLineNo">852</span><a id="line.852">  @Override</a>
+<span class="sourceLineNo">853</span><a id="line.853">  @CheckForNull</a>
+<span class="sourceLineNo">854</span><a id="line.854">  @DoNotCall("Always throws UnsupportedOperationException")</a>
+<span class="sourceLineNo">855</span><a id="line.855">  public final V replace(K key, V value) {</a>
+<span class="sourceLineNo">856</span><a id="line.856">    throw new UnsupportedOperationException();</a>
+<span class="sourceLineNo">857</span><a id="line.857">  }</a>
+<span class="sourceLineNo">858</span><a id="line.858"></a>
+<span class="sourceLineNo">859</span><a id="line.859">  /**</a>
+<span class="sourceLineNo">860</span><a id="line.860">   * Guaranteed to throw an exception and leave the map unmodified.</a>
+<span class="sourceLineNo">861</span><a id="line.861">   *</a>
+<span class="sourceLineNo">862</span><a id="line.862">   * @throws UnsupportedOperationException always</a>
+<span class="sourceLineNo">863</span><a id="line.863">   * @deprecated Unsupported operation.</a>
+<span class="sourceLineNo">864</span><a id="line.864">   */</a>
+<span class="sourceLineNo">865</span><a id="line.865">  @Deprecated</a>
+<span class="sourceLineNo">866</span><a id="line.866">  @Override</a>
+<span class="sourceLineNo">867</span><a id="line.867">  @DoNotCall("Always throws UnsupportedOperationException")</a>
+<span class="sourceLineNo">868</span><a id="line.868">  public final V computeIfAbsent(K key, Function&lt;? super K, ? extends V&gt; mappingFunction) {</a>
+<span class="sourceLineNo">869</span><a id="line.869">    throw new UnsupportedOperationException();</a>
+<span class="sourceLineNo">870</span><a id="line.870">  }</a>
+<span class="sourceLineNo">871</span><a id="line.871"></a>
+<span class="sourceLineNo">872</span><a id="line.872">  /**</a>
+<span class="sourceLineNo">873</span><a id="line.873">   * Guaranteed to throw an exception and leave the map unmodified.</a>
+<span class="sourceLineNo">874</span><a id="line.874">   *</a>
+<span class="sourceLineNo">875</span><a id="line.875">   * @throws UnsupportedOperationException always</a>
+<span class="sourceLineNo">876</span><a id="line.876">   * @deprecated Unsupported operation.</a>
+<span class="sourceLineNo">877</span><a id="line.877">   */</a>
+<span class="sourceLineNo">878</span><a id="line.878">  @Deprecated</a>
+<span class="sourceLineNo">879</span><a id="line.879">  @Override</a>
+<span class="sourceLineNo">880</span><a id="line.880">  @DoNotCall("Always throws UnsupportedOperationException")</a>
+<span class="sourceLineNo">881</span><a id="line.881">  @CheckForNull</a>
+<span class="sourceLineNo">882</span><a id="line.882">  public final V computeIfPresent(</a>
+<span class="sourceLineNo">883</span><a id="line.883">      K key, BiFunction&lt;? super K, ? super V, ? extends @Nullable V&gt; remappingFunction) {</a>
+<span class="sourceLineNo">884</span><a id="line.884">    throw new UnsupportedOperationException();</a>
+<span class="sourceLineNo">885</span><a id="line.885">  }</a>
+<span class="sourceLineNo">886</span><a id="line.886"></a>
+<span class="sourceLineNo">887</span><a id="line.887">  /**</a>
+<span class="sourceLineNo">888</span><a id="line.888">   * Guaranteed to throw an exception and leave the map unmodified.</a>
+<span class="sourceLineNo">889</span><a id="line.889">   *</a>
+<span class="sourceLineNo">890</span><a id="line.890">   * @throws UnsupportedOperationException always</a>
+<span class="sourceLineNo">891</span><a id="line.891">   * @deprecated Unsupported operation.</a>
+<span class="sourceLineNo">892</span><a id="line.892">   */</a>
+<span class="sourceLineNo">893</span><a id="line.893">  @Deprecated</a>
+<span class="sourceLineNo">894</span><a id="line.894">  @Override</a>
+<span class="sourceLineNo">895</span><a id="line.895">  @DoNotCall("Always throws UnsupportedOperationException")</a>
+<span class="sourceLineNo">896</span><a id="line.896">  @CheckForNull</a>
+<span class="sourceLineNo">897</span><a id="line.897">  public final V compute(</a>
+<span class="sourceLineNo">898</span><a id="line.898">      K key, BiFunction&lt;? super K, ? super @Nullable V, ? extends @Nullable V&gt; remappingFunction) {</a>
+<span class="sourceLineNo">899</span><a id="line.899">    throw new UnsupportedOperationException();</a>
+<span class="sourceLineNo">900</span><a id="line.900">  }</a>
+<span class="sourceLineNo">901</span><a id="line.901"></a>
+<span class="sourceLineNo">902</span><a id="line.902">  /**</a>
+<span class="sourceLineNo">903</span><a id="line.903">   * Guaranteed to throw an exception and leave the map unmodified.</a>
+<span class="sourceLineNo">904</span><a id="line.904">   *</a>
+<span class="sourceLineNo">905</span><a id="line.905">   * @throws UnsupportedOperationException always</a>
+<span class="sourceLineNo">906</span><a id="line.906">   * @deprecated Unsupported operation.</a>
+<span class="sourceLineNo">907</span><a id="line.907">   */</a>
+<span class="sourceLineNo">908</span><a id="line.908">  @Deprecated</a>
+<span class="sourceLineNo">909</span><a id="line.909">  @Override</a>
+<span class="sourceLineNo">910</span><a id="line.910">  @DoNotCall("Always throws UnsupportedOperationException")</a>
+<span class="sourceLineNo">911</span><a id="line.911">  @CheckForNull</a>
+<span class="sourceLineNo">912</span><a id="line.912">  public final V merge(</a>
+<span class="sourceLineNo">913</span><a id="line.913">      K key, V value, BiFunction&lt;? super V, ? super V, ? extends @Nullable V&gt; function) {</a>
+<span class="sourceLineNo">914</span><a id="line.914">    throw new UnsupportedOperationException();</a>
+<span class="sourceLineNo">915</span><a id="line.915">  }</a>
+<span class="sourceLineNo">916</span><a id="line.916"></a>
+<span class="sourceLineNo">917</span><a id="line.917">  /**</a>
+<span class="sourceLineNo">918</span><a id="line.918">   * Guaranteed to throw an exception and leave the map unmodified.</a>
+<span class="sourceLineNo">919</span><a id="line.919">   *</a>
+<span class="sourceLineNo">920</span><a id="line.920">   * @throws UnsupportedOperationException always</a>
+<span class="sourceLineNo">921</span><a id="line.921">   * @deprecated Unsupported operation.</a>
+<span class="sourceLineNo">922</span><a id="line.922">   */</a>
+<span class="sourceLineNo">923</span><a id="line.923">  @Deprecated</a>
+<span class="sourceLineNo">924</span><a id="line.924">  @Override</a>
+<span class="sourceLineNo">925</span><a id="line.925">  @DoNotCall("Always throws UnsupportedOperationException")</a>
+<span class="sourceLineNo">926</span><a id="line.926">  public final void putAll(Map&lt;? extends K, ? extends V&gt; map) {</a>
+<span class="sourceLineNo">927</span><a id="line.927">    throw new UnsupportedOperationException();</a>
+<span class="sourceLineNo">928</span><a id="line.928">  }</a>
+<span class="sourceLineNo">929</span><a id="line.929"></a>
+<span class="sourceLineNo">930</span><a id="line.930">  /**</a>
+<span class="sourceLineNo">931</span><a id="line.931">   * Guaranteed to throw an exception and leave the map unmodified.</a>
+<span class="sourceLineNo">932</span><a id="line.932">   *</a>
+<span class="sourceLineNo">933</span><a id="line.933">   * @throws UnsupportedOperationException always</a>
+<span class="sourceLineNo">934</span><a id="line.934">   * @deprecated Unsupported operation.</a>
+<span class="sourceLineNo">935</span><a id="line.935">   */</a>
+<span class="sourceLineNo">936</span><a id="line.936">  @Deprecated</a>
+<span class="sourceLineNo">937</span><a id="line.937">  @Override</a>
+<span class="sourceLineNo">938</span><a id="line.938">  @DoNotCall("Always throws UnsupportedOperationException")</a>
+<span class="sourceLineNo">939</span><a id="line.939">  public final void replaceAll(BiFunction&lt;? super K, ? super V, ? extends V&gt; function) {</a>
+<span class="sourceLineNo">940</span><a id="line.940">    throw new UnsupportedOperationException();</a>
+<span class="sourceLineNo">941</span><a id="line.941">  }</a>
+<span class="sourceLineNo">942</span><a id="line.942"></a>
+<span class="sourceLineNo">943</span><a id="line.943">  /**</a>
+<span class="sourceLineNo">944</span><a id="line.944">   * Guaranteed to throw an exception and leave the map unmodified.</a>
+<span class="sourceLineNo">945</span><a id="line.945">   *</a>
+<span class="sourceLineNo">946</span><a id="line.946">   * @throws UnsupportedOperationException always</a>
+<span class="sourceLineNo">947</span><a id="line.947">   * @deprecated Unsupported operation.</a>
+<span class="sourceLineNo">948</span><a id="line.948">   */</a>
+<span class="sourceLineNo">949</span><a id="line.949">  @Deprecated</a>
+<span class="sourceLineNo">950</span><a id="line.950">  @Override</a>
+<span class="sourceLineNo">951</span><a id="line.951">  @DoNotCall("Always throws UnsupportedOperationException")</a>
+<span class="sourceLineNo">952</span><a id="line.952">  @CheckForNull</a>
+<span class="sourceLineNo">953</span><a id="line.953">  public final V remove(@CheckForNull Object o) {</a>
+<span class="sourceLineNo">954</span><a id="line.954">    throw new UnsupportedOperationException();</a>
+<span class="sourceLineNo">955</span><a id="line.955">  }</a>
+<span class="sourceLineNo">956</span><a id="line.956"></a>
+<span class="sourceLineNo">957</span><a id="line.957">  /**</a>
+<span class="sourceLineNo">958</span><a id="line.958">   * Guaranteed to throw an exception and leave the map unmodified.</a>
+<span class="sourceLineNo">959</span><a id="line.959">   *</a>
+<span class="sourceLineNo">960</span><a id="line.960">   * @throws UnsupportedOperationException always</a>
+<span class="sourceLineNo">961</span><a id="line.961">   * @deprecated Unsupported operation.</a>
+<span class="sourceLineNo">962</span><a id="line.962">   */</a>
+<span class="sourceLineNo">963</span><a id="line.963">  @Deprecated</a>
+<span class="sourceLineNo">964</span><a id="line.964">  @Override</a>
+<span class="sourceLineNo">965</span><a id="line.965">  @DoNotCall("Always throws UnsupportedOperationException")</a>
+<span class="sourceLineNo">966</span><a id="line.966">  public final boolean remove(@CheckForNull Object key, @CheckForNull Object value) {</a>
+<span class="sourceLineNo">967</span><a id="line.967">    throw new UnsupportedOperationException();</a>
+<span class="sourceLineNo">968</span><a id="line.968">  }</a>
+<span class="sourceLineNo">969</span><a id="line.969"></a>
+<span class="sourceLineNo">970</span><a id="line.970">  /**</a>
+<span class="sourceLineNo">971</span><a id="line.971">   * Guaranteed to throw an exception and leave the map unmodified.</a>
+<span class="sourceLineNo">972</span><a id="line.972">   *</a>
+<span class="sourceLineNo">973</span><a id="line.973">   * @throws UnsupportedOperationException always</a>
+<span class="sourceLineNo">974</span><a id="line.974">   * @deprecated Unsupported operation.</a>
+<span class="sourceLineNo">975</span><a id="line.975">   */</a>
+<span class="sourceLineNo">976</span><a id="line.976">  @Deprecated</a>
+<span class="sourceLineNo">977</span><a id="line.977">  @Override</a>
+<span class="sourceLineNo">978</span><a id="line.978">  @DoNotCall("Always throws UnsupportedOperationException")</a>
+<span class="sourceLineNo">979</span><a id="line.979">  public final void clear() {</a>
+<span class="sourceLineNo">980</span><a id="line.980">    throw new UnsupportedOperationException();</a>
 <span class="sourceLineNo">981</span><a id="line.981">  }</a>
 <span class="sourceLineNo">982</span><a id="line.982"></a>
 <span class="sourceLineNo">983</span><a id="line.983">  @Override</a>
-<span class="sourceLineNo">984</span><a id="line.984">  public boolean containsValue(@CheckForNull Object value) {</a>
-<span class="sourceLineNo">985</span><a id="line.985">    return values().contains(value);</a>
+<span class="sourceLineNo">984</span><a id="line.984">  public boolean isEmpty() {</a>
+<span class="sourceLineNo">985</span><a id="line.985">    return size() == 0;</a>
 <span class="sourceLineNo">986</span><a id="line.986">  }</a>
 <span class="sourceLineNo">987</span><a id="line.987"></a>
-<span class="sourceLineNo">988</span><a id="line.988">  // Overriding to mark it Nullable</a>
-<span class="sourceLineNo">989</span><a id="line.989">  @Override</a>
-<span class="sourceLineNo">990</span><a id="line.990">  @CheckForNull</a>
-<span class="sourceLineNo">991</span><a id="line.991">  public abstract V get(@CheckForNull Object key);</a>
+<span class="sourceLineNo">988</span><a id="line.988">  @Override</a>
+<span class="sourceLineNo">989</span><a id="line.989">  public boolean containsKey(@CheckForNull Object key) {</a>
+<span class="sourceLineNo">990</span><a id="line.990">    return get(key) != null;</a>
+<span class="sourceLineNo">991</span><a id="line.991">  }</a>
 <span class="sourceLineNo">992</span><a id="line.992"></a>
-<span class="sourceLineNo">993</span><a id="line.993">  /**</a>
-<span class="sourceLineNo">994</span><a id="line.994">   * @since 21.0 (but only since 23.5 in the Android &lt;a</a>
-<span class="sourceLineNo">995</span><a id="line.995">   *     href="https://github.com/google/guava#guava-google-core-libraries-for-java"&gt;flavor&lt;/a&gt;).</a>
-<span class="sourceLineNo">996</span><a id="line.996">   *     Note, however, that Java 8+ users can call this method with any version and flavor of</a>
-<span class="sourceLineNo">997</span><a id="line.997">   *     Guava.</a>
-<span class="sourceLineNo">998</span><a id="line.998">   */</a>
+<span class="sourceLineNo">993</span><a id="line.993">  @Override</a>
+<span class="sourceLineNo">994</span><a id="line.994">  public boolean containsValue(@CheckForNull Object value) {</a>
+<span class="sourceLineNo">995</span><a id="line.995">    return values().contains(value);</a>
+<span class="sourceLineNo">996</span><a id="line.996">  }</a>
+<span class="sourceLineNo">997</span><a id="line.997"></a>
+<span class="sourceLineNo">998</span><a id="line.998">  // Overriding to mark it Nullable</a>
 <span class="sourceLineNo">999</span><a id="line.999">  @Override</a>
 <span class="sourceLineNo">1000</span><a id="line.1000">  @CheckForNull</a>
-<span class="sourceLineNo">1001</span><a id="line.1001">  public final V getOrDefault(@CheckForNull Object key, @CheckForNull V defaultValue) {</a>
-<span class="sourceLineNo">1002</span><a id="line.1002">    /*</a>
-<span class="sourceLineNo">1003</span><a id="line.1003">     * Even though it's weird to pass a defaultValue that is null, some callers do so. Those who</a>
-<span class="sourceLineNo">1004</span><a id="line.1004">     * pass a literal "null" should probably just use `get`, but I would expect other callers to</a>
-<span class="sourceLineNo">1005</span><a id="line.1005">     * pass an expression that *might* be null. This could happen with:</a>
-<span class="sourceLineNo">1006</span><a id="line.1006">     *</a>
-<span class="sourceLineNo">1007</span><a id="line.1007">     * - a `getFooOrDefault(@CheckForNull Foo defaultValue)` method that returns</a>
-<span class="sourceLineNo">1008</span><a id="line.1008">     *   `map.getOrDefault(FOO_KEY, defaultValue)`</a>
-<span class="sourceLineNo">1009</span><a id="line.1009">     *</a>
-<span class="sourceLineNo">1010</span><a id="line.1010">     * - a call that consults a chain of maps, as in `mapA.getOrDefault(key, mapB.getOrDefault(key,</a>
-<span class="sourceLineNo">1011</span><a id="line.1011">     *   ...))`</a>
-<span class="sourceLineNo">1012</span><a id="line.1012">     *</a>
-<span class="sourceLineNo">1013</span><a id="line.1013">     * So it makes sense for the parameter (and thus the return type) to be @CheckForNull.</a>
-<span class="sourceLineNo">1014</span><a id="line.1014">     *</a>
-<span class="sourceLineNo">1015</span><a id="line.1015">     * Two other points:</a>
+<span class="sourceLineNo">1001</span><a id="line.1001">  public abstract V get(@CheckForNull Object key);</a>
+<span class="sourceLineNo">1002</span><a id="line.1002"></a>
+<span class="sourceLineNo">1003</span><a id="line.1003">  /**</a>
+<span class="sourceLineNo">1004</span><a id="line.1004">   * @since 21.0 (but only since 23.5 in the Android &lt;a</a>
+<span class="sourceLineNo">1005</span><a id="line.1005">   *     href="https://github.com/google/guava#guava-google-core-libraries-for-java"&gt;flavor&lt;/a&gt;).</a>
+<span class="sourceLineNo">1006</span><a id="line.1006">   *     Note, however, that Java 8+ users can call this method with any version and flavor of</a>
+<span class="sourceLineNo">1007</span><a id="line.1007">   *     Guava.</a>
+<span class="sourceLineNo">1008</span><a id="line.1008">   */</a>
+<span class="sourceLineNo">1009</span><a id="line.1009">  @Override</a>
+<span class="sourceLineNo">1010</span><a id="line.1010">  @CheckForNull</a>
+<span class="sourceLineNo">1011</span><a id="line.1011">  public final V getOrDefault(@CheckForNull Object key, @CheckForNull V defaultValue) {</a>
+<span class="sourceLineNo">1012</span><a id="line.1012">    /*</a>
+<span class="sourceLineNo">1013</span><a id="line.1013">     * Even though it's weird to pass a defaultValue that is null, some callers do so. Those who</a>
+<span class="sourceLineNo">1014</span><a id="line.1014">     * pass a literal "null" should probably just use `get`, but I would expect other callers to</a>
+<span class="sourceLineNo">1015</span><a id="line.1015">     * pass an expression that *might* be null. This could happen with:</a>
 <span class="sourceLineNo">1016</span><a id="line.1016">     *</a>
-<span class="sourceLineNo">1017</span><a id="line.1017">     * 1. We'll want to use something like @PolyNull once we can make that work for the various</a>
-<span class="sourceLineNo">1018</span><a id="line.1018">     * platforms we target.</a>
+<span class="sourceLineNo">1017</span><a id="line.1017">     * - a `getFooOrDefault(@CheckForNull Foo defaultValue)` method that returns</a>
+<span class="sourceLineNo">1018</span><a id="line.1018">     *   `map.getOrDefault(FOO_KEY, defaultValue)`</a>
 <span class="sourceLineNo">1019</span><a id="line.1019">     *</a>
-<span class="sourceLineNo">1020</span><a id="line.1020">     * 2. Kotlin's Map type has a getOrDefault method that accepts and returns a "plain V," in</a>
-<span class="sourceLineNo">1021</span><a id="line.1021">     * contrast to the "V?" type that we're using. As a result, Kotlin sees a conflict between the</a>
-<span class="sourceLineNo">1022</span><a id="line.1022">     * nullness annotations in ImmutableMap and those in its own Map type. In response, it considers</a>
-<span class="sourceLineNo">1023</span><a id="line.1023">     * the parameter and return type both to be platform types. As a result, Kotlin permits calls</a>
-<span class="sourceLineNo">1024</span><a id="line.1024">     * that can lead to NullPointerException. That's unfortunate. But hopefully most Kotlin callers</a>
-<span class="sourceLineNo">1025</span><a id="line.1025">     * use `get(key) ?: defaultValue` instead of this method, anyway.</a>
-<span class="sourceLineNo">1026</span><a id="line.1026">     */</a>
-<span class="sourceLineNo">1027</span><a id="line.1027">    V result = get(key);</a>
-<span class="sourceLineNo">1028</span><a id="line.1028">    // TODO(b/192579700): Use a ternary once it no longer confuses our nullness checker.</a>
-<span class="sourceLineNo">1029</span><a id="line.1029">    if (result != null) {</a>
-<span class="sourceLineNo">1030</span><a id="line.1030">      return result;</a>
-<span class="sourceLineNo">1031</span><a id="line.1031">    } else {</a>
-<span class="sourceLineNo">1032</span><a id="line.1032">      return defaultValue;</a>
-<span class="sourceLineNo">1033</span><a id="line.1033">    }</a>
-<span class="sourceLineNo">1034</span><a id="line.1034">  }</a>
-<span class="sourceLineNo">1035</span><a id="line.1035"></a>
-<span class="sourceLineNo">1036</span><a id="line.1036">  @LazyInit @RetainedWith @CheckForNull private transient ImmutableSet&lt;Entry&lt;K, V&gt;&gt; entrySet;</a>
-<span class="sourceLineNo">1037</span><a id="line.1037"></a>
-<span class="sourceLineNo">1038</span><a id="line.1038">  /**</a>
-<span class="sourceLineNo">1039</span><a id="line.1039">   * Returns an immutable set of the mappings in this map. The iteration order is specified by the</a>
-<span class="sourceLineNo">1040</span><a id="line.1040">   * method used to create this map. Typically, this is insertion order.</a>
-<span class="sourceLineNo">1041</span><a id="line.1041">   */</a>
-<span class="sourceLineNo">1042</span><a id="line.1042">  @Override</a>
-<span class="sourceLineNo">1043</span><a id="line.1043">  public ImmutableSet&lt;Entry&lt;K, V&gt;&gt; entrySet() {</a>
-<span class="sourceLineNo">1044</span><a id="line.1044">    ImmutableSet&lt;Entry&lt;K, V&gt;&gt; result = entrySet;</a>
-<span class="sourceLineNo">1045</span><a id="line.1045">    return (result == null) ? entrySet = createEntrySet() : result;</a>
-<span class="sourceLineNo">1046</span><a id="line.1046">  }</a>
+<span class="sourceLineNo">1020</span><a id="line.1020">     * - a call that consults a chain of maps, as in `mapA.getOrDefault(key, mapB.getOrDefault(key,</a>
+<span class="sourceLineNo">1021</span><a id="line.1021">     *   ...))`</a>
+<span class="sourceLineNo">1022</span><a id="line.1022">     *</a>
+<span class="sourceLineNo">1023</span><a id="line.1023">     * So it makes sense for the parameter (and thus the return type) to be @CheckForNull.</a>
+<span class="sourceLineNo">1024</span><a id="line.1024">     *</a>
+<span class="sourceLineNo">1025</span><a id="line.1025">     * Two other points:</a>
+<span class="sourceLineNo">1026</span><a id="line.1026">     *</a>
+<span class="sourceLineNo">1027</span><a id="line.1027">     * 1. We'll want to use something like @PolyNull once we can make that work for the various</a>
+<span class="sourceLineNo">1028</span><a id="line.1028">     * platforms we target.</a>
+<span class="sourceLineNo">1029</span><a id="line.1029">     *</a>
+<span class="sourceLineNo">1030</span><a id="line.1030">     * 2. Kotlin's Map type has a getOrDefault method that accepts and returns a "plain V," in</a>
+<span class="sourceLineNo">1031</span><a id="line.1031">     * contrast to the "V?" type that we're using. As a result, Kotlin sees a conflict between the</a>
+<span class="sourceLineNo">1032</span><a id="line.1032">     * nullness annotations in ImmutableMap and those in its own Map type. In response, it considers</a>
+<span class="sourceLineNo">1033</span><a id="line.1033">     * the parameter and return type both to be platform types. As a result, Kotlin permits calls</a>
+<span class="sourceLineNo">1034</span><a id="line.1034">     * that can lead to NullPointerException. That's unfortunate. But hopefully most Kotlin callers</a>
+<span class="sourceLineNo">1035</span><a id="line.1035">     * use `get(key) ?: defaultValue` instead of this method, anyway.</a>
+<span class="sourceLineNo">1036</span><a id="line.1036">     */</a>
+<span class="sourceLineNo">1037</span><a id="line.1037">    V result = get(key);</a>
+<span class="sourceLineNo">1038</span><a id="line.1038">    // TODO(b/192579700): Use a ternary once it no longer confuses our nullness checker.</a>
+<span class="sourceLineNo">1039</span><a id="line.1039">    if (result != null) {</a>
+<span class="sourceLineNo">1040</span><a id="line.1040">      return result;</a>
+<span class="sourceLineNo">1041</span><a id="line.1041">    } else {</a>
+<span class="sourceLineNo">1042</span><a id="line.1042">      return defaultValue;</a>
+<span class="sourceLineNo">1043</span><a id="line.1043">    }</a>
+<span class="sourceLineNo">1044</span><a id="line.1044">  }</a>
+<span class="sourceLineNo">1045</span><a id="line.1045"></a>
+<span class="sourceLineNo">1046</span><a id="line.1046">  @LazyInit @RetainedWith @CheckForNull private transient ImmutableSet&lt;Entry&lt;K, V&gt;&gt; entrySet;</a>
 <span class="sourceLineNo">1047</span><a id="line.1047"></a>
-<span class="sourceLineNo">1048</span><a id="line.1048">  abstract ImmutableSet&lt;Entry&lt;K, V&gt;&gt; createEntrySet();</a>
-<span class="sourceLineNo">1049</span><a id="line.1049"></a>
-<span class="sourceLineNo">1050</span><a id="line.1050">  @LazyInit @RetainedWith @CheckForNull private transient ImmutableSet&lt;K&gt; keySet;</a>
-<span class="sourceLineNo">1051</span><a id="line.1051"></a>
-<span class="sourceLineNo">1052</span><a id="line.1052">  /**</a>
-<span class="sourceLineNo">1053</span><a id="line.1053">   * Returns an immutable set of the keys in this map, in the same order that they appear in {@link</a>
-<span class="sourceLineNo">1054</span><a id="line.1054">   * #entrySet}.</a>
-<span class="sourceLineNo">1055</span><a id="line.1055">   */</a>
-<span class="sourceLineNo">1056</span><a id="line.1056">  @Override</a>
-<span class="sourceLineNo">1057</span><a id="line.1057">  public ImmutableSet&lt;K&gt; keySet() {</a>
-<span class="sourceLineNo">1058</span><a id="line.1058">    ImmutableSet&lt;K&gt; result = keySet;</a>
-<span class="sourceLineNo">1059</span><a id="line.1059">    return (result == null) ? keySet = createKeySet() : result;</a>
-<span class="sourceLineNo">1060</span><a id="line.1060">  }</a>
+<span class="sourceLineNo">1048</span><a id="line.1048">  /**</a>
+<span class="sourceLineNo">1049</span><a id="line.1049">   * Returns an immutable set of the mappings in this map. The iteration order is specified by the</a>
+<span class="sourceLineNo">1050</span><a id="line.1050">   * method used to create this map. Typically, this is insertion order.</a>
+<span class="sourceLineNo">1051</span><a id="line.1051">   */</a>
+<span class="sourceLineNo">1052</span><a id="line.1052">  @Override</a>
+<span class="sourceLineNo">1053</span><a id="line.1053">  public ImmutableSet&lt;Entry&lt;K, V&gt;&gt; entrySet() {</a>
+<span class="sourceLineNo">1054</span><a id="line.1054">    ImmutableSet&lt;Entry&lt;K, V&gt;&gt; result = entrySet;</a>
+<span class="sourceLineNo">1055</span><a id="line.1055">    return (result == null) ? entrySet = createEntrySet() : result;</a>
+<span class="sourceLineNo">1056</span><a id="line.1056">  }</a>
+<span class="sourceLineNo">1057</span><a id="line.1057"></a>
+<span class="sourceLineNo">1058</span><a id="line.1058">  abstract ImmutableSet&lt;Entry&lt;K, V&gt;&gt; createEntrySet();</a>
+<span class="sourceLineNo">1059</span><a id="line.1059"></a>
+<span class="sourceLineNo">1060</span><a id="line.1060">  @LazyInit @RetainedWith @CheckForNull private transient ImmutableSet&lt;K&gt; keySet;</a>
 <span class="sourceLineNo">1061</span><a id="line.1061"></a>
-<span class="sourceLineNo">1062</span><a id="line.1062">  /*</a>
-<span class="sourceLineNo">1063</span><a id="line.1063">   * This could have a good default implementation of return new ImmutableKeySet&lt;K, V&gt;(this),</a>
-<span class="sourceLineNo">1064</span><a id="line.1064">   * but ProGuard can't figure out how to eliminate that default when RegularImmutableMap</a>
-<span class="sourceLineNo">1065</span><a id="line.1065">   * overrides it.</a>
-<span class="sourceLineNo">1066</span><a id="line.1066">   */</a>
-<span class="sourceLineNo">1067</span><a id="line.1067">  abstract ImmutableSet&lt;K&gt; createKeySet();</a>
-<span class="sourceLineNo">1068</span><a id="line.1068"></a>
-<span class="sourceLineNo">1069</span><a id="line.1069">  UnmodifiableIterator&lt;K&gt; keyIterator() {</a>
-<span class="sourceLineNo">1070</span><a id="line.1070">    final UnmodifiableIterator&lt;Entry&lt;K, V&gt;&gt; entryIterator = entrySet().iterator();</a>
-<span class="sourceLineNo">1071</span><a id="line.1071">    return new UnmodifiableIterator&lt;K&gt;() {</a>
-<span class="sourceLineNo">1072</span><a id="line.1072">      @Override</a>
-<span class="sourceLineNo">1073</span><a id="line.1073">      public boolean hasNext() {</a>
-<span class="sourceLineNo">1074</span><a id="line.1074">        return entryIterator.hasNext();</a>
-<span class="sourceLineNo">1075</span><a id="line.1075">      }</a>
-<span class="sourceLineNo">1076</span><a id="line.1076"></a>
-<span class="sourceLineNo">1077</span><a id="line.1077">      @Override</a>
-<span class="sourceLineNo">1078</span><a id="line.1078">      public K next() {</a>
-<span class="sourceLineNo">1079</span><a id="line.1079">        return entryIterator.next().getKey();</a>
-<span class="sourceLineNo">1080</span><a id="line.1080">      }</a>
-<span class="sourceLineNo">1081</span><a id="line.1081">    };</a>
-<span class="sourceLineNo">1082</span><a id="line.1082">  }</a>
-<span class="sourceLineNo">1083</span><a id="line.1083"></a>
-<span class="sourceLineNo">1084</span><a id="line.1084">  Spliterator&lt;K&gt; keySpliterator() {</a>
-<span class="sourceLineNo">1085</span><a id="line.1085">    return CollectSpliterators.map(entrySet().spliterator(), Entry::getKey);</a>
-<span class="sourceLineNo">1086</span><a id="line.1086">  }</a>
-<span class="sourceLineNo">1087</span><a id="line.1087"></a>
-<span class="sourceLineNo">1088</span><a id="line.1088">  @LazyInit @RetainedWith @CheckForNull private transient ImmutableCollection&lt;V&gt; values;</a>
-<span class="sourceLineNo">1089</span><a id="line.1089"></a>
-<span class="sourceLineNo">1090</span><a id="line.1090">  /**</a>
-<span class="sourceLineNo">1091</span><a id="line.1091">   * Returns an immutable collection of the values in this map, in the same order that they appear</a>
-<span class="sourceLineNo">1092</span><a id="line.1092">   * in {@link #entrySet}.</a>
-<span class="sourceLineNo">1093</span><a id="line.1093">   */</a>
-<span class="sourceLineNo">1094</span><a id="line.1094">  @Override</a>
-<span class="sourceLineNo">1095</span><a id="line.1095">  public ImmutableCollection&lt;V&gt; values() {</a>
-<span class="sourceLineNo">1096</span><a id="line.1096">    ImmutableCollection&lt;V&gt; result = values;</a>
-<span class="sourceLineNo">1097</span><a id="line.1097">    return (result == null) ? values = createValues() : result;</a>
-<span class="sourceLineNo">1098</span><a id="line.1098">  }</a>
+<span class="sourceLineNo">1062</span><a id="line.1062">  /**</a>
+<span class="sourceLineNo">1063</span><a id="line.1063">   * Returns an immutable set of the keys in this map, in the same order that they appear in {@link</a>
+<span class="sourceLineNo">1064</span><a id="line.1064">   * #entrySet}.</a>
+<span class="sourceLineNo">1065</span><a id="line.1065">   */</a>
+<span class="sourceLineNo">1066</span><a id="line.1066">  @Override</a>
+<span class="sourceLineNo">1067</span><a id="line.1067">  public ImmutableSet&lt;K&gt; keySet() {</a>
+<span class="sourceLineNo">1068</span><a id="line.1068">    ImmutableSet&lt;K&gt; result = keySet;</a>
+<span class="sourceLineNo">1069</span><a id="line.1069">    return (result == null) ? keySet = createKeySet() : result;</a>
+<span class="sourceLineNo">1070</span><a id="line.1070">  }</a>
+<span class="sourceLineNo">1071</span><a id="line.1071"></a>
+<span class="sourceLineNo">1072</span><a id="line.1072">  /*</a>
+<span class="sourceLineNo">1073</span><a id="line.1073">   * This could have a good default implementation of return new ImmutableKeySet&lt;K, V&gt;(this),</a>
+<span class="sourceLineNo">1074</span><a id="line.1074">   * but ProGuard can't figure out how to eliminate that default when RegularImmutableMap</a>
+<span class="sourceLineNo">1075</span><a id="line.1075">   * overrides it.</a>
+<span class="sourceLineNo">1076</span><a id="line.1076">   */</a>
+<span class="sourceLineNo">1077</span><a id="line.1077">  abstract ImmutableSet&lt;K&gt; createKeySet();</a>
+<span class="sourceLineNo">1078</span><a id="line.1078"></a>
+<span class="sourceLineNo">1079</span><a id="line.1079">  UnmodifiableIterator&lt;K&gt; keyIterator() {</a>
+<span class="sourceLineNo">1080</span><a id="line.1080">    final UnmodifiableIterator&lt;Entry&lt;K, V&gt;&gt; entryIterator = entrySet().iterator();</a>
+<span class="sourceLineNo">1081</span><a id="line.1081">    return new UnmodifiableIterator&lt;K&gt;() {</a>
+<span class="sourceLineNo">1082</span><a id="line.1082">      @Override</a>
+<span class="sourceLineNo">1083</span><a id="line.1083">      public boolean hasNext() {</a>
+<span class="sourceLineNo">1084</span><a id="line.1084">        return entryIterator.hasNext();</a>
+<span class="sourceLineNo">1085</span><a id="line.1085">      }</a>
+<span class="sourceLineNo">1086</span><a id="line.1086"></a>
+<span class="sourceLineNo">1087</span><a id="line.1087">      @Override</a>
+<span class="sourceLineNo">1088</span><a id="line.1088">      public K next() {</a>
+<span class="sourceLineNo">1089</span><a id="line.1089">        return entryIterator.next().getKey();</a>
+<span class="sourceLineNo">1090</span><a id="line.1090">      }</a>
+<span class="sourceLineNo">1091</span><a id="line.1091">    };</a>
+<span class="sourceLineNo">1092</span><a id="line.1092">  }</a>
+<span class="sourceLineNo">1093</span><a id="line.1093"></a>
+<span class="sourceLineNo">1094</span><a id="line.1094">  Spliterator&lt;K&gt; keySpliterator() {</a>
+<span class="sourceLineNo">1095</span><a id="line.1095">    return CollectSpliterators.map(entrySet().spliterator(), Entry::getKey);</a>
+<span class="sourceLineNo">1096</span><a id="line.1096">  }</a>
+<span class="sourceLineNo">1097</span><a id="line.1097"></a>
+<span class="sourceLineNo">1098</span><a id="line.1098">  @LazyInit @RetainedWith @CheckForNull private transient ImmutableCollection&lt;V&gt; values;</a>
 <span class="sourceLineNo">1099</span><a id="line.1099"></a>
-<span class="sourceLineNo">1100</span><a id="line.1100">  /*</a>
-<span class="sourceLineNo">1101</span><a id="line.1101">   * This could have a good default implementation of {@code return new</a>
-<span class="sourceLineNo">1102</span><a id="line.1102">   * ImmutableMapValues&lt;K, V&gt;(this)}, but ProGuard can't figure out how to eliminate that default</a>
-<span class="sourceLineNo">1103</span><a id="line.1103">   * when RegularImmutableMap overrides it.</a>
-<span class="sourceLineNo">1104</span><a id="line.1104">   */</a>
-<span class="sourceLineNo">1105</span><a id="line.1105">  abstract ImmutableCollection&lt;V&gt; createValues();</a>
-<span class="sourceLineNo">1106</span><a id="line.1106"></a>
-<span class="sourceLineNo">1107</span><a id="line.1107">  // cached so that this.multimapView().inverse() only computes inverse once</a>
-<span class="sourceLineNo">1108</span><a id="line.1108">  @LazyInit @CheckForNull private transient ImmutableSetMultimap&lt;K, V&gt; multimapView;</a>
+<span class="sourceLineNo">1100</span><a id="line.1100">  /**</a>
+<span class="sourceLineNo">1101</span><a id="line.1101">   * Returns an immutable collection of the values in this map, in the same order that they appear</a>
+<span class="sourceLineNo">1102</span><a id="line.1102">   * in {@link #entrySet}.</a>
+<span class="sourceLineNo">1103</span><a id="line.1103">   */</a>
+<span class="sourceLineNo">1104</span><a id="line.1104">  @Override</a>
+<span class="sourceLineNo">1105</span><a id="line.1105">  public ImmutableCollection&lt;V&gt; values() {</a>
+<span class="sourceLineNo">1106</span><a id="line.1106">    ImmutableCollection&lt;V&gt; result = values;</a>
+<span class="sourceLineNo">1107</span><a id="line.1107">    return (result == null) ? values = createValues() : result;</a>
+<span class="sourceLineNo">1108</span><a id="line.1108">  }</a>
 <span class="sourceLineNo">1109</span><a id="line.1109"></a>
-<span class="sourceLineNo">1110</span><a id="line.1110">  /**</a>
-<span class="sourceLineNo">1111</span><a id="line.1111">   * Returns a multimap view of the map.</a>
-<span class="sourceLineNo">1112</span><a id="line.1112">   *</a>
-<span class="sourceLineNo">1113</span><a id="line.1113">   * @since 14.0</a>
+<span class="sourceLineNo">1110</span><a id="line.1110">  /*</a>
+<span class="sourceLineNo">1111</span><a id="line.1111">   * This could have a good default implementation of {@code return new</a>
+<span class="sourceLineNo">1112</span><a id="line.1112">   * ImmutableMapValues&lt;K, V&gt;(this)}, but ProGuard can't figure out how to eliminate that default</a>
+<span class="sourceLineNo">1113</span><a id="line.1113">   * when RegularImmutableMap overrides it.</a>
 <span class="sourceLineNo">1114</span><a id="line.1114">   */</a>
-<span class="sourceLineNo">1115</span><a id="line.1115">  public ImmutableSetMultimap&lt;K, V&gt; asMultimap() {</a>
-<span class="sourceLineNo">1116</span><a id="line.1116">    if (isEmpty()) {</a>
-<span class="sourceLineNo">1117</span><a id="line.1117">      return ImmutableSetMultimap.of();</a>
-<span class="sourceLineNo">1118</span><a id="line.1118">    }</a>
-<span class="sourceLineNo">1119</span><a id="line.1119">    ImmutableSetMultimap&lt;K, V&gt; result = multimapView;</a>
-<span class="sourceLineNo">1120</span><a id="line.1120">    return (result == null)</a>
-<span class="sourceLineNo">1121</span><a id="line.1121">        ? (multimapView =</a>
-<span class="sourceLineNo">1122</span><a id="line.1122">            new ImmutableSetMultimap&lt;&gt;(new MapViewOfValuesAsSingletonSets(), size(), null))</a>
-<span class="sourceLineNo">1123</span><a id="line.1123">        : result;</a>
-<span class="sourceLineNo">1124</span><a id="line.1124">  }</a>
-<span class="sourceLineNo">1125</span><a id="line.1125"></a>
-<span class="sourceLineNo">1126</span><a id="line.1126">  @WeakOuter</a>
-<span class="sourceLineNo">1127</span><a id="line.1127">  private final class MapViewOfValuesAsSingletonSets</a>
-<span class="sourceLineNo">1128</span><a id="line.1128">      extends IteratorBasedImmutableMap&lt;K, ImmutableSet&lt;V&gt;&gt; {</a>
-<span class="sourceLineNo">1129</span><a id="line.1129"></a>
-<span class="sourceLineNo">1130</span><a id="line.1130">    @Override</a>
-<span class="sourceLineNo">1131</span><a id="line.1131">    public int size() {</a>
-<span class="sourceLineNo">1132</span><a id="line.1132">      return ImmutableMap.this.size();</a>
-<span class="sourceLineNo">1133</span><a id="line.1133">    }</a>
-<span class="sourceLineNo">1134</span><a id="line.1134"></a>
-<span class="sourceLineNo">1135</span><a id="line.1135">    @Override</a>
-<span class="sourceLineNo">1136</span><a id="line.1136">    ImmutableSet&lt;K&gt; createKeySet() {</a>
-<span class="sourceLineNo">1137</span><a id="line.1137">      return ImmutableMap.this.keySet();</a>
-<span class="sourceLineNo">1138</span><a id="line.1138">    }</a>
+<span class="sourceLineNo">1115</span><a id="line.1115">  abstract ImmutableCollection&lt;V&gt; createValues();</a>
+<span class="sourceLineNo">1116</span><a id="line.1116"></a>
+<span class="sourceLineNo">1117</span><a id="line.1117">  // cached so that this.multimapView().inverse() only computes inverse once</a>
+<span class="sourceLineNo">1118</span><a id="line.1118">  @LazyInit @CheckForNull private transient ImmutableSetMultimap&lt;K, V&gt; multimapView;</a>
+<span class="sourceLineNo">1119</span><a id="line.1119"></a>
+<span class="sourceLineNo">1120</span><a id="line.1120">  /**</a>
+<span class="sourceLineNo">1121</span><a id="line.1121">   * Returns a multimap view of the map.</a>
+<span class="sourceLineNo">1122</span><a id="line.1122">   *</a>
+<span class="sourceLineNo">1123</span><a id="line.1123">   * @since 14.0</a>
+<span class="sourceLineNo">1124</span><a id="line.1124">   */</a>
+<span class="sourceLineNo">1125</span><a id="line.1125">  public ImmutableSetMultimap&lt;K, V&gt; asMultimap() {</a>
+<span class="sourceLineNo">1126</span><a id="line.1126">    if (isEmpty()) {</a>
+<span class="sourceLineNo">1127</span><a id="line.1127">      return ImmutableSetMultimap.of();</a>
+<span class="sourceLineNo">1128</span><a id="line.1128">    }</a>
+<span class="sourceLineNo">1129</span><a id="line.1129">    ImmutableSetMultimap&lt;K, V&gt; result = multimapView;</a>
+<span class="sourceLineNo">1130</span><a id="line.1130">    return (result == null)</a>
+<span class="sourceLineNo">1131</span><a id="line.1131">        ? (multimapView =</a>
+<span class="sourceLineNo">1132</span><a id="line.1132">            new ImmutableSetMultimap&lt;&gt;(new MapViewOfValuesAsSingletonSets(), size(), null))</a>
+<span class="sourceLineNo">1133</span><a id="line.1133">        : result;</a>
+<span class="sourceLineNo">1134</span><a id="line.1134">  }</a>
+<span class="sourceLineNo">1135</span><a id="line.1135"></a>
+<span class="sourceLineNo">1136</span><a id="line.1136">  @WeakOuter</a>
+<span class="sourceLineNo">1137</span><a id="line.1137">  private final class MapViewOfValuesAsSingletonSets</a>
+<span class="sourceLineNo">1138</span><a id="line.1138">      extends IteratorBasedImmutableMap&lt;K, ImmutableSet&lt;V&gt;&gt; {</a>
 <span class="sourceLineNo">1139</span><a id="line.1139"></a>
 <span class="sourceLineNo">1140</span><a id="line.1140">    @Override</a>
-<span class="sourceLineNo">1141</span><a id="line.1141">    public boolean containsKey(@CheckForNull Object key) {</a>
-<span class="sourceLineNo">1142</span><a id="line.1142">      return ImmutableMap.this.containsKey(key);</a>
+<span class="sourceLineNo">1141</span><a id="line.1141">    public int size() {</a>
+<span class="sourceLineNo">1142</span><a id="line.1142">      return ImmutableMap.this.size();</a>
 <span class="sourceLineNo">1143</span><a id="line.1143">    }</a>
 <span class="sourceLineNo">1144</span><a id="line.1144"></a>
 <span class="sourceLineNo">1145</span><a id="line.1145">    @Override</a>
-<span class="sourceLineNo">1146</span><a id="line.1146">    @CheckForNull</a>
-<span class="sourceLineNo">1147</span><a id="line.1147">    public ImmutableSet&lt;V&gt; get(@CheckForNull Object key) {</a>
-<span class="sourceLineNo">1148</span><a id="line.1148">      V outerValue = ImmutableMap.this.get(key);</a>
-<span class="sourceLineNo">1149</span><a id="line.1149">      return (outerValue == null) ? null : ImmutableSet.of(outerValue);</a>
-<span class="sourceLineNo">1150</span><a id="line.1150">    }</a>
-<span class="sourceLineNo">1151</span><a id="line.1151"></a>
-<span class="sourceLineNo">1152</span><a id="line.1152">    @Override</a>
-<span class="sourceLineNo">1153</span><a id="line.1153">    boolean isPartialView() {</a>
-<span class="sourceLineNo">1154</span><a id="line.1154">      return ImmutableMap.this.isPartialView();</a>
-<span class="sourceLineNo">1155</span><a id="line.1155">    }</a>
-<span class="sourceLineNo">1156</span><a id="line.1156"></a>
-<span class="sourceLineNo">1157</span><a id="line.1157">    @Override</a>
-<span class="sourceLineNo">1158</span><a id="line.1158">    public int hashCode() {</a>
-<span class="sourceLineNo">1159</span><a id="line.1159">      // ImmutableSet.of(value).hashCode() == value.hashCode(), so the hashes are the same</a>
-<span class="sourceLineNo">1160</span><a id="line.1160">      return ImmutableMap.this.hashCode();</a>
-<span class="sourceLineNo">1161</span><a id="line.1161">    }</a>
-<span class="sourceLineNo">1162</span><a id="line.1162"></a>
-<span class="sourceLineNo">1163</span><a id="line.1163">    @Override</a>
-<span class="sourceLineNo">1164</span><a id="line.1164">    boolean isHashCodeFast() {</a>
-<span class="sourceLineNo">1165</span><a id="line.1165">      return ImmutableMap.this.isHashCodeFast();</a>
-<span class="sourceLineNo">1166</span><a id="line.1166">    }</a>
-<span class="sourceLineNo">1167</span><a id="line.1167"></a>
-<span class="sourceLineNo">1168</span><a id="line.1168">    @Override</a>
-<span class="sourceLineNo">1169</span><a id="line.1169">    UnmodifiableIterator&lt;Entry&lt;K, ImmutableSet&lt;V&gt;&gt;&gt; entryIterator() {</a>
-<span class="sourceLineNo">1170</span><a id="line.1170">      final Iterator&lt;Entry&lt;K, V&gt;&gt; backingIterator = ImmutableMap.this.entrySet().iterator();</a>
-<span class="sourceLineNo">1171</span><a id="line.1171">      return new UnmodifiableIterator&lt;Entry&lt;K, ImmutableSet&lt;V&gt;&gt;&gt;() {</a>
-<span class="sourceLineNo">1172</span><a id="line.1172">        @Override</a>
-<span class="sourceLineNo">1173</span><a id="line.1173">        public boolean hasNext() {</a>
-<span class="sourceLineNo">1174</span><a id="line.1174">          return backingIterator.hasNext();</a>
-<span class="sourceLineNo">1175</span><a id="line.1175">        }</a>
-<span class="sourceLineNo">1176</span><a id="line.1176"></a>
-<span class="sourceLineNo">1177</span><a id="line.1177">        @Override</a>
-<span class="sourceLineNo">1178</span><a id="line.1178">        public Entry&lt;K, ImmutableSet&lt;V&gt;&gt; next() {</a>
-<span class="sourceLineNo">1179</span><a id="line.1179">          final Entry&lt;K, V&gt; backingEntry = backingIterator.next();</a>
-<span class="sourceLineNo">1180</span><a id="line.1180">          return new AbstractMapEntry&lt;K, ImmutableSet&lt;V&gt;&gt;() {</a>
-<span class="sourceLineNo">1181</span><a id="line.1181">            @Override</a>
-<span class="sourceLineNo">1182</span><a id="line.1182">            public K getKey() {</a>
-<span class="sourceLineNo">1183</span><a id="line.1183">              return backingEntry.getKey();</a>
-<span class="sourceLineNo">1184</span><a id="line.1184">            }</a>
-<span class="sourceLineNo">1185</span><a id="line.1185"></a>
-<span class="sourceLineNo">1186</span><a id="line.1186">            @Override</a>
-<span class="sourceLineNo">1187</span><a id="line.1187">            public ImmutableSet&lt;V&gt; getValue() {</a>
-<span class="sourceLineNo">1188</span><a id="line.1188">              return ImmutableSet.of(backingEntry.getValue());</a>
-<span class="sourceLineNo">1189</span><a id="line.1189">            }</a>
-<span class="sourceLineNo">1190</span><a id="line.1190">          };</a>
-<span class="sourceLineNo">1191</span><a id="line.1191">        }</a>
-<span class="sourceLineNo">1192</span><a id="line.1192">      };</a>
-<span class="sourceLineNo">1193</span><a id="line.1193">    }</a>
-<span class="sourceLineNo">1194</span><a id="line.1194"></a>
-<span class="sourceLineNo">1195</span><a id="line.1195">    // redeclare to help optimizers with b/310253115</a>
-<span class="sourceLineNo">1196</span><a id="line.1196">    @SuppressWarnings("RedundantOverride")</a>
-<span class="sourceLineNo">1197</span><a id="line.1197">    @Override</a>
-<span class="sourceLineNo">1198</span><a id="line.1198">    @J2ktIncompatible // serialization</a>
-<span class="sourceLineNo">1199</span><a id="line.1199">    @GwtIncompatible // serialization</a>
-<span class="sourceLineNo">1200</span><a id="line.1200">    Object writeReplace() {</a>
-<span class="sourceLineNo">1201</span><a id="line.1201">      return super.writeReplace();</a>
-<span class="sourceLineNo">1202</span><a id="line.1202">    }</a>
-<span class="sourceLineNo">1203</span><a id="line.1203">  }</a>
+<span class="sourceLineNo">1146</span><a id="line.1146">    ImmutableSet&lt;K&gt; createKeySet() {</a>
+<span class="sourceLineNo">1147</span><a id="line.1147">      return ImmutableMap.this.keySet();</a>
+<span class="sourceLineNo">1148</span><a id="line.1148">    }</a>
+<span class="sourceLineNo">1149</span><a id="line.1149"></a>
+<span class="sourceLineNo">1150</span><a id="line.1150">    @Override</a>
+<span class="sourceLineNo">1151</span><a id="line.1151">    public boolean containsKey(@CheckForNull Object key) {</a>
+<span class="sourceLineNo">1152</span><a id="line.1152">      return ImmutableMap.this.containsKey(key);</a>
+<span class="sourceLineNo">1153</span><a id="line.1153">    }</a>
+<span class="sourceLineNo">1154</span><a id="line.1154"></a>
+<span class="sourceLineNo">1155</span><a id="line.1155">    @Override</a>
+<span class="sourceLineNo">1156</span><a id="line.1156">    @CheckForNull</a>
+<span class="sourceLineNo">1157</span><a id="line.1157">    public ImmutableSet&lt;V&gt; get(@CheckForNull Object key) {</a>
+<span class="sourceLineNo">1158</span><a id="line.1158">      V outerValue = ImmutableMap.this.get(key);</a>
+<span class="sourceLineNo">1159</span><a id="line.1159">      return (outerValue == null) ? null : ImmutableSet.of(outerValue);</a>
+<span class="sourceLineNo">1160</span><a id="line.1160">    }</a>
+<span class="sourceLineNo">1161</span><a id="line.1161"></a>
+<span class="sourceLineNo">1162</span><a id="line.1162">    @Override</a>
+<span class="sourceLineNo">1163</span><a id="line.1163">    boolean isPartialView() {</a>
+<span class="sourceLineNo">1164</span><a id="line.1164">      return ImmutableMap.this.isPartialView();</a>
+<span class="sourceLineNo">1165</span><a id="line.1165">    }</a>
+<span class="sourceLineNo">1166</span><a id="line.1166"></a>
+<span class="sourceLineNo">1167</span><a id="line.1167">    @Override</a>
+<span class="sourceLineNo">1168</span><a id="line.1168">    public int hashCode() {</a>
+<span class="sourceLineNo">1169</span><a id="line.1169">      // ImmutableSet.of(value).hashCode() == value.hashCode(), so the hashes are the same</a>
+<span class="sourceLineNo">1170</span><a id="line.1170">      return ImmutableMap.this.hashCode();</a>
+<span class="sourceLineNo">1171</span><a id="line.1171">    }</a>
+<span class="sourceLineNo">1172</span><a id="line.1172"></a>
+<span class="sourceLineNo">1173</span><a id="line.1173">    @Override</a>
+<span class="sourceLineNo">1174</span><a id="line.1174">    boolean isHashCodeFast() {</a>
+<span class="sourceLineNo">1175</span><a id="line.1175">      return ImmutableMap.this.isHashCodeFast();</a>
+<span class="sourceLineNo">1176</span><a id="line.1176">    }</a>
+<span class="sourceLineNo">1177</span><a id="line.1177"></a>
+<span class="sourceLineNo">1178</span><a id="line.1178">    @Override</a>
+<span class="sourceLineNo">1179</span><a id="line.1179">    UnmodifiableIterator&lt;Entry&lt;K, ImmutableSet&lt;V&gt;&gt;&gt; entryIterator() {</a>
+<span class="sourceLineNo">1180</span><a id="line.1180">      final Iterator&lt;Entry&lt;K, V&gt;&gt; backingIterator = ImmutableMap.this.entrySet().iterator();</a>
+<span class="sourceLineNo">1181</span><a id="line.1181">      return new UnmodifiableIterator&lt;Entry&lt;K, ImmutableSet&lt;V&gt;&gt;&gt;() {</a>
+<span class="sourceLineNo">1182</span><a id="line.1182">        @Override</a>
+<span class="sourceLineNo">1183</span><a id="line.1183">        public boolean hasNext() {</a>
+<span class="sourceLineNo">1184</span><a id="line.1184">          return backingIterator.hasNext();</a>
+<span class="sourceLineNo">1185</span><a id="line.1185">        }</a>
+<span class="sourceLineNo">1186</span><a id="line.1186"></a>
+<span class="sourceLineNo">1187</span><a id="line.1187">        @Override</a>
+<span class="sourceLineNo">1188</span><a id="line.1188">        public Entry&lt;K, ImmutableSet&lt;V&gt;&gt; next() {</a>
+<span class="sourceLineNo">1189</span><a id="line.1189">          final Entry&lt;K, V&gt; backingEntry = backingIterator.next();</a>
+<span class="sourceLineNo">1190</span><a id="line.1190">          return new AbstractMapEntry&lt;K, ImmutableSet&lt;V&gt;&gt;() {</a>
+<span class="sourceLineNo">1191</span><a id="line.1191">            @Override</a>
+<span class="sourceLineNo">1192</span><a id="line.1192">            public K getKey() {</a>
+<span class="sourceLineNo">1193</span><a id="line.1193">              return backingEntry.getKey();</a>
+<span class="sourceLineNo">1194</span><a id="line.1194">            }</a>
+<span class="sourceLineNo">1195</span><a id="line.1195"></a>
+<span class="sourceLineNo">1196</span><a id="line.1196">            @Override</a>
+<span class="sourceLineNo">1197</span><a id="line.1197">            public ImmutableSet&lt;V&gt; getValue() {</a>
+<span class="sourceLineNo">1198</span><a id="line.1198">              return ImmutableSet.of(backingEntry.getValue());</a>
+<span class="sourceLineNo">1199</span><a id="line.1199">            }</a>
+<span class="sourceLineNo">1200</span><a id="line.1200">          };</a>
+<span class="sourceLineNo">1201</span><a id="line.1201">        }</a>
+<span class="sourceLineNo">1202</span><a id="line.1202">      };</a>
+<span class="sourceLineNo">1203</span><a id="line.1203">    }</a>
 <span class="sourceLineNo">1204</span><a id="line.1204"></a>
-<span class="sourceLineNo">1205</span><a id="line.1205">  @Override</a>
-<span class="sourceLineNo">1206</span><a id="line.1206">  public boolean equals(@CheckForNull Object object) {</a>
-<span class="sourceLineNo">1207</span><a id="line.1207">    return Maps.equalsImpl(this, object);</a>
-<span class="sourceLineNo">1208</span><a id="line.1208">  }</a>
-<span class="sourceLineNo">1209</span><a id="line.1209"></a>
-<span class="sourceLineNo">1210</span><a id="line.1210">  abstract boolean isPartialView();</a>
-<span class="sourceLineNo">1211</span><a id="line.1211"></a>
-<span class="sourceLineNo">1212</span><a id="line.1212">  @Override</a>
-<span class="sourceLineNo">1213</span><a id="line.1213">  public int hashCode() {</a>
-<span class="sourceLineNo">1214</span><a id="line.1214">    return Sets.hashCodeImpl(entrySet());</a>
-<span class="sourceLineNo">1215</span><a id="line.1215">  }</a>
-<span class="sourceLineNo">1216</span><a id="line.1216"></a>
-<span class="sourceLineNo">1217</span><a id="line.1217">  boolean isHashCodeFast() {</a>
-<span class="sourceLineNo">1218</span><a id="line.1218">    return false;</a>
-<span class="sourceLineNo">1219</span><a id="line.1219">  }</a>
-<span class="sourceLineNo">1220</span><a id="line.1220"></a>
-<span class="sourceLineNo">1221</span><a id="line.1221">  @Override</a>
-<span class="sourceLineNo">1222</span><a id="line.1222">  public String toString() {</a>
-<span class="sourceLineNo">1223</span><a id="line.1223">    return Maps.toStringImpl(this);</a>
-<span class="sourceLineNo">1224</span><a id="line.1224">  }</a>
-<span class="sourceLineNo">1225</span><a id="line.1225"></a>
-<span class="sourceLineNo">1226</span><a id="line.1226">  /**</a>
-<span class="sourceLineNo">1227</span><a id="line.1227">   * Serialized type for all ImmutableMap instances. It captures the logical contents and they are</a>
-<span class="sourceLineNo">1228</span><a id="line.1228">   * reconstructed using public factory methods. This ensures that the implementation types remain</a>
-<span class="sourceLineNo">1229</span><a id="line.1229">   * as implementation details.</a>
-<span class="sourceLineNo">1230</span><a id="line.1230">   */</a>
-<span class="sourceLineNo">1231</span><a id="line.1231">  @J2ktIncompatible // serialization</a>
-<span class="sourceLineNo">1232</span><a id="line.1232">  static class SerializedForm&lt;K, V&gt; implements Serializable {</a>
-<span class="sourceLineNo">1233</span><a id="line.1233">    // This object retains references to collections returned by keySet() and value(). This saves</a>
-<span class="sourceLineNo">1234</span><a id="line.1234">    // bytes when the both the map and its keySet or value collection are written to the same</a>
-<span class="sourceLineNo">1235</span><a id="line.1235">    // instance of ObjectOutputStream.</a>
-<span class="sourceLineNo">1236</span><a id="line.1236"></a>
-<span class="sourceLineNo">1237</span><a id="line.1237">    // TODO(b/160980469): remove support for the old serialization format after some time</a>
-<span class="sourceLineNo">1238</span><a id="line.1238">    private static final boolean USE_LEGACY_SERIALIZATION = true;</a>
-<span class="sourceLineNo">1239</span><a id="line.1239"></a>
-<span class="sourceLineNo">1240</span><a id="line.1240">    private final Object keys;</a>
-<span class="sourceLineNo">1241</span><a id="line.1241">    private final Object values;</a>
-<span class="sourceLineNo">1242</span><a id="line.1242"></a>
-<span class="sourceLineNo">1243</span><a id="line.1243">    SerializedForm(ImmutableMap&lt;K, V&gt; map) {</a>
-<span class="sourceLineNo">1244</span><a id="line.1244">      if (USE_LEGACY_SERIALIZATION) {</a>
-<span class="sourceLineNo">1245</span><a id="line.1245">        Object[] keys = new Object[map.size()];</a>
-<span class="sourceLineNo">1246</span><a id="line.1246">        Object[] values = new Object[map.size()];</a>
-<span class="sourceLineNo">1247</span><a id="line.1247">        int i = 0;</a>
-<span class="sourceLineNo">1248</span><a id="line.1248">        // "extends Object" works around https://github.com/typetools/checker-framework/issues/3013</a>
-<span class="sourceLineNo">1249</span><a id="line.1249">        for (Entry&lt;? extends Object, ? extends Object&gt; entry : map.entrySet()) {</a>
-<span class="sourceLineNo">1250</span><a id="line.1250">          keys[i] = entry.getKey();</a>
-<span class="sourceLineNo">1251</span><a id="line.1251">          values[i] = entry.getValue();</a>
-<span class="sourceLineNo">1252</span><a id="line.1252">          i++;</a>
-<span class="sourceLineNo">1253</span><a id="line.1253">        }</a>
-<span class="sourceLineNo">1254</span><a id="line.1254">        this.keys = keys;</a>
-<span class="sourceLineNo">1255</span><a id="line.1255">        this.values = values;</a>
-<span class="sourceLineNo">1256</span><a id="line.1256">        return;</a>
-<span class="sourceLineNo">1257</span><a id="line.1257">      }</a>
-<span class="sourceLineNo">1258</span><a id="line.1258">      this.keys = map.keySet();</a>
-<span class="sourceLineNo">1259</span><a id="line.1259">      this.values = map.values();</a>
-<span class="sourceLineNo">1260</span><a id="line.1260">    }</a>
-<span class="sourceLineNo">1261</span><a id="line.1261"></a>
-<span class="sourceLineNo">1262</span><a id="line.1262">    @SuppressWarnings("unchecked")</a>
-<span class="sourceLineNo">1263</span><a id="line.1263">    final Object readResolve() {</a>
-<span class="sourceLineNo">1264</span><a id="line.1264">      if (!(this.keys instanceof ImmutableSet)) {</a>
-<span class="sourceLineNo">1265</span><a id="line.1265">        return legacyReadResolve();</a>
-<span class="sourceLineNo">1266</span><a id="line.1266">      }</a>
-<span class="sourceLineNo">1267</span><a id="line.1267"></a>
-<span class="sourceLineNo">1268</span><a id="line.1268">      ImmutableSet&lt;K&gt; keySet = (ImmutableSet&lt;K&gt;) this.keys;</a>
-<span class="sourceLineNo">1269</span><a id="line.1269">      ImmutableCollection&lt;V&gt; values = (ImmutableCollection&lt;V&gt;) this.values;</a>
-<span class="sourceLineNo">1270</span><a id="line.1270"></a>
-<span class="sourceLineNo">1271</span><a id="line.1271">      Builder&lt;K, V&gt; builder = makeBuilder(keySet.size());</a>
-<span class="sourceLineNo">1272</span><a id="line.1272"></a>
-<span class="sourceLineNo">1273</span><a id="line.1273">      UnmodifiableIterator&lt;K&gt; keyIter = keySet.iterator();</a>
-<span class="sourceLineNo">1274</span><a id="line.1274">      UnmodifiableIterator&lt;V&gt; valueIter = values.iterator();</a>
-<span class="sourceLineNo">1275</span><a id="line.1275"></a>
-<span class="sourceLineNo">1276</span><a id="line.1276">      while (keyIter.hasNext()) {</a>
-<span class="sourceLineNo">1277</span><a id="line.1277">        builder.put(keyIter.next(), valueIter.next());</a>
-<span class="sourceLineNo">1278</span><a id="line.1278">      }</a>
-<span class="sourceLineNo">1279</span><a id="line.1279"></a>
-<span class="sourceLineNo">1280</span><a id="line.1280">      return builder.buildOrThrow();</a>
-<span class="sourceLineNo">1281</span><a id="line.1281">    }</a>
+<span class="sourceLineNo">1205</span><a id="line.1205">    // redeclare to help optimizers with b/310253115</a>
+<span class="sourceLineNo">1206</span><a id="line.1206">    @SuppressWarnings("RedundantOverride")</a>
+<span class="sourceLineNo">1207</span><a id="line.1207">    @Override</a>
+<span class="sourceLineNo">1208</span><a id="line.1208">    @J2ktIncompatible // serialization</a>
+<span class="sourceLineNo">1209</span><a id="line.1209">    @GwtIncompatible // serialization</a>
+<span class="sourceLineNo">1210</span><a id="line.1210">    Object writeReplace() {</a>
+<span class="sourceLineNo">1211</span><a id="line.1211">      return super.writeReplace();</a>
+<span class="sourceLineNo">1212</span><a id="line.1212">    }</a>
+<span class="sourceLineNo">1213</span><a id="line.1213">  }</a>
+<span class="sourceLineNo">1214</span><a id="line.1214"></a>
+<span class="sourceLineNo">1215</span><a id="line.1215">  @Override</a>
+<span class="sourceLineNo">1216</span><a id="line.1216">  public boolean equals(@CheckForNull Object object) {</a>
+<span class="sourceLineNo">1217</span><a id="line.1217">    return Maps.equalsImpl(this, object);</a>
+<span class="sourceLineNo">1218</span><a id="line.1218">  }</a>
+<span class="sourceLineNo">1219</span><a id="line.1219"></a>
+<span class="sourceLineNo">1220</span><a id="line.1220">  abstract boolean isPartialView();</a>
+<span class="sourceLineNo">1221</span><a id="line.1221"></a>
+<span class="sourceLineNo">1222</span><a id="line.1222">  @Override</a>
+<span class="sourceLineNo">1223</span><a id="line.1223">  public int hashCode() {</a>
+<span class="sourceLineNo">1224</span><a id="line.1224">    return Sets.hashCodeImpl(entrySet());</a>
+<span class="sourceLineNo">1225</span><a id="line.1225">  }</a>
+<span class="sourceLineNo">1226</span><a id="line.1226"></a>
+<span class="sourceLineNo">1227</span><a id="line.1227">  boolean isHashCodeFast() {</a>
+<span class="sourceLineNo">1228</span><a id="line.1228">    return false;</a>
+<span class="sourceLineNo">1229</span><a id="line.1229">  }</a>
+<span class="sourceLineNo">1230</span><a id="line.1230"></a>
+<span class="sourceLineNo">1231</span><a id="line.1231">  @Override</a>
+<span class="sourceLineNo">1232</span><a id="line.1232">  public String toString() {</a>
+<span class="sourceLineNo">1233</span><a id="line.1233">    return Maps.toStringImpl(this);</a>
+<span class="sourceLineNo">1234</span><a id="line.1234">  }</a>
+<span class="sourceLineNo">1235</span><a id="line.1235"></a>
+<span class="sourceLineNo">1236</span><a id="line.1236">  /**</a>
+<span class="sourceLineNo">1237</span><a id="line.1237">   * Serialized type for all ImmutableMap instances. It captures the logical contents and they are</a>
+<span class="sourceLineNo">1238</span><a id="line.1238">   * reconstructed using public factory methods. This ensures that the implementation types remain</a>
+<span class="sourceLineNo">1239</span><a id="line.1239">   * as implementation details.</a>
+<span class="sourceLineNo">1240</span><a id="line.1240">   */</a>
+<span class="sourceLineNo">1241</span><a id="line.1241">  @J2ktIncompatible // serialization</a>
+<span class="sourceLineNo">1242</span><a id="line.1242">  static class SerializedForm&lt;K, V&gt; implements Serializable {</a>
+<span class="sourceLineNo">1243</span><a id="line.1243">    // This object retains references to collections returned by keySet() and value(). This saves</a>
+<span class="sourceLineNo">1244</span><a id="line.1244">    // bytes when the both the map and its keySet or value collection are written to the same</a>
+<span class="sourceLineNo">1245</span><a id="line.1245">    // instance of ObjectOutputStream.</a>
+<span class="sourceLineNo">1246</span><a id="line.1246"></a>
+<span class="sourceLineNo">1247</span><a id="line.1247">    // TODO(b/160980469): remove support for the old serialization format after some time</a>
+<span class="sourceLineNo">1248</span><a id="line.1248">    private static final boolean USE_LEGACY_SERIALIZATION = true;</a>
+<span class="sourceLineNo">1249</span><a id="line.1249"></a>
+<span class="sourceLineNo">1250</span><a id="line.1250">    private final Object keys;</a>
+<span class="sourceLineNo">1251</span><a id="line.1251">    private final Object values;</a>
+<span class="sourceLineNo">1252</span><a id="line.1252"></a>
+<span class="sourceLineNo">1253</span><a id="line.1253">    SerializedForm(ImmutableMap&lt;K, V&gt; map) {</a>
+<span class="sourceLineNo">1254</span><a id="line.1254">      if (USE_LEGACY_SERIALIZATION) {</a>
+<span class="sourceLineNo">1255</span><a id="line.1255">        Object[] keys = new Object[map.size()];</a>
+<span class="sourceLineNo">1256</span><a id="line.1256">        Object[] values = new Object[map.size()];</a>
+<span class="sourceLineNo">1257</span><a id="line.1257">        int i = 0;</a>
+<span class="sourceLineNo">1258</span><a id="line.1258">        // "extends Object" works around https://github.com/typetools/checker-framework/issues/3013</a>
+<span class="sourceLineNo">1259</span><a id="line.1259">        for (Entry&lt;? extends Object, ? extends Object&gt; entry : map.entrySet()) {</a>
+<span class="sourceLineNo">1260</span><a id="line.1260">          keys[i] = entry.getKey();</a>
+<span class="sourceLineNo">1261</span><a id="line.1261">          values[i] = entry.getValue();</a>
+<span class="sourceLineNo">1262</span><a id="line.1262">          i++;</a>
+<span class="sourceLineNo">1263</span><a id="line.1263">        }</a>
+<span class="sourceLineNo">1264</span><a id="line.1264">        this.keys = keys;</a>
+<span class="sourceLineNo">1265</span><a id="line.1265">        this.values = values;</a>
+<span class="sourceLineNo">1266</span><a id="line.1266">        return;</a>
+<span class="sourceLineNo">1267</span><a id="line.1267">      }</a>
+<span class="sourceLineNo">1268</span><a id="line.1268">      this.keys = map.keySet();</a>
+<span class="sourceLineNo">1269</span><a id="line.1269">      this.values = map.values();</a>
+<span class="sourceLineNo">1270</span><a id="line.1270">    }</a>
+<span class="sourceLineNo">1271</span><a id="line.1271"></a>
+<span class="sourceLineNo">1272</span><a id="line.1272">    @SuppressWarnings("unchecked")</a>
+<span class="sourceLineNo">1273</span><a id="line.1273">    final Object readResolve() {</a>
+<span class="sourceLineNo">1274</span><a id="line.1274">      if (!(this.keys instanceof ImmutableSet)) {</a>
+<span class="sourceLineNo">1275</span><a id="line.1275">        return legacyReadResolve();</a>
+<span class="sourceLineNo">1276</span><a id="line.1276">      }</a>
+<span class="sourceLineNo">1277</span><a id="line.1277"></a>
+<span class="sourceLineNo">1278</span><a id="line.1278">      ImmutableSet&lt;K&gt; keySet = (ImmutableSet&lt;K&gt;) this.keys;</a>
+<span class="sourceLineNo">1279</span><a id="line.1279">      ImmutableCollection&lt;V&gt; values = (ImmutableCollection&lt;V&gt;) this.values;</a>
+<span class="sourceLineNo">1280</span><a id="line.1280"></a>
+<span class="sourceLineNo">1281</span><a id="line.1281">      Builder&lt;K, V&gt; builder = makeBuilder(keySet.size());</a>
 <span class="sourceLineNo">1282</span><a id="line.1282"></a>
-<span class="sourceLineNo">1283</span><a id="line.1283">    @SuppressWarnings("unchecked")</a>
-<span class="sourceLineNo">1284</span><a id="line.1284">    final Object legacyReadResolve() {</a>
-<span class="sourceLineNo">1285</span><a id="line.1285">      K[] keys = (K[]) this.keys;</a>
-<span class="sourceLineNo">1286</span><a id="line.1286">      V[] values = (V[]) this.values;</a>
-<span class="sourceLineNo">1287</span><a id="line.1287"></a>
-<span class="sourceLineNo">1288</span><a id="line.1288">      Builder&lt;K, V&gt; builder = makeBuilder(keys.length);</a>
+<span class="sourceLineNo">1283</span><a id="line.1283">      UnmodifiableIterator&lt;K&gt; keyIter = keySet.iterator();</a>
+<span class="sourceLineNo">1284</span><a id="line.1284">      UnmodifiableIterator&lt;V&gt; valueIter = values.iterator();</a>
+<span class="sourceLineNo">1285</span><a id="line.1285"></a>
+<span class="sourceLineNo">1286</span><a id="line.1286">      while (keyIter.hasNext()) {</a>
+<span class="sourceLineNo">1287</span><a id="line.1287">        builder.put(keyIter.next(), valueIter.next());</a>
+<span class="sourceLineNo">1288</span><a id="line.1288">      }</a>
 <span class="sourceLineNo">1289</span><a id="line.1289"></a>
-<span class="sourceLineNo">1290</span><a id="line.1290">      for (int i = 0; i &lt; keys.length; i++) {</a>
-<span class="sourceLineNo">1291</span><a id="line.1291">        builder.put(keys[i], values[i]);</a>
-<span class="sourceLineNo">1292</span><a id="line.1292">      }</a>
-<span class="sourceLineNo">1293</span><a id="line.1293">      return builder.buildOrThrow();</a>
-<span class="sourceLineNo">1294</span><a id="line.1294">    }</a>
-<span class="sourceLineNo">1295</span><a id="line.1295"></a>
-<span class="sourceLineNo">1296</span><a id="line.1296">    /**</a>
-<span class="sourceLineNo">1297</span><a id="line.1297">     * Returns a builder that builds the unserialized type. Subclasses should override this method.</a>
-<span class="sourceLineNo">1298</span><a id="line.1298">     */</a>
-<span class="sourceLineNo">1299</span><a id="line.1299">    Builder&lt;K, V&gt; makeBuilder(int size) {</a>
-<span class="sourceLineNo">1300</span><a id="line.1300">      return new Builder&lt;&gt;(size);</a>
-<span class="sourceLineNo">1301</span><a id="line.1301">    }</a>
-<span class="sourceLineNo">1302</span><a id="line.1302"></a>
-<span class="sourceLineNo">1303</span><a id="line.1303">    private static final long serialVersionUID = 0;</a>
-<span class="sourceLineNo">1304</span><a id="line.1304">  }</a>
+<span class="sourceLineNo">1290</span><a id="line.1290">      return builder.buildOrThrow();</a>
+<span class="sourceLineNo">1291</span><a id="line.1291">    }</a>
+<span class="sourceLineNo">1292</span><a id="line.1292"></a>
+<span class="sourceLineNo">1293</span><a id="line.1293">    @SuppressWarnings("unchecked")</a>
+<span class="sourceLineNo">1294</span><a id="line.1294">    final Object legacyReadResolve() {</a>
+<span class="sourceLineNo">1295</span><a id="line.1295">      K[] keys = (K[]) this.keys;</a>
+<span class="sourceLineNo">1296</span><a id="line.1296">      V[] values = (V[]) this.values;</a>
+<span class="sourceLineNo">1297</span><a id="line.1297"></a>
+<span class="sourceLineNo">1298</span><a id="line.1298">      Builder&lt;K, V&gt; builder = makeBuilder(keys.length);</a>
+<span class="sourceLineNo">1299</span><a id="line.1299"></a>
+<span class="sourceLineNo">1300</span><a id="line.1300">      for (int i = 0; i &lt; keys.length; i++) {</a>
+<span class="sourceLineNo">1301</span><a id="line.1301">        builder.put(keys[i], values[i]);</a>
+<span class="sourceLineNo">1302</span><a id="line.1302">      }</a>
+<span class="sourceLineNo">1303</span><a id="line.1303">      return builder.buildOrThrow();</a>
+<span class="sourceLineNo">1304</span><a id="line.1304">    }</a>
 <span class="sourceLineNo">1305</span><a id="line.1305"></a>
-<span class="sourceLineNo">1306</span><a id="line.1306">  /**</a>
-<span class="sourceLineNo">1307</span><a id="line.1307">   * Returns a serializable form of this object. Non-public subclasses should not override this</a>
-<span class="sourceLineNo">1308</span><a id="line.1308">   * method. Publicly-accessible subclasses must override this method and should return a subclass</a>
-<span class="sourceLineNo">1309</span><a id="line.1309">   * of SerializedForm whose readResolve() method returns objects of the subclass type.</a>
-<span class="sourceLineNo">1310</span><a id="line.1310">   */</a>
-<span class="sourceLineNo">1311</span><a id="line.1311">  @J2ktIncompatible // serialization</a>
-<span class="sourceLineNo">1312</span><a id="line.1312">  Object writeReplace() {</a>
-<span class="sourceLineNo">1313</span><a id="line.1313">    return new SerializedForm&lt;&gt;(this);</a>
+<span class="sourceLineNo">1306</span><a id="line.1306">    /**</a>
+<span class="sourceLineNo">1307</span><a id="line.1307">     * Returns a builder that builds the unserialized type. Subclasses should override this method.</a>
+<span class="sourceLineNo">1308</span><a id="line.1308">     */</a>
+<span class="sourceLineNo">1309</span><a id="line.1309">    Builder&lt;K, V&gt; makeBuilder(int size) {</a>
+<span class="sourceLineNo">1310</span><a id="line.1310">      return new Builder&lt;&gt;(size);</a>
+<span class="sourceLineNo">1311</span><a id="line.1311">    }</a>
+<span class="sourceLineNo">1312</span><a id="line.1312"></a>
+<span class="sourceLineNo">1313</span><a id="line.1313">    private static final long serialVersionUID = 0;</a>
 <span class="sourceLineNo">1314</span><a id="line.1314">  }</a>
 <span class="sourceLineNo">1315</span><a id="line.1315"></a>
-<span class="sourceLineNo">1316</span><a id="line.1316">  @J2ktIncompatible // java.io.ObjectInputStream</a>
-<span class="sourceLineNo">1317</span><a id="line.1317">  private void readObject(ObjectInputStream stream) throws InvalidObjectException {</a>
-<span class="sourceLineNo">1318</span><a id="line.1318">    throw new InvalidObjectException("Use SerializedForm");</a>
-<span class="sourceLineNo">1319</span><a id="line.1319">  }</a>
-<span class="sourceLineNo">1320</span><a id="line.1320"></a>
-<span class="sourceLineNo">1321</span><a id="line.1321">  private static final long serialVersionUID = 0xcafebabe;</a>
-<span class="sourceLineNo">1322</span><a id="line.1322">}</a>
+<span class="sourceLineNo">1316</span><a id="line.1316">  /**</a>
+<span class="sourceLineNo">1317</span><a id="line.1317">   * Returns a serializable form of this object. Non-public subclasses should not override this</a>
+<span class="sourceLineNo">1318</span><a id="line.1318">   * method. Publicly-accessible subclasses must override this method and should return a subclass</a>
+<span class="sourceLineNo">1319</span><a id="line.1319">   * of SerializedForm whose readResolve() method returns objects of the subclass type.</a>
+<span class="sourceLineNo">1320</span><a id="line.1320">   */</a>
+<span class="sourceLineNo">1321</span><a id="line.1321">  @J2ktIncompatible // serialization</a>
+<span class="sourceLineNo">1322</span><a id="line.1322">  Object writeReplace() {</a>
+<span class="sourceLineNo">1323</span><a id="line.1323">    return new SerializedForm&lt;&gt;(this);</a>
+<span class="sourceLineNo">1324</span><a id="line.1324">  }</a>
+<span class="sourceLineNo">1325</span><a id="line.1325"></a>
+<span class="sourceLineNo">1326</span><a id="line.1326">  @J2ktIncompatible // java.io.ObjectInputStream</a>
+<span class="sourceLineNo">1327</span><a id="line.1327">  private void readObject(ObjectInputStream stream) throws InvalidObjectException {</a>
+<span class="sourceLineNo">1328</span><a id="line.1328">    throw new InvalidObjectException("Use SerializedForm");</a>
+<span class="sourceLineNo">1329</span><a id="line.1329">  }</a>
+<span class="sourceLineNo">1330</span><a id="line.1330"></a>
+<span class="sourceLineNo">1331</span><a id="line.1331">  private static final long serialVersionUID = 0xcafebabe;</a>
+<span class="sourceLineNo">1332</span><a id="line.1332">}</a>
 
 
 
