@@ -10698,6 +10698,60 @@
  this is always true when the iterable has fewer than two elements.]]>
       </doc>
     </method>
+    <method name="least" return="java.util.stream.Collector&lt;T, ?, java.util.List&lt;T&gt;&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="k" type="int"/>
+      <param name="comparator" type="java.util.Comparator&lt;? super T&gt;"/>
+      <doc>
+      <![CDATA[Returns a {@code Collector} that returns the {@code k} smallest (relative to the specified
+ {@code Comparator}) input elements, in ascending order, as an unmodifiable {@code List}. Ties
+ are broken arbitrarily.
+
+ <p>For example:
+
+ <pre>{@code
+ Stream.of("foo", "quux", "banana", "elephant")
+     .collect(least(2, comparingInt(String::length)))
+ // returns {"foo", "quux"}
+ }</pre>
+
+ <p>This {@code Collector} uses O(k) memory and takes expected time O(n) (worst-case O(n log
+ k)), as opposed to e.g. {@code Stream.sorted(comparator).limit(k)}, which currently takes O(n
+ log n) time and O(n) space.
+
+ @throws IllegalArgumentException if {@code k < 0}
+ @since NEXT (available since 22.0 in guava-jre)]]>
+      </doc>
+    </method>
+    <method name="greatest" return="java.util.stream.Collector&lt;T, ?, java.util.List&lt;T&gt;&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="k" type="int"/>
+      <param name="comparator" type="java.util.Comparator&lt;? super T&gt;"/>
+      <doc>
+      <![CDATA[Returns a {@code Collector} that returns the {@code k} greatest (relative to the specified
+ {@code Comparator}) input elements, in descending order, as an unmodifiable {@code List}. Ties
+ are broken arbitrarily.
+
+ <p>For example:
+
+ <pre>{@code
+ Stream.of("foo", "quux", "banana", "elephant")
+     .collect(greatest(2, comparingInt(String::length)))
+ // returns {"elephant", "banana"}
+ }</pre>
+
+ <p>This {@code Collector} uses O(k) memory and takes expected time O(n) (worst-case O(n log
+ k)), as opposed to e.g. {@code Stream.sorted(comparator.reversed()).limit(k)}, which currently
+ takes O(n log n) time and O(n) space.
+
+ @throws IllegalArgumentException if {@code k < 0}
+ @since NEXT (available since 22.0 in guava-jre)]]>
+      </doc>
+    </method>
     <method name="min" return="T extends java.lang.Comparable&lt;? super T&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -16512,6 +16566,25 @@
     static="false" final="false" visibility="public"
     deprecated="not deprecated">
     <implements name="com.google.common.collect.BiMap&lt;K, V&gt;"/>
+    <method name="toImmutableBiMap" return="java.util.stream.Collector&lt;T, ?, com.google.common.collect.ImmutableBiMap&lt;K, V&gt;&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="keyFunction" type="java.util.function.Function&lt;? super T, ? extends K&gt;"/>
+      <param name="valueFunction" type="java.util.function.Function&lt;? super T, ? extends V&gt;"/>
+      <doc>
+      <![CDATA[Returns a {@link Collector} that accumulates elements into an {@code ImmutableBiMap} whose keys
+ and values are the result of applying the provided mapping functions to the input elements.
+ Entries appear in the result {@code ImmutableBiMap} in encounter order.
+
+ <p>If the mapped keys or values contain duplicates (according to {@link
+ Object#equals(Object)}), an {@code IllegalArgumentException} is thrown when the collection
+ operation is performed. (This differs from the {@code Collector} returned by {@link
+ Collectors#toMap(Function, Function)}, which throws an {@code IllegalStateException}.)
+
+ @since NEXT (available since 21.0 in guava-jre)]]>
+      </doc>
+    </method>
     <method name="of" return="com.google.common.collect.ImmutableBiMap&lt;K, V&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -16841,6 +16914,38 @@
 
  @throws UnsupportedOperationException always
  @deprecated Unsupported operation.]]>
+      </doc>
+    </method>
+    <method name="toImmutableMap" return="java.util.stream.Collector&lt;T, ?, com.google.common.collect.ImmutableMap&lt;K, V&gt;&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="Use {@link ImmutableBiMap#toImmutableBiMap}.">
+      <param name="keyFunction" type="java.util.function.Function&lt;? super T, ? extends K&gt;"/>
+      <param name="valueFunction" type="java.util.function.Function&lt;? super T, ? extends V&gt;"/>
+      <doc>
+      <![CDATA[Not supported. Use {@link #toImmutableBiMap} instead. This method exists only to hide {@link
+ ImmutableMap#toImmutableMap(Function, Function)} from consumers of {@code ImmutableBiMap}.
+
+ @throws UnsupportedOperationException always
+ @deprecated Use {@link ImmutableBiMap#toImmutableBiMap}.
+ @since NEXT (available since 21.0 in guava-jre)]]>
+      </doc>
+    </method>
+    <method name="toImmutableMap" return="java.util.stream.Collector&lt;T, ?, com.google.common.collect.ImmutableMap&lt;K, V&gt;&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="deprecated, no comment">
+      <param name="keyFunction" type="java.util.function.Function&lt;? super T, ? extends K&gt;"/>
+      <param name="valueFunction" type="java.util.function.Function&lt;? super T, ? extends V&gt;"/>
+      <param name="mergeFunction" type="java.util.function.BinaryOperator&lt;V&gt;"/>
+      <doc>
+      <![CDATA[Not supported. This method does not make sense for {@code BiMap}. This method exists only to
+ hide {@link ImmutableMap#toImmutableMap(Function, Function, BinaryOperator)} from consumers of
+ {@code ImmutableBiMap}.
+
+ @throws UnsupportedOperationException always
+ @deprecated
+ @since NEXT (available since 21.0 in guava-jre)]]>
       </doc>
     </method>
     <doc>
@@ -17498,6 +17603,17 @@
     deprecated="not deprecated">
     <implements name="java.util.List&lt;E&gt;"/>
     <implements name="java.util.RandomAccess"/>
+    <method name="toImmutableList" return="java.util.stream.Collector&lt;E, ?, com.google.common.collect.ImmutableList&lt;E&gt;&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Returns a {@code Collector} that accumulates the input elements into a new {@code
+ ImmutableList}, in encounter order.
+
+ @since NEXT (available since 21.0 in guava-jre)]]>
+      </doc>
+    </method>
     <method name="of" return="com.google.common.collect.ImmutableList&lt;E&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -18095,6 +18211,79 @@
     static="false" final="false" visibility="public"
     deprecated="not deprecated">
     <implements name="com.google.common.collect.ListMultimap&lt;K, V&gt;"/>
+    <method name="toImmutableListMultimap" return="java.util.stream.Collector&lt;T, ?, com.google.common.collect.ImmutableListMultimap&lt;K, V&gt;&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="keyFunction" type="java.util.function.Function&lt;? super T, ? extends K&gt;"/>
+      <param name="valueFunction" type="java.util.function.Function&lt;? super T, ? extends V&gt;"/>
+      <doc>
+      <![CDATA[Returns a {@link Collector} that accumulates elements into an {@code ImmutableListMultimap}
+ whose keys and values are the result of applying the provided mapping functions to the input
+ elements.
+
+ <p>For streams with defined encounter order (as defined in the Ordering section of the {@link
+ java.util.stream} Javadoc), that order is preserved, but entries are <a
+ href="ImmutableMultimap.html#iteration">grouped by key</a>.
+
+ <p>Example:
+
+ <pre>{@code
+ static final Multimap<Character, String> FIRST_LETTER_MULTIMAP =
+     Stream.of("banana", "apple", "carrot", "asparagus", "cherry")
+         .collect(toImmutableListMultimap(str -> str.charAt(0), str -> str.substring(1)));
+
+ // is equivalent to
+
+ static final Multimap<Character, String> FIRST_LETTER_MULTIMAP =
+     new ImmutableListMultimap.Builder<Character, String>()
+         .put('b', "anana")
+         .putAll('a', "pple", "sparagus")
+         .putAll('c', "arrot", "herry")
+         .build();
+ }</pre>
+
+ @since NEXT (available since 21.0 in guava-jre)]]>
+      </doc>
+    </method>
+    <method name="flatteningToImmutableListMultimap" return="java.util.stream.Collector&lt;T, ?, com.google.common.collect.ImmutableListMultimap&lt;K, V&gt;&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="keyFunction" type="java.util.function.Function&lt;? super T, ? extends K&gt;"/>
+      <param name="valuesFunction" type="java.util.function.Function&lt;? super T, ? extends java.util.stream.Stream&lt;? extends V&gt;&gt;"/>
+      <doc>
+      <![CDATA[Returns a {@code Collector} accumulating entries into an {@code ImmutableListMultimap}. Each
+ input element is mapped to a key and a stream of values, each of which are put into the
+ resulting {@code Multimap}, in the encounter order of the stream and the encounter order of the
+ streams of values.
+
+ <p>Example:
+
+ <pre>{@code
+ static final ImmutableListMultimap<Character, Character> FIRST_LETTER_MULTIMAP =
+     Stream.of("banana", "apple", "carrot", "asparagus", "cherry")
+         .collect(
+             flatteningToImmutableListMultimap(
+                  str -> str.charAt(0),
+                  str -> str.substring(1).chars().mapToObj(c -> (char) c));
+
+ // is equivalent to
+
+ static final ImmutableListMultimap<Character, Character> FIRST_LETTER_MULTIMAP =
+     ImmutableListMultimap.<Character, Character>builder()
+         .putAll('b', Arrays.asList('a', 'n', 'a', 'n', 'a'))
+         .putAll('a', Arrays.asList('p', 'p', 'l', 'e'))
+         .putAll('c', Arrays.asList('a', 'r', 'r', 'o', 't'))
+         .putAll('a', Arrays.asList('s', 'p', 'a', 'r', 'a', 'g', 'u', 's'))
+         .putAll('c', Arrays.asList('h', 'e', 'r', 'r', 'y'))
+         .build();
+ }
+ }</pre>
+
+ @since NEXT (available since 21.0 in guava-jre)]]>
+      </doc>
+    </method>
     <method name="of" return="com.google.common.collect.ImmutableListMultimap&lt;K, V&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -18397,6 +18586,46 @@
     deprecated="not deprecated">
     <implements name="java.util.Map&lt;K, V&gt;"/>
     <implements name="java.io.Serializable"/>
+    <method name="toImmutableMap" return="java.util.stream.Collector&lt;T, ?, com.google.common.collect.ImmutableMap&lt;K, V&gt;&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="keyFunction" type="java.util.function.Function&lt;? super T, ? extends K&gt;"/>
+      <param name="valueFunction" type="java.util.function.Function&lt;? super T, ? extends V&gt;"/>
+      <doc>
+      <![CDATA[Returns a {@link Collector} that accumulates elements into an {@code ImmutableMap} whose keys
+ and values are the result of applying the provided mapping functions to the input elements.
+ Entries appear in the result {@code ImmutableMap} in encounter order.
+
+ <p>If the mapped keys contain duplicates (according to {@link Object#equals(Object)}, an {@code
+ IllegalArgumentException} is thrown when the collection operation is performed. (This differs
+ from the {@code Collector} returned by {@link Collectors#toMap(Function, Function)}, which
+ throws an {@code IllegalStateException}.)
+
+ @since NEXT (available since 21.0 in guava-jre)]]>
+      </doc>
+    </method>
+    <method name="toImmutableMap" return="java.util.stream.Collector&lt;T, ?, com.google.common.collect.ImmutableMap&lt;K, V&gt;&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="keyFunction" type="java.util.function.Function&lt;? super T, ? extends K&gt;"/>
+      <param name="valueFunction" type="java.util.function.Function&lt;? super T, ? extends V&gt;"/>
+      <param name="mergeFunction" type="java.util.function.BinaryOperator&lt;V&gt;"/>
+      <doc>
+      <![CDATA[Returns a {@link Collector} that accumulates elements into an {@code ImmutableMap} whose keys
+ and values are the result of applying the provided mapping functions to the input elements.
+
+ <p>If the mapped keys contain duplicates (according to {@link Object#equals(Object)}), the
+ values are merged using the specified merging function. If the merging function returns {@code
+ null}, then the collector removes the value that has been computed for the key thus far (though
+ future occurrences of the key would reinsert it).
+
+ <p>Entries will appear in the encounter order of the first occurrence of the key.
+
+ @since NEXT (available since 21.0 in guava-jre)]]>
+      </doc>
+    </method>
     <method name="of" return="com.google.common.collect.ImmutableMap&lt;K, V&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -19482,6 +19711,36 @@
     static="false" final="false" visibility="public"
     deprecated="not deprecated">
     <implements name="com.google.common.collect.Multiset&lt;E&gt;"/>
+    <method name="toImmutableMultiset" return="java.util.stream.Collector&lt;E, ?, com.google.common.collect.ImmutableMultiset&lt;E&gt;&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Returns a {@code Collector} that accumulates the input elements into a new {@code
+ ImmutableMultiset}. Elements iterate in order by the <i>first</i> appearance of that element in
+ encounter order.
+
+ @since NEXT (available since 21.0 in guava-jre)]]>
+      </doc>
+    </method>
+    <method name="toImmutableMultiset" return="java.util.stream.Collector&lt;T, ?, com.google.common.collect.ImmutableMultiset&lt;E&gt;&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="elementFunction" type="java.util.function.Function&lt;? super T, ? extends E&gt;"/>
+      <param name="countFunction" type="java.util.function.ToIntFunction&lt;? super T&gt;"/>
+      <doc>
+      <![CDATA[Returns a {@code Collector} that accumulates elements into an {@code ImmutableMultiset} whose
+ elements are the result of applying {@code elementFunction} to the inputs, with counts equal to
+ the result of applying {@code countFunction} to the inputs.
+
+ <p>If the mapped elements contain duplicates (according to {@link Object#equals}), the first
+ occurrence in encounter order appears in the resulting multiset, with count equal to the sum of
+ the outputs of {@code countFunction.applyAsInt(t)} for each {@code t} mapped to that element.
+
+ @since NEXT (available since 22.0 in guava-jre)]]>
+      </doc>
+    </method>
     <method name="of" return="com.google.common.collect.ImmutableMultiset&lt;E&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -19882,6 +20141,19 @@
     deprecated="not deprecated">
     <implements name="com.google.common.collect.RangeMap&lt;K, V&gt;"/>
     <implements name="java.io.Serializable"/>
+    <method name="toImmutableRangeMap" return="java.util.stream.Collector&lt;T, ?, com.google.common.collect.ImmutableRangeMap&lt;K, V&gt;&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="keyFunction" type="java.util.function.Function&lt;? super T, com.google.common.collect.Range&lt;K&gt;&gt;"/>
+      <param name="valueFunction" type="java.util.function.Function&lt;? super T, ? extends V&gt;"/>
+      <doc>
+      <![CDATA[Returns a {@code Collector} that accumulates the input elements into a new {@code
+ ImmutableRangeMap}. As in {@link Builder}, overlapping ranges are not permitted.
+
+ @since NEXT (available since 23.1 in guava-jre)]]>
+      </doc>
+    </method>
     <method name="of" return="com.google.common.collect.ImmutableRangeMap&lt;K, V&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -20089,6 +20361,18 @@
     static="false" final="true" visibility="public"
     deprecated="not deprecated">
     <implements name="java.io.Serializable"/>
+    <method name="toImmutableRangeSet" return="java.util.stream.Collector&lt;com.google.common.collect.Range&lt;E&gt;, ?, com.google.common.collect.ImmutableRangeSet&lt;E&gt;&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Returns a {@code Collector} that accumulates the input elements into a new {@code
+ ImmutableRangeSet}. As in {@link Builder}, overlapping ranges are not permitted and adjacent
+ ranges will be merged.
+
+ @since NEXT (available since 23.1 in guava-jre)]]>
+      </doc>
+    </method>
     <method name="of" return="com.google.common.collect.ImmutableRangeSet&lt;C&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -20423,6 +20707,19 @@
     static="false" final="false" visibility="public"
     deprecated="not deprecated">
     <implements name="java.util.Set&lt;E&gt;"/>
+    <method name="toImmutableSet" return="java.util.stream.Collector&lt;E, ?, com.google.common.collect.ImmutableSet&lt;E&gt;&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Returns a {@code Collector} that accumulates the input elements into a new {@code
+ ImmutableSet}. Elements appear in the resulting set in the encounter order of the stream; if
+ the stream contains duplicates (according to {@link Object#equals(Object)}), only the first
+ duplicate in encounter order will appear in the result.
+
+ @since NEXT (available since 21.0 in guava-jre)]]>
+      </doc>
+    </method>
     <method name="of" return="com.google.common.collect.ImmutableSet&lt;E&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -20741,6 +21038,88 @@
     static="false" final="false" visibility="public"
     deprecated="not deprecated">
     <implements name="com.google.common.collect.SetMultimap&lt;K, V&gt;"/>
+    <method name="toImmutableSetMultimap" return="java.util.stream.Collector&lt;T, ?, com.google.common.collect.ImmutableSetMultimap&lt;K, V&gt;&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="keyFunction" type="java.util.function.Function&lt;? super T, ? extends K&gt;"/>
+      <param name="valueFunction" type="java.util.function.Function&lt;? super T, ? extends V&gt;"/>
+      <doc>
+      <![CDATA[Returns a {@link Collector} that accumulates elements into an {@code ImmutableSetMultimap}
+ whose keys and values are the result of applying the provided mapping functions to the input
+ elements.
+
+ <p>For streams with defined encounter order (as defined in the Ordering section of the {@link
+ java.util.stream} Javadoc), that order is preserved, but entries are <a
+ href="ImmutableMultimap.html#iteration">grouped by key</a>.
+
+ <p>Example:
+
+ <pre>{@code
+ static final Multimap<Character, String> FIRST_LETTER_MULTIMAP =
+     Stream.of("banana", "apple", "carrot", "asparagus", "cherry")
+         .collect(toImmutableSetMultimap(str -> str.charAt(0), str -> str.substring(1)));
+
+ // is equivalent to
+
+ static final Multimap<Character, String> FIRST_LETTER_MULTIMAP =
+     new ImmutableSetMultimap.Builder<Character, String>()
+         .put('b', "anana")
+         .putAll('a', "pple", "sparagus")
+         .putAll('c', "arrot", "herry")
+         .build();
+ }</pre>
+
+ @since NEXT (available since 21.0 in guava-jre)]]>
+      </doc>
+    </method>
+    <method name="flatteningToImmutableSetMultimap" return="java.util.stream.Collector&lt;T, ?, com.google.common.collect.ImmutableSetMultimap&lt;K, V&gt;&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="keyFunction" type="java.util.function.Function&lt;? super T, ? extends K&gt;"/>
+      <param name="valuesFunction" type="java.util.function.Function&lt;? super T, ? extends java.util.stream.Stream&lt;? extends V&gt;&gt;"/>
+      <doc>
+      <![CDATA[Returns a {@code Collector} accumulating entries into an {@code ImmutableSetMultimap}. Each
+ input element is mapped to a key and a stream of values, each of which are put into the
+ resulting {@code Multimap}, in the encounter order of the stream and the encounter order of the
+ streams of values.
+
+ <p>Example:
+
+ <pre>{@code
+ static final ImmutableSetMultimap<Character, Character> FIRST_LETTER_MULTIMAP =
+     Stream.of("banana", "apple", "carrot", "asparagus", "cherry")
+         .collect(
+             flatteningToImmutableSetMultimap(
+                  str -> str.charAt(0),
+                  str -> str.substring(1).chars().mapToObj(c -> (char) c));
+
+ // is equivalent to
+
+ static final ImmutableSetMultimap<Character, Character> FIRST_LETTER_MULTIMAP =
+     ImmutableSetMultimap.<Character, Character>builder()
+         .putAll('b', Arrays.asList('a', 'n', 'a', 'n', 'a'))
+         .putAll('a', Arrays.asList('p', 'p', 'l', 'e'))
+         .putAll('c', Arrays.asList('a', 'r', 'r', 'o', 't'))
+         .putAll('a', Arrays.asList('s', 'p', 'a', 'r', 'a', 'g', 'u', 's'))
+         .putAll('c', Arrays.asList('h', 'e', 'r', 'r', 'y'))
+         .build();
+
+ // after deduplication, the resulting multimap is equivalent to
+
+ static final ImmutableSetMultimap<Character, Character> FIRST_LETTER_MULTIMAP =
+     ImmutableSetMultimap.<Character, Character>builder()
+         .putAll('b', Arrays.asList('a', 'n'))
+         .putAll('a', Arrays.asList('p', 'l', 'e', 's', 'a', 'r', 'g', 'u'))
+         .putAll('c', Arrays.asList('a', 'r', 'o', 't', 'h', 'e', 'y'))
+         .build();
+ }
+ }</pre>
+
+ @since NEXT (available since 21.0 in guava-jre)]]>
+      </doc>
+    </method>
     <method name="of" return="com.google.common.collect.ImmutableSetMultimap&lt;K, V&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -21066,6 +21445,46 @@
     static="false" final="true" visibility="public"
     deprecated="not deprecated">
     <implements name="java.util.NavigableMap&lt;K, V&gt;"/>
+    <method name="toImmutableSortedMap" return="java.util.stream.Collector&lt;T, ?, com.google.common.collect.ImmutableSortedMap&lt;K, V&gt;&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="comparator" type="java.util.Comparator&lt;? super K&gt;"/>
+      <param name="keyFunction" type="java.util.function.Function&lt;? super T, ? extends K&gt;"/>
+      <param name="valueFunction" type="java.util.function.Function&lt;? super T, ? extends V&gt;"/>
+      <doc>
+      <![CDATA[Returns a {@link Collector} that accumulates elements into an {@code ImmutableSortedMap} whose
+ keys and values are the result of applying the provided mapping functions to the input
+ elements. The generated map is sorted by the specified comparator.
+
+ <p>If the mapped keys contain duplicates (according to the specified comparator), an {@code
+ IllegalArgumentException} is thrown when the collection operation is performed. (This differs
+ from the {@code Collector} returned by {@link Collectors#toMap(Function, Function)}, which
+ throws an {@code IllegalStateException}.)
+
+ @since NEXT (available since 21.0 in guava-jre)]]>
+      </doc>
+    </method>
+    <method name="toImmutableSortedMap" return="java.util.stream.Collector&lt;T, ?, com.google.common.collect.ImmutableSortedMap&lt;K, V&gt;&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="comparator" type="java.util.Comparator&lt;? super K&gt;"/>
+      <param name="keyFunction" type="java.util.function.Function&lt;? super T, ? extends K&gt;"/>
+      <param name="valueFunction" type="java.util.function.Function&lt;? super T, ? extends V&gt;"/>
+      <param name="mergeFunction" type="java.util.function.BinaryOperator&lt;V&gt;"/>
+      <doc>
+      <![CDATA[Returns a {@link Collector} that accumulates elements into an {@code ImmutableSortedMap} whose
+ keys and values are the result of applying the provided mapping functions to the input
+ elements.
+
+ <p>If the mapped keys contain duplicates (according to the comparator), the values are merged
+ using the specified merging function. Entries will appear in the encounter order of the first
+ occurrence of the key.
+
+ @since NEXT (available since 21.0 in guava-jre)]]>
+      </doc>
+    </method>
     <method name="of" return="com.google.common.collect.ImmutableSortedMap&lt;K, V&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -21673,6 +22092,39 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
     </method>
+    <method name="toImmutableMap" return="java.util.stream.Collector&lt;T, ?, com.google.common.collect.ImmutableMap&lt;K, V&gt;&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="Use {@link ImmutableSortedMap#toImmutableSortedMap}.">
+      <param name="keyFunction" type="java.util.function.Function&lt;? super T, ? extends K&gt;"/>
+      <param name="valueFunction" type="java.util.function.Function&lt;? super T, ? extends V&gt;"/>
+      <doc>
+      <![CDATA[Not supported. Use {@link #toImmutableSortedMap}, which offers better type-safety, instead.
+ This method exists only to hide {@link ImmutableMap#toImmutableMap} from consumers of {@code
+ ImmutableSortedMap}.
+
+ @throws UnsupportedOperationException always
+ @deprecated Use {@link ImmutableSortedMap#toImmutableSortedMap}.
+ @since NEXT (available since 21.0 in guava-jre)]]>
+      </doc>
+    </method>
+    <method name="toImmutableMap" return="java.util.stream.Collector&lt;T, ?, com.google.common.collect.ImmutableMap&lt;K, V&gt;&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="Use {@link ImmutableSortedMap#toImmutableSortedMap}.">
+      <param name="keyFunction" type="java.util.function.Function&lt;? super T, ? extends K&gt;"/>
+      <param name="valueFunction" type="java.util.function.Function&lt;? super T, ? extends V&gt;"/>
+      <param name="mergeFunction" type="java.util.function.BinaryOperator&lt;V&gt;"/>
+      <doc>
+      <![CDATA[Not supported. Use {@link #toImmutableSortedMap}, which offers better type-safety, instead.
+ This method exists only to hide {@link ImmutableMap#toImmutableMap} from consumers of {@code
+ ImmutableSortedMap}.
+
+ @throws UnsupportedOperationException always
+ @deprecated Use {@link ImmutableSortedMap#toImmutableSortedMap}.
+ @since NEXT (available since 21.0 in guava-jre)]]>
+      </doc>
+    </method>
     <method name="builder" return="com.google.common.collect.ImmutableSortedMap.Builder&lt;K, V&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -22149,6 +22601,40 @@
     static="false" final="false" visibility="public"
     deprecated="not deprecated">
     <implements name="com.google.common.collect.SortedMultiset&lt;E&gt;"/>
+    <method name="toImmutableSortedMultiset" return="java.util.stream.Collector&lt;E, ?, com.google.common.collect.ImmutableSortedMultiset&lt;E&gt;&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="comparator" type="java.util.Comparator&lt;? super E&gt;"/>
+      <doc>
+      <![CDATA[Returns a {@code Collector} that accumulates the input elements into a new {@code
+ ImmutableMultiset}. Elements are sorted by the specified comparator.
+
+ <p><b>Warning:</b> {@code comparator} should be <i>consistent with {@code equals}</i> as
+ explained in the {@link Comparator} documentation.
+
+ @since NEXT (available since 21.0 in guava-jre)]]>
+      </doc>
+    </method>
+    <method name="toImmutableSortedMultiset" return="java.util.stream.Collector&lt;T, ?, com.google.common.collect.ImmutableSortedMultiset&lt;E&gt;&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="comparator" type="java.util.Comparator&lt;? super E&gt;"/>
+      <param name="elementFunction" type="java.util.function.Function&lt;? super T, ? extends E&gt;"/>
+      <param name="countFunction" type="java.util.function.ToIntFunction&lt;? super T&gt;"/>
+      <doc>
+      <![CDATA[Returns a {@code Collector} that accumulates elements into an {@code ImmutableSortedMultiset}
+ whose elements are the result of applying {@code elementFunction} to the inputs, with counts
+ equal to the result of applying {@code countFunction} to the inputs.
+
+ <p>If the mapped elements contain duplicates (according to {@code comparator}), the first
+ occurrence in encounter order appears in the resulting multiset, with count equal to the sum of
+ the outputs of {@code countFunction.applyAsInt(t)} for each {@code t} mapped to that element.
+
+ @since NEXT (available since 22.0 in guava-jre)]]>
+      </doc>
+    </method>
     <method name="of" return="com.google.common.collect.ImmutableSortedMultiset&lt;E&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -22455,6 +22941,36 @@
  href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6468354">bug 6468354</a>.]]>
       </doc>
     </method>
+    <method name="toImmutableMultiset" return="java.util.stream.Collector&lt;E, ?, com.google.common.collect.ImmutableMultiset&lt;E&gt;&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="Use {@link ImmutableSortedMultiset#toImmutableSortedMultiset}.">
+      <doc>
+      <![CDATA[Not supported. Use {@link #toImmutableSortedMultiset} instead. This method exists only to hide
+ {@link ImmutableMultiset#toImmutableMultiset} from consumers of {@code
+ ImmutableSortedMultiset}.
+
+ @throws UnsupportedOperationException always
+ @deprecated Use {@link ImmutableSortedMultiset#toImmutableSortedMultiset}.
+ @since NEXT (available since 21.0 in guava-jre)]]>
+      </doc>
+    </method>
+    <method name="toImmutableMultiset" return="java.util.stream.Collector&lt;T, ?, com.google.common.collect.ImmutableMultiset&lt;E&gt;&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="Use {@link ImmutableSortedMultiset#toImmutableSortedMultiset}.">
+      <param name="elementFunction" type="java.util.function.Function&lt;? super T, ? extends E&gt;"/>
+      <param name="countFunction" type="java.util.function.ToIntFunction&lt;? super T&gt;"/>
+      <doc>
+      <![CDATA[Not supported. Use {@link #toImmutableSortedMultiset} instead. This method exists only to hide
+ {@link ImmutableMultiset#toImmutableMultiset} from consumers of {@code
+ ImmutableSortedMultiset}.
+
+ @throws UnsupportedOperationException always
+ @deprecated Use {@link ImmutableSortedMultiset#toImmutableSortedMultiset}.
+ @since NEXT (available since 22.0 in guava-jre)]]>
+      </doc>
+    </method>
     <method name="builder" return="com.google.common.collect.ImmutableSortedMultiset.Builder&lt;E&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -22755,6 +23271,21 @@
     deprecated="not deprecated">
     <implements name="java.util.NavigableSet&lt;E&gt;"/>
     <implements name="com.google.common.collect.SortedIterable&lt;E&gt;"/>
+    <method name="toImmutableSortedSet" return="java.util.stream.Collector&lt;E, ?, com.google.common.collect.ImmutableSortedSet&lt;E&gt;&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="comparator" type="java.util.Comparator&lt;? super E&gt;"/>
+      <doc>
+      <![CDATA[Returns a {@code Collector} that accumulates the input elements into a new {@code
+ ImmutableSortedSet}, ordered by the specified comparator.
+
+ <p>If the elements contain duplicates (according to the comparator), only the first duplicate
+ in encounter order will appear in the result.
+
+ @since NEXT (available since 21.0 in guava-jre)]]>
+      </doc>
+    </method>
     <method name="of" return="com.google.common.collect.ImmutableSortedSet&lt;E&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -23236,6 +23767,19 @@
       <![CDATA[@since 12.0]]>
       </doc>
     </method>
+    <method name="toImmutableSet" return="java.util.stream.Collector&lt;E, ?, com.google.common.collect.ImmutableSet&lt;E&gt;&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="Use {@link ImmutableSortedSet#toImmutableSortedSet}.">
+      <doc>
+      <![CDATA[Not supported. Use {@link #toImmutableSortedSet} instead. This method exists only to hide
+ {@link ImmutableSet#toImmutableSet} from consumers of {@code ImmutableSortedSet}.
+
+ @throws UnsupportedOperationException always
+ @deprecated Use {@link ImmutableSortedSet#toImmutableSortedSet}.
+ @since NEXT (available since 21.0 in guava-jre)]]>
+      </doc>
+    </method>
     <method name="builder" return="com.google.common.collect.ImmutableSortedSet.Builder&lt;E&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -23514,6 +24058,44 @@
     static="false" final="false" visibility="public"
     deprecated="not deprecated">
     <implements name="java.io.Serializable"/>
+    <method name="toImmutableTable" return="java.util.stream.Collector&lt;T, ?, com.google.common.collect.ImmutableTable&lt;R, C, V&gt;&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="rowFunction" type="java.util.function.Function&lt;? super T, ? extends R&gt;"/>
+      <param name="columnFunction" type="java.util.function.Function&lt;? super T, ? extends C&gt;"/>
+      <param name="valueFunction" type="java.util.function.Function&lt;? super T, ? extends V&gt;"/>
+      <doc>
+      <![CDATA[Returns a {@code Collector} that accumulates elements into an {@code ImmutableTable}. Each
+ input element is mapped to one cell in the returned table, with the rows, columns, and values
+ generated by applying the specified functions.
+
+ <p>The returned {@code Collector} will throw a {@code NullPointerException} at collection time
+ if the row, column, or value functions return null on any input.
+
+ @since NEXT (available since 21.0 in guava-jre)]]>
+      </doc>
+    </method>
+    <method name="toImmutableTable" return="java.util.stream.Collector&lt;T, ?, com.google.common.collect.ImmutableTable&lt;R, C, V&gt;&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="rowFunction" type="java.util.function.Function&lt;? super T, ? extends R&gt;"/>
+      <param name="columnFunction" type="java.util.function.Function&lt;? super T, ? extends C&gt;"/>
+      <param name="valueFunction" type="java.util.function.Function&lt;? super T, ? extends V&gt;"/>
+      <param name="mergeFunction" type="java.util.function.BinaryOperator&lt;V&gt;"/>
+      <doc>
+      <![CDATA[Returns a {@code Collector} that accumulates elements into an {@code ImmutableTable}. Each
+ input element is mapped to one cell in the returned table, with the rows, columns, and values
+ generated by applying the specified functions. If multiple inputs are mapped to the same row
+ and column pair, they will be combined with the specified merging function in encounter order.
+
+ <p>The returned {@code Collector} will throw a {@code NullPointerException} at collection time
+ if the row, column, value, or merging functions return null on any input.
+
+ @since NEXT (available since 21.0 in guava-jre)]]>
+      </doc>
+    </method>
     <method name="of" return="com.google.common.collect.ImmutableTable&lt;R, C, V&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -26771,6 +27353,46 @@
  @since 14.0]]>
       </doc>
     </method>
+    <method name="toImmutableEnumMap" return="java.util.stream.Collector&lt;T, ?, com.google.common.collect.ImmutableMap&lt;K, V&gt;&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="keyFunction" type="java.util.function.Function&lt;? super T, ? extends K&gt;"/>
+      <param name="valueFunction" type="java.util.function.Function&lt;? super T, ? extends V&gt;"/>
+      <doc>
+      <![CDATA[Returns a {@link Collector} that accumulates elements into an {@code ImmutableMap} whose keys
+ and values are the result of applying the provided mapping functions to the input elements. The
+ resulting implementation is specialized for enum key types. The returned map and its views will
+ iterate over keys in their enum definition order, not encounter order.
+
+ <p>If the mapped keys contain duplicates, an {@code IllegalArgumentException} is thrown when
+ the collection operation is performed. (This differs from the {@code Collector} returned by
+ {@link java.util.stream.Collectors#toMap(java.util.function.Function,
+ java.util.function.Function) Collectors.toMap(Function, Function)}, which throws an {@code
+ IllegalStateException}.)
+
+ @since NEXT (available since 21.0 in guava-jre)]]>
+      </doc>
+    </method>
+    <method name="toImmutableEnumMap" return="java.util.stream.Collector&lt;T, ?, com.google.common.collect.ImmutableMap&lt;K, V&gt;&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="keyFunction" type="java.util.function.Function&lt;? super T, ? extends K&gt;"/>
+      <param name="valueFunction" type="java.util.function.Function&lt;? super T, ? extends V&gt;"/>
+      <param name="mergeFunction" type="java.util.function.BinaryOperator&lt;V&gt;"/>
+      <doc>
+      <![CDATA[Returns a {@link Collector} that accumulates elements into an {@code ImmutableMap} whose keys
+ and values are the result of applying the provided mapping functions to the input elements. The
+ resulting implementation is specialized for enum key types. The returned map and its views will
+ iterate over keys in their enum definition order, not encounter order.
+
+ <p>If the mapped keys contain duplicates, the values are merged using the specified merging
+ function.
+
+ @since NEXT (available since 21.0 in guava-jre)]]>
+      </doc>
+    </method>
     <method name="newHashMap" return="java.util.HashMap&lt;K, V&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -28526,6 +29148,43 @@
     </doc>
   </class>
   <!-- end class com.google.common.collect.MinMaxPriorityQueue.Builder -->
+  <!-- start class com.google.common.collect.MoreCollectors -->
+  <class name="MoreCollectors" extends="java.lang.Object"
+    abstract="false"
+    static="false" final="true" visibility="public"
+    deprecated="not deprecated">
+    <method name="toOptional" return="java.util.stream.Collector&lt;T, ?, java.util.Optional&lt;T&gt;&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[A collector that converts a stream of zero or one elements to an {@code Optional}.
+
+ @throws IllegalArgumentException if the stream consists of two or more elements.
+ @throws NullPointerException if any element in the stream is {@code null}.
+ @return {@code Optional.of(onlyElement)} if the stream has exactly one element (must not be
+     {@code null}) and returns {@code Optional.empty()} if it has none.]]>
+      </doc>
+    </method>
+    <method name="onlyElement" return="java.util.stream.Collector&lt;T, ?, T&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[A collector that takes a stream containing exactly one element and returns that element. The
+ returned collector throws an {@code IllegalArgumentException} if the stream consists of two or
+ more elements, and a {@code NoSuchElementException} if the stream is empty.]]>
+      </doc>
+    </method>
+    <doc>
+    <![CDATA[Collectors not present in {@code java.util.stream.Collectors} that are not otherwise associated
+ with a {@code com.google.common} type.
+
+ @author Louis Wasserman
+ @since NEXT (available since 21.0 in guava-jre)]]>
+    </doc>
+  </class>
+  <!-- end class com.google.common.collect.MoreCollectors -->
   <!-- start interface com.google.common.collect.Multimap -->
   <interface name="Multimap"    abstract="true"
     static="false" final="false" visibility="public"
@@ -29255,6 +29914,91 @@
     abstract="false"
     static="false" final="true" visibility="public"
     deprecated="not deprecated">
+    <method name="toMultimap" return="java.util.stream.Collector&lt;T, ?, M&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="keyFunction" type="java.util.function.Function&lt;? super T, ? extends K&gt;"/>
+      <param name="valueFunction" type="java.util.function.Function&lt;? super T, ? extends V&gt;"/>
+      <param name="multimapSupplier" type="java.util.function.Supplier&lt;M&gt;"/>
+      <doc>
+      <![CDATA[Returns a {@code Collector} accumulating entries into a {@code Multimap} generated from the
+ specified supplier. The keys and values of the entries are the result of applying the provided
+ mapping functions to the input elements, accumulated in the encounter order of the stream.
+
+ <p>Example:
+
+ <pre>{@code
+ static final ListMultimap<Character, String> FIRST_LETTER_MULTIMAP =
+     Stream.of("banana", "apple", "carrot", "asparagus", "cherry")
+         .collect(
+             toMultimap(
+                  str -> str.charAt(0),
+                  str -> str.substring(1),
+                  MultimapBuilder.treeKeys().arrayListValues()::build));
+
+ // is equivalent to
+
+ static final ListMultimap<Character, String> FIRST_LETTER_MULTIMAP;
+
+ static {
+     FIRST_LETTER_MULTIMAP = MultimapBuilder.treeKeys().arrayListValues().build();
+     FIRST_LETTER_MULTIMAP.put('b', "anana");
+     FIRST_LETTER_MULTIMAP.put('a', "pple");
+     FIRST_LETTER_MULTIMAP.put('a', "sparagus");
+     FIRST_LETTER_MULTIMAP.put('c', "arrot");
+     FIRST_LETTER_MULTIMAP.put('c', "herry");
+ }
+ }</pre>
+
+ <p>To collect to an {@link ImmutableMultimap}, use either {@link
+ ImmutableSetMultimap#toImmutableSetMultimap} or {@link
+ ImmutableListMultimap#toImmutableListMultimap}.
+
+ @since NEXT (available since 21.0 in guava-jre)]]>
+      </doc>
+    </method>
+    <method name="flatteningToMultimap" return="java.util.stream.Collector&lt;T, ?, M&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="keyFunction" type="java.util.function.Function&lt;? super T, ? extends K&gt;"/>
+      <param name="valueFunction" type="java.util.function.Function&lt;? super T, ? extends java.util.stream.Stream&lt;? extends V&gt;&gt;"/>
+      <param name="multimapSupplier" type="java.util.function.Supplier&lt;M&gt;"/>
+      <doc>
+      <![CDATA[Returns a {@code Collector} accumulating entries into a {@code Multimap} generated from the
+ specified supplier. Each input element is mapped to a key and a stream of values, each of which
+ are put into the resulting {@code Multimap}, in the encounter order of the stream and the
+ encounter order of the streams of values.
+
+ <p>Example:
+
+ <pre>{@code
+ static final ListMultimap<Character, Character> FIRST_LETTER_MULTIMAP =
+     Stream.of("banana", "apple", "carrot", "asparagus", "cherry")
+         .collect(
+             flatteningToMultimap(
+                  str -> str.charAt(0),
+                  str -> str.substring(1).chars().mapToObj(c -> (char) c),
+                  MultimapBuilder.linkedHashKeys().arrayListValues()::build));
+
+ // is equivalent to
+
+ static final ListMultimap<Character, Character> FIRST_LETTER_MULTIMAP;
+
+ static {
+     FIRST_LETTER_MULTIMAP = MultimapBuilder.linkedHashKeys().arrayListValues().build();
+     FIRST_LETTER_MULTIMAP.putAll('b', Arrays.asList('a', 'n', 'a', 'n', 'a'));
+     FIRST_LETTER_MULTIMAP.putAll('a', Arrays.asList('p', 'p', 'l', 'e'));
+     FIRST_LETTER_MULTIMAP.putAll('c', Arrays.asList('a', 'r', 'r', 'o', 't'));
+     FIRST_LETTER_MULTIMAP.putAll('a', Arrays.asList('s', 'p', 'a', 'r', 'a', 'g', 'u', 's'));
+     FIRST_LETTER_MULTIMAP.putAll('c', Arrays.asList('h', 'e', 'r', 'r', 'y'));
+ }
+ }</pre>
+
+ @since NEXT (available since 21.0 in guava-jre)]]>
+      </doc>
+    </method>
     <method name="newMultimap" return="com.google.common.collect.Multimap&lt;K, V&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -30705,6 +31449,31 @@
     abstract="false"
     static="false" final="true" visibility="public"
     deprecated="not deprecated">
+    <method name="toMultiset" return="java.util.stream.Collector&lt;T, ?, M&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="elementFunction" type="java.util.function.Function&lt;? super T, E&gt;"/>
+      <param name="countFunction" type="java.util.function.ToIntFunction&lt;? super T&gt;"/>
+      <param name="multisetSupplier" type="java.util.function.Supplier&lt;M&gt;"/>
+      <doc>
+      <![CDATA[Returns a {@code Collector} that accumulates elements into a multiset created via the specified
+ {@code Supplier}, whose elements are the result of applying {@code elementFunction} to the
+ inputs, with counts equal to the result of applying {@code countFunction} to the inputs.
+ Elements are added in encounter order.
+
+ <p>If the mapped elements contain duplicates (according to {@link Object#equals}), the element
+ will be added more than once, with the count summed over all appearances of the element.
+
+ <p>Note that {@code stream.collect(toMultiset(function, e -> 1, supplier))} is equivalent to
+ {@code stream.map(function).collect(Collectors.toCollection(supplier))}.
+
+ <p>To collect to an {@link ImmutableMultiset}, use {@link
+ ImmutableMultiset#toImmutableMultiset}.
+
+ @since NEXT (available since 22.0 in guava-jre)]]>
+      </doc>
+    </method>
     <method name="unmodifiableMultiset" return="com.google.common.collect.Multiset&lt;E&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -33558,6 +34327,18 @@
  @return an immutable set containing those elements, minus duplicates]]>
       </doc>
     </method>
+    <method name="toImmutableEnumSet" return="java.util.stream.Collector&lt;E, ?, com.google.common.collect.ImmutableSet&lt;E&gt;&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Returns a {@code Collector} that accumulates the input elements into a new {@code ImmutableSet}
+ with an implementation specialized for enums. Unlike {@link ImmutableSet#toImmutableSet}, the
+ resulting set will iterate over elements in their enum definition order, not encounter order.
+
+ @since NEXT (available since 21.0 in guava-jre)]]>
+      </doc>
+    </method>
     <method name="newEnumSet" return="java.util.EnumSet&lt;E&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -35188,6 +35969,51 @@
     abstract="false"
     static="false" final="true" visibility="public"
     deprecated="not deprecated">
+    <method name="toTable" return="java.util.stream.Collector&lt;T, ?, I&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="rowFunction" type="java.util.function.Function&lt;? super T, ? extends R&gt;"/>
+      <param name="columnFunction" type="java.util.function.Function&lt;? super T, ? extends C&gt;"/>
+      <param name="valueFunction" type="java.util.function.Function&lt;? super T, ? extends V&gt;"/>
+      <param name="tableSupplier" type="java.util.function.Supplier&lt;I&gt;"/>
+      <doc>
+      <![CDATA[Returns a {@link Collector} that accumulates elements into a {@code Table} created using the
+ specified supplier, whose cells are generated by applying the provided mapping functions to the
+ input elements. Cells are inserted into the generated {@code Table} in encounter order.
+
+ <p>If multiple input elements map to the same row and column, an {@code IllegalStateException}
+ is thrown when the collection operation is performed.
+
+ <p>To collect to an {@link ImmutableTable}, use {@link ImmutableTable#toImmutableTable}.
+
+ @since NEXT (available since 21.0 in guava-jre)]]>
+      </doc>
+    </method>
+    <method name="toTable" return="java.util.stream.Collector&lt;T, ?, I&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="rowFunction" type="java.util.function.Function&lt;? super T, ? extends R&gt;"/>
+      <param name="columnFunction" type="java.util.function.Function&lt;? super T, ? extends C&gt;"/>
+      <param name="valueFunction" type="java.util.function.Function&lt;? super T, ? extends V&gt;"/>
+      <param name="mergeFunction" type="java.util.function.BinaryOperator&lt;V&gt;"/>
+      <param name="tableSupplier" type="java.util.function.Supplier&lt;I&gt;"/>
+      <doc>
+      <![CDATA[Returns a {@link Collector} that accumulates elements into a {@code Table} created using the
+ specified supplier, whose cells are generated by applying the provided mapping functions to the
+ input elements. Cells are inserted into the generated {@code Table} in encounter order.
+
+ <p>If multiple input elements map to the same row and column, the specified merging function is
+ used to combine the values. Like {@link
+ java.util.stream.Collectors#toMap(java.util.function.Function, java.util.function.Function,
+ BinaryOperator, java.util.function.Supplier)}, this Collector throws a {@code
+ NullPointerException} on null values returned from {@code valueFunction}, and treats nulls
+ returned from {@code mergeFunction} as removals of that row/column pair.
+
+ @since NEXT (available since 21.0 in guava-jre)]]>
+      </doc>
+    </method>
     <method name="immutableCell" return="com.google.common.collect.Table.Cell&lt;R, C, V&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"

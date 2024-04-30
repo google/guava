@@ -7035,6 +7035,19 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Returns a splitter that divides strings into pieces of the given length.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/ImmutableListMultimap.html#flatteningToImmutableListMultimap(java.util.function.Function,java.util.function.Function)">flatteningToImmutableListMultimap(Function&lt;? super T, ? extends K&gt;, Function&lt;? super T, ? extends Stream&lt;? extends V&gt;&gt;)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/ImmutableListMultimap.html" title="class in com.google.common.collect">ImmutableListMultimap</a></dt>
+<dd>
+<div class="block">Returns a <code>Collector</code> accumulating entries into an <code>ImmutableListMultimap</code>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/ImmutableSetMultimap.html#flatteningToImmutableSetMultimap(java.util.function.Function,java.util.function.Function)">flatteningToImmutableSetMultimap(Function&lt;? super T, ? extends K&gt;, Function&lt;? super T, ? extends Stream&lt;? extends V&gt;&gt;)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/ImmutableSetMultimap.html" title="class in com.google.common.collect">ImmutableSetMultimap</a></dt>
+<dd>
+<div class="block">Returns a <code>Collector</code> accumulating entries into an <code>ImmutableSetMultimap</code>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/Multimaps.html#flatteningToMultimap(java.util.function.Function,java.util.function.Function,java.util.function.Supplier)">flatteningToMultimap(Function&lt;? super T, ? extends K&gt;, Function&lt;? super T, ? extends Stream&lt;? extends V&gt;&gt;, Supplier&lt;M&gt;)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Multimaps.html" title="class in com.google.common.collect">Multimaps</a></dt>
+<dd>
+<div class="block">Returns a <code>Collector</code> accumulating entries into a <code>Multimap</code> generated from the
+ specified supplier.</div>
+</dd>
 <dt><a href="com/google/common/primitives/Floats.html" title="class in com.google.common.primitives"><span class="typeNameLink">Floats</span></a> - Class in <a href="com/google/common/primitives/package-summary.html">com.google.common.primitives</a></dt>
 <dd>
 <div class="block">Static utility methods pertaining to <code>float</code> primitives, that are not already found in
@@ -8529,6 +8542,11 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dt><span class="memberNameLink"><a href="com/google/common/collect/Range.html#greaterThan(C)">greaterThan(C)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a></dt>
 <dd>
 <div class="block">Returns a range that contains all values strictly greater than <code>endpoint</code>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/Comparators.html#greatest(int,java.util.Comparator)">greatest(int, Comparator&lt;? super T&gt;)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Comparators.html" title="class in com.google.common.collect">Comparators</a></dt>
+<dd>
+<div class="block">Returns a <code>Collector</code> that returns the <code>k</code> greatest (relative to the specified
+ <code>Comparator</code>) input elements, in descending order, as an unmodifiable <code>List</code>.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/collect/Ordering.html#greatestOf(java.lang.Iterable,int)">greatestOf(Iterable&lt;E&gt;, int)</a></span> - Method in class com.google.common.collect.<a href="com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a></dt>
 <dd>
@@ -10925,6 +10943,11 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Creates a <code>Striped&lt;Semaphore&gt;</code> with lazily initialized, weakly referenced semaphores,
  with the specified number of permits.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/Comparators.html#least(int,java.util.Comparator)">least(int, Comparator&lt;? super T&gt;)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Comparators.html" title="class in com.google.common.collect">Comparators</a></dt>
+<dd>
+<div class="block">Returns a <code>Collector</code> that returns the <code>k</code> smallest (relative to the specified
+ <code>Comparator</code>) input elements, in ascending order, as an unmodifiable <code>List</code>.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/collect/Ordering.html#leastOf(java.lang.Iterable,int)">leastOf(Iterable&lt;E&gt;, int)</a></span> - Method in class com.google.common.collect.<a href="com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a></dt>
 <dd>
 <div class="block">Returns the <code>k</code> least elements of the given iterable according to this ordering, in order
@@ -11882,6 +11905,11 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dt><a href="com/google/common/util/concurrent/Monitor.Guard.html" title="class in com.google.common.util.concurrent"><span class="typeNameLink">Monitor.Guard</span></a> - Class in <a href="com/google/common/util/concurrent/package-summary.html">com.google.common.util.concurrent</a></dt>
 <dd>
 <div class="block">A boolean condition for which a thread may wait.</div>
+</dd>
+<dt><a href="com/google/common/collect/MoreCollectors.html" title="class in com.google.common.collect"><span class="typeNameLink">MoreCollectors</span></a> - Class in <a href="com/google/common/collect/package-summary.html">com.google.common.collect</a></dt>
+<dd>
+<div class="block">Collectors not present in <code>java.util.stream.Collectors</code> that are not otherwise associated
+ with a <code>com.google.common</code> type.</div>
 </dd>
 <dt><a href="com/google/common/util/concurrent/MoreExecutors.html" title="class in com.google.common.util.concurrent"><span class="typeNameLink">MoreExecutors</span></a> - Class in <a href="com/google/common/util/concurrent/package-summary.html">com.google.common.util.concurrent</a></dt>
 <dd>
@@ -13363,6 +13391,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/FutureCallback.html#onFailure(java.lang.Throwable)">onFailure(Throwable)</a></span> - Method in interface com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/FutureCallback.html" title="interface in com.google.common.util.concurrent">FutureCallback</a></dt>
 <dd>
 <div class="block">Invoked when a <code>Future</code> computation fails or is canceled.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/MoreCollectors.html#onlyElement()">onlyElement()</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/MoreCollectors.html" title="class in com.google.common.collect">MoreCollectors</a></dt>
+<dd>
+<div class="block">A collector that takes a stream containing exactly one element and returns that element.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/Splitter.html#onPattern(java.lang.String)">onPattern(String)</a></span> - Static method in class com.google.common.base.<a href="com/google/common/base/Splitter.html" title="class in com.google.common.base">Splitter</a></dt>
 <dd>
@@ -18254,6 +18286,155 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Convert this builder into a char escaper which is just a decorator around the underlying array
  of replacement char[]s.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/ImmutableBiMap.html#toImmutableBiMap(java.util.function.Function,java.util.function.Function)">toImmutableBiMap(Function&lt;? super T, ? extends K&gt;, Function&lt;? super T, ? extends V&gt;)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/ImmutableBiMap.html" title="class in com.google.common.collect">ImmutableBiMap</a></dt>
+<dd>
+<div class="block">Returns a <code>Collector</code> that accumulates elements into an <code>ImmutableBiMap</code> whose keys
+ and values are the result of applying the provided mapping functions to the input elements.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/Maps.html#toImmutableEnumMap(java.util.function.Function,java.util.function.Function)">toImmutableEnumMap(Function&lt;? super T, ? extends K&gt;, Function&lt;? super T, ? extends V&gt;)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Maps.html" title="class in com.google.common.collect">Maps</a></dt>
+<dd>
+<div class="block">Returns a <code>Collector</code> that accumulates elements into an <code>ImmutableMap</code> whose keys
+ and values are the result of applying the provided mapping functions to the input elements.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/Maps.html#toImmutableEnumMap(java.util.function.Function,java.util.function.Function,java.util.function.BinaryOperator)">toImmutableEnumMap(Function&lt;? super T, ? extends K&gt;, Function&lt;? super T, ? extends V&gt;, BinaryOperator&lt;V&gt;)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Maps.html" title="class in com.google.common.collect">Maps</a></dt>
+<dd>
+<div class="block">Returns a <code>Collector</code> that accumulates elements into an <code>ImmutableMap</code> whose keys
+ and values are the result of applying the provided mapping functions to the input elements.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/Sets.html#toImmutableEnumSet()">toImmutableEnumSet()</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Sets.html" title="class in com.google.common.collect">Sets</a></dt>
+<dd>
+<div class="block">Returns a <code>Collector</code> that accumulates the input elements into a new <code>ImmutableSet</code>
+ with an implementation specialized for enums.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/ImmutableList.html#toImmutableList()">toImmutableList()</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a></dt>
+<dd>
+<div class="block">Returns a <code>Collector</code> that accumulates the input elements into a new <code>
+ ImmutableList</code>, in encounter order.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/ImmutableListMultimap.html#toImmutableListMultimap(java.util.function.Function,java.util.function.Function)">toImmutableListMultimap(Function&lt;? super T, ? extends K&gt;, Function&lt;? super T, ? extends V&gt;)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/ImmutableListMultimap.html" title="class in com.google.common.collect">ImmutableListMultimap</a></dt>
+<dd>
+<div class="block">Returns a <code>Collector</code> that accumulates elements into an <code>ImmutableListMultimap</code>
+ whose keys and values are the result of applying the provided mapping functions to the input
+ elements.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/ImmutableBiMap.html#toImmutableMap(java.util.function.Function,java.util.function.Function)">toImmutableMap(Function&lt;? super T, ? extends K&gt;, Function&lt;? super T, ? extends V&gt;)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/ImmutableBiMap.html" title="class in com.google.common.collect">ImmutableBiMap</a></dt>
+<dd>
+<div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
+<div class="deprecationComment">Use <a href="com/google/common/collect/ImmutableBiMap.html#toImmutableBiMap(java.util.function.Function,java.util.function.Function)"><code>ImmutableBiMap.toImmutableBiMap(java.util.function.Function&lt;? super T, ? extends K&gt;, java.util.function.Function&lt;? super T, ? extends V&gt;)</code></a>.</div>
+</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/ImmutableMap.html#toImmutableMap(java.util.function.Function,java.util.function.Function)">toImmutableMap(Function&lt;? super T, ? extends K&gt;, Function&lt;? super T, ? extends V&gt;)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a></dt>
+<dd>
+<div class="block">Returns a <code>Collector</code> that accumulates elements into an <code>ImmutableMap</code> whose keys
+ and values are the result of applying the provided mapping functions to the input elements.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/ImmutableSortedMap.html#toImmutableMap(java.util.function.Function,java.util.function.Function)">toImmutableMap(Function&lt;? super T, ? extends K&gt;, Function&lt;? super T, ? extends V&gt;)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a></dt>
+<dd>
+<div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
+<div class="deprecationComment">Use <a href="com/google/common/collect/ImmutableSortedMap.html#toImmutableSortedMap(java.util.Comparator,java.util.function.Function,java.util.function.Function)"><code>ImmutableSortedMap.toImmutableSortedMap(java.util.Comparator&lt;? super K&gt;, java.util.function.Function&lt;? super T, ? extends K&gt;, java.util.function.Function&lt;? super T, ? extends V&gt;)</code></a>.</div>
+</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/ImmutableBiMap.html#toImmutableMap(java.util.function.Function,java.util.function.Function,java.util.function.BinaryOperator)">toImmutableMap(Function&lt;? super T, ? extends K&gt;, Function&lt;? super T, ? extends V&gt;, BinaryOperator&lt;V&gt;)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/ImmutableBiMap.html" title="class in com.google.common.collect">ImmutableBiMap</a></dt>
+<dd>
+<div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>&nbsp;</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/ImmutableMap.html#toImmutableMap(java.util.function.Function,java.util.function.Function,java.util.function.BinaryOperator)">toImmutableMap(Function&lt;? super T, ? extends K&gt;, Function&lt;? super T, ? extends V&gt;, BinaryOperator&lt;V&gt;)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a></dt>
+<dd>
+<div class="block">Returns a <code>Collector</code> that accumulates elements into an <code>ImmutableMap</code> whose keys
+ and values are the result of applying the provided mapping functions to the input elements.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/ImmutableSortedMap.html#toImmutableMap(java.util.function.Function,java.util.function.Function,java.util.function.BinaryOperator)">toImmutableMap(Function&lt;? super T, ? extends K&gt;, Function&lt;? super T, ? extends V&gt;, BinaryOperator&lt;V&gt;)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a></dt>
+<dd>
+<div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
+<div class="deprecationComment">Use <a href="com/google/common/collect/ImmutableSortedMap.html#toImmutableSortedMap(java.util.Comparator,java.util.function.Function,java.util.function.Function)"><code>ImmutableSortedMap.toImmutableSortedMap(java.util.Comparator&lt;? super K&gt;, java.util.function.Function&lt;? super T, ? extends K&gt;, java.util.function.Function&lt;? super T, ? extends V&gt;)</code></a>.</div>
+</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/ImmutableMultiset.html#toImmutableMultiset()">toImmutableMultiset()</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/ImmutableMultiset.html" title="class in com.google.common.collect">ImmutableMultiset</a></dt>
+<dd>
+<div class="block">Returns a <code>Collector</code> that accumulates the input elements into a new <code>
+ ImmutableMultiset</code>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/ImmutableSortedMultiset.html#toImmutableMultiset()">toImmutableMultiset()</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/ImmutableSortedMultiset.html" title="class in com.google.common.collect">ImmutableSortedMultiset</a></dt>
+<dd>
+<div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
+<div class="deprecationComment">Use <a href="com/google/common/collect/ImmutableSortedMultiset.html#toImmutableSortedMultiset(java.util.Comparator)"><code>ImmutableSortedMultiset.toImmutableSortedMultiset(java.util.Comparator&lt;? super E&gt;)</code></a>.</div>
+</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/ImmutableMultiset.html#toImmutableMultiset(java.util.function.Function,java.util.function.ToIntFunction)">toImmutableMultiset(Function&lt;? super T, ? extends E&gt;, ToIntFunction&lt;? super T&gt;)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/ImmutableMultiset.html" title="class in com.google.common.collect">ImmutableMultiset</a></dt>
+<dd>
+<div class="block">Returns a <code>Collector</code> that accumulates elements into an <code>ImmutableMultiset</code> whose
+ elements are the result of applying <code>elementFunction</code> to the inputs, with counts equal to
+ the result of applying <code>countFunction</code> to the inputs.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/ImmutableSortedMultiset.html#toImmutableMultiset(java.util.function.Function,java.util.function.ToIntFunction)">toImmutableMultiset(Function&lt;? super T, ? extends E&gt;, ToIntFunction&lt;? super T&gt;)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/ImmutableSortedMultiset.html" title="class in com.google.common.collect">ImmutableSortedMultiset</a></dt>
+<dd>
+<div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
+<div class="deprecationComment">Use <a href="com/google/common/collect/ImmutableSortedMultiset.html#toImmutableSortedMultiset(java.util.Comparator)"><code>ImmutableSortedMultiset.toImmutableSortedMultiset(java.util.Comparator&lt;? super E&gt;)</code></a>.</div>
+</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/ImmutableRangeMap.html#toImmutableRangeMap(java.util.function.Function,java.util.function.Function)">toImmutableRangeMap(Function&lt;? super T, Range&lt;K&gt;&gt;, Function&lt;? super T, ? extends V&gt;)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/ImmutableRangeMap.html" title="class in com.google.common.collect">ImmutableRangeMap</a></dt>
+<dd>
+<div class="block">Returns a <code>Collector</code> that accumulates the input elements into a new <code>
+ ImmutableRangeMap</code>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/ImmutableRangeSet.html#toImmutableRangeSet()">toImmutableRangeSet()</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/ImmutableRangeSet.html" title="class in com.google.common.collect">ImmutableRangeSet</a></dt>
+<dd>
+<div class="block">Returns a <code>Collector</code> that accumulates the input elements into a new <code>
+ ImmutableRangeSet</code>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/ImmutableSet.html#toImmutableSet()">toImmutableSet()</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a></dt>
+<dd>
+<div class="block">Returns a <code>Collector</code> that accumulates the input elements into a new <code>
+ ImmutableSet</code>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/ImmutableSortedSet.html#toImmutableSet()">toImmutableSet()</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a></dt>
+<dd>
+<div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
+<div class="deprecationComment">Use <a href="com/google/common/collect/ImmutableSortedSet.html#toImmutableSortedSet(java.util.Comparator)"><code>ImmutableSortedSet.toImmutableSortedSet(java.util.Comparator&lt;? super E&gt;)</code></a>.</div>
+</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/ImmutableSetMultimap.html#toImmutableSetMultimap(java.util.function.Function,java.util.function.Function)">toImmutableSetMultimap(Function&lt;? super T, ? extends K&gt;, Function&lt;? super T, ? extends V&gt;)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/ImmutableSetMultimap.html" title="class in com.google.common.collect">ImmutableSetMultimap</a></dt>
+<dd>
+<div class="block">Returns a <code>Collector</code> that accumulates elements into an <code>ImmutableSetMultimap</code>
+ whose keys and values are the result of applying the provided mapping functions to the input
+ elements.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/ImmutableSortedMap.html#toImmutableSortedMap(java.util.Comparator,java.util.function.Function,java.util.function.Function)">toImmutableSortedMap(Comparator&lt;? super K&gt;, Function&lt;? super T, ? extends K&gt;, Function&lt;? super T, ? extends V&gt;)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a></dt>
+<dd>
+<div class="block">Returns a <code>Collector</code> that accumulates elements into an <code>ImmutableSortedMap</code> whose
+ keys and values are the result of applying the provided mapping functions to the input
+ elements.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/ImmutableSortedMap.html#toImmutableSortedMap(java.util.Comparator,java.util.function.Function,java.util.function.Function,java.util.function.BinaryOperator)">toImmutableSortedMap(Comparator&lt;? super K&gt;, Function&lt;? super T, ? extends K&gt;, Function&lt;? super T, ? extends V&gt;, BinaryOperator&lt;V&gt;)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a></dt>
+<dd>
+<div class="block">Returns a <code>Collector</code> that accumulates elements into an <code>ImmutableSortedMap</code> whose
+ keys and values are the result of applying the provided mapping functions to the input
+ elements.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/ImmutableSortedMultiset.html#toImmutableSortedMultiset(java.util.Comparator)">toImmutableSortedMultiset(Comparator&lt;? super E&gt;)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/ImmutableSortedMultiset.html" title="class in com.google.common.collect">ImmutableSortedMultiset</a></dt>
+<dd>
+<div class="block">Returns a <code>Collector</code> that accumulates the input elements into a new <code>
+ ImmutableMultiset</code>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/ImmutableSortedMultiset.html#toImmutableSortedMultiset(java.util.Comparator,java.util.function.Function,java.util.function.ToIntFunction)">toImmutableSortedMultiset(Comparator&lt;? super E&gt;, Function&lt;? super T, ? extends E&gt;, ToIntFunction&lt;? super T&gt;)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/ImmutableSortedMultiset.html" title="class in com.google.common.collect">ImmutableSortedMultiset</a></dt>
+<dd>
+<div class="block">Returns a <code>Collector</code> that accumulates elements into an <code>ImmutableSortedMultiset</code>
+ whose elements are the result of applying <code>elementFunction</code> to the inputs, with counts
+ equal to the result of applying <code>countFunction</code> to the inputs.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/ImmutableSortedSet.html#toImmutableSortedSet(java.util.Comparator)">toImmutableSortedSet(Comparator&lt;? super E&gt;)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a></dt>
+<dd>
+<div class="block">Returns a <code>Collector</code> that accumulates the input elements into a new <code>
+ ImmutableSortedSet</code>, ordered by the specified comparator.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/ImmutableTable.html#toImmutableTable(java.util.function.Function,java.util.function.Function,java.util.function.Function)">toImmutableTable(Function&lt;? super T, ? extends R&gt;, Function&lt;? super T, ? extends C&gt;, Function&lt;? super T, ? extends V&gt;)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/ImmutableTable.html" title="class in com.google.common.collect">ImmutableTable</a></dt>
+<dd>
+<div class="block">Returns a <code>Collector</code> that accumulates elements into an <code>ImmutableTable</code>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/ImmutableTable.html#toImmutableTable(java.util.function.Function,java.util.function.Function,java.util.function.Function,java.util.function.BinaryOperator)">toImmutableTable(Function&lt;? super T, ? extends R&gt;, Function&lt;? super T, ? extends C&gt;, Function&lt;? super T, ? extends V&gt;, BinaryOperator&lt;V&gt;)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/ImmutableTable.html" title="class in com.google.common.collect">ImmutableTable</a></dt>
+<dd>
+<div class="block">Returns a <code>Collector</code> that accumulates elements into an <code>ImmutableTable</code>.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/primitives/UnsignedBytes.html#toInt(byte)">toInt(byte)</a></span> - Static method in class com.google.common.primitives.<a href="com/google/common/primitives/UnsignedBytes.html" title="class in com.google.common.primitives">UnsignedBytes</a></dt>
 <dd>
 <div class="block">Returns the value of the given byte as an integer, when treated as unsigned.</div>
@@ -18296,9 +18477,24 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Returns an immutable map whose keys are the distinct elements of <code>keys</code> and whose value
  for each key was computed by <code>valueFunction</code>.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/Multimaps.html#toMultimap(java.util.function.Function,java.util.function.Function,java.util.function.Supplier)">toMultimap(Function&lt;? super T, ? extends K&gt;, Function&lt;? super T, ? extends V&gt;, Supplier&lt;M&gt;)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Multimaps.html" title="class in com.google.common.collect">Multimaps</a></dt>
+<dd>
+<div class="block">Returns a <code>Collector</code> accumulating entries into a <code>Multimap</code> generated from the
+ specified supplier.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/collect/FluentIterable.html#toMultiset()">toMultiset()</a></span> - Method in class com.google.common.collect.<a href="com/google/common/collect/FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a></dt>
 <dd>
 <div class="block">Returns an <code>ImmutableMultiset</code> containing all of the elements from this fluent iterable.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/Multisets.html#toMultiset(java.util.function.Function,java.util.function.ToIntFunction,java.util.function.Supplier)">toMultiset(Function&lt;? super T, E&gt;, ToIntFunction&lt;? super T&gt;, Supplier&lt;M&gt;)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Multisets.html" title="class in com.google.common.collect">Multisets</a></dt>
+<dd>
+<div class="block">Returns a <code>Collector</code> that accumulates elements into a multiset created via the specified
+ <code>Supplier</code>, whose elements are the result of applying <code>elementFunction</code> to the
+ inputs, with counts equal to the result of applying <code>countFunction</code> to the inputs.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/MoreCollectors.html#toOptional()">toOptional()</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/MoreCollectors.html" title="class in com.google.common.collect">MoreCollectors</a></dt>
+<dd>
+<div class="block">A collector that converts a stream of zero or one elements to an <code>Optional</code>.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/cache/CacheBuilderSpec.html#toParsableString()">toParsableString()</a></span> - Method in class com.google.common.cache.<a href="com/google/common/cache/CacheBuilderSpec.html" title="class in com.google.common.cache">CacheBuilderSpec</a></dt>
 <dd>
@@ -18587,6 +18783,18 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dt><span class="memberNameLink"><a href="com/google/common/base/MoreObjects.html#toStringHelper(java.lang.String)">toStringHelper(String)</a></span> - Static method in class com.google.common.base.<a href="com/google/common/base/MoreObjects.html" title="class in com.google.common.base">MoreObjects</a></dt>
 <dd>
 <div class="block">Creates an instance of <a href="com/google/common/base/MoreObjects.ToStringHelper.html" title="class in com.google.common.base"><code>MoreObjects.ToStringHelper</code></a> in the same manner as <a href="com/google/common/base/MoreObjects.html#toStringHelper(java.lang.Object)"><code>MoreObjects.toStringHelper(Object)</code></a>, but using <code>className</code> instead of using an instance's <code>Object.getClass()</code>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/Tables.html#toTable(java.util.function.Function,java.util.function.Function,java.util.function.Function,java.util.function.BinaryOperator,java.util.function.Supplier)">toTable(Function&lt;? super T, ? extends R&gt;, Function&lt;? super T, ? extends C&gt;, Function&lt;? super T, ? extends V&gt;, BinaryOperator&lt;V&gt;, Supplier&lt;I&gt;)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Tables.html" title="class in com.google.common.collect">Tables</a></dt>
+<dd>
+<div class="block">Returns a <code>Collector</code> that accumulates elements into a <code>Table</code> created using the
+ specified supplier, whose cells are generated by applying the provided mapping functions to the
+ input elements.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/Tables.html#toTable(java.util.function.Function,java.util.function.Function,java.util.function.Function,java.util.function.Supplier)">toTable(Function&lt;? super T, ? extends R&gt;, Function&lt;? super T, ? extends C&gt;, Function&lt;? super T, ? extends V&gt;, Supplier&lt;I&gt;)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Tables.html" title="class in com.google.common.collect">Tables</a></dt>
+<dd>
+<div class="block">Returns a <code>Collector</code> that accumulates elements into a <code>Table</code> created using the
+ specified supplier, whose cells are generated by applying the provided mapping functions to the
+ input elements.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/cache/CacheStats.html#totalLoadTime()">totalLoadTime()</a></span> - Method in class com.google.common.cache.<a href="com/google/common/cache/CacheStats.html" title="class in com.google.common.cache">CacheStats</a></dt>
 <dd>

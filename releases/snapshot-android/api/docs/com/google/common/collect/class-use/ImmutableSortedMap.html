@@ -650,6 +650,39 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </tr>
 </tbody>
 </table>
+<table class="useSummary">
+<caption><span>Methods in <a href="../package-summary.html">com.google.common.collect</a> that return types with arguments of type <a href="../ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a></span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colFirst" scope="col">Modifier and Type</th>
+<th class="colSecond" scope="col">Method</th>
+<th class="colLast" scope="col">Description</th>
+</tr>
+<tbody>
+<tr class="altColor">
+<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;K,&#8203;V&gt;<br>java.util.stream.Collector&lt;T,&#8203;?,&#8203;<a href="../ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;K,&#8203;V&gt;&gt;</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">ImmutableSortedMap.</span><code><span class="memberNameLink"><a href="../ImmutableSortedMap.html#toImmutableSortedMap(java.util.Comparator,java.util.function.Function,java.util.function.Function)">toImmutableSortedMap</a></span>&#8203;(java.util.Comparator&lt;? super K&gt;&nbsp;comparator,
+                    java.util.function.Function&lt;? super T,&#8203;? extends K&gt;&nbsp;keyFunction,
+                    java.util.function.Function&lt;? super T,&#8203;? extends V&gt;&nbsp;valueFunction)</code></th>
+<td class="colLast">
+<div class="block">Returns a <code>Collector</code> that accumulates elements into an <code>ImmutableSortedMap</code> whose
+ keys and values are the result of applying the provided mapping functions to the input
+ elements.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;K,&#8203;V&gt;<br>java.util.stream.Collector&lt;T,&#8203;?,&#8203;<a href="../ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;K,&#8203;V&gt;&gt;</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">ImmutableSortedMap.</span><code><span class="memberNameLink"><a href="../ImmutableSortedMap.html#toImmutableSortedMap(java.util.Comparator,java.util.function.Function,java.util.function.Function,java.util.function.BinaryOperator)">toImmutableSortedMap</a></span>&#8203;(java.util.Comparator&lt;? super K&gt;&nbsp;comparator,
+                    java.util.function.Function&lt;? super T,&#8203;? extends K&gt;&nbsp;keyFunction,
+                    java.util.function.Function&lt;? super T,&#8203;? extends V&gt;&nbsp;valueFunction,
+                    java.util.function.BinaryOperator&lt;V&gt;&nbsp;mergeFunction)</code></th>
+<td class="colLast">
+<div class="block">Returns a <code>Collector</code> that accumulates elements into an <code>ImmutableSortedMap</code> whose
+ keys and values are the result of applying the provided mapping functions to the input
+ elements.</div>
+</td>
+</tr>
+</tbody>
+</table>
 </section>
 </li>
 </ul>
