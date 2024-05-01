@@ -66,7 +66,7 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
    * ImmutableRangeSet}. As in {@link Builder}, overlapping ranges are not permitted and adjacent
    * ranges will be merged.
    *
-   * @since NEXT (available since 23.1 in guava-jre)
+   * @since 33.2.0 (available since 23.1 in guava-jre)
    */
   @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
   @IgnoreJRERequirement // Users will use this only if they're already using streams.

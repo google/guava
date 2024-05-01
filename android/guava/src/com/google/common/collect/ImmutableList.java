@@ -68,7 +68,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    * Returns a {@code Collector} that accumulates the input elements into a new {@code
    * ImmutableList}, in encounter order.
    *
-   * @since NEXT (available since 21.0 in guava-jre)
+   * @since 33.2.0 (available since 21.0 in guava-jre)
    */
   @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
   @IgnoreJRERequirement // Users will use this only if they're already using streams.

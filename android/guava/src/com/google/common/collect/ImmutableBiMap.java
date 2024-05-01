@@ -58,7 +58,7 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
    * operation is performed. (This differs from the {@code Collector} returned by {@link
    * Collectors#toMap(Function, Function)}, which throws an {@code IllegalStateException}.)
    *
-   * @since NEXT (available since 21.0 in guava-jre)
+   * @since 33.2.0 (available since 21.0 in guava-jre)
    */
   @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
@@ -626,7 +626,7 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
    *
    * @throws UnsupportedOperationException always
    * @deprecated Use {@link ImmutableBiMap#toImmutableBiMap}.
-   * @since NEXT (available since 21.0 in guava-jre)
+   * @since 33.2.0 (available since 21.0 in guava-jre)
    */
   @Deprecated
   @DoNotCall("Use toImmutableBiMap")
@@ -647,7 +647,7 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
    *
    * @throws UnsupportedOperationException always
    * @deprecated
-   * @since NEXT (available since 21.0 in guava-jre)
+   * @since 33.2.0 (available since 21.0 in guava-jre)
    */
   @Deprecated
   @DoNotCall("Use toImmutableBiMap")

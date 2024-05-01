@@ -71,7 +71,7 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSet<E>
    * <p>If the elements contain duplicates (according to the comparator), only the first duplicate
    * in encounter order will appear in the result.
    *
-   * @since NEXT (available since 21.0 in guava-jre)
+   * @since 33.2.0 (available since 21.0 in guava-jre)
    */
   @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
@@ -797,7 +797,7 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSet<E>
    *
    * @throws UnsupportedOperationException always
    * @deprecated Use {@link ImmutableSortedSet#toImmutableSortedSet}.
-   * @since NEXT (available since 21.0 in guava-jre)
+   * @since 33.2.0 (available since 21.0 in guava-jre)
    */
   @DoNotCall("Use toImmutableSortedSet")
   @Deprecated

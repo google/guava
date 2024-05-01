@@ -69,7 +69,7 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableMultiset<E>
    * <p><b>Warning:</b> {@code comparator} should be <i>consistent with {@code equals}</i> as
    * explained in the {@link Comparator} documentation.
    *
-   * @since NEXT (available since 21.0 in guava-jre)
+   * @since 33.2.0 (available since 21.0 in guava-jre)
    */
   @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
@@ -88,7 +88,7 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableMultiset<E>
    * occurrence in encounter order appears in the resulting multiset, with count equal to the sum of
    * the outputs of {@code countFunction.applyAsInt(t)} for each {@code t} mapped to that element.
    *
-   * @since NEXT (available since 22.0 in guava-jre)
+   * @since 33.2.0 (available since 22.0 in guava-jre)
    */
   @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
@@ -760,7 +760,7 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableMultiset<E>
    *
    * @throws UnsupportedOperationException always
    * @deprecated Use {@link ImmutableSortedMultiset#toImmutableSortedMultiset}.
-   * @since NEXT (available since 21.0 in guava-jre)
+   * @since 33.2.0 (available since 21.0 in guava-jre)
    */
   @DoNotCall("Use toImmutableSortedMultiset.")
   @Deprecated
@@ -778,7 +778,7 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableMultiset<E>
    *
    * @throws UnsupportedOperationException always
    * @deprecated Use {@link ImmutableSortedMultiset#toImmutableSortedMultiset}.
-   * @since NEXT (available since 22.0 in guava-jre)
+   * @since 33.2.0 (available since 22.0 in guava-jre)
    */
   @DoNotCall("Use toImmutableSortedMultiset.")
   @Deprecated

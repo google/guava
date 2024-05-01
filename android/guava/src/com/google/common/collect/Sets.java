@@ -146,7 +146,7 @@ public final class Sets {
    * with an implementation specialized for enums. Unlike {@link ImmutableSet#toImmutableSet}, the
    * resulting set will iterate over elements in their enum definition order, not encounter order.
    *
-   * @since NEXT (available since 21.0 in guava-jre)
+   * @since 33.2.0 (available since 21.0 in guava-jre)
    */
   @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
   @IgnoreJRERequirement // Users will use this only if they're already using streams.

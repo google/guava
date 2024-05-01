@@ -128,7 +128,7 @@ public final class Comparators {
    * log n) time and O(n) space.
    *
    * @throws IllegalArgumentException if {@code k < 0}
-   * @since NEXT (available since 22.0 in guava-jre)
+   * @since 33.2.0 (available since 22.0 in guava-jre)
    */
   @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
@@ -163,7 +163,7 @@ public final class Comparators {
    * takes O(n log n) time and O(n) space.
    *
    * @throws IllegalArgumentException if {@code k < 0}
-   * @since NEXT (available since 22.0 in guava-jre)
+   * @since 33.2.0 (available since 22.0 in guava-jre)
    */
   @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
   @IgnoreJRERequirement // Users will use this only if they're already using streams.

@@ -64,7 +64,7 @@ public final class Tables {
    *
    * <p>To collect to an {@link ImmutableTable}, use {@link ImmutableTable#toImmutableTable}.
    *
-   * @since NEXT (available since 21.0 in guava-jre)
+   * @since 33.2.0 (available since 21.0 in guava-jre)
    */
   @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
@@ -96,7 +96,7 @@ public final class Tables {
    * NullPointerException} on null values returned from {@code valueFunction}, and treats nulls
    * returned from {@code mergeFunction} as removals of that row/column pair.
    *
-   * @since NEXT (available since 21.0 in guava-jre)
+   * @since 33.2.0 (available since 21.0 in guava-jre)
    */
   @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
   @IgnoreJRERequirement // Users will use this only if they're already using streams.

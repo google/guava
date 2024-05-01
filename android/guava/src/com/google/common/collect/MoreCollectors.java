@@ -34,7 +34,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * with a {@code com.google.common} type.
  *
  * @author Louis Wasserman
- * @since NEXT (available since 21.0 in guava-jre)
+ * @since 33.2.0 (available since 21.0 in guava-jre)
  */
 @GwtCompatible
 @ElementTypesAreNonnullByDefault

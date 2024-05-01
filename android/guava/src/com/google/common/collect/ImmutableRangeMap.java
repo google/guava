@@ -57,7 +57,7 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
    * Returns a {@code Collector} that accumulates the input elements into a new {@code
    * ImmutableRangeMap}. As in {@link Builder}, overlapping ranges are not permitted.
    *
-   * @since NEXT (available since 23.1 in guava-jre)
+   * @since 33.2.0 (available since 23.1 in guava-jre)
    */
   @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
   @IgnoreJRERequirement // Users will use this only if they're already using streams.

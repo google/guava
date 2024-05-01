@@ -79,7 +79,7 @@ public final class Multisets {
    * <p>To collect to an {@link ImmutableMultiset}, use {@link
    * ImmutableMultiset#toImmutableMultiset}.
    *
-   * @since NEXT (available since 22.0 in guava-jre)
+   * @since 33.2.0 (available since 22.0 in guava-jre)
    */
   @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
   @IgnoreJRERequirement // Users will use this only if they're already using streams.

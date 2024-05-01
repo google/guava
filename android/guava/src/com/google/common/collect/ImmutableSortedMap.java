@@ -75,7 +75,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableMap<K, V>
    * from the {@code Collector} returned by {@link Collectors#toMap(Function, Function)}, which
    * throws an {@code IllegalStateException}.)
    *
-   * @since NEXT (available since 21.0 in guava-jre)
+   * @since 33.2.0 (available since 21.0 in guava-jre)
    */
   @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
@@ -97,7 +97,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableMap<K, V>
    * using the specified merging function. Entries will appear in the encounter order of the first
    * occurrence of the key.
    *
-   * @since NEXT (available since 21.0 in guava-jre)
+   * @since 33.2.0 (available since 21.0 in guava-jre)
    */
   @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
@@ -1223,7 +1223,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableMap<K, V>
    *
    * @throws UnsupportedOperationException always
    * @deprecated Use {@link ImmutableSortedMap#toImmutableSortedMap}.
-   * @since NEXT (available since 21.0 in guava-jre)
+   * @since 33.2.0 (available since 21.0 in guava-jre)
    */
   @DoNotCall("Use toImmutableSortedMap")
   @Deprecated
@@ -1244,7 +1244,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableMap<K, V>
    *
    * @throws UnsupportedOperationException always
    * @deprecated Use {@link ImmutableSortedMap#toImmutableSortedMap}.
-   * @since NEXT (available since 21.0 in guava-jre)
+   * @since 33.2.0 (available since 21.0 in guava-jre)
    */
   @DoNotCall("Use toImmutableSortedMap")
   @Deprecated

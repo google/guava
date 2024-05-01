@@ -66,7 +66,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
    * ImmutableMultiset}. Elements iterate in order by the <i>first</i> appearance of that element in
    * encounter order.
    *
-   * @since NEXT (available since 21.0 in guava-jre)
+   * @since 33.2.0 (available since 21.0 in guava-jre)
    */
   @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
@@ -84,7 +84,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
    * occurrence in encounter order appears in the resulting multiset, with count equal to the sum of
    * the outputs of {@code countFunction.applyAsInt(t)} for each {@code t} mapped to that element.
    *
-   * @since NEXT (available since 22.0 in guava-jre)
+   * @since 33.2.0 (available since 22.0 in guava-jre)
    */
   @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
