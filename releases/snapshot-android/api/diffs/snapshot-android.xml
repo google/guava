@@ -10722,7 +10722,7 @@
  log n) time and O(n) space.
 
  @throws IllegalArgumentException if {@code k < 0}
- @since NEXT (available since 22.0 in guava-jre)]]>
+ @since 33.2.0 (available since 22.0 in guava-jre)]]>
       </doc>
     </method>
     <method name="greatest" return="java.util.stream.Collector&lt;T, ?, java.util.List&lt;T&gt;&gt;"
@@ -10749,7 +10749,7 @@
  takes O(n log n) time and O(n) space.
 
  @throws IllegalArgumentException if {@code k < 0}
- @since NEXT (available since 22.0 in guava-jre)]]>
+ @since 33.2.0 (available since 22.0 in guava-jre)]]>
       </doc>
     </method>
     <method name="min" return="T extends java.lang.Comparable&lt;? super T&gt;"
@@ -16582,7 +16582,7 @@
  operation is performed. (This differs from the {@code Collector} returned by {@link
  Collectors#toMap(Function, Function)}, which throws an {@code IllegalStateException}.)
 
- @since NEXT (available since 21.0 in guava-jre)]]>
+ @since 33.2.0 (available since 21.0 in guava-jre)]]>
       </doc>
     </method>
     <method name="of" return="com.google.common.collect.ImmutableBiMap&lt;K, V&gt;"
@@ -16928,7 +16928,7 @@
 
  @throws UnsupportedOperationException always
  @deprecated Use {@link ImmutableBiMap#toImmutableBiMap}.
- @since NEXT (available since 21.0 in guava-jre)]]>
+ @since 33.2.0 (available since 21.0 in guava-jre)]]>
       </doc>
     </method>
     <method name="toImmutableMap" return="java.util.stream.Collector&lt;T, ?, com.google.common.collect.ImmutableMap&lt;K, V&gt;&gt;"
@@ -16945,7 +16945,7 @@
 
  @throws UnsupportedOperationException always
  @deprecated
- @since NEXT (available since 21.0 in guava-jre)]]>
+ @since 33.2.0 (available since 21.0 in guava-jre)]]>
       </doc>
     </method>
     <doc>
@@ -17611,7 +17611,7 @@
       <![CDATA[Returns a {@code Collector} that accumulates the input elements into a new {@code
  ImmutableList}, in encounter order.
 
- @since NEXT (available since 21.0 in guava-jre)]]>
+ @since 33.2.0 (available since 21.0 in guava-jre)]]>
       </doc>
     </method>
     <method name="of" return="com.google.common.collect.ImmutableList&lt;E&gt;"
@@ -18243,7 +18243,7 @@
          .build();
  }</pre>
 
- @since NEXT (available since 21.0 in guava-jre)]]>
+ @since 33.2.0 (available since 21.0 in guava-jre)]]>
       </doc>
     </method>
     <method name="flatteningToImmutableListMultimap" return="java.util.stream.Collector&lt;T, ?, com.google.common.collect.ImmutableListMultimap&lt;K, V&gt;&gt;"
@@ -18281,7 +18281,7 @@
  }
  }</pre>
 
- @since NEXT (available since 21.0 in guava-jre)]]>
+ @since 33.2.0 (available since 21.0 in guava-jre)]]>
       </doc>
     </method>
     <method name="of" return="com.google.common.collect.ImmutableListMultimap&lt;K, V&gt;"
@@ -18602,7 +18602,7 @@
  from the {@code Collector} returned by {@link Collectors#toMap(Function, Function)}, which
  throws an {@code IllegalStateException}.)
 
- @since NEXT (available since 21.0 in guava-jre)]]>
+ @since 33.2.0 (available since 21.0 in guava-jre)]]>
       </doc>
     </method>
     <method name="toImmutableMap" return="java.util.stream.Collector&lt;T, ?, com.google.common.collect.ImmutableMap&lt;K, V&gt;&gt;"
@@ -18623,7 +18623,7 @@
 
  <p>Entries will appear in the encounter order of the first occurrence of the key.
 
- @since NEXT (available since 21.0 in guava-jre)]]>
+ @since 33.2.0 (available since 21.0 in guava-jre)]]>
       </doc>
     </method>
     <method name="of" return="com.google.common.collect.ImmutableMap&lt;K, V&gt;"
@@ -19720,7 +19720,7 @@
  ImmutableMultiset}. Elements iterate in order by the <i>first</i> appearance of that element in
  encounter order.
 
- @since NEXT (available since 21.0 in guava-jre)]]>
+ @since 33.2.0 (available since 21.0 in guava-jre)]]>
       </doc>
     </method>
     <method name="toImmutableMultiset" return="java.util.stream.Collector&lt;T, ?, com.google.common.collect.ImmutableMultiset&lt;E&gt;&gt;"
@@ -19738,7 +19738,7 @@
  occurrence in encounter order appears in the resulting multiset, with count equal to the sum of
  the outputs of {@code countFunction.applyAsInt(t)} for each {@code t} mapped to that element.
 
- @since NEXT (available since 22.0 in guava-jre)]]>
+ @since 33.2.0 (available since 22.0 in guava-jre)]]>
       </doc>
     </method>
     <method name="of" return="com.google.common.collect.ImmutableMultiset&lt;E&gt;"
@@ -20151,7 +20151,7 @@
       <![CDATA[Returns a {@code Collector} that accumulates the input elements into a new {@code
  ImmutableRangeMap}. As in {@link Builder}, overlapping ranges are not permitted.
 
- @since NEXT (available since 23.1 in guava-jre)]]>
+ @since 33.2.0 (available since 23.1 in guava-jre)]]>
       </doc>
     </method>
     <method name="of" return="com.google.common.collect.ImmutableRangeMap&lt;K, V&gt;"
@@ -20370,7 +20370,7 @@
  ImmutableRangeSet}. As in {@link Builder}, overlapping ranges are not permitted and adjacent
  ranges will be merged.
 
- @since NEXT (available since 23.1 in guava-jre)]]>
+ @since 33.2.0 (available since 23.1 in guava-jre)]]>
       </doc>
     </method>
     <method name="of" return="com.google.common.collect.ImmutableRangeSet&lt;C&gt;"
@@ -20717,7 +20717,7 @@
  the stream contains duplicates (according to {@link Object#equals(Object)}), only the first
  duplicate in encounter order will appear in the result.
 
- @since NEXT (available since 21.0 in guava-jre)]]>
+ @since 33.2.0 (available since 21.0 in guava-jre)]]>
       </doc>
     </method>
     <method name="of" return="com.google.common.collect.ImmutableSet&lt;E&gt;"
@@ -21070,7 +21070,7 @@
          .build();
  }</pre>
 
- @since NEXT (available since 21.0 in guava-jre)]]>
+ @since 33.2.0 (available since 21.0 in guava-jre)]]>
       </doc>
     </method>
     <method name="flatteningToImmutableSetMultimap" return="java.util.stream.Collector&lt;T, ?, com.google.common.collect.ImmutableSetMultimap&lt;K, V&gt;&gt;"
@@ -21117,7 +21117,7 @@
  }
  }</pre>
 
- @since NEXT (available since 21.0 in guava-jre)]]>
+ @since 33.2.0 (available since 21.0 in guava-jre)]]>
       </doc>
     </method>
     <method name="of" return="com.google.common.collect.ImmutableSetMultimap&lt;K, V&gt;"
@@ -21462,7 +21462,7 @@
  from the {@code Collector} returned by {@link Collectors#toMap(Function, Function)}, which
  throws an {@code IllegalStateException}.)
 
- @since NEXT (available since 21.0 in guava-jre)]]>
+ @since 33.2.0 (available since 21.0 in guava-jre)]]>
       </doc>
     </method>
     <method name="toImmutableSortedMap" return="java.util.stream.Collector&lt;T, ?, com.google.common.collect.ImmutableSortedMap&lt;K, V&gt;&gt;"
@@ -21482,7 +21482,7 @@
  using the specified merging function. Entries will appear in the encounter order of the first
  occurrence of the key.
 
- @since NEXT (available since 21.0 in guava-jre)]]>
+ @since 33.2.0 (available since 21.0 in guava-jre)]]>
       </doc>
     </method>
     <method name="of" return="com.google.common.collect.ImmutableSortedMap&lt;K, V&gt;"
@@ -22105,7 +22105,7 @@
 
  @throws UnsupportedOperationException always
  @deprecated Use {@link ImmutableSortedMap#toImmutableSortedMap}.
- @since NEXT (available since 21.0 in guava-jre)]]>
+ @since 33.2.0 (available since 21.0 in guava-jre)]]>
       </doc>
     </method>
     <method name="toImmutableMap" return="java.util.stream.Collector&lt;T, ?, com.google.common.collect.ImmutableMap&lt;K, V&gt;&gt;"
@@ -22122,7 +22122,7 @@
 
  @throws UnsupportedOperationException always
  @deprecated Use {@link ImmutableSortedMap#toImmutableSortedMap}.
- @since NEXT (available since 21.0 in guava-jre)]]>
+ @since 33.2.0 (available since 21.0 in guava-jre)]]>
       </doc>
     </method>
     <method name="builder" return="com.google.common.collect.ImmutableSortedMap.Builder&lt;K, V&gt;"
@@ -22613,7 +22613,7 @@
  <p><b>Warning:</b> {@code comparator} should be <i>consistent with {@code equals}</i> as
  explained in the {@link Comparator} documentation.
 
- @since NEXT (available since 21.0 in guava-jre)]]>
+ @since 33.2.0 (available since 21.0 in guava-jre)]]>
       </doc>
     </method>
     <method name="toImmutableSortedMultiset" return="java.util.stream.Collector&lt;T, ?, com.google.common.collect.ImmutableSortedMultiset&lt;E&gt;&gt;"
@@ -22632,7 +22632,7 @@
  occurrence in encounter order appears in the resulting multiset, with count equal to the sum of
  the outputs of {@code countFunction.applyAsInt(t)} for each {@code t} mapped to that element.
 
- @since NEXT (available since 22.0 in guava-jre)]]>
+ @since 33.2.0 (available since 22.0 in guava-jre)]]>
       </doc>
     </method>
     <method name="of" return="com.google.common.collect.ImmutableSortedMultiset&lt;E&gt;"
@@ -22952,7 +22952,7 @@
 
  @throws UnsupportedOperationException always
  @deprecated Use {@link ImmutableSortedMultiset#toImmutableSortedMultiset}.
- @since NEXT (available since 21.0 in guava-jre)]]>
+ @since 33.2.0 (available since 21.0 in guava-jre)]]>
       </doc>
     </method>
     <method name="toImmutableMultiset" return="java.util.stream.Collector&lt;T, ?, com.google.common.collect.ImmutableMultiset&lt;E&gt;&gt;"
@@ -22968,7 +22968,7 @@
 
  @throws UnsupportedOperationException always
  @deprecated Use {@link ImmutableSortedMultiset#toImmutableSortedMultiset}.
- @since NEXT (available since 22.0 in guava-jre)]]>
+ @since 33.2.0 (available since 22.0 in guava-jre)]]>
       </doc>
     </method>
     <method name="builder" return="com.google.common.collect.ImmutableSortedMultiset.Builder&lt;E&gt;"
@@ -23283,7 +23283,7 @@
  <p>If the elements contain duplicates (according to the comparator), only the first duplicate
  in encounter order will appear in the result.
 
- @since NEXT (available since 21.0 in guava-jre)]]>
+ @since 33.2.0 (available since 21.0 in guava-jre)]]>
       </doc>
     </method>
     <method name="of" return="com.google.common.collect.ImmutableSortedSet&lt;E&gt;"
@@ -23777,7 +23777,7 @@
 
  @throws UnsupportedOperationException always
  @deprecated Use {@link ImmutableSortedSet#toImmutableSortedSet}.
- @since NEXT (available since 21.0 in guava-jre)]]>
+ @since 33.2.0 (available since 21.0 in guava-jre)]]>
       </doc>
     </method>
     <method name="builder" return="com.google.common.collect.ImmutableSortedSet.Builder&lt;E&gt;"
@@ -24073,7 +24073,7 @@
  <p>The returned {@code Collector} will throw a {@code NullPointerException} at collection time
  if the row, column, or value functions return null on any input.
 
- @since NEXT (available since 21.0 in guava-jre)]]>
+ @since 33.2.0 (available since 21.0 in guava-jre)]]>
       </doc>
     </method>
     <method name="toImmutableTable" return="java.util.stream.Collector&lt;T, ?, com.google.common.collect.ImmutableTable&lt;R, C, V&gt;&gt;"
@@ -24093,7 +24093,7 @@
  <p>The returned {@code Collector} will throw a {@code NullPointerException} at collection time
  if the row, column, value, or merging functions return null on any input.
 
- @since NEXT (available since 21.0 in guava-jre)]]>
+ @since 33.2.0 (available since 21.0 in guava-jre)]]>
       </doc>
     </method>
     <method name="of" return="com.google.common.collect.ImmutableTable&lt;R, C, V&gt;"
@@ -27371,7 +27371,7 @@
  java.util.function.Function) Collectors.toMap(Function, Function)}, which throws an {@code
  IllegalStateException}.)
 
- @since NEXT (available since 21.0 in guava-jre)]]>
+ @since 33.2.0 (available since 21.0 in guava-jre)]]>
       </doc>
     </method>
     <method name="toImmutableEnumMap" return="java.util.stream.Collector&lt;T, ?, com.google.common.collect.ImmutableMap&lt;K, V&gt;&gt;"
@@ -27390,7 +27390,7 @@
  <p>If the mapped keys contain duplicates, the values are merged using the specified merging
  function.
 
- @since NEXT (available since 21.0 in guava-jre)]]>
+ @since 33.2.0 (available since 21.0 in guava-jre)]]>
       </doc>
     </method>
     <method name="newHashMap" return="java.util.HashMap&lt;K, V&gt;"
@@ -29181,7 +29181,7 @@
  with a {@code com.google.common} type.
 
  @author Louis Wasserman
- @since NEXT (available since 21.0 in guava-jre)]]>
+ @since 33.2.0 (available since 21.0 in guava-jre)]]>
     </doc>
   </class>
   <!-- end class com.google.common.collect.MoreCollectors -->
@@ -29955,7 +29955,7 @@
  ImmutableSetMultimap#toImmutableSetMultimap} or {@link
  ImmutableListMultimap#toImmutableListMultimap}.
 
- @since NEXT (available since 21.0 in guava-jre)]]>
+ @since 33.2.0 (available since 21.0 in guava-jre)]]>
       </doc>
     </method>
     <method name="flatteningToMultimap" return="java.util.stream.Collector&lt;T, ?, M&gt;"
@@ -29996,7 +29996,7 @@
  }
  }</pre>
 
- @since NEXT (available since 21.0 in guava-jre)]]>
+ @since 33.2.0 (available since 21.0 in guava-jre)]]>
       </doc>
     </method>
     <method name="newMultimap" return="com.google.common.collect.Multimap&lt;K, V&gt;"
@@ -31471,7 +31471,7 @@
  <p>To collect to an {@link ImmutableMultiset}, use {@link
  ImmutableMultiset#toImmutableMultiset}.
 
- @since NEXT (available since 22.0 in guava-jre)]]>
+ @since 33.2.0 (available since 22.0 in guava-jre)]]>
       </doc>
     </method>
     <method name="unmodifiableMultiset" return="com.google.common.collect.Multiset&lt;E&gt;"
@@ -34336,7 +34336,7 @@
  with an implementation specialized for enums. Unlike {@link ImmutableSet#toImmutableSet}, the
  resulting set will iterate over elements in their enum definition order, not encounter order.
 
- @since NEXT (available since 21.0 in guava-jre)]]>
+ @since 33.2.0 (available since 21.0 in guava-jre)]]>
       </doc>
     </method>
     <method name="newEnumSet" return="java.util.EnumSet&lt;E&gt;"
@@ -35987,7 +35987,7 @@
 
  <p>To collect to an {@link ImmutableTable}, use {@link ImmutableTable#toImmutableTable}.
 
- @since NEXT (available since 21.0 in guava-jre)]]>
+ @since 33.2.0 (available since 21.0 in guava-jre)]]>
       </doc>
     </method>
     <method name="toTable" return="java.util.stream.Collector&lt;T, ?, I&gt;"
@@ -36011,7 +36011,7 @@
  NullPointerException} on null values returned from {@code valueFunction}, and treats nulls
  returned from {@code mergeFunction} as removals of that row/column pair.
 
- @since NEXT (available since 21.0 in guava-jre)]]>
+ @since 33.2.0 (available since 21.0 in guava-jre)]]>
       </doc>
     </method>
     <method name="immutableCell" return="com.google.common.collect.Table.Cell&lt;R, C, V&gt;"
@@ -52158,7 +52158,7 @@
  href="https://w3c.github.io/webappsec-permissions-policy/#permissions-policy-report-only-http-header-field">{@code
  Permissions-Policy-Report-Only}</a> header field name.
 
- @since NEXT]]>
+ @since 33.2.0]]>
       </doc>
     </field>
     <field name="SEC_CH_PREFERS_COLOR_SCHEME" type="java.lang.String"
@@ -52542,7 +52542,7 @@
  href="https://privacycg.github.io/gpc-spec/#the-sec-gpc-header-field-for-http-requests">{@code
  Sec-GPC}</a> header field name.
 
- @since NEXT]]>
+ @since 33.2.0]]>
       </doc>
     </field>
     <field name="AD_AUCTION_SIGNALS" type="java.lang.String"
@@ -52565,7 +52565,7 @@
       <![CDATA[The HTTP <a href="https://wicg.github.io/turtledove/#http-headerdef-ad-auction-allowed">{@code
  Ad-Auction-Allowed}</a> header field name.
 
- @since NEXT]]>
+ @since 33.2.0]]>
       </doc>
     </field>
     <field name="CDN_LOOP" type="java.lang.String"
