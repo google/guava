@@ -20,7 +20,6 @@ import static com.google.common.collect.CollectPreconditions.checkRemove;
 import static com.google.common.collect.Iterators.advance;
 import static com.google.common.collect.Iterators.get;
 import static com.google.common.collect.Iterators.getLast;
-import static com.google.common.collect.Iterators.singletonIterator;
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.testing.IteratorFeature.MODIFIABLE;
 import static com.google.common.collect.testing.IteratorFeature.UNMODIFIABLE;
@@ -801,19 +800,21 @@ public class IteratorsTest extends TestCase {
   }
 
   public void testConcatPartiallyAdvancedSecond() {
-    Iterator<String> itr1 = Iterators.concat(singletonIterator("a"), Iterators.forArray("b", "c"));
+    Iterator<String> itr1 =
+        Iterators.concat(Iterators.singletonIterator("a"), Iterators.forArray("b", "c"));
     assertEquals("a", itr1.next());
     assertEquals("b", itr1.next());
-    Iterator<String> itr2 = Iterators.concat(singletonIterator("d"), itr1);
+    Iterator<String> itr2 = Iterators.concat(Iterators.singletonIterator("d"), itr1);
     assertEquals("d", itr2.next());
     assertEquals("c", itr2.next());
   }
 
   public void testConcatPartiallyAdvancedFirst() {
-    Iterator<String> itr1 = Iterators.concat(singletonIterator("a"), Iterators.forArray("b", "c"));
+    Iterator<String> itr1 =
+        Iterators.concat(Iterators.singletonIterator("a"), Iterators.forArray("b", "c"));
     assertEquals("a", itr1.next());
     assertEquals("b", itr1.next());
-    Iterator<String> itr2 = Iterators.concat(itr1, singletonIterator("d"));
+    Iterator<String> itr2 = Iterators.concat(itr1, Iterators.singletonIterator("d"));
     assertEquals("c", itr2.next());
     assertEquals("d", itr2.next());
   }
@@ -975,7 +976,7 @@ public class IteratorsTest extends TestCase {
   }
 
   public void testPartition_badSize() {
-    Iterator<Integer> source = singletonIterator(1);
+    Iterator<Integer> source = Iterators.singletonIterator(1);
     try {
       Iterators.partition(source, 0);
       fail();
@@ -990,7 +991,7 @@ public class IteratorsTest extends TestCase {
   }
 
   public void testPartition_singleton1() {
-    Iterator<Integer> source = singletonIterator(1);
+    Iterator<Integer> source = Iterators.singletonIterator(1);
     Iterator<List<Integer>> partitions = Iterators.partition(source, 1);
     assertTrue(partitions.hasNext());
     assertTrue(partitions.hasNext());
@@ -999,7 +1000,7 @@ public class IteratorsTest extends TestCase {
   }
 
   public void testPartition_singleton2() {
-    Iterator<Integer> source = singletonIterator(1);
+    Iterator<Integer> source = Iterators.singletonIterator(1);
     Iterator<List<Integer>> partitions = Iterators.partition(source, 2);
     assertTrue(partitions.hasNext());
     assertTrue(partitions.hasNext());
@@ -1046,7 +1047,7 @@ public class IteratorsTest extends TestCase {
   }
 
   public void testPaddedPartition_badSize() {
-    Iterator<Integer> source = singletonIterator(1);
+    Iterator<Integer> source = Iterators.singletonIterator(1);
     try {
       Iterators.paddedPartition(source, 0);
       fail();
@@ -1061,7 +1062,7 @@ public class IteratorsTest extends TestCase {
   }
 
   public void testPaddedPartition_singleton1() {
-    Iterator<Integer> source = singletonIterator(1);
+    Iterator<Integer> source = Iterators.singletonIterator(1);
     Iterator<List<Integer>> partitions = Iterators.paddedPartition(source, 1);
     assertTrue(partitions.hasNext());
     assertTrue(partitions.hasNext());
@@ -1070,7 +1071,7 @@ public class IteratorsTest extends TestCase {
   }
 
   public void testPaddedPartition_singleton2() {
-    Iterator<Integer> source = singletonIterator(1);
+    Iterator<Integer> source = Iterators.singletonIterator(1);
     Iterator<List<Integer>> partitions = Iterators.paddedPartition(source, 2);
     assertTrue(partitions.hasNext());
     assertTrue(partitions.hasNext());
@@ -1536,38 +1537,13 @@ public class IteratorsTest extends TestCase {
     assertEquals(3, Iterators.frequency(list.iterator(), null));
   }
 
-  public void testSingletonIteratorBasic() {
-    Iterator<Integer> i = singletonIterator(1);
-    assertThat(i.hasNext()).isTrue();
-    assertThat(i.next()).isEqualTo(1);
-    assertThat(i.hasNext()).isFalse();
-  }
-
-  public void testSingletonNullIteratorBasic() {
-    Iterator<@Nullable Integer> i = singletonIterator(null);
-    assertThat(i.hasNext()).isTrue();
-    assertThat(i.next()).isEqualTo(null);
-    assertThat(i.hasNext()).isFalse();
-  }
-
   @GwtIncompatible // slow (~4s)
-  public void testSingletonIteratorWithIteratorTester() {
+  public void testSingletonIterator() {
     new IteratorTester<Integer>(
         3, UNMODIFIABLE, singleton(1), IteratorTester.KnownOrder.KNOWN_ORDER) {
       @Override
       protected Iterator<Integer> newTargetIterator() {
-        return singletonIterator(1);
-      }
-    }.test();
-  }
-
-  @GwtIncompatible // slow (~4s)
-  public void testSingletonNullIteratorWithIteratorTester() {
-    new IteratorTester<@Nullable Integer>(
-        3, UNMODIFIABLE, singleton(null), IteratorTester.KnownOrder.KNOWN_ORDER) {
-      @Override
-      protected Iterator<@Nullable Integer> newTargetIterator() {
-        return singletonIterator(null);
+        return Iterators.singletonIterator(1);
       }
     }.test();
   }
