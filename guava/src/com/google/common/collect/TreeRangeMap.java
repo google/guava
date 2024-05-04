@@ -264,6 +264,9 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
     putRangeMapEntry(cut, rangeMapEntry.getUpperBound(), rangeMapEntry.getValue());
   }
 
+  /**
+   * @since 28.1
+   */
   @Override
   public void merge(
       Range<K> range,

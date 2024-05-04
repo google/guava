@@ -294,6 +294,7 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
    *
    * @throws UnsupportedOperationException always
    * @deprecated Unsupported operation.
+   * @since 28.1
    */
   @Deprecated
   @Override
