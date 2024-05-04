@@ -20694,7 +20694,8 @@
       <![CDATA[Guaranteed to throw an exception and leave the {@code RangeMap} unmodified.
 
  @throws UnsupportedOperationException always
- @deprecated Unsupported operation.]]>
+ @deprecated Unsupported operation.
+ @since 28.1]]>
       </doc>
     </method>
     <method name="asMapOfRanges" return="com.google.common.collect.ImmutableMap&lt;com.google.common.collect.Range&lt;K&gt;, V&gt;"
@@ -37723,6 +37724,9 @@
       <param name="range" type="com.google.common.collect.Range&lt;K&gt;"/>
       <param name="value" type="V"/>
       <param name="remappingFunction" type="java.util.function.BiFunction&lt;? super V, ? super V, ? extends V&gt;"/>
+      <doc>
+      <![CDATA[@since 28.1]]>
+      </doc>
     </method>
     <method name="asMapOfRanges" return="java.util.Map&lt;com.google.common.collect.Range&lt;K&gt;, V&gt;"
       abstract="false" native="false" synchronized="false"
