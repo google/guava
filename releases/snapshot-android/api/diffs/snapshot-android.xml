@@ -46222,12 +46222,10 @@
     </method>
     <doc>
     <![CDATA[A {@link Closeable} that collects {@code Closeable} resources and closes them all when it is
- {@linkplain #close closed}. This is intended to approximately emulate the behavior of Java 7's <a
- href="http://docs.oracle.com/javase/tutorial/essential/exceptions/tryResourceClose.html"
- >try-with-resources</a> statement in JDK6-compatible code. Running on Java 7, code using this
- should be approximately equivalent in behavior to the same code written with try-with-resources.
- Running on Java 6, exceptions that cannot be thrown must be logged rather than being added to the
- thrown exception as a suppressed exception.
+ {@linkplain #close closed}. This was intended to approximately emulate the behavior of Java 7's
+ <a href="http://docs.oracle.com/javase/tutorial/essential/exceptions/tryResourceClose.html"
+ >try-with-resources</a> statement in JDK6-compatible code. Code using this should be
+ approximately equivalent in behavior to the same code written with try-with-resources.
 
  <p>This class is intended to be used in the following pattern:
 
@@ -46264,14 +46262,8 @@
        another exception is already being thrown) is <i>suppressed</i>.
  </ul>
 
- <p>An exception that is suppressed is not thrown. The method of suppression used depends on the
- version of Java the code is running on:
-
- <ul>
-   <li><b>Java 7+:</b> Exceptions are suppressed by adding them to the exception that <i>will</i>
-       be thrown using {@code Throwable.addSuppressed(Throwable)}.
-   <li><b>Java 6:</b> Exceptions are suppressed by logging them instead.
- </ul>
+ <p>An exception that is suppressed is added to the exception that <i>will</i> be thrown using
+ {@code Throwable.addSuppressed(Throwable)}.
 
  @author Colin Decker
  @since 14.0]]>
