@@ -347,11 +347,11 @@ public abstract class AbstractClosingFutureTest extends TestCase {
               @Override
               public String call(DeferredCloser closer) throws Exception {
                 closer.eventuallyClose(autoCloseable, closingExecutor);
-                return "";
+                return "foo";
               }
             },
             executor);
-    assertThat(getFinalValue(closingFuture)).isEqualTo("");
+    assertThat(getFinalValue(closingFuture)).isEqualTo("foo");
     waitUntilClosed(closingFuture);
     assertClosed(closeable1);
   }

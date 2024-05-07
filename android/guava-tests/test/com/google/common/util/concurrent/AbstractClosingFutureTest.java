@@ -339,6 +339,23 @@ public abstract class AbstractClosingFutureTest extends TestCase {
     assertClosed(closeable1, closeable2);
   }
 
+  public void testAutoCloseable() throws Exception {
+    AutoCloseable autoCloseable = closeable1::close;
+    ClosingFuture<String> closingFuture =
+        ClosingFuture.submit(
+            new ClosingCallable<String>() {
+              @Override
+              public String call(DeferredCloser closer) throws Exception {
+                closer.eventuallyClose(autoCloseable, closingExecutor);
+                return "foo";
+              }
+            },
+            executor);
+    assertThat(getFinalValue(closingFuture)).isEqualTo("foo");
+    waitUntilClosed(closingFuture);
+    assertClosed(closeable1);
+  }
+
   public void testStatusFuture() throws Exception {
     ClosingFuture<String> closingFuture =
         ClosingFuture.submit(
