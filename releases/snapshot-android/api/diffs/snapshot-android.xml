@@ -66549,11 +66549,11 @@
     abstract="false"
     static="true" final="true" visibility="public"
     deprecated="not deprecated">
-    <method name="eventuallyClose" return="C extends java.lang.Object &amp; java.io.Closeable"
+    <method name="eventuallyClose" return="C extends java.lang.Object &amp; java.lang.AutoCloseable"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="closeable" type="C extends java.lang.Object &amp; java.io.Closeable"/>
+      <param name="closeable" type="C extends java.lang.Object &amp; java.lang.AutoCloseable"/>
       <param name="closingExecutor" type="java.util.concurrent.Executor"/>
       <doc>
       <![CDATA[Captures an object to be closed when a {@link ClosingFuture} pipeline is done.

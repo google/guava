@@ -67,8 +67,8 @@
 <span class="sourceLineNo">058</span><a id="line.58">import java.time.Duration;</a>
 <span class="sourceLineNo">059</span><a id="line.59">import java.util.Collections;</a>
 <span class="sourceLineNo">060</span><a id="line.60">import java.util.EnumSet;</a>
-<span class="sourceLineNo">061</span><a id="line.61">import java.util.List;</a>
-<span class="sourceLineNo">062</span><a id="line.62">import java.util.Map;</a>
+<span class="sourceLineNo">061</span><a id="line.61">import java.util.IdentityHashMap;</a>
+<span class="sourceLineNo">062</span><a id="line.62">import java.util.List;</a>
 <span class="sourceLineNo">063</span><a id="line.63">import java.util.Map.Entry;</a>
 <span class="sourceLineNo">064</span><a id="line.64">import java.util.concurrent.Executor;</a>
 <span class="sourceLineNo">065</span><a id="line.65">import java.util.concurrent.TimeUnit;</a>
@@ -463,7 +463,7 @@
 <span class="sourceLineNo">454</span><a id="line.454">    final Multiset&lt;State&gt; states = servicesByState.keys();</a>
 <span class="sourceLineNo">455</span><a id="line.455"></a>
 <span class="sourceLineNo">456</span><a id="line.456">    @GuardedBy("monitor")</a>
-<span class="sourceLineNo">457</span><a id="line.457">    final Map&lt;Service, Stopwatch&gt; startupTimers = Maps.newIdentityHashMap();</a>
+<span class="sourceLineNo">457</span><a id="line.457">    final IdentityHashMap&lt;Service, Stopwatch&gt; startupTimers = new IdentityHashMap&lt;&gt;();</a>
 <span class="sourceLineNo">458</span><a id="line.458"></a>
 <span class="sourceLineNo">459</span><a id="line.459">    /**</a>
 <span class="sourceLineNo">460</span><a id="line.460">     * These two booleans are used to mark the state as ready to start.</a>
