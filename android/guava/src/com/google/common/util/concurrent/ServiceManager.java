@@ -55,8 +55,8 @@ import com.google.j2objc.annotations.WeakOuter;
 import java.lang.ref.WeakReference;
 import java.util.Collections;
 import java.util.EnumSet;
+import java.util.IdentityHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
@@ -409,7 +409,7 @@ public final class ServiceManager implements ServiceManagerBridge {
     final Multiset<State> states = servicesByState.keys();
 
     @GuardedBy("monitor")
-    final Map<Service, Stopwatch> startupTimers = Maps.newIdentityHashMap();
+    final IdentityHashMap<Service, Stopwatch> startupTimers = new IdentityHashMap<>();
 
     /**
      * These two booleans are used to mark the state as ready to start.
@@ -725,6 +725,9 @@ public final class ServiceManager implements ServiceManagerBridge {
             new IllegalStateException(
                 "Expected to be healthy after starting. The following services are not running: "
                     + Multimaps.filterKeys(servicesByState, not(equalTo(RUNNING))));
+        for (Service service : servicesByState.get(State.FAILED)) {
+          exception.addSuppressed(new FailedService(service));
+        }
         throw exception;
       }
     }
@@ -796,6 +799,11 @@ public final class ServiceManager implements ServiceManagerBridge {
         // Log before the transition, so that if the process exits in response to server failure,
         // there is a higher likelihood that the cause will be in the logs.
         boolean log = !(service instanceof NoOpService);
+        /*
+         * We have already exposed startup exceptions to the user in the form of suppressed
+         * exceptions. We don't need to log those exceptions again.
+         */
+        log &= from != State.STARTING;
         if (log) {
           logger
               .get()
@@ -831,4 +839,14 @@ public final class ServiceManager implements ServiceManagerBridge {
 
   /** This is never thrown but only used for logging. */
   private static final class EmptyServiceManagerWarning extends Throwable {}
+
+  private static final class FailedService extends Throwable {
+    FailedService(Service service) {
+      super(
+          service.toString(),
+          service.failureCause(),
+          false /* don't enable suppression */,
+          false /* don't calculate a stack trace. */);
+    }
+  }
 }
