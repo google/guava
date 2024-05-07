@@ -21,14 +21,13 @@ import static com.google.common.io.TestOption.CLOSE_THROWS;
 import static com.google.common.io.TestOption.OPEN_THROWS;
 import static com.google.common.io.TestOption.READ_THROWS;
 import static com.google.common.io.TestOption.WRITE_THROWS;
+import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
-import com.google.common.io.Closer.LoggingSuppressor;
-import com.google.common.testing.TestLogHandler;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
@@ -278,76 +277,29 @@ public class CharSourceTest extends IoTestCase {
       ImmutableSet.of(BROKEN_CLOSE_SINK, BROKEN_OPEN_SINK, BROKEN_WRITE_SINK);
 
   public void testCopyExceptions() {
-    if (Closer.create().suppressor instanceof LoggingSuppressor) {
-      // test that exceptions are logged
+    // test that exceptions are suppressed
 
-      TestLogHandler logHandler = new TestLogHandler();
-      Closeables.logger.addHandler(logHandler);
-      try {
-        for (CharSource in : BROKEN_SOURCES) {
-          runFailureTest(in, newNormalCharSink());
-          assertTrue(logHandler.getStoredLogRecords().isEmpty());
+    for (CharSource in : BROKEN_SOURCES) {
+      int suppressed = runSuppressionFailureTest(in, newNormalCharSink());
+      assertEquals(0, suppressed);
 
-          runFailureTest(in, BROKEN_CLOSE_SINK);
-          assertEquals((in == BROKEN_OPEN_SOURCE) ? 0 : 1, getAndResetRecords(logHandler));
-        }
-
-        for (CharSink out : BROKEN_SINKS) {
-          runFailureTest(newNormalCharSource(), out);
-          assertTrue(logHandler.getStoredLogRecords().isEmpty());
-
-          runFailureTest(BROKEN_CLOSE_SOURCE, out);
-          assertEquals(1, getAndResetRecords(logHandler));
-        }
-
-        for (CharSource in : BROKEN_SOURCES) {
-          for (CharSink out : BROKEN_SINKS) {
-            runFailureTest(in, out);
-            assertTrue(getAndResetRecords(logHandler) <= 1);
-          }
-        }
-      } finally {
-        Closeables.logger.removeHandler(logHandler);
-      }
-    } else {
-      // test that exceptions are suppressed
-
-      for (CharSource in : BROKEN_SOURCES) {
-        int suppressed = runSuppressionFailureTest(in, newNormalCharSink());
-        assertEquals(0, suppressed);
-
-        suppressed = runSuppressionFailureTest(in, BROKEN_CLOSE_SINK);
-        assertEquals((in == BROKEN_OPEN_SOURCE) ? 0 : 1, suppressed);
-      }
-
-      for (CharSink out : BROKEN_SINKS) {
-        int suppressed = runSuppressionFailureTest(newNormalCharSource(), out);
-        assertEquals(0, suppressed);
-
-        suppressed = runSuppressionFailureTest(BROKEN_CLOSE_SOURCE, out);
-        assertEquals(1, suppressed);
-      }
-
-      for (CharSource in : BROKEN_SOURCES) {
-        for (CharSink out : BROKEN_SINKS) {
-          int suppressed = runSuppressionFailureTest(in, out);
-          assertTrue(suppressed <= 1);
-        }
-      }
+      suppressed = runSuppressionFailureTest(in, BROKEN_CLOSE_SINK);
+      assertEquals((in == BROKEN_OPEN_SOURCE) ? 0 : 1, suppressed);
     }
-  }
 
-  private static int getAndResetRecords(TestLogHandler logHandler) {
-    int records = logHandler.getStoredLogRecords().size();
-    logHandler.clear();
-    return records;
-  }
+    for (CharSink out : BROKEN_SINKS) {
+      int suppressed = runSuppressionFailureTest(newNormalCharSource(), out);
+      assertEquals(0, suppressed);
 
-  private static void runFailureTest(CharSource in, CharSink out) {
-    try {
-      in.copyTo(out);
-      fail();
-    } catch (IOException expected) {
+      suppressed = runSuppressionFailureTest(BROKEN_CLOSE_SOURCE, out);
+      assertEquals(1, suppressed);
+    }
+
+    for (CharSource in : BROKEN_SOURCES) {
+      for (CharSink out : BROKEN_SINKS) {
+        int suppressed = runSuppressionFailureTest(in, out);
+        assertThat(suppressed).isAtMost(1);
+      }
     }
   }
 
@@ -359,7 +311,7 @@ public class CharSourceTest extends IoTestCase {
       in.copyTo(out);
       fail();
     } catch (IOException expected) {
-      return CloserTest.getSuppressed(expected).length;
+      return expected.getSuppressed().length;
     }
     throw new AssertionError(); // can't happen
   }
