@@ -113,11 +113,11 @@
 <span class="sourceLineNo">104</span><a id="line.104">  /**</a>
 <span class="sourceLineNo">105</span><a id="line.105">   * Returns an immutable multiset containing a single element.</a>
 <span class="sourceLineNo">106</span><a id="line.106">   *</a>
-<span class="sourceLineNo">107</span><a id="line.107">   * @throws NullPointerException if {@code element} is null</a>
+<span class="sourceLineNo">107</span><a id="line.107">   * @throws NullPointerException if the element is null</a>
 <span class="sourceLineNo">108</span><a id="line.108">   * @since 6.0 (source-compatible since 2.0)</a>
 <span class="sourceLineNo">109</span><a id="line.109">   */</a>
-<span class="sourceLineNo">110</span><a id="line.110">  public static &lt;E&gt; ImmutableMultiset&lt;E&gt; of(E element) {</a>
-<span class="sourceLineNo">111</span><a id="line.111">    return copyFromElements(element);</a>
+<span class="sourceLineNo">110</span><a id="line.110">  public static &lt;E&gt; ImmutableMultiset&lt;E&gt; of(E e1) {</a>
+<span class="sourceLineNo">111</span><a id="line.111">    return copyFromElements(e1);</a>
 <span class="sourceLineNo">112</span><a id="line.112">  }</a>
 <span class="sourceLineNo">113</span><a id="line.113"></a>
 <span class="sourceLineNo">114</span><a id="line.114">  /**</a>

@@ -333,7 +333,7 @@ implements java.util.List&lt;E&gt;, java.util.RandomAccess</pre>
 </tr>
 <tr id="i18" class="altColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#of(E)">of</a></span>&#8203;(E&nbsp;element)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#of(E)">of</a></span>&#8203;(E&nbsp;e1)</code></th>
 <td class="colLast">
 <div class="block">Returns an immutable list containing a single element.</div>
 </td>
@@ -638,13 +638,13 @@ public static&nbsp;&lt;E&gt;&nbsp;java.util.stream.Collector&lt;E,&#8203;?,&#820
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.100">of</a>&#8203;(E&nbsp;element)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.100">of</a>&#8203;(E&nbsp;e1)</pre>
 <div class="block">Returns an immutable list containing a single element. This list behaves and performs
  comparably to <code>Collections.singletonList(T)</code>, but will not accept a null element. It is
  preferable mainly for consistency and maintainability of your code.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.NullPointerException</code> - if <code>element</code> is null</dd>
+<dd><code>java.lang.NullPointerException</code> - if the element is null</dd>
 </dl>
 </li>
 </ul>

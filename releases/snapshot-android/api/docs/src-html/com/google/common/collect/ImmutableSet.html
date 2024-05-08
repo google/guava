@@ -90,12 +90,12 @@
 <span class="sourceLineNo">081</span><a id="line.81">  }</a>
 <span class="sourceLineNo">082</span><a id="line.82"></a>
 <span class="sourceLineNo">083</span><a id="line.83">  /**</a>
-<span class="sourceLineNo">084</span><a id="line.84">   * Returns an immutable set containing {@code element}. Preferred over {@link</a>
+<span class="sourceLineNo">084</span><a id="line.84">   * Returns an immutable set containing the given element. Preferred over {@link</a>
 <span class="sourceLineNo">085</span><a id="line.85">   * Collections#singleton} for code consistency, {@code null} rejection, and because the return</a>
 <span class="sourceLineNo">086</span><a id="line.86">   * type conveys the immutability guarantee.</a>
 <span class="sourceLineNo">087</span><a id="line.87">   */</a>
-<span class="sourceLineNo">088</span><a id="line.88">  public static &lt;E&gt; ImmutableSet&lt;E&gt; of(E element) {</a>
-<span class="sourceLineNo">089</span><a id="line.89">    return new SingletonImmutableSet&lt;&gt;(element);</a>
+<span class="sourceLineNo">088</span><a id="line.88">  public static &lt;E&gt; ImmutableSet&lt;E&gt; of(E e1) {</a>
+<span class="sourceLineNo">089</span><a id="line.89">    return new SingletonImmutableSet&lt;&gt;(e1);</a>
 <span class="sourceLineNo">090</span><a id="line.90">  }</a>
 <span class="sourceLineNo">091</span><a id="line.91"></a>
 <span class="sourceLineNo">092</span><a id="line.92">  /**</a>

@@ -104,10 +104,10 @@
 <span class="sourceLineNo">095</span><a id="line.95">   * comparably to {@link Collections#singletonList}, but will not accept a null element. It is</a>
 <span class="sourceLineNo">096</span><a id="line.96">   * preferable mainly for consistency and maintainability of your code.</a>
 <span class="sourceLineNo">097</span><a id="line.97">   *</a>
-<span class="sourceLineNo">098</span><a id="line.98">   * @throws NullPointerException if {@code element} is null</a>
+<span class="sourceLineNo">098</span><a id="line.98">   * @throws NullPointerException if the element is null</a>
 <span class="sourceLineNo">099</span><a id="line.99">   */</a>
-<span class="sourceLineNo">100</span><a id="line.100">  public static &lt;E&gt; ImmutableList&lt;E&gt; of(E element) {</a>
-<span class="sourceLineNo">101</span><a id="line.101">    return construct(element);</a>
+<span class="sourceLineNo">100</span><a id="line.100">  public static &lt;E&gt; ImmutableList&lt;E&gt; of(E e1) {</a>
+<span class="sourceLineNo">101</span><a id="line.101">    return construct(e1);</a>
 <span class="sourceLineNo">102</span><a id="line.102">  }</a>
 <span class="sourceLineNo">103</span><a id="line.103"></a>
 <span class="sourceLineNo">104</span><a id="line.104">  /**</a>

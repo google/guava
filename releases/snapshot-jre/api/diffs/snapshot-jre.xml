@@ -17894,13 +17894,13 @@
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="element" type="E"/>
+      <param name="e1" type="E"/>
       <doc>
       <![CDATA[Returns an immutable list containing a single element. This list behaves and performs
  comparably to {@link Collections#singletonList}, but will not accept a null element. It is
  preferable mainly for consistency and maintainability of your code.
 
- @throws NullPointerException if {@code element} is null]]>
+ @throws NullPointerException if the element is null]]>
       </doc>
     </method>
     <method name="of" return="com.google.common.collect.ImmutableList&lt;E&gt;"
@@ -20172,11 +20172,11 @@
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="element" type="E"/>
+      <param name="e1" type="E"/>
       <doc>
       <![CDATA[Returns an immutable multiset containing a single element.
 
- @throws NullPointerException if {@code element} is null
+ @throws NullPointerException if the element is null
  @since 6.0 (source-compatible since 2.0)]]>
       </doc>
     </method>
@@ -21167,9 +21167,9 @@
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="element" type="E"/>
+      <param name="e1" type="E"/>
       <doc>
-      <![CDATA[Returns an immutable set containing {@code element}. Preferred over {@link
+      <![CDATA[Returns an immutable set containing the given element. Preferred over {@link
  Collections#singleton} for code consistency, {@code null} rejection, and because the return
  type conveys the immutability guarantee.]]>
       </doc>
@@ -23048,7 +23048,7 @@
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="element" type="E extends java.lang.Comparable&lt;? super E&gt;"/>
+      <param name="e1" type="E extends java.lang.Comparable&lt;? super E&gt;"/>
       <doc>
       <![CDATA[Returns an immutable sorted multiset containing a single element.]]>
       </doc>
@@ -23388,7 +23388,7 @@
       static="true" final="false" visibility="public"
       deprecated="lEsS_tHaNb>Pass a parameter of type {@code Comparable} to use {@link
      ImmutableSortedMultiset#of(Comparable)}.lEsS_tHaN/b>">
-      <param name="element" type="E"/>
+      <param name="e1" type="E"/>
       <doc>
       <![CDATA[Not supported. <b>You are attempting to create a multiset that may contain a non-{@code
  Comparable} element.</b> Proper calls will resolve to the version in {@code
@@ -23699,7 +23699,7 @@
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="element" type="E extends java.lang.Comparable&lt;? super E&gt;"/>
+      <param name="e1" type="E extends java.lang.Comparable&lt;? super E&gt;"/>
       <doc>
       <![CDATA[Returns an immutable sorted set containing a single element.]]>
       </doc>
@@ -24214,7 +24214,7 @@
       static="true" final="false" visibility="public"
       deprecated="lEsS_tHaNb>Pass a parameter of type {@code Comparable} to use {@link
      ImmutableSortedSet#of(Comparable)}.lEsS_tHaN/b>">
-      <param name="element" type="E"/>
+      <param name="e1" type="E"/>
       <doc>
       <![CDATA[Not supported. <b>You are attempting to create a set that may contain a non-{@code Comparable}
  element.</b> Proper calls will resolve to the version in {@code ImmutableSortedSet}, not this

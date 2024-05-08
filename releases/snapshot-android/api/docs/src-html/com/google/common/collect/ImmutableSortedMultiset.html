@@ -149,9 +149,9 @@
 <span class="sourceLineNo">140</span><a id="line.140">  }</a>
 <span class="sourceLineNo">141</span><a id="line.141"></a>
 <span class="sourceLineNo">142</span><a id="line.142">  /** Returns an immutable sorted multiset containing a single element. */</a>
-<span class="sourceLineNo">143</span><a id="line.143">  public static &lt;E extends Comparable&lt;? super E&gt;&gt; ImmutableSortedMultiset&lt;E&gt; of(E element) {</a>
+<span class="sourceLineNo">143</span><a id="line.143">  public static &lt;E extends Comparable&lt;? super E&gt;&gt; ImmutableSortedMultiset&lt;E&gt; of(E e1) {</a>
 <span class="sourceLineNo">144</span><a id="line.144">    RegularImmutableSortedSet&lt;E&gt; elementSet =</a>
-<span class="sourceLineNo">145</span><a id="line.145">        (RegularImmutableSortedSet&lt;E&gt;) ImmutableSortedSet.of(element);</a>
+<span class="sourceLineNo">145</span><a id="line.145">        (RegularImmutableSortedSet&lt;E&gt;) ImmutableSortedSet.of(e1);</a>
 <span class="sourceLineNo">146</span><a id="line.146">    long[] cumulativeCounts = {0, 1};</a>
 <span class="sourceLineNo">147</span><a id="line.147">    return new RegularImmutableSortedMultiset&lt;&gt;(elementSet, cumulativeCounts, 0, 1);</a>
 <span class="sourceLineNo">148</span><a id="line.148">  }</a>
@@ -826,7 +826,7 @@
 <span class="sourceLineNo">817</span><a id="line.817">   */</a>
 <span class="sourceLineNo">818</span><a id="line.818">  @DoNotCall("Elements must be Comparable. (Or, pass a Comparator to orderedBy or copyOf.)")</a>
 <span class="sourceLineNo">819</span><a id="line.819">  @Deprecated</a>
-<span class="sourceLineNo">820</span><a id="line.820">  public static &lt;E&gt; ImmutableSortedMultiset&lt;E&gt; of(E element) {</a>
+<span class="sourceLineNo">820</span><a id="line.820">  public static &lt;E&gt; ImmutableSortedMultiset&lt;E&gt; of(E e1) {</a>
 <span class="sourceLineNo">821</span><a id="line.821">    throw new UnsupportedOperationException();</a>
 <span class="sourceLineNo">822</span><a id="line.822">  }</a>
 <span class="sourceLineNo">823</span><a id="line.823"></a>

@@ -114,8 +114,8 @@
 <span class="sourceLineNo">105</span><a id="line.105">  }</a>
 <span class="sourceLineNo">106</span><a id="line.106"></a>
 <span class="sourceLineNo">107</span><a id="line.107">  /** Returns an immutable sorted set containing a single element. */</a>
-<span class="sourceLineNo">108</span><a id="line.108">  public static &lt;E extends Comparable&lt;? super E&gt;&gt; ImmutableSortedSet&lt;E&gt; of(E element) {</a>
-<span class="sourceLineNo">109</span><a id="line.109">    return new RegularImmutableSortedSet&lt;&gt;(ImmutableList.of(element), Ordering.natural());</a>
+<span class="sourceLineNo">108</span><a id="line.108">  public static &lt;E extends Comparable&lt;? super E&gt;&gt; ImmutableSortedSet&lt;E&gt; of(E e1) {</a>
+<span class="sourceLineNo">109</span><a id="line.109">    return new RegularImmutableSortedSet&lt;&gt;(ImmutableList.of(e1), Ordering.natural());</a>
 <span class="sourceLineNo">110</span><a id="line.110">  }</a>
 <span class="sourceLineNo">111</span><a id="line.111"></a>
 <span class="sourceLineNo">112</span><a id="line.112">  /**</a>
@@ -923,7 +923,7 @@
 <span class="sourceLineNo">914</span><a id="line.914">   */</a>
 <span class="sourceLineNo">915</span><a id="line.915">  @DoNotCall("Pass a parameter of type Comparable")</a>
 <span class="sourceLineNo">916</span><a id="line.916">  @Deprecated</a>
-<span class="sourceLineNo">917</span><a id="line.917">  public static &lt;E&gt; ImmutableSortedSet&lt;E&gt; of(E element) {</a>
+<span class="sourceLineNo">917</span><a id="line.917">  public static &lt;E&gt; ImmutableSortedSet&lt;E&gt; of(E e1) {</a>
 <span class="sourceLineNo">918</span><a id="line.918">    throw new UnsupportedOperationException();</a>
 <span class="sourceLineNo">919</span><a id="line.919">  }</a>
 <span class="sourceLineNo">920</span><a id="line.920"></a>
