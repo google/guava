@@ -55,8 +55,8 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
     return (ImmutableSet<E>) RegularImmutableSet.EMPTY;
   }
 
-  public static <E> ImmutableSet<E> of(E element) {
-    return new SingletonImmutableSet<E>(element);
+  public static <E> ImmutableSet<E> of(E e1) {
+    return new SingletonImmutableSet<E>(e1);
   }
 
   @SuppressWarnings("unchecked")

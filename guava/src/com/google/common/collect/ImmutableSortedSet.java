@@ -105,8 +105,8 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSet.CachingAsList<E
   }
 
   /** Returns an immutable sorted set containing a single element. */
-  public static <E extends Comparable<? super E>> ImmutableSortedSet<E> of(E element) {
-    return new RegularImmutableSortedSet<>(ImmutableList.of(element), Ordering.natural());
+  public static <E extends Comparable<? super E>> ImmutableSortedSet<E> of(E e1) {
+    return new RegularImmutableSortedSet<>(ImmutableList.of(e1), Ordering.natural());
   }
 
   /**
@@ -914,7 +914,7 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSet.CachingAsList<E
    */
   @DoNotCall("Pass a parameter of type Comparable")
   @Deprecated
-  public static <E> ImmutableSortedSet<E> of(E element) {
+  public static <E> ImmutableSortedSet<E> of(E e1) {
     throw new UnsupportedOperationException();
   }
 

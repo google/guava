@@ -104,11 +104,11 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
   /**
    * Returns an immutable multiset containing a single element.
    *
-   * @throws NullPointerException if {@code element} is null
+   * @throws NullPointerException if the element is null
    * @since 6.0 (source-compatible since 2.0)
    */
-  public static <E> ImmutableMultiset<E> of(E element) {
-    return copyFromElements(element);
+  public static <E> ImmutableMultiset<E> of(E e1) {
+    return copyFromElements(e1);
   }
 
   /**

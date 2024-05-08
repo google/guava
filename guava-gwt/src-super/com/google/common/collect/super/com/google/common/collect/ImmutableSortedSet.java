@@ -79,8 +79,8 @@ public abstract class ImmutableSortedSet<E> extends ForwardingImmutableSet<E>
     return (ImmutableSortedSet<E>) NATURAL_EMPTY_SET;
   }
 
-  public static <E extends Comparable<? super E>> ImmutableSortedSet<E> of(E element) {
-    return ofInternal(Ordering.natural(), element);
+  public static <E extends Comparable<? super E>> ImmutableSortedSet<E> of(E e1) {
+    return ofInternal(Ordering.natural(), e1);
   }
 
   @SuppressWarnings("unchecked")

@@ -95,10 +95,10 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    * comparably to {@link Collections#singletonList}, but will not accept a null element. It is
    * preferable mainly for consistency and maintainability of your code.
    *
-   * @throws NullPointerException if {@code element} is null
+   * @throws NullPointerException if the element is null
    */
-  public static <E> ImmutableList<E> of(E element) {
-    return new SingletonImmutableList<>(element);
+  public static <E> ImmutableList<E> of(E e1) {
+    return new SingletonImmutableList<>(e1);
   }
 
   /**

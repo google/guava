@@ -140,9 +140,9 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableMultiset<E>
   }
 
   /** Returns an immutable sorted multiset containing a single element. */
-  public static <E extends Comparable<? super E>> ImmutableSortedMultiset<E> of(E element) {
+  public static <E extends Comparable<? super E>> ImmutableSortedMultiset<E> of(E e1) {
     RegularImmutableSortedSet<E> elementSet =
-        (RegularImmutableSortedSet<E>) ImmutableSortedSet.of(element);
+        (RegularImmutableSortedSet<E>) ImmutableSortedSet.of(e1);
     long[] cumulativeCounts = {0, 1};
     return new RegularImmutableSortedMultiset<>(elementSet, cumulativeCounts, 0, 1);
   }
@@ -817,7 +817,7 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableMultiset<E>
    */
   @DoNotCall("Elements must be Comparable. (Or, pass a Comparator to orderedBy or copyOf.)")
   @Deprecated
-  public static <E> ImmutableSortedMultiset<E> of(E element) {
+  public static <E> ImmutableSortedMultiset<E> of(E e1) {
     throw new UnsupportedOperationException();
   }
 
