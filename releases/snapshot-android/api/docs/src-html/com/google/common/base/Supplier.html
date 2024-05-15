@@ -55,17 +55,16 @@
 <span class="sourceLineNo">046</span><a id="line.46"> */</a>
 <span class="sourceLineNo">047</span><a id="line.47">@GwtCompatible</a>
 <span class="sourceLineNo">048</span><a id="line.48">@ElementTypesAreNonnullByDefault</a>
-<span class="sourceLineNo">049</span><a id="line.49">public interface Supplier&lt;T extends @Nullable Object&gt;</a>
-<span class="sourceLineNo">050</span><a id="line.50">{</a>
-<span class="sourceLineNo">051</span><a id="line.51">  /**</a>
-<span class="sourceLineNo">052</span><a id="line.52">   * Retrieves an instance of the appropriate type. The returned object may or may not be a new</a>
-<span class="sourceLineNo">053</span><a id="line.53">   * instance, depending on the implementation.</a>
-<span class="sourceLineNo">054</span><a id="line.54">   *</a>
-<span class="sourceLineNo">055</span><a id="line.55">   * @return an instance of the appropriate type</a>
-<span class="sourceLineNo">056</span><a id="line.56">   */</a>
-<span class="sourceLineNo">057</span><a id="line.57">  @ParametricNullness</a>
-<span class="sourceLineNo">058</span><a id="line.58">  T get();</a>
-<span class="sourceLineNo">059</span><a id="line.59">}</a>
+<span class="sourceLineNo">049</span><a id="line.49">public interface Supplier&lt;T extends @Nullable Object&gt; {</a>
+<span class="sourceLineNo">050</span><a id="line.50">  /**</a>
+<span class="sourceLineNo">051</span><a id="line.51">   * Retrieves an instance of the appropriate type. The returned object may or may not be a new</a>
+<span class="sourceLineNo">052</span><a id="line.52">   * instance, depending on the implementation.</a>
+<span class="sourceLineNo">053</span><a id="line.53">   *</a>
+<span class="sourceLineNo">054</span><a id="line.54">   * @return an instance of the appropriate type</a>
+<span class="sourceLineNo">055</span><a id="line.55">   */</a>
+<span class="sourceLineNo">056</span><a id="line.56">  @ParametricNullness</a>
+<span class="sourceLineNo">057</span><a id="line.57">  T get();</a>
+<span class="sourceLineNo">058</span><a id="line.58">}</a>
 
 
 
