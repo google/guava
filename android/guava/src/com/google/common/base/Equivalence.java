@@ -45,8 +45,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * The type parameter is <T> rather than <T extends @Nullable> so that we can use T in the
  * doEquivalent and doHash methods to indicate that the parameter cannot be null.
  */
-public abstract class Equivalence<T>
-{
+public abstract class Equivalence<T> {
   /** Constructor for use by subclasses. */
   protected Equivalence() {}
 
@@ -78,11 +77,6 @@ public abstract class Equivalence<T>
   }
 
   /**
-   * Implemented by the user to determine whether {@code a} and {@code b} are considered equivalent,
-   * subject to the requirements specified in {@link #equivalent}.
-   *
-   * <p>This method should not be called except by {@link #equivalent}. When {@link #equivalent}
-   * calls this method, {@code a} and {@code b} are guaranteed to be distinct, non-null instances.
    *
    * @since 10.0 (previously, subclasses would override equivalent())
    */

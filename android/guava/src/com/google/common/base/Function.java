@@ -45,8 +45,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @GwtCompatible
 @ElementTypesAreNonnullByDefault
-public interface Function<F extends @Nullable Object, T extends @Nullable Object>
-{
+public interface Function<F extends @Nullable Object, T extends @Nullable Object> {
   /**
    * Returns the result of applying this function to {@code input}. This method is <i>generally
    * expected</i>, but not absolutely required, to have the following properties:
