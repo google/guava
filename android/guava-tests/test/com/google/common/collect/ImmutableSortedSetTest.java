@@ -233,7 +233,6 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
 
   @J2ktIncompatible
   @GwtIncompatible // NullPointerTester
-  @AndroidIncompatible // see ImmutableTableTest.testNullPointerInstance
   public void testNullPointers() {
     new NullPointerTester().testAllPublicStaticMethods(ImmutableSortedSet.class);
   }

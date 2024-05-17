@@ -246,7 +246,6 @@ public class BloomFilterTest extends TestCase {
         });
   }
 
-  @AndroidIncompatible // see ImmutableTableTest.testNullPointerInstance
   public void testNullPointers() {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicInstanceMethods(BloomFilter.create(Funnels.unencodedCharsFunnel(), 100));

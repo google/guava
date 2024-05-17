@@ -453,7 +453,6 @@ public class ImmutableSortedMultisetTest extends TestCase {
             "C");
   }
 
-  @AndroidIncompatible // see ImmutableTableTest.testNullPointerInstance
   public void testNullPointers() {
     new NullPointerTester().testAllPublicStaticMethods(ImmutableSortedMultiset.class);
   }

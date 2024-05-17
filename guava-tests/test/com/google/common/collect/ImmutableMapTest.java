@@ -918,7 +918,6 @@ public class ImmutableMapTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // NullPointerTester
-  @AndroidIncompatible // see ImmutableTableTest.testNullPointerInstance
   public void testNullPointers() {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicStaticMethods(ImmutableMap.class);

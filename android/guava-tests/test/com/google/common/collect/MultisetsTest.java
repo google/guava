@@ -276,7 +276,6 @@ public class MultisetsTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // NullPointerTester
-  @AndroidIncompatible // see ImmutableTableTest.testNullPointerInstance
   public void testNullPointers() {
     new NullPointerTester().testAllPublicStaticMethods(Multisets.class);
   }

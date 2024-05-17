@@ -480,7 +480,6 @@ public class ImmutableMultisetTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // NullPointerTester
-  @AndroidIncompatible // see ImmutableTableTest.testNullPointerInstance
   public void testNullPointers() {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicStaticMethods(ImmutableMultiset.class);

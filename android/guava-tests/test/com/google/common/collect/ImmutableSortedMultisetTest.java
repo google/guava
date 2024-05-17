@@ -422,7 +422,6 @@ public class ImmutableSortedMultisetTest extends TestCase {
     assertThrows(IllegalArgumentException.class, () -> builder.setCount("a", -2));
   }
 
-  @AndroidIncompatible // see ImmutableTableTest.testNullPointerInstance
   public void testNullPointers() {
     new NullPointerTester().testAllPublicStaticMethods(ImmutableSortedMultiset.class);
   }
