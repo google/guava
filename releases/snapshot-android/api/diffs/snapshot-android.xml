@@ -52648,15 +52648,18 @@
 
  <p>This deliberately avoids all nameservice lookups (e.g. no DNS).
 
- <p>Anything after a {@code %} in an IPv6 address is ignored (assumed to be a Scope ID).
-
  <p>This method accepts non-ASCII digits, for example {@code "１９２.１６８.０.１"} (those are fullwidth
  characters). That is consistent with {@link InetAddress}, but not with various RFCs. If you
  want to accept ASCII digits only, you can use something like {@code
  CharMatcher.ascii().matchesAllOf(ipString)}.
 
+ <p>The scope ID is validated against the interfaces on the machine, which requires permissions
+ under Android.
+
+ <p><b>Android users on API >= 29:</b> Prefer {@code InetAddresses.parseNumericAddress}.
+
  @param ipString {@code String} containing an IPv4 or IPv6 string literal, e.g. {@code
-     "192.168.0.1"} or {@code "2001:db8::1"}
+     "192.168.0.1"} or {@code "2001:db8::1"} or with a scope ID, e.g. {@code "2001:db8::1%eth0"}
  @return {@link InetAddress} representing the argument
  @throws IllegalArgumentException if the argument is not a valid IP string literal]]>
       </doc>
@@ -52690,10 +52693,13 @@
  <p>For IPv4 addresses, this is identical to {@link InetAddress#getHostAddress()}, but for IPv6
  addresses, the output follows <a href="http://tools.ietf.org/html/rfc5952">RFC 5952</a> section
  4. The main difference is that this method uses "::" for zero compression, while Java's version
- uses the uncompressed form.
+ uses the uncompressed form (except on Android, where the zero compression is also done). The
+ other difference is that this method outputs any scope ID in the format that it was provided at
+ creation time, while Android may always output it as an interface name, even if it was supplied
+ as a numeric ID.
 
  <p>This method uses hexadecimal for all IPv6 addresses, including IPv4-mapped IPv6 addresses
- such as "::c000:201". The output does not include a Scope ID.
+ such as "::c000:201".
 
  @param ip {@link InetAddress} to be converted to an address string
  @return {@code String} containing the text-formatted IP address
@@ -52747,7 +52753,8 @@
  @param hostAddr an RFC 3986 section 3.2.2 encoded IPv4 or IPv6 address
  @return an InetAddress representing the address in {@code hostAddr}
  @throws IllegalArgumentException if {@code hostAddr} is not a valid IPv4 address, or IPv6
-     address surrounded by square brackets]]>
+     address surrounded by square brackets, or if the address has a scope id that fails
+     validation against interfaces on the machine]]>
       </doc>
     </method>
     <method name="isUriInetAddress" return="boolean"
@@ -52763,6 +52770,9 @@
  characters). That is consistent with {@link InetAddress}, but not with various RFCs. If you
  want to accept ASCII digits only, you can use something like {@code
  CharMatcher.ascii().matchesAllOf(ipString)}.
+
+ <p>Note that if this method returns {@code true}, a call to {@link #forUriString(String)} can
+ throw if the address has a scope id fails validation against interfaces on the machine.
 
  @param ipString {@code String} to evaluated as an IP URI host string literal
  @return {@code true} if the argument is a valid IP URI host]]>
