@@ -1432,20 +1432,19 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
   }
 
   /** {@link AtomicHelper} based on {@link AtomicReferenceFieldUpdater}. */
-  @SuppressWarnings("rawtypes")
   private static final class SafeAtomicHelper extends AtomicHelper {
     final AtomicReferenceFieldUpdater<Waiter, Thread> waiterThreadUpdater;
     final AtomicReferenceFieldUpdater<Waiter, Waiter> waiterNextUpdater;
-    final AtomicReferenceFieldUpdater<AbstractFuture, Waiter> waitersUpdater;
-    final AtomicReferenceFieldUpdater<AbstractFuture, Listener> listenersUpdater;
-    final AtomicReferenceFieldUpdater<AbstractFuture, Object> valueUpdater;
+    final AtomicReferenceFieldUpdater<? super AbstractFuture<?>, Waiter> waitersUpdater;
+    final AtomicReferenceFieldUpdater<? super AbstractFuture<?>, Listener> listenersUpdater;
+    final AtomicReferenceFieldUpdater<? super AbstractFuture<?>, Object> valueUpdater;
 
     SafeAtomicHelper(
         AtomicReferenceFieldUpdater<Waiter, Thread> waiterThreadUpdater,
         AtomicReferenceFieldUpdater<Waiter, Waiter> waiterNextUpdater,
-        AtomicReferenceFieldUpdater<AbstractFuture, Waiter> waitersUpdater,
-        AtomicReferenceFieldUpdater<AbstractFuture, Listener> listenersUpdater,
-        AtomicReferenceFieldUpdater<AbstractFuture, Object> valueUpdater) {
+        AtomicReferenceFieldUpdater<? super AbstractFuture<?>, Waiter> waitersUpdater,
+        AtomicReferenceFieldUpdater<? super AbstractFuture<?>, Listener> listenersUpdater,
+        AtomicReferenceFieldUpdater<? super AbstractFuture<?>, Object> valueUpdater) {
       this.waiterThreadUpdater = waiterThreadUpdater;
       this.waiterNextUpdater = waiterNextUpdater;
       this.waitersUpdater = waitersUpdater;

@@ -158,20 +158,19 @@ abstract class AggregateFutureState<OutputT extends @Nullable Object>
   }
 
   private static final class SafeAtomicHelper extends AtomicHelper {
-    final AtomicReferenceFieldUpdater<AggregateFutureState<?>, @Nullable Set<Throwable>>
+    final AtomicReferenceFieldUpdater<
+            ? super AggregateFutureState<?>, ? super @Nullable Set<Throwable>>
         seenExceptionsUpdater;
 
-    final AtomicIntegerFieldUpdater<AggregateFutureState<?>> remainingCountUpdater;
+    final AtomicIntegerFieldUpdater<? super AggregateFutureState<?>> remainingCountUpdater;
 
-    @SuppressWarnings({"rawtypes", "unchecked"}) // Unavoidable with reflection API
     SafeAtomicHelper(
-        AtomicReferenceFieldUpdater seenExceptionsUpdater,
-        AtomicIntegerFieldUpdater remainingCountUpdater) {
-      this.seenExceptionsUpdater =
-          (AtomicReferenceFieldUpdater<AggregateFutureState<?>, @Nullable Set<Throwable>>)
-              seenExceptionsUpdater;
-      this.remainingCountUpdater =
-          (AtomicIntegerFieldUpdater<AggregateFutureState<?>>) remainingCountUpdater;
+        AtomicReferenceFieldUpdater<
+                ? super AggregateFutureState<?>, ? super @Nullable Set<Throwable>>
+            seenExceptionsUpdater,
+        AtomicIntegerFieldUpdater<? super AggregateFutureState<?>> remainingCountUpdater) {
+      this.seenExceptionsUpdater = seenExceptionsUpdater;
+      this.remainingCountUpdater = remainingCountUpdater;
     }
 
     @Override
