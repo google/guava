@@ -968,22 +968,21 @@
 <span class="sourceLineNo">959</span><a id="line.959">   * Object[])} comparator when comparing a value outside the set of values it can compare.</a>
 <span class="sourceLineNo">960</span><a id="line.960">   * Extending {@link ClassCastException} may seem odd, but it is required.</a>
 <span class="sourceLineNo">961</span><a id="line.961">   */</a>
-<span class="sourceLineNo">962</span><a id="line.962">  @VisibleForTesting</a>
-<span class="sourceLineNo">963</span><a id="line.963">  static class IncomparableValueException extends ClassCastException {</a>
-<span class="sourceLineNo">964</span><a id="line.964">    final Object value;</a>
-<span class="sourceLineNo">965</span><a id="line.965"></a>
-<span class="sourceLineNo">966</span><a id="line.966">    IncomparableValueException(Object value) {</a>
-<span class="sourceLineNo">967</span><a id="line.967">      super("Cannot compare value: " + value);</a>
-<span class="sourceLineNo">968</span><a id="line.968">      this.value = value;</a>
-<span class="sourceLineNo">969</span><a id="line.969">    }</a>
-<span class="sourceLineNo">970</span><a id="line.970"></a>
-<span class="sourceLineNo">971</span><a id="line.971">    private static final long serialVersionUID = 0;</a>
-<span class="sourceLineNo">972</span><a id="line.972">  }</a>
-<span class="sourceLineNo">973</span><a id="line.973"></a>
-<span class="sourceLineNo">974</span><a id="line.974">  // Never make these public</a>
-<span class="sourceLineNo">975</span><a id="line.975">  static final int LEFT_IS_GREATER = 1;</a>
-<span class="sourceLineNo">976</span><a id="line.976">  static final int RIGHT_IS_GREATER = -1;</a>
-<span class="sourceLineNo">977</span><a id="line.977">}</a>
+<span class="sourceLineNo">962</span><a id="line.962">  static class IncomparableValueException extends ClassCastException {</a>
+<span class="sourceLineNo">963</span><a id="line.963">    final Object value;</a>
+<span class="sourceLineNo">964</span><a id="line.964"></a>
+<span class="sourceLineNo">965</span><a id="line.965">    IncomparableValueException(Object value) {</a>
+<span class="sourceLineNo">966</span><a id="line.966">      super("Cannot compare value: " + value);</a>
+<span class="sourceLineNo">967</span><a id="line.967">      this.value = value;</a>
+<span class="sourceLineNo">968</span><a id="line.968">    }</a>
+<span class="sourceLineNo">969</span><a id="line.969"></a>
+<span class="sourceLineNo">970</span><a id="line.970">    private static final long serialVersionUID = 0;</a>
+<span class="sourceLineNo">971</span><a id="line.971">  }</a>
+<span class="sourceLineNo">972</span><a id="line.972"></a>
+<span class="sourceLineNo">973</span><a id="line.973">  // Never make these public</a>
+<span class="sourceLineNo">974</span><a id="line.974">  static final int LEFT_IS_GREATER = 1;</a>
+<span class="sourceLineNo">975</span><a id="line.975">  static final int RIGHT_IS_GREATER = -1;</a>
+<span class="sourceLineNo">976</span><a id="line.976">}</a>
 
 
 
