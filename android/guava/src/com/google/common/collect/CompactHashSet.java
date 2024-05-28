@@ -221,7 +221,6 @@ class CompactHashSet<E extends @Nullable Object> extends AbstractSet<E> implemen
   }
 
   /** Returns whether arrays need to be allocated. */
-  @VisibleForTesting
   boolean needsAllocArrays() {
     return table == null;
   }
@@ -256,7 +255,6 @@ class CompactHashSet<E extends @Nullable Object> extends AbstractSet<E> implemen
     return new LinkedHashSet<>(tableSize, 1.0f);
   }
 
-  @VisibleForTesting
   @CanIgnoreReturnValue
   Set<E> convertToHashFloodingResistantImplementation() {
     Set<E> newDelegate = createHashFloodingResistantDelegate(hashTableMask() + 1);

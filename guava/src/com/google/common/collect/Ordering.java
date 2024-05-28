@@ -959,7 +959,6 @@ public abstract class Ordering<T extends @Nullable Object> implements Comparator
    * Object[])} comparator when comparing a value outside the set of values it can compare.
    * Extending {@link ClassCastException} may seem odd, but it is required.
    */
-  @VisibleForTesting
   static class IncomparableValueException extends ClassCastException {
     final Object value;
 

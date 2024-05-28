@@ -68,7 +68,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
    * Maximum allowed length of a hash table bucket before falling back to a j.u.HashMap based
    * implementation. Experimentally determined.
    */
-  @VisibleForTesting static final int MAX_HASH_BUCKET_LENGTH = 8;
+  static final int MAX_HASH_BUCKET_LENGTH = 8;
 
   // entries in insertion order
   @VisibleForTesting final transient Entry<K, V>[] entries;

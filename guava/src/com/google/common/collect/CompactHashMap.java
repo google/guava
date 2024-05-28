@@ -259,7 +259,6 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
   }
 
   /** Returns whether arrays need to be allocated. */
-  @VisibleForTesting
   boolean needsAllocArrays() {
     return table == null;
   }
@@ -295,7 +294,6 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
     return new LinkedHashMap<>(tableSize, 1.0f);
   }
 
-  @VisibleForTesting
   @CanIgnoreReturnValue
   Map<K, V> convertToHashFloodingResistantImplementation() {
     Map<K, V> newDelegate = createHashFloodingResistantDelegate(hashTableMask() + 1);
