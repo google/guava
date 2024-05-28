@@ -1457,149 +1457,148 @@
 <span class="sourceLineNo">1448</span><a id="line.1448">  }</a>
 <span class="sourceLineNo">1449</span><a id="line.1449"></a>
 <span class="sourceLineNo">1450</span><a id="line.1450">  /** {@link AtomicHelper} based on {@link AtomicReferenceFieldUpdater}. */</a>
-<span class="sourceLineNo">1451</span><a id="line.1451">  @SuppressWarnings("rawtypes")</a>
-<span class="sourceLineNo">1452</span><a id="line.1452">  private static final class SafeAtomicHelper extends AtomicHelper {</a>
-<span class="sourceLineNo">1453</span><a id="line.1453">    final AtomicReferenceFieldUpdater&lt;Waiter, Thread&gt; waiterThreadUpdater;</a>
-<span class="sourceLineNo">1454</span><a id="line.1454">    final AtomicReferenceFieldUpdater&lt;Waiter, Waiter&gt; waiterNextUpdater;</a>
-<span class="sourceLineNo">1455</span><a id="line.1455">    final AtomicReferenceFieldUpdater&lt;AbstractFuture, Waiter&gt; waitersUpdater;</a>
-<span class="sourceLineNo">1456</span><a id="line.1456">    final AtomicReferenceFieldUpdater&lt;AbstractFuture, Listener&gt; listenersUpdater;</a>
-<span class="sourceLineNo">1457</span><a id="line.1457">    final AtomicReferenceFieldUpdater&lt;AbstractFuture, Object&gt; valueUpdater;</a>
-<span class="sourceLineNo">1458</span><a id="line.1458"></a>
-<span class="sourceLineNo">1459</span><a id="line.1459">    SafeAtomicHelper(</a>
-<span class="sourceLineNo">1460</span><a id="line.1460">        AtomicReferenceFieldUpdater&lt;Waiter, Thread&gt; waiterThreadUpdater,</a>
-<span class="sourceLineNo">1461</span><a id="line.1461">        AtomicReferenceFieldUpdater&lt;Waiter, Waiter&gt; waiterNextUpdater,</a>
-<span class="sourceLineNo">1462</span><a id="line.1462">        AtomicReferenceFieldUpdater&lt;AbstractFuture, Waiter&gt; waitersUpdater,</a>
-<span class="sourceLineNo">1463</span><a id="line.1463">        AtomicReferenceFieldUpdater&lt;AbstractFuture, Listener&gt; listenersUpdater,</a>
-<span class="sourceLineNo">1464</span><a id="line.1464">        AtomicReferenceFieldUpdater&lt;AbstractFuture, Object&gt; valueUpdater) {</a>
-<span class="sourceLineNo">1465</span><a id="line.1465">      this.waiterThreadUpdater = waiterThreadUpdater;</a>
-<span class="sourceLineNo">1466</span><a id="line.1466">      this.waiterNextUpdater = waiterNextUpdater;</a>
-<span class="sourceLineNo">1467</span><a id="line.1467">      this.waitersUpdater = waitersUpdater;</a>
-<span class="sourceLineNo">1468</span><a id="line.1468">      this.listenersUpdater = listenersUpdater;</a>
-<span class="sourceLineNo">1469</span><a id="line.1469">      this.valueUpdater = valueUpdater;</a>
-<span class="sourceLineNo">1470</span><a id="line.1470">    }</a>
-<span class="sourceLineNo">1471</span><a id="line.1471"></a>
-<span class="sourceLineNo">1472</span><a id="line.1472">    @Override</a>
-<span class="sourceLineNo">1473</span><a id="line.1473">    void putThread(Waiter waiter, Thread newValue) {</a>
-<span class="sourceLineNo">1474</span><a id="line.1474">      waiterThreadUpdater.lazySet(waiter, newValue);</a>
-<span class="sourceLineNo">1475</span><a id="line.1475">    }</a>
-<span class="sourceLineNo">1476</span><a id="line.1476"></a>
-<span class="sourceLineNo">1477</span><a id="line.1477">    @Override</a>
-<span class="sourceLineNo">1478</span><a id="line.1478">    void putNext(Waiter waiter, @CheckForNull Waiter newValue) {</a>
-<span class="sourceLineNo">1479</span><a id="line.1479">      waiterNextUpdater.lazySet(waiter, newValue);</a>
-<span class="sourceLineNo">1480</span><a id="line.1480">    }</a>
-<span class="sourceLineNo">1481</span><a id="line.1481"></a>
-<span class="sourceLineNo">1482</span><a id="line.1482">    @Override</a>
-<span class="sourceLineNo">1483</span><a id="line.1483">    boolean casWaiters(</a>
-<span class="sourceLineNo">1484</span><a id="line.1484">        AbstractFuture&lt;?&gt; future, @CheckForNull Waiter expect, @CheckForNull Waiter update) {</a>
-<span class="sourceLineNo">1485</span><a id="line.1485">      return waitersUpdater.compareAndSet(future, expect, update);</a>
-<span class="sourceLineNo">1486</span><a id="line.1486">    }</a>
-<span class="sourceLineNo">1487</span><a id="line.1487"></a>
-<span class="sourceLineNo">1488</span><a id="line.1488">    @Override</a>
-<span class="sourceLineNo">1489</span><a id="line.1489">    boolean casListeners(AbstractFuture&lt;?&gt; future, @CheckForNull Listener expect, Listener update) {</a>
-<span class="sourceLineNo">1490</span><a id="line.1490">      return listenersUpdater.compareAndSet(future, expect, update);</a>
-<span class="sourceLineNo">1491</span><a id="line.1491">    }</a>
-<span class="sourceLineNo">1492</span><a id="line.1492"></a>
-<span class="sourceLineNo">1493</span><a id="line.1493">    /** Performs a GAS operation on the {@link #listeners} field. */</a>
-<span class="sourceLineNo">1494</span><a id="line.1494">    @Override</a>
-<span class="sourceLineNo">1495</span><a id="line.1495">    Listener gasListeners(AbstractFuture&lt;?&gt; future, Listener update) {</a>
-<span class="sourceLineNo">1496</span><a id="line.1496">      return listenersUpdater.getAndSet(future, update);</a>
-<span class="sourceLineNo">1497</span><a id="line.1497">    }</a>
-<span class="sourceLineNo">1498</span><a id="line.1498"></a>
-<span class="sourceLineNo">1499</span><a id="line.1499">    /** Performs a GAS operation on the {@link #waiters} field. */</a>
-<span class="sourceLineNo">1500</span><a id="line.1500">    @Override</a>
-<span class="sourceLineNo">1501</span><a id="line.1501">    Waiter gasWaiters(AbstractFuture&lt;?&gt; future, Waiter update) {</a>
-<span class="sourceLineNo">1502</span><a id="line.1502">      return waitersUpdater.getAndSet(future, update);</a>
-<span class="sourceLineNo">1503</span><a id="line.1503">    }</a>
-<span class="sourceLineNo">1504</span><a id="line.1504"></a>
-<span class="sourceLineNo">1505</span><a id="line.1505">    @Override</a>
-<span class="sourceLineNo">1506</span><a id="line.1506">    boolean casValue(AbstractFuture&lt;?&gt; future, @CheckForNull Object expect, Object update) {</a>
-<span class="sourceLineNo">1507</span><a id="line.1507">      return valueUpdater.compareAndSet(future, expect, update);</a>
-<span class="sourceLineNo">1508</span><a id="line.1508">    }</a>
-<span class="sourceLineNo">1509</span><a id="line.1509">  }</a>
-<span class="sourceLineNo">1510</span><a id="line.1510"></a>
-<span class="sourceLineNo">1511</span><a id="line.1511">  /**</a>
-<span class="sourceLineNo">1512</span><a id="line.1512">   * {@link AtomicHelper} based on {@code synchronized} and volatile writes.</a>
-<span class="sourceLineNo">1513</span><a id="line.1513">   *</a>
-<span class="sourceLineNo">1514</span><a id="line.1514">   * &lt;p&gt;This is an implementation of last resort for when certain basic VM features are broken (like</a>
-<span class="sourceLineNo">1515</span><a id="line.1515">   * AtomicReferenceFieldUpdater).</a>
-<span class="sourceLineNo">1516</span><a id="line.1516">   */</a>
-<span class="sourceLineNo">1517</span><a id="line.1517">  private static final class SynchronizedHelper extends AtomicHelper {</a>
-<span class="sourceLineNo">1518</span><a id="line.1518">    @Override</a>
-<span class="sourceLineNo">1519</span><a id="line.1519">    void putThread(Waiter waiter, Thread newValue) {</a>
-<span class="sourceLineNo">1520</span><a id="line.1520">      waiter.thread = newValue;</a>
-<span class="sourceLineNo">1521</span><a id="line.1521">    }</a>
-<span class="sourceLineNo">1522</span><a id="line.1522"></a>
-<span class="sourceLineNo">1523</span><a id="line.1523">    @Override</a>
-<span class="sourceLineNo">1524</span><a id="line.1524">    void putNext(Waiter waiter, @CheckForNull Waiter newValue) {</a>
-<span class="sourceLineNo">1525</span><a id="line.1525">      waiter.next = newValue;</a>
-<span class="sourceLineNo">1526</span><a id="line.1526">    }</a>
-<span class="sourceLineNo">1527</span><a id="line.1527"></a>
-<span class="sourceLineNo">1528</span><a id="line.1528">    @Override</a>
-<span class="sourceLineNo">1529</span><a id="line.1529">    boolean casWaiters(</a>
-<span class="sourceLineNo">1530</span><a id="line.1530">        AbstractFuture&lt;?&gt; future, @CheckForNull Waiter expect, @CheckForNull Waiter update) {</a>
-<span class="sourceLineNo">1531</span><a id="line.1531">      synchronized (future) {</a>
-<span class="sourceLineNo">1532</span><a id="line.1532">        if (future.waiters == expect) {</a>
-<span class="sourceLineNo">1533</span><a id="line.1533">          future.waiters = update;</a>
-<span class="sourceLineNo">1534</span><a id="line.1534">          return true;</a>
-<span class="sourceLineNo">1535</span><a id="line.1535">        }</a>
-<span class="sourceLineNo">1536</span><a id="line.1536">        return false;</a>
-<span class="sourceLineNo">1537</span><a id="line.1537">      }</a>
-<span class="sourceLineNo">1538</span><a id="line.1538">    }</a>
-<span class="sourceLineNo">1539</span><a id="line.1539"></a>
-<span class="sourceLineNo">1540</span><a id="line.1540">    @Override</a>
-<span class="sourceLineNo">1541</span><a id="line.1541">    boolean casListeners(AbstractFuture&lt;?&gt; future, @CheckForNull Listener expect, Listener update) {</a>
-<span class="sourceLineNo">1542</span><a id="line.1542">      synchronized (future) {</a>
-<span class="sourceLineNo">1543</span><a id="line.1543">        if (future.listeners == expect) {</a>
-<span class="sourceLineNo">1544</span><a id="line.1544">          future.listeners = update;</a>
-<span class="sourceLineNo">1545</span><a id="line.1545">          return true;</a>
-<span class="sourceLineNo">1546</span><a id="line.1546">        }</a>
-<span class="sourceLineNo">1547</span><a id="line.1547">        return false;</a>
-<span class="sourceLineNo">1548</span><a id="line.1548">      }</a>
-<span class="sourceLineNo">1549</span><a id="line.1549">    }</a>
-<span class="sourceLineNo">1550</span><a id="line.1550"></a>
-<span class="sourceLineNo">1551</span><a id="line.1551">    /** Performs a GAS operation on the {@link #listeners} field. */</a>
-<span class="sourceLineNo">1552</span><a id="line.1552">    @Override</a>
-<span class="sourceLineNo">1553</span><a id="line.1553">    Listener gasListeners(AbstractFuture&lt;?&gt; future, Listener update) {</a>
-<span class="sourceLineNo">1554</span><a id="line.1554">      synchronized (future) {</a>
-<span class="sourceLineNo">1555</span><a id="line.1555">        Listener old = future.listeners;</a>
-<span class="sourceLineNo">1556</span><a id="line.1556">        if (old != update) {</a>
-<span class="sourceLineNo">1557</span><a id="line.1557">          future.listeners = update;</a>
-<span class="sourceLineNo">1558</span><a id="line.1558">        }</a>
-<span class="sourceLineNo">1559</span><a id="line.1559">        return old;</a>
-<span class="sourceLineNo">1560</span><a id="line.1560">      }</a>
-<span class="sourceLineNo">1561</span><a id="line.1561">    }</a>
-<span class="sourceLineNo">1562</span><a id="line.1562"></a>
-<span class="sourceLineNo">1563</span><a id="line.1563">    /** Performs a GAS operation on the {@link #waiters} field. */</a>
-<span class="sourceLineNo">1564</span><a id="line.1564">    @Override</a>
-<span class="sourceLineNo">1565</span><a id="line.1565">    Waiter gasWaiters(AbstractFuture&lt;?&gt; future, Waiter update) {</a>
-<span class="sourceLineNo">1566</span><a id="line.1566">      synchronized (future) {</a>
-<span class="sourceLineNo">1567</span><a id="line.1567">        Waiter old = future.waiters;</a>
-<span class="sourceLineNo">1568</span><a id="line.1568">        if (old != update) {</a>
-<span class="sourceLineNo">1569</span><a id="line.1569">          future.waiters = update;</a>
-<span class="sourceLineNo">1570</span><a id="line.1570">        }</a>
-<span class="sourceLineNo">1571</span><a id="line.1571">        return old;</a>
-<span class="sourceLineNo">1572</span><a id="line.1572">      }</a>
-<span class="sourceLineNo">1573</span><a id="line.1573">    }</a>
-<span class="sourceLineNo">1574</span><a id="line.1574"></a>
-<span class="sourceLineNo">1575</span><a id="line.1575">    @Override</a>
-<span class="sourceLineNo">1576</span><a id="line.1576">    boolean casValue(AbstractFuture&lt;?&gt; future, @CheckForNull Object expect, Object update) {</a>
-<span class="sourceLineNo">1577</span><a id="line.1577">      synchronized (future) {</a>
-<span class="sourceLineNo">1578</span><a id="line.1578">        if (future.value == expect) {</a>
-<span class="sourceLineNo">1579</span><a id="line.1579">          future.value = update;</a>
-<span class="sourceLineNo">1580</span><a id="line.1580">          return true;</a>
-<span class="sourceLineNo">1581</span><a id="line.1581">        }</a>
-<span class="sourceLineNo">1582</span><a id="line.1582">        return false;</a>
-<span class="sourceLineNo">1583</span><a id="line.1583">      }</a>
-<span class="sourceLineNo">1584</span><a id="line.1584">    }</a>
-<span class="sourceLineNo">1585</span><a id="line.1585">  }</a>
-<span class="sourceLineNo">1586</span><a id="line.1586"></a>
-<span class="sourceLineNo">1587</span><a id="line.1587">  private static CancellationException cancellationExceptionWithCause(</a>
-<span class="sourceLineNo">1588</span><a id="line.1588">      String message, @CheckForNull Throwable cause) {</a>
-<span class="sourceLineNo">1589</span><a id="line.1589">    CancellationException exception = new CancellationException(message);</a>
-<span class="sourceLineNo">1590</span><a id="line.1590">    exception.initCause(cause);</a>
-<span class="sourceLineNo">1591</span><a id="line.1591">    return exception;</a>
-<span class="sourceLineNo">1592</span><a id="line.1592">  }</a>
-<span class="sourceLineNo">1593</span><a id="line.1593">}</a>
+<span class="sourceLineNo">1451</span><a id="line.1451">  private static final class SafeAtomicHelper extends AtomicHelper {</a>
+<span class="sourceLineNo">1452</span><a id="line.1452">    final AtomicReferenceFieldUpdater&lt;Waiter, Thread&gt; waiterThreadUpdater;</a>
+<span class="sourceLineNo">1453</span><a id="line.1453">    final AtomicReferenceFieldUpdater&lt;Waiter, Waiter&gt; waiterNextUpdater;</a>
+<span class="sourceLineNo">1454</span><a id="line.1454">    final AtomicReferenceFieldUpdater&lt;? super AbstractFuture&lt;?&gt;, Waiter&gt; waitersUpdater;</a>
+<span class="sourceLineNo">1455</span><a id="line.1455">    final AtomicReferenceFieldUpdater&lt;? super AbstractFuture&lt;?&gt;, Listener&gt; listenersUpdater;</a>
+<span class="sourceLineNo">1456</span><a id="line.1456">    final AtomicReferenceFieldUpdater&lt;? super AbstractFuture&lt;?&gt;, Object&gt; valueUpdater;</a>
+<span class="sourceLineNo">1457</span><a id="line.1457"></a>
+<span class="sourceLineNo">1458</span><a id="line.1458">    SafeAtomicHelper(</a>
+<span class="sourceLineNo">1459</span><a id="line.1459">        AtomicReferenceFieldUpdater&lt;Waiter, Thread&gt; waiterThreadUpdater,</a>
+<span class="sourceLineNo">1460</span><a id="line.1460">        AtomicReferenceFieldUpdater&lt;Waiter, Waiter&gt; waiterNextUpdater,</a>
+<span class="sourceLineNo">1461</span><a id="line.1461">        AtomicReferenceFieldUpdater&lt;? super AbstractFuture&lt;?&gt;, Waiter&gt; waitersUpdater,</a>
+<span class="sourceLineNo">1462</span><a id="line.1462">        AtomicReferenceFieldUpdater&lt;? super AbstractFuture&lt;?&gt;, Listener&gt; listenersUpdater,</a>
+<span class="sourceLineNo">1463</span><a id="line.1463">        AtomicReferenceFieldUpdater&lt;? super AbstractFuture&lt;?&gt;, Object&gt; valueUpdater) {</a>
+<span class="sourceLineNo">1464</span><a id="line.1464">      this.waiterThreadUpdater = waiterThreadUpdater;</a>
+<span class="sourceLineNo">1465</span><a id="line.1465">      this.waiterNextUpdater = waiterNextUpdater;</a>
+<span class="sourceLineNo">1466</span><a id="line.1466">      this.waitersUpdater = waitersUpdater;</a>
+<span class="sourceLineNo">1467</span><a id="line.1467">      this.listenersUpdater = listenersUpdater;</a>
+<span class="sourceLineNo">1468</span><a id="line.1468">      this.valueUpdater = valueUpdater;</a>
+<span class="sourceLineNo">1469</span><a id="line.1469">    }</a>
+<span class="sourceLineNo">1470</span><a id="line.1470"></a>
+<span class="sourceLineNo">1471</span><a id="line.1471">    @Override</a>
+<span class="sourceLineNo">1472</span><a id="line.1472">    void putThread(Waiter waiter, Thread newValue) {</a>
+<span class="sourceLineNo">1473</span><a id="line.1473">      waiterThreadUpdater.lazySet(waiter, newValue);</a>
+<span class="sourceLineNo">1474</span><a id="line.1474">    }</a>
+<span class="sourceLineNo">1475</span><a id="line.1475"></a>
+<span class="sourceLineNo">1476</span><a id="line.1476">    @Override</a>
+<span class="sourceLineNo">1477</span><a id="line.1477">    void putNext(Waiter waiter, @CheckForNull Waiter newValue) {</a>
+<span class="sourceLineNo">1478</span><a id="line.1478">      waiterNextUpdater.lazySet(waiter, newValue);</a>
+<span class="sourceLineNo">1479</span><a id="line.1479">    }</a>
+<span class="sourceLineNo">1480</span><a id="line.1480"></a>
+<span class="sourceLineNo">1481</span><a id="line.1481">    @Override</a>
+<span class="sourceLineNo">1482</span><a id="line.1482">    boolean casWaiters(</a>
+<span class="sourceLineNo">1483</span><a id="line.1483">        AbstractFuture&lt;?&gt; future, @CheckForNull Waiter expect, @CheckForNull Waiter update) {</a>
+<span class="sourceLineNo">1484</span><a id="line.1484">      return waitersUpdater.compareAndSet(future, expect, update);</a>
+<span class="sourceLineNo">1485</span><a id="line.1485">    }</a>
+<span class="sourceLineNo">1486</span><a id="line.1486"></a>
+<span class="sourceLineNo">1487</span><a id="line.1487">    @Override</a>
+<span class="sourceLineNo">1488</span><a id="line.1488">    boolean casListeners(AbstractFuture&lt;?&gt; future, @CheckForNull Listener expect, Listener update) {</a>
+<span class="sourceLineNo">1489</span><a id="line.1489">      return listenersUpdater.compareAndSet(future, expect, update);</a>
+<span class="sourceLineNo">1490</span><a id="line.1490">    }</a>
+<span class="sourceLineNo">1491</span><a id="line.1491"></a>
+<span class="sourceLineNo">1492</span><a id="line.1492">    /** Performs a GAS operation on the {@link #listeners} field. */</a>
+<span class="sourceLineNo">1493</span><a id="line.1493">    @Override</a>
+<span class="sourceLineNo">1494</span><a id="line.1494">    Listener gasListeners(AbstractFuture&lt;?&gt; future, Listener update) {</a>
+<span class="sourceLineNo">1495</span><a id="line.1495">      return listenersUpdater.getAndSet(future, update);</a>
+<span class="sourceLineNo">1496</span><a id="line.1496">    }</a>
+<span class="sourceLineNo">1497</span><a id="line.1497"></a>
+<span class="sourceLineNo">1498</span><a id="line.1498">    /** Performs a GAS operation on the {@link #waiters} field. */</a>
+<span class="sourceLineNo">1499</span><a id="line.1499">    @Override</a>
+<span class="sourceLineNo">1500</span><a id="line.1500">    Waiter gasWaiters(AbstractFuture&lt;?&gt; future, Waiter update) {</a>
+<span class="sourceLineNo">1501</span><a id="line.1501">      return waitersUpdater.getAndSet(future, update);</a>
+<span class="sourceLineNo">1502</span><a id="line.1502">    }</a>
+<span class="sourceLineNo">1503</span><a id="line.1503"></a>
+<span class="sourceLineNo">1504</span><a id="line.1504">    @Override</a>
+<span class="sourceLineNo">1505</span><a id="line.1505">    boolean casValue(AbstractFuture&lt;?&gt; future, @CheckForNull Object expect, Object update) {</a>
+<span class="sourceLineNo">1506</span><a id="line.1506">      return valueUpdater.compareAndSet(future, expect, update);</a>
+<span class="sourceLineNo">1507</span><a id="line.1507">    }</a>
+<span class="sourceLineNo">1508</span><a id="line.1508">  }</a>
+<span class="sourceLineNo">1509</span><a id="line.1509"></a>
+<span class="sourceLineNo">1510</span><a id="line.1510">  /**</a>
+<span class="sourceLineNo">1511</span><a id="line.1511">   * {@link AtomicHelper} based on {@code synchronized} and volatile writes.</a>
+<span class="sourceLineNo">1512</span><a id="line.1512">   *</a>
+<span class="sourceLineNo">1513</span><a id="line.1513">   * &lt;p&gt;This is an implementation of last resort for when certain basic VM features are broken (like</a>
+<span class="sourceLineNo">1514</span><a id="line.1514">   * AtomicReferenceFieldUpdater).</a>
+<span class="sourceLineNo">1515</span><a id="line.1515">   */</a>
+<span class="sourceLineNo">1516</span><a id="line.1516">  private static final class SynchronizedHelper extends AtomicHelper {</a>
+<span class="sourceLineNo">1517</span><a id="line.1517">    @Override</a>
+<span class="sourceLineNo">1518</span><a id="line.1518">    void putThread(Waiter waiter, Thread newValue) {</a>
+<span class="sourceLineNo">1519</span><a id="line.1519">      waiter.thread = newValue;</a>
+<span class="sourceLineNo">1520</span><a id="line.1520">    }</a>
+<span class="sourceLineNo">1521</span><a id="line.1521"></a>
+<span class="sourceLineNo">1522</span><a id="line.1522">    @Override</a>
+<span class="sourceLineNo">1523</span><a id="line.1523">    void putNext(Waiter waiter, @CheckForNull Waiter newValue) {</a>
+<span class="sourceLineNo">1524</span><a id="line.1524">      waiter.next = newValue;</a>
+<span class="sourceLineNo">1525</span><a id="line.1525">    }</a>
+<span class="sourceLineNo">1526</span><a id="line.1526"></a>
+<span class="sourceLineNo">1527</span><a id="line.1527">    @Override</a>
+<span class="sourceLineNo">1528</span><a id="line.1528">    boolean casWaiters(</a>
+<span class="sourceLineNo">1529</span><a id="line.1529">        AbstractFuture&lt;?&gt; future, @CheckForNull Waiter expect, @CheckForNull Waiter update) {</a>
+<span class="sourceLineNo">1530</span><a id="line.1530">      synchronized (future) {</a>
+<span class="sourceLineNo">1531</span><a id="line.1531">        if (future.waiters == expect) {</a>
+<span class="sourceLineNo">1532</span><a id="line.1532">          future.waiters = update;</a>
+<span class="sourceLineNo">1533</span><a id="line.1533">          return true;</a>
+<span class="sourceLineNo">1534</span><a id="line.1534">        }</a>
+<span class="sourceLineNo">1535</span><a id="line.1535">        return false;</a>
+<span class="sourceLineNo">1536</span><a id="line.1536">      }</a>
+<span class="sourceLineNo">1537</span><a id="line.1537">    }</a>
+<span class="sourceLineNo">1538</span><a id="line.1538"></a>
+<span class="sourceLineNo">1539</span><a id="line.1539">    @Override</a>
+<span class="sourceLineNo">1540</span><a id="line.1540">    boolean casListeners(AbstractFuture&lt;?&gt; future, @CheckForNull Listener expect, Listener update) {</a>
+<span class="sourceLineNo">1541</span><a id="line.1541">      synchronized (future) {</a>
+<span class="sourceLineNo">1542</span><a id="line.1542">        if (future.listeners == expect) {</a>
+<span class="sourceLineNo">1543</span><a id="line.1543">          future.listeners = update;</a>
+<span class="sourceLineNo">1544</span><a id="line.1544">          return true;</a>
+<span class="sourceLineNo">1545</span><a id="line.1545">        }</a>
+<span class="sourceLineNo">1546</span><a id="line.1546">        return false;</a>
+<span class="sourceLineNo">1547</span><a id="line.1547">      }</a>
+<span class="sourceLineNo">1548</span><a id="line.1548">    }</a>
+<span class="sourceLineNo">1549</span><a id="line.1549"></a>
+<span class="sourceLineNo">1550</span><a id="line.1550">    /** Performs a GAS operation on the {@link #listeners} field. */</a>
+<span class="sourceLineNo">1551</span><a id="line.1551">    @Override</a>
+<span class="sourceLineNo">1552</span><a id="line.1552">    Listener gasListeners(AbstractFuture&lt;?&gt; future, Listener update) {</a>
+<span class="sourceLineNo">1553</span><a id="line.1553">      synchronized (future) {</a>
+<span class="sourceLineNo">1554</span><a id="line.1554">        Listener old = future.listeners;</a>
+<span class="sourceLineNo">1555</span><a id="line.1555">        if (old != update) {</a>
+<span class="sourceLineNo">1556</span><a id="line.1556">          future.listeners = update;</a>
+<span class="sourceLineNo">1557</span><a id="line.1557">        }</a>
+<span class="sourceLineNo">1558</span><a id="line.1558">        return old;</a>
+<span class="sourceLineNo">1559</span><a id="line.1559">      }</a>
+<span class="sourceLineNo">1560</span><a id="line.1560">    }</a>
+<span class="sourceLineNo">1561</span><a id="line.1561"></a>
+<span class="sourceLineNo">1562</span><a id="line.1562">    /** Performs a GAS operation on the {@link #waiters} field. */</a>
+<span class="sourceLineNo">1563</span><a id="line.1563">    @Override</a>
+<span class="sourceLineNo">1564</span><a id="line.1564">    Waiter gasWaiters(AbstractFuture&lt;?&gt; future, Waiter update) {</a>
+<span class="sourceLineNo">1565</span><a id="line.1565">      synchronized (future) {</a>
+<span class="sourceLineNo">1566</span><a id="line.1566">        Waiter old = future.waiters;</a>
+<span class="sourceLineNo">1567</span><a id="line.1567">        if (old != update) {</a>
+<span class="sourceLineNo">1568</span><a id="line.1568">          future.waiters = update;</a>
+<span class="sourceLineNo">1569</span><a id="line.1569">        }</a>
+<span class="sourceLineNo">1570</span><a id="line.1570">        return old;</a>
+<span class="sourceLineNo">1571</span><a id="line.1571">      }</a>
+<span class="sourceLineNo">1572</span><a id="line.1572">    }</a>
+<span class="sourceLineNo">1573</span><a id="line.1573"></a>
+<span class="sourceLineNo">1574</span><a id="line.1574">    @Override</a>
+<span class="sourceLineNo">1575</span><a id="line.1575">    boolean casValue(AbstractFuture&lt;?&gt; future, @CheckForNull Object expect, Object update) {</a>
+<span class="sourceLineNo">1576</span><a id="line.1576">      synchronized (future) {</a>
+<span class="sourceLineNo">1577</span><a id="line.1577">        if (future.value == expect) {</a>
+<span class="sourceLineNo">1578</span><a id="line.1578">          future.value = update;</a>
+<span class="sourceLineNo">1579</span><a id="line.1579">          return true;</a>
+<span class="sourceLineNo">1580</span><a id="line.1580">        }</a>
+<span class="sourceLineNo">1581</span><a id="line.1581">        return false;</a>
+<span class="sourceLineNo">1582</span><a id="line.1582">      }</a>
+<span class="sourceLineNo">1583</span><a id="line.1583">    }</a>
+<span class="sourceLineNo">1584</span><a id="line.1584">  }</a>
+<span class="sourceLineNo">1585</span><a id="line.1585"></a>
+<span class="sourceLineNo">1586</span><a id="line.1586">  private static CancellationException cancellationExceptionWithCause(</a>
+<span class="sourceLineNo">1587</span><a id="line.1587">      String message, @CheckForNull Throwable cause) {</a>
+<span class="sourceLineNo">1588</span><a id="line.1588">    CancellationException exception = new CancellationException(message);</a>
+<span class="sourceLineNo">1589</span><a id="line.1589">    exception.initCause(cause);</a>
+<span class="sourceLineNo">1590</span><a id="line.1590">    return exception;</a>
+<span class="sourceLineNo">1591</span><a id="line.1591">  }</a>
+<span class="sourceLineNo">1592</span><a id="line.1592">}</a>
 
 
 
