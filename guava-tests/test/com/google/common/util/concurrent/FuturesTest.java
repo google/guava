@@ -910,7 +910,7 @@ public class FuturesTest extends TestCase {
     return new Function<X, V>() {
       @Override
       public V apply(X t) {
-        throw newAssertionError("Unexpected fallback", t);
+        throw new AssertionError("Unexpected fallback", t);
       }
     };
   }
@@ -946,16 +946,9 @@ public class FuturesTest extends TestCase {
     return new AsyncFunction<X, V>() {
       @Override
       public ListenableFuture<V> apply(X t) {
-        throw newAssertionError("Unexpected fallback", t);
+        throw new AssertionError("Unexpected fallback", t);
       }
     };
-  }
-
-  /** Alternative to AssertionError(String, Throwable), which doesn't exist in GWT 2.6.1. */
-  private static AssertionError newAssertionError(String message, Throwable cause) {
-    AssertionError e = new AssertionError(message);
-    e.initCause(cause);
-    return e;
   }
 
   // catchingAsync tests cloned from the old withFallback tests:
@@ -3191,7 +3184,7 @@ public class FuturesTest extends TestCase {
     void smartAssertTrue(
         ImmutableSet<ListenableFuture<String>> inputs, Exception cause, boolean expression) {
       if (!expression) {
-        throw failureWithCause(cause, smartToString(inputs));
+        throw new AssertionError(smartToString(inputs), cause);
       }
     }
 
@@ -3294,7 +3287,7 @@ public class FuturesTest extends TestCase {
     } catch (ExecutionException e) {
       propagateIfInstanceOf(e.getCause(), ExecutionException.class);
       propagateIfInstanceOf(e.getCause(), CancellationException.class);
-      throw failureWithCause(e, "Unexpected exception");
+      throw new AssertionError("Unexpected exception", e);
     } finally {
       executor.shutdownNow();
       // TODO(cpovirk): assertTrue(awaitTerminationUninterruptibly(executor, 10, SECONDS));
@@ -3930,12 +3923,6 @@ public class FuturesTest extends TestCase {
         .forAllPublicStaticMethods(Futures.class)
         .thatReturn(Future.class)
         .testNulls();
-  }
-
-  static AssertionFailedError failureWithCause(Throwable cause, String message) {
-    AssertionFailedError failure = new AssertionFailedError(message);
-    failure.initCause(cause);
-    return failure;
   }
 
   // This test covers a bug where an Error thrown from a callback could cause the TimeoutFuture to

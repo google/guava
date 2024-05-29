@@ -55,8 +55,6 @@ public class EnumsTest extends TestCase {
     POODLE,
   }
 
-  private enum OtherEnum {}
-
   public void testGetIfPresent() {
     assertThat(Enums.getIfPresent(TestEnum.class, "CHEETO")).hasValue(TestEnum.CHEETO);
     assertThat(Enums.getIfPresent(TestEnum.class, "HONDA")).hasValue(TestEnum.HONDA);
@@ -223,9 +221,7 @@ public class EnumsTest extends TestCase {
           urls.add(new URL("file", null, new File(entry).getAbsolutePath()));
         }
       } catch (MalformedURLException e) {
-        AssertionError error = new AssertionError("malformed class path entry: " + entry);
-        error.initCause(e);
-        throw error;
+        throw new AssertionError("malformed class path entry: " + entry, e);
       }
     }
     return urls.build();
