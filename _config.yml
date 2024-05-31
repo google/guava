@@ -23,7 +23,7 @@ plugins:
 
 # Release data
 # Do not change! updaterelease.sh automatically updates these fields
-latest_release: 33.2.0
+latest_release: 33.2.1
 
 # Miscellaneous data
 email: guava-discuss@googlegroups.com
