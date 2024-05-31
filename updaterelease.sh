@@ -153,7 +153,7 @@ generate_jdiff_xml() {
 
   # Generate JDiff XML file for the release.
   echo -n "Generating JDiff XML for Guava $version..."
-  javadoc \
+  ${JAVA_HOME}/bin/javadoc \
     -sourcepath "$TEMPDIR/$flavor/src" \
     -classpath "$classpath" \
     -subpackages com.google.common \
@@ -202,7 +202,7 @@ jdiff() {
   local prev_release_javadoc_path="../../../../$other/api/docs/"
 
   echo -n "Generating JDiff report between Guava $other_version and $version..."
-  javadoc \
+  ${JAVA_HOME}/bin/javadoc \
     -subpackages com \
     -doclet jdiff.JDiff \
     -docletpath "$JDIFF_PATH" \
@@ -388,6 +388,14 @@ generate_snapshot_javadoc_shortlinks() {
 
 # Main function actually run the process.
 main() {
+  if [[ -z "${JAVA_HOME:-}" ]]; then
+    echo '$JAVA_HOME needs to be set' >&2
+    exit 1
+  elif [[ ! -x "${JAVA_HOME}/bin/javadoc" ]]; then
+    echo '$JAVA_HOME must be set to a valid JDK location but is '"${JAVA_HOME}" >&2
+    exit 1
+  fi
+
   # Make sure we have all the latest tags
   git fetch --tags
 
