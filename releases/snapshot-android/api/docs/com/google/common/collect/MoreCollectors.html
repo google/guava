@@ -133,8 +133,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <hr>
 <pre><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-<a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public final class <a href="../../../../src-html/com/google/common/collect/MoreCollectors.html#line.39">MoreCollectors</a>
+public final class <a href="../../../../src-html/com/google/common/collect/MoreCollectors.html#line.38">MoreCollectors</a>
 extends java.lang.Object</pre>
 <div class="block">Collectors not present in <code>java.util.stream.Collectors</code> that are not otherwise associated
  with a <code>com.google.common</code> type.</div>
@@ -208,7 +207,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>toOptional</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T&gt;&nbsp;java.util.stream.Collector&lt;T,&#8203;?,&#8203;java.util.Optional&lt;T&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/MoreCollectors.html#line.66">toOptional</a>()</pre>
+<pre class="methodSignature">public static&nbsp;&lt;T&gt;&nbsp;java.util.stream.Collector&lt;T,&#8203;?,&#8203;java.util.Optional&lt;T&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/MoreCollectors.html#line.64">toOptional</a>()</pre>
 <div class="block">A collector that converts a stream of zero or one elements to an <code>Optional</code>.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -226,7 +225,7 @@ extends java.lang.Object</pre>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>onlyElement</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.util.stream.Collector&lt;T,&#8203;?,&#8203;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/MoreCollectors.html#line.89">onlyElement</a>()</pre>
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.util.stream.Collector&lt;T,&#8203;?,&#8203;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/MoreCollectors.html#line.87">onlyElement</a>()</pre>
 <div class="block">A collector that takes a stream containing exactly one element and returns that element. The
  returned collector throws an <code>IllegalArgumentException</code> if the stream consists of two or
  more elements, and a <code>NoSuchElementException</code> if the stream is empty.</div>
