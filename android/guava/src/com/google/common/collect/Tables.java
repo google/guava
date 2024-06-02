@@ -20,7 +20,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.NullnessCasts.uncheckedCastNullableTToT;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Objects;
@@ -68,7 +67,6 @@ public final class Tables {
    */
   @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
-  @Beta // TODO: b/288085449 - Remove.
   public static <
           T extends @Nullable Object,
           R extends @Nullable Object,
@@ -100,7 +98,6 @@ public final class Tables {
    */
   @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
-  @Beta // TODO: b/288085449 - Remove.
   public static <
           T extends @Nullable Object,
           R extends @Nullable Object,

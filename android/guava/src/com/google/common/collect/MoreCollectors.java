@@ -19,7 +19,6 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static java.util.Collections.emptyList;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +39,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 @ElementTypesAreNonnullByDefault
 @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
 @IgnoreJRERequirement // Users will use this only if they're already using streams.
-@Beta // TODO: b/288085449 - Remove.
 public final class MoreCollectors {
 
   /*

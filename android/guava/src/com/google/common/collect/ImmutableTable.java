@@ -18,7 +18,6 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
@@ -66,7 +65,6 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V>
    */
   @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
-  @Beta // TODO: b/288085449 - Remove.
   public static <T extends @Nullable Object, R, C, V>
       Collector<T, ?, ImmutableTable<R, C, V>> toImmutableTable(
           Function<? super T, ? extends R> rowFunction,
@@ -88,7 +86,6 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V>
    */
   @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
-  @Beta // TODO: b/288085449 - Remove.
   public static <T extends @Nullable Object, R, C, V>
       Collector<T, ?, ImmutableTable<R, C, V>> toImmutableTable(
           Function<? super T, ? extends R> rowFunction,

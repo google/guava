@@ -19,7 +19,6 @@ package com.google.common.collect;
 import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -62,7 +61,6 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
    */
   @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
-  @Beta // TODO: b/288085449 - Remove.
   public static <T extends @Nullable Object, K, V>
       Collector<T, ?, ImmutableBiMap<K, V>> toImmutableBiMap(
           Function<? super T, ? extends K> keyFunction,
@@ -632,7 +630,6 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
   @DoNotCall("Use toImmutableBiMap")
   @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
-  @Beta // TODO: b/288085449 - Remove.
   public static <T extends @Nullable Object, K, V>
       Collector<T, ?, ImmutableMap<K, V>> toImmutableMap(
           Function<? super T, ? extends K> keyFunction,
@@ -653,7 +650,6 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
   @DoNotCall("Use toImmutableBiMap")
   @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
-  @Beta // TODO: b/288085449 - Remove.
   public static <T extends @Nullable Object, K, V>
       Collector<T, ?, ImmutableMap<K, V>> toImmutableMap(
           Function<? super T, ? extends K> keyFunction,

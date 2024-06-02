@@ -18,7 +18,6 @@ package com.google.common.collect;
 
 import static java.util.Objects.requireNonNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
@@ -84,7 +83,6 @@ public class ImmutableListMultimap<K, V> extends ImmutableMultimap<K, V>
    */
   @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
-  @Beta // TODO: b/288085449 - Remove.
   public static <T extends @Nullable Object, K, V>
       Collector<T, ?, ImmutableListMultimap<K, V>> toImmutableListMultimap(
           Function<? super T, ? extends K> keyFunction,
@@ -125,7 +123,6 @@ public class ImmutableListMultimap<K, V> extends ImmutableMultimap<K, V>
    */
   @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
-  @Beta // TODO: b/288085449 - Remove.
   public static <T extends @Nullable Object, K, V>
       Collector<T, ?, ImmutableListMultimap<K, V>> flatteningToImmutableListMultimap(
           Function<? super T, ? extends K> keyFunction,

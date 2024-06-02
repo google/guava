@@ -17,7 +17,6 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
@@ -73,7 +72,6 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableMultiset<E>
    */
   @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
-  @Beta // TODO: b/288085449 - Remove.
   public static <E> Collector<E, ?, ImmutableSortedMultiset<E>> toImmutableSortedMultiset(
       Comparator<? super E> comparator) {
     return toImmutableSortedMultiset(comparator, Function.identity(), e -> 1);
@@ -92,7 +90,6 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableMultiset<E>
    */
   @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
-  @Beta // TODO: b/288085449 - Remove.
   public static <T extends @Nullable Object, E>
       Collector<T, ?, ImmutableSortedMultiset<E>> toImmutableSortedMultiset(
           Comparator<? super E> comparator,
@@ -766,7 +763,6 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableMultiset<E>
   @Deprecated
   @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
-  @Beta // TODO: b/288085449 - Remove.
   public static <E> Collector<E, ?, ImmutableMultiset<E>> toImmutableMultiset() {
     throw new UnsupportedOperationException();
   }
@@ -784,7 +780,6 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableMultiset<E>
   @Deprecated
   @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
-  @Beta // TODO: b/288085449 - Remove.
   public static <T extends @Nullable Object, E>
       Collector<T, ?, ImmutableMultiset<E>> toImmutableMultiset(
           Function<? super T, ? extends E> elementFunction,

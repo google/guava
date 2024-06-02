@@ -22,7 +22,6 @@ import static com.google.common.collect.SortedLists.KeyAbsentBehavior.NEXT_LOWER
 import static com.google.common.collect.SortedLists.KeyPresentBehavior.ANY_PRESENT;
 import static java.util.Objects.requireNonNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.SortedLists.KeyAbsentBehavior;
@@ -70,7 +69,6 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
    */
   @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
-  @Beta // TODO: b/288085449 - Remove.
   public static <E extends Comparable<? super E>>
       Collector<Range<E>, ?, ImmutableRangeSet<E>> toImmutableRangeSet() {
     return CollectCollectors.toImmutableRangeSet();
