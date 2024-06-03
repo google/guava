@@ -16,8 +16,8 @@
     <test.include>%regex[.*.class]</test.include>
     <truth.version>1.4.2</truth.version>
     <jsr305.version>3.0.2</jsr305.version>
-    <checker.version>3.42.0</checker.version>
-    <errorprone.version>2.26.1</errorprone.version>
+    <checker.version>3.43.0</checker.version>
+    <errorprone.version>2.28.0</errorprone.version>
     <j2objc.version>3.0.0</j2objc.version>
     <javac.version>9+181-r4173-1</javac.version>
     <!-- Empty for all JDKs but 9-12 -->
