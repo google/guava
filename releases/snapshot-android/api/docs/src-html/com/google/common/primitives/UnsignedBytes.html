@@ -298,51 +298,51 @@
 <span class="sourceLineNo">289</span><a id="line.289"></a>
 <span class="sourceLineNo">290</span><a id="line.290">    static final Comparator&lt;byte[]&gt; BEST_COMPARATOR = getBestComparator();</a>
 <span class="sourceLineNo">291</span><a id="line.291"></a>
-<span class="sourceLineNo">292</span><a id="line.292">    @VisibleForTesting</a>
-<span class="sourceLineNo">293</span><a id="line.293">    enum UnsafeComparator implements Comparator&lt;byte[]&gt; {</a>
-<span class="sourceLineNo">294</span><a id="line.294">      INSTANCE;</a>
-<span class="sourceLineNo">295</span><a id="line.295"></a>
-<span class="sourceLineNo">296</span><a id="line.296">      static final boolean BIG_ENDIAN = ByteOrder.nativeOrder().equals(ByteOrder.BIG_ENDIAN);</a>
-<span class="sourceLineNo">297</span><a id="line.297"></a>
-<span class="sourceLineNo">298</span><a id="line.298">      /*</a>
-<span class="sourceLineNo">299</span><a id="line.299">       * The following static final fields exist for performance reasons.</a>
-<span class="sourceLineNo">300</span><a id="line.300">       *</a>
-<span class="sourceLineNo">301</span><a id="line.301">       * In UnsignedBytesBenchmark, accessing the following objects via static final fields is the</a>
-<span class="sourceLineNo">302</span><a id="line.302">       * fastest (more than twice as fast as the Java implementation, vs ~1.5x with non-final static</a>
-<span class="sourceLineNo">303</span><a id="line.303">       * fields, on x86_32) under the Hotspot server compiler. The reason is obviously that the</a>
-<span class="sourceLineNo">304</span><a id="line.304">       * non-final fields need to be reloaded inside the loop.</a>
-<span class="sourceLineNo">305</span><a id="line.305">       *</a>
-<span class="sourceLineNo">306</span><a id="line.306">       * And, no, defining (final or not) local variables out of the loop still isn't as good</a>
-<span class="sourceLineNo">307</span><a id="line.307">       * because the null check on the theUnsafe object remains inside the loop and</a>
-<span class="sourceLineNo">308</span><a id="line.308">       * BYTE_ARRAY_BASE_OFFSET doesn't get constant-folded.</a>
-<span class="sourceLineNo">309</span><a id="line.309">       *</a>
-<span class="sourceLineNo">310</span><a id="line.310">       * The compiler can treat static final fields as compile-time constants and can constant-fold</a>
-<span class="sourceLineNo">311</span><a id="line.311">       * them while (final or not) local variables are run time values.</a>
-<span class="sourceLineNo">312</span><a id="line.312">       */</a>
-<span class="sourceLineNo">313</span><a id="line.313"></a>
-<span class="sourceLineNo">314</span><a id="line.314">      static final Unsafe theUnsafe = getUnsafe();</a>
-<span class="sourceLineNo">315</span><a id="line.315"></a>
-<span class="sourceLineNo">316</span><a id="line.316">      /** The offset to the first element in a byte array. */</a>
-<span class="sourceLineNo">317</span><a id="line.317">      static final int BYTE_ARRAY_BASE_OFFSET = theUnsafe.arrayBaseOffset(byte[].class);</a>
-<span class="sourceLineNo">318</span><a id="line.318"></a>
-<span class="sourceLineNo">319</span><a id="line.319">      static {</a>
-<span class="sourceLineNo">320</span><a id="line.320">        // fall back to the safer pure java implementation unless we're in</a>
-<span class="sourceLineNo">321</span><a id="line.321">        // a 64-bit JVM with an 8-byte aligned field offset.</a>
-<span class="sourceLineNo">322</span><a id="line.322">        if (!("64".equals(System.getProperty("sun.arch.data.model"))</a>
-<span class="sourceLineNo">323</span><a id="line.323">            &amp;&amp; (BYTE_ARRAY_BASE_OFFSET % 8) == 0</a>
-<span class="sourceLineNo">324</span><a id="line.324">            // sanity check - this should never fail</a>
-<span class="sourceLineNo">325</span><a id="line.325">            &amp;&amp; theUnsafe.arrayIndexScale(byte[].class) == 1)) {</a>
-<span class="sourceLineNo">326</span><a id="line.326">          throw new Error(); // force fallback to PureJavaComparator</a>
-<span class="sourceLineNo">327</span><a id="line.327">        }</a>
-<span class="sourceLineNo">328</span><a id="line.328">      }</a>
-<span class="sourceLineNo">329</span><a id="line.329"></a>
-<span class="sourceLineNo">330</span><a id="line.330">      /**</a>
-<span class="sourceLineNo">331</span><a id="line.331">       * Returns a sun.misc.Unsafe. Suitable for use in a 3rd party package. Replace with a simple</a>
-<span class="sourceLineNo">332</span><a id="line.332">       * call to Unsafe.getUnsafe when integrating into a jdk.</a>
-<span class="sourceLineNo">333</span><a id="line.333">       *</a>
-<span class="sourceLineNo">334</span><a id="line.334">       * @return a sun.misc.Unsafe</a>
-<span class="sourceLineNo">335</span><a id="line.335">       */</a>
-<span class="sourceLineNo">336</span><a id="line.336">      @SuppressWarnings("removal") // b/318391980</a>
+<span class="sourceLineNo">292</span><a id="line.292">    @SuppressWarnings({"SunApi", "removal"}) // b/345822163</a>
+<span class="sourceLineNo">293</span><a id="line.293">    @VisibleForTesting</a>
+<span class="sourceLineNo">294</span><a id="line.294">    enum UnsafeComparator implements Comparator&lt;byte[]&gt; {</a>
+<span class="sourceLineNo">295</span><a id="line.295">      INSTANCE;</a>
+<span class="sourceLineNo">296</span><a id="line.296"></a>
+<span class="sourceLineNo">297</span><a id="line.297">      static final boolean BIG_ENDIAN = ByteOrder.nativeOrder().equals(ByteOrder.BIG_ENDIAN);</a>
+<span class="sourceLineNo">298</span><a id="line.298"></a>
+<span class="sourceLineNo">299</span><a id="line.299">      /*</a>
+<span class="sourceLineNo">300</span><a id="line.300">       * The following static final fields exist for performance reasons.</a>
+<span class="sourceLineNo">301</span><a id="line.301">       *</a>
+<span class="sourceLineNo">302</span><a id="line.302">       * In UnsignedBytesBenchmark, accessing the following objects via static final fields is the</a>
+<span class="sourceLineNo">303</span><a id="line.303">       * fastest (more than twice as fast as the Java implementation, vs ~1.5x with non-final static</a>
+<span class="sourceLineNo">304</span><a id="line.304">       * fields, on x86_32) under the Hotspot server compiler. The reason is obviously that the</a>
+<span class="sourceLineNo">305</span><a id="line.305">       * non-final fields need to be reloaded inside the loop.</a>
+<span class="sourceLineNo">306</span><a id="line.306">       *</a>
+<span class="sourceLineNo">307</span><a id="line.307">       * And, no, defining (final or not) local variables out of the loop still isn't as good</a>
+<span class="sourceLineNo">308</span><a id="line.308">       * because the null check on the theUnsafe object remains inside the loop and</a>
+<span class="sourceLineNo">309</span><a id="line.309">       * BYTE_ARRAY_BASE_OFFSET doesn't get constant-folded.</a>
+<span class="sourceLineNo">310</span><a id="line.310">       *</a>
+<span class="sourceLineNo">311</span><a id="line.311">       * The compiler can treat static final fields as compile-time constants and can constant-fold</a>
+<span class="sourceLineNo">312</span><a id="line.312">       * them while (final or not) local variables are run time values.</a>
+<span class="sourceLineNo">313</span><a id="line.313">       */</a>
+<span class="sourceLineNo">314</span><a id="line.314"></a>
+<span class="sourceLineNo">315</span><a id="line.315">      static final Unsafe theUnsafe = getUnsafe();</a>
+<span class="sourceLineNo">316</span><a id="line.316"></a>
+<span class="sourceLineNo">317</span><a id="line.317">      /** The offset to the first element in a byte array. */</a>
+<span class="sourceLineNo">318</span><a id="line.318">      static final int BYTE_ARRAY_BASE_OFFSET = theUnsafe.arrayBaseOffset(byte[].class);</a>
+<span class="sourceLineNo">319</span><a id="line.319"></a>
+<span class="sourceLineNo">320</span><a id="line.320">      static {</a>
+<span class="sourceLineNo">321</span><a id="line.321">        // fall back to the safer pure java implementation unless we're in</a>
+<span class="sourceLineNo">322</span><a id="line.322">        // a 64-bit JVM with an 8-byte aligned field offset.</a>
+<span class="sourceLineNo">323</span><a id="line.323">        if (!("64".equals(System.getProperty("sun.arch.data.model"))</a>
+<span class="sourceLineNo">324</span><a id="line.324">            &amp;&amp; (BYTE_ARRAY_BASE_OFFSET % 8) == 0</a>
+<span class="sourceLineNo">325</span><a id="line.325">            // sanity check - this should never fail</a>
+<span class="sourceLineNo">326</span><a id="line.326">            &amp;&amp; theUnsafe.arrayIndexScale(byte[].class) == 1)) {</a>
+<span class="sourceLineNo">327</span><a id="line.327">          throw new Error(); // force fallback to PureJavaComparator</a>
+<span class="sourceLineNo">328</span><a id="line.328">        }</a>
+<span class="sourceLineNo">329</span><a id="line.329">      }</a>
+<span class="sourceLineNo">330</span><a id="line.330"></a>
+<span class="sourceLineNo">331</span><a id="line.331">      /**</a>
+<span class="sourceLineNo">332</span><a id="line.332">       * Returns a sun.misc.Unsafe. Suitable for use in a 3rd party package. Replace with a simple</a>
+<span class="sourceLineNo">333</span><a id="line.333">       * call to Unsafe.getUnsafe when integrating into a jdk.</a>
+<span class="sourceLineNo">334</span><a id="line.334">       *</a>
+<span class="sourceLineNo">335</span><a id="line.335">       * @return a sun.misc.Unsafe</a>
+<span class="sourceLineNo">336</span><a id="line.336">       */</a>
 <span class="sourceLineNo">337</span><a id="line.337">      private static sun.misc.Unsafe getUnsafe() {</a>
 <span class="sourceLineNo">338</span><a id="line.338">        try {</a>
 <span class="sourceLineNo">339</span><a id="line.339">          return sun.misc.Unsafe.getUnsafe();</a>
