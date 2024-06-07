@@ -573,6 +573,7 @@ public class ExecutionListBenchmark {
   }
 
   // A version of the list that uses compare and swap to manage the stack without locks.
+  @SuppressWarnings({"SunApi", "removal"}) // b/345822163
   private static final class ExecutionListCAS {
     static final Logger log = Logger.getLogger(ExecutionListCAS.class.getName());
 

@@ -21,6 +21,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * striping on 64bit values. The class extends Number so that concrete subclasses must publicly do
  * so.
  */
+@SuppressWarnings({"SunApi", "removal"}) // b/345822163
 @GwtIncompatible
 @ElementTypesAreNonnullByDefault
 abstract class Striped64 extends Number {
@@ -287,7 +288,6 @@ abstract class Striped64 extends Number {
    *
    * @return a sun.misc.Unsafe
    */
-  @SuppressWarnings("removal") // b/318391980
   private static sun.misc.Unsafe getUnsafe() {
     try {
       return sun.misc.Unsafe.getUnsafe();

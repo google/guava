@@ -23,6 +23,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @GwtIncompatible
 @ElementTypesAreNonnullByDefault
+@SuppressWarnings({"SunApi", "removal"}) // b/345822163
 abstract class Striped64 extends Number {
   /*
    * This class maintains a lazily-initialized table of atomically
@@ -287,7 +288,6 @@ abstract class Striped64 extends Number {
    *
    * @return a sun.misc.Unsafe
    */
-  @SuppressWarnings("removal") // b/318391980
   private static sun.misc.Unsafe getUnsafe() {
     try {
       return sun.misc.Unsafe.getUnsafe();

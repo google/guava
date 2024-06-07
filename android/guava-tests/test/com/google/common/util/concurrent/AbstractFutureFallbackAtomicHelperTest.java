@@ -53,6 +53,7 @@ public class AbstractFutureFallbackAtomicHelperTest extends TestCase {
    * This classloader disallows {@link sun.misc.Unsafe}, which will prevent us from selecting our
    * preferred strategy {@code UnsafeAtomicHelper}.
    */
+  @SuppressWarnings({"SunApi", "removal"}) // b/345822163
   private static final ClassLoader NO_UNSAFE =
       getClassLoader(ImmutableSet.of(sun.misc.Unsafe.class.getName()));
 
@@ -60,6 +61,7 @@ public class AbstractFutureFallbackAtomicHelperTest extends TestCase {
    * This classloader disallows {@link sun.misc.Unsafe} and {@link AtomicReferenceFieldUpdater},
    * which will prevent us from selecting our {@code SafeAtomicHelper} strategy.
    */
+  @SuppressWarnings({"SunApi", "removal"}) // b/345822163
   private static final ClassLoader NO_ATOMIC_REFERENCE_FIELD_UPDATER =
       getClassLoader(
           ImmutableSet.of(
