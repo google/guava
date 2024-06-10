@@ -22,7 +22,6 @@ import static junit.framework.TestCase.fail;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.Iterators;
 import com.google.common.collect.LinkedHashMultiset;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -120,9 +119,7 @@ public class UnmodifiableCollectionTests {
     siblingCollection.add(sampleElement);
 
     Collection<E> copy = new ArrayList<>();
-    // Avoid copy.addAll(collection), which runs afoul of an Android bug in older versions:
-    // http://b.android.com/72073 http://r.android.com/98929
-    Iterators.addAll(copy, collection.iterator());
+    copy.addAll(collection);
 
     try {
       collection.add(sampleElement);
