@@ -97,6 +97,7 @@ public class GcFinalizationTest extends TestCase {
     map.put(new Object(), Boolean.TRUE);
     GcFinalization.awaitDone(
         new FinalizationPredicate() {
+          @Override
           public boolean isDone() {
             return map.isEmpty();
           }
@@ -119,6 +120,7 @@ public class GcFinalizationTest extends TestCase {
     Interruptenator(final Thread interruptee, final AtomicBoolean shutdown) {
       super(
           new Runnable() {
+            @Override
             public void run() {
               while (!shutdown.get()) {
                 interruptee.interrupt();

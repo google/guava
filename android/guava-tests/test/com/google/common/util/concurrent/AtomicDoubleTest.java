@@ -101,6 +101,7 @@ public class AtomicDoubleTest extends JSR166TestCase {
     Thread t =
         newStartedThread(
             new CheckedRunnable() {
+              @Override
               public void realRun() {
                 while (!at.compareAndSet(2.0, 3.0)) {
                   Thread.yield();
@@ -122,7 +123,8 @@ public class AtomicDoubleTest extends JSR166TestCase {
       assertBitEquals(prev, at.get());
       assertFalse(at.weakCompareAndSet(unused, x));
       assertBitEquals(prev, at.get());
-      while (!at.weakCompareAndSet(prev, x)) {;
+      while (!at.weakCompareAndSet(prev, x)) {
+        ;
       }
       assertBitEquals(x, at.get());
       prev = x;
