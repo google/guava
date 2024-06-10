@@ -275,10 +275,9 @@ public class CacheBuilderTest extends TestCase {
   @GwtIncompatible // java.time.Duration
   public void testTimeToLive_setTwice_duration() {
     CacheBuilder<Object, Object> builder =
-        CacheBuilder.newBuilder().expireAfterWrite(java.time.Duration.ofSeconds(3600));
+        CacheBuilder.newBuilder().expireAfterWrite(java.time.Duration.ofHours(1));
     assertThrows(
-        IllegalStateException.class,
-        () -> builder.expireAfterWrite(java.time.Duration.ofSeconds(3600)));
+        IllegalStateException.class, () -> builder.expireAfterWrite(java.time.Duration.ofHours(1)));
   }
 
   public void testTimeToIdle_negative() {
@@ -318,10 +317,10 @@ public class CacheBuilderTest extends TestCase {
   @GwtIncompatible // java.time.Duration
   public void testTimeToIdle_setTwice_duration() {
     CacheBuilder<Object, Object> builder =
-        CacheBuilder.newBuilder().expireAfterAccess(java.time.Duration.ofSeconds(3600));
+        CacheBuilder.newBuilder().expireAfterAccess(java.time.Duration.ofHours(1));
     assertThrows(
         IllegalStateException.class,
-        () -> builder.expireAfterAccess(java.time.Duration.ofSeconds(3600)));
+        () -> builder.expireAfterAccess(java.time.Duration.ofHours(1)));
   }
 
   @SuppressWarnings("ReturnValueIgnored")
@@ -356,10 +355,10 @@ public class CacheBuilderTest extends TestCase {
   @GwtIncompatible // java.time.Duration
   public void testRefresh_setTwice_duration() {
     CacheBuilder<Object, Object> builder =
-        CacheBuilder.newBuilder().refreshAfterWrite(java.time.Duration.ofSeconds(3600));
+        CacheBuilder.newBuilder().refreshAfterWrite(java.time.Duration.ofHours(1));
     assertThrows(
         IllegalStateException.class,
-        () -> builder.refreshAfterWrite(java.time.Duration.ofSeconds(3600)));
+        () -> builder.refreshAfterWrite(java.time.Duration.ofHours(1)));
   }
 
   public void testTicker_setTwice() {
