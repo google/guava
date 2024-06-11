@@ -1208,11 +1208,8 @@ public class AbstractFutureTest extends TestCase {
         return i;
       }
     }
-    AssertionFailedError failure =
-        new AssertionFailedError(
-            "Expected element " + clazz + "." + method + " not found in stack trace");
-    failure.initCause(e);
-    throw failure;
+    throw new AssertionError(
+        "Expected element " + clazz + "." + method + " not found in stack trace", e);
   }
 
   private ExecutionException getExpectingExecutionException(AbstractFuture<String> future)

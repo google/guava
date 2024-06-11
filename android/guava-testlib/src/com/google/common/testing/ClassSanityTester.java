@@ -456,10 +456,7 @@ public final class ClassSanityTester {
           try {
             nullPointerTester.testAllPublicInstanceMethods(instance);
           } catch (AssertionError e) {
-            AssertionError error =
-                new AssertionFailedError("Null check failed on return value of " + factory);
-            error.initCause(e);
-            throw error;
+            throw new AssertionError("Null check failed on return value of " + factory, e);
           }
         }
       }
@@ -505,10 +502,8 @@ public final class ClassSanityTester {
           try {
             SerializableTester.reserialize(instance);
           } catch (Exception e) { // sneaky checked exception
-            AssertionError error =
-                new AssertionFailedError("Serialization failed on return value of " + factory);
-            error.initCause(e.getCause());
-            throw error;
+            throw new AssertionError(
+                "Serialization failed on return value of " + factory, e.getCause());
           }
         }
       }
@@ -537,16 +532,11 @@ public final class ClassSanityTester {
           try {
             SerializableTester.reserializeAndAssert(instance);
           } catch (Exception e) { // sneaky checked exception
-            AssertionError error =
-                new AssertionFailedError("Serialization failed on return value of " + factory);
-            error.initCause(e.getCause());
-            throw error;
+            throw new AssertionError(
+                "Serialization failed on return value of " + factory, e.getCause());
           } catch (AssertionFailedError e) {
-            AssertionError error =
-                new AssertionFailedError(
-                    "Return value of " + factory + " reserialized to an unequal value");
-            error.initCause(e);
-            throw error;
+            throw new AssertionError(
+                "Return value of " + factory + " reserialized to an unequal value", e);
           }
         }
       }

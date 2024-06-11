@@ -30,7 +30,6 @@ import java.util.ListIterator;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.Stack;
-import junit.framework.AssertionFailedError;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -99,7 +98,7 @@ abstract class AbstractIteratorTester<E extends @Nullable Object, I extends Iter
                 + exception.getClass().getSimpleName()
                 + " was thrown; expected "
                 + getMessage();
-        Helpers.fail(exception, message);
+        throw new AssertionError(message, exception);
       }
     }
 
@@ -355,8 +354,8 @@ abstract class AbstractIteratorTester<E extends @Nullable Object, I extends Iter
       try {
         stimuli[i].executeAndCompare(reference, target);
         verify(reference.getElements());
-      } catch (AssertionFailedError cause) {
-        Helpers.fail(cause, "failed with stimuli " + subListCopy(stimuli, i + 1));
+      } catch (AssertionError cause) {
+        throw new AssertionError("failed with stimuli " + subListCopy(stimuli, i + 1), cause);
       }
     }
   }
@@ -425,12 +424,12 @@ abstract class AbstractIteratorTester<E extends @Nullable Object, I extends Iter
     } catch (PermittedMetaException e) {
       referenceException = e;
     } catch (UnknownElementException e) {
-      Helpers.fail(e, e.getMessage());
+      throw new AssertionError(e);
     }
 
     if (referenceException == null) {
       if (targetException != null) {
-        Helpers.fail(targetException, "Target threw exception when reference did not");
+        throw new AssertionError("Target threw exception when reference did not", targetException);
       }
 
       /*
