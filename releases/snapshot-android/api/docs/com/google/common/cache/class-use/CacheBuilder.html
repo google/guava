@@ -149,8 +149,25 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code><a href="../CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="../CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,&#8203;<a href="../CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">CacheBuilder.</span><code><span class="memberNameLink"><a href="../CacheBuilder.html#expireAfterAccess(java.time.Duration)">expireAfterAccess</a></span>&#8203;(java.time.Duration&nbsp;duration)</code></th>
+<td class="colLast">
+<div class="block">Specifies that each entry should be automatically removed from the cache once a fixed duration
+ has elapsed after the entry's creation, the most recent replacement of its value, or its last
+ access.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code><a href="../CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="../CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,&#8203;<a href="../CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">CacheBuilder.</span><code><span class="memberNameLink"><a href="../CacheBuilder.html#expireAfterWrite(long,java.util.concurrent.TimeUnit)">expireAfterWrite</a></span>&#8203;(long&nbsp;duration,
                 java.util.concurrent.TimeUnit&nbsp;unit)</code></th>
+<td class="colLast">
+<div class="block">Specifies that each entry should be automatically removed from the cache once a fixed duration
+ has elapsed after the entry's creation, or the most recent replacement of its value.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="../CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="../CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,&#8203;<a href="../CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">CacheBuilder.</span><code><span class="memberNameLink"><a href="../CacheBuilder.html#expireAfterWrite(java.time.Duration)">expireAfterWrite</a></span>&#8203;(java.time.Duration&nbsp;duration)</code></th>
 <td class="colLast">
 <div class="block">Specifies that each entry should be automatically removed from the cache once a fixed duration
  has elapsed after the entry's creation, or the most recent replacement of its value.</div>
@@ -216,6 +233,14 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </td>
 </tr>
 <tr class="rowColor">
+<td class="colFirst"><code><a href="../CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="../CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,&#8203;<a href="../CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">CacheBuilder.</span><code><span class="memberNameLink"><a href="../CacheBuilder.html#refreshAfterWrite(java.time.Duration)">refreshAfterWrite</a></span>&#8203;(java.time.Duration&nbsp;duration)</code></th>
+<td class="colLast">
+<div class="block">Specifies that active entries are eligible for automatic refresh once a fixed duration has
+ elapsed after the entry's creation, or the most recent replacement of its value.</div>
+</td>
+</tr>
+<tr class="altColor">
 <td class="colFirst"><code>&lt;K1 extends <a href="../CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,&#8203;V1 extends <a href="../CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;<br><a href="../CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;K1,&#8203;V1&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">CacheBuilder.</span><code><span class="memberNameLink"><a href="../CacheBuilder.html#removalListener(com.google.common.cache.RemovalListener)">removalListener</a></span>&#8203;(<a href="../RemovalListener.html" title="interface in com.google.common.cache">RemovalListener</a>&lt;? super K1,&#8203;? super V1&gt;&nbsp;listener)</code></th>
 <td class="colLast">
@@ -223,35 +248,35 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  <a href="../RemovalCause.html" title="enum in com.google.common.cache">reason</a>.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="../CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,&#8203;<a href="../CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">CacheBuilder.</span><code><span class="memberNameLink"><a href="../CacheBuilder.html#softValues()">softValues</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Specifies that each value (not key) stored in the cache should be wrapped in a <code>SoftReference</code> (by default, strong references are used).</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="../CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,&#8203;<a href="../CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">CacheBuilder.</span><code><span class="memberNameLink"><a href="../CacheBuilder.html#ticker(com.google.common.base.Ticker)">ticker</a></span>&#8203;(<a href="../../base/Ticker.html" title="class in com.google.common.base">Ticker</a>&nbsp;ticker)</code></th>
 <td class="colLast">
 <div class="block">Specifies a nanosecond-precision time source for this cache.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="../CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,&#8203;<a href="../CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">CacheBuilder.</span><code><span class="memberNameLink"><a href="../CacheBuilder.html#weakKeys()">weakKeys</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Specifies that each key (not value) stored in the cache should be wrapped in a <code>WeakReference</code> (by default, strong references are used).</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="../CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,&#8203;<a href="../CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">CacheBuilder.</span><code><span class="memberNameLink"><a href="../CacheBuilder.html#weakValues()">weakValues</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Specifies that each value (not key) stored in the cache should be wrapped in a <code>WeakReference</code> (by default, strong references are used).</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>&lt;K1 extends <a href="../CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,&#8203;V1 extends <a href="../CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;<br><a href="../CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;K1,&#8203;V1&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">CacheBuilder.</span><code><span class="memberNameLink"><a href="../CacheBuilder.html#weigher(com.google.common.cache.Weigher)">weigher</a></span>&#8203;(<a href="../Weigher.html" title="interface in com.google.common.cache">Weigher</a>&lt;? super K1,&#8203;? super V1&gt;&nbsp;weigher)</code></th>
 <td class="colLast">

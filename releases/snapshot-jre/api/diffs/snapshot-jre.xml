@@ -8176,7 +8176,7 @@
 
  @param weigher the weigher to use in calculating the weight of cache entries
  @return this {@code CacheBuilder} instance (for chaining)
- @throws IllegalStateException if a weigher was already set or {@link #maximumSize} was
+ @throws IllegalStateException if a weigher was already set or {@link #maximumSize(long)} was
      previously called
  @since 11.0]]>
       </doc>
@@ -8272,7 +8272,8 @@
  @throws IllegalArgumentException if {@code duration} is negative
  @throws IllegalStateException if {@link #expireAfterWrite} was already set
  @throws ArithmeticException for durations greater than +/- approximately 292 years
- @since 25.0]]>
+ @since 25.0 (but only since 33.3.0 in the Android <a
+     href="https://github.com/google/guava#guava-google-core-libraries-for-java">flavor</a>)]]>
       </doc>
     </method>
     <method name="expireAfterWrite" return="com.google.common.cache.CacheBuilder&lt;K, V&gt;"
@@ -8293,8 +8294,8 @@
  write operations. Expired entries are cleaned up as part of the routine maintenance described
  in the class javadoc.
 
- <p>If you can represent the duration as a {@link java.time.Duration} (which should be preferred
- when feasible), use {@link #expireAfterWrite(Duration)} instead.
+ <p>If you can represent the duration as a {@link Duration} (which should be preferred when
+ feasible), use {@link #expireAfterWrite(Duration)} instead.
 
  @param duration the length of time after an entry is created that it should be automatically
      removed
@@ -8332,7 +8333,8 @@
  @throws IllegalArgumentException if {@code duration} is negative
  @throws IllegalStateException if {@link #expireAfterAccess} was already set
  @throws ArithmeticException for durations greater than +/- approximately 292 years
- @since 25.0]]>
+ @since 25.0 (but only since 33.3.0 in the Android <a
+     href="https://github.com/google/guava#guava-google-core-libraries-for-java">flavor</a>)]]>
       </doc>
     </method>
     <method name="expireAfterAccess" return="com.google.common.cache.CacheBuilder&lt;K, V&gt;"
@@ -8358,8 +8360,8 @@
  write operations. Expired entries are cleaned up as part of the routine maintenance described
  in the class javadoc.
 
- <p>If you can represent the duration as a {@link java.time.Duration} (which should be preferred
- when feasible), use {@link #expireAfterAccess(Duration)} instead.
+ <p>If you can represent the duration as a {@link Duration} (which should be preferred when
+ feasible), use {@link #expireAfterAccess(Duration)} instead.
 
  @param duration the length of time after an entry is last accessed that it should be
      automatically removed
@@ -8399,7 +8401,8 @@
  @throws IllegalArgumentException if {@code duration} is negative
  @throws IllegalStateException if {@link #refreshAfterWrite} was already set
  @throws ArithmeticException for durations greater than +/- approximately 292 years
- @since 25.0]]>
+ @since 25.0 (but only since 33.3.0 in the Android <a
+     href="https://github.com/google/guava#guava-google-core-libraries-for-java">flavor</a>)]]>
       </doc>
     </method>
     <method name="refreshAfterWrite" return="com.google.common.cache.CacheBuilder&lt;K, V&gt;"
@@ -8427,8 +8430,8 @@
 
  <p><b>Note:</b> <i>all exceptions thrown during refresh will be logged and then swallowed</i>.
 
- <p>If you can represent the duration as a {@link java.time.Duration} (which should be preferred
- when feasible), use {@link #refreshAfterWrite(Duration)} instead.
+ <p>If you can represent the duration as a {@link Duration} (which should be preferred when
+ feasible), use {@link #refreshAfterWrite(Duration)} instead.
 
  @param duration the length of time after an entry is created that it should be considered
      stale, and thus eligible for refresh

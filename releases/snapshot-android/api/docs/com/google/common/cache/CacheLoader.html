@@ -366,10 +366,10 @@ public&nbsp;<a href="../util/concurrent/ListenableFuture.html" title="interface 
                                   <a href="CacheLoader.html" title="type parameter in CacheLoader">V</a>&nbsp;oldValue)
                            throws java.lang.Exception</pre>
 <div class="block">Computes or retrieves a replacement value corresponding to an already-cached <code>key</code>. This
- method is called when an existing cache entry is refreshed by <a href="CacheBuilder.html#refreshAfterWrite(long,java.util.concurrent.TimeUnit)"><code>CacheBuilder.refreshAfterWrite(long, java.util.concurrent.TimeUnit)</code></a>, or through a call to <a href="LoadingCache.html#refresh(K)"><code>LoadingCache.refresh(K)</code></a>.
+ method is called when an existing cache entry is refreshed by <a href="CacheBuilder.html#refreshAfterWrite(java.time.Duration)"><code>CacheBuilder.refreshAfterWrite(java.time.Duration)</code></a>, or through a call to <a href="LoadingCache.html#refresh(K)"><code>LoadingCache.refresh(K)</code></a>.
 
  <p>This implementation synchronously delegates to <a href="#load(K)"><code>load(K)</code></a>. It is recommended that it be
- overridden with an asynchronous implementation when using <a href="CacheBuilder.html#refreshAfterWrite(long,java.util.concurrent.TimeUnit)"><code>CacheBuilder.refreshAfterWrite(long, java.util.concurrent.TimeUnit)</code></a>.
+ overridden with an asynchronous implementation when using <a href="CacheBuilder.html#refreshAfterWrite(java.time.Duration)"><code>CacheBuilder.refreshAfterWrite(java.time.Duration)</code></a>.
 
  <p><b>Note:</b> <i>all exceptions thrown by this method will be logged and then swallowed</i>.</div>
 <dl>
