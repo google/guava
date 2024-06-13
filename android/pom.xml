@@ -185,7 +185,7 @@
             </dependency>
           </dependencies>
           <configuration>
-            <annotations>com.google.common.base.IgnoreJRERequirement,com.google.common.collect.IgnoreJRERequirement,com.google.common.hash.IgnoreJRERequirement,com.google.common.io.IgnoreJRERequirement,com.google.common.reflect.IgnoreJRERequirement,com.google.common.testing.IgnoreJRERequirement</annotations>
+            <annotations>com.google.common.base.IgnoreJRERequirement,com.google.common.cache.IgnoreJRERequirement,com.google.common.collect.IgnoreJRERequirement,com.google.common.hash.IgnoreJRERequirement,com.google.common.io.IgnoreJRERequirement,com.google.common.reflect.IgnoreJRERequirement,com.google.common.testing.IgnoreJRERequirement</annotations>
             <checkTestClasses>true</checkTestClasses>
             <signature>
               <groupId>com.toasttab.android</groupId>
