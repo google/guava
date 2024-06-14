@@ -353,5 +353,10 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
     public ImmutableList<E> build() {
       return copyOf(contents);
     }
+
+    ImmutableList<E> buildSorted(Comparator<? super E> comparator) {
+      Collections.sort(contents, comparator);
+      return copyOf(contents);
+    }
   }
 }

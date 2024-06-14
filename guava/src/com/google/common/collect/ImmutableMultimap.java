@@ -32,7 +32,6 @@ import com.google.j2objc.annotations.WeakOuter;
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
@@ -151,7 +150,7 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
    */
   @DoNotMock
   public static class Builder<K, V> {
-    @CheckForNull Map<K, Collection<V>> builderMap;
+    @CheckForNull Map<K, ImmutableCollection.Builder<V>> builderMap;
     @CheckForNull Comparator<? super K> keyComparator;
     @CheckForNull Comparator<? super V> valueComparator;
 
@@ -161,8 +160,8 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
      */
     public Builder() {}
 
-    Map<K, Collection<V>> ensureBuilderMapNonNull() {
-      Map<K, Collection<V>> result = builderMap;
+    Map<K, ImmutableCollection.Builder<V>> ensureBuilderMapNonNull() {
+      Map<K, ImmutableCollection.Builder<V>> result = builderMap;
       if (result == null) {
         result = Platform.preservesInsertionOrderOnPutsMap();
         builderMap = result;
@@ -170,20 +169,19 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
       return result;
     }
 
-    Collection<V> newMutableValueCollection() {
-      return new ArrayList<>();
+    ImmutableCollection.Builder<V> newValueCollectionBuilder() {
+      return ImmutableList.builder();
     }
 
     /** Adds a key-value mapping to the built multimap. */
     @CanIgnoreReturnValue
     public Builder<K, V> put(K key, V value) {
       checkEntryNotNull(key, value);
-      Map<K, Collection<V>> builderMap = ensureBuilderMapNonNull();
-      Collection<V> valueCollection = builderMap.get(key);
-      if (valueCollection == null) {
-        builderMap.put(key, valueCollection = newMutableValueCollection());
+      ImmutableCollection.Builder<V> valuesBuilder = ensureBuilderMapNonNull().get(key);
+      if (valuesBuilder == null) {
+        builderMap.put(key, valuesBuilder = newValueCollectionBuilder());
       }
-      valueCollection.add(value);
+      valuesBuilder.add(value);
       return this;
     }
 
@@ -221,26 +219,20 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
       if (key == null) {
         throw new NullPointerException("null key in entry: null=" + Iterables.toString(values));
       }
-      Map<K, Collection<V>> builderMap = ensureBuilderMapNonNull();
-      Collection<V> valueCollection = builderMap.get(key);
-      if (valueCollection != null) {
-        for (V value : values) {
-          checkEntryNotNull(key, value);
-          valueCollection.add(value);
-        }
-        return this;
-      }
       Iterator<? extends V> valuesItr = values.iterator();
       if (!valuesItr.hasNext()) {
         return this;
       }
-      valueCollection = newMutableValueCollection();
+      ImmutableCollection.Builder<V> valuesBuilder = ensureBuilderMapNonNull().get(key);
+      if (valuesBuilder == null) {
+        valuesBuilder = newValueCollectionBuilder();
+        builderMap.put(key, valuesBuilder);
+      }
       while (valuesItr.hasNext()) {
         V value = valuesItr.next();
         checkEntryNotNull(key, value);
-        valueCollection.add(value);
+        valuesBuilder.add(value);
       }
-      builderMap.put(key, valueCollection);
       return this;
     }
 
@@ -296,10 +288,9 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
 
     @CanIgnoreReturnValue
     Builder<K, V> combine(Builder<K, V> other) {
-      Map<K, Collection<V>> otherBuilderMap = other.builderMap;
-      if (otherBuilderMap != null) {
-        for (Map.Entry<K, Collection<V>> entry : otherBuilderMap.entrySet()) {
-          putAll(entry.getKey(), entry.getValue());
+      if (other.builderMap != null) {
+        for (Map.Entry<K, ImmutableCollection.Builder<V>> entry : other.builderMap.entrySet()) {
+          putAll(entry.getKey(), entry.getValue().build());
         }
       }
       return this;
@@ -307,15 +298,14 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
 
     /** Returns a newly-created immutable multimap. */
     public ImmutableMultimap<K, V> build() {
-      Map<K, Collection<V>> builderMap = this.builderMap;
       if (builderMap == null) {
         return ImmutableListMultimap.of();
       }
-      Collection<Map.Entry<K, Collection<V>>> mapEntries = builderMap.entrySet();
+      Collection<Map.Entry<K, ImmutableCollection.Builder<V>>> mapEntries = builderMap.entrySet();
       if (keyComparator != null) {
         mapEntries = Ordering.from(keyComparator).<K>onKeys().immutableSortedCopy(mapEntries);
       }
-      return ImmutableListMultimap.fromMapEntries(mapEntries, valueComparator);
+      return ImmutableListMultimap.fromMapBuilderEntries(mapEntries, valueComparator);
     }
   }
 

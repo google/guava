@@ -926,6 +926,21 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
       forceCopy = true;
       return asImmutableList(contents, size);
     }
+
+    /**
+     * Returns a newly-created {@code ImmutableList} based on the contents of the {@code Builder},
+     * sorted according to the specified comparator.
+     */
+    @SuppressWarnings("unchecked")
+    ImmutableList<E> buildSorted(Comparator<? super E> comparator) {
+      // Currently only used by ImmutableListMultimap.Builder.orderValuesBy.
+      // In particular, this implies that the comparator can never get "removed," so this can't
+      // invalidate future builds.
+
+      forceCopy = true;
+      Arrays.sort((E[]) contents, 0, size, comparator);
+      return asImmutableList(contents, size);
+    }
   }
 
   private static final long serialVersionUID = 0xcafebabe;
