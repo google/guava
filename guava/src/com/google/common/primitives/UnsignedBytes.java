@@ -23,7 +23,11 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import java.lang.reflect.Field;
 import java.nio.ByteOrder;
+import java.security.AccessController;
+import java.security.PrivilegedActionException;
+import java.security.PrivilegedExceptionAction;
 import java.util.Arrays;
 import java.util.Comparator;
 import sun.misc.Unsafe;
@@ -334,19 +338,19 @@ public final class UnsignedBytes {
        *
        * @return a sun.misc.Unsafe
        */
-      private static sun.misc.Unsafe getUnsafe() {
+      private static Unsafe getUnsafe() {
         try {
-          return sun.misc.Unsafe.getUnsafe();
+          return Unsafe.getUnsafe();
         } catch (SecurityException e) {
           // that's okay; try reflection instead
         }
         try {
-          return java.security.AccessController.doPrivileged(
-              new java.security.PrivilegedExceptionAction<sun.misc.Unsafe>() {
+          return AccessController.doPrivileged(
+              new PrivilegedExceptionAction<Unsafe>() {
                 @Override
-                public sun.misc.Unsafe run() throws Exception {
-                  Class<sun.misc.Unsafe> k = sun.misc.Unsafe.class;
-                  for (java.lang.reflect.Field f : k.getDeclaredFields()) {
+                public Unsafe run() throws Exception {
+                  Class<Unsafe> k = Unsafe.class;
+                  for (Field f : k.getDeclaredFields()) {
                     f.setAccessible(true);
                     Object x = f.get(null);
                     if (k.isInstance(x)) {
@@ -356,7 +360,7 @@ public final class UnsignedBytes {
                   throw new NoSuchFieldError("the Unsafe");
                 }
               });
-        } catch (java.security.PrivilegedActionException e) {
+        } catch (PrivilegedActionException e) {
           throw new RuntimeException("Could not initialize intrinsics", e.getCause());
         }
       }

@@ -89,10 +89,10 @@ final class TableCollectors {
           V,
           I extends Table<R, C, V>>
       Collector<T, ?, I> toTable(
-          java.util.function.Function<? super T, ? extends R> rowFunction,
-          java.util.function.Function<? super T, ? extends C> columnFunction,
-          java.util.function.Function<? super T, ? extends V> valueFunction,
-          java.util.function.Supplier<I> tableSupplier) {
+          Function<? super T, ? extends R> rowFunction,
+          Function<? super T, ? extends C> columnFunction,
+          Function<? super T, ? extends V> valueFunction,
+          Supplier<I> tableSupplier) {
     return TableCollectors.<T, R, C, V, I>toTable(
         rowFunction,
         columnFunction,
@@ -110,11 +110,11 @@ final class TableCollectors {
           V,
           I extends Table<R, C, V>>
       Collector<T, ?, I> toTable(
-          java.util.function.Function<? super T, ? extends R> rowFunction,
-          java.util.function.Function<? super T, ? extends C> columnFunction,
-          java.util.function.Function<? super T, ? extends V> valueFunction,
+          Function<? super T, ? extends R> rowFunction,
+          Function<? super T, ? extends C> columnFunction,
+          Function<? super T, ? extends V> valueFunction,
           BinaryOperator<V> mergeFunction,
-          java.util.function.Supplier<I> tableSupplier) {
+          Supplier<I> tableSupplier) {
     checkNotNull(rowFunction);
     checkNotNull(columnFunction);
     checkNotNull(valueFunction);

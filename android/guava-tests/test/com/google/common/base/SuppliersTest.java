@@ -26,6 +26,7 @@ import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.Lists;
 import com.google.common.testing.ClassSanityTester;
 import com.google.common.testing.EqualsTester;
+import java.io.NotSerializableException;
 import java.io.Serializable;
 import java.time.Duration;
 import java.util.ArrayList;
@@ -145,7 +146,7 @@ public class SuppliersTest extends TestCase {
 
     // Should get an exception when we try to serialize.
     RuntimeException ex = assertThrows(RuntimeException.class, () -> reserialize(memoizedSupplier));
-    assertThat(ex).hasCauseThat().isInstanceOf(java.io.NotSerializableException.class);
+    assertThat(ex).hasCauseThat().isInstanceOf(NotSerializableException.class);
   }
 
   @J2ktIncompatible

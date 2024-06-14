@@ -162,7 +162,7 @@ public final class MutableTypeToInstanceMap<B extends @Nullable Object>
       return Iterators.transform(entries, UnmodifiableEntry::new);
     }
 
-    private UnmodifiableEntry(java.util.Map.Entry<K, V> delegate) {
+    private UnmodifiableEntry(Entry<K, V> delegate) {
       this.delegate = checkNotNull(delegate);
     }
 

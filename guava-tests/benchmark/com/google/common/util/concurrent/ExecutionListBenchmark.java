@@ -28,6 +28,10 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.AbstractFutureBenchmarks.OldAbstractFuture;
 import com.google.errorprone.annotations.concurrent.GuardedBy;
+import java.lang.reflect.Field;
+import java.security.AccessController;
+import java.security.PrivilegedActionException;
+import java.security.PrivilegedExceptionAction;
 import java.util.Queue;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.CountDownLatch;
@@ -39,6 +43,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import sun.misc.Unsafe;
 
 /** Benchmarks for {@link ExecutionList}. */
 @VmOptions({"-Xms8g", "-Xmx8g"})
@@ -577,7 +582,7 @@ public class ExecutionListBenchmark {
   private static final class ExecutionListCAS {
     static final Logger log = Logger.getLogger(ExecutionListCAS.class.getName());
 
-    private static final sun.misc.Unsafe UNSAFE;
+    private static final Unsafe UNSAFE;
     private static final long HEAD_OFFSET;
 
     /**
@@ -596,18 +601,18 @@ public class ExecutionListBenchmark {
     }
 
     /** TODO(lukes): This was copied verbatim from Striped64.java... standardize this? */
-    private static sun.misc.Unsafe getUnsafe() {
+    private static Unsafe getUnsafe() {
       try {
-        return sun.misc.Unsafe.getUnsafe();
+        return Unsafe.getUnsafe();
       } catch (SecurityException tryReflectionInstead) {
       }
       try {
-        return java.security.AccessController.doPrivileged(
-            new java.security.PrivilegedExceptionAction<sun.misc.Unsafe>() {
+        return AccessController.doPrivileged(
+            new PrivilegedExceptionAction<Unsafe>() {
               @Override
-              public sun.misc.Unsafe run() throws Exception {
-                Class<sun.misc.Unsafe> k = sun.misc.Unsafe.class;
-                for (java.lang.reflect.Field f : k.getDeclaredFields()) {
+              public Unsafe run() throws Exception {
+                Class<Unsafe> k = Unsafe.class;
+                for (Field f : k.getDeclaredFields()) {
                   f.setAccessible(true);
                   Object x = f.get(null);
                   if (k.isInstance(x)) return k.cast(x);
@@ -615,7 +620,7 @@ public class ExecutionListBenchmark {
                 throw new NoSuchFieldError("the Unsafe");
               }
             });
-      } catch (java.security.PrivilegedActionException e) {
+      } catch (PrivilegedActionException e) {
         throw new RuntimeException("Could not initialize intrinsics", e.getCause());
       }
     }

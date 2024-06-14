@@ -20,6 +20,7 @@ import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.FilePermission;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.security.CodeSource;
@@ -590,7 +591,7 @@ abstract class JSR166TestCase extends TestCase {
   }
 
   /** A security policy where new permissions can be dynamically added or all cleared. */
-  public static class AdjustablePolicy extends java.security.Policy {
+  public static class AdjustablePolicy extends Policy {
     Permissions perms = new Permissions();
 
     AdjustablePolicy(Permission... permissions) {
@@ -639,7 +640,7 @@ abstract class JSR166TestCase extends TestCase {
         // Permissions needed by the junit test harness
         new RuntimePermission("accessDeclaredMembers"),
         new PropertyPermission("*", "read"),
-        new java.io.FilePermission("<<ALL FILES>>", "read"));
+        new FilePermission("<<ALL FILES>>", "read"));
   }
 
   /** Sleeps until the given time has elapsed. Throws AssertionFailedError if interrupted. */
