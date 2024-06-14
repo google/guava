@@ -348,6 +348,10 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
     /** Returns a newly-created immutable set multimap. */
     @Override
     public ImmutableSetMultimap<K, V> build() {
+      Map<K, Collection<V>> builderMap = this.builderMap;
+      if (builderMap == null) {
+        return ImmutableSetMultimap.of();
+      }
       Collection<Map.Entry<K, Collection<V>>> mapEntries = builderMap.entrySet();
       if (keyComparator != null) {
         mapEntries = Ordering.from(keyComparator).<K>onKeys().immutableSortedCopy(mapEntries);
