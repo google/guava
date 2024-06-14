@@ -858,10 +858,25 @@
 <span class="sourceLineNo">849</span><a id="line.849">      forceCopy = true;</a>
 <span class="sourceLineNo">850</span><a id="line.850">      return asImmutableList(contents, size);</a>
 <span class="sourceLineNo">851</span><a id="line.851">    }</a>
-<span class="sourceLineNo">852</span><a id="line.852">  }</a>
-<span class="sourceLineNo">853</span><a id="line.853"></a>
-<span class="sourceLineNo">854</span><a id="line.854">  private static final long serialVersionUID = 0xcafebabe;</a>
-<span class="sourceLineNo">855</span><a id="line.855">}</a>
+<span class="sourceLineNo">852</span><a id="line.852"></a>
+<span class="sourceLineNo">853</span><a id="line.853">    /**</a>
+<span class="sourceLineNo">854</span><a id="line.854">     * Returns a newly-created {@code ImmutableList} based on the contents of the {@code Builder},</a>
+<span class="sourceLineNo">855</span><a id="line.855">     * sorted according to the specified comparator.</a>
+<span class="sourceLineNo">856</span><a id="line.856">     */</a>
+<span class="sourceLineNo">857</span><a id="line.857">    @SuppressWarnings("unchecked")</a>
+<span class="sourceLineNo">858</span><a id="line.858">    ImmutableList&lt;E&gt; buildSorted(Comparator&lt;? super E&gt; comparator) {</a>
+<span class="sourceLineNo">859</span><a id="line.859">      // Currently only used by ImmutableListMultimap.Builder.orderValuesBy.</a>
+<span class="sourceLineNo">860</span><a id="line.860">      // In particular, this implies that the comparator can never get "removed," so this can't</a>
+<span class="sourceLineNo">861</span><a id="line.861">      // invalidate future builds.</a>
+<span class="sourceLineNo">862</span><a id="line.862"></a>
+<span class="sourceLineNo">863</span><a id="line.863">      forceCopy = true;</a>
+<span class="sourceLineNo">864</span><a id="line.864">      Arrays.sort((E[]) contents, 0, size, comparator);</a>
+<span class="sourceLineNo">865</span><a id="line.865">      return asImmutableList(contents, size);</a>
+<span class="sourceLineNo">866</span><a id="line.866">    }</a>
+<span class="sourceLineNo">867</span><a id="line.867">  }</a>
+<span class="sourceLineNo">868</span><a id="line.868"></a>
+<span class="sourceLineNo">869</span><a id="line.869">  private static final long serialVersionUID = 0xcafebabe;</a>
+<span class="sourceLineNo">870</span><a id="line.870">}</a>
 
 
 
