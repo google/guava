@@ -164,11 +164,11 @@ public final class Quantiles {
    */
   public static final class Scale {
 
-    private final int scale;
+    private final int quantileScaleValue;
 
-    private Scale(int scale) {
-      checkArgument(scale > 0, "Quantile scale must be positive");
-      this.scale = scale;
+    private Scale(int quantileScaleValue) {
+      checkArgument(quantileScaleValue > 0, "Quantile scale must be positive");
+      this.quantileScaleValue = quantileScaleValue;
     }
 
     /**
@@ -177,7 +177,7 @@ public final class Quantiles {
      * @param index the quantile index, which must be in the inclusive range [0, q] for q-quantiles
      */
     public ScaleAndIndex index(int index) {
-      return new ScaleAndIndex(scale, index);
+      return new ScaleAndIndex(quantileScaleValue, index);
     }
 
     /**
@@ -190,7 +190,7 @@ public final class Quantiles {
      * @throws IllegalArgumentException if {@code indexes} is empty
      */
     public ScaleAndIndexes indexes(int... indexes) {
-      return new ScaleAndIndexes(scale, indexes.clone());
+      return new ScaleAndIndexes(quantileScaleValue, indexes.clone());
     }
 
     /**
@@ -203,7 +203,7 @@ public final class Quantiles {
      * @throws IllegalArgumentException if {@code indexes} is empty
      */
     public ScaleAndIndexes indexes(Collection<Integer> indexes) {
-      return new ScaleAndIndexes(scale, Ints.toArray(indexes));
+      return new ScaleAndIndexes(quantileScaleValue, Ints.toArray(indexes));
     }
   }
 
