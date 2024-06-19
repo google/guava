@@ -52401,12 +52401,24 @@
     <field name="SEC_CH_UA_FORM_FACTOR" type="java.lang.String"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
-      deprecated="not deprecated">
+      deprecated="Prefer {@link SEC_CH_UA_FORM_FACTORS}.">
       <doc>
       <![CDATA[The HTTP <a href="https://wicg.github.io/ua-client-hints/#sec-ch-ua-form-factor">{@code
  Sec-CH-UA-Form-Factor}</a> header field name.
 
+ @deprecated Prefer {@link SEC_CH_UA_FORM_FACTORS}.
  @since 32.0.0]]>
+      </doc>
+    </field>
+    <field name="SEC_CH_UA_FORM_FACTORS" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[The HTTP <a href="https://wicg.github.io/ua-client-hints/#sec-ch-ua-form-factors">{@code
+ Sec-CH-UA-Form-Factors}</a> header field name.
+
+ @since NEXT]]>
       </doc>
     </field>
     <field name="SEC_CH_VIEWPORT_WIDTH" type="java.lang.String"
