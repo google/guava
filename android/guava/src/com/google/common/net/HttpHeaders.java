@@ -729,13 +729,24 @@ public final class HttpHeaders {
    * @since 31.0
    */
   public static final String SEC_CH_UA_BITNESS = "Sec-CH-UA-Bitness";
+
   /**
    * The HTTP <a href="https://wicg.github.io/ua-client-hints/#sec-ch-ua-form-factor">{@code
    * Sec-CH-UA-Form-Factor}</a> header field name.
    *
+   * @deprecated Prefer {@link SEC_CH_UA_FORM_FACTORS}.
    * @since 32.0.0
    */
-  public static final String SEC_CH_UA_FORM_FACTOR = "Sec-CH-UA-Form-Factor";
+  @Deprecated public static final String SEC_CH_UA_FORM_FACTOR = "Sec-CH-UA-Form-Factor";
+
+  /**
+   * The HTTP <a href="https://wicg.github.io/ua-client-hints/#sec-ch-ua-form-factors">{@code
+   * Sec-CH-UA-Form-Factors}</a> header field name.
+   *
+   * @since NEXT
+   */
+  public static final String SEC_CH_UA_FORM_FACTORS = "Sec-CH-UA-Form-Factors";
+
   /**
    * The HTTP <a
    * href="https://wicg.github.io/responsive-image-client-hints/#sec-ch-viewport-width">{@code
