@@ -1654,6 +1654,7 @@ public final class Maps {
    * @param bimap the bimap to be wrapped in a synchronized view
    * @return a synchronized view of the specified bimap
    */
+  @J2ktIncompatible // Synchronized
   public static <K extends @Nullable Object, V extends @Nullable Object>
       BiMap<K, V> synchronizedBiMap(BiMap<K, V> bimap) {
     return Synchronized.biMap(bimap, null);
@@ -3799,6 +3800,7 @@ public final class Maps {
    * @since 13.0
    */
   @GwtIncompatible // NavigableMap
+  @J2ktIncompatible // Synchronized
   public static <K extends @Nullable Object, V extends @Nullable Object>
       NavigableMap<K, V> synchronizedNavigableMap(NavigableMap<K, V> navigableMap) {
     return Synchronized.navigableMap(navigableMap);

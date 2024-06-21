@@ -236,6 +236,7 @@ public class MultimapsTest extends TestCase {
   }
 
   @GwtIncompatible // slow (~10s)
+  @J2ktIncompatible // Synchronized
   public void testUnmodifiableSynchronizedArrayListMultimap() {
     checkUnmodifiableMultimap(
         Multimaps.synchronizedListMultimap(
@@ -256,6 +257,7 @@ public class MultimapsTest extends TestCase {
   }
 
   @GwtIncompatible // slow (~10s)
+  @J2ktIncompatible // Synchronized
   public void testUnmodifiableSynchronizedHashMultimap() {
     checkUnmodifiableMultimap(
         Multimaps.synchronizedSetMultimap(
@@ -276,6 +278,7 @@ public class MultimapsTest extends TestCase {
   }
 
   @GwtIncompatible // slow (~10s)
+  @J2ktIncompatible // Synchronized
   public void testUnmodifiableSynchronizedTreeMultimap() {
     TreeMultimap<String, Integer> delegate =
         TreeMultimap.create(Ordering.<String>natural(), INT_COMPARATOR);
@@ -1001,11 +1004,13 @@ public class MultimapsTest extends TestCase {
     assertEquals("{a=[a1, a4, a4], b=[b6]}", transformed.toString());
   }
 
+  @J2ktIncompatible // Synchronized
   public void testSynchronizedMultimapSampleCodeCompilation() {
     // Extra indirection for J2KT, to avoid error: not enough information to infer type variable K
     this.<@Nullable Object, @Nullable Object>genericTestSynchronizedMultimapSampleCodeCompilation();
   }
 
+  @J2ktIncompatible // Synchronized
   private <K extends @Nullable Object, V extends @Nullable Object>
       void genericTestSynchronizedMultimapSampleCodeCompilation() {
     K key = null;

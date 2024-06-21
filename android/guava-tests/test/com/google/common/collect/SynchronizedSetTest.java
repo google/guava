@@ -132,8 +132,6 @@ public class SynchronizedSetTest extends TestCase {
       return super.isEmpty();
     }
 
-    /* Don't test iterator(); it may or may not hold the mutex. */
-
     @Override
     public boolean remove(@Nullable Object o) {
       assertTrue(Thread.holdsLock(mutex));

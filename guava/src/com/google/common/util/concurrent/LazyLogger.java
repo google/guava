@@ -22,6 +22,8 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 @GwtCompatible
 @ElementTypesAreNonnullByDefault
 final class LazyLogger {
+  private final Object lock = new Object();
+
   private final String loggerName;
   private volatile @Nullable Logger logger;
 
@@ -45,7 +47,7 @@ final class LazyLogger {
     if (local != null) {
       return local;
     }
-    synchronized (this) {
+    synchronized (lock) {
       local = logger;
       if (local != null) {
         return local;

@@ -64,6 +64,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Mike Bostock
  * @author Jared Levy
  */
+@J2ktIncompatible
 @GwtCompatible(emulated = true)
 @ElementTypesAreNonnullByDefault
 /*

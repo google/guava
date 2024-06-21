@@ -21,6 +21,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.NullnessCasts.uncheckedCastNullableTToT;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Objects;
 import com.google.common.base.Supplier;
@@ -737,6 +738,7 @@ public final class Tables {
    * @return a synchronized view of the specified table
    * @since 22.0
    */
+  @J2ktIncompatible // Synchronized
   public static <R extends @Nullable Object, C extends @Nullable Object, V extends @Nullable Object>
       Table<R, C, V> synchronizedTable(Table<R, C, V> table) {
     return Synchronized.table(table, null);

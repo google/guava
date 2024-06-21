@@ -1989,6 +1989,7 @@ public final class Sets {
    * @since 13.0
    */
   @GwtIncompatible // NavigableSet
+  @J2ktIncompatible // Synchronized
   public static <E extends @Nullable Object> NavigableSet<E> synchronizedNavigableSet(
       NavigableSet<E> navigableSet) {
     return Synchronized.navigableSet(navigableSet);

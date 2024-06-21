@@ -1369,6 +1369,7 @@ public class MapsTest extends TestCase {
   }
 
   /** See {@link SynchronizedBiMapTest} for more tests. */
+  @J2ktIncompatible // Synchronized
   public void testSynchronizedBiMap() {
     BiMap<String, Integer> bimap = HashBiMap.create();
     bimap.put("one", 1);

@@ -452,6 +452,7 @@ public final class Queues {
    * @return a synchronized view of the specified queue
    * @since 14.0
    */
+  @J2ktIncompatible // Synchronized
   public static <E extends @Nullable Object> Queue<E> synchronizedQueue(Queue<E> queue) {
     return Synchronized.queue(queue, null);
   }
@@ -485,6 +486,7 @@ public final class Queues {
    * @return a synchronized view of the specified deque
    * @since 15.0
    */
+  @J2ktIncompatible // Synchronized
   public static <E extends @Nullable Object> Deque<E> synchronizedDeque(Deque<E> deque) {
     return Synchronized.deque(deque, null);
   }

@@ -121,6 +121,9 @@ public final class Suppliers {
 
   @VisibleForTesting
   static class MemoizingSupplier<T extends @Nullable Object> implements Supplier<T>, Serializable {
+    private final Object lock =
+        new Integer(1); // something serializable
+
     final Supplier<T> delegate;
     transient volatile boolean initialized;
     // "value" does not need to be volatile; visibility piggy-backs
@@ -136,7 +139,7 @@ public final class Suppliers {
     public T get() {
       // A 2-field variant of Double Checked Locking.
       if (!initialized) {
-        synchronized (this) {
+        synchronized (lock) {
           if (!initialized) {
             T t = delegate.get();
             value = t;
@@ -161,6 +164,8 @@ public final class Suppliers {
 
   @VisibleForTesting
   static class NonSerializableMemoizingSupplier<T extends @Nullable Object> implements Supplier<T> {
+    private final Object lock = new Object();
+
     @SuppressWarnings("UnnecessaryLambda") // Must be a fixed singleton object
     private static final Supplier<Void> SUCCESSFULLY_COMPUTED =
         () -> {
@@ -181,7 +186,7 @@ public final class Suppliers {
     public T get() {
       // Because Supplier is read-heavy, we use the "double-checked locking" pattern.
       if (delegate != SUCCESSFULLY_COMPUTED) {
-        synchronized (this) {
+        synchronized (lock) {
           if (delegate != SUCCESSFULLY_COMPUTED) {
             T t = delegate.get();
             value = t;
@@ -272,6 +277,9 @@ public final class Suppliers {
   @SuppressWarnings("GoodTime") // lots of violations
   static class ExpiringMemoizingSupplier<T extends @Nullable Object>
       implements Supplier<T>, Serializable {
+    private final Object lock =
+        new Integer(1); // something serializable
+
     final Supplier<T> delegate;
     final long durationNanos;
     @CheckForNull transient volatile T value;
@@ -295,7 +303,7 @@ public final class Suppliers {
       long nanos = expirationNanos;
       long now = System.nanoTime();
       if (nanos == 0 || now - nanos >= 0) {
-        synchronized (this) {
+        synchronized (lock) {
           if (nanos == expirationNanos) { // recheck for lost race
             T t = delegate.get();
             value = t;
@@ -367,11 +375,13 @@ public final class Suppliers {
    * Returns a supplier whose {@code get()} method synchronizes on {@code delegate} before calling
    * it, making it thread-safe.
    */
+  @J2ktIncompatible
   public static <T extends @Nullable Object> Supplier<T> synchronizedSupplier(
       Supplier<T> delegate) {
     return new ThreadSafeSupplier<>(delegate);
   }
 
+  @J2ktIncompatible
   private static class ThreadSafeSupplier<T extends @Nullable Object>
       implements Supplier<T>, Serializable {
     final Supplier<T> delegate;

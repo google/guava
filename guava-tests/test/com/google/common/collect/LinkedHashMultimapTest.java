@@ -135,6 +135,7 @@ public class LinkedHashMultimapTest extends TestCase {
     assertOrderingReadOnly(Multimaps.unmodifiableMultimap(multimap));
   }
 
+  @J2ktIncompatible // Synchronized
   public void testOrderingSynchronized() {
     Multimap<String, Integer> multimap = initializeMultimap5();
     assertOrderingReadOnly(Multimaps.synchronizedMultimap(multimap));
