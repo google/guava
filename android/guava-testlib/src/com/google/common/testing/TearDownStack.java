@@ -41,7 +41,7 @@ import java.util.logging.Logger;
 public class TearDownStack implements TearDownAccepter {
   private static final Logger logger = Logger.getLogger(TearDownStack.class.getName());
 
-  @VisibleForTesting final Object lock = new Object();
+  @VisibleForTesting final XplatMonitor lock = new XplatMonitor();
 
   @GuardedBy("lock")
   final LinkedList<TearDown> stack = new LinkedList<>();

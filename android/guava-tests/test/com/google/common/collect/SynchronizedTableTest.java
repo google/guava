@@ -25,7 +25,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 public class SynchronizedTableTest extends AbstractTableTest<Character> {
   private static final class TestTable<R, C, V> implements Table<R, C, V>, Serializable {
     final Table<R, C, V> delegate = HashBasedTable.create();
-    public final Object mutex = new Integer(1); // something Serializable
+    public final Object mutex = new XplatMonitor(); // something Serializable
 
     @Override
     public String toString() {

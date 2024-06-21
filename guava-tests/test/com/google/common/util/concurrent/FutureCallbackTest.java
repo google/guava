@@ -62,7 +62,7 @@ public class FutureCallbackTest extends TestCase {
     SettableFuture<String> f = SettableFuture.create();
     FutureCallback<String> callback =
         new FutureCallback<String>() {
-          private final Object monitor = new Object();
+          private final XplatMonitor monitor = new XplatMonitor();
           private boolean called = false;
 
           @Override
@@ -183,7 +183,7 @@ public class FutureCallbackTest extends TestCase {
     @Nullable private String value = null;
     @Nullable private Throwable failure = null;
     private boolean wasCalled = false;
-    private final Object monitor = new Object();
+    private final XplatMonitor monitor = new XplatMonitor();
 
     MockCallback(String expectedValue) {
       this.value = expectedValue;

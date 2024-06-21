@@ -55,7 +55,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 @GwtCompatible
 @ElementTypesAreNonnullByDefault
 public class TestLogHandler extends Handler {
-  private final Object lock = new Object();
+  private final XplatMonitor lock = new XplatMonitor();
 
   /** We will keep a private list of all logged records */
   @GuardedBy("lock")

@@ -22,7 +22,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 @GwtCompatible
 @ElementTypesAreNonnullByDefault
 final class LazyLogger {
-  private final Object lock = new Object();
+  private final XplatMonitor lock = new XplatMonitor();
 
   private final String loggerName;
   private volatile @Nullable Logger logger;

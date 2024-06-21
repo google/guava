@@ -120,8 +120,7 @@ public final class Suppliers {
 
   @VisibleForTesting
   static class MemoizingSupplier<T extends @Nullable Object> implements Supplier<T>, Serializable {
-    private final Object lock =
-        new Integer(1); // something serializable
+    private final XplatMonitor lock = new XplatMonitor();
 
     final Supplier<T> delegate;
     transient volatile boolean initialized;
@@ -163,7 +162,7 @@ public final class Suppliers {
 
   @VisibleForTesting
   static class NonSerializableMemoizingSupplier<T extends @Nullable Object> implements Supplier<T> {
-    private final Object lock = new Object();
+    private final XplatMonitor lock = new XplatMonitor();
 
     @SuppressWarnings("UnnecessaryLambda") // Must be a fixed singleton object
     private static final Supplier<Void> SUCCESSFULLY_COMPUTED =
@@ -275,8 +274,7 @@ public final class Suppliers {
   @SuppressWarnings("GoodTime") // lots of violations
   static class ExpiringMemoizingSupplier<T extends @Nullable Object>
       implements Supplier<T>, Serializable {
-    private final Object lock =
-        new Integer(1); // something serializable
+    private final XplatMonitor lock = new XplatMonitor();
 
     final Supplier<T> delegate;
     final long durationNanos;
