@@ -78,6 +78,7 @@ public class RateLimiterTest extends TestCase {
 
     assertThrows(IllegalArgumentException.class, () -> limiter.setRate(0.0));
     assertThrows(IllegalArgumentException.class, () -> limiter.setRate(-10.0));
+    assertThrows(IllegalArgumentException.class, () -> limiter.setRate(Double.NaN));
   }
 
   public void testAcquireParameterValidation() {
