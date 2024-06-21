@@ -416,43 +416,45 @@
 <span class="sourceLineNo">407</span><a id="line.407">   * @return a synchronized view of the specified queue</a>
 <span class="sourceLineNo">408</span><a id="line.408">   * @since 14.0</a>
 <span class="sourceLineNo">409</span><a id="line.409">   */</a>
-<span class="sourceLineNo">410</span><a id="line.410">  public static &lt;E extends @Nullable Object&gt; Queue&lt;E&gt; synchronizedQueue(Queue&lt;E&gt; queue) {</a>
-<span class="sourceLineNo">411</span><a id="line.411">    return Synchronized.queue(queue, null);</a>
-<span class="sourceLineNo">412</span><a id="line.412">  }</a>
-<span class="sourceLineNo">413</span><a id="line.413"></a>
-<span class="sourceLineNo">414</span><a id="line.414">  /**</a>
-<span class="sourceLineNo">415</span><a id="line.415">   * Returns a synchronized (thread-safe) deque backed by the specified deque. In order to guarantee</a>
-<span class="sourceLineNo">416</span><a id="line.416">   * serial access, it is critical that &lt;b&gt;all&lt;/b&gt; access to the backing deque is accomplished</a>
-<span class="sourceLineNo">417</span><a id="line.417">   * through the returned deque.</a>
-<span class="sourceLineNo">418</span><a id="line.418">   *</a>
-<span class="sourceLineNo">419</span><a id="line.419">   * &lt;p&gt;It is imperative that the user manually synchronize on the returned deque when accessing any</a>
-<span class="sourceLineNo">420</span><a id="line.420">   * of the deque's iterators:</a>
-<span class="sourceLineNo">421</span><a id="line.421">   *</a>
-<span class="sourceLineNo">422</span><a id="line.422">   * &lt;pre&gt;{@code</a>
-<span class="sourceLineNo">423</span><a id="line.423">   * Deque&lt;E&gt; deque = Queues.synchronizedDeque(Queues.&lt;E&gt;newArrayDeque());</a>
-<span class="sourceLineNo">424</span><a id="line.424">   * ...</a>
-<span class="sourceLineNo">425</span><a id="line.425">   * deque.add(element);  // Needn't be in synchronized block</a>
-<span class="sourceLineNo">426</span><a id="line.426">   * ...</a>
-<span class="sourceLineNo">427</span><a id="line.427">   * synchronized (deque) {  // Must synchronize on deque!</a>
-<span class="sourceLineNo">428</span><a id="line.428">   *   Iterator&lt;E&gt; i = deque.iterator(); // Must be in synchronized block</a>
-<span class="sourceLineNo">429</span><a id="line.429">   *   while (i.hasNext()) {</a>
-<span class="sourceLineNo">430</span><a id="line.430">   *     foo(i.next());</a>
-<span class="sourceLineNo">431</span><a id="line.431">   *   }</a>
-<span class="sourceLineNo">432</span><a id="line.432">   * }</a>
-<span class="sourceLineNo">433</span><a id="line.433">   * }&lt;/pre&gt;</a>
-<span class="sourceLineNo">434</span><a id="line.434">   *</a>
-<span class="sourceLineNo">435</span><a id="line.435">   * &lt;p&gt;Failure to follow this advice may result in non-deterministic behavior.</a>
-<span class="sourceLineNo">436</span><a id="line.436">   *</a>
-<span class="sourceLineNo">437</span><a id="line.437">   * &lt;p&gt;The returned deque will be serializable if the specified deque is serializable.</a>
-<span class="sourceLineNo">438</span><a id="line.438">   *</a>
-<span class="sourceLineNo">439</span><a id="line.439">   * @param deque the deque to be wrapped in a synchronized view</a>
-<span class="sourceLineNo">440</span><a id="line.440">   * @return a synchronized view of the specified deque</a>
-<span class="sourceLineNo">441</span><a id="line.441">   * @since 15.0</a>
-<span class="sourceLineNo">442</span><a id="line.442">   */</a>
-<span class="sourceLineNo">443</span><a id="line.443">  public static &lt;E extends @Nullable Object&gt; Deque&lt;E&gt; synchronizedDeque(Deque&lt;E&gt; deque) {</a>
-<span class="sourceLineNo">444</span><a id="line.444">    return Synchronized.deque(deque, null);</a>
-<span class="sourceLineNo">445</span><a id="line.445">  }</a>
-<span class="sourceLineNo">446</span><a id="line.446">}</a>
+<span class="sourceLineNo">410</span><a id="line.410">  @J2ktIncompatible // Synchronized</a>
+<span class="sourceLineNo">411</span><a id="line.411">  public static &lt;E extends @Nullable Object&gt; Queue&lt;E&gt; synchronizedQueue(Queue&lt;E&gt; queue) {</a>
+<span class="sourceLineNo">412</span><a id="line.412">    return Synchronized.queue(queue, null);</a>
+<span class="sourceLineNo">413</span><a id="line.413">  }</a>
+<span class="sourceLineNo">414</span><a id="line.414"></a>
+<span class="sourceLineNo">415</span><a id="line.415">  /**</a>
+<span class="sourceLineNo">416</span><a id="line.416">   * Returns a synchronized (thread-safe) deque backed by the specified deque. In order to guarantee</a>
+<span class="sourceLineNo">417</span><a id="line.417">   * serial access, it is critical that &lt;b&gt;all&lt;/b&gt; access to the backing deque is accomplished</a>
+<span class="sourceLineNo">418</span><a id="line.418">   * through the returned deque.</a>
+<span class="sourceLineNo">419</span><a id="line.419">   *</a>
+<span class="sourceLineNo">420</span><a id="line.420">   * &lt;p&gt;It is imperative that the user manually synchronize on the returned deque when accessing any</a>
+<span class="sourceLineNo">421</span><a id="line.421">   * of the deque's iterators:</a>
+<span class="sourceLineNo">422</span><a id="line.422">   *</a>
+<span class="sourceLineNo">423</span><a id="line.423">   * &lt;pre&gt;{@code</a>
+<span class="sourceLineNo">424</span><a id="line.424">   * Deque&lt;E&gt; deque = Queues.synchronizedDeque(Queues.&lt;E&gt;newArrayDeque());</a>
+<span class="sourceLineNo">425</span><a id="line.425">   * ...</a>
+<span class="sourceLineNo">426</span><a id="line.426">   * deque.add(element);  // Needn't be in synchronized block</a>
+<span class="sourceLineNo">427</span><a id="line.427">   * ...</a>
+<span class="sourceLineNo">428</span><a id="line.428">   * synchronized (deque) {  // Must synchronize on deque!</a>
+<span class="sourceLineNo">429</span><a id="line.429">   *   Iterator&lt;E&gt; i = deque.iterator(); // Must be in synchronized block</a>
+<span class="sourceLineNo">430</span><a id="line.430">   *   while (i.hasNext()) {</a>
+<span class="sourceLineNo">431</span><a id="line.431">   *     foo(i.next());</a>
+<span class="sourceLineNo">432</span><a id="line.432">   *   }</a>
+<span class="sourceLineNo">433</span><a id="line.433">   * }</a>
+<span class="sourceLineNo">434</span><a id="line.434">   * }&lt;/pre&gt;</a>
+<span class="sourceLineNo">435</span><a id="line.435">   *</a>
+<span class="sourceLineNo">436</span><a id="line.436">   * &lt;p&gt;Failure to follow this advice may result in non-deterministic behavior.</a>
+<span class="sourceLineNo">437</span><a id="line.437">   *</a>
+<span class="sourceLineNo">438</span><a id="line.438">   * &lt;p&gt;The returned deque will be serializable if the specified deque is serializable.</a>
+<span class="sourceLineNo">439</span><a id="line.439">   *</a>
+<span class="sourceLineNo">440</span><a id="line.440">   * @param deque the deque to be wrapped in a synchronized view</a>
+<span class="sourceLineNo">441</span><a id="line.441">   * @return a synchronized view of the specified deque</a>
+<span class="sourceLineNo">442</span><a id="line.442">   * @since 15.0</a>
+<span class="sourceLineNo">443</span><a id="line.443">   */</a>
+<span class="sourceLineNo">444</span><a id="line.444">  @J2ktIncompatible // Synchronized</a>
+<span class="sourceLineNo">445</span><a id="line.445">  public static &lt;E extends @Nullable Object&gt; Deque&lt;E&gt; synchronizedDeque(Deque&lt;E&gt; deque) {</a>
+<span class="sourceLineNo">446</span><a id="line.446">    return Synchronized.deque(deque, null);</a>
+<span class="sourceLineNo">447</span><a id="line.447">  }</a>
+<span class="sourceLineNo">448</span><a id="line.448">}</a>
 
 
 

@@ -130,313 +130,323 @@
 <span class="sourceLineNo">121</span><a id="line.121"></a>
 <span class="sourceLineNo">122</span><a id="line.122">  @VisibleForTesting</a>
 <span class="sourceLineNo">123</span><a id="line.123">  static class MemoizingSupplier&lt;T extends @Nullable Object&gt; implements Supplier&lt;T&gt;, Serializable {</a>
-<span class="sourceLineNo">124</span><a id="line.124">    final Supplier&lt;T&gt; delegate;</a>
-<span class="sourceLineNo">125</span><a id="line.125">    transient volatile boolean initialized;</a>
-<span class="sourceLineNo">126</span><a id="line.126">    // "value" does not need to be volatile; visibility piggy-backs</a>
-<span class="sourceLineNo">127</span><a id="line.127">    // on volatile read of "initialized".</a>
-<span class="sourceLineNo">128</span><a id="line.128">    @CheckForNull transient T value;</a>
-<span class="sourceLineNo">129</span><a id="line.129"></a>
-<span class="sourceLineNo">130</span><a id="line.130">    MemoizingSupplier(Supplier&lt;T&gt; delegate) {</a>
-<span class="sourceLineNo">131</span><a id="line.131">      this.delegate = checkNotNull(delegate);</a>
-<span class="sourceLineNo">132</span><a id="line.132">    }</a>
-<span class="sourceLineNo">133</span><a id="line.133"></a>
-<span class="sourceLineNo">134</span><a id="line.134">    @Override</a>
-<span class="sourceLineNo">135</span><a id="line.135">    @ParametricNullness</a>
-<span class="sourceLineNo">136</span><a id="line.136">    public T get() {</a>
-<span class="sourceLineNo">137</span><a id="line.137">      // A 2-field variant of Double Checked Locking.</a>
-<span class="sourceLineNo">138</span><a id="line.138">      if (!initialized) {</a>
-<span class="sourceLineNo">139</span><a id="line.139">        synchronized (this) {</a>
-<span class="sourceLineNo">140</span><a id="line.140">          if (!initialized) {</a>
-<span class="sourceLineNo">141</span><a id="line.141">            T t = delegate.get();</a>
-<span class="sourceLineNo">142</span><a id="line.142">            value = t;</a>
-<span class="sourceLineNo">143</span><a id="line.143">            initialized = true;</a>
-<span class="sourceLineNo">144</span><a id="line.144">            return t;</a>
-<span class="sourceLineNo">145</span><a id="line.145">          }</a>
-<span class="sourceLineNo">146</span><a id="line.146">        }</a>
-<span class="sourceLineNo">147</span><a id="line.147">      }</a>
-<span class="sourceLineNo">148</span><a id="line.148">      // This is safe because we checked `initialized`.</a>
-<span class="sourceLineNo">149</span><a id="line.149">      return uncheckedCastNullableTToT(value);</a>
-<span class="sourceLineNo">150</span><a id="line.150">    }</a>
-<span class="sourceLineNo">151</span><a id="line.151"></a>
-<span class="sourceLineNo">152</span><a id="line.152">    @Override</a>
-<span class="sourceLineNo">153</span><a id="line.153">    public String toString() {</a>
-<span class="sourceLineNo">154</span><a id="line.154">      return "Suppliers.memoize("</a>
-<span class="sourceLineNo">155</span><a id="line.155">          + (initialized ? "&lt;supplier that returned " + value + "&gt;" : delegate)</a>
-<span class="sourceLineNo">156</span><a id="line.156">          + ")";</a>
-<span class="sourceLineNo">157</span><a id="line.157">    }</a>
-<span class="sourceLineNo">158</span><a id="line.158"></a>
-<span class="sourceLineNo">159</span><a id="line.159">    private static final long serialVersionUID = 0;</a>
-<span class="sourceLineNo">160</span><a id="line.160">  }</a>
+<span class="sourceLineNo">124</span><a id="line.124">    private final Object lock =</a>
+<span class="sourceLineNo">125</span><a id="line.125">        new Integer(1); // something serializable</a>
+<span class="sourceLineNo">126</span><a id="line.126"></a>
+<span class="sourceLineNo">127</span><a id="line.127">    final Supplier&lt;T&gt; delegate;</a>
+<span class="sourceLineNo">128</span><a id="line.128">    transient volatile boolean initialized;</a>
+<span class="sourceLineNo">129</span><a id="line.129">    // "value" does not need to be volatile; visibility piggy-backs</a>
+<span class="sourceLineNo">130</span><a id="line.130">    // on volatile read of "initialized".</a>
+<span class="sourceLineNo">131</span><a id="line.131">    @CheckForNull transient T value;</a>
+<span class="sourceLineNo">132</span><a id="line.132"></a>
+<span class="sourceLineNo">133</span><a id="line.133">    MemoizingSupplier(Supplier&lt;T&gt; delegate) {</a>
+<span class="sourceLineNo">134</span><a id="line.134">      this.delegate = checkNotNull(delegate);</a>
+<span class="sourceLineNo">135</span><a id="line.135">    }</a>
+<span class="sourceLineNo">136</span><a id="line.136"></a>
+<span class="sourceLineNo">137</span><a id="line.137">    @Override</a>
+<span class="sourceLineNo">138</span><a id="line.138">    @ParametricNullness</a>
+<span class="sourceLineNo">139</span><a id="line.139">    public T get() {</a>
+<span class="sourceLineNo">140</span><a id="line.140">      // A 2-field variant of Double Checked Locking.</a>
+<span class="sourceLineNo">141</span><a id="line.141">      if (!initialized) {</a>
+<span class="sourceLineNo">142</span><a id="line.142">        synchronized (lock) {</a>
+<span class="sourceLineNo">143</span><a id="line.143">          if (!initialized) {</a>
+<span class="sourceLineNo">144</span><a id="line.144">            T t = delegate.get();</a>
+<span class="sourceLineNo">145</span><a id="line.145">            value = t;</a>
+<span class="sourceLineNo">146</span><a id="line.146">            initialized = true;</a>
+<span class="sourceLineNo">147</span><a id="line.147">            return t;</a>
+<span class="sourceLineNo">148</span><a id="line.148">          }</a>
+<span class="sourceLineNo">149</span><a id="line.149">        }</a>
+<span class="sourceLineNo">150</span><a id="line.150">      }</a>
+<span class="sourceLineNo">151</span><a id="line.151">      // This is safe because we checked `initialized`.</a>
+<span class="sourceLineNo">152</span><a id="line.152">      return uncheckedCastNullableTToT(value);</a>
+<span class="sourceLineNo">153</span><a id="line.153">    }</a>
+<span class="sourceLineNo">154</span><a id="line.154"></a>
+<span class="sourceLineNo">155</span><a id="line.155">    @Override</a>
+<span class="sourceLineNo">156</span><a id="line.156">    public String toString() {</a>
+<span class="sourceLineNo">157</span><a id="line.157">      return "Suppliers.memoize("</a>
+<span class="sourceLineNo">158</span><a id="line.158">          + (initialized ? "&lt;supplier that returned " + value + "&gt;" : delegate)</a>
+<span class="sourceLineNo">159</span><a id="line.159">          + ")";</a>
+<span class="sourceLineNo">160</span><a id="line.160">    }</a>
 <span class="sourceLineNo">161</span><a id="line.161"></a>
-<span class="sourceLineNo">162</span><a id="line.162">  @VisibleForTesting</a>
-<span class="sourceLineNo">163</span><a id="line.163">  static class NonSerializableMemoizingSupplier&lt;T extends @Nullable Object&gt; implements Supplier&lt;T&gt; {</a>
-<span class="sourceLineNo">164</span><a id="line.164">    @SuppressWarnings("UnnecessaryLambda") // Must be a fixed singleton object</a>
-<span class="sourceLineNo">165</span><a id="line.165">    private static final Supplier&lt;Void&gt; SUCCESSFULLY_COMPUTED =</a>
-<span class="sourceLineNo">166</span><a id="line.166">        () -&gt; {</a>
-<span class="sourceLineNo">167</span><a id="line.167">          throw new IllegalStateException(); // Should never get called.</a>
-<span class="sourceLineNo">168</span><a id="line.168">        };</a>
-<span class="sourceLineNo">169</span><a id="line.169"></a>
-<span class="sourceLineNo">170</span><a id="line.170">    private volatile Supplier&lt;T&gt; delegate;</a>
-<span class="sourceLineNo">171</span><a id="line.171">    // "value" does not need to be volatile; visibility piggy-backs on volatile read of "delegate".</a>
-<span class="sourceLineNo">172</span><a id="line.172">    @CheckForNull private T value;</a>
-<span class="sourceLineNo">173</span><a id="line.173"></a>
-<span class="sourceLineNo">174</span><a id="line.174">    NonSerializableMemoizingSupplier(Supplier&lt;T&gt; delegate) {</a>
-<span class="sourceLineNo">175</span><a id="line.175">      this.delegate = checkNotNull(delegate);</a>
-<span class="sourceLineNo">176</span><a id="line.176">    }</a>
-<span class="sourceLineNo">177</span><a id="line.177"></a>
-<span class="sourceLineNo">178</span><a id="line.178">    @Override</a>
-<span class="sourceLineNo">179</span><a id="line.179">    @ParametricNullness</a>
-<span class="sourceLineNo">180</span><a id="line.180">    @SuppressWarnings("unchecked") // Cast from Supplier&lt;Void&gt; to Supplier&lt;T&gt; is always valid</a>
-<span class="sourceLineNo">181</span><a id="line.181">    public T get() {</a>
-<span class="sourceLineNo">182</span><a id="line.182">      // Because Supplier is read-heavy, we use the "double-checked locking" pattern.</a>
-<span class="sourceLineNo">183</span><a id="line.183">      if (delegate != SUCCESSFULLY_COMPUTED) {</a>
-<span class="sourceLineNo">184</span><a id="line.184">        synchronized (this) {</a>
-<span class="sourceLineNo">185</span><a id="line.185">          if (delegate != SUCCESSFULLY_COMPUTED) {</a>
-<span class="sourceLineNo">186</span><a id="line.186">            T t = delegate.get();</a>
-<span class="sourceLineNo">187</span><a id="line.187">            value = t;</a>
-<span class="sourceLineNo">188</span><a id="line.188">            delegate = (Supplier&lt;T&gt;) SUCCESSFULLY_COMPUTED;</a>
-<span class="sourceLineNo">189</span><a id="line.189">            return t;</a>
-<span class="sourceLineNo">190</span><a id="line.190">          }</a>
-<span class="sourceLineNo">191</span><a id="line.191">        }</a>
-<span class="sourceLineNo">192</span><a id="line.192">      }</a>
-<span class="sourceLineNo">193</span><a id="line.193">      // This is safe because we checked `delegate`.</a>
-<span class="sourceLineNo">194</span><a id="line.194">      return uncheckedCastNullableTToT(value);</a>
-<span class="sourceLineNo">195</span><a id="line.195">    }</a>
-<span class="sourceLineNo">196</span><a id="line.196"></a>
-<span class="sourceLineNo">197</span><a id="line.197">    @Override</a>
-<span class="sourceLineNo">198</span><a id="line.198">    public String toString() {</a>
-<span class="sourceLineNo">199</span><a id="line.199">      Supplier&lt;T&gt; delegate = this.delegate;</a>
-<span class="sourceLineNo">200</span><a id="line.200">      return "Suppliers.memoize("</a>
-<span class="sourceLineNo">201</span><a id="line.201">          + (delegate == SUCCESSFULLY_COMPUTED</a>
-<span class="sourceLineNo">202</span><a id="line.202">              ? "&lt;supplier that returned " + value + "&gt;"</a>
-<span class="sourceLineNo">203</span><a id="line.203">              : delegate)</a>
-<span class="sourceLineNo">204</span><a id="line.204">          + ")";</a>
-<span class="sourceLineNo">205</span><a id="line.205">    }</a>
-<span class="sourceLineNo">206</span><a id="line.206">  }</a>
-<span class="sourceLineNo">207</span><a id="line.207"></a>
-<span class="sourceLineNo">208</span><a id="line.208">  /**</a>
-<span class="sourceLineNo">209</span><a id="line.209">   * Returns a supplier that caches the instance supplied by the delegate and removes the cached</a>
-<span class="sourceLineNo">210</span><a id="line.210">   * value after the specified time has passed. Subsequent calls to {@code get()} return the cached</a>
-<span class="sourceLineNo">211</span><a id="line.211">   * value if the expiration time has not passed. After the expiration time, a new value is</a>
-<span class="sourceLineNo">212</span><a id="line.212">   * retrieved, cached, and returned. See: &lt;a</a>
-<span class="sourceLineNo">213</span><a id="line.213">   * href="http://en.wikipedia.org/wiki/Memoization"&gt;memoization&lt;/a&gt;</a>
-<span class="sourceLineNo">214</span><a id="line.214">   *</a>
-<span class="sourceLineNo">215</span><a id="line.215">   * &lt;p&gt;The returned supplier is thread-safe. The supplier's serialized form does not contain the</a>
-<span class="sourceLineNo">216</span><a id="line.216">   * cached value, which will be recalculated when {@code get()} is called on the reserialized</a>
-<span class="sourceLineNo">217</span><a id="line.217">   * instance. The actual memoization does not happen when the underlying delegate throws an</a>
-<span class="sourceLineNo">218</span><a id="line.218">   * exception.</a>
+<span class="sourceLineNo">162</span><a id="line.162">    private static final long serialVersionUID = 0;</a>
+<span class="sourceLineNo">163</span><a id="line.163">  }</a>
+<span class="sourceLineNo">164</span><a id="line.164"></a>
+<span class="sourceLineNo">165</span><a id="line.165">  @VisibleForTesting</a>
+<span class="sourceLineNo">166</span><a id="line.166">  static class NonSerializableMemoizingSupplier&lt;T extends @Nullable Object&gt; implements Supplier&lt;T&gt; {</a>
+<span class="sourceLineNo">167</span><a id="line.167">    private final Object lock = new Object();</a>
+<span class="sourceLineNo">168</span><a id="line.168"></a>
+<span class="sourceLineNo">169</span><a id="line.169">    @SuppressWarnings("UnnecessaryLambda") // Must be a fixed singleton object</a>
+<span class="sourceLineNo">170</span><a id="line.170">    private static final Supplier&lt;Void&gt; SUCCESSFULLY_COMPUTED =</a>
+<span class="sourceLineNo">171</span><a id="line.171">        () -&gt; {</a>
+<span class="sourceLineNo">172</span><a id="line.172">          throw new IllegalStateException(); // Should never get called.</a>
+<span class="sourceLineNo">173</span><a id="line.173">        };</a>
+<span class="sourceLineNo">174</span><a id="line.174"></a>
+<span class="sourceLineNo">175</span><a id="line.175">    private volatile Supplier&lt;T&gt; delegate;</a>
+<span class="sourceLineNo">176</span><a id="line.176">    // "value" does not need to be volatile; visibility piggy-backs on volatile read of "delegate".</a>
+<span class="sourceLineNo">177</span><a id="line.177">    @CheckForNull private T value;</a>
+<span class="sourceLineNo">178</span><a id="line.178"></a>
+<span class="sourceLineNo">179</span><a id="line.179">    NonSerializableMemoizingSupplier(Supplier&lt;T&gt; delegate) {</a>
+<span class="sourceLineNo">180</span><a id="line.180">      this.delegate = checkNotNull(delegate);</a>
+<span class="sourceLineNo">181</span><a id="line.181">    }</a>
+<span class="sourceLineNo">182</span><a id="line.182"></a>
+<span class="sourceLineNo">183</span><a id="line.183">    @Override</a>
+<span class="sourceLineNo">184</span><a id="line.184">    @ParametricNullness</a>
+<span class="sourceLineNo">185</span><a id="line.185">    @SuppressWarnings("unchecked") // Cast from Supplier&lt;Void&gt; to Supplier&lt;T&gt; is always valid</a>
+<span class="sourceLineNo">186</span><a id="line.186">    public T get() {</a>
+<span class="sourceLineNo">187</span><a id="line.187">      // Because Supplier is read-heavy, we use the "double-checked locking" pattern.</a>
+<span class="sourceLineNo">188</span><a id="line.188">      if (delegate != SUCCESSFULLY_COMPUTED) {</a>
+<span class="sourceLineNo">189</span><a id="line.189">        synchronized (lock) {</a>
+<span class="sourceLineNo">190</span><a id="line.190">          if (delegate != SUCCESSFULLY_COMPUTED) {</a>
+<span class="sourceLineNo">191</span><a id="line.191">            T t = delegate.get();</a>
+<span class="sourceLineNo">192</span><a id="line.192">            value = t;</a>
+<span class="sourceLineNo">193</span><a id="line.193">            delegate = (Supplier&lt;T&gt;) SUCCESSFULLY_COMPUTED;</a>
+<span class="sourceLineNo">194</span><a id="line.194">            return t;</a>
+<span class="sourceLineNo">195</span><a id="line.195">          }</a>
+<span class="sourceLineNo">196</span><a id="line.196">        }</a>
+<span class="sourceLineNo">197</span><a id="line.197">      }</a>
+<span class="sourceLineNo">198</span><a id="line.198">      // This is safe because we checked `delegate`.</a>
+<span class="sourceLineNo">199</span><a id="line.199">      return uncheckedCastNullableTToT(value);</a>
+<span class="sourceLineNo">200</span><a id="line.200">    }</a>
+<span class="sourceLineNo">201</span><a id="line.201"></a>
+<span class="sourceLineNo">202</span><a id="line.202">    @Override</a>
+<span class="sourceLineNo">203</span><a id="line.203">    public String toString() {</a>
+<span class="sourceLineNo">204</span><a id="line.204">      Supplier&lt;T&gt; delegate = this.delegate;</a>
+<span class="sourceLineNo">205</span><a id="line.205">      return "Suppliers.memoize("</a>
+<span class="sourceLineNo">206</span><a id="line.206">          + (delegate == SUCCESSFULLY_COMPUTED</a>
+<span class="sourceLineNo">207</span><a id="line.207">              ? "&lt;supplier that returned " + value + "&gt;"</a>
+<span class="sourceLineNo">208</span><a id="line.208">              : delegate)</a>
+<span class="sourceLineNo">209</span><a id="line.209">          + ")";</a>
+<span class="sourceLineNo">210</span><a id="line.210">    }</a>
+<span class="sourceLineNo">211</span><a id="line.211">  }</a>
+<span class="sourceLineNo">212</span><a id="line.212"></a>
+<span class="sourceLineNo">213</span><a id="line.213">  /**</a>
+<span class="sourceLineNo">214</span><a id="line.214">   * Returns a supplier that caches the instance supplied by the delegate and removes the cached</a>
+<span class="sourceLineNo">215</span><a id="line.215">   * value after the specified time has passed. Subsequent calls to {@code get()} return the cached</a>
+<span class="sourceLineNo">216</span><a id="line.216">   * value if the expiration time has not passed. After the expiration time, a new value is</a>
+<span class="sourceLineNo">217</span><a id="line.217">   * retrieved, cached, and returned. See: &lt;a</a>
+<span class="sourceLineNo">218</span><a id="line.218">   * href="http://en.wikipedia.org/wiki/Memoization"&gt;memoization&lt;/a&gt;</a>
 <span class="sourceLineNo">219</span><a id="line.219">   *</a>
-<span class="sourceLineNo">220</span><a id="line.220">   * &lt;p&gt;When the underlying delegate throws an exception then this memoizing supplier will keep</a>
-<span class="sourceLineNo">221</span><a id="line.221">   * delegating calls until it returns valid data.</a>
-<span class="sourceLineNo">222</span><a id="line.222">   *</a>
-<span class="sourceLineNo">223</span><a id="line.223">   * @param duration the length of time after a value is created that it should stop being returned</a>
-<span class="sourceLineNo">224</span><a id="line.224">   *     by subsequent {@code get()} calls</a>
-<span class="sourceLineNo">225</span><a id="line.225">   * @param unit the unit that {@code duration} is expressed in</a>
-<span class="sourceLineNo">226</span><a id="line.226">   * @throws IllegalArgumentException if {@code duration} is not positive</a>
-<span class="sourceLineNo">227</span><a id="line.227">   * @since 2.0</a>
-<span class="sourceLineNo">228</span><a id="line.228">   */</a>
-<span class="sourceLineNo">229</span><a id="line.229">  @SuppressWarnings("GoodTime") // Prefer the Duration overload</a>
-<span class="sourceLineNo">230</span><a id="line.230">  public static &lt;T extends @Nullable Object&gt; Supplier&lt;T&gt; memoizeWithExpiration(</a>
-<span class="sourceLineNo">231</span><a id="line.231">      Supplier&lt;T&gt; delegate, long duration, TimeUnit unit) {</a>
-<span class="sourceLineNo">232</span><a id="line.232">    checkNotNull(delegate);</a>
-<span class="sourceLineNo">233</span><a id="line.233">    checkArgument(duration &gt; 0, "duration (%s %s) must be &gt; 0", duration, unit);</a>
-<span class="sourceLineNo">234</span><a id="line.234">    return new ExpiringMemoizingSupplier&lt;&gt;(delegate, unit.toNanos(duration));</a>
-<span class="sourceLineNo">235</span><a id="line.235">  }</a>
-<span class="sourceLineNo">236</span><a id="line.236"></a>
-<span class="sourceLineNo">237</span><a id="line.237">  /**</a>
-<span class="sourceLineNo">238</span><a id="line.238">   * Returns a supplier that caches the instance supplied by the delegate and removes the cached</a>
-<span class="sourceLineNo">239</span><a id="line.239">   * value after the specified time has passed. Subsequent calls to {@code get()} return the cached</a>
-<span class="sourceLineNo">240</span><a id="line.240">   * value if the expiration time has not passed. After the expiration time, a new value is</a>
-<span class="sourceLineNo">241</span><a id="line.241">   * retrieved, cached, and returned. See: &lt;a</a>
-<span class="sourceLineNo">242</span><a id="line.242">   * href="http://en.wikipedia.org/wiki/Memoization"&gt;memoization&lt;/a&gt;</a>
-<span class="sourceLineNo">243</span><a id="line.243">   *</a>
-<span class="sourceLineNo">244</span><a id="line.244">   * &lt;p&gt;The returned supplier is thread-safe. The supplier's serialized form does not contain the</a>
-<span class="sourceLineNo">245</span><a id="line.245">   * cached value, which will be recalculated when {@code get()} is called on the reserialized</a>
-<span class="sourceLineNo">246</span><a id="line.246">   * instance. The actual memoization does not happen when the underlying delegate throws an</a>
-<span class="sourceLineNo">247</span><a id="line.247">   * exception.</a>
+<span class="sourceLineNo">220</span><a id="line.220">   * &lt;p&gt;The returned supplier is thread-safe. The supplier's serialized form does not contain the</a>
+<span class="sourceLineNo">221</span><a id="line.221">   * cached value, which will be recalculated when {@code get()} is called on the reserialized</a>
+<span class="sourceLineNo">222</span><a id="line.222">   * instance. The actual memoization does not happen when the underlying delegate throws an</a>
+<span class="sourceLineNo">223</span><a id="line.223">   * exception.</a>
+<span class="sourceLineNo">224</span><a id="line.224">   *</a>
+<span class="sourceLineNo">225</span><a id="line.225">   * &lt;p&gt;When the underlying delegate throws an exception then this memoizing supplier will keep</a>
+<span class="sourceLineNo">226</span><a id="line.226">   * delegating calls until it returns valid data.</a>
+<span class="sourceLineNo">227</span><a id="line.227">   *</a>
+<span class="sourceLineNo">228</span><a id="line.228">   * @param duration the length of time after a value is created that it should stop being returned</a>
+<span class="sourceLineNo">229</span><a id="line.229">   *     by subsequent {@code get()} calls</a>
+<span class="sourceLineNo">230</span><a id="line.230">   * @param unit the unit that {@code duration} is expressed in</a>
+<span class="sourceLineNo">231</span><a id="line.231">   * @throws IllegalArgumentException if {@code duration} is not positive</a>
+<span class="sourceLineNo">232</span><a id="line.232">   * @since 2.0</a>
+<span class="sourceLineNo">233</span><a id="line.233">   */</a>
+<span class="sourceLineNo">234</span><a id="line.234">  @SuppressWarnings("GoodTime") // Prefer the Duration overload</a>
+<span class="sourceLineNo">235</span><a id="line.235">  public static &lt;T extends @Nullable Object&gt; Supplier&lt;T&gt; memoizeWithExpiration(</a>
+<span class="sourceLineNo">236</span><a id="line.236">      Supplier&lt;T&gt; delegate, long duration, TimeUnit unit) {</a>
+<span class="sourceLineNo">237</span><a id="line.237">    checkNotNull(delegate);</a>
+<span class="sourceLineNo">238</span><a id="line.238">    checkArgument(duration &gt; 0, "duration (%s %s) must be &gt; 0", duration, unit);</a>
+<span class="sourceLineNo">239</span><a id="line.239">    return new ExpiringMemoizingSupplier&lt;&gt;(delegate, unit.toNanos(duration));</a>
+<span class="sourceLineNo">240</span><a id="line.240">  }</a>
+<span class="sourceLineNo">241</span><a id="line.241"></a>
+<span class="sourceLineNo">242</span><a id="line.242">  /**</a>
+<span class="sourceLineNo">243</span><a id="line.243">   * Returns a supplier that caches the instance supplied by the delegate and removes the cached</a>
+<span class="sourceLineNo">244</span><a id="line.244">   * value after the specified time has passed. Subsequent calls to {@code get()} return the cached</a>
+<span class="sourceLineNo">245</span><a id="line.245">   * value if the expiration time has not passed. After the expiration time, a new value is</a>
+<span class="sourceLineNo">246</span><a id="line.246">   * retrieved, cached, and returned. See: &lt;a</a>
+<span class="sourceLineNo">247</span><a id="line.247">   * href="http://en.wikipedia.org/wiki/Memoization"&gt;memoization&lt;/a&gt;</a>
 <span class="sourceLineNo">248</span><a id="line.248">   *</a>
-<span class="sourceLineNo">249</span><a id="line.249">   * &lt;p&gt;When the underlying delegate throws an exception then this memoizing supplier will keep</a>
-<span class="sourceLineNo">250</span><a id="line.250">   * delegating calls until it returns valid data.</a>
-<span class="sourceLineNo">251</span><a id="line.251">   *</a>
-<span class="sourceLineNo">252</span><a id="line.252">   * @param duration the length of time after a value is created that it should stop being returned</a>
-<span class="sourceLineNo">253</span><a id="line.253">   *     by subsequent {@code get()} calls</a>
-<span class="sourceLineNo">254</span><a id="line.254">   * @throws IllegalArgumentException if {@code duration} is not positive</a>
-<span class="sourceLineNo">255</span><a id="line.255">   * @since 33.1.0</a>
-<span class="sourceLineNo">256</span><a id="line.256">   */</a>
-<span class="sourceLineNo">257</span><a id="line.257">  @Beta // only until we're confident that Java 8+ APIs are safe for our Android users</a>
-<span class="sourceLineNo">258</span><a id="line.258">  @J2ktIncompatible</a>
-<span class="sourceLineNo">259</span><a id="line.259">  @GwtIncompatible // java.time.Duration</a>
-<span class="sourceLineNo">260</span><a id="line.260">  @SuppressWarnings("Java7ApiChecker") // no more dangerous that wherever the user got the Duration</a>
-<span class="sourceLineNo">261</span><a id="line.261">  @IgnoreJRERequirement</a>
-<span class="sourceLineNo">262</span><a id="line.262">  public static &lt;T extends @Nullable Object&gt; Supplier&lt;T&gt; memoizeWithExpiration(</a>
-<span class="sourceLineNo">263</span><a id="line.263">      Supplier&lt;T&gt; delegate, Duration duration) {</a>
-<span class="sourceLineNo">264</span><a id="line.264">    checkNotNull(delegate);</a>
-<span class="sourceLineNo">265</span><a id="line.265">    // The alternative of `duration.compareTo(Duration.ZERO) &gt; 0` causes J2ObjC trouble.</a>
-<span class="sourceLineNo">266</span><a id="line.266">    checkArgument(</a>
-<span class="sourceLineNo">267</span><a id="line.267">        !duration.isNegative() &amp;&amp; !duration.isZero(), "duration (%s) must be &gt; 0", duration);</a>
-<span class="sourceLineNo">268</span><a id="line.268">    return new ExpiringMemoizingSupplier&lt;&gt;(delegate, toNanosSaturated(duration));</a>
-<span class="sourceLineNo">269</span><a id="line.269">  }</a>
-<span class="sourceLineNo">270</span><a id="line.270"></a>
-<span class="sourceLineNo">271</span><a id="line.271">  @VisibleForTesting</a>
-<span class="sourceLineNo">272</span><a id="line.272">  @SuppressWarnings("GoodTime") // lots of violations</a>
-<span class="sourceLineNo">273</span><a id="line.273">  static class ExpiringMemoizingSupplier&lt;T extends @Nullable Object&gt;</a>
-<span class="sourceLineNo">274</span><a id="line.274">      implements Supplier&lt;T&gt;, Serializable {</a>
-<span class="sourceLineNo">275</span><a id="line.275">    final Supplier&lt;T&gt; delegate;</a>
-<span class="sourceLineNo">276</span><a id="line.276">    final long durationNanos;</a>
-<span class="sourceLineNo">277</span><a id="line.277">    @CheckForNull transient volatile T value;</a>
-<span class="sourceLineNo">278</span><a id="line.278">    // The special value 0 means "not yet initialized".</a>
-<span class="sourceLineNo">279</span><a id="line.279">    transient volatile long expirationNanos;</a>
-<span class="sourceLineNo">280</span><a id="line.280"></a>
-<span class="sourceLineNo">281</span><a id="line.281">    ExpiringMemoizingSupplier(Supplier&lt;T&gt; delegate, long durationNanos) {</a>
-<span class="sourceLineNo">282</span><a id="line.282">      this.delegate = delegate;</a>
-<span class="sourceLineNo">283</span><a id="line.283">      this.durationNanos = durationNanos;</a>
-<span class="sourceLineNo">284</span><a id="line.284">    }</a>
-<span class="sourceLineNo">285</span><a id="line.285"></a>
-<span class="sourceLineNo">286</span><a id="line.286">    @Override</a>
-<span class="sourceLineNo">287</span><a id="line.287">    @ParametricNullness</a>
-<span class="sourceLineNo">288</span><a id="line.288">    public T get() {</a>
-<span class="sourceLineNo">289</span><a id="line.289">      // Another variant of Double Checked Locking.</a>
-<span class="sourceLineNo">290</span><a id="line.290">      //</a>
-<span class="sourceLineNo">291</span><a id="line.291">      // We use two volatile reads. We could reduce this to one by</a>
-<span class="sourceLineNo">292</span><a id="line.292">      // putting our fields into a holder class, but (at least on x86)</a>
-<span class="sourceLineNo">293</span><a id="line.293">      // the extra memory consumption and indirection are more</a>
-<span class="sourceLineNo">294</span><a id="line.294">      // expensive than the extra volatile reads.</a>
-<span class="sourceLineNo">295</span><a id="line.295">      long nanos = expirationNanos;</a>
-<span class="sourceLineNo">296</span><a id="line.296">      long now = System.nanoTime();</a>
-<span class="sourceLineNo">297</span><a id="line.297">      if (nanos == 0 || now - nanos &gt;= 0) {</a>
-<span class="sourceLineNo">298</span><a id="line.298">        synchronized (this) {</a>
-<span class="sourceLineNo">299</span><a id="line.299">          if (nanos == expirationNanos) { // recheck for lost race</a>
-<span class="sourceLineNo">300</span><a id="line.300">            T t = delegate.get();</a>
-<span class="sourceLineNo">301</span><a id="line.301">            value = t;</a>
-<span class="sourceLineNo">302</span><a id="line.302">            nanos = now + durationNanos;</a>
-<span class="sourceLineNo">303</span><a id="line.303">            // In the very unlikely event that nanos is 0, set it to 1;</a>
-<span class="sourceLineNo">304</span><a id="line.304">            // no one will notice 1 ns of tardiness.</a>
-<span class="sourceLineNo">305</span><a id="line.305">            expirationNanos = (nanos == 0) ? 1 : nanos;</a>
-<span class="sourceLineNo">306</span><a id="line.306">            return t;</a>
-<span class="sourceLineNo">307</span><a id="line.307">          }</a>
-<span class="sourceLineNo">308</span><a id="line.308">        }</a>
-<span class="sourceLineNo">309</span><a id="line.309">      }</a>
-<span class="sourceLineNo">310</span><a id="line.310">      // This is safe because we checked `expirationNanos`.</a>
-<span class="sourceLineNo">311</span><a id="line.311">      return uncheckedCastNullableTToT(value);</a>
-<span class="sourceLineNo">312</span><a id="line.312">    }</a>
-<span class="sourceLineNo">313</span><a id="line.313"></a>
-<span class="sourceLineNo">314</span><a id="line.314">    @Override</a>
-<span class="sourceLineNo">315</span><a id="line.315">    public String toString() {</a>
-<span class="sourceLineNo">316</span><a id="line.316">      // This is a little strange if the unit the user provided was not NANOS,</a>
-<span class="sourceLineNo">317</span><a id="line.317">      // but we don't want to store the unit just for toString</a>
-<span class="sourceLineNo">318</span><a id="line.318">      return "Suppliers.memoizeWithExpiration(" + delegate + ", " + durationNanos + ", NANOS)";</a>
-<span class="sourceLineNo">319</span><a id="line.319">    }</a>
-<span class="sourceLineNo">320</span><a id="line.320"></a>
-<span class="sourceLineNo">321</span><a id="line.321">    private static final long serialVersionUID = 0;</a>
-<span class="sourceLineNo">322</span><a id="line.322">  }</a>
-<span class="sourceLineNo">323</span><a id="line.323"></a>
-<span class="sourceLineNo">324</span><a id="line.324">  /** Returns a supplier that always supplies {@code instance}. */</a>
-<span class="sourceLineNo">325</span><a id="line.325">  public static &lt;T extends @Nullable Object&gt; Supplier&lt;T&gt; ofInstance(</a>
-<span class="sourceLineNo">326</span><a id="line.326">      @ParametricNullness T instance) {</a>
-<span class="sourceLineNo">327</span><a id="line.327">    return new SupplierOfInstance&lt;&gt;(instance);</a>
-<span class="sourceLineNo">328</span><a id="line.328">  }</a>
-<span class="sourceLineNo">329</span><a id="line.329"></a>
-<span class="sourceLineNo">330</span><a id="line.330">  private static class SupplierOfInstance&lt;T extends @Nullable Object&gt;</a>
-<span class="sourceLineNo">331</span><a id="line.331">      implements Supplier&lt;T&gt;, Serializable {</a>
-<span class="sourceLineNo">332</span><a id="line.332">    @ParametricNullness final T instance;</a>
-<span class="sourceLineNo">333</span><a id="line.333"></a>
-<span class="sourceLineNo">334</span><a id="line.334">    SupplierOfInstance(@ParametricNullness T instance) {</a>
-<span class="sourceLineNo">335</span><a id="line.335">      this.instance = instance;</a>
-<span class="sourceLineNo">336</span><a id="line.336">    }</a>
+<span class="sourceLineNo">249</span><a id="line.249">   * &lt;p&gt;The returned supplier is thread-safe. The supplier's serialized form does not contain the</a>
+<span class="sourceLineNo">250</span><a id="line.250">   * cached value, which will be recalculated when {@code get()} is called on the reserialized</a>
+<span class="sourceLineNo">251</span><a id="line.251">   * instance. The actual memoization does not happen when the underlying delegate throws an</a>
+<span class="sourceLineNo">252</span><a id="line.252">   * exception.</a>
+<span class="sourceLineNo">253</span><a id="line.253">   *</a>
+<span class="sourceLineNo">254</span><a id="line.254">   * &lt;p&gt;When the underlying delegate throws an exception then this memoizing supplier will keep</a>
+<span class="sourceLineNo">255</span><a id="line.255">   * delegating calls until it returns valid data.</a>
+<span class="sourceLineNo">256</span><a id="line.256">   *</a>
+<span class="sourceLineNo">257</span><a id="line.257">   * @param duration the length of time after a value is created that it should stop being returned</a>
+<span class="sourceLineNo">258</span><a id="line.258">   *     by subsequent {@code get()} calls</a>
+<span class="sourceLineNo">259</span><a id="line.259">   * @throws IllegalArgumentException if {@code duration} is not positive</a>
+<span class="sourceLineNo">260</span><a id="line.260">   * @since 33.1.0</a>
+<span class="sourceLineNo">261</span><a id="line.261">   */</a>
+<span class="sourceLineNo">262</span><a id="line.262">  @Beta // only until we're confident that Java 8+ APIs are safe for our Android users</a>
+<span class="sourceLineNo">263</span><a id="line.263">  @J2ktIncompatible</a>
+<span class="sourceLineNo">264</span><a id="line.264">  @GwtIncompatible // java.time.Duration</a>
+<span class="sourceLineNo">265</span><a id="line.265">  @SuppressWarnings("Java7ApiChecker") // no more dangerous that wherever the user got the Duration</a>
+<span class="sourceLineNo">266</span><a id="line.266">  @IgnoreJRERequirement</a>
+<span class="sourceLineNo">267</span><a id="line.267">  public static &lt;T extends @Nullable Object&gt; Supplier&lt;T&gt; memoizeWithExpiration(</a>
+<span class="sourceLineNo">268</span><a id="line.268">      Supplier&lt;T&gt; delegate, Duration duration) {</a>
+<span class="sourceLineNo">269</span><a id="line.269">    checkNotNull(delegate);</a>
+<span class="sourceLineNo">270</span><a id="line.270">    // The alternative of `duration.compareTo(Duration.ZERO) &gt; 0` causes J2ObjC trouble.</a>
+<span class="sourceLineNo">271</span><a id="line.271">    checkArgument(</a>
+<span class="sourceLineNo">272</span><a id="line.272">        !duration.isNegative() &amp;&amp; !duration.isZero(), "duration (%s) must be &gt; 0", duration);</a>
+<span class="sourceLineNo">273</span><a id="line.273">    return new ExpiringMemoizingSupplier&lt;&gt;(delegate, toNanosSaturated(duration));</a>
+<span class="sourceLineNo">274</span><a id="line.274">  }</a>
+<span class="sourceLineNo">275</span><a id="line.275"></a>
+<span class="sourceLineNo">276</span><a id="line.276">  @VisibleForTesting</a>
+<span class="sourceLineNo">277</span><a id="line.277">  @SuppressWarnings("GoodTime") // lots of violations</a>
+<span class="sourceLineNo">278</span><a id="line.278">  static class ExpiringMemoizingSupplier&lt;T extends @Nullable Object&gt;</a>
+<span class="sourceLineNo">279</span><a id="line.279">      implements Supplier&lt;T&gt;, Serializable {</a>
+<span class="sourceLineNo">280</span><a id="line.280">    private final Object lock =</a>
+<span class="sourceLineNo">281</span><a id="line.281">        new Integer(1); // something serializable</a>
+<span class="sourceLineNo">282</span><a id="line.282"></a>
+<span class="sourceLineNo">283</span><a id="line.283">    final Supplier&lt;T&gt; delegate;</a>
+<span class="sourceLineNo">284</span><a id="line.284">    final long durationNanos;</a>
+<span class="sourceLineNo">285</span><a id="line.285">    @CheckForNull transient volatile T value;</a>
+<span class="sourceLineNo">286</span><a id="line.286">    // The special value 0 means "not yet initialized".</a>
+<span class="sourceLineNo">287</span><a id="line.287">    transient volatile long expirationNanos;</a>
+<span class="sourceLineNo">288</span><a id="line.288"></a>
+<span class="sourceLineNo">289</span><a id="line.289">    ExpiringMemoizingSupplier(Supplier&lt;T&gt; delegate, long durationNanos) {</a>
+<span class="sourceLineNo">290</span><a id="line.290">      this.delegate = delegate;</a>
+<span class="sourceLineNo">291</span><a id="line.291">      this.durationNanos = durationNanos;</a>
+<span class="sourceLineNo">292</span><a id="line.292">    }</a>
+<span class="sourceLineNo">293</span><a id="line.293"></a>
+<span class="sourceLineNo">294</span><a id="line.294">    @Override</a>
+<span class="sourceLineNo">295</span><a id="line.295">    @ParametricNullness</a>
+<span class="sourceLineNo">296</span><a id="line.296">    public T get() {</a>
+<span class="sourceLineNo">297</span><a id="line.297">      // Another variant of Double Checked Locking.</a>
+<span class="sourceLineNo">298</span><a id="line.298">      //</a>
+<span class="sourceLineNo">299</span><a id="line.299">      // We use two volatile reads. We could reduce this to one by</a>
+<span class="sourceLineNo">300</span><a id="line.300">      // putting our fields into a holder class, but (at least on x86)</a>
+<span class="sourceLineNo">301</span><a id="line.301">      // the extra memory consumption and indirection are more</a>
+<span class="sourceLineNo">302</span><a id="line.302">      // expensive than the extra volatile reads.</a>
+<span class="sourceLineNo">303</span><a id="line.303">      long nanos = expirationNanos;</a>
+<span class="sourceLineNo">304</span><a id="line.304">      long now = System.nanoTime();</a>
+<span class="sourceLineNo">305</span><a id="line.305">      if (nanos == 0 || now - nanos &gt;= 0) {</a>
+<span class="sourceLineNo">306</span><a id="line.306">        synchronized (lock) {</a>
+<span class="sourceLineNo">307</span><a id="line.307">          if (nanos == expirationNanos) { // recheck for lost race</a>
+<span class="sourceLineNo">308</span><a id="line.308">            T t = delegate.get();</a>
+<span class="sourceLineNo">309</span><a id="line.309">            value = t;</a>
+<span class="sourceLineNo">310</span><a id="line.310">            nanos = now + durationNanos;</a>
+<span class="sourceLineNo">311</span><a id="line.311">            // In the very unlikely event that nanos is 0, set it to 1;</a>
+<span class="sourceLineNo">312</span><a id="line.312">            // no one will notice 1 ns of tardiness.</a>
+<span class="sourceLineNo">313</span><a id="line.313">            expirationNanos = (nanos == 0) ? 1 : nanos;</a>
+<span class="sourceLineNo">314</span><a id="line.314">            return t;</a>
+<span class="sourceLineNo">315</span><a id="line.315">          }</a>
+<span class="sourceLineNo">316</span><a id="line.316">        }</a>
+<span class="sourceLineNo">317</span><a id="line.317">      }</a>
+<span class="sourceLineNo">318</span><a id="line.318">      // This is safe because we checked `expirationNanos`.</a>
+<span class="sourceLineNo">319</span><a id="line.319">      return uncheckedCastNullableTToT(value);</a>
+<span class="sourceLineNo">320</span><a id="line.320">    }</a>
+<span class="sourceLineNo">321</span><a id="line.321"></a>
+<span class="sourceLineNo">322</span><a id="line.322">    @Override</a>
+<span class="sourceLineNo">323</span><a id="line.323">    public String toString() {</a>
+<span class="sourceLineNo">324</span><a id="line.324">      // This is a little strange if the unit the user provided was not NANOS,</a>
+<span class="sourceLineNo">325</span><a id="line.325">      // but we don't want to store the unit just for toString</a>
+<span class="sourceLineNo">326</span><a id="line.326">      return "Suppliers.memoizeWithExpiration(" + delegate + ", " + durationNanos + ", NANOS)";</a>
+<span class="sourceLineNo">327</span><a id="line.327">    }</a>
+<span class="sourceLineNo">328</span><a id="line.328"></a>
+<span class="sourceLineNo">329</span><a id="line.329">    private static final long serialVersionUID = 0;</a>
+<span class="sourceLineNo">330</span><a id="line.330">  }</a>
+<span class="sourceLineNo">331</span><a id="line.331"></a>
+<span class="sourceLineNo">332</span><a id="line.332">  /** Returns a supplier that always supplies {@code instance}. */</a>
+<span class="sourceLineNo">333</span><a id="line.333">  public static &lt;T extends @Nullable Object&gt; Supplier&lt;T&gt; ofInstance(</a>
+<span class="sourceLineNo">334</span><a id="line.334">      @ParametricNullness T instance) {</a>
+<span class="sourceLineNo">335</span><a id="line.335">    return new SupplierOfInstance&lt;&gt;(instance);</a>
+<span class="sourceLineNo">336</span><a id="line.336">  }</a>
 <span class="sourceLineNo">337</span><a id="line.337"></a>
-<span class="sourceLineNo">338</span><a id="line.338">    @Override</a>
-<span class="sourceLineNo">339</span><a id="line.339">    @ParametricNullness</a>
-<span class="sourceLineNo">340</span><a id="line.340">    public T get() {</a>
-<span class="sourceLineNo">341</span><a id="line.341">      return instance;</a>
-<span class="sourceLineNo">342</span><a id="line.342">    }</a>
-<span class="sourceLineNo">343</span><a id="line.343"></a>
-<span class="sourceLineNo">344</span><a id="line.344">    @Override</a>
-<span class="sourceLineNo">345</span><a id="line.345">    public boolean equals(@CheckForNull Object obj) {</a>
-<span class="sourceLineNo">346</span><a id="line.346">      if (obj instanceof SupplierOfInstance) {</a>
-<span class="sourceLineNo">347</span><a id="line.347">        SupplierOfInstance&lt;?&gt; that = (SupplierOfInstance&lt;?&gt;) obj;</a>
-<span class="sourceLineNo">348</span><a id="line.348">        return Objects.equal(instance, that.instance);</a>
-<span class="sourceLineNo">349</span><a id="line.349">      }</a>
-<span class="sourceLineNo">350</span><a id="line.350">      return false;</a>
-<span class="sourceLineNo">351</span><a id="line.351">    }</a>
-<span class="sourceLineNo">352</span><a id="line.352"></a>
-<span class="sourceLineNo">353</span><a id="line.353">    @Override</a>
-<span class="sourceLineNo">354</span><a id="line.354">    public int hashCode() {</a>
-<span class="sourceLineNo">355</span><a id="line.355">      return Objects.hashCode(instance);</a>
-<span class="sourceLineNo">356</span><a id="line.356">    }</a>
-<span class="sourceLineNo">357</span><a id="line.357"></a>
-<span class="sourceLineNo">358</span><a id="line.358">    @Override</a>
-<span class="sourceLineNo">359</span><a id="line.359">    public String toString() {</a>
-<span class="sourceLineNo">360</span><a id="line.360">      return "Suppliers.ofInstance(" + instance + ")";</a>
-<span class="sourceLineNo">361</span><a id="line.361">    }</a>
-<span class="sourceLineNo">362</span><a id="line.362"></a>
-<span class="sourceLineNo">363</span><a id="line.363">    private static final long serialVersionUID = 0;</a>
-<span class="sourceLineNo">364</span><a id="line.364">  }</a>
+<span class="sourceLineNo">338</span><a id="line.338">  private static class SupplierOfInstance&lt;T extends @Nullable Object&gt;</a>
+<span class="sourceLineNo">339</span><a id="line.339">      implements Supplier&lt;T&gt;, Serializable {</a>
+<span class="sourceLineNo">340</span><a id="line.340">    @ParametricNullness final T instance;</a>
+<span class="sourceLineNo">341</span><a id="line.341"></a>
+<span class="sourceLineNo">342</span><a id="line.342">    SupplierOfInstance(@ParametricNullness T instance) {</a>
+<span class="sourceLineNo">343</span><a id="line.343">      this.instance = instance;</a>
+<span class="sourceLineNo">344</span><a id="line.344">    }</a>
+<span class="sourceLineNo">345</span><a id="line.345"></a>
+<span class="sourceLineNo">346</span><a id="line.346">    @Override</a>
+<span class="sourceLineNo">347</span><a id="line.347">    @ParametricNullness</a>
+<span class="sourceLineNo">348</span><a id="line.348">    public T get() {</a>
+<span class="sourceLineNo">349</span><a id="line.349">      return instance;</a>
+<span class="sourceLineNo">350</span><a id="line.350">    }</a>
+<span class="sourceLineNo">351</span><a id="line.351"></a>
+<span class="sourceLineNo">352</span><a id="line.352">    @Override</a>
+<span class="sourceLineNo">353</span><a id="line.353">    public boolean equals(@CheckForNull Object obj) {</a>
+<span class="sourceLineNo">354</span><a id="line.354">      if (obj instanceof SupplierOfInstance) {</a>
+<span class="sourceLineNo">355</span><a id="line.355">        SupplierOfInstance&lt;?&gt; that = (SupplierOfInstance&lt;?&gt;) obj;</a>
+<span class="sourceLineNo">356</span><a id="line.356">        return Objects.equal(instance, that.instance);</a>
+<span class="sourceLineNo">357</span><a id="line.357">      }</a>
+<span class="sourceLineNo">358</span><a id="line.358">      return false;</a>
+<span class="sourceLineNo">359</span><a id="line.359">    }</a>
+<span class="sourceLineNo">360</span><a id="line.360"></a>
+<span class="sourceLineNo">361</span><a id="line.361">    @Override</a>
+<span class="sourceLineNo">362</span><a id="line.362">    public int hashCode() {</a>
+<span class="sourceLineNo">363</span><a id="line.363">      return Objects.hashCode(instance);</a>
+<span class="sourceLineNo">364</span><a id="line.364">    }</a>
 <span class="sourceLineNo">365</span><a id="line.365"></a>
-<span class="sourceLineNo">366</span><a id="line.366">  /**</a>
-<span class="sourceLineNo">367</span><a id="line.367">   * Returns a supplier whose {@code get()} method synchronizes on {@code delegate} before calling</a>
-<span class="sourceLineNo">368</span><a id="line.368">   * it, making it thread-safe.</a>
-<span class="sourceLineNo">369</span><a id="line.369">   */</a>
-<span class="sourceLineNo">370</span><a id="line.370">  public static &lt;T extends @Nullable Object&gt; Supplier&lt;T&gt; synchronizedSupplier(</a>
-<span class="sourceLineNo">371</span><a id="line.371">      Supplier&lt;T&gt; delegate) {</a>
-<span class="sourceLineNo">372</span><a id="line.372">    return new ThreadSafeSupplier&lt;&gt;(delegate);</a>
-<span class="sourceLineNo">373</span><a id="line.373">  }</a>
-<span class="sourceLineNo">374</span><a id="line.374"></a>
-<span class="sourceLineNo">375</span><a id="line.375">  private static class ThreadSafeSupplier&lt;T extends @Nullable Object&gt;</a>
-<span class="sourceLineNo">376</span><a id="line.376">      implements Supplier&lt;T&gt;, Serializable {</a>
-<span class="sourceLineNo">377</span><a id="line.377">    final Supplier&lt;T&gt; delegate;</a>
-<span class="sourceLineNo">378</span><a id="line.378"></a>
-<span class="sourceLineNo">379</span><a id="line.379">    ThreadSafeSupplier(Supplier&lt;T&gt; delegate) {</a>
-<span class="sourceLineNo">380</span><a id="line.380">      this.delegate = checkNotNull(delegate);</a>
-<span class="sourceLineNo">381</span><a id="line.381">    }</a>
-<span class="sourceLineNo">382</span><a id="line.382"></a>
-<span class="sourceLineNo">383</span><a id="line.383">    @Override</a>
-<span class="sourceLineNo">384</span><a id="line.384">    @ParametricNullness</a>
-<span class="sourceLineNo">385</span><a id="line.385">    public T get() {</a>
-<span class="sourceLineNo">386</span><a id="line.386">      synchronized (delegate) {</a>
-<span class="sourceLineNo">387</span><a id="line.387">        return delegate.get();</a>
-<span class="sourceLineNo">388</span><a id="line.388">      }</a>
-<span class="sourceLineNo">389</span><a id="line.389">    }</a>
-<span class="sourceLineNo">390</span><a id="line.390"></a>
-<span class="sourceLineNo">391</span><a id="line.391">    @Override</a>
-<span class="sourceLineNo">392</span><a id="line.392">    public String toString() {</a>
-<span class="sourceLineNo">393</span><a id="line.393">      return "Suppliers.synchronizedSupplier(" + delegate + ")";</a>
-<span class="sourceLineNo">394</span><a id="line.394">    }</a>
-<span class="sourceLineNo">395</span><a id="line.395"></a>
-<span class="sourceLineNo">396</span><a id="line.396">    private static final long serialVersionUID = 0;</a>
-<span class="sourceLineNo">397</span><a id="line.397">  }</a>
-<span class="sourceLineNo">398</span><a id="line.398"></a>
-<span class="sourceLineNo">399</span><a id="line.399">  /**</a>
-<span class="sourceLineNo">400</span><a id="line.400">   * Returns a function that accepts a supplier and returns the result of invoking {@link</a>
-<span class="sourceLineNo">401</span><a id="line.401">   * Supplier#get} on that supplier.</a>
-<span class="sourceLineNo">402</span><a id="line.402">   *</a>
-<span class="sourceLineNo">403</span><a id="line.403">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; use the method reference {@code Supplier::get} instead.</a>
-<span class="sourceLineNo">404</span><a id="line.404">   *</a>
-<span class="sourceLineNo">405</span><a id="line.405">   * @since 8.0</a>
-<span class="sourceLineNo">406</span><a id="line.406">   */</a>
-<span class="sourceLineNo">407</span><a id="line.407">  public static &lt;T extends @Nullable Object&gt; Function&lt;Supplier&lt;T&gt;, T&gt; supplierFunction() {</a>
-<span class="sourceLineNo">408</span><a id="line.408">    @SuppressWarnings("unchecked") // implementation is "fully variant"</a>
-<span class="sourceLineNo">409</span><a id="line.409">    SupplierFunction&lt;T&gt; sf = (SupplierFunction&lt;T&gt;) SupplierFunctionImpl.INSTANCE;</a>
-<span class="sourceLineNo">410</span><a id="line.410">    return sf;</a>
-<span class="sourceLineNo">411</span><a id="line.411">  }</a>
-<span class="sourceLineNo">412</span><a id="line.412"></a>
-<span class="sourceLineNo">413</span><a id="line.413">  private interface SupplierFunction&lt;T extends @Nullable Object&gt; extends Function&lt;Supplier&lt;T&gt;, T&gt; {}</a>
-<span class="sourceLineNo">414</span><a id="line.414"></a>
-<span class="sourceLineNo">415</span><a id="line.415">  private enum SupplierFunctionImpl implements SupplierFunction&lt;@Nullable Object&gt; {</a>
-<span class="sourceLineNo">416</span><a id="line.416">    INSTANCE;</a>
-<span class="sourceLineNo">417</span><a id="line.417"></a>
-<span class="sourceLineNo">418</span><a id="line.418">    // Note: This makes T a "pass-through type"</a>
-<span class="sourceLineNo">419</span><a id="line.419">    @Override</a>
-<span class="sourceLineNo">420</span><a id="line.420">    @CheckForNull</a>
-<span class="sourceLineNo">421</span><a id="line.421">    public Object apply(Supplier&lt;@Nullable Object&gt; input) {</a>
-<span class="sourceLineNo">422</span><a id="line.422">      return input.get();</a>
-<span class="sourceLineNo">423</span><a id="line.423">    }</a>
+<span class="sourceLineNo">366</span><a id="line.366">    @Override</a>
+<span class="sourceLineNo">367</span><a id="line.367">    public String toString() {</a>
+<span class="sourceLineNo">368</span><a id="line.368">      return "Suppliers.ofInstance(" + instance + ")";</a>
+<span class="sourceLineNo">369</span><a id="line.369">    }</a>
+<span class="sourceLineNo">370</span><a id="line.370"></a>
+<span class="sourceLineNo">371</span><a id="line.371">    private static final long serialVersionUID = 0;</a>
+<span class="sourceLineNo">372</span><a id="line.372">  }</a>
+<span class="sourceLineNo">373</span><a id="line.373"></a>
+<span class="sourceLineNo">374</span><a id="line.374">  /**</a>
+<span class="sourceLineNo">375</span><a id="line.375">   * Returns a supplier whose {@code get()} method synchronizes on {@code delegate} before calling</a>
+<span class="sourceLineNo">376</span><a id="line.376">   * it, making it thread-safe.</a>
+<span class="sourceLineNo">377</span><a id="line.377">   */</a>
+<span class="sourceLineNo">378</span><a id="line.378">  @J2ktIncompatible</a>
+<span class="sourceLineNo">379</span><a id="line.379">  public static &lt;T extends @Nullable Object&gt; Supplier&lt;T&gt; synchronizedSupplier(</a>
+<span class="sourceLineNo">380</span><a id="line.380">      Supplier&lt;T&gt; delegate) {</a>
+<span class="sourceLineNo">381</span><a id="line.381">    return new ThreadSafeSupplier&lt;&gt;(delegate);</a>
+<span class="sourceLineNo">382</span><a id="line.382">  }</a>
+<span class="sourceLineNo">383</span><a id="line.383"></a>
+<span class="sourceLineNo">384</span><a id="line.384">  @J2ktIncompatible</a>
+<span class="sourceLineNo">385</span><a id="line.385">  private static class ThreadSafeSupplier&lt;T extends @Nullable Object&gt;</a>
+<span class="sourceLineNo">386</span><a id="line.386">      implements Supplier&lt;T&gt;, Serializable {</a>
+<span class="sourceLineNo">387</span><a id="line.387">    final Supplier&lt;T&gt; delegate;</a>
+<span class="sourceLineNo">388</span><a id="line.388"></a>
+<span class="sourceLineNo">389</span><a id="line.389">    ThreadSafeSupplier(Supplier&lt;T&gt; delegate) {</a>
+<span class="sourceLineNo">390</span><a id="line.390">      this.delegate = checkNotNull(delegate);</a>
+<span class="sourceLineNo">391</span><a id="line.391">    }</a>
+<span class="sourceLineNo">392</span><a id="line.392"></a>
+<span class="sourceLineNo">393</span><a id="line.393">    @Override</a>
+<span class="sourceLineNo">394</span><a id="line.394">    @ParametricNullness</a>
+<span class="sourceLineNo">395</span><a id="line.395">    public T get() {</a>
+<span class="sourceLineNo">396</span><a id="line.396">      synchronized (delegate) {</a>
+<span class="sourceLineNo">397</span><a id="line.397">        return delegate.get();</a>
+<span class="sourceLineNo">398</span><a id="line.398">      }</a>
+<span class="sourceLineNo">399</span><a id="line.399">    }</a>
+<span class="sourceLineNo">400</span><a id="line.400"></a>
+<span class="sourceLineNo">401</span><a id="line.401">    @Override</a>
+<span class="sourceLineNo">402</span><a id="line.402">    public String toString() {</a>
+<span class="sourceLineNo">403</span><a id="line.403">      return "Suppliers.synchronizedSupplier(" + delegate + ")";</a>
+<span class="sourceLineNo">404</span><a id="line.404">    }</a>
+<span class="sourceLineNo">405</span><a id="line.405"></a>
+<span class="sourceLineNo">406</span><a id="line.406">    private static final long serialVersionUID = 0;</a>
+<span class="sourceLineNo">407</span><a id="line.407">  }</a>
+<span class="sourceLineNo">408</span><a id="line.408"></a>
+<span class="sourceLineNo">409</span><a id="line.409">  /**</a>
+<span class="sourceLineNo">410</span><a id="line.410">   * Returns a function that accepts a supplier and returns the result of invoking {@link</a>
+<span class="sourceLineNo">411</span><a id="line.411">   * Supplier#get} on that supplier.</a>
+<span class="sourceLineNo">412</span><a id="line.412">   *</a>
+<span class="sourceLineNo">413</span><a id="line.413">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; use the method reference {@code Supplier::get} instead.</a>
+<span class="sourceLineNo">414</span><a id="line.414">   *</a>
+<span class="sourceLineNo">415</span><a id="line.415">   * @since 8.0</a>
+<span class="sourceLineNo">416</span><a id="line.416">   */</a>
+<span class="sourceLineNo">417</span><a id="line.417">  public static &lt;T extends @Nullable Object&gt; Function&lt;Supplier&lt;T&gt;, T&gt; supplierFunction() {</a>
+<span class="sourceLineNo">418</span><a id="line.418">    @SuppressWarnings("unchecked") // implementation is "fully variant"</a>
+<span class="sourceLineNo">419</span><a id="line.419">    SupplierFunction&lt;T&gt; sf = (SupplierFunction&lt;T&gt;) SupplierFunctionImpl.INSTANCE;</a>
+<span class="sourceLineNo">420</span><a id="line.420">    return sf;</a>
+<span class="sourceLineNo">421</span><a id="line.421">  }</a>
+<span class="sourceLineNo">422</span><a id="line.422"></a>
+<span class="sourceLineNo">423</span><a id="line.423">  private interface SupplierFunction&lt;T extends @Nullable Object&gt; extends Function&lt;Supplier&lt;T&gt;, T&gt; {}</a>
 <span class="sourceLineNo">424</span><a id="line.424"></a>
-<span class="sourceLineNo">425</span><a id="line.425">    @Override</a>
-<span class="sourceLineNo">426</span><a id="line.426">    public String toString() {</a>
-<span class="sourceLineNo">427</span><a id="line.427">      return "Suppliers.supplierFunction()";</a>
-<span class="sourceLineNo">428</span><a id="line.428">    }</a>
-<span class="sourceLineNo">429</span><a id="line.429">  }</a>
-<span class="sourceLineNo">430</span><a id="line.430">}</a>
+<span class="sourceLineNo">425</span><a id="line.425">  private enum SupplierFunctionImpl implements SupplierFunction&lt;@Nullable Object&gt; {</a>
+<span class="sourceLineNo">426</span><a id="line.426">    INSTANCE;</a>
+<span class="sourceLineNo">427</span><a id="line.427"></a>
+<span class="sourceLineNo">428</span><a id="line.428">    // Note: This makes T a "pass-through type"</a>
+<span class="sourceLineNo">429</span><a id="line.429">    @Override</a>
+<span class="sourceLineNo">430</span><a id="line.430">    @CheckForNull</a>
+<span class="sourceLineNo">431</span><a id="line.431">    public Object apply(Supplier&lt;@Nullable Object&gt; input) {</a>
+<span class="sourceLineNo">432</span><a id="line.432">      return input.get();</a>
+<span class="sourceLineNo">433</span><a id="line.433">    }</a>
+<span class="sourceLineNo">434</span><a id="line.434"></a>
+<span class="sourceLineNo">435</span><a id="line.435">    @Override</a>
+<span class="sourceLineNo">436</span><a id="line.436">    public String toString() {</a>
+<span class="sourceLineNo">437</span><a id="line.437">      return "Suppliers.supplierFunction()";</a>
+<span class="sourceLineNo">438</span><a id="line.438">    }</a>
+<span class="sourceLineNo">439</span><a id="line.439">  }</a>
+<span class="sourceLineNo">440</span><a id="line.440">}</a>
 
 
 

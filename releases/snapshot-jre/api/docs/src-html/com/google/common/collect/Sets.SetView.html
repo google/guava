@@ -1998,223 +1998,224 @@
 <span class="sourceLineNo">1989</span><a id="line.1989">   * @since 13.0</a>
 <span class="sourceLineNo">1990</span><a id="line.1990">   */</a>
 <span class="sourceLineNo">1991</span><a id="line.1991">  @GwtIncompatible // NavigableSet</a>
-<span class="sourceLineNo">1992</span><a id="line.1992">  public static &lt;E extends @Nullable Object&gt; NavigableSet&lt;E&gt; synchronizedNavigableSet(</a>
-<span class="sourceLineNo">1993</span><a id="line.1993">      NavigableSet&lt;E&gt; navigableSet) {</a>
-<span class="sourceLineNo">1994</span><a id="line.1994">    return Synchronized.navigableSet(navigableSet);</a>
-<span class="sourceLineNo">1995</span><a id="line.1995">  }</a>
-<span class="sourceLineNo">1996</span><a id="line.1996"></a>
-<span class="sourceLineNo">1997</span><a id="line.1997">  /** Remove each element in an iterable from a set. */</a>
-<span class="sourceLineNo">1998</span><a id="line.1998">  static boolean removeAllImpl(Set&lt;?&gt; set, Iterator&lt;?&gt; iterator) {</a>
-<span class="sourceLineNo">1999</span><a id="line.1999">    boolean changed = false;</a>
-<span class="sourceLineNo">2000</span><a id="line.2000">    while (iterator.hasNext()) {</a>
-<span class="sourceLineNo">2001</span><a id="line.2001">      changed |= set.remove(iterator.next());</a>
-<span class="sourceLineNo">2002</span><a id="line.2002">    }</a>
-<span class="sourceLineNo">2003</span><a id="line.2003">    return changed;</a>
-<span class="sourceLineNo">2004</span><a id="line.2004">  }</a>
-<span class="sourceLineNo">2005</span><a id="line.2005"></a>
-<span class="sourceLineNo">2006</span><a id="line.2006">  static boolean removeAllImpl(Set&lt;?&gt; set, Collection&lt;?&gt; collection) {</a>
-<span class="sourceLineNo">2007</span><a id="line.2007">    checkNotNull(collection); // for GWT</a>
-<span class="sourceLineNo">2008</span><a id="line.2008">    if (collection instanceof Multiset) {</a>
-<span class="sourceLineNo">2009</span><a id="line.2009">      collection = ((Multiset&lt;?&gt;) collection).elementSet();</a>
-<span class="sourceLineNo">2010</span><a id="line.2010">    }</a>
-<span class="sourceLineNo">2011</span><a id="line.2011">    /*</a>
-<span class="sourceLineNo">2012</span><a id="line.2012">     * AbstractSet.removeAll(List) has quadratic behavior if the list size</a>
-<span class="sourceLineNo">2013</span><a id="line.2013">     * is just more than the set's size.  We augment the test by</a>
-<span class="sourceLineNo">2014</span><a id="line.2014">     * assuming that sets have fast contains() performance, and other</a>
-<span class="sourceLineNo">2015</span><a id="line.2015">     * collections don't.  See</a>
-<span class="sourceLineNo">2016</span><a id="line.2016">     * http://code.google.com/p/guava-libraries/issues/detail?id=1013</a>
-<span class="sourceLineNo">2017</span><a id="line.2017">     */</a>
-<span class="sourceLineNo">2018</span><a id="line.2018">    if (collection instanceof Set &amp;&amp; collection.size() &gt; set.size()) {</a>
-<span class="sourceLineNo">2019</span><a id="line.2019">      return Iterators.removeAll(set.iterator(), collection);</a>
-<span class="sourceLineNo">2020</span><a id="line.2020">    } else {</a>
-<span class="sourceLineNo">2021</span><a id="line.2021">      return removeAllImpl(set, collection.iterator());</a>
-<span class="sourceLineNo">2022</span><a id="line.2022">    }</a>
-<span class="sourceLineNo">2023</span><a id="line.2023">  }</a>
-<span class="sourceLineNo">2024</span><a id="line.2024"></a>
-<span class="sourceLineNo">2025</span><a id="line.2025">  @GwtIncompatible // NavigableSet</a>
-<span class="sourceLineNo">2026</span><a id="line.2026">  static class DescendingSet&lt;E extends @Nullable Object&gt; extends ForwardingNavigableSet&lt;E&gt; {</a>
-<span class="sourceLineNo">2027</span><a id="line.2027">    private final NavigableSet&lt;E&gt; forward;</a>
-<span class="sourceLineNo">2028</span><a id="line.2028"></a>
-<span class="sourceLineNo">2029</span><a id="line.2029">    DescendingSet(NavigableSet&lt;E&gt; forward) {</a>
-<span class="sourceLineNo">2030</span><a id="line.2030">      this.forward = forward;</a>
-<span class="sourceLineNo">2031</span><a id="line.2031">    }</a>
-<span class="sourceLineNo">2032</span><a id="line.2032"></a>
-<span class="sourceLineNo">2033</span><a id="line.2033">    @Override</a>
-<span class="sourceLineNo">2034</span><a id="line.2034">    protected NavigableSet&lt;E&gt; delegate() {</a>
-<span class="sourceLineNo">2035</span><a id="line.2035">      return forward;</a>
-<span class="sourceLineNo">2036</span><a id="line.2036">    }</a>
-<span class="sourceLineNo">2037</span><a id="line.2037"></a>
-<span class="sourceLineNo">2038</span><a id="line.2038">    @Override</a>
-<span class="sourceLineNo">2039</span><a id="line.2039">    @CheckForNull</a>
-<span class="sourceLineNo">2040</span><a id="line.2040">    public E lower(@ParametricNullness E e) {</a>
-<span class="sourceLineNo">2041</span><a id="line.2041">      return forward.higher(e);</a>
-<span class="sourceLineNo">2042</span><a id="line.2042">    }</a>
-<span class="sourceLineNo">2043</span><a id="line.2043"></a>
-<span class="sourceLineNo">2044</span><a id="line.2044">    @Override</a>
-<span class="sourceLineNo">2045</span><a id="line.2045">    @CheckForNull</a>
-<span class="sourceLineNo">2046</span><a id="line.2046">    public E floor(@ParametricNullness E e) {</a>
-<span class="sourceLineNo">2047</span><a id="line.2047">      return forward.ceiling(e);</a>
-<span class="sourceLineNo">2048</span><a id="line.2048">    }</a>
-<span class="sourceLineNo">2049</span><a id="line.2049"></a>
-<span class="sourceLineNo">2050</span><a id="line.2050">    @Override</a>
-<span class="sourceLineNo">2051</span><a id="line.2051">    @CheckForNull</a>
-<span class="sourceLineNo">2052</span><a id="line.2052">    public E ceiling(@ParametricNullness E e) {</a>
-<span class="sourceLineNo">2053</span><a id="line.2053">      return forward.floor(e);</a>
-<span class="sourceLineNo">2054</span><a id="line.2054">    }</a>
-<span class="sourceLineNo">2055</span><a id="line.2055"></a>
-<span class="sourceLineNo">2056</span><a id="line.2056">    @Override</a>
-<span class="sourceLineNo">2057</span><a id="line.2057">    @CheckForNull</a>
-<span class="sourceLineNo">2058</span><a id="line.2058">    public E higher(@ParametricNullness E e) {</a>
-<span class="sourceLineNo">2059</span><a id="line.2059">      return forward.lower(e);</a>
-<span class="sourceLineNo">2060</span><a id="line.2060">    }</a>
-<span class="sourceLineNo">2061</span><a id="line.2061"></a>
-<span class="sourceLineNo">2062</span><a id="line.2062">    @Override</a>
-<span class="sourceLineNo">2063</span><a id="line.2063">    @CheckForNull</a>
-<span class="sourceLineNo">2064</span><a id="line.2064">    public E pollFirst() {</a>
-<span class="sourceLineNo">2065</span><a id="line.2065">      return forward.pollLast();</a>
-<span class="sourceLineNo">2066</span><a id="line.2066">    }</a>
-<span class="sourceLineNo">2067</span><a id="line.2067"></a>
-<span class="sourceLineNo">2068</span><a id="line.2068">    @Override</a>
-<span class="sourceLineNo">2069</span><a id="line.2069">    @CheckForNull</a>
-<span class="sourceLineNo">2070</span><a id="line.2070">    public E pollLast() {</a>
-<span class="sourceLineNo">2071</span><a id="line.2071">      return forward.pollFirst();</a>
-<span class="sourceLineNo">2072</span><a id="line.2072">    }</a>
-<span class="sourceLineNo">2073</span><a id="line.2073"></a>
-<span class="sourceLineNo">2074</span><a id="line.2074">    @Override</a>
-<span class="sourceLineNo">2075</span><a id="line.2075">    public NavigableSet&lt;E&gt; descendingSet() {</a>
-<span class="sourceLineNo">2076</span><a id="line.2076">      return forward;</a>
-<span class="sourceLineNo">2077</span><a id="line.2077">    }</a>
-<span class="sourceLineNo">2078</span><a id="line.2078"></a>
-<span class="sourceLineNo">2079</span><a id="line.2079">    @Override</a>
-<span class="sourceLineNo">2080</span><a id="line.2080">    public Iterator&lt;E&gt; descendingIterator() {</a>
-<span class="sourceLineNo">2081</span><a id="line.2081">      return forward.iterator();</a>
-<span class="sourceLineNo">2082</span><a id="line.2082">    }</a>
-<span class="sourceLineNo">2083</span><a id="line.2083"></a>
-<span class="sourceLineNo">2084</span><a id="line.2084">    @Override</a>
-<span class="sourceLineNo">2085</span><a id="line.2085">    public NavigableSet&lt;E&gt; subSet(</a>
-<span class="sourceLineNo">2086</span><a id="line.2086">        @ParametricNullness E fromElement,</a>
-<span class="sourceLineNo">2087</span><a id="line.2087">        boolean fromInclusive,</a>
-<span class="sourceLineNo">2088</span><a id="line.2088">        @ParametricNullness E toElement,</a>
-<span class="sourceLineNo">2089</span><a id="line.2089">        boolean toInclusive) {</a>
-<span class="sourceLineNo">2090</span><a id="line.2090">      return forward.subSet(toElement, toInclusive, fromElement, fromInclusive).descendingSet();</a>
-<span class="sourceLineNo">2091</span><a id="line.2091">    }</a>
-<span class="sourceLineNo">2092</span><a id="line.2092"></a>
-<span class="sourceLineNo">2093</span><a id="line.2093">    @Override</a>
-<span class="sourceLineNo">2094</span><a id="line.2094">    public SortedSet&lt;E&gt; subSet(@ParametricNullness E fromElement, @ParametricNullness E toElement) {</a>
-<span class="sourceLineNo">2095</span><a id="line.2095">      return standardSubSet(fromElement, toElement);</a>
-<span class="sourceLineNo">2096</span><a id="line.2096">    }</a>
-<span class="sourceLineNo">2097</span><a id="line.2097"></a>
-<span class="sourceLineNo">2098</span><a id="line.2098">    @Override</a>
-<span class="sourceLineNo">2099</span><a id="line.2099">    public NavigableSet&lt;E&gt; headSet(@ParametricNullness E toElement, boolean inclusive) {</a>
-<span class="sourceLineNo">2100</span><a id="line.2100">      return forward.tailSet(toElement, inclusive).descendingSet();</a>
-<span class="sourceLineNo">2101</span><a id="line.2101">    }</a>
-<span class="sourceLineNo">2102</span><a id="line.2102"></a>
-<span class="sourceLineNo">2103</span><a id="line.2103">    @Override</a>
-<span class="sourceLineNo">2104</span><a id="line.2104">    public SortedSet&lt;E&gt; headSet(@ParametricNullness E toElement) {</a>
-<span class="sourceLineNo">2105</span><a id="line.2105">      return standardHeadSet(toElement);</a>
-<span class="sourceLineNo">2106</span><a id="line.2106">    }</a>
-<span class="sourceLineNo">2107</span><a id="line.2107"></a>
-<span class="sourceLineNo">2108</span><a id="line.2108">    @Override</a>
-<span class="sourceLineNo">2109</span><a id="line.2109">    public NavigableSet&lt;E&gt; tailSet(@ParametricNullness E fromElement, boolean inclusive) {</a>
-<span class="sourceLineNo">2110</span><a id="line.2110">      return forward.headSet(fromElement, inclusive).descendingSet();</a>
-<span class="sourceLineNo">2111</span><a id="line.2111">    }</a>
-<span class="sourceLineNo">2112</span><a id="line.2112"></a>
-<span class="sourceLineNo">2113</span><a id="line.2113">    @Override</a>
-<span class="sourceLineNo">2114</span><a id="line.2114">    public SortedSet&lt;E&gt; tailSet(@ParametricNullness E fromElement) {</a>
-<span class="sourceLineNo">2115</span><a id="line.2115">      return standardTailSet(fromElement);</a>
-<span class="sourceLineNo">2116</span><a id="line.2116">    }</a>
-<span class="sourceLineNo">2117</span><a id="line.2117"></a>
-<span class="sourceLineNo">2118</span><a id="line.2118">    @SuppressWarnings("unchecked")</a>
-<span class="sourceLineNo">2119</span><a id="line.2119">    @Override</a>
-<span class="sourceLineNo">2120</span><a id="line.2120">    public Comparator&lt;? super E&gt; comparator() {</a>
-<span class="sourceLineNo">2121</span><a id="line.2121">      Comparator&lt;? super E&gt; forwardComparator = forward.comparator();</a>
-<span class="sourceLineNo">2122</span><a id="line.2122">      if (forwardComparator == null) {</a>
-<span class="sourceLineNo">2123</span><a id="line.2123">        return (Comparator) Ordering.natural().reverse();</a>
-<span class="sourceLineNo">2124</span><a id="line.2124">      } else {</a>
-<span class="sourceLineNo">2125</span><a id="line.2125">        return reverse(forwardComparator);</a>
-<span class="sourceLineNo">2126</span><a id="line.2126">      }</a>
-<span class="sourceLineNo">2127</span><a id="line.2127">    }</a>
-<span class="sourceLineNo">2128</span><a id="line.2128"></a>
-<span class="sourceLineNo">2129</span><a id="line.2129">    // If we inline this, we get a javac error.</a>
-<span class="sourceLineNo">2130</span><a id="line.2130">    private static &lt;T extends @Nullable Object&gt; Ordering&lt;T&gt; reverse(Comparator&lt;T&gt; forward) {</a>
-<span class="sourceLineNo">2131</span><a id="line.2131">      return Ordering.from(forward).reverse();</a>
-<span class="sourceLineNo">2132</span><a id="line.2132">    }</a>
-<span class="sourceLineNo">2133</span><a id="line.2133"></a>
-<span class="sourceLineNo">2134</span><a id="line.2134">    @Override</a>
-<span class="sourceLineNo">2135</span><a id="line.2135">    @ParametricNullness</a>
-<span class="sourceLineNo">2136</span><a id="line.2136">    public E first() {</a>
-<span class="sourceLineNo">2137</span><a id="line.2137">      return forward.last();</a>
-<span class="sourceLineNo">2138</span><a id="line.2138">    }</a>
-<span class="sourceLineNo">2139</span><a id="line.2139"></a>
-<span class="sourceLineNo">2140</span><a id="line.2140">    @Override</a>
-<span class="sourceLineNo">2141</span><a id="line.2141">    @ParametricNullness</a>
-<span class="sourceLineNo">2142</span><a id="line.2142">    public E last() {</a>
-<span class="sourceLineNo">2143</span><a id="line.2143">      return forward.first();</a>
-<span class="sourceLineNo">2144</span><a id="line.2144">    }</a>
-<span class="sourceLineNo">2145</span><a id="line.2145"></a>
-<span class="sourceLineNo">2146</span><a id="line.2146">    @Override</a>
-<span class="sourceLineNo">2147</span><a id="line.2147">    public Iterator&lt;E&gt; iterator() {</a>
-<span class="sourceLineNo">2148</span><a id="line.2148">      return forward.descendingIterator();</a>
-<span class="sourceLineNo">2149</span><a id="line.2149">    }</a>
-<span class="sourceLineNo">2150</span><a id="line.2150"></a>
-<span class="sourceLineNo">2151</span><a id="line.2151">    @Override</a>
-<span class="sourceLineNo">2152</span><a id="line.2152">    public @Nullable Object[] toArray() {</a>
-<span class="sourceLineNo">2153</span><a id="line.2153">      return standardToArray();</a>
-<span class="sourceLineNo">2154</span><a id="line.2154">    }</a>
-<span class="sourceLineNo">2155</span><a id="line.2155"></a>
-<span class="sourceLineNo">2156</span><a id="line.2156">    @Override</a>
-<span class="sourceLineNo">2157</span><a id="line.2157">    @SuppressWarnings("nullness") // b/192354773 in our checker affects toArray declarations</a>
-<span class="sourceLineNo">2158</span><a id="line.2158">    public &lt;T extends @Nullable Object&gt; T[] toArray(T[] array) {</a>
-<span class="sourceLineNo">2159</span><a id="line.2159">      return standardToArray(array);</a>
-<span class="sourceLineNo">2160</span><a id="line.2160">    }</a>
-<span class="sourceLineNo">2161</span><a id="line.2161"></a>
-<span class="sourceLineNo">2162</span><a id="line.2162">    @Override</a>
-<span class="sourceLineNo">2163</span><a id="line.2163">    public String toString() {</a>
-<span class="sourceLineNo">2164</span><a id="line.2164">      return standardToString();</a>
-<span class="sourceLineNo">2165</span><a id="line.2165">    }</a>
-<span class="sourceLineNo">2166</span><a id="line.2166">  }</a>
-<span class="sourceLineNo">2167</span><a id="line.2167"></a>
-<span class="sourceLineNo">2168</span><a id="line.2168">  /**</a>
-<span class="sourceLineNo">2169</span><a id="line.2169">   * Returns a view of the portion of {@code set} whose elements are contained by {@code range}.</a>
-<span class="sourceLineNo">2170</span><a id="line.2170">   *</a>
-<span class="sourceLineNo">2171</span><a id="line.2171">   * &lt;p&gt;This method delegates to the appropriate methods of {@link NavigableSet} (namely {@link</a>
-<span class="sourceLineNo">2172</span><a id="line.2172">   * NavigableSet#subSet(Object, boolean, Object, boolean) subSet()}, {@link</a>
-<span class="sourceLineNo">2173</span><a id="line.2173">   * NavigableSet#tailSet(Object, boolean) tailSet()}, and {@link NavigableSet#headSet(Object,</a>
-<span class="sourceLineNo">2174</span><a id="line.2174">   * boolean) headSet()}) to actually construct the view. Consult these methods for a full</a>
-<span class="sourceLineNo">2175</span><a id="line.2175">   * description of the returned view's behavior.</a>
-<span class="sourceLineNo">2176</span><a id="line.2176">   *</a>
-<span class="sourceLineNo">2177</span><a id="line.2177">   * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; {@code Range}s always represent a range of values using the values' natural</a>
-<span class="sourceLineNo">2178</span><a id="line.2178">   * ordering. {@code NavigableSet} on the other hand can specify a custom ordering via a {@link</a>
-<span class="sourceLineNo">2179</span><a id="line.2179">   * Comparator}, which can violate the natural ordering. Using this method (or in general using</a>
-<span class="sourceLineNo">2180</span><a id="line.2180">   * {@code Range}) with unnaturally-ordered sets can lead to unexpected and undefined behavior.</a>
-<span class="sourceLineNo">2181</span><a id="line.2181">   *</a>
-<span class="sourceLineNo">2182</span><a id="line.2182">   * @since 20.0</a>
-<span class="sourceLineNo">2183</span><a id="line.2183">   */</a>
-<span class="sourceLineNo">2184</span><a id="line.2184">  @GwtIncompatible // NavigableSet</a>
-<span class="sourceLineNo">2185</span><a id="line.2185">  public static &lt;K extends Comparable&lt;? super K&gt;&gt; NavigableSet&lt;K&gt; subSet(</a>
-<span class="sourceLineNo">2186</span><a id="line.2186">      NavigableSet&lt;K&gt; set, Range&lt;K&gt; range) {</a>
-<span class="sourceLineNo">2187</span><a id="line.2187">    if (set.comparator() != null</a>
-<span class="sourceLineNo">2188</span><a id="line.2188">        &amp;&amp; set.comparator() != Ordering.natural()</a>
-<span class="sourceLineNo">2189</span><a id="line.2189">        &amp;&amp; range.hasLowerBound()</a>
-<span class="sourceLineNo">2190</span><a id="line.2190">        &amp;&amp; range.hasUpperBound()) {</a>
-<span class="sourceLineNo">2191</span><a id="line.2191">      checkArgument(</a>
-<span class="sourceLineNo">2192</span><a id="line.2192">          set.comparator().compare(range.lowerEndpoint(), range.upperEndpoint()) &lt;= 0,</a>
-<span class="sourceLineNo">2193</span><a id="line.2193">          "set is using a custom comparator which is inconsistent with the natural ordering.");</a>
-<span class="sourceLineNo">2194</span><a id="line.2194">    }</a>
-<span class="sourceLineNo">2195</span><a id="line.2195">    if (range.hasLowerBound() &amp;&amp; range.hasUpperBound()) {</a>
-<span class="sourceLineNo">2196</span><a id="line.2196">      return set.subSet(</a>
-<span class="sourceLineNo">2197</span><a id="line.2197">          range.lowerEndpoint(),</a>
-<span class="sourceLineNo">2198</span><a id="line.2198">          range.lowerBoundType() == BoundType.CLOSED,</a>
-<span class="sourceLineNo">2199</span><a id="line.2199">          range.upperEndpoint(),</a>
-<span class="sourceLineNo">2200</span><a id="line.2200">          range.upperBoundType() == BoundType.CLOSED);</a>
-<span class="sourceLineNo">2201</span><a id="line.2201">    } else if (range.hasLowerBound()) {</a>
-<span class="sourceLineNo">2202</span><a id="line.2202">      return set.tailSet(range.lowerEndpoint(), range.lowerBoundType() == BoundType.CLOSED);</a>
-<span class="sourceLineNo">2203</span><a id="line.2203">    } else if (range.hasUpperBound()) {</a>
-<span class="sourceLineNo">2204</span><a id="line.2204">      return set.headSet(range.upperEndpoint(), range.upperBoundType() == BoundType.CLOSED);</a>
-<span class="sourceLineNo">2205</span><a id="line.2205">    }</a>
-<span class="sourceLineNo">2206</span><a id="line.2206">    return checkNotNull(set);</a>
-<span class="sourceLineNo">2207</span><a id="line.2207">  }</a>
-<span class="sourceLineNo">2208</span><a id="line.2208">}</a>
+<span class="sourceLineNo">1992</span><a id="line.1992">  @J2ktIncompatible // Synchronized</a>
+<span class="sourceLineNo">1993</span><a id="line.1993">  public static &lt;E extends @Nullable Object&gt; NavigableSet&lt;E&gt; synchronizedNavigableSet(</a>
+<span class="sourceLineNo">1994</span><a id="line.1994">      NavigableSet&lt;E&gt; navigableSet) {</a>
+<span class="sourceLineNo">1995</span><a id="line.1995">    return Synchronized.navigableSet(navigableSet);</a>
+<span class="sourceLineNo">1996</span><a id="line.1996">  }</a>
+<span class="sourceLineNo">1997</span><a id="line.1997"></a>
+<span class="sourceLineNo">1998</span><a id="line.1998">  /** Remove each element in an iterable from a set. */</a>
+<span class="sourceLineNo">1999</span><a id="line.1999">  static boolean removeAllImpl(Set&lt;?&gt; set, Iterator&lt;?&gt; iterator) {</a>
+<span class="sourceLineNo">2000</span><a id="line.2000">    boolean changed = false;</a>
+<span class="sourceLineNo">2001</span><a id="line.2001">    while (iterator.hasNext()) {</a>
+<span class="sourceLineNo">2002</span><a id="line.2002">      changed |= set.remove(iterator.next());</a>
+<span class="sourceLineNo">2003</span><a id="line.2003">    }</a>
+<span class="sourceLineNo">2004</span><a id="line.2004">    return changed;</a>
+<span class="sourceLineNo">2005</span><a id="line.2005">  }</a>
+<span class="sourceLineNo">2006</span><a id="line.2006"></a>
+<span class="sourceLineNo">2007</span><a id="line.2007">  static boolean removeAllImpl(Set&lt;?&gt; set, Collection&lt;?&gt; collection) {</a>
+<span class="sourceLineNo">2008</span><a id="line.2008">    checkNotNull(collection); // for GWT</a>
+<span class="sourceLineNo">2009</span><a id="line.2009">    if (collection instanceof Multiset) {</a>
+<span class="sourceLineNo">2010</span><a id="line.2010">      collection = ((Multiset&lt;?&gt;) collection).elementSet();</a>
+<span class="sourceLineNo">2011</span><a id="line.2011">    }</a>
+<span class="sourceLineNo">2012</span><a id="line.2012">    /*</a>
+<span class="sourceLineNo">2013</span><a id="line.2013">     * AbstractSet.removeAll(List) has quadratic behavior if the list size</a>
+<span class="sourceLineNo">2014</span><a id="line.2014">     * is just more than the set's size.  We augment the test by</a>
+<span class="sourceLineNo">2015</span><a id="line.2015">     * assuming that sets have fast contains() performance, and other</a>
+<span class="sourceLineNo">2016</span><a id="line.2016">     * collections don't.  See</a>
+<span class="sourceLineNo">2017</span><a id="line.2017">     * http://code.google.com/p/guava-libraries/issues/detail?id=1013</a>
+<span class="sourceLineNo">2018</span><a id="line.2018">     */</a>
+<span class="sourceLineNo">2019</span><a id="line.2019">    if (collection instanceof Set &amp;&amp; collection.size() &gt; set.size()) {</a>
+<span class="sourceLineNo">2020</span><a id="line.2020">      return Iterators.removeAll(set.iterator(), collection);</a>
+<span class="sourceLineNo">2021</span><a id="line.2021">    } else {</a>
+<span class="sourceLineNo">2022</span><a id="line.2022">      return removeAllImpl(set, collection.iterator());</a>
+<span class="sourceLineNo">2023</span><a id="line.2023">    }</a>
+<span class="sourceLineNo">2024</span><a id="line.2024">  }</a>
+<span class="sourceLineNo">2025</span><a id="line.2025"></a>
+<span class="sourceLineNo">2026</span><a id="line.2026">  @GwtIncompatible // NavigableSet</a>
+<span class="sourceLineNo">2027</span><a id="line.2027">  static class DescendingSet&lt;E extends @Nullable Object&gt; extends ForwardingNavigableSet&lt;E&gt; {</a>
+<span class="sourceLineNo">2028</span><a id="line.2028">    private final NavigableSet&lt;E&gt; forward;</a>
+<span class="sourceLineNo">2029</span><a id="line.2029"></a>
+<span class="sourceLineNo">2030</span><a id="line.2030">    DescendingSet(NavigableSet&lt;E&gt; forward) {</a>
+<span class="sourceLineNo">2031</span><a id="line.2031">      this.forward = forward;</a>
+<span class="sourceLineNo">2032</span><a id="line.2032">    }</a>
+<span class="sourceLineNo">2033</span><a id="line.2033"></a>
+<span class="sourceLineNo">2034</span><a id="line.2034">    @Override</a>
+<span class="sourceLineNo">2035</span><a id="line.2035">    protected NavigableSet&lt;E&gt; delegate() {</a>
+<span class="sourceLineNo">2036</span><a id="line.2036">      return forward;</a>
+<span class="sourceLineNo">2037</span><a id="line.2037">    }</a>
+<span class="sourceLineNo">2038</span><a id="line.2038"></a>
+<span class="sourceLineNo">2039</span><a id="line.2039">    @Override</a>
+<span class="sourceLineNo">2040</span><a id="line.2040">    @CheckForNull</a>
+<span class="sourceLineNo">2041</span><a id="line.2041">    public E lower(@ParametricNullness E e) {</a>
+<span class="sourceLineNo">2042</span><a id="line.2042">      return forward.higher(e);</a>
+<span class="sourceLineNo">2043</span><a id="line.2043">    }</a>
+<span class="sourceLineNo">2044</span><a id="line.2044"></a>
+<span class="sourceLineNo">2045</span><a id="line.2045">    @Override</a>
+<span class="sourceLineNo">2046</span><a id="line.2046">    @CheckForNull</a>
+<span class="sourceLineNo">2047</span><a id="line.2047">    public E floor(@ParametricNullness E e) {</a>
+<span class="sourceLineNo">2048</span><a id="line.2048">      return forward.ceiling(e);</a>
+<span class="sourceLineNo">2049</span><a id="line.2049">    }</a>
+<span class="sourceLineNo">2050</span><a id="line.2050"></a>
+<span class="sourceLineNo">2051</span><a id="line.2051">    @Override</a>
+<span class="sourceLineNo">2052</span><a id="line.2052">    @CheckForNull</a>
+<span class="sourceLineNo">2053</span><a id="line.2053">    public E ceiling(@ParametricNullness E e) {</a>
+<span class="sourceLineNo">2054</span><a id="line.2054">      return forward.floor(e);</a>
+<span class="sourceLineNo">2055</span><a id="line.2055">    }</a>
+<span class="sourceLineNo">2056</span><a id="line.2056"></a>
+<span class="sourceLineNo">2057</span><a id="line.2057">    @Override</a>
+<span class="sourceLineNo">2058</span><a id="line.2058">    @CheckForNull</a>
+<span class="sourceLineNo">2059</span><a id="line.2059">    public E higher(@ParametricNullness E e) {</a>
+<span class="sourceLineNo">2060</span><a id="line.2060">      return forward.lower(e);</a>
+<span class="sourceLineNo">2061</span><a id="line.2061">    }</a>
+<span class="sourceLineNo">2062</span><a id="line.2062"></a>
+<span class="sourceLineNo">2063</span><a id="line.2063">    @Override</a>
+<span class="sourceLineNo">2064</span><a id="line.2064">    @CheckForNull</a>
+<span class="sourceLineNo">2065</span><a id="line.2065">    public E pollFirst() {</a>
+<span class="sourceLineNo">2066</span><a id="line.2066">      return forward.pollLast();</a>
+<span class="sourceLineNo">2067</span><a id="line.2067">    }</a>
+<span class="sourceLineNo">2068</span><a id="line.2068"></a>
+<span class="sourceLineNo">2069</span><a id="line.2069">    @Override</a>
+<span class="sourceLineNo">2070</span><a id="line.2070">    @CheckForNull</a>
+<span class="sourceLineNo">2071</span><a id="line.2071">    public E pollLast() {</a>
+<span class="sourceLineNo">2072</span><a id="line.2072">      return forward.pollFirst();</a>
+<span class="sourceLineNo">2073</span><a id="line.2073">    }</a>
+<span class="sourceLineNo">2074</span><a id="line.2074"></a>
+<span class="sourceLineNo">2075</span><a id="line.2075">    @Override</a>
+<span class="sourceLineNo">2076</span><a id="line.2076">    public NavigableSet&lt;E&gt; descendingSet() {</a>
+<span class="sourceLineNo">2077</span><a id="line.2077">      return forward;</a>
+<span class="sourceLineNo">2078</span><a id="line.2078">    }</a>
+<span class="sourceLineNo">2079</span><a id="line.2079"></a>
+<span class="sourceLineNo">2080</span><a id="line.2080">    @Override</a>
+<span class="sourceLineNo">2081</span><a id="line.2081">    public Iterator&lt;E&gt; descendingIterator() {</a>
+<span class="sourceLineNo">2082</span><a id="line.2082">      return forward.iterator();</a>
+<span class="sourceLineNo">2083</span><a id="line.2083">    }</a>
+<span class="sourceLineNo">2084</span><a id="line.2084"></a>
+<span class="sourceLineNo">2085</span><a id="line.2085">    @Override</a>
+<span class="sourceLineNo">2086</span><a id="line.2086">    public NavigableSet&lt;E&gt; subSet(</a>
+<span class="sourceLineNo">2087</span><a id="line.2087">        @ParametricNullness E fromElement,</a>
+<span class="sourceLineNo">2088</span><a id="line.2088">        boolean fromInclusive,</a>
+<span class="sourceLineNo">2089</span><a id="line.2089">        @ParametricNullness E toElement,</a>
+<span class="sourceLineNo">2090</span><a id="line.2090">        boolean toInclusive) {</a>
+<span class="sourceLineNo">2091</span><a id="line.2091">      return forward.subSet(toElement, toInclusive, fromElement, fromInclusive).descendingSet();</a>
+<span class="sourceLineNo">2092</span><a id="line.2092">    }</a>
+<span class="sourceLineNo">2093</span><a id="line.2093"></a>
+<span class="sourceLineNo">2094</span><a id="line.2094">    @Override</a>
+<span class="sourceLineNo">2095</span><a id="line.2095">    public SortedSet&lt;E&gt; subSet(@ParametricNullness E fromElement, @ParametricNullness E toElement) {</a>
+<span class="sourceLineNo">2096</span><a id="line.2096">      return standardSubSet(fromElement, toElement);</a>
+<span class="sourceLineNo">2097</span><a id="line.2097">    }</a>
+<span class="sourceLineNo">2098</span><a id="line.2098"></a>
+<span class="sourceLineNo">2099</span><a id="line.2099">    @Override</a>
+<span class="sourceLineNo">2100</span><a id="line.2100">    public NavigableSet&lt;E&gt; headSet(@ParametricNullness E toElement, boolean inclusive) {</a>
+<span class="sourceLineNo">2101</span><a id="line.2101">      return forward.tailSet(toElement, inclusive).descendingSet();</a>
+<span class="sourceLineNo">2102</span><a id="line.2102">    }</a>
+<span class="sourceLineNo">2103</span><a id="line.2103"></a>
+<span class="sourceLineNo">2104</span><a id="line.2104">    @Override</a>
+<span class="sourceLineNo">2105</span><a id="line.2105">    public SortedSet&lt;E&gt; headSet(@ParametricNullness E toElement) {</a>
+<span class="sourceLineNo">2106</span><a id="line.2106">      return standardHeadSet(toElement);</a>
+<span class="sourceLineNo">2107</span><a id="line.2107">    }</a>
+<span class="sourceLineNo">2108</span><a id="line.2108"></a>
+<span class="sourceLineNo">2109</span><a id="line.2109">    @Override</a>
+<span class="sourceLineNo">2110</span><a id="line.2110">    public NavigableSet&lt;E&gt; tailSet(@ParametricNullness E fromElement, boolean inclusive) {</a>
+<span class="sourceLineNo">2111</span><a id="line.2111">      return forward.headSet(fromElement, inclusive).descendingSet();</a>
+<span class="sourceLineNo">2112</span><a id="line.2112">    }</a>
+<span class="sourceLineNo">2113</span><a id="line.2113"></a>
+<span class="sourceLineNo">2114</span><a id="line.2114">    @Override</a>
+<span class="sourceLineNo">2115</span><a id="line.2115">    public SortedSet&lt;E&gt; tailSet(@ParametricNullness E fromElement) {</a>
+<span class="sourceLineNo">2116</span><a id="line.2116">      return standardTailSet(fromElement);</a>
+<span class="sourceLineNo">2117</span><a id="line.2117">    }</a>
+<span class="sourceLineNo">2118</span><a id="line.2118"></a>
+<span class="sourceLineNo">2119</span><a id="line.2119">    @SuppressWarnings("unchecked")</a>
+<span class="sourceLineNo">2120</span><a id="line.2120">    @Override</a>
+<span class="sourceLineNo">2121</span><a id="line.2121">    public Comparator&lt;? super E&gt; comparator() {</a>
+<span class="sourceLineNo">2122</span><a id="line.2122">      Comparator&lt;? super E&gt; forwardComparator = forward.comparator();</a>
+<span class="sourceLineNo">2123</span><a id="line.2123">      if (forwardComparator == null) {</a>
+<span class="sourceLineNo">2124</span><a id="line.2124">        return (Comparator) Ordering.natural().reverse();</a>
+<span class="sourceLineNo">2125</span><a id="line.2125">      } else {</a>
+<span class="sourceLineNo">2126</span><a id="line.2126">        return reverse(forwardComparator);</a>
+<span class="sourceLineNo">2127</span><a id="line.2127">      }</a>
+<span class="sourceLineNo">2128</span><a id="line.2128">    }</a>
+<span class="sourceLineNo">2129</span><a id="line.2129"></a>
+<span class="sourceLineNo">2130</span><a id="line.2130">    // If we inline this, we get a javac error.</a>
+<span class="sourceLineNo">2131</span><a id="line.2131">    private static &lt;T extends @Nullable Object&gt; Ordering&lt;T&gt; reverse(Comparator&lt;T&gt; forward) {</a>
+<span class="sourceLineNo">2132</span><a id="line.2132">      return Ordering.from(forward).reverse();</a>
+<span class="sourceLineNo">2133</span><a id="line.2133">    }</a>
+<span class="sourceLineNo">2134</span><a id="line.2134"></a>
+<span class="sourceLineNo">2135</span><a id="line.2135">    @Override</a>
+<span class="sourceLineNo">2136</span><a id="line.2136">    @ParametricNullness</a>
+<span class="sourceLineNo">2137</span><a id="line.2137">    public E first() {</a>
+<span class="sourceLineNo">2138</span><a id="line.2138">      return forward.last();</a>
+<span class="sourceLineNo">2139</span><a id="line.2139">    }</a>
+<span class="sourceLineNo">2140</span><a id="line.2140"></a>
+<span class="sourceLineNo">2141</span><a id="line.2141">    @Override</a>
+<span class="sourceLineNo">2142</span><a id="line.2142">    @ParametricNullness</a>
+<span class="sourceLineNo">2143</span><a id="line.2143">    public E last() {</a>
+<span class="sourceLineNo">2144</span><a id="line.2144">      return forward.first();</a>
+<span class="sourceLineNo">2145</span><a id="line.2145">    }</a>
+<span class="sourceLineNo">2146</span><a id="line.2146"></a>
+<span class="sourceLineNo">2147</span><a id="line.2147">    @Override</a>
+<span class="sourceLineNo">2148</span><a id="line.2148">    public Iterator&lt;E&gt; iterator() {</a>
+<span class="sourceLineNo">2149</span><a id="line.2149">      return forward.descendingIterator();</a>
+<span class="sourceLineNo">2150</span><a id="line.2150">    }</a>
+<span class="sourceLineNo">2151</span><a id="line.2151"></a>
+<span class="sourceLineNo">2152</span><a id="line.2152">    @Override</a>
+<span class="sourceLineNo">2153</span><a id="line.2153">    public @Nullable Object[] toArray() {</a>
+<span class="sourceLineNo">2154</span><a id="line.2154">      return standardToArray();</a>
+<span class="sourceLineNo">2155</span><a id="line.2155">    }</a>
+<span class="sourceLineNo">2156</span><a id="line.2156"></a>
+<span class="sourceLineNo">2157</span><a id="line.2157">    @Override</a>
+<span class="sourceLineNo">2158</span><a id="line.2158">    @SuppressWarnings("nullness") // b/192354773 in our checker affects toArray declarations</a>
+<span class="sourceLineNo">2159</span><a id="line.2159">    public &lt;T extends @Nullable Object&gt; T[] toArray(T[] array) {</a>
+<span class="sourceLineNo">2160</span><a id="line.2160">      return standardToArray(array);</a>
+<span class="sourceLineNo">2161</span><a id="line.2161">    }</a>
+<span class="sourceLineNo">2162</span><a id="line.2162"></a>
+<span class="sourceLineNo">2163</span><a id="line.2163">    @Override</a>
+<span class="sourceLineNo">2164</span><a id="line.2164">    public String toString() {</a>
+<span class="sourceLineNo">2165</span><a id="line.2165">      return standardToString();</a>
+<span class="sourceLineNo">2166</span><a id="line.2166">    }</a>
+<span class="sourceLineNo">2167</span><a id="line.2167">  }</a>
+<span class="sourceLineNo">2168</span><a id="line.2168"></a>
+<span class="sourceLineNo">2169</span><a id="line.2169">  /**</a>
+<span class="sourceLineNo">2170</span><a id="line.2170">   * Returns a view of the portion of {@code set} whose elements are contained by {@code range}.</a>
+<span class="sourceLineNo">2171</span><a id="line.2171">   *</a>
+<span class="sourceLineNo">2172</span><a id="line.2172">   * &lt;p&gt;This method delegates to the appropriate methods of {@link NavigableSet} (namely {@link</a>
+<span class="sourceLineNo">2173</span><a id="line.2173">   * NavigableSet#subSet(Object, boolean, Object, boolean) subSet()}, {@link</a>
+<span class="sourceLineNo">2174</span><a id="line.2174">   * NavigableSet#tailSet(Object, boolean) tailSet()}, and {@link NavigableSet#headSet(Object,</a>
+<span class="sourceLineNo">2175</span><a id="line.2175">   * boolean) headSet()}) to actually construct the view. Consult these methods for a full</a>
+<span class="sourceLineNo">2176</span><a id="line.2176">   * description of the returned view's behavior.</a>
+<span class="sourceLineNo">2177</span><a id="line.2177">   *</a>
+<span class="sourceLineNo">2178</span><a id="line.2178">   * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; {@code Range}s always represent a range of values using the values' natural</a>
+<span class="sourceLineNo">2179</span><a id="line.2179">   * ordering. {@code NavigableSet} on the other hand can specify a custom ordering via a {@link</a>
+<span class="sourceLineNo">2180</span><a id="line.2180">   * Comparator}, which can violate the natural ordering. Using this method (or in general using</a>
+<span class="sourceLineNo">2181</span><a id="line.2181">   * {@code Range}) with unnaturally-ordered sets can lead to unexpected and undefined behavior.</a>
+<span class="sourceLineNo">2182</span><a id="line.2182">   *</a>
+<span class="sourceLineNo">2183</span><a id="line.2183">   * @since 20.0</a>
+<span class="sourceLineNo">2184</span><a id="line.2184">   */</a>
+<span class="sourceLineNo">2185</span><a id="line.2185">  @GwtIncompatible // NavigableSet</a>
+<span class="sourceLineNo">2186</span><a id="line.2186">  public static &lt;K extends Comparable&lt;? super K&gt;&gt; NavigableSet&lt;K&gt; subSet(</a>
+<span class="sourceLineNo">2187</span><a id="line.2187">      NavigableSet&lt;K&gt; set, Range&lt;K&gt; range) {</a>
+<span class="sourceLineNo">2188</span><a id="line.2188">    if (set.comparator() != null</a>
+<span class="sourceLineNo">2189</span><a id="line.2189">        &amp;&amp; set.comparator() != Ordering.natural()</a>
+<span class="sourceLineNo">2190</span><a id="line.2190">        &amp;&amp; range.hasLowerBound()</a>
+<span class="sourceLineNo">2191</span><a id="line.2191">        &amp;&amp; range.hasUpperBound()) {</a>
+<span class="sourceLineNo">2192</span><a id="line.2192">      checkArgument(</a>
+<span class="sourceLineNo">2193</span><a id="line.2193">          set.comparator().compare(range.lowerEndpoint(), range.upperEndpoint()) &lt;= 0,</a>
+<span class="sourceLineNo">2194</span><a id="line.2194">          "set is using a custom comparator which is inconsistent with the natural ordering.");</a>
+<span class="sourceLineNo">2195</span><a id="line.2195">    }</a>
+<span class="sourceLineNo">2196</span><a id="line.2196">    if (range.hasLowerBound() &amp;&amp; range.hasUpperBound()) {</a>
+<span class="sourceLineNo">2197</span><a id="line.2197">      return set.subSet(</a>
+<span class="sourceLineNo">2198</span><a id="line.2198">          range.lowerEndpoint(),</a>
+<span class="sourceLineNo">2199</span><a id="line.2199">          range.lowerBoundType() == BoundType.CLOSED,</a>
+<span class="sourceLineNo">2200</span><a id="line.2200">          range.upperEndpoint(),</a>
+<span class="sourceLineNo">2201</span><a id="line.2201">          range.upperBoundType() == BoundType.CLOSED);</a>
+<span class="sourceLineNo">2202</span><a id="line.2202">    } else if (range.hasLowerBound()) {</a>
+<span class="sourceLineNo">2203</span><a id="line.2203">      return set.tailSet(range.lowerEndpoint(), range.lowerBoundType() == BoundType.CLOSED);</a>
+<span class="sourceLineNo">2204</span><a id="line.2204">    } else if (range.hasUpperBound()) {</a>
+<span class="sourceLineNo">2205</span><a id="line.2205">      return set.headSet(range.upperEndpoint(), range.upperBoundType() == BoundType.CLOSED);</a>
+<span class="sourceLineNo">2206</span><a id="line.2206">    }</a>
+<span class="sourceLineNo">2207</span><a id="line.2207">    return checkNotNull(set);</a>
+<span class="sourceLineNo">2208</span><a id="line.2208">  }</a>
+<span class="sourceLineNo">2209</span><a id="line.2209">}</a>
 
 
 
