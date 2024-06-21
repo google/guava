@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.collect.testing.SetTestSuiteBuilder;
 import com.google.common.collect.testing.TestStringSetGenerator;
 import com.google.common.collect.testing.features.CollectionFeature;
@@ -40,17 +42,13 @@ public class SynchronizedSetTest extends TestCase {
 
   public static final Object MUTEX = new Integer(1); // something Serializable
 
-  // TODO(cpovirk): Resolve difference between branches in their choice of mutex:
-  // - The mainline uses `null` (even since the change in cl/99720576 was integrated).
-  // - The backport continued to use MUTEX.
   public static Test suite() {
     return SetTestSuiteBuilder.using(
             new TestStringSetGenerator() {
               @Override
               protected Set<String> create(String[] elements) {
-                TestSet<String> inner = new TestSet<>(new HashSet<String>(), null);
-                Set<String> outer = Synchronized.set(inner, null);
-                inner.mutex = outer;
+                TestSet<String> inner = new TestSet<>(new HashSet<String>(), MUTEX);
+                Set<String> outer = Synchronized.set(inner, inner.mutex);
                 Collections.addAll(outer, elements);
                 return outer;
               }
@@ -66,9 +64,10 @@ public class SynchronizedSetTest extends TestCase {
 
   static class TestSet<E> extends ForwardingSet<E> implements Serializable {
     final Set<E> delegate;
-    public Object mutex;
+    public final Object mutex;
 
-    public TestSet(Set<E> delegate, @Nullable Object mutex) {
+    public TestSet(Set<E> delegate, Object mutex) {
+      checkNotNull(mutex);
       this.delegate = delegate;
       this.mutex = mutex;
     }

@@ -17,6 +17,7 @@
 package com.google.common.testing;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.errorprone.annotations.concurrent.GuardedBy;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -57,6 +58,7 @@ public class TestLogHandler extends Handler {
   private final Object lock = new Object();
 
   /** We will keep a private list of all logged records */
+  @GuardedBy("lock")
   private final List<LogRecord> list = new ArrayList<>();
 
   /** Adds the most recently logged record to our list. */
