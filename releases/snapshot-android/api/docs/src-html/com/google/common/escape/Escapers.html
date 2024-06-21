@@ -174,116 +174,38 @@
 <span class="sourceLineNo">165</span><a id="line.165">  }</a>
 <span class="sourceLineNo">166</span><a id="line.166"></a>
 <span class="sourceLineNo">167</span><a id="line.167">  /**</a>
-<span class="sourceLineNo">168</span><a id="line.168">   * Returns a {@link UnicodeEscaper} equivalent to the given escaper instance. If the escaper is</a>
-<span class="sourceLineNo">169</span><a id="line.169">   * already a UnicodeEscaper then it is simply returned, otherwise it is wrapped in a</a>
-<span class="sourceLineNo">170</span><a id="line.170">   * UnicodeEscaper.</a>
-<span class="sourceLineNo">171</span><a id="line.171">   *</a>
-<span class="sourceLineNo">172</span><a id="line.172">   * &lt;p&gt;When a {@link CharEscaper} escaper is wrapped by this method it acquires extra behavior with</a>
-<span class="sourceLineNo">173</span><a id="line.173">   * respect to the well-formedness of Unicode character sequences and will throw {@link</a>
-<span class="sourceLineNo">174</span><a id="line.174">   * IllegalArgumentException} when given bad input.</a>
-<span class="sourceLineNo">175</span><a id="line.175">   *</a>
-<span class="sourceLineNo">176</span><a id="line.176">   * @param escaper the instance to be wrapped</a>
-<span class="sourceLineNo">177</span><a id="line.177">   * @return a UnicodeEscaper with the same behavior as the given instance</a>
-<span class="sourceLineNo">178</span><a id="line.178">   * @throws NullPointerException if escaper is null</a>
-<span class="sourceLineNo">179</span><a id="line.179">   * @throws IllegalArgumentException if escaper is not a UnicodeEscaper or a CharEscaper</a>
-<span class="sourceLineNo">180</span><a id="line.180">   */</a>
-<span class="sourceLineNo">181</span><a id="line.181">  static UnicodeEscaper asUnicodeEscaper(Escaper escaper) {</a>
-<span class="sourceLineNo">182</span><a id="line.182">    checkNotNull(escaper);</a>
-<span class="sourceLineNo">183</span><a id="line.183">    if (escaper instanceof UnicodeEscaper) {</a>
-<span class="sourceLineNo">184</span><a id="line.184">      return (UnicodeEscaper) escaper;</a>
-<span class="sourceLineNo">185</span><a id="line.185">    } else if (escaper instanceof CharEscaper) {</a>
-<span class="sourceLineNo">186</span><a id="line.186">      return wrap((CharEscaper) escaper);</a>
-<span class="sourceLineNo">187</span><a id="line.187">    }</a>
-<span class="sourceLineNo">188</span><a id="line.188">    // In practice this shouldn't happen because it would be very odd not to</a>
-<span class="sourceLineNo">189</span><a id="line.189">    // extend either CharEscaper or UnicodeEscaper for non-trivial cases.</a>
-<span class="sourceLineNo">190</span><a id="line.190">    throw new IllegalArgumentException(</a>
-<span class="sourceLineNo">191</span><a id="line.191">        "Cannot create a UnicodeEscaper from: " + escaper.getClass().getName());</a>
-<span class="sourceLineNo">192</span><a id="line.192">  }</a>
-<span class="sourceLineNo">193</span><a id="line.193"></a>
-<span class="sourceLineNo">194</span><a id="line.194">  /**</a>
-<span class="sourceLineNo">195</span><a id="line.195">   * Returns a string that would replace the given character in the specified escaper, or {@code</a>
-<span class="sourceLineNo">196</span><a id="line.196">   * null} if no replacement should be made. This method is intended for use in tests through the</a>
-<span class="sourceLineNo">197</span><a id="line.197">   * {@code EscaperAsserts} class; production users of {@link CharEscaper} should limit themselves</a>
-<span class="sourceLineNo">198</span><a id="line.198">   * to its public interface.</a>
-<span class="sourceLineNo">199</span><a id="line.199">   *</a>
-<span class="sourceLineNo">200</span><a id="line.200">   * @param c the character to escape if necessary</a>
-<span class="sourceLineNo">201</span><a id="line.201">   * @return the replacement string, or {@code null} if no escaping was needed</a>
-<span class="sourceLineNo">202</span><a id="line.202">   */</a>
-<span class="sourceLineNo">203</span><a id="line.203">  @CheckForNull</a>
-<span class="sourceLineNo">204</span><a id="line.204">  public static String computeReplacement(CharEscaper escaper, char c) {</a>
-<span class="sourceLineNo">205</span><a id="line.205">    return stringOrNull(escaper.escape(c));</a>
-<span class="sourceLineNo">206</span><a id="line.206">  }</a>
-<span class="sourceLineNo">207</span><a id="line.207"></a>
-<span class="sourceLineNo">208</span><a id="line.208">  /**</a>
-<span class="sourceLineNo">209</span><a id="line.209">   * Returns a string that would replace the given character in the specified escaper, or {@code</a>
-<span class="sourceLineNo">210</span><a id="line.210">   * null} if no replacement should be made. This method is intended for use in tests through the</a>
-<span class="sourceLineNo">211</span><a id="line.211">   * {@code EscaperAsserts} class; production users of {@link UnicodeEscaper} should limit</a>
-<span class="sourceLineNo">212</span><a id="line.212">   * themselves to its public interface.</a>
-<span class="sourceLineNo">213</span><a id="line.213">   *</a>
-<span class="sourceLineNo">214</span><a id="line.214">   * @param cp the Unicode code point to escape if necessary</a>
-<span class="sourceLineNo">215</span><a id="line.215">   * @return the replacement string, or {@code null} if no escaping was needed</a>
-<span class="sourceLineNo">216</span><a id="line.216">   */</a>
-<span class="sourceLineNo">217</span><a id="line.217">  @CheckForNull</a>
-<span class="sourceLineNo">218</span><a id="line.218">  public static String computeReplacement(UnicodeEscaper escaper, int cp) {</a>
-<span class="sourceLineNo">219</span><a id="line.219">    return stringOrNull(escaper.escape(cp));</a>
-<span class="sourceLineNo">220</span><a id="line.220">  }</a>
-<span class="sourceLineNo">221</span><a id="line.221"></a>
-<span class="sourceLineNo">222</span><a id="line.222">  @CheckForNull</a>
-<span class="sourceLineNo">223</span><a id="line.223">  private static String stringOrNull(@CheckForNull char[] in) {</a>
-<span class="sourceLineNo">224</span><a id="line.224">    return (in == null) ? null : new String(in);</a>
-<span class="sourceLineNo">225</span><a id="line.225">  }</a>
-<span class="sourceLineNo">226</span><a id="line.226"></a>
-<span class="sourceLineNo">227</span><a id="line.227">  /** Private helper to wrap a CharEscaper as a UnicodeEscaper. */</a>
-<span class="sourceLineNo">228</span><a id="line.228">  private static UnicodeEscaper wrap(CharEscaper escaper) {</a>
-<span class="sourceLineNo">229</span><a id="line.229">    return new UnicodeEscaper() {</a>
-<span class="sourceLineNo">230</span><a id="line.230">      @Override</a>
-<span class="sourceLineNo">231</span><a id="line.231">      @CheckForNull</a>
-<span class="sourceLineNo">232</span><a id="line.232">      protected char[] escape(int cp) {</a>
-<span class="sourceLineNo">233</span><a id="line.233">        // If a code point maps to a single character, just escape that.</a>
-<span class="sourceLineNo">234</span><a id="line.234">        if (cp &lt; Character.MIN_SUPPLEMENTARY_CODE_POINT) {</a>
-<span class="sourceLineNo">235</span><a id="line.235">          return escaper.escape((char) cp);</a>
-<span class="sourceLineNo">236</span><a id="line.236">        }</a>
-<span class="sourceLineNo">237</span><a id="line.237">        // Convert the code point to a surrogate pair and escape them both.</a>
-<span class="sourceLineNo">238</span><a id="line.238">        // Note: This code path is horribly slow and typically allocates 4 new</a>
-<span class="sourceLineNo">239</span><a id="line.239">        // char[] each time it is invoked. However this avoids any</a>
-<span class="sourceLineNo">240</span><a id="line.240">        // synchronization issues and makes the escaper thread safe.</a>
-<span class="sourceLineNo">241</span><a id="line.241">        char[] surrogateChars = new char[2];</a>
-<span class="sourceLineNo">242</span><a id="line.242">        Character.toChars(cp, surrogateChars, 0);</a>
-<span class="sourceLineNo">243</span><a id="line.243">        char[] hiChars = escaper.escape(surrogateChars[0]);</a>
-<span class="sourceLineNo">244</span><a id="line.244">        char[] loChars = escaper.escape(surrogateChars[1]);</a>
-<span class="sourceLineNo">245</span><a id="line.245"></a>
-<span class="sourceLineNo">246</span><a id="line.246">        // If either hiChars or lowChars are non-null, the CharEscaper is trying</a>
-<span class="sourceLineNo">247</span><a id="line.247">        // to escape the characters of a surrogate pair separately. This is</a>
-<span class="sourceLineNo">248</span><a id="line.248">        // uncommon and applies only to escapers that assume UCS-2 rather than</a>
-<span class="sourceLineNo">249</span><a id="line.249">        // UTF-16. See: http://en.wikipedia.org/wiki/UTF-16/UCS-2</a>
-<span class="sourceLineNo">250</span><a id="line.250">        if (hiChars == null &amp;&amp; loChars == null) {</a>
-<span class="sourceLineNo">251</span><a id="line.251">          // We expect this to be the common code path for most escapers.</a>
-<span class="sourceLineNo">252</span><a id="line.252">          return null;</a>
-<span class="sourceLineNo">253</span><a id="line.253">        }</a>
-<span class="sourceLineNo">254</span><a id="line.254">        // Combine the characters and/or escaped sequences into a single array.</a>
-<span class="sourceLineNo">255</span><a id="line.255">        int hiCount = hiChars != null ? hiChars.length : 1;</a>
-<span class="sourceLineNo">256</span><a id="line.256">        int loCount = loChars != null ? loChars.length : 1;</a>
-<span class="sourceLineNo">257</span><a id="line.257">        char[] output = new char[hiCount + loCount];</a>
-<span class="sourceLineNo">258</span><a id="line.258">        if (hiChars != null) {</a>
-<span class="sourceLineNo">259</span><a id="line.259">          // TODO: Is this faster than System.arraycopy() for small arrays?</a>
-<span class="sourceLineNo">260</span><a id="line.260">          for (int n = 0; n &lt; hiChars.length; ++n) {</a>
-<span class="sourceLineNo">261</span><a id="line.261">            output[n] = hiChars[n];</a>
-<span class="sourceLineNo">262</span><a id="line.262">          }</a>
-<span class="sourceLineNo">263</span><a id="line.263">        } else {</a>
-<span class="sourceLineNo">264</span><a id="line.264">          output[0] = surrogateChars[0];</a>
-<span class="sourceLineNo">265</span><a id="line.265">        }</a>
-<span class="sourceLineNo">266</span><a id="line.266">        if (loChars != null) {</a>
-<span class="sourceLineNo">267</span><a id="line.267">          for (int n = 0; n &lt; loChars.length; ++n) {</a>
-<span class="sourceLineNo">268</span><a id="line.268">            output[hiCount + n] = loChars[n];</a>
-<span class="sourceLineNo">269</span><a id="line.269">          }</a>
-<span class="sourceLineNo">270</span><a id="line.270">        } else {</a>
-<span class="sourceLineNo">271</span><a id="line.271">          output[hiCount] = surrogateChars[1];</a>
-<span class="sourceLineNo">272</span><a id="line.272">        }</a>
-<span class="sourceLineNo">273</span><a id="line.273">        return output;</a>
-<span class="sourceLineNo">274</span><a id="line.274">      }</a>
-<span class="sourceLineNo">275</span><a id="line.275">    };</a>
-<span class="sourceLineNo">276</span><a id="line.276">  }</a>
-<span class="sourceLineNo">277</span><a id="line.277">}</a>
+<span class="sourceLineNo">168</span><a id="line.168">   * Returns a string that would replace the given character in the specified escaper, or {@code</a>
+<span class="sourceLineNo">169</span><a id="line.169">   * null} if no replacement should be made. This method is intended for use in tests through the</a>
+<span class="sourceLineNo">170</span><a id="line.170">   * {@code EscaperAsserts} class; production users of {@link CharEscaper} should limit themselves</a>
+<span class="sourceLineNo">171</span><a id="line.171">   * to its public interface.</a>
+<span class="sourceLineNo">172</span><a id="line.172">   *</a>
+<span class="sourceLineNo">173</span><a id="line.173">   * @param c the character to escape if necessary</a>
+<span class="sourceLineNo">174</span><a id="line.174">   * @return the replacement string, or {@code null} if no escaping was needed</a>
+<span class="sourceLineNo">175</span><a id="line.175">   */</a>
+<span class="sourceLineNo">176</span><a id="line.176">  @CheckForNull</a>
+<span class="sourceLineNo">177</span><a id="line.177">  public static String computeReplacement(CharEscaper escaper, char c) {</a>
+<span class="sourceLineNo">178</span><a id="line.178">    return stringOrNull(escaper.escape(c));</a>
+<span class="sourceLineNo">179</span><a id="line.179">  }</a>
+<span class="sourceLineNo">180</span><a id="line.180"></a>
+<span class="sourceLineNo">181</span><a id="line.181">  /**</a>
+<span class="sourceLineNo">182</span><a id="line.182">   * Returns a string that would replace the given character in the specified escaper, or {@code</a>
+<span class="sourceLineNo">183</span><a id="line.183">   * null} if no replacement should be made. This method is intended for use in tests through the</a>
+<span class="sourceLineNo">184</span><a id="line.184">   * {@code EscaperAsserts} class; production users of {@link UnicodeEscaper} should limit</a>
+<span class="sourceLineNo">185</span><a id="line.185">   * themselves to its public interface.</a>
+<span class="sourceLineNo">186</span><a id="line.186">   *</a>
+<span class="sourceLineNo">187</span><a id="line.187">   * @param cp the Unicode code point to escape if necessary</a>
+<span class="sourceLineNo">188</span><a id="line.188">   * @return the replacement string, or {@code null} if no escaping was needed</a>
+<span class="sourceLineNo">189</span><a id="line.189">   */</a>
+<span class="sourceLineNo">190</span><a id="line.190">  @CheckForNull</a>
+<span class="sourceLineNo">191</span><a id="line.191">  public static String computeReplacement(UnicodeEscaper escaper, int cp) {</a>
+<span class="sourceLineNo">192</span><a id="line.192">    return stringOrNull(escaper.escape(cp));</a>
+<span class="sourceLineNo">193</span><a id="line.193">  }</a>
+<span class="sourceLineNo">194</span><a id="line.194"></a>
+<span class="sourceLineNo">195</span><a id="line.195">  @CheckForNull</a>
+<span class="sourceLineNo">196</span><a id="line.196">  private static String stringOrNull(@CheckForNull char[] in) {</a>
+<span class="sourceLineNo">197</span><a id="line.197">    return (in == null) ? null : new String(in);</a>
+<span class="sourceLineNo">198</span><a id="line.198">  }</a>
+<span class="sourceLineNo">199</span><a id="line.199">}</a>
 
 
 
