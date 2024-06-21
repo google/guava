@@ -426,7 +426,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>getRate</h4>
-<pre class="methodSignature">public final&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line.243">getRate</a>()</pre>
+<pre class="methodSignature">public final&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line.242">getRate</a>()</pre>
 <div class="block">Returns the stable rate (as <code>permits per seconds</code>) with which this <code>RateLimiter</code> is
  configured with. The initial value of this is the same as the <code>permitsPerSecond</code> argument
  passed in the factory method that produced this <code>RateLimiter</code>, and it is only updated
@@ -440,7 +440,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>acquire</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line.260">acquire</a>()</pre>
+public&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line.259">acquire</a>()</pre>
 <div class="block">Acquires a single permit from this <code>RateLimiter</code>, blocking until the request can be
  granted. Tells the amount of time slept, if any.
 
@@ -460,7 +460,7 @@ public&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/
 <li class="blockList">
 <h4>acquire</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line.274">acquire</a>&#8203;(int&nbsp;permits)</pre>
+public&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line.273">acquire</a>&#8203;(int&nbsp;permits)</pre>
 <div class="block">Acquires the given number of permits from this <code>RateLimiter</code>, blocking until the request
  can be granted. Tells the amount of time slept, if any.</div>
 <dl>
@@ -481,7 +481,7 @@ public&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/
 <ul class="blockList">
 <li class="blockList">
 <h4>tryAcquire</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line.306">tryAcquire</a>&#8203;(long&nbsp;timeout,
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line.305">tryAcquire</a>&#8203;(long&nbsp;timeout,
                           java.util.concurrent.TimeUnit&nbsp;unit)</pre>
 <div class="block">Acquires a permit from this <code>RateLimiter</code> if it can be obtained without exceeding the
  specified <code>timeout</code>, or returns <code>false</code> immediately (without waiting) if the permit
@@ -505,7 +505,7 @@ public&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/
 <ul class="blockList">
 <li class="blockList">
 <h4>tryAcquire</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line.321">tryAcquire</a>&#8203;(int&nbsp;permits)</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line.320">tryAcquire</a>&#8203;(int&nbsp;permits)</pre>
 <div class="block">Acquires permits from this <a href="RateLimiter.html" title="class in com.google.common.util.concurrent"><code>RateLimiter</code></a> if it can be acquired immediately without delay.
 
  <p>This method is equivalent to <code>tryAcquire(permits, 0, anyUnit)</code>.</div>
@@ -527,7 +527,7 @@ public&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/
 <ul class="blockList">
 <li class="blockList">
 <h4>tryAcquire</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line.334">tryAcquire</a>()</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line.333">tryAcquire</a>()</pre>
 <div class="block">Acquires a permit from this <a href="RateLimiter.html" title="class in com.google.common.util.concurrent"><code>RateLimiter</code></a> if it can be acquired immediately without
  delay.
 
@@ -546,7 +546,7 @@ public&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/
 <ul class="blockList">
 <li class="blockList">
 <h4>tryAcquire</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line.349">tryAcquire</a>&#8203;(int&nbsp;permits,
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line.348">tryAcquire</a>&#8203;(int&nbsp;permits,
                           long&nbsp;timeout,
                           java.util.concurrent.TimeUnit&nbsp;unit)</pre>
 <div class="block">Acquires the given number of permits from this <code>RateLimiter</code> if it can be obtained
@@ -570,7 +570,7 @@ public&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/
 <ul class="blockListLast">
 <li class="blockList">
 <h4>toString</h4>
-<pre class="methodSignature">public&nbsp;java.lang.String&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line.397">toString</a>()</pre>
+<pre class="methodSignature">public&nbsp;java.lang.String&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line.396">toString</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code>toString</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
