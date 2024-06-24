@@ -379,7 +379,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>ceilingPowerOfTwo</h4>
-<pre class="methodSignature">public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.65">ceilingPowerOfTwo</a>&#8203;(int&nbsp;x)</pre>
+<pre class="methodSignature">public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.63">ceilingPowerOfTwo</a>&#8203;(int&nbsp;x)</pre>
 <div class="block">Returns the smallest power of two greater than or equal to <code>x</code>. This is equivalent to
  <code>checkedPow(2, log2(x, CEILING))</code>.</div>
 <dl>
@@ -398,7 +398,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>floorPowerOfTwo</h4>
-<pre class="methodSignature">public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.80">floorPowerOfTwo</a>&#8203;(int&nbsp;x)</pre>
+<pre class="methodSignature">public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.78">floorPowerOfTwo</a>&#8203;(int&nbsp;x)</pre>
 <div class="block">Returns the largest power of two less than or equal to <code>x</code>. This is equivalent to <code>
  checkedPow(2, log2(x, FLOOR))</code>.</div>
 <dl>
@@ -415,7 +415,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>isPowerOfTwo</h4>
-<pre class="methodSignature">public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.91">isPowerOfTwo</a>&#8203;(int&nbsp;x)</pre>
+<pre class="methodSignature">public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.90">isPowerOfTwo</a>&#8203;(int&nbsp;x)</pre>
 <div class="block">Returns <code>true</code> if <code>x</code> represents a power of two.
 
  <p>This differs from <code>Integer.bitCount(x) == 1</code>, because <code>
@@ -501,7 +501,7 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math
 <ul class="blockList">
 <li class="blockList">
 <h4>divide</h4>
-<pre class="methodSignature">public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.313">divide</a>&#8203;(int&nbsp;p,
+<pre class="methodSignature">public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.314">divide</a>&#8203;(int&nbsp;p,
                          int&nbsp;q,
                          java.math.RoundingMode&nbsp;mode)</pre>
 <div class="block">Returns the result of dividing <code>p</code> by <code>q</code>, rounding using the specified <code>
@@ -519,7 +519,7 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math
 <ul class="blockList">
 <li class="blockList">
 <h4>mod</h4>
-<pre class="methodSignature">public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.388">mod</a>&#8203;(int&nbsp;x,
+<pre class="methodSignature">public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.389">mod</a>&#8203;(int&nbsp;x,
                       int&nbsp;m)</pre>
 <div class="block">Returns <code>x mod m</code>, a non-negative value less than <code>m</code>. This differs from <code>x %
  m</code>, which might be negative.
@@ -548,7 +548,7 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math
 <ul class="blockList">
 <li class="blockList">
 <h4>gcd</h4>
-<pre class="methodSignature">public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.402">gcd</a>&#8203;(int&nbsp;a,
+<pre class="methodSignature">public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.403">gcd</a>&#8203;(int&nbsp;a,
                       int&nbsp;b)</pre>
 <div class="block">Returns the greatest common divisor of <code>a, b</code>. Returns <code>0</code> if <code>a == 0 &amp;&amp; b ==
  0</code>.</div>
@@ -564,7 +564,7 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math
 <ul class="blockList">
 <li class="blockList">
 <h4>checkedAdd</h4>
-<pre class="methodSignature">public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.452">checkedAdd</a>&#8203;(int&nbsp;a,
+<pre class="methodSignature">public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.453">checkedAdd</a>&#8203;(int&nbsp;a,
                              int&nbsp;b)</pre>
 <div class="block">Returns the sum of <code>a</code> and <code>b</code>, provided it does not overflow.</div>
 <dl>
@@ -579,7 +579,7 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math
 <ul class="blockList">
 <li class="blockList">
 <h4>checkedSubtract</h4>
-<pre class="methodSignature">public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.463">checkedSubtract</a>&#8203;(int&nbsp;a,
+<pre class="methodSignature">public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.464">checkedSubtract</a>&#8203;(int&nbsp;a,
                                   int&nbsp;b)</pre>
 <div class="block">Returns the difference of <code>a</code> and <code>b</code>, provided it does not overflow.</div>
 <dl>
@@ -594,7 +594,7 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math
 <ul class="blockList">
 <li class="blockList">
 <h4>checkedMultiply</h4>
-<pre class="methodSignature">public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.474">checkedMultiply</a>&#8203;(int&nbsp;a,
+<pre class="methodSignature">public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.475">checkedMultiply</a>&#8203;(int&nbsp;a,
                                   int&nbsp;b)</pre>
 <div class="block">Returns the product of <code>a</code> and <code>b</code>, provided it does not overflow.</div>
 <dl>
@@ -609,7 +609,7 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math
 <ul class="blockList">
 <li class="blockList">
 <h4>checkedPow</h4>
-<pre class="methodSignature">public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.488">checkedPow</a>&#8203;(int&nbsp;b,
+<pre class="methodSignature">public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.490">checkedPow</a>&#8203;(int&nbsp;b,
                              int&nbsp;k)</pre>
 <div class="block">Returns the <code>b</code> to the <code>k</code>th power, provided it does not overflow.
 
@@ -627,7 +627,7 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math
 <ul class="blockList">
 <li class="blockList">
 <h4>saturatedAdd</h4>
-<pre class="methodSignature">public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.532">saturatedAdd</a>&#8203;(int&nbsp;a,
+<pre class="methodSignature">public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.535">saturatedAdd</a>&#8203;(int&nbsp;a,
                                int&nbsp;b)</pre>
 <div class="block">Returns the sum of <code>a</code> and <code>b</code> unless it would overflow or underflow in which case
  <code>Integer.MAX_VALUE</code> or <code>Integer.MIN_VALUE</code> is returned, respectively.</div>
@@ -643,7 +643,7 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math
 <ul class="blockList">
 <li class="blockList">
 <h4>saturatedSubtract</h4>
-<pre class="methodSignature">public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.542">saturatedSubtract</a>&#8203;(int&nbsp;a,
+<pre class="methodSignature">public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.545">saturatedSubtract</a>&#8203;(int&nbsp;a,
                                     int&nbsp;b)</pre>
 <div class="block">Returns the difference of <code>a</code> and <code>b</code> unless it would overflow or underflow in
  which case <code>Integer.MAX_VALUE</code> or <code>Integer.MIN_VALUE</code> is returned, respectively.</div>
@@ -659,7 +659,7 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math
 <ul class="blockList">
 <li class="blockList">
 <h4>saturatedMultiply</h4>
-<pre class="methodSignature">public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.552">saturatedMultiply</a>&#8203;(int&nbsp;a,
+<pre class="methodSignature">public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.555">saturatedMultiply</a>&#8203;(int&nbsp;a,
                                     int&nbsp;b)</pre>
 <div class="block">Returns the product of <code>a</code> and <code>b</code> unless it would overflow or underflow in which
  case <code>Integer.MAX_VALUE</code> or <code>Integer.MIN_VALUE</code> is returned, respectively.</div>
@@ -675,7 +675,7 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math
 <ul class="blockList">
 <li class="blockList">
 <h4>saturatedPow</h4>
-<pre class="methodSignature">public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.562">saturatedPow</a>&#8203;(int&nbsp;b,
+<pre class="methodSignature">public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.566">saturatedPow</a>&#8203;(int&nbsp;b,
                                int&nbsp;k)</pre>
 <div class="block">Returns the <code>b</code> to the <code>k</code>th power, unless it would overflow or underflow in which
  case <code>Integer.MAX_VALUE</code> or <code>Integer.MIN_VALUE</code> is returned, respectively.</div>
@@ -691,7 +691,7 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math
 <ul class="blockList">
 <li class="blockList">
 <h4>factorial</h4>
-<pre class="methodSignature">public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.616">factorial</a>&#8203;(int&nbsp;n)</pre>
+<pre class="methodSignature">public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.621">factorial</a>&#8203;(int&nbsp;n)</pre>
 <div class="block">Returns <code>n!</code>, that is, the product of the first <code>n</code> positive integers, <code>1</code> if
  <code>n == 0</code>, or <code>Integer.MAX_VALUE</code> if the result does not fit in a <code>int</code>.</div>
 <dl>
@@ -706,7 +706,7 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math
 <ul class="blockList">
 <li class="blockList">
 <h4>binomial</h4>
-<pre class="methodSignature">public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.643">binomial</a>&#8203;(int&nbsp;n,
+<pre class="methodSignature">public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.648">binomial</a>&#8203;(int&nbsp;n,
                            int&nbsp;k)</pre>
 <div class="block">Returns <code>n</code> choose <code>k</code>, also known as the binomial coefficient of <code>n</code> and
  <code>k</code>, or <code>Integer.MAX_VALUE</code> if the result does not fit in an <code>int</code>.</div>
@@ -722,7 +722,7 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math
 <ul class="blockList">
 <li class="blockList">
 <h4>mean</h4>
-<pre class="methodSignature">public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.696">mean</a>&#8203;(int&nbsp;x,
+<pre class="methodSignature">public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.701">mean</a>&#8203;(int&nbsp;x,
                        int&nbsp;y)</pre>
 <div class="block">Returns the arithmetic mean of <code>x</code> and <code>y</code>, rounded towards negative infinity. This
  method is overflow resilient.</div>
@@ -739,7 +739,7 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math
 <li class="blockList">
 <h4>isPrime</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.715">isPrime</a>&#8203;(int&nbsp;n)</pre>
+public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.720">isPrime</a>&#8203;(int&nbsp;n)</pre>
 <div class="block">Returns <code>true</code> if <code>n</code> is a <a href="http://mathworld.wolfram.com/PrimeNumber.html">prime number</a>: an integer <i>greater
  than one</i> that cannot be factored into a product of <i>smaller</i> positive integers.
  Returns <code>false</code> if <code>n</code> is zero, one, or a composite number (one which <i>can</i> be
