@@ -387,7 +387,24 @@ public final class ClosingFuture<V extends @Nullable Object> {
    */
   public static <V extends @Nullable Object> ClosingFuture<V> submit(
       ClosingCallable<V> callable, Executor executor) {
-    return new ClosingFuture<>(callable, executor);
+    checkNotNull(callable);
+    CloseableList closeables = new CloseableList();
+    TrustedListenableFutureTask<V> task =
+        TrustedListenableFutureTask.create(
+            new Callable<V>() {
+              @Override
+              @ParametricNullness
+              public V call() throws Exception {
+                return callable.call(closeables.closer);
+              }
+
+              @Override
+              public String toString() {
+                return callable.toString();
+              }
+            });
+    executor.execute(task);
+    return new ClosingFuture<>(task, closeables);
   }
 
   /**
@@ -399,7 +416,30 @@ public final class ClosingFuture<V extends @Nullable Object> {
    */
   public static <V extends @Nullable Object> ClosingFuture<V> submitAsync(
       AsyncClosingCallable<V> callable, Executor executor) {
-    return new ClosingFuture<>(callable, executor);
+    checkNotNull(callable);
+    CloseableList closeables = new CloseableList();
+    TrustedListenableFutureTask<V> task =
+        TrustedListenableFutureTask.create(
+            new AsyncCallable<V>() {
+              @Override
+              public ListenableFuture<V> call() throws Exception {
+                CloseableList newCloseables = new CloseableList();
+                try {
+                  ClosingFuture<V> closingFuture = callable.call(newCloseables.closer);
+                  closingFuture.becomeSubsumedInto(closeables);
+                  return closingFuture.future;
+                } finally {
+                  closeables.add(newCloseables, directExecutor());
+                }
+              }
+
+              @Override
+              public String toString() {
+                return callable.toString();
+              }
+            });
+    executor.execute(task);
+    return new ClosingFuture<>(task, closeables);
   }
 
   /**
@@ -588,57 +628,16 @@ public final class ClosingFuture<V extends @Nullable Object> {
   }
 
   private final AtomicReference<State> state = new AtomicReference<>(OPEN);
-  private final CloseableList closeables = new CloseableList();
+  private final CloseableList closeables;
   private final FluentFuture<V> future;
 
   private ClosingFuture(ListenableFuture<V> future) {
+    this(future, new CloseableList());
+  }
+
+  private ClosingFuture(ListenableFuture<V> future, CloseableList closeables) {
     this.future = FluentFuture.from(future);
-  }
-
-  private ClosingFuture(final ClosingCallable<V> callable, Executor executor) {
-    checkNotNull(callable);
-    TrustedListenableFutureTask<V> task =
-        TrustedListenableFutureTask.create(
-            new Callable<V>() {
-              @Override
-              @ParametricNullness
-              public V call() throws Exception {
-                return callable.call(closeables.closer);
-              }
-
-              @Override
-              public String toString() {
-                return callable.toString();
-              }
-            });
-    executor.execute(task);
-    this.future = task;
-  }
-
-  private ClosingFuture(final AsyncClosingCallable<V> callable, Executor executor) {
-    checkNotNull(callable);
-    TrustedListenableFutureTask<V> task =
-        TrustedListenableFutureTask.create(
-            new AsyncCallable<V>() {
-              @Override
-              public ListenableFuture<V> call() throws Exception {
-                CloseableList newCloseables = new CloseableList();
-                try {
-                  ClosingFuture<V> closingFuture = callable.call(newCloseables.closer);
-                  closingFuture.becomeSubsumedInto(closeables);
-                  return closingFuture.future;
-                } finally {
-                  closeables.add(newCloseables, directExecutor());
-                }
-              }
-
-              @Override
-              public String toString() {
-                return callable.toString();
-              }
-            });
-    executor.execute(task);
-    this.future = task;
+    this.closeables = closeables;
   }
 
   /**

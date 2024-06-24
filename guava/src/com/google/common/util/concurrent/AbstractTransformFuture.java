@@ -40,7 +40,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 abstract class AbstractTransformFuture<
         I extends @Nullable Object, O extends @Nullable Object, F, T extends @Nullable Object>
     extends FluentFuture.TrustedFuture<O> implements Runnable {
-  static <I extends @Nullable Object, O extends @Nullable Object> ListenableFuture<O> create(
+  static <I extends @Nullable Object, O extends @Nullable Object> ListenableFuture<O> createAsync(
       ListenableFuture<I> input,
       AsyncFunction<? super I, ? extends O> function,
       Executor executor) {

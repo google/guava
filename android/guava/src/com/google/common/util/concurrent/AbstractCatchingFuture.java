@@ -53,7 +53,7 @@ abstract class AbstractCatchingFuture<
     return future;
   }
 
-  static <X extends Throwable, V extends @Nullable Object> ListenableFuture<V> create(
+  static <X extends Throwable, V extends @Nullable Object> ListenableFuture<V> createAsync(
       ListenableFuture<? extends V> input,
       Class<X> exceptionType,
       AsyncFunction<? super X, ? extends V> fallback,
