@@ -32,7 +32,11 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 /** Implementations of {@code Futures.transform*}. */
 @GwtCompatible
 @ElementTypesAreNonnullByDefault
-@SuppressWarnings("nullness") // TODO(b/147136275): Remove once our checker understands & and |.
+@SuppressWarnings({
+  // Whenever both tests are cheap and functional, it's faster to use &, | instead of &&, ||
+  "ShortCircuitBoolean",
+  "nullness", // TODO(b/147136275): Remove once our checker understands & and |.
+})
 abstract class AbstractTransformFuture<
         I extends @Nullable Object, O extends @Nullable Object, F, T extends @Nullable Object>
     extends FluentFuture.TrustedFuture<O> implements Runnable {

@@ -67,7 +67,8 @@ import sun.misc.Unsafe;
  * @since 1.0
  */
 @SuppressWarnings({
-  "ShortCircuitBoolean", // we use non-short circuiting comparisons intentionally
+  // Whenever both tests are cheap and functional, it's faster to use &, | instead of &&, ||
+  "ShortCircuitBoolean",
   "nullness", // TODO(b/147136275): Remove once our checker understands & and |.
 })
 @GwtCompatible(emulated = true)
@@ -75,8 +76,6 @@ import sun.misc.Unsafe;
 @ElementTypesAreNonnullByDefault
 public abstract class AbstractFuture<V extends @Nullable Object> extends InternalFutureFailureAccess
     implements ListenableFuture<V> {
-  // NOTE: Whenever both tests are cheap and functional, it's faster to use &, | instead of &&, ||
-
   static final boolean GENERATE_CANCELLATION_CAUSES;
 
   static {

@@ -49,8 +49,6 @@ import java.math.RoundingMode;
 @GwtCompatible(emulated = true)
 @ElementTypesAreNonnullByDefault
 public final class IntMath {
-  // NOTE: Whenever both tests are cheap and functional, it's faster to use &, | instead of &&, ||
-
   @VisibleForTesting static final int MAX_SIGNED_POWER_OF_TWO = 1 << (Integer.SIZE - 2);
 
   /**
@@ -88,6 +86,8 @@ public final class IntMath {
    * <p>This differs from {@code Integer.bitCount(x) == 1}, because {@code
    * Integer.bitCount(Integer.MIN_VALUE) == 1}, but {@link Integer#MIN_VALUE} is not a power of two.
    */
+  // Whenever both tests are cheap and functional, it's faster to use &, | instead of &&, ||
+  @SuppressWarnings("ShortCircuitBoolean")
   public static boolean isPowerOfTwo(int x) {
     return x > 0 & (x & (x - 1)) == 0;
   }
@@ -310,7 +310,8 @@ public final class IntMath {
    * @throws ArithmeticException if {@code q == 0}, or if {@code mode == UNNECESSARY} and {@code a}
    *     is not an integer multiple of {@code b}
    */
-  @SuppressWarnings("fallthrough")
+  // Whenever both tests are cheap and functional, it's faster to use &, | instead of &&, ||
+  @SuppressWarnings({"fallthrough", "ShortCircuitBoolean"})
   public static int divide(int p, int q, RoundingMode mode) {
     checkNotNull(mode);
     if (q == 0) {
@@ -485,6 +486,8 @@ public final class IntMath {
    * @throws ArithmeticException if {@code b} to the {@code k}th power overflows in signed {@code
    *     int} arithmetic
    */
+  // Whenever both tests are cheap and functional, it's faster to use &, | instead of &&, ||
+  @SuppressWarnings("ShortCircuitBoolean")
   public static int checkedPow(int b, int k) {
     checkNonNegative("exponent", k);
     switch (b) {
@@ -559,6 +562,8 @@ public final class IntMath {
    *
    * @since 20.0
    */
+  // Whenever both tests are cheap and functional, it's faster to use &, | instead of &&, ||
+  @SuppressWarnings("ShortCircuitBoolean")
   public static int saturatedPow(int b, int k) {
     checkNonNegative("exponent", k);
     switch (b) {

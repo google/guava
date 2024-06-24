@@ -50,8 +50,6 @@ import java.math.RoundingMode;
 @GwtCompatible(emulated = true)
 @ElementTypesAreNonnullByDefault
 public final class LongMath {
-  // NOTE: Whenever both tests are cheap and functional, it's faster to use &, | instead of &&, ||
-
   @VisibleForTesting static final long MAX_SIGNED_POWER_OF_TWO = 1L << (Long.SIZE - 2);
 
   /**
@@ -92,6 +90,7 @@ public final class LongMath {
    * <p>This differs from {@code Long.bitCount(x) == 1}, because {@code
    * Long.bitCount(Long.MIN_VALUE) == 1}, but {@link Long#MIN_VALUE} is not a power of two.
    */
+  // Whenever both tests are cheap and functional, it's faster to use &, | instead of &&, ||
   @SuppressWarnings("ShortCircuitBoolean")
   public static boolean isPowerOfTwo(long x) {
     return x > 0 & (x & (x - 1)) == 0;
@@ -536,6 +535,7 @@ public final class LongMath {
    *
    * @throws ArithmeticException if {@code a + b} overflows in signed {@code long} arithmetic
    */
+  // Whenever both tests are cheap and functional, it's faster to use &, | instead of &&, ||
   @SuppressWarnings("ShortCircuitBoolean")
   public static long checkedAdd(long a, long b) {
     long result = a + b;
@@ -549,6 +549,7 @@ public final class LongMath {
    * @throws ArithmeticException if {@code a - b} overflows in signed {@code long} arithmetic
    */
   @GwtIncompatible // TODO
+  // Whenever both tests are cheap and functional, it's faster to use &, | instead of &&, ||
   @SuppressWarnings("ShortCircuitBoolean")
   public static long checkedSubtract(long a, long b) {
     long result = a - b;
@@ -561,6 +562,7 @@ public final class LongMath {
    *
    * @throws ArithmeticException if {@code a * b} overflows in signed {@code long} arithmetic
    */
+  // Whenever both tests are cheap and functional, it's faster to use &, | instead of &&, ||
   @SuppressWarnings("ShortCircuitBoolean")
   public static long checkedMultiply(long a, long b) {
     // Hacker's Delight, Section 2-12
@@ -596,6 +598,7 @@ public final class LongMath {
    *     long} arithmetic
    */
   @GwtIncompatible // TODO
+  // Whenever both tests are cheap and functional, it's faster to use &, | instead of &&, ||
   @SuppressWarnings("ShortCircuitBoolean")
   public static long checkedPow(long b, int k) {
     checkNonNegative("exponent", k);
@@ -644,6 +647,7 @@ public final class LongMath {
    *
    * @since 20.0
    */
+  // Whenever both tests are cheap and functional, it's faster to use &, | instead of &&, ||
   @SuppressWarnings("ShortCircuitBoolean")
   public static long saturatedAdd(long a, long b) {
     long naiveSum = a + b;
@@ -662,6 +666,7 @@ public final class LongMath {
    *
    * @since 20.0
    */
+  // Whenever both tests are cheap and functional, it's faster to use &, | instead of &&, ||
   @SuppressWarnings("ShortCircuitBoolean")
   public static long saturatedSubtract(long a, long b) {
     long naiveDifference = a - b;
@@ -680,6 +685,7 @@ public final class LongMath {
    *
    * @since 20.0
    */
+  // Whenever both tests are cheap and functional, it's faster to use &, | instead of &&, ||
   @SuppressWarnings("ShortCircuitBoolean")
   public static long saturatedMultiply(long a, long b) {
     // see checkedMultiply for explanation
@@ -710,6 +716,7 @@ public final class LongMath {
    *
    * @since 20.0
    */
+  // Whenever both tests are cheap and functional, it's faster to use &, | instead of &&, ||
   @SuppressWarnings("ShortCircuitBoolean")
   public static long saturatedPow(long b, int k) {
     checkNonNegative("exponent", k);

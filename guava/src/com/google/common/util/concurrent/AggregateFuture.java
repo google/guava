@@ -42,6 +42,9 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @GwtCompatible
 @ElementTypesAreNonnullByDefault
+@SuppressWarnings(
+    // Whenever both tests are cheap and functional, it's faster to use &, | instead of &&, ||
+    "ShortCircuitBoolean")
 abstract class AggregateFuture<InputT extends @Nullable Object, OutputT extends @Nullable Object>
     extends AggregateFutureState<OutputT> {
   private static final LazyLogger logger = new LazyLogger(AggregateFuture.class);

@@ -129,6 +129,8 @@ public final class DoubleMath {
    *     </ul>
    */
   @GwtIncompatible // #roundIntermediate
+  // Whenever both tests are cheap and functional, it's faster to use &, | instead of &&, ||
+  @SuppressWarnings("ShortCircuitBoolean")
   public static int roundToInt(double x, RoundingMode mode) {
     double z = roundIntermediate(x, mode);
     checkInRangeForRoundingInputs(
@@ -154,6 +156,8 @@ public final class DoubleMath {
    *     </ul>
    */
   @GwtIncompatible // #roundIntermediate
+  // Whenever both tests are cheap and functional, it's faster to use &, | instead of &&, ||
+  @SuppressWarnings("ShortCircuitBoolean")
   public static long roundToLong(double x, RoundingMode mode) {
     double z = roundIntermediate(x, mode);
     checkInRangeForRoundingInputs(
@@ -181,6 +185,8 @@ public final class DoubleMath {
    */
   // #roundIntermediate, java.lang.Math.getExponent, com.google.common.math.DoubleUtils
   @GwtIncompatible
+  // Whenever both tests are cheap and functional, it's faster to use &, | instead of &&, ||
+  @SuppressWarnings("ShortCircuitBoolean")
   public static BigInteger roundToBigInteger(double x, RoundingMode mode) {
     x = roundIntermediate(x, mode);
     if (MIN_LONG_AS_DOUBLE - x < 1.0 & x < MAX_LONG_AS_DOUBLE_PLUS_ONE) {
@@ -235,7 +241,8 @@ public final class DoubleMath {
    *     infinite
    */
   @GwtIncompatible // java.lang.Math.getExponent, com.google.common.math.DoubleUtils
-  @SuppressWarnings("fallthrough")
+  // Whenever both tests are cheap and functional, it's faster to use &, | instead of &&, ||
+  @SuppressWarnings({"fallthrough", "ShortCircuitBoolean"})
   public static int log2(double x, RoundingMode mode) {
     checkArgument(x > 0.0 && isFinite(x), "x must be positive and finite");
     int exponent = getExponent(x);
