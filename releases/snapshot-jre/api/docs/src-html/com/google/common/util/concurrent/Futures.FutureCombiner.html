@@ -377,7 +377,7 @@
 <span class="sourceLineNo">368</span><a id="line.368">      Class&lt;X&gt; exceptionType,</a>
 <span class="sourceLineNo">369</span><a id="line.369">      AsyncFunction&lt;? super X, ? extends V&gt; fallback,</a>
 <span class="sourceLineNo">370</span><a id="line.370">      Executor executor) {</a>
-<span class="sourceLineNo">371</span><a id="line.371">    return AbstractCatchingFuture.create(input, exceptionType, fallback, executor);</a>
+<span class="sourceLineNo">371</span><a id="line.371">    return AbstractCatchingFuture.createAsync(input, exceptionType, fallback, executor);</a>
 <span class="sourceLineNo">372</span><a id="line.372">  }</a>
 <span class="sourceLineNo">373</span><a id="line.373"></a>
 <span class="sourceLineNo">374</span><a id="line.374">  /**</a>
@@ -461,7 +461,7 @@
 <span class="sourceLineNo">452</span><a id="line.452">          ListenableFuture&lt;I&gt; input,</a>
 <span class="sourceLineNo">453</span><a id="line.453">          AsyncFunction&lt;? super I, ? extends O&gt; function,</a>
 <span class="sourceLineNo">454</span><a id="line.454">          Executor executor) {</a>
-<span class="sourceLineNo">455</span><a id="line.455">    return AbstractTransformFuture.create(input, function, executor);</a>
+<span class="sourceLineNo">455</span><a id="line.455">    return AbstractTransformFuture.createAsync(input, function, executor);</a>
 <span class="sourceLineNo">456</span><a id="line.456">  }</a>
 <span class="sourceLineNo">457</span><a id="line.457"></a>
 <span class="sourceLineNo">458</span><a id="line.458">  /**</a>
