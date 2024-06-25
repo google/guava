@@ -19,7 +19,6 @@ import static com.google.common.base.NullnessCasts.uncheckedCastNullableTToT;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
@@ -259,7 +258,6 @@ public final class Suppliers {
    * @throws IllegalArgumentException if {@code duration} is not positive
    * @since 33.1.0
    */
-  @Beta // only until we're confident that Java 8+ APIs are safe for our Android users
   @J2ktIncompatible
   @GwtIncompatible // java.time.Duration
   @SuppressWarnings("Java7ApiChecker") // no more dangerous that wherever the user got the Duration
