@@ -263,7 +263,7 @@ public final class MoreExecutors {
    *
    * @since 18.0 (present as MoreExecutors.sameThreadExecutor() since 10.0)
    */
-  @GwtIncompatible // TODO
+    @GwtIncompatible // TODO
   public static ListeningExecutorService newDirectExecutorService() {
     return new DirectExecutorService();
   }
@@ -329,7 +329,7 @@ public final class MoreExecutors {
    *
    * @since 18.0
    */
-  public static Executor directExecutor() {
+    public static Executor directExecutor() {
     return DirectExecutor.INSTANCE;
   }
 
@@ -377,7 +377,7 @@ public final class MoreExecutors {
    *
    * @since 23.3 (since 23.1 as {@code sequentialExecutor})
    */
-  @J2ktIncompatible
+    @J2ktIncompatible
   @GwtIncompatible
   public static Executor newSequentialExecutor(Executor delegate) {
     return new SequentialExecutor(delegate);

@@ -60,7 +60,7 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
    *
    * @since 21.0
    */
-  public static <T extends @Nullable Object, K, V>
+    public static <T extends @Nullable Object, K, V>
       Collector<T, ?, ImmutableBiMap<K, V>> toImmutableBiMap(
           Function<? super T, ? extends K> keyFunction,
           Function<? super T, ? extends V> valueFunction) {

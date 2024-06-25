@@ -826,7 +826,7 @@ public final class ClosingFuture<V extends @Nullable Object> {
    * @param function transforms the value of a {@code ClosingFuture} step to a {@link
    *     ListenableFuture} with the value of a derived step
    */
-  public static <V extends @Nullable Object, U extends @Nullable Object>
+    public static <V extends @Nullable Object, U extends @Nullable Object>
       AsyncClosingFunction<V, U> withoutCloser(final AsyncFunction<V, U> function) {
     checkNotNull(function);
     return new AsyncClosingFunction<V, U>() {

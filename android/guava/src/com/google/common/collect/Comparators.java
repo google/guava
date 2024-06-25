@@ -129,7 +129,7 @@ public final class Comparators {
    * @throws IllegalArgumentException if {@code k < 0}
    * @since 33.2.0 (available since 22.0 in guava-jre)
    */
-  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
+    @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
   public static <T extends @Nullable Object> Collector<T, ?, List<T>> least(
       int k, Comparator<? super T> comparator) {
@@ -163,7 +163,7 @@ public final class Comparators {
    * @throws IllegalArgumentException if {@code k < 0}
    * @since 33.2.0 (available since 22.0 in guava-jre)
    */
-  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
+    @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
   public static <T extends @Nullable Object> Collector<T, ?, List<T>> greatest(
       int k, Comparator<? super T> comparator) {
@@ -183,7 +183,7 @@ public final class Comparators {
    * @throws ClassCastException if the parameters are not <i>mutually comparable</i>.
    * @since 30.0
    */
-  public static <T extends Comparable<? super T>> T min(T a, T b) {
+    public static <T extends Comparable<? super T>> T min(T a, T b) {
     return (a.compareTo(b) <= 0) ? a : b;
   }
 
@@ -202,7 +202,7 @@ public final class Comparators {
    *     comparator.
    * @since 30.0
    */
-  @ParametricNullness
+    @ParametricNullness
   public static <T extends @Nullable Object> T min(
       @ParametricNullness T a, @ParametricNullness T b, Comparator<? super T> comparator) {
     return (comparator.compare(a, b) <= 0) ? a : b;
@@ -221,7 +221,7 @@ public final class Comparators {
    * @throws ClassCastException if the parameters are not <i>mutually comparable</i>.
    * @since 30.0
    */
-  public static <T extends Comparable<? super T>> T max(T a, T b) {
+    public static <T extends Comparable<? super T>> T max(T a, T b) {
     return (a.compareTo(b) >= 0) ? a : b;
   }
 
@@ -240,7 +240,7 @@ public final class Comparators {
    *     comparator.
    * @since 30.0
    */
-  @ParametricNullness
+    @ParametricNullness
   public static <T extends @Nullable Object> T max(
       @ParametricNullness T a, @ParametricNullness T b, Comparator<? super T> comparator) {
     return (comparator.compare(a, b) >= 0) ? a : b;

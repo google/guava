@@ -67,7 +67,7 @@ public final class Tables {
    *
    * @since 21.0
    */
-  public static <
+    public static <
           T extends @Nullable Object,
           R extends @Nullable Object,
           C extends @Nullable Object,
@@ -96,7 +96,7 @@ public final class Tables {
    *
    * @since 21.0
    */
-  public static <
+    public static <
           T extends @Nullable Object,
           R extends @Nullable Object,
           C extends @Nullable Object,

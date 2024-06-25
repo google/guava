@@ -78,7 +78,7 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSet.CachingAsList<E
    *
    * @since 21.0
    */
-  public static <E> Collector<E, ?, ImmutableSortedSet<E>> toImmutableSortedSet(
+    public static <E> Collector<E, ?, ImmutableSortedSet<E>> toImmutableSortedSet(
       Comparator<? super E> comparator) {
     return CollectCollectors.toImmutableSortedSet(comparator);
   }

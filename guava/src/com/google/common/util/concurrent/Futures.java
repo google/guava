@@ -131,7 +131,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * getters just return the value. This {@code Future} can't be canceled or timed out and its
    * {@code isDone()} method always returns {@code true}.
    */
-  public static <V extends @Nullable Object> ListenableFuture<V> immediateFuture(
+    public static <V extends @Nullable Object> ListenableFuture<V> immediateFuture(
       @ParametricNullness V value) {
     if (value == null) {
       // This cast is safe because null is assignable to V for all V (i.e. it is bivariant)
@@ -160,7 +160,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * returns {@code true}. Calling {@code get()} will immediately throw the provided {@code
    * Throwable} wrapped in an {@code ExecutionException}.
    */
-  public static <V extends @Nullable Object> ListenableFuture<V> immediateFailedFuture(
+    public static <V extends @Nullable Object> ListenableFuture<V> immediateFailedFuture(
       Throwable throwable) {
     checkNotNull(throwable);
     return new ImmediateFailedFuture<>(throwable);
@@ -173,7 +173,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * @since 14.0
    */
   @SuppressWarnings("unchecked") // ImmediateCancelledFuture can work with any type
-  public static <V extends @Nullable Object> ListenableFuture<V> immediateCancelledFuture() {
+    public static <V extends @Nullable Object> ListenableFuture<V> immediateCancelledFuture() {
     ListenableFuture<Object> instance = ImmediateCancelledFuture.INSTANCE;
     if (instance != null) {
       return (ListenableFuture<V>) instance;

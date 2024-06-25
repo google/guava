@@ -64,7 +64,7 @@ public final class Streams {
    * Returns a sequential {@link Stream} of the contents of {@code iterable}, delegating to {@link
    * Collection#stream} if possible.
    */
-  public static <T extends @Nullable Object> Stream<T> stream(Iterable<T> iterable) {
+    public static <T extends @Nullable Object> Stream<T> stream(Iterable<T> iterable) {
     return (iterable instanceof Collection)
         ? ((Collection<T>) iterable).stream()
         : StreamSupport.stream(iterable.spliterator(), false);
@@ -85,7 +85,7 @@ public final class Streams {
    * Returns a sequential {@link Stream} of the remaining contents of {@code iterator}. Do not use
    * {@code iterator} directly after passing it to this method.
    */
-  public static <T extends @Nullable Object> Stream<T> stream(Iterator<T> iterator) {
+    public static <T extends @Nullable Object> Stream<T> stream(Iterator<T> iterator) {
     return StreamSupport.stream(Spliterators.spliteratorUnknownSize(iterator, 0), false);
   }
 
@@ -93,7 +93,7 @@ public final class Streams {
    * If a value is present in {@code optional}, returns a stream containing only that element,
    * otherwise returns an empty stream.
    */
-  public static <T> Stream<T> stream(com.google.common.base.Optional<T> optional) {
+    public static <T> Stream<T> stream(com.google.common.base.Optional<T> optional) {
     return optional.isPresent() ? Stream.of(optional.get()) : Stream.empty();
   }
 
@@ -104,7 +104,7 @@ public final class Streams {
    * <p><b>Java 9 users:</b> use {@code optional.stream()} instead.
    */
   @Beta
-  @InlineMe(replacement = "optional.stream()")
+    @InlineMe(replacement = "optional.stream()")
   @InlineMeValidationDisabled("Java 9+ API only")
   public static <T> Stream<T> stream(java.util.Optional<T> optional) {
     return optional.isPresent() ? Stream.of(optional.get()) : Stream.empty();
@@ -117,7 +117,7 @@ public final class Streams {
    * <p><b>Java 9 users:</b> use {@code optional.stream()} instead.
    */
   @Beta
-  @InlineMe(replacement = "optional.stream()")
+    @InlineMe(replacement = "optional.stream()")
   @InlineMeValidationDisabled("Java 9+ API only")
   public static IntStream stream(OptionalInt optional) {
     return optional.isPresent() ? IntStream.of(optional.getAsInt()) : IntStream.empty();
@@ -130,7 +130,7 @@ public final class Streams {
    * <p><b>Java 9 users:</b> use {@code optional.stream()} instead.
    */
   @Beta
-  @InlineMe(replacement = "optional.stream()")
+    @InlineMe(replacement = "optional.stream()")
   @InlineMeValidationDisabled("Java 9+ API only")
   public static LongStream stream(OptionalLong optional) {
     return optional.isPresent() ? LongStream.of(optional.getAsLong()) : LongStream.empty();
@@ -143,7 +143,7 @@ public final class Streams {
    * <p><b>Java 9 users:</b> use {@code optional.stream()} instead.
    */
   @Beta
-  @InlineMe(replacement = "optional.stream()")
+    @InlineMe(replacement = "optional.stream()")
   @InlineMeValidationDisabled("Java 9+ API only")
   public static DoubleStream stream(OptionalDouble optional) {
     return optional.isPresent() ? DoubleStream.of(optional.getAsDouble()) : DoubleStream.empty();

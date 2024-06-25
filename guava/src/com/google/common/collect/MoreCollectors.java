@@ -59,7 +59,7 @@ public final class MoreCollectors {
    * @return {@code Optional.of(onlyElement)} if the stream has exactly one element (must not be
    *     {@code null}) and returns {@code Optional.empty()} if it has none.
    */
-  @SuppressWarnings("unchecked")
+    @SuppressWarnings("unchecked")
   public static <T> Collector<T, ?, Optional<T>> toOptional() {
     return (Collector) TO_OPTIONAL;
   }
@@ -82,7 +82,7 @@ public final class MoreCollectors {
    * returned collector throws an {@code IllegalArgumentException} if the stream consists of two or
    * more elements, and a {@code NoSuchElementException} if the stream is empty.
    */
-  @SuppressWarnings("unchecked")
+    @SuppressWarnings("unchecked")
   public static <T extends @Nullable Object> Collector<T, ?, T> onlyElement() {
     return (Collector) ONLY_ELEMENT;
   }

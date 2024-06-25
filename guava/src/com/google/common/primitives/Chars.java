@@ -214,7 +214,7 @@ public final class Chars {
    *     the array
    * @throws IllegalArgumentException if {@code array} is empty
    */
-  public static char min(char... array) {
+    public static char min(char... array) {
     checkArgument(array.length > 0);
     char min = array[0];
     for (int i = 1; i < array.length; i++) {
@@ -233,7 +233,7 @@ public final class Chars {
    *     in the array
    * @throws IllegalArgumentException if {@code array} is empty
    */
-  public static char max(char... array) {
+    public static char max(char... array) {
     checkArgument(array.length > 0);
     char max = array[0];
     for (int i = 1; i < array.length; i++) {
