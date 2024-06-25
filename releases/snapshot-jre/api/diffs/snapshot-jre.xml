@@ -28197,6 +28197,18 @@
  <p>If {@code keys} is a {@link Set}, a live view can be obtained instead of a copy using {@link
  Maps#asMap(Set, Function)}.
 
+ <p><b>Note:</b> on Java 8+, it is usually better to use streams. For example:
+
+ <pre>{@code
+ import static com.google.common.collect.ImmutableMap.toImmutableMap;
+ ...
+ ImmutableMap<Color, String> colorNames =
+     allColors.stream().collect(toImmutableMap(c -> c, c -> c.toString()));
+ }</pre>
+
+ <p>Streams provide a more standard and flexible API and the lambdas make it clear what the keys
+ and values in the map are.
+
  @throws NullPointerException if any element of {@code keys} is {@code null}, or if {@code
      valueFunction} produces {@code null} for any key
  @since 14.0]]>
