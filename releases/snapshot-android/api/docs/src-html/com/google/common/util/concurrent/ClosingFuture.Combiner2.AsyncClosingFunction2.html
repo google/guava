@@ -830,7 +830,7 @@
 <span class="sourceLineNo">821</span><a id="line.821">   * @param function transforms the value of a {@code ClosingFuture} step to a {@link</a>
 <span class="sourceLineNo">822</span><a id="line.822">   *     ListenableFuture} with the value of a derived step</a>
 <span class="sourceLineNo">823</span><a id="line.823">   */</a>
-<span class="sourceLineNo">824</span><a id="line.824">    public static &lt;V extends @Nullable Object, U extends @Nullable Object&gt;</a>
+<span class="sourceLineNo">824</span><a id="line.824">  public static &lt;V extends @Nullable Object, U extends @Nullable Object&gt;</a>
 <span class="sourceLineNo">825</span><a id="line.825">      AsyncClosingFunction&lt;V, U&gt; withoutCloser(final AsyncFunction&lt;V, U&gt; function) {</a>
 <span class="sourceLineNo">826</span><a id="line.826">    checkNotNull(function);</a>
 <span class="sourceLineNo">827</span><a id="line.827">    return new AsyncClosingFunction&lt;V, U&gt;() {</a>

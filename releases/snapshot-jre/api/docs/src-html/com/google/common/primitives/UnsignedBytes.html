@@ -144,7 +144,7 @@
 <span class="sourceLineNo">135</span><a id="line.135">   *     the array according to {@link #compare}</a>
 <span class="sourceLineNo">136</span><a id="line.136">   * @throws IllegalArgumentException if {@code array} is empty</a>
 <span class="sourceLineNo">137</span><a id="line.137">   */</a>
-<span class="sourceLineNo">138</span><a id="line.138">    public static byte min(byte... array) {</a>
+<span class="sourceLineNo">138</span><a id="line.138">  public static byte min(byte... array) {</a>
 <span class="sourceLineNo">139</span><a id="line.139">    checkArgument(array.length &gt; 0);</a>
 <span class="sourceLineNo">140</span><a id="line.140">    int min = toInt(array[0]);</a>
 <span class="sourceLineNo">141</span><a id="line.141">    for (int i = 1; i &lt; array.length; i++) {</a>
@@ -164,7 +164,7 @@
 <span class="sourceLineNo">155</span><a id="line.155">   *     in the array according to {@link #compare}</a>
 <span class="sourceLineNo">156</span><a id="line.156">   * @throws IllegalArgumentException if {@code array} is empty</a>
 <span class="sourceLineNo">157</span><a id="line.157">   */</a>
-<span class="sourceLineNo">158</span><a id="line.158">    public static byte max(byte... array) {</a>
+<span class="sourceLineNo">158</span><a id="line.158">  public static byte max(byte... array) {</a>
 <span class="sourceLineNo">159</span><a id="line.159">    checkArgument(array.length &gt; 0);</a>
 <span class="sourceLineNo">160</span><a id="line.160">    int max = toInt(array[0]);</a>
 <span class="sourceLineNo">161</span><a id="line.161">    for (int i = 1; i &lt; array.length; i++) {</a>

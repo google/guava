@@ -78,7 +78,7 @@
 <span class="sourceLineNo">069</span><a id="line.69">   *</a>
 <span class="sourceLineNo">070</span><a id="line.70">   * @since 21.0</a>
 <span class="sourceLineNo">071</span><a id="line.71">   */</a>
-<span class="sourceLineNo">072</span><a id="line.72">    public static &lt;E&gt; Collector&lt;E, ?, ImmutableMultiset&lt;E&gt;&gt; toImmutableMultiset() {</a>
+<span class="sourceLineNo">072</span><a id="line.72">  public static &lt;E&gt; Collector&lt;E, ?, ImmutableMultiset&lt;E&gt;&gt; toImmutableMultiset() {</a>
 <span class="sourceLineNo">073</span><a id="line.73">    return CollectCollectors.toImmutableMultiset(Function.identity(), e -&gt; 1);</a>
 <span class="sourceLineNo">074</span><a id="line.74">  }</a>
 <span class="sourceLineNo">075</span><a id="line.75"></a>
@@ -93,7 +93,7 @@
 <span class="sourceLineNo">084</span><a id="line.84">   *</a>
 <span class="sourceLineNo">085</span><a id="line.85">   * @since 22.0</a>
 <span class="sourceLineNo">086</span><a id="line.86">   */</a>
-<span class="sourceLineNo">087</span><a id="line.87">    public static &lt;T extends @Nullable Object, E&gt;</a>
+<span class="sourceLineNo">087</span><a id="line.87">  public static &lt;T extends @Nullable Object, E&gt;</a>
 <span class="sourceLineNo">088</span><a id="line.88">      Collector&lt;T, ?, ImmutableMultiset&lt;E&gt;&gt; toImmutableMultiset(</a>
 <span class="sourceLineNo">089</span><a id="line.89">          Function&lt;? super T, ? extends E&gt; elementFunction,</a>
 <span class="sourceLineNo">090</span><a id="line.90">          ToIntFunction&lt;? super T&gt; countFunction) {</a>
