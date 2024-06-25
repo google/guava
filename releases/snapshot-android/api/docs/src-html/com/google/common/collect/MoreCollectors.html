@@ -70,7 +70,7 @@
 <span class="sourceLineNo">061</span><a id="line.61">   * @return {@code Optional.of(onlyElement)} if the stream has exactly one element (must not be</a>
 <span class="sourceLineNo">062</span><a id="line.62">   *     {@code null}) and returns {@code Optional.empty()} if it has none.</a>
 <span class="sourceLineNo">063</span><a id="line.63">   */</a>
-<span class="sourceLineNo">064</span><a id="line.64">  @SuppressWarnings("unchecked")</a>
+<span class="sourceLineNo">064</span><a id="line.64">    @SuppressWarnings("unchecked")</a>
 <span class="sourceLineNo">065</span><a id="line.65">  public static &lt;T&gt; Collector&lt;T, ?, Optional&lt;T&gt;&gt; toOptional() {</a>
 <span class="sourceLineNo">066</span><a id="line.66">    return (Collector) TO_OPTIONAL;</a>
 <span class="sourceLineNo">067</span><a id="line.67">  }</a>
@@ -93,7 +93,7 @@
 <span class="sourceLineNo">084</span><a id="line.84">   * returned collector throws an {@code IllegalArgumentException} if the stream consists of two or</a>
 <span class="sourceLineNo">085</span><a id="line.85">   * more elements, and a {@code NoSuchElementException} if the stream is empty.</a>
 <span class="sourceLineNo">086</span><a id="line.86">   */</a>
-<span class="sourceLineNo">087</span><a id="line.87">  @SuppressWarnings("unchecked")</a>
+<span class="sourceLineNo">087</span><a id="line.87">    @SuppressWarnings("unchecked")</a>
 <span class="sourceLineNo">088</span><a id="line.88">  public static &lt;T extends @Nullable Object&gt; Collector&lt;T, ?, T&gt; onlyElement() {</a>
 <span class="sourceLineNo">089</span><a id="line.89">    return (Collector) ONLY_ELEMENT;</a>
 <span class="sourceLineNo">090</span><a id="line.90">  }</a>

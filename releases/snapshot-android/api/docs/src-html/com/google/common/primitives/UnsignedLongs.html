@@ -95,7 +95,7 @@
 <span class="sourceLineNo">086</span><a id="line.86">   *     the array according to {@link #compare}</a>
 <span class="sourceLineNo">087</span><a id="line.87">   * @throws IllegalArgumentException if {@code array} is empty</a>
 <span class="sourceLineNo">088</span><a id="line.88">   */</a>
-<span class="sourceLineNo">089</span><a id="line.89">  public static long min(long... array) {</a>
+<span class="sourceLineNo">089</span><a id="line.89">    public static long min(long... array) {</a>
 <span class="sourceLineNo">090</span><a id="line.90">    checkArgument(array.length &gt; 0);</a>
 <span class="sourceLineNo">091</span><a id="line.91">    long min = flip(array[0]);</a>
 <span class="sourceLineNo">092</span><a id="line.92">    for (int i = 1; i &lt; array.length; i++) {</a>
@@ -115,7 +115,7 @@
 <span class="sourceLineNo">106</span><a id="line.106">   *     in the array according to {@link #compare}</a>
 <span class="sourceLineNo">107</span><a id="line.107">   * @throws IllegalArgumentException if {@code array} is empty</a>
 <span class="sourceLineNo">108</span><a id="line.108">   */</a>
-<span class="sourceLineNo">109</span><a id="line.109">  public static long max(long... array) {</a>
+<span class="sourceLineNo">109</span><a id="line.109">    public static long max(long... array) {</a>
 <span class="sourceLineNo">110</span><a id="line.110">    checkArgument(array.length &gt; 0);</a>
 <span class="sourceLineNo">111</span><a id="line.111">    long max = flip(array[0]);</a>
 <span class="sourceLineNo">112</span><a id="line.112">    for (int i = 1; i &lt; array.length; i++) {</a>

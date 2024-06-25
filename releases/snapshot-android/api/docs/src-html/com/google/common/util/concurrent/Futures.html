@@ -138,7 +138,7 @@
 <span class="sourceLineNo">129</span><a id="line.129">   * getters just return the value. This {@code Future} can't be canceled or timed out and its</a>
 <span class="sourceLineNo">130</span><a id="line.130">   * {@code isDone()} method always returns {@code true}.</a>
 <span class="sourceLineNo">131</span><a id="line.131">   */</a>
-<span class="sourceLineNo">132</span><a id="line.132">  public static &lt;V extends @Nullable Object&gt; ListenableFuture&lt;V&gt; immediateFuture(</a>
+<span class="sourceLineNo">132</span><a id="line.132">    public static &lt;V extends @Nullable Object&gt; ListenableFuture&lt;V&gt; immediateFuture(</a>
 <span class="sourceLineNo">133</span><a id="line.133">      @ParametricNullness V value) {</a>
 <span class="sourceLineNo">134</span><a id="line.134">    if (value == null) {</a>
 <span class="sourceLineNo">135</span><a id="line.135">      // This cast is safe because null is assignable to V for all V (i.e. it is bivariant)</a>
@@ -167,7 +167,7 @@
 <span class="sourceLineNo">158</span><a id="line.158">   * returns {@code true}. Calling {@code get()} will immediately throw the provided {@code</a>
 <span class="sourceLineNo">159</span><a id="line.159">   * Throwable} wrapped in an {@code ExecutionException}.</a>
 <span class="sourceLineNo">160</span><a id="line.160">   */</a>
-<span class="sourceLineNo">161</span><a id="line.161">  public static &lt;V extends @Nullable Object&gt; ListenableFuture&lt;V&gt; immediateFailedFuture(</a>
+<span class="sourceLineNo">161</span><a id="line.161">    public static &lt;V extends @Nullable Object&gt; ListenableFuture&lt;V&gt; immediateFailedFuture(</a>
 <span class="sourceLineNo">162</span><a id="line.162">      Throwable throwable) {</a>
 <span class="sourceLineNo">163</span><a id="line.163">    checkNotNull(throwable);</a>
 <span class="sourceLineNo">164</span><a id="line.164">    return new ImmediateFailedFuture&lt;&gt;(throwable);</a>
@@ -180,7 +180,7 @@
 <span class="sourceLineNo">171</span><a id="line.171">   * @since 14.0</a>
 <span class="sourceLineNo">172</span><a id="line.172">   */</a>
 <span class="sourceLineNo">173</span><a id="line.173">  @SuppressWarnings("unchecked") // ImmediateCancelledFuture can work with any type</a>
-<span class="sourceLineNo">174</span><a id="line.174">  public static &lt;V extends @Nullable Object&gt; ListenableFuture&lt;V&gt; immediateCancelledFuture() {</a>
+<span class="sourceLineNo">174</span><a id="line.174">    public static &lt;V extends @Nullable Object&gt; ListenableFuture&lt;V&gt; immediateCancelledFuture() {</a>
 <span class="sourceLineNo">175</span><a id="line.175">    ListenableFuture&lt;Object&gt; instance = ImmediateCancelledFuture.INSTANCE;</a>
 <span class="sourceLineNo">176</span><a id="line.176">    if (instance != null) {</a>
 <span class="sourceLineNo">177</span><a id="line.177">      return (ListenableFuture&lt;V&gt;) instance;</a>

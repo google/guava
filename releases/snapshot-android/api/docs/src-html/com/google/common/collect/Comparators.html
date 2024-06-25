@@ -138,7 +138,7 @@
 <span class="sourceLineNo">129</span><a id="line.129">   * @throws IllegalArgumentException if {@code k &lt; 0}</a>
 <span class="sourceLineNo">130</span><a id="line.130">   * @since 33.2.0 (available since 22.0 in guava-jre)</a>
 <span class="sourceLineNo">131</span><a id="line.131">   */</a>
-<span class="sourceLineNo">132</span><a id="line.132">  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})</a>
+<span class="sourceLineNo">132</span><a id="line.132">    @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})</a>
 <span class="sourceLineNo">133</span><a id="line.133">  @IgnoreJRERequirement // Users will use this only if they're already using streams.</a>
 <span class="sourceLineNo">134</span><a id="line.134">  public static &lt;T extends @Nullable Object&gt; Collector&lt;T, ?, List&lt;T&gt;&gt; least(</a>
 <span class="sourceLineNo">135</span><a id="line.135">      int k, Comparator&lt;? super T&gt; comparator) {</a>
@@ -172,7 +172,7 @@
 <span class="sourceLineNo">163</span><a id="line.163">   * @throws IllegalArgumentException if {@code k &lt; 0}</a>
 <span class="sourceLineNo">164</span><a id="line.164">   * @since 33.2.0 (available since 22.0 in guava-jre)</a>
 <span class="sourceLineNo">165</span><a id="line.165">   */</a>
-<span class="sourceLineNo">166</span><a id="line.166">  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})</a>
+<span class="sourceLineNo">166</span><a id="line.166">    @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})</a>
 <span class="sourceLineNo">167</span><a id="line.167">  @IgnoreJRERequirement // Users will use this only if they're already using streams.</a>
 <span class="sourceLineNo">168</span><a id="line.168">  public static &lt;T extends @Nullable Object&gt; Collector&lt;T, ?, List&lt;T&gt;&gt; greatest(</a>
 <span class="sourceLineNo">169</span><a id="line.169">      int k, Comparator&lt;? super T&gt; comparator) {</a>
@@ -192,7 +192,7 @@
 <span class="sourceLineNo">183</span><a id="line.183">   * @throws ClassCastException if the parameters are not &lt;i&gt;mutually comparable&lt;/i&gt;.</a>
 <span class="sourceLineNo">184</span><a id="line.184">   * @since 30.0</a>
 <span class="sourceLineNo">185</span><a id="line.185">   */</a>
-<span class="sourceLineNo">186</span><a id="line.186">  public static &lt;T extends Comparable&lt;? super T&gt;&gt; T min(T a, T b) {</a>
+<span class="sourceLineNo">186</span><a id="line.186">    public static &lt;T extends Comparable&lt;? super T&gt;&gt; T min(T a, T b) {</a>
 <span class="sourceLineNo">187</span><a id="line.187">    return (a.compareTo(b) &lt;= 0) ? a : b;</a>
 <span class="sourceLineNo">188</span><a id="line.188">  }</a>
 <span class="sourceLineNo">189</span><a id="line.189"></a>
@@ -211,7 +211,7 @@
 <span class="sourceLineNo">202</span><a id="line.202">   *     comparator.</a>
 <span class="sourceLineNo">203</span><a id="line.203">   * @since 30.0</a>
 <span class="sourceLineNo">204</span><a id="line.204">   */</a>
-<span class="sourceLineNo">205</span><a id="line.205">  @ParametricNullness</a>
+<span class="sourceLineNo">205</span><a id="line.205">    @ParametricNullness</a>
 <span class="sourceLineNo">206</span><a id="line.206">  public static &lt;T extends @Nullable Object&gt; T min(</a>
 <span class="sourceLineNo">207</span><a id="line.207">      @ParametricNullness T a, @ParametricNullness T b, Comparator&lt;? super T&gt; comparator) {</a>
 <span class="sourceLineNo">208</span><a id="line.208">    return (comparator.compare(a, b) &lt;= 0) ? a : b;</a>
@@ -230,7 +230,7 @@
 <span class="sourceLineNo">221</span><a id="line.221">   * @throws ClassCastException if the parameters are not &lt;i&gt;mutually comparable&lt;/i&gt;.</a>
 <span class="sourceLineNo">222</span><a id="line.222">   * @since 30.0</a>
 <span class="sourceLineNo">223</span><a id="line.223">   */</a>
-<span class="sourceLineNo">224</span><a id="line.224">  public static &lt;T extends Comparable&lt;? super T&gt;&gt; T max(T a, T b) {</a>
+<span class="sourceLineNo">224</span><a id="line.224">    public static &lt;T extends Comparable&lt;? super T&gt;&gt; T max(T a, T b) {</a>
 <span class="sourceLineNo">225</span><a id="line.225">    return (a.compareTo(b) &gt;= 0) ? a : b;</a>
 <span class="sourceLineNo">226</span><a id="line.226">  }</a>
 <span class="sourceLineNo">227</span><a id="line.227"></a>
@@ -249,7 +249,7 @@
 <span class="sourceLineNo">240</span><a id="line.240">   *     comparator.</a>
 <span class="sourceLineNo">241</span><a id="line.241">   * @since 30.0</a>
 <span class="sourceLineNo">242</span><a id="line.242">   */</a>
-<span class="sourceLineNo">243</span><a id="line.243">  @ParametricNullness</a>
+<span class="sourceLineNo">243</span><a id="line.243">    @ParametricNullness</a>
 <span class="sourceLineNo">244</span><a id="line.244">  public static &lt;T extends @Nullable Object&gt; T max(</a>
 <span class="sourceLineNo">245</span><a id="line.245">      @ParametricNullness T a, @ParametricNullness T b, Comparator&lt;? super T&gt; comparator) {</a>
 <span class="sourceLineNo">246</span><a id="line.246">    return (comparator.compare(a, b) &gt;= 0) ? a : b;</a>

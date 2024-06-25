@@ -272,7 +272,7 @@
 <span class="sourceLineNo">263</span><a id="line.263">   *</a>
 <span class="sourceLineNo">264</span><a id="line.264">   * @since 18.0 (present as MoreExecutors.sameThreadExecutor() since 10.0)</a>
 <span class="sourceLineNo">265</span><a id="line.265">   */</a>
-<span class="sourceLineNo">266</span><a id="line.266">  @GwtIncompatible // TODO</a>
+<span class="sourceLineNo">266</span><a id="line.266">    @GwtIncompatible // TODO</a>
 <span class="sourceLineNo">267</span><a id="line.267">  public static ListeningExecutorService newDirectExecutorService() {</a>
 <span class="sourceLineNo">268</span><a id="line.268">    return new DirectExecutorService();</a>
 <span class="sourceLineNo">269</span><a id="line.269">  }</a>
@@ -338,7 +338,7 @@
 <span class="sourceLineNo">329</span><a id="line.329">   *</a>
 <span class="sourceLineNo">330</span><a id="line.330">   * @since 18.0</a>
 <span class="sourceLineNo">331</span><a id="line.331">   */</a>
-<span class="sourceLineNo">332</span><a id="line.332">  public static Executor directExecutor() {</a>
+<span class="sourceLineNo">332</span><a id="line.332">    public static Executor directExecutor() {</a>
 <span class="sourceLineNo">333</span><a id="line.333">    return DirectExecutor.INSTANCE;</a>
 <span class="sourceLineNo">334</span><a id="line.334">  }</a>
 <span class="sourceLineNo">335</span><a id="line.335"></a>
@@ -386,7 +386,7 @@
 <span class="sourceLineNo">377</span><a id="line.377">   *</a>
 <span class="sourceLineNo">378</span><a id="line.378">   * @since 23.3 (since 23.1 as {@code sequentialExecutor})</a>
 <span class="sourceLineNo">379</span><a id="line.379">   */</a>
-<span class="sourceLineNo">380</span><a id="line.380">  @J2ktIncompatible</a>
+<span class="sourceLineNo">380</span><a id="line.380">    @J2ktIncompatible</a>
 <span class="sourceLineNo">381</span><a id="line.381">  @GwtIncompatible</a>
 <span class="sourceLineNo">382</span><a id="line.382">  public static Executor newSequentialExecutor(Executor delegate) {</a>
 <span class="sourceLineNo">383</span><a id="line.383">    return new SequentialExecutor(delegate);</a>
