@@ -81,7 +81,7 @@ public final class Multisets {
    *
    * @since 22.0
    */
-    public static <T extends @Nullable Object, E extends @Nullable Object, M extends Multiset<E>>
+  public static <T extends @Nullable Object, E extends @Nullable Object, M extends Multiset<E>>
       Collector<T, ?, M> toMultiset(
           Function<? super T, E> elementFunction,
           ToIntFunction<? super T> countFunction,

@@ -64,7 +64,7 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V>
    *
    * @since 21.0
    */
-    public static <T extends @Nullable Object, R, C, V>
+  public static <T extends @Nullable Object, R, C, V>
       Collector<T, ?, ImmutableTable<R, C, V>> toImmutableTable(
           Function<? super T, ? extends R> rowFunction,
           Function<? super T, ? extends C> columnFunction,
@@ -83,7 +83,7 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V>
    *
    * @since 21.0
    */
-    public static <T extends @Nullable Object, R, C, V>
+  public static <T extends @Nullable Object, R, C, V>
       Collector<T, ?, ImmutableTable<R, C, V>> toImmutableTable(
           Function<? super T, ? extends R> rowFunction,
           Function<? super T, ? extends C> columnFunction,

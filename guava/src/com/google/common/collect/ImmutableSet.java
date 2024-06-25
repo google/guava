@@ -68,7 +68,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    *
    * @since 21.0
    */
-    public static <E> Collector<E, ?, ImmutableSet<E>> toImmutableSet() {
+  public static <E> Collector<E, ?, ImmutableSet<E>> toImmutableSet() {
     return CollectCollectors.toImmutableSet();
   }
 

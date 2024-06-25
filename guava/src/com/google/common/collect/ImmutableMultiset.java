@@ -69,7 +69,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
    *
    * @since 21.0
    */
-    public static <E> Collector<E, ?, ImmutableMultiset<E>> toImmutableMultiset() {
+  public static <E> Collector<E, ?, ImmutableMultiset<E>> toImmutableMultiset() {
     return CollectCollectors.toImmutableMultiset(Function.identity(), e -> 1);
   }
 
@@ -84,7 +84,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
    *
    * @since 22.0
    */
-    public static <T extends @Nullable Object, E>
+  public static <T extends @Nullable Object, E>
       Collector<T, ?, ImmutableMultiset<E>> toImmutableMultiset(
           Function<? super T, ? extends E> elementFunction,
           ToIntFunction<? super T> countFunction) {

@@ -68,7 +68,7 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableMultiset<E>
    *
    * @since 21.0
    */
-    public static <E> Collector<E, ?, ImmutableSortedMultiset<E>> toImmutableSortedMultiset(
+  public static <E> Collector<E, ?, ImmutableSortedMultiset<E>> toImmutableSortedMultiset(
       Comparator<? super E> comparator) {
     return toImmutableSortedMultiset(comparator, Function.identity(), e -> 1);
   }
@@ -84,7 +84,7 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableMultiset<E>
    *
    * @since 22.0
    */
-    public static <T extends @Nullable Object, E>
+  public static <T extends @Nullable Object, E>
       Collector<T, ?, ImmutableSortedMultiset<E>> toImmutableSortedMultiset(
           Comparator<? super E> comparator,
           Function<? super T, ? extends E> elementFunction,

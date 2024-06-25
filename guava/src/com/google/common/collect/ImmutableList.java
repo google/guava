@@ -73,7 +73,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    *
    * @since 21.0
    */
-    public static <E> Collector<E, ?, ImmutableList<E>> toImmutableList() {
+  public static <E> Collector<E, ?, ImmutableList<E>> toImmutableList() {
     return CollectCollectors.toImmutableList();
   }
 

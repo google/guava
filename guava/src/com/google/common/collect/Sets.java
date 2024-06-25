@@ -149,7 +149,7 @@ public final class Sets {
    *
    * @since 21.0
    */
-    public static <E extends Enum<E>> Collector<E, ?, ImmutableSet<E>> toImmutableEnumSet() {
+  public static <E extends Enum<E>> Collector<E, ?, ImmutableSet<E>> toImmutableEnumSet() {
     return CollectCollectors.toImmutableEnumSet();
   }
 

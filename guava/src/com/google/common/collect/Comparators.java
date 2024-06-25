@@ -130,7 +130,7 @@ public final class Comparators {
    * @throws IllegalArgumentException if {@code k < 0}
    * @since 22.0
    */
-    public static <T extends @Nullable Object> Collector<T, ?, List<T>> least(
+  public static <T extends @Nullable Object> Collector<T, ?, List<T>> least(
       int k, Comparator<? super T> comparator) {
     checkNonnegative(k, "k");
     checkNotNull(comparator);
@@ -162,7 +162,7 @@ public final class Comparators {
    * @throws IllegalArgumentException if {@code k < 0}
    * @since 22.0
    */
-    public static <T extends @Nullable Object> Collector<T, ?, List<T>> greatest(
+  public static <T extends @Nullable Object> Collector<T, ?, List<T>> greatest(
       int k, Comparator<? super T> comparator) {
     return least(k, comparator.reversed());
   }
@@ -206,7 +206,7 @@ public final class Comparators {
    * @throws ClassCastException if the parameters are not <i>mutually comparable</i>.
    * @since 30.0
    */
-    public static <T extends Comparable<? super T>> T min(T a, T b) {
+  public static <T extends Comparable<? super T>> T min(T a, T b) {
     return (a.compareTo(b) <= 0) ? a : b;
   }
 
@@ -225,7 +225,7 @@ public final class Comparators {
    *     comparator.
    * @since 30.0
    */
-    @ParametricNullness
+  @ParametricNullness
   public static <T extends @Nullable Object> T min(
       @ParametricNullness T a, @ParametricNullness T b, Comparator<? super T> comparator) {
     return (comparator.compare(a, b) <= 0) ? a : b;
@@ -244,7 +244,7 @@ public final class Comparators {
    * @throws ClassCastException if the parameters are not <i>mutually comparable</i>.
    * @since 30.0
    */
-    public static <T extends Comparable<? super T>> T max(T a, T b) {
+  public static <T extends Comparable<? super T>> T max(T a, T b) {
     return (a.compareTo(b) >= 0) ? a : b;
   }
 
@@ -263,7 +263,7 @@ public final class Comparators {
    *     comparator.
    * @since 30.0
    */
-    @ParametricNullness
+  @ParametricNullness
   public static <T extends @Nullable Object> T max(
       @ParametricNullness T a, @ParametricNullness T b, Comparator<? super T> comparator) {
     return (comparator.compare(a, b) >= 0) ? a : b;

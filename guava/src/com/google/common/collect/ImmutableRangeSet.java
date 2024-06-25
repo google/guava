@@ -67,7 +67,7 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
    *
    * @since 23.1
    */
-    public static <E extends Comparable<? super E>>
+  public static <E extends Comparable<? super E>>
       Collector<Range<E>, ?, ImmutableRangeSet<E>> toImmutableRangeSet() {
     return CollectCollectors.toImmutableRangeSet();
   }
