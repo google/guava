@@ -345,6 +345,7 @@
           </execution>
         </executions>
       </plugin>
+      <!-- TODO(cpovirk): We really should try tbroyer's plugin instead of this legacy one. -->
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>gwt-maven-plugin</artifactId>
