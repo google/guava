@@ -35,6 +35,7 @@ import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.Writer;
 import java.nio.CharBuffer;
+import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.logging.Logger;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -119,16 +120,21 @@ public class SourceSinkFactories {
   }
 
   public static CharSourceFactory asCharSourceFactory(final ByteSourceFactory factory) {
+    return asCharSourceFactory(factory, Charsets.UTF_8);
+  }
+
+  public static CharSourceFactory asCharSourceFactory(
+      final ByteSourceFactory factory, final Charset charset) {
     checkNotNull(factory);
     return new CharSourceFactory() {
       @Override
       public CharSource createSource(String string) throws IOException {
-        return factory.createSource(string.getBytes(Charsets.UTF_8)).asCharSource(Charsets.UTF_8);
+        return factory.createSource(string.getBytes(charset)).asCharSource(charset);
       }
 
       @Override
       public String getExpected(String data) {
-        return new String(factory.getExpected(data.getBytes(Charsets.UTF_8)), Charsets.UTF_8);
+        return new String(factory.getExpected(data.getBytes(charset)), charset);
       }
 
       @Override

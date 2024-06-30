@@ -18,6 +18,9 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.io.ByteStreams.createBuffer;
 import static com.google.common.io.ByteStreams.skipUpTo;
+import static java.lang.Math.min;
+import static java.nio.charset.StandardCharsets.ISO_8859_1;
+import static java.nio.charset.StandardCharsets.US_ASCII;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
@@ -470,6 +473,26 @@ public abstract class ByteSource {
     }
 
     @Override
+    public Optional<Long> lengthIfKnown() {
+      if (isSingleByteCharset()) {
+        return ByteSource.this.sizeIfKnown();
+      }
+      return Optional.absent();
+    }
+
+    @Override
+    public long length() throws IOException {
+      if (isSingleByteCharset()) {
+        return ByteSource.this.size();
+      }
+      return super.length();
+    }
+
+    private boolean isSingleByteCharset() {
+      return US_ASCII.equals(charset) || ISO_8859_1.equals(charset);
+    }
+
+    @Override
     public Reader openStream() throws IOException {
       return new InputStreamReader(ByteSource.this.openStream(), charset);
     }
@@ -546,7 +569,7 @@ public abstract class ByteSource {
       long maxLength = this.length - offset;
       return maxLength <= 0
           ? ByteSource.empty()
-          : ByteSource.this.slice(this.offset + offset, Math.min(length, maxLength));
+          : ByteSource.this.slice(this.offset + offset, min(length, maxLength));
     }
 
     @Override
@@ -559,8 +582,8 @@ public abstract class ByteSource {
       Optional<Long> optionalUnslicedSize = ByteSource.this.sizeIfKnown();
       if (optionalUnslicedSize.isPresent()) {
         long unslicedSize = optionalUnslicedSize.get();
-        long off = Math.min(offset, unslicedSize);
-        return Optional.of(Math.min(length, unslicedSize - off));
+        long off = min(offset, unslicedSize);
+        return Optional.of(min(length, unslicedSize - off));
       }
       return Optional.absent();
     }
@@ -644,8 +667,8 @@ public abstract class ByteSource {
       checkArgument(offset >= 0, "offset (%s) may not be negative", offset);
       checkArgument(length >= 0, "length (%s) may not be negative", length);
 
-      offset = Math.min(offset, this.length);
-      length = Math.min(length, this.length - offset);
+      offset = min(offset, this.length);
+      length = min(length, this.length - offset);
       int newOffset = this.offset + (int) offset;
       return new ByteArrayByteSource(bytes, newOffset, (int) length);
     }
