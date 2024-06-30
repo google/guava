@@ -41,7 +41,7 @@ import java.util.logging.Logger;
 public class TearDownStack implements TearDownAccepter {
   private static final Logger logger = Logger.getLogger(TearDownStack.class.getName());
 
-  @VisibleForTesting final Object lock = new Object();
+  @VisibleForTesting final J2ktCompatibleMonitor lock = new J2ktCompatibleMonitor();
 
   @GuardedBy("lock")
   final LinkedList<TearDown> stack = new LinkedList<>();

@@ -29,7 +29,7 @@ import java.util.concurrent.TimeUnit;
 final class DirectExecutorService extends AbstractListeningExecutorService {
 
   /** Lock used whenever accessing the state variables (runningTasks, shutdown) of the executor */
-  private final Object lock = new Object();
+  private final J2ktCompatibleMonitor lock = new J2ktCompatibleMonitor();
 
   /*
    * Conceptually, these two variables describe the executor being in
