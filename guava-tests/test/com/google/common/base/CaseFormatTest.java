@@ -16,18 +16,14 @@
 
 package com.google.common.base;
 
-import static com.google.common.base.CaseFormat.LOWER_CAMEL;
-import static com.google.common.base.CaseFormat.LOWER_HYPHEN;
-import static com.google.common.base.CaseFormat.LOWER_UNDERSCORE;
-import static com.google.common.base.CaseFormat.UPPER_CAMEL;
-import static com.google.common.base.CaseFormat.UPPER_UNDERSCORE;
-
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
 import junit.framework.TestCase;
+
+import static com.google.common.base.CaseFormat.*;
 
 /**
  * Unit test for {@link CaseFormat}.
@@ -60,6 +56,59 @@ public class CaseFormatTest extends TestCase {
   public void testLowerHyphenToLowerHyphen() {
     assertEquals("foo", LOWER_HYPHEN.to(LOWER_HYPHEN, "foo"));
     assertEquals("foo-bar", LOWER_HYPHEN.to(LOWER_HYPHEN, "foo-bar"));
+  }
+
+  public void testUpperHyphenToUpperHyphen() {
+    assertEquals("FOO", UPPER_HYPHEN.to(UPPER_HYPHEN, "FOO"));
+    assertEquals("FOO-BAR", UPPER_HYPHEN.to(UPPER_HYPHEN, "FOO-BAR"));
+
+  }
+
+  public void testUpperHyphenToUpperUnderscore() {
+    assertEquals("FOO", UPPER_HYPHEN.to(UPPER_UNDERSCORE, "FOO"));
+    assertEquals("FOO_BAR", UPPER_HYPHEN.to(UPPER_UNDERSCORE, "FOO-BAR"));
+
+  }
+
+  public void testLowerUnderscoreToUpperHyphen() {
+    assertEquals("FOO", LOWER_UNDERSCORE.to(UPPER_HYPHEN, "foo"));
+    assertEquals("FOO-BAR", LOWER_UNDERSCORE.to(UPPER_HYPHEN, "foo_bar"));
+
+  }
+
+  public void testUpperUnderscoreToUpperHyphen() {
+    assertEquals("FOO", UPPER_UNDERSCORE.to(UPPER_HYPHEN, "FOO"));
+    assertEquals("FOO-BAR", UPPER_UNDERSCORE.to(UPPER_HYPHEN, "FOO_BAR"));
+  }
+
+  public void testLowerHyphenToUpperHyphen() {
+    assertEquals("FOO", LOWER_HYPHEN.to(UPPER_HYPHEN, "foo"));
+    assertEquals("FOO-BAR", LOWER_HYPHEN.to(UPPER_HYPHEN, "foo-bar"));
+  }
+
+  public void testUpperHyphenToLowerHyphen() {
+    assertEquals("foo", UPPER_HYPHEN.to(LOWER_HYPHEN, "FOO"));
+    assertEquals("foo-bar", UPPER_HYPHEN.to(LOWER_HYPHEN, "FOO-BAR"));
+  }
+
+  public void testUpperHyphenToLowerCamel() {
+    assertEquals("foo", UPPER_HYPHEN.to(LOWER_CAMEL, "FOO"));
+    assertEquals("fooBar", UPPER_HYPHEN.to(LOWER_CAMEL, "FOO-BAR"));
+  }
+
+  public void testUpperHyphenToUpperCamel() {
+    assertEquals("Foo", UPPER_HYPHEN.to(UPPER_CAMEL, "FOO"));
+    assertEquals("FooBar", UPPER_HYPHEN.to(UPPER_CAMEL, "FOO-BAR"));
+  }
+
+  public void testUpperCamelToUpperHyphen() {
+    assertEquals("FOO", UPPER_CAMEL.to(UPPER_HYPHEN, "Foo"));
+    assertEquals("FOO-BAR", UPPER_CAMEL.to(UPPER_HYPHEN, "FooBar"));
+  }
+
+  public void testLowerCamelToUpperHyphen() {
+    assertEquals("FOO", LOWER_CAMEL.to(UPPER_HYPHEN, "foo"));
+    assertEquals("FOO-BAR", LOWER_CAMEL.to(UPPER_HYPHEN, "fooBar"));
   }
 
   public void testLowerHyphenToLowerUnderscore() {
