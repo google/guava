@@ -19,6 +19,10 @@ import static java.lang.Character.MAX_SURROGATE;
 import static java.lang.Character.MIN_SURROGATE;
 
 import com.google.common.annotations.GwtCompatible;
+import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * Low-level, high-performance utility methods related to the {@linkplain Charsets#UTF_8 UTF-8}
@@ -127,65 +131,81 @@ public final class Utf8 {
     // Look for the first non-ASCII character.
     for (int i = off; i < end; i++) {
       if (bytes[i] < 0) {
-        return isWellFormedSlowPath(bytes, i, end);
+        try {
+          return isWellFormedSlowPath(new ByteArrayInputStream(bytes, i, end));
+        } catch (IOException e) {
+          // ByteArrayInputStream doesn't throw IOException for read and thus it is safe to ignore.
+        }
       }
     }
     return true;
   }
 
-  private static boolean isWellFormedSlowPath(byte[] bytes, int off, int end) {
-    int index = off;
-    while (true) {
-      int byte1;
+  /**
+   * Returns whether the content of the given input stream is a well-formed UTF-8, as defined by
+   * {@link #isWellFormed(byte[])}.
+   *
+   * @param inputStream the input stream to read data from
+   * @throws IOException if a read operation performed on the given {@code inputStream} throwed
+   *     {@code IOException}
+   */
+  public static boolean isWellFormed(InputStream inputStream) throws IOException {
+    BufferedInputStream bufferedInputStream =
+        (inputStream instanceof BufferedInputStream)
+            ? (BufferedInputStream) inputStream
+            : new BufferedInputStream(inputStream);
+    return isWellFormedSlowPath(bufferedInputStream);
+  }
 
+  private static boolean isWellFormedSlowPath(InputStream inputStream) throws IOException {
+    byte[] bytes = new byte[4];
+    while (true) {
       // Optimize for interior runs of ASCII bytes.
       do {
-        if (index >= end) {
+        if (inputStream.read(bytes, 0, 1) == -1) {
           return true;
         }
-      } while ((byte1 = bytes[index++]) >= 0);
+      } while (bytes[0] >= 0);
 
-      if (byte1 < (byte) 0xE0) {
+      if (bytes[0] < (byte) 0xE0) {
         // Two-byte form.
-        if (index == end) {
+        if (inputStream.read(bytes, 1, 1) == -1) {
           return false;
         }
         // Simultaneously check for illegal trailing-byte in leading position
         // and overlong 2-byte form.
-        if (byte1 < (byte) 0xC2 || bytes[index++] > (byte) 0xBF) {
+        if (bytes[0] < (byte) 0xC2 || bytes[1] > (byte) 0xBF) {
           return false;
         }
-      } else if (byte1 < (byte) 0xF0) {
+      } else if (bytes[0] < (byte) 0xF0) {
         // Three-byte form.
-        if (index + 1 >= end) {
+        if (inputStream.read(bytes, 1, 2) == -1) {
           return false;
         }
-        int byte2 = bytes[index++];
-        if (byte2 > (byte) 0xBF
+        if (bytes[1] > (byte) 0xBF
             // Overlong? 5 most significant bits must not all be zero.
-            || (byte1 == (byte) 0xE0 && byte2 < (byte) 0xA0)
+            || (bytes[0] == (byte) 0xE0 && bytes[1] < (byte) 0xA0)
             // Check for illegal surrogate codepoints.
-            || (byte1 == (byte) 0xED && (byte) 0xA0 <= byte2)
+            || (bytes[0] == (byte) 0xED && (byte) 0xA0 <= bytes[1])
             // Third byte trailing-byte test.
-            || bytes[index++] > (byte) 0xBF) {
+            || bytes[2] > (byte) 0xBF) {
           return false;
         }
       } else {
         // Four-byte form.
-        if (index + 2 >= end) {
+        if (inputStream.read(bytes, 1, 3) == -1) {
           return false;
         }
-        int byte2 = bytes[index++];
-        if (byte2 > (byte) 0xBF
+        if (bytes[1] > (byte) 0xBF
             // Check that 1 <= plane <= 16. Tricky optimized form of:
             // if (byte1 > (byte) 0xF4
             //     || byte1 == (byte) 0xF0 && byte2 < (byte) 0x90
             //     || byte1 == (byte) 0xF4 && byte2 > (byte) 0x8F)
-            || (((byte1 << 28) + (byte2 - (byte) 0x90)) >> 30) != 0
+            || (((bytes[0] << 28) + (bytes[1] - (byte) 0x90)) >> 30) != 0
             // Third byte trailing-byte test
-            || bytes[index++] > (byte) 0xBF
+            || bytes[2] > (byte) 0xBF
             // Fourth byte trailing-byte test
-            || bytes[index++] > (byte) 0xBF) {
+            || bytes[3] > (byte) 0xBF) {
           return false;
         }
       }
