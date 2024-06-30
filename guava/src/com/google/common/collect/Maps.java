@@ -1770,7 +1770,6 @@ public final class Maps {
 
     @Override
     @CheckForNull
-    @SuppressWarnings("nullness") // TODO(b/262880368): Remove once we see @NonNull in JDK APIs
     public V merge(
         K key,
         @NonNull V value,
@@ -3693,7 +3692,6 @@ public final class Maps {
 
     @Override
     @CheckForNull
-    @SuppressWarnings("nullness") // TODO(b/262880368): Remove once we see @NonNull in JDK APIs
     public V merge(
         K key,
         @NonNull V value,

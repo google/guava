@@ -1191,7 +1191,6 @@ final class Synchronized {
 
     @Override
     @CheckForNull
-    @SuppressWarnings("nullness") // TODO(b/262880368): Remove once we see @NonNull in JDK APIs
     public V computeIfPresent(
         K key, BiFunction<? super K, ? super @NonNull V, ? extends @Nullable V> remappingFunction) {
       synchronized (mutex) {
@@ -1211,7 +1210,6 @@ final class Synchronized {
 
     @Override
     @CheckForNull
-    @SuppressWarnings("nullness") // TODO(b/262880368): Remove once we see @NonNull in JDK APIs
     public V merge(
         K key,
         @NonNull V value,
