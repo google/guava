@@ -177,7 +177,8 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
       checkEntryNotNull(key, value);
       ImmutableCollection.Builder<V> valuesBuilder = ensureBuilderMapNonNull().get(key);
       if (valuesBuilder == null) {
-        builderMap.put(key, valuesBuilder = newValueCollectionBuilder());
+        valuesBuilder = newValueCollectionBuilder();
+        ensureBuilderMapNonNull().put(key, valuesBuilder);
       }
       valuesBuilder.add(value);
       return this;
@@ -224,7 +225,7 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
       ImmutableCollection.Builder<V> valuesBuilder = ensureBuilderMapNonNull().get(key);
       if (valuesBuilder == null) {
         valuesBuilder = newValueCollectionBuilder();
-        builderMap.put(key, valuesBuilder);
+        ensureBuilderMapNonNull().put(key, valuesBuilder);
       }
       while (valuesItr.hasNext()) {
         V value = valuesItr.next();
