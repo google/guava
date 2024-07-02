@@ -145,7 +145,7 @@
 <span class="sourceLineNo">136</span><a id="line.136">              return openInputStream();</a>
 <span class="sourceLineNo">137</span><a id="line.137">            }</a>
 <span class="sourceLineNo">138</span><a id="line.138"></a>
-<span class="sourceLineNo">139</span><a id="line.139">            @SuppressWarnings("removal") // b/260137033</a>
+<span class="sourceLineNo">139</span><a id="line.139">            @SuppressWarnings({"removal", "Finalize"}) // b/260137033</a>
 <span class="sourceLineNo">140</span><a id="line.140">            @Override</a>
 <span class="sourceLineNo">141</span><a id="line.141">            protected void finalize() {</a>
 <span class="sourceLineNo">142</span><a id="line.142">              try {</a>

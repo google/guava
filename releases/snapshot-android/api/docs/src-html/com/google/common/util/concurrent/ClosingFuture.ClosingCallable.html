@@ -2133,7 +2133,7 @@
 <span class="sourceLineNo">2124</span><a id="line.2124">    return toStringHelper(this).add("state", state.get()).addValue(future).toString();</a>
 <span class="sourceLineNo">2125</span><a id="line.2125">  }</a>
 <span class="sourceLineNo">2126</span><a id="line.2126"></a>
-<span class="sourceLineNo">2127</span><a id="line.2127">  @SuppressWarnings("removal") // b/260137033</a>
+<span class="sourceLineNo">2127</span><a id="line.2127">  @SuppressWarnings({"removal", "Finalize"}) // b/260137033</a>
 <span class="sourceLineNo">2128</span><a id="line.2128">  @Override</a>
 <span class="sourceLineNo">2129</span><a id="line.2129">  protected void finalize() {</a>
 <span class="sourceLineNo">2130</span><a id="line.2130">    if (state.get().equals(OPEN)) {</a>
