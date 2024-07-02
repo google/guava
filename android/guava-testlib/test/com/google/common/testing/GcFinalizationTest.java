@@ -46,6 +46,7 @@ public class GcFinalizationTest extends TestCase {
     final CountDownLatch latch = new CountDownLatch(1);
     Object unused =
         new Object() {
+          @SuppressWarnings({"removal", "Finalize"}) // b/260137033
           @Override
           protected void finalize() {
             latch.countDown();
@@ -60,6 +61,7 @@ public class GcFinalizationTest extends TestCase {
     final SettableFuture<@Nullable Void> future = SettableFuture.create();
     Object unused =
         new Object() {
+          @SuppressWarnings({"removal", "Finalize"}) // b/260137033
           @Override
           protected void finalize() {
             future.set(null);
@@ -75,6 +77,7 @@ public class GcFinalizationTest extends TestCase {
     final SettableFuture<@Nullable Void> future = SettableFuture.create();
     Object unused =
         new Object() {
+          @SuppressWarnings({"removal", "Finalize"}) // b/260137033
           @Override
           protected void finalize() {
             future.cancel(false);
@@ -215,6 +218,7 @@ public class GcFinalizationTest extends TestCase {
     final WeakReference<Object> ref =
         new WeakReference<Object>(
             new Object() {
+              @SuppressWarnings({"removal", "Finalize"}) // b/260137033
               @Override
               protected void finalize() {
                 finalizerRan.countDown();

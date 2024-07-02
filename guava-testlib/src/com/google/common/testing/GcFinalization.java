@@ -229,7 +229,7 @@ public final class GcFinalization {
   private static void createUnreachableLatchFinalizer(CountDownLatch latch) {
     Object unused =
         new Object() {
-          @SuppressWarnings("removal") // b/260137033
+          @SuppressWarnings({"removal", "Finalize"}) // b/260137033
           @Override
           protected void finalize() {
             latch.countDown();
@@ -301,7 +301,7 @@ public final class GcFinalization {
    * @throws RuntimeException if timed out or interrupted while waiting
    * @since 12.0
    */
-  @SuppressWarnings("removal") // b/260137033
+  @SuppressWarnings({"removal", "Finalize"}) // b/260137033
   public static void awaitFullGc() {
     CountDownLatch finalizerRan = new CountDownLatch(1);
     WeakReference<Object> ref =

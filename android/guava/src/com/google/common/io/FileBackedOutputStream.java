@@ -136,7 +136,7 @@ public final class FileBackedOutputStream extends OutputStream {
               return openInputStream();
             }
 
-            @SuppressWarnings("removal") // b/260137033
+            @SuppressWarnings({"removal", "Finalize"}) // b/260137033
             @Override
             protected void finalize() {
               try {

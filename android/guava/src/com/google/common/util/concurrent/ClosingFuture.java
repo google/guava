@@ -2124,7 +2124,7 @@ public final class ClosingFuture<V extends @Nullable Object> {
     return toStringHelper(this).add("state", state.get()).addValue(future).toString();
   }
 
-  @SuppressWarnings("removal") // b/260137033
+  @SuppressWarnings({"removal", "Finalize"}) // b/260137033
   @Override
   protected void finalize() {
     if (state.get().equals(OPEN)) {
