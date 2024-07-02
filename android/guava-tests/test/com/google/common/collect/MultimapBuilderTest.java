@@ -43,19 +43,20 @@ public class MultimapBuilderTest extends TestCase {
   @J2ktIncompatible
   @GwtIncompatible // doesn't build without explicit type parameters on build() methods
   public void testGenerics() {
-    ListMultimap<String, Integer> a = MultimapBuilder.hashKeys().arrayListValues().build();
-    SortedSetMultimap<String, Integer> b = MultimapBuilder.linkedHashKeys().treeSetValues().build();
-    SetMultimap<String, Integer> c =
+    ListMultimap<String, Integer> unusedA = MultimapBuilder.hashKeys().arrayListValues().build();
+    SortedSetMultimap<String, Integer> unusedB =
+        MultimapBuilder.linkedHashKeys().treeSetValues().build();
+    SetMultimap<String, Integer> unusedC =
         MultimapBuilder.treeKeys(String.CASE_INSENSITIVE_ORDER).hashSetValues().build();
   }
 
   public void testGenerics_gwtCompatible() {
-    ListMultimap<String, Integer> a =
+    ListMultimap<String, Integer> unusedA =
         MultimapBuilder.hashKeys().arrayListValues().<String, Integer>build();
-    SortedSetMultimap<String, Integer> b =
+    SortedSetMultimap<String, Integer> unusedB =
         rawtypeToWildcard(MultimapBuilder.linkedHashKeys().treeSetValues())
             .<String, Integer>build();
-    SetMultimap<String, Integer> c =
+    SetMultimap<String, Integer> unusedC =
         MultimapBuilder.treeKeys(String.CASE_INSENSITIVE_ORDER)
             .hashSetValues()
             .<String, Integer>build();

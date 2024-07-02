@@ -45,20 +45,24 @@ public class SplitterBenchmark {
   }
 
   @Benchmark
-  void charSplitter(int reps) {
+  int charSplitter(int reps) {
     int total = 0;
 
     for (int i = 0; i < reps; i++) {
       total += Iterables.size(CHAR_SPLITTER.split(input));
     }
+
+    return total;
   }
 
   @Benchmark
-  void stringSplitter(int reps) {
+  int stringSplitter(int reps) {
     int total = 0;
 
     for (int i = 0; i < reps; i++) {
       total += Iterables.size(STRING_SPLITTER.split(input));
     }
+
+    return total;
   }
 }

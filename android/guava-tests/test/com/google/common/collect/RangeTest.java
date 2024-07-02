@@ -613,7 +613,7 @@ public class RangeTest extends TestCase {
 
   @GwtIncompatible // TODO(b/148207871): Restore once Eclipse compiler no longer flakes for this.
   public void testLegacyComparable() {
-    Range<LegacyComparable> range = Range.closed(LegacyComparable.X, LegacyComparable.Y);
+    Range<LegacyComparable> unused = Range.closed(LegacyComparable.X, LegacyComparable.Y);
   }
 
   private static final DiscreteDomain<Integer> UNBOUNDED_DOMAIN =

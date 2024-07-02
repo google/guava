@@ -187,19 +187,19 @@ public class NullPointerTesterTest extends TestCase {
   }
 
   private static class ThrowsUoe {
-    public static void christenPoodle(String name) {
+    public static void christenPoodle(String unused) {
       throw new UnsupportedOperationException();
     }
   }
 
   private static class ThrowsSomethingElse {
-    public static void christenPoodle(String name) {
+    public static void christenPoodle(String unused) {
       throw new RuntimeException();
     }
   }
 
   private interface InterfaceStaticMethodFailsToCheckNull {
-    static String create(String s) {
+    static String create(String unused) {
       return "I don't check";
     }
   }
@@ -215,7 +215,7 @@ public class NullPointerTesterTest extends TestCase {
       return new InterfaceDefaultMethodFailsToCheckNull() {};
     }
 
-    default void doNotCheckNull(String s) {}
+    default void doNotCheckNull(String unused) {}
   }
 
   private interface InterfaceDefaultMethodChecksNull {
@@ -852,7 +852,7 @@ public class NullPointerTesterTest extends TestCase {
 
   private static class SubclassThatTriesToOverrideBadStaticMethod
       extends ClassThatFailsToThrowForStatic {
-    static void staticOneArg(@Nullable String s) {}
+    static void staticOneArg(String unused) {}
   }
 
   public void testSubclassThatTriesToOverrideBadStaticMethod() {
@@ -860,7 +860,7 @@ public class NullPointerTesterTest extends TestCase {
   }
 
   private static final class HardToCreate {
-    private HardToCreate(HardToCreate x) {}
+    private HardToCreate(String unused) {}
   }
 
   @SuppressWarnings("unused") // used by reflection

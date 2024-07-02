@@ -326,37 +326,37 @@ public class OrderingTest extends TestCase {
     Ordering<Integer> integers = Ordering.explicit(1);
 
     // Like by like equals like
-    Ordering<Number> a = numbers.compound(numbers);
+    Ordering<Number> unusedA = numbers.compound(numbers);
 
     // The compound takes the more specific type of the two, regardless of order
 
-    Ordering<Number> b = numbers.compound(objects);
-    Ordering<Number> c = objects.compound(numbers);
+    Ordering<Number> unusedB = numbers.compound(objects);
+    Ordering<Number> unusedC = objects.compound(numbers);
 
-    Ordering<Integer> d = numbers.compound(integers);
-    Ordering<Integer> e = integers.compound(numbers);
+    Ordering<Integer> unusedD = numbers.compound(integers);
+    Ordering<Integer> unusedE = integers.compound(numbers);
 
     // This works with three levels too (IDEA falsely reports errors as noted
     // below. Both javac and eclipse handle these cases correctly.)
 
-    Ordering<Number> f = numbers.compound(objects).compound(objects); // bad IDEA
-    Ordering<Number> g = objects.compound(numbers).compound(objects);
-    Ordering<Number> h = objects.compound(objects).compound(numbers);
+    Ordering<Number> unusedF = numbers.compound(objects).compound(objects); // bad IDEA
+    Ordering<Number> unusedG = objects.compound(numbers).compound(objects);
+    Ordering<Number> unusedH = objects.compound(objects).compound(numbers);
 
-    Ordering<Number> i = numbers.compound(objects.compound(objects));
-    Ordering<Number> j = objects.compound(numbers.compound(objects)); // bad IDEA
-    Ordering<Number> k = objects.compound(objects.compound(numbers));
+    Ordering<Number> unusedI = numbers.compound(objects.compound(objects));
+    Ordering<Number> unusedJ = objects.compound(numbers.compound(objects)); // bad IDEA
+    Ordering<Number> unusedK = objects.compound(objects.compound(numbers));
 
     // You can also arbitrarily assign a more restricted type - not an intended
     // feature, exactly, but unavoidable (I think) and harmless
-    Ordering<Integer> l = objects.compound(numbers);
+    Ordering<Integer> unusedL = objects.compound(numbers);
 
     // This correctly doesn't work:
-    // Ordering<Object> m = numbers.compound(objects);
+    // Ordering<Object> unusedM = numbers.compound(objects);
 
     // Sadly, the following works in javac 1.6, but at least it fails for
     // eclipse, and is *correctly* highlighted red in IDEA.
-    // Ordering<Object> n = objects.compound(numbers);
+    // Ordering<Object> unusedN = objects.compound(numbers);
   }
 
   public void testReverse() {

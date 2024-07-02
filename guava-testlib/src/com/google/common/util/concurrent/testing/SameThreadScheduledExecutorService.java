@@ -148,11 +148,9 @@ class SameThreadScheduledExecutorService extends AbstractExecutorService
     return new ImmediateScheduledFuture<>(delegateFuture);
   }
 
-  private static class ImmediateScheduledFuture<V> extends SimpleForwardingListenableFuture<V>
+  private static final class ImmediateScheduledFuture<V> extends SimpleForwardingListenableFuture<V>
       implements ListenableScheduledFuture<V> {
-    private ExecutionException exception;
-
-    protected ImmediateScheduledFuture(ListenableFuture<V> future) {
+    ImmediateScheduledFuture(ListenableFuture<V> future) {
       super(future);
     }
 

@@ -44,28 +44,28 @@ public class GcFinalizationTest extends TestCase {
 
   public void testAwait_CountDownLatch() {
     final CountDownLatch latch = new CountDownLatch(1);
-    Object x =
+    Object unused =
         new Object() {
           @Override
           protected void finalize() {
             latch.countDown();
           }
         };
-    x = null; // Hint to the JIT that x is unreachable
+    unused = null; // Hint to the JIT that unused is unreachable
     GcFinalization.await(latch);
     assertEquals(0, latch.getCount());
   }
 
   public void testAwaitDone_Future() {
     final SettableFuture<@Nullable Void> future = SettableFuture.create();
-    Object x =
+    Object unused =
         new Object() {
           @Override
           protected void finalize() {
             future.set(null);
           }
         };
-    x = null; // Hint to the JIT that x is unreachable
+    unused = null; // Hint to the JIT that unused is unreachable
     GcFinalization.awaitDone(future);
     assertTrue(future.isDone());
     assertFalse(future.isCancelled());
@@ -73,14 +73,14 @@ public class GcFinalizationTest extends TestCase {
 
   public void testAwaitDone_Future_Cancel() {
     final SettableFuture<@Nullable Void> future = SettableFuture.create();
-    Object x =
+    Object unused =
         new Object() {
           @Override
           protected void finalize() {
             future.cancel(false);
           }
         };
-    x = null; // Hint to the JIT that x is unreachable
+    unused = null; // Hint to the JIT that unused is unreachable
     GcFinalization.awaitDone(future);
     assertTrue(future.isDone());
     assertTrue(future.isCancelled());

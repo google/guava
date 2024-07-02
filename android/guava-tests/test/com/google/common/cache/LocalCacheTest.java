@@ -1959,7 +1959,7 @@ public class LocalCacheTest extends TestCase {
     table.set(0, entry);
     segment.count = 1;
     assertTrue(segment.removeEntry(entry, hash, RemovalCause.COLLECTED));
-    assertNotificationEnqueued(map, key, value, hash);
+    assertNotificationEnqueued(map, key, value);
     assertTrue(map.removalNotificationQueue.isEmpty());
     assertFalse(segment.accessQueue.contains(entry));
     assertFalse(segment.writeQueue.contains(entry));
@@ -2068,8 +2068,7 @@ public class LocalCacheTest extends TestCase {
     assertTrue(segment.removeLoadingValue(key, hash, valueRef));
   }
 
-  private static <K, V> void assertNotificationEnqueued(
-      LocalCache<K, V> map, K key, V value, int hash) {
+  private static <K, V> void assertNotificationEnqueued(LocalCache<K, V> map, K key, V value) {
     RemovalNotification<K, V> notification = map.removalNotificationQueue.poll();
     assertSame(key, notification.getKey());
     assertSame(value, notification.getValue());
@@ -2595,7 +2594,7 @@ public class LocalCacheTest extends TestCase {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicInstanceMethods(makeLocalCache(createCacheBuilder()));
     CacheLoader<Object, Object> loader = identityLoader();
-    tester.testAllPublicInstanceMethods(makeLocalCache(createCacheBuilder()));
+    tester.testAllPublicInstanceMethods(makeLocalCache(createCacheBuilder(), loader));
   }
 
   public void testSerializationProxyLoading() {

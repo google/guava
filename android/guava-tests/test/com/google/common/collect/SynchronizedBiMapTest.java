@@ -79,7 +79,6 @@ public class SynchronizedBiMapTest extends SynchronizedMapTest {
   public static final class SynchronizedHashBiMapGenerator extends TestStringBiMapGenerator {
     @Override
     protected BiMap<String, String> create(Entry<String, String>[] entries) {
-      Object mutex = new Object();
       BiMap<String, String> result = HashBiMap.create();
       for (Entry<String, String> entry : entries) {
         checkArgument(!result.containsKey(entry.getKey()));

@@ -86,7 +86,7 @@ public class ComparatorsTest extends TestCase {
     Helpers.testComparator(comparator, empty, z, abc);
 
     // Just demonstrate that no explicit type parameter is required
-    comparator = Comparators.emptiesFirst(naturalOrder());
+    Comparator<Optional<String>> unused = Comparators.emptiesFirst(naturalOrder());
   }
 
   public void testEmptiesLast() {
@@ -98,7 +98,7 @@ public class ComparatorsTest extends TestCase {
     Helpers.testComparator(comparator, z, abc, empty);
 
     // Just demonstrate that no explicit type parameter is required
-    comparator = Comparators.emptiesLast(naturalOrder());
+    Comparator<Optional<String>> unused = Comparators.emptiesLast(naturalOrder());
   }
 
   public void testMinMaxNatural() {

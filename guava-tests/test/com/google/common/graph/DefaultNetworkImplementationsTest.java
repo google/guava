@@ -109,8 +109,7 @@ public final class DefaultNetworkImplementationsTest {
     network.addNode(N1);
     network.addNode(N2);
     Set<String> edgesConnecting = network.edgesConnecting(N1, N2);
-    UnsupportedOperationException e =
-        assertThrows(UnsupportedOperationException.class, () -> edgesConnecting.add(E23));
+    assertThrows(UnsupportedOperationException.class, () -> edgesConnecting.add(E23));
     network.addEdge(N1, N2, E12);
     assertThat(networkForTest.edgesConnecting(N1, N2)).containsExactlyElementsIn(edgesConnecting);
   }

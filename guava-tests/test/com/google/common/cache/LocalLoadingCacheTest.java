@@ -124,7 +124,6 @@ public class LocalLoadingCacheTest extends TestCase {
     assertEquals(3.0 / 4, stats.missRate());
     assertEquals(3, stats.loadCount());
     assertTrue(stats.totalLoadTime() >= totalLoadTime);
-    totalLoadTime = stats.totalLoadTime();
     assertTrue(stats.averageLoadPenalty() >= 0.0);
     assertEquals(1, stats.evictionCount());
   }

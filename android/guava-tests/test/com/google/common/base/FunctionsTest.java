@@ -280,7 +280,7 @@ public class FunctionsTest extends TestCase {
 
     Function<Object, String> numberToSpanish = Functions.constant("Yo no se");
 
-    Function<String, String> japaneseToSpanish =
+    Function<String, String> unusedJapaneseToSpanish =
         Functions.compose(numberToSpanish, japaneseToInteger);
   }
 
