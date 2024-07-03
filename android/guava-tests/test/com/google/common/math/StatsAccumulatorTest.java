@@ -269,9 +269,9 @@ public class StatsAccumulatorTest extends TestCase {
   }
 
   public void testSum() {
-    assertThat(emptyAccumulator.sum()).isWithin(0.0).of(0.0);
-    assertThat(emptyAccumulatorByAddAllEmptyIterable.sum()).isWithin(0.0).of(0.0);
-    assertThat(emptyAccumulatorByAddAllEmptyStats.sum()).isWithin(0.0).of(0.0);
+    assertThat(emptyAccumulator.sum()).isEqualTo(0.0);
+    assertThat(emptyAccumulatorByAddAllEmptyIterable.sum()).isEqualTo(0.0);
+    assertThat(emptyAccumulatorByAddAllEmptyStats.sum()).isEqualTo(0.0);
     assertThat(oneValueAccumulator.sum()).isWithin(ALLOWED_ERROR).of(ONE_VALUE);
     assertThat(oneValueAccumulatorByAddAllEmptyStats.sum()).isWithin(ALLOWED_ERROR).of(ONE_VALUE);
     assertThat(twoValuesAccumulator.sum()).isWithin(ALLOWED_ERROR).of(TWO_VALUES_MEAN * 2);
@@ -317,8 +317,8 @@ public class StatsAccumulatorTest extends TestCase {
         () -> emptyAccumulatorByAddAllEmptyIterable.populationVariance());
     assertThrows(
         IllegalStateException.class, () -> emptyAccumulatorByAddAllEmptyStats.populationVariance());
-    assertThat(oneValueAccumulator.populationVariance()).isWithin(0.0).of(0.0);
-    assertThat(oneValueAccumulatorByAddAllEmptyStats.populationVariance()).isWithin(0.0).of(0.0);
+    assertThat(oneValueAccumulator.populationVariance()).isEqualTo(0.0);
+    assertThat(oneValueAccumulatorByAddAllEmptyStats.populationVariance()).isEqualTo(0.0);
     assertThat(twoValuesAccumulator.populationVariance())
         .isWithin(ALLOWED_ERROR)
         .of(TWO_VALUES_SUM_OF_SQUARES_OF_DELTAS / 2);
@@ -392,10 +392,8 @@ public class StatsAccumulatorTest extends TestCase {
     assertThrows(
         IllegalStateException.class,
         () -> emptyAccumulatorByAddAllEmptyStats.populationStandardDeviation());
-    assertThat(oneValueAccumulator.populationStandardDeviation()).isWithin(0.0).of(0.0);
-    assertThat(oneValueAccumulatorByAddAllEmptyStats.populationStandardDeviation())
-        .isWithin(0.0)
-        .of(0.0);
+    assertThat(oneValueAccumulator.populationStandardDeviation()).isEqualTo(0.0);
+    assertThat(oneValueAccumulatorByAddAllEmptyStats.populationStandardDeviation()).isEqualTo(0.0);
     assertThat(twoValuesAccumulator.populationStandardDeviation())
         .isWithin(ALLOWED_ERROR)
         .of(sqrt(TWO_VALUES_SUM_OF_SQUARES_OF_DELTAS / 2));

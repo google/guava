@@ -384,7 +384,7 @@ class StatsTesting {
       }
     } else if (expectedStats.count() == 1) {
       assertThat(actualStats.mean()).isWithin(ALLOWED_ERROR).of(expectedStats.mean());
-      assertThat(actualStats.populationVariance()).isWithin(0.0).of(0.0);
+      assertThat(actualStats.populationVariance()).isEqualTo(0.0);
       assertThat(actualStats.min()).isWithin(ALLOWED_ERROR).of(expectedStats.min());
       assertThat(actualStats.max()).isWithin(ALLOWED_ERROR).of(expectedStats.max());
     } else {

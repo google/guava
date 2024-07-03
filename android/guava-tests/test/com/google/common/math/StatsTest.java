@@ -191,7 +191,7 @@ public class StatsTest extends TestCase {
   public void testPopulationVariance() {
     assertThrows(IllegalStateException.class, () -> EMPTY_STATS_VARARGS.populationVariance());
     assertThrows(IllegalStateException.class, () -> EMPTY_STATS_ITERABLE.populationVariance());
-    assertThat(ONE_VALUE_STATS.populationVariance()).isWithin(0.0).of(0.0);
+    assertThat(ONE_VALUE_STATS.populationVariance()).isEqualTo(0.0);
     assertThat(Stats.of(POSITIVE_INFINITY).populationVariance()).isNaN();
     assertThat(Stats.of(NEGATIVE_INFINITY).populationVariance()).isNaN();
     assertThat(Stats.of(NaN).populationVariance()).isNaN();
@@ -245,7 +245,7 @@ public class StatsTest extends TestCase {
         IllegalStateException.class, () -> EMPTY_STATS_VARARGS.populationStandardDeviation());
     assertThrows(
         IllegalStateException.class, () -> EMPTY_STATS_ITERABLE.populationStandardDeviation());
-    assertThat(ONE_VALUE_STATS.populationStandardDeviation()).isWithin(0.0).of(0.0);
+    assertThat(ONE_VALUE_STATS.populationStandardDeviation()).isEqualTo(0.0);
     assertThat(TWO_VALUES_STATS.populationStandardDeviation())
         .isWithin(ALLOWED_ERROR)
         .of(sqrt(TWO_VALUES_SUM_OF_SQUARES_OF_DELTAS / 2));
