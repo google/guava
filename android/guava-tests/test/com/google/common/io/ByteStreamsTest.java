@@ -178,14 +178,14 @@ public class ByteStreamsTest extends IoTestCase {
   public void testNewDataInput_readFloat() {
     byte[] data = {0x12, 0x34, 0x56, 0x78, 0x76, 0x54, 0x32, 0x10};
     ByteArrayDataInput in = ByteStreams.newDataInput(data);
-    assertEquals(Float.intBitsToFloat(0x12345678), in.readFloat(), 0.0);
-    assertEquals(Float.intBitsToFloat(0x76543210), in.readFloat(), 0.0);
+    assertThat(in.readFloat()).isEqualTo(Float.intBitsToFloat(0x12345678));
+    assertThat(in.readFloat()).isEqualTo(Float.intBitsToFloat(0x76543210));
   }
 
   public void testNewDataInput_readDouble() {
     byte[] data = {0x12, 0x34, 0x56, 0x78, 0x76, 0x54, 0x32, 0x10};
     ByteArrayDataInput in = ByteStreams.newDataInput(data);
-    assertEquals(Double.longBitsToDouble(0x1234567876543210L), in.readDouble(), 0.0);
+    assertThat(in.readDouble()).isEqualTo(Double.longBitsToDouble(0x1234567876543210L));
   }
 
   public void testNewDataInput_readUTF() {

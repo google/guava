@@ -158,8 +158,8 @@ public class ArbitraryInstancesTest extends TestCase {
     assertEquals(Long.valueOf(0), ArbitraryInstances.get(Long.class));
     assertEquals(Float.valueOf(0), ArbitraryInstances.get(float.class));
     assertEquals(Float.valueOf(0), ArbitraryInstances.get(Float.class));
-    assertEquals(Double.valueOf(0), ArbitraryInstances.get(double.class));
-    assertEquals(Double.valueOf(0), ArbitraryInstances.get(Double.class));
+    assertThat(ArbitraryInstances.get(double.class)).isEqualTo(Double.valueOf(0));
+    assertThat(ArbitraryInstances.get(Double.class)).isEqualTo(Double.valueOf(0));
     assertEquals(UnsignedInteger.ZERO, ArbitraryInstances.get(UnsignedInteger.class));
     assertEquals(UnsignedLong.ZERO, ArbitraryInstances.get(UnsignedLong.class));
     assertEquals(0, ArbitraryInstances.get(BigDecimal.class).intValue());

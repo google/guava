@@ -81,9 +81,9 @@ public class LocalLoadingCacheTest extends TestCase {
     CacheStats stats = cache.stats();
     assertEquals(1, stats.requestCount());
     assertEquals(0, stats.hitCount());
-    assertEquals(0.0, stats.hitRate());
+    assertThat(stats.hitRate()).isEqualTo(0.0);
     assertEquals(1, stats.missCount());
-    assertEquals(1.0, stats.missRate());
+    assertThat(stats.missRate()).isEqualTo(1.0);
     assertEquals(1, stats.loadCount());
     long totalLoadTime = stats.totalLoadTime();
     assertTrue(totalLoadTime >= 0);
@@ -94,9 +94,9 @@ public class LocalLoadingCacheTest extends TestCase {
     stats = cache.stats();
     assertEquals(2, stats.requestCount());
     assertEquals(1, stats.hitCount());
-    assertEquals(1.0 / 2, stats.hitRate());
+    assertThat(stats.hitRate()).isEqualTo(1.0 / 2);
     assertEquals(1, stats.missCount());
-    assertEquals(1.0 / 2, stats.missRate());
+    assertThat(stats.missRate()).isEqualTo(1.0 / 2);
     assertEquals(1, stats.loadCount());
     assertEquals(0, stats.evictionCount());
 
@@ -105,9 +105,9 @@ public class LocalLoadingCacheTest extends TestCase {
     stats = cache.stats();
     assertEquals(3, stats.requestCount());
     assertEquals(1, stats.hitCount());
-    assertEquals(1.0 / 3, stats.hitRate());
+    assertThat(stats.hitRate()).isEqualTo(1.0 / 3);
     assertEquals(2, stats.missCount());
-    assertEquals(2.0 / 3, stats.missRate());
+    assertThat(stats.missRate()).isEqualTo(2.0 / 3);
     assertEquals(2, stats.loadCount());
     assertTrue(stats.totalLoadTime() >= totalLoadTime);
     totalLoadTime = stats.totalLoadTime();
@@ -119,9 +119,9 @@ public class LocalLoadingCacheTest extends TestCase {
     stats = cache.stats();
     assertEquals(4, stats.requestCount());
     assertEquals(1, stats.hitCount());
-    assertEquals(1.0 / 4, stats.hitRate());
+    assertThat(stats.hitRate()).isEqualTo(1.0 / 4);
     assertEquals(3, stats.missCount());
-    assertEquals(3.0 / 4, stats.missRate());
+    assertThat(stats.missRate()).isEqualTo(3.0 / 4);
     assertEquals(3, stats.loadCount());
     assertTrue(stats.totalLoadTime() >= totalLoadTime);
     assertTrue(stats.averageLoadPenalty() >= 0.0);

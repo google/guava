@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import static com.google.common.collect.Maps.immutableEntry;
+import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.testing.MapTestSuiteBuilder;
@@ -110,7 +111,7 @@ public class ImmutableClassToInstanceMapTest extends TestCase {
     assertEquals(0, zero);
 
     Double pi = map.getInstance(Double.class);
-    assertEquals(Math.PI, pi, 0.0);
+    assertThat(pi).isEqualTo(Math.PI);
 
     assertSame(map, ImmutableClassToInstanceMap.copyOf(map));
   }
@@ -140,7 +141,7 @@ public class ImmutableClassToInstanceMapTest extends TestCase {
     assertEquals(0, zero);
 
     Double pi = map.getInstance(Double.class);
-    assertEquals(Math.PI, pi, 0.0);
+    assertThat(pi).isEqualTo(Math.PI);
   }
 
   public void testPrimitiveAndWrapper() {
