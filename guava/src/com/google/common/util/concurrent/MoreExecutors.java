@@ -438,7 +438,6 @@ public final class MoreExecutors {
    *
    * @since 23.3 (since 23.1 as {@code sequentialExecutor})
    */
-  @J2ktIncompatible
   @GwtIncompatible
   public static Executor newSequentialExecutor(Executor delegate) {
     return new SequentialExecutor(delegate);
