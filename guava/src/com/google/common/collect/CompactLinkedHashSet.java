@@ -81,7 +81,6 @@ class CompactLinkedHashSet<E extends @Nullable Object> extends CompactHashSet<E>
    * @return a new {@code CompactLinkedHashSet} containing those elements (minus duplicates)
    */
   @SafeVarargs
-  @SuppressWarnings("nullness") // TODO: b/316358623 - Remove after checker fix.
   public static <E extends @Nullable Object> CompactLinkedHashSet<E> create(E... elements) {
     CompactLinkedHashSet<E> set = createWithExpectedSize(elements.length);
     Collections.addAll(set, elements);
