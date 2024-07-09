@@ -21,6 +21,7 @@ import static java.util.Arrays.asList;
 import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Table.Cell;
@@ -501,9 +502,12 @@ public class HashingTest extends TestCase {
           .put(Hashing.fingerprint2011(), TQBFJOTLDP, "a714d70f1d569cd0")
           .build();
 
+  // TODO(kak): provide a private utility method to filter the declared hashing methods
+
   public void testAllHashFunctionsHaveKnownHashes() throws Exception {
     // The following legacy hashing function methods have been covered by unit testing already.
-    List<String> legacyHashingMethodNames = ImmutableList.of("murmur2_64", "fprint96");
+    ImmutableSet<String> legacyHashingMethodNames =
+        ImmutableSet.of("murmur2_64", "fprint96", "highwayFingerprint64", "highwayFingerprint128");
     for (Method method : Hashing.class.getDeclaredMethods()) {
       if (method.getReturnType().equals(HashFunction.class) // must return HashFunction
           && Modifier.isPublic(method.getModifiers()) // only the public methods
@@ -579,6 +583,7 @@ public class HashingTest extends TestCase {
     for (Method method : clazz.getDeclaredMethods()) {
       if (method.getReturnType().equals(HashFunction.class) // must return HashFunction
           && Modifier.isPublic(method.getModifiers()) // only the public methods
+          && !method.getName().contains("highwayFingerprint") // tested in HighwayHash64FunctionTest
           && method.getParameterTypes().length == 0) { // only the seed-less hash functions
         HashFunction hashFunction1a = (HashFunction) method.invoke(clazz);
         HashFunction hashFunction1b = (HashFunction) method.invoke(clazz);
