@@ -756,233 +756,231 @@
 <span class="sourceLineNo">747</span><a id="line.747">   * @throws IllegalArgumentException if {@code k} is negative</a>
 <span class="sourceLineNo">748</span><a id="line.748">   * @since 8.0</a>
 <span class="sourceLineNo">749</span><a id="line.749">   */</a>
-<span class="sourceLineNo">750</span><a id="line.750">  @SuppressWarnings("nullness") // TODO: b/316358623 - Remove after checker fix.</a>
-<span class="sourceLineNo">751</span><a id="line.751">  public &lt;E extends T&gt; List&lt;E&gt; leastOf(Iterable&lt;E&gt; iterable, int k) {</a>
-<span class="sourceLineNo">752</span><a id="line.752">    if (iterable instanceof Collection) {</a>
-<span class="sourceLineNo">753</span><a id="line.753">      Collection&lt;E&gt; collection = (Collection&lt;E&gt;) iterable;</a>
-<span class="sourceLineNo">754</span><a id="line.754">      if (collection.size() &lt;= 2L * k) {</a>
-<span class="sourceLineNo">755</span><a id="line.755">        // In this case, just dumping the collection to an array and sorting is</a>
-<span class="sourceLineNo">756</span><a id="line.756">        // faster than using the implementation for Iterator, which is</a>
-<span class="sourceLineNo">757</span><a id="line.757">        // specialized for k much smaller than n.</a>
-<span class="sourceLineNo">758</span><a id="line.758"></a>
-<span class="sourceLineNo">759</span><a id="line.759">        @SuppressWarnings("unchecked") // c only contains E's and doesn't escape</a>
-<span class="sourceLineNo">760</span><a id="line.760">        E[] array = (E[]) collection.toArray();</a>
-<span class="sourceLineNo">761</span><a id="line.761">        Arrays.sort(array, this);</a>
-<span class="sourceLineNo">762</span><a id="line.762">        if (array.length &gt; k) {</a>
-<span class="sourceLineNo">763</span><a id="line.763">          array = Arrays.copyOf(array, k);</a>
-<span class="sourceLineNo">764</span><a id="line.764">        }</a>
-<span class="sourceLineNo">765</span><a id="line.765">        return Collections.unmodifiableList(Arrays.asList(array));</a>
-<span class="sourceLineNo">766</span><a id="line.766">      }</a>
-<span class="sourceLineNo">767</span><a id="line.767">    }</a>
-<span class="sourceLineNo">768</span><a id="line.768">    return leastOf(iterable.iterator(), k);</a>
-<span class="sourceLineNo">769</span><a id="line.769">  }</a>
-<span class="sourceLineNo">770</span><a id="line.770"></a>
-<span class="sourceLineNo">771</span><a id="line.771">  /**</a>
-<span class="sourceLineNo">772</span><a id="line.772">   * Returns the {@code k} least elements from the given iterator according to this ordering, in</a>
-<span class="sourceLineNo">773</span><a id="line.773">   * order from least to greatest. If there are fewer than {@code k} elements present, all will be</a>
-<span class="sourceLineNo">774</span><a id="line.774">   * included.</a>
-<span class="sourceLineNo">775</span><a id="line.775">   *</a>
-<span class="sourceLineNo">776</span><a id="line.776">   * &lt;p&gt;The implementation does not necessarily use a &lt;i&gt;stable&lt;/i&gt; sorting algorithm; when multiple</a>
-<span class="sourceLineNo">777</span><a id="line.777">   * elements are equivalent, it is undefined which will come first.</a>
-<span class="sourceLineNo">778</span><a id="line.778">   *</a>
-<span class="sourceLineNo">779</span><a id="line.779">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; Use {@code Streams.stream(iterator).collect(Comparators.least(k,</a>
-<span class="sourceLineNo">780</span><a id="line.780">   * thisComparator))} instead.</a>
-<span class="sourceLineNo">781</span><a id="line.781">   *</a>
-<span class="sourceLineNo">782</span><a id="line.782">   * @return an immutable {@code RandomAccess} list of the {@code k} least elements in ascending</a>
-<span class="sourceLineNo">783</span><a id="line.783">   *     order</a>
-<span class="sourceLineNo">784</span><a id="line.784">   * @throws IllegalArgumentException if {@code k} is negative</a>
-<span class="sourceLineNo">785</span><a id="line.785">   * @since 14.0</a>
-<span class="sourceLineNo">786</span><a id="line.786">   */</a>
-<span class="sourceLineNo">787</span><a id="line.787">  public &lt;E extends T&gt; List&lt;E&gt; leastOf(Iterator&lt;E&gt; iterator, int k) {</a>
-<span class="sourceLineNo">788</span><a id="line.788">    checkNotNull(iterator);</a>
-<span class="sourceLineNo">789</span><a id="line.789">    checkNonnegative(k, "k");</a>
-<span class="sourceLineNo">790</span><a id="line.790"></a>
-<span class="sourceLineNo">791</span><a id="line.791">    if (k == 0 || !iterator.hasNext()) {</a>
-<span class="sourceLineNo">792</span><a id="line.792">      return Collections.emptyList();</a>
-<span class="sourceLineNo">793</span><a id="line.793">    } else if (k &gt;= Integer.MAX_VALUE / 2) {</a>
-<span class="sourceLineNo">794</span><a id="line.794">      // k is really large; just do a straightforward sorted-copy-and-sublist</a>
-<span class="sourceLineNo">795</span><a id="line.795">      ArrayList&lt;E&gt; list = Lists.newArrayList(iterator);</a>
-<span class="sourceLineNo">796</span><a id="line.796">      Collections.sort(list, this);</a>
-<span class="sourceLineNo">797</span><a id="line.797">      if (list.size() &gt; k) {</a>
-<span class="sourceLineNo">798</span><a id="line.798">        list.subList(k, list.size()).clear();</a>
-<span class="sourceLineNo">799</span><a id="line.799">      }</a>
-<span class="sourceLineNo">800</span><a id="line.800">      list.trimToSize();</a>
-<span class="sourceLineNo">801</span><a id="line.801">      return Collections.unmodifiableList(list);</a>
-<span class="sourceLineNo">802</span><a id="line.802">    } else {</a>
-<span class="sourceLineNo">803</span><a id="line.803">      TopKSelector&lt;E&gt; selector = TopKSelector.least(k, this);</a>
-<span class="sourceLineNo">804</span><a id="line.804">      selector.offerAll(iterator);</a>
-<span class="sourceLineNo">805</span><a id="line.805">      return selector.topK();</a>
-<span class="sourceLineNo">806</span><a id="line.806">    }</a>
-<span class="sourceLineNo">807</span><a id="line.807">  }</a>
-<span class="sourceLineNo">808</span><a id="line.808"></a>
-<span class="sourceLineNo">809</span><a id="line.809">  /**</a>
-<span class="sourceLineNo">810</span><a id="line.810">   * Returns the {@code k} greatest elements of the given iterable according to this ordering, in</a>
-<span class="sourceLineNo">811</span><a id="line.811">   * order from greatest to least. If there are fewer than {@code k} elements present, all will be</a>
-<span class="sourceLineNo">812</span><a id="line.812">   * included.</a>
-<span class="sourceLineNo">813</span><a id="line.813">   *</a>
-<span class="sourceLineNo">814</span><a id="line.814">   * &lt;p&gt;The implementation does not necessarily use a &lt;i&gt;stable&lt;/i&gt; sorting algorithm; when multiple</a>
-<span class="sourceLineNo">815</span><a id="line.815">   * elements are equivalent, it is undefined which will come first.</a>
-<span class="sourceLineNo">816</span><a id="line.816">   *</a>
-<span class="sourceLineNo">817</span><a id="line.817">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; Use {@code Streams.stream(iterable).collect(Comparators.greatest(k,</a>
-<span class="sourceLineNo">818</span><a id="line.818">   * thisComparator))} instead.</a>
-<span class="sourceLineNo">819</span><a id="line.819">   *</a>
-<span class="sourceLineNo">820</span><a id="line.820">   * @return an immutable {@code RandomAccess} list of the {@code k} greatest elements in</a>
-<span class="sourceLineNo">821</span><a id="line.821">   *     &lt;i&gt;descending order&lt;/i&gt;</a>
-<span class="sourceLineNo">822</span><a id="line.822">   * @throws IllegalArgumentException if {@code k} is negative</a>
-<span class="sourceLineNo">823</span><a id="line.823">   * @since 8.0</a>
-<span class="sourceLineNo">824</span><a id="line.824">   */</a>
-<span class="sourceLineNo">825</span><a id="line.825">  public &lt;E extends T&gt; List&lt;E&gt; greatestOf(Iterable&lt;E&gt; iterable, int k) {</a>
-<span class="sourceLineNo">826</span><a id="line.826">    // TODO(kevinb): see if delegation is hurting performance noticeably</a>
-<span class="sourceLineNo">827</span><a id="line.827">    // TODO(kevinb): if we change this implementation, add full unit tests.</a>
-<span class="sourceLineNo">828</span><a id="line.828">    return this.&lt;E&gt;reverse().leastOf(iterable, k);</a>
-<span class="sourceLineNo">829</span><a id="line.829">  }</a>
-<span class="sourceLineNo">830</span><a id="line.830"></a>
-<span class="sourceLineNo">831</span><a id="line.831">  /**</a>
-<span class="sourceLineNo">832</span><a id="line.832">   * Returns the {@code k} greatest elements from the given iterator according to this ordering, in</a>
-<span class="sourceLineNo">833</span><a id="line.833">   * order from greatest to least. If there are fewer than {@code k} elements present, all will be</a>
-<span class="sourceLineNo">834</span><a id="line.834">   * included.</a>
-<span class="sourceLineNo">835</span><a id="line.835">   *</a>
-<span class="sourceLineNo">836</span><a id="line.836">   * &lt;p&gt;The implementation does not necessarily use a &lt;i&gt;stable&lt;/i&gt; sorting algorithm; when multiple</a>
-<span class="sourceLineNo">837</span><a id="line.837">   * elements are equivalent, it is undefined which will come first.</a>
-<span class="sourceLineNo">838</span><a id="line.838">   *</a>
-<span class="sourceLineNo">839</span><a id="line.839">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; Use {@code Streams.stream(iterator).collect(Comparators.greatest(k,</a>
-<span class="sourceLineNo">840</span><a id="line.840">   * thisComparator))} instead.</a>
-<span class="sourceLineNo">841</span><a id="line.841">   *</a>
-<span class="sourceLineNo">842</span><a id="line.842">   * @return an immutable {@code RandomAccess} list of the {@code k} greatest elements in</a>
-<span class="sourceLineNo">843</span><a id="line.843">   *     &lt;i&gt;descending order&lt;/i&gt;</a>
-<span class="sourceLineNo">844</span><a id="line.844">   * @throws IllegalArgumentException if {@code k} is negative</a>
-<span class="sourceLineNo">845</span><a id="line.845">   * @since 14.0</a>
-<span class="sourceLineNo">846</span><a id="line.846">   */</a>
-<span class="sourceLineNo">847</span><a id="line.847">  public &lt;E extends T&gt; List&lt;E&gt; greatestOf(Iterator&lt;E&gt; iterator, int k) {</a>
-<span class="sourceLineNo">848</span><a id="line.848">    return this.&lt;E&gt;reverse().leastOf(iterator, k);</a>
-<span class="sourceLineNo">849</span><a id="line.849">  }</a>
-<span class="sourceLineNo">850</span><a id="line.850"></a>
-<span class="sourceLineNo">851</span><a id="line.851">  /**</a>
-<span class="sourceLineNo">852</span><a id="line.852">   * Returns a &lt;b&gt;mutable&lt;/b&gt; list containing {@code elements} sorted by this ordering; use this</a>
-<span class="sourceLineNo">853</span><a id="line.853">   * only when the resulting list may need further modification, or may contain {@code null}. The</a>
-<span class="sourceLineNo">854</span><a id="line.854">   * input is not modified. The returned list is serializable and has random access.</a>
-<span class="sourceLineNo">855</span><a id="line.855">   *</a>
-<span class="sourceLineNo">856</span><a id="line.856">   * &lt;p&gt;Unlike {@link Sets#newTreeSet(Iterable)}, this method does not discard elements that are</a>
-<span class="sourceLineNo">857</span><a id="line.857">   * duplicates according to the comparator. The sort performed is &lt;i&gt;stable&lt;/i&gt;, meaning that such</a>
-<span class="sourceLineNo">858</span><a id="line.858">   * elements will appear in the returned list in the same order they appeared in {@code elements}.</a>
-<span class="sourceLineNo">859</span><a id="line.859">   *</a>
-<span class="sourceLineNo">860</span><a id="line.860">   * &lt;p&gt;&lt;b&gt;Performance note:&lt;/b&gt; According to our</a>
-<span class="sourceLineNo">861</span><a id="line.861">   * benchmarking</a>
-<span class="sourceLineNo">862</span><a id="line.862">   * on Open JDK 7, {@link #immutableSortedCopy} generally performs better (in both time and space)</a>
-<span class="sourceLineNo">863</span><a id="line.863">   * than this method, and this method in turn generally performs better than copying the list and</a>
-<span class="sourceLineNo">864</span><a id="line.864">   * calling {@link Collections#sort(List)}.</a>
-<span class="sourceLineNo">865</span><a id="line.865">   */</a>
-<span class="sourceLineNo">866</span><a id="line.866">  // TODO(kevinb): rerun benchmarks including new options</a>
-<span class="sourceLineNo">867</span><a id="line.867">  @SuppressWarnings("nullness") // TODO: b/316358623 - Remove after checker fix.</a>
-<span class="sourceLineNo">868</span><a id="line.868">  public &lt;E extends T&gt; List&lt;E&gt; sortedCopy(Iterable&lt;E&gt; elements) {</a>
-<span class="sourceLineNo">869</span><a id="line.869">    @SuppressWarnings("unchecked") // does not escape, and contains only E's</a>
-<span class="sourceLineNo">870</span><a id="line.870">    E[] array = (E[]) Iterables.toArray(elements);</a>
-<span class="sourceLineNo">871</span><a id="line.871">    Arrays.sort(array, this);</a>
-<span class="sourceLineNo">872</span><a id="line.872">    return Lists.newArrayList(Arrays.asList(array));</a>
-<span class="sourceLineNo">873</span><a id="line.873">  }</a>
-<span class="sourceLineNo">874</span><a id="line.874"></a>
-<span class="sourceLineNo">875</span><a id="line.875">  /**</a>
-<span class="sourceLineNo">876</span><a id="line.876">   * Returns an &lt;b&gt;immutable&lt;/b&gt; list containing {@code elements} sorted by this ordering. The input</a>
-<span class="sourceLineNo">877</span><a id="line.877">   * is not modified.</a>
-<span class="sourceLineNo">878</span><a id="line.878">   *</a>
-<span class="sourceLineNo">879</span><a id="line.879">   * &lt;p&gt;Unlike {@link Sets#newTreeSet(Iterable)}, this method does not discard elements that are</a>
-<span class="sourceLineNo">880</span><a id="line.880">   * duplicates according to the comparator. The sort performed is &lt;i&gt;stable&lt;/i&gt;, meaning that such</a>
-<span class="sourceLineNo">881</span><a id="line.881">   * elements will appear in the returned list in the same order they appeared in {@code elements}.</a>
-<span class="sourceLineNo">882</span><a id="line.882">   *</a>
-<span class="sourceLineNo">883</span><a id="line.883">   * &lt;p&gt;&lt;b&gt;Performance note:&lt;/b&gt; According to our</a>
-<span class="sourceLineNo">884</span><a id="line.884">   * benchmarking</a>
-<span class="sourceLineNo">885</span><a id="line.885">   * on Open JDK 7, this method is the most efficient way to make a sorted copy of a collection.</a>
-<span class="sourceLineNo">886</span><a id="line.886">   *</a>
-<span class="sourceLineNo">887</span><a id="line.887">   * @throws NullPointerException if any element of {@code elements} is {@code null}</a>
-<span class="sourceLineNo">888</span><a id="line.888">   * @since 3.0</a>
-<span class="sourceLineNo">889</span><a id="line.889">   */</a>
-<span class="sourceLineNo">890</span><a id="line.890">  // TODO(kevinb): rerun benchmarks including new options</a>
-<span class="sourceLineNo">891</span><a id="line.891">  public &lt;E extends @NonNull T&gt; ImmutableList&lt;E&gt; immutableSortedCopy(Iterable&lt;E&gt; elements) {</a>
-<span class="sourceLineNo">892</span><a id="line.892">    return ImmutableList.sortedCopyOf(this, elements);</a>
-<span class="sourceLineNo">893</span><a id="line.893">  }</a>
-<span class="sourceLineNo">894</span><a id="line.894"></a>
-<span class="sourceLineNo">895</span><a id="line.895">  /**</a>
-<span class="sourceLineNo">896</span><a id="line.896">   * Returns {@code true} if each element in {@code iterable} after the first is greater than or</a>
-<span class="sourceLineNo">897</span><a id="line.897">   * equal to the element that preceded it, according to this ordering. Note that this is always</a>
-<span class="sourceLineNo">898</span><a id="line.898">   * true when the iterable has fewer than two elements.</a>
-<span class="sourceLineNo">899</span><a id="line.899">   *</a>
-<span class="sourceLineNo">900</span><a id="line.900">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; Use the equivalent {@link Comparators#isInOrder(Iterable, Comparator)}</a>
-<span class="sourceLineNo">901</span><a id="line.901">   * instead, since the rest of {@code Ordering} is mostly obsolete (as explained in the class</a>
-<span class="sourceLineNo">902</span><a id="line.902">   * documentation).</a>
-<span class="sourceLineNo">903</span><a id="line.903">   */</a>
-<span class="sourceLineNo">904</span><a id="line.904">  public boolean isOrdered(Iterable&lt;? extends T&gt; iterable) {</a>
-<span class="sourceLineNo">905</span><a id="line.905">    Iterator&lt;? extends T&gt; it = iterable.iterator();</a>
-<span class="sourceLineNo">906</span><a id="line.906">    if (it.hasNext()) {</a>
-<span class="sourceLineNo">907</span><a id="line.907">      T prev = it.next();</a>
-<span class="sourceLineNo">908</span><a id="line.908">      while (it.hasNext()) {</a>
-<span class="sourceLineNo">909</span><a id="line.909">        T next = it.next();</a>
-<span class="sourceLineNo">910</span><a id="line.910">        if (compare(prev, next) &gt; 0) {</a>
-<span class="sourceLineNo">911</span><a id="line.911">          return false;</a>
-<span class="sourceLineNo">912</span><a id="line.912">        }</a>
-<span class="sourceLineNo">913</span><a id="line.913">        prev = next;</a>
-<span class="sourceLineNo">914</span><a id="line.914">      }</a>
-<span class="sourceLineNo">915</span><a id="line.915">    }</a>
-<span class="sourceLineNo">916</span><a id="line.916">    return true;</a>
-<span class="sourceLineNo">917</span><a id="line.917">  }</a>
-<span class="sourceLineNo">918</span><a id="line.918"></a>
-<span class="sourceLineNo">919</span><a id="line.919">  /**</a>
-<span class="sourceLineNo">920</span><a id="line.920">   * Returns {@code true} if each element in {@code iterable} after the first is &lt;i&gt;strictly&lt;/i&gt;</a>
-<span class="sourceLineNo">921</span><a id="line.921">   * greater than the element that preceded it, according to this ordering. Note that this is always</a>
-<span class="sourceLineNo">922</span><a id="line.922">   * true when the iterable has fewer than two elements.</a>
-<span class="sourceLineNo">923</span><a id="line.923">   *</a>
-<span class="sourceLineNo">924</span><a id="line.924">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; Use the equivalent {@link Comparators#isInStrictOrder(Iterable,</a>
-<span class="sourceLineNo">925</span><a id="line.925">   * Comparator)} instead, since the rest of {@code Ordering} is mostly obsolete (as explained in</a>
-<span class="sourceLineNo">926</span><a id="line.926">   * the class documentation).</a>
-<span class="sourceLineNo">927</span><a id="line.927">   */</a>
-<span class="sourceLineNo">928</span><a id="line.928">  public boolean isStrictlyOrdered(Iterable&lt;? extends T&gt; iterable) {</a>
-<span class="sourceLineNo">929</span><a id="line.929">    Iterator&lt;? extends T&gt; it = iterable.iterator();</a>
-<span class="sourceLineNo">930</span><a id="line.930">    if (it.hasNext()) {</a>
-<span class="sourceLineNo">931</span><a id="line.931">      T prev = it.next();</a>
-<span class="sourceLineNo">932</span><a id="line.932">      while (it.hasNext()) {</a>
-<span class="sourceLineNo">933</span><a id="line.933">        T next = it.next();</a>
-<span class="sourceLineNo">934</span><a id="line.934">        if (compare(prev, next) &gt;= 0) {</a>
-<span class="sourceLineNo">935</span><a id="line.935">          return false;</a>
-<span class="sourceLineNo">936</span><a id="line.936">        }</a>
-<span class="sourceLineNo">937</span><a id="line.937">        prev = next;</a>
-<span class="sourceLineNo">938</span><a id="line.938">      }</a>
-<span class="sourceLineNo">939</span><a id="line.939">    }</a>
-<span class="sourceLineNo">940</span><a id="line.940">    return true;</a>
-<span class="sourceLineNo">941</span><a id="line.941">  }</a>
-<span class="sourceLineNo">942</span><a id="line.942"></a>
-<span class="sourceLineNo">943</span><a id="line.943">  /**</a>
-<span class="sourceLineNo">944</span><a id="line.944">   * {@link Collections#binarySearch(List, Object, Comparator) Searches} {@code sortedList} for</a>
-<span class="sourceLineNo">945</span><a id="line.945">   * {@code key} using the binary search algorithm. The list must be sorted using this ordering.</a>
-<span class="sourceLineNo">946</span><a id="line.946">   *</a>
-<span class="sourceLineNo">947</span><a id="line.947">   * @param sortedList the list to be searched</a>
-<span class="sourceLineNo">948</span><a id="line.948">   * @param key the key to be searched for</a>
-<span class="sourceLineNo">949</span><a id="line.949">   * @deprecated Use {@link Collections#binarySearch(List, Object, Comparator)} directly.</a>
-<span class="sourceLineNo">950</span><a id="line.950">   */</a>
-<span class="sourceLineNo">951</span><a id="line.951">  @Deprecated</a>
-<span class="sourceLineNo">952</span><a id="line.952">  public int binarySearch(</a>
-<span class="sourceLineNo">953</span><a id="line.953">      List&lt;? extends T&gt; sortedList, @ParametricNullness T key) {</a>
-<span class="sourceLineNo">954</span><a id="line.954">    return Collections.binarySearch(sortedList, key, this);</a>
-<span class="sourceLineNo">955</span><a id="line.955">  }</a>
-<span class="sourceLineNo">956</span><a id="line.956"></a>
-<span class="sourceLineNo">957</span><a id="line.957">  /**</a>
-<span class="sourceLineNo">958</span><a id="line.958">   * Exception thrown by a {@link Ordering#explicit(List)} or {@link Ordering#explicit(Object,</a>
-<span class="sourceLineNo">959</span><a id="line.959">   * Object[])} comparator when comparing a value outside the set of values it can compare.</a>
-<span class="sourceLineNo">960</span><a id="line.960">   * Extending {@link ClassCastException} may seem odd, but it is required.</a>
-<span class="sourceLineNo">961</span><a id="line.961">   */</a>
-<span class="sourceLineNo">962</span><a id="line.962">  static class IncomparableValueException extends ClassCastException {</a>
-<span class="sourceLineNo">963</span><a id="line.963">    final Object value;</a>
-<span class="sourceLineNo">964</span><a id="line.964"></a>
-<span class="sourceLineNo">965</span><a id="line.965">    IncomparableValueException(Object value) {</a>
-<span class="sourceLineNo">966</span><a id="line.966">      super("Cannot compare value: " + value);</a>
-<span class="sourceLineNo">967</span><a id="line.967">      this.value = value;</a>
-<span class="sourceLineNo">968</span><a id="line.968">    }</a>
-<span class="sourceLineNo">969</span><a id="line.969"></a>
-<span class="sourceLineNo">970</span><a id="line.970">    private static final long serialVersionUID = 0;</a>
-<span class="sourceLineNo">971</span><a id="line.971">  }</a>
-<span class="sourceLineNo">972</span><a id="line.972"></a>
-<span class="sourceLineNo">973</span><a id="line.973">  // Never make these public</a>
-<span class="sourceLineNo">974</span><a id="line.974">  static final int LEFT_IS_GREATER = 1;</a>
-<span class="sourceLineNo">975</span><a id="line.975">  static final int RIGHT_IS_GREATER = -1;</a>
-<span class="sourceLineNo">976</span><a id="line.976">}</a>
+<span class="sourceLineNo">750</span><a id="line.750">  public &lt;E extends T&gt; List&lt;E&gt; leastOf(Iterable&lt;E&gt; iterable, int k) {</a>
+<span class="sourceLineNo">751</span><a id="line.751">    if (iterable instanceof Collection) {</a>
+<span class="sourceLineNo">752</span><a id="line.752">      Collection&lt;E&gt; collection = (Collection&lt;E&gt;) iterable;</a>
+<span class="sourceLineNo">753</span><a id="line.753">      if (collection.size() &lt;= 2L * k) {</a>
+<span class="sourceLineNo">754</span><a id="line.754">        // In this case, just dumping the collection to an array and sorting is</a>
+<span class="sourceLineNo">755</span><a id="line.755">        // faster than using the implementation for Iterator, which is</a>
+<span class="sourceLineNo">756</span><a id="line.756">        // specialized for k much smaller than n.</a>
+<span class="sourceLineNo">757</span><a id="line.757"></a>
+<span class="sourceLineNo">758</span><a id="line.758">        @SuppressWarnings("unchecked") // c only contains E's and doesn't escape</a>
+<span class="sourceLineNo">759</span><a id="line.759">        E[] array = (E[]) collection.toArray();</a>
+<span class="sourceLineNo">760</span><a id="line.760">        Arrays.sort(array, this);</a>
+<span class="sourceLineNo">761</span><a id="line.761">        if (array.length &gt; k) {</a>
+<span class="sourceLineNo">762</span><a id="line.762">          array = Arrays.copyOf(array, k);</a>
+<span class="sourceLineNo">763</span><a id="line.763">        }</a>
+<span class="sourceLineNo">764</span><a id="line.764">        return Collections.unmodifiableList(Arrays.asList(array));</a>
+<span class="sourceLineNo">765</span><a id="line.765">      }</a>
+<span class="sourceLineNo">766</span><a id="line.766">    }</a>
+<span class="sourceLineNo">767</span><a id="line.767">    return leastOf(iterable.iterator(), k);</a>
+<span class="sourceLineNo">768</span><a id="line.768">  }</a>
+<span class="sourceLineNo">769</span><a id="line.769"></a>
+<span class="sourceLineNo">770</span><a id="line.770">  /**</a>
+<span class="sourceLineNo">771</span><a id="line.771">   * Returns the {@code k} least elements from the given iterator according to this ordering, in</a>
+<span class="sourceLineNo">772</span><a id="line.772">   * order from least to greatest. If there are fewer than {@code k} elements present, all will be</a>
+<span class="sourceLineNo">773</span><a id="line.773">   * included.</a>
+<span class="sourceLineNo">774</span><a id="line.774">   *</a>
+<span class="sourceLineNo">775</span><a id="line.775">   * &lt;p&gt;The implementation does not necessarily use a &lt;i&gt;stable&lt;/i&gt; sorting algorithm; when multiple</a>
+<span class="sourceLineNo">776</span><a id="line.776">   * elements are equivalent, it is undefined which will come first.</a>
+<span class="sourceLineNo">777</span><a id="line.777">   *</a>
+<span class="sourceLineNo">778</span><a id="line.778">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; Use {@code Streams.stream(iterator).collect(Comparators.least(k,</a>
+<span class="sourceLineNo">779</span><a id="line.779">   * thisComparator))} instead.</a>
+<span class="sourceLineNo">780</span><a id="line.780">   *</a>
+<span class="sourceLineNo">781</span><a id="line.781">   * @return an immutable {@code RandomAccess} list of the {@code k} least elements in ascending</a>
+<span class="sourceLineNo">782</span><a id="line.782">   *     order</a>
+<span class="sourceLineNo">783</span><a id="line.783">   * @throws IllegalArgumentException if {@code k} is negative</a>
+<span class="sourceLineNo">784</span><a id="line.784">   * @since 14.0</a>
+<span class="sourceLineNo">785</span><a id="line.785">   */</a>
+<span class="sourceLineNo">786</span><a id="line.786">  public &lt;E extends T&gt; List&lt;E&gt; leastOf(Iterator&lt;E&gt; iterator, int k) {</a>
+<span class="sourceLineNo">787</span><a id="line.787">    checkNotNull(iterator);</a>
+<span class="sourceLineNo">788</span><a id="line.788">    checkNonnegative(k, "k");</a>
+<span class="sourceLineNo">789</span><a id="line.789"></a>
+<span class="sourceLineNo">790</span><a id="line.790">    if (k == 0 || !iterator.hasNext()) {</a>
+<span class="sourceLineNo">791</span><a id="line.791">      return Collections.emptyList();</a>
+<span class="sourceLineNo">792</span><a id="line.792">    } else if (k &gt;= Integer.MAX_VALUE / 2) {</a>
+<span class="sourceLineNo">793</span><a id="line.793">      // k is really large; just do a straightforward sorted-copy-and-sublist</a>
+<span class="sourceLineNo">794</span><a id="line.794">      ArrayList&lt;E&gt; list = Lists.newArrayList(iterator);</a>
+<span class="sourceLineNo">795</span><a id="line.795">      Collections.sort(list, this);</a>
+<span class="sourceLineNo">796</span><a id="line.796">      if (list.size() &gt; k) {</a>
+<span class="sourceLineNo">797</span><a id="line.797">        list.subList(k, list.size()).clear();</a>
+<span class="sourceLineNo">798</span><a id="line.798">      }</a>
+<span class="sourceLineNo">799</span><a id="line.799">      list.trimToSize();</a>
+<span class="sourceLineNo">800</span><a id="line.800">      return Collections.unmodifiableList(list);</a>
+<span class="sourceLineNo">801</span><a id="line.801">    } else {</a>
+<span class="sourceLineNo">802</span><a id="line.802">      TopKSelector&lt;E&gt; selector = TopKSelector.least(k, this);</a>
+<span class="sourceLineNo">803</span><a id="line.803">      selector.offerAll(iterator);</a>
+<span class="sourceLineNo">804</span><a id="line.804">      return selector.topK();</a>
+<span class="sourceLineNo">805</span><a id="line.805">    }</a>
+<span class="sourceLineNo">806</span><a id="line.806">  }</a>
+<span class="sourceLineNo">807</span><a id="line.807"></a>
+<span class="sourceLineNo">808</span><a id="line.808">  /**</a>
+<span class="sourceLineNo">809</span><a id="line.809">   * Returns the {@code k} greatest elements of the given iterable according to this ordering, in</a>
+<span class="sourceLineNo">810</span><a id="line.810">   * order from greatest to least. If there are fewer than {@code k} elements present, all will be</a>
+<span class="sourceLineNo">811</span><a id="line.811">   * included.</a>
+<span class="sourceLineNo">812</span><a id="line.812">   *</a>
+<span class="sourceLineNo">813</span><a id="line.813">   * &lt;p&gt;The implementation does not necessarily use a &lt;i&gt;stable&lt;/i&gt; sorting algorithm; when multiple</a>
+<span class="sourceLineNo">814</span><a id="line.814">   * elements are equivalent, it is undefined which will come first.</a>
+<span class="sourceLineNo">815</span><a id="line.815">   *</a>
+<span class="sourceLineNo">816</span><a id="line.816">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; Use {@code Streams.stream(iterable).collect(Comparators.greatest(k,</a>
+<span class="sourceLineNo">817</span><a id="line.817">   * thisComparator))} instead.</a>
+<span class="sourceLineNo">818</span><a id="line.818">   *</a>
+<span class="sourceLineNo">819</span><a id="line.819">   * @return an immutable {@code RandomAccess} list of the {@code k} greatest elements in</a>
+<span class="sourceLineNo">820</span><a id="line.820">   *     &lt;i&gt;descending order&lt;/i&gt;</a>
+<span class="sourceLineNo">821</span><a id="line.821">   * @throws IllegalArgumentException if {@code k} is negative</a>
+<span class="sourceLineNo">822</span><a id="line.822">   * @since 8.0</a>
+<span class="sourceLineNo">823</span><a id="line.823">   */</a>
+<span class="sourceLineNo">824</span><a id="line.824">  public &lt;E extends T&gt; List&lt;E&gt; greatestOf(Iterable&lt;E&gt; iterable, int k) {</a>
+<span class="sourceLineNo">825</span><a id="line.825">    // TODO(kevinb): see if delegation is hurting performance noticeably</a>
+<span class="sourceLineNo">826</span><a id="line.826">    // TODO(kevinb): if we change this implementation, add full unit tests.</a>
+<span class="sourceLineNo">827</span><a id="line.827">    return this.&lt;E&gt;reverse().leastOf(iterable, k);</a>
+<span class="sourceLineNo">828</span><a id="line.828">  }</a>
+<span class="sourceLineNo">829</span><a id="line.829"></a>
+<span class="sourceLineNo">830</span><a id="line.830">  /**</a>
+<span class="sourceLineNo">831</span><a id="line.831">   * Returns the {@code k} greatest elements from the given iterator according to this ordering, in</a>
+<span class="sourceLineNo">832</span><a id="line.832">   * order from greatest to least. If there are fewer than {@code k} elements present, all will be</a>
+<span class="sourceLineNo">833</span><a id="line.833">   * included.</a>
+<span class="sourceLineNo">834</span><a id="line.834">   *</a>
+<span class="sourceLineNo">835</span><a id="line.835">   * &lt;p&gt;The implementation does not necessarily use a &lt;i&gt;stable&lt;/i&gt; sorting algorithm; when multiple</a>
+<span class="sourceLineNo">836</span><a id="line.836">   * elements are equivalent, it is undefined which will come first.</a>
+<span class="sourceLineNo">837</span><a id="line.837">   *</a>
+<span class="sourceLineNo">838</span><a id="line.838">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; Use {@code Streams.stream(iterator).collect(Comparators.greatest(k,</a>
+<span class="sourceLineNo">839</span><a id="line.839">   * thisComparator))} instead.</a>
+<span class="sourceLineNo">840</span><a id="line.840">   *</a>
+<span class="sourceLineNo">841</span><a id="line.841">   * @return an immutable {@code RandomAccess} list of the {@code k} greatest elements in</a>
+<span class="sourceLineNo">842</span><a id="line.842">   *     &lt;i&gt;descending order&lt;/i&gt;</a>
+<span class="sourceLineNo">843</span><a id="line.843">   * @throws IllegalArgumentException if {@code k} is negative</a>
+<span class="sourceLineNo">844</span><a id="line.844">   * @since 14.0</a>
+<span class="sourceLineNo">845</span><a id="line.845">   */</a>
+<span class="sourceLineNo">846</span><a id="line.846">  public &lt;E extends T&gt; List&lt;E&gt; greatestOf(Iterator&lt;E&gt; iterator, int k) {</a>
+<span class="sourceLineNo">847</span><a id="line.847">    return this.&lt;E&gt;reverse().leastOf(iterator, k);</a>
+<span class="sourceLineNo">848</span><a id="line.848">  }</a>
+<span class="sourceLineNo">849</span><a id="line.849"></a>
+<span class="sourceLineNo">850</span><a id="line.850">  /**</a>
+<span class="sourceLineNo">851</span><a id="line.851">   * Returns a &lt;b&gt;mutable&lt;/b&gt; list containing {@code elements} sorted by this ordering; use this</a>
+<span class="sourceLineNo">852</span><a id="line.852">   * only when the resulting list may need further modification, or may contain {@code null}. The</a>
+<span class="sourceLineNo">853</span><a id="line.853">   * input is not modified. The returned list is serializable and has random access.</a>
+<span class="sourceLineNo">854</span><a id="line.854">   *</a>
+<span class="sourceLineNo">855</span><a id="line.855">   * &lt;p&gt;Unlike {@link Sets#newTreeSet(Iterable)}, this method does not discard elements that are</a>
+<span class="sourceLineNo">856</span><a id="line.856">   * duplicates according to the comparator. The sort performed is &lt;i&gt;stable&lt;/i&gt;, meaning that such</a>
+<span class="sourceLineNo">857</span><a id="line.857">   * elements will appear in the returned list in the same order they appeared in {@code elements}.</a>
+<span class="sourceLineNo">858</span><a id="line.858">   *</a>
+<span class="sourceLineNo">859</span><a id="line.859">   * &lt;p&gt;&lt;b&gt;Performance note:&lt;/b&gt; According to our</a>
+<span class="sourceLineNo">860</span><a id="line.860">   * benchmarking</a>
+<span class="sourceLineNo">861</span><a id="line.861">   * on Open JDK 7, {@link #immutableSortedCopy} generally performs better (in both time and space)</a>
+<span class="sourceLineNo">862</span><a id="line.862">   * than this method, and this method in turn generally performs better than copying the list and</a>
+<span class="sourceLineNo">863</span><a id="line.863">   * calling {@link Collections#sort(List)}.</a>
+<span class="sourceLineNo">864</span><a id="line.864">   */</a>
+<span class="sourceLineNo">865</span><a id="line.865">  // TODO(kevinb): rerun benchmarks including new options</a>
+<span class="sourceLineNo">866</span><a id="line.866">  public &lt;E extends T&gt; List&lt;E&gt; sortedCopy(Iterable&lt;E&gt; elements) {</a>
+<span class="sourceLineNo">867</span><a id="line.867">    @SuppressWarnings("unchecked") // does not escape, and contains only E's</a>
+<span class="sourceLineNo">868</span><a id="line.868">    E[] array = (E[]) Iterables.toArray(elements);</a>
+<span class="sourceLineNo">869</span><a id="line.869">    Arrays.sort(array, this);</a>
+<span class="sourceLineNo">870</span><a id="line.870">    return Lists.newArrayList(Arrays.asList(array));</a>
+<span class="sourceLineNo">871</span><a id="line.871">  }</a>
+<span class="sourceLineNo">872</span><a id="line.872"></a>
+<span class="sourceLineNo">873</span><a id="line.873">  /**</a>
+<span class="sourceLineNo">874</span><a id="line.874">   * Returns an &lt;b&gt;immutable&lt;/b&gt; list containing {@code elements} sorted by this ordering. The input</a>
+<span class="sourceLineNo">875</span><a id="line.875">   * is not modified.</a>
+<span class="sourceLineNo">876</span><a id="line.876">   *</a>
+<span class="sourceLineNo">877</span><a id="line.877">   * &lt;p&gt;Unlike {@link Sets#newTreeSet(Iterable)}, this method does not discard elements that are</a>
+<span class="sourceLineNo">878</span><a id="line.878">   * duplicates according to the comparator. The sort performed is &lt;i&gt;stable&lt;/i&gt;, meaning that such</a>
+<span class="sourceLineNo">879</span><a id="line.879">   * elements will appear in the returned list in the same order they appeared in {@code elements}.</a>
+<span class="sourceLineNo">880</span><a id="line.880">   *</a>
+<span class="sourceLineNo">881</span><a id="line.881">   * &lt;p&gt;&lt;b&gt;Performance note:&lt;/b&gt; According to our</a>
+<span class="sourceLineNo">882</span><a id="line.882">   * benchmarking</a>
+<span class="sourceLineNo">883</span><a id="line.883">   * on Open JDK 7, this method is the most efficient way to make a sorted copy of a collection.</a>
+<span class="sourceLineNo">884</span><a id="line.884">   *</a>
+<span class="sourceLineNo">885</span><a id="line.885">   * @throws NullPointerException if any element of {@code elements} is {@code null}</a>
+<span class="sourceLineNo">886</span><a id="line.886">   * @since 3.0</a>
+<span class="sourceLineNo">887</span><a id="line.887">   */</a>
+<span class="sourceLineNo">888</span><a id="line.888">  // TODO(kevinb): rerun benchmarks including new options</a>
+<span class="sourceLineNo">889</span><a id="line.889">  public &lt;E extends @NonNull T&gt; ImmutableList&lt;E&gt; immutableSortedCopy(Iterable&lt;E&gt; elements) {</a>
+<span class="sourceLineNo">890</span><a id="line.890">    return ImmutableList.sortedCopyOf(this, elements);</a>
+<span class="sourceLineNo">891</span><a id="line.891">  }</a>
+<span class="sourceLineNo">892</span><a id="line.892"></a>
+<span class="sourceLineNo">893</span><a id="line.893">  /**</a>
+<span class="sourceLineNo">894</span><a id="line.894">   * Returns {@code true} if each element in {@code iterable} after the first is greater than or</a>
+<span class="sourceLineNo">895</span><a id="line.895">   * equal to the element that preceded it, according to this ordering. Note that this is always</a>
+<span class="sourceLineNo">896</span><a id="line.896">   * true when the iterable has fewer than two elements.</a>
+<span class="sourceLineNo">897</span><a id="line.897">   *</a>
+<span class="sourceLineNo">898</span><a id="line.898">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; Use the equivalent {@link Comparators#isInOrder(Iterable, Comparator)}</a>
+<span class="sourceLineNo">899</span><a id="line.899">   * instead, since the rest of {@code Ordering} is mostly obsolete (as explained in the class</a>
+<span class="sourceLineNo">900</span><a id="line.900">   * documentation).</a>
+<span class="sourceLineNo">901</span><a id="line.901">   */</a>
+<span class="sourceLineNo">902</span><a id="line.902">  public boolean isOrdered(Iterable&lt;? extends T&gt; iterable) {</a>
+<span class="sourceLineNo">903</span><a id="line.903">    Iterator&lt;? extends T&gt; it = iterable.iterator();</a>
+<span class="sourceLineNo">904</span><a id="line.904">    if (it.hasNext()) {</a>
+<span class="sourceLineNo">905</span><a id="line.905">      T prev = it.next();</a>
+<span class="sourceLineNo">906</span><a id="line.906">      while (it.hasNext()) {</a>
+<span class="sourceLineNo">907</span><a id="line.907">        T next = it.next();</a>
+<span class="sourceLineNo">908</span><a id="line.908">        if (compare(prev, next) &gt; 0) {</a>
+<span class="sourceLineNo">909</span><a id="line.909">          return false;</a>
+<span class="sourceLineNo">910</span><a id="line.910">        }</a>
+<span class="sourceLineNo">911</span><a id="line.911">        prev = next;</a>
+<span class="sourceLineNo">912</span><a id="line.912">      }</a>
+<span class="sourceLineNo">913</span><a id="line.913">    }</a>
+<span class="sourceLineNo">914</span><a id="line.914">    return true;</a>
+<span class="sourceLineNo">915</span><a id="line.915">  }</a>
+<span class="sourceLineNo">916</span><a id="line.916"></a>
+<span class="sourceLineNo">917</span><a id="line.917">  /**</a>
+<span class="sourceLineNo">918</span><a id="line.918">   * Returns {@code true} if each element in {@code iterable} after the first is &lt;i&gt;strictly&lt;/i&gt;</a>
+<span class="sourceLineNo">919</span><a id="line.919">   * greater than the element that preceded it, according to this ordering. Note that this is always</a>
+<span class="sourceLineNo">920</span><a id="line.920">   * true when the iterable has fewer than two elements.</a>
+<span class="sourceLineNo">921</span><a id="line.921">   *</a>
+<span class="sourceLineNo">922</span><a id="line.922">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; Use the equivalent {@link Comparators#isInStrictOrder(Iterable,</a>
+<span class="sourceLineNo">923</span><a id="line.923">   * Comparator)} instead, since the rest of {@code Ordering} is mostly obsolete (as explained in</a>
+<span class="sourceLineNo">924</span><a id="line.924">   * the class documentation).</a>
+<span class="sourceLineNo">925</span><a id="line.925">   */</a>
+<span class="sourceLineNo">926</span><a id="line.926">  public boolean isStrictlyOrdered(Iterable&lt;? extends T&gt; iterable) {</a>
+<span class="sourceLineNo">927</span><a id="line.927">    Iterator&lt;? extends T&gt; it = iterable.iterator();</a>
+<span class="sourceLineNo">928</span><a id="line.928">    if (it.hasNext()) {</a>
+<span class="sourceLineNo">929</span><a id="line.929">      T prev = it.next();</a>
+<span class="sourceLineNo">930</span><a id="line.930">      while (it.hasNext()) {</a>
+<span class="sourceLineNo">931</span><a id="line.931">        T next = it.next();</a>
+<span class="sourceLineNo">932</span><a id="line.932">        if (compare(prev, next) &gt;= 0) {</a>
+<span class="sourceLineNo">933</span><a id="line.933">          return false;</a>
+<span class="sourceLineNo">934</span><a id="line.934">        }</a>
+<span class="sourceLineNo">935</span><a id="line.935">        prev = next;</a>
+<span class="sourceLineNo">936</span><a id="line.936">      }</a>
+<span class="sourceLineNo">937</span><a id="line.937">    }</a>
+<span class="sourceLineNo">938</span><a id="line.938">    return true;</a>
+<span class="sourceLineNo">939</span><a id="line.939">  }</a>
+<span class="sourceLineNo">940</span><a id="line.940"></a>
+<span class="sourceLineNo">941</span><a id="line.941">  /**</a>
+<span class="sourceLineNo">942</span><a id="line.942">   * {@link Collections#binarySearch(List, Object, Comparator) Searches} {@code sortedList} for</a>
+<span class="sourceLineNo">943</span><a id="line.943">   * {@code key} using the binary search algorithm. The list must be sorted using this ordering.</a>
+<span class="sourceLineNo">944</span><a id="line.944">   *</a>
+<span class="sourceLineNo">945</span><a id="line.945">   * @param sortedList the list to be searched</a>
+<span class="sourceLineNo">946</span><a id="line.946">   * @param key the key to be searched for</a>
+<span class="sourceLineNo">947</span><a id="line.947">   * @deprecated Use {@link Collections#binarySearch(List, Object, Comparator)} directly.</a>
+<span class="sourceLineNo">948</span><a id="line.948">   */</a>
+<span class="sourceLineNo">949</span><a id="line.949">  @Deprecated</a>
+<span class="sourceLineNo">950</span><a id="line.950">  public int binarySearch(</a>
+<span class="sourceLineNo">951</span><a id="line.951">      List&lt;? extends T&gt; sortedList, @ParametricNullness T key) {</a>
+<span class="sourceLineNo">952</span><a id="line.952">    return Collections.binarySearch(sortedList, key, this);</a>
+<span class="sourceLineNo">953</span><a id="line.953">  }</a>
+<span class="sourceLineNo">954</span><a id="line.954"></a>
+<span class="sourceLineNo">955</span><a id="line.955">  /**</a>
+<span class="sourceLineNo">956</span><a id="line.956">   * Exception thrown by a {@link Ordering#explicit(List)} or {@link Ordering#explicit(Object,</a>
+<span class="sourceLineNo">957</span><a id="line.957">   * Object[])} comparator when comparing a value outside the set of values it can compare.</a>
+<span class="sourceLineNo">958</span><a id="line.958">   * Extending {@link ClassCastException} may seem odd, but it is required.</a>
+<span class="sourceLineNo">959</span><a id="line.959">   */</a>
+<span class="sourceLineNo">960</span><a id="line.960">  static class IncomparableValueException extends ClassCastException {</a>
+<span class="sourceLineNo">961</span><a id="line.961">    final Object value;</a>
+<span class="sourceLineNo">962</span><a id="line.962"></a>
+<span class="sourceLineNo">963</span><a id="line.963">    IncomparableValueException(Object value) {</a>
+<span class="sourceLineNo">964</span><a id="line.964">      super("Cannot compare value: " + value);</a>
+<span class="sourceLineNo">965</span><a id="line.965">      this.value = value;</a>
+<span class="sourceLineNo">966</span><a id="line.966">    }</a>
+<span class="sourceLineNo">967</span><a id="line.967"></a>
+<span class="sourceLineNo">968</span><a id="line.968">    private static final long serialVersionUID = 0;</a>
+<span class="sourceLineNo">969</span><a id="line.969">  }</a>
+<span class="sourceLineNo">970</span><a id="line.970"></a>
+<span class="sourceLineNo">971</span><a id="line.971">  // Never make these public</a>
+<span class="sourceLineNo">972</span><a id="line.972">  static final int LEFT_IS_GREATER = 1;</a>
+<span class="sourceLineNo">973</span><a id="line.973">  static final int RIGHT_IS_GREATER = -1;</a>
+<span class="sourceLineNo">974</span><a id="line.974">}</a>
 
 
 
