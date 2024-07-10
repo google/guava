@@ -295,8 +295,9 @@ public class FinalizableReferenceQueue implements Closeable {
          *
          * System class loader will (and must) be the parent.
          */
-        ClassLoader finalizerLoader = newLoader(getBaseUrl());
-        return finalizerLoader.loadClass(FINALIZER_CLASS_NAME);
+        try (URLClassLoader finalizerLoader = newLoader(getBaseUrl())) {
+          return finalizerLoader.loadClass(FINALIZER_CLASS_NAME);
+        }
       } catch (Exception e) {
         logger.log(Level.WARNING, LOADING_ERROR, e);
         return null;
