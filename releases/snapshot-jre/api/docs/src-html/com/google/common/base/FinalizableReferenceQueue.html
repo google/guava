@@ -294,76 +294,75 @@
 <span class="sourceLineNo">285</span><a id="line.285">    @Override</a>
 <span class="sourceLineNo">286</span><a id="line.286">    @CheckForNull</a>
 <span class="sourceLineNo">287</span><a id="line.287">    public Class&lt;?&gt; loadFinalizer() {</a>
-<span class="sourceLineNo">288</span><a id="line.288">      try {</a>
-<span class="sourceLineNo">289</span><a id="line.289">        /*</a>
-<span class="sourceLineNo">290</span><a id="line.290">         * We use URLClassLoader because it's the only concrete class loader implementation in the</a>
-<span class="sourceLineNo">291</span><a id="line.291">         * JDK. If we used our own ClassLoader subclass, Finalizer would indirectly reference this</a>
-<span class="sourceLineNo">292</span><a id="line.292">         * class loader:</a>
-<span class="sourceLineNo">293</span><a id="line.293">         *</a>
-<span class="sourceLineNo">294</span><a id="line.294">         * Finalizer.class -&gt; CustomClassLoader -&gt; CustomClassLoader.class -&gt; This class loader</a>
-<span class="sourceLineNo">295</span><a id="line.295">         *</a>
-<span class="sourceLineNo">296</span><a id="line.296">         * System class loader will (and must) be the parent.</a>
-<span class="sourceLineNo">297</span><a id="line.297">         */</a>
-<span class="sourceLineNo">298</span><a id="line.298">        ClassLoader finalizerLoader = newLoader(getBaseUrl());</a>
-<span class="sourceLineNo">299</span><a id="line.299">        return finalizerLoader.loadClass(FINALIZER_CLASS_NAME);</a>
-<span class="sourceLineNo">300</span><a id="line.300">      } catch (Exception e) {</a>
-<span class="sourceLineNo">301</span><a id="line.301">        logger.log(Level.WARNING, LOADING_ERROR, e);</a>
-<span class="sourceLineNo">302</span><a id="line.302">        return null;</a>
-<span class="sourceLineNo">303</span><a id="line.303">      }</a>
-<span class="sourceLineNo">304</span><a id="line.304">    }</a>
-<span class="sourceLineNo">305</span><a id="line.305"></a>
-<span class="sourceLineNo">306</span><a id="line.306">    /** Gets URL for base of path containing Finalizer.class. */</a>
-<span class="sourceLineNo">307</span><a id="line.307">    URL getBaseUrl() throws IOException {</a>
-<span class="sourceLineNo">308</span><a id="line.308">      // Find URL pointing to Finalizer.class file.</a>
-<span class="sourceLineNo">309</span><a id="line.309">      String finalizerPath = FINALIZER_CLASS_NAME.replace('.', '/') + ".class";</a>
-<span class="sourceLineNo">310</span><a id="line.310">      URL finalizerUrl = getClass().getClassLoader().getResource(finalizerPath);</a>
-<span class="sourceLineNo">311</span><a id="line.311">      if (finalizerUrl == null) {</a>
-<span class="sourceLineNo">312</span><a id="line.312">        throw new FileNotFoundException(finalizerPath);</a>
-<span class="sourceLineNo">313</span><a id="line.313">      }</a>
-<span class="sourceLineNo">314</span><a id="line.314"></a>
-<span class="sourceLineNo">315</span><a id="line.315">      // Find URL pointing to base of class path.</a>
-<span class="sourceLineNo">316</span><a id="line.316">      String urlString = finalizerUrl.toString();</a>
-<span class="sourceLineNo">317</span><a id="line.317">      if (!urlString.endsWith(finalizerPath)) {</a>
-<span class="sourceLineNo">318</span><a id="line.318">        throw new IOException("Unsupported path style: " + urlString);</a>
-<span class="sourceLineNo">319</span><a id="line.319">      }</a>
-<span class="sourceLineNo">320</span><a id="line.320">      urlString = urlString.substring(0, urlString.length() - finalizerPath.length());</a>
-<span class="sourceLineNo">321</span><a id="line.321">      return new URL(finalizerUrl, urlString);</a>
-<span class="sourceLineNo">322</span><a id="line.322">    }</a>
-<span class="sourceLineNo">323</span><a id="line.323"></a>
-<span class="sourceLineNo">324</span><a id="line.324">    /** Creates a class loader with the given base URL as its classpath. */</a>
-<span class="sourceLineNo">325</span><a id="line.325">    URLClassLoader newLoader(URL base) {</a>
-<span class="sourceLineNo">326</span><a id="line.326">      // We use the bootstrap class loader as the parent because Finalizer by design uses</a>
-<span class="sourceLineNo">327</span><a id="line.327">      // only standard Java classes. That also means that FinalizableReferenceQueueTest</a>
-<span class="sourceLineNo">328</span><a id="line.328">      // doesn't pick up the wrong version of the Finalizer class.</a>
-<span class="sourceLineNo">329</span><a id="line.329">      return new URLClassLoader(new URL[] {base}, null);</a>
-<span class="sourceLineNo">330</span><a id="line.330">    }</a>
-<span class="sourceLineNo">331</span><a id="line.331">  }</a>
-<span class="sourceLineNo">332</span><a id="line.332"></a>
-<span class="sourceLineNo">333</span><a id="line.333">  /**</a>
-<span class="sourceLineNo">334</span><a id="line.334">   * Loads Finalizer directly using the current class loader. We won't be able to garbage collect</a>
-<span class="sourceLineNo">335</span><a id="line.335">   * this class loader, but at least the world doesn't end.</a>
-<span class="sourceLineNo">336</span><a id="line.336">   */</a>
-<span class="sourceLineNo">337</span><a id="line.337">  static class DirectLoader implements FinalizerLoader {</a>
-<span class="sourceLineNo">338</span><a id="line.338">    @Override</a>
-<span class="sourceLineNo">339</span><a id="line.339">    public Class&lt;?&gt; loadFinalizer() {</a>
-<span class="sourceLineNo">340</span><a id="line.340">      try {</a>
-<span class="sourceLineNo">341</span><a id="line.341">        return Class.forName(FINALIZER_CLASS_NAME);</a>
-<span class="sourceLineNo">342</span><a id="line.342">      } catch (ClassNotFoundException e) {</a>
-<span class="sourceLineNo">343</span><a id="line.343">        throw new AssertionError(e);</a>
-<span class="sourceLineNo">344</span><a id="line.344">      }</a>
-<span class="sourceLineNo">345</span><a id="line.345">    }</a>
-<span class="sourceLineNo">346</span><a id="line.346">  }</a>
-<span class="sourceLineNo">347</span><a id="line.347"></a>
-<span class="sourceLineNo">348</span><a id="line.348">  /** Looks up Finalizer.startFinalizer(). */</a>
-<span class="sourceLineNo">349</span><a id="line.349">  static Method getStartFinalizer(Class&lt;?&gt; finalizer) {</a>
-<span class="sourceLineNo">350</span><a id="line.350">    try {</a>
-<span class="sourceLineNo">351</span><a id="line.351">      return finalizer.getMethod(</a>
-<span class="sourceLineNo">352</span><a id="line.352">          "startFinalizer", Class.class, ReferenceQueue.class, PhantomReference.class);</a>
-<span class="sourceLineNo">353</span><a id="line.353">    } catch (NoSuchMethodException e) {</a>
-<span class="sourceLineNo">354</span><a id="line.354">      throw new AssertionError(e);</a>
-<span class="sourceLineNo">355</span><a id="line.355">    }</a>
-<span class="sourceLineNo">356</span><a id="line.356">  }</a>
-<span class="sourceLineNo">357</span><a id="line.357">}</a>
+<span class="sourceLineNo">288</span><a id="line.288">      /*</a>
+<span class="sourceLineNo">289</span><a id="line.289">       * We use URLClassLoader because it's the only concrete class loader implementation in the</a>
+<span class="sourceLineNo">290</span><a id="line.290">       * JDK. If we used our own ClassLoader subclass, Finalizer would indirectly reference this</a>
+<span class="sourceLineNo">291</span><a id="line.291">       * class loader:</a>
+<span class="sourceLineNo">292</span><a id="line.292">       *</a>
+<span class="sourceLineNo">293</span><a id="line.293">       * Finalizer.class -&gt; CustomClassLoader -&gt; CustomClassLoader.class -&gt; This class loader</a>
+<span class="sourceLineNo">294</span><a id="line.294">       *</a>
+<span class="sourceLineNo">295</span><a id="line.295">       * System class loader will (and must) be the parent.</a>
+<span class="sourceLineNo">296</span><a id="line.296">       */</a>
+<span class="sourceLineNo">297</span><a id="line.297">      try (URLClassLoader finalizerLoader = newLoader(getBaseUrl())) {</a>
+<span class="sourceLineNo">298</span><a id="line.298">        return finalizerLoader.loadClass(FINALIZER_CLASS_NAME);</a>
+<span class="sourceLineNo">299</span><a id="line.299">      } catch (Exception e) {</a>
+<span class="sourceLineNo">300</span><a id="line.300">        logger.log(Level.WARNING, LOADING_ERROR, e);</a>
+<span class="sourceLineNo">301</span><a id="line.301">        return null;</a>
+<span class="sourceLineNo">302</span><a id="line.302">      }</a>
+<span class="sourceLineNo">303</span><a id="line.303">    }</a>
+<span class="sourceLineNo">304</span><a id="line.304"></a>
+<span class="sourceLineNo">305</span><a id="line.305">    /** Gets URL for base of path containing Finalizer.class. */</a>
+<span class="sourceLineNo">306</span><a id="line.306">    URL getBaseUrl() throws IOException {</a>
+<span class="sourceLineNo">307</span><a id="line.307">      // Find URL pointing to Finalizer.class file.</a>
+<span class="sourceLineNo">308</span><a id="line.308">      String finalizerPath = FINALIZER_CLASS_NAME.replace('.', '/') + ".class";</a>
+<span class="sourceLineNo">309</span><a id="line.309">      URL finalizerUrl = getClass().getClassLoader().getResource(finalizerPath);</a>
+<span class="sourceLineNo">310</span><a id="line.310">      if (finalizerUrl == null) {</a>
+<span class="sourceLineNo">311</span><a id="line.311">        throw new FileNotFoundException(finalizerPath);</a>
+<span class="sourceLineNo">312</span><a id="line.312">      }</a>
+<span class="sourceLineNo">313</span><a id="line.313"></a>
+<span class="sourceLineNo">314</span><a id="line.314">      // Find URL pointing to base of class path.</a>
+<span class="sourceLineNo">315</span><a id="line.315">      String urlString = finalizerUrl.toString();</a>
+<span class="sourceLineNo">316</span><a id="line.316">      if (!urlString.endsWith(finalizerPath)) {</a>
+<span class="sourceLineNo">317</span><a id="line.317">        throw new IOException("Unsupported path style: " + urlString);</a>
+<span class="sourceLineNo">318</span><a id="line.318">      }</a>
+<span class="sourceLineNo">319</span><a id="line.319">      urlString = urlString.substring(0, urlString.length() - finalizerPath.length());</a>
+<span class="sourceLineNo">320</span><a id="line.320">      return new URL(finalizerUrl, urlString);</a>
+<span class="sourceLineNo">321</span><a id="line.321">    }</a>
+<span class="sourceLineNo">322</span><a id="line.322"></a>
+<span class="sourceLineNo">323</span><a id="line.323">    /** Creates a class loader with the given base URL as its classpath. */</a>
+<span class="sourceLineNo">324</span><a id="line.324">    URLClassLoader newLoader(URL base) {</a>
+<span class="sourceLineNo">325</span><a id="line.325">      // We use the bootstrap class loader as the parent because Finalizer by design uses</a>
+<span class="sourceLineNo">326</span><a id="line.326">      // only standard Java classes. That also means that FinalizableReferenceQueueTest</a>
+<span class="sourceLineNo">327</span><a id="line.327">      // doesn't pick up the wrong version of the Finalizer class.</a>
+<span class="sourceLineNo">328</span><a id="line.328">      return new URLClassLoader(new URL[] {base}, null);</a>
+<span class="sourceLineNo">329</span><a id="line.329">    }</a>
+<span class="sourceLineNo">330</span><a id="line.330">  }</a>
+<span class="sourceLineNo">331</span><a id="line.331"></a>
+<span class="sourceLineNo">332</span><a id="line.332">  /**</a>
+<span class="sourceLineNo">333</span><a id="line.333">   * Loads Finalizer directly using the current class loader. We won't be able to garbage collect</a>
+<span class="sourceLineNo">334</span><a id="line.334">   * this class loader, but at least the world doesn't end.</a>
+<span class="sourceLineNo">335</span><a id="line.335">   */</a>
+<span class="sourceLineNo">336</span><a id="line.336">  static class DirectLoader implements FinalizerLoader {</a>
+<span class="sourceLineNo">337</span><a id="line.337">    @Override</a>
+<span class="sourceLineNo">338</span><a id="line.338">    public Class&lt;?&gt; loadFinalizer() {</a>
+<span class="sourceLineNo">339</span><a id="line.339">      try {</a>
+<span class="sourceLineNo">340</span><a id="line.340">        return Class.forName(FINALIZER_CLASS_NAME);</a>
+<span class="sourceLineNo">341</span><a id="line.341">      } catch (ClassNotFoundException e) {</a>
+<span class="sourceLineNo">342</span><a id="line.342">        throw new AssertionError(e);</a>
+<span class="sourceLineNo">343</span><a id="line.343">      }</a>
+<span class="sourceLineNo">344</span><a id="line.344">    }</a>
+<span class="sourceLineNo">345</span><a id="line.345">  }</a>
+<span class="sourceLineNo">346</span><a id="line.346"></a>
+<span class="sourceLineNo">347</span><a id="line.347">  /** Looks up Finalizer.startFinalizer(). */</a>
+<span class="sourceLineNo">348</span><a id="line.348">  static Method getStartFinalizer(Class&lt;?&gt; finalizer) {</a>
+<span class="sourceLineNo">349</span><a id="line.349">    try {</a>
+<span class="sourceLineNo">350</span><a id="line.350">      return finalizer.getMethod(</a>
+<span class="sourceLineNo">351</span><a id="line.351">          "startFinalizer", Class.class, ReferenceQueue.class, PhantomReference.class);</a>
+<span class="sourceLineNo">352</span><a id="line.352">    } catch (NoSuchMethodException e) {</a>
+<span class="sourceLineNo">353</span><a id="line.353">      throw new AssertionError(e);</a>
+<span class="sourceLineNo">354</span><a id="line.354">    }</a>
+<span class="sourceLineNo">355</span><a id="line.355">  }</a>
+<span class="sourceLineNo">356</span><a id="line.356">}</a>
 
 
 
