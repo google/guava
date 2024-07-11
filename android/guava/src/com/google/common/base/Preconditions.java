@@ -118,8 +118,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 public final class Preconditions {
   private Preconditions() {}
 
-  private interface Impossible {}
-
   /**
    * Ensures the truth of an expression involving one or more parameters to the calling method.
    *
