@@ -27,11 +27,14 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Maps;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import java.util.ArrayDeque;
 import java.util.Collection;
+import java.util.Deque;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Queue;
 import java.util.Set;
 import javax.annotation.CheckForNull;
 
@@ -69,7 +72,7 @@ public final class Graphs extends GraphsBridgeMethods {
     Map<Object, NodeVisitState> visitedNodes =
         Maps.newHashMapWithExpectedSize(graph.nodes().size());
     for (N node : graph.nodes()) {
-      if (subgraphHasCycle(graph, visitedNodes, node, null)) {
+      if (subgraphHasCycle(graph, visitedNodes, node)) {
         return true;
       }
     }
@@ -95,32 +98,65 @@ public final class Graphs extends GraphsBridgeMethods {
   }
 
   /**
-   * Performs a traversal of the nodes reachable from {@code node}. If we ever reach a node we've
-   * already visited (following only outgoing edges and without reusing edges), we know there's a
-   * cycle in the graph.
+   * Performs a traversal of the nodes reachable from {@code startNode}. If we ever reach a node
+   * we've already visited (following only outgoing edges and without reusing edges), we know
+   * there's a cycle in the graph.
    */
   private static <N> boolean subgraphHasCycle(
-      Graph<N> graph,
-      Map<Object, NodeVisitState> visitedNodes,
-      N node,
-      @CheckForNull N previousNode) {
-    NodeVisitState state = visitedNodes.get(node);
-    if (state == NodeVisitState.COMPLETE) {
-      return false;
-    }
-    if (state == NodeVisitState.PENDING) {
-      return true;
-    }
+      Graph<N> graph, Map<Object, NodeVisitState> visitedNodes, N startNode) {
+    Deque<NodeAndRemainingSuccessors<N>> stack = new ArrayDeque<>();
+    stack.addLast(new NodeAndRemainingSuccessors<>(startNode));
 
-    visitedNodes.put(node, NodeVisitState.PENDING);
-    for (N nextNode : graph.successors(node)) {
-      if (canTraverseWithoutReusingEdge(graph, nextNode, previousNode)
-          && subgraphHasCycle(graph, visitedNodes, nextNode, node)) {
-        return true;
+    while (!stack.isEmpty()) {
+      // To peek at the top two items, we need to temporarily remove one.
+      NodeAndRemainingSuccessors<N> top = stack.removeLast();
+      NodeAndRemainingSuccessors<N> prev = stack.peekLast();
+      stack.addLast(top);
+
+      N node = top.node;
+      N previousNode = prev == null ? null : prev.node;
+      if (top.remainingSuccessors == null) {
+        NodeVisitState state = visitedNodes.get(node);
+        if (state == NodeVisitState.COMPLETE) {
+          stack.removeLast();
+          continue;
+        }
+        if (state == NodeVisitState.PENDING) {
+          return true;
+        }
+
+        visitedNodes.put(node, NodeVisitState.PENDING);
+        top.remainingSuccessors = new ArrayDeque<>(graph.successors(node));
       }
+
+      if (!top.remainingSuccessors.isEmpty()) {
+        N nextNode = top.remainingSuccessors.remove();
+        if (canTraverseWithoutReusingEdge(graph, nextNode, previousNode)) {
+          stack.addLast(new NodeAndRemainingSuccessors<>(nextNode));
+          continue;
+        }
+      }
+
+      stack.removeLast();
+      visitedNodes.put(node, NodeVisitState.COMPLETE);
     }
-    visitedNodes.put(node, NodeVisitState.COMPLETE);
     return false;
+  }
+
+  private static final class NodeAndRemainingSuccessors<N> {
+    final N node;
+
+    /**
+     * The successors left to be visited, or {@code null} if we just added this {@code
+     * NodeAndRemainingSuccessors} instance to the stack. In the latter case, we'll compute the
+     * successors if we determine that we need them after we've performed the initial processing of
+     * the node.
+     */
+    @CheckForNull Queue<N> remainingSuccessors;
+
+    NodeAndRemainingSuccessors(N node) {
+      this.node = node;
+    }
   }
 
   /**
