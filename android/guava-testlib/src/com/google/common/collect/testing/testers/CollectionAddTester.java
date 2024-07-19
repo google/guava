@@ -133,8 +133,9 @@ public class CollectionAddTester<E> extends AbstractCollectionTester<E> {
   /**
    * Returns the {@link Method} instance for {@link #testAdd_unsupportedNotPresent()} so that tests
    * can suppress it with {@code FeatureSpecificTestSuiteBuilder.suppressing()} while we figure out
-   * what to do with <a href="http://goo.gl/qJBruX">{@code ConcurrentHashMap} support for {@code
-   * entrySet().add()}</a>.
+   * what to do with <a
+   * href="https://github.com/openjdk/jdk/blob/c25c4896ad9ef031e3cddec493aef66ff87c48a7/src/java.base/share/classes/java/util/concurrent/ConcurrentHashMap.java#L4830">{@code
+   * ConcurrentHashMap} support for {@code entrySet().add()}</a>.
    */
   @J2ktIncompatible
   @GwtIncompatible // reflection

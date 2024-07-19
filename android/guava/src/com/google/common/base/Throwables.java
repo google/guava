@@ -223,7 +223,8 @@ public final class Throwables {
    *     directly, or use a combination of {@link #throwIfUnchecked} and {@code throw new
    *     RuntimeException(e)}. But consider whether users would be better off if your API threw a
    *     different type of exception. For background on the deprecation, read <a
-   *     href="https://goo.gl/Ivn2kc">Why we deprecated {@code Throwables.propagate}</a>.
+   *     href="https://github.com/google/guava/wiki/Why-we-deprecated-Throwables.propagate">Why we
+   *     deprecated {@code Throwables.propagate}</a>.
    */
   @CanIgnoreReturnValue
   @J2ktIncompatible

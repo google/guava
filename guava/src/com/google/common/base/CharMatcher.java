@@ -133,7 +133,8 @@ public abstract class CharMatcher implements Predicate<Character> {
    * illustrated <a
    * href="http://unicode.org/cldr/utility/list-unicodeset.jsp?a=%5Cp%7Bwhitespace%7D">here</a>.
    * This is not the same definition used by other Java APIs. (See a <a
-   * href="https://goo.gl/Y6SLWx">comparison of several definitions of "whitespace"</a>.)
+   * href="https://docs.google.com/spreadsheets/d/1kq4ECwPjHX9B8QUCTPclgsDCXYaj7T-FlT4tB5q3ahk/edit">comparison
+   * of several definitions of "whitespace"</a>.)
    *
    * <p>All Unicode White_Space characters are on the BMP and thus supported by this API.
    *
