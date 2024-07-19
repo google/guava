@@ -873,7 +873,8 @@
  illustrated <a
  href="http://unicode.org/cldr/utility/list-unicodeset.jsp?a=%5Cp%7Bwhitespace%7D">here</a>.
  This is not the same definition used by other Java APIs. (See a <a
- href="https://goo.gl/Y6SLWx">comparison of several definitions of "whitespace"</a>.)
+ href="https://docs.google.com/spreadsheets/d/1kq4ECwPjHX9B8QUCTPclgsDCXYaj7T-FlT4tB5q3ahk/edit">comparison
+ of several definitions of "whitespace"</a>.)
 
  <p>All Unicode White_Space characters are on the BMP and thus supported by this API.
 
@@ -6548,7 +6549,8 @@
      directly, or use a combination of {@link #throwIfUnchecked} and {@code throw new
      RuntimeException(e)}. But consider whether users would be better off if your API threw a
      different type of exception. For background on the deprecation, read lEsS_tHaNa
-     href=quote_cHaRhttps://goo.gl/Ivn2kcquote_cHaR>Why we deprecated {@code Throwables.propagate}lEsS_tHaN/a>.">
+     href=quote_cHaRhttps://github.com/google/guava/wiki/Why-we-deprecated-Throwables.propagatequote_cHaR>Why we
+     deprecated {@code Throwables.propagate}lEsS_tHaN/a>.">
       <param name="throwable" type="java.lang.Throwable"/>
       <doc>
       <![CDATA[Propagates {@code throwable} as-is if it is an instance of {@link RuntimeException} or {@link
@@ -6577,7 +6579,8 @@
      directly, or use a combination of {@link #throwIfUnchecked} and {@code throw new
      RuntimeException(e)}. But consider whether users would be better off if your API threw a
      different type of exception. For background on the deprecation, read <a
-     href="https://goo.gl/Ivn2kc">Why we deprecated {@code Throwables.propagate}</a>.]]>
+     href="https://github.com/google/guava/wiki/Why-we-deprecated-Throwables.propagate">Why we
+     deprecated {@code Throwables.propagate}</a>.]]>
       </doc>
     </method>
     <method name="getRootCause" return="java.lang.Throwable"
@@ -26682,7 +26685,9 @@
 
  <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
  use the {@code ArrayList} {@linkplain ArrayList#ArrayList() constructor} directly, taking
- advantage of <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.]]>
+ advantage of <a
+ href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
+ syntax</a>.]]>
       </doc>
     </method>
     <method name="newArrayList" return="java.util.ArrayList&lt;E&gt;"
@@ -26720,7 +26725,9 @@
 
  <p><b>Note:</b> if {@code elements} is a {@link Collection}, you don't need this method. Use
  the {@code ArrayList} {@linkplain ArrayList#ArrayList(Collection) constructor} directly, taking
- advantage of <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.]]>
+ advantage of <a
+ href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
+ syntax</a>.]]>
       </doc>
     </method>
     <method name="newArrayList" return="java.util.ArrayList&lt;E&gt;"
@@ -26747,9 +26754,10 @@
 
  <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
  use {@code new }{@link ArrayList#ArrayList(int) ArrayList}{@code <>(int)} directly, taking
- advantage of <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>. (Unlike here, there is no risk
- of overload ambiguity, since the {@code ArrayList} constructors very wisely did not accept
- varargs.)
+ advantage of <a
+ href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
+ syntax</a>. (Unlike here, there is no risk of overload ambiguity, since the {@code ArrayList}
+ constructors very wisely did not accept varargs.)
 
  @param initialArraySize the exact size of the initial backing array for the returned array list
      ({@code ArrayList} documentation calls this value the "capacity")
@@ -26793,7 +26801,9 @@
 
  <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
  use the {@code LinkedList} {@linkplain LinkedList#LinkedList() constructor} directly, taking
- advantage of <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.]]>
+ advantage of <a
+ href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
+ syntax</a>.]]>
       </doc>
     </method>
     <method name="newLinkedList" return="java.util.LinkedList&lt;E&gt;"
@@ -26815,7 +26825,9 @@
 
  <p><b>Note:</b> if {@code elements} is a {@link Collection}, you don't need this method. Use
  the {@code LinkedList} {@linkplain LinkedList#LinkedList(Collection) constructor} directly,
- taking advantage of <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.]]>
+ taking advantage of <a
+ href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
+ syntax</a>.]]>
       </doc>
     </method>
     <method name="newCopyOnWriteArrayList" return="java.util.concurrent.CopyOnWriteArrayList&lt;E&gt;"
@@ -27502,7 +27514,8 @@
 
  <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
  use the {@code HashMap} constructor directly, taking advantage of <a
- href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+ href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
+ syntax</a>.
 
  @return a new, empty {@code HashMap}]]>
       </doc>
@@ -27521,7 +27534,8 @@
 
  <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
  use the {@code HashMap} constructor directly, taking advantage of <a
- href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+ href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
+ syntax</a>.
 
  @param map the mappings to be placed in the new map
  @return a new {@code HashMap} initialized with the mappings from {@code map}]]>
@@ -27555,7 +27569,8 @@
 
  <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
  use the {@code LinkedHashMap} constructor directly, taking advantage of <a
- href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+ href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
+ syntax</a>.
 
  @return a new, empty {@code LinkedHashMap}]]>
       </doc>
@@ -27573,7 +27588,8 @@
 
  <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
  use the {@code LinkedHashMap} constructor directly, taking advantage of <a
- href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+ href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
+ syntax</a>.
 
  @param map the mappings to be placed in the new map
  @return a new, {@code LinkedHashMap} initialized with the mappings from {@code map}]]>
@@ -27619,7 +27635,8 @@
 
  <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
  use the {@code TreeMap} constructor directly, taking advantage of <a
- href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+ href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
+ syntax</a>.
 
  @return a new, empty {@code TreeMap}]]>
       </doc>
@@ -27638,7 +27655,8 @@
 
  <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
  use the {@code TreeMap} constructor directly, taking advantage of <a
- href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+ href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
+ syntax</a>.
 
  @param map the sorted map whose mappings are to be placed in the new map and whose comparator
      is to be used to sort the new map
@@ -27659,7 +27677,8 @@
 
  <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
  use the {@code TreeMap} constructor directly, taking advantage of <a
- href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+ href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
+ syntax</a>.
 
  @param comparator the comparator to sort the keys with
  @return a new, empty {@code TreeMap}]]>
@@ -27687,7 +27706,8 @@
 
  <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
  use the {@code EnumMap} constructor directly, taking advantage of <a
- href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+ href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
+ syntax</a>.
 
  @param map the map from which to initialize this {@code EnumMap}
  @return a new {@code EnumMap} initialized with the mappings from {@code map}
@@ -27704,7 +27724,8 @@
 
  <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
  use the {@code IdentityHashMap} constructor directly, taking advantage of <a
- href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+ href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
+ syntax</a>.
 
  @return a new, empty {@code IdentityHashMap}]]>
       </doc>
@@ -34473,7 +34494,8 @@
 
  <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
  use the {@code HashSet} constructor directly, taking advantage of <a
- href="http://goo.gl/iz2Wi">"diamond" syntax</a>.]]>
+ href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
+ syntax</a>.]]>
       </doc>
     </method>
     <method name="newHashSet" return="java.util.HashSet&lt;E&gt;"
@@ -34514,7 +34536,8 @@
 
  <p><b>Note:</b> if {@code elements} is a {@link Collection}, you don't need this method.
  Instead, use the {@code HashSet} constructor directly, taking advantage of <a
- href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+ href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
+ syntax</a>.
 
  <p>Overall, this method is not very useful and will likely be deprecated in the future.]]>
       </doc>
@@ -34600,7 +34623,8 @@
 
  <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
  use the {@code LinkedHashSet} constructor directly, taking advantage of <a
- href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+ href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
+ syntax</a>.
 
  @return a new, empty {@code LinkedHashSet}]]>
       </doc>
@@ -34618,7 +34642,8 @@
 
  <p><b>Note:</b> if {@code elements} is a {@link Collection}, you don't need this method.
  Instead, use the {@code LinkedHashSet} constructor directly, taking advantage of <a
- href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+ href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
+ syntax</a>.
 
  <p>Overall, this method is not very useful and will likely be deprecated in the future.
 
@@ -34656,7 +34681,8 @@
 
  <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
  use the {@code TreeSet} constructor directly, taking advantage of <a
- href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+ href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
+ syntax</a>.
 
  @return a new, empty {@code TreeSet}]]>
       </doc>
@@ -34679,7 +34705,8 @@
 
  <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
  use the {@code TreeSet} constructor directly, taking advantage of <a
- href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+ href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
+ syntax</a>.
 
  <p>This method is just a small convenience for creating an empty set and then calling {@link
  Iterables#addAll}. This method is not very useful and will likely be deprecated in the future.
@@ -34701,9 +34728,10 @@
 
  <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
  use the {@code TreeSet} constructor directly, taking advantage of <a
- href="http://goo.gl/iz2Wi">"diamond" syntax</a>. One caveat to this is that the {@code TreeSet}
- constructor uses a null {@code Comparator} to mean "natural ordering," whereas this factory
- rejects null. Clean your code accordingly.
+ href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
+ syntax</a>. One caveat to this is that the {@code TreeSet} constructor uses a null {@code
+ Comparator} to mean "natural ordering," whereas this factory rejects null. Clean your code
+ accordingly.
 
  @param comparator the comparator to use to sort the set
  @return a new, empty {@code TreeSet}
@@ -43841,7 +43869,7 @@
  utilities.
 
  <p>A comparison of the various hash functions can be found <a
- href="http://goo.gl/jS7HH">here</a>.
+ href="https://docs.google.com/spreadsheets/d/1_q2EVcxA2HjcrlVMbaqXwMj31h9M5-Bqj_m8vITOwwk/">here</a>.
 
  @author Kevin Bourrillion
  @author Dimitris Andreou
@@ -44183,10 +44211,11 @@
  One Google-authored templating system available for external use is <a
  href="https://developers.google.com/closure/templates/">Closure Templates</a>.
 
- <p>HTML escaping is particularly tricky: For example, <a href="http://goo.gl/5TgZb">some
- elements' text contents must not be HTML escaped</a>. As a result, it is impossible to escape an
- HTML document correctly without domain-specific knowledge beyond what {@code HtmlEscapers}
- provides. We strongly encourage the use of HTML templating systems.
+ <p>HTML escaping is particularly tricky: For example, <a
+ href="https://www.w3.org/TR/html4/types.html#h-6.2">some elements' text contents must not be HTML
+ escaped</a>. As a result, it is impossible to escape an HTML document correctly without
+ domain-specific knowledge beyond what {@code HtmlEscapers} provides. We strongly encourage the
+ use of HTML templating systems.
 
  @author Sven Mawson
  @author David Beaumont
@@ -47202,7 +47231,9 @@
  behavior that the {@link File} API does not already account for. For example, on NTFS it will
  report {@code "txt"} as the extension for the filename {@code "foo.exe:.txt"} even though NTFS
  will drop the {@code ":.txt"} part of the name when the file is actually created on the
- filesystem due to NTFS's <a href="https://goo.gl/vTpJi4">Alternate Data Streams</a>.
+ filesystem due to NTFS's <a
+ href="https://learn.microsoft.com/en-us/archive/blogs/askcore/alternate-data-streams-in-ntfs">Alternate
+ Data Streams</a>.
 
  @since 11.0]]>
       </doc>
@@ -51817,7 +51848,8 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[The HTTP <a href="http://goo.gl/Dxx19N">{@code SourceMap}</a> header field name.
+      <![CDATA[The HTTP <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/SourceMap">{@code
+ SourceMap}</a> header field name.
 
  @since 27.1]]>
       </doc>
@@ -51989,7 +52021,9 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[The HTTP <a href="http://goo.gl/lQirAH">{@code X-Forwarded-Host}</a> header field name.
+      <![CDATA[The HTTP <a
+ href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-Host">{@code
+ X-Forwarded-Host}</a> header field name.
 
  @since 20.0]]>
       </doc>
@@ -51999,7 +52033,9 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[The HTTP <a href="http://goo.gl/YtV2at">{@code X-Forwarded-Port}</a> header field name.
+      <![CDATA[The HTTP <a
+ href="https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/x-forwarded-headers.html#x-forwarded-port">{@code
+ X-Forwarded-Port}</a> header field name.
 
  @since 20.0]]>
       </doc>
@@ -52073,7 +52109,9 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[The HTTP <a href="https://goo.gl/VKpXxa">{@code X-Download-Options}</a> header field name.
+      <![CDATA[The HTTP <a
+ href="https://learn.microsoft.com/en-us/archive/blogs/ieinternals/internet-explorer-and-custom-http-headers#:~:text=X%2DDownload%2DOptions">{@code
+ X-Download-Options}</a> header field name.
 
  <p>When the new X-Download-Options header is present with the value {@code noopen}, the user is
  prevented from opening a file download directly; instead, they must first save the file
@@ -54409,7 +54447,9 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[<a href="https://goo.gl/2QoMvg">Apple Passbook</a>.
+      <![CDATA[<a
+ href="https://developer.apple.com/library/archive/documentation/UserExperience/Conceptual/PassKit_PG/DistributingPasses.html">Apple
+ Passbook</a>.
 
  @since 19.0]]>
       </doc>
@@ -54588,7 +54628,9 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[<a href="http://goo.gl/1pGBFm">Apple over-the-air mobile configuration profiles</a>.
+      <![CDATA[<a
+ href="https://developer.apple.com/library/archive/documentation/NetworkingInternet/Conceptual/iPhoneOTAConfiguration/profile-service/profile-service.html">Apple
+ over-the-air mobile configuration profiles</a>.
 
  @since 18.0]]>
       </doc>
@@ -54598,7 +54640,9 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[<a href="http://goo.gl/XDQ1h2">Microsoft Excel</a> spreadsheets.]]>
+      <![CDATA[<a
+ href="https://learn.microsoft.com/en-us/archive/blogs/vsofficedeveloper/office-2007-file-format-mime-types-for-http-content-streaming-2">Microsoft
+ Excel</a> spreadsheets.]]>
       </doc>
     </field>
     <field name="MICROSOFT_OUTLOOK" type="com.google.common.net.MediaType"
@@ -54606,7 +54650,8 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[<a href="http://goo.gl/XrTEqG">Microsoft Outlook</a> items.
+      <![CDATA[<a href="https://www.loc.gov/preservation/digital/formats/fdd/fdd000379.shtml">Microsoft
+ Outlook</a> items.
 
  @since 27.1]]>
       </doc>
@@ -54616,7 +54661,9 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[<a href="http://goo.gl/XDQ1h2">Microsoft Powerpoint</a> presentations.]]>
+      <![CDATA[<a
+ href="https://learn.microsoft.com/en-us/archive/blogs/vsofficedeveloper/office-2007-file-format-mime-types-for-http-content-streaming-2">Microsoft
+ Powerpoint</a> presentations.]]>
       </doc>
     </field>
     <field name="MICROSOFT_WORD" type="com.google.common.net.MediaType"
@@ -54624,7 +54671,9 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[<a href="http://goo.gl/XDQ1h2">Microsoft Word</a> documents.]]>
+      <![CDATA[<a
+ href="https://learn.microsoft.com/en-us/archive/blogs/vsofficedeveloper/office-2007-file-format-mime-types-for-http-content-streaming-2">Microsoft
+ Word</a> documents.]]>
       </doc>
     </field>
     <field name="MEDIA_PRESENTATION_DESCRIPTION" type="com.google.common.net.MediaType"
@@ -55053,10 +55102,12 @@
       deprecated="not deprecated">
       <doc>
       <![CDATA[Returns an {@link Escaper} instance that escapes strings so they can be safely included in <a
- href="https://goo.gl/MplK6I">URL form parameter names and values</a>. Escaping is performed
- with the UTF-8 character encoding. The caller is responsible for <a
- href="https://goo.gl/9EfkM1">replacing any unpaired carriage return or line feed characters
- with a CR+LF pair</a> on any non-file inputs before escaping them with this escaper.
+ href="https://url.spec.whatwg.org/#application-x-www-form-urlencoded-percent-encode-set">URL
+ form parameter names and values</a>. Escaping is performed with the UTF-8 character encoding.
+ The caller is responsible for <a
+ href="https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#multipart-form-data">replacing
+ any unpaired carriage return or line feed characters with a CR+LF pair</a> on any non-file
+ inputs before escaping them with this escaper.
 
  <p>When escaping a String, the following rules apply:
 
@@ -55071,9 +55122,9 @@
  </ul>
 
  <p>This escaper is suitable for escaping parameter names and values even when <a
- href="https://goo.gl/utn6M">using the non-standard semicolon</a>, rather than the ampersand, as
- a parameter delimiter. Nevertheless, we recommend using the ampersand unless you must
- interoperate with systems that require semicolons.
+ href="https://www.w3.org/TR/html401/appendix/notes.html#h-B.2.2">using the non-standard
+ semicolon</a>, rather than the ampersand, as a parameter delimiter. Nevertheless, we recommend
+ using the ampersand unless you must interoperate with systems that require semicolons.
 
  <p><b>Note:</b> Unlike other escapers, URL escapers produce <a
  href="https://url.spec.whatwg.org/#percent-encode">uppercase</a> hexadecimal sequences.]]>
@@ -55085,14 +55136,15 @@
       deprecated="not deprecated">
       <doc>
       <![CDATA[Returns an {@link Escaper} instance that escapes strings so they can be safely included in <a
- href="https://goo.gl/m2MIf0">URL path segments</a>. The returned escaper escapes all non-ASCII
- characters, even though <a href="https://goo.gl/e7E0In">many of these are accepted in modern
- URLs</a>. (<a href="https://goo.gl/jfVxXW">If the escaper were to leave these characters
- unescaped, they would be escaped by the consumer at parse time, anyway.</a>) Additionally, the
- escaper escapes the slash character ("/"). While slashes are acceptable in URL paths, they are
- considered by the specification to be separators between "path segments." This implies that, if
- you wish for your path to contain slashes, you must escape each segment separately and then
- join them.
+ href="https://url.spec.whatwg.org/#syntax-url-path-segment">URL path segments</a>. The returned
+ escaper escapes all non-ASCII characters, even though <a
+ href="https://url.spec.whatwg.org/#url-code-points">many of these are accepted in modern
+ URLs</a>. (<a href="https://url.spec.whatwg.org/#path-state">If the escaper were to leave these
+ characters unescaped, they would be escaped by the consumer at parse time, anyway.</a>)
+ Additionally, the escaper escapes the slash character ("/"). While slashes are acceptable in
+ URL paths, they are considered by the specification to be separators between "path segments."
+ This implies that, if you wish for your path to contain slashes, you must escape each segment
+ separately and then join them.
 
  <p>When escaping a String, the following rules apply:
 
@@ -55119,9 +55171,8 @@
       deprecated="not deprecated">
       <doc>
       <![CDATA[Returns an {@link Escaper} instance that escapes strings so they can be safely included in a <a
- href="https://goo.gl/xXEq4p">URL fragment</a>. The returned escaper escapes all non-ASCII
- characters, even though <a href="https://goo.gl/e7E0In">many of these are accepted in modern
- URLs</a>.
+ href="https://url.spec.whatwg.org/#concept-url-fragment">URL fragment</a>. The returned escaper
+ escapes all non-ASCII characters.
 
  <p>When escaping a String, the following rules apply:
 

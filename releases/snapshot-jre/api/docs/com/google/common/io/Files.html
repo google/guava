@@ -1202,7 +1202,7 @@ public static&nbsp;<a href="../hash/HashCode.html" title="class in com.google.co
 <ul class="blockList">
 <li class="blockList">
 <h4>getFileExtension</h4>
-<pre class="methodSignature">public static&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.798">getFileExtension</a>&#8203;(java.lang.String&nbsp;fullName)</pre>
+<pre class="methodSignature">public static&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.800">getFileExtension</a>&#8203;(java.lang.String&nbsp;fullName)</pre>
 <div class="block">Returns the <a href="http://en.wikipedia.org/wiki/Filename_extension">file extension</a> for
  the given file name, or the empty string if the file has no extension. The result does not
  include the '<code>.</code>'.
@@ -1212,7 +1212,8 @@ public static&nbsp;<a href="../hash/HashCode.html" title="class in com.google.co
  behavior that the <code>File</code> API does not already account for. For example, on NTFS it will
  report <code>"txt"</code> as the extension for the filename <code>"foo.exe:.txt"</code> even though NTFS
  will drop the <code>":.txt"</code> part of the name when the file is actually created on the
- filesystem due to NTFS's <a href="https://goo.gl/vTpJi4">Alternate Data Streams</a>.</div>
+ filesystem due to NTFS's <a href="https://learn.microsoft.com/en-us/archive/blogs/askcore/alternate-data-streams-in-ntfs">Alternate
+ Data Streams</a>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>11.0</dd>
@@ -1225,7 +1226,7 @@ public static&nbsp;<a href="../hash/HashCode.html" title="class in com.google.co
 <ul class="blockList">
 <li class="blockList">
 <h4>getNameWithoutExtension</h4>
-<pre class="methodSignature">public static&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.815">getNameWithoutExtension</a>&#8203;(java.lang.String&nbsp;file)</pre>
+<pre class="methodSignature">public static&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.817">getNameWithoutExtension</a>&#8203;(java.lang.String&nbsp;file)</pre>
 <div class="block">Returns the file name without its <a href="http://en.wikipedia.org/wiki/Filename_extension">file extension</a> or path. This is
  similar to the <code>basename</code> unix command. The result does not include the '<code>.</code>'.</div>
 <dl>
@@ -1245,7 +1246,7 @@ public static&nbsp;<a href="../hash/HashCode.html" title="class in com.google.co
 <ul class="blockList">
 <li class="blockList">
 <h4>fileTraverser</h4>
-<pre class="methodSignature">public static&nbsp;<a href="../graph/Traverser.html" title="class in com.google.common.graph">Traverser</a>&lt;java.io.File&gt;&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.844">fileTraverser</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="../graph/Traverser.html" title="class in com.google.common.graph">Traverser</a>&lt;java.io.File&gt;&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.846">fileTraverser</a>()</pre>
 <div class="block">Returns a <a href="../graph/Traverser.html" title="class in com.google.common.graph"><code>Traverser</code></a> instance for the file and directory tree. The returned traverser
  starts from a <code>File</code> and will return all files and directories it encounters.
 
@@ -1276,7 +1277,7 @@ public static&nbsp;<a href="../hash/HashCode.html" title="class in com.google.co
 <ul class="blockList">
 <li class="blockList">
 <h4>isDirectory</h4>
-<pre class="methodSignature">public static&nbsp;<a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;java.io.File&gt;&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.869">isDirectory</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;java.io.File&gt;&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.871">isDirectory</a>()</pre>
 <div class="block">Returns a predicate that returns the result of <code>File.isDirectory()</code> on input files.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -1290,7 +1291,7 @@ public static&nbsp;<a href="../hash/HashCode.html" title="class in com.google.co
 <ul class="blockListLast">
 <li class="blockList">
 <h4>isFile</h4>
-<pre class="methodSignature">public static&nbsp;<a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;java.io.File&gt;&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.878">isFile</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;java.io.File&gt;&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.880">isFile</a>()</pre>
 <div class="block">Returns a predicate that returns the result of <code>File.isFile()</code> on input files.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>

@@ -506,7 +506,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>getFileExtension</h4>
-<pre class="methodSignature">public static&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/io/MoreFiles.html#line.458">getFileExtension</a>&#8203;(java.nio.file.Path&nbsp;path)</pre>
+<pre class="methodSignature">public static&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/io/MoreFiles.html#line.460">getFileExtension</a>&#8203;(java.nio.file.Path&nbsp;path)</pre>
 <div class="block">Returns the <a href="http://en.wikipedia.org/wiki/Filename_extension">file extension</a> for
  the file at the given path, or the empty string if the file has no extension. The result does
  not include the '<code>.</code>'.
@@ -516,7 +516,8 @@ extends java.lang.Object</pre>
  behavior that the <code>Path</code> API does not already account for. For example, on NTFS it will
  report <code>"txt"</code> as the extension for the filename <code>"foo.exe:.txt"</code> even though NTFS
  will drop the <code>":.txt"</code> part of the name when the file is actually created on the
- filesystem due to NTFS's <a href="https://goo.gl/vTpJi4">Alternate Data Streams</a>.</div>
+ filesystem due to NTFS's <a href="https://learn.microsoft.com/en-us/archive/blogs/askcore/alternate-data-streams-in-ntfs">Alternate
+ Data Streams</a>.</div>
 </li>
 </ul>
 <a id="getNameWithoutExtension(java.nio.file.Path)">
@@ -525,7 +526,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>getNameWithoutExtension</h4>
-<pre class="methodSignature">public static&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/io/MoreFiles.html#line.476">getNameWithoutExtension</a>&#8203;(java.nio.file.Path&nbsp;path)</pre>
+<pre class="methodSignature">public static&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/io/MoreFiles.html#line.478">getNameWithoutExtension</a>&#8203;(java.nio.file.Path&nbsp;path)</pre>
 <div class="block">Returns the file name without its <a href="http://en.wikipedia.org/wiki/Filename_extension">file extension</a> or path. This is
  similar to the <code>basename</code> unix command. The result does not include the '<code>.</code>'.</div>
 </li>
@@ -536,7 +537,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>deleteRecursively</h4>
-<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/MoreFiles.html#line.517">deleteRecursively</a>&#8203;(java.nio.file.Path&nbsp;path,
+<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/MoreFiles.html#line.519">deleteRecursively</a>&#8203;(java.nio.file.Path&nbsp;path,
                                      <a href="RecursiveDeleteOption.html" title="enum in com.google.common.io">RecursiveDeleteOption</a>...&nbsp;options)
                               throws java.io.IOException</pre>
 <div class="block">Deletes the file or directory at the given <code>path</code> recursively. Deletes symbolic links,
@@ -574,7 +575,7 @@ extends java.lang.Object</pre>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>deleteDirectoryContents</h4>
-<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/MoreFiles.html#line.589">deleteDirectoryContents</a>&#8203;(java.nio.file.Path&nbsp;path,
+<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/MoreFiles.html#line.591">deleteDirectoryContents</a>&#8203;(java.nio.file.Path&nbsp;path,
                                            <a href="RecursiveDeleteOption.html" title="enum in com.google.common.io">RecursiveDeleteOption</a>...&nbsp;options)
                                     throws java.io.IOException</pre>
 <div class="block">Deletes all files within the directory at the given <code>path</code> <a href="#deleteRecursively(java.nio.file.Path,com.google.common.io.RecursiveDeleteOption...)">recursively</a>. Does not delete the directory itself. Deletes symbolic links, not their targets
