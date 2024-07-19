@@ -215,7 +215,10 @@ public class TreeMultimap<K extends @Nullable Object, V extends @Nullable Object
 
   @GwtIncompatible // java.io.ObjectInputStream
   @J2ktIncompatible
-  @SuppressWarnings("unchecked") // reading data stored by writeObject
+  @SuppressWarnings({
+    "unchecked", // reading data stored by writeObject
+    "nullness", // https://github.com/jspecify/jspecify-reference-checker/issues/193
+  })
   private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
     stream.defaultReadObject();
     keyComparator = requireNonNull((Comparator<? super K>) stream.readObject());
